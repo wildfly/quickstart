@@ -1,4 +1,4 @@
-package org.jboss.weld.examples.login;
+package org.jboss.as.quickstarts.login;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

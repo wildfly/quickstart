@@ -1,4 +1,4 @@
-package org.jboss.weld.examples.login;
+package org.jboss.as.quickstarts.login;
 
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Default;

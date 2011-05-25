@@ -1,4 +1,4 @@
-package org.jboss.weld.examples.login;
+package org.jboss.as.quickstarts.login;
 
 import java.util.List;
 
