@@ -1,0 +1,129 @@
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+
+   <groupId>org.jboss.as.quickstarts</groupId>
+   <artifactId>jboss-as-quickstart-helloworld</artifactId>
+   <version>7.0.0-SNAPSHOT</version>
+   <packaging>war</packaging>
+   <name>JBoss AS Quickstarts: Helloworld</name>
+
+   <url>http://jboss.org/jbossas</url>
+   <licenses>
+      <license>
+         <name>GNU Lesser General Public License</name>
+         <url>http://www.gnu.org/copyleft/lesser.html</url>
+         <distribution>repo</distribution>
+      </license>
+   </licenses>
+
+   <properties>
+      <!-- Define the version of JBoss' Java EE 6 APIs we want to use -->
+      <!-- JBoss distributes a complete set of Java EE 6 APIs including a 
+         Bill of Materials (BOM). We use this here so that we always use the correct 
+         APIs stack. -->
+      <version.jboss.javaee6>2.0.0.Beta1</version.jboss.javaee6>
+   </properties>
+
+   <!-- Include the JBoss Maven repository so we can access JBoss artifacts -->
+   <repositories>
+      <repository>
+         <id>jboss-public-repository</id>
+         <name>JBoss Repository</name>
+         <url>https://repository.jboss.org/nexus/content/groups/public</url>
+         <releases>
+            <enabled>true</enabled>
+         </releases>
+         <snapshots>
+            <enabled>false</enabled>
+         </snapshots>
+      </repository>
+   </repositories>
+
+   <dependencyManagement>
+      <dependencies>
+         <!-- Import all dependencyManagement information from JBoss AS specs -->
+         <dependency>
+            <groupId>org.jboss.spec</groupId>
+            <artifactId>jboss-javaee-6.0</artifactId>
+            <version>${version.jboss.javaee6}</version>
+            <type>pom</type>
+            <scope>import</scope>
+         </dependency>
+      </dependencies>
+   </dependencyManagement>
+
+   <dependencies>
+
+      <!-- Import the CDI API, we use provided scope as it's included in 
+         JBoss AS 7 -->
+      <dependency>
+         <groupId>javax.enterprise</groupId>
+         <artifactId>cdi-api</artifactId>
+         <scope>provided</scope>
+      </dependency>
+
+      <!-- Import the Common Annotations API (JSR-250), we use provided scope 
+         as it's included in JBoss AS 7 -->
+      <dependency>
+         <groupId>org.jboss.spec.javax.annotation</groupId>
+         <artifactId>jboss-annotations-api_1.1_spec</artifactId>
+         <scope>provided</scope>
+      </dependency>
+
+      <!-- Import the Servlet API, we use provided scope as it's included in 
+         JBoss AS 7 -->
+      <dependency>
+         <groupId>org.jboss.spec.javax.servlet</groupId>
+         <artifactId>jboss-servlet-api_3.0_spec</artifactId>
+         <scope>provided</scope>
+      </dependency>
+
+   </dependencies>
+
+   <build>
+      <!-- Set the name of the war, used as the context root -->
+      <finalName>jboss-as-helloworld</finalName>
+      <plugins>
+         <plugin>
+            <artifactId>maven-war-plugin</artifactId>
+            <version>2.1.1</version>
+            <configuration>
+               <!-- Java EE 6 doesn't require web.xml, Maven needs to catch up! -->
+               <failOnMissingWebXml>false</failOnMissingWebXml>
+            </configuration>
+         </plugin>
+         <plugin>
+            <artifactId>maven-antrun-plugin</artifactId>
+            <version>1.6</version>
+            <executions>
+               <execution>
+                  <id>deploy-war</id>
+                  <phase>install</phase>
+                  <goals>
+                     <goal>run</goal>
+                  </goals>
+                  <configuration>
+                     <target>
+                        <fail message="Please set the JBOSS_HOME environment variable to a JBoss AS 7 installation.">
+                           <condition>
+                              <or>
+                                 <length string="${env.JBOSS_HOME}" trim="true" length="0"/>
+                                 <not><available file="${env.JBOSS_HOME}/bin/standalone.conf"/></not>
+                              </or>
+                           </condition>
+                        </fail>
+                        <copy todir="${env.JBOSS_HOME}/standalone/deployments" file="${project.build.directory}/${project.build.finalName}.${project.packaging}" />
+                        <echo message="The app can be accessed at http://localhost:8080/${project.build.finalName}" />
+                     </target>
+                  </configuration>
+               </execution>
+            </executions>
+         </plugin>
+
+      </plugins>
+   </build>
+
+</project>
+
