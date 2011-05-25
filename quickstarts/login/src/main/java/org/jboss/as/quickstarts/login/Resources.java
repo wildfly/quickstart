@@ -11,14 +11,14 @@ public class Resources {
 
 	// Expose an entity manager using the resource producer pattern
 	@SuppressWarnings("unused")
-	@PersistenceContext @Produces
-	private EntityManager em;
-	
+	@PersistenceContext
 	@Produces
-	Logger getLogger(InjectionPoint ip)
-	{
-	   String category = ip.getMember().getDeclaringClass().getName();
-	   return Logger.getLogger(category);
+	private EntityManager em;
+
+	@Produces
+	Logger getLogger(InjectionPoint ip) {
+		String category = ip.getMember().getDeclaringClass().getName();
+		return Logger.getLogger(category);
 	}
-	
+
 }

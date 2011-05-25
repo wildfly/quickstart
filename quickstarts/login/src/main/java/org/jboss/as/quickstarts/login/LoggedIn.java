@@ -12,6 +12,7 @@ import java.lang.annotation.Target;
 import javax.inject.Qualifier;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target({TYPE, METHOD, FIELD, PARAMETER})
+@Target({ TYPE, METHOD, FIELD, PARAMETER })
 @Qualifier
-public @interface LoggedIn {}
+public @interface LoggedIn {
+}

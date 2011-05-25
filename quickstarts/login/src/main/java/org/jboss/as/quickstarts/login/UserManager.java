@@ -2,15 +2,14 @@ package org.jboss.as.quickstarts.login;
 
 import java.util.List;
 
-public interface UserManager
-{
+public interface UserManager {
 
-   public List<User> getUsers() throws Exception;
+	public List<User> getUsers() throws Exception;
 
-   public String addUser() throws Exception;
+	public String addUser() throws Exception;
 
-   public User getNewUser();
+	public User getNewUser();
 
-   public void setNewUser(User newUser);
+	public void setNewUser(User newUser);
 
 }

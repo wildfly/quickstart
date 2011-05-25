@@ -10,77 +10,62 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.transaction.UserTransaction;
 
-@Named("userManager") @RequestScoped
-public class ManagedBeanUserManager implements UserManager
-{
-   
-   @Inject
-   private transient Logger logger;
+@Named("userManager")
+@RequestScoped
+public class ManagedBeanUserManager implements UserManager {
 
-   @Inject
-   private EntityManager userDatabase;
+	@Inject
+	private transient Logger logger;
 
-   @Inject
-   private UserTransaction utx;
+	@Inject
+	private EntityManager userDatabase;
 
-   private User newUser = new User();
+	@Inject
+	private UserTransaction utx;
 
-   @SuppressWarnings("unchecked")
-   @Produces
-   @Named
-   @RequestScoped
-   public List<User> getUsers() throws Exception
-   {
-      try
-      {
-         try
-         {
-            utx.begin();
-            return userDatabase.createQuery("select u from User u").getResultList();
-         }
-         finally
-         {
-            utx.commit();
-         }
-      }
-      catch (Exception e)
-      {
-         utx.rollback();
-         throw e;
-      }
-   }
+	private User newUser = new User();
 
-   public String addUser() throws Exception
-   {
-      try
-      {
-         try
-         {
-            utx.begin();
-            userDatabase.persist(newUser);
-            logger.info("Added " + newUser);
-            return "/users.xhtml?faces-redirect=true";
-         }
-         finally
-         {
-            utx.commit();
-         }
-      }
-      catch (Exception e)
-      {
-         utx.rollback();
-         throw e;
-      }
-   }
+	@SuppressWarnings("unchecked")
+	@Produces
+	@Named
+	@RequestScoped
+	public List<User> getUsers() throws Exception {
+		try {
+			try {
+				utx.begin();
+				return userDatabase.createQuery("select u from User u")
+						.getResultList();
+			} finally {
+				utx.commit();
+			}
+		} catch (Exception e) {
+			utx.rollback();
+			throw e;
+		}
+	}
 
-   public User getNewUser()
-   {
-      return newUser;
-   }
+	public String addUser() throws Exception {
+		try {
+			try {
+				utx.begin();
+				userDatabase.persist(newUser);
+				logger.info("Added " + newUser);
+				return "/users.xhtml?faces-redirect=true";
+			} finally {
+				utx.commit();
+			}
+		} catch (Exception e) {
+			utx.rollback();
+			throw e;
+		}
+	}
 
-   public void setNewUser(User newUser)
-   {
-      this.newUser = newUser;
-   }
+	public User getNewUser() {
+		return newUser;
+	}
+
+	public void setNewUser(User newUser) {
+		this.newUser = newUser;
+	}
 
 }
