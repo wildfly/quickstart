@@ -12,26 +12,64 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+/**
+ * <p>
+ * {@link Game} contains all the business logic for the application, and also serves as the controller for the JSF view.
+ * </p>
+ * <p>
+ * It contains properties for the <code>number</code> to be guessed, the current <code>guess</code>, the <code>smallest</code>
+ * and <code>biggest</code> numbers guessed so far (as this is a higher/lower game we can prevent them entering numbers that
+ * they should know are wrong), and the number of <code>remainingGuesses</code>.
+ * </p>
+ * <p>
+ * The {@link #check()} method, and {@link #reset()} methods provide the business logic whilst the
+ * {@link #validateNumberRange(FacesContext, UIComponent, Object)} method provides feedback to the user.
+ * </p>
+ * 
+ * @author Pete Muir
+ * 
+ */
 @Named
 @SessionScoped
 public class Game implements Serializable {
-    /**
-    * 
-    */
+
     private static final long serialVersionUID = 991300443278089016L;
 
+    /**
+     * The number that the user needs to guess
+     */
     private int number;
 
+    /**
+     * The users latest guess
+     */
     private int guess;
+
+    /**
+     * The smallest number guessed so far (so we can track the valid guess range).
+     */
     private int smallest;
 
+    /**
+     * The largest number guessed so far
+     */
+    private int biggest;
+
+    /**
+     * The number of guesses remaining
+     */
+    private int remainingGuesses;
+
+    /**
+     * The maximum number we should ask them to guess
+     */
     @Inject
     @MaxNumber
     private int maxNumber;
 
-    private int biggest;
-    private int remainingGuesses;
-
+    /**
+     * The random number to guess
+     */
     @Inject
     @Random
     Instance<Integer> randomNumber;
@@ -63,6 +101,10 @@ public class Game implements Serializable {
         return remainingGuesses;
     }
 
+    /**
+     * Check whether the current guess is correct, and update the biggest/smallest guesses as needed. Give feedback to the user
+     * if they are correct.
+     */
     public void check() {
         if (guess > number) {
             biggest = guess - 1;
@@ -74,6 +116,11 @@ public class Game implements Serializable {
         remainingGuesses--;
     }
 
+    /**
+     * Reset the game, by putting all values back to their defaults, and getting a new random number. We also call this method
+     * when the user starts playing for the first time using {@linkplain PostConstruct @PostConstruct} to set the initial
+     * values.
+     */
     @PostConstruct
     public void reset() {
         this.smallest = 0;
@@ -83,6 +130,11 @@ public class Game implements Serializable {
         this.number = randomNumber.get();
     }
 
+    /**
+     * A JSF validation method which checks whether the guess is valid. It might not be valid because there are no guesses left,
+     * or because the guess is not in range.
+     * 
+     */
     public void validateNumberRange(FacesContext context, UIComponent toValidate, Object value) {
         if (remainingGuesses <= 0) {
             FacesMessage message = new FacesMessage("No guesses left!");
