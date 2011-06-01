@@ -1,0 +1,118 @@
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+   "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd"  [ ]>
+<chapter id="gettingstarted">
+
+   <title>Getting started with JBoss AS 7</title>
+
+   <para>
+      To run the examples with the provided build scripts, you'll need the following:
+   </para>
+
+   <itemizedlist>
+      <listitem>
+         <para>the JBoss AS 7 distribution zip, which contains the examples</para>
+      </listitem>
+      <listitem>
+         <para>Maven 3, to build and deploy the examples</para>
+      </listitem>
+   </itemizedlist>
+   
+   <para>
+      Follow <link linkend="http://maven.apache.org/download.html">the offical Maven installation guide</link>
+      if you don't already have Maven 3 installed. You can check which version of Maven you have installed (if any) by 
+      running <literal>mvn --version</literal>. If you see a version string printed, you are ready to go.
+   </para>
+
+   <para>
+      Now, download JBoss AS <link linkend="TODO">from the JBoss AS 7 page</link>.
+   </para>
+   
+   <note>
+      <para>
+         JBoss AS 7 offers the ability to manage multiple AS instances from a single control point. A collection
+         of such servers are referred to as members of a "domain", with a single Domain Controller process acting
+         as the management control point. Domains can span multiple physical (or virtual) machines, with all AS instances
+         on a given host under the control of a Host Controller process. The Host Controllers interact with the Domain Controller
+         to control the lifecycle of the AS instances running on that host and to assist the Domain Controller in managing them.
+      </para>
+      <para>
+         JBoss AS 7 also offers a standalone mode, which is perfect for a single server. We use this throughout the quickstart
+         examples. 
+      </para>
+   </note>
+   
+   <section id="install.unix">
+      
+      <title>Installing and starting JBoss AS 7 on Linux, Unix or Mac OS X</title>
+      
+      <para>
+         First, we need to choose a location for JBoss AS to live. By default, JBoss AS 7 will be extracted
+         into <literal>jboss-7.x.x.x</literal> (where 7.x.x.x matches the version you downloaded):
+      </para>
+         
+      <programlisting>unzip jboss-7.x.x.x.zip</programlisting>
+      
+      <para>
+         We now need to set the <literal>JBOSS_HOME</literal> environment variable:
+      </para>
+      
+      <programlisting>
+cd jboss-7.x.x.x
+export JBOSS_HOME=`pwd`
+      </programlisting>
+      
+      <para>
+         Finally, let's start JBoss AS 7 in standalone mode:
+      </para>
+      
+      <programlisting>$JBOSS_HOME/bin/standalone.sh</programlisting>
+      
+      <tip>
+         <para>
+            If you want to stop JBoss AS, simply press <literal>Crtl-C</literal> whilst the terminal has focus.
+         </para>
+      </tip>
+      
+      <para>
+         That's it, JBoss AS 7 is installed and running!
+      </para>
+   </section>
+   
+   <section id="install.windows">
+      <title>Installing and starting JBoss AS on Windows</title>
+      
+      <para>
+         First, we need to choose a location for JBoss AS to live. By default, JBoss AS 7 will be extracted
+         into <literal>jboss-7.x.x.x</literal> (where 7.x.x.x matches the version you downloaded). Unzip JBoss AS
+         using your tool of choice.
+      </para>
+      
+      <para>
+         We now need to set the <literal>JBOSS_HOME</literal> environment variable:
+      </para>
+      
+      <orderedlist>
+         <listitem>Right click on My Computer and select Properties</listitem>
+         <listitem>Click to the Advanced tab and click on the button at the bottom that says Environment Variables</listitem>
+         <listitem>Create a System property named <literal>JBOSS_HOME</literal> and point it to the directory you extracted JBoss AS to</listitem>
+      </orderedlist>
+      
+      <para>
+         Finally, let's start JBoss AS 7 in standalone mode:
+      </para>
+      
+      <programlisting>$JBOSS_HOME/bin/standalone.bat</programlisting>
+      
+      <tip>
+         <para>
+            If you want to stop JBoss AS, simply press <literal>Crtl-C</literal> whilst the terminal has focus.
+         </para>
+      </tip>
+      
+      <para>
+         That's it, JBoss AS 7 is installed!
+      </para>
+
+   </section>
+
+</chapter>

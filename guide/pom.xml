@@ -1,0 +1,86 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+   <modelVersion>4.0.0</modelVersion>
+
+   <groupId>org.jboss.as.docs</groupId>
+   <artifactId>jboss-as-developer-guide</artifactId>
+   <version>7.0.0-SNAPSHOT</version>
+   <packaging>jdocbook</packaging>
+   <name>JBoss AS Developer Guide</name>
+   <url>http://jboss.org/jbossas</url>
+   <licenses>
+      <license>
+         <name>GNU Lesser General Public License</name>
+         <url>http://www.gnu.org/copyleft/lesser.html</url>
+         <distribution>repo</distribution>
+      </license>
+   </licenses>
+
+   <parent>
+      <groupId>org.jboss</groupId>
+      <artifactId>jboss-parent</artifactId>
+      <version>6-beta-2</version>
+   </parent>
+
+   <build>
+      <plugins>
+         <plugin>
+            <groupId>org.jboss.maven.plugins</groupId>
+            <artifactId>maven-jdocbook-plugin</artifactId>
+            <version>2.3.5</version>
+            <extensions>true</extensions>
+            <configuration>
+               <sourceDirectory>src/main/docbook</sourceDirectory>
+               <sourceDocumentName>JBoss_AS_-_Developer_Guide.xml</sourceDocumentName>
+               <masterTranslation>en-US</masterTranslation>
+               <imageResource>
+                  <directory>src/main/docbook/en-US</directory>
+                  <includes>
+                     <include>images/*.png</include>
+                  </includes>
+               </imageResource>
+               <formats>
+                  <format>
+                     <formatName>pdf</formatName>
+                     <stylesheetResource>classpath:/xslt/org/jboss/pdf.xsl</stylesheetResource>
+                     <finalName>jboss-as-developer-guide.pdf</finalName>
+                  </format>
+                  <format>
+                     <formatName>html</formatName>
+                     <stylesheetResource>classpath:/xslt/org/jboss/xhtml.xsl</stylesheetResource>
+                     <finalName>index.html</finalName>
+                  </format>
+                  <format>
+                     <formatName>html_single</formatName>
+                     <stylesheetResource>classpath:/xslt/org/jboss/xhtml-single.xsl</stylesheetResource>
+                     <finalName>index.html</finalName>
+                  </format>
+               </formats>
+               <options>
+                  <xincludeSupported>true</xincludeSupported>
+                  <xmlTransformerType>saxon</xmlTransformerType>
+                  <docbookVersion>1.72.0</docbookVersion>
+                  <localeSeparator>-</localeSeparator>
+               </options>
+            </configuration>
+            <dependencies>
+               <dependency>
+                  <groupId>org.jboss</groupId>
+                  <artifactId>jbossorg-jdocbook-style</artifactId>
+                  <version>1.1.1</version>
+                  <type>jdocbook-style</type>
+                  <scope>compile</scope>
+               </dependency>
+               <dependency>
+                  <groupId>org.jboss</groupId>
+                  <artifactId>jbossorg-docbook-xslt</artifactId>
+                  <version>1.1.1</version>
+                  <scope>compile</scope>
+               </dependency>
+            </dependencies>
+         </plugin>
+      </plugins>
+   </build>
+
+</project>
