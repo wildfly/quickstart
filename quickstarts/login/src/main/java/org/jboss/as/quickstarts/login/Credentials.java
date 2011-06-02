@@ -1,12 +1,10 @@
 package org.jboss.as.quickstarts.login;
 
 import javax.enterprise.context.RequestScoped;
-import javax.enterprise.inject.Default;
 import javax.inject.Named;
 
 @RequestScoped
 @Named
-@Default
 public class Credentials {
 
 	private String username;

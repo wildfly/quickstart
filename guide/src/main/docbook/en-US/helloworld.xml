@@ -1,0 +1,165 @@
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+   "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd"  [ ]>
+<chapter id="helloworld">
+
+   <title>CDI + Servlet: Helloworld quickstart</title>
+   
+      <para>
+         This quickstart shows you how to deploy a simple servlet to JBoss AS 7. The business logic is 
+         encapsulated in a service, which is provided as a CDI bean, and injected into the Servlet.
+      </para>
+
+      <para>
+         Switch to the <literal>quickstarts/helloworld</literal> directory and instruct Maven to build
+         and deploy the application:
+      </para>
+
+      <programlisting><![CDATA[mvn install]]></programlisting> 
+
+      <para>
+         The quickstart uses a Maven plugin to deploy the application. The plugin requires JBoss AS to be
+         running (you can find out how to start the server in <xref linkend="install.unix"/> or 
+         <xref linkend="install.windows"/>).
+      </para> 
+
+      <para>
+         or you can start the server using an IDE, like Eclipse.
+      </para>
+
+      <para>
+         Now, check if the application has deployed properly by clicking 
+         <ulink url="http://localhost:8080/jboss-as-helloworld">http://localhost:8080/jboss-as-helloworld</ulink>.
+         If you see a "Hello World" message it's all working!
+      </para>
+
+      <note>
+         <para>
+            Should you wish to undeploy the quickstart, or redeploy after making some changes, it's pretty easy:
+         </para>
+         <itemizedlist>
+            <listitem>
+               <para>
+                  <literal>mvn jboss-as-deploy:redeploy</literal> - deploy any changes to the application to the application server
+               </para>
+            </listitem>
+            <listitem>
+               <para>
+                  <literal>mvn jboss-as-deploy:undeploy</literal> - undeploy the example from JBoss AS
+               </para>
+            </listitem>
+         </itemizedlist>
+      </note>
+      
+      <para>
+      It's time to pull the covers back and dive into the internals of the example application.
+   </para>
+
+   <section id="helloworld.indepth">
+      <title>The helloe example in depth</title>
+      
+      <para>
+         The helloworld is very simple - all it does is print "Hello World" onto a web page.
+      </para>
+      
+      <para>
+         The helloworld example is comprised of a number of a servlet and a CDI bean. We also include an empty <literal>beans.xml</literal> file, which tells JBoss AS 7 to look for beans in this
+         application and to activate the CDI. <literal>beans.xml</literal> is located in <literal>WEB-INF</literal>, which can be found in
+          the <literal>src/main/webapp</literal> directory of the example.
+      </para>
+      
+      <para>
+          All the configuration files for this example are located in <literal>WEB-INF/</literal>, which can be found in
+          the <literal>src/main/webapp</literal> directory of the example. First, we have the JSF 2.0 version of
+          <literal>faces-config.xml</literal>. A standardized version of Facelets is the default view handler in JSF
+          2.0, so there's really nothing that we have to configure. We just have to include this file in order to tell JBoss AS 7
+          that this application uses JSF. Thus, the configuration consists of only the root element.
+      </para>
+      
+      <para>
+         Notice that we don't even need a <literal>web.xml</literal>!
+      </para>
+      
+      <para>
+         Let's start by taking a look at the servlet:
+      </para>
+      
+      <programlistingco>
+         <areaspec>
+            <area id="registration" coords="1" />
+            <area id="footerHeader" coords="6" />
+            <area id="injection" coords="8" />
+            <area id="service" coords="16" />
+         </areaspec>
+         <programlisting role="XML"><![CDATA[@WebServlet("/HelloWorld")
+public class HelloWorldServlet extends HttpServlet {
+
+   static String PAGE_HEADER = "<html><head /><body>";
+
+   static String PAGE_FOOTER = "</body></html>";
+
+   @Inject
+   HelloService helloService;
+
+   protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+         throws ServletException, IOException {
+      PrintWriter writer = resp.getWriter();
+      writer.println(PAGE_HEADER);
+      writer.println("<h1>" + helloService.createHelloMessage("World")
+            + "</h1>");
+      writer.println(PAGE_FOOTER);
+      writer.close();
+   }
+
+}]]></programlisting>
+         <calloutlist>
+            <callout arearefs="registration">
+               <para>
+                  If you've used Servlet before, then you'll remember having to use xml to register your
+                  servlets. Fortunately, this is a thing of the past. Now all you need to do is add the
+                  <literal>@WebServlet</literal> annotation, and provide a mapping to a URL used to access
+                  the servlet. Much cleaner!
+               </para>
+            </callout>
+            <callout arearefs="footerHeader">
+               <para>
+                  Every web page needs to be correctly formed HTML. We've created static Strings to hold
+                  the minimum header and footer to write out.
+               </para>
+            </callout>
+            <callout arearefs="injection">
+               <para>
+                  We inject the HelloService (a CDI bean) which generates the actual message. This allows
+                  to alter the implementation of HelloService at a later date without changing the view
+                  layer at all (assuming we don't alter the API of HelloService).
+               </para>
+            </callout>
+            <callout arearefs="service">
+               <para>
+                  We call into the service to generate the message "Hello World", and write it out to
+                  the Http request.
+               </para>
+            </callout>
+         </calloutlist>
+      </programlistingco>
+      
+      <para>
+         Now we understand how the information is sent to the browser, let's take a look at the service.
+      </para>
+      
+      <programlisting role="JAVA"><![CDATA[public class HelloService {
+
+   String createHelloMessage(String name) {
+      return "Hello " + name + "!";
+   }
+
+}
+]]></programlisting>
+
+      <para>
+         The service is very simple - no registration (XML or annotation) is required!
+      </para>
+      
+   </section>
+      
+
+</chapter>

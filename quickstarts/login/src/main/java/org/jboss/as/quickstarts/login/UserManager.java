@@ -7,9 +7,9 @@ public interface UserManager {
 	public List<User> getUsers() throws Exception;
 
 	public String addUser() throws Exception;
+	
+	public User findUser(String username, String password) throws Exception;
 
 	public User getNewUser();
-
-	public void setNewUser(User newUser);
 
 }

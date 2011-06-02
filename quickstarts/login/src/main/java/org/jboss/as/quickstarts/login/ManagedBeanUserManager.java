@@ -50,7 +50,34 @@ public class ManagedBeanUserManager implements UserManager {
 				utx.begin();
 				userDatabase.persist(newUser);
 				logger.info("Added " + newUser);
-				return "/users.xhtml?faces-redirect=true";
+			} finally {
+				utx.commit();
+			}
+		} catch (Exception e) {
+			utx.rollback();
+			throw e;
+		}
+		return "userAdded";
+	}
+
+	public User findUser(String username, String password) throws Exception {
+		try {
+			try {
+				utx.begin();
+				@SuppressWarnings("unchecked")
+				List<User> results = userDatabase
+						.createQuery(
+								"select u from User u where u.username=:username and u.password=:password")
+						.setParameter("username", username)
+						.setParameter("password", password).getResultList();
+				if (results.isEmpty()) {
+					return null;
+				} else if (results.size() > 1) {
+					throw new IllegalStateException(
+							"Cannot have more than one user with the same username!");
+				} else {
+					return results.get(0);
+				}
 			} finally {
 				utx.commit();
 			}
@@ -60,12 +87,11 @@ public class ManagedBeanUserManager implements UserManager {
 		}
 	}
 
+	@Produces
+	@RequestScoped
+	@Named
 	public User getNewUser() {
 		return newUser;
-	}
-
-	public void setNewUser(User newUser) {
-		this.newUser = newUser;
 	}
 
 }
