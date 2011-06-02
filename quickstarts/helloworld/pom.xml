@@ -93,47 +93,34 @@
    </dependencies>
 
    <build>
-      <!-- Set the name of the war, used as the context root -->
+      <!-- Set the name of the war, used as the context root when the app 
+         is deployed -->
       <finalName>jboss-as-helloworld</finalName>
       <plugins>
          <plugin>
             <artifactId>maven-war-plugin</artifactId>
             <version>2.1.1</version>
             <configuration>
-               <!-- Java EE 6 doesn't require web.xml, Maven needs to catch up! -->
+               <!-- Java EE 6 doesn't require web.xml, Maven needs to catch 
+                  up! -->
                <failOnMissingWebXml>false</failOnMissingWebXml>
             </configuration>
          </plugin>
+         <!-- JBoss AS plugin to deploy war -->
          <plugin>
-            <artifactId>maven-antrun-plugin</artifactId>
-            <version>1.6</version>
+            <groupId>org.jboss.as.plugins</groupId>
+            <artifactId>jboss-as-deploy-plugin</artifactId>
+            <version>7.0.0.Beta3</version>
             <executions>
                <execution>
-                  <id>deploy-war</id>
                   <phase>install</phase>
                   <goals>
-                     <goal>run</goal>
+                     <goal>deploy</goal>
                   </goals>
-                  <configuration>
-                     <target>
-                        <fail message="Please set the JBOSS_HOME environment variable to a JBoss AS 7 installation.">
-                           <condition>
-                              <or>
-                                 <length string="${env.JBOSS_HOME}" trim="true" length="0"/>
-                                 <not><available file="${env.JBOSS_HOME}/bin/standalone.conf"/></not>
-                              </or>
-                           </condition>
-                        </fail>
-                        <copy todir="${env.JBOSS_HOME}/standalone/deployments" file="${project.build.directory}/${project.build.finalName}.${project.packaging}" />
-                        <echo message="The app can be accessed at http://localhost:8080/${project.build.finalName}" />
-                     </target>
-                  </configuration>
                </execution>
             </executions>
          </plugin>
-
       </plugins>
    </build>
 
 </project>
-

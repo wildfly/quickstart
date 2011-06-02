@@ -107,43 +107,20 @@
                <failOnMissingWebXml>false</failOnMissingWebXml>
             </configuration>
          </plugin>
-         <!-- Boilerplate ant script used to copy the war from target/ to 
-            $JBOSS_HOME/standalone/deployments -->
+        <!-- JBoss AS plugin to deploy war -->
          <plugin>
-            <artifactId>maven-antrun-plugin</artifactId>
-            <version>1.6</version>
+            <groupId>org.jboss.as.plugins</groupId>
+            <artifactId>jboss-as-deploy-plugin</artifactId>
+            <version>7.0.0.Beta3</version>
             <executions>
                <execution>
-                  <id>deploy-war</id>
                   <phase>install</phase>
                   <goals>
-                     <goal>run</goal>
+                     <goal>deploy</goal>
                   </goals>
-                  <configuration>
-                     <target>
-                        <fail
-                           message="Please set the JBOSS_HOME environment variable to a JBoss AS 7 installation.">
-                           <condition>
-                              <or>
-                                 <length string="${env.JBOSS_HOME}"
-                                    trim="true" length="0" />
-                                 <not>
-                                    <available
-                                       file="${env.JBOSS_HOME}/bin/standalone.conf" />
-                                 </not>
-                              </or>
-                           </condition>
-                        </fail>
-                        <copy todir="${env.JBOSS_HOME}/standalone/deployments"
-                           file="${project.build.directory}/${project.build.finalName}.${project.packaging}" />
-                        <echo
-                           message="The app can be accessed at http://localhost:8080/${project.build.finalName}" />
-                     </target>
-                  </configuration>
                </execution>
             </executions>
          </plugin>
-
       </plugins>
    </build>
 
