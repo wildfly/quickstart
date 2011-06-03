@@ -20,7 +20,7 @@
    <para>
       Follow <link linkend="http://maven.apache.org/download.html">the offical Maven installation guide</link>
       if you don't already have Maven 3 installed. You can check which version of Maven you have installed (if any) by 
-      running <literal>mvn --version</literal>. If you see a version string printed, you are ready to go.
+      running <literal>mvn --version</literal>. If you see a version newer than 3.0.0, you are ready to go.
    </para>
 
    <para>
@@ -56,10 +56,8 @@
          We now need to set the <literal>JBOSS_HOME</literal> environment variable:
       </para>
       
-      <programlisting>
-cd jboss-7.x.x.x
-export JBOSS_HOME=`pwd`
-      </programlisting>
+      <programlisting>cd jboss-7.x.x.x
+export JBOSS_HOME=`pwd`</programlisting>
       
       <para>
          Finally, let's start JBoss AS 7 in standalone mode:
@@ -92,16 +90,54 @@ export JBOSS_HOME=`pwd`
       </para>
       
       <orderedlist>
-         <listitem>Right click on My Computer and select Properties</listitem>
-         <listitem>Click to the Advanced tab and click on the button at the bottom that says Environment Variables</listitem>
-         <listitem>Create a System property named <literal>JBOSS_HOME</literal> and point it to the directory you extracted JBoss AS to</listitem>
+         <listitem>
+            <para>
+               Right click on My Computer and select Properties
+            </para>
+            <mediaobject>
+               <imageobject>
+                  <imagedata fileref="images/Step1.png"
+                     format="PNG" />
+               </imageobject>
+            </mediaobject>
+         </listitem>
+         <listitem>
+            <para>
+               Click on the Advanced tab and click on the button at the bottom that says Environment Variables
+            </para>
+            <mediaobject>
+               <imageobject>
+                  <imagedata fileref="images/Step2.png"
+                     format="PNG" />
+               </imageobject>
+            </mediaobject>
+         </listitem>
+         <listitem>
+            <para>
+               Create a System property named <literal>JBOSS_HOME</literal> and point it to the directory 
+               you extracted JBoss AS to
+            </para>
+            <mediaobject>
+               <imageobject>
+                  <imagedata fileref="images/Step3.png"
+                     format="PNG" />
+               </imageobject>
+            </mediaobject>
+      
+            <mediaobject>
+               <imageobject>
+                  <imagedata fileref="images/Step4.png"
+                     format="PNG" />
+               </imageobject>
+            </mediaobject>
+         </listitem>
       </orderedlist>
       
       <para>
-         Finally, let's start JBoss AS 7 in standalone mode:
+         Finally, let's start JBoss AS 7 in standalone mode. In a console, run:
       </para>
       
-      <programlisting>$JBOSS_HOME/bin/standalone.bat</programlisting>
+      <programlisting>%JBOSS_HOME%/bin/standalone.bat</programlisting>
       
       <tip>
          <para>
@@ -113,6 +149,88 @@ export JBOSS_HOME=`pwd`
          That's it, JBoss AS 7 is installed!
       </para>
 
+   </section>
+   
+   <section id="install.eclipse">
+      <title>Installing and starting JBoss AS from Eclipse with JBoss Tools</title>
+      
+      <note>
+         <para>
+            In order to use JBoss AS 7 from Eclipse, you must first install it for your operation system as
+            described in <xref linkend="install.unix"/> or <xref linkend="install.windows"/>.
+         </para>
+      </note>
+      
+      <para>
+         In order use JBoss AS 7 from Eclipse, you'll need Eclipse Indigo (Eclipse 3.7) and JBoss Tools 3.3 M3
+         or newer. You can find instructions for installing both <link linkend="TODO">on the JBoss Tools</link>
+         website. 
+      </para>
+      
+      <para>
+         Having successfully installed and started Eclipse, we need to add our JBoss AS 7 instance to it. First,
+         navigate to <literal>File -> New -> Other</literal>:
+      </para>
+      
+      <mediaobject>
+         <imageobject>
+            <imagedata fileref="images/Eclipse_New_Server_1.png"
+               format="PNG" />
+         </imageobject>
+      </mediaobject>
+      
+      <para>Now, locate the New Server Wizard:</para>
+      
+      <mediaobject>
+         <imageobject>
+            <imagedata fileref="images/Eclipse_New_Server_2.png"
+               format="PNG" />
+         </imageobject>
+      </mediaobject>
+      
+      <para>And choose JBoss AS 7.0:</para>
+      
+      <mediaobject>
+         <imageobject>
+            <imagedata fileref="images/Eclipse_New_Server_3.png"
+               format="PNG" />
+         </imageobject>
+      </mediaobject>
+      
+      <para>Hit <literal>Next &gt;</literal>, and locate the JBoss AS 7 installation by 
+      clicking on <literal>Browse ...</literal>:</para>
+      
+      <mediaobject>
+         <imageobject>
+            <imagedata fileref="images/Eclipse_New_Server_4.png"
+               format="PNG" />
+         </imageobject>
+      </mediaobject>
+      
+      <para>Now, choose the JBoss AS 7 installation directory:</para>
+      
+      <mediaobject>
+         <imageobject>
+            <imagedata fileref="images/Eclipse_New_Server_5.png"
+               format="PNG" />
+         </imageobject>
+      </mediaobject>
+      
+      <para>Assuming you selected a valid installation, Eclipse should now allow you to hit
+      <literal>Finish</literal>:</para>
+      
+      <mediaobject>
+         <imageobject>
+            <imagedata fileref="images/Eclipse_New_Server_6.png"
+               format="PNG" />
+         </imageobject>
+      </mediaobject>
+      
+      <para>
+         Now, let's start JBoss AS 7 from Eclipse. If you previously started JBoss AS 7 from the command line,
+         you should stop it there first.
+      </para>
+      
    </section>
 
 </chapter>
