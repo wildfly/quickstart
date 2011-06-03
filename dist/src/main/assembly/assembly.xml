@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<assembly xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="
+              http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/assembly-1.1.1.xsd
+          ">
+   <id>dist</id>
+   <baseDirectory>jboss-as-developer-guide-${project.version}</baseDirectory>
+   <formats>
+      <format>zip</format>
+   </formats>
+
+   <fileSets>
+      <fileSet>
+         <directory>${project.basedir}</directory>
+         <outputDirectory>/</outputDirectory>
+         <includes>
+            <include>readme.txt</include>
+         </includes>
+      </fileSet>
+      <fileSet>
+         <directory>${project.basedir}/../</directory>
+         <outputDirectory>/</outputDirectory>
+         <includes>
+            <include>quickstarts/**</include>
+         </includes>
+         <excludes>
+            <exclude>**/target</exclude>
+            <exclude>**/.project</exclude>
+            <exclude>**/.settings/**</exclude>
+            <exclude>**/.classpath</exclude>
+         </excludes>
+      </fileSet>
+      <fileSet>
+         <directory>${project.basedir}/../guide/target/docbook/publish</directory>
+         <outputDirectory>/guide</outputDirectory>
+      </fileSet>
+   </fileSets>
+
+</assembly>
