@@ -4,53 +4,99 @@
 
    <title>CDI + JPA + EJB + JTA + JSF: Login quickstart</title>
 
+   <para>
+      This quickstart shows you how to create and deploy an application which persists information to a
+      database to JBoss AS 7. Information is displayed using JSF views, business logic is encapsulated 
+      in CDI beans, information is persisted using JPA, and transactions can be controlled manually or
+      using EJB.
+   </para>
+
+   <para>
+      Switch to the <literal>quickstarts/login</literal> directory and instruct Maven to build
+      and deploy the application:
+   </para>
+
+   <programlisting><![CDATA[mvn install]]></programlisting> 
+
+   <para>
+      The quickstart uses a Maven plugin to deploy the application. The plugin requires JBoss AS to be
+      running (you can find out how to start the server in <xref linkend="install.unix"/> or 
+      <xref linkend="install.windows"/>).
+   </para> 
+
+   <para>
+      or you can start the server using an IDE, like Eclipse.
+   </para>
+
+   <para>
+      Try logging with the username <literal>demo</literal> and password <literal>demo</literal>.
+      Now, click on <literal>Logout</literal> and then on <literal>View Users</literal>. From this
+      screen you can add yourself as a user, and then login as this user.
+   </para>
+
+   <note>
       <para>
-         This quickstart shows you how to create and deploy an application which persists information to a
-         database to JBoss AS 7. Information is displayed using JSF views, business logic is encapsulated 
-         in CDI beans, information is persisted using JPA, and transactions can be controlled manually or
-         using EJB.
+         Should you wish to undeploy the quickstart, or redeploy after making some changes, it's pretty easy:
       </para>
-
+      <itemizedlist>
+         <listitem>
+            <para>
+               <literal>mvn jboss-as-deploy:redeploy</literal> - deploy any changes to the application to the application server
+            </para>
+         </listitem>
+         <listitem>
+            <para>
+               <literal>mvn jboss-as-deploy:undeploy</literal> - undeploy the example from JBoss AS
+            </para>
+         </listitem>
+      </itemizedlist>
+   </note>
+   
+   <section id="login.eclipse">
+      <title>Deploying the Login example using Eclipse</title>
+      
       <para>
-         Switch to the <literal>quickstarts/login</literal> directory and instruct Maven to build
-         and deploy the application:
+         You may choose to deploy the example using Eclipse. You'll need to have JBoss AS 7 started in Eclipse (as described
+         in <xref linkend="install.eclipse" />) and to have imported the quickstarts into Eclipse (as described in 
+         <xref linkend="import.eclipse"/>).         
       </para>
-
-      <programlisting><![CDATA[mvn install]]></programlisting> 
-
+      
       <para>
-         The quickstart uses a Maven plugin to deploy the application. The plugin requires JBoss AS to be
-         running (you can find out how to start the server in <xref linkend="install.unix"/> or 
-         <xref linkend="install.windows"/>).
-      </para> 
-
-      <para>
-         or you can start the server using an IDE, like Eclipse.
+         With the quickstarts imported, you can deploy the example by right clicking on the <literal>jboss-as-login</literal>
+         project, and choosing <literal>Run As -> Run On Server</literal>:
       </para>
-
+      
+      <mediaobject>
+         <imageobject>
+            <imagedata fileref="images/Eclipse_Login_Deploy_1.jpg"
+               format="JPEG" />
+         </imageobject>
+      </mediaobject>
+      
       <para>
-         Try logging with the username <literal>demo</literal> and password <literal>demo</literal>.
-         Now, click on <literal>Logout</literal> and then on <literal>View Users</literal>. From this
-         screen you can add yourself as a user, and then login as this user.
+         Make sure the JBoss AS 7 server is selected, and hit <literal>Finish</literal>:
       </para>
-
-      <note>
-         <para>
-            Should you wish to undeploy the quickstart, or redeploy after making some changes, it's pretty easy:
-         </para>
-         <itemizedlist>
-            <listitem>
-               <para>
-                  <literal>mvn jboss-as-deploy:redeploy</literal> - deploy any changes to the application to the application server
-               </para>
-            </listitem>
-            <listitem>
-               <para>
-                  <literal>mvn jboss-as-deploy:undeploy</literal> - undeploy the example from JBoss AS
-               </para>
-            </listitem>
-         </itemizedlist>
-      </note>
+      
+      <mediaobject>
+         <imageobject>
+            <imagedata fileref="images/Eclipse_Deploy_2.jpg"
+               format="JPEG" />
+         </imageobject>
+      </mediaobject>
+      
+      <para>
+         You should see JBoss AS 7 start up (unless you already started it in <xref linkend="install.eclipse" />) and the application deploy in the
+         Console log:
+      </para>
+      
+      <mediaobject>
+         <imageobject>
+            <imagedata fileref="images/Eclipse_Login_Deploy_3.jpg"
+               format="JPEG" />
+         </imageobject>
+      </mediaobject>
+      
+   </section>
       
       <para>
       It's time to pull the covers back and dive into the internals of the example application.

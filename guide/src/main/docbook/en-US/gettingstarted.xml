@@ -22,6 +22,11 @@
       if you don't already have Maven 3 installed. You can check which version of Maven you have installed (if any) by 
       running <literal>mvn --version</literal>. If you see a version newer than 3.0.0, you are ready to go.
    </para>
+   
+   <para>
+      You can also deploy the examples using your favourite IDE. We provide instructions for using Eclipse
+      only.
+   </para>
 
    <para>
       Now, download JBoss AS <link linkend="TODO">from the JBoss AS 7 page</link>.
@@ -35,6 +40,7 @@
          on a given host under the control of a Host Controller process. The Host Controllers interact with the Domain Controller
          to control the lifecycle of the AS instances running on that host and to assist the Domain Controller in managing them.
       </para>
+      
       <para>
          JBoss AS 7 also offers a standalone mode, which is perfect for a single server. We use this throughout the quickstart
          examples. 
@@ -152,19 +158,24 @@ export JBOSS_HOME=`pwd`</programlisting>
    </section>
    
    <section id="install.eclipse">
-      <title>Installing and starting JBoss AS from Eclipse with JBoss Tools</title>
+      <title>Starting JBoss AS from Eclipse with JBoss Tools</title>
+      
+      <para>
+         You may choose to use Eclipse rather than the command line to run JBoss AS, and to deploy the examples.
+         If you don't wish to use Eclipse, you should skip this section.
+     </para>
       
       <note>
          <para>
-            In order to use JBoss AS 7 from Eclipse, you must first install it for your operation system as
+            In order to use JBoss AS 7 from Eclipse, you must first install JBoss AS for your operating system as
             described in <xref linkend="install.unix"/> or <xref linkend="install.windows"/>.
          </para>
       </note>
       
       <para>
-         In order use JBoss AS 7 from Eclipse, you'll need Eclipse Indigo (Eclipse 3.7) and JBoss Tools 3.3 M3
-         or newer. You can find instructions for installing both <link linkend="TODO">on the JBoss Tools</link>
-         website. 
+         In order use JBoss AS 7 from Eclipse, you'll need Eclipse Indigo (Eclipse 3.7) and JBoss Tools 3.3 M2
+         or newer. If you want to run the quickstarts from Eclipse, you will also need m2eclipse. You can find 
+         instructions for installing Eclipse, m2eclipse and JBoss Tools <link linkend="TODO">on the JBoss AS site.</link>.
       </para>
       
       <para>
@@ -301,6 +312,73 @@ export JBOSS_HOME=`pwd`</programlisting>
          <!-- TODO We'll show you how to deploy your application to JBoss AS 7 from Eclipse in the next
          chapters as we work through the various quickstarts. -->
       </para>
+      
+   </section>
+   
+   <section id="import.eclipse">
+      <title>Importing the quickstarts into Eclipse</title>
+      
+      <para>
+         In order to import the quickstarts into Eclipse, you will need m2eclipse installed. You can find 
+         instructions for installing Eclipse, m2eclipse and JBoss Tools 
+         <link linkend="TODO">on the JBoss AS site</link>.
+      </para>
+      
+      <para>
+         First, choose <literal>File -> Import...</literal>: 
+      </para>
+      
+      <mediaobject>
+         <imageobject>
+            <imagedata fileref="images/Import_QuickStarts_1.jpg"
+               format="JPEG" />
+         </imageobject>
+      </mediaobject>
+      
+      <para>
+         Select <literal>Existing Maven Projects</literal>:
+      </para>
+      
+      <mediaobject>
+         <imageobject>
+            <imagedata fileref="images/Import_QuickStarts_2.jpg"
+               format="JPEG" />
+         </imageobject>
+      </mediaobject>
+      
+            <para>
+         Click on <literal>Browse</literal>, and navigate to the <literal>quickstarts/</literal> directory:
+      </para>
+      
+      <mediaobject>
+         <imageobject>
+            <imagedata fileref="images/Import_QuickStarts_3.jpg"
+               format="JPEG" />
+         </imageobject>
+      </mediaobject>
+      
+      <para>
+         Finally, make sure all 4 quickstarts are found and selected, and click <literal>Finish</literal>:
+      </para>
+      
+      <mediaobject>
+         <imageobject>
+            <imagedata fileref="images/Import_QuickStarts_4.jpg"
+               format="JPEG" />
+         </imageobject>
+      </mediaobject>
+      
+      <para>
+         Eclipse should now successfully import 4 projects:
+      </para>
+      
+      <mediaobject>
+         <imageobject>
+            <imagedata fileref="images/Import_QuickStarts_5.jpg"
+               format="JPEG" />
+         </imageobject>
+      </mediaobject>
+      
       
    </section>
 
