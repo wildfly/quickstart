@@ -2,7 +2,7 @@
    "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd"  [ ]>
 <chapter id="kitchensink">
 
-   <title>CDI + JSF + EJB + JTA + JAX-RS + JAX-RS + Arquilian: Kitchensink quickstart</title>
+   <title>CDI + JSF + EJB + JTA + JAX-RS + Arquilian: Kitchensink quickstart</title>
    
    <para>
       This quickstart shows off all the new features of Java EE 6, and makes a great starting
@@ -94,6 +94,51 @@
          </imageobject>
       </mediaobject>
       
+      <note>
+         <para>
+            Additional configuration is required to get Eclipse to generate the JPA metamodel. The archetype 
+            includes the necessary Eclipse config files in your project. To enable this feature, right click
+            on the project and select <literal>Properties > Java Compiler > Annotation Processing</literal>:
+         </para>
+         
+         <mediaobject>
+            <imageobject>
+              <imagedata fileref="images/Eclipse_Annotation_Processor_1.jpg"
+                 format="JPEG" />
+            </imageobject>
+         </mediaobject>
+         
+         <mediaobject>
+            <imageobject>
+              <imagedata fileref="images/Eclipse_Annotation_Processor_2.jpg"
+                 format="JPEG" />
+            </imageobject>
+         </mediaobject>
+
+         <para>
+            Check "Enable annotation processing" then click OK and OK again when your are prompted to run a
+            project build.
+         </para>
+   
+         <mediaobject>
+            <imageobject>
+              <imagedata fileref="images/Eclipse_Annotation_Processor_3.jpg"
+                 format="JPEG" />
+            </imageobject>
+         </mediaobject>
+         
+         <mediaobject>
+            <imageobject>
+              <imagedata fileref="images/Eclipse_Annotation_Processor_4.jpg"
+                 format="JPEG" />
+            </imageobject>
+         </mediaobject>
+         
+         <para>
+            This configuration is described in further detail in the <ulink url="http://docs.jboss.org/hibernate/stable/jpamodelgen/reference/en-US/html_single/#d0e319">Hibernate JPA documentation</ulink>.
+         </para>
+      </note>
+      
    </section>
       
    <para>
@@ -103,23 +148,730 @@
    <section id="kitchensink.indepth">
       <title>The kitchensink example in depth</title>
       
-      <para>TODO</para>
+      <para>
+         The kitchensink application shows off a number of Java EE technologies such as CDI, JSF, EJB, JTA, JAX-RS
+         and Arquilian. It does this by providing a member registration database, available via JSF and JAX-RS.
+      </para>
+      
+      <para>
+         As usual, let's start by looking at the necessary deployment descriptors. By now, we're very used to
+         seeing <literal>beans.xml</literal> and <literal>faces-config.xml</literal> in 
+         <literal>WEB-INF/</literal> (which can be found in the <literal>src/main/webapp</literal> directory of the 
+         example). Notice that, once again, we don't need a <literal>web.xml</literal>. There are two new configuration
+         files in <literal>WEB-INF/classes/META-INF</literal> (which can be found in the <literal>src/main/resources</literal>
+         directory of the example) &mdash; <literal>persistence.xml</literal>, which sets up JPA, and 
+         <literal>import.sql</literal> which Hibernate, the JPA provider in JBoss AS 7, will use to load the initial 
+         users into the application when the application starts. We discussed both of these files in detail in
+         <xref linkend="login.indepth" />, and these are largely the same.
+      </para>
+      
+      <para>
+         Next, let's take a look at the JSF view the user sees. As usual, we use a template to provide the sidebar and
+         footer. This one lives in <literal>WEB-INF/templates/default.xhtml</literal>:
+      </para>
+      
+            <programlistingco>
+         <areaspec>
+            <area id="head" coords="7" />
+            <area id="sidebar" coords="10" />
+            <area id="content" coords="50" />
+         </areaspec>
+         <programlisting role="XML"><![CDATA[   <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <title>Java EE 6 Starter Application</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <h:outputStylesheet name="css/screen.css"/>
+    </h:head>
+    <h:body>
+        <div id="container">
+            <div id="content">
+                <div id="sidebar">
+                    <h3>Find out more</h3>
+                    <p>
+                     Learn about JBoss AS 7.
+                    </p>
+                       <li><a href="TODO">JBoss AS 7 Getting Started Guide for Developers</a></li>
+                       <li><a href="jboss.org/jbossas">JBoss AS 7 project site</a></li> 
+                    <p>
+                        Learn about the Java EE 6 platform and the component model it provides.
+                    </p>
+                    <ul>
+                        <li><a href="http://download.oracle.com/javaee/6/tutorial/doc">Java EE 6 tutorial</a></li>
+                        <li><a href="http://docs.jboss.org/cdi/spec/1.0/html">JSR-299: CDI specification</a></li>
+                        <li><a href="https://sites.google.com/site/cdipojo/get-started">CDI Source</a></li>
+                    </ul>
+                    <p>
+                        Dive into Weld, the CDI reference implementation, and discover portable extensions Seam 3 offers.
+                    </p>
+                    <ul>
+                        <li><a href="http://docs.jboss.org/weld/reference/latest/en-US/html">Weld reference guide</a></li>
+                        <li><a href="http://seamframework.org/Weld">Weld project</a></li>
+                        <li><a href="http://seamframework.org/Seam3">Seam 3 project</a></li>
+                        <li><a href="http://seamframework.org/Community/Forums">User forums</a></li>
+                        <li><a href="http://seamframework.org/Community/MailingLists">Mailing lists</a></li>
+                        <li><a href="https://issues.jboss.org/browse/WELDRAD">Archetype issue tracker</a></li>
+                    </ul>
+                    <p>
+                        Explore JavaServer Faces, the component-oriented UI framework in Java EE 6.
+                    </p>
+                    <ul>
+                        <li><a href="http://www.javaserverfaces.org">JSF community site</a></li>
+                    </ul>
+                    <p>
+                        If you have an add-on, please <a href="http://seamframework.org/Community/Forums">let us know</a> and
+                        consider <a href="http://seamframework.org/Seam3/GetInvolved">contributing</a> it back to the
+                        community!
+                    </p>
+                </div>
+                <ui:insert name="content">
+                    [Template content will be inserted here]
+                </ui:insert>
+            </div>
+            <div id="footer">
+                <h:graphicImage value="/resources/gfx/weld.png" alt="Weld logo"/>
+                <p>
+                    This project was generated from a Maven archetype from JBoss.<br/>
+                </p>
+            </div>
+        </div>
+    </h:body>
+</html>]]></programlisting>
+         <calloutlist>
+            <callout arearefs="head">
+               <para>
+                  We have a common <literal>&lt;head&gt;</literal> element, where we define styles and more
+               </para>
+            </callout>
+            <callout arearefs="sidebar">
+               <para>
+                  This application defines a common sidebar and footer, putting them in the template means we
+                  only have to define them once
+               </para>
+            </callout>
+            <callout arearefs="content">
+               <para>
+                  The content is inserted here, and defined by views using this template.
+               </para>
+            </callout>
+         </calloutlist>
+      </programlistingco>
+      
+      <para>
+         That leaves the main page, <literal>index.xhtml</literal>, in which we place the content unique to the
+         main page:
+      </para>
+      
+      <programlistingco>
+         <areaspec>
+            <area id="form" coords="6" />
+            <area id="error" coords="16" />
+            <area id="resturl" coords="65" />
+         </areaspec>
+         <programlisting role="XML"><![CDATA[    <ui:define name="content">
+        <h1>Welcome to JBoss AS 7!</h1>
+
+        <p>You have successfully deployed a Java EE 6 web application on JBoss AS 7.</p>
+
+        <h:form id="reg">
+            <h2>Register (Bean Validation example)</h2>
+            <p>Enforces annotation-based constraints defined on the model class.</p>
+            <table>
+                <tr>
+                    <th style="text-align: right;">
+                        <h:outputLabel for="name" value="Name:"/>
+                    </th>
+                    <td>
+                        <h:inputText id="name" value="#{newMember.name}"/>
+                        <h:message for="name" errorClass="invalid"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th style="text-align: right;">
+                        <h:outputLabel for="email" value="Email:"/>
+                    </th>
+                    <td>
+                        <h:inputText id="email" value="#{newMember.email}"/>
+                        <h:message for="email" errorClass="invalid"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th style="text-align: right;">
+                        <h:outputLabel for="phoneNumber" value="Phone #:"/>
+                    </th>
+                    <td>
+                        <h:inputText id="phoneNumber" value="#{newMember.phoneNumber}"/>
+                        <h:message for="phoneNumber" errorClass="invalid"/>
+                    </td>
+                </tr>
+            </table>
+            <p>
+                <h:commandButton id="register" action="#{memberRegistration.register}" value="Register"/>
+                <h:outputText value=" Registered!" rendered="#{facesContext.postback and empty facesContext.messageList}" style="color: green;"/>
+            </p>
+        </h:form>
+        <h2>Members</h2>
+        <h:panelGroup rendered="#{empty members}">
+            <em>No registered members.</em>
+        </h:panelGroup>
+        <h:dataTable var="_member" value="#{members}" rendered="#{not empty members}">
+            <h:column>
+                <f:facet name="header">Id</f:facet>
+                #{_member.id}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Name</f:facet>
+                #{_member.name}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Email</f:facet>
+                #{_member.email}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Phone #</f:facet>
+                #{_member.phoneNumber}
+            </h:column>
+            <h:column>
+                <f:facet name="header">REST URL</f:facet>
+                <a href="#{request.contextPath}/rest/members/#{_member.id}">/rest/members/#{_member.id}</a>
+            </h:column>
+            <f:facet name="footer">
+                REST URL for all members: <a href="#{request.contextPath}/rest/members">/rest/members</a>
+            </f:facet>
+        </h:dataTable>
+    </ui:define>]]></programlisting>
+         <calloutlist>
+            <callout arearefs="form">
+               <para>
+                  The JSF form allows us to register new users. There should be one already created when the application
+                  started.
+               </para>
+            </callout>
+            <callout arearefs="error">
+               <para>
+                  The application uses Bean Validation to validate data entry. The error messages from Bean Validation are
+                  automatically attached to the relevant field by JSF, and adding a <literal>messages</literal> JSF
+                  component will display them                  
+               </para>
+            </callout>
+            <callout arearefs="resturl">
+               <para>
+                  This application exposes REST endpoints for each registered member. The application helpfully displays
+                  the URL to the REST endpoint on this page.
+               </para>
+            </callout>
+         </calloutlist>
+      </programlistingco>
+      
+      <para>
+         Next, let's take a look at the <literal>Member</literal> entity, before we look at how the application is wired
+         together:
+      </para>
+      
+      <programlistingco>
+         <areaspec>
+            <area id="entity" coords="1" />
+            <area id="jaxrs" coords="2" />
+            <area id="validation" coords="12" />
+            <area id="validation-email" coords="18" />
+            <area id="validation-digits" coords="23" />
+         </areaspec>
+         <programlisting role="JAVA"><![CDATA[@Entity
+@XmlRootElement
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = "email"))
+public class Member implements Serializable {
+    /** Default value included to remove warning. Remove or modify at will. **/
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    @GeneratedValue
+    private Long id;
+    
+    @NotNull
+    @Size(min = 1, max = 25)
+    @Pattern(regexp = "[A-Za-z ]*", message = "must contain only letters and spaces")
+    private String name;
+    
+    @NotNull
+    @NotEmpty
+    @Email
+    private String email;
+    
+    @NotNull
+    @Size(min = 10, max = 12)
+    @Digits(fraction = 0, integer = 12)
+    @Column(name = "phone_number")
+    private String phoneNumber;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+    
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+}]]></programlisting>
+         <calloutlist>
+            <callout arearefs="entity">
+               <para>
+                  As usual with JPA, we define that the class is an entity by adding <literal>@Entity</literal>
+               </para>
+            </callout>
+            <callout arearefs="jaxrs">
+               <para>
+                  Members are exposed as a RESTful service using JAX-RS. We can use JAXB to map the object to XML
+                  and to do this we need to add <literal>@XmlRootElement</literal>.               
+               </para>
+            </callout>
+            <callout arearefs="validation">
+               <para>
+                  Bean Validation allows constraints to be defined once (on the entity) and applied everywhere.
+                  Here we constrain the person's name to a certain size and regular expression.
+               </para>
+            </callout>
+            <callout arearefs="validation-email">
+               <para>
+                  Hibernate Validator also offers some extra validations such as <literal>@Email</literal>
+               </para>
+            </callout>
+            <callout arearefs="validation-digits">
+               <para>
+                  <literal>@Digits</literal>, <literal>@NotNull</literal> and <literal>@Size</literal> are further
+                  examples of constraints
+               </para>
+            </callout>
+         </calloutlist>
+      </programlistingco>
+      
+      <para>
+         Next, let's take a look at <literal>MemberListProducer</literal>, which is responsible for building
+         the list of members, ordered by name. It uses JPA 2 criteria to do this.
+      </para>
+      
+      <programlistingco>
+         <areaspec>
+            <area id="requestscoped" coords="1" />
+            <area id="producer" coords="9" />
+            <area id="observer" coords="15" />
+            <area id="criteria" coords="20" />
+         </areaspec>
+         <programlisting role="JAVA"><![CDATA[@RequestScoped
+public class MemberListProducer {
+    @Inject
+    private EntityManager em;
+
+    private List<Member> members;
+
+    // @Named provides access the return value via the EL variable name "member" in the UI (e.g., Facelets or JSP view)
+    @Produces
+    @Named
+    public List<Member> getMembers() {
+        return members;
+    }
+
+    public void onMemberListChanged(
+           @Observes(notifyObserver = Reception.IF_EXISTS) final Member member) {
+        retrieveAllMembersOrderedByName();
+    }
+
+    @PostConstruct
+    public void retrieveAllMembersOrderedByName() {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Member> criteria = cb.createQuery(Member.class);
+        Root<Member> member = criteria.from(Member.class);
+        // Swap criteria statements if you would like to try out type-safe criteria queries, a new feature in JPA 2.0
+        // criteria.select(member).orderBy(cb.asc(member.get(Member_.name)));
+        criteria.select(member).orderBy(cb.asc(member.get("name")));
+        members = em.createQuery(criteria).getResultList();
+    }
+}]]></programlisting>
+         <calloutlist>
+            <callout arearefs="requestscoped">
+               <para>
+                  This bean is request scoped, meaning that any fields (such as <literal>members</literal>) 
+                  will be stored for the entire request
+               </para>
+            </callout>
+            <callout arearefs="producer">
+               <para>   
+                  The list of members is exposed as a producer method, it's also available via EL           
+               </para>
+            </callout>
+            <callout arearefs="observer">
+               <para>
+                  The observer method is notified whenever a member is created, removed, or updated. This allows
+                  us to refresh the list of members whenever they are needed. This is a good approach as it allows
+                  us to cache the list of members, but keep it up to date at the same time.
+               </para>
+            </callout>
+            <callout arearefs="criteria">
+               <para>
+                  JPA 2's criteria API is used to create a list of members sorted by name. You can try out the 
+                  type safe criteria API as well by swapping the critera statements as described.
+               </para>
+            </callout>
+         </calloutlist>
+      </programlistingco>
+      
+      <para>
+         Let's now look at <literal>MemberRegistration</literal>, the class that allows us to create new members
+         from the JSF page
+      </para>
+      
+      <programlistingco>
+         <areaspec>
+            <area id="stateful" coords="1" />
+            <area id="model" coords="2" />
+            <area id="logger" coords="5" />
+            <area id="event" coords="12" />
+         </areaspec>
+         <programlisting role="JAVA"><![CDATA[@Stateful
+@Model
+public class MemberRegistration {
+   
+    @Inject
+    @Category("jboss-as-quickstart-kitchensink")
+    private Logger log;
+
+    @Inject
+    private EntityManager em;
+
+    @Inject
+    private Event<Member> memberEventSrc;
+
+    private Member newMember;
+
+    @Produces
+    @Named
+    public Member getNewMember() {
+        return newMember;
+    }
+
+    public void register() throws Exception {
+        log.info("Registering " + newMember.getName());
+        em.persist(newMember);
+        memberEventSrc.fire(newMember);
+        initNewMember();
+    }
+
+    @PostConstruct
+    public void initNewMember() {
+        newMember = new Member();
+    }
+}]]></programlisting>
+         <calloutlist>
+            <callout arearefs="stateful">
+               <para>
+                  This bean requires transactions as it needs to write to the database. Making this an EJB
+                  gives us access to declarative transactions - much simpler than manual transaction control!
+               </para>
+            </callout>
+            <callout arearefs="model">
+               <para>   
+                  Stereotypes, such as <literal>@Model</literal> allow grouping of common functionality. Here
+                  we use the built in <literal>@Model</literal> stereotype to give us a request scoped, named
+                  bean.
+               </para>
+            </callout>
+            <callout arearefs="logger">
+               <para>
+                  Seam Solder, used in this project offers an injectable logger based on JBoss Logging.
+               </para>
+            </callout>
+            <callout arearefs="event">
+               <para>
+                  An event is sent every time a member is updated. This allows other pieces of code (in this example
+                  the member list is refreshed) to react to changes in the member list without any coupling to this
+                  class.
+               </para>
+            </callout>
+         </calloutlist>
+      </programlistingco>
+      
+      <para>
+         Now, let's take a look at the <literal>Resources</literal> class, which provides resources
+         such as the entity manager. CDI recommends using "resource producers", as we do in this example,
+         to alias resources to CDI beans, allowing for a  consistent style throughout our application:
+      </para>
+
+      <programlistingco>
+         <areaspec>
+            <area id="em" coords="7" />
+         </areaspec>
+         <programlisting role="JAVA"><![CDATA[public class Resources {
+
+    // use @SuppressWarnings to tell IDE to ignore warnings about field not being referenced directly
+    @SuppressWarnings("unused")
+    @Produces
+    @PersistenceContext
+    private EntityManager em;
+   }
+
+}]]></programlisting>
+         <calloutlist>
+            <callout arearefs="em">
+               <para>
+                  We use the "resource producer" pattern, from CDI, to "alias" the old fashioned 
+                  <literal>@PersistenceContext</literal> injection of the entity manager to a CDI
+                  style injection. This allows us to use.
+               </para>
+            </callout>
+         </calloutlist>
+      </programlistingco>
+      
+      <para>TODO Discuss DataSourceDefinitions</para>
+      
+      <para>
+         Before we wrap up our tour of the kitchensink example, let's take a look at how the JAX-RS endpoints
+         are created. Firstly, <literal>JaxRSActivator</literal>, which extends <literal>Application</literal> and is 
+         annotated with <literal>@ApplicationPath</literal>, is the Java EE 6 "no XML" approach to activating JAX-RS.
+      </para>
+      
+      <para>
+         The real work goes in <literal>MemberResourceRESTService</literal>, which produces the endpoint:
+      </para>
+      
+      <programlistingco>
+         <areaspec>
+            <area id="path" coords="1" />
+            <area id="cdi" coords="5" />
+            <area id="get-list" coords="8" />
+            <area id="get-member" coords="8" />
+         </areaspec>
+         <programlisting role="JAVA"><![CDATA[@Path("/members")
+@RequestScoped
+public class MemberResourceRESTService {
+
+    @Inject
+    private EntityManager em;
+
+    @GET
+    public List<Member> listAllMembers() {
+        final List<Member> results = em.createQuery("select m from Member m order by m.name").getResultList();
+        return results;
+    }
+
+    @GET
+    @Path("/{id:[0-9][0-9]*}")
+    public Member lookupMemberById(@PathParam("id") long id) {
+        return em.find(Member.class, id);
+    }
+}]]></programlisting>
+         <calloutlist>
+            <callout arearefs="path">
+               <para>
+                  The <literal>@Path</literal> annotation tells JAX-RS that this class provides a REST endpoint
+                  mapped to <literal>rest/members</literal> (concatenating the path from the activator with the
+                  path for this endpoint).
+               </para>
+            </callout>
+            <callout arearefs="cdi">
+               <para>
+                  JAX-RS endpoints are CDI enabled, and can use CDI-style injection
+               </para>
+            </callout>
+            <callout arearefs="get-list">
+               <para>
+                  The <literal>listAllMembers()</literal> method is called when the raw endpoint is accessed and
+                  offers up a list of endpoints. Notice that the object is automatically mapped to XML by JAXB.
+               </para>
+            </callout>
+            <callout arearefs="get-member">
+               <para>
+                  The <literal>lookupMemberById()</literal> method is called when the endpoint is accessed with a
+                  member id parameter appended (for example rest/members/1). Again, the object is automatically 
+                  mapped to XML by JAXB.
+               </para>
+            </callout>
+         </calloutlist>
+      </programlistingco>
+      
+      <para>
+         That concludes our tour of the kitchensink quickstart. If you would like to use this project as a basis for
+         your own application on JBoss AS 7, you can of course copy this application sources and modify it.
+      </para>
+      
+      <para>
+         What we haven't told you until now is that this application is actually automatically generated from a Maven
+         archetype, offering you the perfect opportunity to generate the project for your own project. To do this, you 
+         should run:
+      </para>
+      
+      <programlisting>mvn archetype:generate \
+        -DarchetypeArtifactId=jboss-javaee6-webapp -DarchetypeGroupId=org.jboss.spec.archetypes -DarchetypeVersion=7.0.0.Final</programlisting>
+      
+      <para>
+         Maven will download the archetype and it's dependencies, and ask you some questions:
+      </para>
+      
+      <programlistingco>
+         <areaspec>
+            <area id="groupId" coords="11" />
+            <area id="artifactId" coords="12" />
+            <area id="version" coords="13" />
+            <area id="package" coords="14" />
+            <area id="confirm" coords="21" />
+         </areaspec>
+         <programlisting>$> mvn archetype:generate -DarchetypeArtifactId=jboss-javaee6-webapp -DarchetypeGroupId=org.jboss.spec.archetypes -DarchetypeVersion=7.0.0.Final
+[INFO] Scanning for projects...
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building Maven Stub Project (No POM) 1
+[INFO] ------------------------------------------------------------------------
+[INFO]
+
+......... 
+
+Define value for property 'groupId': : com.acme.corp
+Define value for property 'artifactId': : acme-sales
+Define value for property 'version':  1.0-SNAPSHOT: : 
+Define value for property 'package':  com.acme.corp: : 
+[INFO] Using property: name = Java EE 6 webapp project
+Confirm properties configuration:
+groupId: com.acme.corp
+artifactId: acme-sales
+version: 1.0-SNAPSHOT
+package: com.acme.corp
+name: Java EE 6 webapp project
+ Y: : 
+[WARNING] CP Don't override file /Users/pmuir/tmp/acme-sales/.settings/org.eclipse.jdt.apt.core.prefs
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 14.774s
+[INFO] Finished at: Mon Jun 06 18:53:38 BST 2011
+[INFO] Final Memory: 7M/125M
+[INFO] ------------------------------------------------------------------------
+$></programlisting><calloutlist>
+            <callout arearefs="groupId">
+               <para>
+                  Enter the <literal>groupId</literal> you wish to use
+               </para>
+            </callout>
+            <callout arearefs="artifactId">
+               <para>
+                  Enter the <literal>artifactId</literal> you wish to use
+               </para>
+            </callout>
+            <callout arearefs="version">
+               <para>
+                  Enter the version you wish to use, or just hit <literal>Enter</literal> if you wish to accept the
+                  default <literal>1.0-SNAPSHOT</literal>
+               </para>
+            </callout>
+            <callout arearefs="package">
+               <para>
+                  Enter the java package you wish to use, or just hit <literal>Enter</literal> if you wish to accept the
+                  default (which is copied from <literal>groupId</literal>).
+               </para>
+            </callout>
+            <callout arearefs="confirm">
+               <para>
+                  Finally, if you are happy with your choices, hit <literal>Enter</literal> and Maven will generate the
+                  project for you
+               </para>
+            </callout>
+         </calloutlist>
+      </programlistingco>
+      
+      <para>
+         And that's it, you now have a brand new project with the same functionality as <literal>kitchensink</literal>,
+         but customised with your details.
+      </para>
+      
+      <para>
+         Of course, you can create a project from the archetype using Eclipse, saving you the step of importing it. First,
+         choose <literal>File -> New -> Other</literal>:
+      </para>
+      
+      <mediaobject>
+         <imageobject>
+           <imagedata fileref="images/Eclipse_Archetype_1.jpg"
+              format="JPEG" />
+         </imageobject>
+      </mediaobject>
+      
+      <para>
+         Select the <literal>Maven Project</literal> wizard:
+      </para>
+      
+      <mediaobject>
+         <imageobject>
+           <imagedata fileref="images/Eclipse_Archetype_2.jpg"
+              format="JPEG" />
+         </imageobject>
+      </mediaobject>
+      
+      <para>
+         If you wish, customize the project creation, otherwise, just hit <literal>Next ></literal>:
+      </para>
+      
+      <mediaobject>
+         <imageobject>
+           <imagedata fileref="images/Eclipse_Archetype_3.jpg"
+              format="JPEG" />
+         </imageobject>
+      </mediaobject>
+      
+      <para>
+         Locate the <literal>jboss-javaee6-webapp</literal> archetype:
+      </para>
+      
+      <mediaobject>
+         <imageobject>
+           <imagedata fileref="images/Eclipse_Archetype_4.jpg"
+              format="JPEG" />
+         </imageobject>
+      </mediaobject>
+      
+      <para>
+         Now, fill in the <literal>groupId</literal> and <literal>artifactId</literal>, and hit
+         <literal>Finish</literal>:
+      </para>
+      
+      <mediaobject>
+         <imageobject>
+           <imagedata fileref="images/Eclipse_Archetype_5.jpg"
+              format="JPEG" />
+         </imageobject>
+      </mediaobject>
+      
+      <para>
+         You should now have a brand new project:
+      </para>
+      
+      <mediaobject>
+         <imageobject>
+           <imagedata fileref="images/Eclipse_Archetype_6.jpg"
+              format="JPEG" />
+         </imageobject>
+      </mediaobject>      
       
    </section>
-   
-   <!-- Additional configuration is required to get Eclipse to generate the JPA
- metamodel. The archetype includes the necessary Eclipse config files in your
- project. To enable this feature, right click on the project and select:
-
-  Properties > Java Compiler > Annotation Processing
-
- Check "Enable annotation processing" then click OK and OK again when your are
- prompted to run a project build.
-
- This configuration is described in further detail in the Hibernate JPA documentation:
-
- - http://docs.jboss.org/hibernate/stable/jpamodelgen/reference/en-US/html_single/#d0e319
-    -->
       
-
 </chapter>
