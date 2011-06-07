@@ -59,17 +59,10 @@
       <programlisting>unzip jboss-7.x.x.x.zip</programlisting>
       
       <para>
-         We now need to set the <literal>JBOSS_HOME</literal> environment variable:
+         Now, let's start JBoss AS 7 in standalone mode:
       </para>
       
-      <programlisting>cd jboss-7.x.x.x
-export JBOSS_HOME=`pwd`</programlisting>
-      
-      <para>
-         Finally, let's start JBoss AS 7 in standalone mode:
-      </para>
-      
-      <programlisting>$JBOSS_HOME/bin/standalone.sh</programlisting>
+      <programlisting>jboss-7.x.x.x/bin/standalone.sh</programlisting>
       
       <tip>
          <para>
@@ -98,58 +91,9 @@ export JBOSS_HOME=`pwd`</programlisting>
       </para>
       
       <para>
-         We now need to set the <literal>JBOSS_HOME</literal> environment variable:
+         Finally, let's start JBoss AS 7 in standalone mode. Locate your JBoss AS installation and run
+         <literal>standalone.bat</literal> located in <literal>bin</literal>. 
       </para>
-      
-      <orderedlist>
-         <listitem>
-            <para>
-               Right click on My Computer and select Properties
-            </para>
-            <mediaobject>
-               <imageobject>
-                  <imagedata fileref="images/Step1.jpg"
-                     format="JPEG" />
-               </imageobject>
-            </mediaobject>
-         </listitem>
-         <listitem>
-            <para>
-               Click on the Advanced tab and click on the button at the bottom that says Environment Variables
-            </para>
-            <mediaobject>
-               <imageobject>
-                  <imagedata fileref="images/Step2.jpg"
-                     format="JPEG" />
-               </imageobject>
-            </mediaobject>
-         </listitem>
-         <listitem>
-            <para>
-               Create a System property named <literal>JBOSS_HOME</literal> and point it to the directory 
-               you extracted JBoss AS to
-            </para>
-            <mediaobject>
-               <imageobject>
-                  <imagedata fileref="images/Step3.jpg"
-                     format="JPEG" />
-               </imageobject>
-            </mediaobject>
-      
-            <mediaobject>
-               <imageobject>
-                  <imagedata fileref="images/Step4.jpg"
-                     format="JPEG" />
-               </imageobject>
-            </mediaobject>
-         </listitem>
-      </orderedlist>
-      
-      <para>
-         Finally, let's start JBoss AS 7 in standalone mode. In a console, run:
-      </para>
-      
-      <programlisting>%JBOSS_HOME%/bin/standalone.bat</programlisting>
       
       <tip>
          <para>
@@ -384,7 +328,11 @@ export JBOSS_HOME=`pwd`</programlisting>
                format="JPEG" />
          </imageobject>
       </mediaobject>
-      
+
+      <para>
+         It will take a short time to import the projects, as Maven needs to download the project's dependencies
+         from remote repositories.
+      </para>      
       
    </section>
 

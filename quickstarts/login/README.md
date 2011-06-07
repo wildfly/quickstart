@@ -8,5 +8,5 @@ JBoss Tools.
 
 To set up Maven or JBoss Tools in Eclipse, refer to the `Getting Started Guide`.
 
-To deploy to JBoss AS 7, set the JBOSS_HOME system property, and type `mvn install`. You
+To deploy to JBoss AS 7, start JBoss AS 7, and type `mvn install`. You
 can read more details in the _Getting Started Guide_.
