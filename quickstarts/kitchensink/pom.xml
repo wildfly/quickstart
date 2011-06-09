@@ -24,9 +24,6 @@
       <!-- Specify the JBoss AS directory to be the JBOSS_HOME environment 
          variable -->
       <jboss.home>${env.JBOSS_HOME}</jboss.home>
-      <!-- externalize versions we need to refer to more than once -->
-      <arquillian.version>1.0.0.Alpha5</arquillian.version>
-      <jboss-javaee6-spec.version>2.0.0.CR1</jboss-javaee6-spec.version>
    </properties>
 
    <repositories>
@@ -115,9 +112,9 @@
       <!-- Arquillian allows you to test enterprise code such as EJBs and 
          Transactional(JTA) JPA from JUnit/TestNG -->
       <dependency>
-         <groupId>org.jboss.arquillian</groupId>
-         <artifactId>arquillian-junit</artifactId>
-         <version>${arquillian.version}</version>
+         <groupId>org.jboss.arquillian.junit</groupId>
+         <artifactId>arquillian-junit-container</artifactId>
+         <version>1.0.0.CR1</version>
          <scope>test</scope>
       </dependency>
 
@@ -205,9 +202,9 @@
          <id>arq-jbossas-remote</id>
          <dependencies>
             <dependency>
-               <groupId>org.jboss.arquillian.container</groupId>
-               <artifactId>arquillian-jbossas-remote-7</artifactId>
-               <version>${arquillian.version}</version>
+               <groupId>org.jboss.as</groupId>
+               <artifactId>jboss-as-arquillian-container-managed</artifactId>
+               <version>7.0.0.Beta4-SNAPSHOT</version>
                <scope>test</scope>
             </dependency>
          </dependencies>
