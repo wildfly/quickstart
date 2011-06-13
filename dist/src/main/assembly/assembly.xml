@@ -2,20 +2,19 @@
 
 <assembly xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
    xsi:schemaLocation="
-              http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/assembly-1.1.1.xsd
-          ">
+              http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/assembly-1.1.1.xsd">
    <id>dist</id>
-   <baseDirectory>jboss-as-developer-guide-${project.version}</baseDirectory>
+   <baseDirectory>jboss-as-docs-${project.version}</baseDirectory>
    <formats>
       <format>zip</format>
    </formats>
 
    <fileSets>
       <fileSet>
-         <directory>${project.basedir}</directory>
+         <directory>${project.basedir}/src/main/assembly</directory>
          <outputDirectory>/</outputDirectory>
          <includes>
-            <include>readme.txt</include>
+            <include>README.md</include>
          </includes>
       </fileSet>
       <fileSet>
@@ -29,14 +28,23 @@
             <exclude>**/.project</exclude>
             <exclude>**/.settings/**</exclude>
             <exclude>**/.classpath</exclude>
+            <exclude>**/README-development.md</exclude>
          </excludes>
       </fileSet>
       <fileSet>
-         <directory>${project.basedir}/../guide/target/docbook/publish</directory>
+         <directory>${project.basedir}/../guides/developer-getting-started-guide/target/docbook/publish</directory>
          <outputDirectory>/developer-getting-started-guide</outputDirectory>
          <includes>
             <include>en-US/html/**</include>
          </includes>
+      </fileSet>
+      <fileSet>
+         <directory>${project.basedir}/../guides/developer-getting-started-guide/</directory>
+         <outputDirectory>/developer-getting-started-guide</outputDirectory>
+         <includes>
+            <include>README.md</include>
+         </includes>
+         
       </fileSet>
    </fileSets>
 
