@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- See http://www.jboss.org/community/wiki/Multiple1PC for information about datasource -->
+<datasources xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:noNamespaceSchemaLocation="http://www.jboss.org/ironjacamar/schema/datasources_1_0.xsd">
+
+  <datasource jndi-name="DerbyDS" pool-name="DerbyDS">
+    <connection-url>jdbc:derby:${ironjacamar.home}${/}data${/}derby${/}localDB;create=true</connection-url>
+    <driver-class>org.apache.derby.jdbc.EmbeddedDriver</driver-class>
+    <pool>
+      <min-pool-size>5</min-pool-size>
+      <max-pool-size>20</max-pool-size>
+    </pool>
+    <security>
+      <user-name>sa</user-name>
+      <password></password>
+    </security> 
+    <timeout>
+      <idle-timeout-minutes>5</idle-timeout-minutes>
+    </timeout>
+    <statement>
+      <track-statements>true</track-statements>
+    </statement>
+  </datasource>
+
+</datasources>

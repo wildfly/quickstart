@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- See http://www.jboss.org/community/wiki/Multiple1PC for information about datasource -->
+<datasources xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:noNamespaceSchemaLocation="http://www.jboss.org/ironjacamard/schema/atasources_1_0.xsd">
+
+  <datasource jndi-name="MSSQLDS" pool-name="MSSQLDS">
+    <connection-url>jdbc:microsoft:sqlserver://localhost:1433;DatabaseName=MyDatabase</connection-url>
+    <driver-class>com.microsoft.sqlserver.jdbc.SQLServerDriver</driver-class>
+    <security>
+      <user-name>x</user-name>
+      <password>y</password>
+    </security> 
+    <validation>
+      <valid-connection-checker class-name="org.jboss.jca.adapters.jdbc.extensions.mssql.MSSQLValidConnectionChecker"></valid-connection-checker>
+    </validation>
+  </datasource>
+
+</datasources>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ATTENTION: DO NOT FORGET TO SET Pad=true IN transaction.xml -->
+<datasources xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:noNamespaceSchemaLocation="http://www.jboss.org/ironjacamar/schema/datasources_1_0.xsd">
+
+  <xa-datasource jndi-name="XAOracleDS" pool-name="XAOracleDS">
+    <xa-datasource-property name="URL">jdbc:oracle:oci8:@tc</xa-datasource-property>
+    <xa-datasource-property name="User">scott</xa-datasource-property>
+    <xa-datasource-property name="Password">tiger</xa-datasource-property>
+    <xa-datasource-class>oracle.jdbc.xa.client.OracleXADataSource</xa-datasource-class>
+    <xa-pool>
+      <is-same-rm-override>false</is-same-rm-override>
+      <!-- Uncomment to enable interleaving <interleaving/> -->
+      <no-tx-separate-pools />
+    </xa-pool>
+    <validation>
+      <valid-connection-checker class-name="org.jboss.jca.adapters.jdbc.extensions.oracle.OracleValidConnectionChecker"></valid-connection-checker>
+      <stale-connection-checker class-name="org.jboss.jca.adapters.jdbc.extensions.oracle.OracleStaleConnectionChecker"></stale-connection-checker>
+      <exception-sorter class-name="org.jboss.jca.adapters.jdbc.extensions.oracle.OracleExceptionSorter"></exception-sorter>
+    </validation>
+  </xa-datasource>
+
+</datasources>

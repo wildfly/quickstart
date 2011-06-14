@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<datasources xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:noNamespaceSchemaLocation="http://www.jboss.org/ironjacamar/schema/datasources_1_0.xsd">
+
+  <xa-datasource jndi-name="MysqlXADS" pool-name="MysqlXADS">
+    <xa-datasource-property name="ServerName">server_name</xa-datasource-property>
+    <xa-datasource-property name="DatabaseName">database_name</xa-datasource-property>
+    <xa-datasource-property name="User">user</xa-datasource-property>
+    <xa-datasource-property name="Password">password</xa-datasource-property>
+    <xa-datasource-class>com.mysql.jdbc.jdbc2.optional.MysqlXADataSource</xa-datasource-class>
+    <validation>
+      <valid-connection-checker class-name="org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLValidConnectionChecker"></valid-connection-checker>
+      <exception-sorter class-name="org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLExceptionSorter"></exception-sorter>
+    </validation>
+  </xa-datasource>
+
+</datasources>

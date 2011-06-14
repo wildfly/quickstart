@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<datasources xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:noNamespaceSchemaLocation="http://www.jboss.org/ironjacamar/schema/datasources_1_0.xsd">
+
+  <datasource jndi-name="DB2DS" pool-name="DB2DS">
+    <!-- 
+      DB2 Universal Driver Note connection URL is in form of
+      jdbc:db2://host:port:dbname
+         
+      Default port for Type 4 driver is 50000
+            
+      Note, host and port must be specified if using Type 4 driver. And be forewarned, no native
+      XA support is provided with Type 4; you must set a DB property calling for Type 2 to get XA
+            
+      <driver-class>com.ibm.db2.jcc.DB2Driver</driver-class>
+      <connection-url>jdbc:db2://[hostname]:[port]/databasename"</connection-url>
+            
+      Please see http://www-128.ibm.com/developerworks/db2/library/techarticle/dm-0512kokkat/
+      or the DB2 JDBC application developers manual.
+     -->  
+    <connection-url>jdbc:db2:yourdatabase</connection-url>
+    <driver-class>COM.ibm.db2.jdbc.app.DB2Driver</driver-class>
+    <pool>
+      <min-pool-size>0</min-pool-size>
+      <max-pool-size>50</max-pool-size>
+    </pool>
+    <security>
+      <user-name>x</user-name>
+      <password>y</password>
+    </security> 
+    <validation>
+      <valid-connection-checker class-name="org.jboss.jca.adapters.jdbc.extensions.db2.DB2ValidConnectionChecker"></valid-connection-checker>
+      <stale-connection-checker class-name="org.jboss.jca.adapters.jdbc.extensions.db2.DB2StaleConnectionChecker"></stale-connection-checker>
+      <exception-sorter class-name="org.jboss.jca.adapters.jdbc.extensions.db2.DB2ExceptionSorter"></exception-sorter>
+    </validation>
+  </datasource>
+
+</datasources>
