@@ -135,7 +135,7 @@
             <area id="datasource" coords="7" />
             <area id="hibernate" coords="9" />
          </areaspec>
-         <programlisting role="XML"><![CDATA[<persistence xmlns="http://java.sun.com/xml/ns/persistence" 
+         <programlisting language="XML"><![CDATA[<persistence xmlns="http://java.sun.com/xml/ns/persistence" 
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xsi:schemaLocation="http://java.sun.com/xml/ns/persistence 
                                  http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd" 
@@ -181,7 +181,7 @@
             <area id="loginForm" coords="6" />
             <area id="buttons" coords="12" />
          </areaspec>
-         <programlisting role="XML"><![CDATA[   <ui:composition template="template.xhtml">
+         <programlisting language="XML"><![CDATA[   <ui:composition template="template.xhtml">
     <ui:define name="content">
       <h:messages/>
       <h:form id="loginForm"> 
@@ -244,7 +244,7 @@
             <area id="head" coords="5" />
             <area id="content" coords="20" />
          </areaspec>
-         <programlisting role="XML"><![CDATA[<head>
+         <programlisting language="XML"><![CDATA[<head>
   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
   <title>Login</title>
   <link href="style/main.css" rel="stylesheet" type="text/css"/>
@@ -296,7 +296,7 @@
             <area id="header" coords="7" />
             <area id="form" coords="26" />
          </areaspec>
-         <programlisting role="XML"><![CDATA[<ui:composition template="template.xhtml">
+         <programlisting language="XML"><![CDATA[<ui:composition template="template.xhtml">
    <ui:define name="content">
       <h:messages />
       <h1>Users</h1>
@@ -374,7 +374,7 @@
             <area id="id" coords="3" />
             <area id="properties" coords="5" />
          </areaspec>
-         <programlisting role="XML"><![CDATA[@Entity
+         <programlisting language="XML"><![CDATA[@Entity
 public class User {
    @Id
    private String username;
@@ -445,7 +445,7 @@ public class User {
             <area id="named" coords="2" />
             <area id="properties" coords="5" />
          </areaspec>
-         <programlisting role="XML"><![CDATA[@RequestScoped
+         <programlisting language="XML"><![CDATA[@RequestScoped
 @Named
 public class Credentials {
 
@@ -504,7 +504,7 @@ public class Credentials {
             <area id="logout" coords="24" />
             <area id="currentUser" coords="34" />
          </areaspec>
-         <programlisting role="XML"><![CDATA[@SessionScoped
+         <programlisting language="XML"><![CDATA[@SessionScoped
 @Named
 public class Login implements Serializable {
 
@@ -599,7 +599,7 @@ public class Login implements Serializable {
          deployment descriptor. Let's first look at the interface, and the manual transaction control variant. 
       </para>
 
-      <programlisting role="JAVA"><![CDATA[public interface UserManager {
+      <programlisting language="JAVA"><![CDATA[public interface UserManager {
 
    public List<User> getUsers() throws Exception;
 
@@ -627,7 +627,7 @@ public class Login implements Serializable {
             <area id="findUser" coords="51" />
             <area id="newUser" coords="78" />
          </areaspec>
-         <programlisting role="XML"><![CDATA[@Named("userManager")
+         <programlisting language="JAVA"><![CDATA[@Named("userManager")
 @RequestScoped
 public class ManagedBeanUserManager implements UserManager {
 
@@ -793,7 +793,7 @@ public class ManagedBeanUserManager implements UserManager {
             Now, let's look at <literal>EJBUserManager</literal>:
          </para>
 
-         <programlisting role="XML"><![CDATA[@Named("userManager")
+         <programlisting language="JAVA"><![CDATA[@Named("userManager")
 @RequestScoped
 @Alternative
 @Stateful
@@ -863,7 +863,7 @@ public class EJBUserManager implements UserManager {
             <area id="em" coords="7" />
             <area id="logger" coords="10" />
          </areaspec>
-         <programlisting role="XML"><![CDATA[public class Resources {
+         <programlisting language="JAVA"><![CDATA[public class Resources {
 
    // Expose an entity manager using the resource producer pattern
    @SuppressWarnings("unused")

@@ -121,7 +121,7 @@
           that this application uses JSF. Thus, the configuration consists of only the root element.
       </para>
       
-      <programlisting role="XML"><![CDATA[<faces-config version="2.0"
+      <programlisting language="XML"><![CDATA[<faces-config version="2.0"
    xmlns="http://java.sun.com/xml/ns/javaee"
    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
    xsi:schemaLocation="
@@ -150,7 +150,7 @@
             <area id="validator" coords="41" />
             <area id="submit" coords="42" />
          </areaspec>
-         <programlisting role="XML"><![CDATA[<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+         <programlisting language="XML"><![CDATA[<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
    xmlns:ui="http://java.sun.com/jsf/facelets"
@@ -249,7 +249,7 @@
          <literal>@Random</literal> qualifier, used for injecting a random number:
       </para>
       
-      <programlisting role="JAVA"><![CDATA[@Qualifier
+      <programlisting language="JAVA"><![CDATA[@Qualifier
 @Target( { TYPE, METHOD, PARAMETER, FIELD })
 @Retention(RUNTIME)
 public @interface Random {}]]></programlisting>
@@ -259,7 +259,7 @@ public @interface Random {}]]></programlisting>
          injecting the maximum number that can be injected:
       </para>
       
-      <programlisting role="JAVA"><![CDATA[@Qualifier
+      <programlisting language="JAVA"><![CDATA[@Qualifier
 @Target( { TYPE, METHOD, PARAMETER, FIELD })
 @Retention(RUNTIME)
 public @interface MaxNumber {}
@@ -270,7 +270,7 @@ public @interface MaxNumber {}
          producer method. It also exposes the maximum possible number via a producer method:
       </para>
 
-      <programlisting role="JAVA"><![CDATA[@ApplicationScoped
+      <programlisting language="JAVA"><![CDATA[@ApplicationScoped
 public class Generator implements Serializable {
 
    private java.util.Random random = new java.util.Random(System.currentTimeMillis());
@@ -315,7 +315,7 @@ public class Generator implements Serializable {
          only required when you want to make the bean accessible to a JSF view via EL (i.e., #{game}).
       </para>
          
-      <programlisting role="JAVA"><![CDATA[@Named
+      <programlisting language="JAVA"><![CDATA[@Named
 @SessionScoped
 public class Game implements Serializable {
 
