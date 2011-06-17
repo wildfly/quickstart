@@ -12,7 +12,7 @@
    </para>
 
    <para>
-      Switch to the <literal>quickstarts/login</literal> directory and instruct Maven to build
+      Switch to the <code>quickstarts/login</code> directory and instruct Maven to build
       and deploy the application:
    </para>
 
@@ -29,8 +29,8 @@
    </para>
 
    <para>
-      Try logging with the username <literal>demo</literal> and password <literal>demo</literal>.
-      Now, click on <literal>Logout</literal> and then on <literal>View Users</literal>. From this
+      Try logging with the username <code>demo</code> and password <code>demo</code>.
+      Now, click on <code>Logout</code> and then on <code>View Users</code>. From this
       screen you can add yourself as a user, and then login as this user.
    </para>
 
@@ -41,12 +41,12 @@
       <itemizedlist>
          <listitem>
             <para>
-               <literal>mvn jboss-as:deploy</literal> - deploy any changes to the application to the application server
+               <code>mvn jboss-as:deploy</code> - deploy any changes to the application to the application server
             </para>
          </listitem>
          <listitem>
             <para>
-               <literal>mvn jboss-as:undeploy</literal> - undeploy the example from JBoss AS
+               <code>mvn jboss-as:undeploy</code> - undeploy the example from JBoss AS
             </para>
          </listitem>
       </itemizedlist>
@@ -62,8 +62,8 @@
       </para>
       
       <para>
-         With the quickstarts imported, you can deploy the example by right clicking on the <literal>jboss-as-login</literal>
-         project, and choosing <literal>Run As -> Run On Server</literal>:
+         With the quickstarts imported, you can deploy the example by right clicking on the <code>jboss-as-login</code>
+         project, and choosing <code>Run As -> Run On Server</code>:
       </para>
       
       <mediaobject>
@@ -74,7 +74,7 @@
       </mediaobject>
       
       <para>
-         Make sure the JBoss AS 7 server is selected, and hit <literal>Finish</literal>:
+         Make sure the JBoss AS 7 server is selected, and hit <code>Finish</code>:
       </para>
       
       <mediaobject>
@@ -115,18 +115,18 @@
       
       <para>
          The login example is comprised of two JSF views, an entity, and a number of CDI beans. Additionally, there
-         are the usual configuration files in <literal>WEB-INF/</literal> (which can be found in the 
-         <literal>src/main/webapp</literal> directory of the example). Here we find <literal>beans.xml</literal> and 
-         <literal>faces-config.xml</literal> tell JBoss AS 7 to enable CDI and JSF for the application.
-         Notice that we don't need a <literal>web.xml</literal>. There are two new configuration files in
-         <literal>WEB-INF/classes/META-INF</literal> (which can be found in the <literal>src/main/resources</literal>
-         directory of the example) &mdash; <literal>persistence.xml</literal>, which sets up JPA, and 
-         <literal>import.sql</literal> which Hibernate, the JPA provider in JBoss AS 7, will use to load the initial 
+         are the usual configuration files in <code>WEB-INF/</code> (which can be found in the 
+         <code>src/main/webapp</code> directory of the example). Here we find <code>beans.xml</code> and 
+         <code>faces-config.xml</code> tell JBoss AS 7 to enable CDI and JSF for the application.
+         Notice that we don't need a <code>web.xml</code>. There are two new configuration files in
+         <code>WEB-INF/classes/META-INF</code> (which can be found in the <code>src/main/resources</code>
+         directory of the example) &mdash; <code>persistence.xml</code>, which sets up JPA, and 
+         <code>import.sql</code> which Hibernate, the JPA provider in JBoss AS 7, will use to load the initial 
          users into the application when the application starts.
       </para>
       
       <para>
-         <literal>persistence.xml</literal> is pretty straight forward, and links JPA to a datasource:
+         <code>persistence.xml</code> is pretty straight forward, and links JPA to a datasource:
       </para>
       
       <programlistingco>
@@ -171,7 +171,7 @@
 </programlistingco>
       
       <para>
-         Let's take a look at the JSF views. First up is <literal>template.xhtml</literal>:
+         Let's take a look at the JSF views. First up is <code>template.xhtml</code>:
       </para>
       
       <programlistingco>
@@ -347,8 +347,8 @@
             <callout arearefs="table">
                <para>
                   The table which displays the current users in the database. The datatable references the 
-                  <literal>users</literal>, and iterates over each one. Each user is assigned to the variable 
-                  <literal>u</literal>, which we can use when laying out the table struture.
+                  <code>users</code>, and iterates over each one. Each user is assigned to the variable 
+                  <code>u</code>, which we can use when laying out the table struture.
                </para>
             </callout>
             <callout arearefs="header">
@@ -414,13 +414,13 @@ public class User {
          <calloutlist>
             <callout arearefs="entity">
                <para>
-                  The <literal>@Entity</literal> annotation used on the class tells JPA that this class should
+                  The <code>@Entity</code> annotation used on the class tells JPA that this class should
                   be mapped as a table in the database.
                </para>
             </callout>
             <callout arearefs="id">
                <para>
-                  Every entity requires an id, the <literal>@Id</literal> annotation placed on a field (or a 
+                  Every entity requires an id, the <code>@Id</code> annotation placed on a field (or a 
                   JavaBean mutator/accessor) tells JPA that this property is the id. You can use a synthetic id,
                   or a natural id (as we do here). 
                </para>
@@ -435,7 +435,7 @@ public class User {
       </programlistingco>
 
       <para>
-         Next up, let's take a look at <literal>Credentials.java</literal>, a data structure used to 
+         Next up, let's take a look at <code>Credentials.java</code>, a data structure used to 
          temporarily hold the credentials the user has entered whilst logging in. 
       </para>
       
@@ -491,7 +491,7 @@ public class Credentials {
 
       <para>
         The logic allowing a user to log in, and storing who is currently logged in, is encoded in 
-        <literal>Login.java</literal>:
+        <code>Login.java</code>:
       </para>
 
       <programlistingco>
@@ -558,7 +558,7 @@ public class Login implements Serializable {
             </callout>
             <callout arearefs="credentials">
                <para>
-                  We inject the credentials filled in on the web page so we can check them in the <literal>login()</literal>
+                  We inject the credentials filled in on the web page so we can check them in the <code>login()</code>
                   method.
                </para>
             </callout>
@@ -569,22 +569,22 @@ public class Login implements Serializable {
             </callout>
             <callout arearefs="loginmethod">
                <para>
-                  The login method is triggered when the <literal>Login</literal> button is pressed. It asks the
-                  <literal>userManager</literal> to find a user with matching username and password, and if a user
-                  is found, sets the <literal>currentUser</literal> and displays a message to the user.
+                  The login method is triggered when the <code>Login</code> button is pressed. It asks the
+                  <code>userManager</code> to find a user with matching username and password, and if a user
+                  is found, sets the <code>currentUser</code> and displays a message to the user.
                </para>
             </callout>
             <callout arearefs="logout">
                <para>
-                  The logout method is triggered when the <literal>Logout</literal> button is pressed. It clears
-                  the <literal>currentUser</literal> and displays a message to the user.
+                  The logout method is triggered when the <code>Logout</code> button is pressed. It clears
+                  the <code>currentUser</code> and displays a message to the user.
                </para>
             </callout>
             <callout arearefs="currentUser">
                <para>
                   The current user is exposed to the application using a producer method, which means that there is
-                  no coupling between a class wanting to know the current user, and the <literal>Login</literal> class.
-                  The <literal>LoggedIn</literal> qualifier is used to indicate that this <literal>User</literal> is
+                  no coupling between a class wanting to know the current user, and the <code>Login</code> class.
+                  The <code>LoggedIn</code> qualifier is used to indicate that this <code>User</code> is
                   special.
                </para>
             </callout>
@@ -594,7 +594,7 @@ public class Login implements Serializable {
       <para>
          Now, let's look at the the most interesting part of the application, how we interact with the database.
          As we mentioned earlier, by default the application uses the JTA API to manually control transactions.
-         To implement both approaches, we've defined a <literal>UserManager</literal> interface, with two 
+         To implement both approaches, we've defined a <code>UserManager</code> interface, with two 
          implementations, one of which (the EJB variant) is as an alternative which can be enabled via a 
          deployment descriptor. Let's first look at the interface, and the manual transaction control variant. 
       </para>
@@ -613,7 +613,7 @@ public class Login implements Serializable {
 
       <para>
          The methods are fairly self explanatory, so let's move on quickly to the implementation, 
-         <literal>ManagedBeanUserManager</literal>:
+         <code>ManagedBeanUserManager</code>:
       </para>
       
             <programlistingco>
@@ -732,7 +732,7 @@ public class ManagedBeanUserManager implements UserManager {
             </callout>
             <callout arearefs="em">
                <para>
-                  We inject the entity manager. This was set up in <literal>persistence.xml</literal>.
+                  We inject the entity manager. This was set up in <code>persistence.xml</code>.
                </para>
             </callout>
             <callout arearefs="getUsers">
@@ -744,7 +744,7 @@ public class ManagedBeanUserManager implements UserManager {
             </callout>
             <callout arearefs="addUser">
                <para>
-                  <literal>addUser</literal> takes the <literal>newUser</literal> and persists it to the
+                  <code>addUser</code> takes the <code>newUser</code> and persists it to the
                   database.
                </para>
             </callout>
@@ -756,7 +756,7 @@ public class ManagedBeanUserManager implements UserManager {
             </callout>
             <callout arearefs="newUser">
                <para>
-                  The <literal>newUser</literal> is exposed to JSF by using a named producer method.
+                  The <code>newUser</code> is exposed to JSF by using a named producer method.
                </para>
             </callout>
          </calloutlist>
@@ -770,10 +770,10 @@ public class ManagedBeanUserManager implements UserManager {
       </para>
       
       <para>
-         The class <literal>EJBUserManager</literal> provides this, and is defined as an alternative. Alternatives
+         The class <code>EJBUserManager</code> provides this, and is defined as an alternative. Alternatives
          are disabled by default, and when enabled replace the original implementation. In order
-         to enable this variant of <literal>UserManager</literal>, edit <literal>beans.xml</literal> and
-         uncomment the alternative. Your <literal>beans.xml</literal> should now look like:
+         to enable this variant of <code>UserManager</code>, edit <code>beans.xml</code> and
+         uncomment the alternative. Your <code>beans.xml</code> should now look like:
       </para>
       
       <programlisting><![CDATA[<beans xmlns="http://java.sun.com/xml/ns/javaee"
@@ -790,7 +790,7 @@ public class ManagedBeanUserManager implements UserManager {
 
 
          <para>
-            Now, let's look at <literal>EJBUserManager</literal>:
+            Now, let's look at <code>EJBUserManager</code>:
          </para>
 
          <programlisting language="JAVA"><![CDATA[@Named("userManager")
@@ -853,7 +853,7 @@ public class EJBUserManager implements UserManager {
       </para>         
       
       <para>
-         Finally, let's take a look at the <literal>Resources</literal> class, which provides resources
+         Finally, let's take a look at the <code>Resources</code> class, which provides resources
          such as the entity manager. CDI recommends using "resource producers", as we do in this example,
          to alias resources to CDI beans, allowing for a  consistent style throughout our application:
       </para>
@@ -882,7 +882,7 @@ public class EJBUserManager implements UserManager {
             <callout arearefs="em">
                <para>
                   We use the "resource producer" pattern, from CDI, to "alias" the old fashioned 
-                  <literal>@PersistenceContext</literal> injection of the entity manager to a CDI
+                  <code>@PersistenceContext</code> injection of the entity manager to a CDI
                   style injection. This allows us to use.
                </para>
             </callout>

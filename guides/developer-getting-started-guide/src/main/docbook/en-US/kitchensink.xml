@@ -10,7 +10,7 @@
    </para>
 
    <para>
-      Switch to the <literal>quickstarts/kitchensink</literal> directory and instruct Maven to build
+      Switch to the <code>quickstarts/kitchensink</code> directory and instruct Maven to build
       and deploy the application:
    </para>
 
@@ -39,12 +39,12 @@
       <itemizedlist>
          <listitem>
             <para>
-               <literal>mvn jboss-as:deploy</literal> - deploy any changes to the application to the application server
+               <code>mvn jboss-as:deploy</code> - deploy any changes to the application to the application server
             </para>
          </listitem>
          <listitem>
             <para>
-               <literal>mvn jboss-as:undeploy</literal> - undeploy the example from JBoss AS
+               <code>mvn jboss-as:undeploy</code> - undeploy the example from JBoss AS
             </para>
          </listitem>
       </itemizedlist>
@@ -60,8 +60,8 @@
       </para>
       
       <para>
-         With the quickstarts imported, you can deploy the example by right clicking on the <literal>jboss-as-kitchensink</literal>
-         project, and choosing <literal>Run As -> Run On Server</literal>:
+         With the quickstarts imported, you can deploy the example by right clicking on the <code>jboss-as-kitchensink</code>
+         project, and choosing <code>Run As -> Run On Server</code>:
       </para>
       
       <mediaobject>
@@ -72,7 +72,7 @@
       </mediaobject>
       
       <para>
-         Make sure the JBoss AS 7 server is selected, and hit <literal>Finish</literal>:
+         Make sure the JBoss AS 7 server is selected, and hit <code>Finish</code>:
       </para>
       
       <mediaobject>
@@ -98,7 +98,7 @@
          <para>
             Additional configuration is required to get Eclipse to generate the JPA metamodel. The archetype 
             includes the necessary Eclipse config files in your project. To enable this feature, right click
-            on the project and select <literal>Properties > Java Compiler > Annotation Processing</literal>:
+            on the project and select <code>Properties > Java Compiler > Annotation Processing</code>:
          </para>
          
          <mediaobject>
@@ -155,19 +155,19 @@
       
       <para>
          As usual, let's start by looking at the necessary deployment descriptors. By now, we're very used to
-         seeing <literal>beans.xml</literal> and <literal>faces-config.xml</literal> in 
-         <literal>WEB-INF/</literal> (which can be found in the <literal>src/main/webapp</literal> directory of the 
-         example). Notice that, once again, we don't need a <literal>web.xml</literal>. There are two new configuration
-         files in <literal>WEB-INF/classes/META-INF</literal> (which can be found in the <literal>src/main/resources</literal>
-         directory of the example) &mdash; <literal>persistence.xml</literal>, which sets up JPA, and 
-         <literal>import.sql</literal> which Hibernate, the JPA provider in JBoss AS 7, will use to load the initial 
+         seeing <code>beans.xml</code> and <code>faces-config.xml</code> in 
+         <code>WEB-INF/</code> (which can be found in the <code>src/main/webapp</code> directory of the 
+         example). Notice that, once again, we don't need a <code>web.xml</code>. There are two new configuration
+         files in <code>WEB-INF/classes/META-INF</code> (which can be found in the <code>src/main/resources</code>
+         directory of the example) &mdash; <code>persistence.xml</code>, which sets up JPA, and 
+         <code>import.sql</code> which Hibernate, the JPA provider in JBoss AS 7, will use to load the initial 
          users into the application when the application starts. We discussed both of these files in detail in
          <xref linkend="login.indepth" />, and these are largely the same.
       </para>
       
       <para>
          Next, let's take a look at the JSF view the user sees. As usual, we use a template to provide the sidebar and
-         footer. This one lives in <literal>WEB-INF/templates/default.xhtml</literal>:
+         footer. This one lives in <code>WEB-INF/templates/default.xhtml</code>:
       </para>
       
             <programlistingco>
@@ -241,7 +241,7 @@
          <calloutlist>
             <callout arearefs="head">
                <para>
-                  We have a common <literal>&lt;head&gt;</literal> element, where we define styles and more
+                  We have a common <code>&lt;head&gt;</code> element, where we define styles and more
                </para>
             </callout>
             <callout arearefs="sidebar">
@@ -259,7 +259,7 @@
       </programlistingco>
       
       <para>
-         That leaves the main page, <literal>index.xhtml</literal>, in which we place the content unique to the
+         That leaves the main page, <code>index.xhtml</code>, in which we place the content unique to the
          main page:
       </para>
       
@@ -351,7 +351,7 @@
             <callout arearefs="error">
                <para>
                   The application uses Bean Validation to validate data entry. The error messages from Bean Validation are
-                  automatically attached to the relevant field by JSF, and adding a <literal>messages</literal> JSF
+                  automatically attached to the relevant field by JSF, and adding a <code>messages</code> JSF
                   component will display them                  
                </para>
             </callout>
@@ -365,7 +365,7 @@
       </programlistingco>
       
       <para>
-         Next, let's take a look at the <literal>Member</literal> entity, before we look at how the application is wired
+         Next, let's take a look at the <code>Member</code> entity, before we look at how the application is wired
          together:
       </para>
       
@@ -439,13 +439,13 @@ public class Member implements Serializable {
          <calloutlist>
             <callout arearefs="entity">
                <para>
-                  As usual with JPA, we define that the class is an entity by adding <literal>@Entity</literal>
+                  As usual with JPA, we define that the class is an entity by adding <code>@Entity</code>
                </para>
             </callout>
             <callout arearefs="jaxrs">
                <para>
                   Members are exposed as a RESTful service using JAX-RS. We can use JAXB to map the object to XML
-                  and to do this we need to add <literal>@XmlRootElement</literal>.               
+                  and to do this we need to add <code>@XmlRootElement</code>.               
                </para>
             </callout>
             <callout arearefs="validation">
@@ -456,12 +456,12 @@ public class Member implements Serializable {
             </callout>
             <callout arearefs="validation-email">
                <para>
-                  Hibernate Validator also offers some extra validations such as <literal>@Email</literal>
+                  Hibernate Validator also offers some extra validations such as <code>@Email</code>
                </para>
             </callout>
             <callout arearefs="validation-digits">
                <para>
-                  <literal>@Digits</literal>, <literal>@NotNull</literal> and <literal>@Size</literal> are further
+                  <code>@Digits</code>, <code>@NotNull</code> and <code>@Size</code> are further
                   examples of constraints
                </para>
             </callout>
@@ -469,7 +469,7 @@ public class Member implements Serializable {
       </programlistingco>
       
       <para>
-         Next, let's take a look at <literal>MemberListProducer</literal>, which is responsible for building
+         Next, let's take a look at <code>MemberListProducer</code>, which is responsible for building
          the list of members, ordered by name. It uses JPA 2 criteria to do this.
       </para>
       
@@ -513,7 +513,7 @@ public class MemberListProducer {
          <calloutlist>
             <callout arearefs="requestscoped">
                <para>
-                  This bean is request scoped, meaning that any fields (such as <literal>members</literal>) 
+                  This bean is request scoped, meaning that any fields (such as <code>members</code>) 
                   will be stored for the entire request
                </para>
             </callout>
@@ -539,7 +539,7 @@ public class MemberListProducer {
       </programlistingco>
       
       <para>
-         Let's now look at <literal>MemberRegistration</literal>, the class that allows us to create new members
+         Let's now look at <code>MemberRegistration</code>, the class that allows us to create new members
          from the JSF page
       </para>
       
@@ -593,8 +593,8 @@ public class MemberRegistration {
             </callout>
             <callout arearefs="model">
                <para>   
-                  Stereotypes, such as <literal>@Model</literal> allow grouping of common functionality. Here
-                  we use the built in <literal>@Model</literal> stereotype to give us a request scoped, named
+                  Stereotypes, such as <code>@Model</code> allow grouping of common functionality. Here
+                  we use the built in <code>@Model</code> stereotype to give us a request scoped, named
                   bean.
                </para>
             </callout>
@@ -614,7 +614,7 @@ public class MemberRegistration {
       </programlistingco>
       
       <para>
-         Now, let's take a look at the <literal>Resources</literal> class, which provides resources
+         Now, let's take a look at the <code>Resources</code> class, which provides resources
          such as the entity manager. CDI recommends using "resource producers", as we do in this example,
          to alias resources to CDI beans, allowing for a  consistent style throughout our application:
       </para>
@@ -637,7 +637,7 @@ public class MemberRegistration {
             <callout arearefs="em">
                <para>
                   We use the "resource producer" pattern, from CDI, to "alias" the old fashioned 
-                  <literal>@PersistenceContext</literal> injection of the entity manager to a CDI
+                  <code>@PersistenceContext</code> injection of the entity manager to a CDI
                   style injection. This allows us to use.
                </para>
             </callout>
@@ -652,12 +652,12 @@ public class MemberRegistration {
       
       <para>
          Before we wrap up our tour of the kitchensink example, let's take a look at how the JAX-RS endpoints
-         are created. Firstly, <literal>JaxRSActivator</literal>, which extends <literal>Application</literal> and is 
-         annotated with <literal>@ApplicationPath</literal>, is the Java EE 6 "no XML" approach to activating JAX-RS.
+         are created. Firstly, <code>JaxRSActivator</code>, which extends <code>Application</code> and is 
+         annotated with <code>@ApplicationPath</code>, is the Java EE 6 "no XML" approach to activating JAX-RS.
       </para>
       
       <para>
-         The real work goes in <literal>MemberResourceRESTService</literal>, which produces the endpoint:
+         The real work goes in <code>MemberResourceRESTService</code>, which produces the endpoint:
       </para>
       
       <programlistingco>
@@ -689,8 +689,8 @@ public class MemberResourceRESTService {
          <calloutlist>
             <callout arearefs="path">
                <para>
-                  The <literal>@Path</literal> annotation tells JAX-RS that this class provides a REST endpoint
-                  mapped to <literal>rest/members</literal> (concatenating the path from the activator with the
+                  The <code>@Path</code> annotation tells JAX-RS that this class provides a REST endpoint
+                  mapped to <code>rest/members</code> (concatenating the path from the activator with the
                   path for this endpoint).
                </para>
             </callout>
@@ -701,13 +701,13 @@ public class MemberResourceRESTService {
             </callout>
             <callout arearefs="get-list">
                <para>
-                  The <literal>listAllMembers()</literal> method is called when the raw endpoint is accessed and
+                  The <code>listAllMembers()</code> method is called when the raw endpoint is accessed and
                   offers up a list of endpoints. Notice that the object is automatically mapped to XML by JAXB.
                </para>
             </callout>
             <callout arearefs="get-member">
                <para>
-                  The <literal>lookupMemberById()</literal> method is called when the endpoint is accessed with a
+                  The <code>lookupMemberById()</code> method is called when the endpoint is accessed with a
                   member id parameter appended (for example rest/members/1). Again, the object is automatically 
                   mapped to XML by JAXB.
                </para>
@@ -774,29 +774,29 @@ name: Java EE 6 webapp project
 $></programlisting><calloutlist>
             <callout arearefs="groupId">
                <para>
-                  Enter the <literal>groupId</literal> you wish to use
+                  Enter the <code>groupId</code> you wish to use
                </para>
             </callout>
             <callout arearefs="artifactId">
                <para>
-                  Enter the <literal>artifactId</literal> you wish to use
+                  Enter the <code>artifactId</code> you wish to use
                </para>
             </callout>
             <callout arearefs="version">
                <para>
-                  Enter the version you wish to use, or just hit <literal>Enter</literal> if you wish to accept the
-                  default <literal>1.0-SNAPSHOT</literal>
+                  Enter the version you wish to use, or just hit <code>Enter</code> if you wish to accept the
+                  default <code>1.0-SNAPSHOT</code>
                </para>
             </callout>
             <callout arearefs="package">
                <para>
-                  Enter the java package you wish to use, or just hit <literal>Enter</literal> if you wish to accept the
-                  default (which is copied from <literal>groupId</literal>).
+                  Enter the java package you wish to use, or just hit <code>Enter</code> if you wish to accept the
+                  default (which is copied from <code>groupId</code>).
                </para>
             </callout>
             <callout arearefs="confirm">
                <para>
-                  Finally, if you are happy with your choices, hit <literal>Enter</literal> and Maven will generate the
+                  Finally, if you are happy with your choices, hit <code>Enter</code> and Maven will generate the
                   project for you
                </para>
             </callout>
@@ -804,13 +804,13 @@ $></programlisting><calloutlist>
       </programlistingco>
       
       <para>
-         And that's it, you now have a brand new project with the same functionality as <literal>kitchensink</literal>,
+         And that's it, you now have a brand new project with the same functionality as <code>kitchensink</code>,
          but customised with your details.
       </para>
       
       <para>
          Of course, you can create a project from the archetype using Eclipse, saving you the step of importing it. First,
-         choose <literal>File -> New -> Other</literal>:
+         choose <code>File -> New -> Other</code>:
       </para>
       
       <mediaobject>
@@ -821,7 +821,7 @@ $></programlisting><calloutlist>
       </mediaobject>
       
       <para>
-         Select the <literal>Maven Project</literal> wizard:
+         Select the <code>Maven Project</code> wizard:
       </para>
       
       <mediaobject>
@@ -832,7 +832,7 @@ $></programlisting><calloutlist>
       </mediaobject>
       
       <para>
-         If you wish, customize the project creation, otherwise, just hit <literal>Next ></literal>:
+         If you wish, customize the project creation, otherwise, just hit <code>Next ></code>:
       </para>
       
       <mediaobject>
@@ -843,7 +843,7 @@ $></programlisting><calloutlist>
       </mediaobject>
       
       <para>
-         Locate the <literal>jboss-javaee6-webapp</literal> archetype:
+         Locate the <code>jboss-javaee6-webapp</code> archetype:
       </para>
       
       <mediaobject>
@@ -854,8 +854,8 @@ $></programlisting><calloutlist>
       </mediaobject>
       
       <para>
-         Now, fill in the <literal>groupId</literal> and <literal>artifactId</literal>, and hit
-         <literal>Finish</literal>:
+         Now, fill in the <code>groupId</code> and <code>artifactId</code>, and hit
+         <code>Finish</code>:
       </para>
       
       <mediaobject>
