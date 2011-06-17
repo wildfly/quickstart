@@ -5,7 +5,7 @@
 
   <groupId>org.jboss.as.quickstarts</groupId>
   <artifactId>jboss-as-helloworld-osgi</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
+  <version>7.0.0-SNAPSHOT</version>
   <packaging>bundle</packaging>
   <name>JBoss AS Quickstarts: Helloworld OSGi</name>
 
@@ -30,16 +30,28 @@
   <build>
     <plugins>
       <plugin>
+        <!-- This plugin takes care of packaging the artifact as an OSGi Bundle -->
         <groupId>org.apache.felix</groupId>
         <artifactId>maven-bundle-plugin</artifactId>
         <version>2.3.4</version>
         <extensions>true</extensions>
         <configuration>
           <instructions>
+            <!-- OSGi Manifest Metadata is specified here -->
+            <!-- The Bundle SymbolicName is the same as the artifact ID -->
             <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+
+            <!-- Specify the Bundle activator, which is invoked when the Bundle is started -->
             <Bundle-Activator>org.jboss.as.quickstarts.helloworld.osgi.Activator</Bundle-Activator>
+
+            <!-- Automatically compute all the necessary Import-Package statements -->
             <Import-Package>*</Import-Package>
+
+            <!-- This bundle does not export any packages -->
             <Export-Package/>
+
+            <!-- Packages that are not exported but need to be included need to be 
+                 listed as Private-Package -->
             <Private-Package>org.jboss.as.quickstarts.helloworld.osgi</Private-Package>
           </instructions>
         </configuration>
