@@ -25,7 +25,7 @@
       <jboss.home>${env.JBOSS_HOME}</jboss.home>
       <!-- externalize versions we need to refer to more than once -->
       <arquillian.version>1.0.0.Alpha5</arquillian.version>
-      <jboss-javaee6-spec.version>2.0.0.Beta1</jboss-javaee6-spec.version>
+      <jboss-javaee6-spec.version>2.0.0.CR1</jboss-javaee6-spec.version>
    </properties>
 
    <repositories>
@@ -119,6 +119,23 @@
          <version>${arquillian.version}</version>
          <scope>test</scope>
       </dependency>
+      
+      <!-- Include the JBoss' Java EE 6 APIs -->
+      <!-- JBoss distributes a complete set of Java EE 6 APIs including a 
+      Bill of Materials (BOM). A BOM specifies the versions of a "stack" (or a 
+      collection) of artifacts. We use this here so that we always get the correct 
+      versions of artifacts. Here we use the jboss-javaee-web-6.0 stack (you can read 
+      this as the JBoss stack of the Java EE 6 Web Profile APIs), and we use version 2.0.0.Beta1 
+      which is the latest release of the stack. You can actually use this stack 
+      with any version of JBoss AS that implements Java EE 6, not just JBoss AS 
+      7! -->
+      <dependency>
+         <groupId>org.jboss.spec</groupId>
+         <artifactId>jboss-javaee-web-6.0</artifactId>
+         <version>2.0.0.CR1</version>
+         <type>pom</type>
+         <scope>provided</scope>
+      </dependency>
    </dependencies>
 
    <build>
@@ -158,18 +175,6 @@
          <activation>
             <activeByDefault>true</activeByDefault>
          </activation>
-         <dependencies>
-            <!-- Java EE 6 API dependency -->
-            <!-- This one dependency imports all APIs available for a Java 
-               EE 6.0 application -->
-            <dependency>
-               <groupId>org.jboss.spec</groupId>
-               <artifactId>jboss-javaee-6.0</artifactId>
-               <version>${jboss-javaee6-spec.version}</version>
-               <type>pom</type>
-               <scope>provided</scope>
-            </dependency>
-         </dependencies>
          <build>
             <plugins>
                <plugin>
@@ -203,16 +208,6 @@
                <artifactId>arquillian-jbossas-remote-7</artifactId>
                <version>${arquillian.version}</version>
                <scope>test</scope>
-            </dependency>
-            <!-- Java EE 6 API dependency -->
-            <!-- This one dependency imports all APIs available for a Java 
-               EE 6.0 application -->
-            <dependency>
-               <groupId>org.jboss.spec</groupId>
-               <artifactId>jboss-javaee-6.0</artifactId>
-               <version>${jboss-javaee6-spec.version}</version>
-               <type>pom</type>
-               <scope>provided</scope>
             </dependency>
          </dependencies>
       </profile>
