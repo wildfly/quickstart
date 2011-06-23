@@ -10,10 +10,36 @@
 
    <itemizedlist>
       <listitem>
-         <para>the JBoss AS 7 distribution zip, which contains the examples</para>
+         <para>Java 1.6, to run JBoss AS and Maven</para>
       </listitem>
       <listitem>
          <para>Maven 3, to build and deploy the examples</para>
+      </listitem>
+      <listitem>
+         <para>the JBoss AS 7 distribution zip, which contains the examples</para>
+      </listitem>
+   </itemizedlist>
+   
+   <note>
+      <para>
+         If you already have any of these pieces of software, there is no need to install them again!
+      </para>
+   </note>
+   
+   <para>
+      Choose your Java runtime, and follow their installation instructions. For example, you could
+      choose one of:
+   </para>
+   
+   <itemizedlist>
+      <listitem>
+         <para><ulink url="http://openjdk.java.net/install/">OpenJDK</ulink></para>
+      </listitem>
+      <listitem>
+         <para><ulink url="http://www.oracle.com/technetwork/java/javase/index-137561.html">Oracle Java SE</ulink></para>
+      </listitem>
+      <listitem>
+         <para><ulink url="http://download.oracle.com/docs/cd/E15289_01/doc.40/e15065/toc.htm">Oracle Jrockit</ulink></para>
       </listitem>
    </itemizedlist>
    
@@ -52,7 +78,25 @@
       <title>Installing and starting JBoss AS 7 on Linux, Unix or Mac OS X</title>
       
       <para>
-         First, we need to choose a location for JBoss AS to live. By default, JBoss AS 7 will be extracted
+         First, let's verify that verify that both Java and Maven are correctly installed. In a console, type: 
+      </para>
+      
+      <programlisting>java -version</programlisting>
+      
+      <para>
+         You should see a version string (at least <code>1.6.0</code>) printed. If not, contact your provider
+         of Java for assistance. Next, type:
+      </para>
+      
+      <programlisting>mvn --version</programlisting>
+      
+      <para>
+         You should see a version string (at lest <code>3.0.0</code>) printed. If not, contact the Maven 
+         community for assistance.
+      </para>
+      
+      <para>
+         Next, we need to choose a location for JBoss AS to live. By default, JBoss AS 7 will be extracted
          into <code>jboss-7.x.x.x</code> (where 7.x.x.x matches the version you downloaded):
       </para>
          
@@ -88,7 +132,25 @@
       <title>Installing and starting JBoss AS on Windows</title>
       
       <para>
-         First, we need to choose a location for JBoss AS to live. By default, JBoss AS 7 will be extracted
+         First, let's verify that verify that both Java and Maven are correctly installed. In a Command Prompt, type: 
+      </para>
+      
+      <programlisting>java -version</programlisting>
+      
+      <para>
+         You should see a version string (at least <code>1.6.0</code>) printed. If not, contact your provider
+         of Java for assistance. Next, type:
+      </para>
+      
+      <programlisting>mvn --version</programlisting>
+      
+      <para>
+         You should see a version string (at lest <code>3.0.0</code>) printed. If not, contact the Maven 
+         community for assistance.
+      </para>
+      
+      <para>
+         Next, we need to choose a location for JBoss AS to live. By default, JBoss AS 7 will be extracted
          into <code>jboss-7.x.x.x</code> (where 7.x.x.x matches the version you downloaded). Unzip JBoss AS
          using your tool of choice.
       </para>
