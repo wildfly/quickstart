@@ -47,7 +47,7 @@ You can now deploy the artifact to JBoss AS by executing the following command:
 
 This will deploy `target/jboss-javaee6-webapp-src.war`.
  
-The application will be running at the following URL [http://localhost:8080/jboss-javaee6-webapp-src/].
+The application will be running at the following URL <http://localhost:8080/jboss-javaee6-webapp-src/>.
 
 To undeploy from JBoss AS, run this command:
 
