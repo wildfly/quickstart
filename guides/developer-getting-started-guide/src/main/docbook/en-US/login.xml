@@ -29,7 +29,8 @@
    </para>
 
    <para>
-      Try logging with the username <code>demo</code> and password <code>demo</code>.
+      Visit <ulink url="http://localhost:8080/jboss-as-login">http://localhost:8080/jboss-as-login</ulink>.
+      and try logging in with the username <code>demo</code> and password <code>demo</code>.
       Now, click on <code>Logout</code> and then on <code>View Users</code>. From this
       screen you can add yourself as a user, and then login as this user.
    </para>
@@ -169,9 +170,18 @@
             </callout>
          </calloutlist>
 </programlistingco>
+
+      <note>
+         <para>
+            JBoss AS ships with a sample datasource <code>java:/H2DS</code>. This data source is backed by H2, an
+            in-memory database. Whilst this datasource is great for quickstarts, you will probably want to use a
+            different datasource in your application. The <ulink url="TODO">Getting Started Guide</ulink> tells
+            you how to create a new datasource.
+         </para>
+      </note>
       
       <para>
-         Let's take a look at the JSF views. First up is <code>template.xhtml</code>:
+         Let's take a look at the JSF views. First up is <code>home.xhtml</code>:
       </para>
       
       <programlistingco>
@@ -208,7 +218,7 @@
          <calloutlist>
             <callout arearefs="template">
                <para>
-                  As we have multiple views in this application, we've created a templated that defines the
+                  As we have multiple views in this application, we've created a template that defines the
                   common elements. We'll examine this next. Here we define the "content" section of the page,
                   which will be inserted into the template.
                </para>
@@ -221,7 +231,7 @@
             </callout>
             <callout arearefs="loginForm">
                <para>
-                  The login form is only rendered id there is no logged in user. This allows us to prevent
+                  The login form fields are only rendered if there is no logged in user. This allows us to prevent
                   someone from logging in twice.
                </para>
             </callout>
@@ -852,6 +862,13 @@ public class EJBUserManager implements UserManager {
          code from the class, but more importantly emphasises the functionality of the class. Much better!
       </para>         
       
+      <note>
+         <para>
+            Sharp eyed developers who are used to Java EE will have noticed that we have added this EJB to a war.
+            This is the key improvement offered in EJB 3.1 (which was first included in Java EE 6). 
+         </para>
+      </note>
+      
       <para>
          Finally, let's take a look at the <code>Resources</code> class, which provides resources
          such as the entity manager. CDI recommends using "resource producers", as we do in this example,
@@ -883,7 +900,8 @@ public class EJBUserManager implements UserManager {
                <para>
                   We use the "resource producer" pattern, from CDI, to "alias" the old fashioned 
                   <code>@PersistenceContext</code> injection of the entity manager to a CDI
-                  style injection. This allows us to use.
+                  style injection. This allows us to use a consistent injection style (<code>@Inject</code>)
+                  throughout the application.
                </para>
             </callout>
             <callout arearefs="logger">

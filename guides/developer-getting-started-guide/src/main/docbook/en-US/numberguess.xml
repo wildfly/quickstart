@@ -117,8 +117,9 @@
           All the configuration files for this example are located in <code>WEB-INF/</code>, which can be found in
           the <code>src/main/webapp</code> directory of the example. First, we have the JSF 2.0 version of
           <code>faces-config.xml</code>. A standardized version of Facelets is the default view handler in JSF
-          2.0, so there's really nothing that we have to configure. We just have to include this file in order to tell JBoss AS 7
-          that this application uses JSF. Thus, the configuration consists of only the root element.
+          2.0, so there's really nothing that we have to configure. JBoss AS goes above and beyond Java EE here,
+          and will automatically configure JSF for you if you include this file. Thus, the configuration consists
+          of only the root element.
       </para>
       
       <programlisting language="XML"><![CDATA[<faces-config version="2.0"
@@ -141,6 +142,13 @@
       <para>
          Let's take a look at the main JSF view, <code>src/main/webapp/home.xhtml</code>.
       </para>
+      
+      <note>
+         <para>
+            JSF uses the <code>.xhtml</code> extension for source files, but serves up the rendered views with the
+            <code>.jsf</code> extension. 
+         </para>
+      </note>
       
       <programlistingco>
          <areaspec>
@@ -245,9 +253,17 @@
       </programlistingco>
       
       <para>
-         The example exists of 4 classes, the first two of which are qualifiers.  First, there is the
+         The example consists of 4 classes, the first two of which are qualifiers.  First, there is the
          <code>@Random</code> qualifier, used for injecting a random number:
       </para>
+      
+      <note>
+         <para>
+            A <emphasis>qualifier</emphasis> is used to disambiguate between two beans both of which are
+            eligible for injection based on their type. For more, see the 
+            <ulink url="http://docs.jboss.org/weld/reference/latest/en-US/html/">Weld Reference Guide</ulink>.
+         </para>
+      </note>
       
       <programlisting language="JAVA"><![CDATA[@Qualifier
 @Target( { TYPE, METHOD, PARAMETER, FIELD })
