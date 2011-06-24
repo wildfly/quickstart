@@ -2,12 +2,29 @@
    "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd"  [ ]>
 <chapter id="kitchensink">
 
-   <title>CDI + JSF + EJB + JTA + JAX-RS + Arquilian: Kitchensink quickstart</title>
+   <title>CDI + JSF + EJB + JTA + Bean Validation + JAX-RS + Arquillian: Kitchensink quickstart</title>
    
    <para>
       This quickstart shows off all the new features of Java EE 6, and makes a great starting
-      point for your project
+      point for your project.
    </para>
+   
+   <note>
+      <title>Bean Validation</title>
+      <para>
+         Bean Validation is a new specification in Java EE 6, inspired by Hibernate Validator. It allows
+         application developers to specify constraints once (often in their domain model), and have them
+         applied in all layers of the application, protecting data and giving useful feedback to users.
+      </para>
+   </note>
+   
+   <note>
+      <title>JAX-RS: The Java API for RESTful WebServices</title>
+      <para>
+         JAX-RS is a new specification in Java EE 6. It allows application developers to easily expose
+         Java services as RESTful webservices.
+      </para>
+   </note>
 
    <para>
       Switch to the <code>quickstarts/kitchensink</code> directory and instruct Maven to build
@@ -487,7 +504,7 @@ public class MemberListProducer {
 
     private List<Member> members;
 
-    // @Named provides access the return value via the EL variable name "member" in the UI (e.g., Facelets or JSP view)
+    // @Named provides access the return value via the EL variable name "members" in the UI (e.g., Facelets or JSP view)
     @Produces
     @Named
     public List<Member> getMembers() {
@@ -612,6 +629,14 @@ public class MemberRegistration {
             </callout>
          </calloutlist>
       </programlistingco>
+      
+      <note>
+         <para>
+            Seam Solder is a swiss army knife for any CDI based application. It offers some basic additions to
+            the CDI programming model (such as an injectable, type-safe, logger) as well as utilities for developing
+            CDI extensions. You can read more on the <ulink url="http://seamframework.org/Seam3/Solder">Solder project page</ulink>. 
+         </para>
+      </note>
       
       <para>
          Now, let's take a look at the <code>Resources</code> class, which provides resources
