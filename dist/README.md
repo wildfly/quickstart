@@ -1,11 +1,7 @@
 Distribution
 ============
 
-This is a Maven assembly to create a zip distro of the docs. To run, make sure all the docs are build
-
-    mvn -f ../guides/pom.xml clean install
-
-And then run the
+This is a Maven assembly to create a zip distro of the quickstarts. To run 
 
     mvn clean install
 

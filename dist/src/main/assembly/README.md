@@ -1,16 +1,13 @@
-JBoss AS Documentation 
-======================
+JBoss AS Quickstarts
+====================
 
-This is the documentation JBoss AS 7. You will find a detailed tutorials in `guides`,
-including:
+These are the quickstarts JBoss AS 7. You will find detailed tutorials in the
+various guides at.
+<https://docs.jboss.org/author/display/AS7>
 
-* Getting started developing and deploying applications using JBoss AS 7 in 
-  `developer-getting-started-guide/en-US/html/index.htmlz.  
-
-JBoss AS also comes with several quickstart applications, which are discussed in more 
-detail in the various guides. You can find them in `quickstarts`.
-
-Developer getting started guide:
+The Getting Started Developing Applications Guide -
+<https://docs.jboss.org/author/display/AS7/Getting+Started+Developing+Applications+Guide>
+contains tutorials for:
 
 * `helloworld` - CDI + Servlet
 * `numberguess` - CDI + JSF

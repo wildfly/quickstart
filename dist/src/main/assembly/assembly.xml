@@ -4,7 +4,7 @@
    xsi:schemaLocation="
               http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/assembly-1.1.1.xsd">
    <id>dist</id>
-   <baseDirectory>jboss-as-docs-${project.version}</baseDirectory>
+   <baseDirectory>jboss-as-quickstarts-${project.version}</baseDirectory>
    <formats>
       <format>zip</format>
    </formats>
@@ -18,11 +18,8 @@
          </includes>
       </fileSet>
       <fileSet>
-         <directory>${project.basedir}/../</directory>
+         <directory>${project.basedir}/../quickstarts</directory>
          <outputDirectory>/</outputDirectory>
-         <includes>
-            <include>quickstarts/**</include>
-         </includes>
          <excludes>
             <exclude>**/target/**</exclude>
             <exclude>**/.project</exclude>
@@ -30,21 +27,6 @@
             <exclude>**/.classpath</exclude>
             <exclude>**/README-development.md</exclude>
          </excludes>
-      </fileSet>
-      <fileSet>
-         <directory>${project.basedir}/../guides/developer-getting-started-guide/target/docbook/publish</directory>
-         <outputDirectory>/developer-getting-started-guide</outputDirectory>
-         <includes>
-            <include>en-US/html/**</include>
-         </includes>
-      </fileSet>
-      <fileSet>
-         <directory>${project.basedir}/../guides/developer-getting-started-guide/</directory>
-         <outputDirectory>/developer-getting-started-guide</outputDirectory>
-         <includes>
-            <include>README.md</include>
-         </includes>
-         
       </fileSet>
    </fileSets>
 
