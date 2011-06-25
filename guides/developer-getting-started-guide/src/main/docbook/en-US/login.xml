@@ -492,7 +492,7 @@ public class Credentials {
             </callout>
             <callout arearefs="properties">
                <para>
-                  The bean neads to store the username and password entered, and also make them usable
+                  The bean needs to store the username and password entered, and also make them usable
                   via accessors and mutators.
                </para>
             </callout>
@@ -602,7 +602,7 @@ public class Login implements Serializable {
       </programlistingco>
 
       <para>
-         Now, let's look at the the most interesting part of the application, how we interact with the database.
+         Now, let's look at the most interesting part of the application, how we interact with the database.
          As we mentioned earlier, by default the application uses the JTA API to manually control transactions.
          To implement both approaches, we've defined a <code>UserManager</code> interface, with two 
          implementations, one of which (the EJB variant) is as an alternative which can be enabled via a 
@@ -732,7 +732,7 @@ public class ManagedBeanUserManager implements UserManager {
             <callout arearefs="requestscoped">
                <para>
                   The bean is request scoped, meaning that the new user object being added is the same for every
-                  invocation of userManager during the request.
+                  invocation of <code>userManager</code> during the request.
                </para>
             </callout>
             <callout arearefs="logger">
@@ -760,8 +760,8 @@ public class ManagedBeanUserManager implements UserManager {
             </callout>
             <callout arearefs="findUser">
                <para>
-                  The findUser can check whether a user with a matching username and password exists, and
-                  return it if it does.
+                  The <code>findUser()</code> method can check whether a user with a matching username and
+                  password exists, and return it if it does.
                </para>
             </callout>
             <callout arearefs="newUser">
