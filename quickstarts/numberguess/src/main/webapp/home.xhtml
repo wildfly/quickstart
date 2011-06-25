@@ -1,9 +1,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core">
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:f="http://java.sun.com/jsf/core">
 
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
@@ -11,45 +11,48 @@
 </head>
 
 <body>
-	<div id="content">
-		<h1>Guess a number...</h1>
-		<h:form id="numberGuess">
+   <div id="content">
+      <h1>Guess a number...</h1>
+      <h:form id="numberGuess">
 
-			<!-- Feedback for the user on their guess -->
-			<div style="color: red">
-				<h:messages id="messages" globalOnly="false" />
-				<h:outputText id="Higher" value="Higher!"
-					rendered="#{game.number gt game.guess and game.guess ne 0}" />
-				<h:outputText id="Lower" value="Lower!"
-					rendered="#{game.number lt game.guess and game.guess ne 0}" />
-			</div>
+         <!-- Feedback for the user on their guess -->
+         <div style="color: red">
+            <h:messages id="messages" globalOnly="false" />
+            <h:outputText id="Higher" value="Higher!"
+               rendered="#{game.number gt game.guess and game.guess ne 0}" />
+            <h:outputText id="Lower" value="Lower!"
+               rendered="#{game.number lt game.guess and game.guess ne 0}" />
+         </div>
 
          <!-- Instructions for the user -->
-			<div>
-				I'm thinking of a number between <span id="numberGuess:smallest">#{game.smallest}</span>
-				and <span id="numberGuess:biggest">#{game.biggest}</span>. You have
-				#{game.remainingGuesses} guesses remaining.
-			</div>
-   
+         <div>
+            I'm thinking of a number between <span
+               id="numberGuess:smallest">#{game.smallest}</span> and <span
+               id="numberGuess:biggest">#{game.biggest}</span>. You have
+            #{game.remainingGuesses} guesses remaining.
+         </div>
+
          <!-- Input box for the users guess, plus a button to submit, and reset -->
          <!-- These are bound using EL to our CDI beans -->
-			<div>
-				Your guess:
-				<h:inputText id="inputGuess" value="#{game.guess}" required="true"
-					size="3" disabled="#{game.number eq game.guess}"
-					validator="#{game.validateNumberRange}" />
-				<h:commandButton id="guessButton" value="Guess"
-					action="#{game.check}" disabled="#{game.number eq game.guess}" />
-			</div>
-			<div>
-				<h:commandButton id="restartButton" value="Reset"
-					action="#{game.reset}" immediate="true" />
-			</div>
-		</h:form>
+         <div>
+            Your guess:
+            <h:inputText id="inputGuess" value="#{game.guess}"
+               required="true" size="3"
+               disabled="#{game.number eq game.guess}"
+               validator="#{game.validateNumberRange}" />
+            <h:commandButton id="guessButton" value="Guess"
+               action="#{game.check}"
+               disabled="#{game.number eq game.guess}" />
+         </div>
+         <div>
+            <h:commandButton id="restartButton" value="Reset"
+               action="#{game.reset}" immediate="true" />
+         </div>
+      </h:form>
 
-	</div>
+   </div>
 
-	<br style="clear: both" />
+   <br style="clear: both" />
 
 </body>
 </html>

@@ -16,7 +16,7 @@ import javax.inject.Qualifier;
  * Qualifier for the maximum number
  * 
  * @author Pete Muir
- *
+ * 
  */
 @Target({ TYPE, METHOD, PARAMETER, FIELD })
 @Retention(RUNTIME)

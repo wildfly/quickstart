@@ -16,38 +16,40 @@ import org.jboss.as.quickstarts.kitchensink.model.Member;
 
 // The @Stateful annotation eliminates the need for manual transaction demarcation
 @Stateful
-// The @Model stereotype is a convenience mechanism to make this a request-scoped bean that has an EL name
-// Read more about the @Model stereotype in this FAQ: http://sfwk.org/Documentation/WhatIsThePurposeOfTheModelAnnotation
+// The @Model stereotype is a convenience mechanism to make this a request-scoped bean that has an
+// EL name
+// Read more about the @Model stereotype in this FAQ:
+// http://sfwk.org/Documentation/WhatIsThePurposeOfTheModelAnnotation
 @Model
 public class MemberRegistration {
-	
-    @Inject
-    @Category("jboss-as-quickstart-kitchensink")
-    private Logger log;
 
-    @Inject
-    private EntityManager em;
+   @Inject
+   @Category("jboss-as-quickstart-kitchensink")
+   private Logger log;
 
-    @Inject
-    private Event<Member> memberEventSrc;
+   @Inject
+   private EntityManager em;
 
-    private Member newMember;
+   @Inject
+   private Event<Member> memberEventSrc;
 
-    @Produces
-    @Named
-    public Member getNewMember() {
-        return newMember;
-    }
+   private Member newMember;
 
-    public void register() throws Exception {
-        log.info("Registering " + newMember.getName());
-        em.persist(newMember);
-        memberEventSrc.fire(newMember);
-        initNewMember();
-    }
+   @Produces
+   @Named
+   public Member getNewMember() {
+      return newMember;
+   }
 
-    @PostConstruct
-    public void initNewMember() {
-        newMember = new Member();
-    }
+   public void register() throws Exception {
+      log.info("Registering " + newMember.getName());
+      em.persist(newMember);
+      memberEventSrc.fire(newMember);
+      initNewMember();
+   }
+
+   @PostConstruct
+   public void initNewMember() {
+      newMember = new Member();
+   }
 }
