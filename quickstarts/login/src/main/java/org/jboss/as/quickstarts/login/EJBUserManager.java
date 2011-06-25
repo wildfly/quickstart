@@ -29,6 +29,7 @@ public class EJBUserManager implements UserManager {
 	@Produces
 	@Named
 	@RequestScoped
+	@Alternative
 	public List<User> getUsers() throws Exception {
 		return userDatabase.createQuery("select u from User u").getResultList();
 	}
@@ -59,6 +60,7 @@ public class EJBUserManager implements UserManager {
 	@Produces
 	@RequestScoped
 	@Named
+	@Alternative
 	public User getNewUser() {
 		return newUser;
 	}
