@@ -25,7 +25,6 @@ public class MemberRegistrationTest {
    public static Archive<?> createTestArchive() {
       return ShrinkWrap.create(WebArchive.class, "test.war")
             .addClasses(Member.class, MemberRegistration.class, Resources.class)
-            // addAsManifestResource is incorrectly targeting /META-INF
             .addAsResource("META-INF/persistence.xml", "META-INF/persistence.xml")
             .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
    }
