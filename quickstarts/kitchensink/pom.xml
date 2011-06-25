@@ -197,13 +197,31 @@
 
       <profile>
          <!-- An optional Arquillian testing profile that executes tests 
-            in a remote JBoss AS instance -->
-         <!-- Run with: mvn clean test -Parq-jbossas-remote -->
-         <id>arq-jbossas-remote</id>
+            in your JBoss AS instance -->
+         <!-- This profile will start a new JBoss AS instance, and execute the
+              test, shutting it down when done -->
+         <!-- Run with: mvn clean test -Parq-jbossas-managed -->
+         <id>arq-jbossas-managed</id>
          <dependencies>
             <dependency>
                <groupId>org.jboss.as</groupId>
                <artifactId>jboss-as-arquillian-container-managed</artifactId>
+               <version>7.0.0.Beta4-SNAPSHOT</version>
+               <scope>test</scope>
+            </dependency>
+         </dependencies>
+      </profile>
+      
+            <profile>
+         <!-- An optional Arquillian testing profile that executes tests 
+            in your JBoss AS instance -->
+         <!-- This profile will connect to an already running JBoss AS instance -->
+         <!-- Run with: mvn clean test -Parq-jbossas-managed -->
+         <id>arq-jbossas-remote</id>
+         <dependencies>
+            <dependency>
+               <groupId>org.jboss.as</groupId>
+               <artifactId>jboss-as-arquillian-container-remote</artifactId>
                <version>7.0.0.Beta4-SNAPSHOT</version>
                <scope>test</scope>
             </dependency>
