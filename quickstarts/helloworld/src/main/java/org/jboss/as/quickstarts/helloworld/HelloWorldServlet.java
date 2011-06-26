@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
  * @HttpServlet}. The {@link HelloService} is injected by CDI.
  * </p>
  * 
- * @author pmuir
+ * @author Pete Muir
  * 
  */
 @SuppressWarnings("serial")
