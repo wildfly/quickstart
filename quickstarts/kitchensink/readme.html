@@ -1,4 +1,4 @@
-<h1>jboss-as-quickstart-kitchensink</h1>
+<h1>jboss-as-kitchensink</h1>
 <h2>What is it?</h2>
 <p>This is your project! It's a sample, deployable Maven 3 project to help you
 get your foot in the door developing with Java EE 6 on JBoss AS 7. This 
@@ -16,18 +16,23 @@ superset of the Maven central repository.</p>
 <p>With the prerequisites out of the way, you're ready to build and deploy.</p>
 <h2>Deploying the application</h2>
 <p>First you need to start JBoss AS 7. To do this, run</p>
-<p>$JBOSS_HOME/bin/standalone.sh</p>
+<pre><code>$JBOSS_HOME/bin/standalone.sh
+</code></pre>
 <p>or if you are using windows</p>
-<p>$JBOSS_HOME/bin/standalone.bat</p>
+<pre><code>$JBOSS_HOME/bin/standalone.bat
+</code></pre>
 <p>To deploy the application, you first need to produce the archive to deploy using
 the following Maven goal:</p>
-<p>mvn package</p>
+<pre><code>mvn package
+</code></pre>
 <p>You can now deploy the artifact to JBoss AS by executing the following command:</p>
-<p>mvn jboss-as-deploy:deploy</p>
-<p>This will deploy <code>target/jboss-as-quickstart-kitchensink.war</code>.</p>
-<p>The application will be running at the following URL [http://localhost:8080/jboss-as-quickstart-kitchensink/].</p>
+<pre><code>mvn jboss-as:deploy
+</code></pre>
+<p>This will deploy <code>target/jboss-as-kitchensink.war</code>.</p>
+<p>The application will be running at the following URL <a href="http://localhost:8080/jboss-as-kitchensink/">http://localhost:8080/jboss-as-kitchensink/</a>.</p>
 <p>To undeploy from JBoss AS, run this command:</p>
-<p>mvn jboss:hard-undeploy</p>
+<pre><code>mvn jboss-as:undeploy
+</code></pre>
 <p>You can also start JBoss AS 7 and deploy the project using Eclipse. See the JBoss AS 7
 Getting Started Guide for Developers for more information.</p>
 <h1>Running the Arquillian tests</h1>
@@ -37,7 +42,8 @@ activate this test by selecting one of the container configuration provided
 for JBoss AS 7 (remote).</p>
 <p>To run the test in JBoss AS 7, first start a JBoss AS 7 instance. Then, run the
 test goal with the following profile activated:</p>
-<p>mvn clean test -Parq-jbossas-remote</p>
+<pre><code>mvn clean test -Parq-jbossas-remote
+</code></pre>
 <h1>Importing the project into an IDE</h1>
 <p>If you created the project using the Maven archetype wizard in your IDE
 (Eclipse, NetBeans or IntelliJ IDEA), then there is nothing to do. You should
@@ -53,5 +59,6 @@ JBoss AS 7 Getting Started Guide for Developers.</p>
 of any library in the project, you can run either of the following two
 commands to pull them into your local repository. The IDE should then detect
 them.</p>
-<p>mvn dependency:sources
-   mvn dependency:resolve -Dclassifier=javadoc</p>
+<pre><code>mvn dependency:sources
+mvn dependency:resolve -Dclassifier=javadoc
+</code></pre>
