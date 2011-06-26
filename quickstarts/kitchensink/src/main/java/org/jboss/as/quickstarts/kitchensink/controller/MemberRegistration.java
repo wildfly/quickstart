@@ -24,7 +24,7 @@ import org.jboss.as.quickstarts.kitchensink.model.Member;
 public class MemberRegistration {
 
    @Inject
-   @Category("jboss-as-quickstart-kitchensink")
+   @Category("jboss-as-kitchensink")
    private Logger log;
 
    @Inject
