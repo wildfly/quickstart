@@ -30,20 +30,20 @@ Deploying the application
  
 First you need to start JBoss AS 7. To do this, run
   
-   $JBOSS_HOME/bin/standalone.sh
+    $JBOSS_HOME/bin/standalone.sh
   
 or if you are using windows
  
-  $JBOSS_HOME/bin/standalone.bat
+    $JBOSS_HOME/bin/standalone.bat
 
 To deploy the application, you first need to produce the archive to deploy using
 the following Maven goal:
 
-   mvn package
+    mvn package
 
 You can now deploy the artifact to JBoss AS by executing the following command:
 
-   mvn jboss-as-deploy:deploy
+    mvn jboss-as:deploy
 
 This will deploy `target/jboss-javaee6-webapp-src.war`.
  
@@ -51,7 +51,7 @@ The application will be running at the following URL <http://localhost:8080/jbos
 
 To undeploy from JBoss AS, run this command:
 
-   mvn jboss:hard-undeploy
+    mvn jboss-as:undeploy
 
 You can also start JBoss AS 7 and deploy the project using Eclipse. See the JBoss AS 7
 Getting Started Guide for Developers for more information.
@@ -67,7 +67,7 @@ for JBoss AS 7 (remote).
 To run the test in JBoss AS 7, first start a JBoss AS 7 instance. Then, run the
 test goal with the following profile activated:
 
-   mvn clean test -Parq-jbossas-remote
+    mvn clean test -Parq-jbossas-remote
 
 Importing the project into an IDE
 =================================
@@ -92,5 +92,5 @@ of any library in the project, you can run either of the following two
 commands to pull them into your local repository. The IDE should then detect
 them.
 
-   mvn dependency:sources
-   mvn dependency:resolve -Dclassifier=javadoc
+    mvn dependency:sources
+    mvn dependency:resolve -Dclassifier=javadoc
