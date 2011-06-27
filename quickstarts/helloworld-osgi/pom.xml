@@ -1,61 +1,65 @@
 <?xml version="1.0"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>org.jboss.as.quickstarts</groupId>
-  <artifactId>jboss-as-helloworld-osgi</artifactId>
-  <version>7.0.0-SNAPSHOT</version>
-  <packaging>bundle</packaging>
-  <name>JBoss AS Quickstarts: Helloworld OSGi</name>
+   <groupId>org.jboss.as.quickstarts</groupId>
+   <artifactId>jboss-as-helloworld-osgi</artifactId>
+   <version>7.0.0-SNAPSHOT</version>
+   <packaging>bundle</packaging>
+   <name>JBoss AS Quickstarts: Helloworld OSGi</name>
 
-  <url>http://jboss.org/jbossas</url>
-  <licenses>
-    <license>
-      <name>GNU Lesser General Public License</name>
-      <url>http://www.gnu.org/copyleft/lesser.html</url>
-      <distribution>repo</distribution>
-    </license>
-  </licenses>
+   <url>http://jboss.org/jbossas</url>
+   <licenses>
+      <license>
+         <name>GNU Lesser General Public License</name>
+         <url>http://www.gnu.org/copyleft/lesser.html</url>
+         <distribution>repo</distribution>
+      </license>
+   </licenses>
 
-  <dependencies>
-    <dependency>
-      <groupId>org.osgi</groupId>
-      <artifactId>org.osgi.core</artifactId>
-      <version>4.2.0</version>
-      <scope>provided</scope>
-    </dependency>
-  </dependencies>
-  
-  <build>
-    <plugins>
-      <plugin>
-        <!-- This plugin takes care of packaging the artifact as an OSGi Bundle -->
-        <groupId>org.apache.felix</groupId>
-        <artifactId>maven-bundle-plugin</artifactId>
-        <version>2.3.4</version>
-        <extensions>true</extensions>
-        <configuration>
-          <instructions>
-            <!-- OSGi Manifest Metadata is specified here -->
-            <!-- The Bundle SymbolicName is the same as the artifact ID -->
-            <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+   <dependencies>
+      <dependency>
+         <groupId>org.osgi</groupId>
+         <artifactId>org.osgi.core</artifactId>
+         <version>4.2.0</version>
+         <scope>provided</scope>
+      </dependency>
+   </dependencies>
 
-            <!-- Specify the Bundle activator, which is invoked when the Bundle is started -->
-            <Bundle-Activator>org.jboss.as.quickstarts.helloworld.osgi.Activator</Bundle-Activator>
+   <build>
+      <plugins>
+         <plugin>
+            <!-- This plugin takes care of packaging the artifact as an OSGi 
+               Bundle -->
+            <groupId>org.apache.felix</groupId>
+            <artifactId>maven-bundle-plugin</artifactId>
+            <version>2.3.4</version>
+            <extensions>true</extensions>
+            <configuration>
+               <instructions>
+                  <!-- OSGi Manifest Metadata is specified here -->
+                  <!-- The Bundle SymbolicName is the same as the artifact 
+                     ID -->
+                  <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
 
-            <!-- Automatically compute all the necessary Import-Package statements -->
-            <Import-Package>*</Import-Package>
+                  <!-- Specify the Bundle activator, which is invoked when 
+                     the Bundle is started -->
+                  <Bundle-Activator>org.jboss.as.quickstarts.helloworld.osgi.Activator</Bundle-Activator>
 
-            <!-- This bundle does not export any packages -->
-            <Export-Package/>
+                  <!-- Automatically compute all the necessary Import-Package 
+                     statements -->
+                  <Import-Package>*</Import-Package>
 
-            <!-- Packages that are not exported but need to be included need to be 
-                 listed as Private-Package -->
-            <Private-Package>org.jboss.as.quickstarts.helloworld.osgi</Private-Package>
-          </instructions>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
+                  <!-- This bundle does not export any packages -->
+                  <Export-Package />
+
+                  <!-- Packages that are not exported but need to be included 
+                     need to be listed as Private-Package -->
+                  <Private-Package>org.jboss.as.quickstarts.helloworld.osgi</Private-Package>
+               </instructions>
+            </configuration>
+         </plugin>
+      </plugins>
+   </build>
 </project>
