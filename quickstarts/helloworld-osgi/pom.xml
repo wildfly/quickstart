@@ -10,7 +10,7 @@
    <packaging>bundle</packaging>
    <name>JBoss AS Quickstarts: Helloworld OSGi</name>
 
-   <url>http://jboss.org/jbossas</url>
+   <url>http://jboss.org/jbossas/osgi</url>
    <licenses>
       <license>
          <name>GNU Lesser General Public License</name>
@@ -20,10 +20,9 @@
    </licenses>
 
    <properties>
-      <!-- Explicitly declaring the source encoding eliminates the following 
-         message: -->
+      <!-- Explicitly declaring the source encoding eliminates the following message: -->
       <!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered 
-         resources, i.e. build is platform dependent! -->
+           resources, i.e. build is platform dependent! -->
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
    </properties>
 
@@ -70,8 +69,7 @@
    <build>
       <plugins>
          <plugin>
-            <!-- This plugin takes care of packaging the artifact as an OSGi 
-               Bundle -->
+            <!-- This plugin takes care of packaging the artifact as an OSGi Bundle -->
             <groupId>org.apache.felix</groupId>
             <artifactId>maven-bundle-plugin</artifactId>
             <version>2.3.4</version>
@@ -79,31 +77,27 @@
             <configuration>
                <instructions>
                   <!-- OSGi Manifest Metadata is specified here -->
-                  <!-- The Bundle SymbolicName is the same as the artifact 
-                     ID -->
-                  <Bundle-SymbolicName>${project.artifactId}
-                  </Bundle-SymbolicName>
+                  <!-- The Bundle SymbolicName is the same as the artifact ID -->
+                  <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
 
                   <!-- Specify the Bundle activator, which is invoked when 
-                     the Bundle is started -->
-                  <Bundle-Activator>org.jboss.as.quickstarts.helloworld.osgi.Activator
-                  </Bundle-Activator>
+                       the Bundle is started -->
+                  <Bundle-Activator>org.jboss.as.quickstarts.helloworld.osgi.Activator</Bundle-Activator>
 
-                  <!-- Automatically compute all the necessary Import-Package 
-                     statements -->
+                  <!-- Automatically compute all the necessary Import-Package statements -->
                   <Import-Package>*</Import-Package>
 
                   <!-- This bundle does not export any packages -->
-                  <Export-Package />
+                  <Export-Package/>
 
                   <!-- Packages that are not exported but need to be included 
-                     need to be listed as Private-Package -->
-                  <Private-Package>org.jboss.as.quickstarts.helloworld.osgi
-                  </Private-Package>
+                       need to be listed as Private-Package -->
+                  <Private-Package>org.jboss.as.quickstarts.helloworld.osgi</Private-Package>
                </instructions>
             </configuration>
          </plugin>
-         <!-- JBoss AS plugin to deploy war -->
+         
+         <!-- JBoss AS plugin to deploy artifact -->
          <plugin>
             <groupId>org.jboss.as.plugins</groupId>
             <artifactId>jboss-as-maven-plugin</artifactId>
@@ -114,5 +108,4 @@
          </plugin>
       </plugins>
    </build>
-
 </project>
