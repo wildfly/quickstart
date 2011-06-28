@@ -1,11 +1,11 @@
-JBoss AS Documentation 
-======================
+JBoss AS Quickstarts
+====================
 
-This project contains sources for the JBoss AS Documentation, consisting of various guides,
-written in docbook, and quickstarts, examples which are discussed in the guides.
+This project contains sources for the JBoss AS Quickstarts:
 
-* `guides/`  -- sources for the various guides
-* `quickstarts/` -- sources for the examples discussed in the guides
-* `dist/` -- maven script to build a zip of the built guides + quickstarts
+* `quickstarts/` -- sources for the examples discussed in the JBoss AS Documentation
+* `dist/` -- maven script to build a zip of the quickstarts
 
-If you add a quickstart or a guide, don't forget to update `dist/src/main/assembly/README.md`.
+You can find the documentation at <https://docs.jboss.org/author/display/AS7/Documentation>.
+
+If you add a quickstart, don't forget to update `dist/src/main/assembly/README.md`.
