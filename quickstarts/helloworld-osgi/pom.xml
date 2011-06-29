@@ -106,6 +106,18 @@
                <filename>${project.build.finalName}.jar</filename>
             </configuration>
          </plugin>
+         
+         <!-- Compiler plugin enforces Java 1.6 compatibility to remove
+         unnecessary warnings about execution environment in IDE -->
+         <plugin>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <version>2.3.1</version>
+            <configuration>
+               <source>1.6</source>
+               <target>1.6</target>
+            </configuration>
+         </plugin>
+         
       </plugins>
    </build>
 </project>
