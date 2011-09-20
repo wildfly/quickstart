@@ -16,3 +16,6 @@ You can find the documentation at <https://docs.jboss.org/author/display/AS7/Doc
 If you add a quickstart, don't forget to update `dist/src/main/assembly/README.md`.
 
 The 'dist' folder contains Maven scripts to build a zip of the quickstarts.
+
+The quickstart code is licensed under the Apache License, Version 2.0:
+<http://www.apache.org/licenses/LICENSE-2.0.html>
