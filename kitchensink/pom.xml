@@ -64,32 +64,75 @@
          </snapshots>
       </pluginRepository>
    </pluginRepositories>
+   
+   <dependencyManagement>
+      <dependencies>
+         <!-- Define the version of JBoss' Java EE 6 APIs we want to import. 
+            Any dependencies from org.jboss.spec will have their version defined by this 
+            BOM -->
+         <!-- JBoss distributes a complete set of Java EE 6 APIs including 
+            a Bill of Materials (BOM). A BOM specifies the versions of a "stack" (or 
+            a collection) of artifacts. We use this here so that we always get the correct 
+            versions of artifacts. Here we use the jboss-javaee-web-6.0 stack (you can 
+            read this as the JBoss stack of the Java EE Web Profile 6 APIs), and we use 
+            version 2.0.0.Beta1 which is the latest release of the stack. You can actually 
+            use this stack with any version of JBoss AS that implements Java EE 6, not 
+            just JBoss AS 7! -->
+         <dependency>
+            <groupId>org.jboss.spec</groupId>
+            <artifactId>jboss-javaee-web-6.0</artifactId>
+            <version>2.0.0.Final</version>
+            <type>pom</type>
+            <scope>import</scope>
+         </dependency>
+      </dependencies>
+   </dependencyManagement>
 
    <dependencies>
-      <!-- Annotation processor to generate the JPA 2.0 metamodel classes 
-         for typesafe criteria queries -->
+   
+      <!-- First declare the APIs we depend on and need for compilation.
+         All of them are provided by JBoss AS 7 -->
+   
+      <!-- Import the CDI API, we use provided scope as the API is included 
+         in JBoss AS 7 -->
       <dependency>
-         <groupId>org.hibernate</groupId>
-         <artifactId>hibernate-jpamodelgen</artifactId>
-         <version>1.1.1.Final</version>
+         <groupId>javax.enterprise</groupId>
+         <artifactId>cdi-api</artifactId>
          <scope>provided</scope>
-         <!-- Excluded because it's provided by the Java EE 6 dependencies -->
-         <exclusions>
-            <exclusion>
-               <groupId>org.hibernate.javax.persistence</groupId>
-               <artifactId>hibernate-jpa-2.0-api</artifactId>
-            </exclusion>
-         </exclusions>
       </dependency>
 
-      <!-- Seam Solder provides convenient, portable CDI extensions such 
-         as an injectable logger -->
+      <!-- Import the Common Annotations API (JSR-250), we use provided scope 
+         as the API is included in JBoss AS 7 -->
       <dependency>
-         <groupId>org.jboss.seam.solder</groupId>
-         <artifactId>seam-solder</artifactId>
-         <version>3.0.0.Final</version>
+         <groupId>org.jboss.spec.javax.annotation</groupId>
+         <artifactId>jboss-annotations-api_1.1_spec</artifactId>
+         <scope>provided</scope>
+      </dependency>
+      
+      <!-- Import the JAX-RS API, we use provided scope 
+         as the API is included in JBoss AS 7 -->
+      <dependency>
+         <groupId>org.jboss.spec.javax.ws.rs</groupId>
+         <artifactId>jboss-jaxrs-api_1.1_spec</artifactId>
+         <scope>provided</scope>
       </dependency>
 
+      <!-- Import the JPA API, we use provided scope as the API is included 
+         in JBoss AS 7 -->
+      <dependency>
+         <groupId>org.hibernate.javax.persistence</groupId>
+         <artifactId>hibernate-jpa-2.0-api</artifactId>
+         <scope>provided</scope>
+      </dependency>
+      
+      <!-- Import the EJB API, we use provided scope as the API is included 
+         in JBoss AS 7 -->
+      <dependency>
+         <groupId>org.jboss.spec.javax.ejb</groupId>
+         <artifactId>jboss-ejb-api_3.1_spec</artifactId>
+         <scope>provided</scope>
+      </dependency>
+      
       <!-- JSR-303 (Bean Validation) Implementation -->
       <!-- Provides portable constraints such as @Email -->
       <!-- Hibernate Validator is shipped in JBoss AS 7 -->
@@ -104,6 +147,17 @@
                <artifactId>slf4j-api</artifactId>
             </exclusion>
          </exclusions>
+      </dependency>
+   
+      <!-- Now we declare any tools needed -->
+   
+      <!-- Annotation processor to generate the JPA 2.0 metamodel classes 
+         for typesafe criteria queries -->
+      <dependency>
+         <groupId>org.hibernate</groupId>
+         <artifactId>hibernate-jpamodelgen</artifactId>
+         <version>1.1.1.Final</version>
+         <scope>provided</scope>
       </dependency>
 
       <!-- Needed for running tests (you may also use TestNG) -->
@@ -120,26 +174,10 @@
       <dependency>
          <groupId>org.jboss.arquillian.junit</groupId>
          <artifactId>arquillian-junit-container</artifactId>
-         <version>1.0.0.CR1</version>
+         <version>1.0.0.CR4</version>
          <scope>test</scope>
       </dependency>
       
-      <!-- Include the JBoss' Java EE 6 APIs -->
-      <!-- JBoss distributes a complete set of Java EE 6 APIs including a 
-         Bill of Materials (BOM). A BOM specifies the versions of a "stack" (or a 
-         collection) of artifacts. We use this here so that we always get the correct 
-         versions of artifacts. Here we use the jboss-javaee-web-6.0 stack (you can 
-         read this as the JBoss stack of the Java EE 6 Web Profile APIs), and we use 
-         version 2.0.0.Beta1 which is the latest release of the stack. You can actually 
-         use this stack with any version of JBoss AS that implements Java EE 6, not 
-         just JBoss AS 7! -->
-      <dependency>
-         <groupId>org.jboss.spec</groupId>
-         <artifactId>jboss-javaee-web-6.0</artifactId>
-         <version>2.0.0.Final</version>
-         <type>pom</type>
-         <scope>provided</scope>
-      </dependency>
    </dependencies>
 
    <build>
