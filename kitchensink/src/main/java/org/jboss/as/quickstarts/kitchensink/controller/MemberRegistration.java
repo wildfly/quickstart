@@ -1,5 +1,7 @@
 package org.jboss.as.quickstarts.kitchensink.controller;
 
+import java.util.logging.Logger;
+
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateful;
 import javax.enterprise.event.Event;
@@ -8,9 +10,6 @@ import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
-
-import org.jboss.logging.Logger;
-import org.jboss.seam.solder.logging.Category;
 
 import org.jboss.as.quickstarts.kitchensink.model.Member;
 
@@ -24,7 +23,6 @@ import org.jboss.as.quickstarts.kitchensink.model.Member;
 public class MemberRegistration {
 
    @Inject
-   @Category("jboss-as-kitchensink")
    private Logger log;
 
    @Inject
