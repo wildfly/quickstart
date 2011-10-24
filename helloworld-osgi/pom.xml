@@ -26,37 +26,6 @@
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
    </properties>
 
-   <!-- Include the JBoss Maven repository so we can access JBoss artifacts -->
-   <repositories>
-      <repository>
-         <id>jboss-public-repository</id>
-         <name>JBoss Repository</name>
-         <url>https://repository.jboss.org/nexus/content/groups/public
-         </url>
-         <releases>
-            <enabled>true</enabled>
-         </releases>
-         <snapshots>
-            <enabled>false</enabled>
-         </snapshots>
-      </repository>
-   </repositories>
-
-   <pluginRepositories>
-      <pluginRepository>
-         <id>jboss-public-repository</id>
-         <name>JBoss Repository</name>
-         <url>https://repository.jboss.org/nexus/content/groups/public
-         </url>
-         <releases>
-            <enabled>true</enabled>
-         </releases>
-         <snapshots>
-            <enabled>false</enabled>
-         </snapshots>
-      </pluginRepository>
-   </pluginRepositories>
-
    <dependencies>
       <dependency>
          <groupId>org.osgi</groupId>
@@ -101,7 +70,7 @@
          <plugin>
             <groupId>org.jboss.as.plugins</groupId>
             <artifactId>jboss-as-maven-plugin</artifactId>
-            <version>7.0.0.Final</version>
+            <version>7.0.2.Final</version>
             <configuration>
                <filename>${project.build.finalName}.jar</filename>
             </configuration>

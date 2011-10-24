@@ -31,39 +31,6 @@
          variable -->
       <jboss.home>${env.JBOSS_HOME}</jboss.home>
    </properties>
-
-   <repositories>
-      <!-- The JBoss Community public repository is a composite repository 
-         of several major repositories -->
-      <!-- see http://community.jboss.org/wiki/MavenGettingStarted-Users -->
-      <repository>
-         <id>jboss-public-repository</id>
-         <name>JBoss Repository</name>
-         <url>http://repository.jboss.org/nexus/content/groups/public</url>
-         <!-- These optional flags are designed to speed up your builds by 
-            reducing remote server calls -->
-         <releases>
-            <enabled>true</enabled>
-         </releases>
-         <snapshots>
-            <enabled>false</enabled>
-         </snapshots>
-      </repository>
-   </repositories>
-
-   <pluginRepositories>
-      <pluginRepository>
-         <id>jboss-public-repository</id>
-         <name>JBoss Repository</name>
-         <url>http://repository.jboss.org/nexus/content/groups/public</url>
-         <releases>
-            <enabled>true</enabled>
-         </releases>
-         <snapshots>
-            <enabled>false</enabled>
-         </snapshots>
-      </pluginRepository>
-   </pluginRepositories>
    
    <dependencyManagement>
       <dependencies>
@@ -139,7 +106,7 @@
       <dependency>
          <groupId>org.hibernate</groupId>
          <artifactId>hibernate-validator</artifactId>
-         <version>4.1.0.Final</version>
+         <version>4.2.0.Final</version>
          <scope>provided</scope>
          <exclusions>
             <exclusion>
@@ -164,7 +131,7 @@
       <dependency>
          <groupId>junit</groupId>
          <artifactId>junit</artifactId>
-         <version>4.8.1</version>
+         <version>4.10</version>
          <scope>test</scope>
       </dependency>
 
@@ -233,13 +200,47 @@
                <plugin>
                   <groupId>org.jboss.as.plugins</groupId>
                   <artifactId>jboss-as-maven-plugin</artifactId>
-                  <version>7.0.1.Final</version>
+                  <version>7.0.2.Final</version>
                </plugin>
             </plugins>
          </build>
       </profile>
       
       <profile>
+         <!-- We add the JBoss repository as we need the JBoss AS connectors for Arquillian -->
+         <repositories>
+            <!-- The JBoss Community public repository is a composite repository 
+               of several major repositories -->
+            <!-- see http://community.jboss.org/wiki/MavenGettingStarted-Users -->
+            <repository>
+               <id>jboss-public-repository</id>
+               <name>JBoss Repository</name>
+               <url>http://repository.jboss.org/nexus/content/groups/public</url>
+               <!-- These optional flags are designed to speed up your builds by 
+                  reducing remote server calls -->
+               <releases>
+                  <enabled>true</enabled>
+               </releases>
+               <snapshots>
+                  <enabled>false</enabled>
+               </snapshots>
+            </repository>
+         </repositories>
+      
+         <pluginRepositories>
+            <pluginRepository>
+               <id>jboss-public-repository</id>
+               <name>JBoss Repository</name>
+               <url>http://repository.jboss.org/nexus/content/groups/public</url>
+               <releases>
+                  <enabled>true</enabled>
+               </releases>
+               <snapshots>
+                  <enabled>false</enabled>
+               </snapshots>
+            </pluginRepository>
+         </pluginRepositories>
+      
          <!-- An optional Arquillian testing profile that executes tests 
             in your JBoss AS instance -->
          <!-- This profile will start a new JBoss AS instance, and execute the
@@ -257,6 +258,40 @@
       </profile>
       
       <profile>
+         <!-- We add the JBoss repository as we need the JBoss AS connectors for Arquillian -->
+         <repositories>
+            <!-- The JBoss Community public repository is a composite repository 
+               of several major repositories -->
+            <!-- see http://community.jboss.org/wiki/MavenGettingStarted-Users -->
+            <repository>
+               <id>jboss-public-repository</id>
+               <name>JBoss Repository</name>
+               <url>http://repository.jboss.org/nexus/content/groups/public</url>
+               <!-- These optional flags are designed to speed up your builds by 
+                  reducing remote server calls -->
+               <releases>
+                  <enabled>true</enabled>
+               </releases>
+               <snapshots>
+                  <enabled>false</enabled>
+               </snapshots>
+            </repository>
+         </repositories>
+      
+         <pluginRepositories>
+            <pluginRepository>
+               <id>jboss-public-repository</id>
+               <name>JBoss Repository</name>
+               <url>http://repository.jboss.org/nexus/content/groups/public</url>
+               <releases>
+                  <enabled>true</enabled>
+               </releases>
+               <snapshots>
+                  <enabled>false</enabled>
+               </snapshots>
+            </pluginRepository>
+         </pluginRepositories>
+      
          <!-- An optional Arquillian testing profile that executes tests 
             in a remote JBoss AS instance -->
          <!-- Run with: mvn clean test -Parq-jbossas-remote -->
@@ -270,8 +305,6 @@
             </dependency>
          </dependencies>
       </profile>
-      
-      
 
    </profiles>
 </project>
