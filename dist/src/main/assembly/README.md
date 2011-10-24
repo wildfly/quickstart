@@ -13,4 +13,6 @@ contains tutorials for:
 * `numberguess` - CDI + JSF
 * `login` - CDI + JSF + JPA + EJB + JTA
 * `kitchensink` - CDI + JSF + JPA + EJB + JPA + JAX-RS + BV
+* `helloworld-rs` - CDI + JAX-RS
+* `helloworld-osgi` - OSGi
 
