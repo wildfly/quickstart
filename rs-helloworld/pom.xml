@@ -26,35 +26,6 @@
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
    </properties>
 
-   <!-- Include the JBoss Maven repository so we can access JBoss artifacts -->
-   <repositories>
-      <repository>
-         <id>jboss-public-repository</id>
-         <name>JBoss Repository</name>
-         <url>https://repository.jboss.org/nexus/content/groups/public</url>
-         <releases>
-            <enabled>true</enabled>
-         </releases>
-         <snapshots>
-            <enabled>false</enabled>
-         </snapshots>
-      </repository>
-   </repositories>
-
-   <pluginRepositories>
-      <pluginRepository>
-         <id>jboss-public-repository</id>
-         <name>JBoss Repository</name>
-         <url>https://repository.jboss.org/nexus/content/groups/public</url>
-         <releases>
-            <enabled>true</enabled>
-         </releases>
-         <snapshots>
-            <enabled>false</enabled>
-         </snapshots>
-      </pluginRepository>
-   </pluginRepositories>
-
    <dependencyManagement>
       <dependencies>
          <!-- Define the version of JBoss' Java EE 6 APIs we want to import. 
@@ -99,12 +70,10 @@
       <!-- Import the JAX-RS API, we use provided scope as the API is included 
          in JBoss AS 7 -->
       <dependency>
-            <groupId>org.jboss.resteasy</groupId>
-            <artifactId>resteasy-jaxrs</artifactId>
-            <version>2.2.1.GA</version>
-            <scope>provided</scope>
+         <groupId>org.jboss.spec.javax.ws.rs</groupId>
+         <artifactId>jboss-jaxrs-api_1.1_spec</artifactId>
+         <scope>provided</scope>
       </dependency>
-
    </dependencies>
 
    <build>
@@ -125,7 +94,7 @@
          <plugin>
             <groupId>org.jboss.as.plugins</groupId>
             <artifactId>jboss-as-maven-plugin</artifactId>
-            <version>7.0.0.Final</version>
+            <version>7.0.2.Final</version>
          </plugin>
          <!-- Compiler plugin enforces Java 1.6 compatibility and activates 
             annotation processors -->
