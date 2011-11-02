@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>POH5 Hello World</title>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+
+<script type="text/javascript"> 
+$(document).ready(function() {
+	$('#sayHello').click(function() {
+		var name = $('#name').val();
+		console.log("clicked: " + name);
+		var jqxhr = $.getJSON('hello/json/'+ name, function(data) {
+			console.log("success: " + data.result);
+			$('#result').text(data.result);
+		})
+		.error(function() {
+			console.log("error");
+		}
+		);
+		return false; // prevents submit of the form
+	});
+}); // (document).read
+</script>
+</head>
+<body>
+POH5 Hello World<br>
+<form name="theForm">
+ <fieldset>  
+    <label for="name" id="name_label">Name</label> 
+	<input name="name" id="name" type="text" required placeholder="Your Name"/>
+	<input type="submit" id="sayHello" value="Say Hello"/><span id="result"></span>
+ </fieldset>	
+</form>
+
+</body>
+</html>
