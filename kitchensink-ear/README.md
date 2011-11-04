@@ -40,11 +40,11 @@ or if you are using Microsoft Windows
 To deploy the application, you first need to produce the archive to deploy 
 using the following Maven goal:
 
-    mvn package
+    mvn clean package
 
-You can now deploy the artifact to JBoss AS by executing the following command:
+You can deploy the artifact to JBoss AS by executing the following command:
 
-    mvn jboss-as:deploy
+    mvn clean package jboss-as:deploy
 
 This will deploy `target/jboss-as-kitchensink-ear.ear`.
  
