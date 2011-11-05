@@ -1,0 +1,46 @@
+<html>
+<head>
+    <title>JBOSS AS 7 - Asynchronous Servlet demo</title>
+</head>
+
+<body>
+    <div>
+        This simple demo client continuously sends requests to <i>/AsynchronousServlet</i><br /> 
+        to invoke a resource intensive task which asynchronously generates a response.
+    </div>
+    <br />
+    Last response received at:
+    <div id="response">
+        <i>(no response yet)</i>
+    </div>
+
+    <script type="text/javascript">
+        function requestData() {
+            var request;
+            try {
+                if (window.XMLHttpRequest) {
+                    request = new XMLHttpRequest();
+                } else {
+                    request = new ActiveXObject("Microsoft.XMLHTTP");
+                }
+            } catch (e) {
+                alert("Your browser does not support XMLHttpRequest!");
+            }
+
+            request.open("GET", "AsynchronousServlet", true);
+            request.onreadystatechange = function() {
+                if (request.readyState == 4) {
+                    if (request.status == 200) {
+                        document.getElementById("response").innerHTML = request.responseText;
+                        requestData();
+                    } else {
+                        console.log("Unexpected response received from server:"+request.status)
+                    }
+                }
+            }
+            request.send(null);
+        }
+        requestData();
+    </script>
+</body>
+</html>
