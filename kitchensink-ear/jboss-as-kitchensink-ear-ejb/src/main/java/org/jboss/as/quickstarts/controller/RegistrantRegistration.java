@@ -11,7 +11,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 
-import org.jboss.as.quickstarts.model.Member;
+import org.jboss.as.quickstarts.model.Registrant;
 
 // The @Stateful annotation eliminates the need for manual transaction demarcation
 @Stateful
@@ -20,7 +20,7 @@ import org.jboss.as.quickstarts.model.Member;
 // Read more about the @Model stereotype in this FAQ:
 // http://sfwk.org/Documentation/WhatIsThePurposeOfTheModelAnnotation
 @Model
-public class MemberRegistration {
+public class RegistrantRegistration {
 
    @Inject
    private Logger log;
@@ -29,25 +29,25 @@ public class MemberRegistration {
    private EntityManager em;
 
    @Inject
-   private Event<Member> memberEventSrc;
+   private Event<Registrant> registrantEventSrc;
 
-   private Member newMember;
+   private Registrant newRegistrant;
 
    @Produces
    @Named
-   public Member getNewMember() {
-      return newMember;
+   public Registrant getNewRegistrant() {
+      return newRegistrant;
    }
 
    public void register() throws Exception {
-      log.info("Registering " + newMember.getName());
-      em.persist(newMember);
-      memberEventSrc.fire(newMember);
-      initNewMember();
+      log.info("Registering " + newRegistrant.getName());
+      em.persist(newRegistrant);
+      registrantEventSrc.fire(newRegistrant);
+      initNewRegistrant();
    }
 
    @PostConstruct
-   public void initNewMember() {
-      newMember = new Member();
+   public void initNewRegistrant() {
+      newRegistrant = new Registrant();
    }
 }

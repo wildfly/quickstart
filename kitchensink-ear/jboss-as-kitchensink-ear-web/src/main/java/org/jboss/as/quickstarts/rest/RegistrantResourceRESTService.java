@@ -10,22 +10,22 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
-import org.jboss.as.quickstarts.model.Member;
+import org.jboss.as.quickstarts.model.Registrant;
 
 /**
  * JAX-RS Example
  * 
- * This class produces a RESTful service to read the contents of the members table.
+ * This class produces a RESTful service to read the contents of the registrants table.
  */
-@Path("/members")
+@Path("/registrants")
 @RequestScoped
-public class MemberResourceRESTService {
+public class RegistrantResourceRESTService {
    @Inject
    private EntityManager em;
 
    @GET
    @Produces("text/xml")
-   public List<Member> listAllMembers() {
+   public List<Registrant> listAllRegistrants() {
       // Use @SupressWarnings to force IDE to ignore warnings about "genericizing" the results of
       // this query
       @SuppressWarnings("unchecked")
@@ -33,14 +33,14 @@ public class MemberResourceRESTService {
       // the @Entity class
       // as described in the named query blueprint:
       // https://blueprints.dev.java.net/bpcatalog/ee5/persistence/namedquery.html
-      final List<Member> results = em.createQuery("select m from Member m order by m.name").getResultList();
+      final List<Registrant> results = em.createQuery("select m from Registrant m order by m.name").getResultList();
       return results;
    }
 
    @GET
    @Path("/{id:[0-9][0-9]*}")
    @Produces("text/xml")
-   public Member lookupMemberById(@PathParam("id") long id) {
-      return em.find(Member.class, id);
+   public Registrant lookupRegistrantById(@PathParam("id") long id) {
+      return em.find(Registrant.class, id);
    }
 }
