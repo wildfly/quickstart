@@ -19,6 +19,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @XmlRootElement
+/** Changed the table name from Member to Registrant to avoid database conflicts with the kitchensink quickstart **/
 @Table(name = "Registrant",uniqueConstraints = @UniqueConstraint(columnNames = "email"))
 public class Member implements Serializable {
    /** Default value included to remove warning. Remove or modify at will. **/
