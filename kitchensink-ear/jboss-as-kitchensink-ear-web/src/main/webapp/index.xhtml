@@ -18,60 +18,60 @@
             <tr>
                <th style="text-align: right;"><h:outputLabel
                      for="name" value="Name:" /></th>
-               <td><h:inputText id="name" value="#{newRegistrant.name}" />
+               <td><h:inputText id="name" value="#{newMember.name}" />
                   <h:message for="name" errorClass="invalid" /></td>
             </tr>
             <tr>
                <th style="text-align: right;"><h:outputLabel
                      for="email" value="Email:" /></th>
                <td><h:inputText id="email"
-                     value="#{newRegistrant.email}" /> <h:message
+                     value="#{newMember.email}" /> <h:message
                      for="email" errorClass="invalid" /></td>
             </tr>
             <tr>
                <th style="text-align: right;"><h:outputLabel
                      for="phoneNumber" value="Phone #:" /></th>
                <td><h:inputText id="phoneNumber"
-                     value="#{newRegistrant.phoneNumber}" /> <h:message
+                     value="#{newMember.phoneNumber}" /> <h:message
                      for="phoneNumber" errorClass="invalid" /></td>
             </tr>
          </table>
          <p>
             <h:commandButton id="register"
-               action="#{registrantRegistration.register}" value="Register" />
+               action="#{memberRegistration.register}" value="Register" />
             <h:outputText value=" Registered!"
                rendered="#{facesContext.postback and empty facesContext.messageList}"
                style="color: green;" />
          </p>
       </h:form>
-      <h2>Registrants</h2>
-      <h:panelGroup rendered="#{empty registrants}">
-         <em>No registered registrants.</em>
+      <h2>Members</h2>
+      <h:panelGroup rendered="#{empty members}">
+         <em>No registered members.</em>
       </h:panelGroup>
-      <h:dataTable var="_registrant" value="#{registrants}"
-         rendered="#{not empty registrants}">
+      <h:dataTable var="_member" value="#{members}"
+         rendered="#{not empty members}">
          <h:column>
             <f:facet name="header">Id</f:facet>
-                #{_registrant.id}
+                #{_member.id}
             </h:column>
          <h:column>
             <f:facet name="header">Name</f:facet>
-                #{_registrant.name}
+                #{_member.name}
             </h:column>
          <h:column>
             <f:facet name="header">Email</f:facet>
-                #{_registrant.email}
+                #{_member.email}
             </h:column>
          <h:column>
             <f:facet name="header">Phone #</f:facet>
-                #{_registrant.phoneNumber}
+                #{_member.phoneNumber}
             </h:column>
          <h:column>
             <f:facet name="header">REST URL</f:facet>
-            <a href="#{request.contextPath}/rest/registrants/#{_registrant.id}">/rest/registrants/#{_registrant.id}</a>
+            <a href="#{request.contextPath}/rest/registrants/#{_member.id}">/rest/registrants/#{_member.id}</a>
          </h:column>
          <f:facet name="footer">
-                REST URL for all registrants: <a
+                REST URL for all members: <a
                href="#{request.contextPath}/rest/registrants">/rest/registrants</a>
          </f:facet>
       </h:dataTable>
