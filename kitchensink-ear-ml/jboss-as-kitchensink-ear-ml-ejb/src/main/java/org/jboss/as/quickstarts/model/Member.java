@@ -31,7 +31,7 @@ public class Member implements Serializable {
 
    @NotNull
    @Size(min = 1, max = 25)
-   @Pattern(regexp = "[A-Za-z ]*", message = "must contain only letters and spaces")
+   @Pattern(regexp = "[A-Za-z ]*")
    private String name;
 
    @NotNull
