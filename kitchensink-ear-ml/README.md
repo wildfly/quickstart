@@ -12,10 +12,37 @@ using JSF 2.0, CDI 1.0, EJB 3.1, JPA 2.0 and Bean Validation 1.0. It includes
 a persistence unit and some sample persistence and transaction code to help 
 you get your feet wet with database access in enterprise Java. 
 
-This project is similar to the jboss-as-kitchensink-ear example, however, this one  
-demonstrates how to localize your application. This makes your appliation 
-user friendly to people who speak other languages. This quickstart is 
-configured for English and French. 
+The "-ml" at the end of the project name refers to "Multi-Lingual". This 
+project is similar to the jboss-as-kitchensink-ear example, however, it also
+supports Internationalisation and Localisation, often referred to as i18n.
+A localised application is user friendly to people who speak other languages. 
+This quickstart is configured to display in English and French. 
+
+To view this application in French, you must change your browser language 
+preference to French. The following explains how to change the language 
+preference for some of the most common browsers. You may have to close your 
+browser instance and reload the page to see the French content.
+ 
+*   Mozilla Firefox 
+    *   From the menu, choose *Edit* --> *Preferences*
+    *   Choose *Content*, then under *Languages*, click the *Choose* button
+    *   Click *Select a language to add...* and select *French [fr]*
+    *   Click *OK*, then *Close*
+    *   Move *French* to the top of the list.
+    *   For more information, go to http://support.mozilla.com
+
+*   Google Chrome 
+    *   Click on the *Customize and control Google Chrome* wrench icon in the 
+        upper right hand corner.
+    *   Choose *Preferences*
+    *   Click the *Under the hood* tab
+    *   Scroll down to *Web Content* and click *Change font and language 
+        settings*
+    *   Click on the *Languages* tab and click *Add*
+    *   Find *French - francais* and click *Add*
+    *   Move it to the top of the list.
+    *   For more information, go to http://www.google.com/support/chrome/
+   
 
 System requirements
 -------------------
