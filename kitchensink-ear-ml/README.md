@@ -24,12 +24,13 @@ preference for some of the most common browsers. You may have to close your
 browser instance and reload the page to see the French content.
  
 *   Mozilla Firefox 
-    *   From the menu, choose *Edit* --> *Preferences*
+    *   From the menu, choose *Edit*, then *Preferences*
     *   Choose *Content*, then under *Languages*, click the *Choose* button
     *   Click *Select a language to add...* and select *French [fr]*
     *   Click *OK*, then *Close*
     *   Move *French* to the top of the list.
-    *   For more information, go to http://support.mozilla.com
+    *   Your browser version may be slightly different. For more information, 
+        go to http://support.mozilla.com
 
 *   Google Chrome 
     *   Click on the *Customize and control Google Chrome* wrench icon in the 
@@ -40,9 +41,19 @@ browser instance and reload the page to see the French content.
         settings*
     *   Click on the *Languages* tab and click *Add*
     *   Find *French - francais* and click *Add*
-    *   Move it to the top of the list.
-    *   For more information, go to http://www.google.com/support/chrome/
+    *   Move *French* to the top of the list.
+    *   Your browser version may be slightly different. For more information, 
+        go to http://www.google.com/support/chrome/
    
+    Microsoft Internet Explorer
+    *   Click the *Tools* button, and then click *Internet Options*
+    *   Click the General tab, and then click Languages.
+    *   In the *Language Preference* dialog box, click *Add*.
+    *   In the *Add Language* dialog box, select *French* from the list, and 
+        then click *OK* twice.
+    *   Move *French* to the top of the list.
+    *   Your browser version may be slightly different. For more information, 
+        http://windows.microsoft.com/en-US/windows-vista/Change-your-Internet-Explorer-language-settings
 
 System requirements
 -------------------
