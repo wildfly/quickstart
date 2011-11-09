@@ -45,7 +45,7 @@ browser instance and reload the page to see the French content.
     *   Your browser version may be slightly different. For more information, 
         go to http://www.google.com/support/chrome/
    
-    Microsoft Internet Explorer
+*   Microsoft Internet Explorer
     *   Click the *Tools* button, and then click *Internet Options*
     *   Click the General tab, and then click Languages.
     *   In the *Language Preference* dialog box, click *Add*.
