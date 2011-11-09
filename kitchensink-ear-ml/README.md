@@ -53,7 +53,7 @@ browser instance and reload the page to see the French content.
         then click *OK* twice.
     *   Move *French* to the top of the list.
     *   Your browser version may be slightly different. For more information, 
-        http://windows.microsoft.com/en-US/windows-vista/Change-your-Internet-Explorer-language-settings
+        go to http://windows.microsoft.com/en-US/windows-vista/Change-your-Internet-Explorer-language-settings
 
 System requirements
 -------------------
