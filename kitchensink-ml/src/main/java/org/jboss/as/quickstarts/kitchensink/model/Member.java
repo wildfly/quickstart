@@ -23,9 +23,6 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class Member implements Serializable {
    /** Default value included to remove warning. Remove or modify at will. **/
    private static final long serialVersionUID = 1L;
-
-//   private static final Locale LOCALE = FacesContext.getCurrentInstance().getViewRoot().getLocale();
-//   private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle("quickstarts.bundle.Resources", (LOCALE));
    
    @Id
    @GeneratedValue
@@ -47,6 +44,8 @@ public class Member implements Serializable {
    @Column(name = "phone_number")
    private String phoneNumber;
 
+   private String errorMsg;
+    
    public Long getId() {
       return id;
    }
@@ -78,4 +77,13 @@ public class Member implements Serializable {
    public void setPhoneNumber(String phoneNumber) {
       this.phoneNumber = phoneNumber;
    }
+
+   public String getErrorMsg() {
+      return errorMsg;
+   }
+
+   public void setErrorMsg(String errorMsg) {
+      this.errorMsg = errorMsg;
+   }
+   
 }
