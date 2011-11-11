@@ -1,4 +1,4 @@
-jboss-javaee6-webapp-src
+bean-validation
 ========================
 
 What is it?
