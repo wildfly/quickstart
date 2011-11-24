@@ -42,15 +42,15 @@ NOTE: This will bundle all dependencies into one jar file and so running the app
 
 - for hotrod-endpoint: 
 
-    java -cp target/hotrod-endpoint-1.0.0-SNAPSHOT-jar-with-dependencies.jar com.redhat.datagrid.hotrod.FootballManager
+    java -cp target/hotrod-endpoint-quickstart-1.0.0-SNAPSHOT-jar-with-dependencies.jar com.redhat.datagrid.hotrod.FootballManager
 
 - for rest-endpoint:
 
-    java -cp target/rest-endpoint-1.0.0-SNAPSHOT-jar-with-dependencies.jar com.redhat.datagrid.rest.FootballManager
+    java -cp target/rest-endpoint-quickstart-1.0.0-SNAPSHOT-jar-with-dependencies.jar com.redhat.datagrid.rest.FootballManager
 
 - for memcached-endpoint:
 
-    java -cp target/memcached-endpoint-1.0.0-SNAPSHOT-jar-with-dependencies.jar com.redhat.datagrid.memcached.FootballManager
+    java -cp target/memcached-endpoint-quickstart-1.0.0-SNAPSHOT-jar-with-dependencies.jar com.redhat.datagrid.memcached.FootballManager
 
 
 Using the application:
