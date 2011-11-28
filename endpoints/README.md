@@ -29,10 +29,9 @@ NOTE: The cache called "teams" will be used by HotRod and REST endpoints; Memcac
 
 3) Build the example application in its directory:
 
-    mvn package assembly:single
+    mvn package
 
-NOTE: This will bundle all dependencies into one jar file and so running the application is easier. You can also use
-      just "mvn clean package" but running the application will need specifying all dependencies on the classpath.
+NOTE: This uses Maven's shade plugin which will bundle all dependencies into one jar file and so running the application is easier.
 
 4) Start your EDG server instance:
 
@@ -42,15 +41,15 @@ NOTE: This will bundle all dependencies into one jar file and so running the app
 
 * for hotrod-endpoint: 
 
-    `java -cp target/hotrod-endpoint-quickstart-1.0.0-SNAPSHOT-jar-with-dependencies.jar com.redhat.datagrid.hotrod.FootballManager`
+    `java -jar target/hotrod-endpoint-quickstart.jar`
 
 * for rest-endpoint:
 
-    `java -cp target/rest-endpoint-quickstart-1.0.0-SNAPSHOT-jar-with-dependencies.jar com.redhat.datagrid.rest.FootballManager`
+    `java -jar target/rest-endpoint-quickstart.jar`
 
 * for memcached-endpoint:
 
-    `java -cp target/memcached-endpoint-quickstart-1.0.0-SNAPSHOT-jar-with-dependencies.jar com.redhat.datagrid.memcached.FootballManager`
+    `java -jar target/memcached-endpoint-quickstart.jar`
 
 
 Using the application
@@ -64,3 +63,4 @@ Basic usage scenarios can look like this (keyboard shortcuts will be shown to yo
 5. print again
 6. remove a team
 7. print again
+
