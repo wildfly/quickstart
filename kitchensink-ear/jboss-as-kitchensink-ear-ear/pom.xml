@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+
+   <parent>
+      <artifactId>jboss-as-kitchensink-ear</artifactId>
+      <groupId>org.jboss.as.quickstarts</groupId>
+      <version>7.0.2-SNAPSHOT</version>
+   </parent>
+
+   <artifactId>jboss-as-kitchensink-ear-ear</artifactId>
+   <packaging>ear</packaging>
+
+   <name>jboss-as-kitchensink-ear EAR module</name>
+
+   <dependencies>
+
+      <!-- Depend on the ejb module and war so that we can package them -->
+      <dependency>
+         <groupId>org.jboss.as.quickstarts</groupId>
+         <artifactId>jboss-as-kitchensink-ear-web</artifactId>
+         <type>war</type>
+      </dependency>
+      <dependency>
+         <groupId>org.jboss.as.quickstarts</groupId>
+         <artifactId>jboss-as-kitchensink-ear-ejb</artifactId>
+         <type>ejb</type>
+      </dependency>
+   </dependencies>
+
+   <build>
+      <finalName>jboss-as-kitchensink-ear</finalName>
+      <plugins>
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-ear-plugin</artifactId>
+            <version>2.6</version>
+            <configuration>
+               <!-- Tell Maven we are using Java EE 6 -->
+               <version>6</version>
+               <!-- Use Java EE ear libraries as needed. Java EE ear libraries 
+                  are in easy way to package any libraries needed in the ear, and automatically 
+                  have any modules (EJB-JARs and WARs) use them -->
+               <defaultLibBundleDir>lib</defaultLibBundleDir>
+               <modules>
+                  <!-- Register our War as a web module, and set the context 
+                     root -->
+                  <webModule>
+                     <groupId>org.jboss.as.quickstarts</groupId>
+                     <artifactId>jboss-as-kitchensink-ear-web</artifactId>
+                     <!-- Define the context root for the webapp -->
+                     <contextRoot>/jboss-as-kitchensink-ear</contextRoot>
+                  </webModule>
+               </modules>
+            </configuration>
+         </plugin>
+         <!-- The JBoss AS plugin deploys your ear to a local JBoss AS container -->
+         <!-- Due to Maven's lack of intelligence with EARs we need to configure 
+            the jboss-as maven plugin to skip deployment for all modules. We then enable 
+            it specifically in the ear module. -->
+         <plugin>
+            <groupId>org.jboss.as.plugins</groupId>
+            <artifactId>jboss-as-maven-plugin</artifactId>
+            <configuration>
+               <skip>false</skip>
+            </configuration>
+         </plugin>
+      </plugins>
+   </build>
+
+</project>

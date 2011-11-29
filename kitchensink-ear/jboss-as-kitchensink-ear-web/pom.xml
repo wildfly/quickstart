@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+
+   <parent>
+      <artifactId>jboss-as-kitchensink-ear</artifactId>
+      <groupId>org.jboss.as.quickstarts</groupId>
+      <version>7.0.2-SNAPSHOT</version>
+   </parent>
+
+   <artifactId>jboss-as-kitchensink-ear-web</artifactId>
+   <packaging>war</packaging>
+
+   <name>jboss-as-kitchensink-ear Web module</name>
+
+   <dependencies>
+
+      <!-- Dependency on the EJB module so we can use it's services if needed -->
+      <dependency>
+         <groupId>org.jboss.as.quickstarts</groupId>
+         <artifactId>jboss-as-kitchensink-ear-ejb</artifactId>
+         <type>ejb</type>
+         <scope>provided</scope>
+      </dependency>
+
+      <!-- Import the JAX-RS API, we use provided scope as the API is included 
+         in JBoss AS 7 -->
+      <dependency>
+         <groupId>org.jboss.spec.javax.ws.rs</groupId>
+         <artifactId>jboss-jaxrs-api_1.1_spec</artifactId>
+         <scope>provided</scope>
+      </dependency>
+
+      <!-- Import the CDI API, we use provided scope as the API is included 
+         in JBoss AS 7 -->
+      <dependency>
+         <groupId>javax.enterprise</groupId>
+         <artifactId>cdi-api</artifactId>
+         <scope>provided</scope>
+      </dependency>
+
+      <!-- Import the JPA API, we use provided scope as the API is included 
+         in JBoss AS 7 -->
+      <dependency>
+         <groupId>org.hibernate.javax.persistence</groupId>
+         <artifactId>hibernate-jpa-2.0-api</artifactId>
+         <scope>provided</scope>
+      </dependency>
+
+   </dependencies>
+
+   <build>
+      <plugins>
+         <plugin>
+            <artifactId>maven-war-plugin</artifactId>
+            <version>2.1.1</version>
+            <configuration>
+               <!-- Java EE 6 doesn't require web.xml, Maven needs to catch 
+                  up! -->
+               <failOnMissingWebXml>false</failOnMissingWebXml>
+            </configuration>
+         </plugin>
+      </plugins>
+   </build>
+
+</project>
