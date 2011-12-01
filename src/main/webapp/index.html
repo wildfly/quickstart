@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <title></title>
+   <script type="text/javascript">
+
+      /* Very simple detection of currently support clients - Android & iOS */
+      function redirectByClient() {
+         if (navigator.userAgent.match(/Android/i) ||
+               navigator.userAgent.match(/iPad/i) ||
+               navigator.userAgent.match(/iPhone/i) ||
+               navigator.userAgent.match(/iPod/i)
+               ) {
+            document.location = 'mobile.html';
+         } else {
+            document.location = 'desktop.html';
+         }
+      }
+
+   </script>
+
+</head>
+<body onload="redirectByClient();">
+
+</body>
+</html>

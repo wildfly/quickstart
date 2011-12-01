@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <title>JBoss HTML5/Mobile Application</title>
+
+   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+   
+   <!-- Set viewport scaling and zoom features -->
+   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0;">
+
+   <link type="text/css" rel="stylesheet" href="resources/css/jquery.mobile-1.0rc2.min.css"/>
+   <script type="text/javascript" src="resources/js/jquery-1.6.4.js"></script>
+   <script type="text/javascript" src="resources/js/jquery.mobile-1.0rc2.min.js"></script>
+
+   <!-- Recommended for production, and performance testing
+   <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0rc2/jquery.mobile-1.0rc2.min.css" />
+   <script src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
+   <script src="http://code.jquery.com/mobile/1.0rc2/jquery.mobile-1.0rc2.min.js"></script>
+    -->
+    
+   <!-- Pull in application specific css and JS -->
+   <link type="text/css" rel="stylesheet" href="resources/css/m.screen.css"/>
+   <script type="text/javascript" src="resources/js/app.js"></script>
+
+   <script type="text/javascript">
+      $(document).ready(function() {
+         //Fetches the initial member table
+         updateMemberTable();
+
+         //Register a event listener on the submit action
+         $('#reg').submit(function(event) {
+            event.preventDefault();
+
+            var formValues = $(this).serialize();
+
+            registerMember(formValues);
+         });
+
+         //Register the cancel listener
+         $('#cancel').click(function(event) {
+            //clear input fields
+            $('#reg')[0].reset();
+
+            //clear existing msgs
+            $('span.invalid').remove();
+            $('span.success').remove();
+         });
+
+      });
+   </script>
+</head>
+<body>
+<div id="container">
+
+<!-- Home Page - new HTML5 article tag -->
+<article id="intro-sec" data-role="page">
+
+   <!-- Header -->
+   <div data-role="header" data-theme="a" class="header">
+      <img class="header_logo" src="resources/gfx/icon_medium.png"/>
+
+      <h3>JBoss HTML5/Mobile Application</h3>
+      <a href="#info-sec" data-role="button" data-icon="info" class="ui-btn-right" data-iconpos="notext"></a>
+   </div>
+   <!-- /Header -->
+
+   <p>You have successfully deployed this Java EE 6 HTML5/Mobile web application
+      on JBoss.</p>
+
+   <p>This is built using a technique called
+      <strong>P</strong>lain <strong>O</strong>ld <strong>H</strong>TML<strong>5</strong> (<strong>POH5</strong>).
+   </p>
+
+   <ul id="features">
+      <li class="feature">Pure HTML client</li>
+      <li class="feature">JAX-RS GET & POST end points</li>
+      <li class="feature">HTML5 based page structure</li>
+      <li class="feature">HTML5 form element & validation</li>
+      <li class="feature">CSS3 selectors used for styling</li>
+      <li class="feature">JAX-RS validation handling</li>
+      <li class="feature">jQuery Mobile integration</li>
+      <li class="feature">jQuery used to assist</li>
+      <li class="feature">QUnit test suite to validate JavaScript</li>
+   </ul>
+
+   <!-- Footer -->
+   <div class="footer" data-role="footer" data-position="fixed">
+      <div class="footer_left">
+         <a href="#intro-sec" data-role="button" data-icon="home">Home</a>
+      </div>
+
+      <div class="footer_right">
+         <span class="footer_txt">Member:</span>
+         <a href="#register-sec" data-role="button" data-icon="plus">Add</a>
+         <a href="#member-sec" data-role="button" data-icon="grid">List</a>
+      </div>
+   </div>
+   <!-- /Footer -->
+</article>
+<!-- /Home Page -->
+
+<!-- Register Member Page  - new HTML5 article tag -->
+<article id="register-sec" data-role="page">
+
+   <!-- Header -->
+   <div data-role="header" data-theme="a" class="header">
+      <img class="header_logo" src="resources/gfx/icon_medium.png"/>
+
+      <h3>Member Registration</h3>
+      <a href="#info-sec" data-role="button" data-icon="info" class="ui-btn-right" data-iconpos="notext"></a>
+   </div>
+   <!-- /Header -->
+
+   <!-- For now mapping bean validation constraints from server side model is a manual task -->
+   <form name="reg" id="reg" method="post" data-ajax="false">
+      <fieldset>
+         <div data-role="fieldcontain">
+            <label for="name">Name:</label>
+            <input type="text" name="name" id="name" placeholder="Your Name" required autofocus/>
+         </div>
+         <div data-role="fieldcontain">
+            <label for="email">Email:</label>
+            <input type="email" name="email" id="email" placeholder="Your Email" required/>
+         </div>
+         <div data-role="fieldcontain">
+            <label for="phoneNumber">Phone #:</label>
+            <input type="tel" name="phoneNumber" id="phoneNumber" pattern="[0-9]{10,12}"
+                   placeholder="Your Phone #"
+                   required/>
+         </div>
+         <div id="formMsgs"></div>
+         <div data-role="controlgroup" data-type="horizontal">
+            <input type="submit" name="register" id="register" value="Register"/>
+            <input type="button" name="cancel" id="cancel" value="Cancel"/>
+         </div>
+      </fieldset>
+   </form>
+
+   <!-- Footer -->
+   <div class="footer" data-role="footer">
+      <div class="footer_left">
+         <a href="#intro-sec" data-role="button" data-icon="home">Home</a>
+      </div>
+
+      <div class="footer_right">
+         <span class="footer_txt">Member:</span>
+         <a href="#register-sec" data-role="button" data-icon="plus">Add</a>
+         <a href="#member-sec" data-role="button" data-icon="grid">List</a>
+      </div>
+   </div>
+   <!-- /Footer -->
+</article>
+<!-- /Register Member Page -->
+
+<!-- Member List Page - new HTML5 article tag -->
+<article id="member-sec" data-role="page">
+
+   <!-- Header -->
+   <div data-role="header" data-theme="a" class="header">
+      <img class="header_logo" src="resources/gfx/icon_medium.png"/>
+
+      <h3>Members</h3>
+      <a href="#info-sec" data-role="button" data-icon="info" class="ui-btn-right" data-iconpos="notext"></a>
+   </div>
+   <!-- /Header -->
+   
+   <!-- This table is populated and constructed using restful GET calls to the server, and uses CSS3 based
+        selectors for styling.  When the page is requested jQuery is used to send the JAX-RS request 
+        for the current list of members.  The table is them populated dynamically using JavaScript.
+        See app.js for more details.
+   -->
+
+   <table id="mem_tbl">
+      <thead>
+      <tr>
+         <th scope="col">Id</th>
+         <th scope="col">Name</th>
+         <th scope="col">Email</th>
+         <th scope="col">Phone</th>
+         <th scope="col">REST</th>
+      </tr>
+      </thead>
+      <tfoot>
+      <tr>
+         <td colspan="5">
+            <!-- Sets the JAX-RS URLs to retrieve all members either as XML 
+                 or JSON data.
+             -->
+            REST URL for all members: 
+            <a href="rest/members" target="_blank">XML</a>,
+            <a href="rest/members/json" target="_blank">JSON</a>
+         </td>
+      </tr>
+      </tfoot>
+      <tbody id="members">
+      </tbody>
+   </table>
+
+   <!-- Footer -->
+   <div class="footer" data-role="footer" data-position="fixed">
+      <div class="footer_left">
+         <a href="#intro-sec" data-role="button" data-icon="home">Home</a>
+      </div>
+
+      <div class="footer_right">
+         <span class="footer_txt">Member:</span>
+         <a href="#register-sec" data-role="button" data-icon="plus">Add</a>
+         <a href="#member-sec" data-role="button" data-icon="grid">List</a>
+      </div>
+   </div>
+   <!-- /Footer -->
+</article>
+<!-- /Member List Page -->
+
+<!-- Info Page - new HTML5 aside tag -->
+<aside id="info-sec" data-role="page">
+
+   <!-- Header -->
+   <div data-role="header" data-theme="a" class="header">
+      <img class="header_logo" src="resources/gfx/icon_medium.png"/>
+
+      <h3>More Information</h3>
+      <a href="#info-sec" data-role="button" data-icon="info" class="ui-btn-right" data-iconpos="notext"></a>
+   </div>
+   <!-- /Header -->
+
+   <h3>Find out more</h3>
+
+   <p>Learn about JBoss.</p>
+   <ul>
+      <li><a href="https://docs.jboss.org/author/display/AS7/Getting+Started+Developing+Applications+Guide">JBoss
+         AS 7 Getting Started Developing Applications Guide</a></li>
+      <li><a href="http://jboss.org/jbossas">JBoss AS 7 project
+         site</a></li>
+   </ul>
+
+   <p>Learn about the Java EE 6 platform and the component
+      model it provides.</p>
+   <ul>
+      <li><a href="http://download.oracle.com/javaee/6/tutorial/doc">Java
+         EE 6 tutorial</a></li>
+      <li><a href="http://docs.jboss.org/cdi/spec/1.0/html">JSR-299:
+         CDI specification</a></li>
+      <li><a href="https://sites.google.com/site/cdipojo/get-started">CDI
+         Source</a></li>
+   </ul>
+   <p>
+      If you have an add-on, please <a href="http://jboss.org">let
+      us know</a> and consider <a href="http://jboss.org">contributing</a>
+      it back to the community!
+   </p>
+
+   <!-- Footer -->
+   <div class="footer" data-role="footer" data-position="fixed">
+      <div class="footer_left">
+         <a href="#intro-sec" data-role="button" data-icon="home">Home</a>
+      </div>
+
+      <div class="footer_right">
+         <span class="footer_txt">Member:</span>
+         <a href="#register-sec" data-role="button" data-icon="plus">Add</a>
+         <a href="#member-sec" data-role="button" data-icon="grid">List</a>
+      </div>
+   </div>
+   <!-- /Footer -->
+</aside>
+<!-- /Info Page -->
+</div>
+</body>
+</html>
