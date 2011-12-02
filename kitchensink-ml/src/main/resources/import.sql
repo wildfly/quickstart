@@ -1,2 +1,0 @@
--- You can use this file to load seed data into the database using SQL statements
-insert into MemberML (id, name, email, phone_number) values (0, 'Francois LeBlanc', 'fleblanc@mailinator.com', '3235551212') 
