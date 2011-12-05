@@ -7,18 +7,9 @@
    <version>7.0.2-SNAPSHOT</version>
    <packaging>war</packaging>
 
-   <name>JBoss AS Quickstarts: HTML5 Mobile</name>
+   <name>jboss-as-html5-mobile</name>
    <description>A Java EE 6 HTML5 mobile web application for use with JBoss, generated from the jboss-javaee6-html5-mobile-archetype</description>
-   <url>http://github.com/jbossas/quickstart</url>
-   
-   <licenses>
-      <license>
-         <name>Apache License, Version 2.0</name>
-         <distribution>repo</distribution>
-         <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
-      </license>
-   </licenses>
-   
+
    <properties>
       <!-- Explicitly declaring the source encoding eliminates the following 
          message: -->
@@ -143,6 +134,13 @@
          <version>1.0.0.CR4</version>
          <scope>test</scope>
       </dependency>
+            
+      <dependency>
+         <groupId>org.jboss.arquillian.protocol</groupId>
+         <artifactId>arquillian-protocol-servlet</artifactId>
+         <version>1.0.0.CR4</version>
+         <scope>test</scope>               
+      </dependency>
 
    </dependencies>
 
@@ -180,19 +178,6 @@
          </plugin>
       </plugins>
    </build>
-   
-   <developers>
-       <developer>
-           <name>Jay Balunas</name>
-           <organization>Red Hat</organization>
-       </developer>
-   </developers>
-
-   <scm>
-      <connection>scm:git://github.com/jbossas/quickstart.git</connection>
-      <developerConnection>scm:git:git@github.com:jbossas/quickstart.git</developerConnection>
-      <url>http://github.com/jbossas/quickstart</url>
-   </scm>
 
    <profiles>
       <profile>
@@ -313,6 +298,26 @@
                <scope>test</scope>
             </dependency>
          </dependencies>
+      </profile>
+
+      <profile>
+         <!-- When built in OpenShift the 'openshift' profile will be used when invoking mvn. -->
+         <!-- Use this profile for any OpenShift specific customization your app will need. -->
+         <!-- By default that is to put the resulting archive into the 'deployments' folder. -->
+         <!-- http://maven.apache.org/guides/mini/guide-building-for-different-environments.html -->
+         <id>openshift</id>
+         <build>
+            <plugins>
+               <plugin>
+                  <artifactId>maven-war-plugin</artifactId>
+                  <version>2.1.1</version>
+                  <configuration>
+                     <outputDirectory>deployments</outputDirectory>
+                     <warName>ROOT</warName>
+                  </configuration>
+               </plugin>
+            </plugins>
+         </build>
       </profile>
 
    </profiles>

@@ -1,4 +1,4 @@
-JBoss Quickstarts: HTML5 Mobile
+jboss-as-html5-mobile
 ========================
 
 What is it?
@@ -17,11 +17,11 @@ application also uses some of the latest HTML5 features and advanced JAX-RS. And
 is just as important with POH5 as it is server side core this application also uses QUnit to show
 you how to unit test your JavaScript.
 
-This application also integrates jQuery mobile and basic client side device detection to give 
-you both a desktop and mobile version of the interface. Both support the same features, 
-including form validation, member registration, etc. However the mobile version adds in 
-mobile layout, touch, and performance improvements needed to get you started with mobile web 
-development on JBoss.  
+What is a modern web application without mobile web support? This application also integrates
+jQuery mobile and basic client side device detection to give you both a desktop and mobile 
+version of the interface. Both support the same features, including form validation, member
+registration, etc. However the mobile version adds in mobile layout, touch, and performance 
+improvements needed to get you started with mobile web development on JBoss.  
 
 System requirements
 -------------------
