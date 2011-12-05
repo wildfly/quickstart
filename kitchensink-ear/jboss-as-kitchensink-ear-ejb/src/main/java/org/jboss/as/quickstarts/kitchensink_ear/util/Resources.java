@@ -1,4 +1,4 @@
-package org.jboss.as.quickstarts.util;
+package org.jboss.as.quickstarts.kitchensink_ear.util;
 
 import java.util.logging.Logger;
 

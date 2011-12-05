@@ -1,4 +1,4 @@
-package org.jboss.as.quickstarts.model;
+package org.jboss.as.quickstarts.kitchensink_ear.model;
 
 import java.io.Serializable;
 
@@ -19,8 +19,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @XmlRootElement
-/** Changed the table name from Member to Registrant to avoid database conflicts with the kitchensink quickstart **/
-@Table(name = "Registrant",uniqueConstraints = @UniqueConstraint(columnNames = "email"))
+@Table(name = "Registrant", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
 public class Member implements Serializable {
    /** Default value included to remove warning. Remove or modify at will. **/
    private static final long serialVersionUID = 1L;

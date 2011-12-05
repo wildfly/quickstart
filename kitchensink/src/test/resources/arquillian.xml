@@ -9,11 +9,12 @@
 <!--       <property name="deploymentExportPath">target/</property>  -->
 <!--    </engine> -->
 
+   <!-- Force the use of the Servlet 3.0 protocol with all containers, as it is the most mature -->
+   <defaultProtocol type="Servlet 3.0" />
+
    <!-- Example configuration for a remote JBoss AS 7 instance -->
    <container qualifier="jboss" default="true">
-      <protocol type="jmx-as7">
-         <property name="executionType">REMOTE</property>
-      </protocol>
+      <!-- If you want to use the JBOSS_HOME environment variable, just delete the jbossHome property -->
       <configuration>
          <property name="jbossHome">/path/to/jboss/as</property>
       </configuration>

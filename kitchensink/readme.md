@@ -1,11 +1,11 @@
-jboss-javaee6-webapp-src
+jboss-as-kitchensink
 ========================
 
 What is it?
 -----------
 
 This is your project! It's a sample, deployable Maven 3 project to help you
-get your foot in the door developing with Java EE 6 on JBoss AS 7. This 
+get your foot in the door developing with Java EE 6 on JBoss AS 7 or EAP 6. This 
 project is setup to allow you to create a compliant Java EE 6 application 
 using JSF 2.0, CDI 1.0, EJB 3.1, JPA 2.0 and Bean Validation 1.0. It includes
 a persistence unit and some sample persistence and transaction code to help 
@@ -17,18 +17,15 @@ System requirements
 All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven
 3.0 or better.
 
-The application this project produces is designed to be run on a JBoss AS 7. 
+The application this project produces is designed to be run on a JBoss AS 7 or EAP 6. 
+The following instructions target JBoss AS 7, but they also apply to JBoss EAP 6.
  
-NOTE:
-This project retrieves artifacts from the JBoss Community Maven repository, a
-superset of the Maven central repository.
-
 With the prerequisites out of the way, you're ready to build and deploy.
 
 Deploying the application
 -------------------------
  
-First you need to start JBoss AS 7. To do this, run
+First you need to start JBoss AS 7 (or EAP 6). To do this, run
   
     $JBOSS_HOME/bin/standalone.sh
   
@@ -45,9 +42,9 @@ You can now deploy the artifact to JBoss AS by executing the following command:
 
     mvn jboss-as:deploy
 
-This will deploy `target/jboss-javaee6-webapp-src.war`.
+This will deploy `target/jboss-as-kitchensink.war`.
  
-The application will be running at the following URL <http://localhost:8080/jboss-javaee6-webapp-src/>.
+The application will be running at the following URL <http://localhost:8080/jboss-as-kitchensink/>.
 
 To undeploy from JBoss AS, run this command:
 
@@ -76,13 +73,13 @@ If you created the project using the Maven archetype wizard in your IDE
 (Eclipse, NetBeans or IntelliJ IDEA), then there is nothing to do. You should
 already have an IDE project.
 
+Detailed instructions for using Eclipse with JBoss AS 7 are provided in the 
+JBoss AS 7 Getting Started Guide for Developers.
+
 If you created the project from the commandline using archetype:generate, then
 you need to import the project into your IDE. If you are using NetBeans 6.8 or
 IntelliJ IDEA 9, then all you have to do is open the project as an existing
 project. Both of these IDEs recognize Maven projects natively.
- 
-Detailed instructions for using Eclipse with JBoss AS 7 are provided in the 
-JBoss AS 7 Getting Started Guide for Developers.
 
 Downloading the sources and Javadocs
 ====================================

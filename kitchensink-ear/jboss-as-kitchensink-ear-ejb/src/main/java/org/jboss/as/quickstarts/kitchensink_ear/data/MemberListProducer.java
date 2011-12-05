@@ -1,6 +1,6 @@
-package org.jboss.as.quickstarts.data;
+package org.jboss.as.quickstarts.kitchensink_ear.data;
 
-import org.jboss.as.quickstarts.model.Member;
+import org.jboss.as.quickstarts.kitchensink_ear.model.Member;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;

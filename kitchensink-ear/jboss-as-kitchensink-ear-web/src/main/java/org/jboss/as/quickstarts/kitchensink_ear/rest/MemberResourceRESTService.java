@@ -1,4 +1,4 @@
-package org.jboss.as.quickstarts.rest;
+package org.jboss.as.quickstarts.kitchensink_ear.rest;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
-import org.jboss.as.quickstarts.model.Member;
+import org.jboss.as.quickstarts.kitchensink_ear.model.Member;
 
 /**
  * JAX-RS Example

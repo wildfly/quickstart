@@ -1,4 +1,4 @@
-package org.jboss.as.quickstarts.test;
+package org.jboss.as.quickstarts.kitchensink_ear.test;
 
 import static org.junit.Assert.assertNotNull;
 
@@ -15,9 +15,9 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import org.jboss.as.quickstarts.controller.MemberRegistration;
-import org.jboss.as.quickstarts.model.Member;
-import org.jboss.as.quickstarts.util.Resources;
+import org.jboss.as.quickstarts.kitchensink_ear.controller.MemberRegistration;
+import org.jboss.as.quickstarts.kitchensink_ear.model.Member;
+import org.jboss.as.quickstarts.kitchensink_ear.util.Resources;
 
 @RunWith(Arquillian.class)
 public class MemberRegistrationTest {

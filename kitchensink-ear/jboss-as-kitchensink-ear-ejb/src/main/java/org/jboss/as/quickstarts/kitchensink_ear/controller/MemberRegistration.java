@@ -1,4 +1,4 @@
-package org.jboss.as.quickstarts.controller;
+package org.jboss.as.quickstarts.kitchensink_ear.controller;
 
 import java.util.logging.Logger;
 
@@ -11,7 +11,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 
-import org.jboss.as.quickstarts.model.Member;
+import org.jboss.as.quickstarts.kitchensink_ear.model.Member;
 
 // The @Stateful annotation eliminates the need for manual transaction demarcation
 @Stateful

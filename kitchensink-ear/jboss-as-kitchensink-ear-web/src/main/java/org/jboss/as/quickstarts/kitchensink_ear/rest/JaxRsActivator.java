@@ -1,4 +1,4 @@
-package org.jboss.as.quickstarts.rest;
+package org.jboss.as.quickstarts.kitchensink_ear.rest;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;

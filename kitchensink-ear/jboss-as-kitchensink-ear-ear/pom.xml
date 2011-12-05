@@ -44,14 +44,16 @@
                   have any modules (EJB-JARs and WARs) use them -->
                <defaultLibBundleDir>lib</defaultLibBundleDir>
                <modules>
-                  <!-- Register our War as a web module, and set the context 
-                     root -->
+                  <!-- Default context root of the web app is /jboss-as-kitchensink-ear-web. 
+                  If a custom context root is needed, uncomment the following snippet to
+                  register our War as a web module and set the contextRoot property -->
+                  <!--
                   <webModule>
                      <groupId>org.jboss.as.quickstarts</groupId>
                      <artifactId>jboss-as-kitchensink-ear-web</artifactId>
-                     <!-- Define the context root for the webapp -->
                      <contextRoot>/jboss-as-kitchensink-ear</contextRoot>
                   </webModule>
+                  -->
                </modules>
             </configuration>
          </plugin>
@@ -68,5 +70,26 @@
          </plugin>
       </plugins>
    </build>
+   
+   <profiles>
+      <profile>
+         <!-- When built in OpenShift the 'openshift' profile will be used when invoking mvn. -->
+         <!-- Use this profile for any OpenShift specific customization your app will need. -->
+         <!-- By default that is to put the resulting archive into the 'deployments' folder. -->
+         <!-- http://maven.apache.org/guides/mini/guide-building-for-different-environments.html -->
+         <id>openshift</id>
+         <build>
+            <plugins>
+               <plugin>
+                  <artifactId>maven-ear-plugin</artifactId>
+                  <version>2.6</version>
+                  <configuration>
+                     <outputDirectory>deployments</outputDirectory>
+                  </configuration>
+               </plugin>
+            </plugins>
+         </build>
+      </profile>
+   </profiles>
 
 </project>
