@@ -1,0 +1,47 @@
+<h1>Distribution</h1>
+<p>This is a Maven assembly to create a zip distro of the quickstarts. To run </p>
+<pre><code>mvn clean install
+</code></pre>
+<p>You will find a zip in <code>target/jboss-as-docs-&lt;version&gt;.zip</code></p>
+<p>The <code>README.md</code> in <code>src/main/assembly</code> will be included in the finished zip.</p>
+<h1>Release process for quickstarts</h1>
+<ol>
+<li>Release the archetypes</li>
+<li>
+<p>Regenerate the archetype based quickstarts</p>
+<pre><code>./release-utils.sh -r &lt;version of archetypes&gt;
+</code></pre>
+</li>
+</ol>
+<p>This script assumes that the archetypes and quickstarts are version sync'd
+3. Commit any changes to the archetype based quickstarts
+4. Update versions by running</p>
+<pre><code>    ./release-utils.sh -u -o &lt;old snapshot version&gt; -n &lt;release version&gt;
+</code></pre>
+<ol>
+<li>Commit the version update</li>
+<li>
+<p>Tag</p>
+<pre><code>git tag -a &lt;release version&gt; -m "Release &lt;release version"
+</code></pre>
+</li>
+<li>
+<p>Reset version numbers to snapshots</p>
+<pre><code>./release-utils.sh -u -o &lt;release version&gt; -n &lt;new snapshot version&gt;
+</code></pre>
+</li>
+<li>
+<p>Checkout the tag</p>
+<pre><code>git checkout &lt;release version&gt;
+</code></pre>
+<ol>
+<li>
+<p>Build the dist</p>
+<p>mvn clean install
+10. Upload the dist to <a href="http://download.jboss.org">http://download.jboss.org</a></p>
+<p>rsync -Pv target/jboss-as-docs-<version>.zip jbossas@filemgmt.jboss.org:downloads_htdocs/jbossas/7.<minor version>/<version>/
+11. Update jboss.org/jbossas/downloads</p>
+</li>
+</ol>
+</li>
+</ol>

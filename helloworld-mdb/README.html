@@ -1,0 +1,38 @@
+<h1>jboss-as-helloworld-mdb Example</h1>
+<h2>What is it?</h2>
+<p>This example demonstrates the use of <em>JMS 1.1</em> and <em>EJB 3.1 Message-Driven Bean</em> in JBoss AS 7.1.0.</p>
+<h2>System requirements</h2>
+<p>All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven
+3.0 or better.</p>
+<p>The application this project produces is designed to be run on a JBoss AS 7.1.0. </p>
+<p>NOTE:
+This Project will use the already default configured connection factory named "InVmConnectionFactory" with the jndi "java:/ConnectionFactory" and a queue named "testQueue" with the jndi "queue/test".
+The artifacts will come from the JBoss Community Maven repository, a superset of the Maven central repository.</p>
+<p>With the prerequisites out of the way, you're ready to build and deploy.</p>
+<h2>Deploying the application</h2>
+<p>First of all you need to enable the "admin" user from $JBOSS_HOME/standalone/configuration/mgmt-users.properties file, and then start JBoss AS 7.1.0. by running this script</p>
+<pre><code>$JBOSS_HOME/bin/standalone.sh
+</code></pre>
+<p>or if you are using windows</p>
+<pre><code>$JBOSS_HOME/bin/standalone.bat
+</code></pre>
+<p>To deploy the application, you first need to produce the archive to deploy using
+the following Maven goal:</p>
+<pre><code>mvn package
+</code></pre>
+<p>You can now deploy the artifact to JBoss AS by executing the following command:</p>
+<pre><code>mvn jboss-as:deploy
+</code></pre>
+<p>This will deploy <code>target/jboss-as-helloworld-mdb.war</code>.</p>
+<p>The application will be running at the following URL <a href="http://localhost:8080/jboss-as-helloworld-mdb/HelloWorldMDBServletClient">http://localhost:8080/jboss-as-helloworld-mdb/HelloWorldMDBServletClient</a>.</p>
+<p>Go to the JBoss Application Server console or Server log and the result can look like this:</p>
+<p>15:42:35,453 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldMDB] (Thread-47 (group:HornetQ-client-global-threads-1267410030)) Received Message: This is message 1
+15:42:35,455 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldMDB] (Thread-46 (group:HornetQ-client-global-threads-1267410030)) Received Message: This is message 2
+15:42:35,457 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldMDB] (Thread-50 (group:HornetQ-client-global-threads-1267410030)) Received Message: This is message 3
+15:42:35,478 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldMDB] (Thread-53 (group:HornetQ-client-global-threads-1267410030)) Received Message: This is message 5
+15:42:35,481 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldMDB] (Thread-52 (group:HornetQ-client-global-threads-1267410030)) Received Message: This is message 4</p>
+<p>To undeploy from JBoss AS, run this command:</p>
+<pre><code>mvn jboss-as:undeploy
+</code></pre>
+<p>You can also start JBoss AS 7 and deploy the project using Eclipse. See the JBoss AS 7
+Getting Started Guide for Developers for more information.</p>
