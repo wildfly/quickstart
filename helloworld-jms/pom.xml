@@ -1,0 +1,134 @@
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>org.jboss.as.quickstarts</groupId>
+	<artifactId>jboss-as-helloworld-jms</artifactId>
+	<version>1.0.0</version>
+	<packaging>jar</packaging>
+	<name>JBoss AS Quickstarts: Helloworld JMS external producer/consumer client</name>
+
+	<url>http://jboss.org/jbossas</url>
+	<licenses>
+		<license>
+			<name>GNU Lesser General Public License</name>
+			<url>http://www.gnu.org/copyleft/lesser.html</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<properties>
+		<!-- Explicitly declaring the source encoding eliminates the following
+			message: -->
+		<!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered
+			resources, i.e. build is platform dependent! -->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<!-- Include the JBoss Maven repository so we can access JBoss artifacts -->
+	<repositories>
+		<repository>
+			<id>jboss-public-repository</id>
+			<name>JBoss Repository</name>
+			<url>https://repository.jboss.org/nexus/content/groups/public</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>jboss-public-repository</id>
+			<name>JBoss Repository</name>
+			<url>https://repository.jboss.org/nexus/content/groups/public</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</pluginRepository>
+	</pluginRepositories>
+
+	<dependencies>
+        <dependency>
+            <groupId>org.jboss.as</groupId>
+            <artifactId>jboss-as-naming</artifactId>
+            <version>7.1.0.CR1-SNAPSHOT</version>
+        </dependency>
+		<dependency>
+			<groupId>org.jboss.spec.javax.jms</groupId>
+			<artifactId>jboss-jms-api_1.1_spec</artifactId>
+			<version>1.0.0.Final</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.as</groupId>
+    		<artifactId>jboss-as-messaging</artifactId>
+    		<version>7.1.0.CR1-SNAPSHOT</version>		
+		</dependency>	
+	</dependencies>
+
+	<build>
+		<finalName>jboss-as-helloworld-jms</finalName>
+		<plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.1.1</version>
+                <configuration>
+                    <mainClass>org.jboss.as.quickstarts.jms.HelloWorldJMSClient</mainClass>
+                    <systemProperties>
+                        <systemProperty>
+                            <key>connection.type</key>
+                            <value>netty</value>
+                        </systemProperty>                                        	
+                        <systemProperty>
+                            <key>java.naming.factory.initial</key>
+                            <value>org.jboss.as.naming.InitialContextFactory</value>
+                        </systemProperty>
+                        <systemProperty>
+                            <key>java.naming.provider.url</key>
+                            <value>jnp://localhost:1099</value>
+                        </systemProperty>
+                        <systemProperty>
+                            <key>java.logging.config.file</key>
+                            <value>./helloworld-jms-logging.properties</value>
+                        </systemProperty>                    
+                    </systemProperties>
+                </configuration>
+            </plugin>
+			<plugin>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.2</version>
+				<configuration>
+				</configuration>
+			</plugin>
+			<!-- JBoss AS plugin to deploy war -->
+			<plugin>
+				<groupId>org.jboss.as.plugins</groupId>
+				<artifactId>jboss-as-maven-plugin</artifactId>
+				<version>7.1.0.Beta1b</version>
+				<configuration>
+					<username>admin</username>
+					<password>admin</password>
+				</configuration>
+			</plugin>
+			<!-- Compiler plugin enforces Java 1.6 compatibility and activates annotation
+				processors -->
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.1</version>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>
