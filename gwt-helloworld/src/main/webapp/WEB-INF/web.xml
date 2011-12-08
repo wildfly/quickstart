@@ -1,0 +1,17 @@
+<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+
+	<!-- One way of activating REST Services is to add these lines. The server 
+		is responsible for adding the corresponding servlet automatically. If the 
+		src folder org.jboss.as.quickstarts.gwthelloworld.HelloWorld class has the 
+		Annotations to receive REST invocation. -->
+	<servlet-mapping>
+		<servlet-name>javax.ws.rs.core.Application</servlet-name>
+		<url-pattern>/hello/*</url-pattern>
+	</servlet-mapping>
+
+	<welcome-file-list>
+		<welcome-file>HelloWorldApp.html</welcome-file>
+	</welcome-file-list>
+</web-app>
