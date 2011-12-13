@@ -15,11 +15,14 @@ the tests for the HTML5/Mobile application.
 	<script type="text/javascript" src="qunit/qunit.js"></script>
 
    <!-- The js file to be tested -->
+   <script type="text/javascript" src="../../main/webapp/resources/js/underscore-min.js"></script>
    <script type="text/javascript" src="../../main/webapp/resources/js/app.js"></script>
 
    <!-- The js file that contains the tests -->
    <script type="text/javascript" src="test/test.js"></script>
 
+	<!-- Underscore.js Template for building members (simplified for testing) -->
+	<script type="text/template" id="member-tmpl"><% _.each(members, function(member) { %><div><%=member.id%></div><% }); %></script>
 </head>
 <body>
 	<h1 id="qunit-header">HTML5 Test Suite</h1>

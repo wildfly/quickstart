@@ -7,17 +7,17 @@ module('Member Row Construction');
 test('Build 2 Member Rows', function() {
    expect(1);
 
-   var members = '<member><email>jane.doe@company.com</email><id>1</id><name>Jane Doe</name><phoneNumber>12312312311</phoneNumber></member><member><email>john.doe@company.com</email><id>0</id><name>John Doe</name><phoneNumber>2125551212</phoneNumber></member>';
+   var members = [{"email": "jane.doe@company.com", "id": 1, "name": "Jane Doe", "phoneNumber": "12312312311"},{"email": "john.doe@company.com", "id": 0, "name": "John Doe", "phoneNumber": "2125551212"}];
 
    var html = buildMemberRows(members);
-   var length = $(html).length
+   var length = $(html).length;
    ok(length == 2, 'Number of rows built: ' + length);
 });
 
 test('Build 0 member Rows', function() {
   expect(1);
 
-   var members = '';
+   var members = [];
 
    var html = buildMemberRows(members);
 
