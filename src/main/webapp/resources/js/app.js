@@ -3,31 +3,28 @@ Core JavaScript functionality for the application.  Performs the required
 Restful calls, validates return values, and populates the member table.
  */
 
+/* Get the member template */
+function getMemberTemplate() {
+	$.ajax({
+        url: "resources/tmpl/member.tmpl",
+        dataType: "html",
+        success: function( data ) {
+            $( "head" ).append( data );
+            updateMemberTable();
+        }
+    });
+}
+
 /* Builds the updated table for the member list */
 function buildMemberRows(members) {
-   var html = '';
-   $(members).each(function() {
-      var $member = $(this);
-      html += '<tr class="member">';
-      var memId = $member.find('id').text();
-      html += '<td>' + memId + '</td>';
-      html += '<td>' + $member.find('name').text() + '</td>';
-      html += '<td>' + $member.find('email').text() + '</td>';
-      html += '<td>' + $member.find('phoneNumber').text() + '</td>';
-      html += '<td><a href="rest/members/' + memId +
-               '" target="_blank" class="resturl">XML</a> / <a href="rest/members/' +
-               memId + '/json" target="_blank" class="resturl">JSON</a></td>';
-   });
-   return html;
+	return _.template( $( "#member-tmpl" ).html(), {"members": members});
 }
 
 /* Uses JAX-RS GET to retrieve current member list */
 function updateMemberTable() {
-   $.get('rest/members',
+   $.get('rest/members/json',
          function(data) {
-            var $members = $(data).find('member');
-
-            $('#members').empty().append(buildMemberRows($members));
+            $('#members').empty().append(buildMemberRows(data));
 
          }).error(function(error) {
             var errStatus = error.status;

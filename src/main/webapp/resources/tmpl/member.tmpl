@@ -1,0 +1,11 @@
+<script type="text/template" id="member-tmpl">
+<% _.each(members, function(member) { %>
+	<tr class="member">
+		<td><%=member.id%></td>
+		<td><%=member.name%></td>
+		<td><%=member.email%></td>
+		<td><%=member.phoneNumber%></td>
+		<td><a href="rest/members/<%=member.id%>" target="_blank" class="resturl">XML</a> / <a href="rest/members/<%=member.id%>/json" target="_blank" class="resturl">JSON</a></td>
+	</tr>
+<% }); %>
+</script>
