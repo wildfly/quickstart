@@ -17,4 +17,5 @@ contains tutorials for:
 * `kitchensink` - CDI + JSF + JPA + EJB + JPA + JAX-RS + BV
 * `helloworld-rs` - CDI + JAX-RS
 * `helloworld-osgi` - OSGi
+* `cdi-injection` - CDI injections & qualifiers + Servlet
 
