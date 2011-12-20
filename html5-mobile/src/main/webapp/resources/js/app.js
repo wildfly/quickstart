@@ -22,14 +22,16 @@ function buildMemberRows(members) {
 
 /* Uses JAX-RS GET to retrieve current member list */
 function updateMemberTable() {
-   $.get('rest/members/json',
-         function(data) {
+   $.ajax({
+	   url: "rest/members/json",
+	   cache: false,
+	   success: function(data) {
             $('#members').empty().append(buildMemberRows(data));
-
-         }).error(function(error) {
-            var errStatus = error.status;
-            console.log("error updating table -" + errStatus);
-         });
+       },
+       error: function(error) {
+            //console.log("error updating table -" + error.status);
+       }
+   });
 }
 
 /*
@@ -44,7 +46,7 @@ function registerMember(formValues) {
 
    $.post('rest/members', formValues,
          function(data) {
-            console.log("Member registered");
+            //console.log("Member registered");
 
             //clear input fields
             $('#reg')[0].reset();
@@ -54,10 +56,8 @@ function registerMember(formValues) {
 
             updateMemberTable();
          }).error(function(error) {
-            var errStatus = error.status;
-
             if ((error.status == 409) || (error.status == 400)) {
-               console.log("Validation error registering user!");
+               //console.log("Validation error registering user!");
 
                var errorMsg = JSON.parse(error.responseText);
 
@@ -66,7 +66,7 @@ function registerMember(formValues) {
                         .insertAfter($('#' + index));
                });
             } else {
-               console.log("error - unknown server issue");
+               //console.log("error - unknown server issue");
                $('#formMsgs').append($('<span class="invalid">Unknown server error</span>'));
             }
          });
