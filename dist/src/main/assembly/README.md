@@ -18,4 +18,4 @@ contains tutorials for:
 * `helloworld-rs` - CDI + JAX-RS
 * `helloworld-osgi` - OSGi
 * `cdi-injection` - CDI injections & qualifiers + Servlet
-
+* `ejb-in-war` - EJB + JSF deployed as a war
