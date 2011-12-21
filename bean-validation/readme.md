@@ -5,8 +5,8 @@ What is it?
 -----------
 
 This is your project! It's a sample, Maven 3 project to help you
-get your foot in the door developing with Java EE 6 on JBoss AS 7. This 
-project is setup to allow you to use CDI 1.0, JPA 2.0 and Bean Validation 1.0. 
+get your foot in the door developing with Java EE 6 on JBoss AS 7 or JBoss EAP 6. 
+This project is setup to allow you to use CDI 1.0, JPA 2.0 and Bean Validation 1.0. 
 It includes a persistence unit and some sample persistence code to help 
 you get your feet wet with database access in enterprise Java. 
 
@@ -28,12 +28,12 @@ Running the Arquillian tests
 By default, tests are configured to be skipped. The reason is that the sample
 test is an Arquillian test, which requires the use of a container. You can
 activate this test by selecting one of the container configuration provided 
-for JBoss AS 7 (remote).
+for JBoss AS 7 / JBoss EAP 6 (remote).
 
 Testing on Remote Server
 -------------------------
  
-First you need to start JBoss AS 7. To do this, run
+First you need to start JBoss AS 7 or JBoss EAP6. To do this, run
   
     $JBOSS_HOME/bin/standalone.sh
   
@@ -41,7 +41,7 @@ or if you are using windows
  
     $JBOSS_HOME/bin/standalone.bat
 
-To run the test in JBoss AS 7, first start a JBoss AS 7 instance. Then, run the
+To run the test in JBoss AS 7, first start a JBoss AS 7 or JBoss EAP 6 instance. Then, run the
 test goal with the following profile activated:
 
     mvn clean test -Parq-jbossas-remote
@@ -60,7 +60,7 @@ or if you are using windows
 
 Or hardcode the path in pom.xml file
 
-To run the test in JBoss AS 7, run the test goal with the following profile activated:
+To run the test in JBoss AS 7 or JBoss EAP 6, run the test goal with the following profile activated:
 
     mvn clean test -Parq-jbossas-managed
 
