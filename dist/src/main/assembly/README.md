@@ -19,3 +19,4 @@ contains tutorials for:
 * `helloworld-osgi` - OSGi
 * `cdi-injection` - CDI injections & qualifiers + Servlet
 * `ejb-in-war` - EJB + JSF deployed as a war
+* `ejb-in-ear` - EJB + JSF, JAR and WAR deployed as EAR
