@@ -13,7 +13,7 @@ Quickstarts (or examples, or samples) for JBoss AS. There are a number of rules 
 
 You can find the documentation at <https://docs.jboss.org/author/display/AS7/Documentation>.
 
-If you add a quickstart, don't forget to update `dist/src/main/assembly/README.md`.
+If you add a quickstart, don't forget to update `dist/src/main/assembly/README.md` and `pom.xml` (the 'modules' section).
 
 The 'dist' folder contains Maven scripts to build a zip of the quickstarts.
 
