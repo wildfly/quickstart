@@ -1,0 +1,43 @@
+<h1>GWT Hello World Example</h1>
+<h2>What is it?</h2>
+<p>This example demonstrates the use of <em>CDI 1.0</em> and <em>JAX-RS</em> in <em>JBoss AS 7</em> with a GWT front-end client.
+GWT is basically a typesafe, statically checked programming model for producing HTML5+CSS3+JavaScript
+front-ends. In this example, we use RESTful services on the backend.</p>
+<p>You can test the REST endpoint at the URL http://localhost:8080/jboss-as-helloworld-gwt/hello/json/David</p>
+<h2>System requirements</h2>
+<p>All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven
+3.0 or better.</p>
+<p>The application this project produces is designed to be run on a JBoss AS 7. </p>
+<p>NOTE:
+This project retrieves artifacts from the JBoss Community Maven repository, a
+superset of the Maven central repository.</p>
+<p>With the prerequisites out of the way, you're ready to build and deploy.</p>
+<h2>Deploying the Application</h2>
+<p>First you need to start JBoss AS 7. To do this, run</p>
+<pre><code>$JBOSS_HOME/bin/standalone.sh
+</code></pre>
+<p>or if you are using windows</p>
+<pre><code>$JBOSS_HOME/bin/standalone.bat
+</code></pre>
+<p>To deploy the application, you first need to produce the archive to deploy using
+the following Maven goal:</p>
+<pre><code>mvn clean package
+</code></pre>
+<p>You can now deploy the artifact to JBoss AS by executing the following command:</p>
+<pre><code>mvn jboss-as:deploy
+</code></pre>
+<p>This will deploy <code>target/jboss-as-helloworld-gwt.war</code>.</p>
+<p>The application will be running at the following URL <a href="http://localhost:8080/jboss-as-helloworld-gwt/">http://localhost:8080/jboss-as-helloworld-gwt/</a>.</p>
+<p>To undeploy from JBoss AS, run this command:</p>
+<pre><code>mvn jboss-as:undeploy
+</code></pre>
+<p>You can also start JBoss AS 7 and deploy the project using Eclipse. See the JBoss AS 7
+Getting Started Guide for Developers for more information.</p>
+<h2>Running the Application in GWT Dev Mode</h2>
+<p>GWT Dev Mode provides an edit-save-refresh development experience. If you plan to try 
+modifying this demo, we recommend you start the application in Dev Mode so you don't 
+have to repackage the whole application every time you change it.</p>
+<p>Deploy the war file and start JBoss AS 7 as described above.</p>
+<p>Then execute the command:</p>
+<pre><code>mvn gwt:run
+</code></pre>

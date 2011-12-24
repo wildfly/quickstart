@@ -8,7 +8,7 @@ This example demonstrates the use of *CDI 1.0* and *JAX-RS* in *JBoss AS 7* with
 GWT is basically a typesafe, statically checked programming model for producing HTML5+CSS3+JavaScript
 front-ends. In this example, we use RESTful services on the backend.
 
-You can test the REST endpoint at the URL http://localhost:8080/jboss-as-gwt-helloworld/hello/json/David
+You can test the REST endpoint at the URL http://localhost:8080/jboss-as-helloworld-gwt/hello/json/David
 
 
 System requirements
@@ -46,9 +46,9 @@ You can now deploy the artifact to JBoss AS by executing the following command:
 
     mvn jboss-as:deploy
 
-This will deploy `target/jboss-as-gwt-helloworld.war`.
+This will deploy `target/jboss-as-helloworld-gwt.war`.
  
-The application will be running at the following URL <http://localhost:8080/jboss-as-gwt-helloworld/>.
+The application will be running at the following URL <http://localhost:8080/jboss-as-helloworld-gwt/>.
 
 To undeploy from JBoss AS, run this command:
 
