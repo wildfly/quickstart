@@ -9,9 +9,12 @@ The Getting Started Developing Applications Guide -
 <https://docs.jboss.org/author/display/AS7/Getting+Started+Developing+Applications+Guide>
 contains tutorials for:
 
+* `bmt` - programatic management of JTA and JPA (JTA + JPA + CDI + EJB)
+* `cmt` - shows how to use container managed transactions
 * `cdi-injection` - CDI injections & qualifiers + Servlet
 * `ejb-in-ear` - EJB + JSF, JAR and WAR deployed as EAR
 * `ejb-in-war` - EJB + JSF deployed as a war
+* `ejb-remote` - shows how to access EJBs remotely (EJB + JNDI)
 * `greeter` - CDI + JSF + JPA + EJB + JTA
 * `helloworld` -Very basic  CDI + Servlet
 * `helloworld-gwt` - GWT
@@ -26,7 +29,4 @@ contains tutorials for:
 * `numberguess` - CDI + JSF
 * `servlet-async` - CDI + Asynchronous Servlet + Asynchronous EJB 
 * `servlet-filterlistener` - Servlet Filter and Listener
-* `ejb-remote` - shows how to access EJBs remotely (EJB + JNDI)
-* `cmt` - shows how to use container managed transactions
-
 
