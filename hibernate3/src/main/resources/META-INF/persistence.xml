@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+   version="2.0">
+   <persistence-unit name="hibernate3Database">
+   	  <!-- define DS we will use, NOTE that this changes compared to previous AS releases! -->
+      <jta-data-source>java:jboss/datasources/ExampleDS</jta-data-source>
+
+      <properties>
+         <!-- define JPA provider, check: 
+         https://docs.jboss.org/author/display/AS7/Developer+Guide#DeveloperGuide-PackagingtheHibernate3.5orgreater3.xJPApersistenceproviderwithyourapplication -->
+      	 <property name="jboss.as.jpa.providerModule" value="hibernate3-bundled" />
+      	 <!-- Define boostrat operation. This will instruct container to create tables(drop if they exist, prior to creation) -->
+         <property name="hibernate.hbm2ddl.auto" value="create-drop" />
+         <!-- Enable dump of QL/SQL queries to console -->
+         <property name="hibernate.show_sql" value="true" />
+      </properties>
+   </persistence-unit>
+</persistence>

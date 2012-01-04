@@ -1,0 +1,43 @@
+<h1>jboss-as-hibernate3</h1>
+<h2>What is it?</h2>
+<p>This is a simple JSF 2.0 example based on hibernate4 quickstart. Its purpose is to demonstrate how you can use Hibernate 3 in your application.</p>
+<p>This quickstart, like the log4j quickstart, demonstrates how to define a module dependency. However, this quickstart goes beyond that and also demonstrates the following:</p>
+<pre><code>* WAR creation - The Maven script and Maven WAR plugin create a *WAR* archive that includes ONLY the Hibernate 3.x binaries. To understand better how this is achieved, please refer to the *pom.xml* in the root directory of this quickstart. Additional information can be found in the &lt;http://maven.apache.org/plugins/maven-war-plugin&gt; documentation.
+* Module exclusion and inclusion - This example demonstrates how to control class loading using *dependencies* and *exclusions* in the *jboss-deployment-structure.xml* file. For more information about this file, please refer to &lt;https://docs.jboss.org/author/display/AS7/Developer+Guide#DeveloperGuide-JBossDeploymentStructureFile&gt;
+* Persistence configuration - Configuration is required to tell the container how to load JPA/Hibernate.
+</code></pre>
+<h2>System requirements</h2>
+<p>All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven
+3.0 or better.</p>
+<p>The application this project produces is designed to be run on a JBoss AS 7 or EAP 6.
+The following instructions target JBoss AS 7, but they also apply to JBoss EAP 6.</p>
+<p>With the prerequisites out of the way, you're ready to build and deploy.</p>
+<h2>Deploying the application</h2>
+<p>First you need to start JBoss AS 7 (or EAP 6). To do this, run</p>
+<pre><code>$JBOSS_HOME/bin/standalone.sh
+</code></pre>
+<p>or if you are using windows</p>
+<pre><code>$JBOSS_HOME/bin/standalone.bat
+</code></pre>
+<p>To deploy the application, you first need to produce the archive to deploy using
+the following Maven goal:</p>
+<pre><code>mvn package
+</code></pre>
+<p>You can now deploy the artifact to JBoss AS by executing the following command:</p>
+<pre><code>mvn jboss-as:deploy
+</code></pre>
+<p>This will deploy <code>target/jboss-as-hibernate3.war</code>.</p>
+<p>The application will be running at the following URL <a href="http://localhost:8080/jboss-as-hibernate3/">http://localhost:8080/jboss-as-hibernate3/</a>.</p>
+<p>To undeploy from JBoss AS, run this command:</p>
+<pre><code>mvn jboss-as:undeploy
+</code></pre>
+<p>You can also start JBoss AS 7 and deploy the project using Eclipse. See the JBoss AS 7
+Getting Started Guide for Developers for more information.</p>
+<h1>Downloading the sources and Javadocs</h1>
+<p>If you want to be able to debug into the source code or look at the Javadocs
+of any library in the project, you can run either of the following two
+commands to pull them into your local repository. The IDE should then detect
+them.</p>
+<pre><code>mvn dependency:sources
+mvn dependency:resolve -Dclassifier=javadoc
+</code></pre>
