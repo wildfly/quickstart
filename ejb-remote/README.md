@@ -32,7 +32,7 @@ Start JBoss AS 7 (or EAP 6):
 To build both the server side component and a remote client program change into the
 examples quickstart directory and type:
 
-        mvn clean package
+        mvn clean install
 
 The server side component is packaged as a jar and needs deploying to the AS you just started:
 
