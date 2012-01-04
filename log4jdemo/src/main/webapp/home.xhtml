@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:h="http://java.sun.com/jsf/html">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Log4jdemo</title>
+</head>
+
+<body>
+   <div id="content">
+      <h1>Make me log this!</h1>
+      <h:form id="logForm">
+
+        
+         <!-- Instructions for the user -->
+         <div>
+            Type desired message in the input field and click 'LOG' button. Observe server console for output.
+         </div>
+
+         
+         <div>
+            <h:inputText id="inputLog" value="#{log4jDemo.text}" required="true" size="80" />
+            <h:commandButton id="logButton" value="LOG" action="#{log4jDemo.log}"  />
+         </div>
+         
+      </h:form>
+
+   </div>
+
+   <br style="clear: both" />
+
+</body>
+</html>
