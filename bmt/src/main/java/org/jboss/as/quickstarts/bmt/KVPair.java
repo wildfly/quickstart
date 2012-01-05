@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  * JPA Entity for storing key value pairs into a database.
@@ -12,6 +13,7 @@ import javax.persistence.Id;
  * @author Mike Musgrove
  */
 @Entity
+@Table(name="BMT_KVPair")
 public class KVPair implements Serializable {
     @Id
     @Column(unique = true)

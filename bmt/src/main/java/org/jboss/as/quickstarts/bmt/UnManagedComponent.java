@@ -1,28 +1,45 @@
 package org.jboss.as.quickstarts.bmt;
 
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceUnit;
 import javax.transaction.RollbackException;
 import javax.transaction.Status;
 import javax.transaction.UserTransaction;
 import java.util.List;
 
 /**
- *  An un-managed class for updating a database table within a JTA transaction. Since the class is not managed the developer
- *  is responsible for both controlling the life cycle of the Entity Manager and for transaction demarcation.
+ *  An class for updating a database table within a JTA transaction. Since the class is only a simple CDI bean the
+ *  developer is responsible for both controlling the life cycle of the Entity Manager and for transaction demarcation.
  *
  * @author Mike Musgrove
  */
 public class UnManagedComponent {
+    /*
+     * Inject an entity manager factory. The reason we do not inject an entity manager (as we do in ManagedComponent)
+     * is that the factory is thread safe whereas the entity manager is not.
+     *
+     * Specify a persistence unit name (perhaps the application may want to interact with multiple
+     * databases).
+     */
+    @PersistenceUnit(unitName = "bmtDatabase")
+    private EntityManagerFactory entityManagerFactory;
 
-    public String updateKeyValueDatabase(EntityManagerFactory entityManagerFactory, UserTransaction userTransaction, String key, String value) {
+    /*
+     * Inject a UserTransaction for manual transaction demarcation (this object is thread safe)
+     */
+    @Inject
+    private UserTransaction userTransaction;
+
+    public String updateKeyValueDatabase(String key, String value) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
 
         try {
             userTransaction.begin();
 
             /*
-             * Since the bean is not managed by the container the developer must explicitly tell the Entity Manager (EM)
+             * Since the Entity Manager (EM) is not managed by the container the developer must explicitly tell the EM
              * to join the transaction. Compare this with ManagedComponent where the container automatically
              * enlists the EM with the transaction. The persistence context managed by the EM will then be scoped
              * to the JTA transaction which means that all entities will be detached when the transaction commits.
@@ -73,13 +90,14 @@ public class UnManagedComponent {
     }
 
     /**
-     * Update a key value database.
+     * Utility method for updating a key value database.
+     *
      * @param entityManager an open JPA entity manager
      * @param key if null then list all pairs
      * @param value if key exists then associate value with it, otherwise create a new pair
      * @return the new value of the key value pair or all pairs if key was null.
      */
-    public static String updateKeyValueDatabase(EntityManager entityManager, String key, String value) {
+    public String updateKeyValueDatabase(EntityManager entityManager, String key, String value) {
         StringBuilder sb = new StringBuilder();
 
         if (key == null) {
@@ -105,7 +123,7 @@ public class UnManagedComponent {
                     kvPair = new KVPair(key, value);
                     entityManager.persist(kvPair);
                 }  else {
-                    // update an exist row in the key/value table
+                    // update an existing row in the key/value table
                     kvPair.setValue(value);
                     entityManager.persist(kvPair);
                 }

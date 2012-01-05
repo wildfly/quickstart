@@ -1,9 +1,10 @@
 package org.jboss.as.quickstarts.bmt;
 
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Status;
 import javax.transaction.UserTransaction;
-import javax.annotation.Resource;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
 import javax.persistence.EntityManager;
@@ -21,8 +22,7 @@ import javax.persistence.EntityManager;
  * - it becomes eligible for Container Managed Transactions (although this example does not use CMT)
  */
 @Stateless
-// Tell the container not to manage transactions
-@TransactionManagement(TransactionManagementType.BEAN)
+@TransactionManagement(TransactionManagementType.BEAN) // tell the container not to manage transactions
 public class ManagedComponent {
     /**
      *  Ask the container to inject an Entity Manager (EM). As a consequence the EM will be
@@ -33,8 +33,12 @@ public class ManagedComponent {
     private EntityManager entityManager;
 
     // Inject a UserTransaction for manual transaction demarcation.
-    @Resource
-    private UserTransaction ut;
+    @Inject
+    private UserTransaction userTransaction;
+
+    // Inject a utility class for updating JPA entities
+    @Inject
+    private UnManagedComponent helper;
 
     /**
      *  Maintain a simple key value store using JPA.
@@ -52,22 +56,33 @@ public class ManagedComponent {
         /*
          * Since this is a session bean method we are guaranteed to be thread safe so it is OK to use the
          * injected Entity Manager. Contrast this with UnManagedComponent class where the developer must
-         * create an EM for the during of the method call
+         * create an EM for the duration of the method call
          */
         try {
-            ut.begin();
+            userTransaction.begin();
 
-            /* Since the bean is managed by the container the Entity Manager (EM) and JTA transaction manager (TM) cooperate
+            /*
+             * Since the bean is managed by the container the Entity Manager (EM) and JTA transaction manager (TM) cooperate
              * so there is no need to tell the EM about the transaction. Compare this with the UnManagedComponent class where
              * the developer is managing the EM himself and therefore must explicitly tell the EM to join the transaction
              */
-            String result = UnManagedComponent.updateKeyValueDatabase(entityManager, key, value);
+            String result = helper.updateKeyValueDatabase(entityManager, key, value);
 
-            ut.commit();
+            userTransaction.commit();
 
             return result;
         } catch (Exception e) {
             return e.getMessage();
+        } finally {
+            /*
+             * Clean up
+             */
+            try {
+                if (userTransaction.getStatus() == Status.STATUS_ACTIVE)
+                    userTransaction.rollback();
+            } catch (Throwable e) {
+                // ignore
+            }
         }
     }
 }

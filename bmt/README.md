@@ -83,7 +83,7 @@ to list all pairs type:
 To run the example against an unmanaged component (effectively this will run the transaction and
 JPA updates in the servlet - ie not session beans) type:
 
-	http://localhost:8080/jboss-as-bmt/BMT?key=n1&value=vj&strategy=unmanaged
+	http://localhost:8080/jboss-as-bmt/BMT?key=n1&value=v1&strategy=unmanaged
 
 Downloading the sources and Javadocs
 ====================================
