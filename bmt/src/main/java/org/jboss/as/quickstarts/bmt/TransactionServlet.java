@@ -25,7 +25,7 @@ import javax.transaction.*;
  *
  * <p>
  * The servlet is registered and mapped to /BMT using the {@linkplain WebServlet
- * @HttpServlet}. The {@link ManagedComponent} and {@link UserTransaction} are injected by CDI.
+ * @HttpServlet}. The {@link ManagedComponent} and {@link UnManagedComponent} are injected by CDI.
  * </p>
  *
  * @author Mike Musgrove
@@ -45,7 +45,7 @@ public class TransactionServlet extends HttpServlet {
     ManagedComponent managedBean;
 
     /*
-     * Inject a POJO that will manage transactions and the JPA EntityManager itself
+     * Inject a CDI POJO that will manage both transactions and the JPA EntityManager itself
      */
     @Inject
     UnManagedComponent unManagedBean;
