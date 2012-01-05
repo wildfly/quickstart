@@ -1,0 +1,73 @@
+<h1>ejb-in-ear</h1>
+<h2>What is it?</h2>
+<p>This example demonstrates the deployment of an EAR artifact. The EAR contains: <em>JSF 2.0</em> WAR and an <em>EJB 3.1</em> JAR.</p>
+<p>The example is composed of three maven projects, each with a shared parent. The projects are as follows:</p>
+<ol>
+<li>
+<p>ejb
+This project contains the EJB code and can be built independently to produce the JAR archive.</p>
+</li>
+<li>
+<p>web
+This project contains the JSF pages and the managed bean.</p>
+</li>
+<li>
+<p>ear
+This project builds the EAR artifact and pulls in the ejb and web artifacts.</p>
+</li>
+</ol>
+<p>The root pom builds each of the projects in the above order and deploys the EAR archive to the server.</p>
+<p>The example follows the common "Hello World" pattern. These are the steps that occur:</p>
+<ol>
+<li>A JSF page asks the user for their name.</li>
+<li>On clicking 'Greet', the name is sent to a managed bean (Greeter).</li>
+<li>On setting the name, the Greeter invokes the GreeterEJB, which was injected to the managed bean (notice the field annotated with @EJB).</li>
+<li>The response from invoking the GreeterEJB is stored in a field (message) of the managed bean.</li>
+<li>The managed bean is annotated as @SessionScoped, so the same managed bean instance is used for the entire session. This ensures that the message is available when the page reloads and is
+displayed to the user.</li>
+</ol>
+<h2>System requirements</h2>
+<p>All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven
+3.0 or better.</p>
+<p>The application this project produces is designed to be run on a JBoss AS 7 or EAP 6.
+The following instructions target JBoss AS 7, but they also apply to JBoss EAP 6.</p>
+<p>With the prerequisites out of the way, you're ready to build and deploy.</p>
+<h2>Deploying the application</h2>
+<p>First you need to start JBoss AS 7 (or EAP 6). To do this, run</p>
+<pre><code>$JBOSS_HOME/bin/standalone.sh
+</code></pre>
+<p>or if you are using windows</p>
+<pre><code>$JBOSS_HOME/bin/standalone.bat
+</code></pre>
+<p>To deploy the application, you first need to produce the archive to deploy using
+the following Maven goal:</p>
+<pre><code>mvn package
+</code></pre>
+<p>You can now deploy the artifact to JBoss AS by executing the following command:</p>
+<pre><code>mvn jboss-as:deploy
+</code></pre>
+<p>This will deploy <code>ear/target/jboss-as-ejb-in-ear.ear</code>.</p>
+<p>The application will be running at the following URL <a href="http://localhost:8080/jboss-as-ejb-in-ear">http://localhost:8080/jboss-as-ejb-in-ear</a>.</p>
+<p>To undeploy from JBoss AS, run this command:</p>
+<pre><code>mvn jboss-as:undeploy
+</code></pre>
+<p>You can also start JBoss AS 7 and deploy the project using Eclipse. See the JBoss AS 7
+Getting Started Guide for Developers for more information.</p>
+<h1>Importing the project into an IDE</h1>
+<p>If you created the project using the Maven archetype wizard in your IDE
+(Eclipse, NetBeans or IntelliJ IDEA), then there is nothing to do. You should
+already have an IDE project.</p>
+<p>Detailed instructions for using Eclipse with JBoss AS 7 are provided in the
+JBoss AS 7 Getting Started Guide for Developers.</p>
+<p>If you created the project from the commandline using archetype:generate, then
+you need to import the project into your IDE. If you are using NetBeans 6.8 or
+IntelliJ IDEA 9, then all you have to do is open the project as an existing
+project. Both of these IDEs recognize Maven projects natively.</p>
+<h1>Downloading the sources and Javadocs</h1>
+<p>If you want to be able to debug into the source code or look at the Javadocs
+of any library in the project, you can run either of the following two
+commands to pull them into your local repository. The IDE should then detect
+them.</p>
+<pre><code>mvn dependency:sources
+mvn dependency:resolve -Dclassifier=javadoc
+</code></pre>

@@ -1,7 +1,5 @@
 <h1>jboss-as-helloworld-jsf</h1>
-
 <h2>What is it?</h2>
-
 <p>This is your project! It's a sample, deployable Maven 3 project to help you
 get your foot in the door developing with Java EE 6 on JBoss AS 7 or EAP 6. This
 project is setup to allow you to create a compliant Java EE 6 application
@@ -9,60 +7,38 @@ using JSF 2.0, CDI 1.0, and RichFaces 4.1.  In the example, a standard JSF
 h:inputText component is ajax enabled using the RichFaces a4j:ajax tag,
 triggering the application server to re-render a sub-section of the page on
 a browser event.</p>
-
 <h2>System requirements</h2>
-
 <p>All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven
 3.0 or better.</p>
-
 <p>The application this project produces is designed to be run on a JBoss AS 7 or EAP 6.
 The following instructions target JBoss AS 7, but they also apply to JBoss EAP 6.</p>
-
 <p>With the prerequisites out of the way, you're ready to build and deploy.</p>
-
 <h2>Deploying the application</h2>
-
 <p>First you need to start JBoss AS 7 (or EAP 6). To do this, run</p>
-
 <pre><code>$JBOSS_HOME/bin/standalone.sh
 </code></pre>
-
 <p>or if you are using windows</p>
-
 <pre><code>$JBOSS_HOME/bin/standalone.bat
 </code></pre>
-
 <p>To deploy the application, you first need to produce the archive to deploy using
 the following Maven goal:</p>
-
 <pre><code>mvn package
 </code></pre>
-
 <p>You can now deploy the artifact to JBoss AS by executing the following command:</p>
-
 <pre><code>mvn jboss-as:deploy
 </code></pre>
-
 <p>This will deploy <code>target/jboss-as-helloworld-jsf.war</code>.</p>
-
-<p>The application will be running at the following URL
-<a href="http://localhost:8080/jboss-as-helloworld-jsf/">http://localhost:8080/jboss-as-helloworld-jsf/</a>.</p>
-
+<p>The application will be running at the following URL <a href="http://localhost:8080/jboss-as-helloworld-jsf/">http://localhost:8080/jboss-as-helloworld-jsf/</a>.</p>
 <p>To undeploy from JBoss AS, run this command:</p>
-
 <pre><code>mvn jboss-as:undeploy
 </code></pre>
-
 <p>You can also start JBoss AS 7 and deploy the project using Eclipse. See the JBoss AS 7
 Getting Started Guide for Developers for more information.</p>
-
 <h1>Downloading the sources and Javadocs</h1>
-
 <p>If you want to be able to debug into the source code or look at the Javadocs
 of any library in the project, you can run either of the following two
 commands to pull them into your local repository. The IDE should then detect
 them.</p>
-
 <pre><code>mvn dependency:sources
 mvn dependency:resolve -Dclassifier=javadoc
 </code></pre>

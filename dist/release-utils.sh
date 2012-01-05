@@ -53,7 +53,7 @@ perl -pi -e "s/${OLDVERSION}/${NEWVERSION}/g" `find . -name \*.xml -or -name \*.
 markdown_to_html()
 {
    cd $DIR/../
-   readmes=`find . -iname readme.md`
+   readmes=`find . -iname readme.md -or -iname contributing.md`
    echo $readmes
    for readme in $readmes
    do
