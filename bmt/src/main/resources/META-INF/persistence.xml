@@ -6,6 +6,7 @@
 
    <persistence-unit name="bmtDatabase">
       <provider>org.hibernate.ejb.HibernatePersistence</provider>
+       <!-- the datasource JNDI name as it is configured in the Application Server config files -->
       <jta-data-source>java:jboss/datasources/ExampleDS</jta-data-source>
       <properties>
          <property name="hibernate.hbm2ddl.auto" value="create-drop" />

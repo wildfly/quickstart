@@ -10,7 +10,7 @@ import javax.transaction.UserTransaction;
 import java.util.List;
 
 /**
- *  An class for updating a database table within a JTA transaction. Since the class is only a simple CDI bean the
+ *  A class for updating a database table within a JTA transaction. Since the class is only a simple CDI bean the
  *  developer is responsible for both controlling the life cycle of the Entity Manager and for transaction demarcation.
  *
  * @author Mike Musgrove
@@ -66,6 +66,7 @@ public class UnManagedComponent {
             /*
              * An application cannot handle any of the other exceptions raised by begin and commit so we just
              * catch the generic exception. The meaning of the other exceptions is:
+             *
              * NotSupportedException - the thread is already associated with a transaction
              * HeuristicRollbackException - should not happen since the example is interacting with a single database
              * HeuristicMixedException -  should not happen since the example is interacting with a single database
@@ -93,14 +94,14 @@ public class UnManagedComponent {
      * Utility method for updating a key value database.
      *
      * @param entityManager an open JPA entity manager
-     * @param key if null then list all pairs
+     * @param key if null or zero length then list all pairs
      * @param value if key exists then associate value with it, otherwise create a new pair
-     * @return the new value of the key value pair or all pairs if key was null.
+     * @return the new value of the key value pair or all pairs if key was null (or zero length).
      */
     public String updateKeyValueDatabase(EntityManager entityManager, String key, String value) {
         StringBuilder sb = new StringBuilder();
 
-        if (key == null) {
+        if (key == null || key.length() == 0) {
             // list all key value pairs
             final List<KVPair> list = entityManager.createQuery("select k from KVPair k").getResultList();
 

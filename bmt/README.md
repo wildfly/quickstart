@@ -34,20 +34,20 @@ Deploying the application
 
 First you need to start JBoss AS 7 (or EAP 6). To do this, run
 
-	$JBOSS_HOME/bin/standalone.sh
+		$JBOSS_HOME/bin/standalone.sh
 
 or if you are using windows
 
-	$JBOSS_HOME/bin/standalone.bat
+		$JBOSS_HOME/bin/standalone.bat
 
 To deploy the application, you first need to produce the archive to deploy using
 the following Maven goal:
 
-	mvn package
+		mvn package
 
 You can now deploy the artifact to JBoss AS by executing the following command:
 
-	mvn jboss-as:deploy
+		mvn jboss-as:deploy
 
 This will deploy `target/jboss-as-bmt.war` to the running instance of the AS.
 
@@ -55,7 +55,10 @@ The application will be running at the following URL <http://localhost:8080/jbos
 
 To undeploy from JBoss AS, run this command:
 
-	mvn jboss-as:undeploy
+		mvn jboss-as:undeploy
+
+If you need to redeploy the war then ensure that you explicitly undeploy it first so that databases
+are cleaned up correctly.
 
 You can also start JBoss AS 7 and deploy the project using Eclipse. See the JBoss AS 7
 Getting Started Guide for Developers for more information.
@@ -67,31 +70,25 @@ JBoss AS 7 comes with an H2 datasource by default. The example shows how to tran
 insert key value pairs into to this H2 database and demonstrates the requirements on the
 developer with respect to the JPA Entity Manager.
 
-To insert and read key value pairs use query parameters along with the URL for accessing
-the application. For example to insert the pair (k1, v1) type the following into a browser:
+To access the application type the following into a browser:
 
-	http://localhost:8080/jboss-as-bmt/BMT?key=n1&value=v1
+		http://localhost:8080/jboss-as-bmt/BMT
 
-and to update key k1 with a new value v2 type the following into a browser:
+You will be presented with a simple form for adding key value pairs and a checkbox to indicate
+whether the updates should be executed using an unmanaged component (effectively this will run the transaction
+and JPA updates in the servlet - ie not session beans). If the box is checked then the updates will be
+executed within a session bean method.
 
-	http://localhost:8080/jboss-as-bmt/BMT?key=n1&value=v2
-
-to list all pairs type:
-
-	http://localhost:8080/jboss-as-bmt/BMT
-
-To run the example against an unmanaged component (effectively this will run the transaction and
-JPA updates in the servlet - ie not session beans) type:
-
-	http://localhost:8080/jboss-as-bmt/BMT?key=n1&value=v1&strategy=unmanaged
+To list all pairs leave the key input box empty. To add or update the value of a key fill in
+the key and value input boxes. Press the submit button to see the results.
 
 Downloading the sources and Javadocs
-====================================
+------------------------------------
 
 If you want to be able to debug into the source code or look at the Javadocs
 of any library in the project, you can run either of the following two
 commands to pull them into your local repository. The IDE should then detect
 them.
 
-	mvn dependency:sources
-	mvn dependency:resolve -Dclassifier=javadoc
+		mvn dependency:sources
+		mvn dependency:resolve -Dclassifier=javadoc
