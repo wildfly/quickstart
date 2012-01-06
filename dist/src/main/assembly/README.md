@@ -25,4 +25,5 @@ contains tutorials for:
 * `numberguess` - CDI + JSF
 * `servlet-async` - CDI + Asynchronous Servlet + Asynchronous EJB 
 * `servlet-filterlistener` - Servlet Filter and Listener
+* `ejb-remote` - shows how to access EJBs remotely (EJB + JNDI)
 
