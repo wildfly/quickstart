@@ -1,9 +1,41 @@
 JBoss AS Quickstarts 
 ====================
 
-These quickstarts will run in both the JBoss AS or JBoss EAP environments. Check the README.md file in each quickstart folder for more details and specific instructions. 
+These quickstarts will run in both the JBoss AS 7 or JBoss EAP 6 environments. Check the README.md file in each quickstart folder for more details and specific instructions. 
 
 If you want to run the quickstarts in JBoss EAP, we recommend using the JBoss EAP zip. This version chooses the exact dependencies used in EAP and ensures you test and compile against your runtime environment. 
+
+Available Quickstarts
+---------------------
+
+These are the quickstarts for JBoss AS 7 and JBoss EAP 6. You will find detailed tutorials in the 
+various guides at <https://docs.jboss.org/author/display/AS7>
+
+Quickstarts with tutorials in The Getting Started Developing Applications Guide -
+<https://docs.jboss.org/author/display/AS7/Getting+Started+Developing+Applications+Guide>
+are noted with a *(tutorial)* following the quickstart name.
+
+* `bmt` - EJB, Programmatically control transactions
+* `cdi-injection` - CDI injections & qualifiers + Servlet
+* `ejb-in-ear` - EJB + JSF, JAR and WAR deployed as EAR
+* `ejb-in-war` - EJB + JSF deployed as a war
+* `ejb-remote` - shows how to access EJBs remotely (EJB + JNDI)
+* `greeter` - CDI + JSF + JPA + EJB + JTA
+* 'h2-console' - H2 Database console
+* `helloworld` *(tutorial)* -Very basic  CDI + Servlet
+* `helloworld-gwt` - GWT
+* `helloworld-jsf` - Very basic CDI + JSF
+* `helloworld-mdb` - Very basic JMS and MDBs
+* `helloworld-osgi` - OSGi
+* `helloworld-rs` - CDI + JAX-RS
+* `html5-mobile` - kitchensink using HTML5, suitable for mobile and tablet computers
+* `kitchensink` *(tutorial)* - CDI + JSF + JPA + EJB + JPA + JAX-RS + BV
+* `kitchensink-jsp` - kitchensink converted to use JSP
+* `kitchensink-ear` - kitchensink as an EAR archive
+* 'log4jdemo' - JBoss Modules, Class loading, logging
+* `numberguess` *(tutorial)* - CDI + JSF
+* `servlet-async` - CDI + Asynchronous Servlet + Asynchronous EJB 
+* `servlet-filterlistener` - Servlet Filter and Listener
 
 Prerequisites
 -------------
@@ -71,4 +103,5 @@ To build and deploy a quickstart, in most cases you will do the following:
         > mvn package jboss-as:deploy -s _PathToQuickstarts_/example-settings.xml
 
 4.   See the README file in the individual quickstart folder for specific information on how to run and access the example.
+
 
