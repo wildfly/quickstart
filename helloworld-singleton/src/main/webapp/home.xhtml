@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<body>
+	<ui:composition template="/template.xhtml">
+		<ui:define name="title">
+          Helloworld EJB 3.1 Singleton Quickstart
+		</ui:define>
+		<ui:define name="body">
+         <p>
+            This example demonstrates a singleton session bean that maintains state for 2 variables: <code>a</code> and <code>b</code>.
+         </p>
+			<p>
+            A counter is incremented when you click on the
+				link to the variable name. If you close and restart your browser, or
+				if you have multiple browsers, you can see that the counter always
+				increments the last value. These values are maintained until you
+				restart the application. To test the singleton bean, click on either
+				"Increment" button below.
+         </p>
+		   <table>
+            <tr>
+               <h:form>
+                  <td><b>Counter A</b></td><td><h:commandButton value="Increment" action="#{counter.incrementA}" /></td><td>#{counter.a}</td>
+               </h:form>
+            </tr>
+            <tr>
+               <h:form>
+                  <td><b>Counter B</b></td><td><h:commandButton value="Increment" action="#{counter.incrementB}" /></td><td>#{counter.b}</td>
+               </h:form>
+            </tr>
+         </table>
+		</ui:define>
+	</ui:composition>
+</body>
+</html>

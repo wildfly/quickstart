@@ -1,10 +1,10 @@
-jboss-as-helloworld-ssb Example
+jboss-as-helloworld-singleton Example
 ===============================
 
 What is it?
 -----------
 
-This quickstart demonstrates the use of *EJB 3.1 Singleton Session Bean* in JBoss AS 7.1.0.
+This quickstart demonstrates the use of an *EJB 3.1 Singleton Bean* in JBoss AS 7.1.0.
 
 System requirements
 -------------------
@@ -36,9 +36,9 @@ You can now deploy the artifact to JBoss AS by executing the following command:
 
     mvn jboss-as:deploy
 
-This will deploy `target/jboss-as-helloworld-ssb.war`.
+This will deploy `target/jboss-as-helloworld-singleton.war`.
  
-The application will be running at the following URL <http://localhost:8080/jboss-as-helloworld-ssb>.
+The application will be running at the following URL <http://localhost:8080/jboss-as-helloworld-singleton>.
 
 This example demonstrates a singleton session bean that maintains state information for 2 variables: "Increment A" and "Increment B". A counter is incremented when you click on the link to the variable name. If you close and restart your browser, or if you have multiple browsers, you can see that the counter always increments the last value. These values are maintained until you restart the server. To test the singleton bean, on the home page, click on either "Increment A" or "Increment B". The result page will give you the current value of the variable.
 
