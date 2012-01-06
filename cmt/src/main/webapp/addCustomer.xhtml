@@ -1,0 +1,35 @@
+
+<!-- JBoss, Home of Professional Open Source Copyright 2009, Red Hat Middleware 
+		LLC, and individual contributors as indicated by the @author tags. See the 
+		copyright.txt in the distribution for a full listing of individual contributors. 
+		This copyrighted material is made available to anyone wishing to use, modify, 
+		copy, or redistribute it subject to the terms and conditions of the GNU Lesser 
+		General Public License, v. 2.1. This program is distributed in the hope that 
+		it will be useful, but WITHOUT A WARRANTY; without even the implied warranty 
+		of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser 
+		General Public License for more details. You should have received a copy 
+		of the GNU Lesser General Public License, v.2.1 along with this distribution; 
+		if not, write to the Free Software Foundation, Inc., 51 Franklin Street, 
+		Fifth Floor, Boston, MA 02110-1301, USA. (C) 2009 -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<ui:composition template="template.xhtml">
+	<ui:define name="content">
+		<h:messages />
+		<h:form id="addCustomerForm">
+			<h:panelGrid columns="3">
+				<h:outputLabel for="name">Name:</h:outputLabel>
+				<h:inputText value="#{name}" />
+				<h:commandButton id="add" value="Add"
+					action="#{customerManager.addCustomer(name)}">
+				</h:commandButton>
+			</h:panelGrid>
+		</h:form>
+		<h:link outcome="/customers.xhtml">List customers</h:link>
+	</ui:define>
+</ui:composition>
+</html>

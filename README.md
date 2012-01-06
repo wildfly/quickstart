@@ -17,6 +17,7 @@ are noted with two asterisks ( ** ) following the quickstart name.
 
 * `bmt` - EJB, Programmatically control transactions
 * `cdi-injection` - CDI injections & qualifiers + Servlet
+* `cmt` - EJB, how to use container managed transactions
 * `ejb-in-ear` - EJB + JSF, JAR and WAR deployed as EAR
 * `ejb-in-war` - EJB + JSF deployed as a war
 * `ejb-remote` - shows how to access EJBs remotely (EJB + JNDI)
