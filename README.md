@@ -13,7 +13,7 @@ various guides at <https://docs.jboss.org/author/display/AS7>
 
 Quickstarts with tutorials in The Getting Started Developing Applications Guide -
 <https://docs.jboss.org/author/display/AS7/Getting+Started+Developing+Applications+Guide>
-are noted with a *(tutorial)* following the quickstart name.
+are noted with two asterisks ( ** ) following the quickstart name.
 
 * `bmt` - EJB, Programmatically control transactions
 * `cdi-injection` - CDI injections & qualifiers + Servlet
@@ -21,19 +21,19 @@ are noted with a *(tutorial)* following the quickstart name.
 * `ejb-in-war` - EJB + JSF deployed as a war
 * `ejb-remote` - shows how to access EJBs remotely (EJB + JNDI)
 * `greeter` - CDI + JSF + JPA + EJB + JTA
-* 'h2-console' - H2 Database console
-* `helloworld` *(tutorial)* -Very basic  CDI + Servlet
+* `h2-console` - H2 Database console
+* `helloworld` ** -Very basic  CDI + Servlet
 * `helloworld-gwt` - GWT
 * `helloworld-jsf` - Very basic CDI + JSF
 * `helloworld-mdb` - Very basic JMS and MDBs
 * `helloworld-osgi` - OSGi
 * `helloworld-rs` - CDI + JAX-RS
 * `html5-mobile` - kitchensink using HTML5, suitable for mobile and tablet computers
-* `kitchensink` *(tutorial)* - CDI + JSF + JPA + EJB + JPA + JAX-RS + BV
+* `kitchensink` ** - CDI + JSF + JPA + EJB + JPA + JAX-RS + BV
 * `kitchensink-jsp` - kitchensink converted to use JSP
 * `kitchensink-ear` - kitchensink as an EAR archive
-* 'log4jdemo' - JBoss Modules, Class loading, logging
-* `numberguess` *(tutorial)* - CDI + JSF
+* `log4jdemo` - JBoss Modules, Class loading, logging
+* `numberguess` ** - CDI + JSF
 * `servlet-async` - CDI + Asynchronous Servlet + Asynchronous EJB 
 * `servlet-filterlistener` - Servlet Filter and Listener
 
