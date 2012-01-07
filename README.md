@@ -36,6 +36,7 @@ are noted with two asterisks ( ** ) following the quickstart name.
 * `numberguess` ** - CDI + JSF
 * `servlet-async` - CDI + Asynchronous Servlet + Asynchronous EJB 
 * `servlet-filterlistener` - Servlet Filter and Listener
+* `wsba-coordinator-completion-simple` - Simple WS-BA JAX-WS Web service with coordinator driven completion
 
 Prerequisites
 -------------
