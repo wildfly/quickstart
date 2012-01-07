@@ -38,6 +38,7 @@ are noted with two asterisks ( ** ) following the quickstart name.
 * `numberguess` ** - CDI + JSF
 * `servlet-async` - CDI + Asynchronous Servlet + Asynchronous EJB 
 * `servlet-filterlistener` - Servlet Filter and Listener
+* `wsat-simple` -  Simple WS-AT JAX-WS Web service
 * `wsba-coordinator-completion-simple` - Simple WS-BA JAX-WS Web service with coordinator driven completion
 * `wsba-participant-completion-simple` - Simple WS-BA JAX-WS Web service with participant driven completion
 
@@ -107,5 +108,6 @@ To build and deploy a quickstart, in most cases you will do the following:
         > mvn package jboss-as:deploy -s _PathToQuickstarts_/example-settings.xml
 
 4.   See the README file in the individual quickstart folder for specific information on how to run and access the example.
+
 
 
