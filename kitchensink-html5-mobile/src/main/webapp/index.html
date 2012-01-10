@@ -1,26 +1,267 @@
 <!DOCTYPE html>
 <html>
 <head>
-   <title></title>
-   <script type="text/javascript">
+    <title>JBoss HTML5/Mobile Application</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <!-- Set viewport scaling and zoom features -->
+    <meta name="viewport" content="width=device-width, initial-scale=1;"/>
 
-      /* Very simple detection of currently support clients - Android & iOS */
-      function redirectByClient() {
-         if (navigator.userAgent.match(/Android/i) ||
-               navigator.userAgent.match(/iPad/i) ||
-               navigator.userAgent.match(/iPhone/i) ||
-               navigator.userAgent.match(/iPod/i)
-               ) {
-            document.location = 'mobile.html';
-         } else {
-            document.location = 'desktop.html';
-         }
-      }
+    <!-- Include the full development version of Modernizr. In production, you should use a -->
+    <!-- minimized custom build to reduce file size -->
+    <script type="text/javascript" src="resources/js/modernizr-2.0.6.js"></script>
+    <script type="text/javascript" src="resources/js/yepnope.1.0.2-min.js"></script>
+    <script type="text/javascript" src="resources/js/underscore-min.js"></script>
+    <script type="text/javascript" src="resources/js/app.js"></script>
+    <script type="text/javascript">
+        yepnope([{
+            //Load CDN hosted jQuery and fall back to local file
+            load: "http://code.jquery.com/jquery-1.6.4.min.js",
+            complete: function() {
+                if ( !window.jQuery ) {
+                    //In production, you would want to fall back to a minified file.
+                    //We fall back to the full version because Eclipse reports false errors in some minified JavaScript files.
+                    yepnope.load( "resources/js/jquery-1.6.4.js" );
+                }
+            }
+        },{
+            //Using Modernizr, we use media queries to check certain min and max device widths to determine if we are on a small screen
+            //The second set of media queries matches higher resolution devices while excluding the iPad and other tablets
+            test: Modernizr.mq( "only screen and (max-device-width: 480px)" ) ||
+                ( Modernizr.mq( "only screen and (min-device-width: 480px) and (max-device-width: 800px)" ) && !Modernizr.mq( "only screen and (min-device-width: 768px)" ) ),
+            yep: {
+                "jqmcss": "resources/css/jquery.mobile-1.0.min.css",
+                "mcss": "resources/css/m.screen.css"
+            },
+            nope: {
+                "scss": "resources/css/screen.css"
+            },
+            callback: {
+                //If it is determined that the user is on a mobile device, load jQuery Mobile
+                "jqmcss": function( url, result, key ) {
+                    yepnope({
+                        load: "http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.js",
+                        complete: function() {
+                            if ( !$.mobile ) {
+                                yepnope( "resources/js/jquery.mobile-1.0.min.js" );
+                            }
+                        }
+                    });
+                },
+                "scss": function( url, result, key ) {
+                    $( document ).ready( function() {
+                        //Move aside outside of the section tag
+                        $( "#info-aside" ).insertAfter( $( "section" ) );
+                    });
+                }
+            },
+            complete: function() {
+                $( document ).ready( function() {
+                    $( "#container" ).show();
+                    //Fetches the initial member table
+                    getMemberTemplate();
 
-   </script>
+                    //Register a event listener on the sumbit action
+                    $('#reg').submit(function(event) {
+                        event.preventDefault();
 
+                        var formValues = $(this).serialize();
+                        registerMember(formValues);
+                    });
+
+                    //Register the cancel listener
+                    $('#cancel').click(function(event) {
+                        //clear input fields
+                        $('#reg')[0].reset();
+
+                        //clear existing msgs
+                        $('span.invalid').remove();
+                        $('span.success').remove();
+                    });
+                });
+            }
+        }]);
+    </script>
 </head>
-<body onload="redirectByClient();">
+<body>
+    <div id="container" style="display:none;">
+        <section>
+            <h1>Welcome to JBoss!</h1>
+            <article id="intro-art" data-role="page">
+                <!-- Header -->
+                <div data-role="header" data-theme="a" class="header">
+                    <img class="header_logo" src="resources/gfx/icon_medium.png"/>
+                    <h3>JBoss HTML5/Mobile Application</h3>
+                    <a href="#info-aside" data-role="button" data-icon="info" class="ui-btn-right" data-iconpos="notext" data-rel="dialog"></a>
+                </div>
+                <!-- /Header -->
 
+                <div data-role="content">
+                    <p>You have successfully deployed a Java EE 6 HTML5/Mobile web application on JBoss.</p>
+                    <p>This is built using a technique called <strong>P</strong>lain <strong>O</strong>ld <strong>H</strong>TML<strong>5</strong> (<strong>POH5</strong>).</p>
+
+                    <ul id="features">
+                        <li class="feature">Pure HTML client</li>
+                        <li class="feature">JAX-RS GET & POST end points</li>
+                        <li class="feature">HTML5 based page structure</li>
+                        <li class="feature">HTML5 form element & validation</li>
+                        <li class="feature">CSS3 selectors used for styling</li>
+                        <li class="feature">JAX-RS validation handling</li>
+                        <li class="feature">jQuery Mobile integration</li>
+                        <li class="feature">jQuery used to assist</li>
+                        <li class="feature">QUnit test suite to validate JavaScript</li>
+                    </ul>
+                </div>
+
+                <!-- Footer -->
+                <div class="footer" data-role="footer" data-position="fixed">
+                    <div class="footer_left">
+                        <a href="#intro-art" data-role="button" data-icon="home">Home</a>
+                    </div>
+                    <div class="footer_right">
+                        <span class="footer_txt">Member:</span>
+                        <a href="#register-art" data-role="button" data-icon="plus">Add</a>
+                        <a href="#member-art" data-role="button" data-icon="grid">List</a>
+                    </div>
+                </div>
+                <!-- /Footer -->
+            </article>
+
+            <!-- New HTML5 article tag -->
+            <article id="register-art" data-role="page">
+                <!-- Header -->
+                <div data-role="header" data-theme="a" class="header">
+                    <img class="header_logo" src="resources/gfx/icon_medium.png"/>
+                    <h3>JBoss HTML5/Mobile Application</h3>
+                    <a href="#info-aside" data-role="button" data-icon="info" class="ui-btn-right" data-iconpos="notext" data-rel="dialog"></a>
+                </div>
+                <!-- /Header -->
+                <h2>Member Registration</h2>
+
+                <div data-role="content">
+                    <p class="desktop-only">Enforces client side validation with HTML5 based constraints that match the annotation-based constraints defined on the model class. Also uses new HTML5 attributes such as placeholder, and autofocus.</p>
+
+                    <!-- For now mapping bean validation constraints from server side model is a manual task -->
+                    <form name="reg" id="reg" data-ajax="false">
+                        <fieldset>
+                            <legend>Register a user:</legend>
+                            <div>
+                                <label for="name">Name:</label>
+                                <input type="text" name="name" id="name" placeholder="Your Name" required autofocus/>
+                            </div>
+                            <div>
+                                <label for="email">Email:</label>
+                                <input type="email" name="email" id="email" placeholder="Your Email" required/>
+                            </div>
+                            <div>
+                                <label for="phoneNumber">Phone #:</label>
+                                <input type="tel" name="phoneNumber" id="phoneNumber" pattern="[0-9]{10,12}" placeholder="Your Phone #" required/>
+                            </div>
+                            <div id="formMsgs"></div>
+                            <div data-role="controlgroup" data-type="horizontal">
+                                <input type="submit" name="register" id="register" value="Register"/>
+                                <input type="button" name="cancel" id="cancel" value="Cancel"/>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+
+                <!-- Footer -->
+                <div class="footer" data-role="footer" data-position="fixed">
+                    <div class="footer_left">
+                        <a href="#intro-art" data-role="button" data-icon="home">Home</a>
+                    </div>
+                    <div class="footer_right">
+                        <span class="footer_txt">Member:</span>
+                        <a href="#register-art" data-role="button" data-icon="plus">Add</a>
+                        <a href="#member-art" data-role="button" data-icon="grid">List</a>
+                    </div>
+                </div>
+                <!-- /Footer -->
+            </article>
+
+            <!-- New HTML5 article tag -->
+            <article id="member-art" data-role="page">
+                <!-- Header -->
+                <div data-role="header" data-theme="a" class="header">
+                    <img class="header_logo" src="resources/gfx/icon_medium.png"/>
+                    <h3>JBoss HTML5/Mobile Application</h3>
+                    <a href="#info-aside" data-role="button" data-icon="info" class="ui-btn-right" data-iconpos="notext" data-rel="dialog"></a>
+                </div>
+                <!-- /Header -->
+                <h2>Current Members</h2>
+
+                <div data-role="content">
+                    <p class="desktop-only">This table is populated and constructed using restful GET calls to the server, and uses CSS3 based selectors for styling. When the page is requested jQuery is used to send the JAX-RS request for the current list of members. The table is them populated dynamically using JavaScript. See app.js for more details.</p>
+
+                    <table id="mem_tbl">
+                        <thead>
+                            <tr>
+                                <th scope="col">Id</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Phone #</th>
+                                <th scope="col">REST URLs</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <td colspan="5">
+                                    <!-- Sets the JAX-RS URLs to retrieve all members either as XML or JSON data.-->
+                                    REST URL for all members: 
+                                    <a href="rest/members" target="_blank">XML</a>,
+                                    <a href="rest/members/json" target="_blank">JSON</a>
+                                </td>
+                            </tr>
+                        </tfoot>
+                        <tbody id="members"></tbody>
+                    </table>
+                </div>
+
+                <!-- Footer -->
+                <div class="footer" data-role="footer" data-position="fixed">
+                    <div class="footer_left">
+                        <a href="#intro-art" data-role="button" data-icon="home">Home</a>
+                    </div>
+                    <div class="footer_right">
+                        <span class="footer_txt">Member:</span>
+                        <a href="#register-art" data-role="button" data-icon="plus">Add</a>
+                        <a href="#member-art" data-role="button" data-icon="grid">List</a>
+                    </div>
+                </div>
+                <!-- /Footer -->
+            </article>
+
+            <!-- New HTML5 aside tag -->
+            <aside id="info-aside" data-role="page">
+                <!-- Header -->
+                <div data-role="header" data-theme="a" class="header">
+                    <h3>Find out more</h3>
+                </div>
+                <!-- /Header -->
+                <h3>Find out more</h3>
+
+                <div data-role="content">
+                    <p>Learn more about JBoss.</p>
+                    <ul>
+                        <li><a href="https://docs.jboss.org/author/display/AS7/Getting+Started+Developing+Applications+Guide">JBoss AS 7 Getting Started Developing Applications Guide</a></li>
+                        <li><a href="http://jboss.org/jbossas">JBoss AS 7 project site</a></li>
+                    </ul>
+                    <p>Learn about the Java EE 6 platform and the component model it provides.</p>
+                    <ul>
+                        <li><a href="http://download.oracle.com/javaee/6/tutorial/doc">Java EE 6 tutorial</a></li>
+                        <li><a href="http://docs.jboss.org/cdi/spec/1.0/html">JSR-299: CDI specification</a></li>
+                        <li><a href="https://sites.google.com/site/cdipojo/get-started">CDI Source</a></li>
+                    </ul>
+                    <p>If you have an add-on, please <a href="http://jboss.org">let us know</a> and consider <a href="http://jboss.org">contributing</a> it back to the community!</p>
+                </div>
+            </aside>
+        </section>
+
+        <!-- New HTML5 footer tag -->
+        <footer>
+            <img src="resources/gfx/logo.png" alt="HTML5"/>
+            <p>This project was generated from a Maven archetype from JBoss.<br/></p>
+        </footer>
+    </div>
 </body>
 </html>
