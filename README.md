@@ -29,6 +29,7 @@ are noted with two asterisks ( ** ) following the quickstart name.
 * `helloworld-osgi` - OSGi
 * `helloworld-rs` - CDI + JAX-RS
 * `html5-mobile` - kitchensink using HTML5, suitable for mobile and tablet computers
+* `jts` - Using JTS to coordinate distributed transactions
 * `kitchensink` ** - CDI + JSF + JPA + EJB + JPA + JAX-RS + BV
 * `kitchensink-jsp` - kitchensink converted to use JSP
 * `kitchensink-ear` - kitchensink as an EAR archive
