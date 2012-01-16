@@ -11,8 +11,7 @@ Available Quickstarts
 These are the quickstarts for JBoss AS 7 and JBoss EAP 6. You will find detailed tutorials in the 
 various guides at <https://docs.jboss.org/author/display/AS7>
 
-Quickstarts with tutorials in The Getting Started Developing Applications Guide -
-<https://docs.jboss.org/author/display/AS7/Getting+Started+Developing+Applications+Guide>
+Quickstarts with tutorials in the <a href="https://docs.jboss.org/author/display/AS71/Getting+Started+Developing+Applications+Guide" title="Getting Started Developing Applications Guide">Getting Started Developing Applications Guide</a> 
 are noted with two asterisks ( ** ) following the quickstart name.
 
 * `bmt` - EJB, Programmatically control transactions
@@ -57,7 +56,7 @@ To run these quickstarts with the provided build scripts, you will need the foll
 3.   The JBoss AS 7 distribution zip or the JBoss EAP 6 distribution zip
     *   For information on how to install and run JBoss, refer to the product documentation.
 
-You can also deploy the quickstarts from Eclipse using JBoss tools. For more information on how to set up Maven and the JBoss tools, refer to the <a href="https://docs.jboss.org/author/display/AS71/Getting+Started+Guide" title="Getting Started Guide">Getting Started Guide</a>.
+You can also deploy the quickstarts from Eclipse using JBoss tools. For more information on how to set up Maven and the JBoss tools, refer to the <a href="https://docs.jboss.org/author/display/AS71/Getting+Started+Developing+Applications+Guide" title="Getting Started Developing Applications Guide">Getting Started Developing Applications Guide</a>.
 
 
 

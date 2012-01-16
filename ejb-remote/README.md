@@ -43,7 +43,8 @@ This maven goal will deploy server-side/target/jboss-as-ejb-remote-app.jar. You 
 console to see information messages regarding the deployment.
 
 Note that you can also start JBoss AS 7 and deploy the project using Eclipse. See the JBoss AS 7
-Getting Started Guide for Developers for more information.
+<a href="https://docs.jboss.org/author/display/AS71/Getting+Started+Developing+Applications+Guide" title="Getting Started Developing Applications Guide">Getting Started Developing Applications Guide</a> 
+for more information.
 
 Now start a client that will access the beans you just deployed:
 

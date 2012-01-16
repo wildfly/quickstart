@@ -51,7 +51,7 @@ To undeploy from JBoss AS, run this command:
     mvn jboss-as:undeploy
 
 You can also start JBoss AS 7 and deploy the project using Eclipse. See the JBoss AS 7
-Getting Started Guide for Developers for more information.
+<a href="https://docs.jboss.org/author/display/AS71/Getting+Started+Developing+Applications+Guide" title="Getting Started Developing Applications Guide">Getting Started Developing Applications Guide</a> for more information.
  
 Running the Arquillian tests
 ============================
@@ -74,7 +74,7 @@ If you created the project using the Maven archetype wizard in your IDE
 already have an IDE project.
 
 Detailed instructions for using Eclipse with JBoss AS 7 are provided in the 
-JBoss AS 7 Getting Started Guide for Developers.
+JBoss AS 7 <a href="https://docs.jboss.org/author/display/AS71/Getting+Started+Developing+Applications+Guide" title="Getting Started Developing Applications Guide">Getting Started Developing Applications Guide</a>.
 
 If you created the project from the commandline using archetype:generate, then
 you need to import the project into your IDE. If you are using NetBeans 6.8 or

@@ -55,7 +55,8 @@ To undeploy from JBoss AS, run this command:
     mvn jboss-as:undeploy -f ../greeter/pom.xml
 
 You can also start JBoss AS 7 and deploy the project using Eclipse. See the JBoss AS 7
-Getting Started Guide for Developers for more information.
+<a href="https://docs.jboss.org/author/display/AS71/Getting+Started+Developing+Applications+Guide" title="Getting Started Developing Applications Guide">Getting Started Developing Applications Guide</a> 
+for more information.
  
 You can read more about the greeter application in the README.md for that project.
 
