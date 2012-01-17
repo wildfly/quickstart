@@ -1,0 +1,59 @@
+<h1>Remote EJB Client Example</h1>
+<h2>What is it?</h2>
+<p>This example shows how to access an EJB from a remote Java client program. It
+demonstrates the use of <em>EJB 3.1</em> and <em>JNDI</em> in <em>JBoss AS 7</em>.</p>
+<p>There are two parts to the example: a server side component and a remote client program
+that accesses it. Each part is in its own standalone Maven module, however the quickstart
+does provide a top level module to simplify the packaging of the artifacts.</p>
+<p>The server component is comprised of a stateful and a stateless EJB. The client program looks
+up the stateless and stateful beans via JNDI and invokes methods on them.</p>
+<h2>System requirements</h2>
+<p>All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven 3.0 or better.</p>
+<p>The application this project produces is designed to be run on a JBoss AS 7 or EAP 6.
+The following instructions target JBoss AS 7, but they also apply to JBoss EAP 6.</p>
+<h2>Building and deploying the application</h2>
+<p>Start JBoss AS 7 (or EAP 6):</p>
+<pre><code>    $JBOSS_HOME/bin/standalone.sh
+</code></pre>
+<p>To build both the server side component and a remote client program change into the
+examples quickstart directory and type:</p>
+<pre><code>    mvn clean install
+</code></pre>
+<p>The server side component is packaged as a jar and needs deploying to the AS you just started:</p>
+<pre><code>    cd server-side
+    mvn jboss-as:deploy
+</code></pre>
+<p>This maven goal will deploy server-side/target/jboss-as-ejb-remote-app.jar. You can check the AS
+console to see information messages regarding the deployment.</p>
+<p>Note that you can also start JBoss AS 7 and deploy the project using Eclipse. See the JBoss AS 7
+<a href="https://docs.jboss.org/author/display/AS71/Getting+Started+Developing+Applications+Guide" title="Getting Started Developing Applications Guide">Getting Started Developing Applications Guide</a> 
+for more information.</p>
+<p>Now start a client that will access the beans you just deployed:</p>
+<pre><code>    cd ../client
+    mvn exec:exec
+</code></pre>
+<p>You should see output showing:</p>
+<ul>
+<li>
+<p>the client sending a method invocation to the stateless bean to add
+two numbers and then a second invocation to subtract two numbers.</p>
+</li>
+<li>
+<p>the client sends a method invocation to the statful bean asking it to increment a counter
+followed by a request to get the current value of the counter. To demonstrate that the bean
+is stateful it performs the same two invocations a number of times proving that the bean
+is maintaining the state of the counter between invocations.</p>
+</li>
+</ul>
+<p>To undeploy the server side component from JBoss AS:</p>
+<pre><code>    cd ../server-side
+    mvn jboss-as:undeploy
+</code></pre>
+<h1>Downloading the sources and Javadocs</h1>
+<p>If you want to be able to debug into the source code or look at the Javadocs
+of any library in the project, you can run either of the following two
+commands to pull them into your local repository. The IDE should then detect
+them.</p>
+<pre><code>    mvn dependency:sources
+    mvn dependency:resolve -Dclassifier=javadoc
+</code></pre>

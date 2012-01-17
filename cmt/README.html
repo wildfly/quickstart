@@ -1,0 +1,95 @@
+<h1>CMT: Container Managed Transactions</h1>
+<h2>What is it?</h2>
+<p>This example demonstrates using transactions managed by the container. It is a fairly typical 
+scenario of updating a database and sending a JMS message in the same transaction. A simple 
+MDB is provided that prints out the message sent but this is not a transactional MDB and is 
+purely provided for debugging purposes.</p>
+<p>Aspects touched upon in the code:</p>
+<ol>
+<li>XA transaction control using the container managed transaction annotations</li>
+<li>XA access to a H2 database using the JPA API</li>
+<li>XA access to a JMS queue</li>
+</ol>
+<h3>What are container managed transactions?</h3>
+<p>Prior to EJB, getting the right incantation to ensure sound transactional operation of a users
+business logic was a highly specialised skill. Although this still holds true to a great 
+extent, EJB has provided a series of improvements to to allow simplified transaction demarcation 
+notation that is therefore easier to read and test. With CMT, the EJB container sets the 
+boundaries of a transaction, this differs from BMT (bean managed transactions) where the developer
+is responsible for initiating and completing a transaction via the methods begin, commit, rollback
+on a <code>javax.transaction.UserTransaction</code>.</p>
+<h4>What makes this an example of container managed transactions?</h4>
+<p>Take a look at <code>org.jboss.as.quickstarts.cmt.ejb.CustomerManagerEJBImpl</code>. You can see that
+this stateless session bean has been marked up with an @javax.ejb.TransactionAttribute annotation.</p>
+<p>The available options for this annotation are as follows:</p>
+<ul>
+<li>Required - As demonstrated in the example. If a transaction does not already exist, 
+this will initiate a transaction and    complete it for you, otherwise the business 
+logic will be integrated into the existing transaction</li>
+<li>RequiresNew - If there is already a transaction running, it will be suspended, 
+the work performed within a new transaction which is completed at exit of the method 
+and then the original transaction resumed. </li>
+<li>Mandatory - If there is no transaction running, calling a business method with 
+is annotated    with this will result in an error</li>
+<li>NotSupported - If there is a transaction running, it will be suspended and no 
+transaction will be initiated for this business method</li>
+<li>Supports - This will run the method within a transaction if a transaction exists, 
+alternatively, if there is no transaction running the method will not be executed 
+within the scope of a transaction </li>
+<li>Never - If the client has a transaction running and does not suspend it but calls 
+a method annotated with Never then an EJB exception will be raised.</li>
+</ul>
+<h2>System requirements</h2>
+<p>All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven 3.0 or better.</p>
+<p>The application this project produces is designed to be run on a JBoss AS 7 or EAP 6. 
+The following instructions target JBoss AS 7, but they also apply to JBoss EAP 6.</p>
+<h2>Testing the application</h2>
+<p>Executing the following command will build and test the application using Arquillian:
+JBOSS_HOME=<PATH_TO_JBOSS_HOME> mvn clean test -Parq-jbossas-managed
+NOTE: If you get the following you have not exported JBOSS_HOME:
+Tests in error: 
+  TestManagedBeanCustomerManager: jbossHome 'null' must exist</p>
+<h2>Deploying the application</h2>
+<p>First you need to start JBoss AS 7 (or EAP 6) with a JMS connection factory and a queue named 
+test queue in it. The easiest way to do this is to run:</p>
+<pre><code>    $JBOSS_HOME/bin/standalone.sh -c standalone-full.xml
+</code></pre>
+<p>or if you are using windows</p>
+<pre><code>    $JBOSS_HOME/bin/standalone.bat -c standalone-full.xml
+</code></pre>
+<p>To deploy the application, you first need to produce the archive to deploy using
+the following Maven goal:</p>
+<pre><code>    mvn package
+</code></pre>
+<p>You can now deploy the artifact to JBoss AS by executing the following command:</p>
+<pre><code>    mvn jboss-as:deploy
+</code></pre>
+<p>This will deploy <code>target/jboss-as-cmt.war</code> to the running instance of the AS.</p>
+<p>The application will be running at the following URL <a href="http://localhost:8080/jboss-as-cmt/">http://localhost:8080/jboss-as-cmt/</a>.</p>
+<p>After a user is successfully added to the database, a message is produced container the 
+details of the user. An example MDB will dequeue this message and print the contents as such:</p>
+<pre><code>    Received Message: Created customer named: Tom with ID: 1
+</code></pre>
+<p>To undeploy from JBoss AS, run this command:</p>
+<pre><code>    mvn jboss-as:undeploy
+</code></pre>
+<p>If you need to redeploy the war then ensure that you explicitly undeploy it first so that databases
+are cleaned up correctly.</p>
+<p>You can also start JBoss AS 7 and deploy the project using Eclipse. See the JBoss AS 7
+<a href="https://docs.jboss.org/author/display/AS71/Getting+Started+Developing+Applications+Guide" title="Getting Started Developing Applications Guide">Getting Started Developing Applications Guide</a> for more information.</p>
+<h2>Using the application</h2>
+<p>JBoss AS 7 comes with an H2 datasource by default. The example shows how to transactionally
+insert key value pairs into to this H2 database and demonstrates the requirements on the
+developer with respect to the JPA Entity Manager.</p>
+<p>To access the application type the following into a browser:</p>
+<pre><code>    http://localhost:8080/jboss-as-cmt/
+</code></pre>
+<p>You will be presented with a simple form for adding customers to a database.</p>
+<h2>Downloading the sources and Javadocs</h2>
+<p>If you want to be able to debug into the source code or look at the Javadocs
+of any library in the project, you can run either of the following two
+commands to pull them into your local repository. The IDE should then detect
+them.</p>
+<pre><code>    mvn dependency:sources
+    mvn dependency:resolve -Dclassifier=javadoc
+</code></pre>

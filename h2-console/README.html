@@ -1,0 +1,53 @@
+<h1>jboss-as-h2-console</h1>
+<h2>What is it?</h2>
+<p>JBoss AS bundles H2 as an in memory, in process database. H2 is written in Java so
+can run on any platform JBoss AS runs.</p>
+<p>This is quickstart shows you how to use the H2 console with JBoss AS. It reuses the
+jboss-as-greeter quickstart as a GUI for entering data.</p>
+<h2>System requirements</h2>
+<p>All you need to follow these instructions is Java 6.0 (Java SDK 1.6) or better, Maven
+3.0 or better, and the jboss-as-greeter quickstart (normally located in <code>../greeter</code>).</p>
+<p>The application this project produces is designed to be run on a JBoss AS 7 or EAP 6. 
+The following instructions target JBoss AS 7, but they also apply to JBoss EAP 6.</p>
+<p>Note: Unlike most of the quickstarts, you will require JBoss AS 7.1.x or later to use this quickstart.</p>
+<p>Finally, you'll need the H2 Console. You can download it from <a href="http://www.h2database.com/html/download.html">http://www.h2database.com/html/download.html</a>. We recommend using the platform independent zip.</p>
+<p>With the prerequisites out of the way, you're ready to build and deploy.</p>
+<h2>Deploying the sample jboss-as-greeter application</h2>
+<p>First you need to start JBoss AS 7 (or EAP 6). To do this, run</p>
+<pre><code>$JBOSS_HOME/bin/standalone.sh
+</code></pre>
+<p>or if you are using windows</p>
+<pre><code>$JBOSS_HOME/bin/standalone.bat
+</code></pre>
+<p>To deploy the application, you first need to produce the archive to deploy using
+the following Maven goal. Assuming the jboss-as-greeter application is in <code>../greeter</code>:</p>
+<pre><code>mvn package -f ../greeter/pom.xml
+</code></pre>
+<p>You can now deploy the artifact to JBoss AS by executing the following command:</p>
+<pre><code>mvn jboss-as:deploy -f ../greeter/pom.xml
+</code></pre>
+<p>This will deploy <code>target/jboss-as-greeter.war</code>.</p>
+<p>The application will be running at the following URL <a href="http://localhost:8080/jboss-as-greeter/">http://localhost:8080/jboss-as-greeter/</a>.</p>
+<p>To undeploy from JBoss AS, run this command:</p>
+<pre><code>mvn jboss-as:undeploy -f ../greeter/pom.xml
+</code></pre>
+<p>You can also start JBoss AS 7 and deploy the project using Eclipse. See the JBoss AS 7
+<a href="https://docs.jboss.org/author/display/AS71/Getting+Started+Developing+Applications+Guide" title="Getting Started Developing Applications Guide">Getting Started Developing Applications Guide</a> 
+for more information.</p>
+<p>You can read more about the greeter application in the README.md for that project.</p>
+<h2>Deploying the H2 Console</h2>
+<p>This quickstart comes bundled with a version of the H2 Console built for JBoss AS 7 (the changes to
+the stock console are discussed below). Deploy the console by copying the <code>h2console.war</code> to the <code>$JBOSS_HOME/standalone/deployments</code> directory. You can use the console by visiting <a href="http://localhost:8080/h2console">http://localhost:8080/h2console</a>.</p>
+<p>You need to enter the JDBC URL, and credentials. To access the "test" database that the greeter quickstart uses, use these details</p>
+<ul>
+<li>JDBC URL <code>jdbc:h2:mem:test;DB_CLOSE_DELAY=-1</code></li>
+<li>User Name <code>sa</code></li>
+<li>Password <code>sa</code></li>
+</ul>
+<p>Now, hit the Test Connection button, and make sure you can connect. If you can, go ahead and click Connect.</p>
+<p>Now, let's take a look at the data added by the greeter application. Run the following SQL command</p>
+<pre><code>select * from users;
+</code></pre>
+<p>You should see the two seed users, and any you have added using the greeter application</p>
+<h2>Changes to the H2 Console for JBoss AS 7</h2>
+<p>In order to make the H2 console run on JBoss AS 7 we had to add a dependency on the H2 module from JBoss AS (added to the META-INF/MANIFEST.MF), and remove the H2 libraries from the war. The rebuilt console is provided in this quickstart.</p>
