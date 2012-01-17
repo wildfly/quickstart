@@ -46,9 +46,9 @@ You can now deploy the artifact to JBoss AS by executing the following command:
 
     mvn jboss-as:deploy
 
-This will deploy `target/jboss-as-ejbinwar.war`.
+This will deploy `target/jboss-as-ejb-in-war.war`.
 
-The application will be running at the following URL <http://localhost:8080/jboss-as-ejbinwar>.
+The application will be running at the following URL <http://localhost:8080/jboss-as-ejb-in-war>.
 
 To undeploy from JBoss AS, run this command:
 
