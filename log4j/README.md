@@ -1,25 +1,28 @@
-jboss-as-log4jdemo
+jboss-as-log4j
 ========================
 
 What is it?
 -----------
 
-This is a simple JSF 2.0 application which will teach you how easy it is to
-use container defined modules to limit size of application package and use 
-common version of certain classes at runitme.
+This simple JSF 2.0 application shows how to use container defined modules 
+to limit the size of the application package. It also shows how to use 
+common versions of certain classes at runtime.
 
-It is common for different applications to depend on third party libraries.
-By default, Java EE packages allow to include dependencies in deployable unit.
-This however may lead to uncontrolled growth of deployable unit. To avoid that, 
-one can use container defined module. Module is nothing more than container
+Applications must often depend on third party libraries.
+By default, Java EE packages allow you to include dependencies in a deployable unit
+which can lead to uncontrolled growth of the deployable unit. This can be avoided by 
+the use of a container defined module. A modules is nothing more than a container
 managed binary dependency, which is shared by all deployed applications.
 
-For more details on class loading and modules please refer to <https://docs.jboss.org/author/display/AS7/Developer+Guide#DeveloperGuide-JBossDeploymentStructureFile> 
+For more details on class loading and modules please refer to 
+<a href="https://docs.jboss.org/author/display/AS7/Class+Loading+in+AS7" title="Class Loading in AS7">Class Loading in AS7</a>  
 
-This example is very simple. It declares dependecy on Apache Log4j module to
-allow itself to use custom logging framework.This example achieves this with simple 
-xml file: <b>src/main/webapp/WEB-INF/jboss-deployment-structure.xml</b>.
-For more details about this file please refer to <https://docs.jboss.org/author/display/AS7/Developer+Guide#DeveloperGuide-JBossDeploymentStructureFile>
+This example is very simple. It declares dependency on Apache Log4j module to
+allow itself to use custom logging framework.This is achieved with a simple addition to the xml file: 
+<b>src/main/webapp/WEB-INF/jboss-deployment-structure.xml</b>.
+For more details about this file please refer to 
+<a href="https://docs.jboss.org/author/display/AS7/Developer+Guide#DeveloperGuide-JBossDeploymentStructureFile"title="JBoss Deployment Structure File">JBoss Deployment Structure File</a>  
+
 
 
 System requirements
@@ -53,9 +56,9 @@ You can now deploy the artifact to JBoss AS by executing the following command:
 
     mvn jboss-as:deploy
 
-This will deploy `target/jboss-as-log4jdemo.war`.
+This will deploy `target/jboss-as-log4j.war`.
 
-The application will be running at the following URL <http://localhost:8080/jboss-as-log4jdemo/>.
+The application will be running at the following URL <http://localhost:8080/jboss-as-log4j/>.
 
 To undeploy from JBoss AS, run this command:
 
