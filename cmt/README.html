@@ -51,12 +51,16 @@ Tests in error:
   TestManagedBeanCustomerManager: jbossHome 'null' must exist</p>
 <h2>Deploying the application</h2>
 <p>First you need to start JBoss AS 7 (or EAP 6) with a JMS connection factory and a queue named 
-test queue in it. The easiest way to do this is to run:</p>
-<pre><code>    $JBOSS_HOME/bin/standalone.sh -c standalone-full.xml
-</code></pre>
-<p>or if you are using windows</p>
-<pre><code>    $JBOSS_HOME/bin/standalone.bat -c standalone-full.xml
-</code></pre>
+test queue in it. The instructions for this vary slightly depending upon whether you are using
+the community release (AS7) or the platform release (EAP6).</p>
+<p>For AS7:
+        $JBOSS_HOME/bin/standalone.sh -c standalone-full.xml
+or if you are using AS7 on windows
+        $JBOSS_HOME/bin/standalone.bat -c standalone-full.xml</p>
+<p>For EAP6:
+        $JBOSS_HOME/bin/standalone.sh
+or if you are using EAP6 on windows
+        $JBOSS_HOME/bin/standalone.bat</p>
 <p>To deploy the application, you first need to produce the archive to deploy using
 the following Maven goal:</p>
 <pre><code>    mvn package

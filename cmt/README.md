@@ -65,13 +65,18 @@ Tests in error:
 ## Deploying the application
 
 First you need to start JBoss AS 7 (or EAP 6) with a JMS connection factory and a queue named 
-test queue in it. The easiest way to do this is to run:
+test queue in it. The instructions for this vary slightly depending upon whether you are using
+the community release (AS7) or the platform release (EAP6).
 
+For AS7:
 		$JBOSS_HOME/bin/standalone.sh -c standalone-full.xml
-
-or if you are using windows
-
+or if you are using AS7 on windows
 		$JBOSS_HOME/bin/standalone.bat -c standalone-full.xml
+
+For EAP6:
+		$JBOSS_HOME/bin/standalone.sh
+or if you are using EAP6 on windows
+		$JBOSS_HOME/bin/standalone.bat
 
 To deploy the application, you first need to produce the archive to deploy using
 the following Maven goal:
