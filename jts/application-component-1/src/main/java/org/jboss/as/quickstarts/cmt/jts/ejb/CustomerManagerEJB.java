@@ -20,36 +20,61 @@
  */
 package org.jboss.as.quickstarts.cmt.jts.ejb;
 
-import javax.annotation.Resource;
+import java.rmi.RemoteException;
+import java.util.List;
+
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
-import javax.jms.Connection;
-import javax.jms.ConnectionFactory;
 import javax.jms.JMSException;
-import javax.jms.MessageProducer;
-import javax.jms.Queue;
-import javax.jms.Session;
-import javax.jms.TextMessage;
+import javax.naming.NamingException;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.transaction.HeuristicMixedException;
+import javax.transaction.HeuristicRollbackException;
+import javax.transaction.NotSupportedException;
+import javax.transaction.RollbackException;
+import javax.transaction.SystemException;
+
+import org.jboss.as.quickstarts.cmt.model.Customer;
 
 @Stateless
 public class CustomerManagerEJB {
 
-    @Resource(mappedName = "java:/JmsXA")
-    private ConnectionFactory connectionFactory;
+    @PersistenceContext
+    private EntityManager entityManager;
 
-    @Resource(mappedName = "java:/queue/JTSQueue")
-    private Queue queue;
+    @EJB(lookup = "corbaname:iiop:localhost:3628#jts-quickstart/InvoiceManagerEJBImpl")
+    private InvoiceManagerEJBHome invoiceManagerHome;
 
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public void createCustomer(String name) throws JMSException {
-        Connection connection = connectionFactory.createConnection();
-        Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-        MessageProducer messageProducer = session.createProducer(queue);
-        connection.start();
-        TextMessage message = session.createTextMessage();
-        message.setText("Created customer named: " + name);
-        messageProducer.send(message);
-        connection.close();
+    public void createCustomer(String name) throws RemoteException, JMSException {
+
+        Customer c1 = new Customer();
+        c1.setName(name);
+        entityManager.persist(c1);
+
+        final InvoiceManagerEJB invoiceManager = invoiceManagerHome.create();
+        invoiceManager.createInvoice(name);
+    }
+
+    /**
+     * List all the customers.
+     * 
+     * @return
+     * @throws NamingException
+     * @throws NotSupportedException
+     * @throws SystemException
+     * @throws SecurityException
+     * @throws IllegalStateException
+     * @throws RollbackException
+     * @throws HeuristicMixedException
+     * @throws HeuristicRollbackException
+     */
+    @TransactionAttribute(TransactionAttributeType.NEVER)
+    @SuppressWarnings("unchecked")
+    public List<Customer> listCustomers() {
+        return entityManager.createQuery("select c from Customer c").getResultList();
     }
 }

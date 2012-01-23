@@ -18,30 +18,40 @@
  * (C) 2011,
  * @author JBoss, by Red Hat.
  */
-package org.jboss.as.quickstarts.cmt.jts.ejb;
+package org.jboss.as.quickstarts.cmt.model;
 
-import java.rmi.RemoteException;
+import java.io.Serializable;
 
-import javax.ejb.EJB;
-import javax.ejb.Stateless;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
-import javax.jms.JMSException;
-import javax.naming.NamingException;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
-@Stateless
-public class AccountManagerEJB {
-    @EJB
-    private CustomerManagerEJB customerManager;
+@SuppressWarnings("serial")
+@Entity
+@Table(name = "Customer")
+public class Customer implements Serializable {
+    @Id
+    @GeneratedValue
+    private int id;
 
-    @EJB(lookup = "corbaname:iiop:localhost:3628#jts-quickstart/InvoiceManagerEJBImpl")
-    private InvoiceManagerEJBHome invoiceManagerHome;
+    @Column(unique = true, nullable = false)
+    private String name;
 
-    @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public void createCustomerAndInvoice(String name) throws RemoteException, NamingException, JMSException {
-        customerManager.createCustomer(name);
+    public int getId() {
+        return id;
+    }
 
-        final InvoiceManagerEJB invoiceManager = invoiceManagerHome.create();
-        invoiceManager.createInvoice(name);
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

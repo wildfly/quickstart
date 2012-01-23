@@ -18,62 +18,45 @@
  * (C) 2011,
  * @author JBoss, by Red Hat.
  */
-package org.jboss.as.quickstarts.cmt.ejb;
+package org.jboss.as.quickstarts.cmt.controller;
 
-import java.rmi.RemoteException;
 import java.util.List;
+import java.util.logging.Logger;
 
-import javax.ejb.Stateless;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
+import javax.faces.bean.RequestScoped;
 import javax.inject.Inject;
-import javax.jms.JMSException;
+import javax.inject.Named;
 import javax.naming.NamingException;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.transaction.HeuristicMixedException;
 import javax.transaction.HeuristicRollbackException;
 import javax.transaction.NotSupportedException;
 import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
 
+import org.jboss.as.quickstarts.cmt.jts.ejb.CustomerManagerEJB;
 import org.jboss.as.quickstarts.cmt.model.Customer;
 
-@Stateless
-public class CustomerManagerEJB {
-
-    @PersistenceContext
-    private EntityManager entityManager;
+@Named("customerManager")
+@RequestScoped
+public class CustomerManager {
+    private Logger logger = Logger.getLogger(CustomerManager.class.getName());
 
     @Inject
-    private InvoiceManagerEJB invoiceManager;
+    private CustomerManagerEJB customerManager;
 
-    @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public void createCustomer(String name) throws RemoteException, JMSException {
-
-        Customer c1 = new Customer();
-        c1.setName(name);
-        entityManager.persist(c1);
-
-        invoiceManager.createInvoice(name);
+    public List<Customer> getCustomers() throws SecurityException, IllegalStateException, NamingException,
+            NotSupportedException, SystemException, RollbackException, HeuristicMixedException, HeuristicRollbackException {
+        return customerManager.listCustomers();
     }
 
-    /**
-     * List all the customers.
-     * 
-     * @return
-     * @throws NamingException
-     * @throws NotSupportedException
-     * @throws SystemException
-     * @throws SecurityException
-     * @throws IllegalStateException
-     * @throws RollbackException
-     * @throws HeuristicMixedException
-     * @throws HeuristicRollbackException
-     */
-    @TransactionAttribute(TransactionAttributeType.NEVER)
-    @SuppressWarnings("unchecked")
-    public List<Customer> listCustomers() {
-        return entityManager.createQuery("select c from Customer c").getResultList();
+    public String addCustomer(String name) {
+        try {
+            customerManager.createCustomer(name);
+            return "customerAdded";
+        } catch (Exception e) {
+            logger.warning("Caught a duplicate: " + e.getMessage());
+            // Transaction will be marked rollback only anyway utx.rollback();
+            return "customerDuplicate";
+        }
     }
 }

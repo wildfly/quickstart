@@ -65,6 +65,7 @@ Quickstarts with tutorials in the [Getting Started Developing Applications Guide
 | [jax-rs-client](jax-rs-client/README.html "jax-rs-client") | JAX-RS | Demonstrates the use an external JAX-RS RestEasy client which interacts with a JAX-RS Web service that uses CDI 1.0 and JAX-RS | Intermediate | helloworld-rs |
 | [jta-crash-rec](jta-crash-rec/README.html "jta-crash-rec") | JTA, Crash Recovery | Uses Java Transaction API and JBoss Transactions to demonstrate recovery of a crashed transaction | Advanced | cmt |
 | [jts](jts/README.html "jts") | JTS | Uses Java Transaction Service (JTS) to coordinate distributed transactions | Intermediate | cmt |
+| [jts-distributed-crash-rec](jts-distributed-crash-rec/README.html "jts-distributed-crash-rec") | JTS | Demonstrates recovery of distributed crashed components | Advanced | jts |
 | [kitchensink**](kitchensink/README.html "kitchensink") | CDI, JSF, JPA, EJB, JPA, JAX-RS, BV | An example that incorporates multiple technologies | Beginner | None |
 | [kitchensink-ear](kitchensink-ear/README.html "kitchensink-ear")  | EAR | Based on kitchensink, but deployed as an EAR | Beginner | None |
 | [kitchensink-html5-mobile](kitchensink-html5-mobile/README.html "kitchensink-html5-mobile") | HTML5 | Based on kitchensink, but uses HTML5, making it suitable for mobile and tablet computers | Beginner | None |
@@ -426,12 +427,12 @@ Use the following steps to install and configure PostgreSQL on Linux. You can do
 
             ./postgres -D /var/lib/pgsql/9.1/data
     * Note, this command does not release the command line. In the next step you need to open a new command line.
-5.  Create the _test1_ database
-    * Open a new command line and login again as the _postgres_ user, navigate to the postgres directory, and create the _test1_ database by typing the following:
+5.  Create the _jts-quickstart_ database
+    * Open a new command line and login again as the _postgres_ user, navigate to the postgres directory, and create the _jts-quickstart_ database by typing the following:
 
             su postgres
             cd /usr/pgsql-9.1/bin/
-            ./createdb test1
+            ./createdb jts-quickstart
 
 
 ##### Mac OS X Instructions
@@ -449,9 +450,9 @@ The following are the steps to install and start PostreSQL on Mac OS X. Note tha
 
         cd /Library/PostgreSQL/9.1/bin
         ./pg_ctl -D ../data restart
-4.  Create the _test1_ database using the password you specified in Step 1
+4.  Create the _jts-quickstart_ database using the password you specified in Step 1
 
-        ./createdb test1
+        ./createdb jts-quickstart
 5.  Verify that everything works. As the _postgres_ user using the password you specified in Step 1, type the following:
 
         cd /Library/PostgreSQL/9.1/bin
@@ -482,11 +483,11 @@ Use the following steps to install and configure PostgreSQL on Windows:
     * Server Groups -> Servers (1) -> PostreSQL 9.1 (localhost:5432)
     * Right click -> Stop Service
     * Right click -> Start Service
-4.  Create the _test1_ database
+4.  Create the _jts-quickstart_ database
     * Open a command line
 
             cd C:\Program Files\PostgreSQL\9.1\bin\
-            createdb.exe -U postgres test1
+            createdb.exe -U postgres jts-quickstart
 
 
 #### Create a Database User
@@ -498,19 +499,19 @@ Use the following steps to install and configure PostgreSQL on Windows:
 2.  As the _postgres_ user, start the PostgreSQL interactive terminal by typing the following command:
 
         psql -U postgres
-3.  Create the user sa with password sa and all privileges on database _test1_ by typing the following commands: 
+3.  Create the user sa with password sa and all privileges on database _jts-quickstart_ by typing the following commands: 
 
         create user sa with password 'sa';
-        grant all privileges on database test1 to sa;
+        grant all privileges on database "jts-quickstart" to sa;
         \q
 4.  Test the connection to the database using the TCP connection as user `'sa'`. This validates that the change to `pg_hba.conf` was made correctly: 
 
-        psql -h 127.0.0.1 -U sa test1`
+        psql -h 127.0.0.1 -U sa jts-quickstart
 
 #### Add the PostgreSQL Module to JBossAS
 
 1. Create the following directory structure: `JBOSS_HOME/modules/org/postgresql/main`
-1. Download the JBDC driver from <http://jdbc.postgresql.org/download.html /> and copy it into the directory you created in the previous step.
+1. Download the JBDC driver from <http://jdbc.postgresql.org/download.html> and copy it into the directory you created in the previous step.
 3. In the same directory, create a file named module.xml. Copy the following contents into the file:
 
         <?xml version="1.0" encoding="UTF-8"?>

@@ -20,37 +20,20 @@
  */
 package org.jboss.as.quickstarts.cmt.ejb;
 
-import java.util.List;
-import java.util.logging.Logger;
-
 import javax.annotation.Resource;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
+import javax.jms.JMSException;
 import javax.jms.MessageProducer;
 import javax.jms.Queue;
 import javax.jms.Session;
 import javax.jms.TextMessage;
-import javax.naming.NamingException;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.transaction.HeuristicMixedException;
-import javax.transaction.HeuristicRollbackException;
-import javax.transaction.NotSupportedException;
-import javax.transaction.RollbackException;
-import javax.transaction.SystemException;
-
-import org.jboss.as.quickstarts.cmt.controller.CustomerManager;
-import org.jboss.as.quickstarts.cmt.model.Customer;
 
 @Stateless
-public class CustomerManagerEJBImpl implements CustomerManagerEJB {
-    private Logger logger = Logger.getLogger(CustomerManager.class.getName());
-
-    @PersistenceContext
-    private EntityManager entityManager;
+public class InvoiceManagerEJB {
 
     @Resource(mappedName = "java:/JmsXA")
     private ConnectionFactory connectionFactory;
@@ -58,28 +41,16 @@ public class CustomerManagerEJBImpl implements CustomerManagerEJB {
     @Resource(mappedName = "java:/queue/CMTQueue")
     private Queue queue;
 
-    @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public int createCustomer(String name) throws Exception {
-        Customer c1 = new Customer();
-        c1.setName(name);
-        entityManager.persist(c1);
-
+    @TransactionAttribute(TransactionAttributeType.MANDATORY)
+    public void createInvoice(String name) throws JMSException {
         Connection connection = connectionFactory.createConnection();
         Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
         MessageProducer messageProducer = session.createProducer(queue);
         connection.start();
         TextMessage message = session.createTextMessage();
-        message.setText("Created customer named: " + name + " with ID: " + c1.getId());
+        message.setText("Created invoice for customer named: " + name);
         messageProducer.send(message);
         connection.close();
 
-        return c1.getId();
-    }
-
-    @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    @SuppressWarnings("unchecked")
-    public List<Customer> listCustomers() throws NamingException, NotSupportedException, SystemException, SecurityException,
-            IllegalStateException, RollbackException, HeuristicMixedException, HeuristicRollbackException {
-        return entityManager.createQuery("select c from Customer c").getResultList();
     }
 }

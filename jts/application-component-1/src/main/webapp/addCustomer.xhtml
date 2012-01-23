@@ -20,16 +20,16 @@
 <ui:composition template="template.xhtml">
 	<ui:define name="content">
 		<h:messages />
-		<h:form id="invoiceNewCustomerForm">
+		<h:form id="addCustomerForm">
 			<h:panelGrid columns="3">
 				<h:outputLabel for="name">Name:</h:outputLabel>
 				<h:inputText value="#{name}" />
 				<h:commandButton id="add" value="Add"
-					action="#{accountManager.invoiceNewCustomer(name)}">
+					action="#{customerManager.addCustomer(name)}">
 				</h:commandButton>
 			</h:panelGrid>
 		</h:form>
-		<h:outputText value="Transaction succeeded. For detailed information, see the 'Created customer' message in the log for server 1 and the 'Created invoice' message on server 2."/>
+		<h:link outcome="/customers.xhtml">List customers</h:link>
 	</ui:define>
 </ui:composition>
 </html>

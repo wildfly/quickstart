@@ -1,0 +1,15 @@
+########################################################################
+#
+# byteman script
+#
+#########################################################################
+RULE Fail 2PC after prepare
+CLASS  com.arjuna.ats.arjuna.coordinator.BasicAction
+METHOD prepare
+AT EXIT
+BIND NOTHING
+IF TRUE
+DO debug("Prepare completed")
+   ,debug("!!!killing JVM!!!")
+   ,killJVM()
+ENDRULE

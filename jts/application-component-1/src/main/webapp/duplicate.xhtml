@@ -1,4 +1,3 @@
-
 <!-- JBoss, Home of Professional Open Source Copyright 2009, Red Hat Middleware 
 		LLC, and individual contributors as indicated by the @author tags. See the 
 		copyright.txt in the distribution for a full listing of individual contributors. 
@@ -19,16 +18,9 @@
 
 <ui:composition template="template.xhtml">
 	<ui:define name="content">
-		<h:messages />
-		<h:form id="invoiceNewCustomerForm">
-			<h:panelGrid columns="3">
-				<h:outputLabel for="name">Name:</h:outputLabel>
-				<h:inputText value="#{name}" />
-				<h:commandButton id="add" value="Add"
-					action="#{accountManager.invoiceNewCustomer(name)}">
-				</h:commandButton>
-			</h:panelGrid>
-		</h:form>
+		<h1>Customer Already Existed</h1>
+		<h:outputText value="Customer already existed: #{name}" />
+		<h:link outcome="/addCustomer.xhtml">Go back</h:link>
 	</ui:define>
 </ui:composition>
 </html>

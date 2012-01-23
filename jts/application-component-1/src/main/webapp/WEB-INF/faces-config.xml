@@ -5,11 +5,17 @@
 <faces-config version="2.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd">
 
   <navigation-rule>
-    <from-view-id>/invoiceNewCustomer.xhtml</from-view-id>
+    <from-view-id>/addCustomer.xhtml</from-view-id>
     <navigation-case>
-      <from-action>#{accountManager.invoiceNewCustomer(name)}</from-action>
-      <from-outcome>newCustomerInvoiced</from-outcome>
-      <to-view-id>/invoicedNewCustomer.xhtml</to-view-id>
+      <from-action>#{customerManager.addCustomer(name)}</from-action>
+      <from-outcome>customerAdded</from-outcome>
+      <to-view-id>/customers.xhtml</to-view-id>
+      <redirect />
+    </navigation-case>
+    <navigation-case>
+      <from-action>#{customerManager.addCustomer(name)}</from-action>
+      <from-outcome>customerDuplicate</from-outcome>
+      <to-view-id>/duplicate.xhtml</to-view-id>
       <redirect />
     </navigation-case>
   </navigation-rule>

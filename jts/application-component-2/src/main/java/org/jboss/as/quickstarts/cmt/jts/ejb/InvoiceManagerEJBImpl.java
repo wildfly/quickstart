@@ -36,10 +36,11 @@ import javax.jms.TextMessage;
 @RemoteHome(InvoiceManagerEJBHome.class)
 @Stateless
 public class InvoiceManagerEJBImpl {
+    
     @Resource(mappedName = "java:/JmsXA")
     private ConnectionFactory connectionFactory;
 
-    @Resource(mappedName = "java:/queue/JTSQueue")
+    @Resource(mappedName = "java:/queue/jts-quickstart")
     private Queue queue;
 
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
