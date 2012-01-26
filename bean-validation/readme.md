@@ -13,7 +13,9 @@ It includes a persistence unit and some sample persistence code to help
 you get your feet wet with database access in enterprise Java. 
 
 It does not contain an user interface layer. The main purpose of the project is 
-to show you how to test Bean Validation with Arquillian.
+to show you how to test Bean Validation with Arquillian. If you want to see an
+example how to test Bean Validation via an user interface, check out Kitchensink
+example available at <https://github.com/jbossas/quickstart/tree/master/kitchensink>.
 
 System requirements
 -------------------
