@@ -1,5 +1,7 @@
-bean-validation
-========================
+Bean Validation Example
+=======================
+
+Author: Karel Piwko <kpiwko@redhat.com>
 
 What is it?
 -----------
