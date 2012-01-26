@@ -1,4 +1,6 @@
-# CMT: Container Managed Transactions
+cmt (Container Managed Transactions): Example Using Transactions That Are Managed by the Container 
+==================================================================================================
+Author: Tom Jenkinson
 
 ## What is it?
 
@@ -50,8 +52,8 @@ a method annotated with Never then an EJB exception will be raised.
 
 All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven 3.0 or better.
 
-The application this project produces is designed to be run on a JBoss AS 7 or EAP 6. 
-The following instructions target JBoss AS 7, but they also apply to JBoss EAP 6.
+The application this project produces is designed to be run on a JBoss AS 7 or JBoss Enterprise Application Platform 6. 
+The following instructions target JBoss AS 7, but they also apply to JBoss Enterprise Application Platform 6.
 
 
 ## Testing the application
@@ -64,18 +66,18 @@ Tests in error:
  
 ## Deploying the application
 
-First you need to start JBoss AS 7 (or EAP 6) with a JMS connection factory and a queue named 
+First you need to start JBoss AS 7 (or JBoss Enterprise Application Platform 6) with a JMS connection factory and a queue named 
 test queue in it. The instructions for this vary slightly depending upon whether you are using
-the community release (AS7) or the platform release (EAP6).
+the community release (JBoss AS 7) or the platform release (JBoss Enterprise Application Platform 6).
 
-For AS7:
+For JBoss AS 7:
 		$JBOSS_HOME/bin/standalone.sh -c standalone-full.xml
-or if you are using AS7 on windows
+or if you are using JBoss AS 7 on windows
 		$JBOSS_HOME/bin/standalone.bat -c standalone-full.xml
 
-For EAP6:
+For JBoss Enterprise Application Platform 6:
 		$JBOSS_HOME/bin/standalone.sh
-or if you are using EAP6 on windows
+or if you are using JBoss Enterprise Application Platform 6 on windows
 		$JBOSS_HOME/bin/standalone.bat
 
 To deploy the application, you first need to produce the archive to deploy using

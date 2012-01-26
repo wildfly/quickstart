@@ -1,5 +1,6 @@
-jboss-as-serlvet-async
-========================
+servlet-async: How to Write an Asynchronous Servlet
+===================================================
+Author: Christian Sadilek
 
 What is it?
 -----------
@@ -17,18 +18,19 @@ System requirements
 All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven
 3.0 or better.
 
-The application this project produces is designed to be run on a JBoss AS 7. 
+The application this project produces is designed to be run on *JBoss AS 7* or *JBoss Enterprise Application Platform 6*. 
  
 NOTE:
-This project retrieves artifacts from the JBoss Community Maven repository, a
-superset of the Maven central repository.
+If you are running *JBoss AS 7* this project retrieves artifacts from the JBoss Community Maven repository, a
+superset of the Maven central repository. If you are running *JBoss Enterprise Application Platform 6*, 
+follow the instructions in the README file at the root of you quickstart folder to configure a local Maven repository. 
 
 With the prerequisites out of the way, you're ready to build and deploy.
 
 Deploying the application
 -------------------------
  
-First you need to start JBoss AS 7. To do this, run
+First you need to start JBoss AS 7 or JBoss Enterprise Application Platform 6. To do this, run
   
     $JBOSS_HOME/bin/standalone.sh
   

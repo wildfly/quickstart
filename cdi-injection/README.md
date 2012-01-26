@@ -1,11 +1,12 @@
-CDI Injection
-=======================
+cdi-injection: Example Using CDI (Contexts and Dependency Injection)
+====================================================================
+Author: Jason Porter
 
 What is it?
 -----------
 
-This example demonstrates the use of *CDI 1.0 Injection and Qualifiers* in *JBoss AS 7* with JSF as the
-front-end client.
+This example demonstrates the use of *CDI 1.0 Injection and Qualifiers* in *JBoss AS 7*  or *JBoss Enterprise Application Platform 6* 
+with JSF as the front-end client.
 
 You can test the output at the URL http://localhost:8080/jboss-as-cdi-injection
 
@@ -23,7 +24,7 @@ With the prerequisites out of the way, you're ready to build and deploy.
 Deploying the Application
 -------------------------
 
-First you need to start JBoss AS 7. To do this, run
+First you need to start JBoss AS 7 or JBoss Enterprise Application Platform 6. To do this, run
 
     $JBOSS_HOME/bin/standalone.sh
 

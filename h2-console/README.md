@@ -1,5 +1,6 @@
-jboss-as-h2-console
-===================
+h2-console: Example Using the H2 Console with JBoss
+===================================================
+Author: Pete Muir
 
 What is it?
 -----------

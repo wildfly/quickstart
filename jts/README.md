@@ -1,5 +1,6 @@
-JTS and CMT: Using transactions managed by the container across several containers 
-==================================================================================
+jts (Java Transaction Service): Distributed EJB Transactions Across Multiple Containers 
+======================================================================================
+Author: Tom Jenkinson
 
 What is it?
 -----------
@@ -37,15 +38,15 @@ System requirements
 
 All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven 3.0 or better.
 
-The application this project produces is designed to be run on a JBoss AS 7 or EAP 6. 
-The following instructions target JBoss AS 7, but they also apply to JBoss EAP 6.
+The application this project produces is designed to be run on a JBoss AS 7 or JBoss Enterprise Application Platform 6. 
+The following instructions target JBoss AS 7, but they also apply to JBoss Enterprise Application Platform 6.
 
 
 Testing the application
 -------------------------
 
-NOTE: Due to a difference in configuration between AS7 and EAP, all references of standalone-full.xml
-apply to AS7 only, you can replace these references with standalone.xml if deploying into EAP.
+NOTE: Due to a difference in configuration between JBoss AS 7 and JBoss Enterprise Application Platform 6, all references of standalone-full.xml
+apply to JBoss AS 7 only, you can replace these references with standalone.xml if deploying into JBoss Enterprise Application Platform 6.
 
 
 For this example, you will need two instances of the application server, with a subtle startup 
@@ -69,10 +70,10 @@ The application servers 1 should both be configured as follows:
         </subsystem>
 		
 
-To start JBoss AS 7 (or EAP 6) with a JMS connection factory and a queue named test queue in it. The instructions
-for this vary slightly depending upon whether you are using the community release (AS7) or the platform release (EAP6)
+To start JBoss AS 7 (or JBoss Enterprise Application Platform 6) with a JMS connection factory and a queue named test queue in it. The instructions
+for this vary slightly depending upon whether you are using the community release (JBoss AS 7) or the platform release (JBoss Enterprise Application Platform 6)
 
-For AS7:
+For JBoss AS 7:
 
 		<APP_SERVER_1_HOME>/bin/standalone.sh -c standalone-full.xml
 		<APP_SERVER_2_HOME>/bin/standalone.sh -c standalone-full.xml -Djboss.socket.binding.port-offset=100
@@ -82,7 +83,7 @@ or if you are using windows
 		<APP_SERVER_1_HOME>\bin\standalone.bat -c standalone-full.xml
 		<APP_SERVER_2_HOME>\bin\standalone.bat -c standalone-full.xml -Djboss.socket.binding.port-offset=100
 
-For EAP6:
+For JBoss Enterprise Application Platform 6:
 
 		<APP_SERVER_1_HOME>/bin/standalone.sh
 		<APP_SERVER_2_HOME>/bin/standalone.sh -Djboss.socket.binding.port-offset=100
@@ -102,7 +103,7 @@ to application-component-1. Also note that application-component-2 must be "inst
 		cd <JTS_QUICKSTART_HOME>/application-component-1
 		mvn package
 		
-You can now deploy the artifact to JBoss AS by executing the following command. Again, due to the way the 
+You can now deploy the artifact to the JBoss application server by executing the following command. Again, due to the way the 
 application is written (with little failure detection), it is best to deploy application-component-2 first
 so that when application-component-1 is deployed it can resolve the EJB from the other container: 
 		

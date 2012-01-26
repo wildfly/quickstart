@@ -1,5 +1,6 @@
-Remote EJB Client Example
-=========================
+ejb-remote: Remote EJB Client Example
+=====================================
+Authors: Jaikiran Pai and Mike Musgrove
 
 What is it?
 -----------

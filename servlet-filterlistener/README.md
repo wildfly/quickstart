@@ -1,5 +1,6 @@
-jboss-as-serlvet-filterlistener
-===============================
+servlet-filterlistener: How to Write Servlet Filters and Listeners
+================================================================
+Author: Jonathan Fuerth
 
 What is it?
 -----------
@@ -12,11 +13,13 @@ System requirements
 All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven
 3.0 or better.
 
-The application this project produces is designed to be run on a JBoss AS 7. 
+The application this project produces is designed to be run on *JBoss AS 7* or *JBoss Enterprise Application Platform 6*.
  
 NOTE:
-This project retrieves artifacts from the JBoss Community Maven repository, a
-superset of the Maven central repository.
+If you are running *JBoss AS 7* this project retrieves artifacts from the JBoss Community Maven repository, a
+superset of the Maven central repository. If you are running *JBoss Enterprise Application Platform 6*, 
+follow the instructions in the README file at the root of you quickstart folder to configure a local Maven repository. 
+
 
 With the prerequisites out of the way, you're ready to build and deploy.
 

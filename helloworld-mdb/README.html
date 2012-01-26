@@ -1,20 +1,27 @@
-<h1>jboss-as-helloworld-mdb Example</h1>
+<h1>helloworld-mdb: Helloword Using an MDB (Message-Driven Bean)</h1>
+<p>Author: Serge Pagop</p>
 <h2>What is it?</h2>
 <p>This example demonstrates the use of <em>JMS 1.1</em> and <em>EJB 3.1 Message-Driven Bean</em> in JBoss AS 7.1.0.</p>
 <h2>System requirements</h2>
 <p>All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven
 3.0 or better.</p>
-<p>The application this project produces is designed to be run on a JBoss AS 7.1.0. </p>
+<p>The application this project produces is designed to be run on a JBoss AS 7 or JBoss Enterprise Application Platform 6. </p>
 <p>NOTE:
 This Project will use the already default configured connection factory named "InVmConnectionFactory" with the jndi "java:/ConnectionFactory" and a queue named "testQueue" with the jndi "queue/test".
 The artifacts will come from the JBoss Community Maven repository, a superset of the Maven central repository.</p>
 <p>With the prerequisites out of the way, you're ready to build and deploy.</p>
 <h2>Deploying the application</h2>
-<p>Start JBoss AS 7.1.0. by running this script</p>
-<pre><code>$JBOSS_HOME/bin/standalone.sh -c standalone-full.xml
+<p>Instructions for starting the server vary slightly depending upon whether you are using
+the community release (JBoss AS 7) or the platform release (JBoss Enterprise Application Platform 6).</p>
+<p>For JBoss AS 7:</p>
+<pre><code>On Linux run: $JBOSS_HOME/bin/standalone.sh -c standalone-full.xml
+
+On Windows run: $JBOSS_HOME/bin/standalone.bat -c standalone-full.xml
 </code></pre>
-<p>or if you are using windows</p>
-<pre><code>$JBOSS_HOME/bin/standalone.bat -c standalone-full.xml
+<p>For JBoss Enterprise Application Platform 6:</p>
+<pre><code>On Linux run: $JBOSS_HOME/bin/standalone.sh
+
+On Windows run: $JBOSS_HOME/bin/standalone.bat
 </code></pre>
 <p>To deploy the application, you first need to produce the archive to deploy using
 the following Maven goal:</p>

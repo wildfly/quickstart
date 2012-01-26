@@ -1,10 +1,11 @@
-jboss-as-helloworld-singleton Example
-===============================
+helloworld-singleton: Helloworld Using a Singleton EJB
+======================================================
+Author: Serge Pagop
 
 What is it?
 -----------
 
-This quickstart demonstrates the use of an *EJB 3.1 Singleton Bean* in JBoss AS 7.1.0.
+This quickstart demonstrates the use of an *EJB 3.1 Singleton Bean* in JBoss AS 7 or JBoss Enterprise Application Platform 6.
 
 System requirements
 -------------------
@@ -12,14 +13,14 @@ System requirements
 All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven
 3.0 or better.
 
-The application this project produces is designed to be run on a JBoss AS 7.1.0 or EAP 6. 
+The application this project produces is designed to be run on a JBoss AS 7 or JBoss Enterprise Application Platform 6. 
  
 With the prerequisites out of the way, you're ready to build and deploy.
 
 Deploying the application
 -------------------------
 
-First of all you need to enable the "admin" user from $JBOSS_HOME/standalone/configuration/mgmt-users.properties file, and then start JBoss AS 7 (or EAP 6). To do this, run this script
+First you need to enable the "admin" user from $JBOSS_HOME/standalone/configuration/mgmt-users.properties file, and then start JBoss AS 7 (or JBoss Enterprise Application Platform 6). To do this, run this script
   
     $JBOSS_HOME/bin/standalone.sh
   

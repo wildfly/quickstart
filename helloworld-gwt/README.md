@@ -1,10 +1,11 @@
-GWT Hello World Example
-=======================
+helloworld-gwt: Helloworld with a GWT (Google Web Toolkit) Front End Client
+===========================================================================
+Author: Christian Sadilek 
 
 What is it?
 -----------
 
-This example demonstrates the use of *CDI 1.0* and *JAX-RS* in *JBoss AS 7* with a GWT front-end client.
+This example demonstrates the use of *CDI 1.0* and *JAX-RS* in *JBoss AS 7* or *JBoss Enterprise Application Platform 6* with a GWT front-end client.
 GWT is basically a typesafe, statically checked programming model for producing HTML5+CSS3+JavaScript
 front-ends. In this example, we use RESTful services on the backend.
 
@@ -29,7 +30,7 @@ With the prerequisites out of the way, you're ready to build and deploy.
 Deploying the Application
 -------------------------
  
-First you need to start JBoss AS 7. To do this, run
+First you need to start JBoss AS 7 or JBoss Enterprise Application Platform 6. To do this, run
   
     $JBOSS_HOME/bin/standalone.sh
   

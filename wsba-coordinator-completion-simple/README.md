@@ -1,11 +1,12 @@
-WSBA - Coordinator Completion
-========================
+wsba-coordinator-completion-simple: Example of a WS-BA (WS Business Activity) Enabled JAX-WS Web Service
+========================================================================================================
+Author: Paul Robinson
 
 What is it?
 -----------
 
 This example demonstrates the deployment of a WS-BA (WS Business Activity) enabled JAX-WS Web service bundled in a war
-archive for deployment to *JBoss AS 7*.
+archive for deployment to *JBoss AS 7* or *JBoss Enterprise Application Platform 6*.
 
 The Web service exposes a simple 'set' collection as a service. The Service allows items to be added to the set within a
 Business Activity.
@@ -49,15 +50,15 @@ System requirements
 All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven
 3.0 or better.
 
-The application this project produces is designed to be run on a JBoss AS 7 or EAP 6.
-The following instructions target JBoss AS 7, but they also apply to JBoss EAP 6.
+The application this project produces is designed to be run on a JBoss AS 7 or JBoss Enterprise Application Platform 6.
+The following instructions target JBoss AS 7, but they also apply to JBoss Enterprise Application Platform 6.
 
 With the prerequisites out of the way, you're ready to build and deploy.
 
 Deploying the application
 -------------------------
 
-First you need to start JBoss AS 7 (7.1.0.CR1 or above, or EAP 6), with the XTS sub system enabled, this is enabled through an optional server configuration (standalone-xts.xml). To do this, run the following commands, from within the top-level directory of JBossAS:
+First you need to start JBoss AS 7 (7.1.0.CR1 or above, or JBoss Enterprise Application Platform 6), with the XTS sub system enabled, this is enabled through an optional server configuration (standalone-xts.xml). To do this, run the following commands, from within the top-level directory of JBossAS:
     
     ./bin/standalone.sh --server-config=../../docs/examples/configs/standalone-xts.xml | egrep "started|stdout"
 

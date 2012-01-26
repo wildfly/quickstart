@@ -1,5 +1,6 @@
-Stepping Outside the Container (with JPA and JTA)
-=================================================
+bmt (Bean Managed Transactions): Stepping Outside the Container (with JPA and JTA)
+=================================================================================
+Author: Mike Musgrove
 
 What is it?
 -----------
@@ -26,13 +27,13 @@ System requirements
 
 All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven 3.0 or better.
 
-The application this project produces is designed to be run on a JBoss AS 7 or EAP 6. 
-The following instructions target JBoss AS 7, but they also apply to JBoss EAP 6.
+The application this project produces is designed to be run on a JBoss AS 7 or JBoss Enterprise Application Platform 6. 
+The following instructions target JBoss AS 7, but they also apply to JBoss Enterprise Application Platform 6.
  
 Deploying the application
 -------------------------
 
-First you need to start JBoss AS 7 (or EAP 6). To do this, run
+First you need to start JBoss AS 7 (or JBoss Enterprise Application Platform 6). To do this, run
 
 		$JBOSS_HOME/bin/standalone.sh
 

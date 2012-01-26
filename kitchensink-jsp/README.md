@@ -1,11 +1,12 @@
-jboss-as-kitchensink-jsp
-========================
+kitchensink-jsp: Example Using Multiple Java EE 6 Technologies with a JSP (JavaServer Pages) Front End
+======================================================================================================
+Author: Elvadas Nono
 
 What is it?
 -----------
 
 jboss-as-kitchensink-jsp is a deployable Maven 3 project to help you
-get your foot in the door developing with Java EE 6 on JBoss AS 7 or EAP 6. This 
+get your foot in the door developing with Java EE 6 on JBoss AS 7 or JBoss Enterprise Application Platform 6. This 
 project is setup to allow you to create a compliant Java EE 6 application 
 using *JSP 2.0* *EL 2.0* *JSTL 1.2* *CDI 1.0*, *EJB 3.1*, *JPA 2.0* and Bean Validation 1.0. 
 
@@ -23,15 +24,15 @@ System requirements
 All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven
 3.0 or better.
 
-The application this project produces is designed to be run on a JBoss AS 7 or EAP 6. 
-The following instructions target JBoss AS 7, but they also apply to JBoss EAP 6.
+The application this project produces is designed to be run on a JBoss AS 7 or JBoss Enterprise Application Platform 6. 
+The following instructions target JBoss AS 7, but they also apply to JBoss Enterprise Application Platform 6.
  
 With the prerequisites out of the way, you're ready to build and deploy.
 
 Deploying the application
 -------------------------
  
-First you need to start JBoss AS 7 (or EAP 6). To do this, run
+First you need to start JBoss AS 7 (or JBoss Enterprise Application Platform 6). To do this, run
   
     $JBOSS_HOME/bin/standalone.sh
   
