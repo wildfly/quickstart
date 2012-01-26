@@ -24,10 +24,10 @@
                 }
             }
         },{
-            //Using Modernizr, we use media queries to check certain min and max device widths to determine if we are on a small screen
-            //The second set of media queries matches higher resolution devices while excluding the iPad and other tablets
-            test: Modernizr.mq( "only screen and (max-device-width: 480px)" ) ||
-                ( Modernizr.mq( "only screen and (min-device-width: 480px) and (max-device-width: 800px)" ) && !Modernizr.mq( "only screen and (min-device-width: 768px)" ) ),
+            //Using Modernizr, we use media queries and touch detection to see if we are on a mobile, touch based device
+            // or if we're at anything less than 480px.. this gives us a mobile ui on desktop browsers when resized to correct
+            // width for testing.
+            test: Modernizr.touch || Modernizr.mq( "only all and (max-width: 480px)",
             yep: {
                 "jqmcss": "resources/css/jquery.mobile-1.0.min.css",
                 "mcss": "resources/css/m.screen.css"
