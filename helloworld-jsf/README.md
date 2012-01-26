@@ -1,5 +1,6 @@
-jboss-as-helloworld-jsf
-========================
+helloworld-jsf: Helloworld with a JSF (JavaServer Faces) Front End
+==================================================================
+Author: Brian Leathem
 
 What is it?
 -----------
