@@ -19,9 +19,6 @@ System requirements
 All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven
 3.0 or better.
 
-You can't directly deploy your project on the server, however you will use a real 
-server to test internals of your application with Arquillian.
-
 Running the Arquillian tests
 ============================
 
