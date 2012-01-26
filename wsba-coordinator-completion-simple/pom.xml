@@ -62,24 +62,21 @@
 
     <dependencyManagement>
         <dependencies>
-            <!-- Define the version of JBoss' Java EE 6 APIs we want to import.
-           Any dependencies from org.jboss.spec will have their version defined by this
-           BOM -->
-            <!-- JBoss distributes a complete set of Java EE 6 APIs including
-        a Bill of Materials (BOM). A BOM specifies the versions of a "stack" (or
-        a collection) of artifacts. We use this here so that we always get the correct
-        versions of artifacts. Here we use the jboss-javaee-6.0 stack (you can
-        read this as the JBoss stack of the Java EE 6 APIs). You can actually
-        use this stack with any version of JBoss AS that implements Java EE 6, not
-        just JBoss AS 7! -->
-            <dependency>
-                <groupId>org.jboss.spec</groupId>
-                <artifactId>jboss-javaee-6.0</artifactId>
-                <version>3.0.0.Beta1</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
+        <!-- Define the version of JBoss' Java EE 6 APIs and Tools we want to import.  -->
+        <!-- JBoss distributes a complete set of Java EE 6 APIs including a Bill 
+          of Materials (BOM). A BOM specifies the versions of a "stack" (or a collection) 
+          of artifacts. We use this here so that we always get the correct versions 
+          of artifacts. Here we use the jboss-javaee-6.0-with tools stack (you can read this as 
+          the JBoss stack of the Java EE 6 APIs, with some extras tools for your project, such
+          as Arquillian for testing) -->
+         <dependency>
+            <groupId>org.jboss.as.quickstarts</groupId>
+            <artifactId>jboss-javaee-6.0-with-tools</artifactId>
+            <version>7.0.2-SNAPSHOT</version>
+            <type>pom</type>
+            <scope>import</scope>
+         </dependency>
+      </dependencies>
     </dependencyManagement>
 
     <dependencies>
@@ -130,21 +127,18 @@ as the API is included in JBoss AS 7 -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.10</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>org.jboss.arquillian.junit</groupId>
             <artifactId>arquillian-junit-container</artifactId>
-            <version>1.0.0.CR7</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>org.jboss.arquillian.protocol</groupId>
             <artifactId>arquillian-protocol-servlet</artifactId>
-            <version>1.0.0.CR7</version>
             <scope>test</scope>
         </dependency>
 
@@ -190,7 +184,6 @@ as the API is included in JBoss AS 7 -->
                 <dependency>
                     <groupId>org.jboss.as</groupId>
                     <artifactId>jboss-as-arquillian-container-managed</artifactId>
-                    <version>7.1.0.Beta1b</version>
                     <scope>test</scope>
                 </dependency>
             </dependencies>
@@ -206,7 +199,6 @@ as the API is included in JBoss AS 7 -->
                 <dependency>
                     <groupId>org.jboss.as</groupId>
                     <artifactId>jboss-as-arquillian-container-remote</artifactId>
-                    <version>7.1.0.Beta1b</version>
                     <scope>test</scope>
                 </dependency>
             </dependencies>

@@ -1,35 +1,42 @@
 Releasing
 =========
 
-1. Release the archetypes
-2. Regenerate the quickstart based archetypes
+1. Make sure you have credentials set up to deploy to `jboss-releases-repository` in your `settings.xml`
+2. Release the archetypes
+3. Regenerate the quickstart based archetypes
 
         ./dist/release-utils.sh -r
 
-3. Regenerate html readmes from markdown
+4. Regenerate html readmes from markdown
         
          ./dist/release-utils.sh -m
-4. Commit this
-5. Update the version numbers
+5. Commit this
+6. Update the version numbers
 
         dist/release-utils.sh -u -o <old snapshot version> -n <release version>
 
-6. Commit this
-7. Tag using
+7. Commit this
+8. Tag using
         
         git tag -a <release version> -m "Tag <release version>"
 
-8. Reset the version numbers for development
+9. Reset the version numbers for development
 
         dist/release-utils.sh -u -n <new snapshot version> -o <release version>
 
-9. Check out the tag
+10. Check out the tag
 
         git checkout <release version>
-10. Build the distro
+        
+11. Deploy to Maven
+
+        mvn clean deploy -DaltDeploymentRepository=jboss-releases-repository::default::https://repository.jboss.org/nexus/service/local/staging/deploy/maven2/
+        
+12. Log in to the Nexus interface, and release 
+13. Build the distro
 
         mvn clean install -f dist/pom.xml
-11. Rsync the zip to download.jboss.org
+14. Rsync the zip to download.jboss.org
 
         rsync -Pv --protocol=28 jbossas@download.jboss.org:download_htdocs/jbossas/7.<minor version>/jboss-as-<version>
-12. Update the jboss.org/jbossas/downloads magnolia page
+15. Update the jboss.org/jbossas/downloads magnolia page
