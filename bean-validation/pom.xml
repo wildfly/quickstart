@@ -41,12 +41,9 @@
                 a Bill of Materials (BOM). A BOM specifies the versions of a "stack" (or
                 a collection) of artifacts. We use this here so that we always get the correct
                 versions of artifacts. Here we use the jboss-javaee-web-6.0 stack (you can
-                read this as the JBoss stack of the Java EE Web Profile 6 APIs), and we use
-                version 3.0.0.Beta1 which is the latest release of the stack. You can actually
-                use this stack with any version of JBoss AS that implements Java EE 6, not
-                just JBoss AS 7!
-
-                Following stack is enhanced with Arquillian support
+                read this as the JBoss stack of the Java EE Web Profile 6 APIs). This stack is enhanced
+                with deployment and testing tools (for instance Arquillian and Arquillian Drone), 
+                so you'll able to test your application with less effort.
             -->
             <dependency>
                 <groupId>org.jboss.spec</groupId>
@@ -128,6 +125,7 @@
             given to the generated war, and hence the context root) -->
         <finalName>${project.artifactId}</finalName>
 
+        <!-- Define plugin versions required for Deployment and Testing Tools -->
         <pluginManagement>
             <plugins>
                 <!-- The Maven Surefire plugin tests your application. Here we ensure we are using a version compatible with Arquillian -->
