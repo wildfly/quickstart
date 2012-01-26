@@ -1,5 +1,6 @@
-jboss-as-html5-mobile
-========================
+html5-mobile: Mobile Example Using Plain Old HTML5 (POH5)
+=========================================================
+Author: Jay Balunas
 
 What is it?
 -----------
@@ -29,7 +30,7 @@ System requirements
 All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven
 3.0 or better.
 
-The application this project produces is designed to be run on JBoss AS 7+ or EAP 6+.
+The application this project produces is designed to be run on JBoss AS 7 or JBoss Enterprise Application Platform 6.
 
 An HTML5 compatible browser such as Chrome 14+, Safari 5+, Firefox 5+, or IE 9+ are
 required. and note that some behaviors will vary slightly (ex. validations) based on browser support,
