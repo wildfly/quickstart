@@ -28,30 +28,23 @@
         <!-- You can reference property in pom.xml or filtered resources (must
             enable third-party plugin if using Maven < 2.1) -->
         <maven.build.timestamp.format>yyyyMMdd'T'HHmmss</maven.build.timestamp.format>
-
-        <!-- Define the version of JBoss' Java EE 6 APIs with Tools support we want to import.
-            Any dependencies from org.jboss.spec will have their version defined by this
-            BOM -->
-        <javaee6.with.tools.spec.version>1.0.0-SNAPSHOT</javaee6.with.tools.spec.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
-            <!-- JBoss distributes a complete set of Java EE 6 APIs including
-                a Bill of Materials (BOM). A BOM specifies the versions of a "stack" (or
-                a collection) of artifacts. We use this here so that we always get the correct
-                versions of artifacts. Here we use the jboss-javaee-web-6.0 stack (you can
-                read this as the JBoss stack of the Java EE Web Profile 6 APIs). This stack is enhanced
-                with deployment and testing tools (for instance Arquillian and Arquillian Drone), 
-                so you'll able to test your application with less effort.
-            -->
-            <dependency>
-                <groupId>org.jboss.spec</groupId>
-                <artifactId>jboss-javaee-web-6.0-with-tools</artifactId>
-                <version>${javaee6.with.tools.spec.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
+			<!-- JBoss distributes a complete set of Java EE 6 APIs including a Bill 
+				of Materials (BOM). A BOM specifies the versions of a "stack" (or a collection) 
+				of artifacts. We use this here so that we always get the correct versions 
+				of artifacts. Here we use the jboss-javaee-6.0-with tools stack (you can read this as 
+				the JBoss stack of the Java EE 6 APIs, with some extras tools for your project, such
+                as Arquillian for testing) -->
+			<dependency>
+				<groupId>org.jboss.as.quickstarts</groupId>
+				<artifactId>jboss-javaee-6.0-with-tools</artifactId>
+				<version>7.0.2-SNAPSHOT</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
         </dependencies>
     </dependencyManagement>
 
