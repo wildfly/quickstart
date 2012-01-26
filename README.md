@@ -24,13 +24,14 @@ are noted with two asterisks ( ** ) following the quickstart name.
 * `h2-console` - H2 Database console
 * `helloworld` ** -Very basic  CDI + Servlet
 * `helloworld-gwt` - GWT
+* `helloworld-html5` - Very basic HTML5
 * `helloworld-jsf` - Very basic CDI + JSF
 * `helloworld-mdb` - Very basic JMS and MDBs
 * `helloworld-osgi` - OSGi
 * `helloworld-rs` - CDI + JAX-RS
-* `html5-mobile` - kitchensink using HTML5, suitable for mobile and tablet computers
 * `jts` - Using JTS to coordinate distributed transactions
 * `kitchensink` ** - CDI + JSF + JPA + EJB + JPA + JAX-RS + BV
+* `kitchensink-html5-mobile` - kitchensink using HTML5, suitable for mobile and tablet computers
 * `kitchensink-jsp` - kitchensink converted to use JSP
 * `kitchensink-ear` - kitchensink as an EAR archive
 * `log4jdemo` - JBoss Modules, Class loading, logging
