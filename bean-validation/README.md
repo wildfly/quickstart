@@ -59,3 +59,23 @@ To run the test in JBoss AS 7 or JBoss EAP 6, run the test goal with the followi
 
     mvn clean test -Parq-jbossas-managed
 
+### Investigating console output
+
+JUnit will present you test report summary:
+
+	Tests run: 5, Failures: 0, Errors: 0, Skipped: 0
+
+If you are interested in more details, check ``target/surefire-reports`` directory. 
+You can check console output to verify that Arquillian had really used the real application server. 
+Search for lines similar to the following ones in the server output log:
+
+	 [timestamp] INFO [org.jboss.as.server.deployment] (MSC service thread 1-2) Starting deployment of "test.war"
+	 ...
+	 [timestamp] INFO [org.jboss.as.server] (management-handler-threads - 1) JBAS018559: Deployed "test.war"
+	 ...
+	 [timestamp] INFO [org.jboss.as.server.deployment] (MSC service thread 1-3) Stopped deployment test.war in 48ms
+	 ...
+	 [timestamp] INFO [org.jboss.as.server] (management-handler-threads - 1) JBAS018558: Undeployed "test.war
+	 
+	 
+	 
