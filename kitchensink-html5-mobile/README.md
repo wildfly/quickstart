@@ -1,5 +1,5 @@
-html5-mobile: Mobile Example Using Plain Old HTML5 (POH5)
-=========================================================
+kitchensink-html5-mobile: Example AeroGear Application Using Multiple HTML5, Mobile & JAX-RS Technologies 
+=========================================================================================================
 Author: Jay Balunas
 
 What is it?
