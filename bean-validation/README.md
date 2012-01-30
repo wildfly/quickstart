@@ -30,7 +30,7 @@ test is an Arquillian test, which requires the use of a container. You can
 activate this test by selecting one of the container configuration provided 
 for JBoss AS 7 / JBoss Enterprise Application Platform 6 (remote).
 
-### Testing on Remote Server
+**Testing on Remote Server**
  
 First you need to start JBoss AS 7 or JBoss Enterprise Application Platform 6 instance. To do this, run
   
@@ -44,7 +44,7 @@ Once the instance is started, run the test goal with the following profile activ
 
     mvn clean test -Parq-jbossas-remote
 
-### Testing on Managed Server
+**Testing on Managed Server**
  
 Arquillian will start the container for you. All you have to do is setup a path to your
 extracted . To do this, run
@@ -59,7 +59,7 @@ To run the test in JBoss AS 7 or JBoss EAP 6, run the test goal with the followi
 
     mvn clean test -Parq-jbossas-managed
 
-### Investigating console output
+**Investigating console output**
 
 JUnit will present you test report summary:
 
