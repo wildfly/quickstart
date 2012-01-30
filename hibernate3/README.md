@@ -1,5 +1,6 @@
 hibernate3: How to Use  Hibernate 3 in an Application
 =====================================================
+Author: Bartosz Baranowski 
 
 What is it?
 -----------
