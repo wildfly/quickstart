@@ -1,5 +1,6 @@
-WSBA - Participant Completion
-========================
+wsba-participant-completion-simple: Deployment of a WS-BA (WS Business Activity) - Participant Completion
+=========================================================================================================
+Author: Paul Robinson
 
 What is it?
 -----------
