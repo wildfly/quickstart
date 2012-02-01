@@ -1,5 +1,6 @@
-hibernate4
-========================
+hibernate4: How to Use Hibernate 4 in an Application
+====================================================
+Author: Madhumita Sadhukhan 
 
 What is it?
 -----------

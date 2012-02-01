@@ -1,4 +1,5 @@
-<h1>jboss-as-kitchensink</h1>
+<h1>hibernate4: How to Use Hibernate 4 in an Application</h1>
+<p>Author: Madhumita Sadhukhan </p>
 <h2>What is it?</h2>
 <p>This is a quickstart built upon kitchensink additionally demonstrating how to use Hibernate4 as ORM over JPA in AS7(or EAP6)! 
 It's a sample, deployable Maven 3 project to help you
@@ -18,10 +19,24 @@ The following instructions target JBoss AS 7, but they also apply to JBoss EAP 6
 If you choose to use Hibernate4 packaged within JBoss AS7(or EAP6) you will need to first import the JPA API.
 This quickstart demonstrates usage of Hibernate Session and Hibernate Validators.
 You will also need to add dependencies to the required Hibernate modules for using these features in pom.xml with scope as provided.
-for eg . check dependency for hibernate-validator in pom.xml</p>
+for eg .</p>
+<pre><code>  &lt;dependency&gt;
+     &lt;groupId&gt;org.hibernate&lt;/groupId&gt;
+     &lt;artifactId&gt;hibernate-validator&lt;/artifactId&gt;
+     &lt;version&gt;4.2.0.Final&lt;/version&gt;
+     &lt;scope&gt;provided&lt;/scope&gt;
+     &lt;exclusions&gt;
+        &lt;exclusion&gt;
+           &lt;groupId&gt;org.slf4j&lt;/groupId&gt;
+           &lt;artifactId&gt;slf4j-api&lt;/artifactId&gt;
+        &lt;/exclusion&gt;
+     &lt;/exclusions&gt;
+  &lt;/dependency&gt;
+</code></pre>
+<p>You may refer "Adding a new external dependency" located at http://community.jboss.org/wiki/HackingOnAS7 for further help on adding dependencies.</p>
 <p>Please note that if you are working with Hibernate 3 the process is different as you will need to bundle the jars since JBoss AS7(or EAP6)
 does not ship with Hibernate 3.
-Please refer to the quickstart demonstrating Hibernate3 for details on how to bundle the jars in such cases. </p>
+Please refer to the quickstart demonstrating Hibernate3 for details on how to bundle the jars in such cases.</p>
 <h2>Deploying the application</h2>
 <p>First you need to start JBoss AS 7 (or EAP 6). To do this, run</p>
 <pre><code>$JBOSS_HOME/bin/standalone.sh
