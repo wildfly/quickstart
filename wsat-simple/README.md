@@ -1,5 +1,6 @@
-WS-AT Simple
-========================
+wsat-simple: WS-AT (WS-AtomicTransaction) - Simple
+==================================================
+Author: Paul Robinson
 
 What is it?
 -----------
