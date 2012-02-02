@@ -69,9 +69,9 @@ You can now deploy the artifact by executing the following command:
 
     mvn jboss-as:deploy
 
-This will deploy `target/jboss-as-html5-mobile`.
+This will deploy `target/kitchensink-html5-mobile`.
  
-The application will be running at the following URL <http://localhost:8080/jboss-as-html5-mobile/>.
+The application will be running at the following URL <http://localhost:8080/kitchensink-html5-mobile/>.
 
 To undeploy run this command:
 
