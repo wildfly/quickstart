@@ -68,7 +68,12 @@ Optional Properties
 Deployment Note
 ---------------
 
-By default, the JMS messaging provider is not deployed with the standalone JBoss AS 7 server. You will either need to run a domain server, or configure the standalone server for JMS message. Please refer to the JBoss AS 7 Documentation for further details.
+By default, the JMS messaging provider is not deployed with the standalone JBoss AS 7 server. You will either need to run 
+a domain server, or configure the standalone server for JMS message. Please refer to the JBoss AS 7 Documentation for further details.
+
+To run the standalone server with JMS Messaging enabled
+
+    standalone.sh -c standalone-full.xml
 
 
 	
