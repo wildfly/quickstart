@@ -25,16 +25,20 @@ are noted with two asterisks ( ** ) following the quickstart name.
 * `helloworld` ** -Very basic  CDI + Servlet
 * `helloworld-gwt` - GWT
 * `helloworld-html5` - Very basic HTML5
+* `helloworld-jms` - JMS
 * `helloworld-jsf` - Very basic CDI + JSF
 * `helloworld-mdb` - Very basic JMS and MDBs
 * `helloworld-osgi` - OSGi
 * `helloworld-rs` - CDI + JAX-RS
+* `helloworld-singleton` - Singleton Session Bean
+* `hibernate3` - Hibernate 3
+* `hibernate4` - Hibernate 4
 * `jts` - Using JTS to coordinate distributed transactions
 * `kitchensink` ** - CDI + JSF + JPA + EJB + JPA + JAX-RS + BV
 * `kitchensink-html5-mobile` - kitchensink using HTML5, suitable for mobile and tablet computers
 * `kitchensink-jsp` - kitchensink converted to use JSP
 * `kitchensink-ear` - kitchensink as an EAR archive
-* `log4jdemo` - JBoss Modules, Class loading, logging
+* `log4j` - JBoss Modules, Class loading, logging
 * `numberguess` ** - CDI + JSF
 * `servlet-async` - CDI + Asynchronous Servlet + Asynchronous EJB 
 * `servlet-filterlistener` - Servlet Filter and Listener

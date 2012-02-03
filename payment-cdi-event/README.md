@@ -1,46 +1,39 @@
-CDI Event
-=======================
+payment-cdi-event: Use CDI Events to Process Debit and Credit Operations
+========================================================================
+Author: Elvadas Nono
 
-This quickstart demonstrates how to use *CDI 1.0 Events* in JBoss AS 7 or EAP 6.
- The JSF front-end client allows you to create both credit and debit operation events.
+This quickstart demonstrates how to use *CDI 1.0 Events* in JBoss AS 7 or JBoss Enterprise Application Platform 6.
+The JSF front-end client allows you to create both credit and debit operation events.
 
 To test this quickstart, enter an amount, choose either a Credit or Debit operation,
 and then click on *Pay* to create the event.
+
 A Session scoped (@SessionScoped) payment event handler catches the operation
- and produces (@Produces) a named list of all operations performed during this session.
+ and produces (@Produces) a named list of all operations performed during this session. 
 The event is logged in the JBoss console and the event list is displayed in
  a table at the bottom of the form.
  
- The payment sample defines the folowing classes
+The payment-cdi-event quickstart defines the following classes
  
- +beans
- --PaymentBean: A session scope bean which stores information of the payment form:
- 					   amount, operation type: debit/credit and two utilities methods:
- 					   public String pay() -----> proceed the payment operation when user click on submit
- 					   Here we have only one jsp page so, the method return nothing and the control flow doesn't change.
- 					
- 					   public void reset: clear the payment form data.
- 					   
- +Event
- --PaymentEvent: We have only one Event with two derivates ( Credit or debit) Qualifiers help us to make the difference at injection point
- 					   
- 
- +qualifiers
- --Credit and Debit Annotation to make difference when injecting Event
- 
- +handler package: Contains interface and implementation of paymentEvent Observers
- ICreditEventObserver: interface to listen to CreditEvent Only (@Observes @Credit)
- IDebitEventObserver: observes only Debit Event (@Observes @Debit)
- 
- PaymentHandler: The concrete implementation of payment handler, implements both IcreditEventObserver and IDebitEventObserver
- 				 The paymenet handler exposes the list of event he catched during a session
- 				 ( @Named  name=payments)
+ *   PaymentBean: 
+     *   A session scoped bean that stores the payment form information: 
+         *   payment amount
+         *   operation type: debit or credit
+     *   It contains the following utilities methods:
+         *   public String pay(): Process the operation when the user clicks on submit. We have only one JSP page, so the method does not return anything and the flow of control doesn't change.
+         *   public void reset(): Clear the payment form data.
+ *   PaymentEvent: We have only one Event. It handles both credit and debit operations. Qualifiers help us to make the difference at injection point.
+ *   PaymentTypeEnum:  A typesafe enum is used to represent the operation payment type. It contains utility methods to convert between String and Enum.
+ *   The qualifiers package contains the Credit and Debit classes. The annotation determines the operation of injecting Event.
+ *   The handler package containss Interfaces and implementations of PaymentEvent Observers.
+     *   ICreditEventObserver: Interface to listen to CREDIT Event Only (@Observes @Credit).
+     *   IDebitEventObserver: Interface to listen to DEBIT Event (@Observes @Debit).
+ *   PaymentHandler: 
+     *   The concrete implementation of the payment handler, it implements both IcreditEventObserver and IDebitEventObserver.
+     *   The payment handler exposes the list of events caught during a session ( @Named  name=payments).
  
  
-PaymentTypeEnum:  enum to represent Payment type with various method to convert from String (think about input checkbox value coming from the user experience) to Enum
- 
- 
-You can test the output at the URL http://localhost:8080/jboss-as-payment-cdi-event
+You can test the output of this quickstart at the URL http://localhost:8080/jboss-as-payment-cdi-event
 
 System requirements
 -------------------
@@ -60,7 +53,7 @@ First you need to start JBoss AS 7. To do this, run
 
     $JBOSS_HOME/bin/standalone.sh
 
-or if you are using windows
+or if you are using Windows
 
     $JBOSS_HOME/bin/standalone.bat
 

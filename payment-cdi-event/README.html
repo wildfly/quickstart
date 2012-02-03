@@ -1,0 +1,66 @@
+<h1>payment-cdi-event: Use CDI Events to Process Debit and Credit Operations</h1>
+<p>Author: Elvadas Nono</p>
+<p>This quickstart demonstrates how to use <em>CDI 1.0 Events</em> in JBoss AS 7 or JBoss Enterprise Application Platform 6.
+The JSF front-end client allows you to create both credit and debit operation events.</p>
+<p>To test this quickstart, enter an amount, choose either a Credit or Debit operation,
+and then click on <em>Pay</em> to create the event.</p>
+<p>A Session scoped (@SessionScoped) payment event handler catches the operation
+ and produces (@Produces) a named list of all operations performed during this session. 
+The event is logged in the JBoss console and the event list is displayed in
+ a table at the bottom of the form.</p>
+<p>The payment-cdi-event quickstart defines the following classes</p>
+<ul>
+<li>PaymentBean: <ul>
+<li>A session scoped bean that stores the payment form information: <ul>
+<li>payment amount</li>
+<li>operation type: debit or credit</li>
+</ul>
+</li>
+<li>It contains the following utilities methods:<ul>
+<li>public String pay(): Process the operation when the user clicks on submit. We have only one JSP page, so the method does not return anything and the flow of control doesn't change.</li>
+<li>public void reset(): Clear the payment form data.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>PaymentEvent: We have only one Event. It handles both credit and debit operations. Qualifiers help us to make the difference at injection point.</li>
+<li>PaymentTypeEnum:  A typesafe enum is used to represent the operation payment type. It contains utility methods to convert between String and Enum.</li>
+<li>The qualifiers package contains the Credit and Debit classes. The annotation determines the operation of injecting Event.</li>
+<li>The handler package containss Interfaces and implementations of PaymentEvent Observers.<ul>
+<li>ICreditEventObserver: Interface to listen to CREDIT Event Only (@Observes @Credit).</li>
+<li>IDebitEventObserver: Interface to listen to DEBIT Event (@Observes @Debit).</li>
+</ul>
+</li>
+<li>PaymentHandler: <ul>
+<li>The concrete implementation of the payment handler, it implements both IcreditEventObserver and IDebitEventObserver.</li>
+<li>The payment handler exposes the list of events caught during a session ( @Named  name=payments).</li>
+</ul>
+</li>
+</ul>
+<p>You can test the output of this quickstart at the URL http://localhost:8080/jboss-as-payment-cdi-event</p>
+<h2>System requirements</h2>
+<p>All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven
+3.0 or better.</p>
+<p>The application this project produces is designed to be run on a JBoss AS 7.</p>
+<p>With the prerequisites out of the way, you're ready to build and deploy.</p>
+<h2>Deploying the Application</h2>
+<p>First you need to start JBoss AS 7. To do this, run</p>
+<pre><code>$JBOSS_HOME/bin/standalone.sh
+</code></pre>
+<p>or if you are using Windows</p>
+<pre><code>$JBOSS_HOME/bin/standalone.bat
+</code></pre>
+<p>To deploy the application, you first need to produce the archive to deploy using
+the following Maven goal:</p>
+<pre><code>mvn clean package
+</code></pre>
+<p>You can now deploy the artifact to JBoss AS by executing the following command:</p>
+<pre><code>mvn jboss-as:deploy
+</code></pre>
+<p>This will deploy <code>target/jboss-as-payment-cdi-event.war</code>.</p>
+<p>The application will be running at the following URL <a href="http://localhost:8080/jboss-as-payment-cdi-event/">http://localhost:8080/jboss-as-payment-cdi-event/</a>.</p>
+<p>To undeploy from JBoss AS, run this command:</p>
+<pre><code>mvn jboss-as:undeploy
+</code></pre>
+<p>You can also start JBoss AS 7 and deploy the project using Eclipse. See the JBoss AS 7
+Getting Started Guide for Developers for more information.</p>
