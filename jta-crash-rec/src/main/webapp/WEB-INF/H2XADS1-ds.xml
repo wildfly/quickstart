@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<datasources>
+    <xa-datasource jndi-name="java:jboss/datasources/H2XADS1" pool-name="java:jboss/datasources/H2XADS1" enabled="true" use-ccm="false">
+        <xa-datasource-property name="URL">
+            jdbc:h2:file:~/xaqs1
+        </xa-datasource-property>
+        <driver>h2</driver>
+        <xa-pool>
+            <is-same-rm-override>false</is-same-rm-override>
+            <interleaving>false</interleaving>
+            <pad-xid>false</pad-xid>
+            <wrap-xa-resource>true</wrap-xa-resource>
+        </xa-pool>
+        <security>
+            <user-name>sa</user-name>
+            <password>sa</password>
+        </security>
+        <recovery>
+            <recover-credential>
+                <user-name>sa</user-name>
+                <password>sa</password>
+            </recover-credential>
+        </recovery>
+        <validation>
+            <validate-on-match>false</validate-on-match>
+            <background-validation>false</background-validation>
+            <background-validation-millis>0</background-validation-millis>
+        </validation>
+        <statement>
+            <prepared-statement-cache-size>0</prepared-statement-cache-size>
+            <share-prepared-statements>false</share-prepared-statements>
+        </statement>
+    </xa-datasource>
+</datasources>

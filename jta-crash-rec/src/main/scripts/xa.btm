@@ -1,0 +1,89 @@
+########################################################################
+# JBoss, Home of Professional Open Source
+# Copyright 2009-2010, Red Hat and individual contributors
+# by the @authors tag. See the copyright.txt in the distribution for a
+# full listing of individual contributors.
+#
+# This is free software; you can redistribute it and/or modify it
+# under the terms of the GNU Lesser General Public License as
+# published by the Free Software Foundation; either version 2.1 of
+# the License, or (at your option) any later version.
+#
+# This software is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+# Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public
+# License along with this software; if not, write to the Free
+# Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+# 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+#
+# @authors Michael Musgrove
+#
+# Inject an XA fault
+#
+# A byteman script which will halt the JVM during the commit phase of a transaction. The halt
+# will occur whilst committing a second XA participant.
+#
+# To use ths script follow the readme instructions that come with the quickstart:
+#
+#  -- set the directory in which byteman has been installed
+#  BYTEMAN_HOME= ...
+#
+#  -- identify the <process id> of the JVM where you want to install the script
+#
+#  ${BYTEMAN_HOME}/bin/bminstall.sh -Dorg.jboss.byteman.verbose=true <process id>
+#
+#  -- dynamically load the script into the agent
+#
+#  ${BYTEMAN_HOME}/bin/bmsubmit.sh -l xa.btm
+#
+
+########################################################################
+#
+# Rule to start a count down when a transaction starts
+#
+RULE Start a count down when a 2 phase transaction starts
+CLASS com.arjuna.ats.arjuna.coordinator.BasicAction
+METHOD phase2Commit
+AT ENTRY
+# if there are 2 XA resources per txn then set the countDown such that during
+# the VM will halt when the 2nd participant is asked to commit
+IF TRUE
+DO traceln("Starting countdown at 1"), createCountDown("xahalt",1)
+ENDRULE
+ 
+########################################################################
+#
+# Rule to halt the JVM when an XA resource executes phase 2 of an atomic transaction
+# (There is a 1 second delay before halting the JVM to provide confidence that the first
+# resource has had time to commit).
+#
+RULE Generate an XA Recovery Record
+CLASS com.arjuna.ats.internal.jta.resources.arjunacore.XAResourceRecord
+METHOD topLevelCommit
+AT ENTRY
+BIND xares = $0;
+jndiName:String = xares.getJndiName();
+# if the count down started at 2 and there are 2 XA resources then it should fire when the
+# second participant commits
+IF countDown("xahalt")
+#DO traceln("***** topLevelCommit returning error for " + jndiName), return 8
+DO traceln("***** topLevelCommit: Halting JVM for " + jndiName), delay(3000), killJVM()
+ENDRULE
+
+########################################################################
+#
+# Rule to trace when XA resources execute phase 2 of an atomic transaction
+#
+RULE Trace topLevelCommit (phase 2 of a 2PC transaction)
+CLASS com.arjuna.ats.internal.jta.resources.arjunacore.XAResourceRecord
+METHOD topLevelCommit
+AT ENTRY
+BIND xares = $0;
+jndiName:String = xares.getJndiName();
+IF TRUE
+DO traceln("********* topLevelCommit for " + jndiName)
+ENDRULE
+
