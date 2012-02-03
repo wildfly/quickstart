@@ -1,6 +1,7 @@
 External JAX-RS Client
 ======================
 
+
 Author: Blaine Mincey, blaine.mincey@redhat.com
 
 This example demonstrates the use an external JAX-RS RestEasy client
