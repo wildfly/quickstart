@@ -10,15 +10,13 @@ import javax.jms.MessageProducer;
 import javax.jms.Session;
 import javax.jms.TextMessage;
 
-public class HelloWorldJMSClient
-{
+public class HelloWorldJMSClient {
     private static final Logger log = Logger.getLogger(HelloWorldJMSClient.class.getName());
 
     private static final String DEFAULT_MESSAGE = "Hello, World!";
     private static final int DEFAULT_MESSAGE_COUNT = 1;
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
 
         ConnectionFactory connectionFactory = null;
         Connection connection = null;
@@ -28,8 +26,7 @@ public class HelloWorldJMSClient
         Destination destination = null;
         TextMessage message = null;
 
-        try
-        {
+        try {
             connectionFactory = JMSClientUtil.getConnectionFactory();
             destination = JMSClientUtil.getDestination();
             connection = connectionFactory.createConnection();
@@ -37,32 +34,28 @@ public class HelloWorldJMSClient
             producer = session.createProducer(destination);
             consumer = session.createConsumer(destination);
             connection.start();
-            
-            int count = (System.getProperty("message.count") == null) ? DEFAULT_MESSAGE_COUNT : Integer.valueOf(System.getProperty("message.count"));            
-            String content = (System.getProperty("message.content") == null) ? DEFAULT_MESSAGE : System.getProperty("message.content");
-            
-            log.info("Sending " + count +  " messages with content: " + content);
-            
-            for(int i = 0; i < count; i++)
-            {
+
+            int count = (System.getProperty("message.count") == null) ? DEFAULT_MESSAGE_COUNT : Integer.valueOf(System
+                    .getProperty("message.count"));
+            String content = (System.getProperty("message.content") == null) ? DEFAULT_MESSAGE : System
+                    .getProperty("message.content");
+
+            log.info("Sending " + count + " messages with content: " + content);
+
+            for (int i = 0; i < count; i++) {
                 message = session.createTextMessage();
                 message.setText(content);
                 producer.send(message);
 
-            }            
-            
-            for(int i = 0; i < count; i++)
-            {
-                message = (TextMessage)consumer.receive();
+            }
+
+            for (int i = 0; i < count; i++) {
+                message = (TextMessage) consumer.receive();
                 log.info("Received message with content " + message.getText());
             }
-        }
-        catch(Exception e)
-        {
+        } catch (Exception e) {
             log.severe(e.getMessage());
-        }
-        finally
-        {
+        } finally {
             JMSClientUtil.closeResources(producer, consumer, session, connection);
         }
 
