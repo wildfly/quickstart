@@ -46,8 +46,8 @@ Once the instance is started, run the test goal with the following profile activ
 
 **Testing on Managed Server**
  
-Arquillian will start the container for you. All you have to do is setup a path to your
-extracted . To do this, run
+Arquillian will start the container for you. All you have to do is setup a path to your JBoss AS7 or JBoss
+Enterprise Application Platform 6. To do this, run
   
     export JBOSS_HOME=/path/to/jboss-as
   
