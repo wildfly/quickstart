@@ -1,0 +1,53 @@
+<h1>HelloWorld JMS Example</h1>
+<p>This example demonstrates the use of external JMS clients with JBoss AS 7.</p>
+<p>The example provides a demonstration of both producing and consuming messages to and from
+a JMS destination deployed in the JBoss AS 7 environment. The example can be run from the Maven
+commandline, or from the Eclipse environment. </p>
+<p>To run the example from the commandline simply type:</p>
+<pre><code>mvn compile exec:java
+</code></pre>
+<p>The example provides for a certain amount of customization for the <code>mvn:exec</code> plugin via system properties explained below:</p>
+<h2>Required Properties</h2>
+<ul>
+<li><code>connection.type</code></li>
+</ul>
+<p>Which connection type to the JMS provider you want to use. Accepted values are <code>netty</code> or <code>jndi</code>.</p>
+<p>Default: <code>netty</code></p>
+<p><em>Note:</em> Currently external JNDI access is under development in JBoss AS 7. As a result netty is the default value.</p>
+<ul>
+<li><code>java.naming.factory.initial</code></li>
+</ul>
+<p>The JNDI initial context factory you wish to use</p>
+<p>Default: <code>org.jboss.as.naming.InitialContextFactory</code></p>
+<ul>
+<li><code>java.naming.provider.url</code></li>
+</ul>
+<p>The provider URL of the JNDI context you wish to use</p>
+<p>Default: <code>jnp://localhost:1099</code></p>
+<h2>Optional Properties</h2>
+<ul>
+<li><code>cf.name</code></li>
+</ul>
+<p>The JNDI name of the JMS ConnectionFactory you want to use.</p>
+<p>Default: <code>RemoteConnectionFactory</code></p>
+<ul>
+<li><code>dest.name</code></li>
+</ul>
+<p>The JNDI name of the JMS Destination you want to use.</p>
+<p>Default: <code>testQueue</code></p>
+<ul>
+<li><code>message.content</code></li>
+</ul>
+<p>The content of the JMS TextMessage.</p>
+<p>Default: <code>"Hello, World!"</code></p>
+<ul>
+<li><code>message.count</code></li>
+</ul>
+<p>The number of JMS messages you want to produce and consume.</p>
+<p>Default: <code>1</code></p>
+<h2>Deployment Note</h2>
+<p>By default, the JMS messaging provider is not deployed with the standalone JBoss AS 7 server. You will either need to run 
+a domain server, or configure the standalone server for JMS message. Please refer to the JBoss AS 7 Documentation for further details.</p>
+<p>To run the standalone server with JMS Messaging enabled</p>
+<pre><code>standalone.sh -c standalone-full.xml
+</code></pre>

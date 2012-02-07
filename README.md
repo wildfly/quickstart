@@ -14,12 +14,14 @@ various guides at <https://docs.jboss.org/author/display/AS7>
 Quickstarts with tutorials in the <a href="https://docs.jboss.org/author/display/AS71/Getting+Started+Developing+Applications+Guide" title="Getting Started Developing Applications Guide">Getting Started Developing Applications Guide</a> 
 are noted with two asterisks ( ** ) following the quickstart name.
 
+* `bean-validation` - Bean Validation, JPA
 * `bmt` - EJB, Programmatically control transactions
 * `cdi-injection` - CDI injections & qualifiers + Servlet
 * `cmt` - EJB, how to use container managed transactions
 * `ejb-in-ear` - EJB + JSF, JAR and WAR deployed as EAR
 * `ejb-in-war` - EJB + JSF deployed as a war
 * `ejb-remote` - shows how to access EJBs remotely (EJB + JNDI)
+* `forge-from-scratch` - Forge
 * `greeter` - CDI + JSF + JPA + EJB + JTA
 * `h2-console` - H2 Database console
 * `helloworld` ** -Very basic  CDI + Servlet
@@ -35,11 +37,12 @@ are noted with two asterisks ( ** ) following the quickstart name.
 * `hibernate4` - Hibernate 4
 * `jts` - Using JTS to coordinate distributed transactions
 * `kitchensink` ** - CDI + JSF + JPA + EJB + JPA + JAX-RS + BV
+* `kitchensink-ear` - kitchensink as an EAR archive
 * `kitchensink-html5-mobile` - kitchensink using HTML5, suitable for mobile and tablet computers
 * `kitchensink-jsp` - kitchensink converted to use JSP
-* `kitchensink-ear` - kitchensink as an EAR archive
 * `log4j` - JBoss Modules, Class loading, logging
 * `numberguess` ** - CDI + JSF
+* `payment-cdi-event` - CDI
 * `servlet-async` - CDI + Asynchronous Servlet + Asynchronous EJB 
 * `servlet-filterlistener` - Servlet Filter and Listener
 * `wsat-simple` -  Simple WS-AT JAX-WS Web service
