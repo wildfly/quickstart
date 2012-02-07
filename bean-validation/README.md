@@ -26,9 +26,9 @@ Running the Arquillian tests
 ----------------------------
 
 By default, tests are configured to be skipped. The reason is that the sample
-test is an Arquillian test, which requires the use of a container. You can
-activate this test by selecting one of the container configuration provided 
-for JBoss AS 7 / JBoss Enterprise Application Platform 6 (remote).
+test is an Arquillian test, which requires the use of a container. You can select either
+managed or remote container, the difference is that the remote one requires a running JBoss AS 7 / 
+JBoss Enterprise Application Platform 6 instance prior executing tests.
 
 **Testing on Remote Server**
  
