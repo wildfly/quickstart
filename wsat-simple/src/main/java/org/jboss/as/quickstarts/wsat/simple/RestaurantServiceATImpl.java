@@ -28,7 +28,6 @@
  */
 package org.jboss.as.quickstarts.wsat.simple;
 
-import com.arjuna.ats.arjuna.common.Uid;
 import com.arjuna.mw.wst11.TransactionManager;
 import com.arjuna.mw.wst11.TransactionManagerFactory;
 import com.arjuna.mw.wst11.UserTransactionFactory;
@@ -40,6 +39,7 @@ import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import javax.servlet.annotation.WebServlet;
+import java.util.UUID;
 
 /**
  * An adapter class that exposes the RestaurantManager business API as a transactional Web Service.
@@ -71,7 +71,7 @@ public class RestaurantServiceATImpl implements RestaurantServiceAT {
             RestaurantParticipant restaurantParticipant = new RestaurantParticipant(transactionId);
             TransactionManager transactionManager = TransactionManagerFactory.transactionManager();
             System.out.println("[SERVICE] Enlisting a Durable2PC participant into the AT");
-            transactionManager.enlistForDurableTwoPhase(restaurantParticipant, "restaurantServiceAT:" + new Uid().toString());
+            transactionManager.enlistForDurableTwoPhase(restaurantParticipant, "restaurantServiceAT:" + UUID.randomUUID());
         } catch (Exception e) {
             throw new RestaurantException("Error when enlisting participant", e);
         }

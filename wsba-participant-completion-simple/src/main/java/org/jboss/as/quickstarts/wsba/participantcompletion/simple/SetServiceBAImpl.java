@@ -20,16 +20,17 @@
  */
 package org.jboss.as.quickstarts.wsba.participantcompletion.simple;
 
-import com.arjuna.ats.arjuna.common.Uid;
 import com.arjuna.mw.wst11.BusinessActivityManager;
 import com.arjuna.mw.wst11.BusinessActivityManagerFactory;
 import com.arjuna.wst11.BAParticipantManager;
 import org.jboss.as.quickstarts.wsba.participantcompletion.simple.jaxws.SetServiceBA;
+
 import javax.jws.HandlerChain;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import javax.servlet.annotation.WebServlet;
+import java.util.UUID;
 
 /**
  * An adapter class that exposes a set as a transactional Web Service.
@@ -61,7 +62,7 @@ public class SetServiceBAImpl implements SetServiceBA {
             BusinessActivityManager activityManager = BusinessActivityManagerFactory.businessActivityManager();
             System.out.println("[SERVICE] Enlisting a participant into the BA");
             participantManager = activityManager.enlistForBusinessAgreementWithParticipantCompletion(participant,
-                    "SetServiceBAImpl:" + new Uid().toString());
+                    "SetServiceBAImpl:" + UUID.randomUUID());
         } catch (Exception e) {
             System.err.println("Participant enlistment failed");
             e.printStackTrace(System.err);
