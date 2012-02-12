@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.jboss.as.quickstarts</groupId>
+    <artifactId>jboss-as-shoppingcart-parent</artifactId>
+    <version>7.0.2-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>JBoss AS Quickstarts: EJB Stateful Session Bean Quickstart Parent</name>
+
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <distribution>repo</distribution>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+        </license>
+    </licenses>
+
+    <!-- This quickstart consists of a server side component and a client side that accesses
+	 the server side component. Each component has its own self contain pom. However,
+	 you can add these modules here to keep things modular.
+	 -->
+    <modules>
+        <module>server</module>
+        <module>client</module>
+    </modules>
+
+   <build>
+      <plugins>
+            <!-- The JBoss AS plugin deploys your apps to a local JBoss AS 
+               container -->
+            <!-- Disabling it here means that we don't try to deploy this POM! -->
+            <plugin>
+               <groupId>org.jboss.as.plugins</groupId>
+               <artifactId>jboss-as-maven-plugin</artifactId>
+               <version>7.1.0.Final</version>
+               <inherited>true</inherited>
+               <configuration>
+                  <skip>true</skip>
+               </configuration>
+            </plugin>
+         </plugins>
+   </build>
+
+</project>
