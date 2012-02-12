@@ -72,10 +72,13 @@
         read this as the JBoss stack of the Java EE 6 APIs). You can actually
         use this stack with any version of JBoss AS that implements Java EE 6, not
         just JBoss AS 7! -->
+            <!-- This BOM provides the jboss-javaee-6.0 with transactions stack (you can read this as
+            the JBoss stack of the Java EE 6 APIs, with some extra transactions APIS for your project,
+            that are not included in the Java EE 6 API. -->
             <dependency>
-                <groupId>org.jboss.spec</groupId>
-                <artifactId>jboss-javaee-6.0</artifactId>
-                <version>3.0.0.Beta1</version>
+                <groupId>org.jboss.bom</groupId>
+                <artifactId>jboss-javaee-6.0-with-transactions</artifactId>
+                <version>1.0.0.M2</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -87,7 +90,6 @@
         <dependency>
             <groupId>org.jboss.jbossts</groupId>
             <artifactId>jbossxts-api</artifactId>
-            <version>4.16.0.Final</version>
             <scope>provided</scope>
             <exclusions>
                 <exclusion>
