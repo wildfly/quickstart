@@ -5,18 +5,18 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
     <!-- Set the tab, home page, shortcut icons -->
-    <link rel="Shortcut Icon" href="resources/gfx/aerogear_icon_16x.png">
-    <link rel="apple-touch-icon" href="resources/gfx/aerogear_avatar_48px.png"/>
+    <link rel="Shortcut Icon" href="img/aerogear_icon_16x.png">
+    <link rel="apple-touch-icon" href="img/aerogear_avatar_48px.png"/>
 
     <!-- Set viewport scaling and zoom features -->
     <meta name="viewport" content="width=device-width, initial-scale=1"> 
 
     <!-- Include the full development version of Modernizr. In production, you should use a -->
     <!-- minimized custom build to reduce file size -->
-    <script type="text/javascript" src="resources/js/modernizr-2.0.6.js"></script>
-    <script type="text/javascript" src="resources/js/yepnope.1.0.2-min.js"></script>
-    <script type="text/javascript" src="resources/js/underscore-min.js"></script>
-    <script type="text/javascript" src="resources/js/app.js"></script>
+    <script type="text/javascript" src="js/libs/modernizr-2.0.6.js"></script>
+    <script type="text/javascript" src="js/libs/yepnope.1.0.2-min.js"></script>
+    <script type="text/javascript" src="js/libs/underscore-min.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
     <script type="text/javascript">
         yepnope([{
             //Load CDN hosted jQuery and fall back to local file
@@ -25,7 +25,7 @@
                 if ( !window.jQuery ) {
                     //In production, you would want to fall back to a minified file.
                     //We fall back to the full version because Eclipse reports false errors in some minified JavaScript files.
-                    yepnope.load( "resources/js/jquery-1.6.4.js" );
+                    yepnope.load( "js/libs/jquery-1.6.4.js" );
                 }
             }
         },{
@@ -34,11 +34,11 @@
             // width for testing.
             test: Modernizr.touch || Modernizr.mq( "only all and (max-width: 480px)" ),
             yep: {
-                "jqmcss": "resources/css/jquery.mobile-1.0.min.css",
-                "mcss": "resources/css/m.screen.css"
+                "jqmcss": "css/jquery.mobile-1.0.min.css",
+                "mcss": "css/m.screen.css"
             },
             nope: {
-                "scss": "resources/css/screen.css"
+                "scss": "css/screen.css"
             },
             callback: {
                 //If it is determined that the user is on a mobile device, load jQuery Mobile
@@ -47,7 +47,7 @@
                         load: "http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.js",
                         complete: function() {
                             if ( !$.mobile ) {
-                                yepnope( "resources/js/jquery.mobile-1.0.min.js" );
+                                yepnope( "js/libs/jquery.mobile-1.0.min.js" );
                             }
                         }
                     });
@@ -94,7 +94,7 @@
             <article id="intro-art" data-role="page">
                 <!-- Header -->
                 <div data-role="header" data-theme="a" class="header">
-                    <img class="header_logo" src="resources/gfx/icon_medium.png"/>
+                    <img class="header_logo" src="img/icon_medium.png"/>
                     <h3>AeroGear Quickstart</h3>
                     <a href="#info-aside" data-role="button" data-icon="info" class="ui-btn-right" data-iconpos="notext" data-rel="dialog"></a>
                 </div>
@@ -135,7 +135,7 @@
             <article id="register-art" data-role="page">
                 <!-- Header -->
                 <div data-role="header" data-theme="a" class="header">
-                    <img class="header_logo" src="resources/gfx/icon_medium.png"/>
+                    <img class="header_logo" src="img/icon_medium.png"/>
                     <h3>AeroGear Quickstart</h3>
                     <a href="#info-aside" data-role="button" data-icon="info" class="ui-btn-right" data-iconpos="notext" data-rel="dialog"></a>
                 </div>
@@ -188,7 +188,7 @@
             <article id="member-art" data-role="page">
                 <!-- Header -->
                 <div data-role="header" data-theme="a" class="header">
-                    <img class="header_logo" src="resources/gfx/icon_medium.png"/>
+                    <img class="header_logo" src="img/icon_medium.png"/>
                     <h3>AeroGear Quickstart</h3>
                     <a href="#info-aside" data-role="button" data-icon="info" class="ui-btn-right" data-iconpos="notext" data-rel="dialog"></a>
                 </div>
@@ -273,7 +273,7 @@
 
         <!-- New HTML5 footer tag -->
         <footer>
-            <img src="resources/gfx/logo.png" alt="HTML5"/>
+            <img src="img/logo.png" alt="HTML5"/>
             <p>This project was generated from a Maven archetype from JBoss.<br/></p>
         </footer>
     </div>

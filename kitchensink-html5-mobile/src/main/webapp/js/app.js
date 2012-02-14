@@ -6,7 +6,7 @@ Restful calls, validates return values, and populates the member table.
 /* Get the member template */
 function getMemberTemplate() {
 	$.ajax({
-        url: "resources/tmpl/member.tmpl",
+        url: "tmpl/member.tmpl",
         dataType: "html",
         success: function( data ) {
             $( "head" ).append( data );
