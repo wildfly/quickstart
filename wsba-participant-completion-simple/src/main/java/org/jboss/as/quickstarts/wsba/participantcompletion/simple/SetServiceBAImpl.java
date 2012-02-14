@@ -29,6 +29,7 @@ import javax.jws.HandlerChain;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
+import javax.servlet.annotation.WebServlet;
 
 /**
  * An adapter class that exposes a set as a transactional Web Service.
@@ -38,6 +39,7 @@ import javax.jws.soap.SOAPBinding;
 @WebService(serviceName = "SetServiceBAService", portName = "SetServiceBA", name = "SetServiceBA", targetNamespace = "http://www.jboss.com/as/quickstarts/helloworld/wsba/participantcompletion/set")
 @HandlerChain(file = "/context-handlers.xml", name = "Context Handlers")
 @SOAPBinding(style = SOAPBinding.Style.RPC)
+@WebServlet("/SetServiceBA")
 public class SetServiceBAImpl implements SetServiceBA {
     /**
      * Add an item to a set Enrolls a Participant if necessary and passes the call through to the business logic.

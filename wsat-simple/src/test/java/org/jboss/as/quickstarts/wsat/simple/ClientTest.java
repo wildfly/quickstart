@@ -25,6 +25,9 @@ import javax.inject.Inject;
 @RunWith(Arquillian.class)
 public class ClientTest {
 
+    private static final String ManifestMF = "Manifest-Version: 1.0\n"
+          + "Dependencies: org.jboss.xts,org.jboss.modules,org.jboss.msc,org.jboss.jts\n";
+   
     @Inject
     @ClientStub
     private RestaurantServiceAT client;
@@ -37,18 +40,12 @@ public class ClientTest {
     @Deployment
     public static WebArchive createTestArchive() {
 
-        WebArchive archive = ShrinkWrap.create(WebArchive.class, "simple_wsat.war")
-                .addPackages(true, "org.jboss.as.quickstarts.wsat.simple").addAsResource("context-handlers.xml")
-                .addAsWebInfResource("web.xml", "web.xml")
-                .addAsWebInfResource(EmptyAsset.INSTANCE, ArchivePaths.create("beans.xml"));
+        return ShrinkWrap.create(WebArchive.class, "test.war")
+                .addPackages(true, RestaurantServiceATImpl.class.getPackage())
+                .addAsResource("context-handlers.xml")
+                .addAsWebInfResource(EmptyAsset.INSTANCE, ArchivePaths.create("beans.xml"))
 
-        // Specify the module dependencies
-        archive.delete(ArchivePaths.create("META-INF/MANIFEST.MF"));
-        String ManifestMF = "Manifest-Version: 1.0\n"
-                + "Dependencies: org.jboss.xts,org.jboss.modules,deployment.arquillian-service,org.jboss.msc,org.jboss.jts\n";
-        archive.setManifest(new StringAsset(ManifestMF));
-
-        return archive;
+                .setManifest(new StringAsset(ManifestMF));
     }
 
     /**

@@ -37,27 +37,21 @@ import javax.inject.Inject;
 
 @RunWith(Arquillian.class)
 public class ClientTest {
+   
+    private static final String ManifestMF = "Manifest-Version: 1.0\n"
+          + "Dependencies: org.jboss.xts,org.jboss.jts\n";
+   
     @Inject
     @ClientStub
     public SetServiceBA client;
 
     @Deployment
     public static WebArchive createTestArchive() {
-
-        WebArchive archive = ShrinkWrap.create(WebArchive.class, "wsba.war")
-                .addPackages(true, "org.jboss.as.quickstarts.wsba.participantcompletion").addAsResource("context-handlers.xml")
-                .addAsWebInfResource("web.xml", "web.xml")
-                .addAsWebInfResource(EmptyAsset.INSTANCE, ArchivePaths.create("beans.xml"));
-
-        /*
-         * Remove the default MANIFEST.MF and replace with one that contains the required dependencies.
-         */
-        archive.delete(ArchivePaths.create("META-INF/MANIFEST.MF"));
-        String ManifestMF = "Manifest-Version: 1.0\n"
-                + "Dependencies: org.jboss.xts,deployment.arquillian-service,org.jboss.jts\n";
-        archive.setManifest(new StringAsset(ManifestMF));
-
-        return archive;
+        return ShrinkWrap.create(WebArchive.class, "test.war")
+                .addPackages(true, SetServiceBAImpl.class.getPackage().getName())
+                .addAsResource("context-handlers.xml")
+                .addAsWebInfResource(EmptyAsset.INSTANCE, ArchivePaths.create("beans.xml"))
+                .setManifest(new StringAsset(ManifestMF));
     }
 
     /**

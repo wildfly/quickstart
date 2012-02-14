@@ -39,6 +39,7 @@ import javax.jws.HandlerChain;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
+import javax.servlet.annotation.WebServlet;
 
 /**
  * An adapter class that exposes the RestaurantManager business API as a transactional Web Service.
@@ -49,6 +50,7 @@ import javax.jws.soap.SOAPBinding;
 @WebService(serviceName = "RestaurantServiceATService", portName = "RestaurantServiceAT", name = "RestaurantServiceAT", targetNamespace = "http://www.jboss.com/jbossas/quickstarts/wsat/simple/Restaurant")
 @HandlerChain(file = "/context-handlers.xml", name = "Context Handlers")
 @SOAPBinding(style = SOAPBinding.Style.RPC)
+@WebServlet("/RestaurantServiceAT")
 public class RestaurantServiceATImpl implements RestaurantServiceAT {
 
     private MockRestaurantManager mockRestaurantManager = MockRestaurantManager.getSingletonInstance();

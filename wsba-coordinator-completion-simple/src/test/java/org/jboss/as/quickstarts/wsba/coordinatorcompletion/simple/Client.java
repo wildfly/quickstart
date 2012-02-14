@@ -48,7 +48,7 @@ public class Client implements SetServiceBA {
      * @throws MalformedURLException if the WSDL url is malformed.
      */
     public Client() throws MalformedURLException {
-        URL wsdlLocation = new URL("http://localhost:8080/wsba/SetServiceBA?wsdl");
+        URL wsdlLocation = new URL("http://localhost:8080/test/SetServiceBA?wsdl");
         QName serviceName = new QName("http://www.jboss.com/as/quickstarts/helloworld/wsba/coordinatorcompletion/set",
                 "SetServiceBAService");
         QName portName = new QName("http://www.jboss.com/as/quickstarts/helloworld/wsba/coordinatorcompletion/set",
