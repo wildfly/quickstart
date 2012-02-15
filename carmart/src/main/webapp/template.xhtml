@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:s="http://jboss.org/seam/faces">
+    
+<ui:insert name="viewMetadata"/>
+    
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  	<title>EDG CarMart</title>
+  	<link rel="stylesheet" href="style/style.css" type="text/css" media="screen" />
+</h:head>
+
+<h:body>
+<h:form>
+
+<div id="header">
+  <div class="apptitle">EDG CarMart (Single node)</div>
+  <div class="menuitem"><a href="addcar.jsf">New car</a></div>
+  <div class="divider"></div>
+</div>
+
+<div id="topseparator"></div>
+
+<div id="main">
+
+  <div id="content">
+	 <ui:insert name="mainarea">
+	    Main Area
+	 </ui:insert>
+  </div>
+  
+  <div id="statistics">
+     <h:outputText value="Statistics around operations with cache entries" styleClass="statsTitle"/>
+     <h:panelGrid columns="2" styleClass="innerContent">
+        <h:outputLabel value="Retrievals:" /><h:outputText value="#{stats.retrievals}" />
+        <h:outputLabel value="Stores:" /><h:outputText value="#{stats.stores}" />
+        <h:outputLabel value="Total Entries:" /><h:outputText value="#{stats.totalEntries}" />
+        <h:outputLabel value="Hits:" /><h:outputText value="#{stats.hits}" />
+        <h:outputLabel value="Misses:" /><h:outputText value="#{stats.misses}" />
+        <h:outputLabel value="Remove Hits:" /><h:outputText value="#{stats.removeHits}" />
+     </h:panelGrid>
+  </div>
+  
+</div>
+
+</h:form>
+</h:body>
+</html>
