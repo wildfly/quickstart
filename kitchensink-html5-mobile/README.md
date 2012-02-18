@@ -131,3 +131,12 @@ them.
 
     mvn dependency:sources
     mvn dependency:resolve -Dclassifier=javadoc
+
+Development notes
+=================
+
+Copyright headers
+-----------------
+
+To update the copyright headers, just run `mvn license:format -Dyear=<current year>`
+

@@ -20,3 +20,11 @@ HelloWorld.java - establishes the RESTful endpoints using JAX-RS
 Web.xml - maps RESTful endpoints to "/hello"
  
 index.html - is a jQuery augmented plain old HTML5 web page
+
+Development notes
+=================
+
+Copyright headers
+-----------------
+
+To update the copyright headers, just run `mvn license:format -Dyear=<current year>`
