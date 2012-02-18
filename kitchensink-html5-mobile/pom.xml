@@ -201,6 +201,14 @@ given to the generated war, and hence the context root) -->
                     <includes>
                         <include>src/**</include>
                     </includes>
+                    <excludes>
+                        <exclude>src/main/webapp/js/libs/**</exclude>
+                        <exclude>src/main/webapp/css/jquery.mobile-1.0.min.css</exclude>
+                        <exclude>src/test/qunit/qunit/**</exclude>
+                    </excludes>
+                    <mapping>
+                        <tmpl>XML_STYLE</tmpl>
+                    </mapping>
                     <strictCheck>true</strictCheck>
                 </configuration>
             </plugin>
