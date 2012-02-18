@@ -61,7 +61,7 @@ public class MemberRegistrationTest {
 
    @Test
    public void testRegister() throws Exception {
-      Response response = memberRegistration.createMember("Jane Doe", "jane@mailinator.com", "2125551234");
+      Response response = memberRegistration.createNewMember("Jane Doe", "jane@mailinator.com", "2125551234");
 
       assertEquals("Unexpected response status", 200, response.getStatus());
       log.info(" New member was persisted and returned status " + response.getStatus());
@@ -69,7 +69,7 @@ public class MemberRegistrationTest {
 
    @Test
    public void testInvalidRegister() throws Exception {
-      Response response = memberRegistration.createMember("", "", "");
+      Response response = memberRegistration.createNewMember("", "", "");
 
       assertEquals("Unexpected response status", 400, response.getStatus());
       assertNotNull("response.getEntity() should not null",response.getEntity());
@@ -81,10 +81,10 @@ public class MemberRegistrationTest {
    @Test
    public void testDuplicateEmail() throws Exception {
       //Register an initial user
-      memberRegistration.createMember("Jane Doe", "jane@mailinator.com", "2125551234");
+      memberRegistration.createNewMember("Jane Doe", "jane@mailinator.com", "2125551234");
 
       //Register a different user with the same email
-      Response response = memberRegistration.createMember("John Doe", "jane@mailinator.com", "2133551234");
+      Response response = memberRegistration.createNewMember("John Doe", "jane@mailinator.com", "2133551234");
 
       assertEquals("Unexpected response status", 409, response.getStatus());
       assertNotNull("response.getEntity() should not null",response.getEntity());
