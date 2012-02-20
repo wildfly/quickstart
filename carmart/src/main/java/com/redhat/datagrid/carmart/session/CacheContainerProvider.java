@@ -37,9 +37,9 @@ import org.infinispan.api.BasicCacheContainer;
  */
 public abstract class CacheContainerProvider {
 
-   public static final String EDG_HOST = "edg.host"; 
-   public static final String HOTROD_PORT = "edg.hotrod.port"; 
-   public static final String PROPERTIES_FILE = "META-INF" + File.separator + "edg.properties";
+   public static final String DATAGRID_HOST = "datagrid.host"; 
+   public static final String HOTROD_PORT = "datagrid.hotrod.port"; 
+   public static final String PROPERTIES_FILE = "META-INF" + File.separator + "datagrid.properties";
    
    abstract public BasicCacheContainer getCacheContainer();
    
