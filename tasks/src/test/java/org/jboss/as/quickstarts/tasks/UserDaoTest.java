@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
 import java.io.FileNotFoundException;
 
 import static org.junit.Assert.assertNull;
@@ -18,6 +19,7 @@ import static org.junit.Assert.assertTrue;
 
 /**
  * @author Lukas Fryc
+ * @author Oliver Kiss
  */
 @RunWith(Arquillian.class)
 public class UserDaoTest {
@@ -35,6 +37,7 @@ public class UserDaoTest {
 
     @Test
     public void userDao_should_create_user_so_it_could_be_retrieved_from_userDao_by_username() {
+        EntityManager em = repository.getEntityManager();
         // given
         User created = new User("username1");
 
@@ -43,8 +46,8 @@ public class UserDaoTest {
         User retrieved = userDao.getForUsername("username1");
 
         // then
-        assertTrue(repository.isManaging(created));
-        assertTrue(repository.isManaging(retrieved));
+        assertTrue(em.contains(created));
+        assertTrue(em.contains(retrieved));
         Assert.assertEquals(created, retrieved);
     }
 

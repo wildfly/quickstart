@@ -12,6 +12,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
 import java.io.FileNotFoundException;
 import java.util.List;
 
@@ -20,6 +21,7 @@ import static org.junit.Assert.assertTrue;
 
 /**
  * @author Lukas Fryc
+ * @author Oliver Kiss
  */
 @RunWith(Arquillian.class)
 public class TaskDaoTest {
@@ -45,14 +47,17 @@ public class TaskDaoTest {
 
     @Test
     public void user_should_be_created_with_one_task_attached() throws Exception {
+        EntityManager em = repository.getEntityManager();
         // given
         User user = new User("New user");
         Task task = new Task("New task");
 
         // when
-        repository.create(user);
+        em.persist(user);
         taskDao.createTask(user, task);
-        List<Task> userTasks = repository.query(Task.class, "SELECT t FROM Task t WHERE t.owner = ?", user).getResultList();
+        List<Task> userTasks = em.createQuery("SELECT t FROM Task t WHERE t.owner = ?", Task.class)
+                .setParameter(1, user)
+                .getResultList();
 
         // then
         assertEquals(1, userTasks.size());

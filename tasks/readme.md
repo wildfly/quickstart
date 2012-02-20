@@ -63,6 +63,16 @@ To run the test in JBoss AS 7 or JBoss EAP 6, run the test goal with the followi
 
     mvn clean test -Parq-jbossas-managed
 
+Running tests from JBDS
+-----------------------
+
+To be able to run the tests from JBDS, first set the active Maven profile in
+project properties to be either 'arq-jbossas-managed' for running on
+managed server or 'arq-jbossas-remote' for running on remote server.
+
+To run the tests, right click on the project or individual classes and select
+Run As > JUnit Test in the context menu.
+
 
 Importing the project into an IDE
 =================================

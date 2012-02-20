@@ -5,13 +5,15 @@ import org.jboss.as.quickstarts.tasks.beans.Repository;
 import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
 /**
- * Provides functionality for manipulation with tasks using persistence operations using {@link Repository}.
+ * Provides functionality for manipulation with tasks using persistence context from {@link Repository}.
  *
  * @author Lukas Fryc
+ * @author Oliver Kiss
  *
  */
 @Stateless
@@ -23,10 +25,13 @@ public class TaskDaoImpl implements TaskDao {
 
     @Override
     public void createTask(User user, Task task) {
-        user = repository.attach(user);
+        EntityManager em = repository.getEntityManager();
+        if (!em.contains(user)) {
+            user = em.merge(user);
+        }
         user.getTasks().add(task);
         task.setOwner(user);
-        repository.create(task);
+        em.persist(task);
     }
 
     @Override
@@ -45,18 +50,25 @@ public class TaskDaoImpl implements TaskDao {
 
     @Override
     public List<Task> getForTitle(User user, String title) {
+        EntityManager em = repository.getEntityManager();
         String lowerCaseTitle = "%" + title.toLowerCase() + "%";
-        return repository.query(Task.class, "SELECT t FROM Task t WHERE t.owner = ? AND LOWER(t.title) LIKE ?", user,
-                lowerCaseTitle).getResultList();
+        return em.createQuery("SELECT t FROM Task t WHERE t.owner = ? AND LOWER(t.title) LIKE ?", Task.class)
+                .setParameter(1, user)
+                .setParameter(2, lowerCaseTitle)
+                .getResultList();
     }
 
     @Override
     public void deleteTask(Task task) {
-        task = repository.attach(task);
-        repository.delete(task);
+        EntityManager em = repository.getEntityManager();
+        if (!em.contains(task)) {
+            task = em.merge(task);
+        }
+        em.remove(task);
     }
 
     private TypedQuery<Task> querySelectAllTasksFromUser(User user) {
-        return repository.query(Task.class, "SELECT t FROM Task t WHERE t.owner = ?", user);
+        EntityManager em = repository.getEntityManager();
+        return em.createQuery("SELECT t FROM Task t WHERE t.owner = ?", Task.class).setParameter(1, user);
     }
 }

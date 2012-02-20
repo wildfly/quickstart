@@ -1,7 +1,5 @@
 package org.jboss.as.quickstarts.tasks;
 
-import com.sun.corba.se.spi.activation.Repository;
-import org.jboss.as.quickstarts.tasks.domain.User;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;

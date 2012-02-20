@@ -20,49 +20,32 @@
         <!-- You can reference property in pom.xml or filtered resources (must
             enable third-party plugin if using Maven < 2.1) -->
         <maven.build.timestamp.format>yyyyMMdd'T'HHmmss</maven.build.timestamp.format>
-        <!-- Specify the JBoss AS directory to be the JBOSS_HOME environment
-            variable -->
-        <jboss.home>${env.JBOSS_HOME}</jboss.home>
 
-        <!-- Define the version of JBoss' Java EE 6 APIs we want to import.
-            Any dependencies from org.jboss.spec will have their version defined by this
-            BOM -->
-        <javaee6.spec.version>3.0.0.Beta1</javaee6.spec.version>
+        <!-- Define the version of JBoss' Java EE 6 APIs and Tools we want to import.  -->
+        <javaee6.with.tools.version>1.0.0.M1</javaee6.with.tools.version>
         <!-- Alternatively, comment out the above line, and un-comment the line below to
-            use version 3.0.0.Beta1-redhat-1 which is a release certified
-            to work with JBoss EAP 6. It requires you have access to the JBoss EAP 6 maven repository. -->
+        use version 3.0.0.Beta1-redhat-1 which is a release certified
+        to work with JBoss EAP 6. It requires you have access to the JBoss EAP 6 maven repository. -->
         <!--
-            <javaee6.spec.version>3.0.0.Beta1-redhat-1</javaee6.spec.version>
+        <javaee6.spec.version>3.0.0.Beta1-redhat-1</javaee6.spec.version>
         -->
     </properties>
 
     <dependencyManagement>
         <dependencies>
-            <!-- JBoss distributes a complete set of Java EE 6 APIs including
-                a Bill of Materials (BOM). A BOM specifies the versions of a "stack" (or
-                a collection) of artifacts. We use this here so that we always get the correct
-                versions of artifacts. Here we use the jboss-javaee-web-6.0 stack (you can
-                read this as the JBoss stack of the Java EE Web Profile 6 APIs), and we use
-                version 3.0.0.Beta1 which is the latest release of the stack. You can actually
-                use this stack with any version of JBoss AS that implements Java EE 6, not
-                just JBoss AS 7! -->
+            <!-- JBoss distributes a complete set of Java EE 6 APIs including a Bill
+        of Materials (BOM). A BOM specifies the versions of a "stack" (or a collection)
+        of artifacts. We use this here so that we always get the correct versions
+        of artifacts. Here we use the jboss-javaee-6.0-with tools stack (you can read this as
+        the JBoss stack of the Java EE 6 APIs, with some extras tools for your project, such
+        as Arquillian for testing) -->
             <dependency>
-                <groupId>org.jboss.spec</groupId>
-                <artifactId>jboss-javaee-web-6.0</artifactId>
-                <version>${javaee6.spec.version}</version>
+                <groupId>org.jboss.bom</groupId>
+                <artifactId>jboss-javaee-6.0-with-tools</artifactId>
+                <version>${javaee6.with.tools.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-
-            <!-- Here we use the Arquillian stack -->
-            <dependency>
-                <groupId>org.jboss.arquillian</groupId>
-                <artifactId>arquillian-bom</artifactId>
-                <version>1.0.0.CR7</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-
         </dependencies>
     </dependencyManagement>
 
@@ -143,12 +126,6 @@
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.10</version>
-                <!-- Propagate JBOSS_HOME from environment to a process spawned by Maven Surefire -->
-                <configuration>
-                    <systemPropertyVariables>
-                        <jboss.home>${jboss.home}</jboss.home>
-                    </systemPropertyVariables>
-                </configuration>
             </plugin>
         </plugins>
     </build>
@@ -173,8 +150,7 @@
                     </plugin>
                     <!-- The JBoss AS plugin deploys your war to a local JBoss
                         AS container -->
-                    <!-- To use, set the JBOSS_HOME environment variable and run:
-                        mvn package jboss-as:deploy -->
+                    <!-- To use, run: mvn package jboss-as:deploy -->
                     <plugin>
                         <groupId>org.jboss.as.plugins</groupId>
                         <artifactId>jboss-as-maven-plugin</artifactId>
@@ -185,6 +161,39 @@
 
         </profile>
         <profile>
+            <!-- We add the JBoss repository as we need the JBoss AS connectors
+          for Arquillian -->
+            <repositories>
+                <!-- The JBoss Community public repository is a composite repository
+            of several major repositories -->
+                <!-- see http://community.jboss.org/wiki/MavenGettingStarted-Users -->
+                <repository>
+                    <id>jboss-public-repository</id>
+                    <name>JBoss Repository</name>
+                    <url>http://repository.jboss.org/nexus/content/groups/public</url>
+                    <!-- These optional flags are designed to speed up your builds
+               by reducing remote server calls -->
+                    <releases>
+                    </releases>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                </repository>
+            </repositories>
+
+            <pluginRepositories>
+                <pluginRepository>
+                    <id>jboss-public-repository</id>
+                    <name>JBoss Repository</name>
+                    <url>http://repository.jboss.org/nexus/content/groups/public</url>
+                    <releases>
+                    </releases>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                </pluginRepository>
+            </pluginRepositories>
+
             <!-- An optional Arquillian testing profile that executes tests
                 in your JBoss AS instance -->
             <!-- This profile will start a new JBoss AS instance, and execute
@@ -202,6 +211,39 @@
         </profile>
 
         <profile>
+            <!-- We add the JBoss repository as we need the JBoss AS connectors
+          for Arquillian -->
+            <repositories>
+                <!-- The JBoss Community public repository is a composite repository
+            of several major repositories -->
+                <!-- see http://community.jboss.org/wiki/MavenGettingStarted-Users -->
+                <repository>
+                    <id>jboss-public-repository</id>
+                    <name>JBoss Repository</name>
+                    <url>http://repository.jboss.org/nexus/content/groups/public</url>
+                    <!-- These optional flags are designed to speed up your builds
+               by reducing remote server calls -->
+                    <releases>
+                    </releases>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                </repository>
+            </repositories>
+
+            <pluginRepositories>
+                <pluginRepository>
+                    <id>jboss-public-repository</id>
+                    <name>JBoss Repository</name>
+                    <url>http://repository.jboss.org/nexus/content/groups/public</url>
+                    <releases>
+                    </releases>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                </pluginRepository>
+            </pluginRepositories>
+
             <!-- An optional Arquillian testing profile that executes tests
                 in a remote JBoss AS instance -->
             <!-- Run with: mvn clean test -Parq-jbossas-remote -->

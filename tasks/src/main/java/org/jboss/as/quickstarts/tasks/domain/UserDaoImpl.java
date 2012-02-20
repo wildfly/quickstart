@@ -5,12 +5,14 @@ import org.jboss.as.quickstarts.tasks.beans.Repository;
 import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
 import java.util.List;
 
 /**
- * Provides functionality for manipulation with users using persistence operations using {@link Repository}.
+ * Provides functionality for manipulation with users using persistence context from {@link Repository}.
  *
  * @author Lukas Fryc
+ * @author Oliver Kiss
  *
  */
 @Stateless
@@ -18,10 +20,14 @@ import java.util.List;
 public class UserDaoImpl implements UserDao {
 
     @Inject
-    private Repository repository;
+    Repository repository;
 
     public User getForUsername(String username) {
-        List<User> result = repository.query(User.class, "select u from User u where u.username = ?", username).getResultList();
+        EntityManager em = repository.getEntityManager();
+        List<User> result = em.createQuery("select u from User u where u.username = ?", User.class)
+                .setParameter(1, username)
+                .getResultList();
+
         if (result.isEmpty()) {
             return null;
         }
@@ -29,6 +35,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     public void createUser(User user) {
-        repository.create(user);
+        EntityManager em = repository.getEntityManager();
+        em.persist(user);
     }
 }
