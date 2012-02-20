@@ -27,7 +27,7 @@
     <link rel="apple-touch-icon" href="img/aerogear_avatar_48px.png"/>
 
     <!-- Set viewport scaling and zoom features -->
-    <meta name="viewport" content="width=device-width, initial-scale=1"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Include the full development version of Modernizr. In production, you should use a -->
     <!-- minimized custom build to reduce file size -->
@@ -37,7 +37,13 @@
     <script type="text/javascript" src="js/app.js"></script>
     <script type="text/javascript">
         yepnope([{
-            //Load CDN hosted jQuery and fall back to local file
+            //Load CDN hosted jQuery or fall back to local file.
+            /*--------Note-----------
+            This approach should only be used if you trust the source of where the resource (JavaScript) is located.
+            In this case, use of the jquery CDN is much faster if your user's browser already has this file cached.
+            If they don't have it cached, try to load it from the CDN as this will be faster if the user is
+            located closer to a CDN than you currently hosted server.
+            */
             load: "http://code.jquery.com/jquery-1.6.4.min.js",
             complete: function() {
                 if ( !window.jQuery ) {
@@ -47,19 +53,27 @@
                 }
             }
         },{
-            //Using Modernizr, we use media queries and touch detection to see if we are on a mobile, touch based device
-            // or if we're at anything less than 480px.. this gives us a mobile ui on desktop browsers when resized to correct
-            // width for testing.
+            //device detection and asynchronous script loading
+            /*--------Note-----------
+            Here we're using the yepnope framework which gives us the ability to load scripts dynamically, based on
+            Modernizr's results.
+            With Modernizr, we use media queries and touch detection to see if we are on a mobile, touch based device
+            or if we're at anything less than 480px.. this gives us a mobile ui on desktop browsers when resized to <480px
+            width for testing.
+            */
             test: Modernizr.touch || Modernizr.mq( "only all and (max-width: 480px)" ),
             yep: {
+                //assign labeled callbacks for later execution after script loads.
+                //we are on mobile device so load appropriate CSS
                 "jqmcss": "css/jquery.mobile-1.0.min.css",
                 "mcss": "css/m.screen.css"
             },
             nope: {
+                //we are on desktop
                 "scss": "css/screen.css"
             },
             callback: {
-                //If it is determined that the user is on a mobile device, load jQuery Mobile
+                //use the labeled callbacks from above, and load jQuery Mobile
                 "jqmcss": function( url, result, key ) {
                     yepnope({
                         load: "http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.js",
@@ -72,18 +86,21 @@
                 },
                 "scss": function( url, result, key ) {
                     $( document ).ready( function() {
-                        //Move aside outside of the section tag
+                        //here we are moving content around based on the browser/device.
+                        //Move aside outside of the section tag for desktop only
                         $( "#info-aside" ).insertAfter( $( "section" ) );
                     });
                 }
             },
             complete: function() {
                 $( document ).ready( function() {
+                    //setup the app after all scripts have loaded
+
                     $( "#container" ).show();
-                    //Fetches the initial member table
+                    //Fetches the initial member data and populates the table using jquery templates
                     getMemberTemplate();
 
-                    //Register a event listener on the sumbit action
+                    //Register an event listener on the sumbit action
                     $('#reg').submit(function(event) {
                         event.preventDefault();
 
