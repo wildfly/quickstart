@@ -51,6 +51,8 @@ public class JSONPRequestFilter implements Filter {
     //This is a simple safe pattern check for the callback method
     public static final Pattern SAFE_PRN = Pattern.compile("[a-zA-Z0-9_\\.]+");
     
+    public static final String CONTENT_TYPE= "application/javascript";
+    
     @Override
     public void init(FilterConfig config) throws ServletException {
         //Nothing needed
@@ -66,13 +68,14 @@ public class JSONPRequestFilter implements Filter {
 
         final HttpServletRequest httpRequest = (HttpServletRequest) request;
         final HttpServletResponse httpResponse = (HttpServletResponse) response;
-
-        if (!isJSONPRequest(httpRequest)) {
+        
+        //extract the callback method from the request query parameters
+        String callback = getCallbackMethod(httpRequest);
+        
+        if (!isJSONPRequest(callback)) {
             //Request is not a JSONP request move on
             chain.doFilter(request, response);
         }else{
-            String callback = getCallbackMethod(httpRequest);
-            
             //Need to check if the callback method is safe
             if (!SAFE_PRN.matcher(callback).matches()) {
                 throw new ServletException("JSONP Callback method '" + CALLBACK_METHOD + "' parameter not valid function");
@@ -104,7 +107,7 @@ public class JSONPRequestFilter implements Filter {
             chain.doFilter(request, responseWrapper);
             
             //Override response content and encoding
-            response.setContentType("application/x-javascript");
+            response.setContentType(CONTENT_TYPE);
             response.setCharacterEncoding("UTF-8");
             
             //Write the padded updates to the output stream.
@@ -118,8 +121,8 @@ public class JSONPRequestFilter implements Filter {
         return httpRequest.getParameter(CALLBACK_METHOD);
     }
 
-    private boolean isJSONPRequest(HttpServletRequest httpRequest) {
-        String callbackMethod = getCallbackMethod(httpRequest);
+    private boolean isJSONPRequest(String callbackMethod) {
+        //A simple check to see if the query parameter has been set.
         return (callbackMethod != null && callbackMethod.length() > 0);
     }
 

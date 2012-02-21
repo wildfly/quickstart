@@ -109,3 +109,7 @@ See jQuery's documentation for client access examples:
 
 * http://api.jquery.com/jQuery.getJSON/
 * http://api.jquery.com/jQuery.ajax/
+
+__Security Considerations__
+
+Before using JSONP in your system be aware of some potential security issues that are possible.  There are two primary concerns, cross-site request forgery, and script tag manipulation.  This example show one way to add a layer of security, by only processing JSONP requests with "safe" characters, it makes it more difficult for a site to injects harmful scripts into the return.  You should always consider this and other aspects of security when exposing services in this way.  See the [JSON wiki](http://en.wikipedia.org/wiki/JSONP) for more information.  
