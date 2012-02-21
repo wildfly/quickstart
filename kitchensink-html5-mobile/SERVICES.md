@@ -50,11 +50,12 @@ MemberService End Points
 * Request type: application/x-www-form-urlencoded
 * Request parameters: name, email, phoneNumber
 * Return type: JSON
-* Response example (if validation error)
- * Collection of `<field name>:<error msg>` for each error
+* Response example:
+ * Success: 200 OK
+ * Validation error: Collection of `<field name>:<error msg>` for each error
 
 ```JavaScript
-{"email":"Email taken"}
+{"phoneNumber":"10-12 Numbers","email":"Invalid format"}
 ```
 
 #### /rest/members/new?name=&email=&phoneNumber=
@@ -62,6 +63,7 @@ MemberService End Points
 * Query parameters: name, email, phoneNumber
 * Return type: JSON
 * Response example: See POST example above
+ * Note: JSONP requests do not support error responses
 
 ### Get one member by ID
 
@@ -109,6 +111,10 @@ See jQuery's documentation for client access examples:
 
 * http://api.jquery.com/jQuery.getJSON/
 * http://api.jquery.com/jQuery.ajax/
+
+__Validation Error Handling__
+
+When using JSONP requests error responses are not supported.  This is a known issue with JSONP, and has to do with how JSONP requests are sent to the server using \<script> tags.  In the case of a validation issue, or error the success callback will not be thrown, and most client libraries (specifically jquery) will not be able to call the error callback either.  There are some workarounds and options, but typically they are limited.  See your specific client library for more information.
 
 __Security Considerations__
 
