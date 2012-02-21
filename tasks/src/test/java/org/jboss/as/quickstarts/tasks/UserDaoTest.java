@@ -1,21 +1,21 @@
 package org.jboss.as.quickstarts.tasks;
 
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
+import java.io.FileNotFoundException;
+
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
+
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.as.quickstarts.tasks.beans.Repository;
 import org.jboss.as.quickstarts.tasks.domain.User;
 import org.jboss.as.quickstarts.tasks.domain.UserDao;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import java.io.FileNotFoundException;
-
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
 
 /**
  * @author Lukas Fryc
@@ -33,11 +33,10 @@ public class UserDaoTest {
     UserDao userDao;
 
     @Inject
-    Repository repository;
+    EntityManager em;
 
     @Test
     public void userDao_should_create_user_so_it_could_be_retrieved_from_userDao_by_username() {
-        EntityManager em = repository.getEntityManager();
         // given
         User created = new User("username1");
 

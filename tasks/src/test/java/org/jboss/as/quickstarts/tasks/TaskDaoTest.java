@@ -1,8 +1,16 @@
 package org.jboss.as.quickstarts.tasks;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+import java.io.FileNotFoundException;
+import java.util.List;
+
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
+
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.as.quickstarts.tasks.beans.Repository;
 import org.jboss.as.quickstarts.tasks.domain.Task;
 import org.jboss.as.quickstarts.tasks.domain.TaskDao;
 import org.jboss.as.quickstarts.tasks.domain.User;
@@ -10,14 +18,6 @@ import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import java.io.FileNotFoundException;
-import java.util.List;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 /**
  * @author Lukas Fryc
@@ -32,7 +32,7 @@ public class TaskDaoTest {
     }
 
     @Inject
-    Repository repository;
+    EntityManager em;
 
     @Inject
     TaskDao taskDao;
@@ -47,7 +47,6 @@ public class TaskDaoTest {
 
     @Test
     public void user_should_be_created_with_one_task_attached() throws Exception {
-        EntityManager em = repository.getEntityManager();
         // given
         User user = new User("New user");
         Task task = new Task("New task");
