@@ -26,10 +26,10 @@ import javax.persistence.EntityManager;
 public class ManagedComponent {
     /**
      *  Ask the container to inject an Entity Manager (EM). As a consequence the EM will be
-     *  automatically enlisted into any new transactions started by the managed component
-     *  The unit name corresponds to the one defined in the archives persistence.xml file
+     *  automatically enlisted into any new transactions started by the managed component.
+     * 
      */
-    @PersistenceContext(unitName = "bmtDatabase")
+    @PersistenceContext
     private EntityManager entityManager;
 
     // Inject a UserTransaction for manual transaction demarcation.

@@ -40,11 +40,13 @@ public class MemberValidationTest {
     public static Archive<?> createTestArchive() {
         return ShrinkWrap.create(WebArchive.class, "test.war").addClasses(Member.class)
         // enable JPA
-                .addAsResource("META-INF/persistence.xml", "META-INF/persistence.xml")
+                .addAsResource("META-INF/test-persistence.xml", "META-INF/persistence.xml")
                 // add sample data
                 .addAsResource("import.sql")
                 // enable CDI
-                .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
+                .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
+                // Deploy our test datasource
+                .addAsWebInfResource("test-ds.xml", "test-ds.xml");
     }
 
     // Get configured validator directly from JBoss AS 7 environment

@@ -23,7 +23,7 @@ public class UnManagedComponent {
      * Specify a persistence unit name (perhaps the application may want to interact with multiple
      * databases).
      */
-    @PersistenceUnit(unitName = "bmtDatabase")
+    @PersistenceUnit(unitName = "primary")
     private EntityManagerFactory entityManagerFactory;
 
     /*
