@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:f="http://java.sun.com/jsf/core">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Mail Example</title>
+</head>
+
+<body>
+   <div id="content">
+      <h1>Send an email</h1>
+      <h:form id="email">
+         <!-- Instructions for the user -->
+         <div>
+            Send someone an email
+         </div>
+
+         <!-- Input box for the email parameters, plus a button to submit, and reset -->
+         <!-- These are bound using EL to our CDI beans -->
+         <div>
+            To:
+            <h:inputText id="to" value="#{email.to}"
+               required="true" size="20"
+               />
+			From:
+            <h:inputText id="from" value="#{email.from}"
+               required="true" size="20"
+               />
+            Subject:
+            <h:inputText id="subject" value="#{email.subject}"
+               required="true" size="20"
+               />
+            Body:
+            <h:inputTextarea id="body" value="#{email.body}"
+               required="true" size="200"
+               />
+            <h:commandButton id="sendButton" value="Send"
+               action="#{email.send}"/>
+         </div>
+         <div>
+            <h:commandButton id="restartButton" value="Reset" type="reset"/>
+         </div>
+      </h:form>
+   </div>
+   <br style="clear: both" />
+</body>
+</html>
