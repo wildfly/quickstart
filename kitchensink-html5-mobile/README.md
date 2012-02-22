@@ -99,8 +99,8 @@ of your JavaScript and CSS files.
 First, in the <project-root>/client/src/main/webapp/index.html file, search for
 references to minification and comment or uncomment the appropriate lines.
 
-Finally, run the following command and your project will use the minified version
-of your files.
+Finally, wro4j runs in the compile phase so any standard build command like package,
+install, etc. will trigger it. For example:
 
     mvn clean package jboss-as:deploy
  
