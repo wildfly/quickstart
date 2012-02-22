@@ -34,7 +34,13 @@
     <script type="text/javascript" src="js/libs/modernizr-2.0.6.js"></script>
     <script type="text/javascript" src="js/libs/yepnope.1.0.2-min.js"></script>
     <script type="text/javascript" src="js/libs/underscore-min.js"></script>
+
+    <!-- Minification - See Readme for details -->
+    <!-- For minification, comment out this file -->
     <script type="text/javascript" src="js/app.js"></script>
+    <!-- For minification, uncomment this file -->
+    <!-- <script type="text/javascript" src="js/app.min.js"></script> -->
+
     <script type="text/javascript">
         yepnope([{
             //Load CDN hosted jQuery or fall back to local file.
@@ -66,11 +72,17 @@
                 //assign labeled callbacks for later execution after script loads.
                 //we are on mobile device so load appropriate CSS
                 "jqmcss": "css/jquery.mobile-1.0.min.css",
+                // For minification, uncomment this line
+                //"mcss": "css/m.screen.min.css"
+                // For minification, comment out this line
                 "mcss": "css/m.screen.css"
             },
             nope: {
                 //we are on desktop
-                "scss": "css/screen.css"
+                // For minification, uncomment this line
+                //"scss": "css/screen.min.css"
+                // For minification, comment out this line
+            	"scss": "css/screen.css"
             },
             callback: {
                 //use the labeled callbacks from above, and load jQuery Mobile
