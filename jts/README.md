@@ -57,18 +57,21 @@ The application servers 1 should both be configured as follows:
 
 1.	Open the file <APP_SERVER_1_HOME>/standalone/configuration/standalone-full.xml
 2.	Enable JTS:
-	Find the orb subsystem and change the configuration to:
-        <subsystem xmlns="urn:jboss:domain:jacorb:1.1">
-            <orb>
-                <initializers security="on" transactions="on"/>
-            </orb>
-        </subsystem>
-    Find the transaction subsystem and append the <jts/> element:
-        <subsystem xmlns="urn:jboss:domain:transactions:1.1">
-            <!-- LEAVE EXISTING CONFIG AND APPEND THE FOLLOWING -->
-            <jts/>
-        </subsystem>
-		
+    Find the orb subsystem and change the configuration to:
+    <pre>
+        &lt;subsystem xmlns="urn:jboss:domain:jacorb:1.1"&gt;
+            &lt;orb&gt;
+                &lt;initializers security="on" transactions="on"/&gt;
+            &lt;/orb&gt;
+        &lt;/subsystem&gt;
+    </pre>
+    Find the transaction subsystem and append the &lt;jts/&gt; element:
+    <pre>
+        &lt;subsystem xmlns="urn:jboss:domain:transactions:1.1"&gt;
+            &lt;!-- LEAVE THE EXISTING CONFIG AND APPEND THE FOLLOWING --&gt;
+            &lt;jts/&gt;
+        &lt;/subsystem&gt;
+    </pre>
 
 To start JBoss AS 7 (or JBoss Enterprise Application Platform 6) with a JMS connection factory and a queue named test queue in it. The instructions
 for this vary slightly depending upon whether you are using the community release (JBoss AS 7) or the platform release (JBoss Enterprise Application Platform 6)
