@@ -98,13 +98,9 @@ of your JavaScript and CSS.
 First, in the <project-root>/client/src/main/webapp/index.html file, search for
 references to minification and comment or uncomment the appropriate lines.
 
-Next, when deploying the application before you run `mvn package`, use the
-following command in the <project-root>/client/ directory:
+Finally, run the following command and your JavaScript and CSS files will be minified.
 
-    mvn wro4j:run
-
-Finally, follow the deployment procedure as described above and your JavaScript
-and CSS files will be minified.
+    mvn clean package jboss-as:deploy
  
 Running the Arquillian tests
 ============================
