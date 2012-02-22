@@ -18,6 +18,10 @@ application also uses some of the latest HTML5 features and advanced JAX-RS. And
 is just as important with POH5 as it is server side core this application also uses QUnit to show
 you how to unit test your JavaScript.
 
+To represent a realistic separation of services, and clients the project has been broken into two
+sub-modules.  `/client` contains all of the client HTML5 code and related resources.  `/services` 
+contains all of the JAX-RS related services.
+
 What is a modern web application without mobile web support? This application also integrates
 jQuery mobile and basic client side device detection to give you both a desktop and mobile 
 version of the interface. Both support the same features, including form validation, member
@@ -32,7 +36,7 @@ All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven
 
 The application this project produces is designed to be run on JBoss AS 7 or JBoss Enterprise Application Platform 6.
 
-An HTML5 compatible browser such as Chrome 14+, Safari 5+, Firefox 5+, or IE 9+ are
+An HTML5 compatible browser such as Chrome, Safari 5+, Firefox 5+, or IE 9+ are
 required. and note that some behaviors will vary slightly (ex. validations) based on browser support,
 especially IE 9.
 
@@ -69,9 +73,9 @@ You can now deploy the artifact by executing the following command:
 
     mvn jboss-as:deploy
 
-This will deploy `target/kitchensink-html5-mobile`.
+This will deploy both the client and service applications.
  
-The application will be running at the following URL <http://localhost:8080/kitchensink-html5-mobile/>.
+The application will be running at the following URL <http://localhost:8080/jboss-as-kitchensink-html5-mobile-client/>.
 
 To undeploy run this command:
 
@@ -102,7 +106,7 @@ application include a set of QUnit tests in order to verify JavaScript that
 is core to this HTML5 application.  Executing QUnit test cases is quite easy.
 Simply load the following HTML is a browser.
 
-    <app-root>/src/test/qunit/index.html
+    <project-root>/client/src/test/qunit/index.html
 
 For more information on QUnit tests see http://docs.jquery.com/QUnit
 
