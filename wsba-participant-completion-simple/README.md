@@ -42,8 +42,8 @@ following steps occur:
 
 There are other tests that show:
 
-# What happens when an application exception is thrown by the service.
-# How the client can cancel a BA.
+* What happens when an application exception is thrown by the service.
+* How the client can cancel a BA.
 
 
 System requirements
