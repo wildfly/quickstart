@@ -39,7 +39,7 @@ function buildMemberRows(members) {
 /* Uses JAX-RS GET to retrieve current member list */
 function updateMemberTable() {
    $.ajax({
-	   url: "rest/members/json",
+	   url: "/jboss-as-kitchensink-html5-mobile-services/rest/members/json",
 	   cache: false,
 	   success: function(data) {
             $('#members').empty().append(buildMemberRows(data));
@@ -60,7 +60,7 @@ function registerMember(formValues) {
    $('span.invalid').remove();
    $('span.success').remove();
 
-   $.post('rest/members', formValues,
+   $.post('/jboss-as-kitchensink-html5-mobile-services/rest/members', formValues,
          function(data) {
             //console.log("Member registered");
 
