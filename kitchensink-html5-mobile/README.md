@@ -84,6 +84,25 @@ To undeploy run this command:
 You can also start the JBoss container and deploy the project using JBoss Tools. See the
 <a href="https://docs.jboss.org/author/display/AS71/Getting+Started+Developing+Applications+Guide" title="Getting Started Developing Applications Guide">Getting Started Developing Applications Guide</a> 
 for more information.
+
+Minification
+============================
+
+By default, the project uses the [wro4j](http://code.google.com/p/wro4j/) plugin,
+which provides the ability to concatenate, validate and minify JavaScript and CSS
+files. These minified files, as well as their unmodified versions are deployed with
+the project.
+
+With just a few quick changes to the project, you can link to the minified versions
+of your JavaScript and CSS files.
+
+First, in the <project-root>/client/src/main/webapp/index.html file, search for
+references to minification and comment or uncomment the appropriate lines.
+
+Finally, wro4j runs in the compile phase so any standard build command like package,
+install, etc. will trigger it. For example:
+
+    mvn clean package jboss-as:deploy
  
 Running the Arquillian tests
 ============================
