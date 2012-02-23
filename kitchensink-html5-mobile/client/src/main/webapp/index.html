@@ -129,6 +129,9 @@
                         $('span.invalid').remove();
                         $('span.success').remove();
                     });
+
+                    //scrolling support for devices that don't support overflow:auto
+                    touchScrollX('#members');
                 });
             }
         }]);
@@ -245,8 +248,8 @@
                 <div data-role="content">
                     <p class="desktop-only">This table is populated and constructed using restful GET calls to the server, and uses CSS3 based selectors for styling. When the page is requested jQuery is used to send the JAX-RS request for the current list of members. The table is them populated dynamically using JavaScript. See app.js for more details.</p>
 
-                    <table id="mem_tbl">
-                        <thead>
+                    <table id="mem_tbl" class="rt cf">
+                        <thead class="cf">
                             <tr>
                                 <th scope="col">Id</th>
                                 <th scope="col">Name</th>

@@ -88,16 +88,13 @@ span.success {
    width: 100%;
 }
 
-#mem_tbl td {
-   height: 2em;
-   padding-left: 6px;
-   font-size: 11px;
-}
-
+#mem_tbl td,
 #mem_tbl th {
-   font-weight: normal;
-   padding: 0 10px 0 5px;
-   border-bottom: #999999 dotted 1px;
+   height: 2em;
+   padding: 4px 0 0 6px;
+   font-size: 11px;
+   border-bottom: #777 dotted 1px;
+   vertical-align: middle;
 }
 
 #mem_tbl thead {
@@ -122,6 +119,76 @@ span.success {
 
 #members tr:nth-child(even) {
    background: #ffffff;
+}
+
+/*responsive design for tables*/
+@media only screen and (max-width: 40em) { /*640*/
+
+    #mem_tbl {
+        display: block;
+        position: relative;
+        width: 100%;
+    }
+
+    #mem_tbl thead {
+        display: block;
+        float: left;
+    }
+
+    #mem_tbl tbody {
+        display: block;
+        width: auto;
+        position: relative;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    #mem_tbl thead tr {
+        display: block;
+    }
+
+    #mem_tbl th {
+        display: block;
+    }
+
+    #mem_tbl tbody tr {
+        display: inline-block;
+        vertical-align: top;
+    }
+
+    #mem_tbl td {
+        display: block;
+        min-height: 1.25em;
+    }
+
+    /* sort out borders */
+
+    .rt th {
+        border-bottom: 0;
+    }
+
+    .rt td {
+        border-left: 0;
+        border-right: 0;
+        border-bottom: 0;
+    }
+
+    .rt tbody tr {
+        border-right:
+            1px solid #babcbf;
+    }
+
+    .rt th:last-child,
+    .rt td:last-child {
+        border-bottom:
+            1px solid #babcbf;
+    }
+
+    #mem_tbl tfoot {
+        float:left;
+        clear:both;
+        margin: 15px 0 0 0;
+    }
 }
 
 /* Hide Desktop Items */
