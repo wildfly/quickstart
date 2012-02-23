@@ -25,6 +25,8 @@ With the prerequisites out of the way, you're ready to build and deploy.
 Deploying the application
 -------------------------
 
+### Deploying locally
+
 First you need to start the JBoss container. To do this, run
 
     $JBOSS_HOME/bin/standalone.sh
@@ -53,6 +55,10 @@ To undeploy run this command:
 You can also start the JBoss container and deploy the project using JBoss Tools. See the
 <a href="https://docs.jboss.org/author/display/AS71/Getting+Started+Developing+Applications+Guide" title="Getting Started Developing Applications Guide">Getting Started Developing Applications Guide</a>
 for more information.
+
+### Deploying to OpenShift
+
+You can also deploy the application directly to OpenShift, Red Hat's cloud based PaaS offering, follow the instructions [here](https://community.jboss.org/wiki/DeployingHTML5ApplicationsToOpenshift)
 
 Importing the project into an IDE
 =================================
