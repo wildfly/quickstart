@@ -30,89 +30,90 @@
         <!-- Maven will append the version to the finalName (which is the name given to the generated war, and hence the context 
             root) -->
         <finalName>${project.artifactId}</finalName>
-            <plugins>
-                <plugin>
-                    <artifactId>maven-war-plugin</artifactId>
-                    <configuration>
-                        <!-- Java EE 6 doesn't require web.xml, Maven needs to catch up! -->
-                        <failOnMissingWebXml>false</failOnMissingWebXml>
-                    </configuration>
-                </plugin>
-                <!-- The JBoss AS plugin deploys your war to a local JBoss AS container -->
-                <!-- To use, run: mvn package jboss-as:deploy -->
-                <plugin>
-                    <groupId>org.jboss.as.plugins</groupId>
-                    <artifactId>jboss-as-maven-plugin</artifactId>
-                </plugin>
+        <plugins>
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <!-- Java EE 6 doesn't require web.xml, Maven needs to catch up! -->
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                </configuration>
+            </plugin>
+            <!-- The JBoss AS plugin deploys your war to a local JBoss AS container -->
+            <!-- To use, run: mvn package jboss-as:deploy -->
+            <plugin>
+                <groupId>org.jboss.as.plugins</groupId>
+                <artifactId>jboss-as-maven-plugin</artifactId>
+            </plugin>
 
-                <plugin>
-                    <groupId>com.mycila.maven-license-plugin</groupId>
-                    <artifactId>maven-license-plugin</artifactId>
-                    <configuration>
-                        <includes>
-                            <include>src/**</include>
-                        </includes>
-                        <excludes>
-                            <exclude>src/main/webapp/js/libs/**</exclude>
-                            <exclude>src/main/webapp/css/jquery.mobile-1.0.min.css</exclude>
-                            <exclude>src/test/qunit/qunit/**</exclude>
-                        </excludes>
-                    </configuration>
-                </plugin>
+            <plugin>
+                <groupId>com.mycila.maven-license-plugin</groupId>
+                <artifactId>maven-license-plugin</artifactId>
+                <configuration>
+                    <includes>
+                        <include>src/**</include>
+                    </includes>
+                    <excludes>
+                        <exclude>src/main/webapp/js/libs/**</exclude>
+                        <exclude>src/main/webapp/css/jquery.mobile-1.0.min.css</exclude>
+                        <exclude>src/test/qunit/qunit/**</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
 
-                <plugin>
-                    <groupId>ro.isdc.wro4j</groupId>
-                    <artifactId>wro4j-maven-plugin</artifactId>
-                    <version>${wro4j.version}</version>
-                    <executions>
-                        <execution>
-                            <phase>compile</phase>
-                            <goals>
-                                <goal>run</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                    <configuration>
-                        <targetGroups>app.min,m.screen.min,screen.min</targetGroups>
-                        <wroFile>${basedir}/src/main/webapp/WEB-INF/wro.xml</wroFile>
-                        <cssDestinationFolder>${basedir}/src/main/webapp/css/</cssDestinationFolder>
-                        <jsDestinationFolder>${basedir}/src/main/webapp/js/</jsDestinationFolder>
-                        <contextFolder>${basedir}/src/main/webapp/</contextFolder>
-                        <extraConfigFile>${basedir}/src/main/webapp/WEB-INF/wro.properties</extraConfigFile>
-                        <wroManagerFactory>ro.isdc.wro.maven.plugin.manager.factory.ConfigurableWroManagerFactory</wroManagerFactory>
-                    </configuration>
-                </plugin>
+            <plugin>
+                <groupId>ro.isdc.wro4j</groupId>
+                <artifactId>wro4j-maven-plugin</artifactId>
+                <version>${wro4j.version}</version>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <targetGroups>app.min,m.screen.min,screen.min</targetGroups>
+                    <wroFile>${basedir}/src/main/webapp/WEB-INF/wro.xml</wroFile>
+                    <cssDestinationFolder>${basedir}/src/main/webapp/css/</cssDestinationFolder>
+                    <jsDestinationFolder>${basedir}/src/main/webapp/js/</jsDestinationFolder>
+                    <contextFolder>${basedir}/src/main/webapp/</contextFolder>
+                    <extraConfigFile>${basedir}/src/main/webapp/WEB-INF/wro.properties</extraConfigFile>
+                    <wroManagerFactory>ro.isdc.wro.maven.plugin.manager.factory.ConfigurableWroManagerFactory
+                    </wroManagerFactory>
+                </configuration>
+            </plugin>
 
-                <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
-                <plugin>
-                    <groupId>org.eclipse.m2e</groupId>
-                    <artifactId>lifecycle-mapping</artifactId>
-                    <version>1.0.0</version>
-                    <configuration>
-                        <lifecycleMappingMetadata>
-                            <pluginExecutions>
-                                <pluginExecution>
-                                    <pluginExecutionFilter>
-                                        <groupId>ro.isdc.wro4j</groupId>
-                                        <artifactId>
-                                            wro4j-maven-plugin
-                                        </artifactId>
-                                        <versionRange>
-                                            [1.4.4,)
-                                        </versionRange>
-                                        <goals>
-                                            <goal>run</goal>
-                                        </goals>
-                                    </pluginExecutionFilter>
-                                    <action>
-                                        <ignore></ignore>
-                                    </action>
-                                </pluginExecution>
-                            </pluginExecutions>
-                        </lifecycleMappingMetadata>
-                    </configuration>
-                </plugin>
-            </plugins>
+            <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+            <plugin>
+                <groupId>org.eclipse.m2e</groupId>
+                <artifactId>lifecycle-mapping</artifactId>
+                <version>1.0.0</version>
+                <configuration>
+                    <lifecycleMappingMetadata>
+                        <pluginExecutions>
+                            <pluginExecution>
+                                <pluginExecutionFilter>
+                                    <groupId>ro.isdc.wro4j</groupId>
+                                    <artifactId>
+                                        wro4j-maven-plugin
+                                    </artifactId>
+                                    <versionRange>
+                                        [1.4.4,)
+                                    </versionRange>
+                                    <goals>
+                                        <goal>run</goal>
+                                    </goals>
+                                </pluginExecutionFilter>
+                                <action>
+                                    <ignore></ignore>
+                                </action>
+                            </pluginExecution>
+                        </pluginExecutions>
+                    </lifecycleMappingMetadata>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
 
     <profiles>
