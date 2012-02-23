@@ -2,19 +2,17 @@ package org.jboss.as.quickstarts.tasks.domain;
 
 import java.util.List;
 
-import javax.ejb.Local;
 import javax.ejb.Stateful;
-import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
 /**
- * Provides functionality for manipulation with tasks using persistence context from {@link Repository}.
- *
+ * Provides functionality for manipulation with tasks using persistence context from {@link Resources}.
+ * 
  * @author Lukas Fryc
  * @author Oliver Kiss
- *
+ * 
  */
 @Stateful
 public class TaskDaoImpl implements TaskDao {
@@ -50,9 +48,7 @@ public class TaskDaoImpl implements TaskDao {
     public List<Task> getForTitle(User user, String title) {
         String lowerCaseTitle = "%" + title.toLowerCase() + "%";
         return em.createQuery("SELECT t FROM Task t WHERE t.owner = ? AND LOWER(t.title) LIKE ?", Task.class)
-                .setParameter(1, user)
-                .setParameter(2, lowerCaseTitle)
-                .getResultList();
+                .setParameter(1, user).setParameter(2, lowerCaseTitle).getResultList();
     }
 
     @Override

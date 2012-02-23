@@ -6,9 +6,9 @@ import javax.ejb.Local;
 
 /**
  * Basic operations for manipulation with tasks
- *
+ * 
  * @author Lukas Fryc
- *
+ * 
  */
 @Local
 public interface TaskDao {

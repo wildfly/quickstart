@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * User entity
- *
+ * 
  * @author Oliver Kiss
  */
 @Entity

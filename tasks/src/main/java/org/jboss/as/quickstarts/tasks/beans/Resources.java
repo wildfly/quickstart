@@ -11,12 +11,12 @@ import javax.persistence.PersistenceContextType;
 @RequestScoped
 public class Resources {
 
-   @PersistenceContext(type=PersistenceContextType.EXTENDED)
-   private EntityManager em;
-   
-   @Produces
-   public EntityManager getEm() {
-      return em;
-   }
-   
+    @PersistenceContext(type = PersistenceContextType.EXTENDED)
+    private EntityManager em;
+
+    @Produces
+    public EntityManager getEm() {
+        return em;
+    }
+
 }

@@ -5,7 +5,7 @@ import java.io.Serializable;
 
 /**
  * User's task entity
- *
+ * 
  * @author Oliver Kiss
  */
 @Entity

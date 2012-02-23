@@ -54,8 +54,7 @@ public class TaskDaoTest {
         // when
         em.persist(user);
         taskDao.createTask(user, task);
-        List<Task> userTasks = em.createQuery("SELECT t FROM Task t WHERE t.owner = ?", Task.class)
-                .setParameter(1, user)
+        List<Task> userTasks = em.createQuery("SELECT t FROM Task t WHERE t.owner = ?", Task.class).setParameter(1, user)
                 .getResultList();
 
         // then
