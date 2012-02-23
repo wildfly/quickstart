@@ -27,10 +27,15 @@ $(document).ready(function() {
 	$('#sayHello').click(function() {
 		var name = $('#name').val();
 		//console.log("clicked: " + name);
-		var jqxhr = $.getJSON('hello/json/'+ name, function(data) {
-			//console.log("success: " + data.result);
-			$('#result').text(data.result);
-		})
+        var jqxhr = $.ajax('hello/json/' + name, {
+            dataType:'json',
+            data:{},
+            type:'POST',
+            success:function (data) {
+                //console.log("success: " + data.result);
+                $('#result').text(data.result);
+            }
+        })
 		.error(function() {
 			//console.log("error");
 		}
@@ -46,8 +51,8 @@ POH5 Hello World<br>
  <fieldset>  
     <label for="name" id="name_label">Name</label> 
 	<input name="name" id="name" type="text" required placeholder="Your Name"/>
-	<input type="submit" id="sayHello" value="Say Hello"/><span id="result"></span>
- </fieldset>	
+    <input type="submit" id="sayHello" value="Say Hello"/><span id="result"></span>
+ </fieldset>
 </form>
 
 </body>
