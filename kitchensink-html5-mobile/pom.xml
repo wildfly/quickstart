@@ -25,10 +25,11 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- Timestamp format for the maven.build.timestamp property -->
         <!-- You can reference property in pom.xml or filtered resources (must enable third-party plugin if using Maven < 2.1) -->
-        <javaee6.spec.version>3.0.0.Beta1</javaee6.spec.version>
-        <!-- Alternatively, comment out the above line, and un-comment the line below to use version 3.0.0.Beta1-redhat-1 which is 
-            a release certified to work with JBoss EAP 6. It requires you have access to the JBoss EAP 6 maven repository. -->
-        <!-- <javaee6.spec.version>3.0.0.Beta1-redhat-1</javaee6.spec.version> -->
+
+        <!-- Define the version of JBoss' Java EE 6 APIs we want to import. Any dependencies from org.jboss.spec will have their
+             version defined by this BOM -->
+        <javaee6.bom.version>1.0.0.M3</javaee6.bom.version>
+
     </properties>
 
     <licenses>
@@ -41,17 +42,30 @@
 
     <dependencyManagement>
         <dependencies>
-            <!-- Define the version of JBoss' Java EE 6 APIs we want to import. Any dependencies from org.jboss.spec will have their 
-                version defined by this BOM -->
+
             <!-- JBoss distributes a complete set of Java EE 6 APIs including a Bill of Materials (BOM). A BOM specifies the versions 
                 of a "stack" (or a collection) of artifacts. We use this here so that we always get the correct versions of artifacts. Here we use 
                 the jboss-javaee-6.0 stack (you can read this as the JBoss stack of the Java EE 6 APIs) -->
+
+            <!--adding Hibernate Community projects including Hibernate ORM, Hibernate Search and Hibernate Validator.
+            see https://github.com/jboss/jboss-bom/tree/master/jboss-javaee-6.0-with-hibernate -->
             <dependency>
-                <groupId>org.jboss.spec</groupId>
-                <artifactId>jboss-javaee-6.0</artifactId>
-                <version>${javaee6.spec.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
+               <groupId>org.jboss.bom</groupId>
+               <artifactId>jboss-javaee-6.0-with-hibernate</artifactId>
+               <version>${javaee6.bom.version}</version>
+               <type>pom</type>
+               <scope>import</scope>
+            </dependency>
+
+            <!--This BOM builds on the Java EE full profile BOM, adding Arquillian to the mix. It also provides a
+            version of JUnit and TestNG recommended for use with Arquillian.
+            see https://github.com/jboss/jboss-bom/tree/master/jboss-javaee-6.0-with-tools -->
+            <dependency>
+               <groupId>org.jboss.bom</groupId>
+               <artifactId>jboss-javaee-6.0-with-tools</artifactId>
+               <version>${javaee6.bom.version}</version>
+               <type>pom</type>
+               <scope>import</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
