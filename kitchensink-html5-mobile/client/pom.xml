@@ -75,8 +75,8 @@
                 <configuration>
                     <targetGroups>app.min,m.screen.min,screen.min</targetGroups>
                     <wroFile>${basedir}/src/main/webapp/WEB-INF/wro.xml</wroFile>
-                    <cssDestinationFolder>${basedir}/src/main/webapp/css/</cssDestinationFolder>
-                    <jsDestinationFolder>${basedir}/src/main/webapp/js/</jsDestinationFolder>
+                    <cssDestinationFolder>${project.build.directory}/${project.build.finalName}/css/</cssDestinationFolder>
+                    <jsDestinationFolder>${project.build.directory}/${project.build.finalName}/js/</jsDestinationFolder>
                     <contextFolder>${basedir}/src/main/webapp/</contextFolder>
                     <extraConfigFile>${basedir}/src/main/webapp/WEB-INF/wro.properties</extraConfigFile>
                     <wroManagerFactory>ro.isdc.wro.maven.plugin.manager.factory.ConfigurableWroManagerFactory
