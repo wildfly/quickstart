@@ -26,8 +26,8 @@ test('Build 2 Member Rows', function() {
     var members = [{"email": "jane.doe@company.com", "id": 1, "name": "Jane Doe", "phoneNumber": "12312312311"},{"email": "john.doe@company.com", "id": 0, "name": "John Doe", "phoneNumber": "2125551212"}];
 
     var html = buildMemberRows(members);
-    var length = $(html).length;
-    ok(length == 2, 'Number of rows built: ' + length);
+
+    ok($(html).length == 2, 'Number of rows built: ' + length);
 });
 
 test('Build 0 member Rows', function() {
@@ -37,13 +37,23 @@ test('Build 0 member Rows', function() {
 
     var html = buildMemberRows(members);
 
-    ok(html == '', 'Created no rows for empty members');
+    ok($(html).length == 0, 'Created no rows for empty members');
 });
 
 module('Member Restful Calls');
 
-test('Request current member list', function() {
-    ok(1==1,"TODO");
+asyncTest('Request current member list', function() {
+    expect(1);
+
+    $.ajax({
+        url: "http://localhost:8080/jboss-as-kitchensink-html5-mobile-services/rest/members/json",
+        dataType: "jsonp",
+        jsonp: "jsonpcallback",
+        success: function(data) {
+            ok($(data).length, "Initial member returned");
+            start();
+        }
+    });
 });
 
 test('Register a new member', function() {
