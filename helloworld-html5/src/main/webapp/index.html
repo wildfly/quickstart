@@ -26,13 +26,13 @@
 $(document).ready(function() {
 	$('#sayHello').click(function() {
 		var name = $('#name').val();
-		console.log("clicked: " + name);
+		//console.log("clicked: " + name);
 		var jqxhr = $.getJSON('hello/json/'+ name, function(data) {
-			console.log("success: " + data.result);
+			//console.log("success: " + data.result);
 			$('#result').text(data.result);
 		})
 		.error(function() {
-			console.log("error");
+			//console.log("error");
 		}
 		);
 		return false; // prevents submit of the form
