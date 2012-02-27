@@ -60,30 +60,6 @@
                 </configuration>
             </plugin>
 
-            <plugin>
-                <groupId>ro.isdc.wro4j</groupId>
-                <artifactId>wro4j-maven-plugin</artifactId>
-                <version>${wro4j.version}</version>
-                <executions>
-                    <execution>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <targetGroups>app.min,m.screen.min,screen.min</targetGroups>
-                    <wroFile>${basedir}/src/main/webapp/WEB-INF/wro.xml</wroFile>
-                    <cssDestinationFolder>${project.build.directory}/${project.build.finalName}/css/</cssDestinationFolder>
-                    <jsDestinationFolder>${project.build.directory}/${project.build.finalName}/js/</jsDestinationFolder>
-                    <contextFolder>${basedir}/src/main/webapp/</contextFolder>
-                    <extraConfigFile>${basedir}/src/main/webapp/WEB-INF/wro.properties</extraConfigFile>
-                    <wroManagerFactory>ro.isdc.wro.maven.plugin.manager.factory.ConfigurableWroManagerFactory
-                    </wroManagerFactory>
-                </configuration>
-            </plugin>
-
             <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
             <plugin>
                 <groupId>org.eclipse.m2e</groupId>
@@ -155,6 +131,36 @@
                 </plugins>
             </build>
         </profile>
-
+        <profile>
+            <!-- Use this profile to use the wro4j plugin for validation, concatenation and -->
+            <!-- minification of JavaScript and CSS files during the build -->
+            <id>minify</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>ro.isdc.wro4j</groupId>
+                        <artifactId>wro4j-maven-plugin</artifactId>
+                        <version>${wro4j.version}</version>
+                        <executions>
+                            <execution>
+                                <phase>compile</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <targetGroups>app.min,m.screen.min,screen.min</targetGroups>
+                            <cssDestinationFolder>${project.build.directory}/${project.build.finalName}/css/</cssDestinationFolder>
+                            <jsDestinationFolder>${project.build.directory}/${project.build.finalName}/js/</jsDestinationFolder>
+                            <wroManagerFactory>ro.isdc.wro.maven.plugin.manager.factory.ConfigurableWroManagerFactory</wroManagerFactory>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
     </profiles>
 </project>
