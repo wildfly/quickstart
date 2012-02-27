@@ -35,6 +35,7 @@ are noted with two asterisks ( ** ) following the quickstart name.
 * `helloworld-singleton` - Singleton Session Bean
 * `hibernate3` - Hibernate 3
 * `hibernate4` - Hibernate 4
+* `jax-rs-client` - External JAX-RS Client
 * `jts` - Using JTS to coordinate distributed transactions
 * `kitchensink` ** - CDI + JSF + JPA + EJB + JPA + JAX-RS + BV
 * `kitchensink-ear` - kitchensink as an EAR archive
