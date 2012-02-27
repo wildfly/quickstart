@@ -194,7 +194,6 @@ public class MemberService {
    private Response.ResponseBuilder createViolationResponse(Set<ConstraintViolation<?>> violations) {
       log.fine("Validation completed. violations found: " + violations.size());
 
-      Response.ResponseBuilder builder = null;
       Map<String, String> responseObj = new HashMap<String, String>();
 
       for (ConstraintViolation<?> violation : violations) {
