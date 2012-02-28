@@ -67,6 +67,7 @@ public class MemberRegistrationTest {
       log.info(" New member was persisted and returned status " + response.getStatus());
    }
 
+   @SuppressWarnings("unchecked")
    @Test
    public void testInvalidRegister() throws Exception {
       Response response = memberRegistration.createNewMember("", "", "");
@@ -78,6 +79,7 @@ public class MemberRegistrationTest {
       log.info("Invalid member register attempt failed with return code " + response.getStatus());
    }
 
+   @SuppressWarnings("unchecked")
    @Test
    public void testDuplicateEmail() throws Exception {
       //Register an initial user
