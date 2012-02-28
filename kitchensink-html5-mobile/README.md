@@ -77,7 +77,8 @@ You can now deploy the artifact by executing the following command:
 
 This will deploy both the client and service applications.
  
-The application will be running at the following URL <http://localhost:8080/jboss-as-kitchensink-html5-mobile-client/>.
+The client application will be running at the following URL <http://localhost:8080/jboss-as-kitchensink-html5-mobile-web/>
+while the JAX-RS services will be running at <http://localhost:8080/jboss-as-kitchensink-html5-mobile-services/rest>.
 
 To undeploy run this command:
 
@@ -127,10 +128,12 @@ test goal with the following profile activated:
 Running the QUnit tests
 ============================
 
-QUnit is a JavaScript unit testing framework used and built by jQuery.This 
-application include a set of QUnit tests in order to verify JavaScript that
-is core to this HTML5 application.  Executing QUnit test cases is quite easy.
-Simply load the following HTML is a browser.
+QUnit is a JavaScript unit testing framework used and built by jQuery. This 
+application includes a set of QUnit tests in order to verify JavaScript that
+is core to this HTML5 application. Executing QUnit test cases is quite easy. First,
+make sure the server is running and the project has been deployed as some of the
+tests will be testing the functionality of the services. Then, simply load the
+following HTML in a browser.
 
     <project-root>/client/src/test/qunit/index.html
 
