@@ -75,7 +75,7 @@ function registerMember(formValues) {
             if ((error.status == 409) || (error.status == 400)) {
                //console.log("Validation error registering user!");
 
-               var errorMsg = JSON.parse(error.responseText);
+               var errorMsg = $.parseJSON(error.responseText);
 
                $.each(errorMsg, function(index, val){
                   $('<span class="invalid">' + val + '</span>')
