@@ -44,3 +44,8 @@ To do this
 4. Review and push to upstream
 
     git push upstream HEAD:master
+
+Markdown
+--------
+
+We use Redcarpet to process the markdown, the same processor used by Guthub. This builds on the basic markdown syntax, adding support for tables, code highlighting, relaxed code blocks etc). We add a custom piece of markup \[TOC\] which allows a table of contents, based on headings, to be added to any file.
