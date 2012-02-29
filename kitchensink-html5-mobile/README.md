@@ -19,7 +19,7 @@ is just as important with POH5 as it is server side core this application also u
 you how to unit test your JavaScript.
 
 To represent a realistic separation of services, and clients the project has been broken into two
-sub-modules.  `/client` contains all of the client HTML5 code and related resources.  `/services` 
+sub-modules.  `/web` contains all of the client HTML5 code and related resources.  `/services` 
 contains all of the JAX-RS related services.
 
 What is a modern web application without mobile web support? This application also integrates
@@ -103,7 +103,7 @@ the project.
 With just a few quick changes to the project, you can link to the minified versions
 of your JavaScript and CSS files.
 
-First, in the <project-root>/client/src/main/webapp/index.html file, search for
+First, in the <project-root>/web/src/main/webapp/index.html file, search for
 references to minification and comment or uncomment the appropriate lines.
 
 Finally, wro4j runs in the compile phase so any standard build command like package,
@@ -135,7 +135,7 @@ make sure the server is running and the project has been deployed as some of the
 tests will be testing the functionality of the services. Then, simply load the
 following HTML in a browser.
 
-    <project-root>/client/src/test/qunit/index.html
+    <project-root>/web/src/test/qunit/index.html
 
 For more information on QUnit tests see http://docs.jquery.com/QUnit
 
