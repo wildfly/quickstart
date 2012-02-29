@@ -59,7 +59,7 @@ markdown_to_html()
    do
       output_filename=${readme//.md/.html}
       output_filename=${output_filename//.MD/.html}
-      markdown $readme -f $output_filename  
+      $DIR/github-flavored-markdown.rb $readme > $output_filename  
    done
 }
 
