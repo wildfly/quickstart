@@ -14,27 +14,20 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 
 import org.jboss.as.quickstarts.kitchensink.model.Member;
+import org.jboss.as.quickstarts.kitchensink.service.MemberRegistration;
 
-// The @Stateful annotation eliminates the need for manual transaction demarcation
-@Stateful
 // The @Model stereotype is a convenience mechanism to make this a request-scoped bean that has an
 // EL name
 // Read more about the @Model stereotype in this FAQ:
 // http://sfwk.org/Documentation/WhatIsThePurposeOfTheModelAnnotation
 @Model
-public class MemberRegistration {
-
-   @Inject
-   private Logger log;
+public class MemberController {
 
    @Inject
    private FacesContext facesContext;
 
    @Inject
-   private EntityManager em;
-
-   @Inject
-   private Event<Member> memberEventSrc;
+   private MemberRegistration memberRegistration;
 
    private Member newMember;
 
@@ -45,10 +38,8 @@ public class MemberRegistration {
    }
 
    public void register() throws Exception {
-      log.info("Registering " + newMember.getName());
-      em.persist(newMember);
+      memberRegistration.register(newMember);
       facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Registered!", "Registration successful"));
-      memberEventSrc.fire(newMember);
       initNewMember();
    }
 

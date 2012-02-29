@@ -8,8 +8,9 @@ import javax.inject.Inject;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.as.quickstarts.kitchensink.controller.MemberRegistration;
+import org.jboss.as.quickstarts.kitchensink.controller.MemberController;
 import org.jboss.as.quickstarts.kitchensink.model.Member;
+import org.jboss.as.quickstarts.kitchensink.service.MemberRegistration;
 import org.jboss.as.quickstarts.kitchensink.util.Resources;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
@@ -38,11 +39,11 @@ public class MemberRegistrationTest {
 
    @Test
    public void testRegister() throws Exception {
-      Member newMember = memberRegistration.getNewMember();
+      Member newMember = new Member();
       newMember.setName("Jane Doe");
       newMember.setEmail("jane@mailinator.com");
       newMember.setPhoneNumber("2125551234");
-      memberRegistration.register();
+      memberRegistration.register(newMember);
       assertNotNull(newMember.getId());
       log.info(newMember.getName() + " was persisted with id " + newMember.getId());
    }
