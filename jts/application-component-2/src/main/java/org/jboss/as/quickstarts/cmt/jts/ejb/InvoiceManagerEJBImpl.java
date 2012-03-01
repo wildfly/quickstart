@@ -39,7 +39,7 @@ public class InvoiceManagerEJBImpl {
     @Resource(mappedName = "java:/JmsXA")
     private ConnectionFactory connectionFactory;
 
-    @Resource(mappedName = "java:/queue/test")
+    @Resource(mappedName = "java:/queue/JTSQueue")
     private Queue queue;
 
     @TransactionAttribute(TransactionAttributeType.MANDATORY)

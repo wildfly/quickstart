@@ -19,7 +19,7 @@ import javax.jms.TextMessage;
  */
 @MessageDriven(name = "HelloWorldMDB", activationConfig = {
         @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
-        @ActivationConfigProperty(propertyName = "destination", propertyValue = "queue/test"),
+        @ActivationConfigProperty(propertyName = "destination", propertyValue = "queue/JTSQueue"),
         @ActivationConfigProperty(propertyName = "acknowledgeMode", propertyValue = "Auto-acknowledge") })
 public class HelloWorldMDB implements MessageListener {
 
