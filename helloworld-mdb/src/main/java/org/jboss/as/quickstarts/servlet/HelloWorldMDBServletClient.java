@@ -40,7 +40,7 @@ public class HelloWorldMDBServletClient extends HttpServlet {
 	@Resource(mappedName = "java:/ConnectionFactory")
 	private ConnectionFactory connectionFactory;
 
-	@Resource(mappedName = "java:/queue/test")
+	@Resource(mappedName = "java:/queue/HELLOWORLDMDBQueue")
 	private Queue queue;
 
 	@Override
