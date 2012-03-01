@@ -56,22 +56,10 @@ The application this project produces is designed to be run on a JBoss AS 7 or J
 The following instructions target JBoss AS 7, but they also apply to JBoss Enterprise Application Platform 6.
 
 
-## Testing the application
-
-Executing the following command will build and test the application using Arquillian:
-
-    JBOSS_HOME=<PATH_TO_JBOSS_HOME> mvn clean test -Parq-jbossas-managed
-
-NOTE: If you get the following you have not exported `JBOSS_HOME`:
-
-    Tests in error: 
-    TestManagedBeanCustomerManager: jbossHome 'null' must exist
- 
 ## Deploying the application
 
 First you need to start JBoss AS 7 (or JBoss Enterprise Application Platform 6)
-with a JMS connection factory and a queue named test queue in it. The
-instructions for this vary slightly depending upon whether you are using the
+with a JMS connection factory in it. The instructions for this vary slightly depending upon whether you are using the
 community release (JBoss AS 7) or the platform release (JBoss Enterprise
 Application Platform 6).
 
