@@ -1,7 +1,7 @@
 How to run examples
 ===================
 
-Endpoint examples show HotRod, REST and MemCached endpoints connecting to Enterprise Data Grid (EDG)
+Endpoint examples show HotRod, REST and MemCached endpoints connecting to JBoss Data Grid (JDG)
 remotely and storing, retrieving and removing data from caches. All of the apps are variations of a simple 
 Football Manager which is a console application. It is possible to add a team, players, remove 
 all the entities and show the listing of all teams/players. Nothing complex, just showing basic 
@@ -11,7 +11,7 @@ Building and starting the application
 -------------------------------------
 
 1) Add the following cache definitions into infinispan-subsystem in 
-   `${EDG_HOME}/standalone/configuration/standalone.xml`:
+   `${JDG_HOME}/standalone/configuration/standalone.xml`:
    
    `<local-cache name="memcachedCache" start="EAGER" batching="false" indexing="NONE">
        <locking isolation="REPEATABLE_READ" striping="false" acquire-timeout="20000" concurrency-level="500"/>
@@ -24,7 +24,7 @@ NOTE: The cache called "teams" will be used by HotRod and REST endpoints; Memcac
       default
 
 2) Each of the submodules (hotrod-endpoint, rest-endpoint, memcached-endpoint) contains a configuration file 
-   (`src/main/resources/edg.properties`). Modify it to point to your EDG installation (default values should be fine
+   (`src/main/resources/jdg.properties`). Modify it to point to your JDG installation (default values should be fine
    for most cases)
 
 3) Build the example application in its directory:
@@ -33,9 +33,9 @@ NOTE: The cache called "teams" will be used by HotRod and REST endpoints; Memcac
 
 NOTE: This uses Maven's shade plugin which will bundle all dependencies into one jar file and so running the application is easier.
 
-4) Start your EDG server instance:
+4) Start your JDG server instance:
 
-    `${EDG_HOME}/bin/standalone.sh`
+    `${JDG_HOME}/bin/standalone.sh`
 
 5) Run the example application in its directory:
 

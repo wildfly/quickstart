@@ -15,11 +15,11 @@ The JDG server is configured via standalone.xml configuration file.
 Building and starting the application in library mode
 -----------------------------------------------------
 
-0) Obtain JDG distribution with productized Infinispan libraries
+0) Obtain JDG distribution with productized Infinispan libraries (library distribution)
 
 1) Install libraries from the bundle into your local maven repository
 
-    `mvn initialize -Pinit-repo -Ddatagrid.dist=/path/to/datagrid/distribution`
+    `mvn initialize -Pinit-repo -Ddatagrid.dist=/home/anyuser/jboss-datagrid-library-6.0.0.ER2-redhat-1`
     
 2) Start JBoss AS 7 where your application will be running
 
@@ -35,7 +35,7 @@ Building and starting the application in library mode
 Building and starting the application in client-server mode (using HotRod client)
 ---------------------------------------------------------------------------------
 
-0) Obtain JDG distribution with productized Infinispan libraries
+0) Obtain JDG distribution with productized Infinispan libraries (server distribution)
 
 1) Add the following configuration to your `$JDG_HOME/standalone/configuration/standalone.xml` to configure
    remote datagrid
