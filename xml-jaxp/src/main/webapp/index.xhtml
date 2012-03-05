@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   template="/WEB-INF/templates/default.xhtml">
+   <ui:define name="content">
+      <h1>Welcome to JBoss AS 7!</h1>
+
+      <p>You have successfully deployed a Java EE 6 web application
+         on JBoss AS 7.</p>
+	   <h2>Input file</h2>
+       <p>Demonstrates quickstart application for <b>JAXP</b> based XML parsing in Jboss AS7.</p>
+       <p>Example file can be viewed <a href="xml/catalog.xml">here</a>.</p>
+       <p> It can be accessed on the file system at this location: QUICKSTART_HOME/xml-jaxp/src/main/webapp/xml/catalog.xml .</p>
+       <p>XML schema can be viewed <a href="xsd/catalog.xsd">here</a>.</p> 
+       <p>It can be accessed on the file system at this location: QUICKSTART_HOME/xml-jaxp/src/main/webapp/xsd/catalog.xsd.</p>
+       <p>To test quickstart, please specify file which complies to schema and upload.</p>
+       <p>To change parsing engine, alter <b>faces-config.xml</b> file and change managed bean class bound to
+       <i>parserFactory</i> name.</p>
+	  <!-- Straight HTML form. This is required, since if it was part of JSF UI tree(h:form)
+	       it would send 'application/url-encoded' enc-type, we need 'multipart/form-data.
+	       FORM action is set to 'upload', this value must be matched by UploadServlet 'url-patterns'.
+	        -->
+      <form id="reg" enctype="multipart/form-data" method="post" action="upload">
+      	 <!-- HTML input of 'file' type. Makes browser render old style 'choose a file' dialog window -->
+		 <input id="form:reg:file" name="form:reg:file" type="file" />
+		 <!-- submit button to triger 'POST' -->
+		 <input id="form:reg:button" name="form:reg:button" type="submit" value="Upload" />
+      </form>
+      
+      <h2>XML File Content</h2>
+      <h:panelGroup rendered="true">
+        <h:dataTable id="errorTable" rendered="#{errorHolder.errorCount != 0}" style="color: red;" value="#{errorHolder.errorMessages}" var="item">
+                <h:column>
+                  <f:facet name="header">
+                    <h:outputText value="Message" />
+                  </f:facet> 
+                   <h:outputText value="#{item.message}"></h:outputText>
+                </h:column>
+                <h:column>
+                  <f:facet name="header">
+                    <h:outputText value="Exception" />
+                  </f:facet> 
+                   <h:outputText value="#{item.exception}"></h:outputText>
+                </h:column>
+          </h:dataTable>
+      </h:panelGroup>
+      <h:panelGroup rendered="true">
+        <!-- JSF DataTable to render contents of Catalog. Since Catalog extends Collection, it can be used as 
+             part of EL used in DataTable 
+             
+             Table is rendered only when catalog is not null. Value is set to catalog variable from FileUploadBean.
+             Each distinct instance of Book, from Catalog can be accessed under alias 'item'.
+        -->
+        <h:dataTable id="catalogTable" rendered="#{fileUploadBean.catalog != null}" value="#{fileUploadBean.catalog}" var="item">
+				<h:column>
+				  <f:facet name="header">
+				  	<h:outputText value="Title" />
+				  </f:facet> 
+				   <h:outputText value="#{item.title}"></h:outputText>
+				</h:column>
+				<h:column>
+				  <f:facet name="header">
+				  	<h:outputText value="Genre" />
+				  </f:facet> 
+				   <h:outputText value="#{item.genre}"></h:outputText>
+				</h:column>
+				<h:column>
+				  <f:facet name="header">
+				  	<h:outputText value="Author" />
+				  </f:facet> 
+				   <h:outputText value="#{item.author}"></h:outputText>
+				</h:column>
+				<h:column>
+				  <f:facet name="header">
+				  	<h:outputText value="Published" />
+				  </f:facet> 
+				   <h:outputText value="#{item.publishDate}"></h:outputText>
+				</h:column>
+				<h:column>
+				  <f:facet name="header">
+				  	<h:outputText value="Price" />
+				  </f:facet> 
+				   <h:outputText value="#{item.price}"></h:outputText>
+				</h:column>
+				<h:column>
+				  <f:facet name="header">
+				  	<h:outputText value="Description" />
+				  </f:facet> 
+				   <h:outputText value="#{item.description}"></h:outputText>
+				</h:column>
+          </h:dataTable>
+      </h:panelGroup>
+      
+   </ui:define>
+</ui:composition>
