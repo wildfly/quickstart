@@ -15,12 +15,8 @@ you get your feet wet with database access in enterprise Java.
 This application is built using a technique called Plain Old HTML5 (POH5).  This uses a pure HTML
 client that interacts with with the application server via restful end-points (JAX-RS).  This
 application also uses some of the latest HTML5 features and advanced JAX-RS. And since testing
-is just as important with POH5 as it is server side core this application also uses QUnit to show
+is just as important with POH5 as it is server side, this application uses QUnit to show
 you how to unit test your JavaScript.
-
-To represent a realistic separation of services, and clients the project has been broken into two
-sub-modules.  `/web` contains all of the client HTML5 code and related resources.  `/services` 
-contains all of the JAX-RS related services.
 
 What is a modern web application without mobile web support? This application also integrates
 jQuery mobile and basic client side device detection to give you both a desktop and mobile 
@@ -75,10 +71,7 @@ You can now deploy the artifact by executing the following command:
 
     mvn jboss-as:deploy
 
-This will deploy both the client and service applications.
- 
-The client application will be running at the following URL <http://localhost:8080/jboss-as-kitchensink-html5-mobile-web/>
-while the JAX-RS services will be running at <http://localhost:8080/jboss-as-kitchensink-html5-mobile-services/rest>.
+The client application will be running at the following URL <http://localhost:8080/jboss-as-kitchensink-html5-mobile/>.
 
 To undeploy run this command:
 
@@ -103,7 +96,7 @@ the project.
 With just a few quick changes to the project, you can link to the minified versions
 of your JavaScript and CSS files.
 
-First, in the <project-root>/web/src/main/webapp/index.html file, search for
+First, in the <project-root>/src/main/webapp/index.html file, search for
 references to minification and comment or uncomment the appropriate lines.
 
 Finally, wro4j runs in the compile phase so any standard build command like package,
@@ -133,9 +126,9 @@ application includes a set of QUnit tests in order to verify JavaScript that
 is core to this HTML5 application. Executing QUnit test cases is quite easy. First,
 make sure the server is running and the project has been deployed as some of the
 tests will be testing the functionality of the services. Then, simply load the
-following HTML in a browser.
+following HTML in the browser you wish to test.
 
-    <project-root>/web/src/test/qunit/index.html
+    <project-root>/src/test/qunit/index.html
 
 For more information on QUnit tests see http://docs.jquery.com/QUnit
 
@@ -149,7 +142,7 @@ already have an IDE project.
 Detailed instructions for using Eclipse / JBoss Tools with are provided in the 
 <a href="https://docs.jboss.org/author/display/AS71/Getting+Started+Developing+Applications+Guide" title="Getting Started Developing Applications Guide">Getting Started Developing Applications Guide</a>.
 
-If you created the project from the commandline using archetype:generate, then
+If you created the project from the command line using archetype:generate, then
 you need to import the project into your IDE. If you are using NetBeans 6.8 or
 IntelliJ IDEA 9, then all you have to do is open the project as an existing
 project. Both of these IDEs recognize Maven projects natively.

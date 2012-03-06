@@ -4,7 +4,7 @@ Author: Jay Balunas
 
 This example supports various RESTFul end points which also includes JSONP support for cross domain requests.
 
-By default the base URL for services is `/jboss-as-kitchensink-html5-mobile-services`.  This can be changed by adjusting the default context path for the services module.
+By default the base URL for services is `/jboss-as-kitchensink-html5-mobile/rest`.
 
 MemberService End Points
 ------------------------
@@ -107,7 +107,7 @@ In order for a request to be padded the following things must be true:
 
 For example:
 
-  http://\<domain:port>/jboss-as-kitchensink-html5-mobile-services/rest/members/json?jsonpcallback=mycallback
+  http://\<domain:port>/jboss-as-kitchensink-html5-mobile/rest/members/json?jsonpcallback=mycallback
   
 See jQuery's documentation for client access examples:
 
