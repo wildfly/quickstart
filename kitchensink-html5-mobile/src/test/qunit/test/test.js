@@ -46,7 +46,7 @@ asyncTest('Request current member list', function() {
     expect(1);
 
     $.ajax({
-        url: "http://localhost:8080/jboss-as-kitchensink-html5-mobile-services/rest/members/json",
+        url: "http://localhost:8080/jboss-as-kitchensink-html5-mobile/rest/members/json",
         dataType: "jsonp",
         jsonp: "jsonpcallback",
         success: function(data) {
