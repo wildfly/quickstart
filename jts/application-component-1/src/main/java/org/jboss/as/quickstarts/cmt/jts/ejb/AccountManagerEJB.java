@@ -34,7 +34,7 @@ public class AccountManagerEJB {
     @EJB
     private CustomerManagerEJB customerManager;
 
-    @EJB(lookup = "corbaname:iiop:localhost:3628#jboss-as-jts-application-component-2/InvoiceManagerEJBImpl")
+    @EJB(lookup = "corbaname:iiop:localhost:3628#InvoiceManagerEJBImpl")
     private InvoiceManagerEJBHome invoiceManagerHome;
 
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
