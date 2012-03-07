@@ -65,11 +65,12 @@
          <scope>runtime</scope>
       </dependency>
 
-       <!-- We depend on the server side EJBs of this application -->
+       <!-- We depend on the EJB remote business interfaces  of this application -->
        <dependency>
           <groupId>org.jboss.as.quickstarts</groupId>
           <artifactId>jboss-as-ejb-remote-server-side</artifactId>
-          <version>${project.version}</version>
+          <type>ejb-client</type>
+         <version>${project.version}</version>
        </dependency>
 
        <!-- JBoss EJB client API jar. We use runtime scope because the EJB client API
@@ -158,8 +159,22 @@
               </arguments>
             </configuration>
         </plugin>
-            <!-- The JBoss AS plugin deploys your apps to a local JBoss AS 
-               container -->
+            <!-- build standalone exe jar -->
+         <plugin>
+            <artifactId>maven-assembly-plugin</artifactId>
+            <configuration>
+               <descriptorRefs>
+                  <descriptorRef>jar-with-dependencies</descriptorRef>
+               </descriptorRefs>
+               <archive>
+                  <manifest>
+                     <mainClass>org.jboss.as.quickstarts.ejb.remote.client.RemoteEJBClient</mainClass>
+                  </manifest>
+               </archive>
+            </configuration>
+         </plugin>
+        
+         <!-- The JBoss AS plugin deploys your apps to a local JBoss AS container -->
             <!-- Disabling it here means that we don't try to deploy this POM! -->
             <plugin>
                <groupId>org.jboss.as.plugins</groupId>
