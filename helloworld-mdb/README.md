@@ -96,42 +96,60 @@ for more information.
 Deploying the Application in OpenShift
 ----------------------------------
 
-Firstly lets assume you already have an openshift(express) account with a domain created. If you don't please visit
-https://openshift.redhat.com/app/login create an account and follow the getting started guide which can be found at
-http://docs.redhat.com/docs/en-US/OpenShift_Express/2.0/html/Getting_Started_Guide/index.html.
+Firstly lets assume you already have an openshift(express) account with a domain created. If you don't please visit https://openshift.redhat.com/app/login create an account and follow the getting started guide which can be found at http://docs.redhat.com/docs/en-US/OpenShift_Express/2.0/html/Getting_Started_Guide/index.html.
 
-Note that for brevity some of the commands have been simplified to remove login details etc.
+Note that we'll use the `jboss-as-quickstart@jboss.org` user for these examples, you'll need to substituite it with your own user name.
 
 Open up a shell and from the directory of your choice run the following command to create our helloworld application.
 
-    rhc-create-app -a helloworldmdb -t jbossas-7.1
+    rhc-create-app -a helloworldmdb -t jbossas-7 -l jboss-as-quickstart@jboss.org
 
-You should see some output which will show the application being deployed and also the URL at which it can be accessed.
+You should see some output which will show the application being deployed and also the URL at which it can be accessed. If creation is successful, you should see similar output:
 
-    helloworldmdb published:  http://helloworldmdb-andytaylor.rhcloud.com/
-    git url:  ssh://cda61f9f967d42cd98486eb1a293acbd@helloworldmdb-andytaylor.rhcloud.com/~/git/helloworldmdb.git/
-    To make changes to 'helloworldmdb', commit to helloworldmdb/.
+    helloworldmdb published:  http://helloworldmdb-quickstart.rhcloud.com/
+    git url:  ssh://1e63c17c2dd94a329f21555a33dc617d@helloworldmdb-quickstart.rhcloud.com/~/git/helloworldmdb.git/
     Successfully created application: helloworldmdb
 
-Now in a separate shell navigate to the quick starts helloworld-mdb directory and build the war, like so:
+Now in a separate shell navigate to the quickstarts directory and copy the `helloworld-mdb/pom.xml` and `helloworld/src` directory to the `hellworldmdb` directory created by `rhc-create-app`. For example, on Linux or Mac:
 
-    mvn clean package
+    cp helloworld-mdb/pom.xml ../helloworldmdb
+    cp -r helloworld-mdb/src ../helloworldmdb
+    
+Now, we can add the files to the OpenShift GIT repository
 
-we now need to copy the packaged jboss-as-helloworld-mdb.war into the helloworld/deployments directory of your openshift
-application and add, commit and push it to the openshift repository like so:
+    git add src pom.xml
 
-    cd helloworldmdb
-
-    git add deployments/jboss-as-helloworld-mdb.war
+Commit them, and push them up to OpenShift
 
     git commit -m "deploy"
 
     git push
+    
+OpenShift will build the application using Maven, and deploy it to JBoss AS 7. If successful, you should see output similar to:
+
+    remote: [INFO] ------------------------------------------------------------------------
+    remote: [INFO] BUILD SUCCESS
+    remote: [INFO] ------------------------------------------------------------------------
+    remote: [INFO] Total time: 19.991s
+    remote: [INFO] Finished at: Wed Mar 07 12:48:15 EST 2012
+    remote: [INFO] Final Memory: 8M/168M
+    remote: [INFO] ------------------------------------------------------------------------
+    remote: Running .openshift/action_hooks/build
+    remote: Emptying tmp dir: /var/lib/libra/1e63c17c2dd94a329f21555a33dc617d/helloworldmdb/jbossas-7/standalone/tmp/vfs
+    remote: Emptying tmp dir: /var/lib/libra/1e63c17c2dd94a329f21555a33dc617d/helloworldmdb/jbossas-7/standalone/tmp/work
+    remote: Running .openshift/action_hooks/deploy
+    remote: Starting application...
+    remote: Done
+    remote: Running .openshift/action_hooks/post_deploy
+    To ssh://1e63c17c2dd94a329f21555a33dc617d@helloworldmdb-quickstart.rhcloud.com/~/git/helloworldmdb.git/
+       e6f80bd..63504b9  master -> master
+
+Note that the `openshift` profile in `pom.xml` is activated by OpenShift, and causes the war build by openshift to be copied to the `deployments` directory, and deployed without a context path.
 
 Once the app is deployed open up a browser and run the application, the URL will be similar as follows but with your own
 domain name.
 
-    http://helloworldmdb-ataylor.dev.rhcloud.com/jboss-as-helloworld-mdb/HelloWorldMDBServletClient
+    http://helloworldmdb-quickstart.rhcloud.com/HelloWorldMDBServletClient
 
 If the application has run succesfully you should see some output in the browser.
 
@@ -141,8 +159,8 @@ now you can look at the output of the server by running the following command:
 
 This will show the tail of the servers log which should show something like the following.
 
-2012/03/02 05:52:33,065 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldMDB] (Thread-0 (HornetQ-client-global-threads-1772719)) Received Message: This is message 4
-2012/03/02 05:52:33,065 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldMDB] (Thread-1 (HornetQ-client-global-threads-1772719)) Received Message: This is message 1
-2012/03/02 05:52:33,067 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldMDB] (Thread-6 (HornetQ-client-global-threads-1772719)) Received Message: This is message 5
-2012/03/02 05:52:33,065 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldMDB] (Thread-3 (HornetQ-client-global-threads-1772719)) Received Message: This is message 3
-2012/03/02 05:52:33,065 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldMDB] (Thread-2 (HornetQ-client-global-threads-1772719)) Received Message: This is message 2
+    2012/03/02 05:52:33,065 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldMDB] (Thread-0 (HornetQ-client-global-threads-1772719)) Received Message: This is message 4
+    2012/03/02 05:52:33,065 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldMDB] (Thread-1 (HornetQ-client-global-threads-1772719)) Received Message: This is message 1
+    2012/03/02 05:52:33,067 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldMDB] (Thread-6 (HornetQ-client-global-threads-1772719)) Received Message: This is message 5
+    2012/03/02 05:52:33,065 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldMDB] (Thread-3 (HornetQ-client-global-threads-1772719)) Received Message: This is message 3
+    2012/03/02 05:52:33,065 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldMDB] (Thread-2 (HornetQ-client-global-threads-1772719)) Received Message: This is message 2
