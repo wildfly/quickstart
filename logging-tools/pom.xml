@@ -1,0 +1,109 @@
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.jboss.as.quickstarts</groupId>
+    <artifactId>jboss-as-logging-tools</artifactId>
+    <version>7.1.1-SNAPSHOT</version>
+    <packaging>war</packaging>
+    <name>JBoss AS Quickstarts: jboss-as-logging-tools</name>
+    <description>JBoss AS Quickstarts: Demonstration of jboss-logging-tools using JAX-RS</description>
+
+    <url>http://jboss.org/jbossas</url>
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <distribution>repo</distribution>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+        </license>
+    </licenses>
+
+    <properties>
+      <!-- Explicitly declaring the source encoding eliminates the following message: -->
+      <!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent! -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+         <!-- Define the version of JBoss' Java EE 6 APIs we want to import. 
+            Any dependencies from org.jboss.spec will have their version defined by this 
+            BOM -->
+         <!-- JBoss distributes a complete set of Java EE 6 APIs including
+            a Bill of Materials (BOM). A BOM specifies the versions of a "stack" (or
+            a collection) of artifacts. We use this here so that we always get the correct
+            versions of artifacts. Here we use the jboss-javaee-6.0 stack (you can
+            read this as the JBoss stack of the Java EE 6 APIs). You can actually
+            use this stack with any version of JBoss AS that implements Java EE 6, not
+            just JBoss AS 7! -->
+            <dependency>
+                <groupId>org.jboss.spec</groupId>
+                <artifactId>jboss-javaee-6.0</artifactId>
+                <version>3.0.0.Beta1</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+      
+      <!-- not related to jboss-logging-tools, just required for JAX-RS  -->
+        <dependency>
+            <groupId>org.jboss.spec.javax.ws.rs</groupId>
+            <artifactId>jboss-jaxrs-api_1.1_spec</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+		<!--  These dependencies are the jboss-logging tools magic -->
+	  	<!--  the jboss-logging-tools processor  -->
+        <dependency>
+            <groupId>org.jboss.logging</groupId>
+            <artifactId>jboss-logging-processor</artifactId>
+            <version>1.0.1.Final</version>
+            <scope>provided</scope>
+        </dependency>
+      <!--  jboss-logging API -->
+        <dependency>
+            <groupId>org.jboss.logging</groupId>
+            <artifactId>jboss-logging</artifactId>
+            <version>3.1.0.GA</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+      <!-- Set the name of the war, used as the context root when the app is deployed -->
+        <finalName>${project.artifactId}</finalName>
+        <plugins>
+
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.1.1</version>
+            </plugin>
+
+         <!-- JBoss AS plugin to deploy war -->
+            <plugin>
+                <groupId>org.jboss.as.plugins</groupId>
+                <artifactId>jboss-as-maven-plugin</artifactId>
+                <version>7.1.1.Final</version>
+            </plugin>
+
+            <!-- Compiler plugin enforces Java 1.6 compatibility and activates annotation processors -->
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.1</version>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                    <compilerArgument>
+                        -AgeneratedTranslationFilesPath=${project.basedir}/target/generated-translation-files
+                    </compilerArgument>
+                    <showDeprecation>true</showDeprecation>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
+
