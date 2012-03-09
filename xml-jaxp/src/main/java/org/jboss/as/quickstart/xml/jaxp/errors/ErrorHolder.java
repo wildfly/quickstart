@@ -49,4 +49,9 @@ public interface ErrorHolder extends Serializable{
      * @return
      */
     public List<Error> getErrorMessages();
+    
+    /**
+     * Removes all errors stored 
+     */
+    public void clear();
 }

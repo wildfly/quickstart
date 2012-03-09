@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * Simple Java which is filled by parser.
+ * Simple Java Bean which is filled by parser. It stores information about book.
  * 
  * @author baranowb
  * 

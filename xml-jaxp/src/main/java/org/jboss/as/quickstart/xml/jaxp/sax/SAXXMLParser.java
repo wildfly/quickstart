@@ -127,7 +127,6 @@ public class SAXXMLParser extends XMLParser<Catalog> {
         @Override
         public void error(SAXParseException e) throws SAXException {
             errorHolder.addErrorMessage("error", e);
-            
             super.error(e);
         }
 

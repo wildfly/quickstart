@@ -22,8 +22,6 @@
 
 package org.jboss.as.quickstart.xml.jaxp.errors;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,16 +45,24 @@ public class BasicErrorHolder implements ErrorHolder{
     private static final long serialVersionUID = 7522998068777439073L;
     private List<Error> errorsList = new ArrayList<Error>();
 
+    @Override
     public void addErrorMessage(String msg, Throwable t) {
         Error error = new Error(msg, t);
         this.errorsList.add(error);
     }
 
+    @Override
     public int getErrorCount() {
         return this.errorsList.size();
     }
 
+    @Override
     public List<Error> getErrorMessages() {
-        return this.errorsList;
+        return new ArrayList<Error>(this.errorsList);
     }
+
+    @Override
+    public void clear() {
+        this.errorsList.clear();
+    }    
 }

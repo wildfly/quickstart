@@ -26,6 +26,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import javax.enterprise.inject.Produces;
+import javax.inject.Inject;
+import javax.servlet.ServletContext;
 
 import org.jboss.as.quickstart.xml.annotation.SchemaURL;
 
@@ -36,7 +38,12 @@ import org.jboss.as.quickstart.xml.annotation.SchemaURL;
  * 
  */
 public class SchemaURLFactory {
-
+    
+    /*
+     * CDI factory method. Annotated with: 
+     * - Produces - this indicates that method should be called to produces CDI bean if it is required.
+     * - SchemaYURL - indicates that this method produces bean of this type.
+     */
     @Produces
     @SchemaURL
     public URL createSchemaURL() throws MalformedURLException {

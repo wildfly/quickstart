@@ -15,6 +15,7 @@ import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
 import org.jboss.as.quickstart.xml.annotation.SchemaURL;
+import org.jboss.as.quickstart.xml.jaxp.errors.ErrorHolder;
 
 /**
  * Simple abstract class to provide base for XML file parsing. It provides extending classes with document validation based on
@@ -26,12 +27,16 @@ import org.jboss.as.quickstart.xml.annotation.SchemaURL;
 public abstract class XMLParser<T> {
 
     @Inject
+    private ErrorHolder errorHolder;
+    
+    @Inject
     @SchemaURL
     private URL schemaURL;
 
     public T parse(InputStream is) throws Exception {
-        // validate
-        // read file
+        /*
+         * Validate against schema before it triggers implementation.
+         */
         StringBuffer xmlFile = new StringBuffer();
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(is));
         String line = null;
@@ -47,8 +52,7 @@ public abstract class XMLParser<T> {
             Source source = new StreamSource(new CharArrayReader(xml.toCharArray()));
             validator.validate(source);
         } catch (Exception e) {
-            e.printStackTrace();
-            // TODO
+            this.errorHolder.addErrorMessage("Failed to validate file against schema!", e);
             return null;
         }
         // parse file into catalog

@@ -42,8 +42,10 @@ public class DOMXMLParser extends XMLParser<Catalog> {
 
     DOMXMLParser() throws Exception {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        // this is strictly DTD validation, one of quirks in XML manipulation
-        // schema validation my be done by hand.
+        /*
+         *  this is strictly DTD validation, one of quirks in XML manipulation
+         *  schema validation my be done by hand.
+         */  
         factory.setValidating(false);
         factory.setNamespaceAware(true);
 
@@ -103,6 +105,9 @@ public class DOMXMLParser extends XMLParser<Catalog> {
     private Book parseBook(Element n) {
         Book b = new Book();
         NodeList children = n.getChildNodes();
+        /*
+         * parse book element, we have to once more iterate over children.
+         */
         for (int index = 0; index < children.getLength(); index++) {
             Node child = children.item(index);
             String childName = child.getLocalName();

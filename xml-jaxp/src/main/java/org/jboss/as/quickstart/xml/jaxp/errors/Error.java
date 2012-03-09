@@ -26,6 +26,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
 /**
+ * Simple class which represents some sort of error.
  * @author baranowb
  * 
  */
@@ -43,7 +44,17 @@ public class Error {
         this.message = message;
     }
 
-    public String getException() {
+    public String getException()
+    {
+        if(this.t!=null)
+        {
+            return this.t.getMessage();
+        }
+        
+        return null;
+    }
+    
+    public String getExceptionTrace() {
         if (this.t != null) {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             PrintStream ps = new PrintStream(baos);

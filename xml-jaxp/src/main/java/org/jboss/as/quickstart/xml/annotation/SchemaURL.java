@@ -33,7 +33,7 @@ import java.lang.annotation.Target;
 import javax.inject.Qualifier;
 
 /**
- * Simple annotation to mark CDI bean as schema URL..
+ * Simple annotation to mark CDI bean as Schema URL.
  * 
  * @author baranowb
  * 

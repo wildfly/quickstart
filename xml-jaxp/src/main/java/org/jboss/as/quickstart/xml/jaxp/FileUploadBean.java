@@ -18,9 +18,10 @@ import org.jboss.as.quickstart.xml.jaxp.errors.ErrorHolder;
  * @author baranowb
  * 
  */
-// Annotated as:
-// - SessionScope bean to tie its lifecycle to session. This is required to make it shared between UploadServlet invocation and JSF actions.
-// - Named - to make it visible to JSF engine, it equivalent to @ManagedBean
+/* Annotated as:
+ * - SessionScope bean to tie its lifecycle to session. This is required to make it shared between UploadServlet invocation and JSF actions.
+ * - Named - to make it visible to JSF engine, it equivalent to @ManagedBean
+ */
 @SessionScoped
 @Named(value = "fileUploadBean")
 public class FileUploadBean implements Serializable {
@@ -35,8 +36,11 @@ public class FileUploadBean implements Serializable {
 
     @Inject
     private ErrorHolder errorHolder;
-    // Inject XMLParsor with 'Catalog' as type. Instance is created by container.
-    // Implementation alternative is control
+    
+    /* 
+     * Inject XMLParsor with 'Catalog' as type. Instance is created by container.
+     * Implementation alternative is controlled in beans.xml
+     */
     @Inject
     private XMLParser<Catalog> xmlParser;
 
@@ -69,9 +73,13 @@ public class FileUploadBean implements Serializable {
     @SuppressWarnings("static-access")
     public void parseUpload(InputStream is) {
         try {
+            /*
+             * Clear any residual errors(since both beans are session scoped.) and trigger parser.
+             */
+            this.errorHolder.clear();
             this.catalog = this.xmlParser.parse(is);
         } catch (Exception e) {
-            errorHolder.addErrorMessage("warning", e);
+            this.errorHolder.addErrorMessage("warning", e);
             return;
         }
     }
