@@ -22,9 +22,17 @@
 
         <!-- Define the version of JBoss' Java EE 6 APIs we want to import. Any dependencies from org.jboss.spec will have their
              version defined by this BOM -->
-        <javaee6.bom.version>1.0.0.M3</javaee6.bom.version>
+        <javaee6.web.spec.version>2.0.0.Final</javaee6.web.spec.version>
+<!--         <javaee6.web.spec.version>3.0.0.Beta1-redhat-1</javaee6.web.spec.version> -->
         
         <wro4j.version>1.4.4</wro4j.version>
+        
+        <!-- Versions not covered in jboss-javaee-web-6.0 BOM  -->
+        <version.org.hibernate.validator>4.2.0.Final</version.org.hibernate.validator>
+        <version.org.hibernate-jpamodelgen>1.1.1.Final</version.org.hibernate-jpamodelgen>
+        <version.org.jboss.arquillian>1.0.0.CR7</version.org.jboss.arquillian>
+        <version.org.jboss.as.arquillian.container>7.1.0.Final</version.org.jboss.as.arquillian.container>
+        <version.junit>4.10</version.junit>
     </properties>
 
     <licenses>
@@ -38,29 +46,17 @@
     <dependencyManagement>
         <dependencies>
 
-            <!-- JBoss distributes a complete set of Java EE 6 APIs including a Bill of Materials (BOM). A BOM specifies the versions 
-                of a "stack" (or a collection) of artifacts. We use this here so that we always get the correct versions of artifacts. Here we use 
-                the jboss-javaee-6.0 stack (you can read this as the JBoss stack of the Java EE 6 APIs) -->
-
-            <!--adding Hibernate Community projects including Hibernate ORM, Hibernate Search and Hibernate Validator.
-            see https://github.com/jboss/jboss-bom/tree/master/jboss-javaee-6.0-with-hibernate -->
+            <!-- JBoss distributes a complete set of Java EE 6 APIs including 
+            a Bill of Materials (BOM). A BOM specifies the versions of a "stack" (or 
+            a collection) of artifacts. We use this here so that we always get the correct 
+            versions of artifacts. Here we use the jboss-javaee-web-6.0 stack (you can 
+            read this as the JBoss stack of the Java EE Web Profile 6 APIs) -->
             <dependency>
-               <groupId>org.jboss.bom</groupId>
-               <artifactId>jboss-javaee-6.0-with-hibernate</artifactId>
-               <version>${javaee6.bom.version}</version>
-               <type>pom</type>
-               <scope>import</scope>
-            </dependency>
-
-            <!--This BOM builds on the Java EE full profile BOM, adding Arquillian to the mix. It also provides a
-            version of JUnit and TestNG recommended for use with Arquillian.
-            see https://github.com/jboss/jboss-bom/tree/master/jboss-javaee-6.0-with-tools -->
-            <dependency>
-               <groupId>org.jboss.bom</groupId>
-               <artifactId>jboss-javaee-6.0-with-tools</artifactId>
-               <version>${javaee6.bom.version}</version>
-               <type>pom</type>
-               <scope>import</scope>
+                <groupId>org.jboss.spec</groupId>
+                <artifactId>jboss-javaee-web-6.0</artifactId>
+                <version>${javaee6.web.spec.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -116,7 +112,14 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
+            <version>${version.org.hibernate.validator}</version>
             <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!-- Now we declare any tools needed -->
@@ -125,6 +128,7 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-jpamodelgen</artifactId>
+            <version>${version.org.hibernate-jpamodelgen}</version>
             <scope>provided</scope>
         </dependency>
 
@@ -132,6 +136,7 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
+            <version>${version.junit}</version>
             <scope>test</scope>
         </dependency>
 
@@ -140,12 +145,14 @@
         <dependency>
             <groupId>org.jboss.arquillian.junit</groupId>
             <artifactId>arquillian-junit-container</artifactId>
+            <version>${version.org.jboss.arquillian}</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>org.jboss.arquillian.protocol</groupId>
             <artifactId>arquillian-protocol-servlet</artifactId>
+            <version>${version.org.jboss.arquillian}</version>
             <scope>test</scope>
         </dependency>
 
@@ -392,6 +399,7 @@
                 <dependency>
                     <groupId>org.jboss.as</groupId>
                     <artifactId>jboss-as-arquillian-container-remote</artifactId>
+                    <version>${version.org.jboss.as.arquillian.container}</version>
                     <scope>test</scope>
                 </dependency>
             </dependencies>
