@@ -8,8 +8,8 @@
    <version>7.1.1-SNAPSHOT</version>
    <packaging>jar</packaging>
    <name>JBoss AS Quickstarts: helloworld-jms</name>
-   <description>helloworld-jms: Helloworld JMS external producer/consumer client </description>
-   
+   <description>helloworld-jms: Helloworld JMS external producer/consumer client</description>
+
    <url>http://jboss.org/jbossas</url>
    <licenses>
       <license>
@@ -30,19 +30,9 @@
    <dependencies>
       <dependency>
          <groupId>org.jboss.as</groupId>
-         <artifactId>jboss-as-naming</artifactId>
-         <version>7.1.0.Final</version>
-      </dependency>
-      <dependency>
-         <groupId>org.jboss.spec.javax.jms</groupId>
-         <artifactId>jboss-jms-api_1.1_spec</artifactId>
-         <version>1.0.0.Final</version>
-         <scope>provided</scope>
-      </dependency>
-      <dependency>
-         <groupId>org.jboss.as</groupId>
-         <artifactId>jboss-as-messaging</artifactId>
-         <version>7.1.0.Final</version>
+         <artifactId>jboss-as-jms-client-bom</artifactId>
+         <version>7.1.1.Final</version>
+         <type>pom</type>
       </dependency>
    </dependencies>
 
@@ -56,18 +46,31 @@
             <configuration>
                <mainClass>org.jboss.as.quickstarts.jms.HelloWorldJMSClient</mainClass>
                <systemProperties>
+                  <!-- Ensure you add a user with these credentials to the "guest" role in the "ApplicationRealm" using bin/add-user.sh - ->
                   <systemProperty>
-                     <key>connection.type</key>
-                     <value>netty</value>
+                     <key>username</key>
+                     <value>quickstartUser</value>
                   </systemProperty>
                   <systemProperty>
-                     <key>java.naming.factory.initial</key>
-                     <value>org.jboss.as.naming.InitialContextFactory</value>
+                     <key>password</key>
+                     <value>quickstartPassword</value>
+                  </systemProperty-->
+                  <!--systemProperty>
+                     <key>connection.factory</key>
+                     <value>jms/RemoteConnectionFactory</value>
                   </systemProperty>
                   <systemProperty>
-                     <key>java.naming.provider.url</key>
-                     <value>jnp://localhost:1099</value>
+                     <key>destination</key>
+                     <value>jms/queue/test</value>
                   </systemProperty>
+                  <systemProperty>
+                     <key>message.count</key>
+                     <value>1</value>
+                  </systemProperty>
+                  <systemProperty>
+                     <key>message.content</key>
+                     <value>Hello, World!</value>
+                  </systemProperty-->
                   <systemProperty>
                      <key>java.logging.config.file</key>
                      <value>./helloworld-jms-logging.properties</value>
@@ -104,3 +107,4 @@
       </plugins>
    </build>
 </project>
+>>>>>>> Major re-work of JMS quickstart
