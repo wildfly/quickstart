@@ -1,254 +1,411 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-   <modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
 
-   <groupId>org.jboss.as.quickstarts</groupId>
-   <artifactId>kitchensink-html5-mobile</artifactId>
-   <version>7.1.1-SNAPSHOT</version>
-   <packaging>war</packaging>
+    <groupId>org.jboss.as.quickstarts</groupId>
+    <artifactId>jboss-as-kitchensink-html5-mobile</artifactId>
+    <version>1.0.0-M2c</version>
+    <packaging>war</packaging>
 
-   <name>JBoss AS Quickstarts: HTML5 Mobile</name>
-   <description>A Java EE 6 HTML5 mobile web application for use with JBoss, generated from the jboss-javaee6-html5-mobile-archetype</description>
+    <name>JBoss AS Quickstarts: AeroGear HTML5/Mobile</name>
+    <description>An AeroGear and Java EE 6 HTML5 mobile web application for use with JBoss.</description>
 
-   <properties>
-      <!-- Explicitly declaring the source encoding eliminates the following 
-         message: -->
-      <!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered 
-         resources, i.e. build is platform dependent! -->
-      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-      <!-- Timestamp format for the maven.build.timestamp property -->
-      <!-- You can reference property in pom.xml or filtered resources (must 
-         enable third-party plugin if using Maven < 2.1) -->
-      <!-- Define the version of JBoss' Java EE 6 APIs and Tools we want to import.  -->
-      <javaee6.with.tools.version>1.0.0.M1</javaee6.with.tools.version>
-      <!-- Alternatively, comment out the above line, and un-comment the line below to 
-        use version 3.0.0.Beta1-redhat-1 which is a release certified 
-      to work with JBoss EAP 6. It requires you have access to the JBoss EAP 6 maven repository. -->
-      <!-- 
-      <javaee6.spec.version>3.0.0.Beta1-redhat-1</javaee6.spec.version> 
-      -->
-   </properties>
+    <url>http://jboss.org/aerogear</url>
 
-   <dependencyManagement>
-      <dependencies>
-        <!-- JBoss distributes a complete set of Java EE 6 APIs including a Bill 
-          of Materials (BOM). A BOM specifies the versions of a "stack" (or a collection) 
-          of artifacts. We use this here so that we always get the correct versions 
-          of artifacts. Here we use the jboss-javaee-6.0-with tools stack (you can read this as 
-          the JBoss stack of the Java EE 6 APIs, with some extras tools for your project, such
-          as Arquillian for testing) -->
-         <dependency>
-            <groupId>org.jboss.bom</groupId>
-            <artifactId>jboss-javaee-6.0-with-tools</artifactId>
-            <version>${javaee6.with.tools.version}</version>
-            <type>pom</type>
-            <scope>import</scope>
-         </dependency>
-      </dependencies>
-   </dependencyManagement>
+    <properties>
+        <!-- Explicitly declaring the source encoding eliminates the following message: -->
+        <!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent! -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        
+        <!-- Timestamp format for the maven.build.timestamp property -->
+        <!-- You can reference property in pom.xml or filtered resources (must enable third-party plugin if using Maven < 2.1) -->
 
-   <dependencies>
+        <!-- Define the version of JBoss' Java EE 6 APIs we want to import. Any dependencies from org.jboss.spec will have their
+             version defined by this BOM -->
+        <javaee6.web.spec.version>2.0.0.Final</javaee6.web.spec.version>
+        <!-- JBoss EAP Certified Versions -->
+        <!-- <javaee6.web.spec.version>3.0.0.Beta1-redhat-1</javaee6.web.spec.version> -->
+        <!-- <version.org.hibernate.validator>4.2.0.Final-redhat-1</version.org.hibernate.validator> -->
+        
+        <wro4j.version>1.4.4</wro4j.version>
+        
+        <!-- Versions not covered in jboss-javaee-web-6.0 BOM  -->
+        <version.org.hibernate.validator>4.2.0.Final</version.org.hibernate.validator>
+        <version.org.hibernate-jpamodelgen>1.1.1.Final</version.org.hibernate-jpamodelgen>
+        <version.org.jboss.arquillian>1.0.0.CR7</version.org.jboss.arquillian>
+        <version.org.jboss.as.arquillian.container>7.1.0.Final</version.org.jboss.as.arquillian.container>
+        <version.junit>4.10</version.junit>
+    </properties>
 
-      <!-- First declare the APIs we depend on and need for compilation. 
-         All of them are provided by JBoss -->
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <distribution>repo</distribution>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+        </license>
+    </licenses>
 
-      <!-- Import the CDI API, we use provided scope as the API is included 
-         in JBoss -->
-      <dependency>
-         <groupId>javax.enterprise</groupId>
-         <artifactId>cdi-api</artifactId>
-         <scope>provided</scope>
-      </dependency>
+    <dependencyManagement>
+        <dependencies>
 
-      <!-- Import the Common Annotations API (JSR-250), we use provided scope 
-         as the API is included in JBoss -->
-      <dependency>
-         <groupId>org.jboss.spec.javax.annotation</groupId>
-         <artifactId>jboss-annotations-api_1.1_spec</artifactId>
-         <scope>provided</scope>
-      </dependency>
+            <!-- JBoss distributes a complete set of Java EE 6 APIs including 
+            a Bill of Materials (BOM). A BOM specifies the versions of a "stack" (or 
+            a collection) of artifacts. We use this here so that we always get the correct 
+            versions of artifacts. Here we use the jboss-javaee-web-6.0 stack (you can 
+            read this as the JBoss stack of the Java EE Web Profile 6 APIs) -->
+            <dependency>
+                <groupId>org.jboss.spec</groupId>
+                <artifactId>jboss-javaee-web-6.0</artifactId>
+                <version>${javaee6.web.spec.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    
+    <dependencies>
+        <!-- First declare the APIs we depend on and need for compilation. All of them are provided by JBoss -->
 
-      <!-- Import the JAX-RS API, we use provided scope as the API is included 
-         in JBoss -->
-      <dependency>
-         <groupId>org.jboss.spec.javax.ws.rs</groupId>
-         <artifactId>jboss-jaxrs-api_1.1_spec</artifactId>
-         <scope>provided</scope>
-      </dependency>
+        <!-- Import the CDI API, we use provided scope as the API is included in JBoss -->
+        <dependency>
+            <groupId>javax.enterprise</groupId>
+            <artifactId>cdi-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
 
-      <!-- Import the JPA API, we use provided scope as the API is included 
-         in JBoss -->
-      <dependency>
-         <groupId>org.hibernate.javax.persistence</groupId>
-         <artifactId>hibernate-jpa-2.0-api</artifactId>
-         <scope>provided</scope>
-      </dependency>
+        <!-- Import the Common Annotations API (JSR-250), we use provided scope as the API is included in JBoss -->
+        <dependency>
+            <groupId>org.jboss.spec.javax.annotation</groupId>
+            <artifactId>jboss-annotations-api_1.1_spec</artifactId>
+            <scope>provided</scope>
+        </dependency>
 
-      <!-- Import the EJB API, we use provided scope as the API is included 
-         in JBoss -->
-      <dependency>
-         <groupId>org.jboss.spec.javax.ejb</groupId>
-         <artifactId>jboss-ejb-api_3.1_spec</artifactId>
-         <scope>provided</scope>
-      </dependency>
+        <!-- Import the JAX-RS API, we use provided scope as the API is included in JBoss -->
+        <dependency>
+            <groupId>org.jboss.spec.javax.ws.rs</groupId>
+            <artifactId>jboss-jaxrs-api_1.1_spec</artifactId>
+            <scope>provided</scope>
+        </dependency>
 
-      <!-- JSR-303 (Bean Validation) Implementation -->
-      <!-- Provides portable constraints such as @Email -->
-      <!-- Hibernate Validator is shipped in JBoss -->
-      <dependency>
-         <groupId>org.hibernate</groupId>
-         <artifactId>hibernate-validator</artifactId>
-         <version>4.2.0.Final</version>
-         <scope>provided</scope>
-         <exclusions>
-            <exclusion>
-               <groupId>org.slf4j</groupId>
-               <artifactId>slf4j-api</artifactId>
-            </exclusion>
-         </exclusions>
-      </dependency>
+        <!-- Import the JPA API, we use provided scope as the API is included in JBoss -->
+        <dependency>
+            <groupId>org.hibernate.javax.persistence</groupId>
+            <artifactId>hibernate-jpa-2.0-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
 
-      <!-- Now we declare any tools needed -->
+        <!-- Import the EJB API, we use provided scope as the API is included in JBoss -->
+        <dependency>
+            <groupId>org.jboss.spec.javax.ejb</groupId>
+            <artifactId>jboss-ejb-api_3.1_spec</artifactId>
+            <scope>provided</scope>
+        </dependency>
 
-      <!-- Annotation processor to generate the JPA 2.0 metamodel classes 
-         for typesafe criteria queries -->
-      <dependency>
-         <groupId>org.hibernate</groupId>
-         <artifactId>hibernate-jpamodelgen</artifactId>
-         <version>1.1.1.Final</version>
-         <scope>provided</scope>
-      </dependency>
+        <!-- Import the Servlet API, we use provided scope as the API is included in JBoss AS 7 -->
+        <dependency>
+            <groupId>org.jboss.spec.javax.servlet</groupId>
+            <artifactId>jboss-servlet-api_3.0_spec</artifactId>
+            <scope>provided</scope>
+        </dependency>
 
-      <!-- Needed for running tests (you may also use TestNG) -->
-      <dependency>
-         <groupId>junit</groupId>
-         <artifactId>junit</artifactId>
-         <scope>test</scope>
-      </dependency>
+        <!-- JSR-303 (Bean Validation) Implementation -->
+        <!-- Provides portable constraints such as @Email -->
+        <!-- Hibernate Validator is shipped in JBoss -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>${version.org.hibernate.validator}</version>
+            <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
 
-      <!-- Optional, but highly recommended -->
-      <!-- Arquillian allows you to test enterprise code such as EJBs and 
-         Transactional(JTA) JPA from JUnit/TestNG -->
-      <dependency>
-         <groupId>org.jboss.arquillian.junit</groupId>
-         <artifactId>arquillian-junit-container</artifactId>
-         <scope>test</scope>
-      </dependency>
+        <!-- Now we declare any tools needed -->
+
+        <!-- Annotation processor to generate the JPA 2.0 metamodel classes for typesafe criteria queries -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-jpamodelgen</artifactId>
+            <version>${version.org.hibernate-jpamodelgen}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Needed for running tests (you may also use TestNG) -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${version.junit}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Optional, but highly recommended -->
+        <!-- Arquillian allows you to test enterprise code such as EJBs and Transactional(JTA) JPA from JUnit/TestNG -->
+        <dependency>
+            <groupId>org.jboss.arquillian.junit</groupId>
+            <artifactId>arquillian-junit-container</artifactId>
+            <version>${version.org.jboss.arquillian}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.arquillian.protocol</groupId>
+            <artifactId>arquillian-protocol-servlet</artifactId>
+            <version>${version.org.jboss.arquillian}</version>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <!-- Maven will append the version to the finalName (which is the name given to the generated war, and hence the context 
+            root) -->
+        <finalName>${project.artifactId}</finalName>
+        <plugins>
+            <!-- Compiler plugin enforces Java 1.6 compatibility and activates annotation processors -->
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.1.1</version>
+                <configuration>
+                    <!-- Java EE 6 doesn't require web.xml, Maven needs to catch up! -->
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                </configuration>
+            </plugin>
+            <!-- The JBoss AS plugin deploys your war to a local JBoss AS container -->
+            <!-- To use, run: mvn package jboss-as:deploy -->
+            <plugin>
+                <groupId>org.jboss.as.plugins</groupId>
+                <artifactId>jboss-as-maven-plugin</artifactId>
+                <version>7.1.0.Final</version>
+            </plugin>
             
-      <dependency>
-         <groupId>org.jboss.arquillian.protocol</groupId>
-         <artifactId>arquillian-protocol-servlet</artifactId>
-         <scope>test</scope>               
-      </dependency>
+            <plugin>
+                <groupId>com.mycila.maven-license-plugin</groupId>
+                <artifactId>maven-license-plugin</artifactId>
+                <version>1.9.0</version>
+                <configuration>
+                    <header>src/etc/license.txt</header>
+                    <mapping>
+                        <tmpl>XML_STYLE</tmpl>
+                    </mapping>
+                    <strictCheck>true</strictCheck>
+                    <includes>
+                    <include>src/**</include>
+                    </includes>
+                    <excludes>
+                        <exclude>src/main/webapp/js/libs/**</exclude>
+                        <exclude>src/main/webapp/css/jquery.mobile-1.0.min.css</exclude>
+                        <exclude>src/test/qunit/qunit/**</exclude>
+                        <exclude>src/main/webapp/tmpl/**</exclude>
+                        <exclude>src/main/webapp/WEB-INF/wro.properties</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    
+    <profiles>
+        <profile>
+            <!-- The default profile skips all tests, though you can tune it to run just unit tests based on a custom pattern -->
+            <!-- Seperate profiles are provided for running all tests, including Arquillian tests that execute in the specified container -->
+            <id>default</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <version>2.4.3</version>
+                        <configuration>
+                            <skip>true</skip>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <!-- When built in OpenShift the 'openshift' profile will be used when invoking mvn. -->
+            <!-- Use this profile for any OpenShift specific customization your app will need. -->
+            <!-- By default that is to put the resulting archive into the 'deployments' folder. -->
+            <!-- http://maven.apache.org/guides/mini/guide-building-for-different-environments.html -->
+            <id>openshift</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-war-plugin</artifactId>
+                        <version>2.1.1</version>
+                        <configuration>
+                            <outputDirectory>deployments</outputDirectory>
+                            <warName>ROOT</warName>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <!-- Use this profile to use the wro4j plugin for validation, concatenation and -->
+            <!-- minification of JavaScript and CSS files during the build -->
+            <id>minify</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
 
-   </dependencies>
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+                        <plugin>
+                            <groupId>org.eclipse.m2e</groupId>
+                            <artifactId>lifecycle-mapping</artifactId>
+                            <version>1.0.0</version>
+                            <configuration>
+                                <lifecycleMappingMetadata>
+                                    <pluginExecutions>
+                                        <pluginExecution>
+                                            <pluginExecutionFilter>
+                                                <groupId>ro.isdc.wro4j</groupId>
+                                                <artifactId>
+                                                    wro4j-maven-plugin
+                                                </artifactId>
+                                                <versionRange>
+                                                    [1.4.4,)
+                                                </versionRange>
+                                                <goals>
+                                                    <goal>run</goal>
+                                                </goals>
+                                            </pluginExecutionFilter>
+                                            <action>
+                                                <ignore></ignore>
+                                            </action>
+                                        </pluginExecution>
+                                    </pluginExecutions>
+                                </lifecycleMappingMetadata>
+                            </configuration>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+                <plugins>
+                    <plugin>
+                        <groupId>ro.isdc.wro4j</groupId>
+                        <artifactId>wro4j-maven-plugin</artifactId>
+                        <version>${wro4j.version}</version>
+                        <executions>
+                            <execution>
+                                <phase>compile</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <targetGroups>app.min,m.screen.min,screen.min</targetGroups>
+                            <cssDestinationFolder>${project.build.directory}/${project.build.finalName}/css/</cssDestinationFolder>
+                            <jsDestinationFolder>${project.build.directory}/${project.build.finalName}/js/</jsDestinationFolder>
+                            <wroManagerFactory>ro.isdc.wro.maven.plugin.manager.factory.ConfigurableWroManagerFactory</wroManagerFactory>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <!-- We add the JBoss repository as we need the JBoss AS connectors for Arquillian -->
+            <repositories>
+                <!-- The JBoss Community public repository is a composite repository of several major repositories -->
+                <!-- see http://community.jboss.org/wiki/MavenGettingStarted-Users -->
+                <repository>
+                    <id>jboss-public-repository</id>
+                    <name>JBoss Repository</name>
+                    <url>http://repository.jboss.org/nexus/content/groups/public</url>
+                    <!-- These optional flags are designed to speed up your builds by reducing remote server calls -->
+                    <releases>
+                    </releases>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                </repository>
+            </repositories>
 
-   <build>
-      <!-- Maven will append the version to the finalName (which is the name 
-         given to the generated war, and hence the context root) -->
-      <finalName>${project.artifactId}</finalName>
-      <plugins>
-         <!-- Compiler plugin enforces Java 1.6 compatibility and activates 
-            annotation processors -->
-         <plugin>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <version>2.3.1</version>
-            <configuration>
-               <source>1.6</source>
-               <target>1.6</target>
-            </configuration>
-         </plugin>
-         <plugin>
-            <artifactId>maven-war-plugin</artifactId>
-            <version>2.1.1</version>
-            <configuration>
-               <!-- Java EE 6 doesn't require web.xml, Maven needs to catch 
-                  up! -->
-               <failOnMissingWebXml>false</failOnMissingWebXml>
-            </configuration>
-         </plugin>
-         <!-- The JBoss AS plugin deploys your war to a local JBoss AS container -->
-         <!-- To use, run: mvn package jboss-as:deploy -->
-         <plugin>
-            <groupId>org.jboss.as.plugins</groupId>
-            <artifactId>jboss-as-maven-plugin</artifactId>
-            <version>7.1.0.Final</version>
-         </plugin>
-      </plugins>
-   </build>
+            <pluginRepositories>
+                <pluginRepository>
+                    <id>jboss-public-repository</id>
+                    <name>JBoss Repository</name>
+                    <url>http://repository.jboss.org/nexus/content/groups/public</url>
+                    <releases>
+                    </releases>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                </pluginRepository>
+            </pluginRepositories>
 
-   <profiles>
-      <profile>
-         <!-- The default profile skips all tests, though you can tune it 
-            to run just unit tests based on a custom pattern -->
-         <!-- Seperate profiles are provided for running all tests, including 
-            Arquillian tests that execute in the specified container -->
-         <id>default</id>
-         <activation>
-            <activeByDefault>true</activeByDefault>
-         </activation>
-         <build>
-            <plugins>
-               <plugin>
-                  <artifactId>maven-surefire-plugin</artifactId>
-                  <version>2.4.3</version>
-                  <configuration>
-                     <skip>true</skip>
-                  </configuration>
-               </plugin>
-            </plugins>
-         </build>
-      </profile>
+            <!-- An optional Arquillian testing profile that executes tests in your JBoss AS instance -->
+            <!-- This profile will start a new JBoss AS instance, and execute the test, shutting it down when done -->
+            <!-- Run with: mvn clean test -Parq-jbossas-managed -->
+            <id>arq-jbossas-managed</id>
+            <dependencies>
+                <dependency>
+                    <groupId>org.jboss.as</groupId>
+                    <artifactId>jboss-as-arquillian-container-managed</artifactId>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+        </profile>
 
-      <profile>
-         <!-- An optional Arquillian testing profile that executes tests 
-            in your JBoss AS instance -->
-         <!-- This profile will start a new JBoss AS instance, and execute 
-            the test, shutting it down when done -->
-         <!-- Run with: mvn clean test -Parq-jbossas-managed -->
-         <id>arq-jbossas-managed</id>
-         <dependencies>
-            <dependency>
-               <groupId>org.jboss.as</groupId>
-               <artifactId>jboss-as-arquillian-container-managed</artifactId>
-               <scope>test</scope>
-            </dependency>
-         </dependencies>
-      </profile>
+        <profile>
+            <!-- We add the JBoss repository as we need the JBoss AS connectors for Arquillian -->
+            <repositories>
+                <!-- The JBoss Community public repository is a composite repository of several major repositories -->
+                <!-- see http://community.jboss.org/wiki/MavenGettingStarted-Users -->
+                <repository>
+                    <id>jboss-public-repository</id>
+                    <name>JBoss Repository</name>
+                    <url>http://repository.jboss.org/nexus/content/groups/public</url>
+                    <!-- These optional flags are designed to speed up your builds by reducing remote server calls -->
+                    <releases>
+                    </releases>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                </repository>
+            </repositories>
 
-      <profile>
-         <!-- An optional Arquillian testing profile that executes tests 
-            in a remote JBoss AS instance -->
-         <!-- Run with: mvn clean test -Parq-jbossas-remote -->
-         <id>arq-jbossas-remote</id>
-         <dependencies>
-            <dependency>
-               <groupId>org.jboss.as</groupId>
-               <artifactId>jboss-as-arquillian-container-remote</artifactId>
-               <scope>test</scope>
-            </dependency>
-         </dependencies>
-      </profile>
+            <pluginRepositories>
+                <pluginRepository>
+                    <id>jboss-public-repository</id>
+                    <name>JBoss Repository</name>
+                    <url>http://repository.jboss.org/nexus/content/groups/public</url>
+                    <releases>
+                    </releases>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                </pluginRepository>
+            </pluginRepositories>
 
-      <profile>
-         <!-- When built in OpenShift the 'openshift' profile will be used when invoking mvn. -->
-         <!-- Use this profile for any OpenShift specific customization your app will need. -->
-         <!-- By default that is to put the resulting archive into the 'deployments' folder. -->
-         <!-- http://maven.apache.org/guides/mini/guide-building-for-different-environments.html -->
-         <id>openshift</id>
-         <build>
-            <plugins>
-               <plugin>
-                  <artifactId>maven-war-plugin</artifactId>
-                  <version>2.1.1</version>
-                  <configuration>
-                     <outputDirectory>deployments</outputDirectory>
-                     <warName>ROOT</warName>
-                  </configuration>
-               </plugin>
-            </plugins>
-         </build>
-      </profile>
-
-   </profiles>
+            <!-- An optional Arquillian testing profile that executes tests in a remote JBoss AS instance -->
+            <!-- Run with: mvn clean test -Parq-jbossas-remote -->
+            <id>arq-jbossas-remote</id>
+            <dependencies>
+                <dependency>
+                    <groupId>org.jboss.as</groupId>
+                    <artifactId>jboss-as-arquillian-container-remote</artifactId>
+                    <version>${version.org.jboss.as.arquillian.container}</version>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+        </profile>
+    </profiles>
+    
 </project>

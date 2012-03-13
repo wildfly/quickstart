@@ -1,4 +1,20 @@
 /*
+ * JBoss, Home of Professional Open Source
+ * Copyright 2012, Red Hat, Inc., and individual contributors
+ * by the @authors tag. See the copyright.txt in the distribution for a
+ * full listing of individual contributors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/*
 Core JavaScript functionality for the application.  Performs the required
 Restful calls, validates return values, and populates the member table.
  */
@@ -6,7 +22,7 @@ Restful calls, validates return values, and populates the member table.
 /* Get the member template */
 function getMemberTemplate() {
 	$.ajax({
-        url: "resources/tmpl/member.tmpl",
+        url: "tmpl/member.tmpl",
         dataType: "html",
         success: function( data ) {
             $( "head" ).append( data );
@@ -59,7 +75,7 @@ function registerMember(formValues) {
             if ((error.status == 409) || (error.status == 400)) {
                //console.log("Validation error registering user!");
 
-               var errorMsg = JSON.parse(error.responseText);
+               var errorMsg = $.parseJSON(error.responseText);
 
                $.each(errorMsg, function(index, val){
                   $('<span class="invalid">' + val + '</span>')
@@ -70,4 +86,24 @@ function registerMember(formValues) {
                $('#formMsgs').append($('<span class="invalid">Unknown server error</span>'));
             }
          });
+}
+
+//small workaround for browsers which do not support overflow scrolling *cough* Android *cough*
+//this is for x axis and would need modification with scrollTop and pageY to support up/down scrolling
+function touchScrollX(id)
+{
+  if (Modernizr.touch) {
+        var el=document.querySelector(id);
+        var scrollStartPos=0;
+
+        el.addEventListener("touchstart", function(event) {
+            scrollStartPos=this.scrollLeft+event.touches[0].pageX;
+            event.preventDefault();
+        },false);
+
+        el.addEventListener("touchmove", function(event) {
+            this.scrollLeft=scrollStartPos-event.touches[0].pageX;
+            event.preventDefault();
+        },false);
+  }
 }

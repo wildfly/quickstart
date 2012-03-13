@@ -1,66 +1,118 @@
+<!--
+
+    JBoss, Home of Professional Open Source
+    Copyright 2012, Red Hat, Inc., and individual contributors
+    by the @authors tag. See the copyright.txt in the distribution for a
+    full listing of individual contributors.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
 <!DOCTYPE html>
 <html>
 <head>
-    <title>JBoss HTML5/Mobile Application</title>
+    <title>AeroGear QuickStart</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+    <!-- Set the tab, home page, shortcut icons -->
+    <link rel="Shortcut Icon" href="img/aerogear_icon_16x.png">
+    <link rel="apple-touch-icon" href="img/aerogear_avatar_48px.png"/>
+
     <!-- Set viewport scaling and zoom features -->
-    <meta name="viewport" content="width=device-width, initial-scale=1;"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Include the full development version of Modernizr. In production, you should use a -->
     <!-- minimized custom build to reduce file size -->
-    <script type="text/javascript" src="resources/js/modernizr-2.0.6.js"></script>
-    <script type="text/javascript" src="resources/js/yepnope.1.0.2-min.js"></script>
-    <script type="text/javascript" src="resources/js/underscore-min.js"></script>
-    <script type="text/javascript" src="resources/js/app.js"></script>
+    <script type="text/javascript" src="js/libs/modernizr-2.0.6.js"></script>
+    <script type="text/javascript" src="js/libs/yepnope.1.0.2-min.js"></script>
+    <script type="text/javascript" src="js/libs/underscore-min.js"></script>
+
+    <!-- Minification - See Readme for details -->
+    <!-- For minification, comment out this file -->
+    <script type="text/javascript" src="js/app.js"></script>
+    <!-- For minification, uncomment this file -->
+    <!-- <script type="text/javascript" src="js/app.min.js"></script> -->
+
     <script type="text/javascript">
         yepnope([{
-            //Load CDN hosted jQuery and fall back to local file
+            //Load CDN hosted jQuery or fall back to local file.
+            /*--------Note-----------
+            This approach should only be used if you trust the source of where the resource (JavaScript) is located.
+            In this case, use of the jquery CDN is much faster if your user's browser already has this file cached.
+            If they don't have it cached, try to load it from the CDN as this will be faster if the user is
+            located closer to a CDN than you currently hosted server.
+            */
             load: "http://code.jquery.com/jquery-1.6.4.min.js",
             complete: function() {
                 if ( !window.jQuery ) {
                     //In production, you would want to fall back to a minified file.
                     //We fall back to the full version because Eclipse reports false errors in some minified JavaScript files.
-                    yepnope.load( "resources/js/jquery-1.6.4.js" );
+                    yepnope.load( "js/libs/jquery-1.6.4.js" );
                 }
             }
         },{
-            //Using Modernizr, we use media queries and touch detection to see if we are on a mobile, touch based device
-            // or if we're at anything less than 480px.. this gives us a mobile ui on desktop browsers when resized to correct
-            // width for testing.
+            //device detection and asynchronous script loading
+            /*--------Note-----------
+            Here we're using the yepnope framework which gives us the ability to load scripts dynamically, based on
+            Modernizr's results.
+            With Modernizr, we use media queries and touch detection to see if we are on a mobile, touch based device
+            or if we're at anything less than 480px.. this gives us a mobile ui on desktop browsers when resized to <480px
+            width for testing.
+            */
             test: Modernizr.touch || Modernizr.mq( "only all and (max-width: 480px)" ),
             yep: {
-                "jqmcss": "resources/css/jquery.mobile-1.0.min.css",
-                "mcss": "resources/css/m.screen.css"
+                //assign labeled callbacks for later execution after script loads.
+                //we are on mobile device so load appropriate CSS
+                "jqmcss": "css/jquery.mobile-1.0.min.css",
+                // For minification, uncomment this line
+                //"mcss": "css/m.screen.min.css"
+                // For minification, comment out this line
+                "mcss": "css/m.screen.css"
             },
             nope: {
-                "scss": "resources/css/screen.css"
+                //we are on desktop
+                // For minification, uncomment this line
+                //"scss": "css/screen.min.css"
+                // For minification, comment out this line
+            	"scss": "css/screen.css"
             },
             callback: {
-                //If it is determined that the user is on a mobile device, load jQuery Mobile
+                //use the labeled callbacks from above, and load jQuery Mobile
                 "jqmcss": function( url, result, key ) {
                     yepnope({
                         load: "http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.js",
                         complete: function() {
                             if ( !$.mobile ) {
-                                yepnope( "resources/js/jquery.mobile-1.0.min.js" );
+                                yepnope( "js/libs/jquery.mobile-1.0.min.js" );
                             }
                         }
                     });
                 },
                 "scss": function( url, result, key ) {
                     $( document ).ready( function() {
-                        //Move aside outside of the section tag
+                        //here we are moving content around based on the browser/device.
+                        //Move aside outside of the section tag for desktop only
                         $( "#info-aside" ).insertAfter( $( "section" ) );
                     });
                 }
             },
             complete: function() {
                 $( document ).ready( function() {
+                    //setup the app after all scripts have loaded
+
                     $( "#container" ).show();
-                    //Fetches the initial member table
+                    //Fetches the initial member data and populates the table using jquery templates
                     getMemberTemplate();
 
-                    //Register a event listener on the sumbit action
+                    //Register an event listener on the sumbit action
                     $('#reg').submit(function(event) {
                         event.preventDefault();
 
@@ -77,33 +129,45 @@
                         $('span.invalid').remove();
                         $('span.success').remove();
                     });
+
+                    //scrolling support for devices that don't support overflow:auto
+                    touchScrollX('#members');
                 });
             }
         }]);
     </script>
 </head>
 <body>
-    <div id="container" style="display:none;">
+    <div id="container" style="display:none">
+        <div class="logo">
+            <img src="img/aerogear_logo_150px.png"/>
+        </div>
+        <div class="dualbrand">
+            <img src="img/dualbrand_logo.png"/>
+        </div>
+        <br style="clear:both"/>
         <section>
-            <h1>Welcome to JBoss!</h1>
+            <h1>Welcome to JBoss &amp; AeroGear!</h1>
             <article id="intro-art" data-role="page">
                 <!-- Header -->
                 <div data-role="header" data-theme="a" class="header">
-                    <img class="header_logo" src="resources/gfx/icon_medium.png"/>
-                    <h3>JBoss HTML5/Mobile Application</h3>
+                    <img class="header_logo" src="img/icon_medium.png"/>
+                    <h3>AeroGear Quickstart</h3>
                     <a href="#info-aside" data-role="button" data-icon="info" class="ui-btn-right" data-iconpos="notext" data-rel="dialog"></a>
                 </div>
                 <!-- /Header -->
 
                 <div data-role="content">
-                    <p>You have successfully deployed a Java EE 6 HTML5/Mobile web application on JBoss.</p>
-                    <p>This is built using a technique called <strong>P</strong>lain <strong>O</strong>ld <strong>H</strong>TML<strong>5</strong> (<strong>POH5</strong>).</p>
+                    <img src="img/aerogear_icon_64px.png" class="mobileicon"/>
+                    <p>You have successfully deployed a Java EE 6 web application.</p>
+                    <h3>Your application can run on:</h3>
+                    <img src="img/dualbrand_as7eap.png" class="max-width-100"/>
 
                     <ul id="features">
                         <li class="feature">Pure HTML client</li>
-                        <li class="feature">JAX-RS GET & POST end points</li>
+                        <li class="feature">JAX-RS GET &amp; POST end points</li>
                         <li class="feature">HTML5 based page structure</li>
-                        <li class="feature">HTML5 form element & validation</li>
+                        <li class="feature">HTML5 form element &amp; validation</li>
                         <li class="feature">CSS3 selectors used for styling</li>
                         <li class="feature">JAX-RS validation handling</li>
                         <li class="feature">jQuery Mobile integration</li>
@@ -130,8 +194,8 @@
             <article id="register-art" data-role="page">
                 <!-- Header -->
                 <div data-role="header" data-theme="a" class="header">
-                    <img class="header_logo" src="resources/gfx/icon_medium.png"/>
-                    <h3>JBoss HTML5/Mobile Application</h3>
+                    <img class="header_logo" src="img/icon_medium.png"/>
+                    <h3>AeroGear Quickstart</h3>
                     <a href="#info-aside" data-role="button" data-icon="info" class="ui-btn-right" data-iconpos="notext" data-rel="dialog"></a>
                 </div>
                 <!-- /Header -->
@@ -183,8 +247,8 @@
             <article id="member-art" data-role="page">
                 <!-- Header -->
                 <div data-role="header" data-theme="a" class="header">
-                    <img class="header_logo" src="resources/gfx/icon_medium.png"/>
-                    <h3>JBoss HTML5/Mobile Application</h3>
+                    <img class="header_logo" src="img/icon_medium.png"/>
+                    <h3>AeroGear Quickstart</h3>
                     <a href="#info-aside" data-role="button" data-icon="info" class="ui-btn-right" data-iconpos="notext" data-rel="dialog"></a>
                 </div>
                 <!-- /Header -->
@@ -193,8 +257,8 @@
                 <div data-role="content">
                     <p class="desktop-only">This table is populated and constructed using restful GET calls to the server, and uses CSS3 based selectors for styling. When the page is requested jQuery is used to send the JAX-RS request for the current list of members. The table is them populated dynamically using JavaScript. See app.js for more details.</p>
 
-                    <table id="mem_tbl">
-                        <thead>
+                    <table class="simpletablestyle" id="mem_tbl" class="rt cf">
+                        <thead class="cf">
                             <tr>
                                 <th scope="col">Id</th>
                                 <th scope="col">Name</th>
@@ -246,6 +310,15 @@
                         <li><a href="https://docs.jboss.org/author/display/AS7/Getting+Started+Developing+Applications+Guide">JBoss AS 7 Getting Started Developing Applications Guide</a></li>
                         <li><a href="http://jboss.org/jbossas">JBoss AS 7 project site</a></li>
                     </ul>
+                    <p>Learn about <strong>AeroGear</strong> and HTML5/Mobile development on JBoss.</p>
+                    <ul>
+                        <li><a href="http://jboss.org/aerogear">AeroGear Project site</a></li>
+                        <li><a href="https://community.jboss.org/wiki/WhatArePlainOldHTML5POH5Applications">More on <strong>POH5</strong></a></li>
+                        <li><a href="https://community.jboss.org/wiki/GetStartedWithHTML5MobileWebDevelopmentWithJBoss">Get this application</a></li>
+                        <li><a href="https://community.jboss.org/wiki/HTML5MobileQuickstartArchetypeDeepDive">Application deepdive</a></li>
+                        <li><a href="https://community.jboss.org/community/aerogear">AeroGear user forums</a></li>
+                        <li><a href="https://github.com/organizations/aerogear">Github</a></li>
+                    </ul>
                     <p>Learn about the Java EE 6 platform and the component model it provides.</p>
                     <ul>
                         <li><a href="http://download.oracle.com/javaee/6/tutorial/doc">Java EE 6 tutorial</a></li>
@@ -259,7 +332,7 @@
 
         <!-- New HTML5 footer tag -->
         <footer>
-            <img src="resources/gfx/logo.png" alt="HTML5"/>
+            <!--<img src="img/logo.png" alt="HTML5"/>-->
             <p>This project was generated from a Maven archetype from JBoss.<br/></p>
         </footer>
     </div>

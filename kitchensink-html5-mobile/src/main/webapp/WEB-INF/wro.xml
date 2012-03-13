@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
 
     JBoss, Home of Professional Open Source
@@ -16,12 +17,19 @@
     limitations under the License.
 
 -->
-<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee"
+<groups xmlns="http://www.isdc.ro/wro"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
-    <!-- One of the way of activating REST Servises is adding these lines, the server is responsible for adding the corresponding servlet automatically. If the src folder, org.jboss.as.quickstarts.poh5helloworld.HelloWorld class has the Annotations to receive REST invocation-->
-    <servlet-mapping>
-        <servlet-name>javax.ws.rs.core.Application</servlet-name>
-        <url-pattern>/hello/*</url-pattern>
-    </servlet-mapping>
-</web-app>
+        xsi:schemaLocation="http://www.isdc.ro/wro wro.xsd">
+
+    <group name="app.min">
+        <js>/js/app.js</js>
+    </group>
+
+    <group name="m.screen.min">
+        <css>/css/m.screen.css</css>
+    </group>
+
+    <group name="screen.min">
+        <css>/css/screen.css</css>
+    </group>
+</groups>

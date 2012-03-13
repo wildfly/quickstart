@@ -1,5 +1,5 @@
-html5-mobile: Mobile Example Using Plain Old HTML5 (POH5)
-=========================================================
+kitchensink-html5-mobile: Example AeroGear Application Using Multiple HTML5, Mobile & JAX-RS Technologies 
+=========================================================================================================
 Author: Jay Balunas
 
 What is it?
@@ -15,7 +15,7 @@ you get your feet wet with database access in enterprise Java.
 This application is built using a technique called Plain Old HTML5 (POH5).  This uses a pure HTML
 client that interacts with with the application server via restful end-points (JAX-RS).  This
 application also uses some of the latest HTML5 features and advanced JAX-RS. And since testing
-is just as important with POH5 as it is server side core this application also uses QUnit to show
+is just as important with POH5 as it is server side, this application uses QUnit to show
 you how to unit test your JavaScript.
 
 What is a modern web application without mobile web support? This application also integrates
@@ -32,7 +32,7 @@ All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven
 
 The application this project produces is designed to be run on JBoss AS 7 or JBoss Enterprise Application Platform 6.
 
-An HTML5 compatible browser such as Chrome 14+, Safari 5+, Firefox 5+, or IE 9+ are
+An HTML5 compatible browser such as Chrome, Safari 5+, Firefox 5+, or IE 9+ are
 required. and note that some behaviors will vary slightly (ex. validations) based on browser support,
 especially IE 9.
 
@@ -44,6 +44,8 @@ With the prerequisites out of the way, you're ready to build and deploy.
 
 Deploying the application
 -------------------------
+
+### Deploying locally
  
 First you need to start the JBoss container. To do this, run
   
@@ -69,9 +71,7 @@ You can now deploy the artifact by executing the following command:
 
     mvn jboss-as:deploy
 
-This will deploy `target/jboss-as-html5-mobile`.
- 
-The application will be running at the following URL <http://localhost:8080/jboss-as-html5-mobile/>.
+The client application will be running at the following URL <http://localhost:8080/jboss-as-kitchensink-html5-mobile/>.
 
 To undeploy run this command:
 
@@ -80,6 +80,30 @@ To undeploy run this command:
 You can also start the JBoss container and deploy the project using JBoss Tools. See the
 <a href="https://docs.jboss.org/author/display/AS71/Getting+Started+Developing+Applications+Guide" title="Getting Started Developing Applications Guide">Getting Started Developing Applications Guide</a> 
 for more information.
+
+### Deploying to OpenShift
+
+You can also deploy the application directly to OpenShift, Red Hat's cloud based PaaS offering, follow the instructions [here](https://community.jboss.org/wiki/DeployingHTML5ApplicationsToOpenshift)
+
+Minification
+============================
+
+By default, the project uses the [wro4j](http://code.google.com/p/wro4j/) plugin,
+which provides the ability to concatenate, validate and minify JavaScript and CSS
+files. These minified files, as well as their unmodified versions are deployed with
+the project.
+
+With just a few quick changes to the project, you can link to the minified versions
+of your JavaScript and CSS files.
+
+First, in the <project-root>/src/main/webapp/index.html file, search for
+references to minification and comment or uncomment the appropriate lines.
+
+Finally, wro4j runs in the compile phase so any standard build command like package,
+install, etc. will trigger it. The plugin is in a profile with an id of "minify" so
+you will want to specify that profile in your maven build. For example:
+
+    mvn clean package jboss-as:deploy -Pminify
  
 Running the Arquillian tests
 ============================
@@ -97,12 +121,14 @@ test goal with the following profile activated:
 Running the QUnit tests
 ============================
 
-QUnit is a JavaScript unit testing framework used and built by jQuery.This 
-application include a set of QUnit tests in order to verify JavaScript that
-is core to this HTML5 application.  Executing QUnit test cases is quite easy.
-Simply load the following HTML is a browser.
+QUnit is a JavaScript unit testing framework used and built by jQuery. This 
+application includes a set of QUnit tests in order to verify JavaScript that
+is core to this HTML5 application. Executing QUnit test cases is quite easy. First,
+make sure the server is running and the project has been deployed as some of the
+tests will be testing the functionality of the services. Then, simply load the
+following HTML in the browser you wish to test.
 
-    <app-root>/src/test/qunit/index.html
+    <project-root>/src/test/qunit/index.html
 
 For more information on QUnit tests see http://docs.jquery.com/QUnit
 
@@ -116,7 +142,7 @@ already have an IDE project.
 Detailed instructions for using Eclipse / JBoss Tools with are provided in the 
 <a href="https://docs.jboss.org/author/display/AS71/Getting+Started+Developing+Applications+Guide" title="Getting Started Developing Applications Guide">Getting Started Developing Applications Guide</a>.
 
-If you created the project from the commandline using archetype:generate, then
+If you created the project from the command line using archetype:generate, then
 you need to import the project into your IDE. If you are using NetBeans 6.8 or
 IntelliJ IDEA 9, then all you have to do is open the project as an existing
 project. Both of these IDEs recognize Maven projects natively.
@@ -131,3 +157,12 @@ them.
 
     mvn dependency:sources
     mvn dependency:resolve -Dclassifier=javadoc
+
+Development notes
+=================
+
+Copyright headers
+-----------------
+
+To update the copyright headers, just run `mvn license:format -Dyear=<current year>`
+
