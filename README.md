@@ -17,7 +17,7 @@ Be sure to read this entire document before you attempt to work with the quickst
 
 *   [Configure Maven](#mavenconfiguration): How to configure the Maven repository for use by the quickstarts.
 
-*   [Build and Deploy the Quickstarts](#runningquickstarts): General instructions for building and deploying the quickstarts.
+*   [Run the Quickstarts](#runningquickstarts): General instructions for building, deploying, and running the quickstarts.
 
 *   [Suggested Approach to the Quickstarts](#suggestedApproach): A suggested approach on how to work with the quickstarts.
 
@@ -138,79 +138,112 @@ If you are using the JBoss Enterprise Application Platform 6 distribution, you n
 
 2.   Modify the example-settings.xml file located in the root of your quickstarts folder. Replace all instances of `path/to/jboss-eap/repo` within `file:///path/to/jboss-eap/repo` with the fully qualified path to the Maven repository you unzipped in the previous step.
 
-3.   When you run Maven commands, you need to append `-s _PathToQuickstarts_/example-settings.xml` to the command, for example:
+3.   When you run Maven commands, you need to append `-s PATH_TO_QUICKSTARTS/example-settings.xml` to the command, for example:
 
-                mvn jboss-as:deploy -s _PathToQuickstarts_/example-settings.xml
+                mvn jboss-as:deploy -s PATH_TO_QUICKSTARTS/example-settings.xml
 
 4.   You can configure the Maven user settings if you do not want to add the alternate path parameter each time you issue a Maven command.
     *   If you have an existing ~/.m2/settings.xml file, modify it with the configuration information from the example-settings.xml file.
     *   If there is no ~/.m2/settings.xml file, copy the example-settings.xml file to the ~/.m2 directory and rename it to settings.xml.
 
 
-
 <a id="runningquickstarts"/>
 
-Build and Deploy the Quickstarts 
---------------------------------------
+Run the Quickstarts 
+-------------------
 
-To run the quickstarts, in most cases you do the following:
+The root folder of each quickstart contains a README file with specific details on how to build and run the example. In most cases you do the following:
+
+*  [Start the JBoss server](#startjboss)
+*  [Build and deploy the quickstart](#buildanddeploy)
+
 
 <a id="startjboss"/>
 
-1.   Start the JBoss application server.  
+### Start the JBoss Enterprise Application Platform 6 or JBoss AS 7 Server
 
-    a.   Open a command line and navigate to the root of the JBoss directory.
+Before you deploy a quickstart, in most cases you need a running server. A few of the Arquillian tests do not require a running server. This will be noted in the README for that quickstart. 
 
-    b.   For most of the quickstarts, you run the standalone script located in the JBoss server /bin/ folder with no arguments. The following shows the command line to start the Enterprise Application Platform 6 or JBoss AS 7 Server.
+The JBoss server can be started a few different ways.
 
-    | **Operating System** | **Command Line to Start the Server** |
-    |:-----------|:-----------|
-    | Linux | JBOSS_HOME/bin/standalone.sh |
-    | Windows | JBOSS_HOME\bin\standalone.bat |
+*  [Start the JBoss Server With the _web_ profile](#startserverweb): This is the default configuration. It defines minimal subsystems and services.
+*  [Start the JBoss Server with the _full_ profile](#startserverfull): This profile configures many of the commonly used subsystems and services.
+*  [Start the JBoss Server with a custom configuration](#startservercustom): Custom configuration parameters can be specified on the command line when starting the server.    
 
-    c.  Some quickstarts use subsystems or services included only in the full profile. 
-      *   By default, the JBoss Enterprise Application Platform 6 standalone configuration contains the full profile, so you start the server with the same command line as above. No argument is required. 
-      *   However, in JBoss AS 7, the default configuration defines minimal subsystems and services, so you need to add a parameter to the command line when you start the server. 
-      *   The following shows the command line to start JBoss AS 7 with the full profile.
+The README for each quickstart will specify which configuration is required to run the example.
 
-        | **Operating System** | **Command Line to Start the Server with a Full Profile** |
-        |:-----------|:-----------|
-        | Linux | JBOSS_HOME/bin/standalone.sh  -c standalone-full.xml |
-        | Windows | JBOSS_HOME\bin\standalone.bat -c standalone-full.xml |
+<a id="startserverweb"/>
 
-    d.  Some quickstarts require custom configuration and require command line arguments. See each quickstart README for specific instructions.  
+#### Start the JBoss Enterprise Application Platform 6 or JBoss AS 7 Server with the Web Profile
+1.   Open a command line and navigate to the root of the JBoss directory.
+2.   The following shows the command line to start the server with the web profile:
+
+            For Linux:   JBOSS_HOME/bin/standalone.sh
+            For Windows: JBOSS_HOME\bin\standalone.bat
+
+<a id="startserverfull"/>
+
+#### Start the JBoss Enterprise Application Platform 6 or JBoss AS 7 Server with the Full Profile
+1.   Open a command line and navigate to the root of the JBoss directory.
+2.   The following shows the command line to start the server with the full profile:
+
+            For Linux:   JBOSS_HOME/bin/standalone.sh -c standalone-full.xml
+            For Windows: JBOSS_HOME\bin\standalone.bat -c standalone-full.xml
+
+
+<a id="startservercustom"/>
+
+#### Start the JBoss Enterprise Application Platform 6 or JBoss AS 7 Server with the Custom Configuration Options
+1.   Open a command line and navigate to the root of the JBoss directory.
+2.   The following shows the command line to start the server. Replace the CUSTOM_OPTIONS with the commands specified in the quickstart.
+
+            For Linux:   JBOSS_HOME/bin/standalone.sh CUSTOM_OPTIONS
+            For Windows: JBOSS_HOME\bin\standalone.bat CUSTOM_OPTIONS
+           
 <a id="buildanddeploy"/>
 
-2.   Build and deploy the quickstarts
-    *   Open a command line and navigate to the root of the directory of the quickstart you want to run.
-    *   Build the archive
-        *  The command used to build the quickstart depends on the individual quickstart, the server version, and how you configured Maven. 
-        *  If you are running JBoss AS 7, it uses community artifacts available in the Maven central repository, so command line arguments are not usually required. 
-        *  If you are running JBoss Enterprise Application Platform 6 and did not configure the Maven user settings described in [Configure Maven for JBoss Enterprise Application Platform 6](#eap6mavenconfig) above, you need to specify command line arguments. 
-        *  Although some of the quickstarts require special commands, for most of the quickstarts you do the following. 
+### Build and Deploy the Quickstarts 
 
-        | **Server Version** | **Command to Build the Quickstart** |
-        |:-----------|:-----------|
-        | JBoss AS 7 | mvn clean package |
-        | JBoss Enterprise Application Platform 6, Maven user settings configured | mvn clean package |
-        | JBoss Enterprise Application Platform 6, Maven user settings NOT configured | mvn clean package -s _PathToQuickstarts_/example-settings.xml |
-    *   Deploy the archive built in the previous step by typing the following in the command line:
-                  `mvn jboss-as:deploy`
-    *   Build and deploy the quickstart in one step
-        *  The command you issue to build and deploy the quickstart also depend on the individual quickstart, the server version, and how you configured Maven. 
-        *  As mentioned above, if you are running JBoss Enterprise Application Platform 6 and did not configure the Maven user settings described in [Configure Maven for JBoss Enterprise Application Platform 6](#eap6mavenconfig) above, you need to specify command line arguments. 
-        *  Although some of the quickstarts require special commands, for most of the quickstarts you do the following.
+Review the README file in the root folder of the quickstart for specific details on how to build and run the example. In most cases you do the following:
 
-        | **Server Version** | **Command to Build and Deploy the Quickstart** |
-        |:-----------|:-----------|
-        | JBoss AS 7 | mvn package jboss-as:deploy |
-        | JBoss Enterprise Application Platform 6, Maven user settings configured | mvn package jboss-as:deploy |
-        | JBoss Enterprise Application Platform 6, Maven user settings NOT configured | mvn package jboss-as:deploy -s _PathToQuickstarts_/example-settings.xml |
-    *   The command to undeploy the quickstart is simply: 
-                  `mvn jboss-as:undeploy`
+1. If required by the quickstart, make sure you [start the JBoss Server](#startjboss) as described in the README.
+
+2. Build and deploy the quickstarts
+    a.   Open a command line and navigate to the root of the directory of the quickstart you want to run.
+    b.   Build the archive
+      *   The command used to build the quickstart depends on the individual quickstart, the server version, and how you configured Maven. 
+      *   If you are running JBoss AS 7, it uses community artifacts available in the Maven central repository, so command line arguments are not usually required. 
+      *   If you are running JBoss Enterprise Application Platform 6 and did not configure the Maven user settings described in [Configure Maven for JBoss Enterprise Application Platform 6](#eap6mavenconfig) above, you need to specify command line arguments. 
+      *   Although some of the quickstarts require special commands, for most of the quickstarts you do the following. 
+
+                  For JBoss Enterprise Application Platform 6, Maven user settings NOT configured: 
+
+                          mvn clean package -s PATH_TO_QUICKSTARTS/example-settings.xml
+
+                  For JBoss AS 7 or JBoss Enterprise Application Platform 6, Maven user settings configured: 
+
+                          mvn clean package
+
+    c.   Deploy the archive built in the previous step by typing the following in the command line:
+
+                          mvn jboss-as:deploy
+    d.   Alternatively, you can build and deploy the quickstart in one step. As in step b above when you built the archive, the command you use depends on the individual quickstart, the server version, and how you configured Maven. Although some of the quickstarts require special commands, for most of the quickstarts you do the following:
+
+                For JBoss Enterprise Application Platform 6, Maven user settings NOT configured: 
+
+                          mvn package jboss-as:deploy -s PATH_TO_QUICKSTARTS/example-settings.xmlns
+
+                For JBoss AS 7 or JBoss Enterprise Application Platform 6, Maven user settings configured: 
+
+                          mvn package jboss-as:deploy
+    e.   The command to undeploy the quickstart is simply: 
+
+                          mvn jboss-as:undeploy
+    f.   If you want to redeploy a quickstart that uses a database, you should undeploy it first. This ensures the database is cleaned up correctly before the redeploy.
 
 3.   See the README file in each individual quickstart folder for specific details and information on how to run and access the example.
-4.   You can also start JBoss AS and deploy the quickstarts using Eclipse. See the [Getting Started Developing Applications Guide](https://docs.jboss.org/author/display/AS71/Getting+Started+Developing+Applications+Guide "Getting Started Developing Applications Guide") for more information.
+
+4.   You can also start the JBoss Application Server and deploy the quickstarts using Eclipse. See the [Getting Started Developing Applications Guide](https://docs.jboss.org/author/display/AS71/Getting+Started+Developing+Applications+Guide "Getting Started Developing Applications Guide") for more information.
 
 
 
@@ -220,12 +253,81 @@ Optional Components
 -------------------
 The following components are needed for only a small subset of the quickstarts. Do not install or configure them unless the quickstart requires it.
 
-*   [Install and Configure the PostgreSQL Database](#postgresql): Database used for distributed transaction quickstarts.
+*   [Add a User](#adduser): Add a Management or Application user for the quickstarts that run in a secured mode.
 
-*   [Install and Configure Byteman](#byteman): Tool used to demonstrated crash recovery for distributed transaction quickstarts.
+*   [Install and Configure the PostgreSQL Database](#postgresql): The PostgreSQL database is used for the distributed transaction quickstarts.
+
+*   [Install and Configure Byteman](#byteman): A tool used to demonstrated crash recovery for distributed transaction quickstarts.
+
+<a id="adduser"/>
+
+### Add a Management or Application User
+
+By default, JBoss Enterprise Application Platform 6 and JBoss AS 7 are now distributed with security enabled for the management interfaces. A few of the quickstarts use these management interfaces and require that you create a management or application user to access the running application. A script is provided in the JBOSS_HOME/bin directory for that purpose.
+
+The following procedures describe how to add a user with the appropriate permissions to run the quickstarts that depend on them.
+
+<a id="addmanagementuser"/>
+#### Add an Management User
+1. Open a command line
+2. Type the command for your operating system
+
+            For Linux:   JBOSS_HOME/bin/add-user.sh
+            For Windows: JBOSS_HOME\bin\add-user.bat
+3. You will see the following response:
+
+            What type of user do you wish to add? 
+
+            a) Management User (mgmt-users.properties) 
+            b) Application User (application-users.properties)
+            (a):
+
+     At the prompt, press enter to take the default Management User
+4. You see the following response:
+
+            Enter the details of the new user to add.
+            Realm (ManagementRealm) : 
+
+     At the prompt, press enter to take the default ManagementRealm
+5. When prompted, enter the following
+ 
+            Username : admin
+            Password : (choose a password for the admin user)
+   Repeat the password
+6. Choose yes for the remaining promts.
+
+<a id="addapplicationuser"/>
+#### Add an Application User 
+
+1. Open a command line
+2. Type the command for your operating system
+
+            For Linux:   JBOSS_HOME/bin/add-user.sh
+            For Windows: JBOSS_HOME\bin\add-user.bat
+3. You will see the following response:
+
+            What type of user do you wish to add? 
+
+            a) Management User (mgmt-users.properties) 
+            b) Application User (application-users.properties)
+            (a):
+
+     At the prompt, type:  b
+4. You see the following response:
+
+            Enter the details of the new user to add.
+            Realm (ApplicationRealm) : 
+
+     At the prompt, press enter to take the default ApplicationRealm
+5. When prompted, enter the following
+ 
+            Username : quickstartUser
+            Password : quickstartPassword
+6. When asked "What roles do you want this user to belong to?", enter:
+
+            guest
 
 <a id="postgresql"/>
-
 ### Install and Configure the PostgreSQL Database
 
 Some of the quickstarts require the PostgreSQL database. This section describes how to install and configure the database for use with the quickstarts.
@@ -377,7 +479,6 @@ The installation of PostgreSQL is a one time procedure. However, unless you have
 
 
 <a id="byteman"/>
-
 ### Install and Configure Byteman 
 
 _Byteman_ is used by a few of the quickstarts to demonstrate distributed transaction processing and crash recovery.
@@ -399,12 +500,24 @@ _Byteman_ is a tool which simplifies tracing and testing of Java programs. Bytem
 
 When instructed to use Byteman to halt the application, perform the following steps:
  
-1. Find the appropriate configuration file for your operating system in the table below and make a backup copy. Open the file and append the text shown for your operating system to the end of the file. Replace the file paths with the correct location of your quickstarts and the _Byteman_ download.
+1. Find the appropriate configuration file for your operating system in the list below and make a backup copy.
 
-    | **Operating System** | **Configuration File** |  **Text to Append to the Configuration File** |
-    |:-----------|:-----------|:-----------|
-    | Linux | JBOSS_HOME/bin/standalone.conf |JAVA_OPTS="-javaagent:/home/your-user-name/byteman-download-2.0.0/lib/byteman.jar=script:/home/user/quickstart/jta-crash-rec/src/main/scripts/xa.btm ${JAVA_OPTS}" |
-    | Windows | JBOSS_HOME\bin\standalone.conf.bat | SET "JAVA_OPTS=%JAVA_OPTS% -javaagent:C:\byteman-download-2.0.0\lib\byteman.jar=script:C:\quickstart\jta-crash-rec\src\main\scripts\xa.btm %JAVA_OPTS%" |
-2. When you are done testing the quickstart, remember to restore the configuration file with the backup copy.
+                For Linux: JBOSS_HOME/bin/standalone.conf 
+                For Windows: JBOSS_HOME\bin\standalone.conf.bat
+
+2. The quickstart README should specify the text you need to append to the server configuration file.
+
+3. Open the configuration file and append the text specified by the quickstart to the end of the file. Make sure to replace the file paths with the correct location of your quickstarts and the _Byteman_ download. 
+
+4. The following is an example of of the configuration changes needed for the _jta-crash-rec_ quickstart: 
+
+    For Linux, open the JBOSS_HOME/bin/standalone.conf file and append the following line:
+
+            JAVA_OPTS="-javaagent:/PATH_TO_BYTEMAN_DOWNLOAD/lib/byteman.jar=script:/PATH_TO_QUICKSTARTS/jta-crash-rec/src/main/scripts/xa.btm ${JAVA_OPTS}" 
+    For Windows, open the JBOSS_HOME\bin\standalone.conf.bat file and append the following line:
+
+            SET "JAVA_OPTS=%JAVA_OPTS% -javaagent:C:PATH_TO_BYTEMAN_DOWNLOAD\lib\byteman.jar=script:C:\PATH_TO_QUICKSTARTS\jta-crash-rec\src\main\scripts\xa.btm %JAVA_OPTS%"
+
+5. When you are done testing the quickstart, remember to restore the configuration file with the backup copy.
 
 
