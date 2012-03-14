@@ -24,20 +24,11 @@ With the prerequisites out of the way, you're ready to build and deploy.
 Deploying the application
 -------------------------
 
-Instructions for starting the server vary slightly depending upon whether you are using
-the community release (JBoss AS 7) or the platform release (JBoss Enterprise Application Platform 6).
-
-For JBoss AS 7:
+For JBoss AS 7 or JBoss Enterprise Application Platform 6:
 
     On Linux run: $JBOSS_HOME/bin/standalone.sh -c standalone-full.xml
 
     On Windows run: $JBOSS_HOME/bin/standalone.bat -c standalone-full.xml
-
-For JBoss Enterprise Application Platform 6:
-
-    On Linux run: $JBOSS_HOME/bin/standalone.sh 
-
-    On Windows run: $JBOSS_HOME/bin/standalone.bat
 
 To deploy the application, you first need to produce the archive to deploy using
 the following Maven goal:

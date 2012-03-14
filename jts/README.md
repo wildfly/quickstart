@@ -45,38 +45,33 @@ The following instructions target JBoss AS 7, but they also apply to JBoss Enter
 Testing the application
 -------------------------
 
-NOTE: Due to a difference in configuration between JBoss AS 7 and JBoss Enterprise Application Platform 6, all references of standalone-full.xml
-apply to JBoss AS 7 only, you can replace these references with standalone.xml if deploying into JBoss Enterprise Application Platform 6.
-
-
 For this example, you will need two instances of the application server, with a subtle startup 
 configuration difference. Application server 2 must be started up with a port offset provided
 to the startup script as "-Djboss.socket.binding.port-offset=100"
 
-The application servers 1 should both be configured as follows:
+The application servers should both be configured as follows:
 
-1.	Open the file <APP_SERVER_1_HOME>/standalone/configuration/standalone-full.xml
+1.	Open the file `<APP_SERVER_1_HOME>`/standalone/configuration/standalone-full.xml
 2.	Enable JTS:
-    Find the orb subsystem and change the configuration to:
-    <pre>
-        &lt;subsystem xmlns="urn:jboss:domain:jacorb:1.1"&gt;
-            &lt;orb&gt;
-                &lt;initializers security="on" transactions="on"/&gt;
-            &lt;/orb&gt;
-        &lt;/subsystem&gt;
-    </pre>
-    Find the transaction subsystem and append the &lt;jts/&gt; element:
-    <pre>
-        &lt;subsystem xmlns="urn:jboss:domain:transactions:1.1"&gt;
-            &lt;!-- LEAVE THE EXISTING CONFIG AND APPEND THE FOLLOWING --&gt;
-            &lt;jts/&gt;
-        &lt;/subsystem&gt;
-    </pre>
+    -   Find the orb subsystem and change the configuration to:  
 
-To start JBoss AS 7 (or JBoss Enterprise Application Platform 6) with a JMS connection factory and a queue named test queue in it. The instructions
-for this vary slightly depending upon whether you are using the community release (JBoss AS 7) or the platform release (JBoss Enterprise Application Platform 6)
+            <subsystem xmlns="urn:jboss:domain:jacorb:1.1">
+                <orb>
+                    <initializers security="on" transactions="on"/>
+                </orb>
+            </subsystem>
 
-For JBoss AS 7:
+    -   Find the transaction subsystem and append the `<jts/>` element:  
+
+            <subsystem xmlns="urn:jboss:domain:transactions:1.1">
+                <!-- LEAVE EXISTING CONFIG AND APPEND THE FOLLOWING -->
+                <jts/>
+            </subsystem>
+		
+
+To start JBoss AS 7 (or JBoss Enterprise Application Platform 6) with a JMS connection factory and a queue named test queue in it. 
+
+For JBoss AS 7 or JBoss Enterprise Application Platform 6:
 
 		<APP_SERVER_1_HOME>/bin/standalone.sh -c standalone-full.xml
 		<APP_SERVER_2_HOME>/bin/standalone.sh -c standalone-full.xml -Djboss.socket.binding.port-offset=100
@@ -85,16 +80,6 @@ or if you are using windows
 
 		<APP_SERVER_1_HOME>\bin\standalone.bat -c standalone-full.xml
 		<APP_SERVER_2_HOME>\bin\standalone.bat -c standalone-full.xml -Djboss.socket.binding.port-offset=100
-
-For JBoss Enterprise Application Platform 6:
-
-		<APP_SERVER_1_HOME>/bin/standalone.sh
-		<APP_SERVER_2_HOME>/bin/standalone.sh -Djboss.socket.binding.port-offset=100
-
-or if you are using windows
-
-		<APP_SERVER_1_HOME>\bin\standalone.bat
-		<APP_SERVER_2_HOME>\bin\standalone.bat -Djboss.socket.binding.port-offset=100
 
 
 To deploy the application, you first need to produce the archives to deploy using

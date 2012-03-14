@@ -59,25 +59,15 @@ The following instructions target JBoss AS 7, but they also apply to JBoss Enter
 ## Deploying the application
 
 First you need to start JBoss AS 7 (or JBoss Enterprise Application Platform 6)
-with a JMS connection factory in it. The instructions for this vary slightly depending upon whether you are using the
-community release (JBoss AS 7) or the platform release (JBoss Enterprise
-Application Platform 6).
+with a JMS connection factory in it.
 
-For JBoss AS 7:
+For JBoss AS 7 or JBoss Enterprise Application Platform 6:
 
     $JBOSS_HOME/bin/standalone.sh -c standalone-full.xml
 
-or if you are using JBoss AS 7 on windows
+or if you are using JBoss AS 7 or JBoss Enterprise Application Platform 6 on windows:
 
     $JBOSS_HOME/bin/standalone.bat -c standalone-full.xml
-
-For JBoss Enterprise Application Platform 6:
-
-    $JBOSS_HOME/bin/standalone.sh
-
-or if you are using JBoss Enterprise Application Platform 6 on windows
-
-    $JBOSS_HOME/bin/standalone.bat
 
 To deploy the application, you first need to produce the archive to deploy using
 the following Maven goal:
