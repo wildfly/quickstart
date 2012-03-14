@@ -45,12 +45,12 @@ The application will be running at the following URL <http://localhost:8080/jbos
 
 When you access the application, you should get a browser login challenge.
 
-After a successful login using admin/admin, the browser will display the following security info:
+After a successful login using UserA/password, the browser will display the following security info:
 
                 Successfully called Secured EJB
 
-                Principal : admin
-                Remote User : admin
+                Principal : UserA
+                Remote User : UserA
                 Authentication Type : BASIC
 
 Change the role in the quickstart /src/main/webapp/WEB-INF/classes/roles.properties files to 'gooduser1'. 
