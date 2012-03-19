@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    
+    <parent>
+        <groupId>org.jboss.as.quickstart.wicket-ear</groupId>
+        <artifactId>as7-quickstart-wicket-ear-parent</artifactId>
+        <version>7.1.1-SNAPSHOT</version>
+    </parent>
+    
+    <artifactId>as7-quickstart-wicket-ear-ear</artifactId>
+    <packaging>ear</packaging>
+    
+    <name>JBoss AS Quickstarts: Wicket EAR: EAR package</name>
+
+    
+    <dependencies>
+        
+        <!-- EJB JAR module. -->
+        <dependency>
+            <type>ejb</type>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>as7-quickstart-wicket-ear-ejb</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        
+        <!-- WAR module. -->
+        <dependency>
+            <type>war</type>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>as7-quickstart-wicket-ear-war</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+    
+    
+    <build>
+        <plugins>
+            
+            <!-- EAR archive creation. -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-ear-plugin</artifactId>
+                <version>2.6</version>
+                <configuration>
+                    <version>6</version>
+                    <modules>
+                        <webModule>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>as7-quickstart-wicket-ear-war</artifactId>
+                            <bundleFileName>as7-quickstart-wicket-ear.war</bundleFileName>
+                            <contextRoot>/jboss-as-wicket-ear</contextRoot>
+                        </webModule>
+                        <ejbModule>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>as7-quickstart-wicket-ear-ejb</artifactId>
+                            <bundleFileName>as7-quickstart-wicket-ear-ejb.jar</bundleFileName>
+                        </ejbModule>
+                    </modules>
+                </configuration>
+            </plugin>
+            
+            <!-- Skip JBoss AS plugin - only applicable for the EAR package. -->
+            <plugin>
+                <groupId>org.jboss.as.plugins</groupId>
+                <artifactId>jboss-as-maven-plugin</artifactId>
+                <version>7.1.0.Final</version>
+                <configuration>
+                    <skip>false</skip>
+                </configuration>
+            </plugin>
+            
+        </plugins>
+    </build>
+    
+</project>

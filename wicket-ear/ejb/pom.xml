@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    
+    <parent>
+        <groupId>org.jboss.as.quickstart.wicket-ear</groupId>
+        <artifactId>as7-quickstart-wicket-ear-parent</artifactId>
+        <version>7.1.1-SNAPSHOT</version>
+    </parent>
+    
+    <artifactId>as7-quickstart-wicket-ear-ejb</artifactId>
+    <packaging>ejb</packaging>
+    
+    <name>JBoss AS Quickstarts: Wicket EAR: EJB JAR</name>
+    
+    
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- Define the version of JBoss' Java EE 6 APIs and Tools we want to import.
+            Alternatively, use version 1.0.0.M5-redhat-1 which is a release certified to work with JBoss EAP 6. 
+            It requires you have access to the JBoss EAP 6 maven repository.
+        -->
+        <jboss.bom.version>1.0.0.M5</jboss.bom.version>
+    </properties>
+    
+    <dependencyManagement>
+        <dependencies>
+            <!-- 
+                Java EE 6 API.
+                
+                JBoss distributes a complete set of Java EE 6 APIs including a Bill of Materials (BOM). 
+                A BOM specifies the versions of a "stack" (or a collection) of artifacts.
+                We use this here so that we always get the correct versions.
+                * jboss-javaee-6.0-with-tools is a JBoss stack of the Java EE 6 APIs with extra tools, such as Arquillian for testing. 
+                * jboss-javaee-6.0-with-hibernate is a JBoss stack of the Java EE 6 APIs with extras from the Hibernate family of projects.
+                * jboss-javaee-6.0 stack is a JBoss stack of the Java EE 6 APIs.
+                  You can actually use it with any version of JBoss AS that implements Java EE 6, not just JBoss AS 7.
+            -->
+            <dependency>
+                <groupId>org.jboss.bom</groupId>
+                <artifactId>jboss-javaee-6.0-with-tools</artifactId>
+                <version>${jboss.bom.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss.bom</groupId>
+                <artifactId>jboss-javaee-6.0-with-hibernate</artifactId>
+                <version>${jboss.bom.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss.spec</groupId>
+                <artifactId>jboss-javaee-6.0</artifactId>
+                <version>3.0.0.Beta1</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+
+    <dependencies>
+        
+        <!-- "provided" scope used for API's included in JBoss AS 7. -->
+        
+        <!-- Import the Common Annotations API (JSR-250). -->
+        <dependency>
+            <groupId>org.jboss.spec.javax.annotation</groupId>
+            <artifactId>jboss-annotations-api_1.1_spec</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Import the EJB API. -->
+        <dependency>
+            <groupId>org.jboss.spec.javax.ejb</groupId>
+            <artifactId>jboss-ejb-api_3.1_spec</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+		<!-- Import the JPA API. -->
+        <dependency>
+            <groupId>org.hibernate.javax.persistence</groupId>
+            <artifactId>hibernate-jpa-2.0-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        
+    </dependencies>
+
+    
+    <build>
+        <plugins>
+
+            <!-- EJB archive creation. -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-ejb-plugin</artifactId>
+                <version>2.3</version>
+                <configuration>
+                    <ejbVersion>3.1</ejbVersion>
+                </configuration>
+            </plugin>
+            
+            <!-- Skip JBoss AS plugin - only applicable for the EAR package. -->
+            <plugin>
+                <groupId>org.jboss.as.plugins</groupId>
+                <artifactId>jboss-as-maven-plugin</artifactId>
+                <version>7.1.0.Final</version>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+            
+        </plugins>
+    </build>
+    
+</project>
