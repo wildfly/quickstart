@@ -1,20 +1,17 @@
-package org.jboss.as.quickstart.xml.catalog;
+package org.jboss.as.quickstart.xml;
 
 import java.io.Serializable;
 import java.util.Date;
 
 /**
- * Simple Java Bean which is filled by parser. It stores information about book.
+ * Simple Java Bean which is used as a data structure. It stores information about book.
  * 
  * @author baranowb
  * 
  */
+@SuppressWarnings("serial")
 public class Book implements Serializable{
 
-    /**
-     * 
-     */
-    private static final long serialVersionUID = -1990736601816252407L;
     private String author;
     private String title;
     private String genre;

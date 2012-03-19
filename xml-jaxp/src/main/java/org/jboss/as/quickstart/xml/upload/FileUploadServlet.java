@@ -20,7 +20,7 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 
-package org.jboss.as.quickstart.xml.jaxp;
+package org.jboss.as.quickstart.xml.upload;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,7 +29,6 @@ import java.util.logging.Logger;
 
 import javax.inject.Inject;
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -61,7 +60,7 @@ public class FileUploadServlet extends HttpServlet {
     private static final Logger logger = Logger.getLogger(FileUploadServlet.class.getName());
 
     // name of form fields which are looked up in multipart request
-    public static final String INPUT_NAME = "form:reg:file";
+    public static final String INPUT_NAME = "file";
 
     @Inject
     private FileUploadBean fileUploadBean;
@@ -85,19 +84,12 @@ public class FileUploadServlet extends HttpServlet {
         }
         
         /*
-         * Check if list with error messages is present in session. 
-         * This list is required since servlet is invoked in non JSF context and
-         * even though we can create FacesContext its does not transit to JSF
-         */
-        final ServletContext servletContext = super.getServletContext();
-
-        /*
          *  In servlet 3.0, Parts carry form data.
          *  Get Parts and perform some name & type checks.
          *  Parts contain all data sent in form
          *  not only file, we need only file.
          */
-        final Collection<Part> fileParts = req.getParts();
+        Collection<Part> fileParts = req.getParts();
         if (fileParts != null && fileParts.size() > 0) {
             for (Part p : fileParts) {
                 String partContentType = p.getContentType();
@@ -116,7 +108,7 @@ public class FileUploadServlet extends HttpServlet {
          *  Fetch dispatcher for '/'. This will make 'rd' initialized to dispatcher
          *  handling for application root.
          */
-        RequestDispatcher rd = servletContext.getRequestDispatcher("/");
+        RequestDispatcher rd = getServletContext().getRequestDispatcher("/");
 
             if(rd != null){
                 /*

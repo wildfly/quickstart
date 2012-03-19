@@ -1,24 +1,18 @@
-package org.jboss.as.quickstart.xml.jaxp.sax;
+package org.jboss.as.quickstart.xml;
 
 import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Alternative;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import org.jboss.as.quickstart.xml.XMLParser;
-import org.jboss.as.quickstart.xml.catalog.Book;
-import org.jboss.as.quickstart.xml.catalog.Catalog;
-import org.jboss.as.quickstart.xml.jaxp.FileUploadServlet;
-import org.jboss.as.quickstart.xml.jaxp.errors.ErrorHolder;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
@@ -32,13 +26,13 @@ import org.xml.sax.helpers.DefaultHandler;
  */
 @RequestScoped
 @Alternative
-public class SAXXMLParser extends XMLParser<Catalog> {
+public class SAXXMLParser extends XMLParser {
 
     private static final SimpleDateFormat DATE_FORMATTER = new SimpleDateFormat("yyyy-MM-dd");
     
     //Inject instance of error holder
     @Inject
-    private ErrorHolder errorHolder;
+    private Errors errorHolder;
     
     private SAXParser parser;
     private SAXHandler saxHandler;
@@ -51,23 +45,22 @@ public class SAXXMLParser extends XMLParser<Catalog> {
     }
 
     @Override
-    public Catalog parseInternal(InputStream is) throws Exception {
+    public List<Book> parseInternal(InputStream is) throws Exception {
 
         this.parser.parse(is, this.saxHandler);
         return this.saxHandler.catalog;
     }
 
-    @SuppressWarnings("unchecked")
     private class SAXHandler extends DefaultHandler {
 
-        private Catalog catalog;
+        private List<Book> catalog;
         private Book book;
 
         private String currentElementValue;
 
         @Override
         public void startDocument() throws SAXException {
-            this.catalog = new Catalog();
+            this.catalog = new ArrayList<Book>();
             this.book = null;
             super.startDocument();
         }

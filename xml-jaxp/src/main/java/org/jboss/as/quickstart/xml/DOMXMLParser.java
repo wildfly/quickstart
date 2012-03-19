@@ -1,9 +1,11 @@
-package org.jboss.as.quickstart.xml.jaxp.dom;
+package org.jboss.as.quickstart.xml;
 
 import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Default;
@@ -11,10 +13,6 @@ import javax.inject.Inject;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import org.jboss.as.quickstart.xml.XMLParser;
-import org.jboss.as.quickstart.xml.catalog.Book;
-import org.jboss.as.quickstart.xml.catalog.Catalog;
-import org.jboss.as.quickstart.xml.jaxp.errors.ErrorHolder;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -28,14 +26,13 @@ import org.xml.sax.SAXParseException;
  * @author baranowb
  * 
  */
-@SuppressWarnings("unchecked")
 @RequestScoped
 @Default
-public class DOMXMLParser extends XMLParser<Catalog> {
+public class DOMXMLParser extends XMLParser {
 
     //Inject instance of error holder
     @Inject
-    private ErrorHolder errorHolder;
+    private Errors errorHolder;
     
     private DocumentBuilder builder;
     private static final SimpleDateFormat DATE_FORMATTER = new SimpleDateFormat("yyyy-MM-dd");
@@ -43,8 +40,7 @@ public class DOMXMLParser extends XMLParser<Catalog> {
     DOMXMLParser() throws Exception {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         /*
-         *  this is strictly DTD validation, one of quirks in XML manipulation
-         *  schema validation my be done by hand.
+         *  bizarrely, setValidating refers to DTD validation only, and we are using schema validation
          */  
         factory.setValidating(false);
         factory.setNamespaceAware(true);
@@ -73,11 +69,11 @@ public class DOMXMLParser extends XMLParser<Catalog> {
     }
 
     @Override
-    public Catalog parseInternal(InputStream is) throws Exception {
+    public List<Book> parseInternal(InputStream is) throws Exception {
 
         Document document = this.builder.parse(is);
 
-        Catalog catalog = new Catalog();
+        List<Book> catalog = new ArrayList<Book>();
 
         Element root = document.getDocumentElement();
         if (!root.getLocalName().equals("catalog")) {

@@ -20,49 +20,35 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 
-package org.jboss.as.quickstart.xml.jaxp.errors;
+package org.jboss.as.quickstart.xml;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.enterprise.context.SessionScoped;
+import javax.enterprise.inject.Produces;
 import javax.inject.Named;
 
 /**
- * Bean used to store information about errors from other beans. Since in CDI beans we dont want to be aware of real RE, we need
- * to abstract error handling. Its purpose is just to make error messages available, so we can display.
+ * Stores parsing errors
  * 
  * @author baranowb
  * 
  */
+@SuppressWarnings("serial")
 @SessionScoped
-@Named(value="errorHolder")
-public class BasicErrorHolder implements ErrorHolder{
+public class Errors implements Serializable {
 
-    /**
-     * 
-     */
-    private static final long serialVersionUID = 7522998068777439073L;
     private List<Error> errorsList = new ArrayList<Error>();
 
-    @Override
-    public void addErrorMessage(String msg, Throwable t) {
-        Error error = new Error(msg, t);
+    public void addErrorMessage(String severity, Exception e) {
+        Error error = new Error(severity, e);
         this.errorsList.add(error);
     }
 
-    @Override
-    public int getErrorCount() {
-        return this.errorsList.size();
-    }
-
-    @Override
+    @Produces @Named
     public List<Error> getErrorMessages() {
-        return new ArrayList<Error>(this.errorsList);
+        return errorsList;
     }
-
-    @Override
-    public void clear() {
-        this.errorsList.clear();
-    }    
 }

@@ -20,38 +20,35 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 
-package org.jboss.as.quickstart.xml.jaxp.errors;
+package org.jboss.as.quickstart.xml;
 
-import java.io.Serializable;
-import java.util.List;
 
 /**
- * Error holder interface declaration. This hides how errors are stored.
+ * Simple class which represents some sort of error.
  * 
  * @author baranowb
  * 
  */
-public interface ErrorHolder extends Serializable{
-    /**
-     * Adds error to storage.
-     * @param msg
-     * @param t
-     */
-    public void addErrorMessage(String msg, Throwable t);
+public class Error {
+   private Exception exception;
+   private String severity;
 
-    /**
-     * Returns current number of errors
-     * @return
-     */
-    public int getErrorCount();
-    /**
-     * Return string representation of errors. This method will clear error storage.
-     * @return
-     */
-    public List<Error> getErrorMessages();
-    
-    /**
-     * Removes all errors stored 
-     */
-    public void clear();
+   /**
+    * @param e
+    * @param severity
+    */
+   public Error(String severity, Exception e) {
+      super();
+      this.exception = e;
+      this.severity = severity;
+   }
+
+   public Exception getException() {
+      return exception;
+   }
+
+   public String getSeverity() {
+      return severity;
+   }
+
 }
