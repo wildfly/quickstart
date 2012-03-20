@@ -18,10 +18,23 @@
         <woodstox.core.asl.version>4.1.1-redhat-1</woodstox.core.asl.version>
         <stax2.api.version>3.1.1-redhat-1</stax2.api.version>
         <seam.version>3.1.0.Final</seam.version>
+        <jsf.version>2.0.2-FCS</jsf.version>
         <jboss-as-management-port>9999</jboss-as-management-port>
         <jboss-as-management-host>localhost</jboss-as-management-host>
+        <tomcat.management.url>http://localhost:8080/manager/text</tomcat.management.url>
     </properties>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.jboss.seam</groupId>
+                <artifactId>seam-bom</artifactId>
+                <version>${seam.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
     <dependencies>
         <dependency>
             <groupId>org.infinispan</groupId>
@@ -29,8 +42,9 @@
             <version>${datagrid.version}</version>
             <scope>compile</scope>
         </dependency>
-        <!-- infinispan-core dependencies - need to specify them manually as we install infinispan-core
-             into local maven repo manually without transitive dependencies -->
+        <!-- infinispan-core dependencies - need to specify them manually 
+            as we install infinispan-core into local maven repo manually without transitive 
+            dependencies -->
         <dependency>
             <groupId>org.jgroups</groupId>
             <artifactId>jgroups</artifactId>
@@ -86,87 +100,21 @@
         <dependency>
             <groupId>org.jboss.seam.faces</groupId>
             <artifactId>seam-faces</artifactId>
-            <version>${seam.version}</version>
+            <scope>runtime</scope>
         </dependency>
         <dependency>
-            <groupId>org.jboss.seam.transaction</groupId>
-            <artifactId>seam-transaction</artifactId>
-            <version>${seam.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.seam.persistence</groupId>
-            <artifactId>seam-persistence</artifactId>
-            <version>${seam.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.seam.security</groupId>
-            <artifactId>seam-security</artifactId>
-            <version>${seam.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.drools</groupId>
-            <artifactId>drools-api</artifactId>
-            <version>5.1.1</version>
-        </dependency>
-        <dependency>
-            <groupId>com.ocpsoft</groupId>
-            <artifactId>prettyfaces-jsf2</artifactId>
-            <version>3.3.2</version>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-core</artifactId>
-            <version>4.0.0.CR5</version>
-        </dependency>
-        <dependency>
-            <groupId>javax.faces</groupId>
-            <artifactId>jsf-api</artifactId>
-            <version>2.1</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.spec.javax.servlet</groupId>
-            <artifactId>jboss-servlet-api_3.0_spec</artifactId>
-            <version>1.0.0.Final</version>
-            <scope>provided</scope>
+            <groupId>org.jboss.seam.international</groupId>
+            <artifactId>seam-international</artifactId>
+            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>javax.enterprise</groupId>
             <artifactId>cdi-api</artifactId>
             <version>1.0-SP4</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>javax.validation</groupId>
-            <artifactId>validation-api</artifactId>
-            <version>1.0.0.GA</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.spec.javax.ejb</groupId>
-            <artifactId>jboss-ejb-api_3.1_spec</artifactId>
-            <version>1.0.0.CR2</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.web</groupId>
-            <artifactId>el-impl</artifactId>
-            <version>2.2</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>javax.el</groupId>
-                    <artifactId>el-api</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>joda-time</groupId>
-            <artifactId>joda-time</artifactId>
-            <version>1.6.2</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
-        
+
     <build>
         <finalName>${project.artifactId}</finalName>
         <plugins>
@@ -181,8 +129,9 @@
                 <executions>
                     <execution>
                         <id>compile</id>
-                         <configuration> <compilerArgument>-proc:none</compilerArgument> 
-                            </configuration>
+                        <configuration>
+                            <compilerArgument>-proc:none</compilerArgument>
+                        </configuration>
                         <goals>
                             <goal>compile</goal>
                         </goals>
@@ -196,26 +145,9 @@
                     <skipTests>true</skipTests>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.jboss.as.plugins</groupId>
-                <artifactId>jboss-as-maven-plugin</artifactId>
-                <version>7.1.0.CR1b</version>
-                <executions>
-                    <execution>
-                        <phase>install</phase>
-                        <goals>
-                            <goal>deploy</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <port>${jboss-as-management-port}</port>
-                    <hostname>${jboss-as-management-host}</hostname>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
-    
+
     <profiles>
         <profile>
             <id>init-repo</id>
@@ -379,12 +311,57 @@
                                 </configuration>
                             </execution>
                         </executions>
-                      </plugin>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.jboss.as.plugins</groupId>
+                        <artifactId>jboss-as-maven-plugin</artifactId>
+                        <version>7.1.0.CR1b</version>
+                        <configuration>
+                            <port>${jboss-as-management-port}</port>
+                            <hostname>${jboss-as-management-host}</hostname>
+                        </configuration>
+                    </plugin>
                 </plugins>
             </build>
         </profile>
         <profile>
-            <id>local</id>
+            <id>library-jbossas</id>
+            <dependencies>
+                <dependency>
+                    <groupId>javax.faces</groupId>
+                    <artifactId>jsf-api</artifactId>
+                    <version>${jsf.version}</version>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>joda-time</groupId>
+                    <artifactId>joda-time</artifactId>
+                    <version>1.6.2</version>
+                    <scope>compile</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.jboss.seam.security</groupId>
+                    <artifactId>seam-security-api</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>org.jboss.seam.transaction</groupId>
+                    <artifactId>seam-transaction-api</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>org.jboss.seam.persistence</groupId>
+                    <artifactId>seam-persistence-api</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>com.ocpsoft</groupId>
+                    <artifactId>prettyfaces-jsf2</artifactId>
+                    <version>3.3.2</version>
+                </dependency>
+                <dependency>
+                    <groupId>org.hibernate</groupId>
+                    <artifactId>hibernate-core</artifactId>
+                    <version>4.0.0.CR5</version>
+                </dependency>
+            </dependencies>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
@@ -408,7 +385,99 @@
                                 </configuration>
                             </execution>
                         </executions>
-                      </plugin>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.jboss.as.plugins</groupId>
+                        <artifactId>jboss-as-maven-plugin</artifactId>
+                        <version>7.1.0.CR1b</version>
+                        <executions>
+                            <execution>
+                                <phase>install</phase>
+                                <goals>
+                                    <goal>deploy</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <port>${jboss-as-management-port}</port>
+                            <hostname>${jboss-as-management-host}</hostname>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>library-tomcat</id>
+            <dependencies>
+                <dependency>
+                    <groupId>javax.transaction</groupId>
+                    <artifactId>jta</artifactId>
+                    <version>1.1</version>
+                    <scope>runtime</scope>
+                </dependency>
+                <dependency>
+                    <groupId>javax.faces</groupId>
+                    <artifactId>jsf-api</artifactId>
+                    <version>${jsf.version}</version>
+                    <scope>compile</scope>
+                </dependency>
+                <dependency>
+                    <groupId>javax.faces</groupId>
+                    <artifactId>jsf-impl</artifactId>
+                    <version>${jsf.version}</version>
+                    <scope>runtime</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.jboss.weld.servlet</groupId>
+                    <artifactId>weld-servlet</artifactId>
+                    <version>1.1.4.Final</version>
+                    <scope>compile</scope>
+                </dependency>
+            </dependencies>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>build-helper-maven-plugin</artifactId>
+                        <version>1.7</version>
+                        <executions>
+                            <execution>
+                                <id>add-source</id>
+                                <phase>generate-sources</phase>
+                                <goals>
+                                    <goal>add-source</goal>
+                                </goals>
+                                <configuration>
+                                    <sources>
+                                        <source>src/local/java</source>
+                                    </sources>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-war-plugin</artifactId>
+                        <version>2.2</version>
+                        <configuration>
+                            <webResources>
+                                <resource>
+                                    <directory>src/main/webapp-tomcat7</directory>
+                                    <filtering>false</filtering>
+                                </resource>
+                            </webResources>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>tomcat-maven-plugin</artifactId>
+                        <version>1.1</version>
+                        <configuration>
+                            <server>tomcat</server>
+                            <path>/${project.artifactId}</path>
+                            <url>${tomcat.management.url}</url>
+                        </configuration>
+                    </plugin>
                 </plugins>
             </build>
         </profile>

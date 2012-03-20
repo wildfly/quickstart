@@ -31,7 +31,6 @@ import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import org.jboss.seam.faces.validation.InputField;
-
 import com.jboss.datagrid.carmart.model.Car.Country;
 
 /**

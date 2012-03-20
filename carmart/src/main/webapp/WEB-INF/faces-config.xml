@@ -4,6 +4,17 @@
    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd">
    
    <name>CarMart</name>
+   
+   <application>
+        <system-event-listener>
+            <system-event-listener-class>
+                com.jboss.datagrid.carmart.jsf.PopulateCache
+            </system-event-listener-class>
+            <system-event-class>
+                javax.faces.event.PostConstructApplicationEvent
+            </system-event-class>
+        </system-event-listener>
+   </application>
 
    <navigation-rule>
       <from-view-id>/home.xhtml</from-view-id>

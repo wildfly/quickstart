@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2012, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2009, Red Hat Middleware LLC, and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
  * distribution for a full listing of individual contributors.
  *
@@ -19,36 +19,47 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package com.jboss.datagrid.carmart.session;
+package com.jboss.datagrid.carmart.jsf;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
-import javax.annotation.PostConstruct;
-import javax.ejb.Singleton;
-import javax.ejb.Startup;
-import javax.inject.Inject;
+import javax.faces.application.Application;
+import javax.faces.event.AbortProcessingException;
+import javax.faces.event.SystemEvent;
+import javax.faces.event.SystemEventListener;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import org.infinispan.api.BasicCache;
-
 import com.jboss.datagrid.carmart.model.Car;
 import com.jboss.datagrid.carmart.model.Car.CarType;
 import com.jboss.datagrid.carmart.model.Car.Country;
+import com.jboss.datagrid.carmart.session.CacheContainerProvider;
+import com.jboss.datagrid.carmart.session.CarManager;
+import javax.enterprise.context.spi.CreationalContext;
+import javax.enterprise.inject.spi.Bean;
+import javax.enterprise.inject.spi.BeanManager;
 
 /**
- * Populates a cache with initial data.
+ * Populates a cache with initial data. We need to obtain BeanManager from
+ * JNDI and create an instance of CacheContainerProvider manually since injection 
+ * into Listeners is not supported by CDI specification.
  * 
  * @author Martin Gencur
  * 
  */
-@Startup
-@Singleton
-public class PopulateCache {
+public class PopulateCache implements SystemEventListener {
+
     private Logger log = Logger.getLogger(this.getClass().getName());
 
-    @Inject
     private CacheContainerProvider provider;
 
-    @PostConstruct
+    @Override
+    public void processEvent(SystemEvent event) throws AbortProcessingException {
+        provider = getContextualInstance(getBeanManager(), CacheContainerProvider.class);
+        startup();
+    }
+
     public void startup() {
         BasicCache<String, Object> cars = provider.getCacheContainer().getCache(CarManager.CACHE_NAME);
         List<String> carNumbers = new ArrayList<String>();
@@ -76,5 +87,40 @@ public class PopulateCache {
         }
 
         log.info("Successfully imported data!");
+    }
+
+    private BeanManager getBeanManager() {
+        InitialContext context;
+        Object result;
+        try {
+            context = new InitialContext();
+            result = context.lookup("java:comp/env/BeanManager"); //lookup in Tomcat
+        } catch (NamingException e) {
+            try {
+                context = new InitialContext();
+                result = context.lookup("java:comp/BeanManager"); //lookup in JBossAS
+            } catch (NamingException ex) {
+                throw new RuntimeException("BeanManager could not be found in JNDI", e);
+            }
+        }
+        return (BeanManager) result;
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T> T getContextualInstance(final BeanManager manager, final Class<T> type) {
+        T result = null;
+        Bean<T> bean = (Bean<T>) manager.resolve(manager.getBeans(type));
+        if (bean != null) {
+            CreationalContext<T> context = manager.createCreationalContext(bean);
+            if (context != null) {
+                result = (T) manager.getReference(bean, type, context);
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public boolean isListenerForSource(Object source) {
+        return source instanceof Application;
     }
 }

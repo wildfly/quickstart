@@ -12,30 +12,82 @@ the web application bundles only HotRod client and communicates with a remote JB
 The JDG server is configured via standalone.xml configuration file.
 
 
-Building and starting the application in library mode
------------------------------------------------------
+Building and deploying to JBoss AS 7
+------------------------------------
 
 0) Obtain JDG distribution with productized Infinispan libraries (library distribution)
 
 1) Install libraries from the bundle into your local maven repository
 
-    `mvn initialize -Pinit-repo -Ddatagrid.dist=/home/anyuser/jboss-datagrid-library-6.0.0.ER2-redhat-1`
+    `mvn initialize -Pinit-repo -Ddatagrid.dist=/home/anyuser/jboss-datagrid-library-6.0.0.ER4-redhat-1`
     
-2) Start JBoss AS 7 where your application will be running
+2) Start JBoss AS 7 where your application will run
 
     `$JBOSS_HOME/bin/standalone.sh`
 
-3) Build and deploy the application (deployed via a maven plugin connected to the management interface of AS)
+3) Build the application
 
-    `mvn clean install -Plocal`
+    `mvn clean package -Plibrary-jbossas`
 
-4) Go to http://localhost:8080/carmart-quickstart
+4) Deploy the application via jboss-as Maven plugin
+
+    `mvn jboss-as:deploy -Plibrary-jbossas`
+
+5) Go to http://localhost:8080/carmart-quickstart
+
+6) Undeploy the application
+
+    `mvn jboss-as:undeploy -Plibrary-jbossas`
+
+
+Building and deploying to Tomcat 7
+----------------------------------
+
+0) Obtain JDG distribution with productized Infinispan libraries (library distribution)
+
+1) Install libraries from the bundle into your local maven repository
+
+    `mvn initialize -Pinit-repo -Ddatagrid.dist=/home/anyuser/jboss-datagrid-library-6.0.0.ER4-redhat-1`
+
+2) This build assumes you will be running Tomcat 7 in its default
+   configuration, with a hostname of localhost and port 8080. Before starting
+   Tomcat, add the following lines to `conf/tomcat-users.xml` to allow the Maven
+   Tomcat plugin to access the manager application:
+
+    <role rolename="manager-script"/>
+    <user username="admin" password="" roles="manager-script"/>
+    
+3) Start Tomcat 7
+
+    `$CATALINA_HOME/bin/catalina.sh start`
+
+4) Build the application
+
+    `mvn clean package -Plibrary-tomcat`
+
+5) Add a `<server>` element into your Maven settings.xml with `<id>` equal to `tomcat` and correct credentials:
+
+    `<server>
+         <id>tomcat</id>
+         <username>admin</username>
+         <password></password>
+     </server>`
+
+6) Deploy the application via tomcat Maven plugin
+
+    `mvn tomcat:deploy -Plibrary-tomcat`
+
+7) Go to http://localhost:8080/carmart-quickstart
+
+8) Undeploy the application
+
+    `mvn tomcat:undeploy -Plibrary-tomcat`
 
 
 Building and starting the application in client-server mode (using HotRod client)
 ---------------------------------------------------------------------------------
 
-0) Obtain JDG distribution with productized Infinispan libraries (server distribution)
+0) Obtain JDG server distribution
 
 1) Add the following configuration to your `$JDG_HOME/standalone/configuration/standalone.xml` to configure
    remote datagrid
@@ -66,10 +118,18 @@ Building and starting the application in client-server mode (using HotRod client
 
     datagrid.address=test1
 
-5) In the example's directory:
+5) Build the application in the example's directory:
 
-    mvn clean install -Premote (deployed via a maven plugin connected to the management interface of AS)
+    `mvn clean package -Premote`
 
-6) Go to http://localhost:8080/carmart-quickstart
+6) Deploy the application
+
+    `mvn jboss-as:deploy -Premote`
+
+7) Go to http://localhost:8080/carmart-quickstart
+
+8) Undeploy the application
+
+    `mvn jboss-as:undeploy -Premote`
 
 NOTE: The application must be deployed into JBoss AS7, not JDG, since JDG does not support deploying applications. 
