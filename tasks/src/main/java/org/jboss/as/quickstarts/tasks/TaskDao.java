@@ -1,11 +1,11 @@
-package org.jboss.as.quickstarts.tasks.domain;
+package org.jboss.as.quickstarts.tasks;
 
 import java.util.List;
 
 import javax.ejb.Local;
 
 /**
- * Basic operations for manipulation with tasks
+ * Basic operations for manipulation of tasks
  * 
  * @author Lukas Fryc
  * 

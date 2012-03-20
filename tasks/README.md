@@ -1,5 +1,7 @@
-jboss-as-tasks
-==============
+tasks: Testing JPA with Arquillian
+==================================
+
+Authors: Oliver Kiss and Lukas Fryc
 
 What is it?
 -----------
@@ -48,16 +50,8 @@ test goal with the following profile activated:
 Testing on Managed Server
 -------------------------
  
-Arquillian will start the container for you. All you have to do is setup a path to your
-extracted . To do this, run
-  
-    export JBOSS_HOME=/path/to/jboss-as
-  
-or if you are using windows
- 
-    set JBOSS_HOME=X:\path\to\jboss-as
-
-Or hardcode the path in pom.xml file
+Arquillian will start the container for you. All you have to do is setup a path to JBoss AS. 
+Edit `src/test/resources/arquillian` and set the `jbossHome` element.
 
 To run the test in JBoss AS 7 or JBoss EAP 6, run the test goal with the following profile activated:
 

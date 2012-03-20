@@ -1,4 +1,4 @@
-package org.jboss.as.quickstarts.tasks.domain;
+package org.jboss.as.quickstarts.tasks;
 
 import java.util.List;
 

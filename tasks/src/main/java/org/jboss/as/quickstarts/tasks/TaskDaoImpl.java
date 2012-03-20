@@ -1,4 +1,4 @@
-package org.jboss.as.quickstarts.tasks.domain;
+package org.jboss.as.quickstarts.tasks;
 
 import java.util.List;
 
@@ -8,7 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
 /**
- * Provides functionality for manipulation with tasks using persistence context from {@link Resources}.
+ * Provides functionality for manipulation with tasks using the persistence context from {@link Resources}.
  * 
  * @author Lukas Fryc
  * @author Oliver Kiss

@@ -10,9 +10,7 @@ import javax.persistence.EntityManager;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.as.quickstarts.tasks.domain.User;
-import org.jboss.as.quickstarts.tasks.domain.UserDao;
-import org.jboss.shrinkwrap.api.spec.JavaArchive;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,7 +23,7 @@ import org.junit.runner.RunWith;
 public class UserDaoTest {
 
     @Deployment
-    public static JavaArchive deployment() throws IllegalArgumentException, FileNotFoundException {
+    public static WebArchive deployment() throws IllegalArgumentException, FileNotFoundException {
         return DefaultDeployment.deployment();
     }
 
