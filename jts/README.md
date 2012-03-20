@@ -51,9 +51,9 @@ to the startup script as "-Djboss.socket.binding.port-offset=100"
 
 The application servers should both be configured as follows:
 
-1.	Open the file `<APP_SERVER_1_HOME>`/standalone/configuration/standalone-full.xml
-2.	Enable JTS:
-    -   Find the orb subsystem and change the configuration to:  
+1. Open the file `<APP_SERVER_1_HOME>`/standalone/configuration/standalone-full.xml
+2. Enable JTS:
+    * Find the orb subsystem and change the configuration to:  
 
             <subsystem xmlns="urn:jboss:domain:jacorb:1.1">
                 <orb>
@@ -61,55 +61,55 @@ The application servers should both be configured as follows:
                 </orb>
             </subsystem>
 
-    -   Find the transaction subsystem and append the `<jts/>` element:  
+    * Find the transaction subsystem and append the `<jts/>` element:  
 
             <subsystem xmlns="urn:jboss:domain:transactions:1.1">
                 <!-- LEAVE EXISTING CONFIG AND APPEND THE FOLLOWING -->
                 <jts/>
             </subsystem>
 		
-
 To start JBoss AS 7 (or JBoss Enterprise Application Platform 6) with a JMS connection factory and a queue named test queue in it. 
 
 For JBoss AS 7 or JBoss Enterprise Application Platform 6:
 
-		<APP_SERVER_1_HOME>/bin/standalone.sh -c standalone-full.xml
-		<APP_SERVER_2_HOME>/bin/standalone.sh -c standalone-full.xml -Djboss.socket.binding.port-offset=100
+    <APP_SERVER_1_HOME>/bin/standalone.sh -c standalone-full.xml
+    <APP_SERVER_2_HOME>/bin/standalone.sh -c standalone-full.xml -Djboss.socket.binding.port-offset=100
 
 or if you are using windows
 
-		<APP_SERVER_1_HOME>\bin\standalone.bat -c standalone-full.xml
-		<APP_SERVER_2_HOME>\bin\standalone.bat -c standalone-full.xml -Djboss.socket.binding.port-offset=100
+    <APP_SERVER_1_HOME>\bin\standalone.bat -c standalone-full.xml
+    <APP_SERVER_2_HOME>\bin\standalone.bat -c standalone-full.xml -Djboss.socket.binding.port-offset=100
 
 
 To deploy the application, you first need to produce the archives to deploy using
-the following Maven goals. Note that application-component-2 must be built first as it provides an EJB client
-to application-component-1. Also note that application-component-2 must be "installed"
+the following Maven goals. Note that `application-component-2` must be built first as it provides an EJB client
+to `application-component-1`. Also note that `application-component-2` must be "installed"
 
-		cd <JTS_QUICKSTART_HOME>/application-component-2
-		mvn install
-		cd <JTS_QUICKSTART_HOME>/application-component-1
-		mvn package
+    cd <JTS_QUICKSTART_HOME>/application-component-2
+    mvn install
+    cd <JTS_QUICKSTART_HOME>/application-component-1
+    mvn package
 		
 You can now deploy the artifact to the JBoss application server by executing the following command. Again, due to the way the 
-application is written (with little failure detection), it is best to deploy application-component-2 first
-so that when application-component-1 is deployed it can resolve the EJB from the other container: 
+application is written (with little failure detection), it is best to deploy `application-component-2` first
+so that when `application-component-1` is deployed it can resolve the EJB from the other container: 
 		
-		cd <JTS_QUICKSTART_HOME>/application-component-2
-		mvn jboss-as:deploy
-		cd <JTS_QUICKSTART_HOME>/application-component-1
-		mvn jboss-as:deploy
+    cd <JTS_QUICKSTART_HOME>/application-component-2
+    mvn jboss-as:deploy
+    cd <JTS_QUICKSTART_HOME>/application-component-1
+    mvn jboss-as:deploy
 
 The application will now be running at the following URL <http://localhost:8080/jboss-as-jts-application-component-1/>.
 
 When you enter a name and click to "invoice" that customer, you will see the following in the application server 1 console:
-12:09:38,424 INFO  [org.jboss.ejb.client] (http-localhost-127.0.0.1-8080-1) JBoss EJB Client version 1.0.0.Beta11
-12:09:38,513 ERROR [jacorb.orb] (http-localhost-127.0.0.1-8080-1) no adapter activator exists for jboss-as-jts-application-component-2&%InvoiceManagerEJBImpl&%home
-12:09:39,204 INFO  [class org.jboss.as.quickstarts.cmt.jts.mdb.HelloWorldMDB] (Thread-1 (group:HornetQ-client-global-threads-1095034080)) Received Message: Created customer named: Tom
+    
+    12:09:38,424 INFO  [org.jboss.ejb.client] (http-localhost-127.0.0.1-8080-1) JBoss EJB Client version 1.0.0.Beta11
+    12:09:38,513 ERROR [jacorb.orb] (http-localhost-127.0.0.1-8080-1) no adapter activator exists for jboss-as-jts-application-component-2&%InvoiceManagerEJBImpl&%home
+    12:09:39,204 INFO  [class org.jboss.as.quickstarts.cmt.jts.mdb.HelloWorldMDB] (Thread-1 (group:HornetQ-client-global-threads-1095034080)) Received Message: Created customer named: Tom
 
 You will also see the following in application-server-2 console:
-12:09:38,697 INFO  [org.jboss.ejb.client] (RequestProcessor-10) JBoss EJB Client version 1.0.0.Beta11
-12:09:39,204 INFO  [class org.jboss.as.quickstarts.cmt.jts.mdb.HelloWorldMDB] (Thread-3 (group:HornetQ-client-global-threads-649946595)) Received Message: Created invoice for customer named: Tom
 
-The web page will change with a prompt for you to check the logs for the MDB messages in the server consoles above at which point you can be satisfied that the quickstart
-has operated correctly.
+    12:09:38,697 INFO  [org.jboss.ejb.client] (RequestProcessor-10) JBoss EJB Client version 1.0.0.Beta11
+    12:09:39,204 INFO  [class org.jboss.as.quickstarts.cmt.jts.mdb.HelloWorldMDB] (Thread-3 (group:HornetQ-client-global-threads-649946595)) Received Message: Created invoice for customer named: Tom
+
+The web page will change with a prompt for you to check the logs for the MDB messages in the server consoles above at which point you can be satisfied that the quickstart has operated correctly.
