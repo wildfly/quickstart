@@ -63,15 +63,16 @@ Quickstarts with tutorials in the [Getting Started Developing Applications Guide
 | [kitchensink-html5-mobile](kitchensink-html5-mobile/README.html "kitchensink-html5-mobile") | HTML5 | Based on kitchensink, but uses HTML5, making it suitable for mobile and tablet computers | Beginner | None |
 | [kitchensink-jsp](kitchensink-jsp/README.html "kitchensink-jsp") | JSP | Based on kitchensink, but uses a JSP for the user interface | Beginner | None |
 | [log4j](log4j/README.html "log4j") | JBoss Modules | Demonstrates how to use modules to control class loading for 3rd party logging frameworks | Beginner | None |
-| [logging](logging/README.html "logging") | JBoss Logging | Demonstrates the use of JBoss Logging | Beginner | None |
 | [mail](mail/README.html "mail") | JavaMail | Demonstrates the use of JavaMail | Beginner | None |
 | [numberguess**](numberguess/README.html "numberguess") | CDI, JSF | Demonstrates the use of CDI 1.0 and JSF 2.0  | Beginner | None |
 | [payment-cdi-event](payment-cdi-event/README.html "payment-cdi-event") | CDI, Events | Demonstrates how to use CDI 1.0 Events  | Beginner | None |
 | [servlet-async](servlet-async/README.html "servlet-async") | CDI, EJB, Servlet | Demonstrates CDI, plus asynchronous Servlets and EJBs | Intermediate | None |
 | [servlet-filterlistener](servlet-filterlistener/README.html "servlet-filterlistener") | Servlet | Demonstrates Servlet filters and listeners | Intermediate | None |
+| [tasks](tasks/README.html "servlet-filterlistener") | Arquillian, JPA | Demonstrates testing JPA using Arquillian | Intermediate | greeter |
 | [wsat-simple](wsat-simple/README.html "wsat-simple") | WS-AT, Web service, JAX-WS | Deployment of a WS-AT (WS-AtomicTransaction) enabled JAX-WS Web service bundled in a WAR archive  | Intermediate | None |
 | [wsba-coordinator-completion-simple](wsba-coordinator-completion-simple/README.html "wsba-coordinator-completion-simple") | WS-BA, Web service, JAX-WS | Deployment of a WS-BA (WS-BusinessActivity) enabled JAX-WS Web service bundled in a WAR archive (Participant Completion protocol) | Intermediate | None |
 | [wsba-participant-completion-simple](wsba-participant-completion-simple/README.html "wsba-participant-completion-simple") | WS-BA, Web service, JAX-WS | Deployment of a WS-BA (WS-BusinessActivity) enabled JAX-WS Web service bundled in a war archive (Coordinator Completion protocol) | Intermediate | None |
+| [xml-jaxp](xml-jaxp/README.html "xml-jaxp") | JAXP, SAX, DOM, Servlet | Upload, validation and parsing of XML using SAX or DOM | Intermediate | None |
 
 
 
