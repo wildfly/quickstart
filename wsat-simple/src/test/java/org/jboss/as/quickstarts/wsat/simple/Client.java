@@ -50,7 +50,7 @@ public class Client implements RestaurantServiceAT {
      * @throws MalformedURLException if the WSDL url is malformed.
      */
     public Client() throws MalformedURLException {
-        URL wsdlLocation = new URL("http://localhost:8080/test/RestaurantServiceAT?wsdl");
+        URL wsdlLocation = new URL("http://localhost:8080/wsat-simple/RestaurantServiceAT?wsdl");
         QName serviceName = new QName("http://www.jboss.com/jbossas/quickstarts/wsat/simple/Restaurant",
                 "RestaurantServiceATService");
         QName portName = new QName("http://www.jboss.com/jbossas/quickstarts/wsat/simple/Restaurant", "RestaurantServiceAT");

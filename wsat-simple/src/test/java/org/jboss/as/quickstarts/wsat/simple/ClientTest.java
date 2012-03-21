@@ -3,9 +3,11 @@ package org.jboss.as.quickstarts.wsat.simple;
 import com.arjuna.mw.wst11.UserTransaction;
 import com.arjuna.mw.wst11.UserTransactionFactory;
 
+import com.arjuna.mw.wst11.client.JaxWSHeaderContextProcessor;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.as.quickstarts.wsat.simple.jaxws.RestaurantServiceAT;
+import org.jboss.as.quickstarts.wsat.simple.jaxws.RestaurantServiceATService;
 import org.jboss.shrinkwrap.api.ArchivePaths;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
@@ -16,6 +18,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import javax.inject.Inject;
+import javax.xml.ws.BindingProvider;
+import javax.xml.ws.WebServiceRef;
+import javax.xml.ws.handler.Handler;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Simple set of tests for the RestaurantServiceAT
@@ -28,6 +35,7 @@ public class ClientTest {
     private static final String ManifestMF = "Manifest-Version: 1.0\n"
           + "Dependencies: org.jboss.xts,org.jboss.modules,org.jboss.msc,org.jboss.jts\n";
    
+
     @Inject
     @ClientStub
     private RestaurantServiceAT client;
@@ -40,11 +48,10 @@ public class ClientTest {
     @Deployment
     public static WebArchive createTestArchive() {
 
-        return ShrinkWrap.create(WebArchive.class, "test.war")
+        return ShrinkWrap.create(WebArchive.class, "wsat-simple.war")
                 .addPackages(true, RestaurantServiceATImpl.class.getPackage())
                 .addAsResource("context-handlers.xml")
                 .addAsWebInfResource(EmptyAsset.INSTANCE, ArchivePaths.create("beans.xml"))
-
                 .setManifest(new StringAsset(ManifestMF));
     }
 
@@ -55,6 +62,7 @@ public class ClientTest {
      */
     @Test
     public void testCommit() throws Exception {
+
         System.out
                 .println("\n\nStarting 'testCommit'. This test invokes a WS within an AT. The AT is later committed, which causes the back-end resource(s) to be committed.");
         System.out.println("[CLIENT] Creating a new WS-AT User Transaction");
@@ -84,6 +92,7 @@ public class ClientTest {
      */
     @Test
     public void testRollback() throws Exception {
+
         System.out
                 .println("\n\nStarting 'testRollback'. This test invokes a WS within an AT. The AT is later rolled back, which causes the back-end resource(s) to be rolled back.");
         System.out.println("[CLIENT] Creating a new WS-AT User Transaction");

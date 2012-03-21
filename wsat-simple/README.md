@@ -56,11 +56,16 @@ With the prerequisites out of the way, you're ready to build and deploy.
 Deploying the application
 -------------------------
 
-First you need to start JBoss AS 7 (7.1.0.CR1 or above, or EAP 6), with the XTS sub system enabled, this is enabled through an optional server configuration (standalone-xts.xml). To do this, run the following commands, from within the top-level directory of JBossAS:
+Firstly, to reduce the amount of logging produced, we will edit a log level. This should make it easier to read the logging produced by this example. To do this add the
+following logger block to the ./docs/examples/configs/standalone-xts.xml of your JBoss distribution. You should add it just bellow one of the other logger blocks.
 
-    ./bin/standalone.sh --server-config=../../docs/examples/configs/standalone-xts.xml | egrep "started|stdout"
+            <logger category="org.apache.cxf.service.factory.ReflectionServiceFactoryBean">
+                <level name="WARN"/>
+            </logger>         
 
-Note, the pipe to egrep (| egrep "started|stdout") is useful to just show when the server has started and the output from these tests. For normal operation, this pipe can be removed.
+Next you need to start JBoss AS 7 (7.1.0.CR1 or above, or EAP 6), with the XTS sub system enabled, this is enabled through an optional server configuration (standalone-xts.xml). To do this, run the following commands, from within the top-level directory of JBossAS:
+
+    ./bin/standalone.sh --server-config=../../docs/examples/configs/standalone-xts.xml
 
 or if you are using windows
 
@@ -70,7 +75,7 @@ To test the application run:
 
     mvn clean test -Parq-jbossas-remote
 
-The following expected output should appear. The output explains what actually went on when these tests ran.
+The following expected output should appear (there will be some other log messages interlaced between these). The output explains what actually went on when these tests ran.
 
 Test commit:
 
@@ -105,6 +110,111 @@ Test rollback:
 
 You can also start JBoss AS 7 and run the tests within Eclipse. See the JBoss AS 7
 Getting Started Guide for Developers for more information.
+
+
+Deploying the Application in OpenShift
+--------------------------------------
+
+Firstly lets assume you already have an openshift (express) account with a domain created. If you don't please visit https://openshift.redhat.com/app/login create an account and follow the getting started guide which can be found at http://docs.redhat.com/docs/en-US/OpenShift_Express/2.0/html/Getting_Started_Guide/index.html.
+
+Note that we'll use the `jboss-as-quickstart@jboss.org` user for these examples, you'll need to substitute it with your own user name.
+
+Open up a shell and from the directory of your choice run the following command to create our wsatsimple application.
+
+    rhc-create-app -a wsatsimple -t jbossas-7 -l jboss-as-quickstart@jboss.org
+
+You should see some output which will show the application being deployed and also the URL at which it can be accessed. If creation is successful, you should see similar output:
+
+    wsatsimple published:  http://wsatsimple-quickstart.rhcloud.com/
+    git url:  ssh://1e63c17c2dd94a329f21555a33dc617d@wsatsimple-quickstart.rhcloud.com/~/git/helloworldmdb.git/
+    Successfully created application: wsatsimple
+
+Now in a separate shell navigate to the wsat-simple quickstarts directory and copy the `pom.xml` and `src` directory to the `wsatsimple` directory created by `rhc-create-app`. For example, on Linux or Mac:
+
+    cp pom.xml ./wsatsimple
+    cp -r ./src ./wsatsimple
+
+Openshift does not have Web services or WS-AT enabled by default, so we need to modify the server configuration. To do this open `./wsatsimple/.openshift/config/standalone.xml` in your
+favorite editor and make the following additions:
+
+Add the following extensions to the `<extensions>` block:
+
+    <extension module="org.jboss.as.webservices"/>
+    <extension module="org.jboss.as.xts"/>
+
+Add the following sub systems to the `<profile>` block:
+
+    <subsystem xmlns="urn:jboss:domain:jmx:1.1">
+        <show-model value="true"/>
+        <remoting-connector/>
+    </subsystem>
+    <subsystem xmlns="urn:jboss:domain:webservices:1.1">
+        <modify-wsdl-address>true</modify-wsdl-address>
+        <wsdl-host>${env.OPENSHIFT_APP_DNS}</wsdl-host>
+        <wsdl-port>80</wsdl-port>
+        <endpoint-config name="Standard-Endpoint-Config"/>
+        <endpoint-config name="Recording-Endpoint-Config">
+            <pre-handler-chain name="recording-handlers" protocol-bindings="##SOAP11_HTTP ##SOAP11_HTTP_MTOM ##SOAP12_HTTP ##SOAP12_HTTP_MTOM">
+                <handler name="RecordingHandler" class="org.jboss.ws.common.invocation.RecordingServerHandler"/>
+            </pre-handler-chain>
+        </endpoint-config>
+    </subsystem>
+    <subsystem xmlns="urn:jboss:domain:xts:1.0">
+        <xts-environment url="http://${OPENSHIFT_INTERNAL_IP}:8080/ws-c11/ActivationService"/>
+    </subsystem>
+    
+to reduce the amount of logging produced, also edit a log level. This should make it easier to read the logging produced by this example. To do this add the
+following logger block just bellow one of the other logger blocks. To be clear, this is only done to make the demo easier to follow.
+
+    <logger category="org.apache.cxf.service.factory.ReflectionServiceFactoryBean">
+        <level name="WARN"/>
+    </logger
+
+The `./wsatsimple/.openshift/config/standalone.xml` is now ready, so save it and exit your editor.
+
+Now, we can add the files to the OpenShift GIT repository
+
+    cd ./wsatsimple
+    git add src pom.xml .openshift/config/standalone.xml
+
+Commit them, and push them up to OpenShift
+
+    git commit -m "deploy"
+
+    git push
+
+OpenShift will build the application using Maven, and deploy it to JBoss AS 7. If successful, you should see output similar to:
+
+    remote: [INFO] ------------------------------------------------------------------------
+    remote: [INFO] BUILD SUCCESS
+    remote: [INFO] ------------------------------------------------------------------------
+    remote: [INFO] Total time: 19.991s
+    remote: [INFO] Finished at: Wed Mar 07 12:48:15 EST 2012
+    remote: [INFO] Final Memory: 8M/168M
+    remote: [INFO] ------------------------------------------------------------------------
+    remote: Running .openshift/action_hooks/build
+    remote: Emptying tmp dir: /var/lib/libra/1e63c17c2dd94a329f21555a33dc617d/wsatsimple/jbossas-7/standalone/tmp/vfs
+    remote: Emptying tmp dir: /var/lib/libra/1e63c17c2dd94a329f21555a33dc617d/wsatsimple/jbossas-7/standalone/tmp/work
+    remote: Running .openshift/action_hooks/deploy
+    remote: Starting application...
+    remote: Done
+    remote: Running .openshift/action_hooks/post_deploy
+    To ssh://1e63c17c2dd94a329f21555a33dc617d@wsatsimple-quickstart.rhcloud.com/~/git/wsatsimple.git/
+       e6f80bd..63504b9  master -> master
+
+Note that the `openshift` profile in `pom.xml` is activated by OpenShift, and causes the war build by openshift to be copied to the `deployments` directory, and deployed without a context path.
+
+Now we will start to tail the log files of the server. To do this run the following command, remembering to replace the application name and login id.
+
+    rhc-tail-files -a wsatsimple -f wsatsimple/logs/server.log -l jboss-as-quickstart@jboss.org
+
+Once the app is deployed open up a browser and run the application, the URL will be similar as follows but with your own
+domain name.
+
+    http://wsatsimple-quickstart.rhcloud.com/wsat-simple/WSATSimpleServletClient
+
+If the application has run successfully you should see some output in the browser. You should also see some output on the server log, similar to the output from the "Test commit" test above.
+
 
 Importing the project into an IDE
 =================================

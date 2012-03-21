@@ -6,7 +6,7 @@
     <groupId>org.jboss.as.quickstarts</groupId>
     <artifactId>jboss-as-wsat-simple</artifactId>
     <version>7.1.1-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
     <name>JBoss AS Quickstarts: Simple WS-AT Web service</name>
     <description>JBoss AS Quickstarts: Simple WS-AT Web service</description>
 
@@ -62,34 +62,34 @@
 
     <dependencyManagement>
         <dependencies>
-        <!-- Define the version of JBoss' Java EE 6 APIs and Tools we want to import.  -->
+            <!-- Define the version of JBoss' Java EE 6 APIs and Tools we want to import.  -->
 
-        <!-- JBoss distributes a complete set of Java EE 6 APIs including a Bill
-          of Materials (BOM). A BOM specifies the versions of a "stack" (or a collection)
-          of artifacts. We use this here so that we always get the correct versions
-          of artifacts.-->
+            <!-- JBoss distributes a complete set of Java EE 6 APIs including a Bill
+           of Materials (BOM). A BOM specifies the versions of a "stack" (or a collection)
+           of artifacts. We use this here so that we always get the correct versions
+           of artifacts.-->
 
-          <!-- This BOM provides the jboss-javaee-6.0 with tools stack (you can read this as
-          the JBoss stack of the Java EE 6 APIs, with some extras tools for your project, such
-          as Arquillian for testing) -->
-         <dependency>
-            <groupId>org.jboss.bom</groupId>
-            <artifactId>jboss-javaee-6.0-with-tools</artifactId>
-            <version>1.0.0.M2</version>
-            <type>pom</type>
-            <scope>import</scope>
-         </dependency>
-         <!-- This BOM provides the jboss-javaee-6.0 with transactions stack (you can read this as
-          the JBoss stack of the Java EE 6 APIs, with some extra transactions APIS for your project,
-          that are not included in the Java EE 6 API. -->
-         <dependency>
-            <groupId>org.jboss.bom</groupId>
-            <artifactId>jboss-javaee-6.0-with-transactions</artifactId>
-            <version>1.0.0.M2</version>
-            <type>pom</type>
-            <scope>import</scope>
-         </dependency>
-      </dependencies>
+            <!-- This BOM provides the jboss-javaee-6.0 with tools stack (you can read this as
+        the JBoss stack of the Java EE 6 APIs, with some extras tools for your project, such
+        as Arquillian for testing) -->
+            <dependency>
+                <groupId>org.jboss.bom</groupId>
+                <artifactId>jboss-javaee-6.0-with-tools</artifactId>
+                <version>1.0.0.M2</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- This BOM provides the jboss-javaee-6.0 with transactions stack (you can read this as
+  the JBoss stack of the Java EE 6 APIs, with some extra transactions APIS for your project,
+  that are not included in the Java EE 6 API. -->
+            <dependency>
+                <groupId>org.jboss.bom</groupId>
+                <artifactId>jboss-javaee-6.0-with-transactions</artifactId>
+                <version>1.0.0.M2</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
     </dependencyManagement>
 
     <dependencies>
@@ -111,7 +111,7 @@
         <dependency>
             <groupId>javax.enterprise</groupId>
             <artifactId>cdi-api</artifactId>
-            <scope>test</scope>
+            <scope>provided</scope>
         </dependency>
 
         <!-- Import the Common Annotations API (JSR-250), we use provided scope
@@ -144,8 +144,24 @@
     </dependencies>
 
     <build>
+        <!-- Set the name of the war, used as the context root when the app is
+              deployed -->
+        <finalName>wsat-simple</finalName>
         <plugins>
-            <!-- JBoss AS deployment disabled, as this is a test-only example! -->
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.1.1</version>
+                <configuration>
+                    <!-- Java EE 6 doesn't require web.xml, Maven needs to catch up! -->
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                    <archive>
+                        <manifestEntries>
+                            <Dependencies>org.jboss.xts</Dependencies>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+            <!-- JBoss AS plugin to deploy war -->
             <plugin>
                 <groupId>org.jboss.as.plugins</groupId>
                 <artifactId>jboss-as-maven-plugin</artifactId>
@@ -220,6 +236,26 @@
             </dependencies>
         </profile>
 
+        <profile>
+            <!-- When built in OpenShift the 'openshift' profile will be used when invoking mvn. -->
+            <!-- Use this profile for any OpenShift specific customization your app will need. -->
+            <!-- By default that is to put the resulting archive into the 'deployments' folder. -->
+            <!-- http://maven.apache.org/guides/mini/guide-building-for-different-environments.html -->
+            <id>openshift</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-war-plugin</artifactId>
+                        <version>2.1.1</version>
+                        <configuration>
+                            <outputDirectory>deployments</outputDirectory>
+                            <!-- Java EE 6 doesn't require web.xml, Maven needs to catch up! -->
+                            <failOnMissingWebXml>false</failOnMissingWebXml>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
     </profiles>
 
 </project>

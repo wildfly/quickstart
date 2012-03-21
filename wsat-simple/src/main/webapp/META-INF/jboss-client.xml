@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE jboss-client PUBLIC "-//JBoss//DTD Application Client 5.0//EN" "http://www.jboss.org/j2ee/dtd/jboss-client_5_0.dtd">
+
+<jboss-client>
+  <jndi-name>jbossws-client</jndi-name>
+    <!--
+    @WebServiceRef(name = "EchoServiceService")
+    -->
+    <service-ref>
+      <service-ref-name>RestaurantServiceATService</service-ref-name>
+      <service-qname>{http://www.jboss.com/jbossas/quickstarts/wsat/simple/Restaurant}RestaurantServiceATService</service-qname>
+      <wsdl-override>WEB-INF/classes/org/jboss/as/quickstarts/wsat/simple/jaxws/RestaurantServiceAT.wsdl</wsdl-override>
+    </service-ref>
+
+</jboss-client>
