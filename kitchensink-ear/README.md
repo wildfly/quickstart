@@ -5,89 +5,126 @@ Author: Pete Muir
 What is it?
 -----------
 
-This is your project! It's a sample, deployable Maven 3 project to help you
-get your foot in the door developing with Java EE 6 on JBoss AS 7 or JBoss Enterprise Application Platform 6. This 
-project is setup to allow you to create a compliant Java EE 6 application 
-using JSF 2.0, CDI 1.0, EJB 3.1, JPA 2.0 and Bean Validation 1.0. It includes
-a persistence unit and some sample persistence and transaction code to help 
-you get your feet wet with database access in enterprise Java. 
+This is your project! It's a sample, deployable Maven 3 project to help you get your foot in the door developing with Java EE 6 on JBoss AS 7 or JBoss Enterprise Application Platform 6. 
+
+This project is setup to allow you to create a compliant Java EE 6 application using JSF 2.0, CDI 1.0, EJB 3.1, JPA 2.0 and Bean Validation 1.0. It includes a persistence unit and some sample persistence and transaction code to help you get your feet wet with database access in enterprise Java. 
 
 System requirements
 -------------------
 
-All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven
-3.0 or better.
+All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven 3.0 or better.
 
-The application this project produces is designed to be run on a JBoss AS 7 or JBoss Enterprise Application Platform 6. 
+The application this project produces is designed to be run on JBoss Enterprise Application Platform 6 or JBoss AS 7. 
 
-With the prerequisites out of the way, you're ready to build and deploy.
 
-Deploying the application
+Configure Maven 
+-------------
+
+If you have not yet done so, you must [Configure Maven](../README.html/#mavenconfiguration) before testing the quickstarts.
+
+
+Start the JBoss Server
 -------------------------
- 
-First you need to start JBoss A. To do this, run
-  
-    $JBOSS_HOME/bin/standalone.sh
-  
-or if you are using windows
- 
-    $JBOSS_HOME/bin/standalone.bat
-S
-To deploy the application, you first need to produce the archive to deploy using
-the following Maven goal:
 
-    mvn package
+Start the JBoss Enterprise Application Platform 6 or JBoss AS 7 Server with the web profile.
 
-You can now deploy the artifact to JBoss AS by executing the following command:
+1. Open a command line and navigate to the root of the JBoss directory.
+2. The following shows the command line to start the server with the web profile:
 
-    mvn jboss-as:deploy
+        For Linux:   JBOSS_HOME/bin/standalone.sh
+        For Windows: JBOSS_HOME\bin\standalone.bat
 
-This will deploy `target/jboss-as-kitchensink-ear.ear`.
- 
-The application will be running at the following URL <http://localhost:8080/jboss-as-kitchensink-ear/>.
+Build and Deploy the application
+-------------------------
 
-To undeploy from JBoss AS, run this command:
+1. Make sure your server is running.
+2. Open a command line and navigate to the root of the kitchensink-ear quickstart directory.
+3. Type the following in the command line: 
+    For JBoss Enterprise Application Platform 6, Maven user settings NOT configured: 
 
-    mvn jboss-as:undeploy
+        mvn clean package jboss-as:deploy -s PATH_TO_QUICKSTARTS/example-settings.xml
 
-You can also start JBoss AS 7 and deploy the project using Eclipse. See the JBoss AS 7
-<a href="https://docs.jboss.org/author/display/AS71/Getting+Started+Developing+Applications+Guide" title="Getting Started Developing Applications Guide">Getting Started Developing Applications Guide</a> for more information.
- 
-Running the Arquillian tests
-============================
+    For JBoss AS 7 or JBoss Enterprise Application Platform 6, Maven user settings configured: 
 
-By default, tests are configured to be skipped. The reason is that the sample
-test is an Arquillian test, which requires the use of a container. You can
-activate this test by selecting one of the container configuration provided 
-for JBoss AS 7 (remote).
+        mvn clean package jboss-as:deploy
 
-To run the test in JBoss AS 7, first start a JBoss AS 7 instance. Then, run the
-test goal with the following profile activated:
+4. This will build and deploy `ear/target/jboss-as-kitchensink-ear.ear`.
+5. To undeploy the application, run this command:
 
-    mvn clean test -Parq-jbossas-remote
+        mvn jboss-as:undeploy
 
-Importing the project into an IDE
-=================================
+You can also use Eclipse to start the JBoss Enterprise Application Platform 6 or JBoss AS 7 server and deploy the project. See the <a href="https://docs.jboss.org/author/display/AS71/Getting+Started+Developing+Applications+Guide" title="Getting Started Developing Applications Guide">Getting Started Developing Applications Guide</a> for more information.
 
-If you created the project using the Maven archetype wizard in your IDE
-(Eclipse, NetBeans or IntelliJ IDEA), then there is nothing to do. You should
-already have an IDE project.
+Access the application 
+---------------------
 
-Detailed instructions for using Eclipse with JBoss AS 7 are provided in the 
-JBoss AS 7 <a href="https://docs.jboss.org/author/display/AS71/Getting+Started+Developing+Applications+Guide" title="Getting Started Developing Applications Guide">Getting Started Developing Applications Guide</a>.
+The application will be running at the following URL <http://localhost:8080/jboss-as-kitchensink-ear>.
 
-If you created the project from the commandline using archetype:generate, then
-you need to import the project into your IDE. If you are using NetBeans 6.8 or
-IntelliJ IDEA 9, then all you have to do is open the project as an existing
-project. Both of these IDEs recognize Maven projects natively.
+1. Enter a name, email address, and Phone nubmer in the input field and click the _Register_ button.
+2. If the data entered is valid, the new member will be registered and added to the _Members_ display list.
+3. If the data is not valid, you must fix the validation errors and try again.
+4. When the registration is successful, you will see a log message in the server console:
 
-Downloading the sources and Javadocs
-====================================
+        Registering _the_name_you_entered_
 
-If you want to be able to debug into the source code or look at the Javadocs
-of any library in the project, you can run either of the following two
-commands to pull them into your local repository. The IDE should then detect
-them.
+Run the Arquillian tests
+---------------------
+
+By default, tests are configured to be skipped. The reason is that the sample test is an Arquillian test, which requires the use of a container. 
+
+Run these tests using either a managed or remote container.
+
+* Test the quickstart on a Remote Server
+
+    * A remote container requires you start the JBoss Enterprise Application Platform 6 or JBoss AS 7 server before running the test. Follow the instructions here to [Start the JBoss Server with the _web_ profile](../README.html#startserverweb) (or point to the server start method required by your quickstart).
+    * Run the test goal with the following profile activated:
+
+            mvn clean test -Parq-jbossas-remote
+
+* Test the quickstart on Managed Server
+
+     * Arquillian will start the container for you. You must set the path to your JBoss Enterprise Application Platform 6 or JBoss AS7. Open a command line and type the following command for your operating system:
+
+            Linux: export JBOSS_HOME=/path/to/jboss-as
+            Windows: SET JBOSS_HOME=X:\path\to\jboss-as
+
+     * Run the test goal with the following profile activated:
+
+             mvn clean test -Parq-jbossas-managed
+
+You should see the following console output when you run the test
+
+    Results :
+    Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
+
+Check the server console. You will see messages similar to the following:
+
+    INFO  [org.jboss.as.server] (management-handler-thread - 9) JBAS018559: Deployed "test.war"
+    INFO  [org.jboss.as.quickstarts.kitchensink_ear.controller.MemberRegistration] (http--127.0.0.1-8080-2) Registering Jane Doe
+    INFO  [org.jboss.as.quickstarts.kitchensink_ear.test.MemberRegistrationTest] (http--127.0.0.1-8080-2) Jane Doe was persisted with id 1
+    INFO  [org.jboss.weld.deployer] (MSC service thread 1-6) JBAS016009: Stopping weld service for deployment test.war
+    INFO  [org.jboss.as.jpa] (MSC service thread 1-1) JBAS011403: Stopping Persistence Unit Service 'test.war#primary'
+    INFO  [org.hibernate.tool.hbm2ddl.SchemaExport] (MSC service thread 1-1) HHH000227: Running hbm2ddl schema export
+    INFO  [org.hibernate.tool.hbm2ddl.SchemaExport] (MSC service thread 1-1) HHH000230: Schema export complete
+    INFO  [org.jboss.as.connector.subsystems.datasources] (MSC service thread 1-5) JBAS010409: Unbound data source [jboss/datasources/KitchensinkEarQuickstartTestDS]
+    INFO  [org.jboss.as.server.deployment] (MSC service thread 1-6) JBAS015877: Stopped deployment test.war in 19ms
+    INFO  [org.jboss.as.server] (management-handler-thread - 10) JBAS018558: Undeployed "test.war"
+
+
+Import the project into an IDE
+---------------------
+
+If you created the project using the Maven archetype wizard in your IDE (Eclipse, NetBeans or IntelliJ IDEA), there is nothing to do. You should already have an IDE project.
+
+Detailed instructions for using Eclipse with JBoss AS 7 are provided in the JBoss AS 7 <a href="https://docs.jboss.org/author/display/AS71/Getting+Started+Developing+Applications+Guide" title="Getting Started Developing Applications Guide">Getting Started Developing Applications Guide</a>.
+
+If you created the project from the command line using `archetype:generate`, you need to import the project into your IDE. If you are using NetBeans 6.8 or IntelliJ IDEA 9, all you have to do is open the project as an existing project. Both of these IDEs recognize Maven projects natively.
+
+
+Debug the Application
+---------------------
+
+If you want to debug the source code or look at the Javadocs of any library in the project, run either of the following commands to pull them into your local repository. The IDE should then detect them.
 
     mvn dependency:sources
     mvn dependency:resolve -Dclassifier=javadoc
