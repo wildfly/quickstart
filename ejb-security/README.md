@@ -8,14 +8,15 @@ The example can be deployed using Maven from the command line or from Eclipse us
 
 The following are the steps required to implement EJB security:
 
-1. The application will use a security domain that is defined in the application server standalone.xml that is called "other"
-2. Add a user called "UserA" with password = "password" and belongs to a role called "gooduser" and realm "ApplicationRealm", for more information regarding how to add a user using the "add-user" utility, please refer to the quick starts root readme.md file 
-3. A security-domain reference for the "other" security domain is added to /webapp/WEB-INF/jboss-web.xml, please note, jboss-web.xml is used for WAR packaging, if you would like to package the EJB in a JAR you would need to use jboss-ejb.xml instead  
-4. A security-constraints is added to the /webapp/WEB-INF/web.xml 
+1. Use the security domain `other` that is defined in the application server's default `standalone.xml`
+2. Add the user `user` with password `password` belonging to the role `guest` and realm `ApplicationRealm`. For more information regarding how to add a user using the "add-user" utility, please refer to the README in the root of the quickstarts 
+3. A security domain reference for the `other` security domain is added to `WEB-INF/jboss-web.xml`  
+4. A security constraint is added to `WEB-INF/web.xml` 
 5. Security annotations are added to the EJB declaration
-Please note the allowed user role "gooduser" in the annotation -`@RolesAllowed`- is the same as the user role defined in step 2
 
-For more information, refer to the  <a href="https://docs.jboss.org/author/display/AS71/Getting+Started+Developing+Applications+Guide" title="Getting Started Developing Applications Guide">Getting Started Developing Applications Guide</a> and find Security --> EJB3 Security.
+Please note the allowed user role `guest` in the annotation -`@RolesAllowed`- is the same as the user role defined in step 2
+
+For more information, refer to the  [Getting Started Developing Applications Guide](https://docs.jboss.org/author/display/AS71/Getting+Started+Developing+Applications+Guide).
 
 
 ## Deploying the Quickstart
@@ -35,9 +36,9 @@ To deploy the application, you first need to produce the archive:
 
 You can now deploy the artifact to JBoss AS by executing the following command:
 
-                mvn jboss-as:deploy
+    mvn jboss-as:deploy
 
-This will deploy `target/jboss-as-ejb-security` to the running instance of JBoss AS.
+This will deploy the application to the running instance of JBoss AS.
 
 ## Testing the Quickstart
 
@@ -45,27 +46,27 @@ The application will be running at the following URL <http://localhost:8080/jbos
 
 When you access the application, you should get a browser login challenge.
 
-After a successful login using UserA/password, the browser will display the following security info:
+After a successful login using `user`/`password`, the browser will display the following security info:
 
-                Successfully called Secured EJB
+    Successfully called Secured EJB
 
-                Principal : UserA
-                Remote User : UserA
-                Authentication Type : BASIC
+    Principal : user
+    Remote User : user
+    Authentication Type : BASIC
 
-Change the role in the quickstart /src/main/webapp/WEB-INF/classes/roles.properties files to 'gooduser1'. 
+Change the role in the quickstart `/src/main/webapp/WEB-INF/classes/roles.properties` files to `notauthorized`. 
 Rebuild the application using by typing the following command:
 
-                mvn clean package
+    mvn clean package
 
 Re-deploy the application by typing:
 
-                mvn jboss-as:deploy
+    mvn jboss-as:deploy
 
 Refresh the browser, clear the active login, and you should get a security exception similar to the following: 
 
-                HTTP Status 403 - Access to the requested resource has been denied
+    HTTP Status 403 - Access to the requested resource has been denied
 
-                type Status report
-                message Access to the requested resource has been denied
-                description Access to the specified resource (Access to the requested resource has been denied) has been forbidden.
+    type Status report
+    message Access to the requested resource has been denied
+    description Access to the specified resource (Access to the requested resource has been denied) has been forbidden.

@@ -16,25 +16,38 @@
  * MA  02110-1301, USA.
  *
  * (C) 2012,
- * @author Sherif Makary */
-
+ * @author Sherif Makary Red Hat MW SA.*/
 
 package org.jboss.as.quickstarts.ejb_security;
 
-import javax.ejb.Local;;
+import java.security.Principal;
 
+import javax.annotation.Resource;
+import javax.annotation.security.RolesAllowed;
+import javax.ejb.SessionContext;
+import javax.ejb.Stateless;
 
 /**
- * <p>
- * Simple secured ejb Interface
- * </p>
+ * Simple secured EJB using EJB security annotations
  * 
- * @author Sherif Makary MW SA
+ * @author Sherif Makary
  * 
  */
+@Stateless
+public class SecuredEJB {
 
-@Local
-public interface SecuredEJB {
-	public String getSecurityInfo();
+   // Inject the Session Context
+   @Resource
+   private SessionContext ctx;
 
+   /**
+    * Secured EJB method using security annotations
+    */
+   @RolesAllowed({ "guest" })
+   public String getSecurityInfo() {
+      // Session context injected using the resource annotation
+      Principal principal = ctx.getCallerPrincipal();
+
+      return principal.toString();
+   }
 }
