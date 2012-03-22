@@ -1,6 +1,5 @@
 package org.jboss.as.quickstarts.tasksJsf;
 
-import java.io.Serializable;
 import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
@@ -31,24 +30,17 @@ import javax.inject.Named;
  */
 @Named("taskList")
 @RequestScoped
-public class TaskListBean implements TaskList, Serializable {
-
-    private static final long serialVersionUID = 6500945303939594703L;
+public class TaskListBean implements TaskList {
 
     private List<Task> tasks;
 
     @Inject
-    TaskDao taskDao;
+    private TaskDao taskDao;
 
     @Inject
     @CurrentUser
-    User currentUser;
+    private User currentUser;
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.jboss.as.quickstarts.tasksJsf.web.TaskList#getAll()
-     */
     @Override
     public List<Task> getAll() {
         if (tasks == null) {
@@ -57,11 +49,6 @@ public class TaskListBean implements TaskList, Serializable {
         return tasks;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.jboss.as.quickstarts.tasksJsf.web.TaskList#invalidate()
-     */
     @Override
     public void invalidate() {
         tasks = null;

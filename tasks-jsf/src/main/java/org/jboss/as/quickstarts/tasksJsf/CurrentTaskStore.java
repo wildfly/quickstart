@@ -15,10 +15,9 @@ import javax.inject.Named;
  * @author Lukas Fryc
  *
  */
+@SuppressWarnings("serial")
 @ConversationScoped
 public class CurrentTaskStore implements Serializable {
-
-    private static final long serialVersionUID = 1L;
 
     private Task currentTask;
 

@@ -36,10 +36,10 @@ public class TaskDaoTest {
     }
 
     @Inject
-    EntityManager em;
+    private EntityManager em;
 
     @Inject
-    TaskDao taskDao;
+    private TaskDao taskDao;
 
     private User detachedUser;
 

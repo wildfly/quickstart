@@ -35,10 +35,10 @@ public class TaskListBeanTest {
     }
 
     @Inject
-    TaskDaoStub taskDaoStub;
+    private TaskDaoStub taskDaoStub;
 
     @Inject
-    TaskList taskList;
+    private TaskList taskList;
 
     @Test
     public void dao_method_getAll_should_be_called_only_once_on() {

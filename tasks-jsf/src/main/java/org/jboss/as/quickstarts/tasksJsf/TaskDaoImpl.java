@@ -18,7 +18,7 @@ import javax.persistence.TypedQuery;
 public class TaskDaoImpl implements TaskDao {
 
     @Inject
-    EntityManager em;
+    private EntityManager em;
 
     @Override
     public void createTask(User user, Task task) {

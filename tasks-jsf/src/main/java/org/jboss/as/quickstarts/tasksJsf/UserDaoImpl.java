@@ -17,7 +17,7 @@ import javax.persistence.EntityManager;
 public class UserDaoImpl implements UserDao {
 
     @Inject
-    EntityManager em;
+    private EntityManager em;
 
     public User getForUsername(String username) {
         List<User> result = em.createQuery("select u from User u where u.username = ?", User.class).setParameter(1, username)

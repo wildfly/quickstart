@@ -33,10 +33,10 @@ public class ResourcesTest {
     }
 
     @Inject
-    Instance<FacesContext> facesContextInstance;
+    private Instance<FacesContext> facesContextInstance;
 
     @Inject
-    Instance<Logger> loggerInstance;
+    private Instance<Logger> loggerInstance;
 
     @Test
     public void facesContext_should_be_provided_from_current_context() {

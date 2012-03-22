@@ -20,16 +20,16 @@ import javax.inject.Named;
 public class AuthController {
 
     @Inject
-    Authentication authentication;
+    private Authentication authentication;
 
     @Inject
-    UserDao userDao;
+    private UserDao userDao;
 
     @Inject
-    FacesContext facesContext;
+    private FacesContext facesContext;
 
     @Inject
-    Conversation conversation;
+    private Conversation conversation;
 
     /**
      * <p>

@@ -18,23 +18,23 @@ import javax.inject.Named;
 public class TaskController {
 
     @Inject
-    TaskDao taskDao;
+    private TaskDao taskDao;
 
     @Inject
-    TaskList taskList;
+    private TaskList taskList;
 
     /**
      * Injects current user, which is provided by {@link AuthController}.
      */
     @Inject
     @CurrentUser
-    Instance<User> currentUser;
+    private Instance<User> currentUser;
 
     /**
      * Injects current user stored in the conversation scope
      */
     @Inject
-    CurrentTaskStore currentTaskStore;
+    private CurrentTaskStore currentTaskStore;
 
     /**
      * Set the current task to the context
