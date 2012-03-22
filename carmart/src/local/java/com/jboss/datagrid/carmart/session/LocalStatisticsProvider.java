@@ -53,8 +53,8 @@ public class LocalStatisticsProvider implements StatisticsProvider {
         return String.valueOf(stats.getStores());
     }
 
-    public String getTotalEntries() {
-        return String.valueOf(stats.getTotalNumberOfEntries());
+    public String getCurrentEntries() {
+        return String.valueOf(stats.getCurrentNumberOfEntries());
     }
 
     public String getHits() {

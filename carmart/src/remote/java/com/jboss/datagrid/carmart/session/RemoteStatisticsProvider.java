@@ -58,8 +58,8 @@ public class RemoteStatisticsProvider implements StatisticsProvider {
         return stats.get(ServerStatistics.STORES);
     }
 
-    public String getTotalEntries() {
-        return stats.get(ServerStatistics.TOTAL_NR_OF_ENTRIES);
+    public String getCurrentEntries() {
+        return stats.get(ServerStatistics.CURRENT_NR_OF_ENTRIES);
     }
 
     public String getHits() {

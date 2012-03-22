@@ -36,7 +36,7 @@ public interface StatisticsProvider {
 
     public String getStores();
 
-    public String getTotalEntries();
+    public String getCurrentEntries();
 
     public String getHits();
 
