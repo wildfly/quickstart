@@ -16,25 +16,25 @@ to continue enhancing any application.
 System requirements
 -------------------
 
-All you need to build this project is Java 6.0 (Java SDK 1.6) or better, and an installation
-of JBoss Forge version 1.0.0.Beta5 or higher.
+The application this project produces is designed to be run on JBoss Enterprise Application Platform 6 or JBoss AS 7.
 
-The application this project produces is designed to be run on a JBoss AS 7 or EAP 6. 
-The following instructions target JBoss AS 7, but they also apply to JBoss EAP 6.
+All you need to build this project is Java 6.0 (Java SDK 1.6) or better, and an JBoss Developer Studio 5 or JBoss Forge version 1.0.0.Final (or higher).
+
+###JBoss Enterprise Application Platform 6
+
+If you are using JBoss Enterprise Application Platform 6, Forge is available in JBoss Developer Studio 5. To show the Forge Console, navigate to _Window -> Show View -> Other…_, locate _Forge Console_ and click _OK_. Then click the _Start_ button in top right corner of the view.
+
+###JBoss AS 7
+
+If you are using JBoss AS 7, you should install JBoss Forge version 1.0.0.Final or higher. Follow the instructions at [Installing Forge](https://docs.jboss.org/author/display/FORGE/Installation).
+
+Then, you need to launch Forge from your console
+
+    forge
  
-With the prerequisites out of the way, you are ready to build and deploy. Note that you
-do not need Maven installed in order to build this application because Forge bundles
-an embedded Maven 3 installation.
-
+With the prerequisites out of the way, you are ready to build and deploy. 
 Generating, Building, and Deploying the application
 -------------------------
- 
-First, you need to install JBoss Forge  version 1.0.0.Beta5 or higher. Follow the instructions at:
-
-   [Installing Forge](https://docs.jboss.org/author/display/FORGE/Installation)
-
-Then, you need to run `$ forge` from the command line, or from within JBoss Tools
-or by pressing CTRL-4.
 
 Change to the directory where this README.md file is located, using the `cd` command.
 
