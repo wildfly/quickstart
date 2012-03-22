@@ -1,4 +1,11 @@
-#!/bin/sh
+#!/bin/bash
+
+REQUIRED_BASH_VERSION=3.0.0
+
+if [[ $BASH_VERSION < $REQUIRED_BASH_VERSION ]]; then
+  echo "You must use Bash version 3 or newer to run this script"
+  exit
+fi
 
 SOURCE="${BASH_SOURCE[0]}"
 while [ -h "$SOURCE" ] ; do SOURCE="$(readlink "$SOURCE")"; done
