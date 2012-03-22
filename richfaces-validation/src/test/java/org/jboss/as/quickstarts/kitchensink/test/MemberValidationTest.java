@@ -8,7 +8,7 @@ import javax.validation.Validator;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.as.quickstarts.kitchensink.model.Member;
+import org.jboss.as.quickstarts.richfaces_validation.Member;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
@@ -22,7 +22,7 @@ import org.junit.runner.RunWith;
  * object.
  * 
  * This object is injected into the tests so user can verify the validators are working. This example does not touch validation
- * on database layer, e.g. it is not validating uniqueness constraint for email field.
+ * in the database layer, e.g. it is not validating uniqueness constraint for email field.
  * 
  * 
  * @author <a href="kpiwko@redhat.com>Karel Piwko</a>
@@ -40,11 +40,12 @@ public class MemberValidationTest {
     public static Archive<?> createTestArchive() {
         return ShrinkWrap.create(WebArchive.class, "test.war").addClasses(Member.class)
         // enable JPA
-                .addAsResource("META-INF/persistence.xml", "META-INF/persistence.xml")
+                .addAsResource("META-INF/test-persistence.xml", "META-INF/persistence.xml")
                 // add sample data
                 .addAsResource("import.sql")
                 // enable CDI
-                .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
+                .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
+                .addAsWebInfResource("test-ds.xml", "test-ds.xml");
     }
 
     // Get configured validator directly from JBoss AS 7 environment

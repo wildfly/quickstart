@@ -1,4 +1,4 @@
-package org.jboss.as.quickstarts.kitchensink.qualifiers;
+package org.jboss.as.quickstarts.richfaces_validation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 import javax.inject.Qualifier;
 
 /**
- * Qualifier for current task
+ * Qualifier for a new member
  *
  * @author Lukas Fryc
  */

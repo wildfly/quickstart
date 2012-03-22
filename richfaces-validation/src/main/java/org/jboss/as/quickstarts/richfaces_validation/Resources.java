@@ -1,4 +1,4 @@
-package org.jboss.as.quickstarts.kitchensink.web;
+package org.jboss.as.quickstarts.richfaces_validation;
 
 import java.util.logging.Logger;
 
