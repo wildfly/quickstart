@@ -2,15 +2,11 @@ HelloWorld JMS Example
 ======================
 This example demonstrates the use of external JMS clients with JBoss AS 7.
 
-The example provides a demonstration of both producing and consuming messages to and from
-a JMS destination deployed in the JBoss AS 7 environment. The example can be run from the Maven
-commandline, or from the Eclipse environment. 
+The example provides a demonstration of both producing and consuming messages to and from a JMS destination deployed in the JBoss AS 7 environment. The example can be run from the Maven commandline, or from the Eclipse environment. 
 
-However, before the example can be run successfully please follow the instructions in the 
-"Add a Management or Application User" section of the parent README.md.
+However, before the example can be run successfully please follow the instructions in the "Add a Management or Application User" section of the parent README.
 
-By default, the JMS messaging provider is not deployed with the standalone JBoss AS 7 server. You will either need to run 
-a domain server, or configure the standalone server for JMS message. Please refer to the JBoss AS 7 Documentation for further details.
+By default, the JMS messaging provider is not deployed with the standalone JBoss AS 7 server. You will either need to run a domain server, or configure the standalone server for JMS message. Please refer to the JBoss AS 7 Documentation for further details.
 
 To run the standalone server with JMS enabled:
 
@@ -18,7 +14,7 @@ To run the standalone server with JMS enabled:
 
 To run the quickstart from the commandline:
 
-    mvn compile exec:java
+    mvn clean compile exec:java
 
 If the quickstart is successful with the default configuration you will see output similar to this:
 
@@ -44,14 +40,14 @@ Optional Properties
 * `username`
    
     This username is used for both the JMS connection and the JNDI look-up.  See the instructions in the 
-    "Add a Management or Application User" section of the parent README.md for more information.
+    "Add a Management or Application User" section of the parent README for more information.
    
     Default: `quickstartUser`
 		
 * `password`
 
     This password is used for both the JMS connection and the JNDI look-up.  See the instructions in the 
-    "Add a Management or Application User" section of the parent README.md for more information.
+    "Add a Management or Application User" section of the parent README for more information.
    
     Default: `quickstartPassword`
 
