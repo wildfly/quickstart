@@ -26,11 +26,19 @@
 
 require 'rubygems'
 require 'redcarpet'
+require 'pygments.rb'
+
+# create a custom renderer that allows highlighting of code blocks
+class HTMLWithPygmentsAndPants < Redcarpet::Render::HTML
+  include Redcarpet::Render::SmartyPants
+  def block_code(code, language)
+    Pygments.highlight(code, :lexer => language, :options => {:encoding => 'utf-8'})
+  end
+end
 
 def markdown(text)
-  renderer = Redcarpet::Render::HTML.new(optionize [
+  renderer = HTMLWithPygmentsAndPants.new(optionize [
     :with_toc_data,
-    :hard_wrap,
     :xhtml
   ])
   markdown = Redcarpet::Markdown.new(renderer, optionize([
@@ -44,7 +52,8 @@ def markdown(text)
   ]))
   toc = Redcarpet::Markdown.new(Redcarpet::Render::HTML_TOC).render(text)
   text.gsub!("\[TOC\]", toc)
-  markdown.render(text)
+  rendered = markdown.render(text)
+  '<html><head><title>README</title><link href="https://raw.github.com/pmuir/github-flavored-markdown/gh-pages/shared/css/documentation.css" rel="stylesheet"></link><link href="https://raw.github.com/github/github-flavored-markdown/gh-pages/shared/css/pygments.css" rel="stylesheet"></link></head><body>' + rendered + '</body></html>'
   end
 
 def optionize(options)
