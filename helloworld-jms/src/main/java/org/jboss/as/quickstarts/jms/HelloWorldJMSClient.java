@@ -16,7 +16,7 @@ import javax.naming.InitialContext;
 public class HelloWorldJMSClient {
     private static final Logger log = Logger.getLogger(HelloWorldJMSClient.class.getName());
 
-    // Set up all the deafult values
+    // Set up all the default values
     private static final String DEFAULT_MESSAGE = "Hello, World!";
     private static final String DEFAULT_CONNECTION_FACTORY = "jms/RemoteConnectionFactory";
     private static final String DEFAULT_DESTINATION = "jms/queue/test";
@@ -41,7 +41,7 @@ public class HelloWorldJMSClient {
             // Set up the context for the JNDI lookup
             final Properties env = new Properties();
             env.put(Context.INITIAL_CONTEXT_FACTORY, INITIAL_CONTEXT_FACTORY);
-            env.put(Context.PROVIDER_URL, PROVIDER_URL);
+            env.put(Context.PROVIDER_URL, System.getProperty(Context.PROVIDER_URL, PROVIDER_URL));
             env.put(Context.SECURITY_PRINCIPAL, System.getProperty("username", DEFAULT_USERNAME));
             env.put(Context.SECURITY_CREDENTIALS, System.getProperty("password", DEFAULT_PASSWORD));
             context = new InitialContext(env);
@@ -92,3 +92,4 @@ public class HelloWorldJMSClient {
         }
     }
 }
+
