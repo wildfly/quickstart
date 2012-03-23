@@ -62,7 +62,7 @@ public class WSATSimpleServletClient extends HttpServlet {
         resp.setContentType("text/html");
         PrintWriter out = resp.getWriter();
 
-        out.write("<h1>Quickstart: Example demonstrates the use of *JMS 1.1* and *EJB 3.1 Message-Driven Bean* in JBoss AS 7.1.0.</h1>");
+        out.write("<h1>Quickstart: This example demonstrates the deployment of a WS-AT (WS-AtomicTransaction) enabled JAX-WS Web service bundled in a war archive for deployment to *JBoss AS 7*.</h1>");
 
         System.out.println("\n\nStarting 'testCommit'. This test invokes a WS within an AT. The AT is later committed, which causes the back-end resource(s) to be committed.");
         System.out.println("[CLIENT] Creating a new WS-AT User Transaction");

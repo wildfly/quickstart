@@ -129,7 +129,12 @@ You should see some output which will show the application being deployed and al
     git url:  ssh://1e63c17c2dd94a329f21555a33dc617d@wsatsimple-quickstart.rhcloud.com/~/git/helloworldmdb.git/
     Successfully created application: wsatsimple
 
-Now in a separate shell navigate to the wsat-simple quickstarts directory and copy the `pom.xml` and `src` directory to the `wsatsimple` directory created by `rhc-create-app`. For example, on Linux or Mac:
+Now in a separate shell navigate to the wsat-simple quickstarts directory and remove the template application:
+
+git rm ./wsatsimple/pom.xml
+git rm ./wsatsimple/src
+
+Now copy the `pom.xml` and `src` directory to the `wsatsimple` directory created by `rhc-create-app`. For example, on Linux or Mac:
 
     cp pom.xml ./wsatsimple
     cp -r ./src ./wsatsimple
