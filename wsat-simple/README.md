@@ -5,14 +5,11 @@ Author: Paul Robinson
 What is it?
 -----------
 
-This example demonstrates the deployment of a WS-AT (WS-AtomicTransaction) enabled JAX-WS Web service bundled in a war
-archive for deployment to *JBoss AS 7*.
+This example demonstrates the deployment of a WS-AT (WS-AtomicTransaction) enabled JAX-WS Web service bundled in a war archive for deployment to *JBoss AS 7*.
 
-The Web service is offered by a Restaurant for making bookings. The Service allows bookings to be made within an
-Atomic Transaction.
+The Web service is offered by a Restaurant for making bookings. The Service allows bookings to be made within an Atomic Transaction.
 
-The example demonstrates the basics of implementing a WS-AT enabled Web service. It is beyond the scope of this
-quick start to demonstrate more advanced features. In particular:
+The example demonstrates the basics of implementing a WS-AT enabled Web service. It is beyond the scope of this quick start to demonstrate more advanced features. In particular:
 
 1. The Service does not implement the required hooks to support recovery in the presence of failures.
 2. It also does not utilize a transactional back end resource.
@@ -20,11 +17,9 @@ quick start to demonstrate more advanced features. In particular:
 
 For a more complete example, please see the XTS demonstrator application that ships with the JBossTS project: http://www.jboss.org/jbosstm.
 
-It is also assumed tht you have an understanding of WS-AtomicTransaction. For more details, read the XTS documentation
-that ships with the JBossTS project, which can be downloaded here: http://www.jboss.org/jbosstm/downloads/JBOSSTS_4_16_0_Final
+It is also assumed that you have an understanding of WS-AtomicTransaction. For more details, read the XTS documentation that ships with the JBossTS project, which can be downloaded here: http://www.jboss.org/jbosstm/downloads/JBOSSTS_4_16_0_Final
 
-The application consists of a single JAX-WS web service that is deployed within a war archive. It is tested with a JBoss
-Arquillian enabled JUnit test.
+The application consists of a single JAX-WS web service that is deployed within a war archive. It is tested with a JBoss Arquillian enabled JUnit test.
 
 When running the org.jboss.as.quickstarts.wsat.simple.ClientTest#testCommit() method, the
 following steps occur:
@@ -115,77 +110,77 @@ Getting Started Guide for Developers for more information.
 Deploying the Application in OpenShift
 --------------------------------------
 
-Firstly lets assume you already have an openshift (express) account with a domain created. If you don't please visit https://openshift.redhat.com/app/login create an account and follow the getting started guide which can be found at http://docs.redhat.com/docs/en-US/OpenShift_Express/2.0/html/Getting_Started_Guide/index.html.
+Firstly lets assume you already have an openshift (express) account with a domain created. If you don't please visit <https://openshift.redhat.com/app/login> create an account and follow the getting started guide which can be found at <http://docs.redhat.com/docs/en-US/OpenShift_Express/2.0/html/Getting_Started_Guide/index.html>.
 
 Note that we'll use the `jboss-as-quickstart@jboss.org` user for these examples, you'll need to substitute it with your own user name.
 
 Open up a shell and from the directory of your choice run the following command to create our wsatsimple application.
 
-    rhc-create-app -a wsatsimple -t jbossas-7 -l jboss-as-quickstart@jboss.org
+    rhc-create-app -a wsatsimple -t jbossas-7
 
 You should see some output which will show the application being deployed and also the URL at which it can be accessed. If creation is successful, you should see similar output:
 
+    Creating application: wsatsimple
+    Now your new domain name is being propagated worldwide (this might take a minute)...
+    Warning: Permanently added the RSA host key for IP address '23.20.102.147' to the list of known hosts.
+    Confirming application 'wsatsimple' is available:  Success!
+    
     wsatsimple published:  http://wsatsimple-quickstart.rhcloud.com/
-    git url:  ssh://1e63c17c2dd94a329f21555a33dc617d@wsatsimple-quickstart.rhcloud.com/~/git/helloworldmdb.git/
+    git url:  ssh://76f095330e3f49af97a52e513a9c966b@wsatsimple-quickstart.rhcloud.com/~/git/wsatsimple.git/
     Successfully created application: wsatsimple
 
-Now in a separate shell navigate to the wsat-simple quickstarts directory and remove the template application:
+Now that you have confirmed it is working you can now migrate the quickstart source. You no longer need the default application so change directory into the new git repo and tell git to remove the source files and pom:
 
-git rm ./wsatsimple/pom.xml
-git rm ./wsatsimple/src
+    cd wsatsimple
+    git rm -r src pom.xml
 
-Now copy the `pom.xml` and `src` directory to the `wsatsimple` directory created by `rhc-create-app`. For example, on Linux or Mac:
+Copy the source for the wsat-simple quickstart into this new git repo:
 
-    cp pom.xml ./wsatsimple
-    cp -r ./src ./wsatsimple
+    cp -r <quickstarts>/wsat-simple/src .
+    cp <quickstarts>/wsat-simple/pom.xml .
 
-Openshift does not have Web services or WS-AT enabled by default, so we need to modify the server configuration. To do this open `./wsatsimple/.openshift/config/standalone.xml` in your
+Openshift does not have Web services or WS-AT enabled by default, so we need to modify the server configuration. To do this open `.openshift/config/standalone.xml` in your
 favorite editor and make the following additions:
 
 Add the following extensions to the `<extensions>` block:
 
-    <extension module="org.jboss.as.webservices"/>
-    <extension module="org.jboss.as.xts"/>
+            <extension module="org.jboss.as.webservices"/>
+            <extension module="org.jboss.as.xts"/>
 
 Add the following sub systems to the `<profile>` block:
 
-    <subsystem xmlns="urn:jboss:domain:jmx:1.1">
-        <show-model value="true"/>
-        <remoting-connector/>
-    </subsystem>
-    <subsystem xmlns="urn:jboss:domain:webservices:1.1">
-        <modify-wsdl-address>true</modify-wsdl-address>
-        <wsdl-host>${env.OPENSHIFT_APP_DNS}</wsdl-host>
-        <wsdl-port>80</wsdl-port>
-        <endpoint-config name="Standard-Endpoint-Config"/>
-        <endpoint-config name="Recording-Endpoint-Config">
-            <pre-handler-chain name="recording-handlers" protocol-bindings="##SOAP11_HTTP ##SOAP11_HTTP_MTOM ##SOAP12_HTTP ##SOAP12_HTTP_MTOM">
-                <handler name="RecordingHandler" class="org.jboss.ws.common.invocation.RecordingServerHandler"/>
-            </pre-handler-chain>
-        </endpoint-config>
-    </subsystem>
-    <subsystem xmlns="urn:jboss:domain:xts:1.0">
-        <xts-environment url="http://${OPENSHIFT_INTERNAL_IP}:8080/ws-c11/ActivationService"/>
-    </subsystem>
+            <subsystem xmlns="urn:jboss:domain:jmx:1.1">
+                <show-model value="true"/>
+                <remoting-connector/>
+            </subsystem>
+            <subsystem xmlns="urn:jboss:domain:webservices:1.1">
+                <modify-wsdl-address>true</modify-wsdl-address>
+                <wsdl-host>${env.OPENSHIFT_APP_DNS}</wsdl-host>
+                <wsdl-port>80</wsdl-port>
+                <endpoint-config name="Standard-Endpoint-Config"/>
+                <endpoint-config name="Recording-Endpoint-Config">
+                    <pre-handler-chain name="recording-handlers" protocol-bindings="##SOAP11_HTTP ##SOAP11_HTTP_MTOM ##SOAP12_HTTP ##SOAP12_HTTP_MTOM">
+                        <handler name="RecordingHandler" class="org.jboss.ws.common.invocation.RecordingServerHandler"/>
+                    </pre-handler-chain>
+                </endpoint-config>
+            </subsystem>
+            <subsystem xmlns="urn:jboss:domain:xts:1.0">
+                <xts-environment url="http://${OPENSHIFT_INTERNAL_IP}:8080/ws-c11/ActivationService"/>
+            </subsystem>
     
 to reduce the amount of logging produced, also edit a log level. This should make it easier to read the logging produced by this example. To do this add the
 following logger block just bellow one of the other logger blocks. To be clear, this is only done to make the demo easier to follow.
 
-    <logger category="org.apache.cxf.service.factory.ReflectionServiceFactoryBean">
-        <level name="WARN"/>
-    </logger
+                    <logger category="org.apache.cxf.service.factory.ReflectionServiceFactoryBean">
+                        <level name="WARN"/>
+                    </logger>
 
-The `./wsatsimple/.openshift/config/standalone.xml` is now ready, so save it and exit your editor.
+The `.openshift/config/standalone.xml` is now ready, so save it and exit your editor.
 
-Now, we can add the files to the OpenShift GIT repository
+You can now deploy the changes to your OpenShift application using git as follows:
 
-    cd ./wsatsimple
     git add src pom.xml .openshift/config/standalone.xml
-
-Commit them, and push them up to OpenShift
-
-    git commit -m "deploy"
-
+    git commit -m "wsat-simple quickstart on OpenShift"
     git push
 
 OpenShift will build the application using Maven, and deploy it to JBoss AS 7. If successful, you should see output similar to:
@@ -211,7 +206,7 @@ Note that the `openshift` profile in `pom.xml` is activated by OpenShift, and ca
 
 Now we will start to tail the log files of the server. To do this run the following command, remembering to replace the application name and login id.
 
-    rhc-tail-files -a wsatsimple -f wsatsimple/logs/server.log -l jboss-as-quickstart@jboss.org
+    rhc-tail-files -a wsatsimple -f wsatsimple/logs/server.log
 
 Once the app is deployed open up a browser and run the application, the URL will be similar as follows but with your own
 domain name.
@@ -220,6 +215,11 @@ domain name.
 
 If the application has run successfully you should see some output in the browser. You should also see some output on the server log, similar to the output from the "Test commit" test above.
 
+You can use the OpenShift command line tools or the OpenShift web console to discover and control the application.
+
+When you are finished with the application you can destroy it as follows:
+
+        rhc app destroy -a wsatsimple
 
 Importing the project into an IDE
 =================================
