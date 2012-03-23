@@ -1,0 +1,24 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:s="http://jboss.org/seam/faces">
+
+<ui:composition template="template.xhtml">
+
+    <ui:define name="mainarea">
+        <h:outputText value="Car Details" styleClass="carsTitle"/>
+        <h:panelGrid columns="2" styleClass="innerContent">
+            <h:outputLabel value="Car Number Plate:" /><h:outputText value="#{carManager.car.numberPlate}" />
+            <h:outputLabel value="Country:" /><h:outputText value="#{carManager.car.country}" />
+            <h:outputLabel value="Brand:" /><h:outputText value="#{carManager.car.brand}" />
+            <h:outputLabel value="Color:" /><h:outputText value="#{carManager.car.color}" />
+            <h:outputLabel value="Displacement [l]:" /><h:outputText value="#{carManager.car.displacement}" />
+            <h:outputLabel value="Type:" /><h:outputText value="#{carManager.car.type}" />
+        </h:panelGrid>
+    </ui:define>
+    
+</ui:composition>
+
+</html>
