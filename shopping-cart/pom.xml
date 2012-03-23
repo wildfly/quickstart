@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.jboss.as.quickstarts</groupId>
@@ -17,30 +17,91 @@
         </license>
     </licenses>
 
-    <!-- This quickstart consists of a server side component and a client side that accesses
-	 the server side component. Each component has its own self contain pom. However,
-	 you can add these modules here to keep things modular.
-	 -->
+    <!-- This quickstart consists of a server side component and a client 
+        side that accesses the server side component. Each component has its own 
+        self contain pom. -->
     <modules>
         <module>server</module>
         <module>client</module>
     </modules>
 
-   <build>
-      <plugins>
+    <properties>
+        <!-- Explicitly declaring the source encoding eliminates the following 
+            message: -->
+        <!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered 
+            resources, i.e. build is platform dependent! -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- Timestamp format for the maven.build.timestamp property -->
+        <!-- You can reference property in pom.xml or filtered resources 
+            (must enable third-party plugin if using Maven < 2.1) -->
+        <maven.build.timestamp.format>yyyyMMdd'T'HHmmss</maven.build.timestamp.format>
+
+        <!-- Define the version of JBoss' Java EE 6 APIs we want to import. -->
+        <javaee6.spec.version>3.0.0.Beta1</javaee6.spec.version>
+        <!-- Alternatively, comment out the above line, and un-comment the 
+            line below to use version 3.0.0.Beta1-redhat-1 which is a release certified 
+            to work with JBoss EAP 6. It requires you have access to the JBoss EAP 6 
+            maven repository. -->
+        <!-- <javaee6.spec.version>3.0.0.Beta1-redhat-1</javaee6.spec.version> -->
+
+        <!-- Define the version of JBoss EJB Client we want to use. This 
+            should match the JBoss AS version in use -->
+        <jboss.ejb.client.version>7.1.1.Final</jboss.ejb.client.version>
+        <!-- Alternatively, comment out the above line, and un-comment the 
+            line below to use version 7.1.1.Final-redhat-1 which is a release certified 
+            to work with JBoss EAP 6. It requires you have access to the JBoss EAP 6 
+            maven repository. -->
+        <!-- <javaee6.spec.version>7.1.1.Final-redhat-1</javaee6.spec.version> -->
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- JBoss distributes a complete set of Java EE 6 APIs including 
+                a Bill of Materials (BOM). A BOM specifies the versions of a "stack" (or 
+                a collection) of artifacts. We use this here so that we always get the correct 
+                versions of artifacts. Here we use the jboss-javaee-6.0 stack (you can read 
+                this as the JBoss stack of the Java EE 6 APIs) -->
+            <dependency>
+                <groupId>org.jboss.spec</groupId>
+                <artifactId>jboss-javaee-6.0</artifactId>
+                <version>${javaee6.spec.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- We depend on the server side EJBs of this application -->
+            <dependency>
+                <groupId>org.jboss.as.quickstarts</groupId>
+                <artifactId>jboss-as-shoppingcart-server</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            
+            <!-- We need the EJB Client -->
+            <dependency>
+                <groupId>org.jboss.as</groupId>
+                <artifactId>jboss-as-ejb-client-bom</artifactId>
+                <version>${jboss.ejb.client.version}</version>
+                <type>pom</type>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
             <!-- The JBoss AS plugin deploys your apps to a local JBoss AS 
-               container -->
-            <!-- Disabling it here means that we don't try to deploy this POM! -->
+                container -->
+            <!-- Disabling it here means that we don't try to deploy this 
+                POM! -->
             <plugin>
-               <groupId>org.jboss.as.plugins</groupId>
-               <artifactId>jboss-as-maven-plugin</artifactId>
-               <version>7.1.0.Final</version>
-               <inherited>true</inherited>
-               <configuration>
-                  <skip>true</skip>
-               </configuration>
+                <groupId>org.jboss.as.plugins</groupId>
+                <artifactId>jboss-as-maven-plugin</artifactId>
+                <version>7.1.1.Final</version>
+                <inherited>true</inherited>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
             </plugin>
-         </plugins>
-   </build>
+        </plugins>
+    </build>
 
 </project>

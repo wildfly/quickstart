@@ -26,36 +26,33 @@ import java.util.logging.Logger;
 
 import javax.ejb.Remove;
 import javax.ejb.Stateful;
-import javax.ejb.Remote;
 
 /**
  * @author Serge Pagop
  */
 @Stateful
-@Remote(ShoppingCart.class)
-public class ShoppingCartBean implements ShoppingCart{
+public class ShoppingCartBean implements ShoppingCart {
 
-    private final static Logger LOGGER = Logger.getLogger(ShoppingCartBean.class
-            .toString());
+   private final static Logger LOGGER = Logger.getLogger(ShoppingCartBean.class.toString());
 
-    private HashMap<String, Integer> cart = new HashMap<String, Integer>();
+   private HashMap<String, Integer> cart = new HashMap<String, Integer>();
 
-    public void buy(String product, int quantity) {
-        if (cart.containsKey(product)) {
-            int currq = cart.get(product);
-            currq += quantity;
-            cart.put(product, currq);
-        } else {
-            cart.put(product, quantity);
-        }
-    }
+   public void buy(String product, int quantity) {
+      if (cart.containsKey(product)) {
+         int currentQuantity = cart.get(product);
+         currentQuantity += quantity;
+         cart.put(product, currentQuantity);
+      } else {
+         cart.put(product, quantity);
+      }
+   }
 
-    public HashMap<String, Integer> getCartContents() {
-        return cart;
-    }
+   public HashMap<String, Integer> getCartContents() {
+      return cart;
+   }
 
-    @Remove
-    public void checkout() {
-        LOGGER.info("'checkout()' has to be implemented");
-    }
+   @Remove
+   public void checkout() {
+      LOGGER.info("implementing checkout() left as exercise for the reader!");
+   }
 }

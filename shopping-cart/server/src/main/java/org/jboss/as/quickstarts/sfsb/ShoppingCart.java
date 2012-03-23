@@ -22,15 +22,17 @@
 package org.jboss.as.quickstarts.sfsb;
 
 import java.util.HashMap;
-import javax.ejb.Remove;
+
+import javax.ejb.Remote;
 
 /**
  * @author Serge Pagop
  */
+@Remote
 public interface ShoppingCart {
-    public void buy(String product, int quantity);
-    
-    @Remove public void checkout();
-    
-    public HashMap<String, Integer> getCartContents();
+   public void buy(String product, int quantity);
+
+   public void checkout();
+
+   public HashMap<String, Integer> getCartContents();
 }
