@@ -57,8 +57,8 @@ Now that you have confirmed it is working you can now migrate the quickstart sou
 
 Copy the source for the helloworld-rs quickstart into this new git repo:
 
-    cp -r <quickstarts/helloworld-rs/src .
-    cp <quickstarts/helloworld-rs>/pom.xml .
+    cp -r <quickstarts>/helloworld-rs/src .
+    cp <quickstarts>/helloworld-rs/pom.xml .
 
 You can now deploy the changes to your OpenShift application using git as follows:
 
@@ -66,7 +66,11 @@ You can now deploy the changes to your OpenShift application using git as follow
     git commit -m "helloworld-rs quickstart on OpenShift"
     git push
 
-The final push command triggers the OpenShift infrastructure to build and deploy the changes. When the push command returns you can retest the application by getting the following URLs either via a browser or using tools such as curl or wget:
+The final push command triggers the OpenShift infrastructure to build and deploy the changes. 
+
+Note that the `openshift` profile in `pom.xml` is activated by OpenShift, and causes the war build by openshift to be copied to the `deployments` directory, and deployed without a context path.
+
+When the push command returns you can retest the application by getting the following URLs either via a browser or using tools such as curl or wget:
 
 * <http://helloworldrs-quickstart.rhcloud.com/xml> if you want *xml* or
 * <http://helloworldrs-quickstart.rhcloud.com/json> if you want *json*
