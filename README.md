@@ -5,9 +5,9 @@ JBoss AS Quickstarts
 Introduction
 ---------------------
 
-The quickstarts included in this distribution were written to demonstrate Java EE 6 and a few additional technologies. They provide small, specific, working examples that can used as a reference for your own project.
+The quickstarts included in this distribution were written to demonstrate Java EE 6 and a few additional technologies. They provide small, specific, working examples that can be used as a reference for your own project.
 
-These quickstarts run on both JBoss Enterprise Application Platform 6 and JBoss AS 7. If you want to run the quickstarts on JBoss Enterprise Application Platform 6, we recommend using the JBoss Enterprise Application Platform 6 zip file. This version uses the correct dependencies and ensures you test and compile against your runtime environment. 
+These quickstarts run on both JBoss Enterprise Application Platform 6 and JBoss AS 7. If you want to run the quickstarts on JBoss Enterprise Application Platform 6, we recommend using the JBoss Enterprise Application Platform 6 ZIP file. This version uses the correct dependencies and ensures you test and compile against your runtime environment. 
 
 Be sure to read this entire document before you attempt to work with the quickstarts. It contains the following information:
 
@@ -18,6 +18,8 @@ Be sure to read this entire document before you attempt to work with the quickst
 * [Configure Maven](#mavenconfiguration): How to configure the Maven repository for use by the quickstarts.
 
 * [Run the Quickstarts](#runningquickstarts): General instructions for building, deploying, and running the quickstarts.
+
+* [Run the Arquillian Tests](#arquilliantests): How to run the Arquillian tests provided by some of the quickstarts.
 
 * [Suggested Approach to the Quickstarts](#suggestedApproach): A suggested approach on how to work with the quickstarts.
 
@@ -31,11 +33,11 @@ Available Quickstarts
 
 The following is a list of the currently available quickstarts. The table lists each quickstart name, the technologies it demonstrates, gives a brief description of the quickstart, and the level of experience required to set it up. For more detailed information about a quickstart, click on the quickstart name.
 
-Some quickstarts are designed to enhance or extend other quickstarts. These are noted in the **Prerequisites to This Quickstart** column. If a quickstart lists prerequisites, those must be installed before working with the quickstart.
+Some quickstarts are designed to enhance or extend other quickstarts. These are noted in the **Prerequisites** column. If a quickstart lists prerequisites, those must be installed or deployed before working with the quickstart.
 
 Quickstarts with tutorials in the [Getting Started Developing Applications Guide](https://docs.jboss.org/author/display/AS71/Getting+Started+Developing+Applications+Guide "Getting Started Developing Applications Guide") are noted with two asterisks ( ** ) following the quickstart name. 
 
-| **Quickstart Name** | **Demonstrated Technologies** | **Description** | **Experience Level Required** | **Prerequisites to This Quickstart** |
+| **Quickstart Name** | **Demonstrated Technologies** | **Description** | **Experience Level Required** | **Prerequisites** |
 |:-----------|:-----------|:-----------|:-----------|:-----------|
 | [bean-validation](bean-validation/README.html "bean-validation") | Bean Validation, JPA | Shows how to use Arquillian to test Bean Validation | Beginner | None |
 | [bmt](bmt/README.html "bmt") | EJB, BMT | EJB that demonstrates bean-managed transactions (BMT) | Beginner | None |
@@ -44,10 +46,12 @@ Quickstarts with tutorials in the [Getting Started Developing Applications Guide
 | [ejb-in-ear](ejb-in-ear/README.html "ejb-in-ear") | EJB, JSF, JAR, and WAR deployed as an EAR | Packages an EJB JAR and WAR in an EAR | Beginner | None |
 | [ejb-in-war](ejb-in-war/README.html "ejb-in-war") | EJB and JSF deployed as a WAR | Packages an EJB JAR in a WAR | Beginner | None |
 | [ejb-remote](ejb-remote/README.html "ejb-remote") | Remote EJB | Shows how to access an EJB from a remote Java client program using JNDI | Beginner | None |
+| [ejb-security](ejb-security/README.html "ejb-security") | EJB, Security | Shows how to use JEE Declarative Security to Control Access to EJB 3 | Beginner | None |
 | [forge-from-scratch](forge-from-scratch/README.html "forge-from-scratch") | Forge | Demonstrates how to generate a fully Java EE compliant project using nothing but JBoss Forge | Beginner | None |
 | [greeter](greeter/README.html "greeter") | CDI, JSF, JPA, EJB, JTA | Demonstrates the use of CDI 1.0, JPA 2.0, JTA 1.1, EJB 3.1 and JSF 2.0 | Beginner | None |
 | [h2-console](h2-console/README.html "h2-console") | H2 Database Console | Shows how to use the H2 console with JBoss AS | Beginner | greeter |
 | [helloworld**](helloworld/README.html "helloworld") | Basic CDI, Servlet | Basic example that can be used to verify that the server is configured and running correctly | Beginner | None |
+| [helloworld-errai](helloworld-errai/README.html "helloworld-errai") | Errai, JAX-RS | Helloworld using the Errai framework  | Beginner | None |
 | [helloworld-gwt](helloworld-gwt/README.html "helloworld-gwt") | GWT | Demonstrates the use of CDI 1.0 and JAX-RS with a GWT front-end client  | Beginner | None |
 | [helloworld-html5](helloworld-html5/README.html "helloworld-html5") | Basic HTML5 |Demonstrates the use of CDI 1.0 and JAX-RS using the POH5 architecture and RESTful services on the backend | Beginner | None |
 | [helloworld-jms](helloworld-jms/README.html "helloworld-jms") | JMS | Demonstrates the use of external JMS clients | Intermediate | None |
@@ -68,8 +72,11 @@ Quickstarts with tutorials in the [Getting Started Developing Applications Guide
 | [mail](mail/README.html "mail") | JavaMail | Demonstrates the use of JavaMail | Beginner | None |
 | [numberguess**](numberguess/README.html "numberguess") | CDI, JSF | Demonstrates the use of CDI 1.0 and JSF 2.0  | Beginner | None |
 | [payment-cdi-event](payment-cdi-event/README.html "payment-cdi-event") | CDI, Events | Demonstrates how to use CDI 1.0 Events  | Beginner | None |
+| [richfaces-validation](richfaces-validation/README.html "richfaces-validation") | RichFaces | Demonstrates RichFaces and bean validation | Beginner | None |
 | [servlet-async](servlet-async/README.html "servlet-async") | CDI, EJB, Servlet | Demonstrates CDI, plus asynchronous Servlets and EJBs | Intermediate | None |
 | [servlet-filterlistener](servlet-filterlistener/README.html "servlet-filterlistener") | Servlet | Demonstrates Servlet filters and listeners | Intermediate | None |
+| [servlet-security](servlet-security/README.html "servlet-security") | Servlet, Security | Demonstrates how to use JEE declarative security to control access to Servlet 3 | begiiner | greeter |
+| [shopping-cart](shopping-cart/README.html "shopping-cart") | Stateful Session Bean | Demonstrates a stateful session bean | begiiner | greeter |
 | [tasks](tasks/README.html "servlet-filterlistener") | Arquillian, JPA | Demonstrates testing JPA using Arquillian | Intermediate | greeter |
 | [wsat-simple](wsat-simple/README.html "wsat-simple") | WS-AT, Web service, JAX-WS | Deployment of a WS-AT (WS-AtomicTransaction) enabled JAX-WS Web service bundled in a WAR archive  | Intermediate | None |
 | [wsba-coordinator-completion-simple](wsba-coordinator-completion-simple/README.html "wsba-coordinator-completion-simple") | WS-BA, Web service, JAX-WS | Deployment of a WS-BA (WS-BusinessActivity) enabled JAX-WS Web service bundled in a WAR archive (Participant Completion protocol) | Intermediate | None |
@@ -84,8 +91,8 @@ Suggested Approach to the Quickstarts
 We suggest you approach the quickstarts as follows:
 
 * Regardless of your level of expertise, we suggest you start with the **helloworld** quickstart. It is the simplest example and is an easy way to prove your server is configured and started correctly.
-* If you are a beginner or new to JBoss, start with the quickstarts labeled **Beginner**, then try those marked as **Intermediate**. When you're comfortable with those, move on to the **Advanced**.
-* Some quickstarts are based on other quickstarts, but have expanded capabilities and functionality. If a prerequisite quickstart is listed, be sure to run through it before looking at the expanded version.
+* If you are a beginner or new to JBoss, start with the quickstarts labeled **Beginner**, then try those marked as **Intermediate**. When you're comfortable with those, move on to the **Advanced** quickstarts.
+* Some quickstarts are based upon other quickstarts but have expanded capabilities and functionality. If a prerequisite quickstart is listed, be sure to deploy and test it before looking at the expanded version.
 
 
 <a id="systemrequirements"></a>
@@ -100,12 +107,12 @@ To run these quickstarts with the provided build scripts, you need the following
      * Oracle JRockit
 
 2. Maven 3.0.0 or newer, to build and deploy the examples
-     * Follow the official Maven installation guide if you don't already have Maven 3 installed. 
-     * If you have Maven installed, you can check the version by typing the following in a command line:
+     * If you have not yet installed Maven, see the [Maven Getting Started Guide](http://maven.apache.org/guides/getting-started/index.html) for details.
+     * If you have installed Maven, you can check the version by typing the following in a command line:
 
             mvn --version 
 
-3. The JBoss AS 7 distribution zip or the JBoss Enterprise Application Platform 6 distribution zip
+3. The JBoss Enterprise Application Platform 6 distribution ZIP or the JBoss AS 7 distribution ZIP.
      * For information on how to install and run JBoss, refer to the product documentation.
 
 4.   You can also deploy the quickstarts from Eclipse using JBoss tools. For more information on how to set up Maven and the JBoss tools, refer to the [Getting Started Developing Applications Guide](https://docs.jboss.org/author/display/AS71/Getting+Started+Developing+Applications+Guide "Getting Started Developing Applications Guide").
@@ -117,18 +124,12 @@ Configure Maven
 
 Maven configuration is dependent on whether you are running JBoss Enterprise Application Platform 6 or JBoss AS7.
 
-
-<a id="as7mavenconfig"></a>
-### Configure Maven for JBoss AS 7
-
-If you are using the JBoss AS 7 Quickstart distribution, the community artifacts are available in the Maven central repository so no additional configuration is needed.
-
 <a id="eap6mavenconfig"></a>
 ### Configure Maven for JBoss Enterprise Application Platform 6 
 
 If you are using the JBoss Enterprise Application Platform 6 distribution, you need to download and configure the Maven repository.
 
-1. Download the JBoss Enterprise Application Platform 6 Maven repository distribution zip and unzip it into a directory of your choice.
+1. Download the JBoss Enterprise Application Platform 6 Maven repository distribution ZIP and unzip it into a directory of your choice.
 
 2. Modify the `example-settings.xml` file located in the root of your quickstarts folder. Replace all instances of `path/to/jboss-eap/repo` within `file:///path/to/jboss-eap/repo` with the fully qualified path to the Maven repository you unzipped in the previous step.
 
@@ -136,10 +137,14 @@ If you are using the JBoss Enterprise Application Platform 6 distribution, you n
 
         mvn jboss-as:deploy -s PATH_TO_QUICKSTARTS/example-settings.xml
 
-4. You can configure the Maven user settings if you do not want to add the alternate path parameter each time you issue a Maven command.
+4. If you do not want to append the alternate path parameter each time you issue a Maven command, you can configure the Maven user settings as follows: 
     * If you have an existing `~/.m2/settings.xml` file, modify it with the configuration information from the `example-settings.xml` file.
-    * If there is no `~/.m2/settings.xml` file, copy the `example-settings.xml` file to the `~/.m2` directory and rename it to `settings.xml`.
+    * If there is no `~/.m2/settings.xml` file, copy the modified `example-settings.xml` file to the `~/.m2` directory and rename it to `settings.xml`.
 
+<a id="as7mavenconfig"></a>
+### Configure Maven for JBoss AS 7
+
+If you are using the JBoss AS 7 Quickstart distribution, the community artifacts are available in the Maven central repository so no additional configuration is needed.
 
 <a id="runningquickstarts"></a>
 Run the Quickstarts 
@@ -186,7 +191,7 @@ The README for each quickstart will specify which configuration is required to r
 #### Start the JBoss Enterprise Application Platform 6 or JBoss AS 7 Server with the Custom Configuration Options
 
 1. Open a command line and navigate to the root of the JBoss directory.
-2. The following shows the command line to start the server. Replace the CUSTOM_OPTIONS with the commands specified in the quickstart.
+2. The following shows the command line to start the server. Replace the CUSTOM_OPTIONS with the custom optional parameters specified in the quickstart.
 
             For Linux:   JBOSS_HOME/bin/standalone.sh CUSTOM_OPTIONS
             For Windows: JBOSS_HOME\bin\standalone.bat CUSTOM_OPTIONS
@@ -203,7 +208,7 @@ Review the README file in the root folder of the quickstart for specific details
       * The command used to build the quickstart depends on the individual quickstart, the server version, and how you configured Maven. 
       * If you are running JBoss AS 7, it uses community artifacts available in the Maven central repository, so command line arguments are not usually required. 
       * If you are running JBoss Enterprise Application Platform 6 and did not configure the Maven user settings described in [Configure Maven for JBoss Enterprise Application Platform 6](#eap6mavenconfig) above, you need to specify command line arguments. 
-      * Although some of the quickstarts require special commands, for most of the quickstarts you do the following. 
+      * Although some of the quickstarts require special commands, for most of the quickstarts you do the one of the following. 
          
           For JBoss Enterprise Application Platform 6, Maven user settings NOT configured: 
 
@@ -215,7 +220,7 @@ Review the README file in the root folder of the quickstart for specific details
    3. Deploy the archive built in the previous step by typing the following in the command line:
 
             mvn jboss-as:deploy
-   4. Alternatively, you can build and deploy the quickstart in one step. As in step b above when you built the archive, the command you use depends on the individual quickstart, the server version, and how you configured Maven. Although some of the quickstarts require special commands, for most of the quickstarts you do the following:
+   4. Alternatively, you can build and deploy the quickstart in one step. As in step 2. above when you built the archive, the command you use depends on the individual quickstart, the server version, and how you configured Maven. Although some of the quickstarts require special commands, for most of the quickstarts you do one of the following:
 
         For JBoss Enterprise Application Platform 6, Maven user settings NOT configured: 
 
@@ -233,6 +238,52 @@ Review the README file in the root folder of the quickstart for specific details
 
 4. You can also start the JBoss Application Server and deploy the quickstarts using Eclipse. See the [Getting Started Developing Applications Guide](https://docs.jboss.org/author/display/AS71/Getting+Started+Developing+Applications+Guide "Getting Started Developing Applications Guide") for more information.
 
+<a id="arquilliantests"></a>
+### Run the Arquillian Tests 
+-------------------------
+
+Some of the quickstarts provide Arquillian tests. By default, these tests are configured to be skipped. The reason is that the sample test is an Arquillian test, which requires the use of a container. 
+
+You can run these tests using either a managed or remote container.
+
+1. Test the quickstart on a Remote Server
+    * A remote container requires you start the JBoss Enterprise Application Platform 6 or JBoss AS 7 server before running the test. [Start the JBoss Server](#startjboss) as described in the quickstart README file.
+    * Run the test goal with the following profile activated:
+
+        For JBoss Enterprise Application Platform 6, Maven user settings NOT configured: 
+
+                  mvn clean test -Parq-jbossas-remote -s PATH_TO_QUICKSTARTS/example-settings.xml
+
+        For JBoss AS 7 or JBoss Enterprise Application Platform 6, Maven user settings configured: 
+
+                  mvn clean test -Parq-jbossas-remote 
+2. Test the quickstart on Managed Server
+    * This test requires that your server is not running. Arquillian will start the container for you, however, you must first let it know where to find the remote JBoss container.
+          * Open the test/resources/arquillian.xml file located in the quickstart directory. 
+          * Find the configuration for the remote JBoss container. It should look like this:
+
+                <container qualifier="jboss" default="true">
+                      <!-- If you want to use the JBOSS_HOME environment variable, just delete the jbossHome property -->
+                      <configuration>
+                            <property name="jbossHome">/path/to/jboss/as</property>
+                      </configuration>
+                </container>
+
+          * Find the "jbossHome" property and replace the "/path/to/jboss/as" value with the actual path to your JBoss Enterprise Application Platform 6 or JBoss AS 7 server.
+
+          * Run the test goal with the following profile activated:
+
+                For JBoss Enterprise Application Platform 6, Maven user settings NOT configured: 
+
+                    mvn clean test -Parq-jbossas-managed  -s PATH_TO_QUICKSTARTS/example-settings.xml
+
+                For JBoss AS 7 or JBoss Enterprise Application Platform 6, Maven user settings configured: 
+
+                      mvn clean test -Parq-jbossas-managed
+
+The quickstart README should tell you what you should expect to see in the console output and server log when you run the test.
+
+
 
 <a id="optionalcomponents"></a>
 Optional Components 
@@ -243,7 +294,7 @@ The following components are needed for only a small subset of the quickstarts. 
 
 * [Install and Configure the PostgreSQL Database](#postgresql): The PostgreSQL database is used for the distributed transaction quickstarts.
 
-* [Install and Configure Byteman](#byteman): A tool used to demonstrated crash recovery for distributed transaction quickstarts.
+* [Install and Configure Byteman](#byteman): This tool is used to demonstrate crash recovery for distributed transaction quickstarts.
 
 
 <a id="adduser"></a>
@@ -261,7 +312,7 @@ The following procedures describe how to add a user with the appropriate permiss
 
         For Linux:   JBOSS_HOME/bin/add-user.sh
         For Windows: JBOSS_HOME\bin\add-user.bat
-3. You will see the following response:
+3. You should see the following response:
 
         What type of user do you wish to add? 
 
@@ -270,7 +321,7 @@ The following procedures describe how to add a user with the appropriate permiss
         (a):
 
     At the prompt, press enter to take the default Management User
-4. You see the following response:
+4. You should see the following response:
 
         Enter the details of the new user to add.
         Realm (ManagementRealm) : 
@@ -292,7 +343,7 @@ The following procedures describe how to add a user with the appropriate permiss
 
         For Linux:   JBOSS_HOME/bin/add-user.sh
         For Windows: JBOSS_HOME\bin\add-user.bat
-3. You will see the following response:
+3. You should see the following response:
 
         What type of user do you wish to add? 
 
@@ -301,7 +352,7 @@ The following procedures describe how to add a user with the appropriate permiss
         (a):
 
     At the prompt, type:  b
-4. You see the following response:
+4. You should see the following response:
 
         Enter the details of the new user to add.
         Realm (ApplicationRealm) : 
@@ -319,7 +370,7 @@ The following procedures describe how to add a user with the appropriate permiss
 <a id="postgresql"></a>
 ### Install and Configure the PostgreSQL Database
 
-Some of the quickstarts require the PostgreSQL database. This section describes how to install and configure the database for use with the quickstarts.
+Some of the quickstarts require the PostgreSQL database. This section describes how to install and configure the database for use with these quickstarts.
 
 
 #### Download and Install PostgreSQL 9.1.2
@@ -484,12 +535,12 @@ _Byteman_ is used by a few of the quickstarts to demonstrate distributed transac
 
 #### What is It?
 
-_Byteman_ is a tool which simplifies tracing and testing of Java programs. Byteman allows you to insert extra Java code into your application, either as it is loaded during JVM startup or even after it has already started running. This code can be used to trace what the application is doing and to monitor and debug deployments to be sure it is operating correctly. You can also use _Byteman_ to inject faults or synchronization code when testing your application. A few of the quickstarts use _Byteman_ to halt an application server in the middle of a distributed transaction to demonstrate crash recovery.
+_Byteman_ is a tool which simplifies tracing and testing of Java programs. Byteman allows you to insert extra Java code into your application, either as it is loaded during JVM startup or after it has already started running. This code can be used to trace what the application is doing and to monitor and debug deployments to be sure it is operating correctly. You can also use _Byteman_ to inject faults or synchronization code when testing your application. A few of the quickstarts use _Byteman_ to halt an application server in the middle of a distributed transaction to demonstrate crash recovery.
 
 #### Download and Configure Byteman
 
 1. Download Byteman from <http://www.jboss.org/byteman/downloads/>
-2. Extract the zip file to a directory of your choice.
+2. Extract the ZIP file to a directory of your choice.
 3. By default, the Byteman download provides unrestricted permissions to _others_ which can cause a problem when running Ruby commands for the OpenShift quickstarts. To restrict the permissions to _others_, open a command line and type the followinge:
 
         cd byteman-download-2.0.0/
@@ -499,16 +550,18 @@ _Byteman_ is a tool which simplifies tracing and testing of Java programs. Bytem
 
 When instructed to use Byteman to halt the application, perform the following steps:
  
-1. Find the appropriate configuration file for your operating system in the list below and make a backup copy.
+1. Find the appropriate configuration file for your operating system in the list below.
 
         For Linux: JBOSS_HOME/bin/standalone.conf 
         For Windows: JBOSS_HOME\bin\standalone.conf.bat
 
-2. The quickstart README should specify the text you need to append to the server configuration file.
+2. **Important**: Make a backup copy of this file before making any modifications.
 
-3. Open the configuration file and append the text specified by the quickstart to the end of the file. Make sure to replace the file paths with the correct location of your quickstarts and the _Byteman_ download. 
+3. The quickstart README should specify the text you need to append to the server configuration file.
 
-4. The following is an example of of the configuration changes needed for the _jta-crash-rec_ quickstart: 
+4. Open the configuration file and append the text specified by the quickstart to the end of the file. Make sure to replace the file paths with the correct location of your quickstarts and the _Byteman_ download. 
+
+5. The following is an example of of the configuration changes needed for the _jta-crash-rec_ quickstart: 
 
     For Linux, open the `JBOSS_HOME/bin/standalone.conf` file and append the following line:
 
@@ -517,6 +570,8 @@ When instructed to use Byteman to halt the application, perform the following st
 
         SET "JAVA_OPTS=%JAVA_OPTS% -javaagent:C:PATH_TO_BYTEMAN_DOWNLOAD\lib\byteman.jar=script:C:\PATH_TO_QUICKSTARTS\jta-crash-rec\src\main\scripts\xa.btm %JAVA_OPTS%"
 
-5. When you are done testing the quickstart, remember to restore the configuration file with the backup copy.
+#### Disable the Byteman Script
+ 
+When you are done testing the quickstart, remember to restore the configuration file with the backup copy you made in step 2 above.
 
 
