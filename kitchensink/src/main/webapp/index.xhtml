@@ -5,12 +5,16 @@
    xmlns:h="http://java.sun.com/jsf/html"
    template="/WEB-INF/templates/default.xhtml">
    <ui:define name="content">
-      <h1>Welcome to JBoss AS 7!</h1>
+      <h1>Welcome to JBoss!</h1>
 
-      <p>You have successfully deployed a Java EE 6 web application on JBoss AS 7.</p>
+      <div>
+         <p>You have successfully deployed a Java EE 6 web application.</p>
+         <h3>Your application can run on:</h3>
+         <img src="resources/gfx/dualbrand_as7eap.png"/>
+      </div>
 
       <h:form id="reg">
-         <h2>Register (Bean Validation example)</h2>
+         <h2>Member Registration</h2>
          <p>Enforces annotation-based constraints defined on the model class.</p>
          <h:panelGrid columns="3" columnClasses="titleCell">
             <h:outputLabel for="name" value="Name:"/>
@@ -28,7 +32,7 @@
 
          <p>
             <h:panelGrid columns="2">
-               <h:commandButton id="register" action="#{memberController.register}" value="Register"/>
+               <h:commandButton id="register" action="#{memberController.register}" value="Register" styleClass="register"/>
                <h:messages styleClass="messages" errorClass="invalid" infoClass="valid" warnClass="warning"
                            globalOnly="true"/>
             </h:panelGrid>
@@ -38,7 +42,7 @@
       <h:panelGroup rendered="#{empty members}">
          <em>No registered members.</em>
       </h:panelGroup>
-      <h:dataTable var="_member" value="#{members}" rendered="#{not empty members}">
+      <h:dataTable var="_member" value="#{members}" rendered="#{not empty members}" styleClass="simpletablestyle">
          <h:column>
             <f:facet name="header">Id</f:facet>
                 #{_member.id}
