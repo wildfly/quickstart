@@ -31,13 +31,11 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.validation.*;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -65,7 +63,7 @@ public class MemberService {
    private Validator validator;
 
    @GET
-   @Produces("text/xml")
+   @Produces(MediaType.APPLICATION_JSON)
    public List<Member> listAllMembers() {
       // Use @SupressWarnings to force IDE to ignore warnings about "genericizing" the results of
       // this query
@@ -80,59 +78,22 @@ public class MemberService {
    }
 
    @GET
-   @Path("/json")
-   @Produces(MediaType.APPLICATION_JSON)
-   public List<Member> listAllMembersJSON() {
-      @SuppressWarnings("unchecked")
-
-      final List<Member> results = em.createQuery("select m from Member m order by m.name").getResultList();
-      return results;
-   }
-
-   @GET
    @Path("/{id:[0-9][0-9]*}")
-   @Produces("text/xml")
+   @Produces(MediaType.APPLICATION_JSON)
    public Member lookupMemberById(@PathParam("id") long id) {
       return em.find(Member.class, id);
    }
 
-   @GET
-   @Path("/{id:[0-9][0-9]*}/json")
-   @Produces(MediaType.APPLICATION_JSON)
-   public Member lookupMemberByIdJSON(@PathParam("id") long id) {
-      return em.find(Member.class, id);
-   }
-   
-   @GET
-   @Path("/new")
-   @Produces(MediaType.APPLICATION_JSON)
-   public Response createMemberGet(@QueryParam("name") String name, 
-                                   @QueryParam("email") String email, 
-                                   @QueryParam("phoneNumber") String phone) {
-       return createNewMember(name, email, phone);
-   }
-
-   @POST
-   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-   @Produces(MediaType.APPLICATION_JSON)
-   public Response createMemberPost(@FormParam("name") String name, 
-                                    @FormParam("email") String email, 
-                                    @FormParam("phoneNumber") String phone) {
-      return createNewMember(name, email, phone);
-   }
-   
    /**
     * Creates a new member from the values provided.  Performs validation, and will return a JAX-RS response with either
     * 200 ok, or with a map of fields, and related errors.
     */
-   public Response createNewMember(String name, String email, String phone) {
-       Response.ResponseBuilder builder = null;
+   @POST
+   @Consumes(MediaType.APPLICATION_JSON)
+   @Produces(MediaType.APPLICATION_JSON)
+   public Response createMember(Member member) {
 
-       //Create a new member class from fields
-       Member member = new Member();
-       member.setName(name);
-       member.setEmail(email);
-       member.setPhoneNumber(phone);
+       Response.ResponseBuilder builder = null;
 
        try {
           //Validates member using bean validation
@@ -158,9 +119,10 @@ public class MemberService {
        }
 
        return builder.build();
-    }
+   }
 
-   /**
+
+    /**
     * <p>Validates the given Member variable and throws validation exceptions based on the type of error.
     * If the error is standard bean validation errors then it will throw a ConstraintValidationException
     * with the set of the constraints violated.</p>
