@@ -4,61 +4,75 @@ jboss-as-xml-jaxp
 What is it?
 -----------
 
-This is a simple JSF 2.0, Servlet 3.0 and Java EE JAXP example. Its purpose is to 
-demonstrate how you can use Servlet and JSF to upload an XML file to *JBoss AS7* 
-and parse it using DOM or SAX, both of which are built in to Java.
+This is a simple JSF 2.0, Servlet 3.0 and Java EE JAXP example. Its purpose is to demonstrate how you can use Servlet and JSF to upload an XML file to *JBoss AS7* and parse it using DOM or SAX, both of which are built in to Java.
 
 It also shows how to use modules available in JBoss AS.
  
 System requirements
 -------------------
 
-All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven
-3.0 or better.
+All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven 3.0 or better.
 
-The application this project produces is designed to be run on a JBoss AS 7 or EAP 6.
-The following instructions target JBoss AS 7, but they also apply to JBoss EAP 6.
+The application this project produces is designed to be run on JBoss Enterprise Application Platform 6 or JBoss AS 7. 
 
-With the prerequisites out of the way, you're ready to build and deploy.
+ 
+Configure Maven
+---------------
 
-Deploying the application
+If you have not yet done so, you must [Configure Maven](../README.html/#mavenconfiguration) before testing the quickstarts.
+
+
+Start JBoss Enterprise Application Platform 6 or JBoss Application Server 7 with the Web Profile
 -------------------------
 
-First you need to start JBoss AS 7 (or EAP 6). To do this, run
+1. Open a command line and navigate to the root of the JBoss directory.
+2. The following shows the command line to start the server with the web profile:
 
-    $JBOSS_HOME/bin/standalone.sh
+         For Linux:   JBOSS_HOME/bin/standalone.sh
+         For Windows: JBOSS_HOME\bin\standalone.bat
 
-or if you are using windows
+ 
+Build and Deploy the Quickstart
+-------------------------
 
-    $JBOSS_HOME/bin/standalone.bat
+_NOTE: The following build command assumes you have configured your Maven user settings. If you have not, you must include Maven setting arguments on the command line. See [Build and Deploy the Quickstarts](../README.html/#buildanddeploy) for complete instructions and additional options._
 
-To deploy the application, you first need to produce the archive to deploy using
-the following Maven goal:
 
-    mvn package
+#### Build and Deploy the Archive
 
-You can now deploy the artifact to JBoss AS by executing the following command:
+1. Make sure you have started the JBoss Server as described above.
+2. Open a command line and navigate to the root directory of this quickstart.
+3. Type this command to build and deploy the archive:
 
-    mvn jboss-as:deploy
+            mvn clean package jboss-as:deploy
 
-This will deploy `target/jboss-as-xml-jaxp.war`.
+4. This will deploy `target/jboss-as-xml-jaxp.war` to the running instance of the server.
 
-The application will be running at the following URL <http://localhost:8080/jboss-as-xml-jaxp/>.
+#### Undeploy the Archive
 
-To undeploy from JBoss AS, run this command:
+1. Make sure you have started the JBoss Server as described above.
+2. Open a command line and navigate to the root directory of this quickstart.
+3. Type this command to undeploy the archive:
 
-    mvn jboss-as:undeploy
+            mvn jboss-as:undeploy
+ 
 
-You can also start JBoss AS 7 and deploy the project using Eclipse. See the JBoss AS 7
-Getting Started Guide for Developers for more information.
+Access the application 
+---------------------
 
-Downloading the sources and Javadocs
-====================================
+The application will be running at the following URL: <http://localhost:8080/jboss-as-xml-jaxp/>.
 
-If you want to be able to debug into the source code or look at the Javadocs
-of any library in the project, you can run either of the following two
-commands to pull them into your local repository. The IDE should then detect
-them.
+
+Run the Quickstart in JBoss Developer Studio or Eclipse
+-------------------------------------
+You can also start the server and deploy the quickstarts from Eclipse using JBoss tools. For more information, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](../README.html/#useeclipse) 
+
+
+Debug the Application
+------------------------------------
+
+If you want to debug the source code or look at the Javadocs of any library in the project, run either of the following commands to pull them into your local repository. The IDE should then detect them.
+
 
     mvn dependency:sources
     mvn dependency:resolve -Dclassifier=javadoc

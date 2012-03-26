@@ -13,8 +13,6 @@ It contains the following:
 
 2. A message consumer that receives message from a JMS destination deployed to a JBoss Enterprise Application Platform 6 or JBoss AS 7 server. 
 
-This quickstart can be run from the Maven command line, or from the Eclipse environment. 
-
 
 System requirements
 -------------------
@@ -35,11 +33,14 @@ Add an Application User
 This quickstart uses secured management interfaces and requires that you create an application user to access the running application. Instructions to set up the quickstart application user can be found here: [Add an Application User](../README.html/#addapplicationuser)
 
 
-Start the JBoss Server
--------------------------
+Start JBoss Enterprise Application Platform 6 or JBoss Application Server 7 with the Full Profile
+---------------
 
-This quickstart requires a running server. Follow the instructions here to [Start the JBoss Server with the _full_ profile](../README.html/#startserverfull).
+1. Open a command line and navigate to the root of the JBoss directory.
+2. The following shows the command line to start the server with the full profile:
 
+        For Linux:   JBOSS_HOME/bin/standalone.sh -c standalone-full.xml
+        For Windows: JBOSS_HOME\bin\standalone.bat -c standalone-full.xml
 
 
 Build and Deploy the Quickstart
@@ -49,21 +50,25 @@ To run the quickstart from the command line:
 
 1. Make sure you have started the JBoss server. See the instructions in the previous section.
 
-2. Open a command line and navigate to the root of the directory of the helloworld-jms quickstart directory:
+2. Open a command line and navigate to the root of the helloworld-jms quickstart directory:
 
       cd PATH_TO_QUICKSTARTS/helloworld-jms
 
 3. Type the following command to compile and execute the quickstart:
 
-       For JBoss Enterprise Application Platform 6, Maven user settings NOT configured: 
+       For JBoss Enterprise Application Platform 6 (Maven user settings NOT configured): 
 
            mvn clean compile exec:java -s PATH_TO_QUICKSTARTS/example-settings.xml
 
-       For JBoss AS 7 or JBoss Enterprise Application Platform 6, Maven user settings configured: 
+       For JBoss AS 7 or JBoss Enterprise Application Platform 6 (Maven user settings configured): 
 
            mvn clean compile exec:java
+
  
-4. If the maven command is successful, with the default configuration you will see output similar to this:
+Investigate the Console Output
+-------------------------
+
+If the maven command is successful, with the default configuration you will see output similar to this:
 
     Mar 14, 2012 1:38:58 PM org.jboss.as.quickstarts.jms.HelloWorldJMSClient main
     INFO: Attempting to acquire connection factory "jms/RemoteConnectionFactory"
@@ -78,11 +83,12 @@ To run the quickstart from the command line:
     Mar 14, 2012 1:38:58 PM org.jboss.as.quickstarts.jms.HelloWorldJMSClient main
     INFO: Received message with content Hello, World!
 
-5. The example provides for a certain amount of customization for the `mvn:exec` plugin using the system properties described in the next section.
 
 
 Optional Properties
 -------------------
+
+The example provides for a certain amount of customization for the `mvn:exec` plugin using the system properties.
 
 * `username`
    
@@ -127,5 +133,18 @@ Optional Properties
     Default: `"localhost"`
 
 
+
+Run the Quickstart in JBoss Developer Studio or Eclipse
+-------------------------------------
+You can also start the server and deploy the quickstarts from Eclipse using JBoss tools. For more information, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](../README.html/#useeclipse) 
+
+
+Debug the Application
+------------------------------------
+
+If you want to debug the source code or look at the Javadocs of any library in the project, run either of the following commands to pull them into your local repository. The IDE should then detect them.
+
+      mvn dependency:sources
+      mvn dependency:resolve -Dclassifier=javadoc
 
  

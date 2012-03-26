@@ -115,7 +115,7 @@ To run these quickstarts with the provided build scripts, you need the following
 3. The JBoss Enterprise Application Platform 6 distribution ZIP or the JBoss AS 7 distribution ZIP.
      * For information on how to install and run JBoss, refer to the product documentation.
 
-4.   You can also deploy the quickstarts from Eclipse using JBoss tools. For more information on how to set up Maven and the JBoss tools, refer to the [Getting Started Developing Applications Guide](https://docs.jboss.org/author/display/AS71/Getting+Started+Developing+Applications+Guide "Getting Started Developing Applications Guide").
+4. You can also use [JBoss Developer Studio or Eclipse](#useeclipse) to run the quickstarts. 
 
 
 <a id="mavenconfiguration"></a>
@@ -170,7 +170,7 @@ The JBoss server can be started a few different ways.
 The README for each quickstart will specify which configuration is required to run the example.
 
 <a id="startserverweb"></a>
-#### Start the JBoss Enterprise Application Platform 6 or JBoss AS 7 Server with the Web Profile
+#### Start JBoss Enterprise Application Platform 6 or JBoss Application Server 7 with the Web Profile
 
 1. Open a command line and navigate to the root of the JBoss directory.
 2. The following shows the command line to start the server with the web profile:
@@ -179,7 +179,7 @@ The README for each quickstart will specify which configuration is required to r
          For Windows: JBOSS_HOME\bin\standalone.bat
 
 <a id="startserverfull"></a>
-#### Start the JBoss Enterprise Application Platform 6 or JBoss AS 7 Server with the Full Profile
+#### Start JBoss Enterprise Application Platform 6 or JBoss Application Server 7 with the Full Profile
 
 1. Open a command line and navigate to the root of the JBoss directory.
 2. The following shows the command line to start the server with the full profile:
@@ -188,7 +188,7 @@ The README for each quickstart will specify which configuration is required to r
         For Windows: JBOSS_HOME\bin\standalone.bat -c standalone-full.xml
 
 <a id="startservercustom"></a>
-#### Start the JBoss Enterprise Application Platform 6 or JBoss AS 7 Server with the Custom Configuration Options
+#### Start JBoss Enterprise Application Platform 6 or JBoss Application Server 7 with Custom Configuration Options
 
 1. Open a command line and navigate to the root of the JBoss directory.
 2. The following shows the command line to start the server. Replace the CUSTOM_OPTIONS with the custom optional parameters specified in the quickstart.
@@ -201,42 +201,46 @@ The README for each quickstart will specify which configuration is required to r
 
 Review the README file in the root folder of the quickstart for specific details on how to build and run the example. In most cases you do the following:
 
-1. If required by the quickstart, make sure you [start the JBoss Server](#startjboss) as described in the README.
-2. Build and deploy the quickstarts
-   1. Open a command line and navigate to the root of the directory of the quickstart you want to run.
-   2. Build the archive
-      * The command used to build the quickstart depends on the individual quickstart, the server version, and how you configured Maven. 
-      * If you are running JBoss AS 7, it uses community artifacts available in the Maven central repository, so command line arguments are not usually required. 
-      * If you are running JBoss Enterprise Application Platform 6 and did not configure the Maven user settings described in [Configure Maven for JBoss Enterprise Application Platform 6](#eap6mavenconfig) above, you need to specify command line arguments. 
-      * Although some of the quickstarts require special commands, for most of the quickstarts you do the one of the following. 
-         
-          For JBoss Enterprise Application Platform 6, Maven user settings NOT configured: 
+1. The command used to build the quickstart depends on the individual quickstart, the server version, and how you configured Maven.
+    * If you are running JBoss Enterprise Application Platform 6 and did not configure the Maven user settings described in [Configure Maven for JBoss Enterprise Application Platform 6](#eap6mavenconfig) above, you need to specify command line arguments. 
+    * If you are running JBoss AS 7, it uses community artifacts available in the Maven central repository, so command line arguments are not usually required. 
+2. See the README file in each individual quickstart folder for specific details and information on how to run and access the example.
+
+#### Build the Quickstart Archive
+
+In some cases, you may want to build the application to test for compile errors or view the contents of the archive. 
+
+1. Open a command line and navigate to the root directory of the quickstart you want to build.
+2. Use this command if you only want to build the archive, but not deploy it:
+
+        For JBoss Enterprise Application Platform 6 (Maven user settings NOT configured): 
 
             mvn clean package -s PATH_TO_QUICKSTARTS/example-settings.xml
 
-          For JBoss AS 7 or JBoss Enterprise Application Platform 6, Maven user settings configured: 
+        For JBoss AS 7 or JBoss Enterprise Application Platform 6 (Maven user settings configured): 
 
             mvn clean package
-   3. Deploy the archive built in the previous step by typing the following in the command line:
 
-            mvn jboss-as:deploy
-   4. Alternatively, you can build and deploy the quickstart in one step. As in step 2. above when you built the archive, the command you use depends on the individual quickstart, the server version, and how you configured Maven. Although some of the quickstarts require special commands, for most of the quickstarts you do one of the following:
+#### Build and Deploy the Quickstart Archive
 
-        For JBoss Enterprise Application Platform 6, Maven user settings NOT configured: 
+1. Make sure you [start the JBoss Server](#startjboss) as described in the README.
+2. Open a command line and navigate to the root directory of the quickstart you want to run.
+3. Use this command to build and deploy the archive:
 
-            mvn package jboss-as:deploy -s PATH_TO_QUICKSTARTS/example-settings.xml
+        For JBoss Enterprise Application Platform 6 (Maven user settings NOT configured): 
 
-        For JBoss AS 7 or JBoss Enterprise Application Platform 6, Maven user settings configured: 
+            mvn clean package jboss-as:deploy -s PATH_TO_QUICKSTARTS/example-settings.xml
 
-            mvn package jboss-as:deploy
-   5. The command to undeploy the quickstart is simply: 
+        For JBoss AS 7 or JBoss Enterprise Application Platform 6 (Maven user settings configured): 
+
+            mvn clean package jboss-as:deploy
+
+#### Undeploy an Archive
+
+The command to undeploy the quickstart is simply: 
 
             mvn jboss-as:undeploy
-   6. If you want to redeploy a quickstart that uses a database, you should undeploy it first. This ensures the database is cleaned up correctly before the redeploy.
-
-3. See the README file in each individual quickstart folder for specific details and information on how to run and access the example.
-
-4. You can also start the JBoss Application Server and deploy the quickstarts using Eclipse. See the [Getting Started Developing Applications Guide](https://docs.jboss.org/author/display/AS71/Getting+Started+Developing+Applications+Guide "Getting Started Developing Applications Guide") for more information.
+ 
 
 <a id="arquilliantests"></a>
 ### Run the Arquillian Tests 
@@ -244,19 +248,23 @@ Review the README file in the root folder of the quickstart for specific details
 
 Some of the quickstarts provide Arquillian tests. By default, these tests are configured to be skipped, as Arquillian tests require the use of a container. 
 
-You can run these tests using either a managed or remote container.
+You can run these tests using either a remote or managed container.
+
+<a id="testremote"/>
 
 1. Test the quickstart on a Remote Server
     * A remote container requires you start the JBoss Enterprise Application Platform 6 or JBoss AS 7 server before running the test. [Start the JBoss Server](#startjboss) as described in the quickstart README file.
     * Run the test goal with the following profile activated:
 
-        For JBoss Enterprise Application Platform 6, Maven user settings NOT configured: 
+        For JBoss Enterprise Application Platform 6 (Maven user settings NOT configured): 
 
                   mvn clean test -Parq-jbossas-remote -s PATH_TO_QUICKSTARTS/example-settings.xml
 
-        For JBoss AS 7 or JBoss Enterprise Application Platform 6, Maven user settings configured: 
+        For JBoss AS 7 or JBoss Enterprise Application Platform 6 (Maven user settings configured): 
 
                   mvn clean test -Parq-jbossas-remote 
+<a id="testmanaged"/>
+
 2. Test the quickstart on Managed Server
     * This test requires that your server is not running. Arquillian will start the container for you, however, you must first let it know where to find the remote JBoss container.
           * Open the test/resources/arquillian.xml file located in the quickstart directory. 
@@ -273,16 +281,20 @@ You can run these tests using either a managed or remote container.
 
           * Run the test goal with the following profile activated:
 
-                For JBoss Enterprise Application Platform 6, Maven user settings NOT configured: 
+                For JBoss Enterprise Application Platform 6 (Maven user settings NOT configured): 
 
                     mvn clean test -Parq-jbossas-managed  -s PATH_TO_QUICKSTARTS/example-settings.xml
 
-                For JBoss AS 7 or JBoss Enterprise Application Platform 6, Maven user settings configured: 
+                For JBoss AS 7 or JBoss Enterprise Application Platform 6 (Maven user settings configured): 
 
                       mvn clean test -Parq-jbossas-managed
 
 The quickstart README should tell you what you should expect to see in the console output and server log when you run the test.
 
+<a id="useeclipse"/>
+Use JBoss Developer Studio or Eclipse to Run the Quickstarts
+-------------------------------------
+You can also deploy the quickstarts from Eclipse using JBoss tools. For more information on how to set up Maven and the JBoss tools, refer to the [Boss Enterprise Application Platform 6 Beta](http://docs.redhat.com/docs/en-US/JBoss_Enterprise_Application_Platform/6/html/Beta_Documentation/HOME.html) documentation or the [Getting Started Developing Applications Guide](https://docs.jboss.org/author/display/AS71/Getting+Started+Developing+Applications+Guide "Getting Started Developing Applications Guide").
 
 
 <a id="optionalcomponents"></a>
@@ -326,7 +338,7 @@ The following procedures describe how to add a user with the appropriate permiss
         Enter the details of the new user to add.
         Realm (ManagementRealm) : 
 
-    At the prompt, press enter to take the default ManagementRealm
+    If the quickstart README specifies a realm, type it here. Otherwise, press enter to take the default `ManagementRealm`. 
 5. When prompted, enter the following
  
         Username : admin
@@ -357,14 +369,12 @@ The following procedures describe how to add a user with the appropriate permiss
         Enter the details of the new user to add.
         Realm (ApplicationRealm) : 
 
-    At the prompt, press enter to take the default ApplicationRealm
-5. When prompted, enter the following
+    If the quickstart README specifies a realm, type it here. Otherwise, press enter to take the default `ApplicationRealm`. 
+5. When prompted, enter the the Username and Passord. If the quickstart README specifies a Username nad Password, enter them here. Otherwise, use the default Username `quickstartUser` and Password `quickstartPassword`.
  
         Username : quickstartUser
         Password : quickstartPassword
-6. When asked "What roles do you want this user to belong to?", enter:
-
-        guest
+6. At the next prompt, you will be asked "What roles do you want this user to belong to?". If the quickstart README specifies a role to use, enter that here. Otherwise, type the role: `guest`
 
 
 <a id="postgresql"></a>

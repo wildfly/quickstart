@@ -5,14 +5,11 @@ Author: Paul Robinson
 What is it?
 -----------
 
-This example demonstrates the deployment of a WS-BA (WS Business Activity) enabled JAX-WS Web service bundled in a war
-archive for deployment to *JBoss AS 7*.
+This example demonstrates the deployment of a WS-BA (WS Business Activity) enabled JAX-WS Web service bundled in a war archive for deployment to *JBoss Enterprise Application Platform 6* or *JBoss AS 7*.
 
-The Web service exposes a simple 'set' collection as a service. The Service allows items to be added to the set within a
-Business Activity.
+The Web service exposes a simple 'set' collection as a service. The Service allows items to be added to the set within a Business Activity.
 
-The example demonstrates the basics of implementing a WS-BA enabled Web service. It is beyond the scope of this
-quick start to demonstrate more advanced features. In particular
+The example demonstrates the basics of implementing a WS-BA enabled Web service. It is beyond the scope of this quickstart to demonstrate more advanced features. In particular
 
 1. The Service does not implement the required hooks to support recovery in the presence of failures.
 2. It also does not utilize a transactional back end resource.
@@ -31,13 +28,13 @@ following steps occur:
 
 1. A new Business Activity is created by the client.
 2. An operation on a WS-BA enabled Web service is invoked by the client.
-3. The JaxWSHeaderContextProcessor in the WS Client handler chain inserts the BA context into the outgoing SOAP message
-4. When the service receives the SOAP request, it's JaxWSHeaderContextProcessor in it's handler chain inspects the BA context and associates the request with this BA.
-5. The Web service operation is invoked...
+3. The JaxWSHeaderContextProcessor in the WS Client handler chain inserts the BA context into the outgoing SOAP message.
+4. When the service receives the SOAP request, the JaxWSHeaderContextProcessor in its handler chain inspects the BA context and associates the request with this BA.
+5. The Web service operation is invoked.
 6. A participant is enlisted in this BA. This allows the Web Service logic to respond to protocol events, such as compensate and close.
 7. The service invokes the business logic. In this case, a String value is added to the set.
 8. The backend resource is prepared. This ensures that the Backend resource can undo or make permanent the change when told to do so by the coordinator.
-9. Providing the above steps where successful, the service notifies the coordinator that it has completed. The service has now made it's changes visible and is not holding any locks. Allowing the service to notify completion is an optimisation that prevents the holding of locks, whilst waiting for other participants to complete. This notification is required as the Service participates in the ParticipantCompletion protocol.
+9. Providing the above steps where successful, the service notifies the coordinator that it has completed. The service has now made its changes visible and is not holding any locks. Allowing the service to notify completion is an optimisation that prevents the holding of locks, whilst waiting for other participants to complete. This notification is required as the Service participates in the ParticipantCompletion protocol.
 10. The client can then decide to complete or cancel the BA. If the client decides to complete, all participants will be told to close. If the participant decides to cancel, all participants will be told to compensate.
 
 There are other tests that show:
@@ -49,30 +46,46 @@ There are other tests that show:
 System requirements
 -------------------
 
-All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven
-3.0 or better.
+All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven 3.0 or better.
 
-The application this project produces is designed to be run on a JBoss AS 7 or EAP 6.
-The following instructions target JBoss AS 7, but they also apply to JBoss EAP 6.
+The application this project produces is designed to be run on JBoss Enterprise Application Platform 6 or JBoss AS 7. 
 
-With the prerequisites out of the way, you're ready to build and deploy.
+ 
+Configure Maven
+---------------
 
-Deploying the application
--------------------------
+If you have not yet done so, you must [Configure Maven](../README.html/#mavenconfiguration) before testing the quickstarts.
 
-First you need to start JBoss AS 7 (7.1.0.CR1 or above, or EAP 6), with the XTS sub system enabled, this is enabled through an optional server configuration (standalone-xts.xml). To do this, run the following commands, from within the top-level directory of JBossAS:
 
-    ./bin/standalone.sh --server-config=../../docs/examples/configs/standalone-xts.xml | egrep "started|stdout"
+Start JBoss Enterprise Application Platform 6 or JBoss Application Server 7 with the Custom Options
+----------------------
+
+Next you need to start JBoss Enterprise Application Platform 6 or JBoss AS 7 (7.1.0.CR1 or above), with the XTS sub system enabled. This is enabled through the optional server configuration *standalone-xts.xml*. To do this, run the following commands from the top-level directory of JBossAS:
+
+    For Linux:     ./bin/standalone.sh --server-config=../../docs/examples/configs/standalone-xts.xml | egrep "started|stdout"
+
+    For Windows:   \bin\standalone.bat --server-config=..\..\docs\examples\configs\standalone-xts.xml | egrep "started|stdout"
+
 
 Note, the pipe to egrep (| egrep "started|stdout") is useful to just show when the server has started and the output from these tests. For normal operation, this pipe can be removed.
 
-or if you are using windows
 
-    ./bin/standalone.bat --server-config=../../docs/examples/configs/standalone-xts.xml
+Run the Arquillian Tests 
+-------------------------
 
-To test the application run:
+This quickstart provides Arquillian tests. By default, these tests are configured to be skipped as Arquillian tests require the use of a container. 
 
-    mvn clean test -Parq-jbossas-remote
+_NOTE: The following commands assume you have configured your Maven user settings. If you have not, you must include Maven setting arguments on the command line. See [Run the Arquillian Tests](../README.html/#arquilliantests) for complete instructions and additional options._
+
+1. Make sure you have started the JBoss Server as described above.
+2. Open a command line and navigate to the root directory of this quickstart.
+3. Type the following command to run the test goal with the following profile activated:
+
+                  mvn clean test -Parq-jbossas-remote 
+
+
+Investigate the Console Output
+----------------------------
 
 The following expected output should appear. The output explains what actually went on when these tests ran.
 
@@ -108,31 +121,16 @@ Test cancel:
     11:41:05,305 INFO  [stdout] (http-localhost-127.0.0.1-8080-1) [SERVICE] Participant.confirmCompleted('true') (This tells the participant that compensation information has been logged and that it is safe to commit any changes.)
 
 
-You can also start JBoss AS 7 and run the tests within Eclipse. See the JBoss AS 7
-Getting Started Guide for Developers for more information.
 
-Importing the project into an IDE
-=================================
+Run the Quickstart in JBoss Developer Studio or Eclipse
+-------------------------------------
+You can also start the server and deploy the quickstarts from Eclipse using JBoss tools. For more information, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](../README.html/#useeclipse) 
 
-If you created the project using the Maven archetype wizard in your IDE
-(Eclipse, NetBeans or IntelliJ IDEA), then there is nothing to do. You should
-already have an IDE project.
 
-Detailed instructions for using Eclipse with JBoss AS 7 are provided in the
-JBoss AS 7 Getting Started Guide for Developers.
+Debug the Application
+------------------------------------
 
-If you created the project from the commandline using archetype:generate, then
-you need to import the project into your IDE. If you are using NetBeans 6.8 or
-IntelliJ IDEA 9, then all you have to do is open the project as an existing
-project. Both of these IDEs recognize Maven projects natively.
+If you want to debug the source code or look at the Javadocs of any library in the project, run either of the following commands to pull them into your local repository. The IDE should then detect them.
 
-Downloading the sources and Javadocs
-====================================
-
-If you want to be able to debug into the source code or look at the Javadocs
-of any library in the project, you can run either of the following two
-commands to pull them into your local repository. The IDE should then detect
-them.
-
-    mvn dependency:sources
-    mvn dependency:resolve -Dclassifier=javadoc
+      mvn dependency:sources
+      mvn dependency:resolve -Dclassifier=javadoc

@@ -16,10 +16,11 @@ Features used:
 
 This is an EAR version, with the following structure:
 
-* `wicket-ear` - parent module.
-** `ejb`: Contains EJB beans and JPA entities. Creates a `.jar` file.
-** `war`: Contains the Wicket web application, which uses the EJB beans. Creates a `.war` file.
-** `ear`: Packages the EJB JAR and WAR into an EAR. Creates an `.ear` file.
+* `wicket-ear` - parent module
+
+    * `ejb`: Contains EJB beans and JPA entities. Creates a `.jar` file
+    * `war`: Contains the Wicket web application, which uses the EJB beans. Creates a `.war` file
+    * `ear`: Packages the EJB JAR and WAR into an EAR. Creates an `.ear` file
 
 
 System requirements
@@ -36,49 +37,60 @@ Configure Maven
 If you have not yet done so, you must [Configure Maven](../README.html/#mavenconfiguration) before testing the quickstarts.
 
 
-Start the JBoss Server
-----------------------
+Start JBoss Enterprise Application Platform 6 or JBoss Application Server 7 with the Web Profile
+-------------------------
 
- *  Follow the instructions here to [Start the JBoss Server with the _web_ profile](../README.html#startserverweb)
+1. Open a command line and navigate to the root of the JBoss directory.
+2. The following shows the command line to start the server with the web profile:
+
+         For Linux:   JBOSS_HOME/bin/standalone.sh
+         For Windows: JBOSS_HOME\bin\standalone.bat
 
 
 Build and Deploy the Quickstart
--------------------------------
+-------------------------
 
-1. Make sure your server is running.
-2. Open a command line and navigate to the root of the kitchensink-ear quickstart directory.
-3. Type the following in the command line: 
-    For JBoss Enterprise Application Platform 6, Maven user settings NOT configured: 
-
-        mvn clean package jboss-as:deploy -s PATH_TO_QUICKSTARTS/example-settings.xml
-
-    For JBoss AS 7 or JBoss Enterprise Application Platform 6, Maven user settings configured: 
-
-        mvn clean package jboss-as:deploy
-
-4. This will build and deploy `ear/target/jboss-as-kitchensink-ear.ear`.
-5. To undeploy the application, run this command:
-
-        mvn jboss-as:undeploy
-
-You can also use Eclipse to start the JBoss Enterprise Application Platform 6 or JBoss AS 7 server and deploy the project. See the <a href="https://docs.jboss.org/author/display/AS71/Getting+Started+Developing+Applications+Guide" title="Getting Started Developing Applications Guide">Getting Started Developing Applications Guide</a> for more information.
+_NOTE: The following build command assumes you have configured your Maven user settings. If you have not, you must include Maven setting arguments on the command line. See [Build and Deploy the Quickstarts](../README.html/#buildanddeploy) for complete instructions and additional options._
 
 
-Access the application (For quickstarts that have a UI component)
+#### Build and Deploy the Archive
+
+1. Make sure you have started the JBoss Server as described above.
+2. Open a command line and navigate to the root directory of this quickstart.
+3. Type this command to build and deploy the archive:
+
+            mvn clean package jboss-as:deploy
+
+4. This will deploy `target/jboss-as-wicket-ear.ear` to the running instance of the server.
+
+#### Undeploy the Archive
+
+1. Make sure you have started the JBoss Server as described above.
+2. Open a command line and navigate to the root directory of this quickstart.
+3. Type this command to undeploy the archive:
+
+            mvn jboss-as:undeploy
+ 
+
+
+Access the application 
 ----------------------
 
-Access the running application in a browser at <http://localhost:8080/jboss-as-wicket-ear-web>
+The application will be running at the following URL: <http://localhost:8080/jboss-as-wicket-ear-war/>.
 
- * You will see a page with a table listing user entities. Initially, this table is empty.
- * By clicking a link, you can add more users.
+ * You will see a page with a table listing the existing Contact entities. Initially, this table is empty.
+ * Click on the _Insert a new Constact_ link to add a new contact.
 
+
+Run the Quickstart in JBoss Developer Studio or Eclipse
+-------------------------------------
+You can also start the server and deploy the quickstarts from Eclipse using JBoss tools. For more information, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](../README.html/#useeclipse) 
 
 
 Debug the Application
-------------------------------------
+---------------------
 
-If you want to debug the source code or look at the Javadocs of any library in the project, 
-run either of the following commands to pull them into your local repository. The IDE should then detect them.
+If you want to debug the source code or look at the Javadocs of any library in the project, run either of the following commands to pull them into your local repository. The IDE should then detect them.
 
-      mvn dependency:sources
-      mvn dependency:resolve -Dclassifier=javadoc
+    mvn dependency:sources
+    mvn dependency:resolve -Dclassifier=javadoc

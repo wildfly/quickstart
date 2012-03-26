@@ -5,28 +5,75 @@ Author: Pete Muir
 What is it?
 -----------
 
-This example demonstrates the use of *OSGi* in JBoss AS 7.
+This example demonstrates the use of *OSGi* in  *JBoss Enterprise Application Platform 6* or *JBoss AS 7*.
+
 
 System requirements
 -------------------
 
-The example can be deployed using Maven from the command line, by using the AS 7 
-web console or by dropping the OSGi bundle in the deployments folder.
+All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven 3.0 or better.
 
-To set up Maven or JBoss Tools in Eclipse, refer to the 
-<a href="https://docs.jboss.org/author/display/AS71/Getting+Started+Developing+Applications+Guide" title="Getting Started Developing Applications Guide">Getting Started Developing Applications Guide</a>.
+The application this project produces is designed to be run on JBoss Enterprise Application Platform 6 or JBoss AS 7. 
 
-Deploying the application
+ 
+Configure Maven
+---------------
+
+If you have not yet done so, you must [Configure Maven](../README.html/#mavenconfiguration) before testing the quickstarts.
+
+
+Start JBoss Enterprise Application Platform 6 or JBoss Application Server 7 with the Web Profile
 -------------------------
 
-To deploy to the application to JBoss AS 7 using Maven, start JBoss AS 7 and type:
- 
-    mvn package jboss-as:deploy
+1. Open a command line and navigate to the root of the JBoss directory.
+2. The following shows the command line to start the server with the web profile:
+
+         For Linux:   JBOSS_HOME/bin/standalone.sh
+         For Windows: JBOSS_HOME\bin\standalone.bat
 
 
-This will build, deploy and start the OSGi bundle. You will see a 
-  `Hello AS7 World!!`
-message appear on the console when this is done.
+Build and Deploy the Quickstart
+-------------------------
 
-You can read more details in the 
-<a href="https://docs.jboss.org/author/display/AS71/Getting+Started+Developing+Applications+Guide" title="Getting Started Developing Applications Guide">Getting Started Developing Applications Guide</a>.
+_NOTE: The following build command assumes you have configured your Maven user settings. If you have not, you must include Maven setting arguments on the command line. See [Build and Deploy the Quickstarts](../README.html/#buildanddeploy) for complete instructions and additional options._
+
+
+#### Build and Deploy the Archive
+
+1. Make sure you have started the JBoss Server as described above.
+2. Open a command line and navigate to the root directory of this quickstart.
+3. Type this command to build and deploy the archive:
+
+            mvn clean package jboss-as:deploy
+
+4. This will deploy and start the OSGi bundle.
+
+#### Undeploy the Archive
+
+1. Make sure you have started the JBoss Server as described above.
+2. Open a command line and navigate to the root directory of this quickstart.
+3. Type this command to undeploy the archive:
+
+            mvn jboss-as:undeploy
+
+
+Investigate the Server Console Output
+-------------------------
+
+Look in the JBoss Application Server console or Server log and you should see the following message:
+
+    `Hello AS7 World!!`
+
+
+Run the Quickstart in JBoss Developer Studio or Eclipse
+-------------------------------------
+You can also start the server and deploy the quickstarts from Eclipse using JBoss tools. For more information, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](../README.html/#useeclipse) 
+
+
+Debug the Application
+------------------------------------
+
+If you want to debug the source code or look at the Javadocs of any library in the project, run either of the following commands to pull them into your local repository. The IDE should then detect them.
+
+      mvn dependency:sources
+      mvn dependency:resolve -Dclassifier=javadoc

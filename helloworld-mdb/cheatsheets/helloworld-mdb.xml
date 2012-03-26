@@ -15,11 +15,11 @@ Message-Driven Bean (MDB) is an enterprise bean that can be used in an Java EE 6
         title="The helloworld mdb example in depth">
      <description>
     	 The helloworld mdb is very simple - all it does is send several messages by a sevlet 3.0 component.
-The helloworld mdb example is comprised a servlet 3.0 as client <b>HelloWorldMDBServletClient</b> with a context <b>@WebServlet("/HelloWorldMDBServletClient")</b> that send several messages to the queue "queue/test" and a message-driven bean, that processes asynchronously messages from the specific queue.
-The servlet client injects a connection factory <b>@@Resource(mappedName = "java:/ConnectionFactory") private static ConnectionFactory connectionFactory;</b> to create a connection and a queue <b>@Resource(mappedName = "java:/queue/test") private static Queue queue;</b> where messages need to be send. 
+The helloworld mdb example is comprised a servlet 3.0 as client <b>HelloWorldMDBServletClient</b> with a context <b>@WebServlet("/HelloWorldMDBServletClient")</b> that send several messages to the queue "queue/HELLOWORLDMDBQueue" and a message-driven bean, that processes asynchronously messages from the specific queue.
+The servlet client injects a connection factory <b>@@Resource(mappedName = "java:/ConnectionFactory") private static ConnectionFactory connectionFactory;</b> to create a connection and a queue <b>@Resource(mappedName = "java:/queue/HELLOWORLDMDBQueue") private static Queue queue;</b> where messages need to be send. 
 The message-driven bean class <b>HelloWorldMDB</b> achieves the requirements of a typical JMS listener through it annotation with <b>@MessageDriven(name = "HelloWorldMDB", activationConfig = {
 		@ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
-		@ActivationConfigProperty(propertyName = "destination", propertyValue = "queue/test"),
+		@ActivationConfigProperty(propertyName = "destination", propertyValue = "queue/HELLOWORLDMDBQueue"),
 		@ActivationConfigProperty(propertyName = "acknowledgeMode", propertyValue = "Auto-acknowledge") })</b>
 The message-driven bean processes the messages and print and print <b>(Thread-3 (group:HornetQ-client-global-threads-343422187)) Received Message: This is message 3</b><br/><b>(Thread-4 (group:HornetQ-client-global-threads-343422187)) Received Message: This is message 4</b><br/><b>(Thread-2 (group:HornetQ-client-global-threads-343422187)) Received Message: This is message 2</b><br/><b>(Thread-0 (group:HornetQ-client-global-threads-343422187)) Received Message: This is message 0</b><br/> on the log console. 
 For sending message uses this url <b>http://localhost:8080//jboss-as-helloworld-mdb/HelloWorldMDBServletClient</b>.

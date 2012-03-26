@@ -1,73 +1,94 @@
 helloworld-errai: Hello World Using the Errai Framework
 =======================================================
+Author: Jonathon Fuerth
+
 
 What is it?
 -----------
 
-This example demonstrates the use of *CDI 1.0* and *JAX-RS* in *JBoss AS 7* with a GWT front-end client.
-GWT is basically a typesafe, statically checked programming model for producing HTML5+CSS3+JavaScript
-front-ends. In this example, we use RESTful services on the backend. The client communicates with the
-backend using stubs that are generated based on the JAX-RS resources when the application is compiled.
+This example demonstrates the use of *CDI 1.0* and *JAX-RS* in *JBoss Enterprise Application Platform 6* or *JBoss AS 7* with a GWT front-end client.
+
+GWT is basically a typesafe, statically checked programming model for producing HTML5+CSS3+JavaScript front-ends. In this example, we use RESTful services on the backend. The client communicates with the backend using stubs that are generated based on the JAX-RS resources when the application is compiled.
 
 You can test the REST endpoint at the URL http://localhost:8080/jboss-as-helloworld-errai/hello/json/David
-
 
 System requirements
 -------------------
 
-All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven
-3.0 or better.
+All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven 3.0 or better.
 
-The application this project produces is designed to be run on a JBoss AS 7. 
+The application this project produces is designed to be run on JBoss Enterprise Application Platform 6 or JBoss AS 7. 
+
  
-NOTE:
-This project retrieves artifacts from the JBoss Community Maven repository, a
-superset of the Maven central repository.
+Configure Maven
+---------------
 
-With the prerequisites out of the way, you're ready to build and deploy.
+If you have not yet done so, you must [Configure Maven](../README.html/#mavenconfiguration) before testing the quickstarts.
 
 
-Deploying the Application
+Start JBoss Enterprise Application Platform 6 or JBoss Application Server 7 with the Web Profile
 -------------------------
+
+1. Open a command line and navigate to the root of the JBoss directory.
+2. The following shows the command line to start the server with the web profile:
+
+         For Linux:   JBOSS_HOME/bin/standalone.sh
+         For Windows: JBOSS_HOME\bin\standalone.bat
+
  
-First you need to start JBoss AS 7. To do this, run
-  
-    $JBOSS_HOME/bin/standalone.sh
-  
-or if you are using windows
- 
-    $JBOSS_HOME/bin/standalone.bat
+Build and Deploy the Quickstart
+-------------------------
 
-To deploy the application, you first need to produce the archive to deploy using
-the following Maven goal:
-
-    mvn clean package
-
-You can now deploy the artifact to JBoss AS by executing the following command:
-
-    mvn jboss-as:deploy
-
-This will deploy `target/jboss-as-helloworld-errai.war`.
- 
-The application will be running at the following URL <http://localhost:8080/jboss-as-helloworld-errai/>.
-
-To undeploy from JBoss AS, run this command:
-
-    mvn jboss-as:undeploy
-
-You can also start JBoss AS 7 and deploy the project using Eclipse. See the JBoss AS 7
-Getting Started Guide for Developers for more information.
+_NOTE: The following build command assumes you have configured your Maven user settings. If you have not, you must include Maven setting arguments on the command line. See [Build and Deploy the Quickstarts](../README.html/#buildanddeploy) for complete instructions and additional options._
 
 
-Running the Application in GWT Dev Mode
+#### Build and Deploy the Archive
+
+1. Make sure you have started the JBoss Server as described above.
+2. Open a command line and navigate to the root directory of this quickstart.
+3. Type this command to build and deploy the archive:
+
+            mvn clean package jboss-as:deploy
+
+4. This will deploy `target/jboss-as-helloworld-errai.war` to the running instance of the server.
+
+#### Undeploy the Archive
+
+1. Make sure you have started the JBoss Server as described above.
+2. Open a command line and navigate to the root directory of this quickstart.
+3. Type this command to undeploy the archive:
+
+            mvn jboss-as:undeploy
+
+
+Access the application 
+---------------------
+
+The application will be running at the following URL:  <http://localhost:8080/jboss-as-helloworld-errai/>.
+
+
+Run the Application in GWT Dev Mode
 ---------------------------------------
 
-GWT Dev Mode provides an edit-save-refresh development experience. If you plan to try 
-modifying this demo, we recommend you start the application in Dev Mode so you don't 
-have to repackage the whole application every time you change it.
+GWT Dev Mode provides an edit-save-refresh development experience. If you plan to modify this demo, we recommend you start the application in Dev Mode so you don't have to repackage the entire application every time you change it.
 
-Deploy the war file and start JBoss AS 7 as described above.
+1. Deploy the WAR file and start the JBoss Server as described above.
+2. Open a command line and navigate to the helloworld-errai quickstart directory
+3. Execute the following command:
 
-Then execute the command:
+        mvn gwt:run
 
-    mvn gwt:run
+
+
+Run the Quickstart in JBoss Developer Studio or Eclipse
+-------------------------------------
+You can also start the server and deploy the quickstarts from Eclipse using JBoss tools. For more information, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](../README.html/#useeclipse) 
+
+
+Debug the Application
+------------------------------------
+
+If you want to debug the source code or look at the Javadocs of any library in the project, run either of the following commands to pull them into your local repository. The IDE should then detect them.
+
+      mvn dependency:sources
+      mvn dependency:resolve -Dclassifier=javadoc

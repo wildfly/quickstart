@@ -6,49 +6,82 @@ Author: Serge Pagop
 What is it?
 -----------
 
-In this example, you will learn how to deploy and run a simple Java EE 6 application named shopping-cart using stateful session bean. The shopping-cart allows customers to buy, checkout and view their cart contents. 
-The shopping-cart application consists of a standalone Java EE module (which is deployed to JBoss AS as a jar containing EJBs) and a simple Java client, launched using a "main" method.  The server module is responsible for managing the shopping cart. The remote client looks up a reference to the server module's API, via JNDI. It then uses this API to perform the operations the customer requests.
+In this example, you will learn how to deploy and run a simple Java EE 6 application named `shopping-cart` that uses a stateful session bean. The shopping-cart allows customers to buy, checkout and view their cart contents. 
+
+The shopping-cart application consists of the following:
+
+1. A server side component:
+
+    This standalone Java EE module is a JAR containing EJBs. It is responsible for managing the shopping cart.
+2. A Java client:
+
+    This simple Java client is launched using a "main" method. The remote client looks up a reference to the server module's API, via JNDI. It then uses this API to perform the operations the customer requests.
+
 
 System requirements
 -------------------
 
-All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven
-3.0 or better.
+All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven 3.0 or better.
 
-The application this project produces is designed to be run on a JBoss Enterprise Application Platform 6 or JBoss AS 7.
+The application this project produces is designed to be run on JBoss Enterprise Application Platform 6 or JBoss AS 7. 
+
  
-With the prerequisites out of the way, you're ready to build and deploy.
+Configure Maven
+---------------
 
-Deploying the application
+If you have not yet done so, you must [Configure Maven](../README.html/#mavenconfiguration) before testing the quickstarts.
+
+
+Start JBoss Enterprise Application Platform 6 or JBoss Application Server 7 with the Web Profile
 -------------------------
+
+1. Open a command line and navigate to the root of the JBoss directory.
+2. The following shows the command line to start the server with the web profile:
+
+         For Linux:   JBOSS_HOME/bin/standalone.sh
+         For Windows: JBOSS_HOME\bin\standalone.bat
+
  
-First you need to start JBoss Enterprise Application Platform 6 or JBoss AS 7. To do this, run
-  
-    $JBOSS_HOME/bin/standalone.sh
-  
-or if you are using windows
- 
-    $JBOSS_HOME/bin/standalone.bat
+Build and Deploy the Quickstart
+-------------------------
 
-To build both the server component and the remote client program, deploy the server module, change into the examples shopping-cart directory and type:
+1. Make sure you have started the JBoss server. See the instructions in the previous section.
 
-    mvn clean install jboss-as:deploy
+2. Open a command line and navigate to the `shopping-cart` quickstart directory
+3. To build both the server component and the remote client program, deploy the server module, change into the examples shopping-cart directory and type the following:
 
-This maven goal will deploy `server/target/jboss-as-shoppingcart-server.jar`. You can check the Application Server console to see information messages regarding the deployment.
+    For JBoss Enterprise Application Platform 6 (Maven user settings NOT configured): 
 
-Note that you can also start JBoss Enterprise Application Platform 6 or JBoss AS 7 and deploy the project using Eclipse. See the JBoss AS 7 <a href="https://docs.jboss.org/author/display/AS71/Getting+Started+Developing+Applications+Guide" title="Getting Started Developing Applications Guide">Getting Started Developing Applications Guide</a>  for more information.
+          mvn clean install jboss-as:deploy -s PATH_TO_QUICKSTARTS/example-settings.xml
+    For JBoss AS 7 or JBoss Enterprise Application Platform 6 (Maven user settings configured): 
+
+          mvn clean install jboss-as:deploy 
+4. This maven goal will deploy `server/target/jboss-as-shoppingcart-server.jar`. You can check the Application Server console to see information messages regarding the deployment.
+
+
+Run the Client Application
+------------------------
 
 Now start a client that will access the beans you just deployed:
 
-    mvn exec:java -f client/pom.xml 
+    For JBoss Enterprise Application Platform 6 (Maven user settings NOT configured): 
 
-You should see output showing 
+            mvn exec:java -f client/pom.xml -s PATH_TO_QUICKSTARTS/example-settings.xml
 
-1. the client sending a remote method invocation to the stateful session bean to buy two Memory sticks and one MacBook Air Laptop
-2. the client sending a remote method invocation to get the contents of the cart, and print it
-3. the client sending a remote method invocation to invoke checkout
+    For JBoss AS 7 or JBoss Enterprise Application Platform 6 (Maven user settings configured): 
 
-Note that the checkout will remove the SFSB; the client sends a final remote method invocation to get the cart contents. As the bean has been removed, a `NoSuchEjbException` is thrown.
+            mvn exec:java -f client/pom.xml 
+
+Investigate the Console Output
+-------------------------------
+
+You should see the following: 
+
+1. The client sends a remote method invocation to the stateful session bean to buy two Memory sticks and one MacBook Air Laptop
+2. The client sends a remote method invocation to get the contents of the cart, and print it
+3. The client sends a remote method invocation to invoke checkout
+
+Note that the checkout will remove the SFSB. The client then sends a final remote method invocation to get the cart contents. As the bean has been removed, a `NoSuchEjbException` is thrown.
 
 On the client console, you should see output similar to:
 
@@ -99,17 +132,16 @@ On the server console, you should see output similar to:
     18:29:53,794 INFO  [org.jboss.as.ejb3] (pool-9-thread-8) JBAS014101: Failed to find {[-22, 53, -53, 71, 41, 47, 72, -112, -113, -93, -43, -23, -2, -49, 119, 40]} in cache
     18:29:53,798 ERROR [org.jboss.ejb3.invocation] (pool-9-thread-9) JBAS014134: EJB Invocation failed on component ShoppingCartBean for method public abstract java.util.HashMap org.jboss.as.quickstarts.sfsb.ShoppingCart.getCartContents(): javax.ejb.NoSuchEJBException: Could not find SFSB ShoppingCartBean
 
-Undeploy the application
-------------------------
 
-To undeploy the server side component:
+Run the Quickstart in JBoss Developer Studio or Eclipse
+-------------------------------------
+You can also start the server and deploy the quickstarts from Eclipse using JBoss tools. For more information, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](../README.html/#useeclipse) 
 
-    mvn jboss-as:undeploy
 
-Downloading the sources and Javadocs
-====================================
+Debug the Application
+---------------------
 
-If you want to be able to debug into the source code or look at the Javadocs of any library in the project, you can run either of the following two commands to pull them into your local repository. The IDE should then detect them.
+If you want to debug the source code or look at the Javadocs of any library in the project, run either of the following commands to pull them into your local repository. The IDE should then detect them.
 
     mvn dependency:sources
     mvn dependency:resolve -Dclassifier=javadoc

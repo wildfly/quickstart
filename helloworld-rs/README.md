@@ -7,31 +7,88 @@ What is it?
 
 This example demonstrates the use of *CDI 1.0* and *JAX-RS* in *JBoss AS 7* or *JBoss Enterprise Application Platform 6*.
 
+
 System requirements
 -------------------
 
-The example can be deployed using Maven from the command line or from Eclipse using JBoss Tools.
+All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven 3.0 or better.
 
-To set up Maven or JBoss Tools in Eclipse, refer to the 
-<a href="https://docs.jboss.org/author/display/AS71/Getting+Started+Developing+Applications+Guide" title="Getting Started Developing Applications Guide">Getting Started Developing Applications Guide</a>.
+The application this project produces is designed to be run on JBoss Enterprise Application Platform 6 or JBoss AS 7. 
 
-Deploying the application
+ 
+Configure Maven
+---------------
+
+If you have not yet done so, you must [Configure Maven](../README.html/#mavenconfiguration) before testing the quickstarts.
+
+
+Start JBoss Enterprise Application Platform 6 or JBoss Application Server 7 with the Web Profile
 -------------------------
 
-To deploy to JBoss AS 7 or JBoss Enterprise Application Platform 6, start the JBoss application server and type:
+1. Open a command line and navigate to the root of the JBoss directory.
+2. The following shows the command line to start the server with the web profile:
 
-    mvn package jboss-as:deploy 
+         For Linux:   JBOSS_HOME/bin/standalone.sh
+         For Windows: JBOSS_HOME\bin\standalone.bat
 
-The application is deployed to <http://localhost:8080/jboss-as-helloworld-rs>, so in order to get either both content you will have to point
+ 
+Build and Deploy the Quickstart - Locally
+-------------------------
 
-* <http://localhost:8080/jboss-as-helloworld-rs/xml> if you want *xml* or
-* <http://localhost:8080/jboss-as-helloworld-rs/json> if you want *json*
+_NOTE: The following build command assumes you have configured your Maven user settings. If you have not, you must include Maven setting arguments on the command line. See [Build and Deploy the Quickstarts](../README.html/#buildanddeploy) for complete instructions and additional options._
 
-Deploying the Application to OpenShift
---------------------------------------
 
-Firstly, lets assume you already have an OpenShift (express) account and have created a domain. If you don't please visit <https://openshift.redhat.com/app/login>
-to create an account and follow the getting started guide which can be found at <http://docs.redhat.com/docs/en-US/OpenShift_Express/2.0/html/Getting_Started_Guide/index.html>. The guide will show you how to install the OpenShift Express command line interface.
+#### Build and Deploy the Archive
+
+1. Make sure you have started the JBoss Server as described above.
+2. Open a command line and navigate to the root directory of this quickstart.
+3. Type this command to build and deploy the archive:
+
+            mvn clean package jboss-as:deploy
+
+4. This will deploy `target/jboss-as-helloworld-rs.war` to the running instance of the server.
+
+#### Undeploy the Archive
+
+1. Make sure you have started the JBoss Server as described above.
+2. Open a command line and navigate to the root directory of this quickstart.
+3. Type this command to undeploy the archive:
+
+            mvn jboss-as:undeploy
+
+
+Access the application 
+---------------------
+
+The application is deployed to <http://localhost:8080/jboss-as-helloworld-rs>.
+
+The *XML* content can be viewed by accessing the following URL: <http://localhost:8080/jboss-as-helloworld-rs/xml> 
+
+The *JSON* content can be viewed by accessing this URL: <http://localhost:8080/jboss-as-helloworld-rs/json>
+
+
+Run the Quickstart in JBoss Developer Studio or Eclipse
+-------------------------------------
+You can also start the server and deploy the quickstarts from Eclipse using JBoss tools. For more information, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](../README.html/#useeclipse) 
+
+
+Debug the Application
+------------------------------------
+
+If you want to debug the source code or look at the Javadocs of any library in the project, run either of the following commands to pull them into your local repository. The IDE should then detect them.
+
+      mvn dependency:sources
+      mvn dependency:resolve -Dclassifier=javadoc
+
+
+Build and Deploy the Quickstart - to OpenShift
+-------------------------
+
+### Create an OpenShift Express Account and Domain
+
+If you do not yet have an OpenShift Express account and domain, visit <https://openshift.redhat.com/app/login> to create the account and domain. The [OpenShift Express Getting Started Guide](http://docs.redhat.com/docs/en-US/OpenShift_Express/2.0/html/Getting_Started_Guide/index.html) will show you how to install the OpenShift Express command line interface.
+
+### Create the OpenShift Application
 
 Open a shell command prompt and change to a directory of your choice. Enter the following command:
 
@@ -50,12 +107,14 @@ This command creates an OpenShift application called `helloworldrs` and will run
 
 The create command creates a git repository in the current directory with the same name as the application. Notice that the output also reports the URL at which the application can be accessed. Make sure it is available by typing the published url <http://helloworldrs-quickstart.rhcloud.com/> into a browser or use command line tools such as curl or wget.
 
-Now that you have confirmed it is working you can now migrate the quickstart source. You no longer need the default application so change directory into the new git repo and tell git to remove the source files and pom:
+### Migrate the Quickstart Source
+
+Now that you have confirmed it is working you can now migrate the quickstart source. You no longer need the default application so change directory into the new git repository and tell git to remove the source files and pom:
 
     cd helloworldrs
     git rm -r src pom.xml
 
-Copy the source for the helloworld-rs quickstart into this new git repo:
+Copy the source for the `helloworld-rs` quickstart into this new git repository:
 
     cp -r <quickstarts>/helloworld-rs/src .
     cp <quickstarts>/helloworld-rs/pom.xml .
@@ -76,6 +135,8 @@ When the push command returns you can retest the application by getting the foll
 * <http://helloworldrs-quickstart.rhcloud.com/json> if you want *json*
 
 You can use the OpenShift command line tools or the OpenShift web console to discover and control the application.
+
+### Destroy the OpenShift Application
 
 When you are finished with the application you can destroy it as follows:
 

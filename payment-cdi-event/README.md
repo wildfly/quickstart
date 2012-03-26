@@ -2,18 +2,18 @@ payment-cdi-event: Use CDI Events to Process Debit and Credit Operations
 ========================================================================
 Author: Elvadas Nono
 
-This quickstart demonstrates how to use *CDI 1.0 Events* in JBoss AS 7 or JBoss Enterprise Application Platform 6.
+What is it?
+-----------
+
+This quickstart demonstrates how to use *CDI 1.0 Events* in  *JBoss Enterprise Application Platform 6* or *JBoss AS 7*.
+
 The JSF front-end client allows you to create both credit and debit operation events.
 
-To test this quickstart, enter an amount, choose either a Credit or Debit operation,
-and then click on *Pay* to create the event.
+To test this quickstart, enter an amount, choose either a Credit or Debit operation, and then click on *Pay* to create the event.
 
-A Session scoped (@SessionScoped) payment event handler catches the operation
- and produces (@Produces) a named list of all operations performed during this session. 
-The event is logged in the JBoss console and the event list is displayed in
- a table at the bottom of the form.
+A Session scoped (@SessionScoped) payment event handler catches the operation and produces (@Produces) a named list of all operations performed during this session.  The event is logged in the JBoss console and the event list is displayed in a table at the bottom of the form.
  
-The payment-cdi-event quickstart defines the following classes
+The payment-cdi-event quickstart defines the following classes:
  
  *   PaymentBean: 
      *   A session scoped bean that stores the payment form information: 
@@ -32,47 +32,71 @@ The payment-cdi-event quickstart defines the following classes
      *   The concrete implementation of the payment handler, it implements both IcreditEventObserver and IDebitEventObserver.
      *   The payment handler exposes the list of events caught during a session ( @Named  name=payments).
  
- 
-You can test the output of this quickstart at the URL http://localhost:8080/jboss-as-payment-cdi-event
 
 System requirements
 -------------------
 
-All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven
-3.0 or better.
+All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven 3.0 or better.
 
-The application this project produces is designed to be run on a JBoss AS 7.
+The application this project produces is designed to be run on JBoss Enterprise Application Platform 6 or JBoss AS 7. 
 
-With the prerequisites out of the way, you're ready to build and deploy.
+ 
+Configure Maven
+---------------
+
+If you have not yet done so, you must [Configure Maven](../README.html/#mavenconfiguration) before testing the quickstarts.
 
 
-Deploying the Application
+Start JBoss Enterprise Application Platform 6 or JBoss Application Server 7 with the Web Profile
 -------------------------
 
-First you need to start JBoss AS 7. To do this, run
+1. Open a command line and navigate to the root of the JBoss directory.
+2. The following shows the command line to start the server with the web profile:
 
-    $JBOSS_HOME/bin/standalone.sh
+         For Linux:   JBOSS_HOME/bin/standalone.sh
+         For Windows: JBOSS_HOME\bin\standalone.bat
 
-or if you are using Windows
+ 
+Build and Deploy the Quickstart
+-------------------------
 
-    $JBOSS_HOME/bin/standalone.bat
+_NOTE: The following build command assumes you have configured your Maven user settings. If you have not, you must include Maven setting arguments on the command line. See [Build and Deploy the Quickstarts](../README.html/#buildanddeploy) for complete instructions and additional options._
 
-To deploy the application, you first need to produce the archive to deploy using
-the following Maven goal:
 
-    mvn clean package
+#### Build and Deploy the Archive
 
-You can now deploy the artifact to JBoss AS by executing the following command:
+1. Make sure you have started the JBoss Server as described above.
+2. Open a command line and navigate to the root directory of this quickstart.
+3. Type this command to build and deploy the archive:
 
-    mvn jboss-as:deploy
+            mvn clean package jboss-as:deploy
 
-This will deploy `target/jboss-as-payment-cdi-event.war`.
+4. This will deploy `target/jboss-as-payment-cdi-event.war` to the running instance of the server.
 
-The application will be running at the following URL <http://localhost:8080/jboss-as-payment-cdi-event/>.
+#### Undeploy the Archive
 
-To undeploy from JBoss AS, run this command:
+1. Make sure you have started the JBoss Server as described above.
+2. Open a command line and navigate to the root directory of this quickstart.
+3. Type this command to undeploy the archive:
 
-    mvn jboss-as:undeploy
+            mvn jboss-as:undeploy
 
-You can also start JBoss AS 7 and deploy the project using Eclipse. See the JBoss AS 7
-Getting Started Guide for Developers for more information.
+
+Access the application 
+---------------------
+
+The application will be running at the following URL: <http://localhost:8080/jboss-as-payment-cdi-event/>.
+
+
+Run the Quickstart in JBoss Developer Studio or Eclipse
+-------------------------------------
+You can also start the server and deploy the quickstarts from Eclipse using JBoss tools. For more information, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](../README.html/#useeclipse) 
+
+
+Debug the Application
+------------------------------------
+
+If you want to debug the source code or look at the Javadocs of any library in the project, run either of the following commands to pull them into your local repository. The IDE should then detect them.
+
+      mvn dependency:sources
+      mvn dependency:resolve -Dclassifier=javadoc

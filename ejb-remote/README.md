@@ -5,65 +5,94 @@ Authors: Jaikiran Pai and Mike Musgrove
 What is it?
 -----------
 
-This example shows how to access an EJB from a remote Java client program. It
-demonstrates the use of *EJB 3.1* and *JNDI* in *JBoss AS 7*.
+This example shows how to access an EJB from a remote Java client application. It demonstrates the use of *EJB 3.1* and *JNDI* in *JBoss Enterprise Application Platform 6* or *JBoss AS 7*.
 
-There are two parts to the example: a server side component and a remote client program
-that accesses it. Each part is in its own standalone Maven module, however the quickstart
-does provide a top level module to simplify the packaging of the artifacts.
+There are two components to this example: 
 
-The server component is comprised of a stateful and a stateless EJB. It provides both an EJB JAR
-that is deployed to the server and a JAR file containing the remote business interfaces required
-by the remote client application.
+1. A server side component:
 
-The remote client application depends on the remote business interfaces from the server component.
-This program looks up the stateless and stateful beans via JNDI and invokes a number of methods on
-them.
+    The server component is comprised of a stateful and a stateless EJB. It provides both an EJB JAR that is deployed to the server and a JAR file containing the remote business interfaces required by the remote client application.
+2. A remote client application that accesses the server component. 
+
+    The remote client application depends on the remote business interfaces from the server component. This application looks up the stateless and stateful beans via JNDI and invokes a number of methods on them.
+
+Each component is defined in its own standalone Maven module. The quickstart provides a top level Maven module to simplify the packaging of the artifacts.
+
 
 System requirements
 -------------------
 
 All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven 3.0 or better.
 
-The application this project produces is designed to be run on a JBoss AS 7 or EAP 6.
-The following instructions target JBoss AS 7, but they also apply to JBoss EAP 6.
+The application this project produces is designed to be run on JBoss Enterprise Application Platform 6 or JBoss AS 7. 
 
-Building and deploying the application
+ 
+Configure Maven
+---------------
+
+If you have not yet done so, you must [Configure Maven](../README.html/#mavenconfiguration) before testing the quickstarts.
+
+
+Start JBoss Enterprise Application Platform 6 or JBoss Application Server 7 with the Web Profile
 -------------------------
 
-Follow these steps to build, deploy and run the quickstart.
+1. Open a command line and navigate to the root of the JBoss directory.
+2. The following shows the command line to start the server with the web profile:
 
-1. Start JBoss AS 7 (or EAP 6):
+         For Linux:   JBOSS_HOME/bin/standalone.sh
+         For Windows: JBOSS_HOME\bin\standalone.bat
 
-        $JBOSS_HOME/bin/standalone.sh
 
-2. Build and install the server side component.  
+Build and Deploy the Quickstart
+-------------------------
 
-         cd server-side/
-        mvn clean install
+Since this quickstart builds two separate components, you can not use the standard *Build and Deploy* commands used by most of the other quickstarts. You must follow these steps to build, deploy, and run this quickstart.
 
-  This will build the EJB and client interfaces JARs, and install them in your local Maven repository.
+1. Make sure you have started the JBoss server. See the instructions in the previous section.
+2. Open a command line and navigate to the ejb-remote quickstart directory
+3. Build and install the server side component:
+    * Navigate to the server-side subdirectory:
 
-3. Deploy the EJB JAR to your server
+          cd server-side
+    * Build the EJB and client interfaces JARs and install them in your local Maven repository.
 
-        mvn jboss-as:deploy
+        For JBoss Enterprise Application Platform 6 (Maven user settings NOT configured): 
 
-  This maven goal will deploy `server-side/target/jboss-as-ejb-remote-app.jar`. You can check the AS
-console to see information messages regarding the deployment.
+            mvn clean install -s PATH_TO_QUICKSTARTS/example-settings.xml
 
+        For JBoss AS 7 or JBoss Enterprise Application Platform 6 (Maven user settings configured): 
+
+            mvn clean install        
+    * Deploy the EJB JAR to your server. This maven goal will deploy `server-side/target/jboss-as-ejb-remote-app.jar`. You can check the JBoss server console to see information messages regarding the deployment.
+
+            mvn jboss-as:deploy
 4. Build and run the client application
+    * Navigate to the server-side subdirectory:
 
-         cd ../client
-         mvn clean compile
-         mvn exec:exec
-   
-   This will compile and execute the client application within Maven.  Refer to `The Output` below.
-  
-Note that you can also start JBoss AS 7 and deploy the project using Eclipse. See the JBoss AS 7
-<a href="https://docs.jboss.org/author/display/AS71/Getting+Started+Developing+Applications+Guide" title="Getting Started Developing Applications Guide">Getting Started Developing Applications Guide</a> 
-for more information.
+            cd ../client
+    * Compile the client code
 
-The Output
+        For JBoss Enterprise Application Platform 6 (Maven user settings NOT configured): 
+
+            mvn clean compile -s PATH_TO_QUICKSTARTS/example-settings.xml
+
+        For JBoss AS 7 or JBoss Enterprise Application Platform 6 (Maven user settings configured): 
+
+            mvn clean compile
+    * Execute the client application within Maven
+
+            mvn exec:exec
+
+5. To undeploy the server side component from the JBoss server:
+    * Navigate to the server-side subdirectory:
+
+            cd ../server-side
+    * Type the following command:
+
+            mvn jboss-as:undeploy
+
+
+Investigate the Console Output
 -------------------------
 
 When the client application runs, it performs the following steps:
@@ -74,8 +103,6 @@ When the client application runs, it performs the following steps:
 4. Obtains a stateful session bean instance.
 5. Sends several method invocations to the stateful bean to increment a field in the bean, displaying the result each time.
 6. Sends several method invocations to the stateful bean to decrement a field in the bean, displaying the result each time.
-
-
 
 The output in the terminal window  will look like the following:
 
@@ -110,37 +137,34 @@ The output in the terminal window  will look like the following:
 
 Logging statements have been removed from this output here to make it clearer.
 
-Undeploy the Application
+
+Build and Run The Quickstart as an Executable JAR
 -------------------------
 
-To undeploy the server side component from JBoss AS:
+The remote client application can also be built as a standalone executable JAR with all of its dependencies.
 
-        cd ../server-side
-        mvn jboss-as:undeploy
+1. Open a command line and navigate to the ejb-remote/client quickstart directory
 
+        cd client
+2. Type the following in the command line:
 
-Build Executable JAR
--------------------------
-
-The remote client application can also be built as a standalone executable JAR with all of it's 
-dependencies.
-
-      cd client
-      mvn clean assembly:assembly
+        mvn clean assembly:assembly
       
-You can then run the executable JAR using `java -jar`:
+4. You can then run the executable JAR using `java -jar`:
       
-      java -jar target/jboss-as-quickstarts-ejb-remote-client-7.0.2-SNAPSHOT-jar-with-dependencies.jar
+        java -jar target/jboss-as-quickstarts-ejb-remote-client-7.0.2-SNAPSHOT-jar-with-dependencies.jar
 
 
-Downloading the sources and Javadocs
-====================================
 
-If you want to be able to debug into the source code or look at the Javadocs
-of any library in the project, you can run either of the following two
-commands to pull them into your local repository. The IDE should then detect
-them.
+Run the Quickstart in JBoss Developer Studio or Eclipse
+-------------------------------------
+You can also start the server and deploy the quickstarts from Eclipse using JBoss tools. For more information, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](../README.html/#useeclipse) 
 
-        mvn dependency:sources
-        mvn dependency:resolve -Dclassifier=javadoc
 
+Debug the Application
+------------------------------------
+
+If you want to debug the source code or look at the Javadocs of any library in the project, run either of the following commands to pull them into your local repository. The IDE should then detect them.
+
+      mvn dependency:sources
+      mvn dependency:resolve -Dclassifier=javadoc

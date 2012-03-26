@@ -7,41 +7,68 @@ What is it?
 
 This example demonstrates the use of *JMS 1.1* and *EJB 3.1 Message-Driven Bean* in JBoss AS 7.1.0.
 
+This project creates a queue named `HELLOWORLDMDBQueue` which is bound in JNDI as `java:/queue/HELLOWORLDMDBQueue`.
+
+
 System requirements
 -------------------
 
-All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven
-3.0 or better.
+All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven 3.0 or better.
 
-The application this project produces is designed to be run on a JBoss AS 7 or JBoss Enterprise Application Platform 6. 
+The application this project produces is designed to be run on JBoss Enterprise Application Platform 6 or JBoss AS 7. 
+
  
-This Project will use the provided connection factory named `InVmConnectionFactory` which is bound into JNDI as `java:/ConnectionFactory` and a queue named `testQueue` which is bound into JNDI as `queue/test`.
+Configure Maven
+---------------
 
-With the prerequisites out of the way, you're ready to build and deploy.
+If you have not yet done so, you must [Configure Maven](../README.html/#mavenconfiguration) before testing the quickstarts.
 
-Deploying the application
+
+Start JBoss Enterprise Application Platform 6 or JBoss Application Server 7 with the Full Profile
+---------------
+
+1. Open a command line and navigate to the root of the JBoss directory.
+2. The following shows the command line to start the server with the full profile:
+
+        For Linux:   JBOSS_HOME/bin/standalone.sh -c standalone-full.xml
+        For Windows: JBOSS_HOME\bin\standalone.bat -c standalone-full.xml
+
+
+Build and Deploy the Quickstart
 -------------------------
 
-For JBoss AS 7 or JBoss Enterprise Application Platform 6:
+_NOTE: The following build command assumes you have configured your Maven user settings. If you have not, you must include Maven setting arguments on the command line. See [Build and Deploy the Quickstarts](../README.html/#buildanddeploy) for complete instructions and additional options._
 
-    On Linux run: $JBOSS_HOME/bin/standalone.sh -c standalone-full.xml
 
-    On Windows run: $JBOSS_HOME/bin/standalone.bat -c standalone-full.xml
+#### Build and Deploy the Archive
 
-To deploy the application, you first need to produce the archive to deploy using
-the following Maven goal:
+1. Make sure you have started the JBoss Server as described above.
+2. Open a command line and navigate to the root directory of this quickstart.
+3. Type this command to build and deploy the archive:
 
-    mvn package
+            mvn clean package jboss-as:deploy
 
-You can now deploy the artifact to JBoss AS by executing the following command:
+4. This will deploy `target/jboss-as-helloworld-mdb.war` to the running instance of the server.
 
-    mvn jboss-as:deploy
+#### Undeploy the Archive
 
-This will deploy `target/jboss-as-helloworld-mdb.war`.
- 
-The application will be running at the following URL <http://localhost:8080/jboss-as-helloworld-mdb/HelloWorldMDBServletClient>.
+1. Make sure you have started the JBoss Server as described above.
+2. Open a command line and navigate to the root directory of this quickstart.
+3. Type this command to undeploy the archive:
 
-Go to the JBoss Application Server console or Server log and the result can look like this:
+            mvn jboss-as:undeploy
+
+
+Access the application 
+---------------------
+
+The application will be running at the following URL: <http://localhost:8080/jboss-as-helloworld-mdb/>.
+
+
+Investigate the Server Console Output
+-------------------------
+
+Look at the JBoss Application Server console or Server log and you should see log messages like the following:
 
     15:42:35,453 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldMDB] (Thread-47 (group:HornetQ-client-global-threads-1267410030)) Received Message: This is message 1
     15:42:35,455 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldMDB] (Thread-46 (group:HornetQ-client-global-threads-1267410030)) Received Message: This is message 2
@@ -50,10 +77,15 @@ Go to the JBoss Application Server console or Server log and the result can look
     15:42:35,481 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldMDB] (Thread-52 (group:HornetQ-client-global-threads-1267410030)) Received Message: This is message 4
 
 
-To undeploy from JBoss AS, run this command:
+Run the Quickstart in JBoss Developer Studio or Eclipse
+-------------------------------------
+You can also start the server and deploy the quickstarts from Eclipse using JBoss tools. For more information, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](../README.html/#useeclipse) 
 
-    mvn jboss-as:undeploy
 
-You can also start JBoss AS 7 and deploy the project using Eclipse. See the JBoss AS 7
-<a href="https://docs.jboss.org/author/display/AS71/Getting+Started+Developing+Applications+Guide" title="Getting Started Developing Applications Guide">Getting Started Developing Applications Guide</a> 
-for more information.
+Debug the Application
+------------------------------------
+
+If you want to debug the source code or look at the Javadocs of any library in the project, run either of the following commands to pull them into your local repository. The IDE should then detect them.
+
+      mvn dependency:sources
+      mvn dependency:resolve -Dclassifier=javadoc
