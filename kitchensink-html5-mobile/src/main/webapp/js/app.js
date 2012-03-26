@@ -21,7 +21,7 @@ Restful calls, validates return values, and populates the member table.
 
 /* Get the member template */
 function getMemberTemplate() {
-	$.ajax({
+    $.ajax({
         url: "tmpl/member.tmpl",
         dataType: "html",
         success: function( data ) {
@@ -33,21 +33,21 @@ function getMemberTemplate() {
 
 /* Builds the updated table for the member list */
 function buildMemberRows(members) {
-	return _.template( $( "#member-tmpl" ).html(), {"members": members});
+    return _.template( $( "#member-tmpl" ).html(), {"members": members});
 }
 
 /* Uses JAX-RS GET to retrieve current member list */
 function updateMemberTable() {
-   $.ajax({
-	   url: "rest/members/json",
-	   cache: false,
-	   success: function(data) {
+    $.ajax({
+        url: "rest/members/json",
+        cache: false,
+        success: function(data) {
             $('#members').empty().append(buildMemberRows(data));
-       },
-       error: function(error) {
+        },
+        error: function(error) {
             //console.log("error updating table -" + error.status);
-       }
-   });
+        }
+    });
 }
 
 /*
@@ -56,12 +56,12 @@ the refresh the member table, or process JAX-RS response codes to update
 the validation errors.
  */
 function registerMember(formValues) {
-   //clear existing  msgs
-   $('span.invalid').remove();
-   $('span.success').remove();
+    //clear existing  msgs
+    $('span.invalid').remove();
+    $('span.success').remove();
 
-   $.post('rest/members', formValues,
-         function(data) {
+    $.post('rest/members', formValues,
+        function(data) {
             //console.log("Member registered");
 
             //clear input fields
@@ -71,28 +71,28 @@ function registerMember(formValues) {
             $('#formMsgs').append($('<span class="success">Member Registered</span>'));
 
             updateMemberTable();
-         }).error(function(error) {
-            if ((error.status == 409) || (error.status == 400)) {
-               //console.log("Validation error registering user!");
+        }
+    )
+    .error(function(error) {
+        if ((error.status == 409) || (error.status == 400)) {
+            //console.log("Validation error registering user!");
 
-               var errorMsg = $.parseJSON(error.responseText);
+            var errorMsg = $.parseJSON(error.responseText);
 
-               $.each(errorMsg, function(index, val){
-                  $('<span class="invalid">' + val + '</span>')
-                        .insertAfter($('#' + index));
-               });
-            } else {
-               //console.log("error - unknown server issue");
-               $('#formMsgs').append($('<span class="invalid">Unknown server error</span>'));
-            }
-         });
+            $.each(errorMsg, function(index, val) {
+                $('<span class="invalid">' + val + '</span>').insertAfter($('#' + index));
+            });
+        } else {
+            //console.log("error - unknown server issue");
+            $('#formMsgs').append($('<span class="invalid">Unknown server error</span>'));
+        }
+    });
 }
 
 //small workaround for browsers which do not support overflow scrolling *cough* Android *cough*
 //this is for x axis and would need modification with scrollTop and pageY to support up/down scrolling
-function touchScrollX(id)
-{
-  if (Modernizr.touch) {
+function touchScrollX(id) {
+    if (Modernizr.touch) {
         var el=document.querySelector(id);
         var scrollStartPos=0;
 
@@ -105,5 +105,5 @@ function touchScrollX(id)
             this.scrollLeft=scrollStartPos-event.touches[0].pageX;
             event.preventDefault();
         },false);
-  }
+    }
 }
