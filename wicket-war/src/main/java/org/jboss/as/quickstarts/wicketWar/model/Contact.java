@@ -16,11 +16,13 @@
  */
 package org.jboss.as.quickstarts.wicketWar.model;
 
+import static javax.persistence.GenerationType.IDENTITY;
+
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 
@@ -28,12 +30,16 @@ import javax.persistence.Id;
  *
  * @author Filippo Diotalevi
  */
+@SuppressWarnings("serial")
 @Entity
 public class Contact implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
     private Long id;
     private String name;
+    
+    @Column(unique=true)
     private String email;
 
     public Contact() {
@@ -61,8 +67,7 @@ public class Contact implements Serializable {
         this.name = name;
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    
     public Long getId() {
         return id;
     }
@@ -72,26 +77,28 @@ public class Contact implements Serializable {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Contact other = (Contact) obj;
-        if (id != other.id && (id == null || !id.equals(other.id))) {
-            return false;
-        }
-        return true;
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((email == null) ? 0 : email.hashCode());
+        return result;
     }
 
     @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 67 * hash + (id != null ? id.hashCode() : 0);
-        hash = 67 * hash + (name != null ? name.hashCode() : 0);
-        hash = 67 * hash + (email != null ? email.hashCode() : 0);
-        return hash;
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Contact other = (Contact) obj;
+        if (email == null) {
+            if (other.email != null)
+                return false;
+        } else if (!email.equals(other.email))
+            return false;
+        return true;
     }
+    
 }

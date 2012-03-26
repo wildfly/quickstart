@@ -16,23 +16,22 @@
  */
 package org.jboss.as.quickstarts.wicketWar.pages;
 
-import javax.ejb.EJB;
+import javax.inject.Inject;
 
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.PropertyModel;
-import org.jboss.as.quickstarts.wicketWar.dao.ContactDaoLocal;
+import org.jboss.as.quickstarts.wicketWar.dao.ContactDao;
 import org.jboss.as.quickstarts.wicketWar.model.Contact;
 
 /**
  *
  * @author Filippo Diotalevi
  */
+@SuppressWarnings("serial")
 public class InsertContact extends WebPage {
-
-    private static final long serialVersionUID = 1L;
     
     private Form<Contact> insertForm;
     
@@ -40,16 +39,14 @@ public class InsertContact extends WebPage {
     
     private String email;
     
-    @EJB(name = "ContactDaoBean")
-    private ContactDaoLocal contactDao;
+    @Inject
+    private ContactDao contactDao;
 
     
     public InsertContact() {
         add(new FeedbackPanel("feedback"));
 
         insertForm = new Form<Contact>("insertForm") {
-
-            private static final long serialVersionUID = 1L;
 
             @Override
             protected void onSubmit() {

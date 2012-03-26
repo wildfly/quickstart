@@ -28,7 +28,7 @@ import org.jboss.as.quickstarts.wicketWar.model.Contact;
  * A bean which manages Contact entities.
  */
 @Stateless
-public class ContactDaoBean implements ContactDaoLocal {
+public class ContactDaoBean implements ContactDao {
 
     @PersistenceContext
     private EntityManager em;

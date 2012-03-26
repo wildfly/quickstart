@@ -3,8 +3,6 @@ wicket-war: Wicket Framework used in a WAR.
 
 Author: Ondrej Zizka <ozizka@redhat.com>
 
-
-
 What is it?
 -----------
 
@@ -32,8 +30,6 @@ Configure Maven
 
 If you have not yet done so, you must [Configure Maven](../README.html/#mavenconfiguration) before testing the quickstarts.
 
-
-
 Start the JBoss Server
 ----------------------
 
@@ -47,15 +43,13 @@ Build and Deploy the Quickstart
  * To build and deploy the quickstart, follow the instruction here: [Build and Deploy the Quickstarts](../README.html/#buildanddeploy)
 
 
-Access the application (For quickstarts that have a UI component)
+Access the application
 ----------------------
 
 Access the running application in a browser at the following URL:  [http://localhost:8080/jboss-as-wicket-war](http://localhost:8080/jboss-as-wicket-war)
 
  * You will see a page with a table listing user entities. Initially, this table is empty.
  * By clicking a link, you can add more users.
-
-
 
 Debug the Application
 ------------------------------------
