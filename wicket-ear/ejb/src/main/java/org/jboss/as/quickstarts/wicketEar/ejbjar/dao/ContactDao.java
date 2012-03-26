@@ -27,7 +27,7 @@ import org.jboss.as.quickstarts.wicketEar.ejbjar.model.Contact;
  * @author Filippo Diotalevi
  */
 @Local
-public interface ContactDaoLocal {
+public interface ContactDao {
 
     /**
      * Returns the currently available contacts

@@ -16,16 +16,21 @@
  */
 package org.jboss.as.quickstarts.wicketEar.war;
 
+import static net.ftlines.wicket.cdi.ConversationPropagation.NONE;
+
+import javax.enterprise.inject.spi.BeanManager;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+
+import net.ftlines.wicket.cdi.CdiConfiguration;
+
 import org.apache.wicket.Page;
 import org.apache.wicket.protocol.http.WebApplication;
 import org.jboss.as.quickstarts.wicketEar.war.pages.InsertContact;
 import org.jboss.as.quickstarts.wicketEar.war.pages.ListContacts;
-import org.wicketstuff.javaee.injection.JavaEEComponentInjector;
-import org.wicketstuff.javaee.naming.global.AppJndiNamingStrategy;
-
 
 /**
- *
+ * 
  * @author Ondrej Zizka
  */
 public class WicketJavaEEApplication extends WebApplication {
@@ -37,7 +42,20 @@ public class WicketJavaEEApplication extends WebApplication {
 
     @Override
     protected void init() {
-        getComponentInstantiationListeners().add(new JavaEEComponentInjector(this, new AppJndiNamingStrategy("as7-quickstart-wicket-ear-ejb")));
+        super.init();
+
+        // Enable CDI
+        BeanManager bm;
+        try {
+            bm = (BeanManager) new InitialContext().lookup("java:comp/BeanManager");
+        } catch (NamingException e) {
+            throw new IllegalStateException("Unable to obtain CDI BeanManager", e);
+        }
+
+        // Configure CDI, disabling Conversations as we aren't using them
+        new CdiConfiguration(bm).setPropagation(NONE).configure(this);
+
+        // Mount the InsertContact page at /insert
         mountPage("/insert", InsertContact.class);
     }
 

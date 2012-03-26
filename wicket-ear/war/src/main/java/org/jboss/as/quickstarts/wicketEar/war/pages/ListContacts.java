@@ -17,38 +17,39 @@
 package org.jboss.as.quickstarts.wicketEar.war.pages;
 
 import javax.annotation.Resource;
-import javax.ejb.EJB;
+import javax.inject.Inject;
 
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
-import org.jboss.as.quickstarts.wicketEar.ejbjar.dao.ContactDaoLocal;
+import org.jboss.as.quickstarts.wicketEar.ejbjar.dao.ContactDao;
 import org.jboss.as.quickstarts.wicketEar.ejbjar.model.Contact;
 
-
 /**
- *
+ * Dynamic behavior for the InsertContact page
+ * 
  * @author Filippo Diotalevi
  */
+@SuppressWarnings("serial")
 public class ListContacts extends WebPage {
 
-    private static final long serialVersionUID = 1L;
-
-    @EJB(name = "ContactDaoBean")
-    private ContactDaoLocal contactDao;
+    // Inject the ContactDao using @Inject
+    @Inject
+    private ContactDao contactDao;
 
     @Resource(name = "welcomeMessage")
     private String welcome;
 
-
+    // Set up the dynamic behavior for the page, widgets binding by id
     public ListContacts() {
 
+        // Add the dynamic welcome message, specified in web.xml
         add(new Label("welcomeMessage", welcome));
+        
+        // Populate the table of contacts
         add(new ListView<Contact>("contacts", contactDao.getContacts()) {
-
-            private static final long serialVersionUID = 1L;
 
             @Override
             protected void populateItem(final ListItem<Contact> item) {
@@ -57,8 +58,7 @@ public class ListContacts extends WebPage {
                 item.add(new Label("email", contact.getEmail()));
                 item.add(new Link<Contact>("delete", item.getModel()) {
 
-                    private static final long serialVersionUID = 1L;
-
+                    // Add a click handler
                     @Override
                     public void onClick() {
                         contactDao.remove(item.getModelObject());

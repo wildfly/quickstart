@@ -16,37 +16,34 @@
  */
 package org.jboss.as.quickstarts.wicketEar.war.pages;
 
-import javax.ejb.EJB;
+import javax.inject.Inject;
 
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.PropertyModel;
-import org.jboss.as.quickstarts.wicketEar.ejbjar.dao.ContactDaoLocal;
+import org.jboss.as.quickstarts.wicketEar.ejbjar.dao.ContactDao;
 import org.jboss.as.quickstarts.wicketEar.ejbjar.model.Contact;
 
 /**
- *
+ * 
  * @author Filippo Diotalevi
  */
+@SuppressWarnings("serial")
 public class InsertContact extends WebPage {
 
-    private static final long serialVersionUID = 1L;
     private Form<Contact> insertForm;
     private String name;
     private String email;
 
-    @EJB(name = "ContactDaoBean")
-    private ContactDaoLocal contactDao;
-
+    @Inject
+    private ContactDao contactDao;
 
     public InsertContact() {
         add(new FeedbackPanel("feedback"));
 
         insertForm = new Form<Contact>("insertForm") {
-
-            private static final long serialVersionUID = 1L;
 
             @Override
             protected void onSubmit() {
@@ -55,13 +52,10 @@ public class InsertContact extends WebPage {
             }
         };
 
-        insertForm.add(new RequiredTextField<String>("name",
-                new PropertyModel<String>(this, "name")));
-        insertForm.add(new RequiredTextField<String>("email", new PropertyModel<String>(this,
-                "email")));
+        insertForm.add(new RequiredTextField<String>("name", new PropertyModel<String>(this, "name")));
+        insertForm.add(new RequiredTextField<String>("email", new PropertyModel<String>(this, "email")));
         add(insertForm);
     }
-
 
     public String getEmail() {
         return email;

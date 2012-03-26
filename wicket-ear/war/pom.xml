@@ -1,72 +1,79 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    
+
     <parent>
-        <groupId>org.jboss.as.quickstart.wicket-ear</groupId>
-        <artifactId>as7-quickstart-wicket-ear-parent</artifactId>
+        <groupId>org.jboss.as.quickstarts</groupId>
+        <artifactId>jboss-as-wicket-ear-parent</artifactId>
         <version>7.1.1-SNAPSHOT</version>
     </parent>
-    
-    <artifactId>as7-quickstart-wicket-ear-war</artifactId>
+
+    <artifactId>jboss-as-wicket-ear-war</artifactId>
     <packaging>war</packaging>
-    
+
     <name>JBoss AS Quickstarts: Wicket EAR: WAR</name>
-    
+
     <dependencies>
-        
-        <!-- Java EE 6 API. -->
+
+        <!-- Import the JPA API. -->
         <dependency>
-            <groupId>javax</groupId>
-            <artifactId>javaee-api</artifactId>
-            <version>6.0</version>
+            <groupId>org.hibernate.javax.persistence</groupId>
+            <artifactId>hibernate-jpa-2.0-api</artifactId>
             <scope>provided</scope>
         </dependency>
-        
+
+        <!-- Import the CDI API. -->
+        <dependency>
+            <groupId>javax.enterprise</groupId>
+            <artifactId>cdi-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
         <!-- Wicket Java EE integration. -->
         <dependency>
-            <groupId>org.wicketstuff</groupId>
-            <artifactId>wicketstuff-javaee-inject</artifactId>
-            <version>1.5.5</version>
+            <groupId>net.ftlines.wicket-cdi</groupId>
+            <artifactId>wicket-cdi</artifactId>
         </dependency>
-        
+
         <!-- EJB JAR. -->
         <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>as7-quickstart-wicket-ear-ejb</artifactId>
-            <version>${project.version}</version>
+            <groupId>org.jboss.as.quickstarts</groupId>
+            <artifactId>jboss-as-wicket-ear-ejb</artifactId>
+            <type>ejb</type>
             <scope>provided</scope>
         </dependency>
     </dependencies>
-    
+
     <build>
         <resources>
             <resource>
                 <filtering>false</filtering>
                 <directory>src/main/resources</directory>
             </resource>
-            <!-- Pack .html files next to source files as resources. -->
+            <!-- Place the .html files next to source files as resources. -->
             <resource>
                 <filtering>false</filtering>
                 <directory>src/main/java</directory>
-                <includes><include>**</include></includes>
+                <includes>
+                    <include>**</include>
+                </includes>
                 <excludes>
                     <exclude>**/*.java</exclude>
                 </excludes>
             </resource>
         </resources>
-        
+
         <plugins>
             <!-- Skip JBoss AS plugin - only applicable for the EAR package. -->
             <plugin>
                 <groupId>org.jboss.as.plugins</groupId>
                 <artifactId>jboss-as-maven-plugin</artifactId>
-                <version>7.1.0.Final</version>
                 <configuration>
                     <skip>true</skip>
                 </configuration>
             </plugin>
         </plugins>
     </build>
-   
+
 </project>

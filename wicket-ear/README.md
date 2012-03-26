@@ -3,8 +3,6 @@ wicket-ear: Wicket Framework used in a WAR inside an EAR.
 
 Author: Ondrej Zizka <ozizka@redhat.com>
 
-
-
 What is it?
 -----------
 
@@ -24,7 +22,6 @@ This is an EAR version, with the following structure:
 ** `ear`: Packages the EJB JAR and WAR into an EAR. Creates an `.ear` file.
 
 
-
 System requirements
 -------------------
 
@@ -39,7 +36,6 @@ Configure Maven
 If you have not yet done so, you must [Configure Maven](../README.html/#mavenconfiguration) before testing the quickstarts.
 
 
-
 Start the JBoss Server
 ----------------------
 
@@ -49,14 +45,29 @@ Start the JBoss Server
 Build and Deploy the Quickstart
 -------------------------------
 
- * Running server is required before deploying.
- * To build and deploy the quickstart, follow the instruction here: [Build and Deploy the Quickstarts](../README.html/#buildanddeploy)
+1. Make sure your server is running.
+2. Open a command line and navigate to the root of the kitchensink-ear quickstart directory.
+3. Type the following in the command line: 
+    For JBoss Enterprise Application Platform 6, Maven user settings NOT configured: 
+
+        mvn clean package jboss-as:deploy -s PATH_TO_QUICKSTARTS/example-settings.xml
+
+    For JBoss AS 7 or JBoss Enterprise Application Platform 6, Maven user settings configured: 
+
+        mvn clean package jboss-as:deploy
+
+4. This will build and deploy `ear/target/jboss-as-kitchensink-ear.ear`.
+5. To undeploy the application, run this command:
+
+        mvn jboss-as:undeploy
+
+You can also use Eclipse to start the JBoss Enterprise Application Platform 6 or JBoss AS 7 server and deploy the project. See the <a href="https://docs.jboss.org/author/display/AS71/Getting+Started+Developing+Applications+Guide" title="Getting Started Developing Applications Guide">Getting Started Developing Applications Guide</a> for more information.
 
 
 Access the application (For quickstarts that have a UI component)
 ----------------------
 
-Access the running application in a browser at the following URL:  [http://localhost:8080/jboss-as-wicket-ear](http://localhost:8080/jboss-as-wicket-ear)
+Access the running application in a browser at <http://localhost:8080/jboss-as-wicket-ear-web>
 
  * You will see a page with a table listing user entities. Initially, this table is empty.
  * By clicking a link, you can add more users.
