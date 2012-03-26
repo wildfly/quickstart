@@ -28,7 +28,7 @@ import org.jboss.as.quickstarts.wicketEar.ejbjar.dao.ContactDao;
 import org.jboss.as.quickstarts.wicketEar.ejbjar.model.Contact;
 
 /**
- * Dynamic behavior for the InsertContact page
+ * Dynamic behavior for the ListContact page
  * 
  * @author Filippo Diotalevi
  */
@@ -42,7 +42,7 @@ public class ListContacts extends WebPage {
     @Resource(name = "welcomeMessage")
     private String welcome;
 
-    // Set up the dynamic behavior for the page, widgets binding by id
+    // Set up the dynamic behavior for the page, widgets bound by id
     public ListContacts() {
 
         // Add the dynamic welcome message, specified in web.xml
