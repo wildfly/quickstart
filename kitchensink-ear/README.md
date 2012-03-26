@@ -70,34 +70,18 @@ The application will be running at the following URL <http://localhost:8080/jbos
 Run the Arquillian tests
 ---------------------
 
-By default, tests are configured to be skipped. The reason is that the sample test is an Arquillian test, which requires the use of a container. 
+This quickstart provides Arquillian tests. See [Run the Arquillian Tests](../README.html/#arquilliantests) for more information on how to set up and run the tests. When asked to start the JBoss Server, this quickstart requires that you start it with the _web_ profile.
 
-Run these tests using either a managed or remote container.
+### Investigate the Console Output
 
-* Test the quickstart on a Remote Server
-
-    * A remote container requires you start the JBoss Enterprise Application Platform 6 or JBoss AS 7 server before running the test. Follow the instructions here to [Start the JBoss Server with the _web_ profile](../README.html#startserverweb) (or point to the server start method required by your quickstart).
-    * Run the test goal with the following profile activated:
-
-            mvn clean test -Parq-jbossas-remote
-
-* Test the quickstart on Managed Server
-
-     * Arquillian will start the container for you. You must set the path to your JBoss Enterprise Application Platform 6 or JBoss AS7. Open a command line and type the following command for your operating system:
-
-            Linux: export JBOSS_HOME=/path/to/jboss-as
-            Windows: SET JBOSS_HOME=X:\path\to\jboss-as
-
-     * Run the test goal with the following profile activated:
-
-             mvn clean test -Parq-jbossas-managed
-
-You should see the following console output when you run the test
+You should see the following console output when you run the tests:
 
     Results :
     Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
 
-Check the server console. You will see messages similar to the following:
+### Check the server console
+
+You should see messages similar to the following:
 
     INFO  [org.jboss.as.server] (management-handler-thread - 9) JBAS018559: Deployed "test.war"
     INFO  [org.jboss.as.quickstarts.kitchensink_ear.controller.MemberRegistration] (http--127.0.0.1-8080-2) Registering Jane Doe

@@ -25,43 +25,11 @@ All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven
 Running the Arquillian tests
 ----------------------------
 
-By default, tests are configured to be skipped. The reason is that the sample
-test is an Arquillian test, which requires the use of a container. You can select either
-managed or remote container, the difference is that the remote one requires a running JBoss AS 7 / 
-JBoss Enterprise Application Platform 6 instance prior executing tests.
+This quickstart provides Arquillian tests. See [Run the Arquillian Tests](../README.html/#arquilliantests) for more information on how to set up and run the tests. When asked to start the JBoss Server, this quickstart requires that you start it with the _web_ profile.
 
-**Testing on Remote Server**
- 
-First you need to start JBoss AS 7 or JBoss Enterprise Application Platform 6 instance. To do this, run
-  
-    $JBOSS_HOME/bin/standalone.sh
-  
-or if you are using windows
- 
-    $JBOSS_HOME/bin/standalone.bat
+### Investigate the Console Output
 
-Once the instance is started, run the test goal with the following profile activated:
-
-    mvn clean test -Parq-jbossas-remote
-
-**Testing on Managed Server**
- 
-Arquillian will start the container for you. All you have to do is setup a path to your JBoss AS7 or JBoss
-Enterprise Application Platform 6. To do this, run
-  
-    export JBOSS_HOME=/path/to/jboss-as
-  
-or if you are using Windows
- 
-    set JBOSS_HOME=X:\path\to\jboss-as
-
-To run the test in JBoss AS 7 or JBoss EAP 6, run the test goal with the following profile activated:
-
-    mvn clean test -Parq-jbossas-managed
-
-**Investigating console output**
-
-JUnit will present you test report summary:
+When you run the tests, JUnit will present you test report summary:
 
 	Tests run: 5, Failures: 0, Errors: 0, Skipped: 0
 
