@@ -242,7 +242,7 @@ Review the README file in the root folder of the quickstart for specific details
 ### Run the Arquillian Tests 
 -------------------------
 
-Some of the quickstarts provide Arquillian tests. By default, these tests are configured to be skipped. The reason is that the sample test is an Arquillian test, which requires the use of a container. 
+Some of the quickstarts provide Arquillian tests. By default, these tests are configured to be skipped, as Arquillian tests require the use of a container. 
 
 You can run these tests using either a managed or remote container.
 
