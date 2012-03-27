@@ -39,7 +39,7 @@ function buildMemberRows(members) {
 /* Uses JAX-RS GET to retrieve current member list */
 function updateMemberTable() {
     $.ajax({
-        url: "rest/members/json",
+        url: "rest/members",
         cache: false,
         success: function(data) {
             $('#members').empty().append(buildMemberRows(data));
@@ -55,13 +55,18 @@ Attempts to register a new member using a JAX-RS POST.  The callbacks
 the refresh the member table, or process JAX-RS response codes to update
 the validation errors.
  */
-function registerMember(formValues) {
+function registerMember(memberData) {
     //clear existing  msgs
     $('span.invalid').remove();
     $('span.success').remove();
 
-    $.post('rest/members', formValues,
-        function(data) {
+    $.ajax({
+        url: 'rest/members',
+        contentType: "application/json",
+        dataType: "json",
+        type: "POST",
+        data: JSON.stringify(memberData),
+        success: function(data) {
             //console.log("Member registered");
 
             //clear input fields
@@ -71,20 +76,20 @@ function registerMember(formValues) {
             $('#formMsgs').append($('<span class="success">Member Registered</span>'));
 
             updateMemberTable();
-        }
-    )
-    .error(function(error) {
-        if ((error.status == 409) || (error.status == 400)) {
-            //console.log("Validation error registering user!");
+        },
+        error: function(error) {
+            if ((error.status == 409) || (error.status == 400)) {
+                //console.log("Validation error registering user!");
 
-            var errorMsg = $.parseJSON(error.responseText);
+                var errorMsg = $.parseJSON(error.responseText);
 
-            $.each(errorMsg, function(index, val) {
-                $('<span class="invalid">' + val + '</span>').insertAfter($('#' + index));
-            });
-        } else {
-            //console.log("error - unknown server issue");
-            $('#formMsgs').append($('<span class="invalid">Unknown server error</span>'));
+                $.each(errorMsg, function(index, val) {
+                    $('<span class="invalid">' + val + '</span>').insertAfter($('#' + index));
+                });
+            } else {
+                //console.log("error - unknown server issue");
+                $('#formMsgs').append($('<span class="invalid">Unknown server error</span>'));
+            }
         }
     });
 }
