@@ -116,8 +116,13 @@
                     $('#reg').submit(function(event) {
                         event.preventDefault();
 
-                        var formValues = $(this).serialize();
-                        registerMember(formValues);
+                        var memberData = $(this).serializeObject();
+                        //Workaround for jQM adding a hidden field for submit buttons which then
+                        //gets serialized into the form values
+                        if ( memberData.register ) {
+                            delete memberData.register;
+                        }
+                        registerMember(memberData);
                     });
 
                     //Register the cancel listener
@@ -133,6 +138,22 @@
                     //scrolling support for devices that don't support overflow:auto
                     touchScrollX('#members');
                 });
+
+                $.fn.serializeObject = function() {
+                    var o = {};
+                    var a = this.serializeArray();
+                    $.each(a, function() {
+                        if (o[this.name]) {
+                            if (!o[this.name].push) {
+                                o[this.name] = [o[this.name]];
+                            }
+                            o[this.name].push(this.value || '');
+                        } else {
+                            o[this.name] = this.value || '';
+                        }
+                    });
+                    return o;
+                };
             }
         }]);
     </script>
@@ -264,7 +285,7 @@
                                 <th scope="col">Name</th>
                                 <th scope="col">Email</th>
                                 <th scope="col">Phone #</th>
-                                <th scope="col">REST URLs</th>
+                                <th scope="col">REST URL</th>
                             </tr>
                         </thead>
                         <tfoot>
@@ -272,8 +293,7 @@
                                 <td colspan="5">
                                     <!-- Sets the JAX-RS URLs to retrieve all members either as XML or JSON data.-->
                                     REST URL for all members: 
-                                    <a href="rest/members" target="_blank">XML</a>,
-                                    <a href="rest/members/json" target="_blank">JSON</a>
+                                    <a href="rest/members" target="_blank" rel="external">JSON</a>
                                 </td>
                             </tr>
                         </tfoot>
