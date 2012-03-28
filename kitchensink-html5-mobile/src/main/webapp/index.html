@@ -134,9 +134,6 @@
                         $('span.invalid').remove();
                         $('span.success').remove();
                     });
-
-                    //scrolling support for devices that don't support overflow:auto
-                    touchScrollX('#members');
                 });
 
                 $.fn.serializeObject = function() {
@@ -267,7 +264,7 @@
             <!-- New HTML5 article tag -->
             <article id="member-art" data-role="page" data-theme="a">
                 <!-- Header -->
-                <div data-role="header" class="header">
+                <div data-role="header" class="header" data-position="fixed">
                     <img class="header_logo" src="img/icon_medium.png"/>
                     <h3>AeroGear Quickstart</h3>
                     <a href="#info-aside" data-role="button" data-icon="info" class="ui-btn-right" data-iconpos="notext" data-rel="dialog"></a>

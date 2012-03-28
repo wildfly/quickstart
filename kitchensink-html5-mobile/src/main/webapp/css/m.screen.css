@@ -166,22 +166,21 @@ span.success {
 
 /* Member table styles */
 #mem_tbl {
-   background-color: #E6E7E8;
    clear: both;
    width: 100%;
+   margin-bottom: 20px;
 }
 
 #mem_tbl td,
 #mem_tbl th {
    height: 2em;
-   padding: 4px 0 0 6px;
+   padding: 6px;
    font-size: 11px;
    border-bottom: #777 dotted 1px;
    vertical-align: middle;
 }
 
 #mem_tbl thead {
-
    font-weight: bold;
    color: #FFFFFF;
    background-color: black;
@@ -191,8 +190,11 @@ span.success {
 #mem_tbl tfoot {
    height: 20px;
    font-weight: bold;
-   background-color: #EAECEE;
    text-align: center;
+}
+
+#mem_tbl tfoot td {
+    border: none;
 }
 
 /* Using new CSS3 selectors for styling*/
@@ -204,8 +206,18 @@ span.success {
    background: #ffffff;
 }
 
+/* Hide column header rows if present */
+.columnNames {
+    display: none;
+}
+
 /*responsive design for tables*/
 @media only screen and (max-width: 40em) { /*640*/
+
+    #members tr {
+        background: #ffffff;
+        border-top: #777 dotted 1px;
+    }
 
     #mem_tbl {
         display: block;
@@ -214,8 +226,7 @@ span.success {
     }
 
     #mem_tbl thead {
-        display: block;
-        float: left;
+        display: none;
     }
 
     #mem_tbl tbody {
@@ -226,17 +237,30 @@ span.success {
         white-space: nowrap;
     }
 
-    #mem_tbl thead tr {
-        display: block;
-    }
-
-    #mem_tbl th {
-        display: block;
-    }
-
     #mem_tbl tbody tr {
-        display: inline-block;
-        vertical-align: top;
+        display: block;
+        clear: none;
+        margin-bottom: 10px;
+        width: 100%;
+    }
+
+    #mem_tbl tbody tr.columnNames {
+        width: auto;
+        float: left;
+        font-weight: bold;
+        color: #fff;
+        text-align: left;
+        clear: both;
+        margin-right: 10px;
+    }
+
+    #mem_tbl tbody tr.columnNames td {
+        display: block;
+        height: 2em;
+        padding: 6px;
+        font-size: 11px;
+        border-bottom: #777 dotted 1px;
+        background-color: #000;
     }
 
     #mem_tbl td {
@@ -244,33 +268,10 @@ span.success {
         min-height: 1.25em;
     }
 
-    /* sort out borders */
-
-    .rt th {
-        border-bottom: 0;
-    }
-
-    .rt td {
-        border-left: 0;
-        border-right: 0;
-        border-bottom: 0;
-    }
-
-    .rt tbody tr {
-        border-right:
-            1px solid #babcbf;
-    }
-
-    .rt th:last-child,
-    .rt td:last-child {
-        border-bottom:
-            1px solid #babcbf;
-    }
-
     #mem_tbl tfoot {
-        float:left;
-        clear:both;
-        margin: 15px 0 0 0;
+        position: absolute;
+        bottom: -15px;
+        left: 60px;
     }
 }
 

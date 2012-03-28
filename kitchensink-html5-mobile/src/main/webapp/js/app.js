@@ -93,22 +93,3 @@ function registerMember(memberData) {
         }
     });
 }
-
-//small workaround for browsers which do not support overflow scrolling *cough* Android *cough*
-//this is for x axis and would need modification with scrollTop and pageY to support up/down scrolling
-function touchScrollX(id) {
-    if (Modernizr.touch) {
-        var el=document.querySelector(id);
-        var scrollStartPos=0;
-
-        el.addEventListener("touchstart", function(event) {
-            scrollStartPos=this.scrollLeft+event.touches[0].pageX;
-            event.preventDefault();
-        },false);
-
-        el.addEventListener("touchmove", function(event) {
-            this.scrollLeft=scrollStartPos-event.touches[0].pageX;
-            event.preventDefault();
-        },false);
-    }
-}
