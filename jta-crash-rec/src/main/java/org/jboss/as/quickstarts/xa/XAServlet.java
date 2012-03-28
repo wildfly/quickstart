@@ -63,7 +63,8 @@ public class XAServlet extends HttpServlet {
             "&nbsp;Add or update a pair (or list all pairs if key is blank).<br />" +
             "<input type=\"submit\" name=\"submit\" value=\"Delete\" />" +
             "&nbsp;Delete a pair (or all pairs if key is blank).<br />" +
-            "</form>";
+            "</form>" +
+            "<p><a href=\".\">Refresh Table</a></p>";
 
     static String PAGE_FOOTER = "</body></html>";
 

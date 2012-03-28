@@ -44,46 +44,41 @@ Build and Deploy the application
 
 The example requires more configuration steps than most apps. In brief:
 
-<a id="clear-transaction-objectstore"/>
+<a name="clear-transaction-objectstore"/>
 
 1. Make sure there is no transaction objectstore data left after testing any of the other quickstarts.
 If you are using the default file based transaction logging store then:
 
        *   Open a command line and type the following:
 
-            ls JBOSS_HOME/standalone/data/tx-object-store/ShadowNoFileLockStore/defaultStore/StateManager/BasicAction/TwoPhaseCoordinator/AtomicAction/
+            ls $JBOSS_HOME/standalone/data/tx-object-store/ShadowNoFileLockStore/defaultStore/StateManager/BasicAction/TwoPhaseCoordinator/AtomicAction/
 
        *   If this directory exists and contains any files, delete them before starting the server:
 
-            rm -rf JBOSS_HOME/standalone/data/tx-object-store/ShadowNoFileLockStore/defaultStore/StateManager/BasicAction/TwoPhaseCoordinator/AtomicAction/*
+            rm -rf $JBOSS_HOME/standalone/data/tx-object-store/ShadowNoFileLockStore/defaultStore/StateManager/BasicAction/TwoPhaseCoordinator/AtomicAction/*
 
        *   On windows use the file manager to accomplish the same result.
 
-2. This example requires a JMS queue destination called _testQueue_. If your configuration does not contain the JMS testQueue, you must modify the standalone-full.xml file as follows:
+2. This example requires a JMS queue destination called `test` that is defined in `WEB-INF/hornetq-jms.xml` and deployed automatically when the quickstart archived is deployed:
 
-       *   Open the JBOSS_HOME/standalone/configuration/standalone-full.xml file
-       *   Find `<subsystem xmlns="urn:jboss:domain:messaging:1.1">` in the file
-       *   Look for `<jms-destinations>` in this section. If you see a jms-queue name="testQueue", you do not need to make any changes. You can move on to the next step. 
-       *   If there is a `<jms-destinations>` section under this subsystem, copy the following XML prior to `</jms-destinations>`:
+      <?xml version="1.0" encoding="UTF-8"?>
+      <messaging-deployment xmlns="urn:jboss:messaging-deployment:1.0">
+        <hornetq-server>
+          <jms-destinations>
+            <jms-queue name="test">
+              <entry name="queue/test"/>
+              <entry name="java:jboss/exported/jms/queue/test"/>
+              <durable>true</durable>
+            </jms-queue>
+          </jms-destinations>
+        </hornetq-server>
+      </messaging-deployment>
 
-                <jms-queue name="testQueue">
-                        <entry name="queue/test"/>
-                        <entry name="java:jboss/exported/jms/queue/test"/>
-                </jms-queue>
-
-       *  If there is not a `<jms-destinations>`, copy the following right before the `</hornetq-server>` end tag:
-
-                <jms-destinations>
-                    <jms-queue name="testQueue">
-                        <entry name="queue/test"/>
-                        <entry name="java:jboss/exported/jms/queue/test"/>
-                    </jms-queue>
-                </jms-destinations>
-<a id="start-server">
+<a name="start-server">
 
 3. Start JBoss Enterprise Application Platform 6 or JBoss AS 7 with the full profile using the following command: 
 
-                JBOSS_HOME/bin/standalone.sh -c standalone-full.xml
+                $JBOSS_HOME/bin/standalone.sh -c standalone-full.xml
 
 4. Build and deploy the quickstart archive
        *  Navigate to the root of this quickstart directory
@@ -127,12 +122,12 @@ see the extra text in the value part of the pair.
 
        *   Start the H2 console by typing:
 
-            java -jar <AS install directory>/modules/com/h2database/h2/main/h2*.jar
+            java -jar $JBOSS_HOME/modules/com/h2database/h2/main/h2*.jar
 
        *   The console is available at the url <http://localhost:8082>. If you receive an error such as `Exception opening port "8082"` it is most likely because some other application has that port open. You will need to find which application is using the port and close it.
        *   Enter the following information in the console. These values correspond to the values in the datasource configuration of the standalone-full.xml file:
 
-            Database URL:  `jdbc:h2:file:~/xaqs1`
+            Database URL:   jdbc:h2:file:~/xaqs1
             User name:      sa
             Password:       sa  
 
@@ -143,10 +138,10 @@ see the extra text in the value part of the pair.
        *   *H2 only allows one connection per database, so make sure you close the H2 console before restarting the Application Server.*
        *   If you are using the default file based transaction logging store, there will be a record in the file system corresponding to the pending transaction. 
 
-          *   Open a command line and navigate to the JBOSS_HOME/bin directory
+          *   Open a command line and navigate to the `$JBOSS_HOME` directory
           *   List the contents of the following directory:
 
-                 ls ../standalone/data/tx-object-store/ShadowNoFileLockStore/defaultStore/StateManager/BasicAction/TwoPhaseCoordinator/AtomicAction/
+                 ls standalone/data/tx-object-store/ShadowNoFileLockStore/defaultStore/StateManager/BasicAction/TwoPhaseCoordinator/AtomicAction/
 
           *   An example of a logging record file name is: 
  
@@ -288,22 +283,25 @@ standalone-full.xml config file:
 Halting the Application using Byteman
 --------------------------------------------
 
-**Enable Byteman
+## Enable Byteman
+
 As you may have guessed, you will use the Byteman tool to halt the AS7 JVM during phase 2 of an XA commit.
 
-   *     Backup the file \<APP SERVER\>/bin/standalone.conf (standalone.conf.bat on Windows)
-   *     Open the file \<APP SERVER\>/bin/standalone.conf (standalone.conf.bat on Windows)
-   *     Append the following text to the end of the file: NOTE: You should replace the file paths
-        as appropriate for you system:
+* Backup the file `$JBOSS_HOME/bin/standalone.conf` (`standalone.conf.bat` on Windows)
+* Open the file `$JBOSS_HOME/bin/standalone.conf` (`standalone.conf.bat` on Windows)
+* Append the following text to the end of the file:
 
-        JAVA_OPTS="-javaagent:/home/user/byteman-download-2.0.0/lib/byteman.jar=script:/home/user/quickstart/jta-crash-rec/src/main/scripts/xa.btm ${JAVA_OPTS}"
+      JAVA_OPTS="-javaagent:/home/user/byteman-download-2.0.0/lib/byteman.jar=script:/home/user/quickstart/jta-crash-rec/src/main/scripts/xa.btm ${JAVA_OPTS}"
+
+__NOTE: You should replace the file paths as appropriate for you system.__
 
 These changes will only take effect during application startup.
 
-**Disable Byteman
+## Disable Byteman
 
-IMPORTANT: After you have finished with the quickstart, it is important to restore your backup of standalone.conf thereby removing the Byteman configuration from the standalone.conf[.bat] file. Otherwise your server will always crash when a transaction commits!*
+IMPORTANT: After you have finished with the quickstart, it is important to restore your backup of standalone.conf thereby removing the Byteman configuration from the standalone.conf\[.bat\] file. Otherwise your server will always crash when a transaction commits!*
 
-[The Byteman downloads also contains scripts for installing the Bytman agent ('bminstall.sh <procid>' and 'bminstall.bat <procid>') and for uploading Byteman scripts ('bmsubmit.sh -l src/main/scripts/xa.btm' and 'bmsubmit.bat -l src/main/scripts/xa.btm'). The bat scripts are only available in later releases of Byteman. Personally I prefer these scripts since they give me more control over loading and unloading rules and I don't need to worry about forgetting to put
-standalone.conf back to its original contents.]
+The Byteman downloads also contains scripts for installing the Bytman agent (`bminstall.sh <procid>` and `bminstall.bat <procid>`) and for uploading Byteman scripts (`bmsubmit.sh -l src/main/scripts/xa.btm` and `bmsubmit.bat -l src/main/scripts/xa.btm`). 
+
+The bat scripts are only available in later releases of Byteman. Personally I prefer these scripts since they give me more control over loading and unloading rules and I don't need to worry about forgetting to put standalone.conf back to its original contents.
 
