@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:a4j="http://richfaces.org/a4j"
+   xmlns:rich="http://richfaces.org/rich"
+   xmlns:composite="http://java.sun.com/jsf/composite">
+
+<!-- INTERFACE -->
+<composite:interface>
+   <composite:attribute name="member"/>
+</composite:interface>
+
+<!-- IMPLEMENTATION -->
+<composite:implementation>
+   <h:panelGrid columns="3" columnClasses="titleCell">
+      <h:outputLabel for="name" value="Name:"/>
+      <h:inputText id="name" value="#{cc.attrs.member.name}">
+         <rich:validator/>
+      </h:inputText>
+      <rich:message for="name" errorClass="invalid"/>
+
+      <h:outputLabel for="email" value="Email:"/>
+      <h:inputText id="email" value="#{cc.attrs.member.email}">
+         <rich:validator/>
+      </h:inputText>
+      <rich:message for="email" errorClass="invalid"/>
+
+      <h:outputLabel for="phoneNumber" value="Phone #:"/>
+      <h:inputText id="phoneNumber" value="#{cc.attrs.member.phoneNumber}">
+         <rich:validator/>
+      </h:inputText>
+      <rich:message for="phoneNumber" errorClass="invalid"/>
+   </h:panelGrid>
+</composite:implementation>
+</html>

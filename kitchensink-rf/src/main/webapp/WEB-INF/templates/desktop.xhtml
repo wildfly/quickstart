@@ -1,0 +1,32 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+<ui:composition>
+<h:head>
+   <title>Java EE 6 Starter Application</title>
+   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+   <h:outputStylesheet name="screen.css" library="css"/>
+</h:head>
+<h:body>
+   <div id="container">
+      <div id="inner">
+         <div id="sidebar">
+            <ui:include src="/resources/includes/about.xhtml" />
+         </div>
+         <div id="content">
+            <ui:insert name="content">
+               [Template content will be inserted here]
+            </ui:insert>
+         </div>
+      </div>
+      <div id="footer">
+         <h:graphicImage value="/resources/gfx/logo.png" alt="Weld logo" />
+         <p>
+            This project was generated from a Maven archetype from JBoss.<br />
+         </p>
+      </div>
+   </div>
+</h:body>
+</ui:composition>
+</html>
