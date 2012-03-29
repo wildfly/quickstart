@@ -14,8 +14,8 @@ DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
 
 # DEFINE
 
-ARCHETYPES=("jboss-javaee6-webapp-archetype" "jboss-javaee6-webapp-ear-archetype" "jboss-html5-mobile-archetype")
-QUICKSTARTS=("kitchensink" "kitchensink-ear" "html5-mobile")
+ARCHETYPES=("jboss-javaee6-webapp-archetype" "jboss-javaee6-webapp-ear-archetype")
+QUICKSTARTS=("kitchensink" "kitchensink-ear")
 
 # SCRIPT
 
@@ -90,7 +90,7 @@ regenerate()
       quickstart=${QUICKSTARTS[index]}
       package=${quickstart//-/_}
       name="JBoss AS Quickstarts: $quickstart"
-      echo "\n**** Regenerating $quickstart from $archetype\n"
+      echo "**** Regenerating $quickstart from $archetype"
       mvn archetype:generate -DarchetypeGroupId=org.jboss.spec.archetypes -DarchetypeArtifactId=$archetype -DarchetypeVersion=$VERSION -DartifactId=jboss-as-$quickstart -DgroupId=org.jboss.as.quickstarts -Dpackage=org.jboss.as.quickstarts.$package -Dversion=$VERSION -DinteractiveMode=false -Dname="${name}"
       ((index++))
       rm -rf $ROOTDIR/$quickstart
