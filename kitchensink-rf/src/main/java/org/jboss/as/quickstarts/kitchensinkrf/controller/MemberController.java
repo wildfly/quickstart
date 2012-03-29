@@ -51,6 +51,7 @@ public class MemberController {
    }
 
    public void setMember(Member member) {
+       System.err.println("Setting Member to: " + member.getName());
       this.member = member;
    }
 

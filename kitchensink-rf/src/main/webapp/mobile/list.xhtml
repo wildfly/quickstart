@@ -40,6 +40,10 @@
    </h:panelGroup>
    <div id="newMemberMessages" class="update"/>
 
+   <a4j:push address="pushCdi" ondataavailable="showMessage(event.rf.data)">
+      <a4j:ajax event="dataavailable" render="membersPanel" />
+   </a4j:push>
+
 </ui:composition>
 
 </html>

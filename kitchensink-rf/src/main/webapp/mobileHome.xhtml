@@ -12,39 +12,28 @@
       <h:outputStylesheet name="app.css" library="css"/>
       <h:outputStylesheet name="mobile.css" library="css"/>
       <div id="browser">
-         <h:form>
-         <header>
+        <header>
             <div>
                <div id="back-button" class="hide-button">Home</div>
                <div id="info-button" class="right-header-button info-link">
-                  <a4j:commandLink value="i"
-                                   oncomplete="location.hash='about-page'"
-                                   render="@form" />
+                   <a href="#about">i</a>
                </div>
                <p>Richfaces Mobile</p>
             </div>
-         </header>
-         <a4j:push address="pushCdi">
-            <a4j:ajax event="dataavailable" render="@form" />
-         </a4j:push>
-         <div id="page-container">
-               <div id="home-page" class="page stage-left">
-                  <ui:include src="mobile/home.xhtml"/>
-               </div>
-               <div id="new-page" class="page stage-right">
-                  <ui:include src="mobile/new.xhtml"/>
-               </div>
-               <div id="detail-page" class="page stage-right">
-                  <ui:include src="mobile/detail.xhtml"/>
-               </div>
-               <div id="list-page" class="page stage-right">
-                  <ui:include src="mobile/list.xhtml"/>
-               </div>
-               <div id="about-page" class="page stage-right">
-                  <ui:include src="mobile/about.xhtml"/>
-               </div>
+        </header>
+        <h:form id="mobileForm">
+        <a4j:jsFunction name="handleHashChange"  data="#{pageBean.location}" render="@form" oncomplete="slidfast.core.slideTo('app-page')">
+          <a4j:param name="page" assignTo="#{pageBean.location}" />
+        </a4j:jsFunction>
+        <div id="page-container">
+            <div id="home-page" class="page stage-left">
+                <ui:include src="mobile/home.xhtml"/>
             </div>
-         </h:form>
+            <div id="app-page" class="page stage-right">
+                <ui:include src="#{pageBean.page}"/>
+            </div>
+        </div>
+        </h:form>
       </div>
    </ui:define>
 </ui:composition>

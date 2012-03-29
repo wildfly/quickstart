@@ -11,8 +11,8 @@
       <br />
       <mobile:memberForm member="#{newMember}"/>
       <a4j:commandButton id="register" action="#{memberController.register}" value="Register"
-                oncomplete="if ( #{not facesContext.validationFailed} ) location.hash='list-page'"
-                execute="newMemberPanel" render="newMemberPanel,membersPanel"/>
+                oncomplete="if ( #{not facesContext.validationFailed} ) location.hash='list'"
+                execute="@form" render="@form"/>
       <rich:messages globalOnly="true"/>
    </h:panelGroup>
 </ui:composition>
