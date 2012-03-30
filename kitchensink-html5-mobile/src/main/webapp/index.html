@@ -138,6 +138,10 @@
                         $('span.invalid').remove();
                         $('span.success').remove();
                     });
+
+                    $("#refreshButtonD, #refreshButtonM").click(function(event) {
+                        updateMemberTable();
+                    });
                 });
 
                 $.fn.serializeObject = function() {
@@ -278,7 +282,7 @@
 
                 <div data-role="content">
                     <p class="desktop-only">This table is populated and constructed using restful GET calls to the server, and uses CSS3 based selectors for styling. When the page is requested jQuery is used to send the JAX-RS request for the current list of members. The table is them populated dynamically using JavaScript. See app.js for more details.</p>
-
+                    <button id="refreshButtonM" data-role="button" data-inline="true" data-icon="refresh">Refresh Members</button>
                     <table id="mem_tbl">
                         <thead>
                             <tr>
@@ -295,6 +299,7 @@
                                     <!-- Sets the JAX-RS URLs to retrieve all members either as XML or JSON data.-->
                                     REST URL for all members: 
                                     <a href="rest/members" target="_blank" rel="external">JSON</a>
+                                    <button id="refreshButtonD">Refresh Members</button>
                                 </td>
                             </tr>
                         </tfoot>
