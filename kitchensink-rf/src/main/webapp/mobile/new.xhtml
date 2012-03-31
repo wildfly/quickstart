@@ -9,7 +9,7 @@
                 xmlns:mobile="http://java.sun.com/jsf/composite/components/mobile">
    <h:panelGroup id="newMemberPanel" layout="block" styleClass="mobileContent">
       <br />
-      <mobile:memberForm member="#{newMember}"/>
+      <mobile:memberForm id="memberForm" member="#{newMember}"/>
       <a4j:commandButton id="register" action="#{memberController.register}" value="Register"
                 oncomplete="if ( #{not facesContext.validationFailed} ) location.hash='list'"
                 execute="@form" render="@form"/>
