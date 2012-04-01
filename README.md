@@ -63,6 +63,7 @@ Quickstarts with tutorials in the [Getting Started Developing Applications Guide
 | [hibernate3](hibernate3/README.html "hibernate3") | Hibernate 3 | Performs the same functions as _hibernate4_ quickstart, but uses Hibernate version 3 for database access | Beginner | None |
 | [hibernate4](hibernate4/README.html "hibernate4") | Hibernate 4 | Performs the same functions as _hibernate3_ quickstart, but uses Hibernate version 4 for database access | Beginner | None |
 | [jax-rs-client](jax-rs-client/README.html "jax-rs-client") | JAX-RS | Demonstrates the use an external JAX-RS RestEasy client which interacts with a JAX-RS Web service that uses CDI 1.0 and JAX-RS | Intermediate | helloworld-rs |
+| [jta-crash-rec](jta-crash-rec/README.html "jta-crash-rec") | JTA, Crash Recovery | Uses Java Transaction API and JBoss Transactions to demonstrate recovery of a crashed transaction | Advanced | cmt |
 | [jts](jts/README.html "jts") | JTS | Uses Java Transaction Service (JTS) to coordinate distributed transactions | Intermediate | cmt |
 | [kitchensink**](kitchensink/README.html "kitchensink") | CDI, JSF, JPA, EJB, JPA, JAX-RS, BV | An example that incorporates multiple technologies | Beginner | None |
 | [kitchensink-ear](kitchensink-ear/README.html "kitchensink-ear")  | EAR | Based on kitchensink, but deployed as an EAR | Beginner | None |

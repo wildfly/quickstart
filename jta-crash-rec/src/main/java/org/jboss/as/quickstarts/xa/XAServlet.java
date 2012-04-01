@@ -11,7 +11,7 @@ import java.io.PrintWriter;
 
 /**
  * <p>
- * A servlet fo triggering the update of a database and a JMS producer within a single XA transaction.
+ * A servlet for triggering the update of a database and a JMS producer within a single XA transaction.
  * </p>
  *
  * <p>
@@ -26,10 +26,10 @@ import java.io.PrintWriter;
 @WebServlet("/XA")
 public class XAServlet extends HttpServlet {
 
-    static String PAGE_HEADER = "<html><head><title>XA Crash Recovery</title></head><body>";
+    private static String PAGE_HEADER = "<html><head><title>XA Crash Recovery</title></head><body>";
 
     // page content describing the quickstart and providing a form to perform basic operations against a database
-    static String PAGE_CONTENT = "<h2>XA Recovery</h2>" +
+    private static String PAGE_CONTENT = "<h2>XA Recovery</h2>" +
             "<p>Demonstration of how to atomically update a relational database table using JPA and send " +
             "a message using JMS (these kinds of paired updates to two different resources are called " +
             "XA transactions and are defined by the JEE JTA specification). " +
@@ -66,11 +66,11 @@ public class XAServlet extends HttpServlet {
             "</form>" +
             "<p><a href=\".\">Refresh Table</a></p>";
 
-    static String PAGE_FOOTER = "</body></html>";
+    private static String PAGE_FOOTER = "</body></html>";
 
     // use CDI to inject a bean that will perform JPA and JMS operations
     @Inject
-    XAService xaService;
+    private XAService xaService;
 
     /**
      * <p>Servlet entry point.

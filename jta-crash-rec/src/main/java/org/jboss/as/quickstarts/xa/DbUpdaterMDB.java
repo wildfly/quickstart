@@ -22,18 +22,16 @@ import java.util.logging.Logger;
  */
 @MessageDriven(name = "DbUpdaterMDB", activationConfig = {
         @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
-        @ActivationConfigProperty(propertyName = "destination", propertyValue = "queue/test"),
+        @ActivationConfigProperty(propertyName = "destination", propertyValue = "queue/jta-crash-rec-quickstart"),
         @ActivationConfigProperty(propertyName = "acknowledgeMode", propertyValue = "Auto-acknowledge") })
 public class DbUpdaterMDB implements MessageListener {
+    
+    private final static Logger LOGGER = Logger.getLogger(DbUpdaterMDB.class.getName());
+    
     // A helper service for persisting key value pairs
     @Inject
-    XAService xaService;
+    private XAService xaService;
 
-    private final static Logger LOGGER = Logger.getLogger(DbUpdaterMDB.class.getName());
-
-    /**
-     * @see MessageListener#onMessage(Message)
-     */
     public void onMessage(Message rcvMessage) {
         LOGGER.info("Received Message: " + rcvMessage.toString());
 

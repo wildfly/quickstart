@@ -20,40 +20,34 @@ import javax.transaction.UserTransaction;
 
 /**
  * A bean for updating a database and sending a JMS message within a single JTA transaction
- *
+ * 
  * @author Mike Musgrove
  */
 public class XAService {
-    /**
-     *  Ask the container to inject a persistence context corresponding to the database that will hold
-     *  our key/value pair table.
-     *  The unit names corresponds to the one defined in the war archives' persistence.xml file
-     */
-    @PersistenceContext(unitName = "pctx1")
-    EntityManager em;
 
-    // Inject a UserTransaction for manual transaction demarcation (we could have used an EJB and asked the container
-    // to manager transactions but we'll manage them ourselves so it's clear what's going on.
+    private final static Logger LOGGER = Logger.getLogger(XAService.class.getName());
+
+    /*
+     * Ask the container to inject a persistence context corresponding to the database that will hold our key/value pair table.
+     * The unit names corresponds to the one defined in the war archives' persistence.xml file
+     */
+    @PersistenceContext
+    private EntityManager em;
+
+    /*
+     * Inject a UserTransaction for manual transaction demarcation (we could have used an EJB and asked the container to manager
+     * transactions but we'll manage them ourselves so it's clear what's going on.
+     */
     @Inject
     private UserTransaction userTransaction;
 
     @Resource(mappedName = "java:/JmsXA")
     private XAConnectionFactory xaConnectionFactory; // we want to deliver JMS messages withing an XA transaction
 
-    // use the default JMS queue. Note that messages must be persistent in order for them to survive an AS restart
-    // (at the time of writing the following entry in standalone-full.xml <persistence-enabled>true</persistence-enabled>
-    // indicates that this is indeed the case).
-    @Resource(mappedName = "java:/queue/test")
+    // use our JMS queue. Note that messages must be persistent in order for them to survive an AS restart
+    @Resource(mappedName = "java:/queue/jta-crash-rec-quickstart")
     private Queue queue;
 
-    private final static Logger LOGGER = Logger.getLogger(XAService.class.getName());
-
-    /**
-     *
-     * @param queue
-     * @param msg
-     * @throws Exception
-     */
     private void notifyUpdate(Queue queue, String msg) throws Exception {
         XAConnection connection = null;
 
@@ -79,11 +73,12 @@ public class XAService {
         }
     }
 
-    // must called inside a transaction
+    // must be called inside a transaction
     private String listPairs() {
         StringBuilder result = new StringBuilder();
 
         // list all key value pairs
+        @SuppressWarnings("unchecked")
         final List<KVPair> list = em.createQuery("select k from KVPair k").getResultList();
 
         result.append("<table><caption>Database Table Contents</caption><tr><th>Key</th><th>Value</th></tr>");
@@ -97,18 +92,17 @@ public class XAService {
         }
         result.append("</table>");
 
-
         return result.toString();
     }
 
     /**
      * Update a key value database. The method must be called within a transaction.
-     *
+     * 
      * @param entityManager an open JPA entity manager
      * @param delete if true then delete rows. If key is empty all rows are deleted.
      * @param key if not null then a pair is inserted into the database
      * @param value the value to be associated with the key
-     *
+     * 
      * @return true if a key was inserted or a value modified
      */
     public boolean modifyKeyValueTable(EntityManager entityManager, boolean delete, String key, String value) {
@@ -151,11 +145,11 @@ public class XAService {
 
     /**
      * Update a key value database. The method must not be called within a transaction.
-     *
+     * 
      * @param delete if true then delete rows. If key is empty all rows are deleted.
      * @param key if not null then a pair is inserted into the database
      * @param value the value to be associated with the key
-     *
+     * 
      * @return The contents of the table after the update
      */
     public String updateKeyValueDatabase(boolean delete, String key, String value) {
@@ -176,16 +170,16 @@ public class XAService {
 
             userTransaction.commit();
         } catch (Exception e) {
-            result.append(e.getCause() != null ? e.getCause().getMessage() :  e.getMessage());
+            result.append(e.getCause() != null ? e.getCause().getMessage() : e.getMessage());
         } finally {
             try {
-                if (userTransaction.getStatus() == Status.STATUS_ACTIVE || userTransaction.getStatus() == Status.STATUS_MARKED_ROLLBACK)
+                if (userTransaction.getStatus() == Status.STATUS_ACTIVE
+                        || userTransaction.getStatus() == Status.STATUS_MARKED_ROLLBACK)
                     userTransaction.rollback();
             } catch (Throwable e) {
                 result.append(" Transaction did not finish: ").append(e.getMessage());
             }
         }
-
         return result.toString();
     }
 }
