@@ -12,7 +12,7 @@
       <mobile:memberForm id="memberForm" member="#{newMember}"/>
       <a4j:commandButton id="register" action="#{memberController.register}" value="Register"
                 oncomplete="if ( #{not facesContext.validationFailed} ) location.hash='list'"
-                execute="@form" render="@form"/>
+                execute="@form" render="newMemberPanel"/>
       <rich:messages globalOnly="true"/>
    </h:panelGroup>
 </ui:composition>
