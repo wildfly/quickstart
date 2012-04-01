@@ -9,7 +9,7 @@ This example demonstrates sending email with the use of *CDI 1.0* and *JSF 2.0* 
 
 The example uses the default Mail provider that comes out of the box with *JBoss Enterprise Application Platform 6* and *JBoss AS 7*.  It uses your local mail relay and the default SMTP port of 25.
 
-The configuration of the mail provider is found in either *JBOSS_HOME/standalone/configuration.xml* or *JBOSS_HOME/domain/configuration.xml*. An example is provided below:
+The configuration of the mail provider is found in either `JBOSS_HOME/standalone/configuration.xml` or `JBOSS_HOME/domain/configuration.xml`. An example is provided below:
 
     <subsystem xmlns="urn:jboss:domain:mail:1.0">
         <mail-session jndi-name="java:jboss/mail/Default" >
@@ -42,10 +42,10 @@ Configure Maven
 If you have not yet done so, you must [Configure Maven](../README.html/#mavenconfiguration) before testing the quickstarts.
 
 
-Start JBoss Enterprise Application Platform 6 or JBoss Application Server 7 with the Web Profile
+Start JBoss Enterprise Application Platform 6 or JBoss AS 7 with the Web Profile
 -------------------------
 
-1. Open a command line and navigate to the root of the JBoss directory.
+1. Open a command line and navigate to the root of the JBoss server directory.
 2. The following shows the command line to start the server with the web profile:
 
          For Linux:   JBOSS_HOME/bin/standalone.sh

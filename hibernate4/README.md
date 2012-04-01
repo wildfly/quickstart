@@ -29,7 +29,7 @@ If you have not yet done so, you must [Configure Maven](../README.html/#mavencon
 Add the Correct Dependencies
 ---------------------------
 
-JBoss Enterprise Application Platform 6 and JBoss AS 7 both provide Hibernate 3, Hibernate 4 (as ORM), and JPA support. 
+JBoss Enterprise Application Platform 6 and JBoss AS 7 both provide Hibernate 3, Hibernate 4, and JPA support. 
 
 If you use Hibernate 4 packaged within JBoss Enterprise Application Platform 6 or JBoss AS 7, you will need to first import the JPA API.
 
@@ -51,15 +51,13 @@ For example:
          </exclusions>
       </dependency>
 
-You may refer "Adding a new external dependency" located at <http://community.jboss.org/wiki/HackingOnAS7> for further help on adding dependencies.
-
 Please note that if you are working with Hibernate 3, the process is different. You will need to bundle the jars since JBoss Enterprise Application Platform 6 and JBoss AS 7 do not ship with Hibernate 3. Refer to the `hibernate3` quickstart for details on how to bundle the JARs.
 
 
-Start JBoss Enterprise Application Platform 6 or JBoss Application Server 7 with the Web Profile
+Start JBoss Enterprise Application Platform 6 or JBoss AS 7 with the Web Profile
 -------------------------
 
-1. Open a command line and navigate to the root of the JBoss directory.
+1. Open a command line and navigate to the root of the JBoss server directory.
 2. The following shows the command line to start the server with the web profile:
 
          For Linux:   JBOSS_HOME/bin/standalone.sh

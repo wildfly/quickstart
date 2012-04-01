@@ -8,13 +8,14 @@ What is it?
 
 This example demonstrates the use of JEE declarative security to control access to Servlets and Security in JBoss Enterprise Application Platform 6 and  JBoss AS7.
 
-The following are the steps required to implement Servlet security:
+This quickstart takes the following steps to implement Servlet security:
 
-1. Use the security domain `other` that is defined in the application server's default `standalone.xml`
-2. Add the user `quickstartUser` with password `quickstartPassword` belonging to the role `guest` and realm `ApplicationRealm`. The procedure for adding a user is described below.
-3. A security domain reference for the `other` security domain is added to `WEB-INF/jboss-web.xml`  
-4. A security constraint is added to `WEB-INF/web.xml` 
-5. Security annotations are added to the EJB declaration
+1. Define a security domain in the `standalone.xml` configuration file.
+2. Add an application user with access rights to the application.
+3. Add a security domain reference to `WEB-INF/jboss-web.xml`.
+4. Add a security constraint to the `WEB-INF/web.xml` .
+5. Add a security annotation to the EJB declaration.
+
 
 Please note the allowed user role `guest` in the annotation -`@RolesAllowed`- is the same as the user role defined in step 2
 
@@ -39,10 +40,10 @@ Add an Application User
 This quickstart uses a secured management interface and requires that you create an application user to access the running application. Instructions to set up an Application user can be found here:  [Add an Application User](../README.html/#addapplicationuser)
 
 
-Start JBoss Enterprise Application Platform 6 or JBoss Application Server 7 with the Web Profile
+Start JBoss Enterprise Application Platform 6 or JBoss AS 7 with the Web Profile
 -------------------------
 
-1. Open a command line and navigate to the root of the JBoss directory.
+1. Open a command line and navigate to the root of the JBoss server directory.
 2. The following shows the command line to start the server with the web profile:
 
          For Linux:   JBOSS_HOME/bin/standalone.sh

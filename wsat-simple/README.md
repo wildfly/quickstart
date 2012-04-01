@@ -21,7 +21,7 @@ It is also assumed that you have an understanding of WS-AtomicTransaction. For m
 
 The application consists of a single JAX-WS web service that is deployed within a WAR archive. It is tested with a JBoss Arquillian enabled JUnit test.
 
-When running the org.jboss.as.quickstarts.wsat.simple.ClientTest#testCommit() method, the following steps occur:
+When running the `org.jboss.as.quickstarts.wsat.simple.ClientTest#testCommit()` method, the following steps occur:
 
 1. A new Atomic Transaction (AT) is created by the client.
 2. An operation on a WS-AT enabled Web service is invoked by the client.
@@ -50,7 +50,7 @@ Configure Maven
 If you have not yet done so, you must [Configure Maven](../README.html/#mavenconfiguration) before testing the quickstarts.
 
 
-Start JBoss Enterprise Application Platform 6 or JBoss Application Server 7 with the Custom Options
+Start JBoss Enterprise Application Platform 6 or JBoss AS 7 with the Custom Options
 ----------------------
 
 First, edit the log level to reduce the amount of log output. This should make it easier to read the logs produced by this example. To do this add the
@@ -78,7 +78,7 @@ _NOTE: The following commands assume you have configured your Maven user setting
 2. Open a command line and navigate to the root directory of this quickstart.
 3. Type the following command to run the test goal with the following profile activated:
 
-                  mvn clean test -Parq-jbossas-remote 
+        mvn clean test -Parq-jbossas-remote 
 
 
 Investigate the Console Output

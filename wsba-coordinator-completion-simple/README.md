@@ -17,7 +17,7 @@ This example demonstrates the basics of implementing a WS-BA enabled Web service
 
 For a more complete example, please see the XTS demonstrator application that ships with the JBossTS project: http://www.jboss.org/jbosstm.
 
-It is also assumed that you have an understanding of WS-BusinessActivity. For more details, read the XTS documentation that ships with the JBossTS project, which can be downloaded here: http://www.jboss.org/jbosstm/downloads/JBOSSTS_4_16_0_Final
+It is also assumed that you have an understanding of WS-BusinessActivity. For more details, read the XTS documentation that ships with the JBossTS project, which can be downloaded here: <http://www.jboss.org/jbosstm/downloads/JBOSSTS_4_16_0_Final>
 
 The application consists of a single JAX-WS web service that is deployed within a WAR archive. It is tested with a JBoss Arquillian enabled JUnit test.
 
@@ -25,12 +25,12 @@ When running the org.jboss.as.quickstarts.wsba.coordinatorcompletion.simple.Clie
 
 1. A new Business Activity is created by the client.
 2. Multiple operations on a WS-BA enabled Web service is invoked by the client.
-3. The JaxWSHeaderContextProcessor in the WS Client handler chain inserts the BA context into the outgoing SOAP messages.
-4. When the service receives a SOAP request, the JaxWSHeaderContextProcessor in its handler chain inspects the BA context and associates the request with this BA.
+3. The `JaxWSHeaderContextProcessor` in the WS Client handler chain inserts the BA context into the outgoing SOAP messages.
+4. When the service receives a SOAP request, the `JaxWSHeaderContextProcessor` in its handler chain inspects the BA context and associates the request with this BA.
 5. The Web service operation is invoked.
 6. For the first request, in this BA, A participant is enlisted in this BA. This allows the Web Service logic to respond to protocol events, such as compensate and close.
 7. The service invokes the business logic. In this case, a String value is added to the set.
-9. The client can then make additional calls to the SetService. As the SetService participates as a CoordinatorCompletion protocol, it will continue to accept calls to `addValueToSet` until it is told to complete by the coordinator.
+9. The client can then make additional calls to the `SetService`. As the `SetService` participates as a `CoordinatorCompletion` protocol, it will continue to accept calls to `addValueToSet` until it is told to complete by the coordinator.
 10. The client can then decide to complete or cancel the BA. 
     * If the client decides to complete, all participants will be told to complete. Providing all participants successfully complete, the coordinator will then tell all participants to close, otherwise the completed participants will be told to compensate.  
     * If the participant decides to cancel, all participants will be told to compensate.
@@ -52,7 +52,7 @@ Configure Maven
 If you have not yet done so, you must [Configure Maven](../README.html/#mavenconfiguration) before testing the quickstarts.
 
 
-Start JBoss Enterprise Application Platform 6 or JBoss Application Server 7 with the Custom Options
+Start JBoss Enterprise Application Platform 6 or JBoss AS 7 with the Custom Options
 ----------------------
 
 Next you need to start JBoss Enterprise Application Platform 6 or JBoss AS 7 (7.1.0.CR1 or above), with the XTS sub system enabled. This is enabled through the optional server configuration *standalone-xts.xml*. To do this, run the following commands from the top-level directory of JBossAS:

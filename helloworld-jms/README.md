@@ -33,10 +33,10 @@ Add an Application User
 This quickstart uses secured management interfaces and requires that you create an application user to access the running application. Instructions to set up the quickstart application user can be found here: [Add an Application User](../README.html/#addapplicationuser)
 
 
-Start JBoss Enterprise Application Platform 6 or JBoss Application Server 7 with the Full Profile
+Start JBoss Enterprise Application Platform 6 or JBoss AS 7 with the Full Profile
 ---------------
 
-1. Open a command line and navigate to the root of the JBoss directory.
+1. Open a command line and navigate to the root of the JBoss server directory.
 2. The following shows the command line to start the server with the full profile:
 
         For Linux:   JBOSS_HOME/bin/standalone.sh -c standalone-full.xml

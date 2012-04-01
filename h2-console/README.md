@@ -24,12 +24,6 @@ Configure Maven
 If you have not yet done so, you must [Configure Maven](../README.html/#mavenconfiguration) before testing the quickstarts.
 
 
-Additional requirements
------------------------
-
-You will need the H2 Console to run test this quickstart. You can download it from <http://www.h2database.com/html/download.html>. We recommend using the platform independent zip.
- 
-
 Prerequisites
 -----------
 

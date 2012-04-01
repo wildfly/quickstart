@@ -20,7 +20,7 @@ With CMT, the EJB container sets the boundaries of a transaction. This differs f
 
 ### What makes this an example of container managed transactions?
 
-Take a look at <code>org.jboss.as.quickstarts.cmt.ejb.CustomerManagerEJBImpl</code>. You can see that this stateless session bean has been marked up with an @javax.ejb.TransactionAttribute annotation.
+Take a look at <code>org.jboss.as.quickstarts.cmt.ejb.CustomerManagerEJBImpl</code>. You can see that this stateless session bean has been marked up with the @javax.ejb.TransactionAttribute annotation.
 
 The available options for this annotation are as follows:
 
@@ -32,7 +32,7 @@ The available options for this annotation are as follows:
 * Never - If the client has a transaction running and does not suspend it but calls a method annotated with Never then an EJB exception will be raised.
 
 
-JBoss Enterprise Application Platform 6 and JBoss AS 7 ship with an H2 datasource by default. This example shows how to transactionally insert key value pairs into the H2 database and demonstrates the requirements on the developer with respect to the JPA Entity Manager.
+JBoss Enterprise Application Platform 6 and JBoss AS 7 ship with H2, an in-memory database written in Java. This example shows how to transactionally insert key value pairs into the H2 database and demonstrates the requirements on the developer with respect to the JPA Entity Manager.
 
 
 System requirements
@@ -49,10 +49,10 @@ Configure Maven
 If you have not yet done so, you must [Configure Maven](../README.html/#mavenconfiguration) before testing the quickstarts.
 
 
-Start JBoss Enterprise Application Platform 6 or JBoss Application Server 7 with the Full Profile
+Start JBoss Enterprise Application Platform 6 or JBoss AS 7 with the Full Profile
 ---------------
 
-1. Open a command line and navigate to the root of the JBoss directory.
+1. Open a command line and navigate to the root of the JBoss server directory.
 2. The following shows the command line to start the server with the full profile:
 
         For Linux:   JBOSS_HOME/bin/standalone.sh -c standalone-full.xml
@@ -91,7 +91,7 @@ The application will be running at the following URL:  <http://localhost:8080/jb
 
 You will be presented with a simple form for adding customers to a database.
 
-After a user is successfully added to the database, a message is produced container the details of the user. An example MDB will dequeue this message and print the contents as such:
+After a user is successfully added to the database, a message is produced containing the details of the user. An example MDB will dequeue this message and print the following contents:
 	
     Received Message: Created customer named: Tom with ID: 1
 

@@ -11,8 +11,8 @@ The example follows the common "Hello World" pattern. These are the steps that o
 
 1. A JSF page asks the user for their name.
 2. On clicking submit, the name is sent to a managed bean namde `Greeter`.
-3. On setting the name, the `Greeter` invokes the `GreeterEJB`, which was injected to the managed bean. Notice the field annotated with @EJB.
-4. The response from invoking the `GreeterEJB` is stored in a field (message) of the managed bean.
+3. On setting the name, the `Greeter` invokes the `GreeterEJB`, which was injected into the managed bean. Notice the field annotated with `@EJB`.
+4. The response from invoking the `GreeterEJB` is stored in a field `message` of the managed bean.
 5. The managed bean is annotated as `@SessionScoped`, so the same managed bean instance is used for the entire session. This ensures that the message is available when the page reloads and is displayed to the user.
 
 System requirements
@@ -29,10 +29,10 @@ Configure Maven
 If you have not yet done so, you must [Configure Maven](../README.html/#mavenconfiguration) before testing the quickstarts.
 
 
-Start JBoss Enterprise Application Platform 6 or JBoss Application Server 7 with the Web Profile
+Start JBoss Enterprise Application Platform 6 or JBoss AS 7 with the Web Profile
 -------------------------
 
-1. Open a command line and navigate to the root of the JBoss directory.
+1. Open a command line and navigate to the root of the JBoss server directory.
 2. The following shows the command line to start the server with the web profile:
 
          For Linux:   JBOSS_HOME/bin/standalone.sh

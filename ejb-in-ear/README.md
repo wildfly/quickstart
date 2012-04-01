@@ -40,10 +40,10 @@ Configure Maven
 If you have not yet done so, you must [Configure Maven](../README.html/#mavenconfiguration) before testing the quickstarts.
 
 
-Start JBoss Enterprise Application Platform 6 or JBoss Application Server 7 with the Web Profile
+Start JBoss Enterprise Application Platform 6 or JBoss AS 7 with the Web Profile
 -------------------------
 
-1. Open a command line and navigate to the root of the JBoss directory.
+1. Open a command line and navigate to the root of the JBoss server directory.
 2. The following shows the command line to start the server with the web profile:
 
          For Linux:   JBOSS_HOME/bin/standalone.sh
@@ -62,7 +62,7 @@ _NOTE: The following build command assumes you have configured your Maven user s
 2. Open a command line and navigate to the root directory of this quickstart.
 3. Type this command to build and deploy the archive:
 
-            mvn clean package jboss-as:deploy
+         mvn clean package jboss-as:deploy
 
 4. This will deploy `target/jboss-as-ejb-in-ear.ear` to the running instance of the server.
 
@@ -72,7 +72,7 @@ _NOTE: The following build command assumes you have configured your Maven user s
 2. Open a command line and navigate to the root directory of this quickstart.
 3. Type this command to undeploy the archive:
 
-            mvn jboss-as:undeploy
+         mvn jboss-as:undeploy
  
 
 Access the application 

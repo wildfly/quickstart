@@ -28,13 +28,13 @@ following steps occur:
 
 1. A new Business Activity is created by the client.
 2. An operation on a WS-BA enabled Web service is invoked by the client.
-3. The JaxWSHeaderContextProcessor in the WS Client handler chain inserts the BA context into the outgoing SOAP message.
-4. When the service receives the SOAP request, the JaxWSHeaderContextProcessor in its handler chain inspects the BA context and associates the request with this BA.
+3. The `JaxWSHeaderContextProcessor` in the WS Client handler chain inserts the BA context into the outgoing SOAP message.
+4. When the service receives the SOAP request, the `JaxWSHeaderContextProcessor` in its handler chain inspects the BA context and associates the request with this BA.
 5. The Web service operation is invoked.
 6. A participant is enlisted in this BA. This allows the Web Service logic to respond to protocol events, such as compensate and close.
 7. The service invokes the business logic. In this case, a String value is added to the set.
 8. The backend resource is prepared. This ensures that the Backend resource can undo or make permanent the change when told to do so by the coordinator.
-9. Providing the above steps where successful, the service notifies the coordinator that it has completed. The service has now made its changes visible and is not holding any locks. Allowing the service to notify completion is an optimisation that prevents the holding of locks, whilst waiting for other participants to complete. This notification is required as the Service participates in the ParticipantCompletion protocol.
+9. Providing the above steps where successful, the service notifies the coordinator that it has completed. The service has now made its changes visible and is not holding any locks. Allowing the service to notify completion is an optimisation that prevents the holding of locks, whilst waiting for other participants to complete. This notification is required as the Service participates in the `ParticipantCompletion` protocol.
 10. The client can then decide to complete or cancel the BA. If the client decides to complete, all participants will be told to close. If the participant decides to cancel, all participants will be told to compensate.
 
 There are other tests that show:
@@ -57,7 +57,7 @@ Configure Maven
 If you have not yet done so, you must [Configure Maven](../README.html/#mavenconfiguration) before testing the quickstarts.
 
 
-Start JBoss Enterprise Application Platform 6 or JBoss Application Server 7 with the Custom Options
+Start JBoss Enterprise Application Platform 6 or JBoss AS 7 with the Custom Options
 ----------------------
 
 Next you need to start JBoss Enterprise Application Platform 6 or JBoss AS 7 (7.1.0.CR1 or above), with the XTS sub system enabled. This is enabled through the optional server configuration *standalone-xts.xml*. To do this, run the following commands from the top-level directory of JBossAS:

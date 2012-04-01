@@ -62,7 +62,7 @@ The application servers should both be configured as follows:
 3. Make a copy of the this JBoss directory structure to use for the second server.
 
 
-Start the JBoss Enterprise Application Platform 6 or JBoss Application Server 7 Servers
+Start the JBoss Enterprise Application Platform 6 or JBoss AS 7 Servers
 -------------------------
 
 If you are using Linux:

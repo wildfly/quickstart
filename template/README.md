@@ -55,16 +55,16 @@ Here are some examples:
 If your quickstart requires any other components, you must describe how to configure them here.
 
 
-Start JBoss Enterprise Application Platform 6 or JBoss Application Server 7
+Start JBoss Enterprise Application Platform 6 or JBoss AS 7
 -------------------------
 
 Does this quickstart require a running server? If so, you must show how to start the server. If you start the server in one of the following 3 ways, you can simply copy the instructions in the README file located in the root folder of the quickstart directory:
 
- * Start JBoss Enterprise Application Platform 6 or JBoss Application Server 7 with the Web Profile
+ * Start JBoss Enterprise Application Platform 6 or JBoss AS 7 with the Web Profile
 
- * Start JBoss Enterprise Application Platform 6 or JBoss Application Server 7 with the Full Profile
+ * Start JBoss Enterprise Application Platform 6 or JBoss AS 7 with the Full Profile
 
- * Start JBoss Enterprise Application Platform 6 or JBoss Application Server 7 with Custom Options. You will need to provide the argument string to pass on the command line, for example: 
+ * Start JBoss Enterprise Application Platform 6 or JBoss AS 7 with Custom Options. You will need to provide the argument string to pass on the command line, for example: 
 
       `--server-config=../../docs/examples/configs/standalone-xts.xml`
 
@@ -145,7 +145,6 @@ The quickstart README should show what to expect from the the tests
 Run the Quickstart in JBoss Developer Studio or Eclipse
 -------------------------------------
 You can also start the server and deploy the quickstarts from Eclipse using JBoss tools. For more information, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](../README.html/#useeclipse) 
-
 
 Debug the Application
 ------------------------------------

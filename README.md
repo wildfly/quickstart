@@ -170,27 +170,27 @@ The JBoss server can be started a few different ways.
 The README for each quickstart will specify which configuration is required to run the example.
 
 <a id="startserverweb"></a>
-#### Start JBoss Enterprise Application Platform 6 or JBoss Application Server 7 with the Web Profile
+#### Start JBoss Enterprise Application Platform 6 or JBoss AS 7 with the Web Profile
 
-1. Open a command line and navigate to the root of the JBoss directory.
+1. Open a command line and navigate to the root of the JBoss server directory.
 2. The following shows the command line to start the server with the web profile:
 
          For Linux:   JBOSS_HOME/bin/standalone.sh
          For Windows: JBOSS_HOME\bin\standalone.bat
 
 <a id="startserverfull"></a>
-#### Start JBoss Enterprise Application Platform 6 or JBoss Application Server 7 with the Full Profile
+#### Start JBoss Enterprise Application Platform 6 or JBoss AS 7 with the Full Profile
 
-1. Open a command line and navigate to the root of the JBoss directory.
+1. Open a command line and navigate to the root of the JBoss server directory.
 2. The following shows the command line to start the server with the full profile:
 
         For Linux:   JBOSS_HOME/bin/standalone.sh -c standalone-full.xml
         For Windows: JBOSS_HOME\bin\standalone.bat -c standalone-full.xml
 
 <a id="startservercustom"></a>
-#### Start JBoss Enterprise Application Platform 6 or JBoss Application Server 7 with Custom Configuration Options
+#### Start JBoss Enterprise Application Platform 6 or JBoss AS 7 with Custom Configuration Options
 
-1. Open a command line and navigate to the root of the JBoss directory.
+1. Open a command line and navigate to the root of the JBoss server directory.
 2. The following shows the command line to start the server. Replace the CUSTOM_OPTIONS with the custom optional parameters specified in the quickstart.
 
             For Linux:   JBOSS_HOME/bin/standalone.sh CUSTOM_OPTIONS
@@ -294,7 +294,7 @@ The quickstart README should tell you what you should expect to see in the conso
 <a id="useeclipse"/>
 Use JBoss Developer Studio or Eclipse to Run the Quickstarts
 -------------------------------------
-You can also deploy the quickstarts from Eclipse using JBoss tools. For more information on how to set up Maven and the JBoss tools, refer to the [Boss Enterprise Application Platform 6 Beta](http://docs.redhat.com/docs/en-US/JBoss_Enterprise_Application_Platform/6/html/Beta_Documentation/HOME.html) documentation or the [Getting Started Developing Applications Guide](https://docs.jboss.org/author/display/AS71/Getting+Started+Developing+Applications+Guide "Getting Started Developing Applications Guide").
+You can also deploy the quickstarts from Eclipse using JBoss tools. For more information on how to set up Maven and the JBoss tools, refer to the [JBoss Enterprise Application Platform 6 Beta](http://docs.redhat.com/docs/en-US/JBoss_Enterprise_Application_Platform/6/html/Beta_Documentation/HOME.html) documentation or the [Getting Started Developing Applications Guide](https://docs.jboss.org/author/display/AS71/Getting+Started+Developing+Applications+Guide "Getting Started Developing Applications Guide").
 
 
 <a id="optionalcomponents"></a>
@@ -332,13 +332,13 @@ The following procedures describe how to add a user with the appropriate permiss
         b) Application User (application-users.properties)
         (a):
 
-    At the prompt, press enter to take the default Management User
+    At the prompt, press enter to use the default Management User
 4. You should see the following response:
 
         Enter the details of the new user to add.
         Realm (ManagementRealm) : 
 
-    If the quickstart README specifies a realm, type it here. Otherwise, press enter to take the default `ManagementRealm`. 
+    If the quickstart README specifies a realm, type it here. Otherwise, press enter to use the default `ManagementRealm`. 
 5. When prompted, enter the following
  
         Username : admin
@@ -369,7 +369,7 @@ The following procedures describe how to add a user with the appropriate permiss
         Enter the details of the new user to add.
         Realm (ApplicationRealm) : 
 
-    If the quickstart README specifies a realm, type it here. Otherwise, press enter to take the default `ApplicationRealm`. 
+    If the quickstart README specifies a realm, type it here. Otherwise, press enter to use the default `ApplicationRealm`. 
 5. When prompted, enter the the Username and Passord. If the quickstart README specifies a Username nad Password, enter them here. Otherwise, use the default Username `quickstartUser` and Password `quickstartPassword`.
  
         Username : quickstartUser
