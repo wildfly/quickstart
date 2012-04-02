@@ -30,6 +30,10 @@ Some key points to make note of while running the application:
 *   Popups: Click the view link next to a member in the member list to view a popup with the member details.  To close
     the popup, click the "X" in the top right-hadn corner, or clck anywhere on the background mask.
 
+*   Mobile support: view the application form a webkit powered browser on a mobile device to try out the mobile version
+    of the application.  Alternatively, view the mobile version on your desktop by navigating to the url:
+    <http://localhost:8080/jboss-as-kitchensink-rf/mobile/>
+
 System requirements
 -------------------
 
@@ -61,9 +65,9 @@ You can now deploy the artifact to JBoss AS by executing the following command:
 
     mvn jboss-as:deploy
 
-This will deploy `target/jboss-as-kitchensink.war`.
+This will deploy `target/jboss-as-kitchensink-rf.war`.
  
-The application will be running at the following URL <http://localhost:8080/jboss-as-kitchensink/>.
+The application will be running at the following URL <http://localhost:8080/jboss-as-kitchensink-rf/>.
 
 To undeploy from JBoss AS, run this command:
 
