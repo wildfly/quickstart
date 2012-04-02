@@ -8,34 +8,37 @@
                 xmlns:a4j="http://richfaces.org/a4j"
                 xmlns:rich="http://richfaces.org/rich"
                 xmlns:my="http://java.sun.com/jsf/composite/components">
-   <ui:define name="content">
-      <h:outputStylesheet name="app.css" library="css"/>
-      <h:outputStylesheet name="mobile.css" library="css"/>
-      <div id="browser">
-        <header>
-            <div>
-               <div id="back-button" class="hide-button">Home</div>
-               <div id="info-button" class="right-header-button info-link">
-                   <a href="#about">i</a>
-               </div>
-               <p>Richfaces Mobile</p>
-            </div>
-        </header>
-        <h:form id="mobileForm">
-        <a4j:jsFunction name="handleHashChange"  data="#{pageBean.location}" render="@form" oncomplete="slidfast.core.slideTo('app-page')">
-          <a4j:param name="page" assignTo="#{pageBean.location}" />
-        </a4j:jsFunction>
-        <div id="page-container">
-            <div id="home-page" class="page stage-left">
-                <ui:include src="/mobile/home.xhtml"/>
-            </div>
-            <div id="app-page" class="page stage-right">
-                <ui:include src="#{pageBean.page}"/>
-            </div>
+    <ui:define name="content">
+        <h:outputStylesheet name="app.css" library="css"/>
+        <h:outputStylesheet name="mobile.css" library="css"/>
+
+        <div id="browser">
+            <header>
+                <div>
+                    <div id="back-button" class="hide-button">Home</div>
+                    <div id="info-button" class="right-header-button info-link">
+                        <a href="#about">i</a>
+                    </div>
+                    <p>Richfaces Mobile</p>
+                </div>
+            </header>
+            <h:form id="mobileForm">
+                <a4j:jsFunction name="handleHashChange" data="#{pageBean.location}" render="@form"
+                                oncomplete="slidfast.core.slideTo('app-page')">
+                    <a4j:param name="page" assignTo="#{pageBean.location}"/>
+                </a4j:jsFunction>
+
+                <div id="page-container">
+                    <div id="home-page" class="page stage-left">
+                        <ui:include src="/mobile/home.xhtml"/>
+                    </div>
+                    <div id="app-page" class="page stage-right">
+                        <ui:include src="#{pageBean.page}"/>
+                    </div>
+                </div>
+            </h:form>
         </div>
-        </h:form>
-      </div>
-   </ui:define>
+    </ui:define>
 </ui:composition>
 
 </html>
