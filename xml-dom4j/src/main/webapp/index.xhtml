@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+	<title>XML Parsing Quickstart</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<h:outputStylesheet name="css/screen.css" />
+</h:head>
+<h:body>
+	<h1>XML Parsing Quickstart!</h1>
+
+	<h2>Input file</h2>
+	<p>
+		The XML schema is included in the <i>xml-dom4j</i> project in
+		<code>src/main/resources/catalog.xsd</code>
+		.
+	</p>
+	<p>
+		An example XML document is included in the <i>xml-dom4j</i> project in
+		<code>src/main/resources/catalog.xml</code>
+		.
+	</p>
+	<!-- Plain HTML form. This is required, since if it is a JSF form
+	       it will send 'application/url-encoded' as the enc-type, whilst we need 'multipart/form-data.
+	       The forms action URL is 'upload', which is mapped to FileUploadServlet.
+	        -->
+	<form id="reg" enctype="multipart/form-data" method="post"
+		action="upload">
+		<!-- HTML input of 'file' type. Makes browser render a 'choose a file' dialog -->
+		<input id="file" type="file" name="file" />
+		<!-- submit button to trigger form submission -->
+		<input id="submit" type="submit" value="Upload" name="submit" />
+	</form>
+
+	<h2>XML File Content</h2>
+	<h:panelGroup rendered="true">
+		<h:dataTable id="errorTable" rendered="#{!errorMessages.isEmpty()}"
+			style="color: red;" value="#{errorMessages}" var="error">
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="Severity" />
+				</f:facet>
+				<h:outputText value="#{error.severity}"></h:outputText>
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="Exception" />
+				</f:facet>
+				<h:outputText value="#{error.exception}"></h:outputText>
+			</h:column>
+		</h:dataTable>
+	</h:panelGroup>
+	<h:panelGroup rendered="true">
+		<!-- JSF DataTable to render contents of the book catalog.
+             
+             Table is rendered only when the catalog is not null. Values are read from the FileUploadBean.
+        -->
+		<h:dataTable id="catalogTable" rendered="#{catalog != null}"
+			value="#{catalog}" var="book">
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="Title" />
+				</f:facet>
+				<h:outputText value="#{book.title}"></h:outputText>
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="Genre" />
+				</f:facet>
+				<h:outputText value="#{book.genre}"></h:outputText>
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="Author" />
+				</f:facet>
+				<h:outputText value="#{book.author}"></h:outputText>
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="Published" />
+				</f:facet>
+				<h:outputText value="#{book.publishDate}"></h:outputText>
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="Price" />
+				</f:facet>
+				<h:outputText value="#{book.price}"></h:outputText>
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="Description" />
+				</f:facet>
+				<h:outputText value="#{book.description}"></h:outputText>
+			</h:column>
+		</h:dataTable>
+	</h:panelGroup>
+
+</h:body>
+</html>
