@@ -56,10 +56,10 @@ Below are rules for the l&f of the variants:
 
 * Follow the primary layout, style, and graphics of the original.
 * Projects can have 3-4 lines directly under the AS/EAP banner in the middle section to describe what makes this variant different.  
- * How projects use that space is up to them, but options include plain text, bullet points, etc....  
+   * How projects use that space is up to them, but options include plain text, bullet points, etc....  
 * Projects can have their logo in the left side of the banner.  
 * The sidebar area can contain a section with links to the related projects, wiki, tutorials, etc...  
- * This should be below any AS/EAP link areas.
+   * This should be below any AS/EAP link areas.
 
 If appropriate for the technology the application should expose RESTful endpoints following the example of the original kitchensink quickstart.  This should also include the RESTful links in the member table.
 
