@@ -65,6 +65,21 @@
          <scope>provided</scope>
       </dependency>
 
+       <!-- JSR-303 (Bean Validation) Implementation -->
+       <!-- Provides portable constraints such as @Email -->
+       <!-- Hibernate Validator is shipped in JBoss AS 7 -->
+       <dependency>
+           <groupId>org.hibernate</groupId>
+           <artifactId>hibernate-validator</artifactId>
+           <scope>provided</scope>
+           <exclusions>
+               <exclusion>
+                   <groupId>org.slf4j</groupId>
+                   <artifactId>slf4j-api</artifactId>
+               </exclusion>
+           </exclusions>
+       </dependency>
+
    </dependencies>
 
    <build>
