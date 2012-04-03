@@ -3,6 +3,7 @@ package org.jboss.as.quickstarts.kitchensink.data;
 import org.jboss.as.quickstarts.kitchensink.model.Member;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.ejb.Stateful;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.event.Observes;
 import javax.enterprise.event.Reception;
@@ -16,7 +17,8 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 @RequestScoped
-public class MemberListProducer {
+public class MemberRepository {
+
    @Inject
    private EntityManager em;
 
@@ -33,6 +35,21 @@ public class MemberListProducer {
    public void onMemberListChanged(@Observes(notifyObserver = Reception.IF_EXISTS) final Member member) {
       retrieveAllMembersOrderedByName();
    }
+
+   public Member findById(Long id) {
+       return em.find(Member.class, id);
+   }
+
+    public Member findByEmail(String email) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Member> criteria = cb.createQuery(Member.class);
+        Root<Member> member = criteria.from(Member.class);
+        // Swap criteria statements if you would like to try out type-safe criteria queries, a new
+        // feature in JPA 2.0
+        // criteria.select(member).where(cb.equal(member.get(Member_.name), email));
+        criteria.select(member).where(cb.equal(member.get("email"), email));
+        return em.createQuery(criteria).getSingleResult();
+    }
 
    @PostConstruct
    public void retrieveAllMembersOrderedByName() {

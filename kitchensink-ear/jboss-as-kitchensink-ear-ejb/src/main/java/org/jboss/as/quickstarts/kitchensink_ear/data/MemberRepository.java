@@ -16,7 +16,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 @RequestScoped
-public class MemberListProducer {
+public class MemberRepository {
    @Inject
    private EntityManager em;
 
