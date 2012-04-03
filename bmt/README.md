@@ -7,14 +7,15 @@ What is it?
 
 On occasion, the application developer requires finer grained control over the lifecycle of JTA transactions and JPA Entity Managers than the defaults provided by the Java EE container. This example shows how the developer can override these defaults and take control of aspects of the lifecycle of JPA and transactions.
 
-This example demonstrates how to manually manage transaction demarcation while accessing JPA entities in JBoss AS 7:
+This example demonstrates how to manually manage transaction demarcation while accessing JPA entities in JBoss Enterprise Application Platform 6 or JBoss AS 7.
 
-* Part 1 shows the developer responsibilities when injecting an Entity Manager into a managed (stateless) bean.
-* Part 2 shows the developer responsibilities when using JPA and transactions with an unmanaged component.
+When you run this example, you will be provided with a `Use bean managed Entity Managers` checkbox.
+* If you check the checkbox, it shows the developer responsibilities when injecting an Entity Manager into a managed (stateless) bean.
+* If you uncheck the checkbox, shows the developer responsibilities when using JPA and transactions with an unmanaged component.
 
-JBoss Enterprise Application Platform 6 and JBoss AS 7 ship with an H2 datasource by default. This example shows how to transactionally insert key value pairs into the H2 database and demonstrates the requirements on the developer with respect to the JPA Entity Manager.
+JBoss Enterprise Application Platform 6 and JBoss AS 7 ship with H2, an in-memory database written in Java. This example shows how to transactionally insert key value pairs into the H2 database and demonstrates the requirements on the developer with respect to the JPA Entity Manager.
 
-_NOTE: A JEE container is designed with robustness in mind, so you should carefully analyse the scaleabiltiy, concurrency and performance needs of you application before taking advantage of these techniques in your own applications._
+_NOTE: A Java EE container is designed with robustness in mind, so you should carefully analyse the scaleabiltiy, concurrency and performance needs of you application before taking advantage of these techniques in your own applications._
 
 
 System requirements

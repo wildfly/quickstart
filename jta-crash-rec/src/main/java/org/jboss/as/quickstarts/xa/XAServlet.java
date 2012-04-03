@@ -30,34 +30,38 @@ public class XAServlet extends HttpServlet {
 
     // page content describing the quickstart and providing a form to perform basic operations against a database
     private static String PAGE_CONTENT = "<h2>XA Recovery</h2>" +
-            "<p>Demonstration of how to atomically update a relational database table using JPA and send " +
-            "a message using JMS (these kinds of paired updates to two different resources are called " +
-            "XA transactions and are defined by the JEE JTA specification). " +
+            "<p>This quickstart demonstrates how to atomically update multiple resources within one XA transaction. " +
+            "It updates a relational database table using JPA and sends a message using JMS. " + 
+            "In this example, you can perform the following operations:</p>" +
+            "<ul>" + 
+            "<li>To add a <b>key</b>/<b>value</b> pair, enter values in the input text boxes and click <i>Submit</i></li>" +
+            "<li>To update a <b>key</b>/<b>value</b> pair, enter the key and click <i>Submit</i></li>" +
+            "<li>To delete a <b>key</b>/<b>value</b> pair, enter the key and click <i>Delete</i></li>" +
+            "<li>To delete all <b>key</b>/<b>value</b> pairs, leave the key blank and click <i>Delete</i></li>" +
+            "<li>To list the existing <b>key</b>/<b>value</b> pairs, leave the key blank and click <i>Submit</i></li>" +
+            "<li>The refresh the list, click the <i>Refresh Table</i> link.</li>" +
+            "</ul>" +
+
+            "<p>To demonstrate XA recovery, you will take the following steps:</p> " +
+            "<ol>" +
+            "<li>Add a <b>key</b>/<b>value</b> as described above.</li>" +
+            "<li>Stop the JBoss server.</li>" +
+            "<li>Clear any transaction objectstore data remaining from previous tests.</li>" +
+            "<li>Configure Byteman to halt the JBoss server.</li>" +
+            "<li>Start the JBoss server.</li>" +
+            "<li>Add another <b>key</b>/<b>value</b>. This will cause Byteman to halt the JBoss server.</li>" +
+            "<li>Verify the database record.</li>" +
+            "<li>Disable Byteman.</li>" +
+            "<li>Start the JBoss server.</li>" +
+            "<li>View the resulting recovered row in the table, indicated by the text \"<i>updated via JMS</i>\".</li>" +
+            "</ol>"+
             "</p> " +
-            "<p>The relational table contains two columns to represent a key value pair. " +
-            "Below is an HTML form containing two input boxes for creating, updating, deleting or listing " +
-            "such pairs. " +
-            "</p> " +
-            "<p>When you add or update a pair the example will start a transaction, update the table, " +
-            "produce a JMS message (containing the change) and finally commit the transaction. If all goes well " +
-            "then eventually the message is received by a consumer that will then modify the pair (with text that " +
-            "indicates it was changed by the message consumer) and update the database. " +
-            "The idea is to demonstrate recovery by halting the application server after the database modification " +
-            "is committed but before the JMS producer is committed." +
-            "</p> " +
-            "<p>The <a href=\"readme.html\">readme instructions</a> that accompany this quickstart will walk you " +
-            "through how to generate a failure in between the update to the database and the sending of the  " +
-            "message (by halting the application server). After the failure if you use an SQL client to examine " +
-            "the table you will see that it contains the pair you added but it will not show the update by the " +
-            "JMS consumer since the message is still pending. When you restart the application server the " +
-            "transaction recovery system will attempt to resend the message. On receipt by the consumer the " +
-            "pair is updated and if you now examine the table this final change will be visible. But note that " +
-            "since message consumption is asynchronous you may need to wait a moment before the message is " +
-            "delivered to the consumer" +
-            "</p> " +
-            "<form>" +
+            "<p>See the README file located in the root of <i>jta-crash-rec</i> folder in the quickstart distribution " +
+            "for complete instructions and details about how this quickstart works.</p> " +
+ 
+           "<form>" +
             "Key: <input type=\"text\" name=\"key\" />" +
-            "&nbsp;(Leave blank to select all key/value pairs).<br />" +
+            "&nbsp;(Leave blank to list all key/value pairs).<br />" +
             "Value: <input type=\"text\" name=\"value\" /><br />" +
             "<input type=\"submit\" name=\"submit\" value=\"Submit\" />" +
             "&nbsp;Add or update a pair (or list all pairs if key is blank).<br />" +

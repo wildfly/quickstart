@@ -1,4 +1,4 @@
-ejb-security:  Using JEE Declarative Security to Control Access to EJB 3
+ejb-security:  Using Java EE Declarative Security to Control Access to EJB 3
 ====================
 Author: Sherif F. Makary
 

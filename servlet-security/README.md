@@ -1,4 +1,4 @@
-servlet-security:  Using JEE Declarative Security to Control Access to Servlet 3
+servlet-security:  Using Java EE Declarative Security to Control Access to Servlet 3
 ====================
 Author: Sherif F. Makary
 
@@ -6,7 +6,7 @@ Author: Sherif F. Makary
 What is it?
 -----------
 
-This example demonstrates the use of JEE declarative security to control access to Servlets and Security in JBoss Enterprise Application Platform 6 and  JBoss AS7.
+This example demonstrates the use of Java EE declarative security to control access to Servlets and Security in JBoss Enterprise Application Platform 6 and  JBoss AS7.
 
 This quickstart takes the following steps to implement Servlet security:
 

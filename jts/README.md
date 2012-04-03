@@ -12,12 +12,15 @@ Developers should be familiar with the concepts introduced in the _cmt_ quicksta
 What is it?
 -----------
 
-This example demonstrates how to perform distributed transactions in an application. A distributed transaction is a set of operations performed by two or more nodes, participating in an activity coordinated as a single entity of work, and fulfilling the properties of an ACID transaction. ACID meaning:
+This example demonstrates how to perform distributed transactions in an application. A distributed transaction is a set of operations performed by two or more nodes, participating in an activity coordinated as a single entity of work, and fulfilling the properties of an ACID transaction. 
 
-* Atomic
-* Consistent
-* Isolated
-* Durable.
+ACID is a set of 4 properties that guarantee the resources are processed in the following manner:
+
+* Atomic - if any part of the transaction fails, all resources remain unchanged. 
+* Consistent - the state will be consistent across resources after a commit
+* Isolated - the execution of the transaction for each resource is isolated from each others
+* Durable - the data will persist after the transaction is committed
+
 
 The example uses Java Transaction Service (JTS) to propagate a transaction context across two Container-Managed Transaction (CMT) EJBs that, although deployed in separate servers, participate in the same transaction. In this example, one server processes the Customer and Account data and the other server processes the Invoice data.
 

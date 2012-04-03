@@ -46,7 +46,7 @@ Quickstarts with tutorials in the [Getting Started Developing Applications Guide
 | [ejb-in-ear](ejb-in-ear/README.html "ejb-in-ear") | EJB, JSF, JAR, and WAR deployed as an EAR | Packages an EJB JAR and WAR in an EAR | Beginner | None |
 | [ejb-in-war](ejb-in-war/README.html "ejb-in-war") | EJB and JSF deployed as a WAR | Packages an EJB JAR in a WAR | Beginner | None |
 | [ejb-remote](ejb-remote/README.html "ejb-remote") | Remote EJB | Shows how to access an EJB from a remote Java client program using JNDI | Beginner | None |
-| [ejb-security](ejb-security/README.html "ejb-security") | EJB, Security | Shows how to use JEE Declarative Security to Control Access to EJB 3 | Beginner | None |
+| [ejb-security](ejb-security/README.html "ejb-security") | EJB, Security | Shows how to use Java EE Declarative Security to Control Access to EJB 3 | Beginner | None |
 | [forge-from-scratch](forge-from-scratch/README.html "forge-from-scratch") | Forge | Demonstrates how to generate a fully Java EE compliant project using nothing but JBoss Forge | Beginner | None |
 | [greeter](greeter/README.html "greeter") | CDI, JSF, JPA, EJB, JTA | Demonstrates the use of CDI 1.0, JPA 2.0, JTA 1.1, EJB 3.1 and JSF 2.0 | Beginner | None |
 | [h2-console](h2-console/README.html "h2-console") | H2 Database Console | Shows how to use the H2 console with JBoss AS | Beginner | greeter |
@@ -77,7 +77,7 @@ Quickstarts with tutorials in the [Getting Started Developing Applications Guide
 | [richfaces-validation](richfaces-validation/README.html "richfaces-validation") | RichFaces | Demonstrates RichFaces and bean validation | Beginner | None |
 | [servlet-async](servlet-async/README.html "servlet-async") | CDI, EJB, Servlet | Demonstrates CDI, plus asynchronous Servlets and EJBs | Intermediate | None |
 | [servlet-filterlistener](servlet-filterlistener/README.html "servlet-filterlistener") | Servlet | Demonstrates Servlet filters and listeners | Intermediate | None |
-| [servlet-security](servlet-security/README.html "servlet-security") | Servlet, Security | Demonstrates how to use JEE declarative security to control access to Servlet 3 | begiiner | greeter |
+| [servlet-security](servlet-security/README.html "servlet-security") | Servlet, Security | Demonstrates how to use Java EE declarative security to control access to Servlet 3 | begiiner | greeter |
 | [shopping-cart](shopping-cart/README.html "shopping-cart") | Stateful Session Bean | Demonstrates a stateful session bean | begiiner | greeter |
 | [tasks](tasks/README.html "servlet-filterlistener") | Arquillian, JPA | Demonstrates testing JPA using Arquillian | Intermediate | greeter |
 | [wsat-simple](wsat-simple/README.html "wsat-simple") | WS-AT, Web service, JAX-WS | Deployment of a WS-AT (WS-AtomicTransaction) enabled JAX-WS Web service bundled in a WAR archive  | Intermediate | None |
@@ -558,6 +558,7 @@ _Byteman_ is a tool which simplifies tracing and testing of Java programs. Bytem
         cd byteman-download-2.0.0/
         chmod -R o-rwx byteman-download-2.0.0/
 
+<a id="byteman-halt"/>
 #### How to Halt the Application Using Byteman
 
 When instructed to use Byteman to halt the application, perform the following steps:
@@ -581,6 +582,8 @@ When instructed to use Byteman to halt the application, perform the following st
     For Windows, open the `JBOSS_HOME\bin\standalone.conf.bat` file and append the following line:
 
         SET "JAVA_OPTS=%JAVA_OPTS% -javaagent:C:PATH_TO_BYTEMAN_DOWNLOAD\lib\byteman.jar=script:C:\PATH_TO_QUICKSTARTS\jta-crash-rec\src\main\scripts\xa.btm %JAVA_OPTS%"
+
+<a id="byteman-disable"/>
 
 #### Disable the Byteman Script
  
