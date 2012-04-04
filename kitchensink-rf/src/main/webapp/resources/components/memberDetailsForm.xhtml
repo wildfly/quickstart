@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:a4j="http://richfaces.org/a4j"
+   xmlns:rich="http://richfaces.org/rich"
+   xmlns:composite="http://java.sun.com/jsf/composite">
+
+<!-- INTERFACE -->
+<composite:interface>
+   <composite:attribute name="member"/>
+</composite:interface>
+
+<!-- IMPLEMENTATION -->
+<composite:implementation>
+   <h:panelGrid columns="2" columnClasses="titleCell">
+      <h:outputLabel for="name" value="Name:"/>
+      <h:outputText id="name" value="#{cc.attrs.member.name}" />
+
+      <h:outputLabel for="email" value="Email:"/>
+      <h:outputText id="email" value="#{cc.attrs.member.email}"/>
+
+      <h:outputLabel for="phoneNumber" value="Phone #:"/>
+      <h:outputText id="phoneNumber" value="#{cc.attrs.member.phoneNumber}"/>
+   </h:panelGrid>
+</composite:implementation>
+</html>
