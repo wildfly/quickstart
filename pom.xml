@@ -1,93 +1,181 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-   <modelVersion>4.0.0</modelVersion>
-   <parent>
-      <groupId>org.jboss</groupId>
-      <artifactId>jboss-parent</artifactId>
-      <version>8</version>
-      <relativePath />
-   </parent>
-   <groupId>org.jboss.as.quickstarts</groupId>
-   <artifactId>jboss-as-quickstarts-parent</artifactId>
-   <version>7.1.1-SNAPSHOT</version>
-   <packaging>pom</packaging>
-   <name>JBoss AS Quickstarts Parent</name>
-   <description>JBoss AS Quickstarts Parent</description>
-   <url>http://github.com/jbossas/quickstart</url>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.jboss</groupId>
+        <artifactId>jboss-parent</artifactId>
+        <version>8</version>
+        <relativePath />
+    </parent>
+    <groupId>org.jboss.as.quickstarts</groupId>
+    <artifactId>jboss-as-quickstarts-parent</artifactId>
+    <version>7.1.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>JBoss AS Quickstarts Parent</name>
+    <description>JBoss AS Quickstarts Parent</description>
+    <url>http://github.com/jbossas/quickstart</url>
 
     <licenses>
-       <license>
-          <name>Apache License, Version 2.0</name>
-          <distribution>repo</distribution>
-          <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
-       </license>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <distribution>repo</distribution>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+        </license>
     </licenses>
 
-   <modules>
-      <module>bean-validation</module>
-      <module>bmt</module>
-      <module>cdi-injection</module>
-      <module>cmt</module>
-      <module>ejb-in-ear</module>
-      <module>ejb-in-war</module>
-      <module>ejb-remote</module>
-      <module>ejb-security</module>
-      <module>greeter</module>
-      <module>helloworld</module>
-      <module>helloworld-errai</module>
-      <module>helloworld-gwt</module>
-      <module>helloworld-html5</module>
-      <module>helloworld-jms</module>
-      <module>helloworld-jsf</module>
-      <module>helloworld-mdb</module>
-      <module>helloworld-osgi</module>
-      <module>helloworld-rs</module>
-      <module>helloworld-singleton</module>
-      <module>hibernate3</module>
-      <module>hibernate4</module>
-      <module>jax-rs-client</module>
-      <module>jta-crash-rec</module>
-      <module>jts</module>
-      <module>kitchensink</module>
-      <module>kitchensink-ear</module>
-      <module>kitchensink-html5-mobile</module>
-      <module>kitchensink-jsp</module>
-      <module>log4j</module>
-      <module>mail</module>
-      <module>numberguess</module>
-      <module>payment-cdi-event</module>
-      <module>servlet-async</module>
-      <module>servlet-filterlistener</module>
-      <module>servlet-security</module>
-      <module>tasks</module>
-      <module>wsat-simple</module>
-      <module>wsba-coordinator-completion-simple</module>
-      <module>wsba-participant-completion-simple</module>
-      <module>xml-jaxp</module>
-      <module>xml-dom4j</module>
-   </modules>
+    <profiles>
+        <profile>
+            <!-- All the quickstarts that require Postgres to be running -->
+            <id>default</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+                <property>
+                    <name>default</name>
+                    <value>!disabled</value>
+                </property>
+            </activation>
+            <modules>
+                <!-- All the modules that require nothing but JBoss Enterprise 
+                    Application Platform or JBoss AS -->
+                <module>bean-validation</module>
+                <module>bmt</module>
+                <module>cdi-injection</module>
+                <module>ejb-in-ear</module>
+                <module>ejb-in-war</module>
+                <module>ejb-remote</module>
+                <module>ejb-security</module>
+                <module>greeter</module>
+                <module>helloworld</module>
+                <module>helloworld-errai</module>
+                <module>helloworld-gwt</module>
+                <module>helloworld-html5</module>
+                <module>helloworld-jms</module>
+                <module>helloworld-jsf</module>
+                <module>helloworld-osgi</module>
+                <module>helloworld-rs</module>
+                <module>helloworld-singleton</module>
+                <!-- Hibernate 3 is broken on AS 7.1.1 - see https://github.com/jbossas/quickstart/issues/186 -->
+                <!-- <module>hibernate3</module> -->
+                <module>hibernate4</module>
+                <module>kitchensink</module>
+                <module>kitchensink-ear</module>
+                <module>kitchensink-html5-mobile</module>
+                <module>kitchensink-jsp</module>
+                <module>log4j</module>
+                <module>mail</module>
+                <module>numberguess</module>
+                <module>payment-cdi-event</module>
+                <module>richfaces-validation</module>
+                <module>servlet-async</module>
+                <module>servlet-filterlistener</module>
+                <module>servlet-security</module>
+                <module>tasks</module>
+                <module>tasks-jsf</module>
+                <module>wicket-ear</module>
+                <module>xml-jaxp</module>
+                <module>xml-dom4j</module>
+            </modules>
+        </profile>
+        <profile>
+            <!-- All the quickstarts that require Postgres to be running -->
+            <id>requires-postgres</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+                <property>
+                    <name>requires-postgres</name>
+                    <value>!disabled</value>
+                </property>
+            </activation>
+            <modules>
+                <module>cmt</module>
+                <module>jts</module>
+            </modules>
+        </profile>
+        <profile>
+            <!-- All the quickstarts that require Postgres to be running -->
+            <id>complex-dependencies</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+                <property>
+                    <name>complex-dependencies</name>
+                    <value>!disabled</value>
+                </property>
+            </activation>
+            <modules>
+                <module>jax-rs-client</module>
+                <module>jts</module>
+            </modules>
+        </profile>
+        <profile>
+            <!-- All the quickstarts that require the "standalone-full" profile 
+                to be in use -->
+            <id>requires-full</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+                <property>
+                    <name>requires-full</name>
+                    <value>!disabled</value>
+                </property>
+            </activation>
+            <modules>
+                <module>helloworld-mdb</module>
+                <module>jta-crash-rec</module>
+            </modules>
+        </profile>
+        <profile>
+            <!-- All the quickstarts that require the xts to be enabled -->
+            <id>requires-xts</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+                <property>
+                    <name>requires-xts</name>
+                    <value>!disabled</value>
+                </property>
+            </activation>
+            <modules>
+                <module>wsat-simple</module>
+                <module>wsba-coordinator-completion-simple</module>
+                <module>wsba-participant-completion-simple</module>
+            </modules>
+        </profile>
+        <profile>
+            <!-- All the quickstarts that don't actually use Maven. Don't 
+                activate this profile! We just include this for completeness. -->
+            <id>non-maven</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <modules>
+                <module>forge-from-scratch</module>
+                <module>h2-console</module>
+                <module>jts-distributed-crash-rec</module>
+            </modules>
+        </profile>
+    </profiles>
 
-   <scm>
-      <connection>scm:git://github.com/jbossas/quickstart.git</connection>
-      <developerConnection>scm:git:git@github.com:jbossas/quickstart.git</developerConnection>
-      <url>http://github.com/jbossas/quickstart</url>
-   </scm>
+    <scm>
+        <connection>scm:git://github.com/jbossas/quickstart.git</connection>
+        <developerConnection>scm:git:git@github.com:jbossas/quickstart.git</developerConnection>
+        <url>http://github.com/jbossas/quickstart</url>
+    </scm>
 
-   <build>
-      <plugins>
-            <!-- The JBoss AS plugin deploys your apps to a local JBoss AS
-               container -->
-            <!-- Disabling it here means that we don't try to deploy this POM! -->
+    <build>
+        <plugins>
+            <!-- The JBoss AS plugin deploys your apps to a local JBoss AS 
+                container -->
+            <!-- Disabling it here means that we don't try to deploy this 
+                POM! -->
             <plugin>
-               <groupId>org.jboss.as.plugins</groupId>
-               <artifactId>jboss-as-maven-plugin</artifactId>
-               <version>7.1.1.Final</version>
-               <inherited>true</inherited>
-               <configuration>
-                  <skip>true</skip>
-               </configuration>
+                <groupId>org.jboss.as.plugins</groupId>
+                <artifactId>jboss-as-maven-plugin</artifactId>
+                <version>7.1.1.Final</version>
+                <inherited>true</inherited>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
             </plugin>
-         </plugins>
-   </build>
+        </plugins>
+    </build>
 
 </project>
