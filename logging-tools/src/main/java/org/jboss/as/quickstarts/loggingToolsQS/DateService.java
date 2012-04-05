@@ -59,6 +59,7 @@ public class DateService {
         float days = 0;
 
         try {
+            df.setLenient(false);               //make sure no invalid dates sneak through
             target = df.parse(targetdate);
             days = (float) target.getTime() - now.getTime();
             days = days / (1000 * 60 * 60 * 24); // turn milliseconds into days
