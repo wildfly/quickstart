@@ -16,7 +16,9 @@ This application builds on top of the standard JSF approach, by incorporating th
 components, allowing for a rich user experience.  RichFaces builds on top of the JSF standard, and is a fully portable
 solution compatible with all JSF implementations.
 
-Some key points to make note of while running the application:
+The kitchensink quickstart is built using Vanilla JSF for it's front end.  With this kitchensink-rf quickstart, we build
+on top of the JSF user interface, augmenting it with RichFaces JSF components and capabilities.  Some key points to
+make note of while running the application:
 
 *   Ajax push: This application makes use of ajax push.  When a member is created in one browser, the member list is
     updated in **all** open browsers.
@@ -27,8 +29,12 @@ Some key points to make note of while running the application:
 *   Ajax: All page updates are made with an ajax call, increasing the page responsiveness, and leading to a more native
     **feeling** application.
 
+*   Client-side validation: By simply nesting a <rich:validator /> tag in the input elements, we wire them with
+    RichFaces client-side validation capabilities.  The inputs are validated locally using javascript, without requiring
+    a round-trip to the server.
+
 *   Popups: Click the view link next to a member in the member list to view a popup with the member details.  To close
-    the popup, click the "X" in the top right-hadn corner, or clck anywhere on the background mask.
+    the popup, click the "X" in the top right-hand corner, or click anywhere on the background mask.
 
 *   Mobile support: view the application form a webkit powered browser on a mobile device to try out the mobile version
     of the application.  Alternatively, view the mobile version on your desktop by navigating to the url:
