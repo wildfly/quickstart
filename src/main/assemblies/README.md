@@ -3,7 +3,7 @@ JBoss Data Grid Quickstarts
 
 These are the quickstarts for JBoss Data Grid.
 
-This distribution containes the following examples:
+This distribution contains the following examples:
 
 * `hotrod-endpoint` - simple example using HotRod client to connect to JDG server
 * `memcached-endpoint` - simple example using Memcached client to connect to JDG server
