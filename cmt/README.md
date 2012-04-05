@@ -56,6 +56,8 @@ Configure the application server to use PostgreSQL
 
 You must configure the application server to use PostgreSQL as per the instructions in [PostgreSQL] (../README.html/#postgresql).
 
+_Note_: For the purpose of this quickstart, replace the word QUICKSTART_DATABASENAME with cmt-quickstart-database in the PostgreSQL instructions.
+
 
 Start JBoss Enterprise Application Platform 6 or JBoss AS 7 with the Full Profile
 ---------------

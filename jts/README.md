@@ -81,6 +81,8 @@ The application servers should both be configured as follows:
 
 4. Application server 1 must be configured to use PostgreSQL as per the instructions in [PostgreSQL] (../README.html/#postgresql).
 
+_Note_: For the purpose of this quickstart, replace the word QUICKSTART_DATABASENAME with jts-quickstart-database in the PostgreSQL instructions.
+
 _IMPORTANT_: After you have finished with the quickstart, if you no longer wish to use JTS, it is important to restore your backup from step 1 above.
 
 
