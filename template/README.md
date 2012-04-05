@@ -50,7 +50,7 @@ Here are some examples:
 
  * This quickstart requires the PostgreSQL database. Instructions to install an configure PostgreSQL can be found here: [Install and Configure the PostgreSQL Database](../README.html/#postgresql)
 
- * This quickstart uses Byteman to help demonstrate crash recovery. Instructions to install and configure Bytemand can be found here: [Install and Configure Byteman](../README.html#byteman)
+ * This quickstart uses Byteman to help demonstrate crash recovery. Instructions to install and configure Byteman can be found here: [Install and Configure Byteman](../README.html#byteman)
 
 If your quickstart requires any other components, you must describe how to configure them here.
 
@@ -78,23 +78,12 @@ If the quickstart is built and deployed using the standard Maven commands, "mvn 
 
 _NOTE: The following build command assumes you have configured your Maven user settings. If you have not, you must include Maven setting arguments on the command line. See [Build and Deploy the Quickstarts](../README.html/#buildanddeploy) for complete instructions and additional options._
 
-
-#### Build and Deploy the Archive
-
 1. Make sure you have started the JBoss Server as described above.
 2. Open a command line and navigate to the root directory of this quickstart.
 3. Type this command to build and deploy the archive:
 
-            mvn clean package jboss-as:deploy
+        mvn clean package jboss-as:deploy
 4. This will deploy `target/jboss-as-QUICKSTART_NAME.war` (or `target/jboss-as-QUICKSTART_NAME.ear`) to the running instance of the server.
-
-#### Undeploy the Archive
-
-1. Make sure you have started the JBoss Server as described above.
-2. Open a command line and navigate to the root directory of this quickstart.
-3. Type this command to undeploy the archive:
-
-            mvn jboss-as:undeploy
  
 Be sure to replace the QUICKSTART_NAME. If this quickstart requires different or additional instructions, be sure to modify or add those instructions here.
 
@@ -121,6 +110,16 @@ Briefly describe what you will see when you access the application. For example:
 Add any information that will help them run and understand your quickstart.
 
 
+Undeploy the Archive
+--------------------
+
+1. Make sure you have started the JBoss Server as described above.
+2. Open a command line and navigate to the root directory of this quickstart.
+3. When you are finished testing, type this command to undeploy the archive:
+
+        mvn jboss-as:undeploy
+
+
 Run the Arquillian Tests (For quickstarts that contain Arquillian tests)
 -------------------------
 
@@ -132,7 +131,7 @@ _NOTE: The following commands assume you have configured your Maven user setting
 2. Open a command line and navigate to the root directory of this quickstart.
 3. Type the following command to run the test goal with the following profile activated:
 
-                  mvn clean test -Parq-jbossas-remote 
+        mvn clean test -Parq-jbossas-remote 
 
 The quickstart README should show what to expect from the the tests
 
@@ -151,8 +150,8 @@ Debug the Application
 
 If you want to debug the source code or look at the Javadocs of any library in the project, run either of the following commands to pull them into your local repository. The IDE should then detect them.
 
-      mvn dependency:sources
-      mvn dependency:resolve -Dclassifier=javadoc
+    mvn dependency:sources
+    mvn dependency:resolve -Dclassifier=javadoc
 
 
 Build and Deploy the Quickstart - to OpenShift

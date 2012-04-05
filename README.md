@@ -104,18 +104,18 @@ System Requirements
 To run these quickstarts with the provided build scripts, you need the following:
 
 1. Java 1.6, to run JBoss AS and Maven. You can choose from the following:
-     * OpenJDK
-     * Oracle Java SE
-     * Oracle JRockit
+    * OpenJDK
+    * Oracle Java SE
+    * Oracle JRockit
 
 2. Maven 3.0.0 or newer, to build and deploy the examples
-     * If you have not yet installed Maven, see the [Maven Getting Started Guide](http://maven.apache.org/guides/getting-started/index.html) for details.
-     * If you have installed Maven, you can check the version by typing the following in a command line:
+    * If you have not yet installed Maven, see the [Maven Getting Started Guide](http://maven.apache.org/guides/getting-started/index.html) for details.
+    * If you have installed Maven, you can check the version by typing the following in a command line:
 
             mvn --version 
 
 3. The JBoss Enterprise Application Platform 6 distribution ZIP or the JBoss AS 7 distribution ZIP.
-     * For information on how to install and run JBoss, refer to the product documentation.
+    * For information on how to install and run JBoss, refer to the product documentation.
 
 4. You can also use [JBoss Developer Studio or Eclipse](#useeclipse) to run the quickstarts. 
 
@@ -177,8 +177,8 @@ The README for each quickstart will specify which configuration is required to r
 1. Open a command line and navigate to the root of the JBoss server directory.
 2. The following shows the command line to start the server with the web profile:
 
-         For Linux:   JBOSS_HOME/bin/standalone.sh
-         For Windows: JBOSS_HOME\bin\standalone.bat
+        For Linux:   JBOSS_HOME/bin/standalone.sh
+        For Windows: JBOSS_HOME\bin\standalone.bat
 
 <a id="startserverfull"></a>
 #### Start JBoss Enterprise Application Platform 6 or JBoss AS 7 with the Full Profile
@@ -195,8 +195,8 @@ The README for each quickstart will specify which configuration is required to r
 1. Open a command line and navigate to the root of the JBoss server directory.
 2. The following shows the command line to start the server. Replace the CUSTOM_OPTIONS with the custom optional parameters specified in the quickstart.
 
-            For Linux:   JBOSS_HOME/bin/standalone.sh CUSTOM_OPTIONS
-            For Windows: JBOSS_HOME\bin\standalone.bat CUSTOM_OPTIONS
+        For Linux:   JBOSS_HOME/bin/standalone.sh CUSTOM_OPTIONS
+        For Windows: JBOSS_HOME\bin\standalone.bat CUSTOM_OPTIONS
            
 <a id="buildanddeploy"></a>
 ### Build and Deploy the Quickstarts 
@@ -241,7 +241,7 @@ In some cases, you may want to build the application to test for compile errors 
 
 The command to undeploy the quickstart is simply: 
 
-            mvn jboss-as:undeploy
+        mvn jboss-as:undeploy
  
 
 <a id="arquilliantests"></a>
@@ -250,7 +250,7 @@ The command to undeploy the quickstart is simply:
 
 Some of the quickstarts provide Arquillian tests. By default, these tests are configured to be skipped, as Arquillian tests require the use of a container. 
 
-You can run these tests using either a remote or managed container.
+You can run these tests using either a remote or managed container. The quickstart README should tell you what you should expect to see in the console output and server log when you run the test.
 
 <a id="testremote"/>
 
@@ -260,38 +260,36 @@ You can run these tests using either a remote or managed container.
 
         For JBoss Enterprise Application Platform 6 (Maven user settings NOT configured): 
 
-                  mvn clean test -Parq-jbossas-remote -s PATH_TO_QUICKSTARTS/example-settings.xml
+            mvn clean test -Parq-jbossas-remote -s PATH_TO_QUICKSTARTS/example-settings.xml
 
         For JBoss AS 7 or JBoss Enterprise Application Platform 6 (Maven user settings configured): 
 
-                  mvn clean test -Parq-jbossas-remote 
+            mvn clean test -Parq-jbossas-remote 
 <a id="testmanaged"/>
 
 2. Test the quickstart on Managed Server
-    * This test requires that your server is not running. Arquillian will start the container for you, however, you must first let it know where to find the remote JBoss container.
-          * Open the test/resources/arquillian.xml file located in the quickstart directory. 
-          * Find the configuration for the remote JBoss container. It should look like this:
 
-                <container qualifier="jboss" default="true">
-                      <!-- If you want to use the JBOSS_HOME environment variable, just delete the jbossHome property -->
-                      <configuration>
-                            <property name="jbossHome">/path/to/jboss/as</property>
-                      </configuration>
-                </container>
+    _Note: This test requires that your server is not running. Arquillian will start the container for you, however, you must first let it know where to find the remote JBoss container._
+    * Open the test/resources/arquillian.xml file located in the quickstart directory. 
+    * Find the configuration for the remote JBoss container. It should look like this:
 
-          * Find the "jbossHome" property and replace the "/path/to/jboss/as" value with the actual path to your JBoss Enterprise Application Platform 6 or JBoss AS 7 server.
+            <container qualifier="jboss" default="true">
+                <!-- If you want to use the JBOSS_HOME environment variable, just delete the jbossHome property -->
+                <configuration>
+                    <property name="jbossHome">/path/to/jboss/as</property>
+                </configuration>
+            </container>
+    * Find the "jbossHome" property and replace the "/path/to/jboss/as" value with the actual path to your JBoss Enterprise Application Platform 6 or JBoss AS 7 server.
+    * Run the test goal with the following profile activated:
 
-          * Run the test goal with the following profile activated:
+        For JBoss Enterprise Application Platform 6 (Maven user settings NOT configured): 
 
-                For JBoss Enterprise Application Platform 6 (Maven user settings NOT configured): 
+            mvn clean test -Parq-jbossas-managed  -s PATH_TO_QUICKSTARTS/example-settings.xml
 
-                    mvn clean test -Parq-jbossas-managed  -s PATH_TO_QUICKSTARTS/example-settings.xml
+        For JBoss AS 7 or JBoss Enterprise Application Platform 6 (Maven user settings configured): 
 
-                For JBoss AS 7 or JBoss Enterprise Application Platform 6 (Maven user settings configured): 
+            mvn clean test -Parq-jbossas-managed
 
-                      mvn clean test -Parq-jbossas-managed
-
-The quickstart README should tell you what you should expect to see in the console output and server log when you run the test.
 
 <a id="useeclipse"/>
 Use JBoss Developer Studio or Eclipse to Run the Quickstarts
@@ -552,6 +550,7 @@ _Byteman_ is used by a few of the quickstarts to demonstrate distributed transac
 
 _Byteman_ is a tool which simplifies tracing and testing of Java programs. Byteman allows you to insert extra Java code into your application, either as it is loaded during JVM startup or after it has already started running. This code can be used to trace what the application is doing and to monitor and debug deployments to be sure it is operating correctly. You can also use _Byteman_ to inject faults or synchronization code when testing your application. A few of the quickstarts use _Byteman_ to halt an application server in the middle of a distributed transaction to demonstrate crash recovery.
 
+<a id="byteman-install/>
 #### Download and Configure Byteman
 
 1. Download Byteman from <http://www.jboss.org/byteman/downloads/>
@@ -562,7 +561,7 @@ _Byteman_ is a tool which simplifies tracing and testing of Java programs. Bytem
         chmod -R o-rwx byteman-download-2.0.0/
 
 <a id="byteman-halt"/>
-#### How to Halt the Application Using Byteman
+#### Halt the Application Using Byteman
 
 When instructed to use Byteman to halt the application, perform the following steps:
  

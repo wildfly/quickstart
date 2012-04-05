@@ -39,8 +39,8 @@ Start JBoss Enterprise Application Platform 6 or JBoss AS 7 with the Web Profile
 1. Open a command line and navigate to the root of the JBoss server directory.
 2. The following shows the command line to start the server with the web profile:
 
-         For Linux:   JBOSS_HOME/bin/standalone.sh
-         For Windows: JBOSS_HOME\bin\standalone.bat
+        For Linux:   JBOSS_HOME/bin/standalone.sh
+        For Windows: JBOSS_HOME\bin\standalone.bat
 
 
 Build and Deploy the Quickstart
@@ -53,7 +53,7 @@ Since this quickstart builds two separate components, you can not use the standa
 3. Build and install the server side component:
     * Navigate to the server-side subdirectory:
 
-          cd server-side
+        cd server-side
     * Build the EJB and client interfaces JARs and install them in your local Maven repository.
 
         For JBoss Enterprise Application Platform 6 (Maven user settings NOT configured): 
@@ -166,5 +166,5 @@ Debug the Application
 
 If you want to debug the source code or look at the Javadocs of any library in the project, run either of the following commands to pull them into your local repository. The IDE should then detect them.
 
-      mvn dependency:sources
-      mvn dependency:resolve -Dclassifier=javadoc
+        mvn dependency:sources
+        mvn dependency:resolve -Dclassifier=javadoc

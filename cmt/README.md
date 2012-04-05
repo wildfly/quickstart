@@ -54,7 +54,7 @@ If you have not yet done so, you must [Configure Maven](../README.html/#mavencon
 Configure the application server to use PostgreSQL
 --------------------------------------------------
 
-You must configure the application server to use PostgreSQL as per the instructions in [PostgreSQL] (../README.html/#postgresql).
+This quickstart requires the PostgreSQL database. Instructions to install an configure PostgreSQL can be found here: [Install and Configure the PostgreSQL Database](../README.html/#postgresql)
 
 _Note_: For the purpose of this quickstart, replace the word QUICKSTART_DATABASENAME with cmt-quickstart-database in the PostgreSQL instructions.
 
@@ -92,8 +92,8 @@ The application will be running at the following URL: <http://localhost:8080/jbo
 You will be presented with a simple form for adding customers to a database.
 
 After a user is successfully added to the database, a message is produced containing the details of the user. An example MDB will dequeue this message and print the following contents:
-	
-   Received Message: Created invoice for customer named:  Tom
+
+    Received Message: Created invoice for customer named:  Tom
 
 
 Undeploy the Archive
@@ -101,7 +101,7 @@ Undeploy the Archive
 
 1. Make sure you have started the JBoss Server as described above.
 2. Open a command line and navigate to the root directory of this quickstart.
-3. Type this command to undeploy the archive:
+3. When you are finished testing, type this command to undeploy the archive:
 
         mvn jboss-as:undeploy
 
@@ -109,3 +109,12 @@ Undeploy the Archive
 Run the Quickstart in JBoss Developer Studio or Eclipse
 -------------------------------------
 You can also start the server and deploy the quickstarts from Eclipse using JBoss tools. For more information, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](../README.html/#useeclipse) 
+
+
+Debug the Application
+------------------------------------
+
+If you want to debug the source code or look at the Javadocs of any library in the project, run either of the following commands to pull them into your local repository. The IDE should then detect them.
+
+        mvn dependency:sources
+        mvn dependency:resolve -Dclassifier=javadoc

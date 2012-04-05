@@ -39,8 +39,8 @@ Start JBoss Enterprise Application Platform 6 or JBoss AS 7 with the Web Profile
 1. Open a command line and navigate to the root of the JBoss server directory.
 2. The following shows the command line to start the server with the web profile:
 
-         For Linux:   JBOSS_HOME/bin/standalone.sh
-         For Windows: JBOSS_HOME\bin\standalone.bat
+        For Linux:   JBOSS_HOME/bin/standalone.sh
+        For Windows: JBOSS_HOME\bin\standalone.bat
 
 
 Build and Deploy the Quickstart
@@ -48,30 +48,29 @@ Build and Deploy the Quickstart
 
 _NOTE: The following build command assumes you have configured your Maven user settings. If you have not, you must include Maven setting arguments on the command line. See [Build and Deploy the Quickstarts](../README.html/#buildanddeploy) for complete instructions and additional options._
 
-
-#### Build and Deploy the Archive
-
 1. Make sure you have started the JBoss Server as described above.
 2. Open a command line and navigate to the root directory of this quickstart.
 3. Type this command to build and deploy the archive:
 
-            mvn clean package jboss-as:deploy
+        mvn clean package jboss-as:deploy
 
 4. This will deploy `target/jboss-as-tasks-jsf.war` to the running instance of the server.
 
-#### Undeploy the Archive
-
-1. Make sure you have started the JBoss Server as described above.
-2. Open a command line and navigate to the root directory of this quickstart.
-3. Type this command to undeploy the archive:
-
-            mvn jboss-as:undeploy
- 
 
 Access the application 
 ---------------------
 
 The application will be running at the following URL <http://localhost:8080/jboss-as-tasks-jsf>.
+
+
+Undeploy the Archive
+--------------------
+
+1. Make sure you have started the JBoss Server as described above.
+2. Open a command line and navigate to the root directory of this quickstart.
+3. When you are finished testing, type this command to undeploy the archive:
+
+        mvn jboss-as:undeploy
 
 
 Run the Arquillian Tests 
@@ -85,7 +84,7 @@ _NOTE: The following commands assume you have configured your Maven user setting
 2. Open a command line and navigate to the root directory of this quickstart.
 3. Type the following command to run the test goal with the following profile activated:
 
-                  mvn clean test -Parq-jbossas-remote 
+        mvn clean test -Parq-jbossas-remote 
 
 
 Run the Quickstart in JBoss Developer Studio or Eclipse
@@ -98,5 +97,5 @@ Debug the Application
 
 If you want to debug the source code or look at the Javadocs of any library in the project, run either of the following commands to pull them into your local repository. The IDE should then detect them.
 
-    mvn dependency:sources
-    mvn dependency:resolve -Dclassifier=javadoc
+        mvn dependency:sources
+        mvn dependency:resolve -Dclassifier=javadoc

@@ -35,10 +35,10 @@ Configure Maven
 If you have not yet done so, you must [Configure Maven](../README.html/#mavenconfiguration) before testing the quickstarts.
 
 
-Install and Configure Byteman
+Download and Configure Byteman
 ------------------------
 
-This quickstart uses Byteman to help demonstrate crash recovery. Instructions to install and configure Byteman can be found here: [Install and Configure Byteman](../README.html#byteman)
+This quickstart uses Byteman to help demonstrate crash recovery. Instructions to install and configure Byteman can be found here: [Install and Configure Byteman](../README.html#byteman). 
 
 
 
@@ -111,55 +111,53 @@ Test the application
 2. When you add a new "key" / "value" pair, the change is committed to the database and a JMS message sent. The message consumer then updates the newly inserted row by appending the text *"updated via JMS"* to the value. Since the consumer updates the row asynchronously, you may need to cick _Refresh Table_ to see the text added to the "key" / "value" pair you previously entered.
 
 3. When an _XA transaction_ is committed, the application server completes the transaction in two phases.
-   * In phase 1 each of the resources, in this example the database and the JMS message producer, are asked to prepare to commit any changes made during the transaction. 
-   * If all resources vote to commit then the application server starts phase 2 in which it tells each resource to commit those changes. 
-   * The added complexity is to cope with failures, especially failures that occur during phase 2. Some failure modes require cooperation between the application server and the resources in order to guarantee that any pending changes are recovered. 
+    * In phase 1 each of the resources, in this example the database and the JMS message producer, are asked to prepare to commit any changes made during the transaction. 
+    * If all resources vote to commit then the application server starts phase 2 in which it tells each resource to commit those changes. 
+    * The added complexity is to cope with failures, especially failures that occur during phase 2. Some failure modes require cooperation between the application server and the resources in order to guarantee that any pending changes are recovered. 
 
 4. To demonstrate XA recovery, you need to enable the Byteman tool to terminate the application server while _phase 2_ is running as follows:
-   * Add a *key/value* pair as instructed in the application.
-   * Stop the JBoss server.
-   * [Clear any transaction objectstore data](#clear-transaction-objectstore) remaining from previous tests.
-   * [Install and Configure Byteman](../README.html#byteman).
-   * [Start the JBoss server](#startserver) as instructed above.
+    * Add a *key/value* pair as instructed in the application.
+    * Stop the JBoss server.
+    * [Clear any transaction objectstore data](#clear-transaction-objectstore) remaining from previous tests.
+    * Follow the instructions to [halt the application using Byteman](../README.html#byteman-halt). The following text will be appended to the server configuration file:
+
+            For Linux: JAVA_OPTS="-javaagent:/PATH_TO_BYTEMAN_DOWNLOAD/lib/byteman.jar=script:/PATH_TO_QUICKSTARTS/jta-crash-rec/src/main/scripts/xa.btm ${JAVA_OPTS}"
+            For Windows: JAVA_OPTS=%JAVA_OPTS% -javaagent:C:PATH_TO_BYTEMAN_DOWNLOAD\lib\byteman.jar=script:C:\PATH_TO_QUICKSTARTS\jta-crash-rec\src\main\scripts\xa.btm %JAVA_OPTS%
+    * [Start the JBoss server](#startserver) as instructed above.
 
 5. Once you complete step 4, you are ready to create a _recovery record_. Go to the application URL <http://localhost:8080/jboss-as-jta-crash-rec/XA> and insert another row into the database. At this point, Byteman halts the application server. 
 
 6. If you want to verify the database insert was committed but that message delivery is still pending, you can use an SQL client such as the H2 database console tool. Issue a query to show that the value is present but does not contain the message added by the consumer (*" updated via JMS"*). Here is how you can do it using H2:
-
-       * Start the H2 console by typing:
+    * Start the H2 console by typing:
 
             java -jar $JBOSS_HOME/modules/com/h2database/h2/main/h2*.jar
-       * Log in:
+    * Log in:
        
             Database URL: jdbc:h2:mem:jta-crash-rec-quickstart
             User name:    sa
             Password:     sa
-       * The console is available at the url <http://localhost:8082>. If you receive an error such as `Exception opening port "8082"` it is most likely because some other application has that port open. You will need to find which application is using the port and close it.
-   * Once you are logged in enter the following query to see that the pair you entered is present but does not contain *"updated via JMS"*.
+    * The console is available at the url <http://localhost:8082>. If you receive an error such as `Exception opening port "8082"` it is most likely because some other application has that port open. You will need to find which application is using the port and close it.
+    * Once you are logged in enter the following query to see that the pair you entered is present but does not contain *"updated via JMS"*.
 
             select * from kvpair
+    * If you are using the default file based transaction logging store, there will be a record in the file system corresponding to the pending transaction. 
 
-   * If you are using the default file based transaction logging store, there will be a record in the file system corresponding to the pending transaction. 
-
-       * Open a command line and navigate to the `$JBOSS_HOME` directory
-       * List the contents of the following directory:
+        * Open a command line and navigate to the `$JBOSS_HOME` directory
+        * List the contents of the following directory:
 
                 ls $JBOSS_HOME/standalone/data/tx-object-store/ShadowNoFileLockStore/defaultStore/StateManager/BasicAction/TwoPhaseCoordinator/AtomicAction/
-
-       * An example of a logging record file name is: 
+        * An example of a logging record file name is: 
  
                 0_ffff7f000001_-7f1cf331_4f0b0ad4_15
-
-       * After recovery, log records are normally deleted automatically. However, logs may remain in the case where the Transaction Manager (TM) commit request was received and acted upon by a resource, but the TM crashed before it had time to clean up the logs of that resource.
-    
+        * After recovery, log records are normally deleted automatically. However, logs may remain in the case where the Transaction Manager (TM) commit request was received and acted upon by a resource, but the TM crashed before it had time to clean up the logs of that resource.    
 7. To observe XA recovery
-   * [Disable the Byteman script](../README.html#byteman-disable).
-   * [Start the JBoss server](#startserver) as instructed above.
-   * Load the web interface to the application 
-   * By the time the JBoss server is ready, the transaction should have recovered.
-   * A message is printed on the JBoss server console when the consumer has completed the update. Look for a line that reads 'JTA Crash Record Quickstart: key value pair updated via JMS'.
-   * Check that the row you inserted in step 4 now contains the text *"updated via JMS"*, showing that the JMS message was recovered successfully. Use the application URL to perform this check.
-   * You will most likely see the following message on the console. 
+    * [Disable the Byteman script](../README.html#byteman-disable) by restoring the backup server configuration file.
+    * [Start the JBoss server](#startserver) as instructed above.
+    * Load the web interface to the application 
+    * By the time the JBoss server is ready, the transaction should have recovered.
+    * A message is printed on the JBoss server console when the consumer has completed the update. Look for a line that reads 'JTA Crash Record Quickstart: key value pair updated via JMS'.
+    * Check that the row you inserted in step 4 now contains the text *"updated via JMS"*, showing that the JMS message was recovered successfully. Use the application URL to perform this check.
+    * You will most likely see the following message on the console. 
 
             ARJUNA016038: No XAResource to recover ... eis_name=...JTACrashRecQuickstartDS during recovery
 
@@ -175,7 +173,7 @@ Debug the Application
 
 If you want to debug the source code or look at the Javadocs of any library in the project, run either of the following commands to pull them into your local repository. The IDE should then detect them.
 
-      mvn dependency:sources
-      mvn dependency:resolve -Dclassifier=javadoc
+        mvn dependency:sources
+        mvn dependency:resolve -Dclassifier=javadoc
 
 

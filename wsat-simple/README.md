@@ -56,15 +56,14 @@ Start JBoss Enterprise Application Platform 6 or JBoss AS 7 with the Custom Opti
 First, edit the log level to reduce the amount of log output. This should make it easier to read the logs produced by this example. To do this add the
 following logger block to the ./docs/examples/configs/standalone-xts.xml of your JBoss distribution. You should add it just bellow one of the other logger blocks.
 
-            <logger category="org.apache.cxf.service.factory.ReflectionServiceFactoryBean">
-                <level name="WARN"/>
-            </logger>         
+        <logger category="org.apache.cxf.service.factory.ReflectionServiceFactoryBean">
+            <level name="WARN"/>
+        </logger>         
 
 Next you need to start JBoss Enterprise Application Platform 6 or JBoss AS 7 (7.1.0.CR1 or above), with the XTS sub system enabled. This is enabled through the optional server configuration *standalone-xts.xml*. To do this, run the following commands from the top-level directory of JBossAS:
 
-    For Linux:     ./bin/standalone.sh --server-config=../../docs/examples/configs/standalone-xts.xml
-
-    For Windows:   \bin\standalone.bat --server-config=..\..\docs\examples\configs\standalone-xts.xml
+        For Linux:     ./bin/standalone.sh --server-config=../../docs/examples/configs/standalone-xts.xml
+        For Windows:   \bin\standalone.bat --server-config=..\..\docs\examples\configs\standalone-xts.xml
 
 
 Run the Arquillian Tests 
@@ -128,8 +127,8 @@ Debug the Application
 
 If you want to debug the source code or look at the Javadocs of any library in the project, run either of the following commands to pull them into your local repository. The IDE should then detect them.
 
-      mvn dependency:sources
-      mvn dependency:resolve -Dclassifier=javadoc
+        mvn dependency:sources
+        mvn dependency:resolve -Dclassifier=javadoc
 
 
 Build and Deploy the Quickstart - to OpenShift
@@ -145,7 +144,7 @@ Note that we use the `jboss-as-quickstart@jboss.org` user for these examples. Yo
 
 Open up a shell and from the directory of your choice run the following command to create our wsatsimple application.
 
-    rhc-create-app -a wsatsimple -t jbossas-7
+        rhc-create-app -a wsatsimple -t jbossas-7
 
 You should see some output which will show the application being deployed and also the URL at which it can be accessed. If creation is successful, you should see similar output:
 
@@ -162,57 +161,57 @@ You should see some output which will show the application being deployed and al
 
 Now that you have confirmed it is working you can now migrate the quickstart source. You no longer need the default application so change directory into the new git repo and tell git to remove the source files and pom:
 
-    cd wsatsimple
-    git rm -r src pom.xml
+        cd wsatsimple
+        git rm -r src pom.xml
 
 Copy the source for the wsat-simple quickstart into this new git repo:
 
-    cp -r <quickstarts>/wsat-simple/src .
-    cp <quickstarts>/wsat-simple/pom.xml .
+        cp -r <quickstarts>/wsat-simple/src .
+        cp <quickstarts>/wsat-simple/pom.xml .
 
 Openshift does not have Web services or WS-AT enabled by default, so we need to modify the server configuration. To do this open `.openshift/config/standalone.xml` in your
 favorite editor and make the following additions:
 
 Add the following extensions to the `<extensions>` block:
 
-            <extension module="org.jboss.as.webservices"/>
-            <extension module="org.jboss.as.xts"/>
+        <extension module="org.jboss.as.webservices"/>
+        <extension module="org.jboss.as.xts"/>
 
 Add the following sub systems to the `<profile>` block:
 
-            <subsystem xmlns="urn:jboss:domain:jmx:1.1">
-                <show-model value="true"/>
-                <remoting-connector/>
-            </subsystem>
-            <subsystem xmlns="urn:jboss:domain:webservices:1.1">
-                <modify-wsdl-address>true</modify-wsdl-address>
-                <wsdl-host>${env.OPENSHIFT_APP_DNS}</wsdl-host>
-                <wsdl-port>80</wsdl-port>
-                <endpoint-config name="Standard-Endpoint-Config"/>
-                <endpoint-config name="Recording-Endpoint-Config">
-                    <pre-handler-chain name="recording-handlers" protocol-bindings="##SOAP11_HTTP ##SOAP11_HTTP_MTOM ##SOAP12_HTTP ##SOAP12_HTTP_MTOM">
-                        <handler name="RecordingHandler" class="org.jboss.ws.common.invocation.RecordingServerHandler"/>
-                    </pre-handler-chain>
-                </endpoint-config>
-            </subsystem>
-            <subsystem xmlns="urn:jboss:domain:xts:1.0">
-                <xts-environment url="http://${OPENSHIFT_INTERNAL_IP}:8080/ws-c11/ActivationService"/>
-            </subsystem>
+        <subsystem xmlns="urn:jboss:domain:jmx:1.1">
+            <show-model value="true"/>
+            <remoting-connector/>
+        </subsystem>
+        <subsystem xmlns="urn:jboss:domain:webservices:1.1">
+            <modify-wsdl-address>true</modify-wsdl-address>
+            <wsdl-host>${env.OPENSHIFT_APP_DNS}</wsdl-host>
+            <wsdl-port>80</wsdl-port>
+            <endpoint-config name="Standard-Endpoint-Config"/>
+            <endpoint-config name="Recording-Endpoint-Config">
+                <pre-handler-chain name="recording-handlers" protocol-bindings="##SOAP11_HTTP ##SOAP11_HTTP_MTOM ##SOAP12_HTTP ##SOAP12_HTTP_MTOM">
+                    <handler name="RecordingHandler" class="org.jboss.ws.common.invocation.RecordingServerHandler"/>
+                </pre-handler-chain>
+            </endpoint-config>
+        </subsystem>
+        <subsystem xmlns="urn:jboss:domain:xts:1.0">
+            <xts-environment url="http://${OPENSHIFT_INTERNAL_IP}:8080/ws-c11/ActivationService"/>
+        </subsystem>
     
 to reduce the amount of logging produced, also edit a log level. This should make it easier to read the logging produced by this example. To do this add the
 following logger block just bellow one of the other logger blocks. To be clear, this is only done to make the demo easier to follow.
 
-                    <logger category="org.apache.cxf.service.factory.ReflectionServiceFactoryBean">
-                        <level name="WARN"/>
-                    </logger>
+        <logger category="org.apache.cxf.service.factory.ReflectionServiceFactoryBean">
+            <level name="WARN"/>
+        </logger>
 
 The `.openshift/config/standalone.xml` is now ready, so save it and exit your editor.
 
 You can now deploy the changes to your OpenShift application using git as follows:
 
-    git add src pom.xml .openshift/config/standalone.xml
-    git commit -m "wsat-simple quickstart on OpenShift"
-    git push
+        git add src pom.xml .openshift/config/standalone.xml
+        git commit -m "wsat-simple quickstart on OpenShift"
+        git push
 
 OpenShift will build the application using Maven, and deploy it to JBoss AS 7. If successful, you should see output similar to:
 
@@ -237,7 +236,7 @@ Note that the `openshift` profile in `pom.xml` is activated by OpenShift, and ca
 
 Now we will start to tail the log files of the server. To do this run the following command, remembering to replace the application name and login id.
 
-    rhc-tail-files -a wsatsimple -f wsatsimple/logs/server.log
+        rhc-tail-files -a wsatsimple -f wsatsimple/logs/server.log
 
 Once the app is deployed open up a browser and run the application, the URL will be similar as follows but with your own
 domain name.

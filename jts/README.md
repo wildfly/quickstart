@@ -55,6 +55,12 @@ Configure Maven
 If you have not yet done so, you must [Configure Maven](../README.html/#mavenconfiguration) before testing the quickstarts.
 
 
+Prerequisites
+------------------
+
+This quickstart requires the configuration of two servers. The first server must be configured to use the PostgreSQL database. Instructions to install and configure PostgreSQL for will be provided when you configure the JBoss servers.
+
+
 Configure the JBoss servers
 ---------------------------
 
@@ -91,13 +97,14 @@ Start the JBoss Enterprise Application Platform 6 or JBoss AS 7 Servers
 
 If you are using Linux:
 
-    Server 1: JBOSS_HOME_SERVER_1/bin/standalone.sh -c standalone-full.xml
-    Server 2: JBOSS_HOME_SERVER_2/bin/standalone.sh -c standalone-full.xml -Djboss.socket.binding.port-offset=100
+        Server 1: JBOSS_HOME_SERVER_1/bin/standalone.sh -c standalone-full.xml
+        Server 2: JBOSS_HOME_SERVER_2/bin/standalone.sh -c standalone-full.xml -Djboss.socket.binding.port-offset=100
 
-If you are using windows
+If you are using Windows
 
-    Server 1: JBOSS_HOME_SERVER_1\bin\standalone.bat -c standalone-full.xml
-    Server 2: JBOSS_HOME_SERVER_2\bin\standalone.bat -c standalone-full.xml -Djboss.socket.binding.port-offset=100
+        Server 1: JBOSS_HOME_SERVER_1\bin\standalone.bat -c standalone-full.xml
+        Server 2: JBOSS_HOME_SERVER_2\bin\standalone.bat -c standalone-full.xml -Djboss.socket.binding.port-offset=100
+
 
 Build and Deploy the Quickstart
 -------------------------
@@ -109,7 +116,7 @@ Since this quickstart builds two separate components, you can not use the standa
 2. Open a command line and navigate to the root directory of this quickstart.
 3. Type this command to build and deploy the archive:
 
-            mvn clean package jboss-as:deploy
+        mvn clean package jboss-as:deploy
 
 4. This will deploy `application-component-1/target/jboss-as-jts-application-component-1.war` and `application-component-2/target/jboss-as-jts-application-component-2.jar` to the running instance of the server.
 
@@ -138,7 +145,8 @@ Undeploy the Archive
 
 1. Make sure you have started the JBoss Server as described above.
 2. Open a command line and navigate to the root directory of this quickstart.
-3. Type this command to undeploy the archive:
+3. When you are finished testing, type this command to undeploy the archive:
 
-            mvn jboss-as:undeploy
+        mvn jboss-as:undeploy
+
 

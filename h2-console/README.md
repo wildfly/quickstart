@@ -60,7 +60,7 @@ Investigate the H2 Console
 
 Take a look at the data added by the `greeter` application. Run the following SQL command:
 
-    select * from users;
+        select * from users;
 
 You should see the two users seeded by the `greeter` quickstart, plus any users you added when testing that application.
 

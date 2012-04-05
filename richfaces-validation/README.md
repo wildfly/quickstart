@@ -49,8 +49,8 @@ Start JBoss Enterprise Application Platform 6 or JBoss AS 7 with the Web Profile
 1. Open a command line and navigate to the root of the JBoss server directory.
 2. The following shows the command line to start the server with the web profile:
 
-         For Linux:   JBOSS_HOME/bin/standalone.sh
-         For Windows: JBOSS_HOME\bin\standalone.bat
+        For Linux:   JBOSS_HOME/bin/standalone.sh
+        For Windows: JBOSS_HOME\bin\standalone.bat
 
  
 Build and Deploy the Quickstart
@@ -58,25 +58,14 @@ Build and Deploy the Quickstart
 
 _NOTE: The following build command assumes you have configured your Maven user settings. If you have not, you must include Maven setting arguments on the command line. See [Build and Deploy the Quickstarts](../README.html/#buildanddeploy) for complete instructions and additional options._
 
-
-#### Build and Deploy the Archive
-
 1. Make sure you have started the JBoss Server as described above.
 2. Open a command line and navigate to the root directory of this quickstart.
 3. Type this command to build and deploy the archive:
 
-            mvn clean package jboss-as:deploy
+        mvn clean package jboss-as:deploy
 
 4. This will deploy `target/jboss-as-richfaces-validation.war` to the running instance of the server.
 
-#### Undeploy the Archive
-
-1. Make sure you have started the JBoss Server as described above.
-2. Open a command line and navigate to the root directory of this quickstart.
-3. Type this command to undeploy the archive:
-
-            mvn jboss-as:undeploy
- 
 
 Access the application 
 ---------------------
@@ -89,6 +78,17 @@ You will be provided with form to enter member information.
 * On the next page, you must enter a Name and Phone number. A valid name must be between 1 and 25 characters in length. A valid phone number must be between 10 and 12 digits in length.
 * Click *Confirm* to register the member.
 
+
+Undeploy the Archive
+--------------------
+
+1. Make sure you have started the JBoss Server as described above.
+2. Open a command line and navigate to the root directory of this quickstart.
+3. When you are finished testing, type this command to undeploy the archive:
+
+        mvn jboss-as:undeploy
+
+
 Run the Arquillian Tests 
 -------------------------
 
@@ -100,7 +100,7 @@ _NOTE: The following commands assume you have configured your Maven user setting
 2. Open a command line and navigate to the root directory of this quickstart.
 3. Type the following command to run the test goal with the following profile activated:
 
-                  mvn clean test -Parq-jbossas-remote 
+        mvn clean test -Parq-jbossas-remote 
 
 
 Investigate the Console Output
@@ -108,7 +108,7 @@ Investigate the Console Output
 
 When you run the tests, JUnit will present you test report summary:
 
-	Tests run: 5, Failures: 0, Errors: 0, Skipped: 0
+    Tests run: 5, Failures: 0, Errors: 0, Skipped: 0
 
 If you are interested in more details, check `target/surefire-reports` directory. You can check console output to verify that Arquillian had really used the real application server. Search for lines similar to the following in the server output log:
 
@@ -132,5 +132,5 @@ Debug the Application
 
 If you want to debug the source code or look at the Javadocs of any library in the project, run either of the following commands to pull them into your local repository. The IDE should then detect them.
 
-      mvn dependency:sources
-      mvn dependency:resolve -Dclassifier=javadoc
+        mvn dependency:sources
+        mvn dependency:resolve -Dclassifier=javadoc

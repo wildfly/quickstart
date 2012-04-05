@@ -10,8 +10,7 @@ This quick start demonstrates the use of JBoss Logging Tools to create internati
 
 Once the quick start is deployed you can access it using URLs documented below.
 
-Instructions are included below for starting JBoss AS7/EAP6 with a different locale than the system 
-default.
+Instructions are included below for starting JBoss AS7/EAP6 with a different locale than the system default.
 
 
 System requirements
@@ -46,7 +45,6 @@ To start the JBoss server with a different locale than the system default:
    Refer to <http://java.sun.com/javase/technologies/core/basic/intl/faq.jsp#set-default-locale>
       
 
-
 Start JBoss Enterprise Application Platform 6 or JBoss AS 7 with the Web Profile
 -------------------------
 
@@ -63,8 +61,6 @@ Build and Deploy the Quickstart
 _NOTE: The following build command assumes you have configured your Maven user settings. If you have not, you must include Maven setting arguments on the command line. See [Build and Deploy the Quickstarts](../README.html/#buildanddeploy) for complete instructions and additional options._
 
 
-#### Build and Deploy the Archive
-
 1. Make sure you have started the JBoss Server as described above.
 2. Open a command line and navigate to the root directory of this quickstart.
 3. Type this command to build and deploy the archive:
@@ -73,14 +69,6 @@ _NOTE: The following build command assumes you have configured your Maven user s
 
 4. This will deploy `target/jboss-as-logging-tools.war` to the running instance of the server.
 
-#### Undeploy the Archive
-
-1. Make sure you have started the JBoss Server as described above.
-2. Open a command line and navigate to the root directory of this quickstart.
-3. Type this command to undeploy the archive:
-
-        mvn jboss-as:undeploy
- 
 
 
 Access the application 
@@ -89,8 +77,6 @@ Access the application
 The application will be running at the following URL: <http://localhost:8080/jboss-as-logging-tools>. 
 
 This quickstart also runs at additional URLs, as described below:
-	   
-
 
 ### http://localhost:8080/jboss-as-logging-tools/rest/greetings/`name`
 
@@ -98,8 +84,8 @@ Demonstrates simple use of localised messages (with parameter) and logging.
 
 Example: <http://localhost:8080/jboss-as-logging-tools/rest/greetings/Harold>
 
-* returns a localised "hello `name`" string where `name` is the last component of the URL.
-* logs a localised "Hello message sent"
+* Returns a localised "hello `name`" string where `name` is the last component of the URL.
+* Logs a localised "Hello message sent"
 
 ### http://localhost:8080/jboss-as-logging-tools/rest/greetings/`locale`/`name`
 
@@ -107,10 +93,10 @@ Demonstrates how to obtain a message bundle for a specified locale and how to th
 
 Example: <http://localhost:8080/jboss-as-logging-tools/rest/greetings/fr-FR/Harold>
       
-* returns a localised "hello `name`" string where `name` is the last component of the URL and the locale used is the one supplied in the `locale` URL.
-* logs a localised "Hello message sent in `locale`" message using the JVM locale for the translation
-* if the supplied locale is invalid (in this case if it contains more than 3 components, eg. fr-FR-POSIX-FOO):
-   * throws a WebApplicationException (404) using a localizable sub-class of `WebApplicationException` 
+* Returns a localised "hello `name`" string where `name` is the last component of the URL and the locale used is the one supplied in the `locale` URL.
+* Logs a localised "Hello message sent in `locale`" message using the JVM locale for the translation
+* If the supplied locale is invalid (in this case if it contains more than 3 components, eg. fr-FR-POSIX-FOO):
+    * Throws a WebApplicationException (404) using a localizable sub-class of `WebApplicationException` 
    
       Note that WebApplicationException cannot be directly localised by JBoss Logging Tools using the `@Message` annotation due to the message parameter being ignored by `WebApplicationException`'s constructors. Cases like this can be worked around by creating a sub-class with a constructor that does deal with the message parameter.
    
@@ -120,7 +106,7 @@ Demonstrates throwing a localised exception with another exception specified as 
    
 Example: <http://localhost:8080/jboss-as-logging-tools/rest/greetings/crashme>
    
-* attempts divide by zero, catches exception and throws localised one.
+* Attempts divide by zero, catches exception and throws localised one.
    
 ### http://localhost:8080/jboss-as-logging-tools/rest/dates/daysuntil/`targetdate`
 
@@ -128,14 +114,23 @@ Demonstrates how to pass parameters through to the constructor of a localised ex
 
 Example: <http://localhost:8080/jboss-as-logging-tools/rest/dates/daysuntil/25-12-2012>
    
-* attempts to turn the `targetdate` URL component into a date object using the format `dd-MM-yyyy`
-* returns number of days (as an integer) until that date
-* if the `targetdate` is invalid:
-   * catches the `ParseException`
-   * creates a localised `ParseException` passing values from the caught exception as parameters to it's constructor
-   * logs a localised message with the localised exception as the cause
-   * throws a `WebApplicationException`(400) with the text from the localised `ParseException`
+* Attempts to turn the `targetdate` URL component into a date object using the format `dd-MM-yyyy`
+* Returns number of days (as an integer) until that date
+* If the `targetdate` is invalid:
+    * Catches the `ParseException`
+    * Creates a localised `ParseException` passing values from the caught exception as parameters to it's constructor
+    * Logs a localised message with the localised exception as the cause
+    * Throws a `WebApplicationException`(400) with the text from the localised `ParseException`
 
+
+Undeploy the Archive
+--------------------
+
+1. Make sure you have started the JBoss Server as described above.
+2. Open a command line and navigate to the root directory of this quickstart.
+3. When you are finished testing, type this command to undeploy the archive:
+
+        mvn jboss-as:undeploy
 
 Run the Quickstart in JBoss Developer Studio or Eclipse
 -------------------------------------
@@ -147,8 +142,8 @@ Debug the Application
 
 If you want to debug the source code or look at the Javadocs of any library in the project, run either of the following commands to pull them into your local repository. The IDE should then detect them.
 
-    mvn dependency:sources
-    mvn dependency:resolve -Dclassifier=javadoc
+      mvn dependency:sources
+      mvn dependency:resolve -Dclassifier=javadoc
 
 
 

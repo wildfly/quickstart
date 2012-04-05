@@ -7,6 +7,8 @@ What is it?
 
 This example demonstrates the use of *OSGi* in  *JBoss Enterprise Application Platform 6* or *JBoss AS 7*.
 
+There is a tutorial for this quickstart in the [Getting Started Developing Applications Guide](https://docs.jboss.org/author/display/AS71/Getting+Started+Developing+Applications+Guide "Getting Started Developing Applications Guide").
+
 
 System requirements
 -------------------
@@ -28,8 +30,8 @@ Start JBoss Enterprise Application Platform 6 or JBoss AS 7 with the Web Profile
 1. Open a command line and navigate to the root of the JBoss server directory.
 2. The following shows the command line to start the server with the web profile:
 
-         For Linux:   JBOSS_HOME/bin/standalone.sh
-         For Windows: JBOSS_HOME\bin\standalone.bat
+        For Linux:   JBOSS_HOME/bin/standalone.sh
+        For Windows: JBOSS_HOME\bin\standalone.bat
 
 
 Build and Deploy the Quickstart
@@ -37,24 +39,13 @@ Build and Deploy the Quickstart
 
 _NOTE: The following build command assumes you have configured your Maven user settings. If you have not, you must include Maven setting arguments on the command line. See [Build and Deploy the Quickstarts](../README.html/#buildanddeploy) for complete instructions and additional options._
 
-
-#### Build and Deploy the Archive
-
 1. Make sure you have started the JBoss Server as described above.
 2. Open a command line and navigate to the root directory of this quickstart.
 3. Type this command to build and deploy the archive:
 
-            mvn clean package jboss-as:deploy
+        mvn clean package jboss-as:deploy
 
 4. This will deploy and start the OSGi bundle.
-
-#### Undeploy the Archive
-
-1. Make sure you have started the JBoss Server as described above.
-2. Open a command line and navigate to the root directory of this quickstart.
-3. Type this command to undeploy the archive:
-
-            mvn jboss-as:undeploy
 
 
 Investigate the Server Console Output
@@ -63,6 +54,16 @@ Investigate the Server Console Output
 Look in the JBoss Application Server console or Server log and you should see the following message:
 
     `Hello AS7 World!!`
+
+
+Undeploy the Archive
+--------------------
+
+1. Make sure you have started the JBoss Server as described above.
+2. Open a command line and navigate to the root directory of this quickstart.
+3. When you are finished testing, type this command to undeploy the archive:
+
+        mvn jboss-as:undeploy
 
 
 Run the Quickstart in JBoss Developer Studio or Eclipse
@@ -75,5 +76,5 @@ Debug the Application
 
 If you want to debug the source code or look at the Javadocs of any library in the project, run either of the following commands to pull them into your local repository. The IDE should then detect them.
 
-      mvn dependency:sources
-      mvn dependency:resolve -Dclassifier=javadoc
+        mvn dependency:sources
+        mvn dependency:resolve -Dclassifier=javadoc

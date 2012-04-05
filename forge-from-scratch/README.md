@@ -32,7 +32,7 @@ Open a command line and navigate to the root directory of this quickstart.
 
 Launch Forge by typing the following command:
 
-      forge
+        forge
  
  
 
@@ -41,11 +41,11 @@ Generate, Build, and Deploy the Application
 
 In the Forge console, make sure you are in the directory where this README.md file is located:
 
-     forge> cd QUICKSTART_HOME/forge-from-scratch/
+       forge> cd QUICKSTART_HOME/forge-from-scratch/
 
 Notice that there is a file in this directory named `generate.fsh`. Run this file from Forge using the `run` command:
 
-     forge> run generate.fsh
+        forge> run generate.fsh
 
 This command will prompt you to enter a `project-name`, for example: 'example'
 
@@ -75,8 +75,8 @@ Start JBoss Enterprise Application Platform 6 or JBoss AS 7 with the Web Profile
 1. Open a command line and navigate to the root of the JBoss server directory.
 2. The following shows the command line to start the server with the web profile:
 
-         For Linux:   JBOSS_HOME/bin/standalone.sh
-         For Windows: JBOSS_HOME\bin\standalone.bat
+        For Linux:   JBOSS_HOME/bin/standalone.sh
+        For Windows: JBOSS_HOME\bin\standalone.bat
 
 
 Deploy and test the newly generated application
@@ -86,13 +86,13 @@ Make sure you have started the JBoss server. See the instructions in the previou
 
 To build the application,type the following command:
 
-      forge> build
+        forge> build
 
 To deploy the application, use the `jboss-as-7` Forge plugin. Type the following commands:
 
-      forge> forge install-plugin jboss-as-7
-      forge> as7 setup
-      forge> as7 deploy
+        forge> forge install-plugin jboss-as-7
+        forge> as7 setup
+        forge> as7 deploy
 
 This will deploy `target/YOUR_PROJECT_NAME.war`.
   
@@ -120,7 +120,7 @@ Forge has a rich plugin ecosystem. Want to deploy your application to the Cloud?
 
 To see a full list of avaialable plugins, make sure that you have an active internet connection and type:
 
-     forge> forge find-plugin *
+        forge> forge find-plugin *
 
 
 Run the Quickstart in JBoss Developer Studio or Eclipse
@@ -134,5 +134,5 @@ Debug the Application
 
 If you want to debug the source code or look at the Javadocs of any library in the project, run either of the following commands to pull them into your local repository. The IDE should then detect them.
 
-      mvn dependency:sources
-      mvn dependency:resolve -Dclassifier=javadoc
+        mvn dependency:sources
+        mvn dependency:resolve -Dclassifier=javadoc

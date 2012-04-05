@@ -52,17 +52,17 @@ To run the quickstart from the command line:
 
 2. Open a command line and navigate to the root of the helloworld-jms quickstart directory:
 
-      cd PATH_TO_QUICKSTARTS/helloworld-jms
+        cd PATH_TO_QUICKSTARTS/helloworld-jms
 
 3. Type the following command to compile and execute the quickstart:
 
-       For JBoss Enterprise Application Platform 6 (Maven user settings NOT configured): 
+        For JBoss Enterprise Application Platform 6 (Maven user settings NOT configured): 
 
-           mvn clean compile exec:java -s PATH_TO_QUICKSTARTS/example-settings.xml
+            mvn clean compile exec:java -s PATH_TO_QUICKSTARTS/example-settings.xml
 
-       For JBoss AS 7 or JBoss Enterprise Application Platform 6 (Maven user settings configured): 
+        For JBoss AS 7 or JBoss Enterprise Application Platform 6 (Maven user settings configured): 
 
-           mvn clean compile exec:java
+            mvn clean compile exec:java
 
  
 Investigate the Console Output
@@ -144,7 +144,7 @@ Debug the Application
 
 If you want to debug the source code or look at the Javadocs of any library in the project, run either of the following commands to pull them into your local repository. The IDE should then detect them.
 
-      mvn dependency:sources
-      mvn dependency:resolve -Dclassifier=javadoc
+        mvn dependency:sources
+        mvn dependency:resolve -Dclassifier=javadoc
 
  

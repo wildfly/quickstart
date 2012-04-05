@@ -29,7 +29,7 @@ If you have not yet done so, you must [Configure Maven](../README.html/#mavencon
 Prerequisites
 -----------
 
-This quickstart depends on the deployment of the 'helloworld-rs' quickstart for its test. Before running this quickstart, see the [helloworld-rs README](../hellworld-rs/README.html) file for details on how to deploy it.
+IMPORTANT: This quickstart depends on the deployment of the 'helloworld-rs' quickstart for its test. Before running this quickstart, see the [helloworld-rs README](../hellworld-rs/README.html) file for details on how to deploy it.
 
 You can verify the deployment of the `helloworld-rs` quickstart by accessing the following content:
 
@@ -50,7 +50,7 @@ _NOTE: The following commands assume you have configured your Maven user setting
 3. Open a command line and navigate to the root directory of this quickstart.
 4. Type the following command to run the test goal with the following profile activated:
 
-                  mvn clean test -Parq-jbossas-remote 
+        mvn clean test -Parq-jbossas-remote 
 
 
 Investigate the Console Output
