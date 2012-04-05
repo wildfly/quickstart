@@ -126,6 +126,30 @@
                 </exclusions>
             </dependency>
 
+            <!-- Define dependency version of hibernate-infinispan -->
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-infinispan</artifactId>
+                <version>3.6.8.Final</version>
+                <exclusions>
+                    <!-- Some transitive dependencies of Hibernate 3 are 
+                        available in JBoss AS 7 as modules, so we don't include them in WEB-INF/lib, 
+                        but instead depend on the modules -->
+                    <exclusion>
+                        <groupId>org.infinispan</groupId>
+                        <artifactId>infinispan-core</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.hibernate</groupId>
+                        <artifactId>hibernate-testing</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-api</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
             <!-- Define the version of JBoss' Java EE 6 APIs we want to import. 
                 Any dependencies from org.jboss.spec will have their version defined by this 
                 BOM -->
@@ -224,6 +248,14 @@
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-commons-annotations</artifactId>
         </dependency>
+
+        <!-- Import the hibernate-infinispan, so its included in deployment 
+            unit: NOTE! this scope is "compile", this will make Maven war plugin to include 
+            it in WEB-INF/lib -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-infinispan</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
@@ -260,4 +292,3 @@
     </build>
 
 </project>
-
