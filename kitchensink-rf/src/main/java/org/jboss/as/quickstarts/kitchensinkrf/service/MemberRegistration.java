@@ -26,4 +26,9 @@ public class MemberRegistration {
       em.persist(member);
       memberEventSrc.fire(member);
    }
+
+   public Member findById(Long id) {
+      log.info("Finding member by id " + id);
+      return em.find(Member.class, id);
+   }
 }
