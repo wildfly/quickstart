@@ -59,14 +59,18 @@
                         }
                         backButtonID = options.backButtonID;
                     }catch(e){
-                        alert('Problem with configuration options.')
+                        console.log('Problem with configuration options.');
+                        console.log(e);
+                        alert('Problem with configuration options.');
                     }
                 }
                 try{
                     slidfast.core.hideURLBar();
                     slidfast.core.locationChange();
                 }catch(e){
-                    alert('You must define the page ID and location hash as default parameters. \n Error:' + e)
+                    console.log('You must define the page ID and location hash as default parameters. \n Error:' + e);
+                    console.log(e);
+                    alert('You must define the page ID and location hash as default parameters. \n Error:' + e);
                 }
             },
 
@@ -153,7 +157,9 @@
                         //a4j:jsFunction component...
                         callback(param1, param2);
                         }catch(e){
-                           alert('you must define an a4j:jsFunction component with name=' + callback)
+                           console.log('you must define an a4j:jsFunction component with name=' + callback);
+                           console.log(e);
+                           alert('you must define an a4j:jsFunction component with name=' + callback);
                         }
                     }else{
                         //attempt to slide to a page id if not using a callback
