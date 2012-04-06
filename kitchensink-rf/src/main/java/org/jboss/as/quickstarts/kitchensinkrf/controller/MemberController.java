@@ -54,13 +54,6 @@ public class MemberController {
       this.member = member;
    }
 
-   public void setMemberById(String idString) {
-      if (idString != null && ! "null".equalsIgnoreCase(idString)) {
-          Long id = Long.parseLong(idString);
-          this.member = memberRegistration.findById(id);
-      }
-   }
-
    public void register() throws Exception {
       memberRegistration.register(newMember);
       facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Registered!", "Registration successful"));
