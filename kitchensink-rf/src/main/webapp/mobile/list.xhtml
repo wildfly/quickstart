@@ -11,11 +11,11 @@
       <h:outputScript target="head" name="showMessage.js" library="js"/>
       <rich:dataTable var="_member" value="#{members}" rendered="#{not empty members}" style="width : 100%">
          <rich:column>
-            <a4j:commandLink styleClass="no-decor" render="@form" execute="@this"
-                             oncomplete="location.hash='detail'"> 
-               View 
-               <f:setPropertyActionListener target="#{memberController.member}" value="#{_member}"/>
-            </a4j:commandLink>
+             <a4j:commandLink styleClass="no-decor" render="@form" execute="@this" oncomplete="$('#app-page').data('activePage', 'detail'); location.hash='detail'">
+                 View
+                 <f:setPropertyActionListener target="#{memberController.member}" value="#{_member}"/>
+                 <a4j:param name="page" assignTo="#{pageBean.location}" value="detail" />
+             </a4j:commandLink>
          </rich:column>
          <rich:column>
             <f:facet name="header">Id</f:facet>

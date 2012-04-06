@@ -23,8 +23,18 @@
                 </div>
             </header>
             <h:form id="mobileForm">
-                <a4j:jsFunction name="handleHashChange" data="#{pageBean.location}" render="@form"
-                                oncomplete="slidfast.core.slideTo('app-page')">
+                <h:outputScript target="head">
+                    var handleHashChange = function (page) {
+                        var appPage = $('#app-page');
+                        if (appPage.data('activePage') === page) {
+                            slidfast.core.slideTo('app-page');
+                        } else {
+                            loadPage(page);
+                            appPage.data('activePage', page);
+                        }
+                    }
+                </h:outputScript>
+                <a4j:jsFunction name="loadPage" data="#{pageBean.location}" render="@form" oncomplete="slidfast.core.slideTo('app-page')">
                     <a4j:param name="page" assignTo="#{pageBean.location}"/>
                 </a4j:jsFunction>
 
