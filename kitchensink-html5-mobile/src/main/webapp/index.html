@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <!--
 
     JBoss, Home of Professional Open Source
@@ -16,7 +17,6 @@
     limitations under the License.
 
 -->
-<!DOCTYPE html>
 <html>
 <head>
     <title>AeroGear QuickStart</title>
@@ -103,8 +103,12 @@
                 "scss": function( url, result, key ) {
                     $( document ).ready( function() {
                         //here we are moving content around based on the browser/device.
-                        //Move aside outside of the section tag for desktop only
-                        $( "#info-aside" ).insertAfter( $( "section" ) );
+                        //Wrap features in an aside and then move asides outside of the
+                        //section tag for desktop only
+                        var aside = $( "<aside>" ).insertBefore( $( "aside" ) );
+                        $("#features").appendTo(aside);
+                        aside.prepend("<h3>Features</h3>");
+                        $( "aside" ).insertAfter( $( "section" ) );
                     });
                 }
             },
@@ -171,7 +175,6 @@
         <div class="dualbrand">
             <img src="img/dualbrand_logo.png"/>
         </div>
-        <br style="clear:both"/>
         <section>
             <h1>Welcome to JBoss &amp; AeroGear!</h1>
             <article id="intro-art" data-role="page" data-theme="a">
