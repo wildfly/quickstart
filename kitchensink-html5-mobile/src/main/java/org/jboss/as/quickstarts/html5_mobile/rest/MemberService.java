@@ -23,9 +23,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import javax.ejb.Stateful;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
-import javax.persistence.EntityNotFoundException;
+import javax.persistence.NoResultException;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.ValidationException;
@@ -51,6 +52,7 @@ import org.jboss.as.quickstarts.html5_mobile.service.MemberRegistration;
  */
 @Path("/members")
 @RequestScoped
+@Stateful
 public class MemberService {
     @Inject
     private Logger log;
@@ -174,7 +176,7 @@ public class MemberService {
         Member member = null;
         try {
             member = repository.findByEmail(email);
-        } catch (EntityNotFoundException e) {
+        } catch (NoResultException e) {
             // ignore
         }
         return member != null;

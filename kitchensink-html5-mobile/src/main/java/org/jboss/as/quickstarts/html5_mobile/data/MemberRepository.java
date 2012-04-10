@@ -1,5 +1,6 @@
 package org.jboss.as.quickstarts.html5_mobile.data;
 
+import javax.ejb.Stateless;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
