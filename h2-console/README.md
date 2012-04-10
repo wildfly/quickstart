@@ -21,13 +21,13 @@ The application this project produces is designed to be run on JBoss Enterprise 
 Configure Maven
 ---------------
 
-If you have not yet done so, you must [Configure Maven](../README.html/#mavenconfiguration) before testing the quickstarts.
+If you have not yet done so, you must [Configure Maven](../README.md/#mavenconfiguration) before testing the quickstarts.
 
 
 Prerequisites
 -----------
 
-This quickstart depends on the deployment of the 'greeter' quickstart. Before running this quickstart, see the [greeter README](../greeter/README.html) file for details on how to deploy it.
+This quickstart depends on the deployment of the 'greeter' quickstart. Before running this quickstart, see the [greeter README](../greeter/README.md) file for details on how to deploy it.
 
 You can verify the deployment of the `greeter` quickstart by accessing the following URL: <http://localhost:8080/jboss-as-greeter> 
 

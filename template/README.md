@@ -30,7 +30,7 @@ Configure Maven
 
 You can copy or link to the Maven configuration information in the README file in the root folder of the quickstarts. For example:
 
-If you have not yet done so, you must [Configure Maven](../README.html/#mavenconfiguration) before testing the quickstarts.
+If you have not yet done so, you must [Configure Maven](../README.md/#mavenconfiguration) before testing the quickstarts.
 
 
 Configure Optional Components
@@ -44,13 +44,13 @@ Here are some examples:
 
  * This quickstart uses a secured management interface and requires that you create a management (or application) user to access the running application. Instructions to set up a Management (or Application) user can be found here: 
 
-    * [Add a Management User](../README.html/#addmanagementuser)
+    * [Add a Management User](../README.md/#addmanagementuser)
 
-    * [Add an Application User](../README.html/#addapplicationuser)
+    * [Add an Application User](../README.md/#addapplicationuser)
 
- * This quickstart requires the PostgreSQL database. Instructions to install an configure PostgreSQL can be found here: [Install and Configure the PostgreSQL Database](../README.html/#postgresql)
+ * This quickstart requires the PostgreSQL database. Instructions to install an configure PostgreSQL can be found here: [Install and Configure the PostgreSQL Database](../README.md/#postgresql)
 
- * This quickstart uses Byteman to help demonstrate crash recovery. Instructions to install and configure Byteman can be found here: [Install and Configure Byteman](../README.html#byteman)
+ * This quickstart uses Byteman to help demonstrate crash recovery. Instructions to install and configure Byteman can be found here: [Install and Configure Byteman](../README.md#byteman)
 
 If your quickstart requires any other components, you must describe how to configure them here.
 
@@ -76,7 +76,7 @@ Build and Deploy the Quickstart
 
 If the quickstart is built and deployed using the standard Maven commands, "mvn clean package" and "mvn jboss-as:deploy", copy the following:
 
-_NOTE: The following build command assumes you have configured your Maven user settings. If you have not, you must include Maven setting arguments on the command line. See [Build and Deploy the Quickstarts](../README.html/#buildanddeploy) for complete instructions and additional options._
+_NOTE: The following build command assumes you have configured your Maven user settings. If you have not, you must include Maven setting arguments on the command line. See [Build and Deploy the Quickstarts](../README.md/#buildanddeploy) for complete instructions and additional options._
 
 1. Make sure you have started the JBoss Server as described above.
 2. Open a command line and navigate to the root directory of this quickstart.
@@ -125,7 +125,7 @@ Run the Arquillian Tests (For quickstarts that contain Arquillian tests)
 
 This quickstart provides Arquillian tests. By default, these tests are configured to be skipped as Arquillian tests require the use of a container. 
 
-_NOTE: The following commands assume you have configured your Maven user settings. If you have not, you must include Maven setting arguments on the command line. See [Run the Arquillian Tests](../README.html/#arquilliantests) for complete instructions and additional options._
+_NOTE: The following commands assume you have configured your Maven user settings. If you have not, you must include Maven setting arguments on the command line. See [Run the Arquillian Tests](../README.md/#arquilliantests) for complete instructions and additional options._
 
 1. Make sure you have started the JBoss Server as described above.
 2. Open a command line and navigate to the root directory of this quickstart.
@@ -143,7 +143,7 @@ The quickstart README should show what to expect from the the tests
 
 Run the Quickstart in JBoss Developer Studio or Eclipse
 -------------------------------------
-You can also start the server and deploy the quickstarts from Eclipse using JBoss tools. For more information, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](../README.html/#useeclipse) 
+You can also start the server and deploy the quickstarts from Eclipse using JBoss tools. For more information, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](../README.md/#useeclipse) 
 
 Debug the Application
 ------------------------------------

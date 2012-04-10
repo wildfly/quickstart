@@ -52,7 +52,7 @@ The application this project produces is designed to be run on JBoss Enterprise 
 Configure Maven
 ---------------
 
-If you have not yet done so, you must [Configure Maven](../README.html/#mavenconfiguration) before testing the quickstarts.
+If you have not yet done so, you must [Configure Maven](../README.md/#mavenconfiguration) before testing the quickstarts.
 
 
 Prerequisites
@@ -85,7 +85,7 @@ The application servers should both be configured as follows:
             </subsystem>
 3. Make a copy of this JBoss directory structure to use for the second server.
 
-4. Application server 1 must be configured to use PostgreSQL as per the instructions in [PostgreSQL] (../README.html/#postgresql).
+4. Application server 1 must be configured to use PostgreSQL as per the instructions in [PostgreSQL] (../README.md/#postgresql).
 
 _Note_: For the purpose of this quickstart, replace the word QUICKSTART_DATABASENAME with jts-quickstart-database in the PostgreSQL instructions.
 

@@ -39,51 +39,51 @@ Quickstarts with tutorials in the [Getting Started Developing Applications Guide
 
 | **Quickstart Name** | **Demonstrated Technologies** | **Description** | **Experience Level Required** | **Prerequisites** |
 |:-----------|:-----------|:-----------|:-----------|:-----------|
-| [bean-validation](bean-validation/README.html "bean-validation") | Bean Validation, JPA | Shows how to use Arquillian to test Bean Validation | Beginner | None |
-| [bmt](bmt/README.html "bmt") | EJB, BMT | EJB that demonstrates bean-managed transactions (BMT) | Beginner | None |
-| [cdi-injection](cdi-injection/README.html "cdi-injection") | CDI injection, Qualifiers, Servlet | Demonstrates the use of CDI 1.0 Injection and Qualifiers with JSF as the front-end client. | Beginner | None |
-| [cmt] (cmt/README.html "cmt") | EJB, container-managed transaction (CMT) | EJB that demonstrates container-managed transactions (CMT) | Beginner | None |
-| [ejb-in-ear](ejb-in-ear/README.html "ejb-in-ear") | EJB, JSF, JAR, and WAR deployed as an EAR | Packages an EJB JAR and WAR in an EAR | Beginner | None |
-| [ejb-in-war](ejb-in-war/README.html "ejb-in-war") | EJB and JSF deployed as a WAR | Packages an EJB JAR in a WAR | Beginner | None |
-| [ejb-remote](ejb-remote/README.html "ejb-remote") | Remote EJB | Shows how to access an EJB from a remote Java client program using JNDI | Beginner | None |
-| [ejb-security](ejb-security/README.html "ejb-security") | EJB, Security | Shows how to use Java EE Declarative Security to Control Access to EJB 3 | Beginner | None |
-| [forge-from-scratch](forge-from-scratch/README.html "forge-from-scratch") | Forge | Demonstrates how to generate a fully Java EE compliant project using nothing but JBoss Forge | Beginner | None |
-| [greeter](greeter/README.html "greeter") | CDI, JSF, JPA, EJB, JTA | Demonstrates the use of CDI 1.0, JPA 2.0, JTA 1.1, EJB 3.1 and JSF 2.0 | Beginner | None |
-| [h2-console](h2-console/README.html "h2-console") | H2 Database Console | Shows how to use the H2 console with JBoss AS | Beginner | greeter |
-| [helloworld**](helloworld/README.html "helloworld") | Basic CDI, Servlet | Basic example that can be used to verify that the server is configured and running correctly | Beginner | None |
-| [helloworld-errai](helloworld-errai/README.html "helloworld-errai") | Errai, JAX-RS | Helloworld using the Errai framework  | Beginner | None |
-| [helloworld-gwt](helloworld-gwt/README.html "helloworld-gwt") | GWT | Demonstrates the use of CDI 1.0 and JAX-RS with a GWT front-end client  | Beginner | None |
-| [helloworld-html5](helloworld-html5/README.html "helloworld-html5") | Basic HTML5 |Demonstrates the use of CDI 1.0 and JAX-RS using the POH5 architecture and RESTful services on the backend | Beginner | None |
-| [helloworld-jms](helloworld-jms/README.html "helloworld-jms") | JMS | Demonstrates the use of external JMS clients | Intermediate | None |
-| [helloworld-jsf](helloworld-jsf/README.html "helloworld-jsf") | Basic CDI, JSF | Similar to the helloworld quickstart, but with a JSF front end | Beginner | None |
-| [helloworld-mdb](helloworld-mdb/README.html "helloworld-mdb") | Basic JMS, message-driven bean (MDB) | Demonstrates the use of JMS 1.1 and EJB 3.1 Message-Driven Bean  | Intermediate | None |
-| [helloworld-osgi**](helloworld-osgi/README.html "helloworld-osgi") | OSGi JAR | Shows how to create and deploy a simple OSGi Bundle | Beginner | None |
-| [helloworld-rs](helloworld-rs/README.html "helloworld-rs") | CDI, JAX-RS | Demonstrates the use of CDI 1.0 and JAX-RS | Intermediate | None |
-| [helloworld-singleton](helloworld-singleton/README.html "helloworld-singleton") | Singleton Session Bean | Demonstrates the use of an EJB 3.1 Singleton Session Bean | Beginner | None |
-| [hibernate3](hibernate3/README.html "hibernate3") | Hibernate 3 | Performs the same functions as _hibernate4_ quickstart, but uses Hibernate version 3 for database access | Beginner | None |
-| [hibernate4](hibernate4/README.html "hibernate4") | Hibernate 4 | Performs the same functions as _hibernate3_ quickstart, but uses Hibernate version 4 for database access | Beginner | None |
-| [jax-rs-client](jax-rs-client/README.html "jax-rs-client") | JAX-RS | Demonstrates the use an external JAX-RS RestEasy client which interacts with a JAX-RS Web service that uses CDI 1.0 and JAX-RS | Intermediate | helloworld-rs |
-| [jta-crash-rec](jta-crash-rec/README.html "jta-crash-rec") | JTA, Crash Recovery | Uses Java Transaction API and JBoss Transactions to demonstrate recovery of a crashed transaction | Advanced | cmt |
-| [jts](jts/README.html "jts") | JTS | Uses Java Transaction Service (JTS) to coordinate distributed transactions | Intermediate | cmt |
-| [jts-distributed-crash-rec](jts-distributed-crash-rec/README.html "jts-distributed-crash-rec") | JTS | Demonstrates recovery of distributed crashed components | Advanced | jts |
-| [kitchensink**](kitchensink/README.html "kitchensink") | CDI, JSF, JPA, EJB, JPA, JAX-RS, BV | An example that incorporates multiple technologies | Beginner | None |
-| [kitchensink-ear](kitchensink-ear/README.html "kitchensink-ear")  | EAR | Based on kitchensink, but deployed as an EAR | Beginner | None |
-| [kitchensink-html5-mobile](kitchensink-html5-mobile/README.html "kitchensink-html5-mobile") | HTML5 | Based on kitchensink, but uses HTML5, making it suitable for mobile and tablet computers | Beginner | None |
-| [kitchensink-jsp](kitchensink-jsp/README.html "kitchensink-jsp") | JSP | Based on kitchensink, but uses a JSP for the user interface | Beginner | None |
-| [log4j](log4j/README.html "log4j") | JBoss Modules | Demonstrates how to use modules to control class loading for 3rd party logging frameworks | Beginner | None |
-| [mail](mail/README.html "mail") | JavaMail | Demonstrates the use of JavaMail | Beginner | None |
-| [numberguess**](numberguess/README.html "numberguess") | CDI, JSF | Demonstrates the use of CDI 1.0 and JSF 2.0  | Beginner | None |
-| [payment-cdi-event](payment-cdi-event/README.html "payment-cdi-event") | CDI, Events | Demonstrates how to use CDI 1.0 Events  | Beginner | None |
-| [richfaces-validation](richfaces-validation/README.html "richfaces-validation") | RichFaces | Demonstrates RichFaces and bean validation | Beginner | None |
-| [servlet-async](servlet-async/README.html "servlet-async") | CDI, EJB, Servlet | Demonstrates CDI, plus asynchronous Servlets and EJBs | Intermediate | None |
-| [servlet-filterlistener](servlet-filterlistener/README.html "servlet-filterlistener") | Servlet | Demonstrates Servlet filters and listeners | Intermediate | None |
-| [servlet-security](servlet-security/README.html "servlet-security") | Servlet, Security | Demonstrates how to use Java EE declarative security to control access to Servlet 3 | begiiner | greeter |
-| [shopping-cart](shopping-cart/README.html "shopping-cart") | Stateful Session Bean | Demonstrates a stateful session bean | begiiner | greeter |
-| [tasks](tasks/README.html "servlet-filterlistener") | Arquillian, JPA | Demonstrates testing JPA using Arquillian | Intermediate | greeter |
-| [wsat-simple](wsat-simple/README.html "wsat-simple") | WS-AT, Web service, JAX-WS | Deployment of a WS-AT (WS-AtomicTransaction) enabled JAX-WS Web service bundled in a WAR archive  | Intermediate | None |
-| [wsba-coordinator-completion-simple](wsba-coordinator-completion-simple/README.html "wsba-coordinator-completion-simple") | WS-BA, Web service, JAX-WS | Deployment of a WS-BA (WS-BusinessActivity) enabled JAX-WS Web service bundled in a WAR archive (Participant Completion protocol) | Intermediate | None |
-| [wsba-participant-completion-simple](wsba-participant-completion-simple/README.html "wsba-participant-completion-simple") | WS-BA, Web service, JAX-WS | Deployment of a WS-BA (WS-BusinessActivity) enabled JAX-WS Web service bundled in a war archive (Coordinator Completion protocol) | Intermediate | None |
-| [xml-jaxp](xml-jaxp/README.html "xml-jaxp") | JAXP, SAX, DOM, Servlet | Upload, validation and parsing of XML using SAX or DOM | Intermediate | None |
+| [bean-validation](bean-validation/README.md "bean-validation") | Bean Validation, JPA | Shows how to use Arquillian to test Bean Validation | Beginner | None |
+| [bmt](bmt/README.md "bmt") | EJB, BMT | EJB that demonstrates bean-managed transactions (BMT) | Beginner | None |
+| [cdi-injection](cdi-injection/README.md "cdi-injection") | CDI injection, Qualifiers, Servlet | Demonstrates the use of CDI 1.0 Injection and Qualifiers with JSF as the front-end client. | Beginner | None |
+| [cmt] (cmt/README.md "cmt") | EJB, container-managed transaction (CMT) | EJB that demonstrates container-managed transactions (CMT) | Beginner | None |
+| [ejb-in-ear](ejb-in-ear/README.md "ejb-in-ear") | EJB, JSF, JAR, and WAR deployed as an EAR | Packages an EJB JAR and WAR in an EAR | Beginner | None |
+| [ejb-in-war](ejb-in-war/README.md "ejb-in-war") | EJB and JSF deployed as a WAR | Packages an EJB JAR in a WAR | Beginner | None |
+| [ejb-remote](ejb-remote/README.md "ejb-remote") | Remote EJB | Shows how to access an EJB from a remote Java client program using JNDI | Beginner | None |
+| [ejb-security](ejb-security/README.md "ejb-security") | EJB, Security | Shows how to use Java EE Declarative Security to Control Access to EJB 3 | Beginner | None |
+| [forge-from-scratch](forge-from-scratch/README.md "forge-from-scratch") | Forge | Demonstrates how to generate a fully Java EE compliant project using nothing but JBoss Forge | Beginner | None |
+| [greeter](greeter/README.md "greeter") | CDI, JSF, JPA, EJB, JTA | Demonstrates the use of CDI 1.0, JPA 2.0, JTA 1.1, EJB 3.1 and JSF 2.0 | Beginner | None |
+| [h2-console](h2-console/README.md "h2-console") | H2 Database Console | Shows how to use the H2 console with JBoss AS | Beginner | greeter |
+| [helloworld**](helloworld/README.md "helloworld") | Basic CDI, Servlet | Basic example that can be used to verify that the server is configured and running correctly | Beginner | None |
+| [helloworld-errai](helloworld-errai/README.md "helloworld-errai") | Errai, JAX-RS | Helloworld using the Errai framework  | Beginner | None |
+| [helloworld-gwt](helloworld-gwt/README.md "helloworld-gwt") | GWT | Demonstrates the use of CDI 1.0 and JAX-RS with a GWT front-end client  | Beginner | None |
+| [helloworld-html5](helloworld-html5/README.md "helloworld-html5") | Basic HTML5 |Demonstrates the use of CDI 1.0 and JAX-RS using the POH5 architecture and RESTful services on the backend | Beginner | None |
+| [helloworld-jms](helloworld-jms/README.md "helloworld-jms") | JMS | Demonstrates the use of external JMS clients | Intermediate | None |
+| [helloworld-jsf](helloworld-jsf/README.md "helloworld-jsf") | Basic CDI, JSF | Similar to the helloworld quickstart, but with a JSF front end | Beginner | None |
+| [helloworld-mdb](helloworld-mdb/README.md "helloworld-mdb") | Basic JMS, message-driven bean (MDB) | Demonstrates the use of JMS 1.1 and EJB 3.1 Message-Driven Bean  | Intermediate | None |
+| [helloworld-osgi**](helloworld-osgi/README.md "helloworld-osgi") | OSGi JAR | Shows how to create and deploy a simple OSGi Bundle | Beginner | None |
+| [helloworld-rs](helloworld-rs/README.md "helloworld-rs") | CDI, JAX-RS | Demonstrates the use of CDI 1.0 and JAX-RS | Intermediate | None |
+| [helloworld-singleton](helloworld-singleton/README.md "helloworld-singleton") | Singleton Session Bean | Demonstrates the use of an EJB 3.1 Singleton Session Bean | Beginner | None |
+| [hibernate3](hibernate3/README.md "hibernate3") | Hibernate 3 | Performs the same functions as _hibernate4_ quickstart, but uses Hibernate version 3 for database access | Beginner | None |
+| [hibernate4](hibernate4/README.md "hibernate4") | Hibernate 4 | Performs the same functions as _hibernate3_ quickstart, but uses Hibernate version 4 for database access | Beginner | None |
+| [jax-rs-client](jax-rs-client/README.md "jax-rs-client") | JAX-RS | Demonstrates the use an external JAX-RS RestEasy client which interacts with a JAX-RS Web service that uses CDI 1.0 and JAX-RS | Intermediate | helloworld-rs |
+| [jta-crash-rec](jta-crash-rec/README.md "jta-crash-rec") | JTA, Crash Recovery | Uses Java Transaction API and JBoss Transactions to demonstrate recovery of a crashed transaction | Advanced | cmt |
+| [jts](jts/README.md "jts") | JTS | Uses Java Transaction Service (JTS) to coordinate distributed transactions | Intermediate | cmt |
+| [jts-distributed-crash-rec](jts-distributed-crash-rec/README.md "jts-distributed-crash-rec") | JTS | Demonstrates recovery of distributed crashed components | Advanced | jts |
+| [kitchensink**](kitchensink/README.md "kitchensink") | CDI, JSF, JPA, EJB, JPA, JAX-RS, BV | An example that incorporates multiple technologies | Beginner | None |
+| [kitchensink-ear](kitchensink-ear/README.md "kitchensink-ear")  | EAR | Based on kitchensink, but deployed as an EAR | Beginner | None |
+| [kitchensink-html5-mobile](kitchensink-html5-mobile/README.md "kitchensink-html5-mobile") | HTML5 | Based on kitchensink, but uses HTML5, making it suitable for mobile and tablet computers | Beginner | None |
+| [kitchensink-jsp](kitchensink-jsp/README.md "kitchensink-jsp") | JSP | Based on kitchensink, but uses a JSP for the user interface | Beginner | None |
+| [log4j](log4j/README.md "log4j") | JBoss Modules | Demonstrates how to use modules to control class loading for 3rd party logging frameworks | Beginner | None |
+| [mail](mail/README.md "mail") | JavaMail | Demonstrates the use of JavaMail | Beginner | None |
+| [numberguess**](numberguess/README.md "numberguess") | CDI, JSF | Demonstrates the use of CDI 1.0 and JSF 2.0  | Beginner | None |
+| [payment-cdi-event](payment-cdi-event/README.md "payment-cdi-event") | CDI, Events | Demonstrates how to use CDI 1.0 Events  | Beginner | None |
+| [richfaces-validation](richfaces-validation/README.md "richfaces-validation") | RichFaces | Demonstrates RichFaces and bean validation | Beginner | None |
+| [servlet-async](servlet-async/README.md "servlet-async") | CDI, EJB, Servlet | Demonstrates CDI, plus asynchronous Servlets and EJBs | Intermediate | None |
+| [servlet-filterlistener](servlet-filterlistener/README.md "servlet-filterlistener") | Servlet | Demonstrates Servlet filters and listeners | Intermediate | None |
+| [servlet-security](servlet-security/README.md "servlet-security") | Servlet, Security | Demonstrates how to use Java EE declarative security to control access to Servlet 3 | begiiner | greeter |
+| [shopping-cart](shopping-cart/README.md "shopping-cart") | Stateful Session Bean | Demonstrates a stateful session bean | begiiner | greeter |
+| [tasks](tasks/README.md "servlet-filterlistener") | Arquillian, JPA | Demonstrates testing JPA using Arquillian | Intermediate | greeter |
+| [wsat-simple](wsat-simple/README.md "wsat-simple") | WS-AT, Web service, JAX-WS | Deployment of a WS-AT (WS-AtomicTransaction) enabled JAX-WS Web service bundled in a WAR archive  | Intermediate | None |
+| [wsba-coordinator-completion-simple](wsba-coordinator-completion-simple/README.md "wsba-coordinator-completion-simple") | WS-BA, Web service, JAX-WS | Deployment of a WS-BA (WS-BusinessActivity) enabled JAX-WS Web service bundled in a WAR archive (Participant Completion protocol) | Intermediate | None |
+| [wsba-participant-completion-simple](wsba-participant-completion-simple/README.md "wsba-participant-completion-simple") | WS-BA, Web service, JAX-WS | Deployment of a WS-BA (WS-BusinessActivity) enabled JAX-WS Web service bundled in a war archive (Coordinator Completion protocol) | Intermediate | None |
+| [xml-jaxp](xml-jaxp/README.md "xml-jaxp") | JAXP, SAX, DOM, Servlet | Upload, validation and parsing of XML using SAX or DOM | Intermediate | None |
 
 
 <a id="suggestedApproach"></a>

@@ -31,13 +31,13 @@ The application this project produces is designed to be run on JBoss Enterprise 
 Configure Maven
 ---------------
 
-If you have not yet done so, you must [Configure Maven](../README.html/#mavenconfiguration) before testing the quickstarts.
+If you have not yet done so, you must [Configure Maven](../README.md/#mavenconfiguration) before testing the quickstarts.
 
 
 Add an Application User
 ---------------
 
-This quickstart uses a secured management interface and requires that you create an application user to access the running application. Instructions to set up an Application user can be found here:  [Add an Application User](../README.html/#addapplicationuser)
+This quickstart uses a secured management interface and requires that you create an application user to access the running application. Instructions to set up an Application user can be found here:  [Add an Application User](../README.md/#addapplicationuser)
 
 
 Start JBoss Enterprise Application Platform 6 or JBoss AS 7 with the Web Profile
@@ -53,7 +53,7 @@ Start JBoss Enterprise Application Platform 6 or JBoss AS 7 with the Web Profile
 Build and Deploy the Quickstart
 -------------------------
 
-_NOTE: The following build command assumes you have configured your Maven user settings. If you have not, you must include Maven setting arguments on the command line. See [Build and Deploy the Quickstarts](../README.html/#buildanddeploy) for complete instructions and additional options._
+_NOTE: The following build command assumes you have configured your Maven user settings. If you have not, you must include Maven setting arguments on the command line. See [Build and Deploy the Quickstarts](../README.md/#buildanddeploy) for complete instructions and additional options._
 
 1. Make sure you have started the JBoss Server as described above.
 2. Open a command line and navigate to the root directory of this quickstart.
@@ -104,7 +104,7 @@ Undeploy the Archive
 
 Run the Quickstart in JBoss Developer Studio or Eclipse
 -------------------------------------
-You can also start the server and deploy the quickstarts from Eclipse using JBoss tools. For more information, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](../README.html/#useeclipse) 
+You can also start the server and deploy the quickstarts from Eclipse using JBoss tools. For more information, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](../README.md/#useeclipse) 
 
 
 Debug the Application

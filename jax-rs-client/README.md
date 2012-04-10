@@ -23,13 +23,13 @@ The application this project produces is designed to be run on JBoss Enterprise 
 Configure Maven
 ---------------
 
-If you have not yet done so, you must [Configure Maven](../README.html/#mavenconfiguration) before testing the quickstarts.
+If you have not yet done so, you must [Configure Maven](../README.md/#mavenconfiguration) before testing the quickstarts.
 
 
 Prerequisites
 -----------
 
-IMPORTANT: This quickstart depends on the deployment of the 'helloworld-rs' quickstart for its test. Before running this quickstart, see the [helloworld-rs README](../hellworld-rs/README.html) file for details on how to deploy it.
+IMPORTANT: This quickstart depends on the deployment of the 'helloworld-rs' quickstart for its test. Before running this quickstart, see the [helloworld-rs README](../hellworld-rs/README.md) file for details on how to deploy it.
 
 You can verify the deployment of the `helloworld-rs` quickstart by accessing the following content:
 
@@ -43,7 +43,7 @@ Run the Arquillian Tests
 
 This quickstart provides Arquillian tests. By default, these tests are configured to be skipped as Arquillian tests require the use of a container. 
 
-_NOTE: The following commands assume you have configured your Maven user settings. If you have not, you must include Maven setting arguments on the command line. See [Run the Arquillian Tests](../README.html/#arquilliantests) for complete instructions and additional options._
+_NOTE: The following commands assume you have configured your Maven user settings. If you have not, you must include Maven setting arguments on the command line. See [Run the Arquillian Tests](../README.md/#arquilliantests) for complete instructions and additional options._
 
 1. Make sure you have started the JBoss Server as described above.
 2. Make sure the `helloworld-rs` quickstart has been deployed on the server as noted in the **Prerequisites** section above.

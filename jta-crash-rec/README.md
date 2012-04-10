@@ -32,13 +32,13 @@ The application this project produces is designed to be run on JBoss Enterprise 
 Configure Maven
 ---------------
 
-If you have not yet done so, you must [Configure Maven](../README.html/#mavenconfiguration) before testing the quickstarts.
+If you have not yet done so, you must [Configure Maven](../README.md/#mavenconfiguration) before testing the quickstarts.
 
 
 Download and Configure Byteman
 ------------------------
 
-This quickstart uses Byteman to help demonstrate crash recovery. Instructions to install and configure Byteman can be found here: [Install and Configure Byteman](../README.html#byteman). 
+This quickstart uses Byteman to help demonstrate crash recovery. Instructions to install and configure Byteman can be found here: [Install and Configure Byteman](../README.md#byteman). 
 
 
 
@@ -75,7 +75,7 @@ Start JBoss Enterprise Application Platform 6 or JBoss AS 7 with the Full Profil
 Build and Deploy the Quickstart
 -------------------------
 
-_NOTE: The following build command assumes you have configured your Maven user settings. If you have not, you must include Maven setting arguments on the command line. See [Build and Deploy the Quickstarts](../README.html/#buildanddeploy) for complete instructions and additional options._
+_NOTE: The following build command assumes you have configured your Maven user settings. If you have not, you must include Maven setting arguments on the command line. See [Build and Deploy the Quickstarts](../README.md/#buildanddeploy) for complete instructions and additional options._
 
 
 #### Build and Deploy the Archive
@@ -119,7 +119,7 @@ Test the application
     * Add a *key/value* pair as instructed in the application.
     * Stop the JBoss server.
     * [Clear any transaction objectstore data](#clear-transaction-objectstore) remaining from previous tests.
-    * Follow the instructions to [halt the application using Byteman](../README.html#byteman-halt). The following text will be appended to the server configuration file:
+    * Follow the instructions to [halt the application using Byteman](../README.md#byteman-halt). The following text will be appended to the server configuration file:
 
             For Linux: JAVA_OPTS="-javaagent:/PATH_TO_BYTEMAN_DOWNLOAD/lib/byteman.jar=script:/PATH_TO_QUICKSTARTS/jta-crash-rec/src/main/scripts/xa.btm ${JAVA_OPTS}"
             For Windows: JAVA_OPTS=%JAVA_OPTS% -javaagent:C:PATH_TO_BYTEMAN_DOWNLOAD\lib\byteman.jar=script:C:\PATH_TO_QUICKSTARTS\jta-crash-rec\src\main\scripts\xa.btm %JAVA_OPTS%
@@ -151,7 +151,7 @@ Test the application
                 0_ffff7f000001_-7f1cf331_4f0b0ad4_15
         * After recovery, log records are normally deleted automatically. However, logs may remain in the case where the Transaction Manager (TM) commit request was received and acted upon by a resource, but the TM crashed before it had time to clean up the logs of that resource.    
 7. To observe XA recovery
-    * [Disable the Byteman script](../README.html#byteman-disable) by restoring the backup server configuration file.
+    * [Disable the Byteman script](../README.md#byteman-disable) by restoring the backup server configuration file.
     * [Start the JBoss server](#startserver) as instructed above.
     * Load the web interface to the application 
     * By the time the JBoss server is ready, the transaction should have recovered.
@@ -166,7 +166,7 @@ Test the application
 
 Run the Quickstart in JBoss Developer Studio or Eclipse
 -------------------------------------
-You can also start the server and deploy the quickstarts from Eclipse using JBoss tools. For more information, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](../README.html/#useeclipse) 
+You can also start the server and deploy the quickstarts from Eclipse using JBoss tools. For more information, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](../README.md/#useeclipse) 
 
 Debug the Application
 ------------------------------------
