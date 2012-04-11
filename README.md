@@ -42,7 +42,7 @@ Quickstarts with tutorials in the [Getting Started Developing Applications Guide
 | [bean-validation](bean-validation/README.md "bean-validation") | Bean Validation, JPA | Shows how to use Arquillian to test Bean Validation | Beginner | None |
 | [bmt](bmt/README.md "bmt") | EJB, BMT | EJB that demonstrates bean-managed transactions (BMT) | Beginner | None |
 | [cdi-injection](cdi-injection/README.md "cdi-injection") | CDI injection, Qualifiers, Servlet | Demonstrates the use of CDI 1.0 Injection and Qualifiers with JSF as the front-end client. | Beginner | None |
-| [cmt] (cmt/README.md "cmt") | EJB, container-managed transaction (CMT) | EJB that demonstrates container-managed transactions (CMT) | Beginner | None |
+| [cmt] (cmt/README.md "cmt") | EJB, container-managed transaction (CMT) | EJB that demonstrates container-managed transactions (CMT) | Intermediate | None |
 | [ejb-in-ear](ejb-in-ear/README.md "ejb-in-ear") | EJB, JSF, JAR, and WAR deployed as an EAR | Packages an EJB JAR and WAR in an EAR | Beginner | None |
 | [ejb-in-war](ejb-in-war/README.md "ejb-in-war") | EJB and JSF deployed as a WAR | Packages an EJB JAR in a WAR | Beginner | None |
 | [ejb-remote](ejb-remote/README.md "ejb-remote") | Remote EJB | Shows how to access an EJB from a remote Java client program using JNDI | Beginner | None |
@@ -71,6 +71,7 @@ Quickstarts with tutorials in the [Getting Started Developing Applications Guide
 | [kitchensink-html5-mobile](kitchensink-html5-mobile/README.md "kitchensink-html5-mobile") | HTML5 | Based on kitchensink, but uses HTML5, making it suitable for mobile and tablet computers | Beginner | None |
 | [kitchensink-jsp](kitchensink-jsp/README.md "kitchensink-jsp") | JSP | Based on kitchensink, but uses a JSP for the user interface | Beginner | None |
 | [log4j](log4j/README.md "log4j") | JBoss Modules | Demonstrates how to use modules to control class loading for 3rd party logging frameworks | Beginner | None |
+| [logging-tools](logging-tools/README.md "logging-tools") | JBoss Logging Tools | Demonstrates the use of JBoss Logging Tools to create internationalized loggers, exceptions, and generic messages | Beginner | None |
 | [mail](mail/README.md "mail") | JavaMail | Demonstrates the use of JavaMail | Beginner | None |
 | [numberguess**](numberguess/README.md "numberguess") | CDI, JSF | Demonstrates the use of CDI 1.0 and JSF 2.0  | Beginner | None |
 | [payment-cdi-event](payment-cdi-event/README.md "payment-cdi-event") | CDI, Events | Demonstrates how to use CDI 1.0 Events  | Beginner | None |
@@ -80,9 +81,12 @@ Quickstarts with tutorials in the [Getting Started Developing Applications Guide
 | [servlet-security](servlet-security/README.md "servlet-security") | Servlet, Security | Demonstrates how to use Java EE declarative security to control access to Servlet 3 | begiiner | greeter |
 | [shopping-cart](shopping-cart/README.md "shopping-cart") | Stateful Session Bean | Demonstrates a stateful session bean | begiiner | greeter |
 | [tasks](tasks/README.md "servlet-filterlistener") | Arquillian, JPA | Demonstrates testing JPA using Arquillian | Intermediate | greeter |
+| [wicket-ear](wicket-ear/README.md "wicket-ear") | Apache Wicket, CRUD, JPA | Demonstrates how to use the Wicket Framework 1.5 with the JBoss server using the Wicket-Stuff Java EE integration, packaged as an EAR  | Intermediate | None |
+| [wicket-war](wicket-war/README.md "wicket-war") | Apache Wicket, CRUD, JPA | Demonstrates how to use the Wicket Framework 1.5 with the JBoss server using the Wicket-Stuff Java EE integration packaged as a WAR  | Intermediate | None |
 | [wsat-simple](wsat-simple/README.md "wsat-simple") | WS-AT, Web service, JAX-WS | Deployment of a WS-AT (WS-AtomicTransaction) enabled JAX-WS Web service bundled in a WAR archive  | Intermediate | None |
 | [wsba-coordinator-completion-simple](wsba-coordinator-completion-simple/README.md "wsba-coordinator-completion-simple") | WS-BA, Web service, JAX-WS | Deployment of a WS-BA (WS-BusinessActivity) enabled JAX-WS Web service bundled in a WAR archive (Participant Completion protocol) | Intermediate | None |
 | [wsba-participant-completion-simple](wsba-participant-completion-simple/README.md "wsba-participant-completion-simple") | WS-BA, Web service, JAX-WS | Deployment of a WS-BA (WS-BusinessActivity) enabled JAX-WS Web service bundled in a war archive (Coordinator Completion protocol) | Intermediate | None |
+| [xml-dom4j](xml-dom4j/README.md "xml-dom4j") | DOM4J, Servlet, JSF 2.0 | Demonstrates how to upload an XML file and parse it using 3rd party XML parsing libraries | Intermediate | None |
 | [xml-jaxp](xml-jaxp/README.md "xml-jaxp") | JAXP, SAX, DOM, Servlet | Upload, validation and parsing of XML using SAX or DOM | Intermediate | None |
 
 
@@ -509,10 +513,12 @@ Use the following steps to install and configure PostgreSQL on Windows:
 
         psql -h 127.0.0.1 -U sa QUICKSTART_DATABASENAME
 
-#### Add the PostgreSQL Module to JBossAS
+<a id="addpostgresqlmodule"/>
+
+#### Add the PostgreSQL Module to the JBoss server
 
 1. Create the following directory structure: `JBOSS_HOME/modules/org/postgresql/main`
-1. Download the JBDC driver from <http://jdbc.postgresql.org/download.html> and copy it into the directory you created in the previous step.
+2. Download the JBDC driver from <http://jdbc.postgresql.org/download.html> and copy it into the directory you created in the previous step.
 3. In the same directory, create a file named module.xml. Copy the following contents into the file:
 
         <?xml version="1.0" encoding="UTF-8"?>
@@ -526,8 +532,9 @@ Use the following steps to install and configure PostgreSQL on Windows:
             </dependencies>
         </module>
 
-#### Add the Driver Configuration to JBossAS
+<a id="addpostgresqldriver"/>
 
+#### Add the Driver Configuration to the JBoss server
 1.  Backup the file: `JBOSS_HOME/standalone/configuration/standalone-full.xml`
 2.  Open the `JBOSS_HOME/standalone/configuration/standalone-full.xml` file in an editor and locate the subsystem `urn:jboss:domain:datasources:1.0`. 
 3.  Add the following driver to the `<drivers>` section that subsystem. You may need to merge with other drivers in that section:

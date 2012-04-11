@@ -58,6 +58,9 @@ This quickstart requires the PostgreSQL database. Instructions to install an con
 
 _Note_: For the purpose of this quickstart, replace the word QUICKSTART_DATABASENAME with cmt-quickstart-database in the PostgreSQL instructions.
 
+1. Be sure to start the PostgreSQL database. Unless you have set up the database to automatically start as a service, you must repeat the instructions "Start the database server" for your operating system every time you reboot your machine.
+2. Be sure to [add the PostgreSQL Module](../README.md/#addpostgresqlmodule) to the JBoss server.
+3. Be sure to [add the PostgreSQL driver](../README.md/#addpostgresqlmodule) to the JBoss server configuration file.
 
 Start JBoss Enterprise Application Platform 6 or JBoss AS 7 with the Full Profile
 ---------------
