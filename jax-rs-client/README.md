@@ -41,7 +41,7 @@ You can verify the deployment of the `helloworld-rs` quickstart by accessing the
 Run the Arquillian Tests 
 -------------------------
 
-This quickstart provides Arquillian tests. By default, these tests are configured to be skipped as Arquillian tests require the use of a container. 
+This quickstart provides Arquillian tests. 
 
 _NOTE: The following commands assume you have configured your Maven user settings. If you have not, you must include Maven setting arguments on the command line. See [Run the Arquillian Tests](../README.md/#arquilliantests) for complete instructions and additional options._
 
@@ -50,7 +50,7 @@ _NOTE: The following commands assume you have configured your Maven user setting
 3. Open a command line and navigate to the root directory of this quickstart.
 4. Type the following command to run the test goal with the following profile activated:
 
-        mvn clean test -Parq-jbossas-remote 
+        mvn clean test 
 
 
 Investigate the Console Output
