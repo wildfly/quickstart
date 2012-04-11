@@ -256,7 +256,7 @@ Some of the quickstarts provide Arquillian tests. By default, these tests are co
 
 You can run these tests using either a remote or managed container. The quickstart README should tell you what you should expect to see in the console output and server log when you run the test.
 
-<a id="testremote"/>
+<a id="testremote"></a>
 
 1. Test the quickstart on a Remote Server
     * A remote container requires you start the JBoss Enterprise Application Platform 6 or JBoss AS 7 server before running the test. [Start the JBoss Server](#startjboss) as described in the quickstart README file.
@@ -269,7 +269,7 @@ You can run these tests using either a remote or managed container. The quicksta
         For JBoss AS 7 or JBoss Enterprise Application Platform 6 (Maven user settings configured): 
 
             mvn clean test -Parq-jbossas-remote 
-<a id="testmanaged"/>
+<a id="testmanaged"></a>
 
 2. Test the quickstart on Managed Server
 
@@ -295,7 +295,7 @@ You can run these tests using either a remote or managed container. The quicksta
             mvn clean test -Parq-jbossas-managed
 
 
-<a id="useeclipse"/>
+<a id="useeclipse"></a>
 Use JBoss Developer Studio or Eclipse to Run the Quickstarts
 -------------------------------------
 You can also deploy the quickstarts from Eclipse using JBoss tools. For more information on how to set up Maven and the JBoss tools, refer to the [JBoss Enterprise Application Platform 6 Beta](http://docs.redhat.com/docs/en-US/JBoss_Enterprise_Application_Platform/6/html/Beta_Documentation/HOME.html) documentation or the [Getting Started Developing Applications Guide](https://docs.jboss.org/author/display/AS71/Getting+Started+Developing+Applications+Guide "Getting Started Developing Applications Guide").
@@ -513,7 +513,7 @@ Use the following steps to install and configure PostgreSQL on Windows:
 
         psql -h 127.0.0.1 -U sa QUICKSTART_DATABASENAME
 
-<a id="addpostgresqlmodule"/>
+<a id="addpostgresqlmodule"></a>
 
 #### Add the PostgreSQL Module to the JBoss server
 
@@ -532,7 +532,7 @@ Use the following steps to install and configure PostgreSQL on Windows:
             </dependencies>
         </module>
 
-<a id="addpostgresqldriver"/>
+<a id="addpostgresqldriver"></a>
 
 #### Add the Driver Configuration to the JBoss server
 1.  Backup the file: `JBOSS_HOME/standalone/configuration/standalone-full.xml`
@@ -557,7 +557,7 @@ _Byteman_ is used by a few of the quickstarts to demonstrate distributed transac
 
 _Byteman_ is a tool which simplifies tracing and testing of Java programs. Byteman allows you to insert extra Java code into your application, either as it is loaded during JVM startup or after it has already started running. This code can be used to trace what the application is doing and to monitor and debug deployments to be sure it is operating correctly. You can also use _Byteman_ to inject faults or synchronization code when testing your application. A few of the quickstarts use _Byteman_ to halt an application server in the middle of a distributed transaction to demonstrate crash recovery.
 
-<a id="byteman-install/>
+<a id="byteman-install"></a>
 #### Download and Configure Byteman
 
 1. Download Byteman from <http://www.jboss.org/byteman/downloads/>
@@ -567,7 +567,7 @@ _Byteman_ is a tool which simplifies tracing and testing of Java programs. Bytem
         cd byteman-download-2.0.0/
         chmod -R o-rwx byteman-download-2.0.0/
 
-<a id="byteman-halt"/>
+<a id="byteman-halt"></a>
 #### Halt the Application Using Byteman
 
 When instructed to use Byteman to halt the application, perform the following steps:
@@ -592,7 +592,7 @@ When instructed to use Byteman to halt the application, perform the following st
 
         SET "JAVA_OPTS=%JAVA_OPTS% -javaagent:C:PATH_TO_BYTEMAN_DOWNLOAD\lib\byteman.jar=script:C:\PATH_TO_QUICKSTARTS\jta-crash-rec\src\main\scripts\xa.btm %JAVA_OPTS%"
 
-<a id="byteman-disable"/>
+<a id="byteman-disable"></a>
 
 #### Disable the Byteman Script
  
