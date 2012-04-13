@@ -42,12 +42,12 @@ This quickstart uses Byteman to help demonstrate crash recovery. Instructions to
 
 
 
-<a name="clear-transaction-objectstore"/>
+<a name="clear-transaction-objectstore"></a>
 
 Clear the Transaction ObjectStore
 -------------------------
 
-Make sure there is no transaction objectstore data left after testing this or any of the other quickstarts. If you are using the default file based transaction logging stor
+Make sure there is no transaction objectstore data left after testing this or any of the other quickstarts. If you are using the default file based transaction logging store:
 
 1. Open a command line and type the following:
 
@@ -116,7 +116,6 @@ Test the application
     * The added complexity is to cope with failures, especially failures that occur during phase 2. Some failure modes require cooperation between the application server and the resources in order to guarantee that any pending changes are recovered. 
 
 4. To demonstrate XA recovery, you need to enable the Byteman tool to terminate the application server while _phase 2_ is running as follows:
-    * Add a *key/value* pair as instructed in the application.
     * Stop the JBoss server.
     * [Clear any transaction objectstore data](#clear-transaction-objectstore) remaining from previous tests.
     * Follow the instructions to [halt the application using Byteman](../README.md#byteman-halt). The following text will be appended to the server configuration file:
@@ -133,13 +132,14 @@ Test the application
             java -jar $JBOSS_HOME/modules/com/h2database/h2/main/h2*.jar
     * Log in:
        
-            Database URL: jdbc:h2:mem:jta-crash-rec-quickstart
+            Database URL: jdbc:h2:file:~/jta-crash-rec-quickstart
             User name:    sa
             Password:     sa
     * The console is available at the url <http://localhost:8082>. If you receive an error such as `Exception opening port "8082"` it is most likely because some other application has that port open. You will need to find which application is using the port and close it.
     * Once you are logged in enter the following query to see that the pair you entered is present but does not contain *"updated via JMS"*.
 
             select * from kvpair
+    * Log out of the H2 console. H2 is limited to one connection and the application will need it from this point forward.
     * If you are using the default file based transaction logging store, there will be a record in the file system corresponding to the pending transaction. 
 
         * Open a command line and navigate to the `$JBOSS_HOME` directory

@@ -57,12 +57,12 @@ IMPORTANT: This quickstart depends on the deployment of the `jts` quickstart for
 You can verify the deployment of the `jts` quickstart by accessing the following URL:  <http://localhost:8080/jboss-as-jts-application-component-1/>.
 
 
-<a name="clear-transaction-objectstore"/>
+<a name="clear-transaction-objectstore"></a>
 
 Clear the Transaction ObjectStore
 -------------------------
 
-Make sure there is no transaction objectstore data left after testing this or any of the other quickstarts. If you are using the default file based transaction logging stor
+Make sure there is no transaction objectstore data left after testing this or any of the other quickstarts. If you are using the default file based transaction logging store:
 
 1. Open a command line and type the following:
 
