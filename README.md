@@ -83,6 +83,7 @@ Quickstarts with tutorials in the [Getting Started Developing Applications Guide
 | [tasks](tasks/README.md "tasks") | Arquillian, JPA, CRUD | Demonstrates testing JPA using Arquillian | Intermediate | None |
 | [tasks-jsf](tasks-jsf/README.md "tasks-jsf") | JSF, JPA | Provides a JSF 2.0 as view layer for the `tasks` quickstart | Intermediate | None |
 | [temperature-converter](temperature-converter/README.md "temperature-converter") | Stateless Session Bean (SLSB) | Demonstrates a stateless session bean | Intermediate | None |
+| [tasks-rs](tasks-rs/README.md "tasks-rs") | JAX-RS, JPA | Demonstrates how to use JAX-RS and JPA together | Intermediate | None |
 | [wicket-ear](wicket-ear/README.md "wicket-ear") | Apache Wicket, CRUD, JPA | Demonstrates how to use the Wicket Framework 1.5 with the JBoss server using the Wicket-Stuff Java EE integration, packaged as an EAR  | Intermediate | None |
 | [wicket-war](wicket-war/README.md "wicket-war") | Apache Wicket, CRUD, JPA | Demonstrates how to use the Wicket Framework 1.5 with the JBoss server using the Wicket-Stuff Java EE integration packaged as a WAR  | Intermediate | None |
 | [wsat-simple](wsat-simple/README.md "wsat-simple") | WS-AT, Web service, JAX-WS | Deployment of a WS-AT (WS-AtomicTransaction) enabled JAX-WS Web service bundled in a WAR archive  | Intermediate | None |

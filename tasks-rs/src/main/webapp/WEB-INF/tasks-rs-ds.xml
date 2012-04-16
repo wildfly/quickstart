@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<datasources xmlns="http://www.jboss.org/ironjacamar/schema"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://www.jboss.org/ironjacamar/schema http://docs.jboss.org/ironjacamar/schema/datasources_1_0.xsd">
+   <!-- The datasource is bound into JNDI at this location. We reference
+      this in META-INF/persistence.xml -->
+   <datasource jndi-name="java:jboss/datasources/TasksRsQuickstartDS"
+      pool-name="tasks-rs-xml-quickstart" enabled="true"
+      use-java-context="true">
+      <connection-url>jdbc:h2:mem:tasks-rs-xml-quickstart;DB_CLOSE_ON_EXIT=FALSE</connection-url>
+      <driver>h2</driver>
+      <security>
+         <user-name>sa</user-name>
+         <password>sa</password>
+      </security>
+   </datasource>
+</datasources>

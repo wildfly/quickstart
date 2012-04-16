@@ -1,0 +1,34 @@
+<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+    <!-- One of the way of activating REST Services is adding these lines, the server is responsible for adding the corresponding servlet automatically. If the src folder, org.jboss.as.quickstarts.rshelloworld.HelloWorld class has the Annotations to receive REST invocation-->
+    <servlet-mapping>
+        <servlet-name>javax.ws.rs.core.Application</servlet-name>
+        <url-pattern>/*</url-pattern>
+    </servlet-mapping>
+
+    <!-- Use HTTP Basic for authentication -->
+    <login-config>
+        <auth-method>BASIC</auth-method>
+        <realm-name>RealmUsersRoles</realm-name>
+    </login-config>
+
+    <context-param>
+      <param-name>resteasy.role.based.security</param-name>
+      <param-value>true</param-value>
+    </context-param>
+
+    <security-constraint>
+      <web-resource-collection>
+        <web-resource-name>Tasks</web-resource-name>
+        <url-pattern>/*</url-pattern>
+      </web-resource-collection>
+      <auth-constraint>
+        <role-name>guest</role-name>
+      </auth-constraint>
+    </security-constraint>
+
+    <security-role>
+      <role-name>guest</role-name>
+    </security-role>
+</web-app>
