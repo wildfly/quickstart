@@ -1,4 +1,4 @@
-jboss-as-xml-dom4j
+xml-dom4j: How to Upload and Parse an XML File Using a 3rd Party XML Parsing Library
 ========================
 Author: Bartosz Baranowski
 

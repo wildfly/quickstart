@@ -1,4 +1,4 @@
-jboss-as-xml-jaxp
+xml-jaxp: Demonstrates How to Upload and Parse an XML File Using DOM or SAX
 ========================
 Author: Bartosz Baranowski
 

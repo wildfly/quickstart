@@ -40,9 +40,9 @@ Quickstarts with tutorials in the [Getting Started Developing Applications Guide
 | **Quickstart Name** | **Demonstrated Technologies** | **Description** | **Experience Level Required** | **Prerequisites** |
 |:-----------|:-----------|:-----------|:-----------|:-----------|
 | [bean-validation](bean-validation/README.md "bean-validation") | Bean Validation, JPA | Shows how to use Arquillian to test Bean Validation | Beginner | None |
-| [bmt](bmt/README.md "bmt") | EJB, BMT | EJB that demonstrates bean-managed transactions (BMT) | Beginner | None |
+| [bmt](bmt/README.md "bmt") | EJB, Bean-Managed Transactions (BMT) | EJB that demonstrates bean-managed transactions (BMT) | Beginner | None |
 | [cdi-injection](cdi-injection/README.md "cdi-injection") | CDI injection, Qualifiers, Servlet | Demonstrates the use of CDI 1.0 Injection and Qualifiers with JSF as the front-end client. | Beginner | None |
-| [cmt] (cmt/README.md "cmt") | EJB, container-managed transaction (CMT) | EJB that demonstrates container-managed transactions (CMT) | Intermediate | None |
+| [cmt] (cmt/README.md "cmt") | EJB, Container-Managed Transactions (CMT) | EJB that demonstrates container-managed transactions (CMT) | Intermediate | None |
 | [ejb-in-ear](ejb-in-ear/README.md "ejb-in-ear") | EJB, JSF, JAR, and WAR deployed as an EAR | Packages an EJB JAR and WAR in an EAR | Beginner | None |
 | [ejb-in-war](ejb-in-war/README.md "ejb-in-war") | EJB and JSF deployed as a WAR | Packages an EJB JAR in a WAR | Beginner | None |
 | [ejb-remote](ejb-remote/README.md "ejb-remote") | Remote EJB | Shows how to access an EJB from a remote Java client program using JNDI | Beginner | None |
@@ -56,10 +56,10 @@ Quickstarts with tutorials in the [Getting Started Developing Applications Guide
 | [helloworld-html5](helloworld-html5/README.md "helloworld-html5") | Basic HTML5 |Demonstrates the use of CDI 1.0 and JAX-RS using the POH5 architecture and RESTful services on the backend | Beginner | None |
 | [helloworld-jms](helloworld-jms/README.md "helloworld-jms") | JMS | Demonstrates the use of external JMS clients | Intermediate | None |
 | [helloworld-jsf](helloworld-jsf/README.md "helloworld-jsf") | Basic CDI, JSF | Similar to the helloworld quickstart, but with a JSF front end | Beginner | None |
-| [helloworld-mdb](helloworld-mdb/README.md "helloworld-mdb") | Basic JMS, message-driven bean (MDB) | Demonstrates the use of JMS 1.1 and EJB 3.1 Message-Driven Bean  | Intermediate | None |
+| [helloworld-mdb](helloworld-mdb/README.md "helloworld-mdb") | Basic JMS, Message-Driven Bean (MDB) | Demonstrates the use of JMS 1.1 and EJB 3.1 Message-Driven Bean  | Intermediate | None |
 | [helloworld-osgi**](helloworld-osgi/README.md "helloworld-osgi") | OSGi JAR | Shows how to create and deploy a simple OSGi Bundle | Beginner | None |
 | [helloworld-rs](helloworld-rs/README.md "helloworld-rs") | CDI, JAX-RS | Demonstrates the use of CDI 1.0 and JAX-RS | Intermediate | None |
-| [helloworld-singleton](helloworld-singleton/README.md "helloworld-singleton") | Singleton Session Bean | Demonstrates the use of an EJB 3.1 Singleton Session Bean | Beginner | None |
+| [helloworld-singleton](helloworld-singleton/README.md "helloworld-singleton") | Singleton Session Bean | Demonstrates the use of an EJB 3.1 Singleton Session Bean, instantiated once, maintaining state for the life of the session | Beginner | None |
 | [hibernate3](hibernate3/README.md "hibernate3") | Hibernate 3 | Performs the same functions as _hibernate4_ quickstart, but uses Hibernate version 3 for database access | Beginner | None |
 | [hibernate4](hibernate4/README.md "hibernate4") | Hibernate 4 | Performs the same functions as _hibernate3_ quickstart, but uses Hibernate version 4 for database access | Beginner | None |
 | [jax-rs-client](jax-rs-client/README.md "jax-rs-client") | JAX-RS | Demonstrates the use an external JAX-RS RestEasy client which interacts with a JAX-RS Web service that uses CDI 1.0 and JAX-RS | Intermediate | helloworld-rs |
@@ -78,9 +78,11 @@ Quickstarts with tutorials in the [Getting Started Developing Applications Guide
 | [richfaces-validation](richfaces-validation/README.md "richfaces-validation") | RichFaces | Demonstrates RichFaces and bean validation | Beginner | None |
 | [servlet-async](servlet-async/README.md "servlet-async") | CDI, EJB, Servlet | Demonstrates CDI, plus asynchronous Servlets and EJBs | Intermediate | None |
 | [servlet-filterlistener](servlet-filterlistener/README.md "servlet-filterlistener") | Servlet | Demonstrates Servlet filters and listeners | Intermediate | None |
-| [servlet-security](servlet-security/README.md "servlet-security") | Servlet, Security | Demonstrates how to use Java EE declarative security to control access to Servlet 3 | begiiner | greeter |
-| [shopping-cart](shopping-cart/README.md "shopping-cart") | Stateful Session Bean | Demonstrates a stateful session bean | begiiner | greeter |
-| [tasks](tasks/README.md "servlet-filterlistener") | Arquillian, JPA | Demonstrates testing JPA using Arquillian | Intermediate | greeter |
+| [servlet-security](servlet-security/README.md "servlet-security") | Servlet, Security | Demonstrates how to use Java EE declarative security to control access to Servlet 3 | Beginner | None |
+| [shopping-cart](shopping-cart/README.md "shopping-cart") | Stateful Session Bean (SFSB) | Demonstrates a stateful session bean | beginner | None |
+| [tasks](tasks/README.md "tasks") | Arquillian, JPA, CRUD | Demonstrates testing JPA using Arquillian | Intermediate | None |
+| [tasks-jsf](tasks-jsf/README.md "tasks-jsf") | JSF, JPA | Provides a JSF 2.0 as view layer for the `tasks` quickstart | Intermediate | None |
+| [temperature-converter](temperature-converter/README.md "temperature-converter") | Stateless Session Bean (SLSB) | Demonstrates a stateless session bean | Intermediate | None |
 | [wicket-ear](wicket-ear/README.md "wicket-ear") | Apache Wicket, CRUD, JPA | Demonstrates how to use the Wicket Framework 1.5 with the JBoss server using the Wicket-Stuff Java EE integration, packaged as an EAR  | Intermediate | None |
 | [wicket-war](wicket-war/README.md "wicket-war") | Apache Wicket, CRUD, JPA | Demonstrates how to use the Wicket Framework 1.5 with the JBoss server using the Wicket-Stuff Java EE integration packaged as a WAR  | Intermediate | None |
 | [wsat-simple](wsat-simple/README.md "wsat-simple") | WS-AT, Web service, JAX-WS | Deployment of a WS-AT (WS-AtomicTransaction) enabled JAX-WS Web service bundled in a WAR archive  | Intermediate | None |

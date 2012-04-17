@@ -1,7 +1,7 @@
-EJB 3.1 Stateful Session Bean Example
+shopping-cart: EJB 3.1 Stateful Session Bean (SFSB) Example 
 =====================================
-
 Author: Serge Pagop
+
 
 What is it?
 -----------
