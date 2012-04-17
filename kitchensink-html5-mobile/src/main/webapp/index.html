@@ -141,6 +141,12 @@
                     $("#refreshButtonD, #refreshButtonM").click(function(event) {
                         updateMemberTable();
                     });
+
+                    //Clear member registration and error messages on page change
+                    $("#container").delegate("#register-art", "pagebeforeshow", function(event) {
+                        $("#formMsgs").empty();
+                        $('span.invalid').remove();
+                    });
                 });
 
                 $.fn.serializeObject = function() {
