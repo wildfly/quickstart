@@ -27,7 +27,9 @@ import javax.ws.rs.core.Response;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.as.quickstarts.html5_mobile.data.MemberRepository;
 import org.jboss.as.quickstarts.html5_mobile.rest.MemberService;
+import org.jboss.as.quickstarts.html5_mobile.service.MemberRegistration;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
@@ -48,7 +50,8 @@ public class MemberRegistrationTest {
    @Deployment
    public static Archive<?> createTestArchive() {
       return ShrinkWrap.create(WebArchive.class, "test.war")
-            .addClasses(Member.class, MemberService.class, Resources.class)
+            .addClasses(Member.class, MemberService.class, MemberRepository.class,
+                    MemberRegistration.class, Resources.class)
             .addAsResource("META-INF/persistence.xml", "META-INF/persistence.xml")      
             .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
    }
