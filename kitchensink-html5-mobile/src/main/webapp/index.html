@@ -103,11 +103,6 @@
                 "scss": function( url, result, key ) {
                     $( document ).ready( function() {
                         //here we are moving content around based on the browser/device.
-                        //Wrap features in an aside and then move asides outside of the
-                        //section tag for desktop only
-                        var aside = $( "<aside>" ).insertBefore( $( "aside" ) );
-                        $("#features").appendTo(aside);
-                        aside.prepend("<h3>Features</h3>");
                         $( "aside" ).insertAfter( $( "section" ) );
                     });
                 }
@@ -191,6 +186,7 @@
                     <p>You have successfully deployed a Java EE 6 web application.</p>
                     <h3>Your application can run on:</h3>
                     <img src="img/dualbrand_as7eap.png" class="max-width-100"/>
+                    <p>This quickstart demonstrates the use of various HTML5, CSS3 and JavaScript techniques. The registration form uses new HTML5 validation tags mirroring server side bean validation constraints as well as new input attributes like placeholder and autofocus. The member table is populated using RESTful get calls, client side templating and CSS3 styling. This quickstart also has a mobile interface using jQuery Mobile so open it on your favorite mobile device.</p>
 
                     <ul id="features">
                         <li class="feature">Pure HTML client</li>
@@ -231,7 +227,6 @@
                 <h2>Member Registration</h2>
 
                 <div data-role="content">
-                    <p class="desktop-only">Enforces client side validation with HTML5 based constraints that match the annotation-based constraints defined on the model class. Also uses new HTML5 attributes such as placeholder, and autofocus.</p>
 
                     <!-- For now mapping bean validation constraints from server side model is a manual task -->
                     <form name="reg" id="reg" data-ajax="false">
@@ -284,7 +279,6 @@
                 <h2>Current Members</h2>
 
                 <div data-role="content">
-                    <p class="desktop-only">This table is populated and constructed using restful GET calls to the server, and uses CSS3 based selectors for styling. When the page is requested jQuery is used to send the JAX-RS request for the current list of members. The table is them populated dynamically using JavaScript. See app.js for more details.</p>
                     <button id="refreshButtonM" data-role="button" data-inline="true" data-icon="refresh">Refresh Members</button>
                     <table id="mem_tbl">
                         <thead>
@@ -334,27 +328,25 @@
                 <h3>Find out more</h3>
 
                 <div data-role="content">
-                    <p>Learn more about JBoss.</p>
+                    <p>Learn more about JBoss Enterprise Application Platform 6.</p>
                     <ul>
-                        <li><a href="https://docs.jboss.org/author/display/AS7/Getting+Started+Developing+Applications+Guide">JBoss AS 7 Getting Started Developing Applications Guide</a></li>
-                        <li><a href="http://jboss.org/jbossas">JBoss AS 7 project site</a></li>
+                        <li><a href="http://red.ht/jbeap-6-docs" target="_blank">Documentation</a></li>
+                        <li><a href="http://red.ht/jbeap-6" target="_blank">Product Information</a></li>
+                    </ul>
+                    <p>Learn more about JBoss AS 7.</p>
+                    <ul>
+                        <li><a href="https://docs.jboss.org/author/display/AS7/Getting+Started+Developing+Applications+Guide" target="_blank">Getting Started Developing Applications Guide</a></li>
+                        <li><a href="http://jboss.org/jbossas" target="_blank">Community Project Information</a></li>
                     </ul>
                     <p>Learn about <strong>AeroGear</strong> and HTML5/Mobile development on JBoss.</p>
                     <ul>
-                        <li><a href="http://jboss.org/aerogear">AeroGear Project site</a></li>
-                        <li><a href="https://community.jboss.org/wiki/WhatArePlainOldHTML5POH5Applications">More on <strong>POH5</strong></a></li>
-                        <li><a href="https://community.jboss.org/wiki/GetStartedWithHTML5MobileWebDevelopmentWithJBoss">Get this application</a></li>
-                        <li><a href="https://community.jboss.org/wiki/HTML5MobileQuickstartArchetypeDeepDive">Application deepdive</a></li>
-                        <li><a href="https://community.jboss.org/community/aerogear">AeroGear user forums</a></li>
-                        <li><a href="https://github.com/organizations/aerogear">Github</a></li>
+                        <li><a href="http://jboss.org/aerogear" target="_blank">AeroGear Project site</a></li>
+                        <li><a href="https://community.jboss.org/wiki/WhatArePlainOldHTML5POH5Applications" target="_blank">More on <strong>POH5</strong></a></li>
+                        <li><a href="https://community.jboss.org/wiki/GetStartedWithHTML5MobileWebDevelopmentWithJBoss" target="_blank">Get this application</a></li>
+                        <li><a href="https://community.jboss.org/wiki/HTML5MobileQuickstartArchetypeDeepDive" target="_blank">Application deepdive</a></li>
+                        <li><a href="https://community.jboss.org/community/aerogear" target="_blank">AeroGear user forums</a></li>
+                        <li><a href="https://github.com/organizations/aerogear" target="_blank">Github</a></li>
                     </ul>
-                    <p>Learn about the Java EE 6 platform and the component model it provides.</p>
-                    <ul>
-                        <li><a href="http://download.oracle.com/javaee/6/tutorial/doc">Java EE 6 tutorial</a></li>
-                        <li><a href="http://docs.jboss.org/cdi/spec/1.0/html">JSR-299: CDI specification</a></li>
-                        <li><a href="https://sites.google.com/site/cdipojo/get-started">CDI Source</a></li>
-                    </ul>
-                    <p>If you have an add-on, please <a href="http://jboss.org">let us know</a> and consider <a href="http://jboss.org">contributing</a> it back to the community!</p>
                 </div>
             </aside>
         </section>
