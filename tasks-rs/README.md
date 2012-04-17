@@ -8,14 +8,12 @@ What is it?
 -----------
 
 This project demonstrates how to implement a JAX-RS service that uses JPA 2.0 persistence.
-The client uses HTTP to interact with the service. It builds on the *tasks* quickstarts which
-provide simple Task management with secure log in.
 
-The service interface is implemented using JAX-RS. The SecurityContext JAX-RS annotation
-is used to inject the security details into each REST method.
+* The client uses HTTP to interact with the service. It builds on the *tasks* quickstarts which provide simple Task management with secure login.
 
-The application manages User and Task JPA entities. A user represents an authenticated principal and is associated with zero or more Tasks. Service methods validate that there is an authenticated principal and the first
-time a principal is seen a JPA User entity is created to correspond to the principal. JAX-RS methods are provided for associating Tasks with this User and for listing and removing Tasks.
+* The service interface is implemented using JAX-RS. The SecurityContext JAX-RS annotation is used to inject the security details into each REST method.
+
+The application manages User and Task JPA entities. A user represents an authenticated principal and is associated with zero or more Tasks. Service methods validate that there is an authenticated principal and the first time a principal is seen, a JPA User entity is created to correspond to the principal. JAX-RS annotated methods are provided for associating Tasks with this User and for listing and removing Tasks.
 
 
 System requirements
@@ -32,11 +30,11 @@ Configure Maven
 If you have not yet done so, you must [Configure Maven](../README.md#mavenconfiguration) before testing the quickstarts.
 
 
-Add At Least One Application User
+
+Add an Application User
 ---------------
 
-This quickstart uses a secured management interface and requires that you create an application user to access the running application. Instructions to set up an Application user can be found here:  [Add an Application User](../README.md#addapplicationuser). After following those instructions you should have created a user
-called quickstartUser with password quickstartUser (and belonging to the guest role).
+This quickstart uses a secured management interface and requires that you create an application user to access the running application. Instructions to set up an Application user can be found here:  [Add an Application User](../README.md#addapplicationuser).  After following these instructions. you should have created a user called `quickstartUser` with password `quickstartPassword`, belonging to the `guest` role.
 
 
 Start JBoss Enterprise Application Platform 6 or JBoss AS 7 with the Web Profile
@@ -63,63 +61,95 @@ _NOTE: The following build command assumes you have configured your Maven user s
 4. This will deploy `target/jboss-as-tasks-rs.war` to the running instance of the server.
 
 
-Access application resources
+Access the Application Resources
 ---------------------
 
-Application resources are prefixed with the URL http://localhost:8080/jboss-as-tasks-rs/ and
-can be accessed by an HTTP client. For methods that accept GET a web browser can be used otherwise
-use a command line tool that supports HTTP POST and DELETE methods (for example curl) must be used.
+Application resources for this quickstart are prefixed with the URL http://localhost:8080/jboss-as-tasks-rs/ and can be accessed by an HTTP client.
 
-To associate a task called task1 with the user quickstartUser, authenticate as user quickstartUser
-and send an HTTP POST request to the url
+* For methods that accept *GET*, a web browser can be used.
+* Otherwise, you must use cURL or some other command line tool that supports HTTP *POST* and *DELETE* methods.
 
-    http://localhost:8080/jboss-as-tasks-rs/task/task1
+Below you will find instructions to create, display, and delete tasks.
 
-The "Location" header of the response contains the URI of the resource representing the newly created
-task. To delete this task, again authenticate as pricipal quickstartUser whilst sending an HTTP DELETE
-request to this task URI.  Similary, to get an XML representation of the resource just created issue
-a GET request on the task URI.
+### Create a Task
 
-To obtain a list all resources for user quickstartUser in XML format, authenticate as user quickstartUser and send an HTTP GET request (with accept header application/xml) to the url
+To associate a task called `task1` with the user `quickstartUser`, you must authenticate as user `quickstartUser` and send an HTTP *POST* request to the url 'http://localhost:8080/jboss-as-tasks-rs/task/task1'.
 
-    http://localhost:8080/jboss-as-tasks-rs/tasks
+To issue the *POST* command using cURL, type the following command:
 
-For example, if you type the previous url into a browser then you will be challenged to enter valid authentication credentials and if successful the browser will display an XML document containing all the tasks belonging to the user that was just validated.
+    curl -i -u "quickstartUser:quickstartPassword" -H "Content-Length: 0" -X POST http://localhost:8080/jboss-as-tasks-rs/task/task1
 
-Here are some example commands to achieve the above using a tool called curl:
+You will see the following response:
 
-Create a task with title task1 and associate it with user quickstartUser:
-
-    curl -i -u "quickstartUser:quickstartPassword" -X POST http://localhost:8080/jboss-as-tasks-rs/task/task1
     HTTP/1.1 201 Created
     Server: Apache-Coyote/1.1
     Location: http://localhost:8080/jboss-as-tasks-rs/task/1
     Content-Length: 0
     Date: Sun, 15 Apr 2012 22:46:26 GMT
 
-The -i flag tells curl to print the returned headers. Notice that the Location header contains the URI of the resource corresponding to the new Task you have just created.
+This is what happens when the command is issued:
 
-The -u flag provides the authentication information for the request.
+* The `-i` flag tells cURL to print the returned headers. Notice that the `Location` header contains the URI of the resource corresponding to the new task you have just created.
+* The `-u` flag provides the authentication information for the request.
+* The `-H` flag adds a header to the outgoing request.
+* The `-X` flag tells cURL which HTTP method to use. The HTTP *POST* is used to create resources.
+* The `Location` header of the response contains the URI of the resource representing the newly created task.
 
-The -X flag tells curl which HTTP method to use (POST is used to create resources).
+The final argument to cURL determines the title of the task. Note that this approach is perhaps not very restful but it simplifies this quickstart. A better approach would be to *POST* to "http://localhost:8080/jboss-as-tasks-rs/task" passing the task title in the body of the request.
 
-The final argument to curl determines the title of the task. An alternative (and more restful) approach would be to POST to http://localhost:8080/jboss-as-tasks-rs/task passing the task title in the body of the request. Certainly a real task would contain more that just a title so it would make sense to include the title in the body.
 
-To see an XML representation of the task perform a GET on URI that was returned in the Location header:
+### Display the XML Representation of a Task
 
-    curl --header "Accept: application/xml" -u "quickstartUser:quickstartPassword" -X GET http://localhost:8080/jboss-as-tasks-rs/task/1
-    <?xml version="1.0" encoding="UTF-8" standalone="yes"?><task id="1" ownerName="quickstartUser"><title>task1</title></task>
+To display the XML representation of the newly created resource, issue a *GET* request on the task URI returned in the `Location` header during the create.
 
-The --header flag tells the server that the client wishes to accept XML content.
+1. To issue a *GET* using a browser, open a browser and access the URI. You will be challenged to enter valid authentication credentials.
 
-To list all tasks associated with the user quickstartUser type:
+    <http://localhost:8080/jboss-as-tasks-rs/task/1>
+2. To issue a *GET* using cURL, type the following command:
 
-    curl --header "Accept: application/xml" -u "quickstartUser:quickstartPassword" -X GET http://localhost:8080/jboss-as-tasks-rs/tasks
-    <?xml version="1.0" encoding="UTF-8" standalone="yes"?><collection><task id="1" ownerName="quickstartUser"><title>task1</title></task></collection>
+    `curl -H "Accept: application/xml" -u "quickstartUser:quickstartPassword" -X GET http://localhost:8080/jboss-as-tasks-rs/task/1`
 
-To delete the task with id 1:
+    The `-H flag tells the server that the client wishes to accept XML content.
+
+Using either of the above *GET* methods, you should see the following XML:
+
+    <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    <task id="1" ownerName="quickstartUser">
+        <title>task1</title>
+    </task>
+
+
+### Display the XML Representation of all Tasks for a User
+
+To obtain a list of all tasks for user `quickstartUser` in XML format, authenticate as user `quickstartUser` and send an HTTP `GET` request to the resource `tasks` URL.
+
+1. To issue a *GET* using a browser, open a browser and access the following URL. You will be challenged to enter valid authentication credentials.
+
+    <http://localhost:8080/jboss-as-tasks-rs/tasks>
+
+2. To list all tasks associated with the user `quickstartUser` using cURL, type:
+
+    curl -H "Accept: application/xml" -u "quickstartUser:quickstartPassword" -X GET http://localhost:8080/jboss-as-tasks-rs/tasks
+
+Using either of the above *GET* methods, you should see the following XML:
+
+    <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    <collection>
+        <task id="1" ownerName="quickstartUser">
+        <title>task1</title>
+        </task>
+    </collection>
+
+### Delete a Task
+
+To delete a task, again authenticate as principal `quickstartUser` and send an HTTP *DELETE* request to the URI that represents the task.
+
+To delete the task with id `1`:
 
     curl -i -u "quickstartUser:quickstartPassword" -X DELETE http://localhost:8080/jboss-as-tasks-rs/task/1
+
+You will see this response:
+
     HTTP/1.1 204 No Content
     Server: Apache-Coyote/1.1
     Pragma: No-cache
@@ -127,34 +157,55 @@ To delete the task with id 1:
     Expires: Thu, 01 Jan 1970 01:00:00 GMT
     Date: Sun, 15 Apr 2012 22:51:56 GMT
 
-Now if you list all tasks associated with user quickstartUser you should get back an empty collection:
+Now list all tasks associated with user `quickstartUser`:
 
     curl -u "quickstartUser:quickstartPassword" -X GET http://localhost:8080/jboss-as-tasks-rs/tasks
-    <?xml version="1.0" encoding="UTF-8" standalone="yes"?><collection/>
 
-Modifying the quickstart to support JSON representations of tasks
+You will see a response with an empty collection:
+
+    <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    <collection/>
+
+
+Modify this Quickstart to Support JSON Representations of Tasks
 -----------------------------------------------------------------
 
-JSON is not part of the JAX-RS standard but most JAX-RS implementations do support it. The quickstart
-can be modified to suport JSON by uncommenting a few lines (look for lines beginning with "// JSON:":
+JSON is not part of the JAX-RS standard but most JAX-RS implementations do support it. This quickstart can be modified to support JSON by uncommenting a few lines. Look for lines beginning with "// JSON:":
 
-1. Open the file src/org/jboss/as/quickstarts/tasksrs/model/Task.java and uncomment the two lines
+1. Open the file src/org/jboss/as/quickstarts/tasksrs/model/Task.java and remove the comments from the following two lines.
 
-    import org.codehaus.jackson.annotate.JsonIgnore;
+        // import org.codehaus.jackson.annotate.JsonIgnore;
 
-    @JsonIgnore
+        // @JsonIgnore
 
-2. Open the file src/org/jboss/as/quickstarts/tasksrs/service/TaskResource.java and make sure the GET
-methods produce "application/json" (look for lines beginning with "// JSON:")
+2. Open the file src/org/jboss/as/quickstarts/tasksrs/service/TaskResource.java and make sure the *GET* methods produce "application/json" as well as "application/xml". Again, look for lines beginning with "// JSON:".
+    * Remove comments from these lines:
 
-3. Open pom.xml and uncomment the dependency with artifactId resteasy-jackson-provider
+        //@Produces({ "application/xml", "application/json" })
+    * Add comments to these lines:
 
-Rebuild and redeploy the quickstart.
+        @Produces({ "application/xml" })
+3. Open pom.xml and remove the comments from the dependency with artifactId `resteasy-jackson-provider`
 
-Now you can view task resources in JSON media type by specifying the correct Accept header. For example
-using the curl tool:
+        <!--
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-jackson-provider</artifactId>
+            <version>2.3.1.GA</version>
+            <scope>provided</scope>
+        </dependency>
+        -->
 
-    curl --header "Accept: application/json" -u "quickstartUser:quickstartPassword" -X GET http://localhost:8080/jboss-as-tasks-rs/task/1
+
+4. Rebuild and redeploy the quickstart.
+
+
+Now you can view task resources in JSON media type by specifying the correct Accept header. For example, using the cURL tool, type the following command:
+
+    curl -H "Accept: application/json" -u "quickstartUser:quickstartPassword" -X GET http://localhost:8080/jboss-as-tasks-rs/task/1
+
+You will see the following response:
+
     {"id":1,"title":"task1","ownerName":"quickstartUser"}
 
 
