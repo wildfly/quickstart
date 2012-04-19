@@ -54,12 +54,12 @@
             If they don't have it cached, try to load it from the CDN as this will be faster if the user is
             located closer to a CDN than you currently hosted server.
             */
-            load: "http://code.jquery.com/jquery-1.6.4.min.js",
+            load: "http://code.jquery.com/jquery-1.7.1.min.js",
             complete: function() {
                 if ( !window.jQuery ) {
                     //In production, you would want to fall back to a minified file.
                     //We fall back to the full version because Eclipse reports false errors in some minified JavaScript files.
-                    yepnope.load( "js/libs/jquery-1.6.4.js" );
+                    yepnope.load( "js/libs/jquery-1.7.1.js" );
                 }
             }
         },{
@@ -75,7 +75,7 @@
             yep: {
                 //assign labeled callbacks for later execution after script loads.
                 //we are on mobile device so load appropriate CSS
-                "jqmcss": "css/jquery.mobile-1.0.min.css",
+                "jqmcss": "css/jquery.mobile-1.1.0.min.css",
                 // For minification, uncomment this line
                 //"mcss": "css/m.screen.min.css"
                 // For minification, comment out this line
@@ -92,10 +92,10 @@
                 //use the labeled callbacks from above, and load jQuery Mobile
                 "jqmcss": function( url, result, key ) {
                     yepnope({
-                        load: "http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.js",
+                        load: "http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js",
                         complete: function() {
                             if ( !$.mobile ) {
-                                yepnope( "js/libs/jquery.mobile-1.0.min.js" );
+                                yepnope( "js/libs/jquery.mobile-1.1.0.min.js" );
                             }
                         }
                     });
@@ -337,11 +337,10 @@
             <!-- New HTML5 aside tag -->
             <aside id="info-aside" data-role="page" data-theme="a">
                 <!-- Header -->
-                <div data-role="header" class="header">
+                <div data-role="header">
                     <h3>Find out more</h3>
                 </div>
                 <!-- /Header -->
-                <h3>Find out more</h3>
 
                 <div data-role="content">
                     <p>Learn more about JBoss Enterprise Application Platform 6.</p>

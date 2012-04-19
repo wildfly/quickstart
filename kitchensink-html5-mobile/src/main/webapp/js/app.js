@@ -43,7 +43,6 @@ function updateMemberTable() {
         cache: false,
         success: function(data) {
             $('#members').empty().append(buildMemberRows(data));
-            if ($.mobile) $.mobile.fixedToolbars.show();
         },
         error: function(error) {
             //console.log("error updating table -" + error.status);
