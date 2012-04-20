@@ -22,15 +22,13 @@
 
 package org.jboss.as.quickstarts.ejb.remote.client;
 
+import org.jboss.as.quickstarts.ejb.remote.stateful.RemoteCounter;
+import org.jboss.as.quickstarts.ejb.remote.stateless.RemoteCalculator;
+
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import java.security.Security;
 import java.util.Hashtable;
-
-import org.jboss.as.quickstarts.ejb.remote.stateful.RemoteCounter;
-import org.jboss.as.quickstarts.ejb.remote.stateless.RemoteCalculator;
-import org.jboss.sasl.JBossSaslProvider;
 
 /**
  * A sample program which acts a remote client for a EJB deployed on AS7 server.
@@ -39,15 +37,6 @@ import org.jboss.sasl.JBossSaslProvider;
  * @author Jaikiran Pai
  */
 public class RemoteEJBClient {
-
-    // The EJB invocation happens via the JBoss Remoting project, which uses SASL for
-    // authentication for client-server authentication. There are various different security algorithms that
-    // SASL supports. In this example we use "anonymous" access to the server and for that we register
-    // the JBossSaslProvider which provides support for that algorithm. Depending on how which algorithm
-    // is used, this piece of code to register JBossSaslProvider, may or may not be required
-    static {
-        Security.addProvider(new JBossSaslProvider());
-    }
 
     public static void main(String[] args) throws Exception {
         // Invoke a stateless bean
