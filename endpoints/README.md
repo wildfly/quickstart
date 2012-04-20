@@ -10,15 +10,76 @@ operations with the cache.
 Building and starting the application
 -------------------------------------
 
-1) Add the following cache definitions into infinispan-subsystem in 
-   `${JDG_HOME}/standalone/configuration/standalone.xml`:
+1) Alter JDG configuration file (`${JDG_HOME}/standalone/configuration/standalone.xml`) to contain
+   the following definitions:
    
-   `<local-cache name="memcachedCache" start="EAGER" batching="false" indexing="NONE">
-       <locking isolation="REPEATABLE_READ" striping="false" acquire-timeout="20000" concurrency-level="500"/>
-   </local-cache>
-   <local-cache name="teams" start="EAGER" batching="false" indexing="NONE">
-       <locking isolation="REPEATABLE_READ" striping="false" acquire-timeout="20000" concurrency-level="500"/>
-   </local-cache>`
+* Datasource subsystem definition:
+
+    `<subsystem xmlns="urn:jboss:domain:datasources:1.0">
+        <datasources>
+            <datasource jndi-name="java:jboss/datasources/ExampleDS" pool-name="ExampleDS" enabled="true" use-java-context="true">
+                <connection-url>jdbc:h2:mem:test;DB_CLOSE_DELAY=-1</connection-url>
+                <driver>h2</driver>
+                <security>
+                    <user-name>sa</user-name>
+                    <password>sa</password>
+                </security>
+            </datasource>
+            <drivers>
+                <driver name="h2" module="com.h2database.h2">
+                    <xa-datasource-class>org.h2.jdbcx.JdbcDataSource</xa-datasource-class>
+                </driver>
+            </drivers>
+        </datasources>
+    </subsystem>`
+
+* Infinispan subsystem definition:
+
+    `<subsystem xmlns="urn:jboss:domain:infinispan:1.2" default-cache-container="default">
+        <cache-container name="default" default-cache="memcachedCache" listener-executor="infinispan-listener" start="EAGER">
+            <local-cache 
+                name="memcachedCache"
+                start="EAGER"
+                batching="false"
+                indexing="NONE">
+                <locking
+                    isolation="REPEATABLE_READ"
+                    acquire-timeout="20000"
+                    concurrency-level="500"
+                    striping="false" />
+                <transaction mode="NONE" />
+                <string-keyed-jdbc-store datasource="java:jboss/datasources/ExampleDS" passivation="false" preload="false" purge="false">
+                    <property name="databaseType">H2</property>
+                    <string-keyed-table prefix="JDG">
+                        <id-column name="id" type="VARCHAR"/>
+                        <data-column name="datum" type="BINARY"/>
+                        <timestamp-column name="version" type="BIGINT"/>
+                    </string-keyed-table>
+                </string-keyed-jdbc-store>
+            </local-cache>
+            <local-cache 
+                name="teams"
+                start="EAGER"
+                batching="false"
+                indexing="NONE">
+                <locking
+                    isolation="REPEATABLE_READ"
+                    acquire-timeout="20000"
+                    concurrency-level="500"
+                    striping="false" />
+                <transaction mode="NONE" />
+                <string-keyed-jdbc-store datasource="java:jboss/datasources/ExampleDS" passivation="false" preload="false" purge="false">
+                    <property name="databaseType">H2</property>
+                    <string-keyed-table prefix="JDG">
+                        <id-column name="id" type="VARCHAR"/>
+                        <data-column name="datum" type="BINARY"/>
+                        <timestamp-column name="version" type="BIGINT"/>
+                    </string-keyed-table>
+                </string-keyed-jdbc-store>
+            </local-cache>
+        </cache-container>
+    </subsystem>`
+
 
 NOTE: The cache called "teams" will be used by HotRod and REST endpoints; Memcached endpoint works with "memcachedCache" by
       default
