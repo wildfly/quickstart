@@ -10,6 +10,11 @@ operations with the cache.
 Building and starting the application
 -------------------------------------
 
+0) Install a JDBC driver into JDG. More information can be found at 
+   https://community.jboss.org/wiki/DataSourceConfigurationInAS7, topic "Installing a JDBC driver as a module"
+
+NOTE: JDG does not support deploying applications so one cannot install it as a deployment.
+
 1) Alter JDG configuration file (`${JDG_HOME}/standalone/configuration/standalone.xml`) to contain
    the following definitions:
    
@@ -87,10 +92,18 @@ NOTE: The cache called "teams" will be used by HotRod and REST endpoints; Memcac
 2) Each of the submodules (hotrod-endpoint, rest-endpoint, memcached-endpoint) contains a configuration file 
    (`src/main/resources/jdg.properties`). Modify it to point to your JDG installation (default values should be fine
    for most cases)
+  
+   In order to run hotrod-endpoint example, you also need to go through the following steps: 
+   
+   * Obtain JDG distribution with productized Infinispan libraries (library distribution)
+
+   * Install libraries needed by HotRod client from the bundle into your local maven repository:
+
+        `mvn initialize -Pinit-repo -Ddatagrid.dist=/home/anyuser/jboss-datagrid-library-6.0.0.ER6-redhat-1`
 
 3) Build the example application in its directory:
 
-    mvn package
+    `mvn package`
 
 NOTE: This uses Maven's shade plugin which will bundle all dependencies into one jar file and so running the application is easier.
 
