@@ -19,7 +19,6 @@ package org.jboss.as.quickstart.hibernate4.data;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
-import org.jboss.as.quickstart.hibernate4.model.Member;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
@@ -30,7 +29,7 @@ import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
-
+import org.jboss.as.quickstart.hibernate4.model.Member;
 /**
  * @author Madhumita Sadhukhan
  */
@@ -38,7 +37,7 @@ import javax.persistence.EntityManager;
 @RequestScoped
 public class MemberListProducer {
    @Inject
-   private EntityManager em;
+   private MemberRepository memberRepository;
    
    private List<Member> members;
 
@@ -56,12 +55,6 @@ public class MemberListProducer {
 
    @PostConstruct
    public void retrieveAllMembersOrderedByName() {
-	   
-      //using Hibernate Session and Criteria Query via Hibernate Native API 
-      Session session = (Session) em.getDelegate();
-      Criteria cb = session.createCriteria(Member.class);
-      cb.addOrder(Order.asc("name"));
-      members = (List<Member>)cb.list();
-
+      members = memberRepository.findAllOrderedByName();
    }
 }

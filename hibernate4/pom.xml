@@ -127,6 +127,14 @@
             </exclusion>
          </exclusions>
       </dependency>
+
+      <!-- Import the JSF API, we use provided scope as the API is included 
+            in JBoss AS 7 -->
+        <dependency>
+            <groupId>org.jboss.spec.javax.faces</groupId>
+            <artifactId>jboss-jsf-api_2.1_spec</artifactId>
+            <scope>provided</scope>
+        </dependency>
       
       <!--Import dependencies to hibernate packages(eg. hibernate-core) depending on features you want to use like Hibernate Session used in the 	quickstart-->
       <!--please note that scope is provided as these jars are shipped with as7-->
