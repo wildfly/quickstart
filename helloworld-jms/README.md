@@ -33,6 +33,34 @@ Add an Application User
 This quickstart uses secured management interfaces and requires that you create an application user to access the running application. Instructions to set up the quickstart application user can be found here: [Add an Application User](../README.md#addapplicationuser)
 
 
+Configure the JBoss Enterprise Application Platform 6 server
+---------------------------
+
+If you are using the JBoss AS 7 Quickstart distribution, the server configuration file already contains the JMS `test` queue and you can skip this step. 
+
+However, if you are using the JBoss Enterprise Application Platform 6 distribution, you need to add the JMS `test` queue to the application server configuration file.
+
+1. Open the file: JBOSS_HOME/standalone/configuration/standalone-full.xml
+2. Add the JMS `test` queue as follows:
+    * Find the messaging subsystem:  
+
+            <subsystem xmlns="urn:jboss:domain:messaging:1.1">
+    * Scroll to the end of this section and add the following XML after the `</jms-connection-factories>` end tag but before the `</hornetq-server>` element:
+
+                <jms-destinations>
+                    <jms-queue name="testQueue">
+                        <entry name="queue/test"/>
+                        <entry name="java:jboss/exported/jms/queue/test"/>
+                    </jms-queue>
+                    <jms-topic name="testTopic">
+                        <entry name="topic/test"/>
+                        <entry name="java:jboss/exported/jms/topic/test"/>
+                    </jms-topic>
+                </jms-destinations>
+    * Save the changes and close the file.  
+
+
+
 Start JBoss Enterprise Application Platform 6 or JBoss AS 7 with the Full Profile
 ---------------
 
