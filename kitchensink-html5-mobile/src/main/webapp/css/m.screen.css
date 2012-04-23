@@ -16,10 +16,7 @@
  */
 /* Core styles for the mobile version of the application */
 body {
-   margin: 0;
-   padding: 0;
    font-family: Verdana, sans-serif;
-   font-size: 0.9em;
 }
 
 p {
@@ -27,18 +24,9 @@ p {
    margin-right: 8px;
 }
 
-code {
-   font-size: 1.1em;
-}
-
 a {
    color: #369;
    text-decoration: none;
-}
-
-a:hover {
-   color: #369;
-   text-decoration: underline;
 }
 
 /* Header and footer styles */
@@ -76,64 +64,119 @@ a:hover {
 
 /* Member registration styles */
 
-/* override default jquery mobile style */
+/* override default jquery mobile styles
+ * This was necessary because the current jQuery Mobile Themeroller seems to
+ * have a bug that will not allow editing the default theme and any theme it
+ * generates is not compatible with 1.0.1
+ */
+.ui-bar-a {
+   background: #71A1D0;
+   background-image: -webkit-gradient(linear, left top, left bottom, from( #81B9EF), to( #6088B0));
+   background-image: -webkit-linear-gradient( #81B9EF, #6088B0);
+   background-image: -moz-linear-gradient( #81B9EF, #6088B0);
+   background-image: -ms-linear-gradient( #81B9EF, #6088B0);
+   background-image: -o-linear-gradient( #81B9EF, #6088B0);
+   background-image: linear-gradient( #81B9EF, #6088B0);
+}
+
+.ui-body-a .ui-link {
+   color: #E25027;
+   font-weight: bold;
+}
+
+.ui-body-a .ui-link:visited, .ui-body-a .ui-link:hover {
+   color: #E25027;
+}
+
+.ui-btn-active {
+   border: 1px solid #155678;
+   background: #71A1D0;
+   background-image: -webkit-gradient(linear, left top, left bottom, from( #71A1D0), to( #71A1D0));
+   background-image: -webkit-linear-gradient( #71A1D0, #71A1D0);
+   background-image: -moz-linear-gradient( #71A1D0, #71A1D0);
+   background-image: -ms-linear-gradient( #71A1D0, #71A1D0);
+   background-image: -o-linear-gradient( #71A1D0, #71A1D0);
+   background-image: linear-gradient( #71A1D0, #71A1D0);
+}
+
+.ui-btn-up-a {
+   border: 1px solid #155678;
+   background: #3E73A8;
+   background-image: -webkit-gradient(linear, left top, left bottom, from( #3E73A8), to( #3E73A8));
+   background-image: -webkit-linear-gradient( #3E73A8, #3E73A8);
+   background-image: -moz-linear-gradient( #3E73A8, #3E73A8);
+   background-image: -ms-linear-gradient( #3E73A8, #3E73A8);
+   background-image: -o-linear-gradient( #3E73A8, #3E73A8);
+   background-image: linear-gradient( #3E73A8, #3E73A8);
+}
+
+.ui-btn-hover-a {
+   border: 1px solid #155678;
+   background: #E25027;
+   background-image: -webkit-gradient(linear, left top, left bottom, from( #E25027), to( #E25027));
+   background-image: -webkit-linear-gradient( #E25027, #E25027);
+   background-image: -moz-linear-gradient( #E25027, #E25027);
+   background-image: -ms-linear-gradient( #E25027, #E25027);
+   background-image: -o-linear-gradient( #E25027, #E25027);
+   background-image: linear-gradient( #E25027, #E25027);
+}
+
+.ui-btn-hover-a, .ui-btn-hover-a .ui-btn-inner .ui-btn-text {
+   color: #FFF;
+}
+
+.ui-body-a, .ui-dialog.ui-overlay-a {
+   color: #333;
+   text-shadow: none;
+   background: #F0F0F0;
+   background-image: -webkit-gradient(linear, left top, left bottom, from( #EEE), to( #DDD));
+   background-image: -webkit-linear-gradient( #EEE, #DDD);
+   background-image: -moz-linear-gradient( #EEE, #DDD);
+   background-image: -ms-linear-gradient( #EEE, #DDD);
+   background-image: -o-linear-gradient( #EEE, #DDD);
+   background-image: linear-gradient( #EEE, #DDD);
+}
+
 .ui-mobile fieldset{
    padding-left: 5px;
    padding-right: 5px;
 }
 
-span.invalid {
-   padding-left: 3px;
-   color: red;
-}
-
-span.success {
-   padding-left: 3px;
-   color: green;
-}
-
 /* Member table styles */
 #mem_tbl {
-   background-color: #E6E7E8;
-   clear: both;
    width: 100%;
+   margin-bottom: 20px;
 }
 
 #mem_tbl td,
 #mem_tbl th {
    height: 2em;
-   padding: 4px 0 0 6px;
+   padding: 6px;
    font-size: 11px;
    border-bottom: #777 dotted 1px;
    vertical-align: middle;
 }
 
-#mem_tbl thead {
-
-   font-weight: bold;
-   color: #FFFFFF;
-   background-color: black;
-   text-align: left;
+#mem_tbl tfoot td {
+    border: none;
 }
 
-#mem_tbl tfoot {
-   height: 20px;
-   font-weight: bold;
-   background-color: #EAECEE;
-   text-align: center;
+#member-art .ui-content .ui-btn {
+    float: right;
 }
 
-/* Using new CSS3 selectors for styling*/
-#members tr:nth-child(odd) {
-   background: #f4f3f3;
-}
-
-#members tr:nth-child(even) {
-   background: #ffffff;
+/* Hide column header rows if present */
+.columnNames {
+    display: none;
 }
 
 /*responsive design for tables*/
-@media only screen and (max-width: 40em) { /*640*/
+@media only screen and (max-width: 640px) {
+
+    #members tr {
+        background: #ffffff;
+        border-top: #777 dotted 1px;
+    }
 
     #mem_tbl {
         display: block;
@@ -142,8 +185,7 @@ span.success {
     }
 
     #mem_tbl thead {
-        display: block;
-        float: left;
+        display: none;
     }
 
     #mem_tbl tbody {
@@ -154,17 +196,30 @@ span.success {
         white-space: nowrap;
     }
 
-    #mem_tbl thead tr {
-        display: block;
-    }
-
-    #mem_tbl th {
-        display: block;
-    }
-
     #mem_tbl tbody tr {
-        display: inline-block;
-        vertical-align: top;
+        display: block;
+        clear: none;
+        margin-bottom: 10px;
+        width: 100%;
+    }
+
+    #mem_tbl tbody tr.columnNames {
+        width: auto;
+        float: left;
+        font-weight: bold;
+        color: #fff;
+        text-align: left;
+        clear: both;
+        margin-right: 10px;
+    }
+
+    #mem_tbl tbody tr.columnNames td {
+        display: block;
+        height: 2em;
+        padding: 6px;
+        font-size: 11px;
+        border-bottom: #777 dotted 1px;
+        background-color: #000;
     }
 
     #mem_tbl td {
@@ -172,37 +227,14 @@ span.success {
         min-height: 1.25em;
     }
 
-    /* sort out borders */
-
-    .rt th {
-        border-bottom: 0;
-    }
-
-    .rt td {
-        border-left: 0;
-        border-right: 0;
-        border-bottom: 0;
-    }
-
-    .rt tbody tr {
-        border-right:
-            1px solid #babcbf;
-    }
-
-    .rt th:last-child,
-    .rt td:last-child {
-        border-bottom:
-            1px solid #babcbf;
-    }
-
     #mem_tbl tfoot {
-        float:left;
-        clear:both;
-        margin: 15px 0 0 0;
+        position: absolute;
+        bottom: -15px;
+        left: 60px;
     }
 }
 
 /* Hide Desktop Items */
-section > h1, article > h2, aside > h3, footer, .desktop-only {
+section > h1, article > h2, aside > h3, footer, #mem_tbl .ui-btn, .highlights, .logo, .dualbrand {
 	display: none;
 }

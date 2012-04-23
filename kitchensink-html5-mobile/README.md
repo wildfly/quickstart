@@ -101,9 +101,18 @@ references to minification and comment or uncomment the appropriate lines.
 
 Finally, wro4j runs in the compile phase so any standard build command like package,
 install, etc. will trigger it. The plugin is in a profile with an id of "minify" so
-you will want to specify that profile in your maven build. For example:
+you will want to specify that profile in your maven build.
 
-    mvn clean package jboss-as:deploy -Pminify
+NOTE: You must either specify the default profile for no tests or the arquillian test
+profile to run tests when minifying to avoid test errors. For example:
+
+    #No Tests
+    mvn clean package jboss-as:deploy -Pminify,default
+
+OR
+
+    #With Tests
+    mvn clean package jboss-as:deploy -Pminify,arq-jbossas-remote
  
 Running the Arquillian tests
 ============================

@@ -1,11 +1,23 @@
 <script type="text/template" id="member-tmpl">
-<% _.each(members, function(member) { %>
+<% _.each(members, function(member) { 
+    if ( Modernizr.mq( "only all and (max-width: 640px)" ) ) {
+    %>
+    <tr class="columnNames">
+        <td>Id</td>
+        <td>Name</td>
+        <td>Email</td>
+        <td>Phone #</td>
+        <td>REST URL</td>
+    </tr>
+    <%
+    }
+    %>
 	<tr class="member">
 		<td><%=member.id%></td>
 		<td><%=member.name%></td>
 		<td><%=member.email%></td>
 		<td><%=member.phoneNumber%></td>
-		<td><a href="rest/members/<%=member.id%>" target="_blank" class="resturl">XML</a> / <a href="rest/members/<%=member.id%>/json" target="_blank" class="resturl">JSON</a></td>
+		<td><a href="rest/members/<%=member.id%>" rel="external" target="_blank" class="resturl ui-link">JSON</a></td>
 	</tr>
 <% }); %>
 </script>
