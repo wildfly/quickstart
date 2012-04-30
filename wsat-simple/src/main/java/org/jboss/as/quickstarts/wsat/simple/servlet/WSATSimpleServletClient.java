@@ -29,7 +29,7 @@ import java.util.List;
  * </p>
  * <p/>
  * <p/>
- * The servlet is registered and mapped to /WSATSimpleServletClient using the {@linkplain javax.servlet.annotation.WebServlet
+ * The servlet is registered and mapped to /WSATSimpleServletClient using the {@linkplain javax.servlet.annotation.WebServlet}
  *
  * @author Paul Robinson (paul.robinson@redhat.com)
  * @HttpServlet}. </p>
@@ -53,10 +53,13 @@ public class WSATSimpleServletClient extends HttpServlet {
         List<Handler> handlers = new ArrayList<Handler>(1);
         handlers.add(new JaxWSHeaderContextProcessor());
         bindingProvider.getBinding().setHandlerChain(handlers);
-        //Lookup the DNS name of the server from the environment and set the endpoint address on the client.
+
+        /*
+         * Lookup the DNS name of the server from the environment and set the endpoint address on the client.
+         */
         String openshift = System.getenv("OPENSHIFT_APP_DNS");
         if (openshift != null) {
-            bindingProvider.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, "http://"+openshift+"/wsat-simple/RestaurantServiceAT");
+            bindingProvider.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, "http://"+openshift+"/RestaurantServiceAT");
         }
 
         resp.setContentType("text/html");
@@ -64,7 +67,6 @@ public class WSATSimpleServletClient extends HttpServlet {
 
         out.write("<h1>Quickstart: This example demonstrates the deployment of a WS-AT (WS-AtomicTransaction) enabled JAX-WS Web service bundled in a war archive for deployment to *JBoss AS 7*.</h1>");
 
-        System.out.println("\n\nStarting 'testCommit'. This test invokes a WS within an AT. The AT is later committed, which causes the back-end resource(s) to be committed.");
         System.out.println("[CLIENT] Creating a new WS-AT User Transaction");
         UserTransaction ut = UserTransactionFactory.userTransaction();
         try {

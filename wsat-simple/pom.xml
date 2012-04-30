@@ -196,6 +196,15 @@
             <build>
                 <plugins>
                     <plugin>
+                        <artifactId>maven-war-plugin</artifactId>
+                        <version>2.1.1</version>
+                        <configuration>
+                            <!-- Ignore the jboss-web.xml. This is needed to deploy the Web service into the root context.
+                                This is only needed by Openshift -->
+                            <packagingExcludes>**/jboss-web.xml</packagingExcludes>
+                        </configuration>
+                    </plugin>
+                    <plugin>
                         <artifactId>maven-surefire-plugin</artifactId>
                         <version>2.4.3</version>
                         <configuration>
@@ -249,6 +258,7 @@
                         <version>2.1.1</version>
                         <configuration>
                             <outputDirectory>deployments</outputDirectory>
+                            <warName>ROOT</warName>
                             <!-- Java EE 6 doesn't require web.xml, Maven needs to catch up! -->
                             <failOnMissingWebXml>false</failOnMissingWebXml>
                         </configuration>
