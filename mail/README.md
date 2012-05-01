@@ -9,7 +9,7 @@ This example demonstrates sending email with the use of *CDI 1.0* and *JSF 2.0* 
 
 The example uses the default Mail provider that comes out of the box with *JBoss Enterprise Application Platform 6* and *JBoss AS 7*.  It uses your local mail relay and the default SMTP port of 25.
 
-The configuration of the mail provider is found in either `JBOSS_HOME/standalone/configuration.xml` or `JBOSS_HOME/domain/configuration.xml`. An example is provided below:
+The configuration of the mail provider is found in the `JBOSS_HOME/standalone/configuration/standalone.xml` if you are running a standalone server or in the `JBOSS_HOME/domain/configuration/domain.xml` file if you are running in a managed domain. An example of the mail subsystem XML configuration is provided below:
 
     <subsystem xmlns="urn:jboss:domain:mail:1.0">
         <mail-session jndi-name="java:jboss/mail/Default" >
