@@ -54,7 +54,7 @@ Quickstarts with tutorials in the [Getting Started Developing Applications Guide
 | [helloworld-errai](helloworld-errai/README.md "helloworld-errai") | Errai, JAX-RS | Helloworld using the Errai framework  | Beginner | None |
 | [helloworld-gwt](helloworld-gwt/README.md "helloworld-gwt") | GWT | Demonstrates the use of CDI 1.0 and JAX-RS with a GWT front-end client  | Beginner | None |
 | [helloworld-html5](helloworld-html5/README.md "helloworld-html5") | Basic HTML5 |Demonstrates the use of CDI 1.0 and JAX-RS using the POH5 architecture and RESTful services on the backend | Beginner | None |
-| [helloworld-jms](helloworld-jms/README.md "helloworld-jms") | JMS | Demonstrates the use of external JMS clients | Intermediate | None |
+| [helloworld-jms](helloworld-jms/README.md "helloworld-jms") | JMS | Demonstrates the use of a standalone (Java SE) JMS client | Intermediate | None |
 | [helloworld-jsf](helloworld-jsf/README.md "helloworld-jsf") | Basic CDI, JSF | Similar to the helloworld quickstart, but with a JSF front end | Beginner | None |
 | [helloworld-mdb](helloworld-mdb/README.md "helloworld-mdb") | Basic JMS, Message-Driven Bean (MDB) | Demonstrates the use of JMS 1.1 and EJB 3.1 Message-Driven Bean  | Intermediate | None |
 | [helloworld-osgi**](helloworld-osgi/README.md "helloworld-osgi") | OSGi JAR | Shows how to create and deploy a simple OSGi Bundle | Beginner | None |
