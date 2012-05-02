@@ -241,7 +241,7 @@ Now we will start to tail the log files of the server. To do this run the follow
 Once the app is deployed open up a browser and run the application, the URL will be similar as follows but with your own
 domain name.
 
-    http://wsatsimple-quickstart.rhcloud.com/wsat-simple/WSATSimpleServletClient
+    http://wsatsimple-quickstart.rhcloud.com/WSATSimpleServletClient
 
 If the application has run successfully you should see some output in the browser. You should also see some output on the server log, similar to the output from the "Test commit" test above.
 

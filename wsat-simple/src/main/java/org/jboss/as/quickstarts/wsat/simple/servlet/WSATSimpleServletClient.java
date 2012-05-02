@@ -1,27 +1,25 @@
 package org.jboss.as.quickstarts.wsat.simple.servlet;
 
-import com.arjuna.mw.wst11.UserTransaction;
-import com.arjuna.mw.wst11.UserTransactionFactory;
-import com.arjuna.mw.wst11.client.JaxWSHeaderContextProcessor;
-import org.jboss.as.quickstarts.wsat.simple.jaxws.RestaurantServiceAT;
-import org.jboss.as.quickstarts.wsat.simple.jaxws.RestaurantServiceATService;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
-import javax.xml.ws.Service;
 import javax.xml.ws.WebServiceRef;
 import javax.xml.ws.handler.Handler;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
+
+import org.jboss.as.quickstarts.wsat.simple.jaxws.RestaurantServiceAT;
+import org.jboss.as.quickstarts.wsat.simple.jaxws.RestaurantServiceATService;
+
+import com.arjuna.mw.wst11.UserTransaction;
+import com.arjuna.mw.wst11.UserTransactionFactory;
+import com.arjuna.mw.wst11.client.JaxWSHeaderContextProcessor;
 
 /**
  * <p>

@@ -146,7 +146,7 @@
     <build>
         <!-- Set the name of the war, used as the context root when the app is
               deployed -->
-        <finalName>wsat-simple</finalName>
+        <finalName>${project.artifactId}</finalName>
         <plugins>
             <plugin>
                 <artifactId>maven-war-plugin</artifactId>
@@ -166,9 +166,6 @@
                 <groupId>org.jboss.as.plugins</groupId>
                 <artifactId>jboss-as-maven-plugin</artifactId>
                 <version>7.1.1.Final</version>
-                <configuration>
-                  <skip>true</skip>
-                </configuration>
             </plugin>
             <!-- Compiler plugin enforces Java 1.6 compatibility and activates
           annotation processors -->
