@@ -27,6 +27,26 @@ Some key points to make note of while running the application:
 
 *   Mobile support: View the application from a webkit powered browser on a mobile device to try out the mobile version of the application. Alternatively, view the mobile version on your desktop by navigating to the url:  <http://localhost:8080/jboss-as-kitchensink-rf/mobile/>
 
+Specific changes to the "vanilla" kitchensink desktop view:
+*   Ajax push: This application makes use of Ajax push. When a member is created in one browser, the member list is updated in **all** open browsers.
+*   rich:validator for client-side-validation
+*   a4j:commandButton to submit a form via ajax
+*   rich:collapsiblePanel around the members list - click to expand/collapse
+*   rich:popupPanel via the "view" link in the table for showing member details with a popup
+*   rich:panel to get a styled panel header
+*   rich:messages to get styled error messages (with icons)
+*   rich:dataTable for styled column headers
+*   activated the "classic" skin in the web.xml - (styles vanilla JSF components too)
+*   leveraged AS 7 modules for RF dependencies via the "Dependencies" manifest.mf entry
+
+Upgrades made to enable the mobile view:
+
+*   enabled resourceLoadingOptimisation (packaging and minification)
+*   introduced the RichFaces mobile compatibility CSS file
+*   device detection to automatically choose between the desktop and mobile templates
+*   split the app into multiple screens for mobile
+*   single page programming model w/ CSS3 page transitions activating the device GPU
+*   Note: mobile still has a4j:push integration
 
 System requirements
 -------------------
