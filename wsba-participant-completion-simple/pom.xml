@@ -37,39 +37,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-    <!-- We add the JBoss repository as we need the JBoss AS connectors
-  for Arquillian and also for the JBossTS and XTS libraries-->
-    <repositories>
-        <!-- The JBoss Community public repository is a composite repository
-    of several major repositories -->
-        <!-- see http://community.jboss.org/wiki/MavenGettingStarted-Users -->
-        <repository>
-            <id>jboss-public-repository</id>
-            <name>JBoss Repository</name>
-            <url>http://repository.jboss.org/nexus/content/groups/public</url>
-            <!-- These optional flags are designed to speed up your builds
-       by reducing remote server calls -->
-            <releases>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
-
-    <pluginRepositories>
-        <pluginRepository>
-            <id>jboss-public-repository</id>
-            <name>JBoss Repository</name>
-            <url>http://repository.jboss.org/nexus/content/groups/public</url>
-            <releases>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </pluginRepository>
-    </pluginRepositories>
-
     <dependencyManagement>
         <dependencies>
         <!-- Define the version of JBoss' Java EE 6 APIs and Tools we want to import.  -->
@@ -116,14 +83,6 @@
             </exclusions>
         </dependency>
 
-        <!-- Import the CDI API, we use provided scope as the API is included
-        in JBoss AS 7 -->
-        <dependency>
-            <groupId>javax.enterprise</groupId>
-            <artifactId>cdi-api</artifactId>
-            <scope>test</scope>
-        </dependency>
-
         <!-- Import the Common Annotations API (JSR-250), we use provided scope
         as the API is included in JBoss AS 7 -->
         <dependency>
@@ -131,11 +90,27 @@
             <artifactId>jboss-annotations-api_1.1_spec</artifactId>
             <scope>provided</scope>
         </dependency>
+        
+        <!-- Import the Servlet API, we use provided scope
+        as the API is included in JBoss AS 7 -->
+        <dependency>
+            <groupId>org.jboss.spec.javax.servlet</groupId>
+            <artifactId>jboss-servlet-api_3.0_spec</artifactId>
+            <scope>provided</scope>
+        </dependency>
 
         <!-- Test dependencies -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        
+        <!-- Import the CDI API, we use provided scope as the API is included
+        in JBoss AS 7 -->
+        <dependency>
+            <groupId>javax.enterprise</groupId>
+            <artifactId>cdi-api</artifactId>
             <scope>test</scope>
         </dependency>
 
