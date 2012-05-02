@@ -83,14 +83,6 @@ Since this quickstart builds two separate components, you can not use the standa
 
             mvn exec:exec
 
-5. To undeploy the server side component from the JBoss server:
-    * Navigate to the server-side subdirectory:
-
-            cd ../server-side
-    * Type the following command:
-
-            mvn jboss-as:undeploy
-
 
 Investigate the Console Output
 -------------------------
@@ -153,6 +145,19 @@ The remote client application can also be built as a standalone executable JAR w
 4. You can then run the executable JAR using `java -jar`:
       
         java -jar target/jboss-as-quickstarts-ejb-remote-client-7.0.2-SNAPSHOT-jar-with-dependencies.jar
+
+
+Undeploy the Archive
+--------------------
+
+To undeploy the server side component from the JBoss server:
+
+1. Navigate to the server-side subdirectory:
+
+        cd ../server-side
+2. Type the following command:
+
+        mvn jboss-as:undeploy
 
 
 
