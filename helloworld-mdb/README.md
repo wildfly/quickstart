@@ -102,7 +102,7 @@ Note that we'll use the `jboss-as-quickstart@jboss.org` user for these examples,
 
 Open up a shell and from the directory of your choice run the following command to create our helloworld application.
 
-    rhc-create-app -a helloworldmdb -t jbossas-7 -l jboss-as-quickstart@jboss.org
+    rhc app create -a helloworldmdb -t jbossas-7
 
 You should see some output which will show the application being deployed and also the URL at which it can be accessed. If creation is successful, you should see similar output:
 
@@ -110,10 +110,15 @@ You should see some output which will show the application being deployed and al
     git url:  ssh://1e63c17c2dd94a329f21555a33dc617d@helloworldmdb-quickstart.rhcloud.com/~/git/helloworldmdb.git/
     Successfully created application: helloworldmdb
 
-Now in a separate shell navigate to the quickstarts directory and copy the `helloworld-mdb/pom.xml` and `helloworld/src` directory to the `hellworldmdb` directory created by `rhc-create-app`. For example, on Linux or Mac:
+Now that you have confirmed it is working you can now migrate the quickstart source. You no longer need the default application so change directory into the new git repo and tell git to remove the source files and pom:
 
-    cp helloworld-mdb/pom.xml ../helloworldmdb
-    cp -r helloworld-mdb/src ../helloworldmdb
+    cd hellworldmdb
+    git rm -r src pom.xml
+
+Copy the source for the wsat-simple quickstart into this new git repo:
+
+    cp <quickstarts>/helloworld-mdb/pom.xml .
+    cp -r <quickstarts>/helloworld-mdb/src .
     
 Now, we can add the files to the OpenShift GIT repository
 
@@ -155,7 +160,7 @@ If the application has run succesfully you should see some output in the browser
 
 now you can look at the output of the server by running the following command:
 
-    rhc-ctl-app -a helloworldmdb -c status
+    rhc app status -a helloworldmdb
 
 This will show the tail of the servers log which should show something like the following.
 

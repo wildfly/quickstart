@@ -145,7 +145,7 @@ Note that we use the `jboss-as-quickstart@jboss.org` user for these examples. Yo
 
 Open up a shell and from the directory of your choice run the following command to create our wsatsimple application.
 
-        rhc-create-app -a wsatsimple -t jbossas-7
+        rhc app create -a wstsimple -t jbossas-7
 
 You should see some output which will show the application being deployed and also the URL at which it can be accessed. If creation is successful, you should see similar output:
 
@@ -237,7 +237,7 @@ Note that the `openshift` profile in `pom.xml` is activated by OpenShift, and ca
 
 Now we will start to tail the log files of the server. To do this run the following command, remembering to replace the application name and login id.
 
-        rhc-tail-files -a wsatsimple -f wsatsimple/logs/server.log
+        rhc app tail -a wsatsimple
 
 Once the app is deployed open up a browser and run the application, the URL will be similar as follows but with your own
 domain name.

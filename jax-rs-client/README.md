@@ -79,6 +79,7 @@ MediaType: application/json
 ===============================================
 
 OpenShift
+---------
 
 To make this quickstart more interesting, deploy the RESTful service to OpenShift.  The following instructions will guide you as to the modifications that must be made to successfully execute the jax-rs-client against a service deployed to OpenShift.
 
