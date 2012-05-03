@@ -1,16 +1,28 @@
 package org.jboss.as.quickstarts.tasksrs.service;
 
+import java.net.URI;
+import java.security.Principal;
+import java.util.List;
+
+import javax.inject.Inject;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.DefaultValue;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
+import javax.ws.rs.core.UriBuilder;
+import javax.ws.rs.core.UriInfo;
+
 import org.jboss.as.quickstarts.tasksrs.model.Task;
 import org.jboss.as.quickstarts.tasksrs.model.TaskDao;
 import org.jboss.as.quickstarts.tasksrs.model.User;
 import org.jboss.as.quickstarts.tasksrs.model.UserDao;
-
-import javax.inject.Inject;
-import javax.ws.rs.*;
-import javax.ws.rs.core.*;
-import java.net.URI;
-import java.security.Principal;
-import java.util.List;
 
 /**
  * A JAX-RS resource for exposing REST endpoints for Task manipulation
@@ -24,7 +36,7 @@ public class TaskResource {
     private TaskDao taskDao;
 
     @POST
-    @Path("task/{title}")
+    @Path("tasks/{title}")
     public Response createTask(@Context UriInfo info, @Context SecurityContext context,
                                @PathParam("title")  @DefaultValue("task") String taskTitle) {
 
@@ -43,7 +55,7 @@ public class TaskResource {
     }
 
     @DELETE
-    @Path("task/{id}")
+    @Path("tasks/{id}")
     public void deleteTaskById(@Context SecurityContext context, @PathParam("id") Long id) {
         Task task = getTaskById(context, id);
 
@@ -51,7 +63,7 @@ public class TaskResource {
     }
 
     @GET
-    @Path("task/{id}")
+    @Path("tasks/{id}")
     // JSON: include "application/json" in the @Produces annotation to include json support
     //@Produces({ "application/xml", "application/json" })
     @Produces({ "application/xml" })
