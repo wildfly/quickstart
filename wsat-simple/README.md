@@ -136,7 +136,7 @@ Build and Deploy the Quickstart - to OpenShift
 
 ### Create an OpenShift Express Account and Domain
 
-If you do not yet have an OpenShift Express account and domain, visit <https://openshift.redhat.com/app/login> to create the account and domain. The [OpenShift Express Getting Started Guide](http://docs.redhat.com/docs/en-US/OpenShift_Express/2.0/html/Getting_Started_Guide/index.html) will show you how to install the OpenShift Express command line interface.
+If you do not yet have an OpenShift Express account and domain, visit <https://openshift.redhat.com/app/login> to create the account and domain. [Get Started with OpenShift](https://openshift.redhat.com/app/getting_started) will show you how to install the OpenShift Express command line interface.
 
 ### Create the OpenShift Application
 

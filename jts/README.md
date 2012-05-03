@@ -139,7 +139,7 @@ Access the application
 
 The application will be running at the following URL: <http://localhost:8080/jboss-as-jts-application-component-1/>.
 
-When you enter a name and click to "invoice" that customer, you will see the following in the application server 1 console:
+When you enter a name and click to "Add" that customer, you will see the following in the application server 1 console:
     
     14:31:48,334 WARNING [javax.enterprise.resource.webcontainer.jsf.renderkit] (http-localhost-127.0.0.1-8080-1) Unable to find component with ID name in view.
     14:31:50,457 ERROR [jacorb.orb] (http-localhost-127.0.0.1-8080-1) no adapter activator exists for jts-quickstart&%InvoiceManagerEJBImpl&%home
