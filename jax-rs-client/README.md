@@ -80,16 +80,17 @@ MediaType: application/json
 
 OpenShift
 
-To make this quickstart more interesting, deploy the RESTful service to OpenShift.  The following instructions will guide you as to the modifications that
-must be made to successfully execute the jax-rs-client against a service deployed to OpenShift.
+To make this quickstart more interesting, deploy the RESTful service to OpenShift.  The following instructions will guide you as to the modifications that must be made to successfully execute the jax-rs-client against a service deployed to OpenShift.
 
 
 Build and Deploy the Quickstart - to OpenShift
 -------------------------
 
+_NOTE: At the time of this writing, JBoss Enterprise Application Platform 6 is not yet available on OpenShift, so only the JBoss AS 7 version of this quickstart can be deployed to OpenShift_.
+
 ### Create an OpenShift Express Account and Domain
 
-If you do not yet have an OpenShift Express account and domain, visit <https://openshift.redhat.com/app/login> to create the account and domain. [Get Started with OpenShift](https://openshift.redhat.com/app/getting_started) will show you how to install the OpenShift Express command line interface.
+If you do not yet have an OpenShift account and domain, [Sign in to OpenShift](https://openshift.redhat.com/app/login) to create the account and domain. [Get Started with OpenShift](https://openshift.redhat.com/app/getting_started) will show you how to install the OpenShift Express command line interface.
 
 ### Create the OpenShift Application
 

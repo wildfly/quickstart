@@ -157,16 +157,18 @@ If you want to debug the source code or look at the Javadocs of any library in t
 Build and Deploy the Quickstart - to OpenShift
 -------------------------
 
-If the quickstart deploys to OpenShift, you can use the following template a starting pint to describe the process.
+If the quickstart deploys to OpenShift, you can use the following template a starting point to describe the process.
 
 Note:
 
 * QUICKSTART_NAME should be replaced with your quicktart name, for example:  my-quickstart
 * OPENSHIFT_QUICKSTART_NAME should be replaced with a variation of the quickstart name, for example: myquickstart
 
-### Create an OpenShift Express Account and Domain
+### Create an OpenShift Account and Domain
 
-If you do not yet have an OpenShift Express account and domain, visit <https://openshift.redhat.com/app/login> to create the account and domain. [Get Started with OpenShift](https://openshift.redhat.com/app/getting_started) will show you how to install the OpenShift Express command line interface.
+_NOTE: At the time of this writing, JBoss Enterprise Application Platform 6 is not yet available on OpenShift, so only the JBoss AS 7 version of this quickstart can be deployed to OpenShift_.
+
+If you do not yet have an OpenShift account and domain, [Sign in to OpenShift](https://openshift.redhat.com/app/login) to create the account and domain. [Get Started with OpenShift](https://openshift.redhat.com/app/getting_started) will show you how to install the OpenShift Express command line interface.
 
 ### Create the OpenShift Application
 
