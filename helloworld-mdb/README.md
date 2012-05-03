@@ -119,7 +119,7 @@ This command creates an OpenShift application with the name you entered above an
     git url:  ssh://b92047bdc05e46c980cc3501c3577c1e@helloworldmdb-quickstart.rhcloud.com/~/git/helloworldmdb.git/
     Successfully created application: helloworldmdb
 
-The create command creates a git repository in the current directory with the same name as the application. Notice that the output also reports the URL at which the application can be accessed. Make sure it is available by typing the published url <http://OPENSHIFT_QUICKSTART_NAME-quickstart.rhcloud.com/> into a browser or use command line tools such as curl or wget.
+The create command creates a git repository in the current directory with the same name as the application. Notice that the output also reports the URL at which the application can be accessed. Make sure it is available by typing the published url <http://helloworld-quickstart.rhcloud.com/> into a browser or use command line tools such as curl or wget.
 
 ### Migrate the Quickstart Source
 
