@@ -93,68 +93,123 @@ You can also start JBoss AS 7 and deploy the project using Eclipse. See the JBos
 <a href="https://docs.jboss.org/author/display/AS71/Getting+Started+Developing+Applications+Guide" title="Getting Started Developing Applications Guide">Getting Started Developing Applications Guide</a> 
 for more information.
 
-Deploying the Application in OpenShift
-----------------------------------
+Build and Deploy the Quickstart - to OpenShift
+-------------------------
 
-Firstly lets assume you already have an openshift(express) account with a domain created. If you don't please visit https://openshift.redhat.com/app/login create an account and follow the getting started guide which can be found at http://docs.redhat.com/docs/en-US/OpenShift_Express/2.0/html/Getting_Started_Guide/index.html.
+_NOTE: At the time of this writing, JBoss Enterprise Application Platform 6 is not yet available on OpenShift, so only the JBoss AS 7 version of this quickstart can be deployed to OpenShift_.
 
-Note that we'll use the `jboss-as-quickstart@jboss.org` user for these examples, you'll need to substituite it with your own user name.
+### Create an OpenShift Account and Domain
 
-Open up a shell and from the directory of your choice run the following command to create our helloworld application.
+If you do not yet have an OpenShift account and domain, [Sign in to OpenShift](https://openshift.redhat.com/app/login) to create the account and domain. [Get Started with OpenShift](https://openshift.redhat.com/app/getting_started) will show you how to install the OpenShift Express command line interface.
 
-    rhc app create -a helloworldmdb -t jbossas-7
+### Create the OpenShift Application
 
-You should see some output which will show the application being deployed and also the URL at which it can be accessed. If creation is successful, you should see similar output:
+Open a shell command prompt and change to a directory of your choice. Enter the following command:
 
+    rhc app create -a hellworldmdb -t jbossas-7
+
+This command creates an OpenShift application with the name you entered above and will run the application inside a `jbossas-7` container. You should see some output similar to the following:
+
+    Creating application: helloworldmdb
+    Now your new domain name is being propagated worldwide (this might take a minute)...
+    Warning: Permanently added 'helloworldmdb-quickstart.rhcloud.com,107.22.36.32' (RSA) to the list of known hosts.
+    Confirming application 'helloworldmdb' is available:  Success!
+    
     helloworldmdb published:  http://helloworldmdb-quickstart.rhcloud.com/
-    git url:  ssh://1e63c17c2dd94a329f21555a33dc617d@helloworldmdb-quickstart.rhcloud.com/~/git/helloworldmdb.git/
+    git url:  ssh://b92047bdc05e46c980cc3501c3577c1e@helloworldmdb-quickstart.rhcloud.com/~/git/helloworldmdb.git/
     Successfully created application: helloworldmdb
 
-Now that you have confirmed it is working you can now migrate the quickstart source. You no longer need the default application so change directory into the new git repo and tell git to remove the source files and pom:
+The create command creates a git repository in the current directory with the same name as the application. Notice that the output also reports the URL at which the application can be accessed. Make sure it is available by typing the published url <http://OPENSHIFT_QUICKSTART_NAME-quickstart.rhcloud.com/> into a browser or use command line tools such as curl or wget.
 
-    cd hellworldmdb
+### Migrate the Quickstart Source
+
+Now that you have confirmed it is working you can now migrate the quickstart source. You no longer need the default application so change directory into the new git repository and tell git to remove the source files and pom:
+
+    cd helloworldmdb
     git rm -r src pom.xml
 
-Copy the source for the wsat-simple quickstart into this new git repo:
+Copy the source for the this quickstart into this new git repository:
 
-    cp <quickstarts>/helloworld-mdb/pom.xml .
-    cp -r <quickstarts>/helloworld-mdb/src .
+    cp -r QUICKSTART_HOME/helloworld-mdb/src .
+    cp QUICKSTART_HOME/helloworld-mdb/pom.xml .
     
-Now, we can add the files to the OpenShift GIT repository
+Now we need enable HornetQ, JBoss AS' messaging provider.
 
-    git add src pom.xml
+First, add the the messaging extension. Under `<extensions>`, add:
 
-Commit them, and push them up to OpenShift
+        <extension module="org.jboss.as.messaging"/>
 
-    git commit -m "deploy"
+Now, enable MDBs. In the `ejb3` subsytem, un-comment the `mdb` elements.
 
+Finally, we need to enable and configure HorentQ. Add this subsystem to `.openshift/config/standalone.xml` under the `<profile>` element:
+
+        <subsystem xmlns='urn:jboss:domain:messaging:1.1'>
+            <hornetq-server>
+                <persistence-enabled>true</persistence-enabled>
+                <journal-file-size>102400</journal-file-size>
+                <journal-min-files>2</journal-min-files>
+                <connectors>
+                    <in-vm-connector name='in-vm' server-id='0' />
+                </connectors>
+                <acceptors>
+                    <in-vm-acceptor name='in-vm' server-id='0' />
+                </acceptors>
+                <address-settings>
+                    <address-setting match='#'>
+                        <dead-letter-address>jms.queue.DLQ</dead-letter-address>
+                        <expiry-address>jms.queue.ExpiryQueue</expiry-address>
+                        <redelivery-delay>0</redelivery-delay>
+                        <max-size-bytes>20971520</max-size-bytes>
+                        <address-full-policy>PAGE</address-full-policy>
+                        <message-counter-history-day-limit>10</message-counter-history-day-limit>
+                    </address-setting>
+                </address-settings>
+                <jms-connection-factories>
+                    <connection-factory name='InVmConnectionFactory'>
+                        <connectors>
+                            <connector-ref connector-name='in-vm' />
+                        </connectors>
+                        <entries>
+                            <entry name='java:/ConnectionFactory' />
+                        </entries>
+                    </connection-factory>
+                    <connection-factory name='RemoteConnectionFactory'>
+                        <connectors>
+                            <connector-ref connector-name='in-vm' />
+                        </connectors>
+                        <entries>
+                            <entry name='RemoteConnectionFactory' />
+                        </entries>
+                    </connection-factory>
+                    <pooled-connection-factory name='hornetq-ra'>
+                        <transaction mode='xa' />
+                        <connectors>
+                            <connector-ref connector-name='in-vm' />
+                        </connectors>
+                        <entries>
+                            <entry name='java:/JmsXA' />
+                        </entries>
+                    </pooled-connection-factory>
+                </jms-connection-factories>
+                <jms-destinations />
+                <security-enabled>false</security-enabled>
+            </hornetq-server>
+        </subsystem>
+
+
+You can now deploy the changes to your OpenShift application using git as follows:
+
+    git add src pom.xml .openshift
+    git commit -m "helloworld-mdb quickstart on OpenShift"
     git push
-    
-OpenShift will build the application using Maven, and deploy it to JBoss AS 7. If successful, you should see output similar to:
 
-    remote: [INFO] ------------------------------------------------------------------------
-    remote: [INFO] BUILD SUCCESS
-    remote: [INFO] ------------------------------------------------------------------------
-    remote: [INFO] Total time: 19.991s
-    remote: [INFO] Finished at: Wed Mar 07 12:48:15 EST 2012
-    remote: [INFO] Final Memory: 8M/168M
-    remote: [INFO] ------------------------------------------------------------------------
-    remote: Running .openshift/action_hooks/build
-    remote: Emptying tmp dir: /var/lib/libra/1e63c17c2dd94a329f21555a33dc617d/helloworldmdb/jbossas-7/standalone/tmp/vfs
-    remote: Emptying tmp dir: /var/lib/libra/1e63c17c2dd94a329f21555a33dc617d/helloworldmdb/jbossas-7/standalone/tmp/work
-    remote: Running .openshift/action_hooks/deploy
-    remote: Starting application...
-    remote: Done
-    remote: Running .openshift/action_hooks/post_deploy
-    To ssh://1e63c17c2dd94a329f21555a33dc617d@helloworldmdb-quickstart.rhcloud.com/~/git/helloworldmdb.git/
-       e6f80bd..63504b9  master -> master
+The final push command triggers the OpenShift infrastructure to build and deploy the changes. 
 
 Note that the `openshift` profile in `pom.xml` is activated by OpenShift, and causes the war build by openshift to be copied to the `deployments` directory, and deployed without a context path.
 
-Once the app is deployed open up a browser and run the application, the URL will be similar as follows but with your own
-domain name.
+When the push command returns you can retest the application by getting the following URLs either via a browser or using tools such as curl or wget:
 
-    http://helloworldmdb-quickstart.rhcloud.com/HelloWorldMDBServletClient
+* <http://helloworldmdb-quickstart.rhcloud.com/> 
 
 If the application has run succesfully you should see some output in the browser.
 
@@ -169,3 +224,13 @@ This will show the tail of the servers log which should show something like the 
     2012/03/02 05:52:33,067 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldMDB] (Thread-6 (HornetQ-client-global-threads-1772719)) Received Message: This is message 5
     2012/03/02 05:52:33,065 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldMDB] (Thread-3 (HornetQ-client-global-threads-1772719)) Received Message: This is message 3
     2012/03/02 05:52:33,065 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldMDB] (Thread-2 (HornetQ-client-global-threads-1772719)) Received Message: This is message 2
+
+
+You can use the OpenShift command line tools or the OpenShift web console to discover and control the application.
+
+### Destroy the OpenShift Application
+
+When you are finished with the application you can destroy it as follows:
+
+        rhc app destroy -a helloworldmdb
+

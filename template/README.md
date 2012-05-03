@@ -153,9 +153,7 @@ If you want to debug the source code or look at the Javadocs of any library in t
     mvn dependency:sources
     mvn dependency:resolve -Dclassifier=javadoc
 
-
-Build and Deploy the Quickstart - to OpenShift
--------------------------
+------------------------------------
 
 If the quickstart deploys to OpenShift, you can use the following template a starting point to describe the process.
 
@@ -164,9 +162,12 @@ Note:
 * QUICKSTART_NAME should be replaced with your quicktart name, for example:  my-quickstart
 * OPENSHIFT_QUICKSTART_NAME should be replaced with a variation of the quickstart name, for example: myquickstart
 
-### Create an OpenShift Account and Domain
+Build and Deploy the Quickstart - to OpenShift
+-------------------------
 
 _NOTE: At the time of this writing, JBoss Enterprise Application Platform 6 is not yet available on OpenShift, so only the JBoss AS 7 version of this quickstart can be deployed to OpenShift_.
+
+### Create an OpenShift Account and Domain
 
 If you do not yet have an OpenShift account and domain, [Sign in to OpenShift](https://openshift.redhat.com/app/login) to create the account and domain. [Get Started with OpenShift](https://openshift.redhat.com/app/getting_started) will show you how to install the OpenShift Express command line interface.
 
@@ -213,7 +214,7 @@ Note that the `openshift` profile in `pom.xml` is activated by OpenShift, and ca
 
 When the push command returns you can retest the application by getting the following URLs either via a browser or using tools such as curl or wget:
 
-* <http://OPENSHIFT_QUICKSTART_NAME-quickstart.rhcloud.com/QUICKSTART_NAME> 
+* <http://OPENSHIFT_QUICKSTART_NAME-quickstart.rhcloud.com/> 
 
 You can use the OpenShift command line tools or the OpenShift web console to discover and control the application.
 
