@@ -108,6 +108,8 @@ Open a shell command prompt and change to a directory of your choice. Enter the 
 
     rhc app create -a hellworldmdb -t jbossas-7
 
+_NOTE_: The domain name for this application will be `helloworldmdb-YOUR_DOMAIN_NAME.rhcloud.com`. Here we use the _quickstart_ domain. You will need to replace it with your own OpenShift domain name.
+
 This command creates an OpenShift application with the name you entered above and will run the application inside a `jbossas-7` container. You should see some output similar to the following:
 
     Creating application: helloworldmdb
@@ -119,7 +121,7 @@ This command creates an OpenShift application with the name you entered above an
     git url:  ssh://b92047bdc05e46c980cc3501c3577c1e@helloworldmdb-quickstart.rhcloud.com/~/git/helloworldmdb.git/
     Successfully created application: helloworldmdb
 
-The create command creates a git repository in the current directory with the same name as the application. Notice that the output also reports the URL at which the application can be accessed. Make sure it is available by typing the published url <http://helloworld-quickstart.rhcloud.com/> into a browser or use command line tools such as curl or wget.
+The create command creates a git repository in the current directory with the same name as the application. Notice that the output also reports the URL at which the application can be accessed. Make sure it is available by typing the published url <http://helloworldmdb-quickstart.rhcloud.com/> into a browser or use command line tools such as curl or wget.
 
 ### Migrate the Quickstart Source
 

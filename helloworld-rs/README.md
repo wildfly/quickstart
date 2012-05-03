@@ -95,6 +95,8 @@ Open a shell command prompt and change to a directory of your choice. Enter the 
 
         rhc app create -a helloworldrs -t jbossas-7
 
+_NOTE_: The domain name for this application will be `helloworldrs-YOUR_DOMAIN_NAME.rhcloud.com`. Here we use the _quickstart_ domain. You will need to replace it with your own OpenShift domain name.
+
 This command creates an OpenShift application called `helloworldrs` and will run the application inside a `jbossas-7` container. You should see some output similar to the following:
 
     Creating application: helloworldrs

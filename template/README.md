@@ -177,6 +177,8 @@ Open a shell command prompt and change to a directory of your choice. Enter the 
 
     rhc app create -a OPENSHIFT_QUICKSTART_NAME -t jbossas-7
 
+_NOTE_: The domain name for this application will be OPENSHIFT_QUICKSTART_NAME-YOUR_DOMAIN_NAME.rhcloud.com`. Here we use the _quickstart_ domain. You will need to replace it with your own OpenShift domain name.
+
 This command creates an OpenShift application with the name you entered above and will run the application inside a `jbossas-7` container. You should see some output similar to the following:
 
     Creating application: OPENSHIFT_QUICKSTART_NAME

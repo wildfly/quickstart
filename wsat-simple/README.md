@@ -145,7 +145,9 @@ Note that we use the `jboss-as-quickstart@jboss.org` user for these examples. Yo
 
 Open up a shell and from the directory of your choice run the following command to create our wsatsimple application.
 
-        rhc app create -a wstsimple -t jbossas-7
+        rhc app create -a wsatsimple -t jbossas-7
+
+_NOTE_: The domain name for this application will be `wsatsimple-YOUR_DOMAIN_NAME.rhcloud.com`. Here we use the _quickstart_ domain. You will need to replace it with your own OpenShift domain name.
 
 You should see some output which will show the application being deployed and also the URL at which it can be accessed. If creation is successful, you should see similar output:
 
