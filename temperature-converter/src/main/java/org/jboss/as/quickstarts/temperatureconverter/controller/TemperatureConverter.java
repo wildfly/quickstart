@@ -16,7 +16,7 @@
  */
 /**
  * A simple managed bean that is used to invoke the TemperatureConvertEJB and store the response. The response is obtained by
- * invoking getTemperature().
+ * invoking temperatureConvertEJB.convert().
  * 
  * Code borrowed and modified from another quickstart written by Paul Robinson
  * 
@@ -27,21 +27,21 @@ package org.jboss.as.quickstarts.temperatureconverter.controller;
 
 import org.jboss.as.quickstarts.temperatureconverter.ejb.TemperatureConvertEJB;
 
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 import javax.inject.Inject;
 import java.io.Serializable;
 
 @Named("temperatureConverter")
-@SessionScoped
+@RequestScoped
 public class TemperatureConverter implements Serializable {
     private static final long serialVersionUID = 1785201108L;
-    /**
+    /*
      * Injected TemperatureConvertEJB client
      */
     @Inject
     private TemperatureConvertEJB temperatureConvertEJB;
-    /**
+    /*
      * Stores the response from the call to temperatureConvertEJB.convert()
      */
     private String temperature;

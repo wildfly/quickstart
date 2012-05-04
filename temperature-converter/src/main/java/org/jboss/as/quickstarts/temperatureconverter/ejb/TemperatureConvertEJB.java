@@ -29,6 +29,7 @@ import javax.ejb.Stateless;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
+
 @Stateless
 public class TemperatureConvertEJB {
     /**
@@ -40,8 +41,9 @@ public class TemperatureConvertEJB {
      */
     public String convert(String sourceTemperature, String defaultScale) {
 
-        final double ABSOLUTE_ZERO = -273.15;  // Celsius value
-        double temperatureToConvert;
+        final long ABSOLUTE_ZERO_C = -273150;  // Celsius value * 1000
+        final long ABSOLUTE_ZERO_F = -459670;  // Fahrenheit value * 1000
+        long temperatureToConvert;
         double convertedTemperature = 0;
         String convertScale;
         String convertToScale = " Err";
@@ -70,37 +72,39 @@ public class TemperatureConvertEJB {
             return conversionError;
         }
 
-        // Extract temperatureToConvert from the sourceTemperature.
+        // Extract temperatureToConvert from the sourceTemperature. Prepare for 3 decimal places.
         if (extractTemperature.find()) {
-            temperatureToConvert = Double.parseDouble(extractTemperature.group());
+            temperatureToConvert = (long)(Double.parseDouble(extractTemperature.group()) * 1000);
         } else {
             FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage("You must provide a valid temperature to convert- 'XX.X'"));
+                    new FacesMessage("You must provide a valid temperature to convert- 'XX.XXX'"));
             return conversionError;
         }
 
         // Convert our Temperature
-        if (convertScale.equalsIgnoreCase("C")) {
+        if (convertScale.equalsIgnoreCase("C")) {                       // Celsius to Fahrenheit
            // Easter egg for Absolute Zero.
-            if (temperatureToConvert < ABSOLUTE_ZERO) {
-                convertToScale = " F (below Absolute Zero!)";
-            } else if (temperatureToConvert == ABSOLUTE_ZERO) {
-                convertToScale = " F (Absolute Zero!)";
+            if (temperatureToConvert < ABSOLUTE_ZERO_C) {
+                convertToScale = " \u2109 (below Absolute Zero!)";
+            } else if (temperatureToConvert == ABSOLUTE_ZERO_C) {
+                convertToScale = " \u2109 (Absolute Zero!)";
             } else {
-                convertToScale = " F";    
+                convertToScale = " \u2109";    
             }
-            convertedTemperature = temperatureToConvert * 9 / 5 + 32;
-        } else if (convertScale.equalsIgnoreCase("F")) {
-            convertedTemperature = (temperatureToConvert - 32) * 5 / 9;
+            convertedTemperature = temperatureToConvert * 9 / 5 + 32000;
+            convertedTemperature /= 1000;                               // Result to 3 decimal places
+        } else if (convertScale.equalsIgnoreCase("F")) {                // Fahrenheit to Celsius
             // Easter egg for Absolute Zero.
-            if (convertedTemperature < ABSOLUTE_ZERO) {
-                convertToScale = " C (below Absolute Zero!)";
-            } else if (convertedTemperature <= (ABSOLUTE_ZERO + 0.004)) {
-                convertToScale = " C (Absolute Zero! - Rounded)";
+            if (temperatureToConvert < ABSOLUTE_ZERO_F) {
+                convertToScale = " \u2103 (below Absolute Zero!)";
+            } else if (temperatureToConvert == ABSOLUTE_ZERO_F) {
+                convertToScale = " \u2103 (Absolute Zero!)";
             } else {
-                convertToScale = " C";    
+                convertToScale = " \u2103";
             }
-        } else { // Should never get here!
+            convertedTemperature = (temperatureToConvert - 32000) * 5 / 9;
+            convertedTemperature /= 1000;                               // Result to 3 decimal places
+        } else {                                                        // Should never get here!
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage("This is embarrassing - this error should NOT occur!"));
             return conversionError;
