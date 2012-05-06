@@ -51,9 +51,9 @@ Access the application
 
 The application is deployed to <http://localhost:8080/jboss-as-helloworld-rs>.
 
-The *XML* content can be viewed by accessing the following URL: <http://localhost:8080/jboss-as-helloworld-rs/xml> 
+The *XML* content can be viewed by accessing the following URL: <http://localhost:8080/jboss-as-helloworld-rs/rest/xml> 
 
-The *JSON* content can be viewed by accessing this URL: <http://localhost:8080/jboss-as-helloworld-rs/json>
+The *JSON* content can be viewed by accessing this URL: <http://localhost:8080/jboss-as-helloworld-rs/rest/json>
 
 
 Undeploy the Archive
@@ -134,8 +134,8 @@ Note that the `openshift` profile in `pom.xml` is activated by OpenShift, and ca
 
 When the push command returns you can retest the application by getting the following URLs either via a browser or using tools such as curl or wget:
 
-* <http://helloworldrs-quickstart.rhcloud.com/xml> if you want *xml* or
-* <http://helloworldrs-quickstart.rhcloud.com/json> if you want *json*
+* <http://helloworldrs-quickstart.rhcloud.com/rest/xml> if you want *xml* or
+* <http://helloworldrs-quickstart.rhcloud.com/rest/json> if you want *json*
 
 You can use the OpenShift command line tools or the OpenShift web console to discover and control the application.
 
