@@ -8,7 +8,7 @@
                 xmlns:rich="http://richfaces.org/rich"
                 xmlns:my="http://java.sun.com/jsf/composite/components">
    <h:panelGroup id="membersPanel" layout="block">
-      <h:outputScript target="head" name="showMessage.js" library="js"/>
+      <h:outputScript name="showMessage.js" library="js"/>
       <rich:dataTable var="_member" value="#{members}" rendered="#{not empty members}" style="width : 100%">
          <rich:column>
              <a4j:commandLink styleClass="no-decor" render="@form" execute="@this" oncomplete="$('#app-page').data('activePage', 'detail'); location.hash='detail'">
