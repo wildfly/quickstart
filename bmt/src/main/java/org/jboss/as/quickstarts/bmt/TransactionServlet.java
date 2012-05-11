@@ -50,7 +50,7 @@ import javax.transaction.*;
 
 @WebServlet("/BMT")
 public class TransactionServlet extends HttpServlet {
-    static String PAGE_HEADER = "<html><head /><body>";
+    static String PAGE_HEADER = "<html><head><title>bmt</title></head><body>";
 
     static String PAGE_CONTENT = "<h1>Stepping Outside the Container (with JPA and JTA)</h1>"
             + "<form>"

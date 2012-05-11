@@ -40,7 +40,7 @@ public class FilterExampleServlet extends HttpServlet {
       writer.println("<!DOCTYPE HTML>");
       writer.println("<html>");
       writer.println(" <head>");
-      writer.println("  <title>Servlet filter example</title>");
+      writer.println("  <title>servlet-filterlistener</title>");
       writer.println(" </head>");
       writer.println(" <body>");
       writer.println("  <form>");

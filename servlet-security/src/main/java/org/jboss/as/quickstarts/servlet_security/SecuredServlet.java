@@ -40,7 +40,7 @@ import javax.servlet.http.HttpServletResponse;
 @ServletSecurity(@HttpConstraint(rolesAllowed = { "guest" }))
 public class SecuredServlet extends HttpServlet {
 
-   private static String PAGE_HEADER = "<html><head /><body>";
+   private static String PAGE_HEADER = "<html><head><title>servlet-security</title></head><body>";
 
    private static String PAGE_FOOTER = "</body></html>";
 

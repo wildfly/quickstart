@@ -86,14 +86,14 @@ The application servers should both be configured as follows:
 2. Enable JTS as follows:
     * Find the orb subsystem and change the configuration to:  
 
-            <subsystem xmlns="urn:jboss:domain:jacorb:1.1">
+            <subsystem xmlns="urn:jboss:domain:jacorb:1.2">
                 <orb>
                     <initializers security="on" transactions="on"/>
                 </orb>
             </subsystem>
     * Find the transaction subsystem and append the `<jts/>` element:  
 
-            <subsystem xmlns="urn:jboss:domain:transactions:1.1">
+            <subsystem xmlns="urn:jboss:domain:transactions:1.2">
                 <!-- LEAVE EXISTING CONFIG AND APPEND THE FOLLOWING -->
                 <jts/>
             </subsystem>

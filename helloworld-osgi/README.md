@@ -1,7 +1,7 @@
 helloworld-osgi: Helloworld Using OSGi
 ======================================
 Author: David Bosschaert
-Level: Beginner
+Level: Intermediate
 Technologies: OSGi
 Summary: Shows how to create and deploy a simple OSGi Bundle
 

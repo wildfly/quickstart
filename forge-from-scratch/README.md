@@ -1,7 +1,7 @@
 forge-from-scratch: Example Showing How Forge Can Generate an Application From Scratch
 ======================================================================================
 Author: Lincoln Baxter
-Level: Beginner
+Level: Intermediate
 Technologies: Forge
 Summary: Demonstrates how to generate a fully Java EE compliant project using nothing but JBoss Forge
 

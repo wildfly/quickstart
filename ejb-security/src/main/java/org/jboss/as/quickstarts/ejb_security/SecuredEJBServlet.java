@@ -41,7 +41,7 @@ import org.jboss.as.quickstarts.ejb_security.SecuredEJB;
 @ServletSecurity(@HttpConstraint(rolesAllowed="guest"))
 public class SecuredEJBServlet extends HttpServlet {
 
-   private static String PAGE_HEADER = "<html><head /><body>";
+   private static String PAGE_HEADER = "<html><head><title>ejb-security</title></head><body>";
 
    private static String PAGE_FOOTER = "</body></html>";
 

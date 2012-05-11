@@ -73,6 +73,7 @@ Application resources for this quickstart are prefixed with the URL http://local
 
 Below you will find instructions to create, display, and delete tasks.
 
+<a id="create-a-task"></a>
 ### Create a Task
 
 To associate a task called `task1` with the user `quickstartUser`, you must authenticate as user `quickstartUser` and send an HTTP *POST* request to the url 'http://localhost:8080/jboss-as-tasks-rs/tasks/task1'.
@@ -198,8 +199,8 @@ JSON is not part of the JAX-RS standard but most JAX-RS implementations do suppo
         </dependency>
         -->
 
-
-4. Rebuild and redeploy the quickstart.
+4. [Create a Task](#create-a-task) as you did in the for the XML version of this quickstart.
+5. Rebuild and redeploy the quickstart.
 
 
 Now you can view task resources in JSON media type by specifying the correct Accept header. For example, using the cURL tool, type the following command:

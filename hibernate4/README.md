@@ -1,9 +1,9 @@
 hibernate4: How to Use Hibernate 4 in an Application
 ====================================================
 Author: Madhumita Sadhukhan
-Level: Beginner
+Level: Intermediate
 Technologies: Hibernate 4
-Summary: Performs the same functions as _hibernate3_ quickstart, but uses Hibernate version 4 for database access
+Summary: This quickstart performs the same functions as the _hibernate3_ quickstart, but uses Hibernate 4 for database access. Compare this quickstart to the _hibernate3_ quickstart to see the changes needed to run with Hibernate 4..
 
 What is it?
 -----------

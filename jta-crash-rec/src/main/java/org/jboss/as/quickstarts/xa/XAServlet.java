@@ -42,7 +42,7 @@ import java.io.PrintWriter;
 @WebServlet("/XA")
 public class XAServlet extends HttpServlet {
 
-    private static String PAGE_HEADER = "<html><head><title>XA Crash Recovery</title></head><body>";
+    private static String PAGE_HEADER = "<html><head><title>jta-crash-recovery</title></head><body>";
 
     // page content describing the quickstart and providing a form to perform basic operations against a database
     private static String PAGE_CONTENT = "<h2>XA Recovery</h2>" +

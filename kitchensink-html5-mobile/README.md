@@ -1,7 +1,7 @@
 kitchensink-html5-mobile: Example AeroGear Application Using Multiple HTML5, Mobile & JAX-RS Technologies 
 =========================================================================================================
 Author: Jay Balunas
-Level: Beginner
+Level: Intermediate
 Technologies: HTML5
 Summary: Based on kitchensink, but uses HTML5, making it suitable for mobile and tablet computers
 

@@ -1,9 +1,9 @@
 hibernate3: How to Use  Hibernate 3 in an Application
 =====================================================
 Author: Bartosz Baranowski 
-Level: Beginner
+Level: Intermediate
 Technologies: Hibernate 3
-Summary: Performs the same functions as _hibernate4_ quickstart, but uses Hibernate version 3 for database access
+Summary: Example that uses Hibernate 3 for database access. Compare the code in this quickstart to the _hibernate4_ quickstart to see the changes needed to upgrade to Hibernate 4.
 
 What is it?
 -----------
