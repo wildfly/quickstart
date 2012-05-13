@@ -32,10 +32,17 @@ public class MemberController {
       return newMember;
    }
 
-   public void register() throws Exception {
+   public void register(){
+    try
+    {
       memberRegistration.register(newMember);
       facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Registered!", "Registration successful"));
       initNewMember();
+    }
+    catch(Exception e)
+    {
+      facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Not Registered due to error in data entered!", "Registration unsuccessful"));
+     }
    }
 
    @PostConstruct
