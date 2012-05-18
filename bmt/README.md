@@ -1,6 +1,9 @@
 bmt: Bean Managed Transactions - Stepping Outside the Container (with JPA and JTA)
 =================================================================================
 Author: Mike Musgrove
+Level: Beginner
+Technologies: EJB, Bean Managed Transactions (BMT)
+Summary: EJB that demonstrates bean-managed transactions (BMT)
 
 What is it?
 -----------

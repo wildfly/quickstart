@@ -1,6 +1,9 @@
 temperature-converter: Stateless Session EJB
 =================================================
-Author: Bruce Wolfe 
+Author: Bruce Wolfe
+Level: Intermediate
+Technologies: EJB
+Summary: Demonstrates a stateless session bean 
 
 What is it?
 -----------

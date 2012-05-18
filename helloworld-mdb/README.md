@@ -1,6 +1,9 @@
 helloworld-mdb: Helloword Using an MDB (Message-Driven Bean)
 ============================================================
 Author: Serge Pagop, Andy Taylor
+Level: Intermediate
+Technologies: JMS, EJB, MDB
+Summary: Demonstrates the use of JMS 1.1 and EJB 3.1 Message-Driven Bean
 
 What is it?
 -----------

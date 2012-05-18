@@ -1,6 +1,9 @@
 cmt: Container Managed Transactions - Example Using Transactions That Are Managed by the Container 
 ==================================================================================================
 Author: Tom Jenkinson
+Level: Intermediate
+Technologies: EJB, Container Managed Transactions (CMT)
+Summary: EJB that demonstrates container-managed transactions (CMT)
 
 ## What is it?
 

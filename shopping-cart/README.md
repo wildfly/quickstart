@@ -1,7 +1,9 @@
 shopping-cart: EJB 3.1 Stateful Session Bean (SFSB) Example 
 =====================================
 Author: Serge Pagop
-
+Level: Beginner
+Technologies: EJB
+Summary: Demonstrates a stateful session bean
 
 What is it?
 -----------

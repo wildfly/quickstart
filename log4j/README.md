@@ -1,6 +1,9 @@
 log4j: How to Define a Module Dependency and Use log4j in an Application  
 =======================================================================
 Author: Bartosz Baranowski
+Level: Beginner
+Technologies: JBoss Modules
+Summary: Demonstrates how to use modules to control class loading for 3rd party logging frameworks
 
 What is it?
 -----------

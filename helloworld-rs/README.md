@@ -1,6 +1,9 @@
 helloworld-rs: Helloworld Using JAX-RS (Java API for RESTful Web Services)
 ==========================================================================
-Authors: Gustavo A. Brey, Gaston Coco and others
+Author: Gustavo A. Brey, Gaston Coco
+Level: Intermediate
+Technologies: CDI, JAX-RS
+Summary: Demonstrates the use of CDI 1.0 and JAX-RS
 
 What is it?
 -----------

@@ -1,7 +1,9 @@
 jboss-as-logging-tools: Internationalization and Localisation with JBoss Logging Tools
 ======================
-
-Authors: Darrin Mison dmison@me.com (dmison@redhat.com)
+Author: Darrin Mison
+Level: Beginner
+Technologies: JBoss Logging Tools
+Summary: Demonstrates the use of JBoss Logging Tools to create internationalized loggers, exceptions, and generic messages
 
 What is it?
 ------------

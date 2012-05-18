@@ -1,7 +1,10 @@
 jts: Java Transaction Service - Distributed EJB Transactions Across Multiple Containers 
 ======================================================================================
 Author: Tom Jenkinson
-
+Level: Intermediate
+Technologies: JTS
+Summary: Uses Java Transaction Service (JTS) to coordinate distributed transactions
+Prerequisites: cmt
 
 Pre-requisites
 --------------

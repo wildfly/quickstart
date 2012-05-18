@@ -1,5 +1,9 @@
 helloworld-html5: POH5 Hello World Example
 ===================
+Author: Jay Balunas, Burr Sutter, Douglas Campos, Bruno Olivera
+Level: Beginner
+Technologies: CDI, JAX-RS, HTML5, POH5
+Summary: Basic HTML5 |Demonstrates the use of CDI 1.0 and JAX-RS using the POH5 architecture and RESTful services on the backend
 
 What is it?
 -----------

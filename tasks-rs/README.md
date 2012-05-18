@@ -1,8 +1,10 @@
 tasks-rs: JAX-RS, JPA quickstart
 ==============================
-
-Author: [Mike Musgrove](https://community.jboss.org/people/mmusgrov)
-
+Author: Mike Musgrove
+Level: Intermediate
+Technologies: JPA, JAX-RS
+Summary: Demonstrates how to use JAX-RS and JPA together
+Prerequisites: tasks
 
 What is it?
 -----------

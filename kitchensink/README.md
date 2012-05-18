@@ -1,7 +1,9 @@
 kitchensink: Assortment of technologies including Arquillian
 ========================
 Author: Pete Muir
-
+Level: Beginner
+Technologies: CDI, JSF, JPA, EJB, JPA, JAX-RS, BV
+Summary: An example that incorporates multiple technologies
 
 What is it?
 -----------

@@ -1,6 +1,9 @@
 kitchensink-ear: Example Using Multiple Java EE 6 Technologies Deployed as an EAR
 ==============================================================================================
 Author: Pete Muir
+Level: Beginner
+Technologies: EAR
+Summary: Based on kitchensink, but deployed as an EAR
 
 What is it?
 -----------

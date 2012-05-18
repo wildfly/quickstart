@@ -1,6 +1,9 @@
 ejb-in-ear: Deployment of an EAR Containing a JSF WAR and an EJB JAR
 ====================================================================
 Author: Paul Robinson
+Level: Beginner
+Technologies: EJB, EAR
+Summary: Packages an EJB JAR and WAR in an EAR
 
 What is it?
 -----------

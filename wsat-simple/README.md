@@ -1,6 +1,9 @@
 wsat-simple: WS-AT (WS-AtomicTransaction) - Simple
 ==================================================
 Author: Paul Robinson
+Level: Intermediate
+Technologies: WS-AT, JAX-WS
+Summary: Deployment of a WS-AT (WS-AtomicTransaction) enabled JAX-WS Web service bundled in a WAR archive
 
 What is it?
 -----------

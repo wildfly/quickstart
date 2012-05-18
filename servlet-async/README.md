@@ -1,6 +1,9 @@
 servlet-async: How to Write an Asynchronous Servlet
 ===================================================
 Author: Christian Sadilek
+Level: Intermediate
+Technologies: Servlet, CDI, EJB
+Summary: Demonstrates CDI, plus asynchronous Servlets and EJBs
 
 What is it?
 -----------

@@ -1,7 +1,9 @@
 ejb-security:  Using Java EE Declarative Security to Control Access to EJB 3
 ====================
 Author: Sherif F. Makary
-
+Level: Beginner
+Technologies: EJB, Security
+Summary: Shows how to use Java EE Declarative Security to Control Access to EJB 3
 
 What is it?
 -----------

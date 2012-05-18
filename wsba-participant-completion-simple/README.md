@@ -1,6 +1,9 @@
 wsba-participant-completion-simple: Deployment of a WS-BA (WS Business Activity) - Participant Completion
 =========================================================================================================
 Author: Paul Robinson
+Level: Intermediate
+Technologies: WS-BA, JAX-WS
+Summary: Deployment of a WS-BA (WS-BusinessActivity) enabled JAX-WS Web service bundled in a war archive (Coordinator Completion protocol)
 
 What is it?
 -----------

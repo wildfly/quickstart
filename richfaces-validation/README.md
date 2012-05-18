@@ -1,6 +1,9 @@
 richfaces-validation: RichFaces and Bean Validation
 =======================================================
-Author: [Lukas Fryc](https://community.jboss.org/people/lfryc)
+Author: Lukas Fryc
+Level: Beginner
+Technologies: RichFaces
+Summary: Demonstrates RichFaces and bean validation
 
 What is it?
 -----------

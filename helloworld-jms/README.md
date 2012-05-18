@@ -1,6 +1,9 @@
 helloworld-jms: HelloWorld JMS Example
 ======================
 Author: Weston Price
+Level: Intermediate
+Technologies: JMS
+Summary: Demonstrates the use of a standalone (Java SE) JMS client
 
 What is it?
 -----------

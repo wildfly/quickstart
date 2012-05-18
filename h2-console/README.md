@@ -1,6 +1,9 @@
 h2-console: Example Using the H2 Console with JBoss
 ===================================================
 Author: Pete Muir
+Level: Beginner
+Technologies: H2
+Summary: Shows how to use the H2 console with JBoss AS
 
 What is it?
 -----------

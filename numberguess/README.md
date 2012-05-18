@@ -1,6 +1,9 @@
 numberguess: Example Using CDI (Contexts and Dependency Injection) and JSF (JavaServer Faces)
 =============================================================================================
 Author: Pete Muir
+Level: Beginner
+Technologies: CDI, JSF
+Summary: Demonstrates the use of CDI 1.0 and JSF 2.0
 
 What is it?
 -----------

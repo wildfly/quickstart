@@ -1,7 +1,9 @@
 helloworld-errai: Hello World Using the Errai Framework
 =======================================================
 Author: Jonathon Fuerth
-
+Level: Beginner
+Technologies: Errai, JAX-RS, GWT
+Summary: Helloworld using the Errai framework
 
 What is it?
 -----------

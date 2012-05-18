@@ -1,6 +1,9 @@
 ejb-in-war: Deployment of a WAR Containing an EJB
 =================================================
-Author: Paul Robinson 
+Author: Paul Robinson
+Level: Beginner
+Technologies: EJB, JSF, WAR
+Summary: Packages an EJB JAR in a WAR
 
 What is it?
 -----------

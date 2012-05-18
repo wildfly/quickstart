@@ -1,6 +1,9 @@
 greeter: Greeter Example
 ========================
 Author: Pete Muir
+Level: Beginner
+Technologies: CDI, JSF, JPA, EJB, JTA
+Summary: Demonstrates the use of CDI 1.0, JPA 2.0, JTA 1.1, EJB 3.1 and JSF 2.0
 
 What is it?
 -----------

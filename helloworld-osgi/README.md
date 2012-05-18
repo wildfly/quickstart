@@ -1,6 +1,9 @@
-helloworld-osgi: Helloworld Using OSGi (Open Services Gateway initiative)
-=========================================================================
-Author: Pete Muir
+helloworld-osgi: Helloworld Using OSGi
+======================================
+Author: David Bosschaert
+Level: Beginner
+Technologies: OSGi
+Summary: Shows how to create and deploy a simple OSGi Bundle
 
 What is it?
 -----------
