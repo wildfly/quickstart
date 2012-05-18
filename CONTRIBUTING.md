@@ -80,4 +80,37 @@ If appropriate for the technology the application should expose RESTful endpoint
 Markdown
 --------
 
-We use Redcarpet to process the markdown, the same processor used by Guthub. This builds on the basic markdown syntax, adding support for tables, code highlighting, relaxed code blocks etc). We add a custom piece of markup \[TOC\] which allows a table of contents, based on headings, to be added to any file.
+We use Redcarpet to process the markdown, the same processor used by Guthub. This builds on the basic markdown syntax, adding support for tables, code highlighting, relaxed code blocks etc). We add a couple of custom piece of markup - \[TOC\] which allows a table of contents, based on headings, to be added to any file, and [Quickstart-TOC], which adds in a table listing the quickstarts.
+
+To render the quickstarts you will need:
+
+* Ruby 1.9 or newer
+* Bash 3 or newer
+* pygments (available in many package management systems, or as a python egg)
+
+And these gems:
+
+* redcarpet (version 2 or newer)
+* pygments.rb
+* nokogiri
+
+Just run
+
+   ./dist/release-utils.sh -m
+
+To render all markdown files to HTML.
+
+Release Process
+--------------
+
+1. Ensure you have Bash 3, and Ruby & gems set up, as described in the Markdown section
+2. Make sure you have access to rsync files to `filemgmt.jboss.org/download_htdocs/jbossas`
+3. Release the archetypes
+4. Regenerate the quickstart based on archetypes
+
+        ./dist/release-utils.sh -r
+
+5. Release
+
+        dist/release.sh -s <old snapshot version> -r <release version>
+
