@@ -13,22 +13,22 @@ import org.hibernate.Session;
 @Stateless
 public class MemberRegistration {
 
-   @Inject
-   private Logger log;
+    @Inject
+    private Logger log;
 
-   @Inject
-   private EntityManager em;
+    @Inject
+    private EntityManager em;
 
-   @Inject
-   private Event<Member> memberEventSrc;
+    @Inject
+    private Event<Member> memberEventSrc;
 
-   public void register(Member member) throws Exception {
-      log.info("Registering " + member.getName());
-      //em.persist(member);
+    public void register(Member member) throws Exception {
+        log.info("Registering " + member.getName());
+        // em.persist(member);
 
-      //using Hibernate session(Native API) and JPA entitymanager
-      Session session = (Session)em.getDelegate();
-      session.persist(member);	
-      memberEventSrc.fire(member);
-   }
+        // using Hibernate session(Native API) and JPA entitymanager
+        Session session = (Session) em.getDelegate();
+        session.persist(member);
+        memberEventSrc.fire(member);
+    }
 }
