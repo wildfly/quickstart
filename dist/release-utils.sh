@@ -59,14 +59,25 @@ perl -pi -e "s/${OLDVERSION}/${NEWVERSION}/g" `find . -name \*.xml -or -name \*.
 markdown_to_html()
 {
    cd $DIR/../
-   readmes=`find . -iname readme.md -or -iname contributing.md`
-   echo $readmes
-   for readme in $readmes
+   subdirs=`find -s . -type d -maxdepth 1 ! -iname ".*"`
+   for subdir in $subdirs
    do
-      output_filename=${readme//.md/.html}
-      output_filename=${output_filename//.MD/.html}
-      $DIR/github-flavored-markdown.rb $readme > $output_filename  
+      readmes=`find $subdir -iname readme.md`
+      for readme in $readmes
+      do
+         echo "Processing $readme"
+         output_filename=${readme//.md/.html}
+         output_filename=${output_filename//.MD/.html}
+         $DIR/github-flavored-markdown.rb $readme > $output_filename  
+      done
    done
+   # Now process the root readme
+   cd $DIR/../
+   readme=README.md
+   echo "Processing $readme"
+   output_filename=${readme//.md/.html}
+   output_filename=${output_filename//.MD/.html}
+   $DIR/github-flavored-markdown.rb $readme > $output_filename  
 }
 
 regenerate()
