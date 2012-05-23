@@ -62,6 +62,11 @@ Make sure there is no transaction objectstore data left after testing this or an
 3. On Windows, use the file manager to accomplish the same result.
 
 
+Configure the JBoss server
+---------------------------
+
+If you have run the `jts` or `jts-distributed-crash-recovery` quickstarts, make sure you followed the instructions to [Remove the JTS Configuration from the JBoss server](../jts/README.md#remove-jts-configuration). The Byteman script will only run in JTA mode. It will not not run in JTS mode and you will not be able to simulate the server crash.
+
 
 <a id="startserver"></a>
 
@@ -123,7 +128,10 @@ Test the application
 6. If you want to verify the database insert was committed but that message delivery is still pending, you can use an SQL client such as the H2 database console tool. Issue a query to show that the value is present but does not contain the message added by the consumer (*" updated via JMS"*). Here is how you can do it using H2:
     * Start the H2 console by typing:
 
-            java -jar $JBOSS_HOME/modules/com/h2database/h2/main/h2*.jar
+            For JBoss Enterprise Application Platform 6: 
+                  java -cp $JBOSS_HOME/modules/com/h2database/h2/main/h2*.jar org.h2.tools.Console
+            For JBoss AS 7:
+                  java -jar $JBOSS_HOME/modules/com/h2database/h2/main/h2*.jar
     * Log in:
        
             Database URL: jdbc:h2:file:~/jta-crash-rec-quickstart
@@ -145,6 +153,9 @@ Test the application
                 0_ffff7f000001_-7f1cf331_4f0b0ad4_15
         * After recovery, log records are normally deleted automatically. However, logs may remain in the case where the Transaction Manager (TM) commit request was received and acted upon by a resource, but the TM crashed before it had time to clean up the logs of that resource.    
 7. To observe XA recovery
+    * Stop the H2 console to close the database connections. Otherwise, you may see messages like the following when you start your server: 
+
+            `Database may be already in use: "Locked by another process"`
     * [Disable the Byteman script](../README.md#byteman-disable) by restoring the backup server configuration file.
     * [Start the JBoss server](#startserver) as instructed above.
     * Load the web interface to the application 

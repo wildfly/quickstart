@@ -167,3 +167,25 @@ Undeploy the Archive
         mvn package jboss-as:undeploy
 
 
+<a id="remove-jts-configuration"></a>
+Remove the JTS Configuration from the JBoss server
+---------------------------
+
+You must remove the JTS server configuration you did during setup because it interferes with the JTA quickstarts.
+
+1. Stop the server.
+2. Open the file JBOSS_HOME/standalone/configuration/standalone-full.xml
+3. Disable JTS as follows:
+    * Find the orb subsystem and change the configuration back to:  
+
+            <subsystem xmlns="urn:jboss:domain:jacorb:1.2">
+                <orb>
+                    <initializers security="on" transactions="spec"/>
+                </orb>
+            </subsystem>
+    * Find the transaction subsystem and remove the `<jts/>` element:  
+
+            <subsystem xmlns="urn:jboss:domain:transactions:1.2">
+                <!-- LEAVE EXISTING CONFIG AND REMOVE THE </jts> -->
+            </subsystem>
+

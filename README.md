@@ -529,6 +529,8 @@ _Byteman_ is a tool which simplifies tracing and testing of Java programs. Bytem
 <a id="byteman-halt"></a>
 #### Halt the Application Using Byteman
 
+_NOTE_: The Byteman scripts only work in JTA mode. They do not work in JTS mode. If you have configured the server for a JTS quickstart, you must follow the instructions to [Remove the JTS Configuration from the JBoss server](jts/README.md#remove-jts-configuration) before making the following changes. Otherwise Byteman will not halt the server. 
+
 When instructed to use Byteman to halt the application, perform the following steps:
  
 1. Find the appropriate configuration file for your operating system in the list below.
