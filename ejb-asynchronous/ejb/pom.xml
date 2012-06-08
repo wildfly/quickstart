@@ -1,0 +1,61 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>jboss-as-ejb-asynchronous-jar</artifactId>
+	<name>JBoss AS Quickstarts: Asynchronous method invocations on an EJB - JAR</name>
+	<description>jboss-as--ejb-asynchronous: The application jar with an asynchronous EJB and a second EJB to demonstrate how an EJB can be used asynchronous</description>
+	<packaging>ejb</packaging>
+
+	<licenses>
+		<license>
+			<name>Apache License, Version 2.0</name>
+			<distribution>repo</distribution>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+		</license>
+	</licenses>
+
+	<parent>
+		<groupId>org.jboss.as.quickstarts</groupId>
+		<artifactId>jboss-as-ejb-asynchronous</artifactId>
+		<version>7.1.1-SNAPSHOT</version>
+	</parent>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.jboss.spec.javax.ejb</groupId>
+			<artifactId>jboss-ejb-api_3.1_spec</artifactId>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<!-- Specify the artifact name, this is referred to in the EAR's application.xml -->
+		<finalName>${project.parent.artifactId}</finalName>
+		<plugins>
+			<plugin>	<!-- must include ejb-plugin to change the EJB version from 2.1 to 3.0 -->
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-ejb-plugin</artifactId>
+				<version>2.3</version>
+				<configuration>
+					<ejbVersion>3.1</ejbVersion>
+					<generateClient>true</generateClient>
+					<archive>
+						<addMavenDescriptor>false</addMavenDescriptor>
+					</archive>
+				</configuration>
+			</plugin>
+			<!-- JBoss AS plugin to deploy jar -->
+			<plugin>
+				<groupId>org.jboss.as.plugins</groupId>
+				<artifactId>jboss-as-maven-plugin</artifactId>
+				<version>7.1.1.Final</version>
+				<configuration>
+					<filename>${project.build.finalName}.jar</filename>
+					<skip>false</skip>
+				</configuration>
+			</plugin>
+
+		</plugins>
+	</build>
+</project>
