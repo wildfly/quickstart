@@ -10,26 +10,26 @@
    <h:panelGroup id="membersPanel" layout="block">
       <h:outputScript name="showMessage.js" library="js"/>
       <rich:dataTable var="_member" value="#{members}" rendered="#{not empty members}" style="width : 100%">
-         <rich:column>
+         <rich:column headerClass="left">
              <a4j:commandLink styleClass="no-decor" render="@form" execute="@this" oncomplete="$('#app-page').data('activePage', 'detail'); location.hash='detail'">
                  View
                  <f:setPropertyActionListener target="#{memberController.member}" value="#{_member}"/>
                  <a4j:param name="page" assignTo="#{pageBean.location}" value="detail" />
              </a4j:commandLink>
          </rich:column>
-         <rich:column>
+         <rich:column headerClass="left">
             <f:facet name="header">Id</f:facet>
             #{_member.id}
          </rich:column>
-         <rich:column>
+         <rich:column headerClass="left">
             <f:facet name="header">Name</f:facet>
             #{_member.name}
          </rich:column>
-         <rich:column>
+         <rich:column styleClass="landscape" headerClass="left landscape">
             <f:facet name="header">Email</f:facet>
             #{_member.email}
          </rich:column>
-         <rich:column>
+         <rich:column styleClass="landscape" headerClass="left landscape">
             <f:facet name="header">Phone #</f:facet>
             #{_member.phoneNumber}
          </rich:column>
