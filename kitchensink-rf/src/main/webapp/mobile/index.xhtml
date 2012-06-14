@@ -3,9 +3,7 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:a4j="http://richfaces.org/a4j"
-                xmlns:rich="http://richfaces.org/rich"
-                xmlns:my="http://java.sun.com/jsf/composite/components">
+                xmlns:a4j="http://richfaces.org/a4j">
     <ui:define name="content">
         <h:outputStylesheet name="app.css" library="css"/>
         <h:outputStylesheet name="mobile.css" library="css"/>
@@ -32,7 +30,10 @@
                         }
                     }
                 </h:outputScript>
-                <a4j:jsFunction name="loadPage" data="#{pageBean.location}" render="@form" oncomplete="slidfast.core.slideTo('app-page')">
+                <a4j:jsFunction name="loadPage"
+                                data="#{pageBean.location}"
+                                render="@form"
+                                oncomplete="slidfast.core.slideTo('app-page')">
                     <a4j:param name="page" assignTo="#{pageBean.location}"/>
                 </a4j:jsFunction>
 
