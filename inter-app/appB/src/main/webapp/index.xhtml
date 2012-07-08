@@ -1,0 +1,57 @@
+<!-- JBoss, Home of Professional Open Source Copyright 2009, Red Hat Middleware 
+    LLC, and individual contributors as indicated by the @author tags. See the 
+    copyright.txt in the distribution for a full listing of individual contributors. 
+    This copyrighted material is made available to anyone wishing to use, modify, 
+    copy, or redistribute it subject to the terms and conditions of the GNU Lesser 
+    General Public License, v. 2.1. This program is distributed in the hope that 
+    it will be useful, but WITHOUT A WARRANTY; without even the implied warranty 
+    of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser 
+    General Public License for more details. You should have received a copy 
+    of the GNU Lesser General Public License, v.2.1 along with this distribution; 
+    if not, write to the Free Software Foundation, Inc., 51 Franklin Street, 
+    Fifth Floor, Boston, MA 02110-1301, USA. (C) 2009 -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<!-- The main page for our app, defines a simple form to allow us to set
+     text that can be accessed in the other application -->
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>jboss-as-inter-app-B</title>
+<ui:insert name="head" />
+</head>
+
+<body>
+
+	<div id="container">
+		<div id="header"></div>
+
+		<div id="sidebar"></div>
+
+		<div id="content">
+			<h:messages />
+			<!-- Set a message on the bean in the other application -->
+			<h:form id="form">
+				<h:panelGrid columns="3">
+					<h:outputLabel for="input">Enter message "foo":</h:outputLabel>
+					<h:inputText id="input" value="#{controllerB.foo}" />
+					<h:message for="input" />
+				</h:panelGrid>
+				<h:commandButton id="send" value="Send and Update!"
+					action="#{controllerB.sendAndUpdate}" />
+			</h:form>
+			
+			<!-- See the message set on the bean in this application -->
+			Message "bar": <h:outputText value="#{controllerB.bar}"
+				rendered="#{not empty controllerB.bar}" />
+		</div>
+
+		<br style="clear: both" />
+	</div>
+
+</body>
+</html>
