@@ -14,6 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.jboss.as.quickstarts.temperatureconverter.controller;
+
+import java.io.Serializable;
+
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+
+import org.jboss.as.quickstarts.temperatureconverter.ejb.Scale;
+import org.jboss.as.quickstarts.temperatureconverter.ejb.Temperature;
+import org.jboss.as.quickstarts.temperatureconverter.ejb.TemperatureConvertEJB;
+
 /**
  * A simple managed bean that is used to invoke the TemperatureConvertEJB and store the response. The response is obtained by
  * invoking temperatureConvertEJB.convert().
@@ -22,31 +34,25 @@
  * 
  * @author Bruce Wolfe
  */
-
-package org.jboss.as.quickstarts.temperatureconverter.controller;
-
-import org.jboss.as.quickstarts.temperatureconverter.ejb.TemperatureConvertEJB;
-
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Named;
-import javax.inject.Inject;
-import java.io.Serializable;
-
+@SuppressWarnings("serial")
 @Named("temperatureConverter")
 @RequestScoped
 public class TemperatureConverter implements Serializable {
-    private static final long serialVersionUID = 1785201108L;
+
     /*
      * Injected TemperatureConvertEJB client
-     */
+     */    
     @Inject
     private TemperatureConvertEJB temperatureConvertEJB;
+    
     /*
      * Stores the response from the call to temperatureConvertEJB.convert()
      */
     private String temperature;
+    
     private String sourceTemperature = "0.0";
-    private String defaultScale = "C";
+    
+    private Scale defaultScale = Scale.CELSIUS;
 
     /**
      * Invoke temperatureConvertEJB.convert() and store the temperature
@@ -55,7 +61,7 @@ public class TemperatureConverter implements Serializable {
      * @param defaultScale The default source temperature scale
      */
     public void convert() {
-        temperature = temperatureConvertEJB.convert(sourceTemperature, defaultScale);
+        temperature = temperatureConvertEJB.convert(Temperature.parse(sourceTemperature, defaultScale)).toString();
     }
 
     public String getSourceTemperature() {
@@ -66,11 +72,11 @@ public class TemperatureConverter implements Serializable {
         this.sourceTemperature = sourceTemperature;
     }
 
-    public String getDefaultScale() {
+    public Scale getDefaultScale() {
         return defaultScale;
     }
 
-    public void setDefaultScale(String defaultScale) {
+    public void setDefaultScale(Scale defaultScale) {
         this.defaultScale = defaultScale;
     }
 
