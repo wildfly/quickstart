@@ -1,0 +1,505 @@
+CDI + JPA + EJB + JTA + JSF: Greeter quickstart
+===============================================
+anchor:GreeterQuickstart-[]
+
+This quickstart shows you how to create and deploy an application which persists information to a database to JBoss Enterprise Application Platform 6 or JBoss AS 7. Information is displayed using JSF views, business logic is encapsulated in CDI beans, information is persisted using JPA, and transactions can be controlled manually or using EJB.
+
+Switch to the `quickstarts/greeter` directory and instruct Maven to build and deploy the application: 
+
+    mvn package jboss-as:deploy
+
+
+The quickstart uses a Maven plugin to deploy the application. The plugin requires JBoss Enterprise Application Platform 6 or JBoss AS 7 to be running (you can find out how to start the server in <<GettingStarted-on_linux, Installing and starting the JBoss server on Linux, Unix or Mac OS X>> or <<GettingStarted-on_windows, Installing and starting the JBoss server on Windows>>).
+
+Or you can start the server using an IDE, like JBoss Developer Studio. If you are using JBoss Developer Studio, you can deploy the quickstart by right clicking on the `jboss-as-greeter` project, and choosing _Run As -> Run On Server_: 
+
+image:gfx/Eclipse_Greeter_Deploy_1.png[]
+
+Make sure the server is selected, and hit Finish:
+ 
+image:gfx/Eclipse_Deploy_2.jpg[]
+
+You should see the server start up (unless you already started it in <<GettingStarted-with_jboss_tools,Starting the JBoss server from JBDS or Eclipse with JBoss Tools>>) and the application deploy in the Console log: 
+
+image:gfx/Eclipse_Greeter_Deploy_3.png[]
+
+[[greeter_in_depth]]
+The greeter quickstart in depth
+-------------------------------
+
+In the quickstart, all users are stored in an H2 database (an in-memory, embedded database provided out of the box in JBoss Enterprise Application Platform 6 and JBoss AS 7). Each user is stored as an entity, and entities are mapped to the database using JPA. By default, transactions are managed manually, using the JTA API. Optionally, you can use EJB to manage transactions (we'll look at how to enable that later). We need a transaction in progress in order to read and write any entities.
+
+The quickstart is comprised of two JSF views, an entity, and a number of CDI beans. Additionally, there are the usual configuration files in `WEB-INF/` (which can be found in the `src/main/webapp` directory). Here we find `beans.xml` and `faces-config.xml` which tell JBoss Enterprise Application Platform 6 and JBoss AS 7 to enable CDI and JSF for the application. Notice that we don't need a `web.xml`. There are two new configuration files in `WEB-INF/classes/META-INF` (which can be found in the `src/main/resources` directory of the quickstart) — `persistence.xml`, which sets up JPA, and `import.sql` which Hibernate, the JPA provider in  JBoss Enterprise Application Platform 6 and JBoss AS 7, will use to load the initial users into the application when the application starts. 
+
+`persistence.xml` is pretty straight forward, and links JPA to a datasource: 
+
+.src/main/resources/META-INF/persistence.xml
+------------------------------------------------------------------------
+<persistence version="2.0"
+    xmlns="http://java.sun.com/xml/ns/persistence" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+        http://java.sun.com/xml/ns/persistence
+        http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+    <persistence-unit name="primary">                                <1>
+        <!-- If you are running in a production environment, add a 
+             managed  data source, this example data source is just 
+             for development and testing! -->
+        <!-- The datasource is deployed as 
+             WEB-INF/greeter-quickstart-ds.xml, you can find it in 
+             the source at 
+             src/main/webapp/WEB-INF/greeter-quickstart-ds.xml -->
+        <jta-data-source>
+            java:jboss/datasources/GreeterQuickstartDS               <2>
+        </jta-data-source>
+        <properties>
+            <!-- Properties for Hibernate -->                        <3>
+            <property name="hibernate.hbm2ddl.auto" 
+                      value="create-drop" />
+            <property name="hibernate.show_sql" 
+                      value="false" />
+        </properties>
+    </persistence-unit>
+</persistence>
+------------------------------------------------------------------------
+
+<1> The persistence unit is given a name, so that the application can use multiple if needed. If only one is defined, JPA will automatically use it.
+<2> The persistence unit references a data source. Here we are using the built in, sample, data source.
+<3> JPA allows us to configure the JPA provider specific properties. Here we tell Hibernate to automatically create any needed tables when the application starts (and drop them when the application is stopped).
+
+[TIP]
+========================================================================
+JBoss Enterprise Application Platform 6 and JBoss AS 7 ships with a 
+sample datasource `java:jboss/datasources/ExampleDS`. This data source 
+is backed by H2, an in-memory database. Whilst this datasource is great
+for quickstarts, you will probably want to use a different datasource in
+your application. The link:http://docs.redhat.com/docs/en-US/JBoss_Enterprise_Application_Platform/6/html/Administration_and_Configuration_Guide/index.html[Administration and Configuration Guide for JBoss Enterprise Application Platform 6] or the
+link:https://docs.jboss.org/author/display/AS71/Getting+Started+Guide[Getting Started Guide for JBoss AS 7] 
+tells you how to create a new datasource. 
+========================================================================
+
+Let's take a look at the JSF views. First up is `src/main/webapp/greet.xhtml`: 
+
+.src/main/webapp/greet.xhtml
+[source,html]
+------------------------------------------------------------------------
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core">
+
+<ui:composition template="template.xhtml">                           <1>
+    <ui:define name="content">
+        <h:messages />                                               <2>
+        <h:form id="greetForm">
+            <h:panelGrid columns="3">
+                <h:outputLabel for="username">Enter username:</h:outputLabel>
+                <h:inputText id="username"
+                    value="#{greetController.username}" />
+                <h:message for="username" />
+            </h:panelGrid>
+            <h:commandButton id="greet" value="Greet!"
+                action="#{greetController.greet}" />
+        </h:form>
+        <h:outputText value="#{greetController.greeting}"
+            rendered="#{not empty greetController.greeting}" />      <3>
+        <br />
+        <h:link outcome="/create.xhtml" value="Add a new user" />    <4>
+    </ui:define>
+</ui:composition>
+</html>
+------------------------------------------------------------------------
+
+<1> As we have multiple views in this application, we've created a template that defines the common elements. We'll examine this next. Here we define the "content" section of the page, which will be inserted into the template.
+<2> We output any messages for the user at the top of the form, e.g. when a new user is created.
+<3> The greeting message is only rendered if there is a message.
+<4> We also a link to the page which allows a user to be added.
+
+Now let's take a look at the template. It defines common elements for the page, and allows pages which use it to insert content in various places.
+
+.src/main/webapp/template.xhtml
+[source,html]
+------------------------------------------------------------------------
+<!-- The template for our app, defines some regions -->
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>greeter</title>
+<ui:insert name="head" />                                            <1>
+</head>
+
+<body>
+
+    <div id="container">
+        <div id="header"></div>
+
+        <div id="sidebar"></div>
+
+        <div id="content">
+            <ui:insert name="content" />                             <2>
+        </div>
+
+        <br style="clear: both" />
+    </div>
+
+</body>
+</html>
+------------------------------------------------------------------------
+
+<1> The head, defined in case a page wants to add some content to the head of the page.
+<2> The content, defined by a page using this template, will be inserted here
+
+Finally, let's take a look at the user management page. It provides a form to add users:
+
+.src/main/webapp/create.xhtml
+[source,html]
+------------------------------------------------------------------------
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core">
+
+<ui:composition template="template.xhtml">
+    <ui:define name="content">
+        <h:messages />
+        <h:form>
+            <h:panelGrid columns="3">
+                <h:outputLabel for="username">Enter username:</h:outputLabel>
+                <h:inputText id="username" value="#{newUser.username}" />
+                <h:message for="username" />
+
+                <h:outputLabel for="firstName">Enter first name:</h:outputLabel>
+                <h:inputText id="firstName" value="#{newUser.firstName}" />
+                <h:message for="firstName" />
+
+                <h:outputLabel for="lastName">Enter last name:</h:outputLabel>
+                <h:inputText id="lastName" value="#{newUser.lastName}" />
+                <h:message for="lastName" />
+
+            </h:panelGrid>
+            <h:commandButton action="#{createController.create}"
+                value="Add User" />
+        </h:form>
+        <h:link outcome="/greet.xhtml">Greet a user!</h:link>
+    </ui:define>
+</ui:composition>
+</html>
+------------------------------------------------------------------------
+
+The quickstart has one entity, which is mapped via JPA to the relational database:
+
+.src/main/java/org/jboss/as/quickstarts/greeter/domain/User.java
+[source,java]
+------------------------------------------------------------------------
+@Entity                                                              // <1>
+public class User {
+
+    @Id                                                              // <2>
+    @GeneratedValue
+    private Long id;
+
+    @Column(unique = true)
+    private String username;
+
+    private String firstName;                                        // <3>
+
+    private String lastName;
+
+    public Long getId() {                                            // <4>
+        return id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+}
+------------------------------------------------------------------------
+<1> The `@Entity` annotation used on the class tells JPA that this class should be mapped as a table in the database. 
+<2> Every entity requires an id, the `@Id` annotation placed on a field (or a JavaBean mutator/accessor) tells JPA that this property is the id. You can use a synthetic id, or a natural id (as we do here). 
+<3> The entity also stores the real name of the user
+<4> As this is Java, every property needs an accessor/mutator!
+
+We use a couple of controller classes to back the JSF pages. First up is `GreetController` which is responsible for getting the user's real name from persistence layer, and then constructing the message.
+
+.src/main/java/org/jboss/as/quickstarts/greeter/web/GreetController.java
+[source,java]
+------------------------------------------------------------------------
+@Named                                                               // <1>
+@RequestScoped                                                       // <2>
+public class GreetController {
+
+    @Inject
+    private UserDao userDao;                                         // <3>
+
+    private String username;
+
+    private String greeting;
+
+    public void greet() {
+        User user = userDao.getForUsername(username);
+        if (user != null) {
+            greeting = "Hello, " + 
+                       user.getFirstName() + 
+                       " " + 
+                       user.getLastName() + 
+                       "!";
+        } else {
+            greeting = 
+                "No such user exists! Use 'emuster' or 'jdoe'";
+        }
+    }
+
+    public String getUsername() {                                    // <4>
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getGreeting() {
+        return greeting;
+    }
+
+}
+------------------------------------------------------------------------
+<1> The bean is given a name, so we can access it from JSF
+<2> The bean is request scoped, a different greeting can be made in each request
+<3> We inject the `UserDao`, which handles database abstraction
+<4> We need to expose JavaBean style mutators and accessors for every property the JSF page needs to access to
+
+The second controller class is responsible for adding a new user:
+
+.src/main/java/org/jboss/as/quickstarts/greeter/web/CreateController.java
+[source,java]
+------------------------------------------------------------------------
+@Named                                                               // <1>
+@RequestScoped                                                       // <2>
+public class CreateController {
+
+    @Inject                                                          // <3>
+    private FacesContext facesContext;
+
+    @Inject                                                          // <4>
+    private UserDao userDao;
+
+    @Named                                                           // <5>
+    @Produces
+    @RequestScoped
+    private User newUser = new User();
+
+    public void create() {
+        try {
+            userDao.createUser(newUser);
+            String message = "A new user with id " + 
+                             newUser.getId() + 
+                             " has been created successfully";
+            facesContext.addMessage(null, new FacesMessage(message));
+        } catch (Exception e) {
+            String message = "An error has occured while creating" +
+                             " the user (see log for details)";
+            facesContext.addMessage(null, new FacesMessage(message));
+        }
+    }
+}
+------------------------------------------------------------------------
+<1> The bean is given a name, so we can access it from JSF
+<2> The bean is request scoped, a different user can be added in each request
+<3> We inject the `FacesContext`, to allow us to send messages to the user when the user is created, or if an error occurs
+<4> We inject the `UserDao`, which handles database abstraction
+<5> We expose a prototype user using a named producer, which allows us to access it from a JSF page
+
+Now that we have the controllers in place, let's look at the most interesting part of the application, how we interact with the database. As we mentioned earlier, by default the application uses the JTA API to manually control transactions. To implement both approaches, we've defined a `UserDao` interface, with two implementations, one of which (the EJB variant) is as an alternative which can be enabled via a deployment descriptor. If you were wondering why we "hid" the persistence logic in the `UserDao`, rather than placing it directly in the controller classes, this is why!
+
+Let's first look at the interface, and the manual transaction control variant. 
+
+.src/main/java/org/jboss/as/quickstarts/greeter/domain/UserDao.java
+[source,java]
+------------------------------------------------------------------------
+public interface UserDao {
+    User getForUsername(String username);
+
+    void createUser(User user);
+}
+------------------------------------------------------------------------
+
+The methods are fairly self explanatory, so let's move on quickly to the implementation, `ManagedBeanUserDao`:
+
+.src/main/java/org/jboss/as/quickstarts/greeter/domain/ManagedBeanUserDao.java
+[source,java]
+------------------------------------------------------------------------
+public class ManagedBeanUserDao implements UserDao {
+
+    @Inject
+    private EntityManager entityManager;                             // <1>
+
+    @Inject
+    private UserTransaction utx;                                     // <2>
+
+    public User getForUsername(String username) {                    // <3>
+        try {
+            try {
+                utx.begin();
+                try {
+                    Query query = entityManager
+                         .createQuery("select u from User u where u.username = ?");
+                    query.setParameter(1, username);
+                    return (User) query.getSingleResult();
+                } catch (NoResultException e) {
+                    return null;
+                }
+            } finally {
+                utx.commit();
+            }
+        } catch (Exception e) {
+            try {
+                utx.rollback();
+            } catch (SystemException se) {
+                throw new RuntimeException(se);
+            }
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void createUser(User user) {                              // <4>
+        try {
+            try {
+                utx.begin();
+                entityManager.persist(user);
+            } finally {
+                utx.commit();
+            }
+        } catch (Exception e) {
+            try {
+                utx.rollback();
+            } catch (SystemException se) {
+                throw new RuntimeException(se);
+            }
+            throw new RuntimeException(e);
+        }
+    }
+}
+------------------------------------------------------------------------
+<1> We inject the entity manager. This was set up in `persistence.xml`.
+<2> We inject the `UserTransaction`, to allow us to programmatically control the transaction
+<3> The `getUserForUsername` method can check whether a user with a matching username and password exists, and return it if it does. 
+<4> `createUser` persists a new user to the database. 
+
+You've probably noticed two things as you've read through this. Firstly, that manually managing transactions is a real pain. Secondly, you may be wondering how the entity manager and the logger are injected. First, let's tidy up the transaction manager, and use EJB to provide us with declarative transaction support.
+
+The class `EJBUserDao` provides this, and is defined as an alternative. Alternatives are disabled by default, and when enabled replace the original implementation. In order to enable this variant of `UserDao`, edit `beans.xml` and uncomment the alternative. Your `beans.xml` should now look like: 
+
+.src/main/webapp/WEB-INF/beans.xml
+[source,xml]
+------------------------------------------------------------------------
+<beans xmlns="http://java.sun.com/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+        http://java.sun.com/xml/ns/javaee
+        http://java.sun.com/xml/ns/javaee/beans_1_0.xsd">
+
+        <!-- Uncomment this alternative to see EJB declarative transactions in use -->
+        <alternatives>
+            <class>org.jboss.as.quickstarts.login.EJBUserManager</class>
+        </alternatives>
+</beans>
+------------------------------------------------------------------------
+
+Now, let's look at `EJBUserDao`:
+
+.src/main/java/org/jboss/as/quickstarts/greeter/domain/EJBUserDao.java
+[source,java]
+------------------------------------------------------------------------
+@Stateful
+@Alternative
+public class EJBUserDao implements UserDao {
+
+    @Inject
+    private EntityManager entityManager;
+
+    public User getForUsername(String username) {
+        try {
+            Query query = entityManager.createQuery("select u from User u where u.username = ?");
+            query.setParameter(1, username);
+            return (User) query.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
+    public void createUser(User user) {
+        entityManager.persist(user);
+    }
+
+}
+------------------------------------------------------------------------
+
+Using declarative transaction management has allowed us to remove a third of the lines of code from the class, but more importantly emphasizes the functionality of the class. Much better!
+
+
+[NOTE]
+========================================================================
+Sharp eyed developers who are used to Java EE will have noticed that we 
+have added this EJB to a war. This is the key improvement offered in 
+EJB 3.1 (which was first included in Java EE 6).
+========================================================================
+
+Finally, let's take a look at the `Resources` class, which provides resources such as the entity manager. CDI recommends using "resource producers", as we do in this quickstart, to alias resources to CDI beans, allowing for a  consistent style throughout our application: 
+
+.src/main/java/org/jboss/as/quickstarts/greeter/Resources.java
+[source,java]
+------------------------------------------------------------------------
+public class Resources {
+
+    // Expose an entity manager using the resource producer pattern
+    @SuppressWarnings("unused")
+    @PersistenceContext
+    @Produces
+    private EntityManager em;                                        // <1>
+
+    @Produces
+    Logger getLogger(InjectionPoint ip) {                            // <2>
+        String category = ip.getMember()
+                            .getDeclaringClass()
+                            .getName();
+        return Logger.getLogger(category);
+    }
+
+    @Produces
+    FacesContext getFacesContext() {                                 // <3>
+        return FacesContext.getCurrentInstance();
+    }
+
+}
+------------------------------------------------------------------------
+<1> We use the "resource producer" pattern, from CDI, to "alias" the old fashioned `@PersistenceContext` injection of the entity manager to a CDI style injection. This allows us to use a consistent injection style (`@Inject`) throughout the application.
+<2> We expose a JDK logger for injection. In order to save a bit more boiler plate, we automatically set the logger category as the class name!
+<3> We expose the `FacesContext` via a producer method, which allows it to be injected. If we were adding tests, we could also then mock it out.
+
+
+That concludes our tour of the greeter application!
+

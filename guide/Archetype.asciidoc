@@ -1,0 +1,112 @@
+Creating your own application
+=============================
+anchor:Archetype-[]
+
+What we didn't tell you about the kitchensink quickstart is that it is generated from a Maven archetype. Using this archetype offers you the perfect opportunity to generate your own project. 
+
+[TIP]
+.Watch and learn
+========================================================================
+If you prefer to watch and learn, then check out 
+http://www.vimeo.com/26074724
+========================================================================
+
+To use the archetype to generate a new project, you should run:
+
+    mvn archetype:generate \
+        -DarchetypeArtifactId=jboss-javaee6-webapp-archetype \
+        -DarchetypeGroupId=org.jboss.spec.archetypes \
+        -DarchetypeVersion=7.0.2.CR2 \
+
+Maven will download the archetype and it's dependencies, and ask you some questions:
+
+------------------------------------------------------------------------
+$ > mvn archetype:generate \
+        -DarchetypeArtifactId=jboss-javaee6-webapp-archetype \
+        -DarchetypeGroupId=org.jboss.spec.archetypes \
+        -DarchetypeVersion=7.0.2.CR2
+[INFO] Scanning for projects...
+[INFO]
+[INFO] ------------------------------------------------------------------------
+[INFO] Building Maven Stub Project (No POM) 1
+[INFO] ------------------------------------------------------------------------
+[INFO]
+
+.........
+
+Define value for property 'groupId': : com.acme.corp                 <1>
+Define value for property 'artifactId': : acme-sales                 <2>
+Define value for property 'version':  1.0-SNAPSHOT: :                <3>
+Define value for property 'package':  com.acme.corp: :               <4>
+[INFO] Using property: name = Java EE 6 webapp project               <5>
+Confirm properties configuration:
+groupId: com.acme.corp
+artifactId: acme-sales
+version: 1.0-SNAPSHOT
+package: com.acme.corp
+name: Java EE 6 webapp project
+ Y: :
+[WARNING] CP Don't override file /Users/pmuir/tmp/acme-sales/.settings/org.eclipse.jdt.apt.core.prefs
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 14.774s
+[INFO] Finished at: Mon Jun 06 18:53:38 BST 2011
+[INFO] Final Memory: 7M/125M
+[INFO] ------------------------------------------------------------------------
+$ >
+------------------------------------------------------------------------
+<1> Enter the groupId you wish to use
+<2> Enter the artifactId you wish to use
+<3> Enter the version you wish to use, or just hit Enter if you wish to accept the default 1.0-SNAPSHOT
+<4> Enter the java package you wish to use, or just hit Enter if you wish to accept the default (which is copied from groupId ).
+<5> Finally, if you are happy with your choices, hit Enter and Maven will generate the project for you.
+
+And that's it, you now have a brand new project with the same functionality as `kitchensink`, but customized with your details.
+
+[IMPORTANT]
+========================================================================
+The archetype contains some sample code to get you started. If you
+would prefer a blank canvas, with only a project skeleton, then use
+`jboss-javaee6-webapp-archetype-blank` as your archetype id.
+========================================================================
+
+[IMPORTANT]
+.Prefer Enterprise Applications (EARs)?
+========================================================================
+The archetype generates a WAR project. With Java EE 6, you can include 
+EJBs in your WAR, meaning you won't need an EAR until you need to divide
+your code into modules. If you would like to create an EAR based project
+then use `jboss-javaee6-webapp-ear-archetype`
+as your archetype id (or if you want a blank EAR, then
+`jboss-javaee6-webapp-ear-archetype-blank`).
+========================================================================
+
+Of course, you can create a project from the archetype using Eclipse, saving you the step of importing it. First, choose File -&gt; New -&gt; Other : 
+
+image:gfx/Eclipse_Archetype_1.jpg[]
+
+Select the Maven Project wizard: 
+
+image:gfx/Eclipse_Archetype_2.jpg[]
+
+If you wish, customize the project creation, otherwise, just hit _Next >_:
+
+image:gfx/Eclipse_Archetype_3.jpg[]
+
+Locate the `jboss-javaee6-webapp-archetype` archetype: 
+
+image:gfx/Eclipse_Archetype_4.jpg[]
+
+Now hit Ok.
+
+Next, fill in the `groupId` and `artifactId`, and hit _Finish_:
+
+image:gfx/Eclipse_Archetype_5.jpg[]
+
+You should now have a brand new project:
+
+image:gfx/Eclipse_Archetype_6.jpg[]
+
+Enjoy!
+

@@ -1,0 +1,352 @@
+CDI + JSF: Numberguess quickstart
+=================================
+anchor:NumberguessQuickstart-[]
+
+This quickstart shows you how to create and deploy a simple application to JBoss Enterprise Application Platform 6 or JBoss AS 7; the application does not persist any information. Information is displayed using a JSF view, and business logic is encapsulated in two CDI beans.
+
+Switch to the `quickstarts/numberguess` directory and instruct Maven to build and deploy the application:
+
+    mvn package jboss-as:deploy
+
+The quickstart uses a Maven plugin to deploy the application. The plugin requires JBoss Enterprise Application Platform 6 or JBoss AS 7 to be running (you can find out how to start the server in <<GettingStarted-on_linux, Installing and starting the JBoss server on Linux, Unix or Mac OS X>> or <<GettingStarted-on_windows, Installing and starting the JBoss server on Windows>>).
+
+Or you can start the server using an IDE, like JBoss Developer Studio.
+
+Now, see if you can determine the most efficient approach to pinpoint the random number at the URL http://localhost:8080/jboss-as-numberguess.
+
+[TIP]
+========================================================================
+Should you wish to undeploy the quickstart, or redeploy after making
+some changes, it's pretty easy:
+
+* `mvn jboss-as:deploy` - deploy any changes to the application to the
+  application server
+* `mvn jboss-as:undeploy` - undeploy the quickstart
+========================================================================
+
+It's time to pull the covers back and dive into the internals of the quickstart.
+
+
+Deploying the Numberguess quickstart using Eclipse
+--------------------------------------------------
+
+You may choose to deploy the quickstart using Eclipse. You'll need to have JBoss Enterprise Application Platform 6 or JBoss AS 7 started in Eclipse as described  in <<GettingStarted-with_jboss_tools, Starting the JBoss server from JBDS or Eclipse with JBoss Tools>>) and to have imported the quickstarts into Eclipse (as described in <<GettingStarted-importing_quickstarts_into_eclipse, Importing the quickstarts into Eclipse>>).
+
+With the quickstarts imported, you can deploy the quickstart by right clicking on the `jboss-as-numberguess` project, and choosing _Run As -> Run On Server_: 
+
+image:gfx/Eclipse_Numberguess_Deploy_1.jpg[]
+
+Make sure the correct server is selected, and hit Finish:
+ 
+image:gfx/Eclipse_Deploy_2.jpg[]
+
+You should see the server start up (unless you already started it in <<GettingStarted-with_jboss_tools, Starting the JBoss server from JBDS or Eclipse with JBoss Tools>>) and the application deploy in the Console log:
+
+image:gfx/Eclipse_Numberguess_Deploy_3.jpg[]
+
+
+The numberguess quickstart in depth
+-----------------------------------
+
+In the numberguess application you get 10 attempts to guess a number between 1 and 100. After each attempt, you're told whether your guess was too high or too low.
+
+The quickstart is comprised of a number of beans, configuration files and Facelets (JSF) views, packaged as a war module. Let's start by examining the configuration files.
+
+All the configuration files for this quickstart are located in `WEB-INF/`, which can be found in the `src/main/webapp` directory. First, we have the JSF 2.0 version of `faces-config.xml`. A standardized version of Facelets is the default view handler in JSF 2.0, so there's really nothing that we have to configure. JBoss AS goes above and beyond Java EE here, and will automatically configure JSF for you if you include this file. Thus, the configuration consists of only the root element. 
+
+.src/main/webapp/WEB-INF/faces-config.xml
+[source,xml]
+------------------------------------------------------------------------
+<faces-config version="2.0"
+   xmlns="http://java.sun.com/xml/ns/javaee"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="
+      http://java.sun.com/xml/ns/javaee
+      http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd">
+      
+</faces-config>
+------------------------------------------------------------------------
+
+There's also an empty `beans.xml` file, which tells JBoss AS to look for beans in this  application and to activate the CDI. 
+
+Notice that we don't even need a `web.xml`! 
+
+Let's take a look at the main JSF view, `src/main/webapp/home.xhtml`. 
+
+
+[TIP]
+========================================================================
+JSF uses the .xhtml extension for source files, but serves up the 
+rendered views with the .jsf extension. 
+========================================================================
+
+.src/main/webapp/WEB-INF/home.xhtml
+[source,html]
+------------------------------------------------------------------------
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:f="http://java.sun.com/jsf/core">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; 
+    charset=iso-8859-1" />
+<title>numberguess</title>
+</head>
+
+<body>
+   <div id="content">
+      <h1>Guess a number...</h1>
+      <h:form id="numberGuess">
+
+         <!-- Feedback for the user on their guess -->
+         <div style="color: red">                                    <1>
+            <h:messages id="messages" globalOnly="false" />
+            <h:outputText id="Higher" value="Higher!"
+               rendered="#{game.number gt game.guess and game.guess ne 0}" />
+            <h:outputText id="Lower" value="Lower!"
+               rendered="#{game.number lt game.guess and game.guess ne 0}" />
+         </div>
+
+         <!-- Instructions for the user -->
+         <div>                                                       <2>
+            I'm thinking of a number between <span
+               id="numberGuess:smallest">#{game.smallest}</span> and <span
+               id="numberGuess:biggest">#{game.biggest}</span>. You have
+            #{game.remainingGuesses} guesses remaining.
+         </div>
+
+         <!-- Input box for the users guess, plus a button to submit, and reset -->
+         <!-- These are bound using EL to our CDI beans -->
+         <div>
+            Your guess:                                              <3>
+            <h:inputText id="inputGuess" value="#{game.guess}"       
+               required="true" size="3"
+               disabled="#{game.number eq game.guess}"
+               validator="#{game.validateNumberRange}" />            <4>
+            <h:commandButton id="guessButton" value="Guess"
+               action="#{game.check}"
+               disabled="#{game.number eq game.guess}" />
+         </div>
+         <div>                                                       <5>
+            <h:commandButton id="restartButton" value="Reset"
+               action="#{game.reset}" immediate="true" />
+         </div>
+      </h:form>
+
+   </div>
+
+   <br style="clear: both" />
+
+</body>
+</html>
+------------------------------------------------------------------------
+
+<1> There are a number of messages which can be sent to the user, "Higher!" and "Lower!"
+<2> As the user guesses, the range of numbers they can guess gets smaller - this sentence changes to make sure they know the number range of a valid guess.
+<3> This input field is bound to a bean property using a value expression.
+<4> A validator binding is used to make sure the user doesn't accidentally input a number outside of the range in which they can guess - if the validator wasn't here, the user might use up a guess on an out of bounds number.
+<5> There must be a way for the user to send their guess to the server. Here we bind to an action method on the bean.
+
+The quickstart consists of 4 classes, the first two of which are qualifiers.  First, there is the `@Random` qualifier, used for injecting a random number: 
+
+[TIP]
+========================================================================
+A _qualifier_ is used to disambiguate between two beans both of which
+are eligible for injection based on their type. For more, see the
+link:http://docs.jboss.org/weld/reference/latest/en-US/html/[Weld Reference Guide]. 
+========================================================================
+
+.src/main/java/org/jboss/as/quickstarts/numberguess/Random.java
+[source,java]
+------------------------------------------------------------------------
+@Target({ TYPE, METHOD, PARAMETER, FIELD })
+@Retention(RUNTIME)
+@Documented
+@Qualifier
+public @interface Random {
+
+}
+------------------------------------------------------------------------
+
+There is also the `@MaxNumber` qualifier, used for injecting the maximum number that can be injected: 
+
+.src/main/java/org/jboss/as/quickstarts/numberguess/MaxNumber.java
+[source,java]
+------------------------------------------------------------------------
+@Retention(RUNTIME)
+@Documented
+@Qualifier
+public @interface MaxNumber {
+
+}
+------------------------------------------------------------------------
+
+The application-scoped `Generator` class is responsible for creating the random number, via a producer method. It also exposes the maximum possible number via a producer method: 
+
+.src/main/java/org/jboss/as/quickstarts/numberguess/Generator.java
+[source,java]
+------------------------------------------------------------------------
+@SuppressWarnings("serial")
+@ApplicationScoped
+public class Generator implements Serializable {
+
+   private java.util.Random random = new java.util.Random(System.currentTimeMillis());
+
+   private int maxNumber = 100;
+
+   java.util.Random getRandom() {
+      return random;
+   }
+
+   @Produces
+   @Random
+   int next() {
+      // a number between 1 and 100
+      return getRandom().nextInt(maxNumber - 1) + 1;
+   }
+
+   @Produces
+   @MaxNumber
+   int getMaxNumber() {
+      return maxNumber;
+   }
+}
+------------------------------------------------------------------------
+
+The `Generator` is application scoped, so we don't get a different random each time.
+
+The final bean in the application is the session-scoped `Game` class. This is the primary entry point of the application. It's responsible for setting up or resetting the game, capturing and validating the user's guess and providing feedback to the user with a `FacesMessage`. We've used the post-construct lifecycle method to initialize the game by retrieving a random number from the `@RandomInstance<Integer>` bean.
+
+You'll notice that we've also added the `@Named` annotation to this class. This annotation is only required when you want to make the bean accessible to a JSF view via EL (i.e. `#{game}`)
+
+.src/main/java/org/jboss/as/quickstarts/numberguess/Game.java
+[source,java]
+------------------------------------------------------------------------
+@SuppressWarnings("serial")
+@Named
+@SessionScoped
+public class Game implements Serializable {
+
+   /**
+    * The number that the user needs to guess
+    */
+   private int number;
+
+   /**
+    * The users latest guess
+    */
+   private int guess;
+
+   /**
+    * The smallest number guessed so far (so we can track the valid guess range).
+    */
+   private int smallest;
+
+   /**
+    * The largest number guessed so far
+    */
+   private int biggest;
+
+   /**
+    * The number of guesses remaining
+    */
+   private int remainingGuesses;
+
+   /**
+    * The maximum number we should ask them to guess
+    */
+   @Inject
+   @MaxNumber
+   private int maxNumber;
+
+   /**
+    * The random number to guess
+    */
+   @Inject
+   @Random
+   Instance<Integer> randomNumber;
+
+   public Game() {
+   }
+
+   public int getNumber() {
+      return number;
+   }
+
+   public int getGuess() {
+      return guess;
+   }
+
+   public void setGuess(int guess) {
+      this.guess = guess;
+   }
+
+   public int getSmallest() {
+      return smallest;
+   }
+
+   public int getBiggest() {
+      return biggest;
+   }
+
+   public int getRemainingGuesses() {
+      return remainingGuesses;
+   }
+
+   /**
+    * Check whether the current guess is correct, and update the biggest/smallest guesses as needed.
+    * Give feedback to the user if they are correct.
+    */
+   public void check() {
+      if (guess > number) {
+         biggest = guess - 1;
+      } else if (guess < number) {
+         smallest = guess + 1;
+      } else if (guess == number) {
+         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Correct!"));
+      }
+      remainingGuesses--;
+   }
+
+   /**
+    * Reset the game, by putting all values back to their defaults, and getting a new random number.
+    * We also call this method when the user starts playing for the first time using
+    * {@linkplain PostConstruct @PostConstruct} to set the initial values.
+    */
+   @PostConstruct
+   public void reset() {
+      this.smallest = 0;
+      this.guess = 0;
+      this.remainingGuesses = 10;
+      this.biggest = maxNumber;
+      this.number = randomNumber.get();
+   }
+
+   /**
+    * A JSF validation method which checks whether the guess is valid. It might not be valid because
+    * there are no guesses left, or because the guess is not in range.
+    * 
+    */
+   public void validateNumberRange(FacesContext context, UIComponent toValidate, Object value) {
+      if (remainingGuesses <= 0) {
+         FacesMessage message = new FacesMessage("No guesses left!");
+         context.addMessage(toValidate.getClientId(context), message);
+         ((UIInput) toValidate).setValid(false);
+         return;
+      }
+      int input = (Integer) value;
+
+      if (input < smallest || input > biggest) {
+         ((UIInput) toValidate).setValid(false);
+
+         FacesMessage message = new FacesMessage("Invalid guess");
+         context.addMessage(toValidate.getClientId(context), message);
+      }
+   }
+}
+
+------------------------------------------------------------------------
+

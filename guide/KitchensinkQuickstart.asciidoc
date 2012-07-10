@@ -1,0 +1,1094 @@
+CDI + JSF + EJB + JTA + Bean Validation + JAX-RS + Arquillian: Kitchensink quickstart
+=====================================================================================
+anchor:KitchensinkQuickstart-[]
+
+This quickstart shows off all the new features of Java EE 6, and makes a great starting point for your project.
+
+[TIP]
+.Bean Validation
+========================================================================
+Bean Validation is a new specification in Java EE 6, inspired by 
+Hibernate Validator. It allows application developers to specify 
+constraints once (often in their domain model), and have them applied in
+all layers of the application, protecting data and giving useful 
+feedback to users.
+========================================================================
+
+[TIP]
+.JAX-RS: The Java API for RESTful Web Services
+========================================================================
+JAX-RS is a new specification in Java EE 6. It allows application 
+developers to easily expose Java services as RESTful web services.
+========================================================================
+
+Switch to the `quickstarts/kitchensink` directory and instruct Maven to build and deploy the application:
+
+    mvn package jboss-as:deploy
+
+The quickstart uses a Maven plugin to deploy the application. The plugin requires JBoss Enterprise Application Platform 6 or JBoss AS 7 to be running (you can find out how to start the server in <<GettingStarted-on_linux, Installing and starting the JBoss server on Linux, Unix or Mac OS X>> or <<GettingStarted-on_windows, Installing and starting the JBoss server on Windows>>).
+
+Or you can start the server using an IDE, like Eclipse.
+
+Now, check if the application has deployed properly by clicking http://localhost:8080/jboss-as-kitchensink. If you see a splash page it's all working!
+
+
+[TIP]
+========================================================================
+Should you wish to undeploy the quickstart, or redeploy after making 
+some changes, it's pretty easy:
+
+* `mvn jboss-as:deploy` - deploy any changes to the application to the
+  application server
+* `mvn jboss-as:undeploy` - undeploy the quickstart
+========================================================================
+
+It's time to pull the covers back and dive into the internals of the application.
+
+Deploying the Kitchensink quickstart using JBoss Developer Studio, or Eclipse with JBoss Tools
+----------------------------------------------------------------------------------------------
+
+You may choose to deploy the quickstart using JBoss Developer Studio, or Eclipse with JBoss Tools. You'll need to have JBoss Enterprise Application Platform 6 or JBoss AS 7 started in the IDE (as described  in <<GettingStarted-with_jboss_tools, Starting the JBoss server from JBDS or Eclipse with JBoss Tools>>) and to have imported the quickstarts into Eclipse (as described in <<GettingStarted-importing_quickstarts_into_eclipse,Importing the quickstarts into Eclipse>>).
+
+With the quickstarts imported, you can deploy the quickstart by right clicking on the `jboss-as-kitchensink` project, and choosing _Run As -> Run On Server_:
+
+image:gfx/Eclipse_Kitchensink_Deploy_1.jpg[]
+
+Make sure the server is selected, and hit Finish:
+ 
+image:gfx/Eclipse_Deploy_2.jpg[]
+
+You should see the server start up (unless you already started it in  <<GettingStarted-with_jboss_tools, Starting the JBoss server from JBDS or Eclipse with JBoss Tools>>) and the application deploy in the Console log: 
+
+image:gfx/Eclipse_Kitchensink_Deploy_3.jpg[]
+
+
+The kitchensink quickstart in depth
+-----------------------------------
+
+The kitchensink application shows off a number of Java EE technologies such as CDI, JSF, EJB, JTA, JAX-RS and Arquillian. It does this by providing a member registration database, available via JSF and JAX-RS.
+
+As usual, let's start by looking at the necessary deployment descriptors. By now, we're very used to seeing `beans.xml` and `faces-config.xml` in `WEB-INF/` (which can be found in the `src/main/webapp` directory). Notice that, once again, we don't need a `web.xml`. There are two configuration files in `WEB-INF/classes/META-INF` (which can be found in the `src/main/resources` directory) — `persistence.xml`, which sets up JPA, and `import.sql` which Hibernate, the JPA provider in JBoss Enterprise Application Platform 6 or JBoss AS 7, will use to load the initial users into the application when the application starts. We discussed both of these files in detail in <<GreeterQuickstart-,the Greeter Quickstart>>, and these are largely the same.
+
+Next, let's take a look at the JSF view the user sees. As usual, we use a template to provide the sidebar and footer. This one lives in `src/main/webapp/WEB-INF/templates/default.xhtml`:
+
+.src/main/webapp/WEB-INF/templates/default.xhtml
+[source,html]
+------------------------------------------------------------------------
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>                                                             <1>
+    <title>kitchensink</title>
+    <meta http-equiv="Content-Type" 
+          content="text/html; charset=utf-8" />
+    <h:outputStylesheet name="css/screen.css" />
+</h:head>
+<h:body>
+    <div id="container">
+        <div class="dualbrand">
+            <img src="resources/gfx/dualbrand_logo.png" />
+        </div>
+        <div id="content">
+            <ui:insert name="content">                               <2>
+                 [Template content will be inserted here]
+            </ui:insert>
+        </div>
+        <div id="aside">                                             <3>
+            <p>Learn more about JBoss Enterprise Application
+                Platform 6.</p>
+            <ul>
+                <li>
+                    <a href="http://red.ht/jbeap-6-docs">
+                        Documentation
+                    </a>
+                </li>
+                <li>
+                    <a href="http://red.ht/jbeap-6">
+                        Product Information
+                    </a>
+               </li>
+            </ul>
+            <p>Learn more about JBoss AS 7.</p>
+            <ul>
+                <li>
+                    <a href="http://jboss.org/jdf/quickstarts/jboss-as-quickstart/guide">
+                        Getting Started Developing Applications Guide
+                    </a>
+                </li>
+                <li>
+                    <a href="http://jboss.org/jbossas">
+                        Community Project Information
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div id="footer">
+            <p>
+                This project was generated from a Maven archetype from
+                JBoss.<br />
+            </p>
+        </div>
+    </div>
+</h:body>
+</html>
+------------------------------------------------------------------------
+<1> We have a common `<head>` element, where we define styles and more
+<2> The content is inserted here, and defined by views using this template
+<3> This application defines a common sidebar and footer, putting them in the template means we only have to define them once
+
+That leaves the main page, index.xhtml , in which we place the content unique to the main page: 
+
+.src/main/webapp/index.xhtml
+[source,html]
+------------------------------------------------------------------------
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    template="/WEB-INF/templates/default.xhtml">
+    <ui:define name="content">
+        <h1>Welcome to JBoss!</h1>
+
+        <h:form id="reg">                                            <1>
+            <h2>Member Registration</h2>
+            <p>Enforces annotation-based constraints defined on the
+                model class.</p>
+            <h:panelGrid columns="3" columnClasses="titleCell">
+                <h:outputLabel for="name" value="Name:" />
+                <h:inputText id="name" value="#{newMember.name}" />  <2>
+                <h:message for="name" errorClass="invalid" />
+
+                <h:outputLabel for="email" value="Email:" />
+                <h:inputText id="email" 
+                             value="#{newMember.email}" />           <2>
+                <h:message for="email" errorClass="invalid" />
+
+                <h:outputLabel for="phoneNumber" value="Phone #:" />
+                <h:inputText id="phoneNumber"
+                             value="#{newMember.phoneNumber}" />     <2>
+                <h:message for="phoneNumber" errorClass="invalid" />
+            </h:panelGrid>
+
+            <p>
+                <h:panelGrid columns="2">
+                    <h:commandButton id="register"
+                        action="#{memberController.register}"
+                        value="Register" styleClass="register" />
+                    <h:messages styleClass="messages"
+                        errorClass="invalid" infoClass="valid"
+                        warnClass="warning" globalOnly="true" />
+                </h:panelGrid>
+            </p>
+        </h:form>
+        <h2>Members</h2>
+        <h:panelGroup rendered="#{empty members}">
+            <em>No registered members.</em>
+        </h:panelGroup>
+        <h:dataTable var="_member" value="#{members}"
+            rendered="#{not empty members}"
+            styleClass="simpletablestyle">                           <3>
+            <h:column>
+                <f:facet name="header">Id</f:facet>
+                #{_member.id}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Name</f:facet>
+                #{_member.name}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Email</f:facet>
+                #{_member.email}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Phone #</f:facet>
+                #{_member.phoneNumber}
+            </h:column>
+            <h:column>
+                <f:facet name="header">REST URL</f:facet>
+                <a href="#{request.contextPath}/rest/members/#{_member.id}">
+                    /rest/members/#{_member.id}
+                </a>
+            </h:column>
+            <f:facet name="footer">
+                REST URL for all members: 
+                    <a href="#{request.contextPath}/rest/members">
+                        /rest/members
+                    </a>
+            </f:facet>
+        </h:dataTable>
+    </ui:define>
+</ui:composition>
+
+------------------------------------------------------------------------
+<1> The JSF form allows us to register new users. There should be one already created when the application started.
+<2> The application uses Bean Validation to validate data entry. The error messages from Bean Validation are automatically attached to the relevant field by JSF, and adding a messages JSF component will display them. 
+<3> This application exposes REST endpoints for each registered member. The application helpfully displays the URL to the REST endpoint on this page.
+
+Next, let's take a look at the Member entity, before we look at how the application is wired together: 
+
+.src/main/java/org/jboss/as/quickstarts/kitchensink/model/Member.java
+[source,java]
+------------------------------------------------------------------------
+SuppressWarnings("serial")
+@Entity                                                              // <1>
+@XmlRootElement                                                      // <2>
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = "email"))
+public class Member implements Serializable {
+
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    @NotNull
+    @Size(min = 1, max = 25)
+    @Pattern(regexp = "[A-Za-z ]*",
+             message = "must contain only letters and spaces")       // <3>
+    private String name;
+
+    @NotNull
+    @NotEmpty
+    @Email                                                           // <4>
+    private String email;
+
+    @NotNull
+    @Size(min = 10, max = 12)
+    @Digits(fraction = 0, integer = 12)                              // <5>
+    @Column(name = "phone_number")
+    private String phoneNumber;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+}
+------------------------------------------------------------------------
+<1> As usual with JPA, we define that the class is an entity by adding @Entity
+<2> Members are exposed as a RESTful service using JAX-RS. We can use JAXB to map the object to XML and to do this we need to add @XmlRootElement
+<3> Bean Validation allows constraints to be defined once (on the entity) and applied everywhere. Here we constrain the person's name to a certain size and regular expression
+<4> Hibernate Validator also offers some extra validations such as @Email
+<5> @Digits , @NotNull and @Size are further examples of constraints
+
+Let's take a look at `MemberRepository`, which is responsible for interactions with the persistence layer:
+
+.src/main/java/org/jboss/as/quickstarts/kitchensink/data/MemberRepository.java
+[source,java]
+------------------------------------------------------------------------
+@ApplicationScoped                                                   // <1>
+public class MemberRepository {
+
+    @Inject                                                          // <2>
+    private EntityManager em;
+
+    public Member findById(Long id) {
+        return em.find(Member.class, id);
+    }
+
+    public Member findByEmail(String email) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();                // <3>
+        CriteriaQuery<Member> c = cb.createQuery(Member.class);
+        Root<Member> member = c.from(Member.class);
+        c.select(member).where(cb.equal(member.get("email"), email));
+        return em.createQuery(c).getSingleResult();
+    }
+
+    public List<Member> findAllOrderedByName() {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Member> criteria = cb.createQuery(Member.class);
+        Root<Member> member = criteria.from(Member.class);
+        criteria.select(member).orderBy(cb.asc(member.get("name")));
+        return em.createQuery(criteria).getResultList();             // <4>
+    }
+}
+------------------------------------------------------------------------
+<1> The bean is application scoped, as it is a singleton
+<2> The entity manager is injected, to allow interaction with JPA
+<3> The JPA criteria api is used to load a member by their unique identifier, their email address
+<4> The criteria api can also be used to load lists of entities
+
+Let's take a look at `MemberListProducer`, which is responsible for managing the list of registered members. 
+
+.src/main/java/org/jboss/as/quickstarts/kitchensink/data/MemberListProducer.java
+[source,java]
+------------------------------------------------------------------------
+@RequestScoped                                                       // <1>
+public class MemberListProducer {
+
+    @Inject                                                          // <2>
+    private MemberRepository memberRepository;  
+
+    private List<Member> members;
+
+    // @Named provides access the return value via the EL variable 
+    // name "members" in the UI (e.g. Facelets or JSP view)
+    @Produces                                                        // <3>
+    @Named
+    public List<Member> getMembers() {
+        return members;
+    }
+
+    public void onMemberListChanged(                                 // <4>
+        @Observes(notifyObserver = Reception.IF_EXISTS) 
+            final Member member) {
+        retrieveAllMembersOrderedByName();
+    }
+
+    @PostConstruct
+    public void retrieveAllMembersOrderedByName() {                    
+        members = memberRepository.findAllOrderedByName();
+    }
+}
+------------------------------------------------------------------------
+<1> This bean is request scoped, meaning that any fields (such as members ) will be stored for the entire request
+<2> The `MemberRepository` is responsible or interactions with the persistence layer
+<3> The list of members is exposed as a producer method, it's also available via EL
+<4> The observer method is notified whenever a member is created, removed, or updated. This allows us to refresh the list of members whenever they are needed. This is a good approach as it allows us to cache the list of members, but keep it up to date at the same time
+
+Let's now look at MemberRegistration, the service that allows us to create new members:
+
+.src/main/java/org/jboss/as/quickstarts/kitchensink/service/MemberRegistration.java
+[source,java]
+------------------------------------------------------------------------
+@Stateless                                                           // <1>
+public class MemberRegistration {
+
+    @Inject                                                          // <2>
+    private Logger log;
+
+    @Inject
+    private EntityManager em;
+
+    @Inject
+    private Event<Member> memberEventSrc;
+
+    public void register(Member member) throws Exception {
+        log.info("Registering " + member.getName());
+        em.persist(member);
+        memberEventSrc.fire(member);                                 // <3>
+   }
+}
+------------------------------------------------------------------------
+<1> This bean requires transactions as it needs to write to the database. Making this an EJB gives us access to declarative transactions - much simpler than manual transaction control!
+<2> Here we inject a JDK logger, defined in the `Resources` class
+<3> An event is sent every time a member is updated. This allows other pieces of code (in this quickstart the member list is refreshed) to react to changes in the member list without any coupling to this class.
+
+Now, let's take a look at the `Resources` class, which provides resources such as the entity manager. CDI recommends using "resource producers", as we do in this quickstart, to alias resources to CDI beans, allowing for a  consistent style throughout our application: 
+
+.src/main/java/org/jboss/as/quickstarts/kitchensink/util/Resources.java
+[source,java]
+------------------------------------------------------------------------
+public class Resources {
+    // use @SuppressWarnings to tell IDE to ignore warnings about 
+    // field not being referenced directly
+    @SuppressWarnings("unused")                                      // <1>
+    @Produces
+    @PersistenceContext
+    private EntityManager em;
+
+    @Produces                                                        // <2>
+    public Logger produceLog(InjectionPoint injectionPoint) {
+        return Logger.getLogger(injectionPoint.getMember()
+                                              .getDeclaringClass()
+                                              .getName());
+    }
+
+    @Produces                                                        // <3>
+    @RequestScoped
+    public FacesContext produceFacesContext() {
+        return FacesContext.getCurrentInstance();
+    }
+   
+}
+------------------------------------------------------------------------
+<1> We use the "resource producer" pattern, from CDI, to "alias" the old fashioned `@PersistenceContext` injection of the entity manager to a CDI style injection. This allows us to use a consistent injection style (`@Inject`) throughout the application.
+<2> We expose a JDK logger for injection. In order to save a bit more boiler plate, we automatically set the logger category as the class name!
+<3> We expose the `FacesContext` via a producer method, which allows it to be injected. If we were adding tests, we could also then mock it out.
+
+If you want to define your own datasource, take a look at the link:http://docs.redhat.com/docs/en-US/JBoss_Enterprise_Application_Platform/6/html/Administration_and_Configuration_Guide/index.html[Administration and Configuration Guide for JBoss Enterprise Application Platform 6] or the link:https://docs.jboss.org/author/display/AS71/Getting+Started+Guide[Getting Started Guide].
+
+Of course, we need to allow JSF to interact with the services. The `MemberController` class is responsible for this:
+
+.src/main/java/org/jboss/as/quickstarts/kitchensink/controller/MemberController.java
+[source,java]
+------------------------------------------------------------------------
+@Model                                                               // <1>
+public class MemberController {
+
+    @Inject                                                          // <2>
+    private FacesContext facesContext;
+
+    @Inject                                                          // <3>
+    private MemberRegistration memberRegistration;
+
+    @Produces                                                        // <4>
+    @Named
+    private Member newMember;
+
+    @PostConstruct                                                   // <5>
+    public void initNewMember() {
+        newMember = new Member();
+    }
+
+    public void register() throws Exception {
+        try {
+            memberRegistration.register(newMember);                  // <6>
+            FacesMessage m = 
+                new FacesMessage(FacesMessage.SEVERITY_INFO, 
+                                 "Registered!", 
+                                 "Registration successful");
+            facesContext.addMessage(null, m);                        // <7>
+            initNewMember();                                         // <8>
+        } catch (Exception e) {
+            String errorMessage = getRootErrorMessage(e);
+            FacesMessage m = 
+                new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+                                 errorMessage, 
+                                 "Registration unsuccessful");
+            facesContext.addMessage(null, m);
+        }
+    }
+
+    private String getRootErrorMessage(Exception e) {
+        // Default to general error message that registration failed.
+        String errorMessage = "Registration failed. See server log for more information";
+        if (e == null) {
+            // This shouldn't happen, but return the default messages
+            return errorMessage;
+        }
+
+        // Start with the exception and recurse to find the root cause
+        Throwable t = e;
+        while (t != null) {
+            // Get the message from the Throwable class instance
+            errorMessage = t.getLocalizedMessage();
+            t = t.getCause();
+        }
+        // This is the root cause message
+        return errorMessage;
+    }
+
+}
+------------------------------------------------------------------------
+<1> The `MemberController` class uses the `@Member` stereotype, which adds `@Named` and `@RequestScoped` to the class
+<2> The `FacesContext` is injected, so that messages can be sent to the user
+<3> The `MemberRegistration` bean is injected, to allow the controller to interact with the database
+<4> The `Member` class is exposed using a named producer field, which allows access from JSF. Note that that the named producer field has dependent scope, so every time it is injected, the field will be read
+<5> The `@PostConstruct` annotation causes a new member object to be placed in the `newMember` field when the bean is instantiated
+<6> When the register method is called, the `newMember` object is passed to the persistence service
+<7> We also send a message to the user, to give them feedback on their actions
+<8> Finally, we replace the `newMember` with a new object, thus blanking out the data the user has added so far. This works as the producer field is dependent scoped
+
+Before we wrap up our tour of the kitchensink application, let's take a look at how the JAX-RS endpoints are created. Firstly, `JaxRSActivator`, which extends `Application` and is annotated with `@ApplicationPath`, is the Java EE 6 "no XML" approach to activating JAX-RS.
+
+.src/main/java/org/jboss/as/quickstarts/kitchensink/rest/JaxRsActivator.java
+[source,java]
+------------------------------------------------------------------------
+@ApplicationPath("/rest")
+public class JaxRsActivator extends Application {
+   /* class body intentionally left blank */
+}
+------------------------------------------------------------------------
+
+The real work goes in `MemberResourceRESTService`, which produces the endpoint: 
+
+.src/main/java/org/jboss/as/quickstarts/kitchensink/rest/MemberResourceRESTService.java
+[source,java]
+------------------------------------------------------------------------
+@Path("/members")                                                    // <1>
+@RequestScoped                                                       // <2>
+public class MemberResourceRESTService {
+    
+    @Inject                                                          // <3>
+    private Logger log;
+
+    @Inject                                                          // <4>
+    private Validator validator;
+
+    @Inject                                                          // <5>
+    private MemberRepository repository;
+
+    @Inject                                                          // <6>
+    private MemberRegistration registration;
+
+    @GET                                                             // <7>
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Member> listAllMembers() {
+        return repository.findAllOrderedByName();
+    }
+
+    @GET                                                             // <8>
+    @Path("/{id:[0-9][0-9]*}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Member lookupMemberById(@PathParam("id") long id) {
+        Member member = repository.findById(id);
+        if (member == null) {
+            throw new 
+                WebApplicationException(Response.Status.NOT_FOUND);
+        }
+        return member;
+    }
+
+    /**
+     * Creates a new member from the values provided.  Performs
+     * validation, and will return a JAX-RS response with either
+     * 200 ok, or with a map of fields, and related errors.
+     */
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response createMember(Member member) {                    // <9>
+        Response.ResponseBuilder builder = null;
+
+        try {
+            // Validates member using bean validation
+            validateMember(member);                                  // <10>
+
+            registration.register(member);                           // <11>
+
+            //Create an "ok" response
+            builder = Response.ok();
+        } catch (ConstraintViolationException ce) {                  // <12>
+            //Handle bean validation issues
+            builder = createViolationResponse(
+                          ce.getConstraintViolations());
+        } catch (ValidationException e) {
+            //Handle the unique constrain violation
+            Map<String, String> responseObj = 
+                new HashMap<String, String>();
+            responseObj.put("email", "Email taken");
+            builder = Response.status(Response.Status.CONFLICT)
+                              .entity(responseObj);
+        } catch (Exception e) {
+            // Handle generic exceptions
+            Map<String, String> responseObj 
+                = new HashMap<String, String>();
+            responseObj.put("error", e.getMessage());
+            builder = Response.status(Response.Status.BAD_REQUEST)
+                              .entity(responseObj);
+        }
+
+        return builder.build();
+    }
+
+
+    /**
+     * <p>
+     * Validates the given Member variable and throws validation
+     * exceptions based on the type of error. If the error is 
+     * standard bean validation errors then it will throw a 
+     * ConstraintValidationException with the set of the 
+     * constraints violated.
+     * </p>
+     * <p>
+     * If the error is caused because an existing member with the 
+     * same email is registered it throws a regular validation 
+     * exception so that it can be interpreted separately.
+     * </p>
+     *
+     * @param member Member to be validated
+     * @throws ConstraintViolationException 
+     *     If Bean Validation errors exist
+     * @throws ValidationException
+     *     If member with the same email already exists
+     */
+    private void validateMember(Member member)
+            throws ConstraintViolationException, 
+                   ValidationException {
+        //Create a bean validator and check for issues.
+        Set<ConstraintViolation<Member>> violations = 
+            validator.validate(member);
+
+        if (!violations.isEmpty()) {
+            throw new ConstraintViolationException(
+                new HashSet<ConstraintViolation<?>>(violations));
+        }
+
+        //Check the uniqueness of the email address
+        if (emailAlreadyExists(member.getEmail())) {
+            throw new ValidationException("Unique Email Violation");
+        }
+    }
+
+    /**
+     * Creates a JAX-RS "Bad Request" response including a map of 
+     * all violation fields, and their message. This can then be 
+     * used by clients to show violations.
+     *
+     * @param violations A set of violations that needs to be 
+     *                   reported
+     * @return JAX-RS response containing all violations
+     */
+    private Response.ResponseBuilder createViolationResponse
+            (Set<ConstraintViolation<?>> violations) {
+        log.fine("Validation completed. violations found: " 
+            + violations.size());
+
+        Map<String, String> responseObj = 
+            new HashMap<String, String>();
+
+        for (ConstraintViolation<?> violation : violations) {
+            responseObj.put(violation.getPropertyPath().toString(), 
+                            violation.getMessage());
+        }
+
+        return Response.status(Response.Status.BAD_REQUEST)
+                       .entity(responseObj);
+    }
+
+    /**
+     * Checks if a member with the same email address is already 
+     * registered.  This is the only way to easily capture the 
+     * "@UniqueConstraint(columnNames = "email")" constraint from 
+     * the Member class.
+     *
+     * @param email The email to check
+     * @return True if the email already exists, and false 
+               otherwise
+     */
+    public boolean emailAlreadyExists(String email) {
+        Member member = null;
+        try {
+            member = repository.findByEmail(email);
+        } catch (NoResultException e) {
+            // ignore
+        }
+        return member != null;
+    }
+}
+------------------------------------------------------------------------
+<1> The `@Path` annotation tells JAX-RS that this class provides a REST endpoint mapped to `rest/members` (concatenating the path from the activator with the path for this endpoint). 
+<2> The bean is request scoped, as JAX-RS interactions typically don't hold state between requests
+<3> JAX-RS endpoints are CDI enabled, and can use CDI-style injection.
+<4> CDI allows us to inject a Bean Validation `Validator` instance, which is used to validate the POSTed member before it is persisted
+<5> `MemberRegistration` is injected to allow us to alter the member database
+<6> `MemberRepository` is injected to allow us to query the member database
+<7> The `listAllMembers()` method is called when the raw endpoint is accessed and offers up a list of endpoints. Notice that the object is automatically marshalled to JSON by RESTEasy (the JAX-RS implementation included in JBoss Enterprise Application Platform 6 and JBoss AS 7). 
+<8> The `lookupMemberById()` method is called when the endpoint is accessed with a member id parameter appended (for example `rest/members/1)`. Again, the object is automatically marshalled to JSON by RESTEasy.
+<9> `createMember()` is called when a POST is performed on the URL. Once again, the object is automatically unmarshalled from JSON.
+<10> In order to ensure that the member is valid, we call the `validateMember` method, which validates the object, and adds any constraint violations to the response. These can then be handled on the client side, and displayed to the user
+<11> The object is then passed to the `MemberRegistration` service to be persisted
+<12> We then handle any remaining issues with validating the object, which are raised when the object is persisted
+
+
+Arquillian
+~~~~~~~~~~
+
+If you've been following along with the Test Driven Development craze of the past few years, you're probably getting a bit nervous by now, wondering how on earth you are going to test your application. Lucky for you, the Arquillian project is here to help!
+
+Arquillian provides all the boiler plate for running your test inside JBoss Enterprise Application Platform 6 or JBoss AS 7, allowing you to concentrate on testing your application. In order to do that, it utilizes Shrinkwrap, a fluent API for defining packaging, to create an archive to deploy. We'll go through the testcase, and how you configure Arquillian in just a moment, but first let's run the test.
+
+Before we start, we need to let Arquillian know the path to our server. Open up `src/test/resources/arquillian.xml` and set the `jbossHome` property to the path to the server:
+
+image:gfx/eclipse_arquillian_0.png[]
+
+Now, make sure the server is not running (so that the instance started for running the test does not interfere), and then run the tests from the command line by typing:
+
+    mvn clean test -Parq-jbossas-managed
+
+You should see the server start up, a `test.war` deployed, test executed, and then the results displayed to you on the console: 
+
+------------------------------------------------------------------------
+$ > mvn clean test -Parq-jbossas-managed
+
+
+[INFO] Scanning for projects...
+[INFO]
+[INFO] ------------------------------------------------------------------------
+[INFO] Building JBoss AS Quickstarts: Kitchensink 7.0.0-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO]
+[INFO] --- maven-clean-plugin:2.4.1:clean (default-clean) @ jboss-as-kitchensink ---
+[INFO] Deleting /Users/pmuir/workspace/jboss-as-docs/quickstarts/kitchensink/target
+[INFO]
+[INFO] --- maven-resources-plugin:2.4.3:resources (default-resources) @ jboss-as-kitchensink ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 2 resources
+[INFO]
+[INFO] --- maven-compiler-plugin:2.3.1:compile (default-compile) @ jboss-as-kitchensink ---
+[INFO] Compiling 6 source files to /Users/pmuir/workspace/jboss-as-docs/quickstarts/kitchensink/target/classes
+[INFO]
+[INFO] --- maven-resources-plugin:2.4.3:testResources (default-testResources) @ jboss-as-kitchensink ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 1 resource
+[INFO]
+[INFO] --- maven-compiler-plugin:2.3.1:testCompile (default-testCompile) @ jboss-as-kitchensink ---
+[INFO] Compiling 1 source file to /Users/pmuir/workspace/jboss-as-docs/quickstarts/kitchensink/target/test-classes
+[INFO]
+[INFO] --- maven-surefire-plugin:2.7.2:test (default-test) @ jboss-as-kitchensink ---
+[INFO] Surefire report directory: /Users/pmuir/workspace/jboss-as-docs/quickstarts/kitchensink/target/surefire-reports
+
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+Running org.jboss.as.quickstarts.kitchensink.test.MemberRegistrationTest
+Jun 25, 2011 7:17:49 PM org.jboss.arquillian.container.impl.client.container.ContainerRegistryCreator getActivatedConfiguration
+INFO: Could not read active container configuration: null
+log4j:WARN No appenders could be found for logger (org.jboss.remoting).
+log4j:WARN Please initialize the log4j system properly.
+Jun 25, 2011 7:17:54 PM org.jboss.as.arquillian.container.managed.ManagedDeployableContainer startInternal
+INFO: Starting container with: [java, -Djboss.home.dir=/Users/pmuir/development/jboss, -Dorg.jboss.boot.log.file=/Users/pmuir/development/jboss/standalone/log/boot.log, -Dlogging.configuration=file:/Users/pmuir/development/jboss/standalone/configuration/logging.properties, -jar, /Users/pmuir/development/jboss/jboss-modules.jar, -mp, /Users/pmuir/development/jboss/modules, -logmodule, org.jboss.logmanager, -jaxpmodule, javax.xml.jaxp-provider, org.jboss.as.standalone, -server-config, standalone.xml]
+19:17:55,107 INFO  [org.jboss.modules] JBoss Modules version 1.0.0.CR4
+19:17:55,329 INFO  [org.jboss.msc] JBoss MSC version 1.0.0.CR2
+19:17:55,386 INFO  [org.jboss.as] JBoss AS 7.0.0.Beta4-SNAPSHOT "(TBD)" starting
+19:17:56,159 INFO  [org.jboss.as] creating http management service using network interface (management) port (9990) securePort (-1)
+19:17:56,181 INFO  [org.jboss.as.logging] Removing bootstrap log handlers
+19:17:56,189 INFO  [org.jboss.as.naming] (Controller Boot Thread) Activating Naming Subsystem
+19:17:56,203 INFO  [org.jboss.as.naming] (MSC service thread 1-4) Starting Naming Service
+19:17:56,269 INFO  [org.jboss.as.security] (Controller Boot Thread) Activating Security Subsystem
+19:17:56,305 INFO  [org.jboss.remoting] (MSC service thread 1-1) JBoss Remoting version 3.2.0.Beta2
+19:17:56,317 INFO  [org.xnio] (MSC service thread 1-1) XNIO Version 3.0.0.Beta3
+19:17:56,331 INFO  [org.xnio.nio] (MSC service thread 1-1) XNIO NIO Implementation Version 3.0.0.Beta3
+19:17:56,522 INFO  [org.jboss.as.connector.subsystems.datasources] (Controller Boot Thread) Deploying JDBC-compliant driver class org.h2.Driver (version 1.2)
+19:17:56,572 INFO  [org.apache.catalina.core.AprLifecycleListener] (MSC service thread 1-7) The Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: .:/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java
+19:17:56,627 INFO  [org.jboss.as.remoting] (MSC service thread 1-3) Listening on /127.0.0.1:9999
+19:17:56,641 INFO  [org.jboss.as.jmx.JMXConnectorService] (MSC service thread 1-2) Starting remote JMX connector
+19:17:56,705 INFO  [org.jboss.as.ee] (Controller Boot Thread) Activating EE subsystem
+19:17:56,761 INFO  [org.apache.coyote.http11.Http11Protocol] (MSC service thread 1-7) Starting Coyote HTTP/1.1 on http--127.0.0.1-8080
+19:17:56,793 INFO  [org.jboss.as.connector] (MSC service thread 1-3) Starting JCA Subsystem (JBoss IronJacamar 1.0.0.CR2)
+19:17:56,837 INFO  [org.jboss.as.connector.subsystems.datasources] (MSC service thread 1-2) Bound data source [java:jboss/datasources/ExampleDS]
+19:17:57,335 INFO  [org.jboss.as.server.deployment] (MSC service thread 1-1) Starting deployment of "arquillian-service"
+19:17:57,348 INFO  [org.jboss.as.deployment] (MSC service thread 1-7) Started FileSystemDeploymentService for directory /Users/pmuir/development/jboss/standalone/deployments
+19:17:57,693 INFO  [org.jboss.as] (Controller Boot Thread) JBoss AS 7.0.0.Beta4-SNAPSHOT "(TBD)" started in 2806ms - Started 111 of 138 services (27 services are passive or on-demand)
+19:18:00,596 INFO  [org.jboss.as.server.deployment] (MSC service thread 1-6) Stopped deployment arquillian-service in 8ms
+19:18:01,394 INFO  [org.jboss.as.server.deployment] (pool-2-thread-7) Content added at location /Users/pmuir/development/jboss/standalone/data/content/0a/9e20b7bc978fd2778b89c7c06e4d3e1f308dfe/content
+19:18:01,403 INFO  [org.jboss.as.server.deployment] (MSC service thread 1-7) Starting deployment of "arquillian-service"
+19:18:01,650 INFO  [org.jboss.as.server.deployment] (pool-2-thread-6) Content added at location /Users/pmuir/development/jboss/standalone/data/content/94/8324ab8f5a693c67fa57b59323304d3947bbf6/content
+19:18:01,659 INFO  [org.jboss.as.server.deployment] (MSC service thread 1-5) Starting deployment of "test.war"
+19:18:01,741 INFO  [org.jboss.jpa] (MSC service thread 1-7) read persistence.xml for primary
+19:18:01,764 INFO  [org.jboss.weld] (MSC service thread 1-3) Processing CDI deployment: test.war
+19:18:01,774 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-3) JNDI bindings for session bean named MemberRegistration in deployment unit deployment "test.war" are as follows:
+
+        java:global/test/MemberRegistration!org.jboss.as.quickstarts.kitchensink.controller.MemberRegistration
+        java:app/test/MemberRegistration!org.jboss.as.quickstarts.kitchensink.controller.MemberRegistration
+        java:module/MemberRegistration!org.jboss.as.quickstarts.kitchensink.controller.MemberRegistration
+        java:global/test/MemberRegistration
+        java:app/test/MemberRegistration
+        java:module/MemberRegistration
+        
+19:18:01,908 INFO  [org.jboss.weld] (MSC service thread 1-5) Starting Services for CDI deployment: test.war
+19:18:02,131 INFO  [org.jboss.weld.Version] (MSC service thread 1-5) WELD-000900 1.1.1 (Final)
+19:18:02,169 INFO  [org.jboss.weld] (MSC service thread 1-2) Starting weld service
+19:18:02,174 INFO  [org.jboss.as.arquillian] (MSC service thread 1-3) Arquillian deployment detected: ArquillianConfig[service=jboss.arquillian.config."test.war",unit=test.war,tests=[org.jboss.as.quickstarts.kitchensink.test.MemberRegistrationTest]]
+19:18:02,179 INFO  [org.jboss.jpa] (MSC service thread 1-6) starting Persistence Unit Service 'test.war#primary'
+19:18:02,322 INFO  [org.hibernate.annotations.common.Version] (MSC service thread 1-6) Hibernate Commons Annotations 3.2.0.Final
+19:18:02,328 INFO  [org.hibernate.cfg.Environment] (MSC service thread 1-6) HHH00412:Hibernate [WORKING]
+19:18:02,330 INFO  [org.hibernate.cfg.Environment] (MSC service thread 1-6) HHH00206:hibernate.properties not found
+19:18:02,332 INFO  [org.hibernate.cfg.Environment] (MSC service thread 1-6) HHH00021:Bytecode provider name : javassist
+19:18:02,354 INFO  [org.hibernate.ejb.Ejb3Configuration] (MSC service thread 1-6) HHH00204:Processing PersistenceUnitInfo [
+	name: primary
+	...]
+19:18:02,400 WARN  [org.hibernate.cfg.AnnotationBinder] (MSC service thread 1-6) HHH00194:Package not found or wo package-info.java: org.jboss.as.quickstarts.kitchensink.test
+19:18:02,400 WARN  [org.hibernate.cfg.AnnotationBinder] (MSC service thread 1-6) HHH00194:Package not found or wo package-info.java: org.jboss.as.quickstarts.kitchensink.controller
+19:18:02,401 WARN  [org.hibernate.cfg.AnnotationBinder] (MSC service thread 1-6) HHH00194:Package not found or wo package-info.java: org.jboss.as.quickstarts.kitchensink.util
+19:18:02,401 WARN  [org.hibernate.cfg.AnnotationBinder] (MSC service thread 1-6) HHH00194:Package not found or wo package-info.java: org.jboss.as.quickstarts.kitchensink.model
+19:18:02,592 INFO  [org.hibernate.service.jdbc.connections.internal.ConnectionProviderInitiator] (MSC service thread 1-6) HHH00130:Instantiating explicit connection provider: org.hibernate.ejb.connection.InjectedDataSourceConnectionProvider
+19:18:02,852 INFO  [org.hibernate.dialect.Dialect] (MSC service thread 1-6) HHH00400:Using dialect: org.hibernate.dialect.H2Dialect
+19:18:02,858 WARN  [org.hibernate.dialect.H2Dialect] (MSC service thread 1-6) HHH00431:Unable to determine H2 database version, certain features may not work
+19:18:02,862 INFO  [org.hibernate.engine.jdbc.internal.LobCreatorBuilder] (MSC service thread 1-6) HHH00423:Disabling contextual LOB creation as JDBC driver reported JDBC version [3] less than 4
+19:18:02,870 INFO  [org.hibernate.engine.transaction.internal.TransactionFactoryInitiator] (MSC service thread 1-6) HHH00268:Transaction strategy: org.hibernate.engine.transaction.internal.jta.CMTTransactionFactory
+19:18:02,874 INFO  [org.hibernate.hql.internal.ast.ASTQueryTranslatorFactory] (MSC service thread 1-6) HHH00397:Using ASTQueryTranslatorFactory
+19:18:02,911 INFO  [org.hibernate.validator.util.Version] (MSC service thread 1-6) Hibernate Validator 4.1.0.Final
+19:18:02,917 INFO  [org.hibernate.validator.engine.resolver.DefaultTraversableResolver] (MSC service thread 1-6) Instantiated an instance of org.hibernate.validator.engine.resolver.JPATraversableResolver.
+19:18:03,079 INFO  [org.hibernate.tool.hbm2ddl.SchemaExport] (MSC service thread 1-6) HHH00227:Running hbm2ddl schema export
+19:18:03,093 INFO  [org.hibernate.tool.hbm2ddl.SchemaExport] (MSC service thread 1-6) HHH00230:Schema export complete
+19:18:03,217 INFO  [org.jboss.web] (MSC service thread 1-5) registering web context: /test
+19:18:03,407 WARN  [org.jboss.weld.Bean] (RMI TCP Connection(3)-127.0.0.1) WELD-000018 Executing producer field or method [method] @Produces public org.jboss.as.quickstarts.kitchensink.test.MemberRegistrationTest.produceLog(InjectionPoint) on incomplete declaring bean Managed Bean [class org.jboss.as.quickstarts.kitchensink.test.MemberRegistrationTest] with qualifiers [@Any @Default] due to circular injection
+19:18:03,427 WARN  [org.jboss.weld.Bean] (RMI TCP Connection(3)-127.0.0.1) WELD-000018 Executing producer field or method [method] @Produces public org.jboss.as.quickstarts.kitchensink.test.MemberRegistrationTest.produceLog(InjectionPoint) on incomplete declaring bean Managed Bean [class org.jboss.as.quickstarts.kitchensink.test.MemberRegistrationTest] with qualifiers [@Any @Default] due to circular injection
+19:18:03,450 WARN  [org.jboss.as.ejb3.component.EJBComponent] (RMI TCP Connection(3)-127.0.0.1) EJBTHREE-2120: deprecated getTransactionAttributeType method called (dev problem)
+19:18:03,459 INFO  [org.jboss.as.quickstarts.kitchensink.controller.MemberRegistration] (RMI TCP Connection(3)-127.0.0.1) Registering Jane Doe
+19:18:03,616 INFO  [org.jboss.as.quickstarts.kitchensink.test.MemberRegistrationTest] (RMI TCP Connection(3)-127.0.0.1) Jane Doe was persisted with id 1
+19:18:03,686 INFO  [org.jboss.jpa] (MSC service thread 1-1) stopping Persistence Unit Service 'test.war#primary'
+19:18:03,687 INFO  [org.hibernate.tool.hbm2ddl.SchemaExport] (MSC service thread 1-1) HHH00227:Running hbm2ddl schema export
+19:18:03,690 INFO  [org.jboss.weld] (MSC service thread 1-3) Stopping weld service
+19:18:03,692 INFO  [org.hibernate.tool.hbm2ddl.SchemaExport] (MSC service thread 1-1) HHH00230:Schema export complete
+19:18:03,704 INFO  [org.jboss.as.server.deployment] (MSC service thread 1-8) Stopped deployment test.war in 52ms
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 14.859 sec
+
+Results :
+
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
+
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 22.305s
+[INFO] Finished at: Sat Jun 25 19:18:04 BST 2011
+[INFO] Final Memory: 17M/125M
+[INFO] ------------------------------------------------------------------------
+
+------------------------------------------------------------------------
+
+As you can see, that didn't take too long (approximately 15s), and is great for running in your QA environment, but if you running locally, you might prefer to connect to a running server. To do that, start up JBoss Enterprise Application Platform 6 or JBoss AS 7 (as described in <<GettingStarted-, Getting Started with JBoss Enterprise Application Platform of JBoss AS>>. Now, run your test, but use the `arq-jbossas-remote` profile:
+
+    mvn clean test -Parq-jbossas-remote
+
+------------------------------------------------------------------------
+$ > mvn clean test -Parq-jbossas-remote
+
+
+[INFO] Scanning for projects...
+[INFO]
+[INFO] ------------------------------------------------------------------------
+[INFO] Building JBoss AS Quickstarts: Kitchensink 7.0.0-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO]
+[INFO] --- maven-clean-plugin:2.4.1:clean (default-clean) @ jboss-as-kitchensink ---
+[INFO] Deleting /Users/pmuir/workspace/jboss-as-docs/quickstarts/kitchensink/target
+[INFO]
+[INFO] --- maven-resources-plugin:2.4.3:resources (default-resources) @ jboss-as-kitchensink ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 2 resources
+[INFO]
+[INFO] --- maven-compiler-plugin:2.3.1:compile (default-compile) @ jboss-as-kitchensink ---
+[INFO] Compiling 6 source files to /Users/pmuir/workspace/jboss-as-docs/quickstarts/kitchensink/target/classes
+[INFO]
+[INFO] --- maven-resources-plugin:2.4.3:testResources (default-testResources) @ jboss-as-kitchensink ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 1 resource
+[INFO]
+[INFO] --- maven-compiler-plugin:2.3.1:testCompile (default-testCompile) @ jboss-as-kitchensink ---
+[INFO] Compiling 1 source file to /Users/pmuir/workspace/jboss-as-docs/quickstarts/kitchensink/target/test-classes
+[INFO]
+[INFO] --- maven-surefire-plugin:2.7.2:test (default-test) @ jboss-as-kitchensink ---
+[INFO] Surefire report directory: /Users/pmuir/workspace/jboss-as-docs/quickstarts/kitchensink/target/surefire-reports
+
+------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+Running org.jboss.as.quickstarts.kitchensink.test.MemberRegistrationTest
+Jun 25, 2011 7:22:28 PM org.jboss.arquillian.container.impl.client.container.ContainerRegistryCreator getActivatedConfiguration
+INFO: Could not read active container configuration: null
+log4j:WARN No appenders could be found for logger (org.jboss.as.arquillian.container.MBeanServerConnectionProvider).
+log4j:WARN Please initialize the log4j system properly.
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.13 sec
+
+Results :
+
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
+
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 10.474s
+[INFO] Finished at: Sat Jun 25 19:22:33 BST 2011
+[INFO] Final Memory: 17M/125M
+[INFO] ------------------------------------------------------------------------
+$ >
+------------------------------------------------------------------------
+
+
+[IMPORTANT]
+========================================================================
+Arquillian defines two modes, _managed_ and _remote_ . The _managed_
+mode will take care of starting and stopping the server for you, whilst
+the _remote_ mode connects to an already running server.
+========================================================================
+
+This time you can see the test didn't start the server (if you check the instance you started, you will see the application was deployed there), and the test ran a lot faster (approximately 4s).
+
+We can also run the test from Eclipse, in both managed and remote modes. First, we'll run in in managed mode. In order to set up the correct dependencies on your classpath, right click on the project, and select Properties : 
+
+image:gfx/eclipse_arquillian_1.png[]
+
+Now, locate the Maven panel:
+
+image:gfx/eclipse_arquillian_2.png[]
+
+And activate the `arq-jbossas-managed` profile: 
+
+image:gfx/eclipse_arquillian_3.png[]
+
+Finally, hit _Ok_, and then confirm you want to update the project configuration: 
+
+image:gfx/eclipse_arquillian_4.png[]
+
+Once the project has built, locate the `MemberRegistrationTest` in `src/test/java`, right click on the test, and choose _Run As -> JUnit Test...`_:
+
+image:gfx/eclipse_arquillian_12.png[]
+
+You should see the server start in the Eclipse Console, the test be deployed, and finally the JUnit View pop up with the result (a pass of course!).
+
+We can also run the test in an already running instance of Eclipse. Simply change the active profile to `arq-jbossas-remote`:
+
+image:gfx/eclipse_arquillian_11.png[]
+
+Now, make sure the server is running, right click on the test case and choose _Run As -> JUnit Test..._: 
+
+image:gfx/eclipse_arquillian_12.png[]
+
+Again, you'll see the test run in the server, and the JUnit View pop up, with the test passing.
+
+So far so good, the test is running in both Eclipse and from the command line. But what does the test look like?
+
+.src/test/java/org/jboss/as/quickstarts/kitchensink/test/MemberRegistrationTest.java
+[source,java]
+------------------------------------------------------------------------
+@RunWith(Arquillian.class)                                           // <1>
+public class MemberRegistrationTest {
+    @Deployment                                                      // <2>
+    public static Archive<?> createTestArchive() {
+        return ShrinkWrap.create(WebArchive.class, "test.war")
+                .addClasses(Member.class,
+                            MemberRegistration.class,
+                            Resources.class)                         // <3>
+                .addAsResource("META-INF/test-persistence.xml",
+                               "META-INF/persistence.xml")           // <4>
+                .addAsWebInfResource(EmptyAsset.INSTANCE,
+                                     "beans.xml")                    // <5>
+                // Deploy our test datasource
+                .addAsWebInfResource("test-ds.xml");                 // <6>
+    }
+
+    @Inject                                                          // <7>
+    MemberRegistration memberRegistration;
+
+    @Inject
+    Logger log;
+
+    @Test
+    public void testRegister() throws Exception {                    // <8>
+        Member newMember = new Member();
+        newMember.setName("Jane Doe");
+        newMember.setEmail("jane@mailinator.com");
+        newMember.setPhoneNumber("2125551234");
+        memberRegistration.register(newMember);
+        assertNotNull(newMember.getId());
+        log.info(newMember.getName() + 
+                 " was persisted with id " + 
+                 newMember.getId());
+    }
+
+}
+------------------------------------------------------------------------
+<1> `@RunWith(Arquillian.class)` tells JUnit to hand control over to Arquillian when executing tests 
+<2> The `@Deployment` annotation identifies the `createTestArchive()` static method to Arquillian as the one to use to determine which resources and classes to deploy 
+<3> We add just the classes needed for the test, no more
+<4> We also add persistence.xml as our test is going to use the database 
+<5> Of course, we must add beans.xml to enable CDI
+<6> Finally, we add a test datasource, so that test data doesn't overwrite production data
+<7> Arquillian allows us to inject beans into the test case
+<8> The test method works as you would expect - creates a new member, registers them, and then verifies that the member was created
+
+As you can see, Arquillian has lived up to the promise - the test case is focused on _what_ to test (the `@Deployment` method) and _how_ to test (the `@Test` method). It's also worth noting that this isn't a simplistic unit test - this is a fully fledged integration test that uses the database. 
+
+Now, let's look at how we configure Arquillian. First of all, let's take a look at `arquillian.xml` in `src/test/resources`.
+
+
+.src/test/resources/META-INF/arquillian.xml
+[source,xml]
+------------------------------------------------------------------------
+<arquillian xmlns="http://jboss.org/schema/arquillian"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://jboss.org/schema/arquillian
+        http://jboss.org/schema/arquillian/arquillian_1_0.xsd">
+
+   <!-- Uncomment to have test archives exported to the 
+        file system for inspection -->
+<!--    <engine>  -->                                                <1>
+<!--       <property name="deploymentExportPath">
+               target/
+           </property>  -->
+<!--    </engine> -->
+
+   <!-- Force the use of the Servlet 3.0 protocol with all 
+        containers, as it is the most mature -->
+   <defaultProtocol type="Servlet 3.0" />                            <2>
+
+   <!-- Example configuration for a remote JBoss AS 7 instance -->
+   <container qualifier="jboss" default="true">
+      <!-- If you want to use the JBOSS_HOME environment variable,
+           just delete the jbossHome property -->
+      <configuration>
+         <property name="jbossHome">/path/to/jboss/as</property>
+      </configuration>
+   </container>
+
+</arquillian>
+------------------------------------------------------------------------
+<1> Arquillian deploys the test war, and doesn't write it to disk. For debugging, it can be very useful to see exactly what is in your war, so Arquillian allows you to export the war when the tests runs
+<2> Arquillian currently needs configuring to use the Servlet protocol to connect to the server
+
+Now, we need to look at how we select between containers in the `pom.xml`:
+
+.pom.xml
+[source,xml]
+------------------------------------------------------------------------
+<profile>
+    <!-- An optional Arquillian testing profile that executes tests 
+        in your JBoss AS instance -->
+    <!-- This profile will start a new JBoss AS instance, and 
+        execute the test, shutting it down when done -->
+    <!-- Run with: mvn clean test -Parq-jbossas-managed -->
+    <id>arq-jbossas-managed</id>                                     <1>
+    <dependencies>
+        <dependency>
+            <groupId>org.jboss.as</groupId>
+            <artifactId>                                             <2>
+                jboss-as-arquillian-container-managed
+            </artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+</profile>
+
+<profile>
+    <!-- An optional Arquillian testing profile that executes 
+        tests in a remote JBoss AS instance -->
+    <!-- Run with: mvn clean test -Parq-jbossas-remote -->
+    <id>arq-jbossas-remote</id>
+    <dependencies>
+        <dependency>
+            <groupId>org.jboss.as</groupId>
+            <artifactId>                                             <3>
+                jboss-as-arquillian-container-remote
+            </artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+</profile>
+------------------------------------------------------------------------
+<1>The profile needs an id so we can activate from Eclipse or the command line
+<2> Arquillian decides which container to use depending on your classpath. Here we define the managed container.
+<3> Arquillian decides which container to use depending on your classpath. Here we define the remote container.
+
+And that's it! As you can see Arquillian delivers simple and true testing. You can concentrate on writing your test functionality, and run your tests in the same environment in which you will run your application.
+
+
+[TIP]
+========================================================================
+Arquillian also offers other containers, allowing you to run your tests
+against Weld Embedded (super fast, but your enterprise services are 
+mocked), GlassFish, and more
+========================================================================
+
+That concludes our tour of the kitchensink quickstart. If you would like to use this project as a basis for your own application, you can of course copy this application sources and modify it.
+

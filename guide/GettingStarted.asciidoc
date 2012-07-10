@@ -1,0 +1,244 @@
+Getting started with JBoss Enterprise Application Platform or JBoss AS 7
+========================================================================
+anchor:GettingStarted-[]
+
+To run the quickstarts with the provided build scripts, you'll need:
+
+[TIP]
+========================================================================
+If you already have any of these pieces of software, there is no need to
+install them again!
+========================================================================
+
+Java 1.6, to run JBoss AS and Maven::
+  Choose your Java runtime, and follow their installation instructions. For example, you could choose one of:
+
+  * link:http://openjdk.java.net/install/[OpenJDK]
+  * link:http://www.oracle.com/technetwork/java/javase/index-137561.html[Oracle Java SE]
+  * link:http://download.oracle.com/docs/cd/E15289_01/doc.40/e15065/toc.htm[Oracle JRockit]
+Maven 3, to build and deploy the quickstarts::
+  Follow the official Maven installation guide if you don't already have Maven 3 installed. You can check which version of Maven you have installed (if any) by running `mvn --version` . If you see a version newer than 3.0.0, you are ready to go. 
+
+Now, you need to choose either JBoss Enterprise Application Platform 6 or JBoss AS 7. If you choose JBoss Enterprise Application Platform 6, make sure you have:
+
+The JBoss Enterprise Application Platform 6 runtime::
+  TODO
+
+The JBoss Enterprise Application Platform 6 quickstarts::
+  TODO
+
+If you choose JBoss AS 7, make sure you have:
+
+The JBoss AS 7 runtime::
+  Download JBoss AS 7 from the link:http://jboss.org/jbossas/downloads[JBoss AS download page]
+The JBoss AS quickstarts::
+  Available from link:http://jboss.org/jdf/quickstarts/get-started[JBoss Developer Framework]
+
+If you wish to use the examples from an IDE, we recommend using JBoss Developer Studio, or Eclipse with JBoss Tools.
+
+JBoss Developer Studio::
+  Download JBDS from link:http://devstudio.jboss.com/download/[]. JBDS includes JBoss Enterprise Application Platform.
+Eclipse, with JBoss Tools::
+  Download JBoss Tools from link:http://jboss.org/tools[]. Make sure you install m2eclipse as well.
+
+[TIP]
+========================================================================
+JBoss Enterprise Application Platform 6 and JBoss AS 7 offer the 
+ability to manage multiple AS instances from a single control point. 
+A collection of such servers are referred to as members of a "domain",
+with a single Domain Controller process acting as the management control
+point. Domains can span multiple physical (or virtual) machines, with 
+all AS instances on a given host under the control of a Host Controller 
+process. The Host Controllers interact with the Domain Controller to 
+control the lifecycle of the AS instances running on that host and to 
+assist the Domain Controller in managing them.
+
+JBoss AS 7 also offers a standalone mode, which is perfect for a single 
+server. We use this throughout the quickstarts.
+========================================================================
+
+
+Installing and starting the JBoss server on Linux, Unix or Mac OS X
+-------------------------------------------------------------------
+anchor:GettingStarted-on_linux[]
+
+First, let's verify that verify that both Java and Maven are correctly 
+installed. In a console, type:
+
+    java -version
+
+You should see a version string (at least `1.6.0`) printed. If not, contact your provider of Java for assistance. Next, type: 
+
+    mvn --version
+
+You should see a version string (at lest `3.0.0`) printed. If not, contact the Maven community for assistance. 
+
+Next, we need to choose a location for JBoss AS to live. By default, JBoss AS 7 will be extracted into `jboss-as-7.x.x.x` (where `7.x.x.x` matches the version you downloaded): 
+
+    unzip jboss-as-7.x.x.x.zip
+
+Now, let's start JBoss AS in standalone mode:
+
+    jboss-as-7.x.x.x/bin/standalone.sh
+
+
+[TIP]
+========================================================================
+If you want to stop JBoss AS, simply press Crtl-C whilst the terminal 
+has focus. 
+========================================================================
+
+That's it, JBoss AS is installed and running! Visit http://localhost:8080/ to check the server has started properly. 
+
+
+[TIP]
+========================================================================
+You can find the server log for standalone instances in 
+`jboss-as-7.x.x.x/standalone/log/server.log`. The 
+link:http://docs.redhat.com/docs/en-US/JBoss_Enterprise_Application_Platform/6/html/Administration_and_Configuration_Guide/index.html[Administration and Configuration Guide for JBoss Enterprise Application Platform 6] or the
+link:https://docs.jboss.org/author/display/AS71/Getting+Started+Guide[Getting Started Guide for JBoss AS 7] 
+covers more on configuring logging. 
+========================================================================
+
+
+Installing and starting the JBoss server on Windows
+---------------------------------------------------
+anchor:GettingStarted-on_windows[]
+
+
+First, let's verify that verify that both Java and Maven are correctly installed. In a Command Prompt, type:
+
+    java -version
+
+You should see a version string (at least `1.6.0`) printed. If not, contact your provider of Java for assistance. Next, type: 
+
+    mvn --version
+
+You should see a version string (at lest `3.0.0`) printed. If not, contact the Maven community for assistance. 
+
+Next, we need to choose a location for JBoss Enterprise Application Platform 6 or JBoss AS to live. By default, JBoss AS 7 will be extracted into `jboss-as-7.x.x.x` (where `7.x.x.x` matches the version you downloaded). Unzip JBoss Enterprise Application Platform or JBoss AS 7 using your tool of choice. 
+
+Finally, let's start JBoss Enterprise Application Platform or JBoss AS 7 in standalone mode. Locate your installation and run `standalone.bat` located in `bin`.
+
+
+[TIP]
+========================================================================
+If you want to stop the server, simply press Crtl-C whilst the terminal 
+has focus. 
+========================================================================
+
+That's it, JBoss Enterprise Application Platform 6 or JBoss AS 7 is installed and running! Visit http://localhost:8080/ to check the server has started properly. 
+
+
+[TIP]
+========================================================================
+You can find the server log for standalone instances in 
+`jboss-as-7.x.x.x/standalone/log/server.log`. The 
+link:http://docs.redhat.com/docs/en-US/JBoss_Enterprise_Application_Platform/6/html/Administration_and_Configuration_Guide/index.html[Administration and Configuration Guide for JBoss Enterprise Application Platform 6] or the
+link:https://docs.jboss.org/author/display/AS71/Getting+Started+Guide[Getting Started Guide for JBoss AS 7] 
+covers more on configuring logging.
+========================================================================
+
+
+Starting the JBoss server from JBDS or Eclipse with JBoss Tools
+---------------------------------------------------------------
+anchor:GettingStarted-with_jboss_tools[]
+
+You may choose to use JBoss Developer Studio, or Eclipse with JBoss Tools, rather than the command line to run JBoss Enterprise Application Platform 6 or JBoss AS 7, and to deploy the quickstarts. If you don't wish to use Eclipse, you should skip this section.
+
+Make sure you have installed and started JBoss Developer Studio or Eclipse. First, we need to add our JBoss AS instance to it. First, navigate to _Preferences_:
+
+image:gfx/Eclipse_Detect_Servers_1.png[]
+
+Now, locate the _JBoss Tools Runtime Detection_ preferences:
+
+image:gfx/Eclipse_Detect_Servers_2.png[] 
+
+Click _Add_ and locate where you put servers on your disk:
+
+image:gfx/Eclipse_Detect_Servers_3.png[]
+
+Any available servers will be located, now all you need to do is click _OK_, and then _OK_ on the preferences dialog: 
+
+image:gfx/Eclipse_Detect_Servers_4.png[]
+
+Now, let's start the server from Eclipse. If you previously started a server from the command line, you should stop it there first.
+
+First, we need to make sure the Server tab is on view. Open the _Window -> Show View -> Other..._ dialog:
+
+image:gfx/Eclipse_Server_Tab_1.jpg[]
+
+And select the Server view:
+ 
+image:gfx/Eclipse_Server_Tab_2.jpg[]
+
+You should see the Server View appear with the detected servers:
+
+image:gfx/Eclipse_Server_Tab_3.jpg[]
+
+Now, we can start the server. Right click on the server in the Server view, and select Start : 
+
+image:gfx/Eclipse_Server_Start_1.jpg[]
+
+[TIP]
+========================================================================
+If you want to debug your application, you can simply select Debug 
+rather than Start . This will start the server in debug mode, and 
+automatically attach the Eclipse debugger. 
+========================================================================
+
+You'll see the server output in the Console :
+
+image:gfx/Eclipse_Server_Start_2.jpg[]
+
+That's it, we now have the server up and running in Eclipse!
+
+
+Importing the quickstarts into Eclipse
+--------------------------------------
+anchor:GettingStarted-importing_quickstarts_into_eclipse[]
+
+In order to import the quickstarts into Eclipse, you will need m2eclipse installed. If you have JBoss Developer Studio, then m2eclipse is already installed.
+
+First, choose _File -> Import..._: 
+
+image:gfx/Import_Quickstarts_1.jpg[]
+
+Select _Existing Maven Projects_: 
+
+image:gfx/Import_Quickstarts_2.jpg[] 
+
+Click on _Browse_, and navigate to the `quickstarts/` directory: 
+
+image:gfx/Import_Quickstarts_3.jpg[] 
+
+Finally, make sure all 4 quickstarts are found and selected, and click _Finish_: 
+
+image:gfx/Import_Quickstarts_4.jpg[]
+
+Eclipse should now successfully import 4 projects:
+
+image:gfx/Import_Quickstarts_5.jpg[]
+
+It will take a short time to import the projects, as Maven needs to download the project's dependencies from remote repositories.
+
+
+Managing JBoss Enterprise Application Platform 6 or JBoss AS 7
+--------------------------------------------------------------
+
+Here we will quickly outline how you can access both the command line interface and the web management interface for managing JBoss Enterprise Application Platform 6 or JBoss AS 7. Detailed information for both can be found in the link:http://docs.redhat.com/docs/en-US/JBoss_Enterprise_Application_Platform/6/html/Administration_and_Configuration_Guide/index.html[Administration and Configuration Guide for JBoss Enterprise Application Platform 6] or the link:https://docs.jboss.org/author/display/AS71/Admin+Guide[Admin Guide for JBoss AS 7].
+
+When the server is running, the web management interface can be accessed at http://localhost:9990/console. You can use the web management interface to create datasources, manage deployments and configure the server. 
+
+JBoss Enterprise Application Platform 6 and JBoss AS 7 also comes with a command line interface. To run it on Linux, Unix or Mac, execute:
+
+    jboss-as-7.x.x.x/bin/jboss-admin.sh --connect
+
+Or, on Windows:
+
+    jboss-as-7.x.x.x/bin/jboss-admin.bat --connect
+
+Once started, type help to discover the commands available to you. 
+
+Throughout this guide we use the `jboss-as` maven plugin to deploy and undeploy applications. This plugin uses the Native Java Detyped Management API to communicate with the server. The Detyped API is used by management tools to control an entire domain of servers, and exposes only a small number of types, allowing for backwards and forwards compatibility. 
+
