@@ -59,7 +59,7 @@ perl -pi -e "s/${OLDVERSION}/${NEWVERSION}/g" `find . -name \*.xml -or -name \*.
 markdown_to_html()
 {
    cd $DIR/../
-   subdirs=`find -s . -type d -maxdepth 1 ! -iname ".*"`
+   subdirs=`find . -type d -maxdepth 1 ! -iname ".*" | sort`
    for subdir in $subdirs
    do
       readmes=`find $subdir -iname readme.md`
