@@ -27,21 +27,21 @@ import javax.persistence.Query;
 @Alternative
 public class EJBUserDao implements UserDao {
 
-   @Inject
-   private EntityManager entityManager;
+    @Inject
+    private EntityManager entityManager;
 
-   public User getForUsername(String username) {
-      try {
-         Query query = entityManager.createQuery("select u from User u where u.username = ?");
-         query.setParameter(1, username);
-         return (User) query.getSingleResult();
-      } catch (NoResultException e) {
-         return null;
-      }
-   }
+    public User getForUsername(String username) {
+        try {
+            Query query = entityManager.createQuery("select u from User u where u.username = ?");
+            query.setParameter(1, username);
+            return (User) query.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
 
-   public void createUser(User user) {
-      entityManager.persist(user);
-   }
+    public void createUser(User user) {
+        entityManager.persist(user);
+    }
 
 }

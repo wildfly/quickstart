@@ -41,9 +41,9 @@ import javax.enterprise.inject.Produces;
  * @author Pete Muir
  * 
  */
+@SuppressWarnings("serial")
 @ApplicationScoped
 public class Generator implements Serializable {
-   private static final long serialVersionUID = -7213673465118041882L;
 
    private java.util.Random random = new java.util.Random(System.currentTimeMillis());
 

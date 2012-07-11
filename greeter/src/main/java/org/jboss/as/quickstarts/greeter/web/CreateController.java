@@ -30,23 +30,25 @@ import org.jboss.as.quickstarts.greeter.domain.UserDao;
 @RequestScoped
 public class CreateController {
 
-   @Inject
-   private FacesContext facesContext;
-   
-   @Inject
-   private UserDao userDao;
-   
-   @Named
-   @Produces
-   @RequestScoped
-   private User newUser = new User();
+    @Inject
+    private FacesContext facesContext;
 
-   public void create() {
-      try {
-         userDao.createUser(newUser);
-         facesContext.addMessage(null, new FacesMessage("A new user with id " + newUser.getId() + " has been created successfully"));
-      } catch (Exception e) {
-         facesContext.addMessage(null, new FacesMessage("An error has occured while creating the user (see log for details)"));
-      }
-   }
+    @Inject
+    private UserDao userDao;
+
+    @Named
+    @Produces
+    @RequestScoped
+    private User newUser = new User();
+
+    public void create() {
+        try {
+            userDao.createUser(newUser);
+            String message = "A new user with id " + newUser.getId() + " has been created successfully";
+            facesContext.addMessage(null, new FacesMessage(message));
+        } catch (Exception e) {
+            String message = "An error has occured while creating the user (see log for details)";
+            facesContext.addMessage(null, new FacesMessage(message));
+        }
+    }
 }

@@ -48,11 +48,10 @@ import javax.inject.Named;
  * @author Pete Muir
  * 
  */
+@SuppressWarnings("serial")
 @Named
 @SessionScoped
 public class Game implements Serializable {
-
-   private static final long serialVersionUID = 991300443278089016L;
 
    /**
     * The number that the user needs to guess
