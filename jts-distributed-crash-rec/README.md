@@ -4,7 +4,8 @@ Author: Tom Jenkinson
 Level: Advanced
 Technologies: JTS
 Summary: Demonstrates recovery of distributed crashed components
-prerequisites: jts
+Prerequisites: jts
+
 
 What is it?
 -----------

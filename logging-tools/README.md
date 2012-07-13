@@ -76,9 +76,7 @@ _NOTE: The following build command assumes you have configured your Maven user s
 Access the application 
 ---------------------
 
-The application will be running at the following URL: <http://localhost:8080/jboss-as-logging-tools>. 
-
-This quickstart also runs at additional URLs, as described below:
+The application will be running at the following URLs:
 
 ### http://localhost:8080/jboss-as-logging-tools/rest/greetings/`name`
 

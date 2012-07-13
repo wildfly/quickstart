@@ -70,6 +70,17 @@ You will be presented with a simple form for temperature conversion.
 3. Press the `Convert` button to see the results.
 
 
+Undeploy the Archive
+--------------------
+
+1. Make sure you have started the JBoss Server as described above.
+2. Open a command line and navigate to the root directory of this quickstart.
+3. When you are finished testing, type this command to undeploy the archive:
+
+        mvn package jboss-as:undeploy
+
+
+        
 Run the Quickstart in JBoss Developer Studio or Eclipse
 -------------------------------------
 You can also start the server and deploy the quickstarts from Eclipse using JBoss tools. For more information, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](../README.md/#useeclipse) 
