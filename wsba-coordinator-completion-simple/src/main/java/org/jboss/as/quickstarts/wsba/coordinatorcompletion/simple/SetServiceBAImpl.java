@@ -32,7 +32,7 @@ import java.util.UUID;
  * 
  * @author Paul Robinson (paul.robinson@redhat.com)
  */
-@WebService(serviceName = "SetServiceBAService", portName = "SetServiceBA", name = "SetServiceBA", targetNamespace = "http://www.jboss.com/as/quickstarts/helloworld/wsba/coordinatorcompletion/set")
+@WebService(serviceName = "SetServiceBAService", portName = "SetServiceBA", name = "SetServiceBA", targetNamespace = "http://www.jboss.org/jboss-jdf/jboss-as-quickstart/helloworld/wsba/coordinatorcompletion/set")
 @HandlerChain(file = "/context-handlers.xml", name = "Context Handlers")
 @SOAPBinding(style = SOAPBinding.Style.RPC)
 @WebServlet("/SetServiceBA")

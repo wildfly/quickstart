@@ -43,7 +43,7 @@ import java.util.UUID;
  * @author paul.robinson@redhat.com, 2012-01-04
  * 
  */
-@WebService(serviceName = "RestaurantServiceATService", portName = "RestaurantServiceAT", name = "RestaurantServiceAT", targetNamespace = "http://www.jboss.com/jbossas/quickstarts/wsat/simple/Restaurant")
+@WebService(serviceName = "RestaurantServiceATService", portName = "RestaurantServiceAT", name = "RestaurantServiceAT", targetNamespace = "http://www.jboss.org/jboss-jdf/jboss-as-quickstart/wsat/simple/Restaurant")
 @HandlerChain(file = "/context-handlers.xml", name = "Context Handlers")
 @SOAPBinding(style = SOAPBinding.Style.RPC)
 @WebServlet("/RestaurantServiceAT")

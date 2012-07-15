@@ -29,7 +29,7 @@ import javax.jws.soap.SOAPBinding;
  * 
  * @author paul.robinson@redhat.com, 2011-12-21
  */
-@WebService(name = "SetServiceBA", targetNamespace = "http://www.jboss.com/as/quickstarts/helloworld/wsba/participantcompletion/set")
+@WebService(name = "SetServiceBA", targetNamespace = "http://www.jboss.org/jboss-jdf/jboss-as-quickstart/helloworld/wsba/participantcompletion/set")
 @SOAPBinding(style = SOAPBinding.Style.RPC)
 public interface SetServiceBA {
     /**
