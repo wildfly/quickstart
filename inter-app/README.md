@@ -5,15 +5,16 @@ Author: Pete Muir
 What is it?
 -----------
 
-This quickstart shows you how to easily communicate between two modular deployments to JBoss AS 7. Two wars, with a shared API jar, are deployed to the app server. EJB is used to provide inter-application communication, with EJB beans alised to CDI beans, making the inter-application communication transparent to clients of the bean.
+This quickstart shows you how to easily communicate between two modular deployments to JBoss Enterprise Application Platform 6 or JBoss AS 7. Two wars, with a shared API jar, are deployed to the app server. EJB is used to provide inter-application communication, with EJB beans alised to CDI beans, making the inter-application communication transparent to clients of the bean.
 
 CDI only provides intra-applicaion injection (i.e within a top level deployment, ear, war, jar etc). This improves performance of the application server, as to satisfy an injection point all possible candidates have to be scanned / analyzed. If inter-app injection was supported by CDI, performance would scale according to the number of deployments you have (the more deployments in the running system, the slower the deployment). Java EE injection uses unique JNDI names for the wiring, so each injection point is O(1). The approach shown here combines the two approaches such that you limit the name based wiring to one location in your code, and the main consumers of components can use CDI injection to reference these name wired components. For the name approach to work though, you still need to publish instances, and EJB singletons allow you to do that with just one extra annotation.
 
 
 In all, the project has three modules:
 
-* jboss-as-inter-app-A.war - the first war, whiches exposes an EJB singleton, and a simple UI that allows you to read the value set on the bean in appB
-* jboss-as-inter-app-B.war - the second war, whiches exposes an EJB singleton, and a simple UI that allows you to read the value set on the bean in appA
+* `jboss-as-inter-app-shared.jar` - this module contains the interfaces which define the contract between the beans exposed by the wars. It is deployed as a module
+* `jboss-as-inter-app-A.war` - the first war, whiches exposes an EJB singleton, and a simple UI that allows you to read the value set on the bean in appB
+* `jboss-as-inter-app-B.war` - the second war, whiches exposes an EJB singleton, and a simple UI that allows you to read the value set on the bean in appA
 
 System requirements
 -------------------
@@ -69,7 +70,7 @@ Undeploy the Archive
 2. Open a command line and navigate to the root directory of this quickstart.
 3. When you are finished testing, type this command to undeploy the archive:
 
-        mvn jboss-as:undeploy
+        mvn package jboss-as:undeploy
 
 
 Run the Quickstart in JBoss Developer Studio or Eclipse
