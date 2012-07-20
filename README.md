@@ -35,7 +35,7 @@ The following is a list of the currently available quickstarts. The table lists 
 
 Some quickstarts are designed to enhance or extend other quickstarts. These are noted in the **Prerequisites** column. If a quickstart lists prerequisites, those must be installed or deployed before working with the quickstart.
 
-Quickstarts with tutorials in the [Getting Started Developing Applications Guide](https://docs.jboss.org/author/display/AS71/Getting+Started+Developing+Applications+Guide "Getting Started Developing Applications Guide") are noted with two asterisks ( ** ) following the quickstart name. 
+Quickstarts with tutorials in the [Get Started Developing Applications](http://www.jboss.org/jdf/quickstarts/jboss-as-quickstart/guide/Introduction/ "Get Started Developing Applications") are noted with two asterisks ( ** ) following the quickstart name. 
 
 [TOC-quickstart]
 
@@ -257,7 +257,7 @@ You can run these tests using either a remote or managed container. The quicksta
 <a id="useeclipse"></a>
 Use JBoss Developer Studio or Eclipse to Run the Quickstarts
 -------------------------------------
-You can also deploy the quickstarts from Eclipse using JBoss tools. For more information on how to set up Maven and the JBoss tools, refer to the [JBoss Enterprise Application Platform 6 Beta](http://docs.redhat.com/docs/en-US/JBoss_Enterprise_Application_Platform/6/html/Beta_Documentation/HOME.html) documentation or the [Getting Started Developing Applications Guide](https://docs.jboss.org/author/display/AS71/Getting+Started+Developing+Applications+Guide "Getting Started Developing Applications Guide").
+You can also deploy the quickstarts from Eclipse using JBoss tools. For more information on how to set up Maven and the JBoss tools, refer to the [JBoss Enterprise Application Platform 6 Development Guide](http://docs.redhat.com/docs/en-US/JBoss_Enterprise_Application_Platform/6/html/Development_Guide/index.html) or [Get Started Developing Applications](http://www.jboss.org/jdf/quickstarts/jboss-as-quickstart/guide/Introduction/ "Get Started Developing Applications").
 
 
 <a id="optionalcomponents"></a>
