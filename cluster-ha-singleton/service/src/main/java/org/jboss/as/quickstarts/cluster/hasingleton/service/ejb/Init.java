@@ -35,7 +35,6 @@ import org.jboss.msc.service.ServiceListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 /**
  * A Singleton EJB to create the SingletonService during startup.
  * 
@@ -44,81 +43,99 @@ import org.slf4j.LoggerFactory;
 @Singleton
 @Startup
 public class Init {
-	private static final Logger LOGGER = LoggerFactory.getLogger(Init.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(Init.class);
 
-	/**
-	 * Create the Service and wait until it is started.<br/>
-	 * Will log a message if the service will not start in 10sec. 
-	 */
-	@PostConstruct
-	protected void startup() {
-		LOGGER.info("StartupSingleton will be initialized!");
+    /**
+     * Create the Service and wait until it is started.<br/>
+     * Will log a message if the service will not start in 10sec.
+     */
+    @PostConstruct
+    protected void startup() {
+        LOGGER.info("StartupSingleton will be initialized!");
 
-		HATimerService service = new HATimerService();
-		SingletonService<String> singleton = new SingletonService<String>(service, HATimerService.SINGLETON_SERVICE_NAME);
-		// if there is a node where the Singleton should deployed the election policy might set,
-		// otherwise the JGroups coordinator will start it
-		//singleton.setElectionPolicy(new PreferredSingletonElectionPolicy(new NamePreference("node2/cluster"), new SimpleSingletonElectionPolicy()));
-		ServiceController<String> controller = singleton.build(CurrentServiceContainer.getServiceContainer())
-				.addDependency(ServerEnvironmentService.SERVICE_NAME, ServerEnvironment.class, service.env)
-				.install();
+        HATimerService service = new HATimerService();
+        SingletonService<String> singleton = new SingletonService<String>(service, HATimerService.SINGLETON_SERVICE_NAME);
+        /*
+         * We can pass a policy to the singleton, for example to tell JGroups to prefer running the singleton on a node with a
+         * particular name
+         */
+        // singleton.setElectionPolicy(new PreferredSingletonElectionPolicy(new NamePreference("node2/cluster"), new SimpleSingletonElectionPolicy()));
+        ServiceController<String> controller = singleton.build(CurrentServiceContainer.getServiceContainer())
+                .addDependency(ServerEnvironmentService.SERVICE_NAME, ServerEnvironment.class, service.env).install();
 
-		controller.setMode(ServiceController.Mode.ACTIVE);
-		try {
-			wait(controller, EnumSet.of(ServiceController.State.DOWN, ServiceController.State.STARTING), ServiceController.State.UP);
-			LOGGER.info("StartupSingleton has started the Service");
-		} catch (IllegalStateException e) {
-			LOGGER.warn("Singleton Service {} not started, are you sure to start in a cluster (HA) environment?",HATimerService.SINGLETON_SERVICE_NAME);
-		}
-	}
+        controller.setMode(ServiceController.Mode.ACTIVE);
+        try {
+            wait(controller, EnumSet.of(ServiceController.State.DOWN, ServiceController.State.STARTING),
+                    ServiceController.State.UP);
+            LOGGER.info("StartupSingleton has started the Service");
+        } catch (IllegalStateException e) {
+            LOGGER.warn("Singleton Service {} not started, are you sure to start in a cluster (HA) environment?",
+                    HATimerService.SINGLETON_SERVICE_NAME);
+        }
+    }
 
-	/**
-	 * Remove the service during undeploy or shutdown
-	 */
-	@PreDestroy
-	protected void destroy() {
-		LOGGER.info("StartupSingleton will be removed!");
-		ServiceController<?> controller = CurrentServiceContainer.getServiceContainer().getRequiredService(HATimerService.SINGLETON_SERVICE_NAME);
-		controller.setMode(ServiceController.Mode.REMOVE);
-		try {
-			wait(controller, EnumSet.of(ServiceController.State.UP, ServiceController.State.STOPPING, ServiceController.State.DOWN), ServiceController.State.REMOVED);
-		} catch (IllegalStateException e) {
-			LOGGER.warn("Singleton Service {} has not be stopped correctly!",HATimerService.SINGLETON_SERVICE_NAME);
-		}
-	}
+    /**
+     * Remove the service during undeploy or shutdown
+     */
+    @PreDestroy
+    protected void destroy() {
+        LOGGER.info("StartupSingleton will be removed!");
+        ServiceController<?> controller = CurrentServiceContainer.getServiceContainer().getRequiredService(
+                HATimerService.SINGLETON_SERVICE_NAME);
+        controller.setMode(ServiceController.Mode.REMOVE);
+        try {
+            wait(controller,
+                    EnumSet.of(ServiceController.State.UP, ServiceController.State.STOPPING, ServiceController.State.DOWN),
+                    ServiceController.State.REMOVED);
+        } catch (IllegalStateException e) {
+            LOGGER.warn("Singleton Service {} has not be stopped correctly!", HATimerService.SINGLETON_SERVICE_NAME);
+        }
+    }
 
-	private static <T> void wait(ServiceController<T> controller, Collection<ServiceController.State> expectedStates, ServiceController.State targetState) {
-		if (controller.getState() != targetState) {
-			ServiceListener<T> listener = new NotifyingServiceListener<T>();
-			controller.addListener(listener);
-			try {
-				synchronized (controller) {
-					int maxRetry = 2;
-					while (expectedStates.contains(controller.getState()) && maxRetry > 0) {
-						LOGGER.info("Service controller state is {}, waiting for transition to {}", new Object[] {controller.getState(), targetState});
-						controller.wait(5000);
-						maxRetry--;
-					}
-				}
-			} catch (InterruptedException e) {
-				LOGGER.warn("Wait on startup is interrupted!");
-				Thread.currentThread().interrupt();
-			}
-			controller.removeListener(listener);
-			ServiceController.State state = controller.getState();
-			LOGGER.info("Service controller state is now {}",state);
-			if (state != targetState) {
-				throw new IllegalStateException(String.format("Failed to wait for state to transition to %s.  Current state is %s", targetState, state), controller.getStartException());
-			}
-		}
-	}
+    /**
+     * It is not necessary to wait for the service controller. This is only done to be sure that the action is successful and
+     * give hints in this quickstart.
+     * 
+     * @param controller the service controller to wait for
+     * @param expectedStates A list of expected final states of the service controller during transition
+     * @param targetState the expected final state after complete transition
+     */
+    private static <T> void wait(ServiceController<T> controller, Collection<ServiceController.State> expectedStates,
+            ServiceController.State targetState) {
+        if (controller.getState() != targetState) {
+            ServiceListener<T> listener = new NotifyingServiceListener<T>();
+            controller.addListener(listener);
+            try {
+                synchronized (controller) {
+                    int maxRetry = 2;
+                    while (expectedStates.contains(controller.getState()) && maxRetry > 0) {
+                        LOGGER.info("Service controller state is {}, waiting for transition to {}",
+                                new Object[] { controller.getState(), targetState });
+                        controller.wait(5000);
+                        maxRetry--;
+                    }
+                }
+            } catch (InterruptedException e) {
+                LOGGER.warn("Wait on startup is interrupted!");
+                Thread.currentThread().interrupt();
+            }
+            controller.removeListener(listener);
+            ServiceController.State state = controller.getState();
+            LOGGER.info("Service controller state is now {}", state);
+            if (state != targetState) {
+                throw new IllegalStateException(String.format(
+                        "Failed to wait for state to transition to %s.  Current state is %s", targetState, state),
+                        controller.getStartException());
+            }
+        }
+    }
 
-	private static class NotifyingServiceListener<T> extends AbstractServiceListener<T> {
-		@Override
-		public void transition(ServiceController<? extends T> controller, Transition transition) {
-			synchronized (controller) {
-				controller.notify();
-			}
-		}
-	}
+    private static class NotifyingServiceListener<T> extends AbstractServiceListener<T> {
+        @Override
+        public void transition(ServiceController<? extends T> controller, Transition transition) {
+            synchronized (controller) {
+                controller.notify();
+            }
+        }
+    }
 }
