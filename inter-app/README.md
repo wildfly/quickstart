@@ -1,6 +1,9 @@
-Inter-app:  Shows how to communicate between two applications using EJB and CDI 
-======================================================
+Inter-app: Shows how to communicate between two applications using EJB and CDI 
+==============================================================================
 Author: Pete Muir
+Technologies: EJB, CDI, JSF
+Summary: Shows how to communicate between two applications using EJB and CDI
+Level: Advanced
 
 What is it?
 -----------

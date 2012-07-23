@@ -1,6 +1,9 @@
-cluster-ha-singleton:  A SingletonService deployed in a JAR started by SingletonStartup and accessed by an EJB
-======================================================
+cluster-ha-singleton: A SingletonService deployed in a JAR started by SingletonStartup and accessed by an EJB
+=============================================================================================================
 Author: Wolf-Dieter Fink
+Summary: A SingletonService deployed in a JAR started by SingletonStartup and accessed by an EJB
+Technologies: EJB, HASingleton, JNDI
+Level: Advanced
 
 What is it?
 -----------
