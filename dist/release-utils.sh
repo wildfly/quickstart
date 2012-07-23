@@ -14,6 +14,7 @@ DIR=$(cd -P -- "$(dirname -- "$0")" && pwd -P)
 
 ARCHETYPES=("jboss-javaee6-webapp-archetype" "jboss-javaee6-webapp-ear-archetype")
 QUICKSTARTS=("kitchensink" "kitchensink-ear")
+VERSIONS_MAVEN_PLUGIN_VERSION=1.3.1
 
 # SCRIPT
 
@@ -51,9 +52,18 @@ EOF
 
 update()
 {
-cd $DIR/../
-echo "Updating versions from $OLDVERSION TO $NEWVERSION for all Java and XML files under $PWD"
-perl -pi -e "s/${OLDVERSION}/${NEWVERSION}/g" `find . -name \*.xml -or -name \*.java`
+    cd $DIR/../
+    echo "Updating versions from $OLDVERSION TO $NEWVERSION for all Java files under $PWD"
+    perl -pi -e "s/${OLDVERSION}/${NEWVERSION}/g" `find . -name \*.java`
+
+    echo "Performing updates to POMs"
+    poms=`find . -type f -iname "pom.xml" -maxdepth 2 | sort`
+    for pom in $poms
+    do
+        echo "Updating ${pom}"
+        mvn org.codehaus.mojo:versions-maven-plugin:${VERSIONS_MAVEN_PLUGIN_VERSION}:set -DnewVersion=${NEWVERSION} -f ${pom} -q
+        mvn org.codehaus.mojo:versions-maven-plugin:${VERSIONS_MAVEN_PLUGIN_VERSION}:commit -f ${pom} -q
+    done
 }
 
 markdown_to_html()
