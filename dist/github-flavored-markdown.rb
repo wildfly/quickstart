@@ -14,13 +14,20 @@ class HTMLWithPygmentsAndPants < Redcarpet::Render::HTML
   end
 end
 
-def findMarkdownTag(p, tag)
+def find(p, tag)
   if p.text
     r = p.text[/^(#{tag}: )(.+)$/, 2]
     if r
-      p.remove
-      return r.split(',').sort
+      p['id'] = 'metadata'
+      return r 
     end
+  end
+end
+
+def find_split(p, tag)
+  s = find(p, tag)
+  if s
+    return s.split(',').sort 
   end
 end
 
@@ -31,23 +38,23 @@ def metadata(source_path, html)
   # Look for a paragraph that contains tags, which we define by convention
   page_content = Nokogiri::HTML(html)
   technologies = []
-  level = []
+  level = "" 
   prerequisites = []
-  summary = []
+  summary = ""
   page_content.css('p').each do |p|
-    t = findMarkdownTag(p, 'Technologies')
+    t = find_split(p, 'Technologies')
     if t
       technologies = t
     end
-    l = findMarkdownTag(p, 'Level')
+    l = find(p, 'Level')
     if l
       level = l
     end
-    pr = findMarkdownTag(p, 'Prerequisites')
+    pr = find_split(p, 'Prerequisites')
     if pr
       prerequisites = pr
     end
-    s = findMarkdownTag(p, 'Summary')
+    s = find(p, 'Summary')
     if s
       summary = s
     end
@@ -56,7 +63,7 @@ def metadata(source_path, html)
   dir = source_path[/([^\/]+)\/([^\/]+).md$/, 1]
   filename = source_path[/([^\/]+)\/([^\/]+).md$/, 2]
   if dir
-    output = "<tr><td align='left'><a href='#{dir}/#{filename}.md' title='#{dir}'>#{dir}</td><td align='left'>#{' '.concat(technologies.map{|u| u} * ', ')}</td><td align='left'>>#{' '.concat(summary.map{|u| u} * ', ')}</td><td align='left'>#{' '.concat(level.map{|u| u} * ', ')}</td><td align='left'>#{' '.concat(prerequisites.map{|u| u} * ', ')}</td></tr>"
+    output = "<tr><td align='left'><a href='#{dir}/#{filename}.md' title='#{dir}'>#{dir}</td><td align='left'>#{' '.concat(technologies.map{|u| u} * ', ')}</td><td align='left'>#{summary}</td><td align='left'>#{level}</td><td align='left'>#{' '.concat(prerequisites.map{|u| u} * ', ')}</td></tr>"
     FileUtils.mkdir_p(File.dirname(toc_file))
     File.open(toc_file, 'a').write(output)
   end
