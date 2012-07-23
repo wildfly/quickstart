@@ -10,7 +10,7 @@ What is it?
 
 This example demonstrates the use of *CDI 1.0* and *Servlet 3* in *JBoss Enterprise Application Platform 6* or *JBoss AS 7*.
 
-There is a tutorial for this quickstart in the [Getting Started Developing Applications Guide](https://docs.jboss.org/author/display/AS71/Getting+Started+Developing+Applications+Guide "Getting Started Developing Applications Guide").
+There is a tutorial for this quickstart in the [Getting Started Developing Applications Guide](http://www.jboss.org/jdf/quickstarts/jboss-as-quickstart/guide/HelloworldQuickstart).
 
 System requirements
 -------------------

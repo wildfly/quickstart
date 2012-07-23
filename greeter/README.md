@@ -22,7 +22,7 @@ To test this example:
 
 
 
-There is a tutorial for this quickstart in the [Getting Started Developing Applications Guide](https://docs.jboss.org/author/display/AS71/Getting+Started+Developing+Applications+Guide "Getting Started Developing Applications Guide").
+There is a tutorial for this quickstart in the [Getting Started Developing Applications Guide](http://www.jboss.org/jdf/stage/quickstarts/jboss-as-quickstart/guide/GreeterQuickstart/).
 
 System requirements
 -------------------

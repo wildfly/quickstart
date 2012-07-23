@@ -93,7 +93,7 @@ If you want to debug the source code or look at the Javadocs of any library in t
     mvn dependency:resolve -Dclassifier=javadoc
 
 You can also start JBoss AS 7 and deploy the project using Eclipse. See the JBoss AS 7
-<a href="https://docs.jboss.org/author/display/AS71/Getting+Started+Developing+Applications+Guide" title="Getting Started Developing Applications Guide">Getting Started Developing Applications Guide</a> 
+[Getting Started Developing Applications Guide](http://www.jboss.org/jdf/quickstarts/jboss-as-quickstart/guide/GettingStarted/#_starting_the_jboss_server_from_jbds_or_eclipse_with_jboss_tools) 
 for more information.
 
 Build and Deploy the Quickstart - to OpenShift
