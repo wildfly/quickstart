@@ -5,19 +5,41 @@ anchor:Archetype-[]
 
 What we didn't tell you about the kitchensink quickstart is that it is generated from a Maven archetype. Using this archetype offers you the perfect opportunity to generate your own project. 
 
-[TIP]
-.Watch and learn
-========================================================================
-If you prefer to watch and learn, then check out 
-http://www.vimeo.com/26074724
-========================================================================
+You can create a project from the archetype using JBoss Developer Studio, or Eclipse with JBoss Tools. First, open up _JBoss Central_, if it isn't already open. Hit _Cmd-3_ (Mac) or _Ctrl-3_ (Windows, Linux) and type _JBoss Central_:
+
+image:gfx/Eclipse_JBoss_Central_1.png[]
+
+You will now be shown _JBoss Central_, an excellent place to find about all things JBoss!
+
+image:gfx/Eclipse_JBoss_Central_2.png[]
+
+To create a new project, based on the kitchensink quickstart, click on _Create Projects | Java EE Web Project_:
+
+image:gfx/Eclipse_JavaEEWebProject_1.png[]
+
+JBoss Developer Studio will then check that you have the necessary pre-requisites to create the project. If you are using JBoss Developer Studio, then you should, otherwise, JBoss Tools will help you install the necessary pre-requisites. See link:http://jboss.org/tools[JBoss Tools] for more information.
+
+Hit _Next >_. On the next screen you can enter a project name, package for sample code, and finally select a target runtime:
+
+image:gfx/Eclipse_JavaEEWebProject_2.png[]
+
+Finally, hit _Finish_. You'll be presented with the _New Project Example_ dialog, in which you can simply hit _Finish_:
+
+image:gfx/Eclipse_JavaEEWebProject_3.png[]
+
+You should now have a brand new project:
+
+image:gfx/Eclipse_JavaEEWebProject_4.png[]
+
+Enjoy!
+
 
 To use the archetype to generate a new project, you should run:
 
     mvn archetype:generate \
         -DarchetypeArtifactId=jboss-javaee6-webapp-archetype \
         -DarchetypeGroupId=org.jboss.spec.archetypes \
-        -DarchetypeVersion=7.0.2.CR2 \
+        -DarchetypeVersion=7.1.1.CR2 \
 
 Maven will download the archetype and it's dependencies, and ask you some questions:
 
@@ -25,7 +47,7 @@ Maven will download the archetype and it's dependencies, and ask you some questi
 $ > mvn archetype:generate \
         -DarchetypeArtifactId=jboss-javaee6-webapp-archetype \
         -DarchetypeGroupId=org.jboss.spec.archetypes \
-        -DarchetypeVersion=7.0.2.CR2
+        -DarchetypeVersion=7.1.1.CR2
 [INFO] Scanning for projects...
 [INFO]
 [INFO] ------------------------------------------------------------------------
@@ -69,7 +91,7 @@ And that's it, you now have a brand new project with the same functionality as `
 ========================================================================
 The archetype contains some sample code to get you started. If you
 would prefer a blank canvas, with only a project skeleton, then use
-`jboss-javaee6-webapp-archetype-blank` as your archetype id.
+`jboss-javaee6-webapp-blank-archetype` as your archetype id.
 ========================================================================
 
 [IMPORTANT]
@@ -80,34 +102,7 @@ EJBs in your WAR, meaning you won't need an EAR until you need to divide
 your code into modules. If you would like to create an EAR based project
 then use `jboss-javaee6-webapp-ear-archetype`
 as your archetype id (or if you want a blank EAR, then
-`jboss-javaee6-webapp-ear-archetype-blank`).
+`jboss-javaee6-webapp-ear-blank-archetype`).
 ========================================================================
 
-Of course, you can create a project from the archetype using Eclipse, saving you the step of importing it. First, choose File -&gt; New -&gt; Other : 
-
-image:gfx/Eclipse_Archetype_1.jpg[]
-
-Select the Maven Project wizard: 
-
-image:gfx/Eclipse_Archetype_2.jpg[]
-
-If you wish, customize the project creation, otherwise, just hit _Next >_:
-
-image:gfx/Eclipse_Archetype_3.jpg[]
-
-Locate the `jboss-javaee6-webapp-archetype` archetype: 
-
-image:gfx/Eclipse_Archetype_4.jpg[]
-
-Now hit Ok.
-
-Next, fill in the `groupId` and `artifactId`, and hit _Finish_:
-
-image:gfx/Eclipse_Archetype_5.jpg[]
-
-You should now have a brand new project:
-
-image:gfx/Eclipse_Archetype_6.jpg[]
-
-Enjoy!
 
