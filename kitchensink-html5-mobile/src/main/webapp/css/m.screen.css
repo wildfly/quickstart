@@ -143,22 +143,31 @@ a {
 }
 
 /* Member table styles */
-#mem_tbl {
-   width: 100%;
-   margin-bottom: 20px;
-}
-
-#mem_tbl td,
-#mem_tbl th {
-   height: 2em;
-   padding: 6px;
-   font-size: 11px;
-   border-bottom: #777 dotted 1px;
-   vertical-align: middle;
-}
-
-#mem_tbl tfoot td {
+#members .row .col .head {
+    float: left;
+    width: 70px;
     border: none;
+    padding: 4px 5px;
+}
+
+#members .row .col {
+    width: 100%;
+    float: left;
+    clear: left;
+    background-color: #fff;
+    border: 1px dotted #ccc;
+}
+
+#members .row .col .data {
+    padding: 4px 4px 4px 94px;
+}
+
+#members .col:nth-child(5) {
+    margin-bottom: 20px;
+}
+
+#member-art {
+    padding-top: 30px!important;
 }
 
 #member-art .ui-content .ui-btn {
@@ -170,71 +179,7 @@ a {
     display: none;
 }
 
-/*responsive design for tables*/
-@media only screen and (max-width: 640px) {
-
-    #members tr {
-        background: #ffffff;
-        border-top: #777 dotted 1px;
-    }
-
-    #mem_tbl {
-        display: block;
-        position: relative;
-        width: 100%;
-    }
-
-    #mem_tbl thead {
-        display: none;
-    }
-
-    #mem_tbl tbody {
-        display: block;
-        width: auto;
-        position: relative;
-        overflow-x: auto;
-        white-space: nowrap;
-    }
-
-    #mem_tbl tbody tr {
-        display: block;
-        clear: none;
-        margin-bottom: 10px;
-        width: 100%;
-    }
-
-    #mem_tbl tbody tr.columnNames {
-        width: auto;
-        float: left;
-        font-weight: bold;
-        color: #fff;
-        text-align: left;
-        clear: both;
-        margin-right: 10px;
-    }
-
-    #mem_tbl tbody tr.columnNames td {
-        display: block;
-        height: 2em;
-        padding: 6px;
-        font-size: 11px;
-        border-bottom: #777 dotted 1px;
-        background-color: #000;
-    }
-
-    #mem_tbl td {
-        display: block;
-        min-height: 1.25em;
-    }
-
-    #mem_tbl tfoot {
-        position: absolute;
-        bottom: -15px;
-        left: 60px;
-    }
-}
-
 /* Hide Desktop Items */
-section > h1, article > h2, aside > h3, footer, #mem_tbl .ui-btn, .highlights, .logo, .dualbrand {
+section > h1, article > h2, aside > h3, footer, .member-foot .ui-btn, .highlights, .logo, .dualbrand {
 	display: none;
 }
