@@ -5,16 +5,14 @@ Author: Wolf-Dieter Fink
 What is it?
 -----------
 
-This is an example to demonstrate the behaviour of asynchronous EJB invocations.
-The methods are invoked by an other EJB inside the server and by a remote client.
-Also an example is included that shows the error handling if the asynchronous method fails.
+This is a quickstart to demonstrate the behavior of asynchronous EJB invocations. The methods are invoked by both an EJB in the deployment and by a remote client. The quickstart also shows error handling if the asynchronous method invocation fails.
 
-The example is composed of 2 maven projects, each with a shared parent. The projects are as follows:
+The example is composed of 2 maven modules, each with a shared parent. The modules are as follows:
 
-1. `ejb`: This project contains the EJB's and will be deployed to the server
-2. `client` : This project contains a remote ejb client to show the behaviour
+1. `ejb`: This module contains the EJB's and will be deployed to the server
+2. `client` : This module contains a remote ejb client
 
-The root `pom.xml` builds each of the subprojects in the above order and deploys the archive to the server.
+The root `pom.xml` builds each of the submodules in the above order and deploys the archive to the server.
 
 
 System requirements
@@ -43,8 +41,6 @@ Start a server instance
 Build and Deploy the Quickstart
 -------------------------
 
-If the quickstart is built and deployed using the standard Maven commands, "mvn clean install" and "mvn jboss-as:deploy", copy the following:
-
 _NOTE: The following build command assumes you have configured your Maven user settings. If you have not, you must include Maven setting arguments on the command line. See [Build and Deploy the Quickstarts](../README.md#buildanddeploy) for complete instructions and additional options._
 
 1. Make sure you have started the JBoss Server as described above.
@@ -63,19 +59,19 @@ Access the application
 2. Type this command to start the client
         cd client
         mvn exec:exec
-3. check the client output
-       INFO: See server log around [a date] whether the call finished
-       INFO: Get the async result as expected => returning at [a date] duration was 200ms
-       INFO: Get the async result as expected after wait => returning at [a date] duration was 1500ms
-       INFO: Results of the parallel (server) processing : [returning at [a date] duration was 5000ms, returning at [a date] duration was 3000ms]
-       INFO: Catch the expected Exception of the asynchronous execution!
-4. check the server log
-       There should be two INFO log messages for the 'fireAndForget' invocation:
+3. Check the client output
+        INFO: The server log should contain a message at (about) <date>, indicating that the call to the asynchronous bean completed.
+        INFO: Got the async result as expected => returning at <date>, duration was 200ms
+        INFO: Got the async result as expected after wait => returning at <date>, duration was 1500ms
+        INFO: Catch the expected Exception of the asynchronous execution!
+        INFO: Results of the parallel (server) processing : [returning at <date> duration was 5000ms, returning at <date>, duration was 3000ms]
+
+4. Check the server log
+       There should be two INFO log messages for the `fireAndForget` invocation:
           'fireAndForget' Will wait for 15000ms
        and 15sec later (the client should be finished at this time)
           action 'fireAndForget' finished
-_NOTE: In AS7.1.1.Final there is a bug that an ERROR will be logged that the result can not be written, it will be solved in a later version._
-
+_NOTE: In AS7.1.1.Final there is a bug that an ERROR will be logged that the result can not be written._
 
 
 Undeploy the Archive

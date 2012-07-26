@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jboss.as.quickstarts.ejb;
+package org.jboss.as.quickstarts.ejb.asynchronous;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -26,8 +26,6 @@ import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
-import org.jboss.as.quickstarts.ejb.asynchronous.AnotherAsynchronousAccess;
-import org.jboss.as.quickstarts.ejb.asynchronous.AsynchronousAccess;
 
 /**
  * Stateless session bean implementation to demonstrate how to invoke asynchronous methods to parallelize different actions to

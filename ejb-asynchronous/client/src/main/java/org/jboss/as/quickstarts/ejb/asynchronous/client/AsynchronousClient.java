@@ -29,8 +29,8 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
-import org.jboss.as.quickstarts.ejb.ParallelAccess;
 import org.jboss.as.quickstarts.ejb.asynchronous.AsynchronousAccess;
+import org.jboss.as.quickstarts.ejb.asynchronous.ParallelAccess;
 
 /**
  * A client to call the SingletonService via EJB remoting (AS7.1 / EAP6) to demonstrate the behaviour of asynchronous invocations.
@@ -58,10 +58,10 @@ public class AsynchronousClient {
         final Hashtable<String, String> jndiProperties = new Hashtable<String, String>();
         jndiProperties.put(Context.URL_PKG_PREFIXES, "org.jboss.ejb.client.naming");
         final Context context = new InitialContext(jndiProperties);
-        String lookupName = "ejb:/jboss-as-ejb-asynchronous//AsynchronousAccessBean!" + AsynchronousAccess.class.getName();
+        String lookupName = "ejb:/jboss-as-ejb-asynchronous-ejb/AsynchronousAccessBean!" + AsynchronousAccess.class.getName();
         LOGGER.info("Lookup Bean >" + lookupName);
         accessBean = (AsynchronousAccess) context.lookup(lookupName);
-        lookupName = "ejb:/jboss-as-ejb-asynchronous//ParallelAccessBean!" + ParallelAccess.class.getName();
+        lookupName = "ejb:/jboss-as-ejb-asynchronous-ejb/ParallelAccessBean!" + ParallelAccess.class.getName();
         LOGGER.info("Lookup Bean >" + lookupName);
         parallelBean = (ParallelAccess) context.lookup(lookupName);
     }
