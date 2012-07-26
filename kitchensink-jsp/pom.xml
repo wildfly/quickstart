@@ -42,6 +42,14 @@
       <!-- 
       javaee6.with.tools.version>1.0.0.Final-redhat-1</javaee6.with.tools.version> 
       -->
+      <!-- Define the version of JBoss' Java EE 6 APIs and Tools we want 
+          to import. -->
+      <jboss.bom.version>1.0.0.Final</jboss.bom.version>
+      <!-- Alternatively, comment out the above line, and un-comment the 
+          line below to use version 1.0.0.Final-redhat-1 which is a release certified 
+          to work with JBoss EAP 6. It requires you have access to the JBoss EAP 6 
+          maven repository. -->
+      <!-- <jboss.bom.version>1.0.0.Final-redhat-1</jboss.bom.version>> -->
    </properties>
 
    <dependencyManagement>
@@ -59,6 +67,15 @@
             <type>pom</type>
             <scope>import</scope>
          </dependency>
+
+        <dependency>
+            <groupId>org.jboss.bom</groupId>
+            <artifactId>jboss-javaee-6.0-with-hibernate</artifactId>
+            <version>${jboss.bom.version}</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+
       </dependencies>
    </dependencyManagement>
 
@@ -119,8 +136,8 @@
 		<dependency>
 		<groupId>javax.servlet</groupId>
   		<artifactId>jstl</artifactId>
- 		 <version>1.2</version>
- 		 <scope>runtime</scope>
+  		 <version>1.2</version>
+  		 <scope>runtime</scope>
 		</dependency>
 
       <!-- JSR-303 (Bean Validation) Implementation -->
@@ -129,7 +146,6 @@
       <dependency>
          <groupId>org.hibernate</groupId>
          <artifactId>hibernate-validator</artifactId>
-         <version>4.2.0.Final</version>
          <scope>provided</scope>
          <exclusions>
             <exclusion>
