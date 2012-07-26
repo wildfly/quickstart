@@ -7,52 +7,49 @@
 <title>registrationPage.jsp</title>
 </head>
 <body>
-      <h1>Welcome to JBoss!</h1>
+    <h1>Welcome to JBoss!</h1>
 
-      <div>
-         <p>You have successfully deployed a Java EE 6 web application.</p>
-         <h3>Your application can run on:</h3>
-         <img src="resources/gfx/dualbrand_as7eap.png"/>
-      </div>
+    <div>
+        <p>You have successfully deployed a Java EE 6 web
+            application.</p>
+        <h3>Your application can run on:</h3>
+        <img src="resources/gfx/dualbrand_as7eap.png" />
+    </div>
 
-      <form id="reg"  action="register.do" method="POST">
-         <h2>Member Registration (JSP Sample)</h2>
-         <table>
+    <form id="reg" action="register.do" method="POST">
+        <h2>Member Registration</h2>
+        <table>
             <tr>
-               <th style="text-align: right;">
-               <label  for="name">Name:</label>
-               </th>
-               <td><input type="text" id=name name="name" value="${newMember.name}"/>
-               </td>
+                <td style="text-align: right;"><label for="name">Name:</label>
+                </td>
+                <td><input type="text" id=name name="name"
+                    value="${newMember.name}" /></td>
             </tr>
             <tr>
-               <th style="text-align: right;">
-               	<label for="email">Email:</label>
-                </th>
-                
-               <td><input type="text" id="email" name="email" value="${newMember.email}"/> 
-                <!-- <h:message  for="email" errorClass="invalid" />-->
+                <td style="text-align: right;"><label for="email">Email:</label>
+                </td>
+
+                <td><input type="text" id="email" name="email"
+                    value="${newMember.email}" /> <!-- <h:message  for="email" errorClass="invalid" />-->
                 </td>
             </tr>
             <tr>
-               <th style="text-align: right;">
-               <label for="phoneNumber">Phone:</label>
-               </th>
-               <td>
-               <input  id="phoneNumber" name="phoneNumber" type="text" value="${newMember.phoneNumber}"/>
-                </td>
+                <td style="text-align: right;"><label
+                    for="phoneNumber">Phone #:</label></td>
+                <td><input id="phoneNumber" name="phoneNumber"
+                    type="text" value="${newMember.phoneNumber}" /></td>
             </tr>
-         </table>
-         <p>
-            <input id="register" type="submit" value="Register" />
-            <label style="color: green;">${infoMessage}</label>
-            <label style="color: red;">${errorMessage}</label>
-            
-         </p>
-      </form>
-      
-      
-      
+        </table>
+        <p>
+            <input id="register" type="submit" value="Register" /> <label
+                style="color: green;">${infoMessage}</label> <label
+                style="color: red;">${errorMessage}</label>
+
+        </p>
+    </form>
+
+
+
 
 </body>
 </html>

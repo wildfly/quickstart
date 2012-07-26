@@ -11,12 +11,12 @@
 <body>
 
 <h4>Members</h4>
-<table border="1">
+<table class="simpletablestyle">
 <thead>
 <tr>
-<td>Name</td>
-<td>Email</td>
-<td>PhoneNumber</td>
+<th>Name</th>
+<th>Email</th>
+<th>PhoneNumber</th>
 </tr>
 </thead>
 <tbody>
