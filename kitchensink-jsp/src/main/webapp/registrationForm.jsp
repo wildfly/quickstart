@@ -7,14 +7,16 @@
 <title>registrationPage.jsp</title>
 </head>
 <body>
-      <h1>Welcome to JBoss AS 7!</h1>
+      <h1>Welcome to JBoss!</h1>
 
-      <p>You have successfully deployed a Java EE 6 web application
-         on JBoss AS 7.
-      </p>
+      <div>
+         <p>You have successfully deployed a Java EE 6 web application.</p>
+         <h3>Your application can run on:</h3>
+         <img src="resources/gfx/dualbrand_as7eap.png"/>
+      </div>
 
       <form id="reg"  action="register.do" method="POST">
-         <h2>Register (JSP Sample)</h2>
+         <h2>Member Registration (JSP Sample)</h2>
          <table>
             <tr>
                <th style="text-align: right;">
@@ -34,7 +36,7 @@
             </tr>
             <tr>
                <th style="text-align: right;">
-               <label for="phoneNumber">Phone</label>
+               <label for="phoneNumber">Phone:</label>
                </th>
                <td>
                <input  id="phoneNumber" name="phoneNumber" type="text" value="${newMember.phoneNumber}"/>

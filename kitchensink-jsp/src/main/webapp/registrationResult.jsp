@@ -10,8 +10,8 @@
 </head>
 <body>
 
-
-<table>
+<h4>Members</h4>
+<table border="1">
 <thead>
 <tr>
 <td>Name</td>
