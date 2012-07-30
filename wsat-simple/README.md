@@ -144,13 +144,13 @@ If you do not yet have an OpenShift account and domain, [Sign in to OpenShift](h
 
 Note that we use the `jboss-as-quickstart@jboss.org` user for these examples. You need to substitute it with your own user name.
 
-Open up a shell and from the directory of your choice run the following command to create our wsatsimple application.
+Open a shell command prompt and change to a directory of your choice. Enter the following command, replacing APPLICATION_TYPE with `jbosseap-6.0` for quickstarts running on JBoss Enterprise Application Platform 6, or `jbossas-7` for quickstarts running on JBoss AS 7:
 
-        rhc app create -a wsatsimple -t jbossas-7
+    rhc app create -a wsatsimple -t APPLICATION_TYPE
 
 _NOTE_: The domain name for this application will be `wsatsimple-YOUR_DOMAIN_NAME.rhcloud.com`. Here we use the _quickstart_ domain. You will need to replace it with your own OpenShift domain name.
 
-You should see some output which will show the application being deployed and also the URL at which it can be accessed. If creation is successful, you should see similar output:
+This command creates an OpenShift application called `wsatsimple` and will run the application inside the `jbosseap-6.0`  or `jbossas-7` container. You should see some output similar to the following:
 
     Creating application: wsatsimple
     Now your new domain name is being propagated worldwide (this might take a minute)...
@@ -163,7 +163,7 @@ You should see some output which will show the application being deployed and al
 
 ### Migrate the Quickstart Source
 
-Now that you have confirmed it is working you can now migrate the quickstart source. You no longer need the default application so change directory into the new git repo and tell git to remove the source files and pom:
+Now that you have confirmed it is working you can migrate the quickstart source. You do not need the generated default application, so navigate to the new git repository directory and tell git to remove the source and pom files:
 
         cd wsatsimple
         git rm -r src pom.xml
@@ -173,20 +173,23 @@ Copy the source for the wsat-simple quickstart into this new git repo:
         cp -r <quickstarts>/wsat-simple/src .
         cp <quickstarts>/wsat-simple/pom.xml .
 
-Openshift does not have Web services or WS-AT enabled by default, so we need to modify the server configuration. To do this open `.openshift/config/standalone.xml` in your
-favorite editor and make the following additions:
+### Configure the OpenShift Server
 
-Add the following extensions to the `<extensions>` block:
+Openshift does not have Web services or WS-AT enabled by default, so we need to modify the server configuration. To do this open `.openshift/config/standalone.xml` (this file may be hidden) in an editor and make the following additions:
+
+1. If the following extensions do not exist, add them under the `<extensions>` element: 
 
         <extension module="org.jboss.as.webservices"/>
         <extension module="org.jboss.as.xts"/>
 
-Add the following sub systems to the `<profile>` block:
+2. If the jmx subsystem is not configured under the `<profile>` element, copy the following under the `<profile>` element to enable and configure JMX:
 
         <subsystem xmlns="urn:jboss:domain:jmx:1.1">
             <show-model value="true"/>
             <remoting-connector/>
         </subsystem>
+3. If the webservices subsystem is not configured under the `<profile>` element, copy the following under the `<profile>` element to enable and configure Web Services:
+        
         <subsystem xmlns="urn:jboss:domain:webservices:1.1">
             <modify-wsdl-address>true</modify-wsdl-address>
             <wsdl-host>${env.OPENSHIFT_APP_DNS}</wsdl-host>
@@ -201,15 +204,15 @@ Add the following sub systems to the `<profile>` block:
         <subsystem xmlns="urn:jboss:domain:xts:1.0">
             <xts-environment url="http://${OPENSHIFT_INTERNAL_IP}:8080/ws-c11/ActivationService"/>
         </subsystem>
-    
-to reduce the amount of logging produced, also edit a log level. This should make it easier to read the logging produced by this example. To do this add the
-following logger block just bellow one of the other logger blocks. To be clear, this is only done to make the demo easier to follow.
+4. To reduce the amount of logging and make it easier to read the logs produced by this quickstart, edit the log level by adding the following block just below the other blocks:
 
         <logger category="org.apache.cxf.service.factory.ReflectionServiceFactoryBean">
             <level name="WARN"/>
         </logger>
 
 The `.openshift/config/standalone.xml` is now ready, so save it and exit your editor.
+
+### Deploy the OpenShift Application
 
 You can now deploy the changes to your OpenShift application using git as follows:
 
@@ -236,14 +239,15 @@ OpenShift will build the application using Maven, and deploy it to JBoss AS 7. I
     To ssh://1e63c17c2dd94a329f21555a33dc617d@wsatsimple-quickstart.rhcloud.com/~/git/wsatsimple.git/
        e6f80bd..63504b9  master -> master
 
-Note that the `openshift` profile in `pom.xml` is activated by OpenShift, and causes the WAR build by OpenShift to be copied to the `deployments` directory, and deployed without a context path.
+Note that the `openshift` profile in the `pom.xml` file is activated by OpenShift. This causes the WAR built by OpenShift to be copied to the `deployments` directory and deployed without a context path.
 
-Now we will start to tail the log files of the server. To do this run the following command, remembering to replace the application name and login id.
+### Test the OpenShift Application
+
+Now you will start to tail the log files of the server. To do this run the following command, remembering to replace the application name and login id.
 
         rhc app tail -a wsatsimple
 
-Once the app is deployed open up a browser and run the application, the URL will be similar as follows but with your own
-domain name.
+Once the app is deployed, you can test the application by accessing the following URL either via a browser or using tools such as curl or wget. Be sure to replace the `quickstart` in the URL with your domain name.
 
     http://wsatsimple-quickstart.rhcloud.com/WSATSimpleServletClient
 
@@ -257,3 +261,11 @@ When you are finished with the application you can destroy it as follows:
 
         rhc app destroy -a wsatsimple
 
+To view the list of your current OpenShift applications, type:
+
+        rhc domain
+
+_Note_: There is a limit to the number of applications you can deploy concurrently to OpenShift. If the `rhc app create` command returns an error indicating you have reached that limit, you must destroy an existing application before you continue. 
+
+* To view the list of your OpenShift applications, type: `rhc domain show`
+* To destroy an existing application, type the following, substituting the application name you want to destroy: `rhc app destroy -a APPLICATION_NAME_TO_DESTROY`

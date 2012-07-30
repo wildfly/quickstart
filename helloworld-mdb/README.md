@@ -92,9 +92,6 @@ If you want to debug the source code or look at the Javadocs of any library in t
     mvn dependency:sources
     mvn dependency:resolve -Dclassifier=javadoc
 
-You can also start JBoss AS 7 and deploy the project using Eclipse. See the JBoss AS 7
-[Getting Started Developing Applications Guide](http://www.jboss.org/jdf/quickstarts/jboss-as-quickstart/guide/GettingStarted/#_starting_the_jboss_server_from_jbds_or_eclipse_with_jboss_tools) 
-for more information.
 
 Build and Deploy the Quickstart - to OpenShift
 -------------------------
@@ -105,13 +102,13 @@ If you do not yet have an OpenShift account and domain, [Sign in to OpenShift](h
 
 ### Create the OpenShift Application
 
-Open a shell command prompt and change to a directory of your choice. Enter the following command:
+Open a shell command prompt and change to a directory of your choice. Enter the following command, replacing APPLICATION_TYPE with `jbosseap-6.0` for quickstarts running on JBoss Enterprise Application Platform 6, or `jbossas-7` for quickstarts running on JBoss AS 7:
 
-    rhc app create -a hellworldmdb -t jbossas-7
+    rhc app create -a hellworldmdb -t APPLICATION_TYPE
 
-_NOTE_: The domain name for this application will be `helloworldmdb-YOUR_DOMAIN_NAME.rhcloud.com`. Here we use the _quickstart_ domain. You will need to replace it with your own OpenShift domain name.
+The domain name for this application will be `helloworldmdb-YOUR_DOMAIN_NAME.rhcloud.com`. Here we use the _quickstart_ domain. You will need to replace it with your own OpenShift domain name.
 
-This command creates an OpenShift application with the name you entered above and will run the application inside a `jbossas-7` container. You should see some output similar to the following:
+This command creates an OpenShift application called `helloworldmdb` and will run the application inside the `jbosseap-6.0`  or `jbossas-7` container. You should see some output similar to the following:
 
     Creating application: helloworldmdb
     Now your new domain name is being propagated worldwide (this might take a minute)...
@@ -122,29 +119,35 @@ This command creates an OpenShift application with the name you entered above an
     git url:  ssh://b92047bdc05e46c980cc3501c3577c1e@helloworldmdb-quickstart.rhcloud.com/~/git/helloworldmdb.git/
     Successfully created application: helloworldmdb
 
-The create command creates a git repository in the current directory with the same name as the application. Notice that the output also reports the URL at which the application can be accessed. Make sure it is available by typing the published url <http://helloworldmdb-quickstart.rhcloud.com/> into a browser or use command line tools such as curl or wget.
+The create command creates a git repository in the current directory with the same name as the application. Notice that the output also reports the URL at which the application can be accessed. Make sure it is available by typing the published url <http://helloworldmdb-quickstart.rhcloud.com/> into a browser or use command line tools such as curl or wget. Be sure to replace the `quickstart` in the URL with your domain name.
+        
 
 ### Migrate the Quickstart Source
 
-Now that you have confirmed it is working you can now migrate the quickstart source. You no longer need the default application so change directory into the new git repository and tell git to remove the source files and pom:
+Now that you have confirmed it is working you can migrate the quickstart source. You do not need the generated default application, so navigate to the new git repository directory and tell git to remove the source and pom files:
 
     cd helloworldmdb
     git rm -r src pom.xml
 
-Copy the source for the this quickstart into this new git repository:
+Copy the source for the `helloworld-mdb` quickstart into this new git repository:
 
     cp -r QUICKSTART_HOME/helloworld-mdb/src .
     cp QUICKSTART_HOME/helloworld-mdb/pom.xml .
     
-Now we need enable HornetQ, JBoss AS' messaging provider.
+### Configure the OpenShift Server
 
-First, add the the messaging extension. Under `<extensions>`, add:
+Next, you must enable HornetQ messaging provider. Open the `.openshift/config/standalone.xml` file (this file may be hidden) in an editor and make the following changes:
+
+1. If the following extension does not exist, add it under the `<extensions>` element:
 
         <extension module="org.jboss.as.messaging"/>
+2. If the following `<mdb>` elements are commented out or missing from the the `ejb3` subsytem, un-comment or add them:
 
-Now, enable MDBs. In the `ejb3` subsytem, un-comment the `mdb` elements.
-
-Finally, we need to enable and configure HorentQ. Add this subsystem to `.openshift/config/standalone.xml` under the `<profile>` element:
+        <mdb>
+            <resource-adapter-ref resource-adapter-name="hornetq-ra" />
+            <bean-instance-pool-ref pool-name="mdb-strict-max-pool" />
+        </mdb>
+3. If the messaging subsystem is not already configured under the `<profile>` element, copy the following under the `<profile>` element to enable and configure HornetQ:
 
         <subsystem xmlns='urn:jboss:domain:messaging:1.1'>
             <hornetq-server>
@@ -199,6 +202,7 @@ Finally, we need to enable and configure HorentQ. Add this subsystem to `.opensh
             </hornetq-server>
         </subsystem>
 
+### Deploy the OpenShift Application
 
 You can now deploy the changes to your OpenShift application using git as follows:
 
@@ -208,9 +212,11 @@ You can now deploy the changes to your OpenShift application using git as follow
 
 The final push command triggers the OpenShift infrastructure to build and deploy the changes. 
 
-Note that the `openshift` profile in `pom.xml` is activated by OpenShift, and causes the war build by openshift to be copied to the `deployments` directory, and deployed without a context path.
+Note that the `openshift` profile in the `pom.xml` file is activated by OpenShift. This causes the WAR built by OpenShift to be copied to the `deployments` directory and deployed without a context path.
 
-When the push command returns you can retest the application by getting the following URLs either via a browser or using tools such as curl or wget:
+### Test the OpenShift Application
+
+When the push command returns you can test the application by getting the following URL either via a browser or using tools such as curl or wget. Be sure to replace the `quickstart` in the URL with your domain name.
 
 * <http://helloworldmdb-quickstart.rhcloud.com/> 
 
@@ -236,4 +242,8 @@ You can use the OpenShift command line tools or the OpenShift web console to dis
 When you are finished with the application you can destroy it as follows:
 
         rhc app destroy -a helloworldmdb
+        
+_Note_: There is a limit to the number of applications you can deploy concurrently to OpenShift. If the `rhc app create` command returns an error indicating you have reached that limit, you must destroy an existing application before you continue. 
 
+* To view the list of your OpenShift applications, type: `rhc domain show`
+* To destroy an application, type the following, substituting the application name you want to destroy: `rhc app destroy -a APPLICATION_NAME_TO_DESTROY`

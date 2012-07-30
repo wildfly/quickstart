@@ -246,18 +246,18 @@ You can run these tests using either a remote or managed container. The quicksta
     * Find the "jbossHome" property and replace the "/path/to/jboss/as" value with the actual path to your JBoss Enterprise Application Platform 6 or JBoss AS 7 server.
     * Run the test goal with the following profile activated:
 
-        For JBoss AS 7 or JBoss Enterprise Application Platform 6 (Maven user settings configured): 
-
-            mvn clean test -Parq-jbossas-managed
-
         For JBoss Enterprise Application Platform 6 (Maven user settings NOT configured): 
 
             mvn clean test -Parq-jbossas-managed  -s PATH_TO_QUICKSTARTS/example-settings.xml
 
+        For JBoss AS 7 or JBoss Enterprise Application Platform 6 (Maven user settings configured): 
+
+            mvn clean test -Parq-jbossas-managed
+
 <a id="useeclipse"></a>
 Use JBoss Developer Studio or Eclipse to Run the Quickstarts
 -------------------------------------
-You can also deploy the quickstarts from Eclipse using JBoss tools. For more information on how to set up Maven and the JBoss tools, refer to the [JBoss Enterprise Application Platform 6 Development Guide](http://docs.redhat.com/docs/en-US/JBoss_Enterprise_Application_Platform/6/html/Development_Guide/index.html) or [Get Started Developing Applications](http://www.jboss.org/jdf/quickstarts/jboss-as-quickstart/guide/Introduction/ "Get Started Developing Applications").
+You can also deploy the quickstarts from Eclipse using JBoss tools. For more information on how to set up Maven and the JBoss tools, refer to the [JBoss Enterprise Application Platform 6 Development Guide](https://access.redhat.com/knowledge/docs/JBoss_Enterprise_Application_Platform/) or [Get Started Developing Applications](http://www.jboss.org/jdf/quickstarts/jboss-as-quickstart/guide/Introduction/ "Get Started Developing Applications").
 
 
 <a id="optionalcomponents"></a>
