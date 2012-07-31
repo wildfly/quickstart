@@ -1,98 +1,128 @@
 <html>
-   <head>
-      <title>jboss-as-logging-tools Quick Start</title>
+    <head><title>jboss-as-logging-tools Quick Start</title></head>
+    
+    <body>
 
-      <body>
-      
-         <h1>logging-tools Quick Start</h1>
-         <h2>Internationalization and Localisation with JBoss Logging Tools</h2>
+    	<h1>logging-tools Quick Start</h1>
+    	<h2>Internationalization and Localisation with JBoss Logging Tools</h2>
 
-         <p>
-         This quick start demonstrates the use of JBoss Logging Tools to create internationalized loggers,
-         exceptions, and generic messages; and then provide localizations for them. This is done using a
-         simple JAX-RS service. Translations in French(fr-FR), German(de-DE), and Swedish (sv-SE) are provided
-         courtesy of <a href="http://translate.google.com">http://translate.google.com</a> for demonstration.
-         My apologies if they are less than ideal translations.
-         </p>
-         
-         <p>
-         The different methods of the JAX-RS service can be access using the URLs below:
-         </p>
-         <ul>
-            <li>
-         <code>rest/greetings/<b>name</b></code>
-               <p>Example: <a href="rest/greetings/Harold">rest/greetings/Harold</a></p>
+    	<p>
+    	This quick start demonstrates the use of JBoss Logging Tools to create internationalized loggers,
+        exceptions, and generic messages; and then provide localizations for them. This is done using a simple
+        JAX-RS service. Translations in French(fr-FR), German(de-DE), and Swedish (sv-SE) are provided
+        courtesy of <a href="http://translate.google.com">http://translate.google.com</a> for demonstration.
+        My apologies if they are less than ideal translations.
+    	</p>
 
-         <p>Simple use of localized messages (with parameter) and logging.</p>
-         <ul>
-            <li>Returns a localized "hello `name`" string where `name` is the last component of the URL.</li>
-            <li>Logs a localized "Hello message sent"</li>
-         </ul>
-		<br/>
-         </li>
-         
-         <li>
-            <code>rest/greetings/<b>locale</b>/<b>name</b></code>
-                     <p>Example: <a href="rest/greetings/fr-FR/Harold">rest/greetings/fr-FR/Harold</a></p>
-            
-            <p>
-            Demonstrates how to obtain a message bundle for a specified locale and how to throw a localized
-            exceptions. Note that the localized exception is a wrapper around    
-            <code>WebApplicationException</code>.
-            <ul>
-            <li>Returns a localized "hello `name`" string where `name` is the last component of the URL and
-            the locale used is the one supplied in the `locale` URL.</li>
-            <li>Logs a localized "Hello message sent in `locale`" message using the JVM locale for the
-            translation.</li>
-            <li>If the supplied locale is invalid (in this case if it contains more than 3 components, eg.
-            <code>fr-FR-POSIX-FOO</code>) it throws a <code>WebApplicationException</code> (404) using a
-            localizable sub-class of <code>WebApplicationException</code> </li>
-         </ul>
+    	<p>
+    	The different methods of the JAX-RS service can be access using the URLs below:
+    	</p>
+	
+    	<ul>
+    		<li>
+    			<code>rest/greetings/<b>name</b></code>
+    			<p>
+    			Example: <a href="rest/greetings/Harold">rest/greetings/Harold</a>
+    			</p>
+    			<p>
+    			Simple use of localized messages (with parameter) and logging.
+    			</p>
+    			<ul>
+    				<li>
+    				Returns a localized "hello `name`" string where `name` is the last component of the URL.
+    				</li>
+    				<li>
+    				Logs a localized "Hello message sent".
+    				</li>
+    			</ul> 
+    			<br />
+    		</li>
+    		<li>
+    			<code>rest/greetings/<b>locale</b>/<b>name</b></code>
+    			<p>
+    			Example: <a href="rest/greetings/fr-FR/Harold">rest/greetings/fr-FR/Harold</a>
+    			</p>
+    			<p>
+    			Demonstrates how to obtain a message bundle for a specified locale and how to throw a
+                localized exceptions. Note that the localized exception is a wrapper around
+                <code>WebApplicationException</code>.
+                </p>
+    			<ul>
+    				<li>
+    				Returns a localized "hello `name`" string where `name` is the last component of the URL
+                    and the locale used is the one supplied in the `locale` URL.
+                    </li>
+    				<li>
+    				Logs a localized "Hello message sent in `locale`" message using the JVM locale for the
+                    translation.
+                    </li>
+    				<li>
+    				If the supplied locale is invalid (in this case if it contains more than 3 components, eg.
+                    <code>fr-FR-POSIX-FOO</code>) it throws a <code>WebApplicationException</code> (404) using
+                    a localizable sub-class of <code>WebApplicationException</code>.
+                    </li>
+    			</ul>
+    			<p>
+                Note that <code>WebApplicationException</code> cannot be directly localized by JBoss Logging
+                Tools using the <code>@Message</code> annotation due to the message parameter being ignored by
+                <code>WebApplicationException</code> 's constructors. Cases like this can be worked around by
+                creating a sub-class with a constructor that does deal with the message parameter.
+                </p>
+                <br />
+            </li>
+    		<li>
+    		    <code><a href="rest/greetings/crashme">rest/greetings/crashme</a></code>
+    			<p>
+    			Demonstrates throwing a localized exception with another exception specified as the cause.
+                This is a completely contrived example.
+    			</p>
+    			<ul>
+    				<li>
+    				Attempts divide by zero, catches exception and throws localized one.
+    				</li>
+    			</ul>
+    			<br />
+    		</li>
+    		<li>
+    		    <code>rest/dates/daysuntil/<b>targetdate</b></code>
+    			<p>
+    			Example: <a href="rest/dates/daysuntil/25-12-2012">rest/dates/daysuntil/25-12-2012</a>
+    			</p>
+    			<p>
+    			Demonstrates how to pass parameters through to the constructor of a localized exception, and
+                how to specify an exception as a cause of a log message.
+    			</p>
+    			<ul>
+    				<li>
+    				Attempts to turn the `targetdate` URL component into a date object using the format
+                    `dd-MM-yyyy`.
+    				</li>
+    				<li>
+    				Returns number of days (as an integer) until that date.
+    				</li>
+    				<li>
+    				If the `targetdate` is invalid:
+    				<ul>
+    				    <li>
+    				    Catches the `ParseException`.
+    				    </li>
+    					<li>
+    					Creates a localized `ParseException` passing values from the caught exception as
+                        parameters to it's constructor.
+    					</li>
+    					<li>
+    					Logs a localized message with the localized exception as the cause.
+    					</li>
+    					<li>
+    					Throws a `WebApplicationException`(400) with the text from the localized
+                        `ParseException`.
+    					</li>
+    				</ul>
+    			    </li>
+    		    </ul>
+    	    </li>
+    	</ul>
 
-         <p>
-         Note that <code>WebApplicationException</code> cannot be directly localized by JBoss Logging Tools using the <code>@Message</code> annotation due to the message parameter being ignored by <code>WebApplicationException</code>'s constructors. Cases like this can be worked around by creating a sub-class with a constructor that does deal with the message parameter.
-         </p>
-		<br/>
-         </li>
-         <li>
-            <code>rest/greetings/crashme</code>
-            <p>Example: <a href="rest/greetings/crashme">rest/greetings/crashme</a>
-            <p>
-            Demonstrates throwing a localized exception with another exception specified as the cause.  This
-            is a completely contrived example.
-            </p>
-            <ul>
-               <li>Attempts divide by zero, catches exception and throws localized one.</li>
-            </ul>
-			<br/>
-
-            
-         </li>
-         <li>
-            <code>rest/dates/daysuntil/<b>targetdate</b></code>
-            <p>
-            Example: <a href="rest/dates/daysuntil/25-12-2012">rest/dates/daysuntil/25-12-2012</a>
-            </p>
-
-            <p>
-            Demonstrates how to pass parameters through to the constructor of a localized exception, and how
-            to specify an exception as a cause of a log message.
-            </p>
-            <ul>
-               <li>Attempts to turn the `targetdate` URL component into a date object using the format `dd-MM-yyyy`</li>
-               <li>Returns number of days (as an integer) until that date</li>
-               <li>If the `targetdate` is invalid:
-                  <ul>
-                     <li>Catches the `ParseException`</li>
-                     <li>Creates a localized `ParseException` passing values from the caught exception as parameters to it's constructor</li>
-                     <li>Logs a localized message with the localized exception as the cause</li>
-                     <li>Throws a `WebApplicationException`(400) with the text from the localized `ParseException`</li>
-                  </ul>
-                </li>
-            </ul>
-         </li>
-         </ul>
-      
-      </body>
+    </body>
 
 </html>
