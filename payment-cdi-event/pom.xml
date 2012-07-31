@@ -35,8 +35,8 @@
         <!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered 
             resources, i.e. build is platform dependent! -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <!-- Define the version of JBoss' Java EE 6 APIs and Tools we want 
-            to import. -->
+        <!-- Define the version of the JBoss BOMs we want to import. The 
+            JBoss BOMs specify tested stacks. -->
         <jboss.bom.version>1.0.0.Final</jboss.bom.version>
         <!-- Alternatively, comment out the above line, and un-comment the 
             line below to use version 1.0.0.Final-redhat-1 which is a release certified 
@@ -51,10 +51,9 @@
             <!-- JBoss distributes a complete set of Java EE 6 APIs including 
                 a Bill of Materials (BOM). A BOM specifies the versions of a "stack" (or 
                 a collection) of artifacts. We use this here so that we always get the correct 
-                versions of artifacts. Here we use the jboss-javaee-6.0 stack (you can read 
-                this as the JBoss stack of the Java EE 6 APIs). You can actually use this 
-                stack with any version of JBoss AS that implements Java EE 6, not just JBoss 
-                AS 7! -->
+                versions of artifacts. Here we use the jboss-javaee-6.0-with-hibernate stack 
+                (you can read this as the JBoss stack of the Java EE Web Profile 6 APIs with 
+                extras from the Hibernate family of projects) -->
             <dependency>
                 <groupId>org.jboss.spec</groupId>
                 <artifactId>jboss-javaee-6.0</artifactId>
