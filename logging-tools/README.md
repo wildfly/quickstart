@@ -78,6 +78,10 @@ Access the application
 
 The application will be running at the following URLs:
 
+### http://localhost:8080/jboss-as-logging-tools/
+
+A landing page is found here that has a quick reference to the other URLs.
+
 ### http://localhost:8080/jboss-as-logging-tools/rest/greetings/`name`
 
 Demonstrates simple use of localised messages (with parameter) and logging.
