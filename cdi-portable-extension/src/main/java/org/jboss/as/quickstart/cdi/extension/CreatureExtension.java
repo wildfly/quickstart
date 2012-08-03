@@ -37,10 +37,10 @@ import org.xml.sax.SAXException;
  * A simple CDI Portable Extension to "inject" values from XML into the instances of a bean.
  */
 public class CreatureExtension implements Extension {
-    private static Document document;
+    private final Document document;
     private final Logger log = Logger.getLogger(CreatureExtension.class.getName());
 
-    static {
+    public CreatureExtension() {
         try {
             InputStream creatureDefs = CreatureExtension.class.getClassLoader().getResourceAsStream("creatures.xml");
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
