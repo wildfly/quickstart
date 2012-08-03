@@ -35,13 +35,27 @@
         <!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered 
             resources, i.e. build is platform dependent! -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <!-- JBoss dependency versions -->
+        <jboss.as.plugin.version>7.1.1.Final</jboss.as.plugin.version>
+
+        <!-- Other dependency versions -->
+        <osgi.version>4.2.0</osgi.version>
+
+        <!-- other plugin versions -->
+        <apache.felix.plugin.version>2.3.4</apache.felix.plugin.version>
+        <compiler.plugin.version>2.3.1</compiler.plugin.version>
+
+        <!-- maven-compiler-plugin -->
+        <maven.compiler.target>1.6</maven.compiler.target>
+        <maven.compiler.source>1.6</maven.compiler.source>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.osgi</groupId>
             <artifactId>org.osgi.core</artifactId>
-            <version>4.2.0</version>
+            <version>${osgi.version}</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
@@ -53,7 +67,7 @@
                     an OSGi Bundle -->
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
-                <version>2.3.4</version>
+                <version>${apache.felix.plugin.version}</version>
                 <extensions>true</extensions>
                 <configuration>
                     <instructions>
@@ -84,7 +98,7 @@
             <plugin>
                 <groupId>org.jboss.as.plugins</groupId>
                 <artifactId>jboss-as-maven-plugin</artifactId>
-                <version>7.1.1.Final</version>
+                <version>${jboss.as.plugin.version}</version>
                 <configuration>
                     <filename>${project.build.finalName}.jar</filename>
                 </configuration>
@@ -94,10 +108,10 @@
                 unnecessary warnings about execution environment in IDE -->
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.3.1</version>
+                <version>${compiler.plugin.version}</version>
                 <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
                 </configuration>
             </plugin>
 

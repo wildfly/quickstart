@@ -35,13 +35,26 @@
       <!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered 
          resources, i.e. build is platform dependent! -->
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+       <!-- JBoss dependency versions -->
+       <jboss.as.version>7.1.1.Final</jboss.as.version>
+       <jboss.as.plugin.version>7.1.1.Final</jboss.as.plugin.version>
+
+       <!-- other plugin versions -->
+       <compiler.plugin.version>2.3.1</compiler.plugin.version>
+       <jar.plugin.version>2.2</jar.plugin.version>
+       <exec.plugin.version>1.1.1</exec.plugin.version>
+
+       <!-- maven-compiler-plugin -->
+       <maven.compiler.target>1.6</maven.compiler.target>
+       <maven.compiler.source>1.6</maven.compiler.source>
    </properties>
 
    <dependencies>
       <dependency>
          <groupId>org.jboss.as</groupId>
          <artifactId>jboss-as-jms-client-bom</artifactId>
-         <version>7.1.1.Final</version>
+         <version>${jboss.as.version}</version>
          <type>pom</type>
       </dependency>
    </dependencies>
@@ -52,7 +65,7 @@
          <plugin>
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>exec-maven-plugin</artifactId>
-            <version>1.1.1</version>
+            <version>${exec.plugin.version}</version>
             <configuration>
                <mainClass>org.jboss.as.quickstarts.jms.HelloWorldJMSClient</mainClass>
                <systemProperties>
@@ -95,7 +108,7 @@
          </plugin>
          <plugin>
             <artifactId>maven-jar-plugin</artifactId>
-            <version>2.2</version>
+            <version>${jar.plugin.version}</version>
             <configuration>
             </configuration>
          </plugin>
@@ -103,7 +116,7 @@
          <plugin>
             <groupId>org.jboss.as.plugins</groupId>
             <artifactId>jboss-as-maven-plugin</artifactId>
-            <version>7.1.1.Final</version>
+            <version>${jboss.as.plugin.version}</version>
             <configuration>
                <username>admin</username>
                <password>admin</password>
@@ -113,10 +126,10 @@
             annotation processors -->
          <plugin>
             <artifactId>maven-compiler-plugin</artifactId>
-            <version>2.3.1</version>
-            <configuration>
-               <source>1.6</source>
-               <target>1.6</target>
+             <version>${compiler.plugin.version}</version>
+             <configuration>
+                 <source>${maven.compiler.source}</source>
+                 <target>${maven.compiler.target}</target>
             </configuration>
          </plugin>
       </plugins>

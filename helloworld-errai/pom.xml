@@ -34,6 +34,20 @@
     <!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is 
       platform dependent! -->
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+      <!-- JBoss dependency versions -->
+      <jboss.as.plugin.version>7.1.1.Final</jboss.as.plugin.version>
+      <jboss.bom.version>1.0.0.Final</jboss.bom.version>
+
+      <!-- other plugin versions -->
+      <clean.pluging.version>2.4.1</clean.pluging.version>
+      <compiler.plugin.version>2.3.1</compiler.plugin.version>
+      <gwt.plugin.version>2.4.0</gwt.plugin.version>
+      <war.plugin.version>2.1.1</war.plugin.version>
+
+      <!-- maven-compiler-plugin -->
+      <maven.compiler.target>1.6</maven.compiler.target>
+      <maven.compiler.source>1.6</maven.compiler.source>
   </properties>
 
   <dependencyManagement>
@@ -41,7 +55,7 @@
       <dependency>
         <groupId>org.jboss.bom</groupId>
         <artifactId>jboss-javaee-6.0-with-errai</artifactId>
-        <version>1.0.0.Final</version>
+        <version>${jboss.bom.version}</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -114,7 +128,7 @@
     <plugins>
       <plugin>
         <artifactId>maven-war-plugin</artifactId>
-        <version>2.1.1</version>
+        <version>${war.plugin.version}</version>
         <configuration>
           <!-- Exclude client only classes from the deployment. As these classes compile down to JavaScript, 
             they are not needed at runtime. They would only introduce runtime dependencies to GWT development libraries. -->
@@ -126,16 +140,16 @@
       <plugin>
         <groupId>org.jboss.as.plugins</groupId>
         <artifactId>jboss-as-maven-plugin</artifactId>
-        <version>7.1.1.Final</version>
+        <version>${jboss.as.plugin.version}</version>
       </plugin>
 
       <!-- Compiler plugin enforces Java 1.6 compatibility and activates annotation processors -->
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>2.3.1</version>
+        <version>${compiler.plugin.version}</version>
         <configuration>
-          <source>1.6</source>
-          <target>1.6</target>
+          <source>${maven.compiler.source}</source>
+          <target>${maven.compiler.target}</target>
         </configuration>
       </plugin>
 
@@ -143,7 +157,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>gwt-maven-plugin</artifactId>
-        <version>2.4.0</version>
+        <version>${gwt.plugin.version}</version>
         <configuration>
           <inplace>true</inplace>
           <logLevel>INFO</logLevel>
@@ -172,7 +186,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-clean-plugin</artifactId>
-        <version>2.4.1</version>
+        <version>${clean.pluging.version}</version>
         <configuration>
           <filesets>
             <fileset>

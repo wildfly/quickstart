@@ -38,6 +38,21 @@
         <!-- You can reference property in pom.xml or filtered resources (must
             enable third-party plugin if using Maven < 2.1) -->
         <maven.build.timestamp.format>yyyyMMdd'T'HHmmss</maven.build.timestamp.format>
+
+        <!-- JBoss dependency versions -->
+        <jboss.as.plugin.version>7.1.1.Final</jboss.as.plugin.version>
+        <jboss.bom.version>1.0.0.Final</jboss.bom.version>
+        <hibernate.validator.version>4.2.0.Final</hibernate.validator.version>
+        <hibernate.jpamodelgen.version>1.1.1.Final</hibernate.jpamodelgen.version>
+
+        <!-- other plugin versions -->
+        <surefire.plugin.version>2.10</surefire.plugin.version>
+        <war.plugin.version>2.1.1</war.plugin.version>
+        <compiler.plugin.version>2.3.1</compiler.plugin.version>
+
+        <!-- maven-compiler-plugin -->
+        <maven.compiler.target>1.6</maven.compiler.target>
+        <maven.compiler.source>1.6</maven.compiler.source>
     </properties>
 
     <dependencyManagement>
@@ -51,7 +66,7 @@
             <dependency>
                 <groupId>org.jboss.bom</groupId>
                 <artifactId>jboss-javaee-6.0-with-tools</artifactId>
-                <version>1.0.0.Final</version>
+                <version>${jboss.bom.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -85,7 +100,7 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
-            <version>4.2.0.Final</version>
+            <version>${hibernate.validator.version}</version>
             <scope>provided</scope>
             <exclusions>
                 <exclusion>
@@ -102,7 +117,7 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-jpamodelgen</artifactId>
-            <version>1.1.1.Final</version>
+            <version>${hibernate.jpamodelgen.version}</version>
             <scope>provided</scope>
         </dependency>
 
@@ -141,7 +156,7 @@
                 <!-- The Maven Surefire plugin tests your application. Here we ensure we are using a version compatible with Arquillian -->
                 <plugin>
                     <artifactId>maven-surefire-plugin</artifactId>
-                    <version>2.10</version>
+                    <version>${surefire.plugin.version}</version>
                 </plugin>
                 <!-- The JBoss AS plugin deploys your war to a local JBoss AS container -->
                 <!-- To use, set the JBOSS_HOME environment variable and run:
@@ -149,7 +164,7 @@
                 <plugin>
                     <groupId>org.jboss.as.plugins</groupId>
                     <artifactId>jboss-as-maven-plugin</artifactId>
-                    <version>7.1.1.Final</version>
+                    <version>${jboss.as.plugin.version}</version>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -157,7 +172,7 @@
         <plugins>
             <plugin>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>2.1.1</version>
+                <version>${war.plugin.version}</version>
                 <configuration>
                     <!-- Java EE 6 doesn't require web.xml, Maven needs to catch up! -->
                     <failOnMissingWebXml>false</failOnMissingWebXml>
@@ -166,10 +181,10 @@
             <!-- Compiler plugin enforces Java 1.6 compatibility and activates annotation processors -->
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.3.1</version>
+                <version>${compiler.plugin.version}</version>
                 <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
                 </configuration>
             </plugin>
         </plugins>

@@ -34,24 +34,40 @@
         <!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered 
             resources, i.e. build is platform dependent! -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <!-- JBoss dependency versions -->
+        <resteasy.version>2.2.2.GA</resteasy.version>
+
+        <!-- Other dependency versions -->
+        <apache.httpcomponents.version>4.1.4</apache.httpcomponents.version>
+        <junit.version>4.10</junit.version>
+
+        <!-- other plugin versions -->
+        <compiler.plugin.version>2.3.1</compiler.plugin.version>
+        <surefire.plugin.version>2.4.3</surefire.plugin.version>
+        <war.plugin.version>2.1.1</war.plugin.version>
+
+        <!-- maven-compiler-plugin -->
+        <maven.compiler.target>1.6</maven.compiler.target>
+        <maven.compiler.source>1.6</maven.compiler.source>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.10</version>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.jboss.resteasy</groupId>
             <artifactId>resteasy-jaxrs</artifactId>
-            <version>2.2.2.GA</version>
+            <version>${resteasy.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpcore</artifactId>
-            <version>4.1.4</version>
+            <version>${apache.httpcomponents.version}</version>
         </dependency>
     </dependencies>
     <build>
@@ -60,16 +76,16 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.3.1</version>
+                <version>${compiler.plugin.version}</version>
                 <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
                 </configuration>
             </plugin>
 
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.4.3</version>
+                <version>${surefire.plugin.version}</version>
                 <configuration>
                     <systemProperties>
                         <property>

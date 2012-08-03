@@ -40,14 +40,24 @@
             (must enable third-party plugin if using Maven < 2.1) -->
         <maven.build.timestamp.format>yyyyMMdd'T'HHmmss</maven.build.timestamp.format>
 
-        <!-- Define the version of JBoss' Java EE 6 APIs and Tools we want 
-            to import. -->
-        <javaee6.with.tools.version>1.0.0.Final</javaee6.with.tools.version>
+        <!-- JBoss dependency versions -->
+        <jboss.as.version>7.1.1.Final</jboss.as.version>
+        <jboss.as.plugin.version>7.1.1.Final</jboss.as.plugin.version>
+        <jboss.bom.version>1.0.0.Final</jboss.bom.version>
         <!-- Alternatively, comment out the above line, and un-comment the 
             line below to use version 1.0.0.Final-redhat-1 which is a release certified 
             to work with JBoss EAP 6. It requires you have access to the JBoss EAP 6 
             maven repository. -->
-        <!-- <javaee6.with.tools.version>1.0.0.Final-redhat-1</javaee6.with.tools.version> -->
+        <!-- <jboss.bom.version>1.0.0.Final-redhat-1</jboss.bom.version> -->
+
+        <!-- other plugin versions -->
+        <compiler.plugin.version>2.3.1</compiler.plugin.version>
+        <surefire.plugin.version>2.10</surefire.plugin.version>
+        <war.plugin.version>2.1.1</war.plugin.version>
+
+        <!-- maven-compiler-plugin -->
+        <maven.compiler.target>1.6</maven.compiler.target>
+        <maven.compiler.source>1.6</maven.compiler.source>
     </properties>
 
     <dependencyManagement>
@@ -61,7 +71,7 @@
             <dependency>
                 <groupId>org.jboss.bom</groupId>
                 <artifactId>jboss-javaee-6.0-with-tools</artifactId>
-                <version>${javaee6.with.tools.version}</version>
+                <version>${jboss.bom.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -123,7 +133,7 @@
         <plugins>
             <plugin>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>2.1.1</version>
+                <version>${war.plugin.version}</version>
                 <configuration>
                     <!-- Java EE 6 doesn't require web.xml, Maven needs to 
                         catch up! -->
@@ -134,16 +144,16 @@
                 annotation processors -->
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.3.1</version>
+                <version>${compiler.plugin.version}</version>
                 <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
                 </configuration>
             </plugin>
             <!-- Versions prior 2.9 contains a bug -->
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.10</version>
+                <version>${surefire.plugin.version}</version>
             </plugin>
             <!-- The JBoss AS plugin deploys your war to a local JBoss AS 
                 container -->
@@ -153,7 +163,7 @@
             <plugin>
                 <groupId>org.jboss.as.plugins</groupId>
                 <artifactId>jboss-as-maven-plugin</artifactId>
-                <version>7.1.1.Final</version>
+                <version>${jboss.as.plugin.version}</version>
                 <configuration>
                     <skip>true</skip>
                 </configuration>
@@ -195,7 +205,7 @@
                 <dependency>
                     <groupId>org.jboss.as</groupId>
                     <artifactId>jboss-as-arquillian-container-managed</artifactId>
-                    <version>7.1.1.Final</version>
+                    <version>${jboss.as.version}</version>
                     <scope>test</scope>
                 </dependency>
             </dependencies>
@@ -210,7 +220,7 @@
                 <dependency>
                     <groupId>org.jboss.as</groupId>
                     <artifactId>jboss-as-arquillian-container-remote</artifactId>
-                    <version>7.1.1.Final</version>
+                    <version>${jboss.as.version}</version>
                     <scope>test</scope>
                 </dependency>
             </dependencies>

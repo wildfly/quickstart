@@ -25,7 +25,7 @@
     <name>JBoss AS Quickstarts Parent</name>
     <description>JBoss AS Quickstarts Parent</description>
     <url>http://www.jboss.org/jdf/quickstarts/get-started/</url>
- 
+
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
@@ -33,6 +33,61 @@
             <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
         </license>
     </licenses>
+
+    <properties>
+        <!-- A base list of dependency and plugin version used in the various quick starts. -->
+
+        <!-- JBoss dependency versions -->
+        <jboss.as.version>7.1.1.Final</jboss.as.version>
+        <jboss.as.plugin.version>7.1.1.Final</jboss.as.plugin.version>
+        <jboss.bom.version>1.0.0.Final</jboss.bom.version>
+        <jboss.ejb.client.version>7.1.1.Final</jboss.ejb.client.version>
+        <jboss.javaee6.spec.version>3.0.0.Final</jboss.javaee6.spec.version>
+        <jboss.logging.version>3.1.1.GA</jboss.logging.version>
+        <jboss.logging.processor.version>1.0.3.Final</jboss.logging.processor.version>
+
+        <arquillian.version>1.0.0.Final</arquillian.version>
+
+        <hibernate.common.annotations.version>3.2.0.Final</hibernate.common.annotations.version>
+        <hibernate.core.version>3.6.8.Final</hibernate.core.version>
+        <hibernate.em.version>3.6.8.Final</hibernate.em.version>
+        <hibernate.infinispan.version>3.6.8.Final</hibernate.infinispan.version>
+        <hibernate.jpamodelgen.version>1.1.1.Final</hibernate.jpamodelgen.version>
+        <hibernate.validator.version>4.2.0.Final</hibernate.validator.version>
+        
+        <resteasy.version>2.2.2.GA</resteasy.version>
+        
+        <richfaces.version>4.2.0.Final</richfaces.version>
+        
+        <!-- Other dependency versions -->
+        <apache.httpcomponents.version>4.1.4</apache.httpcomponents.version>
+        <dom4j.version>1.6</dom4j.version>
+        <gwt.version>2.4.0</gwt.version>
+        <jstl.version>1.2</jstl.version>
+        <junit.version>4.10</junit.version>
+        <log4j.version>1.2.16</log4j.version>
+        <m2e.version>1.0.0</m2e.version>
+        <osgi.version>4.2.0</osgi.version>
+        <wicket.version>1.5.5</wicket.version>
+        <wicket.cdi.version>1.2</wicket.cdi.version>
+        <wro4j.version>1.4.4</wro4j.version>
+
+        <!-- other plugin versions -->
+        <apache.felix.plugin.version>2.3.4</apache.felix.plugin.version>
+        <clean.pluging.version>2.4.1</clean.pluging.version>
+        <compiler.plugin.version>2.3.1</compiler.plugin.version>
+        <ear.plugin.version>2.6</ear.plugin.version>
+        <ejb.plugin.version>2.3</ejb.plugin.version>
+        <exec.plugin.version>1.2.1</exec.plugin.version>
+        <gwt.plugin.version>2.4.0</gwt.plugin.version>
+        <license.pluging.version>1.9.0</license.pluging.version>
+        <surefire.plugin.version>2.10</surefire.plugin.version>
+        <war.plugin.version>2.1.1</war.plugin.version>
+
+        <!-- maven-compiler-plugin -->
+        <maven.compiler.target>1.6</maven.compiler.target>
+        <maven.compiler.source>1.6</maven.compiler.source>
+    </properties>
 
     <profiles>
         <profile>
@@ -46,7 +101,7 @@
                 </property>
             </activation>
             <modules>
-                <!-- All the modules that require nothing but JBoss Enterprise 
+                <!-- All the modules that require nothing but JBoss Enterprise
                     Application Platform or JBoss AS -->
                 <module>bean-validation</module>
                 <module>bmt</module>
@@ -122,7 +177,7 @@
             </modules>
         </profile>
         <profile>
-            <!-- All the quickstarts that require the "standalone-full" profile 
+            <!-- All the quickstarts that require the "standalone-full" profile
                 to be in use -->
             <id>requires-full</id>
             <activation>
@@ -154,7 +209,7 @@
             </modules>
         </profile>
         <profile>
-            <!-- All the quickstarts that don't actually use Maven. Don't 
+            <!-- All the quickstarts that don't actually use Maven. Don't
                 activate this profile! We just include this for completeness. -->
             <id>non-maven</id>
             <activation>
@@ -170,14 +225,14 @@
 
     <build>
         <plugins>
-            <!-- The JBoss AS plugin deploys your apps to a local JBoss AS 
+            <!-- The JBoss AS plugin deploys your apps to a local JBoss AS
                 container -->
-            <!-- Disabling it here means that we don't try to deploy this 
+            <!-- Disabling it here means that we don't try to deploy this
                 POM! -->
             <plugin>
                 <groupId>org.jboss.as.plugins</groupId>
                 <artifactId>jboss-as-maven-plugin</artifactId>
-                <version>7.1.1.Final</version>
+                <version>${jboss.as.plugin.version}</version>
                 <inherited>true</inherited>
                 <configuration>
                     <skip>true</skip>

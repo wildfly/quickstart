@@ -27,6 +27,27 @@
             <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
         </license>
     </licenses>
+    
+    <properties>
+        <!-- Explicitly declaring the source encoding eliminates the following 
+            message: -->
+        <!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered 
+            resources, i.e. build is platform dependent! -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        
+        <!-- JBoss dependency versions -->
+        <jboss.as.plugin.version>7.1.1.Final</jboss.as.plugin.version>
+        <jboss.javaee6.spec.version>3.0.0.Final</jboss.javaee6.spec.version>
+
+        <!-- other plugin versions -->
+        <compiler.plugin.version>2.3.1</compiler.plugin.version>
+        <ejb.plugin.version>2.3</ejb.plugin.version>
+        <war.plugin.version>2.1.1</war.plugin.version>
+
+        <!-- maven-compiler-plugin -->
+        <maven.compiler.target>1.6</maven.compiler.target>
+        <maven.compiler.source>1.6</maven.compiler.source>
+    </properties>
 
     <modules>
         <!-- Build module 2 first as it is the remote EJB which provides 
@@ -45,7 +66,7 @@
             <dependency>
                 <groupId>org.jboss.spec</groupId>
                 <artifactId>jboss-javaee-6.0</artifactId>
-                <version>3.0.0.Final</version>
+                <version>${jboss.javaee6.spec.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -53,7 +74,7 @@
             <dependency>
                 <groupId>org.jboss.as.quickstarts</groupId>
                 <artifactId>jboss-as-jts-application-component-2</artifactId>
-                <version>7.1.2-SNAPSHOT</version>
+                <version>${project.version}</version>
                 <classifier>client</classifier>
             </dependency>
         </dependencies>
@@ -69,7 +90,7 @@
                 <plugin>
                     <groupId>org.jboss.as.plugins</groupId>
                     <artifactId>jboss-as-maven-plugin</artifactId>
-                    <version>7.1.1.Final</version>
+                    <version>${jboss.as.plugin.version}</version>
                 </plugin>
             </plugins>
         </pluginManagement>

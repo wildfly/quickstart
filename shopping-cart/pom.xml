@@ -46,14 +46,8 @@
             (must enable third-party plugin if using Maven < 2.1) -->
         <maven.build.timestamp.format>yyyyMMdd'T'HHmmss</maven.build.timestamp.format>
 
-        <!-- Define the version of JBoss' Java EE 6 APIs we want to import. -->
-        <javaee6.spec.version>3.0.0.Final</javaee6.spec.version>
-        <!-- Alternatively, comment out the above line, and un-comment the 
-            line below to use version 3.0.0.Final-redhat-1 which is a release certified 
-            to work with JBoss EAP 6. It requires you have access to the JBoss EAP 6 
-            maven repository. -->
-        <!-- <javaee6.spec.version>3.0.0.Final-redhat-1</javaee6.spec.version> -->
-
+        <!-- JBoss dependency versions -->
+        <jboss.as.plugin.version>7.1.1.Final</jboss.as.plugin.version>
         <!-- Define the version of JBoss EJB Client we want to use. This 
             should match the JBoss AS version in use -->
         <jboss.ejb.client.version>7.1.1.Final</jboss.ejb.client.version>
@@ -62,6 +56,21 @@
             to work with JBoss EAP 6. It requires you have access to the JBoss EAP 6 
             maven repository. -->
         <!-- <jboss.ejb.client.version>7.1.1.Final-redhat-1</jboss.ejb.client.version> -->
+        <jboss.javaee6.spec.version>3.0.0.Final</jboss.javaee6.spec.version>
+        <!-- Alternatively, comment out the above line, and un-comment the 
+            line below to use version 3.0.0.Final-redhat-1 which is a release certified 
+            to work with JBoss EAP 6. It requires you have access to the JBoss EAP 6 
+            maven repository. -->
+        <!-- <jboss.javaee6.spec.version>3.0.0.Final-redhat-1</jboss.javaee6.spec.version> -->
+
+        <!-- other plugin versions -->
+        <compiler.plugin.version>2.3.1</compiler.plugin.version>
+        <exec.plugin.version>1.2.1</exec.plugin.version>
+        <war.plugin.version>2.1.1</war.plugin.version>
+
+        <!-- maven-compiler-plugin -->
+        <maven.compiler.target>1.6</maven.compiler.target>
+        <maven.compiler.source>1.6</maven.compiler.source>
     </properties>
 
     <dependencyManagement>
@@ -74,7 +83,7 @@
             <dependency>
                 <groupId>org.jboss.spec</groupId>
                 <artifactId>jboss-javaee-6.0</artifactId>
-                <version>${javaee6.spec.version}</version>
+                <version>${jboss.javaee6.spec.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -105,7 +114,7 @@
             <plugin>
                 <groupId>org.jboss.as.plugins</groupId>
                 <artifactId>jboss-as-maven-plugin</artifactId>
-                <version>7.1.1.Final</version>
+                <version>${jboss.as.plugin.version}</version>
                 <inherited>true</inherited>
                 <configuration>
                     <skip>true</skip>

@@ -26,6 +26,11 @@
             <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
         </license>
     </licenses>
+    
+    <properties>
+        <!-- JBoss dependency versions -->
+        <jboss.as.plugin.version>7.1.1.Final</jboss.as.plugin.version>
+    </properties>
 
     <!-- This quickstart consists of a server side component and a client that accesses
 	 the server side component. Each component has its own self contain pom. However,
@@ -44,7 +49,7 @@
             <plugin>
                <groupId>org.jboss.as.plugins</groupId>
                <artifactId>jboss-as-maven-plugin</artifactId>
-               <version>7.1.1.Final</version>
+               <version>${jboss.as.plugin.version}</version>
                <inherited>true</inherited>
                <configuration>
                   <skip>true</skip>

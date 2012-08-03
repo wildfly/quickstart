@@ -35,6 +35,20 @@
         <!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered 
             resources, i.e. build is platform dependent! -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <!-- JBoss dependency versions -->
+        <jboss.as.version>7.1.1.Final</jboss.as.version>
+        <jboss.as.plugin.version>7.1.1.Final</jboss.as.plugin.version>
+        <jboss.javaee6.spec.version>3.0.0.Final</jboss.javaee6.spec.version>
+
+        <!-- other plugin versions -->
+        <compiler.plugin.version>2.3.1</compiler.plugin.version>
+        <ejb.plugin.version>2.3</ejb.plugin.version>
+        <exec.plugin.version>1.2.1</exec.plugin.version>
+
+        <!-- maven-compiler-plugin -->
+        <maven.compiler.target>1.6</maven.compiler.target>
+        <maven.compiler.source>1.6</maven.compiler.source>
     </properties>
 
 
@@ -53,14 +67,14 @@
             <dependency>
                 <groupId>org.jboss.spec</groupId>
                 <artifactId>jboss-javaee-6.0</artifactId>
-                <version>3.0.0.Final</version>
+                <version>${jboss.javaee6.spec.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
             <dependency>
                 <groupId>org.jboss.as</groupId>
                 <artifactId>jboss-as-ejb-client-bom</artifactId>
-                <version>7.1.1.Final</version>
+                <version>${jboss.as.version}</version>
                 <scope>import</scope>
                 <type>pom</type>
             </dependency>
@@ -72,16 +86,16 @@
             <!-- Enforce Java 1.6 -->
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.3.1</version>
+                <version>${compiler.plugin.version}</version>
                 <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.source}</target>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.jboss.as.plugins</groupId>
                 <artifactId>jboss-as-maven-plugin</artifactId>
-                <version>7.1.1.Final</version>
+                <version>${jboss.as.plugin.version}</version>
                 <configuration>
                     <skip>true</skip>
                 </configuration>
@@ -89,7 +103,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
-                <version>1.2.1</version>
+                <version>${exec.plugin.version}</version>
             </plugin>
         </plugins>
     </build>

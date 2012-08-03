@@ -39,17 +39,27 @@
         <!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered 
             resources, i.e. build is platform dependent! -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <!-- Define the version of JBoss' Java EE 6 APIs we want to import. -->
-        <jboss.spec.version>3.0.0.Final</jboss.spec.version>
+
+        <!-- JBoss dependency versions -->
+        <jboss.as.plugin.version>7.1.1.Final</jboss.as.plugin.version>
+        <jboss.javaee6.spec.version>3.0.0.Final</jboss.javaee6.spec.version>
         <!-- Alternatively, comment out the above line, and un-comment the 
             line below to use version 3.0.0.Final-redhat-1 which is a release certified 
             to work with JBoss EAP 6. It requires you have access to the JBoss EAP 6 
             maven repository. -->
-        <!-- <jboss.spec.version>3.0.0.Final-redhat-1</jboss.spec.version> -->
-        <!-- Specify the version of Wicket and Wicket CDI integration we 
-            will use -->
+        <!-- <jboss.javaee6.spec.version>3.0.0.Final-redhat-1</jboss.javaee6.spec.version> -->
+
+        <!-- Other dependency versions -->
         <wicket.version>1.5.5</wicket.version>
         <wicket.cdi.version>1.2</wicket.cdi.version>
+
+        <!-- other plugin versions -->
+        <compiler.plugin.version>2.3.1</compiler.plugin.version>
+        <war.plugin.version>2.1.1</war.plugin.version>
+
+        <!-- maven-compiler-plugin -->
+        <maven.compiler.target>1.6</maven.compiler.target>
+        <maven.compiler.source>1.6</maven.compiler.source>
     </properties>
 
     <dependencyManagement>
@@ -65,7 +75,7 @@
             <dependency>
                 <groupId>org.jboss.spec</groupId>
                 <artifactId>jboss-javaee-6.0</artifactId>
-                <version>${jboss.spec.version}</version>
+                <version>${jboss.javaee6.spec.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -195,7 +205,7 @@
             <plugin>
                 <groupId>org.jboss.as.plugins</groupId>
                 <artifactId>jboss-as-maven-plugin</artifactId>
-                <version>7.1.1.Final</version>
+                <version>${jboss.as.plugin.version}</version>
                 <configuration>
                     <fileNames>
                         <fileName>target/${build.finalName}.war</fileName>
@@ -206,10 +216,10 @@
                 annotation processors -->
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.3.1</version>
+                <version>${compiler.plugin.version}</version>
                 <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
                 </configuration>
             </plugin>
         </plugins>
