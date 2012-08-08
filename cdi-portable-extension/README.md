@@ -9,9 +9,15 @@ What is it?
 -----------
 
 This project demonstrates a simple CDI Portable Extension and some of the SPI classes used
-to complete that task.
+to complete that task. This particular extension explores the ProcessInjectionTarget and 
+InjectionTarget spi classes of CDI. To demonstrate a possible way to seed data into beans.
 
-It contains very simple domain model classes, an extension class, the service registration file
+A Portable Extension is essentially an extension to Java EE 6+ which is tailored to a specific
+use case which will run on any Java EE 6 or higher implementation. There may be something that the
+specifications don't support just yet, but could be implemented via a portable extension such as
+type safe messages or external configuration of beans.
+
+The project contains very simple domain model classes, an extension class, the service registration file
 for that extension and an Arquillian test to verify the extension is working correctly.
 
 It does not contain any user interface, the tests must be run to verify everything is working
