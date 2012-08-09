@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core">
+<f:loadBundle basename="org.jboss.as.quickstarts.kitchensink-ml.bundle.Resources" var="bundle" />
+<h:head>
+   <title>kitchensink-ear</title>
+   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+   <h:outputStylesheet name="css/screen.css" />
+</h:head>
+<h:body>
+   <div id="container">
+      <div class="dualbrand">
+         <img src="resources/gfx/dualbrand_logo.png" />
+      </div>
+      <div id="content">
+         <ui:insert name="content">
+                    [Template content will be inserted here]
+         </ui:insert>
+      </div>
+      <div id="aside">
+         <p>#{bundle.learnAboutEAP6}</p>
+            <ul>
+               <li><a href="https://access.redhat.com/knowledge/docs/JBoss_Enterprise_Application_Platform/">#{bundle.documentation}</a></li>
+               <li><a href="http://red.ht/jbeap-6">#{bundle.productInformation}</a></li>
+            </ul>
+            <p>#{bundle.learnAboutJBossAS7}</p>
+            <ul>
+                <li><a
+                    href="http://www.jboss.org/jdf/quickstarts/jboss-as-quickstart/guide/Introduction">#{bundle.getStartedGuide}</a></li>
+                <li><a href="http://jboss.org/jbossas">#{bundle.communityProjectInfo}</a></li>
+            </ul>
+      </div>
+      <div id="footer">
+         <p>#{bundle.projectGenerated}<br />
+         </p>
+      </div>
+   </div>
+</h:body>
+</html>
