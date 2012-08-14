@@ -56,7 +56,7 @@ public class CreatureExtension implements Extension {
     }
 
     /**
-     * Observer to a CDI lifecycle event to correctly setup the XML backed "injection.
+     * Observer to a CDI lifecycle event to correctly setup the XML backed "injection".
      * @param pit CDI lifecycle callback payload
      * @param <X> Type of the Injection to observe
      */
