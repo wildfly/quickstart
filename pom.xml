@@ -123,7 +123,6 @@
                 <module>helloworld-singleton</module>
                 <module>hibernate3</module>
                 <module>hibernate4</module>
-                <module>inter-app</module>
                 <module>kitchensink</module>
                 <module>kitchensink-ear</module>
                 <module>kitchensink-html5-mobile</module>
@@ -165,7 +164,7 @@
             </modules>
         </profile>
         <profile>
-            <!-- All the quickstarts that require Postgres to be running -->
+            <!-- All the quickstarts that have weird requirements around deployment that Maven can't handle -->
             <id>complex-dependencies</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
@@ -177,6 +176,7 @@
             <modules>
                 <module>jax-rs-client</module>
                 <module>jts</module>
+                <module>inter-app</module>                
             </modules>
         </profile>
         <profile>
