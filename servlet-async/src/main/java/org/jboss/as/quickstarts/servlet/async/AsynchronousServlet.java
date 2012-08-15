@@ -29,33 +29,40 @@ import javax.servlet.http.HttpServletResponse;
  * </p>
  * 
  * <p>
- * The servlet is registered and mapped to /AsynchronousServlet using the {@link WebServlet}
- * annotation. The {@link LongRunningService} is injected by CDI.
+ * The servlet is registered and mapped to /AsynchronousServlet using the {@link WebServlet} annotation. The
+ * {@link LongRunningService} is injected by CDI.
  * </p>
  * 
  * <p>
- * It shows how to detach the execution of a resource intensive task from the 
- * request processing thread, so the thread is free to serve other client requests. 
- * The resource intensive tasks are executed using a dedicated thread pool and 
- * create the client response asynchronously using the {@link AsyncContext}.
+ * It shows how to detach the execution of a long-running task from the request processing thread, so the thread is free
+ * to serve other client requests. The long-running tasks are executed using a dedicated thread pool and create the
+ * client response asynchronously using the {@link AsyncContext}.
+ * </p>
+ * 
+ * <p>
+ * A long-running task in this context does not refer to a computation intensive task executed on the same machine but
+ * could for example be contacting a third-party service that has limited resources or only allows for a limited number
+ * of concurrent connections. Moving the calls to this service into a separate and smaller sized thread pool ensures
+ * that less threads will be busy interacting with the long-running service and that more requests can be served that do
+ * not depend on this service.
  * </p>
  * 
  * @author Christian Sadilek <csadilek@redhat.com>
  */
 @SuppressWarnings("serial")
-@WebServlet(value="/AsynchronousServlet", asyncSupported=true)
+@WebServlet(value = "/AsynchronousServlet", asyncSupported = true)
 public class AsynchronousServlet extends HttpServlet {
 
-   @Inject
-   private LongRunningService longRunningService;
+  @Inject
+  private LongRunningService longRunningService;
 
-   @Override
-   protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
-       // Here the request is put in asynchronous mode
-       AsyncContext asyncContext = req.startAsync();
-       
-       // This method will return immediately when invoked, 
-       // the actual execution will run in a separate thread.
-       longRunningService.readData(asyncContext);
-   }
+  @Override
+  protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
+    // Here the request is put in asynchronous mode
+    AsyncContext asyncContext = req.startAsync();
+
+    // This method will return immediately when invoked,
+    // the actual execution will run in a separate thread.
+    longRunningService.readData(asyncContext);
+  }
 }

@@ -27,14 +27,14 @@ import javax.ejb.Stateless;
 import javax.servlet.AsyncContext;
 
 /**
- * A simple service to simulate a long running task.
+ * A simple service to simulate the execution of a long running task.
  * 
  * @author Christian Sadilek <csadilek@redhat.com>
  */
 @Stateless
 public class LongRunningService {
 
-  private Logger logger = Logger.getLogger(LongRunningService.class.getName());
+  private final Logger logger = Logger.getLogger(LongRunningService.class.getName());
   
   /**
    * The use of {@link Asynchronous} causes this EJB method to be executed
@@ -48,7 +48,7 @@ public class LongRunningService {
    @Asynchronous
    public void readData(AsyncContext asyncContext) {
        try {
-           // This is just to simulate a long running operation.
+           // This is just to simulate a long running operation for demonstration purposes.
            Thread.sleep(5000);
       
            PrintWriter writer = asyncContext.getResponse().getWriter();
