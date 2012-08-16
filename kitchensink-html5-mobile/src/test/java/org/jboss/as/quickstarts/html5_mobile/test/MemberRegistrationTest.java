@@ -52,7 +52,8 @@ public class MemberRegistrationTest {
       return ShrinkWrap.create(WebArchive.class, "test.war")
             .addClasses(Member.class, MemberService.class, MemberRepository.class,
                     MemberRegistration.class, Resources.class)
-            .addAsResource("META-INF/persistence.xml", "META-INF/persistence.xml")      
+            .addAsResource("META-INF/persistence.xml", "META-INF/persistence.xml")
+            .addAsWebInfResource("arquillian-ds.xml")
             .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
    }
 
