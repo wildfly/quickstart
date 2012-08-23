@@ -47,27 +47,35 @@ span.success {
 }
 
 /* Member table styles */
-#mem_tbl {
-    clear: both;
+#members {
+    display: table;
+    width: 100%;
 }
 
-#mem_tbl thead {
-    font-weight: bold;
+#members .row {
+    display: table-row;
+}
+
+#members .row .col {
+    display: table-cell;
+    width: auto;
+    border: 1px solid #ccc;
+}
+
+#members .head {
     color: #FFFFFF;
-    background-color: black;
-    text-align: left;
+    background-color: #000000;
+    padding: 1px 5px;
+    border-bottom: 1px solid #ccc;
 }
 
-#mem_tbl tfoot {
+#members .data {
+    padding: 1px 5px;
+    font-size: 11px;
+}
+
+.member-foot {
+    clear: both;
     height: 20px;
     font-weight: bold;
-}
-
-/* Using new CSS3 selectors for styling*/
-#members tr:nth-child(odd) {
-    background: #f4f3f3;
-}
-
-#members tr:nth-child(even) {
-    background: #ffffff;
 }

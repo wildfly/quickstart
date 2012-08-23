@@ -86,7 +86,7 @@
             or if we're at anything less than 480px.. this gives us a mobile ui on desktop browsers when resized to <480px
             width for testing.
             */
-            test: Modernizr.touch || Modernizr.mq( "only all and (max-width: 480px)" ),
+            test: Modernizr.mq( "only all and (max-width: 640px)" ),
             yep: {
                 //assign labeled callbacks for later execution after script loads.
                 //we are on mobile device so load appropriate CSS
@@ -311,28 +311,13 @@
 
                 <div data-role="content">
                     <button id="refreshButtonM" data-role="button" data-inline="true" data-icon="refresh">Refresh Members</button>
-                    <table id="mem_tbl">
-                        <thead>
-                            <tr>
-                                <th scope="col">Id</th>
-                                <th scope="col">Name</th>
-                                <th scope="col">Email</th>
-                                <th scope="col">Phone #</th>
-                                <th scope="col">REST URL</th>
-                            </tr>
-                        </thead>
-                        <tfoot>
-                            <tr>
-                                <td colspan="5">
-                                    <!-- Sets the JAX-RS URLs to retrieve all members either as XML or JSON data.-->
-                                    REST URL for all members: 
-                                    <a href="rest/members" target="_blank" rel="external">JSON</a>
-                                    <button id="refreshButtonD">Refresh Members</button>
-                                </td>
-                            </tr>
-                        </tfoot>
-                        <tbody id="members"></tbody>
-                    </table>
+                    <div id="members"></div>
+                    <div class="member-foot">
+                        <!-- Sets the JAX-RS URLs to retrieve all members either as XML or JSON data.-->
+                        REST URL for all members: 
+                        <a href="rest/members" target="_blank" rel="external">JSON</a>
+                        <button id="refreshButtonD">Refresh Members</button>
+                    </div>
                 </div>
 
                 <!-- Footer -->
@@ -371,7 +356,7 @@
                     <p>Learn about <strong>AeroGear</strong> and HTML5/Mobile development on JBoss.</p>
                     <ul>
                         <li><a href="http://jboss.org/aerogear" target="_blank">AeroGear Project site</a></li>
-                        <li><a href="https://community.jboss.org/wiki/WhatArePlainOldHTML5POH5Applications" target="_blank">More on <strong>POH5</strong></a></li>
+                        <li><a href="https://community.jboss.org/wiki/HTML5RESTApplications" target="_blank">More on <strong>HTML5 + REST</strong></a></li>
                         <li><a href="https://community.jboss.org/wiki/GetStartedWithHTML5MobileWebDevelopmentWithJBoss" target="_blank">Get this application</a></li>
                         <li><a href="https://community.jboss.org/wiki/HTML5MobileQuickstartArchetypeDeepDive" target="_blank">Application deepdive</a></li>
                         <li><a href="https://community.jboss.org/community/aerogear" target="_blank">AeroGear user forums</a></li>

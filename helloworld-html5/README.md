@@ -1,15 +1,15 @@
-helloworld-html5: POH5 Hello World Example
+helloworld-html5: HTML5 + REST Hello World Example
 ===================
 Author: Jay Balunas, Burr Sutter, Douglas Campos, Bruno Olivera
 Level: Beginner
 Technologies: CDI, JAX-RS, HTML5
-Summary: Basic HTML5 |Demonstrates the use of CDI 1.0 and JAX-RS using the POH5 architecture and RESTful services on the backend
+Summary: Basic HTML5 |Demonstrates the use of CDI 1.0 and JAX-RS using the HTML5 architecture and RESTful services on the backend
 
 What is it?
 -----------
 
-This example demonstrates the use of *CDI 1.0* and *JAX-RS* in *JBoss AS 7* using the POH5 architecture.
-POH5 is basically a smart, HTML5+CSS3+JavaScript front-end using RESTful services on the backend.
+This example demonstrates the use of *CDI 1.0* and *JAX-RS* in *JBoss AS 7* using the HTML5 + REST architecture.
+The application is basically a smart, HTML5+CSS3+JavaScript front-end using RESTful services on the backend.
 
 The example can be deployed using Maven from the command line or from Eclipse using JBoss Tools.
 
