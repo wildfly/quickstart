@@ -1,14 +1,12 @@
-JDG Quickstarts 
-===============
+JBoss Data Grid Quickstarts
+===========================
 
-Quickstarts (or examples, or samples) for JBoss Data Grid. There are a number of rules for quickstarts:
+These are the quickstarts for JBoss Data Grid.
 
-* Each quickstart should have a unique name, this enables a user to quickly identify each quickstart
-* A quickstart should have a simple build that the user can quickly understand. If using maven it should:
-  1. Not inherit from another POM
-* The quickstart should be importable into JBoss Tools and deployable there
-* The quickstart should be explained in detail in the associated user guide, including how to deploy
+This distribution contains the following examples:
 
-If you add a quickstart, don't forget to update `dist/src/main/assembly/README.md`.
-
-The 'dist' folder contains Maven scripts to build a zip of the quickstarts.
+* [Carmart](carmart) - simple web application running either in library mode or using HotRod client in client-server mode
+* [Transactional Carmart](carmart-tx) - simple transactional web application running in library mode
+* [Hotrod Endpoint](hotrod-endpoint) - simple example using HotRod client to connect to JDG server
+* [Memcached Endpoint](memcached-endpoint) - simple example using Memcached client to connect to JDG server
+* [REST Endpoint](rest-endpoint) - simple example using REST to connect to JDG server

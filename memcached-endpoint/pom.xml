@@ -1,0 +1,61 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.jboss.datagrid.quickstart</groupId>
+    <artifactId>memcached-endpoint-quickstart</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <name>Memcached Endpoint Example</name>
+
+    <properties>
+        <main.class>org.jboss.as.quickstarts.datagrid.memcached.FootballManager</main.class>
+        <spymemcached.version>2.8.1</spymemcached.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.google.code.simple-spring-memcached</groupId>
+            <artifactId>spymemcached</artifactId>
+            <version>${spymemcached.version}</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
+
+
+    <build>
+        <finalName>${project.artifactId}</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>1.5</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <transformers>
+                        <transformer
+                            implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                            <mainClass>${main.class}</mainClass>
+                        </transformer>
+                    </transformers>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

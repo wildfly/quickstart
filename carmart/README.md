@@ -1,135 +1,126 @@
-How to run the example
-======================
+carmart: Basic infinispan example
+=================================
+Author: Tristan Tarrent, Martin Gencur
+Level: Intermediate
+Technologies: Infinispan, CDI
+Summary: Show how to use Infinispan instead of a relational database.
 
-CarMart is a simple web application that uses Infinispan instead of a relational database.
-Users can list cars, add new cars or remove them from the CarMart. Information about each car
-is stored in a cache. The application also shows cache statistics like stores, hits, retrievals, etc.
+What is it?
+-----------
 
-The CarMart quickstart can work in two modes: "library" and "client-server". In library mode, 
-all libraries (jar files) are bundled with the application and deployed into the server. Caches are
-configured programatically and run in the same JVM as the web application. In client-server mode, 
-the web application bundles only HotRod client and communicates with a remote JBoss Data Grid (JDG) server. 
-The JDG server is configured via standalone.xml configuration file.
+CarMart is a simple web application that uses Infinispan Cache instead of a relational database.
+
+Users can list cars, add new cars, or remove them from the CarMart. Information about each car is stored in a cache. The application also shows cache statistics like stores, hits, retrievals, and more.
+
+The CarMart quickstart can work in two modes: 
+
+* _Library mode_  -  All libraries (JAR files) are bundled with the application and deployed to the JBoss Enterprise Application Platform 6 or JBoss AS 7 server. Cache is configured programatically and runs in the same JVM as the web application. 
+
+* _Client-server mode_ - The web application bundles only the HotRod client and communicates with a remote JBoss Data Grid (JDG) server. The JDG server is configured via the `standalone.xml` configuration file.
 
 
-Building and deploying to JBoss AS 7
+System requirements
+-------------------
+
+All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven 3.0 or better.
+
+The application this project produces is designed to be run on JBoss Enterprise Application Platform 6 or JBoss AS 7. 
+
+ 
+Configure Maven
+---------------
+
+If you have not yet done so, you must [Configure Maven](../README.md#configure-maven-) before testing the quickstarts.
+
+
+Start JBoss Enterprise Application Platform 6 or JBoss AS 7
+-------------------------
+
+1. Open a command line and navigate to the root of the JBoss server directory.
+2. The following shows the command line to start the server with the web profile:
+
+        For Linux:   JBOSS_HOME/bin/standalone.sh
+        For Windows: JBOSS_HOME\bin\standalone.bat
+
+
+Build and Deploy the Quickstart
+-------------------------
+
+_NOTE: The following build command assumes you have configured your Maven user settings. If you have not, you must include Maven setting arguments on the command line. See [Build and Deploy the Quickstarts](../README.md#buildanddeploy) for complete instructions and additional options._
+
+1. Make sure you have started the JBoss Server as described above.
+2. Open a command line and navigate to the root directory of this quickstart.
+3. Type this command to build and deploy the archive:
+
+        mvn clean package jboss-as:deploy
+        
+4. This will deploy `target/jboss-as-carmart.war` to the running instance of the server.
+ 
+
+Access the application
+---------------------
+
+The application will be running at the following URL: <http://localhost:8080/jboss-as-carmart/>
+
+
+Undeploy the Archive
+--------------------
+
+1. Make sure you have started the JBoss Server as described above.
+2. Open a command line and navigate to the root directory of this quickstart.
+3. When you are finished testing, type this command to undeploy the archive:
+
+        mvn jboss-as:undeploy
+
+
+Debug the Application
 ------------------------------------
 
-0) Obtain JDG distribution with productized Infinispan libraries (library distribution)
+If you want to debug the source code or look at the Javadocs of any library in the project, run either of the following commands to pull them into your local repository. The IDE should then detect them.
 
-1) Install libraries from the bundle into your local maven repository
-
-    `mvn initialize -Pinit-repo -Ddatagrid.dist=/home/anyuser/jboss-datagrid-library-6.0.0.ER4-redhat-1`
-    
-2) Start JBoss AS 7 where your application will run
-
-    `$JBOSS_HOME/bin/standalone.sh`
-
-3) Build the application
-
-    `mvn clean package -Plibrary-jbossas`
-
-4) Deploy the application via jboss-as Maven plugin
-
-    `mvn jboss-as:deploy -Plibrary-jbossas`
-
-5) Go to http://localhost:8080/carmart-quickstart
-
-6) Undeploy the application
-
-    `mvn jboss-as:undeploy -Plibrary-jbossas`
+        mvn dependency:sources
+        mvn dependency:resolve -Dclassifier=javadoc
 
 
-Building and deploying to Tomcat 7
-----------------------------------
-
-0) Obtain JDG distribution with productized Infinispan libraries (library distribution)
-
-1) Install libraries from the bundle into your local maven repository
-
-    `mvn initialize -Pinit-repo -Ddatagrid.dist=/home/anyuser/jboss-datagrid-library-6.0.0.ER4-redhat-1`
-
-2) This build assumes you will be running Tomcat 7 in its default
-   configuration, with a hostname of localhost and port 8080. Before starting
-   Tomcat, add the following lines to `conf/tomcat-users.xml` to allow the Maven
-   Tomcat plugin to access the manager application:
-
-    <role rolename="manager-script"/>
-    <user username="admin" password="" roles="manager-script"/>
-    
-3) Start Tomcat 7
-
-    `$CATALINA_HOME/bin/catalina.sh start`
-
-4) Build the application
-
-    `mvn clean package -Plibrary-tomcat`
-
-5) Add a `<server>` element into your Maven settings.xml with `<id>` equal to `tomcat` and correct credentials:
-
-    `<server>
-         <id>tomcat</id>
-         <username>admin</username>
-         <password></password>
-     </server>`
-
-6) Deploy the application via tomcat Maven plugin
-
-    `mvn tomcat:deploy -Plibrary-tomcat`
-
-7) Go to http://localhost:8080/carmart-quickstart
-
-8) Undeploy the application
-
-    `mvn tomcat:undeploy -Plibrary-tomcat`
-
-
-Building and starting the application in client-server mode (using HotRod client)
+Build and Start the Application in Client-server Mode (using the HotRod client)
 ---------------------------------------------------------------------------------
 
-0) Obtain JDG server distribution
+NOTE: The application must be deployed into JBoss Enterprise Application Platform 6 or JBoss AS 7. It can not be deployed into JDG since it does not support deployment of applications. 
 
-1) Add the following configuration to your `$JDG_HOME/standalone/configuration/standalone.xml` to configure
-   remote datagrid
+1. Obtain the JDG server distribution. See the following for more information: <http://www.redhat.com/products/jbossenterprisemiddleware/data-grid/>
 
-    `<paths>
-        <path name="temp" path="/tmp"/>
-     </paths>`
-    
-    ...right after `</system-properties>` tag
-
-    `<local-cache name="carcache" start="EAGER" batching="false" indexing="NONE">
-        <locking isolation="REPEATABLE_READ" striping="false" acquire-timeout="20000" concurrency-level="500"/>
-        <eviction strategy="LIRS" max-entries="4"/>
-        <file-store relative-to="temp" path="carstore" passivation="false"/>
-     </local-cache>`
-    
-    ...into infinispan sybsystem
+2. Configure the remote datagrid in the `$JDG_HOME/standalone/configuration/standalone.xml` file. Copy the following XML into the infinispan subsystem before the ending </cache-container> tag. If you have an existing `carcache` element, be sure to replace it with this one.
+       
+            <local-cache name="carcache" start="EAGER" batching="false" indexing="NONE">
+                <locking isolation="REPEATABLE_READ" striping="false" acquire-timeout="20000" concurrency-level="500"/>
+                <eviction strategy="LIRS" max-entries="4"/>
+            </local-cache>
    
-2) Start the JDG server (this server is supposed to run on test1 address)
+2) Start the JDG server using on localhost 100 on port offset: 
     
-    `$JDG_HOME/bin/standalone.sh`
+        $JDG_HOME/bin/standalone.sh -Djboss.socket.binding.port-offset=100
 
 3) Start JBoss AS 7 into which you want to deploy your application
 
-    `$JBOSS_HOME/bin/standalone.sh`
+        $JBOSS_HOME/bin/standalone.sh
 
-4) Edit src/main/resources/META-INF/JDG.properties file and specify address of the JDG server
+4) The application finds the JDG server using the values in the src/main/resources/META-INF/JDG.properties file. If you are not running the JDG server on the default host and port, you must modify this file to contain the correct values. If you need to change the JDG address:port information, edit src/main/resources/META-INF/JDG.properties file and specify address and port of the JDG server
 
-    datagrid.address=test1
+        datagrid.host=localhost
+        datagrid.hotrod.port=11322
 
 5) Build the application in the example's directory:
 
-    `mvn clean package -Premote`
+        mvn clean package -Premote
 
 6) Deploy the application
 
-    `mvn jboss-as:deploy -Premote`
+        mvn jboss-as:deploy -Premote
 
-7) Go to http://localhost:8080/carmart-quickstart
+7) The application will be running at the following URL: <http://localhost:8080/jboss-as-carmart/>
 
 8) Undeploy the application
 
-    `mvn jboss-as:undeploy -Premote`
+        mvn jboss-as:undeploy -Premote
 
-NOTE: The application must be deployed into JBoss AS7, not JDG, since JDG does not support deploying applications. 
+

@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core">
+
+<ui:composition template="template.xhtml">
+
+    <ui:define name="mainarea">
+        <h:outputText value="Add a new car to the Car Mart" styleClass="carsTitle"/>
+        <h:form>
+            <h:messages style="color: red" />
+            <h:panelGrid columns="2" styleClass="innerContent">
+                <h:outputLabel value="Number Plate:" for="numberPlate" />
+                <h:inputText id ="numberPlate" value="#{carManager.car.numberPlate}" required="true" 
+                    requiredMessage="Must enter a car number"/>
+                <h:outputLabel value="Brand:" for="brand" />
+                <h:inputText id="brand" value="#{carManager.car.brand}" required="true" 
+                    requiredMessage="Must enter a brand"/>
+                <h:outputLabel value="Color:" for="color" />
+                <h:inputText id="color" value="#{carManager.car.color}" required="true" 
+                    requiredMessage="Must enter a color"/>
+                <h:outputLabel value="Displacement:" for="displacement" />
+                <h:inputText id ="displacement" value="#{carManager.car.displacement}" required="true" 
+                    requiredMessage="Must enter a displacement"/>
+                <h:outputLabel value="Type:" for="carType" />
+                <h:selectOneMenu id="carType" value="#{carManager.car.type}" required="true">                           
+                    <f:selectItems value="#{carTypes}" var="carType" itemLabel="#{carType}" itemValue="#{carType}" />
+                </h:selectOneMenu>
+                <h:outputLabel value="Country:" for="country" />
+                <h:selectOneMenu id="country" value="#{carManager.car.country}" required="true">                           
+                    <f:selectItems value="#{countries}" var="country" itemLabel="#{country}" itemValue="#{country}" />
+                </h:selectOneMenu>
+            </h:panelGrid>
+            <h:commandButton action="#{carManager.addNewCar}" value="Add car" />
+            <h:commandButton action="#{carManager.addNewCarWithRollback}" value="Add car with rollback" />
+        </h:form>
+    </ui:define>
+    
+</ui:composition>
+
+</html>
