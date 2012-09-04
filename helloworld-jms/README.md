@@ -162,7 +162,7 @@ The example provides for a certain amount of customization for the `mvn:exec` pl
 	
     Default: `"Hello, World!"`
 
-* `jboss.naming.provider.url`
+* `java.naming.provider.url`
 
 	  This property allows configuration of the JNDI directory used to lookup the JMS destination. This is useful when the client resides on another host. 
 
