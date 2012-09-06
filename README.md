@@ -401,7 +401,7 @@ Use the following steps to install and configure PostgreSQL on Linux. You can do
 
 ##### Mac OS X Instructions
 
-The following are the steps to install and start PostreSQL on Mac OS X. Note that this guide covers only 'One click installer' option.
+The following are the steps to install and start PostgreSQL on Mac OS X. Note that this guide covers only 'One click installer' option.
 
 1. Install PostgreSQL using Mac OS X One click installer: <http://www.postgresql.org/download/macosx/>
 2. Allow prepared transactions:
@@ -444,7 +444,7 @@ Use the following steps to install and configure PostgreSQL on Windows:
             max_connections = 10
 3.  Start the database server
     * Choose Start -> All Programs -> PostgreSQL 9.1\pgAdmin III
-    * Server Groups -> Servers (1) -> PostreSQL 9.1 (localhost:5432)
+    * Server Groups -> Servers (1) -> PostgreSQL 9.1 (localhost:5432)
     * Right click -> Stop Service
     * Right click -> Start Service
 4.   Create a database for the quickstart (as noted above, replace QUICKSTART_DATABASENAME with the name provided in the particular quickstart)
@@ -494,6 +494,26 @@ Use the following steps to install and configure PostgreSQL on Windows:
 <a id="addpostgresqldriver"></a>
 
 #### Add the Driver Configuration to the JBoss server
+
+You can configure the driver using the JBoss CLI or by manually editing the configuration file.
+
+##### Configure the Driver Using the JBoss CLI
+
+1. Start the JBoss Enterprise Application Platform 6 or JBoss AS 7 Server by typing the following: 
+
+        For Linux:  JBOSS_HOME_SERVER_1/bin/standalone.sh -c standalone-full.xml
+        For Windows:  JBOSS_HOME_SERVER_1\bin\standalone.bat -c standalone-full.xml
+2. To start the JBoss CLI tool, open a new command line, navigate to the JBOSS_HOME directory, and type the following:
+    
+        For Linux: bin/jboss-cli.sh --connect
+        For Windows: bin\jboss-cli.bat --connect
+3. At the prompt, type the following:
+
+        [standalone@localhost:9999 /] /subsystem=datasources/jdbc-driver=postgresql:add(driver-name=postgresql,driver-module-name=org.postgresql,driver-xa-datasource-class-name=org.postgresql.xa.PGXADataSource)
+
+
+##### Configure the Driver Manually
+
 1.  Backup the file: `JBOSS_HOME/standalone/configuration/standalone-full.xml`
 2.  Open the `JBOSS_HOME/standalone/configuration/standalone-full.xml` file in an editor and locate the subsystem `urn:jboss:domain:datasources:1.0`. 
 3.  Add the following driver to the `<drivers>` section that subsystem. You may need to merge with other drivers in that section:
