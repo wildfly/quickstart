@@ -117,11 +117,7 @@
                         event.preventDefault();
 
                         var memberData = $(this).serializeObject();
-                        //Workaround for jQM adding a hidden field for submit buttons which then
-                        //gets serialized into the form values
-                        if ( memberData.register ) {
-                            delete memberData.register;
-                        }
+
                         registerMember(memberData);
                     });
 
@@ -259,7 +255,7 @@
                             </div>
                             <div id="formMsgs"></div>
                             <div data-role="controlgroup" data-type="horizontal">
-                                <input type="submit" name="register" id="register" value="Register"/>
+                                <input type="submit" id="register" value="Register"/>
                                 <input type="button" name="cancel" id="cancel" value="Cancel"/>
                             </div>
                         </fieldset>
