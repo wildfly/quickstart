@@ -4,6 +4,7 @@ Authors: Jaikiran Pai, Mike Musgrove
 Level: Intermediate
 Technologies: EJB
 Summary: Shows how to access an EJB from a remote Java client program using JNDI
+Target Product: EAP
 
 What is it?
 -----------

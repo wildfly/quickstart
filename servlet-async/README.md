@@ -4,6 +4,7 @@ Author: Christian Sadilek
 Level: Intermediate
 Technologies: Servlet, CDI, EJB
 Summary: Demonstrates CDI, plus asynchronous Servlets and EJBs
+Target Product: EAP
 
 What is it?
 -----------

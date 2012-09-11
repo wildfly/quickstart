@@ -4,6 +4,7 @@ Author: Pete Muir
 Level: Beginner
 Technologies: CDI, JSF
 Summary: Demonstrates the use of CDI 1.0 and JSF 2.0
+Target Product: EAP
 
 What is it?
 -----------

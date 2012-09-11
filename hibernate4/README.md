@@ -4,6 +4,7 @@ Author: Madhumita Sadhukhan
 Level: Intermediate
 Technologies: Hibernate 4
 Summary: This quickstart performs the same functions as the _hibernate3_ quickstart, but uses Hibernate 4 for database access. Compare this quickstart to the _hibernate3_ quickstart to see the changes needed to run with Hibernate 4..
+Target Product: EAP
 
 What is it?
 -----------

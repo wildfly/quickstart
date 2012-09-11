@@ -4,6 +4,7 @@ Author: Christian Sadilek
 Level: Beginner
 Technologies: GWT
 Summary: Demonstrates the use of CDI 1.0 and JAX-RS with a GWT front-end client
+Target Product: WFK
 
 What is it?
 -----------

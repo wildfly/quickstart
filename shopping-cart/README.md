@@ -4,6 +4,7 @@ Author: Serge Pagop
 Level: Intermediate
 Technologies: EJB
 Summary: Demonstrates a stateful session bean
+Target Product: EAP
 
 What is it?
 -----------

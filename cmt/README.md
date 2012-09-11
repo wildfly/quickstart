@@ -4,6 +4,7 @@ Author: Tom Jenkinson
 Level: Intermediate
 Technologies: EJB, Container Managed Transactions (CMT)
 Summary: EJB that demonstrates container-managed transactions (CMT)
+Target Product: EAP
 
 ## What is it?
 

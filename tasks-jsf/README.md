@@ -5,6 +5,7 @@ Level: Intermediate
 Technologies: JSF, JPA
 Summary: Provides a JSF 2.0 as view layer for the `tasks` quickstart
 Prerequisites: tasks
+Target Product: EAP
 
 What is it?
 -----------

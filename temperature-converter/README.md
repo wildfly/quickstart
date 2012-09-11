@@ -4,6 +4,7 @@ Author: Bruce Wolfe
 Level: Beginner
 Technologies: EJB
 Summary: Demonstrates a stateless session bean 
+Target Product: EAP
 
 What is it?
 -----------

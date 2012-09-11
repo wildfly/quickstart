@@ -1,6 +1,10 @@
 ejb-asynchronous:  An application with an EJB with asynchronous methods to demonstrate how it works
 ======================================================
 Author: Wolf-Dieter Fink
+Level: Advanced
+Technologies: EJB 
+Summary: Demonstrates asynchronous EJB invocations.
+Target Product: EAP
 
 What is it?
 -----------

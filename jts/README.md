@@ -5,11 +5,7 @@ Level: Intermediate
 Technologies: JTS
 Summary: Uses Java Transaction Service (JTS) to coordinate distributed transactions
 Prerequisites: cmt
-
-Pre-requisites
---------------
-
-Developers should be familiar with the concepts introduced in the _cmt_ quickstart.
+Target Product: EAP
 
 
 What is it?
@@ -56,6 +52,12 @@ Configure Maven
 ---------------
 
 If you have not yet done so, you must [Configure Maven](../README.md#mavenconfiguration) before testing the quickstarts.
+
+
+Pre-requisites
+--------------
+
+Developers should be familiar with the concepts introduced in the _cmt_ quickstart.
 
 
 Configure the application server to use PostgreSQL

@@ -4,6 +4,7 @@ Author: Sherif F. Makary
 Level: Intermediate
 Technologies: Servlet, Security
 Summary: Demonstrates how to use Java EE declarative security to control access to Servlet 3
+Target Product: EAP
 
 What is it?
 -----------

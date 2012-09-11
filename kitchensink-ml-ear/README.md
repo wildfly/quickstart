@@ -1,9 +1,10 @@
 kitchensink-ml-ear: Localized Example Using Multiple Java EE 6 Technologies Deployed as an EAR
 ==============================================================================================
-Author: Pete Muir
+Author: Sande Gilda
 Level: Intermediate
 Technologies: EAR
-Summary: Localize example based on kitchensink, but deployed as an EAR
+Summary: A localized version of kitchensink-ear
+Target Product: EAP
 
 What is it?
 -----------

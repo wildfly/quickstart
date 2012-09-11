@@ -5,6 +5,7 @@ Level: Intermediate
 Technologies: JAX-RS
 Summary: Demonstrates the use an external JAX-RS RestEasy client which interacts with a JAX-RS Web service that uses CDI 1.0 and JAX-RS
 Prerequisites: helloworld-rs
+Target Product: EAP
 
 What is it?
 -----------

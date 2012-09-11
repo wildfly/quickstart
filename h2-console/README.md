@@ -4,6 +4,7 @@ Author: Pete Muir
 Level: Beginner
 Technologies: H2
 Summary: Shows how to use the H2 console with JBoss AS
+Target Product: EAP
 
 What is it?
 -----------

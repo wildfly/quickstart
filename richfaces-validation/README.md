@@ -4,6 +4,7 @@ Author: Lukas Fryc
 Level: Beginner
 Technologies: RichFaces
 Summary: Demonstrates RichFaces and bean validation
+Target Product: WFK
 
 What is it?
 -----------

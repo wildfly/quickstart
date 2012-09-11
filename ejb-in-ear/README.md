@@ -4,6 +4,7 @@ Author: Paul Robinson
 Level: Intermediate
 Technologies: EJB, EAR
 Summary: Packages an EJB JAR and WAR in an EAR
+Target Product: EAP
 
 What is it?
 -----------

@@ -4,6 +4,7 @@ Author: Jonathon Fuerth
 Level: Beginner
 Technologies: Errai, JAX-RS, GWT
 Summary: Helloworld using the Errai framework
+Target Product: WFK
 
 What is it?
 -----------

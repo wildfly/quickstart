@@ -4,6 +4,7 @@ Author: Paul Robinson
 Level: Intermediate
 Technologies: WS-AT, JAX-WS
 Summary: Deployment of a WS-AT (WS-AtomicTransaction) enabled JAX-WS Web service bundled in a WAR archive
+Target Product: EAP
 
 What is it?
 -----------

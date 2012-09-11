@@ -4,6 +4,7 @@ Author: Bartosz Baranowski
 Level: Beginner
 Technologies: JBoss Modules
 Summary: Demonstrates how to use modules to control class loading for 3rd party logging frameworks
+Target Product: EAP
 
 What is it?
 -----------

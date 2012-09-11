@@ -4,6 +4,7 @@ Author: Gustavo A. Brey, Gaston Coco
 Level: Intermediate
 Technologies: CDI, JAX-RS
 Summary: Demonstrates the use of CDI 1.0 and JAX-RS
+Target Product: EAP
 
 What is it?
 -----------

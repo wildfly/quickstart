@@ -4,6 +4,7 @@ Authors: Oliver Kiss, Lukas Fryc
 Level: Intermediate
 Technologies: JPA, Arquillian
 Summary: Demonstrates testing JPA using Arquillian
+Target Product: EAP
 
 What is it?
 -----------

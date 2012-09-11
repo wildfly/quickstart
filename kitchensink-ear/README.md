@@ -4,6 +4,7 @@ Author: Pete Muir
 Level: Intermediate
 Technologies: EAR
 Summary: Based on kitchensink, but deployed as an EAR
+Target Product: EAP
 
 What is it?
 -----------

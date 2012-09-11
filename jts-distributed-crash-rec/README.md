@@ -5,6 +5,7 @@ Level: Advanced
 Technologies: JTS
 Summary: Demonstrates recovery of distributed crashed components
 Prerequisites: jts
+Target Product: EAP
 
 
 What is it?

@@ -4,6 +4,7 @@ Author: Ondrej Zizka <ozizka@redhat.com>
 Level: Intermediate
 Technologies: Apache Wicket, JPA
 Summary: Demonstrates how to use the Wicket Framework 1.5 with the JBoss server using the Wicket-Stuff Java EE integration, packaged as an EAR
+Target Product: EAP
 
 What is it?
 -----------

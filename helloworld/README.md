@@ -4,6 +4,7 @@ Author: Pete Muir
 Level: Beginner
 Technologies: CDI, Servlet
 Summary: Basic example that can be used to verify that the server is configured and running correctly
+Target Product: EAP
 
 What is it?
 -----------

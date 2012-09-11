@@ -4,6 +4,7 @@ Author: Karel Piwko
 Level: Beginner
 Technologies: Bean Validation, JPA
 Summary: Shows how to use Arquillian to test Bean Validation
+Target Product: EAP
 
 What is it?
 -----------

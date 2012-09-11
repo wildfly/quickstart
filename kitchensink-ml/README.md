@@ -3,7 +3,8 @@ kitchensink-ml: Localized application using an assortment of technologies includ
 Author: Sande Gilda
 Level: Intermediate
 Technologies: CDI, JSF, JPA, EJB, JPA, JAX-RS, BV
-Summary: A localized example that incorporates multiple technologies
+Summary: A localized version of kitchensink
+Target Product: EAP
 
 What is it?
 -----------

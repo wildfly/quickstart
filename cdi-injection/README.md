@@ -4,6 +4,7 @@ Author: Jason Porter
 Level: Beginner
 Technologies: CDI
 Summary: Demonstrates the use of CDI 1.0 Injection and Qualifiers with JSF as the front-end client.
+Target Product: EAP
 
 What is it?
 -----------

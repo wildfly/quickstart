@@ -4,6 +4,7 @@ Author: Mike Musgrove
 Level: Intermediate
 Technologies: EJB, Bean Managed Transactions (BMT)
 Summary: EJB that demonstrates bean-managed transactions (BMT)
+Target Product: EAP
 
 What is it?
 -----------

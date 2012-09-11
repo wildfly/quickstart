@@ -4,6 +4,7 @@ Author: Mike Musgrove
 Level: Advanced
 Technologies: JTA, Crash Recovery
 Summary: Uses Java Transaction API and JBoss Transactions to demonstrate recovery of a crashed transaction
+Target Product: EAP
 
 What is it?
 -----------

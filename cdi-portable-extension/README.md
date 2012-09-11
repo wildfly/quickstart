@@ -4,6 +4,7 @@ Author: Jason Porter
 Level: Intermediate
 Technologies: CDI
 Summary: Creating a basic CDI extension to provide injection of fields from an XML file.
+Target Product: EAP
 
 What is it?
 -----------

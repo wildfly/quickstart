@@ -4,6 +4,7 @@ Author: Weston Price
 Level: Intermediate
 Technologies: JMS
 Summary: Demonstrates the use of a standalone (Java SE) JMS client
+Target Product: EAP
 
 What is it?
 -----------

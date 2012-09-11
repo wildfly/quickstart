@@ -4,6 +4,7 @@ Author: Pete Muir
 Level: Intermediate
 Technologies: CDI, JSF, JPA, EJB, JPA, JAX-RS, BV
 Summary: An example that incorporates multiple technologies
+Target Product: EAP
 
 What is it?
 -----------

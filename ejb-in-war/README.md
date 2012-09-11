@@ -4,6 +4,7 @@ Author: Paul Robinson
 Level: Intermediate
 Technologies: EJB, JSF, WAR
 Summary: Packages an EJB JAR in a WAR
+Target Product: EAP
 
 What is it?
 -----------

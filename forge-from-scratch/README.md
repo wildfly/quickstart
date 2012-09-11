@@ -4,6 +4,7 @@ Author: Lincoln Baxter
 Level: Intermediate
 Technologies: Forge
 Summary: Demonstrates how to generate a fully Java EE compliant project using nothing but JBoss Forge
+Target Product: EAP
 
 What is it?
 -----------

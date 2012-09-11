@@ -4,6 +4,7 @@ Author: Darrin Mison
 Level: Beginner
 Technologies: JBoss Logging Tools
 Summary: Demonstrates the use of JBoss Logging Tools to create internationalized loggers, exceptions, and generic messages
+Target Product: EAP
 
 What is it?
 ------------
