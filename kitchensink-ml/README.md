@@ -68,7 +68,7 @@ The following changes were made to the quickstart to enable it to use the browse
 
     * The following namespace was added: `xmlns:f="http://java.sun.com/jsf/core`
     * The resource bundle was loaded using: `<f:loadBundle basename="org.jboss.as.quickstarts.kitchensink-ml.bundle.Resources" var="bundle" />`
-    * Strings for headers, messages, labels were replaced with the appropriate `#{bundle.<property>}`, for example: `#{bundle.memberWelcomeHeader}`.
+    * Strings for headers, messages, labels were replaced with the appropriate `# {bundle.<property>}`, for example: `# {bundle.memberWelcomeHeader}`.
     
 ### Set the Browser Preferred Locale
 
