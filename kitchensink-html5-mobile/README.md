@@ -4,7 +4,7 @@ Author: Jay Balunas
 Level: Intermediate
 Technologies: HTML5
 Summary: Based on kitchensink, but uses HTML5, making it suitable for mobile and tablet computers
-Target Product: EAP
+Target Product: WFK
 
 What is it?
 -----------
