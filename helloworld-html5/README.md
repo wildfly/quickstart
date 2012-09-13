@@ -46,7 +46,7 @@ You can now deploy the artifact by executing the following command:
 
 This will deploy both the client and service applications.
 
-The application will be running at the following URL <http://localhost:8080/jboss-as-helloworld-html5/>.
+The application will be running at the following URL [http://localhost:8080/\<artifactId>/]("http://localhost:8080/<artifactId>").
 
 To undeploy run this command:
 
@@ -86,7 +86,7 @@ Development notes
 =================
 
 You can test the REST endpoint using the following URL
-http://localhost:8080/jboss-as-helloworld-html5/hello/json/David
+[http://localhost:8080/\<artifactId>/hello/json/David/]("http://localhost:8080/<artifactId>/hello/json/David/").
 
 HelloWorld.java - establishes the RESTful endpoints using JAX-RS
 
