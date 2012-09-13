@@ -20,45 +20,46 @@ import org.richfaces.cdi.push.Push;
 @Model
 public class MemberController {
 
-   public static final String PUSH_CDI_TOPIC = "pushCdi";
+    public static final String PUSH_CDI_TOPIC = "pushCdi";
 
-   @Inject
-   private FacesContext facesContext;
+    @Inject
+    private FacesContext facesContext;
 
-   @Inject
-   private MemberRegistration memberRegistration;
+    @Inject
+    private MemberRegistration memberRegistration;
 
-   @Inject
-   @Push(topic = PUSH_CDI_TOPIC) Event<String> pushEvent;
+    @Inject
+    @Push(topic = PUSH_CDI_TOPIC)
+    Event<String> pushEvent;
 
-   private Member newMember;
-   private Member member;
+    private Member newMember;
+    private Member member;
 
-   @Produces
-   @Named
-   public Member getNewMember() {
-      return newMember;
-   }
+    @Produces
+    @Named
+    public Member getNewMember() {
+        return newMember;
+    }
 
-   @Produces
-   @Named
-   public Member getMember() {
-      return member;
-   }
+    @Produces
+    @Named
+    public Member getMember() {
+        return member;
+    }
 
-   public void setMember(Member member) {
-      this.member = member;
-   }
+    public void setMember(Member member) {
+        this.member = member;
+    }
 
-   public void register() throws Exception {
-      memberRegistration.register(newMember);
-      facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Registered!", "Registration successful"));
-      pushEvent.fire(String.format("New member added: %s (id: %d)", newMember.getName(), newMember.getId()));
-      initNewMember();
-   }
+    public void register() throws Exception {
+        memberRegistration.register(newMember);
+        facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Registered!", "Registration successful"));
+        pushEvent.fire(String.format("New member added: %s (id: %d)", newMember.getName(), newMember.getId()));
+        initNewMember();
+    }
 
-   @PostConstruct
-   public void initNewMember() {
-      newMember = new Member();
-   }
+    @PostConstruct
+    public void initNewMember() {
+        newMember = new Member();
+    }
 }

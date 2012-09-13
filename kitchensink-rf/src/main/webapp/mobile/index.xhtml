@@ -21,13 +21,13 @@
             <h:form id="mobileForm">
                 <h:outputScript target="head">
                     var handleHashChange = function (page) {
-                        var appPage = $('#app-page');
-                        if (appPage.data('activePage') === page) {
-                            slidfast.core.slideTo('app-page');
-                        } else {
-                            loadPage(page);
-                            appPage.data('activePage', page);
-                        }
+                    var appPage = $('#app-page');
+                    if (appPage.data('activePage') === page) {
+                    slidfast.core.slideTo('app-page');
+                    } else {
+                    loadPage(page);
+                    appPage.data('activePage', page);
+                    }
                     }
                 </h:outputScript>
                 <a4j:jsFunction name="loadPage"
