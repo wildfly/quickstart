@@ -15,17 +15,8 @@
  * limitations under the License.
  */
 /* Core styles for the mobile version of the application */
-
 body {
    font-family: Verdana, sans-serif;
-   margin: 0;
-   padding: 0;
-   font-size: 0.8em;
-   color: #363636;
-}
-
-code {
-    font-size: 1.1em;
 }
 
 p {
@@ -36,21 +27,6 @@ p {
 a {
    color: #369;
    text-decoration: none;
-}
-
-a:hover {
-    color: #369;
-    text-decoration: underline;
-}
-
-span.invalid {
-    padding-left: 3px;
-    color: red;
-}
-
-span.success {
-   padding-left: 3px;
-   color: green;
 }
 
 /* Header and footer styles */
@@ -167,32 +143,31 @@ span.success {
 }
 
 /* Member table styles */
-#mem_tbl {
-   clear: both;
-   width: 100%;
-   margin-bottom: 20px;
-}
-
-#mem_tbl thead {
-    font-weight: bold;
-    color: #FFFFFF;
-    background-color: black;
-    text-align: left;
-}
-
-#mem_tbl td,
-#mem_tbl th {
-   height: 2em;
-   padding: 6px;
-   font-size: 11px;
-   border-bottom: #777 dotted 1px;
-   vertical-align: middle;
-}
-
-#mem_tbl tfoot td {
-    height: 20px;
-    font-weight: bold;
+#members .row .col .head {
+    float: left;
+    width: 70px;
     border: none;
+    padding: 4px 5px;
+}
+
+#members .row .col {
+    width: 100%;
+    float: left;
+    clear: left;
+    background-color: #fff;
+    border: 1px dotted #ccc;
+}
+
+#members .row .col .data {
+    padding: 4px 4px 4px 94px;
+}
+
+#members .col:nth-child(5) {
+    margin-bottom: 20px;
+}
+
+#member-art {
+    padding-top: 30px!important;
 }
 
 #member-art .ui-content .ui-btn {
@@ -204,85 +179,7 @@ span.success {
     display: none;
 }
 
-/* Using new CSS3 selectors for styling*/
-#members tr:nth-child(odd) {
-    background: #f4f3f3;
+/* Hide Desktop Items */
+section > h1, article > h2, aside > h3, footer, .member-foot .ui-btn, .highlights, .logo, .dualbrand {
+	display: none;
 }
-
-#members tr:nth-child(even) {
-    background: #ffffff;
-}
-
-/*responsive design for tables*/
-@media only screen and (max-width: 40em) { /*640*/
-
-    #members tr {
-        background: #ffffff;
-        border-top: #777 dotted 1px;
-    }
-
-    #mem_tbl {
-        display: block;
-        position: relative;
-        width: 100%;
-    }
-
-    #mem_tbl thead {
-        display: none;
-    }
-
-    #mem_tbl tbody {
-        display: block;
-        width: auto;
-        position: relative;
-        overflow-x: auto;
-        white-space: nowrap;
-    }
-
-    #mem_tbl tbody tr {
-        display: block;
-        clear: none;
-        margin-bottom: 10px;
-        width: 100%;
-    }
-
-    #mem_tbl tbody tr.columnNames {
-        width: auto;
-        float: left;
-        font-weight: bold;
-        color: #fff;
-        text-align: left;
-        clear: both;
-        margin-right: 10px;
-    }
-
-    #mem_tbl tbody tr.columnNames td {
-        display: block;
-        height: 2em;
-        padding: 6px;
-        font-size: 11px;
-        border-bottom: #777 dotted 1px;
-        background-color: #000;
-    }
-
-    #mem_tbl td {
-        display: block;
-        min-height: 1.25em;
-    }
-
-    #mem_tbl tfoot {
-        position: absolute;
-        bottom: -15px;
-        left: 60px;
-    }
-}
-
-#deviceInfo {
-	margin-bottom:10px;
-}
-
-#connectionRefreshButton {
-	float: left;
-	margin-right: 10px;
-}
-

@@ -1,18 +1,11 @@
 <script type="text/template" id="member-tmpl">
 <% _.each(members, function(member) { %>
-    <tr class="columnNames">
-        <td>Id</td>
-        <td>Name</td>
-        <td>Email</td>
-        <td>Phone #</td>
-        <td>REST URL</td>
-    </tr>
-	<tr class="member">
-		<td><%=member.id%></td>
-		<td><%=member.name%></td>
-		<td><%=member.email%></td>
-		<td><%=member.phoneNumber%></td>
-		<td><a href="http://html5-aerogear.rhcloud.com/rest/members/<%=member.id%>" target="_blank" class="resturl ui-link" rel="external">JSON</a></td>
-	</tr>
+	<div class="row member">
+		<div class="col"><div class="head">Id</div><div class="data"><%=member.id%></div></div>
+		<div class="col"><div class="head">Name</div><div class="data"><%=member.name%></div></div>
+		<div class="col"><div class="head">Email</div><div class="data"><%=member.email%></div></div>
+		<div class="col"><div class="head">Phone #</div><div class="data"><%=member.phoneNumber%></div></div>
+		<div class="col"><div class="head">REST URL</div><div class="data"><a href="http://html5-aerogear.rhcloud.com/rest/members/<%=member.id%>" rel="external" target="_blank" class="resturl ui-link">JSON</a></div></div>
+	</div>
 <% }); %>
 </script>
