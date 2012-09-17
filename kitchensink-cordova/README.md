@@ -20,5 +20,5 @@ For more detailed information about a quickstart, click on the quickstart name.
 
 This quickstart contains the following mobile OS types:
 
-1. [ios](ios/README.md) 
-2. [android](android/README.md)
+1. [ios](/kitchensink-cordova/ios/README.md) 
+2. [android](/kitchensink-cordova/android/README.md)
