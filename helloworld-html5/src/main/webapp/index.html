@@ -23,34 +23,36 @@
 <link rel="stylesheet" href="css/styles.css"/>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
 <script type="text/javascript">
-$(document).ready(function() {
-	$('#sayHello').click(function() {
-		var result = $( "#result" ),
-            name = $.trim( $( "#name" ).val() );
+$( document ).ready( function() {
+    $( '#sayHello' ).click( function( event ) {
+        event.preventDefault();
+        
+        var result = $( '#result' ),
+            name = $.trim( $( '#name' ).val() );
 
-        result.removeClass( "invalid" );
+        result.removeClass( 'invalid' );
 
         if( !name || !name.length )
         {
-            result.addClass( "invalid").text( "A name is required!" );
-            return false;
+            result.addClass( 'invalid' ).text( 'A name is required!' );
+            return;
         }
 		//console.log("clicked: " + name);
-        $.ajax('hello/json/' + name, {
+        $.ajax( 'hello/json/' + name, {
             dataType:'json',
             data:{},
             type:'POST',
-            success:function (data) {
+            success:function ( data ) {
                 //console.log("success: " + data.result);
-                $('#result').text(data.result);
+                $( '#result' ).text( data.result );
             }
         })
-		.error(function() {
-			//console.log("error");
-		}
-		);
-		return false; // prevents submit of the form
-	});
+        .error( function() {
+        //console.log("error");
+        }
+        );
+        
+    });
 }); // (document).read
 </script>
 </head>
