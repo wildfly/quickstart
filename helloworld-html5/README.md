@@ -1,5 +1,9 @@
 helloworld-html5: HTML5 + REST Hello World Example
 ===================
+Author: Jay Balunas
+Level: Beginner 
+Technologies: Aerogear, CDI, HTML5, REST
+Origin: http://www.jboss.org/aerogear
 
 What is it?
 -----------

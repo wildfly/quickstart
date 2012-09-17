@@ -1,6 +1,9 @@
 kitchensink-html5-mobile: Example AeroGear Application Using Multiple HTML5, Mobile & JAX-RS Technologies 
 =========================================================================================================
 Author: Jay Balunas
+Level: Beginner 
+Technologies: Aerogear, CDI, HTML5, REST
+Origin: http://www.jboss.org/aerogear
 
 What is it?
 -----------
