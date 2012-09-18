@@ -26,18 +26,17 @@
 $( document ).ready( function() {
     $( '#sayHello' ).click( function( event ) {
         event.preventDefault();
-        
+
         var result = $( '#result' ),
             name = $.trim( $( '#name' ).val() );
 
         result.removeClass( 'invalid' );
 
-        if( !name || !name.length )
-        {
+        if( !name || !name.length ) {
             result.addClass( 'invalid' ).text( 'A name is required!' );
             return;
         }
-		//console.log("clicked: " + name);
+        //console.log("clicked: " + name);
         $.ajax( 'hello/json/' + name, {
             dataType:'json',
             data:{},
@@ -48,20 +47,20 @@ $( document ).ready( function() {
             }
         })
         .error( function() {
-        //console.log("error");
+            //console.log("error");
         });
     });
-}); // (document).read
+}); // (document).ready
 </script>
 </head>
 <body>
 HTML5 + REST Hello World<br>
 <form name="theForm">
- <fieldset>
-    <label for="name" id="name_label">Name</label>
-	<input name="name" id="name" type="text" required placeholder="Your Name"/>
-    <input type="submit" id="sayHello" value="Say Hello"/><span id="result"></span>
- </fieldset>
+    <fieldset>
+        <label for="name" id="name_label">Name</label>
+        <input name="name" id="name" type="text" required placeholder="Your Name"/>
+        <input type="submit" id="sayHello" value="Say Hello"/><span id="result"></span>
+    </fieldset>
 </form>
 
 </body>
