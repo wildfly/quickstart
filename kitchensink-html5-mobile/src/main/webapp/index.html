@@ -57,7 +57,7 @@
                 if ( !window.jQuery ) {
                     //In production, you would want to fall back to a minified file.
                     //We fall back to the full version because Eclipse reports false errors in some minified JavaScript files.
-                    yepnope.load( "js/libs/jquery-1.7.1.js" );
+                    yepnope( "js/libs/jquery-1.7.1.min.js" );
                 }
             }
         },{
@@ -93,7 +93,7 @@
                         load: "http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js",
                         complete: function() {
                             if ( !$.mobile ) {
-                                yepnope( "js/libs/jquery.mobile-1.1.0.min.js" );
+                                yepnope.injectJs( "js/libs/jquery.mobile-1.1.0.min.js" );
                             }
                         }
                     });
