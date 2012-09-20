@@ -162,13 +162,6 @@
             <scope>provided</scope>
         </dependency>
 
-       <!-- Import the JSF impl, to allow for application debugging -->
-       <dependency>
-           <groupId>com.sun.faces</groupId>
-           <artifactId>jsf-impl</artifactId>
-           <scope>provided</scope>
-       </dependency>
-
       <!-- Import the Servlet API, we use provided scope as the API is included in JBoss AS 7 -->
       <dependency>
          <groupId>org.jboss.spec.javax.servlet</groupId>
@@ -377,6 +370,23 @@
                     </plugin>
                 </plugins>
             </build>
+        </profile>
+
+        <profile>
+            <!-- Activate this profile to identify to the IDE which version of the JSF impl is being used by the
+                application server.-->
+            <!-- Be sure to include the JBoss maven repository, as the JBoss jsf-impl artifacts are not in maven
+                central. -->
+            <!-- See: https://community.jboss.org/wiki/MavenGettingStarted-Developers -->
+            <id>debug</id>
+            <dependencies>
+                <!-- Import the JSF impl, to allow for application debugging -->
+                <dependency>
+                    <groupId>com.sun.faces</groupId>
+                    <artifactId>jsf-impl</artifactId>
+                    <scope>provided</scope>
+                </dependency>
+            </dependencies>
         </profile>
 
     </profiles>
