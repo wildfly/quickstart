@@ -18,29 +18,45 @@
          <p>Demonstrates a <b>Hibernate 3</b> application using JBoss.</p>
          <h:panelGrid columns="3" columnClasses="titleCell">
             <h:outputLabel for="id" value="Member Id (Enter unique number):"/>
-            <h:inputText id="id" value="#{newMember.id}" />
+            <h:inputText id="id" value="#{newMember.id}" >
+               <f:validateLongRange minimum="0" maximum="999999" />
+               <f:validator validatorId="validateMemberId"/>
+             </h:inputText>            
             <h:message for="id" errorClass="invalid"/>
 
             <h:outputLabel for="name" value="Name:"/>
-            <h:inputText id="name" value="#{newMember.name}" />
+            <h:inputText id="name" value="#{newMember.name}" >
+               <f:validateLength minimum="1" maximum="25"/>
+               <f:validator validatorId="validateName"/>
+            </h:inputText>
             <h:message for="name" errorClass="invalid"/>
 
             <h:outputLabel for="email" value="Email:"/>
-            <h:inputText id="email" value="#{newMember.email}"/>
+            <h:inputText id="email" value="#{newMember.email}">
+                <f:validateLength minimum="1"/>
+                <f:validator validatorId="validateEmail"/>
+            </h:inputText>
             <h:message for="email" errorClass="invalid"/>
 
             <h:outputLabel for="phoneNumber" value="Phone #:"/>
-            <h:inputText id="phoneNumber" value="#{newMember.phoneNumber}"/>
+            <h:inputText id="phoneNumber" value="#{newMember.phoneNumber}">
+               <f:validateLength minimum="9" maximum="12"/>
+               <f:validateLongRange minimum="100000000" maximum="999999999999"/>
+            </h:inputText>
             <h:message for="phoneNumber" errorClass="invalid"/>
 
-	    <h:outputLabel for="address" value="Address:"/>
-            <h:inputText id="address" value="#{newMember.address}" />
+    	    <h:outputLabel for="address" value="Address:"/>
+            <h:inputText id="address" value="#{newMember.address}" >
+               <f:validateLength minimum="1"/>
+            </h:inputText>
             <h:message for="address" errorClass="invalid"/>
          </h:panelGrid>
 
          <p>
-            <h:panelGrid columns="2">
+            <h:panelGrid columns="1">
                <h:commandButton id="register" action="#{memberRegistration.register}" value="Register" styleClass="register"/>
+            </h:panelGrid>
+           <h:panelGrid columns="1">
                <h:messages styleClass="messages" errorClass="invalid" infoClass="valid" warnClass="warning"
                            globalOnly="true"/>
             </h:panelGrid>
