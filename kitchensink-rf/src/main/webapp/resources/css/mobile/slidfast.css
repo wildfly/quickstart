@@ -1,0 +1,141 @@
+/*!
+ * JBoss, Home of Professional Open Source
+ * Copyright 2011, Red Hat, Inc. and individual contributors
+ * by the @authors tag. See the copyright.txt in the distribution for a
+ * full listing of individual contributors.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+ *
+ *  Author: Wesley Hales
+ *  Description: SlidFast is a minimalistic framework to writing mobile web apps.
+ *  It utilizes core HTML5 APIs for today's mobile web browsers.
+ */
+
+html {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font: 1.2em "Lucida Sans Unicode", "Lucida Grande", Geneva, Verdana, Arial, sans-serif;
+    min-height:540px;
+}
+
+body[orient="portrait"] {
+    min-height: 540px;
+}
+
+body[orient="landscape"] {
+    min-height: 400px;
+}
+
+a {
+    text-decoration: none;
+}
+
+/*************************************************
+Mobile Device Page Setup
+*************************************************/
+
+#browser {
+    position: relative;
+
+}
+
+#page-container {
+    position:absolute;
+    top: 44px;
+   width:100%;
+}
+
+.page {
+    position: absolute;
+    width:100%;
+    top: 0;
+    /*activate the GPU for compositing each page */
+    -webkit-transform: translate3d(0, 0, 0);
+}
+
+/*************************************************
+UX Utils
+*************************************************/
+
+.none {
+    display: none
+}
+
+.hide-it {
+    opacity: 0;
+}
+
+.show {
+    opacity: 100;
+}
+
+.transition {
+    -moz-transition-duration: .5s;
+    -webkit-transition-duration: .5s;
+    -o-transition-duration: .5s;
+}
+
+/*************************************************
+Flip Transition
+*************************************************/
+
+#back,
+#front {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    -webkit-transition-duration: .5s;
+    -webkit-transform-style: preserve-3d;
+}
+
+.normal {
+    -webkit-transform: rotateY(0deg);
+}
+
+.flipped {
+    -webkit-user-select: element;
+    -webkit-transform: rotateY(180deg);
+}
+
+/*************************************************
+Device Specific Styles
+*************************************************/
+.stage-center {
+    left: 0;
+    opacity: 100;
+}
+
+.stage-left,
+.stage-right{
+    width:1px;
+    height:100%;
+    overflow: hidden;
+    opacity: 0;
+}
+
+.stage-left {
+    left: -100%;
+}
+
+.stage-right {
+    left: 100%;
+}

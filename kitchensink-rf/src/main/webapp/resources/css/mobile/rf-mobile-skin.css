@@ -1,0 +1,516 @@
+/*!
+ * JBoss, Home of Professional Open Source
+ * Copyright 2011, Red Hat, Inc. and individual contributors
+ * by the @authors tag. See the copyright.txt in the distribution for a
+ * full listing of individual contributors.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+ *
+ *  Author: Wesley Hales
+ *  Description: A mobile skin which can be overlaid on any RichFaces 4
+ *  application.
+ */
+
+/*************************************************/
+/*Font Base
+/*************************************************/
+strong, h1, h2, h3, h5, h6 {
+   font-weight: bold;
+}
+
+h1 {
+   font-size: 2em;
+}
+
+h2 {
+   font-size: 1.5em;
+}
+
+h3 {
+   font-size: 1em;
+}
+
+h4 {
+   font-size: 1em;
+}
+
+h5 {
+   font-size: 0.75em;
+}
+
+h6 {
+   font-size: 0.6875em;
+}
+
+p, dl, dt, dd, ul, ol, pre, input, textarea, blockquote, cite, label, select {
+   font-size: 0.6875em;
+}
+
+em {
+   font-style: italic;
+}
+
+abbr, acronym {
+   border-bottom: 1px dotted #000;
+   cursor: help;
+}
+
+th {
+   font-weight: bold;
+   text-align: center;
+}
+
+
+/*************************************************
+Page Formatting - Skin
+*************************************************/
+
+/*Custom Buttons and bars*/
+.right-header-button,
+.left-header-button {
+   font-weight: bold;
+   font-size: 12px;
+   color: #fff;
+   text-shadow: rgba(0, 0, 0, 0.6) 0px -1px 0px;
+   text-align: center;
+   text-overflow: ellipsis;
+   height: 30px;
+   width: 60px;
+   position: absolute;
+   top: 7px;
+   left: 5px;
+   line-height: 30px;
+}
+
+.right-header-button {
+   right: 5px;
+   left : auto;
+}
+
+.basic-button {
+   background: #000 -moz-linear-gradient(90deg, rgba(0, 0, 0, .3) 33%, rgba(255, 255, 255, .1) 123%);
+   background: #000 -webkit-gradient(linear, left top, left bottom, from(#717172), to(#0f0f10), color-stop(0.5, #3a3a3a), color-stop(0.5, #0d0d0f));
+   border-radius: 7px;
+   mozborder-radius: 7px;
+   webkitborder-radius: 7px;
+   border: none;
+
+}
+
+.hide-button {
+    display: none;
+    opacity: 0;
+}
+
+div#browser  header > div {
+   position: relative;
+   height: 44px;
+   width: auto;
+   font-weight: bold;
+   color: #fff;
+   text-shadow: rgba(0, 0, 0, 0.6) 0px -1px 0px;
+   text-align: center;
+   line-height: 47px;
+   background: #1d2f3d -moz-linear-gradient(90deg, #1d2f3d 33%, #375c79 123%);
+   background: #1d2f3d -webkit-gradient(linear, left top, left bottom, from(#375c79), to(#1d2f3d));
+   border: none;
+}
+
+body > header > div img.logo {
+    margin: 0 auto;
+}
+
+.nav-list {
+   width: 95%;
+   margin: 0 auto 0 auto;
+   padding:  5px;
+}
+
+#component-page fieldset.example-cnt > p {
+    font: .8em "Lucida Sans Unicode", "Lucida Grande", Geneva, Verdana, Arial, sans-serif;
+    background: #1d2f3d -moz-linear-gradient(90deg, #FAFAFA 33%, #F5F5F5 123%);
+    background: #1d2f3d -webkit-gradient(linear, left top, left bottom, from(#FAFAFA), to(#F5F5F5));
+    border: 1px solid #E0E0E0;
+    border-radius: 8px;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    padding:  5px;
+    margin:  5px;
+}
+
+#component-page > div {
+    padding:  10px;
+}
+
+
+
+/*************************************************
+RichFaces panelMenu styles overwriting
+*************************************************/
+.rf-pm-top-gr-sel,
+.rf-pm-hdr-colps,
+.rf-pm-top-gr-hdr {
+   border-radius: 8px;
+   -moz-border-radius: 8px;
+   -webkit-border-radius: 8px;
+   border: 1px solid #99ccff;
+}
+
+.rf-pm {
+    border-bottom: 0;
+}
+
+.pm-top-gr {
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+
+.pm-top-gr-hdr {
+    padding: 3px 1px 2px 3px;
+}
+
+.rf-pm-top-gr {
+    border-color: white;
+    margin-bottom: 1px;
+}
+
+.rf-pm .rf-pm-top-gr-ico {
+    display: none;
+}
+
+.rf-pm .rf-pm-top-gr-lbl {
+    color: #273945;
+    margin-left: 4px;
+    font-size: 13px;
+    line-height: 33px;
+}
+
+.rf-pm .rf-pm-top-gr-lbl:hover {
+    color: #5a8eba;
+}
+
+.rf-pm-exp {
+    background: #ffffff;
+}
+
+.rf-pm-exp .rf-pm-itm {
+    border: 0;
+    border-bottom: 1px solid #dddddd;
+}
+
+.rf-pm-exp .rf-pm-itm:hover {
+    background: none;
+}
+
+.rf-pm-exp .rf-pm-itm-lbl:hover {
+    color: #5f9cd0;
+}
+
+.rf-pm-exp .rf-pm-itm-lbl {
+    color: #305f7b;
+}
+
+.rf-pm-exp .rf-pm-itm-ico {
+    padding: 0 !important;
+    width: 5px;
+}
+
+.rf-pm-itm, .rf-pm-itm-sel {
+    padding:  8px 0 8px 0;
+}
+
+.rf-pm-itm-lbl {
+    font-size: 13px
+}
+
+/*************************************************
+RichFaces tabPanel styles overwriting
+*************************************************/
+nav .rf-tab-hdr-tabline-vis {
+    background: #ebf6fd;
+    border: 0;
+    height: 31px;
+    padding: 0;
+}
+
+nav .rf-tab-hdr {
+    border: 1px solid #dddddd;
+    padding: 6px 10px 0;
+    margin-right: 3px;
+}
+
+nav .rf-tab-hdr-act {
+    background: #ffffff;
+    border-bottom: 0;
+    color: #5F9CD0;
+}
+
+nav .rf-tab-hdr-act .rf-tab-lbl {
+    font-weight: bold;
+}
+
+nav .rf-tab-hdr-inact {
+    border: 1px solid #bec3c7;
+}
+
+nav .rf-tab-hdr-spcr {
+    border-bottom: 1px solid #dddddd;
+    padding: 0 3px 0 0;
+}
+
+nav .rf-tab-lbl {
+    font: normal 12px "Lucida Sans Unicode", "Lucida Grande", Geneva, Verdana, Arial, sans-serif;
+}
+
+textarea[disabled],input[type="text"][disabled],input[type="password"][disabled],select[disabled] {
+    -webkit-text-fill-color: #B6AD84;
+}
+
+/*************************************************
+RichFaces input styles overwriting
+*************************************************/
+
+textarea, input[type="text"], input[type="password"], select {
+    font-size: 16px;
+    padding: .4em;
+    border-radius: 8px;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+}
+
+button, input[type="reset"], input[type="submit"], input[type="button"] {
+    border-radius: 8px;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    font-size: 16px;
+    padding: .4em;
+}
+
+/*************************************************
+inputNumberSlider
+*************************************************/
+.rf-insl-trc {
+    height:30px;
+
+}
+
+.rf-insl-hnd,
+.rf-insl-hnd-sel,
+.rf-insl-hnd-dis {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    background-image: none;
+    /*padding: .6em 25px;*/
+    display: block;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+    zoom: 1;
+    border: 1px solid #CCC;
+    background: #EEE;
+    font-weight: bold;
+    color: #444;
+    text-shadow: 0 1px 1px #F6F6F6;
+    background-image: -webkit-gradient(linear,left top,left bottom,from(#fdfdfd),to(#eee));
+    background-image: -webkit-linear-gradient(top,#fdfdfd,#eee);
+    background-image: -moz-linear-gradient(top,#fdfdfd,#eee);
+    background-image: -ms-linear-gradient(top,#fdfdfd,#eee);
+    background-image: -o-linear-gradient(top,#fdfdfd,#eee);
+    background-image: linear-gradient(top,#fdfdfd,#eee);
+    border-image: initial;
+}
+
+.rf-insl-hnd-sel {
+    background-image: -webkit-gradient(linear,left top,left bottom,from(#ccc),to(#eee));
+    background-image: -webkit-linear-gradient(top,#ccc,#eee);
+    background-image: -moz-linear-gradient(top,#ccc,#eee);
+    background-image: -ms-linear-gradient(top,#ccc,#eee);
+    background-image: -o-linear-gradient(top,#ccc,#eee);
+    background-image: linear-gradient(top,#ccc,#eee);
+    border-image: initial;
+}
+
+.rf-insl-hnd, .rf-insl-hnd-dis {
+    vertical-align: top;
+}
+
+input.rf-insl-inp {
+    width: 48px;
+}
+
+/*************************************************
+rich:dataScroller
+*************************************************/
+
+td.acent {
+    padding: 1px;
+}
+
+.rf-ds-btn {
+    padding: 10px;
+}
+
+.rf-ds-nmb-btn {
+    padding:  10px;
+}
+
+/*************************************************
+rich:tree
+*************************************************/
+.rf-trn-hnd {
+    padding: 3px;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    background-color: #fff;
+    color: #BED6F8;
+    border-width: 1px;
+    border-style: solid;
+}
+
+.rf-trn-lbl {
+    font-size: 1.2em;
+}
+
+/*************************************************
+rich:popupPanel
+*************************************************/
+.rf-pp-hdr-cntrls {
+    font-size: 16px;
+}
+/*Login panel attachment*/
+tr.rf-tb-cntr td a{
+    font-size: 16px;
+}
+
+.rf-tb {
+    height:30px;
+}
+
+.rf-tb-itm {
+    padding: 5px 8px;
+}
+/*RF-10873:modal panel backgroun covering whole page*/
+.rf-pp-shade {
+    width: 10000px;
+    height: 10000px;
+}
+/*************************************************
+rich:toolbar
+*************************************************/
+.rf-tb-sep-grid {
+   height: 55%;
+}
+
+/*************************************************
+rich:message
+*************************************************/
+.rf-msg-det, .rf-msgs-det {
+    display: inline;
+    font-size: 14px;
+}
+
+/*************************************************
+reset the blue border of fieldset  and others
+*************************************************/
+fieldset {
+    border-radius: 8px;
+   -moz-border-radius: 8px;
+   -webkit-border-radius: 8px;
+    border-width: 1px;
+    border-style: solid;
+    padding: 10px;
+    border-color: #eee;
+}
+
+.rf-p {
+    border-radius: 8px;
+   -moz-border-radius: 8px;
+   -webkit-border-radius: 8px;
+    background-color: white;
+    color: #BED6F8;
+    border-width: 1px;
+    border-style: solid;
+    padding: 1px;
+}
+
+/*************************************************
+add rounded corners
+*************************************************/
+
+.rf-p-hdr {
+    border-radius: 8px;
+   -moz-border-radius: 8px;
+   -webkit-border-radius: 8px;
+    padding:  10px;
+}
+
+/*************************************************
+rich:inplaceInput
+*************************************************/
+
+.rf-ii-lbl {
+    font-size: 22px;
+}
+
+
+/*************************************************
+rich:inputNumberSpinner
+*************************************************/
+
+.rf-insp-dec, .rf-insp-inc, .rf-insp-dec-dis, .rf-insp-inc-dis {
+    height: 20px;
+    width: 27px;
+}
+
+input.rf-insp-inp[type="text"] {
+    font-size: 34px;
+}
+
+/*************************************************
+rich:select
+*************************************************/
+
+.rf-sel-btn-arrow {
+    height: 30px;
+}
+
+/*************************************************
+rich:calendar
+*************************************************/
+
+.rf-cal-btn {
+    cursor: pointer;
+    padding: 10px;
+}
+
+.rf-cal-sp-btn table tbody tr td div {
+    padding: 8px;
+}
+
+.rf-cal-tl-btn {
+    padding:  10px;
+}
+
+.rf-cal-btn-press {
+    padding:  5px;
+}
+

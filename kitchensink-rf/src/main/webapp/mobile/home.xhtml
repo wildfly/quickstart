@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:a4j="http://richfaces.org/a4j"
+                xmlns:rich="http://richfaces.org/rich"
+                xmlns:my="http://java.sun.com/jsf/composite/components">
+    <h:panelGroup id="homePanel" layout="block">
+        <rich:panelMenu activeItem="#{demoNavigator.currentDemo.id}">
+            <div class="mobileContent">
+                <h1>Welcome to JBoss AS 7!</h1>
+
+                <p>
+                    You have successfully deployed a RichFaces web application on JBoss AS 7, and are viewing it via
+                    your mobile
+                    device.
+                </p>
+
+                <p>
+                    Use application menu below to explore the capabilities of this sample application.
+                </p>
+            </div>
+            <rich:panelMenuGroup label="Application Menu" expanded="true">
+                <rich:panelMenuItem label="Add Member"
+                                    onclick="location.hash='new'"
+                                    mode="client"/>
+                <rich:panelMenuItem label="List Members"
+                                    onclick="location.hash='list'"
+                                    mode="client"/>
+            </rich:panelMenuGroup>
+        </rich:panelMenu>
+    </h:panelGroup>
+</ui:composition>
+
+</html>

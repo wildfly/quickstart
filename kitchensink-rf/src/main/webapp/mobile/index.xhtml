@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition template="/WEB-INF/templates/mobile.xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:a4j="http://richfaces.org/a4j">
+    <ui:define name="content">
+        <h:outputStylesheet name="app.css" library="css"/>
+        <h:outputStylesheet name="mobile.css" library="css"/>
+
+        <div id="browser">
+            <header>
+                <div>
+                    <div id="back-button" class="hide-button">Home</div>
+                    <div id="info-button" class="right-header-button info-link">
+                        <a href="#about">i</a>
+                    </div>
+                    <p>Richfaces Mobile</p>
+                </div>
+            </header>
+            <h:form id="mobileForm">
+                <h:outputScript target="head">
+                    var handleHashChange = function (page) {
+                    var appPage = $('#app-page');
+                    if (appPage.data('activePage') === page) {
+                    slidfast.core.slideTo('app-page');
+                    } else {
+                    loadPage(page);
+                    appPage.data('activePage', page);
+                    }
+                    }
+                </h:outputScript>
+                <a4j:jsFunction name="loadPage"
+                                data="#{pageBean.location}"
+                                render="@form"
+                                oncomplete="slidfast.core.slideTo('app-page')">
+                    <a4j:param name="page" assignTo="#{pageBean.location}"/>
+                </a4j:jsFunction>
+
+                <div id="page-container">
+                    <div id="home-page" class="page stage-left">
+                        <ui:include src="/mobile/home.xhtml"/>
+                    </div>
+                    <div id="app-page" class="page stage-right">
+                        <ui:include src="#{pageBean.page}"/>
+                    </div>
+                </div>
+            </h:form>
+        </div>
+    </ui:define>
+</ui:composition>

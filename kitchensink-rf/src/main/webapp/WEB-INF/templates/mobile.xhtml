@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+    <title>Java EE 6 Starter Application</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
+    <!-- enable full-screen mode -->
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <!-- controls the appearance of the status bar in full-screen mode -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <link rel="stylesheet" href="#{facesContext.externalContext.requestContextPath}/resources/css/mobile/slidfast.css"/>
+    <script type="text/javascript"
+            src="#{facesContext.externalContext.requestContextPath}/resources/js/slidfast.js"></script>
+    <script type="text/javascript">
+        //initialize mobile RichFaces with slidfast
+        slidfast({
+            defaultPageID:'home-page',
+            callback:'handleHashChange',
+            backButtonID:'back-button'
+        });
+    </script>
+
+</h:head>
+<h:body>
+    <link rel="stylesheet"
+          href="#{facesContext.externalContext.requestContextPath}/resources/css/mobile/rf-mobile-skin.css"/>
+    <div id="container">
+        <div id="inner">
+            <div id="content">
+                <ui:insert name="content">
+                    [Mobile content will be inserted here]
+                </ui:insert>
+            </div>
+        </div>
+    </div>
+</h:body>
+</html>

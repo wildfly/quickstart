@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:a4j="http://richfaces.org/a4j"
+                xmlns:rich="http://richfaces.org/rich"
+                xmlns:my="http://java.sun.com/jsf/composite/components">
+    <h:panelGroup id="membersPanel" layout="block">
+        <h:outputScript name="showMessage.js" library="js"/>
+        <rich:dataTable var="_member" value="#{members}" rendered="#{not empty members}" style="width : 100%">
+            <rich:column headerClass="left">
+                <a4j:commandLink styleClass="no-decor" render="@form" execute="@this"
+                                 oncomplete="$('#app-page').data('activePage', 'detail'); location.hash='detail'">
+                    View
+                    <f:setPropertyActionListener target="#{memberController.member}" value="#{_member}"/>
+                    <a4j:param name="page" assignTo="#{pageBean.location}" value="detail"/>
+                </a4j:commandLink>
+            </rich:column>
+            <rich:column headerClass="left">
+                <f:facet name="header">Id</f:facet>
+                #{_member.id}
+            </rich:column>
+            <rich:column headerClass="left">
+                <f:facet name="header">Name</f:facet>
+                #{_member.name}
+            </rich:column>
+            <rich:column styleClass="landscape" headerClass="left landscape">
+                <f:facet name="header">Email</f:facet>
+                #{_member.email}
+            </rich:column>
+            <rich:column styleClass="landscape" headerClass="left landscape">
+                <f:facet name="header">Phone #</f:facet>
+                #{_member.phoneNumber}
+            </rich:column>
+            <f:facet name="footer">
+                REST URL for all members: <a href="#{request.contextPath}/rest/members">/rest/members</a>
+            </f:facet>
+        </rich:dataTable>
+    </h:panelGroup>
+    <div id="newMemberMessages" class="update"/>
+
+    <a4j:push address="pushCdi" ondataavailable="showMessage(event.rf.data)">
+        <a4j:ajax event="dataavailable" render="mobileForm:membersPanel"/>
+    </a4j:push>
+
+</ui:composition>
+
+</html>
