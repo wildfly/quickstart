@@ -60,7 +60,7 @@
         <plugins>
             <plugin>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>${war.plugin.version}</version>
+                <version>${version.war.plugin}</version>
                 <configuration>
                     <!-- Java EE 6 doesn't require web.xml, Maven needs to 
                         catch up! -->
@@ -79,13 +79,13 @@
             <plugin>
                 <groupId>org.jboss.as.plugins</groupId>
                 <artifactId>jboss-as-maven-plugin</artifactId>
-                <version>${jboss.as.plugin.version}</version>
+                <version>${version.org.jboss.as.plugins.maven.plugin}</version>
             </plugin>
             <!-- Compiler plugin enforces Java 1.6 compatibility and activates 
                 annotation processors -->
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>${compiler.plugin.version}</version>
+                <version>${version.compiler.plugin}</version>
                 <configuration>
                     <source>${maven.compiler.source}</source>
                     <target>${maven.compiler.target}</target>

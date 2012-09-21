@@ -36,16 +36,16 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- JBoss dependency versions -->
-        <resteasy.version>2.2.2.GA</resteasy.version>
+        <version.org.jboss.resteasy>2.2.2.GA</version.org.jboss.resteasy>
 
         <!-- Other dependency versions -->
-        <apache.httpcomponents.version>4.1.4</apache.httpcomponents.version>
-        <junit.version>4.10</junit.version>
+        <version.org.apache.httpcomponents>4.1.4</version.org.apache.httpcomponents>
+        <version.junit>4.10</version.junit>
 
         <!-- other plugin versions -->
-        <compiler.plugin.version>2.3.1</compiler.plugin.version>
-        <surefire.plugin.version>2.4.3</surefire.plugin.version>
-        <war.plugin.version>2.1.1</war.plugin.version>
+        <version.compiler.plugin>2.3.1</version.compiler.plugin>
+        <version.surefire.plugin>2.4.3</version.surefire.plugin>
+        <version.war.plugin>2.1.1</version.war.plugin>
 
         <!-- maven-compiler-plugin -->
         <maven.compiler.target>1.6</maven.compiler.target>
@@ -56,18 +56,18 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
+            <version>${version.junit}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.jboss.resteasy</groupId>
             <artifactId>resteasy-jaxrs</artifactId>
-            <version>${resteasy.version}</version>
+            <version>${version.org.jboss.resteasy}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpcore</artifactId>
-            <version>${apache.httpcomponents.version}</version>
+            <version>${version.org.apache.httpcomponents}</version>
         </dependency>
     </dependencies>
     <build>
@@ -76,7 +76,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>${compiler.plugin.version}</version>
+                <version>${version.compiler.plugin}</version>
                 <configuration>
                     <source>${maven.compiler.source}</source>
                     <target>${maven.compiler.target}</target>
@@ -85,7 +85,7 @@
 
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>${surefire.plugin.version}</version>
+                <version>${version.surefire.plugin}</version>
                 <configuration>
                     <systemProperties>
                         <property>

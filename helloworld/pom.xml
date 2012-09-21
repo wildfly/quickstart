@@ -36,12 +36,12 @@
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
        <!-- JBoss dependency versions -->
-       <jboss.as.plugin.version>7.2.Final</jboss.as.plugin.version>
-       <jboss.javaee6.spec.version>3.0.0.Final</jboss.javaee6.spec.version>
+       <version.org.jboss.as.plugins.maven.plugin>7.2.Final</version.org.jboss.as.plugins.maven.plugin>
+       <version.org.jboss.spec.jboss.javaee.6.0>3.0.0.Final</version.org.jboss.spec.jboss.javaee.6.0>
 
        <!-- other plugin versions -->
-       <compiler.plugin.version>2.3.1</compiler.plugin.version>
-       <war.plugin.version>2.1.1</war.plugin.version>
+       <version.compiler.plugin>2.3.1</version.compiler.plugin>
+       <version.war.plugin>2.1.1</version.war.plugin>
 
        <!-- maven-compiler-plugin -->
        <maven.compiler.target>1.6</maven.compiler.target>
@@ -61,7 +61,7 @@
          <dependency>
             <groupId>org.jboss.spec</groupId>
             <artifactId>jboss-javaee-6.0</artifactId>
-            <version>${jboss.javaee6.spec.version}</version>
+            <version>${version.org.jboss.spec.jboss.javaee.6.0}</version>
             <type>pom</type>
             <scope>import</scope>
          </dependency>
@@ -103,7 +103,7 @@
       <plugins>
          <plugin>
             <artifactId>maven-war-plugin</artifactId>
-            <version>${war.plugin.version}</version>
+            <version>${version.war.plugin}</version>
             <configuration>
                <!-- Java EE 6 doesn't require web.xml, Maven needs to catch 
                   up! -->
@@ -114,13 +114,13 @@
          <plugin>
             <groupId>org.jboss.as.plugins</groupId>
             <artifactId>jboss-as-maven-plugin</artifactId>
-            <version>${jboss.as.plugin.version}</version>
+            <version>${version.org.jboss.as.plugins.maven.plugin}</version>
          </plugin>
          <!-- Compiler plugin enforces Java 1.6 compatibility and activates 
             annotation processors -->
          <plugin>
             <artifactId>maven-compiler-plugin</artifactId>
-             <version>${compiler.plugin.version}</version>
+             <version>${version.compiler.plugin}</version>
              <configuration>
                  <source>${maven.compiler.source}</source>
                  <target>${maven.compiler.target}</target>

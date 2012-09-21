@@ -37,18 +37,18 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- JBoss dependency versions -->
-        <jboss.as.plugin.version>7.2.Final</jboss.as.plugin.version>
-        <jboss.javaee6.spec.version>3.0.0.Final</jboss.javaee6.spec.version>
+        <version.org.jboss.as.plugins.maven.plugin>7.2.Final</version.org.jboss.as.plugins.maven.plugin>
+        <version.org.jboss.spec.jboss.javaee.6.0>3.0.0.Final</version.org.jboss.spec.jboss.javaee.6.0>
 
-        <hibernate.common.annotations.version>3.2.0.Final</hibernate.common.annotations.version>
-        <hibernate.core.version>3.6.8.Final</hibernate.core.version>
-        <hibernate.em.version>3.6.8.Final</hibernate.em.version>
-        <hibernate.infinispan.version>3.6.8.Final</hibernate.infinispan.version>
-        <hibernate.validator.version>3.1.0.GA</hibernate.validator.version>
+        <version.org.hibernate3.commons.annotations>3.2.0.Final</version.org.hibernate3.commons.annotations>
+        <version.org.hibernate>3.6.8.Final</version.org.hibernate>
+        <version.org.hibernate.em>3.6.8.Final</version.org.hibernate.em>
+        <version.org.hibernate.infinispan>3.6.8.Final</version.org.hibernate.infinispan>
+        <version.org.hibernate.validator>3.1.0.GA</version.org.hibernate.validator>
 
         <!-- other plugin versions -->
-        <compiler.plugin.version>2.3.1</compiler.plugin.version>
-        <war.plugin.version>2.1.1</war.plugin.version>
+        <version.compiler.plugin>2.3.1</version.compiler.plugin>
+        <version.war.plugin>2.1.1</version.war.plugin>
 
         <!-- maven-compiler-plugin -->
         <maven.compiler.target>1.6</maven.compiler.target>
@@ -65,7 +65,7 @@
             <dependency>
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-core</artifactId>
-                <version>${hibernate.core.version}</version>
+                <version>${version.org.hibernate}</version>
 
                 <!-- Some transitive dependencies of Hibernate 3 are available 
                     in JBoss AS 7 as modules, so we don't include them in WEB-INF/lib, but instead 
@@ -98,7 +98,7 @@
             <dependency>
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-entitymanager</artifactId>
-                <version>${hibernate.em.version}</version>
+                <version>${version.org.hibernate.em}</version>
                 <!-- Some transitive dependencies of Hibernate 3 are available 
                     in JBoss AS 7 as modules, so we don't include them in WEB-INF/lib, but instead 
                     depend on the modules -->
@@ -126,7 +126,7 @@
             <dependency>
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-validator</artifactId>
-                <version>${hibernate.validator.version}</version>
+                <version>${version.org.hibernate.validator}</version>
                 <!-- Some transitive dependencies of Hibernate 3 are available 
                     in JBoss AS 7 as modules, so we don't include them in WEB-INF/lib, but instead 
                     depend on the modules -->
@@ -142,7 +142,7 @@
             <dependency>
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-commons-annotations</artifactId>
-                <version>${hibernate.common.annotations.version}</version>
+                <version>${version.org.hibernate3.commons.annotations}</version>
                 <!-- Some transitive dependencies of Hibernate 3 are available 
                     in JBoss AS 7 as modules, so we don't include them in WEB-INF/lib, but instead 
                     depend on the modules -->
@@ -158,7 +158,7 @@
             <dependency>
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-infinispan</artifactId>
-                <version>${hibernate.infinispan.version}</version>
+                <version>${version.org.hibernate.infinispan}</version>
                 <exclusions>
                     <!-- Some transitive dependencies of Hibernate 3 are 
                         available in JBoss AS 7 as modules, so we don't include them in WEB-INF/lib, 
@@ -191,7 +191,7 @@
             <dependency>
                 <groupId>org.jboss.spec</groupId>
                 <artifactId>jboss-javaee-6.0</artifactId>
-                <version>${jboss.javaee6.spec.version}</version>
+                <version>${version.org.jboss.spec.jboss.javaee.6.0}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -293,7 +293,7 @@
         <plugins>
             <plugin>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>${war.plugin.version}</version>
+                <version>${version.war.plugin}</version>
                 <configuration>
                     <!-- Java EE 6 doesn't require web.xml, Maven needs to 
                         catch up! -->
@@ -304,13 +304,13 @@
             <plugin>
                 <groupId>org.jboss.as.plugins</groupId>
                 <artifactId>jboss-as-maven-plugin</artifactId>
-                <version>${jboss.as.plugin.version}</version>
+                <version>${version.org.jboss.as.plugins.maven.plugin}</version>
             </plugin>
             <!-- Compiler plugin enforces Java 1.6 compatibility and activates 
                 annotation processors -->
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>${compiler.plugin.version}</version>
+                <version>${version.compiler.plugin}</version>
                 <configuration>
                     <source>${maven.compiler.source}</source>
                     <target>${maven.compiler.target}</target>
