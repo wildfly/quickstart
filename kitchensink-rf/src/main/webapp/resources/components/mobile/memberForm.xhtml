@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich"
+      xmlns:composite="http://java.sun.com/jsf/composite">
+
+<!-- INTERFACE -->
+<composite:interface>
+    <composite:attribute name="member"/>
+</composite:interface>
+
+<!-- IMPLEMENTATION -->
+<composite:implementation>
+    <table>
+        <tr>
+            <td class="titleCell">
+                <h:outputLabel for="name" value="Name:"/>
+            </td>
+            <td>
+                <h:inputText id="name" value="#{cc.attrs.member.name}">
+                    <rich:validator/>
+                </h:inputText>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <rich:message for="name" errorClass="invalid"/>
+            </td>
+        </tr>
+
+        <tr>
+            <td class="titleCell">
+                <h:outputLabel for="email" value="Email:"/>
+            </td>
+            <td>
+                <h:inputText id="email" value="#{cc.attrs.member.email}">
+                    <rich:validator/>
+                </h:inputText>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <rich:message for="email" errorClass="invalid"/>
+            </td>
+        </tr>
+
+        <tr>
+            <td class="titleCell">
+                <h:outputLabel for="phoneNumber" value="Phone #:"/>
+            </td>
+            <td>
+                <h:inputText id="phoneNumber" value="#{cc.attrs.member.phoneNumber}">
+                    <rich:validator/>
+                </h:inputText>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <rich:message for="phoneNumber" errorClass="invalid"/>
+            </td>
+        </tr>
+
+    </table>
+</composite:implementation>
+</html>

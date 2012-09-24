@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:a4j="http://richfaces.org/a4j"
+                xmlns:rich="http://richfaces.org/rich"
+                xmlns:mobile="http://java.sun.com/jsf/composite/components/mobile">
+    <h:panelGroup id="newMemberPanel" layout="block" styleClass="mobileContent">
+        <br/>
+        <mobile:memberForm id="memberForm" member="#{newMember}"/>
+        <a4j:commandButton id="register" action="#{memberController.register}" value="Register"
+                           oncomplete="if ( #{not facesContext.validationFailed} ) location.hash='list'"
+                           execute="@form" render="newMemberPanel"/>
+        <rich:messages globalOnly="true"/>
+    </h:panelGroup>
+</ui:composition>
+
+</html>
