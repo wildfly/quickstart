@@ -26,152 +26,100 @@
     <link rel="Shortcut Icon" href="img/aerogear_icon_16x.png">
     <link rel="apple-touch-icon" href="img/aerogear_avatar_48px.png"/>
 
-    <!-- For minification, comment out this link -->
-    <!-- Shared styles -->
+	<link rel="stylesheet" href="css/jquery.mobile-1.1.0.min.css"/>
     <link rel="stylesheet" href="css/screen.css"/>
+    <link rel="stylesheet" href="css/m.screen.css"/>
 
     <!-- Set viewport scaling and zoom features -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <script type="text/javascript" src="js/libs/modernizr-2.5.3.min.js"></script>
+	<script type="text/javascript" src="js/libs/jquery-1.7.1.min.js"></script>
+	<script type="text/javascript" src="js/libs/jquery.mobile-1.1.0.min.js"></script>
+    <script type="text/javascript" src="js/libs/underscore-min.js"></script>
+	<script type="text/javascript" src="js/app.js"></script>
 
     <script type="text/javascript">
-        Modernizr.load([{
-            //Load CDN hosted jQuery or fall back to local file.
-            /*--------Note-----------
-            This approach should only be used if you trust the source of where the resource (JavaScript) is located.
-            In this case, use of the jquery CDN is much faster if your user's browser already has this file cached.
-            If they don't have it cached, try to load it from the CDN as this will be faster if the user is
-            located closer to a CDN than you currently hosted server.
-            */
-            load: [
-                "http://code.jquery.com/jquery-1.7.1.min.js",
-                "js/libs/underscore-min.js",
-                // Minification - See Readme for details
-                // For minification, comment out this file
-                "js/app.js"
-                // For minification, uncomment this file
-                // "js/app.min.js"
-            ],
-            complete: function() {
-                if ( !window.jQuery ) {
-                    //In production, you would want to fall back to a minified file.
-                    //We fall back to the full version because Eclipse reports false errors in some minified JavaScript files.
-                    yepnope( "js/libs/jquery-1.7.1.min.js" );
+        // Insert device appropriate Cordova script
+        if ( navigator.userAgent == "Kitchensink Cordova Webview iOS" ) {
+            document.write( '<script src="js/libs/cordova-ios-2.0.0.js"><\/script>' );
+        } else if ( navigator.userAgent.indexOf( "Kitchensink Cordova Webview Android" ) >= 0 ) {
+            document.write( '<script src="js/libs/cordova-android-2.0.0.js"><\/script>' );
+        }
+
+    	$( document ).ready( function() {
+	        //setup the app after all scripts have loaded
+	
+	        $( "#container" ).show();
+	        //Fetches the initial member data and populates the table using jquery templates
+	        getMemberTemplate();
+
+	        //Register an event listener on the sumbit action
+	        $('#reg').submit(function(event) {
+	            event.preventDefault();
+	
+	            var memberData = $(this).serializeObject();
+
+                registerMember(memberData);
+	        });
+
+	        //Register the cancel listener
+	        $('#cancel').click(function(event) {
+	            //clear input fields
+	            $('#reg')[0].reset();
+	
+	            //clear existing msgs
+	            $('span.invalid').remove();
+	            $('span.success').remove();
+	        });
+
+	        $("#memberRefreshButton").click(function(event) {
+	            updateMemberTable();
+	        });
+
+	        $("#connectionRefreshButton").click(function(event) {
+	            updateConnectionType();
+	        });
+
+	        //Show device info on member registration page
+	        document.addEventListener("deviceready", function() {
+	            updateConnectionType();
+	        });
+
+	        function updateConnectionType() {
+	            var networkState = navigator.network.connection.type;
+	                                  
+	            var states = {};
+	            states[Connection.UNKNOWN]  = 'Unknown connection';
+	            states[Connection.ETHERNET] = 'Ethernet connection';
+	            states[Connection.WIFI]     = 'WiFi connection';
+	            states[Connection.CELL_2G]  = 'Cell 2G connection';
+	            states[Connection.CELL_3G]  = 'Cell 3G connection';
+	            states[Connection.CELL_4G]  = 'Cell 4G connection';
+	            states[Connection.NONE]     = 'No network connection';
+	            $("#deviceInfo").html(states[networkState]);
+	        }
+	    });
+
+        $.fn.serializeObject = function() {
+            var o = {};
+            var a = this.serializeArray();
+            $.each(a, function() {
+                if (o[this.name]) {
+                    if (!o[this.name].push) {
+                        o[this.name] = [o[this.name]];
+                    }
+                    o[this.name].push(this.value || '');
+                } else {
+                    o[this.name] = this.value || '';
                 }
-            }
-        },{
-            //device detection and asynchronous script loading
-            /*--------Note-----------
-            Here we're using the yepnope framework which gives us the ability to load scripts dynamically, based on
-            Modernizr's results.
-            With Modernizr, we use media queries and touch detection to see if we are on a mobile, touch based device
-            or if we're at anything less than 480px.. this gives us a mobile ui on desktop browsers when resized to <480px
-            width for testing.
-            */
-            test: Modernizr.mq( "only all and (max-width: 640px)" ),
-            yep: {
-                //assign labeled callbacks for later execution after script loads.
-                //we are on mobile device so load appropriate CSS
-                "jqmcss": "css/jquery.mobile-1.1.0.min.css",
-                // For minification, uncomment this line
-                //"mcss": "css/m.screen.min.css"
-                // For minification, comment out this line
-                "mcss": "css/m.screen.css"
-            },
-            nope: {
-                //we are on desktop
-                // For minification, uncomment this line
-                //"scss": "css/d.screen.min.css"
-                // For minification, comment out this line
-            	"scss": "css/d.screen.css"
-            },
-            callback: {
-                //use the labeled callbacks from above, and load jQuery Mobile
-                "jqmcss": function( url, result, key ) {
-                    yepnope({
-                        load: "http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js",
-                        complete: function() {
-                            if ( !$.mobile ) {
-                                yepnope.injectJs( "js/libs/jquery.mobile-1.1.0.min.js" );
-                            }
-                        }
-                    });
-                },
-                "scss": function( url, result, key ) {
-                    $( document ).ready( function() {
-                        //here we are moving content around based on the browser/device.
-                        $( "aside" ).insertAfter( $( "section" ) );
-                    });
-                }
-            },
-            complete: function() {
-                $( document ).ready( function() {
-                    //setup the app after all scripts have loaded
-
-                    $( "#container" ).show();
-                    //Fetches the initial member data and populates the table using jquery templates
-                    getMemberTemplate();
-
-                    //Register an event listener on the sumbit action
-                    $('#reg').submit(function(event) {
-                        event.preventDefault();
-
-                        var memberData = $(this).serializeObject();
-
-                        registerMember(memberData);
-                    });
-
-                    //Register the cancel listener
-                    $('#cancel').click(function(event) {
-                        //clear input fields
-                        $('#reg')[0].reset();
-
-                        //clear existing msgs
-                        $('span.invalid').remove();
-                        $('span.success').remove();
-                    });
-
-                    $("#refreshButtonD, #refreshButtonM").click(function(event) {
-                        updateMemberTable();
-                    });
-
-                    //Clear member registration and error messages on page change
-                    $("#container").delegate("#register-art", "pagebeforeshow", function(event) {
-                        $("#formMsgs").empty();
-                        $('span.invalid').remove();
-                    });
-                });
-
-                $.fn.serializeObject = function() {
-                    var o = {};
-                    var a = this.serializeArray();
-                    $.each(a, function() {
-                        if (o[this.name]) {
-                            if (!o[this.name].push) {
-                                o[this.name] = [o[this.name]];
-                            }
-                            o[this.name].push(this.value || '');
-                        } else {
-                            o[this.name] = this.value || '';
-                        }
-                    });
-                    return o;
-                };
-            }
-        }]);
+            });
+            return o;
+        };
     </script>
 </head>
 <body>
     <div id="container" style="display:none">
-        <div class="logo">
-            <img src="img/aerogear_logo_150px.png"/>
-        </div>
-        <div class="dualbrand">
-            <img src="img/dualbrand_logo.png"/>
-        </div>
         <section>
-            <h1>Welcome to JBoss &amp; AeroGear!</h1>
             <article id="intro-art" data-role="page" data-theme="a">
                 <!-- Header -->
                 <div data-role="header" class="header">
@@ -187,18 +135,6 @@
                     <h3>Your application can run on:</h3>
                     <img src="img/dualbrand_as7eap.png" class="max-width-100"/>
                     <p>This quickstart demonstrates the use of various Mobile, HTML5, CSS3 and JavaScript techniques.</p>
-                    <div class="highlights">
-                        <ul>
-                            <li>HTML5 Client using JAX-RS REST end points</li>
-                            <li>HTML5 &amp; JAX-RS validation</li>
-                        </ul>
-                    </div>
-                    <div class="highlights">
-                        <ul>
-                            <li>jQuery Mobile Integration</li>
-                            <li>QUnit testing for JavaScript validation</li>
-                        </ul>
-                    </div>
 
                     <ul id="features">
                         <li class="feature">Pure HTML client</li>
@@ -237,6 +173,11 @@
                 <!-- /Header -->
 
                 <div data-role="content">
+                	<div>
+                        <a id="connectionRefreshButton" data-role="button" data-icon="refresh" data-iconpos="notext">Refresh Connection Status</a>
+                        <div><strong>Current Network Connection State: </strong></div>
+                        <div id="deviceInfo"></div>
+                    </div>
 
                     <!-- For now mapping bean validation constraints from server side model is a manual task -->
                     <form name="reg" id="reg" data-ajax="false">
@@ -286,16 +227,14 @@
                     <a href="#info-aside" data-role="button" data-icon="info" class="ui-btn-right" data-iconpos="notext" data-rel="dialog"></a>
                 </div>
                 <!-- /Header -->
-                <h2>Current Members</h2>
 
                 <div data-role="content">
-                    <button id="refreshButtonM" data-role="button" data-inline="true" data-icon="refresh">Refresh Members</button>
+                    <button id="memberRefreshButton" data-role="button" data-inline="true" data-icon="refresh">Refresh Members</button>
                     <div id="members"></div>
                     <div class="member-foot">
-                        <!-- Sets the JAX-RS URLs to retrieve all members either as XML or JSON data.-->
+                        <!-- Sets the JAX-RS URLs to retrieve all members as JSON data.-->
                         REST URL for all members: 
-                        <a href="rest/members" target="_blank" rel="external">JSON</a>
-                        <button id="refreshButtonD">Refresh Members</button>
+                        <a href="http://html5-aerogear.rhcloud.com/rest/members" target="_blank" rel="external">JSON</a>
                     </div>
                 </div>
 
@@ -324,32 +263,26 @@
                 <div data-role="content">
                     <p>Learn more about JBoss Enterprise Application Platform 6.</p>
                     <ul>
-                        <li><a href="http://red.ht/jbeap-6-docs" target="_blank">Documentation</a></li>
-                        <li><a href="http://red.ht/jbeap-6" target="_blank">Product Information</a></li>
+                        <li><a href="http://red.ht/jbeap-6-docs" target="_blank" rel="external">Documentation</a></li>
+                        <li><a href="http://red.ht/jbeap-6" target="_blank" rel="external">Product Information</a></li>
                     </ul>
                     <p>Learn more about JBoss AS 7.</p>
                     <ul>
-                        <li><a href="https://docs.jboss.org/author/display/AS7/Getting+Started+Developing+Applications+Guide" target="_blank">Getting Started Developing Applications Guide</a></li>
-                        <li><a href="http://jboss.org/jbossas" target="_blank">Community Project Information</a></li>
+                        <li><a href="https://docs.jboss.org/author/display/AS7/Getting+Started+Developing+Applications+Guide" target="_blank" rel="external">Getting Started Developing Applications Guide</a></li>
+                        <li><a href="http://jboss.org/jbossas" target="_blank" rel="external">Community Project Information</a></li>
                     </ul>
                     <p>Learn about <strong>AeroGear</strong> and HTML5/Mobile development on JBoss.</p>
                     <ul>
-                        <li><a href="http://jboss.org/aerogear" target="_blank">AeroGear Project site</a></li>
-                        <li><a href="https://community.jboss.org/wiki/HTML5RESTApplications" target="_blank">More on <strong>HTML5 + REST</strong></a></li>
-                        <li><a href="https://community.jboss.org/wiki/GetStartedWithHTML5MobileWebDevelopmentWithJBoss" target="_blank">Get this application</a></li>
-                        <li><a href="https://community.jboss.org/wiki/HTML5MobileQuickstartArchetypeDeepDive" target="_blank">Application deepdive</a></li>
-                        <li><a href="https://community.jboss.org/community/aerogear" target="_blank">AeroGear user forums</a></li>
-                        <li><a href="https://github.com/organizations/aerogear" target="_blank">Github</a></li>
+                        <li><a href="http://jboss.org/aerogear" target="_blank" rel="external">AeroGear Project site</a></li>
+                        <li><a href="https://community.jboss.org/wiki/HTML5RESTApplications" target="_blank" rel="external">More on <strong>HTML5 + REST</strong></a></li>
+                        <li><a href="https://community.jboss.org/wiki/GetStartedWithHTML5MobileWebDevelopmentWithJBoss" target="_blank" rel="external">Get this application</a></li>
+                        <li><a href="https://community.jboss.org/wiki/HTML5MobileQuickstartArchetypeDeepDive" target="_blank" rel="external">Application deepdive</a></li>
+                        <li><a href="https://community.jboss.org/community/aerogear" target="_blank" rel="external">AeroGear user forums</a></li>
+                        <li><a href="https://github.com/organizations/aerogear" target="_blank" rel="external">Github</a></li>
                     </ul>
                 </div>
             </aside>
         </section>
-
-        <!-- New HTML5 footer tag -->
-        <footer>
-            <!--<img src="img/logo.png" alt="HTML5"/>-->
-            <p>This project was generated from a Maven archetype from JBoss.<br/></p>
-        </footer>
     </div>
 </body>
 </html>

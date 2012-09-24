@@ -16,7 +16,8 @@
  */
 package org.jboss.as.quickstarts.html5_mobile.data;
 
-import javax.ejb.Stateless;
+import org.jboss.as.quickstarts.html5_mobile.model.Member;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -24,8 +25,6 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.List;
-
-import org.jboss.as.quickstarts.html5_mobile.model.Member;
 
 @ApplicationScoped
 public class MemberRepository {
