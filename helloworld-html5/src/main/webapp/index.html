@@ -20,39 +20,47 @@
 <html>
 <head>
 <title>HTML5 + REST Hello World</title>
+<link rel="stylesheet" href="css/styles.css"/>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+<script type="text/javascript">
+$( document ).ready( function() {
+    $( '#sayHello' ).click( function( event ) {
+        event.preventDefault();
 
-<script type="text/javascript"> 
-$(document).ready(function() {
-	$('#sayHello').click(function() {
-		var name = $('#name').val();
-		//console.log("clicked: " + name);
-        var jqxhr = $.ajax('hello/json/' + name, {
+        var result = $( '#result' ),
+            name = $.trim( $( '#name' ).val() );
+
+        result.removeClass( 'invalid' );
+
+        if( !name || !name.length ) {
+            result.addClass( 'invalid' ).text( 'A name is required!' );
+            return;
+        }
+        //console.log("clicked: " + name);
+        $.ajax( 'hello/json/' + name, {
             dataType:'json',
             data:{},
             type:'POST',
-            success:function (data) {
+            success:function ( data ) {
                 //console.log("success: " + data.result);
-                $('#result').text(data.result);
+                $( '#result' ).text( data.result );
             }
         })
-		.error(function() {
-			//console.log("error");
-		}
-		);
-		return false; // prevents submit of the form
-	});
-}); // (document).read
+        .error( function() {
+            //console.log("error");
+        });
+    });
+}); // (document).ready
 </script>
 </head>
 <body>
 HTML5 + REST Hello World<br>
 <form name="theForm">
- <fieldset>  
-    <label for="name" id="name_label">Name</label> 
-	<input name="name" id="name" type="text" required placeholder="Your Name"/>
-    <input type="submit" id="sayHello" value="Say Hello"/><span id="result"></span>
- </fieldset>
+    <fieldset>
+        <label for="name" id="name_label">Name</label>
+        <input name="name" id="name" type="text" required placeholder="Your Name"/>
+        <input type="submit" id="sayHello" value="Say Hello"/><span id="result"></span>
+    </fieldset>
 </form>
 
 </body>

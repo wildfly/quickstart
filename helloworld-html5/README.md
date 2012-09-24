@@ -91,7 +91,7 @@ Development notes
 =================
 
 You can test the REST endpoint using the following URL
-http://localhost:8080/jboss-as-helloworld-html5/hello/json/David
+[http://localhost:8080/\<artifactId>/hello/json/David/]("http://localhost:8080/<artifactId>/hello/json/David/").
 
 HelloWorld.java - establishes the RESTful endpoints using JAX-RS
 
