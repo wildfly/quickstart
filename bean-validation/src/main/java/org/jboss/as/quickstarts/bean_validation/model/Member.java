@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jboss.as.quickstarts.kitchensink.model;
+package org.jboss.as.quickstarts.bean_validation.model;
 
 import java.io.Serializable;
 

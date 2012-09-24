@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jboss.as.quickstarts.kitchensink.test;
+package org.jboss.as.quickstarts.richfaces_validation.test;
 
 import java.util.Set;
 
@@ -24,7 +24,7 @@ import javax.validation.Validator;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.as.quickstarts.kitchensink.model.Member;
+import org.jboss.as.quickstarts.richfaces_validation.Member;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
@@ -38,7 +38,7 @@ import org.junit.runner.RunWith;
  * object.
  * 
  * This object is injected into the tests so user can verify the validators are working. This example does not touch validation
- * on database layer, e.g. it is not validating uniqueness constraint for email field.
+ * in the database layer, e.g. it is not validating uniqueness constraint for email field.
  * 
  * 
  * @author <a href="kpiwko@redhat.com>Karel Piwko</a>
@@ -61,7 +61,6 @@ public class MemberValidationTest {
                 .addAsResource("import.sql")
                 // enable CDI
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
-                // Deploy our test datasource
                 .addAsWebInfResource("test-ds.xml", "test-ds.xml");
     }
 
@@ -85,7 +84,7 @@ public class MemberValidationTest {
         Member member = new Member();
         Set<ConstraintViolation<Member>> violations = validator.validate(member);
 
-        Assert.assertEquals("Four violations were found", 4, violations.size());
+        Assert.assertEquals("Four violations were expected", 3, violations.size());
     }
 
     /**
@@ -135,7 +134,7 @@ public class MemberValidationTest {
         Set<ConstraintViolation<Member>> violations = validator.validate(member);
 
         Assert.assertEquals("One violation was found", 1, violations.size());
-        Assert.assertEquals("Phone number was invalid", "size must be between 10 and 12", violations.iterator().next()
+        Assert.assertEquals("Phone number was invalid", "Phone number must be 10-12 digits", violations.iterator().next()
                 .getMessage());
     }
 
