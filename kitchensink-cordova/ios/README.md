@@ -4,11 +4,12 @@ Author: Kris Borchers
 Level: Intermediate
 Technologies: HTML5, REST, Apache Cordova, iOS
 Summary: Based on kitchensink, but uses hybrid HTML5 running as a native iOS application on mobiles
+Target Product: WFK
 
 What is it?
 -----------
 
-This is a aplication build upon AeroGear’s kitchensink quickstart, which was converted to an Apache Cordova based hybrid application.
+This is an application built upon AeroGear's kitchensink quickstart, which was converted to an Apache Cordova based hybrid application.
 
 What does all of that mean? Basically, this takes our HTML5 + REST / jQuery Mobile based web app and converts it to a native app for iOS. 
 
@@ -26,7 +27,7 @@ Import the Quickstart Code
 
 First we need to import the existing iOS code to XCode.
 
-1. Open Finder and navigate to '<repo-folder>/kitchensink-cordova-ios/'
+1. Open Finder and navigate to `<repo-folder>/kitchensink-cordova-ios/`
 2. Right click on *KitchensinkCordova.xcodeproj* and select *Open With XCode*
 3. Change the Target in the Scheme menu to KitchensinkCordova and select a device
 4. Make sure that your `<KITCHENSINK-CORDOVA>/android/assets/www` is a symbolic link to `../shared/www`
@@ -35,7 +36,7 @@ First we need to import the existing iOS code to XCode.
 Run and Access the application
 ------------------------------
 
-If your toolbar is opened (click View->Show Toolbar to show it). Click on *Run* button. This will start the iOS Simulator with this quickstart running on it.
+If the toolbar in XCode is visible, click on the *Run* button. This will start the iOS Simulator with this quickstart running in it. If your toolbar is not visible, click `View -> Show Toolbar` to show it.
 
 
 Converting an AeroGear HTML5 + REST Web App to a Hybrid App with Apache Cordova

@@ -4,11 +4,12 @@ Author: Kris Borchers
 Level: Intermediate
 Technologies: HTML5, REST, Apache Cordova, Android
 Summary: Based on kitchensink, but uses hybrid HTML5 running as a native android application on mobiles
+Target Product: WFK
 
 What is it?
 -----------
 
-This is a aplication build upon AeroGear’s kitchensink quickstart, which was converted to an Apache Cordova based hybrid application.
+This is an application built upon AeroGear's kitchensink quickstart, which was converted to an Apache Cordova based hybrid application.
 
 What does all of that mean? Basically, this takes our HTML5 + REST / jQuery Mobile based web app and converts it to a native app for Android. 
 
@@ -45,7 +46,7 @@ _NOTE: This sample was built for the Android 2.1 SDK for maximum compatibility w
 
 #### Troubleshooting Windows Operating Systems
 
-As Windows doesn't suppot symbolic links you must copy `shared/www` folder to `<KITCHENSINK-CORDOVA>/android/assets/www`
+As Windows doesn't support symbolic links you must copy `shared/www` folder to `<KITCHENSINK-CORDOVA>/android/assets/www`
 
 
 Start the Emulator and Deploy the application
