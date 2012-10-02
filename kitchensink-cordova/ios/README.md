@@ -27,10 +27,10 @@ Import the Quickstart Code
 
 First we need to import the existing iOS code to XCode.
 
-1. Open Finder and navigate to `<repo-folder>/kitchensink-cordova-ios/`
+1. Open Finder and navigate to `QUICKSTART_HOME/kitchensink-cordova/ios/`
 2. Right click on *KitchensinkCordova.xcodeproj* and select *Open With XCode*
 3. Change the Target in the Scheme menu to KitchensinkCordova and select a device
-4. Make sure that your `<KITCHENSINK-CORDOVA>/android/assets/www` is a symbolic link to `../shared/www`
+4. Make sure that your `QUICKSTART_HOME/kitchensink-cordova/ios/www` is a symbolic link to `../shared/www`
 
 
 Run and Access the application

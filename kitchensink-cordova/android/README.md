@@ -31,7 +31,7 @@ First we need to import the existing Android code to JBDS or Eclipse
 2. Select *Existing Android Code Into Workspace* and click *Next*.
 3. On Root Directory, click on *Browse...* button and navigate to the root path of the Quickstart on your filesystem.
 4. After selecting the Quickstart project, you can click on *Finish* button to start the project import.
-5. Make sure that your `<KITCHENSINK-CORDOVA>/android/assets/www` is a symbolic link to `../shared/www`
+5. Make sure that your `QUICKSTART_HOME/kitchensink-cordova/android/assets/www` is a symbolic link to `../shared/www`
 
 
 #### Troubleshooting Fedora/Red Hat Enterprise Linux
@@ -46,7 +46,7 @@ _NOTE: This sample was built for the Android 2.1 SDK for maximum compatibility w
 
 #### Troubleshooting Windows Operating Systems
 
-As Windows doesn't support symbolic links you must copy `shared/www` folder to `<KITCHENSINK-CORDOVA>/android/assets/www`
+As Windows doesn't support symbolic links you must copy `shared/www` folder to `QUICKSTART_HOME/kitchensink-cordova/android/assets/www`
 
 
 Start the Emulator and Deploy the application
