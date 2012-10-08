@@ -19,7 +19,7 @@
 -->
 <html>
 <head>
-    <title>AeroGear QuickStart</title>
+    <title>AeroGear QuickStarts</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
     <!-- Set the tab, home page, shortcut icons -->
@@ -45,7 +45,7 @@
             located closer to a CDN than you currently hosted server.
             */
             load: [
-                "http://code.jquery.com/jquery-1.7.1.min.js",
+                "http://code.jquery.com/jquery-1.8.2.min.js",
                 "js/libs/underscore-min.js",
                 // Minification - See Readme for details
                 // For minification, comment out this file
@@ -57,7 +57,7 @@
                 if ( !window.jQuery ) {
                     //In production, you would want to fall back to a minified file.
                     //We fall back to the full version because Eclipse reports false errors in some minified JavaScript files.
-                    yepnope( "js/libs/jquery-1.7.1.min.js" );
+                    yepnope( "js/libs/jquery-1.8.2.min.js" );
                 }
             }
         },{
@@ -73,7 +73,7 @@
             yep: {
                 //assign labeled callbacks for later execution after script loads.
                 //we are on mobile device so load appropriate CSS
-                "jqmcss": "css/jquery.mobile-1.1.0.min.css",
+                "jqmcss": "css/jquery.mobile-1.2.0.min.css",
                 // For minification, uncomment this line
                 //"mcss": "css/m.screen.min.css"
                 // For minification, comment out this line
@@ -90,10 +90,10 @@
                 //use the labeled callbacks from above, and load jQuery Mobile
                 "jqmcss": function( url, result, key ) {
                     yepnope({
-                        load: "http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js",
+                        load: "http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js",
                         complete: function() {
                             if ( !$.mobile ) {
-                                yepnope.injectJs( "js/libs/jquery.mobile-1.1.0.min.js" );
+                                yepnope.injectJs( "js/libs/jquery.mobile-1.2.0.min.js" );
                             }
                         }
                     });
@@ -219,8 +219,8 @@
                     </div>
                     <div class="footer_right">
                         <span class="footer_txt">Member:</span>
-                        <a href="#register-art" data-role="button" data-icon="plus">Add</a>
-                        <a href="#member-art" data-role="button" data-icon="grid">List</a>
+                        <a href="#register-art" data-role="button" data-inline="true" data-icon="plus">Add</a>
+                        <a href="#member-art" data-role="button" data-inline="true" data-icon="grid">List</a>
                     </div>
                 </div>
                 <!-- /Footer -->
@@ -270,8 +270,8 @@
                     </div>
                     <div class="footer_right">
                         <span class="footer_txt">Member:</span>
-                        <a href="#register-art" data-role="button" data-icon="plus">Add</a>
-                        <a href="#member-art" data-role="button" data-icon="grid">List</a>
+                        <a href="#register-art" data-role="button" data-inline="true" data-icon="plus">Add</a>
+                        <a href="#member-art" data-role="button" data-inline="true" data-icon="grid">List</a>
                     </div>
                 </div>
                 <!-- /Footer -->
@@ -306,8 +306,8 @@
                     </div>
                     <div class="footer_right">
                         <span class="footer_txt">Member:</span>
-                        <a href="#register-art" data-role="button" data-icon="plus">Add</a>
-                        <a href="#member-art" data-role="button" data-icon="grid">List</a>
+                        <a href="#register-art" data-role="button" data-inline="true" data-icon="plus">Add</a>
+                        <a href="#member-art" data-role="button" data-inline="true" data-icon="grid">List</a>
                     </div>
                 </div>
                 <!-- /Footer -->
