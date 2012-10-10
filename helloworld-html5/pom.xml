@@ -35,18 +35,9 @@
   resources, i.e. build is platform dependent! -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <!-- JBoss dependency versions -->
-        <version.org.jboss.as.plugins.maven.plugin>7.2.Final</version.org.jboss.as.plugins.maven.plugin>
-        <version.org.jboss.bom>1.0.0.Final</version.org.jboss.bom>
-
-        <!-- other plugin versions -->
-        <version.compiler.plugin>2.3.1</version.compiler.plugin>
-        <version.license.plugin>1.9.0</version.license.plugin>
-        <version.war.plugin>2.1.1</version.war.plugin>
-
-        <!-- maven-compiler-plugin -->
-        <maven.compiler.target>1.6</maven.compiler.target>
-        <maven.compiler.source>1.6</maven.compiler.source>
+        <!-- Define the version of JBoss' Java EE 6 APIs we want to import. Any dependencies from org.jboss.spec will have their
+             version defined by this BOM -->
+        <javaee6.bom.version>1.0.1.Final</javaee6.bom.version>
     </properties>
 
     <dependencyManagement>
