@@ -10,50 +10,50 @@
     OF ANY KIND, either express or implied. See the License for the specific 
     language governing permissions and limitations under the License. -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-   <modelVersion>4.0.0</modelVersion>
-   <parent>
-      <groupId>org.jboss</groupId>
-      <artifactId>jboss-parent</artifactId>
-      <version>6-beta-2</version>
-      <relativePath/>
-   </parent>
-   <groupId>org.jboss.as.quickstarts</groupId>
-   <artifactId>jboss-as-quickstarts-dist</artifactId>
-   <version>7.1.2-SNAPSHOT</version>
-   <packaging>pom</packaging>
-   <name>JBoss AS Quickstarts Distribution</name>
-   <description>JBoss AS Quickstarts Distribution</description>
-   <url>http://github.com/jbossas/quickstart</url>
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.jboss</groupId>
+        <artifactId>jboss-parent</artifactId>
+        <version>6-beta-2</version>
+        <relativePath/>
+    </parent>
+    <groupId>org.jboss.as.quickstarts</groupId>
+    <artifactId>jboss-as-quickstarts-dist</artifactId>
+    <version>7.1.2-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>JBoss AS Quickstarts Distribution</name>
+    <description>JBoss AS Quickstarts Distribution</description>
+    <url>http://github.com/jbossas/quickstart</url>
 
-   <licenses>
-      <license>
-         <name>Apache License, Version 2.0</name>
-         <distribution>repo</distribution>
-         <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
-      </license>
-   </licenses>
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <distribution>repo</distribution>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+        </license>
+    </licenses>
 
-   <build>
-      <plugins>
-         <plugin>
-            <artifactId>maven-assembly-plugin</artifactId>
-            <executions>
-               <execution>
-                  <id>distribution</id>
-                  <phase>package</phase>
-                  <goals>
-                     <goal>single</goal>
-                  </goals>
-                  <configuration>
-                     <descriptors>
-                        <descriptor>src/main/assembly/assembly.xml</descriptor>
-                     </descriptors>
-                     <finalName>jboss-as-quickstarts-${project.version}</finalName>
-                  </configuration>
-               </execution>
-            </executions>
-         </plugin>
-      </plugins>
-   </build>
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>distribution</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <descriptors>
+                                <descriptor>src/main/assembly/assembly.xml</descriptor>
+                            </descriptors>
+                            <finalName>jboss-as-quickstarts-${project.version}</finalName>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
    
 </project>

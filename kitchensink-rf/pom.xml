@@ -83,7 +83,7 @@
                 <scope>import</scope>
             </dependency>
             <!-- Similarly to the JBoss Java EE 6 BOM above, the RichFaces BOM specifies the
-  versions of artifacts required for using RichFaces in your project. -->
+                versions of artifacts required for using RichFaces in your project. -->
             <dependency>
                 <groupId>org.richfaces</groupId>
                 <artifactId>richfaces-bom</artifactId>
@@ -99,8 +99,7 @@
         <!-- First declare the APIs we depend on and need for compilation. 
             All of them are provided by JBoss AS 7 -->
 
-        <!-- Import the CDI API, we use provided scope as the API is included 
-            in JBoss AS 7 -->
+        <!-- Import the CDI API, we use provided scope as the API is included in JBoss AS 7 -->
         <dependency>
             <groupId>javax.enterprise</groupId>
             <artifactId>cdi-api</artifactId>
@@ -115,24 +114,21 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- Import the JAX-RS API, we use provided scope as the API is included 
-            in JBoss AS 7 -->
+        <!-- Import the JAX-RS API, we use provided scope as the API is included in JBoss AS 7 -->
         <dependency>
             <groupId>org.jboss.spec.javax.ws.rs</groupId>
             <artifactId>jboss-jaxrs-api_1.1_spec</artifactId>
             <scope>provided</scope>
         </dependency>
 
-        <!-- Import the JPA API, we use provided scope as the API is included 
-            in JBoss AS 7 -->
+        <!-- Import the JPA API, we use provided scope as the API is included in JBoss AS 7 -->
         <dependency>
             <groupId>org.hibernate.javax.persistence</groupId>
             <artifactId>hibernate-jpa-2.0-api</artifactId>
             <scope>provided</scope>
         </dependency>
 
-        <!-- Import the EJB API, we use provided scope as the API is included 
-            in JBoss AS 7 -->
+        <!-- Import the EJB API, we use provided scope as the API is included in JBoss AS 7 -->
         <dependency>
             <groupId>org.jboss.spec.javax.ejb</groupId>
             <artifactId>jboss-ejb-api_3.1_spec</artifactId>
@@ -154,53 +150,52 @@
             </exclusions>
         </dependency>
 
-        <!-- Import the JSF API, we use provided scope as the API is included 
-            in JBoss AS 7 -->
+        <!-- Import the JSF API, we use provided scope as the API is included in JBoss AS 7 -->
         <dependency>
             <groupId>org.jboss.spec.javax.faces</groupId>
             <artifactId>jboss-jsf-api_2.1_spec</artifactId>
             <scope>provided</scope>
         </dependency>
 
-      <!-- Import the Servlet API, we use provided scope as the API is included in JBoss AS 7 -->
-      <dependency>
-         <groupId>org.jboss.spec.javax.servlet</groupId>
-         <artifactId>jboss-servlet-api_3.0_spec</artifactId>
-         <scope>provided</scope>
-      </dependency>
+        <!-- Import the Servlet API, we use provided scope as the API is included in JBoss AS 7 -->
+        <dependency>
+            <groupId>org.jboss.spec.javax.servlet</groupId>
+            <artifactId>jboss-servlet-api_3.0_spec</artifactId>
+            <scope>provided</scope>
+        </dependency>
 
-      <!-- Import the RichFaces core library -->
-      <dependency>
-         <groupId>org.richfaces.core</groupId>
-         <artifactId>richfaces-core-impl</artifactId>
-         <exclusions>
-            <exclusion>
-                <artifactId>cssparser</artifactId>
-                <groupId>net.sourceforge.cssparser</groupId>
-            </exclusion>
-             <exclusion>
-                <artifactId>guava</artifactId>
-                <groupId>com.google.guava</groupId>
-            </exclusion>
-         </exclusions>
-      </dependency>
-      <!-- Import the RichFaces components -->
-      <dependency>
-         <groupId>org.richfaces.ui</groupId>
-         <artifactId>richfaces-components-ui</artifactId>
-      </dependency>
+        <!-- Import the RichFaces core library -->
+        <dependency>
+            <groupId>org.richfaces.core</groupId>
+            <artifactId>richfaces-core-impl</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>cssparser</artifactId>
+                    <groupId>net.sourceforge.cssparser</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>guava</artifactId>
+                    <groupId>com.google.guava</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!-- Import the RichFaces components -->
+        <dependency>
+            <groupId>org.richfaces.ui</groupId>
+            <artifactId>richfaces-components-ui</artifactId>
+        </dependency>
 
-       <!-- Import the Atmosphere framework for a4j:push -->
-      <dependency>
-         <groupId>org.atmosphere</groupId>
-         <artifactId>atmosphere-runtime</artifactId>
-         <exclusions>
-             <exclusion>
-                 <groupId>org.slf4j</groupId>
-                 <artifactId>slf4j-api</artifactId>
-             </exclusion>
-         </exclusions>
-      </dependency>
+        <!-- Import the Atmosphere framework for a4j:push -->
+        <dependency>
+            <groupId>org.atmosphere</groupId>
+            <artifactId>atmosphere-runtime</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
 
         <!-- Now we declare any tools needed -->
 

@@ -29,8 +29,7 @@
     </licenses>
 
     <properties>
-        <!-- Explicitly declaring the source encoding eliminates the following 
-            message: -->
+        <!-- Explicitly declaring the source encoding eliminates the following message: -->
         <!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered 
             resources, i.e. build is platform dependent! -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -39,21 +38,17 @@
         <version.org.jboss.as.plugins.maven.plugin>7.3.Final</version.org.jboss.as.plugins.maven.plugin>
         <version.org.jboss.bom>1.0.0.Final</version.org.jboss.bom>
 
-
         <!-- other plugin versions -->
         <version.compiler.plugin>2.3.1</version.compiler.plugin>
         <version.license.plugin>1.9.0</version.license.plugin>
         <version.war.plugin>2.1.1</version.war.plugin>
-
-
 
         <!-- maven-compiler-plugin -->
         <maven.compiler.target>1.6</maven.compiler.target>
         <maven.compiler.source>1.6</maven.compiler.source>
 
         <!-- Define the version of JBoss' Java EE 6 APIs we want to import. 
-            Any dependencies from org.jboss.spec will have their version defined by this 
-            BOM -->
+            Any dependencies from org.jboss.spec will have their version defined by this BOM -->
         <version.org.jboss.bom>1.0.1.Final</version.org.jboss.bom>
     </properties>
 
@@ -65,10 +60,9 @@
                 versions of artifacts. Here we use the jboss-javaee-6.0 stack (you can read 
                 this as the JBoss stack of the Java EE 6 APIs) -->
 
-
-            <!--This BOM builds on the Java EE full profile BOM, adding Arquillian 
-                to the mix. It also provides a version of JUnit and TestNG recommended for 
-                use with Arquillian. see https://github.com/jboss/jboss-bom/tree/master/jboss-javaee-6.0-with-tools -->
+            <!--This BOM builds on the Java EE full profile BOM, adding Arquillian to the mix. It also provides a
+            version of JUnit and TestNG recommended for use with Arquillian.
+            see https://github.com/jboss/jboss-bom/tree/master/jboss-javaee-6.0-with-tools -->
             <dependency>
                 <groupId>org.jboss.bom</groupId>
                 <artifactId>jboss-javaee-6.0-with-tools</artifactId>
@@ -76,13 +70,13 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            
         </dependencies>
     </dependencyManagement>
 
     <dependencies>
 
-        <!-- Import the CDI API, we use provided scope as the API is included 
-            in JBoss AS 7 -->
+        <!-- Import the CDI API, we use provided scope as the API is included in JBoss AS 7 -->
         <dependency>
             <groupId>javax.enterprise</groupId>
             <artifactId>cdi-api</artifactId>
@@ -97,8 +91,7 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- Import the JAX-RS API, we use provided scope as the API is included 
-            in JBoss AS 7 -->
+        <!-- Import the JAX-RS API, we use provided scope as the API is included in JBoss AS 7. -->
         <dependency>
             <groupId>org.jboss.spec.javax.ws.rs</groupId>
             <artifactId>jboss-jaxrs-api_1.1_spec</artifactId>
@@ -107,16 +100,14 @@
     </dependencies>
 
     <build>
-        <!-- Set the name of the war, used as the context root when the app 
-            is deployed -->
+        <!-- Set the name of the war, used as the context root when the app is deployed. -->
         <finalName>${project.artifactId}</finalName>
         <plugins>
             <plugin>
                 <artifactId>maven-war-plugin</artifactId>
                 <version>${version.war.plugin}</version>
                 <configuration>
-                    <!-- Java EE 6 doesn't require web.xml, Maven needs to 
-                        catch up! -->
+                    <!-- Java EE 6 doesn't require web.xml, Maven needs to catch up! -->
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
             </plugin>
@@ -126,8 +117,7 @@
                 <artifactId>jboss-as-maven-plugin</artifactId>
                 <version>${version.org.jboss.as.plugins.maven.plugin}</version>
             </plugin>
-            <!-- Compiler plugin enforces Java 1.6 compatibility and activates 
-                annotation processors -->
+            <!-- Compiler plugin enforces Java 1.6 compatibility and activates annotation processors. -->
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${version.compiler.plugin}</version>

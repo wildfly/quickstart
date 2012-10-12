@@ -133,87 +133,87 @@
             <scope>runtime</scope>
         </dependency>
 
-      <!-- Remote EJB accesses can be secured -->
-       <dependency>
-           <groupId>org.jboss.sasl</groupId>
-           <artifactId>jboss-sasl</artifactId>
-           <scope>runtime</scope>
-       </dependency>
+        <!-- Remote EJB accesses can be secured -->
+        <dependency>
+            <groupId>org.jboss.sasl</groupId>
+            <artifactId>jboss-sasl</artifactId>
+            <scope>runtime</scope>
+        </dependency>
 
-       <!-- data serialization for invoking remote EJBs -->
-       <dependency>
-           <groupId>org.jboss.marshalling</groupId>
-           <artifactId>jboss-marshalling-river</artifactId>
-           <scope>runtime</scope>
-       </dependency>
+        <!-- data serialization for invoking remote EJBs -->
+        <dependency>
+            <groupId>org.jboss.marshalling</groupId>
+            <artifactId>jboss-marshalling-river</artifactId>
+            <scope>runtime</scope>
+        </dependency>
 
-   </dependencies>
+    </dependencies>
 
-   <build>
-      <plugins>
-         <!-- Enforce Java 1.6  -->
-         <plugin>
-            <artifactId>maven-compiler-plugin</artifactId>
-             <version>${version.compiler.plugin}</version>
-             <configuration>
-                 <source>${maven.compiler.source}</source>
-                 <target>${maven.compiler.target}</target>
-            </configuration>
-         </plugin>
+    <build>
+        <plugins>
+            <!-- Enforce Java 1.6  -->
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${version.compiler.plugin}</version>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                </configuration>
+            </plugin>
 
-         <!-- Add the maven exec plugin to allow us to run a java program via maven -->
-         <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>exec-maven-plugin</artifactId>
-            <version>${version.exec.plugin}</version>
-            <executions>
-              <execution>
-                  <goals>
-                     <goal>exec</goal>
-                  </goals>
-              </execution>
-            </executions>
-            <configuration>
-              <executable>java</executable>
-              <workingDirectory>${project.build.directory}/exec-working-directory</workingDirectory>
-              <arguments>
-                <!-- automatically creates the classpath using all project dependencies,
-                     also adding the project build directory -->
-                <argument>-classpath</argument>
-                <classpath>
-                </classpath>
-                <argument>org.jboss.as.quickstarts.ejb.remote.client.RemoteEJBClient</argument>
-              </arguments>
-            </configuration>
-        </plugin>
+            <!-- Add the maven exec plugin to allow us to run a java program via maven -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>${version.exec.plugin}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <executable>java</executable>
+                    <workingDirectory>${project.build.directory}/exec-working-directory</workingDirectory>
+                    <arguments>
+                        <!-- automatically creates the classpath using all project dependencies,
+                            also adding the project build directory -->
+                        <argument>-classpath</argument>
+                        <classpath>
+                        </classpath>
+                        <argument>org.jboss.as.quickstarts.ejb.remote.client.RemoteEJBClient</argument>
+                    </arguments>
+                </configuration>
+            </plugin>
             <!-- build standalone exe jar -->
-         <plugin>
-            <artifactId>maven-assembly-plugin</artifactId>
-            <configuration>
-               <descriptorRefs>
-                  <descriptorRef>jar-with-dependencies</descriptorRef>
-               </descriptorRefs>
-               <archive>
-                  <manifest>
-                     <mainClass>org.jboss.as.quickstarts.ejb.remote.client.RemoteEJBClient</mainClass>
-                  </manifest>
-               </archive>
-            </configuration>
-         </plugin>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                    <archive>
+                        <manifest>
+                            <mainClass>org.jboss.as.quickstarts.ejb.remote.client.RemoteEJBClient</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
         
-         <!-- The JBoss AS plugin deploys your apps to a local JBoss AS container -->
+            <!-- The JBoss AS plugin deploys your apps to a local JBoss AS container -->
             <!-- Disabling it here means that we don't try to deploy this POM! -->
             <plugin>
-               <groupId>org.jboss.as.plugins</groupId>
-               <artifactId>jboss-as-maven-plugin</artifactId>
-               <version>${version.org.jboss.as.plugins.maven.plugin}</version>
-               <inherited>true</inherited>
-               <configuration>
-                  <skip>true</skip>
-               </configuration>
+                <groupId>org.jboss.as.plugins</groupId>
+                <artifactId>jboss-as-maven-plugin</artifactId>
+                <version>${version.org.jboss.as.plugins.maven.plugin}</version>
+                <inherited>true</inherited>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
             </plugin>
-      </plugins>
+        </plugins>
 
-   </build>
+    </build>
 
 </project>
