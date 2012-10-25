@@ -2,7 +2,7 @@ kitchensink-html5-mobile: Example AeroGear Application Using Multiple HTML5, Mob
 =========================================================================================================
 Author: Jay Balunas
 Level: Intermediate
-Technologies: HTML5
+Technologies: Aerogear, CDI, HTML5, REST
 Summary: Based on kitchensink, but uses HTML5, making it suitable for mobile and tablet computers
 Target Product: WFK
 
