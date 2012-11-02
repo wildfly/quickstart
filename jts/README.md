@@ -98,10 +98,11 @@ You can modify the server configuration using the JBoss CLI tool or by manually 
     
         For Linux: bin/jboss-cli.sh --connect
         For Windows: bin\jboss-cli.bat --connect
-3. At the prompt, type the following:
+3. At the prompt, type the following (replace the words UNIQUE_IDENTIFER with values unique to both servers):
 
         [standalone@localhost:9999 /] /subsystem=jacorb/:write-attribute(name=transactions,value=on)
         [standalone@localhost:9999 /] /subsystem=transactions/:write-attribute(name=jts,value=true)
+        [standalone@localhost:9999 /] /subsystem=transactions/:write-attribute(name=node-identifier,value=UNIQUE_IDENTIFER)
 4. _NOTE:_ When you have completed testing this quickstart, it is important to [Remove the JTS Configuration from the JBoss Server](#remove-jts-configuration).
 
 #### Modify the Server Configuration Manually
@@ -116,9 +117,10 @@ You can modify the server configuration using the JBoss CLI tool or by manually 
                     <initializers security="on" transactions="on"/>
                 </orb>
             </subsystem>
-    * Find the transaction subsystem and append the `<jts/>` element:  
+    * Find the transaction subsystem and set a unique node-identifier, (replace the words UNIQUE_IDENTIFER with values unique to both servers) and append the `<jts/>` element:  
 
             <subsystem xmlns="urn:jboss:domain:transactions:1.2">
+                <core-environment node-identifier="UNIQUE_IDENTIFIER">
                 <!-- LEAVE EXISTING CONFIG AND APPEND THE FOLLOWING -->
                 <jts/>
             </subsystem>
@@ -213,6 +215,7 @@ You can modify the server configuration using the JBoss CLI tool or by manually 
 
         [standalone@localhost:9999 /] /subsystem=jacorb/:write-attribute(name=transactions,value=spec)
         [standalone@localhost:9999 /] /subsystem=transactions/:undefine-attribute(name=jts)
+        [standalone@localhost:9999 /] /subsystem=transactions/:undefine-attribute(name=node-identifier)
 
 ### Remove the JTS Server Configuration Manually
 1. Stop the server.
@@ -229,6 +232,7 @@ You can modify the server configuration using the JBoss CLI tool or by manually 
     * Find the transaction subsystem and remove the `<jts/>` element:  
 
             <subsystem xmlns="urn:jboss:domain:transactions:1.2">
+                <!-- REMOVE node-identifier ATTRIBUTE FROM core-environment ELEMENT -->
                 <!-- LEAVE EXISTING CONFIG AND REMOVE THE </jts> -->
             </subsystem>
 
