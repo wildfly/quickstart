@@ -17,7 +17,7 @@ VERSION_REGEX='([0-9]*)\.([0-9]*)([a-zA-Z0-9\.]*)'
 EAP_SUBJECT="\${RELEASEVERSION} of JBoss Quickstarts released, please merge with https://github.com/jboss-eap/quickstart, tag and add to EAP maven repo build"
 # EAP team email To ?
 EAP_EMAIL_TO="pgier@redhat.com kpiwko@redhat.com"
-EAP_EMAIL_FROM="\"JDF Publish Script\" <benevides@redhat.com>"
+EMAIL_FROM="\"JDF Publish Script\" <benevides@redhat.com>"
 
 
 # SCRIPT
@@ -41,11 +41,11 @@ notifyEmail()
    echo "***** Performing JBoss Quickstarts release notifications"
    echo "*** Notifying JBoss EAP team"
    subject=`eval echo $EAP_SUBJECT`
-   echo "Email from: " $EAP_EMAIL_FROM
+   echo "Email from: " $EMAIL_FROM
    echo "Email to: " $EAP_EMAIL_TO
    echo "Subject: " $subject
    # send email using /bin/mail
-   echo "See \$subject :-)" | /usr/bin/env mail -r "$EAP_EMAIL_FROM" -s "$subject" "$EAP_EMAIL_TO"
+   echo "See \$subject :-)" | /usr/bin/env mail -r "$EMAIL_FROM" -s "$subject" "$EAP_EMAIL_TO"
 
 }
 
