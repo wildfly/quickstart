@@ -66,7 +66,11 @@ release()
    git checkout $BRANCH
    echo "Uploading distribution to http://download.jboss.org/jbossas/$MAJOR_VERSION.$MINOR_VERSION/jboss-as-$RELEASEVERSION/jboss-as-quickstarts-$RELEASEVERSION-dist.zip"
    rsync -Pv --protocol=28 $DIR/target/jboss-as-quickstarts-$RELEASEVERSION-dist.zip jbossas@filemgmt.jboss.org:downloads_htdocs/jbossas/$MAJOR_VERSION.$MINOR_VERSION/jboss-as-$RELEASEVERSION/
-   notifyEmail
+   read -p "Do you want to send release notifcations to $EAP_EMAIL_TO[y/N]?" yn
+   case $yn in
+       [Yy]* ) notifyEmail;;
+       * ) exit;
+   esac
 }
 
 parse_git_branch() {
