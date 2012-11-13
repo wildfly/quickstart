@@ -36,6 +36,7 @@
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
       <!-- JBoss dependency versions -->
+      <version.org.jboss.as>7.1.1.Final</version.org.jboss.as>
       <version.org.jboss.as.plugins.maven.plugin>7.3.Final</version.org.jboss.as.plugins.maven.plugin>
       <version.org.jboss.spec.jboss.javaee.6.0>3.0.0.Final</version.org.jboss.spec.jboss.javaee.6.0>
 
@@ -63,6 +64,13 @@
             <version>${version.org.jboss.spec.jboss.javaee.6.0}</version>
             <type>pom</type>
             <scope>import</scope>
+         </dependency>
+         <dependency>
+             <groupId>org.jboss.as</groupId>
+             <artifactId>jboss-as-ejb-client-bom</artifactId>
+             <version>${version.org.jboss.as}</version>
+             <type>pom</type>
+             <scope>import</scope>
          </dependency>
       </dependencies>
    </dependencyManagement>
@@ -97,6 +105,12 @@
       	<groupId>org.jboss.spec.javax.ejb</groupId>
       	<artifactId>jboss-ejb-api_3.1_spec</artifactId>
       </dependency>
+
+      <dependency>
+      	<groupId>org.jboss.ejb3</groupId>
+      	<artifactId>jboss-ejb3-ext-api</artifactId>
+      </dependency>
+
    </dependencies>
 
    <build>

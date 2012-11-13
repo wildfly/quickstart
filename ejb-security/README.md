@@ -9,17 +9,30 @@ Target Product: EAP
 What is it?
 -----------
 
-This example demonstrates the use of Java EE declarative security to control access to EJB3 and Security in *JBoss Enterprise Application Platform 6* or *JBoss AS 7*.
+This example demonstrates the use of Java EE declarative security to control access to Servlets and EJBs in *JBoss Enterprise Application Platform 6* or *JBoss AS 7*.
 
 This quickstart takes the following steps to implement EJB security:
 
-1. Define a security domain in the `standalone.xml` configuration file.
-2. Add an application user with access rights to the application.
-3. Add a security domain reference to `WEB-INF/jboss-web.xml`.
-4. Add a security constraint to the `WEB-INF/web.xml` .
-5. Add a security annotation to the EJB declaration.
+1. Define the security domain. This can be done either in the `security` subsytem of the `standalone.xml` configuration file or in the `WEB-INF/jboss-web.xml` configuration file. This quickstart uses the `other` security domain which is provided by default in the `standalone.xml` file:
 
-When you review the code, note the allowed user role `guest` in the annotation -`@RolesAllowed`- is the same as the user role defined in step 2 above.
+        <security-domain name="other" cache-type="default">
+            <authentication>
+                <login-module code="Remoting" flag="optional">
+                    <module-option name="password-stacking" value="useFirstPass"/>
+                </login-module>
+                <login-module code="RealmDirect" flag="required">
+                    <module-option name="password-stacking" value="useFirstPass"/>
+                </login-module>
+            </authentication>
+        </security-domain>
+
+2. Add the `@SecurityDomain("other")` security annotation to the EJB declaration to tell the EJB container to apply authorization to this EJB.
+3. Add the `@RolesAllowed({ "guest" })` annotation to the EJB declaration to authorize access only to users with `guest` role access rights.
+4. Add the `@RolesAllowed({ "guest" })` annotation to the Servlet declaration to authorize access only to users with `guest` role access rights.
+5. Add a `<login-config>` security constraint to the `WEB-INF/web.xml` file to force the login prompt.
+6. Add an application user with `guest` role access rights to the EJB. This quickstart defines a user `quickstartUser` with password `quickstartPassword` in the `guest` role. The `guest` role matches the allowed user role defined in the `@RolesAllowed` annotation in the EJB.
+7. Add a second user that has no `guest` role access rights.
+
 
 System requirements
 -------------------
@@ -35,10 +48,16 @@ Configure Maven
 If you have not yet done so, you must [Configure Maven](../README.md#mavenconfiguration) before testing the quickstarts.
 
 
-Add an Application User
+Add the Application Users
 ---------------
 
 This quickstart uses a secured management interface and requires that you create an application user to access the running application. Instructions to set up an Application user can be found here:  [Add an Application User](../README.md#addapplicationuser)
+
+After you add the default `quickstartUser`, use the same steps to add a second application user who is not in the `guest` role and therefore is not authorized to access the application. 
+
+        Username: user1
+        Password: password1
+        Roles:    app-user
 
 
 Start JBoss Enterprise Application Platform 6 or JBoss AS 7 with the Web Profile
@@ -70,27 +89,34 @@ Access the application
 
 The application will be running at the following URL <http://localhost:8080/jboss-as-ejb-security/>.
 
-When you access the application, you should get a browser login challenge.
+When you access the application, you are presented with a browser login challenge. 
 
-After a successful login using `quickstartUser`/`quickstartPassword`, the browser will display the following security info:
+1. If you attempt to login with a user name and password combination that has not been added to the server, the login challenge will be redisplayed.
+2. When you login successfully using `quickstartUser`/`quickstartPassword`, the browser displays the following security info:
 
-    Successfully called Secured EJB
+        Successfully called Secured EJB
 
-    Principal : quickstartUser
-    Remote User : quickstartUser
-    Authentication Type : BASIC
+        Principal : quickstartUser
+        Remote User : quickstartUser
+        Authentication Type : BASIC
+        
+3. Now close and reopen the brower session and access the application using the `user1`/`password1` credentials. In this case, the Servlet, which only allows the `guest` role, restricts the access and you get a security exception similar to the following: 
 
-You can now change the role in the quickstart `/src/main/webapp/WEB-INF/classes/roles.properties` files to `notauthorized`. 
+        HTTP Status 403 - Access to the requested resource has been denied
 
-Rebuild and redeploy the quickstart following the instructions under **Build and Deploy the Archive** above.
+        type Status report
+        message Access to the requested resource has been denied
+        description Access to the specified resource (Access to the requested resource has been denied) has been forbidden.
 
-Refresh the browser, clear the active login, and you should get a security exception similar to the following: 
+4. Next, change the EJB (SecuredEJB.java) to a different role, for example, `@RolesAllowed({ "other-role" })`. Do not modify the `guest` role in the Servlet (SecuredEJBServlet.java). Build and redeploy the quickstart, then close and reopen the browser and login using `quickstartUser`/`quickstartPassword`. This time the Servlet will allow the `guest` access, but the EJB, which only allows the role `other-role`, will throw an EJBAccessException:
 
-    HTTP Status 403 - Access to the requested resource has been denied
+        HTTP Status 500
 
-    type Status report
-    message Access to the requested resource has been denied
-    description Access to the specified resource (Access to the requested resource has been denied) has been forbidden.
+        message
+        description  The server encountered an internal error () that prevented it from fulfilling this request.
+        exception
+        javax.ejb.EJBAccessException: JBAS014502: Invocation on method: public java.lang.String org.jboss.as.quickstarts.ejb_security.SecuredEJB.getSecurityInfo() of bean: SecuredEJB is not allowed
+
 
 
 Undeploy the Archive
