@@ -1,17 +1,20 @@
 helloworld-mdb: Helloword Using an MDB (Message-Driven Bean)
 ============================================================
-Author: Serge Pagop, Andy Taylor
-Level: Intermediate
-Technologies: JMS, EJB, MDB
-Summary: Demonstrates the use of JMS 1.1 and EJB 3.1 Message-Driven Bean
+Author: Serge Pagop, Andy Taylor, Jeff Mesnil  
+Level: Intermediate  
+Technologies: JMS, EJB, MDB  
+Summary: Demonstrates the use of JMS 1.1 and EJB 3.1 Message-Driven Bean  
 Target Product: EAP
 
 What is it?
 -----------
 
-This example demonstrates the use of *JMS 1.1* and *EJB 3.1 Message-Driven Bean* in JBoss AS 7.1.0.
+This example demonstrates the use of *JMS 1.1* and *EJB 3.1 Message-Driven Bean* in JBoss Enterprise Application Platform 6 or JBoss AS 7.1.0.
 
-This project creates a queue named `HELLOWORLDMDBQueue` which is bound in JNDI as `java:/queue/HELLOWORLDMDBQueue`.
+This project creates two JMS resources:
+
+* A queue named `HELLOWORLDMDBQueue` bound in JNDI as `java:/queue/HELLOWORLDMDBQueue`
+* A topic named `HELLOWORLDMDBTopic` bound in JNDI as `java:/topic/HELLOWORLDMDBTopic`
 
 
 System requirements
@@ -49,25 +52,32 @@ _NOTE: The following build command assumes you have configured your Maven user s
 
         mvn clean package jboss-as:deploy
 
-4. This will deploy `target/jboss-as-helloworld-mdb.war` to the running instance of the server.
+4. This will deploy `target/jboss-as-helloworld-mdb.war` to the running instance of the server. Look at the JBoss Application Server console or Server log and you should see log messages corresponding to the deployment of the message-driven beans and the JMS destinations:
 
+        14:11:01,020 INFO org.hornetq.core.server.impl.HornetQServerImpl trying to deploy queue jms.queue.HELLOWORLDMDBQueue
+        14:11:01,029 INFO org.jboss.as.messaging JBAS011601: Bound messaging object to jndi name java:/queue/HELLOWORLDMDBQueue
+        14:11:01,030 INFO org.hornetq.core.server.impl.HornetQServerImpl trying to deploy queue jms.topic.HELLOWORLDMDBTopic
+        14:11:01,060 INFO org.jboss.as.ejb3 JBAS014142: Started message driven bean 'HelloWorldQueueMDB' with 'hornetq-ra' resource adapter
+        14:11:01,060 INFO org.jboss.as.ejb3 JBAS014142: Started message driven bean 'HelloWorldQTopicMDB' with 'hornetq-ra' resource adapter
+        14:11:01,070 INFO org.jboss.as.messaging JBAS011601: Bound messaging object to jndi name java:/topic/HELLOWORLDMDBTopic
 
 Access the application 
 ---------------------
 
-The application will be running at the following URL: <http://localhost:8080/jboss-as-helloworld-mdb/>.
+The application will be running at the following URL: <http://localhost:8080/jboss-as-helloworld-mdb/> and will send some messages to the queue.
 
+To send messages to the topic, use the following URL: <http://localhost:8080/jboss-as-helloworld-mdb/HelloWorldMDBServletClient?topic>
 
 Investigate the Server Console Output
 -------------------------
 
 Look at the JBoss Application Server console or Server log and you should see log messages like the following:
 
-    15:42:35,453 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldMDB] (Thread-47 (group:HornetQ-client-global-threads-1267410030)) Received Message: This is message 1
-    15:42:35,455 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldMDB] (Thread-46 (group:HornetQ-client-global-threads-1267410030)) Received Message: This is message 2
-    15:42:35,457 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldMDB] (Thread-50 (group:HornetQ-client-global-threads-1267410030)) Received Message: This is message 3
-    15:42:35,478 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldMDB] (Thread-53 (group:HornetQ-client-global-threads-1267410030)) Received Message: This is message 5
-    15:42:35,481 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldMDB] (Thread-52 (group:HornetQ-client-global-threads-1267410030)) Received Message: This is message 4
+    17:51:52,122 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldQueueMDB] (Thread-1 (HornetQ-client-global-threads-26912020)) Received Message from queue: This is message 1
+    17:51:52,123 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldQueueMDB] (Thread-11 (HornetQ-client-global-threads-26912020)) Received Message from queue: This is message 2
+    17:51:52,124 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldQueueMDB] (Thread-12 (HornetQ-client-global-threads-26912020)) Received Message from queue: This is message 5
+    17:51:52,135 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldQueueMDB] (Thread-13 (HornetQ-client-global-threads-26912020)) Received Message from queue: This is message 4
+    17:51:52,136 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldQueueMDB] (Thread-14 (HornetQ-client-global-threads-26912020)) Received Message from queue: This is message 3
 
 
 Undeploy the Archive
@@ -137,71 +147,7 @@ Copy the source for the `helloworld-mdb` quickstart into this new git repository
     
 ### Configure the OpenShift Server
 
-Next, you must enable HornetQ messaging provider. Open the `.openshift/config/standalone.xml` file (this file may be hidden) in an editor and make the following changes:
-
-1. If the following extension does not exist, add it under the `<extensions>` element:
-
-        <extension module="org.jboss.as.messaging"/>
-2. If the following `<mdb>` elements are commented out or missing from the the `ejb3` subsytem, un-comment or add them:
-
-        <mdb>
-            <resource-adapter-ref resource-adapter-name="hornetq-ra" />
-            <bean-instance-pool-ref pool-name="mdb-strict-max-pool" />
-        </mdb>
-3. If the messaging subsystem is not already configured under the `<profile>` element, copy the following under the `<profile>` element to enable and configure HornetQ:
-
-        <subsystem xmlns='urn:jboss:domain:messaging:1.1'>
-            <hornetq-server>
-                <persistence-enabled>true</persistence-enabled>
-                <journal-file-size>102400</journal-file-size>
-                <journal-min-files>2</journal-min-files>
-                <connectors>
-                    <in-vm-connector name='in-vm' server-id='0' />
-                </connectors>
-                <acceptors>
-                    <in-vm-acceptor name='in-vm' server-id='0' />
-                </acceptors>
-                <address-settings>
-                    <address-setting match='#'>
-                        <dead-letter-address>jms.queue.DLQ</dead-letter-address>
-                        <expiry-address>jms.queue.ExpiryQueue</expiry-address>
-                        <redelivery-delay>0</redelivery-delay>
-                        <max-size-bytes>20971520</max-size-bytes>
-                        <address-full-policy>PAGE</address-full-policy>
-                        <message-counter-history-day-limit>10</message-counter-history-day-limit>
-                    </address-setting>
-                </address-settings>
-                <jms-connection-factories>
-                    <connection-factory name='InVmConnectionFactory'>
-                        <connectors>
-                            <connector-ref connector-name='in-vm' />
-                        </connectors>
-                        <entries>
-                            <entry name='java:/ConnectionFactory' />
-                        </entries>
-                    </connection-factory>
-                    <connection-factory name='RemoteConnectionFactory'>
-                        <connectors>
-                            <connector-ref connector-name='in-vm' />
-                        </connectors>
-                        <entries>
-                            <entry name='RemoteConnectionFactory' />
-                        </entries>
-                    </connection-factory>
-                    <pooled-connection-factory name='hornetq-ra'>
-                        <transaction mode='xa' />
-                        <connectors>
-                            <connector-ref connector-name='in-vm' />
-                        </connectors>
-                        <entries>
-                            <entry name='java:/JmsXA' />
-                        </entries>
-                    </pooled-connection-factory>
-                </jms-connection-factories>
-                <jms-destinations />
-                <security-enabled>false</security-enabled>
-            </hornetq-server>
-        </subsystem>
+HornetQ is enabled by default in `.openshift/config/standalone.xml`. There is nothing to do to be able to send and receive messages from OpenShift.
 
 ### Deploy the OpenShift Application
 
@@ -219,21 +165,22 @@ Note that the `openshift` profile in the `pom.xml` file is activated by OpenShif
 
 When the push command returns you can test the application by getting the following URL either via a browser or using tools such as curl or wget. Be sure to replace the `quickstart` in the URL with your domain name.
 
-* <http://helloworldmdb-quickstart.rhcloud.com/> 
+* <http://helloworldmdb-quickstart.rhcloud.com/> to send messages to the queue
+* <http://helloworldmdb-quickstart.rhcloud.com/HelloWorldMDBServletClient?topic> to send messages to the topic
 
 If the application has run succesfully you should see some output in the browser.
 
-now you can look at the output of the server by running the following command:
+Now you can look at the output of the server by running the following command:
 
     rhc app status -a helloworldmdb
 
 This will show the tail of the servers log which should show something like the following.
 
-    2012/03/02 05:52:33,065 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldMDB] (Thread-0 (HornetQ-client-global-threads-1772719)) Received Message: This is message 4
-    2012/03/02 05:52:33,065 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldMDB] (Thread-1 (HornetQ-client-global-threads-1772719)) Received Message: This is message 1
-    2012/03/02 05:52:33,067 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldMDB] (Thread-6 (HornetQ-client-global-threads-1772719)) Received Message: This is message 5
-    2012/03/02 05:52:33,065 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldMDB] (Thread-3 (HornetQ-client-global-threads-1772719)) Received Message: This is message 3
-    2012/03/02 05:52:33,065 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldMDB] (Thread-2 (HornetQ-client-global-threads-1772719)) Received Message: This is message 2
+    2012/03/02 05:52:33,065 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldMDB] (Thread-0 (HornetQ-client-global-threads-1772719)) Received Message from queue: This is message 4
+    2012/03/02 05:52:33,065 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldMDB] (Thread-1 (HornetQ-client-global-threads-1772719)) Received Message from queue: This is message 1
+    2012/03/02 05:52:33,067 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldMDB] (Thread-6 (HornetQ-client-global-threads-1772719)) Received Message from queue: This is message 5
+    2012/03/02 05:52:33,065 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldMDB] (Thread-3 (HornetQ-client-global-threads-1772719)) Received Message from queue: This is message 3
+    2012/03/02 05:52:33,065 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldMDB] (Thread-2 (HornetQ-client-global-threads-1772719)) Received Message from queue: This is message 2
 
 
 You can use the OpenShift command line tools or the OpenShift web console to discover and control the application.

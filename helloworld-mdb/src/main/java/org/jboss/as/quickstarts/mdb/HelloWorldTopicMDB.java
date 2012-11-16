@@ -28,19 +28,19 @@ import javax.jms.TextMessage;
 /**
  * <p>
  * A simple Message Driven Bean that asynchronously receives and processes the
- * messages that are sent to the queue.
+ * messages that are sent to the topic.
  * </p>
  * 
  * @author Serge Pagop (spagop@redhat.com)
  * 
  */
-@MessageDriven(name = "HelloWorldMDB", activationConfig = {
-		@ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
-		@ActivationConfigProperty(propertyName = "destination", propertyValue = "queue/HELLOWORLDMDBQueue"),
+@MessageDriven(name = "HelloWorldQTopicMDB", activationConfig = {
+		@ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Topic"),
+		@ActivationConfigProperty(propertyName = "destination", propertyValue = "topic/HELLOWORLDMDBTopic"),
 		@ActivationConfigProperty(propertyName = "acknowledgeMode", propertyValue = "Auto-acknowledge") })
-public class HelloWorldMDB implements MessageListener {
+public class HelloWorldTopicMDB implements MessageListener {
 
-	private final static Logger LOGGER = Logger.getLogger(HelloWorldMDB.class
+	private final static Logger LOGGER = Logger.getLogger(HelloWorldTopicMDB.class
 			.toString());
 
 	/**
@@ -51,7 +51,7 @@ public class HelloWorldMDB implements MessageListener {
 		try {
 			if (rcvMessage instanceof TextMessage) {
 				msg = (TextMessage) rcvMessage;
-				LOGGER.info("Received Message: " + msg.getText());
+				LOGGER.info("Received Message from topic: " + msg.getText());
 			} else {
 				LOGGER.warning("Message of wrong type: "
 						+ rcvMessage.getClass().getName());

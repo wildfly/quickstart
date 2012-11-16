@@ -22,11 +22,13 @@ import java.io.PrintWriter;
 import javax.annotation.Resource;
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
+import javax.jms.Destination;
 import javax.jms.JMSException;
 import javax.jms.MessageProducer;
 import javax.jms.Queue;
 import javax.jms.Session;
 import javax.jms.TextMessage;
+import javax.jms.Topic;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -35,7 +37,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * <p>
- * A simple servlet 3 as client that sends several messages to a queue.
+ * A simple servlet 3 as client that sends several messages to a queue or a topic.
  * </p>
  * 
  * <p>
@@ -59,20 +61,30 @@ public class HelloWorldMDBServletClient extends HttpServlet {
 	@Resource(mappedName = "java:/queue/HELLOWORLDMDBQueue")
 	private Queue queue;
 
+	@Resource(mappedName = "java:/topic/HELLOWORLDMDBTopic")
+	private Topic topic;
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		resp.setContentType("text/html");
 		PrintWriter out = resp.getWriter();
 		Connection connection = null;
-		out.write("<h1>Quickstart: Example demonstrates the use of *JMS 1.1* and *EJB 3.1 Message-Driven Bean* in JBoss AS 7.1.0.</h1>");
+		out.write("<h1>Quickstart: Example demonstrates the use of <strong>JMS 1.1</strong> and <strong>EJB 3.1 Message-Driven Bean</strong> in JBoss Enterprise Application 6 or JBoss AS 7.1.0.</h1>");
 		try {
+		    Destination destination;
+		    if (req.getParameterMap().keySet().contains("topic")) {
+		        destination = topic;
+		    } else {
+		        destination = queue;
+		    }
+		    out.write("<p>Sending messages to <em>" + destination + "</em></p>");
 			connection = connectionFactory.createConnection();
 			Session session = connection.createSession(false,
 					Session.AUTO_ACKNOWLEDGE);
-			MessageProducer messageProducer = session.createProducer(queue);
+			MessageProducer messageProducer = session.createProducer(destination);
 			connection.start();
-			out.write("<h2>Following messages will be send to the queue:</h2>");
+			out.write("<h2>Following messages will be send to the destination:</h2>");
 			TextMessage message = session.createTextMessage();
 			for (int i = 0; i < MSG_COUNT; i++) {
 				message.setText("This is message " + (i + 1));
