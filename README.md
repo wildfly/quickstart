@@ -640,3 +640,4 @@ When instructed to use Byteman to halt the application, perform the following st
  
 When you are done testing the quickstart, remember to restore the configuration file with the backup copy you made in step 2 above.
 
+

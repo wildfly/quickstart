@@ -1,0 +1,26 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:composite="http://java.sun.com/jsf/composite" xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+<head>
+<title>Not present in rendered output</title>
+</head>
+<body>
+    <composite:interface>
+        <composite:attribute name="label" />
+        <composite:attribute name="value" />
+        <composite:attribute name="name" required="true" />
+        <composite:attribute name="required" type="java.lang.Boolean" />
+        <composite:attribute name="readonly" type="java.lang.Boolean" />
+    </composite:interface>
+    <composite:implementation>
+        <tr>
+            <td><h:outputText id="input#{cc.attrs.name}Label" value="#{cc.attrs.label}: " /> <h:outputText value="*"
+                    rendered="#{cc.attrs.required}" /></td>
+            <td><h:inputText id="input#{cc.attrs.name}Value" value="#{cc.attrs.value}" required="#{cc.attrs.required}" readonly="#{cc.attrs.readonly}" disabled="#{cc.attrs.readonly}" /></td>
+            <td><h:message id="input#{cc.attrs.name}Message" for="input#{cc.attrs.name}Value" /></td>
+        </tr>
+    </composite:implementation>
+</body>
+</html>
