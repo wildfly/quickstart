@@ -43,24 +43,30 @@ public class Controller implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    // Inject CDI Event
     @Inject
     private Event<ExceptionToCatchEvent> catchEvent;
 
+    // The Service implementation always throws Exceptions
     @Inject
     private MyService myService;
 
     public void testMyException() {
         try {
+            // This Operation will throw an Exception
             myService.doSomeOperationWithMyException();
         } catch (MyException e) {
+            // Fires the Event with the Exception to be handled
             catchEvent.fire(new ExceptionToCatchEvent(e));
         }
     }
-    
+
     public void testMyOtherException() {
         try {
+            // This Operation will throw an Exception
             myService.doSomeOperationWithMyOtherException();
         } catch (MyOtherException e) {
+            // Fires the Event with the Exception to be handled
             catchEvent.fire(new ExceptionToCatchEvent(e));
         }
     }

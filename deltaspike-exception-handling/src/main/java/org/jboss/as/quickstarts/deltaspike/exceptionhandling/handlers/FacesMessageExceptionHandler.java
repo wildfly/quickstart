@@ -30,6 +30,8 @@ import org.apache.deltaspike.core.api.exception.control.annotation.Handles;
 import org.apache.deltaspike.core.api.exception.control.event.ExceptionEvent;
 
 /**
+ * This exception handler uses {@link FacesMessage} to display the exception message on JSF
+ * 
  * @author <a href="mailto:benevides@redhat.com">Rafael Benevides</a>
  * 
  */

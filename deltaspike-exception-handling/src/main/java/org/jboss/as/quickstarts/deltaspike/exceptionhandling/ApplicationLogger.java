@@ -24,7 +24,13 @@ package org.jboss.as.quickstarts.deltaspike.exceptionhandling;
 
 import java.util.logging.Logger;
 
+import javax.enterprise.inject.Produces;
+
 /**
+ * This Class wraps the java.util.logging to permit the CDI Injection.
+ * 
+ * The same effect could be achieved by using a {@link Produces}
+ * 
  * @author <a href="mailto:benevides@redhat.com">Rafael Benevides</a>
  * 
  */

@@ -33,6 +33,12 @@ import org.jboss.as.quickstarts.deltaspike.exceptionhandling.exception.MyExcepti
 import java.io.Serializable;
 
 /**
+ * This exception handler just handle {@link MyException}.
+ * 
+ * This handler counts how many times this exception was handled in the user http session.
+ * 
+ * It can be accessed by JSF expression through the {@link Named} annotation.
+ * 
  * @author <a href="mailto:benevides@redhat.com">Rafael Benevides</a>
  * 
  */

@@ -28,6 +28,8 @@ import org.jboss.as.quickstarts.deltaspike.exceptionhandling.exception.MyExcepti
 import org.jboss.as.quickstarts.deltaspike.exceptionhandling.exception.MyOtherException;
 
 /**
+ * This implementation always throws exceptions
+ * 
  * @author <a href="mailto:benevides@redhat.com">Rafael Benevides</a>
  * 
  */

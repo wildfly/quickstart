@@ -28,6 +28,8 @@ import org.apache.deltaspike.core.api.exception.control.event.ExceptionEvent;
 import org.jboss.as.quickstarts.deltaspike.exceptionhandling.ApplicationLogger;
 
 /**
+ * This exception handler uses the {@link ApplicationLogger} to print the exception message to the log
+ * 
  * @author <a href="mailto:benevides@redhat.com">Rafael Benevides</a>
  * 
  */
