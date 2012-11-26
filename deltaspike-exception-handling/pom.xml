@@ -17,8 +17,8 @@
     <artifactId>jboss-as-ds-exception-handling</artifactId>
     <version>7.1.2-SNAPSHOT</version>
     <packaging>war</packaging>
-    <name>JBoss AS Quickstarts: QUICKSTART_NAME</name>
-    <description>QUICKSTART_NAME: A short description of this quickstart</description>
+    <name>JBoss AS Quickstarts: DeltaSpike Exception Handling</name>
+    <description>DeltaSpike Exception Handling: Exception being handled by different handlers and purpose</description>
 
     <url>http://jboss.org/jbossas</url>
     <licenses>
@@ -62,7 +62,8 @@
                 versions of artifacts. Here we use the jboss-javaee-6.0 stack (you can read 
                 this as the JBoss stack of the Java EE 6 APIs). You can actually use this 
                 stack with any version of JBoss AS that implements Java EE 6, not just JBoss 
-                AS 7! -->
+                AS 7! and the jboss-javaee-6.0-with-deltaspike with extras from the DeltaSpike 
+                project -->
             <dependency>
                 <groupId>org.jboss.spec</groupId>
                 <artifactId>jboss-javaee-6.0</artifactId>
@@ -133,14 +134,15 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- Define the version of DeltaSpike API -->
+        <!-- Deltaspike API. we use compile scope as we need its API -->
         <dependency>
             <groupId>org.apache.deltaspike.core</groupId>
             <artifactId>deltaspike-core-api</artifactId>
             <scope>compile</scope>
         </dependency>
 
-        <!-- Define the version of DeltaSpike Implementation -->
+        <!-- Deltaspike Impl. we use runtime scope as we its implementation 
+            dependencies only on runtime -->
         <dependency>
             <groupId>org.apache.deltaspike.core</groupId>
             <artifactId>deltaspike-core-impl</artifactId>
