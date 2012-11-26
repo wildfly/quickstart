@@ -22,10 +22,11 @@
 
 package org.jboss.as.quickstarts.deltaspike.exceptionhandling.handlers;
 
+import java.util.logging.Logger;
+
 import org.apache.deltaspike.core.api.exception.control.annotation.BeforeHandles;
 import org.apache.deltaspike.core.api.exception.control.annotation.ExceptionHandler;
 import org.apache.deltaspike.core.api.exception.control.event.ExceptionEvent;
-import org.jboss.as.quickstarts.deltaspike.exceptionhandling.ApplicationLogger;
 
 /**
  * This exception handler uses the {@link ApplicationLogger} to print the exception message to the log
@@ -36,8 +37,8 @@ import org.jboss.as.quickstarts.deltaspike.exceptionhandling.ApplicationLogger;
 @ExceptionHandler
 public class LogExceptionHandler {
 
-    void logExceptions(@BeforeHandles ExceptionEvent<Throwable> evt, ApplicationLogger log) {
-        log.warn("Something bad happened: " + evt.getException().getMessage());
+    void logExceptions(@BeforeHandles ExceptionEvent<Throwable> evt, Logger log) {
+        log.warning("Something bad happened: " + evt.getException().getMessage());
         evt.handledAndContinue();
     }
 

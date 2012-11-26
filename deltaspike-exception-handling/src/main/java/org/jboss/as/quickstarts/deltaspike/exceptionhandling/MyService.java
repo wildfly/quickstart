@@ -35,8 +35,8 @@ import org.jboss.as.quickstarts.deltaspike.exceptionhandling.exception.MyOtherEx
  */
 public interface MyService extends Serializable {
 
-    public void doSomeOperationWithMyException() throws MyException;
+    public void doSomeOperationWithAnException() throws MyException;
 
-    public void doSomeOperationWithMyOtherException() throws MyOtherException;
+    public void doSomeOperationWithAnotherException() throws MyOtherException;
 
 }

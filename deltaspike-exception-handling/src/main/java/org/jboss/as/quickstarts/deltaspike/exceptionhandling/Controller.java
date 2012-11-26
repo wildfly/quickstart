@@ -54,7 +54,7 @@ public class Controller implements Serializable {
     public void testMyException() {
         try {
             // This Operation will throw an Exception
-            myService.doSomeOperationWithMyException();
+            myService.doSomeOperationWithAnException();
         } catch (MyException e) {
             // Fires the Event with the Exception to be handled
             catchEvent.fire(new ExceptionToCatchEvent(e));
@@ -64,7 +64,7 @@ public class Controller implements Serializable {
     public void testMyOtherException() {
         try {
             // This Operation will throw an Exception
-            myService.doSomeOperationWithMyOtherException();
+            myService.doSomeOperationWithAnotherException();
         } catch (MyOtherException e) {
             // Fires the Event with the Exception to be handled
             catchEvent.fire(new ExceptionToCatchEvent(e));

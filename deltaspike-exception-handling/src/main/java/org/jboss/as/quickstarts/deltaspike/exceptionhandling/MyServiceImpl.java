@@ -46,7 +46,7 @@ public class MyServiceImpl implements MyService {
      * @see org.jboss.as.quickstarts.deltaspike.exceptionhandling.MyService#doSomeOperationWithCheckedExceoption()
      */
     @Override
-    public void doSomeOperationWithMyException() throws MyException {
+    public void doSomeOperationWithAnException() throws MyException {
         invocationCount++;
         throw new MyException("Forced My Exception. Service Invocation #" + invocationCount);
 
@@ -58,7 +58,7 @@ public class MyServiceImpl implements MyService {
      * @see org.jboss.as.quickstarts.deltaspike.exceptionhandling.MyService#doSomeOperationWithMyOtherException()
      */
     @Override
-    public void doSomeOperationWithMyOtherException() throws MyOtherException {
+    public void doSomeOperationWithAnotherException() throws MyOtherException {
         invocationCount++;
         throw new MyOtherException("Forced My Other Exception. Service Invocation #" + invocationCount);
     }
