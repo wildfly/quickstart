@@ -19,9 +19,10 @@ is the main way of starting the exception handling process.
 
 
 The project can throw two Exceptions: MyException and MyOtherException. And there are 3 different handlers:   
- - FacesMessageExceptionHandler  - Shows every Exception using FacesMessage
- - LogExceptionHandler - Log every Exception
- - MyExceptionCountHandler - Only Count how many times MyException was throw.
+ 
+ - FacesMessageExceptionHandler  - Displays each exception on the page using FacesMessage.
+ - LogExceptionHandler - Logs each exception to the server console.
+ - MyExceptionCountHandler - Only counts the the number of times MyException is thrown.
 
 The MyExceptionCountHandler is also used as a Named CDI bean.
 
