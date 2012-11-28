@@ -20,22 +20,29 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 
-package org.jboss.as.quickstarts.deltaspike.exceptionhandling.exception;
+package org.jboss.as.quickstarts.deltaspike.exceptionhandling.rest;
+
+import javax.inject.Inject;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+
+import org.jboss.as.quickstarts.deltaspike.exceptionhandling.MyService;
 
 /**
  * @author <a href="mailto:benevides@redhat.com">Rafael Benevides</a>
  * 
  */
-@WebRequest
-public class MyException extends Exception {
+@Path("/service")
+public class RestService {
 
-    private static final long serialVersionUID = 1L;
+    // The Service implementation always throws Exceptions
+    @Inject
+    private MyService myService;
 
-    /**
-     * @param message
-     */
-    public MyException(String message) {
-        super(message);
+    @GET
+    @Path("/test")
+    public void testMyException() throws RestException {
+            // This Operation will throw an Exception
+            myService.restOperationWithRestException();
     }
-
 }

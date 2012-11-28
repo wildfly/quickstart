@@ -24,21 +24,22 @@ package org.jboss.as.quickstarts.deltaspike.exceptionhandling;
 
 import java.io.Serializable;
 
-import javax.enterprise.context.SessionScoped;
 import javax.enterprise.event.Event;
+import javax.enterprise.inject.Model;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
-import javax.inject.Named;
 
 import org.apache.deltaspike.core.api.exception.control.event.ExceptionToCatchEvent;
 import org.jboss.as.quickstarts.deltaspike.exceptionhandling.exception.MyException;
 import org.jboss.as.quickstarts.deltaspike.exceptionhandling.exception.MyOtherException;
+import org.jboss.as.quickstarts.deltaspike.exceptionhandling.exception.WebRequest;
 
 /**
  * @author <a href="mailto:benevides@redhat.com">Rafael Benevides</a>
  * 
  */
-@Named
-@SessionScoped
+@Model
 public class Controller implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -51,13 +52,21 @@ public class Controller implements Serializable {
     @Inject
     private MyService myService;
 
+    @Inject
+    private FacesContext facesContext;
+
     public void testMyException() {
         try {
             // This Operation will throw an Exception
             myService.doSomeOperationWithAnException();
         } catch (MyException e) {
-            // Fires the Event with the Exception to be handled
-            catchEvent.fire(new ExceptionToCatchEvent(e));
+            // Fires the Event with the Exception (with expected Qualifier) to be handled 
+            ExceptionToCatchEvent etce = new ExceptionToCatchEvent(e, e.getClass().getAnnotation(WebRequest.class));
+            catchEvent.fire(etce);
+            // Checks if the exception was handled
+            if (!etce.isHandled()) {
+                facesContext.addMessage(null, new FacesMessage("The Exception was not handled by any ExceptionHandler"));
+            }
         }
     }
 
@@ -66,9 +75,15 @@ public class Controller implements Serializable {
             // This Operation will throw an Exception
             myService.doSomeOperationWithAnotherException();
         } catch (MyOtherException e) {
-            // Fires the Event with the Exception to be handled
-            catchEvent.fire(new ExceptionToCatchEvent(e));
+            // Fires the Event with the Exception (with expected Qualifier) to be handled 
+            ExceptionToCatchEvent etce = new ExceptionToCatchEvent(e, e.getClass().getAnnotation(WebRequest.class));
+            catchEvent.fire(etce);
+            // Checks if the exception was handled
+            if (!etce.isHandled()) {
+                facesContext.addMessage(null, new FacesMessage("The Exception was not handled by any ExceptionHandler"));
+            }
         }
     }
+    
 
 }

@@ -20,22 +20,27 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 
-package org.jboss.as.quickstarts.deltaspike.exceptionhandling.exception;
+package org.jboss.as.quickstarts.deltaspike.exceptionhandling.util;
+
+import java.util.logging.Logger;
+
+import javax.enterprise.inject.Produces;
+import javax.enterprise.inject.spi.InjectionPoint;
+import javax.faces.context.FacesContext;
 
 /**
  * @author <a href="mailto:benevides@redhat.com">Rafael Benevides</a>
- * 
+ *
  */
-@WebRequest
-public class MyException extends Exception {
+public class Resources {
 
-    private static final long serialVersionUID = 1L;
-
-    /**
-     * @param message
-     */
-    public MyException(String message) {
-        super(message);
+    @Produces
+    public Logger produceLog(InjectionPoint injectionPoint) {
+        return Logger.getLogger(injectionPoint.getMember().getDeclaringClass().getName());
     }
-
+    
+    @Produces
+    public FacesContext produceFacesContext(){
+        return FacesContext.getCurrentInstance();
+    }
 }

@@ -20,22 +20,40 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 
-package org.jboss.as.quickstarts.deltaspike.exceptionhandling;
+package org.jboss.as.quickstarts.deltaspike.exceptionhandling.rest;
 
-import java.util.logging.Logger;
+import javax.enterprise.event.Event;
+import javax.enterprise.inject.Instance;
+import javax.inject.Inject;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.ext.ExceptionMapper;
+import javax.ws.rs.ext.Provider;
 
-import javax.enterprise.inject.Produces;
-import javax.enterprise.inject.spi.InjectionPoint;
+import org.apache.deltaspike.core.api.exception.control.event.ExceptionToCatchEvent;
 
 /**
  * @author <a href="mailto:benevides@redhat.com">Rafael Benevides</a>
- *
+ * 
  */
-public class Resources {
-    
-    @Produces
-    public Logger produceLog(InjectionPoint injectionPoint) {
-       return Logger.getLogger(injectionPoint.getMember().getDeclaringClass().getName());
+@Provider
+public class RestExceptionMapper implements ExceptionMapper<RestException> {
+
+    // Inject CDI Event
+    @Inject
+    private Event<ExceptionToCatchEvent> catchEvent;
+
+    @Inject
+    private Instance<Response> response;
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see javax.ws.rs.ext.ExceptionMapper#toResponse(java.lang.Throwable)
+     */
+    @Override
+    public Response toResponse(RestException exception) {
+        catchEvent.fire(new ExceptionToCatchEvent(exception));
+        return response.get();
     }
 
 }

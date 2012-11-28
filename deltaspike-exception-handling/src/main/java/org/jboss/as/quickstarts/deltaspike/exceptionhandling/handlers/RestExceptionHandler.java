@@ -20,22 +20,26 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 
-package org.jboss.as.quickstarts.deltaspike.exceptionhandling.exception;
+package org.jboss.as.quickstarts.deltaspike.exceptionhandling.handlers;
+
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response.ResponseBuilder;
+
+import org.apache.deltaspike.core.api.exception.control.annotation.ExceptionHandler;
+import org.apache.deltaspike.core.api.exception.control.annotation.Handles;
+import org.apache.deltaspike.core.api.exception.control.event.ExceptionEvent;
+import org.jboss.as.quickstarts.deltaspike.exceptionhandling.rest.RestException;
 
 /**
  * @author <a href="mailto:benevides@redhat.com">Rafael Benevides</a>
  * 
  */
-@WebRequest
-public class MyException extends Exception {
+@ExceptionHandler
+public class RestExceptionHandler {
 
-    private static final long serialVersionUID = 1L;
-
-    /**
-     * @param message
-     */
-    public MyException(String message) {
-        super(message);
+    public void handleException(@Handles ExceptionEvent<RestException> evt, ResponseBuilder builder) {
+        builder.status(500).entity(evt.getException().getMessage()).type(MediaType.TEXT_PLAIN_TYPE);
+        evt.handledAndContinue();
     }
 
 }

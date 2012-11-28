@@ -26,6 +26,7 @@ import java.io.Serializable;
 
 import org.jboss.as.quickstarts.deltaspike.exceptionhandling.exception.MyException;
 import org.jboss.as.quickstarts.deltaspike.exceptionhandling.exception.MyOtherException;
+import org.jboss.as.quickstarts.deltaspike.exceptionhandling.rest.RestException;
 
 /**
  * Defines the service operations
@@ -38,5 +39,7 @@ public interface MyService extends Serializable {
     public void doSomeOperationWithAnException() throws MyException;
 
     public void doSomeOperationWithAnotherException() throws MyOtherException;
+    
+    public void restOperationWithRestException() throws RestException;
 
 }

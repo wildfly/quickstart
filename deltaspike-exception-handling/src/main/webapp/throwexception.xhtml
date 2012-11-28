@@ -11,11 +11,16 @@
     <h:form>
         <h:messages globalOnly="true" />
         <h:commandButton value="Test MyException" action="#{controller.testMyException()}" />
-        <h:commandButton value="Test MyOtherException" action="#{controller.testMyOtherException()}" />
-        <hr />
         MyException Count: #{myExceptionCountHandler.exceptionCount}
+        <br />
+        <h:commandButton value="Test MyOtherException" action="#{controller.testMyOtherException()}" />
+        
     </h:form>
-
-
+    <hr />
+    <a href="rest/service/test" target="iframe">Rest Invocation Test</a>
+    <br/>
+    <iframe name="iframe" width="50%">
+        
+    </iframe>
 </body>
 </html>

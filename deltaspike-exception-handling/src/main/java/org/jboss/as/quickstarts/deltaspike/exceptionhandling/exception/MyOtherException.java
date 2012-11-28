@@ -26,6 +26,7 @@ package org.jboss.as.quickstarts.deltaspike.exceptionhandling.exception;
  * @author <a href="mailto:benevides@redhat.com">Rafael Benevides</a>
  * 
  */
+@WebRequest
 public class MyOtherException extends Exception {
 
     private static final long serialVersionUID = 1L;

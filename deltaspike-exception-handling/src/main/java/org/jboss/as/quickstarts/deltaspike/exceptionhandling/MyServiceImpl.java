@@ -26,6 +26,7 @@ import javax.enterprise.context.SessionScoped;
 
 import org.jboss.as.quickstarts.deltaspike.exceptionhandling.exception.MyException;
 import org.jboss.as.quickstarts.deltaspike.exceptionhandling.exception.MyOtherException;
+import org.jboss.as.quickstarts.deltaspike.exceptionhandling.rest.RestException;
 
 /**
  * This implementation always throws exceptions
@@ -61,5 +62,16 @@ public class MyServiceImpl implements MyService {
     public void doSomeOperationWithAnotherException() throws MyOtherException {
         invocationCount++;
         throw new MyOtherException("Forced My Other Exception. Service Invocation #" + invocationCount);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.jboss.as.quickstarts.deltaspike.exceptionhandling.MyService#restOperationWithRestException()
+     */
+    @Override
+    public void restOperationWithRestException() throws RestException {
+        invocationCount++;
+        throw new RestException("REST exception. Service Invocation #" + invocationCount);
     }
 }

@@ -1,7 +1,7 @@
 jboss-as-ds-exception-handling: An example how to use DeltaSpike exception handling
 ====================================================================================
 Author: Rafael Benevides
-Level: Beginner
+Level: Intermediate
 Technologies: CDI, JSF, DeltaSpike
 Summary: Exception being handled by different handlers and purpose
 Prerequisites: 
@@ -12,20 +12,18 @@ What is it?
 
 This project demonstrates DelstaSpike exception handling. Exception handling in DeltaSpike is based around the CDI eventing model.
 
-The entire exception handling process starts with an event. This helps keep your application minimally coupled to
-DeltaSpike, but also allows for further extension. Exception handling in DeltaSpike is all about letting you take care of 
-exceptions the way that makes the most sense for your application. Events provide this delicate balance. Firing the event
-is the main way of starting the exception handling process.
-
+The entire exception handling process starts with an event. This helps keep your application minimally coupled to DeltaSpike, but also allows for further extension. Exception handling in DeltaSpike is all about letting you take care of exceptions the way that makes the most sense for your application. Events provide this delicate balance. Firing the event is the main way of starting the exception handling process.
 
 The project can throw two Exceptions: MyException and MyOtherException. And there are 3 different handlers:   
  
- - FacesMessageExceptionHandler  - Displays each exception on the page using FacesMessage.
+ - FacesMessageExceptionHandler  - Displays each exception on the page using FacesMessage. Only handles @WebRequest exceptions.
  - LogExceptionHandler - Logs each exception to the server console.
  - MyExceptionCountHandler - Only counts the the number of times MyException is thrown.
+ - RestExceptionHandler - Produces a javax.ws.rs.core.Response using the ResponseBuilder
 
 The MyExceptionCountHandler is also used as a Named CDI bean.
 
+The REST exception is handled by RestExceptionMapper that is responsible to delegate it to DeltaSpike RestExceptionHandler which uses the ResponseBuilderProducer to create a instance of a javax.ws.rs.core.Response
 
 System requirements
 -------------------
@@ -77,10 +75,10 @@ Check the logs and see the that the exception message is also being printed.
 
 Realize that the counter about MyException is only incremented when MyException is throw. 
 
+Click on `Rest Invocation Test` link. The rest response is displayed on the iframe bellow. 
+
 Undeploy the Archive
 --------------------
-
-Contributor: For example: 
 
 1. Make sure you have started the JBoss Server as described above.
 2. Open a command line and navigate to the root directory of this quickstart.
@@ -96,8 +94,6 @@ You can also start the server and deploy the quickstarts from Eclipse using JBos
 
 Debug the Application
 ------------------------------------
-
-Contributor: For example: 
 
 If you want to debug the source code or look at the Javadocs of any library in the project, run either of the following commands to pull them into your local repository. The IDE should then detect them.
 
