@@ -91,7 +91,7 @@ public class HelloWorldJMSClient {
                 producer.send(message);
             }
 
-            // Then receive the same number of messaes that were sent
+            // Then receive the same number of messages that were sent
             for (int i = 0; i < count; i++) {
                 message = (TextMessage) consumer.receive(5000);
                 log.info("Received message with content " + message.getText());
