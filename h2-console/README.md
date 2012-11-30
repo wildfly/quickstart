@@ -53,7 +53,7 @@ You can access the console at the following URL:  <http://localhost:8080/h2conso
 
 You need to enter the JDBC URL, and credentials. To access the "test" database that the `greeter` quickstart uses, enter these details:
 
-* JDBC URL: `jdbc:h2:mem:test;DB_CLOSE_DELAY=-1`
+* JDBC URL: `jdbc:h2:mem:greeter-quickstart;DB_CLOSE_ON_EXIT=FALSE;DB_CLOSE_DELAY=-1`
 * User Name: `sa`
 * Password: `sa`
 
