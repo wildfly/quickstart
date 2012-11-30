@@ -5,7 +5,7 @@ Level: Intermediate
 Technologies: CDI, JSF, DeltaSpike
 Summary: Exception being handled by different handlers and purpose
 Prerequisites: 
-Target Product: 
+Target Product: WFK
 
 What is it?
 -----------
@@ -18,12 +18,12 @@ The project can throw two Exceptions: MyException and MyOtherException. And ther
  
  - FacesMessageExceptionHandler  - Displays each exception on the page using FacesMessage. Only handles @WebRequest exceptions.
  - LogExceptionHandler - Logs each exception to the server console.
- - MyExceptionCountHandler - Only counts the the number of times MyException is thrown.
+ - MyExceptionCountHandler - Only counts the the number of times MyException is thrown. This handler is also used as a Named CDI bean
  - RestExceptionHandler - Produces a javax.ws.rs.core.Response using the ResponseBuilder
 
 The MyExceptionCountHandler is also used as a Named CDI bean.
 
-The REST exception is handled by RestExceptionMapper that is responsible to delegate it to DeltaSpike RestExceptionHandler which uses the ResponseBuilderProducer to create a instance of a javax.ws.rs.core.Response
+The REST exception is first handled by RestExceptionMapper, which then delegates it to the DeltaSpike RestExceptionHandler. That handler uses the ResponseBuilderProducer to create a instance of a javax.ws.rs.core.Response.
 
 System requirements
 -------------------
@@ -67,15 +67,11 @@ Access the application
 
 Access the running application in a browser at the following URL:  <http://localhost:8080/jboss-as-ds-exception-handling>
 
-You will be presented to simple for with two buttons the permits to throw two exceptions: MyException and MyOtherException.
+You will be presented with a form that contains two buttons. One button throws the exception MyException. The other button throws the exception MyOtherException.
 
-Click on Each Button and realize that the a message will be presented showing the exception message followed by the number of times that the service was invoked.
+When you click on a button, a message is displayed showing the exception message followed by the number of times the service was invoked. Notice that the MyException counter is only incremented when MyException is thrown.You can also view the exception messages in the server log.
 
-Check the logs and see the that the exception message is also being printed.
-
-Realize that the counter about MyException is only incremented when MyException is throw. 
-
-Click on `Rest Invocation Test` link. The rest response is displayed on the iframe bellow. 
+Click on `REST Invocation Test` link. The rest response is displayed on the iframe bellow. 
 
 Undeploy the Archive
 --------------------
