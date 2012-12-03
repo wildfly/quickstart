@@ -18,23 +18,30 @@
 Core JavaScript functionality for the application.  Performs the required
 Restful calls, validates return values, and populates the member table.
  */
+var memberPipe  = AeroGear.Pipeline([{
+        name: "members",
+        settings: {
+            baseURL: "rest/"
+        }
+    }
+ ]).pipes.members;
+
+
+var dm = AeroGear.DataManager("membersStore");
+MemberStore = dm.stores["membersStore"];
 
 /* Builds the updated table for the member list */
-function buildMemberRows(members) {
-    return _.template( $( "#member-tmpl" ).html(), {"members": members});
+function buildMemberRows() {
+    return _.template( $( "#member-tmpl" ).html(), {"members": MemberStore.getData()});
 }
 
 /* Uses JAX-RS GET to retrieve current member list */
 function updateMemberTable() {
-    $.ajax({
-        url: "rest/members",
-        cache: false,
-        success: function(data) {
-            $('#members').empty().append(buildMemberRows(data));
+    memberPipe.read({
+        success: function( data ) {
+            $('#members').empty().append(buildMemberRows());
         },
-        error: function(error) {
-            //console.log("error updating table -" + error.status);
-        }
+        stores: MemberStore
     });
 }
 
@@ -48,12 +55,7 @@ function registerMember(memberData) {
     $('span.invalid').remove();
     $('span.success').remove();
 
-    $.ajax({
-        url: 'rest/members',
-        contentType: "application/json",
-        dataType: "json",
-        type: "POST",
-        data: JSON.stringify(memberData),
+    memberPipe.save( memberData, {
         success: function(data) {
             //console.log("Member registered");
 
@@ -79,5 +81,5 @@ function registerMember(memberData) {
                 $('#formMsgs').append($('<span class="invalid">Unknown server error</span>'));
             }
         }
-    });
+    } );
 }
