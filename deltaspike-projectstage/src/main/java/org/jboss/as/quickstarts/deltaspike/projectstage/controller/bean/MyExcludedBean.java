@@ -25,13 +25,17 @@ package org.jboss.as.quickstarts.deltaspike.projectstage.controller.bean;
 import org.apache.deltaspike.core.api.exclude.annotation.Exclude;
 
 /**
+ * This implementation is ALWAYS excluded. It will never be available to CDI
+ * 
  * @author <a href="mailto:benevides@redhat.com">Rafael Benevides</a>
- *
+ * 
  */
 @Exclude
 public class MyExcludedBean implements MyBean {
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.jboss.as.quickstarts.deltaspike.projectstage.controller.bean.MyBean#message()
      */
     @Override

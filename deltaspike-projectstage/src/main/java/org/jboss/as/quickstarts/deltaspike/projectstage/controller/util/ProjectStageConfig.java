@@ -28,6 +28,12 @@ import java.util.Properties;
 import org.apache.deltaspike.core.spi.config.ConfigSource;
 
 /**
+ * This custom implementation is 'registered' using the {@link java.util.ServiceLoader} mechanism by having
+ * <i>META-INF/services/org.apache.deltaspike.core.spi.config.ConfigSource</i> file with this fully qualified class name .
+ * 
+ * A custom {@link ConfigSource} was used so we can provide an alternative way of getting the
+ * <i>org.apache.deltaspike.ProjectStage</i> property. In this case we read the file  <i>/projectstage.properties</i>
+ * 
  * @author <a href="mailto:benevides@redhat.com">Rafael Benevides</a>
  * 
  */

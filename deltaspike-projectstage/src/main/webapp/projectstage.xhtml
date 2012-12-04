@@ -30,6 +30,7 @@
 
 	<tr>
 		<td class="header" height="42" align="center" valign="middle" width="100%" bgcolor="#E4EBEB">
+            <!-- The  #{currentProjectStage} is produced by the org.jboss.as.quickstart.deltaspike.projectstage.util.Resources class -->
 			<ui:insert name="pageHeader">Project Stage: <b><h:outputText value="#{currentProjectStage}" /></b></ui:insert>
 		</td>
 	</tr>
@@ -45,6 +46,7 @@
 					<td align="center" width="100%" valign="middle">
 					   <h:form>
                             <h2>List of available CDI instances for MyBean</h2>
+                            <!-- The  #{availableBeansImplementation} is produced by the org.jboss.as.quickstart.deltaspike.projectstage.util.Resources class -->
                             <h:dataTable value="#{availableBeansImplementation}" var="varMyBean">
                                 <h:column>
                                     <f:facet name="header">Message</f:facet>

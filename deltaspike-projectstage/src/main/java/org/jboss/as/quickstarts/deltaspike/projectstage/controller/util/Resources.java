@@ -37,6 +37,9 @@ import org.apache.deltaspike.core.util.ProjectStageProducer;
 import org.jboss.as.quickstarts.deltaspike.projectstage.controller.bean.MyBean;
 
 /**
+ * 
+ * This class uses CDI to produce the Current {@link ProjectStage} and get the available list of {@link MyBean} implementations
+ * 
  * @author <a href="mailto:benevides@redhat.com">Rafael Benevides</a>
  * 
  */
@@ -44,14 +47,25 @@ public class Resources {
 
     @Inject
     @Any
-    private Instance<MyBean> myBeans;
-   
+    //Allows the application to dynamically obtain instances of MyBean instances
+    private Instance<MyBean> myBeans; 
+
+    /**
+     * Return the current {@link ProjectStage}
+     * 
+     * @return
+     */
     @Produces
     @Named
-    public ProjectStage currentProjectStage(){
+    public ProjectStage currentProjectStage() {
         return ProjectStageProducer.getInstance().getProjectStage();
     }
 
+    /**
+     * Return all available instances of {@link MyBean} implementations
+     * 
+     * @return
+     */
     @Produces
     @Named
     public List<MyBean> availableBeansImplementation() {
