@@ -20,29 +20,16 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 
-package org.jboss.as.quickstarts.deltaspike.projectstage.controller.bean;
-
-import org.apache.deltaspike.core.api.exclude.annotation.Exclude;
-import org.apache.deltaspike.core.api.projectstage.ProjectStage.Development;
+package org.jboss.as.quickstarts.deltaspike.projectstage.bean;
 
 /**
- * 
- * This implementation is excluded if the project-stage is development
+ * A typical interface
  * 
  * @author <a href="mailto:benevides@redhat.com">Rafael Benevides</a>
- * 
+ *
  */
-@Exclude(ifProjectStage = Development.class)
-public class ExcludedOnDevelopment implements MyBean {
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.jboss.as.quickstarts.deltaspike.projectstage.controller.bean.MyBean#message()
-     */
-    @Override
-    public String message() {
-        return "I should ALWAYS be available if project stage is NOT DEVELOPMENT";
-    }
+public interface MyBean {
+    
+    public String message();
 
 }

@@ -20,7 +20,7 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 
-package org.jboss.as.quickstarts.deltaspike.projectstage.controller.bean;
+package org.jboss.as.quickstarts.deltaspike.projectstage.bean;
 
 import org.apache.deltaspike.core.api.exclude.annotation.Exclude;
 import org.apache.deltaspike.core.api.projectstage.ProjectStage.Development;

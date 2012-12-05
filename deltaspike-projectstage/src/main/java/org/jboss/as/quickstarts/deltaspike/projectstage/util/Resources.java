@@ -20,7 +20,7 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 
-package org.jboss.as.quickstarts.deltaspike.projectstage.controller.util;
+package org.jboss.as.quickstarts.deltaspike.projectstage.util;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -34,7 +34,7 @@ import javax.inject.Named;
 
 import org.apache.deltaspike.core.api.projectstage.ProjectStage;
 import org.apache.deltaspike.core.util.ProjectStageProducer;
-import org.jboss.as.quickstarts.deltaspike.projectstage.controller.bean.MyBean;
+import org.jboss.as.quickstarts.deltaspike.projectstage.bean.MyBean;
 
 /**
  * 

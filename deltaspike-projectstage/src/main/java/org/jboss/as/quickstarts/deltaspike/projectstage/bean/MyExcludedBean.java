@@ -20,16 +20,27 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 
-package org.jboss.as.quickstarts.deltaspike.projectstage.controller.bean;
+package org.jboss.as.quickstarts.deltaspike.projectstage.bean;
+
+import org.apache.deltaspike.core.api.exclude.annotation.Exclude;
 
 /**
- * A typical interface
+ * This implementation is ALWAYS excluded. It will never be available to CDI
  * 
  * @author <a href="mailto:benevides@redhat.com">Rafael Benevides</a>
- *
+ * 
  */
-public interface MyBean {
-    
-    public String message();
+@Exclude
+public class MyExcludedBean implements MyBean {
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.jboss.as.quickstarts.deltaspike.projectstage.controller.bean.MyBean#message()
+     */
+    @Override
+    public String message() {
+        return "I should NEVER be available";
+    }
 
 }

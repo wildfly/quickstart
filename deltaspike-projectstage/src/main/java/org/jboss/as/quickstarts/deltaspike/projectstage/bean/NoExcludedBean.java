@@ -20,7 +20,7 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 
-package org.jboss.as.quickstarts.deltaspike.projectstage.controller.bean;
+package org.jboss.as.quickstarts.deltaspike.projectstage.bean;
 
 /**
  * This implementation is ALWAYS available to CDI

@@ -20,7 +20,7 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 
-package org.jboss.as.quickstarts.deltaspike.projectstage.controller.util;
+package org.jboss.as.quickstarts.deltaspike.projectstage.util;
 
 import java.io.IOException;
 import java.util.Properties;
