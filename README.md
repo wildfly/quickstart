@@ -1,11 +1,10 @@
 JBoss AS Quickstarts
 ====================
-
+Summary: The quickstarts demonstrate Java EE 6 and a few additional technologies from the JBoss stack. They provide small, specific, working examples that can be used as a reference for your own project.
 
 Introduction
 ---------------------
 
-The quickstarts included in this distribution were written to demonstrate Java EE 6 and a few additional technologies. They provide small, specific, working examples that can be used as a reference for your own project.
 
 These quickstarts run on both JBoss Enterprise Application Platform 6 and JBoss AS 7. If you want to run the quickstarts on JBoss Enterprise Application Platform 6, we recommend using the JBoss Enterprise Application Platform 6 ZIP file. This version uses the correct dependencies and ensures you test and compile against your runtime environment. 
 
