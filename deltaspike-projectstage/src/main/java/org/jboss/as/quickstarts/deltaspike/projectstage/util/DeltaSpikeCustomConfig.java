@@ -37,7 +37,7 @@ import org.apache.deltaspike.core.spi.config.ConfigSource;
  * @author <a href="mailto:benevides@redhat.com">Rafael Benevides</a>
  * 
  */
-public class ProjectStageConfig implements ConfigSource {
+public class DeltaSpikeCustomConfig implements ConfigSource {
 
     private Properties properties = new Properties();
 
