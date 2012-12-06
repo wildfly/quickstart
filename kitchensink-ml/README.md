@@ -23,7 +23,15 @@ The following changes were made to the quickstart to enable it to use the browse
 
     * They are located in the `src/main/resources/org/jboss/as/quickstarts/kitchensink-ml/bundle` directory. 
     
-    * This quickstart is localized for Spanish (`Resources_es.properties`) and  French (`Resources_fr.properties`). You can add additional language support by creating properties files with the appropriate suffix and populating the properties with translated values.
+    * This quickstart is localized for Spanish  and  French. You can add additional language support by creating properties files with the appropriate suffix and populating the properties with translated values.
+    
+    * The JSF resource Bundle is located at `src/main/resources/org/jboss/as/quickstarts/kitchensink-ml/bundle/Resources_(es|fr).properties
+    
+    * For JBoss Logging, the files has the same package and class name: `src/main/resources/org/jboss/as/quickstarts/kitchensink/util/KitchensinkMessages.i18_(es|fr).properties`
+    
+For Beans Validation (JSR303), the new Properties file were created and it must call `ValidationMessages.properties'.
+
+    * They are located in the `src/main/resources/` directory
 
 * The following XML was added to the `src/main/webapp/WEB-INF/faces-config.xml` file. When you create a property file for a new language, you must add the supported locale to this file.
 
@@ -36,38 +44,49 @@ The following changes were made to the quickstart to enable it to use the browse
                 <supported-locale>fr</supported-locale>
                 <supported-locale>fr-FR</supported-locale>
             </locale-config>
-		    <resource-bundle>
-		        <base-name>org/jboss/as/quickstarts/kitchensink-ml/bundle/Resources</base-name>
-		        <var>bundle</var>
-		    </resource-bundle>
+            <resource-bundle>
+                <base-name>org/jboss/as/quickstarts/kitchensink-ml/bundle/Resources</base-name>
+                <var>bundle</var>
+            </resource-bundle>
         </application>
+        
+* The `src/main/java/org/jboss/as/quickstarts/kitchensink/model/Member.java` file was modififed to add the message key to @Pattern annotation.
+     
+         @NotNull
+         @Size(min = 1, max = 25)
+         @Pattern(regexp = "[A-Za-z ]*", message = "{name_validation_message}")
+         private String name;                
 
-* The `src/main/java/org/jboss/as/quickstarts/kitchensink/util/Resources.java` file was modified to add the ResourceBundle producer that loads the correct resource bundle using the browser preferred locale.
+* The `src/main/java/org/jboss/as/quickstarts/kitchensink/util/KitchensinkMessages.java` file was created
 
-        @Produces
-        public ResourceBundle produceResourceBundle() {
-            return ResourceBundle.getBundle("org.jboss.as.quickstarts.kitchensink-ml.bundle.Resources", FacesContext
-                    .getCurrentInstance().getViewRoot().getLocale());
-        }
+        @MessageBundle(projectCode = "")
+        public interface KitchensinkMessages {
+        
+           KitchensinkMessages MESSAGES = Messages.getBundle(KitchensinkMessages.class, FacesContext.getCurrentInstance().getViewRoot().getLocale());
+        
+           @Message("Registered!")
+           String registeredMessage();
+       
+           @Message("Successfully registered!")
+           String registerSuccessfulMessage();
+        
+           @Message("Registration failed:")
+           String registerFailMessage();
+        
+           @Message("Registration failed. See server log for more information.")
+           String defaultErrorMessage();
+       }
 
 * The `src/main/java/org/jboss/as/quickstarts/kitchensink/controller/MemberController.java` file was modified as follows:
-
-    * It injects the ResourceBundle. 
-    
-            @Inject
-            private ResourceBundle resourceBundle;
-
 
     * Messages strings were replaced with strings retrieved using the resource bundle property names. For example:
     
             FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_INFO, 
-                                        (String) resourceBundle.getObject("registeredMsg"), 
-                                        (String) resourceBundle.getObject("registerSuccessfulMsg"));
+                    KitchensinkMessages.MESSAGES.registeredMessage(),
+                    KitchensinkMessages.MESSAGES.registerSuccessfulMessage());
 
-* The `index.xhtml` and `template.xhtml` files were modified.
+* The `index.xhtml` file were modified.
 
-    * The following namespace was added: `xmlns:f="http://java.sun.com/jsf/core`
-    * The resource bundle was loaded using: `<f:loadBundle basename="org.jboss.as.quickstarts.kitchensink-ml.bundle.Resources" var="bundle" />`
     * Strings for headers, messages, labels were replaced with the appropriate `# {bundle.<property>}`, for example: `# {bundle.memberWelcomeHeader}`.
     
 ### Set the Browser Preferred Locale

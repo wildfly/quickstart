@@ -16,7 +16,6 @@
  */
 package org.jboss.as.quickstarts.kitchensink.util;
 
-import java.util.ResourceBundle;
 import java.util.logging.Logger;
 
 import javax.enterprise.context.RequestScoped;
@@ -39,8 +38,7 @@ import javax.persistence.PersistenceContext;
  * </pre>
  */
 public class Resources {
-    // use @SuppressWarnings to tell IDE to ignore warnings about field not being referenced directly
-    @SuppressWarnings("unused")
+
     @Produces
     @PersistenceContext
     private EntityManager em;
@@ -54,12 +52,6 @@ public class Resources {
     @RequestScoped
     public FacesContext produceFacesContext() {
         return FacesContext.getCurrentInstance();
-    }
-
-    @Produces
-    public ResourceBundle produceResourceBundle() {
-        return ResourceBundle.getBundle("org.jboss.as.quickstarts.kitchensink-ml.bundle.Resources", FacesContext
-                .getCurrentInstance().getViewRoot().getLocale());
     }
 
 }
