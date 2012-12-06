@@ -75,7 +75,7 @@ For Beans Validation (JSR303), the new Properties file were created and it must 
         
            @Message("Registration failed. See server log for more information.")
            String defaultErrorMessage();
-       }
+        }
 
 * The `src/main/java/org/jboss/as/quickstarts/kitchensink/controller/MemberController.java` file was modified as follows:
 
@@ -85,7 +85,7 @@ For Beans Validation (JSR303), the new Properties file were created and it must 
                     KitchensinkMessages.MESSAGES.registeredMessage(),
                     KitchensinkMessages.MESSAGES.registerSuccessfulMessage());
 
-* The `index.xhtml` file were modified.
+* The `src/main/webapp/index.xhtml` file were modified.
 
     * Strings for headers, messages, labels were replaced with the appropriate `# {bundle.<property>}`, for example: `# {bundle.memberWelcomeHeader}`.
     

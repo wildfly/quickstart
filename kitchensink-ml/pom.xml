@@ -40,16 +40,12 @@
         <version.org.jboss.as.plugins.maven.plugin>7.3.Final</version.org.jboss.as.plugins.maven.plugin>
         <!-- Define the version of the JBoss BOMs we want to import. The 
             JBoss BOMs specify tested stacks. -->
-        <version.org.jboss.bom>1.0.0.Final</version.org.jboss.bom>
+        <version.org.jboss.bom>1.0.3.Final</version.org.jboss.bom>
         <!-- Alternatively, comment out the above line, and un-comment the 
             line below to use version 1.0.0.Final-redhat-1 which is a release certified 
             to work with JBoss EAP 6. It requires you have access to the JBoss EAP 6 
             maven repository. -->
         <!-- <version.org.jboss.bom>1.0.0.Final-redhat-1</version.org.jboss.bom>> -->
-
-        <!-- JBoss Logging version -->
-        <version.org.jboss.logging.jboss-logging>3.1.2.GA</version.org.jboss.logging.jboss-logging>
-        <version.org.jboss.logging.jboss-logging-processor>1.1.0.Beta1</version.org.jboss.logging.jboss-logging-processor>
 
         <!-- other plugin versions -->
         <version.compiler.plugin>2.3.1</version.compiler.plugin>
@@ -86,9 +82,16 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <dependency>
+                <groupId>org.jboss.bom</groupId>
+                <artifactId>jboss-javaee-6.0-with-logging</artifactId>
+                <version>${version.org.jboss.bom}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
-    
+
     <dependencies>
 
         <!-- First declare the APIs we depend on and need for compilation. 
@@ -179,15 +182,14 @@
         <dependency>
             <groupId>org.jboss.logging</groupId>
             <artifactId>jboss-logging</artifactId>
-            <version>${version.org.jboss.logging.jboss-logging}</version>
             <scope>provided</scope>
         </dependency>
 
-        <!-- Logging tooling is only needed for annotation processing at compile time, no runtime depdenceny needed -->
+        <!-- Logging tooling is only needed for annotation processing at 
+            compile time, no runtime depdenceny needed -->
         <dependency>
             <groupId>org.jboss.logging</groupId>
             <artifactId>jboss-logging-processor</artifactId>
-            <version>${version.org.jboss.logging.jboss-logging-processor}</version>
             <scope>provided</scope>
         </dependency>
 
@@ -232,8 +234,8 @@
             </plugin>
             <plugin>
                 <artifactId>maven-war-plugin</artifactId>
-                 <version>${version.war.plugin}</version>
-               <configuration>
+                <version>${version.war.plugin}</version>
+                <configuration>
                     <!-- Java EE 6 doesn't require web.xml, Maven needs to 
                         catch up! -->
                     <failOnMissingWebXml>false</failOnMissingWebXml>
@@ -245,8 +247,8 @@
             <plugin>
                 <groupId>org.jboss.as.plugins</groupId>
                 <artifactId>jboss-as-maven-plugin</artifactId>
-                 <version>${version.org.jboss.as.plugins.maven.plugin}</version>
-           </plugin>
+                <version>${version.org.jboss.as.plugins.maven.plugin}</version>
+            </plugin>
         </plugins>
     </build>
 
@@ -316,7 +318,7 @@
                 <plugins>
                     <plugin>
                         <artifactId>maven-war-plugin</artifactId>
-                         <version>${version.war.plugin}</version>
+                        <version>${version.war.plugin}</version>
                         <configuration>
                             <outputDirectory>deployments</outputDirectory>
                             <warName>ROOT</warName>
