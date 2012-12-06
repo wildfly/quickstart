@@ -72,7 +72,7 @@ Access the running application in a browser at the following URL:  <http://local
 
 You be presented with a simple page that shows the current project stage: *Staging*. You will se also the *List of available CDI instances for MyBean* table with two available implementations.
 
-Edit the file `src/main/resources/projectstage.properties` and change the `org.apache.deltaspike.ProjectStage` property to `Development`. Deploy the application again
+Edit the file `src/main/resources/META-INF/apache-deltaspike.properties` and change the `org.apache.deltaspike.ProjectStage` property to `Development`. Deploy the application again
 
         mvn clean package jboss-as:deploy
 
