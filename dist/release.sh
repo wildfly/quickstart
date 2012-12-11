@@ -14,9 +14,9 @@ DIR=$(cd -P -- "$(dirname -- "$0")" && pwd -P)
 VERSION_REGEX='([0-9]*)\.([0-9]*)([a-zA-Z0-9\.]*)'
 
 # EAP team email subject
-EAP_SUBJECT="\${RELEASEVERSION} of JBoss Quickstarts released, please merge with https://github.com/jboss-eap/quickstart, tag and add to EAP maven repo build"
+EMAIL_SUBJECT="\${RELEASEVERSION} of JBoss Quickstarts released, please merge with https://github.com/jboss-eap/quickstart, tag and add to EAP maven repo build"
 # EAP team email To ?
-EAP_EMAIL_TO="pgier@redhat.com kpiwko@redhat.com"
+EMAIL_TO="pgier@redhat.com kpiwko@redhat.com"
 EMAIL_FROM="\"JDF Publish Script\" <benevides@redhat.com>"
 
 
@@ -36,17 +36,16 @@ OPTIONS:
 EOF
 }
 
-notifyEmail()
+notify_email()
 {
    echo "***** Performing JBoss Quickstarts release notifications"
    echo "*** Notifying JBoss EAP team"
-   subject=`eval echo $EAP_SUBJECT`
+   subject=`eval echo $EMAIL_SUBJECT`
    echo "Email from: " $EMAIL_FROM
-   echo "Email to: " $EAP_EMAIL_TO
+   echo "Email to: " $EMAIL_TO
    echo "Subject: " $subject
-   # send email using /bin/mail
-   echo "See \$subject :-)" | /usr/bin/env mail -r "$EMAIL_FROM" -s "$subject" "$EAP_EMAIL_TO"
-
+  # send email using sendmail
+   printf "Subject: $subject\nSee \$subject :)\n" | /usr/bin/env sendmail -f "$EMAIL_FROM" "$EMAIL_TO"
 }
 
 release()
@@ -68,7 +67,7 @@ release()
    rsync -Pv --protocol=28 $DIR/target/jboss-as-quickstarts-$RELEASEVERSION-dist.zip jbossas@filemgmt.jboss.org:downloads_htdocs/jbossas/$MAJOR_VERSION.$MINOR_VERSION/jboss-as-$RELEASEVERSION/
    read -p "Do you want to send release notifcations to $EAP_EMAIL_TO[y/N]?" yn
    case $yn in
-       [Yy]* ) notifyEmail;;
+       [Yy]* ) notify_email;;
        * ) exit;
    esac
 }
