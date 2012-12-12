@@ -60,11 +60,11 @@ Configure the application server to use PostgreSQL
 
 This quickstart requires the PostgreSQL database. Instructions to install an configure PostgreSQL can be found here: [Install and Configure the PostgreSQL Database](../README.md#postgresql)
 
-_Note_: For the purpose of this quickstart, replace the word QUICKSTART_DATABASENAME with cmt-quickstart-database in the PostgreSQL instructions.
+_Note_: For the purpose of this quickstart, replace the word QUICKSTART_DATABASENAME with `cmt-quickstart-database` in the PostgreSQL instructions.
 
 1. Be sure to start the PostgreSQL database. Unless you have set up the database to automatically start as a service, you must repeat the instructions "Start the database server" for your operating system every time you reboot your machine.
-2. Be sure to [add the PostgreSQL Module](../README.md#addpostgresqlmodule) to the JBoss server.
-3. Be sure to [add the PostgreSQL driver](../README.md#addpostgresqlmodule) to the JBoss server configuration file.
+2. [Add the PostgreSQL Module](../README.md#addpostgresqlmodule) to the JBoss server `modules/` directory.
+3. [Add the PostgreSQL driver](../README.md#addpostgresqldriver) to the JBoss server configuration file.
 
 Start JBoss Enterprise Application Platform 6 or JBoss AS 7 with the Full Profile
 ---------------

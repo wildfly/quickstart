@@ -54,27 +54,24 @@ Configure Maven
 If you have not yet done so, you must [Configure Maven](../README.md#mavenconfiguration) before testing the quickstarts.
 
 
-Pre-requisites
---------------
-
-Developers should be familiar with the concepts introduced in the _cmt_ quickstart.
-
-
-Configure the application server to use PostgreSQL
---------------------------------------------------
-
-This quickstart requires the PostgreSQL database. Instructions to install an configure PostgreSQL can be found here: [Install and Configure the PostgreSQL Database](../README.md#postgresql)
-
-_Note_: For the purpose of this quickstart, replace the word QUICKSTART_DATABASENAME with cmt-quickstart-database in the PostgreSQL instructions.
-
-Be sure to start the PostgreSQL database. Unless you have set up the database to automatically start as a service, you must repeat the instructions "Start the database server" for your operating system every time you reboot your machine.
-
-Wait until a later in these instructions to add the PostgreSQL module and driver configuration to the JBoss server.
-
 Prerequisites
 ------------------
 
-This quickstart requires the configuration of two servers. The first server must be configured to use the PostgreSQL database. Instructions to install and configure PostgreSQL for will be provided when you configure the JBoss servers.
+Developers should be familiar with the concepts introduced in the _cmt_ quickstart.
+
+This quickstart requires the configuration of two servers. The first server must be configured to use the PostgreSQL database. Instructions to install and configure PostgreSQL are below.
+
+
+Install the PostgreSQL Database
+-------------------------------
+
+This quickstart requires the PostgreSQL database. Instructions to install an configure PostgreSQL can be found here: [Install and Configure the PostgreSQL Database](../README.md#postgresql)
+
+_Note_: For the purpose of this quickstart, replace the word QUICKSTART_DATABASENAME with `jts-quickstart-database` in the PostgreSQL instructions.
+
+Be sure to start the PostgreSQL database. Unless you have set up the database to automatically start as a service, you must repeat the instructions "Start the database server" for your operating system every time you reboot your machine.
+
+Wait until later in these instructions to add the PostgreSQL module and driver configuration to the first JBoss server.
 
 
 Configure the JBoss Servers
@@ -127,14 +124,15 @@ You can modify the server configuration using the JBoss CLI tool or by manually 
 4.  _NOTE:_ When you have completed testing this quickstart, it is important to [Remove the JTS Configuration from the JBoss Server](#remove-jts-configuration).
   
 ### Clone the JBOSS_HOME Directory     
-1. Make a copy of this JBoss directory structure to use for the second server.
+
+Make a copy of this JBoss directory structure to use for the second server.
+
+### Configure Server1 to use PostgreSQL
 
 2. Application server 1 must be configured to use PostgreSQL as per the instructions in [Install and Configure the PostgreSQL Database] (../README.md#postgresql).
     * Be sure to start the PostgreSQL database.
-    * Be sure to [add the PostgreSQL Module](../README.md#addpostgresqlmodule) to the Application 1 server.
-    * Be sure to [add the PostgreSQL driver](../README.md#addpostgresqlmodule) to the Application 1 server configuration file.
-
-_Note_: For the purpose of this quickstart, replace the word QUICKSTART_DATABASENAME with `jts-quickstart-database` in the PostgreSQL instructions.
+    * [Add the PostgreSQL Module](../README.md#addpostgresqlmodule) to the Application 1 server `modules/` directory.
+    * [Add the PostgreSQL driver](../README.md#addpostgresqldriver) to the Application 1 server configuration file.
 
 
 Start the JBoss Enterprise Application Platform 6 or JBoss AS 7 Servers
