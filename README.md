@@ -111,11 +111,23 @@ If you are using the JBoss Enterprise Application Platform 6 distribution, you n
 
 If you are using the JBoss AS 7 Quickstart distribution, the community artifacts are available in the Maven central repository so no additional configuration is needed.
 
+### Maven Profiles
+
+Profiles are used by Maven to customize the build environment. The `pom.xml` in the root of the quickstart directory defines the following profiles:
+
+* The `default` profile defines the list of modules or quickstarts that require nothing but JBoss Enterprise Application Platform or JBoss AS .
+* The `requires-postgres` profile lists the quickstarts that require PostgreSQL to be running when the quickstart is deployed.
+* The `complex-dependency` profile lists quickstarts that require manual configuration that can not be automated.
+* The `requires-full` profile lists quickstarts the require you start the server using the full profile.
+* The `requires-xts` profile lists quickstarts the require you start the server using the xts profile.
+* The `non-maven` profile lists quickstarts that do not require Maven, for example, quickstarts that depend on deployment of other quickstarts or those that use other Frameworks such as Forge.
+
+
 <a id="runningquickstarts"></a>
 Run the Quickstarts 
 -------------------
 
-The root folder of each quickstart contains a README file with specific details on how to build and run the example. In most cases you do the following:
+The root folder of each individual quickstart contains a README file with specific details on how to build and run the example. In most cases you do the following:
 
 * [Start the JBoss server](#startjboss)
 * [Build and deploy the quickstart](#buildanddeploy)
@@ -206,6 +218,33 @@ The command to undeploy the quickstart is simply:
 
         mvn jboss-as:undeploy
  
+<a id="verifyall"></a>
+### Verify the Quickstarts Build and Deploy with One Command
+-------------------------
+
+You can verify the quickstarts build and deploy using one command. However, quickstarts that have complex dependencies must be skipped. For example, the _jax-rs-client_ quickstart is a RESTEasy client that depends on the deployment of the _helloworld-rs_ quickstart. As noted above, the root `pom.xml` file defines a `complex-dependencies` profile to exclude these quickstarts from the root build process. 
+
+To build and test the quickstarts:
+
+1. Do not start the server.
+2. Open a command line and navigate to the root directory of the quickstarts.
+3. Use this command to build, deploy, and undeploy the quickstarts that do not have complex dependencies:
+
+        For JBoss AS 7 or JBoss Enterprise Application Platform 6 (Maven user settings configured): 
+
+            mvn clean install -Pdefault,!complex-dependencies
+
+        For JBoss Enterprise Application Platform 6 (Maven user settings NOT configured): 
+
+            mvn clean install -Pdefault,!complex-dependencies -s PATH_TO_QUICKSTARTS/example-settings.xml
+
+This command iterates through the quickstarts, excluding those with complex dependencies, and does the following:
+
+* Builds the quickstart
+* Starts the server
+* Deploys the quickstart
+* Undeploys the quickstart
+* Stops the server
 
 <a id="arquilliantests"></a>
 ### Run the Arquillian Tests 
