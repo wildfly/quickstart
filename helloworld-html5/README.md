@@ -58,7 +58,7 @@ To undeploy run this command:
     mvn jboss-as:undeploy
 
 You can also start the JBoss container and deploy the project using JBoss Tools. See the
-<a href="https://docs.jboss.org/author/display/AS71/Getting+Started+Developing+Applications+Guide" title="Getting Started Developing Applications Guide">Getting Started Developing Applications Guide</a>
+<a href="http://www.jboss.org/jdf/quickstarts/jboss-as-quickstart/guide/Introduction/" title="Getting Started Developing Applications Guide">Getting Started Developing Applications Guide</a>
 for more information.
 
 ### Deploying to OpenShift
@@ -69,7 +69,7 @@ Importing the project into an IDE
 =================================
 
 Detailed instructions for using Eclipse / JBoss Tools with are provided in the
-<a href="https://docs.jboss.org/author/display/AS71/Getting+Started+Developing+Applications+Guide" title="Getting Started Developing Applications Guide">Getting Started Developing Applications Guide</a>.
+<a href="http://www.jboss.org/jdf/quickstarts/jboss-as-quickstart/guide/Introduction/" title="Getting Started Developing Applications Guide">Getting Started Developing Applications Guide</a>.
 
 If you created the project from the commandline using archetype:generate, then
 you need to import the project into your IDE. If you are using NetBeans 6.8 or
