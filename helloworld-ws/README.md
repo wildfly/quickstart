@@ -151,7 +151,7 @@ Copy the source for the `helloworld-ws` quickstart into this new git repository:
         
 ### Configure the OpenShift Server
 
-Openshift does not have Web services setup correctly by default, so we need to modify the server configuration. To do this open `.openshift/config/standalone.xml` (this file may be hidden) in an editor and make the following additions:
+Openshift does not have Web services setup by default, so we need to modify the server configuration. To do this open `.openshift/config/standalone.xml` (this file may be hidden) in an editor and make the following additions:
 
 1. If the webservices subsystem is not configured as below under the `<profile>` element, copy the following and replace the webservices subsystem to enable and configure Web Services:
         
