@@ -41,10 +41,13 @@
             </tr>
         </table>
         <p>
-            <input id="register" type="submit" value="Register" /> <label
-                style="color: green;">${infoMessage}</label> <label
-                style="color: red;">${errorMessage}</label>
-
+            <input id="register" type="submit" value="Register" /> 
+        </p>
+        <p>
+            <label style="color: green;width: 100%;text-align: left;">${infoMessage}</label> 
+        </p>
+        <p>
+             <label style="color: red; width: 100%;text-align: left;">${errorMessage}</label>
         </p>
     </form>
 
