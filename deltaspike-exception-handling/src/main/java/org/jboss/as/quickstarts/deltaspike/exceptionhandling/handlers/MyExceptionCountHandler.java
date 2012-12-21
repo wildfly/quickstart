@@ -28,7 +28,7 @@ import javax.inject.Named;
 import org.apache.deltaspike.core.api.exception.control.annotation.ExceptionHandler;
 import org.apache.deltaspike.core.api.exception.control.annotation.Handles;
 import org.apache.deltaspike.core.api.exception.control.event.ExceptionEvent;
-import org.jboss.as.quickstarts.deltaspike.exceptionhandling.exception.MyException;
+import org.jboss.as.quickstarts.deltaspike.exceptionhandling.MyException;
 
 import java.io.Serializable;
 

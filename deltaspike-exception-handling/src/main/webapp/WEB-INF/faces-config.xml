@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <faces-config xmlns="http://java.sun.com/xml/ns/javaee"
-   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-   xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd"
-   version="2.0">
-   
-   <!--  This minimal descriptor enables JSF on this project -->
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd"
+	version="2.0">
+
+	<!-- Register our esception hnadler -->
+	<factory>
+		<exception-handler-factory>org.jboss.as.quickstarts.deltaspike.exceptionhandling.jsf.DeltaSpikeExceptionHandlerFactory</exception-handler-factory>
+	</factory>
+
 </faces-config>

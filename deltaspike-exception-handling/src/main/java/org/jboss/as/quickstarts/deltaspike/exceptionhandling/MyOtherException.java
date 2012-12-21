@@ -20,20 +20,19 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 
-package org.jboss.as.quickstarts.deltaspike.exceptionhandling.rest;
+package org.jboss.as.quickstarts.deltaspike.exceptionhandling;
 
 /**
+ * An example exception
+ * 
  * @author <a href="mailto:benevides@redhat.com">Rafael Benevides</a>
  * 
  */
-public class RestException extends Exception {
+public class MyOtherException extends Exception {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = -518627950487151834L;
 
-    /**
-     * @param message
-     */
-    public RestException(String message) {
+    public MyOtherException(String message) {
         super(message);
     }
 

@@ -28,7 +28,7 @@ import javax.faces.context.FacesContext;
 import org.apache.deltaspike.core.api.exception.control.annotation.ExceptionHandler;
 import org.apache.deltaspike.core.api.exception.control.annotation.Handles;
 import org.apache.deltaspike.core.api.exception.control.event.ExceptionEvent;
-import org.jboss.as.quickstarts.deltaspike.exceptionhandling.exception.WebRequest;
+import org.jboss.as.quickstarts.deltaspike.exceptionhandling.jsf.FacesRequest;
 
 /**
  * This exception handler uses {@link FacesMessage} to display the exception message on JSF
@@ -37,10 +37,10 @@ import org.jboss.as.quickstarts.deltaspike.exceptionhandling.exception.WebReques
  * 
  */
 @ExceptionHandler
-public class FacesMessageExceptionHandler {
+public class FacesExceptionHandler {
 
-    void showFacesMessage(@Handles @WebRequest ExceptionEvent<Throwable> evt) {
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(evt.getException().getMessage()));
+    void showFacesMessage(@Handles @FacesRequest ExceptionEvent<Throwable> evt, FacesContext facesContext) {
+        facesContext.addMessage(null, new FacesMessage(evt.getException().getMessage()));
         evt.handledAndContinue();
     }
 

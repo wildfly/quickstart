@@ -1,4 +1,4 @@
-package org.jboss.as.quickstarts.deltaspike.exceptionhandling.util;
+package org.jboss.as.quickstarts.deltaspike.exceptionhandling.rest;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
@@ -7,13 +7,13 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
 /**
- * A request-scoped resource for customizing an REST error response from within a Seam Catch exception handler.
+ * A request-scoped resource for customizing an REST error response from within an exception handler.
  * 
  * @author <a href="http://community.jboss.org/people/dan.j.allen">Dan Allen</a>
  * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
  */
 @RequestScoped
-public class ResponseBuilderProducer {
+public class ResponseBuilderManager {
 
     private ResponseBuilder responseBuilder;
 
@@ -26,7 +26,7 @@ public class ResponseBuilderProducer {
     }
 
     @Produces
-    public Response buildCatchResponse() {
+    public Response buildResponse() {
         if (response == null) {
             // the builder is reset upon build()
             // therefore, we cache the response

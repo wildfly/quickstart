@@ -22,24 +22,18 @@
 
 package org.jboss.as.quickstarts.deltaspike.exceptionhandling;
 
-import java.io.Serializable;
-
-import org.jboss.as.quickstarts.deltaspike.exceptionhandling.exception.MyException;
-import org.jboss.as.quickstarts.deltaspike.exceptionhandling.exception.MyOtherException;
-import org.jboss.as.quickstarts.deltaspike.exceptionhandling.rest.RestException;
-
 /**
- * Defines the service operations
+ * An example exception
  * 
  * @author <a href="mailto:benevides@redhat.com">Rafael Benevides</a>
  * 
  */
-public interface MyService extends Serializable {
+public class MyException extends Exception {
 
-    public void doSomeOperationWithAnException() throws MyException;
+    private static final long serialVersionUID = 7865068672616549411L;
 
-    public void doSomeOperationWithAnotherException() throws MyOtherException;
-    
-    public void restOperationWithRestException() throws RestException;
+    public MyException(String message) {
+        super(message);
+    }
 
 }

@@ -28,17 +28,20 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 import org.apache.deltaspike.core.api.exception.control.annotation.ExceptionHandler;
 import org.apache.deltaspike.core.api.exception.control.annotation.Handles;
 import org.apache.deltaspike.core.api.exception.control.event.ExceptionEvent;
-import org.jboss.as.quickstarts.deltaspike.exceptionhandling.rest.RestException;
+import org.jboss.as.quickstarts.deltaspike.exceptionhandling.rest.RestRequest;
 
 /**
+ * This handler handles exceptions and builds an error message
+ * 
  * @author <a href="mailto:benevides@redhat.com">Rafael Benevides</a>
  * 
  */
 @ExceptionHandler
 public class RestExceptionHandler {
 
-    public void handleException(@Handles ExceptionEvent<RestException> evt, ResponseBuilder builder) {
-        builder.status(500).entity(evt.getException().getMessage()).type(MediaType.TEXT_PLAIN_TYPE);
+    public void handleException(@Handles @RestRequest ExceptionEvent<Throwable> evt, ResponseBuilder builder) {
+        builder.status(500).entity("Http Response Code 500: " + evt.getException().getMessage())
+                .type(MediaType.TEXT_PLAIN_TYPE);
         evt.handledAndContinue();
     }
 

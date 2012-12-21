@@ -22,56 +22,32 @@
 
 package org.jboss.as.quickstarts.deltaspike.exceptionhandling;
 
+import java.io.Serializable;
+
 import javax.enterprise.context.SessionScoped;
 
-import org.jboss.as.quickstarts.deltaspike.exceptionhandling.exception.MyException;
-import org.jboss.as.quickstarts.deltaspike.exceptionhandling.exception.MyOtherException;
-import org.jboss.as.quickstarts.deltaspike.exceptionhandling.rest.RestException;
-
 /**
- * This implementation always throws exceptions
+ * This implementation of Service always throws exceptions.
  * 
  * @author <a href="mailto:benevides@redhat.com">Rafael Benevides</a>
  * 
  */
+@SuppressWarnings("serial")
 @SessionScoped
-public class MyServiceImpl implements MyService {
-
-    private static final long serialVersionUID = 1L;
+public class ExceptionThrowingService implements Service, Serializable {
 
     private int invocationCount;
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.jboss.as.quickstarts.deltaspike.exceptionhandling.MyService#doSomeOperationWithCheckedExceoption()
-     */
     @Override
     public void doSomeOperationWithAnException() throws MyException {
         invocationCount++;
-        throw new MyException("Forced My Exception. Service Invocation #" + invocationCount);
-
+        throw new MyException("Forced MyException. Service Invocation #" + invocationCount);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.jboss.as.quickstarts.deltaspike.exceptionhandling.MyService#doSomeOperationWithMyOtherException()
-     */
     @Override
     public void doSomeOperationWithAnotherException() throws MyOtherException {
         invocationCount++;
-        throw new MyOtherException("Forced My Other Exception. Service Invocation #" + invocationCount);
+        throw new MyOtherException("Forced MyOtherException. Service Invocation #" + invocationCount);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.jboss.as.quickstarts.deltaspike.exceptionhandling.MyService#restOperationWithRestException()
-     */
-    @Override
-    public void restOperationWithRestException() throws RestException {
-        invocationCount++;
-        throw new RestException("REST exception. Service Invocation #" + invocationCount);
-    }
 }

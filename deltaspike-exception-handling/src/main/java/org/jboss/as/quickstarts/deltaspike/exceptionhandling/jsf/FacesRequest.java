@@ -20,29 +20,28 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 
-package org.jboss.as.quickstarts.deltaspike.exceptionhandling.util;
+package org.jboss.as.quickstarts.deltaspike.exceptionhandling.jsf;
 
-import java.util.logging.Logger;
+import java.lang.annotation.Documented;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
 
-import javax.enterprise.inject.Produces;
-import javax.enterprise.inject.spi.InjectionPoint;
-import javax.faces.context.FacesContext;
+import javax.inject.Qualifier;
 
+import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.ElementType.METHOD;
+import static java.lang.annotation.ElementType.PARAMETER;
+import static java.lang.annotation.ElementType.TYPE;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
+@Qualifier
+@Target({ TYPE, METHOD, PARAMETER, FIELD })
+@Retention(RUNTIME)
+@Documented
 /**
- * CDI Resource aliases
- * 
  * @author <a href="mailto:benevides@redhat.com">Rafael Benevides</a>
- * 
+ *
  */
-public class Resources {
+public @interface FacesRequest {
 
-    @Produces
-    public Logger produceLog(InjectionPoint injectionPoint) {
-        return Logger.getLogger(injectionPoint.getMember().getDeclaringClass().getName());
-    }
-
-    @Produces
-    public FacesContext produceFacesContext() {
-        return FacesContext.getCurrentInstance();
-    }
 }

@@ -20,22 +20,28 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 
-package org.jboss.as.quickstarts.deltaspike.exceptionhandling.exception;
+package org.jboss.as.quickstarts.deltaspike.exceptionhandling.rest;
 
+import java.lang.annotation.Documented;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
+
+import javax.inject.Qualifier;
+
+import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.ElementType.METHOD;
+import static java.lang.annotation.ElementType.PARAMETER;
+import static java.lang.annotation.ElementType.TYPE;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
+@Qualifier
+@Target({ TYPE, METHOD, PARAMETER, FIELD })
+@Retention(RUNTIME)
+@Documented
 /**
  * @author <a href="mailto:benevides@redhat.com">Rafael Benevides</a>
- * 
+ *
  */
-@WebRequest
-public class MyException extends Exception {
-
-    private static final long serialVersionUID = 1L;
-
-    /**
-     * @param message
-     */
-    public MyException(String message) {
-        super(message);
-    }
+public @interface RestRequest {
 
 }

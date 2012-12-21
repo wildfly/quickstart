@@ -26,7 +26,7 @@ import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 
-import org.jboss.as.quickstarts.deltaspike.exceptionhandling.MyService;
+import org.jboss.as.quickstarts.deltaspike.exceptionhandling.Service;
 
 /**
  * @author <a href="mailto:benevides@redhat.com">Rafael Benevides</a>
@@ -37,12 +37,12 @@ public class RestService {
 
     // The Service implementation always throws Exceptions
     @Inject
-    private MyService myService;
+    private Service service;
 
     @GET
     @Path("/test")
-    public void testMyException() throws RestException {
-            // This Operation will throw an Exception
-            myService.restOperationWithRestException();
+    public void testMyException() throws Exception {
+        // This Operation will throw an Exception
+        service.doSomeOperationWithAnException();
     }
 }

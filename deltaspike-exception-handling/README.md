@@ -10,20 +10,20 @@ Target Product: WFK
 What is it?
 -----------
 
-This project demonstrates DelstaSpike exception handling. Exception handling in DeltaSpike is based around the CDI eventing model.
+This quickstart demonstrates exception handling with Java EE and CDI using the DeltaSpike library. Exception handling is based around the CDI eventing model.
 
-The entire exception handling process starts with an event. This helps keep your application minimally coupled to DeltaSpike, but also allows for further extension. Exception handling in DeltaSpike is all about letting you take care of exceptions the way that makes the most sense for your application. Events provide this delicate balance. Firing the event is the main way of starting the exception handling process.
+The entire exception handling process starts with an event. This means your application is not tightly coupled to DeltaSpike, and allows for further extension. Exception handling in DeltaSpike aims to keep out of your way, and let you handle exceptions the way that makes the most sense to you. The eventing model allows for this delicate balance; firing an event is the main way to start handling an exception.
 
-The project can throw two Exceptions: MyException and MyOtherException. And there are 3 different handlers:   
+The quickstart can be told to throw two Exceptions: `MyException` and `MyOtherException`. And there are 4 different handlers:   
  
- - FacesMessageExceptionHandler  - Displays each exception on the page using FacesMessage. Only handles @WebRequest exceptions.
- - LogExceptionHandler - Logs each exception to the server console.
- - MyExceptionCountHandler - Only counts the the number of times MyException is thrown. This handler is also used as a Named CDI bean
- - RestExceptionHandler - Produces a javax.ws.rs.core.Response using the ResponseBuilder
+* `FacesExceptionHandler`  - Displays each exception on the page using a `Faces`. Only handles `@WebRequest` exceptions.
+* `LogExceptionHandler` - Logs each exception to the server console.
+* `MyExceptionCountHandler` - Counts the the number of times `MyException` is thrown. This handler is also a CDI bean with a name.
+* `RestExceptionHandler` - Produces a `javax.ws.rs.core.Response` which encapsulates the error, using a `ResponseBuilder`
 
-The MyExceptionCountHandler is also used as a Named CDI bean.
+Any exceptions from the REST endpoint are passed to the `DeltaSpikeExceptionMapper` (a JAX-RS exception mapper), which fires an exception event, which is observed by all relevant exception handlers. Of particular interest is the `RestExceptionHandler` which uses the ResponseBuilderProducer to create a instance of a javax.ws.rs.core.Response. The built response is then returned to the client by the `RestExceptionMapper`.
 
-The REST exception is first handled by RestExceptionMapper, which then delegates it to the DeltaSpike RestExceptionHandler. That handler uses the ResponseBuilderProducer to create a instance of a javax.ws.rs.core.Response.
+Any exceptions from beans invoked by JSF are passed to the `DeltaSpikeExceptionHandler` which fires an exception event, which is observed by all relevant exception handlers. Of particular interest is the `FacesExceptionHandler` which builds and registers some `FacesMessage`s.
 
 System requirements
 -------------------
@@ -67,9 +67,9 @@ Access the application
 
 Access the running application in a browser at the following URL:  <http://localhost:8080/jboss-as-ds-exception-handling>
 
-You will be presented with a form that contains two buttons. One button throws the exception MyException. The other button throws the exception MyOtherException.
+You will be presented with a form that contains two buttons. One button throws the exception `MyException`. The other button throws the exception `MyOtherException`.
 
-When you click on a button, a message is displayed showing the exception message followed by the number of times the service was invoked. Notice that the MyException counter is only incremented when MyException is thrown.You can also view the exception messages in the server log.
+When you click on a button, a message is displayed showing the exception message followed by the number of times the service was invoked. Notice that the `MyException` counter is only incremented when `MyException` is thrown. You can also view the exception messages in the server log.
 
 Click on `REST Invocation Test` link. The rest response is displayed on the iframe bellow. 
 

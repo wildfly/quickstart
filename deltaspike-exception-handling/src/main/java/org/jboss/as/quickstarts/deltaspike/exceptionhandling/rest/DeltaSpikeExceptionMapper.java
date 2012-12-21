@@ -20,19 +20,47 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 
-package org.jboss.as.quickstarts.deltaspike.exceptionhandling.exception;
+package org.jboss.as.quickstarts.deltaspike.exceptionhandling.rest;
+
+import javax.enterprise.event.Event;
+import javax.enterprise.inject.Instance;
+import javax.inject.Inject;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.ext.ExceptionMapper;
+import javax.ws.rs.ext.Provider;
+
+import org.apache.deltaspike.core.api.exception.control.event.ExceptionToCatchEvent;
 
 /**
+ * <p>
+ * This exception mapper is registered with JAX-RS by the provider annotation. It
+ * </p>
+ * <p>
+ * You can inject other CDI beans into it.
+ * </p>
+ * 
  * @author <a href="mailto:benevides@redhat.com">Rafael Benevides</a>
  * 
  */
-@WebRequest
-public class MyOtherException extends Exception {
+@Provider
+public class DeltaSpikeExceptionMapper implements ExceptionMapper<Exception> {
 
-    private static final long serialVersionUID = 1L;
+    // Inject CDI Event
+    @Inject
+    private Event<ExceptionToCatchEvent> catchEvent;
 
-    public MyOtherException(String message) {
-        super(message);
+    @Inject
+    private Instance<Response> response;
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see javax.ws.rs.ext.ExceptionMapper#toResponse(java.lang.Throwable)
+     */
+    @Override
+    public Response toResponse(Exception exception) {
+        catchEvent.fire(new ExceptionToCatchEvent(exception, RestRequestLiteral.INSTANCE));
+        return response.get();
     }
 
 }

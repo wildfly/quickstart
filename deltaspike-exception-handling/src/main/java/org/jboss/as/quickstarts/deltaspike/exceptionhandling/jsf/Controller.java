@@ -20,28 +20,44 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 
-package org.jboss.as.quickstarts.deltaspike.exceptionhandling.exception;
+package org.jboss.as.quickstarts.deltaspike.exceptionhandling.jsf;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
+import javax.enterprise.event.Event;
+import javax.faces.context.FacesContext;
+import javax.inject.Inject;
+import javax.inject.Named;
 
-import javax.inject.Qualifier;
+import org.apache.deltaspike.core.api.exception.control.event.ExceptionToCatchEvent;
+import org.jboss.as.quickstarts.deltaspike.exceptionhandling.Service;
 
-import static java.lang.annotation.ElementType.FIELD;
-import static java.lang.annotation.ElementType.METHOD;
-import static java.lang.annotation.ElementType.PARAMETER;
-import static java.lang.annotation.ElementType.TYPE;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
-
-@Qualifier
-@Target({ TYPE, METHOD, PARAMETER, FIELD })
-@Retention(RUNTIME)
-@Documented
 /**
+ * Controller class for JSF
+ * 
  * @author <a href="mailto:benevides@redhat.com">Rafael Benevides</a>
- *
+ * 
  */
-public @interface WebRequest {
+@Named
+public class Controller {
+
+    // Inject CDI Event
+    @Inject
+    private Event<ExceptionToCatchEvent> catchEvent;
+
+    // The Service implementation always throws Exceptions
+    @Inject
+    private Service service;
+
+    @Inject
+    private FacesContext facesContext;
+
+    public void testMyException() throws Exception {
+        // This Operation will throw an Exception
+        service.doSomeOperationWithAnException();
+    }
+
+    public void testMyOtherException() throws Exception {
+        // This Operation will throw an Exception
+        service.doSomeOperationWithAnotherException();
+    }
 
 }

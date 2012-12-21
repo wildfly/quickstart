@@ -20,40 +20,18 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 
-package org.jboss.as.quickstarts.deltaspike.exceptionhandling.rest;
-
-import javax.enterprise.event.Event;
-import javax.enterprise.inject.Instance;
-import javax.inject.Inject;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.ext.ExceptionMapper;
-import javax.ws.rs.ext.Provider;
-
-import org.apache.deltaspike.core.api.exception.control.event.ExceptionToCatchEvent;
+package org.jboss.as.quickstarts.deltaspike.exceptionhandling;
 
 /**
+ * Defines a service which can perform some operations.
+ * 
  * @author <a href="mailto:benevides@redhat.com">Rafael Benevides</a>
  * 
  */
-@Provider
-public class RestExceptionMapper implements ExceptionMapper<RestException> {
+public interface Service {
 
-    // Inject CDI Event
-    @Inject
-    private Event<ExceptionToCatchEvent> catchEvent;
+    public void doSomeOperationWithAnException() throws MyException;
 
-    @Inject
-    private Instance<Response> response;
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see javax.ws.rs.ext.ExceptionMapper#toResponse(java.lang.Throwable)
-     */
-    @Override
-    public Response toResponse(RestException exception) {
-        catchEvent.fire(new ExceptionToCatchEvent(exception));
-        return response.get();
-    }
+    public void doSomeOperationWithAnotherException() throws MyOtherException;
 
 }
