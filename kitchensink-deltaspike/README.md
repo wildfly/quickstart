@@ -21,12 +21,12 @@ The DeltaSpike project (http://incubator.apache.org/deltaspike) consists of a nu
 Changes compared to the original `kitchensink` quickstart
 ---------------------------------------------------------
 
-* The org.jboss.as.quickstarts.kitchensink.service.MemberRegistration class is annotated with the DeltaSpike @Transactional annotation rather than @javax.ejb.Stateless.
-* The org.jboss.as.quickstarts.kitchensink.util.Resources class has been modified to handle an application managed entity manager.
-* The transaction type in the persistence unit configuration file (src/main/resources/META-INF/persistence.xml) has been changed to "RESOURCE_LOCAL". 
-* The DeltaSpike TransactionalInterceptor has been added to the beans.xml CDI configuration file (src/main/webapp/WEB-INF/beans.xml).
+* The `org.jboss.as.quickstarts.kitchensink.service.MemberRegistration` class is annotated with the DeltaSpike `@Transactional` annotation rather than `@javax.ejb.Stateless`.
+* The `org.jboss.as.quickstarts.kitchensink.util.Resources` class has been modified to handle an application managed entity manager.
+* The transaction type in the persistence unit configuration file (`src/main/resources/META-INF/persistence.xml`) has been changed to `RESOURCE_LOCAL`. 
+* The DeltaSpike `TransactionalInterceptor` has been added to the beans.xml CDI configuration file (`src/main/webapp/WEB-INF/beans.xml`).
 * The DeltaSpike dependencies have been added to the project POM.
-* The ShrinkWrap shrinkwrap-resolver-bom dependency has been added to the project POM, to be able to build the archive for the Arquillian test.  
+* The ShrinkWrap `shrinkwrap-resolver-bom` dependency has been added to the project POM, to be able to build the archive for the Arquillian test.  
 
 System requirements
 -------------------

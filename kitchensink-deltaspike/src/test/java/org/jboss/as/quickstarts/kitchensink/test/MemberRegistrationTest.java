@@ -18,8 +18,6 @@ package org.jboss.as.quickstarts.kitchensink.test;
 
 import static org.junit.Assert.assertNotNull;
 
-import java.io.File;
-import java.util.Arrays;
 import java.util.logging.Logger;
 
 import javax.inject.Inject;
@@ -33,7 +31,8 @@ import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.jboss.shrinkwrap.resolver.api.maven.Maven;
+import org.jboss.shrinkwrap.resolver.api.DependencyResolvers;
+import org.jboss.shrinkwrap.resolver.api.maven.MavenDependencyResolver;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -46,8 +45,11 @@ public class MemberRegistrationTest {
                 "org.apache.deltaspike.modules:deltaspike-jpa-module-impl",
                 "org.apache.deltaspike.core:deltaspike-core-api",
                 "org.apache.deltaspike.core:deltaspike-core-impl" };
-        File[] libs = Maven.resolver().loadPomFromFile("pom.xml")
-                .resolve(Arrays.asList(deps)).withTransitivity().asFile();
+        
+        MavenDependencyResolver resolver = DependencyResolvers
+                .use(MavenDependencyResolver.class)
+                .loadMetadataFromPom("pom.xml");
+        
         return ShrinkWrap
                 .create(WebArchive.class, "test.war")
                 .addClasses(Member.class, MemberRegistration.class,
@@ -55,7 +57,8 @@ public class MemberRegistrationTest {
                 .addAsResource("META-INF/test-persistence.xml",
                         "META-INF/persistence.xml")
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
-                .addAsLibraries(libs)
+                    .addAsLibraries(
+                        resolver.artifacts(deps).resolveAsFiles())
                 // Deploy our test datasource
                 .addAsWebInfResource("test-ds.xml");
     }
@@ -74,8 +77,7 @@ public class MemberRegistrationTest {
         newMember.setPhoneNumber("2125551234");
         memberRegistration.register(newMember);
         assertNotNull(newMember.getId());
-        log.info(newMember.getName() + " was persisted with id "
-                + newMember.getId());
+        log.info(newMember.getName() + " was persisted with id " + newMember.getId());
     }
 
 }

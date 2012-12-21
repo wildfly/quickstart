@@ -24,9 +24,11 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.List;
 
+import org.apache.deltaspike.jpa.api.transaction.Transactional;
 import org.jboss.as.quickstarts.kitchensink.model.Member;
 
 @ApplicationScoped
+@Transactional
 public class MemberRepository {
 
     @Inject

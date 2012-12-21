@@ -40,16 +40,13 @@
         <version.org.jboss.as.plugins.maven.plugin>7.3.Final</version.org.jboss.as.plugins.maven.plugin>
         <!-- Define the version of the JBoss BOMs we want to import. The 
             JBoss BOMs specify tested stacks. -->
-        <version.org.jboss.bom>1.0.1.Final</version.org.jboss.bom>
+        <version.org.jboss.bom>1.0.4.CR6</version.org.jboss.bom>
         <!-- Alternatively, comment out the above line, and un-comment the 
             line below to use version 1.0.0.Final-redhat-1 which is a release certified 
             to work with JBoss EAP 6. It requires you have access to the JBoss EAP 6 
             maven repository. -->
         <!-- <version.org.jboss.bom>1.0.0.Final-redhat-1</version.org.jboss.bom>> -->
-        <version.shrinkwrap.resolver>2.0.0-alpha-5</version.shrinkwrap.resolver>
 
-        <!--  DeltaSpike dependency version -->
-        <version.deltaspike>0.3-incubating</version.deltaspike>
         <!-- other plugin versions -->
         <version.compiler.plugin>2.3.1</version.compiler.plugin>
         <version.surefire.plugin>2.4.3</version.surefire.plugin>
@@ -72,13 +69,6 @@
                 stack you can read this as the JBoss stack of the Java EE 6 APIs, with extras 
                 from the Hibernate family of projects) -->
             <dependency>
-                <groupId>org.jboss.shrinkwrap.resolver</groupId>
-                <artifactId>shrinkwrap-resolver-bom</artifactId>
-                <version>${version.shrinkwrap.resolver}</version>
-                <scope>import</scope>
-                <type>pom</type>
-            </dependency>
-            <dependency>
                 <groupId>org.jboss.bom</groupId>
                 <artifactId>jboss-javaee-6.0-with-tools</artifactId>
                 <version>${version.org.jboss.bom}</version>
@@ -88,6 +78,13 @@
             <dependency>
                 <groupId>org.jboss.bom</groupId>
                 <artifactId>jboss-javaee-6.0-with-hibernate</artifactId>
+                <version>${version.org.jboss.bom}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss.bom</groupId>
+                <artifactId>jboss-javaee-6.0-with-deltaspike</artifactId>
                 <version>${version.org.jboss.bom}</version>
                 <type>pom</type>
                 <scope>import</scope>
@@ -168,25 +165,23 @@
         <dependency>
             <groupId>org.apache.deltaspike.modules</groupId>
             <artifactId>deltaspike-jpa-module-api</artifactId>
-            <version>${version.deltaspike}</version>
         </dependency>
 
         <dependency>
             <groupId>org.apache.deltaspike.modules</groupId>
             <artifactId>deltaspike-jpa-module-impl</artifactId>
-            <version>${version.deltaspike}</version>
+            <scope>runtime</scope>
         </dependency>
 
         <dependency>
             <groupId>org.apache.deltaspike.core</groupId>
             <artifactId>deltaspike-core-api</artifactId>
-            <version>${version.deltaspike}</version>
         </dependency>
 
         <dependency>
             <groupId>org.apache.deltaspike.core</groupId>
             <artifactId>deltaspike-core-impl</artifactId>
-            <version>${version.deltaspike}</version>
+            <scope>runtime</scope>
         </dependency>
 
 
