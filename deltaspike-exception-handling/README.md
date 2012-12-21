@@ -16,10 +16,10 @@ The entire exception handling process starts with an event. This means your appl
 
 The quickstart can be told to throw two Exceptions: `MyException` and `MyOtherException`. And there are 4 different handlers:   
  
-* `FacesExceptionHandler`  - Displays each exception on the page using a `Faces`. Only handles `@WebRequest` exceptions.
+* `FacesExceptionHandler`  - Displays each exception on the page using a `Faces`. Only handles `@FacesRequest` exceptions.
 * `LogExceptionHandler` - Logs each exception to the server console.
 * `MyExceptionCountHandler` - Counts the the number of times `MyException` is thrown. This handler is also a CDI bean with a name.
-* `RestExceptionHandler` - Produces a `javax.ws.rs.core.Response` which encapsulates the error, using a `ResponseBuilder`
+* `RestExceptionHandler` - Produces a `javax.ws.rs.core.Response` which encapsulates the error, using a `ResponseBuilder`. Only handles `@RestRequest` exceptions.
 
 Any exceptions from the REST endpoint are passed to the `DeltaSpikeExceptionMapper` (a JAX-RS exception mapper), which fires an exception event, which is observed by all relevant exception handlers. Of particular interest is the `RestExceptionHandler` which uses the ResponseBuilderProducer to create a instance of a javax.ws.rs.core.Response. The built response is then returned to the client by the `RestExceptionMapper`.
 
