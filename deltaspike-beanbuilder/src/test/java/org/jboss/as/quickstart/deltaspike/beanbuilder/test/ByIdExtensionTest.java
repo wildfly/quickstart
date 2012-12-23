@@ -51,7 +51,7 @@ public class ByIdExtensionTest {
                 .loadMetadataFromPom("pom.xml");
 
         Archive<?> archive = ShrinkWrap
-                .create(WebArchive.class, "byid-extension.war")
+                .create(WebArchive.class, "test.war")
                 .addPackages(true, ByIdExtension.class.getPackage())
                 .addAsServiceProvider(Extension.class, ByIdExtension.class)
                 .addAsLibraries(
@@ -64,11 +64,13 @@ public class ByIdExtensionTest {
         return archive;
     }
 
-    // This will inject a qualified Person with @ById('rbenevides') qualifier
-    @Inject @ById("rbenevides") Person rafael;
+    // This will inject a qualified Person with the @ById('rbenevides') qualifier
+    @Inject @ById("rbenevides") 
+    private Person rafael;
 
-    // This will inject a qualified Person with @ById('pmuir') qualifier
-    @Inject @ById("pmuir") Person pete;
+    // This will inject a qualified Person with the @ById('pmuir') qualifier
+    @Inject @ById("pmuir") 
+    private Person pete;
 
     @Test
     public void assertPersonInjected() {

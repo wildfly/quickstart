@@ -11,11 +11,11 @@ What is it?
 
 This project demonstrates a CDI Portable Extension that uses DeltaSpike utilities to create new Beans.
 
-This extension permits the injection of JPA Entities by its Id without the need of query it. To do that, the extension observes the `ProcessInjectionTarget` event and get all values that needs to be queried. Then in `AfterBeanDiscovery` event, the extension create `Bean` instances using the `BeanBuilder` utility. 
+This extension permits the injection of JPA entities by id, without the need to query it. To achieve this, the extension observes the `ProcessInjectionTarget` event and get locates all the injection points that have requested injection by id. In `AfterBeanDiscovery` event, the extension creates `Bean` instances using the `BeanBuilder` utility. 
 
-The project contains very simple JPA Entity class, an extension class, the service registration file for that extension and an Arquillian test to verify the extension is working correctly.
+The project contains a very simple JPA entity class, the extension class, the service registration file for that extension and an Arquillian test to verify the extension is working correctly.
 
-It does not contain any user interface, the tests must be run to verify everything is working correctly.
+It does not contain any user interface; the tests must be run to verify everything is working correctly.
 
 System requirements
 -------------------
