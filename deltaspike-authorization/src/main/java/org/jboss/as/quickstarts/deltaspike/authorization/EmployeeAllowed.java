@@ -20,7 +20,7 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 
-package org.jboss.as.quickstarts.deltaspike.security.annotations;
+package org.jboss.as.quickstarts.deltaspike.authorization;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -31,7 +31,7 @@ import java.lang.annotation.Target;
 import org.apache.deltaspike.security.api.authorization.annotation.SecurityBindingType;
 
 /**
- * This annotation is used to to add security behavior to our business classes and methods
+ * This annotation is used to to add authorization restrictions to beans and methods
  * 
  * @author <a href="mailto:benevides@redhat.com">Rafael Benevides</a>
  * 
@@ -40,6 +40,6 @@ import org.apache.deltaspike.security.api.authorization.annotation.SecurityBindi
 @Target({ ElementType.TYPE, ElementType.METHOD })
 @Documented
 @SecurityBindingType
-public @interface GuestAllowed {
+public @interface EmployeeAllowed {
 
 }

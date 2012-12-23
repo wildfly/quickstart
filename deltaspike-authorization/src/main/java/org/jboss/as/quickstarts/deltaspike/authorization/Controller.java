@@ -20,41 +20,38 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 
-package org.jboss.as.quickstarts.deltaspike.security;
+package org.jboss.as.quickstarts.deltaspike.authorization;
 
 import java.io.IOException;
 
-import javax.enterprise.inject.Model;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.jboss.as.quickstarts.deltaspike.security.annotations.AdminAllowed;
-import org.jboss.as.quickstarts.deltaspike.security.annotations.GuestAllowed;
 
 /**
+ * The secured controller restricts access to certain method
+ * 
  * @author <a href="mailto:benevides@redhat.com">Rafael Benevides</a>
  * 
  */
-// The @Model stereotype is a convenience mechanism to make this a request-scoped bean that has an
-// EL name
-// Read more about the @Model stereotype in this FAQ:
-// http://sfwk.org/Documentation/WhatIsThePurposeOfTheModelAnnotation
-@Model
-public class SecuredController {
+// Expose the bean to EL
+@Named
+public class Controller {
 
     @Inject
     private FacesContext facesContext;
 
-    //This method is allowed only to users with Guest role
-    @GuestAllowed
-    public void guestMethod() {
-        facesContext.addMessage(null, new FacesMessage("You executed a @GuestAllowed method"));
+    //This method is allowed only to users with employee role
+    @EmployeeAllowed
+    public void employeeMethod() {
+        facesContext.addMessage(null, new FacesMessage("You executed a @EmployeeAllowed method"));
     }
 
-    //This method is allowed only to users with Admin role
+    //This method is allowed only to users with admin role
     @AdminAllowed
     public void adminMethod() {
         facesContext.addMessage(null, new FacesMessage("You executed a @AdminAllowed method"));
@@ -67,6 +64,17 @@ public class SecuredController {
         HttpServletResponse response = (HttpServletResponse) facesContext.getExternalContext().getResponse();
         response.sendRedirect("index.html");
         facesContext.responseComplete();
+    }
+    
+    //This method return the stack trace string from the Exception
+    public String getStackTrace() {
+        Throwable throwable = (Throwable)  FacesContext.getCurrentInstance().getExternalContext().getRequestMap().get("javax.servlet.error.exception");
+        StringBuilder builder = new StringBuilder();
+        builder.append(throwable.getMessage()).append("\n");
+        for (StackTraceElement element : throwable.getStackTrace()) {
+            builder.append(element).append("\n");
+        }
+        return builder.toString();
     }
 
 }

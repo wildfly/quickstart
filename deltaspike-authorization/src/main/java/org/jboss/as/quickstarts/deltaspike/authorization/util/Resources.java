@@ -14,8 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jboss.as.quickstarts.deltaspike.util;
+package org.jboss.as.quickstarts.deltaspike.authorization.util;
 
+import java.security.Principal;
 import java.util.logging.Logger;
 
 import javax.enterprise.context.RequestScoped;
@@ -43,5 +44,10 @@ public class Resources {
         return FacesContext.getCurrentInstance();
     }
 
+    @Named
+    @Produces
+    public String getLoggedInUserName(Principal principal) {
+        return principal.getName();
+    }
 
 }

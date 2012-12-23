@@ -25,26 +25,17 @@ limitations under the License.
 		with actual data.
 	 -->
 	<ui:composition template="/template.xhtml">
-			<ui:define name="pageTitle">Error!!!</ui:define>
-			<ui:define name="pageHeader">An error has occurred:</ui:define>
+			<ui:define name="pageTitle">Welcome</ui:define>
+			<ui:define name="pageHeader">Welcome to the restricted page!</ui:define>
 			<ui:define name="body">
-                <h:form>
-    			   The error message is:  
-                   <b>
-                        #{requestScope['javax.servlet.error.message']}  
-                   </b>
-                   <p />
-                        <h:commandButton value="Back" action="/welcome.jsf" /> 
-                   <p /> 
-                   <font color="RED">  
-                        Please show the system administator the error below.  
-                   </font>  
-                   <p />  
-                   <textarea rows="30" cols="100">  
-                       <h:outputText escape="false" value="#{errorController.stackTrace}"/>  
-                   </textarea>  
-                   <p />
-               </h:form>
+                 <h:form>
+    			     Welcome <b>#{loggedInUserName}</b>!
+                     <h:commandButton value="Logout" action="#{controller.logout}" />
+                     <p />
+                     Execute an action:                  
+                     <h:commandButton value="Employees only Method" action="#{controller.employeeMethod}" />
+                     <h:commandButton value="Admins only Method" action="#{controller.adminMethod}" />
+                 </h:form>
 			</ui:define>
 	</ui:composition>
 

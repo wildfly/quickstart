@@ -1,4 +1,4 @@
-jboss-as-deltaspike-projectstage: Demonstrate the creation of a custom authorization example using @SecurityBindingType from DeltaSpike
+jboss-as-deltaspike-authorization: Demonstrate the creation of a custom authorization example using @SecurityBindingType from DeltaSpike
 ======================================================
 Author: Rafael Benevides
 Level: Beginner
@@ -10,15 +10,15 @@ Target Product: WFK
 What is it?
 -----------
 
-SecurityBinding is a feature of the security module that acts by intercepting method calls, and performing a security check before invocation is allowed to proceed.
+Security binding is DeltaSpike feature that restricts who can invoke a method (under the covers, it uses interceptors).
 
-To use it, it's needed to create a security parameter binding annotation. In this application we created `@AdminAllowed` and `@GuestAllowed` annotations.
+To restrict who can invoke a method, we create an annotation, called a security binding type. This quickstart has two security binding types - `@AdminAllowed` and `@GuestAllowed`.
 
-The application also defines an `Authorizer` class that implements behavior for both `SecurityBindingType`. This class is simply a CDI bean which declares a @Secures method, qualified with the security binding annotation we created.
+The quickstart defines an `Authorizer` class that implements the restrictions for the security binding types. The authorizer is a CDI bean which defines methods (annotated with `@Secures) which perform the authorization checks for each security binding we create.
 
-This `Authorizer` is integrated with JAAS so the check is delegated to JAAS API through `FacesContext`, but any other ways to check if the method is allowed could be used. 
+In this quickstart the `Authorizer` we delegate authentication to JAAS, but other authentication solutions could be used.
 
-Both annotations was applied to methods on `SecuredController` class.
+Methods on the `Controller` bean have been restricted using the security binding types.
 
 
 System requirements
@@ -33,7 +33,6 @@ Configure Maven
 ---------------
 
 If you have not yet done so, you must [Configure Maven](../README.md#mavenconfiguration) before testing the quickstarts.
-
 
 
 Add an Application User
@@ -60,20 +59,19 @@ _NOTE: The following build command assumes you have configured your Maven user s
 3. Type this command to build and deploy the archive:
 
         mvn clean package jboss-as:deploy
-4. This will deploy `target/jboss-as-deltaspike-security.war` to the running instance of the server.
+4. This will deploy `target/jboss-as-deltaspike-authorization.war` to the running instance of the server.
+
 
 Access the application
 ---------------------
 
-Access the running application in a browser at the following URL:  <localhost:8080/jboss-as-deltaspike-security/>
+You can access the running application in a browser at the following URL: <localhost:8080/jboss-as-deltaspike-authorization/>
 
-When you try to access the application, you're redirected to a Login form already filled. (remember to setup the Application User).
+When you access the application you are redirected to a login form, already filled in with the details of the application user you set up above. Once you have logged into the application you see a page showing your username and two buttons. 
 
-Log in application and you see the secured page showing your username and two buttons. 
+When you click on the `Employee Method` button you will see the following message: `You executed a @EmployeeAllowed method` - you are authorized to invoke this method.
 
-Click on `Guest Method` button and realize that you will see the following message: `You executed a @GuestAllowed method`.
-
-Now, click on `Admin Method` button and you will be redirected to a error page with the following exception: `org.apache.deltaspike.security.api.authorization.AccessDeniedException`
+When you click on the `Admin Method` button you will be redirected to a error page with the following exception: `org.apache.deltaspike.security.api.authorization.AccessDeniedException` - you aren't authorized to invole thos method.
         
 Undeploy the Archive
 --------------------

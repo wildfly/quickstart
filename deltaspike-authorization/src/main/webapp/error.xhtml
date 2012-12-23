@@ -25,17 +25,26 @@ limitations under the License.
 		with actual data.
 	 -->
 	<ui:composition template="/template.xhtml">
-			<ui:define name="pageTitle">Welcome</ui:define>
-			<ui:define name="pageHeader">Welcome to the secured page!</ui:define>
+			<ui:define name="pageTitle">Error!!!</ui:define>
+			<ui:define name="pageHeader">An error has occurred:</ui:define>
 			<ui:define name="body">
-                 <h:form>
-    			     Welcome <b>#{facesContext.externalContext.userPrincipal.name}</b>!
-                     <h:commandButton value="Logout" action="#{securedController.logout()}" />
-                     <p />
-                     Execute some action:                  
-                     <h:commandButton value="Guest Method" action="#{securedController.guestMethod()}" />
-                     <h:commandButton value="Admin Method" action="#{securedController.adminMethod()}" />
-                 </h:form>
+                <h:form>
+    			   The error message is:  
+                   <b>
+                        #{requestScope['javax.servlet.error.message']}  
+                   </b>
+                   <p />
+                        <h:commandButton value="Back" action="/welcome.jsf" /> 
+                   <p /> 
+                   <font color="RED">  
+                        Please show the system administator the error below.  
+                   </font>  
+                   <p />  
+                   <textarea rows="30" cols="100">  
+                       <h:outputText escape="false" value="#{controller.stackTrace}"/>  
+                   </textarea>  
+                   <p />
+               </h:form>
 			</ui:define>
 	</ui:composition>
 

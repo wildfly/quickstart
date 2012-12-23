@@ -20,7 +20,7 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 
-package org.jboss.as.quickstarts.deltaspike.util;
+package org.jboss.as.quickstarts.deltaspike.authorization;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.spi.BeanManager;
@@ -29,11 +29,9 @@ import javax.inject.Inject;
 import javax.interceptor.InvocationContext;
 
 import org.apache.deltaspike.security.api.authorization.annotation.Secures;
-import org.jboss.as.quickstarts.deltaspike.security.annotations.AdminAllowed;
-import org.jboss.as.quickstarts.deltaspike.security.annotations.GuestAllowed;
 
 /**
- * This Authorizer class implements behavior for our custom SecurityBindingType. This class is simply a CDI bean which declares
+ * This Authorizer class implements behavior for our security binding types. This class is simply a CDI bean which declares
  * a @Secures method, qualified with the security binding annotation.
  * 
  * @author <a href="mailto:benevides@redhat.com">Rafael Benevides</a>
@@ -61,7 +59,7 @@ public class CustomAuthorizer {
     }
 
     /**
-     * This method is used to check if classes and methods annotated with {@link GuestAllowed} can perform
+     * This method is used to check if classes and methods annotated with {@link EmployeeAllowed} can perform
      * the operation or not
      * 
      * @param invocationContext
@@ -70,7 +68,7 @@ public class CustomAuthorizer {
      * @throws Exception
      */
     @Secures
-    @GuestAllowed
+    @EmployeeAllowed
     public boolean doGuestCheck(InvocationContext invocationContext, BeanManager manager) throws Exception {
         return facesContext.getExternalContext().isUserInRole("guest");
     }
