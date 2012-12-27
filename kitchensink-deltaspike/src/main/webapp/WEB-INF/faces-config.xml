@@ -17,6 +17,11 @@
         http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd">
 
     <!-- This descriptor activates the JSF 2.0 Servlet -->
+    
+   <!-- Register our exception handler -->
+    <factory>
+        <exception-handler-factory>org.jboss.as.quickstarts.kitchensink.exception.DeltaSpikeJSFExceptionHandlerFactory</exception-handler-factory>
+    </factory>
 
     <!-- Write your navigation rules here. You are encouraged to use CDI 
         for creating @Named managed beans. -->
