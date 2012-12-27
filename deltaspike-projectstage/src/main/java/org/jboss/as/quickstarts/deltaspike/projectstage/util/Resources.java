@@ -34,11 +34,12 @@ import javax.inject.Named;
 
 import org.apache.deltaspike.core.api.projectstage.ProjectStage;
 import org.apache.deltaspike.core.util.ProjectStageProducer;
-import org.jboss.as.quickstarts.deltaspike.projectstage.bean.MyBean;
+import org.jboss.as.quickstarts.deltaspike.projectstage.bean.MessageProvider;
 
 /**
  * 
- * This class uses CDI to produce the Current {@link ProjectStage} and get the available list of {@link MyBean} implementations
+ * This class uses CDI to produce the Current {@link ProjectStage} and get the available list of {@link MessageProvider}
+ * implementations
  * 
  * @author <a href="mailto:benevides@redhat.com">Rafael Benevides</a>
  * 
@@ -47,8 +48,8 @@ public class Resources {
 
     @Inject
     @Any
-    //Allows the application to dynamically obtain instances of MyBean instances
-    private Instance<MyBean> myBeans; 
+    // Allows the application to dynamically obtain instances of MessageProvider instances
+    private Instance<MessageProvider> mesageProviders;
 
     /**
      * Return the current {@link ProjectStage}
@@ -62,20 +63,29 @@ public class Resources {
     }
 
     /**
-     * Return all available instances of {@link MyBean} implementations
+     * This will create a {@link MessageProvider} {@link List} to be exposed as #{availableMessageProvidersImplementations} expression
      * 
-     * @return
+     * @return Return all available instances of {@link MessageProvider} implementations.
      */
     @Produces
     @Named
-    public List<MyBean> availableBeansImplementation() {
-        List<MyBean> beans = new ArrayList<MyBean>();
-        Iterator<MyBean> it = myBeans.iterator();
-        while (it.hasNext()) {
-            MyBean mb = it.next();
-            beans.add(mb);
-        }
-        return beans;
+    public List<MessageProvider> availableMessageProvidersImplementations() {
+        // * Since {@link Instance} only provides an {@link Iterator}, we need to convert it to a {@link List} so we can display
+        // it on the JSF page
+        return convertToList(mesageProviders.iterator());
     }
 
+    /**
+     * This utility method will convert any {@link Iterator} to a {@link List}
+     * 
+     * @param the {@link Iterator}
+     * @return the {@link List}
+     */
+    private <T> List<T> convertToList(Iterator<T> i) {
+        List<T> list = new ArrayList<T>();
+        while (i.hasNext()) {
+            list.add(i.next());
+        }
+        return list;
+    }
 }

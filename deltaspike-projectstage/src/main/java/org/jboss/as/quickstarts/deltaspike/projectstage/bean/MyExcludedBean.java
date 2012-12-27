@@ -31,7 +31,7 @@ import org.apache.deltaspike.core.api.exclude.annotation.Exclude;
  * 
  */
 @Exclude
-public class MyExcludedBean implements MyBean {
+public class MyExcludedBean implements MessageProvider {
 
     /*
      * (non-Javadoc)

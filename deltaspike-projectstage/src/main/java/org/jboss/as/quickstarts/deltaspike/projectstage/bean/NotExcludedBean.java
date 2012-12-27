@@ -28,7 +28,7 @@ package org.jboss.as.quickstarts.deltaspike.projectstage.bean;
  * @author <a href="mailto:benevides@redhat.com">Rafael Benevides</a>
  * 
  */
-public class NoExcludedBean implements MyBean {
+public class NotExcludedBean implements MessageProvider {
 
     /*
      * (non-Javadoc)

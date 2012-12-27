@@ -45,16 +45,16 @@
 				<tr>
 					<td align="center" width="100%" valign="middle">
 					   <h:form>
-                            <h2>List of available CDI instances for MyBean</h2>
-                            <!-- The  #{availableBeansImplementation} is produced by the org.jboss.as.quickstart.deltaspike.projectstage.util.Resources class -->
-                            <h:dataTable value="#{availableBeansImplementation}" var="varMyBean">
+                            <h2>List of available CDI instances for MessageProvider</h2>
+                            <!-- The  #{availableMessageProvidersImplementations} is produced by the org.jboss.as.quickstart.deltaspike.projectstage.util.Resources class -->
+                            <h:dataTable value="#{availableMessageProvidersImplementations}" var="varMessageProvider">
                                 <h:column>
                                     <f:facet name="header">Message</f:facet>
-                                    #{varMyBean.message()}
+                                    #{varMessageProvider.message()}
                                 </h:column>
                                 <h:column>
                                     <f:facet name="header">Class</f:facet>
-                                    #{varMyBean}
+                                    #{varMessageProvider}
                                 </h:column>
                             </h:dataTable>
                        </h:form>

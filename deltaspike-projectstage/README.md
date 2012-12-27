@@ -1,4 +1,4 @@
-jboss-as-deltaspike-projectstage: Demonstrate usage of DeltaSpike project stage and shows usage of a conditional @Exclude
+deltaspike-projectstage: Demonstrate usage of DeltaSpike project stage and shows usage of a conditional @Exclude
 ======================================================
 Author: Rafael Benevides
 Level: Beginner

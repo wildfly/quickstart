@@ -28,7 +28,7 @@ package org.jboss.as.quickstarts.deltaspike.projectstage.bean;
  * @author <a href="mailto:benevides@redhat.com">Rafael Benevides</a>
  *
  */
-public interface MyBean {
+public interface MessageProvider {
     
     public String message();
 

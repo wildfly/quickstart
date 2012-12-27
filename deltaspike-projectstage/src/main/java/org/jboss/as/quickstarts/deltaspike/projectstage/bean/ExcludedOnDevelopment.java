@@ -33,7 +33,7 @@ import org.apache.deltaspike.core.api.projectstage.ProjectStage.Development;
  * 
  */
 @Exclude(ifProjectStage = Development.class)
-public class ExcludedOnDevelopment implements MyBean {
+public class ExcludedOnDevelopment implements MessageProvider {
 
     /*
      * (non-Javadoc)
