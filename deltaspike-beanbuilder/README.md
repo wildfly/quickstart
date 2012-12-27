@@ -1,4 +1,4 @@
-DeltaSpike BeanBuilder: Shows how to create new beans using DeltaSpike utilities
+deltaspike-beanbuilder: Shows how to create new beans using DeltaSpike utilities
 ======================================================
 Author: Rafael Benevides
 Level: Advanced

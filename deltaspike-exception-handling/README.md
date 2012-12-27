@@ -1,4 +1,4 @@
-jboss-as-ds-exception-handling: An example how to use DeltaSpike exception handling
+deltaspike-exception-handling: An example how to use DeltaSpike exception handling
 ====================================================================================
 Author: Rafael Benevides
 Level: Intermediate

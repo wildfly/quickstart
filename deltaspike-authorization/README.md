@@ -1,4 +1,4 @@
-jboss-as-deltaspike-authorization: Demonstrate the creation of a custom authorization example using @SecurityBindingType from DeltaSpike
+deltaspike-authorization: Demonstrate the creation of a custom authorization example using @SecurityBindingType from DeltaSpike
 ======================================================
 Author: Rafael Benevides
 Level: Beginner

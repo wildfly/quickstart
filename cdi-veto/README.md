@@ -1,4 +1,4 @@
-CDI Veto: An example of a Portable Extension and some of the APIs / SPIs of CDI to veto beans.
+cdi-veto: An example of a Portable Extension and some of the APIs / SPIs of CDI to veto beans.
 ======================================================
 Author: Jason Porter
 Level: Intermediate

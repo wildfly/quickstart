@@ -1,4 +1,4 @@
-CDI Portable Extension: An example of a Portable Extension and some of the APIs / SPIs of CDI
+cdi-portable-extension: An example of a Portable Extension and some of the APIs / SPIs of CDI
 ======================================================
 Author: Jason Porter
 Level: Intermediate

@@ -1,4 +1,4 @@
-CDI Portable Extension, add an interceptor binding: An example of a Portable Extension and some of the APIs / SPIs of CDI
+cdi-add-interceptor-binding: An example of a Portable Extension and some of the APIs / SPIs of CDI
 ======================================================
 Author: Pete Muir
 Level: Intermediate
