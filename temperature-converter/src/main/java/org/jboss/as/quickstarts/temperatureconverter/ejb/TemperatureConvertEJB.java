@@ -18,7 +18,7 @@
 package org.jboss.as.quickstarts.temperatureconverter.ejb;
 
 import static org.jboss.as.quickstarts.temperatureconverter.ejb.Scale.CELSIUS;
-import static org.jboss.as.quickstarts.temperatureconverter.ejb.Scale.FARENHEIT;
+import static org.jboss.as.quickstarts.temperatureconverter.ejb.Scale.FAHRENHEIT;
 
 import javax.ejb.Stateless;
 import javax.faces.application.FacesMessage;
@@ -50,8 +50,8 @@ public class TemperatureConvertEJB {
                 FacesContext.getCurrentInstance().addMessage(null,
                         new FacesMessage("Absolute Zero!"));
             }
-            return new Temperature( (source.getTemperature() * 9 / 5) + 32, FARENHEIT);
-        } else if (source.getScale() == FARENHEIT) { // Fahrenheit to Celsius
+            return new Temperature( (source.getTemperature() * 9 / 5) + 32, FAHRENHEIT);
+        } else if (source.getScale() == FAHRENHEIT) { // Fahrenheit to Celsius
             // Easter egg for Absolute Zero.
             if (source.getTemperature() < Temperature.ABSOLUTE_ZERO_F) {
                 FacesContext.getCurrentInstance().addMessage(null,

@@ -24,7 +24,7 @@ package org.jboss.as.quickstarts.temperatureconverter.ejb;
  */
 public enum Scale {
 
-    CELSIUS("\u2103"), FARENHEIT("\u2109");
+    CELSIUS("\u2103"), FAHRENHEIT("\u2109");
 
     private final String symbol;
 
@@ -43,7 +43,7 @@ public enum Scale {
         } else if ("C".equals(value.toUpperCase())) {
             return CELSIUS;
         } else if ("F".equals(value.toUpperCase())) {
-            return FARENHEIT;
+            return FAHRENHEIT;
         } else {
             throw new IllegalArgumentException(value + " not recognized as a valid scale");
         }
