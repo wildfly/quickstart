@@ -10,9 +10,9 @@ Target Product: WFK
 What is it?
 -----------
 
-Project stages allow to use implementations depending on the current environment. E.g. you can implement a bean which creates sample-data for system tests which gets activated only in case of project-stage *SystemTest*
+Project stages provide a way to customize the implementation based on the type of deployment environment. For example, you may want to generate sample data for system testing, but not for production. You can create a bean that generates sample data and activate it only for project stage *SystemTest*
 
-*Besides custom project-stages* it's possible to use the following pre-defined project-stages:
+*Besides custom project stages* it's possible to use the following pre-defined project stages:
 
 - UnitTest
 - Development
@@ -21,14 +21,14 @@ Project stages allow to use implementations depending on the current environment
 - Staging
 - Production
 
-Furthermore, with `@Exclude` it's possible to annotate beans which should be ignored by CDI even if they are in a CDI enabled archive.
+Furthermore, with `@Exclude`, it is possible to annotate beans which should be ignored by CDI, even if they are in a CDI enabled archive.
 
 This project has a interface called `MyBean` that has 4 different implementations:
 
-- ExcludedExceptOnDevelopment - That uses the following annotation `@Exclude(exceptIfProjectStage=Development.class)` excluding the implementation if the project-stage is different from development.
-- ExcludedOnDevelopment - That uses the following annotation `@Exclude(ifProjectStage=Development.class)` excluding the implementation in case of project-stage development.
-- MyExcludedBean  - That uses the following annotation `@Exclude` excluding the implementation in any case.
-- NoExcludedBean - That doesn't use any annotation, so this implementation is always available.
+- ExcludedExceptOnDevelopment - Uses the annotation `@Exclude(exceptIfProjectStage=Development.class)` to exclude the implementation if the project stage is anything other than Development..
+- ExcludedOnDevelopment - Uses the annotation `@Exclude(ifProjectStage=Development.class)` to exclude the implementation for project stage Development.
+- MyExcludedBean  - Uses the annotation `@Exclude` to exclude the implementation for all project stages.
+- NoExcludedBean - The implementation is always available because this bean does not use any annotation.
 
 System requirements
 -------------------
