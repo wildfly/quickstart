@@ -101,7 +101,7 @@ License Information and Contributor Agreement
 
   There is no need to sign a contributor agreement to contribute to JBoss Developer Framework. You just need to explicitly license any contribution under the AL 2.0. If you add any new files to JBoss Developer Framework, make sure to add the correct header.
 
-  ### Java
+### Java
 
       /*
        * JBoss, Home of Professional Open Source
@@ -120,7 +120,7 @@ License Information and Contributor Agreement
        * limitations under the License.
        */
 
-  ### XML
+### XML
 
       <!--
        JBoss, Home of Professional Open Source
@@ -139,7 +139,7 @@ License Information and Contributor Agreement
        limitations under the License.
        -->
 
-  ### Properties files
+### Properties files
 
        # JBoss, Home of Professional Open Source
        # Copyright 2012, Red Hat, Inc. and/or its affiliates, and individual
