@@ -40,22 +40,22 @@ If you don't have the Git client (`git`), get it from: <http://git-scm.com/>
 General Guidelines
 ------------------
 
-1. The sample project should be formatted using the JBoss AS profiles found at http://github.com/jboss/ide-config/tree/master/
+* The sample project should be formatted using the JBoss AS profiles found at http://github.com/jboss/ide-config/tree/master/
 
  - Code should be well documented with good comments. Please add an author tag (@author) to credit yourself for writing the code.
  - You should use readable variable names to make it easy for users to read the code.
 
-2. The package must be *org.jboss.as.quickstarts*
+* The package must be *org.jboss.as.quickstarts*
 
-3. The quickstart project or folder name should match the quickstart name. Each sample project should have a unique name, allowing easy identification by users and developers.
+* The quickstart project or folder name should match the quickstart name. Each sample project should have a unique name, allowing easy identification by users and developers.
 
-4. If you create a quickstart that uses a database table, make sure the name you use for the table is unique across all quickstarts. 
+* If you create a quickstart that uses a database table, make sure the name you use for the table is unique across all quickstarts. 
 
-5. The project must follow the structure used by existing quickstarts such as [numberguess](https://github.com/jboss-jdf/jboss-as-quickstart/tree/master/numberguess). A good starting point would be to copy the  `numberguess` project.
+* The project must follow the structure used by existing quickstarts such as [numberguess](https://github.com/jboss-jdf/jboss-as-quickstart/tree/master/numberguess). A good starting point would be to copy the  `numberguess` project.
 
-6. The sample project should be importable into JBoss Developer Studio/JBoss Tools and be deployable from there.
+* The sample project should be importable into JBoss Developer Studio/JBoss Tools and be deployable from there.
 
-7. Maven POMs must be used. No other build system allowed unless the purpose of the quickstart is to show another build system in use. If using maven it should:
+* Maven POMs must be used. No other build system allowed unless the purpose of the quickstart is to show another build system in use. If using maven it should:
 
  - Not inherit from another POM
  - Maven POMs must use the Java EE spec BOM/POM imports
@@ -63,11 +63,11 @@ General Guidelines
  - Import the various BOMs, either directly from a project, or from [JBoss BOMs](http://www.jboss.org/jdf/stack/stacks/), to determine version numbers. You should aim to have no dependencies declared directly. If you do, work with the jdf team to get them added to a BOM.
  - Use the JBoss AS Maven Plugin to deploy the example
 
-8. The sample project must contain a `README.md` file using the `template/README.md` file as a guideline
+* The sample project must contain a `README.md` file using the `template/README.md` file as a guideline
 
-9. Don't forget to update the `pom.xml` in the quickstart root directory. Add your quickstart to the 'modules' section.
+* Don't forget to update the `pom.xml` in the quickstart root directory. Add your quickstart to the 'modules' section.
 
-10. The project must target Java 6
+* The project must target Java 6
 
  - CDI should be used as the programming model
  - Avoid using a web.xml if possible. Use faces-config.xml to activate JSF if needed.
@@ -84,8 +84,10 @@ Kitchensink variants
   Below are rules for the l&f of the variants:
 
   * Follow the primary layout, style, and graphics of the original.
+
   * Projects can have 3-4 lines directly under the AS/EAP banner in the middle section to describe what makes this variant different.  
      * How projects use that space is up to them, but options include plain text, bullet points, etc....  
+
   * Projects can have their logo in the left side of the banner.  
     * The sidebar area can contain a section with links to the related projects, wiki, tutorials, etc...  
        * This should be below any AS/EAP link areas.
