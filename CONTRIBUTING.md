@@ -1,5 +1,5 @@
 Quickstarts Contributing Guide
--------------------------------
+==============================
 
 Quickstarts are very focused - they demonstrate on a single API (e.g. JAX-RS) or a single use case (write a web-app with CRUD)
 
