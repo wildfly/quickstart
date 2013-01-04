@@ -1,7 +1,18 @@
 Quickstarts Contributing Guide
 ==============================
 
-Quickstarts are very focused - they demonstrate on a single API (e.g. JAX-RS) or a single use case (write a web-app with CRUD)
+Purpose of the quickstarts
+--------------------------
+
+- To demonstrate Java EE 6 technologies
+
+- To provide developers with working examples and instructions that are easy to follow .
+
+- To allow examples to be copied by developers and used as the basis for their own projects.
+
+
+Basic Steps
+-----------
 
 To contribute with Quickstarts, clone your own fork instead of cloning the main Quickstarts repository, commit your work on topic branches and make pull requests. In detail:
 
@@ -31,23 +42,36 @@ General Guidelines
 
 1. The sample project should be formatted using the JBoss AS profiles found at http://github.com/jboss/ide-config/tree/master/
 
+ - Code should be well documented with good comments. Please add an author tag (@author) to credit yourself for writing the code.
+ - You should use readable variable names to make it easy for users to read the code.
+
 2. The package must be *org.jboss.as.quickstarts*
 
 3. The quickstart project or folder name should match the quickstart name. Each sample project should have a unique name, allowing easy identification by users and developers.
 
-4. The project must follow the structure used by existing quickstarts such as [numberguess](https://github.com/jboss-jdf/jboss-as-quickstart/tree/master/numberguess). A good starting point would be to copy the  `numberguess` project.
+4. If you create a quickstart that uses a database table, make sure the name you use for the table is unique across all quickstarts. 
 
-5. The sample project should be importable into JBoss Developer Studio/JBoss Tools and be deployable from there.
+5. The project must follow the structure used by existing quickstarts such as [numberguess](https://github.com/jboss-jdf/jboss-as-quickstart/tree/master/numberguess). A good starting point would be to copy the  `numberguess` project.
 
-6. A sample project should have a simple build that the user can quickly understand. If using maven it should:
+6. The sample project should be importable into JBoss Developer Studio/JBoss Tools and be deployable from there.
+
+7. Maven POMs must be used. No other build system allowed unless the purpose of the quickstart is to show another build system in use. If using maven it should:
 
  - Not inherit from another POM
+ - Maven POMs must use the Java EE spec BOM/POM imports
+ - The POMs must be commented, with a comment each item in the POM
  - Import the various BOMs, either directly from a project, or from [JBoss BOMs](http://www.jboss.org/jdf/stack/stacks/), to determine version numbers. You should aim to have no dependencies declared directly. If you do, work with the jdf team to get them added to a BOM.
  - Use the JBoss AS Maven Plugin to deploy the example
 
-7. The sample project should contain a `README.md` file using the `template/README.md` file as a guideline
+8. The sample project must contain a `README.md` file using the `template/README.md` file as a guideline
 
-8. Don't forget to update the `pom.xml` in the quickstart root directory. Add your quickstart to the 'modules' section.
+9. Don't forget to update the `pom.xml` in the quickstart root directory. Add your quickstart to the 'modules' section.
+
+10. The project must target Java 6
+
+ - CDI should be used as the programming model
+ - Avoid using a web.xml if possible. Use faces-config.xml to activate JSF if needed.
+ - Any tests should use Arquillian.
 
 
 Kitchensink variants
