@@ -40,7 +40,7 @@ General Guidelines
 
 2. The package must be *org.jboss.as.quickstarts*
 
-3. The quickstart project or folder name should match the quickstart name.
+3. The quickstart project or folder name should match the quickstart name. Each sample project should have a unique name, allowing easy identification by users and developers.
 
 4. The project must follow the structure used by existing quickstarts such as [numberguess](https://github.com/jboss-jdf/jboss-as-quickstart/tree/master/numberguess). A good starting point would be to copy the  `numberguess` project.
 
@@ -65,7 +65,7 @@ Quickstarts in other repositories
 
   1. Add the other repo as a remote
       
-         git remote add -f <other repo> <other repo url>
+         git remote add -f <other repo name> <other repo url>
 
   2. Merge from the tag in the other repo that you wish to use. It is important to use a tag, to make tracking of history easier. We use a recursive merge strategy, always preferring changes from the other repo, in effect overwriting what we have locally.
 
@@ -92,3 +92,82 @@ Kitchensink variants
        * This should be below any AS/EAP link areas.
 
     If appropriate for the technology the application should expose RESTful endpoints following the example of the original kitchensink quickstart.  This should also include the RESTful links in the member table.
+
+License Information and Contributor Agreement
+---------------------------------------------
+
+  JBoss Developer Framework is licensed under the Apache License 2.0, as we believe it is one of the most permissive Open Source license. This allows developers to easily make use of the code samples in JBoss Developer Framework. 
+
+  There is no need to sign a contributor agreement to contribute to JBoss Developer Framework. You just need to explicitly license any contribution under the AL 2.0. If you add any new files to JBoss Developer Framework, make sure to add the correct header.
+
+  ### Java
+
+      /*
+       * JBoss, Home of Professional Open Source
+       * Copyright <Year>, Red Hat, Inc. and/or its affiliates, and individual
+       * contributors by the @authors tag. See the copyright.txt in the 
+       * distribution for a full listing of individual contributors.
+       *
+       * Licensed under the Apache License, Version 2.0 (the "License");
+       * you may not use this file except in compliance with the License.
+       * You may obtain a copy of the License at
+       * http://www.apache.org/licenses/LICENSE-2.0
+       * Unless required by applicable law or agreed to in writing, software
+       * distributed under the License is distributed on an "AS IS" BASIS,  
+       * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+       * See the License for the specific language governing permissions and
+       * limitations under the License.
+       */
+
+  ### XML
+
+      <!--
+       JBoss, Home of Professional Open Source
+       Copyright <Year>, Red Hat, Inc. and/or its affiliates, and individual
+       contributors by the @authors tag. See the copyright.txt in the 
+       distribution for a full listing of individual contributors.
+
+       Licensed under the Apache License, Version 2.0 (the "License");
+       you may not use this file except in compliance with the License.
+       You may obtain a copy of the License at
+       http://www.apache.org/licenses/LICENSE-2.0
+       Unless required by applicable law or agreed to in writing, software
+       distributed under the License is distributed on an "AS IS" BASIS,  
+       WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+       See the License for the specific language governing permissions and
+       limitations under the License.
+       -->
+
+  ### Properties files
+
+       # JBoss, Home of Professional Open Source
+       # Copyright 2012, Red Hat, Inc. and/or its affiliates, and individual
+       # contributors by the @authors tag. See the copyright.txt in the 
+       # distribution for a full listing of individual contributors.
+       #
+       # Licensed under the Apache License, Version 2.0 (the "License");
+       # you may not use this file except in compliance with the License.
+       # You may obtain a copy of the License at
+       # http://www.apache.org/licenses/LICENSE-2.0
+       # Unless required by applicable law or agreed to in writing, software
+       # distributed under the License is distributed on an "AS IS" BASIS,  
+       # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+       # See the License for the specific language governing permissions and
+       # limitations under the License.
+
+Release procedures
+------------------
+
+1. Make sure you have access to rsync files to `filemgmt.jboss.org/download_htdocs/jbossas`
+
+2. Release the archetypes
+
+3. Regenerate the quickstart based on archetypes
+         
+        dist/release-utils.sh -r
+
+4. Release
+         
+        dist/release.sh -s <old snapshot version> -r <release version>
+
+This will update the version number, commit and tag, build the distro zip and upload it to <download.jboss.org>. Then it will reset the version number back to the snapshot version number.
