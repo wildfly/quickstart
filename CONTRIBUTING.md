@@ -16,7 +16,7 @@ Basic Steps
 
 To contribute with Quickstarts, clone your own fork instead of cloning the main Quickstarts repository, commit your work on topic branches and make pull requests. In detail:
 
-1. [Fork](http://help.github.com/fork-a-repo/) the project.
+1. [Fork](https://github.com/jboss-jdf/jboss-as-quickstart/fork_select) the project.
 
 2. Clone your fork (`git@github.com:<your-username>/jboss-as-quickstart.git`).
 
