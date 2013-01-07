@@ -26,7 +26,7 @@ To contribute with Quickstarts, clone your own fork instead of cloning the main 
 
 5. Create a new topic branch to contain your feature, change, or fix (`git checkout -b <topic-branch-name>`).
 
-6. Make sure that your changes follow the General Guide Lines.
+6. Make sure that your changes follow the General Guidelines below.
 
 7. Commit your changes to your topic branch.
 
@@ -55,7 +55,7 @@ General Guidelines
 
 * The sample project should be importable into JBoss Developer Studio/JBoss Tools and be deployable from there.
 
-* Maven POMs must be used. No other build system allowed unless the purpose of the quickstart is to show another build system in use. If using maven it should:
+* Maven POMs must be used. No other build system is allowed unless the purpose of the quickstart is to show another build system in use. If using Maven it should:
 
  - Not inherit from another POM
  - Maven POMs must use the Java EE spec BOM/POM imports
@@ -81,7 +81,7 @@ Kitchensink variants
 
   If you wish to contribute a kitchensink variant is it important that you follow the look and feel of the original so that useful comparisons can be made.  This does not mean that variants can not expand, and showcase additional functionality.  Multiple variants already do that.  These include mobile interfaces, push updates, and more.
 
-  Below are rules for the l&f of the variants:
+  Below are rules for the *look and feel* of the variants:
 
   * Follow the primary layout, style, and graphics of the original.
 
