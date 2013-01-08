@@ -246,6 +246,29 @@ This command iterates through the quickstarts, excluding those with complex depe
 * Undeploys the quickstart
 * Stops the server
 
+<a id="undeployall"></a>
+### Undeploy the Deployed Quickstarts with One Command
+-------------------------
+
+To undeploy the quickstarts from the root of the quickstart folder, you must pass the argument `-fae` (fail at end) on the command line. This allows the command to continue past quickstarts that fail due to complex dependencies and quickstarts that only have Arquillian tests and do not deploy archives to the server.
+
+You can undeploy quickstarts using the following procedure:
+
+1. Start the server.
+2. Open a command line and navigate to the root directory of the quickstarts.
+3. Use this command to undeploy any deployed quickstarts:
+
+        For JBoss AS 7 or JBoss Enterprise Application Platform 6 (Maven user settings configured): 
+
+            mvn jboss-as:undeploy -fae
+
+        For JBoss Enterprise Application Platform 6 (Maven user settings NOT configured): 
+
+            mvn jboss-as:undeploy -fae -s PATH_TO_QUICKSTARTS/example-settings.xml
+
+To undeploy any quickstarts that fail due to complex dependencies, follow the undeploy procedure described in the quickstart's README file.
+
+
 <a id="arquilliantests"></a>
 ### Run the Arquillian Tests 
 -------------------------
