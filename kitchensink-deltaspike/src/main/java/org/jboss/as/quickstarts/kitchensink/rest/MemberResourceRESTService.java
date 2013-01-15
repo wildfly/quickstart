@@ -57,8 +57,8 @@ public class MemberResourceRESTService {
     private MemberRepository repository;
 
     @Inject
-    MemberRegistration registration;
-
+    private MemberRegistration registration;
+    
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Member> listAllMembers() {

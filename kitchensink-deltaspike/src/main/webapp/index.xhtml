@@ -20,17 +20,22 @@
                 model class.</p>
             <h:panelGrid columns="3" columnClasses="titleCell">
                 <h:outputLabel for="name" value="Name:" />
-                <h:inputText id="name" value="#{newMember.name}" />
-                <h:message for="name" errorClass="invalid" />
+                <h:inputText id="name" value="#{newMember.name}" >
+                    <f:ajax event="blur" render="nameMessage" disabled="#{ajaxValidationDisabled}"/>
+                </h:inputText>
+                <h:message id="nameMessage" for="name" errorClass="invalid" />
 
                 <h:outputLabel for="email" value="Email:" />
-                <h:inputText id="email" value="#{newMember.email}" />
-                <h:message for="email" errorClass="invalid" />
+                <h:inputText id="email" value="#{newMember.email}" >
+                    <f:ajax event="blur" render="emailMessage" disabled="#{ajaxValidationDisabled}"/>
+                </h:inputText>
+                <h:message id="emailMessage" for="email" errorClass="invalid" />
 
                 <h:outputLabel for="phoneNumber" value="Phone #:" />
-                <h:inputText id="phoneNumber"
-                    value="#{newMember.phoneNumber}" />
-                <h:message for="phoneNumber" errorClass="invalid" />
+                <h:inputText id="phoneNumber" value="#{newMember.phoneNumber}" >
+                    <f:ajax event="blur" render="phoneMessage" disabled="#{ajaxValidationDisabled}"/>
+                </h:inputText>
+                <h:message id="phoneMessage" for="phoneNumber" errorClass="invalid" />
             </h:panelGrid>
 
             <p>

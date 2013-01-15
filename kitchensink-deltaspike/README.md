@@ -26,7 +26,8 @@ Changes compared to the original `kitchensink` quickstart
 * The transaction type in the persistence unit configuration file (`src/main/resources/META-INF/persistence.xml`) has been changed to `RESOURCE_LOCAL`. 
 * The DeltaSpike `TransactionalInterceptor` has been added to the beans.xml CDI configuration file (`src/main/webapp/WEB-INF/beans.xml`).
 * The DeltaSpike dependencies have been added to the project POM.
-* The ShrinkWrap `shrinkwrap-resolver-bom` dependency has been added to the project POM, to be able to build the archive for the Arquillian test.  
+* The ShrinkWrap `shrinkwrap-resolver-bom` dependency has been added to the project POM, to be able to build the archive for the Arquillian test.
+* The JSF components has an Ajax Validation feature that can be enabled/disabled on DeltaSpike configuration file (`src/main/resources/META-INF/apache-deltaspike.properties`).
 
 System requirements
 -------------------

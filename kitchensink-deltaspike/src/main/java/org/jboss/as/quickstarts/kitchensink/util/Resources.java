@@ -23,18 +23,21 @@ import javax.enterprise.inject.Disposes;
 import javax.enterprise.inject.Produces;
 import javax.enterprise.inject.spi.InjectionPoint;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
+import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
 
+import org.apache.deltaspike.core.api.config.annotation.ConfigProperty;
+
 /**
- * This class uses CDI to alias Java EE resources, such as the persistence
- * context, to CDI beans
- *
+ * This class uses CDI to alias Java EE resources, such as the persistence context, to CDI beans
+ * 
  * <p>
  * Example injection on a managed bean field:
  * </p>
- *
+ * 
  * <pre>
  * &#064;Inject
  * private EntityManager em;
@@ -43,12 +46,25 @@ import javax.persistence.PersistenceUnit;
 public class Resources {
 
     /**
-     * We are using a non JTA managed persistence context, so we cannot inject
-     * an EntityManager with &#064;PersistenceContext, as this would try to
-     * inject a container managed EntityManager.
+     * We are using a non JTA managed persistence context, so we cannot inject an EntityManager with &#064;PersistenceContext,
+     * as this would try to inject a container managed EntityManager.
      */
     @PersistenceUnit
     private EntityManagerFactory entityManagerFactory;
+
+    /**
+     * Inject a DeltaSpike configuration that can be configured using:
+     * 
+     * <ul>
+     * <li>System properties</li>
+     * <li>Environment properties</li>
+     * <li>JNDI values</li>
+     * <li>Properties file values (apache-deltaspike.properties)</li>
+     * </ul>
+     */
+    @Inject
+    @ConfigProperty(name = "jsf.ajax.validation.enabled", defaultValue = "true")
+    private Boolean ajaxValidationEnabled;
 
     @Produces
     @RequestScoped
@@ -64,14 +80,20 @@ public class Resources {
 
     @Produces
     public Logger produceLog(InjectionPoint injectionPoint) {
-        return Logger.getLogger(injectionPoint.getMember().getDeclaringClass()
-                .getName());
+        return Logger.getLogger(injectionPoint.getMember().getDeclaringClass().getName());
     }
 
     @Produces
     @RequestScoped
     public FacesContext produceFacesContext() {
         return FacesContext.getCurrentInstance();
+    }
+
+    @Produces
+    @Named
+    public Boolean getAjaxValidationDisabled() {
+        // Here we invert the value since <f:ajax/> tag queries for 'disabled'.
+        return !ajaxValidationEnabled;
     }
 
 }
