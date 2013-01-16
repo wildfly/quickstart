@@ -21,7 +21,8 @@
 
     <jee:assembly-descriptor>
         <ci:container-interceptors>
-            <!-- Class level container-interceptor -->
+            <!-- Class level container-interceptor which will be applicable for all business method
+             invocations on the bean -->
             <jee:interceptor-binding>
                 <ejb-name>IntermediateEJB</ejb-name>
                 <interceptor-class>org.jboss.as.quickstarts.ejb_security_interceptors.ServerSecurityInterceptor</interceptor-class>

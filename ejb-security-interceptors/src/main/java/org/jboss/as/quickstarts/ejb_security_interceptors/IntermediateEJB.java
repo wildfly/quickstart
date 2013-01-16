@@ -16,7 +16,7 @@
  */
 package org.jboss.as.quickstarts.ejb_security_interceptors;
 
-import static org.jboss.as.quickstarts.ejb_security_interceptors.EJBUtil.registerClientSecurityInterceptor;
+
 import static org.jboss.as.quickstarts.ejb_security_interceptors.EJBUtil.lookupSecuredEJB;
 
 import javax.annotation.security.PermitAll;
@@ -39,7 +39,6 @@ public class IntermediateEJB implements IntermediateEJBRemote {
     public String makeTestCalls() {
         try {
             StringBuilder sb = new StringBuilder("* * IntermediateEJB - Begin Testing * * \n");
-            registerClientSecurityInterceptor();
             SecuredEJBRemote remote = lookupSecuredEJB();
 
             sb.append("SecuredEJBRemote.getSecurityInformation()=").append(remote.getSecurityInformation()).append("\n");

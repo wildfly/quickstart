@@ -26,6 +26,7 @@ import javax.resource.spi.IllegalStateException;
 
 import org.jboss.as.controller.security.SubjectUserInfo;
 import org.jboss.as.domain.management.security.RealmUser;
+import org.jboss.logging.Logger;
 import org.jboss.remoting3.Connection;
 import org.jboss.remoting3.security.UserInfo;
 import org.jboss.security.SecurityContext;
@@ -36,6 +37,8 @@ import org.jboss.security.SecurityContext;
  * @author <a href="mailto:darran.lofthouse@jboss.com">Darran Lofthouse</a>
  */
 public class ServerSecurityInterceptor {
+
+    private static final Logger logger = Logger.getLogger(ServerSecurityInterceptor.class);
 
     static final String DELEGATED_USER_KEY = ServerSecurityInterceptor.class.getName() + ".DelegationUser";
 
@@ -85,6 +88,8 @@ public class ServerSecurityInterceptor {
 
             return invocationContext.proceed();
         } catch (Exception e) {
+            logger.error("Failed to switch security context for user", e);
+            // Don't propagate the exception stacktrace back to the client for security reasons
             throw new EJBAccessException("Unable to attempt switching of user.");
         } finally {
             // switch back to original security context

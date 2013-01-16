@@ -21,24 +21,12 @@ import java.util.Hashtable;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 
-import org.jboss.ejb.client.EJBClientContext;
-
 /**
  * Utility class for looking up EJBs
  *
  * @author <a href="mailto:darran.lofthouse@jboss.com">Darran Lofthouse</a>
  */
 class EJBUtil {
-
-    private static final int CLIENT_INTERCEPTOR_ORDER = 0x99999;
-
-    static void registerClientSecurityInterceptor() {
-        final EJBClientContext ejbClientContext = EJBClientContext.requireCurrent();
-
-        final ClientSecurityInterceptor clientInterceptor = new ClientSecurityInterceptor();
-
-        ejbClientContext.registerInterceptor(CLIENT_INTERCEPTOR_ORDER, clientInterceptor);
-    }
 
     static IntermediateEJBRemote lookupIntermediateEJB() throws Exception {
         final Hashtable<String, String> jndiProperties = new Hashtable<String, String>();
