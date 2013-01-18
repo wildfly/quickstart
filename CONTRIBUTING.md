@@ -14,7 +14,9 @@ Purpose of the quickstarts
 Basic Steps
 -----------
 
-To contribute to the quickstarts, fork the quickstart repository to your own Git, clone your fork, commit your work on topic branches, and make pull requests. If you don't have the Git client (`git`), get it from: <http://git-scm.com/>
+To contribute to the quickstarts, fork the quickstart repository to your own Git, clone your fork, commit your work on topic branches, and make pull requests. 
+
+If you don't have the Git client (`git`), get it from: <http://git-scm.com/>
 
 Here are the steps in detail:
 
@@ -26,7 +28,7 @@ Here are the steps in detail:
 
 3. Add the remote `upstream` repository.
 
-        git remote add upstream https://github.com/jboss-jdf/jboss-as-quickstart.git
+        git remote add upstream git@github.com:jboss-jdf/jboss-as-quickstart.git
 
 4. Get the latest files from the `upstream` repository.
 
