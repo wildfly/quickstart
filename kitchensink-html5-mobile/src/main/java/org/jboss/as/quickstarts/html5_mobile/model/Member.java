@@ -46,7 +46,7 @@ public class Member implements Serializable {
 
    @NotNull
    @Size(min = 1, max = 25, message = "1-25 letters and spaces")
-   @Pattern(regexp = "[A-Za-z ]*", message = "Only letters and spaces")
+   @Pattern(regexp = "[^0-9]*", message = "Must not contain numbers")
    private String name;
 
    @NotNull
