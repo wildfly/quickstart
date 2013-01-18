@@ -38,9 +38,19 @@ Rendering Markdown
 
   To render the quickstarts README's you will need, a working Ruby and Python install, with the various gems and eggs set up. 
 
-  Then just run
+  To setup the environment you need to follow these steps. *Certify to use the correct versions*.
 
-      ./dist/release-utils.sh -m
+1. Install Ruby *1.9.X*
+
+    For RHEL you can use this [spec](https://github.com/lnxchk/ruby-1.9.3-rpm)
+
+2. Install Ruby GEMs
+
+        gem install redcarpet nokogiri pygments.rb
+
+Then just run
+
+        ./dist/release-utils.sh -m
 
   To render all markdown files to HTML.
 
