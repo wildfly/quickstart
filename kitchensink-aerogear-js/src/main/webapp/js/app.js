@@ -32,16 +32,16 @@ MemberStore = dm.stores["membersStore"];
 
 /* Builds the updated table for the member list */
 function buildMemberRows() {
-    return _.template( $( "#member-tmpl" ).html(), {"members": MemberStore.getData()});
+    return _.template( $( "#member-tmpl" ).html(), {"members": MemberStore.read()});
 }
 
 /* Uses JAX-RS GET to retrieve current member list */
 function updateMemberTable() {
     memberPipe.read({
         success: function( data ) {
+            MemberStore.save( data );
             $('#members').empty().append(buildMemberRows());
-        },
-        stores: MemberStore
+        }
     });
 }
 
