@@ -166,7 +166,7 @@ The following properties can be configured:
 
     This password is used for both the JMS connection and the JNDI look-up.  Instructions to set up the quickstart application user can be found here: [Add an Application User](../README.md#addapplicationuser)
    
-    Default: `quickstartPassword`
+    Default: `quickstartPwd1!`
 
 * `connection.factory`
 

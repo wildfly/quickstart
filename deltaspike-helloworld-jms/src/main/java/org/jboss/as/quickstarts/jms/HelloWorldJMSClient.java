@@ -43,7 +43,7 @@ public class HelloWorldJMSClient {
     private String usernameConfig;
 
     @Inject
-    @ConfigProperty(name = "password", defaultValue = "quickstartPassword")
+    @ConfigProperty(name = "password", defaultValue = "quickstartPwd1!")
     private String passwordConfig;
 
     @Inject

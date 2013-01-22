@@ -11,7 +11,7 @@ What is it?
 
 This example demonstrates the use of Java EE declarative security to control access to Servlets and Security in JBoss Enterprise Application Platform 6 and JBoss AS7.
 
-When you deploy this example, two users are automatically created for you: user `quickstartUser` with password `quickstartPassword` and user `guest` with password `guest`. This data is located in the `src/main/resources/import.sql` file. 
+When you deploy this example, two users are automatically created for you: user `quickstartUser` with password `quickstartPwd1!` and user `guest` with password `guest`. This data is located in the `src/main/resources/import.sql` file. 
 
 This quickstart takes the following steps to implement Servlet security:
 
@@ -19,12 +19,12 @@ This quickstart takes the following steps to implement Servlet security:
 2. Add an application user with access rights to the application
 
         User Name: quickstartUser
-        Password: quickstartPassword
+        Password: quickstartPwd1!
         Role: quickstarts
 3. Add another user with no access rights to the application.
 
         User Name: guest
-        Password: guest
+        Password: guestPwd1!
         Role: notauthorized
 4. Add a security domain reference to `WEB-INF/jboss-web.xml`.
 5. Add a security constraint to the `WEB-INF/web.xml` .
@@ -123,7 +123,7 @@ The application will be running at the following URL <http://localhost:8080/jbos
 
 When you access the application, you should get a browser login challenge. 
 
-Log in using the username `quickstartUser` and password `quickstartPassword`. The browser will display the following security info:
+Log in using the username `quickstartUser` and password `quickstartPwd1!`. The browser will display the following security info:
 
     Successfully called Secured Servlet
 
@@ -131,7 +131,7 @@ Log in using the username `quickstartUser` and password `quickstartPassword`. Th
     Remote User : quickstartUser
     Authentication Type : BASIC
 
-Now close the browser. Open a new browser and log in with username `guest` and password `guest`. The browser will display the following error:
+Now close the browser. Open a new browser and log in with username `guest` and password `guestPwd1!`. The browser will display the following error:
 
         HTTP Status 403 - Access to the requested resource has been denied
 
