@@ -9,6 +9,7 @@ Target Product: EAP
 What is it?
 -----------
 
+
 By default, when you make a remote call to an EJB deployed to the application server, the connection to the server is authenticated and any request received over this connection is executed as the identity that authenticated the connection. This is true for both client-to-server and server-to-server calls. If you need to use different identities from the same client, you normally need to open multiple connections to the server so that each one is authenticated as a different identity.
 
 Rather than open multiple client connections, this quickstart offers an alternative solution. The identity used to authenticate the connection is given permission to execute a request as a different user. This is achieved with the addition of the following three components: 
@@ -17,9 +18,11 @@ Rather than open multiple client connections, this quickstart offers an alternat
 2. A server side interceptor to receive the identity and request that the call switches to that identity.
 3. A JAAS LoginModule to decide if the user of the connection is allowed to execute requests as the specified identity.
  
-The quickstart then makes use of two EJBs, `SecuredEJB` and `IntermediateEJB`, to verify that the propagation and identity switching is correct. 
+The quickstart then makes use of two EJBs, `SecuredEJB` and `IntermediateEJB`, to verify that the propagation and identity switching is correct and a `RemoteClient` standalone client. 
 
-1. The `SecuredEJB` which has three methods: 
+### SecuredEJB
+
+The `SecuredEJB` has three methods: 
 
     String getSecurityInformation();
     boolean roleOneMethod();
@@ -31,7 +34,11 @@ The first method can be called by all users that are created in this quickstart.
    
 The next two methods are annotated to require that the calling user is authorized for roles 'RoleOne' and 'RoleTwo' respectively.
 
-2. The `IntermediateEJB` contains a single method. Its purpose is to make use of a remote connection and invoke each of the methods on the `SecuredEJB`. A summary is then returned with the outcome of the calls.
+### IntermediateEJB
+
+The `IntermediateEJB` contains a single method. Its purpose is to make use of a remote connection and invoke each of the methods on the `SecuredEJB`. A summary is then returned with the outcome of the calls.
+
+### RemoteClient
 
 Finally there is the `RemoteClient` stand-alone client. The client makes calls using the identity of the established connection and also makes calls switching the identity to the different users.
 
@@ -39,7 +46,7 @@ In the real world, remote calls between servers in the servers-to-server scenari
 
 Note on EJB client interceptors
 -----------------------
-AS7/EAP6 allows client side interceptors for EJB invocations. Such interceptors are expected to implement the 'org.jboss.ejb.client.EJBClientInterceptor' interface. User applications can then plug in such interceptors in the 'EJBClientContext' either programatically or
+JBoss Enterprise Application Platform 6.1 and JBoss AS 7.2 allow client side interceptors for EJB invocations. Such interceptors are expected to implement the 'org.jboss.ejb.client.EJBClientInterceptor' interface. User applications can then plug in such interceptors in the 'EJBClientContext' either programatically or
 through the ServiceLoader mechanism.
 
 - The programmatic way involves calling the 'org.jboss.ejb.client.EJBClientContext.registerInterceptor(int order, EJBClientInterceptor interceptor)' API and passing the 'order' and the 'interceptor' instance. The 'order' is used to decide where exactly in the client interceptor chain, this 'interceptor' is going to be placed.
@@ -61,11 +68,9 @@ This quickstart uses the ServiceLoader mechanism for registering the EJB client 
 System requirements
 -------------------
 
-This quick start is based around JBoss Enterprise Application Platform 6.1.0 or JBoss AS 7.2.0 using the default standalone configuration plus the
-modifications described here.
+All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven 3.0 or better.
 
-If you are reviewing this quickstart with a view to making use of this approach within your own environment it is still
-recommended to try this using a clean installation first and then porting to your own environment. 
+The application this project produces is designed to be run on JBoss Enterprise Application Platform 6.1 or JBoss AS 7.2. 
 
 
 Configure Maven
@@ -73,23 +78,37 @@ Configure Maven
 
 If you have not yet done so, you must [Configure Maven](../README.md#mavenconfiguration) before testing the quickstarts.
 
+Prerequisites
+-------------
+
+_Note_: Unlike most of the quickstarts, this one requires JBoss Enterprise Application Platform 6.1 or JBoss AS 7.2 or later.
+
+This quickstart uses the default standalone configuration plus the modifications described here.
+
+It is recommended that you test this approach in a separate and clean environment before you attempt to port the changes in your own environment.
+
+
 
 Add the Application Users
 ---------------
 
-This quick start is built around the default `ApplicationRealm` as configured in the JBoss Enterprise Application Platform 6 or JBoss AS 7 server distribution. The following four users should be added using the add-user utility. For an example of how to use this utility, see [Add User](../README.md#addapplicationuser).
+This quickstart is built around the default `ApplicationRealm` as configured in the JBoss Enterprise Application Platform 6.1 or JBoss AS 7.2 server distribution. Using the add-user utility script, you must add the following users to the `ApplicationRealm`:
 
-1. 'ConnectionUser' with role 'User' and password 'ConnectionPassword1!'.
-2. 'AppUserOne' with roles 'User' and 'RoleOne', any password can be specified for this user.
-3. 'AppUserTwo' with roles 'User' and 'RoleTwo', again any password can be specified for this user.
-4. 'AppUserThree' with roles 'User', 'RoleOne', and 'RoleTwo' and again any password.  
+| **UserName** | **Password** | **Roles** |
+|:-----------|:-----------|:-----------|
+| ConnectionUser| ConnectionPassword1!| User |
+| AppUserOne | (you can choose any password) | User, RoleOne |
+| AppUserTwo | (you can choose any password) | User, RoleTwo |
+| AppUserThree | (you can choose any password) | User, RoleOne, RoleTwo |
 
-The first user is used for establishing the actual connection to the server. The subsequent two users are used to demonstrate how to switch identities on demand.  The final user is a user that can access everything but can not participate in identity switching.
+The first user establishes the actual connection to the server. The subsequent two users demonstrate how to switch identities on demand.  The final user can access everything but can not participate in identity switching.
+
+For an example of how to use the add-user utility, see instructions in the root README file located here: [Add User](../README.md#addapplicationuser).
 
 Add the LoginModule
 ---------------
 
-The EJB side of this quick start makes use of the `other` security domain which by default delegates to the `ApplicationRealm`, in order to support identity switching, an additional login module must be added to the domain definition.
+The EJB side of this quickstart makes use of the `other` security domain, which by default, delegates to the `ApplicationRealm`. In order to support identity switching, an additional login module must be added to the domain definition.
 
     <login-module code="org.jboss.as.quickstarts.ejb_security_interceptors.DelegationLoginModule" flag="optional">
         <module-option name="password-stacking" value="useFirstPass"/>
@@ -114,9 +133,9 @@ When a request is received that involves switching the user, the identity of the
 
 The value in the properties file can either be a wildcard '*' or it can be a comma separated list of users. Be aware that in the value/mapping side there is no notion of the realm.
 
-For this quickstart we use the following entry: -
+For this quickstart we use the following entry: 
 
-    ConnectionUser@ApplicationRealm=AppUserOne,AppUserTwo
+        ConnectionUser@ApplicationRealm=AppUserOne,AppUserTwo
   
 This means that the ConnectionUser added above can only ask that a request is executed as either AppUserOne or AppUserTwo. It is not allowed to ask to be executed as AppUserThree.
 
@@ -128,12 +147,12 @@ Taking this further, the `DelegationLoginModule` can be extended to provide cust
 
   protected boolean delegationAcceptable(String requestedUser, OuterUserCredential connectionUser);   
 
-Server to Server Connection
+Server-to-Server Connection
 -------------------------
 
-For the purpose of the quickstart we just need an outbound connection that loops back to the same server. This will be sufficient to demonstrate the server to server capabilities.
+For the purpose of the quickstart we just need an outbound connection that loops back to the same server. This will be sufficient to demonstrate the server-to-server capabilities.
 
-Add the following security realm. Note the Base64 password is for the ConnectionUser account created above.
+Add the following security realm. Note the Base64-encoded password is for the ConnectionUser account created above.
 
     <security-realm name="ejb-outbound-realm">
       <server-identities>
@@ -157,7 +176,7 @@ Within the Remoting susbsytem add the following outbound connection:
       </remote-outbound-connection>
     </outbound-connections>
 
-Start JBoss Enterprise Application Platform 6 or JBoss AS 7
+Start JBoss Enterprise Application Platform 6.1 or JBoss AS 7.2
 -------------------------
 
 1. Open a command line and navigate to the root of the JBoss server directory.
@@ -190,8 +209,7 @@ and that your command prompt is still in the same folder.
 1.  Type this command to execute the client:
 
         mvn exec:exec
-        
-        
+          
 
 Undeploy the Archive
 --------------------
