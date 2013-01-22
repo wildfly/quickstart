@@ -32,7 +32,7 @@ import org.jboss.ejb3.annotation.SecurityDomain;
  */
 @Stateless
 @Remote(IntermediateEJBRemote.class)
-@SecurityDomain("other")
+@SecurityDomain("quickstart-domain")
 @PermitAll
 public class IntermediateEJB implements IntermediateEJBRemote {
 

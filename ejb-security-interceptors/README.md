@@ -88,32 +88,74 @@ This quickstart uses the default standalone configuration plus the modifications
 It is recommended that you test this approach in a separate and clean environment before you attempt to port the changes in your own environment.
 
 
+Configure the JBoss Enterprise Application Platform 6.1 server or JBoss AS 7.2  server
+---------------------------
 
-Add the Application Users
----------------
+These steps asume that you are running the server in standalone mode and using the default standalone.xml supplied with the distribution.
 
-This quickstart is built around the default `ApplicationRealm` as configured in the JBoss Enterprise Application Platform 6.1 or JBoss AS 7.2 server distribution. Using the add-user utility script, you must add the following users to the `ApplicationRealm`:
+You can either edit the standalone.xml configuration before starting the server or you can start the server and execute a series of commands using the JBoss CLI tool, both approaches are described below.  Whichever approach you choose it must be completed before deploying the quickstart.
 
-| **UserName** | **Password** | **Roles** |
-|:-----------|:-----------|:-----------|
-| ConnectionUser| ConnectionPassword1!| User |
-| AppUserOne | (you can choose any password) | User, RoleOne |
-| AppUserTwo | (you can choose any password) | User, RoleTwo |
-| AppUserThree | (you can choose any password) | User, RoleOne, RoleTwo |
+After the server is configured you will then need to define four user accounts, this can be achieved either by using the add-user tool included with the server or by copying and pasting the appropriate entries into the properties files.  Both of these approaches are described below and whichever approach is chosen it must be completed before running the quickstart - the users can be added before or after starting the server.
 
-The first user establishes the actual connection to the server. The subsequent two users demonstrate how to switch identities on demand.  The final user can access everything but can not participate in identity switching.
+#### Modify the Server Configuration using the JBoss CLI Tool
 
-For an example of how to use the add-user utility, see instructions in the root README file located here: [Add User](../README.md#addapplicationuser).
+1. Start the JBoss Enterprise Application Platform 6 or JBoss AS 7 Server by typing the following: 
 
-Add the LoginModule
----------------
+        For Linux:  JBOSS_HOME_SERVER_1/bin/standalone.sh -c standalone-full.xml
+        For Windows:  JBOSS_HOME_SERVER_1\bin\standalone.bat -c standalone-full.xml
+2. To start the JBoss CLI tool, open a new command line, navigate to the JBOSS_HOME directory, and type the following:
+    
+        For Linux: bin/jboss-cli.sh --connect
+        For Windows: bin\jboss-cli.bat --connect
+3. At the prompt, enter the following series of commands:
 
-The EJB side of this quickstart makes use of the `other` security domain, which by default, delegates to the `ApplicationRealm`. In order to support identity switching, an additional login module must be added to the domain definition.
+        [standalone@localhost:9999 /] ./subsystem=security/security-domain=quickstart-domain:add(cache-type=default)
+        [standalone@localhost:9999 /] ./subsystem=security/security-domain=quickstart-domain/authentication=classic:add
+        [standalone@localhost:9999 /] ./subsystem=security/security-domain=quickstart-domain/authentication=classic/login-module=DelegationLoginModule:add(code=org.jboss.as.quickstarts.ejb_security_interceptors.DelegationLoginModule,flag=optional,module-options={password-stacking=useFirstPass})    
+        [standalone@localhost:9999 /] ./subsystem=security/security-domain=quickstart-domain/authentication=classic/login-module=Remoting:add(code=Remoting,flag=optional,module-options={password-stacking=useFirstPass})
+        [standalone@localhost:9999 /] ./subsystem=security/security-domain=quickstart-domain/authentication=classic/login-module=RealmDirect:add(code=RealmDirect,flag=required,module-options={password-stacking=useFirstPass})
 
-    <login-module code="org.jboss.as.quickstarts.ejb_security_interceptors.DelegationLoginModule" flag="optional">
-        <module-option name="password-stacking" value="useFirstPass"/>
-    </login-module>
-  
+This block of commands added a new security realm that is used by the quickstart, the most important part is the addition of the DelegationLoginModule which can be before or after the Remoting login module.
+
+        [standalone@localhost:9999 /] ./core-service=management/security-realm=ejb-outbound-realm:add
+        [standalone@localhost:9999 /] ./core-service=management/security-realm=ejb-outbound-realm/server-identity=secret:add(value="Q29ubmVjdGlvblBhc3N3b3JkMSE=")
+
+Those two commands added a new security realm that contains the password that will be used when an outbound connection is subsequently used for the Remote EJB calls.
+
+        [standalone@localhost:9999 /] ./socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=ejb-outbound:add(host=localhost,port=4447)
+
+For the outbound connection this defined the address that will be connected to.
+
+        [standalone@localhost:9999 /] ./subsystem=remoting/remote-outbound-connection=ejb-outbound-connection:add(outbound-socket-binding-ref=ejb-outbound,username=ConnectionUser,security-realm=ejb-outbound-realm)
+        [standalone@localhost:9999 /] ./subsystem=remoting/remote-outbound-connection=ejb-outbound-connection/property=SSL_ENABLED:add(value=false)
+
+The actual outbound connection used by the quickstart is created.
+
+[standalone@localhost:9999 /] :reload
+
+Finally the server is reloaded to pick up these changes.
+
+#### Modify the Server Configuration Manually
+
+1. Open the file: JBOSS_HOME/standalone/configuration/standalone.xml
+2. Make the additions described below.
+
+The EJB side of this quickstart makes use of a new security domain called `quickstart-domain`, which delegates to the `ApplicationRealm`. In order to support identity switching we use the DelegationLoginModule from this quickstart.
+
+    <security-domain name="quickstart-domain" cache-type="default">
+        <authentication>
+            <login-module code="org.jboss.as.quickstarts.ejb_security_interceptors.DelegationLoginModule" flag="optional">
+                <module-option name="password-stacking" value="useFirstPass"/>
+            </login-module>
+            <login-module code="Remoting" flag="optional">
+                <module-option name="password-stacking" value="useFirstPass"/>
+            </login-module>
+            <login-module code="RealmDirect" flag="required">
+                <module-option name="password-stacking" value="useFirstPass"/>
+            </login-module>
+        </authentication>
+    </security-domain>
+
 This login module can either be added before or after the existing `Remoting` login module in the domain, but it MUST be somewhere before the existing RealmDirect login module.
 
 If this approach is used and the majority of requests will involve an identity switch, then it is recommended to have this module as the first module in the list. However, if the majority of requests will run as the connection user with occasional switches, it is recommended to place the `Remoting` login module first and this one second.
@@ -128,7 +170,7 @@ There are four variations of how the key can be specified in the properties file
  - user@*            - Allow a match of user for any realm.
  - *@realm           - Match for any user in the realm specified.
  - *                 - Match for all users in all realms.
- 
+
 When a request is received that involves switching the user, the identity of the user that opened the connection is used to check the properties file for an entry. The check is performed in the order listed above until the first match is found. Once a match is found, further entries that could match are not read.
 
 The value in the properties file can either be a wildcard '*' or it can be a comma separated list of users. Be aware that in the value/mapping side there is no notion of the realm.
@@ -145,11 +187,8 @@ All users are permitted to execute requests as themselves, as in that case, the 
 
 Taking this further, the `DelegationLoginModule` can be extended to provide custom delegation checks. One thing not currently checked is if the user being switched to actually exists. If the module is extended, the following method can be overridden to provide a custom check.
 
-  protected boolean delegationAcceptable(String requestedUser, OuterUserCredential connectionUser);   
-
-Server-to-Server Connection
--------------------------
-
+  protected boolean delegationAcceptable(String requestedUser, OuterUserCredential connectionUser);
+  
 For the purpose of the quickstart we just need an outbound connection that loops back to the same server. This will be sufficient to demonstrate the server-to-server capabilities.
 
 Add the following security realm. Note the Base64-encoded password is for the ConnectionUser account created above.
@@ -174,7 +213,47 @@ Within the Remoting susbsytem add the following outbound connection:
             <property name="SSL_ENABLED" value="false"/>
          </properties>
       </remote-outbound-connection>
-    </outbound-connections>
+    </outbound-connections>  
+
+
+Add the Application Users
+---------------
+
+This quickstart is built around the default `ApplicationRealm` as configured in the JBoss Enterprise Application Platform 6.1 or JBoss AS 7.2 server distribution. Using the add-user utility script, you must add the following users to the `ApplicationRealm`:
+
+| **UserName** | **Realm** | **Password** | **Roles** |
+|:-----------|:-----------|:-----------|:-----------|
+| ConnectionUser| ApplicationRealm | ConnectionPassword1!| User |
+| AppUserOne | ApplicationRealm | AppPasswordOne1! | User, RoleOne |
+| AppUserTwo | ApplicationRealm | AppPasswordTwo1! | User, RoleTwo |
+| AppUserThree | ApplicationRealm | AppPasswordThree1! | User, RoleOne, RoleTwo |
+
+The first user establishes the actual connection to the server. The subsequent two users demonstrate how to switch identities on demand.  The final user can access everything but can not participate in identity switching.
+
+Also do note that within the quickstart we do not make use of the passwords for any of the 'App' users, the passwords specified for those users are a suggestion for values that will be accepted by the ass-user utility.
+
+For an example of how to use the add-user utility, see instructions in the root README file located here: [Add User](../README.md#addapplicationuser).
+
+#### Add Users Manually
+
+Alternatively you can edit the properties file for the users and manually add the required entries: -
+
+1. Add the user accounts by editing the file {jboss.home}/standalone/configuration/application-users.properties and pasting in the following lines: -
+
+    ConnectionUser=90dbe097e651ce2e84d5fa9d6463ed3d
+    AppUserOne=a2ad45ac5d53d6c0db68262b94deafda
+    AppUserTwo=3a39e0b35ad46d625b45dacfe708777a
+    AppUserThree=5dc106218f4c01b8ff5525cf8e2d1568
+    
+2. Add the users roles by editing the file {jboss.home}/standalone/configuration/application-roles.properties and pasting in the following lines: -
+
+    ConnectionUser=User
+    AppUserOne=User,RoleOne
+    AppUserTwo=User,RoleTwo
+    AppUserThree=User,RoleOne,RoleTwo    
+
+The application server checks the properties files for modifications at runtime so there is no need to restart the server after changing these files.
+
 
 Start JBoss Enterprise Application Platform 6.1 or JBoss AS 7.2
 -------------------------
