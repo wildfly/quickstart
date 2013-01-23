@@ -232,11 +232,11 @@ To build and test the quickstarts:
 
         For JBoss AS 7 or JBoss Enterprise Application Platform 6 (Maven user settings configured): 
 
-            mvn clean install -Pdefault,!complex-dependencies
+            mvn clean install '-Pdefault,!complex-dependencies'
 
         For JBoss Enterprise Application Platform 6 (Maven user settings NOT configured): 
 
-            mvn clean install -Pdefault,!complex-dependencies -s PATH_TO_QUICKSTARTS/example-settings.xml
+            mvn clean install '-Pdefault,!complex-dependencies' -s PATH_TO_QUICKSTARTS/example-settings.xml
 
 This command iterates through the quickstarts, excluding those with complex dependencies, and does the following:
 
