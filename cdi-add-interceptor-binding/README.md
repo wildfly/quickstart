@@ -4,7 +4,7 @@ Author: Pete Muir
 Level: Intermediate
 Technologies: CDI, DeltaSpike
 Summary: Creating a basic CDI extension to automatically add an interceptor binding
-Target Product: EAP
+Target Product: WFK
 
 What is it?
 -----------
