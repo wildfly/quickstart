@@ -86,7 +86,7 @@ Undeploy the Archive
 3. When you are finished testing, type this command to undeploy the archive:
 
         mvn jboss-as:undeploy
-        mvn jboss-as:undeploy -Ddeploy.hostname=localhost -Ddeploy.port=10099
+        mvn jboss-as:undeploy -Djboss-as.port=10099
 
 
 Run the Quickstart in JBoss Developer Studio or Eclipse

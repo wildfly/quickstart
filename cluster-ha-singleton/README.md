@@ -60,7 +60,7 @@ _NOTE: The following build command assumes you have configured your Maven user s
 4. This will deploy `service/target/jboss-as-cluster-ha-singleton-service.jar` to the running instance of the server.
 5. Type this command to deploy the archive to the second server (or more) and replace hostname and port depend on your settings:
 
-        mvn jboss-as:deploy -Ddeploy.hostname=localhost -Ddeploy.port=10099
+        mvn jboss-as:deploy -Djboss-as.port=10099
 
 6. This will deploy `service/target/jboss-as-cluster-ha-singleton-service.jar` to the running instance of the additional server.
  
@@ -104,7 +104,7 @@ Undeploy the Archive
 3. When you are finished testing, type this command to undeploy the archive:
 
         mvn jboss-as:undeploy
-        mvn jboss-as:undeploy -Ddeploy.hostname=localhost -Ddeploy.port=10099
+        mvn jboss-as:undeploy -Djboss-as.port=10099
 
 
 Run the Quickstart in JBoss Developer Studio or Eclipse
