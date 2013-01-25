@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:f="http://java.sun.com/jsf/core">
+
+<ui:composition template="template.xhtml">
+   <ui:define name="content">
+      <h:messages />
+      <h:form id="putForm">
+         <h:panelGrid columns="3">
+            <h:outputLabel for="key">Key:*</h:outputLabel>
+            <h:inputText id="key" value="#{putController.key}" />
+            <h:message for="key" />
+
+            <h:outputLabel for="value">Value:</h:outputLabel>
+            <h:inputText id="value" value="#{putController.value}" />
+            <h:message for="value" />
+         </h:panelGrid>
+         <h:commandButton id="Put" value="Put"
+            action="#{putController.putSomething}" /><br/>
+         <h:outputText style="font-size: 11px;color:gray;" value="* entries expire after 60 seconds"/>
+      </h:form>
+      <h:panelGrid columns="2">
+         <h:outputLabel for="key">Result:</h:outputLabel>
+         <h:outputText value="#{putController.message}" rendered="#{not empty putController.message}"/>
+      </h:panelGrid><br/>
+      <h:link outcome="/get.xhtml" value="Get Some" />
+   </ui:define>
+</ui:composition>
+</html>

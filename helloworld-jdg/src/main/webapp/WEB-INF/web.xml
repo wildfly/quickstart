@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5"
+         xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="
+      http://java.sun.com/xml/ns/javaee
+      http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+
+
+    <!--
+    Some browsers cookies are stored using host + context combination. Since it doesn't consider the port,
+    both applications running on the same host (localhost) and even using different ports (8080 and 8180) can share
+    the same JSESSIONID. To permit this quickstart to run on same host and have different JSESSIONID each one,
+    we need to use client state saving. We could have the same effect if we used different name for applications
+    on each server. Ignoring this setting might result in javax.faces.application.ViewExpiredException
+    -->
+
+    <context-param>
+        <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
+        <param-value>client</param-value>
+    </context-param>
+
+</web-app>

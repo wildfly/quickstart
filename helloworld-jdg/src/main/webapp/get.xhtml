@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:f="http://java.sun.com/jsf/core">
+
+<ui:composition template="template.xhtml">
+   <ui:define name="content">
+      <h:messages />
+      <h:form id="getForm">
+         <h:panelGrid columns="3">
+            <h:outputLabel for="key">Key:</h:outputLabel>
+            <h:inputText id="key" value="#{getController.key}" />
+            <h:message for="key" />
+            
+         </h:panelGrid>
+         <h:commandButton id="Get" value="Get"
+            action="#{getController.getOne}" />
+            
+         <h:commandButton id="GetAll" value="Get All"
+            action="#{getController.getAll}" />
+            
+      </h:form>
+      <h:panelGrid columns="2">
+         <h:outputLabel for="key">Result:</h:outputLabel>
+         <h:outputText value="#{getController.message}" rendered="#{not empty getController.message}"/>
+      </h:panelGrid><br/>
+      <h:link outcome="/put.xhtml" value="Put Some More" />
+   </ui:define>
+</ui:composition>
+</html>
