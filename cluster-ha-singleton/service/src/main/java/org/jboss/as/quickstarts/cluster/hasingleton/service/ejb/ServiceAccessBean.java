@@ -25,7 +25,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * A simple SLSB to access the internal SingletonService.
- * 
+ *
  * @author <a href="mailto:wfink@redhat.com">Wolf-Dieter Fink</a>
  */
 @Stateless

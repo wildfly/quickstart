@@ -26,7 +26,7 @@ import org.jboss.as.quickstarts.cluster.hasingleton.service.ejb.ServiceAccess;
 
 /**
  * A client to call the SingletonService via EJB remoting (AS7) to demonstrate the behaviour of the singleton.
- * 
+ *
  * @author <a href="mailto:wfink@redhat.com">Wolf-Dieter Fink</a>
  */
 public class SingletonServiceClient {
@@ -38,7 +38,7 @@ public class SingletonServiceClient {
     /**
      * Constructor to prepare the client-context.<br/>
      * There must be a jboss-ejb-client.properties file in the classpath to specify the server connection(s).
-     * 
+     *
      * @throws NamingException
      */
     private SingletonServiceClient() throws NamingException {
@@ -55,8 +55,8 @@ public class SingletonServiceClient {
     }
 
     /**
-     * Call the EJB 4 times to demonstrate that despite loadbalancing the SingletonService is called at the same server.
-     * 
+     * Call the EJB 4 times to demonstrate that despite load balancing the SingletonService is called at the same server.
+     *
      * @param args no arguments needed
      * @throws NamingException
      */

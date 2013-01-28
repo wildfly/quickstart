@@ -33,15 +33,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * A service to start schedule-timer as HAsingleton timer in a clustered environment.
+ * A service to start schedule-timer as HASingleton timer in a clustered environment.
  * The service will ensure that the timer is initialized only once in a cluster.
- *  
+ *
  * @author <a href="mailto:wfink@redhat.com">Wolf-Dieter Fink</a>
  */
 public class HATimerService implements Service<String> {
     private static final Logger LOGGER = LoggerFactory.getLogger(HATimerService.class);
     public static final ServiceName SINGLETON_SERVICE_NAME = ServiceName.JBOSS.append("quickstart", "ha", "singleton", "timer");
-    
+
     /**
      * A flag whether the service is started.
      */
@@ -71,9 +71,9 @@ public class HATimerService implements Service<String> {
 
         try {
             InitialContext ic = new InitialContext();
-            ((Scheduler)ic.lookup("global/jboss-as-cluster-ha-singleton-service/SchedulerBean!org.jboss.as.quickstarts.cluster.hasingleton.service.ejb.Scheduler")).initialize("HASingleton timer @"+this.nodeName+" "+new Date());
+            ((Scheduler) ic.lookup("global/jboss-as-cluster-ha-singleton-service/SchedulerBean!org.jboss.as.quickstarts.cluster.hasingleton.service.ejb.Scheduler")).initialize("HASingleton timer @" + this.nodeName + " " + new Date());
         } catch (NamingException e) {
-            throw new StartException("Could not initialize timer",e);
+            throw new StartException("Could not initialize timer", e);
         }
     }
 
@@ -84,9 +84,9 @@ public class HATimerService implements Service<String> {
             LOGGER.info("Stop HASingleton timer service '" + this.getClass().getName() + "'");
             try {
                 InitialContext ic = new InitialContext();
-                ((Scheduler)ic.lookup("global/jboss-as-cluster-ha-singleton-service/SchedulerBean!org.jboss.as.quickstarts.cluster.hasingleton.service.ejb.Scheduler")).stop();
+                ((Scheduler) ic.lookup("global/jboss-as-cluster-ha-singleton-service/SchedulerBean!org.jboss.as.quickstarts.cluster.hasingleton.service.ejb.Scheduler")).stop();
             } catch (NamingException e) {
-                LOGGER.error("Could not stop timer",e);
+                LOGGER.error("Could not stop timer", e);
             }
         }
     }

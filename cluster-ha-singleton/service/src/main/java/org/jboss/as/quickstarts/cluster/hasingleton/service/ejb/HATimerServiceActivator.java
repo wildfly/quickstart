@@ -28,6 +28,7 @@ import org.jboss.msc.service.ServiceController;
 /**
  * Service activator that installs the HATimerService as a clustered singleton service
  * during deployment.
+ *
  * @author Paul Ferraro
  */
 public class HATimerServiceActivator implements ServiceActivator {
@@ -48,7 +49,7 @@ public class HATimerServiceActivator implements ServiceActivator {
         // Workaround for JBoss AS 7.1.2
         // In later releases, SingleService.build(...) accepts a service target
         singleton.build(new DelegatingServiceContainer(context.getServiceTarget(), context.getServiceRegistry()))
-        // singleton.build(context.getServiceTarget())
+                // singleton.build(context.getServiceTarget())
                 .addDependency(ServerEnvironmentService.SERVICE_NAME, ServerEnvironment.class, service.env)
                 .setInitialMode(ServiceController.Mode.ACTIVE)
                 .install()
