@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<div>
+    <h1>Welcome to JBoss!</h1>
+
+    <div>
+        <p>You have successfully deployed a Java EE 6 Enterprise Application.</p>
+        <h3>Your application can run on:</h3>
+        <img src="gfx/dualbrand_as7eap.png" />
+    </div>
+
+    <form id="reg" ng-submit="register()">
+        <h2>Member Registration</h2>
+        <fieldset>
+            <legend>Register a member:</legend>
+            <div>
+                <label for="name">Name:</label>
+                <input type="text" name="name" id="name"  ng-model="newMember.name" placeholder="Your Name" required autofocus/>
+            </div>
+            <div>
+                <label for="email">Email:</label>
+                <input type="email" name="email" id="email" ng-model="newMember.email" placeholder="Your Email" required/>
+            </div>
+            <div>
+                <label for="phoneNumber">Phone #:</label>
+               <input type="tel" name="phoneNumber" id="phoneNumber" ng-model="newMember.phoneNumber" pattern="[0-9]{10,12}" placeholder="Your Phone #" required/>
+            </div>
+            <ul ng-hide="!successMessages" class="success">
+                <li ng-repeat="message in successMessages">{{message}}</li>
+            </ul>
+            <div>
+                <input type="submit" id="register" value="Register"/>
+                <input type="button" ng-click="reset()" name="cancel" id="cancel" value="Cancel"/>
+            </div>
+        </fieldset>
+    </form>
+
+    <h2>Members</h2> 
+    <em ng-show="members.length == 0">No registered members.</em>
+    <table ng-hide="members.length == 0" class="simpletablestyle">
+        <thead>
+    	    <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone #</th>
+                <th>REST URL</th>
+    	    </tr>
+    	</thead>
+        <tr ng-repeat="member in members | orderBy:orderProp">
+            <td>
+                {{member.id}}
+            </td>
+            <td>
+                {{member.name}}
+            </td>
+            <td>
+                {{member.email}}
+            </td>
+            <td>
+                {{member.phoneNumber}}
+            </td>
+            <td>
+                <a
+                    href="rest/members/{{member.id}}">/rest/members/{{member.id}}</a>
+            </td>
+            <tfoot>
+                <tr>
+                    <td colspan="5">
+                        REST URL for all members: <a
+                    href="rest/members">/rest/members</a>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+</div>
