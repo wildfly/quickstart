@@ -15,14 +15,17 @@
             <div>
                 <label for="name">Name:</label>
                 <input type="text" name="name" id="name"  ng-model="newMember.name" placeholder="Your Name" required autofocus/>
+                <span class="error" ng-show="errors.name">{{errors.name}}</span>
             </div>
             <div>
                 <label for="email">Email:</label>
                 <input type="email" name="email" id="email" ng-model="newMember.email" placeholder="Your Email" required/>
+                <span class="error" ng-show="errors.email">{{errors.email}}</span>
             </div>
             <div>
                 <label for="phoneNumber">Phone #:</label>
-               <input type="tel" name="phoneNumber" id="phoneNumber" ng-model="newMember.phoneNumber" pattern="[0-9]{10,12}" placeholder="Your Phone #" required/>
+                <input type="tel" name="phoneNumber" id="phoneNumber" ng-model="newMember.phoneNumber" pattern="[0-9]{10,12}" placeholder="Your Phone #" required/>
+                <span class="error" ng-show="errors.phoneNumber">{{errors.phoneNumber}}</span>
             </div>
             <ul ng-hide="!successMessages" class="success">
                 <li ng-repeat="message in successMessages">{{message}}</li>
