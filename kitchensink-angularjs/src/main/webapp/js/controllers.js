@@ -1,50 +1,47 @@
-function MembersCtrl($scope, $http) {
+function MembersCtrl($scope, $http, Members) {
 
-  var defaultNewMember = {
-    name: "",
-    email: "",
-    phoneNumber: ""
-  };
+    // Define a refresh function, that updates the data from the REST service
+    $scope.refresh = function() {
+        $scope.members = Members.query();
+    };
 
-  updateList = function () {
-    $http.get('rest/members').success(function (data) {
-      $scope.members = data;
-    });
-  };
+    // Define a reset function, that clears the prototype newMember object, and
+    // consequently, the form
+    $scope.reset = function() {
+        // clear input fields
+        $scope.newMember = {};
+    };
 
-  updateList();
+    // Define a register function, which adds the member using the REST service,
+    // and displays any error messages
+    $scope.register = function() {
+        $scope.successMessages = '';
+        $scope.errorMessages = '';
+        Members.save($scope.newMember, function(data) {
 
-  $scope.orderProp = 'name';
+            // mark success on the registration form
+            $scope.successMessages = [ 'Member Registered' ];
 
-  $scope.newMember = defaultNewMember;
+            // Update the list of members
+            $scope.refresh();
 
-  $scope.reset = function () {
-    //clear input fields
-    $scope.newMember = {};
-  };
-
-  $scope.register = function () {
-    $scope.successMessages = '';
-    $scope.errorMessages = '';
-    $http.post('rest/members', $scope.newMember).success(function (data) {
-      //mark success on the registration form
-      $scope.successMessages = [ 'Member Registered' ];
-
-      // Update the list of members
-      updateList();
-
-      //Clear the form
-      $scope.errors = {};
-      $scope.reset();
-      $scope.$apply();
-    }).error(function (data, status) {
-              if ((status == 409) || (status == 400)) {
+            // Clear the form
+            $scope.reset();
+        }, function(data, status) {
+            if ((status == 409) || (status == 400)) {
                 $scope.errors = data;
-              } else {
-                //console.log("error - unknown server issue");
-                $scope.errorMessages = ['Unknown  server error'];
-              }
-              $scope.$apply();
-            });
-  };
+            } else {
+                // console.log("error - unknown server issue");
+                $scope.errorMessages = [ 'Unknown  server error' ];
+            }
+            $scope.$apply();
+        });
+
+    };
+
+    // Call the refresh() function, to populate the list of members
+    $scope.refresh();
+
+    // Set the default orderBy to the name property
+    $scope.orderBy = 'name';
 }

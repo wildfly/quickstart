@@ -5,21 +5,29 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link rel="stylesheet" href="css/screen.css" type="text/css" />
     
+    <!-- Load angularjs -->
     <script src="js/libs/angular.js"></script>
+    <!-- Load angularjs-resource, which allows us to interact with REST resources as high level services -->
     <script src="js/libs/angular-resource.js"></script>
     
+    <!-- Load the controllers for our app -->
     <script src="js/controllers.js"></script>
+    
+    <!-- Load the application wide JS, such as route definitions -->
     <script src="js/app.js"></script>
-<!--     <script src="js/services.js"></script> -->
+    
+    <!-- Load the services we have defined for the application, particularly the REST services -->
+    <script src="js/services.js"></script>
     
 </head>
 <body>
-    <div id="container">
+    <aside id="container">
         <div class="dualbrand">
             <img src="gfx/dualbrand_logo.png" />
         </div>
         <div id="content" ng-view>
-                    [Template content will be inserted here]
+            <!-- This div will be tempalted by AngularJS -->
+            [Template content will be inserted here]
         </div>
         <div id="aside">
             <p>Learn more about JBoss Enterprise Application
@@ -37,12 +45,12 @@
                         Project Information</a></li>
             </ul>
         </div>
-        <div id="footer">
+        <footer id="footer">
             <p>
                 This project was generated from a Maven archetype from
                 JBoss.<br />
             </p>
-        </div>
-    </div>
+        </footer>
+    </aside>
 </body>
 </html>
