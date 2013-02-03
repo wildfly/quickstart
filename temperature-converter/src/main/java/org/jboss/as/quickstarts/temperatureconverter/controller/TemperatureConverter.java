@@ -19,6 +19,8 @@ package org.jboss.as.quickstarts.temperatureconverter.controller;
 import java.io.Serializable;
 
 import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -61,7 +63,12 @@ public class TemperatureConverter implements Serializable {
      * @param defaultScale The default source temperature scale
      */
     public void convert() {
-        temperature = temperatureConvertEJB.convert(Temperature.parse(sourceTemperature, defaultScale)).toString();
+        try {
+           temperature = temperatureConvertEJB.convert(Temperature.parse(sourceTemperature, defaultScale)).toString();
+        } catch (IllegalArgumentException e) {
+           temperature = "0.0 Err";
+           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.toString()));
+        }
     }
 
     public String getSourceTemperature() {

@@ -32,14 +32,11 @@
         </h:form>
         <hr />
         <p>How the conversion works:</p>
-        <p>The temperature-string is parsed using two regular expressions that look for the first instance of a valid
-            floating point number, and then, optionally, the first instance of either 'C' or 'F'. It only uses the radio buttons
-            when it cannot find a valid scale in the temperature-string. Consequently, the conversion will work on any string
-            that has a number embedded, and optionally, the letters 'C' or 'F'.</p>
+        <p>The temperature-string is parsed with a regular expression that expects a floating point number followed optionally by a temperature unit ('C' or 'F', case-insensitive).
+            If the temperature unit is missing, the default scale (given by the radio button) is used.</p>
         <p>An 'error message' will be issued if it cannot convert the temperature-string, and '0.0 Err' will be returned as
             the result.</p>
-        <p>Both input temperature and the result are truncated at 3 decimal places only. Scale passed with the temperature
-            will take precedence; case insensitive.</p>
+        <p>Both input temperature and the result are truncated at 3 decimal places only.</p>
 
     </div>
 

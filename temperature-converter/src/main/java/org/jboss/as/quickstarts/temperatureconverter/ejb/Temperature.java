@@ -35,7 +35,7 @@ public class Temperature {
     /*
      * Create a regular expression to extract the temperature and scale (if passed).
      */
-    private static Pattern PATTERN = Pattern.compile("^([-+]?[0-9]*\\.?[0-9]+)([CF]?)");
+    private static Pattern PATTERN = Pattern.compile("^([-+]?\\d*\\.?\\d+)\\s*([cCfF]?)");
 
     /**
      * Parse a string, with an optional scale suffix. If no scale suffix is on the string, the defaultScale will be used.
@@ -52,23 +52,24 @@ public class Temperature {
          */
         Matcher matcher = PATTERN.matcher(temperature);
 
-        // Extract the temperature
         if (matcher.find()) {
-            t = Double.parseDouble(matcher.group());
+            // Extract the temperature
+            t = Double.parseDouble(matcher.group(1));
+
+            // Use the scale included with the sourceTemperature OR the defaultScale provided.
+            if (!matcher.group(2).isEmpty()) {
+               try {
+                   s = Scale.valueOfAbbreviation(matcher.group(2));
+               } catch (IllegalArgumentException e) {
+                   throw new IllegalArgumentException("You must provide a valid temperature scale- 'C|F'");
+               }
+            } else {
+               s = defaultScale;
+            }
         } else {
             throw new IllegalArgumentException("You must provide a valid temperature to convert- 'XX.XXX'");
         }
 
-        // Use the scale included with the sourceTemperature OR the defaultScale provided.
-        if (matcher.find()) {
-            try {
-                s = Scale.valueOfAbbreviation(matcher.group());
-            } catch (IllegalArgumentException e) {
-                throw new IllegalArgumentException("You must provide a valid temperature scale- 'C|F'");
-            }
-        } else {
-            s = defaultScale;
-        }
         return new Temperature(t, s);
     }
 
