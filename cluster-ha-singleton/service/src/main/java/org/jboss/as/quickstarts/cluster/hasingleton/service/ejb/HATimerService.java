@@ -23,14 +23,14 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
 import org.jboss.as.server.ServerEnvironment;
+import org.jboss.logging.Logger;
 import org.jboss.msc.service.Service;
 import org.jboss.msc.service.ServiceName;
 import org.jboss.msc.service.StartContext;
 import org.jboss.msc.service.StartException;
 import org.jboss.msc.service.StopContext;
 import org.jboss.msc.value.InjectedValue;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 
 /**
  * A service to start schedule-timer as HASingleton timer in a clustered environment.
@@ -39,7 +39,7 @@ import org.slf4j.LoggerFactory;
  * @author <a href="mailto:wfink@redhat.com">Wolf-Dieter Fink</a>
  */
 public class HATimerService implements Service<String> {
-    private static final Logger LOGGER = LoggerFactory.getLogger(HATimerService.class);
+    private static final Logger LOGGER = Logger.getLogger(HATimerService.class);
     public static final ServiceName SINGLETON_SERVICE_NAME = ServiceName.JBOSS.append("quickstart", "ha", "singleton", "timer");
 
     /**

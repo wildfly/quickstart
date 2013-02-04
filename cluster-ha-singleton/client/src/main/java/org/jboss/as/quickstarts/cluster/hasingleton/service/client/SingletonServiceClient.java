@@ -46,7 +46,7 @@ public class SingletonServiceClient {
         jndiProperties.put(Context.URL_PKG_PREFIXES, "org.jboss.ejb.client.naming");
         final Context context = new InitialContext(jndiProperties);
         String lookupName = "ejb:/jboss-as-cluster-ha-singleton-service/ServiceAccessBean!" + ServiceAccess.class.getName();
-        System.out.println("Lookup Bean >" + lookupName);
+        System.out.println("Lookup Bean name is " + lookupName);
         accessBean = (ServiceAccess) context.lookup(lookupName);
     }
 

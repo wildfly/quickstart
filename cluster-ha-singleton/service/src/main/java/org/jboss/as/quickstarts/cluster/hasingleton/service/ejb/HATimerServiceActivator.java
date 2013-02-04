@@ -46,10 +46,7 @@ public class HATimerServiceActivator implements ServiceActivator {
          */
         // singleton.setElectionPolicy(new PreferredSingletonElectionPolicy(new SimpleSingletonElectionPolicy(), new NamePreference("node2/cluster")));
 
-        // Workaround for JBoss AS 7.1.2
-        // In later releases, SingleService.build(...) accepts a service target
         singleton.build(new DelegatingServiceContainer(context.getServiceTarget(), context.getServiceRegistry()))
-                // singleton.build(context.getServiceTarget())
                 .addDependency(ServerEnvironmentService.SERVICE_NAME, ServerEnvironment.class, service.env)
                 .setInitialMode(ServiceController.Mode.ACTIVE)
                 .install()
