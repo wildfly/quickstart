@@ -49,15 +49,12 @@ public class DelegationLoginModule extends AbstractServerLoginModule {
 
     private Properties delegationMappings;
 
-    private CallbackHandler callbackHandler;
-
     private Principal identity;
 
     @Override
     public void initialize(Subject subject, CallbackHandler callbackHandler, Map<String, ?> sharedState, Map<String, ?> options) {
         addValidOptions(new String[] { DELEGATION_PROPERTIES });
         super.initialize(subject, callbackHandler, sharedState, options);
-        this.callbackHandler = callbackHandler;
 
         String propertiesName;
         if (options.containsKey(DELEGATION_PROPERTIES)) {
