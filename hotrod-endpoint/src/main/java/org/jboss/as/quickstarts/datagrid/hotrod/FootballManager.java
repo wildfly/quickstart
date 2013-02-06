@@ -42,11 +42,13 @@ public class FootballManager {
     private static final String teamsKey = "teams";
 
     private Console con;
+    private RemoteCacheManager cacheManager;
     private RemoteCache<String, Object> cache;
 
     public FootballManager(Console con) {
         this.con = con;
-        cache = new RemoteCacheManager(jdgProperty(JDG_HOST) + ":" + jdgProperty(HOTROD_PORT)).getCache("teams");
+        cacheManager = new RemoteCacheManager(jdgProperty(JDG_HOST) + ":" + jdgProperty(HOTROD_PORT));
+        cache = cacheManager.getCache("teams");
         if(!cache.containsKey(teamsKey)) {
             List<String> teams = new ArrayList<String>();
             Team t = new Team("Barcelona");
@@ -125,6 +127,10 @@ public class FootballManager {
         }
     }
 
+    public void stop() {
+        cacheManager.stop();
+    }
+
     public static void main(String[] args) {
         Console con = System.console();
         FootballManager manager = new FootballManager(System.console());
@@ -143,6 +149,7 @@ public class FootballManager {
             } else if ("p".equals(action)) {
                 manager.printTeams();
             } else if ("q".equals(action)) {
+                manager.stop();
                 break;
             }
         }
