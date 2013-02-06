@@ -219,16 +219,16 @@ The command to undeploy the quickstart is simply:
         mvn jboss-as:undeploy
  
 <a id="verifyall"></a>
-### Verify the Quickstarts Build and Deploy with One Command
+### Verify the Quickstarts Build with One Command
 -------------------------
 
-You can verify the quickstarts build and deploy using one command. However, quickstarts that have complex dependencies must be skipped. For example, the _jax-rs-client_ quickstart is a RESTEasy client that depends on the deployment of the _helloworld-rs_ quickstart. As noted above, the root `pom.xml` file defines a `complex-dependencies` profile to exclude these quickstarts from the root build process. 
+You can verify the quickstarts build using one command. However, quickstarts that have complex dependencies must be skipped. For example, the _jax-rs-client_ quickstart is a RESTEasy client that depends on the deployment of the _helloworld-rs_ quickstart. As noted above, the root `pom.xml` file defines a `complex-dependencies` profile to exclude these quickstarts from the root build process. 
 
-To build and test the quickstarts:
+To build the quickstarts:
 
 1. Do not start the server.
 2. Open a command line and navigate to the root directory of the quickstarts.
-3. Use this command to build, deploy, and undeploy the quickstarts that do not have complex dependencies:
+3. Use this command to build the quickstarts that do not have complex dependencies:
 
         For JBoss AS 7 or JBoss Enterprise Application Platform 6 (Maven user settings configured): 
 
@@ -238,13 +238,6 @@ To build and test the quickstarts:
 
             mvn clean install '-Pdefault,!complex-dependencies' -s PATH_TO_QUICKSTARTS/example-settings.xml
 
-This command iterates through the quickstarts, excluding those with complex dependencies, and does the following:
-
-* Builds the quickstart
-* Starts the server
-* Deploys the quickstart
-* Undeploys the quickstart
-* Stops the server
 
 <a id="undeployall"></a>
 ### Undeploy the Deployed Quickstarts with One Command

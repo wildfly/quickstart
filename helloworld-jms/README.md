@@ -57,7 +57,6 @@ However, if you are using the JBoss Enterprise Application Platform 6 distributi
 3. At the prompt, type the following:
 
         [standalone@localhost:9999 /] jms-queue add --queue-address=testQueue --entries=queue/test,java:jboss/exported/jms/queue/test
-        [standalone@localhost:9999 /] jms-topic add --topic-address=testTopic --entries=topic/test,java:jboss/exported/jms/topic/test
 
 #### Modify the Server JMS Configuration Manually
 
@@ -73,10 +72,6 @@ However, if you are using the JBoss Enterprise Application Platform 6 distributi
                         <entry name="queue/test"/>
                         <entry name="java:jboss/exported/jms/queue/test"/>
                     </jms-queue>
-                    <jms-topic name="testTopic">
-                        <entry name="topic/test"/>
-                        <entry name="java:jboss/exported/jms/topic/test"/>
-                    </jms-topic>
                 </jms-destinations>
     * Save the changes and close the file.  
 
