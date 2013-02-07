@@ -63,7 +63,7 @@ def metadata(source_path, html)
   dir = source_path[/([^\/]+)\/([^\/]+).md$/, 1]
   filename = source_path[/([^\/]+)\/([^\/]+).md$/, 2]
   if dir
-    output = "<tr><td align='left'><a href='#{dir}/#{filename}.md' title='#{dir}'>#{dir}</td><td align='left'>#{' '.concat(technologies.map{|u| u} * ', ')}</td><td align='left'>#{summary}</td><td align='left'>#{level}</td><td align='left'>#{' '.concat(prerequisites.map{|u| u} * ', ')}</td></tr>"
+    output = "<tr><td align='left'><a href='#{dir}/#{filename}.md' title='#{dir}'>#{dir}</td><td align='left'>#{' '.concat(technologies.map{|u| u} * ', ')}</td><td align='left'>#{summary}</td><td align='left'>#{level}</td><td align='left'>#{' '.concat(prerequisites.map{|u| u} * ', ')}</td></tr>\n"
     FileUtils.mkdir_p(File.dirname(toc_file))
     File.open(toc_file, 'a').write(output)
   end
