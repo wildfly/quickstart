@@ -75,7 +75,8 @@ markdown_to_html()
    touch dist/target/toc.html
 
    # Loop through the sorted quickstart directories and process them
-   subdirs=`find . -maxdepth 1 -type d ! -iname ".*" | sort`
+   # Exclude the template directory since it's not a quickstart
+   subdirs=`find . -maxdepth 1 -type d ! -iname ".*" ! -iname "template" | sort`
    for subdir in $subdirs
    do
       readmes=`find $subdir -iname readme.md`
