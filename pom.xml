@@ -38,11 +38,32 @@
         <!-- A base list of dependency and plugin version used in the various quick starts. -->
 
         <!-- JBoss dependency versions -->
+
         <version.org.jboss.as>7.3.Final</version.org.jboss.as>
-        <version.org.jboss.as.plugins.maven.plugin>7.3.Final</version.org.jboss.as.plugins.maven.plugin>
+        <!-- Alternatively, comment out the above line, and un-comment the 
+            line below to use version 7.1.1.Final-redhat-1 which is a release certified 
+            to work with JBoss EAP 6. It requires you have access to the JBoss EAP 6 
+            maven repository. -->
+        <!-- <version.org.jboss.as>7.2.0.Alpha1-redhat-4</version.org.jboss.as> -->
+
+        <version.org.jboss.as.maven.plugin>7.3.Final</version.org.jboss.as.maven.plugin>
+
+        <!-- Define the version of the JBoss BOMs we want to import to specify tested stacks. -->
         <version.org.jboss.bom>1.0.4.Final</version.org.jboss.bom>
+        <!-- Alternatively, comment out the above line, and un-comment the 
+            line below to use version 1.0.4.Final-redhat-1 which is a release certified 
+            to work with JBoss EAP 6. It requires you have access to the JBoss EAP 6 
+            maven repository. -->
+        <!-- <version.org.jboss.bom>1.0.4.Final-redhat-1</version.org.jboss.bom> -->
+
+        <version.org.jboss.spec.jboss.javaee.6.0>3.0.2.Final</version.org.jboss.spec.jboss.javaee.6.0> 
+        <!-- Alternatively, comment out the above line, and un-comment the 
+            line below to use version 3.0.2.Final-redhat-1 which is a release certified 
+            to work with JBoss EAP 6. It requires you have access to the JBoss EAP 6 
+            maven repository. -->
+        <!-- <version.org.jboss.spec.jboss.javaee.6.0>3.0.2.Final-redhat-1</version.org.jboss.spec.jboss.javaee.6.0> -->
+
         <version.org.jboss.ejb.client>7.1.1.Final</version.org.jboss.ejb.client>
-        <version.org.jboss.spec.jboss.javaee.6.0>3.0.0.Final</version.org.jboss.spec.jboss.javaee.6.0>
         <version.org.jboss.logging>3.1.1.GA</version.org.jboss.logging>
         <version.org.jboss.logging.processor>1.0.3.Final</version.org.jboss.logging.processor>
 
@@ -106,7 +127,10 @@
                     Application Platform or JBoss AS -->
                 <module>bean-validation</module>
                 <module>bmt</module>
+                <module>carmart</module>
+                <module>carmart-tx</module>
                 <module>cdi-add-interceptor-binding</module>
+                <module>cdi-alternative</module>
                 <module>cdi-injection</module>
                 <module>cdi-portable-extension</module>
                 <module>cdi-veto</module>
@@ -128,6 +152,7 @@
                 <module>helloworld-errai</module>
                 <module>helloworld-gwt</module>
                 <module>helloworld-html5</module>
+                <module>helloworld-jdg</module>
                 <module>helloworld-jms</module>
                 <module>helloworld-mdb</module>
                 <module>helloworld-osgi</module>
@@ -137,7 +162,7 @@
                 <module>helloworld-ws</module>
                 <module>hibernate3</module>
                 <module>hibernate4</module>
-                <module>inter-app</module>
+                <module>hotrod-endpoint</module>
                 <module>kitchensink</module>
                 <module>kitchensink-deltaspike</module>
                 <module>kitchensink-ear</module>
@@ -149,8 +174,10 @@
                 <module>log4j</module>
                 <module>logging-tools</module>
                 <module>mail</module>
+                <module>memcached-endpoint</module>
                 <module>numberguess</module>
                 <module>payment-cdi-event</module>
+                <module>rest-endpoint</module>
                 <module>richfaces-validation</module>
                 <module>servlet-async</module>
                 <module>servlet-filterlistener</module>
@@ -240,6 +267,7 @@
             <modules>
                 <module>forge-from-scratch</module>
                 <module>h2-console</module>
+                <module>kitchensink-cordova</module>
                 <module>jts-distributed-crash-rec</module>
             </modules>
         </profile>
@@ -252,7 +280,7 @@
             <plugin>
                 <groupId>org.jboss.as.plugins</groupId>
                 <artifactId>jboss-as-maven-plugin</artifactId>
-                <version>${version.org.jboss.as.plugins.maven.plugin}</version>
+                <version>${version.org.jboss.as.maven.plugin}</version>
                 <inherited>true</inherited>
                 <configuration>
                     <skip>true</skip>

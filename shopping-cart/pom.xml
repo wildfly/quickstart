@@ -46,22 +46,24 @@
             (must enable third-party plugin if using Maven < 2.1) -->
         <maven.build.timestamp.format>yyyyMMdd'T'HHmmss</maven.build.timestamp.format>
 
+
         <!-- JBoss dependency versions -->
-        <version.org.jboss.as.plugins.maven.plugin>7.3.Final</version.org.jboss.as.plugins.maven.plugin>
-        <!-- Define the version of JBoss EJB Client we want to use. This 
-            should match the JBoss AS version in use -->
-        <version.org.jboss.ejb.client>7.1.1.Final</version.org.jboss.ejb.client>
+        
+        <version.org.jboss.as.maven.plugin>7.3.Final</version.org.jboss.as.maven.plugin>
+        
+        <version.org.jboss.as>7.2.0.Alpha1-SNAPSHOT</version.org.jboss.as>
         <!-- Alternatively, comment out the above line, and un-comment the 
             line below to use version 7.1.1.Final-redhat-1 which is a release certified 
             to work with JBoss EAP 6. It requires you have access to the JBoss EAP 6 
             maven repository. -->
-        <!-- <version.org.jboss.ejb.client>7.1.1.Final-redhat-1</version.org.jboss.ejb.client> -->
-        <version.org.jboss.spec.jboss.javaee.6.0>3.0.0.Final</version.org.jboss.spec.jboss.javaee.6.0>
+        <!-- <version.org.jboss.as>7.2.0.Alpha1-redhat-4</version.org.jboss.as> -->
+
+        <version.org.jboss.spec.jboss.javaee.6.0>3.0.2.Final</version.org.jboss.spec.jboss.javaee.6.0>
         <!-- Alternatively, comment out the above line, and un-comment the 
-            line below to use version 3.0.0.Final-redhat-1 which is a release certified 
+            line below to use version 3.0.2.Final-redhat-1 which is a release certified 
             to work with JBoss EAP 6. It requires you have access to the JBoss EAP 6 
             maven repository. -->
-        <!-- <version.org.jboss.spec.jboss.javaee.6.0>3.0.0.Final-redhat-1</version.org.jboss.spec.jboss.javaee.6.0> -->
+        <!-- <version.org.jboss.spec.jboss.javaee.6.0>3.0.2.Final-redhat-1</version.org.jboss.spec.jboss.javaee.6.0> -->
 
         <!-- other plugin versions -->
         <version.compiler.plugin>2.3.1</version.compiler.plugin>
@@ -99,7 +101,7 @@
             <dependency>
                 <groupId>org.jboss.as</groupId>
                 <artifactId>jboss-as-ejb-client-bom</artifactId>
-                <version>${version.org.jboss.ejb.client}</version>
+                <version>${version.org.jboss.as}</version>
                 <type>pom</type>
             </dependency>
         </dependencies>
@@ -114,7 +116,7 @@
             <plugin>
                 <groupId>org.jboss.as.plugins</groupId>
                 <artifactId>jboss-as-maven-plugin</artifactId>
-                <version>${version.org.jboss.as.plugins.maven.plugin}</version>
+                <version>${version.org.jboss.as.maven.plugin}</version>
                 <inherited>true</inherited>
                 <configuration>
                     <skip>true</skip>

@@ -35,20 +35,28 @@
             can deploy this quickstart on EWS/Tomcat through this URL -->
         <tomcat.management.url>http://localhost:8080/manager/text</tomcat.management.url>
 
-        <!-- Define the version of the JBoss BOMs we want to import. The 
-            JBoss BOMs specify tested stacks. -->
-        <jboss.bom.version>1.0.4.Final</jboss.bom.version>
+        <!-- Define the version of the JBoss BOMs we want to import to specify tested stacks. -->
+        <version.org.jboss.bom>1.0.4.Final</version.org.jboss.bom>
+        <!-- Alternatively, comment out the above line, and un-comment the 
+            line below to use version 1.0.4.Final-redhat-1 which is a release certified 
+            to work with JBoss EAP 6. It requires you have access to the JBoss EAP 6 
+            maven repository. -->
+        <!-- <version.org.jboss.bom>1.0.4.Final-redhat-1</version.org.jboss.bom> -->
 
         <!-- other plugin versions -->
-        <jboss.as.plugin.version>7.3.Final</jboss.as.plugin.version>
-        <tomcat.plugin.version>1.1</tomcat.plugin.version>
-        <compiler.plugin.version>2.3.2</compiler.plugin.version>
-        <buildhelper.plugin.version>1.7</buildhelper.plugin.version>
-        <war.plugin.version>2.2</war.plugin.version>
+        <version.org.jboss.as.maven.plugin>7.3.Final</version.org.jboss.as.maven.plugin>
+        <version.tomcat.maven.plugin>1.1</version.tomcat.maven.plugin>
+        <version.buildhelper.maven.plugin>1.7</version.buildhelper.maven.plugin>
+
+        <!-- other plugin versions -->
+        <version.compiler.plugin>2.3.2</version.compiler.plugin>
+        <version.war.plugin>2.2</version.war.plugin>
 
         <!-- maven-compiler-plugin -->
         <maven.compiler.target>1.6</maven.compiler.target>
         <maven.compiler.source>1.6</maven.compiler.source>
+
+
     </properties>
 
 
@@ -63,7 +71,7 @@
             <dependency>
                 <groupId>org.jboss.bom</groupId>
                 <artifactId>jboss-javaee-6.0-with-infinispan</artifactId>
-                <version>${jboss.bom.version}</version>
+                <version>${version.org.jboss.bom}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -117,7 +125,7 @@
                 annotation processors -->
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>${compiler.plugin.version}</version>
+                <version>${version.compiler.plugin}</version>
                 <configuration>
                     <source>${maven.compiler.source}</source>
                     <target>${maven.compiler.target}</target>
@@ -126,7 +134,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>${war.plugin.version}</version>
+                <version>${version.war.plugin}</version>
                 <configuration>
                     <!-- Java EE 6 doesn't require web.xml, Maven needs to 
                         catch up! -->
@@ -152,7 +160,7 @@
                             folder -->
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>build-helper-maven-plugin</artifactId>
-                        <version>${buildhelper.plugin.version}</version>
+                        <version>${version.buildhelper.maven.plugin}</version>
                         <executions>
                             <execution>
                                 <id>add-source</id>
@@ -174,15 +182,7 @@
                         <!-- To use, run: mvn package jboss-as:deploy -->
                         <groupId>org.jboss.as.plugins</groupId>
                         <artifactId>jboss-as-maven-plugin</artifactId>
-                        <version>${jboss.as.plugin.version}</version>
-                        <executions>
-                            <execution>
-                                <phase>install</phase>
-                                <goals>
-                                    <goal>deploy</goal>
-                                </goals>
-                            </execution>
-                        </executions>
+                        <version>${version.org.jboss.as.maven.plugin}</version>
                     </plugin>
                 </plugins>
             </build>
@@ -209,7 +209,7 @@
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>build-helper-maven-plugin</artifactId>
-                        <version>${buildhelper.plugin.version}</version>
+                        <version>${version.buildhelper.maven.plugin}</version>
                         <executions>
                             <execution>
                                 <id>add-source</id>
@@ -231,7 +231,7 @@
                         <!-- To use, run: mvn package jboss-as:deploy -->
                         <groupId>org.jboss.as.plugins</groupId>
                         <artifactId>jboss-as-maven-plugin</artifactId>
-                        <version>${jboss.as.plugin.version}</version>
+                        <version>${version.org.jboss.as.maven.plugin}</version>
                     </plugin>
                 </plugins>
             </build>
@@ -277,7 +277,7 @@
                             folder -->
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>build-helper-maven-plugin</artifactId>
-                        <version>${buildhelper.plugin.version}</version>
+                        <version>${version.buildhelper.maven.plugin}</version>
                         <executions>
                             <execution>
                                 <id>add-source</id>
@@ -298,7 +298,7 @@
                             as webapp folder -->
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-war-plugin</artifactId>
-                        <version>${war.plugin.version}</version>
+                        <version>${version.war.plugin}</version>
                         <configuration>
                             <webResources>
                                 <resource>
@@ -314,7 +314,7 @@
                         <!-- To use, run: mvn package tomcat:deploy -->
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>tomcat-maven-plugin</artifactId>
-                        <version>${tomcat.plugin.version}</version>
+                        <version>${version.tomcat.maven.plugin}</version>
                         <configuration>
                             <server>tomcat</server>
                             <path>/${project.artifactId}</path>

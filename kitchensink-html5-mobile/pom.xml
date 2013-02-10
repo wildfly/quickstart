@@ -30,14 +30,29 @@
         <!-- You can reference property in pom.xml or filtered resources (must enable third-party plugin if using Maven < 2.1) -->
         
         <!-- JBoss dependency versions -->
+ 
         <version.org.jboss.as>7.3.Final</version.org.jboss.as>
-        <!-- Define the version of the JBoss BOMs we want to import. The
-            JBoss BOMs specify tested stacks. -->
-        <jboss.bom.version>1.0.4.Final</jboss.bom.version>
+        <!-- Alternatively, comment out the above line, and un-comment the 
+            line below to use version 7.1.1.Final-redhat-1 which is a release certified 
+            to work with JBoss EAP 6. It requires you have access to the JBoss EAP 6 
+            maven repository. -->
+        <!-- <version.org.jboss.as>7.2.0.Alpha1-redhat-4</version.org.jboss.as> -->
 
-        <!--<javaee6.web.spec.version>3.0.0.Final</javaee6.web.spec.version>-->
-        <!-- JBoss EAP Certified Versions -->
-        <version.org.jboss.spec.jboss.javaee.6.0>3.0.0.Final</version.org.jboss.spec.jboss.javaee.6.0>
+        <!-- Define the version of the JBoss BOMs we want to import to specify tested stacks. -->
+        <version.org.jboss.bom>1.0.4.Final</version.org.jboss.bom>
+        <!-- Alternatively, comment out the above line, and un-comment the 
+            line below to use version 1.0.4.Final-redhat-1 which is a release certified 
+            to work with JBoss EAP 6. It requires you have access to the JBoss EAP 6 
+            maven repository. -->
+        <!-- <version.org.jboss.bom>1.0.4.Final-redhat-1</version.org.jboss.bom> -->
+
+        <version.org.jboss.spec.jboss.javaee.6.0>3.0.2.Final</version.org.jboss.spec.jboss.javaee.6.0> 
+        <!-- Alternatively, comment out the above line, and un-comment the 
+            line below to use version 3.0.2.Final-redhat-1 which is a release certified 
+            to work with JBoss EAP 6. It requires you have access to the JBoss EAP 6 
+            maven repository. -->
+        <!-- <version.org.jboss.spec.jboss.javaee.6.0>3.0.2.Final-redhat-1</version.org.jboss.spec.jboss.javaee.6.0> -->
+
         <!-- <version.org.hibernate.validator>4.2.0.Final-redhat-1</version.org.hibernate.validator> -->
 
         <version.org.jboss.arquillian>1.0.0.Final</version.org.jboss.arquillian>

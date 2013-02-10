@@ -37,15 +37,16 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- JBoss dependency versions -->
-        <jboss.as.plugin.version>7.1.1.Final</jboss.as.plugin.version>
-        <!-- Define the version of the JBoss BOMs we want to import. The 
-            JBoss BOMs specify tested stacks. -->
-        <jboss.bom.version>1.0.0.Final</jboss.bom.version>
+
+        <version.org.jboss.as.maven.plugin>7.3.Final</version.org.jboss.as.maven.plugin>
+
+        <!-- Define the version of the JBoss BOMs we want to import to specify tested stacks. -->
+        <version.org.jboss.bom>1.0.4.Final</version.org.jboss.bom>
         <!-- Alternatively, comment out the above line, and un-comment the 
-            line below to use version 1.0.2.Final-redhat-1 which is a release certified 
+            line below to use version 1.0.4.Final-redhat-1 which is a release certified 
             to work with JBoss EAP 6. It requires you have access to the JBoss EAP 6 
             maven repository. -->
-        <!-- <jboss.bom.version>1.0.2.Final-redhat-1</jboss.bom.version> -->
+        <!-- <version.org.jboss.bom>1.0.4.Final-redhat-1</version.org.jboss.bom>  -->
 
         <!-- other plugin versions -->
         <compiler.plugin.version>2.3.1</compiler.plugin.version>
@@ -71,14 +72,14 @@
             <dependency>
                 <groupId>org.jboss.bom</groupId>
                 <artifactId>jboss-javaee-6.0-with-tools</artifactId>
-                <version>${jboss.bom.version}</version>
+                <version>${version.org.jboss.bom}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
             <dependency>
                 <groupId>org.jboss.bom</groupId>
                 <artifactId>jboss-javaee-6.0-with-hibernate</artifactId>
-                <version>${jboss.bom.version}</version>
+                <version>${version.org.jboss.bom}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -286,7 +287,7 @@
             <plugin>
                 <groupId>org.jboss.as.plugins</groupId>
                 <artifactId>jboss-as-maven-plugin</artifactId>
-                <version>${jboss.as.plugin.version}</version>
+                <version>${version.org.jboss.as.maven.plugin}</version>
             </plugin>
         </plugins>
     </build>

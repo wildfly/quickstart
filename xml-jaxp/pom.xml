@@ -37,8 +37,15 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- JBoss dependency versions -->
-        <version.org.jboss.as.plugins.maven.plugin>7.3.Final</version.org.jboss.as.plugins.maven.plugin>
-        <version.org.jboss.spec.jboss.javaee.6.0>3.0.0.Final</version.org.jboss.spec.jboss.javaee.6.0>
+        
+        <version.org.jboss.as.maven.plugin>7.3.Final</version.org.jboss.as.maven.plugin>
+        
+        <version.org.jboss.spec.jboss.javaee.6.0>3.0.2.Final</version.org.jboss.spec.jboss.javaee.6.0>
+        <!-- Alternatively, comment out the above line, and un-comment the 
+            line below to use version 3.0.2.Final-redhat-1 which is a release certified 
+            to work with JBoss EAP 6. It requires you have access to the JBoss EAP 6 
+            maven repository. -->
+        <!-- <version.org.jboss.spec.jboss.javaee.6.0>3.0.2.Final-redhat-1</version.org.jboss.spec.jboss.javaee.6.0>  -->
 
         <!-- other plugin versions -->
         <version.compiler.plugin>2.3.1</version.compiler.plugin>
@@ -133,7 +140,7 @@
 			<plugin>
 				<groupId>org.jboss.as.plugins</groupId>
 				<artifactId>jboss-as-maven-plugin</artifactId>
-				<version>${version.org.jboss.as.plugins.maven.plugin}</version>
+				<version>${version.org.jboss.as.maven.plugin}</version>
 			</plugin>
 			<!-- Compiler plugin enforces Java 1.6 compatibility and activates annotation 
 				processors -->
