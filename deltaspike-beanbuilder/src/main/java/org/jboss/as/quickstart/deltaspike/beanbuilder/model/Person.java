@@ -27,7 +27,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- * This is a tipical {@link Entity} with the field <i>nick</i> as its {@link Id}
+ * This is a typical {@link Entity} with the field <i>nick</i> as its {@link Id}
  * 
  * @author <a href="mailto:benevides@redhat.com">Rafael Benevides</a>
  * 
