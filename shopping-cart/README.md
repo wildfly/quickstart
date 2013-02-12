@@ -5,6 +5,7 @@ Level: Intermediate
 Technologies: EJB
 Summary: Demonstrates a stateful session bean
 Target Product: EAP
+Source: <https://github.com/jboss-jdf/jboss-as-quickstart/>
 
 What is it?
 -----------

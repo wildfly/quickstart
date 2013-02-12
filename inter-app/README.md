@@ -5,6 +5,7 @@ Level: Advanced
 Technologies: EJB, CDI, JSF
 Summary: Shows how to communicate between two applications using EJB and CDI
 Target Product: EAP
+Source: <https://github.com/jboss-jdf/jboss-as-quickstart/>
 
 What is it?
 -----------

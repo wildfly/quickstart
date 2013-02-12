@@ -6,7 +6,7 @@ Technologies: JTS
 Summary: Demonstrates recovery of distributed crashed components
 Prerequisites: jts
 Target Product: EAP
-
+Source: <https://github.com/jboss-jdf/jboss-as-quickstart/>
 
 What is it?
 -----------

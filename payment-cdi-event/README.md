@@ -5,6 +5,7 @@ Level: Beginner
 Technologies: CDI
 Summary: Demonstrates how to use CDI 1.0 Events
 Target Product: EAP
+Source: <https://github.com/jboss-jdf/jboss-as-quickstart/>
 
 What is it?
 -----------

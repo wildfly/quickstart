@@ -5,6 +5,7 @@ Level: Intermediate
 Technologies: HTML5, REST, Apache Cordova
 Summary: Based on kitchensink, but uses hybrid HTML5 running as a native application on mobiles
 Target Product: WFK
+Source: <https://github.com/aerogear/as-quickstarts>
 
 What is it?
 -----------

@@ -5,6 +5,7 @@ Level: Advanced
 Technologies: JTA, Crash Recovery
 Summary: Uses Java Transaction API and JBoss Transactions to demonstrate recovery of a crashed transaction
 Target Product: EAP
+Source: <https://github.com/jboss-jdf/jboss-as-quickstart/>
 
 What is it?
 -----------

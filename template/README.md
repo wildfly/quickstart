@@ -6,6 +6,7 @@ Technologies: (list technologies used here)
 Summary: (a brief description of the quickstart to appear in the table )
 Prerequisites: (list any quickstarts that must be deployed prior to running this one)
 Target Product: (EAP, WFK, JDG, etc)
+Source: (The URL for the repository that is the source of record for this quickstart)
 
 
 _This file is meant to serve as a template or guideline for your own quickstart README.md file. Be sure to replace QUICKSTART_NAME and YOUR_NAME, with the appropriate values._

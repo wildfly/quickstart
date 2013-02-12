@@ -5,6 +5,7 @@ Level: Intermediate
 Technologies: CDI, JAX-RS
 Summary: Demonstrates the use of CDI 1.0 and JAX-RS
 Target Product: EAP
+Source: <https://github.com/jboss-jdf/jboss-as-quickstart/>
 
 What is it?
 -----------

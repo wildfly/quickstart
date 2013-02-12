@@ -5,6 +5,7 @@ Level: Advanced
 Technologies: EJB 
 Summary: Demonstrates asynchronous EJB invocations.
 Target Product: EAP
+Source: <https://github.com/jboss-jdf/jboss-as-quickstart/>
 
 What is it?
 -----------

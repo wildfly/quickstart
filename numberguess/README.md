@@ -5,6 +5,7 @@ Level: Beginner
 Technologies: CDI, JSF
 Summary: Demonstrates the use of CDI 1.0 and JSF 2.0
 Target Product: EAP
+Source: <https://github.com/jboss-jdf/jboss-as-quickstart/>
 
 What is it?
 -----------

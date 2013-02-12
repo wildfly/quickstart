@@ -5,6 +5,7 @@ Level: Intermediate
 Technologies: HTML5, REST, Apache Cordova, Android
 Summary: Based on kitchensink, but uses hybrid HTML5 running as a native android application on mobiles
 Target Product: WFK
+Source: <https://github.com/jboss-jdf/jboss-as-quickstart/>
 
 What is it?
 -----------

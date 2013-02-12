@@ -5,6 +5,7 @@ Level: Beginner
 Technologies: JAX-WS
 Summary: Deployment of a basic JAX-WS Web service bundled in a WAR archive
 Target Product: EAP
+Source: <https://github.com/jboss-jdf/jboss-as-quickstart/>
 
 What is it?
 -----------

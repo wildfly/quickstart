@@ -5,6 +5,7 @@ Level: Intermediate
 Technologies: Infinispan, CDI, Transactions
 Summary: Shows how to use Infinispan instead of a relational database with transactions enabled.
 Target Product: JDG
+Source: <https://github.com/infinispan/jdg-quickstart>
 
 What is it?
 -----------

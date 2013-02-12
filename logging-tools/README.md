@@ -5,6 +5,7 @@ Level: Beginner
 Technologies: JBoss Logging Tools
 Summary: Demonstrates the use of JBoss Logging Tools to create internationalized loggers, exceptions, and generic messages
 Target Product: EAP
+Source: <https://github.com/jboss-jdf/jboss-as-quickstart/>
 
 What is it?
 ------------

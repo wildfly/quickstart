@@ -5,6 +5,7 @@ Level: Intermediate
 Technologies: Infinispan, REST
 Summary: Demonstrates how to use Infinispan remotely using the REST protocol.
 Target Product: JDG
+Source: <https://github.com/infinispan/jdg-quickstart>
 
 What is it?
 -----------

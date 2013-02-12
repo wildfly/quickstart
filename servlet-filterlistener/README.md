@@ -5,6 +5,7 @@ Level: Intermediate
 Technologies: Servlet
 Summary: Demonstrates Servlet filters and listeners
 Target Product: EAP
+Source: <https://github.com/jboss-jdf/jboss-as-quickstart/>
 
 What is it?
 -----------

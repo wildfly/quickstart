@@ -5,6 +5,7 @@ Level: Intermediate
 Technologies: Infinispan, Memcached 
 Summary: Demonstrates how to use Infinispan remotely using the Memcached protocol.
 Target Product: JDG
+Source: <https://github.com/infinispan/jdg-quickstart>
 
 What is it?
 -----------

@@ -5,6 +5,7 @@ Level: Beginner
 Technologies: JBoss Modules
 Summary: Demonstrates how to use modules to control class loading for 3rd party logging frameworks
 Target Product: EAP
+Source: <https://github.com/jboss-jdf/jboss-as-quickstart/>
 
 What is it?
 -----------

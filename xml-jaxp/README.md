@@ -5,6 +5,7 @@ Level: Intermediate
 Technologies: JAXP, SAX, DOM, Servlet
 Summary: Upload, validation and parsing of XML using SAX or DOM
 Target Product: EAP
+Source: <https://github.com/jboss-jdf/jboss-as-quickstart/>
 
 What is it?
 -----------

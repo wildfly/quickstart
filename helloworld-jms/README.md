@@ -5,6 +5,7 @@ Level: Intermediate
 Technologies: JMS
 Summary: Demonstrates the use of a standalone (Java SE) JMS client
 Target Product: EAP
+Source: <https://github.com/jboss-jdf/jboss-as-quickstart/>
 
 What is it?
 -----------

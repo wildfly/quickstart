@@ -5,6 +5,8 @@ Level: Intermediate
 Technologies: JPA, Arquillian
 Summary: Demonstrates testing JPA using Arquillian
 Target Product: EAP
+Source: <https://github.com/jboss-jdf/jboss-as-quickstart/>
+
 
 What is it?
 -----------

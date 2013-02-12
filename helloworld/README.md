@@ -5,6 +5,7 @@ Level: Beginner
 Technologies: CDI, Servlet
 Summary: Basic example that can be used to verify that the server is configured and running correctly
 Target Product: EAP
+Source: <https://github.com/jboss-jdf/jboss-as-quickstart/>
 
 What is it?
 -----------

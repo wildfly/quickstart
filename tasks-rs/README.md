@@ -6,6 +6,7 @@ Technologies: JPA, JAX-RS
 Summary: Demonstrates how to use JAX-RS and JPA together
 Prerequisites: tasks
 Target Product: EAP
+Source: <https://github.com/jboss-jdf/jboss-as-quickstart/>
 
 What is it?
 -----------

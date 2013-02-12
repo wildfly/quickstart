@@ -5,6 +5,7 @@ Level: Beginner
 Technologies: JavaMail, JSF, CDI
 Summary: Demonstrates the use of JavaMail
 Target Product: EAP
+Source: <https://github.com/jboss-jdf/jboss-as-quickstart/>
 
 What is it?
 -----------

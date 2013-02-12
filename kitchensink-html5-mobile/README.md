@@ -5,6 +5,7 @@ Level: Intermediate
 Technologies: Aerogear, CDI, HTML5, REST
 Summary: Based on kitchensink, but uses HTML5, making it suitable for mobile and tablet computers
 Target Product: WFK
+Source: <https://github.com/aerogear/as-quickstarts>
 
 What is it?
 -----------

@@ -5,6 +5,7 @@ Level: Intermediate
 Technologies: EAR
 Summary: A localized version of kitchensink-ear
 Target Product: EAP
+Source: <https://github.com/jboss-jdf/jboss-as-quickstart/>
 
 What is it?
 -----------

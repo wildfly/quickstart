@@ -5,6 +5,7 @@ Level: Intermediate
 Technologies: EJB, EAR
 Summary: Packages an EJB JAR and WAR in an EAR
 Target Product: EAP
+Source: <https://github.com/jboss-jdf/jboss-as-quickstart/>
 
 What is it?
 -----------

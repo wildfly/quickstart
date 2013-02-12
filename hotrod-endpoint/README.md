@@ -5,6 +5,7 @@ Level: Intermediate
 Technologies: Infinispan, Hot Rod
 Summary: Demonstrates how to use Infinispan remotely using the Hot Rod protocol.
 Target Product: JDG
+Source: <https://github.com/infinispan/jdg-quickstart>
 
 What is it?
 -----------

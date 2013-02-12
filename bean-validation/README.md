@@ -5,6 +5,7 @@ Level: Beginner
 Technologies: Bean Validation, JPA
 Summary: Shows how to use Arquillian to test Bean Validation
 Target Product: EAP
+Source: <https://github.com/jboss-jdf/jboss-as-quickstart/>
 
 What is it?
 -----------

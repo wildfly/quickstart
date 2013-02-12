@@ -5,6 +5,7 @@ Level: Beginner
 Technologies: CDI, JSF, RichFaces
 Summary: Similar to the helloworld quickstart, but with a JSF front end
 Target Product: WFK
+Source: <https://github.com/richfaces/as-quickstarts>
 
 What is it?
 -----------

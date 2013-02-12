@@ -5,6 +5,7 @@ Level: Intermediate
 Technologies: Servlet, CDI, EJB
 Summary: Demonstrates CDI, plus asynchronous Servlets and EJBs
 Target Product: EAP
+Source: <https://github.com/jboss-jdf/jboss-as-quickstart/>
 
 What is it?
 -----------

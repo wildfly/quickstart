@@ -5,6 +5,7 @@ Level: Beginner
 Technologies: H2
 Summary: Shows how to use the H2 console with JBoss AS
 Target Product: EAP
+Source: <https://github.com/jboss-jdf/jboss-as-quickstart/>
 
 What is it?
 -----------

@@ -5,6 +5,7 @@ Level: Intermediate
 Technologies: Infinispan, CDI
 Summary: Shows how to use Infinispan in clustered mode, with expiration enabled.
 Target Product: JDG
+Source: <https://github.com/infinispan/jdg-quickstart>
 
 What is it?
 -----------

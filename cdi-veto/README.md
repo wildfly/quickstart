@@ -5,6 +5,7 @@ Level: Intermediate
 Technologies: CDI
 Summary: Creating a basic CDI extension to demonstrate vetoing beans.
 Target Product: EAP
+Source: <https://github.com/jboss-jdf/jboss-as-quickstart/>
 
 What is it?
 -----------
