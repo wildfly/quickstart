@@ -37,21 +37,21 @@
 
         <!-- JBoss dependency versions -->
 
-        <version.org.jboss.as.maven.plugin>7.3.Final</version.org.jboss.as.maven.plugin>
+        <version.jboss.maven.plugin>7.3.Final</version.jboss.maven.plugin>
         
-        <version.org.jboss.as>7.2.0.Alpha1-SNAPSHOT</version.org.jboss.as>
+        <version.jboss.as>7.2.0.Alpha1-SNAPSHOT</version.jboss.as>
         <!-- Alternatively, comment out the above line, and un-comment the 
             line below to use version 7.1.1.Final-redhat-1 which is a release certified 
             to work with JBoss EAP 6. It requires you have access to the JBoss EAP 6 
             maven repository. -->
-        <!-- <version.org.jboss.as>7.2.0.Alpha1-redhat-4</version.org.jboss.as> -->
+        <!-- <version.jboss.as>7.2.0.Alpha1-redhat-4</version.jboss.as> -->
 
-        <version.org.jboss.spec.jboss.javaee.6.0>3.0.2.Final</version.org.jboss.spec.jboss.javaee.6.0>
+        <version.jboss.spec.javaee.6.0>3.0.2.Final</version.jboss.spec.javaee.6.0>
         <!-- Alternatively, comment out the above line, and un-comment the 
             line below to use version 3.0.2.Final-redhat-1 which is a release certified 
             to work with JBoss EAP 6. It requires you have access to the JBoss EAP 6 
             maven repository. -->
-        <!-- <version.org.jboss.spec.jboss.javaee.6.0>3.0.2.Final-redhat-1</version.org.jboss.spec.jboss.javaee.6.0> -->
+        <!-- <version.jboss.spec.javaee.6.0>3.0.2.Final-redhat-1</version.jboss.spec.javaee.6.0> -->
 
         <!-- other plugin versions -->
         <version.compiler.plugin>2.3.1</version.compiler.plugin>
@@ -79,7 +79,7 @@
             <dependency>
                 <groupId>org.jboss.spec</groupId>
                 <artifactId>jboss-javaee-6.0</artifactId>
-                <version>${version.org.jboss.spec.jboss.javaee.6.0}</version>
+                <version>${version.jboss.spec.javaee.6.0}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -91,7 +91,7 @@
             <plugin>
                 <groupId>org.jboss.as.plugins</groupId>
                 <artifactId>jboss-as-maven-plugin</artifactId>
-                <version>${version.org.jboss.as.maven.plugin}</version>
+                <version>${version.jboss.maven.plugin}</version>
                 <configuration>
                     <skip>true</skip>
                 </configuration>

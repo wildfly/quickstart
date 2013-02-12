@@ -37,14 +37,14 @@
 
     		<!-- JBoss dependency versions -->
 
-        <version.org.jboss.as.maven.plugin>7.3.Final</version.org.jboss.as.maven.plugin>
+        <version.jboss.maven.plugin>7.3.Final</version.jboss.maven.plugin>
 
-        <version.org.jboss.as>7.2.0.Alpha1-SNAPSHOT</version.org.jboss.as>
+        <version.jboss.as>7.2.0.Alpha1-SNAPSHOT</version.jboss.as>
         <!-- Alternatively, comment out the above line, and un-comment the 
             line below to use version 7.1.1.Final-redhat-1 which is a release certified 
             to work with JBoss EAP 6. It requires you have access to the JBoss EAP 6 
             maven repository. -->
-        <!-- <version.org.jboss.as>7.2.0.Alpha1-redhat-4</version.org.jboss.as> -->
+        <!-- <version.jboss.as>7.2.0.Alpha1-redhat-4</version.jboss.as> -->
 
         <!-- other plugin versions -->
         <version.compiler.plugin>2.3.1</version.compiler.plugin>
@@ -60,7 +60,7 @@
         <dependency>
             <groupId>org.jboss.as</groupId>
             <artifactId>jboss-as-jms-client-bom</artifactId>
-            <version>${version.org.jboss.as}</version>
+            <version>${version.jboss.as}</version>
             <type>pom</type>
         </dependency>
     </dependencies>
@@ -122,7 +122,7 @@
             <plugin>
                 <groupId>org.jboss.as.plugins</groupId>
                 <artifactId>jboss-as-maven-plugin</artifactId>
-                <version>${version.org.jboss.as.maven.plugin}</version>
+                <version>${version.jboss.maven.plugin}</version>
                 <configuration>
                     <username>admin</username>
                     <password>admin</password>

@@ -38,25 +38,25 @@
 
         <!-- JBoss dependency versions -->
 
-        <version.org.jboss.as.maven.plugin>7.3.Final</version.org.jboss.as.maven.plugin>
+        <version.jboss.maven.plugin>7.3.Final</version.jboss.maven.plugin>
 
         <!-- Define the version of the JBoss BOMs we want to import to specify tested stacks. -->
-        <version.org.jboss.bom>1.0.4.Final</version.org.jboss.bom>
+        <version.jboss.bom>1.0.4.Final</version.jboss.bom>
         <!-- Alternatively, comment out the above line, and un-comment the 
             line below to use version 1.0.4.Final-redhat-1 which is a release certified 
             to work with JBoss EAP 6. It requires you have access to the JBoss EAP 6 
             maven repository. -->
-        <!-- <version.org.jboss.bom>1.0.4.Final-redhat-1</version.org.jboss.bom> -->
+        <!-- <version.jboss.bom>1.0.4.Final-redhat-1</version.jboss.bom> -->
 
-        <version.org.jboss.as>7.2.0.Alpha1-SNAPSHOT</version.org.jboss.as>
+        <version.jboss.as>7.2.0.Alpha1-SNAPSHOT</version.jboss.as>
         <!-- Alternatively, comment out the above line, and un-comment the 
             line below to use version 7.1.1.Final-redhat-1 which is a release certified 
             to work with JBoss EAP 6. It requires you have access to the JBoss EAP 6 
             maven repository. -->
-        <!-- <version.org.jboss.as>7.2.0.Alpha1-redhat-4</version.org.jboss.as> -->
+        <!-- <version.jboss.as>7.2.0.Alpha1-redhat-4</version.jboss.as> -->
 
         <!-- Weld Version -->
-        <version.org.jboss.weld>1.1.9.Final</version.org.jboss.weld>
+        <version.jboss.weld>1.1.9.Final</version.jboss.weld>
 
         <!-- other plugin versions -->
         <version.compiler.plugin>2.3.1</version.compiler.plugin>
@@ -82,7 +82,7 @@
             <dependency>
                 <groupId>org.jboss.bom</groupId>
                 <artifactId>jboss-javaee-6.0-with-deltaspike</artifactId>
-                <version>${version.org.jboss.bom}</version>
+                <version>${version.jboss.bom}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -94,14 +94,14 @@
         <dependency>
             <groupId>org.jboss.as</groupId>
             <artifactId>jboss-as-jms-client-bom</artifactId>
-            <version>${version.org.jboss.as}</version>
+            <version>${version.jboss.as}</version>
             <type>pom</type>
         </dependency>
 
         <dependency>
             <groupId>org.jboss.weld.se</groupId>
             <artifactId>weld-se-core</artifactId>
-            <version>${version.org.jboss.weld}</version>
+            <version>${version.jboss.weld}</version>
         </dependency>
 
         <!-- Deltaspike API. We use compile scope as we need its API -->
@@ -146,7 +146,7 @@
             <plugin>
                 <groupId>org.jboss.as.plugins</groupId>
                 <artifactId>jboss-as-maven-plugin</artifactId>
-                <version>${version.org.jboss.as.maven.plugin}</version>
+                <version>${version.jboss.maven.plugin}</version>
                 <configuration>
                     <username>admin</username>
                     <password>admin</password>

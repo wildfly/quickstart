@@ -32,19 +32,19 @@
         <com.sun.faces.jsf.impl.version>2.0.2</com.sun.faces.jsf.impl.version>
 
         <!-- Define the version of the JBoss BOMs we want to import to specify tested stacks. -->
-        <version.org.jboss.bom>1.0.4.Final</version.org.jboss.bom>
+        <version.jboss.bom>1.0.4.Final</version.jboss.bom>
         <!-- Alternatively, comment out the above line, and un-comment the 
             line below to use version 1.0.4.Final-redhat-1 which is a release certified 
             to work with JBoss EAP 6. It requires you have access to the JBoss EAP 6 
             maven repository. -->
-        <!-- <version.org.jboss.bom>1.0.4.Final-redhat-1</version.org.jboss.bom> -->
+        <!-- <version.jboss.bom>1.0.4.Final-redhat-1</version.jboss.bom> -->
 
         <!-- This is the Management URL of EWS/Tomcat, so tomcat-maven-plugin 
             can deploy this quickstart on EWS/Tomcat through this URL -->
         <tomcat.management.url>http://localhost:8080/manager/text</tomcat.management.url>
 
         <!-- other plugin versions -->
-        <version.org.jboss.as.maven.plugin>7.3.Final</version.org.jboss.as.maven.plugin>
+        <version.jboss.maven.plugin>7.3.Final</version.jboss.maven.plugin>
         <version.tomcat.maven.plugin>1.1</version.tomcat.maven.plugin>
         <version.buildhelper.maven.plugin>1.7</version.buildhelper.maven.plugin>
 
@@ -68,14 +68,14 @@
             <dependency>
                 <groupId>org.jboss.bom</groupId>
                 <artifactId>jboss-javaee-6.0-with-infinispan</artifactId>
-                <version>${version.org.jboss.bom}</version>
+                <version>${version.jboss.bom}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
             <dependency>
                 <groupId>org.jboss.bom</groupId>
                 <artifactId>jboss-javaee-6.0-with-transactions</artifactId>
-                <version>${version.org.jboss.bom}</version>
+                <version>${version.jboss.bom}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -181,7 +181,7 @@
                         <!-- To use, run: mvn package jboss-as:deploy -->
                         <groupId>org.jboss.as.plugins</groupId>
                         <artifactId>jboss-as-maven-plugin</artifactId>
-                        <version>${version.org.jboss.as.maven.plugin}</version>
+                        <version>${version.jboss.maven.plugin}</version>
                       </plugin>
                 </plugins>
             </build>

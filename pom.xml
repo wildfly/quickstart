@@ -39,35 +39,33 @@
 
         <!-- JBoss dependency versions -->
 
-        <version.org.jboss.as>7.3.Final</version.org.jboss.as>
+        <version.jboss.as>7.3.Final</version.jboss.as>
         <!-- Alternatively, comment out the above line, and un-comment the 
             line below to use version 7.1.1.Final-redhat-1 which is a release certified 
             to work with JBoss EAP 6. It requires you have access to the JBoss EAP 6 
             maven repository. -->
-        <!-- <version.org.jboss.as>7.2.0.Alpha1-redhat-4</version.org.jboss.as> -->
+        <!-- <version.jboss.as>7.2.0.Alpha1-redhat-4</version.jboss.as> -->
 
-        <version.org.jboss.as.maven.plugin>7.3.Final</version.org.jboss.as.maven.plugin>
+        <version.jboss.maven.plugin>7.3.Final</version.jboss.maven.plugin>
 
         <!-- Define the version of the JBoss BOMs we want to import to specify tested stacks. -->
-        <version.org.jboss.bom>1.0.4.Final</version.org.jboss.bom>
+        <version.jboss.bom>1.0.4.Final</version.jboss.bom>
         <!-- Alternatively, comment out the above line, and un-comment the 
             line below to use version 1.0.4.Final-redhat-1 which is a release certified 
             to work with JBoss EAP 6. It requires you have access to the JBoss EAP 6 
             maven repository. -->
-        <!-- <version.org.jboss.bom>1.0.4.Final-redhat-1</version.org.jboss.bom> -->
+        <!-- <version.jboss.bom>1.0.4.Final-redhat-1</version.jboss.bom> -->
 
-        <version.org.jboss.spec.jboss.javaee.6.0>3.0.2.Final</version.org.jboss.spec.jboss.javaee.6.0> 
+        <version.jboss.spec.javaee.6.0>3.0.2.Final</version.jboss.spec.javaee.6.0> 
         <!-- Alternatively, comment out the above line, and un-comment the 
             line below to use version 3.0.2.Final-redhat-1 which is a release certified 
             to work with JBoss EAP 6. It requires you have access to the JBoss EAP 6 
             maven repository. -->
-        <!-- <version.org.jboss.spec.jboss.javaee.6.0>3.0.2.Final-redhat-1</version.org.jboss.spec.jboss.javaee.6.0> -->
+        <!-- <version.jboss.spec.javaee.6.0>3.0.2.Final-redhat-1</version.jboss.spec.javaee.6.0> -->
 
-        <version.org.jboss.ejb.client>7.1.1.Final</version.org.jboss.ejb.client>
-        <version.org.jboss.logging>3.1.1.GA</version.org.jboss.logging>
-        <version.org.jboss.logging.processor>1.0.3.Final</version.org.jboss.logging.processor>
 
-        <version.org.jboss.arquillian>1.0.0.Final</version.org.jboss.arquillian>
+        <version.jboss.arquillian>1.0.0.Final</version.jboss.arquillian>
+        <version.jboss.weld>1.1.9.Final</version.jboss.weld>
 
         <version.org.hibernate3.commons.annotations>3.2.0.Final</version.org.hibernate3.commons.annotations>
         <version.org.hibernate>3.6.8.Final</version.org.hibernate>
@@ -75,9 +73,7 @@
         <version.org.hibernate.infinispan>3.6.8.Final</version.org.hibernate.infinispan>
         <version.org.hibernate-jpamodelgen>1.1.1.Final</version.org.hibernate-jpamodelgen>
         <version.org.hibernate.validator>4.2.0.Final</version.org.hibernate.validator>
-        
-        <version.org.jboss.resteasy>2.3.5.Final</version.org.jboss.resteasy>
-        
+                
         <version.org.richfaces>4.2.0.Final</version.org.richfaces>
         
         <!-- Other dependency versions -->
@@ -280,7 +276,7 @@
             <plugin>
                 <groupId>org.jboss.as.plugins</groupId>
                 <artifactId>jboss-as-maven-plugin</artifactId>
-                <version>${version.org.jboss.as.maven.plugin}</version>
+                <version>${version.jboss.maven.plugin}</version>
                 <inherited>true</inherited>
                 <configuration>
                     <skip>true</skip>
