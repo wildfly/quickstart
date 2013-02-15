@@ -17,6 +17,7 @@ package org.jboss.as.quickstart.deltaspike.beanbuilder.test;
  * limitations under the License.
  */
 
+import java.io.File;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
@@ -30,8 +31,7 @@ import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.jboss.shrinkwrap.resolver.api.DependencyResolvers;
-import org.jboss.shrinkwrap.resolver.api.maven.MavenDependencyResolver;
+import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -44,16 +44,14 @@ public class DeactivatableTest {
     @Deployment
     public static Archive<?> getDeployment() {
 
-        MavenDependencyResolver resolver = DependencyResolvers
-                .use(MavenDependencyResolver.class)
-                .loadMetadataFromPom("pom.xml");
+        File[] libs = Maven.resolver().loadPomFromFile("pom.xml").resolve(
+                "org.apache.deltaspike.core:deltaspike-core-api", 
+                "org.apache.deltaspike.core:deltaspike-core-impl").withTransitivity().asFile();
 
         Archive<?> archive = ShrinkWrap
                 .create(WebArchive.class, "deactivator.war")
                 .addPackages(true, ExcludeExtensionDeactivator.class.getPackage())
-                .addAsLibraries(
-                        resolver.artifacts("org.apache.deltaspike.core:deltaspike-core-api",
-                                "org.apache.deltaspike.core:deltaspike-core-impl").resolveAsFiles())
+                .addAsLibraries(libs)
                 .addAsResource("META-INF/apache-deltaspike.properties")          
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
         return archive;

@@ -16,6 +16,7 @@
  */
 package org.jboss.as.quickstarts.kitchensink.test;
 
+import java.io.File;
 import static org.junit.Assert.assertNotNull;
 
 import java.util.logging.Logger;
@@ -31,8 +32,7 @@ import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.jboss.shrinkwrap.resolver.api.DependencyResolvers;
-import org.jboss.shrinkwrap.resolver.api.maven.MavenDependencyResolver;
+import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -46,9 +46,7 @@ public class MemberRegistrationTest {
                 "org.apache.deltaspike.core:deltaspike-core-api",
                 "org.apache.deltaspike.core:deltaspike-core-impl" };
         
-        MavenDependencyResolver resolver = DependencyResolvers
-                .use(MavenDependencyResolver.class)
-                .loadMetadataFromPom("pom.xml");
+        File[] libs = Maven.resolver().loadPomFromFile("pom.xml").resolve(deps).withTransitivity().asFile();
         
         return ShrinkWrap
                 .create(WebArchive.class, "test.war")
@@ -57,8 +55,7 @@ public class MemberRegistrationTest {
                 .addAsResource("META-INF/test-persistence.xml",
                         "META-INF/persistence.xml")
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
-                    .addAsLibraries(
-                        resolver.artifacts(deps).resolveAsFiles())
+                .addAsLibraries(libs)
                 // Deploy our test datasource
                 .addAsWebInfResource("test-ds.xml");
     }

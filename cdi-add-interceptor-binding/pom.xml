@@ -47,6 +47,8 @@
             to work with JBoss EAP 6. It requires you have access to the JBoss EAP 6 
             maven repository. -->
         <!-- <version.jboss.bom>1.0.4.Final-redhat-1</version.jboss.bom> -->
+        
+        <version.shrinkwrap.resolver>2.0.0-beta-2</version.shrinkwrap.resolver>
 
         <!-- other plugin versions -->
         <version.compiler.plugin>2.3.1</version.compiler.plugin>
@@ -60,6 +62,13 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.jboss.shrinkwrap.resolver</groupId>
+                <artifactId>shrinkwrap-resolver-bom</artifactId>
+                <version>${version.shrinkwrap.resolver}</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
             <!-- Define the version of JBoss' Java EE 6 APIs we want to import.
                  Any dependencies from org.jboss.spec will have their version defined by this BOM
 
@@ -130,9 +139,11 @@
             <groupId>org.jboss.arquillian.protocol</groupId>
             <artifactId>arquillian-protocol-servlet</artifactId>
         </dependency>
+        
         <dependency>
             <groupId>org.jboss.shrinkwrap.resolver</groupId>
-            <artifactId>shrinkwrap-resolver-impl-maven</artifactId>
+            <artifactId>shrinkwrap-resolver-depchain</artifactId>
+            <type>pom</type>
             <scope>test</scope>
         </dependency>
         

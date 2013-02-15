@@ -17,6 +17,7 @@ package org.jboss.as.quickstart.deltaspike.beanbuilder.test;
  * limitations under the License.
  */
 
+import java.io.File;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -32,8 +33,7 @@ import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.jboss.shrinkwrap.resolver.api.DependencyResolvers;
-import org.jboss.shrinkwrap.resolver.api.maven.MavenDependencyResolver;
+import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -46,17 +46,15 @@ public class ByIdExtensionTest {
     @Deployment
     public static Archive<?> getDeployment() {
 
-        MavenDependencyResolver resolver = DependencyResolvers
-                .use(MavenDependencyResolver.class)
-                .loadMetadataFromPom("pom.xml");
+        File[] libs = Maven.resolver().loadPomFromFile("pom.xml").resolve(
+                "org.apache.deltaspike.core:deltaspike-core-api", 
+                "org.apache.deltaspike.core:deltaspike-core-impl").withTransitivity().asFile();
 
         Archive<?> archive = ShrinkWrap
                 .create(WebArchive.class, "test.war")
                 .addPackages(true, ByIdExtension.class.getPackage())
                 .addAsServiceProvider(Extension.class, ByIdExtension.class)
-                .addAsLibraries(
-                        resolver.artifacts("org.apache.deltaspike.core:deltaspike-core-api",
-                                "org.apache.deltaspike.core:deltaspike-core-impl").resolveAsFiles())
+                .addAsLibraries(libs)
                 .addAsResource("META-INF/test-persistence.xml", "META-INF/persistence.xml").addAsResource("import.sql")
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
                 // Deploy our test datasource
