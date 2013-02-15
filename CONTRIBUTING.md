@@ -108,6 +108,33 @@ Kitchensink variants
        * This should be below any AS/EAP link areas.
 
     If appropriate for the technology the application should expose RESTful endpoints following the example of the original kitchensink quickstart.  This should also include the RESTful links in the member table.
+    
+Setup your environment
+----------------------
+
+The quickstart README.md files are converted to HTML using markdown. We recommend using redcarpet, as that is what github uses, but you can use any markdown tool really.
+
+There are two scripts, `dist/github-flaoured-markdown.rb`, that will convert an indivdual file, and `dist/release-utils.sh -m`, that will convert all the files.
+
+To setup the environment you need to follow these steps.
+
+1. Install Ruby *1.9.X*
+
+    For RHEL you can use this [spec](https://github.com/lnxchk/ruby-1.9.3-rpm)
+    
+    In general, you're better off not relying on your OSs ruby install, they are often quite broken.
+
+2. Install Ruby GEMs
+
+        gem install nokogiri pygments.rb redcarpet fileutils
+
+3. Install Python Eggs
+
+    You'll need python eggs installed, which often isn't available on OS installs of python. Google to find out how to install it
+
+4. Install pygments
+
+            sudo easy_install pygments
 
 License Information and Contributor Agreement
 ---------------------------------------------
