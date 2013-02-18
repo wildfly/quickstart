@@ -283,6 +283,169 @@ The step here assumes you have already successfully deployed the EJBs to the ser
 
 		mvn exec:exec
 
+
+Investigate the Console Output
+----------------------------
+
+When you run the `mvn exec:exec` command, you see the following output.
+
+    -------------------------------------------------
+    * * About to perform test as ConnectionUser * *
+
+    * Making Direct Calls to the SecuredEJB
+
+    * getSecurityInformation()=[Principal={ConnectionUser}, In role {User}=true, In role {RoleOne}=false, In role {RoleTwo}=false]
+    * Can call roleOneMethod()=false
+    * Can call roleTwoMethod()=false
+
+    * Calling the IntermediateEJB to repeat the test server to server 
+
+    * * IntermediateEJB - Begin Testing * * 
+    SecuredEJBRemote.getSecurityInformation()=[Principal={ConnectionUser}, In role {User}=true, In role {RoleOne}=false, In role {RoleTwo}=false]
+    Can call roleOneMethod=false
+    Can call roleTwoMethod=false
+    * * IntermediateEJB - End Testing * * 
+    * * Test Complete * * 
+
+    -------------------------------------------------
+    * * About to perform test as AppUserOne * *
+
+    * Making Direct Calls to the SecuredEJB
+
+    * getSecurityInformation()=[Principal={AppUserOne}, In role {User}=true, In role {RoleOne}=true, In role {RoleTwo}=false]
+    * Can call roleOneMethod()=true
+    * Can call roleTwoMethod()=false
+
+    * Calling the IntermediateEJB to repeat the test server to server 
+
+    * * IntermediateEJB - Begin Testing * * 
+    SecuredEJBRemote.getSecurityInformation()=[Principal={AppUserOne}, In role {User}=true, In role {RoleOne}=true, In role {RoleTwo}=false]
+    Can call roleOneMethod=true
+    Can call roleTwoMethod=false
+    * * IntermediateEJB - End Testing * * 
+    * * Test Complete * * 
+
+    -------------------------------------------------
+    * * About to perform test as AppUserTwo * *
+
+    * Making Direct Calls to the SecuredEJB
+
+    * getSecurityInformation()=[Principal={AppUserTwo}, In role {User}=true, In role {RoleOne}=false, In role {RoleTwo}=true]
+    * Can call roleOneMethod()=false
+    * Can call roleTwoMethod()=true
+
+    * Calling the IntermediateEJB to repeat the test server to server 
+
+    * * IntermediateEJB - Begin Testing * * 
+    SecuredEJBRemote.getSecurityInformation()=[Principal={AppUserTwo}, In role {User}=true, In role {RoleOne}=false, In role {RoleTwo}=true]
+    Can call roleOneMethod=false
+    Can call roleTwoMethod=true
+    * * IntermediateEJB - End Testing * * 
+    * * Test Complete * * 
+
+    -------------------------------------------------
+    * * About to perform test as AppUserThree * *
+
+    * Making Direct Calls to the SecuredEJB
+
+    * * Test Complete * * 
+
+    -------------------------------------------------
+    Call as 'AppUserThree' correctly rejected.
+
+    This second round of tests is using the (PicketBox) ClientLoginModule with LoginContext API to set the desired Principal.
+
+    -------------------------------------------------
+    * * About to perform test as ConnectionUser * *
+
+
+    * Making Direct Calls to the SecuredEJB
+
+    * getSecurityInformation()=[Principal={ConnectionUser}, In role {User}=true, In role {RoleOne}=false, In role {RoleTwo}=false]
+    * Can call roleOneMethod()=false
+    * Can call roleTwoMethod()=false
+
+    * Calling the IntermediateEJB to repeat the test server to server 
+
+    * * IntermediateEJB - Begin Testing * * 
+    SecuredEJBRemote.getSecurityInformation()=[Principal={ConnectionUser}, In role {User}=true, In role {RoleOne}=false, In role {RoleTwo}=false]
+    Can call roleOneMethod=false
+    Can call roleTwoMethod=false
+    * * IntermediateEJB - End Testing * * 
+    * * Test Complete * * 
+
+    -------------------------------------------------
+    * * About to perform test as AppUserOne * *
+
+    * Making Direct Calls to the SecuredEJB
+
+    * getSecurityInformation()=[Principal={AppUserOne}, In role {User}=true, In role {RoleOne}=true, In role {RoleTwo}=false]
+    * Can call roleOneMethod()=true
+    * Can call roleTwoMethod()=false
+
+    * Calling the IntermediateEJB to repeat the test server to server 
+
+    * * IntermediateEJB - Begin Testing * * 
+    SecuredEJBRemote.getSecurityInformation()=[Principal={AppUserOne}, In role {User}=true, In role {RoleOne}=true, In role {RoleTwo}=false]
+    Can call roleOneMethod=true
+    Can call roleTwoMethod=false
+    * * IntermediateEJB - End Testing * * 
+    * * Test Complete * * 
+
+    -------------------------------------------------
+    * * About to perform test as AppUserTwo * *
+
+    * Making Direct Calls to the SecuredEJB
+
+    * getSecurityInformation()=[Principal={AppUserTwo}, In role {User}=true, In role {RoleOne}=false, In role {RoleTwo}=true]
+    * Can call roleOneMethod()=false
+    * Can call roleTwoMethod()=true
+
+    * Calling the IntermediateEJB to repeat the test server to server 
+
+    * * IntermediateEJB - Begin Testing * * 
+    SecuredEJBRemote.getSecurityInformation()=[Principal={AppUserTwo}, In role {User}=true, In role {RoleOne}=false, In role {RoleTwo}=true]
+    Can call roleOneMethod=false
+    Can call roleTwoMethod=true
+    * * IntermediateEJB - End Testing * * 
+    * * Test Complete * * 
+
+    -------------------------------------------------
+    * * About to perform test as AppUserThree * *
+
+    * Making Direct Calls to the SecuredEJB
+
+    * * Test Complete * * 
+
+    -------------------------------------------------
+    Call as 'AppUserThree' correctly rejected.
+
+
+Investigate the Server Console Output
+----------------------------
+
+Look at the JBoss Application Server console or Server log and you should see exceptions (the stacktraces were not included here) in the log like the following:
+
+    09:16:01,133 ERROR [org.jboss.as.ejb3.invocation] (EJB default - 6) JBAS014134: EJB Invocation failed on component SecuredEJB for method public abstract boolean org.jboss.as.quickstarts.ejb_security_interceptors.SecuredEJBRemote.roleOneMethod(): javax.ejb.EJBAccessException: JBAS014502: Invocation on method: public abstract boolean org.jboss.as.quickstarts.ejb_security_interceptors.SecuredEJBRemote.roleOneMethod() of bean: SecuredEJB is not allowed
+    09:16:01,198 ERROR [org.jboss.as.ejb3.invocation] (EJB default - 9) JBAS014134: EJB Invocation failed on component SecuredEJB for method public abstract boolean org.jboss.as.quickstarts.ejb_security_interceptors.SecuredEJBRemote.roleTwoMethod(): javax.ejb.EJBAccessException: JBAS014502: Invocation on method: public abstract boolean org.jboss.as.quickstarts.ejb_security_interceptors.SecuredEJBRemote.roleTwoMethod() of bean: SecuredEJB is not allowed
+    09:16:01,215 ERROR [org.jboss.as.ejb3.invocation] (EJB default - 4) JBAS014134: EJB Invocation failed on component SecuredEJB for method public abstract boolean org.jboss.as.quickstarts.ejb_security_interceptors.SecuredEJBRemote.roleOneMethod(): javax.ejb.EJBAccessException: JBAS014502: Invocation on method: public abstract boolean org.jboss.as.quickstarts.ejb_security_interceptors.SecuredEJBRemote.roleOneMethod() of bean: SecuredEJB is not allowed
+    09:16:01,224 ERROR [org.jboss.as.ejb3.invocation] (EJB default - 1) JBAS014134: EJB Invocation failed on component SecuredEJB for method public abstract boolean org.jboss.as.quickstarts.ejb_security_interceptors.SecuredEJBRemote.roleTwoMethod(): javax.ejb.EJBAccessException: JBAS014502: Invocation on method: public abstract boolean org.jboss.as.quickstarts.ejb_security_interceptors.SecuredEJBRemote.roleTwoMethod() of bean: SecuredEJB is not allowed
+    09:16:01,267 ERROR [org.jboss.as.ejb3.invocation] (EJB default - 8) JBAS014134: EJB Invocation failed on component SecuredEJB for method public abstract boolean org.jboss.as.quickstarts.ejb_security_interceptors.SecuredEJBRemote.roleTwoMethod(): javax.ejb.EJBAccessException: JBAS014502: Invocation on method: public abstract boolean org.jboss.as.quickstarts.ejb_security_interceptors.SecuredEJBRemote.roleTwoMethod() of bean: SecuredEJB is not allowed
+    09:16:01,282 ERROR [org.jboss.as.ejb3.invocation] (EJB default - 4) JBAS014134: EJB Invocation failed on component SecuredEJB for method public abstract boolean org.jboss.as.quickstarts.ejb_security_interceptors.SecuredEJBRemote.roleTwoMethod(): javax.ejb.EJBAccessException: JBAS014502: Invocation on method: public abstract boolean org.jboss.as.quickstarts.ejb_security_interceptors.SecuredEJBRemote.roleTwoMethod() of bean: SecuredEJB is not allowed
+    09:16:01,297 ERROR [org.jboss.as.ejb3.invocation] (EJB default - 10) JBAS014134: EJB Invocation failed on component SecuredEJB for method public abstract boolean org.jboss.as.quickstarts.ejb_security_interceptors.SecuredEJBRemote.roleOneMethod(): javax.ejb.EJBAccessException: JBAS014502: Invocation on method: public abstract boolean org.jboss.as.quickstarts.ejb_security_interceptors.SecuredEJBRemote.roleOneMethod() of bean: SecuredEJB is not allowed
+    09:16:01,316 ERROR [org.jboss.as.ejb3.invocation] (EJB default - 9) JBAS014134: EJB Invocation failed on component SecuredEJB for method public abstract boolean org.jboss.as.quickstarts.ejb_security_interceptors.SecuredEJBRemote.roleOneMethod(): javax.ejb.EJBAccessException: JBAS014502: Invocation on method: public abstract boolean org.jboss.as.quickstarts.ejb_security_interceptors.SecuredEJBRemote.roleOneMethod() of bean: SecuredEJB is not allowed
+    09:16:01,332 ERROR [org.jboss.as.ejb3.invocation] (EJB default - 1) JBAS014134: EJB Invocation failed on component SecuredEJB for method public abstract java.lang.String org.jboss.as.quickstarts.ejb_security_interceptors.SecuredEJBRemote.getSecurityInformation(): javax.ejb.EJBAccessException: JBAS013323: Invalid User
+    09:16:01,344 ERROR [org.jboss.as.ejb3.invocation] (EJB default - 3) JBAS014134: EJB Invocation failed on component SecuredEJB for method public abstract boolean org.jboss.as.quickstarts.ejb_security_interceptors.SecuredEJBRemote.roleOneMethod(): javax.ejb.EJBAccessException: JBAS014502: Invocation on method: public abstract boolean org.jboss.as.quickstarts.ejb_security_interceptors.SecuredEJBRemote.roleOneMethod() of bean: SecuredEJB is not allowed
+    09:16:01,356 ERROR [org.jboss.as.ejb3.invocation] (EJB default - 10) JBAS014134: EJB Invocation failed on component SecuredEJB for method public abstract boolean org.jboss.as.quickstarts.ejb_security_interceptors.SecuredEJBRemote.roleTwoMethod(): javax.ejb.EJBAccessException: JBAS014502: Invocation on method: public abstract boolean org.jboss.as.quickstarts.ejb_security_interceptors.SecuredEJBRemote.roleTwoMethod() of bean: SecuredEJB is not allowed
+    09:16:01,370 ERROR [org.jboss.as.ejb3.invocation] (EJB default - 9) JBAS014134: EJB Invocation failed on component SecuredEJB for method public abstract boolean org.jboss.as.quickstarts.ejb_security_interceptors.SecuredEJBRemote.roleOneMethod(): javax.ejb.EJBAccessException: JBAS014502: Invocation on method: public abstract boolean org.jboss.as.quickstarts.ejb_security_interceptors.SecuredEJBRemote.roleOneMethod() of bean: SecuredEJB is not allowed
+    09:16:01,378 ERROR [org.jboss.as.ejb3.invocation] (EJB default - 2) JBAS014134: EJB Invocation failed on component SecuredEJB for method public abstract boolean org.jboss.as.quickstarts.ejb_security_interceptors.SecuredEJBRemote.roleTwoMethod(): javax.ejb.EJBAccessException: JBAS014502: Invocation on method: public abstract boolean org.jboss.as.quickstarts.ejb_security_interceptors.SecuredEJBRemote.roleTwoMethod() of bean: SecuredEJB is not allowed
+    09:16:01,419 ERROR [org.jboss.as.ejb3.invocation] (EJB default - 6) JBAS014134: EJB Invocation failed on component SecuredEJB for method public abstract boolean org.jboss.as.quickstarts.ejb_security_interceptors.SecuredEJBRemote.roleTwoMethod(): javax.ejb.EJBAccessException: JBAS014502: Invocation on method: public abstract boolean org.jboss.as.quickstarts.ejb_security_interceptors.SecuredEJBRemote.roleTwoMethod() of bean: SecuredEJB is not allowed
+    09:16:01,435 ERROR [org.jboss.as.ejb3.invocation] (EJB default - 9) JBAS014134: EJB Invocation failed on component SecuredEJB for method public abstract boolean org.jboss.as.quickstarts.ejb_security_interceptors.SecuredEJBRemote.roleTwoMethod(): javax.ejb.EJBAccessException: JBAS014502: Invocation on method: public abstract boolean org.jboss.as.quickstarts.ejb_security_interceptors.SecuredEJBRemote.roleTwoMethod() of bean: SecuredEJB is not allowed
+    09:16:01,458 ERROR [org.jboss.as.ejb3.invocation] (EJB default - 7) JBAS014134: EJB Invocation failed on component SecuredEJB for method public abstract boolean org.jboss.as.quickstarts.ejb_security_interceptors.SecuredEJBRemote.roleOneMethod(): javax.ejb.EJBAccessException: JBAS014502: Invocation on method: public abstract boolean org.jboss.as.quickstarts.ejb_security_interceptors.SecuredEJBRemote.roleOneMethod() of bean: SecuredEJB is not allowed
+    09:16:01,481 ERROR [org.jboss.as.ejb3.invocation] (EJB default - 10) JBAS014134: EJB Invocation failed on component SecuredEJB for method public abstract boolean org.jboss.as.quickstarts.ejb_security_interceptors.SecuredEJBRemote.roleOneMethod(): javax.ejb.EJBAccessException: JBAS014502: Invocation on method: public abstract boolean org.jboss.as.quickstarts.ejb_security_interceptors.SecuredEJBRemote.roleOneMethod() of bean: SecuredEJB is not allowed
+    09:16:01,496 ERROR [org.jboss.as.ejb3.invocation] (EJB default - 2) JBAS014134: EJB Invocation failed on component SecuredEJB for method public abstract java.lang.String org.jboss.as.quickstarts.ejb_security_interceptors.SecuredEJBRemote.getSecurityInformation(): javax.ejb.EJBAccessException: JBAS013323: Invalid User
+
+
 Undeploy the Archive
 --------------------
 
