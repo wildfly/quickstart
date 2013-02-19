@@ -363,19 +363,17 @@ public class ManagedBeanUserDao implements UserDao {
 
     public User getForUsername(String username) {                    // <3>
         try {
+            User user;
             try {
                 utx.begin();
-                try {
-                    Query query = entityManager
-                         .createQuery("select u from User u where u.username = ?");
-                    query.setParameter(1, username);
-                    return (User) query.getSingleResult();
-                } catch (NoResultException e) {
-                    return null;
-                }
-            } finally {
-                utx.commit();
+                Query query = entityManager.createQuery("select u from User u where u.username = :username");
+                query.setParameter("username", username);
+                user = (User) query.getSingleResult();
+            } catch (NoResultException e) {
+                user = null;
             }
+            utx.commit();
+            return user;
         } catch (Exception e) {
             try {
                 utx.rollback();
