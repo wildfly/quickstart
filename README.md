@@ -91,19 +91,12 @@ If you are using the JBoss Enterprise Application Platform 6 distribution, you n
 
             file:///home/username/Quickstarts/jboss-eap-6.0-quickstarts
 3. Configure the Maven user settings. 
-    * _Note:This is the recommended approach and is required if you are running the quickstarts in JBoss Developer Studio._
     * Look for the `settings.xml` file in the `${user.home}/.m2/` directory. For example:
 
             For Linux or Mac:   ~/.m2/settings.xml
             For Windows: \Documents and Settings\USER_NAME\.m2\settings.xml or \Users\USER_NAME\.m2\settings.xml
     * If you have an existing `settings.xml` file, modify it with the configuration information from the `example-settings.xml` file.
     * If there is no `settings.xml` file, copy the modified `example-settings.xml` file to the `m2` directory for your operating system and rename it to `settings.xml`.
-
-4. If you choose not to configure the `settings.xml` file described in the previous step, you must append `-s PATH_TO_QUICKSTARTS/example-settings.xml` to every Maven command. 
-    * _Note: This only valid only when you run the quickstarts using the command line._  
-    * The following is an example of a deployment passing the Maven settings using the command line:
-
-            mvn jboss-as:deploy -s PATH_TO_QUICKSTARTS/example-settings.xml
 
 
 <a id="as7mavenconfig"></a>
@@ -176,12 +169,7 @@ The README for each quickstart will specify which configuration is required to r
 <a id="buildanddeploy"></a>
 ### Build and Deploy the Quickstarts 
 
-Review the README file in the root folder of the quickstart for specific details on how to build and run the example. In most cases you do the following:
-
-1. The command used to build the quickstart depends on the individual quickstart, the server version, and how you configured Maven.
-    * If you are running JBoss Enterprise Application Platform 6 and did not configure the Maven user settings described in [Configure Maven for JBoss Enterprise Application Platform 6](#eap6mavenconfig) above, you need to specify command line arguments. 
-    * If you are running JBoss AS 7, it uses community artifacts available in the Maven central repository, so command line arguments are not usually required. 
-2. See the README file in each individual quickstart folder for specific details and information on how to run and access the example.
+See the README file in each individual quickstart folder for specific details and information on how to run and access the example.
 
 #### Build the Quickstart Archive
 
@@ -190,13 +178,7 @@ In some cases, you may want to build the application to test for compile errors 
 1. Open a command line and navigate to the root directory of the quickstart you want to build.
 2. Use this command if you only want to build the archive, but not deploy it:
 
-        For JBoss AS 7 or JBoss Enterprise Application Platform 6 (Maven user settings configured): 
-
             mvn clean package
-
-        For JBoss Enterprise Application Platform 6 (Maven user settings NOT configured): 
-
-            mvn clean package -s PATH_TO_QUICKSTARTS/example-settings.xml
 
 #### Build and Deploy the Quickstart Archive
 
@@ -204,13 +186,7 @@ In some cases, you may want to build the application to test for compile errors 
 2. Open a command line and navigate to the root directory of the quickstart you want to run.
 3. Use this command to build and deploy the archive:
 
-        For JBoss AS 7 or JBoss Enterprise Application Platform 6 (Maven user settings configured): 
-
             mvn clean package jboss-as:deploy
-
-        For JBoss Enterprise Application Platform 6 (Maven user settings NOT configured): 
-
-            mvn clean package jboss-as:deploy -s PATH_TO_QUICKSTARTS/example-settings.xml
 
 #### Undeploy an Archive
 
@@ -230,13 +206,7 @@ To build the quickstarts:
 2. Open a command line and navigate to the root directory of the quickstarts.
 3. Use this command to build the quickstarts that do not have complex dependencies:
 
-        For JBoss AS 7 or JBoss Enterprise Application Platform 6 (Maven user settings configured): 
-
             mvn clean install '-Pdefault,!complex-dependencies'
-
-        For JBoss Enterprise Application Platform 6 (Maven user settings NOT configured): 
-
-            mvn clean install '-Pdefault,!complex-dependencies' -s PATH_TO_QUICKSTARTS/example-settings.xml
 
 
 <a id="undeployall"></a>
@@ -251,13 +221,7 @@ You can undeploy quickstarts using the following procedure:
 2. Open a command line and navigate to the root directory of the quickstarts.
 3. Use this command to undeploy any deployed quickstarts:
 
-        For JBoss AS 7 or JBoss Enterprise Application Platform 6 (Maven user settings configured): 
-
             mvn jboss-as:undeploy -fae
-
-        For JBoss Enterprise Application Platform 6 (Maven user settings NOT configured): 
-
-            mvn jboss-as:undeploy -fae -s PATH_TO_QUICKSTARTS/example-settings.xml
 
 To undeploy any quickstarts that fail due to complex dependencies, follow the undeploy procedure described in the quickstart's README file.
 
@@ -276,13 +240,7 @@ You can run these tests using either a remote or managed container. The quicksta
     * A remote container requires you start the JBoss Enterprise Application Platform 6 or JBoss AS 7 server before running the test. [Start the JBoss Server](#startjboss) as described in the quickstart README file.
     * Run the test goal with the following profile activated:
 
-        For JBoss AS 7 or JBoss Enterprise Application Platform 6 (Maven user settings configured): 
-
             mvn clean test -Parq-jbossas-remote 
-
-        For JBoss Enterprise Application Platform 6 (Maven user settings NOT configured): 
-
-            mvn clean test -Parq-jbossas-remote -s PATH_TO_QUICKSTARTS/example-settings.xml
 <a id="testmanaged"></a>
 
 2. Test the quickstart on Managed Server
@@ -299,12 +257,6 @@ You can run these tests using either a remote or managed container. The quicksta
             </container>
     * Find the "jbossHome" property and replace the "/path/to/jboss/as" value with the actual path to your JBoss Enterprise Application Platform 6 or JBoss AS 7 server.
     * Run the test goal with the following profile activated:
-
-        For JBoss Enterprise Application Platform 6 (Maven user settings NOT configured): 
-
-            mvn clean test -Parq-jbossas-managed  -s PATH_TO_QUICKSTARTS/example-settings.xml
-
-        For JBoss AS 7 or JBoss Enterprise Application Platform 6 (Maven user settings configured): 
 
             mvn clean test -Parq-jbossas-managed
 
