@@ -249,8 +249,18 @@ You can run these tests using either a remote or managed container. The quicksta
     * Open the test/resources/arquillian.xml file located in the quickstart directory. 
     * Find the configuration for the remote JBoss container. It should look like this:
 
+            <!-- Example configuration for a remote JBoss Enterprise Application Platform 6 or AS 7 instance -->
             <container qualifier="jboss" default="true">
-                <!-- If you want to use the JBOSS_HOME environment variable, just delete the jbossHome property -->
+                <!-- By default, arquillian will use the JBOSS_HOME environment variable.  Alternatively, the configuration below can be uncommented. -->
+                <!--<configuration> -->
+                <!--<property name="jbossHome">/path/to/jboss/as</property> -->
+                <!--</configuration> -->
+            </container>
+    * Remove the comments from the `<configuration>` elements.
+
+            <!-- Example configuration for a remote JBoss Enterprise Application Platform 6 or AS 7 instance -->
+            <container qualifier="jboss" default="true">
+                <!-- By default, arquillian will use the JBOSS_HOME environment variable.  Alternatively, the configuration below can be uncommented. -->
                 <configuration>
                     <property name="jbossHome">/path/to/jboss/as</property>
                 </configuration>
