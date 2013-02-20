@@ -76,7 +76,7 @@ To run these quickstarts with the provided build scripts, you need the following
 Configure Maven 
 -------------
 
-Maven configuration is dependent on whether you are running JBoss Enterprise Application Platform 6 or JBoss AS7.
+Maven configuration is dependent on whether you are using the JBoss Enterprise Application Platform 6 product version of the quickstarts or the JBoss AS7 community version of the quickstarts.
 
 <a id="eap6mavenconfig"></a>
 ### Configure Maven for JBoss Enterprise Application Platform 6 
