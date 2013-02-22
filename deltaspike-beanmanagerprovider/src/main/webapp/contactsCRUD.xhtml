@@ -14,13 +14,13 @@
         
             <table>
                 <!-- The input tag is defined on a Faceles composite component at {webroot}/resources/jdf/input.xhtml-->
-                <jdf:input name="id" label="Id" value="#{contactController.contact.id}" readonly="true" rendered="#{not empty contactController.contact.id}"/>
+                <jdf:input name="id" label="Id" value="#{contactController.contact.id}" readonly="true" rendered="#{not empty contactController.contact.id and not contactController.onExceptionState}"/>
                 <jdf:input name="name" label="Name" value="#{contactController.contact.name}" required="true" />
-                <jdf:input name="email" label="eMail" value="#{contactController.contact.email}" required="true" readonly="#{contactController.contact.id != null}" />
+                <jdf:input name="email" label="eMail" value="#{contactController.contact.email}" required="true" readonly="#{contactController.contact.id != null and not contactController.onExceptionState}" />
                 <jdf:input name="phone" label="Phone Number" value="#{contactController.contact.phoneNumber}" />
             </table>
             <h:commandButton action="#{contactController.save()}" value="Save" />
-            <h:commandButton action="#{contactController.remove(contactController.contact)}" value="Remove" rendered="#{contactController.contact.id != null}" onclick="return confirm('Do you want to remove this record?');" />
+            <h:commandButton action="#{contactController.remove(contactController.contact)}" value="Remove" rendered="#{contactController.contact.id != null and not contactController.onExceptionState}" onclick="return confirm('Do you want to remove this record?');" />
             <h:commandButton action="#{contactController.newContact()}" value="New Contact" />
             <p />
             <p />
