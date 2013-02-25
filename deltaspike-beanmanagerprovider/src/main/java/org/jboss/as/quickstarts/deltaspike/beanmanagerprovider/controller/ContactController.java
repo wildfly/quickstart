@@ -67,7 +67,6 @@ public class ContactController implements Serializable {
 
     private Contact contact;
     
-    @Inject
     private List<Contact> allContacts = new ArrayList<Contact>();
     
     private boolean onExceptionState;
@@ -93,7 +92,7 @@ public class ContactController implements Serializable {
             // discard the conversation (and the entity manager) on any exception
             conversation.end();
             this.onExceptionState = true;
-            msg = e.getMessage();
+            msg = "Can't create contact: " + e.getMessage();
         }
         // add the message to be showed on the jsf page
         facesContext.addMessage(null, new FacesMessage(msg));
@@ -120,6 +119,7 @@ public class ContactController implements Serializable {
             conversation.begin();
         }
         contact = new Contact();
+        onExceptionState = false;
     }
 
     /**
@@ -136,15 +136,14 @@ public class ContactController implements Serializable {
     /**
      * Produces the information to be used on *All Contacts* table.
      * 
-     * 
      * @return
      */
     @Produces
     @Named
     public List<Contact> getAllContacts() {
-        List<Contact> repoContacts = contactRepository.getAllContacts();
         //Fall back to previous contact list in case of exception
-        if (repoContacts != null){
+        if (!onExceptionState) {
+            List<Contact> repoContacts = contactRepository.getAllContacts();
             allContacts.clear();
             allContacts.addAll(repoContacts);
         }
