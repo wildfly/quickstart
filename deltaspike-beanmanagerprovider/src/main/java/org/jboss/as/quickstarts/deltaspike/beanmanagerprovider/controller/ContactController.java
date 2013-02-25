@@ -67,6 +67,7 @@ public class ContactController implements Serializable {
 
     private Contact contact;
     
+    @Inject //Inject allContacts because in case of Exception, ContacController will be destroyed
     private List<Contact> allContacts = new ArrayList<Contact>();
     
     private boolean onExceptionState;
