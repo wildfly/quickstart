@@ -14,13 +14,13 @@
         
             <table>
                 <!-- The input tag is defined on a Faceles composite component at {webroot}/resources/jdf/input.xhtml-->
-                <jdf:input name="id" label="Id" value="#{contactController.contact.id}" readonly="true" rendered="#{not empty contactController.contact.id and not contactController.onExceptionState}"/>
+                <jdf:input name="id" label="Id" value="#{contactController.contact.id}" readonly="true" rendered="#{not empty contactController.contact.id}"/>
                 <jdf:input name="name" label="Name" value="#{contactController.contact.name}" required="true" />
-                <jdf:input name="email" label="eMail" value="#{contactController.contact.email}" required="true" readonly="#{contactController.contact.id != null and not contactController.onExceptionState}" />
+                <jdf:input name="email" label="eMail" value="#{contactController.contact.email}" required="true" readonly="#{contactController.contact.id != null}" />
                 <jdf:input name="phone" label="Phone Number" value="#{contactController.contact.phoneNumber}" />
             </table>
             <h:commandButton action="#{contactController.save()}" value="Save" />
-            <h:commandButton action="#{contactController.remove(contactController.contact)}" value="Remove" rendered="#{contactController.contact.id != null and not contactController.onExceptionState}" onclick="return confirm('Do you want to remove this record?');" />
+            <h:commandButton action="#{contactController.remove(contactController.contact)}" value="Remove" rendered="#{contactController.contact.id != null}" onclick="return confirm('Do you want to remove this record?');" />
             <h:commandButton action="#{contactController.newContact()}" value="New Contact" />
             <p />
             <p />
@@ -36,7 +36,7 @@
         
         <h2>All Contacts</h2>
         <h:form>
-            <h:dataTable value="#{allContacts}" var="varContact" width="100%">
+            <h:dataTable value="#{contactController.allContacts}" var="varContact" width="100%">
                 <h:column>
                     <f:facet name="header">Id</f:facet>
                 #{varContact.id}
@@ -63,7 +63,8 @@
         <p />
         <hr />
         <h2>Audit Records</h2>
-        <h:dataTable value="#{auditRecords}" var="varAudit" width="100%">
+        <h:outputText value="No audit records found..."  rendered="#{empty contactController.auditRecords}"/>
+        <h:dataTable value="#{contactController.auditRecords}" var="varAudit" width="100%" rendered="#{not empty contactController.auditRecords}">
             <h:column>
                 <f:facet name="header">Contact e-Mail</f:facet>
                 #{varAudit.contactEmail}
@@ -93,7 +94,7 @@
 
     <ui:define name="footer">
         <!-- Display the current conversation -->
-        <h:outputText value="#{conversationNumber}" />
+        <h:outputText value="#{contactController.conversationNumber}" />
     </ui:define>
 </ui:composition>
 </html>

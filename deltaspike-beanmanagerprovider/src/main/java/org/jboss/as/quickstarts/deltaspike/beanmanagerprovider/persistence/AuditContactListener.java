@@ -59,7 +59,8 @@ public class AuditContactListener {
         CreationalContext cc = bm.createCreationalContext(bean);
         return (AuditRepository) bm.getReference(bean, AuditRepository.class, cc);
     }
-
+    
+    
     /**
      * Method called after {@link Contact} is persisted
      * 

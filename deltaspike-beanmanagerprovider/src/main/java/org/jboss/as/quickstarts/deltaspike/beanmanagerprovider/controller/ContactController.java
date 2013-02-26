@@ -18,13 +18,13 @@
 package org.jboss.as.quickstarts.deltaspike.beanmanagerprovider.controller;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
-import javax.enterprise.inject.Produces;
+import javax.enterprise.event.Observes;
+import javax.enterprise.inject.Model;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -42,10 +42,6 @@ import org.jboss.as.quickstarts.deltaspike.beanmanagerprovider.persistence.Conta
  * 
  * @author <a href="mailto:benevides@redhat.com">Rafael Benevides</a>
  * 
- */
-/**
- * @author Rafael Benevides <benevides@redhat.com>
- *
  */
 @Named
 @ConversationScoped
@@ -66,18 +62,8 @@ public class ContactController implements Serializable {
     private Conversation conversation;
 
     private Contact contact;
-    
-    @Inject //Inject allContacts because in case of Exception, ContacController will be destroyed
-    private List<Contact> allContacts = new ArrayList<Contact>();
-    
-    private boolean onExceptionState;
-    
-    /**
-     * @return the onExceptionState
-     */
-    public boolean isOnExceptionState() {
-        return onExceptionState;
-    }
+
+    private List<Contact> allContacts;
 
     // return the managed entity instance
     public Contact getContact() {
@@ -92,7 +78,8 @@ public class ContactController implements Serializable {
         } catch (Exception e) {
             // discard the conversation (and the entity manager) on any exception
             conversation.end();
-            this.onExceptionState = true;
+            // reset the entity id
+            contact.setId(null);
             msg = "Can't create contact: " + e.getMessage();
         }
         // add the message to be showed on the jsf page
@@ -110,9 +97,9 @@ public class ContactController implements Serializable {
         this.contact = contact;
     }
 
-    /**
+    /*
      * This method will promote the conversation when this component is constructed through the {@link PostConstruct} annotation
-     * This will also create a new entity to be managed/edited
+     * This will also create a new entity to be managed/edited and get the list of all contacts previously persisted.
      */
     @PostConstruct
     public void newContact() {
@@ -120,44 +107,28 @@ public class ContactController implements Serializable {
             conversation.begin();
         }
         contact = new Contact();
-        onExceptionState = false;
+        allContacts = contactRepository.getAllContacts();
     }
 
-    /**
-     * Produces the conversation number to be used on the page footer
-     * 
-     * @return
+    /*
+     * Updates the Contact list when a event on Contact was fired. 
+     * The Events are produced by {@link ContactRepository}
      */
-    @Produces
-    @Named
+    public void readAllContacts(@Observes Contact contact) {
+        allContacts = contactRepository.getAllContacts();
+    }
+
+    // Return the conversation number to be used on the page footer
     public String getConversationNumber() {
-        return "Conversation Id: " + (conversation.getId() == null?"conversation transient":conversation.getId());
+        return "Conversation Id: " + (conversation.getId() == null ? "conversation transient" : conversation.getId());
     }
 
-    /**
-     * Produces the information to be used on *All Contacts* table.
-     * 
-     * @return
-     */
-    @Produces
-    @Named
+    // Return the information to be used on *All Contacts* table.
     public List<Contact> getAllContacts() {
-        //Fall back to previous contact list in case of exception
-        if (!onExceptionState) {
-            List<Contact> repoContacts = contactRepository.getAllContacts();
-            allContacts.clear();
-            allContacts.addAll(repoContacts);
-        }
         return allContacts;
     }
 
-    /**
-     * Produces the information to be used on *Audit Records* table
-     * 
-     * @return
-     */
-    @Produces
-    @Named
+    // Return the information to be used on *Audit Records* table
     public List<AuditContact> getAuditRecords() {
         return auditRepository.getAllAuditRecords();
     }
