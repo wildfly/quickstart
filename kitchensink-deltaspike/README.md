@@ -4,7 +4,7 @@ Author: Pete Muir, Bernard Tison
 Level: Intermediate
 Technologies: CDI, JSF, JPA, JPA, JAX-RS, BV, DeltaSpike
 Summary: A version of kitchensink that uses DeltaSpike @Transactional
-Target Product: EAP
+Target Product: 
 Source: <https://github.com/jboss-jdf/jboss-as-quickstart/>
 
 What is it?

@@ -4,7 +4,7 @@ Author: Rafael Benevides
 Level: Beginner
 Technologies: CDI, DeltaSpike
 Summary: Demonstrate usage of Deactivatable.
-Target Product: WFK
+Target Product: 
 Source: <https://github.com/jboss-jdf/jboss-as-quickstart/>
 
 What is it?
