@@ -72,13 +72,13 @@ public class ContactController implements Serializable {
 
     public void save() {
         // Define the faces message based on the entity state
-        String msg = contact.getId() == null ? "New Contact added" : "Contact updated";
+        String msg = isContactManaged() ? "Contact updated" : "New Contact added";
         try {
             contactRepository.persist(contact);
         } catch (Exception e) {
             // discard the conversation (and the entity manager) on any exception
             conversation.end();
-            // reset the entity id
+            // reset the entity Id
             contact.setId(null);
             msg = "Can't create contact: " + e.getMessage();
         }
@@ -111,8 +111,7 @@ public class ContactController implements Serializable {
     }
 
     /*
-     * Updates the Contact list when a event on Contact was fired. 
-     * The Events are produced by {@link ContactRepository}
+     * Updates the Contact list when a event on Contact was fired. The Events are produced by {@link ContactRepository}
      */
     public void readAllContacts(@Observes Contact contact) {
         allContacts = contactRepository.getAllContacts();
@@ -131,6 +130,10 @@ public class ContactController implements Serializable {
     // Return the information to be used on *Audit Records* table
     public List<AuditContact> getAuditRecords() {
         return auditRepository.getAllAuditRecords();
+    }
+
+    public boolean isContactManaged() {
+        return contact.getId() != null;
     }
 
 }
