@@ -49,8 +49,8 @@
     </dependencies>
 
     <build>
+        <finalName>${project.artifactId}</finalName>
         <plugins>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-ear-plugin</artifactId>
@@ -72,6 +72,7 @@
                         <!-- <contextRoot>/jboss-as-wicket</contextRoot> -->
                         <!-- </webModule> -->
                     </modules>
+                    <fileNameMapping>no-version</fileNameMapping>
                 </configuration>
             </plugin>
 
@@ -80,6 +81,7 @@
                 <groupId>org.jboss.as.plugins</groupId>
                 <artifactId>jboss-as-maven-plugin</artifactId>
                 <configuration>
+                    <filename>${project.artifactId}.ear</filename>
                     <skip>false</skip>
                 </configuration>
             </plugin>

@@ -18,6 +18,12 @@
 
     <modelVersion>4.0.0</modelVersion>
 
+    <parent>
+        <artifactId>jboss-as-ejb-in-ear</artifactId>
+        <groupId>org.jboss.as.quickstarts</groupId>
+        <version>7.1.2-SNAPSHOT</version>
+    </parent>
+
     <artifactId>jboss-as-ejb-in-ear-ejb</artifactId>
     <name>JBoss AS Quickstarts: EJB and War in an Ear - EJB</name>
     <description>JBoss AS Quickstarts: EJB and War in an Ear - EJB</description>
@@ -30,12 +36,6 @@
         </license>
     </licenses>
    
-    <parent>
-        <groupId>org.jboss.as.quickstarts</groupId>
-        <artifactId>jboss-as-ejb-in-ear</artifactId>
-        <version>7.1.2-SNAPSHOT</version>
-    </parent>
-
     <dependencies>
 
         <!-- Import the CDI API, we use provided scope as the API is included in JBoss AS 7 -->
@@ -64,16 +64,16 @@
 
     <build>
         <!-- Specify the artifact name, this is referred to in the EAR's application.xml -->
-        <finalName>jboss-as-ejb-in-ear</finalName>
+        <finalName>${project.artifactId}</finalName>
         <!-- Compiler plugin enforces Java 1.6 compatibility and activates
             annotation processors -->
         <plugins>
             <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>${version.compiler.plugin}</version>
+                <artifactId>maven-ejb-plugin</artifactId>
+                <version>${version.ejb.plugin}</version>
                 <configuration>
-                    <source>${maven.compiler.source}</source>
-                    <target>${maven.compiler.target}</target>
+                    <!-- Tell Maven we are using EJB 3.1 -->
+                    <ejbVersion>3.1</ejbVersion>
                 </configuration>
             </plugin>
         </plugins>

@@ -18,8 +18,15 @@
 
     <modelVersion>4.0.0</modelVersion>
 
+    <parent>
+        <artifactId>jboss-as-ejb-in-ear</artifactId>
+        <groupId>org.jboss.as.quickstarts</groupId>
+        <version>7.1.2-SNAPSHOT</version>
+    </parent>
+
     <artifactId>jboss-as-ejb-in-ear-web</artifactId>
     <packaging>war</packaging>
+
     <name>JBoss AS Quickstarts: EJB and War in an Ear - WEB</name>
     <description>JBoss AS Quickstarts: EJB and War in an Ear - WEB</description>
 
@@ -31,20 +38,13 @@
         </license>
     </licenses>
    
-    <parent>
-        <groupId>org.jboss.as.quickstarts</groupId>
-        <artifactId>jboss-as-ejb-in-ear</artifactId>
-        <version>7.1.2-SNAPSHOT</version>
-    </parent>
-
-
     <dependencies>
 
         <!-- Import the ejb project so that the JSF managed bean can use the EJB -->
         <dependency>
             <groupId>org.jboss.as.quickstarts</groupId>
             <artifactId>jboss-as-ejb-in-ear-ejb</artifactId>
-            <version>${project.version}</version>
+            <type>ejb</type>
             <scope>provided</scope>
         </dependency>
 
@@ -83,7 +83,7 @@
     <build>
         <!-- Set the name of the war, used as the context root when the app
             is deployed -->
-        <finalName>jboss-as-ejb-in-ear</finalName>
+        <finalName>${project.artifactId}</finalName>
         <plugins>
             <plugin>
                 <artifactId>maven-war-plugin</artifactId>
@@ -91,16 +91,6 @@
                 <configuration>
                     <!-- Java EE 6 doesn't require web.xml, Maven needs to catch up! -->
                     <failOnMissingWebXml>false</failOnMissingWebXml>
-                </configuration>
-            </plugin>
-            <!-- Compiler plugin enforces Java 1.6 compatibility and activates
-                annotation processors -->
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>${version.compiler.plugin}</version>
-                <configuration>
-                    <source>${maven.compiler.source}</source>
-                    <target>${maven.compiler.target}</target>
                 </configuration>
             </plugin>
         </plugins>

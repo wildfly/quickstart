@@ -49,7 +49,7 @@
     </dependencies>
 
     <build>
-        <finalName>jboss-as-kitchensink-ml-ear</finalName>
+        <finalName>${project.artifactId}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -74,6 +74,7 @@
                         </webModule>
                         -->
                     </modules>
+                    <fileNameMapping>no-version</fileNameMapping>
                 </configuration>
             </plugin>
             <!-- The JBoss AS plugin deploys your ear to a local JBoss AS container -->
@@ -84,6 +85,7 @@
                 <groupId>org.jboss.as.plugins</groupId>
                 <artifactId>jboss-as-maven-plugin</artifactId>
                 <configuration>
+                    <filename>${project.artifactId}.ear</filename>
                     <skip>false</skip>
                 </configuration>
             </plugin>

@@ -18,8 +18,15 @@
 
     <modelVersion>4.0.0</modelVersion>
 
+    <parent>
+        <artifactId>jboss-as-ejb-in-ear</artifactId>
+        <groupId>org.jboss.as.quickstarts</groupId>
+        <version>7.1.2-SNAPSHOT</version>
+    </parent>
+
     <artifactId>jboss-as-ejb-in-ear-ear</artifactId>
     <packaging>ear</packaging>
+
     <name>JBoss AS Quickstarts: EJB and War in an Ear - EAR</name>
     <description>JBoss AS Quickstarts: EJB and WAR in an EAR - EAR</description>
 
@@ -31,30 +38,22 @@
         </license>
     </licenses>
 
-    <parent>
-        <groupId>org.jboss.as.quickstarts</groupId>
-        <artifactId>jboss-as-ejb-in-ear</artifactId>
-        <version>7.1.2-SNAPSHOT</version>
-    </parent>
-
     <dependencies>
         <!-- Dependencies on the ejb and web modules so that they can be found by the ear plugin -->
         <dependency>
             <groupId>org.jboss.as.quickstarts</groupId>
-            <artifactId>jboss-as-ejb-in-ear-ejb</artifactId>
-            <version>7.1.2-SNAPSHOT</version>
-            <type>ejb</type>
+            <artifactId>jboss-as-ejb-in-ear-web</artifactId>
+            <type>war</type>
         </dependency>
         <dependency>
             <groupId>org.jboss.as.quickstarts</groupId>
-            <artifactId>jboss-as-ejb-in-ear-web</artifactId>
-            <version>7.1.2-SNAPSHOT</version>
-            <type>war</type>
+            <artifactId>jboss-as-ejb-in-ear-ejb</artifactId>
+            <type>ejb</type>
         </dependency>
     </dependencies>
 
     <build>
-
+      <finalName>${project.artifactId}</finalName>
         <plugins>
             <!-- Ear plugin -->
             <plugin>
@@ -63,20 +62,23 @@
                 <version>${version.ear.plugin}</version>
                 <!-- configuring the ear plugin -->
                 <configuration>
-                    <!-- Specify the artifact name for the EAR -->
-                    <finalName>jboss-as-ejb-in-ear</finalName>
+                    <!-- Tell Maven we are using Java EE 6 -->
+                    <version>6</version>
+                    <!-- Use Java EE ear libraries as needed. Java EE ear libraries 
+                        are in easy way to package any libraries needed in the ear, and automatically 
+                        have any modules (EJB-JARs and WARs) use them -->
+                    <defaultLibBundleDir>lib</defaultLibBundleDir>
                     <modules>
-                        <!-- specify which web modules to include in the EAR -->
+                    <!-- Default context root of the web app is /jboss-as-ejb-in-ear-web. 
+                        If a custom context root is needed, uncomment the following snippet to
+                        register our War as a web module and set the contextRoot property -->
                         <webModule>
                             <groupId>org.jboss.as.quickstarts</groupId>
                             <artifactId>jboss-as-ejb-in-ear-web</artifactId>
+                            <contextRoot>/jboss-as-ejb-in-ear</contextRoot>
                         </webModule>
-                        <!-- specify which EJB modules to include in the EAR -->
-                        <ejbModule>
-                            <groupId>org.jboss.as.quickstarts</groupId>
-                            <artifactId>jboss-as-ejb-in-ear-ejb</artifactId>
-                        </ejbModule>
                     </modules>
+                    <fileNameMapping>no-version</fileNameMapping>
                 </configuration>
             </plugin>
             <!-- JBoss AS plugin to deploy ear -->
@@ -85,18 +87,8 @@
                 <artifactId>jboss-as-maven-plugin</artifactId>
                 <version>${version.jboss.maven.plugin}</version>
                 <configuration>
-                    <filename>jboss-as-ejb-in-ear.ear</filename>
+                    <filename>${project.artifactId}.ear</filename>
                     <skip>false</skip>
-                </configuration>
-            </plugin>
-            <!-- Compiler plugin enforces Java 1.6 compatibility and activates
-                annotation processors -->
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>${version.compiler.plugin}</version>
-                <configuration>
-                    <source>${maven.compiler.source}</source>
-                    <target>${maven.compiler.target}</target>
                 </configuration>
             </plugin>
         </plugins>
