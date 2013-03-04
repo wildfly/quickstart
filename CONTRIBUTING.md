@@ -20,13 +20,13 @@ If you don't have the Git client (`git`), get it from: <http://git-scm.com/>
 
 Here are the steps in detail:
 
-1. [Fork](https://github.com/jboss-jdf/jboss-as-quickstart/fork_select) the project. This creates a the project in your own Git.
+1. [Fork](https://github.com/jboss-jdf/jboss-as-quickstart/fork_select) the project. This creates a the project in your own Git with the default remote name 'origin'.
 
-2. Clone your fork. This creates a directory in your local file system.
+2. Clone your fork. This creates and populates a directory in your local file system.
 
         git clone git@github.com:<your-username>/jboss-as-quickstart.git
 
-3. Add the remote `upstream` repository.
+3. Add the remote `upstream` repository so you can fetch any changes to the original forked repository.
 
         git remote add upstream git@github.com:jboss-jdf/jboss-as-quickstart.git
 
@@ -34,22 +34,36 @@ Here are the steps in detail:
 
         git fetch upstream
 
-5. Create a new topic branch to contain your features, changes, or fixes.
+5. Create a new topic branch to contain your features, changes, or fixes using the `git checkout -b  <topic-branch-name> upstream/master` command. For example:
 
-        git checkout -b <topic-branch-name> upstream/master
+        git checkout -b helloworld-fix upstream/master
 
 6. Contribute new code or make changes to existing files. Make sure that you follow the General Guidelines below.
 
-7. Commit your changes to your local topic branch. You must use `git add filename` for every file you create or change.
+7. Use the `git add` command to add new or changed file contents to the staging area.
+   * If you create a new quickstart, you can add files using the subfolder and file names. The following is an example of new quickstart folders and files you may want to stage:
+   
+            git add src/
+            git add pom.xml
+            git add README.md
+   _Note: It is probably best not to add the entire quickstart root folder because you may unintentionally add classes or other target files that should not be in source control._   
+   * If you only modified a few files, use `git add <filename>` for every file you create or change. For example:
 
-        git add <changed-filename>
-        git commit -m `Description of change...`
+            git add README.md
+        
+8. Use the git status command to view the status of the files in the directory and in the staging area and ensure that all modified files are properly staged:
 
-8. Push your local topic branch to your github forked repository. This will create a branch on your Git fork repository with the same name as your local topic branch name.
+        git status
+        
+9. Commit your changes to your local topic branch. 
+
+        git commit -m 'Description of change...'
+
+10. Push your local topic branch to your github forked repository. This will create a branch on your Git fork repository with the same name as your local topic branch name. 
 
         git push origin HEAD            
-
-9. Browse to the <topic-branch-name> branch on your forked Git repository and [open a Pull Request](http://help.github.com/send-pull-requests/). Give it a clear title and description.
+   _Note: The above command assumes your remote repository is named 'origin'. You can verify your forked remote repository name using the command `git remote -v`_.
+11. Browse to the <topic-branch-name> branch on your forked Git repository and [open a Pull Request](http://help.github.com/send-pull-requests/). Give it a clear title and description.
 
 
 General Guidelines
