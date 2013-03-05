@@ -43,12 +43,12 @@ body {
                         <tbody>
                             <tr>
                                 <td align="center" width="100%" valign="middle">
-                                       <h:messages globalOnly="true"/>
+                                       <h:messages globalOnly="true" id="messages"/>
                                        <h:form>
-                                        Message Content <h:inputText value="#{jmsClientController.messageContent}" size="100"/>
+                                        Message Content <h:inputText value="#{jmsClientController.messageContent}" size="100" id="messageContent"/>
                                         <br />
-                                        Message Count: <h:inputText value="#{jmsClientController.messageCount}" />
-                                        <h:commandButton value="Send Messages" action="#{jmsClientController.executeJMSClient()}" />
+                                        Message Count: <h:inputText value="#{jmsClientController.messageCount}" id="messageCount" />
+                                        <h:commandButton value="Send Messages" action="#{jmsClientController.executeJMSClient()}" id="sendMessages" />
                                        </h:form>
                                 </td>
                             </tr>
