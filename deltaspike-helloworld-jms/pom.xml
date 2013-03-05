@@ -1,14 +1,20 @@
 <?xml version="1.0"?>
-<!-- JBoss, Home of Professional Open Source Copyright 2012, Red Hat, Inc. 
-    and/or its affiliates, and individual contributors by the @authors tag. See 
-    the copyright.txt in the distribution for a full listing of individual contributors. 
-    Licensed under the Apache License, Version 2.0 (the "License"); you may not 
-    use this file except in compliance with the License. You may obtain a copy 
-    of the License at http://www.apache.org/licenses/LICENSE-2.0 Unless required 
-    by applicable law or agreed to in writing, software distributed under the 
-    License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS 
-    OF ANY KIND, either express or implied. See the License for the specific 
-    language governing permissions and limitations under the License. -->
+<!--
+   JBoss, Home of Professional Open Source
+   Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+   contributors by the @authors tag. See the copyright.txt in the 
+   distribution for a full listing of individual contributors.
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+   http://www.apache.org/licenses/LICENSE-2.0
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,  
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+   -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
@@ -16,9 +22,9 @@
     <groupId>org.jboss.as.quickstarts</groupId>
     <artifactId>jboss-as-deltaspike-helloworld-jms</artifactId>
     <version>7.1.2-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
     <name>JBoss AS Quickstarts: deltaspike-helloworld-jms</name>
-    <description>deltaspike-helloworld-jms: Helloworld JMS external producer/consumer client with DeltaSpike property configuration</description>
+    <description>deltaspike-helloworld-jms: Helloworld JMS producer/consumer client with DeltaSpike property configuration</description>
 
     <url>http://jboss.org/jbossas</url>
     <licenses>
@@ -55,13 +61,9 @@
             maven repository. -->
         <!-- <version.jboss.as>7.2.0.Alpha1-redhat-4</version.jboss.as> -->
 
-        <!-- Weld Version -->
-        <version.jboss.weld>1.1.9.Final</version.jboss.weld>
-
         <!-- other plugin versions -->
         <version.compiler.plugin>2.3.1</version.compiler.plugin>
-        <version.jar.plugin>2.2</version.jar.plugin>
-        <version.exec.plugin>1.1.1</version.exec.plugin>
+        <version.war.plugin>2.1.1</version.war.plugin>
 
         <!-- maven-compiler-plugin -->
         <maven.compiler.target>1.6</maven.compiler.target>
@@ -87,21 +89,47 @@
                 <scope>import</scope>
             </dependency>
 
+            <dependency>
+                <groupId>org.jboss.as</groupId>
+                <artifactId>jboss-as-jms-client-bom</artifactId>
+                <version>${version.jboss.as}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
     <dependencies>
+
         <dependency>
             <groupId>org.jboss.as</groupId>
             <artifactId>jboss-as-jms-client-bom</artifactId>
-            <version>${version.jboss.as}</version>
             <type>pom</type>
         </dependency>
-
+       
+        <!-- Import the CDI API, we use provided scope as the API is included 
+            in JBoss AS 7 -->
         <dependency>
-            <groupId>org.jboss.weld.se</groupId>
-            <artifactId>weld-se-core</artifactId>
-            <version>${version.jboss.weld}</version>
+            <groupId>javax.enterprise</groupId>
+            <artifactId>cdi-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        
+        <!-- Import the Common Annotations API (JSR-250), we use provided 
+            scope as the API is included in JBoss AS 7 -->
+        <dependency>
+            <groupId>org.jboss.spec.javax.annotation</groupId>
+            <artifactId>jboss-annotations-api_1.1_spec</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Import the JSF API, we use provided scope as the API is included 
+            in JBoss AS 7 -->
+        <dependency>
+            <groupId>org.jboss.spec.javax.faces</groupId>
+            <artifactId>jboss-jsf-api_2.1_spec</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <!-- Deltaspike API. We use compile scope as we need its API -->
@@ -123,23 +151,12 @@
         <finalName>jboss-as-deltaspike-helloworld-jms</finalName>
         <plugins>
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>${version.exec.plugin}</version>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>${version.war.plugin}</version>
                 <configuration>
-                    <mainClass>org.jboss.as.quickstarts.jms.Main</mainClass>
-                    <systemProperties>
-                        <systemProperty>
-                            <key>java.logging.config.file</key>
-                            <value>./deltaspike-helloworld-jms-logging.properties</value>
-                        </systemProperty>
-                    </systemProperties>
-                </configuration>
-            </plugin>
-            <plugin>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>${version.jar.plugin}</version>
-                <configuration>
+                    <!-- Java EE 6 doesn't require web.xml, Maven needs to 
+                        catch up! -->
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
             </plugin>
             <!-- JBoss AS plugin to deploy war -->
@@ -147,11 +164,8 @@
                 <groupId>org.jboss.as.plugins</groupId>
                 <artifactId>jboss-as-maven-plugin</artifactId>
                 <version>${version.jboss.maven.plugin}</version>
-                <configuration>
-                    <username>admin</username>
-                    <password>admin</password>
-                </configuration>
             </plugin>
+            
             <!-- Compiler plugin enforces Java 1.6 compatibility and activates 
                 annotation processors -->
             <plugin>

@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2012, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the 
  * distribution for a full listing of individual contributors.
  *
@@ -14,12 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jboss.as.quickstarts.jms;
+package org.jboss.as.quickstarts.jms.controller;
 
-import java.util.logging.Logger;
 import java.util.Properties;
+import java.util.logging.Logger;
 
-import javax.enterprise.inject.Default;
+import javax.enterprise.inject.Model;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
@@ -33,10 +35,17 @@ import javax.naming.InitialContext;
 
 import org.apache.deltaspike.core.api.config.annotation.ConfigProperty;
 
-@Default
-public class HelloWorldJMSClient {
+/**
+ * 
+ * This is a managed bean using the {@link Model} stereotype
+ * 
+ * @author Rafael Benevides
+ * 
+ */
+@Model
+public class JmsClientController {
 
-    private static final Logger log = Logger.getLogger(HelloWorldJMSClient.class.getName());
+    private static final Logger log = Logger.getLogger(JmsClientController.class.getName());
 
     @Inject
     @ConfigProperty(name = "username", defaultValue = "quickstartUser")
@@ -61,13 +70,43 @@ public class HelloWorldJMSClient {
     @Inject
     @ConfigProperty(name = "message.content", defaultValue = "Hello, World!")
     private String messageContent;
+    
+    @Inject
+    private FacesContext facesContext;
+
+    /**
+     * @return the messageCount
+     */
+    public Integer getMessageCount() {
+        return messageCount;
+    }
+
+    /**
+     * @param messageCount the messageCount to set
+     */
+    public void setMessageCount(Integer messageCount) {
+        this.messageCount = messageCount;
+    }
+
+    /**
+     * @return the messageContent
+     */
+    public String getMessageContent() {
+        return messageContent;
+    }
+
+    /**
+     * @param messageContent the messageContent to set
+     */
+    public void setMessageContent(String messageContent) {
+        this.messageContent = messageContent;
+    }
 
     // Set up all the default values
     private static final String INITIAL_CONTEXT_FACTORY = "org.jboss.naming.remote.client.InitialContextFactory";
     private static final String PROVIDER_URL = "remote://localhost:4447";
 
-    public void executeClient() throws Exception {
-
+    public void executeJMSClient() throws Exception {
         Connection connection = null;
         TextMessage message = null;
         Context context = null;
@@ -100,28 +139,30 @@ public class HelloWorldJMSClient {
             log.info("Sending " + messageCount + " messages with content: " + messageContent);
 
             // Send the specified number of messages
-            for (int i = 0; i < messageCount; i++) {
+            for (int i = 1; i <= messageCount; i++) {
                 message = session.createTextMessage(messageContent);
                 producer.send(message);
             }
 
             // Then receive the same number of messages that were sent
-            for (int i = 0; i < messageCount; i++) {
+            for (int i = 1; i <= messageCount; i++) {
                 message = (TextMessage) consumer.receive(5000);
-                log.info("Received message with content " + message.getText());
+                String msg = "Received message #" + i + " with content: " + message.getText(); 
+                facesContext.addMessage(null, new FacesMessage(msg));
+                log.info(msg);
             }
         } catch (Exception e) {
             log.severe(e.getMessage());
-            throw e;
+            facesContext.addMessage(null, new FacesMessage(e.getMessage()));
         } finally {
             if (context != null) {
                 context.close();
             }
-
             // closing the connection takes care of the session, producer, and consumer
             if (connection != null) {
                 connection.close();
             }
         }
     }
+
 }
