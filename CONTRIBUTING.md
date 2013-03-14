@@ -157,11 +157,11 @@ License Information and Contributor Agreement
 
   There is no need to sign a contributor agreement to contribute to JBoss Developer Framework. You just need to explicitly license any contribution under the AL 2.0. If you add any new files to JBoss Developer Framework, make sure to add the correct header.
 
-### Java
+### Java,  Javascript and CSS files 
 
-      /*
+      /** 
        * JBoss, Home of Professional Open Source
-       * Copyright <Year>, Red Hat, Inc. and/or its affiliates, and individual
+       * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
        * contributors by the @authors tag. See the copyright.txt in the 
        * distribution for a full listing of individual contributors.
        *
@@ -176,11 +176,11 @@ License Information and Contributor Agreement
        * limitations under the License.
        */
 
-### XML
+### HTML, XML, XSD and XHTML files
 
       <!--
        JBoss, Home of Professional Open Source
-       Copyright <Year>, Red Hat, Inc. and/or its affiliates, and individual
+       Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
        contributors by the @authors tag. See the copyright.txt in the 
        distribution for a full listing of individual contributors.
 
@@ -195,10 +195,10 @@ License Information and Contributor Agreement
        limitations under the License.
        -->
 
-### Properties files
+### Properties files and Bash Scripts
 
        # JBoss, Home of Professional Open Source
-       # Copyright 2012, Red Hat, Inc. and/or its affiliates, and individual
+       # Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
        # contributors by the @authors tag. See the copyright.txt in the 
        # distribution for a full listing of individual contributors.
        #
@@ -212,3 +212,40 @@ License Information and Contributor Agreement
        # See the License for the specific language governing permissions and
        # limitations under the License.
 
+### SQL files
+
+      --
+      -- JBoss, Home of Professional Open Source
+      -- Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+      -- contributors by the @authors tag. See the copyright.txt in the
+      -- distribution for a full listing of individual contributors.
+      --
+      -- Licensed under the Apache License, Version 2.0 (the "License");
+      -- you may not use this file except in compliance with the License.
+      -- You may obtain a copy of the License at
+      -- http://www.apache.org/licenses/LICENSE-2.0
+      -- Unless required by applicable law or agreed to in writing, software
+      -- distributed under the License is distributed on an "AS IS" BASIS,
+      -- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+      -- See the License for the specific language governing permissions and
+      -- limitations under the License.
+      --
+
+### JSP files
+
+      <%--
+      JBoss, Home of Professional Open Source
+      Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+      contributors by the @authors tag. See the copyright.txt in the
+      distribution for a full listing of individual contributors.
+
+      Licensed under the Apache License, Version 2.0 (the "License");
+      you may not use this file except in compliance with the License.
+      You may obtain a copy of the License at
+      http://www.apache.org/licenses/LICENSE-2.0
+      Unless required by applicable law or agreed to in writing, software
+      distributed under the License is distributed on an "AS IS" BASIS,
+      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+      See the License for the specific language governing permissions and
+      limitations under the License.
+      --%>
