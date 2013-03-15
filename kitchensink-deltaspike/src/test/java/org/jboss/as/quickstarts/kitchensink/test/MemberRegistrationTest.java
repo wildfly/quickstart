@@ -41,17 +41,17 @@ public class MemberRegistrationTest {
     @Deployment
     public static Archive<?> createTestArchive() {
         String[] deps = { "org.apache.deltaspike.modules:deltaspike-jpa-module-api",
-                "org.apache.deltaspike.modules:deltaspike-jpa-module-impl", "org.apache.deltaspike.core:deltaspike-core-api",
-                "org.apache.deltaspike.core:deltaspike-core-impl" };
+            "org.apache.deltaspike.modules:deltaspike-jpa-module-impl", "org.apache.deltaspike.core:deltaspike-core-api",
+            "org.apache.deltaspike.core:deltaspike-core-impl" };
 
         File[] libs = Maven.resolver().loadPomFromFile("pom.xml").resolve(deps).withTransitivity().asFile();
 
         return ShrinkWrap.create(WebArchive.class, "test.war")
-                .addClasses(Member.class, MemberRegistration.class, Resources.class)
-                .addAsResource("META-INF/test-persistence.xml", "META-INF/persistence.xml")
-                .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml").addAsLibraries(libs)
-                // Deploy our test datasource
-                .addAsWebInfResource("test-ds.xml");
+            .addClasses(Member.class, MemberRegistration.class, Resources.class)
+            .addAsResource("META-INF/test-persistence.xml", "META-INF/persistence.xml")
+            .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml").addAsLibraries(libs)
+            // Deploy our test datasource
+            .addAsWebInfResource("test-ds.xml");
     }
 
     @Inject

@@ -49,7 +49,7 @@ public class RemoteClient {
      * Perform the tests of this quick start using the SecurityContextAssociation API to set the desired Principal.
      */
     private static void performTestingSecurityContext(final String user, final SecuredEJBRemote secured,
-            final IntermediateEJBRemote intermediate) {
+        final IntermediateEJBRemote intermediate) {
         try {
             if (user != null) {
                 SecurityActions.securityContextSetPrincpal(new SimplePrincipal(user));
@@ -57,7 +57,7 @@ public class RemoteClient {
 
             System.out.println("-------------------------------------------------");
             System.out
-                    .println(String.format("* * About to perform test as %s * *\n\n", user == null ? "ConnectionUser" : user));
+                .println(String.format("* * About to perform test as %s * *\n\n", user == null ? "ConnectionUser" : user));
 
             makeCalls(secured, intermediate);
         } finally {
@@ -71,7 +71,7 @@ public class RemoteClient {
      * Perform the tests of this quick start using the ClientLoginModule and LoginContext API to set the desired Principal.
      */
     private static void performTestingClientLoginModule(final String user, final SecuredEJBRemote secured,
-            final IntermediateEJBRemote intermediate) throws Exception {
+        final IntermediateEJBRemote intermediate) throws Exception {
         LoginContext loginContext = null;
         try {
             if (user != null) {
@@ -81,7 +81,7 @@ public class RemoteClient {
 
             System.out.println("-------------------------------------------------");
             System.out
-                    .println(String.format("* * About to perform test as %s * *\n\n", user == null ? "ConnectionUser" : user));
+                .println(String.format("* * About to perform test as %s * *\n\n", user == null ? "ConnectionUser" : user));
 
             makeCalls(secured, intermediate);
         } finally {
@@ -121,7 +121,7 @@ public class RemoteClient {
                 options.put("restore-login-identity", "true");
 
                 AppConfigurationEntry clmEntry = new AppConfigurationEntry(ClientLoginModule.class.getName(),
-                        AppConfigurationEntry.LoginModuleControlFlag.REQUIRED, options);
+                    AppConfigurationEntry.LoginModuleControlFlag.REQUIRED, options);
 
                 return new AppConfigurationEntry[] { clmEntry };
             }
@@ -165,7 +165,7 @@ public class RemoteClient {
         IntermediateEJBRemote intermediate = lookupIntermediateEJB();
 
         System.out
-                .println("This first round of tests is using the (PicketBox) SecurityContextAssociation API to set the desired Principal.\n\n");
+            .println("This first round of tests is using the (PicketBox) SecurityContextAssociation API to set the desired Principal.\n\n");
 
         performTestingSecurityContext(null, secured, intermediate);
         performTestingSecurityContext("AppUserOne", secured, intermediate);
@@ -178,7 +178,7 @@ public class RemoteClient {
         }
 
         System.out
-                .println("This second round of tests is using the (PicketBox) ClientLoginModule with LoginContext API to set the desired Principal.\n\n");
+            .println("This second round of tests is using the (PicketBox) ClientLoginModule with LoginContext API to set the desired Principal.\n\n");
 
         performTestingClientLoginModule(null, secured, intermediate);
         performTestingClientLoginModule("AppUserOne", secured, intermediate);

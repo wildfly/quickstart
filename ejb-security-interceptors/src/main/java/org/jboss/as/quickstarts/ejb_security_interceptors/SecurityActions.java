@@ -146,7 +146,7 @@ final class SecurityActions {
      * @return The SecurityContext previously set if any.
      */
     static SecurityContext securityContextSetPrincipalInfo(final Principal principal, final OuterUserCredential credential)
-            throws Exception {
+        throws Exception {
         return securityContextActions().setPrincipalInfo(principal, credential);
     }
 
@@ -188,7 +188,7 @@ final class SecurityActions {
                 SecurityContext currentContext = SecurityContextAssociation.getSecurityContext();
 
                 SecurityContext nextContext = SecurityContextFactory.createSecurityContext(principal, credential,
-                        new Subject(), "USER_DELEGATION");
+                    new Subject(), "USER_DELEGATION");
                 SecurityContextAssociation.setSecurityContext(nextContext);
 
                 return currentContext;
@@ -242,7 +242,7 @@ final class SecurityActions {
             }
 
             public SecurityContext setPrincipalInfo(final Principal principal, final OuterUserCredential credential)
-                    throws Exception {
+                throws Exception {
                 try {
                     return AccessController.doPrivileged(new PrivilegedExceptionAction<SecurityContext>() {
 
@@ -265,7 +265,7 @@ final class SecurityActions {
 
     static ClassLoader getContextClassLoader() {
         return (System.getSecurityManager() == null ? ContextClassLoaderAction.NON_PRIVILEGED
-                : ContextClassLoaderAction.PRIVILEGED).getContextClassLoader();
+            : ContextClassLoaderAction.PRIVILEGED).getContextClassLoader();
     }
 
     private interface ContextClassLoaderAction {
