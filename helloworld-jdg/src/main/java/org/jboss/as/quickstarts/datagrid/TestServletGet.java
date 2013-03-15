@@ -32,37 +32,36 @@ import org.infinispan.Cache;
 
 /**
  * A simple servlet requesting the cache for key "hello".
- *
+ * 
  * @author Pete Muir
- *
+ * 
  */
 @SuppressWarnings("serial")
 @WebServlet("/TestServletGet")
 public class TestServletGet extends HttpServlet {
 
-   private static final String PAGE_HEADER = "<html><head /><body>";
+    private static final String PAGE_HEADER = "<html><head /><body>";
 
-   private static final String PAGE_FOOTER = "</body></html>";
+    private static final String PAGE_FOOTER = "</body></html>";
 
-   @Inject
-   private Logger log;
+    @Inject
+    private Logger log;
 
-   @Inject
-   DefaultCacheManager m;
+    @Inject
+    DefaultCacheManager m;
 
-   @Override
-   protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-         throws ServletException, IOException {
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-      log.info("putting hello");
-      Cache<String, String> c = m.getCache();
-      String x = (String) c.get("hello");
+        log.info("putting hello");
+        Cache<String, String> c = m.getCache();
+        String x = (String) c.get("hello");
 
-      PrintWriter writer = resp.getWriter();
-      writer.println(PAGE_HEADER);
-      writer.println("<h1>" + "Get Infinispan: " + x + "</h1>");
-      writer.println(PAGE_FOOTER);
-      writer.close();
-   }
+        PrintWriter writer = resp.getWriter();
+        writer.println(PAGE_HEADER);
+        writer.println("<h1>" + "Get Infinispan: " + x + "</h1>");
+        writer.println(PAGE_FOOTER);
+        writer.close();
+    }
 
 }

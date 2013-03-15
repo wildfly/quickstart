@@ -19,7 +19,6 @@ package org.jboss.as.quickstarts.datagrid.carmart.session;
 import org.infinispan.api.BasicCache;
 import org.jboss.as.quickstarts.datagrid.carmart.model.Car;
 
-
 import javax.enterprise.inject.Model;
 import javax.inject.Inject;
 import java.io.UnsupportedEncodingException;
@@ -29,8 +28,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Adds, retrieves, removes new cars from the cache. Also returns a list of cars 
- * stored in the cache.
+ * Adds, retrieves, removes new cars from the cache. Also returns a list of cars stored in the cache.
  * 
  * @author Martin Gencur
  * 

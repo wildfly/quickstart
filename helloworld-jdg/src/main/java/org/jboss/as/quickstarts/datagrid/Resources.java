@@ -24,24 +24,24 @@ import org.infinispan.manager.DefaultCacheManager;
 
 /**
  * Provides various resources including a cache manager.
- *
+ * 
  * @author Burr Sutter
- *
+ * 
  */
 public class Resources {
 
-   @Inject
-   MyCacheManagerProvider cacheManagerProvider;
+    @Inject
+    MyCacheManagerProvider cacheManagerProvider;
 
-   @Produces
-   Logger getLogger(InjectionPoint ip) {
-      String category = ip.getMember().getDeclaringClass().getName();
-      return Logger.getLogger(category);
-   }
+    @Produces
+    Logger getLogger(InjectionPoint ip) {
+        String category = ip.getMember().getDeclaringClass().getName();
+        return Logger.getLogger(category);
+    }
 
-   @Produces
-   DefaultCacheManager getDefaultCacheManager() {
-      return cacheManagerProvider.getCacheManager();
-   }
+    @Produces
+    DefaultCacheManager getDefaultCacheManager() {
+        return cacheManagerProvider.getCacheManager();
+    }
 
 }

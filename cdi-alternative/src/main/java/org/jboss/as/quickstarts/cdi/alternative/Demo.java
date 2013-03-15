@@ -36,31 +36,27 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet("/")
 public class Demo extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-	
-	/*
-	 * Attribute will be injected during run time. 
-     * If beans.xml has alternative defined, then that class will be injected.  
+    private static final long serialVersionUID = 1L;
+
+    /*
+     * Attribute will be injected during run time. If beans.xml has alternative defined, then that class will be injected.
      * Otherwise, the default is injected.
-	 */
+     */
     @Inject
-    private Tax tax;       
+    private Tax tax;
 
-	/**
-	 * handles the incoming servlet request
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    /**
+     * handles the incoming servlet request
+     */
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		try {			 
-			request.setAttribute("type", tax.getRate());
-			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/result.jsp");
-			dispatcher.forward(request,response);
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-	}
-
+        try {
+            request.setAttribute("type", tax.getRate());
+            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/result.jsp");
+            dispatcher.forward(request, response);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 }

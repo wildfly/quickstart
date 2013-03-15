@@ -32,39 +32,35 @@ import org.jboss.as.quickstarts.payment.qualifiers.Credit;
 import org.jboss.as.quickstarts.payment.qualifiers.Debit;
 
 @SessionScoped
-public class PaymentHandler implements Serializable,ICreditEventObserver, IDebitEventObserver {
+public class PaymentHandler implements Serializable, ICreditEventObserver, IDebitEventObserver {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
 
-	@Inject
-	private Logger logger;
-	
-	List<PaymentEvent> payments=new ArrayList<PaymentEvent>();
-	
-	@Produces
-	@Named
-	public List<PaymentEvent> getPayments() {
-		return payments;
-	}
+    @Inject
+    private Logger logger;
 
+    List<PaymentEvent> payments = new ArrayList<PaymentEvent>();
 
+    @Produces
+    @Named
+    public List<PaymentEvent> getPayments() {
+        return payments;
+    }
 
-	public void onCreditPaymentEvent(@Observes @Credit PaymentEvent event){
+    public void onCreditPaymentEvent(@Observes @Credit PaymentEvent event) {
 
-		logger.info("Processing the credit operation "+event);
-		payments.add(event);
-	}
+        logger.info("Processing the credit operation " + event);
+        payments.add(event);
+    }
 
-	
-	
-	@Override
-	public void onDebitPaymentEvent(@Observes @Debit PaymentEvent event) {
-		logger.info("Processing the debit operation "+event);
-		payments.add(event);
-		
-	}
+    @Override
+    public void onDebitPaymentEvent(@Observes @Debit PaymentEvent event) {
+        logger.info("Processing the debit operation " + event);
+        payments.add(event);
+
+    }
 
 }

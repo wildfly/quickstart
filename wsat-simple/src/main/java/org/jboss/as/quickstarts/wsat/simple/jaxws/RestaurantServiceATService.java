@@ -64,9 +64,8 @@ public class RestaurantServiceATService extends Service {
      */
     @WebEndpoint(name = "RestaurantServiceAT")
     public RestaurantServiceAT getRestaurantServiceAT() {
-        return super.getPort(
-                new QName("http://www.jboss.org/jboss-jdf/jboss-as-quickstart/wsat/simple/Restaurant", "RestaurantServiceAT"),
-                RestaurantServiceAT.class);
+        return super.getPort(new QName("http://www.jboss.org/jboss-jdf/jboss-as-quickstart/wsat/simple/Restaurant",
+                "RestaurantServiceAT"), RestaurantServiceAT.class);
     }
 
     /**
@@ -77,9 +76,8 @@ public class RestaurantServiceATService extends Service {
      */
     @WebEndpoint(name = "RestaurantServiceAT")
     public RestaurantServiceAT getRestaurantServiceAT(WebServiceFeature... features) {
-        return super.getPort(
-                new QName("http://www.jboss.org/jboss-jdf/jboss-as-quickstart/wsat/simple/Restaurant", "RestaurantServiceAT"),
-                RestaurantServiceAT.class, features);
+        return super.getPort(new QName("http://www.jboss.org/jboss-jdf/jboss-as-quickstart/wsat/simple/Restaurant",
+                "RestaurantServiceAT"), RestaurantServiceAT.class, features);
     }
 
 }

@@ -23,8 +23,8 @@ package org.jboss.as.quickstarts.erraihelloworld.server;
  */
 public class HelloService {
 
-   String createHelloMessage(String name) {
-      return "Hello " + name + "!";
-   }
+    String createHelloMessage(String name) {
+        return "Hello " + name + "!";
+    }
 
 }

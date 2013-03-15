@@ -45,11 +45,11 @@ import org.xml.sax.helpers.DefaultHandler;
 public class SAXXMLParser extends XMLParser {
 
     private static final SimpleDateFormat DATE_FORMATTER = new SimpleDateFormat("yyyy-MM-dd");
-    
-    //Inject instance of error holder
+
+    // Inject instance of error holder
     @Inject
     private Errors errorHolder;
-    
+
     private SAXParser parser;
     private SAXHandler saxHandler;
 
@@ -145,6 +145,5 @@ public class SAXXMLParser extends XMLParser {
             super.fatalError(e);
         }
 
-        
     }
 }

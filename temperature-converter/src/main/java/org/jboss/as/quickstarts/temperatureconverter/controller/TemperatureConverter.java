@@ -43,17 +43,17 @@ public class TemperatureConverter implements Serializable {
 
     /*
      * Injected TemperatureConvertEJB client
-     */    
+     */
     @Inject
     private TemperatureConvertEJB temperatureConvertEJB;
-    
+
     /*
      * Stores the response from the call to temperatureConvertEJB.convert()
      */
     private String temperature;
-    
+
     private String sourceTemperature = "0.0";
-    
+
     private Scale defaultScale = Scale.CELSIUS;
 
     /**
@@ -64,10 +64,10 @@ public class TemperatureConverter implements Serializable {
      */
     public void convert() {
         try {
-           temperature = temperatureConvertEJB.convert(Temperature.parse(sourceTemperature, defaultScale)).toString();
+            temperature = temperatureConvertEJB.convert(Temperature.parse(sourceTemperature, defaultScale)).toString();
         } catch (IllegalArgumentException e) {
-           temperature = "0.0 Err";
-           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.toString()));
+            temperature = "0.0 Err";
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.toString()));
         }
     }
 

@@ -27,21 +27,15 @@ import javax.faces.validator.ValidatorException;
 
 public class ValidateEmail implements Validator {
 
-
     @Override
     public void validate(FacesContext facesContext, UIComponent uiComponent, Object emailObject) throws ValidatorException {
         String emailAddress = (String) emailObject;
         /*
-        //Make sure it's not empty
-        if (((String) emailAddress).isEmpty()) {
-            FacesMessage facesMessage = new FacesMessage();
-            facesMessage.setSummary("Email address is required.");
-            facesMessage.setDetail("Email address is required.");
-            facesMessage.setSeverity(FacesMessage.SEVERITY_ERROR);
-            facesContext.addMessage("reg:email", facesMessage);
-            throw new ValidatorException(facesMessage);
-        }
-        */
+         * //Make sure it's not empty if (((String) emailAddress).isEmpty()) { FacesMessage facesMessage = new FacesMessage();
+         * facesMessage.setSummary("Email address is required."); facesMessage.setDetail("Email address is required.");
+         * facesMessage.setSeverity(FacesMessage.SEVERITY_ERROR); facesContext.addMessage("reg:email", facesMessage); throw new
+         * ValidatorException(facesMessage); }
+         */
         // They entered something. Now do a simple validation. We won't worry about all variations.
         Pattern emailPattern = Pattern.compile("[a-zA-Z]*[0-9]*@[a-zA-Z]*.[a-zA-Z]*");
         Matcher emailMatcher = emailPattern.matcher(emailAddress);
@@ -52,7 +46,7 @@ public class ValidateEmail implements Validator {
             facesMessage.setSeverity(FacesMessage.SEVERITY_ERROR);
             facesContext.addMessage("reg:email", facesMessage);
             throw new ValidatorException(facesMessage);
-            
+
         }
     }
 

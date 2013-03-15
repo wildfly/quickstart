@@ -33,7 +33,6 @@ public class ContactDaoBean implements ContactDao {
     @PersistenceContext
     private EntityManager em;
 
-    
     @Override
     @SuppressWarnings("unchecked")
     public List<Contact> getContacts() {
@@ -65,5 +64,5 @@ public class ContactDaoBean implements ContactDao {
         em.remove(managed);
         em.flush();
     }
-    
+
 }

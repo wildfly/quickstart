@@ -19,7 +19,6 @@ package org.jboss.as.quickstarts.ejb_security_interceptors;
 import static org.jboss.as.quickstarts.ejb_security_interceptors.EJBUtil.lookupIntermediateEJB;
 import static org.jboss.as.quickstarts.ejb_security_interceptors.EJBUtil.lookupSecuredEJB;
 
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;

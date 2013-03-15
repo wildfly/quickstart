@@ -38,50 +38,48 @@ import org.jboss.as.quickstarts.kitchensinkjsp.model.Member;
 @Model
 public class MemberRegistration {
 
-   @Inject
-   private Logger log;
+    @Inject
+    private Logger log;
 
-   @Inject
-   private EntityManager em;
+    @Inject
+    private EntityManager em;
 
-   @Inject
-   private Event<Member> memberEventSrc;
+    @Inject
+    private Event<Member> memberEventSrc;
 
-   private Member newMember;
+    private Member newMember;
 
-   @Produces
-   @Named
-   public Member getNewMember() {
+    @Produces
+    @Named
+    public Member getNewMember() {
 
-	   log.info("getNewMember: called"+newMember);
-	   return newMember;
-  
-   }
-   
-   
-   public void register() throws Exception {
-	   
-	  try{
-		  
-      log.info("Registering " + newMember.getName());
-      em.persist(newMember);
-      memberEventSrc.fire(newMember);
-      initNewMember();
-	  }
-	  catch (Exception e) {
-		  Throwable t=e;
-			while((t.getCause())!=null){ t=t.getCause();}
-			log.info("Exception:"+t.getMessage());
-	  throw ((Exception)t);
-	}
-	  
-   }
-   
+        log.info("getNewMember: called" + newMember);
+        return newMember;
 
-   
-   @PostConstruct
-   public void initNewMember() {
-      newMember = new Member();
-      log.info("@PostConstruct:initNewMember called");
-   }
+    }
+
+    public void register() throws Exception {
+
+        try {
+
+            log.info("Registering " + newMember.getName());
+            em.persist(newMember);
+            memberEventSrc.fire(newMember);
+            initNewMember();
+        } catch (Exception e) {
+            Throwable t = e;
+            while ((t.getCause()) != null) {
+                t = t.getCause();
+            }
+            log.info("Exception:" + t.getMessage());
+            throw ((Exception) t);
+        }
+
+    }
+
+    @PostConstruct
+    public void initNewMember() {
+        newMember = new Member();
+        log.info("@PostConstruct:initNewMember called");
+    }
 }

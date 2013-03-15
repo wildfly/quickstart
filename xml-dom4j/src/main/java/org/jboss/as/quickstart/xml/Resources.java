@@ -20,8 +20,8 @@ import java.net.URL;
 
 public class Resources {
 
-   public static URL getResource(String path) {
-      return Resources.class.getResource(path);
-   }
-   
+    public static URL getResource(String path) {
+        return Resources.class.getResource(path);
+    }
+
 }

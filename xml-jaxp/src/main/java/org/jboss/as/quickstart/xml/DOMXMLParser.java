@@ -36,6 +36,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
+
 /**
  * Implementation of parser based on JAXP DOM(W3C).
  * 
@@ -46,18 +47,18 @@ import org.xml.sax.SAXParseException;
 @Default
 public class DOMXMLParser extends XMLParser {
 
-    //Inject instance of error holder
+    // Inject instance of error holder
     @Inject
     private Errors errorHolder;
-    
+
     private DocumentBuilder builder;
     private static final SimpleDateFormat DATE_FORMATTER = new SimpleDateFormat("yyyy-MM-dd");
 
     DOMXMLParser() throws Exception {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         /*
-         *  bizarrely, setValidating refers to DTD validation only, and we are using schema validation
-         */  
+         * bizarrely, setValidating refers to DTD validation only, and we are using schema validation
+         */
         factory.setValidating(false);
         factory.setNamespaceAware(true);
 
@@ -123,7 +124,7 @@ public class DOMXMLParser extends XMLParser {
         for (int index = 0; index < children.getLength(); index++) {
             Node child = children.item(index);
             String childName = child.getLocalName();
-            //empty/text nodes dont have name
+            // empty/text nodes dont have name
             if (childName == null)
                 continue;
 

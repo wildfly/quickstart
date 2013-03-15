@@ -38,11 +38,11 @@ import javax.persistence.PersistenceContext;
  * </pre>
  */
 public class WebResources {
-   
-   @Produces
-   @RequestScoped
-   public FacesContext produceFacesContext() {
-      return FacesContext.getCurrentInstance();
-   }
-   
+
+    @Produces
+    @RequestScoped
+    public FacesContext produceFacesContext() {
+        return FacesContext.getCurrentInstance();
+    }
+
 }

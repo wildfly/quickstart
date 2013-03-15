@@ -15,10 +15,8 @@
     limitations under the License.
 -->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core">
 
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
@@ -27,24 +25,23 @@
 
 <body>
 
-	<h1>Greeter Service</h1>
-	<div id="container">
-		<h:form id="response">
-			<h:panelGrid columns="2">
-				<h:outputLabel>Response:</h:outputLabel>
-				<h:outputLabel value="#{greeter.message}" />
-			</h:panelGrid>
-		</h:form>
-		<h:form id="greetForm">
-			<h:panelGrid columns="3">
-				<h:outputLabel>Name:</h:outputLabel>
-				<h:inputText value="#{name}" />
-				<h:commandButton id="add" value="Greet"
-					action="#{greeter.setName(name)}">
-				</h:commandButton>
-			</h:panelGrid>
-		</h:form>
-	</div>
+    <h1>Greeter Service</h1>
+    <div id="container">
+        <h:form id="response">
+            <h:panelGrid columns="2">
+                <h:outputLabel>Response:</h:outputLabel>
+                <h:outputLabel value="#{greeter.message}" />
+            </h:panelGrid>
+        </h:form>
+        <h:form id="greetForm">
+            <h:panelGrid columns="3">
+                <h:outputLabel>Name:</h:outputLabel>
+                <h:inputText value="#{name}" />
+                <h:commandButton id="add" value="Greet" action="#{greeter.setName(name)}">
+                </h:commandButton>
+            </h:panelGrid>
+        </h:form>
+    </div>
 
 </body>
 </html>

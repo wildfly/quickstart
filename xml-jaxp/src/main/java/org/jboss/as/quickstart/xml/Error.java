@@ -16,7 +16,6 @@
  */
 package org.jboss.as.quickstart.xml;
 
-
 /**
  * Simple class which represents some sort of error.
  * 
@@ -24,25 +23,25 @@ package org.jboss.as.quickstart.xml;
  * 
  */
 public class Error {
-   private Exception exception;
-   private String severity;
+    private Exception exception;
+    private String severity;
 
-   /**
-    * @param e
-    * @param severity
-    */
-   public Error(String severity, Exception e) {
-      super();
-      this.exception = e;
-      this.severity = severity;
-   }
+    /**
+     * @param e
+     * @param severity
+     */
+    public Error(String severity, Exception e) {
+        super();
+        this.exception = e;
+        this.severity = severity;
+    }
 
-   public Exception getException() {
-      return exception;
-   }
+    public Exception getException() {
+        return exception;
+    }
 
-   public String getSeverity() {
-      return severity;
-   }
+    public String getSeverity() {
+        return severity;
+    }
 
 }

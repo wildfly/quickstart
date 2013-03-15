@@ -24,40 +24,36 @@ import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.TextMessage;
 
-
 /**
  * <p>
- * A simple Message Driven Bean that asynchronously receives and processes the
- * messages that are sent to the queue.
+ * A simple Message Driven Bean that asynchronously receives and processes the messages that are sent to the queue.
  * </p>
  * 
  * @author Serge Pagop (spagop@redhat.com)
  * 
  */
 @MessageDriven(name = "HelloWorldQueueMDB", activationConfig = {
-		@ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
-		@ActivationConfigProperty(propertyName = "destination", propertyValue = "queue/HELLOWORLDMDBQueue"),
-		@ActivationConfigProperty(propertyName = "acknowledgeMode", propertyValue = "Auto-acknowledge") })
+        @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
+        @ActivationConfigProperty(propertyName = "destination", propertyValue = "queue/HELLOWORLDMDBQueue"),
+        @ActivationConfigProperty(propertyName = "acknowledgeMode", propertyValue = "Auto-acknowledge") })
 public class HelloWorldQueueMDB implements MessageListener {
 
-	private final static Logger LOGGER = Logger.getLogger(HelloWorldQueueMDB.class
-			.toString());
+    private final static Logger LOGGER = Logger.getLogger(HelloWorldQueueMDB.class.toString());
 
-	/**
-	 * @see MessageListener#onMessage(Message)
-	 */
-	public void onMessage(Message rcvMessage) {
-		TextMessage msg = null;
-		try {
-			if (rcvMessage instanceof TextMessage) {
-				msg = (TextMessage) rcvMessage;
-				LOGGER.info("Received Message from queue: " + msg.getText());
-			} else {
-				LOGGER.warning("Message of wrong type: "
-						+ rcvMessage.getClass().getName());
-			}
-		} catch (JMSException e) {
-			throw new RuntimeException(e);
-		}
-	}
+    /**
+     * @see MessageListener#onMessage(Message)
+     */
+    public void onMessage(Message rcvMessage) {
+        TextMessage msg = null;
+        try {
+            if (rcvMessage instanceof TextMessage) {
+                msg = (TextMessage) rcvMessage;
+                LOGGER.info("Received Message from queue: " + msg.getText());
+            } else {
+                LOGGER.warning("Message of wrong type: " + rcvMessage.getClass().getName());
+            }
+        } catch (JMSException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

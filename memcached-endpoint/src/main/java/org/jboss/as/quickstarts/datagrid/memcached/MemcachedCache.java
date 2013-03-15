@@ -27,9 +27,9 @@ import net.spy.memcached.MemcachedClient;
 
 /**
  * A cache working via Memcached client (only few basic operations)
- *
+ * 
  * @author Martin Gencur
- *
+ * 
  */
 class MemcachedCache<K, V> implements ConcurrentMap<K, V> {
 

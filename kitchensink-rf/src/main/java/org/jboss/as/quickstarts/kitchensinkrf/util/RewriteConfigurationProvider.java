@@ -32,7 +32,7 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * This class provides the configuration for ReWrite.
- *
+ * 
  * @author <a href="http://community.jboss.org/people/bleathem">Brian Leathem</a>
  */
 public class RewriteConfigurationProvider extends HttpConfigurationProvider {
@@ -43,16 +43,15 @@ public class RewriteConfigurationProvider extends HttpConfigurationProvider {
     }
 
     /**
-     * Uses the ReWrtie ConfigurationBuilder to define a set of rules used for the URL rewriting.  We define a single
-     * rule that rewrites requests for the index page if the request is determined to originate from a mobile browser.
-     *
+     * Uses the ReWrtie ConfigurationBuilder to define a set of rules used for the URL rewriting. We define a single rule that
+     * rewrites requests for the index page if the request is determined to originate from a mobile browser.
+     * 
      * @param context the ServletContext
      * @return the ReWrite Configuration
      */
     @Override
     public Configuration getConfiguration(final ServletContext context) {
-        return ConfigurationBuilder.begin()
-                .defineRule()
+        return ConfigurationBuilder.begin().defineRule()
                 .when(Direction.isInbound().and(Path.matches("/").or(Path.matches("/index.jsf"))).and(new HttpCondition() {
                     @Override
                     public boolean evaluateHttp(HttpServletRewrite httpServletRewrite, EvaluationContext evaluationContext) {
@@ -62,7 +61,6 @@ public class RewriteConfigurationProvider extends HttpConfigurationProvider {
                         UAgentInfo uAgentInfo = new UAgentInfo(userAgentStr, httpAccept);
                         return uAgentInfo.detectTierIphone() || uAgentInfo.detectTierTablet();
                     }
-                }))
-                .perform(Forward.to("/mobile/"));
+                })).perform(Forward.to("/mobile/"));
     }
 }

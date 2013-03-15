@@ -25,5 +25,5 @@ package org.jboss.as.quickstarts.cdi.alternative;
  * 
  */
 public interface Tax {
-	String getRate ();
+    String getRate();
 }

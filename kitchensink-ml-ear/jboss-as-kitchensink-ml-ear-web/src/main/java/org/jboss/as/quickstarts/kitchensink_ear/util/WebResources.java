@@ -35,17 +35,17 @@ import javax.faces.context.FacesContext;
  * </pre>
  */
 public class WebResources {
-   
-   @Produces
-   @RequestScoped
-   public FacesContext produceFacesContext() {
-      return FacesContext.getCurrentInstance();
-   }
-   
-   @Produces
-   public ResourceBundle produceResourceBundle() {
-       return ResourceBundle.getBundle("org.jboss.as.quickstarts.kitchensink-ml.bundle.Resources", FacesContext
-               .getCurrentInstance().getViewRoot().getLocale());
-   }
+
+    @Produces
+    @RequestScoped
+    public FacesContext produceFacesContext() {
+        return FacesContext.getCurrentInstance();
+    }
+
+    @Produces
+    public ResourceBundle produceResourceBundle() {
+        return ResourceBundle.getBundle("org.jboss.as.quickstarts.kitchensink-ml.bundle.Resources", FacesContext
+                .getCurrentInstance().getViewRoot().getLocale());
+    }
 
 }

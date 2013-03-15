@@ -24,7 +24,7 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.RetentionPolicy;
 
 @Qualifier
-@Target({ElementType.METHOD,ElementType.FIELD,ElementType.PARAMETER})
+@Target({ ElementType.METHOD, ElementType.FIELD, ElementType.PARAMETER })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Debit {
 }

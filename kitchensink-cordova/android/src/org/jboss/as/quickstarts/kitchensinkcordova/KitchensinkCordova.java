@@ -22,7 +22,7 @@ import android.os.Bundle;
 import android.webkit.WebSettings;
 
 public class KitchensinkCordova extends DroidGap {
-    
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

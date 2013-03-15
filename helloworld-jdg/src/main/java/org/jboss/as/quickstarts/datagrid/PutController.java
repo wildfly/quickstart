@@ -25,55 +25,55 @@ import org.infinispan.Cache;
 
 /**
  * Stores entries into the cache.
- *
+ * 
  * @author Burr Sutter
- *
+ * 
  */
 @Named
 @RequestScoped
 public class PutController {
 
-   @Inject
-   private Logger log;
+    @Inject
+    private Logger log;
 
-   @Inject
-   DefaultCacheManager m;
+    @Inject
+    DefaultCacheManager m;
 
-   private String key;
+    private String key;
 
-   private String value;
+    private String value;
 
-   private String message;
+    private String message;
 
-   public void putSomething() {
-      Cache<String, String> c = m.getCache();
-      c.put(key, value);
-      log.info("put: " + key + " " + value);
-      this.setMessage(key + "=" + value + " added");
-   }
+    public void putSomething() {
+        Cache<String, String> c = m.getCache();
+        c.put(key, value);
+        log.info("put: " + key + " " + value);
+        this.setMessage(key + "=" + value + " added");
+    }
 
-   public String getKey() {
-      return key;
-   }
+    public String getKey() {
+        return key;
+    }
 
-   public void setKey(String key) {
-      this.key = key;
-   }
+    public void setKey(String key) {
+        this.key = key;
+    }
 
-   public String getValue() {
-      return value;
-   }
+    public String getValue() {
+        return value;
+    }
 
-   public void setValue(String value) {
-      this.value = value;
-   }
+    public void setValue(String value) {
+        this.value = value;
+    }
 
-   public String getMessage() {
-      return message;
-   }
+    public String getMessage() {
+        return message;
+    }
 
-   public void setMessage(String message) {
-      this.message = message;
-   }
+    public void setMessage(String message) {
+        this.message = message;
+    }
 
 }

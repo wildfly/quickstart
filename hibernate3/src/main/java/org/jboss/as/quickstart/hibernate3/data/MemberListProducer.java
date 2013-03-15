@@ -38,31 +38,31 @@ import javax.persistence.EntityManager;
 
 @RequestScoped
 public class MemberListProducer {
-   @Inject
-   private EntityManager em;
-   
-   private List<Member> members;
+    @Inject
+    private EntityManager em;
 
-   // @Named provides access the return value via the EL variable name "members" in the UI (e.g.,
-   // Facelets or JSP view)
-   @Produces
-   @Named
-   public List<Member> getMembers() {
-      return members;
-   }
+    private List<Member> members;
 
-   public void onMemberListChanged(@Observes(notifyObserver = Reception.IF_EXISTS) final Member member) {
-      retrieveAllMembersOrderedByName();
-   }
+    // @Named provides access the return value via the EL variable name "members" in the UI (e.g.,
+    // Facelets or JSP view)
+    @Produces
+    @Named
+    public List<Member> getMembers() {
+        return members;
+    }
 
-   @PostConstruct
-   public void retrieveAllMembersOrderedByName() {
-	   
-      //using Hibernate Session and Criteria Query via Hibernate Native API 
-      Session session = (Session) em.getDelegate();
-      Criteria cb = session.createCriteria(Member.class);
-      cb.addOrder(Order.asc("name"));
-      members = (List<Member>)cb.list();
+    public void onMemberListChanged(@Observes(notifyObserver = Reception.IF_EXISTS) final Member member) {
+        retrieveAllMembersOrderedByName();
+    }
 
-   }
+    @PostConstruct
+    public void retrieveAllMembersOrderedByName() {
+
+        // using Hibernate Session and Criteria Query via Hibernate Native API
+        Session session = (Session) em.getDelegate();
+        Criteria cb = session.createCriteria(Member.class);
+        cb.addOrder(Order.asc("name"));
+        members = (List<Member>) cb.list();
+
+    }
 }

@@ -23,7 +23,7 @@ import javax.naming.InitialContext;
 
 /**
  * Utility class for looking up EJBs
- *
+ * 
  * @author <a href="mailto:darran.lofthouse@jboss.com">Darran Lofthouse</a>
  */
 class EJBUtil {

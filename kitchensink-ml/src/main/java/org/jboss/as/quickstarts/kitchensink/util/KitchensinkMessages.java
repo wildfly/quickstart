@@ -16,7 +16,6 @@
  */
 package org.jboss.as.quickstarts.kitchensink.util;
 
-
 import javax.faces.context.FacesContext;
 
 import org.jboss.logging.Message;
@@ -29,7 +28,8 @@ import org.jboss.logging.Messages;
 @MessageBundle(projectCode = "")
 public interface KitchensinkMessages {
 
-    KitchensinkMessages MESSAGES = Messages.getBundle(KitchensinkMessages.class, FacesContext.getCurrentInstance().getViewRoot().getLocale());
+    KitchensinkMessages MESSAGES = Messages.getBundle(KitchensinkMessages.class, FacesContext.getCurrentInstance()
+            .getViewRoot().getLocale());
 
     @Message("Registered!")
     String registeredMessage();

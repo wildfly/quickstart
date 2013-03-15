@@ -28,26 +28,26 @@ import javax.ejb.Stateful;
 @Stateful
 public class ShoppingCartBean implements ShoppingCart {
 
-   private final static Logger LOGGER = Logger.getLogger(ShoppingCartBean.class.toString());
+    private final static Logger LOGGER = Logger.getLogger(ShoppingCartBean.class.toString());
 
-   private HashMap<String, Integer> cart = new HashMap<String, Integer>();
+    private HashMap<String, Integer> cart = new HashMap<String, Integer>();
 
-   public void buy(String product, int quantity) {
-      if (cart.containsKey(product)) {
-         int currentQuantity = cart.get(product);
-         currentQuantity += quantity;
-         cart.put(product, currentQuantity);
-      } else {
-         cart.put(product, quantity);
-      }
-   }
+    public void buy(String product, int quantity) {
+        if (cart.containsKey(product)) {
+            int currentQuantity = cart.get(product);
+            currentQuantity += quantity;
+            cart.put(product, currentQuantity);
+        } else {
+            cart.put(product, quantity);
+        }
+    }
 
-   public HashMap<String, Integer> getCartContents() {
-      return cart;
-   }
+    public HashMap<String, Integer> getCartContents() {
+        return cart;
+    }
 
-   @Remove
-   public void checkout() {
-      LOGGER.info("implementing checkout() left as exercise for the reader!");
-   }
+    @Remove
+    public void checkout() {
+        LOGGER.info("implementing checkout() left as exercise for the reader!");
+    }
 }

@@ -21,7 +21,6 @@ import javax.inject.Named;
 
 import org.jboss.as.quickstarts.datagrid.carmart.model.Car.Country;
 
-
 /**
  * Produces an array of supported countries
  * 

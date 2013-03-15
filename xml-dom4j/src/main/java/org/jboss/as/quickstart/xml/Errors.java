@@ -41,7 +41,8 @@ public class Errors implements Serializable {
         this.errorsList.add(error);
     }
 
-    @Produces @Named
+    @Produces
+    @Named
     public List<Error> getErrorMessages() {
         return errorsList;
     }

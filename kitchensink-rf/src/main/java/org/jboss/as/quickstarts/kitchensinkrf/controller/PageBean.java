@@ -24,7 +24,7 @@ import java.io.Serializable;
 
 /**
  * The PageBean maps the location hash from the browser into a jsf view-id
- *
+ * 
  * @author <a href="http://community.jboss.org/people/bleathem">Brian Leathem</a>
  */
 @Named

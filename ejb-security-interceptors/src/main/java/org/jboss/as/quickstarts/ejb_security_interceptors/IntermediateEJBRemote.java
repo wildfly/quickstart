@@ -25,7 +25,7 @@ import javax.ejb.Remote;
  */
 @Remote
 public interface IntermediateEJBRemote {
-    
+
     String makeTestCalls();
 
 }

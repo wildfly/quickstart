@@ -26,65 +26,65 @@ import java.util.Set;
 
 /**
  * Retrieves entries from the cache.
- *
+ * 
  * @author Burr Sutter
- *
+ * 
  */
 @Named
 @RequestScoped
 public class GetController {
 
-   @Inject
-   private Logger log;
+    @Inject
+    private Logger log;
 
-   @Inject
-   DefaultCacheManager m;
+    @Inject
+    DefaultCacheManager m;
 
-   private String key;
+    private String key;
 
-   private String message;
+    private String message;
 
-   private StringBuffer allKeyValues = new StringBuffer();
+    private StringBuffer allKeyValues = new StringBuffer();
 
-   // Called by the get.xhtml - get button
-   public void getOne() {
-      Cache<String, String> c = m.getCache();
-      message = c.get(key);
-      log.info("get: " + key + " " + message);
-   }
+    // Called by the get.xhtml - get button
+    public void getOne() {
+        Cache<String, String> c = m.getCache();
+        message = c.get(key);
+        log.info("get: " + key + " " + message);
+    }
 
-   // Called by the get.xhtml - get all button
-   public void getAll() {
-      Cache<String, String> c = m.getCache();
+    // Called by the get.xhtml - get all button
+    public void getAll() {
+        Cache<String, String> c = m.getCache();
 
-      Set<String> keySet = c.keySet();
-      for (String key : keySet) {
+        Set<String> keySet = c.keySet();
+        for (String key : keySet) {
 
-         String value = c.get(key);
-         log.info("k: " + key + " v: " + value);
+            String value = c.get(key);
+            log.info("k: " + key + " v: " + value);
 
-         allKeyValues.append(key + "=" + value + ", ");
-      } // for
+            allKeyValues.append(key + "=" + value + ", ");
+        } // for
 
-      if (allKeyValues == null || allKeyValues.length() == 0) {
-         message = "Nothing in the Cache";
-      } else {
-         //remote trailing comma
-         allKeyValues.delete(allKeyValues.length() - 2, allKeyValues.length());
-         message = allKeyValues.toString();
-      }
-   }
+        if (allKeyValues == null || allKeyValues.length() == 0) {
+            message = "Nothing in the Cache";
+        } else {
+            // remote trailing comma
+            allKeyValues.delete(allKeyValues.length() - 2, allKeyValues.length());
+            message = allKeyValues.toString();
+        }
+    }
 
-   public String getKey() {
-      return key;
-   }
+    public String getKey() {
+        return key;
+    }
 
-   public void setKey(String key) {
-      this.key = key;
-   }
+    public void setKey(String key) {
+        this.key = key;
+    }
 
-   public String getMessage() {
-      return message;
-   }
+    public String getMessage() {
+        return message;
+    }
 
 }

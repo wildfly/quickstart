@@ -27,11 +27,10 @@ import javax.faces.validator.ValidatorException;
 
 public class ValidateName implements Validator {
 
-
     @Override
     public void validate(FacesContext facesContext, UIComponent uiComponent, Object nameObject) throws ValidatorException {
         String nameRegistered = (String) nameObject;
-        
+
         // The name can only contain letters and spaces.
         Pattern namePattern = Pattern.compile("[A-Za-z ]*");
         Matcher nameMatcher = namePattern.matcher(nameRegistered);
@@ -41,9 +40,9 @@ public class ValidateName implements Validator {
             facesMessage.setDetail("Name must contain only letters and spaces.");
             facesMessage.setSeverity(FacesMessage.SEVERITY_ERROR);
             facesContext.addMessage("reg:name", facesMessage);
-            throw new ValidatorException(facesMessage);         
+            throw new ValidatorException(facesMessage);
         }
-        
+
     }
 
 }

@@ -36,7 +36,7 @@ import org.richfaces.cdi.push.Push;
 @Model
 public class MemberController {
 
-   public static final String PUSH_CDI_TOPIC = "pushCdi";
+    public static final String PUSH_CDI_TOPIC = "pushCdi";
 
     @Inject
     private FacesContext facesContext;
@@ -44,17 +44,18 @@ public class MemberController {
     @Inject
     private MemberRegistration memberRegistration;
 
-   @Inject
-   @Push(topic = PUSH_CDI_TOPIC) Event<String> pushEvent;
+    @Inject
+    @Push(topic = PUSH_CDI_TOPIC)
+    Event<String> pushEvent;
 
-   private Member newMember;
-   private Member member;
+    private Member newMember;
+    private Member member;
 
     @Produces
     @Named
-   public Member getNewMember() {
-      return newMember;
-   }
+    public Member getNewMember() {
+        return newMember;
+    }
 
     @Produces
     @Named

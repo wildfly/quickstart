@@ -28,7 +28,7 @@ import org.jboss.as.quickstarts.sfsb.ShoppingCart;
 import org.jboss.as.quickstarts.sfsb.ShoppingCartBean;
 
 public class Client {
-    
+
     private static final String SOAP = "JBoss SOA Platform 6";
     private static final String EAP = "JBoss Enterprise Application Platform 6";
 
@@ -83,17 +83,17 @@ public class Client {
 
         System.out.println("Buying a \"" + SOAP + "\"");
         cart.buy(SOAP, 1);
-        
+
         System.out.println("\nPrint cart:");
         HashMap<String, Integer> cartContents = cart.getCartContents();
         for (String product : cartContents.keySet()) {
             System.out.println(cartContents.get(product) + "     " + product);
         }
-        
+
         System.out.println("\nCheckout");
         cart.checkout();
-        
-        /* Try to access the cart after checkout*/
+
+        /* Try to access the cart after checkout */
         try {
             cart.getCartContents();
         } catch (NoSuchEJBException e) {

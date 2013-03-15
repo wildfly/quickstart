@@ -38,7 +38,7 @@ import org.jboss.security.auth.spi.AbstractServerLoginModule;
 /**
  * Login module to make the decision if one user can ask for the current request to be switched to an alternative specified
  * user.
- *
+ * 
  * @author <a href="mailto:darran.lofthouse@jboss.com">Darran Lofthouse</a>
  */
 public class DelegationLoginModule extends AbstractServerLoginModule {
@@ -117,19 +117,19 @@ public class DelegationLoginModule extends AbstractServerLoginModule {
 
     /**
      * Make a trust user to decide if the user switch is acceptable.
-     *
+     * 
      * The default implementation checks the Properties for the user that opened the connection looking for a match, the
      * property read is then used to check if the connection user can delegate to the user specified.
-     *
+     * 
      * The following entries will be checked in the Properties in this order: - user@realm - This is an exact match for the user
      * / realm combination of the connection user. user@* - This entry allows a match by username for any realm. *@realm - This
      * entry allows for any user in the realm specified. * - This matches all users.
-     *
+     * 
      * Once an entry has been found the Properties will not be read again, even if the entry loaded does not allow delegation.
-     *
+     * 
      * The value for the property is either '*' which means delegation to any user is allowed or a comma separate list of users
      * that can be delegated to.
-     *
+     * 
      * @param requestedUser - The user this request wants to be authorized as.
      * @param connectionUser - The use of the connection to the server.
      * @return true if a switch is acceptable, false otherwise.

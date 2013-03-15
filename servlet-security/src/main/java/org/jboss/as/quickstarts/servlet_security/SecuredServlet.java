@@ -29,8 +29,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * A simple secured Servlet. Upon successful authentication and authorization the Servlet will print
- * details of the user and authentication. Servlet security is implemented using annotations.
+ * A simple secured Servlet. Upon successful authentication and authorization the Servlet will print details of the user and
+ * authentication. Servlet security is implemented using annotations.
  * 
  * @author Sherif Makary
  * 
@@ -40,31 +40,31 @@ import javax.servlet.http.HttpServletResponse;
 @ServletSecurity(@HttpConstraint(rolesAllowed = { "quickstarts" }))
 public class SecuredServlet extends HttpServlet {
 
-   private static String PAGE_HEADER = "<html><head><title>servlet-security</title></head><body>";
+    private static String PAGE_HEADER = "<html><head><title>servlet-security</title></head><body>";
 
-   private static String PAGE_FOOTER = "</body></html>";
+    private static String PAGE_FOOTER = "</body></html>";
 
-   @Override
-   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-      PrintWriter writer = resp.getWriter();
-      Principal principal = null;
-      String authType = null;
-      String remoteUser = null;
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        PrintWriter writer = resp.getWriter();
+        Principal principal = null;
+        String authType = null;
+        String remoteUser = null;
 
-      // Get security principal
-      principal = req.getUserPrincipal();
-      // Get user name from login principal
-      remoteUser = req.getRemoteUser();
-      // Get authentication type
-      authType = req.getAuthType();
+        // Get security principal
+        principal = req.getUserPrincipal();
+        // Get user name from login principal
+        remoteUser = req.getRemoteUser();
+        // Get authentication type
+        authType = req.getAuthType();
 
-      writer.println(PAGE_HEADER);
-      writer.println("<h1>" + "Successfully called Secured Servlet " + "</h1>");
-      writer.println("<p>" + "Principal  : " + principal.getName() + "</p>");
-      writer.println("<p>" + "Remote User : " + remoteUser + "</p>");
-      writer.println("<p>" + "Authentication Type : " + authType + "</p>");
-      writer.println(PAGE_FOOTER);
-      writer.close();
-   }
+        writer.println(PAGE_HEADER);
+        writer.println("<h1>" + "Successfully called Secured Servlet " + "</h1>");
+        writer.println("<p>" + "Principal  : " + principal.getName() + "</p>");
+        writer.println("<p>" + "Remote User : " + remoteUser + "</p>");
+        writer.println("<p>" + "Authentication Type : " + authType + "</p>");
+        writer.println(PAGE_FOOTER);
+        writer.close();
+    }
 
 }

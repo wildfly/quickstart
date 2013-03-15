@@ -45,7 +45,7 @@ public class UserAgent implements Serializable {
     }
 
     public boolean isPhone() {
-        //Detects a whole tier of phones that support similar functionality as the iphone
+        // Detects a whole tier of phones that support similar functionality as the iphone
         return uAgentInfo.detectTierIphone();
     }
 

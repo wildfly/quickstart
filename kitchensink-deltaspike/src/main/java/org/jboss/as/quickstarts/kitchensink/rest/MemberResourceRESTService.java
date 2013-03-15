@@ -58,7 +58,7 @@ public class MemberResourceRESTService {
 
     @Inject
     private MemberRegistration registration;
-    
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Member> listAllMembers() {
@@ -79,13 +79,13 @@ public class MemberResourceRESTService {
     /**
      * Creates a new member from the values provided. Performs validation, and will return a JAX-RS response with either 200 ok,
      * or with a map of fields, and related errors.
-     * @throws Exception 
+     * 
+     * @throws Exception
      */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response createMember(Member member) throws Exception {
-
 
         // Validates member using bean validation
         validateMember(member);

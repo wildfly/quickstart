@@ -43,8 +43,9 @@ public class MemberController {
     private MemberRegistration memberRegistration;
 
     private Member newMember;
-    
-    private KitchensinkMessages messages = Messages.getBundle(KitchensinkMessages.class, FacesContext.getCurrentInstance().getViewRoot().getLocale());
+
+    private KitchensinkMessages messages = Messages.getBundle(KitchensinkMessages.class, FacesContext.getCurrentInstance()
+            .getViewRoot().getLocale());
 
     @Produces
     @Named
@@ -61,8 +62,7 @@ public class MemberController {
             initNewMember();
         } catch (Exception e) {
             String errorMessage = getRootErrorMessage(e);
-            FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR, errorMessage,
-                    messages.registerFailMessage());
+            FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR, errorMessage, messages.registerFailMessage());
             facesContext.addMessage(null, m);
         }
     }

@@ -58,13 +58,13 @@ public class Temperature {
 
             // Use the scale included with the sourceTemperature OR the defaultScale provided.
             if (!matcher.group(2).isEmpty()) {
-               try {
-                   s = Scale.valueOfAbbreviation(matcher.group(2));
-               } catch (IllegalArgumentException e) {
-                   throw new IllegalArgumentException("You must provide a valid temperature scale- 'C|F'");
-               }
+                try {
+                    s = Scale.valueOfAbbreviation(matcher.group(2));
+                } catch (IllegalArgumentException e) {
+                    throw new IllegalArgumentException("You must provide a valid temperature scale- 'C|F'");
+                }
             } else {
-               s = defaultScale;
+                s = defaultScale;
             }
         } else {
             throw new IllegalArgumentException("You must provide a valid temperature to convert- 'XX.XXX'");

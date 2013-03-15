@@ -39,27 +39,28 @@ import com.arjuna.mw.wst11.client.JaxWSHeaderContextProcessor;
 
 /**
  * <p>
- * A simple servlet 3 that begins a WS-AtomicTransaction and invokes a Web service. If the call is successful, the transaction is committed.
+ * A simple servlet 3 that begins a WS-AtomicTransaction and invokes a Web service. If the call is successful, the transaction
+ * is committed.
  * </p>
  * <p/>
  * <p/>
  * The servlet is registered and mapped to /WSATSimpleServletClient using the {@linkplain javax.servlet.annotation.WebServlet}
- *
+ * 
  * @author Paul Robinson (paul.robinson@redhat.com)
- * @HttpServlet}. </p>
+ * @HttpServlet .
+ *              </p>
  */
 @WebServlet("/WSATSimpleServletClient")
 public class WSATSimpleServletClient extends HttpServlet {
 
     private static final long serialVersionUID = -8314035702649252239L;
 
-    @WebServiceRef(value=RestaurantServiceATService.class)
+    @WebServiceRef(value = RestaurantServiceATService.class)
     private RestaurantServiceAT client;
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
-        
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
         /*
          * Add client handler chain
          */
@@ -73,7 +74,8 @@ public class WSATSimpleServletClient extends HttpServlet {
          */
         String openshift = System.getenv("OPENSHIFT_APP_DNS");
         if (openshift != null) {
-            bindingProvider.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, "http://"+openshift+"/RestaurantServiceAT");
+            bindingProvider.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
+                    "http://" + openshift + "/RestaurantServiceAT");
         }
 
         resp.setContentType("text/html");
@@ -84,7 +86,8 @@ public class WSATSimpleServletClient extends HttpServlet {
         System.out.println("[CLIENT] Creating a new WS-AT User Transaction");
         UserTransaction ut = UserTransactionFactory.userTransaction();
         try {
-            System.out.println("[CLIENT] Beginning Atomic Transaction (All calls to Web services that support WS-AT wil be included in this transaction)");
+            System.out
+                    .println("[CLIENT] Beginning Atomic Transaction (All calls to Web services that support WS-AT wil be included in this transaction)");
             ut.begin();
             System.out.println("[CLIENT] invoking makeBooking() on WS");
             client.makeBooking();
@@ -101,15 +104,13 @@ public class WSATSimpleServletClient extends HttpServlet {
         }
     }
 
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         doGet(req, resp);
     }
 
-
     /**
      * Utility method for rolling back a transaction if it is currently active.
-     *
+     * 
      * @param ut The User Business Activity to cancel.
      */
     private void rollbackIfActive(UserTransaction ut) {

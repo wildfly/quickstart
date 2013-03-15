@@ -49,8 +49,7 @@ import java.util.List;
 public class ClientTest {
 
     private static final String ManifestMF = "Manifest-Version: 1.0\n"
-          + "Dependencies: org.jboss.xts,org.jboss.modules,org.jboss.msc,org.jboss.jts\n";
-   
+            + "Dependencies: org.jboss.xts,org.jboss.modules,org.jboss.msc,org.jboss.jts\n";
 
     @Inject
     @ClientStub
@@ -65,8 +64,7 @@ public class ClientTest {
     public static WebArchive createTestArchive() {
 
         return ShrinkWrap.create(WebArchive.class, "wsat-simple.war")
-                .addPackages(true, RestaurantServiceATImpl.class.getPackage())
-                .addAsResource("context-handlers.xml")
+                .addPackages(true, RestaurantServiceATImpl.class.getPackage()).addAsResource("context-handlers.xml")
                 .addAsWebInfResource(EmptyAsset.INSTANCE, ArchivePaths.create("beans.xml"))
                 .setManifest(new StringAsset(ManifestMF));
     }

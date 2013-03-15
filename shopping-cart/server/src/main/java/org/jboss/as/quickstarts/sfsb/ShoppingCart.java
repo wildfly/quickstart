@@ -25,9 +25,9 @@ import javax.ejb.Remote;
  */
 @Remote
 public interface ShoppingCart {
-   public void buy(String product, int quantity);
+    public void buy(String product, int quantity);
 
-   public void checkout();
+    public void checkout();
 
-   public HashMap<String, Integer> getCartContents();
+    public HashMap<String, Integer> getCartContents();
 }

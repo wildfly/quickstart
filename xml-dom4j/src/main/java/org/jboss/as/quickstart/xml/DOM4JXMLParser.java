@@ -35,6 +35,7 @@ import org.dom4j.io.SAXReader;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
+
 /**
  * Implementation of parser based on DOM4J.
  * 
@@ -45,10 +46,10 @@ import org.xml.sax.SAXParseException;
 @Default
 public class DOM4JXMLParser extends XMLParser {
 
-    //Inject instance of error holder
+    // Inject instance of error holder
     @Inject
     private Errors errorHolder;
-    
+
     // Get the SAXReader object
     private SAXReader dom4jReader = new SAXReader();
     private static final SimpleDateFormat DATE_FORMATTER = new SimpleDateFormat("yyyy-MM-dd");
@@ -87,7 +88,7 @@ public class DOM4JXMLParser extends XMLParser {
         }
 
         Iterator children = root.elementIterator();
-        while(children.hasNext()){
+        while (children.hasNext()) {
             Node n = (Node) children.next();
             String childName = n.getName();
             if (childName == null)
@@ -109,10 +110,10 @@ public class DOM4JXMLParser extends XMLParser {
         /*
          * parse book element, we have to once more iterate over children.
          */
-        while(children.hasNext()) {
+        while (children.hasNext()) {
             Node child = (Node) children.next();
             String childName = child.getName();
-            //empty/text nodes dont have name
+            // empty/text nodes dont have name
             if (childName == null)
                 continue;
 

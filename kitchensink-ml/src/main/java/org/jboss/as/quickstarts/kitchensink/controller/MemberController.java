@@ -37,7 +37,7 @@ public class MemberController {
 
     @Inject
     private FacesContext facesContext;
-    
+
     @Inject
     private MemberRegistration memberRegistration;
 

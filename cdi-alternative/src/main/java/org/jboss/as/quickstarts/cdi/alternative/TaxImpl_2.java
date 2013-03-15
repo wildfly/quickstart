@@ -27,10 +27,10 @@ import javax.enterprise.inject.Alternative;
 @Alternative
 public class TaxImpl_2 implements Tax {
 
-	@Override
-	public String getRate() {
-		// TODO Auto-generated method stub
-		return "Tax_2 Rate! To switch back to the default, go to /META-INF/beans.xml and comment out the 'alternatives' tag";
-	}
+    @Override
+    public String getRate() {
+        // TODO Auto-generated method stub
+        return "Tax_2 Rate! To switch back to the default, go to /META-INF/beans.xml and comment out the 'alternatives' tag";
+    }
 
 }

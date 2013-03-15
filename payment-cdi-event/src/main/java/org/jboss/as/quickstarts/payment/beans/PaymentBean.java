@@ -16,7 +16,6 @@
  */
 package org.jboss.as.quickstarts.payment.beans;
 
-
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -32,113 +31,94 @@ import org.jboss.as.quickstarts.payment.events.PaymentTypeEnum;
 import org.jboss.as.quickstarts.payment.qualifiers.Credit;
 import org.jboss.as.quickstarts.payment.qualifiers.Debit;
 
-
 @Named
 @SessionScoped
-
 public class PaymentBean implements Serializable {
-	
-	
-	private static final long serialVersionUID = 1L;
 
-	@Inject
-	 private Logger log;
+    private static final long serialVersionUID = 1L;
 
-	//Events producers
-	@Inject
-	@Credit 
-	Event<PaymentEvent> creditEventProducer;
-	
-	@Inject
-	@Debit
-	Event<PaymentEvent> debitEventProducer;
-	
-	private BigDecimal amount= new BigDecimal(10.0);
-			
-	private String paymentOption=PaymentTypeEnum.DEBIT.toString();
-	
-	
-	
-	
-	//Pay Action
-	public String pay(){
+    @Inject
+    private Logger log;
 
-		PaymentEvent currentEvtPayload = new PaymentEvent();
-		currentEvtPayload.setType(PaymentTypeEnum.fromString(paymentOption));
-		currentEvtPayload.setAmount(amount);
-		currentEvtPayload.setDatetime(new Date());
-		
-		switch (currentEvtPayload.getType()) {
-		case DEBIT:
+    // Events producers
+    @Inject
+    @Credit
+    Event<PaymentEvent> creditEventProducer;
 
-			debitEventProducer.fire(currentEvtPayload);
-			
-			break;
-		case CREDIT:
-			creditEventProducer.fire(currentEvtPayload);
+    @Inject
+    @Debit
+    Event<PaymentEvent> debitEventProducer;
 
-			break;
+    private BigDecimal amount = new BigDecimal(10.0);
 
-		default: log.severe("invalid payment option");
-			break;
-		}
-		
-		//paymentAction
-		
-	
-		return "index";
-	}
-	
-	
-	//Reset Action
-	public void reset()
-	{
-		amount= null;
-		paymentOption="";
-	 
-	}
-	
-	
-	
-	public Event<PaymentEvent> getCreditEventLauncher() {
-		return creditEventProducer;
-	}
+    private String paymentOption = PaymentTypeEnum.DEBIT.toString();
 
+    // Pay Action
+    public String pay() {
 
-	public void setCreditEventLauncher(Event<PaymentEvent> creditEventLauncher) {
-		this.creditEventProducer = creditEventLauncher;
-	}
+        PaymentEvent currentEvtPayload = new PaymentEvent();
+        currentEvtPayload.setType(PaymentTypeEnum.fromString(paymentOption));
+        currentEvtPayload.setAmount(amount);
+        currentEvtPayload.setDatetime(new Date());
 
+        switch (currentEvtPayload.getType()) {
+            case DEBIT:
 
-	public Event<PaymentEvent> getDebitEventLauncher() {
-		return debitEventProducer;
-	}
+                debitEventProducer.fire(currentEvtPayload);
 
+                break;
+            case CREDIT:
+                creditEventProducer.fire(currentEvtPayload);
 
-	public void setDebitEventLauncher(Event<PaymentEvent> debitEventLauncher) {
-		this.debitEventProducer = debitEventLauncher;
-	}
+                break;
 
+            default:
+                log.severe("invalid payment option");
+                break;
+        }
 
-	public String getPaymentOption() {
-		return paymentOption;
-	}
+        // paymentAction
 
+        return "index";
+    }
 
-	public void setPaymentOption(String paymentOption) {
-		this.paymentOption = paymentOption;
-	}
+    // Reset Action
+    public void reset() {
+        amount = null;
+        paymentOption = "";
 
+    }
 
-	public BigDecimal getAmount() {
-		return amount;
-	}
+    public Event<PaymentEvent> getCreditEventLauncher() {
+        return creditEventProducer;
+    }
 
+    public void setCreditEventLauncher(Event<PaymentEvent> creditEventLauncher) {
+        this.creditEventProducer = creditEventLauncher;
+    }
 
-	public void setAmount(BigDecimal amount) {
-		this.amount = amount;
-	}
-	
+    public Event<PaymentEvent> getDebitEventLauncher() {
+        return debitEventProducer;
+    }
 
+    public void setDebitEventLauncher(Event<PaymentEvent> debitEventLauncher) {
+        this.debitEventProducer = debitEventLauncher;
+    }
+
+    public String getPaymentOption() {
+        return paymentOption;
+    }
+
+    public void setPaymentOption(String paymentOption) {
+        this.paymentOption = paymentOption;
+    }
+
+    public BigDecimal getAmount() {
+        return amount;
+    }
+
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
+    }
 
 }

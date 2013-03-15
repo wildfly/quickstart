@@ -34,27 +34,27 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/FilterExample")
 public class FilterExampleServlet extends HttpServlet {
 
-   @Override
-   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-      PrintWriter writer = resp.getWriter();
-      writer.println("<!DOCTYPE HTML>");
-      writer.println("<html>");
-      writer.println(" <head>");
-      writer.println("  <title>servlet-filterlistener</title>");
-      writer.println(" </head>");
-      writer.println(" <body>");
-      writer.println("  <form>");
-      writer.println("   <label for=userInput>Enter some text:</label> <input type=text name=userInput>");
-      writer.println("   <button type=submit>Send</button></form>");
-      writer.println("  </form>");
-      
-      if (req.getParameter("userInput") != null) {
-        writer.println("  <h1>You Typed " + req.getParameter("userInput") + "</h1>");
-      }
-      
-      writer.println(" </body>");
-      writer.println("</html>");
-      writer.close();
-   }
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        PrintWriter writer = resp.getWriter();
+        writer.println("<!DOCTYPE HTML>");
+        writer.println("<html>");
+        writer.println(" <head>");
+        writer.println("  <title>servlet-filterlistener</title>");
+        writer.println(" </head>");
+        writer.println(" <body>");
+        writer.println("  <form>");
+        writer.println("   <label for=userInput>Enter some text:</label> <input type=text name=userInput>");
+        writer.println("   <button type=submit>Send</button></form>");
+        writer.println("  </form>");
+
+        if (req.getParameter("userInput") != null) {
+            writer.println("  <h1>You Typed " + req.getParameter("userInput") + "</h1>");
+        }
+
+        writer.println(" </body>");
+        writer.println("</html>");
+        writer.close();
+    }
 
 }

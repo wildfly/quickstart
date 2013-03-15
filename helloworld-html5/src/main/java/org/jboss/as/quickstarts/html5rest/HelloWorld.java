@@ -23,11 +23,9 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 /**
- * A simple REST service which is able to say hello to someone using
- * HelloService
- * Please take a look at the web.xml where JAX-RS is enabled
- * And notice the @PathParam which expects the URL to contain /json/David or /xml/Mary
- *
+ * A simple REST service which is able to say hello to someone using HelloService Please take a look at the web.xml where JAX-RS
+ * is enabled And notice the @PathParam which expects the URL to contain /json/David or /xml/Mary
+ * 
  * @author bsutter@redhat.com
  */
 
@@ -49,8 +47,7 @@ public class HelloWorld {
     @Produces("application/xml")
     public String getHelloWorldXML(@PathParam("name") String name) {
         System.out.println("name: " + name);
-        return "<xml><result>" + helloService.createHelloMessage(name)
-                + "</result></xml>";
+        return "<xml><result>" + helloService.createHelloMessage(name) + "</result></xml>";
     }
 
 }

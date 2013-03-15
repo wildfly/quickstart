@@ -30,24 +30,23 @@ import org.junit.runner.RunWith;
 
 /**
  * A simple test case using Arquillian to test an EJB.
- *
+ * 
  * @author david@davidsalter.co.uk
  */
 @RunWith(Arquillian.class)
 public class GreeterEJBTest {
-	
-	@Deployment
-	public static JavaArchive createDeployment() {
-		return ShrinkWrap.create(JavaArchive.class, "test.jar")
-			.addClasses(GreeterEJB.class);
-	}
 
-	@EJB
-	private GreeterEJB greeterEJB;
+    @Deployment
+    public static JavaArchive createDeployment() {
+        return ShrinkWrap.create(JavaArchive.class, "test.jar").addClasses(GreeterEJB.class);
+    }
 
-	@Test
-	public void testGreeter() throws Exception {
-		String name = "World!";
-		assertEquals("Hello " + name, greeterEJB.sayHello(name));
-	}
+    @EJB
+    private GreeterEJB greeterEJB;
+
+    @Test
+    public void testGreeter() throws Exception {
+        String name = "World!";
+        assertEquals("Hello " + name, greeterEJB.sayHello(name));
+    }
 }

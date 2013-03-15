@@ -25,9 +25,9 @@ import javax.naming.NamingException;
 import java.util.Hashtable;
 
 /**
- * A sample program which acts a remote client for a EJB deployed on AS7 server.
- * This program shows how to lookup stateful and stateless beans via JNDI and then invoke on them
- *
+ * A sample program which acts a remote client for a EJB deployed on AS7 server. This program shows how to lookup stateful and
+ * stateless beans via JNDI and then invoke on them
+ * 
  * @author Jaikiran Pai
  */
 public class RemoteEJBClient {
@@ -42,7 +42,7 @@ public class RemoteEJBClient {
 
     /**
      * Looks up a stateless bean and invokes on it
-     *
+     * 
      * @throws NamingException
      */
     private static void invokeStatelessBean() throws NamingException {
@@ -56,22 +56,25 @@ public class RemoteEJBClient {
         int sum = statelessRemoteCalculator.add(a, b);
         System.out.println("Remote calculator returned sum = " + sum);
         if (sum != a + b) {
-            throw new RuntimeException("Remote stateless calculator returned an incorrect sum " + sum + " ,expected sum was " + (a + b));
+            throw new RuntimeException("Remote stateless calculator returned an incorrect sum " + sum + " ,expected sum was "
+                    + (a + b));
         }
         // try one more invocation, this time for subtraction
         int num1 = 3434;
         int num2 = 2332;
-        System.out.println("Subtracting " + num2 + " from " + num1 + " via the remote stateless calculator deployed on the server");
+        System.out.println("Subtracting " + num2 + " from " + num1
+                + " via the remote stateless calculator deployed on the server");
         int difference = statelessRemoteCalculator.subtract(num1, num2);
         System.out.println("Remote calculator returned difference = " + difference);
         if (difference != num1 - num2) {
-            throw new RuntimeException("Remote stateless calculator returned an incorrect difference " + difference + " ,expected difference was " + (num1 - num2));
+            throw new RuntimeException("Remote stateless calculator returned an incorrect difference " + difference
+                    + " ,expected difference was " + (num1 - num2));
         }
     }
 
     /**
      * Looks up a stateful bean and invokes on it
-     *
+     * 
      * @throws NamingException
      */
     private static void invokeStatefulBean() throws NamingException {
@@ -97,7 +100,7 @@ public class RemoteEJBClient {
 
     /**
      * Looks up and returns the proxy to remote stateless calculator bean
-     *
+     * 
      * @return
      * @throws NamingException
      */
@@ -106,33 +109,32 @@ public class RemoteEJBClient {
         jndiProperties.put(Context.URL_PKG_PREFIXES, "org.jboss.ejb.client.naming");
         final Context context = new InitialContext(jndiProperties);
 
-      // The JNDI lookup name for a stateless session bean has the syntax of:
-      // ejb:<appName>/<moduleName>/<distinctName>/<beanName>!<viewClassName>
-      //
-      // <appName> The application name is the name of the EAR that the EJB is deployed in 
-      //           (without the .ear).  If the EJB JAR is not deployed in an EAR then this is
-      //           blank.  The app name can also be specified in the EAR's application.xml
-      //           
-      // <moduleName> By the default the module name is the name of the EJB JAR file (without the
-      //              .jar suffix).  The module name might be overridden in the ejb-jar.xml
-      //
-      // <distinctName> : AS7 allows each deployment to have an (optional) distinct name. 
-      //                  This example does not use this so leave it blank.
-      //
-      // <beanName>     : The name of the session been to be invoked.
-      //
-      // <viewClassName>: The fully qualified classname of the remote interface.  Must include
-      //                  the whole package name.
+        // The JNDI lookup name for a stateless session bean has the syntax of:
+        // ejb:<appName>/<moduleName>/<distinctName>/<beanName>!<viewClassName>
+        //
+        // <appName> The application name is the name of the EAR that the EJB is deployed in
+        // (without the .ear). If the EJB JAR is not deployed in an EAR then this is
+        // blank. The app name can also be specified in the EAR's application.xml
+        //
+        // <moduleName> By the default the module name is the name of the EJB JAR file (without the
+        // .jar suffix). The module name might be overridden in the ejb-jar.xml
+        //
+        // <distinctName> : AS7 allows each deployment to have an (optional) distinct name.
+        // This example does not use this so leave it blank.
+        //
+        // <beanName> : The name of the session been to be invoked.
+        //
+        // <viewClassName>: The fully qualified classname of the remote interface. Must include
+        // the whole package name.
 
         // let's do the lookup
-      return (RemoteCalculator) context.lookup(
-         "ejb:/jboss-as-ejb-remote-server-side/CalculatorBean!" + RemoteCalculator.class.getName()
-      );
+        return (RemoteCalculator) context.lookup("ejb:/jboss-as-ejb-remote-server-side/CalculatorBean!"
+                + RemoteCalculator.class.getName());
     }
 
     /**
      * Looks up and returns the proxy to remote stateful counter bean
-     *
+     * 
      * @return
      * @throws NamingException
      */
@@ -141,27 +143,26 @@ public class RemoteEJBClient {
         jndiProperties.put(Context.URL_PKG_PREFIXES, "org.jboss.ejb.client.naming");
         final Context context = new InitialContext(jndiProperties);
 
-      // The JNDI lookup name for a stateful session bean has the syntax of:
-      // ejb:<appName>/<moduleName>/<distinctName>/<beanName>!<viewClassName>?stateful
-      //
-      // <appName> The application name is the name of the EAR that the EJB is deployed in 
-      //           (without the .ear).  If the EJB JAR is not deployed in an EAR then this is
-      //           blank.  The app name can also be specified in the EAR's application.xml
-      //           
-      // <moduleName> By the default the module name is the name of the EJB JAR file (without the
-      //              .jar suffix).  The module name might be overridden in the ejb-jar.xml
-      //
-      // <distinctName> : AS7 allows each deployment to have an (optional) distinct name. 
-      //                  This example does not use this so leave it blank.
-      //
-      // <beanName>     : The name of the session been to be invoked.
-      //
-      // <viewClassName>: The fully qualified classname of the remote interface.  Must include
-      //                  the whole package name.
+        // The JNDI lookup name for a stateful session bean has the syntax of:
+        // ejb:<appName>/<moduleName>/<distinctName>/<beanName>!<viewClassName>?stateful
+        //
+        // <appName> The application name is the name of the EAR that the EJB is deployed in
+        // (without the .ear). If the EJB JAR is not deployed in an EAR then this is
+        // blank. The app name can also be specified in the EAR's application.xml
+        //
+        // <moduleName> By the default the module name is the name of the EJB JAR file (without the
+        // .jar suffix). The module name might be overridden in the ejb-jar.xml
+        //
+        // <distinctName> : AS7 allows each deployment to have an (optional) distinct name.
+        // This example does not use this so leave it blank.
+        //
+        // <beanName> : The name of the session been to be invoked.
+        //
+        // <viewClassName>: The fully qualified classname of the remote interface. Must include
+        // the whole package name.
 
-      // let's do the lookup
-      return (RemoteCounter) context.lookup(
-         "ejb:/jboss-as-ejb-remote-server-side/CounterBean!" + RemoteCounter.class.getName()+"?stateful"
-      );
+        // let's do the lookup
+        return (RemoteCounter) context.lookup("ejb:/jboss-as-ejb-remote-server-side/CounterBean!"
+                + RemoteCounter.class.getName() + "?stateful");
     }
 }

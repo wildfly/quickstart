@@ -35,10 +35,11 @@ public class FacesExceptionHandler {
 
     void showFacesMessage(@Handles @FacesRequest ExceptionEvent<Throwable> evt, FacesContext facesContext) {
         String errorMessage = getRootErrorMessage(evt.getException());
-        facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, errorMessage, evt.getException().getMessage()));
+        facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, errorMessage, evt.getException()
+                .getMessage()));
         evt.handledAndContinue();
     }
-    
+
     private String getRootErrorMessage(Throwable throwable) {
         // Default to general error message that registration failed.
         String errorMessage = "Operation failed. See server log for more information";
@@ -57,6 +58,5 @@ public class FacesExceptionHandler {
         // This is the root cause message
         return errorMessage;
     }
-
 
 }

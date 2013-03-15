@@ -33,27 +33,26 @@ import org.junit.runner.RunWith;
 
 /**
  * A simple test case using Arquillian to test a CDI bean.
- *
+ * 
  * @author david@davidsalter.co.uk
  */
 @RunWith(Arquillian.class)
 public class GreeterTest {
-	
-	@Deployment
-	public static JavaArchive createTestArchive() {
-		return ShrinkWrap.create(JavaArchive.class, "test.jar")
-		.addClasses(Greeter.class, GreeterEJB.class)
-		.addAsManifestResource(EmptyAsset.INSTANCE, ArchivePaths.create("beans.xml"));
-	}
 
-	@Inject
-	Greeter greeter;
+    @Deployment
+    public static JavaArchive createTestArchive() {
+        return ShrinkWrap.create(JavaArchive.class, "test.jar").addClasses(Greeter.class, GreeterEJB.class)
+                .addAsManifestResource(EmptyAsset.INSTANCE, ArchivePaths.create("beans.xml"));
+    }
 
-	@Test
-	public void testGetMessage() throws Exception {
-		String name="World!";
-		greeter.setName(name);
+    @Inject
+    Greeter greeter;
 
-		assertEquals("Hello " + name, greeter.getMessage());
-	}
+    @Test
+    public void testGetMessage() throws Exception {
+        String name = "World!";
+        greeter.setName(name);
+
+        assertEquals("Hello " + name, greeter.getMessage());
+    }
 }

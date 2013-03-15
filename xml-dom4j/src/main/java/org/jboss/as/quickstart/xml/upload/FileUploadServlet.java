@@ -58,16 +58,14 @@ public class FileUploadServlet extends HttpServlet {
 
     @Inject
     private FileUploadBean fileUploadBean;
-    
+
     // override 'POST' handler. Appliction will use 'POST' to send 'multipart/form-data'
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         /*
-         *  check content type. Require 'multipart/form-data'
-         *  header in most case contains more than value, some parameters are present
-         *  so make a check with String.contains(String).
-         *  send 406, with error message if it does not contain proper type
+         * check content type. Require 'multipart/form-data' header in most case contains more than value, some parameters are
+         * present so make a check with String.contains(String). send 406, with error message if it does not contain proper type
          */
         final String reqContentType = req.getContentType();
 
@@ -76,12 +74,10 @@ public class FileUploadServlet extends HttpServlet {
             resp.sendError(406, "Received request which is not mulipart: " + reqContentType);
             return;
         }
-        
+
         /*
-         *  In servlet 3.0, Parts carry form data.
-         *  Get Parts and perform some name & type checks.
-         *  Parts contain all data sent in form
-         *  not only file, we need only file.
+         * In servlet 3.0, Parts carry form data. Get Parts and perform some name & type checks. Parts contain all data sent in
+         * form not only file, we need only file.
          */
         Collection<Part> fileParts = req.getParts();
         if (fileParts != null && fileParts.size() > 0) {
@@ -99,23 +95,20 @@ public class FileUploadServlet extends HttpServlet {
 
         }
         /*
-         *  Fetch dispatcher for '/'. This will make 'rd' initialized to dispatcher
-         *  handling for application root.
+         * Fetch dispatcher for '/'. This will make 'rd' initialized to dispatcher handling for application root.
          */
         RequestDispatcher rd = getServletContext().getRequestDispatcher("/");
 
-            if(rd != null){
-                /*
-                 *  Forward the request to default servlet handling calls to application root. 
-                 *  In our case FacesServlet
-                 */  
-                rd.forward(req, resp);
-                return;
-            } else
-            {
-                //this is bad thing, lets throw exception to make user aware of that?
-                throw new IllegalStateException("Container is not well!");
-            }
+        if (rd != null) {
+            /*
+             * Forward the request to default servlet handling calls to application root. In our case FacesServlet
+             */
+            rd.forward(req, resp);
+            return;
+        } else {
+            // this is bad thing, lets throw exception to make user aware of that?
+            throw new IllegalStateException("Container is not well!");
+        }
 
     }
 }

@@ -33,29 +33,26 @@ import org.jboss.ejb3.annotation.SecurityDomain;
  */
 /**
  * 
- * Annotate this EJB for authorization. 
- * Allow only those in the "guest" role.
- * For EJB authorization, you must also specify the security domain. 
- * This example uses the "other" security domain which is provided 
- * by default in the standalone.xml file.
- *
+ * Annotate this EJB for authorization. Allow only those in the "guest" role. For EJB authorization, you must also specify the
+ * security domain. This example uses the "other" security domain which is provided by default in the standalone.xml file.
+ * 
  */
 @Stateless
 @RolesAllowed({ "guest" })
 @SecurityDomain("other")
 public class SecuredEJB {
 
-   // Inject the Session Context
-   @Resource
-   private SessionContext ctx;
+    // Inject the Session Context
+    @Resource
+    private SessionContext ctx;
 
-   /**
-    * Secured EJB method using security annotations
-    */
-   public String getSecurityInfo() {
-      // Session context injected using the resource annotation
-      Principal principal = ctx.getCallerPrincipal();
+    /**
+     * Secured EJB method using security annotations
+     */
+    public String getSecurityInfo() {
+        // Session context injected using the resource annotation
+        Principal principal = ctx.getCallerPrincipal();
 
-      return principal.toString();
-   }
+        return principal.toString();
+    }
 }

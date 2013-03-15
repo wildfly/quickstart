@@ -52,7 +52,7 @@ import org.jboss.as.quickstarts.kitchensinkrf.service.MemberRegistration;
 @Path("/members")
 @RequestScoped
 public class MemberResourceRESTService {
-    
+
     @Inject
     private Logger log;
 
