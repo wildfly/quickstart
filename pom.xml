@@ -69,15 +69,10 @@
             maven repository. -->
         <!-- <version.jboss.spec.javaee.6.0>3.0.2.Final-redhat-2</version.jboss.spec.javaee.6.0> -->
 
-
-        <version.jboss.arquillian>1.0.0.Final</version.jboss.arquillian>
-        <version.jboss.weld>1.1.9.Final</version.jboss.weld>
-
         <version.org.hibernate3.commons.annotations>3.2.0.Final</version.org.hibernate3.commons.annotations>
         <version.org.hibernate>3.6.8.Final</version.org.hibernate>
         <version.org.hibernate.em>3.6.8.Final</version.org.hibernate.em>
         <version.org.hibernate.infinispan>3.6.8.Final</version.org.hibernate.infinispan>
-        <version.org.hibernate-jpamodelgen>1.1.1.Final</version.org.hibernate-jpamodelgen>
         <version.org.hibernate.validator>4.2.0.Final</version.org.hibernate.validator>
                 
         <version.org.richfaces>4.2.0.Final</version.org.richfaces>
@@ -85,12 +80,9 @@
         <!-- Other dependency versions -->
         <version.org.apache.httpcomponents>4.1.4</version.org.apache.httpcomponents>
         <version.dom4j>1.6</version.dom4j>
-        <version.com.google.gwt>2.4.0</version.com.google.gwt>
         <version.javax.servlet.jstl>1.2</version.javax.servlet.jstl>
-        <version.junit>4.10</version.junit>
         <version.log4j>1.2.16</version.log4j>
         <version.org.eclipse.m2e>1.0.0</version.org.eclipse.m2e>
-        <version.org.osgi>4.2.0</version.org.osgi>
         <version.org.apache.wicket>1.5.5</version.org.apache.wicket>
         <version.net.ftlines.wicket-cdi>1.2</version.net.ftlines.wicket-cdi>
         <version.ro.isdc.wro4j>1.4.4</version.ro.isdc.wro4j>
@@ -103,7 +95,6 @@
         <version.ejb.plugin>2.3</version.ejb.plugin>
         <version.exec.plugin>1.2.1</version.exec.plugin>
         <version.jar.plugin>2.2</version.jar.plugin>
-        <version.license.plugin>1.9.0</version.license.plugin>
         <version.org.codehaus.mojo.gwt.maven.plugin>2.4.0</version.org.codehaus.mojo.gwt.maven.plugin>
         <version.surefire.plugin>2.10</version.surefire.plugin>
         <version.war.plugin>2.1.1</version.war.plugin>
@@ -112,6 +103,39 @@
         <maven.compiler.target>1.6</maven.compiler.target>
         <maven.compiler.source>1.6</maven.compiler.source>
     </properties>
+
+    <build>
+        <plugins>
+            <!-- The JBoss AS plugin deploys your apps to a local JBoss AS container -->
+            <!-- Disabling it here means that we don't try to deploy this POM! -->
+            <plugin>
+                <groupId>org.jboss.as.plugins</groupId>
+                <artifactId>jboss-as-maven-plugin</artifactId>
+                <version>${version.jboss.maven.plugin}</version>
+                <inherited>true</inherited>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.mycila.maven-license-plugin</groupId>
+                <artifactId>maven-license-plugin</artifactId>
+                <configuration>
+                    <header>${basedir}/dist/license.txt</header>
+                    <aggregate>true</aggregate>
+                    <strictCheck>true</strictCheck>
+                    <excludes>
+                        <exclude>target/**</exclude>
+                        <exclude>.clover/**</exclude>
+                    </excludes>
+                    <encoding>UTF-8</encoding>
+                    <headerDefinitions>
+                        <headerDefinition>dist/headerdefinition.xml</headerDefinition>
+                    </headerDefinitions>
+                </configuration>
+              </plugin>
+        </plugins>
+    </build>
 
     <profiles>
         <profile>
@@ -166,6 +190,7 @@
                 <module>hibernate4</module>
                 <module>hotrod-endpoint</module>
                 <module>kitchensink</module>
+                <module>kitchensink-angularjs</module>
                 <module>kitchensink-deltaspike</module>
                 <module>kitchensink-ear</module>
                 <module>kitchensink-html5-mobile</module>
@@ -274,38 +299,5 @@
             </modules>
         </profile>
     </profiles>
-
-    <build>
-        <plugins>
-            <!-- The JBoss AS plugin deploys your apps to a local JBoss AS container -->
-            <!-- Disabling it here means that we don't try to deploy this POM! -->
-            <plugin>
-                <groupId>org.jboss.as.plugins</groupId>
-                <artifactId>jboss-as-maven-plugin</artifactId>
-                <version>${version.jboss.maven.plugin}</version>
-                <inherited>true</inherited>
-                <configuration>
-                    <skip>true</skip>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>com.mycila.maven-license-plugin</groupId>
-                <artifactId>maven-license-plugin</artifactId>
-                <configuration>
-                    <header>${basedir}/dist/license.txt</header>
-                    <aggregate>true</aggregate>
-                    <strictCheck>true</strictCheck>
-                    <excludes>
-                        <exclude>target/**</exclude>
-                        <exclude>.clover/**</exclude>
-                    </excludes>
-                    <encoding>UTF-8</encoding>
-                    <headerDefinitions>
-                        <headerDefinition>dist/headerdefinition.xml</headerDefinition>
-                    </headerDefinitions>
-                </configuration>
-              </plugin>
-        </plugins>
-    </build>
 
 </project>

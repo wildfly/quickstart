@@ -44,15 +44,20 @@
         <!-- JBoss dependency versions -->
         <version.jboss.maven.plugin>7.3.Final</version.jboss.maven.plugin>
 
+        <!-- Define the version of the JBoss BOMs we want to import to specify tested stacks. -->
+        <version.jboss.bom>1.0.4.Final</version.jboss.bom>
+        <!-- Alternatively, comment out the above line, and un-comment the 
+            line below to use version 1.0.4.Final-redhat-3 which is a release certified 
+            to work with JBoss EAP 6. It requires you have access to the JBoss EAP 6 
+            maven repository. -->
+        <!-- <version.jboss.bom>1.0.4.Final-redhat-3</version.jboss.bom> -->
+
         <version.jboss.spec.javaee.6.0>3.0.2.Final</version.jboss.spec.javaee.6.0>
         <!-- Alternatively, comment out the above line, and un-comment the 
             line below to use version 3.0.2.Final-redhat-2 which is a release certified 
             to work with JBoss EAP 6. It requires you have access to the JBoss EAP 6 
             maven repository. -->
         <!-- <version.jboss.spec.javaee.6.0>3.0.2.Final-redhat-2</version.jboss.spec.javaee.6.0> -->
-
-        <!-- Other dependency versions -->
-        <version.com.google.gwt>2.4.0</version.com.google.gwt>
 
         <!-- other plugin versions -->
         <version.compiler.plugin>2.3.1</version.compiler.plugin>
@@ -81,6 +86,13 @@
                 <groupId>org.jboss.spec</groupId>
                 <artifactId>jboss-javaee-6.0</artifactId>
                 <version>${version.jboss.spec.javaee.6.0}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss.bom</groupId>
+                <artifactId>jboss-javaee-6.0-with-errai</artifactId>
+                <version>${version.jboss.bom}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -117,7 +129,6 @@
         <dependency>
             <groupId>com.google.gwt</groupId>
             <artifactId>gwt-user</artifactId>
-            <version>${version.com.google.gwt}</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

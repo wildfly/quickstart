@@ -35,6 +35,11 @@
         </license>
     </licenses>
 
+    <modules>
+        <module>service</module>
+        <module>client</module>
+    </modules>
+
     <properties>
         <!-- Explicitly declaring the source encoding eliminates the following message: -->
         <!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered 
@@ -100,6 +105,7 @@
     </dependencyManagement>
 
     <build>
+        <finalName>${project.artifactId}</finalName>
         <plugins>
             <!-- Enforce Java 1.6 -->
             <plugin>
@@ -126,8 +132,4 @@
         </plugins>
     </build>
 
-    <modules>
-        <module>service</module>
-        <module>client</module>
-    </modules>
 </project>

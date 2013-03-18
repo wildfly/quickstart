@@ -34,6 +34,13 @@
         </license>
     </licenses>
     
+    <modules>
+        <!-- Build module 2 first as it is the remote EJB which provides 
+            a stub for module 1 -->
+        <module>application-component-2</module>
+        <module>application-component-1</module>
+    </modules>
+
     <properties>
         <!-- Explicitly declaring the source encoding eliminates the following 
             message: -->
@@ -61,13 +68,6 @@
         <maven.compiler.target>1.6</maven.compiler.target>
         <maven.compiler.source>1.6</maven.compiler.source>
     </properties>
-
-    <modules>
-        <!-- Build module 2 first as it is the remote EJB which provides 
-            a stub for module 1 -->
-        <module>application-component-2</module>
-        <module>application-component-1</module>
-    </modules>
 
     <dependencyManagement>
         <dependencies>

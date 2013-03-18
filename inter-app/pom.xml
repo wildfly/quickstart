@@ -35,6 +35,13 @@
         </license>
     </licenses>
 
+    <!-- Define the three submodules this application consists of -->
+    <modules>
+        <module>shared</module>
+        <module>appA</module>
+        <module>appB</module>
+    </modules>
+
     <properties>
         <!-- Explicitly declaring the source encoding eliminates the following 
             message: -->
@@ -52,10 +59,6 @@
             to work with JBoss EAP 6. It requires you have access to the JBoss EAP 6 
             maven repository. -->
         <!-- <version.jboss.spec.javaee.6.0>3.0.2.Final-redhat-2</version.jboss.spec.javaee.6.0> -->
-
-        <!-- Other dependency versions -->
-        <version.com.google.gwt>2.4.0</version.com.google.gwt>
-        <version.org.osgi>4.2.0</version.org.osgi>
 
         <!-- other plugin versions -->
         <version.compiler.plugin>2.3.1</version.compiler.plugin>
@@ -96,13 +99,6 @@
 
         </dependencies>
     </dependencyManagement>
-
-    <!-- Define the three submodules this application consists of -->
-    <modules>
-        <module>shared</module>
-        <module>appA</module>
-        <module>appB</module>
-    </modules>
 
     <build>
         <!-- Set the name of the war, used as the context root when the app 

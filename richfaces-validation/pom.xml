@@ -56,9 +56,6 @@
             maven repository. -->
         <!-- <version.jboss.bom>1.0.4.Final-redhat-3</version.jboss.bom> -->
 
-        <version.org.hibernate-jpamodelgen>1.1.1.Final</version.org.hibernate-jpamodelgen>
-        <version.org.hibernate.validator>4.2.0.Final</version.org.hibernate.validator>
-
         <version.org.richfaces>4.2.0.Final</version.org.richfaces>
 
         <!-- other plugin versions -->
@@ -85,8 +82,14 @@
                 <version>${version.jboss.bom}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>           
+            <dependency>
+                <groupId>org.jboss.bom</groupId>
+                <artifactId>jboss-javaee-6.0-with-hibernate</artifactId>
+                <version>${version.jboss.bom}</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
-            
             <!-- RichFaces defines a Bill of Materials including dependencies which are not part 
                  of Java EE 6 API -->
             <dependency>
@@ -124,7 +127,6 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
-            <version>${version.org.hibernate.validator}</version>
             <scope>provided</scope>
             <exclusions>
                 <exclusion>
@@ -159,7 +161,6 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-jpamodelgen</artifactId>
-            <version>${version.org.hibernate-jpamodelgen}</version>
             <scope>provided</scope>
         </dependency>
 

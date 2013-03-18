@@ -45,8 +45,13 @@
         <!-- JBoss dependency versions -->
         <version.jboss.maven.plugin>7.3.Final</version.jboss.maven.plugin>
 
-        <!-- Other dependency versions -->
-        <version.org.osgi>4.2.0</version.org.osgi>
+        <!-- Define the version of the JBoss BOMs we want to import to specify tested stacks. -->
+        <version.jboss.bom>1.0.4.Final</version.jboss.bom>
+        <!-- Alternatively, comment out the above line, and un-comment the 
+            line below to use version 1.0.4.Final-redhat-3 which is a release certified 
+            to work with JBoss EAP 6. It requires you have access to the JBoss EAP 6 
+            maven repository. -->
+        <!-- <version.jboss.bom>1.0.4.Final-redhat-3</version.jboss.bom> -->
 
         <!-- other plugin versions -->
         <version.bundle.plugin>2.3.4</version.bundle.plugin>
@@ -57,12 +62,24 @@
         <maven.compiler.source>1.6</maven.compiler.source>
     </properties>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.jboss.bom</groupId>
+                <artifactId>jboss-javaee-6.0-with-osgi</artifactId>
+                <version>${version.jboss.bom}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+
     <dependencies>
         <dependency>
             <groupId>org.osgi</groupId>
             <artifactId>org.osgi.core</artifactId>
-            <version>${version.org.osgi}</version>
-            <scope>provided</scope>
+             <scope>provided</scope>
         </dependency>
     </dependencies>
 
