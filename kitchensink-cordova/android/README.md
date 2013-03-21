@@ -1,4 +1,4 @@
-kitchensink-cordova-android: Example AeroGear Application Using Hybrid HTML5 + REST with Apache Cordova for Android
+kitchensink-cordova-android: Example Mobile Application Using Hybrid HTML5 + REST with Apache Cordova for Android
 ===================================================================================================================
 Author: Kris Borchers
 Level: Intermediate
@@ -10,7 +10,7 @@ Source: <https://github.com/jboss-jdf/jboss-as-quickstart/>
 What is it?
 -----------
 
-This is an application built upon AeroGear's kitchensink quickstart, which was converted to an Apache Cordova based hybrid application.
+This is an application built upon the HTML5 kitchensink quickstart, which was converted to an Apache Cordova based hybrid application.
 
 What does all of that mean? Basically, this takes our HTML5 + REST / jQuery Mobile based web app and converts it to a native app for Android. 
 
@@ -64,7 +64,7 @@ Access the application
 
 The application will be running on the Emulator.
 
-Converting an AeroGear HTML5 + REST Web App to a Hybrid App with Apache Cordova
+Converting a HTML5 + REST Web App to a Hybrid App with Apache Cordova
 --------------------------------------------------------------------------------
 
 If you have an existing Web Application based on HTML5 + REST you can follow [this guide](http://aerogear.org/docs/guides/HTML5ToHybridWithCordova)

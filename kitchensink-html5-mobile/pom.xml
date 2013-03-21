@@ -23,8 +23,8 @@
     <version>7.1.2-SNAPSHOT</version>
     <packaging>war</packaging>
 
-    <name>JBoss AS Quickstarts: AeroGear HTML5/Mobile</name>
-    <description>An AeroGear and Java EE 6 HTML5 mobile web application for use with JBoss.</description>
+    <name>JBoss AS Quickstarts: HTML5/Mobile</name>
+    <description>A Java EE 6 HTML5 mobile web application for use with JBoss.</description>
 
     <url>http://jboss.org/aerogear</url>
 
@@ -37,7 +37,7 @@
         
         <!-- JBoss dependency versions -->
  
-        <version.jboss.as>7.2.0.Final</version.jboss.as>
+        <version.jboss.as>7.3.Final</version.jboss.as>
         <!-- Alternatively, comment out the above line, and un-comment the 
             line below to use version 7.2.0.Final-redhat-1 which is a release certified 
             to work with JBoss EAP 6. It requires you have access to the JBoss EAP 6 
@@ -52,12 +52,6 @@
             maven repository. -->
         <!-- <version.jboss.bom>1.0.4.Final-redhat-3</version.jboss.bom> -->
 
-        <version.jboss.spec.javaee.6.0>3.0.2.Final</version.jboss.spec.javaee.6.0> 
-        <!-- Alternatively, comment out the above line, and un-comment the 
-            line below to use version 3.0.2.Final-redhat-2 which is a release certified 
-            to work with JBoss EAP 6. It requires you have access to the JBoss EAP 6 
-            maven repository. -->
-        <!-- <version.jboss.spec.javaee.6.0>3.0.2.Final-redhat-2</version.jboss.spec.javaee.6.0> -->
 
         <!-- Other dependency versions -->
         <version.org.eclipse.m2e>1.0.0</version.org.eclipse.m2e>
@@ -364,7 +358,6 @@
                 <dependency>
                     <groupId>org.jboss.as</groupId>
                     <artifactId>jboss-as-arquillian-container-remote</artifactId>
-                    <version>${version.jboss.as}</version>
                     <scope>test</scope>
                 </dependency>
             </dependencies>
@@ -376,7 +369,6 @@
                 <dependency>
                     <groupId>org.jboss.as</groupId>
                     <artifactId>jboss-as-arquillian-container-managed</artifactId>
-                    <version>${version.jboss.as}</version>
                     <scope>test</scope>
                 </dependency>
             </dependencies>

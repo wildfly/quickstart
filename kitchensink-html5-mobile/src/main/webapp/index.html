@@ -38,12 +38,12 @@
             //Load CDN hosted jQuery or fall back to local file.
             /*--------Note-----------
              This approach should only be used if you trust the source of where the resource (JavaScript) is located.
-             In this case, use of the jquery CDN is much faster if your user's browser already has this file cached.
+             In this case, use of the google CDN is much faster if your user's browser already has this file cached.
              If they don't have it cached, try to load it from the CDN as this will be faster if the user is
              located closer to a CDN than you currently hosted server.
              */
             load: [
-                "http://code.jquery.com/jquery-1.8.2.min.js",
+		"//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js",
                 "js/libs/lodash.min.js",
                 // Minification - See Readme for details
                 // For minification, comment out this file
@@ -88,11 +88,9 @@
                 //use the labeled callbacks from above, and load jQuery Mobile
                 "jqmcss": function( url, result, key ) {
                     yepnope({
-                        load: "http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js",
+                        load: "js/libs/jquery.mobile-1.2.0.min.js",
                         complete: function() {
-                            if ( !$.mobile ) {
-                                yepnope.injectJs( "js/libs/jquery.mobile-1.2.0.min.js" );
-                            }
+                            console.log( "jQuery Mobile Loaded" );
                         }
                     });
                 },
@@ -169,12 +167,12 @@
         <img src="img/dualbrand_logo.png"/>
     </div>
     <section>
-        <h1>Welcome to JBoss &amp; AeroGear!</h1>
+        <h1>Welcome to JBoss &amp; HTML5!</h1>
         <article id="intro-art" data-role="page" data-theme="a">
             <!-- Header -->
             <div data-role="header" class="header">
                 <img class="header_logo" src="img/icon_medium.png"/>
-                <h3>AeroGear Quickstart</h3>
+                <h3>HTML5 Quickstart</h3>
                 <a href="#info-aside" data-role="button" data-icon="info" class="ui-btn-right" data-iconpos="notext" data-rel="dialog"></a>
             </div>
             <!-- /Header -->
@@ -229,7 +227,7 @@
             <!-- Header -->
             <div data-role="header" class="header">
                 <img class="header_logo" src="img/icon_medium.png"/>
-                <h3>AeroGear Quickstart</h3>
+                <h3>HTML5 Quickstart</h3>
                 <a href="#info-aside" data-role="button" data-icon="info" class="ui-btn-right" data-iconpos="notext" data-rel="dialog"></a>
             </div>
             <!-- /Header -->
@@ -280,7 +278,7 @@
             <!-- Header -->
             <div data-role="header" class="header" data-position="fixed">
                 <img class="header_logo" src="img/icon_medium.png"/>
-                <h3>AeroGear Quickstart</h3>
+                <h3>HTML5 Quickstart</h3>
                 <a href="#info-aside" data-role="button" data-icon="info" class="ui-btn-right" data-iconpos="notext" data-rel="dialog"></a>
             </div>
             <!-- /Header -->
