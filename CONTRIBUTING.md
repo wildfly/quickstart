@@ -38,9 +38,16 @@ Here are the steps in detail:
 
         git checkout -b helloworld-fix upstream/master
 
-6. Contribute new code or make changes to existing files. Make sure that you follow the General Guidelines below.
+6. Contribute new code or make changes to existing files. Make sure that you follow the *General Guidelines* below.
 
-7. Use the `git add` command to add new or changed file contents to the staging area.
+7. To verify if your code followed the General Guidelines you can run [QS Tools](http://www.jboss.org/jdf/quickstarts/qstools/) on your project.
+
+   * To run QS Tools, go to your quickstart project root and execute:
+   
+           mvn org.jboss.maven.plugins:maven-qstools-plugin:check
+   This will generate a report on `QUICKSTART_HOME/target/site/qschecker.html`. Review the report to determine if your quickstart project violates any item in the *General Guidelines*.
+
+8. Use the `git add` command to add new or changed file contents to the staging area.
    * If you create a new quickstart, you can add files using the subfolder and file names. The following is an example of new quickstart folders and files you may want to stage:
    
             git add src/
@@ -51,19 +58,19 @@ Here are the steps in detail:
 
             git add README.md
         
-8. Use the git status command to view the status of the files in the directory and in the staging area and ensure that all modified files are properly staged:
+9. Use the git status command to view the status of the files in the directory and in the staging area and ensure that all modified files are properly staged:
 
         git status
         
-9. Commit your changes to your local topic branch. 
+10. Commit your changes to your local topic branch. 
 
         git commit -m 'Description of change...'
 
-10. Push your local topic branch to your github forked repository. This will create a branch on your Git fork repository with the same name as your local topic branch name. 
+11. Push your local topic branch to your github forked repository. This will create a branch on your Git fork repository with the same name as your local topic branch name. 
 
         git push origin HEAD            
    _Note: The above command assumes your remote repository is named 'origin'. You can verify your forked remote repository name using the command `git remote -v`_.
-11. Browse to the <topic-branch-name> branch on your forked Git repository and [open a Pull Request](http://help.github.com/send-pull-requests/). Give it a clear title and description.
+12. Browse to the <topic-branch-name> branch on your forked Git repository and [open a Pull Request](http://help.github.com/send-pull-requests/). Give it a clear title and description.
 
 
 General Guidelines
