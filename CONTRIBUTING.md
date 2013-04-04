@@ -85,6 +85,8 @@ General Guidelines
 
 * The quickstart project or folder name should match the quickstart name. Each sample project should have a unique name, allowing easy identification by users and developers.
 
+* The quickstart project `<artifactId>` in the `pom.xml` file must be prefixed by `jboss-as-`. For example, the `<artifactId>` for the `greeter` quickstart is `jboss-as-greeter`.
+
 * If you create a quickstart that uses a database table, make sure the name you use for the table is unique across all quickstarts. 
 
 * The project must follow the structure used by existing quickstarts such as [numberguess](https://github.com/jboss-jdf/jboss-as-quickstart/tree/master/numberguess). A good starting point would be to copy the  `numberguess` project.
