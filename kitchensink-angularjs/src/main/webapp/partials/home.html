@@ -52,6 +52,12 @@
             <ul ng-hide="!successMessages" class="success">
                 <li ng-repeat="message in successMessages">{{message}}</li>
             </ul>
+
+            <!-- Output the list of error messages if any. -->
+            <ul ng-hide="!errorMessages" class="error">
+                <li ng-repeat="message in errorMessages">{{message}}</li>
+            </ul>
+
             <!-- There are two buttons, the default submit action (which is bound for the whole form), and a reset button, that clears the form. -->
             <div>
                 <input type="submit" id="register" value="Register" />

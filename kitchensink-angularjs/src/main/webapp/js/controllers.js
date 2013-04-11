@@ -33,6 +33,8 @@ function MembersCtrl($scope, $http, Members) {
     $scope.register = function() {
         $scope.successMessages = '';
         $scope.errorMessages = '';
+        $scope.errors = {};
+
         Members.save($scope.newMember, function(data) {
 
             // mark success on the registration form
@@ -43,11 +45,10 @@ function MembersCtrl($scope, $http, Members) {
 
             // Clear the form
             $scope.reset();
-        }, function(data, status) {
-            if ((status == 409) || (status == 400)) {
-                $scope.errors = data;
+        }, function(result) {
+            if ((result.status == 409) || (result.status == 400)) {
+                $scope.errors = result.data;
             } else {
-                // console.log("error - unknown server issue");
                 $scope.errorMessages = [ 'Unknown  server error' ];
             }
             $scope.$apply();
@@ -57,6 +58,10 @@ function MembersCtrl($scope, $http, Members) {
 
     // Call the refresh() function, to populate the list of members
     $scope.refresh();
+
+    // Initialize newMember here to prevent Angular from sending a request
+    // without a proper Content-Type.
+    $scope.reset();
 
     // Set the default orderBy to the name property
     $scope.orderBy = 'name';
