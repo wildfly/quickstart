@@ -44,7 +44,7 @@ Here are the steps in detail:
 
    * To run QS Tools, go to your quickstart project root and execute:
    
-           mvn org.jboss.maven.plugins:maven-qstools-plugin:check
+           mvn -U org.jboss.maven.plugins:maven-qstools-plugin:check
    This will generate a report on `QUICKSTART_HOME/target/site/qschecker.html`. Review the report to determine if your quickstart project violates any item in the *General Guidelines*.
 
 8. Use the `git add` command to add new or changed file contents to the staging area.
