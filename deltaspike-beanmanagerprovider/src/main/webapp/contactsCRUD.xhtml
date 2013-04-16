@@ -26,8 +26,7 @@
     <ui:define name="pageHeader">Contacts</ui:define>
     <ui:define name="body">
         <p />
-        <h:form>
-        
+        <h:form style="display: inline;">
             <table>
                 <!-- The input tag is defined on a Faceles composite component at {webroot}/resources/jdf/input.xhtml-->
                 <jdf:input name="id" label="Id" value="#{contactController.contact.id}" readonly="true" rendered="#{contactController.contactManaged}"/>
@@ -36,17 +35,18 @@
                 <jdf:input name="phone" label="Phone Number" value="#{contactController.contact.phoneNumber}" />
             </table>
             <h:commandButton action="#{contactController.save()}" value="Save" />
-            <h:commandButton action="#{contactController.remove(contactController.contact)}" value="Remove" rendered="#{contactController.contactManaged}" onclick="return confirm('Do you want to remove this record?');" />
-            <h:commandButton action="#{contactController.newContact()}" value="New Contact" />
-            <p />
-            <p />
-            <ul style="text-align: left; text-align: justify;">
-                <li><b>To insert a new contact:</b> Click the <i>New Contact</i> button, complete the form fields, and then click the <i>Save</i> button. Notice that both the <i>All Contacts</i> and <i>Audit Records</i> tables are updated.</li>  
-                <li><b>To modify an existing contact:</b> Find the name in the <i>All Contacts</i> table and click the <i>Select for edit</i> button. Modify the data and then click the <i>Save</i> button. Notice that the <i>Audit Records</i> table is updated with the new contact data.</li>
-                <li><b>To remove a contact:</b> Find the name in the <i>All Contacts</i> table and click the <i>Remove</i> button. Notice that the <i>Audit Records</i> table is updated with the new contact data.</li>
-            </ul>
-        *Note: To fire the UPDATE audit, you must change one of the contact fields
         </h:form>
+        <h:form style="display: inline;">
+            <h:commandButton action="#{contactController.remove(contactController.contact)}" value="Remove" rendered="#{contactController.contactManaged}" onclick="return confirm('Do you want to remove this record?');"/>
+            <h:commandButton action="#{contactController.newContact()}" value="New Contact"/>
+        </h:form>
+
+        <ul style="text-align: left; text-align: justify;">
+            <li><b>To insert a new contact:</b> Click the <i>New Contact</i> button, complete the form fields, and then click the <i>Save</i> button. Notice that both the <i>All Contacts</i> and <i>Audit Records</i> tables are updated.</li>  
+            <li><b>To modify an existing contact:</b> Find the name in the <i>All Contacts</i> table and click the <i>Select for edit</i> button. Modify the data and then click the <i>Save</i> button. Notice that the <i>Audit Records</i> table is updated with the new contact data.</li>
+            <li><b>To remove a contact:</b> Find the name in the <i>All Contacts</i> table and click the <i>Remove</i> button. Notice that the <i>Audit Records</i> table is updated with the new contact data.</li>
+        </ul>
+        <p>*Note: To fire the UPDATE audit, you must change one of the contact fields</p>
         
         <hr />
         
