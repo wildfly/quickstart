@@ -23,6 +23,10 @@ import javax.inject.Inject;
 
 import org.picketlink.idm.IdentityManager;
 import org.picketlink.idm.credential.Password;
+import org.picketlink.idm.model.Group;
+import org.picketlink.idm.model.Role;
+import org.picketlink.idm.model.SimpleGroup;
+import org.picketlink.idm.model.SimpleRole;
 import org.picketlink.idm.model.SimpleUser;
 import org.picketlink.idm.model.User;
 
@@ -41,13 +45,49 @@ public class IDMInitializer {
     @PostConstruct
     public void create() {
 
-        User user = new SimpleUser("john");
+        // Create user john
+        User john = new SimpleUser("john");
+        john.setEmail("john@acme.com");
+        john.setFirstName("John");
+        john.setLastName("Smith");
+        identityManager.add(john);
+        identityManager.updateCredential(john, new Password("demo"));
 
-        user.setEmail("john@acme.com");
-        user.setFirstName("John");
-        user.setLastName("Smith");
+        // Create user mary
+        User mary = new SimpleUser("mary");
+        mary.setEmail("mary@acme.com");
+        mary.setFirstName("Mary");
+        mary.setLastName("Jones");
+        identityManager.add(mary);
+        identityManager.updateCredential(mary, new Password("demo"));
 
-        this.identityManager.add(user);
-        this.identityManager.updateCredential(user, new Password("demo"));
+        // Create user jane
+        User jane = new SimpleUser("jane");
+        jane.setEmail("jane@acme.com");
+        jane.setFirstName("Jane");
+        jane.setLastName("Doe");
+        identityManager.add(jane);
+        identityManager.updateCredential(jane, new Password("demo"));
+
+        // Create role "manager"
+        Role manager = new SimpleRole("manager");
+        identityManager.add(manager);
+
+        // Create application role "superuser"
+        Role superuser = new SimpleRole("superuser");
+        identityManager.add(superuser);
+
+        // Create group "sales"
+        Group sales = new SimpleGroup("sales");
+        identityManager.add(sales);
+
+        // Make john a member of the "sales" group
+        identityManager.addToGroup(john, sales);
+
+        // Make mary a manager of the "sales" group
+        identityManager.grantGroupRole(mary, manager, sales);
+
+        // Grant the "superuser" application role to jane
+        identityManager.grantRole(jane, superuser);
     }
 }

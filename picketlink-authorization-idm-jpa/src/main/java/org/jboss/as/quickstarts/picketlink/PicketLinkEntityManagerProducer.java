@@ -23,9 +23,11 @@ import javax.persistence.PersistenceContext;
 import org.picketlink.annotations.PicketLink;
 
 /**
- * 
- * @author Shane Bryzak
+ * Since we are using JPAIdentityStore to store identity-related data, we must
+ * provide it with an EntityManager via a producer method or field annotated with 
+ * the @PicketLink qualifier.
  *
+ * @author Shane Bryzak
  */
 public class PicketLinkEntityManagerProducer {
     @Produces

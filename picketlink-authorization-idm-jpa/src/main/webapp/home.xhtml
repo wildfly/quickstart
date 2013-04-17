@@ -31,6 +31,18 @@
 <ui:fragment rendered="#{identity.loggedIn}">
     <div>Congratulations! You are currently logged in as: <b>#{identity.user.loginName}</b></div>
 
+    <ui:fragment rendered="#{authorizationChecker.hasApplicationRole('superuser')}">
+      <div>You have been granted the 'superuser' application role.</div>
+    </ui:fragment>
+    
+    <ui:fragment rendered="#{authorizationChecker.isMember('sales')}">
+      <div>You are a member of the 'sales' group.</div>
+    </ui:fragment>
+    
+    <ui:fragment rendered="#{authorizationChecker.hasGroupRole('manager', 'sales')}">
+      <div>You have been granted the 'manager' role in the 'sales' group.</div>
+    </ui:fragment>
+
     <h:form>
         <h:commandButton id="logout" value="Log out" action="#{identity.logout}"/>
     </h:form>
@@ -57,7 +69,16 @@
         <h:commandButton id="login" value="LOGIN" action="#{loginAction.login}" styleClass="loginButton"/>
     </div>
 
-    Tip: you can login with a username/password of john/demo.
+    <p>
+      Tip: you can login with any of the following username/password combinations:
+      <div>john/demo</div>
+      <div>mary/demo</div>
+      <div>jane/demo</div>
+    </p>
+    
+    <p>
+      Each of these accounts has different privileges assigned to them.
+    </p>
 
 </h:form>
 
