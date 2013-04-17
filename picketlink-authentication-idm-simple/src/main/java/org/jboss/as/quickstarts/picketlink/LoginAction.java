@@ -32,7 +32,9 @@ import org.picketlink.Identity.AuthenticationResult;
  * @author Shane Bryzak
  *
  */
-public @RequestScoped @Named class LoginAction {
+@RequestScoped 
+@Named
+public class LoginAction {
 
     @Inject Identity identity;
 
