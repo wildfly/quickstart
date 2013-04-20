@@ -64,7 +64,7 @@ public class MemberRegistrationTest {
 
     @Test
     public void testRegister() throws Exception {
-        Member member = createMemberInstance("Jane Doe", "jane@mailinator.com", "2125551234");
+        Member member = createMemberInstance("Jack Doe", "jack@mailinator.com", "2125551234");
         Response response = memberRegistration.createMember(member);
 
         assertEquals("Unexpected response status", 200, response.getStatus());
