@@ -27,6 +27,7 @@ import javax.ws.rs.core.Response;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.junit.InSequence;
 import org.jboss.as.quickstarts.html5_mobile.data.MemberRepository;
 import org.jboss.as.quickstarts.html5_mobile.rest.MemberService;
 import org.jboss.as.quickstarts.html5_mobile.service.MemberRegistration;
@@ -63,6 +64,7 @@ public class MemberRegistrationTest {
     Logger log;
 
     @Test
+    @InSequence(1)
     public void testRegister() throws Exception {
         Member member = createMemberInstance("Jack Doe", "jack@mailinator.com", "2125551234");
         Response response = memberRegistration.createMember(member);
@@ -73,6 +75,7 @@ public class MemberRegistrationTest {
 
     @SuppressWarnings("unchecked")
     @Test
+    @InSequence(2)
     public void testInvalidRegister() throws Exception {
         Member member = createMemberInstance("", "", "");
         Response response = memberRegistration.createMember(member);
@@ -86,6 +89,7 @@ public class MemberRegistrationTest {
 
     @SuppressWarnings("unchecked")
     @Test
+    @InSequence(3)
     public void testDuplicateEmail() throws Exception {
         // Register an initial user
         Member member = createMemberInstance("Jane Doe", "jane@mailinator.com", "2125551234");
