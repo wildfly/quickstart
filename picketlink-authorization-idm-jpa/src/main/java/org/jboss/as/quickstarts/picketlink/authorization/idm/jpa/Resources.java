@@ -17,37 +17,40 @@
 package org.jboss.as.quickstarts.picketlink.authorization.idm.jpa;
 
 import javax.enterprise.context.RequestScoped;
-import javax.faces.application.FacesMessage;
+import javax.enterprise.inject.Produces;
 import javax.faces.context.FacesContext;
-import javax.inject.Inject;
-import javax.inject.Named;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
-import org.picketlink.Identity;
-import org.picketlink.Identity.AuthenticationResult;
+import org.picketlink.annotations.PicketLink;
 
 /**
- * We control the authentication process from this action bean, so that in the event of a failed authentication we can add an
- * appropriate FacesMessage to the response.
+ * This class uses CDI to alias Java EE resources, such as the {@link FacesContext}, to CDI beans
  * 
- * @author Shane Bryzak
+ * <p>
+ * Example injection on a managed bean field:
+ * </p>
  * 
+ * <pre>
+ * &#064;Inject
+ * private FacesContext facesContext;
+ * </pre>
  */
-@Named
-public class LoginController {
+public class Resources {
 
-    @Inject
-    private Identity identity;
-    
-    @Inject
-    private FacesContext facesContext;
-
-    public void login() {
-        AuthenticationResult result = identity.login();
-        if (AuthenticationResult.FAILED.equals(result)) {
-            facesContext.addMessage(
-                    null,
-                    new FacesMessage("Authentication was unsuccessful.  Please check your username and password "
-                            + "before trying again."));
-        }
+    @Produces
+    @RequestScoped
+    public FacesContext produceFacesContext() {
+        return FacesContext.getCurrentInstance();
     }
+
+    /*
+     * Since we are using JPAIdentityStore to store identity-related data, we must provide it with an EntityManager via a
+     * producer method or field annotated with the @PicketLink qualifier.
+     */
+    @Produces
+    @PicketLink
+    @PersistenceContext(unitName = "picketlink-default")
+    private EntityManager picketLinkEntityManager;
+
 }

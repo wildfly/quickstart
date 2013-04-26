@@ -1,21 +1,16 @@
 picketlink-authorization-idm-jpa: PicketLink IDM Authorization Example using JPA
 ===============================
 Author: Shane Bryzak
-
 Level: Intermediate
-
 Technologies: CDI, PicketLink
-
 Summary: Basic example that demonstrates IDM-based authorization using a JPA-based PicketLink IDM configuration
-
 Target Product: EAP
-
 Source: <https://github.com/jboss-jdf/jboss-as-quickstart/>
 
 What is it?
 -----------
 
-This example demonstrates the use of *CDI 1.0* and *PicketLink* in *JBoss Enterprise Application Platform 6* or *JBoss AS 7*.
+This example demonstrates the use of *CDI 1.0* and *PicketLink IDM* using JPA to store identities in *JBoss Enterprise Application Platform 6* or *JBoss AS 7*.
 
 System requirements
 -------------------

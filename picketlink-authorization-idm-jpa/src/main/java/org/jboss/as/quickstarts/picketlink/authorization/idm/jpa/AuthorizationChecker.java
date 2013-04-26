@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jboss.as.quickstarts.picketlink;
+package org.jboss.as.quickstarts.picketlink.authorization.idm.jpa;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -31,9 +31,14 @@ import org.picketlink.idm.model.Role;
  * @author Shane Bryzak
  *
  */
-public @Named class AuthorizationChecker {
-    @Inject Identity identity;
-    @Inject IdentityManager identityManager;
+@Named 
+public class AuthorizationChecker {
+    
+    @Inject
+    private Identity identity;
+    
+    @Inject 
+    private IdentityManager identityManager;
 
     public boolean hasApplicationRole(String roleName) {
         Role role = identityManager.getRole(roleName);

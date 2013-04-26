@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jboss.as.quickstarts.picketlink;
+package org.jboss.as.quickstarts.picketlink.authorization.idm.jpa;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
