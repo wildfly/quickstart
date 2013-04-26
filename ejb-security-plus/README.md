@@ -38,7 +38,7 @@ Finally there is the `RemoteClient` stand-alone client. The client demonstrates 
 Note on EJB client interceptors
 -----------------------
 
-JBoss Enterprise Application Platform 6.1 and JBoss AS 7.2 allow client side interceptors for EJB invocations. Such interceptors are expected to implement the `org.jboss.ejb.client.EJBClientInterceptor` interface. User applications can then plug in such interceptors in the 'EJBClientContext' either programatically or through the ServiceLoader mechanism.
+JBoss Enterprise Application Platform 6.1 allow client side interceptors for EJB invocations. Such interceptors are expected to implement the `org.jboss.ejb.client.EJBClientInterceptor` interface. User applications can then plug in such interceptors in the 'EJBClientContext' either programatically or through the ServiceLoader mechanism.
 
 - The programmatic way involves calling the `org.jboss.ejb.client.EJBClientContext.registerInterceptor(int order, EJBClientInterceptor interceptor)` API and passing the 'order' and the 'interceptor' instance. The 'order' is used to decide where exactly in the client interceptor chain, this 'interceptor' is going to be placed.
 - The ServiceLoader mechanism is an alternate approach which involves creating a `META-INF/services/org.jboss.ejb.client.EJBClientInterceptor` file and placing/packaging it in the classpath of the client application. The rules for such a file are dictated by the [Java ServiceLoader Mechanism](http://docs.oracle.com/javase/6/docs/api/java/util/ServiceLoader.html). This file is expected to contain in each separate line the fully qualified class name of the EJB client interceptor implementation, which is expected to be available in the classpath. EJB client interceptors added via the ServiceLoader mechanism are added to the end of the client interceptor chain, in the order they were found in the classpath.
@@ -57,7 +57,7 @@ System requirements
 
 All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven 3.0 or better.
 
-The application this project produces is designed to be run on JBoss Enterprise Application Platform 6.1 or JBoss AS 7.2. 
+The application this project produces is designed to be run on JBoss Enterprise Application Platform 6.1. 
 
 Configure Maven
 ---------------
@@ -67,13 +67,13 @@ If you have not yet done so, you must [Configure Maven](../README.md#mavenconfig
 Prerequisites
 -------------
 
-_Note_: Unlike most of the quickstarts, this one requires JBoss Enterprise Application Platform 6.1 or JBoss AS 7.2 or later.
+_Note_: Unlike most of the quickstarts, this one requires JBoss Enterprise Application Platform 6.1 or later.
 
 This quickstart uses the default standalone configuration plus the modifications described here.
 
 It is recommended that you test this approach in a separate and clean environment before you attempt to port the changes in your own environment.
 
-Configure the JBoss Enterprise Application Platform 6.1 server or JBoss AS 7.2  server
+Configure the JBoss Enterprise Application Platform 6.1 server
 ---------------------------
 
 These steps asume that you are running the server in standalone mode and using the default standalone.xml supplied with the distribution.
@@ -84,7 +84,7 @@ After the server is configured you will then need to define four user accounts, 
 
 ### Modify the Server Configuration using the JBoss CLI Tool
 
-1. Start the JBoss Enterprise Application Platform 6 or JBoss AS 7 Server by typing the following: 
+1. Start the JBoss Enterprise Application Platform 6 server by typing the following: 
 
 		For Linux:  JBOSS_HOME_SERVER_1/bin/standalone.sh
 		For Windows:  JBOSS_HOME_SERVER_1\bin\standalone.bat
@@ -92,18 +92,18 @@ After the server is configured you will then need to define four user accounts, 
     
 		For Linux: bin/jboss-cli.sh --connect
 		For Windows: bin\jboss-cli.bat --connect
-3. At the prompt, enter the following series of commands:
+3. Add a new security realm that is used by the quickstart. For this scenario the Remoting login module is no longer used, instead a custom module `SaslPlusLoginModule` is used instead to perform authentication based on the authenticated user of the connection AND the supplied authentication token.  The `RealmDirect` login module is last in the configuration so that roles can be loaded after the user has been verified. At the prompt, enter the following series of commands:
 
 		[standalone@localhost:9999 /] ./subsystem=security/security-domain=quickstart-domain:add(cache-type=default)
 		[standalone@localhost:9999 /] ./subsystem=security/security-domain=quickstart-domain/authentication=classic:add
 		[standalone@localhost:9999 /] ./subsystem=security/security-domain=quickstart-domain/authentication=classic/login-module=DelegationLoginModule:add(code=org.jboss.as.quickstarts.ejb_security_plus.SaslPlusLoginModule,flag=optional,module-options={password-stacking=useFirstPass})    
 		[standalone@localhost:9999 /] ./subsystem=security/security-domain=quickstart-domain/authentication=classic/login-module=RealmDirect:add(code=RealmDirect,flag=required,module-options={password-stacking=useFirstPass})
 
-This block of commands added a new security realm that is used by the quickstart, for this scenario the Remoting login module is no longer used, instead a custom module `SaslPlusLoginModule` is used instead to perform authentication based on the authenticated user of the connection AND the supplied authentication token.  The `RealmDirect` login module is last in the configuration so that roles can be loaded after the user has been verified.
+
 
 	[standalone@localhost:9999 /] :reload
 
-Finally the server is reloaded to pick up these changes.
+Finally, restart the server to pick up these changes.
 
 ### Modify the Server Configuration Manually
 
@@ -140,7 +140,7 @@ This means that for quickstartUser to be able to call the EJB the specified auth
 Add the Application Users
 ---------------
 
-This quickstart is built around the default `ApplicationRealm` as configured in the JBoss Enterprise Application  Platform 6.1 or JBoss AS 7.2 server distribution. Using the add-user utility script, you must add the following user to the `ApplicationRealm`:
+This quickstart is built around the default `ApplicationRealm` as configured in the JBoss Enterprise Application  Platform 6.1 server distribution. Using the add-user utility script, you must add the following user to the `ApplicationRealm`:
 
 | **UserName** | **Realm** | **Password** | **Roles** |
 |:-----------|:-----------|:-----------|:-----------|
@@ -165,7 +165,7 @@ Alternatively you can edit the properties file for the users and manually add th
 The application server checks the properties files for modifications at runtime so there is no need to restart the server after changing these files.
 
 
-Start JBoss Enterprise Application Platform 6.1 or JBoss AS 7.2
+Start JBoss Enterprise Application Platform 6.1
 -------------------------
 
 1. Open a command line and navigate to the root of the JBoss server directory.
