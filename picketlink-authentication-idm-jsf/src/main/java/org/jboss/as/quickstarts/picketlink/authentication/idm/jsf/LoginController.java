@@ -14,9 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jboss.as.quickstarts.picketlink;
+package org.jboss.as.quickstarts.picketlink.authentication.idm.jsf;
 
-import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -26,25 +25,26 @@ import org.picketlink.Identity;
 import org.picketlink.Identity.AuthenticationResult;
 
 /**
- * We control the authentication process from this action bean, so that in the event
- * of a failed authentication we can add an appropriate FacesMessage to the response.
- *
+ * We control the authentication process from this bean, so that in the event of a failed authentication we can add an
+ * appropriate FacesMessage to the response.
+ * 
  * @author Shane Bryzak
- *
+ * 
  */
-@RequestScoped 
 @Named
-public class LoginAction {
+public class LoginController {
 
-    @Inject Identity identity;
+    @Inject
+    private Identity identity;
+
+    @Inject
+    private FacesContext facesContext;
 
     public void login() {
         AuthenticationResult result = identity.login();
         if (AuthenticationResult.FAILED.equals(result)) {
-            FacesContext.getCurrentInstance().addMessage(null, 
-                new FacesMessage(
-                        "Authentication was unsuccessful.  Please check your username and password " +
-                        "before trying again."));
+            facesContext.addMessage(null, new FacesMessage(
+                    "Authentication was unsuccessful.  Please check your username and password " + "before trying again."));
         }
     }
 }

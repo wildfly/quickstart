@@ -14,24 +14,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jboss.as.quickstarts.picketlink;
+package org.jboss.as.quickstarts.picketlink.authentication.idm.jsf;
 
+import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Produces;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
-import org.picketlink.annotations.PicketLink;
+import javax.faces.context.FacesContext;
 
 /**
- * Since we are using JPAIdentityStore to store identity-related data, we must
- * provide it with an EntityManager via a producer method or field annotated with 
- * the @PicketLink qualifier.
- *
- * @author Shane Bryzak
+ * This class uses CDI to alias Java EE resources, such as the {@link FacesContext}, to CDI beans
+ * 
+ * <p>
+ * Example injection on a managed bean field:
+ * </p>
+ * 
+ * <pre>
+ * &#064;Inject
+ * private FacesContext facesContext;
+ * </pre>
  */
-public class PicketLinkEntityManagerProducer {
+public class Resources {
+
     @Produces
-    @PicketLink
-    @PersistenceContext(unitName = "picketlink-default")
-    private EntityManager picketLinkEntityManager;
+    @RequestScoped
+    public FacesContext produceFacesContext() {
+        return FacesContext.getCurrentInstance();
+    }
+
 }
