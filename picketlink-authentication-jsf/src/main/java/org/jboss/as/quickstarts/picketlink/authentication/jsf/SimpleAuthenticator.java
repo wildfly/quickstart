@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jboss.as.quickstarts.picketlink;
+package org.jboss.as.quickstarts.picketlink.authentication.jsf;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -32,7 +32,11 @@ import org.picketlink.idm.model.SimpleUser;
  */
 public class SimpleAuthenticator extends BaseAuthenticator {
 
-    @Inject DefaultLoginCredentials credentials;
+    @Inject 
+    private DefaultLoginCredentials credentials;
+    
+    @Inject
+    private FacesContext facesContext;
 
     @Override
     public void authenticate() {
@@ -42,7 +46,7 @@ public class SimpleAuthenticator extends BaseAuthenticator {
             setUser(new SimpleUser("jsmith"));
         } else {
             setStatus(AuthenticationStatus.FAILURE);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
+            facesContext.addMessage(null, new FacesMessage(
                     "Authentication Failure - The username or password you provided were invalid."));
         }
     }

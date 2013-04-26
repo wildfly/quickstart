@@ -1,4 +1,4 @@
-picketlink-authentication: PicketLink Authentication Example
+picketlink-authentication: PicketLink Authentication with JSF
 ===============================
 Author: Shane Bryzak
 

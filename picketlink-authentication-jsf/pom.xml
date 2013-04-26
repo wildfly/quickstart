@@ -19,11 +19,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.jboss.as.quickstarts</groupId>
-    <artifactId>jboss-as-picketlink-authentication</artifactId>
+    <artifactId>jboss-as-picketlink-authentication-jsf</artifactId>
     <version>7.1.2-SNAPSHOT</version>
     <packaging>war</packaging>
-    <name>JBoss AS Quickstarts: PicketLink Authentication</name>
-    <description>JBoss AS Quickstarts: PicketLink Authentication</description>
+    <name>JBoss AS Quickstarts: PicketLink Authentication with JSF</name>
+    <description>JBoss AS Quickstarts: PicketLink Authentication with JSF</description>
 
     <url>http://jboss.org/jbossas</url>
     <licenses>
@@ -103,14 +103,19 @@
             <scope>provided</scope>
         </dependency>
 
+        <!-- Import the PicketLink API, we deploy this as library with the application, 
+            and can compile against it -->
         <dependency>
             <groupId>org.picketlink</groupId>
             <artifactId>picketlink-core-api</artifactId>
         </dependency>
 
+        <!-- Import the PicketLink implementation, we deploy this as library with the application, 
+            but can't compile against it -->
         <dependency>
             <groupId>org.picketlink</groupId>
             <artifactId>picketlink-core-impl</artifactId>
+            <scope>runtime</scope>
         </dependency>
 
     </dependencies>
