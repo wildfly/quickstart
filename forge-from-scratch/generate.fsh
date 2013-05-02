@@ -11,6 +11,10 @@ set ACCEPT_DEFAULTS true;
 
 @/* Turn our Java project into a Web project with JSF, CDI, EJB, and JPA  */;
 scaffold setup --scaffoldType faces;
+
+@/* Enable CDI if not already done */;
+beans setup;
+
 persistence setup --provider HIBERNATE --container JBOSS_AS7 ;
 
 @/* Create some JPA @Entities on which to base our application */;
