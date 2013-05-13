@@ -1,0 +1,14 @@
+# Batch script to add the PostgreSQL driver to the JBoss server configuration
+batch
+
+# Configure the security domain
+/subsystem=security/security-domain=servlet-security-quickstart/:add(cache-type=default)
+/subsystem=security/security-domain=servlet-security-quickstart/authentication=classic:add(login-modules=[{"code"=>"Database", "flag"=>"required", "module-options"=>[("dsJndiName"=>"java:jboss/datasources/ServletSecurityDS"),("principalsQuery"=>"SELECT PASSWORD FROM USERS WHERE USERNAME = ?"), ("rolesQuery"=>"SELECT R.NAME, 'Roles' FROM USERS_ROLES UR INNER JOIN ROLES R ON R.ID = UR.ROLE_ID INNER JOIN USERS U ON U.ID = UR.USER_ID WHERE U.USERNAME = ?")]}])
+
+# Run the batch commands
+run-batch
+
+# Reload the server configuration
+:reload
+
+

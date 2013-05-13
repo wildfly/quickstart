@@ -84,9 +84,32 @@ Since both application servers must be configured in the same way, you must conf
 
 ### Modify the Server Configuration file. 
 
-You can modify the server configuration using the JBoss CLI tool or by manually editing the server configuration file.
+You can configure the server by running the  `configure-jts-transactions.cli` script provided in the root directory of this quickstart, by using the JBoss CLI interactively, or by manually editing the configuration file.
 
-#### Modify the Server Configuration using the JBoss CLI Tool
+_NOTE - Before you begin:_
+
+1. If it is running, stop the JBoss Enterprise Application Platform 6 or JBoss AS 7 Server.
+2. Backup the file: `JBOSS_HOME/standalone/configuration/standalone-full.xml`
+3. After you have completed testing this quickstart, you can replace this file to restore the server to its original configuration.
+
+#### Modify the Server Configuration by Running the JBoss CLI Script
+
+1. Start the JBoss Enterprise Application Platform 6 or JBoss AS 7 Server by typing the following: 
+
+        For Linux:  JBOSS_HOME/bin/standalone.sh -c standalone-full.xml
+        For Windows:  JBOSS_HOME\bin\standalone.bat -c standalone-full.xml
+2. Open a new command line, navigate to the root directory of this quickstart, and run the following command, replacing JBOSS_HOME with the path to your server:
+
+        JBOSS_HOME/bin/jboss-cli.sh --connect --file=configure-jts-transactions.cli
+This script configures the server to use jts transaction processing. You should see the following result when you run the script:
+
+        #1 /subsystem=jacorb:write-attribute(name=transactions,value=on)
+        #2 /subsystem=transactions:write-attribute(name=jts,value=true)
+        #3 /subsystem=transactions:write-attribute(name=node-identifier,value=UNIQUE_IDENTIFER)
+        The batch executed successfully.
+        {"outcome" => "success"}
+
+#### Modify the Server Configuration Using the JBoss CLI Tool Interactively
 
 1. Start the JBoss Enterprise Application Platform 6 or JBoss AS 7 Server by typing the following: 
 
@@ -199,9 +222,29 @@ Remove the JTS Configuration from the JBoss Server
 ---------------------------
 
 You must remove the JTS server configuration you did during setup because it interferes with the JTA quickstarts. 
-You can modify the server configuration using the JBoss CLI tool or by manually editing the server configuration file.
+
+You can modify the server configuration by running the `remove-jts-transactions.cli` script provided in the root directory of this quickstart, by using the JBoss CLI interactively, or by manually editing the configuration file.
+
+### Remove the JTS Server Configuration by Running the JBoss CLI Script
+
+1. Start the JBoss Enterprise Application Platform 6 or JBoss AS 7 Server by typing the following: 
+
+        For Linux:  JBOSS_HOME_SERVER_1/bin/standalone.sh -c standalone-full.xml
+        For Windows:  JBOSS_HOME_SERVER_1\bin\standalone.bat -c standalone-full.xml
+2. Open a new command line, navigate to the root directory of this quickstart, and run the following command, replacing JBOSS_HOME with the path to your server:
+
+        JBOSS_HOME/bin/jboss-cli.sh --connect --file=remove-jts-transactions.cli 
+This script removes the `test` queue from the `messaging` subsystem in the server configuration. You should see the following result when you run the script:
+
+        #1 /subsystem=jacorb:write-attribute(name=transactions,value=spec)
+        #2 /subsystem=transactions:undefine-attribute(name=jts)
+        #3 /subsystem=transactions:undefine-attribute(name=node-identifier)
+        The batch executed successfully.
+        {"outcome" => "success"}
+
 
 ### Remove the JTS Server Configuration using the JBoss CLI Tool
+
 1. Start the JBoss Enterprise Application Platform 6 or JBoss AS 7 Server by typing the following. 
 
         If you are using Linux:  JBOSS_HOME_SERVER_1/bin/standalone.sh -c standalone-full.xml
@@ -217,6 +260,7 @@ You can modify the server configuration using the JBoss CLI tool or by manually 
         [standalone@localhost:9999 /] /subsystem=transactions/:undefine-attribute(name=node-identifier)
 
 ### Remove the JTS Server Configuration Manually
+
 1. Stop the server.
 2. If you backed up the JBOSS_HOME/standalone/configuration/standalone-full.xml,simply replace the edited configuration file with the backup copy.
 3. If you did not make a backup copy, open the file JBOSS_HOME/standalone/configuration/standalone-full.xml and disable JTS as follows:

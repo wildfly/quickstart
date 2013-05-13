@@ -1,0 +1,17 @@
+# Batch script to configure the JBoss server for JTS transactions
+
+# Start batching commands
+batch
+
+# Configure transactions for JTS
+/subsystem=jacorb/:write-attribute(name=transactions,value=on)
+/subsystem=transactions/:write-attribute(name=jts,value=true)
+/subsystem=transactions/:write-attribute(name=node-identifier,value=UNIQUE_IDENTIFER)
+
+# Run the batch commands
+run-batch
+
+# Reload the server configuration
+:reload
+
+

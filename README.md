@@ -511,9 +511,32 @@ Use the following steps to install and configure PostgreSQL on Windows:
 
 #### Add the Driver Configuration to the JBoss server
 
-You can configure the driver using the JBoss CLI or by manually editing the configuration file.
+You can configure the driver by running the `configure-postgres-driver.cli` script provided in the root directory of the quickstarts, by using the JBoss CLI interactively, or by manually editing the configuration file.
 
-##### Configure the Driver Using the JBoss CLI
+_NOTE - Before you begin:_
+
+1. If it is running, stop the JBoss Enterprise Application Platform 6 or JBoss AS 7 Server.
+2. Backup the file: `JBOSS_HOME/standalone/configuration/standalone-full.xml`
+3. After you have completed testing the quickstarts, you can replace this file to restore the server to its original configuration.
+
+ 
+##### Configure the Driver By Running the JBoss CLI Script
+
+1. Start the JBoss Enterprise Application Platform 6 or JBoss AS 7 Server by typing the following: 
+
+        For Linux:  JBOSS_HOME_SERVER_1/bin/standalone.sh -c standalone-full.xml
+        For Windows:  JBOSS_HOME_SERVER_1\bin\standalone.bat -c standalone-full.xml
+2. Open a new command line, navigate to the root directory of the quickstarts, and run the following command, replacing JBOSS_HOME with the path to your server:
+
+        JBOSS_HOME/bin/jboss-cli.sh --connect --file=configure-postgres-driver.cli 
+This script adds the PostgreSQL driver to the datasources subsystem in the server configuration. You should see the following result when you run the script:
+
+        #1 /subsystem=datasources/jdbc-driver=postgresql:add(driver-name=postgresql,driver-module-name=org.postgresql,driver-xa-datasource-class-name=org.postgresql.xa.PGXADataSource)
+        The batch executed successfully.
+        {"outcome" => "success"}
+
+
+##### Configure the Driver Using the JBoss CLI Interactively
 
 1. Start the JBoss Enterprise Application Platform 6 or JBoss AS 7 Server by typing the following: 
 
@@ -528,15 +551,43 @@ You can configure the driver using the JBoss CLI or by manually editing the conf
         [standalone@localhost:9999 /] /subsystem=datasources/jdbc-driver=postgresql:add(driver-name=postgresql,driver-module-name=org.postgresql,driver-xa-datasource-class-name=org.postgresql.xa.PGXADataSource)
 
 
-##### Configure the Driver Manually
+##### Configure the Driver By Manually Editing the Configuration File
 
-1.  Backup the file: `JBOSS_HOME/standalone/configuration/standalone-full.xml`
-2.  Open the `JBOSS_HOME/standalone/configuration/standalone-full.xml` file in an editor and locate the subsystem `urn:jboss:domain:datasources:1.0`. 
-3.  Add the following driver to the `<drivers>` section that subsystem. You may need to merge with other drivers in that section:
+1.  If it is running, stop the JBoss Enterprise Application Platform 6 or JBoss AS 7 Server.
+2.  Backup the file: `JBOSS_HOME/standalone/configuration/standalone-full.xml`
+3.  Open the `JBOSS_HOME/standalone/configuration/standalone-full.xml` file in an editor and locate the subsystem `urn:jboss:domain:datasources:1.0`. 
+4.  Add the following driver to the `<drivers>` section that subsystem. You may need to merge with other drivers in that section:
 
         <driver name="postgresql" module="org.postgresql">
             <xa-datasource-class>org.postgresql.xa.PGXADataSource</xa-datasource-class>
         </driver>
+
+#### Remove the PostgreSQL Configuration
+----------------------------
+
+When you are done testing the quickstarts, you can remove the PostgreSQL configuration by running the  `remove-postgresql.cli` script provided in the root directory of the quickstarts or by manually restoring the back-up copy the configuration file. 
+
+##### Remove the PostgreSQL Configuration by Running the JBoss CLI Script
+
+1. Start the JBoss Enterprise Application Platform 6 or JBoss AS 7 Server by typing the following: 
+
+        For Linux:  JBOSS_HOME_SERVER_1/bin/standalone.sh -c standalone-full.xml
+        For Windows:  JBOSS_HOME_SERVER_1\bin\standalone.bat -c standalone-full.xml
+2. Open a new command line, navigate to the root directory of this quickstart, and run the following command, replacing JBOSS_HOME with the path to your server:
+
+        JBOSS_HOME/bin/jboss-cli.sh --connect --file=remove-postgresql.cli 
+This script removes PostgreSQL from the `datasources` subsystem in the server configuration. You should see the following result when you run the script:
+
+        #1 /subsystem=datasources/jdbc-driver=postgresql:remove
+        The batch executed successfully.
+        {"outcome" => "success"}
+
+
+##### Remove the PostgreSQL Configuration Manually
+1. If it is running, stop the JBoss Enterprise Application Platform 6 or JBoss AS 7 Server.
+2. Replace the `JBOSS_HOME/standalone/configuration/standalone-full.xml` file with the back-up copy of the file.
+
+
 
 #### Important Quickstart Testing Information
 

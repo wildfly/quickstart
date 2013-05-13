@@ -48,17 +48,54 @@ Configure Maven
 If you have not yet done so, you must [Configure Maven](../README.md#mavenconfiguration) before testing the quickstarts.
 
 
+Add the Application Users
+----------------
+
+Using the add-user utility script, you must add the following users to the `ApplicationRealm`:
+
+| **UserName** | **Realm** | **Password** | **Roles** |
+|:-----------|:-----------|:-----------|:-----------|
+| quickstartUser| ApplicationRealm | quickstartPwd1!| quickstarts |
+| guest | ApplicationRealm | guestPwd1! | notauthorized |
+
+The first application user has access rights to the application. The second application user is not authorized to access the application.
+
+For an example of how to use the add-user utility, see instructions in the root README file located here: [Add User](../README.md#addapplicationuser).
+
+
 Define a Security Domain Using the Database JAAS Login Module
 ---------------
 
-This quickstart authenticates users using a simple database setup. The datasource configuration is located in the `/src/main/webapp/WEB-INF/servlet-security-quickstart-ds.xml` file. You can configure the security domain using the JBoss CLI or by manually editing the configuration file.
+This quickstart authenticates users using a simple database setup. The datasource configuration is located in the `/src/main/webapp/WEB-INF/servlet-security-quickstart-ds.xml` file. You can configure the security domain by running the  `configure-security-domain.cli` script provided in the root directory of this quickstart, by using the JBoss CLI interactively, or by manually editing the configuration file.
 
-### Configure the Security Domain Using the JBoss CLI
+_NOTE - Before you begin:_
+
+1. If it is running, stop the JBoss Enterprise Application Platform 6 or JBoss AS 7 Server.
+2. Backup the file: `JBOSS_HOME/standalone/configuration/standalone.xml`
+3. After you have completed testing this quickstart, you can replace this file to restore the server to its original configuration.
+
+#### Configure the Security Domain by Running the JBoss CLI Script
+
+1. Start the JBoss Enterprise Application Platform 6 or JBoss AS 7 Server by typing the following: 
+
+        For Linux:  JBOSS_HOME/bin/standalone.sh 
+        For Windows:  JBOSS_HOME\bin\standalone.bat
+2. Open a new command line, navigate to the root directory of this quickstart, and run the following command, replacing JBOSS_HOME with the path to your server:
+
+        JBOSS_HOME/bin/jboss-cli.sh --connect --file=configure-security-domain.cli
+This script adds the `servlet-security-quickstart` domain to the `security` subsystem in the server configuration and configures authentication access. You should see the following result when you run the script:
+
+        #1 /subsystem=security/security-domain=servlet-security-quickstart:add(cache-type=default)
+        #2 /subsystem=security/security-domain=servlet-security-quickstart/authentication=classic:add(login-modules=[{"code"=>"Database", "flag"=>"required", "module-options"=>[("dsJndiName"=>"java:jboss/datasources/ServletSecurityDS"),("principalsQuery"=>"SELECT PASSWORD FROM USERS WHERE USERNAME = ?"), ("rolesQuery"=>"SELECT R.NAME, 'Roles' FROM USERS_ROLES UR INNER JOIN ROLES R ON R.ID = UR.ROLE_ID INNER JOIN USERS U ON U.ID = UR.USER_ID WHERE U.USERNAME = ?")]}])
+        The batch executed successfully.
+        {"outcome" => "success"}
+
+### Configure the Security Domain Using the JBoss CLI Interactively
 
 1. Start the JBoss Enterprise Application Platform 6 or JBoss AS 7 Server with the web profile by typing the following: 
 
-        For Linux:  JBOSS_HOME_SERVER_1/bin/standalone.sh -c standaloneull.xml
-        For Windows:  JBOSS_HOME_SERVER_1\bin\standalone.bat -c standalone.xml
+        For Linux:  JBOSS_HOME/bin/standalone.sh 
+        For Windows:  JBOSS_HOME\bin\standalone.bat 
 2. To start the JBoss CLI tool, open a new command line, navigate to the JBOSS_HOME directory, and type the following:
     
         For Linux: bin/jboss-cli.sh --connect
@@ -72,7 +109,7 @@ This quickstart authenticates users using a simple database setup. The datasourc
         /:reload
 
 
-### Configure the Security Domain Manually
+### Configure the Security Domain by Manually Editing the Server Configuration File
 
 1.  If it is running, stop the JBoss Enterprise Application Platform 6 or JBoss AS 7 Server.
 2.  Backup the file: `JBOSS_HOME/standalone/configuration/standalone.xml`
@@ -149,6 +186,34 @@ Undeploy the Archive
 3. When you are finished testing, type this command to undeploy the archive:
 
         mvn jboss-as:undeploy
+
+
+Remove the Security Domain Configuration
+----------------------------
+
+You can remove the security domain configuration by running the  `remove-security-domain.cli` script provided in the root directory of this quickstart or by manually restoring the back-up copy the configuration file. 
+
+### Remove the Security Domain Configuration by Running the JBoss CLI Script
+
+1. Start the JBoss Enterprise Application Platform 6 or JBoss AS 7 Server by typing the following: 
+
+        For Linux:  JBOSS_HOME_SERVER_1/bin/standalone.sh
+        For Windows:  JBOSS_HOME_SERVER_1\bin\standalone.bat
+2. Open a new command line, navigate to the root directory of this quickstart, and run the following command, replacing JBOSS_HOME with the path to your server:
+
+        JBOSS_HOME/bin/jboss-cli.sh --connect --file=remove-security-domain.cli 
+This script removes the `test` queue from the `messaging` subsystem in the server configuration. You should see the following result when you run the script:
+
+        #1 /subsystem=security/security-domain=quickstart-domain:remove
+        The batch executed successfully.
+        {"outcome" => "success"}
+
+
+### Remove the Security Domain Configuration Manually
+1. If it is running, stop the JBoss Enterprise Application Platform 6 or JBoss AS 7 Server.
+2. Replace the `JBOSS_HOME/standalone/configuration/standalone.xml` file with the back-up copy of the file.
+
+
 
 
 Run the Quickstart in JBoss Developer Studio or Eclipse

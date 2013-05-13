@@ -73,16 +73,42 @@ This quickstart uses the default standalone configuration plus the modifications
 
 It is recommended that you test this approach in a separate and clean environment before you attempt to port the changes in your own environment.
 
+
 Configure the JBoss Enterprise Application Platform 6.1 server
 ---------------------------
 
 These steps asume that you are running the server in standalone mode and using the default standalone.xml supplied with the distribution.
 
-You can either edit the standalone.xml configuration before starting the server or you can start the server and execute a series of commands using the JBoss CLI tool, both approaches are described below.  Whichever approach you choose it must be completed before deploying the quickstart.
+You can configure the security domain by running the  `configure-security-domain.cli` script provided in the root directory of this quickstart, by using the JBoss CLI interactively, or by manually editing the configuration file. The three different approaches are described below. Whichever approach you choose, it must be completed before deploying the quickstart.
 
 After the server is configured you will then need to define four user accounts, this can be achieved either by using the add-user tool included with the server or by copying and pasting the appropriate entries into the properties files.  Both of these approaches are described below and whichever approach is chosen it must be completed before running the quickstart - the users can be added before or after starting the server.
 
-### Modify the Server Configuration using the JBoss CLI Tool
+_NOTE - Before you begin:_
+
+1. If it is running, stop the JBoss Enterprise Application Platform 6 or JBoss AS 7 Server.
+2. Backup the file: `JBOSS_HOME/standalone/configuration/standalone.xml`
+3. After you have completed testing this quickstart, you can replace this file to restore the server to its original configuration.
+
+#### Configure the Security Domain by Running the JBoss CLI Script
+
+1. Start the JBoss Enterprise Application Platform 6 or JBoss AS 7 Server by typing the following: 
+
+        For Linux:  JBOSS_HOME/bin/standalone.sh 
+        For Windows:  JBOSS_HOME\bin\standalone.bat
+2. Open a new command line, navigate to the root directory of this quickstart, and run the following command, replacing JBOSS_HOME with the path to your server:
+
+        JBOSS_HOME/bin/jboss-cli.sh --connect --file=configure-security-domain.cli
+This script adds the `quickstart-domain` domain to the `security` subsystem in the server configuration and configures authentication access. You should see the following result when you run the script:
+
+        #1 /subsystem=security/security-domain=quickstart-domain:add(cache-type=default)
+        #2 /subsystem=security/security-domain=quickstart-domain/authentication=classic:add
+        #3 /subsystem=security/security-domain=quickstart-domain/authentication=classic/login-module=DelegationLoginModule:add(code=org.jboss.as.quickstarts.ejb_security_plus.SaslPlusLoginModule,flag=optional,module-options={password-stacking=useFirstPass})
+        #4 /subsystem=security/security-domain=quickstart-domain/authentication=classic/login-module=RealmDirect:add(code=RealmDirect,flag=required,module-options={password-stacking=useFirstPass})
+        The batch executed successfully.
+        {"outcome" => "success"}
+
+
+### Configure the Security Domain Using the JBoss CLI Interactively
 
 1. Start the JBoss Enterprise Application Platform 6 server by typing the following: 
 
@@ -98,17 +124,17 @@ After the server is configured you will then need to define four user accounts, 
 		[standalone@localhost:9999 /] ./subsystem=security/security-domain=quickstart-domain/authentication=classic:add
 		[standalone@localhost:9999 /] ./subsystem=security/security-domain=quickstart-domain/authentication=classic/login-module=DelegationLoginModule:add(code=org.jboss.as.quickstarts.ejb_security_plus.SaslPlusLoginModule,flag=optional,module-options={password-stacking=useFirstPass})    
 		[standalone@localhost:9999 /] ./subsystem=security/security-domain=quickstart-domain/authentication=classic/login-module=RealmDirect:add(code=RealmDirect,flag=required,module-options={password-stacking=useFirstPass})
-
-
-
-	[standalone@localhost:9999 /] :reload
+		
+		[standalone@localhost:9999 /] :reload
 
 Finally, restart the server to pick up these changes.
 
-### Modify the Server Configuration Manually
+### Configure the Security Domain by Manually Editing the Server Configuration File
 
-1. Open the file: `JBOSS_HOME/standalone/configuration/standalone.xml`
-2. Make the additions described below.
+1.  If it is running, stop the JBoss Enterprise Application Platform 6 or JBoss AS 7 Server.
+2.  Backup the file: `JBOSS_HOME/standalone/configuration/standalone.xml`
+3.  Open the file: `JBOSS_HOME/standalone/configuration/standalone.xml`
+4.  Make the additions described below.
 
 The EJB side of this quickstart makes use of a new security domain called `quickstart-domain`, which delegates to the `ApplicationRealm`. In order to support identity switching we use the `SaslPlusLoginModule` from this quickstart.
 
@@ -229,6 +255,33 @@ Undeploy the Archive
 3. When you are finished testing, type this command to undeploy the archive:
 
 		mvn jboss-as:undeploy
+
+
+Remove the Security Domain Configuration
+----------------------------
+
+You can remove the security domain configuration by running the  `remove-security-domain.cli` script provided in the root directory of this quickstart or by manually restoring the back-up copy the configuration file. 
+
+### Remove the Security Domain Configuration by Running the JBoss CLI Script
+
+1. Start the JBoss Enterprise Application Platform 6 or JBoss AS 7 Server by typing the following: 
+
+        For Linux:  JBOSS_HOME_SERVER_1/bin/standalone.sh
+        For Windows:  JBOSS_HOME_SERVER_1\bin\standalone.bat
+2. Open a new command line, navigate to the root directory of this quickstart, and run the following command, replacing JBOSS_HOME with the path to your server:
+
+        JBOSS_HOME/bin/jboss-cli.sh --connect --file=remove-security-domain.cli 
+This script removes the `test` queue from the `messaging` subsystem in the server configuration. You should see the following result when you run the script:
+
+        #1 /subsystem=security/security-domain=quickstart-domain:remove
+        The batch executed successfully.
+        {"outcome" => "success"}
+
+
+### Remove the Security Domain Configuration Manually
+1. If it is running, stop the JBoss Enterprise Application Platform 6 or JBoss AS 7 Server.
+2. Replace the `JBOSS_HOME/standalone/configuration/standalone.xml` file with the back-up copy of the file.
+
 
 
 Run the Quickstart in JBoss Developer Studio or Eclipse

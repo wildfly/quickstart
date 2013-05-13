@@ -43,9 +43,31 @@ Configure the JBoss Enterprise Application Platform 6 server
 
 If you are using the JBoss AS 7 Quickstart distribution, the server configuration file already contains the JMS `test` queue and you can skip this step. 
 
-However, if you are using the JBoss Enterprise Application Platform 6 distribution, you need to add the JMS `test` queue to the application server configuration file. You can configure JMS using the JBoss CLI or by manually editing the configuration file.
+However, if you are using the JBoss Enterprise Application Platform 6 distribution, you need to add the JMS `test` queue to the application server configuration file. You can configure JMS by running the  `configure-jms.cli` script provided in the root directory of this quickstart, by using the JBoss CLI interactively, or by manually editing the configuration file.
 
-#### Modify the Server JMS Configuration using the JBoss CLI Tool
+_NOTE - Before you begin:_
+
+1. If it is running, stop the JBoss Enterprise Application Platform 6 or JBoss AS 7 Server.
+2. Backup the file: `JBOSS_HOME/standalone/configuration/standalone-full.xml`
+3. After you have completed testing this quickstart, you can replace this file to restore the server to its original configuration.
+
+#### Configure JMS by Running the JBoss CLI Script
+
+1. Start the JBoss Enterprise Application Platform 6 or JBoss AS 7 Server by typing the following: 
+
+        For Linux:  JBOSS_HOME_SERVER_1/bin/standalone.sh -c standalone-full.xml
+        For Windows:  JBOSS_HOME_SERVER_1\bin\standalone.bat -c standalone-full.xml
+2. Open a new command line, navigate to the root directory of this quickstart, and run the following command, replacing JBOSS_HOME with the path to your server:
+
+        JBOSS_HOME/bin/jboss-cli.sh --connect --file=configure-jms.cli 
+This script adds the `test` queue to the `messaging` subsystem in the server configuration. You should see the following result when you run the script:
+
+        #1 jms-queue add --queue-address=testQueue --entries=queue/test,java:jboss/exported/jms/queue/test
+        The batch executed successfully.
+        {"outcome" => "success"}
+
+
+#### Configure JMS Using the JBoss CLI Tool Interactively
 
 1. Start the JBoss Enterprise Application Platform 6 or JBoss AS 7 Server by typing the following: 
 
@@ -59,10 +81,12 @@ However, if you are using the JBoss Enterprise Application Platform 6 distributi
 
         [standalone@localhost:9999 /] jms-queue add --queue-address=testQueue --entries=queue/test,java:jboss/exported/jms/queue/test
 
-#### Modify the Server JMS Configuration Manually
+#### Configure JMS by Manually Editing the Server Configuration File
 
-1. Open the file: JBOSS_HOME/standalone/configuration/standalone-full.xml
-2. Add the JMS `test` queue as follows:
+1.  If it is running, stop the JBoss Enterprise Application Platform 6 or JBoss AS 7 Server.
+2.  Backup the file: `JBOSS_HOME/standalone/configuration/standalone-full.xml`
+3.  Open the file: JBOSS_HOME/standalone/configuration/standalone-full.xml
+4.  Add the JMS `test` queue as follows:
     * Find the messaging subsystem:  
 
             <subsystem xmlns="urn:jboss:domain:messaging:1.1">
@@ -180,6 +204,41 @@ The example provides for a certain amount of customization for the `mvn:exec` pl
 
     Default: `"localhost"`
 
+
+Undeploy the Archive
+--------------------
+
+1. Make sure you have started the JBoss Server as described above.
+2. Open a command line and navigate to the root directory of this quickstart.
+3. When you are finished testing, type this command to undeploy the archive:
+
+        mvn jboss-as:undeploy
+
+
+Remove the JMS Configuration
+----------------------------
+
+You can remove the JMS configuration by running the  `remove-jms.cli` script provided in the root directory of this quickstart or by manually restoring the back-up copy the configuration file. 
+
+### Remove the JMS Configuration by Running the JBoss CLI Script
+
+1. Start the JBoss Enterprise Application Platform 6 or JBoss AS 7 Server by typing the following: 
+
+        For Linux:  JBOSS_HOME_SERVER_1/bin/standalone.sh -c standalone-full.xml
+        For Windows:  JBOSS_HOME_SERVER_1\bin\standalone.bat -c standalone-full.xml
+2. Open a new command line, navigate to the root directory of this quickstart, and run the following command, replacing JBOSS_HOME with the path to your server:
+
+        JBOSS_HOME/bin/jboss-cli.sh --connect --file=remove-jms.cli 
+This script removes the `test` queue from the `messaging` subsystem in the server configuration. You should see the following result when you run the script:
+
+        #1 jms-queue remove --queue-address=testQueue
+        The batch executed successfully.
+        {"outcome" => "success"}
+
+
+### Remove the JMS Configuration Manually
+1. If it is running, stop the JBoss Enterprise Application Platform 6 or JBoss AS 7 Server.
+2. Replace the `JBOSS_HOME/standalone/configuration/standalone-full.xml` file with the back-up copy of the file.
 
 
 Run the Quickstart in JBoss Developer Studio or Eclipse
