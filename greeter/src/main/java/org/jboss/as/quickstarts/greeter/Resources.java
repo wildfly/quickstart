@@ -33,13 +33,14 @@ public class Resources {
     private EntityManager em;
 
     @Produces
-    Logger getLogger(InjectionPoint ip) {
+    public Logger getLogger(InjectionPoint ip) {
         String category = ip.getMember().getDeclaringClass().getName();
         return Logger.getLogger(category);
     }
 
     @Produces
-    FacesContext getFacesContext() {
+    @RequestScoped
+    public FacesContext getFacesContext() {
         return FacesContext.getCurrentInstance();
     }
 

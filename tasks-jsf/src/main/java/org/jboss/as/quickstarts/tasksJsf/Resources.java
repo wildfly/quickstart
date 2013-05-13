@@ -58,6 +58,7 @@ public class Resources {
     }
 
     @Produces
+    @RequestScoped
     public FacesContext getFacesContext() {
         return FacesContext.getCurrentInstance();
     }
