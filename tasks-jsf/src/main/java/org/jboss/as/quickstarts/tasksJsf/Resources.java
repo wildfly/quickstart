@@ -40,7 +40,6 @@ import javax.persistence.PersistenceContextType;
  * 
  */
 @Stateful
-@RequestScoped
 public class Resources {
 
     @PersistenceContext(type = PersistenceContextType.EXTENDED)
