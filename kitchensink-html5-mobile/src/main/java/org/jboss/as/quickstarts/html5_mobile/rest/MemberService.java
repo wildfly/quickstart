@@ -101,7 +101,7 @@ public class MemberService {
             registration.register(member);
 
             // Create an "ok" response
-            builder = Response.ok();
+            builder = Response.ok().entity(member);
         } catch (ConstraintViolationException ce) {
             // Handle bean validation issues
             builder = createViolationResponse(ce.getConstraintViolations());
