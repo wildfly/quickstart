@@ -50,6 +50,8 @@
         
         <!-- Define the version of the JBoss BOMs we want to import to specify tested stacks. -->
         <version.jboss.bom>1.0.4.Final</version.jboss.bom>
+        <version.arquillian.container>8.0.0.Alpha1-SNAPSHOT</version.arquillian.container>
+
         <!-- Alternatively, comment out the above line, and un-comment the 
             line below to use version 1.0.4.Final-redhat-3 which is a release certified 
             to work with JBoss EAP 6. It requires you have access to the JBoss EAP 6 
@@ -265,8 +267,9 @@
             <id>arq-jbossas-managed</id>
             <dependencies>
                 <dependency>
-                    <groupId>org.jboss.as</groupId>
-                    <artifactId>jboss-as-arquillian-container-managed</artifactId>
+                    <groupId>org.wildfly</groupId>
+                    <artifactId>wildfly-arquillian-container-managed</artifactId>
+                    <version>${version.arquillian.container}</version>
                     <scope>test</scope>
                 </dependency>
             </dependencies>
@@ -279,8 +282,9 @@
             <id>arq-jbossas-remote</id>
             <dependencies>
                 <dependency>
-                    <groupId>org.jboss.as</groupId>
-                    <artifactId>jboss-as-arquillian-container-remote</artifactId>
+                    <groupId>org.wildfly</groupId>
+                    <artifactId>wildfly-arquillian-container-remote</artifactId>
+                    <version>${version.arquillian.container}</version>
                     <scope>test</scope>
                 </dependency>
             </dependencies>

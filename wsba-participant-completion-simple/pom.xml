@@ -47,6 +47,9 @@
         
         <!-- Define the version of the JBoss BOMs we want to import to specify tested stacks. -->
         <version.jboss.bom>1.0.4.Final</version.jboss.bom>
+
+        <version.arquillian.container>8.0.0.Alpha1-SNAPSHOT</version.arquillian.container>
+
         <!-- Alternatively, comment out the above line, and un-comment the 
             line below to use version 1.0.4.Final-redhat-3 which is a release certified 
             to work with JBoss EAP 6. It requires you have access to the JBoss EAP 6 
@@ -202,29 +205,33 @@
             </build>
         </profile>
         <profile>
-            <!-- An optional Arquillian testing profile that executes tests in your JBoss AS instance. -->
-            <!-- This profile will start a new JBoss AS instance, and execute the test, shutting it down when done. -->
+
+            <!-- An optional Arquillian testing profile that executes tests
+                in your JBoss AS instance -->
+            <!-- This profile will start a new JBoss AS instance, and execute the
+                test, shutting it down when done -->
             <!-- Run with: mvn clean test -Parq-jbossas-managed -->
             <id>arq-jbossas-managed</id>
             <dependencies>
                 <dependency>
-                    <groupId>org.jboss.as</groupId>
-                    <artifactId>jboss-as-arquillian-container-managed</artifactId>
+                    <groupId>org.wildfly</groupId>
+                    <artifactId>wildfly-arquillian-container-managed</artifactId>
+                    <version>${version.arquillian.container}</version>
                     <scope>test</scope>
                 </dependency>
             </dependencies>
         </profile>
 
         <profile>
-
             <!-- An optional Arquillian testing profile that executes tests
-                 in a remote JBoss AS instance -->
+                in a remote JBoss AS instance -->
             <!-- Run with: mvn clean test -Parq-jbossas-remote -->
             <id>arq-jbossas-remote</id>
             <dependencies>
                 <dependency>
-                    <groupId>org.jboss.as</groupId>
-                    <artifactId>jboss-as-arquillian-container-remote</artifactId>
+                    <groupId>org.wildfly</groupId>
+                    <artifactId>wildfly-arquillian-container-remote</artifactId>
+                    <version>${version.arquillian.container}</version>
                     <scope>test</scope>
                 </dependency>
             </dependencies>
