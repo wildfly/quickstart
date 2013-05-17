@@ -39,7 +39,7 @@ function buildMemberRows(members) {
 /* Uses JAX-RS GET to retrieve current member list */
 function updateMemberTable() {
     $.ajax({
-        url: "http://html5-aerogear.rhcloud.com/rest/members",
+        url: "http://html5-jdf.rhcloud.com/rest/members",
         cache: false,
         success: function(data) {
             $('#members').empty().append(buildMemberRows(data));
@@ -61,7 +61,7 @@ function registerMember(memberData) {
     $('span.success').remove();
 
     $.ajax({
-        url: 'http://html5-aerogear.rhcloud.com/rest/members',
+        url: 'http://html5-jdf.rhcloud.com/rest/members',
         contentType: "application/json",
         dataType: "json",
         type: "POST",
