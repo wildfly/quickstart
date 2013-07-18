@@ -15,7 +15,7 @@ batch
 /core-service=management/security-realm=ejb-outbound-realm/server-identity=secret:add(value="Q29ubmVjdGlvblBhc3N3b3JkMSE=")
 
 # Define the address that the outbound connection connects to
-/socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=ejb-outbound:add(host=localhost,port=4447)
+/socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=ejb-outbound:add(host=localhost,port=8080)
 
 # Create the outbound connection
 /subsystem=remoting/remote-outbound-connection=ejb-outbound-connection:add(outbound-socket-binding-ref=ejb-outbound,username=ConnectionUser,security-realm=ejb-outbound-realm)

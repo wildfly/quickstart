@@ -104,7 +104,7 @@ public class JmsClientController {
 
     // Set up all the default values
     private static final String INITIAL_CONTEXT_FACTORY = "org.jboss.naming.remote.client.InitialContextFactory";
-    private static final String PROVIDER_URL = "remote://localhost:4447";
+    private static final String PROVIDER_URL = "remote://localhost:8080";
 
     public void executeJMSClient() throws Exception {
         Connection connection = null;
