@@ -100,7 +100,7 @@ On the client console, you should see output similar to:
     Mar 23, 2012 12:59:40 PM org.jboss.ejb.client.remoting.VersionReceiver handleMessage
     INFO: Received server version 1 and marshalling strategies [river]
     Mar 23, 2012 12:59:40 PM org.jboss.ejb.client.remoting.RemotingConnectionEJBReceiver associate
-    INFO: Successful version handshake completed for receiver context EJBReceiverContext{clientContext=org.jboss.ejb.client.EJBClientContext@2ad1918a, receiver=Remoting connection EJB receiver [connection=Remoting connection <6b28215d>,channel=jboss.ejb,nodename=ptarmigan]} on channel Channel ID a2f59bb1 (outbound) of Remoting connection 5caccd65 to localhost/127.0.0.1:4447
+    INFO: Successful version handshake completed for receiver context EJBReceiverContext{clientContext=org.jboss.ejb.client.EJBClientContext@2ad1918a, receiver=Remoting connection EJB receiver [connection=Remoting connection <6b28215d>,channel=jboss.ejb,nodename=ptarmigan]} on channel Channel ID a2f59bb1 (outbound) of Remoting connection 5caccd65 to localhost/127.0.0.1:8080
     Mar 23, 2012 12:59:40 PM org.jboss.ejb.client.remoting.ChannelAssociation$ResponseReceiver handleMessage
     WARN: Unsupported message received with header 0xffffffff
     

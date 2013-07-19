@@ -115,7 +115,7 @@ This script adds the `quickstart-domain` domain to the `security` subsystem in t
         #5 /subsystem=security/security-domain=quickstart-domain/authentication=classic/login-module=RealmDirect:add(code=RealmDirect,flag=required,module-options={password-stacking=useFirstPass})
         #6 /core-service=management/security-realm=ejb-outbound-realm:add
         #7 /core-service=management/security-realm=ejb-outbound-realm/server-identity=secret:add(value="Q29ubmVjdGlvblBhc3N3b3JkMSE=")
-        #8 /socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=ejb-outbound:add(host=localhost,port=4447)
+        #8 /socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=ejb-outbound:add(host=localhost,port=8080)
         #9 /subsystem=remoting/remote-outbound-connection=ejb-outbound-connection:add(outbound-socket-binding-ref=ejb-outbound,username=ConnectionUser,security-realm=ejb-outbound-realm)
         #10 /subsystem=remoting/remote-outbound-connection=ejb-outbound-connection/property=SSL_ENABLED:add(value=false)
         The batch executed successfully.
@@ -147,7 +147,7 @@ This block of commands added a new security realm that is used by the quickstart
 
 Those two commands added a new security realm that contains the password that will be used when an outbound connection is subsequently used for the Remote EJB calls.
 
-		[standalone@localhost:9999 /] /socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=ejb-outbound:add(host=localhost,port=4447)
+		[standalone@localhost:9999 /] /socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=ejb-outbound:add(host=localhost,port=8080)
 
 For the outbound connection this defined the address that will be connected to.
 
@@ -230,7 +230,7 @@ Add the following security realm. Note the Base64-encoded password is for the Co
 Within the socket-binding-group 'standard-sockets' add the following outbound connection: 
 
 	<outbound-socket-binding name="ejb-outbound">
-	  <remote-destination host="localhost" port="4447"/>
+	  <remote-destination host="localhost" port="8080"/>
 	</outbound-socket-binding>
 
 Within the Remoting susbsytem add the following outbound connection: 
