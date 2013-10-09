@@ -29,55 +29,51 @@ import org.jboss.msc.service.ServiceName;
 import org.jboss.msc.service.StartContext;
 import org.jboss.msc.service.StartException;
 import org.jboss.msc.service.StopContext;
-import org.jboss.msc.value.InjectedValue;
-
+import org.jboss.msc.value.Value;
 
 /**
- * A service to start schedule-timer as HASingleton timer in a clustered environment.
- * The service will ensure that the timer is initialized only once in a cluster.
- *
  * @author <a href="mailto:wfink@redhat.com">Wolf-Dieter Fink</a>
+ * @author <a href="mailto:ralf.battenfeld@bluewin.ch">Ralf Battenfeld</a>
  */
-public class HATimerService implements Service<String> {
-    private static final Logger LOGGER = Logger.getLogger(HATimerService.class);
-    public static final ServiceName SINGLETON_SERVICE_NAME = ServiceName.JBOSS.append("quickstart", "ha", "singleton", "timer");
+public class HATimerService implements Service<Environment> {
+    public static final ServiceName DEFAULT_SERVICE_NAME = ServiceName.JBOSS.append("quickstart", "ha", "singleton", "default");
+    public static final ServiceName QUORUM_SERVICE_NAME = ServiceName.JBOSS.append("quickstart", "ha", "singleton", "quorum");
+    public static final String NODE_1 = "nodeOne";
+    public static final String NODE_2 = "nodeTwo";
 
-    /**
-     * A flag whether the service is started.
-     */
+    private static final Logger LOGGER = Logger.getLogger(HATimerService.class);    
+    private final Value<ServerEnvironment> env;
     private final AtomicBoolean started = new AtomicBoolean(false);
 
-    private String nodeName;
-
-    final InjectedValue<ServerEnvironment> env = new InjectedValue<ServerEnvironment>();
-
-    /**
-     * @return the name of the server node
-     */
-    public String getValue() throws IllegalStateException, IllegalArgumentException {
-        if (!started.get()) {
-            throw new IllegalStateException("The service '" + this.getClass().getName() + "' is not ready!");
-        }
-        return this.nodeName;
+    public HATimerService(Value<ServerEnvironment> env) {
+        this.env = env;
     }
 
-    public void start(StartContext arg0) throws StartException {
+    @Override
+    public Environment getValue() {
+        if (!this.started.get()) {
+            throw new IllegalStateException();
+        }
+        return new Environment(this.env.getValue().getNodeName());
+    }
+
+    @Override
+    public void start(StartContext context) throws StartException {
         if (!started.compareAndSet(false, true)) {
             throw new StartException("The service is still started!");
         }
         LOGGER.info("Start HASingleton timer service '" + this.getClass().getName() + "'");
-
-        this.nodeName = this.env.getValue().getNodeName();
-
+        
         try {
             InitialContext ic = new InitialContext();
-            ((Scheduler) ic.lookup("global/jboss-as-cluster-ha-singleton-service/SchedulerBean!org.jboss.as.quickstarts.cluster.hasingleton.service.ejb.Scheduler")).initialize("HASingleton timer @" + this.nodeName + " " + new Date());
+            ((Scheduler) ic.lookup("global/jboss-as-cluster-ha-singleton-service/SchedulerBean!org.jboss.as.quickstarts.cluster.hasingleton.service.ejb.Scheduler")).initialize("HASingleton timer @" + this.env.getValue().getNodeName() + " " + new Date());
         } catch (NamingException e) {
             throw new StartException("Could not initialize timer", e);
         }
     }
 
-    public void stop(StopContext arg0) {
+    @Override
+    public void stop(StopContext context) {
         if (!started.compareAndSet(true, false)) {
             LOGGER.warn("The service '" + this.getClass().getName() + "' is not active!");
         } else {
