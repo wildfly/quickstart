@@ -40,7 +40,7 @@ public class ServiceAccessBean implements ServiceAccess {
         LOGGER.debugf("Service: %s", service);
 
         if (service != null) {
-            return (String) service.getValue();
+            return ((Environment)service.getValue()).getNodeName();
         } else {
             throw new IllegalStateException("Service '" + HATimerService.DEFAULT_SERVICE_NAME + "' not found!");
         }
