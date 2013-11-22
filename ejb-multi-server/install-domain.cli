@@ -1,0 +1,240 @@
+# change the provided default configuration for the ejb-multi-server quickstart
+
+
+# stop the preconfigured server for the domain
+batch
+# first stop the default servers, block until the server is down
+/host=master/server-config=server-one:stop(blocking=true)
+/host=master/server-config=server-two:stop(blocking=true)
+
+# remove the default server configuration and server-groups
+/host=master/server-config=server-one:remove
+/host=master/server-config=server-two:remove
+/host=master/server-config=server-three:remove
+/server-group=main-server-group:remove
+/server-group=other-server-group:remove
+
+
+# ----  configure the domain for the quickstart ejb-multi-server
+
+# disable the local authentication for applications
+/host=master/core-service=management/security-realm=ApplicationRealm/authentication=local:remove
+
+/profile=default/subsystem=ejb3:write-attribute(name=default-missing-method-permissions-deny-access, value=false)
+/profile=ha/subsystem=ejb3:write-attribute(name=default-missing-method-permissions-deny-access, value=false)
+
+# Configure the connection from main server to "one" and "two"
+# this is to use the application "one" and "two" located at the remote server
+#
+# add the socket binding to the full-sockets, used by the app-main server
+/socket-binding-group=full-sockets/remote-destination-outbound-socket-binding=remote-ejb-1:add(host=localhost, port=8180)
+/socket-binding-group=full-sockets/remote-destination-outbound-socket-binding=remote-ejb-2:add(host=localhost, port=8280)
+
+# add the outbound connections to the remoting subsystem of the full-profile used by app-main server
+/profile=full/subsystem=remoting/remote-outbound-connection=remote-ejb-connection-1:add(outbound-socket-binding-ref=remote-ejb-1, protocol=http-remoting, security-realm=ejb-security-realm-1, username=quickuser1)
+/profile=full/subsystem=remoting/remote-outbound-connection=remote-ejb-connection-1/property=SASL_POLICY_NOANONYMOUS:add(value=false)
+/profile=full/subsystem=remoting/remote-outbound-connection=remote-ejb-connection-1/property=SSL_ENABLED:add(value=false)
+/profile=full/subsystem=remoting/remote-outbound-connection=remote-ejb-connection-2:add(outbound-socket-binding-ref=remote-ejb-2, protocol=http-remoting, security-realm=ejb-security-realm-2, username=quickuser2)
+/profile=full/subsystem=remoting/remote-outbound-connection=remote-ejb-connection-2/property=SASL_POLICY_NOANONYMOUS:add(value=false)
+/profile=full/subsystem=remoting/remote-outbound-connection=remote-ejb-connection-2/property=SSL_ENABLED:add(value=false)
+
+# add a pool for SLSB, otherwise the scoped-context EJB invocation will fail b/c can not commit a transaction after executing the SLSB as the bean (with context) is destroyed before !!
+/profile=full/subsystem=ejb3:write-attribute(name=default-slsb-instance-pool, value=slsb-strict-max-pool)
+
+# add the security realms with the secret (password base64) values for the server communication
+/host=master/core-service=management/security-realm=ejb-security-realm-1:add()
+/host=master/core-service=management/security-realm=ejb-security-realm-1/server-identity=secret:add(value=cXVpY2sxMjMr)
+/host=master/core-service=management/security-realm=ejb-security-realm-2:add()
+/host=master/core-service=management/security-realm=ejb-security-realm-2/server-identity=secret:add(value=cXVpY2srMTIz)
+
+# adjust the default JVM configuration to minimum
+/host=master/jvm=default:write-attribute(name=permgen-size, value=64m)
+/host=master/jvm=default:write-attribute(name=max-permgen-size, value=128m)
+
+#add the main-server group and the server which handle the standalone client requests
+/server-group=quickstart-ejb-multi-main-server:add(profile=full,socket-binding-group=full-sockets)
+/server-group=quickstart-ejb-multi-main-server/jvm=default:add()
+/host=master/server-config=app-main:add(auto-start=true, group=quickstart-ejb-multi-main-server)
+
+#add the app-server group and the servers for the destination application
+# app-one will be a clustered application, so use HA and add two servers
+/server-group=quickstart-ejb-multi-appOne-server:add(profile=ha,socket-binding-group=ha-sockets)
+/server-group=quickstart-ejb-multi-appOne-server/jvm=default:add()
+/host=master/server-config=app-oneA:add(auto-start=true, group=quickstart-ejb-multi-appOne-server, socket-binding-port-offset=100)
+/host=master/server-config=app-oneB:add(auto-start=true, group=quickstart-ejb-multi-appOne-server, socket-binding-port-offset=700)
+
+# app two is not a clustered application, so use default profile
+/server-group=quickstart-ejb-multi-appTwo-server:add(profile=default,socket-binding-group=standard-sockets)
+/server-group=quickstart-ejb-multi-appTwo-server/jvm=default:add()
+/host=master/server-config=app-twoA:add(auto-start=true, group=quickstart-ejb-multi-appTwo-server, socket-binding-port-offset=200)
+/host=master/server-config=app-twoB:add(auto-start=true, group=quickstart-ejb-multi-appTwo-server, socket-binding-port-offset=800)
+
+# add an alias for app2 bean to demonstrate how to avoid direct dependency to destination app name
+/profile=full/subsystem=naming/binding=java\:global\/AliasAppTwo:add(binding-type=lookup, lookup="ejb:jboss-ejb-multi-server-app-two/ejb//AppTwoBean!org.jboss.as.quickstarts.ejb.multi.server.app.AppTwo")
+
+
+# ---  add an additional server and group for web application only
+
+# create a new profile
+/profile=default-web:add()
+/profile=default-web/subsystem=logging:add()
+/profile=default-web/subsystem=logging/periodic-rotating-file-handler=FILE:add(autoflush=true,file={"relative-to"=>"jboss.server.log.dir", "path"=>"server.log"},append=true,suffix=.yyyy-MM-dd,formatter="%d{HH:mm:ss,SSS} %-5p [%c] (%t) %s%E%n")
+/profile=default-web/subsystem=logging/logger=com.arjuna:add(level=WARN)
+/profile=default-web/subsystem=logging/logger=org.apache.tomcat.util.modeler:add(level=WARN)
+/profile=default-web/subsystem=logging/logger=org.jboss.as.config:add(level=DEBUG)
+/profile=default-web/subsystem=logging/logger=sun.rmi:add(level=WARN)
+/profile=default-web/subsystem=logging/logger=jacorb:add(level=WARN)
+/profile=default-web/subsystem=logging/logger=jacorb.config:add(level=ERROR)
+/profile=default-web/subsystem=logging/root-logger=ROOT:add(level=INFO,handlers=["FILE"])
+
+/profile=default-web/subsystem=batch:add()
+/profile=default-web/subsystem=batch/thread-pool=batch:add(keepalive-time={time=100,unit=milliseconds}, max-threads=10)
+
+/profile=default-web/subsystem=ee:add(spec-descriptor-property-replacement=false,jboss-descriptor-property-replacement=true,ejb-annotation-property-replacement=false)
+/profile=default-web/subsystem=ee/context-service=default:add(jndi-name="java:jboss/ee/concurrency/context/default", use-transaction-setup-provider=true)
+/profile=default-web/subsystem=ee/managed-thread-factory=default:add(context-service=default, jndi-name="java:jboss/ee/concurrency/factory/default")
+/profile=default-web/subsystem=ee/managed-executor-service=default:add(jndi-name="java:jboss/ee/concurrency/executor/default", context-service="default", hung-task-threshold="60000",  core-threads="5", max-threads=25, keepalive-time="5000")
+/profile=default-web/subsystem=ee/managed-scheduled-executor-service=default:add(jndi-name="java:jboss/ee/concurrency/scheduler/default", context-service="default", hung-task-threshold="60000", core-threads="2", keepalive-time="3000")
+/profile=default-web/subsystem=ee/service=default-bindings:add(context-service="java:jboss/ee/concurrency/context/default", datasource="java:jboss/datasources/ExampleDS", jms-connection-factory="java:jboss/DefaultJMSConnectionFactory", managed-executor-service="java:jboss/ee/concurrency/executor/default", managed-scheduled-executor-service="java:jboss/ee/concurrency/scheduler/default", managed-thread-factory="java:jboss/ee/concurrency/factory/default")
+
+/profile=default-web/subsystem=ejb3:add()
+/profile=default-web/subsystem=ejb3:write-attribute(name=default-slsb-instance-pool,value=slsb-strict-max-pool)
+/profile=default-web/subsystem=ejb3:write-attribute(name=default-sfsb-cache,value=simple)
+/profile=default-web/subsystem=ejb3:write-attribute(name=default-sfsb-passivation-disabled-cache, value="simple")
+/profile=default-web/subsystem=ejb3:write-attribute(name=default-stateful-bean-access-timeout, value=5000)
+/profile=default-web/subsystem=ejb3:write-attribute(name=default-singleton-bean-access-timeout, value=5000)
+/profile=default-web/subsystem=ejb3/strict-max-bean-instance-pool=slsb-strict-max-pool:add(max-pool-size=20,timeout=5,timeout-unit=MINUTES)
+/profile=default-web/subsystem=ejb3/strict-max-bean-instance-pool=mdb-strict-max-pool:add(max-pool-size=20,timeout=5,timeout-unit=MINUTES)
+/profile=default-web/subsystem=ejb3/cache=simple:add()
+/profile=default-web/subsystem=ejb3/cache=distributable:add(passivation-store=infinispan, aliases=["passivating clustered"])
+/profile=default-web/subsystem=ejb3/passivation-store=infinispan:add(cache-container=ejb, max-size=10000)
+/profile=default-web/subsystem=ejb3/service=async:add(thread-pool-name=default)
+# timer service can have a choice to storage data
+/profile=default-web/subsystem=ejb3/service=timer-service:add(thread-pool-name=default,default-data-store=default-file-store)
+/profile=default-web/subsystem=ejb3/service=timer-service/file-data-store=default-file-store:add(path=timer-service-data,relative-to=jboss.server.data.dir)
+
+/profile=default-web/subsystem=ejb3/service=remote:add(connector-ref=http-remoting-connector,thread-pool-name=default)
+/profile=default-web/subsystem=ejb3/thread-pool=default:add(max-threads=10,keepalive-time={"time"=>"100","unit"=>"MILLISECONDS"})
+
+/profile=default-web/subsystem=ejb3:write-attribute(name=default-security-domain, value="other")
+/profile=default-web/subsystem=ejb3:write-attribute(name=default-missing-method-permissions-deny-access, value="false")
+
+/profile=default-web/subsystem=io:add()
+/profile=default-web/subsystem=io/worker=default:add(io-threads=3)
+/profile=default-web/subsystem=io/buffer-pool=default:add(buffer-size=16384, buffers-per-slice=128)
+
+/profile=default-web/subsystem=infinispan:add()
+/profile=default-web/subsystem=infinispan/cache-container=web:add(default-cache=passivation, module=org.wildfly.clustering.web.infinispan)
+/profile=default-web/subsystem=infinispan/cache-container=web/local-cache=passivation:add(batching=true)
+/profile=default-web/subsystem=infinispan/cache-container=web/local-cache=passivation/file-store=FILE_STORE:add(passivation=true, purge=false)
+/profile=default-web/subsystem=infinispan/cache-container=web/local-cache=persistent:add(batching=true)
+/profile=default-web/subsystem=infinispan/cache-container=web/local-cache=persistent/file-store=FILE_STORE:add(passivation=false, purge=false)
+/profile=default-web/subsystem=infinispan/cache-container=ejb:add(default-cache=passivation, module="org.wildfly.clustering.ejb.infinispan", aliases=["sfsb"])
+/profile=default-web/subsystem=infinispan/cache-container=ejb/local-cache=passivation:add(batching=true)
+/profile=default-web/subsystem=infinispan/cache-container=ejb/local-cache=passivation/file-store=FILE_STORE:add(passivation=true, purge=false)
+/profile=default-web/subsystem=infinispan/cache-container=ejb/local-cache=persistent:add(batching=true)
+/profile=default-web/subsystem=infinispan/cache-container=ejb/local-cache=persistent/file-store=FILE_STORE:add(passivation=false, purge=false)
+
+/profile=default-web/subsystem=infinispan/cache-container=hibernate:add(default-cache=local-query, module="org.hibernate")
+/profile=default-web/subsystem=infinispan/cache-container=hibernate/local-cache=entity:add()
+/profile=default-web/subsystem=infinispan/cache-container=hibernate/local-cache=entity/transaction=TRANSACTION:add(mode=NON_XA)
+/profile=default-web/subsystem=infinispan/cache-container=hibernate/local-cache=entity/eviction=EVICTION:add(strategy=LRU, max-entries=10000)
+/profile=default-web/subsystem=infinispan/cache-container=hibernate/local-cache=entity/expiration=EXPIRATION:add(max-idle=100000)
+/profile=default-web/subsystem=infinispan/cache-container=hibernate/local-cache=local-query:add()
+/profile=default-web/subsystem=infinispan/cache-container=hibernate/local-cache=local-query/transaction=TRANSACTION:add(mode=NONE)
+/profile=default-web/subsystem=infinispan/cache-container=hibernate/local-cache=local-query/eviction=EVICTION:add(strategy=LRU, max-entries=10000)
+/profile=default-web/subsystem=infinispan/cache-container=hibernate/local-cache=local-query/expiration=EXPIRATION:add(max-idle=100000)
+/profile=default-web/subsystem=infinispan/cache-container=hibernate/local-cache=timestamps:add()
+/profile=default-web/subsystem=infinispan/cache-container=hibernate/local-cache=timestamps/transaction=TRANSACTION:add(mode=NONE)
+/profile=default-web/subsystem=infinispan/cache-container=hibernate/local-cache=timestamps/eviction=EVICTION:add(strategy=NONE)
+
+/profile=default-web/subsystem=jca:add()
+/profile=default-web/subsystem=jca/archive-validation=archive-validation:add(enabled=true, fail-on-error=true, fail-on-warn=false)
+/profile=default-web/subsystem=jca/bean-validation=bean-validation:add(enabled=true)
+/profile=default-web/subsystem=jca/cached-connection-manager=cached-connection-manager:add(install=true)
+/profile=default-web/subsystem=jca/workmanager=default:add(name=default)
+/profile=default-web/subsystem=jca/workmanager=default/short-running-threads=default:add(core-threads=50,queue-length=50,max-threads=50,keepalive-time={"time"=>"10", "unit"=>"SECONDS"})
+/profile=default-web/subsystem=jca/workmanager=default/long-running-threads=default:add(core-threads=50,queue-length=50,max-threads=50,keepalive-time={"time"=>"10", "unit"=>"SECONDS"})
+
+/profile=default-web/subsystem=jpa:add(default-datasource="", default-extended-persistence-inheritance="DEEP")
+
+/profile=default-web/subsystem=jsf:add
+
+/profile=default-web/subsystem=naming:add()
+/profile=default-web/subsystem=naming/service=remote-naming:add
+
+/profile=default-web/subsystem=pojo:add()
+
+/profile=default-web/subsystem=remoting:add()
+/profile=default-web/subsystem=remoting/http-connector=http-remoting-connector:add(connector-ref=default, security-realm=ApplicationRealm)
+# add the outbound connections to the remoting subsystem of the profile used by to connect the app servers
+# it might not necesarry to use a different name for 'outbound-socket-binding-ref', it is just to show the different configuration
+/profile=default-web/subsystem=remoting/remote-outbound-connection=remote-connection-war-ejb-1:add(outbound-socket-binding-ref=remote-war-1, protocol=http-remoting, security-realm=ejb-security-realm-1, username=quickuser1)
+/profile=default-web/subsystem=remoting/remote-outbound-connection=remote-connection-war-ejb-1/property=SASL_POLICY_NOANONYMOUS:add(value=false)
+/profile=default-web/subsystem=remoting/remote-outbound-connection=remote-connection-war-ejb-1/property=SSL_ENABLED:add(value=false)
+/profile=default-web/subsystem=remoting/remote-outbound-connection=remote-connection-war-ejb-2:add(outbound-socket-binding-ref=remote-war-2, protocol=http-remoting, security-realm=ejb-security-realm-2, username=quickuser2)
+/profile=default-web/subsystem=remoting/remote-outbound-connection=remote-connection-war-ejb-2/property=SASL_POLICY_NOANONYMOUS:add(value=false)
+/profile=default-web/subsystem=remoting/remote-outbound-connection=remote-connection-war-ejb-2/property=SSL_ENABLED:add(value=false)
+
+/profile=default-web/subsystem=security:add
+/profile=default-web/subsystem=security/security-domain=other:add(cache-type=default)
+/profile=default-web/subsystem=security/security-domain=other/authentication=classic:add(login-modules=[{"code"=>"Remoting","flag"=>"optional","module-options"=>[("password-stacking"=>"useFirstPass")]},{"code"=>"RealmDirect","flag"=>"required","module-options"=>[("password-stacking"=>"useFirstPass")]}])
+/profile=default-web/subsystem=security/security-domain=jboss-web-policy:add(cache-type=default)
+/profile=default-web/subsystem=security/security-domain=jboss-web-policy/authorization=classic:add(policy-modules=[{"code"=>"Delegating","flag"=>"required"}])
+/profile=default-web/subsystem=security/security-domain=jboss-ejb-policy:add(cache-type=default)
+/profile=default-web/subsystem=security/security-domain=jboss-ejb-policy/authorization=classic:add(policy-modules=[{"code"=>"Delegating","flag"=>"required"}])
+
+/profile=default-web/subsystem=threads:add
+
+/profile=default-web/subsystem=transactions:add(socket-binding=txn-recovery-environment, status-socket-binding=txn-status-manager, default-timeout=300, process-id-uuid=true)
+
+/profile=default-web/subsystem=undertow:add
+/profile=default-web/subsystem==undertow/buffer-cache=default:add(buffer-size=1024, buffers-per-region=1024, max-regions=10)
+/profile=default-web/subsystem=undertow/server=default-server:add()
+/profile=default-web/subsystem=undertow/server=default-server/http-listener=default:add(socket-binding=http)
+/profile=default-web/subsystem=undertow/server=default-server/host=default-host:add(alias=["localhost"])
+/profile=default-web/subsystem=undertow/server=default-server/host=default-host/location="/":add(handler="welcome-content")
+/profile=default-web/subsystem=undertow/servlet-container=default:add(default-buffer-cache=default, stack-trace-on-error=local-only)
+/profile=default-web/subsystem=undertow/servlet-container=default/setting=jsp:add
+/profile=default-web/subsystem=undertow/servlet-container=default/setting=persistent-sessions:add(path=persistent-web-sessions, relative-to=jboss.server.data.dir)
+/profile=default-web/subsystem=undertow/configuration=handler:add()
+/profile=default-web/subsystem=undertow/configuration=handler/file=welcome-content:add(path="${jboss.home.dir}/welcome-content", directory-listing="true")
+
+/profile=default-web/subsystem=webservices:add(modify-wsdl-address=true, wsdl-host="${jboss.bind.address:127.0.0.1}")
+/profile=default-web/subsystem=webservices/endpoint-config=Standard-Endpoint-Config:add
+/profile=default-web/subsystem=webservices/endpoint-config=Recording-Endpoint-Config:add
+/profile=default-web/subsystem=webservices/endpoint-config=Recording-Endpoint-Config/pre-handler-chain=recording-handlers:add(protocol-bindings="##SOAP11_HTTP ##SOAP11_HTTP_MTOM ##SOAP12_HTTP ##SOAP12_HTTP_MTOM"
+/profile=default-web/subsystem=webservices/endpoint-config=Recording-Endpoint-Config/pre-handler-chain=recording-handlers/handler=RecordingHandler:add(class="org.jboss.ws.common.invocation.RecordingServerHandler")
+/profile=default-web/subsystem=webservices/client-config=Standard-Client-Config:add
+
+/profile=default-web/subsystem=weld:add
+
+
+/socket-binding-group=standard-sockets-web:add(default-interface=public)
+/socket-binding-group=standard-sockets-web/socket-binding=http:add(port=8080)
+/socket-binding-group=standard-sockets-web/socket-binding=https:add(port=8443)
+/socket-binding-group=standard-sockets-web/socket-binding=txn-recovery-environment:add(port=4712)
+/socket-binding-group=standard-sockets-web/socket-binding=txn-status-manager:add(port=4713)
+
+# add the socket binding for connection to app-one, app-two
+/socket-binding-group=standard-sockets-web/remote-destination-outbound-socket-binding=remote-war-1:add(host=localhost, port=8180)
+/socket-binding-group=standard-sockets-web/remote-destination-outbound-socket-binding=remote-war-2:add(host=localhost, port=8280)
+
+
+
+/server-group=quickstart-ejb-multi-appWeb-server:add(profile=default-web,socket-binding-group=standard-sockets-web)
+/server-group=quickstart-ejb-multi-appWeb-server/jvm=default:add()
+/host=master/server-config=app-web:add(auto-start=true, group=quickstart-ejb-multi-appWeb-server, socket-binding-port-offset=300)
+
+run-batch
+
+# without restart, outside the batch, there are different problems
+:restart-servers
+
+# finally start the configured servers
+/host=master/server-config=app-oneA:start
+/host=master/server-config=app-oneB:start
+/host=master/server-config=app-twoA:start
+/host=master/server-config=app-twoB:start
+/host=master/server-config=app-main:start
+/host=master/server-config=app-web:start
