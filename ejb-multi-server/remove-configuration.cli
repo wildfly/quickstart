@@ -1,0 +1,87 @@
+# Batch script to remove the quickstart-domain security domain from the JBoss server
+
+# Start batching commands
+batch
+
+# Stop the installed servers so that they can be removed.
+/host=master/server-config=app-web:stop(blocking=true)
+/host=master/server-config=app-main:stop(blocking=true)
+/host=master/server-config=app-oneA:stop(blocking=true)
+/host=master/server-config=app-oneB:stop(blocking=true)
+/host=master/server-config=app-twoA:stop(blocking=true)
+/host=master/server-config=app-twoB:stop(blocking=true)
+
+# Remove the socket binding from the full-sockets, used by the app-main server
+/socket-binding-group=full-sockets/remote-destination-outbound-socket-binding=remote-ejb-1:remove
+/socket-binding-group=full-sockets/remote-destination-outbound-socket-binding=remote-ejb-2:remove
+
+# Remove socket bindings from the standard sockets
+/socket-binding-group=standard-sockets-web:remove()
+
+# Remove the outbound connections from the remoting subsystem of the full-profile used by app-main server
+/profile=full/subsystem=remoting/remote-outbound-connection=remote-ejb-connection-1:remove
+/profile=full/subsystem=remoting/remote-outbound-connection=remote-ejb-connection-2:remove
+
+# Remove the security realms with the secret (password base64) values for the server communication
+/host=master/core-service=management/security-realm=ejb-security-realm-1:remove()
+/host=master/core-service=management/security-realm=ejb-security-realm-2:remove()
+
+# Remove the alias for app2 bean
+/profile=full/subsystem=naming/binding=java\:global\/AliasAppTwo:remove()
+
+# Remove server and server-groups
+/server-group=quickstart-ejb-multi-appWeb-server:remove()
+/host=master/server-config=app-web:remove()
+/profile=default-web/subsystem=remoting:remove()
+/server-group=quickstart-ejb-multi-main-server:remove()
+/host=master/server-config=app-main:remove()
+/server-group=quickstart-ejb-multi-appOne-server:remove()
+/host=master/server-config=app-oneA:remove()
+/host=master/server-config=app-oneB:remove()
+/server-group=quickstart-ejb-multi-appTwo-server:remove()
+/host=master/server-config=app-twoA:remove()
+/host=master/server-config=app-twoB:remove()
+
+
+# Remove all default subsystem profiles
+/profile=default-web/subsystem=logging:remove()
+/profile=default-web/subsystem=configadmin:remove()
+/profile=default-web/subsystem=ee:remove()
+/profile=default-web/subsystem=ejb3:remove()
+/profile=default-web/subsystem=jca:remove()
+/profile=default-web/subsystem=naming:remove()
+/profile=default-web/subsystem=security:remove()
+/profile=default-web/subsystem=threads:remove()
+/profile=default-web/subsystem=transactions:remove()
+/profile=default-web/subsystem=web:remove()
+/profile=default-web:remove()
+
+
+# Add default server groups back to the profile
+/server-group=main-server-group:add(profile=full,socket-binding-group=full-sockets)
+/server-group=main-server-group/jvm=default:add()
+
+
+/server-group=other-server-group:add(profile=full-ha,socket-binding-group=full-ha-sockets)
+
+/server-group=other-server-group/jvm=default:add()
+
+/server-group=main-server-group/jvm=default:write-attribute(name=heap-size, value=1303m)  
+/server-group=main-server-group/jvm=default:write-attribute(name=max-heap-size, value=1303m)
+/server-group=other-server-group/jvm=default:write-attribute(name=heap-size, value=1303m)  
+/server-group=other-server-group/jvm=default:write-attribute(name=max-heap-size, value=1303m)
+/server-group=main-server-group/jvm=default:write-attribute(name=heap-size, value=1303m)  
+/server-group=main-server-group/jvm=default:write-attribute(name=max-permgen-size, value=256m)
+/server-group=other-server-group/jvm=default:write-attribute(name=max-permgen-size, value=256m)
+
+# Add the default server-configs back to the profile
+/host=master/server-config=server-one:add(group=main-server-group)
+/host=master/server-config=server-two:add(group=main-server-group,socket-binding-port-offset=150)
+/host=master/server-config=server-three:add(group=other-server-group,auto-start=false,socket-binding-port-offset=250)
+
+# Run the batch commands
+run-batch
+
+
+
+
