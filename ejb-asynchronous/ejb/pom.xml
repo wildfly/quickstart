@@ -19,15 +19,15 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>jboss-as-ejb-asynchronous-ejb</artifactId>
-    <name>JBoss AS Quickstarts: Asynchronous method invocations (EJB Jar)</name>
-    <description>jboss-as-ejb-asynchronous: The application jar with an asynchronous EJB and a second EJB to demonstrate how an EJB can be used asynchronous</description>
+    <artifactId>wildfly-ejb-asynchronous-ejb</artifactId>
+    <name>WildFly Quickstarts: Asynchronous method invocations (EJB Jar)</name>
+    <description>wildfly-ejb-asynchronous: The application jar with an asynchronous EJB and a second EJB to demonstrate how an EJB can be used asynchronous</description>
     <packaging>ejb</packaging>
     
     <parent>
-        <groupId>org.jboss.as.quickstarts</groupId>
-        <artifactId>jboss-as-ejb-asynchronous</artifactId>
-        <version>7.1.2-SNAPSHOT</version>
+        <groupId>org.wildfly.quickstarts</groupId>
+        <artifactId>wildfly-ejb-asynchronous</artifactId>
+        <version>8.0.0-SNAPSHOT</version>
     </parent>
 
     <licenses>
@@ -41,7 +41,7 @@
     <dependencies>
         <dependency>
             <groupId>org.jboss.spec.javax.ejb</groupId>
-            <artifactId>jboss-ejb-api_3.1_spec</artifactId>
+            <artifactId>jboss-ejb-api_3.2_spec</artifactId>
             <scope>provided</scope>
         </dependency>
     </dependencies>
@@ -64,11 +64,11 @@
                 </configuration>
             </plugin>
             
-            <!-- JBoss AS plugin to deploy jar -->
+            <!-- WildFly plugin to deploy jar -->
             <plugin>
-                <groupId>org.jboss.as.plugins</groupId>
-                <artifactId>jboss-as-maven-plugin</artifactId>
-                <version>${version.jboss.maven.plugin}</version>
+                <groupId>org.wildfly.plugins</groupId>
+                <artifactId>wildfly-maven-plugin</artifactId>
+                <version>${version.wildfly.maven.plugin}</version>
                 <configuration>
                     <filename>${project.build.finalName}.jar</filename>
                     <skip>false</skip>

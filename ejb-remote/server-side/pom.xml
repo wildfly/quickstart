@@ -19,13 +19,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
  
-    <groupId>org.jboss.as.quickstarts</groupId>
-    <artifactId>jboss-as-ejb-remote-server-side</artifactId>
-    <version>7.1.2-SNAPSHOT</version>
+    <groupId>org.wildfly.quickstarts</groupId>
+    <artifactId>wildfly-ejb-remote-server-side</artifactId>
+    <version>8.0.0-SNAPSHOT</version>
     <packaging>ejb</packaging>
-    <name>JBoss AS Quickstarts: Server side of remote EJB</name>
+    <name>WildFly Quickstarts: Server side of remote EJB</name>
 
-    <url>http://jboss.org/jbossas</url>
+    <url>http://wildfly.org</url>
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
@@ -42,14 +42,10 @@
 
         <!-- JBoss dependency versions -->
         
-        <version.jboss.maven.plugin>7.3.Final</version.jboss.maven.plugin>
+        <version.wildfly.maven.plugin>1.0.0.Final</version.wildfly.maven.plugin>
         
-        <version.jboss.spec.javaee.6.0>3.0.2.Final</version.jboss.spec.javaee.6.0>
-        <!-- Alternatively, comment out the above line, and un-comment the 
-            line below to use version 3.0.2.Final-redhat-2 which is a release certified 
-            to work with JBoss EAP 6. It requires you have access to the JBoss EAP 6 
-            maven repository. -->
-        <!-- <version.jboss.spec.javaee.6.0>3.0.2.Final-redhat-2</version.jboss.spec.javaee.6.0> -->
+        <version.jboss.spec.javaee.7.0>1.0.0.Final</version.jboss.spec.javaee.7.0>
+
 
         <!-- other plugin versions -->
         <version.compiler.plugin>2.3.1</version.compiler.plugin>
@@ -62,18 +58,18 @@
 
     <dependencyManagement>
         <dependencies>
-            <!-- Define the version of JBoss' Java EE 6 APIs we want to use -->
-            <!-- JBoss distributes a complete set of Java EE 6 APIs including 
+            <!-- Define the version of JBoss' Java EE 7 APIs we want to use -->
+            <!-- JBoss distributes a complete set of Java EE 7 APIs including
                 a Bill of Materials (BOM). A BOM specifies the versions of a "stack" (or 
                 a collection) of artifacts. We use this here so that we always get the correct 
-                versions of artifacts. Here we use the jboss-javaee-6.0 stack (you can
-                read this as the JBoss stack of the Java EE 6 APIs). You can actually
-                use this stack with any version of JBoss AS that implements Java EE 6, not 
-                just JBoss AS 7! -->
+                versions of artifacts. Here we use the jboss-javaee-7.0 stack (you can
+                read this as the JBoss stack of the Java EE 7 APIs). You can actually
+                use this stack with any version of WildFly that implements Java EE 7, not
+                just WildFly 8! -->
             <dependency>
                 <groupId>org.jboss.spec</groupId>
-                <artifactId>jboss-javaee-6.0</artifactId>
-                <version>${version.jboss.spec.javaee.6.0}</version>
+                <artifactId>jboss-javaee-7.0</artifactId>
+                <version>${version.jboss.spec.javaee.7.0}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -83,17 +79,17 @@
     <dependencies>
 
         <!-- Import the Common Annotations API (JSR-250), we use provided scope
-            as the API is included in JBoss AS 7 -->
+            as the API is included in JBoss WildFly -->
         <dependency>
             <groupId>org.jboss.spec.javax.annotation</groupId>
-            <artifactId>jboss-annotations-api_1.1_spec</artifactId>
+            <artifactId>jboss-annotations-api_1.2_spec</artifactId>
             <scope>provided</scope>
         </dependency>
 
-        <!-- Import the EJB 3.1 API, we use provided scope as the API is included in JBoss AS 7 -->
+        <!-- Import the EJB 3.1 API, we use provided scope as the API is included in JBoss WildFly -->
         <dependency>
             <groupId>org.jboss.spec.javax.ejb</groupId>
-            <artifactId>jboss-ejb-api_3.1_spec</artifactId>
+            <artifactId>jboss-ejb-api_3.2_spec</artifactId>
             <scope>provided</scope>
         </dependency>
 
@@ -103,11 +99,11 @@
         <!-- Set the name of the deployment -->
         <finalName>${project.artifactId}</finalName>
         <plugins>
-            <!-- JBoss AS plugin to deploy the application -->
+            <!-- WildFly plugin to deploy the application -->
             <plugin>
-                <groupId>org.jboss.as.plugins</groupId>
-                <artifactId>jboss-as-maven-plugin</artifactId>
-                <version>${version.jboss.maven.plugin}</version>
+                <groupId>org.wildfly.plugins</groupId>
+                <artifactId>wildfly-maven-plugin</artifactId>
+                <version>${version.wildfly.maven.plugin}</version>
                 <configuration>
                     <filename>${project.build.finalName}.jar</filename>
                 </configuration>

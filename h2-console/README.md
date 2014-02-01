@@ -3,16 +3,16 @@ h2-console: Example Using the H2 Console with JBoss
 Author: Pete Muir
 Level: Beginner
 Technologies: H2
-Summary: Shows how to use the H2 console with JBoss AS
-Target Product: EAP
-Source: <https://github.com/jboss-jdf/jboss-as-quickstart/>
+Summary: Shows how to use the H2 console with WildFly
+Target Project: WildFly
+Source: <https://github.com/wildfly/quickstart/>
 
 What is it?
 -----------
 
-JBoss AS bundles H2 as an in-memory, in-process database. H2 is written in Java so can run on any platform JBoss AS runs.
+WildFly bundles H2 as an in-memory, in-process database. H2 is written in Java so can run on any platform WildFly runs.
 
-This is quickstart shows you how to use the H2 console with JBoss Enterprise Platform 6 or JBoss AS 7. It uses the `greeter` quickstart as a GUI for entering data.
+This is quickstart shows you how to use the H2 console with JBoss WildFly. It uses the `greeter` quickstart as a GUI for entering data.
 
 
 System requirements
@@ -20,7 +20,7 @@ System requirements
 
 All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven 3.0 or better.
 
-The application this project produces is designed to be run on JBoss Enterprise Application Platform 6 or JBoss AS 7. 
+The application this project produces is designed to be run on JBoss WildFly.
  
 
 Configure Maven
@@ -34,15 +34,15 @@ Prerequisites
 
 This quickstart depends on the deployment of the 'greeter' quickstart. Before running this quickstart, see the [greeter README](../greeter/README.md) file for details on how to deploy it.
 
-You can verify the deployment of the `greeter` quickstart by accessing the following URL: <http://localhost:8080/jboss-as-greeter> 
+You can verify the deployment of the `greeter` quickstart by accessing the following URL: <http://localhost:8080/wildfly-greeter>
 
-Note: Unlike most of the quickstarts, this one requires JBoss AS 7.1.x or later.
+Note: Unlike most of the quickstarts, this one requires JBoss WildFly.1.x or later.
 
 
 Deploy the H2 Console
 ------------------------
 
-This quickstart comes bundled with a version of the H2 Console built for JBoss Enterprise Application Platform 6 and JBoss AS 7. The changes that have been made to the stock console are described below. 
+This quickstart comes bundled with a version of the H2 Console built for JBoss WildFly. The changes that have been made to the stock console are described below.
 
 Deploy the console by copying the `QUICKSTART_HOME/h2-console/h2console.war` to the `$JBOSS_HOME/standalone/deployments` directory. 
 
@@ -70,8 +70,8 @@ Take a look at the data added by the `greeter` application. Run the following SQ
 You should see the two users seeded by the `greeter` quickstart, plus any users you added when testing that application.
 
 
-Changes to the H2 Console for JBoss Enterprise Application Platform 6 and JBoss AS 7
+Changes to the H2 Console for JBoss WildFly
 ----------------------------------------
 
-To make the H2 console run on JBoss Enterprise Application Platform 6 and JBoss AS 7, the H2 libraries were removed from the WAR and a dependency on the H2 module was added to the META-INF/MANIFEST.MF fle. The rebuilt console is provided with this quickstart.
+To make the H2 console run on JBoss WildFly, the H2 libraries were removed from the WAR and a dependency on the H2 module was added to the META-INF/MANIFEST.MF fle. The rebuilt console is provided with this quickstart.
 

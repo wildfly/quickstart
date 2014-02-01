@@ -4,8 +4,8 @@ Author: Burr Sutter, Martin Gencur
 Level: Intermediate
 Technologies: Infinispan, CDI
 Summary: Shows how to use Infinispan in clustered mode, with expiration enabled.
-Target Product: JDG
-Source: <https://github.com/infinispan/jdg-quickstart>
+Target Product: WildFly
+Source: <https://github.com/wildfly/quickstart>
 
 What is it?
 -----------
@@ -17,9 +17,9 @@ Infinispan is configured in clustered distributed mode with synchronous replicat
 and are removed from the cache after 60 seconds since last update.
 
 HelloWorld-JDG example works in _Library mode_. In this mode, the application and the data grid are running in the same
-JVM. All libraries (JAR files) are bundled with the application and deployed to JBoss Enterprise Application Platform 6
-or JBoss AS 7.  The library usage mode only allows local access to a single node in a distributed cluster. This usage
-mode gives the application access to data grid functionality within a virtual machine in the container being used.
+JVM. All libraries (JAR files) are bundled with the application and deployed to JBoss WildFly. The library usage mode
+only allows local access to a single node in a distributed cluster. This usage mode gives the application access to
+data grid functionality within a virtual machine in the container being used.
 
 
 System requirements
@@ -27,7 +27,7 @@ System requirements
 
 All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven 3.0 or better.
 
-The application this project produces is designed to be run on JBoss Enterprise Application Platform 6 or JBoss AS 7. 
+The application this project produces is designed to be run on JBoss WildFly.
 
  
 Configure Maven
@@ -36,24 +36,24 @@ Configure Maven
 If you have not yet done so, you must [Configure Maven](../README.md#mavenconfiguration) before testing the quickstarts.
 
 
-Start first instance of JBoss Enterprise Application Platform 6 or JBoss AS 7
+Start first instance of JBoss WildFly
 -----------------------------------------------------------------------------
 
 1. Open a command line and navigate to the root of the JBoss server directory.
 2. The following shows the command line to start the server with the web profile:
 
-        For Linux:   JBOSS_HOME/bin/standalone.sh
-        For Windows: JBOSS_HOME\bin\standalone.bat
+        For Linux:   JBOSS_HOME/bin/standalone.sh -Djboss.node.name=nodeOne
+        For Windows: JBOSS_HOME\bin\standalone.bat -Djboss.node.name=nodeOne
 
-Start second instance of JBoss Enterprise Application Platform 6 or JBoss AS 7
+Start second instance of JBoss WildFly
 ------------------------------------------------------------------------------
 
 1. Make a second copy of the JBoss Server
 2. Open a command line and navigate to the root of the second JBoss server directory.
 3. Start the server with pre-configured port offset so that the server can run on the same host
 
-        For Linux:   JBOSS_HOME2/bin/standalone.sh -Djboss.socket.binding.port-offset=100
-        For Windows: JBOSS_HOME2\bin\standalone.bat -Djboss.socket.binding.port-offset=100
+        For Linux:   JBOSS_HOME/bin/standalone.sh -Djboss.node.name=nodeTwo -Djboss.socket.binding.port-offset=100
+        For Windows: JBOSS_HOME\bin\standalone.bat -Djboss.node.name=nodeTwo -Djboss.socket.binding.port-offset=100
 
  
 Build and Deploy the Quickstart
@@ -67,14 +67,14 @@ for complete instructions and additional options._
 2. Open a command line and navigate to the root directory of this quickstart.
 3. Type this command to build and deploy the archive to the first server:
 
-        mvn clean package jboss-as:deploy
+        mvn clean package wildfly:deploy
 
-4. This will deploy `target/jboss-as-helloworld-jdg.war` to the first running instance of the server.
+4. This will deploy `target/wildfly-helloworld-jdg.war` to the first running instance of the server.
 5. Type this command to build and deploy the archive to the second server (running on different ports):
 
-        mvn clean package jboss-as:deploy -Djboss-as.port=10099
+        mvn clean package wildfly:deploy -Dwildfly.port=10090
 
-6. This will deploy `target/jboss-as-helloworld-jdg.war` to the second running instance of the server.
+6. This will deploy `target/wildfly-helloworld-jdg.war` to the second running instance of the server.
 
 
 Access the application 
@@ -82,18 +82,18 @@ Access the application
 
 The application will be running at the following URLs:
 
-   <http://localhost:8080/jboss-as-helloworld-jdg>  (first server instance)
-   <http://localhost:8180/jboss-as-helloworld-jdg>  (second server instance)
+   <http://localhost:8080/wildfly-helloworld-jdg>  (first server instance)
+   <http://localhost:8180/wildfly-helloworld-jdg>  (second server instance)
 
 You can test replication of entries in the following way:
 
-1. Access first server at <http://localhost:8080/jboss-as-helloworld-jdg> and insert key "foo" with value "bar"
-2. Access second server at <http://localhost:8180/jboss-as-helloworld-jdg> and do the following:
+1. Access first server at <http://localhost:8080/wildfly-helloworld-jdg> and insert key "foo" with value "bar"
+2. Access second server at <http://localhost:8180/wildfly-helloworld-jdg> and do the following:
    * Click on "Get Some"
    * Get the value for key "foo"
    * Click "Put Some More"
    * Insert key "mykey" with value "myvalue"
-3. Access the first server at <http://localhost:8080/jboss-as-helloworld-jdg> and do the following:
+3. Access the first server at <http://localhost:8080/wildfly-helloworld-jdg> and do the following:
    * Click on "Get Some"
    * Get all mappings by clicking on "Get All"
 4. All data entered on each server was replicated to the other server
@@ -102,8 +102,8 @@ NOTE: Entries expire and simply disappear after 60 seconds from last update.
 
 To access predefined servlets and directly store/retrieve a key in the cache, access the following URLs:
 
-<http://localhost:8080/jboss-as-helloworld-jdg/TestServletPut>
-<http://localhost:8180/jboss-as-helloworld-jdg/TestServletGet>  (note the different port 8180)
+<http://localhost:8080/wildfly-helloworld-jdg/TestServletPut>
+<http://localhost:8180/wildfly-helloworld-jdg/TestServletGet>  (note the different port 8180)
 
 
 Undeploy the Archive
@@ -113,8 +113,8 @@ Undeploy the Archive
 2. Open a command line and navigate to the root directory of this quickstart.
 3. When you are finished testing, type this command to undeploy the archive from both running servers:
 
-        mvn jboss-as:undeploy
-        mvn jboss-as:undeploy -Ddeploy.port=10099
+        mvn wildfly:undeploy
+        mvn wildfly:undeploy -wildfly.port=10090
 
 
 Run the Quickstart in JBoss Developer Studio or Eclipse

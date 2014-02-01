@@ -1,4 +1,4 @@
-Getting started with JBoss Enterprise Application Platform or JBoss AS 7
+Getting started with JBoss WildFly
 ========================================================================
 :Author: Pete Muir
 
@@ -12,7 +12,7 @@ If you already have any of these pieces of software, there is no need to
 install them again!
 ========================================================================
 
-Java 1.6, to run JBoss AS and Maven::
+Java 1.6, to run WildFly and Maven::
   Choose your Java runtime, and follow their installation instructions. For example, you could choose one of:
 
   * link:http://openjdk.java.net/install/[OpenJDK]
@@ -21,31 +21,21 @@ Java 1.6, to run JBoss AS and Maven::
 Maven 3, to build and deploy the quickstarts::
   Follow the official Maven installation guide if you don't already have Maven 3 installed. You can check which version of Maven you have installed (if any) by running `mvn --version` . If you see a version newer than 3.0.0, you are ready to go. 
 
-Now, you need to choose either JBoss Enterprise Application Platform 6 or JBoss AS 7. If you choose JBoss Enterprise Application Platform 6, make sure you have:
-
-The JBoss Enterprise Application Platform 6 runtime::
-  TODO
-
-The JBoss Enterprise Application Platform 6 quickstarts::
-  TODO
-
-If you choose JBoss AS 7, make sure you have:
-
-The JBoss AS 7 runtime::
-  Download JBoss AS 7 from the link:http://jboss.org/jbossas/downloads[JBoss AS download page]
-The JBoss AS quickstarts::
-  Available from link:http://jboss.org/jdf/quickstarts/get-started[JBoss Developer Framework]
+The JBoss WildFly runtime::
+  Download JBoss WildFly from the link:http://wildfly.org/downloads/[WildFly download page]
+The WildFly quickstarts::
+  Available from link:https://github.com/wildfly/quickstart[WildFly Quickstarts]
 
 If you wish to use the examples from an IDE, we recommend using JBoss Developer Studio, or Eclipse with JBoss Tools.
 
 JBoss Developer Studio::
-  Download JBDS from link:http://devstudio.jboss.com/download/[]. JBDS includes JBoss Enterprise Application Platform.
+  Download JBDS from link:http://devstudio.jboss.com/download/[].
 Eclipse, with JBoss Tools::
   Download JBoss Tools from link:http://jboss.org/tools[]. Make sure you install m2eclipse as well.
 
 [TIP]
 ========================================================================
-JBoss Enterprise Application Platform 6 and JBoss AS 7 offer the 
+JBoss WildFly offer the
 ability to manage multiple AS instances from a single control point. 
 A collection of such servers are referred to as members of a "domain",
 with a single Domain Controller process acting as the management control
@@ -55,7 +45,7 @@ process. The Host Controllers interact with the Domain Controller to
 control the lifecycle of the AS instances running on that host and to 
 assist the Domain Controller in managing them.
 
-JBoss AS 7 also offers a standalone mode, which is perfect for a single 
+JBoss WildFly also offers a standalone mode, which is perfect for a single
 server. We use this throughout the quickstarts.
 ========================================================================
 
@@ -75,30 +65,30 @@ You should see a version string (at least `1.6.0`) printed. If not, contact your
 
 You should see a version string (at lest `3.0.0`) printed. If not, contact the Maven community for assistance. 
 
-Next, we need to choose a location for JBoss AS to live. By default, JBoss AS 7 will be extracted into `jboss-as-7.x.x.x` (where `7.x.x.x` matches the version you downloaded): 
+Next, we need to choose a location for WildFly to live. By default, WildFly will be extracted into `wildfly-8.x.x.x` (where `7.x.x.x` matches the version you downloaded):
 
-    unzip jboss-as-7.x.x.x.zip
+    unzip wildfly-8.x.x.x.zip
 
-Now, let's start JBoss AS in standalone mode:
+Now, let's start WildFly in standalone mode:
 
-    jboss-as-7.x.x.x/bin/standalone.sh
+    wildfly-8.x.x.x/bin/standalone.sh
 
 
 [TIP]
 ========================================================================
-If you want to stop JBoss AS, simply press Crtl-C whilst the terminal 
+If you want to stop WildFly, simply press Crtl-C whilst the terminal
 has focus. 
 ========================================================================
 
-That's it, JBoss AS is installed and running! Visit http://localhost:8080/ to check the server has started properly. 
+That's it, WildFly is installed and running! Visit http://localhost:8080/ to check the server has started properly.
 
 
 [TIP]
 ========================================================================
 You can find the server log for standalone instances in 
-`jboss-as-7.x.x.x/standalone/log/server.log`. The 
+`wildfly-8.x.x.x/standalone/log/server.log`. The
 link:http://docs.redhat.com/docs/en-US/JBoss_Enterprise_Application_Platform/6/html/Administration_and_Configuration_Guide/index.html[Administration and Configuration Guide for JBoss Enterprise Application Platform 6] or the
-link:https://docs.jboss.org/author/display/AS71/Getting+Started+Guide[Getting Started Guide for JBoss AS 7] 
+link:https://docs.jboss.org/author/display/AS71/Getting+Started+Guide[Getting Started Guide for JBoss WildFly]
 covers more on configuring logging. 
 ========================================================================
 
@@ -118,9 +108,9 @@ You should see a version string (at least `1.6.0`) printed. If not, contact your
 
 You should see a version string (at lest `3.0.0`) printed. If not, contact the Maven community for assistance. 
 
-Next, we need to choose a location for JBoss Enterprise Application Platform 6 or JBoss AS to live. By default, JBoss AS 7 will be extracted into `jboss-as-7.x.x.x` (where `7.x.x.x` matches the version you downloaded). Unzip JBoss Enterprise Application Platform or JBoss AS 7 using your tool of choice. 
+Next, we need to choose a location for JBoss WildFly to live. By default, JBoss WildFly will be extracted into `wildfly-8.x.x.x` (where `7.x.x.x` matches the version you downloaded). Unzip JBoss Enterprise Application Platform or JBoss WildFly using your tool of choice.
 
-Finally, let's start JBoss Enterprise Application Platform or JBoss AS 7 in standalone mode. Locate your installation and run `standalone.bat` located in `bin`.
+Finally, let's start JBoss WildFly in standalone mode. Locate your installation and run `standalone.bat` located in `bin`.
 
 
 [TIP]
@@ -129,15 +119,15 @@ If you want to stop the server, simply press Crtl-C whilst the terminal
 has focus. 
 ========================================================================
 
-That's it, JBoss Enterprise Application Platform 6 or JBoss AS 7 is installed and running! Visit http://localhost:8080/ to check the server has started properly. 
+That's it, JBoss WildFly is installed and running! Visit http://localhost:8080/ to check the server has started properly.
 
 
 [TIP]
 ========================================================================
 You can find the server log for standalone instances in 
-`jboss-as-7.x.x.x/standalone/log/server.log`. The 
+`wildfly-8.x.x.x/standalone/log/server.log`. The
 link:http://docs.redhat.com/docs/en-US/JBoss_Enterprise_Application_Platform/6/html/Administration_and_Configuration_Guide/index.html[Administration and Configuration Guide for JBoss Enterprise Application Platform 6] or the
-link:https://docs.jboss.org/author/display/AS71/Getting+Started+Guide[Getting Started Guide for JBoss AS 7] 
+link:https://docs.jboss.org/author/display/AS71/Getting+Started+Guide[Getting Started Guide for JBoss WildFly]
 covers more on configuring logging.
 ========================================================================
 
@@ -146,9 +136,9 @@ Starting the JBoss server from JBDS or Eclipse with JBoss Tools
 ---------------------------------------------------------------
 [[GettingStarted-with_jboss_tools]]
 
-You may choose to use JBoss Developer Studio, or Eclipse with JBoss Tools, rather than the command line to run JBoss Enterprise Application Platform 6 or JBoss AS 7, and to deploy the quickstarts. If you don't wish to use Eclipse, you should skip this section.
+You may choose to use JBoss Developer Studio, or Eclipse with JBoss Tools, rather than the command line to run JBoss WildFly, and to deploy the quickstarts. If you don't wish to use Eclipse, you should skip this section.
 
-Make sure you have installed and started JBoss Developer Studio or Eclipse. First, we need to add our JBoss AS instance to it. First, navigate to _Preferences_:
+Make sure you have installed and started JBoss Developer Studio or Eclipse. First, we need to add our WildFly instance to it. First, navigate to _Preferences_:
 
 image:gfx/Eclipse_Detect_Servers_1.png[]
 
@@ -225,22 +215,22 @@ image:gfx/Import_Quickstarts_5.jpg[]
 It will take a short time to import the projects, as Maven needs to download the project's dependencies from remote repositories.
 
 
-Managing JBoss Enterprise Application Platform 6 or JBoss AS 7
+Managing JBoss WildFly
 --------------------------------------------------------------
 
-Here we will quickly outline how you can access both the command line interface and the web management interface for managing JBoss Enterprise Application Platform 6 or JBoss AS 7. Detailed information for both can be found in the link:http://docs.redhat.com/docs/en-US/JBoss_Enterprise_Application_Platform/6/html/Administration_and_Configuration_Guide/index.html[Administration and Configuration Guide for JBoss Enterprise Application Platform 6] or the link:https://docs.jboss.org/author/display/AS71/Admin+Guide[Admin Guide for JBoss AS 7].
+Here we will quickly outline how you can access both the command line interface and the web management interface for managing JBoss WildFly. Detailed information for both can be found in the link:http://docs.redhat.com/docs/en-US/JBoss_Enterprise_Application_Platform/6/html/Administration_and_Configuration_Guide/index.html[Administration and Configuration Guide for JBoss Enterprise Application Platform 6] or the link:https://docs.jboss.org/author/display/AS71/Admin+Guide[Admin Guide for JBoss WildFly].
 
 When the server is running, the web management interface can be accessed at http://localhost:9990/console. You can use the web management interface to create datasources, manage deployments and configure the server. 
 
-JBoss Enterprise Application Platform 6 and JBoss AS 7 also comes with a command line interface. To run it on Linux, Unix or Mac, execute:
+JBoss WildFly also comes with a command line interface. To run it on Linux, Unix or Mac, execute:
 
-    jboss-as-7.x.x.x/bin/jboss-admin.sh --connect
+    wildfly-8.x.x.x/bin/jboss-admin.sh --connect
 
 Or, on Windows:
 
-    jboss-as-7.x.x.x/bin/jboss-admin.bat --connect
+    wildfly-8.x.x.x/bin/jboss-admin.bat --connect
 
 Once started, type help to discover the commands available to you. 
 
-Throughout this guide we use the `jboss-as` maven plugin to deploy and undeploy applications. This plugin uses the Native Java Detyped Management API to communicate with the server. The Detyped API is used by management tools to control an entire domain of servers, and exposes only a small number of types, allowing for backwards and forwards compatibility. 
+Throughout this guide we use the `wildfly` maven plugin to deploy and undeploy applications. This plugin uses the Native Java Detyped Management API to communicate with the server. The Detyped API is used by management tools to control an entire domain of servers, and exposes only a small number of types, allowing for backwards and forwards compatibility.
 

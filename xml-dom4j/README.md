@@ -4,13 +4,13 @@ Author: Bartosz Baranowski
 Level: Intermediate
 Technologies: DOM4J, Servlet, JSF
 Summary: Demonstrates how to upload an XML file and parse it using 3rd party XML parsing libraries
-Target Product: EAP
-Source: <https://github.com/jboss-jdf/jboss-as-quickstart/>
+Target Project: WildFly
+Source: <https://github.com/wildfly/quickstart/>
 
 What is it?
 -----------
 
-This is a simple JSF 2.0, Servlet 3.0 and DOM4J example. Its purpose is to demonstrate how you can use Servlet and JSF to upload an XML file to *JBoss AS7* and parse it using 3rd party XML parsing library.
+This is a simple JSF 2.0, Servlet 3.0 and DOM4J example. Its purpose is to demonstrate how you can use Servlet and JSF to upload an XML file to *JBoss WildFly* and parse it using 3rd party XML parsing library.
 
 It shows how to include 3rd part library in deployment.
  
@@ -19,7 +19,7 @@ System requirements
 
 All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven 3.0 or better.
 
-The application this project produces is designed to be run on JBoss Enterprise Application Platform 6 or JBoss AS 7. 
+The application this project produces is designed to be run on JBoss WildFly.
 
  
 Configure Maven
@@ -28,7 +28,7 @@ Configure Maven
 If you have not yet done so, you must [Configure Maven](../README.md#mavenconfiguration) before testing the quickstarts.
 
 
-Start JBoss Enterprise Application Platform 6 or JBoss AS 7 with the Web Profile
+Start JBoss WildFly with the Web Profile
 -------------------------
 
 1. Open a command line and navigate to the root of the JBoss server directory.
@@ -47,15 +47,15 @@ _NOTE: The following build command assumes you have configured your Maven user s
 2. Open a command line and navigate to the root directory of this quickstart.
 3. Type this command to build and deploy the archive:
 
-        mvn clean package jboss-as:deploy
+        mvn clean package wildfly:deploy
 
-4. This will deploy `target/jboss-as-xml-dom4j.war` to the running instance of the server.
+4. This will deploy `target/wildfly-xml-dom4j.war` to the running instance of the server.
 
 
 Access the application 
 ---------------------
 
-The application will be running at the following URL: <http://localhost:8080/jboss-as-xml-dom4j/>.
+The application will be running at the following URL: <http://localhost:8080/wildfly-xml-dom4j/>.
 
 
 Undeploy the Archive
@@ -65,7 +65,7 @@ Undeploy the Archive
 2. Open a command line and navigate to the root directory of this quickstart.
 3. When you are finished testing, type this command to undeploy the archive:
 
-        mvn jboss-as:undeploy
+        mvn wildfly:undeploy
 
 
 Run the Quickstart in JBoss Developer Studio or Eclipse

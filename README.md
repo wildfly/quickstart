@@ -1,12 +1,12 @@
 WildFly Quickstarts
 ====================
-Summary: The quickstarts demonstrate Java EE 6 and a few additional technologies from the JBoss stack. They provide small, specific, working examples that can be used as a reference for your own project.
+Summary: The quickstarts demonstrate Java EE 7 and a few additional technologies from the JBoss stack. They provide small, specific, working examples that can be used as a reference for your own project.
 
 Introduction
 ---------------------
 
 
-These quickstarts run on both JBoss Enterprise Application Platform 6 and JBoss AS 7. If you want to run the quickstarts on JBoss Enterprise Application Platform 6, we recommend using the JBoss Enterprise Application Platform 6 ZIP file. This version uses the correct dependencies and ensures you test and compile against your runtime environment. 
+These quickstarts run on JBoss WildFly. This version uses the correct dependencies and ensures you test and compile against your runtime environment.
 
 Be sure to read this entire document before you attempt to work with the quickstarts. It contains the following information:
 
@@ -34,7 +34,7 @@ The following is a list of the currently available quickstarts. The table lists 
 
 Some quickstarts are designed to enhance or extend other quickstarts. These are noted in the **Prerequisites** column. If a quickstart lists prerequisites, those must be installed or deployed before working with the quickstart.
 
-Quickstarts with tutorials in the [Get Started Developing Applications](http://www.jboss.org/jdf/quickstarts/jboss-as-quickstart/guide/Introduction/ "Get Started Developing Applications") are noted with two asterisks ( ** ) following the quickstart name. 
+Quickstarts with tutorials in the [Get Started Developing Applications](https://github.com/wildfly/quickstart/guide/Introduction/ "Get Started Developing Applications") are noted with two asterisks ( ** ) following the quickstart name.
 
 [TOC-quickstart]
 
@@ -55,7 +55,7 @@ System Requirements
 
 To run these quickstarts with the provided build scripts, you need the following:
 
-1. Java 1.6, to run JBoss AS and Maven. You can choose from the following:
+1. Java 1.6, to run WildFly and Maven. You can choose from the following:
     * OpenJDK
     * Oracle Java SE
     * Oracle JRockit
@@ -66,7 +66,7 @@ To run these quickstarts with the provided build scripts, you need the following
 
             mvn --version 
 
-3. The JBoss Enterprise Application Platform 6 distribution ZIP or the JBoss AS 7 distribution ZIP.
+3. The JBoss WildFly distribution ZIP.
     * For information on how to install and run JBoss, refer to the product documentation.
 
 4. You can also use [JBoss Developer Studio or Eclipse](#useeclipse) to run the quickstarts. 
@@ -76,39 +76,16 @@ To run these quickstarts with the provided build scripts, you need the following
 Configure Maven 
 -------------
 
-Maven configuration is dependent on whether you are using the JBoss Enterprise Application Platform 6 product version of the quickstarts or the JBoss AS7 community version of the quickstarts.
+<a id="wildflymavenconfig"></a>
+### Configure Maven for JBoss WildFly
 
-<a id="eap6mavenconfig"></a>
-### Configure Maven for JBoss Enterprise Application Platform 6 
-
-If you are using the JBoss Enterprise Application Platform 6 distribution, you need to download and configure the Maven repository.
-
-1. Download the JBoss Enterprise Application Platform 6 Maven repository distribution ZIP and unzip it into a directory of your choice.
-
-2. Modify the `example-settings.xml` file located in the root of your quickstarts folder. 
-    * Replace all instances of `path/to/jboss-eap/repo` within `file:///path/to/jboss-eap/repo` with the fully qualified path to the Maven repository you unzipped in the previous step.
-    * Be sure to use 3 forward slashes after `file:`: 2 for the protocol and 1 for the fully qualified path. For example:
-
-            file:///home/username/Quickstarts/jboss-eap-6.0-quickstarts
-3. Configure the Maven user settings. 
-    * Look for the `settings.xml` file in the `${user.home}/.m2/` directory. For example:
-
-            For Linux or Mac:   ~/.m2/settings.xml
-            For Windows: \Documents and Settings\USER_NAME\.m2\settings.xml or \Users\USER_NAME\.m2\settings.xml
-    * If you have an existing `settings.xml` file, modify it with the configuration information from the `example-settings.xml` file.
-    * If there is no `settings.xml` file, copy the modified `example-settings.xml` file to the `m2` directory for your operating system and rename it to `settings.xml`.
-
-
-<a id="as7mavenconfig"></a>
-### Configure Maven for JBoss AS 7
-
-If you are using the JBoss AS 7 Quickstart distribution, the community artifacts are available in the Maven central repository so no additional configuration is needed.
+If you are using the JBoss WildFly Quickstart distribution, the community artifacts are available in the Maven central repository so no additional configuration is needed.
 
 ### Maven Profiles
 
 Profiles are used by Maven to customize the build environment. The `pom.xml` in the root of the quickstart directory defines the following profiles:
 
-* The `default` profile defines the list of modules or quickstarts that require nothing but JBoss Enterprise Application Platform or JBoss AS .
+* The `default` profile defines the list of modules or quickstarts that require nothing but JBoss Enterprise Application Platform or WildFly .
 * The `requires-postgres` profile lists the quickstarts that require PostgreSQL to be running when the quickstart is deployed.
 * The `complex-dependency` profile lists quickstarts that require manual configuration that can not be automated.
 * The `requires-full` profile lists quickstarts the require you start the server using the full profile.
@@ -127,7 +104,7 @@ The root folder of each individual quickstart contains a README file with specif
 
 
 <a id="startjboss"></a>
-### Start the JBoss Enterprise Application Platform 6 or JBoss AS 7 Server
+### Start the JBoss WildFly Server
 
 Before you deploy a quickstart, in most cases you need a running server. A few of the Arquillian tests do not require a running server. This will be noted in the README for that quickstart. 
 
@@ -140,7 +117,7 @@ The JBoss server can be started a few different ways.
 The README for each quickstart will specify which configuration is required to run the example.
 
 <a id="startserverweb"></a>
-#### Start JBoss Enterprise Application Platform 6 or JBoss AS 7 with the Web Profile
+#### Start JBoss WildFly with the Web Profile
 
 1. Open a command line and navigate to the root of the JBoss server directory.
 2. The following shows the command line to start the server with the web profile:
@@ -149,7 +126,7 @@ The README for each quickstart will specify which configuration is required to r
         For Windows: JBOSS_HOME\bin\standalone.bat
 
 <a id="startserverfull"></a>
-#### Start JBoss Enterprise Application Platform 6 or JBoss AS 7 with the Full Profile
+#### Start JBoss WildFly with the Full Profile
 
 1. Open a command line and navigate to the root of the JBoss server directory.
 2. The following shows the command line to start the server with the full profile:
@@ -158,7 +135,7 @@ The README for each quickstart will specify which configuration is required to r
         For Windows: JBOSS_HOME\bin\standalone.bat -c standalone-full.xml
 
 <a id="startservercustom"></a>
-#### Start JBoss Enterprise Application Platform 6 or JBoss AS 7 with Custom Configuration Options
+#### Start JBoss WildFly with Custom Configuration Options
 
 1. Open a command line and navigate to the root of the JBoss server directory.
 2. The following shows the command line to start the server. Replace the CUSTOM_OPTIONS with the custom optional parameters specified in the quickstart.
@@ -186,13 +163,13 @@ In some cases, you may want to build the application to test for compile errors 
 2. Open a command line and navigate to the root directory of the quickstart you want to run.
 3. Use this command to build and deploy the archive:
 
-            mvn clean package jboss-as:deploy
+            mvn clean package wildfly:deploy
 
 #### Undeploy an Archive
 
 The command to undeploy the quickstart is simply: 
 
-        mvn jboss-as:undeploy
+        mvn wildfly:undeploy
  
 <a id="verifyall"></a>
 ### Verify the Quickstarts Build with One Command
@@ -221,7 +198,7 @@ You can undeploy quickstarts using the following procedure:
 2. Open a command line and navigate to the root directory of the quickstarts.
 3. Use this command to undeploy any deployed quickstarts:
 
-            mvn jboss-as:undeploy -fae
+            mvn wildfly:undeploy -fae
 
 To undeploy any quickstarts that fail due to complex dependencies, follow the undeploy procedure described in the quickstart's README file.
 
@@ -237,10 +214,10 @@ You can run these tests using either a remote or managed container. The quicksta
 <a id="testremote"></a>
 
 1. Test the quickstart on a Remote Server
-    * A remote container requires you start the JBoss Enterprise Application Platform 6 or JBoss AS 7 server before running the test. [Start the JBoss Server](#startjboss) as described in the quickstart README file.
+    * A remote container requires you start the JBoss WildFly server before running the test. [Start the JBoss Server](#startjboss) as described in the quickstart README file.
     * Run the test goal with the following profile activated:
 
-            mvn clean test -Parq-jbossas-remote 
+            mvn clean test -Parq-wildfly-remote
 <a id="testmanaged"></a>
 
 2. Test the quickstart on Managed Server
@@ -249,31 +226,31 @@ You can run these tests using either a remote or managed container. The quicksta
     * Open the test/resources/arquillian.xml file located in the quickstart directory. 
     * Find the configuration for the remote JBoss container. It should look like this:
 
-            <!-- Example configuration for a remote JBoss Enterprise Application Platform 6 or AS 7 instance -->
+            <!-- Example configuration for a remote WildFly instance -->
             <container qualifier="jboss" default="true">
                 <!-- By default, arquillian will use the JBOSS_HOME environment variable.  Alternatively, the configuration below can be uncommented. -->
                 <!--<configuration> -->
-                <!--<property name="jbossHome">/path/to/jboss/as</property> -->
+                <!--<property name="jbossHome">/path/to/wildfly</property> -->
                 <!--</configuration> -->
             </container>
     * Remove the comments from the `<configuration>` elements.
 
-            <!-- Example configuration for a remote JBoss Enterprise Application Platform 6 or AS 7 instance -->
+            <!-- Example configuration for a remote WildFly instance -->
             <container qualifier="jboss" default="true">
                 <!-- By default, arquillian will use the JBOSS_HOME environment variable.  Alternatively, the configuration below can be uncommented. -->
                 <configuration>
-                    <property name="jbossHome">/path/to/jboss/as</property>
+                    <property name="jbossHome">/path/to/wildfly</property>
                 </configuration>
             </container>
-    * Find the "jbossHome" property and replace the "/path/to/jboss/as" value with the actual path to your JBoss Enterprise Application Platform 6 or JBoss AS 7 server.
+    * Find the "jbossHome" property and replace the "/path/to/wildfly" value with the actual path to your JBoss WildFly server.
     * Run the test goal with the following profile activated:
 
-            mvn clean test -Parq-jbossas-managed
+            mvn clean test -Parq-wildfly-managed
 
 <a id="useeclipse"></a>
 Use JBoss Developer Studio or Eclipse to Run the Quickstarts
 -------------------------------------
-You can also deploy the quickstarts from Eclipse using JBoss tools. For more information on how to set up Maven and the JBoss tools, refer to the [JBoss Enterprise Application Platform 6 Development Guide](https://access.redhat.com/knowledge/docs/JBoss_Enterprise_Application_Platform/) or [Get Started Developing Applications](http://www.jboss.org/jdf/quickstarts/jboss-as-quickstart/guide/Introduction/ "Get Started Developing Applications").
+You can also deploy the quickstarts from Eclipse using JBoss tools. For more information on how to set up Maven and the JBoss tools, refer to the [JBoss Enterprise Application Platform 6 Development Guide](https://access.redhat.com/knowledge/docs/JBoss_Enterprise_Application_Platform/) or [Get Started Developing Applications](https://github.com/wildfly/quickstart/guide/Introduction/ "Get Started Developing Applications").
 
 
 <a id="optionalcomponents"></a>
@@ -291,7 +268,7 @@ The following components are needed for only a small subset of the quickstarts. 
 <a id="adduser"></a>
 ### Add a Management or Application User
 
-By default, JBoss Enterprise Application Platform 6 and JBoss AS 7 are now distributed with security enabled for the management interfaces. A few of the quickstarts use these management interfaces and require that you create a management or application user to access the running application. A script is provided in the `JBOSS_HOME/bin` directory for that purpose.
+By default, JBoss WildFly is distributed with security enabled for the management interfaces. A few of the quickstarts use these management interfaces and require that you create a management or application user to access the running application. A script is provided in the `JBOSS_HOME/bin` directory for that purpose.
 
 The following procedures describe how to add a user with the appropriate permissions to run the quickstarts that depend on them.
 
@@ -515,20 +492,20 @@ You can configure the driver by running the `configure-postgres-driver.cli` scri
 
 _NOTE - Before you begin:_
 
-1. If it is running, stop the JBoss Enterprise Application Platform 6 or JBoss AS 7 Server.
+1. If it is running, stop the JBoss WildFly Server.
 2. Backup the file: `JBOSS_HOME/standalone/configuration/standalone-full.xml`
 3. After you have completed testing the quickstarts, you can replace this file to restore the server to its original configuration.
 
  
 ##### Configure the Driver By Running the JBoss CLI Script
 
-1. Start the JBoss Enterprise Application Platform 6 or JBoss AS 7 Server by typing the following: 
+1. Start the JBoss WildFly Server by typing the following:
 
         For Linux:  JBOSS_HOME_SERVER_1/bin/standalone.sh -c standalone-full.xml
         For Windows:  JBOSS_HOME_SERVER_1\bin\standalone.bat -c standalone-full.xml
 2. Open a new command line, navigate to the root directory of the quickstarts, and run the following command, replacing JBOSS_HOME with the path to your server:
 
-        JBOSS_HOME/bin/jboss-cli.sh --connect --file=configure-postgres-driver.cli 
+        JBOSS_HOME/bin/jboss-cli.sh --connect --file=configure-postgresql.cli
 This script adds the PostgreSQL driver to the datasources subsystem in the server configuration. You should see the following result when you run the script:
 
         #1 /subsystem=datasources/jdbc-driver=postgresql:add(driver-name=postgresql,driver-module-name=org.postgresql,driver-xa-datasource-class-name=org.postgresql.xa.PGXADataSource)
@@ -538,7 +515,7 @@ This script adds the PostgreSQL driver to the datasources subsystem in the serve
 
 ##### Configure the Driver Using the JBoss CLI Interactively
 
-1. Start the JBoss Enterprise Application Platform 6 or JBoss AS 7 Server by typing the following: 
+1. Start the JBoss WildFly Server by typing the following:
 
         For Linux:  JBOSS_HOME_SERVER_1/bin/standalone.sh -c standalone-full.xml
         For Windows:  JBOSS_HOME_SERVER_1\bin\standalone.bat -c standalone-full.xml
@@ -553,7 +530,7 @@ This script adds the PostgreSQL driver to the datasources subsystem in the serve
 
 ##### Configure the Driver By Manually Editing the Configuration File
 
-1.  If it is running, stop the JBoss Enterprise Application Platform 6 or JBoss AS 7 Server.
+1.  If it is running, stop the JBoss WildFly Server.
 2.  Backup the file: `JBOSS_HOME/standalone/configuration/standalone-full.xml`
 3.  Open the `JBOSS_HOME/standalone/configuration/standalone-full.xml` file in an editor and locate the subsystem `urn:jboss:domain:datasources:1.0`. 
 4.  Add the following driver to the `<drivers>` section that subsystem. You may need to merge with other drivers in that section:
@@ -569,7 +546,7 @@ When you are done testing the quickstarts, you can remove the PostgreSQL configu
 
 ##### Remove the PostgreSQL Configuration by Running the JBoss CLI Script
 
-1. Start the JBoss Enterprise Application Platform 6 or JBoss AS 7 Server by typing the following: 
+1. Start the JBoss WildFly Server by typing the following:
 
         For Linux:  JBOSS_HOME_SERVER_1/bin/standalone.sh -c standalone-full.xml
         For Windows:  JBOSS_HOME_SERVER_1\bin\standalone.bat -c standalone-full.xml
@@ -584,7 +561,7 @@ This script removes PostgreSQL from the `datasources` subsystem in the server co
 
 
 ##### Remove the PostgreSQL Configuration Manually
-1. If it is running, stop the JBoss Enterprise Application Platform 6 or JBoss AS 7 Server.
+1. If it is running, stop the JBoss WildFly Server.
 2. Replace the `JBOSS_HOME/standalone/configuration/standalone-full.xml` file with the back-up copy of the file.
 
 
@@ -635,7 +612,7 @@ When instructed to use Byteman to halt the application, perform the following st
 
     For Linux, open the `JBOSS_HOME/bin/standalone.conf` file and append the following line:
 
-        JAVA_OPTS="-javaagent:/PATH_TO_BYTEMAN_DOWNLOAD/lib/byteman.jar=script:/PATH_TO_QUICKSTARTS/jta-crash-rec/src/main/scripts/xa.btm ${JAVA_OPTS}" 
+        JAVA_OPTS="-javaagent:/Users/martins/Downloads/byteman-download-2.1.4.1/lib/byteman.jar=script:/Users/martins/wildfly/git/quickstart/jta-crash-rec/src/main/scripts/xa.btm ${JAVA_OPTS}"
     For Windows, open the `JBOSS_HOME\bin\standalone.conf.bat` file and append the following line:
 
         SET "JAVA_OPTS=%JAVA_OPTS% -javaagent:C:PATH_TO_BYTEMAN_DOWNLOAD\lib\byteman.jar=script:C:\PATH_TO_QUICKSTARTS\jta-crash-rec\src\main\scripts\xa.btm %JAVA_OPTS%"

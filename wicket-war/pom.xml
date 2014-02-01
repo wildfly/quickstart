@@ -19,12 +19,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.jboss.as.quickstarts</groupId>
-    <artifactId>jboss-as-wicket-war</artifactId>
-    <version>7.1.2-SNAPSHOT</version>
+    <groupId>org.wildfly.quickstarts</groupId>
+    <artifactId>wildfly-wicket-war</artifactId>
+    <version>8.0.0-SNAPSHOT</version>
     <packaging>war</packaging>
 
-    <name>JBoss AS Quickstarts: Wicket: WAR</name>
+    <name>WildFly Quickstarts: Wicket: WAR</name>
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
@@ -34,7 +34,7 @@
     </licenses>
 
     <description>
-        A sample JAVA EE 6 project demonstrating how to use Wicket Framework with JBoss AS 7.
+        A sample JAVA EE 6 project demonstrating how to use Wicket Framework with JBoss WildFly.
         WAR version (everything in a single .war file).
     </description>
 
@@ -48,14 +48,10 @@
 
         <!-- JBoss dependency versions -->
         
-        <version.jboss.maven.plugin>7.3.Final</version.jboss.maven.plugin>
+        <version.wildfly.maven.plugin>1.0.0.Final</version.wildfly.maven.plugin>
         
-        <version.jboss.spec.javaee.6.0>3.0.2.Final</version.jboss.spec.javaee.6.0>
-        <!-- Alternatively, comment out the above line, and un-comment the 
-            line below to use version 3.0.2.Final-redhat-2 which is a release certified 
-            to work with JBoss EAP 6. It requires you have access to the JBoss EAP 6 
-            maven repository. -->
-        <!-- <version.jboss.spec.javaee.6.0>3.0.2.Final-redhat-2</version.jboss.spec.javaee.6.0> -->
+        <version.jboss.spec.javaee.7.0>1.0.0.Final</version.jboss.spec.javaee.7.0>
+
 
         <!-- Other dependency versions -->
         <version.org.apache.wicket>1.5.5</version.org.apache.wicket>
@@ -73,18 +69,18 @@
 
     <dependencyManagement>
         <dependencies>
-            <!-- JBoss distributes a complete set of Java EE 6 APIs including 
+            <!-- JBoss distributes a complete set of Java EE 7 APIs including
                 a Bill of Materials (BOM). A BOM specifies the versions of a "stack" (or 
                 a collection) of artifacts. We use this here so that we always get the correct 
-                versions of artifacts. Here we use the jboss-javaee-6.0-with-tools stack 
-                (you can read this as the JBoss stack of the Java EE 6 APIs, with some extras 
-                tools for your project, such as Arquillian for testing) and the jboss-javaee-6.0-with-hibernate 
-                stack you can read this as the JBoss stack of the Java EE 6 APIs, with extras 
+                versions of artifacts. Here we use the jboss-javaee-7.0-with-tools stack
+                (you can read this as the JBoss stack of the Java EE 7 APIs, with some extras
+                tools for your project, such as Arquillian for testing) and the jboss-javaee-7.0-with-hibernate
+                stack you can read this as the JBoss stack of the Java EE 7 APIs, with extras
                 from the Hibernate family of projects) -->
             <dependency>
                 <groupId>org.jboss.spec</groupId>
-                <artifactId>jboss-javaee-6.0</artifactId>
-                <version>${version.jboss.spec.javaee.6.0}</version>
+                <artifactId>jboss-javaee-7.0</artifactId>
+                <version>${version.jboss.spec.javaee.7.0}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -109,7 +105,7 @@
     <!-- Dependencies. -->
 
     <dependencies>
-        <!-- "provided" scope used for API's included in JBoss AS 7. -->
+        <!-- "provided" scope used for API's included in JBoss WildFly. -->
 
         <!-- Import the CDI API. -->
         <dependency>
@@ -121,21 +117,21 @@
         <!-- Import the Common Annotations API (JSR-250). -->
         <dependency>
             <groupId>org.jboss.spec.javax.annotation</groupId>
-            <artifactId>jboss-annotations-api_1.1_spec</artifactId>
+            <artifactId>jboss-annotations-api_1.2_spec</artifactId>
             <scope>provided</scope>
         </dependency>
 
         <!-- Import the EJB API. -->
         <dependency>
             <groupId>org.jboss.spec.javax.ejb</groupId>
-            <artifactId>jboss-ejb-api_3.1_spec</artifactId>
+            <artifactId>jboss-ejb-api_3.2_spec</artifactId>
             <scope>provided</scope>
         </dependency>
 
         <!-- Import the JPA API. -->
         <dependency>
             <groupId>org.hibernate.javax.persistence</groupId>
-            <artifactId>hibernate-jpa-2.0-api</artifactId>
+            <artifactId>hibernate-jpa-2.1-api</artifactId>
             <scope>provided</scope>
         </dependency>
 
@@ -195,11 +191,11 @@
         </testResources>
 
         <plugins>
-            <!-- JBoss AS plugin to deploy the war -->
+            <!-- WildFly plugin to deploy the war -->
             <plugin>
-                <groupId>org.jboss.as.plugins</groupId>
-                <artifactId>jboss-as-maven-plugin</artifactId>
-                <version>${version.jboss.maven.plugin}</version>
+                <groupId>org.wildfly.plugins</groupId>
+                <artifactId>wildfly-maven-plugin</artifactId>
+                <version>${version.wildfly.maven.plugin}</version>
                 <configuration>
                     <fileNames>
                         <fileName>target/${build.finalName}.war</fileName>

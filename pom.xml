@@ -24,13 +24,13 @@
         <version>8</version>
         <relativePath />
     </parent>
-    <groupId>org.jboss.as.quickstarts</groupId>
-    <artifactId>jboss-as-quickstarts-parent</artifactId>
-    <version>7.1.2-SNAPSHOT</version>
+    <groupId>org.wildfly.quickstarts</groupId>
+    <artifactId>wildfly-quickstarts-parent</artifactId>
+    <version>8.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>JBoss AS Quickstarts Parent</name>
-    <description>JBoss AS Quickstarts Parent</description>
-    <url>http://www.jboss.org/jdf/quickstarts/get-started/</url>
+    <name>WildFly Quickstarts Parent</name>
+    <description>WildFly Quickstarts Parent</description>
+    <url>https://github.com/wildfly/quickstart/</url>
 
     <licenses>
         <license>
@@ -45,40 +45,27 @@
 
         <!-- JBoss dependency versions -->
 
-        <version.jboss.as>7.2.0.Final</version.jboss.as>
-        <!-- Alternatively, comment out the above line, and un-comment the 
-            line below to use version 7.2.0.Final-redhat-1 which is a release certified 
-            to work with JBoss EAP 6. It requires you have access to the JBoss EAP 6 
-            maven repository. -->
-        <!-- <version.jboss.as>7.2.0.Final-redhat-1</version.jboss.as> -->
+        <version.jboss.as>8.0.0.Final</version.jboss.as>
 
-        <version.jboss.maven.plugin>7.3.Final</version.jboss.maven.plugin>
+
+        <version.wildfly.maven.plugin>1.0.0.Final</version.wildfly.maven.plugin>
 
         <!-- Define the version of the JBoss BOMs we want to import to specify tested stacks. -->
-        <version.jboss.bom>1.0.4.Final</version.jboss.bom>
-        <!-- Alternatively, comment out the above line, and un-comment the 
-            line below to use version 1.0.4.Final-redhat-3 which is a release certified 
-            to work with JBoss EAP 6. It requires you have access to the JBoss EAP 6 
-            maven repository. -->
-        <!-- <version.jboss.bom>1.0.4.Final-redhat-3</version.jboss.bom> -->
+        <version.jboss.bom>8.0.0-SNAPSHOT</version.jboss.bom>
 
-        <version.jboss.spec.javaee.6.0>3.0.2.Final</version.jboss.spec.javaee.6.0> 
-        <!-- Alternatively, comment out the above line, and un-comment the 
-            line below to use version 3.0.2.Final-redhat-2 which is a release certified 
-            to work with JBoss EAP 6. It requires you have access to the JBoss EAP 6 
-            maven repository. -->
-        <!-- <version.jboss.spec.javaee.6.0>3.0.2.Final-redhat-2</version.jboss.spec.javaee.6.0> -->
+
+        <version.jboss.spec.javaee.7.0>1.0.0.Final</version.jboss.spec.javaee.7.0>
+
 
         <version.org.hibernate3.commons.annotations>3.2.0.Final</version.org.hibernate3.commons.annotations>
         <version.org.hibernate>3.6.8.Final</version.org.hibernate>
         <version.org.hibernate.em>3.6.8.Final</version.org.hibernate.em>
         <version.org.hibernate.infinispan>3.6.8.Final</version.org.hibernate.infinispan>
         <version.org.hibernate.validator>4.2.0.Final</version.org.hibernate.validator>
-                
+
         <version.org.richfaces>4.2.0.Final</version.org.richfaces>
-        
+
         <!-- Other dependency versions -->
-        <version.org.apache.httpcomponents>4.1.4</version.org.apache.httpcomponents>
         <version.dom4j>1.6</version.dom4j>
         <version.javax.servlet.jstl>1.2</version.javax.servlet.jstl>
         <version.log4j>1.2.16</version.log4j>
@@ -106,12 +93,12 @@
 
     <build>
         <plugins>
-            <!-- The JBoss AS plugin deploys your apps to a local JBoss AS container -->
+            <!-- The WildFly plugin deploys your apps to a local WildFly container -->
             <!-- Disabling it here means that we don't try to deploy this POM! -->
             <plugin>
-                <groupId>org.jboss.as.plugins</groupId>
-                <artifactId>jboss-as-maven-plugin</artifactId>
-                <version>${version.jboss.maven.plugin}</version>
+                <groupId>org.wildfly.plugins</groupId>
+                <artifactId>wildfly-maven-plugin</artifactId>
+                <version>${version.wildfly.maven.plugin}</version>
                 <inherited>true</inherited>
                 <configuration>
                     <skip>true</skip>
@@ -149,72 +136,47 @@
                 </property>
             </activation>
             <modules>
-                <!-- All the modules that require nothing but JBoss Enterprise
-                    Application Platform or JBoss AS -->
+                <!-- All the modules that require nothing but WildFly -->
                 <module>bean-validation</module>
                 <module>bmt</module>
                 <module>carmart</module>
                 <module>carmart-tx</module>
-                <module>cdi-add-interceptor-binding</module>
                 <module>cdi-alternative</module>
                 <module>cdi-injection</module>
                 <module>cdi-portable-extension</module>
                 <module>cdi-veto</module>
-                <module>deltaspike-authorization</module>
-                <module>deltaspike-beanbuilder</module>
-                <module>deltaspike-beanmanagerprovider</module>
-                <module>deltaspike-deactivatable</module>
-                <module>deltaspike-exception-handling</module>
-                <module>deltaspike-helloworld-jms</module>
-                <module>deltaspike-projectstage</module>
                 <module>ejb-asynchronous</module>
                 <module>ejb-in-ear</module>
                 <module>ejb-in-war</module>
                 <module>ejb-remote</module>
                 <module>ejb-security</module>
-                <module>ejb-security-plus</module>
-                <module>ejb-security-interceptors</module>
                 <module>greeter</module>
-                <module>greeter-spring</module>
                 <module>helloworld</module>
-                <module>helloworld-errai</module>
-                <module>helloworld-gwt</module>
                 <module>helloworld-html5</module>
                 <module>helloworld-jdg</module>
                 <module>helloworld-jms</module>
                 <module>helloworld-mdb</module>
-                <module>helloworld-osgi</module>
                 <module>helloworld-rf</module>
                 <module>helloworld-rs</module>
                 <module>helloworld-singleton</module>
                 <module>helloworld-ws</module>
                 <module>hibernate3</module>
                 <module>hibernate4</module>
-                <module>hotrod-endpoint</module>
                 <module>kitchensink</module>
                 <module>kitchensink-angularjs</module>
-                <module>kitchensink-deltaspike</module>
                 <module>kitchensink-ear</module>
                 <module>kitchensink-html5-mobile</module>
                 <module>kitchensink-jsp</module>
                 <module>kitchensink-ml</module>
                 <module>kitchensink-ml-ear</module>
-                <module>kitchensink-rf</module>
-                <module>log4j</module>
                 <module>logging-tools</module>
                 <module>mail</module>
-                <module>memcached-endpoint</module>
                 <module>numberguess</module>
                 <module>payment-cdi-event</module>
-                <module>rest-endpoint</module>
-                <module>richfaces-validation</module>
                 <module>servlet-async</module>
                 <module>servlet-filterlistener</module>
                 <module>servlet-security</module>
                 <module>shopping-cart</module>
-                <module>tasks</module>
-                <module>tasks-jsf</module>
-                <module>tasks-rs</module>
                 <module>temperature-converter</module>
                 <module>wicket-ear</module>
                 <module>wicket-war</module>
@@ -252,7 +214,6 @@
                 <module>jax-rs-client</module>
                 <module>jts</module>
                 <module>inter-app</module>                
-                <module>ejb-security-plus</module>
             </modules>
         </profile>
         <profile>
@@ -295,9 +256,7 @@
                 <activeByDefault>false</activeByDefault>
             </activation>
             <modules>
-                <module>forge-from-scratch</module>
                 <module>h2-console</module>
-                <module>kitchensink-cordova</module>
                 <module>jts-distributed-crash-rec</module>
             </modules>
         </profile>

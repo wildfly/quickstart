@@ -14,14 +14,14 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.jboss.as.quickstarts</groupId>
-    <artifactId>jboss-as-ejb-throws-exception</artifactId>
-    <version>7.1.2-SNAPSHOT</version>
+    <groupId>org.wildfly.quickstarts</groupId>
+    <artifactId>wildfly-ejb-throws-exception</artifactId>
+    <version>8.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>JBoss AS Quickstarts: EJB throws exception</name>
-    <description>JBoss AS Quickstarts: EJB throws exception, caught by web layer</description>
+    <name>WildFly Quickstarts: EJB throws exception</name>
+    <description>WildFly Quickstarts: EJB throws exception, caught by web layer</description>
 
-    <url>http://jboss.org/jbossas</url>
+    <url>http://wildfly.org</url>
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
@@ -39,36 +39,36 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <!-- Define the version of JBoss' Java EE 6 APIs we want to import. 
+        <!-- Define the version of JBoss' Java EE 7 APIs we want to import.
             Any dependencies from org.jboss.spec will have their version defined by this 
             BOM -->
-        <!-- Define the version of JBoss' Java EE 6 APIs and Tools we want 
+        <!-- Define the version of JBoss' Java EE 7 APIs and Tools we want
             to import. -->
-        <jboss.bom.version>1.0.0.Final</jboss.bom.version>
+        <jboss.bom.version>8.0.0-SNAPSHOT</jboss.bom.version>
         <!-- Alternatively, comment out the above line, and un-comment the 
             line below to use version 1.0.0.Final-redhat-1 which is a release certified 
-            to work with JBoss EAP 6. It requires you have access to the JBoss EAP 6 
+            to work with JBoss WildFly. It requires you have access to the JBoss WildFly
             maven repository. -->
         <!-- <jboss.bom.version>1.0.0.Final-redhat-1</jboss.bom.version>> -->
 
         <!-- JBoss dependency versions -->
-        <version.jboss.maven.plugin>7.3.Final</version.jboss.maven.plugin>
+        <version.wildfly.maven.plugin>1.0.0.Final</version.wildfly.maven.plugin>
 
-        <version.wildfly>8.0.0.Alpha3</version.wildfly>
+        <version.wildfly>8.0.0.CR1</version.wildfly>
 
         <!-- Alternatively, comment out the above line, and un-comment the
              line below to use version 7.2.0.Final-redhat-1 which is a release certified
-             to work with JBoss EAP 6. It requires you have access to the JBoss EAP 6
+             to work with JBoss WildFly. It requires you have access to the JBoss WildFly
              maven repository. -->
         <!-- <version.jboss.as>7.2.0.Final-redhat-1</version.jboss.as> -->
 
-        <version.jboss.spec.javaee.6.0>3.0.2.Final</version.jboss.spec.javaee.6.0>
+        <version.jboss.spec.javaee.7.0>1.0.0.Final</version.jboss.spec.javaee.7.0>
 
         <!-- Alternatively, comment out the above line, and un-comment the
-             line below to use version 3.0.2.Final-redhat-2 which is a release certified
-             to work with JBoss EAP 6. It requires you have access to the JBoss EAP 6
+             line below to use version 1.0.0.Final-redhat-2 which is a release certified
+             to work with JBoss WildFly. It requires you have access to the JBoss WildFly
              maven repository. -->
-        <!-- <version.jboss.spec.javaee.6.0>3.0.2.Final-redhat-2</version.jboss.spec.javaee.6.0> -->
+        <!-- <version.jboss.spec.javaee.7.0>1.0.0.Final-redhat-2</version.jboss.spec.javaee.7.0> -->
 
         <!-- other plugin versions -->
         <version.compiler.plugin>2.3.1</version.compiler.plugin>
@@ -92,8 +92,8 @@
             <!-- Define the version of the EJB jar so that we don't need 
                 to repeat ourselves in every module -->
             <dependency>
-                <groupId>org.jboss.as.quickstarts</groupId>
-                <artifactId>jboss-as-ejb-throws-exception-ejb</artifactId>
+                <groupId>org.wildfly.quickstarts</groupId>
+                <artifactId>wildfly-ejb-throws-exception-ejb</artifactId>
                 <version>${project.version}</version>
                 <type>ejb</type>
             </dependency>
@@ -101,8 +101,8 @@
             <!-- Define the version of the WAR so that we don't need to repeat 
                 ourselves in every module -->
             <dependency>
-                <groupId>org.jboss.as.quickstarts</groupId>
-                <artifactId>jboss-as-ejb-throws-exception-web</artifactId>
+                <groupId>org.wildfly.quickstarts</groupId>
+                <artifactId>wildfly-ejb-throws-exception-web</artifactId>
                 <version>${project.version}</version>
                 <type>war</type>
                 <scope>compile</scope>
@@ -111,29 +111,29 @@
             <!-- Define the version of the ejb-api so that we don't need to 
                 repeat ourselves in every module -->
             <dependency>
-                <groupId>org.jboss.as.quickstarts</groupId>
-                <artifactId>jboss-as-ejb-throws-exception-ejb-api</artifactId>
+                <groupId>org.wildfly.quickstarts</groupId>
+                <artifactId>wildfly-ejb-throws-exception-ejb-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
-            <!-- JBoss distributes a complete set of Java EE 6 APIs including 
+            <!-- JBoss distributes a complete set of Java EE 7 APIs including
                 a Bill of Materials (BOM). A BOM specifies the versions of a "stack" (or 
                 a collection) of artifacts. We use this here so that we always get the correct 
-                versions of artifacts. Here we use the jboss-javaee-6.0-with-tools stack 
-                (you can read this as the JBoss stack of the Java EE 6 APIs, with some extras 
-                tools for your project, such as Arquillian for testing) and the jboss-javaee-6.0-with-hibernate 
-                stack you can read this as the JBoss stack of the Java EE 6 APIs, with extras 
+                versions of artifacts. Here we use the jboss-javaee-7.0-with-tools stack
+                (you can read this as the JBoss stack of the Java EE 7 APIs, with some extras
+                tools for your project, such as Arquillian for testing) and the jboss-javaee-7.0-with-hibernate
+                stack you can read this as the JBoss stack of the Java EE 7 APIs, with extras
                 from the Hibernate family of projects) -->
             <dependency>
-                <groupId>org.jboss.bom</groupId>
-                <artifactId>jboss-javaee-6.0-with-tools</artifactId>
+                <groupId>org.wildfly.bom</groupId>
+                <artifactId>jboss-javaee-7.0-with-tools</artifactId>
                 <version>${jboss.bom.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
             <dependency>
-                <groupId>org.jboss.bom</groupId>
-                <artifactId>jboss-javaee-6.0-with-hibernate</artifactId>
+                <groupId>org.wildfly.bom</groupId>
+                <artifactId>jboss-javaee-7.0-with-hibernate</artifactId>
                 <version>${jboss.bom.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
@@ -154,15 +154,15 @@
                         <target>${maven.compiler.target}</target>
                     </configuration>
                 </plugin>
-                <!-- The JBoss AS plugin deploys your ear to a local JBoss 
+                <!-- The WildFly plugin deploys your ear to a local JBoss
                     AS container -->
                 <!-- Due to Maven's lack of intelligence with EARs we need 
-                    to configure the jboss-as maven plugin to skip deployment for all modules. 
+                    to configure the wildfly maven plugin to skip deployment for all modules.
                     We then enable it specifically in the ear module. -->
                 <plugin>
-                    <groupId>org.jboss.as.plugins</groupId>
-                    <artifactId>jboss-as-maven-plugin</artifactId>
-                    <version>${version.jboss.maven.plugin}</version>
+                    <groupId>org.wildfly.plugins</groupId>
+                    <artifactId>wildfly-maven-plugin</artifactId>
+                    <version>${version.wildfly.maven.plugin}</version>
                     <configuration>
                         <skip>true</skip>
                     </configuration>

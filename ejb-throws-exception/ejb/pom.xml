@@ -15,17 +15,17 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <artifactId>jboss-as-ejb-throws-exception</artifactId>
-        <groupId>org.jboss.as.quickstarts</groupId>
-        <version>7.1.2-SNAPSHOT</version>
+        <artifactId>wildfly-ejb-throws-exception</artifactId>
+        <groupId>org.wildfly.quickstarts</groupId>
+        <version>8.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>jboss-as-ejb-throws-exception-ejb</artifactId>
+    <artifactId>wildfly-ejb-throws-exception-ejb</artifactId>
     <packaging>ejb</packaging>
 
-    <name>JBoss AS Quickstarts: EJB throws exception (EJB module)</name>
+    <name>WildFly Quickstarts: EJB throws exception (EJB module)</name>
 
-    <url>http://jboss.org/jbossas</url>
+    <url>http://wildfly.org</url>
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
@@ -37,18 +37,18 @@
     <dependencies>
 
         <!-- Declare the APIs we depend on and need for compilation. All 
-            of them are provided by JBoss AS 7 -->
+            of them are provided by JBoss WildFly -->
 
         <!-- Import the EJB API, we use provided scope as the API is included 
-            in JBoss AS 7 -->
+            in JBoss WildFly -->
         <dependency>
             <groupId>org.jboss.spec.javax.ejb</groupId>
-            <artifactId>jboss-ejb-api_3.1_spec</artifactId>
+            <artifactId>jboss-ejb-api_3.2_spec</artifactId>
             <scope>provided</scope>
         </dependency>
 
         <!-- Import the CDI API, we use provided scope as the API is included 
-            in JBoss AS 7 -->
+            in JBoss WildFly -->
         <dependency>
             <groupId>javax.enterprise</groupId>
             <artifactId>cdi-api</artifactId>
@@ -56,16 +56,16 @@
         </dependency>
 
         <!-- Import the JPA API, we use provided scope as the API is included 
-            in JBoss AS 7 -->
+            in JBoss WildFly -->
         <dependency>
             <groupId>org.hibernate.javax.persistence</groupId>
-            <artifactId>hibernate-jpa-2.0-api</artifactId>
+            <artifactId>hibernate-jpa-2.1-api</artifactId>
             <scope>provided</scope>
         </dependency>
 
         <!-- JSR-303 (Bean Validation) Implementation -->
         <!-- Provides portable constraints such as @Email -->
-        <!-- Hibernate Validator is shipped in JBoss AS 7 -->
+        <!-- Hibernate Validator is shipped in JBoss WildFly -->
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
@@ -73,8 +73,8 @@
         </dependency>
 
         <dependency>
-            <groupId>org.jboss.as.quickstarts</groupId>
-            <artifactId>jboss-as-ejb-throws-exception-ejb-api</artifactId>
+            <groupId>org.wildfly.quickstarts</groupId>
+            <artifactId>wildfly-ejb-throws-exception-ejb-api</artifactId>
         </dependency>
         
     </dependencies>

@@ -19,14 +19,14 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.jboss.as.quickstarts</groupId>
-    <name>JBoss AS Quickstarts: JAX-RS Client</name>
+    <groupId>org.wildfly.quickstarts</groupId>
+    <name>WildFly Quickstarts: JAX-RS Client</name>
     <description>jax-rs-client: Demonstrates the use an external JAX-RS RestEasy client</description>
-    <artifactId>jboss-as-jax-rs-client</artifactId>
-    <version>7.1.2-SNAPSHOT</version>
+    <artifactId>wildfly-jax-rs-client</artifactId>
+    <version>8.0.0-SNAPSHOT</version>
 
 
-    <url>http://jboss.org/jbossas</url>
+    <url>http://wildfly.org</url>
 
     <licenses>
       <license>
@@ -46,15 +46,7 @@
         <!-- JBoss dependency versions -->
         
         <!-- Define the version of the JBoss BOMs we want to import to specify tested stacks. -->
-        <version.jboss.bom>1.0.4.Final</version.jboss.bom>
-        <!-- Alternatively, comment out the above line, and un-comment the 
-            line below to use version 1.0.4.Final-redhat-3 which is a release certified 
-            to work with JBoss EAP 6. It requires you have access to the JBoss EAP 6 
-            maven repository. -->
-        <!-- <version.jboss.bom>1.0.4.Final-redhat-3</version.jboss.bom> -->
-
-        <!-- Other dependency versions -->
-        <version.org.apache.httpcomponents>4.1.4</version.org.apache.httpcomponents>
+        <version.jboss.bom>8.0.0-SNAPSHOT</version.jboss.bom>
 
         <!-- other plugin versions -->
         <version.compiler.plugin>2.3.1</version.compiler.plugin>
@@ -69,8 +61,8 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>org.jboss.bom</groupId>
-                <artifactId>jboss-javaee-6.0-with-resteasy</artifactId>
+                <groupId>org.wildfly.bom</groupId>
+                <artifactId>jboss-javaee-7.0-with-resteasy</artifactId>
                 <version>${version.jboss.bom}</version>
                 <scope>import</scope>
                 <type>pom</type>
@@ -87,11 +79,6 @@
         <dependency>
             <groupId>org.jboss.resteasy</groupId>
             <artifactId>resteasy-jaxrs</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpcore</artifactId>
-            <version>${version.org.apache.httpcomponents}</version>
         </dependency>
     </dependencies>
     <build>
@@ -113,11 +100,11 @@
                     <systemProperties>
                         <property>
                             <name>xmlUrl</name>
-                            <value>http://localhost:8080/jboss-as-helloworld-rs/rest/xml</value>
+                            <value>http://localhost:8080/wildfly-helloworld-rs/rest/xml</value>
                         </property>
                         <property>
                             <name>jsonUrl</name>
-                            <value>http://localhost:8080/jboss-as-helloworld-rs/rest/json</value>
+                            <value>http://localhost:8080/wildfly-helloworld-rs/rest/json</value>
                         </property>
                     </systemProperties>
                 </configuration>

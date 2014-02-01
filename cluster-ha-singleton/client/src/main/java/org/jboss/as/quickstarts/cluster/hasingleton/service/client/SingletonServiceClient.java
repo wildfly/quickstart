@@ -25,7 +25,7 @@ import javax.naming.NamingException;
 import org.jboss.as.quickstarts.cluster.hasingleton.service.ejb.ServiceAccess;
 
 /**
- * A client to call the SingletonService via EJB remoting (AS7) to demonstrate the behaviour of the singleton.
+ * A client to call the SingletonService via EJB remoting (WildFly) to demonstrate the behaviour of the singleton.
  *
  * @author <a href="mailto:wfink@redhat.com">Wolf-Dieter Fink</a>
  */
@@ -45,7 +45,7 @@ public class SingletonServiceClient {
         final Hashtable<String, String> jndiProperties = new Hashtable<String, String>();
         jndiProperties.put(Context.URL_PKG_PREFIXES, "org.jboss.ejb.client.naming");
         final Context context = new InitialContext(jndiProperties);
-        String lookupName = "ejb:/jboss-as-cluster-ha-singleton-service/ServiceAccessBean!" + ServiceAccess.class.getName();
+        String lookupName = "ejb:/wildfly-cluster-ha-singleton-service/ServiceAccessBean!" + ServiceAccess.class.getName();
         System.out.println("Lookup Bean name is " + lookupName);
         accessBean = (ServiceAccess) context.lookup(lookupName);
     }

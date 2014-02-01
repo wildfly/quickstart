@@ -19,7 +19,7 @@ package org.jboss.as.quickstarts.jaxrsclient;
 /**
  * This example demonstrates the use an external JAX-RS RestEasy client
  * which interacts with a JAX-RS Web service that uses CDI 1.0 and JAX-RS 
- * in JBoss AS 7.  Specifically, this client "calls" the HelloWorld JAX-RS
+ * in JBoss WildFly.  Specifically, this client "calls" the HelloWorld JAX-RS
  * Web Service created in quickstart helloworld-rs.  Please refer to the helloworld-rs
  * README.md for instructions on how to build and deploy helloworld-rs.
  */

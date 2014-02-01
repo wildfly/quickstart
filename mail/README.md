@@ -4,15 +4,15 @@ Author: Joel Tosi
 Level: Beginner
 Technologies: JavaMail, JSF, CDI
 Summary: Demonstrates the use of JavaMail
-Target Product: EAP
-Source: <https://github.com/jboss-jdf/jboss-as-quickstart/>
+Target Project: WildFly
+Source: <https://github.com/wildfly/quickstart/>
 
 What is it?
 -----------
 
-This example demonstrates sending email with the use of *CDI 1.0* and *JSF 2.0* in *JBoss AS 7*.
+This example demonstrates sending email with the use of *CDI 1.0* and *JSF 2.0* in *JBoss WildFly*.
 
-The example uses the default Mail provider that comes out of the box with *JBoss Enterprise Application Platform 6* and *JBoss AS 7*.  It uses your local mail relay and the default SMTP port of 25.
+The example uses the default Mail provider that comes out of the box with *JBoss WildFly*.  It uses your local mail relay and the default SMTP port of 25.
 
 The configuration of the mail provider is found in the `JBOSS_HOME/standalone/configuration/standalone.xml` if you are running a standalone server or in the `JBOSS_HOME/domain/configuration/domain.xml` file if you are running in a managed domain. An example of the mail subsystem XML configuration is provided below:
 
@@ -38,7 +38,7 @@ System requirements
 
 All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven 3.0 or better.
 
-The application this project produces is designed to be run on JBoss Enterprise Application Platform 6 or JBoss AS 7. 
+The application this project produces is designed to be run on JBoss WildFly.
 
  
 Configure Maven
@@ -47,7 +47,7 @@ Configure Maven
 If you have not yet done so, you must [Configure Maven](../README.md#mavenconfiguration) before testing the quickstarts.
 
 
-Start JBoss Enterprise Application Platform 6 or JBoss AS 7 with the Web Profile
+Start JBoss WildFly with the Web Profile
 -------------------------
 
 1. Open a command line and navigate to the root of the JBoss server directory.
@@ -66,15 +66,15 @@ _NOTE: The following build command assumes you have configured your Maven user s
 2. Open a command line and navigate to the root directory of this quickstart.
 3. Type this command to build and deploy the archive:
 
-        mvn clean package jboss-as:deploy
+        mvn clean package wildfly:deploy
 
-4. This will deploy `target/jboss-as-mail.war` to the running instance of the server.
+4. This will deploy `target/wildfly-mail.war` to the running instance of the server.
 
 
 Access the application 
 ---------------------
 
-The application will be running at the following URL: <http://localhost:8080/jboss-as-mail>. 
+The application will be running at the following URL: <http://localhost:8080/wildfly-mail>.
 
 
 Undeploy the Archive
@@ -84,7 +84,7 @@ Undeploy the Archive
 2. Open a command line and navigate to the root directory of this quickstart.
 3. When you are finished testing, type this command to undeploy the archive:
 
-        mvn jboss-as:undeploy
+        mvn wildfly:undeploy
 
 
 Run the Quickstart in JBoss Developer Studio or Eclipse

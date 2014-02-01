@@ -32,7 +32,7 @@ public class Imports {
 
     @SuppressWarnings("unused")
     @Produces
-    @EJB(lookup="java:global/jboss-as-inter-app-A/FooImpl!org.jboss.as.quickstarts.interapp.shared.Foo")
+    @EJB(lookup="java:global/wildfly-inter-app-A/FooImpl!org.jboss.as.quickstarts.interapp.shared.Foo")
     private Foo foo;
 
     private Imports() {

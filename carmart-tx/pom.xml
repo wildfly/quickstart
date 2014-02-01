@@ -20,8 +20,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.jboss.datagrid.quickstart</groupId>
-    <artifactId>jboss-as-carmart-tx</artifactId>
-    <version>7.1.2-SNAPSHOT</version>
+    <artifactId>wildfly-carmart-tx</artifactId>
+    <version>8.0.0-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>Transactional CarMart</name>
 
@@ -45,19 +45,15 @@
         <com.sun.faces.jsf.impl.version>2.0.2</com.sun.faces.jsf.impl.version>
 
         <!-- Define the version of the JBoss BOMs we want to import to specify tested stacks. -->
-        <version.jboss.bom>1.0.4.Final</version.jboss.bom>
-        <!-- Alternatively, comment out the above line, and un-comment the 
-            line below to use version 1.0.4.Final-redhat-3 which is a release certified 
-            to work with JBoss EAP 6. It requires you have access to the JBoss EAP 6 
-            maven repository. -->
-        <!-- <version.jboss.bom>1.0.4.Final-redhat-3</version.jboss.bom> -->
+        <version.jboss.bom>8.0.0-SNAPSHOT</version.jboss.bom>
+
 
         <!-- This is the Management URL of EWS/Tomcat, so tomcat-maven-plugin 
             can deploy this quickstart on EWS/Tomcat through this URL -->
         <tomcat.management.url>http://localhost:8080/manager/text</tomcat.management.url>
 
         <!-- other plugin versions -->
-        <version.jboss.maven.plugin>7.3.Final</version.jboss.maven.plugin>
+        <version.wildfly.maven.plugin>1.0.0.Final</version.wildfly.maven.plugin>
         <version.tomcat.maven.plugin>1.1</version.tomcat.maven.plugin>
         <version.buildhelper.maven.plugin>1.7</version.buildhelper.maven.plugin>
 
@@ -71,23 +67,15 @@
     </properties>
 
     <dependencyManagement>
-        <!-- JBoss distributes a complete set of Java EE 6 APIs including 
-            a Bill of Materials (BOM). A BOM specifies the versions of a "stack" (or 
-            a collection) of artifacts. We use this here so that we always get the correct 
-            versions of artifacts. Here we use the jboss-javaee-6.0-with-infinispan stack 
-            and the jboss-javaee-6.0-with-transactions stack (you can read this as the 
-            JBoss stack of the Java EE 6 APIs, with Infinispan and Transactions) -->
+        <!-- JBoss distributes a complete set of Java EE 7 APIs including
+            a Bill of Materials (BOM). A BOM specifies the versions of a "stack" (or
+            a collection) of artifacts. We use this here so that we always get the correct
+            versions of artifacts. Here we use the jboss-javaee-7.0-with-infinispan stack
+            (you can read this as the JBoss stack of the Java EE 7 APIs, with Infinispan) -->
         <dependencies>
             <dependency>
-                <groupId>org.jboss.bom</groupId>
-                <artifactId>jboss-javaee-6.0-with-infinispan</artifactId>
-                <version>${version.jboss.bom}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.jboss.bom</groupId>
-                <artifactId>jboss-javaee-6.0-with-transactions</artifactId>
+                <groupId>org.wildfly.bom</groupId>
+                <artifactId>jboss-javaee-7.0-with-infinispan</artifactId>
                 <version>${version.jboss.bom}</version>
                 <type>pom</type>
                 <scope>import</scope>
@@ -98,19 +86,19 @@
     <dependencies>
 
         <!-- First declare the APIs we depend on and need for compilation. 
-            The dependencies with provided scope are provided by JBoss AS 7, The other 
+            The dependencies with provided scope are provided by JBoss WildFly, The other
             compiled scoped dependencies will be add to the application libraries -->
 
         <!-- Import the JSF API, we use provided scope as the API is included 
-            in JBoss AS 7 -->
+            in JBoss WildFly -->
         <dependency>
             <groupId>org.jboss.spec.javax.faces</groupId>
-            <artifactId>jboss-jsf-api_2.1_spec</artifactId>
+            <artifactId>jboss-jsf-api_2.2_spec</artifactId>
             <scope>provided</scope>
         </dependency>
 
         <!-- Import the CDI API, we use provided scope as the API is included 
-            in JBoss AS 7 -->
+            in JBoss WildFly -->
         <dependency>
             <groupId>javax.enterprise</groupId>
             <artifactId>cdi-api</artifactId>
@@ -151,7 +139,7 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <version>${version.war.plugin}</version>
                 <configuration>
-                    <!-- Java EE 6 doesn't require web.xml, Maven needs to 
+                    <!-- Java EE 7 doesn't require web.xml, Maven needs to
                         catch up! -->
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
@@ -163,7 +151,7 @@
         <!-- This is the default profile (active by default) that uses the 
             src/local/java folder which provided local access to the cache (library mode) -->
         <profile>
-            <id>library-jbossas</id>
+            <id>library-wildfly</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
@@ -189,117 +177,13 @@
                             </execution>
                         </executions>                    </plugin>
                     <plugin>
-                        <!-- The JBoss AS plugin deploys your war to a local 
-                            JBoss AS container -->
-                        <!-- To use, run: mvn package jboss-as:deploy -->
-                        <groupId>org.jboss.as.plugins</groupId>
-                        <artifactId>jboss-as-maven-plugin</artifactId>
-                        <version>${version.jboss.maven.plugin}</version>
+                        <!-- The WildFly plugin deploys your war to a local
+                            WildFly container -->
+                        <!-- To use, run: mvn package wildfly:deploy -->
+                        <groupId>org.wildfly.plugins</groupId>
+                        <artifactId>wildfly-maven-plugin</artifactId>
+                        <version>${version.wildfly.maven.plugin}</version>
                       </plugin>
-                </plugins>
-            </build>
-        </profile>
-
-
-        <profile>
-            <!-- This profile is intended to run this quickstart on ews/tomcat. 
-                It has to embed some libraries that aren't available on ews/tomcat. -->
-            <id>library-tomcat</id>
-            <dependencies>
-
-                <!-- Import the JTA API -->
-                <dependency>
-                    <groupId>org.jboss.spec.javax.transaction</groupId>
-                    <artifactId>jboss-transaction-api_1.1_spec</artifactId>
-                    <scope>compile</scope>
-                </dependency>
-
-                <!-- Import the JSF 2.1 API -->
-                <dependency>
-                    <groupId>org.jboss.spec.javax.faces</groupId>
-                    <artifactId>jboss-jsf-api_2.1_spec</artifactId>
-                    <scope>compile</scope>
-                </dependency>
-
-                <!-- Import JBoss Transactions dependencies. Using the JBoss 
-                    Transactions on Tomcat is an unsupported use case -->
-                <dependency>
-                    <groupId>org.jboss.jbossts</groupId>
-                    <artifactId>jbossjta</artifactId>
-                    <scope>compile</scope>
-                </dependency>
-
-                <!-- Import the WELD "uber-jar", meaning it bundles all the 
-                    bits of Weld and CDI required for running in a Servlet container, for your 
-                    convenience -->
-                <dependency>
-                    <groupId>org.jboss.weld.servlet</groupId>
-                    <artifactId>weld-servlet</artifactId>
-                    <version>${org.jboss.weld.servlet.version}</version>
-                    <scope>compile</scope>
-                </dependency>
-
-                <!-- Import the Mojarra JSF Impl, we use runtime scope as 
-                    the Impl is not included in ews/tomcat -->
-                <dependency>
-                    <groupId>com.sun.faces</groupId>
-                    <artifactId>jsf-impl</artifactId>
-                    <version>${com.sun.faces.jsf.impl.version}</version>
-                    <scope>runtime</scope>
-                </dependency>
-
-            </dependencies>
-            <build>
-                <plugins>
-                    <plugin>
-                        <!-- This plugin will add the src/tomcat/java source 
-                            folder -->
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>build-helper-maven-plugin</artifactId>
-                        <version>${version.buildhelper.maven.plugin}</version>
-                        <executions>
-                            <execution>
-                                <id>add-source</id>
-                                <phase>generate-sources</phase>
-                                <goals>
-                                    <goal>add-source</goal>
-                                </goals>
-                                <configuration>
-                                    <sources>
-                                        <source>src/tomcat/java</source>
-                                    </sources>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <!-- This plugin will add the src/main/webapp-tomcat7 
-                            as webapp folder -->
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-war-plugin</artifactId>
-                        <version>${version.war.plugin}</version>
-                        <configuration>
-                            <webResources>
-                                <resource>
-                                    <directory>src/main/webapp-tomcat7</directory>
-                                    <filtering>false</filtering>
-                                </resource>
-                            </webResources>
-                        </configuration>
-                    </plugin>
-                    <plugin>
-                        <!-- The Tomcat Maven plugin deploys your war to 
-                            a local ews/tomcat container -->
-                        <!-- To use, run: mvn package tomcat:deploy -->
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>tomcat-maven-plugin</artifactId>
-                        <version>${version.tomcat.maven.plugin}</version>
-                        <configuration>
-                            <server>tomcat</server>
-                            <path>/${project.artifactId}</path>
-                            <url>${tomcat.management.url}</url>
-                        </configuration>
-                    </plugin>
                 </plugins>
             </build>
         </profile>

@@ -15,17 +15,17 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.jboss.as.quickstarts</groupId>
-        <artifactId>jboss-as-ejb-throws-exception</artifactId>
-        <version>7.1.2-SNAPSHOT</version>
+        <groupId>org.wildfly.quickstarts</groupId>
+        <artifactId>wildfly-ejb-throws-exception</artifactId>
+        <version>8.0.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>ejb-throws-exception-ear</artifactId>
     <packaging>ear</packaging>
 
-    <name>JBoss AS Quickstarts: EJB throws exception (EAR)</name>
+    <name>WildFly Quickstarts: EJB throws exception (EAR)</name>
 
-    <url>http://jboss.org/jbossas</url>
+    <url>http://wildfly.org</url>
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
@@ -38,18 +38,18 @@
 
         <!-- Depend on the ejb module and war so that we can package them -->
         <dependency>
-            <groupId>org.jboss.as.quickstarts</groupId>
-            <artifactId>jboss-as-ejb-throws-exception-web</artifactId>
+            <groupId>org.wildfly.quickstarts</groupId>
+            <artifactId>wildfly-ejb-throws-exception-web</artifactId>
             <type>war</type>
         </dependency>
         <dependency>
-            <groupId>org.jboss.as.quickstarts</groupId>
-            <artifactId>jboss-as-ejb-throws-exception-ejb</artifactId>
+            <groupId>org.wildfly.quickstarts</groupId>
+            <artifactId>wildfly-ejb-throws-exception-ejb</artifactId>
             <type>ejb</type>
         </dependency>
         <dependency>
-            <groupId>org.jboss.as.quickstarts</groupId>
-            <artifactId>jboss-as-ejb-throws-exception-ejb-api</artifactId>
+            <groupId>org.wildfly.quickstarts</groupId>
+            <artifactId>wildfly-ejb-throws-exception-ejb-api</artifactId>
         </dependency>
     </dependencies>
 
@@ -61,7 +61,7 @@
                 <artifactId>maven-ear-plugin</artifactId>
                 <version>${version.ear.plugin}</version>
                 <configuration>
-                    <!-- Tell Maven we are using Java EE 6 -->
+                    <!-- Tell Maven we are using Java EE 7 -->
                     <version>${version.javaee}</version>
                     <!-- Use Java EE ear libraries as needed. Java EE ear 
                         libraries are in easy way to package any libraries needed in the ear, and 
@@ -70,14 +70,14 @@
                     <fileNameMapping>no-version</fileNameMapping>
                 </configuration>
             </plugin>
-            <!-- The JBoss AS plugin deploys your ear to a local JBoss AS 
+            <!-- The WildFly plugin deploys your ear to a local WildFly
                 container -->
             <!-- Due to Maven's lack of intelligence with EARs we need to 
-                configure the jboss-as maven plugin to skip deployment for all modules. We 
+                configure the wildfly maven plugin to skip deployment for all modules. We
                 then enable it specifically in the ear module. -->
             <plugin>
-                <groupId>org.jboss.as.plugins</groupId>
-                <artifactId>jboss-as-maven-plugin</artifactId>
+                <groupId>org.wildfly.plugins</groupId>
+                <artifactId>wildfly-maven-plugin</artifactId>
                 <configuration>
                     <filename>${project.artifactId}.ear</filename>
                     <skip>false</skip>

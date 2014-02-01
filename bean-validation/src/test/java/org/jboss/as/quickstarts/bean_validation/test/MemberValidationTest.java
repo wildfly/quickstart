@@ -65,7 +65,7 @@ public class MemberValidationTest {
                 .addAsWebInfResource("test-ds.xml", "test-ds.xml");
     }
 
-    // Get configured validator directly from JBoss AS 7 environment
+    // Get configured validator directly from JBoss WildFly environment
     @Inject
     Validator validator;
 

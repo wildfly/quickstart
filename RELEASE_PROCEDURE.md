@@ -4,13 +4,13 @@ Quickstarts Release Procedure
 Testing the quickstarts
 -----------------------
 
-  Most of the quickstarts require JBoss Enterprise Application Platform or JBoss AS only in standalone mode. Some require the "standalone-full" profile, some require XTS, some require Postgres and some require other quickstarts to be deployed. Profiles are used in the root POM to separate out these groups, allowing you to test the quickstarts easily. For example, to run those that require only standalone mode:
+  Most of the quickstarts require JBoss WildFly only in standalone mode. Some require the "standalone-full" profile, some require XTS, some require Postgres and some require other quickstarts to be deployed. Profiles are used in the root POM to separate out these groups, allowing you to test the quickstarts easily. For example, to run those that require only standalone mode:
 
-      mvn clean install jboss-as:deploy jboss-as:undeploy -Parq-jbossas-remote -P-requires-postgres,-requires-full,-complex-dependencies,-requires-xts
+      mvn clean install wildfly:deploy wildfly:undeploy -Parq-wildfly-remote -P-requires-postgres,-requires-full,-complex-dependencies,-requires-xts
 
   Or, to run those only those quickstarts that require the full profile
 
-      mvn clean install jboss-as:deploy jboss-as:undeploy -Parq-jbossas-remote -P-requires-postgres,-default,-complex-dependencies,-requires-xts
+      mvn clean install wildfly:deploy wildfly:undeploy -Parq-wildfly-remote -P-requires-postgres,-default,-complex-dependencies,-requires-xts
 
   And so on.
 

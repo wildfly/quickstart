@@ -20,10 +20,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.jboss.datagrid.quickstart</groupId>
-    <artifactId>jboss-as-helloworld-jdg</artifactId>
-    <version>7.1.2-SNAPSHOT</version>
+    <artifactId>wildfly-helloworld-jdg</artifactId>
+    <version>8.0.0-SNAPSHOT</version>
     <packaging>war</packaging>
-    <name>JBoss AS Quickstarts: JBoss Data Grid HelloWorld</name>
+    <name>WildFly Quickstarts: JBoss Data Grid HelloWorld</name>
 
     <licenses>
         <license>
@@ -41,15 +41,11 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- JBoss dependency versions -->
-        <version.jboss.maven.plugin>7.3.Final</version.jboss.maven.plugin>
+        <version.wildfly.maven.plugin>1.0.0.Final</version.wildfly.maven.plugin>
 
         <!-- Define the version of the JBoss BOMs we want to import to specify tested stacks. -->
-        <version.jboss.bom>1.0.4.Final</version.jboss.bom>
-        <!-- Alternatively, comment out the above line, and un-comment the 
-            line below to use version 1.0.4.Final-redhat-3 which is a release certified 
-            to work with JBoss EAP 6. It requires you have access to the JBoss EAP 6 
-            maven repository. -->
-        <!-- <version.jboss.bom>1.0.4.Final-redhat-3</version.jboss.bom> -->
+        <version.jboss.bom>8.0.0-SNAPSHOT</version.jboss.bom>
+
 
         <!-- other plugin versions -->
         <compiler.plugin.version>2.3.2</compiler.plugin.version>
@@ -63,15 +59,14 @@
 
     <dependencyManagement>
         <dependencies>
-            <!-- JBoss distributes a complete set of Java EE 6 APIs including
+            <!-- JBoss distributes a complete set of Java EE 7 APIs including
             a Bill of Materials (BOM). A BOM specifies the versions of a "stack" (or
             a collection) of artifacts. We use this here so that we always get the correct
-            versions of artifacts. Here we use the jboss-javaee-6.0-with-infinispan stack
-            and the jboss-javaee-6.0-with-transactions stack (you can read this as the
-            JBoss stack of the Java EE 6 APIs, with Infinispan and Transactions) -->
+            versions of artifacts. Here we use the jboss-javaee-7.0-with-infinispan stack
+            (you can read this as the JBoss stack of the Java EE 7 APIs, with Infinispan) -->
             <dependency>
-                <groupId>org.jboss.bom</groupId>
-                <artifactId>jboss-javaee-6.0-with-infinispan</artifactId>
+                <groupId>org.wildfly.bom</groupId>
+                <artifactId>jboss-javaee-7.0-with-infinispan</artifactId>
                 <version>${version.jboss.bom}</version>
                 <type>pom</type>
                 <scope>import</scope>
@@ -88,15 +83,15 @@
         </dependency>
 
         <!-- Import the Servlet API, we use provided scope as the API is included
-             in JBoss AS 7 -->
+             in JBoss WildFly -->
         <dependency>
             <groupId>org.jboss.spec.javax.servlet</groupId>
-            <artifactId>jboss-servlet-api_3.0_spec</artifactId>
+            <artifactId>jboss-servlet-api_3.1_spec</artifactId>
             <scope>provided</scope>
         </dependency>
 
         <!-- Import the CDI API, we use provided scope as the API is included
-            in JBoss AS 7 -->
+            in JBoss WildFly -->
         <dependency>
             <groupId>javax.enterprise</groupId>
             <artifactId>cdi-api</artifactId>
@@ -104,10 +99,10 @@
         </dependency>
 
         <!-- Import the JSF API, we use provided scope as the API is included
-        in JBoss AS 7 -->
+        in JBoss WildFly -->
         <dependency>
             <groupId>org.jboss.spec.javax.faces</groupId>
-            <artifactId>jboss-jsf-api_2.1_spec</artifactId>
+            <artifactId>jboss-jsf-api_2.2_spec</artifactId>
             <scope>provided</scope>
         </dependency>
 
@@ -131,18 +126,18 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <version>${war.plugin.version}</version>
                 <configuration>
-                    <!-- Java EE 6 doesn't require web.xml, Maven needs to
+                    <!-- Java EE 7 doesn't require web.xml, Maven needs to
                     catch up! -->
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
             </plugin>
             <plugin>
-                <!-- The JBoss AS plugin deploys your war to a local
-                JBoss AS container -->
-                <!-- To use, run: mvn package jboss-as:deploy -->
-                <groupId>org.jboss.as.plugins</groupId>
-                <artifactId>jboss-as-maven-plugin</artifactId>
-                <version>${version.jboss.maven.plugin}</version>
+                <!-- The WildFly plugin deploys your war to a local
+                WildFly container -->
+                <!-- To use, run: mvn package wildfly:deploy -->
+                <groupId>org.wildfly.plugins</groupId>
+                <artifactId>wildfly-maven-plugin</artifactId>
+                <version>${version.wildfly.maven.plugin}</version>
             </plugin>
         </plugins>
     </build>

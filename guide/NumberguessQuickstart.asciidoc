@@ -4,26 +4,26 @@ CDI + JSF: Numberguess quickstart
 
 [[NumberguessQuickstart-]]
 
-This quickstart shows you how to create and deploy a simple application to JBoss Enterprise Application Platform 6 or JBoss AS 7; the application does not persist any information. Information is displayed using a JSF view, and business logic is encapsulated in two CDI beans.
+This quickstart shows you how to create and deploy a simple application to JBoss WildFly; the application does not persist any information. Information is displayed using a JSF view, and business logic is encapsulated in two CDI beans.
 
 Switch to the `quickstarts/numberguess` directory and instruct Maven to build and deploy the application:
 
-    mvn package jboss-as:deploy
+    mvn package wildfly:deploy
 
-The quickstart uses a Maven plugin to deploy the application. The plugin requires JBoss Enterprise Application Platform 6 or JBoss AS 7 to be running (you can find out how to start the server in <<GettingStarted-on_linux, Installing and starting the JBoss server on Linux, Unix or Mac OS X>> or <<GettingStarted-on_windows, Installing and starting the JBoss server on Windows>>).
+The quickstart uses a Maven plugin to deploy the application. The plugin requires JBoss WildFly to be running (you can find out how to start the server in <<GettingStarted-on_linux, Installing and starting the JBoss server on Linux, Unix or Mac OS X>> or <<GettingStarted-on_windows, Installing and starting the JBoss server on Windows>>).
 
 Or you can start the server using an IDE, like JBoss Developer Studio.
 
-Now, see if you can determine the most efficient approach to pinpoint the random number at the URL http://localhost:8080/jboss-as-numberguess.
+Now, see if you can determine the most efficient approach to pinpoint the random number at the URL http://localhost:8080/wildfly-numberguess.
 
 [TIP]
 ========================================================================
 Should you wish to undeploy the quickstart, or redeploy after making
 some changes, it's pretty easy:
 
-* `mvn jboss-as:deploy` - deploy any changes to the application to the
+* `mvn wildfly:deploy` - deploy any changes to the application to the
   application server
-* `mvn jboss-as:undeploy` - undeploy the quickstart
+* `mvn wildfly:undeploy` - undeploy the quickstart
 ========================================================================
 
 It's time to pull the covers back and dive into the internals of the quickstart.
@@ -32,9 +32,9 @@ It's time to pull the covers back and dive into the internals of the quickstart.
 Deploying the Numberguess quickstart using Eclipse
 --------------------------------------------------
 
-You may choose to deploy the quickstart using Eclipse. You'll need to have JBoss Enterprise Application Platform 6 or JBoss AS 7 started in Eclipse as described  in <<GettingStarted-with_jboss_tools, Starting the JBoss server from JBDS or Eclipse with JBoss Tools>>) and to have imported the quickstarts into Eclipse (as described in <<GettingStarted-importing_quickstarts_into_eclipse, Importing the quickstarts into Eclipse>>).
+You may choose to deploy the quickstart using Eclipse. You'll need to have JBoss WildFly started in Eclipse as described  in <<GettingStarted-with_jboss_tools, Starting the JBoss server from JBDS or Eclipse with JBoss Tools>>) and to have imported the quickstarts into Eclipse (as described in <<GettingStarted-importing_quickstarts_into_eclipse, Importing the quickstarts into Eclipse>>).
 
-With the quickstarts imported, you can deploy the quickstart by right clicking on the `jboss-as-numberguess` project, and choosing _Run As -> Run On Server_: 
+With the quickstarts imported, you can deploy the quickstart by right clicking on the `wildfly-numberguess` project, and choosing _Run As -> Run On Server_:
 
 image:gfx/Eclipse_Numberguess_Deploy_1.jpg[]
 
@@ -54,7 +54,7 @@ In the numberguess application you get 10 attempts to guess a number between 1 a
 
 The quickstart is comprised of a number of beans, configuration files and Facelets (JSF) views, packaged as a war module. Let's start by examining the configuration files.
 
-All the configuration files for this quickstart are located in `WEB-INF/`, which can be found in the `src/main/webapp` directory. First, we have the JSF 2.0 version of `faces-config.xml`. A standardized version of Facelets is the default view handler in JSF 2.0, so there's really nothing that we have to configure. JBoss AS goes above and beyond Java EE here, and will automatically configure JSF for you if you include this file. Thus, the configuration consists of only the root element. 
+All the configuration files for this quickstart are located in `WEB-INF/`, which can be found in the `src/main/webapp` directory. First, we have the JSF 2.0 version of `faces-config.xml`. A standardized version of Facelets is the default view handler in JSF 2.0, so there's really nothing that we have to configure. WildFly goes above and beyond Java EE here, and will automatically configure JSF for you if you include this file. Thus, the configuration consists of only the root element.
 
 .src/main/webapp/WEB-INF/faces-config.xml
 [source,xml]
@@ -69,7 +69,7 @@ All the configuration files for this quickstart are located in `WEB-INF/`, which
 </faces-config>
 ------------------------------------------------------------------------
 
-There's also an empty `beans.xml` file, which tells JBoss AS to look for beans in this  application and to activate the CDI. 
+There's also an empty `beans.xml` file, which tells WildFly to look for beans in this  application and to activate the CDI.
 
 Notice that we don't even need a `web.xml`! 
 

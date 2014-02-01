@@ -19,15 +19,15 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>jboss-as-cluster-ha-singleton-client</artifactId>
+    <artifactId>wildfly-cluster-ha-singleton-client</artifactId>
 
     <parent>
-        <groupId>org.jboss.as.quickstarts</groupId>
-        <artifactId>jboss-as-cluster-ha-singleton</artifactId>
-        <version>7.1.2-SNAPSHOT</version>
+        <groupId>org.wildfly.quickstarts</groupId>
+        <artifactId>wildfly-cluster-ha-singleton</artifactId>
+        <version>8.0.0-SNAPSHOT</version>
     </parent>
 
-    <name>JBoss AS Quickstarts: SingletonService (client)</name>
+    <name>WildFly Quickstarts: SingletonService (client)</name>
     <packaging>jar</packaging>
 
     <licenses>
@@ -40,8 +40,8 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.jboss.as.quickstarts</groupId>
-            <artifactId>jboss-as-cluster-ha-singleton-service</artifactId>
+            <groupId>org.wildfly.quickstarts</groupId>
+            <artifactId>wildfly-cluster-ha-singleton-service</artifactId>
             <version>${project.version}</version>
             <type>ejb-client</type>
         </dependency>
@@ -50,16 +50,16 @@
             using any direct reference to EJB spec API in our client code -->
         <dependency>
             <groupId>org.jboss.spec.javax.ejb</groupId>
-            <artifactId>jboss-ejb-api_3.1_spec</artifactId>
+            <artifactId>jboss-ejb-api_3.2_spec</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <!-- Import the JTA API, we use provided scope as the API is included in JBoss WildFly -->
+        <dependency>
+            <groupId>org.jboss.spec.javax.transaction</groupId>
+            <artifactId>jboss-transaction-api_1.2_spec</artifactId>
             <scope>runtime</scope>
         </dependency>
 
-        <dependency>
-         <groupId>org.jboss.spec.javax.transaction</groupId>
-         <artifactId>jboss-transaction-api_1.1_spec</artifactId>
-         <scope>runtime</scope>
-      </dependency>
-      
     </dependencies>
 
     <build>

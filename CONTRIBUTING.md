@@ -4,7 +4,7 @@ Quickstarts Contributing Guide
 Purpose of the quickstarts
 --------------------------
 
-- To demonstrate Java EE 6 technologies
+- To demonstrate Java EE 7 technologies
 
 - To provide developers with working examples and instructions that are easy to follow .
 
@@ -20,15 +20,15 @@ If you don't have the Git client (`git`), get it from: <http://git-scm.com/>
 
 Here are the steps in detail:
 
-1. [Fork](https://github.com/jboss-jdf/jboss-as-quickstart/fork_select) the project. This creates a the project in your own Git with the default remote name 'origin'.
+1. [Fork](https://github.com/wildfly/quickstart/fork_select) the project. This creates a the project in your own Git with the default remote name 'origin'.
 
 2. Clone your fork. This creates and populates a directory in your local file system.
 
-        git clone git@github.com:<your-username>/jboss-as-quickstart.git
+        git clone git@github.com:<your-username>/quickstart.git
 
 3. Add the remote `upstream` repository so you can fetch any changes to the original forked repository.
 
-        git remote add upstream git@github.com:jboss-jdf/jboss-as-quickstart.git
+        git remote add upstream git@github.com:wildfly/quickstart.git
 
 4. Get the latest files from the `upstream` repository.
 
@@ -76,20 +76,20 @@ Here are the steps in detail:
 General Guidelines
 ------------------
 
-* The sample project should be formatted using the JBoss AS profiles found at http://github.com/jboss/ide-config/tree/master/
+* The sample project should be formatted using the WildFly profiles found at http://github.com/jboss/ide-config/tree/master/
 
  - Code should be well documented with good comments. Please add an author tag (@author) to credit yourself for writing the code.
  - You should use readable variable names to make it easy for users to read the code.
 
-* The package must be *org.jboss.as.quickstarts*
+* The package must be *org.wildfly.quickstarts*
 
 * The quickstart project or folder name should match the quickstart name. Each sample project should have a unique name, allowing easy identification by users and developers.
 
-* The quickstart project `<artifactId>` in the `pom.xml` file must be prefixed by `jboss-as-`. For example, the `<artifactId>` for the `greeter` quickstart is `jboss-as-greeter`.
+* The quickstart project `<artifactId>` in the `pom.xml` file must be prefixed by `wildfly-`. For example, the `<artifactId>` for a `is-f-fast` quickstart is `wildfly-is-f-fast`.
 
 * If you create a quickstart that uses a database table, make sure the name you use for the table is unique across all quickstarts. 
 
-* The project must follow the structure used by existing quickstarts such as [numberguess](https://github.com/jboss-jdf/jboss-as-quickstart/tree/master/numberguess). A good starting point would be to copy the  `numberguess` project.
+* The project must follow the structure used by existing quickstarts such as [numberguess](https://github.com/wildfly/quickstart/tree/master/numberguess). A good starting point would be to copy the  `numberguess` project.
 
 * The sample project should be importable into JBoss Developer Studio/JBoss Tools and be deployable from there.
 
@@ -99,7 +99,7 @@ General Guidelines
  - Maven POMs must use the Java EE spec BOM/POM imports
  - The POMs must be commented, with a comment each item in the POM
  - Import the various BOMs, either directly from a project, or from [JBoss BOMs](http://www.jboss.org/jdf/stack/stacks/), to determine version numbers. You should aim to have no dependencies declared directly. If you do, work with the jdf team to get them added to a BOM.
- - Use the JBoss AS Maven Plugin to deploy the example
+ - Use the WildFly Maven Plugin to deploy the example
 
 * The sample project must contain a `README.md` file using the `template/README.md` file as a guideline
 
@@ -115,7 +115,7 @@ General Guidelines
 Kitchensink variants
 --------------------
 
-  There are multiple quickstarts based on the kitchensink example.  Each showcases different technologies and techniques including pure EE6, JSF, HTML5, and GWT.  
+  There are multiple quickstarts based on the kitchensink example.  Each showcases different technologies and techniques including pure EE7, JSF, HTML5, and GWT.
 
   If you wish to contribute a kitchensink variant is it important that you follow the look and feel of the original so that useful comparisons can be made.  This does not mean that variants can not expand, and showcase additional functionality.  Multiple variants already do that.  These include mobile interfaces, push updates, and more.
 
@@ -123,12 +123,12 @@ Kitchensink variants
 
   * Follow the primary layout, style, and graphics of the original.
 
-  * Projects can have 3-4 lines directly under the AS/EAP banner in the middle section to describe what makes this variant different.  
+  * Projects can have 3-4 lines directly under the WildFly banner in the middle section to describe what makes this variant different.
      * How projects use that space is up to them, but options include plain text, bullet points, etc....  
 
   * Projects can have their logo in the left side of the banner.  
     * The sidebar area can contain a section with links to the related projects, wiki, tutorials, etc...  
-       * This should be below any AS/EAP link areas.
+       * This should be below any WildFly link areas.
 
     If appropriate for the technology the application should expose RESTful endpoints following the example of the original kitchensink quickstart.  This should also include the RESTful links in the member table.
     
@@ -137,7 +137,7 @@ Setup your environment
 
 The quickstart README.md files are converted to HTML using markdown. We recommend using redcarpet, as that is what github uses, but you can use any markdown tool really.
 
-There are two scripts, `dist/github-flaoured-markdown.rb`, that will convert an indivdual file, and `dist/release-utils.sh -m`, that will convert all the files.
+There are two scripts, `dist/github-flaoured-markdown.rb`, that will convert an individual file, and `dist/release-utils.sh -m`, that will convert all the files.
 
 To setup the environment you need to follow these steps.
 
@@ -170,7 +170,7 @@ License Information and Contributor Agreement
 
       /** 
        * JBoss, Home of Professional Open Source
-       * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+       * Copyright 2014, Red Hat, Inc. and/or its affiliates, and individual
        * contributors by the @authors tag. See the copyright.txt in the 
        * distribution for a full listing of individual contributors.
        *
@@ -189,7 +189,7 @@ License Information and Contributor Agreement
 
       <!--
        JBoss, Home of Professional Open Source
-       Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+       Copyright 2014, Red Hat, Inc. and/or its affiliates, and individual
        contributors by the @authors tag. See the copyright.txt in the 
        distribution for a full listing of individual contributors.
 
@@ -207,7 +207,7 @@ License Information and Contributor Agreement
 ### Properties files and Bash Scripts
 
        # JBoss, Home of Professional Open Source
-       # Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+       # Copyright 2014, Red Hat, Inc. and/or its affiliates, and individual
        # contributors by the @authors tag. See the copyright.txt in the 
        # distribution for a full listing of individual contributors.
        #
@@ -225,7 +225,7 @@ License Information and Contributor Agreement
 
       --
       -- JBoss, Home of Professional Open Source
-      -- Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+      -- Copyright 2014, Red Hat, Inc. and/or its affiliates, and individual
       -- contributors by the @authors tag. See the copyright.txt in the
       -- distribution for a full listing of individual contributors.
       --
@@ -244,7 +244,7 @@ License Information and Contributor Agreement
 
       <%--
       JBoss, Home of Professional Open Source
-      Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+      Copyright 2014, Red Hat, Inc. and/or its affiliates, and individual
       contributors by the @authors tag. See the copyright.txt in the
       distribution for a full listing of individual contributors.
 

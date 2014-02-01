@@ -38,7 +38,7 @@ import javax.servlet.http.HttpSession;
 /**
  * A silly Servlet Filter that removes the letters a, e, i, o, and u (but not <a
  * href="http://oxforddictionaries.com/page/200">sometimes y</a>) from all request parameter values. To achieve this, a wrapper
- * is placed around the request object. This wrapper returns a different set of parameters than those that the JBoss AS
+ * is placed around the request object. This wrapper returns a different set of parameters than those that the WildFly
  * container parsed from the original HTTP request.
  * <p>
  * This is just one simple example of what you can do with a filter. In real life, you will find filters useful for these kinds
@@ -70,7 +70,7 @@ public class VowelRemoverFilter implements Filter {
         // in the destroy() call.
         servletContext = filterConfig.getServletContext();
 
-        // To see this log message at run time, check out the terminal window where you started JBoss AS.
+        // To see this log message at run time, check out the terminal window where you started WildFly.
         servletContext.log("VowelRemoverFilter initialized");
     }
 

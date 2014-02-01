@@ -28,6 +28,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.WriteListener;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -96,6 +97,16 @@ public class JSONPRequestFilter implements Filter {
                         @Override
                         public void write(int b) throws IOException {
                             byteStream.write(b);
+                        }
+
+                        @Override
+                        public boolean isReady() {
+                            return true;
+                        }
+
+                        @Override
+                        public void setWriteListener(WriteListener writeListener) {
+
                         }
                     };
                 }

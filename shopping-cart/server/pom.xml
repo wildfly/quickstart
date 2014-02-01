@@ -20,14 +20,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.jboss.as.quickstarts</groupId>
-        <artifactId>jboss-as-shoppingcart-parent</artifactId>
-        <version>7.1.2-SNAPSHOT</version>
+        <groupId>org.wildfly.quickstarts</groupId>
+        <artifactId>wildfly-shoppingcart-parent</artifactId>
+        <version>8.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>jboss-as-shoppingcart-server</artifactId>
+    <artifactId>wildfly-shoppingcart-server</artifactId>
     <packaging>jar</packaging>
-    <name>JBoss AS Quickstarts: Shopping Cart Server Module</name>
+    <name>WildFly Quickstarts: Shopping Cart Server Module</name>
 
     <licenses>
         <license>
@@ -40,18 +40,18 @@
     <dependencies>
 
         <!-- Import the Common Annotations API (JSR-250), we use provided 
-            scope as the API is included in JBoss AS 7 -->
+            scope as the API is included in JBoss WildFly -->
         <dependency>
             <groupId>org.jboss.spec.javax.annotation</groupId>
-            <artifactId>jboss-annotations-api_1.1_spec</artifactId>
+            <artifactId>jboss-annotations-api_1.2_spec</artifactId>
             <scope>provided</scope>
         </dependency>
 
         <!-- Import the EJB 3.1 API, we use provided scope as the API is 
-            included in JBoss AS 7 -->
+            included in JBoss WildFly -->
         <dependency>
             <groupId>org.jboss.spec.javax.ejb</groupId>
-            <artifactId>jboss-ejb-api_3.1_spec</artifactId>
+            <artifactId>jboss-ejb-api_3.2_spec</artifactId>
             <scope>provided</scope>
         </dependency>
 
@@ -61,10 +61,10 @@
         <!-- Set the name of the deployment -->
         <finalName>${project.artifactId}</finalName>
         <plugins>
-            <!-- JBoss AS plugin to deploy the application -->
+            <!-- WildFly plugin to deploy the application -->
             <plugin>
-                <groupId>org.jboss.as.plugins</groupId>
-                <artifactId>jboss-as-maven-plugin</artifactId>
+                <groupId>org.wildfly.plugins</groupId>
+                <artifactId>wildfly-maven-plugin</artifactId>
                 <configuration>
                     <skip>false</skip>
                 </configuration>

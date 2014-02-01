@@ -4,13 +4,13 @@ Author: Serge Pagop
 Level: Intermediate
 Technologies: EJB
 Summary: Demonstrates a stateful session bean
-Target Product: EAP
-Source: <https://github.com/jboss-jdf/jboss-as-quickstart/>
+Target Project: WildFly
+Source: <https://github.com/wildfly/quickstart/>
 
 What is it?
 -----------
 
-In this example, you will learn how to deploy and run a simple Java EE 6 application named `shopping-cart` that uses a stateful session bean. The shopping-cart allows customers to buy, checkout and view their cart contents. 
+In this example, you will learn how to deploy and run a simple Java EE 7 application named `shopping-cart` that uses a stateful session bean. The shopping-cart allows customers to buy, checkout and view their cart contents.
 
 The shopping-cart application consists of the following:
 
@@ -27,7 +27,7 @@ System requirements
 
 All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven 3.0 or better.
 
-The application this project produces is designed to be run on JBoss Enterprise Application Platform 6 or JBoss AS 7. 
+The application this project produces is designed to be run on JBoss WildFly.
 
  
 Configure Maven
@@ -36,7 +36,7 @@ Configure Maven
 If you have not yet done so, you must [Configure Maven](../README.md#mavenconfiguration) before testing the quickstarts.
 
 
-Start JBoss Enterprise Application Platform 6 or JBoss AS 7 with the Web Profile
+Start JBoss WildFly with the Web Profile
 -------------------------
 
 1. Open a command line and navigate to the root of the JBoss server directory.
@@ -54,13 +54,9 @@ Build and Deploy the Quickstart
 2. Open a command line and navigate to the `shopping-cart` quickstart directory
 3. To build both the server component and the remote client program, deploy the server module, change into the examples shopping-cart directory and type the following:
 
-    For JBoss Enterprise Application Platform 6 (Maven user settings NOT configured): 
+    mvn clean install wildfly:deploy
 
-        mvn clean install jboss-as:deploy -s PATH_TO_QUICKSTARTS/example-settings.xml
-    For JBoss AS 7 or JBoss Enterprise Application Platform 6 (Maven user settings configured): 
-
-        mvn clean install jboss-as:deploy 
-4. This maven goal will deploy `server/target/jboss-as-shoppingcart-server.jar`. You can check the Application Server console to see information messages regarding the deployment.
+4. This maven goal will deploy `server/target/wildfly-shoppingcart-server.jar`. You can check the Application Server console to see information messages regarding the deployment.
 
 
 Run the Client Application
@@ -68,13 +64,7 @@ Run the Client Application
 
 Now start a client that will access the beans you just deployed:
 
-    For JBoss Enterprise Application Platform 6 (Maven user settings NOT configured): 
-
-        mvn exec:java -f client/pom.xml -s PATH_TO_QUICKSTARTS/example-settings.xml
-
-    For JBoss AS 7 or JBoss Enterprise Application Platform 6 (Maven user settings configured): 
-
-        mvn exec:java -f client/pom.xml 
+    mvn exec:java -f client/pom.xml
 
 Investigate the Console Output
 -------------------------------
@@ -88,53 +78,38 @@ You should see the following:
 
 On the client console, you should see output similar to:
 
-    Mar 23, 2012 12:59:40 PM org.jboss.ejb.client.EJBClient <clinit>
-    INFO: JBoss EJB Client version 1.0.5.Final
-    Mar 23, 2012 12:59:40 PM org.xnio.Xnio <clinit>
-    INFO: XNIO Version 3.0.3.GA
-    Mar 23, 2012 12:59:40 PM org.xnio.nio.NioXnio <clinit>
-    INFO: XNIO NIO Implementation Version 3.0.3.GA
-    Mar 23, 2012 12:59:40 PM org.jboss.remoting3.EndpointImpl <clinit>
-    INFO: JBoss Remoting version 3.2.3.GA
-    Mar 23, 2012 12:59:40 PM org.jboss.ejb.client.remoting.VersionReceiver handleMessage
-    INFO: Received server version 1 and marshalling strategies [river]
-    Mar 23, 2012 12:59:40 PM org.jboss.ejb.client.remoting.RemotingConnectionEJBReceiver associate
-    INFO: Successful version handshake completed for receiver context EJBReceiverContext{clientContext=org.jboss.ejb.client.EJBClientContext@2ad1918a, receiver=Remoting connection EJB receiver [connection=Remoting connection <6b28215d>,channel=jboss.ejb,nodename=ptarmigan]} on channel Channel ID a2f59bb1 (outbound) of Remoting connection 5caccd65 to localhost/127.0.0.1:8080
-    Mar 23, 2012 12:59:40 PM org.jboss.ejb.client.remoting.ChannelAssociation$ResponseReceiver handleMessage
-    WARN: Unsupported message received with header 0xffffffff
-    
     &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
     Obtained the remote interface to the shopping cart
     Buying a "JBoss Enterprise Application Platform 6"
     Buying another "JBoss Enterprise Application Platform 6"
     Buying a "JBoss SOA Platform 6"
-    
+
     Print cart:
     1     JBoss SOA Platform 6
     2     JBoss Enterprise Application Platform 6
-    
+
     Checkout
-    Mar 23, 2012 12:59:41 PM org.jboss.ejb.client.remoting.ChannelAssociation resultReady
-    INFO: Discarding result for invocation id 6 since no waiting context found
-    ERROR: Cannot access cart after Checkout!
+    Cart was correctly removed, as expected, after Checkout
     &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 
-On the server console, you should see output similar to:
 
-    18:22:06,896 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-2) JNDI bindings for session bean named ShoppingCartBean in deployment unit deployment "jboss-as-shoppingcart-server.jar" are as follows:
+On the server console, you should see output similar to (remember the server messages might change for different versions):
 
-    	java:global/jboss-as-shoppingcart-server/ShoppingCartBean!org.jboss.as.quickstarts.sfsb.ShoppingCart
-    	java:app/jboss-as-shoppingcart-server/ShoppingCartBean!org.jboss.as.quickstarts.sfsb.ShoppingCart
+    INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-2) JNDI bindings for session bean named ShoppingCartBean in deployment unit deployment "jboss-shopping-cart-server.jar" are as follows:
+
+    	java:global/jboss-shopping-cart-server/ShoppingCartBean!org.jboss.as.quickstarts.sfsb.ShoppingCart
+    	java:app/jboss-shopping-cart-server/ShoppingCartBean!org.jboss.as.quickstarts.sfsb.ShoppingCart
     	java:module/ShoppingCartBean!org.jboss.as.quickstarts.sfsb.ShoppingCart
-    	java:global/jboss-as-shoppingcart-server/ShoppingCartBean
-    	java:app/jboss-as-shoppingcart-server/ShoppingCartBean
+    	java:global/jboss-shopping-cart-server/ShoppingCartBean
+    	java:app/jboss-shopping-cart-server/ShoppingCartBean
     	java:module/ShoppingCartBean
 
-    18:22:07,865 INFO  [org.jboss.as.server] (management-handler-threads - 2) JBAS018559: Deployed "jboss-as-shoppingcart-server.jar"
-    18:29:53,757 INFO  [stdout] (pool-9-thread-8) implementing checkout() left as exercise for the reader!
-    18:29:53,794 INFO  [org.jboss.as.ejb3] (pool-9-thread-8) JBAS014101: Failed to find {[-22, 53, -53, 71, 41, 47, 72, -112, -113, -93, -43, -23, -2, -49, 119, 40]} in cache
-    18:29:53,798 ERROR [org.jboss.ejb3.invocation] (pool-9-thread-9) JBAS014134: EJB Invocation failed on component ShoppingCartBean for method public abstract java.util.HashMap org.jboss.as.quickstarts.sfsb.ShoppingCart.getCartContents(): javax.ejb.NoSuchEJBException: Could not find SFSB ShoppingCartBean
+    INFO  [org.jboss.as.server] (management-handler-threads - 2) JBAS018559: Deployed "jboss-shopping-cart-server.jar"
+    INFO  [stdout] (pool-9-thread-8) implementing checkout() left as exercise for the reader!
 
+_Note_: You also see the following `EJB Invocation failed` and `NoSuchEJBException` messages in the server log. This is the expected result because method is annotated with `@Remove`. This means the next invocation after the shopping cart checkout fails because the container has destroyed the instance and it is no longer available.
+
+    ERROR [org.jboss.as.ejb3.invocation] (EJB default - 5) JBAS014134: EJB Invocation failed on component ShoppingCartBean for method public abstract java.util.HashMap org.jboss.as.quickstarts.sfsb.ShoppingCart.getCartContents(): javax.ejb.NoSuchEJBException: JBAS014300: Could not find EJB with id {...]}
 
 Undeploy the Archive
 --------------------
@@ -143,7 +118,7 @@ Undeploy the Archive
 2. Open a command line and navigate to the root directory of this quickstart.
 3. When you are finished testing, type this command to undeploy the archive:
 
-        mvn jboss-as:undeploy
+        mvn wildfly:undeploy
 
 
 Run the Quickstart in JBoss Developer Studio or Eclipse

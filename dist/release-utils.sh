@@ -148,12 +148,12 @@ regenerate()
       archetype=${ARCHETYPES[index]}
       quickstart=${QUICKSTARTS[index]}
       package=${quickstart//-/_}
-      name="JBoss AS Quickstarts: $quickstart"
+      name="WildFly Quickstarts: $quickstart"
       echo "**** Regenerating $quickstart from $archetype"
-      mvn archetype:generate -DarchetypeGroupId=org.jboss.spec.archetypes -DarchetypeArtifactId=$archetype -DarchetypeVersion=$VERSION -DartifactId=jboss-as-$quickstart -DgroupId=org.jboss.as.quickstarts -Dpackage=org.jboss.as.quickstarts.$package -Dversion=$VERSION -DinteractiveMode=false -Dname="${name}"
+      mvn archetype:generate -DarchetypeGroupId=org.jboss.spec.archetypes -DarchetypeArtifactId=$archetype -DarchetypeVersion=$VERSION -DartifactId=wildfly-$quickstart -DgroupId=org.jboss.as.quickstarts -Dpackage=org.jboss.as.quickstarts.$package -Dversion=$VERSION -DinteractiveMode=false -Dname="${name}"
       ((index++))
       rm -rf $ROOTDIR/$quickstart
-      mv $TMPDIR/jboss-as-$quickstart $ROOTDIR/$quickstart
+      mv $TMPDIR/wildfly-$quickstart $ROOTDIR/$quickstart
    done
 
 }
