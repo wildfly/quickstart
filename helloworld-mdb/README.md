@@ -1,16 +1,19 @@
+---
+Author: Serge Pagop, Andy Taylor, Jeff Mesnil
+Level: Intermediate
+Technologies: JMS, EJB, MDB
+Summary: Demonstrates the use of JMS and EJB Message-Driven Bean
+Target Product: WildFly
+Source: https://github.com/wildfly/quickstart/
+---
+
 helloworld-mdb: Helloword Using an MDB (Message-Driven Bean)
 ============================================================
-Author: Serge Pagop, Andy Taylor, Jeff Mesnil  
-Level: Intermediate  
-Technologies: JMS, EJB, MDB  
-Summary: Demonstrates the use of JMS 1.1 and EJB 3.1 Message-Driven Bean  
-Target Product: EAP
-Source: <https://github.com/jboss-jdf/jboss-as-quickstart/>
 
 What is it?
 -----------
 
-This example demonstrates the use of *JMS 1.1* and *EJB 3.1 Message-Driven Bean* in JBoss Enterprise Application Platform 6 or JBoss AS 7.1.0.
+This example demonstrates the use of *JMS 2.0* and *EJB 3.2 Message-Driven Bean* in WildFly 8.
 
 This project creates two JMS resources:
 
@@ -21,18 +24,18 @@ This project creates two JMS resources:
 System requirements
 -------------------
 
-All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven 3.0 or better.
+All you need to build this project is Java 7.0 (Java SDK 1.7) or better, Maven 3.0 or better.
 
-The application this project produces is designed to be run on JBoss Enterprise Application Platform 6 or JBoss AS 7. 
+The application this project produces is designed to be run on WildFly 8.
 
  
 Configure Maven
 ---------------
 
-If you have not yet done so, you must [Configure Maven](../README.md#mavenconfiguration) before testing the quickstarts.
+If you have not yet done so, you must [Configure Maven](../README.md#configure-maven-) before testing the quickstarts.
 
 
-Start JBoss Enterprise Application Platform 6 or JBoss AS 7 with the Full Profile
+Start WildFly 8 with the Full Profile
 ---------------
 
 1. Open a command line and navigate to the root of the JBoss server directory.
@@ -91,11 +94,6 @@ Undeploy the Archive
         mvn jboss-as:undeploy
 
 
-Run the Quickstart in JBoss Developer Studio or Eclipse
--------------------------------------
-You can also start the server and deploy the quickstarts from Eclipse using JBoss tools. For more information, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](../README.md#useeclipse) 
-
-
 Debug the Application
 ------------------------------------
 
@@ -114,13 +112,13 @@ If you do not yet have an OpenShift account and domain, [Sign in to OpenShift](h
 
 ### Create the OpenShift Application
 
-Open a shell command prompt and change to a directory of your choice. Enter the following command, replacing APPLICATION_TYPE with `jbosseap-6.0` for quickstarts running on JBoss Enterprise Application Platform 6, or `jbossas-7` for quickstarts running on JBoss AS 7:
+Open a shell command prompt and change to a directory of your choice. Enter the following command for quickstarts running on WildFLy 8:
 
-    rhc app create -a hellworldmdb -t APPLICATION_TYPE
+    rhc app create helloworldmdb https://raw.github.com/openshift-cartridges/openshift-wildfly-cartridge/master/metadata/manifest.yml
 
 The domain name for this application will be `helloworldmdb-YOUR_DOMAIN_NAME.rhcloud.com`. Here we use the _quickstart_ domain. You will need to replace it with your own OpenShift domain name.
 
-This command creates an OpenShift application called `helloworldmdb` and will run the application inside the `jbosseap-6.0`  or `jbossas-7` container. You should see some output similar to the following:
+This command creates an OpenShift application called `helloworldmdb` and will run the application inside the `wildfly-8` container. You should see some output similar to the following:
 
     Creating application: helloworldmdb
     Now your new domain name is being propagated worldwide (this might take a minute)...
@@ -173,7 +171,7 @@ If the application has run succesfully you should see some output in the browser
 
 Now you can look at the output of the server by running the following command:
 
-    rhc app status -a helloworldmdb
+    rhc tail -a helloworldmdb
 
 This will show the tail of the servers log which should show something like the following.
 
