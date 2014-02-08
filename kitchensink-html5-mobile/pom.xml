@@ -15,59 +15,23 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.jboss.as.quickstarts</groupId>
-    <artifactId>jboss-as-kitchensink-html5-mobile</artifactId>
-    <version>7.1.2-SNAPSHOT</version>
+    <parent>
+        <groupId>org.wildfly.quickstarts</groupId>
+        <artifactId>wildfly-quickstarts-parent</artifactId>
+        <version>8.0.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+    <artifactId>wildfly-kitchensink-html5-mobile</artifactId>
     <packaging>war</packaging>
 
-    <name>JBoss AS Quickstarts: HTML5/Mobile</name>
+    <name>WildFly Quickstarts: HTML5/Mobile</name>
     <description>A Java EE 6 HTML5 mobile web application for use with JBoss.</description>
 
     <url>http://jboss.org/aerogear</url>
-
-    <properties>
-        <!-- Explicitly declaring the source encoding eliminates the following message: -->
-        <!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent! -->
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        
-        <!-- You can reference property in pom.xml or filtered resources (must enable third-party plugin if using Maven < 2.1) -->
-        
-        <!-- JBoss dependency versions -->
- 
-        <version.jboss.maven.plugin>7.3.Final</version.jboss.maven.plugin>
-        <!-- Alternatively, comment out the above line, and un-comment the 
-            line below to use version 7.2.0.Final-redhat-1 which is a release certified 
-            to work with JBoss EAP 6. It requires you have access to the JBoss EAP 6 
-            maven repository. -->
-        <!-- <version.jboss.as>7.2.0.Final-redhat-1</version.jboss.as> -->
-
-        <!-- Define the version of the JBoss BOMs we want to import to specify tested stacks. -->
-        <version.jboss.bom>1.0.4.Final</version.jboss.bom>
-        <version.arquillian.container>8.0.0.Alpha3</version.arquillian.container>
-
-        <!-- Alternatively, comment out the above line, and un-comment the 
-            line below to use version 1.0.4.Final-redhat-3 which is a release certified 
-            to work with JBoss EAP 6. It requires you have access to the JBoss EAP 6 
-            maven repository. -->
-        <!-- <version.jboss.bom>1.0.4.Final-redhat-3</version.jboss.bom> -->
-
-
-        <!-- Other dependency versions -->
-        <version.org.eclipse.m2e>1.0.0</version.org.eclipse.m2e>
-        <version.ro.isdc.wro4j>1.4.4</version.ro.isdc.wro4j>
-
-        <!-- other plugin versions -->
-        <version.compiler.plugin>2.3.1</version.compiler.plugin>
-        <version.surefire.plugin>2.4.3</version.surefire.plugin>
-        <version.war.plugin>2.2</version.war.plugin>
-
-        <!-- maven-compiler-plugin -->
-        <maven.compiler.target>1.6</maven.compiler.target>
-        <maven.compiler.source>1.6</maven.compiler.source>
-    </properties>
 
     <licenses>
         <license>
@@ -103,7 +67,7 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-    
+
     <dependencies>
         <!-- First declare the APIs we depend on and need for compilation. All of them are provided by JBoss -->
 
@@ -196,39 +160,6 @@
 
     </dependencies>
 
-    <build>
-        <!-- Maven will append the version to the finalName (which is the name given to the generated war, and hence the context 
-            root) -->
-        <finalName>${project.artifactId}</finalName>
-        <plugins>
-            <!-- Compiler plugin enforces Java 1.6 compatibility and activates annotation processors -->
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>${version.compiler.plugin}</version>
-                <configuration>
-                    <source>${maven.compiler.source}</source>
-                    <target>${maven.compiler.target}</target>
-                </configuration>
-            </plugin>
-            <plugin>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>${version.war.plugin}</version>
-                <configuration>
-                    <!-- Java EE 6 doesn't require web.xml, Maven needs to catch up! -->
-                    <failOnMissingWebXml>false</failOnMissingWebXml>
-                </configuration>
-            </plugin>
-            <!-- The JBoss AS plugin deploys your war to a local JBoss AS container -->
-            <!-- To use, run: mvn package jboss-as:deploy -->
-            <plugin>
-                <groupId>org.jboss.as.plugins</groupId>
-                <artifactId>jboss-as-maven-plugin</artifactId>
-                <version>${version.jboss.maven.plugin}</version>
-            </plugin>
-            
-        </plugins>
-    </build>
-    
     <profiles>
         <profile>
             <!-- The default profile skips all tests, though you can tune it to run just unit tests based on a custom pattern -->
@@ -390,7 +321,7 @@
                         <configuration>
                             <systemProperties>
                                 <arquillian.launch>jbossci</arquillian.launch>
-                                <arquillian.jboss_home>${project.build.directory}/jboss-as-${version.jboss.as}/
+                                <arquillian.jboss_home>${project.build.directory}/wildfly-${version.wildfly}/
                                 </arquillian.jboss_home>
                             </systemProperties>
                             <includes>
@@ -411,9 +342,9 @@
                                 <configuration>
                                     <artifactItems>
                                         <artifactItem>
-                                            <groupId>org.jboss.as</groupId>
-                                            <artifactId>jboss-as-dist</artifactId>
-                                            <version>${version.jboss.as}</version>
+                                            <groupId>org.wildfly</groupId>
+                                            <artifactId>wildfly-dist</artifactId>
+                                            <version>${version.wildfly}</version>
                                             <outputDirectory>${project.build.directory}</outputDirectory>
                                             <type>zip</type>
                                             <overWrite>false</overWrite>
@@ -427,5 +358,5 @@
             </build>
         </profile>
     </profiles>
-    
+
 </project>

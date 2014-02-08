@@ -20,14 +20,15 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.jboss.as.quickstarts</groupId>
-        <artifactId>jboss-as-shoppingcart-parent</artifactId>
-        <version>7.1.2-SNAPSHOT</version>
+        <groupId>org.wildfly.quickstarts</groupId>
+        <artifactId>wildfly-shoppingcart-parent</artifactId>
+        <version>8.0.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>jboss-as-shoppingcart-client</artifactId>
+    <artifactId>wildfly-shoppingcart-client</artifactId>
     <packaging>jar</packaging>
-    <name>JBoss AS Quickstarts: Shopping Cart Remote Client</name>
+    <name>WildFly Quickstarts: Shopping Cart Remote Client</name>
 
     <licenses>
         <license>
@@ -41,8 +42,8 @@
 
         <!-- We depend on the server side EJBs of this application -->
         <dependency>
-            <groupId>org.jboss.as.quickstarts</groupId>
-            <artifactId>jboss-as-shoppingcart-server</artifactId>
+            <groupId>org.wildfly.quickstarts</groupId>
+            <artifactId>wildfly-shoppingcart-server</artifactId>
         </dependency>
 
         <!-- JBoss EJB client stack. We use runtime scope because the EJB 
@@ -54,11 +55,11 @@
             <scope>runtime</scope>
             <type>pom</type>
         </dependency>
-        
+
         <!--  Import the Java EJB API, as we use exceptions from it -->
         <dependency>
             <groupId>org.jboss.spec.javax.ejb</groupId>
-            <artifactId>jboss-ejb-api_3.1_spec</artifactId>
+            <artifactId>jboss-ejb-api_3.2_spec</artifactId>
         </dependency>
 
     </dependencies>
@@ -66,15 +67,6 @@
     <build>
         <finalName>${project.artifactId}</finalName>
         <plugins>
-            <!-- Enforce Java 1.6 -->
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>${version.compiler.plugin}</version>
-                <configuration>
-                    <source>${maven.compiler.source}</source>
-                    <target>${maven.compiler.target}</target>
-                </configuration>
-            </plugin>
 
             <!-- Add the maven exec plugin to allow us to run a java program 
                 via maven -->

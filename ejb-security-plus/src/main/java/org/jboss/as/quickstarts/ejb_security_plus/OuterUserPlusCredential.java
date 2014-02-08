@@ -16,7 +16,8 @@
  */
 package org.jboss.as.quickstarts.ejb_security_plus;
 
-import org.jboss.as.domain.management.security.RealmUser;
+
+import org.jboss.as.core.security.RealmUser;
 
 /**
  * A wrapper around the user from the incoming connection plus some additional secret to authenticate the incoming user.

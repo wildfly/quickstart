@@ -20,15 +20,16 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.jboss.as.quickstarts</groupId>
-        <artifactId>jboss-as-wicket-ear-parent</artifactId>
-        <version>7.1.2-SNAPSHOT</version>
+        <groupId>org.wildfly.quickstarts</groupId>
+        <artifactId>wildfly-wicket-ear-parent</artifactId>
+        <version>8.0.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>jboss-as-wicket-ear-war</artifactId>
+    <artifactId>wildfly-wicket-ear-war</artifactId>
     <packaging>war</packaging>
 
-    <name>JBoss AS Quickstarts: Wicket EAR: WAR</name>
+    <name>WildFly Quickstarts: Wicket EAR: WAR</name>
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
@@ -42,7 +43,7 @@
         <!-- Import the JPA API. -->
         <dependency>
             <groupId>org.hibernate.javax.persistence</groupId>
-            <artifactId>hibernate-jpa-2.0-api</artifactId>
+            <artifactId>hibernate-jpa-2.1-api</artifactId>
             <scope>provided</scope>
         </dependency>
 
@@ -61,8 +62,8 @@
 
         <!-- EJB JAR. -->
         <dependency>
-            <groupId>org.jboss.as.quickstarts</groupId>
-            <artifactId>jboss-as-wicket-ear-ejb</artifactId>
+            <groupId>org.wildfly.quickstarts</groupId>
+            <artifactId>wildfly-wicket-ear-ejb</artifactId>
             <type>ejb</type>
             <scope>provided</scope>
         </dependency>
@@ -87,17 +88,6 @@
                 </excludes>
             </resource>
         </resources>
-
-        <plugins>
-            <!-- Skip JBoss AS plugin - only applicable for the EAR package. -->
-            <plugin>
-                <groupId>org.jboss.as.plugins</groupId>
-                <artifactId>jboss-as-maven-plugin</artifactId>
-                <configuration>
-                    <skip>true</skip>
-                </configuration>
-            </plugin>
-        </plugins>
     </build>
 
 </project>

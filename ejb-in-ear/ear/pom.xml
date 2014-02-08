@@ -25,16 +25,17 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <artifactId>jboss-as-ejb-in-ear</artifactId>
-        <groupId>org.jboss.as.quickstarts</groupId>
-        <version>7.1.2-SNAPSHOT</version>
+        <artifactId>wildfly-ejb-in-ear</artifactId>
+        <groupId>org.wildfly.quickstarts</groupId>
+        <version>8.0.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>jboss-as-ejb-in-ear-ear</artifactId>
+    <artifactId>wildfly-ejb-in-ear-ear</artifactId>
     <packaging>ear</packaging>
 
-    <name>JBoss AS Quickstarts: EJB and War in an Ear - EAR</name>
-    <description>JBoss AS Quickstarts: EJB and WAR in an EAR - EAR</description>
+    <name>WildFly Quickstarts: EJB and War in an Ear - EAR</name>
+    <description>WildFly Quickstarts: EJB and WAR in an EAR - EAR</description>
 
     <licenses>
         <license>
@@ -47,13 +48,13 @@
     <dependencies>
         <!-- Dependencies on the ejb and web modules so that they can be found by the ear plugin -->
         <dependency>
-            <groupId>org.jboss.as.quickstarts</groupId>
-            <artifactId>jboss-as-ejb-in-ear-web</artifactId>
+            <groupId>org.wildfly.quickstarts</groupId>
+            <artifactId>wildfly-ejb-in-ear-web</artifactId>
             <type>war</type>
         </dependency>
         <dependency>
-            <groupId>org.jboss.as.quickstarts</groupId>
-            <artifactId>jboss-as-ejb-in-ear-ejb</artifactId>
+            <groupId>org.wildfly.quickstarts</groupId>
+            <artifactId>wildfly-ejb-in-ear-ejb</artifactId>
             <type>ejb</type>
         </dependency>
     </dependencies>
@@ -79,8 +80,8 @@
                         If a custom context root is needed, uncomment the following snippet to
                         register our War as a web module and set the contextRoot property -->
                         <webModule>
-                            <groupId>org.jboss.as.quickstarts</groupId>
-                            <artifactId>jboss-as-ejb-in-ear-web</artifactId>
+                            <groupId>org.wildfly.quickstarts</groupId>
+                            <artifactId>wildfly-ejb-in-ear-web</artifactId>
                             <contextRoot>/jboss-as-ejb-in-ear</contextRoot>
                         </webModule>
                     </modules>
@@ -89,9 +90,9 @@
             </plugin>
             <!-- JBoss AS plugin to deploy ear -->
             <plugin>
-                <groupId>org.jboss.as.plugins</groupId>
-                <artifactId>jboss-as-maven-plugin</artifactId>
-                <version>${version.jboss.maven.plugin}</version>
+                <groupId>org.wildfly.plugins</groupId>
+                <artifactId>wildfly-maven-plugin</artifactId>
+                <version>${version.wildfly.maven.plugin}</version>
                 <configuration>
                     <filename>${project.artifactId}.ear</filename>
                     <skip>false</skip>

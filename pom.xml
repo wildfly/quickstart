@@ -21,15 +21,14 @@
     <parent>
         <groupId>org.jboss</groupId>
         <artifactId>jboss-parent</artifactId>
-        <version>8</version>
-        <relativePath />
+        <version>12</version>
     </parent>
-    <groupId>org.jboss.as.quickstarts</groupId>
-    <artifactId>jboss-as-quickstarts-parent</artifactId>
-    <version>7.1.2-SNAPSHOT</version>
+    <groupId>org.wildfly.quickstarts</groupId>
+    <artifactId>wildfly-quickstarts-parent</artifactId>
+    <version>8.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>JBoss AS Quickstarts Parent</name>
-    <description>JBoss AS Quickstarts Parent</description>
+    <description>WildFly Quickstarts Parent</description>
     <url>http://www.jboss.org/jdf/quickstarts/get-started/</url>
 
     <licenses>
@@ -41,42 +40,41 @@
     </licenses>
 
     <properties>
+
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- A base list of dependency and plugin version used in the various quick starts. -->
 
         <!-- JBoss dependency versions -->
-
-        <version.jboss.as>7.2.0.Final</version.jboss.as>
-        <!-- Alternatively, comment out the above line, and un-comment the 
+        <version.wildfly>8.0.0.CR1</version.wildfly>
+        <!-- Alternatively, comment out the above line, and un-comment the
             line below to use version 7.2.0.Final-redhat-1 which is a release certified 
             to work with JBoss EAP 6. It requires you have access to the JBoss EAP 6 
             maven repository. -->
         <!-- <version.jboss.as>7.2.0.Final-redhat-1</version.jboss.as> -->
 
-        <version.jboss.maven.plugin>7.3.Final</version.jboss.maven.plugin>
+        <version.wildfly.maven.plugin>1.0.0.Beta1</version.wildfly.maven.plugin>
+
+        <version.arquillian.container>8.0.0.CR1</version.arquillian.container>
 
         <!-- Define the version of the JBoss BOMs we want to import to specify tested stacks. -->
-        <version.jboss.bom>1.0.4.Final</version.jboss.bom>
+        <version.jboss.bom>1.0.5.Final</version.jboss.bom>
         <!-- Alternatively, comment out the above line, and un-comment the 
             line below to use version 1.0.4.Final-redhat-3 which is a release certified 
             to work with JBoss EAP 6. It requires you have access to the JBoss EAP 6 
             maven repository. -->
         <!-- <version.jboss.bom>1.0.4.Final-redhat-3</version.jboss.bom> -->
 
-        <version.jboss.spec.javaee.6.0>3.0.2.Final</version.jboss.spec.javaee.6.0> 
+        <version.jboss.spec.javaee7>1.0.0.Final</version.jboss.spec.javaee7>
         <!-- Alternatively, comment out the above line, and un-comment the 
             line below to use version 3.0.2.Final-redhat-2 which is a release certified 
             to work with JBoss EAP 6. It requires you have access to the JBoss EAP 6 
             maven repository. -->
-        <!-- <version.jboss.spec.javaee.6.0>3.0.2.Final-redhat-2</version.jboss.spec.javaee.6.0> -->
 
-        <version.org.hibernate3.commons.annotations>3.2.0.Final</version.org.hibernate3.commons.annotations>
-        <version.org.hibernate>3.6.8.Final</version.org.hibernate>
-        <version.org.hibernate.em>3.6.8.Final</version.org.hibernate.em>
-        <version.org.hibernate.infinispan>3.6.8.Final</version.org.hibernate.infinispan>
-        <version.org.hibernate.validator>4.2.0.Final</version.org.hibernate.validator>
-                
-        <version.org.richfaces>4.2.0.Final</version.org.richfaces>
-        
+        <version.org.hibernate>4.3.1.Final</version.org.hibernate>
+        <version.org.richfaces>4.3.5.Final</version.org.richfaces>
+        <version.shrinkwrap.resolver>2.0.0</version.shrinkwrap.resolver>
+        <version.junit>4.11</version.junit>
+
         <!-- Other dependency versions -->
         <version.org.apache.httpcomponents>4.1.4</version.org.apache.httpcomponents>
         <version.dom4j>1.6</version.dom4j>
@@ -86,40 +84,53 @@
         <version.org.apache.wicket>1.5.5</version.org.apache.wicket>
         <version.net.ftlines.wicket-cdi>1.2</version.net.ftlines.wicket-cdi>
         <version.ro.isdc.wro4j>1.4.4</version.ro.isdc.wro4j>
+        <com.ocpsoft.prettyfaces.version>3.3.2</com.ocpsoft.prettyfaces.version>
+        <org.jboss.weld.servlet.version>1.1.8.Final</org.jboss.weld.servlet.version>
+        <com.sun.faces.jsf.impl.version>2.0.2</com.sun.faces.jsf.impl.version>
 
-        <!-- other plugin versions -->
-        <version.bundle.plugin>2.3.4</version.bundle.plugin>
-        <version.clean.plugin>2.4.1</version.clean.plugin>
-        <version.compiler.plugin>2.3.1</version.compiler.plugin>
-        <version.ear.plugin>2.6</version.ear.plugin>
-        <version.ejb.plugin>2.3</version.ejb.plugin>
-        <version.exec.plugin>1.2.1</version.exec.plugin>
-        <version.jar.plugin>2.2</version.jar.plugin>
         <version.org.codehaus.mojo.gwt.maven.plugin>2.4.0</version.org.codehaus.mojo.gwt.maven.plugin>
-        <version.surefire.plugin>2.10</version.surefire.plugin>
-        <version.war.plugin>2.1.1</version.war.plugin>
+        <version.exec.plugin>1.2.1</version.exec.plugin>
 
-        <!-- maven-compiler-plugin -->
-        <maven.compiler.target>1.6</maven.compiler.target>
-        <maven.compiler.source>1.6</maven.compiler.source>
+
     </properties>
 
     <build>
+        <finalName>${project.artifactId}</finalName>
+        <pluginManagement>
+            <!-- The WildFly plugin deploys your apps to a local WildFly container -->
+            <plugins>
+                <plugin>
+                    <groupId>org.wildfly.plugins</groupId>
+                    <artifactId>wildfly-maven-plugin</artifactId>
+                    <version>${version.wildfly.maven.plugin}</version>
+                    <configuration>
+                        <skip>true</skip>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-war-plugin</artifactId>
+                    <version>${version.war.plugin}</version>
+                    <configuration>
+                        <!-- Java EE 6 doesn't require web.xml, Maven needs to catch up! -->
+                        <failOnMissingWebXml>false</failOnMissingWebXml>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-ejb-plugin</artifactId>
+                    <version>${version.ejb.plugin}</version>
+                    <configuration>
+                        <!-- Tell Maven we are using EJB 3.1 -->
+                        <ejbVersion>3.2</ejbVersion>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
         <plugins>
-            <!-- The JBoss AS plugin deploys your apps to a local JBoss AS container -->
-            <!-- Disabling it here means that we don't try to deploy this POM! -->
             <plugin>
-                <groupId>org.jboss.as.plugins</groupId>
-                <artifactId>jboss-as-maven-plugin</artifactId>
-                <version>${version.jboss.maven.plugin}</version>
-                <inherited>true</inherited>
-                <configuration>
-                    <skip>true</skip>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>com.mycila.maven-license-plugin</groupId>
-                <artifactId>maven-license-plugin</artifactId>
+                <groupId>com.mycila</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+                <version>2.6</version>
                 <configuration>
                     <header>${basedir}/dist/license.txt</header>
                     <aggregate>true</aggregate>
@@ -133,7 +144,7 @@
                         <headerDefinition>dist/headerdefinition.xml</headerDefinition>
                     </headerDefinitions>
                 </configuration>
-              </plugin>
+            </plugin>
         </plugins>
     </build>
 
@@ -149,8 +160,7 @@
                 </property>
             </activation>
             <modules>
-                <!-- All the modules that require nothing but JBoss Enterprise
-                    Application Platform or JBoss AS -->
+                <!-- All the modules that require nothing but WildFly -->
                 <module>bean-validation</module>
                 <module>bmt</module>
                 <module>carmart</module>
@@ -251,7 +261,7 @@
                 <module>cluster-ha-singleton</module>
                 <module>jax-rs-client</module>
                 <module>jts</module>
-                <module>inter-app</module>                
+                <module>inter-app</module>
                 <module>ejb-security-plus</module>
             </modules>
         </profile>

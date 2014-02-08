@@ -24,8 +24,8 @@ import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
 import javax.resource.spi.IllegalStateException;
 
-import org.jboss.as.controller.security.SubjectUserInfo;
-import org.jboss.as.domain.management.security.RealmUser;
+import org.jboss.as.core.security.RealmUser;
+import org.jboss.as.core.security.SubjectUserInfo;
 import org.jboss.logging.Logger;
 import org.jboss.remoting3.Connection;
 import org.jboss.remoting3.security.UserInfo;

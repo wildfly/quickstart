@@ -16,11 +16,11 @@
  */
 package org.jboss.as.quickstarts.ejb_security_interceptors;
 
-import org.jboss.as.domain.management.security.RealmUser;
+import org.jboss.as.core.security.RealmUser;
 
 /**
  * A wrapper around the user for the Connection to act as a Credential.
- * 
+ *
  * @author <a href="mailto:darran.lofthouse@jboss.com">Darran Lofthouse</a>
  */
 public final class OuterUserCredential {

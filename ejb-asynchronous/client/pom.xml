@@ -19,15 +19,16 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>jboss-as-ejb-asynchronous-client</artifactId>
+    <artifactId>wildfly-ejb-asynchronous-client</artifactId>
 
-    <name>JBoss AS Quickstarts: Asynchronous method invocations on an EJB - Service EJB client</name>
+    <name>WildFly Quickstarts: Asynchronous method invocations on an EJB - Service EJB client</name>
     <packaging>jar</packaging>
 
     <parent>
-        <groupId>org.jboss.as.quickstarts</groupId>
-        <artifactId>jboss-as-ejb-asynchronous</artifactId>
-        <version>7.1.2-SNAPSHOT</version>
+        <groupId>org.wildfly.quickstarts</groupId>
+        <artifactId>wildfly-ejb-asynchronous</artifactId>
+        <version>8.0.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <licenses>
@@ -52,8 +53,8 @@
                 AS 7! -->
             <dependency>
                 <groupId>org.jboss.spec</groupId>
-                <artifactId>jboss-javaee-6.0</artifactId>
-                <version>${version.jboss.spec.javaee.6.0}</version>
+                <artifactId>jboss-javaee-web-7.0</artifactId>
+                <version>${version.jboss.spec.javaee7}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -71,8 +72,8 @@
         
         <!-- Import the client API of the EJB project -->
         <dependency>
-            <groupId>org.jboss.as.quickstarts</groupId>
-            <artifactId>jboss-as-ejb-asynchronous-ejb</artifactId>
+            <groupId>org.wildfly.quickstarts</groupId>
+            <artifactId>wildfly-ejb-asynchronous-ejb</artifactId>
             <type>ejb-client</type>
         </dependency>
         
@@ -80,7 +81,7 @@
             we aren't using any direct reference to the spec API in our client code -->
         <dependency>
             <groupId>org.jboss.spec.javax.transaction</groupId>
-            <artifactId>jboss-transaction-api_1.1_spec</artifactId>
+            <artifactId>jboss-transaction-api_1.2_spec</artifactId>
             <scope>runtime</scope>
         </dependency>
 
@@ -88,7 +89,7 @@
             using any direct reference to EJB spec API in our client code -->
         <dependency>
             <groupId>org.jboss.spec.javax.ejb</groupId>
-            <artifactId>jboss-ejb-api_3.1_spec</artifactId>
+            <artifactId>jboss-ejb-api_3.2_spec</artifactId>
             <scope>runtime</scope>
         </dependency>
 

@@ -20,15 +20,16 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.jboss.as.quickstarts</groupId>
-        <artifactId>jboss-as-wicket-ear-parent</artifactId>
-        <version>7.1.2-SNAPSHOT</version>
+        <groupId>org.wildfly.quickstarts</groupId>
+        <artifactId>wildfly-wicket-ear-parent</artifactId>
+        <version>8.0.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>jboss-as-wicket-ear-ear</artifactId>
+    <artifactId>wildfly-wicket-ear-ear</artifactId>
     <packaging>ear</packaging>
 
-    <name>JBoss AS Quickstarts: Wicket EAR: EAR package</name>
+    <name>WildFly Quickstarts: Wicket EAR: EAR package</name>
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
@@ -41,15 +42,15 @@
 
         <!-- EJB JAR module. -->
         <dependency>
-            <groupId>org.jboss.as.quickstarts</groupId>
-            <artifactId>jboss-as-wicket-ear-ejb</artifactId>
+            <groupId>org.wildfly.quickstarts</groupId>
+            <artifactId>wildfly-wicket-ear-ejb</artifactId>
             <type>ejb</type>
         </dependency>
 
         <!-- WAR module. -->
         <dependency>
-            <groupId>org.jboss.as.quickstarts</groupId>
-            <artifactId>jboss-as-wicket-ear-war</artifactId>
+            <groupId>org.wildfly.quickstarts</groupId>
+            <artifactId>wildfly-wicket-ear-war</artifactId>
             <type>war</type>
         </dependency>
     </dependencies>
@@ -73,8 +74,8 @@
                             If a custom context root is needed, uncomment the following snippet to register 
                             our War as a web module and set the contextRoot property -->
                         <!-- <webModule> -->
-                        <!-- <groupId>org.jboss.as.quickstarts</groupId> -->
-                        <!-- <artifactId>jboss-as-wicket-ear-web</artifactId> -->
+                        <!-- <groupId>org.wildfly.quickstarts</groupId> -->
+                        <!-- <artifactId>wildfly-wicket-ear-web</artifactId> -->
                         <!-- <contextRoot>/jboss-as-wicket</contextRoot> -->
                         <!-- </webModule> -->
                     </modules>
@@ -84,8 +85,8 @@
 
             <!-- Enable JBoss AS plugin - only applicable for the EAR package. -->
             <plugin>
-                <groupId>org.jboss.as.plugins</groupId>
-                <artifactId>jboss-as-maven-plugin</artifactId>
+                <groupId>org.wildfly.plugins</groupId>
+                <artifactId>wildfly-maven-plugin</artifactId>
                 <configuration>
                     <filename>${project.artifactId}.ear</filename>
                     <skip>false</skip>

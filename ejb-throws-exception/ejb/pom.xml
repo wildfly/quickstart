@@ -11,21 +11,22 @@
     language governing permissions and limitations under the License. -->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <artifactId>jboss-as-ejb-throws-exception</artifactId>
-        <groupId>org.jboss.as.quickstarts</groupId>
-        <version>7.1.2-SNAPSHOT</version>
+        <artifactId>wildfly-ejb-throws-exception</artifactId>
+        <groupId>org.wildfly.quickstarts</groupId>
+        <version>8.0.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>jboss-as-ejb-throws-exception-ejb</artifactId>
+    <artifactId>wildfly-ejb-throws-exception-ejb</artifactId>
     <packaging>ejb</packaging>
 
-    <name>JBoss AS Quickstarts: EJB throws exception (EJB module)</name>
+    <name>WildFly Quickstarts: EJB throws exception (EJB module)</name>
 
-    <url>http://jboss.org/jbossas</url>
+    <url>http://wildfly.org</url>
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
@@ -73,25 +74,10 @@
         </dependency>
 
         <dependency>
-            <groupId>org.jboss.as.quickstarts</groupId>
-            <artifactId>jboss-as-ejb-throws-exception-ejb-api</artifactId>
+            <groupId>org.wildfly.quickstarts</groupId>
+            <artifactId>wildfly-ejb-throws-exception-ejb-api</artifactId>
         </dependency>
-        
+
     </dependencies>
-
-    <build>
-        <finalName>${project.artifactId}</finalName>
-
-        <plugins>
-            <plugin>
-                <artifactId>maven-ejb-plugin</artifactId>
-                <version>${version.ejb.plugin}</version>
-                <configuration>
-                    <!-- Tell Maven we are using EJB 3.1 -->
-                    <ejbVersion>${version.ejb}</ejbVersion>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>
