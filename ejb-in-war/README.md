@@ -10,7 +10,7 @@ Source: <https://github.com/jboss-jdf/jboss-as-quickstart/>
 What is it?
 -----------
 
-This example demonstrates the deployment of an *EJB 3.1* bean bundled in a war archive for deployment to *JBoss Enterprise Application Platform 6* or *JBoss AS 7*. The project also includes a set of Aquillian tests for the managed bean and EJB.
+This example demonstrates the deployment of an *EJB 3.1* bean bundled in a war archive for deployment to *WildFly 8* or *WildFly 8*. The project also includes a set of Aquillian tests for the managed bean and EJB.
 
 The example follows the common "Hello World" pattern. These are the steps that occur:
 
@@ -25,7 +25,7 @@ System requirements
 
 All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven 3.0 or better.
 
-The application this project produces is designed to be run on JBoss Enterprise Application Platform 6 or JBoss AS 7. 
+The application this project produces is designed to be run on WildFly 8.
 
 
 Configure Maven 
@@ -34,7 +34,7 @@ Configure Maven
 If you have not yet done so, you must [Configure Maven](../README.md#mavenconfiguration) before testing the quickstarts.
 
 
-Start JBoss Enterprise Application Platform 6 or JBoss AS 7 with the Web Profile
+Start WildFly 8 with the Web Profile
 -------------------------
 
 1. Open a command line and navigate to the root of the JBoss server directory.
@@ -53,7 +53,7 @@ _NOTE: The following build command assumes you have configured your Maven user s
 2. Open a command line and navigate to the root directory of this quickstart.
 3. Type this command to build and deploy the archive:
 
-        mvn clean package jboss-as:deploy
+        mvn clean package wildfly:deploy
 
 4. This will deploy `target/jboss-as-ejb-in-war.war` to the running instance of the server.
  
@@ -71,7 +71,7 @@ Undeploy the Archive
 2. Open a command line and navigate to the root directory of this quickstart.
 3. When you are finished testing, type this command to undeploy the archive:
 
-        mvn jboss-as:undeploy
+        mvn wildfly:undeploy
 
 
 Run the Arquillian Tests 

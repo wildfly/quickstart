@@ -41,7 +41,7 @@ Add an Application User
 This quickstart uses secured management interfaces and requires that you create an application user to access the running application. Instructions to set up the quickstart application user can be found here: [Add an Application User](../README.md#add-a-management-or-application-user)
 
 
-Configure the JBoss Enterprise Application Platform 6 server
+Configure the WildFly 8 server
 ---------------------------
 
 If you are using the WildFly 8 Quickstart distribution, the server configuration file already contains the JMS `test` queue and you can skip this step.

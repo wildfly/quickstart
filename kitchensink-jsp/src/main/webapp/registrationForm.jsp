@@ -26,7 +26,7 @@
     <h1>Welcome to JBoss!</h1>
 
     <div>
-        <p>You have successfully deployed a Java EE 6 web
+        <p>You have successfully deployed a Java EE 7 web
             application.</p>
         <h3>Your application can run on:</h3>
         <img src="resources/gfx/dualbrand_as7eap.png" />

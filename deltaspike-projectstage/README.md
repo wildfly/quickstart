@@ -36,7 +36,7 @@ System requirements
 
 All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven 3.0 or better.
 
-The application this project produces is designed to be run on JBoss Enterprise Application Platform 6 or JBoss AS 7. 
+The application this project produces is designed to be run on WildFly 8.
 
  
 Configure Maven
@@ -45,7 +45,7 @@ Configure Maven
 If you have not yet done so, you must [Configure Maven](../README.md#mavenconfiguration) before testing the quickstarts.
 
 
-Start JBoss Enterprise Application Platform 6 or JBoss AS 7
+Start WildFly 8
 -------------------------
 
 1. Open a command line and navigate to the root of the JBoss server directory.
@@ -63,7 +63,7 @@ _NOTE: The following build command assumes you have configured your Maven user s
 2. Open a command line and navigate to the root directory of this quickstart.
 3. Type this command to build and deploy the archive:
 
-        mvn clean package jboss-as:deploy
+        mvn clean package wildfly:deploy
 4. This will deploy `target/jboss-as-deltaspike-projectstage.war` to the running instance of the server.
 
 Access the application
@@ -75,7 +75,7 @@ You be presented with a simple page that shows the current project stage: *Stagi
 
 Edit the file `src/main/resources/META-INF/apache-deltaspike.properties` and change the `org.apache.deltaspike.ProjectStage` property to `Development`. Deploy the application again
 
-        mvn clean package jboss-as:deploy
+        mvn clean package wildfly:deploy
 
 Access the application again at the same URL:  <http://localhost:8080/jboss-as-deltaspike-projectstage>
 
@@ -88,7 +88,7 @@ Undeploy the Archive
 2. Open a command line and navigate to the root directory of this quickstart.
 3. When you are finished testing, type this command to undeploy the archive:
 
-        mvn jboss-as:undeploy
+        mvn wildfly:undeploy
 
 
 Run the Quickstart in JBoss Developer Studio or Eclipse

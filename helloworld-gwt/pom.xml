@@ -40,17 +40,17 @@
 
     <dependencyManagement>
         <dependencies>
-            <!-- Define the version of JBoss' Java EE 6 APIs we want to import. 
+            <!-- Define the version of JBoss' Java EE 7 APIs we want to import.
               Any dependencies from org.jboss.spec will have their version defined by this 
               BOM -->
-            <!-- JBoss distributes a complete set of Java EE 6 APIs including a 
+            <!-- JBoss distributes a complete set of Java EE 7 APIs including a
               Bill of Materials (BOM). A BOM specifies the versions of a "stack" (or a 
               collection) of artifacts. We use this here so that we always get the correct 
               versions of artifacts. Here we use the jboss-javaee-web-6.0 stack (you can 
               read this as the JBoss stack of the Java EE Web Profile 6 APIs), and we use 
               version 2.0.0.Beta1 which is the latest release of the stack. You can actually 
-              use this stack with any version of JBoss AS that implements Java EE 6, not 
-              just JBoss AS 7! -->
+              use this stack with any version of JBoss AS that implements Java EE 7, not
+              just WildFly 8! -->
             <dependency>
                 <groupId>org.jboss.spec</groupId>
                 <artifactId>jboss-javaee-web-7.0</artifactId>
@@ -71,7 +71,7 @@
     <dependencies>
 
         <!-- Import the CDI API, we use provided scope as the API is included 
-            in JBoss AS 7 -->
+            in WildFly 8 -->
         <dependency>
             <groupId>javax.enterprise</groupId>
             <artifactId>cdi-api</artifactId>
@@ -79,7 +79,7 @@
         </dependency>
 
         <!-- Import the Common Annotations API (JSR-250), we use provided scope 
-            as the API is included in JBoss AS 7 -->
+            as the API is included in WildFly 8 -->
         <dependency>
             <groupId>org.jboss.spec.javax.annotation</groupId>
             <artifactId>jboss-annotations-api_1.1_spec</artifactId>
@@ -87,7 +87,7 @@
         </dependency>
 
         <!-- Import the JAX-RS API, we use provided scope as the API is included 
-          in JBoss AS 7 -->
+          in WildFly 8 -->
         <dependency>
             <groupId>org.jboss.spec.javax.ws.rs</groupId>
             <artifactId>jboss-jaxrs-api_1.1_spec</artifactId>

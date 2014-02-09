@@ -38,7 +38,7 @@ Finally there is the `RemoteClient` stand-alone client. The client demonstrates 
 Note on EJB client interceptors
 -----------------------
 
-JBoss Enterprise Application Platform 6.1 allow client side interceptors for EJB invocations. Such interceptors are expected to implement the `org.jboss.ejb.client.EJBClientInterceptor` interface. User applications can then plug in such interceptors in the 'EJBClientContext' either programatically or through the ServiceLoader mechanism.
+WildFly 8.1 allow client side interceptors for EJB invocations. Such interceptors are expected to implement the `org.jboss.ejb.client.EJBClientInterceptor` interface. User applications can then plug in such interceptors in the 'EJBClientContext' either programatically or through the ServiceLoader mechanism.
 
 - The programmatic way involves calling the `org.jboss.ejb.client.EJBClientContext.registerInterceptor(int order, EJBClientInterceptor interceptor)` API and passing the 'order' and the 'interceptor' instance. The 'order' is used to decide where exactly in the client interceptor chain, this 'interceptor' is going to be placed.
 - The ServiceLoader mechanism is an alternate approach which involves creating a `META-INF/services/org.jboss.ejb.client.EJBClientInterceptor` file and placing/packaging it in the classpath of the client application. The rules for such a file are dictated by the [Java ServiceLoader Mechanism](http://docs.oracle.com/javase/6/docs/api/java/util/ServiceLoader.html). This file is expected to contain in each separate line the fully qualified class name of the EJB client interceptor implementation, which is expected to be available in the classpath. EJB client interceptors added via the ServiceLoader mechanism are added to the end of the client interceptor chain, in the order they were found in the classpath.
@@ -57,7 +57,7 @@ System requirements
 
 All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven 3.0 or better.
 
-The application this project produces is designed to be run on JBoss Enterprise Application Platform 6.1. 
+The application this project produces is designed to be run on WildFly 8.1.
 
 Configure Maven
 ---------------
@@ -67,14 +67,14 @@ If you have not yet done so, you must [Configure Maven](../README.md#mavenconfig
 Prerequisites
 -------------
 
-_Note_: Unlike most of the quickstarts, this one requires JBoss Enterprise Application Platform 6.1 or later.
+_Note_: Unlike most of the quickstarts, this one requires WildFly 8.1 or later.
 
 This quickstart uses the default standalone configuration plus the modifications described here.
 
 It is recommended that you test this approach in a separate and clean environment before you attempt to port the changes in your own environment.
 
 
-Configure the JBoss Enterprise Application Platform 6.1 server
+Configure the WildFly 8.1 server
 ---------------------------
 
 These steps asume that you are running the server in standalone mode and using the default standalone.xml supplied with the distribution.
@@ -85,13 +85,13 @@ After the server is configured you will then need to define four user accounts, 
 
 _NOTE - Before you begin:_
 
-1. If it is running, stop the JBoss Enterprise Application Platform 6 or JBoss AS 7 Server.
+1. If it is running, stop the WildFly 8 Server.
 2. Backup the file: `JBOSS_HOME/standalone/configuration/standalone.xml`
 3. After you have completed testing this quickstart, you can replace this file to restore the server to its original configuration.
 
 #### Configure the Security Domain by Running the JBoss CLI Script
 
-1. Start the JBoss Enterprise Application Platform 6 or JBoss AS 7 Server by typing the following: 
+1. Start the WildFly 8 Server by typing the following:
 
         For Linux:  JBOSS_HOME/bin/standalone.sh 
         For Windows:  JBOSS_HOME\bin\standalone.bat
@@ -110,7 +110,7 @@ This script adds the `quickstart-domain` domain to the `security` subsystem in t
 
 ### Configure the Security Domain Using the JBoss CLI Interactively
 
-1. Start the JBoss Enterprise Application Platform 6 server by typing the following: 
+1. Start the WildFly 8 server by typing the following:
 
 		For Linux:  JBOSS_HOME_SERVER_1/bin/standalone.sh
 		For Windows:  JBOSS_HOME_SERVER_1\bin\standalone.bat
@@ -131,7 +131,7 @@ Finally, restart the server to pick up these changes.
 
 ### Configure the Security Domain by Manually Editing the Server Configuration File
 
-1.  If it is running, stop the JBoss Enterprise Application Platform 6 or JBoss AS 7 Server.
+1.  If it is running, stop the WildFly 8 Server.
 2.  Backup the file: `JBOSS_HOME/standalone/configuration/standalone.xml`
 3.  Open the file: `JBOSS_HOME/standalone/configuration/standalone.xml`
 4.  Make the additions described below.
@@ -191,7 +191,7 @@ Alternatively you can edit the properties file for the users and manually add th
 The application server checks the properties files for modifications at runtime so there is no need to restart the server after changing these files.
 
 
-Start JBoss Enterprise Application Platform 6.1
+Start WildFly 8.1
 -------------------------
 
 1. Open a command line and navigate to the root of the JBoss server directory.
@@ -210,7 +210,7 @@ _NOTE: The following build command assumes you have configured your Maven user s
 2. Open a command line and navigate to the root directory of this quickstart.
 3. Type this command to build and deploy the archive:
 
-		mvn clean package jboss-as:deploy
+		mvn clean package wildfly:deploy
 
 4. This will deploy `target/jboss-as-ejb-security-plus.jar` to the running instance of the server.
 
@@ -254,7 +254,7 @@ Undeploy the Archive
 2. Open a command line and navigate to the root directory of this quickstart.
 3. When you are finished testing, type this command to undeploy the archive:
 
-		mvn jboss-as:undeploy
+		mvn wildfly:undeploy
 
 
 Remove the Security Domain Configuration
@@ -264,7 +264,7 @@ You can remove the security domain configuration by running the  `remove-securit
 
 ### Remove the Security Domain Configuration by Running the JBoss CLI Script
 
-1. Start the JBoss Enterprise Application Platform 6 or JBoss AS 7 Server by typing the following: 
+1. Start the WildFly 8 Server by typing the following:
 
         For Linux:  JBOSS_HOME_SERVER_1/bin/standalone.sh
         For Windows:  JBOSS_HOME_SERVER_1\bin\standalone.bat
@@ -279,7 +279,7 @@ This script removes the `test` queue from the `messaging` subsystem in the serve
 
 
 ### Remove the Security Domain Configuration Manually
-1. If it is running, stop the JBoss Enterprise Application Platform 6 or JBoss AS 7 Server.
+1. If it is running, stop the WildFly 8 Server.
 2. Replace the `JBOSS_HOME/standalone/configuration/standalone.xml` file with the back-up copy of the file.
 
 

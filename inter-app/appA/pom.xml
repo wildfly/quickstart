@@ -41,14 +41,14 @@
 
     <dependencies>
 
-        <!-- Import the CDI API, we use provided scope as the API is included in JBoss AS 7 -->
+        <!-- Import the CDI API, we use provided scope as the API is included in WildFly 8 -->
         <dependency>
             <groupId>javax.enterprise</groupId>
             <artifactId>cdi-api</artifactId>
             <scope>provided</scope>
         </dependency>
 
-        <!-- Import the EJB API, we use provided scope as the API is included in JBoss AS 7 -->
+        <!-- Import the EJB API, we use provided scope as the API is included in WildFly 8 -->
         <dependency>
             <groupId>org.jboss.spec.javax.ejb</groupId>
             <artifactId>jboss-ejb-api_3.2_spec</artifactId>
@@ -75,7 +75,7 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <version>${version.war.plugin}</version>
                 <configuration>
-                    <!-- Java EE 6 doesn't require web.xml, Maven needs to 
+                    <!-- Java EE 7 doesn't require web.xml, Maven needs to
                         catch up! -->
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                     <!-- Define a dependency on the shared API, which will 

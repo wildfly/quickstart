@@ -11,7 +11,7 @@ This quickstart shows you how to create and deploy a simple OSGi Bundle.
 .What is OSGi?
 ========================================================================
 OSGi is a new feature to JBoss Enterprise Application Platform (Tech 
-Preview) and JBoss AS 7. It provides standards-based modularity and 
+Preview) and WildFly 8. It provides standards-based modularity and
 micro-services as defined in the OSGi 4.2 Core Specifications. You can 
 deploy OSGi bundles directly into the server.
 
@@ -25,7 +25,7 @@ link:http://www.jboss.org/jbossas/osgi[JBoss OSGi project pages].
 
 Switch to the `quickstarts/helloworld-osgi` directory and instruct Maven to build and deploy the application: 
 
-    mvn package jboss-as:deploy
+    mvn package wildfly:deploy
 
 Now, you should see the OSGi subsystem start up, and the bundle deployed and started:
 
@@ -36,10 +36,10 @@ image:gfx/console.png[]
 If you wish to undeploy the quickstart, or redeploy after making some 
 changes, it's pretty easy:
 
-* `mvn jboss-as:deploy` - deploy any changes to the application to the 
+* `mvn wildfly:deploy` - deploy any changes to the application to the
   application server 
 
-* `mvn jboss-as:undeploy` - undeploy the quickstart
+* `mvn wildfly:undeploy` - undeploy the quickstart
 ========================================================================
 
 
@@ -185,11 +185,11 @@ Now, let's look at the pom.xml , where we create the bundle:
 ------------------------------------------------------------------------
 <1> The packaging of the maven module is set to bundle . This instructs maven and the maven-bundle-plugin to create an OSGi bundle. 
 <2> Since the activator uses an OSGi interface, these are provided through the OSGi interfaces artifact.
-<3> Use the provided scope for dependencies that are either provided by the OSGi framework (i.e. JBoss Enterprise Application Platform 6 or JBoss AS 7) itself or for dependencies that are provided through separate bundles. 
+<3> Use the provided scope for dependencies that are either provided by the OSGi framework (i.e. WildFly 8) itself or for dependencies that are provided through separate bundles.
 <4> The maven-bundle-plugin is used to create a bundle.  You can configure it create import and export statements, and to specify the activator in use. You can read more about the link:http://felix.apache.org/site/apache-felix-maven-bundle-plugin-bnd.html[OSGi Bundle Maven Plugin] on the Apache Felix site.
 <5> We can use the jboss-as Maven plugin to deploy the bundle to the server as usual.
 
-As you can see, using OSGi with JBoss Enterprise Application Platform 6 and JBoss AS 7 is pretty easy!
+As you can see, using OSGi with WildFly 8 and WildFly 8 is pretty easy!
 
 
 Creating a new OSGi bundle using Eclipse
@@ -223,5 +223,5 @@ When you are finished making changes you can export your OSGi bundle so that it 
 
 image:gfx/Export.png[]
 
-You have now created an OSGi Bundle, and the JAR can be found in the plugins directory of the location specified in the screen above. You can deploy it to the server using any of the standard deployment mechanisms described in the link:http://docs.redhat.com/docs/en-US/JBoss_Enterprise_Application_Platform/6/html/Administration_and_Configuration_Guide/index.html[Administration and Configuration Guide for JBoss Enterprise Application Platform 6] or the link:http://docs.jboss.org/author/display/AS71/Getting+Started+Guide[JBoss AS 7 Getting Started Guide].
+You have now created an OSGi Bundle, and the JAR can be found in the plugins directory of the location specified in the screen above. You can deploy it to the server using any of the standard deployment mechanisms described in the link:http://docs.redhat.com/docs/en-US/JBoss_Enterprise_Application_Platform/6/html/Administration_and_Configuration_Guide/index.html[Administration and Configuration Guide for WildFly 8] or the link:http://docs.jboss.org/author/display/AS71/Getting+Started+Guide[WildFly 8 Getting Started Guide].
 

@@ -81,7 +81,7 @@ public class WSATSimpleServletClient extends HttpServlet {
         resp.setContentType("text/html");
         PrintWriter out = resp.getWriter();
 
-        out.write("<h1>Quickstart: This example demonstrates the deployment of a WS-AT (WS-AtomicTransaction) enabled JAX-WS Web service bundled in a war archive for deployment to *JBoss AS 7*.</h1>");
+        out.write("<h1>Quickstart: This example demonstrates the deployment of a WS-AT (WS-AtomicTransaction) enabled JAX-WS Web service bundled in a war archive for deployment to *WildFly 8*.</h1>");
 
         System.out.println("[CLIENT] Creating a new WS-AT User Transaction");
         UserTransaction ut = UserTransactionFactory.userTransaction();

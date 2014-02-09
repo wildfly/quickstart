@@ -10,13 +10,13 @@ Source: <https://github.com/jboss-jdf/jboss-as-quickstart/>
 What is it?
 -----------
 
-This quickstart demonstrates the use of  JMS clients with JBoss Enterprise Application Platform 6 or JBoss AS 7 using DeltaSpike configuration properties.
+This quickstart demonstrates the use of  JMS clients with WildFly 8 using DeltaSpike configuration properties.
 
 It contains the following:
 
-1. A message producer that sends messages to a JMS destination deployed to a JBoss Enterprise Application Platform 6 or JBoss AS 7 server.
+1. A message producer that sends messages to a JMS destination deployed to a WildFly 8 server.
 
-2. A message consumer that receives message from a JMS destination deployed to a JBoss Enterprise Application Platform 6 or JBoss AS 7 server. 
+2. A message consumer that receives message from a JMS destination deployed to a WildFly 8 server.
 
 
 System requirements
@@ -24,7 +24,7 @@ System requirements
 
 All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven 3.0 or better.
 
-The application this project produces is designed to be run on JBoss Enterprise Application Platform 6 or JBoss AS 7. 
+The application this project produces is designed to be run on WildFly 8.
 
 
 Configure Maven
@@ -38,22 +38,22 @@ Add an Application User
 This quickstart uses secured management interfaces and requires that you create an application user to access the running application. Instructions to set up the quickstart application user can be found here: [Add an Application User](../README.md#addapplicationuser)
 
 
-Configure the JBoss Enterprise Application Platform 6 server
+Configure the WildFly 8 server
 ------------------------------------------------------------
 
-If you are using the JBoss AS 7 Quickstart distribution, the server configuration file already contains the JMS `test` queue and you can skip this step. 
+If you are using the WildFly 8 Quickstart distribution, the server configuration file already contains the JMS `test` queue and you can skip this step.
 
-However, if you are using the JBoss Enterprise Application Platform 6 distribution, you need to add the JMS `test` queue to the application server configuration file. You can configure JMS by running the  `configure-jms.cli` script provided in the root directory of this quickstart, by using the JBoss CLI interactively, or by manually editing the configuration file.
+However, if you are using the WildFly 8 distribution, you need to add the JMS `test` queue to the application server configuration file. You can configure JMS by running the  `configure-jms.cli` script provided in the root directory of this quickstart, by using the JBoss CLI interactively, or by manually editing the configuration file.
 
 _NOTE - Before you begin:_
 
-1. If it is running, stop the JBoss Enterprise Application Platform 6 or JBoss AS 7 Server.
+1. If it is running, stop the WildFly 8 Server.
 2. Backup the file: `JBOSS_HOME/standalone/configuration/standalone-full.xml`
 3. After you have completed testing this quickstart, you can replace this file to restore the server to its original configuration.
 
 #### Configure JMS by Running the JBoss CLI Script
 
-1. Start the JBoss Enterprise Application Platform 6 or JBoss AS 7 Server by typing the following: 
+1. Start the WildFly 8 Server by typing the following:
 
         For Linux:  JBOSS_HOME_SERVER_1/bin/standalone.sh -c standalone-full.xml
         For Windows:  JBOSS_HOME_SERVER_1\bin\standalone.bat -c standalone-full.xml
@@ -69,7 +69,7 @@ This script adds the `test` queue to the `messaging` subsystem in the server con
 
 #### Configure JMS Using the JBoss CLI Tool Interactively
 
-1. Start the JBoss Enterprise Application Platform 6 or JBoss AS 7 Server by typing the following: 
+1. Start the WildFly 8 Server by typing the following:
 
         For Linux:  JBOSS_HOME_SERVER_1/bin/standalone.sh -c standalone-full.xml
         For Windows:  JBOSS_HOME_SERVER_1\bin\standalone.bat -c standalone-full.xml
@@ -84,7 +84,7 @@ This script adds the `test` queue to the `messaging` subsystem in the server con
 
 #### Configure JMS by Manually Editing the Server Configuration File
 
-1.  If it is running, stop the JBoss Enterprise Application Platform 6 or JBoss AS 7 Server.
+1.  If it is running, stop the WildFly 8 Server.
 2.  Backup the file: `JBOSS_HOME/standalone/configuration/standalone-full.xml`
 3.  Open the file: JBOSS_HOME/standalone/configuration/standalone-full.xml
 4.  Add the JMS `test` queue as follows:
@@ -102,7 +102,7 @@ This script adds the `test` queue to the `messaging` subsystem in the server con
     * Save the changes and close the file.  
 
 
-Start JBoss Enterprise Application Platform 6 or JBoss AS 7 with the Full Profile
+Start WildFly 8 with the Full Profile
 ---------------------------------------------------------------------------------
 
 1. Open a command line and navigate to the root of the JBoss server directory.
@@ -121,7 +121,7 @@ _NOTE: The following build command assumes you have configured your Maven user s
 2. Open a command line and navigate to the root directory of this quickstart.
 3. Type this command to build and deploy the archive:
 
-        mvn clean package jboss-as:deploy
+        mvn clean package wildfly:deploy
 4. This will deploy `target/jboss-as-deltaspike-helloworld-jms.war` to the running instance of the server.
 
 Access the application
@@ -211,7 +211,7 @@ Undeploy the Archive
 2. Open a command line and navigate to the root directory of this quickstart.
 3. When you are finished testing, type this command to undeploy the archive:
 
-        mvn jboss-as:undeploy
+        mvn wildfly:undeploy
 
 
 Remove the JMS Configuration
@@ -221,7 +221,7 @@ You can remove the JMS configuration by running the  `remove-jms.cli` script pro
 
 #### Remove the JMS Configuration by Running the JBoss CLI Script
 
-1. Start the JBoss Enterprise Application Platform 6 or JBoss AS 7 Server by typing the following: 
+1. Start the WildFly 8 Server by typing the following:
 
         For Linux:  JBOSS_HOME_SERVER_1/bin/standalone.sh -c standalone-full.xml
         For Windows:  JBOSS_HOME_SERVER_1\bin\standalone.bat -c standalone-full.xml
@@ -236,7 +236,7 @@ This script removes the `test` queue from the `messaging` subsystem in the serve
 
 
 #### Remove the JMS Configuration Manually
-1. If it is running, stop the JBoss Enterprise Application Platform 6 or JBoss AS 7 Server.
+1. If it is running, stop the WildFly 8 Server.
 2. Replace the `JBOSS_HOME/standalone/configuration/standalone-full.xml` file with the back-up copy of the file.
 
 

@@ -10,7 +10,7 @@ Source: <https://github.com/jboss-jdf/jboss-as-quickstart/>
 What is it?
 -----------
 
-This example demonstrates the use of *CDI 1.0* and *JAX-RS* in *JBoss AS 7* using the HTML5 + REST architecture.
+This example demonstrates the use of *CDI 1.0* and *JAX-RS* in *WildFly 8* using the HTML5 + REST architecture.
 The application is basically a smart, HTML5+CSS3+JavaScript front-end using RESTful services on the backend.
 
 The example can be deployed using Maven from the command line or from Eclipse using JBoss Tools.
@@ -21,7 +21,7 @@ System requirements
 All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven
 3.0 or better.
 
-The application this project produces is designed to be run on JBoss AS 7 or JBoss Enterprise Application Platform 6.
+The application this project produces is designed to be run on WildFly 8 or WildFly 8.
 
 An HTML5 compatible browser such as Chrome, Safari 5+, Firefox 5+, or IE 9+ are
 required.
@@ -48,7 +48,7 @@ the following Maven goal:
 
 You can now deploy the artifact by executing the following command:
 
-    mvn jboss-as:deploy
+    mvn wildfly:deploy
 
 This will deploy both the client and service applications.
 
@@ -56,7 +56,7 @@ The application will be running at the following URL <http://localhost:8080/jbos
 
 To undeploy run this command:
 
-    mvn jboss-as:undeploy
+    mvn wildfly:undeploy
 
 You can also start the JBoss container and deploy the project using JBoss Tools. See the
 <a href="http://www.jboss.org/jdf/quickstarts/jboss-as-quickstart/guide/Introduction/" title="Getting Started Developing Applications Guide">Getting Started Developing Applications Guide</a>

@@ -40,11 +40,11 @@
 
     <dependencyManagement>
         <dependencies>
-            <!-- JBoss distributes a complete set of Java EE 6 APIs including a Bill
+            <!-- JBoss distributes a complete set of Java EE 7 APIs including a Bill
                 of Materials (BOM). A BOM specifies the versions of a "stack" (or a collection)
                 of artifacts. We use this here so that we always get the correct versions
                 of artifacts. Here we use the jboss-javaee-6.0-with tools stack (you can read this as
-                the JBoss stack of the Java EE 6 APIs, with some extras tools for your project, such
+                the JBoss stack of the Java EE 7 APIs, with some extras tools for your project, such
                 as Arquillian for testing) -->
             <dependency>
                 <groupId>org.jboss.bom</groupId>
@@ -57,21 +57,21 @@
     </dependencyManagement>
 
     <dependencies>
-        <!-- Import the CDI API, we use provided scope as the API is included in JBoss AS 7 -->
+        <!-- Import the CDI API, we use provided scope as the API is included in WildFly 8 -->
         <dependency>
             <groupId>javax.enterprise</groupId>
             <artifactId>cdi-api</artifactId>
             <scope>provided</scope>
         </dependency>
 
-        <!-- Import the JPA API, we use provided scope as the API is included in JBoss AS 7 -->
+        <!-- Import the JPA API, we use provided scope as the API is included in WildFly 8 -->
         <dependency>
             <groupId>org.hibernate.javax.persistence</groupId>
             <artifactId>hibernate-jpa-2.0-api</artifactId>
             <scope>provided</scope>
         </dependency>
 
-        <!-- Import the JAX-RS API, we use provided scope as the API is included in JBoss AS 7 -->
+        <!-- Import the JAX-RS API, we use provided scope as the API is included in WildFly 8 -->
         <dependency>
             <groupId>org.jboss.spec.javax.ws.rs</groupId>
             <artifactId>jboss-jaxrs-api_1.1_spec</artifactId>
@@ -87,7 +87,7 @@
         </dependency>
         -->
 
-        <!-- Import the EJB API, we use provided scope as the API is included in JBoss AS 7 -->
+        <!-- Import the EJB API, we use provided scope as the API is included in WildFly 8 -->
         <dependency>
             <groupId>org.jboss.spec.javax.ejb</groupId>
             <artifactId>jboss-ejb-api_3.1_spec</artifactId>

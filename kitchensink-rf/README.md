@@ -1,4 +1,4 @@
-kitchensink-rf: Example Using Multiple Java EE 6 Technologies with RichFaces
+kitchensink-rf: Example Using Multiple Java EE 7 Technologies with RichFaces
 ========================
 Author: Pete Muir, Brian Leathem
 Level: Intermediate
@@ -10,9 +10,9 @@ Source: <https://github.com/richfaces/as-quickstarts>
 What is it?
 -----------
 
-This is your project! It is a sample, deployable Maven 3 project to help you get your foot in the door developing with Java EE 6 on JBoss Enterprise Application Platform 6 or JBoss AS 7. 
+This is your project! It is a sample, deployable Maven 3 project to help you get your foot in the door developing with Java EE 7 on WildFly 8.
 
-This project is setup to allow you to create a compliant Java EE 6 application using JSF 2.0 with RichFaces 4, CDI 1.0, EJB 3.1, JPA 2.0 and Bean Validation 1.0. It includes a persistence unit and some sample persistence and transaction code to introduce you to database access in enterprise Java.
+This project is setup to allow you to create a compliant Java EE 7 application using JSF 2.0 with RichFaces 4, CDI 1.0, EJB 3.1, JPA 2.0 and Bean Validation 1.0. It includes a persistence unit and some sample persistence and transaction code to introduce you to database access in enterprise Java.
 
 This application builds on top of the standard JSF approach, by incorporating the RichFaces project to provide a set of components, allowing for a rich user experience.  RichFaces builds on top of the JSF standard, and is a fully portable solution compatible with all JSF implementations.
 
@@ -35,7 +35,7 @@ System requirements
 
 All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven 3.0 or better, and the RichFaces library.
 
-The application this project produces is designed to be run on JBoss Enterprise Application Platform 6 or JBoss AS 7. 
+The application this project produces is designed to be run on WildFly 8.
 
  
 Configure Maven
@@ -44,7 +44,7 @@ Configure Maven
 If you have not yet done so, you must [Configure Maven](../README.md#mavenconfiguration) before testing the quickstarts.
 
 
-Start JBoss Enterprise Application Platform 6 or JBoss AS 7 with the Web Profile
+Start WildFly 8 with the Web Profile
 -------------------------
 
 1. Open a command line and navigate to the root of the JBoss server directory.
@@ -63,7 +63,7 @@ _NOTE: The following build command assumes you have configured your Maven user s
 2. Open a command line and navigate to the root directory of this quickstart.
 3. Type this command to build and deploy the archive:
 
-        mvn clean package jboss-as:deploy
+        mvn clean package wildfly:deploy
 
 4. This will deploy `target/jboss-as-kitchensink-rf.war` to the running instance of the server.
  
@@ -81,7 +81,7 @@ Undeploy the Archive
 2. Open a command line and navigate to the root directory of this quickstart.
 3. When you are finished testing, type this command to undeploy the archive:
 
-        mvn jboss-as:undeploy
+        mvn wildfly:undeploy
 
 
 Run the Arquillian Tests 

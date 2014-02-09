@@ -40,13 +40,13 @@
 
     <dependencyManagement>
         <dependencies>
-            <!-- Define the version of JBoss' Java EE 6 APIs we want to use -->
-            <!-- JBoss distributes a complete set of Java EE 6 APIs including a Bill 
+            <!-- Define the version of JBoss' Java EE 7 APIs we want to use -->
+            <!-- JBoss distributes a complete set of Java EE 7 APIs including a Bill
                     of Materials (BOM). A BOM specifies the versions of a "stack" (or a collection) 
                     of artifacts. We use this here so that we always get the correct versions 
                     of artifacts. Here we use the jboss-javaee-6.0 stack (you can read this as 
-                    the JBoss stack of the Java EE 6 APIs). You can actually use this stack with 
-                    any version of JBoss AS that implements Java EE 6, not just JBoss AS 7! -->
+                    the JBoss stack of the Java EE 7 APIs). You can actually use this stack with
+                    any version of JBoss AS that implements Java EE 7, not just WildFly 8! -->
             <dependency>
                 <groupId>org.jboss.spec</groupId>
                 <artifactId>jboss-javaee-web-7.0</artifactId>
@@ -59,14 +59,14 @@
 
     <dependencies>
         <!-- Import the Servlet API, we use provided scope as the API is included 
-                in JBoss EAP 6/JBoss AS 7 -->
+                in JBoss EAP 6/WildFly 8 -->
         <dependency>
             <groupId>org.jboss.spec.javax.ejb</groupId>
             <artifactId>jboss-ejb-api_3.2_spec</artifactId>
             <scope>provided</scope>
         </dependency>
         <!-- Import the CDI API, we use provided scope as the API is included in 
-                JBoss AS 7 -->
+                WildFly 8 -->
         <dependency>
             <groupId>javax.enterprise</groupId>
             <artifactId>cdi-api</artifactId>

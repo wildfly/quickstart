@@ -28,7 +28,7 @@
     <artifactId>wildfly-kitchensink-angularjs</artifactId>
     <packaging>war</packaging>
     <name>WildFly Quickstarts: Kitchensink with AngularJS</name>
-    <description>A starter Java EE 6 webapp project for use on JBoss AS 7 / EAP 6, generated from the jboss-javaee6-webapp archetype, using AngularJS for the view
+    <description>A starter Java EE 7 webapp project for use on WildFly 8 / EAP 6, generated from the jboss-javaee6-webapp archetype, using AngularJS for the view
     </description>
 
     <url>http://wildfly.org</url>
@@ -42,13 +42,13 @@
 
     <dependencyManagement>
         <dependencies>
-            <!-- JBoss distributes a complete set of Java EE 6 APIs including 
+            <!-- JBoss distributes a complete set of Java EE 7 APIs including
                 a Bill of Materials (BOM). A BOM specifies the versions of a "stack" (or 
                 a collection) of artifacts. We use this here so that we always get the correct 
                 versions of artifacts. Here we use the jboss-javaee-6.0-with-tools stack 
-                (you can read this as the JBoss stack of the Java EE 6 APIs, with some extras 
+                (you can read this as the JBoss stack of the Java EE 7 APIs, with some extras
                 tools for your project, such as Arquillian for testing) and the jboss-javaee-6.0-with-hibernate 
-                stack you can read this as the JBoss stack of the Java EE 6 APIs, with extras 
+                stack you can read this as the JBoss stack of the Java EE 7 APIs, with extras
                 from the Hibernate family of projects) -->
             <dependency>
                 <groupId>org.jboss.bom</groupId>
@@ -70,9 +70,9 @@
     <dependencies>
 
         <!-- First declare the APIs we depend on and need for compilation. 
-            All of them are provided by JBoss AS 7 -->
+            All of them are provided by WildFly 8 -->
 
-        <!-- Import the CDI API, we use provided scope as the API is included in JBoss AS 7 -->
+        <!-- Import the CDI API, we use provided scope as the API is included in WildFly 8 -->
         <dependency>
             <groupId>javax.enterprise</groupId>
             <artifactId>cdi-api</artifactId>
@@ -80,28 +80,28 @@
         </dependency>
 
         <!-- Import the Common Annotations API (JSR-250), we use provided 
-            scope as the API is included in JBoss AS 7 -->
+            scope as the API is included in WildFly 8 -->
         <dependency>
             <groupId>org.jboss.spec.javax.annotation</groupId>
             <artifactId>jboss-annotations-api_1.1_spec</artifactId>
             <scope>provided</scope>
         </dependency>
 
-        <!-- Import the JAX-RS API, we use provided scope as the API is included in JBoss AS 7 -->
+        <!-- Import the JAX-RS API, we use provided scope as the API is included in WildFly 8 -->
         <dependency>
             <groupId>org.jboss.spec.javax.ws.rs</groupId>
             <artifactId>jboss-jaxrs-api_1.1_spec</artifactId>
             <scope>provided</scope>
         </dependency>
 
-        <!-- Import the JPA API, we use provided scope as the API is included in JBoss AS 7 -->
+        <!-- Import the JPA API, we use provided scope as the API is included in WildFly 8 -->
         <dependency>
             <groupId>org.hibernate.javax.persistence</groupId>
             <artifactId>hibernate-jpa-2.0-api</artifactId>
             <scope>provided</scope>
         </dependency>
 
-        <!-- Import the EJB API, we use provided scope as the API is included in JBoss AS 7 -->
+        <!-- Import the EJB API, we use provided scope as the API is included in WildFly 8 -->
         <dependency>
             <groupId>org.jboss.spec.javax.ejb</groupId>
             <artifactId>jboss-ejb-api_3.1_spec</artifactId>
@@ -110,7 +110,7 @@
 
         <!-- JSR-303 (Bean Validation) Implementation -->
         <!-- Provides portable constraints such as @Email -->
-        <!-- Hibernate Validator is shipped in JBoss AS 7 -->
+        <!-- Hibernate Validator is shipped in WildFly 8 -->
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>

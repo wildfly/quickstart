@@ -25,7 +25,7 @@ System requirements
 
 All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven 3.0 or better.
 
-The application this project produces is designed to be run on JBoss Enterprise Application Platform 6 or JBoss AS 7. 
+The application this project produces is designed to be run on WildFly 8.
 
  
 Configure Maven
@@ -36,7 +36,7 @@ You can copy or link to the Maven configuration information in the README file i
 If you have not yet done so, you must [Configure Maven](../README.md#mavenconfiguration) before testing the quickstarts.
 
 
-Start JBoss Enterprise Application Platform 6 or JBoss AS 7
+Start WildFly 8
 -------------------------
 
 Start a server instance
@@ -52,7 +52,7 @@ _NOTE: The following build command assumes you have configured your Maven user s
 2. Open a command line and navigate to the root directory of this quickstart.
 3. Type this command to build and deploy the archive:
 
-        mvn clean install jboss-as:deploy
+        mvn clean install wildfly:deploy
 4. This will deploy `service/target/jboss-as-ejb-asynchronous.jar` to the running instance of the server.
  
 Check whether the application is deployed successfully.
@@ -94,7 +94,7 @@ Undeploy the Archive
 2. Open a command line and navigate to the root directory of this quickstart.
 3. When you are finished testing, type this command to undeploy the archive:
 
-        mvn jboss-as:undeploy
+        mvn wildfly:undeploy
 
 
 Run the Quickstart in JBoss Developer Studio or Eclipse

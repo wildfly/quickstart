@@ -4,14 +4,14 @@ CDI + JPA + EJB + JTA + JSF: Greeter quickstart
 
 [[GreeterQuickstart-]]
 
-This quickstart shows you how to create and deploy an application which persists information to a database to JBoss Enterprise Application Platform 6 or JBoss AS 7. Information is displayed using JSF views, business logic is encapsulated in CDI beans, information is persisted using JPA, and transactions can be controlled manually or using EJB.
+This quickstart shows you how to create and deploy an application which persists information to a database to WildFly 8. Information is displayed using JSF views, business logic is encapsulated in CDI beans, information is persisted using JPA, and transactions can be controlled manually or using EJB.
 
 Switch to the `quickstarts/greeter` directory and instruct Maven to build and deploy the application: 
 
-    mvn package jboss-as:deploy
+    mvn package wildfly:deploy
 
 
-The quickstart uses a Maven plugin to deploy the application. The plugin requires JBoss Enterprise Application Platform 6 or JBoss AS 7 to be running (you can find out how to start the server in <<GettingStarted-on_linux, Installing and starting the JBoss server on Linux, Unix or Mac OS X>> or <<GettingStarted-on_windows, Installing and starting the JBoss server on Windows>>).
+The quickstart uses a Maven plugin to deploy the application. The plugin requires WildFly 8 to be running (you can find out how to start the server in <<GettingStarted-on_linux, Installing and starting the JBoss server on Linux, Unix or Mac OS X>> or <<GettingStarted-on_windows, Installing and starting the JBoss server on Windows>>).
 
 Or you can start the server using an IDE, like JBoss Developer Studio. If you are using JBoss Developer Studio, you can deploy the quickstart by right clicking on the `jboss-as-greeter` project, and choosing _Run As -> Run On Server_: 
 
@@ -31,9 +31,9 @@ To use the application, visit http://localhost:8080/jboss-as-greeter/.
 The greeter quickstart in depth
 -------------------------------
 
-In the quickstart, all users are stored in an H2 database (an in-memory, embedded database provided out of the box in JBoss Enterprise Application Platform 6 and JBoss AS 7). Each user is stored as an entity, and entities are mapped to the database using JPA. By default, transactions are managed manually, using the JTA API. Optionally, you can use EJB to manage transactions (we'll look at how to enable that later). We need a transaction in progress in order to read and write any entities.
+In the quickstart, all users are stored in an H2 database (an in-memory, embedded database provided out of the box in WildFly 8 and WildFly 8). Each user is stored as an entity, and entities are mapped to the database using JPA. By default, transactions are managed manually, using the JTA API. Optionally, you can use EJB to manage transactions (we'll look at how to enable that later). We need a transaction in progress in order to read and write any entities.
 
-The quickstart is comprised of two JSF views, an entity, and a number of CDI beans. Additionally, there are the usual configuration files in `WEB-INF/` (which can be found in the `src/main/webapp` directory). Here we find `beans.xml` and `faces-config.xml` which tell JBoss Enterprise Application Platform 6 and JBoss AS 7 to enable CDI and JSF for the application. Notice that we don't need a `web.xml`. There are two new configuration files in `WEB-INF/classes/META-INF` (which can be found in the `src/main/resources` directory of the quickstart) — `persistence.xml`, which sets up JPA, and `import.sql` which Hibernate, the JPA provider in  JBoss Enterprise Application Platform 6 and JBoss AS 7, will use to load the initial users into the application when the application starts. 
+The quickstart is comprised of two JSF views, an entity, and a number of CDI beans. Additionally, there are the usual configuration files in `WEB-INF/` (which can be found in the `src/main/webapp` directory). Here we find `beans.xml` and `faces-config.xml` which tell WildFly 8 and WildFly 8 to enable CDI and JSF for the application. Notice that we don't need a `web.xml`. There are two new configuration files in `WEB-INF/classes/META-INF` (which can be found in the `src/main/resources` directory of the quickstart) — `persistence.xml`, which sets up JPA, and `import.sql` which Hibernate, the JPA provider in  WildFly 8 and WildFly 8, will use to load the initial users into the application when the application starts.
 
 `persistence.xml` is pretty straight forward, and links JPA to a datasource: 
 
@@ -74,12 +74,12 @@ The quickstart is comprised of two JSF views, an entity, and a number of CDI bea
 
 [TIP]
 ========================================================================
-JBoss Enterprise Application Platform 6 and JBoss AS 7 ships with a 
+WildFly 8 and WildFly 8 ships with a
 sample datasource `java:jboss/datasources/ExampleDS`. This data source 
 is backed by H2, an in-memory database. Whilst this datasource is great
 for quickstarts, you will probably want to use a different datasource in
-your application. The link:http://docs.redhat.com/docs/en-US/JBoss_Enterprise_Application_Platform/6/html/Administration_and_Configuration_Guide/index.html[Administration and Configuration Guide for JBoss Enterprise Application Platform 6] or the
-link:https://docs.jboss.org/author/display/AS71/Getting+Started+Guide[Getting Started Guide for JBoss AS 7] 
+your application. The link:http://docs.redhat.com/docs/en-US/JBoss_Enterprise_Application_Platform/6/html/Administration_and_Configuration_Guide/index.html[Administration and Configuration Guide for WildFly 8] or the
+link:https://docs.jboss.org/author/display/AS71/Getting+Started+Guide[Getting Started Guide for WildFly 8]
 tells you how to create a new datasource. 
 ========================================================================
 
@@ -468,7 +468,7 @@ Using declarative transaction management has allowed us to remove a third of the
 ========================================================================
 Sharp eyed developers who are used to Java EE will have noticed that we 
 have added this EJB to a war. This is the key improvement offered in 
-EJB 3.1 (which was first included in Java EE 6).
+EJB 3.1 (which was first included in Java EE 7).
 ========================================================================
 
 Finally, let's take a look at the `Resources` class, which provides resources such as the entity manager. CDI recommends using "resource producers", as we do in this quickstart, to alias resources to CDI beans, allowing for a  consistent style throughout our application: 
