@@ -12,7 +12,7 @@ What is it?
 
 On occasion, the application developer requires finer grained control over the lifecycle of JTA transactions and JPA Entity Managers than the defaults provided by the Java EE container. This example shows how the developer can override these defaults and take control of aspects of the lifecycle of JPA and transactions.
 
-This example demonstrates how to manually manage transaction demarcation while accessing JPA entities in JBoss Enterprise Application Platform 6 or JBoss AS 7.
+This example demonstrates how to manually manage transaction demarcation while accessing JPA entities in WildFly 8.
 
 When you run this example, you will be provided with a `Use bean managed Entity Managers` checkbox.
 * If you check the checkbox, it shows the developer responsibilities when injecting an Entity Manager into a managed (stateless) bean.
@@ -28,7 +28,7 @@ System requirements
 
 All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven 3.0 or better.
 
-The application this project produces is designed to be run on JBoss Enterprise Application Platform 6 or JBoss AS 7. 
+The application this project produces is designed to be run on WildFly 8.
 
  
 Configure Maven
@@ -37,7 +37,7 @@ Configure Maven
 If you have not yet done so, you must [Configure Maven](../README.md#mavenconfiguration) before testing the quickstarts.
 
 
-Start JBoss Enterprise Application Platform 6 or JBoss AS 7 with the Web Profile
+Start WildFly 8 with the Web Profile
 -------------------------
 
 1. Open a command line and navigate to the root of the JBoss server directory.
@@ -56,7 +56,7 @@ _NOTE: The following build command assumes you have configured your Maven user s
 2. Open a command line and navigate to the root directory of this quickstart.
 3. Type this command to build and deploy the archive:
 
-        mvn clean package jboss-as:deploy
+        mvn clean package wildfly:deploy
 
 4. This will deploy `target/jboss-as-bmt.war` to the running instance of the server.
  

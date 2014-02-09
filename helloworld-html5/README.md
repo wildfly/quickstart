@@ -48,7 +48,7 @@ the following Maven goal:
 
 You can now deploy the artifact by executing the following command:
 
-    mvn jboss-as:deploy
+    mvn wildfly:deploy
 
 This will deploy both the client and service applications.
 
