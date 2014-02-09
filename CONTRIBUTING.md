@@ -4,7 +4,7 @@ Quickstarts Contributing Guide
 Purpose of the quickstarts
 --------------------------
 
-- To demonstrate Java EE 7 technologies
+- To demonstrate Java EE 6 technologies
 
 - To provide developers with working examples and instructions that are easy to follow .
 
