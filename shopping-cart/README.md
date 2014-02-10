@@ -81,11 +81,10 @@ Investigate the Console Output
 
 You should see the following: 
 
-1. The client sends a remote method invocation to the stateful session bean to buy two Memory sticks and one MacBook Air Laptop
-2. The client sends a remote method invocation to get the contents of the cart, and print it
-3. The client sends a remote method invocation to invoke checkout
-
-Note that the checkout will remove the SFSB. The client then sends a final remote method invocation to get the cart contents. As the bean has been removed, a `NoSuchEjbException` is thrown.
+1. The client sends a remote method invocation to the stateful session bean to buy two "JBoss Enterprise Application Platform 6" subscriptions and one "JBoss SOA Platform 6" subscription.
+2. The client sends a remote method invocation to get the contents of the cart and prints it to the console.
+3. The client sends a remote method invocation to invoke checkout. Note the `checkout()` method in the server `ShoppingCartBean` has the `@Remove` annotation. This means the container will destroy shopping cart after the call and it will no longer be available. 
+4. The client calls `getCartContents()` to make sure the shopping cart was removed after checkout. This results in a `javax.ejb.NoSuchEJBException` trace in the server, proving the cart was removed.
 
 On the client console, you should see output similar to:
 
