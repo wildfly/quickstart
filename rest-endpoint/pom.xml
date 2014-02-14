@@ -16,16 +16,12 @@
     limitations under the License.
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>org.wildfly.quickstarts</groupId>
-        <artifactId>wildfly-quickstarts-parent</artifactId>
-        <version>8.0.0-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
-    </parent>
+    <groupId>com.jboss.datagrid.quickstart</groupId>
     <artifactId>rest-endpoint-quickstart</artifactId>
+    <version>7.1.2-SNAPSHOT</version>
     <name>REST Endpoint Example</name>
 
     <licenses>
@@ -37,21 +33,48 @@
     </licenses>
 
     <properties>
-        <!-- Defines the main class to be execute when running java -jar
+        <!-- Explicitly declaring the source encoding eliminates the following 
+            message: -->
+        <!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered 
+            resources, i.e. build is platform dependent! -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+
+        <!-- Defines the main class to be execute when running java -jar 
             command -->
         <main.class>org.jboss.as.quickstarts.datagrid.rest.FootballManager</main.class>
 
+        <!-- other plugin versions -->
+        <compiler.plugin.version>2.3.2</compiler.plugin.version>
+        <shade.plugin.version>1.5</shade.plugin.version>
+        <exec.plugin.version>1.2.1</exec.plugin.version>
+
+        <!-- maven-compiler-plugin -->
+        <maven.compiler.target>1.6</maven.compiler.target>
+        <maven.compiler.source>1.6</maven.compiler.source>
     </properties>
 
     <build>
         <finalName>${project.artifactId}</finalName>
         <plugins>
-            <!-- This plugin permits the execution of this quickstart through
-                        mvn exec:java command -->
+            <!-- Compiler plugin enforces Java 1.6 compatibility and activates 
+                annotation processors -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${compiler.plugin.version}</version>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                </configuration>
+            </plugin>
+
+            <!-- This plugin permits the execution of this quickstart through 
+                mvn exec:java command -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
-                <version>${version.exec.plugin}</version>
+                <version>${exec.plugin.version}</version>
                 <executions>
                     <execution>
                         <goals>
@@ -63,14 +86,14 @@
                     <mainClass>${main.class}</mainClass>
                 </configuration>
             </plugin>
-
+            
             <!-- This plugin will create a new jar's with all dependencies 
                 packages added. It also changes the MANIFEST.MF to include the information 
                 about which is the main class -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>${version.shade.plugin}</version>
+                <version>${shade.plugin.version}</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -82,7 +105,7 @@
                 <configuration>
                     <transformers>
                         <transformer
-                                implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                            implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                             <mainClass>${main.class}</mainClass>
                         </transformer>
                     </transformers>

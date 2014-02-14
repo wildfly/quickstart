@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?> 
 <!-- JBoss, Home of Professional Open Source Copyright 2012, Red Hat, Inc. 
          and/or its affiliates, and individual contributors by the @authors tag. See 
     the copyright.txt in the distribution for a full listing of individual contributors. 
@@ -11,22 +11,21 @@
     language governing permissions and limitations under the License. -->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.wildfly.quickstarts</groupId>
-        <artifactId>wildfly-ejb-throws-exception</artifactId>
-        <version>8.0.0-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
+        <groupId>org.jboss.as.quickstarts</groupId>
+        <artifactId>jboss-as-ejb-throws-exception</artifactId>
+        <version>7.1.2-SNAPSHOT</version>
     </parent>
 
     <artifactId>ejb-throws-exception-ear</artifactId>
     <packaging>ear</packaging>
 
-    <name>WildFly Quickstarts: EJB throws exception (EAR)</name>
+    <name>JBoss AS Quickstarts: EJB throws exception (EAR)</name>
 
-    <url>http://wildfly.org</url>
+    <url>http://jboss.org/jbossas</url>
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
@@ -39,18 +38,18 @@
 
         <!-- Depend on the ejb module and war so that we can package them -->
         <dependency>
-            <groupId>org.wildfly.quickstarts</groupId>
-            <artifactId>wildfly-ejb-throws-exception-web</artifactId>
+            <groupId>org.jboss.as.quickstarts</groupId>
+            <artifactId>jboss-as-ejb-throws-exception-web</artifactId>
             <type>war</type>
         </dependency>
         <dependency>
-            <groupId>org.wildfly.quickstarts</groupId>
-            <artifactId>wildfly-ejb-throws-exception-ejb</artifactId>
+            <groupId>org.jboss.as.quickstarts</groupId>
+            <artifactId>jboss-as-ejb-throws-exception-ejb</artifactId>
             <type>ejb</type>
         </dependency>
         <dependency>
-            <groupId>org.wildfly.quickstarts</groupId>
-            <artifactId>wildfly-ejb-throws-exception-ejb-api</artifactId>
+            <groupId>org.jboss.as.quickstarts</groupId>
+            <artifactId>jboss-as-ejb-throws-exception-ejb-api</artifactId>
         </dependency>
     </dependencies>
 
@@ -77,8 +76,8 @@
                 configure the jboss-as maven plugin to skip deployment for all modules. We 
                 then enable it specifically in the ear module. -->
             <plugin>
-                <groupId>org.wildfly.plugins</groupId>
-                <artifactId>wildfly-maven-plugin</artifactId>
+                <groupId>org.jboss.as.plugins</groupId>
+                <artifactId>jboss-as-maven-plugin</artifactId>
                 <configuration>
                     <filename>${project.artifactId}.ear</filename>
                     <skip>false</skip>

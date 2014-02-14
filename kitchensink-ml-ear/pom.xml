@@ -17,18 +17,14 @@
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <name>JBoss AS Quickstarts: Localized Kitchensink EAR</name>
     <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <groupId>org.wildfly.quickstarts</groupId>
-        <artifactId>wildfly-quickstarts-parent</artifactId>
-        <version>8.0.0-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
-    </parent>
-    <artifactId>wildfly-kitchensink-ml-ear</artifactId>
+    <groupId>org.jboss.as.quickstarts</groupId>
+    <artifactId>jboss-as-kitchensink-ml-ear</artifactId>
+    <version>7.1.2-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>WildFly Quickstarts: Localized Kitchensink EAR</name>
 
-    <url>http://wildfly.org</url>
+    <url>http://jboss.org/jbossas</url>
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
@@ -42,14 +38,54 @@
         <module>jboss-as-kitchensink-ml-ear-ear</module>
     </modules>
 
+    <properties>
+        <!-- Explicitly declaring the source encoding eliminates the following 
+            message: -->
+        <!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered 
+            resources, i.e. build is platform dependent! -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <!-- JBoss dependency versions -->
+
+        <version.jboss.maven.plugin>7.3.Final</version.jboss.maven.plugin>
+                
+        <!-- Define the version of the JBoss BOMs we want to import to specify tested stacks. -->
+        <version.jboss.bom>1.0.4.Final</version.jboss.bom>
+        <!-- Alternatively, comment out the above line, and un-comment the 
+            line below to use version 1.0.4.Final-redhat-3 which is a release certified 
+            to work with JBoss EAP 6. It requires you have access to the JBoss EAP 6 
+            maven repository. -->
+        <!-- <version.jboss.bom>1.0.4.Final-redhat-3</version.jboss.bom>  -->
+
+        <version.wildfly>8.0.0.Alpha3</version.wildfly>
+        <version.arquillian.container>8.0.0.Alpha3</version.arquillian.container>
+
+        <!-- Alternatively, comment out the above line, and un-comment the 
+            line below to use version 7.2.0.Final-redhat-1 which is a release certified 
+            to work with JBoss EAP 6. It requires you have access to the JBoss EAP 6 
+            maven repository. -->
+        <!-- <version.jboss.as>7.2.0.Final-redhat-1</version.jboss.as> -->
+
+        <!-- other plugin versions -->
+        <version.compiler.plugin>2.3.1</version.compiler.plugin>
+        <version.ear.plugin>2.6</version.ear.plugin>
+        <version.ejb.plugin>2.3</version.ejb.plugin>
+        <version.surefire.plugin>2.4.3</version.surefire.plugin>
+        <version.war.plugin>2.1.1</version.war.plugin>
+
+        <!-- maven-compiler-plugin -->
+        <maven.compiler.target>1.6</maven.compiler.target>
+        <maven.compiler.source>1.6</maven.compiler.source>
+    </properties>
+
     <dependencyManagement>
         <dependencies>
 
             <!-- Define the version of the EJB jar so that we don't need 
                 to repeat ourselves in every module -->
             <dependency>
-                <groupId>org.wildfly.quickstarts</groupId>
-                <artifactId>wildfly-kitchensink-ml-ear-ejb</artifactId>
+                <groupId>org.jboss.as.quickstarts</groupId>
+                <artifactId>jboss-as-kitchensink-ml-ear-ejb</artifactId>
                 <version>${project.version}</version>
                 <type>ejb</type>
             </dependency>
@@ -57,8 +93,8 @@
             <!-- Define the version of the WAR so that we don't need to repeat 
                 ourselves in every module -->
             <dependency>
-                <groupId>org.wildfly.quickstarts</groupId>
-                <artifactId>wildfly-kitchensink-ml-ear-web</artifactId>
+                <groupId>org.jboss.as.quickstarts</groupId>
+                <artifactId>jboss-as-kitchensink-ml-ear-web</artifactId>
                 <version>${project.version}</version>
                 <type>war</type>
                 <scope>compile</scope>
@@ -103,15 +139,25 @@
         <finalName>${project.artifactId}</finalName>
         <pluginManagement>
             <plugins>
-                <!-- The JBoss AS plugin deploys your ear to a local JBoss
-                  AS container -->
+                <!-- Compiler plugin enforces Java 1.6 compatibility and 
+                    activates annotation processors -->
+                <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${version.compiler.plugin}</version>
+                    <configuration>
+                        <source>${maven.compiler.source}</source>
+                        <target>${maven.compiler.target}</target>
+                    </configuration>
+                </plugin>
+                <!-- The JBoss AS plugin deploys your ear to a local JBoss 
+                    AS container -->
                 <!-- Due to Maven's lack of intelligence with EARs we need 
                     to configure the jboss-as maven plugin to skip deployment for all modules. 
                     We then enable it specifically in the ear module. -->
                 <plugin>
-                    <groupId>org.wildfly.plugins</groupId>
-                    <artifactId>wildfly-maven-plugin</artifactId>
-                    <version>${version.wildfly.maven.plugin}</version>
+                    <groupId>org.jboss.as.plugins</groupId>
+                    <artifactId>jboss-as-maven-plugin</artifactId>
+                    <version>${version.jboss.maven.plugin}</version>
                     <inherited>true</inherited>
                     <configuration>
                         <skip>true</skip>

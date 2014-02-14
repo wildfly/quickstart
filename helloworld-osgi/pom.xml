@@ -19,16 +19,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0    http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>org.wildfly.quickstarts</groupId>
-        <artifactId>wildfly-quickstarts-parent</artifactId>
-        <version>8.0.0-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
-    </parent>
-    <artifactId>wildfly-helloworld-osgi</artifactId>
+    <groupId>org.jboss.as.quickstarts</groupId>
+    <artifactId>jboss-as-helloworld-osgi</artifactId>
+    <version>7.1.2-SNAPSHOT</version>
     <packaging>bundle</packaging>
-    <name>WildFly Quickstarts: OSGi Helloworld</name>
-    <description>WildFly Quickstarts: OSGi Helloworld</description>
+    <name>JBoss AS Quickstarts: OSGi Helloworld</name>
+    <description>JBoss AS Quickstarts: OSGi Helloworld</description>
 
     <url>http://jboss.org/jbossas/osgi</url>
     <licenses>
@@ -38,6 +34,33 @@
             <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
         </license>
     </licenses>
+
+    <properties>
+        <!-- Explicitly declaring the source encoding eliminates the following 
+            message: -->
+        <!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered 
+            resources, i.e. build is platform dependent! -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <!-- JBoss dependency versions -->
+        <version.jboss.maven.plugin>7.3.Final</version.jboss.maven.plugin>
+
+        <!-- Define the version of the JBoss BOMs we want to import to specify tested stacks. -->
+        <version.jboss.bom>1.0.4.Final</version.jboss.bom>
+        <!-- Alternatively, comment out the above line, and un-comment the 
+            line below to use version 1.0.4.Final-redhat-3 which is a release certified 
+            to work with JBoss EAP 6. It requires you have access to the JBoss EAP 6 
+            maven repository. -->
+        <!-- <version.jboss.bom>1.0.4.Final-redhat-3</version.jboss.bom> -->
+
+        <!-- other plugin versions -->
+        <version.bundle.plugin>2.3.4</version.bundle.plugin>
+        <version.compiler.plugin>2.3.1</version.compiler.plugin>
+
+        <!-- maven-compiler-plugin -->
+        <maven.compiler.target>1.6</maven.compiler.target>
+        <maven.compiler.source>1.6</maven.compiler.source>
+    </properties>
 
     <dependencyManagement>
         <dependencies>
@@ -56,7 +79,7 @@
         <dependency>
             <groupId>org.osgi</groupId>
             <artifactId>org.osgi.core</artifactId>
-            <scope>provided</scope>
+             <scope>provided</scope>
         </dependency>
     </dependencies>
 
@@ -86,7 +109,7 @@
                         <Import-Package>*</Import-Package>
 
                         <!-- This bundle does not export any packages -->
-                        <Export-Package/>
+                        <Export-Package />
 
                         <!-- Packages that are not exported but need to be 
                             included need to be listed as Private-Package -->
@@ -97,13 +120,25 @@
 
             <!-- JBoss AS plugin to deploy artifact -->
             <plugin>
-                <groupId>org.wildfly.plugins</groupId>
-                <artifactId>wildfly-maven-plugin</artifactId>
-                <version>${version.wildfly.maven.plugin}</version>
+                <groupId>org.jboss.as.plugins</groupId>
+                <artifactId>jboss-as-maven-plugin</artifactId>
+                <version>${version.jboss.maven.plugin}</version>
                 <configuration>
                     <filename>${project.build.finalName}.jar</filename>
                 </configuration>
             </plugin>
+
+            <!-- Compiler plugin enforces Java 1.6 compatibility to remove 
+                unnecessary warnings about execution environment in IDE -->
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${version.compiler.plugin}</version>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                </configuration>
+            </plugin>
+
         </plugins>
     </build>
 </project>

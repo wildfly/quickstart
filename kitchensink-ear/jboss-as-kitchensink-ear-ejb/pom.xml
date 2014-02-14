@@ -20,18 +20,17 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <artifactId>wildfly-kitchensink-ear</artifactId>
-        <groupId>org.wildfly.quickstarts</groupId>
-        <version>8.0.0-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
+        <artifactId>jboss-as-kitchensink-ear</artifactId>
+        <groupId>org.jboss.as.quickstarts</groupId>
+        <version>7.1.2-SNAPSHOT</version>
     </parent>
 
-    <artifactId>wildfly-kitchensink-ear-ejb</artifactId>
+    <artifactId>jboss-as-kitchensink-ear-ejb</artifactId>
     <packaging>ejb</packaging>
 
-    <name>WildFly Quickstarts: Kitchensink EAR: EJB Module</name>
+    <name>JBoss AS Quickstarts: Kitchensink EAR: EJB Module</name>
 
-    <url>http://wildfly.org</url>
+    <url>http://jboss.org/jbossas</url>
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
@@ -91,14 +90,28 @@
             <artifactId>arquillian-junit-container</artifactId>
             <scope>test</scope>
         </dependency>
-
+      
         <dependency>
             <groupId>org.jboss.arquillian.protocol</groupId>
             <artifactId>arquillian-protocol-servlet</artifactId>
-            <scope>test</scope>
+            <scope>test</scope>               
         </dependency>
 
     </dependencies>
+
+    <build>
+        <finalName>${project.artifactId}</finalName>
+        <plugins>
+            <plugin>
+                <artifactId>maven-ejb-plugin</artifactId>
+                <version>${version.ejb.plugin}</version>
+                <configuration>
+                    <!-- Tell Maven we are using EJB 3.1 -->
+                    <ejbVersion>3.1</ejbVersion>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
     <profiles>
         <profile>

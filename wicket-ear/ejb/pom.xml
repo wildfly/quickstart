@@ -16,20 +16,19 @@
     limitations under the License.
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.wildfly.quickstarts</groupId>
-        <artifactId>wildfly-wicket-ear-parent</artifactId>
-        <version>8.0.0-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
+        <groupId>org.jboss.as.quickstarts</groupId>
+        <artifactId>jboss-as-wicket-ear-parent</artifactId>
+        <version>7.1.2-SNAPSHOT</version>
     </parent>
 
-    <artifactId>wildfly-wicket-ear-ejb</artifactId>
+    <artifactId>jboss-as-wicket-ear-ejb</artifactId>
     <packaging>ejb</packaging>
 
-    <name>WildFly Quickstarts: Wicket EAR: EJB JAR</name>
+    <name>JBoss AS Quickstarts: Wicket EAR: EJB JAR</name>
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
@@ -45,23 +44,40 @@
         <!-- Import the Common Annotations API (JSR-250). -->
         <dependency>
             <groupId>org.jboss.spec.javax.annotation</groupId>
-            <artifactId>jboss-annotations-api_1.2_spec</artifactId>
+            <artifactId>jboss-annotations-api_1.1_spec</artifactId>
             <scope>provided</scope>
         </dependency>
 
         <!-- Import the EJB API. -->
         <dependency>
             <groupId>org.jboss.spec.javax.ejb</groupId>
-            <artifactId>jboss-ejb-api_3.2_spec</artifactId>
+            <artifactId>jboss-ejb-api_3.1_spec</artifactId>
             <scope>provided</scope>
         </dependency>
 
         <!-- Import the JPA API. -->
         <dependency>
             <groupId>org.hibernate.javax.persistence</groupId>
-            <artifactId>hibernate-jpa-2.1-api</artifactId>
+            <artifactId>hibernate-jpa-2.0-api</artifactId>
             <scope>provided</scope>
         </dependency>
 
     </dependencies>
+
+    <build>
+        <finalName>${project.artifactId}</finalName>
+        <plugins>
+            <!-- Configure the maven-ejb-plugin to use EJB 3.1 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-ejb-plugin</artifactId>
+                <version>${version.ejb.plugin}</version>
+                <configuration>
+                    <ejbVersion>3.1</ejbVersion>
+                </configuration>
+            </plugin>
+
+        </plugins>
+    </build>
+
 </project>

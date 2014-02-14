@@ -19,16 +19,15 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>wildfly-cluster-ha-singleton-service</artifactId>
+    <artifactId>jboss-as-cluster-ha-singleton-service</artifactId>
 
     <parent>
-        <groupId>org.wildfly.quickstarts</groupId>
-        <artifactId>wildfly-cluster-ha-singleton</artifactId>
-        <version>8.0.0-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
+        <groupId>org.jboss.as.quickstarts</groupId>
+        <artifactId>jboss-as-cluster-ha-singleton</artifactId>
+        <version>7.1.2-SNAPSHOT</version>
     </parent>
 
-    <name>WildFly Quickstarts: SingletonService (service)</name>
+    <name>JBoss AS Quickstarts: SingletonService (service)</name>
     <packaging>ejb</packaging>
 
     <licenses>
@@ -51,31 +50,40 @@
             to use the version in JBoss AS -->
         <dependency>
             <groupId>org.jboss.spec.javax.ejb</groupId>
-            <artifactId>jboss-ejb-api_3.2_spec</artifactId>
+            <artifactId>jboss-ejb-api_3.1_spec</artifactId>
         </dependency>
         <!-- Import the JSR-250 API, we use provided scope because we aren't 
             to use the version in JBoss AS -->
         <dependency>
             <groupId>org.jboss.spec.javax.annotation</groupId>
-            <artifactId>jboss-annotations-api_1.2_spec</artifactId>
+            <artifactId>jboss-annotations-api_1.1_spec</artifactId>
         </dependency>
-
+        
         <dependency>
             <groupId>org.wildfly</groupId>
             <artifactId>wildfly-clustering-common</artifactId>
         </dependency>
-
+        
         <dependency>
             <groupId>org.wildfly</groupId>
             <artifactId>wildfly-clustering-singleton</artifactId>
         </dependency>
-
+        
     </dependencies>
 
     <build>
         <!-- Specify the artifact name -->
         <finalName>${project.artifactId}</finalName>
         <plugins>
+            <!-- Enforce Java 1.7 -->
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${version.compiler.plugin}</version>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.source}</target>
+                </configuration>
+            </plugin>
             <plugin>
                 <!-- must include ejb-plugin to change the EJB version from 
                     2.1 to 3.0 -->
@@ -83,7 +91,9 @@
                 <artifactId>maven-ejb-plugin</artifactId>
                 <version>${version.ejb.plugin}</version>
                 <configuration>
-                    <ejbVersion>3.2</ejbVersion>
+                    <ejbVersion>3.1</ejbVersion>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.source}</target>
                     <generateClient>true</generateClient>
                     <clientIncludes>
                         <clientInclude>**/ServiceAccess.class</clientInclude>
@@ -93,16 +103,15 @@
                         <manifestEntries>
                             <Dependencies>org.jboss.msc,
                                 org.wildfly.clustering.singleton,
-                                org.jboss.as.server
-                            </Dependencies>
+                                org.jboss.as.server</Dependencies>
                         </manifestEntries>
                     </archive>
                 </configuration>
             </plugin>
             <!-- JBoss AS plugin to deploy jar -->
             <plugin>
-                <groupId>org.wildfly.plugins</groupId>
-                <artifactId>wildfly-maven-plugin</artifactId>
+                <groupId>org.jboss.as.plugins</groupId>
+                <artifactId>jboss-as-maven-plugin</artifactId>
                 <configuration>
                     <skip>false</skip>
                     <filename>jboss-as-cluster-ha-singleton-service.jar</filename>
