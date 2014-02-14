@@ -19,9 +19,13 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.jboss.datagrid.quickstart</groupId>
+    <parent>
+          <groupId>org.wildfly.quickstarts</groupId>
+          <artifactId>wildfly-quickstarts-parent</artifactId>
+          <version>8.0.0-SNAPSHOT</version>
+          <relativePath>../pom.xml</relativePath>
+      </parent>
     <artifactId>wildfly-carmart</artifactId>
-    <version>7.1.2-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>CarMart Single Node (No Cluster)</name>
 
@@ -34,53 +38,22 @@
     </licenses>
 
     <properties>
-        <!-- Explicitly declaring the source encoding eliminates the following 
-            message: -->
-        <!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered 
-            resources, i.e. build is platform dependent! -->
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <!-- JBoss dependency versions -->
-        <com.ocpsoft.prettyfaces.version>3.3.2</com.ocpsoft.prettyfaces.version>
-        <org.jboss.weld.servlet.version>1.1.8.Final</org.jboss.weld.servlet.version>
-        <com.sun.faces.jsf.impl.version>2.0.2</com.sun.faces.jsf.impl.version>
-
-        <!-- This is the Management URL of EWS/Tomcat, so tomcat-maven-plugin 
+        <!-- This is the Management URL of EWS/Tomcat, so tomcat-maven-plugin
             can deploy this quickstart on EWS/Tomcat through this URL -->
         <tomcat.management.url>http://localhost:8080/manager/text</tomcat.management.url>
 
-        <!-- Define the version of the JBoss BOMs we want to import to specify tested stacks. -->
-        <version.jboss.bom>1.0.4.Final</version.jboss.bom>
-        <!-- Alternatively, comment out the above line, and un-comment the 
-            line below to use version 1.0.4.Final-redhat-3 which is a release certified 
-            to work with JBoss EAP 6. It requires you have access to the JBoss EAP 6 
-            maven repository. -->
-        <!-- <version.jboss.bom>1.0.4.Final-redhat-3</version.jboss.bom> -->
-
-        <!-- other plugin versions -->
-        <version.jboss.maven.plugin>7.3.Final</version.jboss.maven.plugin>
         <version.tomcat.maven.plugin>1.1</version.tomcat.maven.plugin>
-        <version.buildhelper.maven.plugin>1.7</version.buildhelper.maven.plugin>
-
-        <!-- other plugin versions -->
-        <version.compiler.plugin>2.3.2</version.compiler.plugin>
-        <version.war.plugin>2.2</version.war.plugin>
-
-        <!-- maven-compiler-plugin -->
-        <maven.compiler.target>1.6</maven.compiler.target>
-        <maven.compiler.source>1.6</maven.compiler.source>
-
-
     </properties>
 
 
     <dependencyManagement>
-        <!-- JBoss distributes a complete set of Java EE 7 APIs including
+        <!-- JBoss distributes a complete set of Java EE 6 APIs including 
             a Bill of Materials (BOM). A BOM specifies the versions of a "stack" (or 
             a collection) of artifacts. We use this here so that we always get the correct 
             versions of artifacts. Here we use the jboss-javaee-6.0-with-infinispan stack 
             and the jboss-javaee-6.0-with-transactions stack (you can read this as the 
-            JBoss stack of the Java EE 7 APIs, with Infinispan and Transactions) -->
+            JBoss stack of the Java EE 6 APIs, with Infinispan and Transactions) -->
         <dependencies>
             <dependency>
                 <groupId>org.jboss.bom</groupId>
@@ -152,7 +125,7 @@
                             folder -->
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>build-helper-maven-plugin</artifactId>
-                        <version>${version.buildhelper.maven.plugin}</version>
+                        <version>${version.buildhelper.plugin}</version>
                         <executions>
                             <execution>
                                 <id>add-source</id>
@@ -167,14 +140,6 @@
                                 </configuration>
                             </execution>
                         </executions>
-                    </plugin>
-                    <plugin>
-                        <!-- The JBoss AS plugin deploys your war to a local 
-                            JBoss AS container -->
-                        <!-- To use, run: mvn package wildfly:deploy -->
-                        <groupId>org.jboss.as.plugins</groupId>
-                        <artifactId>wildfly-maven-plugin</artifactId>
-                        <version>${version.jboss.maven.plugin}</version>
                     </plugin>
                 </plugins>
             </build>
@@ -201,7 +166,7 @@
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>build-helper-maven-plugin</artifactId>
-                        <version>${version.buildhelper.maven.plugin}</version>
+                        <version>${version.buildhelper.plugin}</version>
                         <executions>
                             <execution>
                                 <id>add-source</id>
@@ -216,14 +181,6 @@
                                 </configuration>
                             </execution>
                         </executions>
-                    </plugin>
-                    <plugin>
-                        <!-- The JBoss AS plugin deploys your war to a local 
-                            JBoss AS container -->
-                        <!-- To use, run: mvn package wildfly:deploy -->
-                        <groupId>org.jboss.as.plugins</groupId>
-                        <artifactId>wildfly-maven-plugin</artifactId>
-                        <version>${version.jboss.maven.plugin}</version>
                     </plugin>
                 </plugins>
             </build>
@@ -269,7 +226,7 @@
                             folder -->
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>build-helper-maven-plugin</artifactId>
-                        <version>${version.buildhelper.maven.plugin}</version>
+                        <version>${version.buildhelper.plugin}</version>
                         <executions>
                             <execution>
                                 <id>add-source</id>

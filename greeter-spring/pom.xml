@@ -18,14 +18,18 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.jboss.as.quickstarts</groupId>
+    <parent>
+        <groupId>org.wildfly.quickstarts</groupId>
+        <artifactId>wildfly-quickstarts-parent</artifactId>
+        <version>8.0.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
     <artifactId>wildfly-greeter-spring</artifactId>
-    <version>7.1.2-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>WildFly Quickstarts: Greeter Spring</name>
     <description>WildFly Quickstarts: Greeter Spring</description>
 
-    <url>http://jboss.org/jbossas</url>
+    <url>http://wildfly.org</url>
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
@@ -35,38 +39,24 @@
     </licenses>
 
     <properties>
-        <!-- Explicitly declaring the source encoding eliminates the following message: -->
-        <!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered
-        resources, i.e. build is platform dependent! -->
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
         <!-- Third Party dependencies -->
         <version.standard.taglibs>1.1.2</version.standard.taglibs>
         <version.commons.logging>1.1.1</version.commons.logging>
-
-        <!-- JBoss AS plugin for deployment -->
-        <version.jboss.maven.plugin>7.1.1.Final</version.jboss.maven.plugin>
-
-        <version.jboss.bom>1.0.5.CR4</version.jboss.bom>
-        <version.surefire.plugin>2.9</version.surefire.plugin>
-        <version.compiler.plugin>2.3.1</version.compiler.plugin>
-        <maven.compiler.source>1.6</maven.compiler.source>
-        <maven.compiler.target>1.6</maven.compiler.target>
     </properties>
 
     <dependencyManagement>
 
         <dependencies>
-            <!-- Define the version of JBoss' Java EE 7 APIs we want to import. Any
+            <!-- Define the version of JBoss' Java EE 6 APIs we want to import. Any
                 dependencies from org.jboss.spec will have their version defined by this
                 BOM -->
-            <!-- JBoss distributes a complete set of Java EE 7 APIs including a Bill
+            <!-- JBoss distributes a complete set of Java EE 6 APIs including a Bill
                 of Materials (BOM). A BOM specifies the versions of a "stack" (or a collection)
                 of artifacts. We use this here so that we always get the correct versions
                 of artifacts. Here we use the jboss-javaee-web-6.0 stack (you can read this
                 as the JBoss stack of the Java EE Web Profile 6 APIs), and we use version
                 2.0.0.Beta1 which is the latest release of the stack. You can actually use
-                this stack with any version of JBoss AS that implements Java EE 7, not just
+                this stack with any version of JBoss AS that implements Java EE 6, not just
                 JBoss AS 7! -->
             <dependency>
                 <groupId>org.jboss.bom</groupId>
@@ -173,23 +163,6 @@
     <build>
         <finalName>${project.artifactId}</finalName>
         <plugins>
-            <!-- Force Java 6 -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>${version.compiler.plugin}</version>
-                <configuration>
-                    <source>${maven.compiler.source}</source>
-                    <target>${maven.compiler.target}</target>
-                </configuration>
-            </plugin>
-            <!-- Deployent on AS from console -->
-            <plugin>
-                <groupId>org.jboss.as.plugins</groupId>
-                <artifactId>wildfly-maven-plugin</artifactId>
-                <version>${version.jboss.maven.plugin}</version>
-            </plugin>
-            <!-- Surefire plugin before 2.9 version is buggy -->
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${version.surefire.plugin}</version>

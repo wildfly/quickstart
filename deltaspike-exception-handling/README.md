@@ -31,7 +31,7 @@ System requirements
 
 All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven 3.0 or better.
 
-The application this project produces is designed to be run on WildFly 8.
+The application this project produces is designed to be run on JBoss Enterprise Application Platform 6 or JBoss AS 7. 
 
  
 Configure Maven
@@ -40,7 +40,7 @@ Configure Maven
 If you have not yet done so, you must [Configure Maven](../README.md#mavenconfiguration) before testing the quickstarts.
 
 
-Start WildFly 8
+Start JBoss Enterprise Application Platform 6 or JBoss AS 7
 -------------------------
 
 1. Open a command line and navigate to the root of the JBoss server directory.
@@ -59,7 +59,7 @@ _NOTE: The following build command assumes you have configured your Maven user s
 2. Open a command line and navigate to the root directory of this quickstart.
 3. Type this command to build and deploy the archive:
 
-        mvn clean package wildfly:deploy
+        mvn clean package jboss-as:deploy
 4. This will deploy `target/jboss-as-ds-exception-handling.war` to the running instance of the server.
  
 

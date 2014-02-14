@@ -10,167 +10,114 @@
 	OF ANY KIND, either express or implied. See the License for the specific 
 	language governing permissions and limitations under the License. -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-	<groupId>org.jboss.as.quickstarts</groupId>
-	<artifactId>wildfly-picketlink-authorization-idm-jpa</artifactId>
-	<version>7.1.2-SNAPSHOT</version>
-	<packaging>war</packaging>
-	<name>WildFly Quickstarts: PicketLink IDM Authorization using JPA</name>
-	<description>WildFly Quickstarts: PicketLink IDM Authorization using JPA</description>
+    <parent>
+        <groupId>org.wildfly.quickstarts</groupId>
+        <artifactId>wildfly-quickstarts-parent</artifactId>
+        <version>8.0.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+    <artifactId>wildfly-picketlink-authorization-idm-jpa</artifactId>
+    <packaging>war</packaging>
+    <name>WildFly Quickstarts: PicketLink IDM Authorization using JPA</name>
+    <description>WildFly Quickstarts: PicketLink IDM Authorization using JPA</description>
 
-	<url>http://jboss.org/jbossas</url>
-	<licenses>
-		<license>
-			<name>Apache License, Version 2.0</name>
-			<distribution>repo</distribution>
-			<url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
-		</license>
-	</licenses>
+    <url>http://wildfly.org</url>
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <distribution>repo</distribution>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+        </license>
+    </licenses>
 
-	<properties>
-		<!-- Explicitly declaring the source encoding eliminates the following 
-			message: -->
-		<!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered 
-			resources, i.e. build is platform dependent! -->
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <dependencyManagement>
+        <dependencies>
+            <!-- Define the version of JBoss' Java EE 6 APIs we want to use -->
+            <!-- JBoss distributes a complete set of Java EE 6 APIs including a Bill
+                of Materials (BOM). A BOM specifies the versions of a "stack" (or a collection)
+                of artifacts. We use this here so that we always get the correct versions
+                of artifacts. Here we use the jboss-javaee-6.0-with-security stack (you can
+                read this as the JBoss stack of the Java EE 6 APIs with Security). You can
+                actually use this stack with any version of JBoss AS that implements Java
+                EE 6, not just JBoss AS 7! -->
+            <dependency>
+                <groupId>org.jboss.bom</groupId>
+                <artifactId>jboss-javaee-6.0-with-security</artifactId>
+                <version>${version.jboss.bom}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
-		<!-- JBoss dependency versions -->
+    <dependencies>
 
-		<version.jboss.maven.plugin>7.3.Final</version.jboss.maven.plugin>
+        <!-- Import the EJB API, we use provided scope as the API is included in
+            JBoss AS 7 -->
+        <dependency>
+            <groupId>org.jboss.spec.javax.ejb</groupId>
+            <artifactId>jboss-ejb-api_3.1_spec</artifactId>
+            <scope>provided</scope>
+        </dependency>
 
-		<!-- Define the version of the JBoss BOMs we want to import to specify 
-			tested stacks. -->
-		<version.jboss.bom>1.0.5.CR6</version.jboss.bom>
+        <!-- Import the CDI API, we use provided scope as the API is included in
+            JBoss AS 7 -->
+        <dependency>
+            <groupId>javax.enterprise</groupId>
+            <artifactId>cdi-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
 
-		<!-- other plugin versions -->
-		<version.compiler.plugin>2.3.1</version.compiler.plugin>
-		<version.war.plugin>2.1.1</version.war.plugin>
+        <!-- Import the Common Annotations API (JSR-250), we use provided scope
+            as the API is included in JBoss AS 7 -->
+        <dependency>
+            <groupId>org.jboss.spec.javax.annotation</groupId>
+            <artifactId>jboss-annotations-api_1.1_spec</artifactId>
+            <scope>provided</scope>
+        </dependency>
 
-		<!-- maven-compiler-plugin -->
-		<maven.compiler.target>1.6</maven.compiler.target>
-		<maven.compiler.source>1.6</maven.compiler.source>
+        <!-- Import the JSF API, we use provided scope as the API is included in
+            JBoss AS 7 -->
+        <dependency>
+            <groupId>org.jboss.spec.javax.faces</groupId>
+            <artifactId>jboss-jsf-api_2.1_spec</artifactId>
+            <scope>provided</scope>
+        </dependency>
 
-	</properties>
+        <!-- Import the JPA API, we use provided scope as the API is included in
+            JBoss AS 7 -->
+        <dependency>
+            <groupId>org.hibernate.javax.persistence</groupId>
+            <artifactId>hibernate-jpa-2.0-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
 
-	<dependencyManagement>
-		<dependencies>
-			<!-- Define the version of JBoss' Java EE 7 APIs we want to use -->
-			<!-- JBoss distributes a complete set of Java EE 7 APIs including a Bill
-				of Materials (BOM). A BOM specifies the versions of a "stack" (or a collection) 
-				of artifacts. We use this here so that we always get the correct versions 
-				of artifacts. Here we use the jboss-javaee-6.0-with-security stack (you can 
-				read this as the JBoss stack of the Java EE 7 APIs with Security). You can
-				actually use this stack with any version of JBoss AS that implements Java 
-				EE 6, not just JBoss AS 7! -->
-			<dependency>
-				<groupId>org.jboss.bom</groupId>
-				<artifactId>jboss-javaee-6.0-with-security</artifactId>
-				<version>${version.jboss.bom}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
+        <!-- Import the PicketLink API, we deploy this as library with the application,
+            and can compile against it -->
+        <dependency>
+            <groupId>org.picketlink</groupId>
+            <artifactId>picketlink-core-api</artifactId>
+        </dependency>
 
-	<dependencies>
+        <!-- Import the PicketLink implementation, we deploy this as library with
+            the application, but can't compile against it -->
+        <dependency>
+            <groupId>org.picketlink</groupId>
+            <artifactId>picketlink-core-impl</artifactId>
+            <scope>runtime</scope>
+        </dependency>
 
-		<!-- Import the EJB API, we use provided scope as the API is included in 
-			JBoss AS 7 -->
-		<dependency>
-			<groupId>org.jboss.spec.javax.ejb</groupId>
-			<artifactId>jboss-ejb-api_3.1_spec</artifactId>
-			<scope>provided</scope>
-		</dependency>
+        <!-- Import the PicketLink default IDM schema for JPA. You can provide
+            your own schema if you like. We deploy this as library with the application,
+            but can't compile against it -->
+        <dependency>
+            <groupId>org.picketlink</groupId>
+            <artifactId>picketlink-idm-schema</artifactId>
+        </dependency>
 
-		<!-- Import the CDI API, we use provided scope as the API is included in 
-			JBoss AS 7 -->
-		<dependency>
-			<groupId>javax.enterprise</groupId>
-			<artifactId>cdi-api</artifactId>
-			<scope>provided</scope>
-		</dependency>
-
-		<!-- Import the Common Annotations API (JSR-250), we use provided scope 
-			as the API is included in JBoss AS 7 -->
-		<dependency>
-			<groupId>org.jboss.spec.javax.annotation</groupId>
-			<artifactId>jboss-annotations-api_1.1_spec</artifactId>
-			<scope>provided</scope>
-		</dependency>
-
-		<!-- Import the JSF API, we use provided scope as the API is included in 
-			JBoss AS 7 -->
-		<dependency>
-			<groupId>org.jboss.spec.javax.faces</groupId>
-			<artifactId>jboss-jsf-api_2.1_spec</artifactId>
-			<scope>provided</scope>
-		</dependency>
-
-		<!-- Import the JPA API, we use provided scope as the API is included in 
-			JBoss AS 7 -->
-		<dependency>
-			<groupId>org.hibernate.javax.persistence</groupId>
-			<artifactId>hibernate-jpa-2.0-api</artifactId>
-			<scope>provided</scope>
-		</dependency>
-
-		<!-- Import the PicketLink API, we deploy this as library with the application, 
-			and can compile against it -->
-		<dependency>
-			<groupId>org.picketlink</groupId>
-			<artifactId>picketlink-core-api</artifactId>
-		</dependency>
-
-		<!-- Import the PicketLink implementation, we deploy this as library with 
-			the application, but can't compile against it -->
-		<dependency>
-			<groupId>org.picketlink</groupId>
-			<artifactId>picketlink-core-impl</artifactId>
-			<scope>runtime</scope>
-		</dependency>
-
-		<!-- Import the PicketLink default IDM schema for JPA. You can provide 
-			your own schema if you like. We deploy this as library with the application, 
-			but can't compile against it -->
-		<dependency>
-			<groupId>org.picketlink</groupId>
-			<artifactId>picketlink-idm-schema</artifactId>
-		</dependency>
-
-	</dependencies>
-
-	<build>
-		<!-- Set the name of the war, used as the context root when the app is 
-			deployed -->
-		<finalName>${project.artifactId}</finalName>
-		<plugins>
-			<plugin>
-				<artifactId>maven-war-plugin</artifactId>
-				<version>${version.war.plugin}</version>
-				<configuration>
-					<!-- Java EE 7 doesn't require web.xml, Maven needs to catch up! -->
-					<failOnMissingWebXml>false</failOnMissingWebXml>
-				</configuration>
-			</plugin>
-			<!-- JBoss AS plugin to deploy war -->
-			<plugin>
-				<groupId>org.jboss.as.plugins</groupId>
-				<artifactId>wildfly-maven-plugin</artifactId>
-				<version>${version.jboss.maven.plugin}</version>
-			</plugin>
-			<!-- Compiler plugin enforces Java 1.6 compatibility and activates annotation 
-				processors -->
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>${version.compiler.plugin}</version>
-				<configuration>
-					<source>${maven.compiler.source}</source>
-					<target>${maven.compiler.target}</target>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+    </dependencies>
 
 </project>

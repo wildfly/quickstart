@@ -16,7 +16,7 @@ Users can list cars, add new cars, or remove them from the CarMart. Information 
 
 The CarMart quickstart can work in two modes: 
 
-* _Library mode_  - In this mode, the application and the data grid are running in the same JVM. All libraries (JAR files) are bundled with the application and deployed to WildFly 8.  The library usage mode only allows local access to a single node in a distributed cluster. This usage mode gives the application access to data grid functionality within a virtual machine in the container being used.
+* _Library mode_  - In this mode, the application and the data grid are running in the same JVM. All libraries (JAR files) are bundled with the application and deployed to JBoss Enterprise Application Platform 6 or JBoss AS 7.  The library usage mode only allows local access to a single node in a distributed cluster. This usage mode gives the application access to data grid functionality within a virtual machine in the container being used. 
 
 * _Client-server mode_ - In this mode, the Cache is stored in  a managed, distributed and clusterable data grid server.  Applications can remotely access the data grid server using Hot Rod, memcached or REST client APIs. This web application bundles only the HotRod client and communicates with a remote JBoss Data Grid (JDG) server. The JDG server is configured via the `standalone.xml` configuration file.
 
@@ -26,7 +26,7 @@ System requirements
 
 All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven 3.0 or better.
 
-The application this project produces is designed to be run on WildFly 8.
+The application this project produces is designed to be run on JBoss Enterprise Application Platform 6 or JBoss AS 7. 
 
  
 Configure Maven
@@ -35,7 +35,7 @@ Configure Maven
 If you have not yet done so, you must [Configure Maven](../README.md#configure-maven-) before testing the quickstarts.
 
 
-Start WildFly 8
+Start JBoss Enterprise Application Platform 6 or JBoss AS 7
 -----------------------------------------------------------
 
 1. Open a command line and navigate to the root of the JBoss server directory.
@@ -54,7 +54,7 @@ _NOTE: The following build command assumes you have configured your Maven user s
 2. Open a command line and navigate to the root directory of this quickstart.
 3. Type this command to build and deploy the archive:
 
-        mvn clean package wildfly:deploy
+        mvn clean package jboss-as:deploy
         
 4. This will deploy `target/jboss-as-carmart.war` to the running instance of the server.
  
@@ -87,7 +87,7 @@ If you want to debug the source code or look at the Javadocs of any library in t
 Build and Start the Application in Client-server Mode (using the HotRod client)
 ---------------------------------------------------------------------------------
 
-NOTE: The application must be deployed to WildFly 8. It can not be deployed to JDG since it does not support deployment of applications.
+NOTE: The application must be deployed to JBoss Enterprise Application Platform 6 or JBoss AS 7. It can not be deployed to JDG since it does not support deployment of applications. 
 
 1. Obtain the JDG server distribution. See the following for more information: <http://www.redhat.com/products/jbossenterprisemiddleware/data-grid/>
 
@@ -117,7 +117,7 @@ NOTE: The application must be deployed to WildFly 8. It can not be deployed to J
 
 7. Deploy the application
 
-        mvn wildfly:deploy -Premote
+        mvn jboss-as:deploy -Premote
 
 8. The application will be running at the following URL: <http://localhost:8080/jboss-as-carmart/>
 

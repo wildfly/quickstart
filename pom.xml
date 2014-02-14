@@ -23,12 +23,12 @@
         <artifactId>jboss-parent</artifactId>
         <version>12</version>
     </parent>
-    <groupId>org.jboss.wildfly.quickstarts</groupId>
+    <groupId>org.wildfly.quickstarts</groupId>
     <artifactId>wildfly-quickstarts-parent</artifactId>
     <version>8.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>JBoss AS Quickstarts Parent</name>
-    <description>JBoss AS Quickstarts Parent</description>
+    <description>WildFly Quickstarts Parent</description>
     <url>http://www.jboss.org/jdf/quickstarts/get-started/</url>
 
     <licenses>
@@ -57,7 +57,7 @@
         <version.arquillian.container>8.0.0.CR1</version.arquillian.container>
 
         <!-- Define the version of the JBoss BOMs we want to import to specify tested stacks. -->
-        <version.jboss.bom>1.0.7.Final</version.jboss.bom>
+        <version.jboss.bom>1.0.5.Final</version.jboss.bom>
         <!-- Alternatively, comment out the above line, and un-comment the 
             line below to use version 1.0.4.Final-redhat-3 which is a release certified 
             to work with JBoss EAP 6. It requires you have access to the JBoss EAP 6 
@@ -71,7 +71,7 @@
             maven repository. -->
 
         <version.org.hibernate>4.3.1.Final</version.org.hibernate>
-        <version.org.richfaces>4.2.0.Final</version.org.richfaces>
+        <version.org.richfaces>4.3.5.Final</version.org.richfaces>
         <version.shrinkwrap.resolver>2.0.0</version.shrinkwrap.resolver>
         <version.junit>4.11</version.junit>
 
@@ -84,8 +84,12 @@
         <version.org.apache.wicket>1.5.5</version.org.apache.wicket>
         <version.net.ftlines.wicket-cdi>1.2</version.net.ftlines.wicket-cdi>
         <version.ro.isdc.wro4j>1.4.4</version.ro.isdc.wro4j>
+        <com.ocpsoft.prettyfaces.version>3.3.2</com.ocpsoft.prettyfaces.version>
+        <org.jboss.weld.servlet.version>1.1.8.Final</org.jboss.weld.servlet.version>
+        <com.sun.faces.jsf.impl.version>2.0.2</com.sun.faces.jsf.impl.version>
 
         <version.org.codehaus.mojo.gwt.maven.plugin>2.4.0</version.org.codehaus.mojo.gwt.maven.plugin>
+        <version.exec.plugin>1.2.1</version.exec.plugin>
 
 
     </properties>
@@ -107,8 +111,16 @@
                     <artifactId>maven-war-plugin</artifactId>
                     <version>${version.war.plugin}</version>
                     <configuration>
-                        <!-- Java EE 7 doesn't require web.xml, Maven needs to catch up! -->
+                        <!-- Java EE 6 doesn't require web.xml, Maven needs to catch up! -->
                         <failOnMissingWebXml>false</failOnMissingWebXml>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-ejb-plugin</artifactId>
+                    <version>${version.ejb.plugin}</version>
+                    <configuration>
+                        <!-- Tell Maven we are using EJB 3.1 -->
+                        <ejbVersion>3.2</ejbVersion>
                     </configuration>
                 </plugin>
             </plugins>

@@ -25,7 +25,7 @@ System requirements
 
 All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven 3.0 or better.
 
-The application this project produces is designed to be run on WildFly 8.
+The application this project produces is designed to be run on JBoss Enterprise Application Platform 6 or JBoss AS 7.
 
 
 Configure Maven
@@ -41,7 +41,7 @@ Add an Application User
 This quickstart uses a secured management interface and requires that you create an application user to access the running application. Instructions to set up an Application user can be found here:  [Add an Application User](../README.md#addapplicationuser).  After following these instructions. you should have created a user called `quickstartUser` with password `quickstartPwd1!`, belonging to the `guest` role.
 
 
-Start WildFly 8 with the Web Profile
+Start JBoss Enterprise Application Platform 6 or JBoss AS 7 with the Web Profile
 -------------------------
 
 1. Open a command line and navigate to the root of the JBoss server directory.
@@ -60,7 +60,7 @@ _NOTE: The following build command assumes you have configured your Maven user s
 2. Open a command line and navigate to the root directory of this quickstart.
 3. Type this command to build and deploy the archive:
 
-        mvn clean package wildfly:deploy
+        mvn clean package jboss-as:deploy
 
 4. This will deploy `target/jboss-as-tasks-rs.war` to the running instance of the server.
 

@@ -4,12 +4,12 @@ CDI + JSF + EJB + JTA + Bean Validation + JAX-RS + Arquillian: Kitchensink quick
 
 [[KitchensinkQuickstart-]]
 
-This quickstart shows off all the new features of Java EE 7, and makes a great starting point for your project.
+This quickstart shows off all the new features of Java EE 6, and makes a great starting point for your project.
 
 [TIP]
 .Bean Validation
 ========================================================================
-Bean Validation is a new specification in Java EE 7, inspired by
+Bean Validation is a new specification in Java EE 6, inspired by 
 Hibernate Validator. It allows application developers to specify 
 constraints once (often in their domain model), and have them applied in
 all layers of the application, protecting data and giving useful 
@@ -19,15 +19,15 @@ feedback to users.
 [TIP]
 .JAX-RS: The Java API for RESTful Web Services
 ========================================================================
-JAX-RS is a new specification in Java EE 7. It allows application
+JAX-RS is a new specification in Java EE 6. It allows application 
 developers to easily expose Java services as RESTful web services.
 ========================================================================
 
 Switch to the `quickstarts/kitchensink` directory and instruct Maven to build and deploy the application:
 
-    mvn package wildfly:deploy
+    mvn package jboss-as:deploy
 
-The quickstart uses a Maven plugin to deploy the application. The plugin requires WildFly 8 to be running (you can find out how to start the server in <<GettingStarted-on_linux, Installing and starting the JBoss server on Linux, Unix or Mac OS X>> or <<GettingStarted-on_windows, Installing and starting the JBoss server on Windows>>).
+The quickstart uses a Maven plugin to deploy the application. The plugin requires JBoss Enterprise Application Platform 6 or JBoss AS 7 to be running (you can find out how to start the server in <<GettingStarted-on_linux, Installing and starting the JBoss server on Linux, Unix or Mac OS X>> or <<GettingStarted-on_windows, Installing and starting the JBoss server on Windows>>).
 
 Or you can start the server using an IDE, like Eclipse.
 
@@ -39,7 +39,7 @@ Now, check if the application has deployed properly by clicking http://localhost
 Should you wish to undeploy the quickstart, or redeploy after making 
 some changes, it's pretty easy:
 
-* `mvn wildfly:deploy` - deploy any changes to the application to the
+* `mvn jboss-as:deploy` - deploy any changes to the application to the
   application server
 * `mvn jboss-as:undeploy` - undeploy the quickstart
 ========================================================================
@@ -49,7 +49,7 @@ It's time to pull the covers back and dive into the internals of the application
 Deploying the Kitchensink quickstart using JBoss Developer Studio, or Eclipse with JBoss Tools
 ----------------------------------------------------------------------------------------------
 
-You may choose to deploy the quickstart using JBoss Developer Studio, or Eclipse with JBoss Tools. You'll need to have WildFly 8 started in the IDE (as described  in <<GettingStarted-with_jboss_tools, Starting the JBoss server from JBDS or Eclipse with JBoss Tools>>) and to have imported the quickstarts into Eclipse (as described in <<GettingStarted-importing_quickstarts_into_eclipse,Importing the quickstarts into Eclipse>>).
+You may choose to deploy the quickstart using JBoss Developer Studio, or Eclipse with JBoss Tools. You'll need to have JBoss Enterprise Application Platform 6 or JBoss AS 7 started in the IDE (as described  in <<GettingStarted-with_jboss_tools, Starting the JBoss server from JBDS or Eclipse with JBoss Tools>>) and to have imported the quickstarts into Eclipse (as described in <<GettingStarted-importing_quickstarts_into_eclipse,Importing the quickstarts into Eclipse>>).
 
 With the quickstarts imported, you can deploy the quickstart by right clicking on the `jboss-as-kitchensink` project, and choosing _Run As -> Run On Server_:
 
@@ -69,7 +69,7 @@ The kitchensink quickstart in depth
 
 The kitchensink application shows off a number of Java EE technologies such as CDI, JSF, EJB, JTA, JAX-RS and Arquillian. It does this by providing a member registration database, available via JSF and JAX-RS.
 
-As usual, let's start by looking at the necessary deployment descriptors. By now, we're very used to seeing `beans.xml` and `faces-config.xml` in `WEB-INF/` (which can be found in the `src/main/webapp` directory). Notice that, once again, we don't need a `web.xml`. There are two configuration files in `WEB-INF/classes/META-INF` (which can be found in the `src/main/resources` directory) — `persistence.xml`, which sets up JPA, and `import.sql` which Hibernate, the JPA provider in WildFly 8, will use to load the initial users into the application when the application starts. We discussed both of these files in detail in <<GreeterQuickstart-,the Greeter Quickstart>>, and these are largely the same.
+As usual, let's start by looking at the necessary deployment descriptors. By now, we're very used to seeing `beans.xml` and `faces-config.xml` in `WEB-INF/` (which can be found in the `src/main/webapp` directory). Notice that, once again, we don't need a `web.xml`. There are two configuration files in `WEB-INF/classes/META-INF` (which can be found in the `src/main/resources` directory) — `persistence.xml`, which sets up JPA, and `import.sql` which Hibernate, the JPA provider in JBoss Enterprise Application Platform 6 or JBoss AS 7, will use to load the initial users into the application when the application starts. We discussed both of these files in detail in <<GreeterQuickstart-,the Greeter Quickstart>>, and these are largely the same.
 
 Next, let's take a look at the JSF view the user sees. As usual, we use a template to provide the sidebar and footer. This one lives in `src/main/webapp/WEB-INF/templates/default.xhtml`:
 
@@ -509,7 +509,7 @@ public class MemberController {
 <7> We also send a message to the user, to give them feedback on their actions
 <8> Finally, we replace the `newMember` with a new object, thus blanking out the data the user has added so far. This works as the producer field is dependent scoped
 
-Before we wrap up our tour of the kitchensink application, let's take a look at how the JAX-RS endpoints are created. Firstly, `JaxRSActivator`, which extends `Application` and is annotated with `@ApplicationPath`, is the Java EE 7 "no XML" approach to activating JAX-RS.
+Before we wrap up our tour of the kitchensink application, let's take a look at how the JAX-RS endpoints are created. Firstly, `JaxRSActivator`, which extends `Application` and is annotated with `@ApplicationPath`, is the Java EE 6 "no XML" approach to activating JAX-RS.
 
 .src/main/java/org/jboss/as/quickstarts/kitchensink/rest/JaxRsActivator.java
 [source,java]
@@ -706,7 +706,7 @@ Arquillian
 
 If you've been following along with the Test Driven Development craze of the past few years, you're probably getting a bit nervous by now, wondering how on earth you are going to test your application. Lucky for you, the Arquillian project is here to help!
 
-Arquillian provides all the boiler plate for running your test inside WildFly 8, allowing you to concentrate on testing your application. In order to do that, it utilizes Shrinkwrap, a fluent API for defining packaging, to create an archive to deploy. We'll go through the testcase, and how you configure Arquillian in just a moment, but first let's run the test.
+Arquillian provides all the boiler plate for running your test inside JBoss Enterprise Application Platform 6 or JBoss AS 7, allowing you to concentrate on testing your application. In order to do that, it utilizes Shrinkwrap, a fluent API for defining packaging, to create an archive to deploy. We'll go through the testcase, and how you configure Arquillian in just a moment, but first let's run the test.
 
 Before we start, we need to let Arquillian know the path to our server. Open up `src/test/resources/arquillian.xml`, uncomment the `<configuration>` elements, and set the `jbossHome` property to the path to the server:
 
@@ -849,7 +849,7 @@ Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
 
 ------------------------------------------------------------------------
 
-As you can see, that didn't take too long (approximately 15s), and is great for running in your QA environment, but if you running locally, you might prefer to connect to a running server. To do that, start up WildFly 8 (as described in <<GettingStarted-, Getting Started with JBoss Enterprise Application Platform of JBoss AS>>. Now, run your test, but use the `arq-jbossas-remote` profile:
+As you can see, that didn't take too long (approximately 15s), and is great for running in your QA environment, but if you running locally, you might prefer to connect to a running server. To do that, start up JBoss Enterprise Application Platform 6 or JBoss AS 7 (as described in <<GettingStarted-, Getting Started with JBoss Enterprise Application Platform of JBoss AS>>. Now, run your test, but use the `arq-jbossas-remote` profile:
 
     mvn clean test -Parq-jbossas-remote
 

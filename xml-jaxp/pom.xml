@@ -20,7 +20,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.jboss.wildfly.quickstarts</groupId>
+        <groupId>org.wildfly.quickstarts</groupId>
         <artifactId>wildfly-quickstarts-parent</artifactId>
         <version>8.0.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
@@ -30,7 +30,7 @@
     <name>WildFly Quickstarts: XML JAXP</name>
     <description>WildFly Quickstarts: XML JAXP</description>
 
-    <url>http://jboss.org/jbossas</url>
+    <url>http://wildfly.org</url>
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
@@ -41,15 +41,15 @@
     <!-- NOTE: -->
     <dependencyManagement>
         <dependencies>
-            <!-- Define the version of JBoss' Java EE 7 APIs we want to import. Any
+            <!-- Define the version of JBoss' Java EE 6 APIs we want to import. Any 
                 dependencies from org.jboss.spec will have their version defined by this 
                 BOM -->
-            <!-- JBoss distributes a complete set of Java EE 7 APIs including a Bill
+            <!-- JBoss distributes a complete set of Java EE 6 APIs including a Bill 
                 of Materials (BOM). A BOM specifies the versions of a "stack" (or a collection) 
                 of artifacts. We use this here so that we always get the correct versions 
                 of artifacts. Here we use the jboss-javaee-6.0 stack (you can read this as 
-                the JBoss stack of the Java EE 7 APIs). You can actually use this stack with
-                any version of JBoss AS that implements Java EE 7, not just JBoss AS 7! -->
+                the JBoss stack of the Java EE 6 APIs). You can actually use this stack with 
+                any version of JBoss AS that implements Java EE 6, not just JBoss AS 7! -->
             <dependency>
                 <groupId>org.jboss.spec</groupId>
                 <artifactId>jboss-javaee-web-7.0</artifactId>
@@ -77,14 +77,14 @@
             as the API is included in JBoss AS 7 -->
         <dependency>
             <groupId>org.jboss.spec.javax.annotation</groupId>
-            <artifactId>jboss-annotations-api_1.1_spec</artifactId>
+            <artifactId>jboss-annotations-api_1.2_spec</artifactId>
             <scope>provided</scope>
         </dependency>
 
         <!-- Import the JAX-RS API, we use provided scope as the API is included in JBoss AS 7 -->
         <dependency>
-            <groupId>org.jboss.spec.javax.ws.rs</groupId>
-            <artifactId>jboss-jaxrs-api_1.1_spec</artifactId>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>jaxrs-api</artifactId>
             <scope>provided</scope>
         </dependency>
 
@@ -92,14 +92,14 @@
             JBoss AS 7 -->
         <dependency>
             <groupId>org.jboss.spec.javax.faces</groupId>
-            <artifactId>jboss-jsf-api_2.1_spec</artifactId>
+            <artifactId>jboss-jsf-api_2.2_spec</artifactId>
             <scope>provided</scope>
         </dependency>
 
         <!-- Import the Servlet API, we use provided scope as the API is included in JBoss AS 7 -->
         <dependency>
             <groupId>org.jboss.spec.javax.servlet</groupId>
-            <artifactId>jboss-servlet-api_3.0_spec</artifactId>
+            <artifactId>jboss-servlet-api_3.1_spec</artifactId>
             <scope>provided</scope>
         </dependency>
     </dependencies>

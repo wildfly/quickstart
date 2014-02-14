@@ -21,8 +21,9 @@
 
     <parent>
         <artifactId>wildfly-kitchensink-ear</artifactId>
-        <groupId>org.jboss.as.quickstarts</groupId>
-        <version>7.1.2-SNAPSHOT</version>
+        <groupId>org.wildfly.quickstarts</groupId>
+        <version>8.0.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>wildfly-kitchensink-ear-ear</artifactId>
@@ -30,7 +31,7 @@
 
     <name>WildFly Quickstarts: Kitchensink EAR: EAR Module</name>
 
-    <url>http://jboss.org/jbossas</url>
+    <url>http://wildfly.org</url>
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
@@ -43,12 +44,12 @@
 
         <!-- Depend on the ejb module and war so that we can package them -->
         <dependency>
-            <groupId>org.jboss.as.quickstarts</groupId>
+            <groupId>org.wildfly.quickstarts</groupId>
             <artifactId>wildfly-kitchensink-ear-web</artifactId>
             <type>war</type>
         </dependency>
         <dependency>
-            <groupId>org.jboss.as.quickstarts</groupId>
+            <groupId>org.wildfly.quickstarts</groupId>
             <artifactId>wildfly-kitchensink-ear-ejb</artifactId>
             <type>ejb</type>
         </dependency>
@@ -62,23 +63,23 @@
                 <artifactId>maven-ear-plugin</artifactId>
                 <version>${version.ear.plugin}</version>
                 <configuration>
-                    <!-- Tell Maven we are using Java EE 7 -->
+                    <!-- Tell Maven we are using Java EE 6 -->
                     <version>6</version>
                     <!-- Use Java EE ear libraries as needed. Java EE ear libraries 
                         are in easy way to package any libraries needed in the ear, and automatically 
                         have any modules (EJB-JARs and WARs) use them -->
                     <defaultLibBundleDir>lib</defaultLibBundleDir>
                     <modules>
-                    <!-- Default context root of the web app is /jboss-as-kitchensink-ear-web. 
-                        If a custom context root is needed, uncomment the following snippet to
-                        register our War as a web module and set the contextRoot property -->
-                    <!--
-                    <webModule>
-                        <groupId>org.jboss.as.quickstarts</groupId>
-                        <artifactId>wildfly-kitchensink-ear-web</artifactId>
-                        <contextRoot>/jboss-as-kitchensink-ear</contextRoot>
-                    </webModule>
-                    -->
+                        <!-- Default context root of the web app is /jboss-as-kitchensink-ear-web.
+                            If a custom context root is needed, uncomment the following snippet to
+                            register our War as a web module and set the contextRoot property -->
+                        <!--
+                        <webModule>
+                            <groupId>org.wildfly.quickstarts</groupId>
+                            <artifactId>wildfly-kitchensink-ear-web</artifactId>
+                            <contextRoot>/jboss-as-kitchensink-ear</contextRoot>
+                        </webModule>
+                        -->
                     </modules>
                     <fileNameMapping>no-version</fileNameMapping>
                 </configuration>
@@ -88,7 +89,7 @@
                 the jboss-as maven plugin to skip deployment for all modules. We then enable 
                 it specifically in the ear module. -->
             <plugin>
-                <groupId>org.jboss.as.plugins</groupId>
+                <groupId>org.wildfly.plugins</groupId>
                 <artifactId>wildfly-maven-plugin</artifactId>
                 <configuration>
                     <filename>${project.artifactId}.ear</filename>
@@ -97,7 +98,7 @@
             </plugin>
         </plugins>
     </build>
-   
+
     <profiles>
         <profile>
             <!-- When built in OpenShift the 'openshift' profile will be used when invoking mvn. -->
