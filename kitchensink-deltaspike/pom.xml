@@ -28,7 +28,7 @@
     <artifactId>wildfly-kitchensink-deltaspike</artifactId>
     <packaging>war</packaging>
     <name>WildFly Quickstarts: Kitchensink DeltaSpike</name>
-    <description>A starter Java EE 7 webapp project for use on WildFly 8 / EAP 6, generated from the jboss-javaee6-webapp archetype</description>
+    <description>A starter Java EE 6 webapp project for use on JBoss AS 7 / EAP 6, generated from the jboss-javaee6-webapp archetype</description>
 
     <url>http://wildfly.org</url>
     <licenses>
@@ -48,13 +48,13 @@
                 <scope>import</scope>
                 <type>pom</type>
             </dependency>
-            <!-- JBoss distributes a complete set of Java EE 7 APIs including
+            <!-- JBoss distributes a complete set of Java EE 6 APIs including 
                 a Bill of Materials (BOM). A BOM specifies the versions of a "stack" (or 
                 a collection) of artifacts. We use this here so that we always get the correct 
                 versions of artifacts. Here we use the jboss-javaee-6.0-with-tools stack 
-                (you can read this as the JBoss stack of the Java EE 7 APIs, with some extras
+                (you can read this as the JBoss stack of the Java EE 6 APIs, with some extras 
                 tools for your project, such as Arquillian for testing) and the jboss-javaee-6.0-with-hibernate 
-                stack you can read this as the JBoss stack of the Java EE 7 APIs, with extras
+                stack you can read this as the JBoss stack of the Java EE 6 APIs, with extras 
                 from the Hibernate family of projects) -->
             <dependency>
                 <groupId>org.jboss.bom</groupId>
@@ -83,10 +83,10 @@
     <dependencies>
 
         <!-- First declare the APIs we depend on and need for compilation. 
-            All of them are provided by WildFly 8 -->
+            All of them are provided by JBoss AS 7 -->
 
         <!-- Import the CDI API, we use provided scope as the API is included 
-            in WildFly 8 -->
+            in JBoss AS 7 -->
         <dependency>
             <groupId>javax.enterprise</groupId>
             <artifactId>cdi-api</artifactId>
@@ -94,7 +94,7 @@
         </dependency>
 
         <!-- Import the Common Annotations API (JSR-250), we use provided 
-            scope as the API is included in WildFly 8 -->
+            scope as the API is included in JBoss AS 7 -->
         <dependency>
             <groupId>org.jboss.spec.javax.annotation</groupId>
             <artifactId>jboss-annotations-api_1.1_spec</artifactId>
@@ -102,7 +102,7 @@
         </dependency>
 
         <!-- Import the JAX-RS API, we use provided scope as the API is included 
-            in WildFly 8 -->
+            in JBoss AS 7 -->
         <dependency>
             <groupId>org.jboss.spec.javax.ws.rs</groupId>
             <artifactId>jboss-jaxrs-api_1.1_spec</artifactId>
@@ -110,7 +110,7 @@
         </dependency>
 
         <!-- Import the JPA API, we use provided scope as the API is included 
-            in WildFly 8 -->
+            in JBoss AS 7 -->
         <dependency>
             <groupId>org.hibernate.javax.persistence</groupId>
             <artifactId>hibernate-jpa-2.0-api</artifactId>
@@ -118,7 +118,7 @@
         </dependency>
 
         <!-- Import the EJB API, we use provided scope as the API is included 
-            in WildFly 8 -->
+            in JBoss AS 7 -->
         <dependency>
             <groupId>org.jboss.spec.javax.ejb</groupId>
             <artifactId>jboss-ejb-api_3.1_spec</artifactId>
@@ -127,7 +127,7 @@
 
         <!-- JSR-303 (Bean Validation) Implementation -->
         <!-- Provides portable constraints such as @Email -->
-        <!-- Hibernate Validator is shipped in WildFly 8 -->
+        <!-- Hibernate Validator is shipped in JBoss AS 7 -->
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
@@ -141,7 +141,7 @@
         </dependency>
 
         <!-- Import the JSF API, we use provided scope as the API is included 
-            in WildFly 8 -->
+            in JBoss AS 7 -->
         <dependency>
             <groupId>org.jboss.spec.javax.faces</groupId>
             <artifactId>jboss-jsf-api_2.1_spec</artifactId>
@@ -149,7 +149,7 @@
         </dependency>
 
         <!-- The DeltaSpike libraries, we use compile scope as these are
-             not provided by WildFly 8, and need to be packaged in the application -->
+             not provided by JBoss AS 7, and need to be packaged in the application -->
         <dependency>
             <groupId>org.apache.deltaspike.modules</groupId>
             <artifactId>deltaspike-jpa-module-api</artifactId>

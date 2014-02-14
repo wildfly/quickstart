@@ -39,12 +39,12 @@
 
     <dependencyManagement>
         <dependencies>
-            <!-- JBoss distributes a complete set of Java EE 7 APIs including
+            <!-- JBoss distributes a complete set of Java EE 6 APIs including
             a Bill of Materials (BOM). A BOM specifies the versions of a "stack" (or
             a collection) of artifacts. We use this here so that we always get the correct
             versions of artifacts. Here we use the jboss-javaee-6.0-with-infinispan stack
             and the jboss-javaee-6.0-with-transactions stack (you can read this as the
-            JBoss stack of the Java EE 7 APIs, with Infinispan and Transactions) -->
+            JBoss stack of the Java EE 6 APIs, with Infinispan and Transactions) -->
             <dependency>
                 <groupId>org.jboss.bom</groupId>
                 <artifactId>jboss-javaee-6.0-with-infinispan</artifactId>
@@ -64,7 +64,7 @@
         </dependency>
 
         <!-- Import the Servlet API, we use provided scope as the API is included
-             in WildFly 8 -->
+             in JBoss AS 7 -->
         <dependency>
             <groupId>org.jboss.spec.javax.servlet</groupId>
             <artifactId>jboss-servlet-api_3.0_spec</artifactId>
@@ -72,7 +72,7 @@
         </dependency>
 
         <!-- Import the CDI API, we use provided scope as the API is included
-            in WildFly 8 -->
+            in JBoss AS 7 -->
         <dependency>
             <groupId>javax.enterprise</groupId>
             <artifactId>cdi-api</artifactId>
@@ -80,7 +80,7 @@
         </dependency>
 
         <!-- Import the JSF API, we use provided scope as the API is included
-        in WildFly 8 -->
+        in JBoss AS 7 -->
         <dependency>
             <groupId>org.jboss.spec.javax.faces</groupId>
             <artifactId>jboss-jsf-api_2.1_spec</artifactId>

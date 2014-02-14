@@ -40,11 +40,11 @@
 
     <dependencyManagement>
         <dependencies>
-            <!-- JBoss distributes a complete set of Java EE 7 APIs including
+            <!-- JBoss distributes a complete set of Java EE 6 APIs including 
                 a Bill of Materials (BOM). A BOM specifies the versions of a "stack" (or 
                 a collection) of artifacts. We use this here so that we always get the correct 
                 versions of artifacts. Here we use the jboss-javaee-6.0 stack (you can read 
-                this as the JBoss stack of the Java EE 7 APIs) -->
+                this as the JBoss stack of the Java EE 6 APIs) -->
 
             <!--This BOM builds on the Java EE full profile BOM, adding Arquillian to the mix. It also provides a
             version of JUnit and TestNG recommended for use with Arquillian.
@@ -62,7 +62,7 @@
 
     <dependencies>
 
-        <!-- Import the CDI API, we use provided scope as the API is included in WildFly 8 -->
+        <!-- Import the CDI API, we use provided scope as the API is included in JBoss AS 7 -->
         <dependency>
             <groupId>javax.enterprise</groupId>
             <artifactId>cdi-api</artifactId>
@@ -70,14 +70,14 @@
         </dependency>
 
         <!-- Import the Common Annotations API (JSR-250), we use provided 
-            scope as the API is included in WildFly 8 -->
+            scope as the API is included in JBoss AS 7 -->
         <dependency>
             <groupId>org.jboss.spec.javax.annotation</groupId>
             <artifactId>jboss-annotations-api_1.1_spec</artifactId>
             <scope>provided</scope>
         </dependency>
 
-        <!-- Import the JAX-RS API, we use provided scope as the API is included in WildFly 8. -->
+        <!-- Import the JAX-RS API, we use provided scope as the API is included in JBoss AS 7. -->
         <dependency>
             <groupId>org.jboss.spec.javax.ws.rs</groupId>
             <artifactId>jboss-jaxrs-api_1.1_spec</artifactId>

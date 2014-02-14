@@ -41,16 +41,16 @@
 
     <dependencyManagement>
         <dependencies>
-            <!-- Define the version of JBoss' Java EE 7 APIs we want to import.
+            <!-- Define the version of JBoss' Java EE 6 APIs we want to import. 
                 Any dependencies from org.jboss.spec will have their version defined by this 
                 BOM -->
-            <!-- JBoss distributes a complete set of Java EE 7 APIs including
+            <!-- JBoss distributes a complete set of Java EE 6 APIs including 
                 a Bill of Materials (BOM). A BOM specifies the versions of a "stack" (or 
                 a collection) of artifacts. We use this here so that we always get the correct 
                 versions of artifacts. Here we use the jboss-javaee-6.0-with-tools stack 
-                (you can read this as the JBoss stack of the Java EE 7 APIs, with some extras
+                (you can read this as the JBoss stack of the Java EE 6 APIs, with some extras 
                 tools for your project, such as Arquillian for testing) and the jboss-javaee-6.0-with-hibernate 
-                stack you can read this as the JBoss stack of the Java EE 7 APIs, with extras
+                stack you can read this as the JBoss stack of the Java EE 6 APIs, with extras 
                 from the Hibernate family of projects) -->
             <dependency>
                 <groupId>org.jboss.bom</groupId>
@@ -64,7 +64,7 @@
 
     <dependencies>
 
-        <!-- Import the CDI API, we use provided scope as the API is included in WildFly 8 -->
+        <!-- Import the CDI API, we use provided scope as the API is included in JBoss AS 7 -->
         <dependency>
             <groupId>javax.enterprise</groupId>
             <artifactId>cdi-api</artifactId>
@@ -72,20 +72,20 @@
         </dependency>
 
         <!-- Import the Common Annotations API (JSR-250), we use provided scope 
-            as the API is included in WildFly 8 -->
+            as the API is included in JBoss AS 7 -->
         <dependency>
             <groupId>org.jboss.spec.javax.annotation</groupId>
             <artifactId>jboss-annotations-api_1.1_spec</artifactId>
             <scope>provided</scope>
         </dependency>
 
-        <!-- Import the JSF API, we use provided scope as the API is included in WildFly 8 -->
+        <!-- Import the JSF API, we use provided scope as the API is included in JBoss AS 7 -->
         <dependency>
             <groupId>org.jboss.spec.javax.faces</groupId>
             <artifactId>jboss-jsf-api_2.1_spec</artifactId>
             <scope>provided</scope>
         </dependency>
-        <!-- Import the EJB API, we use provided scope as the API is included in WildFly 8 -->
+        <!-- Import the EJB API, we use provided scope as the API is included in JBoss AS 7 -->
         <dependency>
             <groupId>org.jboss.spec.javax.ejb</groupId>
             <artifactId>jboss-ejb-api_3.1_spec</artifactId>

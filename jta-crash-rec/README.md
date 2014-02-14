@@ -23,7 +23,7 @@ The relational database table in this example contains two columns that represen
 
 In this example, you halt the JBoss server in the middle of an XA transaction after the database modification has been committed, but before the JMS producer is committed. You can verify that the transaction was started, then restart the JBoss server to complete the transaction. You then verify that everything is in a consistent state.
 
-WildFly 8 and WildFly 8 ship with H2, an in-memory database written in Java. In this example, we use H2 for the database. Although H2 XA support is not recommended for production systems, the example does illustrate the general steps you need to perform for any datasource vendor. This example provides its own H2 XA datasource configuration. It is defined in the `jta-crash-rec-ds.xml` file in the WEB-INF folder of the WAR archive.
+JBoss Enterprise Application Platform 6 and JBoss AS 7 ship with H2, an in-memory database written in Java. In this example, we use H2 for the database. Although H2 XA support is not recommended for production systems, the example does illustrate the general steps you need to perform for any datasource vendor. This example provides its own H2 XA datasource configuration. It is defined in the `jta-crash-rec-ds.xml` file in the WEB-INF folder of the WAR archive. 
 
 
 System requirements
@@ -31,7 +31,7 @@ System requirements
 
 All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven 3.0 or better.
 
-The application this project produces is designed to be run on WildFly 8.
+The application this project produces is designed to be run on JBoss Enterprise Application Platform 6 or JBoss AS 7. 
 
 
 Configure Maven
@@ -71,7 +71,7 @@ If you have run the `jts` or `jts-distributed-crash-recovery` quickstarts, make 
 
 <a id="startserver"></a>
 
-Start WildFly 8 with the Full Profile
+Start JBoss Enterprise Application Platform 6 or JBoss AS 7 with the Full Profile
 ---------------
 
 1. Open a command line and navigate to the root of the JBoss server directory.
@@ -91,7 +91,7 @@ _NOTE: The following build command assumes you have configured your Maven user s
 2. Open a command line and navigate to the root directory of this quickstart.
 3. Type this command to build and deploy the archive:
 
-        mvn clean package wildfly:deploy
+        mvn clean package jboss-as:deploy
 
 4. This will deploy `target/jboss-as-jta-crash-rec.war` to the running instance of the server.
 
@@ -129,9 +129,9 @@ Test the application
 6. If you want to verify the database insert was committed but that message delivery is still pending, you can use an SQL client such as the H2 database console tool. Issue a query to show that the value is present but does not contain the message added by the consumer (*" updated via JMS"*). Here is how you can do it using H2:
     * Start the H2 console by typing:
 
-            For WildFly 8:
+            For JBoss Enterprise Application Platform 6: 
                   java -cp $JBOSS_HOME/modules/com/h2database/h2/main/h2*.jar org.h2.tools.Console
-            For WildFly 8:
+            For JBoss AS 7:
                   java -jar $JBOSS_HOME/modules/com/h2database/h2/main/h2*.jar
     * Log in:
        
@@ -177,7 +177,7 @@ Undeploy the Archive
 2. Open a command line and navigate to the root directory of this quickstart.
 3. When you are finished testing, type this command to undeploy the archive:
 
-        mvn wildfly:undeploy
+        mvn jboss-as:undeploy
 
 
 Run the Quickstart in JBoss Developer Studio or Eclipse

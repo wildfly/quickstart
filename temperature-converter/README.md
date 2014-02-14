@@ -11,7 +11,7 @@ What is it?
 -----------
 
 This example demonstrates the use of an *EJB 3.1 Stateless Session Bean* and *CDI* to access it via a *JSF*.
-Deployment occurs via a war archive for deployment to *WildFly 8*.
+Deployment occurs via a war archive for deployment to *JBoss AS 7*.
 
 These are the steps that occur:
 
@@ -27,7 +27,7 @@ System requirements
 
 All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven 3.0 or better.
 
-The application this project produces is designed to be run on WildFly 8.
+The application this project produces is designed to be run on JBoss Enterprise Application Platform 6 or JBoss AS 7. 
 
  
 Configure Maven
@@ -36,7 +36,7 @@ Configure Maven
 If you have not yet done so, you must [Configure Maven](../README.md#mavenconfiguration) before testing the quickstarts.
 
 
-Start WildFly 8 with the Web Profile
+Start JBoss Enterprise Application Platform 6 or JBoss AS 7 with the Web Profile
 -------------------------
 
 1. Open a command line and navigate to the root of the JBoss server directory.
@@ -55,7 +55,7 @@ _NOTE: The following build command assumes you have configured your Maven user s
 2. Open a command line and navigate to the root directory of this quickstart.
 3. Type this command to build and deploy the archive:
 
-        mvn clean package wildfly:deploy
+        mvn clean package jboss-as:deploy
 
 4. This will deploy `target/jboss-as-temperature-converter.war` to the running instance of the server.
  
@@ -79,7 +79,7 @@ Undeploy the Archive
 2. Open a command line and navigate to the root directory of this quickstart.
 3. When you are finished testing, type this command to undeploy the archive:
 
-        mvn wildfly:undeploy
+        mvn jboss-as:undeploy
 
 
         

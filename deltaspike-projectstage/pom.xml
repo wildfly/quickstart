@@ -41,13 +41,13 @@
 
     <dependencyManagement>
         <dependencies>
-            <!-- JBoss distributes a complete set of Java EE 7 APIs including
+            <!-- JBoss distributes a complete set of Java EE 6 APIs including 
                 a Bill of Materials (BOM). A BOM specifies the versions of a "stack" (or 
                 a collection) of artifacts. We use this here so that we always get the correct 
                 versions of artifacts. Here we use the jboss-javaee-6.0-with-deltaspike stack 
-                (you can read this as the JBoss stack of the Java EE 7 APIs with Deltaspike).
+                (you can read this as the JBoss stack of the Java EE 6 APIs with Deltaspike). 
                 You can actually use this stack with any version of JBoss AS that implements 
-                Java EE 7, not just WildFly 8! -->
+                Java EE 6, not just JBoss AS 7! -->
             <dependency>
                 <groupId>org.jboss.bom</groupId>
                 <artifactId>jboss-javaee-6.0-with-deltaspike</artifactId>
@@ -61,7 +61,7 @@
     <dependencies>
 
         <!-- Import the CDI API, we use provided scope as the API is included 
-            in WildFly 8 -->
+            in JBoss AS 7 -->
         <dependency>
             <groupId>javax.enterprise</groupId>
             <artifactId>cdi-api</artifactId>
@@ -69,7 +69,7 @@
         </dependency>
 
         <!-- Import the Common Annotations API (JSR-250), we use provided 
-            scope as the API is included in WildFly 8 -->
+            scope as the API is included in JBoss AS 7 -->
         <dependency>
             <groupId>org.jboss.spec.javax.annotation</groupId>
             <artifactId>jboss-annotations-api_1.1_spec</artifactId>
@@ -77,7 +77,7 @@
         </dependency>
 
         <!-- Import the JSF API, we use provided scope as the API is included 
-            in WildFly 8 -->
+            in JBoss AS 7 -->
         <dependency>
             <groupId>org.jboss.spec.javax.faces</groupId>
             <artifactId>jboss-jsf-api_2.1_spec</artifactId>
@@ -85,7 +85,7 @@
         </dependency>
 
         <!-- Import the JPA API, we use provided scope as the API is included 
-            in WildFly 8 -->
+            in JBoss AS 7 -->
         <dependency>
             <groupId>org.hibernate.javax.persistence</groupId>
             <artifactId>hibernate-jpa-2.0-api</artifactId>
@@ -93,7 +93,7 @@
         </dependency>
 
         <!-- Import the JPA API, we use provided scope as the API is included 
-            in WildFly 8 -->
+            in JBoss AS 7 -->
         <dependency>
             <groupId>org.jboss.spec.javax.transaction</groupId>
             <artifactId>jboss-transaction-api_1.1_spec</artifactId>
@@ -101,7 +101,7 @@
         </dependency>
 
         <!-- Import the EJB API, we use provided scope as the API is included 
-            in WildFly 8 -->
+            in JBoss AS 7 -->
         <dependency>
             <groupId>org.jboss.spec.javax.ejb</groupId>
             <artifactId>jboss-ejb-api_3.1_spec</artifactId>

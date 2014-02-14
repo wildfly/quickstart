@@ -4,12 +4,12 @@ CDI + Servlet: Helloworld quickstart
 
 [[HelloworldQuickstart-]]
 
-This quickstart shows you how to deploy a simple servlet to WildFly 8. The business logic is encapsulated in a service, which is provided as a CDI bean, and injected into the Servlet.
+This quickstart shows you how to deploy a simple servlet to JBoss Enterprise Application Platform 6 or JBoss AS 7. The business logic is encapsulated in a service, which is provided as a CDI bean, and injected into the Servlet.
 
 [TIP]
 .Contexts and Dependency Injection for Java EE
 ========================================================================
-CDI is a new specification in Java EE 7, inspired by JBoss Seam and
+CDI is a new specification in Java EE 6, inspired by JBoss Seam and
 Google Guice, and also drawing on lessons learned from frameworks such
 as Spring. It allows application developers to concentrate on developing
 their application logic by providing the ability to wire services
@@ -19,9 +19,9 @@ manner.
 
 Switch to the `quickstarts/helloworld` directory and instruct Maven to build and deploy the application: 
 
-    mvn package wildfly:deploy
+    mvn package jboss-as:deploy
 
-The quickstart uses a Maven plugin to deploy the application. The plugin requires WildFly 8 to be running (you can find out how to start the server in <<GettingStarted-on_linux, Installing and starting the JBoss server on Linux, Unix or Mac OS X>> or <<GettingStarted-on_windows, Installing and starting the JBoss server on Windows>>).
+The quickstart uses a Maven plugin to deploy the application. The plugin requires JBoss Enterprise Application Platform 6 or JBoss AS 7 to be running (you can find out how to start the server in <<GettingStarted-on_linux, Installing and starting the JBoss server on Linux, Unix or Mac OS X>> or <<GettingStarted-on_windows, Installing and starting the JBoss server on Windows>>).
 
 Now, check if the application has deployed properly by clicking http://localhost:8080/jboss-as-helloworld/HelloWorld. If you see a "Hello World" message it's all working! 
 
@@ -30,10 +30,10 @@ Now, check if the application has deployed properly by clicking http://localhost
 Should you wish to undeploy the quickstart, or redeploy after making 
 some changes, it's pretty easy:
 
-* `mvn wildfly:deploy` - deploy any changes to the application to the
+* `mvn jboss-as:deploy` - deploy any changes to the application to the
   application server 
 
-* `mvn wildfly:undeploy` - undeploy the quickstart
+* `mvn jboss-as:undeploy` - undeploy the quickstart
 ========================================================================
 
 It's time to pull the covers back and dive into the internals of the quickstart.
@@ -41,7 +41,7 @@ It's time to pull the covers back and dive into the internals of the quickstart.
 Deploying the Helloworld quickstart using JBoss Developer Studio, or Eclipse with JBoss Tools
 ---------------------------------------------------------------------------------------------
 
-You may choose to deploy the quickstart using JBoss Developer Studio, or Eclipse with JBoss Tools. You'll need to have WildFly 8 started in the IDE (as described  in <<GettingStarted-with_jboss_tools, Starting the JBoss server from JBDS or Eclipse with JBoss Tools>>) and to have imported the quickstarts into Eclipse (as described in <<GettingStarted-importing_quickstarts_into_eclipse,Importing the quickstarts into Eclipse>>).
+You may choose to deploy the quickstart using JBoss Developer Studio, or Eclipse with JBoss Tools. You'll need to have JBoss Enterprise Application Platform 6 or JBoss AS 7 started in the IDE (as described  in <<GettingStarted-with_jboss_tools, Starting the JBoss server from JBDS or Eclipse with JBoss Tools>>) and to have imported the quickstarts into Eclipse (as described in <<GettingStarted-importing_quickstarts_into_eclipse,Importing the quickstarts into Eclipse>>).
 
 With the quickstarts imported, you can deploy the quickstart by right clicking on the `jboss-as-helloworld` project, and choosing _Run As -> Run On Server_: 
 
@@ -61,7 +61,7 @@ The helloworld quickstart in depth
 
 The quickstart is very simple - all it does is print "Hello World" onto a web page.
 
-The helloworld quickstart is comprised of a servlet and a CDI bean. We also include an empty `beans.xml` file, which tells WildFly 8 to look for beans in this application and to activate the CDI. `beans.xml` is located in `WEB-INF/`, which can be found in the `src/main/webapp` directory. Also in this directory we include `index.html` which uses a simple meta refresh to send the users browser to the Servlet, which is located at http://localhost:8080/jboss-as-helloworld/HelloWorld.
+The helloworld quickstart is comprised of a servlet and a CDI bean. We also include an empty `beans.xml` file, which tells JBoss Enterprise Application Platform 6 or JBoss AS 7 to look for beans in this application and to activate the CDI. `beans.xml` is located in `WEB-INF/`, which can be found in the `src/main/webapp` directory. Also in this directory we include `index.html` which uses a simple meta refresh to send the users browser to the Servlet, which is located at http://localhost:8080/jboss-as-helloworld/HelloWorld.
 
 All the configuration files for this quickstart are located in `WEB-INF/`, which can be found in the `src/main/webapp` directory.
 

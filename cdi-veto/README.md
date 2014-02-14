@@ -15,8 +15,8 @@ to complete that task. This particular extension explores the ProcessInjectionTa
 InjectionTarget SPI classes of CDI to demonstrate removing a bean from CDI's knowledge and
 correctly injecting JPA entities in your application.
 
-A Portable Extension is a user extension to Java EE 7 or above which is tailored to a specific
-use case which will run on any Java EE 7 or higher implementation. This may be something that the
+A Portable Extension is a user extension to Java EE 6 or above which is tailored to a specific
+use case which will run on any Java EE 6 or higher implementation. This may be something that the
 specifications don't support just yet, but could be implemented via a portable extension such as
 type-safe messages or external configuration of beans.
 
@@ -31,7 +31,7 @@ System requirements
 
 All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven 3.0 or better.
 
-The application this project produces is designed to be run on WildFly 8.
+The application this project produces is designed to be run on JBoss Enterprise Application Platform 6 or JBoss AS 7.
 
 
 Configure Maven
@@ -39,7 +39,7 @@ Configure Maven
 
 If you have not yet done so, you must [Configure Maven](../README.md#mavenconfiguration) before testing the quickstarts.
 
-Start WildFly 8 with the Web Profile
+Start JBoss Enterprise Application Platform 6 or JBoss AS 7 with the Web Profile
 -------------------------
 
 1. Open a command line and navigate to the root of the JBoss server directory.

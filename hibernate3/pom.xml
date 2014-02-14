@@ -60,7 +60,7 @@
                 <version>${version.org.hibernate3}</version>
 
                 <!-- Some transitive dependencies of Hibernate 3 are available 
-                    in WildFly 8 as modules, so we don't include them in WEB-INF/lib, but instead
+                    in JBoss AS 7 as modules, so we don't include them in WEB-INF/lib, but instead 
                     depend on the modules -->
                 <exclusions>
                     <exclusion>
@@ -92,7 +92,7 @@
                 <artifactId>hibernate-entitymanager</artifactId>
                 <version>${version.org.hibernate.em}</version>
                 <!-- Some transitive dependencies of Hibernate 3 are available 
-                    in WildFly 8 as modules, so we don't include them in WEB-INF/lib, but instead
+                    in JBoss AS 7 as modules, so we don't include them in WEB-INF/lib, but instead 
                     depend on the modules -->
                 <exclusions>
                     <exclusion>
@@ -120,7 +120,7 @@
                 <artifactId>hibernate-validator</artifactId>
                 <version>${version.org.hibernate.validator}</version>
                 <!-- Some transitive dependencies of Hibernate 3 are available 
-                    in WildFly 8 as modules, so we don't include them in WEB-INF/lib, but instead
+                    in JBoss AS 7 as modules, so we don't include them in WEB-INF/lib, but instead 
                     depend on the modules -->
                 <exclusions>
                     <exclusion>
@@ -136,7 +136,7 @@
                 <artifactId>hibernate-commons-annotations</artifactId>
                 <version>${version.org.hibernate3.commons.annotations}</version>
                 <!-- Some transitive dependencies of Hibernate 3 are available 
-                    in WildFly 8 as modules, so we don't include them in WEB-INF/lib, but instead
+                    in JBoss AS 7 as modules, so we don't include them in WEB-INF/lib, but instead 
                     depend on the modules -->
                 <exclusions>
                     <exclusion>
@@ -153,7 +153,7 @@
                 <version>${version.org.hibernate.infinispan}</version>
                 <exclusions>
                     <!-- Some transitive dependencies of Hibernate 3 are 
-                        available in WildFly 8 as modules, so we don't include them in WEB-INF/lib,
+                        available in JBoss AS 7 as modules, so we don't include them in WEB-INF/lib, 
                         but instead depend on the modules -->
                     <exclusion>
                         <groupId>org.infinispan</groupId>
@@ -170,15 +170,15 @@
                 </exclusions>
             </dependency>
 
-            <!-- Define the version of JBoss' Java EE 7 APIs we want to import.
+            <!-- Define the version of JBoss' Java EE 6 APIs we want to import. 
                 Any dependencies from org.jboss.spec will have their version defined by this 
                 BOM -->
-            <!-- JBoss distributes a complete set of Java EE 7 APIs including
+            <!-- JBoss distributes a complete set of Java EE 6 APIs including 
                 a Bill of Materials (BOM). A BOM specifies the versions of a "stack" (or 
                 a collection) of artifacts. We use this here so that we always get the correct 
                 versions of artifacts. Here we use the jboss-javaee-6.0 stack (you can read 
-                this as the JBoss stack of the Java EE 7 APIs). You can actually use this
-                stack with any version of JBoss AS that implements Java EE 7, not just JBoss
+                this as the JBoss stack of the Java EE 6 APIs). You can actually use this 
+                stack with any version of JBoss AS that implements Java EE 6, not just JBoss 
                 AS 7! -->
             <dependency>
                 <groupId>org.jboss.spec</groupId>
@@ -193,9 +193,9 @@
     <dependencies>
 
         <!-- First declare the APIs we depend on and need for compilation. 
-            All of them are provided by WildFly 8 -->
+            All of them are provided by JBoss AS 7 -->
 
-        <!-- Import the CDI API, we use provided scope as the API is included in WildFly 8 -->
+        <!-- Import the CDI API, we use provided scope as the API is included in JBoss AS 7 -->
         <dependency>
             <groupId>javax.enterprise</groupId>
             <artifactId>cdi-api</artifactId>
@@ -203,28 +203,28 @@
         </dependency>
 
         <!-- Import the Common Annotations API (JSR-250), we use provided 
-            scope as the API is included in WildFly 8 -->
+            scope as the API is included in JBoss AS 7 -->
         <dependency>
             <groupId>org.jboss.spec.javax.annotation</groupId>
             <artifactId>jboss-annotations-api_1.2_spec</artifactId>
             <scope>provided</scope>
         </dependency>
 
-        <!-- Import the JAX-RS API, we use provided scope as the API is included in WildFly 8 -->
+        <!-- Import the JAX-RS API, we use provided scope as the API is included in JBoss AS 7 -->
         <dependency>
             <groupId>org.jboss.resteasy</groupId>
             <artifactId>jaxrs-api</artifactId>
             <scope>provided</scope>
         </dependency>
 
-        <!-- Import the JPA API, we use provided scope as the API is included in WildFly 8 -->
+        <!-- Import the JPA API, we use provided scope as the API is included in JBoss AS 7 -->
         <dependency>
             <groupId>org.hibernate.javax.persistence</groupId>
             <artifactId>hibernate-jpa-2.1-api</artifactId>
             <scope>provided</scope>
         </dependency>
 
-        <!-- Import the EJB API, we use provided scope as the API is included in WildFly 8 -->
+        <!-- Import the EJB API, we use provided scope as the API is included in JBoss AS 7 -->
         <dependency>
             <groupId>org.jboss.spec.javax.ejb</groupId>
             <artifactId>jboss-ejb-api_3.2_spec</artifactId>
@@ -273,7 +273,7 @@
             <artifactId>hibernate-infinispan</artifactId>
         </dependency>
 
-        <!-- Import the JSF API, we use provided scope as the API is included in WildFly 8 -->
+        <!-- Import the JSF API, we use provided scope as the API is included in JBoss AS 7 -->
         <dependency>
             <groupId>org.jboss.spec.javax.faces</groupId>
             <artifactId>jboss-jsf-api_2.2_spec</artifactId>

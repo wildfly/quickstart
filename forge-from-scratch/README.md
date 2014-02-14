@@ -19,19 +19,19 @@ But that is not all! You can use Forge on your new or existing projects to conti
 System requirements
 -------------------
 
-The application this project produces is designed to be run on WildFly 8.
+The application this project produces is designed to be run on JBoss Enterprise Application Platform 6 or JBoss AS 7.
 
 All you need to build this project is Java 6.0 (Java SDK 1.6) or better, and an JBoss Developer Studio 5 or JBoss Forge version 1.0.0.Final (or higher).
 
-### WildFly 8
+### JBoss Enterprise Application Platform 6
 
-If you are using WildFly 8, Forge is available in JBoss Developer Studio 5.
+If you are using JBoss Enterprise Application Platform 6, Forge is available in JBoss Developer Studio 5. 
 
 To show the Forge Console, navigate to _Window -> Show View -> Other_, locate _Forge Console_ and click _OK_. Then click the _Start_ button in top right corner of the view.
 
-### WildFly 8
+### JBoss AS 7
 
-If you are using WildFly 8, you should install JBoss Forge version 1.0.0.Final or higher. Follow the instructions at [Installing Forge](https://docs.jboss.org/author/display/FORGE/Installation).
+If you are using JBoss AS 7, you should install JBoss Forge version 1.0.0.Final or higher. Follow the instructions at [Installing Forge](https://docs.jboss.org/author/display/FORGE/Installation).
 
 Open a command line and navigate to the root directory of this quickstart. 
 
@@ -59,7 +59,7 @@ After this, you see a lot of console messages with a `[INFO] BUILD SUCCESS` towa
 
 What Did This Create?
 -------------------
-This quickstart has created a native Java EE 7 application.
+This quickstart has created a native Java EE 6 application. 
 
 After this command completes, look in your `QUICKSTART_HOME/forge-from-scratch/` folder. You will see a folder with the same name as the `project-name` you entered in the prompt above. Browse through this project to see the code that was generated as a result of this command. 
 
@@ -71,10 +71,10 @@ Configure Maven
 
 If you have not yet done so, you must [Configure Maven](../README.md#mavenconfiguration) before testing the quickstarts. 
 
-_NOTE: If you are using WildFly 8, you can not append the path to the Maven settings on the Forge command line. You must configure the Maven user settings as noted in step 4 of the instructions._
+_NOTE: If you are using JBoss Enterprise Application Platform 6, you can not append the path to the Maven settings on the Forge command line. You must configure the Maven user settings as noted in step 4 of the instructions._
 
 
-Start WildFly 8 with the Web Profile
+Start JBoss Enterprise Application Platform 6 or JBoss AS 7 with the Web Profile
 -------------------------
 
 1. Open a command line and navigate to the root of the JBoss server directory.

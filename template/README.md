@@ -33,7 +33,7 @@ Contributor: For example:
 
 All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven 3.0 or better.
 
-The application this project produces is designed to be run on WildFly 8.
+The application this project produces is designed to be run on JBoss Enterprise Application Platform 6 or JBoss AS 7. 
 
  
 Configure Maven
@@ -60,16 +60,16 @@ Contributor: If your quickstart requires any additional components, decribe how 
  * This quickstart uses Byteman to help demonstrate crash recovery. Instructions to install and configure Byteman can be found here: [Install and Configure Byteman](../README.md#byteman)
 
 
-Start WildFly 8
+Start JBoss Enterprise Application Platform 6 or JBoss AS 7
 -------------------------
 
 Contributor: Does this quickstart require one or more running servers? If so, you must show how to start the server. If you start the server in one of the following 3 ways, you can simply copy the instructions in the README file located in the root folder of the quickstart directory:
 
- * Start WildFly 8 with the Web Profile
+ * Start JBoss Enterprise Application Platform 6 or JBoss AS 7 with the Web Profile
 
- * Start WildFly 8 with the Full Profile
+ * Start JBoss Enterprise Application Platform 6 or JBoss AS 7 with the Full Profile
 
- * Start WildFly 8 with Custom Options. You will need to provide the argument string to pass on the command line, for example:
+ * Start JBoss Enterprise Application Platform 6 or JBoss AS 7 with Custom Options. You will need to provide the argument string to pass on the command line, for example: 
 
       `--server-config=../../docs/examples/configs/standalone-xts.xml`
 
@@ -79,7 +79,7 @@ Contributor: If the server is started in a different manner than above, give the
 Build and Deploy the Quickstart
 -------------------------
 
-Contributor: If the quickstart is built and deployed using the standard Maven commands, "mvn clean package" and "mvn wildfly:deploy", copy the following:
+Contributor: If the quickstart is built and deployed using the standard Maven commands, "mvn clean package" and "mvn jboss-as:deploy", copy the following:
 
 _NOTE: The following build command assumes you have configured your Maven user settings. If you have not, you must include Maven setting arguments on the command line. See [Build and Deploy the Quickstarts](../README.md#buildanddeploy) for complete instructions and additional options._
 
@@ -87,7 +87,7 @@ _NOTE: The following build command assumes you have configured your Maven user s
 2. Open a command line and navigate to the root directory of this quickstart.
 3. Type this command to build and deploy the archive:
 
-        mvn clean package wildfly:deploy
+        mvn clean package jboss-as:deploy
 4. This will deploy `target/jboss-as-QUICKSTART_NAME.war` (or `target/jboss-as-QUICKSTART_NAME.ear`) to the running instance of the server.
  
 Contributor: Be sure to replace the QUICKSTART_NAME. If this quickstart requires different or additional instructions, be sure to modify or add those instructions here.
@@ -124,7 +124,7 @@ Contributor: For example:
 2. Open a command line and navigate to the root directory of this quickstart.
 3. When you are finished testing, type this command to undeploy the archive:
 
-        mvn wildfly:undeploy
+        mvn jboss-as:undeploy
 
 
 Run the Arquillian Tests (For quickstarts that contain Arquillian tests)
@@ -182,7 +182,7 @@ If you do not yet have an OpenShift account and domain, [Sign in to OpenShift](h
 
 ### Create the OpenShift Application
 
-Open a shell command prompt and change to a directory of your choice. Enter the following command, replacing APPLICATION_TYPE with `jbosseap-6.0` for quickstarts running on WildFly 8, or `jbossas-7` for quickstarts running on WildFly 8:
+Open a shell command prompt and change to a directory of your choice. Enter the following command, replacing APPLICATION_TYPE with `jbosseap-6.0` for quickstarts running on JBoss Enterprise Application Platform 6, or `jbossas-7` for quickstarts running on JBoss AS 7:
 
     rhc app create -a APPLICATION_NAME -t APPLICATION_TYPE
 

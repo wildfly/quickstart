@@ -10,7 +10,7 @@ Source: <https://github.com/jboss-jdf/jboss-as-quickstart/>
 What is it?
 -----------
 
-This example demonstrates the deployment of a WS-AT (WS-AtomicTransaction) enabled JAX-WS Web service bundled in a WAR archive for deployment to  *WildFly 8* or *WildFly 8*..
+This example demonstrates the deployment of a WS-AT (WS-AtomicTransaction) enabled JAX-WS Web service bundled in a WAR archive for deployment to  *JBoss Enterprise Application Platform 6* or *JBoss AS 7*..
 
 The Web service is offered by a Restaurant for making bookings. The Service allows bookings to be made within an Atomic Transaction.
 
@@ -46,7 +46,7 @@ System requirements
 
 All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven 3.0 or better.
 
-The application this project produces is designed to be run on WildFly 8.
+The application this project produces is designed to be run on JBoss Enterprise Application Platform 6 or JBoss AS 7. 
 
  
 Configure Maven
@@ -55,7 +55,7 @@ Configure Maven
 If you have not yet done so, you must [Configure Maven](../README.md#mavenconfiguration) before testing the quickstarts.
 
 
-Start WildFly 8 with the Custom Options
+Start JBoss Enterprise Application Platform 6 or JBoss AS 7 with the Custom Options
 ----------------------
 
 First, edit the log level to reduce the amount of log output. This should make it easier to read the logs produced by this example. To do this add the
@@ -65,7 +65,7 @@ following logger block to the ./docs/examples/configs/standalone-xts.xml of your
             <level name="WARN"/>
         </logger>         
 
-Next you need to start WildFly 8 (7.1.0.CR1 or above), with the XTS sub system enabled. This is enabled through the optional server configuration *standalone-xts.xml*. To do this, run the following commands from the top-level directory of JBossAS:
+Next you need to start JBoss Enterprise Application Platform 6 or JBoss AS 7 (7.1.0.CR1 or above), with the XTS sub system enabled. This is enabled through the optional server configuration *standalone-xts.xml*. To do this, run the following commands from the top-level directory of JBossAS:
 
         For Linux:     ./bin/standalone.sh --server-config=../../docs/examples/configs/standalone-xts.xml
         For Windows:   \bin\standalone.bat --server-config=..\..\docs\examples\configs\standalone-xts.xml
@@ -146,7 +146,7 @@ If you do not yet have an OpenShift account and domain, [Sign in to OpenShift](h
 
 Note that we use the `jboss-as-quickstart@jboss.org` user for these examples. You need to substitute it with your own user name.
 
-Open a shell command prompt and change to a directory of your choice. Enter the following command, replacing APPLICATION_TYPE with `jbosseap-6.0` for quickstarts running on WildFly 8, or `jbossas-7` for quickstarts running on WildFly 8:
+Open a shell command prompt and change to a directory of your choice. Enter the following command, replacing APPLICATION_TYPE with `jbosseap-6.0` for quickstarts running on JBoss Enterprise Application Platform 6, or `jbossas-7` for quickstarts running on JBoss AS 7:
 
     rhc app create -a wsatsimple -t APPLICATION_TYPE
 
@@ -222,7 +222,7 @@ You can now deploy the changes to your OpenShift application using git as follow
         git commit -m "wsat-simple quickstart on OpenShift"
         git push
 
-OpenShift will build the application using Maven, and deploy it to WildFly 8. If successful, you should see output similar to:
+OpenShift will build the application using Maven, and deploy it to JBoss AS 7. If successful, you should see output similar to:
 
     remote: [INFO] ------------------------------------------------------------------------
     remote: [INFO] BUILD SUCCESS
