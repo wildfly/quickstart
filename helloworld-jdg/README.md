@@ -27,7 +27,7 @@ System requirements
 
 All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven 3.0 or better.
 
-The application this project produces is designed to be run on JBoss Enterprise Application Platform 6 or JBoss AS 7. 
+The application this project produces is designed to be run on WildFly 8.
 
  
 Configure Maven
@@ -36,7 +36,7 @@ Configure Maven
 If you have not yet done so, you must [Configure Maven](../README.md#mavenconfiguration) before testing the quickstarts.
 
 
-Start first instance of JBoss Enterprise Application Platform 6 or JBoss AS 7
+Start first instance of WildFly 8
 -----------------------------------------------------------------------------
 
 1. Open a command line and navigate to the root of the JBoss server directory.
@@ -45,7 +45,7 @@ Start first instance of JBoss Enterprise Application Platform 6 or JBoss AS 7
         For Linux:   JBOSS_HOME/bin/standalone.sh
         For Windows: JBOSS_HOME\bin\standalone.bat
 
-Start second instance of JBoss Enterprise Application Platform 6 or JBoss AS 7
+Start second instance of WildFly 8
 ------------------------------------------------------------------------------
 
 1. Make a second copy of the JBoss Server
@@ -67,12 +67,12 @@ for complete instructions and additional options._
 2. Open a command line and navigate to the root directory of this quickstart.
 3. Type this command to build and deploy the archive to the first server:
 
-        mvn clean package jboss-as:deploy
+        mvn clean package wildfly:deploy
 
 4. This will deploy `target/jboss-as-helloworld-jdg.war` to the first running instance of the server.
 5. Type this command to build and deploy the archive to the second server (running on different ports):
 
-        mvn clean package jboss-as:deploy -Djboss-as.port=10099
+        mvn clean package wildfly:deploy -Djboss-as.port=10099
 
 6. This will deploy `target/jboss-as-helloworld-jdg.war` to the second running instance of the server.
 

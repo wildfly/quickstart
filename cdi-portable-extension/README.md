@@ -14,8 +14,8 @@ This project demonstrates a simple CDI Portable Extension and some of the SPI cl
 to complete that task. This particular extension explores the ProcessInjectionTarget and 
 InjectionTarget spi classes of CDI. To demonstrate a possible way to seed data into beans.
 
-A Portable Extension is essentially an extension to Java EE 6+ which is tailored to a specific
-use case which will run on any Java EE 6 or higher implementation. There may be something that the
+A Portable Extension is essentially an extension to Java EE 7+ which is tailored to a specific
+use case which will run on any Java EE 7 or higher implementation. There may be something that the
 specifications don't support just yet, but could be implemented via a portable extension such as
 type safe messages or external configuration of beans.
 
@@ -30,7 +30,7 @@ System requirements
 
 All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven 3.0 or better.
 
-The application this project produces is designed to be run on JBoss Enterprise Application Platform 6 or JBoss AS 7.
+The application this project produces is designed to be run on WildFly 8.
 
 
 Configure Maven
@@ -40,7 +40,7 @@ Contributor: You can copy or link to the Maven configuration information in the 
 
 If you have not yet done so, you must [Configure Maven](../README.md#mavenconfiguration) before testing the quickstarts.
 
-Start JBoss Enterprise Application Platform 6 or JBoss AS 7 with the Web Profile
+Start WildFly 8 with the Web Profile
 -------------------------
 
 1. Open a command line and navigate to the root of the JBoss server directory.

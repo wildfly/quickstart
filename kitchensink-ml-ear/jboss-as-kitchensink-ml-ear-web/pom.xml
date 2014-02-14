@@ -21,9 +21,8 @@
 
     <parent>
         <artifactId>wildfly-kitchensink-ml-ear</artifactId>
-        <groupId>org.wildfly.quickstarts</groupId>
-        <version>8.0.0-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
+        <groupId>org.jboss.as.quickstarts</groupId>
+        <version>7.1.2-SNAPSHOT</version>
     </parent>
 
     <artifactId>wildfly-kitchensink-ml-ear-web</artifactId>
@@ -31,7 +30,7 @@
 
     <name>WildFly Quickstarts: Kitchensink EAR: WAR Module</name>
 
-    <url>http://wildfly.org</url>
+    <url>http://jboss.org/jbossas</url>
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
@@ -44,7 +43,7 @@
 
         <!-- Dependency on the EJB module so we can use it's services if needed -->
         <dependency>
-            <groupId>org.wildfly.quickstarts</groupId>
+            <groupId>org.jboss.as.quickstarts</groupId>
             <artifactId>wildfly-kitchensink-ml-ear-ejb</artifactId>
             <type>ejb</type>
             <scope>provided</scope>
@@ -63,7 +62,7 @@
             <artifactId>cdi-api</artifactId>
             <scope>provided</scope>
         </dependency>
-
+      
         <!-- Import the JSF API, we use provided scope as the API is included in JBoss AS 7 -->
         <dependency>
             <groupId>org.jboss.spec.javax.faces</groupId>
@@ -109,5 +108,19 @@
         </dependency>
 
     </dependencies>
+
+    <build>
+        <finalName>${project.artifactId}</finalName>
+        <plugins>
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>${version.war.plugin}</version>
+                <configuration>
+                    <!-- Java EE 7 doesn't require web.xml, Maven needs to catch up! -->
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

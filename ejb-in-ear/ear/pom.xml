@@ -26,9 +26,8 @@
 
     <parent>
         <artifactId>wildfly-ejb-in-ear</artifactId>
-        <groupId>org.wildfly.quickstarts</groupId>
-        <version>8.0.0-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
+        <groupId>org.jboss.as.quickstarts</groupId>
+        <version>7.1.2-SNAPSHOT</version>
     </parent>
 
     <artifactId>wildfly-ejb-in-ear-ear</artifactId>
@@ -48,12 +47,12 @@
     <dependencies>
         <!-- Dependencies on the ejb and web modules so that they can be found by the ear plugin -->
         <dependency>
-            <groupId>org.wildfly.quickstarts</groupId>
+            <groupId>org.jboss.as.quickstarts</groupId>
             <artifactId>wildfly-ejb-in-ear-web</artifactId>
             <type>war</type>
         </dependency>
         <dependency>
-            <groupId>org.wildfly.quickstarts</groupId>
+            <groupId>org.jboss.as.quickstarts</groupId>
             <artifactId>wildfly-ejb-in-ear-ejb</artifactId>
             <type>ejb</type>
         </dependency>
@@ -69,7 +68,7 @@
                 <version>${version.ear.plugin}</version>
                 <!-- configuring the ear plugin -->
                 <configuration>
-                    <!-- Tell Maven we are using Java EE 6 -->
+                    <!-- Tell Maven we are using Java EE 7 -->
                     <version>6</version>
                     <!-- Use Java EE ear libraries as needed. Java EE ear libraries 
                         are in easy way to package any libraries needed in the ear, and automatically 
@@ -80,7 +79,7 @@
                         If a custom context root is needed, uncomment the following snippet to
                         register our War as a web module and set the contextRoot property -->
                         <webModule>
-                            <groupId>org.wildfly.quickstarts</groupId>
+                            <groupId>org.jboss.as.quickstarts</groupId>
                             <artifactId>wildfly-ejb-in-ear-web</artifactId>
                             <contextRoot>/jboss-as-ejb-in-ear</contextRoot>
                         </webModule>
@@ -90,9 +89,9 @@
             </plugin>
             <!-- JBoss AS plugin to deploy ear -->
             <plugin>
-                <groupId>org.wildfly.plugins</groupId>
+                <groupId>org.jboss.as.plugins</groupId>
                 <artifactId>wildfly-maven-plugin</artifactId>
-                <version>${version.wildfly.maven.plugin}</version>
+                <version>${version.jboss.maven.plugin}</version>
                 <configuration>
                     <filename>${project.artifactId}.ear</filename>
                     <skip>false</skip>

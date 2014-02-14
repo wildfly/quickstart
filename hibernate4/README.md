@@ -10,9 +10,9 @@ Source: <https://github.com/jboss-jdf/jboss-as-quickstart/>
 What is it?
 -----------
 
-This quickstart is based upon the kitchensink example, but demonstrates how to use Hibernate ORM 4 over JPA in JBoss Enterprise Application Platform 6 or JBoss AS 7.
+This quickstart is based upon the kitchensink example, but demonstrates how to use Hibernate ORM 4 over JPA in WildFly 8.
 
-This project is setup to allow you to create a compliant Java EE 6 application using JSF 2.0, CDI 1.0, EJB 3.1, JPA 2.0 , Hibernate-Core and Hibernate Bean Validation.  It includes a persistence unit associated with Hibernate session and some sample persistence and transaction code to help you with database access in enterprise Java. 
+This project is setup to allow you to create a compliant Java EE 7 application using JSF 2.0, CDI 1.0, EJB 3.1, JPA 2.0 , Hibernate-Core and Hibernate Bean Validation.  It includes a persistence unit associated with Hibernate session and some sample persistence and transaction code to help you with database access in enterprise Java.
 
 You can compare this quickstart to the `hibernate3` quickstart to see the code differences between Hibernate 3 and Hibernate 4.
 
@@ -22,7 +22,7 @@ System requirements
 
 All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven 3.0 or better.
 
-The application this project produces is designed to be run on JBoss Enterprise Application Platform 6 or JBoss AS 7. 
+The application this project produces is designed to be run on WildFly 8.
 
  
 Configure Maven
@@ -36,7 +36,7 @@ Add the Correct Dependencies
 
 JBoss Enterprise Application Platform 6 and JBoss AS 7 both provide Hibernate 3, Hibernate 4, and JPA support. 
 
-If you use Hibernate 4 packaged within JBoss Enterprise Application Platform 6 or JBoss AS 7, you will need to first import the JPA API.
+If you use Hibernate 4 packaged within WildFly 8, you will need to first import the JPA API.
 
 This quickstart demonstrates usage of Hibernate Session and Hibernate Validators.
 
@@ -59,7 +59,7 @@ For example:
 Please note that if you are working with Hibernate 3, the process is different. You will need to bundle the jars since JBoss Enterprise Application Platform 6 and JBoss AS 7 do not ship with Hibernate 3. Refer to the `hibernate3` quickstart for details on how to bundle the JARs.
 
 
-Start JBoss Enterprise Application Platform 6 or JBoss AS 7 with the Web Profile
+Start WildFly 8 with the Web Profile
 -------------------------
 
 1. Open a command line and navigate to the root of the JBoss server directory.
@@ -78,7 +78,7 @@ _NOTE: The following build command assumes you have configured your Maven user s
 2. Open a command line and navigate to the root directory of this quickstart.
 3. Type this command to build and deploy the archive:
 
-        mvn clean package jboss-as:deploy
+        mvn clean package wildfly:deploy
 
 4. This will deploy `target/jboss-as-hibernate4.war` to the running instance of the server.
 

@@ -25,7 +25,7 @@
     <description>Inter-application: Shows how to communicate between two applications using EJB and CDI</description>
 
     <parent>
-        <groupId>org.wildfly.quickstarts</groupId>
+        <groupId>org.jboss.wildfly.quickstarts</groupId>
         <artifactId>wildfly-inter-app-parent</artifactId>
         <version>8.0.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
@@ -51,7 +51,7 @@
         <!-- Import the EJB API, we use provided scope as the API is included in JBoss AS 7 -->
         <dependency>
             <groupId>org.jboss.spec.javax.ejb</groupId>
-            <artifactId>jboss-ejb-api_3.2_spec</artifactId>
+            <artifactId>jboss-ejb-api_3.1_spec</artifactId>
             <scope>provided</scope>
         </dependency>
 
@@ -59,7 +59,7 @@
             time. See the corresponding Dependencies entry in the MANIFEST.mf which defines 
             the dependency at runtime. -->
         <dependency>
-            <groupId>org.wildfly.quickstarts</groupId>
+            <groupId>org.jboss.wildfly.quickstarts</groupId>
             <artifactId>wildfly-inter-app-shared</artifactId>
             <scope>provided</scope>
         </dependency>
@@ -75,7 +75,7 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <version>${version.war.plugin}</version>
                 <configuration>
-                    <!-- Java EE 6 doesn't require web.xml, Maven needs to 
+                    <!-- Java EE 7 doesn't require web.xml, Maven needs to
                         catch up! -->
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                     <!-- Define a dependency on the shared API, which will 

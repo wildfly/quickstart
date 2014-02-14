@@ -4,14 +4,14 @@ CDI + JPA + EJB + JTA + JSF: Greeter quickstart
 
 [[GreeterQuickstart-]]
 
-This quickstart shows you how to create and deploy an application which persists information to a database to JBoss Enterprise Application Platform 6 or JBoss AS 7. Information is displayed using JSF views, business logic is encapsulated in CDI beans, information is persisted using JPA, and transactions can be controlled manually or using EJB.
+This quickstart shows you how to create and deploy an application which persists information to a database to WildFly 8. Information is displayed using JSF views, business logic is encapsulated in CDI beans, information is persisted using JPA, and transactions can be controlled manually or using EJB.
 
 Switch to the `quickstarts/greeter` directory and instruct Maven to build and deploy the application: 
 
-    mvn package jboss-as:deploy
+    mvn package wildfly:deploy
 
 
-The quickstart uses a Maven plugin to deploy the application. The plugin requires JBoss Enterprise Application Platform 6 or JBoss AS 7 to be running (you can find out how to start the server in <<GettingStarted-on_linux, Installing and starting the JBoss server on Linux, Unix or Mac OS X>> or <<GettingStarted-on_windows, Installing and starting the JBoss server on Windows>>).
+The quickstart uses a Maven plugin to deploy the application. The plugin requires WildFly 8 to be running (you can find out how to start the server in <<GettingStarted-on_linux, Installing and starting the JBoss server on Linux, Unix or Mac OS X>> or <<GettingStarted-on_windows, Installing and starting the JBoss server on Windows>>).
 
 Or you can start the server using an IDE, like JBoss Developer Studio. If you are using JBoss Developer Studio, you can deploy the quickstart by right clicking on the `jboss-as-greeter` project, and choosing _Run As -> Run On Server_: 
 
@@ -468,7 +468,7 @@ Using declarative transaction management has allowed us to remove a third of the
 ========================================================================
 Sharp eyed developers who are used to Java EE will have noticed that we 
 have added this EJB to a war. This is the key improvement offered in 
-EJB 3.1 (which was first included in Java EE 6).
+EJB 3.1 (which was first included in Java EE 7).
 ========================================================================
 
 Finally, let's take a look at the `Resources` class, which provides resources such as the entity manager. CDI recommends using "resource producers", as we do in this quickstart, to alias resources to CDI beans, allowing for a  consistent style throughout our application: 
