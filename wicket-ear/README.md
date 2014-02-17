@@ -4,13 +4,13 @@ Author: Ondrej Zizka <ozizka@redhat.com>
 Level: Intermediate
 Technologies: Apache Wicket, JPA
 Summary: Demonstrates how to use the Wicket Framework 1.5 with the JBoss server using the Wicket-Stuff Java EE integration, packaged as an EAR
-Target Product: EAP
-Source: <https://github.com/jboss-jdf/jboss-as-quickstart/>
+Target Project: WildFly
+Source: <https://github.com/wildfly/quickstart/>
 
 What is it?
 -----------
 
-This is an example of how to use Wicket Framework 1.5 with JBoss AS, leveraging features of Java EE 7, using the Wicket-Stuff Java EE integration.
+This is an example of how to use Wicket Framework 1.5 with WildFly, leveraging features of Java EE 7, using the Wicket-Stuff Java EE integration.
 
 Features used:
 
@@ -31,7 +31,7 @@ System requirements
 
 All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven 3.0 or better.
 
-The application this project produces is designed to be run on WildFly 8.
+The application this project produces is designed to be run on JBoss WildFly.
 
  
 Configure Maven
@@ -40,7 +40,7 @@ Configure Maven
 If you have not yet done so, you must [Configure Maven](../README.md#mavenconfiguration) before testing the quickstarts.
 
 
-Start WildFly 8 with the Web Profile
+Start JBoss WildFly with the Web Profile
 -------------------------
 
 1. Open a command line and navigate to the root of the JBoss server directory.
@@ -61,13 +61,13 @@ _NOTE: The following build command assumes you have configured your Maven user s
 
         mvn clean package wildfly:deploy
 
-4. This will deploy `target/jboss-as-wicket-ear.ear` to the running instance of the server.
+4. This will deploy `target/wildfly-wicket-ear.ear` to the running instance of the server.
 
 
 Access the application 
 ----------------------
 
-The application will be running at the following URL: <http://localhost:8080/jboss-as-wicket-ear-war/>.
+The application will be running at the following URL: <http://localhost:8080/wildfly-wicket-ear-war/>.
 
  * You will see a page with a table listing the existing Contact entities. Initially, this table is empty.
  * Click on the _Insert a new Constact_ link to add a new contact.

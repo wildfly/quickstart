@@ -1,11 +1,11 @@
-jboss-as-logging-tools: Internationalization and Localisation with JBoss Logging Tools
+wildfly-logging-tools: Internationalization and Localisation with JBoss Logging Tools
 ======================
 Author: Darrin Mison
 Level: Beginner
 Technologies: JBoss Logging Tools
 Summary: Demonstrates the use of JBoss Logging Tools to create internationalized loggers, exceptions, and generic messages
-Target Product: EAP
-Source: <https://github.com/jboss-jdf/jboss-as-quickstart/>
+Target Project: WildFly
+Source: <https://github.com/wildfly/quickstart/>
 
 What is it?
 ------------
@@ -14,7 +14,7 @@ This quick start demonstrates the use of JBoss Logging Tools to create internati
 
 Once the quick start is deployed you can access it using URLs documented below.
 
-Instructions are included below for starting JBoss AS7/EAP6 with a different locale than the system default.
+Instructions are included below for starting JBoss WildFly/EAP6 with a different locale than the system default.
 
 
 System requirements
@@ -22,7 +22,7 @@ System requirements
 
 All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven 3.0 or better.
 
-The application this project produces is designed to be run on WildFly 8.
+The application this project produces is designed to be run on JBoss WildFly.
 
 
 Configure Maven
@@ -49,7 +49,7 @@ To start the JBoss server with a different locale than the system default:
    Refer to <http://java.sun.com/javase/technologies/core/basic/intl/faq.jsp#set-default-locale>
       
 
-Start WildFly 8 with the Web Profile
+Start JBoss WildFly with the Web Profile
 -------------------------
 
 1. Open a command line and navigate to the root of the JBoss server directory.
@@ -71,7 +71,7 @@ _NOTE: The following build command assumes you have configured your Maven user s
 
         mvn clean package wildfly:deploy
 
-4. This will deploy `target/jboss-as-logging-tools.war` to the running instance of the server.
+4. This will deploy `target/wildfly-logging-tools.war` to the running instance of the server.
 
 
 
@@ -80,24 +80,24 @@ Access the application
 
 The application will be running at the following URLs:
 
-### http://localhost:8080/jboss-as-logging-tools/
+### http://localhost:8080/wildfly-logging-tools/
 
 A landing page is found here that has a quick reference to the other URLs.
 
-### http://localhost:8080/jboss-as-logging-tools/rest/greetings/`name`
+### http://localhost:8080/wildfly-logging-tools/rest/greetings/`name`
 
 Demonstrates simple use of localised messages (with parameter) and logging.
 
-Example: <http://localhost:8080/jboss-as-logging-tools/rest/greetings/Harold>
+Example: <http://localhost:8080/wildfly-logging-tools/rest/greetings/Harold>
 
 * Returns a localised "hello `name`" string where `name` is the last component of the URL.
 * Logs a localised "Hello message sent"
 
-### http://localhost:8080/jboss-as-logging-tools/rest/greetings/`locale`/`name`
+### http://localhost:8080/wildfly-logging-tools/rest/greetings/`locale`/`name`
 
 Demonstrates how to obtain a message bundle for a specified locale and how to throw a localised exceptions. Note that the localised exception is a wrapper around `WebApplicationException`.
 
-Example: <http://localhost:8080/jboss-as-logging-tools/rest/greetings/fr-FR/Harold>
+Example: <http://localhost:8080/wildfly-logging-tools/rest/greetings/fr-FR/Harold>
       
 * Returns a localised "hello `name`" string where `name` is the last component of the URL and the locale used is the one supplied in the `locale` URL.
 * Logs a localised "Hello message sent in `locale`" message using the JVM locale for the translation
@@ -106,19 +106,19 @@ Example: <http://localhost:8080/jboss-as-logging-tools/rest/greetings/fr-FR/Haro
    
       Note that WebApplicationException cannot be directly localised by JBoss Logging Tools using the `@Message` annotation due to the message parameter being ignored by `WebApplicationException`'s constructors. Cases like this can be worked around by creating a sub-class with a constructor that does deal with the message parameter.
    
-### http://localhost:8080/jboss-as-logging-tools/rest/greetings/crashme
+### http://localhost:8080/wildfly-logging-tools/rest/greetings/crashme
    
 Demonstrates throwing a localised exception with another exception specified as the cause.  This is a completely contrived example.
    
-Example: <http://localhost:8080/jboss-as-logging-tools/rest/greetings/crashme>
+Example: <http://localhost:8080/wildfly-logging-tools/rest/greetings/crashme>
    
 * Attempts divide by zero, catches exception and throws localised one.
    
-### http://localhost:8080/jboss-as-logging-tools/rest/dates/daysuntil/`targetdate`
+### http://localhost:8080/wildfly-logging-tools/rest/dates/daysuntil/`targetdate`
 
 Demonstrates how to pass parameters through to the constructor of a localised exception, and how to specify an exception as a cause of a log message.
 
-Example: <http://localhost:8080/jboss-as-logging-tools/rest/dates/daysuntil/25-12-2012>
+Example: <http://localhost:8080/wildfly-logging-tools/rest/dates/daysuntil/25-12-2012>
    
 * Attempts to turn the `targetdate` URL component into a date object using the format `dd-MM-yyyy`
 * Returns number of days (as an integer) until that date

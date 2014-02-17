@@ -22,8 +22,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import org.infinispan.manager.DefaultCacheManager;
 import org.infinispan.stats.Stats;
-import org.jboss.as.quickstarts.datagrid.carmart.session.CarManager;
-import org.jboss.as.quickstarts.datagrid.carmart.session.StatisticsProvider;
 
 
 @Named("stats")

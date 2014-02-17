@@ -28,7 +28,6 @@
         <groupId>org.wildfly.quickstarts</groupId>
         <artifactId>wildfly-ejb-asynchronous</artifactId>
         <version>8.0.0-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <licenses>
@@ -47,14 +46,14 @@
             <!-- JBoss distributes a complete set of Java EE 7 APIs including
                 a Bill of Materials (BOM). A BOM specifies the versions of a "stack" (or 
                 a collection) of artifacts. We use this here so that we always get the correct 
-                versions of artifacts. Here we use the jboss-javaee-6.0 stack (you can read 
+                versions of artifacts. Here we use the jboss-javaee-7.0 stack (you can read
                 this as the JBoss stack of the Java EE 7 APIs). You can actually use this
-                stack with any version of JBoss AS that implements Java EE 7, not just JBoss
-                AS 7! -->
+                stack with any version of WildFly that implements Java EE 7, not just JBoss
+                WildFly 8! -->
             <dependency>
                 <groupId>org.jboss.spec</groupId>
-                <artifactId>jboss-javaee-web-7.0</artifactId>
-                <version>${version.jboss.spec.javaee7}</version>
+                <artifactId>jboss-javaee-7.0</artifactId>
+                <version>${version.jboss.spec.javaee.7.0}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

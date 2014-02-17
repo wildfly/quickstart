@@ -19,13 +19,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>org.wildfly.quickstarts</groupId>
-        <artifactId>wildfly-quickstarts-parent</artifactId>
-        <version>8.0.0-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
-    </parent>
+    <groupId>org.wildfly.quickstarts</groupId>
     <artifactId>wildfly-inter-app-parent</artifactId>
+    <version>8.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>WildFly Quickstarts: Inter-application</name>
     <description>Inter-application: Shows how to communicate between two applications using EJB and CDI</description>
@@ -46,6 +42,29 @@
         <module>appB</module>
     </modules>
 
+    <properties>
+        <!-- Explicitly declaring the source encoding eliminates the following 
+            message: -->
+        <!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered 
+            resources, i.e. build is platform dependent! -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <!-- JBoss dependency versions -->
+        
+        <version.wildfly.maven.plugin>1.0.0.Final</version.wildfly.maven.plugin>
+        
+        <version.jboss.spec.javaee.7.0>1.0.0.Final</version.jboss.spec.javaee.7.0>
+
+
+        <!-- other plugin versions -->
+        <version.compiler.plugin>2.3.1</version.compiler.plugin>
+        <version.war.plugin>2.1.1</version.war.plugin>
+
+        <!-- maven-compiler-plugin -->
+        <maven.compiler.target>1.6</maven.compiler.target>
+        <maven.compiler.source>1.6</maven.compiler.source>
+    </properties>
+
     <dependencyManagement>
         <dependencies>
             <!-- Define the version of JBoss' Java EE 7 APIs we want to import.
@@ -54,14 +73,14 @@
             <!-- JBoss distributes a complete set of Java EE 7 APIs including
                 a Bill of Materials (BOM). A BOM specifies the versions of a "stack" (or 
                 a collection) of artifacts. We use this here so that we always get the correct 
-                versions of artifacts. Here we use the jboss-javaee-6.0 stack (you can read 
+                versions of artifacts. Here we use the jboss-javaee-7.0 stack (you can read
                 this as the JBoss stack of the Java EE 7 APIs). You can actually use this
-                stack with any version of JBoss AS that implements Java EE 7, not just JBoss
-                AS 7! -->
+                stack with any version of WildFly that implements Java EE 7, not just JBoss
+                WildFly 8! -->
             <dependency>
                 <groupId>org.jboss.spec</groupId>
-                <artifactId>jboss-javaee-web-7.0</artifactId>
-                <version>${version.jboss.spec.javaee7}</version>
+                <artifactId>jboss-javaee-7.0</artifactId>
+                <version>${version.jboss.spec.javaee.7.0}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -76,5 +95,25 @@
 
         </dependencies>
     </dependencyManagement>
+
+    <build>
+        <!-- Set the name of the war, used as the context root when the app 
+            is deployed -->
+        <finalName>${project.artifactId}</finalName>
+        <plugins>
+            <!-- Disable WildFly plugin, as nothing to deploy -->
+            <plugin>
+                <groupId>org.wildfly.plugins</groupId>
+                <artifactId>wildfly-maven-plugin</artifactId>
+                <version>${version.wildfly.maven.plugin}</version>
+                <inherited>false</inherited>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+
 </project>
 

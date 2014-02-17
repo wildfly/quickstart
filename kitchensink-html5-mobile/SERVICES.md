@@ -4,7 +4,7 @@ Author: Jay Balunas, Marius Bogoevici
 
 This example supports various RESTFul end points which also includes JSONP support for cross domain requests.
 
-By default the base URL for services is `/jboss-as-kitchensink-html5-mobile/rest`.
+By default the base URL for services is `/wildfly-kitchensink-html5-mobile/rest`.
 
 MemberService End Points
 ------------------------

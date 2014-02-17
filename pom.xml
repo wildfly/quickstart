@@ -21,15 +21,16 @@
     <parent>
         <groupId>org.jboss</groupId>
         <artifactId>jboss-parent</artifactId>
-        <version>12</version>
+        <version>8</version>
+        <relativePath />
     </parent>
     <groupId>org.wildfly.quickstarts</groupId>
     <artifactId>wildfly-quickstarts-parent</artifactId>
     <version>8.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>JBoss AS Quickstarts Parent</name>
+    <name>WildFly Quickstarts Parent</name>
     <description>WildFly Quickstarts Parent</description>
-    <url>http://www.jboss.org/jdf/quickstarts/get-started/</url>
+    <url>https://github.com/wildfly/quickstart/</url>
 
     <licenses>
         <license>
@@ -40,43 +41,31 @@
     </licenses>
 
     <properties>
-
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- A base list of dependency and plugin version used in the various quick starts. -->
 
         <!-- JBoss dependency versions -->
-        <version.wildfly>8.0.0.CR1</version.wildfly>
-        <!-- Alternatively, comment out the above line, and un-comment the
-            line below to use version 7.2.0.Final-redhat-1 which is a release certified 
-            to work with JBoss EAP 6. It requires you have access to the JBoss EAP 6 
-            maven repository. -->
-        <!-- <version.jboss.as>7.2.0.Final-redhat-1</version.jboss.as> -->
 
-        <version.wildfly.maven.plugin>1.0.0.Beta1</version.wildfly.maven.plugin>
+        <version.jboss.as>8.0.0.Final</version.jboss.as>
 
-        <version.arquillian.container>8.0.0.CR1</version.arquillian.container>
+
+        <version.wildfly.maven.plugin>1.0.0.Final</version.wildfly.maven.plugin>
 
         <!-- Define the version of the JBoss BOMs we want to import to specify tested stacks. -->
-        <version.jboss.bom>1.0.5.Final</version.jboss.bom>
-        <!-- Alternatively, comment out the above line, and un-comment the 
-            line below to use version 1.0.4.Final-redhat-3 which is a release certified 
-            to work with JBoss EAP 6. It requires you have access to the JBoss EAP 6 
-            maven repository. -->
-        <!-- <version.jboss.bom>1.0.4.Final-redhat-3</version.jboss.bom> -->
+        <version.jboss.bom>8.0.0-SNAPSHOT</version.jboss.bom>
 
-        <version.jboss.spec.javaee7>1.0.0.Final</version.jboss.spec.javaee7>
-        <!-- Alternatively, comment out the above line, and un-comment the 
-            line below to use version 3.0.2.Final-redhat-2 which is a release certified 
-            to work with JBoss EAP 6. It requires you have access to the JBoss EAP 6 
-            maven repository. -->
 
-        <version.org.hibernate>4.3.1.Final</version.org.hibernate>
-        <version.org.richfaces>4.3.5.Final</version.org.richfaces>
-        <version.shrinkwrap.resolver>2.0.0</version.shrinkwrap.resolver>
-        <version.junit>4.11</version.junit>
+        <version.jboss.spec.javaee.7.0>1.0.0.Final</version.jboss.spec.javaee.7.0>
+
+
+        <version.org.hibernate3.commons.annotations>3.2.0.Final</version.org.hibernate3.commons.annotations>
+        <version.org.hibernate>3.6.8.Final</version.org.hibernate>
+        <version.org.hibernate.em>3.6.8.Final</version.org.hibernate.em>
+        <version.org.hibernate.infinispan>3.6.8.Final</version.org.hibernate.infinispan>
+        <version.org.hibernate.validator>4.2.0.Final</version.org.hibernate.validator>
+
+        <version.org.richfaces>4.2.0.Final</version.org.richfaces>
 
         <!-- Other dependency versions -->
-        <version.org.apache.httpcomponents>4.1.4</version.org.apache.httpcomponents>
         <version.dom4j>1.6</version.dom4j>
         <version.javax.servlet.jstl>1.2</version.javax.servlet.jstl>
         <version.log4j>1.2.16</version.log4j>
@@ -84,53 +73,40 @@
         <version.org.apache.wicket>1.5.5</version.org.apache.wicket>
         <version.net.ftlines.wicket-cdi>1.2</version.net.ftlines.wicket-cdi>
         <version.ro.isdc.wro4j>1.4.4</version.ro.isdc.wro4j>
-        <com.ocpsoft.prettyfaces.version>3.3.2</com.ocpsoft.prettyfaces.version>
-        <org.jboss.weld.servlet.version>1.1.8.Final</org.jboss.weld.servlet.version>
-        <com.sun.faces.jsf.impl.version>2.0.2</com.sun.faces.jsf.impl.version>
 
-        <version.org.codehaus.mojo.gwt.maven.plugin>2.4.0</version.org.codehaus.mojo.gwt.maven.plugin>
+        <!-- other plugin versions -->
+        <version.bundle.plugin>2.3.4</version.bundle.plugin>
+        <version.clean.plugin>2.4.1</version.clean.plugin>
+        <version.compiler.plugin>2.3.1</version.compiler.plugin>
+        <version.ear.plugin>2.6</version.ear.plugin>
+        <version.ejb.plugin>2.3</version.ejb.plugin>
         <version.exec.plugin>1.2.1</version.exec.plugin>
+        <version.jar.plugin>2.2</version.jar.plugin>
+        <version.org.codehaus.mojo.gwt.maven.plugin>2.4.0</version.org.codehaus.mojo.gwt.maven.plugin>
+        <version.surefire.plugin>2.10</version.surefire.plugin>
+        <version.war.plugin>2.1.1</version.war.plugin>
 
-
+        <!-- maven-compiler-plugin -->
+        <maven.compiler.target>1.6</maven.compiler.target>
+        <maven.compiler.source>1.6</maven.compiler.source>
     </properties>
 
     <build>
-        <finalName>${project.artifactId}</finalName>
-        <pluginManagement>
-            <!-- The WildFly plugin deploys your apps to a local WildFly container -->
-            <plugins>
-                <plugin>
-                    <groupId>org.wildfly.plugins</groupId>
-                    <artifactId>wildfly-maven-plugin</artifactId>
-                    <version>${version.wildfly.maven.plugin}</version>
-                    <configuration>
-                        <skip>true</skip>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-war-plugin</artifactId>
-                    <version>${version.war.plugin}</version>
-                    <configuration>
-                        <!-- Java EE 7 doesn't require web.xml, Maven needs to catch up! -->
-                        <failOnMissingWebXml>false</failOnMissingWebXml>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-ejb-plugin</artifactId>
-                    <version>${version.ejb.plugin}</version>
-                    <configuration>
-                        <!-- Tell Maven we are using EJB 3.1 -->
-                        <ejbVersion>3.2</ejbVersion>
-                    </configuration>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-
         <plugins>
+            <!-- The WildFly plugin deploys your apps to a local WildFly container -->
+            <!-- Disabling it here means that we don't try to deploy this POM! -->
             <plugin>
-                <groupId>com.mycila</groupId>
-                <artifactId>license-maven-plugin</artifactId>
-                <version>2.6</version>
+                <groupId>org.wildfly.plugins</groupId>
+                <artifactId>wildfly-maven-plugin</artifactId>
+                <version>${version.wildfly.maven.plugin}</version>
+                <inherited>true</inherited>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.mycila.maven-license-plugin</groupId>
+                <artifactId>maven-license-plugin</artifactId>
                 <configuration>
                     <header>${basedir}/dist/license.txt</header>
                     <aggregate>true</aggregate>
@@ -144,7 +120,7 @@
                         <headerDefinition>dist/headerdefinition.xml</headerDefinition>
                     </headerDefinitions>
                 </configuration>
-            </plugin>
+              </plugin>
         </plugins>
     </build>
 
@@ -165,30 +141,17 @@
                 <module>bmt</module>
                 <module>carmart</module>
                 <module>carmart-tx</module>
-                <module>cdi-add-interceptor-binding</module>
                 <module>cdi-alternative</module>
                 <module>cdi-injection</module>
                 <module>cdi-portable-extension</module>
                 <module>cdi-veto</module>
-                <module>deltaspike-authorization</module>
-                <module>deltaspike-beanbuilder</module>
-                <module>deltaspike-beanmanagerprovider</module>
-                <module>deltaspike-deactivatable</module>
-                <module>deltaspike-exception-handling</module>
-                <module>deltaspike-helloworld-jms</module>
-                <module>deltaspike-projectstage</module>
                 <module>ejb-asynchronous</module>
                 <module>ejb-in-ear</module>
                 <module>ejb-in-war</module>
                 <module>ejb-remote</module>
                 <module>ejb-security</module>
-                <module>ejb-security-plus</module>
-                <module>ejb-security-interceptors</module>
                 <module>greeter</module>
-                <module>greeter-spring</module>
                 <module>helloworld</module>
-                <module>helloworld-errai</module>
-                <module>helloworld-gwt</module>
                 <module>helloworld-html5</module>
                 <module>helloworld-jdg</module>
                 <module>helloworld-jms</module>
@@ -199,31 +162,21 @@
                 <module>helloworld-ws</module>
                 <module>hibernate3</module>
                 <module>hibernate4</module>
-                <module>hotrod-endpoint</module>
                 <module>kitchensink</module>
                 <module>kitchensink-angularjs</module>
-                <module>kitchensink-deltaspike</module>
                 <module>kitchensink-ear</module>
                 <module>kitchensink-html5-mobile</module>
                 <module>kitchensink-jsp</module>
                 <module>kitchensink-ml</module>
                 <module>kitchensink-ml-ear</module>
-                <module>kitchensink-rf</module>
-                <module>log4j</module>
                 <module>logging-tools</module>
                 <module>mail</module>
-                <module>memcached-endpoint</module>
                 <module>numberguess</module>
                 <module>payment-cdi-event</module>
-                <module>rest-endpoint</module>
-                <module>richfaces-validation</module>
                 <module>servlet-async</module>
                 <module>servlet-filterlistener</module>
                 <module>servlet-security</module>
                 <module>shopping-cart</module>
-                <module>tasks</module>
-                <module>tasks-jsf</module>
-                <module>tasks-rs</module>
                 <module>temperature-converter</module>
                 <module>wicket-ear</module>
                 <module>wicket-war</module>
@@ -260,8 +213,7 @@
                 <module>cluster-ha-singleton</module>
                 <module>jax-rs-client</module>
                 <module>jts</module>
-                <module>inter-app</module>
-                <module>ejb-security-plus</module>
+                <module>inter-app</module>                
             </modules>
         </profile>
         <profile>
@@ -304,9 +256,7 @@
                 <activeByDefault>false</activeByDefault>
             </activation>
             <modules>
-                <module>forge-from-scratch</module>
                 <module>h2-console</module>
-                <module>kitchensink-cordova</module>
                 <module>jts-distributed-crash-rec</module>
             </modules>
         </profile>

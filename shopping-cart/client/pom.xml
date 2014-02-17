@@ -23,7 +23,6 @@
         <groupId>org.wildfly.quickstarts</groupId>
         <artifactId>wildfly-shoppingcart-parent</artifactId>
         <version>8.0.0-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>wildfly-shoppingcart-client</artifactId>
@@ -55,7 +54,7 @@
             <scope>runtime</scope>
             <type>pom</type>
         </dependency>
-
+        
         <!--  Import the Java EJB API, as we use exceptions from it -->
         <dependency>
             <groupId>org.jboss.spec.javax.ejb</groupId>
@@ -67,6 +66,15 @@
     <build>
         <finalName>${project.artifactId}</finalName>
         <plugins>
+            <!-- Enforce Java 1.6 -->
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${version.compiler.plugin}</version>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                </configuration>
+            </plugin>
 
             <!-- Add the maven exec plugin to allow us to run a java program 
                 via maven -->

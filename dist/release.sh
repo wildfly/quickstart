@@ -69,7 +69,7 @@ release()
 {
    echo "Regenerating html from markdown"
    $DIR/release-utils.sh -m
-   echo "Releasing JBoss AS Quickstarts version $RELEASEVERSION"
+   echo "Releasing WildFly Quickstarts version $RELEASEVERSION"
    $DIR/release-utils.sh -u -o $SNAPSHOTVERSION -n $RELEASEVERSION
    git commit -a -m "Prepare for $RELEASEVERSION release"
    git tag -a $RELEASEVERSION -m "Tag $RELEASEVERSION"
@@ -81,8 +81,8 @@ release()
    git checkout $RELEASEVERSION
    mvn clean install -f $DIR/pom.xml
    git checkout $BRANCH
-   echo "Uploading distribution to http://download.jboss.org/jbossas/$MAJOR_VERSION.$MINOR_VERSION/jboss-as-$RELEASEVERSION/jboss-as-quickstarts-$RELEASEVERSION-dist.zip"
-   rsync -Pv --protocol=28 $DIR/target/jboss-as-quickstarts-$RELEASEVERSION-dist.zip jbossas@filemgmt.jboss.org:downloads_htdocs/jbossas/$MAJOR_VERSION.$MINOR_VERSION/jboss-as-$RELEASEVERSION/
+   echo "Uploading distribution to http://download.jboss.org/jbossas/$MAJOR_VERSION.$MINOR_VERSION/wildfly-$RELEASEVERSION/wildfly-quickstarts-$RELEASEVERSION-dist.zip"
+   rsync -Pv --protocol=28 $DIR/target/wildfly-quickstarts-$RELEASEVERSION-dist.zip jbossas@filemgmt.jboss.org:downloads_htdocs/jbossas/$MAJOR_VERSION.$MINOR_VERSION/wildfly-$RELEASEVERSION/
    read -p "Do you want to send release notifcations to $EAP_EMAIL_TO[y/N]?" yn
    case $yn in
        [Yy]* ) notify_email;;

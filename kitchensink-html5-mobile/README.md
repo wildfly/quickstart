@@ -5,7 +5,7 @@ Level: Beginner
 Technologies: CDI, HTML5, REST
 Summary: Based on kitchensink, but uses HTML5, making it suitable for mobile and tablet computers
 Target Product: WFK
-Source: https://github.com/jboss-jdf/jboss-as-quickstart
+Source: https://github.com/jboss-jdf/wildfly-quickstart
 
 What is it?
 -----------
@@ -21,7 +21,7 @@ System requirements
 
 All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven 3.0 or better.
 
-The application this project produces is designed to be run on WildFly 8 or WildFly 8.
+The application this project produces is designed to be run on JBoss WildFly.
 
 An HTML5 compatible browser such as Chrome, Safari 5+, Firefox 5+, or IE 9+ are required. and note that some behaviors will vary slightly (ex. validations) based on browser support, especially IE 9.
 
@@ -56,17 +56,13 @@ You can now deploy the artifact by executing the following command:
 
     mvn wildfly:deploy
 
-The client application will be running at the following URL <http://localhost:8080/jboss-as-kitchensink-html5-mobile/>.
+The client application will be running at the following URL <http://localhost:8080/wildfly-kitchensink-html5-mobile/>.
 
 To undeploy run this command:
 
     mvn wildfly:undeploy
 
-You can also start the JBoss container and deploy the project using JBoss Tools. See the <a href="http://www.jboss.org/jdf/quickstarts/jboss-as-quickstart/guide/Introduction/" title="Getting Started Developing Applications Guide">Getting Started Developing Applications Guide</a> for more information.
-
-### Deploying to OpenShift
-
-You can also deploy the application directly to OpenShift, Red Hat's cloud based PaaS offering, follow the instructions [here](https://community.jboss.org/wiki/DeployingHTML5ApplicationsToOpenshift)
+You can also start the JBoss container and deploy the project using JBoss Tools. See the <a href="https://github.com/wildfly/quickstart/guide/Introduction/" title="Getting Started Developing Applications Guide">Getting Started Developing Applications Guide</a> for more information.
 
 Minification
 ============================
@@ -87,7 +83,7 @@ NOTE: You must either specify the default profile for no tests or the arquillian
 OR
 
     #With Tests
-    mvn clean package wildfly:deploy -Pminify,arq-jbossas-remote
+    mvn clean package wildfly:deploy -Pminify,arq-wildfly-remote
  
 Running the Arquillian tests
 ============================
@@ -96,7 +92,7 @@ By default, tests are configured to be skipped. The reason is that the sample te
 
 To run the test in JBoss, first start the container instance. Then, run the test goal with the following profile activated:
 
-    mvn clean test -Parq-jbossas-remote
+    mvn clean test -Parq-wildfly-remote
 
 Running the QUnit tests
 ============================
@@ -112,7 +108,7 @@ Importing the project into an IDE
 
 If you created the project using the Maven archetype wizard in your IDE (Eclipse, NetBeans or IntelliJ IDEA), then there is nothing to do. You should already have an IDE project.
 
-Detailed instructions for using Eclipse / JBoss Tools with are provided in the <a href="http://www.jboss.org/jdf/quickstarts/jboss-as-quickstart/guide/Introduction/" title="Getting Started Developing Applications Guide">Getting Started Developing Applications Guide</a>.
+Detailed instructions for using Eclipse / JBoss Tools with are provided in the <a href="https://github.com/wildfly/quickstart/guide/Introduction/" title="Getting Started Developing Applications Guide">Getting Started Developing Applications Guide</a>.
 
 If you created the project from the command line using archetype:generate, then you need to import the project into your IDE. If you are using NetBeans 6.8 or IntelliJ IDEA 9, then all you have to do is open the project as an existing project. Both of these IDEs recognize Maven projects natively.
 

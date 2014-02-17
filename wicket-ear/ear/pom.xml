@@ -23,7 +23,6 @@
         <groupId>org.wildfly.quickstarts</groupId>
         <artifactId>wildfly-wicket-ear-parent</artifactId>
         <version>8.0.0-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>wildfly-wicket-ear-ear</artifactId>
@@ -70,20 +69,20 @@
                         automatically have any modules (EJB-JARs and WARs) use them -->
                     <defaultLibBundleDir>lib</defaultLibBundleDir>
                     <modules>
-                        <!-- Default context root of the web app is /jboss-as-wicket-ear-web. 
+                        <!-- Default context root of the web app is /wildfly-wicket-ear-web.
                             If a custom context root is needed, uncomment the following snippet to register 
                             our War as a web module and set the contextRoot property -->
                         <!-- <webModule> -->
                         <!-- <groupId>org.wildfly.quickstarts</groupId> -->
                         <!-- <artifactId>wildfly-wicket-ear-web</artifactId> -->
-                        <!-- <contextRoot>/jboss-as-wicket</contextRoot> -->
+                        <!-- <contextRoot>/wildfly-wicket</contextRoot> -->
                         <!-- </webModule> -->
                     </modules>
                     <fileNameMapping>no-version</fileNameMapping>
                 </configuration>
             </plugin>
 
-            <!-- Enable JBoss AS plugin - only applicable for the EAR package. -->
+            <!-- Enable WildFly plugin - only applicable for the EAR package. -->
             <plugin>
                 <groupId>org.wildfly.plugins</groupId>
                 <artifactId>wildfly-maven-plugin</artifactId>

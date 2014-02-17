@@ -4,8 +4,8 @@ Author: Wolf-Dieter Fink
 Level: Advanced
 Technologies: EJB, HASingleton, JNDI
 Summary: A SingletonService deployed in a JAR started by SingletonStartup and accessed by an EJB
-Target Product: EAP
-Source: <https://github.com/jboss-jdf/jboss-as-quickstart/>
+Target Project: WildFly
+Source: <https://github.com/wildfly/quickstart/>
 
 What is it?
 -----------
@@ -26,7 +26,7 @@ System requirements
 
 All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven 3.0 or better.
 
-The application this project produces is designed to be run on WildFly 8.
+The application this project produces is designed to be run on JBoss WildFly.
 
  
 Configure Maven
@@ -37,7 +37,7 @@ You can copy or link to the Maven configuration information in the README file i
 If you have not yet done so, you must [Configure Maven](../README.md#mavenconfiguration) before testing the quickstarts.
 
 
-Start WildFly 8 with a HA profile
+Start JBoss WildFly with a HA profile
 -------------------------
 
 If you run a non HA profile the singleton service will not start correctly. To run the example one instance must be started, to see the singleton behaviour at minimum two instances
@@ -58,12 +58,12 @@ _NOTE: The following build command assumes you have configured your Maven user s
 
         mvn clean install wildfly:deploy
 
-4. This will deploy `service/target/jboss-as-cluster-ha-singleton-service.jar` to the running instance of the server.
+4. This will deploy `service/target/wildfly-cluster-ha-singleton-service.jar` to the running instance of the server.
 5. Type this command to deploy the archive to the second server (or more) and replace the port, depending on your settings:
 
-        mvn wildfly:deploy -Djboss-as.port=10099
+        mvn wildfly:deploy -Dwildfly.port=10090
 
-6. This will deploy `service/target/jboss-as-cluster-ha-singleton-service.jar` to the running instance of the additional server.
+6. This will deploy `service/target/wildfly-cluster-ha-singleton-service.jar` to the running instance of the additional server.
  
 Check whether the application is deployed on each instance.
 All instances will have a message:
@@ -105,7 +105,7 @@ Undeploy the Archive
 3. When you are finished testing, type this command to undeploy the archive:
 
         mvn wildfly:undeploy
-        mvn wildfly:undeploy -Djboss-as.port=10099
+        mvn wildfly:undeploy -Dwildfly.port=10090
 
 
 Run the Quickstart in JBoss Developer Studio or Eclipse

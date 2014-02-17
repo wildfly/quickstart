@@ -21,14 +21,13 @@
 
     <artifactId>wildfly-ejb-asynchronous-ejb</artifactId>
     <name>WildFly Quickstarts: Asynchronous method invocations (EJB Jar)</name>
-    <description>jboss-as-ejb-asynchronous: The application jar with an asynchronous EJB and a second EJB to demonstrate how an EJB can be used asynchronous</description>
+    <description>wildfly-ejb-asynchronous: The application jar with an asynchronous EJB and a second EJB to demonstrate how an EJB can be used asynchronous</description>
     <packaging>ejb</packaging>
-
+    
     <parent>
         <groupId>org.wildfly.quickstarts</groupId>
         <artifactId>wildfly-ejb-asynchronous</artifactId>
         <version>8.0.0-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <licenses>
@@ -38,6 +37,14 @@
             <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
         </license>
     </licenses>
+    
+    <dependencies>
+        <dependency>
+            <groupId>org.jboss.spec.javax.ejb</groupId>
+            <artifactId>jboss-ejb-api_3.2_spec</artifactId>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
 
     <build>
         <finalName>${project.artifactId}</finalName>
@@ -48,7 +55,7 @@
                 <version>${version.ejb.plugin}</version>
                 <configuration>
                     <!-- set the EJB version to 3.1 -->
-                    <ejbVersion>3.2</ejbVersion>
+                    <ejbVersion>3.1</ejbVersion>
                     <!-- Inform Maven we need a client jar -->
                     <generateClient>true</generateClient>
                     <archive>
@@ -56,8 +63,8 @@
                     </archive>
                 </configuration>
             </plugin>
-
-            <!-- JBoss AS plugin to deploy jar -->
+            
+            <!-- WildFly plugin to deploy jar -->
             <plugin>
                 <groupId>org.wildfly.plugins</groupId>
                 <artifactId>wildfly-maven-plugin</artifactId>

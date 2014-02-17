@@ -16,35 +16,53 @@
     limitations under the License.
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>org.wildfly.quickstarts</groupId>
-        <artifactId>wildfly-quickstarts-parent</artifactId>
-        <version>8.0.0-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
-    </parent>
+    <groupId>org.wildfly.quickstarts</groupId>
     <name>WildFly Quickstarts: JAX-RS Client</name>
     <description>jax-rs-client: Demonstrates the use an external JAX-RS RestEasy client</description>
     <artifactId>wildfly-jax-rs-client</artifactId>
+    <version>8.0.0-SNAPSHOT</version>
 
 
     <url>http://wildfly.org</url>
 
     <licenses>
-        <license>
-            <name>Apache License, Version 2.0</name>
-            <distribution>repo</distribution>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
-        </license>
+      <license>
+        <name>Apache License, Version 2.0</name>
+        <distribution>repo</distribution>
+        <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+      </license>
     </licenses>
+    
+    <properties>
+        <!-- Explicitly declaring the source encoding eliminates the following 
+            message: -->
+        <!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered 
+            resources, i.e. build is platform dependent! -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <!-- JBoss dependency versions -->
+        
+        <!-- Define the version of the JBoss BOMs we want to import to specify tested stacks. -->
+        <version.jboss.bom>8.0.0-SNAPSHOT</version.jboss.bom>
+
+        <!-- other plugin versions -->
+        <version.compiler.plugin>2.3.1</version.compiler.plugin>
+        <version.surefire.plugin>2.4.3</version.surefire.plugin>
+        <version.war.plugin>2.1.1</version.war.plugin>
+
+        <!-- maven-compiler-plugin -->
+        <maven.compiler.target>1.6</maven.compiler.target>
+        <maven.compiler.source>1.6</maven.compiler.source>
+    </properties>
 
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>org.jboss.bom</groupId>
-                <artifactId>jboss-javaee-6.0-with-resteasy</artifactId>
+                <groupId>org.wildfly.bom</groupId>
+                <artifactId>jboss-javaee-7.0-with-resteasy</artifactId>
                 <version>${version.jboss.bom}</version>
                 <scope>import</scope>
                 <type>pom</type>
@@ -62,14 +80,19 @@
             <groupId>org.jboss.resteasy</groupId>
             <artifactId>resteasy-jaxrs</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpcore</artifactId>
-            <version>${version.org.apache.httpcomponents}</version>
-        </dependency>
     </dependencies>
     <build>
         <plugins>
+            <!-- Maven compiler plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${version.compiler.plugin}</version>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                </configuration>
+            </plugin>
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${version.surefire.plugin}</version>
@@ -77,16 +100,16 @@
                     <systemProperties>
                         <property>
                             <name>xmlUrl</name>
-                            <value>http://localhost:8080/jboss-as-helloworld-rs/rest/xml</value>
+                            <value>http://localhost:8080/wildfly-helloworld-rs/rest/xml</value>
                         </property>
                         <property>
                             <name>jsonUrl</name>
-                            <value>http://localhost:8080/jboss-as-helloworld-rs/rest/json</value>
+                            <value>http://localhost:8080/wildfly-helloworld-rs/rest/json</value>
                         </property>
                     </systemProperties>
                 </configuration>
             </plugin>
         </plugins>
     </build>
-
+    
 </project>

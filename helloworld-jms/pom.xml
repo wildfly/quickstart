@@ -19,13 +19,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>org.wildfly.quickstarts</groupId>
-        <artifactId>wildfly-quickstarts-parent</artifactId>
-        <version>8.0.0-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
-    </parent>
+    <groupId>org.wildfly.quickstarts</groupId>
     <artifactId>wildfly-helloworld-jms</artifactId>
+    <version>8.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>WildFly Quickstarts: helloworld-jms</name>
     <description>helloworld-jms: Helloworld JMS external producer/consumer client</description>
@@ -38,6 +34,28 @@
             <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
         </license>
     </licenses>
+
+    <properties>
+        <!-- Explicitly declaring the source encoding eliminates the following message: -->
+        <!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered 
+            resources, i.e. build is platform dependent! -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <!-- JBoss dependency versions -->
+
+        <version.wildfly.maven.plugin>1.0.0.Final</version.wildfly.maven.plugin>
+
+        <version.wildfly>8.0.0.Final-SNAPSHOT</version.wildfly>
+
+        <!-- other plugin versions -->
+        <version.compiler.plugin>2.3.1</version.compiler.plugin>
+        <version.jar.plugin>2.2</version.jar.plugin>
+        <version.exec.plugin>1.1.1</version.exec.plugin>
+
+        <!-- maven-compiler-plugin -->
+        <maven.compiler.target>1.6</maven.compiler.target>
+        <maven.compiler.source>1.6</maven.compiler.source>
+    </properties>
 
     <dependencies>
         <dependency>
@@ -95,7 +113,13 @@
                     </systemProperties>
                 </configuration>
             </plugin>
-            <!-- JBoss AS plugin to deploy war -->
+            <plugin>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>${version.jar.plugin}</version>
+                <configuration>
+                </configuration>
+            </plugin>
+            <!-- WildFly plugin to deploy war -->
             <plugin>
                 <groupId>org.wildfly.plugins</groupId>
                 <artifactId>wildfly-maven-plugin</artifactId>
@@ -103,6 +127,16 @@
                 <configuration>
                     <username>admin</username>
                     <password>admin</password>
+                </configuration>
+            </plugin>
+            <!-- Compiler plugin enforces Java 1.6 compatibility and activates 
+                annotation processors -->
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${version.compiler.plugin}</version>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
                 </configuration>
             </plugin>
         </plugins>

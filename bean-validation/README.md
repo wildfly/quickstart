@@ -4,8 +4,8 @@ Author: Karel Piwko
 Level: Beginner
 Technologies: Bean Validation, JPA
 Summary: Shows how to use Arquillian to test Bean Validation
-Target Product: EAP
-Source: <https://github.com/jboss-jdf/jboss-as-quickstart/>
+Target Project: WildFly
+Source: <https://github.com/wildfly/quickstart/>
 
 What is it?
 -----------
@@ -20,7 +20,7 @@ System requirements
 
 All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven 3.0 or better.
 
-The application this project produces is designed to be run on WildFly 8.
+The application this project produces is designed to be run on JBoss WildFly.
 
  
 Configure Maven
@@ -29,7 +29,7 @@ Configure Maven
 If you have not yet done so, you must [Configure Maven](../README.md#mavenconfiguration) before testing the quickstarts.
 
 
-Start WildFly 8 with the Web Profile
+Start JBoss WildFly with the Web Profile
 -------------------------
 
 1. Open a command line and navigate to the root of the JBoss server directory.
@@ -50,7 +50,7 @@ _NOTE: The following commands assume you have configured your Maven user setting
 2. Open a command line and navigate to the root directory of this quickstart.
 3. Type the following command to run the test goal with the following profile activated:
 
-        mvn clean test -Parq-jbossas-remote 
+        mvn clean test -Parq-wildfly-remote
 
 
 Investigate the Console Output

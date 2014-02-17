@@ -29,7 +29,6 @@ All you need to build this project is Java 7.0 (Java SDK 1.7) or better, Maven 3
 
 The application this project produces is designed to be run on WildFly 8.
 
-
 Configure Maven
 ---------------
 
@@ -41,10 +40,8 @@ Add an Application User
 This quickstart uses secured management interfaces and requires that you create an application user to access the running application. Instructions to set up the quickstart application user can be found here: [Add an Application User](../README.md#add-a-management-or-application-user)
 
 
-Configure the WildFly 8 server
+Configure the JBoss WildFly server
 ---------------------------
-
-If you are using the WildFly 8 Quickstart distribution, the server configuration file already contains the JMS `test` queue and you can skip this step.
 
 _NOTE - Before you begin:_
 
@@ -125,9 +122,7 @@ To run the quickstart from the command line:
 
 3. Type the following command to compile and execute the quickstart:
 
-        For WidFly 8 (Maven user settings configured):
-
-            mvn clean compile exec:java
+        mvn clean compile exec:java
 
 
 Investigate the Console Output

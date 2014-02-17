@@ -4,13 +4,13 @@ Author: Paul Robinson
 Level: Intermediate
 Technologies: EJB, JSF, WAR
 Summary: Packages an EJB JAR in a WAR
-Target Product: EAP
-Source: <https://github.com/jboss-jdf/jboss-as-quickstart/>
+Target Project: WildFly
+Source: <https://github.com/wildfly/quickstart/>
 
 What is it?
 -----------
 
-This example demonstrates the deployment of an *EJB 3.1* bean bundled in a war archive for deployment to *WildFly 8* or *WildFly 8*. The project also includes a set of Aquillian tests for the managed bean and EJB.
+This example demonstrates the deployment of an *EJB 3.1* bean bundled in a war archive for deployment to *JBoss WildFly*. The project also includes a set of Aquillian tests for the managed bean and EJB.
 
 The example follows the common "Hello World" pattern. These are the steps that occur:
 
@@ -25,7 +25,7 @@ System requirements
 
 All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven 3.0 or better.
 
-The application this project produces is designed to be run on WildFly 8.
+The application this project produces is designed to be run on JBoss WildFly.
 
 
 Configure Maven 
@@ -34,7 +34,7 @@ Configure Maven
 If you have not yet done so, you must [Configure Maven](../README.md#mavenconfiguration) before testing the quickstarts.
 
 
-Start WildFly 8 with the Web Profile
+Start JBoss WildFly with the Web Profile
 -------------------------
 
 1. Open a command line and navigate to the root of the JBoss server directory.
@@ -55,13 +55,13 @@ _NOTE: The following build command assumes you have configured your Maven user s
 
         mvn clean package wildfly:deploy
 
-4. This will deploy `target/jboss-as-ejb-in-war.war` to the running instance of the server.
+4. This will deploy `target/wildfly-ejb-in-war.war` to the running instance of the server.
  
 
 Access the application 
 ---------------------
 
-The application will be running at the following URL <http://localhost:8080/jboss-as-ejb-in-war>.
+The application will be running at the following URL <http://localhost:8080/wildfly-ejb-in-war>.
 
 
 Undeploy the Archive
@@ -85,7 +85,7 @@ _NOTE: The following commands assume you have configured your Maven user setting
 2. Open a command line and navigate to the root directory of this quickstart.
 3. Type the following command to run the test goal with the following profile activated:
 
-        mvn clean test -Parq-jbossas-remote 
+        mvn clean test -Parq-wildfly-remote
 
 
 Investigate the Console Output

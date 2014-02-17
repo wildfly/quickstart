@@ -31,7 +31,6 @@ import org.infinispan.transaction.LockingMode;
 import org.infinispan.transaction.TransactionMode;
 import org.infinispan.transaction.lookup.GenericTransactionManagerLookup;
 import org.infinispan.util.concurrent.IsolationLevel;
-import org.jboss.as.quickstarts.datagrid.carmart.session.CacheContainerProvider;
 
 /**
  * {@link CacheContainerProvider}'s implementation creating a DefaultCacheManager 
@@ -64,7 +63,7 @@ public class JBossASCacheContainerProvider implements CacheContainerProvider {
                 .lockingMode(LockingMode.OPTIMISTIC).transactionManagerLookup(new GenericTransactionManagerLookup()) //uses GenericTransactionManagerLookup - This is a lookup class that locate transaction managers in the most  popular Java EE application servers. If no transaction manager can be found, it defaults on the dummy transaction manager.
                 .locking().isolationLevel(IsolationLevel.REPEATABLE_READ) //Sets the isolation level of locking
                 .eviction().maxEntries(4).strategy(EvictionStrategy.LIRS) //Sets  4 as maximum number of entries in a cache instance and uses the LIRS strategy - an efficient low inter-reference recency set replacement policy to improve buffer cache performance
-                .loaders().passivation(false).addFileCacheStore().purgeOnStartup(true) //Disable passivation and adds a FileCacheStore that is purged on Startup
+                .persistence().passivation(false).addSingleFileStore().purgeOnStartup(true) //Disable passivation and adds a FileCacheStore that is purged on Startup
                 .build(); //Builds the Configuration object
             manager = new DefaultCacheManager(glob, loc, true);
             log.info("=== Using DefaultCacheManager (library mode) ===");

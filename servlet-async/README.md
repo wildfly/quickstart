@@ -4,8 +4,8 @@ Author: Christian Sadilek
 Level: Intermediate
 Technologies: Servlet, CDI, EJB
 Summary: Demonstrates CDI, plus asynchronous Servlets and EJBs
-Target Product: EAP
-Source: <https://github.com/jboss-jdf/jboss-as-quickstart/>
+Target Project: WildFly
+Source: <https://github.com/wildfly/quickstart/>
 
 What is it?
 -----------
@@ -27,7 +27,7 @@ System requirements
 
 All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven 3.0 or better.
 
-The application this project produces is designed to be run on WildFly 8.
+The application this project produces is designed to be run on JBoss WildFly.
 
 
 Configure Maven
@@ -36,7 +36,7 @@ Configure Maven
 If you have not yet done so, you must [Configure Maven](../README.md#mavenconfiguration) before testing the quickstarts.
 
 
-Start WildFly 8 with the Web Profile
+Start JBoss WildFly with the Web Profile
 -------------------------
 
 1. Open a command line and navigate to the root of the JBoss server directory.
@@ -57,13 +57,13 @@ _NOTE: The following build command assumes you have configured your Maven user s
 
         mvn clean package wildfly:deploy
 
-4. This will deploy `target/jboss-as-servlet-async.war` to the running instance of the server.
+4. This will deploy `target/wildfly-servlet-async.war` to the running instance of the server.
 
 
 Access the application 
 ---------------------
 
-The application will be running at the following URL <http://localhost:8080/jboss-as-servlet-async/>.
+The application will be running at the following URL <http://localhost:8080/wildfly-servlet-async/>.
 
 
 Undeploy the Archive

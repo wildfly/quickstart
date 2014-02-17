@@ -81,7 +81,7 @@ public class WSATSimpleServletClient extends HttpServlet {
         resp.setContentType("text/html");
         PrintWriter out = resp.getWriter();
 
-        out.write("<h1>Quickstart: This example demonstrates the deployment of a WS-AT (WS-AtomicTransaction) enabled JAX-WS Web service bundled in a war archive for deployment to *WildFly 8*.</h1>");
+        out.write("<h1>Quickstart: This example demonstrates the deployment of a WS-AT (WS-AtomicTransaction) enabled JAX-WS Web service bundled in a war archive for deployment to *JBoss WildFly*.</h1>");
 
         System.out.println("[CLIENT] Creating a new WS-AT User Transaction");
         UserTransaction ut = UserTransactionFactory.userTransaction();
@@ -94,7 +94,7 @@ public class WSATSimpleServletClient extends HttpServlet {
             System.out.println("[CLIENT] committing Atomic Transaction (This will cause the AT to complete successfully)");
             ut.commit();
 
-            out.write("<p><i>Go to your JBoss Application Server console or Server log to see the result of the transaction</i></p>");
+            out.write("<p><i>Go to your WildFly console or Server log to see the result of the transaction</i></p>");
 
         } catch (Exception e) {
             e.printStackTrace();

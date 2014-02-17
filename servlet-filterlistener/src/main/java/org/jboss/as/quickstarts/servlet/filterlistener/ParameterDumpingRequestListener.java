@@ -39,7 +39,7 @@ public class ParameterDumpingRequestListener implements ServletRequestListener {
         Map<String, String[]> paramMap = sre.getServletRequest().getParameterMap();
         ServletContext servletContext = sre.getServletContext();
 
-        // to see log messages at runtime, check the terminal window where you started JBoss AS.
+        // to see log messages at runtime, check the terminal window where you started WildFly.
         servletContext.log("ParameterDumpingRequestListener: request has been initialized. It has " + paramMap.size()
                 + " parameters:");
         for (Map.Entry<String, String[]> entry : paramMap.entrySet()) {

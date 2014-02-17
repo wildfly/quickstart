@@ -4,8 +4,8 @@ Author: Wolf-Dieter Fink
 Level: Advanced
 Technologies: EJB 
 Summary: Demonstrates asynchronous EJB invocations.
-Target Product: EAP
-Source: <https://github.com/jboss-jdf/jboss-as-quickstart/>
+Target Project: WildFly
+Source: <https://github.com/wildfly/quickstart/>
 
 What is it?
 -----------
@@ -25,7 +25,7 @@ System requirements
 
 All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven 3.0 or better.
 
-The application this project produces is designed to be run on WildFly 8.
+The application this project produces is designed to be run on JBoss WildFly.
 
  
 Configure Maven
@@ -36,7 +36,7 @@ You can copy or link to the Maven configuration information in the README file i
 If you have not yet done so, you must [Configure Maven](../README.md#mavenconfiguration) before testing the quickstarts.
 
 
-Start WildFly 8
+Start JBoss WildFly
 -------------------------
 
 Start a server instance
@@ -53,7 +53,7 @@ _NOTE: The following build command assumes you have configured your Maven user s
 3. Type this command to build and deploy the archive:
 
         mvn clean install wildfly:deploy
-4. This will deploy `service/target/jboss-as-ejb-asynchronous.jar` to the running instance of the server.
+4. This will deploy `service/target/wildfly-ejb-asynchronous.jar` to the running instance of the server.
  
 Check whether the application is deployed successfully.
 
@@ -84,7 +84,7 @@ Access the application
 
           action 'fireAndForget' finished
 
-_NOTE: In AS7.1.1.Final there is a bug that an ERROR will be logged that the result can not be written._
+_NOTE: In WildFly 8 there is a bug that an ERROR will be logged that the result can not be written._
 
 
 Undeploy the Archive

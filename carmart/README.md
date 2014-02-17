@@ -5,7 +5,7 @@ Level: Intermediate
 Technologies: Infinispan, CDI
 Summary: Shows how to use Infinispan instead of a relational database.
 Target Product: JDG
-Source: <https://github.com/infinispan/jdg-quickstart>
+Source: <https://github.com/wildfly/quickstart>
 
 What is it?
 -----------
@@ -14,19 +14,14 @@ CarMart is a simple web application that uses Infinispan Cache instead of a rela
 
 Users can list cars, add new cars, or remove them from the CarMart. Information about each car is stored in a cache. The application also shows cache statistics like stores, hits, retrievals, and more.
 
-The CarMart quickstart can work in two modes: 
-
-* _Library mode_  - In this mode, the application and the data grid are running in the same JVM. All libraries (JAR files) are bundled with the application and deployed to WildFly 8.  The library usage mode only allows local access to a single node in a distributed cluster. This usage mode gives the application access to data grid functionality within a virtual machine in the container being used.
-
-* _Client-server mode_ - In this mode, the Cache is stored in  a managed, distributed and clusterable data grid server.  Applications can remotely access the data grid server using Hot Rod, memcached or REST client APIs. This web application bundles only the HotRod client and communicates with a remote JBoss Data Grid (JDG) server. The JDG server is configured via the `standalone.xml` configuration file.
-
+The CarMart quickstart application and the data grid run in the same JVM. All libraries (JAR files) are bundled with the application and deployed to JBoss WildFly.  The library usage mode only allows local access to a single node in a distributed cluster. This usage mode gives the application access to data grid functionality within a virtual machine in the container being used.
 
 System requirements
 -------------------
 
 All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven 3.0 or better.
 
-The application this project produces is designed to be run on WildFly 8.
+The application this project produces is designed to be run on JBoss WildFly.
 
  
 Configure Maven
@@ -35,7 +30,7 @@ Configure Maven
 If you have not yet done so, you must [Configure Maven](../README.md#configure-maven-) before testing the quickstarts.
 
 
-Start WildFly 8
+Start JBoss WildFly
 -----------------------------------------------------------
 
 1. Open a command line and navigate to the root of the JBoss server directory.
@@ -56,13 +51,13 @@ _NOTE: The following build command assumes you have configured your Maven user s
 
         mvn clean package wildfly:deploy
         
-4. This will deploy `target/jboss-as-carmart.war` to the running instance of the server.
+4. This will deploy `target/wildfly-carmart.war` to the running instance of the server.
  
 
 Access the application
 ---------------------
 
-The application will be running at the following URL: <http://localhost:8080/jboss-as-carmart/>
+The application will be running at the following URL: <http://localhost:8080/wildfly-carmart/>
 
 
 Undeploy the Archive
@@ -82,47 +77,3 @@ If you want to debug the source code or look at the Javadocs of any library in t
 
         mvn dependency:sources
         mvn dependency:resolve -Dclassifier=javadoc
-
-
-Build and Start the Application in Client-server Mode (using the HotRod client)
----------------------------------------------------------------------------------
-
-NOTE: The application must be deployed to WildFly 8. It can not be deployed to JDG since it does not support deployment of applications.
-
-1. Obtain the JDG server distribution. See the following for more information: <http://www.redhat.com/products/jbossenterprisemiddleware/data-grid/>
-
-2. Configure the remote datagrid in the `$JDG_HOME/standalone/configuration/standalone.xml` file. Copy the following XML into the Infinispan subsystem before the ending </cache-container> tag. If you have an existing `carcache` element, be sure to replace it with this one.
-       
-            <local-cache name="carcache" start="EAGER" batching="false" indexing="NONE">
-                <locking isolation="REPEATABLE_READ" striping="false" acquire-timeout="20000" concurrency-level="500"/>
-                <eviction strategy="LIRS" max-entries="4"/>
-            </local-cache>
-   
-3. Start the JDG server using on localhost 100 on port offset: 
-    
-        $JDG_HOME/bin/standalone.sh -Djboss.socket.binding.port-offset=100
-
-4. Start WildFly 8 into which you want to deploy your application
-
-        $JBOSS_HOME/bin/standalone.sh
-
-5. The application finds the JDG server using the values in the src/main/resources/META-INF/JDG.properties file. If you are not running the JDG server on the default host and port, you must modify this file to contain the correct values. If you need to change the JDG address:port information, edit src/main/resources/META-INF/JDG.properties file and specify address and port of the JDG server
-
-        datagrid.host=localhost
-        datagrid.hotrod.port=11322
-
-6. Build the application in the example's directory:
-
-        mvn clean package -Premote
-
-7. Deploy the application
-
-        mvn wildfly:deploy -Premote
-
-8. The application will be running at the following URL: <http://localhost:8080/jboss-as-carmart/>
-
-9. Undeploy the application
-
-        mvn wildfly:undeploy -Premote
-
-

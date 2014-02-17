@@ -18,14 +18,14 @@
 <cheatsheet title="EJB 3.1 Message-Driven Bean + Servlet 3.0 - HelloWorldMDB">
     <intro>
         <description>
-            This quickstart shows you how to deploy a simple EJB 3.1 Message-Driven Bean to JBoss AS. We use here a Servlet 3.0
+            This quickstart shows you how to deploy a simple EJB 3.1 Message-Driven Bean to WildFly. We use here a Servlet 3.0
             as Client to send several messages to the queue.
             <br />
             <br />
             <b> EJB 3.1 Message-Driven Bean</b>
             <br />
             <br />
-            Message-Driven Bean (MDB) is an enterprise bean that can be used in an Java EE 7 application to process
+            Message-Driven Bean (MDB) is an enterprise bean that can be used in an Java EE 6 application to process
             asynchronously messages coming from a specific queue. it acts as a JMS message Listener.
             <br />
             <br />
@@ -65,7 +65,7 @@
             <br />
             on the log console.
             For sending message uses this url
-            <b>http://localhost:8080//jboss-as-helloworld-mdb/HelloWorldMDBServletClient</b>
+            <b>http://localhost:8080//wildfly-helloworld-mdb/HelloWorldMDBServletClient</b>
             .
         </description>
     </item>
@@ -77,26 +77,26 @@
             label="If you've used Servlet before, then you'll remember having to use xml to register your servlets. Fortunately, this is a thing of the past. Now all you need to do is add the @WebServlet annotation, and provide a mapping to a URL used to access the servlet. Much cleaner!"
             skip="true">
             <action pluginId="org.jboss.tools.project.examples.cheatsheet" class="org.jboss.tools.project.examples.cheatsheet.actions.OpenFileInEditor"
-                param1="/jboss-as-helloworld-mdb/src/main/java/org/jboss/as/quickstarts/servlet/HelloWorldMDBServletClient.java" />
+                param1="/wildfly-helloworld-mdb/src/main/java/org/jboss/as/quickstarts/servlet/HelloWorldMDBServletClient.java" />
         </subitem>
         <subitem label="We Create message-driven bean to process messages from the queue." skip="true">
             <action pluginId="org.jboss.tools.project.examples.cheatsheet" class="org.jboss.tools.project.examples.cheatsheet.actions.OpenFileInEditor"
-                param1="/jboss-as-helloworld-mdb/src/main/java/org/jboss/as/quickstarts/mdb/HelloWorldQueueMDB.java" />
+                param1="/wildfly-helloworld-mdb/src/main/java/org/jboss/as/quickstarts/mdb/HelloWorldQueueMDB.java" />
         </subitem>
         <subitem label="We Create message-driven bean to process messages from the topic." skip="true">
             <action pluginId="org.jboss.tools.project.examples.cheatsheet" class="org.jboss.tools.project.examples.cheatsheet.actions.OpenFileInEditor"
-                param1="/jboss-as-helloworld-mdb/src/main/java/org/jboss/as/quickstarts/mdb/HelloWorldTopicMDB.java" />
+                param1="/wildfly-helloworld-mdb/src/main/java/org/jboss/as/quickstarts/mdb/HelloWorldTopicMDB.java" />
         </subitem>
     </item>
     <item skip="true" title="Run and deploy the application">
         <description>
-            Right-click the jboss-as-helloworld-mdb project and select
+            Right-click the wildfly-helloworld-mdb project and select
             <b>Run As</b>
             &gt;
             <b>Run On Server</b>
             or click on the &quot;Click to Perform&quot; link below.
         </description>
         <action pluginId="org.jboss.tools.project.examples.cheatsheet" class="org.jboss.tools.project.examples.cheatsheet.actions.RunOnServer"
-            param1="jboss-as-helloworld-mdb" />
+            param1="wildfly-helloworld-mdb" />
     </item>
 </cheatsheet>
