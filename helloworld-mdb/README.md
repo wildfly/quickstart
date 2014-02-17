@@ -260,23 +260,6 @@ Copy the source for the `helloworld-mdb` quickstart into this new git repository
     cp -r QUICKSTART_HOME/helloworld-mdb/src .
     cp QUICKSTART_HOME/helloworld-mdb/pom.xml .
 
-The `helloworld-mdb` POM file needs to be changed slightly to be able to build and deploy the project from this new location.
-
-Edit the copied `pom.xml`, remove the `<parent>` element and add `<groupId>` and `<version>` elements:
-
-    <groupId>org.wildfly.quickstarts</groupId>
-    <artifactId>wildfly-helloworld-mdb</artifactId>
-    <packaging>war</packaging>
-    <version>8.0.0-SNAPSHOT</version>
-    <name>WildFly Quickstarts: Helloworld Message-Driven Bean with Servlet 3.0 as client</name>
-
-You also need to add the following properties:
-
-    <properties>
-        <version.jboss.spec.javaee7>1.0.0.Final</version.jboss.spec.javaee7>
-        <version.war.plugin>2.3</version.war.plugin>
-    </properties>
-    
 ### Deploy the OpenShift Application
 
 You can now deploy the changes to your OpenShift application using git as follows:
