@@ -271,7 +271,7 @@ We must add this messaging subsystem to be able to use JMS from OpenShift.
 
 Edit `.openshift/config/standalone.xml` and add the `org.jboss.as.messaging` to the extension list:
 
-   <extension module="org.jboss.as.messaging"/>
+    <extension module="org.jboss.as.messaging"/>
 
 In the `ejb3` subsystem configuration, you also need to add configuration for the Message-Driven Beans in the `<mdb>` element:
 
