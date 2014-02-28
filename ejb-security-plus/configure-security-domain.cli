@@ -1,0 +1,18 @@
+# Batch script to add and configure the quickstart-domain security domain in the JBoss server
+
+# Start batching commands
+batch
+
+# Configure the security domain
+/subsystem=security/security-domain=quickstart-domain:add(cache-type=default)
+/subsystem=security/security-domain=quickstart-domain/authentication=classic:add
+/subsystem=security/security-domain=quickstart-domain/authentication=classic/login-module=DelegationLoginModule:add(code=org.jboss.as.quickstarts.ejb_security_plus.SaslPlusLoginModule,flag=optional,module-options={password-stacking=useFirstPass})    
+/subsystem=security/security-domain=quickstart-domain/authentication=classic/login-module=RealmDirect:add(code=RealmDirect,flag=required,module-options={password-stacking=useFirstPass})
+
+# Run the batch commands
+run-batch
+
+# Reload the server configuration
+:reload
+
+
