@@ -146,24 +146,9 @@ Note that the `openshift` profile in the `pom.xml` file is activated by OpenShif
 
 ### Test the OpenShift Application
 
-o run this quickstart, *port-forwarding* must be used to forward the OpenShift server ports to your local machine using `rhc port-forward`:
-
-    $ rhc port-forward -a helloworldwebsocket
-    Checking available ports ... done
-    Forwarding ports ...
-    
-    To connect to a service running on OpenShift, use the Local address
-    
-    Service Local               OpenShift
-    ------- -------------- ---- ------------------
-    java    127.0.0.1:8080  =>  127.8.178.129:8080
-    java    127.0.0.1:9990  =>  127.8.178.129:9990
-    
-    Press CTRL-C to terminate port forwarding
-
 When the push command returns you can test the application by getting the following URL in your Web browser.
 
-* <http://localhost:8080/>
+* <http://helloworldwebsocket-quickstart.rhcloud.com/>
 
 If the application has run succesfully you should see the upper-case version of the text when you click on the `Shout!` button.
 
