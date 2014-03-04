@@ -24,12 +24,13 @@ import java.security.Principal;
 import java.security.PrivilegedAction;
 import java.security.PrivilegedActionException;
 import java.security.PrivilegedExceptionAction;
+import java.util.Collection;
 import java.util.Properties;
 
 import javax.security.auth.Subject;
 
-import org.jboss.as.security.remoting.RemotingContext;
-import org.jboss.remoting3.Connection;
+import org.jboss.as.security.api.ConnectionSecurityContext;
+import org.jboss.as.security.api.ContextStateCache;
 import org.jboss.security.SecurityContext;
 import org.jboss.security.SecurityContextAssociation;
 import org.jboss.security.SecurityContextFactory;
@@ -45,83 +46,93 @@ final class SecurityActions {
     }
 
     /*
-     * RemotingContext Actions
+     * ConnectionSecurityContext Actions
      */
 
-    static void remotingContextClear() {
-        remotingContextActions().clear();
+    static Collection<Principal> getConnectionPrincipals() {
+        return connectionSecurityContextActions().getConnectionPrincipals();
     }
 
-    static Connection remotingContextGetConnection() {
-        return remotingContextActions().getConnection();
+    static ContextStateCache pushIdentity(final Principal principal, final Object credential) throws Exception {
+        return connectionSecurityContextActions().pushIdentity(principal, credential);
     }
 
-    static boolean remotingContextIsSet() {
-        return remotingContextActions().isSet();
+    static void popIdentity(final ContextStateCache stateCache) {
+        connectionSecurityContextActions().popIdentity(stateCache);
     }
 
-    private static RemotingContextActions remotingContextActions() {
-        return System.getSecurityManager() == null ? RemotingContextActions.NON_PRIVILEGED : RemotingContextActions.PRIVILEGED;
+    private static ConnectionSecurityContextActions connectionSecurityContextActions() {
+        return System.getSecurityManager() == null ? ConnectionSecurityContextActions.NON_PRIVILEGED : ConnectionSecurityContextActions.PRIVILEGED;
     }
 
-    private interface RemotingContextActions {
+    private interface ConnectionSecurityContextActions {
 
-        void clear();
+        Collection<Principal> getConnectionPrincipals();
 
-        Connection getConnection();
+        ContextStateCache pushIdentity(final Principal principal, final Object credential) throws Exception;
 
-        boolean isSet();
+        void popIdentity(final ContextStateCache stateCache);
 
-        RemotingContextActions NON_PRIVILEGED = new RemotingContextActions() {
+        ConnectionSecurityContextActions NON_PRIVILEGED = new ConnectionSecurityContextActions() {
 
-            public void clear() {
-                RemotingContext.clear();
+            public Collection<Principal> getConnectionPrincipals() {
+                return ConnectionSecurityContext.getConnectionPrincipals();
             }
 
-            public boolean isSet() {
-                return RemotingContext.isSet();
+            @Override
+            public ContextStateCache pushIdentity(final Principal principal, final Object credential) throws Exception {
+                return ConnectionSecurityContext.pushIdentity(principal, credential);
             }
 
-            public Connection getConnection() {
-                return RemotingContext.getConnection();
+            @Override
+            public void popIdentity(ContextStateCache stateCache) {
+                ConnectionSecurityContext.popIdentity(stateCache);
             }
+
         };
 
-        RemotingContextActions PRIVILEGED = new RemotingContextActions() {
+        ConnectionSecurityContextActions PRIVILEGED = new ConnectionSecurityContextActions() {
 
-            PrivilegedAction<Void> CLEAR_ACTION = new PrivilegedAction<Void>() {
+            PrivilegedAction<Collection<Principal>> GET_CONNECTION_PRINCIPALS_ACTION = new PrivilegedAction<Collection<Principal>>() {
 
-                public Void run() {
-                    NON_PRIVILEGED.clear();
-                    return null;
+                @Override
+                public Collection<Principal> run() {
+                    return NON_PRIVILEGED.getConnectionPrincipals();
                 }
             };
 
-            PrivilegedAction<Boolean> IS_SET_ACTION = new PrivilegedAction<Boolean>() {
+            public Collection<Principal> getConnectionPrincipals() {
+                return AccessController.doPrivileged(GET_CONNECTION_PRINCIPALS_ACTION);
+            }
 
-                public Boolean run() {
-                    return NON_PRIVILEGED.isSet();
+            @Override
+            public ContextStateCache pushIdentity(final Principal principal, final Object credential) throws Exception {
+                try {
+                    return AccessController.doPrivileged(new PrivilegedExceptionAction<ContextStateCache>() {
+
+                        @Override
+                        public ContextStateCache run() throws Exception {
+                            return NON_PRIVILEGED.pushIdentity(principal, credential);
+                        }
+                    });
+                } catch (PrivilegedActionException e) {
+                    throw e.getException();
                 }
-            };
-
-            PrivilegedAction<Connection> GET_CONNECTION_ACTION = new PrivilegedAction<Connection>() {
-
-                public Connection run() {
-                    return NON_PRIVILEGED.getConnection();
-                }
-            };
-
-            public void clear() {
-                AccessController.doPrivileged(CLEAR_ACTION);
             }
 
-            public boolean isSet() {
-                return AccessController.doPrivileged(IS_SET_ACTION);
+            @Override
+            public void popIdentity(final ContextStateCache stateCache) {
+                AccessController.doPrivileged(new PrivilegedAction<Void>() {
+
+                    @Override
+                    public Void run() {
+                        NON_PRIVILEGED.popIdentity(stateCache);
+                        return null;
+                    }
+                });
+
             }
 
-            public Connection getConnection() {
-                return AccessController.doPrivileged(GET_CONNECTION_ACTION);
-            }
         };
 
     }
@@ -141,10 +152,6 @@ final class SecurityActions {
 
     static Object securityContextGetCredential() {
         return securityContextActions().getCredential();
-    }
-
-    static void securityContextSet(final SecurityContext securityContext) {
-
     }
 
     private static SecurityContextActions securityContextActions() {
@@ -251,71 +258,6 @@ final class SecurityActions {
         };
 
     }
-
-    /*
-     * void setSecurityContext(final SecurityContext context);
-     *
-     * void clear();
-     *
-     * Principal getPrincipal();
-     *
-     * void setPrincipal(final Principal principal);
-     *
-     * SecurityContext setPrincipalInfo(final Principal principal, final OuterUserCredential credential) throws Exception;
-     *
-     * SecurityContextActions NON_PRIVILEGED = new SecurityContextActions() {
-     *
-     * public void setSecurityContext(SecurityContext context) { SecurityContextAssociation.setSecurityContext(context); }
-     *
-     * public void clear() { SecurityContextAssociation.clearSecurityContext(); }
-     *
-     * public Principal getPrincipal() { return SecurityContextAssociation.getPrincipal(); }
-     *
-     * public void setPrincipal(final Principal principal) { SecurityContextAssociation.setPrincipal(principal); }
-     *
-     * public SecurityContext setPrincipalInfo(Principal principal, OuterUserCredential credential) throws Exception {
-     * SecurityContext currentContext = SecurityContextAssociation.getSecurityContext();
-     *
-     * SecurityContext nextContext = SecurityContextFactory.createSecurityContext(principal, credential, new Subject(),
-     * "USER_DELEGATION"); SecurityContextAssociation.setSecurityContext(nextContext);
-     *
-     * return currentContext; }
-     *
-     * };
-     *
-     * SecurityContextActions PRIVILEGED = new SecurityContextActions() {
-     *
-     * PrivilegedAction<Principal> GET_PRINCIPAL_ACTION = new PrivilegedAction<Principal>() {
-     *
-     * public Principal run() { return NON_PRIVILEGED.getPrincipal(); } };
-     *
-     * PrivilegedAction<Void> CLEAR_ACTION = new PrivilegedAction<Void>() {
-     *
-     * public Void run() { NON_PRIVILEGED.clear(); return null; } };
-     *
-     * public void setSecurityContext(final SecurityContext context) { AccessController.doPrivileged(new
-     * PrivilegedAction<Void>() {
-     *
-     * public Void run() { NON_PRIVILEGED.setSecurityContext(context); return null; } }); }
-     *
-     * public void clear() { AccessController.doPrivileged(CLEAR_ACTION); }
-     *
-     * public Principal getPrincipal() { return AccessController.doPrivileged(GET_PRINCIPAL_ACTION); }
-     *
-     * public void setPrincipal(final Principal principal) { AccessController.doPrivileged(new PrivilegedAction<Void>() {
-     *
-     * public Void run() { NON_PRIVILEGED.setPrincipal(principal); return null; } }); }
-     *
-     * public SecurityContext setPrincipalInfo(final Principal principal, final OuterUserCredential credential) throws Exception
-     * { try { return AccessController.doPrivileged(new PrivilegedExceptionAction<SecurityContext>() {
-     *
-     * public SecurityContext run() throws Exception { return NON_PRIVILEGED.setPrincipalInfo(principal, credential); } }); }
-     * catch (PrivilegedActionException e) { throw e.getException(); } }
-     *
-     * };
-     *
-     * }
-     */
 
     /*
      * ClassLoader Actions

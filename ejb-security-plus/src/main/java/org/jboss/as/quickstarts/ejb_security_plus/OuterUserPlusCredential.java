@@ -16,7 +16,7 @@
  */
 package org.jboss.as.quickstarts.ejb_security_plus;
 
-import org.jboss.as.domain.management.security.RealmUser;
+import org.jboss.as.core.security.api.UserPrincipal;
 
 /**
  * A wrapper around the user from the incoming connection plus some additional secret to authenticate the incoming user.
@@ -25,12 +25,12 @@ import org.jboss.as.domain.management.security.RealmUser;
  */
 public final class OuterUserPlusCredential {
 
-    private final RealmUser user;
+    private final UserPrincipal user;
     private final String authToken;
 
-    OuterUserPlusCredential(final RealmUser user, final String authToken) {
+    OuterUserPlusCredential(final UserPrincipal user, final String authToken) {
         if (user == null) {
-            throw new IllegalArgumentException("RealmUser can not be null.");
+            throw new IllegalArgumentException("UserPrincipal can not be null.");
         }
         if (authToken == null) {
             throw new IllegalArgumentException("Auth token can not be null.");

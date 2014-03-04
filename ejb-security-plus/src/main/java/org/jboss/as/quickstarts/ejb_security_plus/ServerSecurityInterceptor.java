@@ -17,6 +17,7 @@
 package org.jboss.as.quickstarts.ejb_security_plus;
 
 import java.security.Principal;
+import java.util.Collection;
 import java.util.Map;
 
 import javax.ejb.EJBAccessException;
@@ -24,12 +25,9 @@ import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
 import javax.resource.spi.IllegalStateException;
 
-import org.jboss.as.controller.security.SubjectUserInfo;
-import org.jboss.as.domain.management.security.RealmUser;
+import org.jboss.as.core.security.api.UserPrincipal;
+import org.jboss.as.security.api.ContextStateCache;
 import org.jboss.logging.Logger;
-import org.jboss.remoting3.Connection;
-import org.jboss.remoting3.security.UserInfo;
-import org.jboss.security.SecurityContext;
 import org.jboss.security.SimplePrincipal;
 
 /**
@@ -46,45 +44,35 @@ public class ServerSecurityInterceptor {
     @AroundInvoke
     public Object aroundInvoke(final InvocationContext invocationContext) throws Exception {
         Principal userPrincipal = null;
-        RealmUser connectionUser = null;
+        UserPrincipal connectionUser = null;
         String authToken = null;
 
         Map<String, Object> contextData = invocationContext.getContextData();
         if (contextData.containsKey(SECURITY_TOKEN_KEY)) {
             authToken = (String) contextData.get(SECURITY_TOKEN_KEY);
 
-            Connection con = SecurityActions.remotingContextGetConnection();
+            Collection<Principal> connectionPrincipals = SecurityActions.getConnectionPrincipals();
 
-            if (con != null) {
-                UserInfo userInfo = con.getUserInfo();
-                if (userInfo instanceof SubjectUserInfo) {
-                    SubjectUserInfo sinfo = (SubjectUserInfo) userInfo;
-                    for (Principal current : sinfo.getPrincipals()) {
-                        if (current instanceof RealmUser) {
-                            connectionUser = (RealmUser) current;
-                            break;
-                        }
+            if (connectionPrincipals != null) {
+                for (Principal current : connectionPrincipals) {
+                    if (current instanceof UserPrincipal) {
+                        connectionUser = (UserPrincipal) current;
+                        break;
                     }
                 }
-                userPrincipal = new SimplePrincipal(connectionUser.getName());
-
-            } else {
-                throw new IllegalStateException("Token authentication requested but no user on connection found.");
             }
+            userPrincipal = new SimplePrincipal(connectionUser.getName());
+        } else {
+            throw new IllegalStateException("Token authentication requested but no user on connection found.");
         }
 
-        SecurityContext cachedSecurityContext = null;
-        boolean contextSet = false;
+        ContextStateCache stateCache = null;
         try {
             if (userPrincipal != null && connectionUser != null && authToken != null) {
                 try {
                     // We have been requested to use an authentication token
                     // so now we attempt the switch.
-                    cachedSecurityContext = SecurityActions.securityContextSetPrincipalCredential(userPrincipal,
-                            new OuterUserPlusCredential(connectionUser, authToken));
-                    // keep track that we switched the security context
-                    contextSet = true;
-                    SecurityActions.remotingContextClear();
+                    stateCache = SecurityActions.pushIdentity(userPrincipal, new OuterUserPlusCredential(connectionUser, authToken));
                 } catch (Exception e) {
                     logger.error("Failed to switch security context for user", e);
                     // Don't propagate the exception stacktrace back to the client for security reasons
@@ -94,9 +82,9 @@ public class ServerSecurityInterceptor {
 
             return invocationContext.proceed();
         } finally {
-            // switch back to original security context
-            if (contextSet) {
-                SecurityActions.securityContextSet(cachedSecurityContext);
+            // switch back to original context
+            if (stateCache != null) {
+                SecurityActions.popIdentity(stateCache);;
             }
         }
     }
