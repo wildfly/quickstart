@@ -16,18 +16,18 @@
  */
 package org.jboss.as.quickstarts.ejb_security_interceptors;
 
-import org.jboss.as.domain.management.security.RealmUser;
+import org.jboss.as.core.security.api.UserPrincipal;
 
 /**
  * A wrapper around the user for the Connection to act as a Credential.
- * 
+ *
  * @author <a href="mailto:darran.lofthouse@jboss.com">Darran Lofthouse</a>
  */
 public final class OuterUserCredential {
 
-    private final RealmUser user;
+    private final UserPrincipal user;
 
-    OuterUserCredential(final RealmUser user) {
+    OuterUserCredential(final UserPrincipal user) {
         if (user == null) {
             throw new IllegalArgumentException("UserPrincipal can not be null.");
         }

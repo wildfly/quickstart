@@ -4,8 +4,8 @@ Author: Darran Lofthouse
 Level: Advanced
 Technologies: EJB, Security
 Summary: Demonstrates how interceptors can be used to switch the identity for EJB calls on a call by call basis.
-Target Product: EAP
-Source: <https://github.com/jboss-jdf/jboss-as-quickstart/>
+Target Project: EAP
+Source: <https://github.com/wildfly/quickstart/>
 
 What is it?
 -----------
@@ -47,7 +47,7 @@ In the real world, remote calls between servers in the servers-to-server scenari
 Note on EJB client interceptors
 -----------------------
 
-JBoss Enterprise Application Platform 6.1 and JBoss AS 7.2 allow client side interceptors for EJB invocations. Such interceptors are expected to implement the `org.jboss.ejb.client.EJBClientInterceptor` interface. User applications can then plug in such interceptors in the 'EJBClientContext' either programatically or through the ServiceLoader mechanism.
+JBoss WildFly allow client side interceptors for EJB invocations. Such interceptors are expected to implement the `org.jboss.ejb.client.EJBClientInterceptor` interface. User applications can then plug in such interceptors in the 'EJBClientContext' either programatically or through the ServiceLoader mechanism.
 
 - The programmatic way involves calling the `org.jboss.ejb.client.EJBClientContext.registerInterceptor(int order, EJBClientInterceptor interceptor)` API and passing the 'order' and the 'interceptor' instance. The 'order' is used to decide where exactly in the client interceptor chain, this 'interceptor' is going to be placed.
 - The ServiceLoader mechanism is an alternate approach which involves creating a `META-INF/services/org.jboss.ejb.client.EJBClientInterceptor` file and placing/packaging it in the classpath of the client application. The rules for such a file are dictated by the [Java ServiceLoader Mechanism](http://docs.oracle.com/javase/6/docs/api/java/util/ServiceLoader.html). This file is expected to contain in each separate line the fully qualified class name of the EJB client interceptor implementation, which is expected to be available in the classpath. EJB client interceptors added via the ServiceLoader mechanism are added to the end of the client interceptor chain, in the order they were found in the classpath.
@@ -66,7 +66,7 @@ System requirements
 
 All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven 3.0 or better.
 
-The application this project produces is designed to be run on JBoss Enterprise Application Platform 6.1 or JBoss AS 7.2. 
+The application this project produces is designed to be run on JBoss WildFly 8.0.1.Final 
 
 Configure Maven
 ---------------
@@ -76,36 +76,31 @@ If you have not yet done so, you must [Configure Maven](../README.md#mavenconfig
 Prerequisites
 -------------
 
-_Note_: Unlike most of the quickstarts, this one requires JBoss Enterprise Application Platform 6.1 or JBoss AS 7.2 or later.
+_Note_: Unlike most of the quickstarts, this one requires JBoss WildFly 8.0.1.Final or later.
 
 This quickstart uses the default standalone configuration plus the modifications described here.
 
 It is recommended that you test this approach in a separate and clean environment before you attempt to port the changes in your own environment.
 
-Configure the JBoss Enterprise Application Platform 6.1 server or JBoss AS 7.2  server
+Configure the JBoss WildFly server
 ---------------------------
 
 These steps asume that you are running the server in standalone mode and using the default standalone.xml supplied with the distribution.
 
-You can configure the security domain by running the  `configure-security-domain.cli` script provided in the root directory of this quickstart, by using the JBoss CLI interactively, or by manually editing the configuration file. The three different approaches are described below. Whichever approach you choose, it must be completed before deploying the quickstart.
-
-After the server is configured you will then need to define four user accounts, this can be achieved either by using the add-user tool included with the server or by copying and pasting the appropriate entries into the properties files.  Both of these approaches are described below and whichever approach is chosen it must be completed before running the quickstart - the users can be added before or after starting the server.
-
 _NOTE - Before you begin:_
 
-1. If it is running, stop the JBoss Enterprise Application Platform 6 or JBoss AS 7 Server.
-2. Backup the file: `JBOSS_HOME/standalone/configuration/standalone.xml`
+1. If it is running, stop the JBoss WildFly Server.
+2. Backup the file: `WILDFLY_HOME/standalone/configuration/standalone.xml`
 3. After you have completed testing this quickstart, you can replace this file to restore the server to its original configuration.
 
-#### Configure the Security Domain by Running the JBoss CLI Script
 
-1. Start the JBoss Enterprise Application Platform 6 or JBoss AS 7 Server by typing the following: 
+1. Start the JBoss WildFly Server by typing the following: 
 
-        For Linux:  JBOSS_HOME/bin/standalone.sh 
-        For Windows:  JBOSS_HOME\bin\standalone.bat
+        For Linux:  WILDFLY_HOME/bin/standalone.sh 
+        For Windows:  WILDFLY_HOME\bin\standalone.bat
 2. Open a new command line, navigate to the root directory of this quickstart, and run the following command, replacing JBOSS_HOME with the path to your server:
 
-        JBOSS_HOME/bin/jboss-cli.sh --connect --file=configure-security-domain.cli
+        WILDFLY_HOME/bin/jboss-cli.sh --connect --file=configure-security-domain.cli
 This script adds the `quickstart-domain` domain to the `security` subsystem in the server configuration and configures authentication access. You should see the following result when you run the script:
 
         #1 /subsystem=security/security-domain=quickstart-domain:add(cache-type=default)
@@ -121,71 +116,7 @@ This script adds the `quickstart-domain` domain to the `security` subsystem in t
         The batch executed successfully.
         {"outcome" => "success"}
 
-
-### Configure the Security Domain Using the JBoss CLI Interactively
-
-1. Start the JBoss Enterprise Application Platform 6 or JBoss AS 7 Server by typing the following: 
-
-		For Linux:  JBOSS_HOME_SERVER_1/bin/standalone.sh
-		For Windows:  JBOSS_HOME_SERVER_1\bin\standalone.bat
-2. To start the JBoss CLI tool, open a new command line, navigate to the JBOSS_HOME directory, and type the following:
-    
-		For Linux: bin/jboss-cli.sh --connect
-		For Windows: bin\jboss-cli.bat --connect
-3. At the prompt, enter the following series of commands:
-
-		[standalone@localhost:9999 /] /subsystem=security/security-domain=quickstart-domain:add(cache-type=default)
-		[standalone@localhost:9999 /] /subsystem=security/security-domain=quickstart-domain/authentication=classic:add
-		[standalone@localhost:9999 /] /subsystem=security/security-domain=quickstart-domain/authentication=classic/login-module=DelegationLoginModule:add(code=org.jboss.as.quickstarts.ejb_security_interceptors.DelegationLoginModule,flag=optional,module-options={password-stacking=useFirstPass})    
-		[standalone@localhost:9999 /] /subsystem=security/security-domain=quickstart-domain/authentication=classic/login-module=Remoting:add(code=Remoting,flag=optional,module-options={password-stacking=useFirstPass})
-		[standalone@localhost:9999 /] /subsystem=security/security-domain=quickstart-domain/authentication=classic/login-module=RealmDirect:add(code=RealmDirect,flag=required,module-options={password-stacking=useFirstPass})
-
-This block of commands added a new security realm that is used by the quickstart, the most important part is the addition of the DelegationLoginModule which can be before or after the Remoting login module.
-
-		[standalone@localhost:9999 /] /core-service=management/security-realm=ejb-outbound-realm:add
-		[standalone@localhost:9999 /] /core-service=management/security-realm=ejb-outbound-realm/server-identity=secret:add(value="Q29ubmVjdGlvblBhc3N3b3JkMSE=")
-
-Those two commands added a new security realm that contains the password that will be used when an outbound connection is subsequently used for the Remote EJB calls.
-
-		[standalone@localhost:9999 /] /socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=ejb-outbound:add(host=localhost,port=8080)
-
-For the outbound connection this defined the address that will be connected to.
-
-		[standalone@localhost:9999 /] /subsystem=remoting/remote-outbound-connection=ejb-outbound-connection:add(outbound-socket-binding-ref=ejb-outbound,username=ConnectionUser,security-realm=ejb-outbound-realm)
-		[standalone@localhost:9999 /] /subsystem=remoting/remote-outbound-connection=ejb-outbound-connection/property=SSL_ENABLED:add(value=false)
-
-The actual outbound connection used by the quickstart is created.
-
-		[standalone@localhost:9999 /] :reload
-
-Finally the server is reloaded to pick up these changes.
-
-### Configure the Security Domain by Manually Editing the Server Configuration File
-
-1.  If it is running, stop the JBoss Enterprise Application Platform 6 or JBoss AS 7 Server.
-2.  Backup the file: `JBOSS_HOME/standalone/configuration/standalone.xml`
-3. Open the file: `JBOSS_HOME/standalone/configuration/standalone.xml`
-4. Make the additions described below.
-
-The EJB side of this quickstart makes use of a new security domain called `quickstart-domain`, which delegates to the `ApplicationRealm`. In order to support identity switching we use the `DelegationLoginModule` from this quickstart.
-
-	<security-domain name="quickstart-domain" cache-type="default">
-	    <authentication>
-	        <login-module code="org.jboss.as.quickstarts.ejb_security_interceptors.DelegationLoginModule" flag="optional">
-	            <module-option name="password-stacking" value="useFirstPass"/>
-	        </login-module>
-	        <login-module code="Remoting" flag="optional">
-	            <module-option name="password-stacking" value="useFirstPass"/>
-	        </login-module>
-	        <login-module code="RealmDirect" flag="required">
-	            <module-option name="password-stacking" value="useFirstPass"/>
-	        </login-module>
-	    </authentication>
-	</security-domain>
-
-This login module can either be added before or after the existing `Remoting` login module in the domain, but it MUST be somewhere before the existing `RealmDirect` login module.
-
-If this approach is used and the majority of requests will involve an identity switch, then it is recommended to have this module as the first module in the list. However, if the majority of requests will run as the connection user with occasional switches, it is recommended to place the `Remoting` login module first and this one second.
+###The Delegation Login Module
 
 This login module will load the properties file `delegation-mapping.properties` from the deployment. The location of this properties file can be overridden with the module-option `delegationProperties`.
 
@@ -210,40 +141,6 @@ This means that the ConnectionUser added above can only ask that a request is ex
 
 All users are permitted to execute requests as themselves, as in that case, the login module is not called. That is the default behavior that exists without the addition of the interceptors in this quickstart.
 
-Further Use
----------------
-
-Taking this further, the `DelegationLoginModule` can be extended to provide custom delegation checks. One thing not currently checked is if the user being switched to actually exists. If the module is extended, the following method can be overridden to provide a custom check.
-
-	protected boolean delegationAcceptable(String requestedUser, OuterUserCredential connectionUser);
-
-For the purpose of the quickstart we just need an outbound connection that loops back to the same server. This will be sufficient to demonstrate the server-to-server capabilities.
-
-Add the following security realm. Note the Base64-encoded password is for the ConnectionUser account created above.
-
-	<security-realm name="ejb-outbound-realm">
-	  <server-identities>
-	     <secret value="Q29ubmVjdGlvblBhc3N3b3JkMSE="/>
-	  </server-identities>
-	</security-realm>
-
-Within the socket-binding-group 'standard-sockets' add the following outbound connection: 
-
-	<outbound-socket-binding name="ejb-outbound">
-	  <remote-destination host="localhost" port="8080"/>
-	</outbound-socket-binding>
-
-Within the Remoting susbsytem add the following outbound connection: 
-
-	<outbound-connections>
-	  <remote-outbound-connection name="ejb-outbound-connection" outbound-socket-binding-ref="ejb-outbound" security-realm="ejb-outbound-realm" username="ConnectionUser">
-	     <properties>
-	        <property name="SSL_ENABLED" value="false"/>
-	     </properties>
-	  </remote-outbound-connection>
-	</outbound-connections>  
-
-
 Add the Application Users
 ---------------
 
@@ -266,14 +163,14 @@ For an example of how to use the add-user utility, see instructions in the root 
 
 Alternatively you can edit the properties file for the users and manually add the required entries:
 
-1. Add the user accounts by editing the file `{jboss.home}/standalone/configuration/application-users.properties` and pasting in the following lines:
+1. Add the user accounts by editing the file `WILDFLY_HOME/standalone/configuration/application-users.properties` and pasting in the following lines:
 
 		ConnectionUser=90dbe097e651ce2e84d5fa9d6463ed3d
 		AppUserOne=a2ad45ac5d53d6c0db68262b94deafda
 		AppUserTwo=3a39e0b35ad46d625b45dacfe708777a
 		AppUserThree=5dc106218f4c01b8ff5525cf8e2d1568
 
-2. Add the users roles by editing the file {jboss.home}/standalone/configuration/application-roles.properties and pasting in the following lines: -
+2. Add the users roles by editing the file `WILDFLY_HOME/standalone/configuration/application-roles.properties` and pasting in the following lines: -
 
 		ConnectionUser=User
 		AppUserOne=User,RoleOne
@@ -283,14 +180,14 @@ Alternatively you can edit the properties file for the users and manually add th
 The application server checks the properties files for modifications at runtime so there is no need to restart the server after changing these files.
 
 
-Start JBoss Enterprise Application Platform 6.1 or JBoss AS 7.2
+Start JBoss WildFly
 -------------------------
 
-1. Open a command line and navigate to the root of the JBoss server directory.
+1. Open a command line and navigate to the root of the WildFly server directory.
 2. The following shows the command line to start the server with the web profile:
 
-		For Linux:   JBOSS_HOME/bin/standalone.sh
-		For Windows: JBOSS_HOME\bin\standalone.bat
+		For Linux:   WILDFLY_HOME/bin/standalone.sh
+		For Windows: WILDFLY_HOME\bin\standalone.bat
 
 
 Build and Deploy the Quickstart
@@ -302,7 +199,7 @@ _NOTE: The following build command assumes you have configured your Maven user s
 2. Open a command line and navigate to the root directory of this quickstart.
 3. Type this command to build and deploy the archive:
 
-		mvn clean package jboss-as:deploy
+		mvn clean package wildfly:deploy
 
 4. This will deploy `target/jboss-as-ejb-security-interceptors.jar` to the running instance of the server.
 
@@ -486,24 +383,24 @@ Undeploy the Archive
 2. Open a command line and navigate to the root directory of this quickstart.
 3. When you are finished testing, type this command to undeploy the archive:
 
-		mvn jboss-as:undeploy
+		mvn wildfly:undeploy
 
 
 Remove the Security Domain Configuration
 ----------------------------
 
-You can remove the security domain configuration by running the  `remove-security-domain.cli` script provided in the root directory of this quickstart or by manually restoring the back-up copy the configuration file. 
+You can remove the security domain configuration by running the  `remove-security-domain.cli` script provided in the root directory of this quickstart.
 
 ### Remove the Security Domain Configuration by Running the JBoss CLI Script
 
-1. Start the JBoss Enterprise Application Platform 6 or JBoss AS 7 Server by typing the following: 
+1. Start the JBoss WildFly Server by typing the following: 
 
-        For Linux:  JBOSS_HOME_SERVER_1/bin/standalone.sh
-        For Windows:  JBOSS_HOME_SERVER_1\bin\standalone.bat
-2. Open a new command line, navigate to the root directory of this quickstart, and run the following command, replacing JBOSS_HOME with the path to your server:
+        For Linux:  WILDFLY_HOME/bin/standalone.sh
+        For Windows:  WILDFLY_HOME\bin\standalone.bat
+2. Open a new command line, navigate to the root directory of this quickstart, and run the following command, replacing WILDFLY_HOME with the path to your server:
 
-        JBOSS_HOME/bin/jboss-cli.sh --connect --file=remove-security-domain.cli 
-This script removes the `test` queue from the `messaging` subsystem in the server configuration. You should see the following result when you run the script:
+        WILDFLY_HOME/bin/jboss-cli.sh --connect --file=remove-security-domain.cli 
+This script removes the `quickstart-domain` domain from the `security` subsystem and the outbound remoting connection in the server configuration. You should see the following result when you run the script:
 
         #1 /subsystem=remoting/remote-outbound-connection=ejb-outbound-connection:remove
         #2 /socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=ejb-outbound:remove
@@ -511,13 +408,6 @@ This script removes the `test` queue from the `messaging` subsystem in the serve
         #4 /subsystem=security/security-domain=quickstart-domain:remove
         The batch executed successfully.
         {"outcome" => "success"}
-
-
-### Remove the Security Domain Configuration Manually
-1. If it is running, stop the JBoss Enterprise Application Platform 6 or JBoss AS 7 Server.
-2. Replace the `JBOSS_HOME/standalone/configuration/standalone.xml` file with the back-up copy of the file.
-
-
 
 Run the Quickstart in JBoss Developer Studio or Eclipse
 -------------------------------------
