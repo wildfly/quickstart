@@ -1,0 +1,30 @@
+# Batch script to add and configure the quickstart-domain security domain in the JBoss server
+
+# Start batching commands
+batch
+
+# Add and configure the security domain, then add the DelegationLoginModule, which can be before or after the Remoting login module.
+/subsystem=security/security-domain=quickstart-domain:add(cache-type=default)
+/subsystem=security/security-domain=quickstart-domain/authentication=classic:add
+/subsystem=security/security-domain=quickstart-domain/authentication=classic/login-module=DelegationLoginModule:add(code=org.jboss.as.quickstarts.ejb_security_interceptors.DelegationLoginModule,flag=optional,module-options={password-stacking=useFirstPass})    
+/subsystem=security/security-domain=quickstart-domain/authentication=classic/login-module=Remoting:add(code=Remoting,flag=optional,module-options={password-stacking=useFirstPass})
+/subsystem=security/security-domain=quickstart-domain/authentication=classic/login-module=RealmDirect:add(code=RealmDirect,flag=required,module-options={password-stacking=useFirstPass})
+
+# Add a new security realm that contains the password that is used when an outbound connection is used for Remote EJB calls.
+/core-service=management/security-realm=ejb-outbound-realm:add
+/core-service=management/security-realm=ejb-outbound-realm/server-identity=secret:add(value="Q29ubmVjdGlvblBhc3N3b3JkMSE=")
+
+# Define the address that the outbound connection connects to
+/socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=ejb-outbound:add(host=localhost,port=8080)
+
+# Create the outbound connection
+/subsystem=remoting/remote-outbound-connection=ejb-outbound-connection:add(outbound-socket-binding-ref=ejb-outbound,username=ConnectionUser,security-realm=ejb-outbound-realm, protocol=http-remoting)
+/subsystem=remoting/remote-outbound-connection=ejb-outbound-connection/property=SSL_ENABLED:add(value=false)
+	
+# Run the batch commands
+run-batch
+
+# Reload the server configuration
+:reload
+
+
