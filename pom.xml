@@ -21,7 +21,7 @@
     <parent>
         <groupId>org.jboss</groupId>
         <artifactId>jboss-parent</artifactId>
-        <version>12</version>
+        <version>14</version>
         <relativePath />
     </parent>
     <groupId>org.wildfly.quickstarts</groupId>
@@ -61,7 +61,7 @@
         <version.org.hibernate>3.6.8.Final</version.org.hibernate>
         <version.org.hibernate.em>3.6.8.Final</version.org.hibernate.em>
         <version.org.hibernate.infinispan>3.6.8.Final</version.org.hibernate.infinispan>
-        <version.org.hibernate.validator>4.2.0.Final</version.org.hibernate.validator>
+        <version.org.hibernate.validator>4.3.0.Final</version.org.hibernate.validator>
 
         <version.org.richfaces>4.2.0.Final</version.org.richfaces>
 
@@ -78,6 +78,43 @@
     </properties>
 
     <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-war-plugin</artifactId>
+                    <version>${version.war.plugin}</version>
+                    <configuration>
+                        <failOnMissingWebXml>false</failOnMissingWebXml>
+                    </configuration>
+                </plugin>
+                <!-- The WildFly plugin deploys your apps to a local WildFly container -->
+                <!-- Disabling it here means that we don't try to deploy this POM! -->
+                <plugin>
+                    <groupId>com.mycila.maven-license-plugin</groupId>
+                    <artifactId>maven-license-plugin</artifactId>
+                    <version>1.10.b1</version>
+                    <configuration>
+                        <header>${basedir}/dist/license.txt</header>
+                        <aggregate>true</aggregate>
+                        <strictCheck>true</strictCheck>
+                        <excludes>
+                            <exclude>target/**</exclude>
+                            <exclude>.clover/**</exclude>
+                        </excludes>
+                        <encoding>UTF-8</encoding>
+                        <headerDefinitions>
+                            <headerDefinition>dist/headerdefinition.xml</headerDefinition>
+                        </headerDefinitions>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.wildfly.plugins</groupId>
+                    <artifactId>wildfly-maven-plugin</artifactId>
+                    <version>${version.wildfly.maven.plugin}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
         <plugins>
             <!-- The WildFly plugin deploys your apps to a local WildFly container -->
             <!-- Disabling it here means that we don't try to deploy this POM! -->
@@ -85,28 +122,11 @@
                 <groupId>org.wildfly.plugins</groupId>
                 <artifactId>wildfly-maven-plugin</artifactId>
                 <version>${version.wildfly.maven.plugin}</version>
-                <inherited>true</inherited>
+                <inherited>false</inherited>
                 <configuration>
                     <skip>true</skip>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>com.mycila.maven-license-plugin</groupId>
-                <artifactId>maven-license-plugin</artifactId>
-                <configuration>
-                    <header>${basedir}/dist/license.txt</header>
-                    <aggregate>true</aggregate>
-                    <strictCheck>true</strictCheck>
-                    <excludes>
-                        <exclude>target/**</exclude>
-                        <exclude>.clover/**</exclude>
-                    </excludes>
-                    <encoding>UTF-8</encoding>
-                    <headerDefinitions>
-                        <headerDefinition>dist/headerdefinition.xml</headerDefinition>
-                    </headerDefinitions>
-                </configuration>
-              </plugin>
         </plugins>
     </build>
 
@@ -131,6 +151,9 @@
                 <module>cdi-injection</module>
                 <module>cdi-portable-extension</module>
                 <module>cdi-veto</module>
+                <module>deltaspike-authorization</module>
+                <module>deltaspike-beanbuilder</module>
+                <module>deltaspike-projectstage</module>
                 <module>ejb-asynchronous</module>
                 <module>ejb-in-ear</module>
                 <module>ejb-in-war</module>
