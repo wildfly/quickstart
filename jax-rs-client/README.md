@@ -36,17 +36,12 @@ Prerequisites
 
 IMPORTANT: This quickstart depends on the deployment of the 'helloworld-rs' quickstart for its test. Before running this quickstart, see the [helloworld-rs README](../helloworld-rs/README.md) file for details on how to deploy it.
 
-You can verify the deployment of the `helloworld-rs` quickstart by accessing the following content:
+You can verify the deployment of the `helloworld-rs` quickstart by accessing the following resource at <http://localhost:8080/wildfly-helloworld-rs/rest/>.
 
-* The *XML* content can be viewed by accessing the following URL: <http://localhost:8080/wildfly-helloworld-rs/rest/xml>
-* The *JSON* content can be viewed by accessing this URL: <http://localhost:8080/wildfly-helloworld-rs/rest/json>
+Run the Tests
+-------------
 
-
-
-Run the Arquillian Tests 
--------------------------
-
-This quickstart provides Arquillian tests. 
+This quickstart provides tests.
 
 _NOTE: The following commands assume you have configured your Maven user settings. If you have not, you must include Maven setting arguments on the command line. See [Run the Arquillian Tests](../README.md#arquilliantests) for complete instructions and additional options._
 
@@ -55,28 +50,19 @@ _NOTE: The following commands assume you have configured your Maven user setting
 3. Open a command line and navigate to the root directory of this quickstart.
 4. Type the following command to run the test goal with the following profile activated:
 
-        mvn clean test 
+        mvn clean test -Dclient
 
 
 Investigate the Console Output
 ----------------------------
 
-This command will compile the example and execute a test to make two separate requests to the Web Service.  Towards the end of the Maven build output, you 
-should see the following if the execution is successful:
+This command will compile the example and execute a test to make two separate requests to the Web Service.
+Towards the end of the Maven build output, you should see the following if the execution is successful:
 
-===============================================
-URL: http://localhost:8080/wildfly-helloworld-rs/rest/xml
-MediaType: application/xml
+    URL: http://localhost:8080/wildfly-helloworld-rs/rest/
+    MediaType: application/xml
+    <xml><result>Hello World!</result></xml>
 
-*** Response from Server ***
-
-<xml><result>Hello World!</result></xml>
-
-===============================================
-===============================================
-URL: http://localhost:8080/wildfly-helloworld-rs/rest/json
-MediaType: application/json
-
-*** Response from Server ***
-
-{"result":"Hello World!"}
+    URL: http://localhost:8080/wildfly-helloworld-rs/rest/
+    MediaType: application/json
+    {"result":"Hello World!"}

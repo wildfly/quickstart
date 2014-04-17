@@ -10,7 +10,7 @@ Source: <https://github.com/wildfly/quickstart/>
 What is it?
 -----------
 
-This example demonstrates the use of *CDI 1.0* and *JAX-RS* in *JBoss WildFly*.
+This example demonstrates the use of *CDI 1.0* and *JAX-RS* in *WildFly*.
 
 
 System requirements
@@ -18,7 +18,7 @@ System requirements
 
 All you need to build this project is Java 7.0 (Java SDK 1.7) or better, Maven 3.1 or better.
 
-The application this project produces is designed to be run on JBoss WildFly.
+The application this project produces is designed to be run on WildFly.
 
  
 Configure Maven
@@ -56,10 +56,17 @@ Access the application
 
 The application is deployed to <http://localhost:8080/wildfly-helloworld-rs>.
 
-The *XML* content can be viewed by accessing the following URL: <http://localhost:8080/wildfly-helloworld-rs/rest/xml>
+The resource is located at <http://localhost:8080/wildfly-helloworld-rs/rest/>.
 
-The *JSON* content can be viewed by accessing this URL: <http://localhost:8080/wildfly-helloworld-rs/rest/json>
+To get its XML representation, you need to request the resource with the `Accept` header set to `application/xml`
 
+    $ curl http://localhost:8080/wildfly-helloworld-rs/rest/ -H 'accept:application/xml'
+    <xml><result>Hello World!</result></xml>
+
+To get its XML representation, you need to request the resource with the `Accept` header set to `application/json`
+
+    $ curl http://localhost:8080/wildfly-helloworld-rs/rest/ -H 'accept:application/json'
+    {"result":"Hello World!"}
 
 Undeploy the Archive
 --------------------

@@ -76,9 +76,30 @@
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
+        <!-- JAX-RS API -->
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>jaxrs-api</artifactId>
+        </dependency>
+        <!-- JSON-P API -->
+        <dependency>
+            <groupId>org.jboss.spec.javax.json</groupId>
+            <artifactId>jboss-json-api_1.0_spec</artifactId>
+        </dependency>
+        <!-- RESTEasy implementation of JAX-RS API -->
         <dependency>
             <groupId>org.jboss.resteasy</groupId>
             <artifactId>resteasy-jaxrs</artifactId>
+        </dependency>
+        <!-- RESTEasy implementation of JAX-RS Client API -->
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-client</artifactId>
+        </dependency>
+        <!-- RESTEasy plugin to use JSON-P as a provider -->
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-json-p-provider</artifactId>
         </dependency>
     </dependencies>
     <profiles>
@@ -96,14 +117,11 @@
                         <artifactId>maven-surefire-plugin</artifactId>
                         <version>${version.surefire.plugin}</version>
                         <configuration>
+                            <skip>false</skip>
                             <systemProperties>
                                 <property>
-                                    <name>xmlUrl</name>
-                                    <value>http://localhost:8080/wildfly-helloworld-rs/rest/xml</value>
-                                </property>
-                                <property>
-                                    <name>jsonUrl</name>
-                                    <value>http://localhost:8080/wildfly-helloworld-rs/rest/json</value>
+                                    <name>resourceUrl</name>
+                                    <value>http://localhost:8080/wildfly-helloworld-rs/rest/</value>
                                 </property>
                             </systemProperties>
                         </configuration>
