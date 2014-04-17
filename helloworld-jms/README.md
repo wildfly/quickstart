@@ -60,9 +60,7 @@ _NOTE - Before you begin:_
         JBOSS_HOME/bin/jboss-cli.sh --connect --file=configure-jms.cli
 This script adds the `test` queue to the `messaging` subsystem in the server configuration. You should see the following result when you run the script:
 
-        #1 jms-queue add --queue-address=testQueue --entries=queue/test,java:jboss/exported/jms/queue/test
         The batch executed successfully.
-        {"outcome" => "success"}
 
 
 #### Configure JMS Using the JBoss CLI Tool Interactively
@@ -213,9 +211,7 @@ You can remove the JMS configuration by running the `remove-jms.cli` script prov
         JBOSS_HOME/bin/jboss-cli.sh --connect --file=remove-jms.cli
 This script removes the `test` queue from the `messaging` subsystem in the server configuration. You should see the following result when you run the script:
 
-        #1 jms-queue remove --queue-address=testQueue
         The batch executed successfully.
-        {"outcome" => "success"}
 
 
 ### Remove the JMS Configuration Manually
