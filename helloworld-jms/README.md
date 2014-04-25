@@ -25,7 +25,7 @@ It contains the following:
 System requirements
 -------------------
 
-All you need to build this project is Java 7.0 (Java SDK 1.7) or better, Maven 3.1 or better.
+All you need to build this project is Java 7.0 (Java SDK 1.7) or better, optional Maven 3.0 or better.
 
 The application this project produces is designed to be run on WildFly 8.
 
@@ -118,9 +118,14 @@ To run the quickstart from the command line:
 
         cd PATH_TO_QUICKSTARTS/helloworld-jms
 
-3. Type the following command to compile and execute the quickstart:
+3. Compile HelloWorldJMSClient.java and run the application adding the path to the jboss-client.jar from your Wildfly 8 install, for example:
+
+java -cp ".:/Users/youruserid/wildfly-8.0.0.Final/bin/client/jboss-client.jar" org.jboss.as.quickstarts.jms.HelloWorldJMSClient 
+
+If you prefer compiling and running code with maven, make sure that pom.xml has the proper version of Wildfly and type the following command to compile and execute the quickstart:
 
         mvn clean compile exec:java
+
 
 
 Investigate the Console Output
