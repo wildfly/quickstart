@@ -16,7 +16,12 @@
  */
 package org.jboss.as.quickstarts.appclient.acc.client;
 
+import java.util.Arrays;
+
+import javax.annotation.Resource;
 import javax.ejb.EJB;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 
 import org.jboss.as.quickstarts.appclient.acc.client.interceptor.ClientInterceptor;
 import org.jboss.as.quickstarts.appclient.server.ejb.StatelessSession;
@@ -32,15 +37,26 @@ import org.jboss.logging.Logger;
 public class Main {
     private static final Logger LOG = Logger.getLogger(Main.class);
     
+    /**
+     * <p>According to the JavaEE Platform specification (EE7 JSR342 - chapter EE5.16)
+     * the container must provide the following boolean property as <code>TRUE</code>
+     * if this client runs in an ApplicationClientContainer.<br/>
+     * If running in a Web or EJB container the property is <code>FALSE</code>.</p>
+     * <p>Can be used to ensure that the Injection works</p>
+     */
+    @Resource(lookup = "java:comp/InAppClientContainer")
+    private static boolean isInAppclient;
     @EJB
     private static StatelessSession slsb;
+    
 
-    /** Creates new form NewJFrame */
-    public Main() {
+    /** no instance necessary */
+    private Main() {
     }
 
     /**
      * @param args the command line arguments
+     * @throws NamingException 
      */
     public static void main(String args[]) throws NamingException {
         // Show that the client is started with arguments at command line
@@ -55,7 +71,7 @@ public class Main {
 
         // add an client side interceptor to provide the client machine name to the server application
         EJBClientContext.getCurrent().registerInterceptor(0, new ClientInterceptor());
-    	LOG.info(slsb.getGreeting());
-    	slsb.invokeWithClientContext();
+        LOG.info(slsb.getGreeting());
+        slsb.invokeWithClientContext();
     }
 }
