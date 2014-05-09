@@ -1,0 +1,107 @@
+<?xml version="1.0"?>
+<!--
+    JBoss, Home of Professional Open Source
+    Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+    contributors by the @authors tag. See the copyright.txt in the
+    distribution for a full listing of individual contributors.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.jboss.quickstarts.eap</groupId>
+        <artifactId>jboss-application-client</artifactId>
+        <version>6.2.0-redhat-SNAPSHOT</version>
+    </parent>
+    <artifactId>jboss-application-client-ear</artifactId>
+    <packaging>ear</packaging>
+    <name>JBoss EAP Quickstart: applicationclient - server - app - ear</name>
+    <description>Create the deployable application archive
+     Include the EJB and client application together with the necessary API libraries
+  </description>
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <distribution>repo</distribution>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+        </license>
+    </licenses>
+    <dependencies>
+        <!-- add the EJB and WEB project as dependency to include it in the EAR -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>jboss-application-client-ejb</artifactId>
+            <type>ejb</type>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.as</groupId>
+            <artifactId>jboss-as-ejb-client-bom</artifactId>
+            <scope>provided</scope>
+            <type>pom</type>
+        </dependency>
+        <dependency>
+          <groupId>${project.groupId}</groupId>
+          <artifactId>jboss-application-client-acc-simple</artifactId>
+          <version>${project.version}</version>
+          <type>app-client</type>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <!-- define the name for the deployable archive instead of using the default name with the version -->
+        <finalName>${project.parent.artifactId}</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-acr-plugin</artifactId>
+                <version>1.0</version>
+                <extensions>true</extensions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-ear-plugin</artifactId>
+                <version>${ear.plugin.version}</version>
+                <configuration>
+                    <displayName>SimpleApplicationForApplicationClient</displayName>
+                    <version>6</version>
+                    <generateApplicationXml>true</generateApplicationXml>
+                    <modules>
+                        <ejbModule>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>jboss-application-client-ejb</artifactId>
+                            <bundleFileName>ejb.jar</bundleFileName>
+                        </ejbModule>
+                        <appClientModule>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>jboss-application-client-acc-simple</artifactId>
+                            <bundleFileName>simpleClient.jar</bundleFileName>
+                        </appClientModule>
+                    </modules>
+                    <archive>
+                        <addMavenDescriptor>false</addMavenDescriptor>
+                    </archive>
+                </configuration>
+            </plugin>
+            <!-- JBoss AS plugin to deploy ear -->
+            <plugin>
+                <groupId>org.jboss.as.plugins</groupId>
+                <artifactId>jboss-as-maven-plugin</artifactId>
+                <version>${version.jboss.maven.plugin}</version>
+                <configuration>
+                    <skip>false</skip>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

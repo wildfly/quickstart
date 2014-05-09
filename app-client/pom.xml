@@ -1,0 +1,131 @@
+<?xml version="1.0"?>
+<!--
+    JBoss, Home of Professional Open Source
+    Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+    contributors by the @authors tag. See the copyright.txt in the
+    distribution for a full listing of individual contributors.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.jboss.quickstarts.eap</groupId>
+    <artifactId>jboss-application-client</artifactId>
+    <version>6.2.0-redhat-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>JBoss EAP Quickstart: jboss-application-client</name>
+    <description>appclient: An example that demonstrates how to package and use an EE application client.
+     This POM defines common properties to specify the used versions and plugins.
+     The subprojects are built in the appropriate sequence. 
+  </description>
+
+    <url>http://jboss.org/jbossas</url>
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <distribution>repo</distribution>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+        </license>
+    </licenses>
+    <modules>
+        <module>ejb</module>
+        <module>client-simple</module>
+        <module>ear</module>
+    </modules>
+    <properties>
+    <!-- Explicitly declaring the source encoding eliminates the following message: -->
+    <!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent! -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+    <!-- JBoss dependency versions -->
+
+        <version.jboss.maven.plugin>7.4.Final</version.jboss.maven.plugin>
+        <version.jboss.as>7.2.1.Final-redhat-10</version.jboss.as>
+
+        <version.jboss.spec.javaee.6.0>3.0.2.Final-redhat-4</version.jboss.spec.javaee.6.0>
+
+    <!-- other versions -->
+        <version.jboss.ejb.client>1.0.23.Final-redhat-1</version.jboss.ejb.client>
+        
+    <!-- other plugin versions -->
+        <version.compiler.plugin>3.1</version.compiler.plugin>
+
+    <!-- maven-compiler-plugin -->
+        <compiler.plugin.version>2.5.1</compiler.plugin.version>
+        <maven.compiler.target>1.6</maven.compiler.target>
+        <maven.compiler.source>1.6</maven.compiler.source>
+
+        <exec.plugin.version>1.2.1</exec.plugin.version>
+        <dependency.plugin.version>2.1</dependency.plugin.version>
+        <jar.plugin.version>2.4</jar.plugin.version>
+        <ejb.plugin.version>2.3</ejb.plugin.version>
+        <ear.plugin.version>2.6</ear.plugin.version>
+        <acr.plugin.version>1.0</acr.plugin.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+      <!-- Define the version of JBoss' Java EE 6 APIs we want to import. Any 
+        dependencies from org.jboss.spec will have their version defined by this 
+        BOM -->
+      <!-- JBoss distributes a complete set of Java EE 6 APIs including a Bill 
+        of Materials (BOM). A BOM specifies the versions of a "stack" (or a collection) 
+        of artifacts. We use this here so that we always get the correct versions 
+        of artifacts. Here we use the jboss-javaee-6.0 stack (you can read this as 
+        the JBoss stack of the Java EE 6 APIs). You can actually use this stack with 
+        any version of JBoss EAP that implements Java EE 6. -->
+            <dependency>
+                <groupId>org.jboss.spec</groupId>
+                <artifactId>jboss-javaee-6.0</artifactId>
+                <version>${version.jboss.spec.javaee.6.0}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss.as</groupId>
+                <artifactId>jboss-as-ejb-client-bom</artifactId>
+                <version>${version.jboss.as}</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <!-- Enforce Java X -->
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${compiler.plugin.version}</version>
+                <configuration>
+                    <source>${compiler.source}</source>
+                    <target>${compiler.target}</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.jboss.as.plugins</groupId>
+                <artifactId>jboss-as-maven-plugin</artifactId>
+                <version>${version.jboss.maven.plugin}</version>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>${exec.plugin.version}</version>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
