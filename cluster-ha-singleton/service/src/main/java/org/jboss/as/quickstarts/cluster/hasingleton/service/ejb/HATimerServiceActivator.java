@@ -19,6 +19,7 @@ package org.jboss.as.quickstarts.cluster.hasingleton.service.ejb;
 
 import org.jboss.as.server.ServerEnvironment;
 import org.jboss.as.server.ServerEnvironmentService;
+import org.jboss.as.server.deployment.Services;
 import org.jboss.msc.service.ServiceActivator;
 import org.jboss.msc.service.ServiceActivatorContext;
 import org.jboss.msc.service.ServiceController;
@@ -55,6 +56,7 @@ public class HATimerServiceActivator implements ServiceActivator {
             .requireQuorum(quorum)
             .build(context.getServiceTarget())
                 .addDependency(ServerEnvironmentService.SERVICE_NAME, ServerEnvironment.class, env)
+                .addDependency(Services.JBOSS_DEPLOYMENT_UNIT.append("wildfly-cluster-ha-singleton-service.jar", "component", "SchedulerBean", "START"))
                 .setInitialMode(ServiceController.Mode.ACTIVE)
                 .install()
         ;
