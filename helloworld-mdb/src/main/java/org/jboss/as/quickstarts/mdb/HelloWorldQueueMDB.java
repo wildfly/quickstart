@@ -47,7 +47,7 @@ public class HelloWorldQueueMDB implements MessageListener {
         TextMessage msg = null;
         try {
             if (rcvMessage instanceof TextMessage) {
-                msg = (TextMessage) rcvMessage;
+                msg = rcvMessage.getBody(String.class);
                 LOGGER.info("Received Message from queue: " + msg.getText());
             } else {
                 LOGGER.warning("Message of wrong type: " + rcvMessage.getClass().getName());
