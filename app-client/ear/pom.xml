@@ -16,20 +16,21 @@
     limitations under the License.
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.jboss.quickstarts.eap</groupId>
-        <artifactId>jboss-application-client</artifactId>
-        <version>6.2.0-redhat-SNAPSHOT</version>
+        <groupId>org.wildfly.quickstarts</groupId>
+        <artifactId>wildfly-application-client</artifactId>
+        <version>8.0.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>jboss-application-client-ear</artifactId>
+    <artifactId>wildfly-application-client-ear</artifactId>
     <packaging>ear</packaging>
-    <name>JBoss EAP Quickstart: applicationclient - server - app - ear</name>
+    <name>WildFly Quickstart: applicationclient - server - app - ear</name>
     <description>Create the deployable application archive
-     Include the EJB and client application together with the necessary API libraries
-  </description>
+        Include the EJB and client application together with the necessary API libraries
+    </description>
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
@@ -41,21 +42,21 @@
         <!-- add the EJB and WEB project as dependency to include it in the EAR -->
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>jboss-application-client-ejb</artifactId>
+            <artifactId>wildfly-application-client-ejb</artifactId>
             <type>ejb</type>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.jboss.as</groupId>
-            <artifactId>jboss-as-ejb-client-bom</artifactId>
+            <groupId>org.wildfly</groupId>
+            <artifactId>wildfly-ejb-client-bom</artifactId>
             <scope>provided</scope>
             <type>pom</type>
         </dependency>
         <dependency>
-          <groupId>${project.groupId}</groupId>
-          <artifactId>jboss-application-client-acc-simple</artifactId>
-          <version>${project.version}</version>
-          <type>app-client</type>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>wildfly-application-client-acc-simple</artifactId>
+            <version>${project.version}</version>
+            <type>app-client</type>
         </dependency>
     </dependencies>
 
@@ -74,17 +75,17 @@
                 <version>${ear.plugin.version}</version>
                 <configuration>
                     <displayName>SimpleApplicationForApplicationClient</displayName>
-                    <version>6</version>
+                    <version>7</version>
                     <generateApplicationXml>true</generateApplicationXml>
                     <modules>
                         <ejbModule>
                             <groupId>${project.groupId}</groupId>
-                            <artifactId>jboss-application-client-ejb</artifactId>
+                            <artifactId>wildfly-application-client-ejb</artifactId>
                             <bundleFileName>ejb.jar</bundleFileName>
                         </ejbModule>
                         <appClientModule>
                             <groupId>${project.groupId}</groupId>
-                            <artifactId>jboss-application-client-acc-simple</artifactId>
+                            <artifactId>wildfly-application-client-acc-simple</artifactId>
                             <bundleFileName>simpleClient.jar</bundleFileName>
                         </appClientModule>
                     </modules>
@@ -95,9 +96,9 @@
             </plugin>
             <!-- JBoss AS plugin to deploy ear -->
             <plugin>
-                <groupId>org.jboss.as.plugins</groupId>
-                <artifactId>jboss-as-maven-plugin</artifactId>
-                <version>${version.jboss.maven.plugin}</version>
+                <groupId>org.wildfly.plugins</groupId>
+                <artifactId>wildfly-maven-plugin</artifactId>
+                <version>${version.wildfly.maven.plugin}</version>
                 <configuration>
                     <skip>false</skip>
                 </configuration>

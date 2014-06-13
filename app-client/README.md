@@ -95,8 +95,8 @@ It also demonstrates how to invoke an EJB from a client using a scoped-context r
 1. Make sure that the deployments are successful as described above.
 2. Navigate to the root directory of this quickstart and type the command to run the application. Be sure to replace `JBOSS_HOME` with the path to your WildFly installation.
 
-        For Linux:   JBOSS_HOME/bin/appclient.sh ear/target/jboss-application-client.ear#simpleClient.jar Hello from command line
-        For Windows: JBOSS_HOME\bin\appclient.sh ear\target\jboss-application-client.ear#simpleClient.jar Hello from command line
+        For Linux:   JBOSS_HOME/bin/appclient.sh ear/target/wildfly-application-client.ear#simpleClient.jar Hello from command line
+        For Windows: JBOSS_HOME\bin\appclient.sh ear\target\wildfly-application-client.ear#simpleClient.jar Hello from command line
 
     The client will output the following information provided by the server application:
 

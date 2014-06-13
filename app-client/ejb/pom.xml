@@ -19,9 +19,10 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.jboss.quickstarts.eap</groupId>
-        <artifactId>jboss-application-client</artifactId>
-        <version>6.2.0-redhat-SNAPSHOT</version>
+        <groupId>org.wildfly.quickstarts</groupId>
+        <artifactId>wildfly-application-client</artifactId>
+        <version>8.0.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
     <licenses>
         <license>
@@ -31,22 +32,22 @@
         </license>
     </licenses>
 
-    <artifactId>jboss-application-client-ejb</artifactId>
+    <artifactId>wildfly-application-client-ejb</artifactId>
 
-    <name>JBoss EAP Quickstart: applicationclient - server - app - ejb</name>
-    <url>http://maven.apache.org</url>
+    <name>WildFly Quickstart: applicationclient - server - app - ejb</name>
+    <url>http://wildfly.org</url>
     <packaging>ejb</packaging>
 
     <dependencies>
         <dependency>
-            <groupId>org.jboss.as</groupId>
-            <artifactId>jboss-as-ejb-client-bom</artifactId>
+            <groupId>org.wildfly</groupId>
+            <artifactId>wildfly-ejb-client-bom</artifactId>
             <type>pom</type>
             <scope>provided</scope>
         </dependency>
         <dependency>
           <groupId>org.jboss.spec.javax.interceptor</groupId>
-          <artifactId>jboss-interceptors-api_1.1_spec</artifactId>
+          <artifactId>jboss-interceptors-api_1.2_spec</artifactId>
           <scope>provided</scope>
         </dependency>
     </dependencies>
@@ -59,7 +60,7 @@
                 <artifactId>maven-ejb-plugin</artifactId>
                 <version>${ejb.plugin.version}</version>
                 <configuration>
-                    <ejbVersion>3.0</ejbVersion>
+                    <ejbVersion>3.1</ejbVersion>
                     <generateClient>true</generateClient>
                     <archive>
                         <addMavenDescriptor>false</addMavenDescriptor>
