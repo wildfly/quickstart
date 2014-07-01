@@ -124,7 +124,7 @@ This script configures the server to use jts transaction processing. You should 
         [standalone@localhost:9999 /] /subsystem=jacorb/:write-attribute(name=transactions,value=on)
         [standalone@localhost:9999 /] /subsystem=transactions/:write-attribute(name=jts,value=true)
         [standalone@localhost:9999 /] /subsystem=transactions/:write-attribute(name=node-identifier,value=UNIQUE_IDENTIFER)
-4. _NOTE:_ When you have completed testing this quickstart, it is important to [Remove the JTS Configuration from the JBoss Server](#remove-jts-configuration).
+4. _NOTE:_ When you have completed testing this quickstart, it is important to [Remove the JTS Configuration from the JBoss Server](#remove-the-jts-configuration-from-the-jboss-server).
 
 #### Modify the Server Configuration Manually
 
@@ -145,7 +145,7 @@ This script configures the server to use jts transaction processing. You should 
                 <!-- LEAVE EXISTING CONFIG AND APPEND THE FOLLOWING -->
                 <jts/>
             </subsystem>
-4.  _NOTE:_ When you have completed testing this quickstart, it is important to [Remove the JTS Configuration from the JBoss Server](#remove-jts-configuration).
+4.  _NOTE:_ When you have completed testing this quickstart, it is important to [Remove the JTS Configuration from the JBoss Server](#remove-the-jts-configuration-from-the-jboss-server).
   
 ### Clone the JBOSS_HOME Directory     
 
@@ -217,7 +217,6 @@ Undeploy the Archive
         mvn package wildfly:undeploy
 
 
-<a id="remove-jts-configuration"></a>
 Remove the JTS Configuration from the JBoss Server
 ---------------------------
 
