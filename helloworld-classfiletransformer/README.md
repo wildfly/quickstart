@@ -1,23 +1,24 @@
 WildFly Examples: Applying ClassTransformers to your Java EE archive 
 ========================
-This is a WAR based application showing you how Wildfly allows let's you apply a ClassTransformer to the classes in your enterprise archive.
+This is a WAR based application showing you how Wildfly let you apply a ClassTransformer to the classes in your enterprise archive.
 
 It consists of a server component and a client component:
 * The server component is a simple @Stateless session EJB called HelloBean, which exposes a SOAP based view
 * The client component is a simple Java application that makes a call to the EJB through it's Web service interface
-(all code is co-bundled in this projects' WAR src directory - in different packages though)
+
+All code is co-bundled in this projects' WAR src directory.
  
 About the code 
 ========================
-The project is a Web ARchive (WAR) project. It's src folder contains three primary packages:
+This project is a Web ARchive (WAR) project. It's src folder contains three packages:
 * hello.client : this is where you find the SOAP based Java application client
 * hello.server.ejb : this is where you find the EJB that exposes a SOAP based view
 * hello.server.transformation : this is where you find the bytecode manipulation code
 
-Note the src/main/webapp/META-INF/jboss-deployment-structure.xml file. 
-This is where we register a so-called Java ClassFileTransformer.
+Note the file: src/main/webapp/META-INF/jboss-deployment-structure.xml. 
+This is where we register a Java ClassFileTransformer.
 A ClassFileTransformer is a class that has a transform method that receives a class's bytecode as a byte array input and then produces the class's new bytecode.
-If the transformer doesn't want to modify the class received, then it simply returns the input bytecode byte array.
+If the transformer doesn't want to modify the class received, then it simply returns the input array directly.
 If, however, it want's to transform it, it does so by means of cglib, javaassist, etc. 
 This example demonstrates bytecode manipulation using Javassist.
 
@@ -26,6 +27,10 @@ The modification is really simple: it simply injects "System.out.println()" stat
 But Javaassist can do much more - check out the relevant documentation for Javassist. 
 Or choose another bytecode generation library. 
 The choice is yours - Wildfly doesn't care what you choose. 
+
+You could achieve the same effect using EJB interceptors or CDI interceptors. They are standard and would normally be the recommended way to go about "around" behavior.
+But Java EE interceptors are not as powerful as bytecode manipulation can be: with bytecode manipulation you can easily advice unmanaged classes (including static member methods etc), "add/remove" interfaces, fields, methods and so on.
+And you can even advice code that is a third party dependency to your application (say Apache Commons library code).   
 
 Deploy the WAR 
 ========================
@@ -38,7 +43,7 @@ Run the SOAP client
 
 Inspect the server log  
 ========================
-Notice that a single EJB was installed: HelloBean. It exposes a SOAP based interface, which is used by the client application.
+Note that a single EJB was installed: HelloBean. It exposes a SOAP based interface, which is used by the client application.
 
 Upon deployment you should see something like: "Instrumenting hello.server.ejb.HelloBean" and "Successfully instrumented hello.server.ejb.HelloBean".
 That is the example class transformer that tells you it has instrumented the HelloBean EJB.
