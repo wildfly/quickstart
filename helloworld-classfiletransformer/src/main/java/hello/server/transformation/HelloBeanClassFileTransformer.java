@@ -6,7 +6,7 @@ import java.security.ProtectionDomain;
 
 /**
  * A simple hello world class transformer that advices the <code>hello.server.ejb.HelloBean</code> EJB's sayHello method with
- * before and after <code>System.out.println</code> statements.<br>
+ * before and after log statements.<br>
  * <br>
  *
  * This transformer is registered in the WAR's <code>META-INF/jboss-deployment-structure.xml</code> file.
@@ -20,10 +20,11 @@ public class HelloBeanClassFileTransformer implements ClassFileTransformer {
     // ------------------------------------------------------------------------
 
     /**
-     * Create a bytecode manipulator that will insert <code>System.out.println</code> statements before and after
-     * <code>hello.server.ejb.HelloBean</code>'s <code>sayHello</code> method.
+     * Create a bytecode manipulator that will insert log statements before and after <code>hello.server.ejb.HelloBean</code>'s
+     * <code>sayHello</code> method.
      */
-    private final HelloByteCodeManipulator byteCodeTransformer = new HelloByteCodeManipulator("hello.server.ejb.HelloBean", "sayHello");
+    private final HelloByteCodeManipulator byteCodeTransformer = new HelloByteCodeManipulator("hello.server.ejb.HelloBean",
+            "sayHello");
 
     // ------------------------------------------------------------------------
     // Contract required by the ClassFileTransformer API

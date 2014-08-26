@@ -1,5 +1,7 @@
 package hello.server.ejb;
 
+import java.util.logging.Logger;
+
 import javax.annotation.security.PermitAll;
 import javax.ejb.Stateless;
 import javax.jws.WebService;
@@ -15,9 +17,19 @@ import javax.jws.WebService;
 @PermitAll
 public class HelloBean implements Hello {
 
+    // ------------------------------------------------------------------------
+    // Constants
+    // ------------------------------------------------------------------------
+
+    private static final Logger logger = Logger.getLogger(HelloBean.class.getName());
+
+    // ------------------------------------------------------------------------
+    // Public API
+    // ------------------------------------------------------------------------
+
     public String sayHello(String caller) {
 
-        System.out.println("HelloBean.sayHello()");
+        logger.info(String.format("EJB method invoked from caller %s", caller));
 
         return String.format("Hello %s", caller);
     }

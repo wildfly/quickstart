@@ -4,6 +4,7 @@ import hello.server.ejb.Hello;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.logging.Logger;
 
 import javax.naming.NamingException;
 import javax.xml.namespace.QName;
@@ -17,6 +18,16 @@ import javax.xml.ws.Service;
  */
 public class HelloClient {
 
+    // ------------------------------------------------------------------------
+    // Constants
+    // ------------------------------------------------------------------------
+
+    private static final Logger logger = Logger.getLogger(HelloClient.class.getName());
+
+    // ------------------------------------------------------------------------
+    // Java application main method
+    // ------------------------------------------------------------------------
+
     public static void main(String[] args) throws NamingException, MalformedURLException {
 
         String wsdlUrl = "http://localhost:8080/wildfly-helloworld-classfiletransformers-8.1.0-SNAPSHOT/HelloBean?wsdl";
@@ -25,9 +36,13 @@ public class HelloClient {
 
         String result = webServiceClient.sayHello("client");
 
-        System.out.printf("Result from server: %s%n", result);
+        logger.info(String.format("Message from server: %s", result));
 
     }
+
+    // ------------------------------------------------------------------------
+    // Private helper methods
+    // ------------------------------------------------------------------------
 
     /**
      * Generates a dynamic proxy that can talk SOAP with wildfly's JAX-WS stack.
@@ -56,4 +71,5 @@ public class HelloClient {
         result.append("/");
         return result.toString();
     }
+
 }

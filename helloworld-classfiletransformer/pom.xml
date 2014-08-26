@@ -15,43 +15,45 @@
     limitations under the License.
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.wildfly.quickstarts</groupId>
-    <artifactId>wildfly-helloworld-classfiletransformers</artifactId>
-    <version>8.1.0-SNAPSHOT</version>
-    <packaging>war</packaging>
-    <name>WildFly Quickstarts: Hello World ClassFileTransformers</name>
-    <description>WildFly Quickstarts: Hello World ClassFileTransformers</description>
+	<groupId>org.wildfly.quickstarts</groupId>
+	<artifactId>wildfly-helloworld-classfiletransformers</artifactId>
+	<version>8.1.0-SNAPSHOT</version>
+	<packaging>war</packaging>
+	<name>WildFly Quickstarts: Hello World ClassFileTransformers</name>
+	<description>WildFly Quickstarts: Hello World ClassFileTransformers</description>
 
-    <url>http://wildfly.org</url>
-    <licenses>
-        <license>
-            <name>Apache License, Version 2.0</name>
-            <distribution>repo</distribution>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
-        </license>
-    </licenses>
+	<url>http://wildfly.org</url>
+	<licenses>
+		<license>
+			<name>Apache License, Version 2.0</name>
+			<distribution>repo</distribution>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+		</license>
+	</licenses>
 
-    <properties>
-        <!-- Explicitly declaring the source encoding eliminates the following 
-            message: -->
-        <!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered 
-            resources, i.e. build is platform dependent! -->
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <!-- JBoss dependency versions -->
-        <version.wildfly.maven.plugin>1.0.2.Final</version.wildfly.maven.plugin>
+		<!-- Wildfly dependency versions -->
+		<version.wildfly.maven.plugin>1.0.2.Final</version.wildfly.maven.plugin>
+		<version.wildfly.spec.api.ejb>1.0.0.Final</version.wildfly.spec.api.ejb>
+		<version.wildfly.spec.api.annotation>1.0.0.Final</version.wildfly.spec.api.annotation>
 
-        <!-- other plugin versions -->
-        <version.war.plugin>2.1.1</version.war.plugin>
-        <version.compiler.plugin>3.1</version.compiler.plugin>
+		<!-- Thirdparty dependency versions -->
+		<version.log4j>1.2.17</version.log4j>
+		<version.javassist>3.18.1-GA</version.javassist>
 
-        <!-- maven-compiler-plugin -->
-        <maven.compiler.target>1.7</maven.compiler.target>
-        <maven.compiler.source>1.7</maven.compiler.source>
-    </properties>
+		<!-- Other plugin versions -->
+		<version.war.plugin>2.1.1</version.war.plugin>
+		<version.compiler.plugin>3.1</version.compiler.plugin>
+
+		<!-- Plugin configuration -->
+		<maven.compiler.target>1.7</maven.compiler.target>
+		<maven.compiler.source>1.7</maven.compiler.source>
+	</properties>
 
 	<build>
 		<plugins>
@@ -91,30 +93,22 @@
 	</build>
 	<dependencies>
 		<dependency>
-			<groupId>org.jboss.as</groupId>
-			<artifactId>jboss-as-ejb-client-bom</artifactId>
-			<version>7.2.0.Final</version>
-			<type>pom</type>
-		</dependency>
-		<dependency>
 			<groupId>org.jboss.spec.javax.ejb</groupId>
 			<artifactId>jboss-ejb-api_3.2_spec</artifactId>
-			<version>1.0.0.Final</version>
+			<version>${version.wildfly.spec.api.ejb}</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.jboss.spec.javax.annotation</groupId>
 			<artifactId>jboss-annotations-api_1.2_spec</artifactId>
-			<version>1.0.0.Final</version>
-		</dependency>
-		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>1.2.17</version>
+			<version>${version.wildfly.spec.api.annotation}</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.javassist</groupId>
 			<artifactId>javassist</artifactId>
-			<version>3.18.1-GA</version>
+			<version>${version.javassist}</version>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 </project>

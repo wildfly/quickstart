@@ -1,5 +1,7 @@
 package hello.server.transformation;
 
+import java.util.logging.Logger;
+
 import javassist.ClassPool;
 import javassist.CtClass;
 import javassist.CtMethod;
@@ -14,6 +16,12 @@ import javassist.NotFoundException;
  * @author <a href="mailto:moelholm@gmail.com">Nicky Moelholm</a>
  */
 public class HelloByteCodeManipulator {
+
+    // ------------------------------------------------------------------------
+    // Constants
+    // ------------------------------------------------------------------------
+
+    private static final Logger logger = Logger.getLogger(HelloByteCodeManipulator.class.getName());
 
     // ------------------------------------------------------------------------
     // Member fields
@@ -72,10 +80,10 @@ public class HelloByteCodeManipulator {
 
     private void instrumentMethod(ClassPool pool, CtClass clazz, CtMethod m) {
         try {
-            System.out.format("Instrumenting %s%n", clazz.getName(), m.getLongName());
+            logger.info(String.format("Instrumenting %s", clazz.getName(), m.getLongName()));
             m.insertBefore(createMethodEntryCode(m));
             m.insertAfter(createMethodExitCode(), false);
-            System.out.format("Successfully instrumented %s%n", clazz.getName(), m.getLongName());
+            logger.info(String.format("Successfully instrumented %s", clazz.getName(), m.getLongName()));
         } catch (Throwable t) {
             throw new RuntimeException(t);
         }
@@ -83,13 +91,13 @@ public class HelloByteCodeManipulator {
 
     private String createMethodEntryCode(CtMethod m) {
         StringBuilder code = new StringBuilder();
-        code.append("{    System.out.println(\"INTERCEPTED MethodInvocation - before method invocation\"); }");
+        code.append("{    logger.info(\"INTERCEPTED MethodInvocation - before method invocation\"); }");
         return code.toString();
     }
 
     private String createMethodExitCode() {
         StringBuilder code = new StringBuilder();
-        code.append("{    System.out.println(\"INTERCEPTED MethodInvocation - after method invocation\"); }");
+        code.append("{    logger.info(\"INTERCEPTED MethodInvocation - after method invocation\"); }");
         return code.toString();
     }
 

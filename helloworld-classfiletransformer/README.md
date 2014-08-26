@@ -23,7 +23,7 @@ If, however, it want's to transform it, it does so by means of cglib, javaassist
 This example demonstrates bytecode manipulation using Javassist.
 
 It is the EJB's implementation class, HelloBean, that is modified in this example. 
-The modification is really simple: it simply injects "System.out.println()" statements before and after the sayHello() method.
+The modification is really simple: it simply injects logging statements before and after the sayHello() method.
 But Javaassist can do much more - check out the relevant documentation for Javassist. 
 Or choose another bytecode generation library. 
 The choice is yours - Wildfly doesn't care what you choose. 
