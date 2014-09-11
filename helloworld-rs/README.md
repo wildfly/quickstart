@@ -63,7 +63,7 @@ To get its XML representation, you need to request the resource with the `Accept
     $ curl http://localhost:8080/wildfly-helloworld-rs/rest/ -H 'accept:application/xml'
     <xml><result>Hello World!</result></xml>
 
-To get its XML representation, you need to request the resource with the `Accept` header set to `application/json`
+To get its JSON representation, you need to request the resource with the `Accept` header set to `application/json`
 
     $ curl http://localhost:8080/wildfly-helloworld-rs/rest/ -H 'accept:application/json'
     {"result":"Hello World!"}
