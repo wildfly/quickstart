@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jboss-deployment-structure>
+	<deployment>
+
+		<!-- This is where you register your ClassFileTransformer(s) -->
+		<transformers>
+			<transformer
+				class="hello.server.transformation.HelloBeanClassFileTransformer" />
+		</transformers>
+
+		<!-- We use Javassist from Wildfly (instead of bundling it in WEB-INF/lib) -->
+		<!-- You should know that this is a private module to Wildfly. So a future 
+			version may remove Javaassist or change the name/version etc. without notice. 
+			Wildfly will tell you this too during module deployment on loglevel WARNING. -->
+		<dependencies>
+			<module name="org.javassist" />
+		</dependencies>
+	</deployment>
+</jboss-deployment-structure>
