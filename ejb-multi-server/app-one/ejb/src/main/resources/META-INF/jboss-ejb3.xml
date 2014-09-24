@@ -16,17 +16,12 @@
     limitations under the License.
 -->
 <jboss:ejb-jar xmlns:jboss="http://www.jboss.com/xml/ns/javaee" xmlns="http://java.sun.com/xml/ns/javaee"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:s="urn:security" xmlns:c="urn:clustering:1.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:s="urn:security"
     xsi:schemaLocation="http://www.jboss.com/xml/ns/javaee http://www.jboss.org/j2ee/schema/jboss-ejb3-2_0.xsd
                      http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/ejb-jar_3_1.xsd"
     version="3.1" impl-version="2.0">
     <enterprise-beans>
     </enterprise-beans>
     <assembly-descriptor>
-      <!-- mark all EJB's of the application as clustered (without using the jboss specific @Clustered annotation for each class) -->
-        <c:clustering>
-            <ejb-name>*</ejb-name>
-            <c:clustered>true</c:clustered>
-        </c:clustering>
     </assembly-descriptor>
 </jboss:ejb-jar>
