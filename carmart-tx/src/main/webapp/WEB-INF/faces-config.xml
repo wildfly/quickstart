@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0"?>
 <!--
     JBoss, Home of Professional Open Source
     Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
@@ -15,13 +15,17 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<faces-config version="2.0" xmlns="http://java.sun.com/xml/ns/javaee"
-   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-   xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd">
-   
-   <name>CarMart</name>
-   
-   <application>
+<!-- Marker file indicating JSF 2.2 should be enabled in the application -->
+<faces-config version="2.2"
+    xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+        http://xmlns.jcp.org/xml/ns/javaee
+        http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
+
+    <name>CarMart</name>
+
+    <application>
         <system-event-listener>
             <!-- Define the class to be executed  -->
             <system-event-listener-class>
@@ -32,25 +36,23 @@
                 javax.faces.event.PostConstructApplicationEvent
             </system-event-class>
         </system-event-listener>
-   </application>
+    </application>
 
-   
-   <!-- Navigation Rules -->
-   
-   <navigation-rule>
-      <from-view-id>/home.xhtml</from-view-id>
-      <navigation-case>
-         <from-outcome>showdetails</from-outcome>
-         <to-view-id>/details.xhtml</to-view-id>
-      </navigation-case>
-   </navigation-rule>
-   
-   <navigation-rule>
-      <from-view-id>/details.xhtml</from-view-id>
-      <navigation-case>
-         <from-outcome>home</from-outcome>
-         <to-view-id>/home.xhtml</to-view-id>
-      </navigation-case>
-   </navigation-rule>
+    <!-- Navigation Rules -->
+    <navigation-rule>
+        <from-view-id>/home.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>showdetails</from-outcome>
+            <to-view-id>/details.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+
+    <navigation-rule>
+        <from-view-id>/details.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>home</from-outcome>
+            <to-view-id>/home.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
 
 </faces-config> 
