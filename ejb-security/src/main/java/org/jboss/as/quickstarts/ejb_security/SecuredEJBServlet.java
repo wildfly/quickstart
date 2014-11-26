@@ -18,6 +18,7 @@ package org.jboss.as.quickstarts.ejb_security;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.HttpConstraint;
@@ -27,14 +28,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.jboss.as.quickstarts.ejb_security.SecuredEJB;
 
 /**
  * A simple secured Servlet which calls a secured EJB. Upon successful authentication and authorization the EJB will return the
  * principal's name. Servlet security is implemented using annotations.
- * 
+ *
  * @author Sherif Makary
- * 
+ *
  */
 @SuppressWarnings("serial")
 @WebServlet("/SecuredEJBServlet")
@@ -46,8 +46,9 @@ public class SecuredEJBServlet extends HttpServlet {
     private static String PAGE_FOOTER = "</body></html>";
 
     // Inject the Secured EJB
+    //@EJB(lookup="java:global/wildfly-ejb-security/SecuredEJB")
     @EJB
-    private SecuredEJB securedEJB;
+    private SecuredRemote securedEJB;
 
     /**
      * Servlet entry point method which calls securedEJB.getSecurityInfo()

@@ -47,12 +47,12 @@
 
         <version.wildfly>8.1.0.Final</version.wildfly>
 
-
         <version.jboss.spec.javaee.7.0>1.0.0.Final</version.jboss.spec.javaee.7.0>
-
 
         <!-- other plugin versions -->
         <version.compiler.plugin>3.1</version.compiler.plugin>
+
+        <version.exec.plugin>1.2.1</version.exec.plugin>
 
         <!-- maven-compiler-plugin -->
         <maven.compiler.target>1.7</maven.compiler.target>
@@ -118,6 +118,56 @@
             <artifactId>jboss-ejb3-ext-api</artifactId>
         </dependency>
 
+       <!-- JBoss EJB client API jar. We use runtime scope because the EJB client API
+        isn't directly used in this example. We just need it in our runtime classpath -->
+       <dependency>
+           <groupId>org.jboss</groupId>
+           <artifactId>jboss-ejb-client</artifactId>
+           <scope>runtime</scope>
+       </dependency>
+
+       <!-- client communications with the server use XNIO -->
+       <dependency>
+           <groupId>org.jboss.xnio</groupId>
+           <artifactId>xnio-api</artifactId>
+           <scope>runtime</scope>
+       </dependency>
+
+       <dependency>
+           <groupId>org.jboss.xnio</groupId>
+           <artifactId>xnio-nio</artifactId>
+           <scope>runtime</scope>
+       </dependency>
+
+      <!-- The client needs JBoss remoting to access the server -->
+       <dependency>
+            <groupId>org.jboss.remoting</groupId>
+            <artifactId>jboss-remoting</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- Remote EJB accesses can be secured -->
+        <dependency>
+            <groupId>org.jboss.sasl</groupId>
+            <artifactId>jboss-sasl</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- data serialization for invoking remote EJBs -->
+        <dependency>
+            <groupId>org.jboss.marshalling</groupId>
+            <artifactId>jboss-marshalling-river</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+       <!-- Import the transaction spec API, we use runtime scope because we aren't using any direct
+        reference to the spec API in our client code -->
+      <dependency>
+         <groupId>org.jboss.spec.javax.transaction</groupId>
+         <artifactId>jboss-transaction-api_1.2_spec</artifactId>
+         <scope>runtime</scope>
+      </dependency>
+
     </dependencies>
 
     <build>
@@ -125,6 +175,31 @@
             is deployed -->
         <finalName>${project.artifactId}</finalName>
         <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>${version.exec.plugin}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <executable>java</executable>
+                    <workingDirectory>${project.build.directory}/exec-working-directory</workingDirectory>
+                    <arguments>
+                        <!-- automatically creates the classpath using all project dependencies, 
+                             also adding the project build directory -->
+                        <argument>-classpath</argument>
+                        <classpath>
+                        </classpath>
+                        <argument>org.jboss.as.quickstarts.ejb_security.RemoteClient</argument>
+                    </arguments>
+                </configuration>
+            </plugin>
+
             <!-- WildFly plugin to deploy war -->
             <plugin>
                 <groupId>org.wildfly.plugins</groupId>
