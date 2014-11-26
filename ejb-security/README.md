@@ -10,7 +10,7 @@ Source: <https://github.com/wildfly/quickstart/>
 What is it?
 -----------
 
-This example demonstrates the use of Java EE declarative security to control access to Servlets and EJBs in *JBoss WildFly*.
+This example demonstrates the use of Java EE declarative security to control access to Servlets and EJBs in *WildFly*.
 
 This quickstart takes the following steps to implement EJB security:
 
@@ -53,6 +53,8 @@ Add the Application Users
 ---------------
 
 This quickstart uses a secured management interface and requires that you create an application user to access the running application. Instructions to set up an Application user can be found here:  [Add an Application User](../README.md#addapplicationuser)
+
+For this quickstart it is recommended you create a user called `quickstartUser` with a password of `quickstartPwd1!` and ensure they are granted the role `guest`.
 
 After you add the default `quickstartUser`, use the same steps to add a second application user who is not in the `guest` role and therefore is not authorized to access the application. 
 
@@ -118,7 +120,18 @@ When you access the application, you are presented with a browser login challeng
         exception
         javax.ejb.EJBAccessException: JBAS014502: Invocation on method: public java.lang.String org.jboss.as.quickstarts.ejb_security.SecuredEJB.getSecurityInfo() of bean: SecuredEJB is not allowed
 
+Remote Client
+-------------
 
+In addition to access through the web application it is also possible to access the secured EJB from a remote stand alone client.
+
+1.  Type this command to execute the client:
+
+		mvn exec:exec
+
+This will execute the remote client which connects to the server and invokes the `getSecurityInfo()` method of the EJB to obtain the name of the current authenticated user.
+
+One important file to note is under `src/main/resources` and is called `jboss-ejb-client.properties` this file contains the settings to connect to the server and also supplies the username and password of the user to connect as.
 
 Undeploy the Archive
 --------------------
