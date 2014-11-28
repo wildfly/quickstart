@@ -31,7 +31,7 @@ The application this project produces is designed to be run on JBoss WildFly.
 Configure Maven 
 -------------
 
-If you have not yet done so, you must [Configure Maven](../README.md#mavenconfiguration) before testing the quickstarts.
+If you have not yet done so, you must [Configure Maven](../README.md#configure-maven) before testing the quickstarts.
 
 
 Start JBoss WildFly with the Web Profile
