@@ -61,7 +61,7 @@ public class Racer {
      * cdi injection of the JAX-RS 2.0 race stage
      */
     @Inject
-    private JAXRSRaceStage jaxrsRaceStage;
+    private JAXRSRaceStage jaxrsRaceStageRen;
 
     /**
      * cdi injection of the JMS 2.0 race stage
@@ -73,7 +73,7 @@ public class Racer {
      * cdi injection of the JSON 1.0 race stage
      */
     @Inject
-    private JSONRaceStage jsonRaceStage;
+    private JSONRaceStage jsonRaceStageRen;
 
     /**
      * the racer's registration , which the racer uses to "interact" with a race
@@ -147,11 +147,11 @@ public class Racer {
         registration.broadcast("completed the Batch 1.0 stage.");
         eeConcurrencyRaceStage.run(registration);
         registration.broadcast("completed the EE Concurrency 1.0 stage.");
-        jaxrsRaceStage.run(registration);
+        jaxrsRaceStageRen.run(registration);
         registration.broadcast("completed the JAX-RS 2.0 stage.");
         jmsRaceStage.run(registration);
         registration.broadcast("completed the JMS 2.0 stage.");
-        jsonRaceStage.run(registration);
+        jsonRaceStageRen.run(registration);
         registration.broadcast("completed the JSON 1.0 stage.");
     }
 }
