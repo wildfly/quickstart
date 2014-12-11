@@ -108,19 +108,16 @@ If you do not yet have an OpenShift account and domain, [Sign in to OpenShift](h
 
 Open a shell command prompt and change to a directory of your choice. Enter the following command for quickstarts running on WildFly 8:
 
-    rhc app create wildflyThreadRacing https://cartreflect-claytondev.rhcloud.com/reflect?github=openshift-cartridges/openshift-wildfly-cartridge
+    rhc app create wildflyThreadRacing jboss-wildfly-8
 
 The domain name for this application will be `wildflyThreadRacing-<YOUR_DOMAIN_NAME>.rhcloud.com`. Here we use the _quickstart_ domain. You will need to replace it with your own OpenShift domain name.
 
 This command creates an OpenShift application called `wildflyThreadRacing` and will run the application inside the `wildfly-8` container. You should see some output similar to the following:
 
-    The cartridge 'https://cartreflect-claytondev.rhcloud.com/reflect?github=openshift-cartridges/openshift-wildfly-cartridge' will
-    be downloaded and installed
-
     Application Options
     -------------------
     Domain:     quickstart
-    Cartridges: https://cartreflect-claytondev.rhcloud.com/reflect?github=openshift-cartridges/openshift-wildfly-cartridge
+    Cartridges: jboss-wildfly-8
     Gear Size:  default
     Scaling:    no
 
