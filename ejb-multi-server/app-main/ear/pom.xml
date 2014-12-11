@@ -20,13 +20,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.jboss.as.quickstarts</groupId>
-        <artifactId>jboss-ejb-multi-server-app-main</artifactId>
+        <groupId>org.wildfly.quickstarts</groupId>
+        <artifactId>wildfly-ejb-multi-server-app-main</artifactId>
         <version>9.0.0-SNAPSHOT</version>
     </parent>
-    <artifactId>jboss-ejb-multi-server-app-main-ear</artifactId>
+    <artifactId>wildfly-ejb-multi-server-app-main-ear</artifactId>
     <packaging>ear</packaging>
-    <name>JBoss EAP Quickstart: ejb-multi-server - app-main - ear</name>
+    <name>WildFly Quickstarts: ejb-multi-server - app-main - ear</name>
     <description>Create the deployable main-app archive
      Include the EJB and WEB application together with the necessary API libraries
      of the sub applications app-one and app-two.
@@ -42,13 +42,13 @@
   <!-- add the EJB and WEB project as dependency to include it in the EAR -->
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>jboss-ejb-multi-server-app-main-ejb</artifactId>
+            <artifactId>wildfly-ejb-multi-server-app-main-ejb</artifactId>
             <type>ejb</type>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>jboss-ejb-multi-server-app-main-web</artifactId>
+            <artifactId>wildfly-ejb-multi-server-app-main-web</artifactId>
             <type>war</type>
             <version>${project.version}</version>
         </dependency>
@@ -78,23 +78,23 @@
                     <modules>
                         <ejbModule>
                             <groupId>${project.groupId}</groupId>
-                            <artifactId>jboss-ejb-multi-server-app-main-ejb</artifactId>
+                            <artifactId>wildfly-ejb-multi-server-app-main-ejb</artifactId>
                             <bundleFileName>ejb.jar</bundleFileName>
                         </ejbModule>
                         <webModule>
                             <groupId>${project.groupId}</groupId>
-                            <artifactId>jboss-ejb-multi-server-app-main-web</artifactId>
+                            <artifactId>wildfly-ejb-multi-server-app-main-web</artifactId>
                             <bundleFileName>jsf.war</bundleFileName>
                         </webModule>
             <!-- add the necessary EJB client interfaces of AppOne and AppTwo to the lib directory of the EAR -->
                         <ejbClientModule>
                             <groupId>${project.groupId}</groupId>
-                            <artifactId>jboss-ejb-multi-server-app-one-ejb</artifactId>
+                            <artifactId>wildfly-ejb-multi-server-app-one-ejb</artifactId>
                             <bundleDir>lib</bundleDir>
                         </ejbClientModule>
                         <ejbClientModule>
                             <groupId>${project.groupId}</groupId>
-                            <artifactId>jboss-ejb-multi-server-app-two-ejb</artifactId>
+                            <artifactId>wildfly-ejb-multi-server-app-two-ejb</artifactId>
                             <bundleDir>lib</bundleDir>
                         </ejbClientModule>
                     </modules>
