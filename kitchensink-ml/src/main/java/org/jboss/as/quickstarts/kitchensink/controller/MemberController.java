@@ -31,7 +31,7 @@ import org.jboss.as.quickstarts.kitchensink.util.KitchensinkMessages;
 // The @Model stereotype is a convenience mechanism to make this a request-scoped bean that has an
 // EL name
 // Read more about the @Model stereotype in this FAQ:
-// http://sfwk.org/Documentation/WhatIsThePurposeOfTheModelAnnotation
+// http://www.cdi-spec.org/faq/#accordion6
 @Model
 public class MemberController {
 
