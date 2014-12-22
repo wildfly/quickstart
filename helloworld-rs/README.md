@@ -3,14 +3,14 @@ helloworld-rs: Helloworld Using JAX-RS (Java API for RESTful Web Services)
 Author: Gustavo A. Brey, Gaston Coco
 Level: Intermediate
 Technologies: CDI, JAX-RS
-Summary: Demonstrates the use of CDI 1.0 and JAX-RS
+Summary: Demonstrates the use of CDI 1.1 and JAX-RS
 Target Project: WildFly
 Source: <https://github.com/wildfly/quickstart/>
 
 What is it?
 -----------
 
-This example demonstrates the use of *CDI 1.0* and *JAX-RS* in *WildFly*.
+This example demonstrates the use of *CDI 1.1* and *JAX-RS* in *WildFly*.
 
 
 System requirements

@@ -3,14 +3,14 @@ cdi-injection: Example Using CDI (Contexts and Dependency Injection)
 Author: Jason Porter
 Level: Beginner
 Technologies: CDI
-Summary: Demonstrates the use of CDI 1.0 Injection and Qualifiers with JSF as the front-end client.
+Summary: Demonstrates the use of CDI 1.1 Injection and Qualifiers with JSF as the front-end client.
 Target Project: WildFly
 Source: <https://github.com/wildfly/quickstart/>
 
 What is it?
 -----------
 
-This example demonstrates the use of *CDI 1.0 Injection and Qualifiers* in *JBoss WildFly* with JSF as the front-end client.
+This example demonstrates the use of *CDI 1.1 Injection and Qualifiers* in *JBoss WildFly* with JSF as the front-end client.
 
 
 System requirements

@@ -4,7 +4,7 @@ Author: Brad Maxwell
 
 What is it?
 -----------
-This example extends the `ejb-in-ear` quickstart and demonstrates how to handle Exceptions across JARs in an EAR. In this quickstart, an EJB in the EJB JAR throws a custom Exception. The web application in the client JAR catches the Exception and displays it in a nicely formatted message. The EAR contains: *JSF 2.0 WAR*, an *EJB 3.1* JAR and a client library JAR containg classes that both the WAR and EJB JAR use.
+This example extends the `ejb-in-ear` quickstart and demonstrates how to handle Exceptions across JARs in an EAR. In this quickstart, an EJB in the EJB JAR throws a custom Exception. The web application in the client JAR catches the Exception and displays it in a nicely formatted message. The EAR contains: *JSF 2.2 WAR*, an *EJB 3.2* JAR and a client library JAR containg classes that both the WAR and EJB JAR use.
 
 The example is composed of three Maven projects, each with a shared parent. The projects are as follows:
 

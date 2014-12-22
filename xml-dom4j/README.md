@@ -10,7 +10,7 @@ Source: <https://github.com/wildfly/quickstart/>
 What is it?
 -----------
 
-This is a simple JSF 2.0, Servlet 3.0 and DOM4J example. Its purpose is to demonstrate how you can use Servlet and JSF to upload an XML file to *JBoss WildFly* and parse it using 3rd party XML parsing library.
+This is a simple JSF 2.2, Servlet 3.1 and DOM4J example. Its purpose is to demonstrate how you can use Servlet and JSF to upload an XML file to *JBoss WildFly* and parse it using 3rd party XML parsing library.
 
 It shows how to include 3rd part library in deployment.
  

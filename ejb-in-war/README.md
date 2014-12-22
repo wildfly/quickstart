@@ -10,7 +10,7 @@ Source: <https://github.com/wildfly/quickstart/>
 What is it?
 -----------
 
-This example demonstrates the deployment of an *EJB 3.1* bean bundled in a war archive for deployment to *JBoss WildFly*. The project also includes a set of Aquillian tests for the managed bean and EJB.
+This example demonstrates the deployment of an *EJB 3.2* bean bundled in a war archive for deployment to *JBoss WildFly*. The project also includes a set of Aquillian tests for the managed bean and EJB.
 
 The example follows the common "Hello World" pattern. These are the steps that occur:
 

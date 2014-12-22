@@ -10,7 +10,7 @@ Source: <https://github.com/wildfly/quickstart/>
 What is it?
 -----------
 
-This example demonstrates the use of an *EJB 3.1 Stateless Session Bean* and *CDI* to access it via a *JSF*.
+This example demonstrates the use of an *EJB 3.2 Stateless Session Bean* and *CDI* to access it via a *JSF*.
 Deployment occurs via a war archive for deployment to *JBoss WildFly*.
 
 These are the steps that occur:

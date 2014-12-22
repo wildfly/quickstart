@@ -10,7 +10,7 @@ Source: <https://github.com/wildfly/quickstart/>
 What is it?
 -----------
 
-This is a simple JSF 2.0 example based on the `hibernate4` quickstart. Its purpose is to demonstrate how you can use Hibernate 3 in your application.
+This is a simple JSF 2.2 example based on the `hibernate4` quickstart. Its purpose is to demonstrate how you can use Hibernate 3 in your application.
 
 This quickstart, like the `log4j` quickstart, demonstrates how to define a module dependency. However, this quickstart goes beyond that and also demonstrates the following:
  

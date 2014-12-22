@@ -10,7 +10,7 @@ Source: <https://github.com/wildfly/quickstart/>
 What is it?
 -----------
 
-This example demonstrates sending email with the use of *CDI 1.0* and *JSF 2.0* in *JBoss WildFly*.
+This example demonstrates sending email with the use of *CDI 1.1* and *JSF 2.2* in *JBoss WildFly*.
 
 The example uses the default Mail provider that comes out of the box with *JBoss WildFly*.  It uses your local mail relay and the default SMTP port of 25.
 

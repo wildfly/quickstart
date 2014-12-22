@@ -10,7 +10,7 @@ Source: <https://github.com/wildfly/quickstart/>
 What is it?
 -----------
 
-This example shows how to access an EJB from a remote Java client application. It demonstrates the use of *EJB 3.1* and *JNDI* in *JBoss WildFly*.
+This example shows how to access an EJB from a remote Java client application. It demonstrates the use of *EJB 3.2* and *JNDI* in *JBoss WildFly*.
 
 There are two components to this example: 
 

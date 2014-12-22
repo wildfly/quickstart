@@ -3,7 +3,7 @@ jax-rs-client: External JAX-RS Client
 Author: Blaine Mincey
 Level: Intermediate
 Technologies: JAX-RS
-Summary: Demonstrates the use an external JAX-RS RestEasy client which interacts with a JAX-RS Web service that uses CDI 1.0 and JAX-RS
+Summary: Demonstrates the use an external JAX-RS RestEasy client which interacts with a JAX-RS Web service that uses CDI 1.1 and JAX-RS
 Prerequisites: helloworld-rs
 Target Project: WildFly
 Source: <https://github.com/wildfly/quickstart/>
@@ -11,7 +11,7 @@ Source: <https://github.com/wildfly/quickstart/>
 What is it?
 -----------
 
-This example demonstrates an external JAX-RS RestEasy client which interacts with a JAX-RS Web service that uses *CDI 1.0* and *JAX-RS* 
+This example demonstrates an external JAX-RS RestEasy client which interacts with a JAX-RS Web service that uses *CDI 1.1* and *JAX-RS* 
 in *JBoss WildFly*.
 
 This client "calls" the HelloWorld JAX-RS Web Service that was created in the `helloworld-rs` quickstart. See the **Prerequisite** section below for details on how to build and deploy the `helloworld-rs` quickstart.

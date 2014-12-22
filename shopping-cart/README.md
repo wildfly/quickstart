@@ -1,4 +1,4 @@
-shopping-cart: EJB 3.1 Stateful Session Bean (SFSB) Example 
+shopping-cart: EJB 3.2 Stateful Session Bean (SFSB) Example 
 =====================================
 Author: Serge Pagop
 Level: Intermediate

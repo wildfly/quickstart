@@ -10,7 +10,7 @@ Source: <https://github.com/wildfly/quickstart/>
 What is it?
 -----------
 
-This example demonstrates the deployment of an EAR artifact. The EAR contains: *JSF 2.0* WAR and an *EJB 3.1* JAR.
+This example demonstrates the deployment of an EAR artifact. The EAR contains: *JSF 2.2* WAR and an *EJB 3.2* JAR.
 
 The example is composed of three maven projects, each with a shared parent. The projects are as follows:
 

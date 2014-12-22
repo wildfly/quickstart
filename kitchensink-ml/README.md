@@ -12,7 +12,7 @@ What is it?
 
 This is your project! It is a sample, deployable Maven 3 project to help you get your foot in the door developing with Java EE 7 on JBoss WildFly.
 
-This project is setup to allow you to create a _localized_ Java EE 7 compliant application using JSF 2.0, CDI 1.0, EJB 3.1, JPA 2.0 and Bean Validation 1.0. A localized application is one that supports multiple languages. That is what the _-ml_ suffix denotes in the quickstart name `kitchensink-ml`. This quickstart also includes a persistence unit and some sample persistence and transaction code to introduce you to database access in enterprise Java.
+This project is setup to allow you to create a _localized_ Java EE 7 compliant application using JSF 2.2, CDI 1.1, EJB 3.2, JPA 2.1 and Bean Validation 1.1. A localized application is one that supports multiple languages. That is what the _-ml_ suffix denotes in the quickstart name `kitchensink-ml`. This quickstart also includes a persistence unit and some sample persistence and transaction code to introduce you to database access in enterprise Java.
 
 This quickstart uses the `kitchensink` quickstart as its starting point. It has been enhanced to provide localization of labels and messages. A user sets the preferred language choice in the browser and, if the application supports that language, the application web page is rendered in that language. For demonstration purposes, this quickstart has been tranlated into French(fr) and Spanish (es) using <http://translate.google.com>, so the translations may not be ideal.
 

@@ -3,14 +3,14 @@ numberguess: Example Using CDI (Contexts and Dependency Injection) and JSF (Java
 Author: Pete Muir
 Level: Beginner
 Technologies: CDI, JSF
-Summary: Demonstrates the use of CDI 1.0 and JSF 2.0
+Summary: Demonstrates the use of CDI 1.1 and JSF 2.2
 Target Project: WildFly
 Source: <https://github.com/wildfly/quickstart/>
 
 What is it?
 -----------
 
-This example demonstrates the use of *CDI 1.0* and *JSF 2.0* in *JBoss WildFly*.
+This example demonstrates the use of *CDI 1.1* and *JSF 2.2* in *JBoss WildFly*.
 
 There is a tutorial for this quickstart in the [Getting Started Developing Applications Guide](https://github.com/wildfly/quickstart/guide/NumberguessQuickstart/).
 

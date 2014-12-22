@@ -10,7 +10,7 @@ Source: <https://github.com/wildfly/quickstart/>
 What is it?
 -----------
 
-This is a simple JSF 2.0, Servlet 3.0 and Java EE JAXP example. Its purpose is to demonstrate how you can use Servlet and JSF to upload an XML file to *JBoss WildFly* and parse it using DOM or SAX, both of which are built in to Java.
+This is a simple JSF 2.2, Servlet 3.1 and Java EE JAXP example. Its purpose is to demonstrate how you can use Servlet and JSF to upload an XML file to *JBoss WildFly* and parse it using DOM or SAX, both of which are built in to Java.
 
 It also shows how to use modules available in WildFly.
  

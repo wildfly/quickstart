@@ -3,14 +3,14 @@ payment-cdi-event: Use CDI Events to Process Debit and Credit Operations
 Author: Elvadas Nono
 Level: Beginner
 Technologies: CDI
-Summary: Demonstrates how to use CDI 1.0 Events
+Summary: Demonstrates how to use CDI 1.1 Events
 Target Project: WildFly
 Source: <https://github.com/wildfly/quickstart/>
 
 What is it?
 -----------
 
-This quickstart demonstrates how to use *CDI 1.0 Events* in  *JBoss WildFly*.
+This quickstart demonstrates how to use *CDI 1.1 Events* in  *JBoss WildFly*.
 
 The JSF front-end client allows you to create both credit and debit operation events.
 
