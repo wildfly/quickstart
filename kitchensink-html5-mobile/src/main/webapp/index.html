@@ -1,6 +1,7 @@
+<!DOCTYPE html>
 <!--
     JBoss, Home of Professional Open Source
-    Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+    Copyright 2014, Red Hat, Inc. and/or its affiliates, and individual
     contributors by the @authors tag. See the copyright.txt in the
     distribution for a full listing of individual contributors.
 
@@ -14,349 +15,277 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<!DOCTYPE html>
 <html>
 <head>
-    <title>AeroGear QuickStarts</title>
+    <title>HTML5 QuickStart</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <!-- Disable phone number detection on iOS.  -->
+    <meta name="format-detection" content="telephone=no" />
 
     <!-- Set the tab, home page, shortcut icons -->
-    <link rel="Shortcut Icon" href="img/aerogear_icon_16x.png">
-    <link rel="apple-touch-icon" href="img/aerogear_avatar_48px.png"/>
+    <!-- <link rel="Shortcut Icon" href="img/"> -->
+    <!-- <link rel="apple-touch-icon" href="img/"/> -->
 
     <!-- For minification, comment out this link -->
-    <!-- Shared styles -->
+    <link rel="stylesheet" href="css/jquery.mobile-1.4.2.css"/>
+    <!-- For minification, uncomment out this file -->
+    <!--<link rel="stylesheet" href="css/jquery.mobile-1.4.2.min.css"/>-->
+
+    <!-- For minification, comment out this link -->
     <link rel="stylesheet" href="css/screen.css"/>
+    <!-- For minification, uncomment out this file -->
+    <!--<link rel="stylesheet" href="css/screen.min.css"/>-->
 
     <!-- Set viewport scaling and zoom features -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <script type="text/javascript" src="js/libs/modernizr-2.6.2.min.js"></script>
+    <!-- For minification, comment out this file -->
+    <script type="text/javascript" src="js/libs/jquery-2.0.3.js"></script>
+    <!-- For minification, uncomment out this file -->
+    <!--<script type="text/javascript" src="js/libs/jquery-2.0.3.min.js"></script>-->
+
+    <!-- For minification, comment out this file -->
+    <script type="text/javascript" src="js/libs/jquery.mobile-1.4.2.js"></script>
+    <!-- For minification, uncomment out this file -->
+    <!--<script type="text/javascript" src="js/libs/jquery.mobile-1.4.2.min.js"></script>-->
+    
+    <!-- For minification, comment out this file -->
+    <script type="text/javascript" src="js/libs/lodash-2.4.1.js"></script>
+    <!-- For minification, uncomment out this file -->
+    <!--<script type="text/javascript" src="js/libs/lodash-2.4.1.min.js"></script>-->
+    
+    <!-- For minification, comment out this file -->
+    <script type="text/javascript" src="js/app.js"></script>
+    <!-- For minification, uncomment out this file -->
+    <!-- <script type="text/javascript" src="js/app.min.js"></script> -->
 
     <script type="text/javascript">
-        Modernizr.load([{
-            //Load CDN hosted jQuery or fall back to local file.
-            /*--------Note-----------
-             This approach should only be used if you trust the source of where the resource (JavaScript) is located.
-             In this case, use of the google CDN is much faster if your user's browser already has this file cached.
-             If they don't have it cached, try to load it from the CDN as this will be faster if the user is
-             located closer to a CDN than you currently hosted server.
-             */
-            load: [
-		"//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js",
-                "js/libs/lodash.min.js",
-                // Minification - See Readme for details
-                // For minification, comment out this file
-                "js/app.js"
-                // For minification, uncomment this file
-                // "js/app.min.js"
-            ],
-            complete: function() {
-                if ( !window.jQuery ) {
-                    //In production, you would want to fall back to a minified file.
-                    //We fall back to the full version because Eclipse reports false errors in some minified JavaScript files.
-                    yepnope( "js/libs/jquery-1.9.1.min.js" );
-                }
-            }
-        },{
-            //device detection and asynchronous script loading
-            /*--------Note-----------
-             Here we're using the yepnope framework which gives us the ability to load scripts dynamically, based on
-             Modernizr's results.
-             With Modernizr, we use media queries and touch detection to see if we are on a mobile, touch based device
-             or if we're at anything less than 480px.. this gives us a mobile ui on desktop browsers when resized to <480px
-             width for testing.
-             */
-            test: Modernizr.mq( "only all and (max-width: 640px)" ),
-            yep: {
-                //assign labeled callbacks for later execution after script loads.
-                //we are on mobile device so load appropriate CSS
-                "jqmcss": "css/jquery.mobile-1.3.1.min.css",
-                // For minification, uncomment this line
-                //"mcss": "css/m.screen.min.css"
-                // For minification, comment out this line
-                "mcss": "css/m.screen.css"
-            },
-            nope: {
-                //we are on desktop
-                // For minification, uncomment this line
-                //"scss": "css/d.screen.min.css"
-                // For minification, comment out this line
-                "scss": "css/d.screen.css"
-            },
-            callback: {
-                //use the labeled callbacks from above, and load jQuery Mobile
-                "jqmcss": function( url, result, key ) {
-                    yepnope({
-                        load: "js/libs/jquery.mobile-1.3.1.min.js",
-                        complete: function() {
-                            console.log( "jQuery Mobile Loaded" );
-                        }
-                    });
-                },
-                "scss": function( url, result, key ) {
-                    $( document ).ready( function() {
-                        //here we are moving content around based on the browser/device.
-                        $( "aside" ).insertAfter( $( "section" ) );
-                    });
-                }
-            },
-            complete: function() {
-                $( document ).ready( function() {
-                    //setup the app after all scripts have loaded
+        $( document ).ready( function() {
+            //setup the app after all scripts have loaded
 
-                    $( "#container" ).show();
-                    //Fetches the initial member data and populates the table using lodash templates
-                    updateMemberTable();
-
-                    //Register an event listener on the sumbit action
-                    $('#reg').submit(function(event) {
-                        event.preventDefault();
-
-                        var memberData = $(this).serializeObject();
-
-                        registerMember(memberData);
-                    });
-
-                    //Register the cancel listener
-                    $('#cancel').click(function(event) {
-                        //clear input fields
-                        $('#reg')[0].reset();
-
-                        //clear existing msgs
-                        $('span.invalid').remove();
-                        $('span.success').remove();
-                    });
-
-                    $("#refreshButtonD, #refreshButtonM").click(function(event) {
-                        updateMemberTable();
-                    });
-
-                    //Clear member registration and error messages on page change
-                    $("#container").delegate("#register-art", "pagebeforeshow", function(event) {
-                        $("#formMsgs").empty();
-                        $('span.invalid').remove();
-                    });
+            $(function() {
+                // Enhance the footer since it is present outside the page definition and hence not enhanced automatically.
+                $( "[data-role='footer']" ).toolbar();
+                $( "[data-role='navbar']" ).navbar();
+            });
+            // Update the contents of the toolbars
+            $( document ).on( "pageshow", "[data-role='page']", function() {
+                var current = $( this ).jqmData( "title" );
+                // Remove active class from nav buttons
+                $( "[data-role='navbar'] a.ui-btn-active" ).removeClass( "ui-btn-active" );
+                // Add active class to current nav button
+                $( "[data-role='navbar'] a" ).each(function() {
+                    if ( $( this ).text() === current ) {
+                        $( this ).addClass( "ui-btn-active" );
+                    }
                 });
+            });
 
-                $.fn.serializeObject = function() {
-                    var o = {};
-                    var a = this.serializeArray();
-                    $.each(a, function() {
-                        if (o[this.name]) {
-                            if (!o[this.name].push) {
-                                o[this.name] = [o[this.name]];
-                            }
-                            o[this.name].push(this.value || '');
-                        } else {
-                            o[this.name] = this.value || '';
-                        }
-                    });
-                    return o;
-                };
-            }
-        }]);
+            // On browsing to the Members jQuery Mobile page, update it to show all members
+            $("#member-art").on("pagebeforeshow", function() {
+                // Fetches the initial member data and populates the table using lodash templates
+                updateMemberTable();
+            });
+
+            //Register an event listener on the submit action
+            $('#reg').submit(function(event) {
+                event.preventDefault();
+
+                var memberData = $(this).serializeObject();
+
+                registerMember(memberData);
+            });
+
+            //Register the cancel listener
+            $('#cancel').click(function(event) {
+                //clear input fields
+                $('#reg')[0].reset();
+
+                //clear existing msgs
+                $('span.invalid').remove();
+                $('span.success').remove();
+            });
+
+            $("#refreshButton").click(function(event) {
+                updateMemberTable();
+            });
+
+            //Clear member registration and error messages on page change
+            $("#register-art").on("pagebeforeshow", function(event) {
+                $("#formMsgs").empty();
+                $('span.invalid').remove();
+            });
+        });
+
+        $.fn.serializeObject = function() {
+            var o = {};
+            var a = this.serializeArray();
+            $.each(a, function() {
+                if (o[this.name]) {
+                    if (!o[this.name].push) {
+                        o[this.name] = [o[this.name]];
+                    }
+                    o[this.name].push(this.value || '');
+                } else {
+                    o[this.name] = this.value || '';
+                }
+            });
+            return o;
+        };
     </script>
 </head>
 <body>
-<div id="container" style="display:none">
-    <div class="logo">
-        <img src="img/aerogear_logo_150px.png"/>
-    </div>
-    <div class="dualbrand">
-        <img src="img/dualbrand_logo.png"/>
-    </div>
-    <section>
-        <h1>Welcome to JBoss &amp; HTML5!</h1>
-        <article id="intro-art" data-role="page" data-theme="a">
-            <!-- Header -->
-            <div data-role="header" class="header">
-                <img class="header_logo" src="img/icon_medium.png"/>
-                <h3>HTML5 Quickstart</h3>
-                <a href="#info-aside" data-role="button" data-icon="info" class="ui-btn-right" data-iconpos="notext" data-rel="dialog"></a>
-            </div>
-            <!-- /Header -->
+    <div id="container">
+        <section>
+            <article id="intro-art" data-role="page" data-title="Home">
+                <!-- Header -->
+                <div data-role="header" class="header">
+                    <h3>HTML5 Quickstart</h3>
+                    <a href="#info-aside" class="ui-btn ui-btn-right ui-icon-info ui-btn-icon-notext ui-corner-all" data-rel="popup" data-position-to="window">About</a>
+                </div>
+                <!-- /Header -->
 
-            <div data-role="content">
-                <img src="img/aerogear_icon_64px.png" class="mobileicon"/>
-                <p>You have successfully deployed a Java EE 7 web application.</p>
-                <h3>Your application can run on:</h3>
-                <img src="img/dualbrand_as7eap.png" class="max-width-100"/>
-                <p>This quickstart demonstrates the use of various Mobile, HTML5, CSS3 and JavaScript techniques.</p>
-                <div class="highlights">
+                <div class="ui-content" role="main">
+                    <div class="wrap">
+                        <img src="img/rhjb_eap_logo.png" class="mobileicon"/>
+                        <p>You have successfully deployed a Java EE 7 web application.</p>
+                        <p>This quickstart demonstrates the use of various Mobile, HTML5, CSS3 and JavaScript techniques.</p>
+
+                        <ul id="features">
+                            <li class="feature">Pure HTML client</li>
+                            <li class="feature">JAX-RS GET &amp; POST end points</li>
+                            <li class="feature">HTML5 based page structure</li>
+                            <li class="feature">HTML5 form element &amp; validation</li>
+                            <li class="feature">CSS3 selectors used for styling</li>
+                            <li class="feature">JAX-RS validation handling</li>
+                            <li class="feature">jQuery Mobile integration</li>
+                            <li class="feature">QUnit test suite to validate JavaScript</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- New HTML5 aside tag -->
+                <aside id="info-aside" data-role="popup">
+                    <!-- Header -->
+                    <div data-role="header">
+                        <h3>Find out more</h3>
+                        <a href="#" data-rel="back" class="ui-btn ui-btn-right ui-icon-delete ui-btn-icon-notext ui-corner-all">Close</a>
+                    </div>
+                    <!-- /Header -->
+
+                    <div class="ui-content" role="main">
+                        <p>Learn about HTML5/Mobile development on JBoss EAP.</p>
+                        <ul>
+                            <li><a href="http://www.jboss.org/jdf/quickstarts/get-started/" target="_blank">Quickstarts</a></li>
+                            <li><a href="http://www.jboss.org/jdf/quickstarts/jboss-as-quickstart/wfk-quickstarts/kitchensink-html5-mobile/" target="_blank">Get this application</a></li>
+                        </ul>
+                    </div>
+                </aside>
+            </article>
+
+            <!-- New HTML5 article tag -->
+            <article id="register-art" data-role="page" data-title="Add a Member">
+                <!-- Header -->
+                <div data-role="header" class="header">
+                    <h3>HTML5 Quickstart</h3>
+                </div>
+                <!-- /Header -->
+
+                <div class="ui-content" role="main">
+                    <div class="wrap">
+                        <!-- For now mapping bean validation constraints from server side model is a manual task -->
+                        <form name="reg" id="reg" data-ajax="false">
+                            <fieldset>
+                                <legend>Register a member:</legend>
+                                <div class="ui-field-contain">
+                                    <label for="name">Name:</label>
+                                    <input type="text" name="name" id="name" placeholder="Your Name" required autofocus/>
+                                </div>
+                                <div class="ui-field-contain">
+                                    <label for="email">Email:</label>
+                                    <input type="email" name="email" id="email" placeholder="Your Email" required/>
+                                </div>
+                                <div class="ui-field-contain">
+                                    <label for="phoneNumber">Phone #:</label>
+                                    <input type="tel" name="phoneNumber" id="phoneNumber" pattern="[0-9]{10,12}" placeholder="Your Phone #" required/>
+                                </div>
+                                <div id="formMsgs"></div>
+                                <div class="ui-grid-a app-responsive">
+                                    <div class="ui-block-a"><input type="submit" id="register" value="Register" data-theme="b"/></div>
+                                    <div class="ui-block-b"><input type="button" name="cancel" id="cancel" value="Reset"/></div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </article>
+
+            <!-- New HTML5 article tag -->
+            <article id="member-art" data-role="page" data-title="List Members">
+                <!-- Header -->
+                <div data-role="header" class="header" data-position="fixed">
+                    <h3>HTML5 Quickstart</h3>
+                </div>
+                <!-- /Header -->
+
+                <div class="ui-content" role="main">
+                    <div class="wrap">
+                        <button id="refreshButton" data-role="button" data-inline="true" data-icon="refresh">Refresh Members</button>
+                        <table data-role="table" id="member-table" data-mode="reflow" class="app-responsive table-stroke">
+                            <thead>
+                                <tr>
+                                    <th data-priority="1">Id</th>
+                                    <th data-priority="persist">Name</th>
+                                    <th data-priority="2">Email</th>
+                                    <th data-priority="3">Phone #</th>
+                                    <th data-priority="4">REST URL</th>
+                                </tr>
+                            </thead>
+                            <tbody id="members">
+                            <!-- This is where the list of members gets populated by the templates. This row is only
+                                here as an example of the code that will be inserted.
+                            <tr>
+                                <th>0</td>
+                                <td>John Smith</td>
+                                <td><a href="mailto:john.smith@mailinator.com" class="ui-link">john.smith@mailinator.com</a></td>
+                                <td><a href="tel:2125551212" class="ui-link">Call</a> or <a href="sms:2125551212" class="ui-link">SMS</a> 2125551212</td>
+                                <td><a href="rest/members/0" rel="external" target="_blank" class="resturl ui-link">JSON</a></td>
+                            </tr>
+                            -->
+                            </tbody>
+                        </table>
+                        <div class="member-foot">
+                            <!-- Sets the JAX-RS URLs to retrieve all members either as XML or JSON data.-->
+                            REST URL for all members:
+                            <a href="rest/members" target="_blank" rel="external">JSON</a>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Footer -->
+            <div data-role="footer" data-tap-toggle="false" data-position="fixed" data-theme="a">
+                <div data-role="navbar">
                     <ul>
-                        <li>HTML5 Client using JAX-RS REST end points</li>
-                        <li>HTML5 &amp; JAX-RS validation</li>
+                        <li><a href="#intro-art" data-icon="home" class="ui-btn-active">Home</a></li>
+                        <li><a href="#register-art" data-icon="plus">Add a Member</a></li>
+                        <li><a href="#member-art" data-icon="grid">List Members</a></li>
                     </ul>
                 </div>
-                <div class="highlights">
-                    <ul>
-                        <li>jQuery Mobile Integration</li>
-                        <li>QUnit testing for JavaScript validation</li>
-                    </ul>
-                </div>
-
-                <ul id="features">
-                    <li class="feature">Pure HTML client</li>
-                    <li class="feature">JAX-RS GET &amp; POST end points</li>
-                    <li class="feature">HTML5 based page structure</li>
-                    <li class="feature">HTML5 form element &amp; validation</li>
-                    <li class="feature">CSS3 selectors used for styling</li>
-                    <li class="feature">JAX-RS validation handling</li>
-                    <li class="feature">jQuery Mobile integration</li>
-                    <li class="feature">QUnit test suite to validate JavaScript</li>
-                </ul>
-            </div>
-
-            <!-- Footer -->
-            <div class="footer" data-role="footer" data-position="fixed">
-                <div class="footer_left">
-                    <a href="#intro-art" data-role="button" data-icon="home">Home</a>
-                </div>
-                <div class="footer_right">
-                    <span class="footer_txt">Member:</span>
-                    <a href="#register-art" data-role="button" data-inline="true" data-icon="plus">Add</a>
-                    <a href="#member-art" data-role="button" data-inline="true" data-icon="grid">List</a>
-                </div>
             </div>
             <!-- /Footer -->
-        </article>
-
-        <!-- New HTML5 article tag -->
-        <article id="register-art" data-role="page" data-theme="a">
-            <!-- Header -->
-            <div data-role="header" class="header">
-                <img class="header_logo" src="img/icon_medium.png"/>
-                <h3>HTML5 Quickstart</h3>
-                <a href="#info-aside" data-role="button" data-icon="info" class="ui-btn-right" data-iconpos="notext" data-rel="dialog"></a>
-            </div>
-            <!-- /Header -->
-
-            <div data-role="content">
-
-                <!-- For now mapping bean validation constraints from server side model is a manual task -->
-                <form name="reg" id="reg" data-ajax="false">
-                    <fieldset>
-                        <legend>Register a member:</legend>
-                        <div>
-                            <label for="name">Name:</label>
-                            <input type="text" name="name" id="name" placeholder="Your Name" required autofocus/>
-                        </div>
-                        <div>
-                            <label for="email">Email:</label>
-                            <input type="email" name="email" id="email" placeholder="Your Email" required/>
-                        </div>
-                        <div>
-                            <label for="phoneNumber">Phone #:</label>
-                            <input type="tel" name="phoneNumber" id="phoneNumber" pattern="[0-9]{10,12}" placeholder="Your Phone #" required/>
-                        </div>
-                        <div id="formMsgs"></div>
-                        <div data-role="controlgroup" data-type="horizontal">
-                            <input type="submit" id="register" value="Register"/>
-                            <input type="button" name="cancel" id="cancel" value="Cancel"/>
-                        </div>
-                    </fieldset>
-                </form>
-            </div>
-
-            <!-- Footer -->
-            <div class="footer" data-role="footer" data-position="fixed">
-                <div class="footer_left">
-                    <a href="#intro-art" data-role="button" data-icon="home">Home</a>
-                </div>
-                <div class="footer_right">
-                    <span class="footer_txt">Member:</span>
-                    <a href="#register-art" data-role="button" data-inline="true" data-icon="plus">Add</a>
-                    <a href="#member-art" data-role="button" data-inline="true" data-icon="grid">List</a>
-                </div>
-            </div>
-            <!-- /Footer -->
-        </article>
-
-        <!-- New HTML5 article tag -->
-        <article id="member-art" data-role="page" data-theme="a">
-            <!-- Header -->
-            <div data-role="header" class="header" data-position="fixed">
-                <img class="header_logo" src="img/icon_medium.png"/>
-                <h3>HTML5 Quickstart</h3>
-                <a href="#info-aside" data-role="button" data-icon="info" class="ui-btn-right" data-iconpos="notext" data-rel="dialog"></a>
-            </div>
-            <!-- /Header -->
-            <h2>Current Members</h2>
-
-            <div data-role="content">
-                <button id="refreshButtonM" data-role="button" data-inline="true" data-icon="refresh">Refresh Members</button>
-                <div id="members"></div>
-                <div class="member-foot">
-                    <!-- Sets the JAX-RS URLs to retrieve all members either as XML or JSON data.-->
-                    REST URL for all members:
-                    <a href="rest/members" target="_blank" rel="external">JSON</a>
-                    <button id="refreshButtonD">Refresh Members</button>
-                </div>
-            </div>
-
-            <!-- Footer -->
-            <div class="footer" data-role="footer" data-position="fixed">
-                <div class="footer_left">
-                    <a href="#intro-art" data-role="button" data-icon="home">Home</a>
-                </div>
-                <div class="footer_right">
-                    <span class="footer_txt">Member:</span>
-                    <a href="#register-art" data-role="button" data-inline="true" data-icon="plus">Add</a>
-                    <a href="#member-art" data-role="button" data-inline="true" data-icon="grid">List</a>
-                </div>
-            </div>
-            <!-- /Footer -->
-        </article>
-
-        <!-- New HTML5 aside tag -->
-        <aside id="info-aside" data-role="page" data-theme="a">
-            <!-- Header -->
-            <div data-role="header">
-                <h3>Find out more</h3>
-            </div>
-            <!-- /Header -->
-
-            <div data-role="content">
-                <p>Learn more about JBoss WildFly.</p>
-                <ul>
-                    <li><a href="https://docs.jboss.org/author/display/AS7/Getting+Started+Developing+Applications+Guide" target="_blank">Getting Started Developing Applications Guide</a></li>
-                    <li><a href="http://jboss.org/jbossas" target="_blank">Community Project Information</a></li>
-                </ul>
-                <p>Learn about <strong>AeroGear</strong> and HTML5/Mobile development on JBoss.</p>
-                <ul>
-                    <li><a href="http://aerogear.org" target="_blank">AeroGear Project site</a></li>
-                    <li><a href="http://aerogear.org/docs/guides/HTML5RESTApps" target="_blank">More on <strong>HTML5 + REST</strong></a></li>
-                    <li><a href="http://aerogear.org/docs/guides/GetStartedHTML5MobileWeb/" target="_blank">Get this application</a></li>
-                    <li><a href="http://aerogear.org/docs/guides/HTML5MobilQuickstartAndDeepDive" target="_blank">Application deepdive</a></li>
-                    <li><a href="https://github.com/organizations/aerogear" target="_blank">Github</a></li>
-                </ul>
-            </div>
-        </aside>
-    </section>
-
-    <!-- New HTML5 footer tag -->
-    <footer>
-        <!--<img src="img/logo.png" alt="HTML5"/>-->
-        <p>This project was generated from a Maven archetype from JBoss.<br/></p>
-    </footer>
-</div>
-<script type="text/template" id="member-tmpl">
-    <% var addHeader = true;
-    _.each(members, function(member) {
-    if ( Modernizr.mq( "only all and (max-width: 640px)" ) ) {
-    addHeader = true;
-    }
-    %>
-    <div class="row member">
-        <div class="col"><% if ( addHeader ) { %><div class="head">Id</div><% } %><div class="data"><%=member.id%></div></div>
-        <div class="col"><% if ( addHeader ) { %><div class="head">Name</div><% } %><div class="data"><%=member.name%></div></div>
-        <div class="col"><% if ( addHeader ) { %><div class="head">Email</div><% } %><div class="data"><%=member.email%></div></div>
-        <div class="col"><% if ( addHeader ) { %><div class="head">Phone #</div><% } %><div class="data"><%=member.phoneNumber%></div></div>
-        <div class="col"><% if ( addHeader ) { %><div class="head">REST URL</div><% } %><div class="data"><a href="rest/members/<%=member.id%>" rel="external" target="_blank" class="resturl ui-link">JSON</a></div></div>
+        </section>
     </div>
-    <% addHeader = false;
-    }); %>
-</script>
+    <script type="text/template" id="member-tmpl">
+        <% _.each(members, function(member) { %>
+        <tr>
+            <th><%=member.id%></td>
+            <td><%=member.name%></td>
+            <td><a href="mailto:<%=member.email%>" class="ui-link"><%=member.email%></a></td>
+            <td><a href="tel:<%=member.phoneNumber%>" class="ui-link">Call</a> or <a href="sms:<%=member.phoneNumber%>" class="ui-link">SMS</a> <%=member.phoneNumber%></td>
+            <td><a href="rest/members/<%=member.id%>" rel="external" target="_blank" class="resturl ui-link">JSON</a></td>
+        </tr>
+        <% }); %>
+    </script>
 </body>
 </html>
