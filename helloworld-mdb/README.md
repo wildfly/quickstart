@@ -115,19 +115,16 @@ If you do not yet have an OpenShift account and domain, [Sign in to OpenShift](h
 
 Open a shell command prompt and change to a directory of your choice. Enter the following command for quickstarts running on WildFly 8:
 
-    rhc app create helloworldmdb https://cartreflect-claytondev.rhcloud.com/reflect?github=openshift-cartridges/openshift-wildfly-cartridge
+    rhc app create helloworldmdb jboss-wildfly-8
 
 The domain name for this application will be `helloworldmdb-<YOUR_DOMAIN_NAME>.rhcloud.com`. Here we use the _quickstart_ domain. You will need to replace it with your own OpenShift domain name.
 
 This command creates an OpenShift application called `helloworldmdb` and will run the application inside the `wildfly-8` container. You should see some output similar to the following:
 
-    The cartridge 'https://cartreflect-claytondev.rhcloud.com/reflect?github=openshift-cartridges/openshift-wildfly-cartridge' will
-    be downloaded and installed
-    
     Application Options
     -------------------
     Domain:     quickstart
-    Cartridges: https://cartreflect-claytondev.rhcloud.com/reflect?github=openshift-cartridges/openshift-wildfly-cartridge
+    Cartridges: jboss-wildfly-8
     Gear Size:  default
     Scaling:    no
     
@@ -164,7 +161,7 @@ In the `ejb3` subsystem configuration, you also need to add configuration for th
         ...
     </subsystem>
 
-Finally we will configure the messaging subsystem by copying its configuration from WildFly 8.0.0.Final Full configuration profile:
+Finally we will configure the messaging subsystem by copying its configuration from WildFly 8 Full configuration profile:
 
     <subsystem xmlns="urn:jboss:domain:messaging:2.0">
         <hornetq-server>
