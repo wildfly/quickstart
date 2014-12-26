@@ -2,8 +2,8 @@ jax-rs-client: External JAX-RS Client
 ======================
 Author: Blaine Mincey
 Level: Intermediate
-Technologies: JAX-RS
-Summary: Demonstrates the use an external JAX-RS RestEasy client which interacts with a JAX-RS Web service that uses CDI 1.1 and JAX-RS
+Technologies: JAX-RS 2.0
+Summary: Demonstrates the usage of JAX-RS 2.0 client, to interact with a remote JAX-RS 2.0 REST Service
 Prerequisites: helloworld-rs
 Target Project: WildFly
 Source: <https://github.com/wildfly/quickstart/>
@@ -11,7 +11,7 @@ Source: <https://github.com/wildfly/quickstart/>
 What is it?
 -----------
 
-This example demonstrates an external JAX-RS RestEasy client which interacts with a JAX-RS Web service that uses *CDI 1.1* and *JAX-RS* 
+This example demonstrates an external JAX-RS 2.0 client which interacts with a JAX-RS 2.0 Rest service
 in *JBoss WildFly*.
 
 This client "calls" the HelloWorld JAX-RS Web Service that was created in the `helloworld-rs` quickstart. See the **Prerequisite** section below for details on how to build and deploy the `helloworld-rs` quickstart.
@@ -59,10 +59,10 @@ Investigate the Console Output
 This command will compile the example and execute a test to make two separate requests to the Web Service.
 Towards the end of the Maven build output, you should see the following if the execution is successful:
 
-    URL: http://localhost:8080/wildfly-helloworld-rs/rest/
+    URL: http://localhost:8080/wildfly-helloworld-rs/rest/xml
     MediaType: application/xml
     <xml><result>Hello World!</result></xml>
 
-    URL: http://localhost:8080/wildfly-helloworld-rs/rest/
+    URL: http://localhost:8080/wildfly-helloworld-rs/rest/json
     MediaType: application/json
     {"result":"Hello World!"}

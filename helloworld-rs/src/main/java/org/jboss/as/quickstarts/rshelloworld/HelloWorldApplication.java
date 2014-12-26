@@ -14,21 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jboss.as.quickstarts.threadracing.stage.jaxrs;
+
+package org.jboss.as.quickstarts.rshelloworld;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
 /**
- * A class extending {@link javax.ws.rs.core.Application} is the portable way to define JAX-RS 2.0 REST Services, and the {@link javax.ws.rs.ApplicationPath} defines the common path of such services.
+ * A class extending {@link javax.ws.rs.core.Application} is the portable way to define JAX-RS 2.0 resources, and the {@link javax.ws.rs.ApplicationPath} defines the root path shared by all these resources.
+ *
  * @author Eduardo Martins
  */
-@ApplicationPath(BoxApplication.PATH)
-public class BoxApplication extends Application {
-
-    /**
-     * the jaxrs app path
-     */
-    public static final String PATH = "box";
-    
+@ApplicationPath("rest")
+public class HelloWorldApplication extends Application {
 }
