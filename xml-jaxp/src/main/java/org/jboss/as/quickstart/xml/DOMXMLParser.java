@@ -90,7 +90,7 @@ public class DOMXMLParser extends XMLParser {
 
         Document document = this.builder.parse(is);
 
-        List<Book> catalog = new ArrayList<Book>();
+        List<Book> catalog = new ArrayList<>();
 
         Element root = document.getDocumentElement();
         if (!root.getLocalName().equals("catalog")) {
@@ -128,43 +128,56 @@ public class DOMXMLParser extends XMLParser {
             if (childName == null)
                 continue;
 
-            if (childName.equals("author")) {
-                Element childElement = (Element) child;
+            switch (childName) {
+                case "author": {
+                    Element childElement = (Element) child;
 
-                String textVal = getTextValue(childElement);
-                b.setAuthor(textVal);
-            } else if (childName.equals("title")) {
-                Element childElement = (Element) child;
-
-                String textVal = getTextValue(childElement);
-                b.setTitle(textVal);
-            } else if (childName.equals("genre")) {
-                Element childElement = (Element) child;
-
-                String textVal = getTextValue(childElement);
-                b.setGenre(textVal);
-            } else if (childName.equals("price")) {
-                Element childElement = (Element) child;
-
-                String textVal = getTextValue(childElement);
-                b.setPrice(Float.parseFloat(textVal));
-            } else if (childName.equals("publish_date")) {
-                Element childElement = (Element) child;
-
-                String textVal = getTextValue(childElement);
-                Date d;
-                try {
-
-                    d = DATE_FORMATTER.parse(textVal);
-                    b.setPublishDate(d);
-                } catch (ParseException e) {
-                    throw new RuntimeException(e);
+                    String textVal = getTextValue(childElement);
+                    b.setAuthor(textVal);
+                    break;
                 }
+                case "title": {
+                    Element childElement = (Element) child;
 
-            } else if (childName.equals("description")) {
-                Element childElement = (Element) child;
-                String textVal = getTextValue(childElement);
-                b.setDescription(textVal);
+                    String textVal = getTextValue(childElement);
+                    b.setTitle(textVal);
+                    break;
+                }
+                case "genre": {
+                    Element childElement = (Element) child;
+
+                    String textVal = getTextValue(childElement);
+                    b.setGenre(textVal);
+                    break;
+                }
+                case "price": {
+                    Element childElement = (Element) child;
+
+                    String textVal = getTextValue(childElement);
+                    b.setPrice(Float.parseFloat(textVal));
+                    break;
+                }
+                case "publish_date": {
+                    Element childElement = (Element) child;
+
+                    String textVal = getTextValue(childElement);
+                    Date d;
+                    try {
+
+                        d = DATE_FORMATTER.parse(textVal);
+                        b.setPublishDate(d);
+                    } catch (ParseException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                    break;
+                }
+                case "description": {
+                    Element childElement = (Element) child;
+                    String textVal = getTextValue(childElement);
+                    b.setDescription(textVal);
+                    break;
+                }
             }
 
         }

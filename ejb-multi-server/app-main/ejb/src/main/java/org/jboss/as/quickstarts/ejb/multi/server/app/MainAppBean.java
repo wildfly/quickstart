@@ -59,7 +59,7 @@ public class MainAppBean implements MainApp {
     @PostConstruct
     public void init() {
         try {
-            final Hashtable<String, String> p = new Hashtable<String, String>();
+            final Hashtable<String, String> p = new Hashtable<>();
             p.put(Context.URL_PKG_PREFIXES, "org.jboss.ejb.client.naming");
             this.iCtx = new InitialContext(p);
         }catch (NamingException e) {

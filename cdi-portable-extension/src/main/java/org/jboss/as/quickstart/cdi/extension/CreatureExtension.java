@@ -63,6 +63,6 @@ public class CreatureExtension implements Extension {
         Class<? extends Creature> klass = pit.getAnnotatedType().getJavaClass();
         log.info("Setting up injection target for " + klass);
         final Element entry = (Element) document.getElementsByTagName(klass.getSimpleName().toLowerCase()).item(0);
-        pit.setInjectionTarget(new XmlBackedWrappedInjectionTarget<X>(pit.getInjectionTarget(), entry));
+        pit.setInjectionTarget(new XmlBackedWrappedInjectionTarget<>(pit.getInjectionTarget(), entry));
     }
 }

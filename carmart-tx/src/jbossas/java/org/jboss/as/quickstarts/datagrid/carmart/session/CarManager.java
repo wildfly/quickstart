@@ -116,9 +116,9 @@ public class CarManager {
         List<String> result = null;
         List<String> carNumberList = (List<String>) carCacheLoc.get(CAR_NUMBERS_KEY);
         if (carNumberList == null) {
-            result = new LinkedList<String>();
+            result = new LinkedList<>();
         } else {
-            result = new LinkedList<String>(carNumberList);
+            result = new LinkedList<>(carNumberList);
         }
         return result;
     }

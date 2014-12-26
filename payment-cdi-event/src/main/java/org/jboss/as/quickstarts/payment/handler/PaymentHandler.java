@@ -42,7 +42,7 @@ public class PaymentHandler implements Serializable, ICreditEventObserver, IDebi
     @Inject
     private Logger logger;
 
-    List<PaymentEvent> payments = new ArrayList<PaymentEvent>();
+    List<PaymentEvent> payments = new ArrayList<>();
 
     @Produces
     @Named

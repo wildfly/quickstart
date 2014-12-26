@@ -37,7 +37,7 @@ import org.jboss.as.quickstart.deltaspike.beanbuilder.model.Person;
 public class ByIdExtension implements Extension {
 
     // All nicks that needs to be found
-    private final List<String> ids = new LinkedList<String>();
+    private final List<String> ids = new LinkedList<>();
 
     /**
      * This method is fired for every component class supporting injection that may be instantiated by the container at runtime.

@@ -38,7 +38,7 @@ public class HelloWorldServiceImpl implements HelloWorldService {
     public String sayHelloToName(final String name) {
 
         /* Create a list with just the one value */
-        final List<String> names = new ArrayList<String>();
+        final List<String> names = new ArrayList<>();
         names.add(name);
 
         return sayHelloToNames(names);

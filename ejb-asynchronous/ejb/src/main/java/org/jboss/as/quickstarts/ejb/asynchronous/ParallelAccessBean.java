@@ -44,7 +44,7 @@ public class ParallelAccessBean implements ParallelAccess {
 
     @Override
     public Collection<String> invokeAsyncParallel() {
-        ArrayList<String> results = new ArrayList<String>();
+        ArrayList<String> results = new ArrayList<>();
         Future<String> call1 = asyncBean.longerRunning(5000);
         Future<String> call2 = asyncBean.longerRunning(3000);
 

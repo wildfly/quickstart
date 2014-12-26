@@ -137,7 +137,7 @@ public class VowelRemoverFilter implements Filter {
      * @return A copy of the original map with all the same keys, but whose values do not contain vowels.
      */
     private Map<String, String[]> removeVowels(Map<String, String[]> parameterMap) {
-        Map<String, String[]> m = new HashMap<String, String[]>();
+        Map<String, String[]> m = new HashMap<>();
         for (Map.Entry<String, String[]> entry : parameterMap.entrySet()) {
             String[] orig = entry.getValue();
             String[] vowelless = new String[orig.length];

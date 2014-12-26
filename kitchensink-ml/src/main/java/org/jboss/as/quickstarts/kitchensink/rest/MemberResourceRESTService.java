@@ -106,12 +106,12 @@ public class MemberResourceRESTService {
             builder = createViolationResponse(ce.getConstraintViolations());
         } catch (ValidationException e) {
             // Handle the unique constrain violation
-            Map<String, String> responseObj = new HashMap<String, String>();
+            Map<String, String> responseObj = new HashMap<>();
             responseObj.put("email", "Email taken");
             builder = Response.status(Response.Status.CONFLICT).entity(responseObj);
         } catch (Exception e) {
             // Handle generic exceptions
-            Map<String, String> responseObj = new HashMap<String, String>();
+            Map<String, String> responseObj = new HashMap<>();
             responseObj.put("error", e.getMessage());
             builder = Response.status(Response.Status.BAD_REQUEST).entity(responseObj);
         }
@@ -157,7 +157,7 @@ public class MemberResourceRESTService {
     private Response.ResponseBuilder createViolationResponse(Set<ConstraintViolation<?>> violations) {
         log.fine("Validation completed. violations found: " + violations.size());
 
-        Map<String, String> responseObj = new HashMap<String, String>();
+        Map<String, String> responseObj = new HashMap<>();
 
         for (ConstraintViolation<?> violation : violations) {
             responseObj.put(violation.getPropertyPath().toString(), violation.getMessage());

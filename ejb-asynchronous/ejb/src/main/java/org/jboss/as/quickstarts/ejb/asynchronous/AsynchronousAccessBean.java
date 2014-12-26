@@ -59,7 +59,7 @@ public class AsynchronousAccessBean implements AsynchronousAccess, AnotherAsynch
         } catch (InterruptedException e) {
         }
         LOGGER.info("returning the result");
-        return new AsyncResult<String>("returning at " + new Date() + ", duration was " + sleepTime + "ms");
+        return new AsyncResult<>("returning at " + new Date() + ", duration was " + sleepTime + "ms");
     }
 
     @Asynchronous
@@ -80,6 +80,6 @@ public class AsynchronousAccessBean implements AsynchronousAccess, AnotherAsynch
         } catch (InterruptedException e) {
         }
         LOGGER.info("returning the result");
-        return new AsyncResult<String>("returning at " + new Date() + ", duration was " + sleepTime + "ms");
+        return new AsyncResult<>("returning at " + new Date() + ", duration was " + sleepTime + "ms");
     }
 }

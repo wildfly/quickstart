@@ -31,7 +31,7 @@ import java.util.Set;
  */
 public class MockSetManager {
 
-    private static final Set<String> set = new HashSet<String>();
+    private static final Set<String> set = new HashSet<>();
 
     /**
      * Add a value to the set
