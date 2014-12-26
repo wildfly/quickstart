@@ -45,7 +45,7 @@ public class CustomerManagerEJB {
     private InvoiceManagerEJB invoiceManager;
 
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public void createCustomer(String name) throws RemoteException, JMSException {
+    public void createCustomer(String name) throws RemoteException {
 
         Customer c1 = new Customer();
         c1.setName(name);
