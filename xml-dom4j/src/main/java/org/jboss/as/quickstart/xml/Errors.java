@@ -34,7 +34,7 @@ import javax.inject.Named;
 @SessionScoped
 public class Errors implements Serializable {
 
-    private List<Error> errorsList = new ArrayList<Error>();
+    private List<Error> errorsList = new ArrayList<>();
 
     public void addErrorMessage(String severity, Exception e) {
         Error error = new Error(severity, e);

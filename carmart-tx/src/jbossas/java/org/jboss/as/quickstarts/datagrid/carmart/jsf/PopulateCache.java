@@ -60,7 +60,7 @@ public class PopulateCache implements SystemEventListener {
 
     public void startup() {
         BasicCache<String, Object> cars = provider.getCacheContainer().getCache(CarManager.CACHE_NAME);
-        List<String> carNumbers = new ArrayList<String>();
+        List<String> carNumbers = new ArrayList<>();
 
         utx = getUserTransactionFromJNDI();
 

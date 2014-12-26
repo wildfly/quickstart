@@ -16,18 +16,6 @@
  */
 package org.jboss.as.quickstart.xml;
 
-import java.io.InputStream;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-
-import javax.enterprise.context.RequestScoped;
-import javax.enterprise.inject.Default;
-import javax.inject.Inject;
-
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.Node;
@@ -35,6 +23,17 @@ import org.dom4j.io.SAXReader;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
+
+import javax.enterprise.context.RequestScoped;
+import javax.enterprise.inject.Default;
+import javax.inject.Inject;
+import java.io.InputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Implementation of parser based on DOM4J.
@@ -81,7 +80,7 @@ public class DOM4JXMLParser extends XMLParser {
 
         Document document = this.dom4jReader.read(is);
 
-        List<Book> catalog = new ArrayList<Book>();
+        List<Book> catalog = new ArrayList<>();
         Element root = document.getRootElement();
         if (!root.getQName().getName().equals("catalog")) {
             throw new RuntimeException("Wrong element: " + root.getQName());
@@ -117,43 +116,49 @@ public class DOM4JXMLParser extends XMLParser {
             if (childName == null)
                 continue;
 
-            if (childName.equals("author")) {
-                Element childElement = (Element) child;
-
-                String textVal = childElement.getTextTrim();
-                b.setAuthor(textVal);
-            } else if (childName.equals("title")) {
-                Element childElement = (Element) child;
-
-                String textVal = childElement.getTextTrim();
-                b.setTitle(textVal);
-            } else if (childName.equals("genre")) {
-                Element childElement = (Element) child;
-
-                String textVal = childElement.getTextTrim();
-                b.setGenre(textVal);
-            } else if (childName.equals("price")) {
-                Element childElement = (Element) child;
-
-                String textVal = childElement.getTextTrim();
-                b.setPrice(Float.parseFloat(textVal));
-            } else if (childName.equals("publish_date")) {
-                Element childElement = (Element) child;
-
-                String textVal = childElement.getTextTrim();
-                Date d;
-                try {
-
-                    d = DATE_FORMATTER.parse(textVal);
-                    b.setPublishDate(d);
-                } catch (ParseException e) {
-                    throw new RuntimeException(e);
+            switch (childName) {
+                case "author": {
+                    Element childElement = (Element) child;
+                    String textVal = childElement.getTextTrim();
+                    b.setAuthor(textVal);
+                    break;
                 }
-
-            } else if (childName.equals("description")) {
-                Element childElement = (Element) child;
-                String textVal = childElement.getTextTrim();
-                b.setDescription(textVal);
+                case "title": {
+                    Element childElement = (Element) child;
+                    String textVal = childElement.getTextTrim();
+                    b.setTitle(textVal);
+                    break;
+                }
+                case "genre": {
+                    Element childElement = (Element) child;
+                    String textVal = childElement.getTextTrim();
+                    b.setGenre(textVal);
+                    break;
+                }
+                case "price": {
+                    Element childElement = (Element) child;
+                    String textVal = childElement.getTextTrim();
+                    b.setPrice(Float.parseFloat(textVal));
+                    break;
+                }
+                case "publish_date": {
+                    Element childElement = (Element) child;
+                    String textVal = childElement.getTextTrim();
+                    Date d;
+                    try {
+                        d = DATE_FORMATTER.parse(textVal);
+                        b.setPublishDate(d);
+                    } catch (ParseException e) {
+                        throw new RuntimeException(e);
+                    }
+                    break;
+                }
+                case "description": {
+                    Element childElement = (Element) child;
+                    String textVal = childElement.getTextTrim();
+                    b.setDescription(textVal);
+                    break;
+                }
             }
 
         }

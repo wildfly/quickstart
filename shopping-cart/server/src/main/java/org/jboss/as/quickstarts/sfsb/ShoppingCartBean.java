@@ -30,7 +30,7 @@ public class ShoppingCartBean implements ShoppingCart {
 
     private final static Logger LOGGER = Logger.getLogger(ShoppingCartBean.class.toString());
 
-    private HashMap<String, Integer> cart = new HashMap<String, Integer>();
+    private HashMap<String, Integer> cart = new HashMap<>();
 
     public void buy(String product, int quantity) {
         if (cart.containsKey(product)) {

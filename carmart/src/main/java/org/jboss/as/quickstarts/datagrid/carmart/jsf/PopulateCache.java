@@ -57,7 +57,7 @@ public class PopulateCache implements SystemEventListener {
 
     public void startup() {
         BasicCache<String, Object> cars = provider.getCacheContainer().getCache(CarManager.CACHE_NAME);
-        List<String> carNumbers = new ArrayList<String>();
+        List<String> carNumbers = new ArrayList<>();
 
         try {
             Car c = new Car("Ford Focus", 1.6, CarType.COMBI, "white", "FML 23-25", Country.CZECH_REPUBLIC);

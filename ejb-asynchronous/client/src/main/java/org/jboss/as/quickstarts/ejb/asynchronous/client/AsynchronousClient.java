@@ -55,7 +55,7 @@ public class AsynchronousClient {
      * @throws NamingException
      */
     private AsynchronousClient() throws NamingException {
-        final Hashtable<String, String> jndiProperties = new Hashtable<String, String>();
+        final Hashtable<String, String> jndiProperties = new Hashtable<>();
         jndiProperties.put(Context.URL_PKG_PREFIXES, "org.jboss.ejb.client.naming");
         final Context context = new InitialContext(jndiProperties);
         String lookupName = "ejb:/wildfly-ejb-asynchronous-ejb/AsynchronousAccessBean!" + AsynchronousAccess.class.getName();

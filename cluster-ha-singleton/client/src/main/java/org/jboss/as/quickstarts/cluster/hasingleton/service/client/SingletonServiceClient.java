@@ -42,7 +42,7 @@ public class SingletonServiceClient {
      * @throws NamingException
      */
     private SingletonServiceClient() throws NamingException {
-        final Hashtable<String, String> jndiProperties = new Hashtable<String, String>();
+        final Hashtable<String, String> jndiProperties = new Hashtable<>();
         jndiProperties.put(Context.URL_PKG_PREFIXES, "org.jboss.ejb.client.naming");
         final Context context = new InitialContext(jndiProperties);
         String lookupName = "ejb:/wildfly-cluster-ha-singleton-service/ServiceAccessBean!" + ServiceAccess.class.getName();

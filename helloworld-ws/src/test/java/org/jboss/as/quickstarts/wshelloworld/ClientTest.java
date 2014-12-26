@@ -123,7 +123,7 @@ public class ClientTest {
         System.out.println("[Client] Requesting the WebService to say Hello to John, Mary and Mark.");
 
         // Create the array of names for the WebService to say hello to.
-        final List<String> names = new ArrayList<String>();
+        final List<String> names = new ArrayList<>();
         names.add("John");
         names.add("Mary");
         names.add("Mark");

@@ -29,7 +29,7 @@ import javax.naming.InitialContext;
 class EJBUtil {
 
     static IntermediateEJBRemote lookupIntermediateEJB() throws Exception {
-        final Hashtable<String, String> jndiProperties = new Hashtable<String, String>();
+        final Hashtable<String, String> jndiProperties = new Hashtable<>();
         jndiProperties.put(Context.URL_PKG_PREFIXES, "org.jboss.ejb.client.naming");
         final Context context = new InitialContext(jndiProperties);
 
@@ -38,7 +38,7 @@ class EJBUtil {
     }
 
     static SecuredEJBRemote lookupSecuredEJB() throws Exception {
-        final Hashtable<String, String> jndiProperties = new Hashtable<String, String>();
+        final Hashtable<String, String> jndiProperties = new Hashtable<>();
         jndiProperties.put(Context.URL_PKG_PREFIXES, "org.jboss.ejb.client.naming");
         final Context context = new InitialContext(jndiProperties);
 

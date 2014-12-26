@@ -199,7 +199,7 @@ public class MainAppSContextBean implements MainApp {
         // jboss-ejb-client.xml.
             final AppOne bean = (AppOne) appOneScopedEjbContext.lookup("jboss-ejb-multi-server-app-one/ejb//AppOneBean!" + AppOne.class.getName());
 
-            StringBuffer result = new StringBuffer("{");
+            StringBuilder result = new StringBuilder("{");
             for (int i = 0; i < 8; i++) {
                 // invoke on the bean
                 final String appOneResult = bean.invoke(text);
@@ -261,7 +261,7 @@ public class MainAppSContextBean implements MainApp {
             LOGGER.error("Could not create InitialContext('appTwoB')");
         }
 
-        StringBuffer result = new StringBuffer(" appTwo loop(4 time A-B expected){");
+        StringBuilder result = new StringBuilder(" appTwo loop(4 time A-B expected){");
         for (int i = 0; i < 4; i++) {
             // invoke on the bean
             String appResult = beanA.invokeSecured(text);  
@@ -334,7 +334,7 @@ public class MainAppSContextBean implements MainApp {
             LOGGER.error("Could not create InitialContext('appTwoB')");
         }
 
-        StringBuffer result = new StringBuffer(" appTwo loop(4 time A-B expected){");
+        StringBuilder result = new StringBuilder(" appTwo loop(4 time A-B expected){");
         for (int i = 0; i < 4; i++) {
             // invoke on the bean
             String appResult = beanA.invokeSecured(text);  

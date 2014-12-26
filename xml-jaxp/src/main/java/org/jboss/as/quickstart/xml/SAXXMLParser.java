@@ -76,7 +76,7 @@ public class SAXXMLParser extends XMLParser {
 
         @Override
         public void startDocument() throws SAXException {
-            this.catalog = new ArrayList<Book>();
+            this.catalog = new ArrayList<>();
             this.book = null;
             super.startDocument();
         }
@@ -90,35 +90,43 @@ public class SAXXMLParser extends XMLParser {
 
         @Override
         public void endElement(String uri, String localName, String qName) throws SAXException {
-            if (qName.equals("book")) {
-                this.catalog.add(this.book);
-                this.book = null;
-            } else if (qName.equals("author")) {
+            switch (qName) {
+                case "book":
+                    this.catalog.add(this.book);
+                    this.book = null;
+                    break;
+                case "author":
 
-                this.book.setAuthor(this.currentElementValue);
-            } else if (qName.equals("title")) {
+                    this.book.setAuthor(this.currentElementValue);
+                    break;
+                case "title":
 
-                this.book.setTitle(this.currentElementValue);
-            } else if (qName.equals("genre")) {
+                    this.book.setTitle(this.currentElementValue);
+                    break;
+                case "genre":
 
-                this.book.setGenre(this.currentElementValue);
-            } else if (qName.equals("price")) {
+                    this.book.setGenre(this.currentElementValue);
+                    break;
+                case "price":
 
-                this.book.setPrice(Float.parseFloat(this.currentElementValue));
-            } else if (qName.equals("publish_date")) {
+                    this.book.setPrice(Float.parseFloat(this.currentElementValue));
+                    break;
+                case "publish_date":
 
-                Date d;
-                try {
+                    Date d;
+                    try {
 
-                    d = DATE_FORMATTER.parse(this.currentElementValue);
-                    this.book.setPublishDate(d);
-                } catch (ParseException e) {
-                    throw new RuntimeException(e);
-                }
+                        d = DATE_FORMATTER.parse(this.currentElementValue);
+                        this.book.setPublishDate(d);
+                    } catch (ParseException e) {
+                        throw new RuntimeException(e);
+                    }
 
-            } else if (qName.equals("description")) {
+                    break;
+                case "description":
 
-                this.book.setDescription(this.currentElementValue);
+                    this.book.setDescription(this.currentElementValue);
+                    break;
             }
         }
 

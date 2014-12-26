@@ -76,7 +76,7 @@ public class Resources {
      * @return the {@link List}
      */
     private <T> List<T> convertToList(Iterator<T> i) {
-        List<T> list = new ArrayList<T>();
+        List<T> list = new ArrayList<>();
         while (i.hasNext()) {
             list.add(i.next());
         }

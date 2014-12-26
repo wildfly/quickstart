@@ -191,14 +191,11 @@ public class DelegationLoginModule extends AbstractServerLoginModule {
     private Properties loadProperties(final String name) throws IOException {
         ClassLoader classLoader = SecurityActions.getContextClassLoader();
         URL url = classLoader.getResource(name);
-        InputStream is = url.openStream();
-        try {
+        try (InputStream is = url.openStream()) {
             Properties props = new Properties();
             props.load(is);
             return props;
 
-        } finally {
-            is.close();
         }
     }
 

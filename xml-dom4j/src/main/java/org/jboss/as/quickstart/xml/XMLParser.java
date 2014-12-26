@@ -46,7 +46,7 @@ public abstract class XMLParser {
         /*
          * Validate against schema before it triggers implementation.
          */
-        StringBuffer xmlFile = new StringBuffer();
+        StringBuilder xmlFile = new StringBuilder();
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(is));
         String line = null;
         while ((line = bufferedReader.readLine()) != null) {

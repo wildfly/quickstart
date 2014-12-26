@@ -55,9 +55,9 @@ public class InsertContact extends WebPage {
             }
         };
 
-        insertForm.add(new RequiredTextField<String>("name",
+        insertForm.add(new RequiredTextField<>("name",
                 new PropertyModel<String>(this, "name")));
-        insertForm.add(new RequiredTextField<String>("email", new PropertyModel<String>(this,
+        insertForm.add(new RequiredTextField<>("email", new PropertyModel<String>(this,
                 "email")));
         add(insertForm);
     }
