@@ -25,10 +25,9 @@ package org.jboss.as.quickstarts.jaxrsclient;
  * build and deploy helloworld-rs.
  */
 
-import static javax.ws.rs.core.MediaType.APPLICATION_JSON_TYPE;
-import static javax.ws.rs.core.MediaType.APPLICATION_XML_TYPE;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import org.jboss.resteasy.plugins.providers.jsonp.JsonObjectProvider;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 import javax.json.JsonObject;
 import javax.ws.rs.client.Client;
@@ -36,9 +35,10 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.jboss.resteasy.plugins.providers.jsonp.JsonObjectProvider;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import static javax.ws.rs.core.MediaType.APPLICATION_JSON_TYPE;
+import static javax.ws.rs.core.MediaType.APPLICATION_XML_TYPE;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * JUnit4 Test class which makes a request to the RESTful helloworld-rs web service.
@@ -72,7 +72,7 @@ public class JaxRsClientTest {
      */
     @Test
     public void testXML() {
-        Response response = getResource(resourceURL, APPLICATION_XML_TYPE);
+        Response response = getResource(resourceURL+"xml", APPLICATION_XML_TYPE);
 
         String content = response.readEntity(String.class);
         System.out.println(content);
@@ -83,7 +83,7 @@ public class JaxRsClientTest {
 
     @Test
     public void testJSON() {
-        Response response = getResource(resourceURL, APPLICATION_JSON_TYPE);
+        Response response = getResource(resourceURL+"json", APPLICATION_JSON_TYPE);
 
         JsonObject content = response.readEntity(JsonObject.class);
         System.out.println(content);

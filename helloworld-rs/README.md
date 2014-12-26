@@ -3,14 +3,14 @@ helloworld-rs: Helloworld Using JAX-RS (Java API for RESTful Web Services)
 Author: Gustavo A. Brey, Gaston Coco
 Level: Intermediate
 Technologies: CDI, JAX-RS
-Summary: Demonstrates the use of CDI 1.1 and JAX-RS
+Summary: Demonstrates the use of CDI 1.1 and JAX-RS 2.0
 Target Project: WildFly
 Source: <https://github.com/wildfly/quickstart/>
 
 What is it?
 -----------
 
-This example demonstrates the use of *CDI 1.1* and *JAX-RS* in *WildFly*.
+This example provides a web application demonstrating basic usage of *CDI 1.1* and *JAX-RS 2.0* in *WildFly*.
 
 
 System requirements
@@ -54,19 +54,7 @@ _NOTE: The following build command assumes you have configured your Maven user s
 Access the application 
 ---------------------
 
-The application is deployed to <http://localhost:8080/wildfly-helloworld-rs>.
-
-The resource is located at <http://localhost:8080/wildfly-helloworld-rs/rest/>.
-
-To get its XML representation, you need to request the resource with the `Accept` header set to `application/xml`
-
-    $ curl http://localhost:8080/wildfly-helloworld-rs/rest/ -H 'accept:application/xml'
-    <xml><result>Hello World!</result></xml>
-
-To get its JSON representation, you need to request the resource with the `Accept` header set to `application/json`
-
-    $ curl http://localhost:8080/wildfly-helloworld-rs/rest/ -H 'accept:application/json'
-    {"result":"Hello World!"}
+The web application is deployed to <http://localhost:8080/wildfly-helloworld-rs>, and includes a root html page that may be used to request the hello world message from the JAX-RS resource, in either XML or JSON format.
 
 Undeploy the Archive
 --------------------
