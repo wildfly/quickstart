@@ -2,7 +2,7 @@ cmt: Container Managed Transactions - Example Using Transactions That Are Manage
 ==================================================================================================
 Author: Tom Jenkinson
 Level: Intermediate
-Technologies: EJB, Container Managed Transactions (CMT)
+Technologies: EJB, Container Managed Transactions (CMT), JMS
 Summary: EJB that demonstrates container-managed transactions (CMT)
 Target Project: WildFly
 Source: <https://github.com/wildfly/quickstart/>
@@ -14,13 +14,13 @@ This quickstart demonstrates using transactions managed by the container. It is 
 Aspects touched upon in the code:
 
 1. XA transaction control using the container managed transaction annotations
-2. XA access to a PostgreSQL database using the JPA API
+2. XA access to the standard default datasource, using the JPA API
 3. XA access to a JMS queue
 
 After users complete this quickstart, they are invited to run through the following quickstarts:
 
 1. _jts_ - The JTS quickstart builds upon this quickstart by distributing the CustomerManager and InvoiceManager
-2. _jts-distributed-crash-rec_ - The crash recovery quickstart builds upon the _jts_ quickstart by demonstrating the fault tolerance of JBossAS
+2. _jts-distributed-crash-rec_ - The crash recovery quickstart builds upon the _jts_ quickstart by demonstrating the fault tolerance of WildFly
 
 ### What are container managed transactions?
 
@@ -30,7 +30,7 @@ With CMT, the EJB container sets the boundaries of a transaction. This differs f
 
 ### What makes this an example of container managed transactions?
 
-Take a look at <code>org.jboss.as.quickstarts.cmt.ejb.CustomerManagerEJBImpl</code>. You can see that this stateless session bean has been marked up with the @javax.ejb.TransactionAttribute annotation.
+Take a look at <code>org.jboss.as.quickstarts.cmt.ejb.CustomerManagerEJB</code>. You can see that this stateless session bean has been marked up with the @javax.ejb.TransactionAttribute annotation.
 
 The available options for this annotation are as follows:
 
@@ -56,17 +56,6 @@ Configure Maven
 If you have not yet done so, you must [Configure Maven](../README.md#mavenconfiguration) before testing the quickstarts.
 
 
-Configure the application server to use PostgreSQL
---------------------------------------------------
-
-This quickstart requires the PostgreSQL database. Instructions to install an configure PostgreSQL can be found here: [Install and Configure the PostgreSQL Database](../README.md#postgresql)
-
-_Note_: For the purpose of this quickstart, replace the word QUICKSTART_DATABASENAME with `cmt-quickstart-database` in the PostgreSQL instructions.
-
-1. Be sure to start the PostgreSQL database. Unless you have set up the database to automatically start as a service, you must repeat the instructions "Start the database server" for your operating system every time you reboot your machine.
-2. [Add the PostgreSQL Module](../README.md#addpostgresqlmodule) to the JBoss server `modules/` directory.
-3. [Add the PostgreSQL driver](../README.md#addpostgresqldriver) to the JBoss server configuration file.
-
 Start JBoss WildFly with the Full Profile
 ---------------
 
@@ -83,13 +72,12 @@ Build and Deploy the Quickstart
 _NOTE: The following build command assumes you have configured your Maven user settings. If you have not, you must include Maven setting arguments on the command line. See [Build and Deploy the Quickstarts](../README.md#buildanddeploy) for complete instructions and additional options._
 
 
-1. Make sure you have started the JBoss Server with the PostgreSQL driver
-2. Open a command line and navigate to the root directory of this quickstart.
-3. Type this command to build and deploy the archive:
+1. Open a command line and navigate to the root directory of this quickstart.
+2. Type this command to build and deploy the archive:
 
         mvn clean package wildfly:deploy
 
-4. This will deploy `target/wildfly-cmt.war` to the running instance of the server.
+3. This will deploy `target/wildfly-cmt.war` to the running instance of the server.
 
 Access the application 
 ---------------------

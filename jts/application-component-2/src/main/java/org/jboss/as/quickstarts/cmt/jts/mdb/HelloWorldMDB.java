@@ -16,14 +16,13 @@
  */
 package org.jboss.as.quickstarts.cmt.jts.mdb;
 
-import java.util.logging.Logger;
-
 import javax.ejb.ActivationConfigProperty;
 import javax.ejb.MessageDriven;
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.TextMessage;
+import java.util.logging.Logger;
 
 /**
  * <p>
@@ -35,7 +34,7 @@ import javax.jms.TextMessage;
  */
 @MessageDriven(name = "HelloWorldMDB", activationConfig = {
         @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
-        @ActivationConfigProperty(propertyName = "destination", propertyValue = "queue/jts-quickstart"),
+        @ActivationConfigProperty(propertyName = "destination", propertyValue = "queue/InvoiceManagerQueue"),
         @ActivationConfigProperty(propertyName = "acknowledgeMode", propertyValue = "Auto-acknowledge") })
 public class HelloWorldMDB implements MessageListener {
 

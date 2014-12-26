@@ -2,7 +2,7 @@ jts: Java Transaction Service - Distributed EJB Transactions Across Multiple Con
 ======================================================================================
 Author: Tom Jenkinson
 Level: Intermediate
-Technologies: JTS
+Technologies: JTS, EJB, JMS
 Summary: Uses Java Transaction Service (JTS) to coordinate distributed transactions
 Prerequisites: cmt
 Target Project: WildFly
@@ -37,9 +37,11 @@ You will see that the `CustomerManagerEJB` uses the EJB home for the remote EJB,
 
 A simple MDB has been provided that prints out the messages sent but this is not a transactional MDB and is purely provided for debugging purposes.
 
+Also, while the _cmt_ quickstart uses the Java EE container default datasource, which is not distributed, this quickstart uses instead an external PostgreSQL database.
+
 After users complete this quickstart, they are invited to run through the following quickstart:
 
-1. _jts-distributed-crash-rec_ - The crash recovery quickstart builds upon the _jts_ quickstart by demonstrating the fault tolerance of JBossAS.
+1. _jts-distributed-crash-rec_ - The crash recovery quickstart builds upon the _jts_ quickstart by demonstrating the fault tolerance of WildFly.
 
 
 System requirements
