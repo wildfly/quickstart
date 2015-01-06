@@ -85,7 +85,7 @@ It is recommended that you test this approach in a separate and clean environmen
 Configure the JBoss WildFly server
 ---------------------------
 
-These steps asume that you are running the server in standalone mode and using the default standalone.xml supplied with the distribution.
+These steps assume that you are running the server in standalone mode and using the default standalone.xml supplied with the distribution.
 
 _NOTE - Before you begin:_
 
