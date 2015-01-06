@@ -47,9 +47,9 @@
             <p>Learn more about JBoss WildFly.</p>
             <ul>
                 <li><a
-                    href="https://github.com/wildfly/quickstart/guide/Introduction/">Getting
+                    href="https://github.com/wildfly/quickstart/blob/master/guide/Introduction.asciidoc">Getting
                         Started Developing Applications Guide</a></li>
-                <li><a href="http://jboss.org/jbossas">Community
+                <li><a href="http://www.wildfly.org/">Community
                         Project Information</a></li>
             </ul>
 
@@ -58,7 +58,7 @@
             <img src="resources/gfx/logo.png" alt="Weld logo" />
             <p>
                 This project was generated from a Maven archetype from
-                JBoss.<br />
+                WildFly.<br />
             </p>
         </div>
     </div>
