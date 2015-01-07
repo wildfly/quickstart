@@ -29,7 +29,7 @@
         <p>You have successfully deployed a Java EE 7 web
             application.</p>
         <h3>Your application can run on:</h3>
-        <img src="resources/gfx/dualbrand_as7eap.png" />
+        <img src="resources/gfx/wildfly-banner.png" />
     </div>
 
     <form id="reg" action="register.do" method="POST">

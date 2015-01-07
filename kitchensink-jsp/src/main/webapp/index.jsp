@@ -55,7 +55,6 @@
 
         </div>
         <div id="footer">
-            <img src="resources/gfx/logo.png" alt="Weld logo" />
             <p>
                 This project was generated from a Maven archetype from
                 WildFly.<br />
