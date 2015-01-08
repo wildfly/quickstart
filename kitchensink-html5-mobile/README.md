@@ -62,7 +62,7 @@ To undeploy run this command:
 
     mvn wildfly:undeploy
 
-You can also start the JBoss container and deploy the project using JBoss Tools. See the <a href="https://github.com/wildfly/quickstart/guide/Introduction/" title="Getting Started Developing Applications Guide">Getting Started Developing Applications Guide</a> for more information.
+You can also start the JBoss container and deploy the project using JBoss Tools. See the <a href="https://github.com/wildfly/quickstart/blob/master/guide/Introduction.asciidoc" title="Getting Started Developing Applications Guide">Getting Started Developing Applications Guide</a> for more information.
 
 Minification
 ============================
