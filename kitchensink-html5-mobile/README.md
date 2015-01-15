@@ -5,7 +5,7 @@ Level: Beginner
 Technologies: CDI, HTML5, REST, JPA
 Summary: Based on kitchensink, but uses HTML5, making it suitable for mobile and tablet computers
 Target Product: WildFly
-Source: https://github.com/jboss-jdf/wildfly-quickstart
+Source: https://github.com/wildfly/wildfly-quickstart
 
 What is it?
 -----------
