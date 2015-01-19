@@ -15,8 +15,7 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.wildfly.quickstarts</groupId>
@@ -37,7 +36,7 @@
         <!-- You can reference property in pom.xml or filtered resources (must enable third-party plugin if using Maven < 2.1) -->
         
         <!-- JBoss dependency versions -->
-
+ 
         <version.wildfly.maven.plugin>1.0.2.Final</version.wildfly.maven.plugin>
 
         <!-- Define the version of the JBoss BOMs we want to import to specify tested stacks. -->
@@ -92,7 +91,7 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
+    
     <dependencies>
         <!-- First declare the APIs we depend on and need for compilation. All of them are provided by JBoss -->
 
@@ -205,10 +204,10 @@
                 <artifactId>wildfly-maven-plugin</artifactId>
                 <version>${version.wildfly.maven.plugin}</version>
             </plugin>
-
+            
         </plugins>
     </build>
-
+    
     <profiles>
         <profile>
             <!-- The default profile skips all tests, though you can tune it to run just unit tests based on a custom pattern -->
@@ -253,10 +252,7 @@
             <!-- minification of JavaScript and CSS files during the build -->
             <id>minify</id>
             <activation>
-                <property>
-                    <name>profile</name>
-                    <value>minify</value>
-                </property>
+                <activeByDefault>false</activeByDefault>
             </activation>
 
             <build>
@@ -379,5 +375,5 @@
             </build>
         </profile>
     </profiles>
-
+    
 </project>
