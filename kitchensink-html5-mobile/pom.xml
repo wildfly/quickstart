@@ -41,7 +41,8 @@
 
         <!-- Define the version of the JBoss BOMs we want to import to specify tested stacks. -->
         <version.jboss.bom>8.2.1.Final</version.jboss.bom>
-        <version.arquillian.container>8.0.0.Final</version.arquillian.container>
+
+        <version.wildfly>8.2.0.Final</version.wildfly>
 
         <!-- Other dependency versions -->
         <version.org.eclipse.m2e>1.0.0</version.org.eclipse.m2e>
@@ -298,7 +299,6 @@
                 <dependency>
                     <groupId>org.wildfly</groupId>
                     <artifactId>wildfly-arquillian-container-managed</artifactId>
-                    <version>${version.arquillian.container}</version>
                     <scope>test</scope>
                 </dependency>
             </dependencies>
@@ -313,19 +313,17 @@
                 <dependency>
                     <groupId>org.wildfly</groupId>
                     <artifactId>wildfly-arquillian-container-remote</artifactId>
-                    <version>${version.arquillian.container}</version>
                     <scope>test</scope>
                 </dependency>
             </dependencies>
         </profile>
 
         <profile>
-            <id>aerogearci-jbossas-managed-7</id>
+            <id>aerogearci-wildfly-managed</id>
             <dependencies>
                 <dependency>
                     <groupId>org.wildfly</groupId>
                     <artifactId>wildfly-arquillian-container-managed</artifactId>
-                    <version>${version.arquillian.container}</version>
                     <scope>test</scope>
                 </dependency>
             </dependencies>
@@ -338,7 +336,7 @@
                         <configuration>
                             <systemProperties>
                                 <arquillian.launch>jbossci</arquillian.launch>
-                                <arquillian.jboss_home>${project.build.directory}/wildfly-${version.jboss.as}/
+                                <arquillian.jboss_home>${project.build.directory}/wildfly-${version.wildfly}/
                                 </arquillian.jboss_home>
                             </systemProperties>
                             <includes>
@@ -359,9 +357,9 @@
                                 <configuration>
                                     <artifactItems>
                                         <artifactItem>
-                                            <groupId>org.jboss.as</groupId>
+                                            <groupId>org.wildfly</groupId>
                                             <artifactId>wildfly-dist</artifactId>
-                                            <version>${version.jboss.as}</version>
+                                            <version>${version.wildfly}</version>
                                             <outputDirectory>${project.build.directory}</outputDirectory>
                                             <type>zip</type>
                                             <overWrite>false</overWrite>
