@@ -18,7 +18,7 @@
 <cheatsheet title="HTML5 + Mobile + JAX-RS: Kitchensink quickstart">
   <intro>
     <description>
-      This quickstart shows off HTML5 based desktop/mobile web application development with Java EE 7 on JBoss Enterprise Application Platform 6.1 or later. This project uses HTML5, jQuery Mobile, JAX-RS, CDI 1.1, EJB 3.2, JPA 2.1 and Bean Validation 1.1. It includes a persistence unit and some sample persistence and transaction code to help you get your feet wet with database access in enterprise Java.
+      This quickstart shows off HTML5 based desktop/mobile web application development with Java EE 7 on WildFly. This project uses HTML5, jQuery Mobile, JAX-RS, CDI 1.1, EJB 3.2, JPA 2.1 and Bean Validation 1.1. It includes a persistence unit and some sample persistence and transaction code to help you get your feet wet with database access in enterprise Java.
       <br/><br/>
       <b>HTML5</b>
       <br/><br/>
@@ -53,7 +53,7 @@
       The kitchensink-html5-mobile application shows off a number of Java EE technologies such as HTML5, jQuery Mobile, JAX-RS, CDI 1.1, EJB 3.2, JPA 2.1 and Bean Validation 1.1. 
       It does this by providing a member registration database, available via HTML5 and JAX-RS.
       <br/><br/>
-      As usual, let&apos;s start by looking at the necessary deployment descriptors. By now, we&apos;re very used to seeing <b>beans.xml</b> in <b>WEB-INF/</b> (which can be found in the <b>src/main/webapp</b> directory of the example). Notice that, once again, we don&apos;t need a web.xml. There are two configuration files (which can be found in the <b>src/main/resources</b> directory of the example) — <b>WEB-INF/classes/META-INF/persistence.xml</b>, which sets up JPA, and <b>WEB-INF/classes/import.sql</b> which Hibernate, the JPA provider in JBoss Enterprise Application Platform, will use to load the initial users into the application when the application starts. We discussed both of these files in detail in The <b>greeter example in depth</b>, and these are largely the same.
+      As usual, let&apos;s start by looking at the necessary deployment descriptors. By now, we&apos;re very used to seeing <b>beans.xml</b> in <b>WEB-INF/</b> (which can be found in the <b>src/main/webapp</b> directory of the example). Notice that, once again, we don&apos;t need a web.xml. There are two configuration files (which can be found in the <b>src/main/resources</b> directory of the example) — <b>WEB-INF/classes/META-INF/persistence.xml</b>, which sets up JPA, and <b>WEB-INF/classes/import.sql</b> which Hibernate, the JPA provider in WildFly, will use to load the initial users into the application when the application starts. We discussed both of these files in detail in The <b>greeter example in depth</b>, and these are largely the same.
     </description> 
     <command
     required="true"
@@ -540,11 +540,11 @@
       serialization="org.jboss.tools.project.examples.cheatsheet.openFileInEditor(path=/${currentProject}/src/main/java/org/jboss/as/quickstarts/html5_mobile/util/Resources.java,fromLine=44,toLine=47)"/>
   </subitem>
   <subitem
-            label="If you want to define your own datasource, take a look at the Administration and Configuration Guide for JBoss Enterprise Application Platform 6"
+            label="If you want to define your own datasource, take a look at the Admin Guide for WildFly"
             skip="true">
     <command
            required="false"
-           serialization="org.eclipse.ui.browser.openBrowser(url=https://access.redhat.com/site/documentation/JBoss_Enterprise_Application_Platform/)"/>
+           serialization="org.eclipse.ui.browser.openBrowser(url=https://docs.jboss.org/author/display/WFLY8/Admin+Guide#AdminGuide-Datasources)"/>
   </subitem>
   </item>
   
@@ -552,7 +552,7 @@
         skip="true"
         title="Run and deploy the application">
      <description>
-       Before you proceed, ensure that you have setup and configured a JBoss EAP 6 server.
+       Before you proceed, ensure that you have setup and configured a WildFly server.
        <br/><br/>
        Right-click the project and select <b>Run As</b> &gt; <b>Run On Server</b> or click on the &quot;Click to Perform&quot; link below.
     </description>
@@ -582,13 +582,13 @@
         skip="true"
         title="Using LiveReload with the deployed application">
      <description>
-       Once again in the Servers view, select the &quot;jboss-kitchensink-html5-mobile&quot; deployment under the JBoss EAP 6 Runtime Server, and right-click on it.
+       Once again in the Servers view, select the &quot;jboss-kitchensink-html5-mobile&quot; deployment under the WildFly Runtime Server, and right-click on it.
        Select the &quot;Show In&quot; entry in the menu, and open the deployed resource in a <b>Web Browser via LiveReload Server</b>. This launches the application in a web browser with the LiveReload scripts injected into it.
        You can proceed to make changes to the <b>index.html</b> and it would immediately reflect in the opened Web Browser on saving the changes.
        <br/><br/>
-       As is the case with LiveReload tooling, there is no need to refresh the web browser after you save the changes in the editor. At the same time, opening the application in this manner will allow the client-side JavaScript in <b>app.js</b> to access the <b>MemberResource</b> REST API on the server-side. You can make changes to the page without refreshing them while continuing to use the backend services deployed on JBoss EAP 6.
+       As is the case with LiveReload tooling, there is no need to refresh the web browser after you save the changes in the editor. At the same time, opening the application in this manner will allow the client-side JavaScript in <b>app.js</b> to access the <b>MemberResource</b> REST API on the server-side. You can make changes to the page without refreshing them while continuing to use the backend services deployed on WildFly.
        <br/><br/>
-       <b>Note:</b> In the earlier section in the tutorial, where the <b>index.html</b> file was opened via the LiveReload Server, the file was not deployed in an application running on a JBoss EAP 6 server. Hence, it could not access the backend - and member details could not displayed and new members could not be added. We have just demonstrated how to overcome that problem.
+       <b>Note:</b> In the earlier section in the tutorial, where the <b>index.html</b> file was opened via the LiveReload Server, the file was not deployed in an application running on a WildFly server. Hence, it could not access the backend - and member details could not displayed and new members could not be added. We have just demonstrated how to overcome that problem.
     </description>
   </item>
   <item
@@ -599,7 +599,7 @@
        you&apos;re probably getting a bit nervous by now, wondering how on earth you are going to test your application. 
        Lucky for you, the Arquillian project is here to help!
     <br/><br/>
-    Arquillian provides all the boiler plate for running your test inside JBoss Enterprise Application Platform 6, 
+    Arquillian provides all the boiler plate for running your test inside WildFly, 
     allowing you to concentrate on testing your application. 
     In order to do that, it utilizes Shrinkwrap, a fluent API for defining packaging, 
     to create an archive to deploy. 
@@ -716,7 +716,7 @@
     First of all, let&apos;s take a look at <b>arquillian.xml</b> in <b>src/test/resources</b>.
     </description>
     <subitem
-            label="Arquillian deploys the test war to JBoss AS, and doesn't write it to disk. For debugging, it can be very useful to see exactly what is in your war, so Arquillian allows you to export the war when the tests runs "
+            label="Arquillian deploys the test war to WildFly, and doesn't write it to disk. For debugging, it can be very useful to see exactly what is in your war, so Arquillian allows you to export the war when the tests runs "
             skip="true">
     <command
       required="false"
@@ -740,7 +740,7 @@
       serialization="org.jboss.tools.project.examples.cheatsheet.openFileInEditor(path=/${currentProject}/pom.xml,fromLine=317,toLine=342)"/>
   </subitem>
   <subitem
-            label="Arquillian decides which container to use depending on your classpath. Here we define the remote JBoss AS container. "
+            label="Arquillian decides which container to use depending on your classpath. Here we define the remote WildFly container. "
             skip="true">
      <command
            required="false"
