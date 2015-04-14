@@ -20,7 +20,7 @@ This project creates two JMS resources:
 * A queue named `HELLOWORLDMDBQueue` bound in JNDI as `java:/queue/HELLOWORLDMDBQueue`
 * A topic named `HELLOWORLDMDBTopic` bound in JNDI as `java:/topic/HELLOWORLDMDBTopic`
 
-These destinations are automatically created when the project is deployed on WildFly thanks to the [src/main/webapp/WEB-INF/hornetq-jms.xml](hornetq-jms.xml file).
+These destinations are automatically created when the project is deployed on WildFly thanks to the @JMSDestinationDefinitions annotation in [HelloWorldMDBServletClient class](/helloworld-mdb/src/main/java/org/jboss/as/quickstarts/servlet/HelloWorldMDBServletClient.java).
 
 System requirements
 -------------------
