@@ -26,7 +26,7 @@ import javax.faces.event.SystemEventListener;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.transaction.UserTransaction;
-import org.infinispan.api.BasicCache;
+import org.infinispan.commons.api.BasicCache;
 import org.jboss.as.quickstarts.datagrid.carmart.model.Car;
 import org.jboss.as.quickstarts.datagrid.carmart.model.Car.CarType;
 import org.jboss.as.quickstarts.datagrid.carmart.model.Car.Country;

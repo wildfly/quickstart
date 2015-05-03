@@ -23,7 +23,7 @@
     <artifactId>wildfly-carmart</artifactId>
     <version>9.0.0-SNAPSHOT</version>
     <packaging>war</packaging>
-    <name>CarMart Single Node (No Cluster)</name>
+    <name>WildFly Quickstarts: CarMart Single Node (No Cluster)</name>
 
     <licenses>
         <license>
@@ -50,7 +50,7 @@
         <tomcat.management.url>http://localhost:8080/manager/text</tomcat.management.url>
 
         <!-- Define the version of the JBoss BOMs we want to import to specify tested stacks. -->
-        <version.jboss.bom>8.2.1.Final</version.jboss.bom>
+        <version.jboss.bom>9.0.0.Beta3</version.jboss.bom>
 
 
         <!-- other plugin versions -->
@@ -79,7 +79,7 @@
         <dependencies>
             <dependency>
                 <groupId>org.wildfly.bom</groupId>
-                <artifactId>jboss-javaee-7.0-with-infinispan</artifactId>
+                <artifactId>jboss-javaee-7.0-wildfly</artifactId>
                 <version>${version.jboss.bom}</version>
                 <type>pom</type>
                 <scope>import</scope>
@@ -113,6 +113,12 @@
         <dependency>
             <groupId>org.infinispan</groupId>
             <artifactId>infinispan-core</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.infinispan</groupId>
+            <artifactId>infinispan-commons</artifactId>
+            <version>7.1.1.Final</version>
             <scope>compile</scope>
         </dependency>
 

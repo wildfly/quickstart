@@ -19,7 +19,7 @@ package org.jboss.as.quickstarts.datagrid.carmart.session;
 import java.util.logging.Logger;
 import javax.annotation.PreDestroy;
 import javax.enterprise.context.ApplicationScoped;
-import org.infinispan.api.BasicCacheContainer;
+import org.infinispan.commons.api.BasicCacheContainer;
 import org.infinispan.client.hotrod.RemoteCacheManager;
 import org.jboss.as.quickstarts.datagrid.carmart.session.CacheContainerProvider;
 

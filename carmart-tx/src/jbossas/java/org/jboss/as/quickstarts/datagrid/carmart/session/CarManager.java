@@ -16,7 +16,7 @@
  */
 package org.jboss.as.quickstarts.datagrid.carmart.session;
 
-import org.infinispan.api.BasicCache;
+import org.infinispan.commons.api.BasicCache;
 import org.jboss.as.quickstarts.datagrid.carmart.model.Car;
 
 import javax.enterprise.inject.Model;
