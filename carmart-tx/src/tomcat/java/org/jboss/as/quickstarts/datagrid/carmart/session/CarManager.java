@@ -28,7 +28,7 @@ import javax.inject.Inject;
 import javax.transaction.TransactionManager;
 
 import org.infinispan.CacheImpl;
-import org.infinispan.api.BasicCache;
+import org.infinispan.commons.api.BasicCache;
 import org.jboss.as.quickstarts.datagrid.carmart.model.Car;
 
 /**

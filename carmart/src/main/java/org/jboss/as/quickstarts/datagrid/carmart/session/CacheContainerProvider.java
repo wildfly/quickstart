@@ -20,7 +20,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
 
-import org.infinispan.api.BasicCacheContainer;
+import org.infinispan.commons.api.BasicCacheContainer;
 
 /**
  * 

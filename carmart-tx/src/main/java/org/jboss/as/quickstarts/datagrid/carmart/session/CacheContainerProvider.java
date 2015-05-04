@@ -16,7 +16,7 @@
  */
 package org.jboss.as.quickstarts.datagrid.carmart.session;
 
-import org.infinispan.api.BasicCacheContainer;
+import org.infinispan.commons.api.BasicCacheContainer;
 
 /**
  * 
