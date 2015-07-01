@@ -46,10 +46,10 @@
 
         <version.wildfly.maven.plugin>1.0.2.Final</version.wildfly.maven.plugin>
       
-        <version.jboss.spec.javaee.7.0>1.0.0.Final</version.jboss.spec.javaee.7.0>
+        <version.jboss.spec.javaee.7.0>1.0.1.Final</version.jboss.spec.javaee.7.0>
 
        
-        <version.org.richfaces>4.2.0.Final</version.org.richfaces>
+        <version.org.richfaces>4.5.7.Final</version.org.richfaces>
 
         <!-- other plugin versions -->
         <version.compiler.plugin>3.1</version.compiler.plugin>
@@ -82,7 +82,7 @@
                 versions of artifacts required for using RichFaces in your project. -->
             <dependency>
                 <groupId>org.richfaces</groupId>
-                <artifactId>richfaces-bom</artifactId>
+                <artifactId>richfaces</artifactId>
                 <version>${version.org.richfaces}</version>
                 <type>pom</type>
                 <scope>import</scope>
@@ -117,13 +117,8 @@
 
         <!-- Import the RichFaces core library -->
         <dependency>
-            <groupId>org.richfaces.core</groupId>
-            <artifactId>richfaces-core-impl</artifactId>
-        </dependency>
-        <!-- Import the RichFaces components -->
-        <dependency>
-            <groupId>org.richfaces.ui</groupId>
-            <artifactId>richfaces-components-ui</artifactId>
+            <groupId>org.richfaces</groupId>
+            <artifactId>richfaces</artifactId>
         </dependency>
 
     </dependencies>
