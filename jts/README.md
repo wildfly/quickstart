@@ -105,7 +105,7 @@ _NOTE - Before you begin:_
         JBOSS_HOME/bin/jboss-cli.sh --connect --file=configure-jts-transactions.cli
 This script configures the server to use jts transaction processing. You should see the following result when you run the script:
 
-        #1 /subsystem=jacorb:write-attribute(name=transactions,value=on)
+        #1 /subsystem=iiop-openjdk:write-attribute(name=transactions,value=full)
         #2 /subsystem=transactions:write-attribute(name=jts,value=true)
         #3 /subsystem=transactions:write-attribute(name=node-identifier,value=UNIQUE_IDENTIFER)
         The batch executed successfully.
@@ -123,7 +123,7 @@ This script configures the server to use jts transaction processing. You should 
         For Windows: bin\jboss-cli.bat --connect
 3. At the prompt, type the following (replace the words UNIQUE_IDENTIFER with values unique to both servers):
 
-        [standalone@localhost:9999 /] /subsystem=jacorb/:write-attribute(name=transactions,value=on)
+        [standalone@localhost:9999 /] /subsystem=iiop-openjdk/:write-attribute(name=transactions,value=full)
         [standalone@localhost:9999 /] /subsystem=transactions/:write-attribute(name=jts,value=true)
         [standalone@localhost:9999 /] /subsystem=transactions/:write-attribute(name=node-identifier,value=UNIQUE_IDENTIFER)
 4. _NOTE:_ When you have completed testing this quickstart, it is important to [Remove the JTS Configuration from the JBoss Server](#remove-the-jts-configuration-from-the-jboss-server).
@@ -135,9 +135,9 @@ This script configures the server to use jts transaction processing. You should 
 3. Enable JTS as follows:
     * Find the orb subsystem and change the configuration to:  
 
-            <subsystem xmlns="urn:jboss:domain:jacorb:1.2">
+            <subsystem xmlns="urn:jboss:domain:iiop-openjdk:1.0">
                 <orb>
-                    <initializers security="on" transactions="on"/>
+                    <initializers security="identity" transactions="full"/>
                 </orb>
             </subsystem>
     * Find the transaction subsystem and set a unique node-identifier, (replace the words UNIQUE_IDENTIFER with values unique to both servers) and append the `<jts/>` element:  
@@ -197,7 +197,6 @@ The application will be running at the following URL: <http://localhost:8080/wil
 When you enter a name and click to "Add" that customer, you will see the following in the application server 1 console:
     
     14:31:48,334 WARNING [javax.enterprise.resource.webcontainer.jsf.renderkit] (http-localhost-127.0.0.1-8080-1) Unable to find component with ID name in view.
-    14:31:50,457 ERROR [jacorb.orb] (http-localhost-127.0.0.1-8080-1) no adapter activator exists for jts-quickstart&%InvoiceManagerEJBImpl&%home
     14:31:50,767 INFO  [org.jboss.ejb.client] (http-localhost-127.0.0.1-8080-1) JBoss EJB Client version 1.0.5.Final
     14:31:51,430 WARN  [com.arjuna.ats.jts] (RequestProcessor-5) ARJUNA022261: ServerTopLevelAction detected that the transaction was inactive
 
@@ -237,7 +236,7 @@ You can modify the server configuration by running the `remove-jts-transactions.
         JBOSS_HOME/bin/jboss-cli.sh --connect --file=remove-jts-transactions.cli 
 This script removes the `test` queue from the `messaging` subsystem in the server configuration. You should see the following result when you run the script:
 
-        #1 /subsystem=jacorb:write-attribute(name=transactions,value=spec)
+        #1 /subsystem=iiop-openjdk:write-attribute(name=transactions,value=spec)
         #2 /subsystem=transactions:undefine-attribute(name=jts)
         #3 /subsystem=transactions:undefine-attribute(name=node-identifier)
         The batch executed successfully.
@@ -256,7 +255,7 @@ This script removes the `test` queue from the `messaging` subsystem in the serve
         For Windows: bin\jboss-cli.bat --connect
 3. At the prompt, type the following:
 
-        [standalone@localhost:9999 /] /subsystem=jacorb/:write-attribute(name=transactions,value=spec)
+        [standalone@localhost:9999 /] /subsystem=iiop-openjdk/:write-attribute(name=transactions,value=spec)
         [standalone@localhost:9999 /] /subsystem=transactions/:undefine-attribute(name=jts)
         [standalone@localhost:9999 /] /subsystem=transactions/:undefine-attribute(name=node-identifier)
 
@@ -268,9 +267,9 @@ This script removes the `test` queue from the `messaging` subsystem in the serve
 
     * Find the orb subsystem and change the configuration back to:  
 
-            <subsystem xmlns="urn:jboss:domain:jacorb:1.2">
+            <subsystem xmlns="urn:jboss:domain:iiop-openjdk:1.0">
                 <orb>
-                    <initializers security="on" transactions="spec"/>
+                    <initializers security="identity" transactions="spec"/>
                 </orb>
             </subsystem>
     * Find the transaction subsystem and remove the `<jts/>` element:  
