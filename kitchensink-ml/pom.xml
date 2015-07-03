@@ -17,6 +17,14 @@
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <parent>
+        <groupId>org.jboss</groupId>
+        <artifactId>jboss-parent</artifactId>
+        <version>19</version>
+        <relativePath/>
+    </parent>
+
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.wildfly.quickstarts</groupId>
@@ -47,16 +55,7 @@
         <version.wildfly.maven.plugin>1.0.2.Final</version.wildfly.maven.plugin>
 
         <!-- Define the version of the JBoss BOMs we want to import to specify tested stacks. -->
-        <version.jboss.bom>9.0.0.Beta3</version.jboss.bom>
-
-        <!-- other plugin versions -->
-        <version.compiler.plugin>3.1</version.compiler.plugin>
-        <version.surefire.plugin>2.16</version.surefire.plugin>
-        <version.war.plugin>2.5</version.war.plugin>
-
-        <!-- maven-compiler-plugin -->
-        <maven.compiler.target>1.7</maven.compiler.target>
-        <maven.compiler.source>1.7</maven.compiler.source>
+        <version.jboss.bom>9.0.0.Final</version.jboss.bom>
     </properties>
 
 
@@ -102,8 +101,8 @@
 
         <!-- Import the JAX-RS API, we use provided scope as the API is included in JBoss WildFly -->
         <dependency>
-            <groupId>org.jboss.resteasy</groupId>
-            <artifactId>jaxrs-api</artifactId>
+            <groupId>org.jboss.spec.javax.ws.rs</groupId>
+             <artifactId>jboss-jaxrs-api_2.0_spec</artifactId>
             <scope>provided</scope>
         </dependency>
 
@@ -173,6 +172,12 @@
         <dependency>
             <groupId>org.jboss.logging</groupId>
             <artifactId>jboss-logging-processor</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.logging</groupId>
+            <artifactId>jboss-logging-annotations</artifactId>
             <scope>provided</scope>
         </dependency>
 
@@ -258,7 +263,7 @@
             <id>arq-wildfly-managed</id>
             <dependencies>
                 <dependency>
-                    <groupId>org.wildfly</groupId>
+                    <groupId>org.wildfly.arquillian</groupId>
                     <artifactId>wildfly-arquillian-container-managed</artifactId>
                     <scope>test</scope>
                 </dependency>
@@ -272,7 +277,7 @@
             <id>arq-wildfly-remote</id>
             <dependencies>
                 <dependency>
-                    <groupId>org.wildfly</groupId>
+                    <groupId>org.wildfly.arquillian</groupId>
                     <artifactId>wildfly-arquillian-container-remote</artifactId>
                     <scope>test</scope>
                 </dependency>

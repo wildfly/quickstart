@@ -47,10 +47,7 @@
         <version.wildfly.maven.plugin>1.0.2.Final</version.wildfly.maven.plugin>
         
         <!-- Define the version of the JBoss BOMs we want to import to specify tested stacks. -->
-        <version.jboss.bom>9.0.0.Beta3</version.jboss.bom>
-
-        <!-- Other dependency versions -->
-        <version.javax.servlet.jstl>1.2</version.javax.servlet.jstl>
+        <version.jboss.bom>9.0.0.Final</version.jboss.bom>
 
         <!-- other plugin versions -->
         <version.compiler.plugin>3.1</version.compiler.plugin>
@@ -112,8 +109,8 @@
 
         <!-- Import the JAX-RS API, we use provided scope as the API is included in JBoss WildFly -->
         <dependency>
-            <groupId>org.jboss.resteasy</groupId>
-            <artifactId>jaxrs-api</artifactId>
+            <groupId>org.jboss.spec.javax.ws.rs</groupId>
+             <artifactId>jboss-jaxrs-api_2.0_spec</artifactId>
             <scope>provided</scope>
         </dependency>
 
@@ -133,10 +130,9 @@
 
         <!-- JSTL 1.2 or + -->
         <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>jstl</artifactId>
-            <version>${version.javax.servlet.jstl}</version>
-            <scope>runtime</scope>
+            <groupId>org.jboss.spec.javax.servlet.jstl</groupId>
+            <artifactId>jboss-jstl-api_1.2_spec</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <!-- JSR-303 (Bean Validation) Implementation -->
@@ -246,7 +242,7 @@
             <id>arq-wildfly-managed</id>
             <dependencies>
                 <dependency>
-                    <groupId>org.wildfly</groupId>
+                    <groupId>org.wildfly.arquillian</groupId>
                     <artifactId>wildfly-arquillian-container-managed</artifactId>
                     <scope>test</scope>
                 </dependency>
@@ -260,7 +256,7 @@
             <id>arq-wildfly-remote</id>
             <dependencies>
                 <dependency>
-                    <groupId>org.wildfly</groupId>
+                    <groupId>org.wildfly.arquillian</groupId>
                     <artifactId>wildfly-arquillian-container-remote</artifactId>
                     <scope>test</scope>
                 </dependency>

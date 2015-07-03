@@ -46,7 +46,7 @@
         <version.wildfly.maven.plugin>1.0.2.Final</version.wildfly.maven.plugin>
 
         <!-- Define the version of the JBoss BOMs we want to import to specify tested stacks. -->
-        <version.jboss.bom>9.0.0.Beta3</version.jboss.bom>
+        <version.jboss.bom>9.0.0.Final</version.jboss.bom>
 
         <!-- other plugin versions -->
         <version.compiler.plugin>3.1</version.compiler.plugin>
@@ -126,8 +126,8 @@
 
         <!-- Import the JAX-RS API and Resteasy, we use provided scope as the API is included in JBoss WildFly. -->
         <dependency>
-            <groupId>org.jboss.resteasy</groupId>
-            <artifactId>jaxrs-api</artifactId>
+            <groupId>org.jboss.spec.javax.ws.rs</groupId>
+             <artifactId>jboss-jaxrs-api_2.0_spec</artifactId>
             <scope>provided</scope>
         </dependency>
         <!-- RESTEasy implementation of JAX-RS API -->
