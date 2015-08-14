@@ -17,11 +17,12 @@
 package org.jboss.as.quickstarts.loggingToolsQS.loggers;
 
 import org.jboss.logging.BasicLogger;
-import org.jboss.logging.LogMessage;
 import org.jboss.logging.Logger;
-import org.jboss.logging.Message;
+import org.jboss.logging.annotations.LogMessage;
+import org.jboss.logging.annotations.Message;
+import org.jboss.logging.annotations.MessageLogger;
 
-@org.jboss.logging.MessageLogger(projectCode = "GREETER")
+@MessageLogger(projectCode = "GREETER")
 public interface GreeterLogger extends BasicLogger {
     GreeterLogger LOGGER = Logger.getMessageLogger(GreeterLogger.class, GreeterLogger.class.getPackage().getName());
 

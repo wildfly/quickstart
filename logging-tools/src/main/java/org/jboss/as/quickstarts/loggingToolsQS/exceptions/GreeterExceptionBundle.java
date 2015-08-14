@@ -16,11 +16,12 @@
  */
 package org.jboss.as.quickstarts.loggingToolsQS.exceptions;
 
-import org.jboss.logging.Cause;
-import org.jboss.logging.Message;
 import org.jboss.logging.Messages;
+import org.jboss.logging.annotations.Cause;
+import org.jboss.logging.annotations.Message;
+import org.jboss.logging.annotations.MessageBundle;
 
-@org.jboss.logging.MessageBundle(projectCode = "GREETER")
+@MessageBundle(projectCode = "GREETER")
 public interface GreeterExceptionBundle {
     GreeterExceptionBundle EXCEPTIONS = Messages.getBundle(GreeterExceptionBundle.class);
 

@@ -119,7 +119,7 @@ public class UnManagedComponent {
 
         if (key == null || key.length() == 0) {
             // list all key value pairs
-            final List<KVPair> list = entityManager.createQuery("select k from KVPair k").getResultList();
+            final List<KVPair> list = entityManager.createQuery("select k from KVPair k", KVPair.class).getResultList();
 
             for (KVPair kvPair : list)
                 sb.append(kvPair.getKey()).append("=").append(kvPair.getValue()).append(',');

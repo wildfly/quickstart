@@ -62,7 +62,7 @@ public class JBossASCacheContainerProvider implements CacheContainerProvider {
                 .transaction().transactionMode(TransactionMode.TRANSACTIONAL).autoCommit(false) //Enable Transactional mode with autocommit false
                 .lockingMode(LockingMode.OPTIMISTIC).transactionManagerLookup(new GenericTransactionManagerLookup()) //uses GenericTransactionManagerLookup - This is a lookup class that locate transaction managers in the most  popular Java EE application servers. If no transaction manager can be found, it defaults on the dummy transaction manager.
                 .locking().isolationLevel(IsolationLevel.REPEATABLE_READ) //Sets the isolation level of locking
-                .eviction().maxEntries(4).strategy(EvictionStrategy.LIRS) //Sets  4 as maximum number of entries in a cache instance and uses the LIRS strategy - an efficient low inter-reference recency set replacement policy to improve buffer cache performance
+                .eviction().maxEntries(4L).strategy(EvictionStrategy.LIRS) //Sets  4 as maximum number of entries in a cache instance and uses the LIRS strategy - an efficient low inter-reference recency set replacement policy to improve buffer cache performance
                 .persistence().passivation(false).addSingleFileStore().purgeOnStartup(true) //Disable passivation and adds a FileCacheStore that is purged on Startup
                 .build(); //Builds the Configuration object
             manager = new DefaultCacheManager(glob, loc, true);

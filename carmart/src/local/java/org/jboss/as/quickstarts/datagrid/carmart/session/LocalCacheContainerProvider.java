@@ -54,7 +54,7 @@ public class LocalCacheContainerProvider extends CacheContainerProvider {
                 .jmxStatistics().enable() //Enable JMX statistics
                 .clustering().cacheMode(CacheMode.LOCAL) //Set Cache mode to LOCAL - Data is not replicated.
                 .locking().isolationLevel(IsolationLevel.REPEATABLE_READ) //Sets the isolation level of locking
-                .eviction().maxEntries(4).strategy(EvictionStrategy.LIRS) //Sets  4 as maximum number of entries in a cache instance and uses the LIRS strategy - an efficient low inter-reference recency set replacement policy to improve buffer cache performance
+                .eviction().maxEntries(4l).strategy(EvictionStrategy.LIRS) //Sets  4 as maximum number of entries in a cache instance and uses the LIRS strategy - an efficient low inter-reference recency set replacement policy to improve buffer cache performance
                 .persistence().passivation(false).addSingleFileStore().purgeOnStartup(true) //Disable passivation and adds a FileCacheStore that is Purged on Startup
                 .build(); //Builds the Configuration object
             manager = new DefaultCacheManager(glob, loc, true);

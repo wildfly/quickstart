@@ -15,13 +15,12 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.wildfly.quickstarts</groupId>
     <artifactId>wildfly-thread-racing</artifactId>
-    <version>9.0.0-SNAPSHOT</version>
+    <version>10.0.0-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>WildFly Quickstarts: Thread Racing</name>
     <description>A web app that triggers a thread race to complete Java EE 7 related tasks.</description>
@@ -46,15 +45,15 @@
         <version.wildfly.maven.plugin>1.0.2.Final</version.wildfly.maven.plugin>
 
         <!-- Define the version of the JBoss BOMs we want to import to specify tested stacks. -->
-        <version.jboss.bom>9.0.0.Final</version.jboss.bom>
+        <version.jboss.bom>10.0.0.Beta1</version.jboss.bom>
 
         <!-- other plugin versions -->
         <version.compiler.plugin>3.1</version.compiler.plugin>
         <version.war.plugin>2.5</version.war.plugin>
 
         <!-- maven-compiler-plugin -->
-        <maven.compiler.target>1.7</maven.compiler.target>
-        <maven.compiler.source>1.7</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
 
         <!-- src/main/webapp/index.html is filtered and uses this property value to generate the correct server's web socket url -->
         <openshift>false</openshift>
@@ -207,7 +206,7 @@
                 <artifactId>wildfly-maven-plugin</artifactId>
                 <version>${version.wildfly.maven.plugin}</version>
             </plugin>
-            <!-- Compiler plugin enforces Java 1.6 compatibility and activates annotation processors. -->
+            <!-- Compiler plugin enforces Java 1.8 compatibility and activates annotation processors. -->
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${version.compiler.plugin}</version>

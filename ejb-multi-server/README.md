@@ -34,7 +34,7 @@ System requirements
 
 The application this project produces is designed to be run on JBoss WildFly.
 
-All you need to build this project is Java 7.0 (Java SDK 1.7) or later, Maven 3.1 or later.
+All you need to build this project is Java 8 (Java SDK 1.8) or later, Maven 3.1 or later.
 
 
 Configure Maven

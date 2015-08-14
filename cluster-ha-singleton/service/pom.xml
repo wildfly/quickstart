@@ -15,8 +15,7 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>wildfly-cluster-ha-singleton-service</artifactId>
@@ -24,7 +23,7 @@
     <parent>
         <groupId>org.wildfly.quickstarts</groupId>
         <artifactId>wildfly-cluster-ha-singleton</artifactId>
-        <version>9.0.0-SNAPSHOT</version>
+        <version>10.0.0-SNAPSHOT</version>
     </parent>
 
     <name>WildFly Quickstarts: SingletonService (service)</name>
@@ -66,7 +65,7 @@
         
         <dependency>
             <groupId>org.wildfly</groupId>
-            <artifactId>wildfly-clustering-singleton</artifactId>
+            <artifactId>wildfly-clustering-singleton-api</artifactId>
         </dependency>
         
     </dependencies>
@@ -75,7 +74,7 @@
         <!-- Specify the artifact name -->
         <finalName>${project.artifactId}</finalName>
         <plugins>
-            <!-- Enforce Java 1.7 -->
+            <!-- Enforce Java 1.8 -->
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${version.compiler.plugin}</version>
@@ -92,8 +91,6 @@
                 <version>${version.ejb.plugin}</version>
                 <configuration>
                     <ejbVersion>3.1</ejbVersion>
-                    <source>${maven.compiler.source}</source>
-                    <target>${maven.compiler.source}</target>
                     <generateClient>true</generateClient>
                     <clientIncludes>
                         <clientInclude>**/ServiceAccess.class</clientInclude>

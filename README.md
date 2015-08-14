@@ -51,7 +51,7 @@ System Requirements
 
 To run these quickstarts with the provided build scripts, you need the following:
 
-1. Java 1.7, to run WildFly and Maven. You can choose from the following:
+1. Java 1.8, to run WildFly and Maven. You can choose from the following:
     * OpenJDK
     * Oracle Java SE
 

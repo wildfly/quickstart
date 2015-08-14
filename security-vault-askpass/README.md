@@ -34,7 +34,7 @@ This quickstart takes the following steps to set up Security Vault:
 System requirements
 -------------------
 
-All you need to build this project is Java 7.0 (Java SDK 1.7) or better, Maven 3.1 or better,
+All you need to build this project is Java 8 (Java SDK 1.8) or better, Maven 3.1 or better,
 UNIX/Linux operating system or a Bash support on a different operating system.
 
 The application this project produces is designed to be run on JBoss WildFly.

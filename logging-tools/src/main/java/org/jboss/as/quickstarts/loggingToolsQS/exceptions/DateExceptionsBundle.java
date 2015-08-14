@@ -18,11 +18,12 @@ package org.jboss.as.quickstarts.loggingToolsQS.exceptions;
 
 import java.text.ParseException;
 
-import org.jboss.logging.Message;
 import org.jboss.logging.Messages;
-import org.jboss.logging.Param;
+import org.jboss.logging.annotations.Message;
+import org.jboss.logging.annotations.MessageBundle;
+import org.jboss.logging.annotations.Param;
 
-@org.jboss.logging.MessageBundle(projectCode = "GRTDATES")
+@MessageBundle(projectCode = "GRTDATES")
 public interface DateExceptionsBundle {
     DateExceptionsBundle EXCEPTIONS = Messages.getBundle(DateExceptionsBundle.class);
 

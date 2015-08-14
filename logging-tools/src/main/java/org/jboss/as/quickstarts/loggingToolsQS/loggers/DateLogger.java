@@ -19,13 +19,14 @@ package org.jboss.as.quickstarts.loggingToolsQS.loggers;
 import java.text.ParseException;
 
 import org.jboss.logging.BasicLogger;
-import org.jboss.logging.Cause;
-import org.jboss.logging.LogMessage;
 import org.jboss.logging.Logger;
 import org.jboss.logging.Logger.Level;
-import org.jboss.logging.Message;
+import org.jboss.logging.annotations.Cause;
+import org.jboss.logging.annotations.LogMessage;
+import org.jboss.logging.annotations.Message;
+import org.jboss.logging.annotations.MessageLogger;
 
-@org.jboss.logging.MessageLogger(projectCode = "GTRDATES")
+@MessageLogger(projectCode = "GTRDATES")
 public interface DateLogger extends BasicLogger {
     DateLogger LOGGER = Logger.getMessageLogger(DateLogger.class, DateLogger.class.getPackage().getName());
 
