@@ -97,9 +97,9 @@ batch
 /profile=default-web/subsystem="logging"/logger="sun.rmi":add(category="sun.rmi",level="WARN")
 /profile=default-web/subsystem="logging"/root-logger="ROOT":add(handlers=["FILE"],level="INFO")
 
-/profile=default-web/subsystem="batch":add(job-repository-type="in-memory")
-/profile=default-web/subsystem="batch"/job-repository="jdbc":add()
-/profile=default-web/subsystem="batch"/thread-pool="batch":add(keepalive-time={"time" => "30","unit" => "SECONDS"},max-threads="10",name="batch")
+/profile=default-web/subsystem="batch-jberet":add(default-job-repository="in-memory", default-thread-pool="batch")
+/profile=default-web/subsystem="batch-jberet"/in-memory-job-repository=in-memory:add()
+/profile=default-web/subsystem="batch-jberet"/thread-pool="batch":add(keepalive-time={"time" => "30","unit" => "SECONDS"},max-threads="10",name="batch")
 
 /profile=default-web/subsystem="bean-validation":add()
 
