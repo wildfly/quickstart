@@ -29,7 +29,6 @@ import org.apache.wicket.protocol.http.WebApplication;
 import org.jboss.as.quickstarts.wicketWar.pages.InsertContact;
 import org.jboss.as.quickstarts.wicketWar.pages.ListContacts;
 
-
 /**
  *
  * @author Ondrej Zizka
@@ -59,5 +58,5 @@ public class WicketJavaEEApplication extends WebApplication {
         // Mount the InsertContact page at /insert
         mountPage("/insert", InsertContact.class);
     }
-    
+
 }

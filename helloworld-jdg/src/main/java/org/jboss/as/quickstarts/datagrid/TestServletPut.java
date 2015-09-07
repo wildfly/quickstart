@@ -30,9 +30,9 @@ import java.util.logging.Logger;
 
 /**
  * A simple servlet storing value for key "hello" into the cache.
- * 
+ *
  * @author Pete Muir
- * 
+ *
  */
 @SuppressWarnings("serial")
 @WebServlet("/TestServletPut")

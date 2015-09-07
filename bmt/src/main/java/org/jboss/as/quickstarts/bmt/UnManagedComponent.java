@@ -77,7 +77,7 @@ public class UnManagedComponent {
             // generate this condition although the example does check for duplicates).
             Throwable t = e.getCause();
 
-            return t != null ? t.getMessage() :  e.getMessage();
+            return t != null ? t.getMessage() : e.getMessage();
         } catch (Exception e) {
             /*
              * An application cannot handle any of the other exceptions raised by begin and commit so we just
@@ -139,7 +139,7 @@ public class UnManagedComponent {
                     // insert into the key/value table
                     kvPair = new KVPair(key, value);
                     entityManager.persist(kvPair);
-                }  else {
+                } else {
                     // update an existing row in the key/value table
                     kvPair.setValue(value);
                     entityManager.persist(kvPair);

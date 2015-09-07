@@ -20,9 +20,9 @@ import javax.enterprise.inject.Alternative;
 
 /**
  * Alternative implementation for Tax
- * 
+ *
  * @author Nevin Zhu
- * 
+ *
  */
 @Alternative
 public class TaxImpl_2 implements Tax {

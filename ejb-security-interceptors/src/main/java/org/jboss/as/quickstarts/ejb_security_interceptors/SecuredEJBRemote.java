@@ -18,7 +18,7 @@ package org.jboss.as.quickstarts.ejb_security_interceptors;
 
 /**
  * The interface used to access the SecuredEJB
- * 
+ *
  * @author <a href="mailto:darran.lofthouse@jboss.com">Darran Lofthouse</a>
  */
 public interface SecuredEJBRemote {

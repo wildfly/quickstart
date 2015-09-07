@@ -19,11 +19,11 @@ package org.jboss.as.quickstarts.datagrid.carmart.session;
 import org.infinispan.commons.api.BasicCacheContainer;
 
 /**
- * 
+ *
  * Subclasses should create an instance of a cache manager (DefaultCacheManager, RemoteCacheManager, etc.)
- * 
+ *
  * @author Martin Gencur
- * 
+ *
  */
 public interface CacheContainerProvider {
 

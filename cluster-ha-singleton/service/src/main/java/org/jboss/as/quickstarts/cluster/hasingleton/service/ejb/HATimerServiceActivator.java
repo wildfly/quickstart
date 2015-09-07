@@ -16,7 +16,6 @@
  */
 package org.jboss.as.quickstarts.cluster.hasingleton.service.ejb;
 
-
 import org.jboss.as.server.ServerEnvironment;
 import org.jboss.as.server.ServerEnvironmentService;
 import org.jboss.msc.service.ServiceActivator;
@@ -54,9 +53,8 @@ public class HATimerServiceActivator implements ServiceActivator {
             .electionPolicy(new PreferredSingletonElectionPolicy(new SimpleSingletonElectionPolicy(), new NamePreference(PREFERRED_NODE + "/" + CONTAINER_NAME)))
             .requireQuorum(quorum)
             .build(context.getServiceTarget())
-                .addDependency(ServerEnvironmentService.SERVICE_NAME, ServerEnvironment.class, env)
-                .setInitialMode(ServiceController.Mode.ACTIVE)
-                .install()
-        ;
+            .addDependency(ServerEnvironmentService.SERVICE_NAME, ServerEnvironment.class, env)
+            .setInitialMode(ServiceController.Mode.ACTIVE)
+            .install();
     }
 }

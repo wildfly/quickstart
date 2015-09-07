@@ -25,7 +25,7 @@ import javax.ws.rs.Produces;
 /**
  * A simple REST service which is able to say hello to someone using HelloService Please take a look at the web.xml where JAX-RS
  * is enabled And notice the @PathParam which expects the URL to contain /json/David or /xml/Mary
- * 
+ *
  * @author bsutter@redhat.com
  */
 

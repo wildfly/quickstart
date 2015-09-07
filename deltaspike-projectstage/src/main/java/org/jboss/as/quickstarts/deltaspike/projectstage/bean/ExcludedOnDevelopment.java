@@ -20,18 +20,18 @@ import org.apache.deltaspike.core.api.exclude.Exclude;
 import org.apache.deltaspike.core.api.projectstage.ProjectStage.Development;
 
 /**
- * 
+ *
  * This implementation is excluded if the project-stage is development
- * 
+ *
  * @author <a href="mailto:benevides@redhat.com">Rafael Benevides</a>
- * 
+ *
  */
 @Exclude(ifProjectStage = Development.class)
 public class ExcludedOnDevelopment implements MessageProvider {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.as.quickstarts.deltaspike.projectstage.controller.bean.MyBean#message()
      */
     @Override

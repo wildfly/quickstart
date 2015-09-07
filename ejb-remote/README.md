@@ -1,11 +1,11 @@
 ejb-remote: Remote EJB Client Example
 =====================================
-Author: Jaikiran Pai, Mike Musgrove
-Level: Intermediate
-Technologies: EJB
-Summary: Shows how to access an EJB from a remote Java client program using JNDI
+Author: Jaikiran Pai, Mike Musgrove  
+Level: Intermediate  
+Technologies: EJB  
+Summary: Shows how to access an EJB from a remote Java client program using JNDI  
 Target Project: WildFly
-Source: <https://github.com/wildfly/quickstart/>
+Source: <https://github.com/wildfly/quickstart/>  
 
 What is it?
 -----------

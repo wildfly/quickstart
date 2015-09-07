@@ -32,7 +32,7 @@ import java.util.List;
 
 /**
  * A Client stub to the restaurant service.
- * 
+ *
  * @author paul.robinson@redhat.com, 2012-01-04
  */
 @ClientStub
@@ -42,15 +42,15 @@ public class Client implements RestaurantServiceAT {
     /**
      * Default constructor with hard-coded values for the RestaurantServiceAT endpoint details (wsdl url, service name & port
      * name)
-     * 
+     *
      * @throws MalformedURLException if the WSDL url is malformed.
      */
     public Client() throws MalformedURLException {
         URL wsdlLocation = new URL("http://localhost:8080/wsat-simple/RestaurantServiceAT?wsdl");
         QName serviceName = new QName("http://www.jboss.org/jboss-jdf/jboss-as-quickstart/wsat/simple/Restaurant",
-                "RestaurantServiceATService");
+            "RestaurantServiceATService");
         QName portName = new QName("http://www.jboss.org/jboss-jdf/jboss-as-quickstart/wsat/simple/Restaurant",
-                "RestaurantServiceAT");
+            "RestaurantServiceAT");
 
         Service service = Service.create(wsdlLocation, serviceName);
         restaurant = service.getPort(portName, RestaurantServiceAT.class);
@@ -74,7 +74,7 @@ public class Client implements RestaurantServiceAT {
 
     /**
      * obtain the number of existing bookings
-     * 
+     *
      * @return the number of current bookings
      */
     @Override

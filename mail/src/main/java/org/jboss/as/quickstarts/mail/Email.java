@@ -38,9 +38,9 @@ import javax.mail.internet.MimeMessage;
  * <p>
  * The {@link #send()} method provides the business logic to send the email
  * </p>
- * 
+ *
  * @author Joel Tosi
- * 
+ *
  */
 
 @Named
@@ -99,7 +99,7 @@ public class Email implements Serializable {
     /**
      * Method to send the email based upon values entered in the JSF view. Exception should be handled in a production usage but
      * is not handled in this example.
-     * 
+     *
      * @throws Exception
      */
     public void send() throws Exception {

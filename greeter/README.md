@@ -1,11 +1,11 @@
 greeter: Greeter Example
 ========================
-Author: Pete Muir
-Level: Beginner
-Technologies: CDI, JSF, JPA, EJB, JTA
-Summary: Demonstrates the use of CDI 1.1, JPA 2.1, JTA 1.2, EJB 3.2 and JSF 2.2
+Author: Pete Muir  
+Level: Beginner  
+Technologies: CDI, JSF, JPA, EJB, JTA  
+Summary: Demonstrates the use of CDI 1.1, JPA 2.1, JTA 1.2, EJB 3.2 and JSF 2.2  
 Target Project: WildFly
-Source: <https://github.com/wildfly/quickstart/>
+Source: <https://github.com/wildfly/quickstart/>  
 
 What is it?
 -----------

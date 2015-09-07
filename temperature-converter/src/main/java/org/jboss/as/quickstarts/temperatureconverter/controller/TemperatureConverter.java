@@ -31,9 +31,9 @@ import org.jboss.as.quickstarts.temperatureconverter.ejb.TemperatureConvertEJB;
 /**
  * A simple managed bean that is used to invoke the TemperatureConvertEJB and store the response. The response is obtained by
  * invoking temperatureConvertEJB.convert().
- * 
+ *
  * Code borrowed and modified from another quickstart written by Paul Robinson
- * 
+ *
  * @author Bruce Wolfe
  */
 @SuppressWarnings("serial")
@@ -58,7 +58,7 @@ public class TemperatureConverter implements Serializable {
 
     /**
      * Invoke temperatureConvertEJB.convert() and store the temperature
-     * 
+     *
      * @param sourceTemperature The temperature to be converted
      * @param defaultScale The default source temperature scale
      */

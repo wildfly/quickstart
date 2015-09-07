@@ -23,24 +23,24 @@ import javax.ejb.Stateless;
 import org.jboss.logging.Logger;
 
 /**
- * Simple implementation to show the behavior of EJB clients which are started in 
+ * Simple implementation to show the behavior of EJB clients which are started in
  * the application client environment.
- *  
+ *
  * @author <a href="mailto:wfink@redhat.com">Wolf-Dieter Fink</a>
  */
 @Stateless
 public class StatelessSessionBean implements StatelessSession {
-  private static final Logger LOGGER = Logger.getLogger(StatelessSessionBean.class);
-  @Resource
-  SessionContext context;
-  
-  @Override
-  public void invokeWithClientContext() {
-    LOGGER.info("ClientContext is here = "+context.getContextData());
-  }
-  
-  @Override
-  public String getGreeting() {
-      return "Hello from StatelessSessionBean@" + System.getProperty("jboss.node.name");
-  }
+    private static final Logger LOGGER = Logger.getLogger(StatelessSessionBean.class);
+    @Resource
+    SessionContext context;
+
+    @Override
+    public void invokeWithClientContext() {
+        LOGGER.info("ClientContext is here = " + context.getContextData());
+    }
+
+    @Override
+    public String getGreeting() {
+        return "Hello from StatelessSessionBean@" + System.getProperty("jboss.node.name");
+    }
 }

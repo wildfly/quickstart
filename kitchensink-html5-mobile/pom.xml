@@ -32,11 +32,11 @@
         <!-- Explicitly declaring the source encoding eliminates the following message: -->
         <!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent! -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        
+
         <!-- You can reference property in pom.xml or filtered resources (must enable third-party plugin if using Maven < 2.1) -->
-        
+
         <!-- JBoss dependency versions -->
- 
+
         <version.wildfly.maven.plugin>1.0.2.Final</version.wildfly.maven.plugin>
 
         <!-- Define the version of the JBoss BOMs we want to import to specify tested stacks. -->
@@ -69,8 +69,8 @@
     <dependencyManagement>
         <dependencies>
             <!-- JBoss distributes a complete set of Java EE 7 APIs including
-                a Bill of Materials (BOM). A BOM specifies the versions of a "stack" (or 
-                a collection) of artifacts. We use this here so that we always get the correct 
+                a Bill of Materials (BOM). A BOM specifies the versions of a "stack" (or
+                a collection) of artifacts. We use this here so that we always get the correct
                 versions of artifacts. Here we use the jboss-javaee-7.0-with-tools stack
                 (you can read this as the JBoss stack of the Java EE 7 APIs, with some extras
                 tools for your project, such as Arquillian for testing) and the jboss-javaee-7.0-with-hibernate
@@ -85,7 +85,7 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-    
+
     <dependencies>
         <!-- First declare the APIs we depend on and need for compilation. All of them are provided by JBoss -->
 
@@ -179,7 +179,7 @@
     </dependencies>
 
     <build>
-        <!-- Maven will append the version to the finalName (which is the name given to the generated war, and hence the context 
+        <!-- Maven will append the version to the finalName (which is the name given to the generated war, and hence the context
             root) -->
         <finalName>${project.artifactId}</finalName>
         <plugins>
@@ -198,10 +198,10 @@
                 <artifactId>wildfly-maven-plugin</artifactId>
                 <version>${version.wildfly.maven.plugin}</version>
             </plugin>
-            
+
         </plugins>
     </build>
-    
+
     <profiles>
         <profile>
             <!-- The default profile skips all tests, though you can tune it to run just unit tests based on a custom pattern -->
@@ -366,5 +366,5 @@
             </build>
         </profile>
     </profiles>
-    
+
 </project>

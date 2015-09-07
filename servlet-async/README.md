@@ -1,11 +1,11 @@
 servlet-async: How to Write an Asynchronous Servlet
 ===================================================
-Author: Christian Sadilek
-Level: Intermediate
-Technologies: Servlet, CDI, EJB
-Summary: Demonstrates CDI, plus asynchronous Servlets and EJBs
+Author: Christian Sadilek  
+Level: Intermediate  
+Technologies: Servlet, CDI, EJB  
+Summary: Demonstrates CDI, plus asynchronous Servlets and EJBs  
 Target Project: WildFly
-Source: <https://github.com/wildfly/quickstart/>
+Source: <https://github.com/wildfly/quickstart/>  
 
 What is it?
 -----------

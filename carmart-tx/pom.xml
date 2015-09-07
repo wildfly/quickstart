@@ -33,9 +33,9 @@
         </license>
     </licenses>
     <properties>
-        <!-- Explicitly declaring the source encoding eliminates the following 
+        <!-- Explicitly declaring the source encoding eliminates the following
             message: -->
-        <!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered 
+        <!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered
             resources, i.e. build is platform dependent! -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
@@ -48,7 +48,7 @@
         <version.jboss.bom>9.0.0.Final</version.jboss.bom>
 
 
-        <!-- This is the Management URL of EWS/Tomcat, so tomcat-maven-plugin 
+        <!-- This is the Management URL of EWS/Tomcat, so tomcat-maven-plugin
             can deploy this quickstart on EWS/Tomcat through this URL -->
         <tomcat.management.url>http://localhost:8080/manager/text</tomcat.management.url>
 
@@ -85,11 +85,11 @@
 
     <dependencies>
 
-        <!-- First declare the APIs we depend on and need for compilation. 
+        <!-- First declare the APIs we depend on and need for compilation.
             The dependencies with provided scope are provided by JBoss WildFly, The other
             compiled scoped dependencies will be add to the application libraries -->
 
-        <!-- Import the JSF API, we use provided scope as the API is included 
+        <!-- Import the JSF API, we use provided scope as the API is included
             in JBoss WildFly -->
         <dependency>
             <groupId>org.jboss.spec.javax.faces</groupId>
@@ -97,7 +97,7 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- Import the CDI API, we use provided scope as the API is included 
+        <!-- Import the CDI API, we use provided scope as the API is included
             in JBoss WildFly -->
         <dependency>
             <groupId>javax.enterprise</groupId>
@@ -128,7 +128,7 @@
     </dependencies>
 
     <build>
-        <!-- Maven will append the version to the finalName (which is the 
+        <!-- Maven will append the version to the finalName (which is the
             name given to the generated war, and hence the context root) -->
         <finalName>${project.artifactId}</finalName>
         <plugins>
@@ -154,7 +154,7 @@
     </build>
 
     <profiles>
-        <!-- This is the default profile (active by default) that uses the 
+        <!-- This is the default profile (active by default) that uses the
             src/local/java folder which provided local access to the cache (library mode) -->
         <profile>
             <id>library-wildfly</id>

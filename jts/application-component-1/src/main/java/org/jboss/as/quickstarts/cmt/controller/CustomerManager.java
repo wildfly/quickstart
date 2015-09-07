@@ -41,7 +41,7 @@ public class CustomerManager {
     private CustomerManagerEJB customerManager;
 
     public List<Customer> getCustomers() throws SecurityException, IllegalStateException, NamingException,
-            NotSupportedException, SystemException, RollbackException, HeuristicMixedException, HeuristicRollbackException {
+        NotSupportedException, SystemException, RollbackException, HeuristicMixedException, HeuristicRollbackException {
         return customerManager.listCustomers();
     }
 

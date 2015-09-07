@@ -26,7 +26,7 @@ import org.jboss.ejb3.annotation.SecurityDomain;
 
 /**
  * A secured EJB which is used to test the identity and roles of the current user during a request.
- * 
+ *
  * @author <a href="mailto:darran.lofthouse@jboss.com">Darran Lofthouse</a>
  */
 @Stateless

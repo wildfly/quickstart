@@ -25,9 +25,9 @@ import org.jboss.as.quickstarts.cdi.injection.qualifier.Spanish;
 
 /**
  * Simple JSF backing bean, demonstrating CDI injection and qualifiers.
- * 
+ *
  * Also note, this bean has a name different than the default name.
- * 
+ *
  * @author Jason Porter
  */
 @Named("translation")

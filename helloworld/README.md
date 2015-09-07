@@ -1,11 +1,11 @@
 helloworld: Helloworld Example
 ===============================
-Author: Pete Muir
-Level: Beginner
-Technologies: CDI, Servlet
-Summary: Basic example that can be used to verify that the server is configured and running correctly
+Author: Pete Muir  
+Level: Beginner  
+Technologies: CDI, Servlet  
+Summary: Basic example that can be used to verify that the server is configured and running correctly  
 Target Project: WildFly
-Source: <https://github.com/wildfly/quickstart/>
+Source: <https://github.com/wildfly/quickstart/>  
 
 What is it?
 -----------

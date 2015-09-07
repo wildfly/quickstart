@@ -18,12 +18,12 @@ package org.jboss.as.quickstarts.deltaspike.projectstage.bean;
 
 /**
  * A typical interface
- * 
+ *
  * @author <a href="mailto:benevides@redhat.com">Rafael Benevides</a>
  *
  */
 public interface MessageProvider {
-    
+
     public String message();
 
 }

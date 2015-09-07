@@ -1,11 +1,11 @@
 ejb-security-plus:  Using client and server side interceptors to supply additional information for authentication before EJB calls.
 ====================
-Author: Darran Lofthouse
-Level: Advanced
-Technologies: EJB, Security
-Summary: Demonstrates how interceptors can be used to supply additional information to be used for authentication before EJB calls.
+Author: Darran Lofthouse  
+Level: Advanced  
+Technologies: EJB, Security  
+Summary: Demonstrates how interceptors can be used to supply additional information to be used for authentication before EJB calls.  
 Target Project: WildFly
-Source: <https://github.com/wildfly/quickstart/>
+Source: <https://github.com/wildfly/quickstart/>  
 
 What is it?
 -----------

@@ -34,7 +34,7 @@ import org.jboss.logging.Logger;
  * <p>The main bean called by the standalone client.</p>
  * <p>The sub applications, deployed in different servers are called direct or via indirect naming to hide the lookup name and use
  * a configured name via comp/env environment.</p>
- * 
+ *
  * @author <a href="mailto:wfink@redhat.com">Wolf-Dieter Fink</a>
  */
 @Stateless
@@ -43,9 +43,9 @@ public class MainAppBean implements MainApp {
     @Resource
     SessionContext context;
 
-  /**
-   * The context to invoke foreign EJB's as the SessionContext can not be used for that.
-   */
+    /**
+     * The context to invoke foreign EJB's as the SessionContext can not be used for that.
+     */
     private InitialContext iCtx;
 
     @EJB(lookup = "ejb:wildfly-ejb-multi-server-app-one/ejb//AppOneBean!org.jboss.as.quickstarts.ejb.multi.server.app.AppOne")
@@ -53,16 +53,16 @@ public class MainAppBean implements MainApp {
     @EJB(lookup = "ejb:wildfly-ejb-multi-server-app-two/ejb//AppTwoBean!org.jboss.as.quickstarts.ejb.multi.server.app.AppTwo")
     AppTwo appTwoProxy;
 
-  /**
-   * Initialize and store the context for the EJB invocations.
-   */
+    /**
+     * Initialize and store the context for the EJB invocations.
+     */
     @PostConstruct
     public void init() {
         try {
             final Hashtable<String, String> p = new Hashtable<>();
             p.put(Context.URL_PKG_PREFIXES, "org.jboss.ejb.client.naming");
             this.iCtx = new InitialContext(p);
-        }catch (NamingException e) {
+        } catch (NamingException e) {
             throw new RuntimeException("Could not initialize context", e);
         }
     }
@@ -78,20 +78,20 @@ public class MainAppBean implements MainApp {
         LOGGER.info("[" + caller.getName() + "] " + text);
         final StringBuilder result = new StringBuilder("MainApp[" + caller.getName() + "]@" + System.getProperty("jboss.node.name"));
 
-    // Call AppOne with the direct ejb: naming
+        // Call AppOne with the direct ejb: naming
         try {
             result.append("  >  [ " + invokeAppOne(text));
-        }catch (Exception e) {
+        } catch (Exception e) {
             LOGGER.error("Could not invoke AppOne", e);
         }
 
         String lookup = "";
-       // Call AppTwo with the direct ejb: naming
+        // Call AppTwo with the direct ejb: naming
         try {
             lookup = "ejb:wildfly-ejb-multi-server-app-two/ejb//AppTwoBean!" + AppTwo.class.getName();
             result.append(" > " + invokeAppTwo(lookup, text));
             LOGGER.info("Invoke '" + lookup + " OK");
-        }catch (Exception e) {
+        } catch (Exception e) {
             LOGGER.error("Could not invoke apptwo '" + lookup + "'", e);
         }
 
@@ -101,7 +101,7 @@ public class MainAppBean implements MainApp {
             lookup = "java:comp/env/AppTwoAlias";
             result.append(" ; " + invokeAppTwo(lookup, text));
             LOGGER.info("Invoke '" + lookup + " OK");
-        }catch (Exception e) {
+        } catch (Exception e) {
             LOGGER.error("Could not invoke apptwo '" + lookup + "'", e);
         }
 
@@ -110,10 +110,10 @@ public class MainAppBean implements MainApp {
         return result.toString();
     }
 
-     /**
+    /**
      * The application one can only be called with the standard naming, there is
      * no alias.
-     * 
+     *
      * @param text
      *            Simple text for logging in the target servers logfile
      * @return A text with server details for demonstration
@@ -125,27 +125,27 @@ public class MainAppBean implements MainApp {
 
             LOGGER.info("AppOne return : " + appOneResult);
             return appOneResult;
-        }catch (Exception e) {
+        } catch (Exception e) {
             throw new RuntimeException("Could not invoke appOne", e);
         }
     }
 
     /**
-    * The application two can be called via lookup.
-    * <ul>
-    * <li>with the standard naming
-    * <i>ejb:wildfly-ejb-multi-server-app-two/ejb//AppTwoBean!org.jboss.as.quickstarts
-    * .ejb.multi.server.app.AppTwo</i></li>
-    * <li><i>java:global/AliasAppTwo</i> the alias provided by the server
-    * configuration <b>this is not recommended</b></li>
-    * <li><i>java:comp/env/AppTwoAlias</i> the local alias provided by the
-    * ejb-jar.xml configuration</li>
-    * </ul>
-    * 
-    * @param text
-    *            Simple text for logging in the target servers logfile
-    * @return A text with server details for demonstration
-    */
+     * The application two can be called via lookup.
+     * <ul>
+     * <li>with the standard naming
+     * <i>ejb:wildfly-ejb-multi-server-app-two/ejb//AppTwoBean!org.jboss.as.quickstarts
+     * .ejb.multi.server.app.AppTwo</i></li>
+     * <li><i>java:global/AliasAppTwo</i> the alias provided by the server
+     * configuration <b>this is not recommended</b></li>
+     * <li><i>java:comp/env/AppTwoAlias</i> the local alias provided by the
+     * ejb-jar.xml configuration</li>
+     * </ul>
+     *
+     * @param text
+     *            Simple text for logging in the target servers logfile
+     * @return A text with server details for demonstration
+     */
     private String invokeAppTwo(String lookup, String text) throws NamingException {
         final AppTwo bean = (AppTwo) iCtx.lookup(lookup);
 

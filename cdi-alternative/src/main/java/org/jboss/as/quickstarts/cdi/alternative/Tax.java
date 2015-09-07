@@ -20,9 +20,9 @@ package org.jboss.as.quickstarts.cdi.alternative;
  * <p>
  * Interface declaration for Tax
  * </p>
- * 
+ *
  * @author Nevin Zhu
- * 
+ *
  */
 public interface Tax {
     String getRate();

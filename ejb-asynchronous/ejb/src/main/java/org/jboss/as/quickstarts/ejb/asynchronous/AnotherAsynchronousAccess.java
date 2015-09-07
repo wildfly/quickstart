@@ -23,14 +23,14 @@ import javax.ejb.Local;
 
 /**
  * Business interface to access an EJB method declared as asynchronous here.
- * 
+ *
  * @author <a href="mailto:wfink@redhat.com">Wolf-Dieter Fink</a>
  */
 @Local
 public interface AnotherAsynchronousAccess {
     /**
      * An example method to demonstrate that the annotation is also possible within the interface.
-     * 
+     *
      * @param sleepTime milliseconds to wait for demonstration
      * @return a simple string with a timestamp when the method is finished
      */

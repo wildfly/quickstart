@@ -20,5 +20,6 @@ package org.jboss.as.quickstart.cdi.extension.model;
  * The various types of creatures.
  */
 public enum CreatureType {
-    MONSTER, NPC
+    MONSTER,
+    NPC
 }

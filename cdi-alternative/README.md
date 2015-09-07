@@ -1,11 +1,11 @@
 cdi-alternative: Demostrates CDI Alternatives
 ======================================================
-Author: Nevin Zhu
-Level: Intermediate
-Technologies: CDI, Servlet, JSP
-Summary: Demonstrates the use of CDI Alternatives where the bean is selected during deployment 
+Author: Nevin Zhu  
+Level: Intermediate  
+Technologies: CDI, Servlet, JSP  
+Summary: Demonstrates the use of CDI Alternatives where the bean is selected during deployment    
 Target Project: WildFly
-Source: <https://github.com/wildfly/quickstart/>
+Source: <https://github.com/wildfly/quickstart/>  
 
 What is it?
 -----------

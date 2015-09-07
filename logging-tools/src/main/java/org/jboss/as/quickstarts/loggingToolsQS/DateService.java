@@ -33,9 +33,9 @@ import org.jboss.as.quickstarts.loggingToolsQS.loggers.DateLogger;
 
 /**
  * A simple REST service which returns the number of days until a date and provides localised logging of the activity
- * 
+ *
  * @author dmison@me.com
- * 
+ *
  */
 
 @Path("dates")
@@ -53,7 +53,7 @@ public class DateService {
         float days = 0;
 
         try {
-            df.setLenient(false);               //make sure no invalid dates sneak through
+            df.setLenient(false); //make sure no invalid dates sneak through
             target = df.parse(targetdate);
             days = (float) target.getTime() - now.getTime();
             days = days / (1000 * 60 * 60 * 24); // turn milliseconds into days
@@ -71,7 +71,7 @@ public class DateService {
 
             // throw a WebApplicationException (400) with the localized message from nex
             throw new WebApplicationException(Response.status(400).entity(nex.getLocalizedMessage()).type(MediaType.TEXT_PLAIN)
-                    .build());
+                .build());
         }
 
         return Math.round(days);

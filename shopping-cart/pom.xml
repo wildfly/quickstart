@@ -33,8 +33,8 @@
         </license>
     </licenses>
 
-    <!-- This quickstart consists of a server side component and a client 
-        side that accesses the server side component. Each component has its own 
+    <!-- This quickstart consists of a server side component and a client
+        side that accesses the server side component. Each component has its own
         self contain pom. -->
     <modules>
         <module>server</module>
@@ -42,21 +42,21 @@
     </modules>
 
     <properties>
-        <!-- Explicitly declaring the source encoding eliminates the following 
+        <!-- Explicitly declaring the source encoding eliminates the following
             message: -->
-        <!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered 
+        <!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered
             resources, i.e. build is platform dependent! -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- Timestamp format for the maven.build.timestamp property -->
-        <!-- You can reference property in pom.xml or filtered resources 
+        <!-- You can reference property in pom.xml or filtered resources
             (must enable third-party plugin if using Maven < 2.1) -->
         <maven.build.timestamp.format>yyyyMMdd'T'HHmmss</maven.build.timestamp.format>
 
 
         <!-- JBoss dependency versions -->
-        
+
         <version.wildfly.maven.plugin>1.0.2.Final</version.wildfly.maven.plugin>
-        
+
         <version.wildfly>9.0.0.Final</version.wildfly>
 
 
@@ -76,8 +76,8 @@
     <dependencyManagement>
         <dependencies>
             <!-- JBoss distributes a complete set of Java EE 7 APIs including
-                a Bill of Materials (BOM). A BOM specifies the versions of a "stack" (or 
-                a collection) of artifacts. We use this here so that we always get the correct 
+                a Bill of Materials (BOM). A BOM specifies the versions of a "stack" (or
+                a collection) of artifacts. We use this here so that we always get the correct
                 versions of artifacts. Here we use the jboss-javaee-7.0 stack (you can read
                 this as the JBoss stack of the Java EE 7 APIs) -->
             <dependency>
@@ -94,7 +94,7 @@
                 <artifactId>wildfly-shoppingcart-server</artifactId>
                 <version>${project.version}</version>
             </dependency>
-            
+
             <!-- We need the EJB Client -->
             <dependency>
                 <groupId>org.wildfly</groupId>
@@ -110,7 +110,7 @@
         <plugins>
             <!-- The WildFly plugin deploys your apps to a local WildFly
                 container -->
-            <!-- Disabling it here means that we don't try to deploy this 
+            <!-- Disabling it here means that we don't try to deploy this
                 POM! -->
             <plugin>
                 <groupId>org.wildfly.plugins</groupId>

@@ -27,11 +27,10 @@ import javax.inject.Named;
 
 /**
  * This class uses CDI to alias Java EE resources, such as the persistence context, to CDI beans
- * 
+ *
  */
 public class Resources {
 
-    
     @Produces
     public Logger produceLog(InjectionPoint injectionPoint) {
         return Logger.getLogger(injectionPoint.getMember().getDeclaringClass().getName());

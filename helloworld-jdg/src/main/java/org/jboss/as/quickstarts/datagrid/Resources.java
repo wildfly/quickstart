@@ -24,9 +24,9 @@ import org.infinispan.manager.DefaultCacheManager;
 
 /**
  * Provides various resources including a cache manager.
- * 
+ *
  * @author Burr Sutter
- * 
+ *
  */
 public class Resources {
 

@@ -75,7 +75,7 @@ public class GreeterService {
 
     // ======================================================================
     // this is a particularly contrived example.  It is here merely to demonstrate
-    // the throwing of a localized exception with another exception as the cause. 
+    // the throwing of a localized exception with another exception as the cause.
     @GET
     @Path("crashme")
     public String crashMe() throws Exception {

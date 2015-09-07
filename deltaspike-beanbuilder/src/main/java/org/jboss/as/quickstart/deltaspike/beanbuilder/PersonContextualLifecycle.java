@@ -26,9 +26,9 @@ import org.jboss.as.quickstart.deltaspike.beanbuilder.model.Person;
 
 /**
  * This is the {@link ContextualLifecycle} that is used to by the {@link Bean} to create instances of {@link Person}.
- * 
+ *
  * It uses the {@link EntityManager#find(Class, Object)} to query the {@link Person} from Database
- * 
+ *
  */
 public class PersonContextualLifecycle implements ContextualLifecycle<Person> {
 

@@ -45,7 +45,7 @@ public class MemberController {
     private Member newMember;
 
     private KitchensinkMessages messages = Messages.getBundle(KitchensinkMessages.class, FacesContext.getCurrentInstance()
-            .getViewRoot().getLocale());
+        .getViewRoot().getLocale());
 
     @Produces
     @Named
@@ -57,7 +57,7 @@ public class MemberController {
         try {
             memberRegistration.register(newMember);
             FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_INFO, (String) messages.registeredMessage(),
-                    messages.registerSuccessfulMessage());
+                messages.registerSuccessfulMessage());
             facesContext.addMessage(null, m);
             initNewMember();
         } catch (Exception e) {

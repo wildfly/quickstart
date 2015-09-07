@@ -1,11 +1,11 @@
 kitchensink-jsp: Example Using Multiple Java EE 7 Technologies with a JSP (JavaServer Pages) Front End
 ======================================================================================================
-Author: Elvadas Nono
-Level: Intermediate
-Technologies: JSP
-Summary: Based on kitchensink, but uses a JSP for the user interface
+Author: Elvadas Nono  
+Level: Intermediate  
+Technologies: JSP  
+Summary: Based on kitchensink, but uses a JSP for the user interface  
 Target Project: WildFly
-Source: <https://github.com/wildfly/quickstart/>
+Source: <https://github.com/wildfly/quickstart/>  
 
 What is it?
 -----------

@@ -1,11 +1,11 @@
 kitchensink: Assortment of technologies including Arquillian
 ========================
-Author: Pete Muir
-Level: Intermediate
-Technologies: CDI, JSF, JPA, EJB, JPA, JAX-RS, BV
-Summary: An example that incorporates multiple technologies
+Author: Pete Muir  
+Level: Intermediate  
+Technologies: CDI, JSF, JPA, EJB, JPA, JAX-RS, BV  
+Summary: An example that incorporates multiple technologies  
 Target Project: WildFly
-Source: <https://github.com/wildfly/quickstart/>
+Source: <https://github.com/wildfly/quickstart/>  
 
 What is it?
 -----------

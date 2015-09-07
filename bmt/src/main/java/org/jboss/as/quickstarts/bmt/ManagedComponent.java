@@ -38,12 +38,13 @@ import javax.persistence.EntityManager;
  * - it becomes eligible for Container Managed Transactions (although this example does not use CMT)
  */
 @Stateless
-@TransactionManagement(TransactionManagementType.BEAN) // tell the container not to manage transactions
+@TransactionManagement(TransactionManagementType.BEAN)
+// tell the container not to manage transactions
 public class ManagedComponent {
     /**
      *  Ask the container to inject an Entity Manager (EM). As a consequence the EM will be
      *  automatically enlisted into any new transactions started by the managed component.
-     * 
+     *
      */
     @PersistenceContext
     private EntityManager entityManager;

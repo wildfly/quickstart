@@ -37,13 +37,13 @@ import java.util.logging.Logger;
  *
  */
 @MessageDriven(name = "DbUpdaterMDB", activationConfig = {
-        @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
-        @ActivationConfigProperty(propertyName = "destination", propertyValue = "queue/jta-crash-rec-quickstart"),
-        @ActivationConfigProperty(propertyName = "acknowledgeMode", propertyValue = "Auto-acknowledge") })
+    @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
+    @ActivationConfigProperty(propertyName = "destination", propertyValue = "queue/jta-crash-rec-quickstart"),
+    @ActivationConfigProperty(propertyName = "acknowledgeMode", propertyValue = "Auto-acknowledge") })
 public class DbUpdaterMDB implements MessageListener {
-    
+
     private final static Logger LOGGER = Logger.getLogger(DbUpdaterMDB.class.getName());
-    
+
     // A helper service for persisting key value pairs
     @Inject
     private XAService xaService;

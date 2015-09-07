@@ -39,9 +39,9 @@ import org.xml.sax.SAXParseException;
 
 /**
  * Implementation of parser based on JAXP DOM(W3C).
- * 
+ *
  * @author baranowb
- * 
+ *
  */
 @RequestScoped
 @Default

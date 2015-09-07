@@ -35,7 +35,7 @@ import org.jboss.as.quickstarts.payment.qualifiers.Debit;
 public class PaymentHandler implements Serializable, ICreditEventObserver, IDebitEventObserver {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 1L;
 

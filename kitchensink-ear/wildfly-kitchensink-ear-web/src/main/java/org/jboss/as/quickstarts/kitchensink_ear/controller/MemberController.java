@@ -52,7 +52,7 @@ public class MemberController {
         try {
             memberRegistration.register(newMember);
             facesContext.addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Registered!", "Registration successful"));
+                new FacesMessage(FacesMessage.SEVERITY_INFO, "Registered!", "Registration successful"));
             initNewMember();
         } catch (Exception e) {
             String errorMessage = getRootErrorMessage(e);

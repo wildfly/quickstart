@@ -20,20 +20,26 @@ import java.io.Serializable;
 
 /**
  * Represents a car in the car mart. Car objects are stored in the cache.
- * 
+ *
  * @author Martin Gencur
- * 
+ *
  */
 public class Car implements Serializable {
 
     private static final long serialVersionUID = 188164481825309731L;
 
     public enum CarType {
-        SEDAN, HATCHBACK, COMBI, CABRIO, ROADSTER
+        SEDAN,
+        HATCHBACK,
+        COMBI,
+        CABRIO,
+        ROADSTER
     }
 
     public enum Country {
-        CZECH_REPUBLIC, USA, GERMANY
+        CZECH_REPUBLIC,
+        USA,
+        GERMANY
     }
 
     public Car() {

@@ -24,7 +24,7 @@ import javax.persistence.Table;
 
 @Entity
 // User is a keyword in some SQL dialects!
-@Table(name="Users")
+@Table(name = "Users")
 public class User {
 
     @Id

@@ -1,11 +1,11 @@
 kitchensink-ml: Localized application using an assortment of technologies including Arquillian
 ========================
-Author: Sande Gilda
-Level: Intermediate
-Technologies: CDI, JSF, JPA, EJB, JPA, JAX-RS, BV
-Summary: A localized version of kitchensink
+Author: Sande Gilda  
+Level: Intermediate  
+Technologies: CDI, JSF, JPA, EJB, JPA, JAX-RS, BV  
+Summary: A localized version of kitchensink  
 Target Project: WildFly
-Source: <https://github.com/wildfly/quickstart/>
+Source: <https://github.com/wildfly/quickstart/>  
 
 What is it?
 -----------

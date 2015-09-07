@@ -32,17 +32,16 @@ import org.jboss.as.quickstarts.wicketWar.model.Contact;
  */
 @SuppressWarnings("serial")
 public class InsertContact extends WebPage {
-    
+
     private Form<Contact> insertForm;
-    
+
     private String name;
-    
+
     private String email;
-    
+
     @Inject
     private ContactDao contactDao;
 
-    
     public InsertContact() {
         add(new FeedbackPanel("feedback"));
 
@@ -56,13 +55,12 @@ public class InsertContact extends WebPage {
         };
 
         insertForm.add(new RequiredTextField<>("name",
-                new PropertyModel<String>(this, "name")));
+            new PropertyModel<String>(this, "name")));
         insertForm.add(new RequiredTextField<>("email", new PropertyModel<String>(this,
-                "email")));
+            "email")));
         add(insertForm);
     }
 
-    
     public String getEmail() {
         return email;
     }

@@ -1,12 +1,12 @@
 jax-rs-client: External JAX-RS Client
 ======================
-Author: Blaine Mincey
-Level: Intermediate
-Technologies: JAX-RS 2.0
-Summary: Demonstrates the usage of JAX-RS 2.0 client, to interact with a remote JAX-RS 2.0 REST Service
+Author: Blaine Mincey  
+Level: Intermediate  
+Technologies: JAX-RS 2.0  
+Summary: Demonstrates the usage of JAX-RS 2.0 client, to interact with a remote JAX-RS 2.0 REST Service  
 Prerequisites: helloworld-rs
 Target Project: WildFly
-Source: <https://github.com/wildfly/quickstart/>
+Source: <https://github.com/wildfly/quickstart/>  
 
 What is it?
 -----------

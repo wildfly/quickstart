@@ -31,11 +31,12 @@ import java.util.UUID;
 
 /**
  * An adapter class that exposes the RestaurantManager business API as a transactional Web Service.
- * 
+ *
  * @author paul.robinson@redhat.com, 2012-01-04
- * 
+ *
  */
-@WebService(serviceName = "RestaurantServiceATService", portName = "RestaurantServiceAT", name = "RestaurantServiceAT", targetNamespace = "http://www.jboss.org/jboss-jdf/jboss-as-quickstart/wsat/simple/Restaurant")
+@WebService(serviceName = "RestaurantServiceATService", portName = "RestaurantServiceAT", name = "RestaurantServiceAT",
+    targetNamespace = "http://www.jboss.org/jboss-jdf/jboss-as-quickstart/wsat/simple/Restaurant")
 @HandlerChain(file = "/context-handlers.xml", name = "Context Handlers")
 @SOAPBinding(style = SOAPBinding.Style.RPC)
 @WebServlet("/RestaurantServiceAT")
@@ -71,7 +72,7 @@ public class RestaurantServiceATImpl implements RestaurantServiceAT {
 
     /**
      * obtain the number of existing bookings
-     * 
+     *
      * @return the number of current bookings
      */
     @Override
@@ -81,7 +82,7 @@ public class RestaurantServiceATImpl implements RestaurantServiceAT {
 
     /**
      * Reset the booking count to zero
-     * 
+     *
      * Note: To simplify this example, this method is not part of the compensation logic, so will not be undone if the AT is
      * compensated. It can also be invoked outside of an active AT.
      */

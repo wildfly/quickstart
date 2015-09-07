@@ -25,7 +25,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-
 /**
  *
  * @author Filippo Diotalevi
@@ -38,8 +37,8 @@ public class Contact implements Serializable {
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
     private String name;
-    
-    @Column(unique=true)
+
+    @Column(unique = true)
     private String email;
 
     public Contact() {
@@ -67,7 +66,6 @@ public class Contact implements Serializable {
         this.name = name;
     }
 
-    
     public Long getId() {
         return id;
     }
@@ -100,5 +98,5 @@ public class Contact implements Serializable {
             return false;
         return true;
     }
-    
+
 }

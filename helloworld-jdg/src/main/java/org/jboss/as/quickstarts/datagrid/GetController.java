@@ -26,9 +26,9 @@ import java.util.Set;
 
 /**
  * Retrieves entries from the cache.
- * 
+ *
  * @author Burr Sutter
- * 
+ *
  */
 @Named
 @RequestScoped

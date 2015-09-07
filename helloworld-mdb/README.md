@@ -1,10 +1,10 @@
 ---
-Author: Serge Pagop, Andy Taylor, Jeff Mesnil
-Level: Intermediate
-Technologies: JMS, EJB, MDB
-Summary: Demonstrates the use of JMS and EJB Message-Driven Bean
-Target Product: WildFly
-Source: https://github.com/wildfly/quickstart/
+Author: Serge Pagop, Andy Taylor, Jeff Mesnil  
+Level: Intermediate  
+Technologies: JMS, EJB, MDB  
+Summary: Demonstrates the use of JMS and EJB Message-Driven Bean  
+Target Product: WildFly  
+Source: https://github.com/wildfly/quickstart/  
 ---
 
 helloworld-mdb: Helloword Using an MDB (Message-Driven Bean)

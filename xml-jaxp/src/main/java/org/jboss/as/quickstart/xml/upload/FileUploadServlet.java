@@ -35,9 +35,9 @@ import javax.servlet.http.Part;
  * Simple servlet to handle multipart file upload. <br>
  * This servlet register itself as handler for '/upload' path in application. When request is made with said context, this
  * servlet is invoked to handle it. Once it is done, it redirects user agent to application root path.
- * 
+ *
  * @author baranowb
- * 
+ *
  */
 // Mark this class as servlet and indicates that requests to
 // '/upload' URL in application be handled by this servlet.
@@ -47,7 +47,7 @@ import javax.servlet.http.Part;
 public class FileUploadServlet extends HttpServlet {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 127759768859064589L;
 
@@ -85,7 +85,7 @@ public class FileUploadServlet extends HttpServlet {
                 String partContentType = p.getContentType();
                 String partName = p.getName();
                 if (partContentType != null && partContentType.equals("text/xml") && partName != null
-                        && partName.equals(INPUT_NAME)) {
+                    && partName.equals(INPUT_NAME)) {
 
                     InputStream is = p.getInputStream();
                     fileUploadBean.parseUpload(is);

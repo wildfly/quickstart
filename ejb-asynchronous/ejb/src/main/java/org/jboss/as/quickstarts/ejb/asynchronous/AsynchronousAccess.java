@@ -22,7 +22,7 @@ import javax.ejb.Remote;
 
 /**
  * Business interface to access asynchronous methods of the SLSB.
- * 
+ *
  * @author <a href="mailto:wfink@redhat.com">Wolf-Dieter Fink</a>
  */
 @Remote
@@ -42,7 +42,7 @@ public interface AsynchronousAccess {
 
     /**
      * A method that throws a Exception to demonstrate the behavior if the asynchronous processing fail.
-     * 
+     *
      * @return never
      * @throws Exception ever for demonstration purpose
      */

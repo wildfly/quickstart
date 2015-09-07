@@ -18,9 +18,9 @@ package org.jboss.as.quickstarts.html5rest;
 
 /**
  * A simple CDI service which is able to say hello to someone
- * 
+ *
  * @author Pete Muir
- * 
+ *
  */
 public class HelloService {
 

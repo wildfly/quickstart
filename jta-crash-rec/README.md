@@ -1,11 +1,11 @@
 jta-crash-rec: Example of JTA Crash Recovery
 =============================
-Author: Mike Musgrove
-Level: Advanced
-Technologies: JTA, Crash Recovery
-Summary: Uses Java Transaction API and JBoss Transactions to demonstrate recovery of a crashed transaction
+Author: Mike Musgrove  
+Level: Advanced  
+Technologies: JTA, Crash Recovery  
+Summary: Uses Java Transaction API and JBoss Transactions to demonstrate recovery of a crashed transaction  
 Target Project: WildFly
-Source: <https://github.com/wildfly/quickstart/>
+Source: <https://github.com/wildfly/quickstart/>  
 
 What is it?
 -----------

@@ -21,7 +21,8 @@ import java.util.Map;
 
 public enum PaymentTypeEnum {
 
-    CREDIT("1"), DEBIT("2");
+    CREDIT("1"),
+    DEBIT("2");
 
     private final String value;
 

@@ -29,7 +29,7 @@ import org.jboss.as.quickstarts.wicketEar.ejbjar.model.Contact;
 
 /**
  * Dynamic behavior for the ListContact page
- * 
+ *
  * @author Filippo Diotalevi
  */
 @SuppressWarnings("serial")
@@ -47,7 +47,7 @@ public class ListContacts extends WebPage {
 
         // Add the dynamic welcome message, specified in web.xml
         add(new Label("welcomeMessage", welcome));
-        
+
         // Populate the table of contacts
         add(new ListView<Contact>("contacts", contactDao.getContacts()) {
 

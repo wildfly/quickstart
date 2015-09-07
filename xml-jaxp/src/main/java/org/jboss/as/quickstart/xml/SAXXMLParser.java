@@ -36,9 +36,9 @@ import org.xml.sax.helpers.DefaultHandler;
 
 /**
  * Implementation of parser based on JAXP DOM(W3C).
- * 
+ *
  * @author baranowb
- * 
+ *
  */
 @RequestScoped
 @Alternative

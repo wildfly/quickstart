@@ -18,9 +18,9 @@ package org.jboss.as.quickstart.xml;
 
 /**
  * Simple class which represents some sort of error.
- * 
+ *
  * @author baranowb
- * 
+ *
  */
 public class Error {
     private Exception exception;

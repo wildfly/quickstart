@@ -36,16 +36,16 @@
     </licenses>
 
     <properties>
-        <!-- Explicitly declaring the source encoding eliminates the following 
+        <!-- Explicitly declaring the source encoding eliminates the following
             message: -->
-        <!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered 
+        <!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered
             resources, i.e. build is platform dependent! -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- JBoss dependency versions -->
-        
+
         <version.wildfly.maven.plugin>1.0.2.Final</version.wildfly.maven.plugin>
-        
+
         <!-- Define the version of the JBoss BOMs we want to import to specify tested stacks. -->
         <version.jboss.bom>9.0.0.Final</version.jboss.bom>
 
@@ -66,11 +66,11 @@
     <dependencyManagement>
         <dependencies>
             <!-- Define the version of JBoss' Java EE 7 APIs we want to import.
-                Any dependencies from org.jboss.spec will have their version defined by this 
+                Any dependencies from org.jboss.spec will have their version defined by this
                 BOM -->
             <!-- JBoss distributes a complete set of Java EE 7 APIs including
-                a Bill of Materials (BOM). A BOM specifies the versions of a "stack" (or 
-                a collection) of artifacts. We use this here so that we always get the correct 
+                a Bill of Materials (BOM). A BOM specifies the versions of a "stack" (or
+                a collection) of artifacts. We use this here so that we always get the correct
                 versions of artifacts. Here we use the jboss-javaee-7.0 stack (you can read
                 this as the JBoss stack of the Java EE 7 APIs). You can actually use this
                 stack with any version of WildFly that implements Java EE 7, not just JBoss
@@ -86,7 +86,7 @@
     </dependencyManagement>
 
     <dependencies>
-        <!-- Import the CDI API, we use provided scope as the API is included 
+        <!-- Import the CDI API, we use provided scope as the API is included
             in JBoss WildFly -->
         <dependency>
             <groupId>javax.enterprise</groupId>
@@ -94,7 +94,7 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- Import the Servlet API, we use provided scope as the API is 
+        <!-- Import the Servlet API, we use provided scope as the API is
             included in JBoss WildFly -->
         <dependency>
             <groupId>org.jboss.spec.javax.servlet</groupId>
@@ -102,7 +102,7 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- Import the Common Annotations API (JSR-250), we use provided 
+        <!-- Import the Common Annotations API (JSR-250), we use provided
             scope as the API is included in JBoss WildFly -->
         <dependency>
             <groupId>org.jboss.spec.javax.annotation</groupId>
@@ -125,7 +125,7 @@
     </dependencies>
 
     <build>
-        <!-- Set the name of the war, used as the context root when the app 
+        <!-- Set the name of the war, used as the context root when the app
             is deployed -->
         <finalName>${project.artifactId}</finalName>
         <plugins>
@@ -142,7 +142,7 @@
                 <artifactId>wildfly-maven-plugin</artifactId>
                 <version>${version.wildfly.maven.plugin}</version>
             </plugin>
-            <!-- Compiler plugin enforces Java 1.6 compatibility and activates 
+            <!-- Compiler plugin enforces Java 1.6 compatibility and activates
                 annotation processors -->
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -157,7 +157,7 @@
 
     <profiles>
         <profile>
-            <!-- The default profile skips all tests, though you can tune 
+            <!-- The default profile skips all tests, though you can tune
                 it to run just unit tests based on a custom pattern -->
             <!-- Seperate profiles are provided for running all tests -->
             <id>default</id>
@@ -182,7 +182,7 @@
         </profile>
 
         <profile>
-            <!-- An optional testing profile that executes tests in your 
+            <!-- An optional testing profile that executes tests in your
                 WildFly instance using Arquillian -->
             <!-- This profile will start a new WildFly instance, and execute
                 the test, shutting it down when done -->
@@ -211,7 +211,7 @@
         </profile>
 
         <profile>
-            <!-- An optional Arquillian testing profile that executes tests 
+            <!-- An optional Arquillian testing profile that executes tests
                 in a remote WildFly instance -->
             <!-- Run with: mvn clean test -Parq-wildfly-remote -->
             <id>arq-wildfly-remote</id>
@@ -238,7 +238,7 @@
         </profile>
 
         <profile>
-            <!-- An optional testing profile that executes tests in a remote 
+            <!-- An optional testing profile that executes tests in a remote
                 WildFly instance where the application has already been deployed -->
             <!-- Run with: mvn clean test -Pjbossas-remote -->
             <id>jbossas-remote</id>
@@ -264,11 +264,11 @@
         </profile>
 
         <profile>
-            <!-- When built in OpenShift the 'openshift' profile will be 
+            <!-- When built in OpenShift the 'openshift' profile will be
                 used when invoking mvn. -->
-            <!-- Use this profile for any OpenShift specific customization 
+            <!-- Use this profile for any OpenShift specific customization
                 your app will need. -->
-            <!-- By default that is to put the resulting archive into the 
+            <!-- By default that is to put the resulting archive into the
                 'deployments' folder. -->
             <!-- http://maven.apache.org/guides/mini/guide-building-for-different-environments.html -->
             <id>openshift</id>

@@ -33,10 +33,10 @@ import javax.inject.Inject;
 
 @RunWith(Arquillian.class)
 public class ClientTest {
-   
+
     private static final String ManifestMF = "Manifest-Version: 1.0\n"
-          + "Dependencies: org.jboss.xts,org.jboss.jts\n";
-   
+        + "Dependencies: org.jboss.xts,org.jboss.jts\n";
+
     @Inject
     @ClientStub
     public SetServiceBA client;
@@ -44,28 +44,28 @@ public class ClientTest {
     @Deployment
     public static WebArchive createTestArchive() {
         return ShrinkWrap.create(WebArchive.class, "test.war")
-                .addPackages(true, SetServiceBAImpl.class.getPackage().getName())
-                .addAsResource("context-handlers.xml")
-                .addAsWebInfResource(EmptyAsset.INSTANCE, ArchivePaths.create("beans.xml"))
-                .setManifest(new StringAsset(ManifestMF));
+            .addPackages(true, SetServiceBAImpl.class.getPackage().getName())
+            .addAsResource("context-handlers.xml")
+            .addAsWebInfResource(EmptyAsset.INSTANCE, ArchivePaths.create("beans.xml"))
+            .setManifest(new StringAsset(ManifestMF));
     }
 
     /**
      * Test the simple scenario where an item is added to the set within a Business Activity which is closed successfully.
-     * 
+     *
      * @throws Exception if something goes wrong.
      */
     @Test
     public void testSuccess() throws Exception {
         System.out
-                .println("\n\nStarting 'testSuccess'. This test invokes a WS within a BA. The BA is later closed, which causes the WS call to complete successfully.");
+            .println("\n\nStarting 'testSuccess'. This test invokes a WS within a BA. The BA is later closed, which causes the WS call to complete successfully.");
         System.out.println("[CLIENT] Creating a new Business Activity");
         UserBusinessActivity uba = UserBusinessActivityFactory.userBusinessActivity();
         try {
             String value = "1";
 
             System.out
-                    .println("[CLIENT] Beginning Business Activity (All calls to Web services that support WS-BA wil be included in this activity)");
+                .println("[CLIENT] Beginning Business Activity (All calls to Web services that support WS-BA wil be included in this activity)");
             uba.begin();
 
             System.out.println("[CLIENT] invoking addValueToSet(1) on WS");
@@ -85,20 +85,20 @@ public class ClientTest {
      * Tests the scenario where an item is added to the set with in a business activity that is later cancelled. The test checks
      * that the item is in the set after invoking addValueToSet on the Web service. After cancelling the Business Activity, the
      * work should be compensated and thus the item should no longer be in the set.
-     * 
+     *
      * @throws Exception if something goes wrong
      */
     @Test
     public void testCancel() throws Exception {
         System.out
-                .println("\n\nStarting 'testCancel'. This test invokes a WS within a BA. The BA is later cancelled, which causes these WS call to be compensated.");
+            .println("\n\nStarting 'testCancel'. This test invokes a WS within a BA. The BA is later cancelled, which causes these WS call to be compensated.");
         System.out.println("[CLIENT] Creating a new Business Activity");
         UserBusinessActivity uba = UserBusinessActivityFactory.userBusinessActivity();
         try {
             String value = "1";
 
             System.out
-                    .println("[CLIENT] Beginning Business Activity (All calls to Web services that support WS-BA will be included in this activity)");
+                .println("[CLIENT] Beginning Business Activity (All calls to Web services that support WS-BA will be included in this activity)");
             uba.begin();
 
             System.out.println("[CLIENT] invoking addValueToSet(1) on WS");
@@ -120,7 +120,7 @@ public class ClientTest {
 
     /**
      * Utility method for cancelling a Business Activity if it is currently active.
-     * 
+     *
      * @param uba The User Business Activity to cancel.
      */
     private void cancelIfActive(UserBusinessActivity uba) {

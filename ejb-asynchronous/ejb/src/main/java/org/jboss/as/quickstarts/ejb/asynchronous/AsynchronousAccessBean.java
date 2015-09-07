@@ -32,7 +32,7 @@ import javax.ejb.Stateless;
  * Here the methods are annotated but it is also possible to add the annotation at class level, in that case all methods of this
  * bean are asynchrounous.
  * </p>
- * 
+ *
  * @author <a href="mailto:wfink@redhat.com">Wolf-Dieter Fink</a>
  */
 @Stateless

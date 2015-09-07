@@ -26,10 +26,10 @@ import javax.ws.rs.Produces;
 /**
  * A simple JAX-RS 2.0 REST service which is able to say hello to the world using an injected HelloService CDI bean.
  * The {@link javax.ws.rs.Path} class annotation value is related to the {@link org.jboss.as.quickstarts.rshelloworld.HelloWorldApplication}'s path.
- * 
+ *
  * @author gbrey@redhat.com
  * @author Eduardo Martins
- * 
+ *
  */
 
 @Path("/")
@@ -47,8 +47,8 @@ public class HelloWorld {
     @Produces({ "application/json" })
     public JsonObject getHelloWorldJSON() {
         return Json.createObjectBuilder()
-                .add("result", helloService.createHelloMessage("World"))
-                .build();
+            .add("result", helloService.createHelloMessage("World"))
+            .build();
     }
 
     /**

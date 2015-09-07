@@ -1,10 +1,10 @@
 ---
-Author: Weston Price
-Level: Intermediate
-Technologies: JMS
-Summary: Demonstrates the use of a standalone (Java SE) JMS client
-Target Product: WildFly
-Source: https://github.com/wildfly/quickstart/
+Author: Weston Price  
+Level: Intermediate  
+Technologies: JMS  
+Summary: Demonstrates the use of a standalone (Java SE) JMS client  
+Target Product: WildFly  
+Source: https://github.com/wildfly/quickstart/  
 ---
 
 helloworld-jms: HelloWorld JMS Example

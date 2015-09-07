@@ -34,15 +34,15 @@ import org.infinispan.util.concurrent.IsolationLevel;
 import org.jboss.as.quickstarts.datagrid.carmart.session.CacheContainerProvider;
 
 /**
- * {@link CacheContainerProvider}'s implementation creating a DefaultCacheManager 
- * which is configured programmatically. Infinispan's libraries need to be bundled 
+ * {@link CacheContainerProvider}'s implementation creating a DefaultCacheManager
+ * which is configured programmatically. Infinispan's libraries need to be bundled
  * with the application - this is called "library" mode.
- * 
- * The only difference from JBossASCacheContainerProvider is the transaction 
+ *
+ * The only difference from JBossASCacheContainerProvider is the transaction
  * manager lookup class.
- * 
+ *
  * @author Martin Gencur
- * 
+ *
  */
 @ApplicationScoped
 public class TomcatCacheContainerProvider implements CacheContainerProvider {

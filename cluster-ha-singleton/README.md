@@ -1,11 +1,11 @@
 cluster-ha-singleton: A SingletonService deployed in a JAR started by SingletonStartup and accessed by an EJB
 =============================================================================================================
-Author: Wolf-Dieter Fink
-Level: Advanced
-Technologies: EJB, HASingleton, JNDI
-Summary: A SingletonService deployed in a JAR started by SingletonStartup and accessed by an EJB
+Author: Wolf-Dieter Fink  
+Level: Advanced  
+Technologies: EJB, HASingleton, JNDI  
+Summary: A SingletonService deployed in a JAR started by SingletonStartup and accessed by an EJB  
 Target Project: WildFly
-Source: <https://github.com/wildfly/quickstart/>
+Source: <https://github.com/wildfly/quickstart/>  
 
 What is it?
 -----------

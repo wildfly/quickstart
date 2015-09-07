@@ -27,7 +27,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * A simple servlet that exists as a target for Servlet Filters and Servlet Listeners.
- * 
+ *
  * @author Jonathan Fuerth <jfuerth@redhat.com>
  */
 @SuppressWarnings("serial")

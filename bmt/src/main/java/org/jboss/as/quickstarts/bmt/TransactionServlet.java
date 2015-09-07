@@ -53,12 +53,12 @@ public class TransactionServlet extends HttpServlet {
     static String PAGE_HEADER = "<html><head><title>bmt</title></head><body>";
 
     static String PAGE_CONTENT = "<h1>Stepping Outside the Container (with JPA and JTA)</h1>"
-            + "<form>"
-            + "<input checked type=\"checkbox\" name=\"strategy\" value=\"managed\" /> Use bean managed Entity Managers <br />"
-            + "Key: <input type=\"text\" name=\"key\" /><br />"
-            + "Value: <input type=\"text\" name=\"value\" /><br />"
-            + "<input type=\"submit\" value=\"Submit\" /><br />"
-            + "</form>";
+        + "<form>"
+        + "<input checked type=\"checkbox\" name=\"strategy\" value=\"managed\" /> Use bean managed Entity Managers <br />"
+        + "Key: <input type=\"text\" name=\"key\" /><br />"
+        + "Value: <input type=\"text\" name=\"value\" /><br />"
+        + "<input type=\"submit\" value=\"Submit\" /><br />"
+        + "</form>";
 
     static String PAGE_FOOTER = "</body></html>";
 

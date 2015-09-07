@@ -33,11 +33,11 @@ import java.util.List;
  * coordinator to tell it to complete. This has the advantage that the client can continue calling methods on the service right
  * up until it calls 'close'. However, any resources held by the service need to be held for this duration, unless the service
  * decides to autonomously cancel the BA.
- * 
+ *
  * @author Paul Robinson (paul.robinson@redhat.com)
  */
 public class SetParticipantBA implements BusinessAgreementWithCoordinatorCompletionParticipant, ConfirmCompletedParticipant,
-        Serializable {
+    Serializable {
     private static final long serialVersionUID = 1L;
     // The ID of the corresponding transaction
     private String txID;
@@ -49,7 +49,7 @@ public class SetParticipantBA implements BusinessAgreementWithCoordinatorComplet
 
     /**
      * Participant instances are related to business method calls in a one to one manner.
-     * 
+     *
      * @param txID The ID of the current Business Activity
      * @param value the value to remove from the set during compensation
      */
@@ -60,7 +60,7 @@ public class SetParticipantBA implements BusinessAgreementWithCoordinatorComplet
 
     /**
      * Notify the participant that another value is being added to the set. This is stored in case compensation is required.
-     * 
+     *
      * @param value the value being added to the set
      */
     public void addValue(String value) {
@@ -70,21 +70,21 @@ public class SetParticipantBA implements BusinessAgreementWithCoordinatorComplet
     /**
      * The transaction has completed successfully. The participant previously informed the coordinator that it was ready to
      * complete.
-     * 
+     *
      * @throws WrongStateException never in this implementation.
      * @throws SystemException never in this implementation.
      */
     public void close() throws WrongStateException, SystemException {
         // nothing to do here as the item has already been added to the set
         System.out
-                .println("[SERVICE] Participant.close (The participant knows that this BA is now finished and can throw away any temporary state)");
+            .println("[SERVICE] Participant.close (The participant knows that this BA is now finished and can throw away any temporary state)");
         removeParticipant(txID);
     }
 
     /**
      * The transaction has canceled, and the participant should undo any work. The participant cannot have informed the
      * coordinator that it has completed.
-     * 
+     *
      * @throws WrongStateException never in this implementation.
      * @throws SystemException never in this implementation.
      */
@@ -97,7 +97,7 @@ public class SetParticipantBA implements BusinessAgreementWithCoordinatorComplet
     /**
      * The transaction has cancelled. The participant previously informed the coordinator that it had finished work but could
      * compensate later if required, and it is now requested to do so.
-     * 
+     *
      * @throws WrongStateException never in this implementation.
      * @throws SystemException if unable to perform the compensating transaction.
      */
@@ -131,22 +131,22 @@ public class SetParticipantBA implements BusinessAgreementWithCoordinatorComplet
     @Override
     public void complete() throws WrongStateException, SystemException {
         System.out
-                .println("[SERVICE] Participant.complete (This tells the participant that the BA completed, but may be compensated later)");
+            .println("[SERVICE] Participant.complete (This tells the participant that the BA completed, but may be compensated later)");
     }
 
     /**
      * method called to perform commit or rollback of prepared changes to the underlying manager state after the participant
      * recovery record has been written
-     * 
+     *
      * @param confirmed true if the log record has been written and changes should be rolled forward and false if it has not
      *        been written and changes should be rolled back
      */
     public void confirmCompleted(boolean confirmed) {
         if (confirmed) {
             System.out
-                    .println("[SERVICE] Participant.confirmCompleted('"
-                            + confirmed
-                            + "') (This tells the participant that compensation information has been logged and that it is safe to commit any changes.)");
+                .println("[SERVICE] Participant.confirmCompleted('"
+                    + confirmed
+                    + "') (This tells the participant that compensation information has been logged and that it is safe to commit any changes.)");
             MockSetManager.commit();
         } else {
             doCompensate();
@@ -158,7 +158,7 @@ public class SetParticipantBA implements BusinessAgreementWithCoordinatorComplet
     /************************************************************************/
     /**
      * keep track of a participant
-     * 
+     *
      * @param txID the participant's transaction id
      * @param participant The participant associated with this BA
      */
@@ -168,7 +168,7 @@ public class SetParticipantBA implements BusinessAgreementWithCoordinatorComplet
 
     /**
      * forget about a participant
-     * 
+     *
      * @param txID the participant's transaction id
      */
     public static void removeParticipant(String txID) {
@@ -177,7 +177,7 @@ public class SetParticipantBA implements BusinessAgreementWithCoordinatorComplet
 
     /**
      * lookup a participant
-     * 
+     *
      * @param txID the participant's transaction id
      * @return the participant
      */

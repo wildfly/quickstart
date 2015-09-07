@@ -30,7 +30,7 @@ import org.junit.runner.RunWith;
 
 /**
  * A simple test case using Arquillian to test an EJB.
- * 
+ *
  * @author david@davidsalter.co.uk
  */
 @RunWith(Arquillian.class)

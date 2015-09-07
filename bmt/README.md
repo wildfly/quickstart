@@ -1,11 +1,11 @@
 bmt: Bean Managed Transactions - Stepping Outside the Container (with JPA and JTA)
 =================================================================================
-Author: Mike Musgrove
-Level: Intermediate
-Technologies: EJB, Bean Managed Transactions (BMT)
-Summary: EJB that demonstrates bean-managed transactions (BMT)
+Author: Mike Musgrove  
+Level: Intermediate  
+Technologies: EJB, Bean Managed Transactions (BMT)  
+Summary: EJB that demonstrates bean-managed transactions (BMT)  
 Target Project: WildFly
-Source: <https://github.com/wildfly/quickstart/>
+Source: <https://github.com/wildfly/quickstart/>  
 
 What is it?
 -----------

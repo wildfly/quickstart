@@ -23,7 +23,6 @@ import javax.inject.Named;
 import org.infinispan.manager.DefaultCacheManager;
 import org.infinispan.stats.Stats;
 
-
 @Named("stats")
 @RequestScoped
 public class LocalStatisticsProvider implements StatisticsProvider {
@@ -36,7 +35,7 @@ public class LocalStatisticsProvider implements StatisticsProvider {
     @PostConstruct
     public void getStatsObject() {
         stats = ((DefaultCacheManager) provider.getCacheContainer()).getCache(CarManager.CACHE_NAME).getAdvancedCache()
-                .getStats();
+            .getStats();
     }
 
     public String getRetrievals() {

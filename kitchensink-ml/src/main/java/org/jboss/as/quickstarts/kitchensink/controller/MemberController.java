@@ -54,13 +54,13 @@ public class MemberController {
         try {
             memberRegistration.register(newMember);
             FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_INFO, KitchensinkMessages.MESSAGES.registeredMessage(),
-                    KitchensinkMessages.MESSAGES.registerSuccessfulMessage());
+                KitchensinkMessages.MESSAGES.registerSuccessfulMessage());
             facesContext.addMessage(null, m);
             initNewMember();
         } catch (Exception e) {
             String errorMessage = getRootErrorMessage(e);
             FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR, errorMessage,
-                    KitchensinkMessages.MESSAGES.registerFailMessage());
+                KitchensinkMessages.MESSAGES.registerFailMessage());
             facesContext.addMessage(null, m);
         }
     }

@@ -29,7 +29,7 @@ import org.jboss.as.quickstarts.wicketWar.model.Contact;
 
 /**
  * Dynamic behavior for the ListContact page
- * 
+ *
  * @author Filippo Diotalevi
  */
 @SuppressWarnings("serial")

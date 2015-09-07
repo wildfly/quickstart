@@ -41,9 +41,9 @@ import javax.inject.Named;
  * The {@link #check()} method, and {@link #reset()} methods provide the business logic whilst the
  * {@link #validateNumberRange(FacesContext, UIComponent, Object)} method provides feedback to the user.
  * </p>
- * 
+ *
  * @author Pete Muir
- * 
+ *
  */
 @SuppressWarnings("serial")
 @Named
@@ -148,7 +148,7 @@ public class Game implements Serializable {
     /**
      * A JSF validation method which checks whether the guess is valid. It might not be valid because there are no guesses left,
      * or because the guess is not in range.
-     * 
+     *
      */
     public void validateNumberRange(FacesContext context, UIComponent toValidate, Object value) {
         if (remainingGuesses <= 0) {

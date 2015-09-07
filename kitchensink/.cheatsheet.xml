@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?> 
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
     JBoss, Home of Professional Open Source
     Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
@@ -33,25 +33,25 @@ JAX-RS is an update specification for Java EE 7. It allows application developer
         skip="false"
         title="The kitchensink example in depth">
      <description>
-       The kitchensink application shows off a number of Java EE technologies such as CDI, JSF, EJB, JTA, JAX-RS and Arquillian. 
+       The kitchensink application shows off a number of Java EE technologies such as CDI, JSF, EJB, JTA, JAX-RS and Arquillian.
        It does this by providing a member registration database, available via JSF and JAX-RS.
 <br/><br/>
-As usual, let&apos;s start by looking at the necessary deployment descriptors. 
-By now, we're very used to seeing <b>beans.xml</b> and <b>faces-config.xml</b> in <b>WEB-INF/</b> 
-(which can be found in the <b>src/main/webapp</b> directory of the example). 
-Notice that, once again, we don&apos;t need a web.xml. 
-There are two configuration files in <b>WEB-INF/classes/META-INF</b> 
-(which can be found in the <b>src/main/resources</b> directory of the example) — <b>persistence.xml</b>, 
-which sets up JPA, and <b>import.sql</b> which Hibernate, the JPA provider in WildFly, 
-will use to load the initial users into the application when the application starts. 
+As usual, let&apos;s start by looking at the necessary deployment descriptors.
+By now, we're very used to seeing <b>beans.xml</b> and <b>faces-config.xml</b> in <b>WEB-INF/</b>
+(which can be found in the <b>src/main/webapp</b> directory of the example).
+Notice that, once again, we don&apos;t need a web.xml.
+There are two configuration files in <b>WEB-INF/classes/META-INF</b>
+(which can be found in the <b>src/main/resources</b> directory of the example) — <b>persistence.xml</b>,
+which sets up JPA, and <b>import.sql</b> which Hibernate, the JPA provider in WildFly,
+will use to load the initial users into the application when the application starts.
 We discussed both of these files in detail in The <b>greeter example in depth</b>, and these are largely the same.
-    </description> 
+    </description>
     <command
     required="true"
     returns="currentProject"
     serialization="org.jboss.tools.project.examples.cheatsheet.getProjectForCheatsheet"/>
   </item>
-  
+
    <item
          title="default.xhtml">
       <description>
@@ -87,7 +87,7 @@ We discussed both of these files in detail in The <b>greeter example in depth</b
        </subitem>
 
   </item>
-  
+
   <item
       title="index.xhtml">
       <description>
@@ -133,7 +133,7 @@ We discussed both of these files in detail in The <b>greeter example in depth</b
     </subitem>
 
   </item>
-  
+
   <item
         skip="true"
         title="Member.java">
@@ -175,7 +175,7 @@ We discussed both of these files in detail in The <b>greeter example in depth</b
       required="false"
       serialization="org.jboss.tools.project.examples.cheatsheet.openFileInEditor(path=/${currentProject}/src/main/java/org/jboss/as/quickstarts/kitchensink/model/Member.java,fromLine=56,toLine=58)"/>
   </subitem>
-  
+
   </item>
 
   <item
@@ -212,7 +212,7 @@ We discussed both of these files in detail in The <b>greeter example in depth</b
       required="false"
       serialization="org.jboss.tools.project.examples.cheatsheet.openFileInEditor(path=/${currentProject}/src/main/java/org/jboss/as/quickstarts/kitchensink/data/MemberRepository.java,fromLine=51,toLine=58)"/>
   </subitem>
-    
+
   </item>
 
    <item
@@ -235,7 +235,7 @@ We discussed both of these files in detail in The <b>greeter example in depth</b
       required="false"
       serialization="org.jboss.tools.project.examples.cheatsheet.openFileInEditor(path=/${currentProject}/src/main/java/org/jboss/as/quickstarts/kitchensink/data/MemberListProducer.java,fromLine=33,toLine=34)"/>
   </subitem>
-  
+
   <subitem
             label="The list of members is exposed as a producer method. It's also available via EL. "
             skip="true">
@@ -250,7 +250,7 @@ We discussed both of these files in detail in The <b>greeter example in depth</b
       required="false"
       serialization="org.jboss.tools.project.examples.cheatsheet.openFileInEditor(path=/${currentProject}/src/main/java/org/jboss/as/quickstarts/kitchensink/data/MemberListProducer.java,fromLine=46,toLine=48)"/>
   </subitem>
-  
+
   </item>
 
   <item
@@ -279,10 +279,10 @@ We discussed both of these files in detail in The <b>greeter example in depth</b
     <command
       required="false"
       serialization="org.jboss.tools.project.examples.cheatsheet.openFileInEditor(path=/${currentProject}/src/main/java/org/jboss/as/quickstarts/kitchensink/service/MemberRegistration.java,fromLine=43)"/>
-  </subitem>  
-    
+  </subitem>
+
   </item>
-  
+
   <item
         skip="true"
         title="Resources.java">
@@ -318,7 +318,7 @@ We discussed both of these files in detail in The <b>greeter example in depth</b
            serialization="org.eclipse.ui.browser.openBrowser(url=https://docs.jboss.org/author/display/WFLY8/Admin+Guide#AdminGuide-DatasourceDefinitions/)"/>
   </subitem>
   </item>
-  
+
   <item
         skip="true"
         title="MemberController.java">
@@ -381,16 +381,16 @@ We discussed both of these files in detail in The <b>greeter example in depth</b
       required="false"
       serialization="org.jboss.tools.project.examples.cheatsheet.openFileInEditor(path=/${currentProject}/src/main/java/org/jboss/as/quickstarts/kitchensink/controller/MemberController.java,fromLine=57)"/>
   </subitem>
-  
+
   </item>
-  
+
   <item
         skip="true"
         title="JAX-RS">
      <description>
-       Before we wrap up our tour of the kitchensink example application, 
-       let&apos;s take a look at how the JAX-RS endpoints are created. Firstly, {<b>JaxRSActivator</b>}}, 
-       which extends <b>Application</b> and is annotated with <b>@ApplicationPath</b>, 
+       Before we wrap up our tour of the kitchensink example application,
+       let&apos;s take a look at how the JAX-RS endpoints are created. Firstly, {<b>JaxRSActivator</b>}},
+       which extends <b>Application</b> and is annotated with <b>@ApplicationPath</b>,
        is the Java EE 6 <b>no XML</b> approach to activating JAX-RS.
     </description>
     <subitem
@@ -400,9 +400,9 @@ We discussed both of these files in detail in The <b>greeter example in depth</b
       required="false"
       serialization="org.jboss.tools.project.examples.cheatsheet.openFileInEditor(path=/${currentProject}/src/main/java/org/jboss/as/quickstarts/kitchensink/rest/JaxRsActivator.java,fromLine=30, toLine=33)"/>
   </subitem>
-  
+
   </item>
-  
+
   <item
         skip="true"
         title="MemberResourceRESTService.java">
@@ -508,37 +508,37 @@ We discussed both of these files in detail in The <b>greeter example in depth</b
   <action
     pluginId="org.jboss.tools.project.examples.cheatsheet"
     class="org.jboss.tools.project.examples.cheatsheet.actions.RunOnServer"
-    param1="${currentProject}"/> 
+    param1="${currentProject}"/>
   </item>
   <item
         skip="true"
         title="Arquillian">
      <description>
-       If you&apos;ve been following along with the Test Driven Development craze of the past few years, 
-       you&apos;re probably getting a bit nervous by now, wondering how on earth you are going to test your application. 
+       If you&apos;ve been following along with the Test Driven Development craze of the past few years,
+       you&apos;re probably getting a bit nervous by now, wondering how on earth you are going to test your application.
        Lucky for you, the Arquillian project is here to help!
     <br/><br/>
-    Arquillian provides all the boiler plate for running your test inside WildFly, 
-    allowing you to concentrate on testing your application. 
-    In order to do that, it utilizes Shrinkwrap, a fluent API for defining packaging, 
-    to create an archive to deploy. 
-    We'll go through the testcase, and how you configure Arquillian in just a moment, 
+    Arquillian provides all the boiler plate for running your test inside WildFly,
+    allowing you to concentrate on testing your application.
+    In order to do that, it utilizes Shrinkwrap, a fluent API for defining packaging,
+    to create an archive to deploy.
+    We'll go through the testcase, and how you configure Arquillian in just a moment,
     but first let's run the test.
-    
+
     </description>
   </item>
   <item
         skip="true"
         title="Start Arquillian tests">
     <description>
-      Arquillian defines two modes, managed and remote. 
-      The managed mode will take care of starting and stopping the server for you, 
+      Arquillian defines two modes, managed and remote.
+      The managed mode will take care of starting and stopping the server for you,
       while the remote mode connects to an already running server.
       <br/><br/>
-      The following action starts the test in the <b>remote</b> mode because you have started the server in the previous step. 
+      The following action starts the test in the <b>remote</b> mode because you have started the server in the previous step.
     <br/>
-        Right-click the project, select <b>Properties&gt;Maven</b> and 
-        enter <b>arq-jbossas-remote</b> to the <b>Active Maven Profile</b> field. 
+        Right-click the project, select <b>Properties&gt;Maven</b> and
+        enter <b>arq-jbossas-remote</b> to the <b>Active Maven Profile</b> field.
         After that, right-click the project and select <b>Run As&gt;JUnit test</b>.
     </description>
     <!-- the launchJUnitTest command is not implemented yey
@@ -546,14 +546,14 @@ We discussed both of these files in detail in The <b>greeter example in depth</b
       required="false"
       serialization="org.jboss.tools.project.examples.cheatsheet.actions.launchJUnitTest(project=${currentProject}, activateProfile=arq-wildfly-remote)"/>
   -->
-  
+
   <action
       pluginId="org.jboss.tools.project.examples.cheatsheet"
       class="org.jboss.tools.project.examples.cheatsheet.actions.LaunchJUnitTest"
-      param1="${currentProject}" 
-        param2="arq-wildfly-remote"/> 
+      param1="${currentProject}"
+        param2="arq-wildfly-remote"/>
   </item>
-  
+
   <item
         skip="true"
         title="MemberRegistrationTest.java">
@@ -616,19 +616,19 @@ We discussed both of these files in detail in The <b>greeter example in depth</b
       required="false"
       serialization="org.jboss.tools.project.examples.cheatsheet.openFileInEditor(path=/${currentProject}/src/test/java/org/jboss/as/quickstarts/kitchensink/test/MemberRegistrationTest.java,fromLine=55,toLine=64)"/>
   </subitem>
-  
+
   </item>
-  
+
   <item
         skip="true"
         title="arquillian.xml">
     <description>
-      As you can see, Arquillian has lived up to the promise - the test case is focused on what to test 
-      (the @Deployment method) and how to test (the @Test method). 
+      As you can see, Arquillian has lived up to the promise - the test case is focused on what to test
+      (the @Deployment method) and how to test (the @Test method).
       It&apos;s also worth noting that this isn&apos;t a simplistic unit test - this is a fully fledged integration
        test that uses the database.
     <br/><br/>
-    Now, let&apos;s look at how we configure Arquillian. 
+    Now, let&apos;s look at how we configure Arquillian.
     First of all, let&apos;s take a look at <b>arquillian.xml</b> in <b>src/test/resources</b>.
     </description>
     <subitem
@@ -639,7 +639,7 @@ We discussed both of these files in detail in The <b>greeter example in depth</b
       serialization="org.jboss.tools.project.examples.cheatsheet.openFileInEditor(path=/${currentProject}/src/test/resources/arquillian.xml)"/>
   </subitem>
   </item>
-  
+
     <item
         skip="true"
         title="pom.xml">
@@ -660,13 +660,13 @@ We discussed both of these files in detail in The <b>greeter example in depth</b
       required="false"
       serialization="org.jboss.tools.project.examples.cheatsheet.openFileInEditor(path=/${currentProject}/pom.xml,fromLine=277,toLine=289)"/>
   </subitem>
-  
+
   </item>
   <item
         skip="true"
         title="Arquillian project page">
      <description>
-      And that&apos;s it! As you can see Arquillian delivers simple and true testing. 
+      And that&apos;s it! As you can see Arquillian delivers simple and true testing.
       You can concentrate on writing your test functionality, and run your tests in the same environment in which you will run your application.
       <br/><br/>
       Arquillian also offers other containers, allowing you to run your tests against Weld Embedded (super fast, but your enterprise services are mocked), GlassFish, and more.
@@ -677,19 +677,19 @@ We discussed both of these files in detail in The <b>greeter example in depth</b
            required="false"
            serialization="org.eclipse.ui.browser.openBrowser(url=http://www.jboss.org/arquillian)"/>
   </item>
-  
+
   <item
         skip="true"
         title="Creating your own application ">
      <description>
-      What we didn&apos;t tell you about the <b>Kitchensink quickstart</b> is that it is generated from a Maven archetype. 
+      What we didn&apos;t tell you about the <b>Kitchensink quickstart</b> is that it is generated from a Maven archetype.
       Using this archetype offers you the perfect opportunity to generate your own project.
       <br/><br/>
       In order to perform that, you should select <b>Help&gt;JBoss Central</b> and click the <b>Java EE Web Project</b> wizard.
       <br/>
-      You will get a brand new project with the same functionality as <b>kitchensink</b>, 
+      You will get a brand new project with the same functionality as <b>kitchensink</b>,
       but customized with your details.
     </description>
   </item>
-  
+
 </cheatsheet>

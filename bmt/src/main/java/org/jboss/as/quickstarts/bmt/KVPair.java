@@ -29,7 +29,7 @@ import javax.persistence.Table;
  * @author Mike Musgrove
  */
 @Entity
-@Table(name="BMT_KVPair")
+@Table(name = "BMT_KVPair")
 public class KVPair implements Serializable {
     @Id
     @Column(unique = true)

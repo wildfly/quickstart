@@ -28,7 +28,7 @@ import javax.servlet.annotation.WebListener;
  * <p>
  * Because Request Listeners see requests before Filters see them, this listener sees the original parameter values as sent by
  * the user rather than the modified ones passed down the filter chain by {@link VowelRemoverFilter}.
- * 
+ *
  * @author Jonathan Fuerth <jfuerth@redhat.com>
  */
 @WebListener
@@ -41,7 +41,7 @@ public class ParameterDumpingRequestListener implements ServletRequestListener {
 
         // to see log messages at runtime, check the terminal window where you started WildFly.
         servletContext.log("ParameterDumpingRequestListener: request has been initialized. It has " + paramMap.size()
-                + " parameters:");
+            + " parameters:");
         for (Map.Entry<String, String[]> entry : paramMap.entrySet()) {
             for (String val : entry.getValue()) {
                 servletContext.log("  " + entry.getKey() + "=" + val);

@@ -49,14 +49,14 @@ public class InjectionWithVetoExtensionAndManagerTest {
     @Deployment
     public static Archive<?> createTestArchive() {
         return ShrinkWrap.create(WebArchive.class, InjectionWithVetoExtensionAndManagerTest.class.getSimpleName() + ".war")
-                .addClasses(Car.class, EntityManagerProducer.class, VetoExtension.class, CarManager.class)
-                .addAsServiceProvider(Extension.class, VetoExtension.class)
-                .addAsResource("META-INF/persistence.xml", "META-INF/persistence.xml")
-                .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
-                        // Using this to get the datasource xml file
-                .merge(ShrinkWrap.create(GenericArchive.class).as(ExplodedImporter.class)
-                        .importDirectory("src/main/webapp").as(GenericArchive.class),
-                        "/", Filters.include(".*ds\\.xml$"));
+            .addClasses(Car.class, EntityManagerProducer.class, VetoExtension.class, CarManager.class)
+            .addAsServiceProvider(Extension.class, VetoExtension.class)
+            .addAsResource("META-INF/persistence.xml", "META-INF/persistence.xml")
+            .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
+            // Using this to get the datasource xml file
+            .merge(ShrinkWrap.create(GenericArchive.class).as(ExplodedImporter.class)
+                .importDirectory("src/main/webapp").as(GenericArchive.class),
+                "/", Filters.include(".*ds\\.xml$"));
     }
 
     @Inject

@@ -37,9 +37,9 @@ import java.util.List;
 
 /**
  * Implementation of parser based on DOM4J.
- * 
+ *
  * @author baranowb
- * 
+ *
  */
 @RequestScoped
 @Default

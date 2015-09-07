@@ -30,9 +30,9 @@ import javax.servlet.http.HttpServletResponse;
  * <p>
  * Servlet implementation class Demo
  * </p>
- * 
+ *
  * @author Nevin Zhu
- * 
+ *
  */
 @WebServlet("/")
 public class Demo extends HttpServlet {

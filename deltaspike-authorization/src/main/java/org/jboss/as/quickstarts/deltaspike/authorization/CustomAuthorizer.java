@@ -24,13 +24,12 @@ import javax.interceptor.InvocationContext;
 
 import org.apache.deltaspike.security.api.authorization.Secures;
 
-
 /**
  * This Authorizer class implements behavior for our security binding types. This class is simply a CDI bean which declares
  * a @Secures method, qualified with the security binding annotation.
- * 
+ *
  * @author <a href="mailto:benevides@redhat.com">Rafael Benevides</a>
- * 
+ *
  */
 @ApplicationScoped
 public class CustomAuthorizer {
@@ -41,7 +40,7 @@ public class CustomAuthorizer {
     /**
      * This method is used to check if classes and methods annotated with {@link AdminAllowed} can perform
      * the operation or not
-     * 
+     *
      * @param invocationContext
      * @param manager
      * @return true if the user can execute the method or class
@@ -56,7 +55,7 @@ public class CustomAuthorizer {
     /**
      * This method is used to check if classes and methods annotated with {@link EmployeeAllowed} can perform
      * the operation or not
-     * 
+     *
      * @param invocationContext
      * @param manager
      * @return true if the user can execute the method or class

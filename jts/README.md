@@ -1,12 +1,12 @@
 jts: Java Transaction Service - Distributed EJB Transactions Across Multiple Containers 
 ======================================================================================
-Author: Tom Jenkinson
-Level: Intermediate
-Technologies: JTS, EJB, JMS
-Summary: Uses Java Transaction Service (JTS) to coordinate distributed transactions
+Author: Tom Jenkinson  
+Level: Intermediate  
+Technologies: JTS, EJB, JMS  
+Summary: Uses Java Transaction Service (JTS) to coordinate distributed transactions  
 Prerequisites: cmt
 Target Project: WildFly
-Source: <https://github.com/wildfly/quickstart/>
+Source: <https://github.com/wildfly/quickstart/>  
 
 
 What is it?

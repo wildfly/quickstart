@@ -26,7 +26,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 /**
- * 
+ *
  * @author Filippo Diotalevi
  */
 @SuppressWarnings("serial")

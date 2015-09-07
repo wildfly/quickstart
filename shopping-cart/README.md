@@ -1,11 +1,11 @@
 shopping-cart: EJB 3.2 Stateful Session Bean (SFSB) Example 
 =====================================
-Author: Serge Pagop
-Level: Intermediate
-Technologies: EJB
-Summary: Demonstrates a stateful session bean
+Author: Serge Pagop  
+Level: Intermediate  
+Technologies: EJB  
+Summary: Demonstrates a stateful session bean  
 Target Project: WildFly
-Source: <https://github.com/wildfly/quickstart/>
+Source: <https://github.com/wildfly/quickstart/>  
 
 What is it?
 -----------

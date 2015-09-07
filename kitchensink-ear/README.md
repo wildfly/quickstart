@@ -1,11 +1,11 @@
 kitchensink-ear: Example Using Multiple Java EE 7 Technologies Deployed as an EAR
 ==============================================================================================
-Author: Pete Muir
-Level: Intermediate
-Technologies: EAR, JPA
-Summary: Based on kitchensink, but deployed as an EAR
+Author: Pete Muir  
+Level: Intermediate  
+Technologies: EAR, JPA  
+Summary: Based on kitchensink, but deployed as an EAR  
 Target Project: WildFly
-Source: <https://github.com/wildfly/quickstart/>
+Source: <https://github.com/wildfly/quickstart/>  
 
 What is it?
 -----------

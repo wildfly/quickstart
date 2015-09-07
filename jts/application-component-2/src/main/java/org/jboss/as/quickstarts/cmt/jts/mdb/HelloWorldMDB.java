@@ -28,14 +28,14 @@ import java.util.logging.Logger;
  * <p>
  * A simple Message Driven Bean that asynchronously receives and processes the messages that are sent to the queue.
  * </p>
- * 
+ *
  * @author Serge Pagop (spagop@redhat.com)
- * 
+ *
  */
 @MessageDriven(name = "HelloWorldMDB", activationConfig = {
-        @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
-        @ActivationConfigProperty(propertyName = "destination", propertyValue = "queue/InvoiceManagerQueue"),
-        @ActivationConfigProperty(propertyName = "acknowledgeMode", propertyValue = "Auto-acknowledge") })
+    @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
+    @ActivationConfigProperty(propertyName = "destination", propertyValue = "queue/InvoiceManagerQueue"),
+    @ActivationConfigProperty(propertyName = "acknowledgeMode", propertyValue = "Auto-acknowledge") })
 public class HelloWorldMDB implements MessageListener {
 
     private final static Logger LOGGER = Logger.getLogger(HelloWorldMDB.class.toString());

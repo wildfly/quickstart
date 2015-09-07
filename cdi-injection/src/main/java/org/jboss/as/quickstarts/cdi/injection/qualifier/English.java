@@ -26,9 +26,9 @@ import javax.inject.Qualifier;
 
 /**
  * Qualifier used to help determine the intended injection object.
- * 
+ *
  * This particular qualifier will be used to specify types which should be used for the English language.
- * 
+ *
  * @author Jason Porter
  * @see Spanish
  */

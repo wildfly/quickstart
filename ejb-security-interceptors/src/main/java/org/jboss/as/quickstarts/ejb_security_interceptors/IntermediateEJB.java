@@ -26,7 +26,7 @@ import org.jboss.ejb3.annotation.SecurityDomain;
 
 /**
  * An EJB for testing EJB to remote EJB calls.
- * 
+ *
  * @author <a href="mailto:darran.lofthouse@jboss.com">Darran Lofthouse</a>
  */
 @Stateless

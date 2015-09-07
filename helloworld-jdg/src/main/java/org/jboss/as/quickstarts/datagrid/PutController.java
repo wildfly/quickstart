@@ -25,9 +25,9 @@ import org.infinispan.Cache;
 
 /**
  * Stores entries into the cache.
- * 
+ *
  * @author Burr Sutter
- * 
+ *
  */
 @Named
 @RequestScoped

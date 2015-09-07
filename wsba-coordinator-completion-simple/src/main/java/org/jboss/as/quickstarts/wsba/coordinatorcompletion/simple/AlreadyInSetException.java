@@ -18,7 +18,7 @@ package org.jboss.as.quickstarts.wsba.coordinatorcompletion.simple;
 
 /**
  * This Exception is thrown when an add of an already existing item is attempted on the set.
- * 
+ *
  * @author paul.robinson@redhat.com, 2011-12-21
  */
 public class AlreadyInSetException extends Exception {

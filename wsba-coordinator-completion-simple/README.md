@@ -1,11 +1,11 @@
 wsba-coordinator-completion-simple: Example of a WS-BA (WS Business Activity) Enabled JAX-WS Web Service
 ========================================================================================================
-Author: Paul Robinson
-Level: Intermediate
-Technologies: WS-BA, JAX-WS
-Summary:  Deployment of a WS-BA (WS-BusinessActivity) enabled JAX-WS Web service bundled in a WAR archive (Participant Completion protocol)
+Author: Paul Robinson  
+Level: Intermediate  
+Technologies: WS-BA, JAX-WS  
+Summary:  Deployment of a WS-BA (WS-BusinessActivity) enabled JAX-WS Web service bundled in a WAR archive (Participant Completion protocol)  
 Target Project: WildFly
-Source: <https://github.com/wildfly/quickstart/>
+Source: <https://github.com/wildfly/quickstart/>  
 
 What is it?
 -----------

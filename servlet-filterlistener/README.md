@@ -1,11 +1,11 @@
 servlet-filterlistener: How to Write Servlet Filters and Listeners
 ================================================================
-Author: Jonathan Fuerth
-Level: Intermediate
-Technologies: Servlet
-Summary: Demonstrates Servlet filters and listeners
+Author: Jonathan Fuerth  
+Level: Intermediate  
+Technologies: Servlet  
+Summary: Demonstrates Servlet filters and listeners  
 Target Project: WildFly
-Source: <https://github.com/wildfly/quickstart/>
+Source: <https://github.com/wildfly/quickstart/>  
 
 What is it?
 -----------

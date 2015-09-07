@@ -1,11 +1,11 @@
 hibernate3: How to Use  Hibernate 3 in an Application
 =====================================================
-Author: Bartosz Baranowski 
-Level: Intermediate
-Technologies: Hibernate 3
-Summary: Example that uses Hibernate 3 for database access. Compare the code in this quickstart to the _hibernate4_ quickstart to see the changes needed to upgrade to Hibernate 4.
+Author: Bartosz Baranowski    
+Level: Intermediate  
+Technologies: Hibernate 3  
+Summary: Example that uses Hibernate 3 for database access. Compare the code in this quickstart to the _hibernate4_ quickstart to see the changes needed to upgrade to Hibernate 4.  
 Target Project: WildFly
-Source: <https://github.com/wildfly/quickstart/>
+Source: <https://github.com/wildfly/quickstart/>  
 
 What is it?
 -----------
