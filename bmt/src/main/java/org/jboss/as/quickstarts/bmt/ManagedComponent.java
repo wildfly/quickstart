@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -32,17 +32,18 @@ import javax.persistence.EntityManager;
  */
 
 /*
- * Mark the component as managed by the container. In the context of the example this has 3 consequences: - it becomes eligible
- * for injection into other components (eg the {@linkplain TransactionServlet}): - it becomes eligible for other components to
- * be injected; - it becomes eligible for Container Managed Transactions (although this example does not use CMT)
+ * Mark the component as managed by the container. In the context of the example this has 3 consequences:
+ * - it becomes eligible for injection into other components (eg the {@linkplain TransactionServlet}):
+ * - it becomes eligible for other components to be injected;
+ * - it becomes eligible for Container Managed Transactions (although this example does not use CMT)
  */
 @Stateless
 @TransactionManagement(TransactionManagementType.BEAN)
 // tell the container not to manage transactions
 public class ManagedComponent {
     /**
-     * Ask the container to inject an Entity Manager (EM). As a consequence the EM will be automatically enlisted into any new
-     * transactions started by the managed component.
+     *  Ask the container to inject an Entity Manager (EM). As a consequence the EM will be
+     *  automatically enlisted into any new transactions started by the managed component.
      *
      */
     @PersistenceContext
@@ -57,29 +58,30 @@ public class ManagedComponent {
     private UnManagedComponent helper;
 
     /**
-     * Maintain a simple key value store using JPA. The method uses a Container managed Entity Manager with manual transaction
-     * demarcation.
+     *  Maintain a simple key value store using JPA.
+     *  The method uses a Container managed Entity Manager with manual transaction demarcation.
      *
-     * @param key the key. If the key does not exist then a new key/value pair is entered into the database. If the key already
-     *        exists then the associated value is updated.
-     * @param value the value
+     *  @param key the key. If the key does not exist then a new key/value pair is entered into the database.
+     *  If the key already exists then the associated value is updated.
+     *  @param value the value
      *
-     * @return a string representing the keys values pairs if no key is provided, or the key value pair if one is provided, or
-     *         the error if anything went wrong
+     *  @return a string representing the keys values pairs if no key is provided, or
+     *  the key value pair if one is provided, or
+     *  the error if anything went wrong
      */
     public String updateKeyValueDatabase(String key, String value) {
         /*
-         * Since this is a session bean method we are guaranteed to be thread safe so it is OK to use the injected Entity
-         * Manager. Contrast this with UnManagedComponent class where the developer must create an EM for the duration of the
-         * method call
+         * Since this is a session bean method we are guaranteed to be thread safe so it is OK to use the
+         * injected Entity Manager. Contrast this with UnManagedComponent class where the developer must
+         * create an EM for the duration of the method call
          */
         try {
             userTransaction.begin();
 
             /*
-             * Since the bean is managed by the container the Entity Manager (EM) and JTA transaction manager (TM) cooperate so
-             * there is no need to tell the EM about the transaction. Compare this with the UnManagedComponent class where the
-             * developer is managing the EM himself and therefore must explicitly tell the EM to join the transaction
+             * Since the bean is managed by the container the Entity Manager (EM) and JTA transaction manager (TM) cooperate
+             * so there is no need to tell the EM about the transaction. Compare this with the UnManagedComponent class where
+             * the developer is managing the EM himself and therefore must explicitly tell the EM to join the transaction
              */
             String result = helper.updateKeyValueDatabase(entityManager, key, value);
 

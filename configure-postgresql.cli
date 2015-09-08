@@ -1,9 +1,9 @@
-# Batch script to add the PostgreSQL driver to the WildFly server configuration
+# Batch script to add the PostgreSQL driver to the JBoss server configuration
 
 # Start batching commands
 batch
 
-# Add the  PostgreSQL database driver to the datasources subsystem
+# Add the  datasources subsystem
 /subsystem=datasources/jdbc-driver=postgresql:add(driver-name=postgresql,driver-module-name=org.postgresql,driver-xa-datasource-class-name=org.postgresql.xa.PGXADataSource)
 
 # Run the batch commands

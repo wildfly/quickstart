@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0"?>
 <!--
     JBoss, Home of Professional Open Source
-    Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
+    Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
     contributors by the @authors tag. See the copyright.txt in the
     distribution for a full listing of individual contributors.
 
@@ -15,7 +15,8 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <!--
         The pom builds the web WAR artifact.
@@ -28,9 +29,11 @@
         <groupId>org.wildfly.quickstarts</groupId>
         <version>9.0.0-SNAPSHOT</version>
     </parent>
+
     <artifactId>wildfly-ejb-in-ear-web</artifactId>
     <packaging>war</packaging>
-    <name>WildFly Quickstart: ejb-in-ear - web</name>
+
+    <name>WildFly Quickstarts: EJB and War in an Ear - WEB</name>
     <description>WildFly Quickstarts: EJB and War in an Ear - WEB</description>
 
     <licenses>
@@ -51,7 +54,7 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- Import the CDI API, we use provided scope as the API is included in WildFly -->
+        <!-- Import the CDI API, we use provided scope as the API is included in JBoss WildFly -->
         <dependency>
             <groupId>javax.enterprise</groupId>
             <artifactId>cdi-api</artifactId>
@@ -60,21 +63,21 @@
 
 
         <!-- Import the Common Annotations API (JSR-250), we use provided scope
-            as the API is included in WildFly -->
+            as the API is included in JBoss WildFly -->
         <dependency>
             <groupId>org.jboss.spec.javax.annotation</groupId>
             <artifactId>jboss-annotations-api_1.2_spec</artifactId>
             <scope>provided</scope>
         </dependency>
 
-        <!-- Import the JSF API, we use provided scope as the API is included in WildFly -->
+        <!-- Import the JSF API, we use provided scope as the API is included in JBoss WildFly -->
         <dependency>
             <groupId>org.jboss.spec.javax.faces</groupId>
             <artifactId>jboss-jsf-api_2.2_spec</artifactId>
             <scope>provided</scope>
         </dependency>
         <!-- Import the EJB API, we use provided scope as the API is included in
-              WildFly -->
+              JBoss WildFly -->
         <dependency>
             <groupId>org.jboss.spec.javax.ejb</groupId>
             <artifactId>jboss-ejb-api_3.2_spec</artifactId>
@@ -84,7 +87,7 @@
     </dependencies>
 
     <build>
-        <!-- Set the name of the WAR, used as the context root when the app
+        <!-- Set the name of the war, used as the context root when the app
             is deployed -->
         <finalName>${project.artifactId}</finalName>
         <plugins>
@@ -92,7 +95,7 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <version>${version.war.plugin}</version>
                 <configuration>
-                    <!-- Java EE doesn't require web.xml, Maven needs to catch up! -->
+                    <!-- Java EE 7 doesn't require web.xml, Maven needs to catch up! -->
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
             </plugin>
@@ -100,3 +103,4 @@
     </build>
 
 </project>
+

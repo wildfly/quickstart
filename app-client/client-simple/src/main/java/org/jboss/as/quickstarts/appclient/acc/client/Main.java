@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2014, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -18,7 +18,10 @@ package org.jboss.as.quickstarts.appclient.acc.client;
 
 import java.util.Arrays;
 
+import javax.annotation.Resource;
 import javax.ejb.EJB;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 
 import org.jboss.as.quickstarts.appclient.acc.client.interceptor.ClientInterceptor;
 import org.jboss.as.quickstarts.appclient.server.ejb.StatelessSession;
@@ -35,11 +38,14 @@ public class Main {
     private static final Logger LOG = Logger.getLogger(Main.class);
 
     /**
-     * Use field injection for the EJB reference.<br/>
-     * <b>Notice that the application-container injection only works for
-     * static fields within the main class of the application</b><br/>
-     * See JSR 342 (EE7 platform spec) chapter 5.2.5 .
+     * <p>According to the JavaEE Platform specification (EE7 JSR342 - chapter EE5.16)
+     * the container must provide the following boolean property as <code>TRUE</code>
+     * if this client runs in an ApplicationClientContainer.<br/>
+     * If running in a Web or EJB container the property is <code>FALSE</code>.</p>
+     * <p>Can be used to ensure that the Injection works</p>
      */
+    @Resource(lookup = "java:comp/InAppClientContainer")
+    private static boolean isInAppclient;
     @EJB
     private static StatelessSession slsb;
 
@@ -49,12 +55,19 @@ public class Main {
 
     /**
      * @param args the command line arguments
+     * @throws NamingException
      */
-    public static void main(String args[]) {
+    public static void main(String args[]) throws NamingException {
         // Show that the client is started with arguments at command line
         LOG.info("Main started " + (args.length != 0 ? "with" : "without") + " arguments");
         if (args.length > 0)
             LOG.info("            " + Arrays.asList(args));
+
+        // ensure that the program is running in an AppClientContainer
+        // the value might be NULL if we are running as a simple Java program
+        if (!Boolean.TRUE.equals(isInAppclient)) {
+            throw new RuntimeException("Not running in an Application Client Container");
+        }
 
         // add an client side interceptor to provide the client machine name to the server application
         EJBClientContext.getCurrent().registerInterceptor(0, new ClientInterceptor());

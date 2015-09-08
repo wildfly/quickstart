@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -19,12 +19,16 @@ package org.jboss.as.quickstarts.bmt;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import javax.annotation.Resource;
 import javax.inject.Inject;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceUnit;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.transaction.*;
 
 /**
  * <p>
@@ -46,9 +50,6 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/BMT")
 public class TransactionServlet extends HttpServlet {
-    /** Default value included to remove warning. **/
-    private static final long serialVersionUID = 1L;
-
     static String PAGE_HEADER = "<html><head><title>bmt</title></head><body>";
 
     static String PAGE_CONTENT = "<h1>Stepping Outside the Container (with JPA and JTA)</h1>"
@@ -62,8 +63,8 @@ public class TransactionServlet extends HttpServlet {
     static String PAGE_FOOTER = "</body></html>";
 
     /*
-     * Inject a stateless bean. Although stateless beans are thread safe it is probably not a solution that scales particularly
-     * well.
+     * Inject a stateless bean. Although stateless beans are thread safe it is probably not a
+     * solution that scales particularly well.
      */
     @Inject
     ManagedComponent managedBean;
@@ -75,16 +76,14 @@ public class TransactionServlet extends HttpServlet {
     UnManagedComponent unManagedBean;
 
     /**
-     * <p>
-     * Servlet entry point.
+     * <p>Servlet entry point.
      * </p>
-     * <p>
-     * The behaviour of the servlet is controlled by servlet query parameter or form parameters. If parameters named "key" and
-     * "value" are present then that pair is added (or the key is updated if it already exists) to the database. If the form
-     * parameter "strategy" is not set to the value "managed" then both the transaction and the EntityManager are controlled
-     * manually. Otherwise the Entity Manager is controlled by the container and the transaction is controlled by the developer.
+     * <p>The behaviour of the servlet is controlled by servlet query parameter or form parameters.
+     * If parameters named "key" and "value" are present then that pair is added (or the key is updated if it already
+     * exists) to the database. If the form parameter "strategy" is not set to the value "managed" then
+     * both the transaction and the EntityManager are controlled manually. Otherwise the Entity Manager is controlled
+     * by the container and the transaction is controlled by the developer.
      * </p>
-     *
      * @param req the HTTP request
      * @param resp the HTTP response
      * @throws ServletException

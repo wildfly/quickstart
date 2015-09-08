@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0"?>
 <!--
     JBoss, Home of Professional Open Source
-    Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
+    Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
     contributors by the @authors tag. See the copyright.txt in the
     distribution for a full listing of individual contributors.
 
@@ -15,16 +15,18 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <groupId>org.wildfly.quickstarts</groupId>
     <artifactId>wildfly-helloworld-jms</artifactId>
     <version>9.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>WildFly Quickstart: helloworld-jms</name>
+    <name>WildFly Quickstarts: helloworld-jms</name>
     <description>helloworld-jms: Helloworld JMS external producer/consumer client</description>
-    <url>http://wildfly.org</url>
 
+    <url>http://wildfly.org</url>
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
@@ -39,18 +41,20 @@
             resources, i.e. build is platform dependent! -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <version.wildfly>9.0.0.Final</version.wildfly>
+        <!-- JBoss dependency versions -->
 
-        <!-- WildFly Maven plug-in to deploy your WAR to a local WildFly container -->
         <version.wildfly.maven.plugin>1.0.2.Final</version.wildfly.maven.plugin>
 
-        <!-- other plug-in versions -->
+        <version.wildfly>9.0.0.Final</version.wildfly>
+
+        <!-- other plugin versions -->
+        <version.compiler.plugin>3.1</version.compiler.plugin>
         <version.jar.plugin>2.2</version.jar.plugin>
-        <version.exec.plugin>1.2.1</version.exec.plugin>
+        <version.exec.plugin>1.1.1</version.exec.plugin>
 
         <!-- maven-compiler-plugin -->
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.7</maven.compiler.target>
+        <maven.compiler.source>1.7</maven.compiler.source>
     </properties>
 
     <dependencies>
@@ -76,7 +80,7 @@
                         <!--
                         <systemProperty>
                             <key>java.naming.provider.url</key>
-                            <value>remote://localhost:8080</value>
+                            <value>http-remoting://127.0.0.1:8080</value>
                         </systemProperty>
                         <systemProperty>
                             <key>username</key>
@@ -115,11 +119,25 @@
                 <configuration>
                 </configuration>
             </plugin>
-            <!-- WildFly plug-in to deploy the WAR -->
+            <!-- WildFly plugin to deploy war -->
             <plugin>
                 <groupId>org.wildfly.plugins</groupId>
                 <artifactId>wildfly-maven-plugin</artifactId>
                 <version>${version.wildfly.maven.plugin}</version>
+                <configuration>
+                    <username>admin</username>
+                    <password>admin</password>
+                </configuration>
+            </plugin>
+            <!-- Compiler plugin enforces Java 1.6 compatibility and activates
+                annotation processors -->
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${version.compiler.plugin}</version>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                </configuration>
             </plugin>
         </plugins>
     </build>

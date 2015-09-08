@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
     JBoss, Home of Professional Open Source
-    Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
+    Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
     contributors by the @authors tag. See the copyright.txt in the
     distribution for a full listing of individual contributors.
 
@@ -15,13 +15,15 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <groupId>org.wildfly.quickstarts</groupId>
-    <artifactId>wildfly-ejb-remote</artifactId>
+    <artifactId>wildfly-ejb-remote-parent</artifactId>
     <version>9.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>WildFly Quickstart: ejb-remote</name>
+    <name>WildFly Quickstarts: Parent for remote EJB and Java client</name>
 
     <licenses>
         <license>
@@ -30,16 +32,6 @@
             <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
         </license>
     </licenses>
-
-    <properties>
-        <!-- JBoss dependency versions -->
-        <version.wildfly.maven.plugin>1.0.2.Final</version.wildfly.maven.plugin>
-
-        <!-- maven-compiler-plugin -->
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <maven.compiler.source>1.8</maven.compiler.source>
-
-    </properties>
 
     <!-- This quickstart consists of a server side component and a client that accesses
      the server side component. Each component has its own self contain pom. However,
@@ -50,10 +42,15 @@
         <module>client</module>
     </modules>
 
+    <properties>
+        <!-- JBoss dependency versions -->
+        <version.wildfly.maven.plugin>1.0.2.Final</version.wildfly.maven.plugin>
+    </properties>
+
     <build>
         <finalName>${project.artifactId}</finalName>
         <plugins>
-            <!-- The WildFly plug-in deploys your apps to a local WildFly
+            <!-- The WildFly plugin deploys your apps to a local WildFly
                 container -->
             <!-- Disabling it here means that we don't try to deploy this POM! -->
             <plugin>
@@ -67,4 +64,5 @@
             </plugin>
         </plugins>
     </build>
+
 </project>

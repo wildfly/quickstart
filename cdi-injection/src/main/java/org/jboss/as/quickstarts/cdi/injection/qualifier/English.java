@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -17,15 +17,12 @@
 package org.jboss.as.quickstarts.cdi.injection.qualifier;
 
 import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import javax.inject.Qualifier;
-import static java.lang.annotation.ElementType.TYPE;
-import static java.lang.annotation.ElementType.METHOD;
-import static java.lang.annotation.ElementType.FIELD;
-import static java.lang.annotation.ElementType.PARAMETER;
 
 /**
  * Qualifier used to help determine the intended injection object.
@@ -36,7 +33,7 @@ import static java.lang.annotation.ElementType.PARAMETER;
  * @see Spanish
  */
 @Qualifier
-@Target({ TYPE, METHOD, FIELD, PARAMETER })
+@Target({ ElementType.TYPE, ElementType.FIELD, ElementType.PARAMETER })
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 public @interface English {

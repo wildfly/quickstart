@@ -57,7 +57,7 @@ Then just run
 Publishing builds to Maven
 --------------------------
 
-  1. You must have gpg set up and your key registered, as described at <hhttp://blog.sonatype.com/people/2010/01/how-to-generate-pgp-signatures-with-maven/>
+  1. You must have gpg set up and your key registered, as described at <http://www.sonatype.com/people/2010/01/how-to-generate-pgp-signatures-with-maven/>
   2. You must provide a property `gpg.passphrase` in your `settings.xml` in the `release` profile e.g.
 
           <profile>
@@ -74,7 +74,7 @@ Publishing builds to Maven
               <password>myPassword</password>
           </server>
 
-  4. Add `org.sonatype.plugins` plug-in group to your `settings.xml` so the Nexus plug-in can be available for publishing scripts.
+  4. Add `org.sonatype.plugins` plugin group to your `settings.xml` so nexus plugin can be available for publishing scripts.
 
           <pluginGroups>
               <pluginGroup>org.sonatype.plugins</pluginGroup>

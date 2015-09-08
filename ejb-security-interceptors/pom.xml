@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0"?>
 <!--
     JBoss, Home of Professional Open Source
-    Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
+    Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
     contributors by the @authors tag. See the copyright.txt in the
     distribution for a full listing of individual contributors.
 
@@ -15,16 +15,18 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <groupId>org.wildfly.quickstarts</groupId>
     <artifactId>wildfly-ejb-security-interceptors</artifactId>
     <version>9.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>WildFly Quickstart: ejb-security-interceptors</name>
+    <name>WildFly Quickstarts: EJB Security Interceptors</name>
     <description>WildFly Quickstarts: EJB Security Interceptors</description>
-    <url>http://wildfly.org</url>
 
+    <url>http://wildfly.org</url>
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
@@ -40,21 +42,21 @@
             resources, i.e. build is platform dependent! -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <version.wildfly>9.0.0.Final</version.wildfly>
-        <version.jboss.spec.javaee.7.0>1.0.3.Final</version.jboss.spec.javaee.7.0>
+        <!-- JBoss dependency versions -->
 
-        <!-- WildFly Maven plug-in to deploy your WAR to a local WildFly container -->
         <version.wildfly.maven.plugin>1.0.2.Final</version.wildfly.maven.plugin>
 
-        <!-- To run this quickstart in Eclipse, we must turn on JDT APT to activate annotation processing-->
-        <m2e.apt.activation>jdt_apt</m2e.apt.activation>
+        <version.wildfly>9.0.0.Final</version.wildfly>
 
-        <!-- other plug-in versions -->
+        <version.jboss.spec.javaee.7.0>1.0.3.Final</version.jboss.spec.javaee.7.0>
+
+        <!-- other plugin versions -->
+        <version.compiler.plugin>3.1</version.compiler.plugin>
         <version.exec.plugin>1.2.1</version.exec.plugin>
 
         <!-- maven-compiler-plugin -->
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.7</maven.compiler.target>
+        <maven.compiler.source>1.7</maven.compiler.source>
     </properties>
 
     <dependencyManagement>
@@ -79,7 +81,7 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-          </dependencies>
+        </dependencies>
     </dependencyManagement>
 
     <dependencies>
@@ -88,18 +90,37 @@
             <groupId>org.wildfly</groupId>
             <artifactId>wildfly-security-api</artifactId>
         </dependency>
-
         <dependency>
-            <groupId>org.picketbox</groupId>
-            <artifactId>picketbox-commons</artifactId>
+            <groupId>org.wildfly.core</groupId>
+            <artifactId>wildfly-core-security-api</artifactId>
         </dependency>
 
-        <!-- Include the ejb client jars -->
+
+        <!-- Import the CDI API, we use provided scope as the API is included in JBoss WildFly -->
         <dependency>
-            <groupId>org.wildfly</groupId>
-            <artifactId>wildfly-ejb-client-bom</artifactId>
-            <type>pom</type>
-            <scope>compile</scope>
+            <groupId>javax.enterprise</groupId>
+            <artifactId>cdi-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Import the Common Annotations API (JSR-250), we use provided scope
+            as the API is included in JBoss WildFly -->
+        <dependency>
+            <groupId>org.jboss.spec.javax.annotation</groupId>
+            <artifactId>jboss-annotations-api_1.2_spec</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Import the Servlet API, we use provided scope as the API is included in JBoss WildFly -->
+        <dependency>
+            <groupId>org.jboss.spec.javax.servlet</groupId>
+            <artifactId>jboss-servlet-api_3.1_spec</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.spec.javax.ejb</groupId>
+            <artifactId>jboss-ejb-api_3.2_spec</artifactId>
         </dependency>
 
         <dependency>
@@ -107,25 +128,49 @@
             <artifactId>jboss-ejb3-ext-api</artifactId>
         </dependency>
 
+          <!-- JBoss EJB client API jar. We use runtime scope because the EJB client
+              API isn't directly used in this example. We just need it in our runtime classpath -->
+        <dependency>
+            <groupId>org.jboss</groupId>
+            <artifactId>jboss-ejb-client</artifactId>
+        </dependency>
+
+          <!-- client communications with the server use XNIO -->
+        <dependency>
+            <groupId>org.jboss.xnio</groupId>
+            <artifactId>xnio-api</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.xnio</groupId>
+            <artifactId>xnio-nio</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+          <!-- data serialization for invoking remote EJBs -->
+        <dependency>
+            <groupId>org.jboss.marshalling</groupId>
+            <artifactId>jboss-marshalling-river</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+       <!-- Import the transaction spec API, we use runtime scope because we aren't using any direct
+        reference to the spec API in our client code -->
+      <dependency>
+         <groupId>org.jboss.spec.javax.transaction</groupId>
+         <artifactId>jboss-transaction-api_1.2_spec</artifactId>
+         <scope>runtime</scope>
+      </dependency>
+
     </dependencies>
 
     <build>
-          <!-- Set the name of the jar, used as the context root when the app is
+          <!-- Set the name of the war, used as the context root when the app is
               deployed -->
         <finalName>${project.artifactId}</finalName>
         <plugins>
-
-    <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-ejb-plugin</artifactId>
-          <version>2.3</version>
-          <configuration>
-            <!-- http://maven.apache.org/plugins/maven-ejb-plugin/ -->
-            <ejbVersion>3.1</ejbVersion>
-            <generateClient>true</generateClient>
-          </configuration>
-        </plugin>
-                <!-- Add the maven exec plug-in to allow us to run a java program via maven -->
+                <!-- Add the maven exec plugin to allow us to run a java program via maven -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
@@ -151,15 +196,23 @@
                 </configuration>
             </plugin>
 
-                <!-- WildFly plug-in to deploy ejb -->
+            <!-- WildFly plugin to deploy war -->
             <plugin>
                 <groupId>org.wildfly.plugins</groupId>
                 <artifactId>wildfly-maven-plugin</artifactId>
                 <version>${version.wildfly.maven.plugin}</version>
+            </plugin>
+            <!-- Compiler plugin enforces Java 1.6 compatibility and activates
+                annotation processors -->
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${version.compiler.plugin}</version>
                 <configuration>
-                   <filename>${project.build.finalName}.jar</filename>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
                 </configuration>
             </plugin>
         </plugins>
     </build>
+
 </project>

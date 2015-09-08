@@ -27,7 +27,7 @@
         <version>9.0.0-SNAPSHOT</version>
     </parent>
 
-    <name>WildFly Quickstart: SingletonService (service)</name>
+    <name>WildFly Quickstarts: SingletonService (service)</name>
     <packaging>ejb</packaging>
 
     <licenses>
@@ -75,6 +75,15 @@
         <!-- Specify the artifact name -->
         <finalName>${project.artifactId}</finalName>
         <plugins>
+            <!-- Enforce Java 1.7 -->
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${version.compiler.plugin}</version>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.source}</target>
+                </configuration>
+            </plugin>
             <plugin>
                 <!-- must include ejb-plugin to change the EJB version from
                     2.1 to 3.0 -->

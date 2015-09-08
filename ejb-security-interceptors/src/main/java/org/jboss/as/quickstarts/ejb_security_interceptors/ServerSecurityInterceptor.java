@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -23,6 +23,7 @@ import java.util.Map;
 import javax.ejb.EJBAccessException;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
+import javax.resource.spi.IllegalStateException;
 
 import org.jboss.as.core.security.api.UserPrincipal;
 import org.jboss.as.security.api.ContextStateCache;
@@ -46,7 +47,6 @@ public class ServerSecurityInterceptor {
 
         Map<String, Object> contextData = invocationContext.getContextData();
         if (contextData.containsKey(DELEGATED_USER_KEY)) {
-
             desiredUser = new SimplePrincipal((String) contextData.get(DELEGATED_USER_KEY));
 
             Collection<Principal> connectionPrincipals = SecurityActions.getConnectionPrincipals();

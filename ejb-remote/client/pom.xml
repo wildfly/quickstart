@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0"?>
 <!--
     JBoss, Home of Professional Open Source
-    Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
+    Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
     contributors by the @authors tag. See the copyright.txt in the
     distribution for a full listing of individual contributors.
 
@@ -15,52 +15,54 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+   <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-    	<groupId>org.wildfly.quickstarts</groupId>
-        <artifactId>wildfly-ejb-remote</artifactId>
-    <version>9.0.0-SNAPSHOT</version>
-    </parent>
-    <artifactId>wildfly-ejb-remote-client</artifactId>
-    <packaging>jar</packaging>
-    <name>WildFly Quickstart: ejb-remote - client</name>
-    <description>WildFly Quickstarts: Java client for remote EJB</description>
-    <url>http://wildfly.org</url>
+   <groupId>org.wildfly.quickstarts</groupId>
+   <artifactId>wildfly-ejb-remote-client</artifactId>
+   <version>9.0.0-SNAPSHOT</version>
+   <packaging>jar</packaging>
+   <name>WildFly Quickstarts: EJB Remote Client</name>
+   <description>WildFly Quickstarts: Java client for remote EJB</description>
 
-    <licenses>
-        <license>
-            <name>Apache License, Version 2.0</name>
-            <distribution>repo</distribution>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
-        </license>
-    </licenses>
+   <url>http://wildfly.org</url>
+   <licenses>
+      <license>
+         <name>Apache License, Version 2.0</name>
+         <distribution>repo</distribution>
+         <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+      </license>
+   </licenses>
 
-    <properties>
-        <!-- Explicitly declaring the source encoding eliminates the following
-            message: -->
-        <!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered
-            resources, i.e. build is platform dependent! -->
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+   <properties>
+      <!-- Explicitly declaring the source encoding eliminates the following
+         message: -->
+      <!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered
+         resources, i.e. build is platform dependent! -->
+      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+       <!-- JBoss dependency versions -->
+
+       <version.wildfly.maven.plugin>1.0.2.Final</version.wildfly.maven.plugin>
 
         <version.wildfly>9.0.0.Final</version.wildfly>
+
+
         <version.jboss.spec.javaee.7.0>1.0.3.Final</version.jboss.spec.javaee.7.0>
 
-        <!-- WildFly Maven plug-in to deploy your WAR to a local WildFly container -->
-        <version.wildfly.maven.plugin>1.0.2.Final</version.wildfly.maven.plugin>
 
+       <!-- other plugin versions -->
+       <version.compiler.plugin>3.1</version.compiler.plugin>
+       <version.exec.plugin>1.2.1</version.exec.plugin>
+       <version.war.plugin>2.5</version.war.plugin>
 
-        <!-- other plug-in versions -->
-        <version.exec.plugin>1.2.1</version.exec.plugin>
-        <version.war.plugin>2.1.1</version.war.plugin>
+       <!-- maven-compiler-plugin -->
+       <maven.compiler.target>1.7</maven.compiler.target>
+       <maven.compiler.source>1.7</maven.compiler.source>
+   </properties>
 
-        <!-- maven-compiler-plugin -->
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <maven.compiler.source>1.8</maven.compiler.source>
-    </properties>
-
-    <dependencyManagement>
+   <dependencyManagement>
       <dependencies>
          <!-- Define the version of JBoss' Java EE 7 APIs we want to use -->
          <!-- JBoss distributes a complete set of Java EE 7 APIs including
@@ -86,26 +88,25 @@
              <scope>import</scope>
          </dependency>
       </dependencies>
+   </dependencyManagement>
 
-    </dependencyManagement>
+   <dependencies>
 
-    <dependencies>
+       <!-- Import the transaction spec API, we use runtime scope because we aren't using any direct
+        reference to the spec API in our client code -->
+      <dependency>
+         <groupId>org.jboss.spec.javax.transaction</groupId>
+         <artifactId>jboss-transaction-api_1.2_spec</artifactId>
+         <scope>runtime</scope>
+      </dependency>
 
-        <!-- Import the transaction spec API, we use runtime scope because
-            we aren't using any direct reference to the spec API in our client code -->
-        <dependency>
-            <groupId>org.jboss.spec.javax.transaction</groupId>
-            <artifactId>jboss-transaction-api_1.2_spec</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-
-        <!-- Import the EJB API, we use runtime scope because we aren't using
-            any direct reference to EJB spec API in our client code -->
-        <dependency>
-            <groupId>org.jboss.spec.javax.ejb</groupId>
-            <artifactId>jboss-ejb-api_3.2_spec</artifactId>
-            <scope>runtime</scope>
-        </dependency>
+      <!-- Import the EJB 3.1 API, we use runtime scope because we aren't using any direct
+       reference to EJB spec API in our client code -->
+      <dependency>
+         <groupId>org.jboss.spec.javax.ejb</groupId>
+         <artifactId>jboss-ejb-api_3.2_spec</artifactId>
+         <scope>runtime</scope>
+      </dependency>
 
        <!-- We depend on the EJB remote business interfaces  of this application -->
        <dependency>
@@ -115,11 +116,45 @@
          <version>${project.version}</version>
        </dependency>
 
-        <!-- Include the ejb client jars -->
+       <!-- JBoss EJB client API jar. We use runtime scope because the EJB client API
+        isn't directly used in this example. We just need it in our runtime classpath -->
+       <dependency>
+           <groupId>org.jboss</groupId>
+           <artifactId>jboss-ejb-client</artifactId>
+           <scope>runtime</scope>
+       </dependency>
+
+       <!-- client communications with the server use XNIO -->
+       <dependency>
+           <groupId>org.jboss.xnio</groupId>
+           <artifactId>xnio-api</artifactId>
+           <scope>runtime</scope>
+       </dependency>
+
+       <dependency>
+           <groupId>org.jboss.xnio</groupId>
+           <artifactId>xnio-nio</artifactId>
+           <scope>runtime</scope>
+       </dependency>
+
+      <!-- The client needs JBoss remoting to access the server -->
+       <dependency>
+            <groupId>org.jboss.remoting</groupId>
+            <artifactId>jboss-remoting</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- Remote EJB accesses can be secured -->
         <dependency>
-            <groupId>org.wildfly</groupId>
-            <artifactId>wildfly-ejb-client-bom</artifactId>
-            <type>pom</type>
+            <groupId>org.jboss.sasl</groupId>
+            <artifactId>jboss-sasl</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- data serialization for invoking remote EJBs -->
+        <dependency>
+            <groupId>org.jboss.marshalling</groupId>
+            <artifactId>jboss-marshalling-river</artifactId>
             <scope>runtime</scope>
         </dependency>
 
@@ -128,9 +163,17 @@
     <build>
         <finalName>${project.artifactId}</finalName>
         <plugins>
+            <!-- Enforce Java 1.6  -->
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${version.compiler.plugin}</version>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                </configuration>
+            </plugin>
 
-            <!-- Add the maven exec plug-in to allow us to run a java program
-                via maven -->
+            <!-- Add the maven exec plugin to allow us to run a java program via maven -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
@@ -146,8 +189,8 @@
                     <executable>java</executable>
                     <workingDirectory>${project.build.directory}/exec-working-directory</workingDirectory>
                     <arguments>
-                        <!-- automatically creates the classpath using all
-                            project dependencies, also adding the project build directory -->
+                        <!-- automatically creates the classpath using all project dependencies,
+                            also adding the project build directory -->
                         <argument>-classpath</argument>
                         <classpath>
                         </classpath>
@@ -170,10 +213,8 @@
                 </configuration>
             </plugin>
 
-            <!-- The WildFly plug-in deploys your apps to a local WildFly
-                container -->
-            <!-- Disabling it here means that we don't try to deploy this
-                POM! -->
+            <!-- The WildFly plugin deploys your apps to a local WildFly container -->
+            <!-- Disabling it here means that we don't try to deploy this POM! -->
             <plugin>
                 <groupId>org.wildfly.plugins</groupId>
                 <artifactId>wildfly-maven-plugin</artifactId>

@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0"?>
 <!--
     JBoss, Home of Professional Open Source
-    Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
+    Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
     contributors by the @authors tag. See the copyright.txt in the
     distribution for a full listing of individual contributors.
 
@@ -15,16 +15,18 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <groupId>org.wildfly.quickstarts</groupId>
     <artifactId>wildfly-logging-tools</artifactId>
     <version>9.0.0-SNAPSHOT</version>
     <packaging>war</packaging>
-    <name>WildFly Quickstart: logging-tools</name>
+    <name>WildFly Quickstarts: wildfly-logging-tools</name>
     <description>WildFly Quickstarts: Demonstration of jboss-logging-tools using JAX-RS</description>
-    <url>http://wildfly.org</url>
 
+    <url>http://wildfly.org</url>
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
@@ -45,21 +47,19 @@
         <!-- Define the version of the JBoss BOMs we want to import to specify tested stacks. -->
         <version.jboss.bom>9.0.0.Final</version.jboss.bom>
 
-        <!-- To run this quickstart in Eclipse, we must turn on JDT APT to activate annotation processing-->
-        <m2e.apt.activation>jdt_apt</m2e.apt.activation>
 
-        <!-- other plug-in versions -->
+        <!-- other plugin versions -->
         <version.compiler.plugin>3.1</version.compiler.plugin>
-        <version.war.plugin>2.1.1</version.war.plugin>
+        <version.war.plugin>2.5</version.war.plugin>
 
         <!-- maven-compiler-plugin -->
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.7</maven.compiler.target>
+        <maven.compiler.source>1.7</maven.compiler.source>
     </properties>
 
     <dependencyManagement>
         <dependencies>
-            <!-- Define the version of the JBoss Java EE APIs we want to import.
+            <!-- Define the version of JBoss' Java EE 7 APIs we want to import.
                 Any dependencies from org.jboss.spec will have their version defined by this
                 BOM -->
             <!-- JBoss distributes a complete set of Java EE 7 APIs including
@@ -84,7 +84,7 @@
         <!-- not related to jboss-logging-tools, just required for JAX-RS  -->
         <dependency>
             <groupId>org.jboss.spec.javax.ws.rs</groupId>
-            <artifactId>jboss-jaxrs-api_2.0_spec</artifactId>
+             <artifactId>jboss-jaxrs-api_2.0_spec</artifactId>
             <scope>provided</scope>
         </dependency>
 
@@ -104,7 +104,7 @@
     </dependencies>
 
     <build>
-        <!-- Set the name of the WAR, used as the context root when the app is deployed -->
+        <!-- Set the name of the war, used as the context root when the app is deployed -->
         <finalName>${project.artifactId}</finalName>
         <plugins>
 
@@ -113,18 +113,20 @@
                 <version>${version.war.plugin}</version>
             </plugin>
 
-            <!-- WildFly plug-in to deploy the WAR -->
+            <!-- WildFly plugin to deploy war -->
             <plugin>
                 <groupId>org.wildfly.plugins</groupId>
                 <artifactId>wildfly-maven-plugin</artifactId>
                 <version>${version.wildfly.maven.plugin}</version>
             </plugin>
 
-            <!-- Compiler plug-in enforces Java 1.6 compatibility and activates annotation processors -->
+            <!-- Compiler plugin enforces Java 1.6 compatibility and activates annotation processors -->
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${version.compiler.plugin}</version>
                 <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
                     <compilerArgument>
                         -AgeneratedTranslationFilesPath=${project.basedir}/target/generated-translation-files
                     </compilerArgument>
@@ -134,3 +136,4 @@
         </plugins>
     </build>
 </project>
+

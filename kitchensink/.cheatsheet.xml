@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
     JBoss, Home of Professional Open Source
-    Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
+    Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
     contributors by the @authors tag. See the copyright.txt in the
     distribution for a full listing of individual contributors.
 
@@ -18,15 +18,15 @@
 <cheatsheet title="CDI + JSF + EJB + JTA + Bean Validation + JAX-RS + Arquillian: Kitchensink quickstart">
   <intro>
     <description>
-This quickstart shows off all the new features of Java EE, and makes a great starting point for your project.
+This quickstart shows off all the new features of Java EE 7, and makes a great starting point for your project.
 <br/><br/>
-<b>Bean Validation</b>
+<b>Bean Validation 1.1</b>
 <br/><br/>
-Bean Validation is a new specification in Java EE, inspired by Hibernate Validator. It allows application developers to specify constraints once (often in their domain model), and have them applied in all layers of the application, protecting data and giving useful feedback to users.
+Bean Validation is an update specification for Java EE 7, inspired by Hibernate Validator. It allows application developers to specify constraints once (often in their domain model), and have them applied in all layers of the application, protecting data and giving useful feedback to users.
 <br/><br/>
 <b>JAX-RS: The Java API for RESTful Web Services</b>
 <br/><br/>
-JAX-RS is a new specification in Java EE. It allows application developers to easily expose Java services as RESTful web services.
+JAX-RS is an update specification for Java EE 7. It allows application developers to easily expose Java services as RESTful web services.
 </description>
 </intro>
   <item
@@ -41,8 +41,8 @@ By now, we're very used to seeing <b>beans.xml</b> and <b>faces-config.xml</b> i
 (which can be found in the <b>src/main/webapp</b> directory of the example).
 Notice that, once again, we don&apos;t need a web.xml.
 There are two configuration files in <b>WEB-INF/classes/META-INF</b>
-(which can be found in the <b>src/main/resources</b> directory of the example) Ñ <b>persistence.xml</b>,
-which sets up JPA, and <b>import.sql</b> which Hibernate, the JPA provider in JBoss EAP,
+(which can be found in the <b>src/main/resources</b> directory of the example) â€” <b>persistence.xml</b>,
+which sets up JPA, and <b>import.sql</b> which Hibernate, the JPA provider in WildFly,
 will use to load the initial users into the application when the application starts.
 We discussed both of these files in detail in The <b>greeter example in depth</b>, and these are largely the same.
     </description>
@@ -67,16 +67,16 @@ We discussed both of these files in detail in The <b>greeter example in depth</b
     <subitem
             label="This application defines a common sidebar, putting them in the template means we only have to define them once."
             skip="true">
-    <command
-      required="false"
-      serialization="org.jboss.tools.project.examples.cheatsheet.openFileInEditor(path=/${currentProject}/src/main/webapp/WEB-INF/templates/default.xhtml,fromLine=37,toLine=52)"/>
+         <command
+               required="false"
+               serialization="org.jboss.tools.project.examples.cheatsheet.openFileInEditor(path=/${currentProject}/src/main/webapp/WEB-INF/templates/default.xhtml,fromLine=37,toLine=46)"/>
     </subitem>
     <subitem
             label="and a common footer... "
             skip="true">
         <command
       required="false"
-      serialization="org.jboss.tools.project.examples.cheatsheet.openFileInEditor(path=/${currentProject}/src/main/webapp/WEB-INF/templates/default.xhtml,fromLine=53,toLine=58)"/>
+      serialization="org.jboss.tools.project.examples.cheatsheet.openFileInEditor(path=/${currentProject}/src/main/webapp/WEB-INF/templates/default.xhtml,fromLine=47,toLine=52)"/>
     </subitem>
     <subitem
             label="The content is inserted here, and defined by views using this template. "
@@ -292,31 +292,31 @@ We discussed both of these files in detail in The <b>greeter example in depth</b
     <subitem
             label="We use the 'resource producer' pattern, from CDI, to 'alias' the old fashioned @PersistenceContext injection of the entity manager to a CDI style injection. This allows us to use a consistent injection style (@Inject) throughout the application. "
             skip="true">
-      <command
+    <command
       required="false"
       serialization="org.jboss.tools.project.examples.cheatsheet.openFileInEditor(path=/${currentProject}/src/main/java/org/jboss/as/quickstarts/kitchensink/util/Resources.java,fromLine=43)"/>
-    </subitem>
-    <subitem
+  </subitem>
+  <subitem
             label="We expose a JDK logger for injection. In order to save a bit more boiler plate, we automatically set the logger category as the class name! "
             skip="true">
-      <command
+    <command
       required="false"
       serialization="org.jboss.tools.project.examples.cheatsheet.openFileInEditor(path=/${currentProject}/src/main/java/org/jboss/as/quickstarts/kitchensink/util/Resources.java,fromLine=47)"/>
-    </subitem>
-    <subitem
+  </subitem>
+  <subitem
             label="We expose the FacesContext via a producer method, which allows it to be injected. If we were adding tests, we could also then mock it out."
             skip="true">
-      <command
+    <command
       required="false"
       serialization="org.jboss.tools.project.examples.cheatsheet.openFileInEditor(path=/${currentProject}/src/main/java/org/jboss/as/quickstarts/kitchensink/util/Resources.java,fromLine=52)"/>
-    </subitem>
+  </subitem>
     <subitem
-            label="If you want to define your own datasource, take a look at the Administration and Configuration Guide for Red Hat JBoss Enterprise Application Platform."
+            label="If you want to define your own datasource, take a look at the Administration Guide for WildFly"
             skip="true">
     <command
            required="false"
-           serialization="org.eclipse.ui.browser.openBrowser(url=https://access.redhat.com/documentation/en-US/JBoss_Enterprise_Application_Platform/)"/>
-    </subitem>
+           serialization="org.eclipse.ui.browser.openBrowser(url=https://docs.jboss.org/author/display/WFLY8/Admin+Guide#AdminGuide-DatasourceDefinitions/)"/>
+  </subitem>
   </item>
 
   <item
@@ -391,7 +391,7 @@ We discussed both of these files in detail in The <b>greeter example in depth</b
        Before we wrap up our tour of the kitchensink example application,
        let&apos;s take a look at how the JAX-RS endpoints are created. Firstly, {<b>JaxRSActivator</b>}},
        which extends <b>Application</b> and is annotated with <b>@ApplicationPath</b>,
-       is the Java EE <b>no XML</b> approach to activating JAX-RS.
+       is the Java EE 6 <b>no XML</b> approach to activating JAX-RS.
     </description>
     <subitem
             label="JaxRsActivator.java"
@@ -452,7 +452,7 @@ We discussed both of these files in detail in The <b>greeter example in depth</b
       serialization="org.jboss.tools.project.examples.cheatsheet.openFileInEditor(path=/${currentProject}/src/main/java/org/jboss/as/quickstarts/kitchensink/rest/MemberResourceRESTService.java,fromLine=65)"/>
   </subitem>
   <subitem
-            label="The listAllMembers() method is called when the raw endpoint is accessed and offers up a list of endpoints. Notice that the object is automatically marshalled to JSON by RESTEasy (the JAX-RS implementation included in Red Hat JBoss Enterprise Application Platform)."
+            label="The listAllMembers() method is called when the raw endpoint is accessed and offers up a list of endpoints. Notice that the object is automatically marshalled to JSON by RESTEasy (the JAX-RS implementation included in WildFly)."
             skip="true">
     <command
       required="false"
@@ -518,7 +518,7 @@ We discussed both of these files in detail in The <b>greeter example in depth</b
        you&apos;re probably getting a bit nervous by now, wondering how on earth you are going to test your application.
        Lucky for you, the Arquillian project is here to help!
     <br/><br/>
-    Arquillian provides all the boiler plate for running your test inside Red Hat JBoss Enterprise Application Platform,
+    Arquillian provides all the boiler plate for running your test inside WildFly,
     allowing you to concentrate on testing your application.
     In order to do that, it utilizes Shrinkwrap, a fluent API for defining packaging,
     to create an archive to deploy.
@@ -538,7 +538,7 @@ We discussed both of these files in detail in The <b>greeter example in depth</b
       The following action starts the test in the <b>remote</b> mode because you have started the server in the previous step.
     <br/>
         Right-click the project, select <b>Properties&gt;Maven</b> and
-        enter <b>arq-wildfly-remote</b> to the <b>Active Maven Profile</b> field.
+        enter <b>arq-jbossas-remote</b> to the <b>Active Maven Profile</b> field.
         After that, right-click the project and select <b>Run As&gt;JUnit test</b>.
     </description>
     <!-- the launchJUnitTest command is not implemented yey
@@ -632,7 +632,7 @@ We discussed both of these files in detail in The <b>greeter example in depth</b
     First of all, let&apos;s take a look at <b>arquillian.xml</b> in <b>src/test/resources</b>.
     </description>
     <subitem
-            label="Arquillian deploys the test war to JBoss EAP, and doesn't write it to disk. For debugging, it can be very useful to see exactly what is in your war, so Arquillian allows you to export the war when the tests runs "
+            label="Arquillian deploys the test war to WildFly, and doesn't write it to disk. For debugging, it can be very useful to see exactly what is in your war, so Arquillian allows you to export the war when the tests runs "
             skip="true">
     <command
       required="false"
@@ -654,7 +654,7 @@ We discussed both of these files in detail in The <b>greeter example in depth</b
       serialization="org.jboss.tools.project.examples.cheatsheet.openFileInEditor(path=/${currentProject}/pom.xml,fromLine=238,toLine=314)"/>
   </subitem>
   <subitem
-            label="Arquillian decides which container to use depending on your classpath. Here we define the remote JBoss EAP container. "
+            label="Arquillian decides which container to use depending on your classpath. Here we define the remote WildFly container."
             skip="true">
     <command
       required="false"

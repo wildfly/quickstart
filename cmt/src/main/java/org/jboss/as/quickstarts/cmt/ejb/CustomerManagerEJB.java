@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -19,7 +19,6 @@ package org.jboss.as.quickstarts.cmt.ejb;
 import java.rmi.RemoteException;
 import java.util.List;
 
-import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -43,31 +42,16 @@ public class CustomerManagerEJB {
     private EntityManager entityManager;
 
     @Inject
-    private LogMessageManagerEJB logMessageManager;
-
-    @Inject
     private InvoiceManagerEJB invoiceManager;
 
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public void createCustomer(String name) throws RemoteException, JMSException {
-        logMessageManager.logCreateCustomer(name);
+    public void createCustomer(String name) throws RemoteException {
 
         Customer c1 = new Customer();
         c1.setName(name);
         entityManager.persist(c1);
 
         invoiceManager.createInvoice(name);
-
-        // It could be done before all the 'storing' but this is just to show that
-        // the invoice is not delivered when we cause an EJBException
-        // after the fact but before the transaction is committed.
-        if (!nameIsValid(name)) {
-            throw new EJBException("Invalid name: customer names should only contain letters & '-'");
-        }
-    }
-
-    static boolean nameIsValid(String name) {
-        return name.matches("[\\p{L}-]+");
     }
 
     /**

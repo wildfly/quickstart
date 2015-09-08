@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -53,10 +53,8 @@ public class MemberRegistrationTest {
         return ShrinkWrap
             .create(WebArchive.class, "test.war")
             .addClasses(Member.class, MemberService.class, MemberRepository.class, MemberRegistration.class,
-                Resources.class)
-            .addAsResource("META-INF/test-persistence.xml", "META-INF/persistence.xml")
-            .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
-            .addAsWebInfResource("arquillian-ds.xml");
+                Resources.class).addAsResource("META-INF/persistence.xml", "META-INF/persistence.xml")
+            .addAsWebInfResource("arquillian-ds.xml").addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
     }
 
     @Inject

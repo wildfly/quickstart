@@ -1,4 +1,4 @@
-# Batch script to remove the quickstart-domain security domain from the WildFly server
+# Batch script to remove the quickstart-domain security domain from the JBoss server
 
 # Start batching commands
 batch
@@ -63,9 +63,10 @@ batch
 /profile=default-web:remove()
 
 
-# Add the default server groups back to the profile
+# Add default server groups back to the profile
 /server-group=main-server-group:add(profile=full,socket-binding-group=full-sockets)
 /server-group=main-server-group/jvm=default:add()
+
 
 /server-group=other-server-group:add(profile=full-ha,socket-binding-group=full-ha-sockets)
 

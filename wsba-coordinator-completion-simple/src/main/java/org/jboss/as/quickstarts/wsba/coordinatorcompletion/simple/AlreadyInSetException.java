@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -22,10 +22,6 @@ package org.jboss.as.quickstarts.wsba.coordinatorcompletion.simple;
  * @author paul.robinson@redhat.com, 2011-12-21
  */
 public class AlreadyInSetException extends Exception {
-
-    /** Default value included to remove warning. **/
-    private static final long serialVersionUID = 1L;
-
     /**
      * @param message description of what went wrong.
      */

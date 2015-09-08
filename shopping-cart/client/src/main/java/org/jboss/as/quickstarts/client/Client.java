@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -16,7 +16,6 @@
  */
 package org.jboss.as.quickstarts.client;
 
-import java.util.Map;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.logging.Level;
@@ -32,8 +31,8 @@ import org.jboss.as.quickstarts.sfsb.ShoppingCartBean;
 
 public class Client {
 
-    private static final String ACCESSORIES_1 = "Wireless Ergonomic Keyboard and Mouse";
-    private static final String ACCESSORIES_2 = "32 GB USB 2.0 Flash Drive";
+    private static final String SOAP = "JBoss SOA Platform 6";
+    private static final String EAP = "JBoss Enterprise Application Platform 6";
 
     public static void main(String[] args) throws NamingException {
         // avoid INFO output for the client demo
@@ -56,12 +55,12 @@ public class Client {
         /*
          * This is the module name of the deployed EJBs on the server. This is typically the jar name of the EJB deployment,
          * without the .jar suffix, but can be overridden via the ejb-jar.xml. In this example, we have deployed the EJBs in a
-         * jboss-shopping-cart-server.jar, so the module name is jboss-shopping-cart-server
+         * wildfly-shoppingcart-server.jar, so the module name is wildfly-shopping-cart-server
          */
-        final String moduleName = "jboss-shopping-cart-server";
+        final String moduleName = "wildfly-shoppingcart-server";
 
         /*
-         * AS7 allows each deployment to have an (optional) distinct name. We haven't specified a distinct name for our EJB
+         * WildFly allows each deployment to have an (optional) distinct name. We haven't specified a distinct name for our EJB
          * deployment, so this is an empty string
          */
         final String distinctName = "";
@@ -83,16 +82,16 @@ public class Client {
         System.out.println("Obtained the remote interface to the shopping cart");
 
         /* invoke on the remote interface */
-        System.out.println("Buying a \"" + ACCESSORIES_2 + "\"");
-        cart.buy(ACCESSORIES_2, 1);
-        System.out.println("Buying another \"" + ACCESSORIES_2 + "\"");
-        cart.buy(ACCESSORIES_2, 1);
+        System.out.println("Buying a \"" + EAP + "\"");
+        cart.buy(EAP, 1);
+        System.out.println("Buying another \"" + EAP + "\"");
+        cart.buy(EAP, 1);
 
-        System.out.println("Buying a \"" + ACCESSORIES_1 + "\"");
-        cart.buy(ACCESSORIES_1, 1);
+        System.out.println("Buying a \"" + SOAP + "\"");
+        cart.buy(SOAP, 1);
 
         System.out.println("\nPrint cart:");
-        Map<String, Integer> cartContents = cart.getCartContents();
+        HashMap<String, Integer> cartContents = cart.getCartContents();
         for (String product : cartContents.keySet()) {
             System.out.println(cartContents.get(product) + "     " + product);
         }
