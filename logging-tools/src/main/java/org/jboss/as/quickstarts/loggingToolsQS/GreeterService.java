@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -21,6 +21,8 @@ import java.util.Locale;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 
 import org.jboss.as.quickstarts.loggingToolsQS.exceptions.GreeterExceptionBundle;
 import org.jboss.as.quickstarts.loggingToolsQS.loggers.GreeterLogger;
@@ -41,6 +43,7 @@ public class GreeterService {
     // Hello "name"!
     @GET
     @Path("{name}")
+    @Produces(MediaType.TEXT_PLAIN)
     public String getHelloName(@PathParam("name") String name) {
         GreeterLogger.LOGGER.logHelloMessageSent();
         return GreetingMessagesBundle.MESSAGES.helloToYou(name);
@@ -50,6 +53,7 @@ public class GreeterService {
     // Hello "name" in language
     @GET
     @Path("{locale}/{name}")
+    @Produces(MediaType.TEXT_PLAIN)
     public String getHelloNameForLocale(@PathParam("name") String name, @PathParam("locale") String locale) {
         String[] locale_parts = locale.split("-");
         Locale newLocale = null;
@@ -78,6 +82,7 @@ public class GreeterService {
     // the throwing of a localized exception with another exception as the cause.
     @GET
     @Path("crashme")
+    @Produces(MediaType.TEXT_PLAIN)
     public String crashMe() throws Exception {
         int value = 0;
 

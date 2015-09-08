@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!--
     JBoss, Home of Professional Open Source
-    Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+    Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
     contributors by the @authors tag. See the copyright.txt in the
     distribution for a full listing of individual contributors.
 
@@ -15,8 +15,7 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -24,13 +23,11 @@
         <groupId>org.wildfly.quickstarts</groupId>
         <version>9.0.0-SNAPSHOT</version>
     </parent>
-
-    <artifactId>wildfly-kitchensink-ear-ear</artifactId>
+    <artifactId>wildfly-kitchensink-ear-wildfly-kitchensink-ear-ear</artifactId>
     <packaging>ear</packaging>
-
-    <name>WildFly Quickstarts: Kitchensink EAR: EAR Module</name>
-
+    <name>WildFly Quickstart: kitchensink-ear - wildfly-kitchensink-ear-ear</name>
     <url>http://wildfly.org</url>
+
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
@@ -44,18 +41,18 @@
         <!-- Depend on the ejb module and war so that we can package them -->
         <dependency>
             <groupId>org.wildfly.quickstarts</groupId>
-            <artifactId>wildfly-kitchensink-ear-web</artifactId>
+            <artifactId>wildfly-kitchensink-ear-wildfly-kitchensink-ear-web</artifactId>
             <type>war</type>
         </dependency>
         <dependency>
             <groupId>org.wildfly.quickstarts</groupId>
-            <artifactId>wildfly-kitchensink-ear-ejb</artifactId>
+            <artifactId>wildfly-kitchensink-ear-wildfly-kitchensink-ear-ejb</artifactId>
             <type>ejb</type>
         </dependency>
     </dependencies>
 
     <build>
-        <finalName>${project.artifactId}</finalName>
+        <finalName>${project.parent.artifactId}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

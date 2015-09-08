@@ -1,0 +1,336 @@
+/*
+ * JBoss, Home of Professional Open Source
+ * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
+ * contributors by the @authors tag. See the copyright.txt in the
+ * distribution for a full listing of individual contributors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/*------------------------------------------------------------------------------
+     Global Documentation Styles
+------------------------------------------------------------------------------*/
+
+html {
+  height:100%;
+}
+
+body, table {
+  font: 13px helvetica,arial,freesans,clean,sans-serif;
+  line-height: 1.4em;
+  background-color: #fff;
+  color: #393939;
+}
+
+body {
+  height: 100%;
+  width: 95%;
+  position: relative;
+  float: left;
+  z-index: 2;
+}
+
+table {
+  border-collapse: collapse;
+  margin: 0 1em;
+  table-layout: fixed;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+p {
+  margin: 1em 0;
+}
+
+h1 {
+  font-size: 20px;
+  border-bottom: 1px solid #cccccc;
+  padding: .5em 0;
+  margin: 2em 0 1em;
+}
+
+h1:first-child {
+  margin: 0 0 1em;
+}
+
+h2 {
+  font-size: 16px;
+  color: #333;
+  margin: 2em auto 1em;
+}
+
+  body.api .content h2 {
+    background: transparent url(../images/crud-sprite.png) left 2px no-repeat;
+    padding-left: 22px;
+  }
+
+h2 span.step {
+  color: #666;
+}
+
+h3 {
+  font-size: 14px;
+  color: #333;
+  margin: 1.5em 0 .5em;
+}
+
+h5 {
+  font-size: 13px;
+}
+
+h6 {
+  font-size: 13px;
+  color: #666;
+}
+
+a {
+  color: #4183C4;
+  text-decoration: none;
+}
+
+a:hover,
+a:active {
+  text-decoration:underline;
+}
+
+blockquote {
+  margin:0 -5px;
+  padding: 0px 20px;
+}
+
+ul, ol {
+  margin: 0px;
+  padding: 0px;
+  margin-left: 1.5em;
+}
+
+ul {
+  list-style-type: disc;
+}
+
+dl {
+  margin-left: 10px;
+}
+
+dt {
+  font-weight: bold;
+  color: #666;
+}
+
+dd {
+  padding-left: 1em;
+  margin-bottom: 1em;
+}
+
+dd + dd {
+  margin-bottom: 0;
+}
+
+em {
+  font-style: italic;
+}
+
+a img {
+  border: 0px;
+}
+
+img {
+  max-width: 100%;
+  border: 1px solid #dddddd;
+  -webkit-box-shadow: 1px 1px 3px #ddd;
+  -moz-box-shadow: 1px 1px 3px #ddd;
+  box-shadow: 1px 1px 3px #ddd;
+}
+
+td, th {
+  border: solid 1px #ccc;
+  margin: 0px;
+     }
+
+tr:nth-child(even)		{ background-color:#f8f8f8; }
+tr:nth-child(odd)     	{ background-color:#fff; }
+
+p > tt,
+p > code,
+li > code,
+td > code,
+th > code {
+  font: 12px Monaco,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;
+  color: #52595d;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  border: 1px solid #ccc;
+  background-color: #f8f8f8;
+  padding: 0px 3px;
+  display: inline-block;
+}
+
+
+/*------------------------------------------------------------------------------
+     Pre/Code Styles
+------------------------------------------------------------------------------*/
+
+code {white-space: nowrap;}
+
+pre {
+  border: 1px solid #cacaca;
+  line-height: 1.2em;
+  font: 12px Monaco,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;
+  padding: 10px;
+  overflow:auto;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  background-color: #f8f8f8;
+  color: #393939;
+  margin: 0px;
+}
+
+ul + pre {
+  margin-top: 1em;
+}
+
+pre code {white-space: pre;}
+
+pre span.comment {color: #aaa;}
+
+pre.headers {
+  margin-bottom: 0;
+  border-bottom-width: 0;
+  -webkit-border-radius: 3px 3px 0 0;
+  -moz-border-radius: 3px 3px 0 0;
+  border-radius: 3px 3px 0 0;
+  color: #666;
+  background-color: #f1f1f1;
+  background-image: -moz-linear-gradient(top, #f1f1f1, #e1e1e1); 
+  background-image: -ms-linear-gradient(top, #f1f1f1, #e1e1e1); 
+  background-image: -o-linear-gradient(top, #f1f1f1, #e1e1e1); 
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#f1f1f1), to(#e1e1e1)); 
+  background-image: -webkit-linear-gradient(top, #f1f1f1, #e1e1e1); 
+  background-image: linear-gradient(top, #f1f1f1, #e1e1e1);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#f1f1f1', EndColorStr='#e1e1e1');
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+pre.no-response {
+  -webkit-border-radius: 3px 3px;
+  -moz-border-radius: 3px 3px;
+  border-radius: 3px 3px;
+  border-bottom: 1px solid #CACACA;
+}
+
+pre.headers + pre.highlight {
+  -webkit-border-radius: 0 0 3px 3px;
+  -moz-border-radius: 0 0 3px 3px;
+  border-radius: 0 0 3px 3px;
+}
+
+pre.highlight {
+  -webkit-border-radius:3px;
+  -moz-border-radius:3px;
+  border-radius:3px;
+  background-color: #FAFAFB;
+}
+
+pre.terminal {
+  background-color: #444;
+  color: #fff;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  border: 2px solid #DEDEDE;
+  position: relative;
+  padding: 10px;
+  text-shadow: none;
+  background-image: none;
+  filter: none;
+}
+
+pre.terminal em {
+  color: #f9fe64;
+}
+
+span.codeline {
+  display: block;
+  position: relative;
+}
+
+span.codeline:hover {
+  background-color: #292929;
+  margin: 0px;
+  padding-left: 3px;
+  margin-left: -3px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  color: #666666;
+}
+
+span.codeline span {
+  display: inline-block;
+  font-size: 10px;
+  color: #fff;
+  padding: 0 0.3em 0.05em;
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  text-indent: -9999px;
+  background-image: url(../images/qmark.png);
+  background-repeat: no-repeat;
+  background-position: 1px 3px;
+  max-width: 8px;
+  min-width: 8px;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  user-select: none;
+  cursor: default;
+}
+
+span.codeline span:hover {
+  display: inline-block;
+  text-indent: 0px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background: #000;
+  border: 1px solid #292929;
+  max-width: 1000px;
+}
+
+span.codeline:hover em {
+  color: #666666;
+}
+
+pre.bootcamp {
+  white-space: normal;
+  margin-left: -10px;
+  background-image: none;
+}
+
+span.bash-output {
+  color: #63e463;
+  display: block;
+  position: relative;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  user-select: none;
+}
+
+/* end */

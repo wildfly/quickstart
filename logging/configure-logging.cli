@@ -1,0 +1,28 @@
+# Batch script to add and configure logging in the WildFly server
+
+# Start batching commands
+batch
+
+# Add the periodic rotating file handlers corresponding to those added to the logging properties file
+/subsystem=logging/periodic-rotating-file-handler=FILE_QS_TRACE:add(suffix=".yyyy.MM.dd", file={"path"=>"quickstart.trace.log", "relative-to"=>"jboss.server.log.dir"})
+/subsystem=logging/periodic-rotating-file-handler=FILE_QS_DEBUG:add(suffix=".yyyy.MM.dd", file={"path"=>"quickstart.debug.log", "relative-to"=>"jboss.server.log.dir"})
+/subsystem=logging/periodic-rotating-file-handler=FILE_QS_INFO:add(suffix=".yyyy.MM.dd", file={"path"=>"quickstart.info.log", "relative-to"=>"jboss.server.log.dir"})
+/subsystem=logging/periodic-rotating-file-handler=FILE_QS_WARN:add(suffix=".yyyy.MM.dd", file={"path"=>"quickstart.warn.log", "relative-to"=>"jboss.server.log.dir"})
+/subsystem=logging/periodic-rotating-file-handler=FILE_QS_ERROR:add(suffix=".yyyy.MM.dd", file={"path"=>"quickstart.error.log", "relative-to"=>"jboss.server.log.dir"})
+/subsystem=logging/periodic-rotating-file-handler=FILE_QS_FATAL:add(suffix=".yyyy.MM.dd", file={"path"=>"quickstart.fatal.log", "relative-to"=>"jboss.server.log.dir"})
+
+# Configure the logging async handlers
+/subsystem=logging/async-handler=TRACE_QS_ASYNC:add(level=TRACE,queue-length=1024,overflow-action=BLOCK,subhandlers=["FILE_QS_TRACE"]) 
+/subsystem=logging/async-handler=DEBUG_QS_ASYNC:add(level=DEBUG,queue-length=1024,overflow-action=BLOCK,subhandlers=["FILE_QS_DEBUG"]) 
+/subsystem=logging/async-handler=INFO_QS_ASYNC:add(level=INFO,queue-length=1024,overflow-action=BLOCK,subhandlers=["FILE_QS_INFO"]) 
+/subsystem=logging/async-handler=WARN_QS_ASYNC:add(level=WARN,queue-length=1024,overflow-action=BLOCK,subhandlers=["FILE_QS_WARN"]) 
+/subsystem=logging/async-handler=ERROR_QS_ASYNC:add(level=ERROR,queue-length=1024,overflow-action=BLOCK,subhandlers=["FILE_QS_ERROR"]) 
+/subsystem=logging/async-handler=FATAL_QS_ASYNC:add(level=FATAL,queue-length=1024,overflow-action=BLOCK,subhandlers=["FILE_QS_FATAL"]) 
+
+# Create the logger for our quickstart class
+### NOTE: To view different logging levels, change the level below from TRACE to DEBUG, INFO, WARN, ERROR, or FATAL, then access the application.
+/subsystem=logging/logger=org.jboss.as.quickstarts.logging:add(level=TRACE,handlers=[TRACE_QS_ASYNC,DEBUG_QS_ASYNC,INFO_QS_ASYNC,WARN_QS_ASYNC,ERROR_QS_ASYNC,FATAL_QS_ASYNC])
+
+
+# Run the batch commands
+run-batch

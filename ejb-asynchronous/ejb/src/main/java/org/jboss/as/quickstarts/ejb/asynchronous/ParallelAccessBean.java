@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -16,6 +16,7 @@
  */
 package org.jboss.as.quickstarts.ejb.asynchronous;
 
+import java.util.List;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.concurrent.ExecutionException;
@@ -43,7 +44,7 @@ public class ParallelAccessBean implements ParallelAccess {
 
     @Override
     public Collection<String> invokeAsyncParallel() {
-        ArrayList<String> results = new ArrayList<>();
+        List<String> results = new ArrayList<>();
         Future<String> call1 = asyncBean.longerRunning(5000);
         Future<String> call2 = asyncBean.longerRunning(3000);
 

@@ -1,0 +1,20 @@
+# Batch script to remove the custom MyOtherMail mail session configuration
+
+# Start batching commands
+batch
+
+# Remove the custom MyOtherMail mail session
+/subsystem=mail/mail-session=MyOtherMail:remove
+
+# Remove the custom SMTP, POP3, and IMAP socket binding groups
+/socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=my-smtp-binding:remove
+/socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=my-pop3-binding:remove
+/socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=my-imap-binding:remove
+
+# Run the batch commands
+run-batch
+
+# Reload the server configuration
+reload
+
+

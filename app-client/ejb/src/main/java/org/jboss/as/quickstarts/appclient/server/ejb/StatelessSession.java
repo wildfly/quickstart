@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2014, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -23,7 +23,6 @@ import javax.ejb.Remote;
  */
 @Remote
 public interface StatelessSession {
-
     /**
      * Show the provided client context data via INFO logging.
      */
@@ -34,5 +33,4 @@ public interface StatelessSession {
      * @return a greeting string with the jboss.node.name
      */
     public abstract String getGreeting();
-
 }

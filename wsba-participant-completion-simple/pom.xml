@@ -1,7 +1,7 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!--
     JBoss, Home of Professional Open Source
-    Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+    Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
     contributors by the @authors tag. See the copyright.txt in the
     distribution for a full listing of individual contributors.
 
@@ -15,18 +15,16 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <groupId>org.wildfly.quickstarts</groupId>
     <artifactId>wildfly-wsba-participant-completion-simple</artifactId>
     <version>9.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>WildFly Quickstarts: Simple WS-BA with Participant Driven Completion</name>
+    <name>WildFly Quickstart: wsba-participant-completion-simple</name>
     <description>WildFly Quickstarts: Simple WS-BA with Participant Driven Completion</description>
-
     <url>http://wildfly.org</url>
+
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
@@ -48,27 +46,25 @@
         <!-- Define the version of the JBoss BOMs we want to import to specify tested stacks. -->
         <version.jboss.bom>9.0.0.Final</version.jboss.bom>
 
-        <!-- other plugin versions -->
-        <version.compiler.plugin>3.1</version.compiler.plugin>
-        <version.surefire.plugin>2.16</version.surefire.plugin>
-        <version.war.plugin>2.5</version.war.plugin>
+        <!-- other plug-in versions -->
+        <version.surefire.plugin>2.10</version.surefire.plugin>
 
         <!-- maven-compiler-plugin -->
-        <maven.compiler.target>1.7</maven.compiler.target>
-        <maven.compiler.source>1.7</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
     </properties>
 
     <dependencyManagement>
         <dependencies>
-            <!-- Define the version of JBoss' Java EE 7 APIs and Tools we want to import.  -->
+            <!-- Define the version of the JBoss Java EE APIs and Tools we want to import.  -->
 
-            <!-- JBoss distributes a complete set of Java EE 7 APIs including a Bill
+            <!-- JBoss distributes a complete set of Java EE APIs including a Bill
                 of Materials (BOM). A BOM specifies the versions of a "stack" (or a collection)
                 of artifacts. We use this here so that we always get the correct versions
                 of artifacts.-->
 
             <!-- This BOM provides the jboss-javaee-7.0 with tools stack (you can read this as
-                the JBoss stack of the Java EE 7 APIs, with some extras tools for your project, such
+                the JBoss stack of the Java EE APIs, with some extras tools for your project, such
                 as Arquillian for testing) -->
             <dependency>
                 <groupId>org.wildfly.bom</groupId>
@@ -86,12 +82,12 @@
         <dependency>
             <groupId>org.jboss.narayana.xts</groupId>
             <artifactId>jbossxts</artifactId>
-            <scope>provided</scope>
             <classifier>api</classifier>
+            <scope>provided</scope>
         </dependency>
 
         <!-- Import the Common Annotations API (JSR-250), we use provided scope
-            as the API is included in JBoss WildFly -->
+            as the API is included in WildFly -->
         <dependency>
             <groupId>org.jboss.spec.javax.annotation</groupId>
             <artifactId>jboss-annotations-api_1.2_spec</artifactId>
@@ -99,7 +95,7 @@
         </dependency>
 
         <!-- Import the Servlet API, we use provided scope
-            as the API is included in JBoss WildFly -->
+            as the API is included in WildFly -->
         <dependency>
             <groupId>org.jboss.spec.javax.servlet</groupId>
             <artifactId>jboss-servlet-api_3.1_spec</artifactId>
@@ -113,7 +109,7 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- Import the CDI API, we use provided scope as the API is included in JBoss WildFly -->
+        <!-- Import the CDI API, we use provided scope as the API is included in WildFly -->
         <dependency>
             <groupId>javax.enterprise</groupId>
             <artifactId>cdi-api</artifactId>
@@ -146,16 +142,6 @@
                     <skip>true</skip>
                 </configuration>
             </plugin>
-                <!-- Compiler plugin enforces Java 1.6 compatibility and activates
-                    annotation processors -->
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>${version.compiler.plugin}</version>
-                <configuration>
-                    <source>${maven.compiler.source}</source>
-                    <target>${maven.compiler.target}</target>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
 
@@ -163,7 +149,7 @@
         <profile>
             <!-- The default profile skips all tests, though you can tune it
                 to run just unit tests based on a custom pattern -->
-            <!-- Seperate profiles are provided for running all tests, including
+            <!-- Separate profiles are provided for running all tests, including
                 Arquillian tests that execute in the specified container -->
             <id>default</id>
             <activation>
@@ -182,11 +168,8 @@
             </build>
         </profile>
         <profile>
-
-            <!-- An optional Arquillian testing profile that executes tests
-                in your WildFly instance -->
-            <!-- This profile will start a new WildFly instance, and execute the
-                test, shutting it down when done -->
+            <!-- An optional Arquillian testing profile that executes tests in your WildFly instance. -->
+            <!-- This profile will start a new WildFly instance, and execute the test, shutting it down when done. -->
             <!-- Run with: mvn clean test -Parq-wildfly-managed -->
             <id>arq-wildfly-managed</id>
             <dependencies>
@@ -199,8 +182,9 @@
         </profile>
 
         <profile>
+
             <!-- An optional Arquillian testing profile that executes tests
-                in a remote WildFly instance -->
+                 in a remote WildFly instance -->
             <!-- Run with: mvn clean test -Parq-wildfly-remote -->
             <id>arq-wildfly-remote</id>
             <dependencies>
@@ -213,6 +197,4 @@
         </profile>
 
     </profiles>
-
 </project>
-

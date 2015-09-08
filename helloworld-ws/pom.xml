@@ -1,7 +1,7 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!--
     JBoss, Home of Professional Open Source
-    Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+    Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
     contributors by the @authors tag. See the copyright.txt in the
     distribution for a full listing of individual contributors.
 
@@ -15,18 +15,16 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <groupId>org.wildfly.quickstarts</groupId>
     <artifactId>wildfly-helloworld-ws</artifactId>
     <version>9.0.0-SNAPSHOT</version>
     <packaging>war</packaging>
-    <name>WildFly Quickstarts: Hello World JAX-WS Web service</name>
+    <name>WildFly Quickstart: helloworld-ws</name>
     <description>WildFly Quickstarts: Hello World JAX-WS Web service</description>
-
     <url>http://wildfly.org</url>
+
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
@@ -49,15 +47,13 @@
         <!-- Define the version of the JBoss BOMs we want to import to specify tested stacks. -->
         <version.jboss.bom>9.0.0.Final</version.jboss.bom>
 
-
-        <!-- other plugin versions -->
-        <version.war.plugin>2.5</version.war.plugin>
-        <version.compiler.plugin>3.1</version.compiler.plugin>
-        <version.surefire.plugin>2.12.4</version.surefire.plugin>
+        <!-- other plug-in versions -->
+        <version.war.plugin>2.1.1</version.war.plugin>
+        <version.surefire.plugin>2.10</version.surefire.plugin>
 
         <!-- maven-compiler-plugin -->
-        <maven.compiler.target>1.7</maven.compiler.target>
-        <maven.compiler.source>1.7</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
 
         <!-- Remote Server URL -->
         <remote.server.url>http://localhost:8080/</remote.server.url>
@@ -87,7 +83,7 @@
 
     <dependencies>
         <!-- Import the CDI API, we use provided scope as the API is included
-            in JBoss WildFly -->
+            in WildFly -->
         <dependency>
             <groupId>javax.enterprise</groupId>
             <artifactId>cdi-api</artifactId>
@@ -95,7 +91,7 @@
         </dependency>
 
         <!-- Import the Servlet API, we use provided scope as the API is
-            included in JBoss WildFly -->
+            included in WildFly -->
         <dependency>
             <groupId>org.jboss.spec.javax.servlet</groupId>
             <artifactId>jboss-servlet-api_3.1_spec</artifactId>
@@ -103,7 +99,7 @@
         </dependency>
 
         <!-- Import the Common Annotations API (JSR-250), we use provided
-            scope as the API is included in JBoss WildFly -->
+            scope as the API is included in WildFly -->
         <dependency>
             <groupId>org.jboss.spec.javax.annotation</groupId>
             <artifactId>jboss-annotations-api_1.2_spec</artifactId>
@@ -125,7 +121,7 @@
     </dependencies>
 
     <build>
-        <!-- Set the name of the war, used as the context root when the app
+        <!-- Set the name of the WAR, used as the context root when the app
             is deployed -->
         <finalName>${project.artifactId}</finalName>
         <plugins>
@@ -136,21 +132,11 @@
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
             </plugin>
-            <!-- WildFly plugin to deploy war -->
+            <!-- WildFly plug-in to deploy the WAR -->
             <plugin>
                 <groupId>org.wildfly.plugins</groupId>
                 <artifactId>wildfly-maven-plugin</artifactId>
                 <version>${version.wildfly.maven.plugin}</version>
-            </plugin>
-            <!-- Compiler plugin enforces Java 1.6 compatibility and activates
-                annotation processors -->
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>${version.compiler.plugin}</version>
-                <configuration>
-                    <source>${maven.compiler.source}</source>
-                    <target>${maven.compiler.target}</target>
-                </configuration>
             </plugin>
         </plugins>
     </build>
@@ -159,7 +145,7 @@
         <profile>
             <!-- The default profile skips all tests, though you can tune
                 it to run just unit tests based on a custom pattern -->
-            <!-- Seperate profiles are provided for running all tests -->
+            <!-- Separate profiles are provided for running all tests -->
             <id>default</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
@@ -294,6 +280,4 @@
             </build>
         </profile>
     </profiles>
-
 </project>
-

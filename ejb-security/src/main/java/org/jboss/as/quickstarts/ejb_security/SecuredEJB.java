@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -14,31 +14,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.jboss.as.quickstarts.ejb_security;
 
 import java.security.Principal;
 
 import javax.annotation.Resource;
 import javax.annotation.security.RolesAllowed;
-import javax.ejb.Remote;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 
 import org.jboss.ejb3.annotation.SecurityDomain;
 
 /**
- * Simple secured EJB using EJB security annotations.
+ * Simple secured EJB using EJB security annotations
+ *
+ * @author Sherif Makary
+ *
+ */
+/**
  *
  * Annotate this EJB for authorization. Allow only those in the "guest" role. For EJB authorization, you must also specify the
  * security domain. This example uses the "other" security domain which is provided by default in the standalone.xml file.
  *
- * @author Sherif Makary
  */
 @Stateless
 @RolesAllowed({ "guest" })
 @SecurityDomain("other")
-@Remote(SecuredRemote.class)
 public class SecuredEJB {
 
     // Inject the Session Context
@@ -52,6 +53,6 @@ public class SecuredEJB {
         // Session context injected using the resource annotation
         Principal principal = ctx.getCallerPrincipal();
 
-        return principal.getName();
+        return principal.toString();
     }
 }

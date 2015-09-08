@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -65,6 +65,7 @@ public class WSATSimpleServletClient extends HttpServlet {
          * Add client handler chain
          */
         BindingProvider bindingProvider = (BindingProvider) client;
+        @SuppressWarnings("rawtypes")
         List<Handler> handlers = new ArrayList<>(1);
         handlers.add(new JaxWSHeaderContextProcessor());
         bindingProvider.getBinding().setHandlerChain(handlers);
@@ -81,7 +82,7 @@ public class WSATSimpleServletClient extends HttpServlet {
         resp.setContentType("text/html");
         PrintWriter out = resp.getWriter();
 
-        out.write("<h1>Quickstart: This example demonstrates the deployment of a WS-AT (WS-AtomicTransaction) enabled JAX-WS Web service bundled in a war archive for deployment to *JBoss WildFly*.</h1>");
+        out.write("<h1>Quickstart: This example demonstrates the deployment of a WS-AT (WS-AtomicTransaction) enabled JAX-WS Web service bundled in a war archive for deployment to *Red Hat JBoss Enterprise Application Platform*.</h1>");
 
         System.out.println("[CLIENT] Creating a new WS-AT User Transaction");
         UserTransaction ut = UserTransactionFactory.userTransaction();
@@ -94,13 +95,20 @@ public class WSATSimpleServletClient extends HttpServlet {
             System.out.println("[CLIENT] committing Atomic Transaction (This will cause the AT to complete successfully)");
             ut.commit();
 
-            out.write("<p><i>Go to your WildFly console or Server log to see the result of the transaction</i></p>");
+            out.write("<p><b>Transaction succeeded!</b></p>");
 
         } catch (Exception e) {
             e.printStackTrace();
+
+            out.write("<p><b>Transaction failed with the following error:</b></p>");
+            out.write("<p><blockquote>");
+            out.write(e.toString());
+            out.write("</blockquote></p>");
         } finally {
             rollbackIfActive(ut);
             client.reset();
+
+            out.write("<p><i>Go to your WildFly Server console or log to see the detailed result of the transaction.</i></p>");
         }
     }
 

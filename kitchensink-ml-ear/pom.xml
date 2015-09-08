@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!--
     JBoss, Home of Professional Open Source
-    Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+    Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
     contributors by the @authors tag. See the copyright.txt in the
     distribution for a full listing of individual contributors.
 
@@ -15,16 +15,15 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-    <name>WildFly Quickstarts: Localized Kitchensink EAR</name>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.wildfly.quickstarts</groupId>
     <artifactId>wildfly-kitchensink-ml-ear</artifactId>
     <version>9.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
-
+    <name>WildFly Quickstart: kitchensink-ml-ear</name>
     <url>http://wildfly.org</url>
+
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
@@ -32,11 +31,6 @@
             <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
         </license>
     </licenses>
-    <modules>
-        <module>wildfly-kitchensink-ml-ear-ejb</module>
-        <module>wildfly-kitchensink-ml-ear-web</module>
-        <module>wildfly-kitchensink-ml-ear-ear</module>
-    </modules>
 
     <properties>
         <!-- Explicitly declaring the source encoding eliminates the following
@@ -45,26 +39,33 @@
             resources, i.e. build is platform dependent! -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <!-- JBoss dependency versions -->
-
-        <version.wildfly.maven.plugin>1.0.2.Final</version.wildfly.maven.plugin>
-
         <!-- Define the version of the JBoss BOMs we want to import to specify tested stacks. -->
         <version.jboss.bom>9.0.0.Final</version.jboss.bom>
 
         <version.wildfly>9.0.0.Final</version.wildfly>
 
-        <!-- other plugin versions -->
-        <version.compiler.plugin>3.1</version.compiler.plugin>
-        <version.ear.plugin>2.6</version.ear.plugin>
+        <!-- WildFly Maven plug-in to deploy your WAR to a local WildFly container -->
+        <version.wildfly.maven.plugin>1.0.2.Final</version.wildfly.maven.plugin>
+
+        <!-- To run this quickstart in Eclipse, we must turn on JDT APT to activate annotation processing-->
+        <m2e.apt.activation>jdt_apt</m2e.apt.activation>
+
+        <!-- other plug-in versions -->
+        <version.ear.plugin>2.8</version.ear.plugin>
         <version.ejb.plugin>2.3</version.ejb.plugin>
-        <version.surefire.plugin>2.16</version.surefire.plugin>
-        <version.war.plugin>2.5</version.war.plugin>
+        <version.surefire.plugin>2.10</version.surefire.plugin>
+        <version.war.plugin>2.1.1</version.war.plugin>
 
         <!-- maven-compiler-plugin -->
-        <maven.compiler.target>1.7</maven.compiler.target>
-        <maven.compiler.source>1.7</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
     </properties>
+
+    <modules>
+        <module>ejb</module>
+        <module>web</module>
+        <module>ear</module>
+    </modules>
 
     <dependencyManagement>
         <dependencies>
@@ -73,7 +74,7 @@
                 to repeat ourselves in every module -->
             <dependency>
                 <groupId>org.wildfly.quickstarts</groupId>
-                <artifactId>wildfly-kitchensink-ml-ear-ejb</artifactId>
+                <artifactId>wildfly-kitchensink-ml-ear-wildfly-kitchensink-ml-ear-ejb</artifactId>
                 <version>${project.version}</version>
                 <type>ejb</type>
             </dependency>
@@ -82,7 +83,7 @@
                 ourselves in every module -->
             <dependency>
                 <groupId>org.wildfly.quickstarts</groupId>
-                <artifactId>wildfly-kitchensink-ml-ear-web</artifactId>
+                <artifactId>wildfly-kitchensink-ml-ear-wildfly-kitchensink-ml-ear-web</artifactId>
                 <version>${project.version}</version>
                 <type>war</type>
                 <scope>compile</scope>
@@ -111,10 +112,9 @@
         <finalName>${project.artifactId}</finalName>
         <pluginManagement>
             <plugins>
-                <!-- The WildFly plugin deploys your ear to a local JBoss
-                    AS container -->
+                <!-- The WildFly plug-in deploys your ear to a local WildFly container -->
                 <!-- Due to Maven's lack of intelligence with EARs we need
-                    to configure the wildfly maven plugin to skip deployment for all modules.
+                    to configure the WildFly Maven plug-in to skip deployment for all modules.
                     We then enable it specifically in the ear module. -->
                 <plugin>
                     <groupId>org.wildfly.plugins</groupId>
@@ -128,5 +128,4 @@
             </plugins>
         </pluginManagement>
     </build>
-
 </project>

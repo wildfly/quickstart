@@ -1,7 +1,7 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!--
     JBoss, Home of Professional Open Source
-    Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+    Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
     contributors by the @authors tag. See the copyright.txt in the
     distribution for a full listing of individual contributors.
 
@@ -15,8 +15,7 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -24,10 +23,9 @@
         <artifactId>wildfly-shoppingcart-parent</artifactId>
         <version>9.0.0-SNAPSHOT</version>
     </parent>
-
-    <artifactId>wildfly-shoppingcart-client</artifactId>
+    <artifactId>wildfly-shopping-cart-client</artifactId>
     <packaging>jar</packaging>
-    <name>WildFly Quickstarts: Shopping Cart Remote Client</name>
+    <name>WildFly Quickstart: shopping-cart - client</name>
 
     <licenses>
         <license>
@@ -42,7 +40,8 @@
         <!-- We depend on the server side EJBs of this application -->
         <dependency>
             <groupId>org.wildfly.quickstarts</groupId>
-            <artifactId>wildfly-shoppingcart-server</artifactId>
+            <artifactId>wildfly-shopping-cart-server</artifactId>
+            <type>ejb</type>
         </dependency>
 
         <!-- JBoss EJB client stack. We use runtime scope because the EJB
@@ -66,17 +65,7 @@
     <build>
         <finalName>${project.artifactId}</finalName>
         <plugins>
-            <!-- Enforce Java 1.6 -->
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>${version.compiler.plugin}</version>
-                <configuration>
-                    <source>${maven.compiler.source}</source>
-                    <target>${maven.compiler.target}</target>
-                </configuration>
-            </plugin>
-
-            <!-- Add the maven exec plugin to allow us to run a java program
+            <!-- Add the maven exec plug-in to allow us to run a java program
                 via maven -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>

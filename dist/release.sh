@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # JBoss, Home of Professional Open Source
-# Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+# Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
 # contributors by the @authors tag. See the copyright.txt in the
 # distribution for a full listing of individual contributors.
 #
@@ -56,7 +56,7 @@ EOF
 notify_email()
 {
    echo "***** Performing JBoss Quickstarts release notifications"
-   echo "*** Notifying JBoss EAP team"
+   echo "*** Notifying WildFly team"
    subject=`eval echo $EMAIL_SUBJECT`
    echo "Email from: " $EMAIL_FROM
    echo "Email to: " $EMAIL_TO
@@ -67,29 +67,33 @@ notify_email()
 
 release()
 {
+   BRANCH=$(parse_git_branch)
+   git checkout -b $RELEASEVERSION
    echo "Regenerating html from markdown"
    $DIR/release-utils.sh -m
    echo "Releasing WildFly Quickstarts version $RELEASEVERSION"
    $DIR/release-utils.sh -u -o $SNAPSHOTVERSION -n $RELEASEVERSION
+   echo "Removing unnecessary files"
+   git rm --cached -r dist/
+   git rm --cached -r template/
    git commit -a -m "Prepare for $RELEASEVERSION release"
-   git tag -a $RELEASEVERSION -m "Tag $RELEASEVERSION"
-   git branch $RELEASEVERSION tags/$RELEASEVERSION
-   $DIR/release-utils.sh -u -o $RELEASEVERSION -n $NEWSNAPSHOTVERSION
-   git commit -a -m "Prepare for development of $NEWSNAPSHOTVERSION"
-   echo "Building Distribution zip"
-   BRANCH=$(parse_git_branch)
-   git checkout $RELEASEVERSION
+   echo "Creating tag for $RELEASEVERSION"
+   git tag $RELEASEVERSION 
    mvn clean install -f $DIR/pom.xml
+   echo "Your zip file was generated at $DIR/target/wildfly-eap-quickstarts-$RELEASEVERSION-dist.zip"
+   $DIR/release-utils.sh -u -o $RELEASEVERSION -n $NEWSNAPSHOTVERSION
+   echo "Adding unnecessary files again..."
+   git add dist/
+   git add template/
+   git commit -a -m "Prepare for development of $NEWSNAPSHOTVERSION"
    git checkout $BRANCH
-   echo "Uploading distribution to http://download.jboss.org/jbossas/$MAJOR_VERSION.$MINOR_VERSION/wildfly-$RELEASEVERSION/wildfly-quickstarts-$RELEASEVERSION-dist.zip"
-   rsync -Pv --protocol=28 $DIR/target/wildfly-quickstarts-$RELEASEVERSION-dist.zip jbossas@filemgmt.jboss.org:downloads_htdocs/jbossas/$MAJOR_VERSION.$MINOR_VERSION/wildfly-$RELEASEVERSION/
    read -p "Do you want to send release notifcations to $EAP_EMAIL_TO[y/N]?" yn
    case $yn in
        [Yy]* ) notify_email;;
-       * ) exit;
    esac
    echo "Don't forget to push the tag and the branch"
-   echo "   git push --tags upstream refs/heads/$RELEASEVERSION"
+   #echo "   git push --tags upstream refs/heads/$RELEASEVERSION master"
+   echo "   git push --tags upstream $BRANCH"
 }
 
 parse_git_branch() {

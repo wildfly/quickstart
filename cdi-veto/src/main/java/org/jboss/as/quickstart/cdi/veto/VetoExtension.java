@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -34,7 +34,7 @@ public class VetoExtension implements Extension {
      * CDI observer method, listens to the {@link ProcessAnnotatedType} event to apply a veto to all JPA entities.
      * @param pat Payload of the bootstrap event.
      */
-    public void vetoEnties(@Observes ProcessAnnotatedType pat) {
+    public <T> void vetoEnties(@Observes ProcessAnnotatedType<T> pat) {
         // Look to see if the AnnotatedType also contains the JPA Entity annotation
         if (pat.getAnnotatedType().getAnnotation(Entity.class) != null) {
             // Veto the JPA entity to avoid developers injecting entities without allowing JPA to

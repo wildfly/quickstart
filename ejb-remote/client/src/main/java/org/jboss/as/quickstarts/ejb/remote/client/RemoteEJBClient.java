@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -22,10 +22,11 @@ import org.jboss.as.quickstarts.ejb.remote.stateless.RemoteCalculator;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+
 import java.util.Hashtable;
 
 /**
- * A sample program which acts a remote client for a EJB deployed on WildFly server. This program shows how to lookup stateful and
+ * A sample program which acts a remote client for a EJB deployed on AS7 server. This program shows how to lookup stateful and
  * stateless beans via JNDI and then invoke on them
  *
  * @author Jaikiran Pai
@@ -105,7 +106,7 @@ public class RemoteEJBClient {
      * @throws NamingException
      */
     private static RemoteCalculator lookupRemoteStatelessCalculator() throws NamingException {
-        final Hashtable jndiProperties = new Hashtable();
+        final Hashtable<String, String> jndiProperties = new Hashtable<>();
         jndiProperties.put(Context.URL_PKG_PREFIXES, "org.jboss.ejb.client.naming");
         final Context context = new InitialContext(jndiProperties);
 
@@ -139,7 +140,7 @@ public class RemoteEJBClient {
      * @throws NamingException
      */
     private static RemoteCounter lookupRemoteStatefulCounter() throws NamingException {
-        final Hashtable jndiProperties = new Hashtable();
+        final Hashtable<String, String> jndiProperties = new Hashtable<>();
         jndiProperties.put(Context.URL_PKG_PREFIXES, "org.jboss.ejb.client.naming");
         final Context context = new InitialContext(jndiProperties);
 

@@ -1,0 +1,87 @@
+<definitions
+    name='ProfileMgmtService'
+    targetNamespace='http://org.jboss.ws/samples/retail/profile'
+    xmlns='http://schemas.xmlsoap.org/wsdl/'
+    xmlns:ns1='http://org.jboss.ws/samples/retail'
+    xmlns:soap='http://schemas.xmlsoap.org/wsdl/soap/'
+    xmlns:tns='http://org.jboss.ws/samples/retail/profile'
+    xmlns:xsd='http://www.w3.org/2001/XMLSchema'>
+ 
+   <types>
+ 
+      <xs:schema targetNamespace='http://org.jboss.ws/samples/retail'
+                 version='1.0' xmlns:xs='http://www.w3.org/2001/XMLSchema'>
+         <xs:complexType name='customer'>
+            <xs:sequence>
+               <xs:element minOccurs='0' name='creditCardDetails' type='xs:string'/>
+               <xs:element minOccurs='0' name='firstName' type='xs:string'/>
+               <xs:element minOccurs='0' name='lastName' type='xs:string'/>
+            </xs:sequence>
+         </xs:complexType>
+      </xs:schema>
+ 
+      <xs:schema
+          targetNamespace='http://org.jboss.ws/samples/retail/profile'
+          version='1.0'
+          xmlns:ns1='http://org.jboss.ws/samples/retail'
+          xmlns:tns='http://org.jboss.ws/samples/retail/profile'
+          xmlns:xs='http://www.w3.org/2001/XMLSchema'>
+ 
+         <xs:import namespace='http://org.jboss.ws/samples/retail'/>
+         <xs:element name='getCustomerDiscount'
+                     nillable='true' type='tns:discountRequest'/>
+         <xs:element name='getCustomerDiscountResponse'
+                     nillable='true' type='tns:discountResponse'/>
+         <xs:complexType name='discountRequest'>
+            <xs:sequence>
+               <xs:element minOccurs='0' name='customer' type='ns1:customer'/>
+ 
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name='discountResponse'>
+            <xs:sequence>
+               <xs:element minOccurs='0' name='customer' type='ns1:customer'/>
+               <xs:element name='discount' type='xs:double'/>
+            </xs:sequence>
+         </xs:complexType>
+      </xs:schema>
+ 
+   </types>
+ 
+   <message name='ProfileMgmt_getCustomerDiscount'>
+      <part element='tns:getCustomerDiscount' name='getCustomerDiscount'/>
+   </message>
+   <message name='ProfileMgmt_getCustomerDiscountResponse'>
+      <part element='tns:getCustomerDiscountResponse'
+            name='getCustomerDiscountResponse'/>
+   </message>
+   <portType name='ProfileMgmt'>
+      <operation name='getCustomerDiscount'
+                 parameterOrder='getCustomerDiscount'>
+ 
+         <input message='tns:ProfileMgmt_getCustomerDiscount'/>
+         <output message='tns:ProfileMgmt_getCustomerDiscountResponse'/>
+      </operation>
+   </portType>
+   <binding name='ProfileMgmtBinding' type='tns:ProfileMgmt'>
+      <soap:binding style='document'
+                    transport='http://schemas.xmlsoap.org/soap/http'/>
+      <operation name='getCustomerDiscount'>
+         <soap:operation soapAction=''/>
+         <input>
+ 
+            <soap:body use='literal'/>
+         </input>
+         <output>
+            <soap:body use='literal'/>
+         </output>
+      </operation>
+   </binding>
+   <service name='ProfileMgmtService'>
+      <port binding='tns:ProfileMgmtBinding' name='ProfileMgmtPort'>
+ 
+         <soap:address
+             location='SERVER:PORT/jboss-jaxws-retail/ProfileMgmtBean'/>
+      </port>
+   </service>
+</definitions>	

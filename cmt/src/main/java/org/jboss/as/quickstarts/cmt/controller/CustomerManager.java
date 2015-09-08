@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -50,6 +50,10 @@ public class CustomerManager {
             customerManager.createCustomer(name);
             return "customerAdded";
         } catch (Exception e) {
+            if (e.getMessage().contains("Invalid name")) {
+                logger.warning("Invalid name: " + e.getMessage());
+                return "customerInvalidName";
+            }
             logger.warning("Caught a duplicate: " + e.getMessage());
             // Transaction will be marked rollback only anyway utx.rollback();
             return "customerDuplicate";

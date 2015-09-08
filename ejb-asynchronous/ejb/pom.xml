@@ -1,7 +1,7 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!--
     JBoss, Home of Professional Open Source
-    Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+    Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
     contributors by the @authors tag. See the copyright.txt in the
     distribution for a full listing of individual contributors.
 
@@ -15,20 +15,18 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
-    <artifactId>wildfly-ejb-asynchronous-ejb</artifactId>
-    <name>WildFly Quickstarts: Asynchronous method invocations (EJB Jar)</name>
-    <description>wildfly-ejb-asynchronous: The application jar with an asynchronous EJB and a second EJB to demonstrate how an EJB can be used asynchronous</description>
-    <packaging>ejb</packaging>
 
     <parent>
         <groupId>org.wildfly.quickstarts</groupId>
         <artifactId>wildfly-ejb-asynchronous</artifactId>
         <version>9.0.0-SNAPSHOT</version>
     </parent>
+    <artifactId>wildfly-ejb-asynchronous-ejb</artifactId>
+    <packaging>ejb</packaging>
+    <name>WildFly Quickstart: ejb-asynchronous - ejb</name>
+    <description>wildfly-ejb-asynchronous: The application jar with an asynchronous EJB and a second EJB to demonstrate how an EJB can be used asynchronous</description>
 
     <licenses>
         <license>
@@ -39,6 +37,7 @@
     </licenses>
 
     <dependencies>
+        <!-- Import the EJB API, we use provided scope as the API is included in WildFly -->
         <dependency>
             <groupId>org.jboss.spec.javax.ejb</groupId>
             <artifactId>jboss-ejb-api_3.2_spec</artifactId>
@@ -64,7 +63,7 @@
                 </configuration>
             </plugin>
 
-            <!-- WildFly plugin to deploy jar -->
+            <!-- WildFly plug-in to deploy jar -->
             <plugin>
                 <groupId>org.wildfly.plugins</groupId>
                 <artifactId>wildfly-maven-plugin</artifactId>

@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -86,7 +86,7 @@ public class DOM4JXMLParser extends XMLParser {
             throw new RuntimeException("Wrong element: " + root.getQName());
         }
 
-        Iterator children = root.elementIterator();
+        Iterator<?> children = root.elementIterator();
         while (children.hasNext()) {
             Node n = (Node) children.next();
             String childName = n.getName();
@@ -105,7 +105,7 @@ public class DOM4JXMLParser extends XMLParser {
 
     private Book parseBook(Element n) {
         Book b = new Book();
-        Iterator children = n.elementIterator();
+        Iterator<?> children = n.elementIterator();
         /*
          * parse book element, we have to once more iterate over children.
          */

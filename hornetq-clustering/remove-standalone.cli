@@ -1,0 +1,12 @@
+## Batch file to configure the standalone server for the hornetq-clustering quickstart.
+
+# -- Enable clustering, and set a cluster password
+/subsystem=messaging/hornetq-server=default:write-attribute(name=cluster-password, value=password)
+
+# -- Remove the CONSOLE logging handler
+/subsystem=logging/root-logger=ROOT:remove-handler(name="CONSOLE")
+/subsystem=logging/console-handler=CONSOLE:remove
+
+# Reload the server
+:reload
+

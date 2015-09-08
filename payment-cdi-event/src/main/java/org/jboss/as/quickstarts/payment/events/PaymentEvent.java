@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -16,11 +16,10 @@
  */
 package org.jboss.as.quickstarts.payment.events;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class PaymentEvent implements Serializable {
+public class PaymentEvent {
 
     private PaymentTypeEnum type; // credit or debit
     private BigDecimal amount;
