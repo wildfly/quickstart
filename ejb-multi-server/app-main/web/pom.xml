@@ -1,7 +1,7 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!--
     JBoss, Home of Professional Open Source
-    Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+    Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
     contributors by the @authors tag. See the copyright.txt in the
     distribution for a full listing of individual contributors.
 
@@ -15,14 +15,19 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
         <groupId>org.wildfly.quickstarts</groupId>
         <artifactId>wildfly-ejb-multi-server-app-main</artifactId>
         <version>9.0.0-SNAPSHOT</version>
     </parent>
+    <artifactId>wildfly-ejb-multi-server-app-main-web</artifactId>
+    <packaging>war</packaging>
+    <name>WildFly Quickstart: web</name>
+    <url>http://www.wildfly.org</url>
+
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
@@ -30,12 +35,6 @@
             <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
         </license>
     </licenses>
-
-    <artifactId>wildfly-ejb-multi-server-app-main-web</artifactId>
-
-    <name>WildFly Quickstarts: ejb-multi-server - app-main - web</name>
-    <url>http://maven.apache.org</url>
-    <packaging>war</packaging>
 
     <dependencies>
         <dependency>
@@ -87,14 +86,14 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
-                <version>${version.dependency.plugin}</version>
+                <version>${dependency.plugin.version}</version>
                 <executions>
                     <execution>
                         <goals>
                             <goal>copy</goal>
                         </goals>
                         <configuration>
-            <!-- Configure the plugin to copy the jar containing javax.annotation.* to a folder named "endorsed" within the
+            <!-- Configure the plug-in to copy the jar containing javax.annotation.* to a folder named "endorsed" within the
               project's build directory -->
                             <artifactItems>
                                 <artifactItem>
@@ -111,7 +110,7 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${version.compiler.plugin}</version>
                 <configuration>
-                    <!-- Setup the compiler plugin to use the endorsed directory containing
+                    <!-- Setup the compiler plug-in to use the endorsed directory containing
                          the jar for javax.annotation.* classes. Remember that we setup this folder
                          via the maven-dependency-plugin configuration, above.
                          See JsfController.java for more details.
@@ -122,9 +121,9 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>${version.war.plugin}</version>
+                <version>${war.plugin.version}</version>
                 <configuration>
-        <!-- Java EE 7 doesn't require web.xml, Maven needs to catch up! -->
+        <!-- Java EE doesn't require web.xml, Maven needs to catch up! -->
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                     <archive>
                         <addMavenDescriptor>false</addMavenDescriptor>

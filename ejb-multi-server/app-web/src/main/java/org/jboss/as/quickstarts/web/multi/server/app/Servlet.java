@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -97,7 +97,7 @@ public class Servlet extends HttpServlet {
 
         if (fail) {
             write(response,
-                "<br/><br/><br/><p><b><i>Not all invocations are successful, see JBOSS_HOME/domain/servers/app-web/log/server.log</i></b></p>");
+                "<br/><br/><br/><p><b><i>Not all invocations are successful, see <i>EAP_HOME</i>/domain/servers/app-web/log/server.log</i></b></p>");
         } else {
             write(response, "<br/><br/><br/><p><i>All invocations are successful</i></p>");
         }

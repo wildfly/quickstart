@@ -4,7 +4,7 @@ Author: Jeff Mesnil
 Level: Beginner  
 Technologies: Web Socket  
 Summary: Basic Web Socket |Demonstrates the use of Web Socket server endpoints  
-Target Product: WildFly  
+Target Product: WildFly
 Source: <https://github.com/wildfly/quickstart/>  
 
 What is it?

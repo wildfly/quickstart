@@ -1,41 +1,41 @@
-# change the provided default configuration for the ejb-multi-server quickstart
+# Change the default configuration for the ejb-multi-server quickstart
 
-
-# stop the preconfigured server for the domain
-batch
-# first stop the default servers, block until the server is down
+# Stop the preconfigured server for the domain
+# First stop the default servers and block until the server is down
 /host=master/server-config=server-one:stop(blocking=true)
 /host=master/server-config=server-two:stop(blocking=true)
 
-# remove the default server configuration and server-groups
+# Remove the default server configuration and server-groups
 /host=master/server-config=server-one:remove
 /host=master/server-config=server-two:remove
 /host=master/server-config=server-three:remove
 /server-group=main-server-group:remove
 /server-group=other-server-group:remove
 
+# Configure the domain for the quickstart ejb-multi-server
 
-# ----  configure the domain for the quickstart ejb-multi-server
+# Batch the commands
+batch
 
-# disable the local authentication for applications
+# Disable the local authentication for applications
 /host=master/core-service=management/security-realm=ApplicationRealm/authentication=local:remove
 
 /profile=default/subsystem=ejb3:write-attribute(name=default-missing-method-permissions-deny-access, value=false)
 /profile=ha/subsystem=ejb3:write-attribute(name=default-missing-method-permissions-deny-access, value=false)
 
-#set property for unique Tx node identifier
+# Set the property for unique Tx node identifier
 /profile=default/subsystem=transactions:write-attribute(name=node-identifier,value="${txNodeIdentifier}"
 /profile=ha/subsystem=transactions:write-attribute(name=node-identifier,value="${txNodeIdentifier}"
 /profile=full/subsystem=transactions:write-attribute(name=node-identifier,value="${txNodeIdentifier}"
 
-# Configure the connection from main server to "one" and "two"
-# this is to use the application "one" and "two" located at the remote server
+# Configure the connection from the main server to "one" and "two"
+# This is to use the application "one" and "two" located at the remote server
 #
-# add the socket binding to the full-sockets, used by the app-main server
+# Add the socket binding to the full-sockets, used by the app-main server
 /socket-binding-group=full-sockets/remote-destination-outbound-socket-binding=remote-ejb-1:add(host=localhost, port=8180)
 /socket-binding-group=full-sockets/remote-destination-outbound-socket-binding=remote-ejb-2:add(host=localhost, port=8280)
 
-# add the outbound connections to the remoting subsystem of the full-profile used by app-main server
+# Add the outbound connections to the remoting subsystem of the full-profile used by app-main server
 /profile=full/subsystem=remoting/remote-outbound-connection=remote-ejb-connection-1:add(outbound-socket-binding-ref=remote-ejb-1, protocol=http-remoting, security-realm=ejb-security-realm-1, username=quickuser1)
 /profile=full/subsystem=remoting/remote-outbound-connection=remote-ejb-connection-1/property=SASL_POLICY_NOANONYMOUS:add(value=false)
 /profile=full/subsystem=remoting/remote-outbound-connection=remote-ejb-connection-1/property=SSL_ENABLED:add(value=false)
@@ -43,26 +43,27 @@ batch
 /profile=full/subsystem=remoting/remote-outbound-connection=remote-ejb-connection-2/property=SASL_POLICY_NOANONYMOUS:add(value=false)
 /profile=full/subsystem=remoting/remote-outbound-connection=remote-ejb-connection-2/property=SSL_ENABLED:add(value=false)
 
-# add a pool for SLSB, otherwise the scoped-context EJB invocation will fail b/c can not commit a transaction after executing the SLSB as the bean (with context) is destroyed before !!
+# Add a pool for SLSB, otherwise the scoped-context EJB invocation will fail because it 
+# can not commit a transaction after executing the SLSB as the bean (with context) is destroyed before !!
 /profile=full/subsystem=ejb3:write-attribute(name=default-slsb-instance-pool, value=slsb-strict-max-pool)
 
-# add the security realms with the secret (password base64) values for the server communication
+# Add the security realms with the secret (password base64) values for the server communication
 /host=master/core-service=management/security-realm=ejb-security-realm-1:add()
 /host=master/core-service=management/security-realm=ejb-security-realm-1/server-identity=secret:add(value=cXVpY2sxMjMr)
 /host=master/core-service=management/security-realm=ejb-security-realm-2:add()
 /host=master/core-service=management/security-realm=ejb-security-realm-2/server-identity=secret:add(value=cXVpY2srMTIz)
 
-# adjust the default JVM configuration to minimum
+# Adjust the default JVM configuration to minimum
 /host=master/jvm=default:write-attribute(name=permgen-size, value=64m)
 /host=master/jvm=default:write-attribute(name=max-permgen-size, value=128m)
 
-#add the main-server group and the server which handle the standalone client requests
+# Add the main-server group and the server, which handle the standalone client requests
 /server-group=quickstart-ejb-multi-main-server:add(profile=full,socket-binding-group=full-sockets)
 /server-group=quickstart-ejb-multi-main-server/jvm=default:add()
 /host=master/server-config=app-main:add(auto-start=true, group=quickstart-ejb-multi-main-server)
 /host=master/server-config=app-main/system-property=txNodeIdentifier:add(value=main)
 
-#add the app-server group and the servers for the destination application
+# Add the app-server group and the servers for the destination application
 # app-one will be a clustered application, so use HA and add two servers
 /server-group=quickstart-ejb-multi-appOne-server:add(profile=ha,socket-binding-group=ha-sockets)
 /server-group=quickstart-ejb-multi-appOne-server/jvm=default:add()
@@ -71,7 +72,7 @@ batch
 /host=master/server-config=app-oneB:add(auto-start=true, group=quickstart-ejb-multi-appOne-server, socket-binding-port-offset=700)
 /host=master/server-config=app-oneB/system-property=txNodeIdentifier:add(value=oneB)
 
-# app two is not a clustered application, so use default profile
+# app two is not a clustered application, so use the default profile
 /server-group=quickstart-ejb-multi-appTwo-server:add(profile=default,socket-binding-group=standard-sockets)
 /server-group=quickstart-ejb-multi-appTwo-server/jvm=default:add()
 /host=master/server-config=app-twoA:add(auto-start=true, group=quickstart-ejb-multi-appTwo-server, socket-binding-port-offset=200)
@@ -79,13 +80,13 @@ batch
 /host=master/server-config=app-twoB:add(auto-start=true, group=quickstart-ejb-multi-appTwo-server, socket-binding-port-offset=800)
 /host=master/server-config=app-twoB/system-property=txNodeIdentifier:add(value=twoB)
 
-# add an alias for app2 bean to demonstrate how to avoid direct dependency to destination app name
-/profile=full/subsystem=naming/binding=java\:global\/AliasAppTwo:add(binding-type=lookup, lookup="ejb:wildfly-ejb-multi-server-app-two/ejb//AppTwoBean!org.jboss.as.quickstarts.ejb.multi.server.app.AppTwo")
+# Add an alias for the app2 bean to demonstrate how to avoid direct dependency to destination app name
+/profile=full/subsystem=naming/binding=java\:global\/AliasAppTwo:add(binding-type=lookup, lookup="ejb:jboss-ejb-multi-server-app-two/ejb//AppTwoBean!org.jboss.as.quickstarts.ejb.multi.server.app.AppTwo")
 
 
 # ---  add an additional server and group for web application only
 
-# create a new profile
+# Create a new profile
 
 /profile=default-web:add()
 /profile=default-web/subsystem="logging":add()
@@ -97,9 +98,9 @@ batch
 /profile=default-web/subsystem="logging"/logger="sun.rmi":add(category="sun.rmi",level="WARN")
 /profile=default-web/subsystem="logging"/root-logger="ROOT":add(handlers=["FILE"],level="INFO")
 
-/profile=default-web/subsystem="batch":add(job-repository-type="in-memory")
-/profile=default-web/subsystem="batch"/job-repository="jdbc":add()
-/profile=default-web/subsystem="batch"/thread-pool="batch":add(keepalive-time={"time" => "30","unit" => "SECONDS"},max-threads="10",name="batch")
+/profile=default-web/subsystem="batch-jberet":add(default-job-repository="in-memory", default-thread-pool="batch")
+/profile=default-web/subsystem="batch-jberet"/in-memory-job-repository=in-memory:add()
+/profile=default-web/subsystem="batch-jberet"/thread-pool="batch":add(keepalive-time={"time" => "30","unit" => "SECONDS"},max-threads="10",name="batch")
 
 /profile=default-web/subsystem="bean-validation":add()
 
@@ -192,7 +193,7 @@ batch
 /profile=default-web/subsystem="undertow":add()
 /profile=default-web/subsystem="undertow"/buffer-cache="default":add()
 /profile=default-web/subsystem="undertow"/configuration="filter":add()
-/profile=default-web/subsystem="undertow"/configuration="filter"/response-header="server-header":add(header-name="Server",header-value="WildFly/9")
+/profile=default-web/subsystem="undertow"/configuration="filter"/response-header="server-header":add(header-name="Server",header-value="JBossEAP/7")
 /profile=default-web/subsystem="undertow"/configuration="filter"/response-header="x-powered-by-header":add(header-name="X-Powered-By",header-value="Undertow/1")
 /profile=default-web/subsystem="undertow"/configuration="handler":add()
 /profile=default-web/subsystem="undertow"/configuration="handler"/file="welcome-content":add(path="${jboss.home.dir}/welcome-content")
@@ -214,13 +215,12 @@ batch
 
 /profile=default-web/subsystem="weld":add()
 
-
-
-#set property for unique Tx node identifier
+# Set the property for unique Tx node identifier
 /profile=default-web/subsystem="transactions":write-attribute(name=node-identifier,value="${txNodeIdentifier}"
 
-# add the outbound connections to the remoting subsystem of the profile used by to connect the app servers
-# it might not necesarry to use a different name for 'outbound-socket-binding-ref', it is just to show the different configuration
+# Add the outbound connections to the remoting subsystem of the profile used by to connect the app servers
+# It might not be necessary to use a different name for 'outbound-socket-binding-ref'. 
+# It is just done to show the different configuration
 /profile=default-web/subsystem=remoting/remote-outbound-connection=remote-connection-war-ejb-1:add(outbound-socket-binding-ref=remote-war-1, protocol=http-remoting, security-realm=ejb-security-realm-1, username=quickuser1)
 /profile=default-web/subsystem=remoting/remote-outbound-connection=remote-connection-war-ejb-1/property=SASL_POLICY_NOANONYMOUS:add(value=false)
 /profile=default-web/subsystem=remoting/remote-outbound-connection=remote-connection-war-ejb-1/property=SSL_ENABLED:add(value=false)
@@ -228,31 +228,28 @@ batch
 /profile=default-web/subsystem=remoting/remote-outbound-connection=remote-connection-war-ejb-2/property=SASL_POLICY_NOANONYMOUS:add(value=false)
 /profile=default-web/subsystem=remoting/remote-outbound-connection=remote-connection-war-ejb-2/property=SSL_ENABLED:add(value=false)
 
-
-
 /socket-binding-group=standard-sockets-web:add(default-interface=public)
 /socket-binding-group=standard-sockets-web/socket-binding=http:add(port=8080)
 /socket-binding-group=standard-sockets-web/socket-binding=https:add(port=8443)
 /socket-binding-group=standard-sockets-web/socket-binding=txn-recovery-environment:add(port=4712)
 /socket-binding-group=standard-sockets-web/socket-binding=txn-status-manager:add(port=4713)
 
-# add the socket binding for connection to app-one, app-two
+# Add the socket binding for connection to app-one, app-two
 /socket-binding-group=standard-sockets-web/remote-destination-outbound-socket-binding=remote-war-1:add(host=localhost, port=8180)
 /socket-binding-group=standard-sockets-web/remote-destination-outbound-socket-binding=remote-war-2:add(host=localhost, port=8280)
-
-
 
 /server-group=quickstart-ejb-multi-appWeb-server:add(profile=default-web,socket-binding-group=standard-sockets-web)
 /server-group=quickstart-ejb-multi-appWeb-server/jvm=default:add()
 /host=master/server-config=app-web:add(auto-start=true, group=quickstart-ejb-multi-appWeb-server, socket-binding-port-offset=300)
 /host=master/server-config=app-web/system-property=txNodeIdentifier:add(value=web)
 
+# Run the batch
 run-batch
 
-# without restart, outside the batch, there are different problems
+# Without restart, outside the batch, there are different problems
 :restart-servers
 
-# finally start the configured servers
+# Finally start the configured servers
 /host=master/server-config=app-oneA:start
 /host=master/server-config=app-oneB:start
 /host=master/server-config=app-twoA:start

@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!--
     JBoss, Home of Professional Open Source
-    Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+    Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
     contributors by the @authors tag. See the copyright.txt in the
     distribution for a full listing of individual contributors.
 
@@ -15,18 +15,16 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <groupId>org.jboss.as.kitchensink-jsp</groupId>
     <artifactId>wildfly-kitchensink-jsp</artifactId>
     <version>9.0.0-SNAPSHOT</version>
     <packaging>war</packaging>
-    <name>WildFly Quickstarts: Kitchensink JSP</name>
+    <name>WildFly Quickstart: kitchensink-jsp</name>
     <description>kitchensink-jsp: Kitchensink with JSP front end</description>
-
     <url>http://wildfly.org</url>
+
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
@@ -49,14 +47,16 @@
         <!-- Define the version of the JBoss BOMs we want to import to specify tested stacks. -->
         <version.jboss.bom>9.0.0.Final</version.jboss.bom>
 
-        <!-- other plugin versions -->
-        <version.compiler.plugin>3.1</version.compiler.plugin>
-        <version.surefire.plugin>2.16</version.surefire.plugin>
-        <version.war.plugin>2.5</version.war.plugin>
+        <!-- Other dependency versions -->
+        <version.javax.servlet.jstl>1.2</version.javax.servlet.jstl>
+
+        <!-- other plug-in versions -->
+        <version.surefire.plugin>2.10</version.surefire.plugin>
+        <version.war.plugin>2.1.1</version.war.plugin>
 
         <!-- maven-compiler-plugin -->
-        <maven.compiler.target>1.7</maven.compiler.target>
-        <maven.compiler.source>1.7</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
     </properties>
 
     <dependencyManagement>
@@ -82,9 +82,9 @@
     <dependencies>
 
         <!-- First declare the APIs we depend on and need for compilation.
-            All of them are provided by JBoss WildFly -->
+            All of them are provided by WildFly -->
 
-        <!-- Import the CDI API, we use provided scope as the API is included in JBoss WildFly -->
+        <!-- Import the CDI API, we use provided scope as the API is included in WildFly -->
         <dependency>
             <groupId>javax.enterprise</groupId>
             <artifactId>cdi-api</artifactId>
@@ -92,7 +92,7 @@
         </dependency>
 
         <!-- Import the Common Annotations API (JSR-250), we use provided
-            scope as the API is included in JBoss WildFly -->
+            scope as the API is included in WildFly -->
         <dependency>
             <groupId>org.jboss.spec.javax.annotation</groupId>
             <artifactId>jboss-annotations-api_1.2_spec</artifactId>
@@ -100,28 +100,28 @@
         </dependency>
 
         <!-- Import the Servlet API, we use provided scope as the API is
-            included in JBoss WildFly -->
+            included in WildFly -->
         <dependency>
             <groupId>org.jboss.spec.javax.servlet</groupId>
             <artifactId>jboss-servlet-api_3.1_spec</artifactId>
             <scope>provided</scope>
         </dependency>
 
-        <!-- Import the JAX-RS API, we use provided scope as the API is included in JBoss WildFly -->
+        <!-- Import the JAX-RS API, we use provided scope as the API is included in WildFly -->
         <dependency>
             <groupId>org.jboss.spec.javax.ws.rs</groupId>
-             <artifactId>jboss-jaxrs-api_2.0_spec</artifactId>
+            <artifactId>jboss-jaxrs-api_2.0_spec</artifactId>
             <scope>provided</scope>
         </dependency>
 
-        <!-- Import the JPA API, we use provided scope as the API is included in JBoss WildFly -->
+        <!-- Import the JPA API, we use provided scope as the API is included in WildFly -->
         <dependency>
             <groupId>org.hibernate.javax.persistence</groupId>
             <artifactId>hibernate-jpa-2.1-api</artifactId>
             <scope>provided</scope>
         </dependency>
 
-        <!-- Import the EJB API, we use provided scope as the API is included in JBoss WildFly -->
+        <!-- Import the EJB API, we use provided scope as the API is included in WildFly -->
         <dependency>
             <groupId>org.jboss.spec.javax.ejb</groupId>
             <artifactId>jboss-ejb-api_3.2_spec</artifactId>
@@ -130,14 +130,15 @@
 
         <!-- JSTL 1.2 or + -->
         <dependency>
-            <groupId>org.jboss.spec.javax.servlet.jstl</groupId>
-            <artifactId>jboss-jstl-api_1.2_spec</artifactId>
-            <scope>provided</scope>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+            <version>${version.javax.servlet.jstl}</version>
+            <scope>runtime</scope>
         </dependency>
 
-        <!-- JSR-303 (Bean Validation) Implementation -->
+        <!-- Bean Validation Implementation -->
         <!-- Provides portable constraints such as @Email -->
-        <!-- Hibernate Validator is shipped in JBoss WildFly -->
+        <!-- Hibernate Validator is shipped in WildFly -->
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
@@ -152,7 +153,7 @@
 
         <!-- Now we declare any tools needed -->
 
-        <!-- Annotation processor to generate the JPA 2.0 metamodel classes
+        <!-- Annotation processor to generate the JPA metamodel classes
             for typesafe criteria queries -->
         <dependency>
             <groupId>org.hibernate</groupId>
@@ -186,19 +187,19 @@
 
     <build>
         <!-- Maven will append the version to the finalName (which is the
-            name given to the generated war, and hence the context root) -->
+            name given to the generated WAR, and hence the context root) -->
         <finalName>${project.artifactId}</finalName>
         <plugins>
             <plugin>
                 <artifactId>maven-war-plugin</artifactId>
                 <version>${version.war.plugin}</version>
                 <configuration>
-                    <!-- Java EE 7 doesn't require web.xml, Maven needs to
+                    <!-- Java EE doesn't require web.xml, Maven needs to
                         catch up! -->
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
             </plugin>
-            <!-- The WildFly plugin deploys your war to a local WildFly
+            <!-- The WildFly plug-in deploys the WAR to a local WildFly
                 container -->
             <!-- To use, run: mvn package wildfly:deploy -->
             <plugin>
@@ -213,7 +214,7 @@
         <profile>
             <!-- The default profile skips all tests, though you can tune
                 it to run just unit tests based on a custom pattern -->
-            <!-- Seperate profiles are provided for running all tests, including
+            <!-- Separate profiles are provided for running all tests, including
                 Arquillian tests that execute in the specified container -->
             <id>default</id>
             <activation>
@@ -233,11 +234,10 @@
         </profile>
 
         <profile>
-
             <!-- An optional Arquillian testing profile that executes tests
                 in your WildFly instance -->
-            <!-- This profile will start a new WildFly instance, and execute the
-                test, shutting it down when done -->
+            <!-- This profile will start a new WildFly instance, and execute
+                the test, shutting it down when done -->
             <!-- Run with: mvn clean test -Parq-wildfly-managed -->
             <id>arq-wildfly-managed</id>
             <dependencies>

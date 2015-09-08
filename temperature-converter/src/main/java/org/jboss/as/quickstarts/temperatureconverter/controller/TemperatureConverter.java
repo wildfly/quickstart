@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -66,8 +66,8 @@ public class TemperatureConverter implements Serializable {
         try {
             temperature = temperatureConvertEJB.convert(Temperature.parse(sourceTemperature, defaultScale)).toString();
         } catch (IllegalArgumentException e) {
-            temperature = "0.0 Err";
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.toString()));
+            temperature = "Invalid temperature";
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage()));
         }
     }
 

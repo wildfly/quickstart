@@ -1,0 +1,15 @@
+# Batch script to add the JMS configuration to the WildFly server
+
+# Start batching commands
+batch
+
+# Suppress system exception stacktraces in the server log
+/subsystem=ejb3:write-attribute(name=log-system-exceptions,value=true)
+
+# Run the batch commands
+run-batch
+
+# Reload the server configuration
+:reload
+
+

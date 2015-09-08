@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -59,7 +59,8 @@ public class Client implements RestaurantServiceAT {
          * Add client handler chain
          */
         BindingProvider bindingProvider = (BindingProvider) restaurant;
-        List<Handler> handlers = new ArrayList<Handler>(1);
+        @SuppressWarnings("rawtypes")
+        List<Handler> handlers = new ArrayList<>(1);
         handlers.add(new JaxWSHeaderContextProcessor());
         bindingProvider.getBinding().setHandlerChain(handlers);
     }

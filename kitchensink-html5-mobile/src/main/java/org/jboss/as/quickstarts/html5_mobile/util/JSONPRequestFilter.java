@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -21,14 +21,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.regex.Pattern;
 
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.WriteListener;
+import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -94,10 +87,8 @@ public class JSONPRequestFilter implements Filter {
                 @Override
                 public ServletOutputStream getOutputStream() throws IOException {
                     return new ServletOutputStream() {
-                        @Override
-                        public void write(int b) throws IOException {
-                            byteStream.write(b);
-                        }
+
+                        WriteListener writeListener;
 
                         @Override
                         public boolean isReady() {
@@ -106,7 +97,12 @@ public class JSONPRequestFilter implements Filter {
 
                         @Override
                         public void setWriteListener(WriteListener writeListener) {
+                            this.writeListener = writeListener;
+                        }
 
+                        @Override
+                        public void write(int b) throws IOException {
+                            byteStream.write(b);
                         }
                     };
                 }

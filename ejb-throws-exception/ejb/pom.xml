@@ -1,17 +1,21 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- JBoss, Home of Professional Open Source Copyright 2012, Red Hat, Inc.
-         and/or its affiliates, and individual contributors by the @authors tag. See
-    the copyright.txt in the distribution for a full listing of individual contributors.
-    Licensed under the Apache License, Version 2.0 (the "License"); you may not
-    use this file except in compliance with the License. You may obtain a copy
-    of the License at http://www.apache.org/licenses/LICENSE-2.0 Unless required
-    by applicable law or agreed to in writing, software distributed under the
-    License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS
-    OF ANY KIND, either express or implied. See the License for the specific
-    language governing permissions and limitations under the License. -->
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+    JBoss, Home of Professional Open Source
+    Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
+    contributors by the @authors tag. See the copyright.txt in the
+    distribution for a full listing of individual contributors.
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -19,13 +23,11 @@
         <groupId>org.wildfly.quickstarts</groupId>
         <version>9.0.0-SNAPSHOT</version>
     </parent>
-
     <artifactId>wildfly-ejb-throws-exception-ejb</artifactId>
     <packaging>ejb</packaging>
-
-    <name>WildFly Quickstarts: EJB throws exception (EJB module)</name>
-
+    <name>WildFly Quickstart: ejb-throws-exception - ejb</name>
     <url>http://wildfly.org</url>
+
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
@@ -40,7 +42,7 @@
             of them are provided by JBoss WildFly -->
 
         <!-- Import the EJB API, we use provided scope as the API is included
-            in JBoss WildFly -->
+            in WildFly -->
         <dependency>
             <groupId>org.jboss.spec.javax.ejb</groupId>
             <artifactId>jboss-ejb-api_3.2_spec</artifactId>
@@ -48,7 +50,7 @@
         </dependency>
 
         <!-- Import the CDI API, we use provided scope as the API is included
-            in JBoss WildFly -->
+            in WildFly -->
         <dependency>
             <groupId>javax.enterprise</groupId>
             <artifactId>cdi-api</artifactId>
@@ -56,16 +58,16 @@
         </dependency>
 
         <!-- Import the JPA API, we use provided scope as the API is included
-            in JBoss WildFly -->
+            in WildFly -->
         <dependency>
             <groupId>org.hibernate.javax.persistence</groupId>
             <artifactId>hibernate-jpa-2.1-api</artifactId>
             <scope>provided</scope>
         </dependency>
 
-        <!-- JSR-303 (Bean Validation) Implementation -->
+        <!-- Bean Validation Implementation -->
         <!-- Provides portable constraints such as @Email -->
-        <!-- Hibernate Validator is shipped in JBoss WildFly -->
+        <!-- Hibernate Validator is shipped in WildFly -->
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
@@ -87,7 +89,7 @@
                 <artifactId>maven-ejb-plugin</artifactId>
                 <version>${version.ejb.plugin}</version>
                 <configuration>
-                    <!-- Tell Maven we are using EJB 3.1 -->
+                    <!-- Tell Maven we are using EJB -->
                     <ejbVersion>${version.ejb}</ejbVersion>
                 </configuration>
             </plugin>

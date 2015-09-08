@@ -4,7 +4,7 @@ Author: Darran Lofthouse
 Level: Advanced  
 Technologies: EJB, Security  
 Summary: Demonstrates how interceptors can be used to supply additional information to be used for authentication before EJB calls.  
-Target Project: WildFly
+Target Product: WildFly
 Source: <https://github.com/wildfly/quickstart/>  
 
 What is it?

@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -18,7 +18,7 @@ package org.jboss.as.quickstarts.wsba.participantcompletion.simple;
 
 import com.arjuna.mw.wst11.UserBusinessActivity;
 import com.arjuna.mw.wst11.UserBusinessActivityFactory;
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.as.quickstarts.wsba.participantcompletion.simple.jaxws.SetServiceBA;
@@ -35,7 +35,7 @@ import javax.inject.Inject;
 public class ClientTest {
 
     private static final String ManifestMF = "Manifest-Version: 1.0\n"
-        + "Dependencies: org.jboss.xts,org.jboss.jts\n";
+        + "Dependencies: org.jboss.xts\n";
 
     @Inject
     @ClientStub

@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -49,8 +49,8 @@ public class Client {
      */
     public static void main(String[] args) throws Exception {
         // suppress output of client messages
-        Logger.getLogger("org.jboss").setLevel(Level.FINEST);
-        Logger.getLogger("org.xnio").setLevel(Level.FINEST);
+        Logger.getLogger("org.jboss").setLevel(Level.OFF);
+        Logger.getLogger("org.xnio").setLevel(Level.OFF);
 
         Properties p = new Properties();
         p.put("remote.connectionprovider.create.options.org.xnio.Options.SSL_ENABLED", "false");

@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -17,6 +17,7 @@
 package org.jboss.as.quickstarts.wsba.participantcompletion.simple;
 
 import com.arjuna.mw.wst11.client.JaxWSHeaderContextProcessor;
+
 import org.jboss.as.quickstarts.wsba.participantcompletion.simple.jaxws.SetServiceBA;
 
 import javax.xml.namespace.QName;
@@ -57,6 +58,7 @@ public class Client implements SetServiceBA {
          * Add client handler chain so that XTS can add the transaction context to the SOAP messages.
          */
         BindingProvider bindingProvider = (BindingProvider) set;
+        @SuppressWarnings("rawtypes")
         List<Handler> handlers = new ArrayList<>(1);
         handlers.add(new JaxWSHeaderContextProcessor());
         bindingProvider.getBinding().setHandlerChain(handlers);

@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -32,10 +32,9 @@ import org.jboss.logging.Logger;
 
 /**
  * <p>
- * An example how to use the new features 'scoped client' introduced with
- * EJBCLIENT-34 in AS7.2.0 or EAP6.1.<br/>
- * If this feature is used the outbound-connection of the remoting subsystem
- * will not be used and the behavior is different.
+ * An example how to use the new features 'scoped context' introduced with EJBCLIENT-34 in AS7.2.0 or EAP6.1.<br/>
+ * If a server without that feature is used the outbound-connection will be used
+ * and the behavior is different.
  * </p>
  * <p>
  * The functionality will be the same as MainAppBean provide, the interface
@@ -203,7 +202,7 @@ public class MainAppSContextBean implements MainApp {
             // this context will not use the server configured
             // 'outbound-connection' and also did not use the
             // jboss-ejb-client.xml.
-            final AppOne bean = (AppOne) appOneScopedEjbContext.lookup("wildfly-ejb-multi-server-app-one/ejb//AppOneBean!" + AppOne.class.getName());
+            final AppOne bean = (AppOne) appOneScopedEjbContext.lookup("jboss-ejb-multi-server-app-one/ejb//AppOneBean!" + AppOne.class.getName());
 
             StringBuilder result = new StringBuilder("{");
             for (int i = 0; i < 8; i++) {

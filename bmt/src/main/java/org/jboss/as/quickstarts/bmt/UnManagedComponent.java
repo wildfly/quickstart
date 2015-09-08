@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -23,21 +23,21 @@ import javax.persistence.PersistenceUnit;
 import javax.transaction.RollbackException;
 import javax.transaction.Status;
 import javax.transaction.UserTransaction;
+
 import java.util.List;
 
 /**
- *  A class for updating a database table within a JTA transaction. Since the class is only a simple CDI bean the
- *  developer is responsible for both controlling the life cycle of the Entity Manager and for transaction demarcation.
+ * A class for updating a database table within a JTA transaction. Since the class is only a simple CDI bean the developer is
+ * responsible for both controlling the life cycle of the Entity Manager and for transaction demarcation.
  *
  * @author Mike Musgrove
  */
 public class UnManagedComponent {
     /*
-     * Inject an entity manager factory. The reason we do not inject an entity manager (as we do in ManagedComponent)
-     * is that the factory is thread safe whereas the entity manager is not.
+     * Inject an entity manager factory. The reason we do not inject an entity manager (as we do in ManagedComponent) is that
+     * the factory is thread safe whereas the entity manager is not.
      *
-     * Specify a persistence unit name (perhaps the application may want to interact with multiple
-     * databases).
+     * Specify a persistence unit name (perhaps the application may want to interact with multiple databases).
      */
     @PersistenceUnit(unitName = "primary")
     private EntityManagerFactory entityManagerFactory;
@@ -55,10 +55,10 @@ public class UnManagedComponent {
             userTransaction.begin();
 
             /*
-             * Since the Entity Manager (EM) is not managed by the container the developer must explicitly tell the EM
-             * to join the transaction. Compare this with ManagedComponent where the container automatically
-             * enlists the EM with the transaction. The persistence context managed by the EM will then be scoped
-             * to the JTA transaction which means that all entities will be detached when the transaction commits.
+             * Since the Entity Manager (EM) is not managed by the container the developer must explicitly tell the EM to join
+             * the transaction. Compare this with ManagedComponent where the container automatically enlists the EM with the
+             * transaction. The persistence context managed by the EM will then be scoped to the JTA transaction which means
+             * that all entities will be detached when the transaction commits.
              */
             entityManager.joinTransaction();
 
@@ -66,8 +66,8 @@ public class UnManagedComponent {
             String result = updateKeyValueDatabase(entityManager, key, value);
 
             /*
-             * Note that the default scope of entities managed by the EM is transaction. Thus once the transaction
-             * commits the entity will be detached from the EM. See also the comment in the finally block below.
+             * Note that the default scope of entities managed by the EM is transaction. Thus once the transaction commits the
+             * entity will be detached from the EM. See also the comment in the finally block below.
              */
             userTransaction.commit();
 
@@ -80,20 +80,20 @@ public class UnManagedComponent {
             return t != null ? t.getMessage() : e.getMessage();
         } catch (Exception e) {
             /*
-             * An application cannot handle any of the other exceptions raised by begin and commit so we just
-             * catch the generic exception. The meaning of the other exceptions is:
+             * An application cannot handle any of the other exceptions raised by begin and commit so we just catch the generic
+             * exception. The meaning of the other exceptions is:
              *
-             * NotSupportedException - the thread is already associated with a transaction
-             * HeuristicRollbackException - should not happen since the example is interacting with a single database
-             * HeuristicMixedException -  should not happen since the example is interacting with a single database
-             * SystemException - the TM raised an unexpected error. There is no standard way of handling this error
-             *  (another reason why CMT are preferable to managing them ourselves)
+             * NotSupportedException - the thread is already associated with a transaction HeuristicRollbackException - should
+             * not happen since the example is interacting with a single database HeuristicMixedException - should not happen
+             * since the example is interacting with a single database SystemException - the TM raised an unexpected error.
+             * There is no standard way of handling this error (another reason why CMT are preferable to managing them
+             * ourselves)
              */
             return e.getMessage();
         } finally {
             /*
-             * Since the EM is transaction scoped it will not detach its objects even when calling close on it
-             * until the transaction completes. Therefore we must roll back any active transaction before returning.
+             * Since the EM is transaction scoped it will not detach its objects even when calling close on it until the
+             * transaction completes. Therefore we must roll back any active transaction before returning.
              */
             try {
                 if (userTransaction.getStatus() == Status.STATUS_ACTIVE)
@@ -119,6 +119,7 @@ public class UnManagedComponent {
 
         if (key == null || key.length() == 0) {
             // list all key value pairs
+            @SuppressWarnings("unchecked")
             final List<KVPair> list = entityManager.createQuery("select k from KVPair k").getResultList();
 
             for (KVPair kvPair : list)

@@ -5,7 +5,7 @@ Level: Beginner
 Technologies: JSF, CDI, Deltaspike  
 Summary: Demonstrate usage of DeltaSpike project stage and shows usage of a conditional @Exclude  
 Prerequisites: 
-Target Product: WFK  
+Target Product: WildFly
 Source: <https://github.com/jboss-jdf/jboss-as-quickstart/>  
 
 What is it?
@@ -64,12 +64,12 @@ _NOTE: The following build command assumes you have configured your Maven user s
 3. Type this command to build and deploy the archive:
 
         mvn clean package wildfly:deploy
-4. This will deploy `target/jboss-as-deltaspike-projectstage.war` to the running instance of the server.
+4. This will deploy `target/wildfly-as-deltaspike-projectstage.war` to the running instance of the server.
 
 Access the application
 ---------------------
 
-Access the running application in a browser at the following URL:  <http://localhost:8080/jboss-as-deltaspike-projectstage>
+Access the running application in a browser at the following URL:  <http://localhost:8080/wildfly-deltaspike-projectstage>
 
 You be presented with a simple page that shows the current project stage: *Staging*. You will se also the *List of available CDI instances for MyBean* table with two available implementations.
 
@@ -77,7 +77,7 @@ Edit the file `src/main/resources/META-INF/apache-deltaspike.properties` and cha
 
         mvn clean package wildfly:deploy
 
-Access the application again at the same URL:  <http://localhost:8080/jboss-as-deltaspike-projectstage>
+Access the application again at the same URL:  <http://localhost:8080/wildfly-deltaspike-projectstage>
 
 Look at *List of available CDI instances for MyBean* table and realize that the available implementations has changed.
         

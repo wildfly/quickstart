@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!--
     JBoss, Home of Professional Open Source
-    Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+    Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
     contributors by the @authors tag. See the copyright.txt in the
     distribution for a full listing of individual contributors.
 
@@ -23,8 +23,7 @@
     <artifactId>wildfly-bean-validation</artifactId>
     <version>9.0.0-SNAPSHOT</version>
     <packaging>war</packaging>
-
-    <name>WildFly Quickstarts: Bean Validation</name>
+    <name>WildFly Quickstart: bean-validation</name>
     <description>An Arquillian Bean Validation test example</description>
     <licenses>
         <license>
@@ -41,11 +40,6 @@
             resources, i.e. build is platform dependent! -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <!-- Timestamp format for the maven.build.timestamp property -->
-        <!-- You can reference property in pom.xml or filtered resources (must
-            enable third-party plugin if using Maven < 2.1) -->
-        <maven.build.timestamp.format>yyyyMMdd'T'HHmmss</maven.build.timestamp.format>
-
         <!-- JBoss dependency versions -->
 
         <version.wildfly.maven.plugin>1.0.2.Final</version.wildfly.maven.plugin>
@@ -53,15 +47,13 @@
         <!-- Define the version of the JBoss BOMs we want to import to specify tested stacks. -->
         <version.jboss.bom>9.0.0.Final</version.jboss.bom>
 
-
-        <!-- other plugin versions -->
+        <!-- other plug-in versions -->
         <version.surefire.plugin>2.10</version.surefire.plugin>
-        <version.war.plugin>2.5</version.war.plugin>
-        <version.compiler.plugin>3.1</version.compiler.plugin>
+        <version.war.plugin>2.1.1</version.war.plugin>
 
         <!-- maven-compiler-plugin -->
-        <maven.compiler.target>1.7</maven.compiler.target>
-        <maven.compiler.source>1.7</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
     </properties>
 
     <dependencyManagement>
@@ -87,21 +79,21 @@
         <!-- First declare the APIs we depend on and need for compilation.
             All of them are provided by JBoss WildFly -->
 
-        <!-- Import the CDI API, we use provided scope as the API is included in JBoss WildFly -->
+        <!-- Import the CDI API, we use provided scope as the API is included in JBoss AS 7 -->
         <dependency>
             <groupId>javax.enterprise</groupId>
             <artifactId>cdi-api</artifactId>
             <scope>provided</scope>
         </dependency>
 
-        <!-- Import the JPA API, we use provided scope as the API is included in JBoss WildFly -->
+        <!-- Import the JPA API, we use provided scope as the API is included in JBoss AS 7 -->
         <dependency>
             <groupId>org.hibernate.javax.persistence</groupId>
             <artifactId>hibernate-jpa-2.1-api</artifactId>
             <scope>provided</scope>
         </dependency>
 
-        <!-- JSR-303 (Bean Validation) Implementation -->
+        <!-- Bean Validation Implementation -->
         <!-- Provides portable constraints such as @Email -->
         <!-- Hibernate Validator is shipped in JBoss WildFly -->
         <dependency>
@@ -118,7 +110,7 @@
 
         <!-- Now we declare any tools needed -->
 
-        <!-- Annotation processor to generate the JPA 2.0 metamodel classes
+        <!-- Annotation processor to generate the JPA metamodel classes
             for typesafe criteria queries -->
         <dependency>
             <groupId>org.hibernate</groupId>
@@ -152,20 +144,19 @@
 
     <build>
         <!-- Maven will append the version to the finalName (which is the name
-            given to the generated war, and hence the context root) -->
+            given to the generated WAR, and hence the context root) -->
         <finalName>${project.artifactId}</finalName>
 
-        <!-- Define plugin versions required for Deployment and Testing Tools -->
+        <!-- Define plug-in versions required for Deployment and Testing Tools -->
         <pluginManagement>
             <plugins>
-                <!-- The Maven Surefire plugin tests your application. Here we ensure we are using a version compatible with Arquillian -->
+                <!-- The Maven Surefire plug-in tests your application. Here we ensure we are using a version compatible with Arquillian -->
                 <plugin>
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>${version.surefire.plugin}</version>
                 </plugin>
-                <!-- The WildFly plugin deploys your war to a local WildFly container -->
-                <!-- To use, set the JBOSS_HOME environment variable and run:
-                    mvn package wildfly:deploy -->
+                <!-- The WildFly plug-in deploys the WAR to a local WildFly container -->
+                <!-- To use, run: mvn package wildfly:deploy -->
                 <plugin>
                     <groupId>org.wildfly.plugins</groupId>
                     <artifactId>wildfly-maven-plugin</artifactId>
@@ -179,17 +170,8 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <version>${version.war.plugin}</version>
                 <configuration>
-                    <!-- Java EE 7 doesn't require web.xml, Maven needs to catch up! -->
+                    <!-- Java EE doesn't require web.xml, Maven needs to catch up! -->
                     <failOnMissingWebXml>false</failOnMissingWebXml>
-                </configuration>
-            </plugin>
-            <!-- Compiler plugin enforces Java 1.6 compatibility and activates annotation processors -->
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>${version.compiler.plugin}</version>
-                <configuration>
-                    <source>${maven.compiler.source}</source>
-                    <target>${maven.compiler.target}</target>
                 </configuration>
             </plugin>
         </plugins>
@@ -199,7 +181,7 @@
         <profile>
             <!-- The default profile skips all tests, though you can tune it
                 to run just unit tests based on a custom pattern -->
-            <!-- Seperate profiles are provided for running all tests, including
+            <!-- Separate profiles are provided for running all tests, including
                 Arquillian tests that execute in the specified container -->
             <id>default</id>
             <activation>
@@ -213,10 +195,8 @@
                             <skip>true</skip>
                         </configuration>
                     </plugin>
-                    <!-- The WildFly plugin deploys your war to a local JBoss
-                        AS container -->
-                    <!-- To use, set the JBOSS_HOME environment variable and run:
-                        mvn package wildfly:deploy -->
+                    <!-- The WildFly plug-in deploys the WAR to a local WildFly container -->
+                    <!-- To use,  run: mvn package wildfly:deploy -->
                     <plugin>
                         <groupId>org.wildfly.plugins</groupId>
                         <artifactId>wildfly-maven-plugin</artifactId>
