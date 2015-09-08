@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -19,9 +19,11 @@ package org.jboss.as.quickstarts.wsat.simple;
 import com.arjuna.mw.wst11.UserTransaction;
 import com.arjuna.mw.wst11.UserTransactionFactory;
 
+import com.arjuna.mw.wst11.client.JaxWSHeaderContextProcessor;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.as.quickstarts.wsat.simple.jaxws.RestaurantServiceAT;
+import org.jboss.as.quickstarts.wsat.simple.jaxws.RestaurantServiceATService;
 import org.jboss.shrinkwrap.api.ArchivePaths;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
@@ -32,6 +34,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import javax.inject.Inject;
+import javax.xml.ws.BindingProvider;
+import javax.xml.ws.WebServiceRef;
+import javax.xml.ws.handler.Handler;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Simple set of tests for the RestaurantServiceAT
@@ -42,7 +49,7 @@ import javax.inject.Inject;
 public class ClientTest {
 
     private static final String ManifestMF = "Manifest-Version: 1.0\n"
-        + "Dependencies: org.jboss.xts,org.jboss.modules,org.jboss.msc\n";
+        + "Dependencies: org.jboss.xts,org.jboss.modules,org.jboss.msc,org.jboss.jts\n";
 
     @Inject
     @ClientStub

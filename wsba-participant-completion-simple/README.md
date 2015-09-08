@@ -1,16 +1,16 @@
-wsba-participant-completion-simple: Deployment of a WS-BA enabled JAX-WS Web Service
-====================================================================================
+wsba-participant-completion-simple: Deployment of a WS-BA (WS Business Activity) - Participant Completion
+=========================================================================================================
 Author: Paul Robinson  
 Level: Intermediate  
 Technologies: WS-BA, JAX-WS  
-Summary: The `wsba-participant-completion-simple` quickstart deploys a WS-BA (WS Business Activity) enabled JAX-WS Web service WAR (ParticipantCompletion Protocol).  
-Target Product: WildFly
+Summary: Deployment of a WS-BA (WS-BusinessActivity) enabled JAX-WS Web service bundled in a war archive (Coordinator Completion protocol)  
+Target Project: WildFly
 Source: <https://github.com/wildfly/quickstart/>  
 
 What is it?
 -----------
 
-The `wsba-participant-completion-simple` quickstart demonstrates the deployment of a WS-BA (WS Business Activity) enabled JAX-WS Web service bundled in a WAR archive (ParticipantCompletion Protocol) for deployment to Red Hat JBoss Enterprise Application Platform.
+This example demonstrates the deployment of a WS-BA (WS Business Activity) enabled JAX-WS Web service bundled in a war archive for deployment to *JBoss WildFly*.
 
 The Web service exposes a simple 'set' collection as a service. The Service allows items to be added to the set within a Business Activity.
 
@@ -25,7 +25,7 @@ For a more complete example, please see the XTS demonstrator application that sh
 It is also assumed tht you have an understanding of WS-BusinessActivity. For more details, read the XTS documentation
 that ships with the JBossTS project, which can be downloaded here: http://www.jboss.org/jbosstm/downloads/JBOSSTS_4_16_0_Final
 
-The application consists of a single JAX-WS web service that is deployed within a WAR archive. It is tested with a JBoss
+The application consists of a single JAX-WS web service that is deployed within a war archive. It is tested with a JBoss
 Arquillian enabled JUnit test.
 
 When running the org.jboss.as.quickstarts.wsba.participantcompletion.simple.ClientTest#testSuccess() method, the
@@ -51,15 +51,21 @@ There are other tests that show:
 System requirements
 -------------------
 
-The application this project produces is designed to be run on Red Hat JBoss Enterprise Application Platform 7 or later. 
+All you need to build this project is Java 7.0 (Java SDK 1.7) or better, Maven 3.1 or better.
 
-All you need to build this project is Java 8.0 (Java SDK 1.8) or later and Maven 3.1.1 or later. See [Configure Maven for WildFly 7](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
+The application this project produces is designed to be run on JBoss WildFly.
+
+ 
+Configure Maven
+---------------
+
+If you have not yet done so, you must [Configure Maven](../README.md#mavenconfiguration) before testing the quickstarts.
 
 
-Start the WildFly Server
+Start JBoss WildFly with the Custom Options
 ----------------------
 
-Next you need to start WildFly with the XTS subsystem enabled. This is enabled through the optional server configuration *standalone-xts.xml*. To do this, run the following commands from the top-level directory of WildFly:
+Next you need to start JBoss WildFly, with the XTS sub system enabled. This is enabled through the optional server configuration *standalone-xts.xml*. To do this, run the following commands from the top-level directory of JBossAS:
 
         For Linux:     ./bin/standalone.sh --server-config=../../docs/examples/configs/standalone-xts.xml | egrep "started|stdout"
         For Windows:   \bin\standalone.bat --server-config=..\..\docs\examples\configs\standalone-xts.xml | egrep "started|stdout"
@@ -73,32 +79,19 @@ Run the Arquillian Tests
 
 This quickstart provides Arquillian tests. By default, these tests are configured to be skipped as Arquillian tests require the use of a container. 
 
-1. Make sure you have started the WildFly server as described above.
-2. Open a command prompt and navigate to the root directory of this quickstart.
+_NOTE: The following commands assume you have configured your Maven user settings. If you have not, you must include Maven setting arguments on the command line. See [Run the Arquillian Tests](../README.md#arquilliantests) for complete instructions and additional options._
+
+1. Make sure you have started the JBoss Server as described above.
+2. Open a command line and navigate to the root directory of this quickstart.
 3. Type the following command to run the test goal with the following profile activated:
 
-        mvn clean test -Parq-wildfly-remote 
-
-4. You should see the following result.
-
-        Results :
-
-        Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
-
-_Note: You see the following warning when you run the Arquillian tests in remote mode._
-
-      WARNING: Configuration contain properties not supported by the backing object org.jboss.as.arquillian.container.remote.RemoteContainerConfiguration
-      Unused property entries: {serverConfig=../../docs/examples/configs/standalone-xts.xml}
-      Supported property names: [managementAddress, password, managementPort, managementProtocol, username]
-
-_This is because, in remote mode, you are responsible for starting the server with the XTS subsystem enabled. When you run the Arquillian tests in managed mode, the container uses the `serverConfig` property defined in the `arquillian.xml` file to start the server with the XTS subsystem enabled._
+        mvn clean test -Parq-wildfly-remote
 
 
-Investigate the Server Log
+Investigate the Console Output
 ----------------------------
 
-The following messages should appear in the server log. Note there may be other log messages interlaced between these. The messages trace the steps taken by the tests.
-
+The following expected output should appear. The output explains what actually went on when these tests ran.
 
 Test success:
 
@@ -133,32 +126,15 @@ Test cancel:
 
 
 
-Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+Run the Quickstart in JBoss Developer Studio or Eclipse
 -------------------------------------
-You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a WildFly server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_JBDS.md#use-jboss-developer-studio-or-eclipse-to-run-the-quickstarts) 
-
-This quickstart is more complex than the others. It requires that you configure the WildFly server to use the *standalone-xts.xml* configuration file, which is located in an external configuration directory.
-
-1. Import the quickstart into JBoss Developer Studio. 
-2. If you have not already done so, you must configure a new WildFly server to use the XTS configuration.
-   * In the `Server` tab, right-click and choose `New` --> `Server`.
-   * For the `Server name`, enter "WildFly XTS Configuration" and click `Next`.
-   * In the `Create a new Server Adapter` dialog, choose `Create a new runtime (next page)` and click `Next`.
-   * In the `JBoss Runtime` dialog, enter the following information and then click `Finish`.
-   
-            Name: WildFly XTS Runtime
-            Home Directory: (Browse to the server directory and select it)
-            Execution Environment: (Choose your runtime JRE if not correct)
-            Configuration base directory: (This should already point to your server configuration directory)
-            Configuration file: ../../docs/examples/configs/standalone-xts.xml
-3. Start the new `WildFly XTS Configuration` server. 
-4. Right-click on the `jboss-wsba-participant-completion-simple` project, choose `Run As` --> `Maven build`, enter "clean test -Parq-wildfly-remote" for the `Goals:`, and click `Run` to run the Arquillian tests. The test results appear in the console.
+You can also start the server and deploy the quickstarts from Eclipse using JBoss tools. For more information, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](../README.md#useeclipse) 
 
 
 Debug the Application
 ------------------------------------
 
-If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
+If you want to debug the source code or look at the Javadocs of any library in the project, run either of the following commands to pull them into your local repository. The IDE should then detect them.
 
         mvn dependency:sources
-
+        mvn dependency:resolve -Dclassifier=javadoc

@@ -1,20 +1,20 @@
-ejb-security:  Using Java EE Declarative Security to Control Access
+ejb-security:  Using Java EE Declarative Security to Control Access to EJB 3
 ====================
 Author: Sherif F. Makary  
 Level: Intermediate  
 Technologies: EJB, Security  
-Summary: The `ejb-security` quickstart demonstrates the use of Java EE declarative security to control access to Servlets and EJBs in WildFly.  
-Target Product: WildFly
+Summary: Shows how to use Java EE Declarative Security to Control Access to EJB 3  
+Target Project: WildFly
 Source: <https://github.com/wildfly/quickstart/>  
 
 What is it?
 -----------
 
-The `ejb-security` quickstart demonstrates the use of Java EE declarative security to control access to Servlets and EJBs in Red Hat JBoss Enterprise Application Platform.
+This example demonstrates the use of Java EE declarative security to control access to Servlets and EJBs in *WildFly*.
 
 This quickstart takes the following steps to implement EJB security:
 
-1. Define the security domain. This can be done either in the `security` subsytem of the `standalone.xml` configuration file or in the `WEB-INF/jboss-web.xml` configuration file. This quickstart uses the `other` security domain, which is provided by default in the `standalone.xml` file.
+1. Define the security domain. This can be done either in the `security` subsytem of the `standalone.xml` configuration file or in the `WEB-INF/jboss-web.xml` configuration file. This quickstart uses the `other` security domain which is provided by default in the `standalone.xml` file:
 
         <security-domain name="other" cache-type="default">
             <authentication>
@@ -38,61 +38,51 @@ This quickstart takes the following steps to implement EJB security:
 System requirements
 -------------------
 
-The application this project produces is designed to be run on Red Hat JBoss Enterprise Application Platform 7 or later. 
+All you need to build this project is Java 7.0 (Java SDK 1.7) or better, Maven 3.1 or better.
 
-All you need to build this project is Java 8.0 (Java SDK 1.8) or later and Maven 3.1.1 or later. See [Configure Maven for WildFly 7](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
+The application this project produces is designed to be run on JBoss WildFly.
 
 
-Use of WILDFLY_HOME
+Configure Maven
 ---------------
 
-In the following instructions, replace `WILDFLY_HOME` with the actual path to your WildFly installation. The installation path is described in detail here: [Use of WILDFLY_HOME and JBOSS_HOME Variables](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_WILDFLY_HOME.md#use-of-eap_home-and-jboss_home-variables).
+If you have not yet done so, you must [Configure Maven](../README.md#mavenconfiguration) before testing the quickstarts.
 
 
 Add the Application Users
 ---------------
 
-Using the add-user utility script, you must add the following users to the `ApplicationRealm`:
+This quickstart uses a secured management interface and requires that you create an application user to access the running application. Instructions to set up an Application user can be found here:  [Add an Application User](../README.md#addapplicationuser)
 
-| **UserName** | **Realm** | **Password** | **Roles** |
-|:-----------|:-----------|:-----------|:-----------|
-| quickstartUser| ApplicationRealm | quickstartPwd1!| guest |
-| user1 | ApplicationRealm | password1! | app-user |
+For this quickstart it is recommended you create a user called `quickstartUser` with a password of `quickstartPwd1!` and ensure they are granted the role `guest`.
 
-The first application user has access rights to the application. The second application user is not authorized to access the application.
+After you add the default `quickstartUser`, use the same steps to add a second application user who is not in the `guest` role and therefore is not authorized to access the application. 
 
-To add the application users, open a command prompt and type the following commands:
-
-        For Linux:        
-          WILDFLY_HOME/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'guest'
-          WILDFLY_HOME/bin/add-user.sh -a -u 'user1' -p 'password1!' -g 'app-user'
-
-        For Windows: 
-          WILDFLY_HOME\bin\add-user.bat  -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'guest'
-          WILDFLY_HOME\bin\add-user.bat -a -u 'user1' -p 'password1!' -g 'app-user'
-
-If you prefer, you can use the add-user utility interactively. 
-For an example of how to use the add-user utility, see the instructions located here: [Add an Application User](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CREATE_USERS.md#add-an-application-user).
+        Username: user1
+        Password: password1!
+        Roles:    app-user
 
 
-Start the WildFly Server
+Start JBoss WildFly with the Web Profile
 -------------------------
 
-1. Open a command prompt and navigate to the root of the WildFly directory.
-2. The following shows the command line to start the server:
+1. Open a command line and navigate to the root of the JBoss server directory.
+2. The following shows the command line to start the server with the web profile:
 
-        For Linux:   WILDFLY_HOME/bin/standalone.sh
-        For Windows: WILDFLY_HOME\bin\standalone.bat
+        For Linux:   JBOSS_HOME/bin/standalone.sh
+        For Windows: JBOSS_HOME\bin\standalone.bat
 
 
 Build and Deploy the Quickstart
 -------------------------
 
-1. Make sure you have started the WildFly server as described above.
-2. Open a command prompt and navigate to the root directory of this quickstart.
+_NOTE: The following build command assumes you have configured your Maven user settings. If you have not, you must include Maven setting arguments on the command line. See [Build and Deploy the Quickstarts](../README.md#buildanddeploy) for complete instructions and additional options._
+
+1. Make sure you have started the JBoss Server as described above.
+2. Open a command line and navigate to the root directory of this quickstart.
 3. Type this command to build and deploy the archive:
 
-        mvn clean install wildfly:deploy
+        mvn clean package wildfly:deploy
 
 4. This will deploy `target/wildfly-ejb-security.war` to the running instance of the server.
 
@@ -100,7 +90,7 @@ Build and Deploy the Quickstart
 Access the application 
 ---------------------
 
-The application will be running at the following URL <http://localhost:8080/jboss-ejb-security/>.
+The application will be running at the following URL <http://localhost:8080/wildfly-ejb-security/>.
 
 When you access the application, you are presented with a browser login challenge. 
 
@@ -128,29 +118,40 @@ When you access the application, you are presented with a browser login challeng
         message
         description  The server encountered an internal error () that prevented it from fulfilling this request.
         exception
-        javax.ejb.EJBAccessException: WFLYEJB0364: Invocation on method: public java.lang.String org.jboss.as.quickstarts.ejb_security.SecuredEJB.getSecurityInfo() of bean: SecuredEJB is not allowed
+        javax.ejb.EJBAccessException: JBAS014502: Invocation on method: public java.lang.String org.jboss.as.quickstarts.ejb_security.SecuredEJB.getSecurityInfo() of bean: SecuredEJB is not allowed
 
+Remote Client
+-------------
 
+In addition to access through the web application it is also possible to access the secured EJB from a remote stand alone client.
+
+1.  Type this command to execute the client:
+
+		mvn exec:exec
+
+This will execute the remote client which connects to the server and invokes the `getSecurityInfo()` method of the EJB to obtain the name of the current authenticated user.
+
+One important file to note is under `src/main/resources` and is called `jboss-ejb-client.properties` this file contains the settings to connect to the server and also supplies the username and password of the user to connect as.
 
 Undeploy the Archive
 --------------------
 
-1. Make sure you have started the WildFly server as described above.
-2. Open a command prompt and navigate to the root directory of this quickstart.
+1. Make sure you have started the JBoss Server as described above.
+2. Open a command line and navigate to the root directory of this quickstart.
 3. When you are finished testing, type this command to undeploy the archive:
 
         mvn wildfly:undeploy
 
 
-Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+Run the Quickstart in JBoss Developer Studio or Eclipse
 -------------------------------------
-You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a WildFly server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_JBDS.md#use-jboss-developer-studio-or-eclipse-to-run-the-quickstarts) 
+You can also start the server and deploy the quickstarts from Eclipse using JBoss tools. For more information, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](../README.md#useeclipse) 
 
 
 Debug the Application
 ------------------------------------
 
-If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
+If you want to debug the source code or look at the Javadocs of any library in the project, run either of the following commands to pull them into your local repository. The IDE should then detect them.
 
     mvn dependency:sources
-   
+    mvn dependency:resolve -Dclassifier=javadoc

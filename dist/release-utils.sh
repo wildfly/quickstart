@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # JBoss, Home of Professional Open Source
-# Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
+# Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
 # contributors by the @authors tag. See the copyright.txt in the
 # distribution for a full listing of individual contributors.
 #
@@ -113,6 +113,14 @@ markdown_to_html()
    output_filename=${output_filename//.MD/.html}
    $DIR/github-flavored-markdown.rb $readme > $output_filename  
 
+   # Now process the contributing markdown
+   cd $DIR/../
+   markdown_filename=CONTRIBUTING.md
+   echo "Processing $markdown_filename"
+   output_filename=${markdown_filename//.md/.html}
+   output_filename=${output_filename//.MD/.html}
+   $DIR/github-flavored-markdown.rb $markdown_filename > $output_filename  
+
    # Now process the release procedure markdown
    cd $DIR/../
    markdown_filename=RELEASE_PROCEDURE.md
@@ -142,10 +150,10 @@ regenerate()
       package=${quickstart//-/_}
       name="WildFly Quickstarts: $quickstart"
       echo "**** Regenerating $quickstart from $archetype"
-      mvn archetype:generate -DarchetypeGroupId=org.jboss.spec.archetypes -DarchetypeArtifactId=$archetype -DarchetypeVersion=$VERSION -DartifactId=jboss-as-$quickstart -DgroupId=org.jboss.as.quickstarts -Dpackage=org.jboss.as.quickstarts.$package -Dversion=$VERSION -DinteractiveMode=false -Dname="${name}"
+      mvn archetype:generate -DarchetypeGroupId=org.jboss.spec.archetypes -DarchetypeArtifactId=$archetype -DarchetypeVersion=$VERSION -DartifactId=wildfly-$quickstart -DgroupId=org.jboss.as.quickstarts -Dpackage=org.jboss.as.quickstarts.$package -Dversion=$VERSION -DinteractiveMode=false -Dname="${name}"
       ((index++))
       rm -rf $ROOTDIR/$quickstart
-      mv $TMPDIR/jboss-as-$quickstart $ROOTDIR/$quickstart
+      mv $TMPDIR/wildfly-$quickstart $ROOTDIR/$quickstart
    done
 
 }

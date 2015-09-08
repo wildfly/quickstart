@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -30,6 +30,7 @@ import org.jboss.as.quickstarts.interapp.shared.Bar;
  */
 public class Imports {
 
+    @SuppressWarnings("unused")
     @Produces
     @EJB(lookup = "java:global/wildfly-inter-app-B/BarImpl!org.jboss.as.quickstarts.interapp.shared.Bar")
     private Bar bar;

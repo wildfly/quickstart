@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -61,13 +61,13 @@ public class Temperature {
                 try {
                     s = Scale.valueOfAbbreviation(matcher.group(2));
                 } catch (IllegalArgumentException e) {
-                    throw new IllegalArgumentException("You must provide a valid temperature to convert.");
+                    throw new IllegalArgumentException("You must provide a valid temperature scale- 'C|F'");
                 }
             } else {
                 s = defaultScale;
             }
         } else {
-            throw new IllegalArgumentException("You must provide a valid temperature to convert.");
+            throw new IllegalArgumentException("You must provide a valid temperature to convert- 'XX.XXX'");
         }
 
         return new Temperature(t, s);

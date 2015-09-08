@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0"?>
 <!--
     JBoss, Home of Professional Open Source
-    Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
+    Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
     contributors by the @authors tag. See the copyright.txt in the
     distribution for a full listing of individual contributors.
 
@@ -15,10 +15,11 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <!--
-        This pom builds the EAR artifact and includes the EJB and Web modules.
+        This pom builds the EAR artifact and includes the ejb and web modules.
     -->
 
     <modelVersion>4.0.0</modelVersion>
@@ -28,9 +29,11 @@
         <groupId>org.wildfly.quickstarts</groupId>
         <version>9.0.0-SNAPSHOT</version>
     </parent>
+
     <artifactId>wildfly-ejb-in-ear-ear</artifactId>
     <packaging>ear</packaging>
-    <name>WildFly Quickstart: ejb-in-ear - ear</name>
+
+    <name>WildFly Quickstarts: EJB and War in an Ear - EAR</name>
     <description>WildFly Quickstarts: EJB and WAR in an EAR - EAR</description>
 
     <licenses>
@@ -42,7 +45,7 @@
     </licenses>
 
     <dependencies>
-        <!-- Dependencies on the EJB and Web modules so that they can be found by the EAR plug-in -->
+        <!-- Dependencies on the ejb and web modules so that they can be found by the ear plugin -->
         <dependency>
             <groupId>org.wildfly.quickstarts</groupId>
             <artifactId>wildfly-ejb-in-ear-web</artifactId>
@@ -56,23 +59,23 @@
     </dependencies>
 
     <build>
-      <finalName>${project.parent.artifactId}</finalName>
+      <finalName>${project.artifactId}</finalName>
         <plugins>
-            <!-- EAR plug-in -->
+            <!-- Ear plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-ear-plugin</artifactId>
                 <version>${version.ear.plugin}</version>
-                <!-- configuring the EAR plug-in -->
+                <!-- configuring the ear plugin -->
                 <configuration>
-                    <!-- Tell Maven we are using Java EE -->
+                    <!-- Tell Maven we are using Java EE 7 -->
                     <version>6</version>
                     <!-- Use Java EE ear libraries as needed. Java EE ear libraries
                         are in easy way to package any libraries needed in the ear, and automatically
                         have any modules (EJB-JARs and WARs) use them -->
                     <defaultLibBundleDir>lib</defaultLibBundleDir>
                     <modules>
-                    <!-- Default context root of the web app is /jboss-ejb-in-ear-web.
+                    <!-- Default context root of the web app is /wildfly-ejb-in-ear-web.
                         If a custom context root is needed, uncomment the following snippet to
                         register our War as a web module and set the contextRoot property -->
                         <webModule>
@@ -84,12 +87,13 @@
                     <fileNameMapping>no-version</fileNameMapping>
                 </configuration>
             </plugin>
-            <!-- WildFly plug-in to deploy EAR -->
+            <!-- WildFly plugin to deploy ear -->
             <plugin>
                 <groupId>org.wildfly.plugins</groupId>
                 <artifactId>wildfly-maven-plugin</artifactId>
                 <version>${version.wildfly.maven.plugin}</version>
                 <configuration>
+                    <filename>${project.artifactId}.ear</filename>
                     <skip>false</skip>
                 </configuration>
             </plugin>

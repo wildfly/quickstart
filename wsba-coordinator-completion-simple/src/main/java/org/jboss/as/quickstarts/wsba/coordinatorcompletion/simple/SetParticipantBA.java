@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -16,17 +16,15 @@
  */
 package org.jboss.as.quickstarts.wsba.coordinatorcompletion.simple;
 
-import java.io.Serializable;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
 import com.arjuna.wst.BusinessAgreementWithCoordinatorCompletionParticipant;
 import com.arjuna.wst.FaultedException;
 import com.arjuna.wst.SystemException;
 import com.arjuna.wst.WrongStateException;
 import com.arjuna.wst11.ConfirmCompletedParticipant;
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * An adapter class that exposes the SetManager as a WS-BA participant using the 'Coordinator Completion' protocol.
@@ -47,7 +45,7 @@ public class SetParticipantBA implements BusinessAgreementWithCoordinatorComplet
     // compensation time.
     private List<String> values = new LinkedList<>();
     // table of currently active participants
-    private static Map<String, SetParticipantBA> participants = new HashMap<>();
+    private static HashMap<String, SetParticipantBA> participants = new HashMap<>();
 
     /**
      * Participant instances are related to business method calls in a one to one manner.

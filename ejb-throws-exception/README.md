@@ -1,15 +1,10 @@
-ejb-throws-exception: Handle Exceptions across JARs in an EAR
+ejb-throws-exception: Deployment of an EAR Containing a JSF WAR and an EJB JAR that throws a custom exception
 ====================================================================
 Author: Brad Maxwell  
-Level: Intermediate  
-Technologies: EJB, EAR  
-Summary: The `ejb-throws-exception` quickstart demonstrates how to throw and handle Exceptions across JARs in an EAR.  
-Target Product: WildFly
-Source: <https://github.com/wildfly/quickstart/>  
 
 What is it?
 -----------
-The `ejb-throws-exception` quickstart extends the [ejb-in-ear](../ejb-in-ear/README.md) quickstart and demonstrates how to handle Exceptions across JARs in an EAR deployed to Red Hat JBoss Enterprise Application Platform. In this quickstart, an EJB in the EJB JAR throws a custom Exception. The web application in the client JAR catches the Exception and displays it in a nicely formatted message. The EAR contains: *JSF WAR*, an *EJB* JAR and a client library JAR containg classes that both the WAR and EJB JAR use.
+This example extends the `ejb-in-ear` quickstart and demonstrates how to handle Exceptions across JARs in an EAR. In this quickstart, an EJB in the EJB JAR throws a custom Exception. The web application in the client JAR catches the Exception and displays it in a nicely formatted message. The EAR contains: *JSF 2.2 WAR*, an *EJB 3.2* JAR and a client library JAR containg classes that both the WAR and EJB JAR use.
 
 The example is composed of three Maven projects, each with a shared parent. The projects are as follows:
 
@@ -19,7 +14,7 @@ The example is composed of three Maven projects, each with a shared parent. The 
 
 3. `ear`: This project builds the EAR artifact and pulls in the ejb, web, and client artifacts.
 
-4. `ejb-api`: This project builds the ejb-api library artifact which is used by the ejb, web, as well as remote client artifacts. The ejb-api directory contains the EJB interfaces, custom exceptions the EJB throws and any other transfer objects which the EJB may receive or send back to the client.  The EJB interfaces, custom exceptions, and other transfer objects are split into a separate JAR which is packaged in the ear/lib. This allows all sub deployments of the EAR to see the classes of the ejb-api JAR in the classpath.  This is also useful for remote clients.  The ejb-api JAR can be distributed to a remote client and give the remote clients the classes that are needed to interact with the EJB.
+4. `ejb-api`: This project builds the ejb-api library artifact which is used by the ejb, web, as well as remote client artifacts. The ejb-api directory contains the EJB interfaces, custom exceptions the EJB throws and any other transfer objects which the EJB may receive or send back to the client.  The EJB interfaces, custom exceptions, and other transfer objects are split into a separate jar which is packaged in the ear/lib. This allows all sub deployments of the ear to see the classes of the ejb-api jar in their classpath.  This is also useful for remote clients.  The ejb-api jar can be distributed to a remote client and give the remote clients the classes that are needed to interact with the EJB
 
 The root `pom.xml` builds each of the subprojects in the above order and deploys the EAR archive to the server.
 
@@ -36,43 +31,46 @@ The example follows the common "Hello World" pattern. These are the steps that o
 System requirements
 -------------------
 
-The application this project produces is designed to be run on Red Hat JBoss Enterprise Application Platform 7 or later. 
+All you need to build this project is Java 7.0 (Java SDK 1.7) or better, Maven 3.1 or better.
 
-All you need to build this project is Java 8.0 (Java SDK 1.8) or later and Maven 3.1.1 or later. See [Configure Maven for WildFly 7](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
-
-
-Use of WILDFLY_HOME
----------------
-
-In the following instructions, replace `WILDFLY_HOME` with the actual path to your WildFly installation. The installation path is described in detail here: [Use of WILDFLY_HOME and JBOSS_HOME Variables](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_WILDFLY_HOME.md#use-of-eap_home-and-jboss_home-variables).
+The application this project produces is designed to be run on JBoss WildFly.
 
 
-Start the WildFly Server
+Configure Maven 
+-------------
+
+If you have not yet done so, you must [Configure Maven](../README.md#mavenconfiguration) before testing the quickstarts.
+
+
+Start JBoss WildFly with the Web Profile
 -------------------------
 
-1. Open a command prompt and navigate to the root of the WildFly directory.
-2. The following shows the command line to start the server:
+1. Open a command line and navigate to the root of the JBoss server directory.
+2. The following shows the command line to start the server with the web profile:
 
-        For Linux:   WILDFLY_HOME/bin/standalone.sh
-        For Windows: WILDFLY_HOME\bin\standalone.bat
+        For Linux:   JBOSS_HOME/bin/standalone.sh
+        For Windows: JBOSS_HOME\bin\standalone.bat
 
 
 Build and Deploy the Quickstart
 -------------------------
 
-1. Make sure you have started the WildFly server as described above.
-2. Open a command prompt and navigate to the root directory of this quickstart.
+_NOTE: The following build command assumes you have configured your Maven user settings. If you have not, you must include Maven setting arguments on the command line. See [Build and Deploy the Quickstarts](../README.md#buildanddeploy) for complete instructions and additional options._
+
+1. Make sure you have started the JBoss Server as described above.
+2. Open a command line and navigate to the root directory of this quickstart.
 3. Type this command to build and deploy the archive:
 
         mvn clean install wildfly:deploy
 
-4. This will deploy `ear/target/wildfly-ejb-throws-exception.ear` to the running instance of the server.
+4. This will deploy `target/wildfly-ejb-in-ear.ear` to the running instance of the server.
 
+ 
 
 Access the application 
 ---------------------
 
-The application will be running at the following URL <http://localhost:8080/jboss-ejb-throws-exception-web/>.
+The application will be running at the following URL <http://localhost:8080/wildfly-ejb-throws-exception-web/>.
 
 Enter a name in the input field `Name` and click the `Say Hello` button to see the response.
 
@@ -84,22 +82,22 @@ If the `Name` input text box is empty, then the `Response` output text will disp
 Undeploy the Archive
 --------------------
 
-1. Make sure you have started the WildFly server as described above.
-2. Open a command prompt and navigate to the root directory of this quickstart.
+1. Make sure you have started the JBoss Server as described above.
+2. Open a command line and navigate to the root directory of this quickstart.
 3. When you are finished testing, type this command to undeploy the archive:
 
         mvn wildfly:undeploy
 
 
-Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+Run the Quickstart in JBoss Developer Studio or Eclipse
 -------------------------------------
-You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a WildFly server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_JBDS.md#use-jboss-developer-studio-or-eclipse-to-run-the-quickstarts) 
+You can also start the server and deploy the quickstarts from Eclipse using JBoss tools. For more information, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](../README.md#useeclipse) 
 
 
 Debug the Application
 ---------------------
 
-If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
+If you want to debug the source code or look at the Javadocs of any library in the project, run either of the following commands to pull them into your local repository. The IDE should then detect them.
 
         mvn dependency:sources
-
+        mvn dependency:resolve -Dclassifier=javadoc

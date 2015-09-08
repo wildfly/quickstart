@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0"?>
 <!--
     JBoss, Home of Professional Open Source
-    Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
+    Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
     contributors by the @authors tag. See the copyright.txt in the
     distribution for a full listing of individual contributors.
 
@@ -15,16 +15,18 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <groupId>org.wildfly.quickstarts</groupId>
     <artifactId>wildfly-ejb-in-ear</artifactId>
     <version>9.0.0-SNAPSHOT</version>
-    <packaging>pom</packaging>
-    <name>WildFly Quickstart: ejb-in-ear</name>
+    <name>WildFly Quickstarts: EJB and War in an Ear - Root pom</name>
     <description>WildFly Quickstarts: EJB and War in an Root pom</description>
-    <url>http://wildfly.org</url>
+    <packaging>pom</packaging>
 
+    <url>http://wildfly.org</url>
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
@@ -33,33 +35,38 @@
         </license>
     </licenses>
 
+    <modules>
+        <module>ejb</module>
+        <module>web</module>
+        <module>ear</module>
+    </modules>
+
     <properties>
         <!-- Explicitly declaring the source encoding eliminates the following message: -->
         <!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered
                 resources, i.e. build is platform dependent! -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <version.wildfly>9.0.0.Final</version.wildfly>
-        <version.jboss.spec.javaee.7.0>1.0.3.Final</version.jboss.spec.javaee.7.0>
+        <!-- JBoss dependency versions -->
 
-        <!-- WildFly Maven plug-in to deploy your WAR to a local WildFly container -->
         <version.wildfly.maven.plugin>1.0.2.Final</version.wildfly.maven.plugin>
 
-        <!-- other plug-in versions -->
-        <version.ear.plugin>2.8</version.ear.plugin>
+        <version.wildfly>9.0.0.Final</version.wildfly>
+
+
+        <version.jboss.spec.javaee.7.0>1.0.3.Final</version.jboss.spec.javaee.7.0>
+
+
+        <!-- other plugin versions -->
+        <version.compiler.plugin>3.1</version.compiler.plugin>
+        <version.ear.plugin>2.6</version.ear.plugin>
         <version.ejb.plugin>2.3</version.ejb.plugin>
-        <version.war.plugin>2.1.1</version.war.plugin>
+        <version.war.plugin>2.5</version.war.plugin>
 
         <!-- maven-compiler-plugin -->
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.7</maven.compiler.target>
+        <maven.compiler.source>1.7</maven.compiler.source>
     </properties>
-
-    <modules>
-        <module>ejb</module>
-        <module>web</module>
-        <module>ear</module>
-    </modules>
 
     <dependencyManagement>
         <dependencies>
@@ -104,9 +111,20 @@
 
     <build>
         <plugins>
-                <!-- The WildFly plug-in deploys your ear to a local WildFly container -->
+            <!-- Compiler plugin enforces Java 1.6 compatibility and
+                activates annotation processors -->
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${version.compiler.plugin}</version>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                </configuration>
+            </plugin>
+                <!-- The WildFly plugin deploys your ear to a local JBoss
+                    AS container -->
                 <!-- Due to Maven's lack of intelligence with EARs we need
-                    to configure the WildFly Maven plug-in to skip deployment for all modules.
+                    to configure the wildfly maven plugin to skip deployment for all modules.
                     We then enable it specifically in the ear module. -->
             <plugin>
                 <groupId>org.wildfly.plugins</groupId>
@@ -118,4 +136,5 @@
             </plugin>
         </plugins>
     </build>
+
 </project>

@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -17,7 +17,6 @@
 package org.jboss.as.quickstarts.sfsb;
 
 import java.util.HashMap;
-import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.ejb.Remove;
@@ -31,7 +30,7 @@ public class ShoppingCartBean implements ShoppingCart {
 
     private final static Logger LOGGER = Logger.getLogger(ShoppingCartBean.class.toString());
 
-    private Map<String, Integer> cart = new HashMap<String, Integer>();
+    private HashMap<String, Integer> cart = new HashMap<>();
 
     public void buy(String product, int quantity) {
         if (cart.containsKey(product)) {
@@ -43,7 +42,7 @@ public class ShoppingCartBean implements ShoppingCart {
         }
     }
 
-    public Map<String, Integer> getCartContents() {
+    public HashMap<String, Integer> getCartContents() {
         return cart;
     }
 
