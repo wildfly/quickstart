@@ -1,0 +1,12 @@
+## Batch file to configure the standalone server for the messaging-clustering quickstart.
+
+# -- Enable clustering, and set a cluster password
+/subsystem=messaging-activemq/server=default:write-attribute(name=cluster-password, value=password)
+
+# -- Remove the CONSOLE logging handler
+/subsystem=logging/root-logger=ROOT:remove-handler(name="CONSOLE")
+/subsystem=logging/console-handler=CONSOLE:remove
+
+# Reload the server
+:reload
+
