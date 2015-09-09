@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -30,9 +30,9 @@ import org.jboss.as.quickstarts.interapp.shared.Foo;
  * Note that whilst EJBs are used to provide inter application communication, this is not apparent to consumers of Foo and Bar,
  * which use CDI style injection.
  * </p>
- * 
+ *
  * @author Pete Muir
- * 
+ *
  */
 @Named
 public class ControllerA {

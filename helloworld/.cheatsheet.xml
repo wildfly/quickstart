@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    JBoss, Home of Professional Open Source
+    Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
+    contributors by the @authors tag. See the copyright.txt in the
+    distribution for a full listing of individual contributors.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<cheatsheet title="CDI + Servlet: Helloworld quickstart">
+    <intro>
+        <description>
+            This quickstart demonstrates the use of CDI 1.0 and Servlet 3.0. It is a simple application that can be used to verify the JBoss EAP server is configured and running correctly.
+            <br />
+            <br />
+            <b>CDI</b>
+            <br />
+            <br />
+            Contexts and Dependency Injection (CDI) defines a set of complementary services that help improve the structure of application code. CDI provides type-safe dependency injection and shrinks the application code base by replace large sections of code with annotations. It also simplifies packaging and deployments and provides lifecycle management
+            via contexts.
+            <br />
+            <br />
+            <b>Servlet 3.0</b>
+            <br />
+            Servlet 3.0 introduces @Servlet, @ServletFilter, @FilterMapping, and other annotations to ease development of servlet applications.
+        </description>
+    </intro>
+    <item skip="false" title="The helloworld example in depth">
+        <description>
+            The helloworld application is a simple example that helps you get started with Java EE. This example demonstrates CDI and uses a servlet for the user interface.
+            <br />
+            <br />
+            As usual, let&apos;s start by looking at the necessary deployment descriptors.
+            By now, we're very used to seeing
+            <b>beans.xml</b>
+            in
+            <b>WEB-INF/</b>
+            , which can be found in the
+            <b>src/main/webapp</b>
+            directory of the example.
+            Notice that we don&apos;t need a
+            <b>web.xml</b>
+            file.
+            This example does not contain a JSF file. The user interface is provided by the servlet.
+        </description>
+        <command
+            required="true"
+            returns="currentProject"
+            serialization="org.jboss.tools.project.examples.cheatsheet.getProjectForCheatsheet"/>
+    </item>
+
+    <item title="HelloWorldServlet.java">
+        <description>
+            Let&apos;s take a look at the servlet that handles the request.
+        </description>
+        <subitem
+            label="The @WebServlet annotation provides the URL pattern for this servlet. This annotation replaces the web.xml servlet-mapping entries that were required before Servlet 3.0. "
+            skip="true">
+            <command
+                required="false"
+                serialization="org.jboss.tools.project.examples.cheatsheet.openFileInEditor(path=/${currentProject}/src/main/java/org/jboss/as/quickstarts/helloworld/HelloWorldServlet.java,fromLine=43,toLine=43)"/>
+        </subitem>
+        <subitem label="The HTML page header and footer are defined as static strings. " skip="true">
+            <command
+                required="false"
+                serialization="org.jboss.tools.project.examples.cheatsheet.openFileInEditor(path=/${currentProject}/src/main/java/org/jboss/as/quickstarts/helloworld/HelloWorldServlet.java,fromLine=46,toLine=48)"/>
+        </subitem>
+        <subitem
+            label="The servlet injects the HelloService class using the @Inject annotation. This allows us to easily call the methods in that class."
+            skip="true">
+            <command
+                required="false"
+                serialization="org.jboss.tools.project.examples.cheatsheet.openFileInEditor(path=/${currentProject}/src/main/java/org/jboss/as/quickstarts/helloworld/HelloWorldServlet.java,fromLine=50,toLine=51)"/>
+        </subitem>
+        <subitem
+            label="The doGet() method processes the HttpServletRequest. It sets the HttpServletResponse content type and gets the PrintWriter that can send text to the client. After writing the header, it calls the HelloService createHelloMessage() method to generate the message that displays on the web page. It then writes the footer and closes the PrintWriter."
+            skip="true">
+            <command
+                required="false"
+                serialization="org.jboss.tools.project.examples.cheatsheet.openFileInEditor(path=/${currentProject}/src/main/java/org/jboss/as/quickstarts/helloworld/HelloWorldServlet.java,fromLine=53,toLine=61)"/>
+        </subitem>
+    </item>
+
+    <item title="index.html">
+        <description>
+            This HTML page is the default landing page for the application.
+        </description>
+        <subitem label="This page does a redirect to the URL that will be handled by the HelloWorldServlet." skip="true">
+            <command
+                required="false"
+                serialization="org.jboss.tools.project.examples.cheatsheet.openFileInEditor(path=/${currentProject}/src/main/webapp/index.html,fromLine=21,toLine=21)"/>
+        </subitem>
+    </item>
+
+</cheatsheet>

@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -21,9 +21,9 @@ import javax.inject.Named;
 
 /**
  * This singleton stores stores two counters which are only reset when the application is restarted.
- * 
+ *
  * @author Serge Pagop (spagop@redhat.com)
- * 
+ *
  */
 @Singleton
 @Named

@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -31,9 +31,9 @@ import org.jboss.as.quickstarts.temperatureconverter.ejb.TemperatureConvertEJB;
 /**
  * A simple managed bean that is used to invoke the TemperatureConvertEJB and store the response. The response is obtained by
  * invoking temperatureConvertEJB.convert().
- * 
+ *
  * Code borrowed and modified from another quickstart written by Paul Robinson
- * 
+ *
  * @author Bruce Wolfe
  */
 @SuppressWarnings("serial")
@@ -58,7 +58,7 @@ public class TemperatureConverter implements Serializable {
 
     /**
      * Invoke temperatureConvertEJB.convert() and store the temperature
-     * 
+     *
      * @param sourceTemperature The temperature to be converted
      * @param defaultScale The default source temperature scale
      */
@@ -66,8 +66,8 @@ public class TemperatureConverter implements Serializable {
         try {
             temperature = temperatureConvertEJB.convert(Temperature.parse(sourceTemperature, defaultScale)).toString();
         } catch (IllegalArgumentException e) {
-            temperature = "0.0 Err";
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.toString()));
+            temperature = "Invalid temperature";
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage()));
         }
     }
 

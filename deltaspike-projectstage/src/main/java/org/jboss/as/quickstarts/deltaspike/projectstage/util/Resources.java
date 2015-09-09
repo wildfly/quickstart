@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -31,12 +31,12 @@ import org.apache.deltaspike.core.util.ProjectStageProducer;
 import org.jboss.as.quickstarts.deltaspike.projectstage.bean.MessageProvider;
 
 /**
- * 
+ *
  * This class uses CDI to produce the Current {@link ProjectStage} and get the available list of {@link MessageProvider}
  * implementations
- * 
+ *
  * @author <a href="mailto:benevides@redhat.com">Rafael Benevides</a>
- * 
+ *
  */
 public class Resources {
 
@@ -47,7 +47,7 @@ public class Resources {
 
     /**
      * Return the current {@link ProjectStage}
-     * 
+     *
      * @return
      */
     @Produces
@@ -58,7 +58,7 @@ public class Resources {
 
     /**
      * This will create a {@link MessageProvider} {@link List} to be exposed as #{availableMessageProvidersImplementations} expression
-     * 
+     *
      * @return Return all available instances of {@link MessageProvider} implementations.
      */
     @Produces
@@ -71,7 +71,7 @@ public class Resources {
 
     /**
      * This utility method will convert any {@link Iterator} to a {@link List}
-     * 
+     *
      * @param the {@link Iterator}
      * @return the {@link List}
      */

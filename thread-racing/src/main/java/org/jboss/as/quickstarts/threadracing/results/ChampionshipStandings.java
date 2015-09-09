@@ -104,7 +104,7 @@ public class ChampionshipStandings {
             entries.add(new Entry(racer, points));
         }
         Collections.sort(entries);
-        return  entries;
+        return entries;
     }
 
     /**
@@ -143,10 +143,13 @@ public class ChampionshipStandings {
 
         @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+            if (this == o)
+                return true;
+            if (o == null || getClass() != o.getClass())
+                return false;
             Entry racer = (Entry) o;
-            if (!name.equals(racer.name)) return false;
+            if (!name.equals(racer.name))
+                return false;
             return true;
         }
 

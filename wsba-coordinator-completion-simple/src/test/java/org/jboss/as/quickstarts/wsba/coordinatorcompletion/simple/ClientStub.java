@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -24,17 +24,19 @@ import java.lang.annotation.Target;
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
+import static java.lang.annotation.ElementType.METHOD;
+import static java.lang.annotation.ElementType.PARAMETER;
 
 /**
  * Qualifier for specifying which SetServiceBA implementation to use.
- * 
+ *
  * This Qualifier only supports the ClientStub implementation. The other class to implement SetServiceBA is the SetServiceBAImpl
  * class, which is not injected by CDI, so does not require Qualifier support.
- * 
+ *
  * @author paul.robinson@redhat.com, 2012-01-04
  */
 @Qualifier
 @Retention(RUNTIME)
-@Target({ TYPE, FIELD })
+@Target({ TYPE, METHOD, FIELD, PARAMETER })
 public @interface ClientStub {
 }

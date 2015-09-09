@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -33,7 +33,7 @@ import org.junit.runner.RunWith;
 
 /**
  * A simple test case using Arquillian to test a CDI bean.
- * 
+ *
  * @author david@davidsalter.co.uk
  */
 @RunWith(Arquillian.class)
@@ -42,7 +42,7 @@ public class GreeterTest {
     @Deployment
     public static JavaArchive createTestArchive() {
         return ShrinkWrap.create(JavaArchive.class, "test.jar").addClasses(Greeter.class, GreeterEJB.class)
-                .addAsManifestResource(EmptyAsset.INSTANCE, ArchivePaths.create("beans.xml"));
+            .addAsManifestResource(EmptyAsset.INSTANCE, ArchivePaths.create("beans.xml"));
     }
 
     @Inject

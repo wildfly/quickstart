@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -27,7 +27,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * A simple servlet that exists as a target for Servlet Filters and Servlet Listeners.
- * 
+ *
  * @author Jonathan Fuerth <jfuerth@redhat.com>
  */
 @SuppressWarnings("serial")
@@ -49,7 +49,7 @@ public class FilterExampleServlet extends HttpServlet {
         writer.println("  </form>");
 
         if (req.getParameter("userInput") != null) {
-            writer.println("  <h1>You Typed " + req.getParameter("userInput") + "</h1>");
+            writer.println("  <h1>You Typed: " + req.getParameter("userInput") + "</h1>");
         }
 
         writer.println(" </body>");

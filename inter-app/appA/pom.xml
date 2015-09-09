@@ -1,7 +1,7 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!--
     JBoss, Home of Professional Open Source
-    Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+    Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
     contributors by the @authors tag. See the copyright.txt in the
     distribution for a full listing of individual contributors.
 
@@ -18,16 +18,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>wildfly-inter-app-A</artifactId>
-    <packaging>war</packaging>
-    <name>WildFly Quickstarts: Inter-application (Application A)</name>
-    <description>Inter-application: Shows how to communicate between two applications using EJB and CDI</description>
-
     <parent>
         <groupId>org.wildfly.quickstarts</groupId>
         <artifactId>wildfly-inter-app-parent</artifactId>
         <version>10.0.0-SNAPSHOT</version>
     </parent>
+    <artifactId>wildfly-inter-app-appA</artifactId>
+    <packaging>war</packaging>
+    <name>WildFly Quickstart: inter-app - appA</name>
+    <description>Inter-application: Shows how to communicate between two applications using EJB and CDI</description>
 
     <licenses>
         <license>
@@ -39,33 +38,34 @@
 
     <dependencies>
 
-        <!-- Import the CDI API, we use provided scope as the API is included in JBoss WildFly -->
+        <!-- Import the CDI API, we use provided scope as the API is included in WildFly -->
         <dependency>
             <groupId>javax.enterprise</groupId>
             <artifactId>cdi-api</artifactId>
             <scope>provided</scope>
         </dependency>
 
-        <!-- Import the EJB API, we use provided scope as the API is included in JBoss WildFly -->
+        <!-- Import the EJB API, we use provided scope as the API is included in WildFly -->
         <dependency>
             <groupId>org.jboss.spec.javax.ejb</groupId>
             <artifactId>jboss-ejb-api_3.2_spec</artifactId>
             <scope>provided</scope>
         </dependency>
 
-        <!-- Import the shared API module, which is used by Maven at compilation 
-            time. See the corresponding Dependencies entry in the MANIFEST.mf which defines 
+        <!-- Import the shared API module, which is used by Maven at compilation
+            time. See the corresponding Dependencies entry in the MANIFEST.mf which defines
             the dependency at runtime. -->
         <dependency>
             <groupId>org.wildfly.quickstarts</groupId>
             <artifactId>wildfly-inter-app-shared</artifactId>
             <scope>provided</scope>
+            <type>ejb</type>
         </dependency>
 
     </dependencies>
 
     <build>
-        <!-- Set the name of the war, used as the context root when the app 
+        <!-- Set the name of the WAR, used as the context root when the app
             is deployed -->
         <finalName>${project.artifactId}</finalName>
         <plugins>
@@ -73,37 +73,26 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <version>${version.war.plugin}</version>
                 <configuration>
-                    <!-- Java EE 7 doesn't require web.xml, Maven needs to
+                    <!-- Java EE doesn't require web.xml, Maven needs to
                         catch up! -->
                     <failOnMissingWebXml>false</failOnMissingWebXml>
-                    <!-- Define a dependency on the shared API, which will 
-                        be used by JBoss Modules at runtime. See the corresponding dependency declared 
+                    <!-- Define a dependency on the shared API, which will
+                        be used by JBoss Modules at runtime. See the corresponding dependency declared
                         in the POM, which defines the dependency at compile time. -->
                     <archive>
                         <manifestEntries>
-                            <Dependencies>deployment.wildfly-inter-app-shared.jar</Dependencies>
+                            <Dependencies>deployment.jboss-inter-app-shared.jar</Dependencies>
                         </manifestEntries>
                     </archive>
                 </configuration>
             </plugin>
-            <!-- WildFly plugin to deploy war -->
+            <!-- WildFly plug-in to deploy the WAR -->
             <plugin>
                 <groupId>org.wildfly.plugins</groupId>
                 <artifactId>wildfly-maven-plugin</artifactId>
                 <version>${version.wildfly.maven.plugin}</version>
             </plugin>
-            <!-- Compiler plugin enforces Java 1.8 compatibility and activates
-                annotation processors -->
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>${version.compiler.plugin}</version>
-                <configuration>
-                    <source>${maven.compiler.source}</source>
-                    <target>${maven.compiler.target}</target>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
 
 </project>
-

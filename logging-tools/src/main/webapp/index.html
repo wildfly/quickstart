@@ -1,6 +1,6 @@
 <!--
     JBoss, Home of Professional Open Source
-    Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+    Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
     contributors by the @authors tag. See the copyright.txt in the
     distribution for a full listing of individual contributors.
 
@@ -16,7 +16,7 @@
 -->
 <html>
     <head><title>wildfly-logging-tools Quick Start</title></head>
-    
+
     <body>
 
     	<h1>logging-tools Quick Start</h1>
@@ -33,7 +33,7 @@
     	<p>
     	The different methods of the JAX-RS service can be access using the URLs below:
     	</p>
-	
+
     	<ul>
     		<li>
     			<code>rest/greetings/<b>name</b></code>
@@ -50,7 +50,7 @@
     				<li>
     				Logs a localized "Hello message sent".
     				</li>
-    			</ul> 
+    			</ul>
     			<br />
     		</li>
     		<li>
@@ -100,9 +100,9 @@
     			<br />
     		</li>
     		<li>
-    		    <code>rest/dates/daysuntil/<b>targetdate</b></code>
+    		    <code>rest/dates/daysuntil/<b>targetDate</b></code>
     			<p>
-    			Example: <a href="rest/dates/daysuntil/25-12-2012">rest/dates/daysuntil/25-12-2012</a>
+    			Example: <a href="rest/dates/daysuntil/2020-12-25">rest/dates/daysuntil/2020-12-25</a>
     			</p>
     			<p>
     			Demonstrates how to pass parameters through to the constructor of a localized exception, and
@@ -110,14 +110,14 @@
     			</p>
     			<ul>
     				<li>
-    				Attempts to turn the `targetdate` URL component into a date object using the format
+    				Attempts to turn the `targetDate` URL component into a date object using the format
                     `dd-MM-yyyy`.
     				</li>
     				<li>
     				Returns number of days (as an integer) until that date.
     				</li>
     				<li>
-    				If the `targetdate` is invalid:
+    				If the `targetDate` is invalid, for example, <a href="rest/dates/daysuntil/2015-02-31">rest/dates/daysuntil/2015-02-31</a>:
     				<ul>
     				    <li>
     				    Catches the `ParseException`.

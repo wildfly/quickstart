@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!--
     JBoss, Home of Professional Open Source
-    Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+    Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
     contributors by the @authors tag. See the copyright.txt in the
     distribution for a full listing of individual contributors.
 
@@ -15,19 +15,20 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
         <groupId>org.jboss</groupId>
         <artifactId>jboss-parent</artifactId>
         <version>19</version>
-        <relativePath />
+        <relativePath/>
     </parent>
     <groupId>org.wildfly.quickstarts</groupId>
-    <artifactId>wildfly-quickstarts-parent</artifactId>
+    <artifactId>wildfly-quickstart-parent</artifactId>
     <version>10.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>WildFly Quickstarts Parent</name>
+    <name>WildFly Quickstart: wildfly-quickstarts</name>
     <description>WildFly Quickstarts Parent</description>
     <url>https://github.com/wildfly/quickstart/</url>
 
@@ -44,7 +45,7 @@
 
         <!-- JBoss dependency versions -->
 
-        <version.wildfly>10.0.0.Beta1</version.wildfly>
+        <version.wildfly>10.0.0.Beta2</version.wildfly>
 
 
         <version.wildfly.maven.plugin>1.0.2.Final</version.wildfly.maven.plugin>
@@ -58,12 +59,10 @@
 
         <!-- Other dependency versions -->
         <version.dom4j>1.6</version.dom4j>
-        <version.javax.servlet.jstl>1.2</version.javax.servlet.jstl>
-        <version.log4j>1.2.16</version.log4j>
-        <version.org.eclipse.m2e>1.0.0</version.org.eclipse.m2e>
-        <version.org.apache.wicket>1.5.13</version.org.apache.wicket>
+        <version.org.apache.wicket>1.5.5</version.org.apache.wicket>
         <version.net.ftlines.wicket-cdi>1.2</version.net.ftlines.wicket-cdi>
         <version.ro.isdc.wro4j>1.4.4</version.ro.isdc.wro4j>
+
     </properties>
 
     <build>
@@ -133,14 +132,21 @@
             <modules>
                 <!-- All the modules that require nothing but WildFly -->
                 <module>app-client</module>
+                <module>batch-processing</module>
                 <module>bean-validation</module>
+                <module>bean-validation-custom-constraint</module>
                 <module>bmt</module>
                 <module>carmart</module>
                 <module>carmart-tx</module>
                 <module>cdi-alternative</module>
+                <module>cdi-decorator</module>
                 <module>cdi-injection</module>
+                <module>cdi-interceptors</module>
                 <module>cdi-portable-extension</module>
+                <module>cdi-stereotype</module>
                 <module>cdi-veto</module>
+                <module>cmt</module>
+                <module>contacts-jquerymobile</module>
                 <module>deltaspike-authorization</module>
                 <module>deltaspike-beanbuilder</module>
                 <module>deltaspike-projectstage</module>
@@ -151,6 +157,7 @@
                 <module>ejb-security</module>
                 <module>ejb-security-interceptors</module>
                 <module>ejb-security-plus</module>
+                <module>ejb-timer</module>
                 <module>ejb-throws-exception</module>
                 <module>ejb-multi-server</module>
                 <module>greeter</module>
@@ -158,16 +165,23 @@
                 <module>helloworld-html5</module>
                 <module>helloworld-jdg</module>
                 <module>helloworld-jms</module>
+                <module>helloworld-mbean</module>
                 <module>helloworld-mdb</module>
+                <module>helloworld-mdb-propertysubstitution</module>
                 <module>helloworld-rf</module>
                 <module>helloworld-rs</module>
                 <module>helloworld-singleton</module>
                 <module>helloworld-websocket</module>
                 <module>helloworld-ws</module>
-                <module>helloworld-ssl</module>
-                <module>helloworld-client-ssl</module>
-                <module>helloworld-war-ssl</module>
                 <module>hibernate4</module>
+                <module>hibernate5</module>
+                <module>inter-app</module>
+                <module>jaxrs-client</module>
+                <module>jaxws-addressing</module>
+                <module>jaxws-ejb</module>
+                <module>jaxws-pojo</module>
+                <module>jaxws-retail</module>
+                <module>jsonp</module>
                 <module>kitchensink</module>
                 <module>kitchensink-angularjs</module>
                 <module>kitchensink-ear</module>
@@ -175,17 +189,23 @@
                 <module>kitchensink-jsp</module>
                 <module>kitchensink-ml</module>
                 <module>kitchensink-ml-ear</module>
+                <module>logging</module>
                 <module>logging-tools</module>
                 <module>mail</module>
+                <module>managedexecutorservice</module>
                 <module>numberguess</module>
                 <module>payment-cdi-event</module>
+                <module>resteasy-jaxrs-client</module>
                 <module>security-vault-askpass</module>
                 <module>servlet-async</module>
                 <module>servlet-filterlistener</module>
                 <module>servlet-security</module>
                 <module>shopping-cart</module>
+                <module>shrinkwrap-resolver</module>
                 <module>temperature-converter</module>
                 <module>thread-racing</module>
+                <module>websocket-endpoint</module>
+                <module>websocket-hello</module>
                 <module>wicket-ear</module>
                 <module>wicket-war</module>
                 <module>xml-dom4j</module>
@@ -203,7 +223,6 @@
                 </property>
             </activation>
             <modules>
-                <module>cmt</module>
                 <module>jts</module>
             </modules>
         </profile>
@@ -219,9 +238,8 @@
             </activation>
             <modules>
                 <module>cluster-ha-singleton</module>
-                <module>jax-rs-client</module>
+                <module>resteasy-jaxrs-client</module>
                 <module>jts</module>
-                <module>inter-app</module>                
             </modules>
         </profile>
         <profile>

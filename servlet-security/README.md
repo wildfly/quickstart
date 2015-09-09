@@ -1,120 +1,91 @@
-servlet-security:  Using Java EE Declarative Security to Control Access to Servlet 3
+servlet-security:  Using Java EE Declarative Security to Control Servlet Access
 ====================
-Author: Sherif F. Makary, Pedro Igor
-Level: Intermediate
-Technologies: Servlet, Security
-Summary: Demonstrates how to use Java EE declarative security to control access to Servlet 3
-Target Project: WildFly
-Source: <https://github.com/wildfly/quickstart/>
+Author: Sherif F. Makary, Pedro Igor  
+Level: Intermediate  
+Technologies: Servlet, Security  
+Summary: The `servlet-security` quickstart demonstrates the use of Java EE declarative security to control access to Servlets and Security in WildFly.  
+Target Product: WildFly
+Source: <https://github.com/wildfly/quickstart/>  
 
 What is it?
 -----------
 
-This example demonstrates the use of Java EE declarative security to control access to Servlets and Security in JBoss WildFly.
+The `servlet-security` quickstart demonstrates the use of Java EE declarative security to control access to Servlets and Security in Red Hat JBoss Enterprise Application Platform.
 
-When you deploy this example, two users are automatically created for you: user `quickstartUser` with password `quickstartPwd1!` and user `guest` with password `guest`. This data is located in the `src/main/resources/import.sql` file. 
+When you deploy this example, two users are automatically created for you: user `quickstartUser` with password `quickstartPwd1!` and user `guest` with password `guestPwd1!`. This data is located in the `src/main/resources/import.sql` file. 
 
 This quickstart takes the following steps to implement Servlet security:
 
-1. Define a security domain in the `standalone.xml` configuration file using the Database JAAS LoginModule.
-2. Add an application user with access rights to the application
+1. Defines a security domain in the `standalone.xml` configuration file using the Database JAAS LoginModule.
+2. Adds an application user with access rights to the application.
 
         User Name: quickstartUser
         Password: quickstartPwd1!
         Role: quickstarts
-3. Add another user with no access rights to the application.
+3. Adds another user with no access rights to the application.
 
         User Name: guest
         Password: guestPwd1!
         Role: notauthorized
-4. Add a security domain reference to `WEB-INF/jboss-web.xml`.
-5. Add a security constraint to the `WEB-INF/web.xml` .
-6. Add a security annotation to the EJB declaration.
+4. Adds a security domain reference to `WEB-INF/jboss-web.xml`.
+5. Adds a security constraint to the `WEB-INF/web.xml` .
+6. Adds a security annotation to the EJB declaration.
 
-Please note the allowed user role `quickstarts` in the annotation -`@RolesAllowed`- is the same as the user role defined in step 2.
+Please note the allowed user role `quickstarts` in the annotation `@RolesAllowed` is the same as the user role defined in step 2.
 
+_Note: This quickstart uses the H2 database included with Red Hat JBoss Enterprise Application Platform 7. It is a lightweight, relational example datasource that is used for examples only. It is not robust or scalable, is not supported, and should NOT be used in a production environment!_
+
+_Note: This quickstart uses a `*-ds.xml` datasource configuration file for convenience and ease of database configuration. These files are deprecated in WildFly and should not be used in a production environment. Instead, you should configure the datasource using the Management CLI or Management Console. Datasource configuration is documented in the [Administration and Configuration Guide](https://access.redhat.com/documentation/en-US/JBoss_Enterprise_Application_Platform/) for Red Hat JBoss Enterprise Application Platform._
 
 System requirements
 -------------------
 
-All you need to build this project is Java 8 (Java SDK 1.8) or better, Maven 3.1 or better.
+The application this project produces is designed to be run on Red Hat JBoss Enterprise Application Platform 7 or later. 
 
-The application this project produces is designed to be run on JBoss WildFly.
+All you need to build this project is Java 8.0 (Java SDK 1.8) or later and Maven 3.1.1 or later. See [Configure Maven for WildFly 7](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
 
 
-Configure Maven
+Use of WILDFLY_HOME
 ---------------
 
-If you have not yet done so, you must [Configure Maven](../README.md#mavenconfiguration) before testing the quickstarts.
+In the following instructions, replace `WILDFLY_HOME` with the actual path to your WildFly installation. The installation path is described in detail here: [Use of WILDFLY_HOME and JBOSS_HOME Variables](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_WILDFLY_HOME.md#use-of-eap_home-and-jboss_home-variables).
 
 
-Add the Application Users
-----------------
-
-Using the add-user utility script, you must add the following users to the `ApplicationRealm`:
-
-| **UserName** | **Realm** | **Password** | **Roles** |
-|:-----------|:-----------|:-----------|:-----------|
-| quickstartUser| ApplicationRealm | quickstartPwd1!| quickstarts |
-| guest | ApplicationRealm | guestPwd1! | notauthorized |
-
-The first application user has access rights to the application. The second application user is not authorized to access the application.
-
-For an example of how to use the add-user utility, see instructions in the root README file located here: [Add User](../README.md#addapplicationuser).
-
-
-Define a Security Domain Using the Database JAAS Login Module
+Configure the WildFly Server
 ---------------
 
-This quickstart authenticates users using a simple database setup. The datasource configuration is located in the `/src/main/webapp/WEB-INF/servlet-security-quickstart-ds.xml` file. You can configure the security domain by running the  `configure-security-domain.cli` script provided in the root directory of this quickstart, by using the JBoss CLI interactively, or by manually editing the configuration file.
+This quickstart authenticates users using a simple database setup. The datasource configuration is located in the `/src/main/webapp/WEB-INF/servlet-security-quickstart-ds.xml` file. You must define a security domain using the database JAAS login module. 
 
-_NOTE - Before you begin:_
+You can configure the security domain by running JBoss CLI commands. For your convenience, this quickstart batches the commands into a `configure-security-domain.cli` script provided in the root directory of this quickstart. 
 
-1. If it is running, stop the JBoss WildFly Server.
-2. Backup the file: `JBOSS_HOME/standalone/configuration/standalone.xml`
-3. After you have completed testing this quickstart, you can replace this file to restore the server to its original configuration.
+1. Before you begin, back up your server configuration file
+    * If it is running, stop the WildFly server.
+    * Backup the file: `WILDFLY_HOME/standalone/configuration/standalone.xml`
+    * After you have completed testing this quickstart, you can replace this file to restore the server to its original configuration.
 
-#### Configure the Security Domain by Running the JBoss CLI Script
+2. Start the WildFly server by typing the following: 
 
-1. Start the JBoss WildFly Server by typing the following:
+        For Linux:  WILDFLY_HOME/bin/standalone.sh 
+        For Windows:  WILDFLY_HOME\bin\standalone.bat
+3. Review the `configure-security-domain.cli` file in the root of this quickstart directory. This script adds the `servlet-security-quickstart` security domain to the `security` subsystem in the server configuration and configures authentication access.
 
-        For Linux:  JBOSS_HOME/bin/standalone.sh 
-        For Windows:  JBOSS_HOME\bin\standalone.bat
-2. Open a new command line, navigate to the root directory of this quickstart, and run the following command, replacing JBOSS_HOME with the path to your server:
+4. Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing WILDFLY_HOME with the path to your server:
 
-        JBOSS_HOME/bin/jboss-cli.sh --connect --file=configure-security-domain.cli
-This script adds the `servlet-security-quickstart` domain to the `security` subsystem in the server configuration and configures authentication access. You should see the following result when you run the script:
+        For Linux: WILDFLY_HOME/bin/jboss-cli.sh --connect --file=configure-security-domain.cli
+        For Windows: WILDFLY_HOME\bin\jboss-cli.bat --connect --file=configure-security-domain.cli
+You should see the following result when you run the script:
 
-        #1 /subsystem=security/security-domain=servlet-security-quickstart:add(cache-type=default)
-        #2 /subsystem=security/security-domain=servlet-security-quickstart/authentication=classic:add(login-modules=[{"code"=>"Database", "flag"=>"required", "module-options"=>[("dsJndiName"=>"java:jboss/datasources/ServletSecurityDS"),("principalsQuery"=>"SELECT PASSWORD FROM USERS WHERE USERNAME = ?"), ("rolesQuery"=>"SELECT R.NAME, 'Roles' FROM USERS_ROLES UR INNER JOIN ROLES R ON R.ID = UR.ROLE_ID INNER JOIN USERS U ON U.ID = UR.USER_ID WHERE U.USERNAME = ?")]}])
         The batch executed successfully.
         {"outcome" => "success"}
-
-### Configure the Security Domain Using the JBoss CLI Interactively
-
-1. Start the JBoss WildFly Server with the web profile by typing the following:
-
-        For Linux:  JBOSS_HOME/bin/standalone.sh 
-        For Windows:  JBOSS_HOME\bin\standalone.bat 
-2. To start the JBoss CLI tool, open a new command line, navigate to the JBOSS_HOME directory, and type the following:
-    
-        For Linux: bin/jboss-cli.sh --connect
-        For Windows: bin\jboss-cli.bat --connect
-3. At the prompt, type each of the following commands. After each one, you should see a response with the first line `"outcome" => "success"`.
-
-        /subsystem=security/security-domain=servlet-security-quickstart/:add(cache-type=default)
-
-        /subsystem=security/security-domain=servlet-security-quickstart/authentication=classic:add(login-modules=[{"code"=>"Database", "flag"=>"required", "module-options"=>[("dsJndiName"=>"java:jboss/datasources/ServletSecurityDS"),("principalsQuery"=>"SELECT PASSWORD FROM USERS WHERE USERNAME = ?"), ("rolesQuery"=>"SELECT R.NAME, 'Roles' FROM USERS_ROLES UR INNER JOIN ROLES R ON R.ID = UR.ROLE_ID INNER JOIN USERS U ON U.ID = UR.USER_ID WHERE U.USERNAME = ?")]}])
-
-        /:reload
+5. Stop the WildFly server.
 
 
-### Configure the Security Domain by Manually Editing the Server Configuration File
+Review the Modified Server Configuration
+-----------------------------------
 
-1.  If it is running, stop the JBoss WildFly Server.
-2.  Backup the file: `JBOSS_HOME/standalone/configuration/standalone.xml`
-3.  Open the `JBOSS_HOME/standalone/configuration/standalone.xml` file in an editor and locate the subsystem `urn:jboss:domain:security`. 
-4.  Add the following XML to the :
+After stopping the server, open the `WILDFLY_HOME/standalone/configuration/standalone.xml` file and review the changes.
+
+The following `servlet-security-quickstart` security-domain element was added to the `security` subsystem.
 
       	<security-domain name="servlet-security-quickstart" cache-type="default">
     	      <authentication>
@@ -129,35 +100,31 @@ This script adds the `servlet-security-quickstart` domain to the `security` subs
 Please note that the security domain name `servlet-security-quickstart` must match the one defined in the `/src/main/webapp/WEB-INF/jboss-web.xml` file.
 
 
-Start JBoss WildFly with the Web Profile
+Start the WildFly Server
 -------------------------
 
-1. Open a command line and navigate to the root of the JBoss server directory.
-2. The following shows the command line to start the server with the web profile:
+1. Open a command prompt and navigate to the root of the WildFly directory.
+2. The following shows the command line to start the server:
 
-        For Linux:   JBOSS_HOME/bin/standalone.sh
-        For Windows: JBOSS_HOME\bin\standalone.bat
+        For Linux:   WILDFLY_HOME/bin/standalone.sh
+        For Windows: WILDFLY_HOME\bin\standalone.bat
 
 
-<a id="buildanddeploy"></a>
 Build and Deploy the Quickstart
 -------------------------
 
-_NOTE: The following build command assumes you have configured your Maven user settings. If you have not, you must include Maven setting arguments on the command line. See [Build and Deploy the Quickstarts](../README.md#buildanddeploy) for complete instructions and additional options._
-
-1. Make sure you have started the JBoss Server as described above.
-2. Open a command line and navigate to the root directory of this quickstart.
+1. Make sure you have started the WildFly server as described above.
+2. Open a command prompt and navigate to the root directory of this quickstart.
 3. Type this command to build and deploy the archive:
 
-        mvn clean package wildfly:deploy
+        mvn clean install wildfly:deploy
 
 4. This will deploy `target/wildfly-servlet-security.war` to the running instance of the server.
 
-<a id="accesstheapp"></a>
 Access the Application 
 ---------------------
 
-The application will be running at the following URL <http://localhost:8080/wildfly-servlet-security/>.
+The application will be running at the following URL <http://localhost:8080/jboss-servlet-security/>.
 
 When you access the application, you should get a browser login challenge. 
 
@@ -171,18 +138,28 @@ Log in using the username `quickstartUser` and password `quickstartPwd1!`. The b
 
 Now close the browser. Open a new browser and log in with username `guest` and password `guestPwd1!`. The browser will display the following error:
 
-        HTTP Status 403 - Access to the requested resource has been denied
+    HTTP Status 403 - Access to the requested resource has been denied
 
-        type Status report
-        message Access to the requested resource has been denied
-        description Access to the specified resource (Access to the requested resource has been denied) has been forbidden.
+    type Status report
+    message Access to the requested resource has been denied
+    description Access to the specified resource (Access to the requested resource has been denied) has been forbidden.
+
+
+Server Log: Expected warnings and errors
+-----------------------------------
+
+_Note:_ You will see the following warnings in the server log. You can ignore these warnings.
+
+    WFLYJCA0091: -ds.xml file deployments are deprecated. Support may be removed in a future version.
+
+    HHH000431: Unable to determine H2 database version, certain features may not work
 
 
 Undeploy the Archive
 --------------------
 
-1. Make sure you have started the JBoss Server as described above.
-2. Open a command line and navigate to the root directory of this quickstart.
+1. Make sure you have started the WildFly server as described above.
+2. Open a command prompt and navigate to the root directory of this quickstart.
 3. When you are finished testing, type this command to undeploy the archive:
 
         mvn wildfly:undeploy
@@ -195,36 +172,38 @@ You can remove the security domain configuration by running the  `remove-securit
 
 ### Remove the Security Domain Configuration by Running the JBoss CLI Script
 
-1. Start the JBoss WildFly Server by typing the following:
+1. Start the WildFly server by typing the following: 
 
-        For Linux:  JBOSS_HOME_SERVER_1/bin/standalone.sh
-        For Windows:  JBOSS_HOME_SERVER_1\bin\standalone.bat
-2. Open a new command line, navigate to the root directory of this quickstart, and run the following command, replacing JBOSS_HOME with the path to your server:
+        For Linux:  WILDFLY_HOME/bin/standalone.sh
+        For Windows:  WILDFLY_HOME\bin\standalone.bat
+2. Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing WILDFLY_HOME with the path to your server:
 
-        JBOSS_HOME/bin/jboss-cli.sh --connect --file=remove-security-domain.cli 
-This script removes the `test` queue from the `messaging` subsystem in the server configuration. You should see the following result when you run the script:
+        For Linux: WILDFLY_HOME/bin/jboss-cli.sh --connect --file=remove-security-domain.cli 
+        For Windows: WILDFLY_HOME\bin\jboss-cli.bat --connect --file=remove-security-domain.cli 
+This script removes the `servlet-security-quickstart` security domain from the `security` subsystem in the server configuration. You should see the following result when you run the script:
 
-        #1 /subsystem=security/security-domain=quickstart-domain:remove
         The batch executed successfully.
         {"outcome" => "success"}
 
 
 ### Remove the Security Domain Configuration Manually
-1. If it is running, stop the JBoss WildFly Server.
-2. Replace the `JBOSS_HOME/standalone/configuration/standalone.xml` file with the back-up copy of the file.
+1. If it is running, stop the WildFly server.
+2. Replace the `WILDFLY_HOME/standalone/configuration/standalone.xml` file with the back-up copy of the file.
 
 
 
 
-Run the Quickstart in JBoss Developer Studio or Eclipse
+Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 -------------------------------------
-You can also start the server and deploy the quickstarts from Eclipse using JBoss tools. For more information, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](../README.md#useeclipse) 
+You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a WildFly server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_JBDS.md#use-jboss-developer-studio-or-eclipse-to-run-the-quickstarts) 
+
+_NOTE:_ Be sure to configure the security domain by running the JBoss CLI commands as described in the section above entitled *Configure the WildFly Server*. Stop the server at the end of that step.
 
 
 Debug the Application
 ------------------------------------
 
-If you want to debug the source code or look at the Javadocs of any library in the project, run either of the following commands to pull them into your local repository. The IDE should then detect them.
+If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
 
       mvn dependency:sources
-      mvn dependency:resolve -Dclassifier=javadoc
+     

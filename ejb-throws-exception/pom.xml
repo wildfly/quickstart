@@ -1,26 +1,30 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- JBoss, Home of Professional Open Source Copyright 2012, Red Hat, Inc. 
-         and/or its affiliates, and individual contributors by the @authors tag. See 
-    the copyright.txt in the distribution for a full listing of individual contributors. 
-    Licensed under the Apache License, Version 2.0 (the "License"); you may not 
-    use this file except in compliance with the License. You may obtain a copy 
-    of the License at http://www.apache.org/licenses/LICENSE-2.0 Unless required 
-    by applicable law or agreed to in writing, software distributed under the 
-    License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS 
-    OF ANY KIND, either express or implied. See the License for the specific 
-    language governing permissions and limitations under the License. -->
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+    JBoss, Home of Professional Open Source
+    Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
+    contributors by the @authors tag. See the copyright.txt in the
+    distribution for a full listing of individual contributors.
 
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <groupId>org.wildfly.quickstarts</groupId>
     <artifactId>wildfly-ejb-throws-exception</artifactId>
     <version>10.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>WildFly Quickstarts: EJB throws exception</name>
+    <name>WildFly Quickstart: ejb-throws-exception</name>
     <description>WildFly Quickstarts: EJB throws exception, caught by web layer</description>
-
     <url>http://wildfly.org</url>
+
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
@@ -29,6 +33,35 @@
         </license>
     </licenses>
 
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- Define the version of the JBoss Java EE APIs we want to import.
+            Any dependencies from org.jboss.spec will have their version defined by this
+            BOM -->
+        <version.jboss.bom>10.0.0.Beta2</version.jboss.bom>
+
+        <!-- EAP component version management BOM -->
+        <version.jboss.bom.eap>7.0.0-build-7</version.jboss.bom.eap>
+        <version.jboss.spec.javaee.7.0>1.0.3.Final</version.jboss.spec.javaee.7.0>
+
+        <!-- WildFly Maven plug-in to deploy your WAR to a local WildFly container -->
+        <version.wildfly.maven.plugin>1.0.2.Final</version.wildfly.maven.plugin>
+
+        <!-- other plug-in versions -->
+        <version.ear.plugin>2.8</version.ear.plugin>
+        <version.ejb.plugin>2.3</version.ejb.plugin>
+        <version.war.plugin>2.1.1</version.war.plugin>
+        <version.jar.plugin>2.2</version.jar.plugin>
+
+        <!-- maven-compiler-plugin -->
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+
+        <!-- other versions -->
+        <version.javaee>6</version.javaee>
+        <version.ejb>3.1</version.ejb>
+    </properties>
+
     <modules>
         <module>ejb</module>
         <module>web</module>
@@ -36,42 +69,10 @@
         <module>ejb-api</module>
     </modules>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <!-- Define the version of JBoss' Java EE 7 APIs we want to import.
-            Any dependencies from org.jboss.spec will have their version defined by this 
-            BOM -->
-        <!-- Define the version of JBoss' Java EE 7 APIs and Tools we want
-            to import. -->
-        <version.jboss.bom>10.0.0.Beta2</version.jboss.bom>
-
-        <!-- JBoss dependency versions -->
-        <version.wildfly.maven.plugin>1.0.2.Final</version.wildfly.maven.plugin>
-
-        <version.wildfly>10.0.0.Beta1</version.wildfly>
-
-        <version.jboss.spec.javaee.7.0>1.0.3.Final</version.jboss.spec.javaee.7.0>
-
-        <!-- other plugin versions -->
-        <version.compiler.plugin>3.1</version.compiler.plugin>
-        <version.ear.plugin>2.6</version.ear.plugin>
-        <version.ejb.plugin>2.3</version.ejb.plugin>
-        <version.war.plugin>2.5</version.war.plugin>
-        <version.jar.plugin>2.2</version.jar.plugin>
-
-        <!-- maven-compiler-plugin -->
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <maven.compiler.source>1.8</maven.compiler.source>
-
-				<!-- other versions -->
-        <version.javaee>6</version.javaee>
-        <version.ejb>3.1</version.ejb>
-    </properties>
-
     <dependencyManagement>
         <dependencies>
 
-            <!-- Define the version of the EJB jar so that we don't need 
+            <!-- Define the version of the EJB jar so that we don't need
                 to repeat ourselves in every module -->
             <dependency>
                 <groupId>org.wildfly.quickstarts</groupId>
@@ -80,7 +81,7 @@
                 <type>ejb</type>
             </dependency>
 
-            <!-- Define the version of the WAR so that we don't need to repeat 
+            <!-- Define the version of the WAR so that we don't need to repeat
                 ourselves in every module -->
             <dependency>
                 <groupId>org.wildfly.quickstarts</groupId>
@@ -90,7 +91,7 @@
                 <scope>compile</scope>
             </dependency>
 
-            <!-- Define the version of the ejb-api so that we don't need to 
+            <!-- Define the version of the ejb-api so that we don't need to
                 repeat ourselves in every module -->
             <dependency>
                 <groupId>org.wildfly.quickstarts</groupId>
@@ -99,8 +100,8 @@
             </dependency>
 
             <!-- JBoss distributes a complete set of Java EE 7 APIs including
-                a Bill of Materials (BOM). A BOM specifies the versions of a "stack" (or 
-                a collection) of artifacts. We use this here so that we always get the correct 
+                a Bill of Materials (BOM). A BOM specifies the versions of a "stack" (or
+                a collection) of artifacts. We use this here so that we always get the correct
                 versions of artifacts. Here we use the jboss-javaee-7.0-with-tools stack
                 (you can read this as the JBoss stack of the Java EE 7 APIs, with some extras
                 tools for your project, such as Arquillian for testing) and the jboss-javaee-7.0-with-hibernate
@@ -119,20 +120,9 @@
     <build>
         <pluginManagement>
             <plugins>
-                <!-- Compiler plugin enforces Java 1.8 compatibility and
-                    activates annotation processors -->
-                <plugin>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <version>${version.compiler.plugin}</version>
-                    <configuration>
-                        <source>${maven.compiler.source}</source>
-                        <target>${maven.compiler.target}</target>
-                    </configuration>
-                </plugin>
-                <!-- The WildFly plugin deploys your ear to a local JBoss
-                    AS container -->
-                <!-- Due to Maven's lack of intelligence with EARs we need 
-                    to configure the wildfly maven plugin to skip deployment for all modules.
+                <!-- The WildFly plug-in deploys your ear to a local WildFly container -->
+                <!-- Due to Maven's lack of intelligence with EARs we need
+                    to configure the WildFly Maven plug-in to skip deployment for all modules.
                     We then enable it specifically in the ear module. -->
                 <plugin>
                     <groupId>org.wildfly.plugins</groupId>
@@ -145,5 +135,4 @@
             </plugins>
         </pluginManagement>
     </build>
-
 </project>

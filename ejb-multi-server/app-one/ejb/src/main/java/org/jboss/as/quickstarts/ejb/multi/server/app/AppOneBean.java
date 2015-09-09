@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -34,11 +34,11 @@ import org.jboss.logging.Logger;
  * If the security-domain is removed the secured method can be invoked from every user. The shown principal user is 'anonymous'
  * instead of the original logged in user.
  * </p>
- * 
+ *
  * <p>
  * The EJB is marked as clustered by using the xml deployment descriptor, see <code>jboss-ejb3.xml</code>
  * </p>
- * 
+ *
  * @author <a href="mailto:wfink@redhat.com">Wolf-Dieter Fink</a>
  */
 @Stateless

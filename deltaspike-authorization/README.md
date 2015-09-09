@@ -1,12 +1,12 @@
 deltaspike-authorization: Demonstrate the creation of a custom authorization example using @SecurityBindingType from DeltaSpike
 ======================================================
-Author: Rafael Benevides
-Level: Beginner
-Technologies: JSF, CDI, Deltaspike
-Summary: Demonstrate the creation of a custom authorization example using @SecurityBindingType from DeltaSpike
+Author: Rafael Benevides  
+Level: Beginner  
+Technologies: JSF, CDI, Deltaspike  
+Summary: Demonstrate the creation of a custom authorization example using @SecurityBindingType from DeltaSpike  
 Prerequisites: 
-Target Product: WFK
-Source: <https://github.com/jboss-jdf/jboss-as-quickstart/>
+Target Product: WildFly
+Source: <https://github.com/jboss-jdf/jboss-as-quickstart/>  
 
 What is it?
 -----------
@@ -60,13 +60,13 @@ _NOTE: The following build command assumes you have configured your Maven user s
 3. Type this command to build and deploy the archive:
 
         mvn clean package wildfly:deploy
-4. This will deploy `target/jboss-as-deltaspike-authorization.war` to the running instance of the server.
+4. This will deploy `target/wildfly-as-deltaspike-authorization.war` to the running instance of the server.
 
 
 Access the application
 ---------------------
 
-You can access the running application in a browser at the following URL: <localhost:8080/jboss-as-deltaspike-authorization/>
+You can access the running application in a browser at the following URL: <localhost:8080/wildfly-deltaspike-authorization/>
 
 When you access the application you are redirected to a login form, already filled in with the details of the application user you set up above. Once you have logged into the application you see a page showing your username and two buttons. 
 

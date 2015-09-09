@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -17,6 +17,7 @@
 package org.jboss.as.quickstarts.wsba.participantcompletion.simple;
 
 import com.arjuna.mw.wst11.client.JaxWSHeaderContextProcessor;
+
 import org.jboss.as.quickstarts.wsba.participantcompletion.simple.jaxws.SetServiceBA;
 
 import javax.xml.namespace.QName;
@@ -31,7 +32,7 @@ import java.util.List;
 
 /**
  * A Client stub to the SetService.
- * 
+ *
  * @author paul.robinson@redhat.com, 2012-01-04
  */
 @ClientStub
@@ -40,15 +41,15 @@ public class Client implements SetServiceBA {
 
     /**
      * Default constructor with hard-coded values for the SetService endpoint details (wsdl url, service name & port name)
-     * 
+     *
      * @throws MalformedURLException if the WSDL url is malformed.
      */
     public Client() throws MalformedURLException {
         URL wsdlLocation = new URL("http://localhost:8080/test/SetServiceBA?wsdl");
         QName serviceName = new QName("http://www.jboss.org/jboss-jdf/jboss-as-quickstart/helloworld/wsba/participantcompletion/set",
-                "SetServiceBAService");
+            "SetServiceBAService");
         QName portName = new QName("http://www.jboss.org/jboss-jdf/jboss-as-quickstart/helloworld/wsba/participantcompletion/set",
-                "SetServiceBA");
+            "SetServiceBA");
 
         Service service = Service.create(wsdlLocation, serviceName);
         set = service.getPort(portName, SetServiceBA.class);
@@ -57,6 +58,7 @@ public class Client implements SetServiceBA {
          * Add client handler chain so that XTS can add the transaction context to the SOAP messages.
          */
         BindingProvider bindingProvider = (BindingProvider) set;
+        @SuppressWarnings("rawtypes")
         List<Handler> handlers = new ArrayList<>(1);
         handlers.add(new JaxWSHeaderContextProcessor());
         bindingProvider.getBinding().setHandlerChain(handlers);
@@ -64,7 +66,7 @@ public class Client implements SetServiceBA {
 
     /**
      * Add a value to the set
-     * 
+     *
      * @param value Value to add to the set.
      * @throws AlreadyInSetException if the item is already in the set.
      * @throws SetServiceException if an error occurred during the adding of the item to the set.
@@ -75,7 +77,7 @@ public class Client implements SetServiceBA {
 
     /**
      * Query the set to see if it contains a particular value.
-     * 
+     *
      * @param value the value to check for.
      * @return true if the value was present, false otherwise.
      */

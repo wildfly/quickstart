@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -38,20 +38,20 @@ import org.jboss.ejb.client.remoting.ConfigBasedEJBClientContextSelector;
  * <p>
  * With the boolean property <i>UseScopedContext</i> the basic example or the example with the scoped-environment will be called.
  * </p>
- * 
+ *
  * @author <a href="mailto:wfink@redhat.com">Wolf-Dieter Fink</a>
  */
 public class Client {
 
     /**
      * @param args no args needed
-     * @throws Exception 
+     * @throws Exception
      */
     public static void main(String[] args) throws Exception {
         // suppress output of client messages
-        Logger.getLogger("org.jboss").setLevel(Level.FINEST);
-        Logger.getLogger("org.xnio").setLevel(Level.FINEST);
-        
+        Logger.getLogger("org.jboss").setLevel(Level.OFF);
+        Logger.getLogger("org.xnio").setLevel(Level.OFF);
+
         Properties p = new Properties();
         p.put("remote.connectionprovider.create.options.org.xnio.Options.SSL_ENABLED", "false");
         p.put("remote.connections", "one");
@@ -71,9 +71,9 @@ public class Client {
         final boolean useScopedExample = Boolean.getBoolean("UseScopedContext");
         final String rcal = "ejb:wildfly-ejb-multi-server-app-main/ejb//" + (useScopedExample ? "MainAppSContextBean" : "MainAppBean") + "!" + MainApp.class.getName();
         final MainApp remote = (MainApp) context.lookup(rcal);
-        final String result = remote.invokeAll("Client call at "+new Date());
+        final String result = remote.invokeAll("Client call at " + new Date());
 
-        System.out.println("InvokeAll succeed: "+result);
+        System.out.println("InvokeAll succeed: " + result);
     }
 
 }

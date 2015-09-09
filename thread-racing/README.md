@@ -1,11 +1,11 @@
 thread-racing: A thread racing web application, which examples usage of technology introduced/updated by the latest Java EE specification.
 ===================================================
-Author: Eduardo Martins
-Level: Beginner
-Technologies: Batch 1.0, CDI, EE Concurrency 1.0, JAX-RS 2.0, JMS 2.0, JPA 2.1, JSON 1.0, Web Sockets 1.0
-Summary: Demonstrates technologies introduced/updated by latest Java EE
+Author: Eduardo Martins  
+Level: Beginner  
+Technologies: Batch 1.0, CDI, EE Concurrency 1.0, JAX-RS 2.0, JMS 2.0, JPA 2.1, JSON 1.0, Web Sockets 1.0  
+Summary: Demonstrates technologies introduced/updated by latest Java EE  
 Target Project: WildFly
-Source: <https://github.com/wildfly/quickstart/>
+Source: <https://github.com/wildfly/quickstart/>  
 
 What is it?
 -----------

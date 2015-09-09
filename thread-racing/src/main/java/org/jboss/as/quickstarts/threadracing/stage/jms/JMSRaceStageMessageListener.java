@@ -33,14 +33,14 @@ import javax.jms.TextMessage;
  *
  * @author Eduardo Martins
  */
-@JMSDestinationDefinition(name= JMSRaceStageMessageListener.REQUEST_QUEUE,
-        interfaceName="javax.jms.Queue",
-        destinationName="JMSThreadRacingQueue")
+@JMSDestinationDefinition(name = JMSRaceStageMessageListener.REQUEST_QUEUE,
+    interfaceName = "javax.jms.Queue",
+    destinationName = "JMSThreadRacingQueue")
 @MessageDriven(activationConfig = {
-        @ActivationConfigProperty(propertyName = "destinationLookup",
-                propertyValue = JMSRaceStageMessageListener.REQUEST_QUEUE),
-        @ActivationConfigProperty(propertyName = "destinationType",
-                propertyValue = "javax.jms.Queue"),
+    @ActivationConfigProperty(propertyName = "destinationLookup",
+        propertyValue = JMSRaceStageMessageListener.REQUEST_QUEUE),
+    @ActivationConfigProperty(propertyName = "destinationType",
+        propertyValue = "javax.jms.Queue"),
 })
 public class JMSRaceStageMessageListener implements MessageListener {
 

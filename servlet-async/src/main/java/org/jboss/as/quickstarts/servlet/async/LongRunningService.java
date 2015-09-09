@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -28,7 +28,7 @@ import javax.servlet.AsyncContext;
 
 /**
  * A simple service to simulate the execution of a long running task.
- * 
+ *
  * @author Christian Sadilek <csadilek@redhat.com>
  */
 @Stateless
@@ -39,7 +39,7 @@ public class LongRunningService {
     /**
      * The use of {@link Asynchronous} causes this EJB method to be executed asynchronously, by a different thread from a
      * dedicated, container managed thread pool.
-     * 
+     *
      * @param asyncContext the context for a suspended Servlet request that this EJB will complete later.
      */
     @Asynchronous

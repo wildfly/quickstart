@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -22,20 +22,20 @@ import org.jboss.as.quickstarts.interapp.shared.Bar;
 
 /**
  * The Bar bean is registered as an EJB singleton, allowing it to be used in other applications.
- * 
+ *
  * @author Pete Muir
- * 
+ *
  */
 @Singleton
 public class BarImpl implements Bar {
-    
+
     private String name;
-    
+
     @Override
     public String getName() {
         return name;
     }
-    
+
     @Override
     public void setName(String name) {
         this.name = name;

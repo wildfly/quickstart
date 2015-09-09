@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -33,26 +33,23 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 /**
  * Definition of the two JMS destinations used by the quickstart
  * (one queue and one topic).
  */
 @JMSDestinationDefinitions(
-        value =  {
-                @JMSDestinationDefinition(
-                        name = "java:/queue/HELLOWORLDMDBQueue",
-                        interfaceName = "javax.jms.Queue",
-                        destinationName = "HelloWorldMDBQueue"
-                ),
-                @JMSDestinationDefinition(
-                        name = "java:/topic/HELLOWORLDMDBTopic",
-                        interfaceName = "javax.jms.Topic",
-                        destinationName = "HelloWorldMDBTopic"
-                )
-        }
-)
-
+    value = {
+        @JMSDestinationDefinition(
+            name = "java:/queue/HELLOWORLDMDBQueue",
+            interfaceName = "javax.jms.Queue",
+            destinationName = "HelloWorldMDBQueue"
+        ),
+        @JMSDestinationDefinition(
+            name = "java:/topic/HELLOWORLDMDBTopic",
+            interfaceName = "javax.jms.Topic",
+            destinationName = "HelloWorldMDBTopic"
+        )
+    })
 /**
  * <p>
  * A simple servlet 3 as client that sends several messages to a queue or a topic.
@@ -86,7 +83,7 @@ public class HelloWorldMDBServletClient extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html");
         PrintWriter out = resp.getWriter();
-        out.write("<h1>Quickstart: Example demonstrates the use of <strong>JMS 2.0</strong> and <strong>EJB 3.2 Message-Driven Bean</strong> in WildFly 8.</h1>");
+        out.write("<h1>Quickstart: Example demonstrates the use of <strong>JMS 2.0</strong> and <strong>EJB 3.2 Message-Driven Bean</strong> in WildFly.</h1>");
         try {
             boolean useTopic = req.getParameterMap().keySet().contains("topic");
             final Destination destination = useTopic ? topic : queue;
@@ -109,5 +106,4 @@ public class HelloWorldMDBServletClient extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         doGet(req, resp);
     }
-
 }

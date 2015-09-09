@@ -1,0 +1,30 @@
+# Batch script to add and configure logging in the WildFly server
+
+# Start batching commands
+batch
+
+# Remove the quickstart logger
+/subsystem=logging/logger=org.jboss.as.quickstarts.logging:remove
+
+# Remove the log async handler
+/subsystem=logging/async-handler=TRACE_QS_ASYNC:remove
+/subsystem=logging/async-handler=DEBUG_QS_ASYNC:remove
+/subsystem=logging/async-handler=INFO_QS_ASYNC:remove
+/subsystem=logging/async-handler=WARN_QS_ASYNC:remove
+/subsystem=logging/async-handler=ERROR_QS_ASYNC:remove
+/subsystem=logging/async-handler=FATAL_QS_ASYNC:remove
+
+# Remove the file handlers
+/subsystem=logging/periodic-rotating-file-handler=FILE_QS_TRACE:remove
+/subsystem=logging/periodic-rotating-file-handler=FILE_QS_DEBUG:remove
+/subsystem=logging/periodic-rotating-file-handler=FILE_QS_INFO:remove
+/subsystem=logging/periodic-rotating-file-handler=FILE_QS_WARN:remove
+/subsystem=logging/periodic-rotating-file-handler=FILE_QS_ERROR:remove
+/subsystem=logging/periodic-rotating-file-handler=FILE_QS_FATAL:remove
+
+# Run the batch commands
+run-batch
+
+# Reload the server configuration
+:reload
+

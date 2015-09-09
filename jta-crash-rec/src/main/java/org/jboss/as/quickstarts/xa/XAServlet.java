@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -46,45 +46,45 @@ public class XAServlet extends HttpServlet {
 
     // page content describing the quickstart and providing a form to perform basic operations against a database
     private static String PAGE_CONTENT = "<h2>XA Recovery</h2>" +
-            "<p>This quickstart demonstrates how to atomically update multiple resources within one XA transaction. " +
-            "It updates a relational database table using JPA and sends a message using JMS. " + 
-            "In this example, you can perform the following operations:</p>" +
-            "<ul>" + 
-            "<li>To add a <b>key</b>/<b>value</b> pair, enter values in the input text boxes and click <i>Submit</i></li>" +
-            "<li>To update a <b>key</b>/<b>value</b> pair, enter the key and click <i>Submit</i></li>" +
-            "<li>To delete a <b>key</b>/<b>value</b> pair, enter the key and click <i>Delete</i></li>" +
-            "<li>To delete all <b>key</b>/<b>value</b> pairs, leave the key blank and click <i>Delete</i></li>" +
-            "<li>To list the existing <b>key</b>/<b>value</b> pairs, leave the key blank and click <i>Submit</i></li>" +
-            "<li>The refresh the list, click the <i>Refresh Table</i> link.</li>" +
-            "</ul>" +
+        "<p>This quickstart demonstrates how to atomically update multiple resources within one XA transaction. " +
+        "It updates a relational database table using JPA and sends a message using JMS. " +
+        "In this example, you can perform the following operations:</p>" +
+        "<ul>" +
+        "<li>To add a <b>key</b>/<b>value</b> pair, enter values in the input text boxes and click <i>Submit</i></li>" +
+        "<li>To update a <b>key</b>/<b>value</b> pair, enter the key and click <i>Submit</i></li>" +
+        "<li>To delete a <b>key</b>/<b>value</b> pair, enter the key and click <i>Delete</i></li>" +
+        "<li>To delete all <b>key</b>/<b>value</b> pairs, leave the key blank and click <i>Delete</i></li>" +
+        "<li>To list the existing <b>key</b>/<b>value</b> pairs, leave the key blank and click <i>Submit</i></li>" +
+        "<li>The refresh the list, click the <i>Refresh Table</i> link.</li>" +
+        "</ul>" +
 
-            "<p>To demonstrate XA recovery, you will take the following steps:</p> " +
-            "<ol>" +
-            "<li>Add a <b>key</b>/<b>value</b> as described above.</li>" +
-            "<li>Stop the JBoss server.</li>" +
-            "<li>Clear any transaction objectstore data remaining from previous tests.</li>" +
-            "<li>Configure Byteman to halt the JBoss server.</li>" +
-            "<li>Start the JBoss server.</li>" +
-            "<li>Add another <b>key</b>/<b>value</b>. This will cause Byteman to halt the JBoss server.</li>" +
-            "<li>Verify the database record.</li>" +
-            "<li>Disable Byteman.</li>" +
-            "<li>Start the JBoss server.</li>" +
-            "<li>View the resulting recovered row in the table, indicated by the text \"<i>updated via JMS</i>\".</li>" +
-            "</ol>"+
-            "</p> " +
-            "<p>See the README file located in the root of <i>jta-crash-rec</i> folder in the quickstart distribution " +
-            "for complete instructions and details about how this quickstart works.</p> " +
- 
-           "<form>" +
-            "Key: <input type=\"text\" name=\"key\" />" +
-            "&nbsp;(Leave blank to list all key/value pairs).<br />" +
-            "Value: <input type=\"text\" name=\"value\" /><br />" +
-            "<input type=\"submit\" name=\"submit\" value=\"Submit\" />" +
-            "&nbsp;Add or update a pair (or list all pairs if key is blank).<br />" +
-            "<input type=\"submit\" name=\"submit\" value=\"Delete\" />" +
-            "&nbsp;Delete a pair (or all pairs if key is blank).<br />" +
-            "</form>" +
-            "<p><a href=\".\">Refresh Table</a></p>";
+        "<p>To demonstrate XA recovery, you will take the following steps:</p> " +
+        "<ol>" +
+        "<li>Add a <b>key</b>/<b>value</b> as described above.</li>" +
+        "<li>Stop the WildFly server.</li>" +
+        "<li>Clear any transaction objectstore data remaining from previous tests.</li>" +
+        "<li>Configure Byteman to halt the WildFly server.</li>" +
+        "<li>Start the WildFly server.</li>" +
+        "<li>Add another <b>key</b>/<b>value</b>. This will cause Byteman to halt the WildFly server.</li>" +
+        "<li>Verify the database record.</li>" +
+        "<li>Disable Byteman.</li>" +
+        "<li>Start the WildFly server.</li>" +
+        "<li>View the resulting recovered row in the table, indicated by the text \"<i>updated via JMS</i>\".</li>" +
+        "</ol>" +
+        "</p> " +
+        "<p>See the README file located in the root of <i>jta-crash-rec</i> folder in the quickstart distribution " +
+        "for complete instructions and details about how this quickstart works.</p> " +
+
+        "<form>" +
+        "Key: <input type=\"text\" name=\"key\" />" +
+        "&nbsp;(Leave blank to list all key/value pairs).<br />" +
+        "Value: <input type=\"text\" name=\"value\" /><br />" +
+        "<input type=\"submit\" name=\"submit\" value=\"Submit\" />" +
+        "&nbsp;Add or update a pair (or list all pairs if key is blank).<br />" +
+        "<input type=\"submit\" name=\"submit\" value=\"Delete\" />" +
+        "&nbsp;Delete a pair (or all pairs if key is blank).<br />" +
+        "</form>" +
+        "<p><a href=\".\">Refresh Table</a></p>";
 
     private static String PAGE_FOOTER = "</body></html>";
 

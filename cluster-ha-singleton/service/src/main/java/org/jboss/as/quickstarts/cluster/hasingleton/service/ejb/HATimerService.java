@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -18,71 +18,73 @@ package org.jboss.as.quickstarts.cluster.hasingleton.service.ejb;
 
 import java.util.Date;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.logging.Logger;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
-import org.jboss.as.server.ServerEnvironment;
-import org.jboss.logging.Logger;
 import org.jboss.msc.service.Service;
 import org.jboss.msc.service.ServiceName;
 import org.jboss.msc.service.StartContext;
 import org.jboss.msc.service.StartException;
 import org.jboss.msc.service.StopContext;
-import org.jboss.msc.value.Value;
 
 /**
+ * <p>A service to start schedule-timer as HASingleton timer in a clustered environment.
+ * The {@link HATimerServiceActivator} will ensure that the timer is initialized only once in a cluster.</p>
+ * <p>
+ * The initialized timers must not persistent because it will be automatically restarted in case of a server restart
+ * and exists twice within the cluster.<br/>
+ * As this approach is no designed to interact with remote clients it is not possible to trigger reconfigurations.
+ * For this purpose it might be a solution to read the timer configuration from a datasource and create a scheduler
+ * which checks this configuration and trigger the reconfiguration.
+ * </p>
+ *
  * @author <a href="mailto:wfink@redhat.com">Wolf-Dieter Fink</a>
- * @author <a href="mailto:ralf.battenfeld@bluewin.ch">Ralf Battenfeld</a>
  */
-public class HATimerService implements Service<Environment> {
-    public static final ServiceName DEFAULT_SERVICE_NAME = ServiceName.JBOSS.append("quickstart", "ha", "singleton", "default");
-    public static final ServiceName QUORUM_SERVICE_NAME = ServiceName.JBOSS.append("quickstart", "ha", "singleton", "quorum");
-    public static final String NODE_1 = "nodeOne";
-    public static final String NODE_2 = "nodeTwo";
+public class HATimerService implements Service<String> {
+    private static final Logger LOGGER = Logger.getLogger(HATimerService.class.toString());
+    public static final ServiceName SINGLETON_SERVICE_NAME = ServiceName.JBOSS.append("quickstart", "ha", "singleton", "timer");
 
-    private static final Logger LOGGER = Logger.getLogger(HATimerService.class);    
-    private final Value<ServerEnvironment> env;
+    /**
+     * A flag whether the service is started.
+     */
     private final AtomicBoolean started = new AtomicBoolean(false);
 
-    public HATimerService(Value<ServerEnvironment> env) {
-        this.env = env;
+    /**
+     * @return the name of the server node
+     */
+    public String getValue() throws IllegalStateException, IllegalArgumentException {
+        LOGGER.info(String.format("%s is %s at %s", HATimerService.class.getSimpleName(), (started.get() ? "started" : "not started"), System.getProperty("jboss.node.name")));
+        return "";
     }
 
-    @Override
-    public Environment getValue() {
-        if (!this.started.get()) {
-            throw new IllegalStateException();
-        }
-        return new Environment(this.env.getValue().getNodeName());
-    }
-
-    @Override
-    public void start(StartContext context) throws StartException {
+    public void start(StartContext arg0) throws StartException {
         if (!started.compareAndSet(false, true)) {
             throw new StartException("The service is still started!");
         }
         LOGGER.info("Start HASingleton timer service '" + this.getClass().getName() + "'");
-        
+
+        final String node = System.getProperty("jboss.node.name");
         try {
             InitialContext ic = new InitialContext();
-            ((Scheduler) ic.lookup("global/wildfly-cluster-ha-singleton-service/SchedulerBean!org.jboss.as.quickstarts.cluster.hasingleton.service.ejb.Scheduler")).initialize("HASingleton timer @" + this.env.getValue().getNodeName() + " " + new Date());
+            ((Scheduler) ic.lookup("global/jboss-cluster-ha-singleton-service/SchedulerBean!org.jboss.as.quickstarts.cluster.hasingleton.service.ejb.Scheduler"))
+                .initialize("HASingleton timer @" + node + " " + new Date());
         } catch (NamingException e) {
             throw new StartException("Could not initialize timer", e);
         }
     }
 
-    @Override
-    public void stop(StopContext context) {
+    public void stop(StopContext arg0) {
         if (!started.compareAndSet(true, false)) {
-            LOGGER.warn("The service '" + this.getClass().getName() + "' is not active!");
+            LOGGER.warning("The service '" + this.getClass().getName() + "' is not active!");
         } else {
             LOGGER.info("Stop HASingleton timer service '" + this.getClass().getName() + "'");
             try {
                 InitialContext ic = new InitialContext();
-                ((Scheduler) ic.lookup("global/wildfly-cluster-ha-singleton-service/SchedulerBean!org.jboss.as.quickstarts.cluster.hasingleton.service.ejb.Scheduler")).stop();
+                ((Scheduler) ic.lookup("global/jboss-cluster-ha-singleton-service/SchedulerBean!org.jboss.as.quickstarts.cluster.hasingleton.service.ejb.Scheduler")).stop();
             } catch (NamingException e) {
-                LOGGER.error("Could not stop timer", e);
+                LOGGER.info("Could not stop timer:" + e.getMessage());
             }
         }
     }

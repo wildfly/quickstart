@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -25,7 +25,6 @@ import org.infinispan.stats.Stats;
 import org.jboss.as.quickstarts.datagrid.carmart.session.CarManager;
 import org.jboss.as.quickstarts.datagrid.carmart.session.StatisticsProvider;
 
-
 @Named("stats")
 @RequestScoped
 public class LocalStatisticsProvider implements StatisticsProvider {
@@ -38,7 +37,7 @@ public class LocalStatisticsProvider implements StatisticsProvider {
     @PostConstruct
     public void getStatsObject() {
         stats = ((DefaultCacheManager) provider.getCacheContainer()).getCache(CarManager.CACHE_NAME).getAdvancedCache()
-                .getStats();
+            .getStats();
     }
 
     public String getRetrievals() {

@@ -1,0 +1,20 @@
+## Batch file to remove the domain configuration for the hornetq-clustering quickstart.
+
+# - Stop the servers
+/host=master/server-config=jdf-hornetqcluster-node1:stop(blocking=true)
+/host=master/server-config=jdf-hornetqcluster-node2:stop(blocking=true)
+
+batch
+
+# -- Remove the two servers from the jdf-hornetq-clustering-group
+/host=master/server-config=jdf-hornetqcluster-node1:remove
+/host=master/server-config=jdf-hornetqcluster-node2:remove
+
+# -- Remove the HornetQ Clustering group
+/server-group=jdf-hornetq-clustering-group:remove
+
+# -- Run this batch file
+run-batch
+
+# -- Restart the original servers
+:start-servers

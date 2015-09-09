@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -24,12 +24,11 @@ import java.lang.annotation.Target;
 
 import org.apache.deltaspike.security.api.authorization.SecurityBindingType;
 
-
 /**
  * This annotation is used to to add authorization restrictions to beans and methods
- * 
+ *
  * @author <a href="mailto:benevides@redhat.com">Rafael Benevides</a>
- * 
+ *
  */
 @Retention(value = RetentionPolicy.RUNTIME)
 @Target({ ElementType.TYPE, ElementType.METHOD })

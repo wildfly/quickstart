@@ -1,11 +1,11 @@
 carmart-tx: Basic Infinispan example with transactions
 =================================================================
-Author: Tristan Tarrant, Martin Gencur
-Level: Intermediate
-Technologies: Infinispan, CDI, Transactions
-Summary: Shows how to use Infinispan instead of a relational database with transactions enabled.
-Target Product: JDG
-Source: <https://github.com/wildfly/quickstart>
+Author: Tristan Tarrant, Martin Gencur  
+Level: Intermediate  
+Technologies: Infinispan, CDI, Transactions  
+Summary: Shows how to use Infinispan instead of a relational database with transactions enabled.  
+Target Product: WildFly
+Source: <https://github.com/wildfly/quickstart>  
 
 What is it?
 -----------
