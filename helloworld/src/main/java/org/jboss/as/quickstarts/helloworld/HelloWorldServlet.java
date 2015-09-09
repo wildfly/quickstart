@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -30,14 +30,14 @@ import javax.servlet.http.HttpServletResponse;
  * <p>
  * A simple servlet taking advantage of features added in 3.0.
  * </p>
- * 
+ *
  * <p>
  * The servlet is registered and mapped to /HelloServlet using the {@linkplain WebServlet
  * @HttpServlet}. The {@link HelloService} is injected by CDI.
  * </p>
- * 
+ *
  * @author Pete Muir
- * 
+ *
  */
 @SuppressWarnings("serial")
 @WebServlet("/HelloWorld")

@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -32,7 +32,7 @@ import java.util.List;
 
 /**
  * A Client stub to the restaurant service.
- * 
+ *
  * @author paul.robinson@redhat.com, 2012-01-04
  */
 @ClientStub
@@ -42,15 +42,15 @@ public class Client implements RestaurantServiceAT {
     /**
      * Default constructor with hard-coded values for the RestaurantServiceAT endpoint details (wsdl url, service name & port
      * name)
-     * 
+     *
      * @throws MalformedURLException if the WSDL url is malformed.
      */
     public Client() throws MalformedURLException {
         URL wsdlLocation = new URL("http://localhost:8080/wsat-simple/RestaurantServiceAT?wsdl");
         QName serviceName = new QName("http://www.jboss.org/jboss-jdf/jboss-as-quickstart/wsat/simple/Restaurant",
-                "RestaurantServiceATService");
+            "RestaurantServiceATService");
         QName portName = new QName("http://www.jboss.org/jboss-jdf/jboss-as-quickstart/wsat/simple/Restaurant",
-                "RestaurantServiceAT");
+            "RestaurantServiceAT");
 
         Service service = Service.create(wsdlLocation, serviceName);
         restaurant = service.getPort(portName, RestaurantServiceAT.class);
@@ -59,7 +59,8 @@ public class Client implements RestaurantServiceAT {
          * Add client handler chain
          */
         BindingProvider bindingProvider = (BindingProvider) restaurant;
-        List<Handler> handlers = new ArrayList<Handler>(1);
+        @SuppressWarnings("rawtypes")
+        List<Handler> handlers = new ArrayList<>(1);
         handlers.add(new JaxWSHeaderContextProcessor());
         bindingProvider.getBinding().setHandlerChain(handlers);
     }
@@ -74,7 +75,7 @@ public class Client implements RestaurantServiceAT {
 
     /**
      * obtain the number of existing bookings
-     * 
+     *
      * @return the number of current bookings
      */
     @Override

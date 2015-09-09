@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -21,12 +21,12 @@ import javax.ejb.Remote;
 @Remote
 public interface MainApp {
 
-  /**
-   * Invoke the sub applications with the recommended lookup names. Return informations about the called beans.
-   * 
-   * @param text This text will be logged in the main-application
-   * @return A simple text representation of the call stack and the destination servers
-   */
+    /**
+     * Invoke the sub applications with the recommended lookup names. Return informations about the called beans.
+     *
+     * @param text This text will be logged in the main-application
+     * @return A simple text representation of the call stack and the destination servers
+     */
     String invokeAll(String text);
 
     String getJBossNodeName();

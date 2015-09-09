@@ -1,6 +1,6 @@
 <!--
     JBoss, Home of Professional Open Source
-    Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+    Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
     contributors by the @authors tag. See the copyright.txt in the
     distribution for a full listing of individual contributors.
 
@@ -25,8 +25,10 @@
 
 <body>
 
-    <h1>JBoss Temperature Converter Service</h1>
-    <p>Enter the temperature you wish to convert; optionally, type the scale as well ('C' for Celsius, 'F' for Fahrenheit).</p>
+    <h1>WildFly Temperature Converter Service</h1>
+    <p>Enter the temperature you wish to convert. 
+    Then click <b>C</b> for Celsius or <b>F</b> for Fahrenheit to choose the temperature scale.
+    </p>
     <div id="container">
         <h:form id="convertForm">
             <h:panelGrid columns="2">
@@ -47,12 +49,15 @@
             </h:panelGrid>
         </h:form>
         <hr />
-        <p>How the conversion works:</p>
-        <p>The temperature-string is parsed with a regular expression that expects a floating point number followed optionally by a temperature unit ('C' or 'F', case-insensitive).
-            If the temperature unit is missing, the default scale (given by the radio button) is used.</p>
-        <p>An 'error message' will be issued if it cannot convert the temperature-string, and '0.0 Err' will be returned as
-            the result.</p>
-        <p>Both input temperature and the result are truncated at 3 decimal places only.</p>
+        <p>How the temperature conversion works:</p>
+        <ul>
+            <li>The input temperature string is parsed using a regular expression that expects a floating point number.
+        The parsed temperature value is combined with the selected or default temperature scale to convert the temperature to 
+        the new scale.</li>
+            <li>If the input temperature is null or can not be converted, an error message is displayed and 'Invalid temperature' is 
+        returned for the result.</li>
+            <li>Both the parsed input temperature and the resulting converted temperature are truncated to 3 decimal places.</li>
+        </ul>
 
     </div>
 

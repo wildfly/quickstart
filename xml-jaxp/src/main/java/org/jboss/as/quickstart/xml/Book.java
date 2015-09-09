@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -21,9 +21,9 @@ import java.util.Date;
 
 /**
  * Simple Java Bean which is used as a data structure. It stores information about book.
- * 
+ *
  * @author baranowb
- * 
+ *
  */
 @SuppressWarnings("serial")
 public class Book implements Serializable {

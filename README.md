@@ -1,9 +1,9 @@
 WildFly Quickstarts
 ====================
-Summary: The quickstarts demonstrate Java EE 7 and a few additional technologies from the JBoss stack. They provide small, specific, working examples that can be used as a reference for your own project.
+Summary: The quickstarts demonstrate Java EE 7 and a few additional technologies from the JBoss stack. They provide small, specific, working examples that can be used as a reference for your own project.  
 
 Introduction
----------------------
+------------
 
 
 These quickstarts run on JBoss WildFly. This version uses the correct dependencies and ensures you test and compile against your runtime environment.
@@ -16,28 +16,35 @@ Be sure to read this entire document before you attempt to work with the quickst
 
 * [System Requirements](#system-requirements): List of software required to run the quickstarts.
 
-* [Configure Maven](#configure-maven): How to configure the Maven repository for use by the quickstarts.
+* [Configure Maven](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN.md): How to configure the Maven repository for use by the quickstarts.
 
 * [Run the Quickstarts](#run-the-quickstarts): General instructions for building, deploying, and running the quickstarts.
 
-* [Run the Arquillian Tests](#run-the-arquillian-tests): How to run the Arquillian tests provided by some of the quickstarts.
+* [Run the Arquillian Tests](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/RUN_ARQUILLIAN_TESTS.md#run-the-arquillian-tests): How to run the Arquillian tests provided by some of the quickstarts.
 
 * [Optional Components](#optional-components): How to install and configure optional components required by some of the quickstarts.
+
+* [Contributing Guide](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONTRIBUTING.md#jboss-developer-contributing-guide): This document contains information targeted for developers who want to contribute to JBoss developer projects.
+
+Use of WILDFLY_HOME and JBOSS_HOME Variables
+---------------------------------
+
+The quickstart README files use the *replaceable* value `WILDFLY_HOME` to denote the path to the WildFly installation. When you encounter this value in a README file, be sure to replace it with the actual path to your WildFly installation. The installation path is described in detail here: [Use of WILDFLY_HOME and JBOSS_HOME Variables](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_WILDFLY_HOME.md#use-of-eap_home-and-jboss_home-variables).
 
 
 Available Quickstarts
 ---------------------
 
-The following is a list of the currently available quickstarts. The table lists each quickstart name, the technologies it demonstrates, gives a brief description of the quickstart, and the level of experience required to set it up. For more detailed information about a quickstart, click on the quickstart name.
+All available quickstarts can be found here: <http://www.jboss.org/developer-materials/#!formats=jbossdeveloper_quickstart>. You can filter by the quickstart name, the product, and the technologies demonstrated by the quickstart. You can also limit the results based on skill level and date published. The resulting page provides a brief description of each matching quickstart, the skill level, and the technologies used. Click on the quickstart to see more detailed information about how to run it. Some quickstarts require deployment of other quickstarts. This information is noted in the `Prerequisites` section of the quickstart README file.
 
-Some quickstarts are designed to enhance or extend other quickstarts. These are noted in the **Prerequisites** column. If a quickstart lists prerequisites, those must be installed or deployed before working with the quickstart.
+_Note_: Some of these quickstarts use the H2 database included with WildFly. It is a lightweight, relational example datasource that is used for examples only. It is not robust or scalable, is not supported, and should NOT be used in a production environment!
 
-Quickstarts with tutorials in the [Get Started Developing Applications](https://github.com/wildfly/quickstart/guide/Introduction/ "Get Started Developing Applications") are noted with two asterisks ( ** ) following the quickstart name.
 
 [TOC-quickstart]
 
+
 Suggested Approach to the Quickstarts
---------------------------------------
+-------------------------------------
 
 We suggest you approach the quickstarts as follows:
 
@@ -47,43 +54,15 @@ We suggest you approach the quickstarts as follows:
 
 
 System Requirements
--------------
+-------------------
 
-To run these quickstarts with the provided build scripts, you need the following:
+The applications these projects produce are designed to be run on Red Hat JBoss Enterprise Application Platform 7 or later. 
 
-1. Java 1.8, to run WildFly and Maven. You can choose from the following:
-    * OpenJDK
-    * Oracle Java SE
+All you need to build these projects is Java 8.0 (Java SDK 1.8) or later and Maven 3.1.1 or later. See [Configure Maven for WildFly 7](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
 
-2. Maven 3.1.0 or newer, to build and deploy the examples
-    * If you have not yet installed Maven, see the [Maven Getting Started Guide](http://maven.apache.org/guides/getting-started/index.html) for details.
-    * If you have installed Maven, you can check the version by typing the following in a command line:
+To run these quickstarts with the provided build scripts, you need the the WildFly distribution ZIP. For information on how to install and run JBoss, see the [Red Hat JBoss Enterprise Application Platform Documentation](https://access.redhat.com/documentation/en-US/JBoss_Enterprise_Application_Platform/) _Getting Started Guide_ located on the Customer Portal.
 
-            mvn --version 
-
-3. The JBoss WildFly distribution ZIP.
-    * For information on how to install and run JBoss, refer to the product documentation.
-
-4. You can also use [JBoss Developer Studio or Eclipse](#use-jboss-developer-studio-or-eclipse-to-run-the-quickstarts) to run the quickstarts. 
-
-
-Configure Maven
--------------
-
-### Configure Maven for JBoss WildFly
-
-If you are using the JBoss WildFly Quickstart distribution, the community artifacts are available in the Maven central repository so no additional configuration is needed.
-
-### Maven Profiles
-
-Profiles are used by Maven to customize the build environment. The `pom.xml` in the root of the quickstart directory defines the following profiles:
-
-* The `default` profile defines the list of modules or quickstarts that require nothing but JBoss Enterprise Application Platform or WildFly .
-* The `requires-postgres` profile lists the quickstarts that require PostgreSQL to be running when the quickstart is deployed.
-* The `complex-dependency` profile lists quickstarts that require manual configuration that can not be automated.
-* The `requires-full` profile lists quickstarts the require you start the server using the full profile.
-* The `requires-xts` profile lists quickstarts the require you start the server using the xts profile.
-* The `non-maven` profile lists quickstarts that do not require Maven, for example, quickstarts that depend on deployment of other quickstarts or those that use other Frameworks such as Forge.
+You can also use [JBoss Developer Studio or Eclipse](#use-jboss-developer-studio-or-eclipse-to-run-the-quickstarts) to run the quickstarts. 
 
 
 Run the Quickstarts
@@ -91,96 +70,69 @@ Run the Quickstarts
 
 The root folder of each individual quickstart contains a README file with specific details on how to build and run the example. In most cases you do the following:
 
-* [Start the JBoss WildFly Server](#start-the-jboss-wildfly-server)
-* [Build and deploy the quickstart](#build-and-deploy-the quickstart)
+* [Start the WildFly Server](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/START_JBOSS_EAP.md#start-the-jboss-eap-server)
+* [Build and deploy the quickstarts](#build-and-deploy-the-quickstarts)
 
-
-### Start the JBoss WildFly Server
-
-Before you deploy a quickstart, in most cases you need a running server. A few of the Arquillian tests do not require a running server. This will be noted in the README for that quickstart. 
-
-The JBoss server can be started a few different ways.
-
-* [Start the JBoss Server With the _web_ profile](#start-jboss-wildfly-with-the-web-profile): This is the default configuration. It defines minimal subsystems and services.
-* [Start the JBoss Server with the _full_ profile](#start-jboss-wildfly-with-the-full-profile): This profile configures many of the commonly used subsystems and services.
-* [Start the JBoss Server with a custom configuration](#start-jboss-wildfly-with-custom-configuration-options): Custom configuration parameters can be specified on the command line when starting the server.    
-
-The README for each quickstart will specify which configuration is required to run the example.
-
-#### Start JBoss WildFly with the Web Profile
-
-1. Open a command line and navigate to the root of the JBoss server directory.
-2. The following shows the command line to start the server with the web profile:
-
-        For Linux:   JBOSS_HOME/bin/standalone.sh
-        For Windows: JBOSS_HOME\bin\standalone.bat
-
-#### Start JBoss WildFly with the Full Profile
-
-1. Open a command line and navigate to the root of the JBoss server directory.
-2. The following shows the command line to start the server with the full profile:
-
-        For Linux:   JBOSS_HOME/bin/standalone.sh -c standalone-full.xml
-        For Windows: JBOSS_HOME\bin\standalone.bat -c standalone-full.xml
-
-#### Start JBoss WildFly with Custom Configuration Options
-
-1. Open a command line and navigate to the root of the JBoss server directory.
-2. The following shows the command line to start the server. Replace the CUSTOM_OPTIONS with the custom optional parameters specified in the quickstart.
-
-        For Linux:   JBOSS_HOME/bin/standalone.sh CUSTOM_OPTIONS
-        For Windows: JBOSS_HOME\bin\standalone.bat CUSTOM_OPTIONS
            
 ### Build and Deploy the Quickstarts
 
-See the README file in each individual quickstart folder for specific details and information on how to run and access the example.
+See the README file in each individual quickstart folder for specific details and information on how to run and access the example. 
+
 
 #### Build the Quickstart Archive
 
-In some cases, you may want to build the application to test for compile errors or view the contents of the archive. 
+In most cases, you can use the following steps to build the application to test for compile errors or to view the contents of the archive. See the specific quickstart README file for complete details.
 
-1. Open a command line and navigate to the root directory of the quickstart you want to build.
+1. Open a command prompt and navigate to the root directory of the quickstart you want to build.
 2. Use this command if you only want to build the archive, but not deploy it:
 
-            mvn clean package
+            mvn clean install
 
 #### Build and Deploy the Quickstart Archive
 
-1. Make sure you [start the JBoss Server](#start-the-jboss-wildfly-server) as described in the README.
-2. Open a command line and navigate to the root directory of the quickstart you want to run.
+In most cases, you can use the following steps to build and deploy the application. See the specific quickstart README file for complete details.
+
+1. Make sure you start the WildFly server as described in the quickstart README file.
+2. Open a command prompt and navigate to the root directory of the quickstart you want to run.
 3. Use this command to build and deploy the archive:
 
-            mvn clean package wildfly:deploy
-
+            mvn clean install wildfly:deploy
+ 
 #### Undeploy an Archive
 
 The command to undeploy the quickstart is simply: 
 
         mvn wildfly:undeploy
- 
-### Verify the Quickstarts Build with One Command
--------------------------
 
-You can verify the quickstarts build using one command. However, quickstarts that have complex dependencies must be skipped. For example, the _jax-rs-client_ quickstart is a RESTEasy client that depends on the deployment of the _helloworld-rs_ quickstart. As noted above, the root `pom.xml` file defines a `complex-dependencies` profile to exclude these quickstarts from the root build process. 
+
+### Verify the Quickstarts Build with One Command
+-------------------------------------------------
+
+You can verify the quickstarts build using one command. However, quickstarts that have complex dependencies must be skipped. For example, the `resteasy-jaxrs-client` quickstart is a RESTEasy client that depends on the deployment of the _helloworld-rs_ quickstart. As noted above, the root `pom.xml` file defines a `complex-dependencies` profile to exclude these quickstarts from the root build process. 
 
 To build the quickstarts:
 
-1. Do not start the server.
-2. Open a command line and navigate to the root directory of the quickstarts.
+1. Do not start the WildFly server.
+2. Open a command prompt and navigate to the root directory of the quickstarts.
 3. Use this command to build the quickstarts that do not have complex dependencies:
 
             mvn clean install '-Pdefault,!complex-dependencies'
 
+_Note_: If you see a `java.lang.OutOfMemoryError: PermGen space` error when you run this command, increase the memory by typing the following command for your operating system, then try the above command again.
+
+        For Linux:   export MAVEN_OPTS="-Xmx512m -XX:MaxPermSize=128m"
+        For Windows: SET MAVEN_OPTS="-Xmx512m -XX:MaxPermSize=128m"
+
 
 ### Undeploy the Deployed Quickstarts with One Command
--------------------------
+------------------------------------------------------
 
 To undeploy the quickstarts from the root of the quickstart folder, you must pass the argument `-fae` (fail at end) on the command line. This allows the command to continue past quickstarts that fail due to complex dependencies and quickstarts that only have Arquillian tests and do not deploy archives to the server.
 
 You can undeploy quickstarts using the following procedure:
 
-1. Start the server.
-2. Open a command line and navigate to the root directory of the quickstarts.
+1. Start the WildFly server.
+2. Open a command prompt and navigate to the root directory of the quickstarts.
 3. Use this command to undeploy any deployed quickstarts:
 
             mvn wildfly:undeploy -fae
@@ -188,49 +140,10 @@ You can undeploy quickstarts using the following procedure:
 To undeploy any quickstarts that fail due to complex dependencies, follow the undeploy procedure described in the quickstart's README file.
 
 
-### Run the Arquillian Tests
--------------------------
-
-Some of the quickstarts provide Arquillian tests. By default, these tests are configured to be skipped, as Arquillian tests require the use of a container. 
-
-You can run these tests using either a remote or managed container. The quickstart README should tell you what you should expect to see in the console output and server log when you run the test.
-
-1. Test the quickstart on a Remote Server
-    * A remote container requires you start the JBoss WildFly server before running the test. [Start the JBoss Server](#start-the-jboss-wildfly-server) as described in the quickstart README file.
-    * Run the test goal with the following profile activated:
-
-            mvn clean test -Parq-wildfly-remote
-2. Test the quickstart on Managed Server
-
-    _Note: This test requires that your server is not running. Arquillian will start the container for you, however, you must first let it know where to find the remote JBoss container._
-    * Open the test/resources/arquillian.xml file located in the quickstart directory. 
-    * Find the configuration for the remote JBoss container. It should look like this:
-
-            <!-- Example configuration for a remote WildFly instance -->
-            <container qualifier="jboss" default="true">
-                <!-- By default, arquillian will use the JBOSS_HOME environment variable.  Alternatively, the configuration below can be uncommented. -->
-                <!--<configuration> -->
-                <!--<property name="jbossHome">/path/to/wildfly</property> -->
-                <!--</configuration> -->
-            </container>
-    * Remove the comments from the `<configuration>` elements.
-
-            <!-- Example configuration for a remote WildFly instance -->
-            <container qualifier="jboss" default="true">
-                <!-- By default, arquillian will use the JBOSS_HOME environment variable.  Alternatively, the configuration below can be uncommented. -->
-                <configuration>
-                    <property name="jbossHome">/path/to/wildfly</property>
-                </configuration>
-            </container>
-    * Find the "jbossHome" property and replace the "/path/to/wildfly" value with the actual path to your JBoss WildFly server.
-    * Run the test goal with the following profile activated:
-
-            mvn clean test -Parq-wildfly-managed
-
 Use JBoss Developer Studio or Eclipse to Run the Quickstarts
--------------------------------------
+------------------------------------------------------------
 
-You can also deploy the quickstarts from Eclipse using JBoss tools. For more information on how to set up Maven and the JBoss tools, refer to the [JBoss Enterprise Application Platform 6 Development Guide](https://access.redhat.com/knowledge/docs/JBoss_Enterprise_Application_Platform/) or [Get Started Developing Applications](https://github.com/wildfly/quickstart/guide/Introduction/ "Get Started Developing Applications").
+You can also deploy the quickstarts from Eclipse using JBoss tools. For more information on how to set up Maven and the JBoss tools, see the [Red Hat JBoss Enterprise Application Platform Documentation](https://access.redhat.com/documentation/en-US/JBoss_Enterprise_Application_Platform/) _Getting Started Guide_ and _Development Guide_ or [Get Started with JBoss Developer Studio](http://www.jboss.org/products/devstudio/get-started/ "Get Started with JBoss Developer Studio").
 
 
 Optional Components
@@ -239,7 +152,9 @@ The following components are needed for only a small subset of the quickstarts. 
 
 * [Create Users Required by the Quickstarts](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CREATE_USERS.md#create-users-required-by-the-quickstarts): Add a Management or Application user for the quickstarts that run in a secured mode.
 
-* [Configure the PostgreSQL Database for Use with the Quickstarts](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_POSTGRESQL.md#configure-the-postgresql-database-for-use-with-the-quickstarts): The PostgreSQL database is used for the distributed transaction quickstarts.
+* [Configure the PostgreSQL Database for Use with the Quickstarts](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_POSTGRESQL_EAP7.md#configure-the-postgresql-database-for-use-with-the-quickstarts): The PostgreSQL database is used for the distributed transaction quickstarts.
 
 * [Configure Byteman for Use with the Quickstarts](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_BYTEMAN.md#configure-byteman-for-use-with-the-quickstarts): This tool is used to demonstrate crash recovery for distributed transaction quickstarts.
+
+
 

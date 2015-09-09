@@ -37,25 +37,25 @@ public class JSONRaceStage implements RaceStage {
     public void run(Race.Registration registration) throws Exception {
         // 1. build an object with nested structure
         JsonObject jsonObject = Json.createObjectBuilder()
-                // simple pairs
-                .add("firstName", "John")
-                .add("lastName", "Smith")
-                .add("age", 25)
-                // nested object
-                .add("address", Json.createObjectBuilder()
-                        .add("streetAddress", "21 2nd Street")
-                        .add("city", "New York")
-                        .add("state", "NY")
-                        .add("postalCode", "10021"))
-                // nested object array
-                .add("phoneNumber", Json.createArrayBuilder()
-                        .add(Json.createObjectBuilder()
-                                .add("type", "home")
-                                .add("number", "212 555-1234"))
-                        .add(Json.createObjectBuilder()
-                                .add("type", "fax")
-                                .add("number", "646 555-4567")))
-                .build();
+            // simple pairs
+            .add("firstName", "John")
+            .add("lastName", "Smith")
+            .add("age", 25)
+            // nested object
+            .add("address", Json.createObjectBuilder()
+                .add("streetAddress", "21 2nd Street")
+                .add("city", "New York")
+                .add("state", "NY")
+                .add("postalCode", "10021"))
+            // nested object array
+            .add("phoneNumber", Json.createArrayBuilder()
+                .add(Json.createObjectBuilder()
+                    .add("type", "home")
+                    .add("number", "212 555-1234"))
+                .add(Json.createObjectBuilder()
+                    .add("type", "fax")
+                    .add("number", "646 555-4567")))
+            .build();
         // 2. write the object to a string
         StringWriter stringWriter = new StringWriter();
         try (JsonWriter writer = Json.createWriter(stringWriter)) {

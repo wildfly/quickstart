@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -28,7 +28,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 /**
  * A simple secured Servlet which calls a secured EJB. Upon successful authentication and authorization the EJB will return the
  * principal's name. Servlet security is implemented using annotations.
@@ -48,7 +47,7 @@ public class SecuredEJBServlet extends HttpServlet {
     // Inject the Secured EJB
     //@EJB(lookup="java:global/wildfly-ejb-security/SecuredEJB")
     @EJB
-    private SecuredRemote securedEJB;
+    private SecuredEJB securedEJB;
 
     /**
      * Servlet entry point method which calls securedEJB.getSecurityInfo()

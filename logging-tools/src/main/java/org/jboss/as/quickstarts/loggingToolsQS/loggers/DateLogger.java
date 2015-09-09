@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -32,7 +32,7 @@ public interface DateLogger extends BasicLogger {
 
     @LogMessage(level = Level.ERROR)
     @Message(id = 3, value = "Invalid date passed as string: %s")
-    void logStringCouldntParseAsDate(String datestring, @Cause ParseException exception);
+    void logStringCouldntParseAsDate(String dateString, @Cause Throwable exception);
 
     @LogMessage
     @Message(id = 4, value = "Requested number of days until '%s'")

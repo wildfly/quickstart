@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -20,30 +20,30 @@ import javax.ejb.Remote;
 
 /**
  * Interface for the demo application One.
- * 
+ *
  * @author <a href="mailto:wfink@redhat.com">Wolf-Dieter Fink</a>
  */
 @Remote
 public interface AppOne {
 
-  /**
-   * Unsecured invocation, will return the name of application, principal and JBoss node.
-   * 
-   * @param text Simple text written to to the logfile to identify the invocation
-   * @return app1[&lt;PrincipalName&gt;]@&lt;jboss.node.name&gt;
-   */
+    /**
+     * Unsecured invocation, will return the name of application, principal and JBoss node.
+     *
+     * @param text Simple text written to to the logfile to identify the invocation
+     * @return app1[&lt;PrincipalName&gt;]@&lt;jboss.node.name&gt;
+     */
     String invoke(String text);
 
-  /**
-   * @return The property of jboss.node.name, pattern &lt;host&gt;:&lt;server&gt;
-   */
+    /**
+     * @return The property of jboss.node.name, pattern &lt;host&gt;:&lt;server&gt;
+     */
     String getJBossNodeName();
 
-  /**
-   * Secured invocation for Roles ( AppOne, Intern ). See {@link #invoke(String)}
-   * 
-   * @param text Simple text written to to the logfile to identify the invocation
-   * @return app1[&lt;PrincipalName&gt;]@&lt;jboss.node.name&gt;
-   */
+    /**
+     * Secured invocation for Roles ( AppOne, Intern ). See {@link #invoke(String)}
+     *
+     * @param text Simple text written to to the logfile to identify the invocation
+     * @return app1[&lt;PrincipalName&gt;]@&lt;jboss.node.name&gt;
+     */
     String invokeSecured(String text);
 }

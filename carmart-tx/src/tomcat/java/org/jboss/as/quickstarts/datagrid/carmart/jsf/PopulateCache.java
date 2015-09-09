@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -41,18 +41,18 @@ import org.jboss.as.quickstarts.datagrid.carmart.session.CarManager;
 
 /**
  * Populates a cache with initial data. We need to obtain BeanManager from
- * JNDI and create an instance of CacheContainerProvider manually since injection 
+ * JNDI and create an instance of CacheContainerProvider manually since injection
  * into Listeners is not supported by CDI specification.
- * 
+ *
  * @author Martin Gencur
- * 
+ *
  */
 public class PopulateCache implements SystemEventListener {
 
     private Logger log = Logger.getLogger(this.getClass().getName());
 
     private CacheContainerProvider provider;
-    
+
     private TransactionManager tm;
 
     @Override
@@ -64,9 +64,9 @@ public class PopulateCache implements SystemEventListener {
     public void startup() {
         BasicCache<String, Object> cars = provider.getCacheContainer().getCache(CarManager.CACHE_NAME);
         List<String> carNumbers = new ArrayList<String>();
-        
+
         tm = ((CacheImpl) cars).getAdvancedCache().getTransactionManager();
-        
+
         try {
             tm.begin();
             Car c = new Car("Ford Focus", 1.6, CarType.COMBI, "white", "FML 23-25", Country.CZECH_REPUBLIC);
@@ -110,7 +110,7 @@ public class PopulateCache implements SystemEventListener {
         }
         return (BeanManager) result;
     }
-    
+
     @SuppressWarnings("unchecked")
     public <T> T getContextualInstance(final BeanManager manager, final Class<T> type) {
         T result = null;
@@ -123,7 +123,7 @@ public class PopulateCache implements SystemEventListener {
         }
         return result;
     }
-    
+
     @Override
     public boolean isListenerForSource(Object source) {
         return source instanceof Application;

@@ -1,18 +1,18 @@
-jts: Java Transaction Service - Distributed EJB Transactions Across Multiple Containers 
-======================================================================================
-Author: Tom Jenkinson
-Level: Intermediate
-Technologies: JTS, EJB, JMS
-Summary: Uses Java Transaction Service (JTS) to coordinate distributed transactions
-Prerequisites: cmt
-Target Project: WildFly
-Source: <https://github.com/wildfly/quickstart/>
+jts: Java Transaction Service - Distributed EJB Transactions
+============================================================
+Author: Tom Jenkinson  
+Level: Intermediate  
+Technologies: JTS, EJB, JMS  
+Summary: The `jts` quickstart shows how to use JTS to perform distributed transactions across multiple containers, fulfilling the properties of an ACID transaction.  
+Prerequisites: cmt  
+Target Product: WildFly  
+Source: <https://github.com/wildfly/quickstart/>  
 
 
 What is it?
 -----------
 
-This example demonstrates how to perform distributed transactions in an application. A distributed transaction is a set of operations performed by two or more nodes, participating in an activity coordinated as a single entity of work, and fulfilling the properties of an ACID transaction. 
+The `jts` quickstart demonstrates how to perform distributed transactions across multiple containers in an application deployed to Red Hat JBoss Enterprise Application Platform. A distributed transaction is a set of operations performed by two or more nodes, participating in an activity coordinated as a single entity of work, and fulfilling the properties of an ACID transaction. 
 
 ACID is a set of 4 properties that guarantee the resources are processed in the following manner:
 
@@ -24,7 +24,7 @@ ACID is a set of 4 properties that guarantee the resources are processed in the 
 
 The example uses Java Transaction Service (JTS) to propagate a transaction context across two Container-Managed Transaction (CMT) EJBs that, although deployed in separate servers, participate in the same transaction. In this example, one server processes the Customer and Account data and the other server processes the Invoice data.
 
-The code base is essentially the same as the _cmt_ quickstart, however in this case the <code>InvoiceManager</code>
+The code base is essentially the same as the [cmt](../cmt/README.md) quickstart, however in this case the <code>InvoiceManager</code>
 has been separated to a different deployment archive to demonstrate the usage of JTS. You can see the changes in the 
 following ways:
 
@@ -37,24 +37,25 @@ You will see that the `CustomerManagerEJB` uses the EJB home for the remote EJB,
 
 A simple MDB has been provided that prints out the messages sent but this is not a transactional MDB and is purely provided for debugging purposes.
 
-Also, while the _cmt_ quickstart uses the Java EE container default datasource, which is not distributed, this quickstart uses instead an external PostgreSQL database.
+Also, while the _cmt_ quickstart uses the Java EE container default datasource, which is not distributed, this quickstart instead uses an external PostgreSQL database.
 
-After users complete this quickstart, they are invited to run through the following quickstart:
+After  you complete this quickstart, you are invited to run through the [jts-distributed-crash-rec](../jts-distributed-crash-rec/README.md) quickstart. The crash recovery quickstart builds upon this quickstart by demonstrating the fault tolerance of Red Hat JBoss Enterprise Application Platform.
 
-1. _jts-distributed-crash-rec_ - The crash recovery quickstart builds upon the _jts_ quickstart by demonstrating the fault tolerance of WildFly.
+_Note: This quickstart uses a `*-ds.xml` datasource configuration file for convenience and ease of database configuration. These files are deprecated in WildFly and should not be used in a production environment. Instead, you should configure the datasource using the Management CLI or Management Console. Datasource configuration is documented in the [Administration and Configuration Guide](https://access.redhat.com/documentation/en-US/JBoss_Enterprise_Application_Platform/) for Red Hat JBoss Enterprise Application Platform._
 
 
 System requirements
 -------------------
 
-All you need to build this project is Java 8 (Java SDK 1.8) or better, Maven 3.1 or better.
+The application this project produces is designed to be run on Red Hat JBoss Enterprise Application Platform 7 or later. 
 
-The application this project produces is designed to be run on JBoss WildFly.
+All you need to build this project is Java 8.0 (Java SDK 1.8) or later and Maven 3.1.1 or later. See [Configure Maven for WildFly 7](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
 
-Configure Maven
+
+Use of WILDFLY_HOME
 ---------------
 
-If you have not yet done so, you must [Configure Maven](../README.md#mavenconfiguration) before testing the quickstarts.
+In the following instructions, replace `WILDFLY_HOME` with the actual path to your WildFly installation. The installation path is described in detail here: [Use of WILDFLY_HOME and JBOSS_HOME Variables](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_WILDFLY_HOME.md#use-of-eap_home-and-jboss_home-variables).
 
 
 Prerequisites
@@ -65,114 +66,110 @@ Developers should be familiar with the concepts introduced in the _cmt_ quicksta
 This quickstart requires the configuration of two servers. The first server must be configured to use the PostgreSQL database. Instructions to install and configure PostgreSQL are below.
 
 
-Install the PostgreSQL Database
--------------------------------
+Configure the PostgreSQL Database for Use with this Quickstart
+--------------------------------------------------
 
-This quickstart requires the PostgreSQL database. Instructions to install an configure PostgreSQL can be found here: [Install and Configure the PostgreSQL Database](../README.md#postgresql)
+This quickstart requires the PostgreSQL database. Instructions to install and configure PostgreSQL can be found here: [Download and Install PostgreSQL](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_POSTGRESQL_EAP7.md#download-and-install-postgresql)
 
-_Note_: For the purpose of this quickstart, replace the word QUICKSTART_DATABASENAME with `jts-quickstart-database` in the PostgreSQL instructions.
+_Note_: For the purpose of this quickstart, replace the word `QUICKSTART_DATABASE_NAME` with `jts-quickstart-database` in the PostgreSQL instructions.
 
 Be sure to start the PostgreSQL database. Unless you have set up the database to automatically start as a service, you must repeat the instructions "Start the database server" for your operating system every time you reboot your machine.
 
-Wait until later in these instructions to add the PostgreSQL module and driver configuration to the first JBoss server.
+Wait until later in these instructions to add the PostgreSQL module and driver configuration to the first WildFly server.
 
 
-Configure the JBoss Servers
+Configure the WildFly Servers
 ---------------------------
 
 For this example, you will need two instances of the application server, with a subtle startup configuration difference. Application server 2 must be started up with a port offset parameter provided to the startup script as "-Djboss.socket.binding.port-offset=100". 
 
 Since both application servers must be configured in the same way, you must configure the first server and then clone it. After you clone the second server, the first server must be configured for PostgreSQL. 
 
-### Modify the Server Configuration file. 
+_Note:_ This quickstart README file use the following replaceable values. When you encounter these values in a README file, be sure to replace them with the actual path to the correct WildFly server.
 
-You can configure the server by running the  `configure-jts-transactions.cli` script provided in the root directory of this quickstart, by using the JBoss CLI interactively, or by manually editing the configuration file.
+  * `WILDFLY_HOME` denotes the path to the original WildFly installation. 
+  * `WILDFLY_HOME_1` denotes the path to the modified WildFly server 1 configuration.
+  * `WILDFLY_HOME_2` denotes the path to the modified WildFly server 2 configuration.
+ 
+### Configure the First Server 
 
-_NOTE - Before you begin:_
+You configure JTS transactions by running JBoss CLI commands. For your convenience, this quickstart batches the commands into a `configure-jts-transactions.cli` script provided in the root directory of this quickstart. 
 
-1. If it is running, stop the JBoss WildFly Server.
-2. Backup the file: `JBOSS_HOME/standalone/configuration/standalone-full.xml`
-3. After you have completed testing this quickstart, you can replace this file to restore the server to its original configuration.
+1. Before you begin, back up your server configuration file
+    * If it is running, stop the WildFly server.
+    * Backup the file: `WILDFLY_HOME/standalone/configuration/standalone-full.xml`
+    * After you have completed testing this quickstart, you can replace this file to restore the server to its original configuration.
+2. Start the WildFly server with the full profile, passing a unique node ID by typing the following command. Be sure to replace `UNIQUE_NODE_ID_1` with a node identifier that is unique to both servers.
 
-#### Modify the Server Configuration by Running the JBoss CLI Script
+        For Linux:  WILDFLY_HOME/bin/standalone.sh -c standalone-full.xml -Djboss.tx.node.id=UNIQUE_NODE_ID_1
+        For Windows:  WILDFLY_HOME\bin\standalone.bat -c standalone-full.xml  -Djboss.tx.node.id=UNIQUE_NODE_ID_1
+3. Review the `configure-jts-transactions.cli` file in the root of this quickstart directory. This script configures the server to use jts transaction processing.
+4. Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing WILDFLY_HOME with the path to your server:
 
-1. Start the JBoss WildFly Server by typing the following:
+        For Linux: WILDFLY_HOME/bin/jboss-cli.sh --connect --file=configure-jts-transactions.cli
+        For Windows: WILDFLY_HOME\bin\jboss-cli.bat --connect --file=configure-jts-transactions.cli
+ You should see the following result when you run the script:
 
-        For Linux:  JBOSS_HOME/bin/standalone.sh -c standalone-full.xml
-        For Windows:  JBOSS_HOME\bin\standalone.bat -c standalone-full.xml
-2. Open a new command line, navigate to the root directory of this quickstart, and run the following command, replacing JBOSS_HOME with the path to your server:
-
-        JBOSS_HOME/bin/jboss-cli.sh --connect --file=configure-jts-transactions.cli
-This script configures the server to use jts transaction processing. You should see the following result when you run the script:
-
-        #1 /subsystem=iiop-openjdk:write-attribute(name=transactions,value=full)
-        #2 /subsystem=transactions:write-attribute(name=jts,value=true)
-        #3 /subsystem=transactions:write-attribute(name=node-identifier,value=UNIQUE_IDENTIFER)
         The batch executed successfully.
         {"outcome" => "success"}
+5. Stop the WildFly server.
 
-#### Modify the Server Configuration Using the JBoss CLI Tool Interactively
+_NOTE:_ When you have completed testing this quickstart, it is important to [Remove the JTS Configuration from the WildFly Server](#remove-the-jts-configuration-from-the-jboss-eap-server).
 
-1. Start the JBoss WildFly Server by typing the following:
 
-        For Linux:  JBOSS_HOME_SERVER_1/bin/standalone.sh -c standalone-full.xml
-        For Windows:  JBOSS_HOME_SERVER_1\bin\standalone.bat -c standalone-full.xml
-2. To start the JBoss CLI tool, open a new command line, navigate to the JBOSS_HOME directory, and type the following:
-    
-        For Linux: bin/jboss-cli.sh --connect
-        For Windows: bin\jboss-cli.bat --connect
-3. At the prompt, type the following (replace the words UNIQUE_IDENTIFER with values unique to both servers):
+### Review the Modified Server Configuration
 
-        [standalone@localhost:9999 /] /subsystem=iiop-openjdk/:write-attribute(name=transactions,value=full)
-        [standalone@localhost:9999 /] /subsystem=transactions/:write-attribute(name=jts,value=true)
-        [standalone@localhost:9999 /] /subsystem=transactions/:write-attribute(name=node-identifier,value=UNIQUE_IDENTIFER)
-4. _NOTE:_ When you have completed testing this quickstart, it is important to [Remove the JTS Configuration from the JBoss Server](#remove-the-jts-configuration-from-the-jboss-server).
+After stopping the server, open the `WILDFLY_HOME/standalone/configuration/standalone-full.xml` file and review the changes.
 
-#### Modify the Server Configuration Manually
+1. The orb initializers `transactions` attribute is changed from "spec" to "on" in the  `iiop-openjdk` subsystem to enable JTS. A naming root is also added to the subsystem.
 
-1. Make a backup copy of the `JBOSS_HOME/standalone/configuration/standalone-full.xml` file.
-2. Open the file JBOSS_HOME/standalone/configuration/standalone-full.xml
-3. Enable JTS as follows:
-    * Find the orb subsystem and change the configuration to:  
+        <subsystem xmlns="urn:jboss:domain:iiop-openjdk:1.0">
+            <orb>
+                <initializers security="identity" transactions="full"/>
+            </orb>
+        </subsystem>
 
-            <subsystem xmlns="urn:jboss:domain:iiop-openjdk:1.0">
-                <orb>
-                    <initializers security="identity" transactions="full"/>
-                </orb>
-            </subsystem>
-    * Find the transaction subsystem and set a unique node-identifier, (replace the words UNIQUE_IDENTIFER with values unique to both servers) and append the `<jts/>` element:  
+2. An empty `<jts/>` element is added to the the end of the `transactions` subsystem to enable JTS.
+      
+        <subsystem xmlns="urn:jboss:domain:transactions:3.0">
+            <core-environment node-identifier="${jboss.tx.node.id}">
+                <process-id>
+                    <uuid/>
+                </process-id>
+            </core-environment>
+            <recovery-environment socket-binding="txn-recovery-environment" status-socket-binding="txn-status-manager"/>
+            <jts/>
+        </subsystem>
 
-            <subsystem xmlns="urn:jboss:domain:transactions:1.2">
-                <core-environment node-identifier="UNIQUE_IDENTIFIER">
-                <!-- LEAVE EXISTING CONFIG AND APPEND THE FOLLOWING -->
-                <jts/>
-            </subsystem>
-4.  _NOTE:_ When you have completed testing this quickstart, it is important to [Remove the JTS Configuration from the JBoss Server](#remove-the-jts-configuration-from-the-jboss-server).
+_NOTE:_ When you have completed testing this quickstart, it is important to [Remove the JTS Configuration from the WildFly Server](#remove-the-jts-configuration-from-the-jboss-eap-server).
   
-### Clone the JBOSS_HOME Directory     
+### Clone the WILDFLY_HOME Directory     
 
-Make a copy of this JBoss directory structure to use for the second server.
+Make a copy of this WildFly directory structure to use for the second server.
 
 ### Configure Server1 to use PostgreSQL
 
-2. Application server 1 must be configured to use PostgreSQL as per the instructions in [Install and Configure the PostgreSQL Database] (../README.md#postgresql).
-    * Be sure to start the PostgreSQL database.
-    * [Add the PostgreSQL Module](../README.md#addpostgresqlmodule) to the Application 1 server `modules/` directory.
-    * [Add the PostgreSQL driver](../README.md#addpostgresqldriver) to the Application 1 server configuration file.
+Application server 1 must be now configured to use the PostgreSQL database created previously in the [Configure the PostgreSQL Database for Use with this Quickstart](#configure-the-postgresql-database-for-use-with-this-quickstart) section. 
+
+1. Be sure to start the PostgreSQL database. Unless you have set up the database to automatically start as a service, you must repeat the instructions "Start the database server" for your operating system every time you reboot your machine.
+2. Follow the instructions to [Add the PostgreSQL Module to the WildFly Server](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_POSTGRESQL_EAP7.md#add-the-postgresql-module-to-the-red-hat-jboss-enterprise-application-platform-server) to the server 1 install only.
+3. Follow the instructions to [Configure the PostgreSQL Driver in the WildFly Server](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_POSTGRESQL_EAP7.md#configure-the-postgresql-driver-in-the-red-hat-jboss-enterprise-application-platform-server) for the server 1 configuration.
 
 
-Start the JBoss WildFly Servers
+Start the WildFly Servers
 -------------------------
+
+Start the the two WildFly servers with the full profile, passing a unique node ID by typing the following command. You must pass a socket binding port offset on the command to start the second server. Be sure to replace `UNIQUE_NODE_ID` with a node identifier that is unique to both servers.
 
 If you are using Linux:
 
-        Server 1: JBOSS_HOME_SERVER_1/bin/standalone.sh -c standalone-full.xml
-        Server 2: JBOSS_HOME_SERVER_2/bin/standalone.sh -c standalone-full.xml -Djboss.socket.binding.port-offset=100
+        Server 1: WILDFLY_HOME_1/bin/standalone.sh -c standalone-full.xml -Djboss.tx.node.id=UNIQUE_NODE_ID_1
+        Server 2: WILDFLY_HOME_2/bin/standalone.sh -c standalone-full.xml -Djboss.tx.node.id=UNIQUE_NODE_ID_2 -Djboss.socket.binding.port-offset=100
 
 If you are using Windows
 
-        Server 1: JBOSS_HOME_SERVER_1\bin\standalone.bat -c standalone-full.xml
-        Server 2: JBOSS_HOME_SERVER_2\bin\standalone.bat -c standalone-full.xml -Djboss.socket.binding.port-offset=100
+        Server 1: WILDFLY_HOME_1\bin\standalone.bat -c standalone-full.xml -Djboss.tx.node.id=UNIQUE_NODE_ID_1
+        Server 2: WILDFLY_HOME_2\bin\standalone.bat -c standalone-full.xml -Djboss.tx.node.id=UNIQUE_NODE_ID_2 -Djboss.socket.binding.port-offset=100
 
 
 Build and Deploy the Quickstart
@@ -181,44 +178,51 @@ Build and Deploy the Quickstart
 Since this quickstart builds two separate components, you can not use the standard *Build and Deploy* commands used by most of the other quickstarts. You must follow these steps to build, deploy, and run this quickstart.
 
 
-1. Make sure you have started the JBoss server with the PostgreSQL driver
-2. Open a command line and navigate to the root directory of this quickstart.
+1. Make sure you have started the WildFly server with the PostgreSQL driver
+2. Open a command prompt and navigate to the root directory of this quickstart.
 3. Type this command to build and deploy the archive:
 
-        mvn clean package wildfly:deploy
+        mvn clean install wildfly:deploy
 
 4. This will deploy `application-component-1/target/wildfly-jts-application-component-1.war` and `application-component-2/target/wildfly-jts-application-component-2.jar` to the running instance of the server.
 
 Access the application 
 ---------------------
 
-The application will be running at the following URL: <http://localhost:8080/wildfly-jts-application-component-1/>.
+The application will be running at the following URL: <http://localhost:8080/jboss-jts-application-component-1/>.
 
 When you enter a name and click to "Add" that customer, you will see the following in the application server 1 console:
     
-    14:31:48,334 WARNING [javax.enterprise.resource.webcontainer.jsf.renderkit] (http-localhost-127.0.0.1-8080-1) Unable to find component with ID name in view.
-    14:31:50,767 INFO  [org.jboss.ejb.client] (http-localhost-127.0.0.1-8080-1) JBoss EJB Client version 1.0.5.Final
-    14:31:51,430 WARN  [com.arjuna.ats.jts] (RequestProcessor-5) ARJUNA022261: ServerTopLevelAction detected that the transaction was inactive
+    INFO  [org.jboss.ejb.client] (http-/127.0.0.1:8080-1) JBoss EJB Client version 1.0.26.Final-redhat-1
+    WARN  [com.arjuna.ats.jts] (RequestProcessor-5) ARJUNA022261: ServerTopLevelAction detected that the transaction was inactive
 
 You will also see the following in application-server-2 console:
 
-    14:31:50,750 INFO  [org.jboss.ejb.client] (RequestProcessor-10) JBoss EJB Client version 1.0.5.Final
-    14:31:51,395 INFO  [class org.jboss.as.quickstarts.cmt.jts.mdb.HelloWorldMDB] (Thread-1 (HornetQ-client-global-threads-1567863645)) Received Message: Created invoice for customer named: Tom
+    INFO  [org.jboss.ejb.client] (RequestProcessor-10) JBoss EJB Client version 1.0.26.Final-redhat-1
+    INFO  [class org.jboss.as.quickstarts.cmt.jts.mdb.HelloWorldMDB] (Thread-2 (HornetQ-client-global-threads-2003471369)) Received Message: Created invoice for customer named: Tom
 
 The web page will also change and show you the new list of customers.
 
 
+Server Log: Expected warnings and errors
+-----------------------------------
+
+_Note:_ You will see the following warnings in the server log. You can ignore these warnings. 
+
+    WFLYJCA0091: -ds.xml file deployments are deprecated. Support may be removed in a future version.
+    ARJUNA022261: ServerTopLevelAction detected that the transaction was inactive
+
 Undeploy the Archive
 --------------------
 
-1. Make sure you have started the JBoss Server as described above.
-2. Open a command line and navigate to the root directory of this quickstart.
+1. Make sure you have started the WildFly server as described above.
+2. Open a command prompt and navigate to the root directory of this quickstart.
 3. When you are finished testing, type this command to undeploy the archive:
 
         mvn package wildfly:undeploy
 
 
-Remove the JTS Configuration from the JBoss Server
+Remove the JTS Configuration from the WildFly Server
 ---------------------------
 
 You must remove the JTS server configuration you did during setup because it interferes with the JTA quickstarts. 
@@ -227,54 +231,56 @@ You can modify the server configuration by running the `remove-jts-transactions.
 
 ### Remove the JTS Server Configuration by Running the JBoss CLI Script
 
-1. Start the JBoss WildFly Server by typing the following:
+1. Start the WildFly server with the full profile.
 
-        For Linux:  JBOSS_HOME_SERVER_1/bin/standalone.sh -c standalone-full.xml
-        For Windows:  JBOSS_HOME_SERVER_1\bin\standalone.bat -c standalone-full.xml
-2. Open a new command line, navigate to the root directory of this quickstart, and run the following command, replacing JBOSS_HOME with the path to your server:
+        For Linux:  WILDFLY_HOME_1/bin/standalone.sh -c standalone-full.xml
+        For Windows:  WILDFLY_HOME_1\bin\standalone.bat -c standalone-full.xml
+2. Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing WILDFLY_HOME with the path to your server:
 
-        JBOSS_HOME/bin/jboss-cli.sh --connect --file=remove-jts-transactions.cli 
-This script removes the `test` queue from the `messaging` subsystem in the server configuration. You should see the following result when you run the script:
+        For Linux: WILDFLY_HOME_1/bin/jboss-cli.sh --connect --file=remove-jts-transactions.cli 
+        For Windows: WILDFLY_HOME_1\bin\jboss-cli.bat --connect --file=remove-jts-transactions.cli 
+This script removes the JTS configuration from the `jacorb` and `transactions` subsystems in the server configuration. You should see the following result when you run the script:
 
-        #1 /subsystem=iiop-openjdk:write-attribute(name=transactions,value=spec)
-        #2 /subsystem=transactions:undefine-attribute(name=jts)
-        #3 /subsystem=transactions:undefine-attribute(name=node-identifier)
         The batch executed successfully.
         {"outcome" => "success"}
 
 
 ### Remove the JTS Server Configuration using the JBoss CLI Tool
 
-1. Start the JBoss WildFly Server by typing the following.
+1. Start the WildFly server with the full profile.
 
-        If you are using Linux:  JBOSS_HOME_SERVER_1/bin/standalone.sh -c standalone-full.xml
-        If you are using Windows:  JBOSS_HOME_SERVER_1\bin\standalone.bat -c standalone-full.xml
-2. To start the JBoss CLI tool, open a new command line, navigate to the JBOSS_HOME directory, and type the following:
+        For Linux:  WILDFLY_HOME_1/bin/standalone.sh -c standalone-full.xml
+        For Windows:  WILDFLY_HOME_1\bin\standalone.bat -c standalone-full.xml
+2. To start the JBoss CLI tool, open a new command prompt, navigate to the WILDFLY_HOME directory, and type the following:
     
-        For Linux: bin/jboss-cli.sh --connect
-        For Windows: bin\jboss-cli.bat --connect
+        For Linux: WILDFLY_HOME_1/bin/jboss-cli.sh --connect
+        For Windows: WILDFLY_HOME_1\bin\jboss-cli.bat --connect
 3. At the prompt, type the following:
 
-        [standalone@localhost:9999 /] /subsystem=iiop-openjdk/:write-attribute(name=transactions,value=spec)
-        [standalone@localhost:9999 /] /subsystem=transactions/:undefine-attribute(name=jts)
-        [standalone@localhost:9999 /] /subsystem=transactions/:undefine-attribute(name=node-identifier)
+        /subsystem=iiop-openjdk/:write-attribute(name=transactions,value=spec)
+        /subsystem=transactions/:undefine-attribute(name=jts)
+        /subsystem=transactions/:undefine-attribute(name=node-identifier)
+ You should see the following result when you run the script:
 
+        The batch executed successfully.
+        {"outcome" => "success"}
+      
 ### Remove the JTS Server Configuration Manually
 
 1. Stop the server.
-2. If you backed up the JBOSS_HOME/standalone/configuration/standalone-full.xml,simply replace the edited configuration file with the backup copy.
-3. If you did not make a backup copy, open the file JBOSS_HOME/standalone/configuration/standalone-full.xml and disable JTS as follows:
+2. If you backed up the WILDFLY_HOME/standalone/configuration/standalone-full.xml,simply replace the edited configuration file with the backup copy.
+3. If you did not make a backup copy, open the file WILDFLY_HOME/standalone/configuration/standalone-full.xml and disable JTS as follows:
 
-    * Find the orb subsystem and change the configuration back to:  
+    * Find the orb subsystem and change the configuration back to:
 
             <subsystem xmlns="urn:jboss:domain:iiop-openjdk:1.0">
                 <orb>
                     <initializers security="identity" transactions="spec"/>
                 </orb>
             </subsystem>
-    * Find the transaction subsystem and remove the `<jts/>` element:  
+    * Find the transaction subsystem and remove the `<jts/>` element:
 
-            <subsystem xmlns="urn:jboss:domain:transactions:1.2">
+            <subsystem xmlns="urn:jboss:domain:transactions:1.5">
                 <!-- REMOVE node-identifier ATTRIBUTE FROM core-environment ELEMENT -->
                 <!-- LEAVE EXISTING CONFIG AND REMOVE THE </jts> -->
             </subsystem>

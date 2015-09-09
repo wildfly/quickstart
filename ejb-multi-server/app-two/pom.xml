@@ -1,7 +1,7 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!--
     JBoss, Home of Professional Open Source
-    Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+    Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
     contributors by the @authors tag. See the copyright.txt in the
     distribution for a full listing of individual contributors.
 
@@ -18,10 +18,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <parent>
+        <groupId>org.wildfly.quickstarts</groupId>
+        <artifactId>wildfly-ejb-multi-server</artifactId>
+        <version>10.0.0-SNAPSHOT</version>
+    </parent>
     <artifactId>wildfly-ejb-multi-server-app-two</artifactId>
-    <name>WildFly Quickstarts: ejb-multi-server - app-two</name>
-    <description>ejb-multi-server: Application two for the scenario</description>
     <packaging>pom</packaging>
+    <name>WildFly Quickstart: ejb-multi-server - app-two</name>
+    <description>ejb-multi-server: Application two for the scenario</description>
 
     <licenses>
         <license>
@@ -30,12 +35,6 @@
             <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
         </license>
     </licenses>
-
-    <parent>
-        <groupId>org.wildfly.quickstarts</groupId>
-        <artifactId>wildfly-ejb-multi-server</artifactId>
-        <version>10.0.0-SNAPSHOT</version>
-    </parent>
 
     <modules>
         <module>ejb</module>

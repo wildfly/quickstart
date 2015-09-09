@@ -1,7 +1,7 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!--
     JBoss, Home of Professional Open Source
-    Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+    Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
     contributors by the @authors tag. See the copyright.txt in the
     distribution for a full listing of individual contributors.
 
@@ -15,17 +15,16 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <groupId>org.wildfly.quickstarts</groupId>
     <artifactId>wildfly-ejb-security-plus</artifactId>
     <version>10.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>WildFly Quickstarts: EJB Security Plus</name>
+    <name>WildFly Quickstart: ejb-security-plus</name>
     <description>WildFly Quickstarts: EJB Security Plus</description>
-
     <url>http://wildfly.org</url>
+
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
@@ -35,9 +34,9 @@
     </licenses>
 
     <properties>
-        <!-- Explicitly declaring the source encoding eliminates the following 
+        <!-- Explicitly declaring the source encoding eliminates the following
             message: -->
-        <!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered 
+        <!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered
             resources, i.e. build is platform dependent! -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
@@ -45,7 +44,7 @@
 
         <version.wildfly.maven.plugin>1.0.2.Final</version.wildfly.maven.plugin>
 
-        <version.wildfly>10.0.0.Beta1</version.wildfly>
+        <version.wildfly>10.0.0.Beta2</version.wildfly>
 
         <version.jboss.spec.javaee.7.0>1.0.3.Final</version.jboss.spec.javaee.7.0>
 
@@ -54,8 +53,8 @@
         <version.exec.plugin>1.2.1</version.exec.plugin>
 
         <!-- maven-compiler-plugin -->
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.7</maven.compiler.target>
+        <maven.compiler.source>1.7</maven.compiler.source>
     </properties>
 
     <dependencyManagement>
@@ -92,8 +91,8 @@
         <dependency>
             <groupId>org.wildfly.core</groupId>
             <artifactId>wildfly-core-security-api</artifactId>
-        </dependency>        
-        
+        </dependency>
+
 
         <!-- Import the CDI API, we use provided scope as the API is included in JBoss WildFly -->
         <dependency>
@@ -102,7 +101,7 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- Import the Common Annotations API (JSR-250), we use provided scope 
+        <!-- Import the Common Annotations API (JSR-250), we use provided scope
             as the API is included in JBoss WildFly -->
         <dependency>
             <groupId>org.jboss.spec.javax.annotation</groupId>
@@ -127,7 +126,7 @@
             <artifactId>jboss-ejb3-ext-api</artifactId>
         </dependency>
 
-          <!-- JBoss EJB client API jar. We use runtime scope because the EJB client 
+          <!-- JBoss EJB client API jar. We use runtime scope because the EJB client
               API isn't directly used in this example. We just need it in our runtime classpath -->
         <dependency>
             <groupId>org.jboss</groupId>
@@ -165,7 +164,7 @@
     </dependencies>
 
     <build>
-          <!-- Set the name of the war, used as the context root when the app is 
+          <!-- Set the name of the war, used as the context root when the app is
               deployed -->
         <finalName>${project.artifactId}</finalName>
         <plugins>
@@ -185,7 +184,7 @@
                     <executable>java</executable>
                     <workingDirectory>${project.build.directory}/exec-working-directory</workingDirectory>
                     <arguments>
-                                  <!-- automatically creates the classpath using all project dependencies, 
+                                  <!-- automatically creates the classpath using all project dependencies,
                                       also adding the project build directory -->
                         <argument>-classpath</argument>
                         <classpath>

@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -20,9 +20,9 @@ package org.jboss.as.quickstarts.cdi.alternative;
  * <p>
  * Default implementation for Tax
  * </p>
- * 
+ *
  * @author Nevin Zhu
- * 
+ *
  */
 public class TaxImpl_1 implements Tax {
     public String getRate() {

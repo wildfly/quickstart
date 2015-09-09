@@ -30,5 +30,5 @@ public class BoxApplication extends Application {
      * the jaxrs app path
      */
     public static final String PATH = "box";
-    
+
 }

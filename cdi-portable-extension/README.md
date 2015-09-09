@@ -1,23 +1,23 @@
-cdi-portable-extension: An example of a Portable Extension and some of the APIs / SPIs of CDI
+cdi-portable-extension: CDI Portable Extension 
 ======================================================
-Author: Jason Porter
-Level: Intermediate
-Technologies: CDI
-Summary: Creating a basic CDI extension to provide injection of fields from an XML file.
-Target Project: WildFly
-Source: <https://github.com/wildfly/quickstart/>
+Author: Jason Porter  
+Level: Intermediate  
+Technologies: CDI  
+Summary: The `cdi-portable-extension` quickstart demonstrates a simple CDI Portable Extension that uses SPI classes to inject beans with data from an XML file.  
+Target Product: WildFly
+Source: <https://github.com/wildfly/quickstart/>  
 
 What is it?
 -----------
 
-This project demonstrates a simple CDI Portable Extension and some of the SPI classes used
-to complete that task. This particular extension explores the ProcessInjectionTarget and 
-InjectionTarget spi classes of CDI. To demonstrate a possible way to seed data into beans.
+The `cdi-portable-extension` quickstart demonstrates a simple CDI Portable Extension and some of the SPI classes used
+to complete that task in an application deployed to Red Hat JBoss Enterprise Application Platform. 
+This particular extension explores the ProcessInjectionTarget and 
+InjectionTarget SPI classes of CDI, to demonstrate a possible way to seed data into beans.
 
-A Portable Extension is essentially an extension to Java EE 7+ which is tailored to a specific
-use case which will run on any Java EE 7 or higher implementation. There may be something that the
-specifications don't support just yet, but could be implemented via a portable extension such as
-type safe messages or external configuration of beans.
+A Portable Extension is an extension to Java EE 6 and above, which is tailored to a specific
+use case and will run on any Java EE 6 or later implementation. Portable extensions can implement 
+features not yet supported by the specifications, such as type-safe messages or external configuration of beans.
 
 The project contains very simple domain model classes, an extension class, the service registration file
 for that extension and an Arquillian test to verify the extension is working correctly.
@@ -28,26 +28,25 @@ correctly.
 System requirements
 -------------------
 
-All you need to build this project is Java 8 (Java SDK 1.8) or better, Maven 3.1 or better.
+The application this project produces is designed to be run on Red Hat JBoss Enterprise Application Platform 7 or later. 
 
-The application this project produces is designed to be run on JBoss WildFly.
+All you need to build this project is Java 8.0 (Java SDK 1.8) or later and Maven 3.1.1 or later. See [Configure Maven for WildFly 7](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
 
 
-Configure Maven
+Use of WILDFLY_HOME
 ---------------
 
-Contributor: You can copy or link to the Maven configuration information in the README file in the root folder of the quickstarts. For example:
+In the following instructions, replace `WILDFLY_HOME` with the actual path to your WildFly installation. The installation path is described in detail here: [Use of WILDFLY_HOME and JBOSS_HOME Variables](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_WILDFLY_HOME.md#use-of-eap_home-and-jboss_home-variables).
 
-If you have not yet done so, you must [Configure Maven](../README.md#mavenconfiguration) before testing the quickstarts.
 
-Start JBoss WildFly with the Web Profile
+Start the WildFly Server
 -------------------------
 
-1. Open a command line and navigate to the root of the JBoss server directory.
-2. The following shows the command line to start the server with the web profile:
+1. Open a command prompt and navigate to the root of the WildFly directory.
+2. The following shows the command line to start the server:
 
-        For Linux:   JBOSS_HOME/bin/standalone.sh
-        For Windows: JBOSS_HOME\bin\standalone.bat
+        For Linux:   WILDFLY_HOME/bin/standalone.sh
+        For Windows: WILDFLY_HOME\bin\standalone.bat
 
 
 Run the Arquillian Tests
@@ -55,43 +54,31 @@ Run the Arquillian Tests
 
 This quickstart provides Arquillian tests. By default, these tests are configured to be skipped as Arquillian tests require the use of a container.
 
-_NOTE: The following commands assume you have configured your Maven user settings. If you have not, you must include Maven setting arguments on the command line. See [Run the Arquillian Tests](../README.md#arquilliantests) for complete instructions and additional options._
-
-1. Make sure you have started the JBoss Server as described above.
-2. Open a command line and navigate to the root directory of this quickstart.
+1. Make sure you have started the WildFly server as described above.
+2. Open a command prompt and navigate to the root directory of this quickstart.
 3. Type the following command to run the test goal with the following profile activated:
 
         mvn clean test -Parq-wildfly-remote
 
 
-Run tests from JBDS
------------------------
-
-To be able to run the tests from JBDS, first set the active Maven profile in project properties to be either 'arq-wildfly-managed' for running on
-managed server or 'arq-wildfly-remote' for running on remote server.
-
-To run the tests, right click on the project or individual classes and select Run As --> JUnit Test in the context menu.
-
-
 Investigate the Console Output
 ----------------------------
 
-
-### Maven
-
-Maven prints summary of performed tests into the console:
+Maven prints summary of the 2 performed tests to the console.
 
     -------------------------------------------------------
      T E S T S
     -------------------------------------------------------
     Running org.jboss.as.quickstart.cdi.extension.test.CreatureExtensionTest
-    log4j:WARN No appenders could be found for logger (org.jboss.logging).
-    log4j:WARN Please initialize the log4j system properly.
     Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.87 sec
 
     Results :
 
     Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
+
+_Note:_ You may see the following warning. You can ignore it as it should be resolved by this JIRA: https://issues.jboss.org/browse/WFLY-5165.
+
+    WARN: The protocol 'http-remoting-jmx' is deprecated, instead you should use 'remote+http'.
 
 
 ### Server log
@@ -100,33 +87,31 @@ There are two logging statements done when the tests are run:
 
 #### Example
 
-    15:07:13,145 INFO  [org.jboss.as.server.deployment] (MSC service thread 1-5) JBAS015876: Starting deployment of "test.war"
-    15:07:13,267 INFO  [org.jboss.weld.deployer] (MSC service thread 1-1) JBAS016002: Processing weld deployment test.war
-    15:07:13,283 INFO  [org.jboss.weld.deployer] (MSC service thread 1-7) JBAS016005: Starting Services for CDI deployment: test.war
-    15:07:13,290 INFO  [org.jboss.weld.deployer] (MSC service thread 1-3) JBAS016008: Starting weld service for deployment test.war
-    15:07:13,338 INFO  [org.jboss.as.quickstart.cdi.extension.CreatureExtension] (MSC service thread 1-3) Setting up injection target for class org.jboss.as.quickstart.cdi.extension.model.Monster
-    15:07:13,343 INFO  [org.jboss.as.quickstart.cdi.extension.CreatureExtension] (MSC service thread 1-3) Setting up injection target for class org.jboss.as.quickstart.cdi.extension.model.NonPlayerCharacter
-    15:07:13,377 INFO  [org.jboss.web] (MSC service thread 1-1) JBAS018210: Registering web context: /test
-    15:07:13,495 INFO  [org.jboss.as.server] (management-handler-thread - 5) JBAS018559: Deployed "test.war"
-    15:07:13,922 INFO  [org.jboss.weld.deployer] (MSC service thread 1-8) JBAS016009: Stopping weld service for deployment test.war
-    15:07:13,932 INFO  [org.jboss.as.server.deployment] (MSC service thread 1-7) JBAS015877: Stopped deployment test.war in 16ms
-    15:07:14,039 INFO  [org.jboss.as.repository] (management-handler-thread - 6) JBAS014901: Content removed from location /home/jporter/java_libraries/wildfly/build/target/wildfly-8.0.0.Final/standalone/data/content/4d/40e4e277a16327b45b62954d70d91bbf3fcf42/content
-    15:07:14,040 INFO  [org.jboss.as.server] (management-handler-thread - 6) JBAS018558: Undeployed "test.war"
+    INFO  [org.jboss.as.server.deployment] (MSC service thread 1-6) WFLYSRV0027: Starting deployment of "test.war" (runtime-name: "test.war")
+    ...
+    INFO  [org.jboss.as.quickstart.cdi.extension.CreatureExtension] (MSC service thread 1-3) Setting up injection target for class org.jboss.as.quickstart.cdi.extension.model.Monster
+    [timestamp] INFO  [org.jboss.as.quickstart.cdi.extension.CreatureExtension] (MSC service thread 1-3) Setting up injection target for class org.jboss.as.quickstart.cdi.extension.model.NonPlayerCharacter
+    ...
+    INFO  [org.jboss.as.server] (management-handler-thread - 6) WFLYSRV0010: Deployed "test.war" (runtime-name : "test.war")
+    ...
+    [timestamp] INFO  [org.jboss.as.server.deployment] (MSC service thread 1-4) WFLYSRV0028: Stopped deployment test.war (runtime-name: test.war) in 27ms
+    ...
+    INFO  [org.jboss.as.server] (management-handler-thread - 6) WFLYSRV0009: Undeployed "test.war" (runtime-name: "test.war")
 
 The two statements to look for are these:
 
-    15:07:13,338 INFO  [org.jboss.as.quickstart.cdi.extension.CreatureExtension] (MSC service thread 1-3) Setting up injection target for class org.jboss.as.quickstart.cdi.extension.model.Monster
-    15:07:13,343 INFO  [org.jboss.as.quickstart.cdi.extension.CreatureExtension] (MSC service thread 1-3) Setting up injection target for class org.jboss.as.quickstart.cdi.extension.model.NonPlayerCharacter
+    INFO  [org.jboss.as.quickstart.cdi.extension.CreatureExtension] (MSC service thread 1-3) Setting up injection target for class org.jboss.as.quickstart.cdi.extension.model.Monster
+    INFO  [org.jboss.as.quickstart.cdi.extension.CreatureExtension] (MSC service thread 1-3) Setting up injection target for class org.jboss.as.quickstart.cdi.extension.model.NonPlayerCharacter
 
-Run the Quickstart in JBoss Developer Studio or Eclipse
+Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 -------------------------------------
-You can also start the server and deploy the quickstarts from Eclipse using JBoss tools. For more information, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](../README.md#useeclipse)
+You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a WildFly server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_JBDS.md#use-jboss-developer-studio-or-eclipse-to-run-the-quickstarts)
 
 
 Debug the Application
 ------------------------------------
 
-If you want to debug the source code or look at the Javadocs of any library in the project, run either of the following commands to pull them into your local repository. The IDE should then detect them.
+If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
 
         mvn dependency:sources
-        mvn dependency:resolve -Dclassifier=javadoc
+

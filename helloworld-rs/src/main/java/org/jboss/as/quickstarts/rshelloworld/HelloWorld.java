@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -17,19 +17,16 @@
 package org.jboss.as.quickstarts.rshelloworld;
 
 import javax.inject.Inject;
-import javax.json.Json;
-import javax.json.JsonObject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
 /**
- * A simple JAX-RS 2.0 REST service which is able to say hello to the world using an injected HelloService CDI bean.
- * The {@link javax.ws.rs.Path} class annotation value is related to the {@link org.jboss.as.quickstarts.rshelloworld.HelloWorldApplication}'s path.
- * 
+ * A simple REST service which is able to say hello to someone using HelloService Please take a look at the web.xml where JAX-RS
+ * is enabled
+ *
  * @author gbrey@redhat.com
- * @author Eduardo Martins
- * 
+ *
  */
 
 @Path("/")
@@ -37,27 +34,15 @@ public class HelloWorld {
     @Inject
     HelloService helloService;
 
-    /**
-     * Retrieves a JSON hello world message.
-     * The {@link javax.ws.rs.Path} method annotation value is related to the one defined at the class level.
-     * @return
-     */
     @GET
-    @Path("json")
+    @Path("/json")
     @Produces({ "application/json" })
-    public JsonObject getHelloWorldJSON() {
-        return Json.createObjectBuilder()
-                .add("result", helloService.createHelloMessage("World"))
-                .build();
+    public String getHelloWorldJSON() {
+        return "{\"result\":\"" + helloService.createHelloMessage("World") + "\"}";
     }
 
-    /**
-     * Retrieves a XML hello world message.
-     * The {@link javax.ws.rs.Path} method annotation value is related to the one defined at the class level.
-     * @return
-     */
     @GET
-    @Path("xml")
+    @Path("/xml")
     @Produces({ "application/xml" })
     public String getHelloWorldXML() {
         return "<xml><result>" + helloService.createHelloMessage("World") + "</result></xml>";

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+    JBoss, Home of Professional Open Source
+    Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
+    contributors by the @authors tag. See the copyright.txt in the
+    distribution for a full listing of individual contributors.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0                              http://maven.apache.org/maven-v4_0_0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.jboss.quickstarts.eap</groupId>
+        <artifactId>jboss-jaxws-ejb</artifactId>
+        <version>7.0.0-SNAPSHOT</version>
+    </parent>
+    <artifactId>jboss-jaxws-ejb-client</artifactId>
+    <packaging>jar</packaging>
+    <name>WildFly Quickstart: jaxws-ejb - client</name>
+    <url>http://www.wildfly.org</url>
+
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <distribution>repo</distribution>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+        </license>
+    </licenses>
+
+    <repositories>
+     <repository>
+       <id>jboss-product-builds</id>
+       <url>http://repository.jboss.org/nexus/content/groups/public/ </url>
+     </repository>
+
+   </repositories>
+
+    <properties>
+     <version.exec-plugin>1.2.1</version.exec-plugin>
+     <version.jboss.jbossxb>2.0.3.GA</version.jboss.jbossxb>
+   </properties>
+
+    <dependencies>
+
+      <dependency>
+          <groupId>org.jboss.quickstarts.eap</groupId>
+          <artifactId>jboss-jaxws-ejb-service</artifactId>
+          <version>${project.version}</version>
+         <classifier>classes</classifier>
+      </dependency>
+        <!-- required for client to resolve org/jboss/ws/core/jaxws/spi/ProviderImpl -->
+       <dependency>
+           <groupId>org.jboss.ws.native</groupId>
+           <artifactId>jbossws-native-core</artifactId>
+       </dependency>
+        <!-- required for ProviderImpl to resolve org.jboss.logging.Logger -->
+       <dependency>
+           <groupId>org.jboss.logging</groupId>
+           <artifactId>jboss-logging-spi</artifactId>
+       </dependency>
+       <dependency>
+           <groupId>org.jboss.spec.javax.ejb</groupId>
+           <artifactId>jboss-ejb-api_3.2_spec</artifactId>
+       </dependency>
+       <dependency>
+         <groupId>org.jboss</groupId>
+           <artifactId>jbossxb</artifactId>
+       </dependency>
+   </dependencies>
+
+    <build>
+      <finalName>${project.artifactId}</finalName>
+      <plugins>
+         <!-- Allows Client to be run via 'mvn exec:java' -->
+         <plugin>
+           <groupId>org.codehaus.mojo</groupId>
+           <artifactId>exec-maven-plugin</artifactId>
+           <version>${version.exec.plugin}</version>
+           <configuration>
+             <mainClass>org.jboss.quickstarts.ws.client.Client</mainClass>
+           </configuration>
+         </plugin>
+      </plugins>
+   </build>
+
+</project>

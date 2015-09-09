@@ -1,53 +1,54 @@
-xml-jaxp: Demonstrates How to Upload and Parse an XML File Using DOM or SAX
+xml-jaxp: Upload and Parse an XML File Using DOM or SAX
 ========================
-Author: Bartosz Baranowski
-Level: Intermediate
-Technologies: JAXP, SAX, DOM, Servlet
-Summary: Upload, validation and parsing of XML using SAX or DOM
-Target Project: WildFly
-Source: <https://github.com/wildfly/quickstart/>
-
+Author: Bartosz Baranowski  
+Level: Intermediate  
+Technologies: JAXP, SAX, DOM, Servlet  
+Summary: The `xml-jaxp` quickstart demonstrates how to use Servlet and JSF to upload an XML file to WildFly and validate and parse it using DOM or SAX.  
+Target Product: WildFly
+Source: <https://github.com/wildfly/quickstart/>  
 What is it?
 -----------
 
-This is a simple JSF 2.2, Servlet 3.1 and Java EE JAXP example. Its purpose is to demonstrate how you can use Servlet and JSF to upload an XML file to *JBoss WildFly* and parse it using DOM or SAX, both of which are built in to Java.
+The `xml-jaxp` quickstart is a simple Java EE JAXP example that demonstrates how to use Servlet 3.0 and JSF to upload an XML file to *Red Hat JBoss Enterprise Application Platform* and parse it using DOM or SAX, both of which are built into Java. It also shows how to use modules available in WildFly.
 
-It also shows how to use modules available in WildFly.
+This quickstart provides an example XML schema and document file to use when testing this quickstart.
+
+* The XML schema is located here: `QUICKSTART_HOME/src/main/resources/catalog.xsd` 
+* The XML document is located here: `QUICKSTART_HOME/src/main/resources/catalog.xml`
+
  
 System requirements
 -------------------
 
-All you need to build this project is Java 8 (Java SDK 1.8) or better, Maven 3.1 or better.
+The application this project produces is designed to be run on Red Hat JBoss Enterprise Application Platform 7 or later. 
 
-The application this project produces is designed to be run on JBoss WildFly.
+All you need to build this project is Java 8.0 (Java SDK 1.8) or later and Maven 3.1.1 or later. See [Configure Maven for WildFly 7](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
 
- 
-Configure Maven
+
+Use of WILDFLY_HOME
 ---------------
 
-If you have not yet done so, you must [Configure Maven](../README.md#mavenconfiguration) before testing the quickstarts.
+In the following instructions, replace `WILDFLY_HOME` with the actual path to your WildFly installation. The installation path is described in detail here: [Use of WILDFLY_HOME and JBOSS_HOME Variables](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_WILDFLY_HOME.md#use-of-eap_home-and-jboss_home-variables).
 
 
-Start JBoss WildFly with the Web Profile
+Start the WildFly Server
 -------------------------
 
-1. Open a command line and navigate to the root of the JBoss server directory.
-2. The following shows the command line to start the server with the web profile:
+1. Open a command prompt and navigate to the root of the WildFly directory.
+2. The following shows the command line to start the server:
 
-        For Linux:   JBOSS_HOME/bin/standalone.sh
-        For Windows: JBOSS_HOME\bin\standalone.bat
+        For Linux:   WILDFLY_HOME/bin/standalone.sh
+        For Windows: WILDFLY_HOME\bin\standalone.bat
 
  
 Build and Deploy the Quickstart
 -------------------------
 
-_NOTE: The following build command assumes you have configured your Maven user settings. If you have not, you must include Maven setting arguments on the command line. See [Build and Deploy the Quickstarts](../README.md#buildanddeploy) for complete instructions and additional options._
-
-1. Make sure you have started the JBoss Server as described above.
-2. Open a command line and navigate to the root directory of this quickstart.
+1. Make sure you have started the WildFly server as described above.
+2. Open a command prompt and navigate to the root directory of this quickstart.
 3. Type this command to build and deploy the archive:
 
-        mvn clean package wildfly:deploy
+        mvn clean install wildfly:deploy
 
 4. This will deploy `target/wildfly-xml-jaxp.war` to the running instance of the server.
 
@@ -55,29 +56,47 @@ _NOTE: The following build command assumes you have configured your Maven user s
 Access the application 
 ---------------------
 
-The application will be running at the following URL: <http://localhost:8080/wildfly-xml-jaxp/>.
+The application will be running at the following URL: <http://localhost:8080/jboss-xml-jaxp/>.
+
+To test the quickstart, follow these steps.
+
+1. Click the `Browse` button and navigate to the `QUICKSTART_HOME/src/main/resources/catalog.xml` file.
+2. Click the `Upload` button. The XML file content is parsed and displayed on the page. 
+3. You should see the following output in the server console that shows the DOMXMLParser was used:
+
+        INFO  [stdout] (http-/127.0.0.1:8080-1) Parsing the document using the DOMXMLParser!
+
+To enable the alternative SAXXMLParser parser:
+
+1. Remove the comments that surround the alternate parser element in the `WEB-INF/beans.xml` file.
+2. Redeploy the application using the instructions above and access the application in a browser at the following URL:  <http://localhost:8080/jboss-xml-jaxp/>.
+3. Click the `Browse` button and navigate to the `QUICKSTART_HOME/src/main/resources/catalog.xml` file.
+4. Click the `Upload` button. The XML file content is parsed and displayed on the page. 
+5. You should now see following output in the server console:
+
+        INFO  [stdout] (http-/127.0.0.1:8080-1) Parsing the document using the SAXXMLParser!
 
 
 Undeploy the Archive
 --------------------
 
-1. Make sure you have started the JBoss Server as described above.
-2. Open a command line and navigate to the root directory of this quickstart.
+1. Make sure you have started the WildFly server as described above.
+2. Open a command prompt and navigate to the root directory of this quickstart.
 3. When you are finished testing, type this command to undeploy the archive:
 
         mvn wildfly:undeploy
 
 
-Run the Quickstart in JBoss Developer Studio or Eclipse
+Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 -------------------------------------
-You can also start the server and deploy the quickstarts from Eclipse using JBoss tools. For more information, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](../README.md#useeclipse) 
+You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a WildFly server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_JBDS.md#use-jboss-developer-studio-or-eclipse-to-run-the-quickstarts) 
 
 
 Debug the Application
 ------------------------------------
 
-If you want to debug the source code or look at the Javadocs of any library in the project, run either of the following commands to pull them into your local repository. The IDE should then detect them.
+If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
 
 
         mvn dependency:sources
-        mvn dependency:resolve -Dclassifier=javadoc
+

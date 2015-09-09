@@ -1,11 +1,11 @@
 deltaspike-beanbuilder: Shows how to create new beans using DeltaSpike utilities
 ======================================================
-Author: Rafael Benevides
-Level: Advanced
-Technologies: CDI, DeltaSpike
-Summary: Shows how to create new beans using DeltaSpike utilities.
-Target Product: 
-Source: <https://github.com/jboss-jdf/jboss-as-quickstart/>
+Author: Rafael Benevides  
+Level: Advanced  
+Technologies: CDI, DeltaSpike  
+Summary: Shows how to create new beans using DeltaSpike utilities.  
+Target Product: WildFly
+Source: <https://github.com/jboss-jdf/jboss-as-quickstart/>  
 
 What is it?
 -----------

@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -20,11 +20,11 @@ import org.jboss.as.quickstarts.cdi.injection.qualifier.English;
 
 /**
  * A simple implementation for the English language.
- * 
+ *
  * The {@link English} qualifier tells CDI this is a special instance of the {@link TranslateService}.
- * 
+ *
  * @author Jason Porter
- * 
+ *
  */
 @English
 public class EnglishTranslateService implements TranslateService {

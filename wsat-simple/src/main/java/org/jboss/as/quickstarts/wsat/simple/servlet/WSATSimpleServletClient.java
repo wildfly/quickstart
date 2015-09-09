@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -45,7 +45,7 @@ import com.arjuna.mw.wst11.client.JaxWSHeaderContextProcessor;
  * <p/>
  * <p/>
  * The servlet is registered and mapped to /WSATSimpleServletClient using the {@linkplain javax.servlet.annotation.WebServlet}
- * 
+ *
  * @author Paul Robinson (paul.robinson@redhat.com)
  * @HttpServlet .
  *              </p>
@@ -65,6 +65,7 @@ public class WSATSimpleServletClient extends HttpServlet {
          * Add client handler chain
          */
         BindingProvider bindingProvider = (BindingProvider) client;
+        @SuppressWarnings("rawtypes")
         List<Handler> handlers = new ArrayList<>(1);
         handlers.add(new JaxWSHeaderContextProcessor());
         bindingProvider.getBinding().setHandlerChain(handlers);
@@ -75,32 +76,39 @@ public class WSATSimpleServletClient extends HttpServlet {
         String openshift = System.getenv("OPENSHIFT_APP_DNS");
         if (openshift != null) {
             bindingProvider.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
-                    "http://" + openshift + "/RestaurantServiceAT");
+                "http://" + openshift + "/RestaurantServiceAT");
         }
 
         resp.setContentType("text/html");
         PrintWriter out = resp.getWriter();
 
-        out.write("<h1>Quickstart: This example demonstrates the deployment of a WS-AT (WS-AtomicTransaction) enabled JAX-WS Web service bundled in a war archive for deployment to *JBoss WildFly*.</h1>");
+        out.write("<h1>Quickstart: This example demonstrates the deployment of a WS-AT (WS-AtomicTransaction) enabled JAX-WS Web service bundled in a war archive for deployment to *Red Hat JBoss Enterprise Application Platform*.</h1>");
 
         System.out.println("[CLIENT] Creating a new WS-AT User Transaction");
         UserTransaction ut = UserTransactionFactory.userTransaction();
         try {
             System.out
-                    .println("[CLIENT] Beginning Atomic Transaction (All calls to Web services that support WS-AT wil be included in this transaction)");
+                .println("[CLIENT] Beginning Atomic Transaction (All calls to Web services that support WS-AT wil be included in this transaction)");
             ut.begin();
             System.out.println("[CLIENT] invoking makeBooking() on WS");
             client.makeBooking();
             System.out.println("[CLIENT] committing Atomic Transaction (This will cause the AT to complete successfully)");
             ut.commit();
 
-            out.write("<p><i>Go to your WildFly console or Server log to see the result of the transaction</i></p>");
+            out.write("<p><b>Transaction succeeded!</b></p>");
 
         } catch (Exception e) {
             e.printStackTrace();
+
+            out.write("<p><b>Transaction failed with the following error:</b></p>");
+            out.write("<p><blockquote>");
+            out.write(e.toString());
+            out.write("</blockquote></p>");
         } finally {
             rollbackIfActive(ut);
             client.reset();
+
+            out.write("<p><i>Go to your WildFly Server console or log to see the detailed result of the transaction.</i></p>");
         }
     }
 
@@ -110,7 +118,7 @@ public class WSATSimpleServletClient extends HttpServlet {
 
     /**
      * Utility method for rolling back a transaction if it is currently active.
-     * 
+     *
      * @param ut The User Business Activity to cancel.
      */
     private void rollbackIfActive(UserTransaction ut) {

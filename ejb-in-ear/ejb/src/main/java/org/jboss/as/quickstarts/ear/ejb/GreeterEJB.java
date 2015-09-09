@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -20,14 +20,14 @@ import javax.ejb.Stateful;
 
 /**
  * A simple Hello World EJB. The EJB does not use an interface.
- * 
+ *
  * @author paul.robinson@redhat.com, 2011-12-21
  */
 @Stateful
 public class GreeterEJB {
     /**
      * This method takes a name and returns a personalised greeting.
-     * 
+     *
      * @param name
      *            the name of the person to be greeted
      * @return the personalised greeting.

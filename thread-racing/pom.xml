@@ -22,7 +22,7 @@
     <artifactId>wildfly-thread-racing</artifactId>
     <version>10.0.0-SNAPSHOT</version>
     <packaging>war</packaging>
-    <name>WildFly Quickstarts: Thread Racing</name>
+    <name>WildFly Quickstarts: thread-racing</name>
     <description>A web app that triggers a thread race to complete Java EE 7 related tasks.</description>
 
     <url>http://wildfly.org</url>
@@ -36,12 +36,12 @@
 
     <properties>
         <!-- Explicitly declaring the source encoding eliminates the following message: -->
-        <!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered 
+        <!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered
             resources, i.e. build is platform dependent! -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- JBoss dependency versions -->
-        
+
         <version.wildfly.maven.plugin>1.0.2.Final</version.wildfly.maven.plugin>
 
         <!-- Define the version of the JBoss BOMs we want to import to specify tested stacks. -->
@@ -155,14 +155,14 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- Import the Common Annotations API (JSR-250), we use provided scope 
+        <!-- Import the Common Annotations API (JSR-250), we use provided scope
             as the API is included in JBoss WildFly -->
         <dependency>
             <groupId>org.jboss.spec.javax.annotation</groupId>
             <artifactId>jboss-annotations-api_1.2_spec</artifactId>
             <scope>provided</scope>
         </dependency>
-      
+
        <!-- Import the EJB API, we use provided scope as the API is included in JBoss WildFly. -->
         <dependency>
             <groupId>org.jboss.spec.javax.ejb</groupId>

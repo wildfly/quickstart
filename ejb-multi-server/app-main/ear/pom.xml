@@ -1,7 +1,7 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!--
     JBoss, Home of Professional Open Source
-    Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+    Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
     contributors by the @authors tag. See the copyright.txt in the
     distribution for a full listing of individual contributors.
 
@@ -25,11 +25,12 @@
     </parent>
     <artifactId>wildfly-ejb-multi-server-app-main-ear</artifactId>
     <packaging>ear</packaging>
-    <name>WildFly Quickstarts: ejb-multi-server - app-main - ear</name>
+    <name>WildFly Quickstart: Quickstart: ear</name>
     <description>Create the deployable main-app archive
      Include the EJB and WEB application together with the necessary API libraries
      of the sub applications app-one and app-two.
-  </description>
+    </description>
+
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
@@ -37,6 +38,7 @@
             <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
         </license>
     </licenses>
+
     <dependencies>
   <!-- add the EJB and WEB project as dependency to include it in the EAR -->
         <dependency>
@@ -65,7 +67,7 @@
         <plugins>
             <plugin>
                 <artifactId>maven-ear-plugin</artifactId>
-                <version>${version.ear.plugin}</version>
+                <version>${ear.plugin.version}</version>
                 <configuration>
                     <displayName>Application Main</displayName>
                     <description>A simple quickstart application to demonstrate the

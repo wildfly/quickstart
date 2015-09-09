@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -16,7 +16,7 @@
  */
 package org.jboss.as.quickstarts.loggingToolsQS.exceptions;
 
-import java.text.ParseException;
+import java.time.format.DateTimeParseException;
 
 import org.jboss.logging.Messages;
 import org.jboss.logging.annotations.Message;
@@ -28,6 +28,6 @@ public interface DateExceptionsBundle {
     DateExceptionsBundle EXCEPTIONS = Messages.getBundle(DateExceptionsBundle.class);
 
     @Message(id = 7, value = "The date you sent me isn't valid, '%s'.  Sorry.")
-    ParseException targetDateStringDidntParse(String dateString, @Param int errorOffset);
+    DateTimeParseException targetDateStringDidntParse(String dateString, @Param String parsedData, @Param int errorOffset);
 
 }

@@ -116,6 +116,7 @@ public class WebSocketRace {
      */
     public static class ServerEndpointConfigurator extends ServerEndpointConfig.Configurator {
         static final String HOST_USER_PROP = "Host";
+
         @Override
         public void modifyHandshake(ServerEndpointConfig sec, HandshakeRequest request, HandshakeResponse response) {
             sec.getUserProperties().put(HOST_USER_PROP, request.getHeaders().get(HOST_USER_PROP).get(0));

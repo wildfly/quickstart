@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!--
     JBoss, Home of Professional Open Source
-    Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+    Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
     contributors by the @authors tag. See the copyright.txt in the
     distribution for a full listing of individual contributors.
 
@@ -15,7 +15,7 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -23,11 +23,10 @@
         <artifactId>wildfly-wicket-ear-parent</artifactId>
         <version>10.0.0-SNAPSHOT</version>
     </parent>
-
     <artifactId>wildfly-wicket-ear-ear</artifactId>
     <packaging>ear</packaging>
+    <name>WildFly Quickstart: wicket-ear - ear</name>
 
-    <name>WildFly Quickstarts: Wicket EAR: EAR package</name>
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
@@ -54,7 +53,7 @@
     </dependencies>
 
     <build>
-        <finalName>${project.artifactId}</finalName>
+        <finalName>${project.parent.artifactId}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -63,13 +62,13 @@
                 <configuration>
                     <!-- Tell Maven we are using Java EE 7 -->
                     <version>6</version>
-                    <!-- Use Java EE ear libraries as needed. Java EE ear 
-                        libraries are in easy way to package any libraries needed in the ear, and 
+                    <!-- Use Java EE ear libraries as needed. Java EE ear
+                        libraries are in easy way to package any libraries needed in the ear, and
                         automatically have any modules (EJB-JARs and WARs) use them -->
                     <defaultLibBundleDir>lib</defaultLibBundleDir>
                     <modules>
                         <!-- Default context root of the web app is /wildfly-wicket-ear-web.
-                            If a custom context root is needed, uncomment the following snippet to register 
+                            If a custom context root is needed, uncomment the following snippet to register
                             our War as a web module and set the contextRoot property -->
                         <!-- <webModule> -->
                         <!-- <groupId>org.wildfly.quickstarts</groupId> -->

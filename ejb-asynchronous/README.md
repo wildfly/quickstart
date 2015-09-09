@@ -1,21 +1,21 @@
-ejb-asynchronous:  An application with an EJB with asynchronous methods to demonstrate how it works
+ejb-asynchronous: EJB with asynchronous methods
 ======================================================
-Author: Wolf-Dieter Fink
-Level: Advanced
-Technologies: EJB 
-Summary: Demonstrates asynchronous EJB invocations.
-Target Project: WildFly
-Source: <https://github.com/wildfly/quickstart/>
+Author: Wolf-Dieter Fink  
+Level: Advanced  
+Technologies: Asynchronous EJB  
+Summary: The `ejb-asynchronous` quickstart demonstrates the behavior of asynchronous EJB invocations by a deployed EJB and a remote client and how to handle errors.  
+Target Product: WildFly
+Source: <https://github.com/wildfly/quickstart/>  
 
 What is it?
 -----------
 
-This is a quickstart to demonstrate the behavior of asynchronous EJB invocations. The methods are invoked by both an EJB in the deployment and by a remote client. The quickstart also shows error handling if the asynchronous method invocation fails.
+The `ejb-asynchronous` quickstart demonstrates the behavior of asynchronous EJB invocations in Red Hat JBoss Enterprise Application Platform. The methods are invoked by both an EJB in the deployment and by a remote client. The quickstart also shows error handling if the asynchronous method invocation fails.
 
-The example is composed of 2 maven modules, each with a shared parent. The modules are as follows:
+The example is composed of 2 Maven modules, each with a shared parent. The modules are as follows:
 
 1. `ejb`: This module contains the EJB's and will be deployed to the server
-2. `client` : This module contains a remote ejb client
+2. `client` : This module contains a remote EJB client
 
 The root `pom.xml` builds each of the submodules in the above order and deploys the archive to the server.
 
@@ -23,37 +23,36 @@ The root `pom.xml` builds each of the submodules in the above order and deploys 
 System requirements
 -------------------
 
-All you need to build this project is Java 8 (Java SDK 1.8) or better, Maven 3.1 or better.
+The application this project produces is designed to be run on Red Hat JBoss Enterprise Application Platform 7 or later. 
 
-The application this project produces is designed to be run on JBoss WildFly.
+All you need to build this project is Java 8.0 (Java SDK 1.8) or later and Maven 3.1.1 or later. See [Configure Maven for WildFly 7](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
 
- 
-Configure Maven
+
+Use of WILDFLY_HOME
 ---------------
 
-You can copy or link to the Maven configuration information in the README file in the root folder of the quickstarts. For example:
-
-If you have not yet done so, you must [Configure Maven](../README.md#mavenconfiguration) before testing the quickstarts.
+In the following instructions, replace `WILDFLY_HOME` with the actual path to your WildFly installation. The installation path is described in detail here: [Use of WILDFLY_HOME and JBOSS_HOME Variables](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_WILDFLY_HOME.md#use-of-eap_home-and-jboss_home-variables).
 
 
-Start JBoss WildFly
+Start the WildFly Server
 -------------------------
 
-Start a server instance
+1. Open a command prompt and navigate to the root of the WildFly directory.
+2. The following shows the command line to start the server:
 
-    bin/standalone.sh
+         For Linux:   WILDFLY_HOME/bin/standalone.sh
+         For Windows: WILDFLY_HOME\bin\standalone.bat
+
 
 Build and Deploy the Quickstart
 -------------------------
 
-_NOTE: The following build command assumes you have configured your Maven user settings. If you have not, you must include Maven setting arguments on the command line. See [Build and Deploy the Quickstarts](../README.md#buildanddeploy) for complete instructions and additional options._
-
-1. Make sure you have started the JBoss Server as described above.
-2. Open a command line and navigate to the root directory of this quickstart.
+1. Make sure you have started the WildFly server as described above.
+2. Open a command prompt and navigate to the root directory of this quickstart.
 3. Type this command to build and deploy the archive:
 
         mvn clean install wildfly:deploy
-4. This will deploy `service/target/wildfly-ejb-asynchronous.jar` to the running instance of the server.
+4. This will deploy `ejb/target/wildfly-ejb-asynchronous-ejb.jar` to the running instance of the server.
  
 Check whether the application is deployed successfully.
 
@@ -61,7 +60,7 @@ Check whether the application is deployed successfully.
 Access the application
 ---------------------
 
-1. Open a command line and navigate to the root directory of this quickstart.
+1. Open a command prompt and navigate to the root directory of this quickstart.
 2. Type this command to start the client
 
         cd client
@@ -84,29 +83,27 @@ Access the application
 
           action 'fireAndForget' finished
 
-_NOTE: In WildFly 8 there is a bug that an ERROR will be logged that the result can not be written._
-
-
+        
 Undeploy the Archive
 --------------------
 
-1. Make sure you have started the JBoss Server as described above.
-2. Open a command line and navigate to the root directory of this quickstart.
+1. Make sure you have started the WildFly server as described above.
+2. Open a command prompt and navigate to the root directory of this quickstart.
 3. When you are finished testing, type this command to undeploy the archive:
 
         mvn wildfly:undeploy
 
 
-Run the Quickstart in JBoss Developer Studio or Eclipse
+Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 -------------------------------------
-You can also start the server and deploy the quickstarts from Eclipse using JBoss tools. For more information, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](../README.md#useeclipse) 
+You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a WildFly server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_JBDS.md#use-jboss-developer-studio-or-eclipse-to-run-the-quickstarts) 
 
 Debug the Application
 ------------------------------------
 
-If you want to debug the source code or look at the Javadocs of any library in the project, run either of the following commands to pull them into your local repository. The IDE should then detect them.
+If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
 
     mvn dependency:sources
-    mvn dependency:resolve -Dclassifier=javadoc
+   
 
 ------------------------------------

@@ -1,11 +1,11 @@
 carmart: Basic Infinispan example
 =================================
-Author: Tristan Tarrant, Martin Gencur
-Level: Intermediate
-Technologies: Infinispan, CDI
-Summary: Shows how to use Infinispan instead of a relational database.
-Target Product: JDG
-Source: <https://github.com/wildfly/quickstart>
+Author: Tristan Tarrant, Martin Gencur  
+Level: Intermediate  
+Technologies: Infinispan, CDI  
+Summary: Shows how to use Infinispan instead of a relational database.  
+Target Product: WildFly
+Source: <https://github.com/wildfly/quickstart>  
 
 What is it?
 -----------

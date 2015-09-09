@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -42,10 +42,10 @@ public class CreatureExtensionTest {
     @Deployment
     public static Archive<?> getDeployment() {
         return ShrinkWrap.create(JavaArchive.class, "creature-creation.jar")
-                .addPackages(true, CreatureExtension.class.getPackage())
-                .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
-                .addAsResource("creatures.xml")
-                .addAsServiceProvider(Extension.class, CreatureExtension.class);
+            .addPackages(true, CreatureExtension.class.getPackage())
+            .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
+            .addAsResource("creatures.xml")
+            .addAsServiceProvider(Extension.class, CreatureExtension.class);
     }
 
     @Inject

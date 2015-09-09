@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -39,9 +39,9 @@ import javax.enterprise.inject.spi.BeanManager;
 /**
  * Populates a cache with initial data. We need to obtain BeanManager from JNDI and create an instance of CacheContainerProvider
  * manually since injection into Listeners is not supported by CDI specification.
- * 
+ *
  * @author Martin Gencur
- * 
+ *
  */
 public class PopulateCache implements SystemEventListener {
 

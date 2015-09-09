@@ -51,7 +51,7 @@ public class BatchRaceStageItemReader extends AbstractItemReader {
     public void open(Serializable checkpoint) throws Exception {
         // retrieve the items to read, let's just simulate something, a list containing a random number of objects
         final List list = new ArrayList();
-        for (int i=0; i < random.nextInt(50); i++) {
+        for (int i = 0; i < random.nextInt(50); i++) {
             list.add(new Object());
         }
         items = list.iterator();

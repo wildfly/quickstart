@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -22,10 +22,10 @@ import java.util.regex.Pattern;
 
 /**
  * A domain object that can store a temperature and scale. Additionally, it can parse a string to a temperature and scale.
- * 
+ *
  * @author Pete Muir
  * @author Bruce Wolfe
- * 
+ *
  */
 public class Temperature {
 
@@ -39,7 +39,7 @@ public class Temperature {
 
     /**
      * Parse a string, with an optional scale suffix. If no scale suffix is on the string, the defaultScale will be used.
-     * 
+     *
      * @param temperature the temperature to parse
      * @param defaultScale the default scale to use
      */
@@ -61,13 +61,13 @@ public class Temperature {
                 try {
                     s = Scale.valueOfAbbreviation(matcher.group(2));
                 } catch (IllegalArgumentException e) {
-                    throw new IllegalArgumentException("You must provide a valid temperature scale- 'C|F'");
+                    throw new IllegalArgumentException("You must provide a valid temperature to convert.");
                 }
             } else {
                 s = defaultScale;
             }
         } else {
-            throw new IllegalArgumentException("You must provide a valid temperature to convert- 'XX.XXX'");
+            throw new IllegalArgumentException("You must provide a valid temperature to convert.");
         }
 
         return new Temperature(t, s);

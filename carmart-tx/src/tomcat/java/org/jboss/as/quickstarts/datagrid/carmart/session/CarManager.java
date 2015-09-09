@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -32,30 +32,30 @@ import org.infinispan.commons.api.BasicCache;
 import org.jboss.as.quickstarts.datagrid.carmart.model.Car;
 
 /**
- * Adds, retrieves, removes new cars from the cache. Also returns a list of cars 
+ * Adds, retrieves, removes new cars from the cache. Also returns a list of cars
  * stored in the cache.
- * 
+ *
  * @author Martin Gencur
- * 
+ *
  */
 @Model
 public class CarManager {
 
     private Logger log = Logger.getLogger(this.getClass().getName());
-    
+
     public static final String CACHE_NAME = "carcache";
-    
+
     public static final String CAR_NUMBERS_KEY = "carnumbers";
-    
+
     @Inject
     private CacheContainerProvider provider;
-    
-    private TransactionManager tm;    
+
+    private TransactionManager tm;
 
     private BasicCache<String, Object> carCache;
 
     private String carId;
-    
+
     private Car car = new Car();
 
     public CarManager() {
@@ -81,7 +81,7 @@ public class CarManager {
         }
         return "home";
     }
-    
+
     public String addNewCarWithRollback() {
         boolean throwInducedException = true;
         carCache = provider.getCacheContainer().getCache(CACHE_NAME);
@@ -93,7 +93,8 @@ public class CarManager {
             //store the new list of car numbers and then throw an exception -> roll-back
             //the car number list should not be stored in the cache
             carCache.put(CAR_NUMBERS_KEY, carNumbers);
-            if (throwInducedException) throw new RuntimeException("Induced exception");
+            if (throwInducedException)
+                throw new RuntimeException("Induced exception");
             carCache.put(CarManager.encode(car.getNumberPlate()), car);
             tm.commit();
         } catch (Exception e) {
@@ -186,7 +187,7 @@ public class CarManager {
         TransactionManager tm = ((CacheImpl) cache).getAdvancedCache().getTransactionManager();
         return tm;
     }
-    
+
     public void setCarId(String carId) {
         this.carId = carId;
     }
