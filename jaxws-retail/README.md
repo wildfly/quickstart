@@ -4,7 +4,7 @@ Author: R Searls
 Level: Beginner  
 Technologies: JAX-WS  
 Summary: The `jaxws-retail` quickstart is a working example of a simple web service endpoint.  
-Target Product: WildFly  
+Target Product: WildFly    
 Source: <https://github.com/wildfly/quickstart/>  
 
 What is it?

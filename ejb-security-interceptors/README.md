@@ -4,7 +4,7 @@ Author: Darran Lofthouse
 Level: Advanced  
 Technologies: EJB, Security  
 Summary: The `ejb-security-interceptors` quickstart demonstrates how to use client and server side interceptors to switch the identity for an EJB call.  
-Target Product: WildFly
+Target Product: WildFly  
 Source: <https://github.com/wildfly/quickstart/>  
 
 What is it?
@@ -81,7 +81,7 @@ It is recommended that you test this approach in a separate and clean environmen
 Use of WILDFLY_HOME
 ---------------
 
-In the following instructions, replace `WILDFLY_HOME` with the actual path to your WildFly installation. The installation path is described in detail here: [Use of WILDFLY_HOME and JBOSS_HOME Variables](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_WILDFLY_HOME.md#use-of-eap_home-and-jboss_home-variables).
+In the following instructions, replace `WILDFLY_HOME` with the actual path to your WildFly installation. The installation path is described in detail here: [Use of WILDFLY_HOME and JBOSS_HOME Variables](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_EAP7_HOME.md#use-of-eap_home-and-jboss_home-variables).
 
 
 Add the Application Users

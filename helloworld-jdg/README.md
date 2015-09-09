@@ -4,7 +4,7 @@ Author: Burr Sutter, Martin Gencur
 Level: Intermediate  
 Technologies: Infinispan, CDI  
 Summary: Shows how to use Infinispan in clustered mode, with expiration enabled.  
-Target Product: WildFly
+Target Product: WildFly  
 Source: <https://github.com/wildfly/quickstart>  
 
 What is it?

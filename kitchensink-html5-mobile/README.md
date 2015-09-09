@@ -4,7 +4,7 @@ Author: Jay Balunas
 Level: Beginner   
 Technologies: CDI, HTML5, REST  
 Summary: The `kitchensink-html5-mobile` quickstart is based on `kitchensink`, but uses HTML5 and jQuery Mobile, making it suitable for mobile and tablet computers.  
-Target Product: WildFly  
+Target Product: WildFly    
 Source: https://github.com/wildfly/wildfly-quickstart  
 
 What is it?

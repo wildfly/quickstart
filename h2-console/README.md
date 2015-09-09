@@ -4,7 +4,7 @@ Author: Pete Muir
 Level: Beginner  
 Technologies: H2  
 Summary: The `h2-console` quickstart demonstrates how to use the H2 Console that is bundled with and built specifically for WildFly.  
-Target Product: WildFly
+Target Product: WildFly  
 Source: <https://github.com/wildfly/quickstart/>
 
 What is it?
@@ -39,7 +39,7 @@ When you have completed testing this quickstart, see the [greeter README](../gre
 Use of WILDFLY_HOME
 ---------------
 
-In the following instructions, replace `WILDFLY_HOME` with the actual path to your WildFly installation. The installation path is described in detail here: [Use of WILDFLY_HOME and JBOSS_HOME Variables](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_WILDFLY_HOME.md#use-of-eap_home-and-jboss_home-variables).
+In the following instructions, replace `WILDFLY_HOME` with the actual path to your WildFly installation. The installation path is described in detail here: [Use of WILDFLY_HOME and JBOSS_HOME Variables](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_EAP7_HOME.md#use-of-eap_home-and-jboss_home-variables).
 
 
 Deploy the H2 Console

@@ -5,7 +5,7 @@ Level: Intermediate
 Technologies: JAX-RS, CDI  
 Summary: The `resteasy-jaxrs-client` quickstart demonstrates an external JAX-RS RestEasy client, which interacts with a JAX-RS Web service that uses *CDI* and *JAX-RS*.  
 Prerequisites: helloworld-rs  
-Target Product: WildFly  
+Target Product: WildFly    
 Source: <https://github.com/wildfly/quickstart/>  
 
 What is it?

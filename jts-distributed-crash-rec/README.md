@@ -5,7 +5,7 @@ Level: Advanced
 Technologies: JTS, Crash Recovery  
 Summary: The `jts-distributed-crash-rec` quickstart uses JTS and Byteman to demonstrate distributed crash recovery across multiple application servers.  
 Prerequisites: jts  
-Target Product: WildFly  
+Target Product: WildFly    
 Source: <https://github.com/wildfly/quickstart/>  
 
 What is it?
@@ -61,7 +61,7 @@ You can verify the deployment of the `jts` quickstart by accessing the following
 Use of WILDFLY_HOME
 ---------------
 
-In the following instructions, replace `WILDFLY_HOME` with the actual path to your WildFly installation. The installation path is described in detail here: [Use of WILDFLY_HOME and JBOSS_HOME Variables](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_WILDFLY_HOME.md#use-of-eap_home-and-jboss_home-variables).
+In the following instructions, replace `WILDFLY_HOME` with the actual path to your WildFly installation. The installation path is described in detail here: [Use of WILDFLY_HOME and JBOSS_HOME Variables](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_EAP7_HOME.md#use-of-eap_home-and-jboss_home-variables).
 
 
 Test the Application

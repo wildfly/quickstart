@@ -4,7 +4,7 @@ Author: R Searls
 Level: Beginner  
 Technologies: JAX-WS  
 Summary: The `jaxws-pojo` quickstart is a working example of the web service endpoint created from a POJO.  
-Target Product: WildFly  
+Target Product: WildFly    
 Source: <https://github.com/wildfly/quickstart/>  
 
 What is it?

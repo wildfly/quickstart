@@ -4,7 +4,7 @@ Author: Rafael Benevides
 Level: Beginner  
 Technologies: EE Concurrency Utilities, JAX-RS, JAX-RS Client API 
 Summary:The `managedexecutorservice` quickstart demonstrates how Java EE applications can submit tasks for asynchronous execution.  
-Target Product: WildFly  
+Target Product: WildFly    
 Source: <https://github.com/wildfly/quickstart/>  
 
 

@@ -4,7 +4,7 @@ Author: Jay Balunas, Burr Sutter, Douglas Campos, Bruno Olivera
 Level: Beginner  
 Technologies: CDI, JAX-RS, HTML5  
 Summary: The `helloworld-html5` quickstart demonstrates the use of *CDI 1.1* and *JAX-RS 2.0* using the HTML5 architecture and RESTful services on the backend.  
-Target Product: WildFly
+Target Product: WildFly  
 Source: <https://github.com/wildfly/quickstart/>  
 
 What is it?

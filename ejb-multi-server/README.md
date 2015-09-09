@@ -4,7 +4,7 @@ Author: Wolf-Dieter Fink
 Level: Advanced  
 Technologies: EJB, EAR  
 Summary: The `ejb-multi-server` quickstart shows how to communicate between multiple applications deployed to different servers using an EJB to log the invocation.  
-Target Product: WildFly
+Target Product: WildFly  
 Source: <https://github.com/wildfly/quickstart/>  
 
 
@@ -45,7 +45,7 @@ It is important to start with a clean version of WildFly before testing this qui
 Use of WILDFLY_HOME
 ---------------
 
-In the following instructions, replace `WILDFLY_HOME` with the actual path to your WildFly installation. The installation path is described in detail here: [Use of WILDFLY_HOME and JBOSS_HOME Variables](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_WILDFLY_HOME.md#use-of-eap_home-and-jboss_home-variables).
+In the following instructions, replace `WILDFLY_HOME` with the actual path to your WildFly installation. The installation path is described in detail here: [Use of WILDFLY_HOME and JBOSS_HOME Variables](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_EAP7_HOME.md#use-of-eap_home-and-jboss_home-variables).
 
 
 Add the Application Users

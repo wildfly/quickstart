@@ -5,7 +5,7 @@ Level: [one of the following: Beginner, Intermediate, or Advanced]
 Technologies: (list technologies used here)  
 Summary: (A brief description of the quickstart to appear in the table and in Google search SEO results. Try to limit the description to 155 characters )  
 Prerequisites: (list any quickstarts that must be deployed prior to running this one)  
-Target Product: WildFly
+Target Product: WildFly  
 Source: (The URL for the repository that is the source of record for this quickstart)  
 
 
@@ -43,7 +43,7 @@ All you need to build this project is Java 8.0 (Java SDK 1.8) or later and Maven
 Use of WILDFLY_HOME
 ---------------
 
-In the following instructions, replace `WILDFLY_HOME` with the actual path to your WildFly installation. The installation path is described in detail here: [Use of WILDFLY_HOME and JBOSS_HOME Variables](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_WILDFLY_HOME.md#use-of-eap_home-and-jboss_home-variables).
+In the following instructions, replace `WILDFLY_HOME` with the actual path to your WildFly installation. The installation path is described in detail here: [Use of WILDFLY_HOME and JBOSS_HOME Variables](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_EAP7_HOME.md#use-of-eap_home-and-jboss_home-variables).
 
 
 Configure Optional Components

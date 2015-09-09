@@ -29,7 +29,7 @@ Be sure to read this entire document before you attempt to work with the quickst
 Use of WILDFLY_HOME and JBOSS_HOME Variables
 ---------------------------------
 
-The quickstart README files use the *replaceable* value `WILDFLY_HOME` to denote the path to the WildFly installation. When you encounter this value in a README file, be sure to replace it with the actual path to your WildFly installation. The installation path is described in detail here: [Use of WILDFLY_HOME and JBOSS_HOME Variables](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_WILDFLY_HOME.md#use-of-eap_home-and-jboss_home-variables).
+The quickstart README files use the *replaceable* value `WILDFLY_HOME` to denote the path to the WildFly installation. When you encounter this value in a README file, be sure to replace it with the actual path to your WildFly installation. The installation path is described in detail here: [Use of WILDFLY_HOME and JBOSS_HOME Variables](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_EAP7_HOME.md#use-of-eap_home-and-jboss_home-variables).
 
 
 Available Quickstarts

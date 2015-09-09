@@ -4,7 +4,7 @@ Author: Joshua Wilson
 Level: Beginner  
 Technologies: jQuery Mobile, jQuery, JavaScript, HTML5, REST  
 Summary: The `contacts-jquerymobile` quickstart demonstrates a Java EE 7 mobile database application using HTML5, jQuery Mobile, JAX-RS, JPA, and REST.  
-Target Product: WildFly  
+Target Product: WildFly    
 Source: <https://github.com/wildfly/quickstart/>  
 
 What is it?

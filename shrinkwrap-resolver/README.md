@@ -4,7 +4,7 @@ Author: Rafael Benevides
 Level: Intermediate  
 Technologies: CDI, Arquillian, Shrinkwrap  
 Summary: The `shrinkwrap-resolver` quickstart demonstrates 3 common use cases for ShrinkWrap Resolver.   
-Target Product: WildFly  
+Target Product: WildFly    
 Source: <https://github.com/wildfly/quickstart/>  
 
 

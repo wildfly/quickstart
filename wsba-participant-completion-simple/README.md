@@ -4,7 +4,7 @@ Author: Paul Robinson
 Level: Intermediate  
 Technologies: WS-BA, JAX-WS  
 Summary: The `wsba-participant-completion-simple` quickstart deploys a WS-BA (WS Business Activity) enabled JAX-WS Web service WAR (ParticipantCompletion Protocol).  
-Target Product: WildFly
+Target Product: WildFly  
 Source: <https://github.com/wildfly/quickstart/>  
 
 What is it?

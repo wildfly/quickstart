@@ -4,7 +4,7 @@ Author: Rafael Benevides
 Level: Beginner  
 Technologies: CDI, JSF, JSON-P  
 Summary: This quickstart demonstrates how to use the JSON-P API to produce object-based structures and then parse and consume them as stream-based JSON strings.
-Target Product: WildFly
+Target Product: WildFly  
 Source: <https://github.com/wildfly/quickstart/>  
 
 

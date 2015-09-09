@@ -4,7 +4,7 @@ Author: Paul Robinson
 Level: Intermediate  
 Technologies: WS-AT, JAX-WS  
 Summary: The `wsat-simple` quickstart demonstrates a WS-AT (WS-AtomicTransaction) enabled JAX-WS Web service, bundled as a WAR, and deployed to WildFly.  
-Target Product: WildFly
+Target Product: WildFly  
 Source: <https://github.com/wildfly/quickstart/>  
 
 What is it?
