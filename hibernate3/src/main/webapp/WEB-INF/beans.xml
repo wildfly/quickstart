@@ -15,13 +15,9 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<jboss-deployment-structure xmlns="urn:jboss:deployment-structure:1.2">
-  <deployment>
-    <dependencies>
-      <module name="org.jboss.remoting3" />
-      <module name="org.jboss.as.core-security-api" />
-      <module name="org.jboss.as.security-api" />
-    </dependencies>
-  </deployment>
-
-</jboss-deployment-structure>
+<!-- Marker file indicating CDI should be enabled -->
+<beans xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+        http://xmlns.jcp.org/xml/ns/javaee
+        http://xmlns.jcp.org/xml/ns/javaee/beans_1_1.xsd" bean-discovery-mode="all">
+</beans>
