@@ -18,7 +18,7 @@ package org.jboss.as.quickstarts.ejb.multi.server.app;
 
 /**
  * A container for the result of an EJB invocation. It will be used by the JsfController.
- * 
+ *
  * @author <a href="mailto:wfink@redhat.com">Wolf-Dieter Fink</a>
  */
 public class EjbInvocation {

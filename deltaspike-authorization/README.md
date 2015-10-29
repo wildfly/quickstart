@@ -1,12 +1,12 @@
 deltaspike-authorization: Demonstrate the creation of a custom authorization example using @SecurityBindingType from DeltaSpike
 ======================================================
-Author: Rafael Benevides
-Level: Beginner
-Technologies: JSF, CDI, Deltaspike
-Summary: Demonstrate the creation of a custom authorization example using @SecurityBindingType from DeltaSpike
+Author: Rafael Benevides  
+Level: Beginner  
+Technologies: JSF, CDI, Deltaspike  
+Summary: Demonstrate the creation of a custom authorization example using @SecurityBindingType from DeltaSpike  
 Prerequisites: 
-Target Product: WFK
-Source: <https://github.com/jboss-jdf/jboss-as-quickstart/>
+Target Product: WFK  
+Source: <https://github.com/jboss-jdf/jboss-as-quickstart/>  
 
 What is it?
 -----------

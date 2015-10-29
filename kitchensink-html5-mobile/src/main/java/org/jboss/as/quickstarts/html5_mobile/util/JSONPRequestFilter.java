@@ -43,9 +43,9 @@ import javax.servlet.http.HttpServletResponseWrapper;
  * To qualify for wrapping the request must be made to the <i>/rest/*</i> path, and contain a query parameter call
  * <i>jsoncallback</> that defines the JSONP callback method to use with the response.
  * </p>
- * 
+ *
  * @author balunasj
- * 
+ *
  */
 @WebFilter("/rest/*")
 public class JSONPRequestFilter implements Filter {
@@ -64,7 +64,7 @@ public class JSONPRequestFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
-            ServletException {
+        ServletException {
 
         if (!(request instanceof HttpServletRequest)) {
             throw new ServletException("Only HttpServletRequest requests are supported");

@@ -39,9 +39,9 @@ import javax.enterprise.inject.spi.BeanManager;
 /**
  * Populates a cache with initial data. We need to obtain BeanManager from JNDI and create an instance of CacheContainerProvider
  * manually since injection into Listeners is not supported by CDI specification.
- * 
+ *
  * @author Martin Gencur
- * 
+ *
  */
 public class PopulateCache implements SystemEventListener {
 

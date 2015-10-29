@@ -3,9 +3,9 @@ app-client: Application Client to run with the JBoss WildFly appclient container
 Author: Wolf-Dieter Fink  
 Level: Intermediate  
 Technologies: EJB, EAR, AppClient  
-Summary: Shows how to use the JBoss WildFly application client container to support injection
+Summary: Shows how to use the JBoss WildFly application client container to support injection  
 Target Project: WildFly
-Source: <https://github.com/wildfly/quickstart/>
+Source: <https://github.com/wildfly/quickstart/>  
 
 
 What is it?

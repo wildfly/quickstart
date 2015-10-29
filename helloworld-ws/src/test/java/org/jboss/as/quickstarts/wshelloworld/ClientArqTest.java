@@ -36,7 +36,7 @@ import org.junit.runner.RunWith;
 
 /**
  * Simple set of tests for the HelloWorld Web Service to demonstrate accessing the web service using a client
- * 
+ *
  * @author lnewson@redhat.com
  */
 @RunWith(Arquillian.class)
@@ -62,7 +62,7 @@ public class ClientArqTest {
     @Deployment(testable = false)
     public static WebArchive createDeployment() {
         return ShrinkWrap.create(WebArchive.class, APP_NAME + ".war").addPackage(HelloWorldService.class.getPackage())
-                .addAsWebInfResource(new File(WEBAPP_SRC, "WEB-INF/web.xml"));
+            .addAsWebInfResource(new File(WEBAPP_SRC, "WEB-INF/web.xml"));
     }
 
     @Before

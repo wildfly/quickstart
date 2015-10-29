@@ -30,7 +30,7 @@ import javax.persistence.Id;
 @SuppressWarnings("serial")
 @Entity
 public class KVPair implements Serializable {
-    
+
     @Id
     @Column(unique = true, name = "name")
     private String key;

@@ -33,25 +33,25 @@
             <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
         </license>
     </licenses>
-    
+
     <modules>
-        <!-- Build module 2 first as it is the remote EJB which provides 
+        <!-- Build module 2 first as it is the remote EJB which provides
             a stub for module 1 -->
         <module>application-component-2</module>
         <module>application-component-1</module>
     </modules>
 
     <properties>
-        <!-- Explicitly declaring the source encoding eliminates the following 
+        <!-- Explicitly declaring the source encoding eliminates the following
             message: -->
-        <!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered 
+        <!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered
             resources, i.e. build is platform dependent! -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        
+
         <!-- JBoss dependency versions -->
-        
+
         <version.wildfly.maven.plugin>1.0.2.Final</version.wildfly.maven.plugin>
-        
+
         <version.jboss.spec.javaee.7.0>1.0.3.Final</version.jboss.spec.javaee.7.0>
 
         <!-- other plugin versions -->
@@ -67,8 +67,8 @@
     <dependencyManagement>
         <dependencies>
             <!-- JBoss distributes a complete set of Java EE 7 APIs including
-                a Bill of Materials (BOM). A BOM specifies the versions of a "stack" (or 
-                a collection) of artifacts. We use this here so that we always get the correct 
+                a Bill of Materials (BOM). A BOM specifies the versions of a "stack" (or
+                a collection) of artifacts. We use this here so that we always get the correct
                 versions of artifacts. Here we use the jboss-javaee-7.0 stack (you can read
                 this as the JBoss stack of the Java EE 7 APIs) -->
             <dependency>
@@ -93,7 +93,7 @@
             <plugins>
                 <!-- The WildFly plugin deploys your war to a local JBoss
                     AS container -->
-                <!-- To use, set the JBOSS_HOME environment variable and 
+                <!-- To use, set the JBOSS_HOME environment variable and
                     run: mvn package wildfly:deploy -->
                 <plugin>
                     <groupId>org.wildfly.plugins</groupId>

@@ -1,11 +1,11 @@
 kitchensink-html5-mobile: Example Application Using Multiple HTML5, Mobile & JAX-RS Technologies 
 =========================================================================================================
-Author: Jay Balunas
-Level: Beginner 
-Technologies: CDI, HTML5, REST, JPA
-Summary: Based on kitchensink, but uses HTML5, making it suitable for mobile and tablet computers
-Target Product: WildFly
-Source: https://github.com/wildfly/wildfly-quickstart
+Author: Jay Balunas  
+Level: Beginner    
+Technologies: CDI, HTML5, REST, JPA  
+Summary: Based on kitchensink, but uses HTML5, making it suitable for mobile and tablet computers  
+Target Product: WildFly  
+Source: https://github.com/wildfly/wildfly-quickstart  
 
 What is it?
 -----------

@@ -33,15 +33,15 @@ import org.infinispan.transaction.lookup.GenericTransactionManagerLookup;
 import org.infinispan.util.concurrent.IsolationLevel;
 
 /**
- * {@link CacheContainerProvider}'s implementation creating a DefaultCacheManager 
- * which is configured programmatically. Infinispan's libraries need to be bundled 
+ * {@link CacheContainerProvider}'s implementation creating a DefaultCacheManager
+ * which is configured programmatically. Infinispan's libraries need to be bundled
  * with the application - this is called "library" mode.
- * 
- * The only difference against TomcatCacheContainerProvider is the transaction 
+ *
+ * The only difference against TomcatCacheContainerProvider is the transaction
  * manager lookup class.
- * 
+ *
  * @author Martin Gencur
- * 
+ *
  */
 @ApplicationScoped
 public class JBossASCacheContainerProvider implements CacheContainerProvider {
@@ -54,7 +54,7 @@ public class JBossASCacheContainerProvider implements CacheContainerProvider {
             GlobalConfiguration glob = new GlobalConfigurationBuilder()
                 .nonClusteredDefault() //Helper method that gets you a default constructed GlobalConfiguration, preconfigured for use in LOCAL mode
                 .globalJmxStatistics().enable() //This method allows enables the jmx statistics of the global configuration.
-                .jmxDomain("org.infinispan.carmart.tx")  //prevent collision with non-transactional carmart
+                .jmxDomain("org.infinispan.carmart.tx") //prevent collision with non-transactional carmart
                 .build(); //Builds  the GlobalConfiguration object
             Configuration loc = new ConfigurationBuilder()
                 .jmxStatistics().enable() //Enable JMX statistics

@@ -25,9 +25,9 @@ import org.jboss.as.quickstarts.temperatureconverter.ejb.Scale;
 
 /**
  * A JSF converter that can handle the {@link Scale} enum.
- * 
+ *
  * @author Pete Muir
- * 
+ *
  */
 @Named
 public class ScaleConverter implements Converter {

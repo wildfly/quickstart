@@ -34,13 +34,13 @@ public class ServiceAccessBean implements ServiceAccess {
     public String getNodeNameOfTimerService() {
         LOGGER.info("Method getNodeNameOfTimerService() is invoked");
         ServiceController<?> service = CurrentServiceContainer.getServiceContainer().getService(
-                HATimerService.DEFAULT_SERVICE_NAME);
+            HATimerService.DEFAULT_SERVICE_NAME);
 
         // Example how to leverage JBoss Logging to do expensive String concatenation only when needed:
         LOGGER.debugf("Service: %s", service);
 
         if (service != null) {
-            return ((Environment)service.getValue()).getNodeName();
+            return ((Environment) service.getValue()).getNodeName();
         } else {
             throw new IllegalStateException("Service '" + HATimerService.DEFAULT_SERVICE_NAME + "' not found!");
         }

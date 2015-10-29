@@ -24,7 +24,7 @@ public class HelloBeanClassFileTransformer implements ClassFileTransformer {
      * <code>sayHello</code> method.
      */
     private final HelloByteCodeManipulator byteCodeTransformer = new HelloByteCodeManipulator("hello.server.ejb.HelloBean",
-            "sayHello");
+        "sayHello");
 
     // ------------------------------------------------------------------------
     // Contract required by the ClassFileTransformer API
@@ -32,7 +32,7 @@ public class HelloBeanClassFileTransformer implements ClassFileTransformer {
 
     @Override
     public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined,
-            ProtectionDomain protectionDomain, byte[] classfileBuffer) throws IllegalClassFormatException {
+        ProtectionDomain protectionDomain, byte[] classfileBuffer) throws IllegalClassFormatException {
 
         if (!byteCodeTransformer.shouldAccept(className)) {
             return classfileBuffer;

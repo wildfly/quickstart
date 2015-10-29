@@ -18,7 +18,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
- 
+
     <groupId>org.wildfly.quickstarts</groupId>
     <artifactId>wildfly-ejb-remote-server-side</artifactId>
     <version>9.0.0-SNAPSHOT</version>
@@ -36,14 +36,14 @@
 
     <properties>
         <!-- Explicitly declaring the source encoding eliminates the following message: -->
-        <!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered 
+        <!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered
             resources, i.e. build is platform dependent! -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- JBoss dependency versions -->
-        
+
         <version.wildfly.maven.plugin>1.0.2.Final</version.wildfly.maven.plugin>
-        
+
         <version.jboss.spec.javaee.7.0>1.0.3.Final</version.jboss.spec.javaee.7.0>
 
 
@@ -60,8 +60,8 @@
         <dependencies>
             <!-- Define the version of JBoss' Java EE 7 APIs we want to use -->
             <!-- JBoss distributes a complete set of Java EE 7 APIs including
-                a Bill of Materials (BOM). A BOM specifies the versions of a "stack" (or 
-                a collection) of artifacts. We use this here so that we always get the correct 
+                a Bill of Materials (BOM). A BOM specifies the versions of a "stack" (or
+                a collection) of artifacts. We use this here so that we always get the correct
                 versions of artifacts. Here we use the jboss-javaee-7.0 stack (you can
                 read this as the JBoss stack of the Java EE 7 APIs). You can actually
                 use this stack with any version of WildFly that implements Java EE 7, not
@@ -108,7 +108,7 @@
                     <filename>${project.build.finalName}.jar</filename>
                 </configuration>
             </plugin>
-            <!-- Compiler plugin enforces Java 1.6 compatibility and activates 
+            <!-- Compiler plugin enforces Java 1.6 compatibility and activates
                 annotation processors -->
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>

@@ -1,9 +1,9 @@
 kitchensink-angularjs: Shows how to use AngularJS with JAX-RS and Java EE on JBoss
 ========================
-Author: Pete Muir
-Level: Intermediate
-Technologies: AngularJS, CDI, JPA, EJB, JPA, JAX-RS, BV
-Summary: An example that incorporates multiple technologies
+Author: Pete Muir  
+Level: Intermediate  
+Technologies: AngularJS, CDI, JPA, EJB, JPA, JAX-RS, BV  
+Summary: An example that incorporates multiple technologies  
 
 What is it?
 -----------

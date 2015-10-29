@@ -28,7 +28,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 /**
  * A simple secured Servlet which calls a secured EJB. Upon successful authentication and authorization the EJB will return the
  * principal's name. Servlet security is implemented using annotations.

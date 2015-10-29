@@ -46,27 +46,29 @@ public class ByIdExtensionTest {
     public static Archive<?> getDeployment() {
 
         File[] libs = Maven.resolver().loadPomFromFile("pom.xml").resolve(
-                "org.apache.deltaspike.core:deltaspike-core-api", 
-                "org.apache.deltaspike.core:deltaspike-core-impl").withTransitivity().asFile();
+            "org.apache.deltaspike.core:deltaspike-core-api",
+            "org.apache.deltaspike.core:deltaspike-core-impl").withTransitivity().asFile();
 
         Archive<?> archive = ShrinkWrap
-                .create(WebArchive.class, "test.war")
-                .addPackages(true, ByIdExtension.class.getPackage())
-                .addAsServiceProvider(Extension.class, ByIdExtension.class)
-                .addAsLibraries(libs)
-                .addAsResource("META-INF/test-persistence.xml", "META-INF/persistence.xml").addAsResource("import.sql")
-                .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
-                // Deploy our test datasource
-                .addAsWebInfResource("test-ds.xml");
+            .create(WebArchive.class, "test.war")
+            .addPackages(true, ByIdExtension.class.getPackage())
+            .addAsServiceProvider(Extension.class, ByIdExtension.class)
+            .addAsLibraries(libs)
+            .addAsResource("META-INF/test-persistence.xml", "META-INF/persistence.xml").addAsResource("import.sql")
+            .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
+            // Deploy our test datasource
+            .addAsWebInfResource("test-ds.xml");
         return archive;
     }
 
     // This will inject a qualified Person with the @ById('rbenevides') qualifier
-    @Inject @ById("rbenevides") 
+    @Inject
+    @ById("rbenevides")
     private Person rafael;
 
     // This will inject a qualified Person with the @ById('pmuir') qualifier
-    @Inject @ById("pmuir") 
+    @Inject
+    @ById("pmuir")
     private Person pete;
 
     @Test

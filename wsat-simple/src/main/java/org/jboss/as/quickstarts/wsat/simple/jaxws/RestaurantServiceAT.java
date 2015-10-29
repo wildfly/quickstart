@@ -23,7 +23,7 @@ import javax.jws.soap.SOAPBinding;
 
 /**
  * Interface to a simple Restaurant. Provides simple methods to manipulate bookings.
- * 
+ *
  * @author paul.robinson@redhat.com, 2012-01-04
  */
 @WebService(name = "RestaurantServiceAT", targetNamespace = "http://www.jboss.org/jboss-jdf/jboss-as-quickstart/wsat/simple/Restaurant")
@@ -38,7 +38,7 @@ public interface RestaurantServiceAT {
 
     /**
      * obtain the number of existing bookings
-     * 
+     *
      * @return the number of current bookings
      */
     @WebMethod

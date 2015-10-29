@@ -17,12 +17,12 @@
 <jboss-deployment-structure>
     <deployment>
         <exclusions>
-            <!-- Exclude container version of hibernate. By default its version 4, we want 
+            <!-- Exclude container version of hibernate. By default its version 4, we want
                 bundled version 3 loaded -->
             <module name="org.hibernate" slot="main" />
         </exclusions>
         <dependencies>
-            <!-- Add dependencies, since in 'pom.xml' we exclude transitive dependencies from 
+            <!-- Add dependencies, since in 'pom.xml' we exclude transitive dependencies from
                 reactor, we need to add following modules, to make application work properly -->
             <!-- NOTE: module name does not always correspond to maven artifact ID -->
             <!-- Add dependency on commons.logging -->

@@ -42,10 +42,10 @@ public class CreatureExtensionTest {
     @Deployment
     public static Archive<?> getDeployment() {
         return ShrinkWrap.create(JavaArchive.class, "creature-creation.jar")
-                .addPackages(true, CreatureExtension.class.getPackage())
-                .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
-                .addAsResource("creatures.xml")
-                .addAsServiceProvider(Extension.class, CreatureExtension.class);
+            .addPackages(true, CreatureExtension.class.getPackage())
+            .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
+            .addAsResource("creatures.xml")
+            .addAsServiceProvider(Extension.class, CreatureExtension.class);
     }
 
     @Inject

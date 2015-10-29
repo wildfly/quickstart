@@ -32,7 +32,7 @@ import org.jboss.as.quickstart.deltaspike.beanbuilder.model.Person;
 
 /**
  * @author <a href="mailto:benevides@redhat.com">Rafael Benevides</a>
- * 
+ *
  */
 public class ByIdExtension implements Extension {
 
@@ -41,9 +41,9 @@ public class ByIdExtension implements Extension {
 
     /**
      * This method is fired for every component class supporting injection that may be instantiated by the container at runtime.
-     * 
+     *
      * It will look for all injection target and collect all nicks that were used and needs to be found on {@link EntityManager}
-     * 
+     *
      * @param pit
      */
     public void processInjectionTarget(@Observes ProcessInjectionTarget<?> pit) {
@@ -58,19 +58,19 @@ public class ByIdExtension implements Extension {
 
     /**
      * This method is fired when CDI has fully completed the bean discovery process
-     * 
+     *
      */
     public void afterBeanDiscovery(@Observes AfterBeanDiscovery abd, BeanManager bm) {
         for (final String idValue : ids) {
             // Create a Bean using the ById Qualifier with the right nick value and a new contextualLifecycle
             // We naively assume we can list all entities in the app here!
             BeanBuilder<Person> beanBuilder = new BeanBuilder<Person>(bm)
-                    .beanClass(Person.class)
-                    .types(Person.class, Object.class)
-                    // The qualifier with its value
-                    .qualifiers(new ByIdLiteral(idValue))
-                    // Create a ContextualLifecyle for each id found
-                    .beanLifecycle(new PersonContextualLifecycle(idValue));
+                .beanClass(Person.class)
+                .types(Person.class, Object.class)
+                // The qualifier with its value
+                .qualifiers(new ByIdLiteral(idValue))
+                // Create a ContextualLifecyle for each id found
+                .beanLifecycle(new PersonContextualLifecycle(idValue));
             // Create and add the Bean
             abd.addBean(beanBuilder.create());
         }

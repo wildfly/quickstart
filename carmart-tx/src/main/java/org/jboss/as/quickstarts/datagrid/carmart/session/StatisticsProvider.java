@@ -17,11 +17,11 @@
 package org.jboss.as.quickstarts.datagrid.carmart.session;
 
 /**
- * 
+ *
  * Provides cache statistics.
- * 
+ *
  * @author Martin Gencur
- * 
+ *
  */
 public interface StatisticsProvider {
 

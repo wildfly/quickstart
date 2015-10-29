@@ -35,10 +35,10 @@ import org.jboss.as.quickstart.deltaspike.beanbuilder.model.Person;
 /**
  * This {@link Qualifier} uses its value to distinguish the id {@link Id} of the {@link Person} {@link Entity} that will be
  * injected.
- * 
- * 
+ *
+ *
  * @author <a href="mailto:benevides@redhat.com">Rafael Benevides</a>
- * 
+ *
  */
 @Target({ TYPE, METHOD, FIELD, PARAMETER })
 @Retention(RUNTIME)

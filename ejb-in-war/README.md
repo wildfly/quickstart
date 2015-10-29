@@ -1,11 +1,11 @@
 ejb-in-war: Deployment of a WAR Containing an EJB
 =================================================
-Author: Paul Robinson
-Level: Intermediate
-Technologies: EJB, JSF, WAR
-Summary: Packages an EJB JAR in a WAR
+Author: Paul Robinson  
+Level: Intermediate  
+Technologies: EJB, JSF, WAR  
+Summary: Packages an EJB JAR in a WAR  
 Target Project: WildFly
-Source: <https://github.com/wildfly/quickstart/>
+Source: <https://github.com/wildfly/quickstart/>  
 
 What is it?
 -----------

@@ -18,17 +18,17 @@
 <persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
    xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
-   version="2.0">
+   version="2.1">
       <persistence-unit name="primary">
       <provider>org.hibernate.ejb.HibernatePersistence</provider>
-      <!-- If you are running in a production environment, add a managed 
+      <!-- If you are running in a production environment, add a managed
          data source, this example data source is just for development and testing! -->
       <!-- The datasource is deployed as WEB-INF/hibernate3-quickstart-ds.xml, you
          can find it in the source at src/main/webapp/WEB-INF/hibernate3-quickstart-ds.xml -->
       <jta-data-source>java:jboss/datasources/Hibernate3QuickstartDS</jta-data-source>
 
       <properties>
-         <!-- define JPA provider, check: 
+         <!-- define JPA provider, check:
          https://docs.jboss.org/author/display/AS7/Developer+Guide#DeveloperGuide-PackagingtheHibernate3.5orgreater3.xJPApersistenceproviderwithyourapplication -->
            <property name="jboss.as.jpa.providerModule" value="hibernate3-bundled" />
            <!-- Define boostrat operation. This will instruct container to create tables(drop if they exist, prior to creation) -->

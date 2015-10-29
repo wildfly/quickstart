@@ -1,11 +1,11 @@
 wildfly-logging-tools: Internationalization and Localisation with JBoss Logging Tools
 ======================
-Author: Darrin Mison
-Level: Beginner
-Technologies: JBoss Logging Tools
-Summary: Demonstrates the use of JBoss Logging Tools to create internationalized loggers, exceptions, and generic messages
+Author: Darrin Mison  
+Level: Beginner  
+Technologies: JBoss Logging Tools  
+Summary: Demonstrates the use of JBoss Logging Tools to create internationalized loggers, exceptions, and generic messages  
 Target Project: WildFly
-Source: <https://github.com/wildfly/quickstart/>
+Source: <https://github.com/wildfly/quickstart/>  
 
 What is it?
 ------------

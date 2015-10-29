@@ -20,9 +20,9 @@ package org.jboss.as.quickstarts.cdi.alternative;
  * <p>
  * Default implementation for Tax
  * </p>
- * 
+ *
  * @author Nevin Zhu
- * 
+ *
  */
 public class TaxImpl_1 implements Tax {
     public String getRate() {

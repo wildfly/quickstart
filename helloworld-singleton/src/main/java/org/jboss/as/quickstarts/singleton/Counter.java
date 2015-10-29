@@ -21,9 +21,9 @@ import javax.inject.Named;
 
 /**
  * This singleton stores stores two counters which are only reset when the application is restarted.
- * 
+ *
  * @author Serge Pagop (spagop@redhat.com)
- * 
+ *
  */
 @Singleton
 @Named

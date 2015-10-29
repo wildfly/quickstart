@@ -36,14 +36,14 @@
 
     <properties>
         <!-- Explicitly declaring the source encoding eliminates the following message: -->
-        <!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered 
+        <!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered
                 resources, i.e. build is platform dependent! -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- JBoss dependency versions -->
 
         <version.wildfly.maven.plugin>1.0.2.Final</version.wildfly.maven.plugin>
- 
+
         <version.jboss.spec.javaee.7.0>1.0.3.Final</version.jboss.spec.javaee.7.0>
 
 
@@ -60,8 +60,8 @@
         <dependencies>
             <!-- Define the version of JBoss' Java EE 7 APIs we want to use -->
             <!-- JBoss distributes a complete set of Java EE 7 APIs including a Bill
-                    of Materials (BOM). A BOM specifies the versions of a "stack" (or a collection) 
-                    of artifacts. We use this here so that we always get the correct versions 
+                    of Materials (BOM). A BOM specifies the versions of a "stack" (or a collection)
+                    of artifacts. We use this here so that we always get the correct versions
                     of artifacts. Here we use the jboss-javaee-7.0 stack (you can read this as
                     the JBoss stack of the Java EE 7 APIs). You can actually use this stack with
                     any version of WildFly that implements Java EE 7, not just WildFly 8! -->
@@ -76,14 +76,14 @@
     </dependencyManagement>
 
     <dependencies>
-        <!-- Import the Servlet API, we use provided scope as the API is included 
+        <!-- Import the Servlet API, we use provided scope as the API is included
                 in JBoss WildFly/JBoss WildFly -->
         <dependency>
             <groupId>org.jboss.spec.javax.ejb</groupId>
             <artifactId>jboss-ejb-api_3.2_spec</artifactId>
             <scope>provided</scope>
         </dependency>
-        <!-- Import the CDI API, we use provided scope as the API is included in 
+        <!-- Import the CDI API, we use provided scope as the API is included in
                 JBoss WildFly -->
         <dependency>
             <groupId>javax.enterprise</groupId>

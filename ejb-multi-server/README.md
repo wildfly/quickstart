@@ -4,7 +4,7 @@ Author: Wolf-Dieter Fink
 Level: Advanced  
 Technologies: EJB, EAR  
 Summary: EJB applications deployed to different servers that communicate via EJB remote calls  
-Target Product: WildFly
+Target Product: WildFly  
 Product Versions: 8.0.0
 Source: <https://github.com/wildfly/quickstart/>  
 

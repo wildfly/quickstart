@@ -23,11 +23,11 @@ import java.util.Properties;
 import org.infinispan.commons.api.BasicCacheContainer;
 
 /**
- * 
+ *
  * Subclasses should create an instance of a cache manager (DefaultCacheManager, RemoteCacheManager, etc.)
- * 
+ *
  * @author Martin Gencur
- * 
+ *
  */
 public abstract class CacheContainerProvider {
 

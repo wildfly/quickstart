@@ -1,11 +1,11 @@
 bean-validation: Bean Validation via Arquillian Example
 =======================================================
-Author: Karel Piwko
-Level: Beginner
-Technologies: Bean Validation, JPA
-Summary: Shows how to use Arquillian to test Bean Validation
+Author: Karel Piwko  
+Level: Beginner  
+Technologies: Bean Validation, JPA  
+Summary: Shows how to use Arquillian to test Bean Validation  
 Target Project: WildFly
-Source: <https://github.com/wildfly/quickstart/>
+Source: <https://github.com/wildfly/quickstart/>  
 
 What is it?
 -----------

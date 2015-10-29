@@ -27,7 +27,7 @@ import java.util.Hashtable;
 /**
  * A sample program which acts a remote client for a EJB deployed on WildFly server. This program shows how to lookup stateful and
  * stateless beans via JNDI and then invoke on them
- * 
+ *
  * @author Jaikiran Pai
  */
 public class RemoteEJBClient {
@@ -42,7 +42,7 @@ public class RemoteEJBClient {
 
     /**
      * Looks up a stateless bean and invokes on it
-     * 
+     *
      * @throws NamingException
      */
     private static void invokeStatelessBean() throws NamingException {
@@ -57,24 +57,24 @@ public class RemoteEJBClient {
         System.out.println("Remote calculator returned sum = " + sum);
         if (sum != a + b) {
             throw new RuntimeException("Remote stateless calculator returned an incorrect sum " + sum + " ,expected sum was "
-                    + (a + b));
+                + (a + b));
         }
         // try one more invocation, this time for subtraction
         int num1 = 3434;
         int num2 = 2332;
         System.out.println("Subtracting " + num2 + " from " + num1
-                + " via the remote stateless calculator deployed on the server");
+            + " via the remote stateless calculator deployed on the server");
         int difference = statelessRemoteCalculator.subtract(num1, num2);
         System.out.println("Remote calculator returned difference = " + difference);
         if (difference != num1 - num2) {
             throw new RuntimeException("Remote stateless calculator returned an incorrect difference " + difference
-                    + " ,expected difference was " + (num1 - num2));
+                + " ,expected difference was " + (num1 - num2));
         }
     }
 
     /**
      * Looks up a stateful bean and invokes on it
-     * 
+     *
      * @throws NamingException
      */
     private static void invokeStatefulBean() throws NamingException {
@@ -100,7 +100,7 @@ public class RemoteEJBClient {
 
     /**
      * Looks up and returns the proxy to remote stateless calculator bean
-     * 
+     *
      * @return
      * @throws NamingException
      */
@@ -129,12 +129,12 @@ public class RemoteEJBClient {
 
         // let's do the lookup
         return (RemoteCalculator) context.lookup("ejb:/wildfly-ejb-remote-server-side/CalculatorBean!"
-                + RemoteCalculator.class.getName());
+            + RemoteCalculator.class.getName());
     }
 
     /**
      * Looks up and returns the proxy to remote stateful counter bean
-     * 
+     *
      * @return
      * @throws NamingException
      */
@@ -163,6 +163,6 @@ public class RemoteEJBClient {
 
         // let's do the lookup
         return (RemoteCounter) context.lookup("ejb:/wildfly-ejb-remote-server-side/CounterBean!"
-                + RemoteCounter.class.getName() + "?stateful");
+            + RemoteCounter.class.getName() + "?stateful");
     }
 }

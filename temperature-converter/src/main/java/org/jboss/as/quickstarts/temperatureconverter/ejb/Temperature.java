@@ -22,10 +22,10 @@ import java.util.regex.Pattern;
 
 /**
  * A domain object that can store a temperature and scale. Additionally, it can parse a string to a temperature and scale.
- * 
+ *
  * @author Pete Muir
  * @author Bruce Wolfe
- * 
+ *
  */
 public class Temperature {
 
@@ -39,7 +39,7 @@ public class Temperature {
 
     /**
      * Parse a string, with an optional scale suffix. If no scale suffix is on the string, the defaultScale will be used.
-     * 
+     *
      * @param temperature the temperature to parse
      * @param defaultScale the default scale to use
      */

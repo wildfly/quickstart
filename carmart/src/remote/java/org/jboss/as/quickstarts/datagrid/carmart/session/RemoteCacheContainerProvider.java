@@ -23,15 +23,14 @@ import org.infinispan.commons.api.BasicCacheContainer;
 import org.infinispan.client.hotrod.RemoteCacheManager;
 import org.jboss.as.quickstarts.datagrid.carmart.session.CacheContainerProvider;
 
-
 /**
- * 
- * {@link CacheContainerProvider}'s implementation creating a HotRod client. 
- * JBoss Data Grid server needs to be running and configured properly 
+ *
+ * {@link CacheContainerProvider}'s implementation creating a HotRod client.
+ * JBoss Data Grid server needs to be running and configured properly
  * so that HotRod client can remotely connect to it - this is called client-server mode.
- * 
+ *
  * @author Martin Gencur
- * 
+ *
  */
 @ApplicationScoped
 public class RemoteCacheContainerProvider extends CacheContainerProvider {

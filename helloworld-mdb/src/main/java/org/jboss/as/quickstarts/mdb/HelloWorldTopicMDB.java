@@ -28,14 +28,14 @@ import javax.jms.TextMessage;
  * <p>
  * A simple Message Driven Bean that asynchronously receives and processes the messages that are sent to the topic.
  * </p>
- * 
+ *
  * @author Serge Pagop (spagop@redhat.com)
- * 
+ *
  */
 @MessageDriven(name = "HelloWorldQTopicMDB", activationConfig = {
-        @ActivationConfigProperty(propertyName = "destinationLookup", propertyValue = "topic/HELLOWORLDMDBTopic"),
-        @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Topic"),
-        @ActivationConfigProperty(propertyName = "acknowledgeMode", propertyValue = "Auto-acknowledge") })
+    @ActivationConfigProperty(propertyName = "destinationLookup", propertyValue = "topic/HELLOWORLDMDBTopic"),
+    @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Topic"),
+    @ActivationConfigProperty(propertyName = "acknowledgeMode", propertyValue = "Auto-acknowledge") })
 public class HelloWorldTopicMDB implements MessageListener {
 
     private final static Logger LOGGER = Logger.getLogger(HelloWorldTopicMDB.class.toString());

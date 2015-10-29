@@ -22,11 +22,11 @@ import org.jboss.as.quickstarts.interapp.shared.Foo;
 
 /**
  * The Foo bean is registered as an EJB singleton, allowing it to be used in other applications.
- * 
+ *
  * The {@link Foo} interface, which defines the contract that {@link FooImpl} exposes is placed in a shared jar.
- * 
+ *
  * @author Pete Muir
- * 
+ *
  */
 @Singleton
 public class FooImpl implements Foo {

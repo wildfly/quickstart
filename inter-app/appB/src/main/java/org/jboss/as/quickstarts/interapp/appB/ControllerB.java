@@ -30,9 +30,9 @@ import org.jboss.as.quickstarts.interapp.shared.Foo;
  * Note that whilst EJBs are used to provide inter application communication, this is not apparent to consumers of Foo and Bar,
  * which use CDI style injection.
  * </p>
- * 
+ *
  * @author Pete Muir
- * 
+ *
  */
 @Named
 public class ControllerB {

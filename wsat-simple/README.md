@@ -1,11 +1,11 @@
 wsat-simple: WS-AT (WS-AtomicTransaction) - Simple
 ==================================================
-Author: Paul Robinson
-Level: Intermediate
-Technologies: WS-AT, JAX-WS
-Summary: Deployment of a WS-AT (WS-AtomicTransaction) enabled JAX-WS Web service bundled in a WAR archive
+Author: Paul Robinson  
+Level: Intermediate  
+Technologies: WS-AT, JAX-WS  
+Summary: Deployment of a WS-AT (WS-AtomicTransaction) enabled JAX-WS Web service bundled in a WAR archive  
 Target Project: WildFly
-Source: <https://github.com/wildfly/quickstart/>
+Source: <https://github.com/wildfly/quickstart/>  
 
 What is it?
 -----------

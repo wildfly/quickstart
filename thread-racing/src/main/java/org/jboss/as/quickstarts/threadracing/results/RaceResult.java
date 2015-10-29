@@ -38,7 +38,7 @@ import java.util.List;
 @Entity
 @Table(name = "THREAD_RACE_RESULTS")
 @NamedQueries({
-        @NamedQuery(name = "RaceResult.findAll", query = "SELECT e FROM RaceResult e")
+    @NamedQuery(name = "RaceResult.findAll", query = "SELECT e FROM RaceResult e")
 })
 public class RaceResult implements Serializable {
 
@@ -172,7 +172,7 @@ public class RaceResult implements Serializable {
 
     /**
      * Retrieves a list with racers ordered by race position.
-      * @return
+     * @return
      */
     public List<String> getSortedRacers() {
         List<String> result = new ArrayList<>();

@@ -41,7 +41,7 @@ public class HATimerService implements Service<Environment> {
     public static final String NODE_1 = "nodeOne";
     public static final String NODE_2 = "nodeTwo";
 
-    private static final Logger LOGGER = Logger.getLogger(HATimerService.class);    
+    private static final Logger LOGGER = Logger.getLogger(HATimerService.class);
     private final Value<ServerEnvironment> env;
     private final AtomicBoolean started = new AtomicBoolean(false);
 
@@ -63,10 +63,11 @@ public class HATimerService implements Service<Environment> {
             throw new StartException("The service is still started!");
         }
         LOGGER.info("Start HASingleton timer service '" + this.getClass().getName() + "'");
-        
+
         try {
             InitialContext ic = new InitialContext();
-            ((Scheduler) ic.lookup("global/wildfly-cluster-ha-singleton-service/SchedulerBean!org.jboss.as.quickstarts.cluster.hasingleton.service.ejb.Scheduler")).initialize("HASingleton timer @" + this.env.getValue().getNodeName() + " " + new Date());
+            ((Scheduler) ic.lookup("global/wildfly-cluster-ha-singleton-service/SchedulerBean!org.jboss.as.quickstarts.cluster.hasingleton.service.ejb.Scheduler"))
+                .initialize("HASingleton timer @" + this.env.getValue().getNodeName() + " " + new Date());
         } catch (NamingException e) {
             throw new StartException("Could not initialize timer", e);
         }

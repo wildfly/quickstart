@@ -24,9 +24,9 @@ import org.jboss.as.quickstarts.interapp.shared.Bar;
 /**
  * The Imports class is used to alias EJBs imported from other applications as local CDI beans, thus allowing consumers to
  * ignore the details of inter-application communication.
- * 
+ *
  * @author Pete Muir
- * 
+ *
  */
 public class Imports {
 

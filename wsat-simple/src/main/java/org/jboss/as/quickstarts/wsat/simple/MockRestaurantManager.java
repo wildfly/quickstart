@@ -20,9 +20,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * This class represents the back-end resource for managing Restaurant bookings.
- * 
+ *
  * This is a mock implementation that just keeps a counter of how many bookings have been made.
- * 
+ *
  * @author paul.robinson@redhat.com, 2012-01-04
  */
 public class MockRestaurantManager {
@@ -35,7 +35,7 @@ public class MockRestaurantManager {
 
     /**
      * Accessor to obtain the singleton restaurant manager instance.
-     * 
+     *
      * @return the singleton RestaurantManager instance.
      */
     public synchronized static MockRestaurantManager getSingletonInstance() {
@@ -48,7 +48,7 @@ public class MockRestaurantManager {
 
     /**
      * Make a booking with the restaurant.
-     * 
+     *
      * @param txID The transaction identifier
      */
     public synchronized void makeBooking(Object txID) {
@@ -58,7 +58,7 @@ public class MockRestaurantManager {
     /**
      * Prepare local state changes for the supplied transaction. This method should persist any required information to ensure
      * that it can undo (rollback) or make permanent (commit) the work done inside this transaction, when told to do so.
-     * 
+     *
      * @param txID The transaction identifier
      * @return true on success, false otherwise
      */
@@ -69,7 +69,7 @@ public class MockRestaurantManager {
 
     /**
      * commit local state changes for the supplied transaction
-     * 
+     *
      * @param txID The transaction identifier
      */
     public void commit(Object txID) {
@@ -79,7 +79,7 @@ public class MockRestaurantManager {
 
     /**
      * roll back local state changes for the supplied transaction
-     * 
+     *
      * @param txID The transaction identifier
      */
     public void rollback(Object txID) {
@@ -88,7 +88,7 @@ public class MockRestaurantManager {
 
     /**
      * Returns the number of bookings
-     * 
+     *
      * @return the number of bookings.
      */
     public int getBookingCount() {

@@ -32,9 +32,9 @@ import org.infinispan.Cache;
 
 /**
  * A simple servlet requesting the cache for key "hello".
- * 
+ *
  * @author Pete Muir
- * 
+ *
  */
 @SuppressWarnings("serial")
 @WebServlet("/TestServletGet")

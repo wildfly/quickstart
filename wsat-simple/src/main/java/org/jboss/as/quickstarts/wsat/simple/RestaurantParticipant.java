@@ -22,7 +22,7 @@ import java.io.Serializable;
 
 /**
  * An adapter class that exposes the RestaurantManager as a WS-T Atomic Transaction participant.
- * 
+ *
  * @author paul.robinson@redhat.com, 2012-01-04
  */
 public class RestaurantParticipant implements Durable2PCParticipant, Serializable {
@@ -36,7 +36,7 @@ public class RestaurantParticipant implements Durable2PCParticipant, Serializabl
 
     /**
      * Creates a new participant for this transaction. Participants and transaction instances have a one-to-one mapping.
-     * 
+     *
      * @param txID the ID of the transaction tht this participant will be enlisted within.
      */
     public RestaurantParticipant(String txID) {
@@ -45,7 +45,7 @@ public class RestaurantParticipant implements Durable2PCParticipant, Serializabl
 
     /**
      * Invokes the prepare step of the business logic, reporting activity and outcome.
-     * 
+     *
      * @return Prepared where possible, Aborted where necessary.
      * @throws WrongStateException
      * @throws SystemException
@@ -69,7 +69,7 @@ public class RestaurantParticipant implements Durable2PCParticipant, Serializabl
 
     /**
      * Invokes the commit step of the business logic.
-     * 
+     *
      * @throws WrongStateException
      * @throws SystemException
      */
@@ -82,7 +82,7 @@ public class RestaurantParticipant implements Durable2PCParticipant, Serializabl
 
     /**
      * Invokes the rollback operation on the business logic.
-     * 
+     *
      * @throws WrongStateException
      * @throws SystemException
      */
@@ -90,7 +90,7 @@ public class RestaurantParticipant implements Durable2PCParticipant, Serializabl
         // Log the event and invoke the rollback operation
         // on the backend business logic.
         System.out
-                .println("[SERVICE] one or more participants voted 'aborted' or a failure occurred, so coordinator tells the participant to rollback");
+            .println("[SERVICE] one or more participants voted 'aborted' or a failure occurred, so coordinator tells the participant to rollback");
         mockRestaurantManager.rollback(txID);
     }
 

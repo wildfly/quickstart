@@ -127,7 +127,7 @@ public class MemberResourceRESTService {
      * If the error is caused because an existing member with the same email is registered it throws a regular validation
      * exception so that it can be interpreted separately.
      * </p>
-     * 
+     *
      * @param member Member to be validated
      * @throws ConstraintViolationException If Bean Validation errors exist
      * @throws ValidationException If member with the same email already exists
@@ -149,7 +149,7 @@ public class MemberResourceRESTService {
     /**
      * Creates a JAX-RS "Bad Request" response including a map of all violation fields, and their message. This can then be used
      * by clients to show violations.
-     * 
+     *
      * @param violations A set of violations that needs to be reported
      * @return JAX-RS response containing all violations
      */
@@ -168,7 +168,7 @@ public class MemberResourceRESTService {
     /**
      * Checks if a member with the same email address is already registered. This is the only way to easily capture the
      * "@UniqueConstraint(columnNames = "email")" constraint from the Member class.
-     * 
+     *
      * @param email The email to check
      * @return True if the email already exists, and false otherwise
      */

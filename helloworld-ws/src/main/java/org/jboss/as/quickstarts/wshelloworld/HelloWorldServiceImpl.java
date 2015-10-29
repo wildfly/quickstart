@@ -23,10 +23,11 @@ import javax.jws.WebService;
 
 /**
  * The implementation of the HelloWorld JAX-WS Web Service.
- * 
+ *
  * @author lnewson@redhat.com
  */
-@WebService(serviceName = "HelloWorldService", portName = "HelloWorld", name = "HelloWorld", endpointInterface = "org.jboss.as.quickstarts.wshelloworld.HelloWorldService", targetNamespace = "http://www.jboss.org/jbossas/quickstarts/wshelloworld/HelloWorld")
+@WebService(serviceName = "HelloWorldService", portName = "HelloWorld", name = "HelloWorld", endpointInterface = "org.jboss.as.quickstarts.wshelloworld.HelloWorldService",
+    targetNamespace = "http://www.jboss.org/jbossas/quickstarts/wshelloworld/HelloWorld")
 public class HelloWorldServiceImpl implements HelloWorldService {
 
     @Override
@@ -52,9 +53,9 @@ public class HelloWorldServiceImpl implements HelloWorldService {
     /**
      * Creates a list of names separated by commas or an and symbol if its the last separation. This is then used to say hello to
      * the list of names.
-     * 
+     *
      * i.e. if the input was {John, Mary, Luke} the output would be John, Mary & Luke
-     * 
+     *
      * @param names A list of names
      * @return The list of names separated as described above.
      */

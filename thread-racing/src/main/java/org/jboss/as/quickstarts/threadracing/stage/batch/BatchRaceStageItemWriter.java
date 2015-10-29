@@ -31,7 +31,7 @@ public class BatchRaceStageItemWriter extends AbstractItemWriter {
     public void writeItems(List list) {
         // simulate a item write op, sleep 10ms for each item to write
         try {
-            Thread.sleep(10*list.size());
+            Thread.sleep(10 * list.size());
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

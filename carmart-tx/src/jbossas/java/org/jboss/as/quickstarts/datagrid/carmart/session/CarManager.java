@@ -31,9 +31,9 @@ import java.util.logging.Logger;
 
 /**
  * Adds, retrieves, removes new cars from the cache. Also returns a list of cars stored in the cache.
- * 
+ *
  * @author Martin Gencur
- * 
+ *
  */
 @Model
 public class CarManager {

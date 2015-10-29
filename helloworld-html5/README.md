@@ -1,11 +1,11 @@
 helloworld-html5: HTML5 + REST Hello World Example
 ===================
-Author: Jay Balunas, Burr Sutter, Douglas Campos, Bruno Olivera
-Level: Beginner
-Technologies: CDI, JAX-RS, HTML5
-Summary: Basic HTML5 |Demonstrates the use of CDI 1.1 and JAX-RS using the HTML5 architecture and RESTful services on the backend
-Target Product: WFK
-Source: <https://github.com/wildfly/quickstart/>
+Author: Jay Balunas, Burr Sutter, Douglas Campos, Bruno Olivera  
+Level: Beginner  
+Technologies: CDI, JAX-RS, HTML5  
+Summary: Basic HTML5 |Demonstrates the use of CDI 1.1 and JAX-RS using the HTML5 architecture and RESTful services on the backend  
+Target Product: WFK  
+Source: <https://github.com/wildfly/quickstart/>  
 
 What is it?
 -----------

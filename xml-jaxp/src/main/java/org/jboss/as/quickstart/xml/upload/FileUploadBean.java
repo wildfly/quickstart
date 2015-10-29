@@ -31,9 +31,9 @@ import org.jboss.as.quickstart.xml.XMLParser;
 
 /**
  * Backing bean to provide example with required logic to parse provided XML file.<br>
- * 
+ *
  * @author baranowb
- * 
+ *
  */
 /*
  * Annotated as: - SessionScope bean to tie its lifecycle to session. This is required to make it shared between UploadServlet
@@ -43,7 +43,7 @@ import org.jboss.as.quickstart.xml.XMLParser;
 public class FileUploadBean implements Serializable {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = -4542914921835861304L;
 

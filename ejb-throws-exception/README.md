@@ -1,6 +1,6 @@
 ejb-throws-exception: Deployment of an EAR Containing a JSF WAR and an EJB JAR that throws a custom exception
 ====================================================================
-Author: Brad Maxwell
+Author: Brad Maxwell  
 
 What is it?
 -----------

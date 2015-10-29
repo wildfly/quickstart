@@ -18,15 +18,15 @@ package org.jboss.as.quickstarts.deltaspike.projectstage.bean;
 
 /**
  * This implementation is ALWAYS available to CDI
- * 
+ *
  * @author <a href="mailto:benevides@redhat.com">Rafael Benevides</a>
- * 
+ *
  */
 public class NotExcludedBean implements MessageProvider {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.as.quickstarts.deltaspike.projectstage.controller.bean.MyBean#message()
      */
     @Override

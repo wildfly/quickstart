@@ -1,11 +1,11 @@
 cdi-portable-extension: An example of a Portable Extension and some of the APIs / SPIs of CDI
 ======================================================
-Author: Jason Porter
-Level: Intermediate
-Technologies: CDI
-Summary: Creating a basic CDI extension to provide injection of fields from an XML file.
+Author: Jason Porter  
+Level: Intermediate  
+Technologies: CDI  
+Summary: Creating a basic CDI extension to provide injection of fields from an XML file.  
 Target Project: WildFly
-Source: <https://github.com/wildfly/quickstart/>
+Source: <https://github.com/wildfly/quickstart/>  
 
 What is it?
 -----------

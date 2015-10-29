@@ -27,10 +27,10 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * Qualifier for specifying which SetServiceBA implementation to use.
- * 
+ *
  * This Qualifier only supports the ClientStub implementation. The other class to implement SetServiceBA is the SetServiceBAImpl
  * class, which is not injected by CDI, so does not require Qualifier support.
- * 
+ *
  * @author paul.robinson@redhat.com, 2012-01-04
  */
 @Qualifier

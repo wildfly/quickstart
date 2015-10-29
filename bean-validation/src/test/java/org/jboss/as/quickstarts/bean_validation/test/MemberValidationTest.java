@@ -36,33 +36,33 @@ import org.junit.runner.RunWith;
 /**
  * Simple tests for Bean Validator. Arquillian deploys an WAR archive to the application server, which constructs Validator
  * object.
- * 
+ *
  * This object is injected into the tests so user can verify the validators are working. This example does not touch validation
  * on database layer, e.g. it is not validating uniqueness constraint for email field.
- * 
- * 
+ *
+ *
  * @author <a href="kpiwko@redhat.com>Karel Piwko</a>
- * 
+ *
  */
 @RunWith(Arquillian.class)
 public class MemberValidationTest {
 
     /**
      * Constructs a deployment archive
-     * 
+     *
      * @return the deployment archive
      */
     @Deployment
     public static Archive<?> createTestArchive() {
         return ShrinkWrap.create(WebArchive.class, "test.war").addClasses(Member.class)
-        // enable JPA
-                .addAsResource("META-INF/test-persistence.xml", "META-INF/persistence.xml")
-                // add sample data
-                .addAsResource("import.sql")
-                // enable CDI
-                .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
-                // Deploy our test datasource
-                .addAsWebInfResource("test-ds.xml", "test-ds.xml");
+            // enable JPA
+            .addAsResource("META-INF/test-persistence.xml", "META-INF/persistence.xml")
+            // add sample data
+            .addAsResource("import.sql")
+            // enable CDI
+            .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
+            // Deploy our test datasource
+            .addAsWebInfResource("test-ds.xml", "test-ds.xml");
     }
 
     // Get configured validator directly from JBoss WildFly environment
@@ -71,7 +71,7 @@ public class MemberValidationTest {
 
     /**
      * Tests an empty member registration, e.g. violation of:
-     * 
+     *
      * <ul>
      * <li>@NotNull</li>
      * <li>@NotNull</li>
@@ -109,7 +109,7 @@ public class MemberValidationTest {
 
         Assert.assertEquals("One violation was found", 1, violations.size());
         Assert.assertEquals("Name was invalid", "must contain only letters and spaces", violations.iterator().next()
-                .getMessage());
+            .getMessage());
     }
 
     /**
@@ -136,7 +136,7 @@ public class MemberValidationTest {
 
         Assert.assertEquals("One violation was found", 1, violations.size());
         Assert.assertEquals("Phone number was invalid", "size must be between 10 and 12", violations.iterator().next()
-                .getMessage());
+            .getMessage());
     }
 
     private Member createValidMember() {

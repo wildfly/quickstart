@@ -1,11 +1,11 @@
 security-vault-askpass: Using Security Vault based on external askpass command to secure Datasource password
 ====================
-Author: Ivo Studensky
-Level: Intermediate
-Technologies: Servlet, Security Vault, Java KeyStore
-Summary: Demonstrates how to use Security Vault to secure Datasource password
+Author: Ivo Studensky  
+Level: Intermediate  
+Technologies: Servlet, Security Vault, Java KeyStore  
+Summary: Demonstrates how to use Security Vault to secure Datasource password  
 Target Project: WildFly
-Source: <https://github.com/wildfly/quickstart/>
+Source: <https://github.com/wildfly/quickstart/>  
 
 What is it?
 -----------

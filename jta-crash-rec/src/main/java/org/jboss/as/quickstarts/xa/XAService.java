@@ -30,7 +30,7 @@ import java.util.List;
 
 /**
  * A bean for updating a database and sending a JMS message within a single JTA transaction
- * 
+ *
  * @author Mike Musgrove
  */
 public class XAService {
@@ -50,7 +50,8 @@ public class XAService {
     private UserTransaction userTransaction;
 
     @Inject
-    @JMSConnectionFactory("java:/JmsXA") // we want to deliver JMS messages withing an XA transaction
+    @JMSConnectionFactory("java:/JmsXA")
+    // we want to deliver JMS messages withing an XA transaction
     private JMSContext jmsContext;
 
     // use our JMS queue. Note that messages must be persistent in order for them to survive an AS restart
@@ -85,12 +86,12 @@ public class XAService {
 
     /**
      * Update a key value database. The method must be called within a transaction.
-     * 
+     *
      * @param entityManager an open JPA entity manager
      * @param delete if true then delete rows. If key is empty all rows are deleted.
      * @param key if not null then a pair is inserted into the database
      * @param value the value to be associated with the key
-     * 
+     *
      * @return true if a key was inserted or a value modified
      */
     public boolean modifyKeyValueTable(EntityManager entityManager, boolean delete, String key, String value) {
@@ -133,11 +134,11 @@ public class XAService {
 
     /**
      * Update a key value database. The method must not be called within a transaction.
-     * 
+     *
      * @param delete if true then delete rows. If key is empty all rows are deleted.
      * @param key if not null then a pair is inserted into the database
      * @param value the value to be associated with the key
-     * 
+     *
      * @return The contents of the table after the update
      */
     public String updateKeyValueDatabase(boolean delete, String key, String value) {
@@ -162,7 +163,7 @@ public class XAService {
         } finally {
             try {
                 if (userTransaction.getStatus() == Status.STATUS_ACTIVE
-                        || userTransaction.getStatus() == Status.STATUS_MARKED_ROLLBACK)
+                    || userTransaction.getStatus() == Status.STATUS_MARKED_ROLLBACK)
                     userTransaction.rollback();
             } catch (Throwable e) {
                 result.append(" Transaction did not finish: ").append(e.getMessage());

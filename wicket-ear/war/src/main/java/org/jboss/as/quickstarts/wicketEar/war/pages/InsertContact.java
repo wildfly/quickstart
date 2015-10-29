@@ -27,7 +27,7 @@ import org.jboss.as.quickstarts.wicketEar.ejbjar.dao.ContactDao;
 import org.jboss.as.quickstarts.wicketEar.ejbjar.model.Contact;
 
 /**
- * 
+ *
  * @author Filippo Diotalevi
  */
 @SuppressWarnings("serial")

@@ -42,9 +42,9 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- JBoss dependency versions -->
-        
+
         <version.wildfly.maven.plugin>1.0.2.Final</version.wildfly.maven.plugin>
-        
+
         <!-- Define the version of the JBoss BOMs we want to import to specify tested stacks. -->
         <version.jboss.bom>9.0.0.Final</version.jboss.bom>
 
@@ -95,7 +95,7 @@
             <artifactId>cdi-api</artifactId>
             <scope>provided</scope>
         </dependency>
-        
+
         <!-- Import the Servlet API, we use provided scope as the API is included in JBoss WildFly -->
         <dependency>
             <groupId>org.jboss.spec.javax.servlet</groupId>
@@ -170,9 +170,9 @@
 
     <profiles>
         <profile>
-            <!-- The default profile skips all tests, though you can tune it 
+            <!-- The default profile skips all tests, though you can tune it
                 to run just unit tests based on a custom pattern -->
-            <!-- Seperate profiles are provided for running all tests, including 
+            <!-- Seperate profiles are provided for running all tests, including
                 Arquillian tests that execute in the specified container -->
             <id>default</id>
             <activation>

@@ -1,11 +1,11 @@
 xml-jaxp: Demonstrates How to Upload and Parse an XML File Using DOM or SAX
 ========================
-Author: Bartosz Baranowski
-Level: Intermediate
-Technologies: JAXP, SAX, DOM, Servlet
-Summary: Upload, validation and parsing of XML using SAX or DOM
+Author: Bartosz Baranowski  
+Level: Intermediate  
+Technologies: JAXP, SAX, DOM, Servlet  
+Summary: Upload, validation and parsing of XML using SAX or DOM  
 Target Project: WildFly
-Source: <https://github.com/wildfly/quickstart/>
+Source: <https://github.com/wildfly/quickstart/>  
 
 What is it?
 -----------

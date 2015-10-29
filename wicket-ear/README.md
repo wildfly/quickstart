@@ -1,11 +1,11 @@
 wicket-ear: Wicket Framework used in a WAR inside an EAR.
 =========================================================
-Author: Ondrej Zizka <ozizka@redhat.com>
-Level: Intermediate
-Technologies: Apache Wicket, JPA
-Summary: Demonstrates how to use the Wicket Framework 1.5 with the JBoss server using the Wicket-Stuff Java EE integration, packaged as an EAR
+Author: Ondrej Zizka <ozizka@redhat.com>  
+Level: Intermediate  
+Technologies: Apache Wicket, JPA  
+Summary: Demonstrates how to use the Wicket Framework 1.5 with the JBoss server using the Wicket-Stuff Java EE integration, packaged as an EAR  
 Target Project: WildFly
-Source: <https://github.com/wildfly/quickstart/>
+Source: <https://github.com/wildfly/quickstart/>  
 
 What is it?
 -----------

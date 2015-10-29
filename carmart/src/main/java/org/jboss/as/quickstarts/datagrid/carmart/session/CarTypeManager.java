@@ -23,9 +23,9 @@ import org.jboss.as.quickstarts.datagrid.carmart.model.Car.CarType;
 
 /**
  * Produces an array of supported car types
- * 
+ *
  * @author Martin Gencur
- * 
+ *
  */
 public class CarTypeManager {
     @Produces

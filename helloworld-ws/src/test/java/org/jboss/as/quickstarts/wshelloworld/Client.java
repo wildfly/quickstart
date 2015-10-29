@@ -26,7 +26,7 @@ import java.util.List;
 
 /**
  * A Client stub to the HelloWorld JAX-WS Web Service.
- * 
+ *
  * @author lnewson@redhat.com
  */
 public class Client implements HelloWorldService {
@@ -34,7 +34,7 @@ public class Client implements HelloWorldService {
 
     /**
      * Default constructor
-     * 
+     *
      * @param url The URL to the Hello World WSDL endpoint.
      */
     public Client(final URL wsdlUrl) {
@@ -44,10 +44,10 @@ public class Client implements HelloWorldService {
         helloWorldService = service.getPort(HelloWorldService.class);
         assert (helloWorldService != null);
     }
-    
+
     /**
      * Default constructor
-     * 
+     *
      * @param url The URL to the Hello World WSDL endpoint.
      * @throws MalformedURLException if the WSDL url is malformed.
      */

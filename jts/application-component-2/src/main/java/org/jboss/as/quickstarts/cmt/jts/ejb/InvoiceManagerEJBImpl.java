@@ -40,7 +40,7 @@ public class InvoiceManagerEJBImpl {
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public void createInvoice(String name) {
         jmsContext.createProducer()
-                .send(queue, "Created invoice for customer named: " + name);
+            .send(queue, "Created invoice for customer named: " + name);
 
     }
 }

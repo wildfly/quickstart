@@ -26,9 +26,9 @@ import javax.inject.Named;
 
 /**
  * Stores parsing errors
- * 
+ *
  * @author baranowb
- * 
+ *
  */
 @SuppressWarnings("serial")
 @SessionScoped

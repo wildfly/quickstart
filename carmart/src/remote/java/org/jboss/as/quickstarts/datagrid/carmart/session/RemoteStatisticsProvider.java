@@ -29,7 +29,6 @@ import org.jboss.as.quickstarts.datagrid.carmart.session.CacheContainerProvider;
 import org.jboss.as.quickstarts.datagrid.carmart.session.CarManager;
 import org.jboss.as.quickstarts.datagrid.carmart.session.StatisticsProvider;
 
-
 @Named("stats")
 @RequestScoped
 public class RemoteStatisticsProvider implements StatisticsProvider {

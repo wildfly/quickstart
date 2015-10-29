@@ -25,12 +25,11 @@ import javax.inject.Named;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-
 /**
  * The secured controller restricts access to certain method
- * 
+ *
  * @author <a href="mailto:benevides@redhat.com">Rafael Benevides</a>
- * 
+ *
  */
 // Expose the bean to EL
 @Named
@@ -50,7 +49,7 @@ public class Controller {
     public void adminMethod() {
         facesContext.addMessage(null, new FacesMessage("You executed a @AdminAllowed method"));
     }
-    
+
     //Invalidate the session and send a redirect to index.html
     public void logout() throws IOException {
         HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
@@ -59,10 +58,10 @@ public class Controller {
         response.sendRedirect("index.html");
         facesContext.responseComplete();
     }
-    
+
     //This method return the stack trace string from the Exception
     public String getStackTrace() {
-        Throwable throwable = (Throwable)  FacesContext.getCurrentInstance().getExternalContext().getRequestMap().get("javax.servlet.error.exception");
+        Throwable throwable = (Throwable) FacesContext.getCurrentInstance().getExternalContext().getRequestMap().get("javax.servlet.error.exception");
         StringBuilder builder = new StringBuilder();
         builder.append(throwable.getMessage()).append("\n");
         for (StackTraceElement element : throwable.getStackTrace()) {

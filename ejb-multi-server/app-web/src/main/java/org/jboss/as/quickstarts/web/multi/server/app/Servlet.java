@@ -35,7 +35,7 @@ import org.jboss.as.quickstarts.ejb.multi.server.app.AppTwo;
 
 /**
  * A simple servlet that is used to invoke all other application EJB's.
- * 
+ *
  * @author <a href="mailto:wfink@redhat.com">Wolf-Dieter Fink</a>
  */
 @WebServlet(urlPatterns = "/*")

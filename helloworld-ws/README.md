@@ -1,11 +1,11 @@
 helloworld-ws: Hello World JAX-WS Web Service
 ==================================================
-Author: Lee Newson
-Level: Beginner
-Technologies: JAX-WS
-Summary: Deployment of a basic JAX-WS Web service bundled in a WAR archive
+Author: Lee Newson  
+Level: Beginner  
+Technologies: JAX-WS  
+Summary: Deployment of a basic JAX-WS Web service bundled in a WAR archive  
 Target Project: WildFly
-Source: <https://github.com/wildfly/quickstart/>
+Source: <https://github.com/wildfly/quickstart/>  
 
 What is it?
 -----------

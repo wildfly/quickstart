@@ -21,9 +21,9 @@ import java.util.Date;
 
 /**
  * Simple Java Bean which is used as a data structure. It stores information about book.
- * 
+ *
  * @author baranowb
- * 
+ *
  */
 @SuppressWarnings("serial")
 public class Book implements Serializable {

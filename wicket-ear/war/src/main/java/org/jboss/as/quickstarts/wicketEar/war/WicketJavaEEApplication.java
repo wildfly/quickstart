@@ -30,7 +30,7 @@ import org.jboss.as.quickstarts.wicketEar.war.pages.InsertContact;
 import org.jboss.as.quickstarts.wicketEar.war.pages.ListContacts;
 
 /**
- * 
+ *
  * @author Ondrej Zizka
  */
 public class WicketJavaEEApplication extends WebApplication {

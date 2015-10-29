@@ -25,7 +25,7 @@ import javax.faces.context.FacesContext;
 
 /**
  * A simple SLSB EJB. The EJB does not use an interface.
- * 
+ *
  * @author Bruce Wolfe
  */
 @Stateless
@@ -33,7 +33,7 @@ public class TemperatureConvertEJB {
 
     /**
      * This method takes a temperature in Celsius or Fahrenheit and converts it to the other value.
-     * 
+     *
      * @param source the temperature to convert from
      * @return the converted temperature.
      */

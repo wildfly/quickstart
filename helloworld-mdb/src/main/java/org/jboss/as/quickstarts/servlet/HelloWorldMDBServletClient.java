@@ -33,26 +33,23 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 /**
  * Definition of the two JMS destinations used by the quickstart
  * (one queue and one topic).
  */
 @JMSDestinationDefinitions(
-        value =  {
-                @JMSDestinationDefinition(
-                        name = "java:/queue/HELLOWORLDMDBQueue",
-                        interfaceName = "javax.jms.Queue",
-                        destinationName = "HelloWorldMDBQueue"
-                ),
-                @JMSDestinationDefinition(
-                        name = "java:/topic/HELLOWORLDMDBTopic",
-                        interfaceName = "javax.jms.Topic",
-                        destinationName = "HelloWorldMDBTopic"
-                )
-        }
-)
-
+    value = {
+        @JMSDestinationDefinition(
+            name = "java:/queue/HELLOWORLDMDBQueue",
+            interfaceName = "javax.jms.Queue",
+            destinationName = "HelloWorldMDBQueue"
+        ),
+        @JMSDestinationDefinition(
+            name = "java:/topic/HELLOWORLDMDBTopic",
+            interfaceName = "javax.jms.Topic",
+            destinationName = "HelloWorldMDBTopic"
+        )
+    })
 /**
  * <p>
  * A simple servlet 3 as client that sends several messages to a queue or a topic.

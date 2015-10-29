@@ -1,11 +1,11 @@
 kitchensink-ml-ear: Localized Example Using Multiple Java EE 7 Technologies Deployed as an EAR
 ==============================================================================================
-Author: Sande Gilda
-Level: Intermediate
-Technologies: EAR
-Summary: A localized version of kitchensink-ear
+Author: Sande Gilda  
+Level: Intermediate  
+Technologies: EAR  
+Summary: A localized version of kitchensink-ear  
 Target Project: WildFly
-Source: <https://github.com/wildfly/quickstart/>
+Source: <https://github.com/wildfly/quickstart/>  
 
 What is it?
 -----------

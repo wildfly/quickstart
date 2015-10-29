@@ -75,7 +75,7 @@ public class Client {
 
         /* Lookup the remote interface of the shopping cart */
         String lookupName = "ejb:" + appName + "/" + moduleName + "/" + distinctName + "/" + beanName + "!" + viewClassName
-                + "?stateful";
+            + "?stateful";
         final ShoppingCart cart = (ShoppingCart) context.lookup(lookupName);
 
         System.out.println("\n&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");

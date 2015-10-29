@@ -18,7 +18,7 @@ package org.jboss.as.quickstarts.wsba.coordinatorcompletion.simple;
 
 /**
  * Exception used to communicate a general error in the SetService.
- * 
+ *
  * @author paul.robinson@redhat.com, 2012-01-04
  */
 public class SetServiceException extends Exception {

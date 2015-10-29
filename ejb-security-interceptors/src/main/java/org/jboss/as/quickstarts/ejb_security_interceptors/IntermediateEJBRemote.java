@@ -20,7 +20,7 @@ import javax.ejb.Remote;
 
 /**
  * The interface to the intermediate EJB used to test EJB to remote EJB calls.
- * 
+ *
  * @author <a href="mailto:darran.lofthouse@jboss.com">Darran Lofthouse</a>
  */
 @Remote

@@ -1,11 +1,11 @@
 cmt: Container Managed Transactions - Example Using Transactions That Are Managed by the Container 
 ==================================================================================================
-Author: Tom Jenkinson
-Level: Intermediate
-Technologies: EJB, Container Managed Transactions (CMT), JMS
-Summary: EJB that demonstrates container-managed transactions (CMT)
+Author: Tom Jenkinson  
+Level: Intermediate  
+Technologies: EJB, Container Managed Transactions (CMT), JMS  
+Summary: EJB that demonstrates container-managed transactions (CMT)  
 Target Project: WildFly
-Source: <https://github.com/wildfly/quickstart/>
+Source: <https://github.com/wildfly/quickstart/>  
 
 ## What is it?
 

@@ -22,9 +22,9 @@ import javax.persistence.Table;
 
 /**
  * This is a typical {@link Entity} with the field <i>nick</i> as its {@link Id}
- * 
+ *
  * @author <a href="mailto:benevides@redhat.com">Rafael Benevides</a>
- * 
+ *
  */
 @Entity
 @Table(name = "person")

@@ -1,11 +1,11 @@
 temperature-converter: Stateless Session EJB
 =================================================
-Author: Bruce Wolfe
-Level: Beginner
-Technologies: EJB
-Summary: Demonstrates a stateless session bean 
+Author: Bruce Wolfe  
+Level: Beginner  
+Technologies: EJB  
+Summary: Demonstrates a stateless session bean    
 Target Project: WildFly
-Source: <https://github.com/wildfly/quickstart/>
+Source: <https://github.com/wildfly/quickstart/>  
 
 What is it?
 -----------

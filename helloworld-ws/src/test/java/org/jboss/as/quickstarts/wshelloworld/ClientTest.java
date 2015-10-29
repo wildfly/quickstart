@@ -30,7 +30,7 @@ import org.junit.Test;
 
 /**
  * Simple set of tests for the HelloWorld Web Service to demonstrate accessing the web service using a client
- * 
+ *
  * @author lnewson@redhat.com
  */
 public class ClientTest {
@@ -42,7 +42,7 @@ public class ClientTest {
      * The path of the WSDL endpoint in relation to the deployed web application.
      */
     private static final String WSDL_PATH = "HelloWorldService?wsdl";
-    
+
     /**
      * The name for the Server URL System Property.
      */
@@ -55,33 +55,33 @@ public class ClientTest {
     private static URL deploymentUrl;
 
     private HelloWorldService client;
-    
+
     @BeforeClass
     public static void beforeClass() throws MalformedURLException
     {
         String deploymentUrl = System.getProperty(SERVER_URL_PROPERTY);
-        
+
         // Check that the server URL property was set. If it wasn't then use the default.
         if (deploymentUrl == null || deploymentUrl.isEmpty()) {
             deploymentUrl = DEFAULT_SERVER_URL;
         }
-        
+
         // Ensure that the URL ends with a forward slash
         if (!deploymentUrl.endsWith("/")) {
             deploymentUrl += "/";
         }
-        
+
         // Ensure the App Name is specified in the URL
         if (!deploymentUrl.matches(".*" + APP_NAME + ".*"))
         {
             deploymentUrl += APP_NAME + "/";
         }
-        
+
         // Add the WDSL Document location to the URL
         deploymentUrl += WSDL_PATH;
-        
+
         System.out.println("WSDL Deployment URL: " + deploymentUrl);
-        
+
         // Set the deployment url
         ClientTest.deploymentUrl = new URL(deploymentUrl);
     }

@@ -1,11 +1,11 @@
 ejb-asynchronous:  An application with an EJB with asynchronous methods to demonstrate how it works
 ======================================================
-Author: Wolf-Dieter Fink
-Level: Advanced
-Technologies: EJB 
-Summary: Demonstrates asynchronous EJB invocations.
+Author: Wolf-Dieter Fink  
+Level: Advanced  
+Technologies: EJB    
+Summary: Demonstrates asynchronous EJB invocations.  
 Target Project: WildFly
-Source: <https://github.com/wildfly/quickstart/>
+Source: <https://github.com/wildfly/quickstart/>  
 
 What is it?
 -----------

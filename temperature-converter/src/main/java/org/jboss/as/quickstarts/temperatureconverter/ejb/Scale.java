@@ -18,19 +18,20 @@ package org.jboss.as.quickstarts.temperatureconverter.ejb;
 
 /**
  * The temperature scale.
- * 
+ *
  * @author Pete Muir
- * 
+ *
  */
 public enum Scale {
 
-    CELSIUS("\u2103"), FAHRENHEIT("\u2109");
+    CELSIUS("\u2103"),
+    FAHRENHEIT("\u2109");
 
     private final String symbol;
 
     /**
      * Constructor for a scale, taking the symbol used to represent the temperature scale.
-     * 
+     *
      * @param symbol
      */
     private Scale(String symbol) {

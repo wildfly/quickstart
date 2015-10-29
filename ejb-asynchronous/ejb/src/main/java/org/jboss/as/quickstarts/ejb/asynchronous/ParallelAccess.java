@@ -26,7 +26,7 @@ public interface ParallelAccess {
     /**
      * Demonstrate a parallel execution of two actions. This will increase the CPU and memory assumption but will have a shorter
      * processing time.
-     * 
+     *
      * @return the results of the actions
      */
     Collection<String> invokeAsyncParallel();

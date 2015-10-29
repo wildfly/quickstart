@@ -1,11 +1,11 @@
 servlet-security:  Using Java EE Declarative Security to Control Access to Servlet 3
 ====================
-Author: Sherif F. Makary, Pedro Igor
-Level: Intermediate
-Technologies: Servlet, Security
-Summary: Demonstrates how to use Java EE declarative security to control access to Servlet 3
+Author: Sherif F. Makary, Pedro Igor  
+Level: Intermediate  
+Technologies: Servlet, Security  
+Summary: Demonstrates how to use Java EE declarative security to control access to Servlet 3  
 Target Project: WildFly
-Source: <https://github.com/wildfly/quickstart/>
+Source: <https://github.com/wildfly/quickstart/>  
 
 What is it?
 -----------

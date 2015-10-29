@@ -30,7 +30,7 @@ import org.jboss.as.quickstarts.kitchensinkjsp.model.Member;
 
 /**
  * JAX-RS Example
- * 
+ *
  * This class produces a RESTful service to read the contents of the members table.
  */
 @Path("/members")

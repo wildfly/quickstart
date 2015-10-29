@@ -32,7 +32,7 @@ import javax.sql.DataSource;
  * A simple Servlet which tries to access the Datasource secured by Vault.
  *
  * @author Ivo Studensky
- * 
+ *
  */
 @SuppressWarnings("serial")
 @WebServlet("/AskpassServlet")

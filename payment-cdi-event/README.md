@@ -1,11 +1,11 @@
 payment-cdi-event: Use CDI Events to Process Debit and Credit Operations
 ========================================================================
-Author: Elvadas Nono
-Level: Beginner
-Technologies: CDI
-Summary: Demonstrates how to use CDI 1.1 Events
+Author: Elvadas Nono  
+Level: Beginner  
+Technologies: CDI  
+Summary: Demonstrates how to use CDI 1.1 Events  
 Target Project: WildFly
-Source: <https://github.com/wildfly/quickstart/>
+Source: <https://github.com/wildfly/quickstart/>  
 
 What is it?
 -----------
