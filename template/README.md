@@ -98,7 +98,7 @@ Access the application
 
 <!-- Contributor: Add this section only if the quickstart has a UI component and provide the URL to access the running application. Be sure to make the URL a hyperlink as below, substituting the your quickstart name for the `QUICKSTART_NAME`. -->
 
-        Access the running application in a browser at the following URL:  <http://localhost:8080/jboss-QUICKSTART_NAME>
+        Access the running application in a browser at the following URL:  <http://localhost:8080/wildfly-QUICKSTART_NAME>
 
 
 <!--Contributor: Briefly describe what you will see when you access the application. For example: -->

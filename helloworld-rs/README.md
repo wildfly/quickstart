@@ -52,11 +52,11 @@ Build and Deploy the Quickstart
 Access the application 
 ---------------------
 
-The application is deployed to <http://localhost:8080/jboss-helloworld-rs>.
+The application is deployed to <http://localhost:8080/wildfly-helloworld-rs>.
 
-The *XML* content can be viewed by accessing the following URL: <http://localhost:8080/jboss-helloworld-rs/rest/xml> 
+The *XML* content can be viewed by accessing the following URL: <http://localhost:8080/wildfly-helloworld-rs/rest/xml> 
 
-The *JSON* content can be viewed by accessing this URL: <http://localhost:8080/jboss-helloworld-rs/rest/json>
+The *JSON* content can be viewed by accessing this URL: <http://localhost:8080/wildfly-helloworld-rs/rest/json>
 
 
 Undeploy the Archive

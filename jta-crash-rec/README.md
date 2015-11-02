@@ -85,7 +85,7 @@ Build and Deploy the Quickstart
 Access the application 
 ---------------------
 
-The application will be running at the following URL: <http://localhost:8080/jboss-jta-crash-rec/XA>. 
+The application will be running at the following URL: <http://localhost:8080/wildfly-jta-crash-rec/XA>. 
 
 
 Test the application
@@ -113,7 +113,7 @@ Test the application
              JAVA_OPTS=%JAVA_OPTS% -javaagent:C:BYTEMAN_HOME\lib\byteman.jar=script:C:\QUICKSTART_HOME\jta-crash-rec\src\main\scripts\xa.btm %JAVA_OPTS%
     * [Start the WildFly server](#start-the-jboss-eap-server) as instructed above.
     
-5. Once you complete step 4, you are ready to create a _recovery record_. Go to the application URL <http://localhost:8080/jboss-jta-crash-rec/XA> and insert another row into the database. At this point, Byteman halts the application server. 
+5. Once you complete step 4, you are ready to create a _recovery record_. Go to the application URL <http://localhost:8080/wildfly-jta-crash-rec/XA> and insert another row into the database. At this point, Byteman halts the application server. 
 
 6. If you want to verify the database insert was committed but that message delivery is still pending, you can use an SQL client such as the H2 database console tool. Issue a query to show that the value is present but does not contain the message added by the consumer (*" updated via JMS"*). Here is how you can do it using H2:
     * Start the H2 console by typing:

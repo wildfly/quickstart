@@ -189,7 +189,7 @@ Since this quickstart builds two separate components, you can not use the standa
 Access the application 
 ---------------------
 
-The application will be running at the following URL: <http://localhost:8080/jboss-jts-application-component-1/>.
+The application will be running at the following URL: <http://localhost:8080/wildfly-jts-application-component-1/>.
 
 When you enter a name and click to "Add" that customer, you will see the following in the application server 1 console:
     

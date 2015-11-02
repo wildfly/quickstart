@@ -59,12 +59,12 @@ _NOTE: The following build command assumes you have configured your Maven user s
 Access the application 
 ---------------------
 
-The application will be running at the following URL <http://localhost:8080/jboss-helloworld-html5/>.
+The application will be running at the following URL <http://localhost:8080/wildfly-helloworld-html5/>.
 
 You can also test the REST endpoint as follows. Feel free to replace `YOUR_NAME` with a name of your choosing.
 
-* The *XML* content can be tested by accessing the following URL: <http://localhost:8080/jboss-helloworld-html5/hello/xml/YOUR_NAME> 
-* The *JSON* content can be tested by accessing this URL: <http://localhost:8080/jboss-helloworld-html5/hello/json/YOUR_NAME>
+* The *XML* content can be tested by accessing the following URL: <http://localhost:8080/wildfly-helloworld-html5/hello/xml/YOUR_NAME> 
+* The *JSON* content can be tested by accessing this URL: <http://localhost:8080/wildfly-helloworld-html5/hello/json/YOUR_NAME>
 
 
 Undeploy the Archive

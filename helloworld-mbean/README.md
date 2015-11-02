@@ -61,7 +61,7 @@ Build and Deploy the Quickstart
 Access and Test the MBeans
 --------------------------
 
-This quickstart differs from the other quickstarts in that it uses 'JConsole' to access and test the quickstart rather than access an URL in the browser. If you do access <http://localhost:8080/jboss-helloworld-mbean-helloworld-mbean-webapp/>, you will see a screen shot image of the JConsole application,
+This quickstart differs from the other quickstarts in that it uses 'JConsole' to access and test the quickstart rather than access an URL in the browser. If you do access <http://localhost:8080/wildfly-helloworld-mbean-helloworld-mbean-webapp/>, you will see a screen shot image of the JConsole application,
 
 The following sections describe how to use 'JConsole' to inspect and test the MBeans. 
 

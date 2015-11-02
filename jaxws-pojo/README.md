@@ -46,7 +46,7 @@ _NOTE: The following build command assumes you have configured your Maven user s
 Access the application 
 ---------------------
 
-You can check that the Web Service is running and deployed correctly by accessing the following URL: <http://localhost:8080/jboss-jaxws-pojo-endpoint/JSEBean01?wsdl>. This URL will display the deployed WSDL endpoint for the Web Service.
+You can check that the Web Service is running and deployed correctly by accessing the following URL: <http://localhost:8080/wildfly-jaxws-pojo-endpoint/JSEBean01?wsdl>. This URL will display the deployed WSDL endpoint for the Web Service.
 
 Run the Client
 --------------

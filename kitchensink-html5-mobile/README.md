@@ -62,7 +62,7 @@ Build and Deploy the Quickstart
 Access the application
 ----------------------
 
-Access the running client application in a browser at the following URL: <http://localhost:8080/jboss-kitchensink-html5-mobile/>.
+Access the running client application in a browser at the following URL: <http://localhost:8080/wildfly-kitchensink-html5-mobile/>.
 
 
 Undeploy the Archive

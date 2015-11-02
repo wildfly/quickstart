@@ -61,7 +61,7 @@ Build and Deploy the Quickstart
 Access the application
 ---------------------
 
-The application will be running at the following URL: <http://localhost:8080/jboss-cdi-alternative>.
+The application will be running at the following URL: <http://localhost:8080/wildfly-cdi-alternative>.
 
 You can specify alternative versions of the bean in the WEB-INF/beans.xml file by doing one of the following:
 

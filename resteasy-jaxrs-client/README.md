@@ -32,8 +32,8 @@ IMPORTANT: This quickstart depends on the deployment of the 'helloworld-rs' quic
 
 You can verify the deployment of the [helloworld-rs](../helloworld-rs/README.md) quickstart by accessing the following content:
 
-* The *XML* content can be viewed by accessing the following URL: <http://localhost:8080/jboss-helloworld-rs/rest/xml> 
-* The *JSON* content can be viewed by accessing this URL: <http://localhost:8080/jboss-helloworld-rs/rest/json>
+* The *XML* content can be viewed by accessing the following URL: <http://localhost:8080/wildfly-helloworld-rs/rest/xml> 
+* The *JSON* content can be viewed by accessing this URL: <http://localhost:8080/wildfly-helloworld-rs/rest/json>
 
 
 
@@ -57,7 +57,7 @@ This command will compile the example and execute a test to make two separate re
 should see the following if the execution is successful:
 
         ===============================================
-        URL: http://localhost:8080/jboss-helloworld-rs/rest/xml
+        URL: http://localhost:8080/wildfly-helloworld-rs/rest/xml
         MediaType: application/xml
 
         *** Response from Server ***
@@ -66,7 +66,7 @@ should see the following if the execution is successful:
     
         ===============================================
         ===============================================
-        URL: http://localhost:8080/jboss-helloworld-rs/rest/json
+        URL: http://localhost:8080/wildfly-helloworld-rs/rest/json
         MediaType: application/json
 
         *** Response from Server ***

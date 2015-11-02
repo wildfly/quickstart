@@ -134,7 +134,7 @@ Build and Deploy the Quickstart
 Access the application 
 ---------------------
 
-The application will be running at the following URL: <http://localhost:8080/jboss-kitchensink-ml-ear-web>.
+The application will be running at the following URL: <http://localhost:8080/wildfly-kitchensink-ml-ear-web>.
 
 1. Enter a name, email address, and Phone nubmer in the input field and click the _Register_ button.
 2. If the data entered is valid, the new member will be registered and added to the _Members_ display list.

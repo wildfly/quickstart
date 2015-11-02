@@ -70,7 +70,7 @@ Build and Deploy the Quickstart
 Access the application 
 ---------------------
 
-The application will be running at the following URL <http://localhost:8080/jboss-ejb-in-ear>.
+The application will be running at the following URL <http://localhost:8080/wildfly-ejb-in-ear>.
 
 Enter a name in the input field and click the _Greet_ button to see the response.
 
