@@ -48,7 +48,7 @@ Build and Deploy the Quickstart
 Access the application
 ---------------------
 
-Access the running application in a browser at the following URL:  <http://localhost:8080/jboss-jsonp/>
+Access the running application in a browser at the following URL:  <http://localhost:8080/wildfly-jsonp/>
 
 You're presented with a simple form that is pre-filled with personal data. You can change those values if you prefer. 
 

@@ -273,7 +273,7 @@ Access the JSF application inside the main-application
 The JSF example shows different annotations to inject the EJB. Also how to handle the annotation if different beans implement the same interface and therefore the container is not able to decide which bean needs to be injected without additional informations.
 
 1. Make sure that the deployments are successful as described above.
-2. Use a browser to access the JSF application at the following URL: <http://localhost:8080/jboss-ejb-multi-server-app-main-web/>
+2. Use a browser to access the JSF application at the following URL: <http://localhost:8080/wildfly-ejb-multi-server-app-main-web/>
 3. Insert a message in the Text input and invoke the different methods. The result is shown in the browser.
 4. See server logfiles and find your given message logged as INFO.
 

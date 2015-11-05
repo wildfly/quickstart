@@ -168,11 +168,11 @@ To send messages to the topic, use the following URL: <http://localhost:9080/jbo
 
 ### Access the Application Running in Standalone Mode
 
-The application will be running at the following URL: <http://localhost:8080/jboss-helloworld-mdb/HelloWorldMDBServletClient>. 
+The application will be running at the following URL: <http://localhost:8080/wildfly-helloworld-mdb/HelloWorldMDBServletClient>. 
 
 It will send some messages to the queue. 
 
-To send messages to the topic, use the following URL: <http://localhost:8080/jboss-helloworld-mdb/HelloWorldMDBServletClient?topic>
+To send messages to the topic, use the following URL: <http://localhost:8080/wildfly-helloworld-mdb/HelloWorldMDBServletClient?topic>
 
 
 Investigate the Server Console Output

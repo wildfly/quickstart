@@ -52,7 +52,7 @@ Build and Deploy the Quickstart
 Access the application 
 ---------------------
 
-The application will be running at the following URL: <http://localhost:8080/jboss-numberguess>. 
+The application will be running at the following URL: <http://localhost:8080/wildfly-numberguess>. 
 
 
 Undeploy the Archive

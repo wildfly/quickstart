@@ -49,7 +49,7 @@ Build and Deploy the Quickstart
 5. Review the server log to see useful information about the deployed web service endpoint.
 
         JBWS024061: Adding service endpoint metadata: id=org.jboss.as.quickstarts.wshelloworld.HelloWorldServiceImpl
-         address=http://localhost:8080/jboss-helloworld-ws/HelloWorldService
+         address=http://localhost:8080/wildfly-helloworld-ws/HelloWorldService
          implementor=org.jboss.as.quickstarts.wshelloworld.HelloWorldServiceImpl
          serviceName={http://www.jboss.org/eap/quickstarts/wshelloworld/HelloWorld}HelloWorldService
          portName={http://www.jboss.org/eap/quickstarts/wshelloworld/HelloWorld}HelloWorld
@@ -61,7 +61,7 @@ Build and Deploy the Quickstart
 Access the application 
 ---------------------
 
-You can verify that the Web Service is running and deployed correctly by accessing the following URL: <http://localhost:8080/jboss-helloworld-ws/HelloWorldService?wsdl>. This URL will display the deployed WSDL endpoint for the Web Service.
+You can verify that the Web Service is running and deployed correctly by accessing the following URL: <http://localhost:8080/wildfly-helloworld-ws/HelloWorldService?wsdl>. This URL will display the deployed WSDL endpoint for the Web Service.
 
 
 Undeploy the Archive

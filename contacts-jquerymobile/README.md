@@ -93,7 +93,7 @@ Build and Deploy the Quickstart
 Access the application
 ----------------------
 
-Access the running client application in a browser at the following URL: <http://localhost:8080/jboss-contacts-jquerymobile/>.
+Access the running client application in a browser at the following URL: <http://localhost:8080/wildfly-contacts-jquerymobile/>.
 
 The app is made up of the following pages:
 
