@@ -82,7 +82,7 @@ Build and Deploy the Quickstart
 Access the application 
 ---------------------
 
-The application will be running at the following URL: <http://localhost:8080/jboss-hibernate5/>.
+The application will be running at the following URL: <http://localhost:8080/wildfly-hibernate5/>.
 
 
 Server Log: Expected warnings and errors
