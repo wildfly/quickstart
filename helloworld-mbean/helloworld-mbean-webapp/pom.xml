@@ -19,11 +19,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.jboss.quickstarts.eap</groupId>
-        <artifactId>jboss-helloworld-mbean</artifactId>
-        <version>7.0.0-SNAPSHOT</version>
+        <groupId>org.wildfly.quickstarts</groupId>
+        <artifactId>wildfly-helloworld-mbean</artifactId>
+        <version>10.0.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>jboss-helloworld-mbean-helloworld-mbean-webapp</artifactId>
+    <artifactId>wildfly-helloworld-mbean-helloworld-mbean-webapp</artifactId>
     <packaging>war</packaging>
     <name>WildFly Quickstart: helloworld-mbean - helloworld-mbean-webapp</name>
     <url>http://www.wildfly.org</url>
@@ -41,6 +42,7 @@
         <finalName>${project.artifactId}</finalName>
         <plugins>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
                 <version>${version.war.plugin}</version>
                 <configuration>

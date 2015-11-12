@@ -41,12 +41,12 @@ _NOTE: The following build command assumes you have configured your Maven user s
 
         mvn clean install wildfy:deploy
 
-4. This will create the `jboss-jaxws-addressing-client.jar` and deploy `service/target/wildfly-jaxws-addressing-service.war` to the running instance of the server.
+4. This will create the `wildfly-jaxws-addressing-client.jar` and deploy `service/target/wildfly-jaxws-addressing-service.war` to the running instance of the server.
 
 Access the application 
 ---------------------
 
-You can check that the Web Service is running and deployed correctly by accessing the following URL: <http://localhost:8080/jboss-jaxws-addressing/AddressingService?wsdl>. This URL will display the deployed WSDL endpoint for the Web Service.
+You can check that the Web Service is running and deployed correctly by accessing the following URL: <http://localhost:8080/wildfly-jaxws-addressing/AddressingService?wsdl>. This URL will display the deployed WSDL endpoint for the Web Service.
 
 Run the Client
 --------------

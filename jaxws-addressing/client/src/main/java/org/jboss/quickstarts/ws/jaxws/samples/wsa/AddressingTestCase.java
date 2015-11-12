@@ -28,7 +28,7 @@ import javax.xml.ws.soap.AddressingFeature;
 public final class AddressingTestCase
 {
     private static final String serviceURL =
-        "http://localhost:8080/jboss-jaxws-addressing/AddressingService";
+        "http://localhost:8080/wildfly-jaxws-addressing/AddressingService";
 
     public static void main(String[] args) throws Exception
     {

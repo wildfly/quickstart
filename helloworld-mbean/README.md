@@ -55,13 +55,13 @@ Build and Deploy the Quickstart
 
         mvn clean wildfly:deploy
 
-4. This will deploy `helloworld-mbean-webapp\target\jboss-helloworld-mbean-helloworld-mbean-webapp.war` and `helloworld-mbean-service\target\jboss-helloworld-mbean-helloworld-mbean-service.sar` to the running instance of the server.
+4. This will deploy `helloworld-mbean-webapp\target\wildfly-helloworld-mbean-helloworld-mbean-webapp.war` and `helloworld-mbean-service\target\wildfly-helloworld-mbean-helloworld-mbean-service.sar` to the running instance of the server.
 
 
 Access and Test the MBeans
 --------------------------
 
-This quickstart differs from the other quickstarts in that it uses 'JConsole' to access and test the quickstart rather than access an URL in the browser. If you do access <http://localhost:8080/jboss-helloworld-mbean-helloworld-mbean-webapp/>, you will see a screen shot image of the JConsole application,
+This quickstart differs from the other quickstarts in that it uses 'JConsole' to access and test the quickstart rather than access an URL in the browser. If you do access <http://localhost:8080/wildfly-helloworld-mbean-helloworld-mbean-webapp/>, you will see a screen shot image of the JConsole application,
 
 The following sections describe how to use 'JConsole' to inspect and test the MBeans. 
 
@@ -110,7 +110,7 @@ You can also start the server and deploy the quickstarts or run the Arquillian t
 
 This quickstart consists of multiple projects and requires installation of the "JBoss Tools Maven Packaging Configurator", so it deploys and runs differently in JBoss Developer Studio than the other quickstarts.
 
-1.  When you import the `helloworld-mbean` quickstart into JBoss Developer Studio, you see the following warnings for the `jboss-helloworld-mbean-webapp/src/main/webapp/META-INF/jboss-service.xml` and `/jboss-helloworld-mbean-service/src/main/resources/META-INF/jboss-service.xml` files:
+1.  When you import the `helloworld-mbean` quickstart into JBoss Developer Studio, you see the following warnings for the `wildfly-helloworld-mbean-webapp/src/main/webapp/META-INF/jboss-service.xml` and `/wildfly-helloworld-mbean-service/src/main/resources/META-INF/jboss-service.xml` files:
 
         No grammar constraints (DTD or XML Schema) referenced in the document. 
     
@@ -119,7 +119,7 @@ This quickstart consists of multiple projects and requires installation of the "
    * If the "JBoss Central" page is not showing, open it by choosing `Help` --> `JBoss Central`.
    * Click the `Software/Install` tab at the bottom of the `JBoss Central`.
    * Select the "JBoss Tools Maven Packaging Configurator" and click `Update/Install`.
-3. Right click on the parent `jboss-helloworld-mbean` parent project and choose `Maven` --> `Update Project...`. Select all projects and click `OK`.
+3. Right click on the parent `wildfly-helloworld-mbean` parent project and choose `Maven` --> `Update Project...`. Select all projects and click `OK`.
 4. Right-click on the `helloworld-mbean-helloworld-mbean-service` project and choose `Run As` --> `Run on Server`. 
 5. Right-click on the `helloworld-mbean-helloworld-mbean-webapp` project and choose `Run As` --> `Run on Server`. 
 6. [Start JConsole](#start-jconsole) and [Test the MBeans in JConsole](#test-the-mbeans-in-jconsole) as described above.

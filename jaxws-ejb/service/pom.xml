@@ -19,11 +19,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.jboss.quickstarts.eap</groupId>
-        <artifactId>jboss-jaxws-ejb</artifactId>
-        <version>7.0.0-SNAPSHOT</version>
+        <groupId>org.wildfly.quickstarts</groupId>
+        <artifactId>wildfly-jaxws-ejb</artifactId>
+        <version>10.0.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>jboss-jaxws-ejb-service</artifactId>
+    <artifactId>wildfly-jaxws-ejb-service</artifactId>
     <packaging>war</packaging>
     <name>WildFly Quickstart: jaxws-ejb - service</name>
     <url>http://www.wildfly.org</url>
@@ -37,7 +38,7 @@
     </licenses>
 
     <dependencies>
-        <dependency>
+ <!--       <dependency>
             <groupId>org.jboss.ejb3</groupId>
             <artifactId>jboss-ejb3-ext-api</artifactId>
             <scope>provided</scope>
@@ -46,7 +47,7 @@
             <groupId>com.sun.istack</groupId>
             <artifactId>istack-commons-runtime</artifactId>
             <scope>provided</scope>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>org.jboss.spec.javax.ejb</groupId>
             <artifactId>jboss-ejb-api_3.2_spec</artifactId>
@@ -82,11 +83,10 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.3</version>
+                <version>3.1</version>
                 <configuration>
                     <compilerArguments>
-                        <endorseddirs>${project.build.directory}/endorsed
-                        </endorseddirs>
+                        <endorseddirs>${project.build.directory}/endorsed</endorseddirs>
                     </compilerArguments>
                 </configuration>
             </plugin>

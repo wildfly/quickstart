@@ -31,7 +31,7 @@ public class Client {
 
     public static void main(String[] args)
     {
-        String endPointAddress = "http://localhost:8080/jboss-jaxws-ejb-endpoint/EJB3Bean01";
+        String endPointAddress = "http://localhost:8080/wildfly-jaxws-ejb-endpoint/EJB3Bean01";
         QName serviceName = new QName("http://jsr181pojo.samples.jaxws.ws.quickstarts.jboss.org/", "EJB3Bean01Service");
 
         try {
