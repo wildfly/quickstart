@@ -39,7 +39,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- JBoss dependency versions -->
-        <com.ocpsoft.prettyfaces.version>3.3.2</com.ocpsoft.prettyfaces.version>
+        <com.ocpsoft.prettyfaces.version>3.3.3</com.ocpsoft.prettyfaces.version>
 
         <!-- Define the version of the JBoss BOMs we want to import to specify tested stacks. -->
         <version.jboss.bom>10.0.0.CR4</version.jboss.bom>
@@ -103,13 +103,7 @@
         <dependency>
             <groupId>org.infinispan</groupId>
             <artifactId>infinispan-core</artifactId>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.infinispan</groupId>
-            <artifactId>infinispan-commons</artifactId>
-            <version>7.1.1.Final</version>
-            <scope>compile</scope>
+            <scope>compile</scope> <!-- maybe better to use provided and import org.infinispan dep via j-m-s.xml / manifest.mf-->
         </dependency>
 
         <!-- Import Prettyfaces dependency. This is a UNSUPPORTED component -->
