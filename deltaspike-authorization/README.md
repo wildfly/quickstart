@@ -27,7 +27,7 @@ System requirements
 
 All you need to build this project is Java 8.0 (Java SDK 1.8) or better, Maven 3.1 or better.
 
-The application this project produces is designed to be run on WildFly 8.
+The application this project produces is designed to be run on WildFly 10.
 
  
 Configure Maven
@@ -41,7 +41,7 @@ Add an Application User
 This quickstart uses secured management interfaces and requires that you create an application user to access the running application. Instructions to set up the quickstart application user can be found here: [Add an Application User](../README.md#addapplicationuser)
 
 
-Start WildFly 8
+Start WildFly 10
 -------------------------
 
 1. Open a command line and navigate to the root of the JBoss server directory.

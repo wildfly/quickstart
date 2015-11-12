@@ -57,7 +57,7 @@ System requirements
 
 All you need to build this project is Java 8.0 (Java SDK 1.8) or better, Maven 3.1 or better.
 
-The application this project produces is designed to be run on JBoss WildFly 8.0.1.Final or later.
+The application this project produces is designed to be run on JBoss WildFly 10.0.1.Final or later.
 
 Configure Maven
 ---------------
@@ -67,7 +67,7 @@ If you have not yet done so, you must [Configure Maven](../README.md#mavenconfig
 Prerequisites
 -------------
 
-_Note_: Unlike most of the quickstarts, this one requires JBoss WildFly 8.0.1.Final or later.
+_Note_: Unlike most of the quickstarts, this one requires JBoss WildFly 10.0.1.Final or later.
 
 This quickstart uses the default standalone configuration plus the modifications described here.
 

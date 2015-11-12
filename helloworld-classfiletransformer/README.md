@@ -34,7 +34,7 @@ And you can even advice code that is a third party dependency to your applicatio
 
 Deploy the WAR 
 ========================
-* Start Wildfly 8.1.0.Final (or newer)
+* Start WildFly 10.1.0.Final (or newer)
 * mvn clean install wildfly:deploy
 
 Run the SOAP client 

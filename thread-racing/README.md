@@ -106,7 +106,7 @@ If you do not yet have an OpenShift account and domain, [Sign in to OpenShift](h
 
 ### Create the OpenShift WildFly Application
 
-Open a shell command prompt and change to a directory of your choice. Enter the following command for quickstarts running on WildFly 8:
+Open a shell command prompt and change to a directory of your choice. Enter the following command for quickstarts running on WildFly 10:
 
     rhc app create wildflyThreadRacing jboss-wildfly-8
 

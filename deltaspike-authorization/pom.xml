@@ -51,8 +51,8 @@
         <!-- Define the version of the JBoss BOMs we want to import to specify tested stacks. -->
         <version.jboss.bom>10.0.0.CR4</version.jboss.bom>
 
-        <version.deltaspike.core>0.6</version.deltaspike.core>
-        <version.picketlink>2.6.0.CR1</version.picketlink>
+        <version.deltaspike.core>1.5.1</version.deltaspike.core>
+        <version.picketlink>2.7.0.Final</version.picketlink>
     </properties>
 
     <dependencyManagement>
@@ -100,6 +100,11 @@
             </dependency>
             <dependency>
                 <groupId>org.picketlink</groupId>
+                <artifactId>picketlink-idm-api</artifactId>
+                <version>${version.picketlink}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.picketlink</groupId>
                 <artifactId>picketlink-impl</artifactId>
                 <version>${version.picketlink}</version>
             </dependency>
@@ -109,7 +114,7 @@
     <dependencies>
 
         <!-- Import the Servlet API, we use provided scope as the API is included
-            in WildFly 8 -->
+            in WildFly 10 -->
         <dependency>
             <groupId>org.jboss.spec.javax.servlet</groupId>
             <artifactId>jboss-servlet-api_3.1_spec</artifactId>
@@ -117,7 +122,7 @@
         </dependency>
 
         <!-- Import the CDI API, we use provided scope as the API is included
-            in WildFly 8 -->
+            in WildFly 10 -->
         <dependency>
             <groupId>javax.enterprise</groupId>
             <artifactId>cdi-api</artifactId>
@@ -125,7 +130,7 @@
         </dependency>
 
         <!-- Import the Common Annotations API (JSR-250), we use provided
-            scope as the API is included in WildFly 8 -->
+            scope as the API is included in WildFly 10 -->
         <dependency>
             <groupId>org.jboss.spec.javax.annotation</groupId>
             <artifactId>jboss-annotations-api_1.2_spec</artifactId>
@@ -139,7 +144,7 @@
         </dependency>
 
         <!-- Import the JSF API, we use provided scope as the API is included
-            in WildFly 8 -->
+            in WildFly 10 -->
         <dependency>
             <groupId>org.jboss.spec.javax.faces</groupId>
             <artifactId>jboss-jsf-api_2.2_spec</artifactId>
@@ -147,7 +152,7 @@
         </dependency>
 
         <!-- Import the JPA API, we use provided scope as the API is included
-            in WildFly 8 -->
+            in WildFly 10 -->
         <dependency>
             <groupId>org.hibernate.javax.persistence</groupId>
             <artifactId>hibernate-jpa-2.1-api</artifactId>
@@ -155,7 +160,7 @@
         </dependency>
 
         <!-- Import the JPA API, we use provided scope as the API is included
-            in WildFly 8 -->
+            in WildFly 10 -->
         <dependency>
             <groupId>org.jboss.spec.javax.transaction</groupId>
             <artifactId>jboss-transaction-api_1.2_spec</artifactId>
@@ -163,7 +168,7 @@
         </dependency>
 
         <!-- Import the EJB API, we use provided scope as the API is included
-            in WildFly 8 -->
+            in WildFly 10 -->
         <dependency>
             <groupId>org.jboss.spec.javax.ejb</groupId>
             <artifactId>jboss-ejb-api_3.2_spec</artifactId>

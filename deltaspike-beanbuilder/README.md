@@ -23,7 +23,7 @@ System requirements
 
 All you need to build this project is Java 8 (Java SDK 1.8) or better, Maven 3.1 or better.
 
-The application this project produces is designed to be run on WildFly 8.
+The application this project produces is designed to be run on WildFly 10.
 
 
 Configure Maven
@@ -31,7 +31,7 @@ Configure Maven
 
 If you have not yet done so, you must [Configure Maven](../README.md#mavenconfiguration) before testing the quickstarts.
 
-Start WildFly 8 with the Web Profile
+Start WildFly 10 with the Web Profile
 -------------------------
 
 1. Open a command line and navigate to the root of the JBoss server directory.
