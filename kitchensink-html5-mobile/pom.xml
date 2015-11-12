@@ -50,8 +50,8 @@
         <version.ro.isdc.wro4j>1.7.8</version.ro.isdc.wro4j>
 
         <!-- other plugin versions -->
-        <version.surefire.plugin>2.10</version.surefire.plugin>
-        <version.war.plugin>2.1.1</version.war.plugin>
+        <version.surefire.plugin>2.19</version.surefire.plugin>
+        <version.war.plugin>2.6</version.war.plugin>
 
         <!-- maven-compiler-plugin -->
         <maven.compiler.target>1.8</maven.compiler.target>
@@ -176,6 +176,7 @@
         <finalName>${project.artifactId}</finalName>
         <plugins>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
                 <version>${version.war.plugin}</version>
                 <configuration>
@@ -191,7 +192,8 @@
                 <version>${version.wildfly.maven.plugin}</version>
             </plugin>
             <plugin>
-               <artifactId>maven-surefire-plugin</artifactId>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
                <version>${version.surefire.plugin}</version>
                <configuration>
                    <skip>true</skip>
@@ -210,6 +212,7 @@
             <build>
                 <plugins>
                     <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-war-plugin</artifactId>
                         <version>${version.war.plugin}</version>
                         <configuration>
@@ -267,6 +270,7 @@
             <build>
              <plugins>
                  <plugin>
+                     <groupId>org.apache.maven.plugins</groupId>
                      <artifactId>maven-surefire-plugin</artifactId>
                      <version>${version.surefire.plugin}</version>
                      <configuration>
@@ -291,7 +295,8 @@
             <build>
                <plugins>
                   <plugin>
-                     <artifactId>maven-surefire-plugin</artifactId>
+                      <groupId>org.apache.maven.plugins</groupId>
+                      <artifactId>maven-surefire-plugin</artifactId>
                      <version>${version.surefire.plugin}</version>
                      <configuration>
                         <skip>false</skip>
