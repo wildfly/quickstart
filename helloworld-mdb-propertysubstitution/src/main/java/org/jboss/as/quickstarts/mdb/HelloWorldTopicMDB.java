@@ -33,7 +33,7 @@ import javax.jms.TextMessage;
  *
  */
 @MessageDriven(name = "HelloWorldQTopicMDB", activationConfig = {
-    @ActivationConfigProperty(propertyName = "destinationLookup", propertyValue = "topic/HELLOWORLDMDBTopic"),
+    @ActivationConfigProperty(propertyName = "destinationLookup", propertyValue = "${property.helloworldmdb.topic}"),
     @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Topic"),
     @ActivationConfigProperty(propertyName = "acknowledgeMode", propertyValue = "Auto-acknowledge") })
 public class HelloWorldTopicMDB implements MessageListener {
