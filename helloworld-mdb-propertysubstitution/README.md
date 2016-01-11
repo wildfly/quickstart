@@ -12,13 +12,12 @@ What is it?
 
 The `helloworld-mdb-propertysubstitution` quickstart demonstrates the use of *JMS* and *EJB Message-Driven Bean* in Red Hat JBoss Enterprise Application Platform. 
 
-It is based on the [helloworld-mdb](../helloworld-mdb/README.md) quickstart, but has been enhanced to enable property substitution using 
-the `@Resource` and `@ActivationConfigProperty` annotations.
+It is based on the [helloworld-mdb](../helloworld-mdb/README.md) quickstart, but has been enhanced to enable property substitution using the `@Resource` and `@ActivationConfigProperty` annotations.
 
 This project creates two JMS resources:
 
-* A queue named `MDBPropertySubQueue` bound in JNDI as `java:/queue/MDBPROPERTYSUBQueue`
-* A topic named `MDBPropertySubTopic` bound in JNDI as `java:/topic/MDBPROPERTYSUBTopic`
+* A queue named `HELLOWORLDMDBQueue` bound in JNDI as `java:/${property.helloworldmdb.queue}`
+* A topic named `HELLOWORLDMDBTopic` bound in JNDI as `java:/${property.helloworldmdb.topic}`
 
 
 System requirements

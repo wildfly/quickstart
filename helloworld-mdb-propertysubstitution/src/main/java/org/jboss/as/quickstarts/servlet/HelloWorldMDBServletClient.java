@@ -40,12 +40,12 @@ import javax.servlet.http.HttpServletResponse;
 @JMSDestinationDefinitions(
     value = {
         @JMSDestinationDefinition(
-            name = "java:/queue/HELLOWORLDMDBQueue",
+            name = "java:/${property.helloworldmdb.queue}",
             interfaceName = "javax.jms.Queue",
             destinationName = "HelloWorldMDBQueue"
         ),
         @JMSDestinationDefinition(
-            name = "java:/topic/HELLOWORLDMDBTopic",
+            name = "java:/${property.helloworldmdb.topic}",
             interfaceName = "javax.jms.Topic",
             destinationName = "HelloWorldMDBTopic"
         )
