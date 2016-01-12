@@ -12,13 +12,12 @@ What is it?
 
 The `helloworld-mdb-propertysubstitution` quickstart demonstrates the use of *JMS* and *EJB Message-Driven Bean* in Red Hat JBoss Enterprise Application Platform. 
 
-It is based on the [helloworld-mdb](../helloworld-mdb/README.md) quickstart, but has been enhanced to enable property substitution using 
-the `@Resource` and `@ActivationConfigProperty` annotations.
+It is based on the [helloworld-mdb](../helloworld-mdb/README.md) quickstart, but has been enhanced to enable property substitution using the `@Resource` and `@ActivationConfigProperty` annotations.
 
 This project creates two JMS resources:
 
-* A queue named `MDBPropertySubQueue` bound in JNDI as `java:/queue/MDBPROPERTYSUBQueue`
-* A topic named `MDBPropertySubTopic` bound in JNDI as `java:/topic/MDBPROPERTYSUBTopic`
+* A queue named `HELLOWORLDMDBQueue` bound in JNDI as `java:/${property.helloworldmdb.queue}`
+* A topic named `HELLOWORLDMDBTopic` bound in JNDI as `java:/${property.helloworldmdb.topic}`
 
 
 System requirements
@@ -70,7 +69,7 @@ After stopping the server, open the `WILDFLY_HOME/standalone/configuration/stand
 
 The `<annotation-property-replacement>` attribute is set to true in the `ee` subsystem :
 
-        <subsystem xmlns="urn:jboss:domain:ee:3.0">
+        <subsystem xmlns="urn:jboss:domain:ee:4.0">
             ...
             <annotation-property-replacement>true</annotation-property-replacement>
             ...
@@ -120,9 +119,9 @@ Build and Deploy the Quickstart
 Access the application 
 ---------------------
 
-The application will be running at the following URL: <http://localhost:8080/jboss-helloworld-mdb-propertysubstitution/> and will send some messages to the queue.
+The application will be running at the following URL: <http://localhost:8080/wildfly-helloworld-mdb-propertysubstitution/> and will send some messages to the queue.
 
-To send messages to the topic, use the following URL: <http://localhost:8080/jboss-helloworld-mdb-propertysubstitution/HelloWorldMDBServletClient?topic>
+To send messages to the topic, use the following URL: <http://localhost:8080/wildfly-helloworld-mdb-propertysubstitution/HelloWorldMDBServletClient?topic>
 
 Investigate the Server Console Output
 -------------------------
