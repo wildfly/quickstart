@@ -60,7 +60,7 @@ Build and Deploy the Quickstart
 Access the application 
 ---------------------
 
-The application will be running at the following URL: <http://localhost:8080/jboss-cdi-interceptors>.
+The application will be running at the following URL: <http://localhost:8080/wildfly-cdi-interceptors>.
 
 You can now comment out classes in the WEB-INF/beans.xml file to disable one or both of the interceptors and view the results.
 
