@@ -1,9 +1,9 @@
-hornetq-clustering: HornetQ Demonstrating using Clustering
+cluster-mdb: ActiveMQ Demonstrating using Clustering
 ============================================================
 Author: Jess Sightler  
 Level: Intermediate  
-Technologies: JMS, MDB, HornetQ  
-Summary: The `hornetq-clustering` quickstart does not contain any code and instead uses the `helloworld-mdb` quickstart to demonstrate clustering using HornetQ.  
+Technologies: JMS, MDB, ActiveMQ 
+Summary: The `cluster-mdb` quickstart does not contain any code and instead uses the `helloworld-mdb` quickstart to demonstrate clustering using ActiveMQ.  
 Prerequisites: helloworld-mdb  
 Target Product: WildFly    
 Source: <https://github.com/wildfly/quickstart/>  
@@ -11,7 +11,7 @@ Source: <https://github.com/wildfly/quickstart/>
 What is it?
 -----------
 
-The `hornetq-clustering` quickstart demonstrates the use of clustering with HornetQ and Red Hat JBoss Enterprise Application Platform. It uses the [helloworld-mdb](../helloworld-mdb/README.md) quickstart for its tests, so there is no code associated with this quickstart. Instructions are provided to run the quickstart on either a standalone server or in a managed domain.
+The `cluster-mdb` quickstart demonstrates the use of clustering with ActiveMQ and Red Hat JBoss Enterprise Application Platform. It uses the [helloworld-mdb](../helloworld-mdb/README.md) quickstart for its tests, so there is no code associated with this quickstart. Instructions are provided to run the quickstart on either a standalone server or in a managed domain.
 
 System requirements
 -------------------
@@ -76,11 +76,11 @@ You configure the server by running the install-domain.cli script provided in th
 
 #### Configure the Domain Server and Deploy the Quickstart Using the JBoss CLI
 
-1. Review the `install-domain.cli` file in the root of this quickstart directory. This script creates the server group and servers and configures HornetQ Clustering for testing this quickstart. You will note it does the following:
+1. Review the `install-domain.cli` file in the root of this quickstart directory. This script creates the server group and servers and configures ActiveMQ Clustering for testing this quickstart. You will note it does the following:
     * Stops the servers
-    * Creates a server-group to test HornetQ Clustering
+    * Creates a server-group to test ActiveMQ Clustering
     * Adds 2 servers to the server-group
-    * Configures HornetQ clustering in the full-ha profile
+    * Configures ActiveMQ clustering in the full-ha profile
     * Deploys the `helloworld-mdb.war` archive
     * Restarts the servers.
     
@@ -115,7 +115,6 @@ Since both application servers must be configured in the same way, you must conf
 #### Configure the Standalone Server and Deploy the Quickstart Using the JBoss CLI
 
 1. Review the `install-standalone.cli` file in the root of this quickstart directory. This script configures clustering for a standalone server. You will note it does the following:
-    * Enables console logging. By default, the full HA profile does not log to the console, so this script enables it.
     * Enables clustering and sets a cluster password
     * Enables clustering in the RemoteConnectionFactory
     * Deploys the `helloworld-mdb.war` archive
@@ -160,33 +159,46 @@ Access the application
 
 ### Access the Application Running in Domain Dode
 
-The application will be running at the following URL: <http://localhost:9080/jboss-helloworld-mdb/HelloWorldMDBServletClient>. 
+The application will be running at the following URL: <http://localhost:9080/wildfly-helloworld-mdb/HelloWorldMDBServletClient>. 
 
 It will send some messages to the queue. 
 
-To send messages to the topic, use the following URL: <http://localhost:9080/jboss-helloworld-mdb/HelloWorldMDBServletClient?topic>
+To send messages to the topic, use the following URL: <http://localhost:9080/wildfly-helloworld-mdb/HelloWorldMDBServletClient?topic>
 
 ### Access the Application Running in Standalone Mode
 
-The application will be running at the following URL: <http://localhost:8080/jboss-helloworld-mdb/HelloWorldMDBServletClient>. 
+The application will be running at the following URL: <http://localhost:8080/wildfly-helloworld-mdb/HelloWorldMDBServletClient>. 
 
 It will send some messages to the queue. 
 
-To send messages to the topic, use the following URL: <http://localhost:8080/jboss-helloworld-mdb/HelloWorldMDBServletClient?topic>
+To send messages to the topic, use the following URL: <http://localhost:8080/wildfly-helloworld-mdb/HelloWorldMDBServletClient?topic>
 
 
 Investigate the Server Console Output
 -------------------------
 
-Look at the WildFly server console or log and you should see log messages like the following:
+Look at the WildFly server console or log and you should see log messages like the following in standalone mode:
 
-        [Server:jdf-hornetqcluster-node1] 16:34:41,165 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldQueueMDB] (Thread-8 (HornetQ-client-global-threads-1067469862)) Received Message from queue: This is message 1
-        [Server:jdf-hornetqcluster-node1] 16:34:41,274 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldQueueMDB] (Thread-8 (HornetQ-client-global-threads-1067469862)) Received Message from queue: This is message 3
-        [Server:jdf-hornetqcluster-node1] 16:34:41,323 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldQueueMDB] (Thread-6 (HornetQ-client-global-threads-1067469862)) Received Message from queue: This is message 5
-        [Server:jdf-hornetqcluster-node2] 16:34:41,324 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldQueueMDB] (Thread-8 (HornetQ-client-global-threads-1771031398)) Received Message from queue: This is message 2
-        [Server:jdf-hornetqcluster-node2] 16:34:41,330 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldQueueMDB] (Thread-7 (HornetQ-client-global-threads-1771031398)) Received Message from queue: This is message 4
+        12:08:53,697 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldTopicMDB] (Thread-225 (ActiveMQ-client-global-threads-8231066)) Received Message from topic: This is message 1
+        12:08:53,708 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldTopicMDB] (Thread-233 (ActiveMQ-client-global-threads-8231066)) Received Message from topic: This is message 2
+        12:08:53,716 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldTopicMDB] (Thread-240 (ActiveMQ-client-global-threads-8231066)) Received Message from topic: This is message 3
+        12:08:53,725 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldTopicMDB] (Thread-247 (ActiveMQ-client-global-threads-8231066)) Received Message from topic: This is message 4
+        12:08:53,737 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldTopicMDB] (Thread-254 (ActiveMQ-client-global-threads-8231066)) Received Message from topic: This is message 5
 
-Note that the logging indicates messages have arrived from both node 1 (jdf-hornetqcluster-node1) as well as node 2 (jdf-hornetqcluster-node2).
+Note that the logging indicates messages have arrived from both node 1 as well as node 2.
+
+Or for domain mode:
+        [Server:jdf-activemqcluster-node1] 12:48:56,941 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldTopicMDB] (Thread-208 (ActiveMQ-client-global-threads-664549028)) Received Message from topic: This is message 2
+        [Server:jdf-activemqcluster-node1] 12:48:56,944 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldTopicMDB] (Thread-204 (ActiveMQ-client-global-threads-664549028)) Received Message from topic: This is message 1
+        [Server:jdf-activemqcluster-node1] 12:48:56,945 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldTopicMDB] (Thread-214 (ActiveMQ-client-global-threads-664549028)) Received Message from topic: This is message 3
+        [Server:jdf-activemqcluster-node1] 12:48:56,984 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldTopicMDB] (Thread-227 (ActiveMQ-client-global-threads-664549028)) Received Message from topic: This is message 4
+        [Server:jdf-activemqcluster-node2] 12:48:56,992 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldTopicMDB] (Thread-160 (ActiveMQ-client-global-threads-122996770)) Received Message from topic: This is message 1
+        [Server:jdf-activemqcluster-node2] 12:48:56,988 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldTopicMDB] (Thread-164 (ActiveMQ-client-global-threads-122996770)) Received Message from topic: This is message 3
+        [Server:jdf-activemqcluster-node2] 12:48:56,995 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldTopicMDB] (Thread-163 (ActiveMQ-client-global-threads-122996770)) Received Message from topic: This is message 2
+        [Server:jdf-activemqcluster-node1] 12:48:56,997 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldTopicMDB] (Thread-229 (ActiveMQ-client-global-threads-664549028)) Received Message from topic: This is message 5
+        [Server:jdf-activemqcluster-node2] 12:48:57,034 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldTopicMDB] (Thread-180 (ActiveMQ-client-global-threads-122996770)) Received Message from topic: This is message 5
+        [Server:jdf-activemqcluster-node2] 12:48:57,042 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldTopicMDB] (Thread-176 (ActiveMQ-client-global-threads-122996770)) Received Message from topic: This is message 4
+
 
 Undeploy the Archive
 --------------------
@@ -244,7 +256,7 @@ _Note: This script returns the server to a default configuration and the result 
         
    _Note: If the `:stop-server` command does not complete before the the next commands are issued, you may see an error similar to the following:
    
-         {"JBAS014653: Composite operation failed and was rolled back. Steps that failed:" => {"Operation step-1" => "JBAS010977: Server (jdf-hornetqcluster-node1) still running"}}
+         {"JBAS014653: Composite operation failed and was rolled back. Steps that failed:" => {"Operation step-1" => "JBAS010977: Server (jdf-activemqcluster-node1) still running"}}
    Simply wait a few seconds and run the command a second time.
 
 ### Remove the Standalone Server Configuration
@@ -257,22 +269,6 @@ _Note: This method ensures the server is restored to its prior configuration._
 
 1. If they are running, stop both WildFly servers.
 2. Restore the `WILDFLY_HOME_1/standalone/configuration/standalone-full-ha.xml` file with the back-up copies of the file. Be sure to replace WILDFLY_HOME_1 with the path to your server.
-
-#### Remove the Standalone Configuration by Running the JBoss CLI Script
-
-_Note: This script returns the server to a default configuration and the result may not match the server configuration prior to testing this quickstart. If you were not running with the default configuration before testing this quickstart, you should follow the intructions above to manually restore the configuration to its previous state._
-
-1. Start the WildFly server by typing the following: 
-
-        For Linux:   WILDFLY_HOME_1/bin/standalone.sh -c standalone-full-ha.xml
-        For Windows: WILDFLY_HOME_1\bin\domain.bat -c standalone-full-ha.xml
-2. Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing WILDFLY_HOME_1 with the path to your server.
-
-        For Linux: WILDFLY_HOME_1/bin/jboss-cli.sh --connect --file=remove-standalone.cli 
-        For Windows: WILDFLY_HOME_1\bin\jboss-cli.bat --connect --file=remove-standalone.cli 
-This script removes the server configuration that was done by the `install-standalone.cli` script. You should see the following result following the script commands:
-
-        The batch executed successfully.
 
 ### Delete the Cloned Standalone WildFly Directory
 
