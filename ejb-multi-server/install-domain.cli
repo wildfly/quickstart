@@ -100,7 +100,7 @@ batch
 
 /profile=default-web/subsystem="batch-jberet":add(default-job-repository="in-memory", default-thread-pool="batch")
 /profile=default-web/subsystem="batch-jberet"/in-memory-job-repository=in-memory:add()
-/profile=default-web/subsystem="batch-jberet"/thread-pool="batch":add(keepalive-time={"time" => "30","unit" => "SECONDS"},max-threads="10",name="batch")
+/profile=default-web/subsystem="batch-jberet"/thread-pool="batch":add(keepalive-time={"time" => "30","unit" => "SECONDS"},max-threads="10")
 
 /profile=default-web/subsystem="bean-validation":add()
 
@@ -121,7 +121,7 @@ batch
 /profile=default-web/subsystem="ejb3"/service="remote":add(connector-ref="http-remoting-connector",thread-pool-name="default")
 /profile=default-web/subsystem="ejb3"/strict-max-bean-instance-pool="slsb-strict-max-pool":add(max-pool-size="20",timeout="5",timeout-unit="MINUTES")
 /profile=default-web/subsystem="ejb3"/strict-max-bean-instance-pool="mdb-strict-max-pool":add(max-pool-size="20",timeout="5",timeout-unit="MINUTES")
-/profile=default-web/subsystem="ejb3"/thread-pool="default":add(keepalive-time={"time" => "100","unit" => "MILLISECONDS"},max-threads="10",name="default")
+/profile=default-web/subsystem="ejb3"/thread-pool="default":add(keepalive-time={"time" => "100","unit" => "MILLISECONDS"},max-threads="10")
 /profile=default-web/subsystem="io":add()
 /profile=default-web/subsystem="io"/buffer-pool="default":add()
 /profile=default-web/subsystem="io"/worker="default":add()
@@ -160,8 +160,8 @@ batch
 /profile=default-web/subsystem="jca"/bootstrap-context="default":add(name="default",workmanager="default")
 /profile=default-web/subsystem="jca"/cached-connection-manager="cached-connection-manager":add(install="true")
 /profile=default-web/subsystem="jca"/workmanager="default":add(name="default")
-/profile=default-web/subsystem="jca"/workmanager="default"/long-running-threads="default":add(core-threads="50",keepalive-time={"time" => "10","unit" => "SECONDS"},max-threads="50",name="default",queue-length="50")
-/profile=default-web/subsystem="jca"/workmanager="default"/short-running-threads="default":add(core-threads="50",keepalive-time={"time" => "10","unit" => "SECONDS"},max-threads="50",name="default",queue-length="50")
+/profile=default-web/subsystem="jca"/workmanager="default"/long-running-threads="default":add(core-threads="50",keepalive-time={"time" => "10","unit" => "SECONDS"},max-threads="50",queue-length="50")
+/profile=default-web/subsystem="jca"/workmanager="default"/short-running-threads="default":add(core-threads="50",keepalive-time={"time" => "10","unit" => "SECONDS"},max-threads="50",queue-length="50")
 
 /profile=default-web/subsystem="jsf":add()
 
