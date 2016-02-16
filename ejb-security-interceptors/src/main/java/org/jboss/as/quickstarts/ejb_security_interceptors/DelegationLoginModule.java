@@ -140,7 +140,7 @@ public class DelegationLoginModule extends AbstractServerLoginModule {
         }
 
         String[] allowedMappings = loadPropertyValue(connectionUser.getName(), connectionUser.getRealm());
-        if (allowedMappings.length == 1 && "*".equals(allowedMappings[1])) {
+        if (allowedMappings.length == 1 && "*".equals(allowedMappings[0])) {
             // A wild card mapping was found.
             return true;
         }
