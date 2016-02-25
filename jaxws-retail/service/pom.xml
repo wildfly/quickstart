@@ -40,8 +40,9 @@
     <dependencies>
       <dependency>
          <groupId>org.jboss.spec.javax.ejb</groupId>
-         <artifactId>jboss-ejb-api_3.1_spec</artifactId>
+         <artifactId>jboss-ejb-api_3.2_spec</artifactId>
       </dependency>
+      <!-- used to pull correct dependencies for jaxws-tools-maven-plugin  -->
       <dependency>
          <groupId>org.jboss.ws.cxf</groupId>
          <artifactId>jbossws-cxf-client</artifactId>
@@ -72,11 +73,12 @@
                <skip>false</skip>
             </configuration>
          </plugin>
+
          <!-- (wsconsume) generate classes from wsdl -->
          <plugin>
             <groupId>org.jboss.ws.plugins</groupId>
-            <artifactId>maven-jaxws-tools-plugin</artifactId>
-            <version>${version.maven-jaxws-tools-plugin}</version>
+            <artifactId>jaxws-tools-maven-plugin</artifactId>
+            <version>${version.jaxws-tools-maven-plugin}</version>
             <configuration>
                <wsdls>
                   <wsdl>${basedir}/src/main/webapp/WEB-INF/wsdl/ProfileMgmtService.wsdl</wsdl>
@@ -84,6 +86,10 @@
                <extension>true</extension>
                <verbose>true</verbose>
                <endpointClass/>
+               <!-- some JDK implementations forbid file access for external schema,
+                    see http://docs.oracle.com/javase/8/docs/api/javax/xml/XMLConstants.html#ACCESS_EXTERNAL_SCHEMA -->
+               <argLine>-Djavax.xml.accessExternalSchema=all</argLine>
+               <fork>true</fork>
                <targetPackage>org.jboss.quickstarts.ws.jaxws.samples.retail.profile</targetPackage>
             </configuration>
             <executions>
