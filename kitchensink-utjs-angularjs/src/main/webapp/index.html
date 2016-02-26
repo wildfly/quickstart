@@ -1,0 +1,66 @@
+<!--
+    JBoss, Home of Professional Open Source
+    Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+    contributors by the @authors tag. See the copyright.txt in the
+    distribution for a full listing of individual contributors.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<!DOCTYPE html>
+<html lang="en" ng-app="kitchensink">
+<head>
+    <title>kitchensink</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="css/screen.css" type="text/css" />
+    
+    <!-- Load angularjs -->
+    <script src="js/libs/angular.js"></script>
+    <!-- Load angularjs-resource, which allows us to interact with REST resources as high level services -->
+    <script src="js/libs/angular-resource.js"></script>
+    
+    <!-- Load the controllers for our app -->
+    <script src="js/controllers.js"></script>
+    
+    <!-- Load the application wide JS, such as route definitions -->
+    <script src="js/app.js"></script>
+    
+    <!-- Load the services we have defined for the application, particularly the REST services -->
+    <script src="js/services.js"></script>
+    
+</head>
+<body>
+    <aside id="container">
+        <div class="dualbrand">
+            <img src="gfx/dualbrand_logo.png" />
+        </div>
+        <div id="content" ng-view>
+            <!-- This div will be tempalted by AngularJS -->
+            [Template content will be inserted here]
+        </div>
+        <div id="aside">
+            <p>Learn more about JBoss WildFly.</p>
+            <ul>
+                <li><a
+                    href="https://github.com/wildfly/quickstart/blob/master/guide/Introduction.asciidoc">Getting
+                        Started Developing Applications Guide</a></li>
+                <li><a href="http://www.wildfly.org/">Community
+                        Project Information</a></li>
+            </ul>
+        </div>
+        <footer id="footer">
+            <p>
+                This project was generated from a Maven archetype from
+                WildFly.<br />
+            </p>
+        </footer>
+    </aside>
+</body>
+</html>
