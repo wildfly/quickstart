@@ -165,12 +165,12 @@ The next step is to configure the new keystore as a server identity for ssl in t
                         <keystore path="RootCA.keystore" relative-to="jboss.server.config.dir" keystore-password="keypassword" key-password="keypassword"/>
                     </ssl>
                 </server-identities>
-            </security-realm>
-            <authentication>
+	        <authentication>
                     <truststore path="RootCA.truststore" relative-to="jboss.server.config.dir" keystore-password="keypassword"/>
                     <local default-user="$local" skip-group-loading="true"/>
                     <properties path="mgmt-users.properties" relative-to="jboss.server.config.dir"/>
-            </authentication>
+                </authentication>
+            </security-realm>
             ...
         </management>
         
@@ -184,12 +184,12 @@ else In case keys and certificates have been generated using java keytool
                         <keystore path="server.keystore" relative-to="jboss.server.config.dir" keystore-password="keypassword" key-password="keypassword"/>
                     </ssl>
                 </server-identities>
-            </security-realm>
-            <authentication>
+	        <authentication>
                     <truststore path="client.truststore" relative-to="jboss.server.config.dir" keystore-password="keypassword"/>
                     <local default-user="$local" skip-group-loading="true"/>
                     <properties path="mgmt-users.properties" relative-to="jboss.server.config.dir"/>
-            </authentication>
+                </authentication>
+            </security-realm>
             ...
         </management>
 
