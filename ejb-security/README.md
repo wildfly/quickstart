@@ -100,7 +100,7 @@ Build and Deploy the Quickstart
 Access the application 
 ---------------------
 
-The application will be running at the following URL <http://localhost:8080/jboss-ejb-security/>.
+The application will be running at the following URL <http://localhost:8080/wildfly-ejb-security/>.
 
 When you access the application, you are presented with a browser login challenge. 
 
