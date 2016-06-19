@@ -3,14 +3,14 @@ wicket-war: Wicket Framework used in a WAR.
 Author: Ondrej Zizka <ozizka@redhat.com>  
 Level: Intermediate  
 Technologies: Apache Wicket, JPA  
-Summary: Demonstrates how to use the Wicket Framework 1.5 with the JBoss server using the Wicket-Stuff Java EE integration packaged as a WAR  
+Summary: Demonstrates how to use the Wicket Framework 7.x with the JBoss server using the Wicket Java EE integration packaged as a WAR  
 Target Product: WildFly  
 Source: <https://github.com/wildfly/quickstart/>  
 
 What is it?
 -----------
 
-This is an example of how to use Wicket Framework 1.5 with WildFly, leveraging features of Java EE 7, using the Wicket-Stuff Java EE integration.
+This is an example of how to use Wicket Framework 7.x with WildFly, leveraging features of Java EE 7, using the Wicket-Stuff Java EE integration.
 
 Features used:
 
