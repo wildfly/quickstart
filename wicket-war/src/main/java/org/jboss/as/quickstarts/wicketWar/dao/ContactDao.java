@@ -55,7 +55,7 @@ public interface ContactDao {
     /**
      * Removes a specific item from the DB.
      *
-     * @param modelObject The specific Contact object, which we wants to remove
+     * @param id of the specific Contact object, which we wants to remove
      */
-    public void remove(Contact modelObject);
+    public void remove(Long id);
 }

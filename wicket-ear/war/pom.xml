@@ -53,8 +53,8 @@
 
         <!-- Wicket Java EE integration. -->
         <dependency>
-            <groupId>net.ftlines.wicket-cdi</groupId>
-            <artifactId>wicket-cdi</artifactId>
+            <groupId>org.apache.wicket</groupId>
+            <artifactId>wicket-cdi-1.1</artifactId>
         </dependency>
 
         <!-- EJB JAR. -->
@@ -93,6 +93,19 @@
                 <artifactId>wildfly-maven-plugin</artifactId>
                 <configuration>
                     <skip>true</skip>
+                </configuration>
+            </plugin>
+            <!-- This is workaround for avoiding ClassNotFoundException during deserialization 
+             of Wicket component with @Inject. For more info please see https://issues.jboss.org/browse/WFLY-988 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifestEntries>
+                           <Dependencies>org.jboss.msc</Dependencies>
+                        </manifestEntries>
+                    </archive>
                 </configuration>
             </plugin>
         </plugins>

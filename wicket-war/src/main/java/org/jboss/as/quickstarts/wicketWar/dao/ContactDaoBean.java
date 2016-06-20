@@ -59,8 +59,8 @@ public class ContactDaoBean implements ContactDao {
      * Remove a Contact.
      */
     @Override
-    public void remove(Contact modelObject) {
-        Contact managed = em.merge(modelObject);
+    public void remove(Long id) {
+        Contact managed = em.find(Contact.class, id);
         em.remove(managed);
         em.flush();
     }
