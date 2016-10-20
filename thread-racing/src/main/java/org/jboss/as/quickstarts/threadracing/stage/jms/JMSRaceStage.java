@@ -20,7 +20,7 @@ import org.jboss.as.quickstarts.threadracing.Race;
 import org.jboss.as.quickstarts.threadracing.stage.RaceStage;
 
 import javax.annotation.Resource;
-import javax.inject.Inject;
+import javax.jms.ConnectionFactory;
 import javax.jms.JMSConsumer;
 import javax.jms.JMSContext;
 import javax.jms.Queue;
@@ -39,29 +39,27 @@ public class JMSRaceStage implements RaceStage {
      */
     @Resource(lookup = JMSRaceStageMessageListener.REQUEST_QUEUE)
     private Queue requestQueue;
-
-    /**
-     * CDI injection of a JMS context
-     */
-    @Inject
-    private JMSContext jmsContext;
+    @Resource(lookup = "java:comp/DefaultJMSConnectionFactory")
+    private ConnectionFactory cf;
 
     @Override
     public void run(Race.Registration registration) throws Exception {
-        // create response tmp queue
-        final TemporaryQueue responseQueue = jmsContext.createTemporaryQueue();
-        // send request
-        final String request = UUID.randomUUID().toString();
-        jmsContext.createProducer()
-            .setJMSReplyTo(responseQueue)
-            .send(requestQueue, request);
-        // receive response
-        try (JMSConsumer consumer = jmsContext.createConsumer(responseQueue)) {
-            String response = consumer.receiveBody(String.class);
-            if (response == null) {
-                registration.aborted(new IllegalStateException("Message processing timed out"));
-            } else if (!response.equals(request)) {
-                registration.aborted(new IllegalStateException("Response content does not matches the request. Response: " + response + ", request: " + request));
+        try (JMSContext jmsContext = cf.createContext()) {
+            // create response tmp queue
+            final TemporaryQueue responseQueue = jmsContext.createTemporaryQueue();
+            // send request
+            final String request = UUID.randomUUID().toString();
+            jmsContext.createProducer()
+                    .setJMSReplyTo(responseQueue)
+                    .send(requestQueue, request);
+            // receive response
+            try (JMSConsumer consumer = jmsContext.createConsumer(responseQueue)) {
+                String response = consumer.receiveBody(String.class);
+                if (response == null) {
+                    registration.aborted(new IllegalStateException("Message processing timed out"));
+                } else if (!response.equals(request)) {
+                    registration.aborted(new IllegalStateException("Response content does not matches the request. Response: " + response + ", request: " + request));
+                }
             }
         }
     }
