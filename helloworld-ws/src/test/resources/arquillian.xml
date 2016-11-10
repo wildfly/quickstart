@@ -21,11 +21,14 @@
         http://jboss.org/schema/arquillian/arquillian_1_0.xsd">
 
     <!-- Example configuration for a managed JBoss WildFly instance -->
-    <container qualifier="jbossas-managed" default="true">
-        <!-- By default, arquillian will use the JBOSS_HOME environment variable.  Alternatively, the configuration below can be uncommented. -->
-        <!--<configuration> -->
-        <!--<property name="jbossHome">/path/to/wildfly</property> -->
-        <!--</configuration> -->
-    </container>
+    <!-- By default, Arquillian will try to use the JBOSS_HOME environment variable. -->
+    <!-- If this doesn't work, uncomment the configuration below and enter the path to your Wildfly installation. -->
 
+    <!--
+    <container qualifier="jbossas-managed" default="true">
+        <configuration>
+            <property name="jbossHome">/path/to/wildfly</property>
+        </configuration>
+    </container>
+    -->
 </arquillian>
