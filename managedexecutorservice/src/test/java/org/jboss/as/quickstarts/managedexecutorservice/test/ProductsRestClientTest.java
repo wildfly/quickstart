@@ -29,7 +29,7 @@ import org.junit.Test;
 
 public class ProductsRestClientTest {
 
-    private static final String REST_TARGET_URL = "http://localhost:8080/jboss-managedexecutorservice/rest/products";
+    private static final String REST_TARGET_URL = "http://localhost:8080/wildfly-managedexecutorservice/rest/products";
 
     private Logger log = Logger.getLogger(ProductsRestClientTest.class.getName());
 

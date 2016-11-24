@@ -135,7 +135,7 @@ Build and Deploy the Quickstart
 Access the application 
 ---------------------
 
-The application will be running at the following URL: <http://localhost:8080/jboss-kitchensink-ml/>.
+The application will be running at the following URL: <http://localhost:8080/wildfly-kitchensink-ml/>.
 
 Change your browser preferred language to French or Spanish and refresh the page to see it displayed in the new language. 
 

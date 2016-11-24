@@ -60,7 +60,7 @@ Build and Deploy the Quickstart
 Access the application
 ---------------------
 
-Access the running application in a browser at the following URL:  <http://localhost:8080/jboss-batch-processing/>
+Access the running application in a browser at the following URL:  <http://localhost:8080/wildfly-batch-processing/>
 
 You're presented with a simple form that allows you to generate sample files to be imported. 
 

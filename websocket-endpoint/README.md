@@ -58,7 +58,7 @@ Build and Deploy the Quickstart
 Access the application
 ---------------------
 
-Access the running application in a browser at the following URL:  <http://localhost:8080/jboss-websocket-endpoint/>
+Access the running application in a browser at the following URL:  <http://localhost:8080/wildfly-websocket-endpoint/>
 
 You're presented with a simple form that shows a bidding with the status `NOT_STARTED`. 
 

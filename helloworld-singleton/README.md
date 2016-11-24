@@ -51,7 +51,7 @@ Build and Deploy the Quickstart
 Access the application 
 ---------------------
 
-The application will be running at the following URL: <http://localhost:8080/jboss-helloworld-singleton>.
+The application will be running at the following URL: <http://localhost:8080/wildfly-helloworld-singleton>.
 
 This example demonstrates a singleton session bean that maintains state information for 2 variables: "Increment A" and "Increment B". 
 

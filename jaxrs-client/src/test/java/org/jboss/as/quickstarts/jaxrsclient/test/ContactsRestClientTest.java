@@ -34,7 +34,7 @@ import org.junit.Test;
 
 public class ContactsRestClientTest {
 
-    private static final String REST_TARGET_URL = "http://localhost:8080/jboss-jaxrs-client/rest/contacts";
+    private static final String REST_TARGET_URL = "http://localhost:8080/wildfly-jaxrs-client/rest/contacts";
     private static final String CONTACT_NAME = "New Contact";
     private static final String CONTACT_PHONE = "+55-61-5555-1234";
 
