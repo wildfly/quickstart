@@ -60,7 +60,7 @@ Build and Deploy the Quickstart
 Access the application 
 ---------------------
 
-The application will be running at the following URL: <http://localhost:8080/jboss-websocket-hello>. 
+The application will be running at the following URL: <http://localhost:8080/wildfly-websocket-hello>. 
 
 1. Click on the `Open Connection` button to create the WebSocket connection and display current status of `Open`.
 2. Type a name and click `Say Hello` to create and send the 'Say hello to `<NAME>`' message. The message appears in the server log and a response is sent to the client.

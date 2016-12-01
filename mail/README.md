@@ -118,7 +118,7 @@ Build and Deploy the Quickstart
 Access the application 
 ---------------------
 
-The application will be running at the following URL: <http://localhost:8080/jboss-mail>. 
+The application will be running at the following URL: <http://localhost:8080/wildfly-mail>. 
 
 
 Undeploy the Archive

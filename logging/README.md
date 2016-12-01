@@ -57,7 +57,7 @@ Build and Deploy the Quickstart
 Access the application 
 ---------------------
 
-The application is running at the following URL: <http://localhost:8080/jboss-logging/>.
+The application is running at the following URL: <http://localhost:8080/wildfly-logging/>.
 
 You will see the following message in the server console:
 
