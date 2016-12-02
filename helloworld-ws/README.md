@@ -1,4 +1,4 @@
-helloworld-ws: Hello World JAX-WS Web Service
+helloworld-ws: Hello World JAX-WS Web Service_
 ==================================================
 Author: Lee Newson  
 Level: Beginner  
@@ -51,11 +51,12 @@ Build and Deploy the Quickstart
         JBWS024061: Adding service endpoint metadata: id=org.jboss.as.quickstarts.wshelloworld.HelloWorldServiceImpl
          address=http://localhost:8080/wildfly-helloworld-ws/HelloWorldService
          implementor=org.jboss.as.quickstarts.wshelloworld.HelloWorldServiceImpl
-         serviceName={http://www.jboss.org/eap/quickstarts/wshelloworld/HelloWorld}HelloWorldService
-         portName={http://www.jboss.org/eap/quickstarts/wshelloworld/HelloWorld}HelloWorld
+         serviceName={http://www.wildfly.org/quickstarts/wshelloworld/HelloWorld}HelloWorldService
+         portName={http://www.wildfly.org/quickstarts/wshelloworld/HelloWorld}HelloWorld
          annotationWsdlLocation=null
          wsdlLocationOverride=null
          mtomEnabled=false
+
 
 
 Access the application 
@@ -79,11 +80,12 @@ Run the Client Tests using Arquillian
 
 This quickstart provides Arquillian tests. By default, these tests are configured to be skipped as Arquillian tests require the use of a container. 
 
-1. Make sure you have started the WildFly server as described above.
+1. Make sure you have a WildFly server installed on your machine. 
+2. Edit the arquillian.xml file and enter the path of your local WildFly installation. 
 2. Open a command prompt and navigate to the root directory of this quickstart.
 3. Type the following command to run the test goal with the following profile activated:
 
-		mvn clean test -Parq-wildfly-remote
+		mvn clean test -Parq-wildfly-managed
 
 
 Investigate the Console Output
