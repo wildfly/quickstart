@@ -70,7 +70,7 @@ First of all we need to set up the Certificate Authority (CA) to issue certifica
 
 8. Export root CA certificate into a keystore
   
-        keytool -export -alias server -keystore RootCA.keystore -rfc -file Certificates/RootCA.crt -keypass keypassword -storepass keypassword
+        keytool -import -alias server -keystore RootCA.keystore -rfc -file Certificates/RootCA.crt -keypass keypassword -storepass keypassword
 
 9. Export root CA certificate into a truststore
         
