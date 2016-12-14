@@ -3,7 +3,7 @@ hibernate4: How to Use Hibernate 4 in an Application
 Author: Madhumita Sadhukhan  
 Level: Intermediate  
 Technologies: Hibernate 4  
-Summary: This quickstart performs the same functions as the _hibernate3_ quickstart, but uses Hibernate 4 for database access. Compare this quickstart to the _hibernate3_ quickstart to see the changes needed to run with Hibernate 4..  
+Summary: This quickstart performs the same functions as the _hibernate5_ quickstart, but uses Hibernate 4 for database access. Compare this quickstart to the _hibernate5_ quickstart to see the changes needed to run with Hibernate 5.  
 Target Product: WildFly  
 Source: <https://github.com/wildfly/quickstart/>  
 
@@ -14,7 +14,7 @@ This quickstart is based upon the kitchensink example, but demonstrates how to u
 
 This project is setup to allow you to create a compliant Java EE 7 application using JSF 2.2, CDI 1.1, EJB 3.2, JPA 2.1 , Hibernate-Core and Hibernate Bean Validation.  It includes a persistence unit associated with Hibernate session and some sample persistence and transaction code to help you with database access in enterprise Java.
 
-You can compare this quickstart to the `hibernate3` quickstart to see the code differences between Hibernate 3 and Hibernate 4.
+You can compare this quickstart to the `hibernate5` quickstart to see the code differences between Hibernate 4 and Hibernate 5.
 
 
 System requirements
@@ -34,20 +34,17 @@ If you have not yet done so, you must [Configure Maven](../README.md#mavenconfig
 Add the Correct Dependencies
 ---------------------------
 
-JBoss WildFly both provide Hibernate 3, Hibernate 4, and JPA support.
-
-If you use Hibernate 4 packaged within JBoss WildFly, you will need to first import the JPA API.
+JBoss WildFly 10 provides Hibernate 5 by default. However, it is possible to use Hibernate 4 bundled within your application. 
 
 This quickstart demonstrates usage of Hibernate Session and Hibernate Validators.
 
-If you look at the pom.xml file in the root of the hibernate4 quickstart directory, you will see that the dependencies for the Hibernate modules have been added with the scope as `provided`.
+If you look at the pom.xml file in the root of the hibernate4 quickstart directory, you will see that the dependencies for the Hibernate modules have been added with the `compile` scope (which is the default and thus omitted).
 For example:
 
       <dependency>
          <groupId>org.hibernate</groupId>
          <artifactId>hibernate-validator</artifactId>
-         <version>4.2.0.Final</version>
-         <scope>provided</scope>
+         <version>${version.hibernate4}</version>
          <exclusions>
             <exclusion>
                <groupId>org.slf4j</groupId>
@@ -56,7 +53,7 @@ For example:
          </exclusions>
       </dependency>
 
-Please note that if you are working with Hibernate 3, the process is different. You will need to bundle the jars since JBoss WildFly do not ship with Hibernate 3. Refer to the `hibernate3` quickstart for details on how to bundle the JARs.
+The compile scope makes sure that the Hibernate dependencies also end-up in the final WAR file.
 
 
 Start JBoss WildFly with the Web Profile
