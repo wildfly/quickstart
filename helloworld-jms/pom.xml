@@ -39,7 +39,8 @@
             resources, i.e. build is platform dependent! -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <version.wildfly>10.0.0.Final</version.wildfly>
+        <version.wildfly>11.0.0.Alpha1-SNAPSHOT</version.wildfly>
+        <version.jboss-modules>1.6.0.Beta3</version.jboss-modules>
 
         <!-- WildFly Maven plug-in to deploy your WAR to a local WildFly container -->
         <version.wildfly.maven.plugin>1.0.2.Final</version.wildfly.maven.plugin>
@@ -59,6 +60,13 @@
             <artifactId>wildfly-jms-client-bom</artifactId>
             <version>${version.wildfly}</version>
             <type>pom</type>
+        </dependency>
+
+        <!-- WFLY-7864 Temporary workaround -->
+        <dependency>
+            <groupId>org.jboss.modules</groupId>
+            <artifactId>jboss-modules</artifactId>
+            <version>${version.jboss-modules}</version>
         </dependency>
     </dependencies>
 

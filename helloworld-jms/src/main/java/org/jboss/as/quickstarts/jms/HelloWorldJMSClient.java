@@ -37,7 +37,7 @@ public class HelloWorldJMSClient {
     private static final String DEFAULT_MESSAGE_COUNT = "1";
     private static final String DEFAULT_USERNAME = "quickstartUser";
     private static final String DEFAULT_PASSWORD = "quickstartPwd1!";
-    private static final String INITIAL_CONTEXT_FACTORY = "org.jboss.naming.remote.client.InitialContextFactory";
+    private static final String INITIAL_CONTEXT_FACTORY = "org.wildfly.naming.client.WildFlyInitialContextFactory";
     private static final String PROVIDER_URL = "http-remoting://127.0.0.1:8080";
 
     public static void main(String[] args) {
