@@ -45,9 +45,11 @@
         <!-- Define the version of the JBoss BOMs we want to import to specify tested stacks. -->
         <version.jboss.bom>10.1.0.Final</version.jboss.bom>
 
-
         <version.wildfly>10.0.0.Final</version.wildfly>
 
+        <version.hibernate4>4.2.21.Final</version.hibernate4>
+        <version.hibernate4.commons-annotations>4.0.2.Final</version.hibernate4.commons-annotations>
+        <version.hibernate4.validator>4.3.2.Final</version.hibernate4.validator>
 
         <!-- other plugin versions -->
         <version.compiler.plugin>3.5.1</version.compiler.plugin>
@@ -72,6 +74,26 @@
                 <version>${version.jboss.bom}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-core</artifactId>
+                <version>${version.hibernate4}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-entitymanager</artifactId>
+                <version>${version.hibernate4}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-validator</artifactId>
+                <version>${version.hibernate4.validator}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.hibernate.common</groupId>
+                <artifactId>hibernate-commons-annotations</artifactId>
+                <version>${version.hibernate4.commons-annotations}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -128,7 +150,6 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
-            <scope>provided</scope>
             <exclusions>
                 <exclusion>
                     <groupId>org.slf4j</groupId>
@@ -152,7 +173,10 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
-            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
         </dependency>
 
     </dependencies>
