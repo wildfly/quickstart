@@ -27,7 +27,7 @@ import javax.jws.WebService;
  * @author lnewson@redhat.com
  */
 
-@WebService(targetNamespace = "http://www.wildfly.org/quickstarts/wshelloworld/HelloWorld")
+@WebService(targetNamespace = "http://www.jboss.org/eap/quickstarts/wshelloworld/HelloWorld")
 public interface HelloWorldService {
 
     /**

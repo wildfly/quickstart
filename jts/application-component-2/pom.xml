@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
     JBoss, Home of Professional Open Source
     Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
@@ -20,60 +20,59 @@
 
     <parent>
         <groupId>org.wildfly.quickstarts</groupId>
-        <artifactId>wildfly-jts-parent</artifactId>
-        <version>10.0.0-SNAPSHOT</version>
+        <artifactId>jboss-jts</artifactId>
+        <version>11.0.0-SNAPSHOT</version>
     </parent>
-    <artifactId>wildfly-jts-application-component-2</artifactId>
+    <artifactId>jboss-jts-application-component-2</artifactId>
     <packaging>jar</packaging>
-    <name>WildFly Quickstart: jts - application-component-2</name>
-    <description>Using CMT with JTS</description>
-    <url>http://wildfly.org</url>
+    <name>${qs.name.prefix} jts - application-component-2</name>
+    <description>A project that demonstrates how to use CMT with JTS; the application-component-2 POM file</description>
 
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
-            <distribution>repo</distribution>
             <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+            <distribution>repo</distribution>
         </license>
     </licenses>
 
     <dependencies>
-        <!-- Import the JPA API, we use provided scope as the API is included in WildFly -->
-        <dependency>
-            <groupId>org.jboss.spec.javax.transaction</groupId>
-            <artifactId>jboss-transaction-api_1.2_spec</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <!-- Import the JMS API, we use provided scope as the API is included in WildFly -->
-        <dependency>
-            <groupId>org.jboss.spec.javax.jms</groupId>
-            <artifactId>jboss-jms-api_2.0_spec</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <!-- Import the EJB API, we use provided scope as the API is included in WildFly -->
-        <dependency>
-            <groupId>org.jboss.spec.javax.ejb</groupId>
-            <artifactId>jboss-ejb-api_3.2_spec</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <!-- Import the CDI API, we use provided scope as the API is included in WildFly -->
+        <!-- Import the CDI API, we use provided scope as the API is included in JBoss EAP -->
         <dependency>
             <groupId>javax.enterprise</groupId>
             <artifactId>cdi-api</artifactId>
             <scope>provided</scope>
         </dependency>
+        <!-- Import the EJB API, we use provided scope as the API is included in JBoss EAP -->
+        <dependency>
+            <groupId>org.jboss.spec.javax.ejb</groupId>
+            <artifactId>jboss-ejb-api_3.2_spec</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <!-- Import the JMS API, we use provided scope as the API is included in JBoss EAP -->
+        <dependency>
+            <groupId>org.jboss.spec.javax.jms</groupId>
+            <artifactId>jboss-jms-api_2.0_spec</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <!-- Import the JPA API, we use provided scope as the API is included in JBoss EAP -->
+        <dependency>
+            <groupId>org.jboss.spec.javax.transaction</groupId>
+            <artifactId>jboss-transaction-api_1.2_spec</artifactId>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <build>
-        <!-- Maven will append the version to the finalName (which is the
-            name given to the generated WAR, and hence the context root) -->
+        <!-- Set the name of the archive -->
         <finalName>${project.artifactId}</finalName>
         <plugins>
-            <!-- The WildFly plug-in deploys your WAR to a local WildFly container -->
-            <!-- To use, run: mvn package wildfly:deploy -->
+            <!-- The WildFly plug-in deploys your WAR to a local JBoss EAP container.
+                 To use, run: mvn package wildfly:deploy -->
             <plugin>
                 <groupId>org.wildfly.plugins</groupId>
                 <artifactId>wildfly-maven-plugin</artifactId>
+                <version>${version.wildfly.maven.plugin}</version>
                 <configuration>
                     <port>10090</port>
                     <filename>${project.build.finalName}.jar</filename>
@@ -84,24 +83,24 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-ejb-plugin</artifactId>
                 <version>${version.ejb.plugin}</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>ejb</goal>
-                        </goals>
-                    </execution>
-                </executions>
                 <configuration>
-                    <ejbVersion>3.0</ejbVersion>
+                    <ejbVersion>3.2</ejbVersion>
                     <!-- this is false by default -->
                     <generateClient>true</generateClient>
-                    <jarName/>
+                    <jarName></jarName>
                     <clientExcludes>
                         <clientExclude>**/*Impl.class</clientExclude>
                         <clientExclude>**/*MDB.class</clientExclude>
                     </clientExcludes>
                 </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>ejb</goal>
+                        </goals>
+                        <phase>package</phase>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

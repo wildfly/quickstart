@@ -24,5 +24,5 @@ import javax.jws.WebService;
  */
 @WebService
 public interface EJB3RemoteInterface {
-    public String echo(String input);
+    String echo(String input);
 }

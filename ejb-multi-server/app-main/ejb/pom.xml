@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
     JBoss, Home of Professional Open Source
     Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
@@ -20,52 +20,110 @@
 
     <parent>
         <groupId>org.wildfly.quickstarts</groupId>
-        <artifactId>wildfly-ejb-multi-server-app-main</artifactId>
-        <version>10.0.0-SNAPSHOT</version>
+        <artifactId>jboss-ejb-multi-server-app-main</artifactId>
+        <version>11.0.0-SNAPSHOT</version>
     </parent>
-    <artifactId>wildfly-ejb-multi-server-app-main-ejb</artifactId>
+    <artifactId>jboss-ejb-multi-server-app-main-ejb</artifactId>
     <packaging>ejb</packaging>
-    <name>WildFly Quickstart: ejb</name>
-    <url>http://maven.apache.org</url>
+    <name>${qs.name.prefix} ejb-multi-server - app-main - ejb</name>
+    <description>A project that demonstrates multiple applications deployed on different servers. This is the main application EJB project.</description>
 
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
-            <distribution>repo</distribution>
             <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+            <distribution>repo</distribution>
         </license>
     </licenses>
 
     <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>jboss-ejb-multi-server-app-one-ejb</artifactId>
+            <version>${project.version}</version>
+            <type>ejb-client</type>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>jboss-ejb-multi-server-app-two-ejb</artifactId>
+            <version>${project.version}</version>
+            <type>ejb-client</type>
+        </dependency>
         <dependency>
             <groupId>org.wildfly</groupId>
             <artifactId>wildfly-ejb-client-bom</artifactId>
             <type>pom</type>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>wildfly-ejb-multi-server-app-one-ejb</artifactId>
-            <version>${project.version}</version>
-            <type>ejb-client</type>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>wildfly-ejb-multi-server-app-two-ejb</artifactId>
-            <version>${project.version}</version>
-            <type>ejb-client</type>
-        </dependency>
     </dependencies>
+
+    <!-- Activate the JBoss Enterprise Maven Repository.
+
+        NOTE: Configuring the Maven repository in the pom.xml file is not a recommended procedure
+        and is only done here to make it easier to use the quickstarts.
+
+        For more information about how to configure Maven for your application,
+        see the section entitled 'Use the Maven Repository'
+        in the Development Guide for Red Hat JBoss Enterprise Application Platform located here:
+
+        https://access.redhat.com/documentation/en/red-hat-jboss-enterprise-application-platform/
+    -->
+    <repositories>
+        <repository>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <id>jboss-developer-staging-repository</id>
+            <url>http://jboss-developer.github.io/temp-maven-repo/</url>
+        </repository>
+        <repository>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <id>jboss-enterprise-maven-repository</id>
+            <url>https://maven.repository.redhat.com/ga/</url>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <id>jboss-developer-staging-repository</id>
+            <url>http://jboss-developer.github.io/temp-maven-repo/</url>
+        </pluginRepository>
+        <pluginRepository>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <id>jboss-enterprise-maven-repository</id>
+            <url>https://maven.repository.redhat.com/ga/</url>
+        </pluginRepository>
+    </pluginRepositories>
 
     <build>
         <finalName>${project.artifactId}</finalName>
         <plugins>
-            <plugin>  <!-- must include ejb-plug-in to change the EJB version from 2.1 to 3.1 -->
+            <plugin>
+                <!-- must include ejb-plug-in to change the EJB version from 2.1 to 3.1 -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-ejb-plugin</artifactId>
-                <version>${ejb.plugin.version}</version>
+                <version>${version.ejb.plugin}</version>
                 <configuration>
-                    <ejbVersion>3.1</ejbVersion>
+                    <ejbVersion>3.2</ejbVersion>
                     <generateClient>true</generateClient>
                     <archive>
                         <addMavenDescriptor>false</addMavenDescriptor>

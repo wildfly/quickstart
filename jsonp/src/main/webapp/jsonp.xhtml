@@ -32,13 +32,11 @@
             Phone 2: <h:inputText value="#{person.phone2}" /><br/>
             <strong>Address:</strong><br/>
             Street: <h:inputText value="#{person.addressStreet}" /><br/>
-            Apto: <h:inputText value="#{person.addressApt}" id="apt" >
+            Apartment Number: <h:inputText value="#{person.addressApt}" id="apt" >
                 <f:convertNumber integerOnly="true" maxIntegerDigits="3" type="number" />
             </h:inputText><h:message for="apt"/><br/>
             City: <h:inputText value="#{person.addressCity}" /><br/>
-            Zip: <h:inputText value="#{person.addressZip}" id="zip">
-                <f:convertNumber integerOnly="true" minIntegerDigits="5" maxIntegerDigits="5" />
-            </h:inputText><h:message for="zip"/><br/>
+            Zip Code: <h:inputText value="#{person.addressZip}" id="zip"/><br/>
             <hr />
             <h:commandButton action="#{jsonController.generateJson()}" value="Generate JSON String from Personal Data" />
             <br />

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
     JBoss, Home of Professional Open Source
     Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
@@ -19,64 +19,64 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <artifactId>wildfly-ejb-throws-exception</artifactId>
         <groupId>org.wildfly.quickstarts</groupId>
-        <version>10.0.0-SNAPSHOT</version>
+        <artifactId>jboss-ejb-throws-exception</artifactId>
+        <version>11.0.0-SNAPSHOT</version>
     </parent>
-    <artifactId>wildfly-ejb-throws-exception-ejb</artifactId>
+    <artifactId>jboss-ejb-throws-exception-ejb</artifactId>
     <packaging>ejb</packaging>
-    <name>WildFly Quickstart: ejb-throws-exception - ejb</name>
-    <url>http://wildfly.org</url>
+    <name>${qs.name.prefix} ejb-throws-exception - ejb</name>
+    <description>This project demonstrates how to throw an exception in an EJB and catch it in the web layer; this is the EJB POM file</description>
 
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
-            <distribution>repo</distribution>
             <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+            <distribution>repo</distribution>
         </license>
     </licenses>
 
     <dependencies>
 
-        <!-- Declare the APIs we depend on and need for compilation. All
-            of them are provided by JBoss WildFly -->
-
-        <!-- Import the EJB API, we use provided scope as the API is included
-            in WildFly -->
-        <dependency>
-            <groupId>org.jboss.spec.javax.ejb</groupId>
-            <artifactId>jboss-ejb-api_3.2_spec</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
         <!-- Import the CDI API, we use provided scope as the API is included
-            in WildFly -->
+            in JBoss EAP -->
         <dependency>
             <groupId>javax.enterprise</groupId>
             <artifactId>cdi-api</artifactId>
             <scope>provided</scope>
         </dependency>
 
-        <!-- Import the JPA API, we use provided scope as the API is included
-            in WildFly -->
-        <dependency>
-            <groupId>org.hibernate.javax.persistence</groupId>
-            <artifactId>hibernate-jpa-2.1-api</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
-        <!-- Bean Validation Implementation -->
-        <!-- Provides portable constraints such as @Email -->
-        <!-- Hibernate Validator is shipped in WildFly -->
+        <!-- Bean Validation Implementation 
+             Provides portable constraints such as @Email 
+             Hibernate Validator is shipped in JBoss EAP -->
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
             <scope>provided</scope>
         </dependency>
 
+        <!-- Import the JPA API, we use provided scope as the API is included
+            in JBoss EAP -->
+        <dependency>
+            <groupId>org.hibernate.javax.persistence</groupId>
+            <artifactId>hibernate-jpa-2.1-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
         <dependency>
             <groupId>org.wildfly.quickstarts</groupId>
-            <artifactId>wildfly-ejb-throws-exception-ejb-api</artifactId>
+            <artifactId>jboss-ejb-throws-exception-ejb-api</artifactId>
+        </dependency>
+
+        <!-- Declare the APIs we depend on and need for compilation. All
+            of them are provided by JBoss EAP -->
+
+        <!-- Import the EJB API, we use provided scope as the API is included
+            in JBoss EAP -->
+        <dependency>
+            <groupId>org.jboss.spec.javax.ejb</groupId>
+            <artifactId>jboss-ejb-api_3.2_spec</artifactId>
+            <scope>provided</scope>
         </dependency>
 
     </dependencies>
@@ -90,7 +90,7 @@
                 <version>${version.ejb.plugin}</version>
                 <configuration>
                     <!-- Tell Maven we are using EJB -->
-                    <ejbVersion>${version.ejb}</ejbVersion>
+                    <ejbVersion>3.2</ejbVersion>
                 </configuration>
             </plugin>
         </plugins>

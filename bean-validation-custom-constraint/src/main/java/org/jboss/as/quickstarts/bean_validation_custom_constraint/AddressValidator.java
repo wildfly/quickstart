@@ -26,14 +26,14 @@ public class AddressValidator implements ConstraintValidator<Address, PersonAddr
     }
 
     /**
-     * 1. The address should not be null.
+     * 1. A null address is handled by the @NotNull constraint on the @Address.
      * 2. The address should have all the data values specified.
-     * 3. Pin code in the address should be of atleast 6 characters.
-     * 4. The country in the address should be of atleast 4 characters.
+     * 3. Pin code in the address should be of at least 6 characters.
+     * 4. The country in the address should be of at least 4 characters.
      */
     public boolean isValid(PersonAddress value, ConstraintValidatorContext context) {
         if (value == null) {
-            return false;
+            return true;
         }
 
         if (value.getCity() == null || value.getCountry() == null || value.getLocality() == null

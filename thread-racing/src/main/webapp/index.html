@@ -23,8 +23,8 @@
 <body>
 <div style="margin-left: 10px;">
     <h1>Java EE Thread Racing</h1>
-    <p>The GREATEST open source racing ever developed, all for FREE, including TV live broadcast.</p>
-    <p>A race where 4 threads run() for glory, completing different stages, each sponsored by a new/updated Java EE technology!</p>
+    <p>The GREATEST open source racing application ever developed, all for FREE, including TV live broadcast.</p>
+    <p>A race where 4 threads run() for glory, completing different stages, each sponsored by a new or updated Java EE technology!</p>
     <form action="">
         <input id="raceButton" onclick="letsRace();" value="INSERT COIN" type="button">
     </form>
@@ -43,7 +43,8 @@
         } else {
             host = window.location.host;
         }
-        var url = 'ws://' + host + window.location.pathname + 'race';
+        var wsProtocol = window.location.protocol == "https:" ? "wss" : "ws";
+        var url = wsProtocol + '://' + host + window.location.pathname + 'race';
         var ws = new WebSocket(url);
         ws.onmessage = function (message) {
             output.innerHTML += message.data;

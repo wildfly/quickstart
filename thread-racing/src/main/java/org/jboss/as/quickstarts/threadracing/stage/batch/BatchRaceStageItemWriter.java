@@ -28,7 +28,7 @@ import java.util.List;
 public class BatchRaceStageItemWriter extends AbstractItemWriter {
 
     @Override
-    public void writeItems(List list) {
+    public void writeItems(List<Object> list) {
         // simulate a item write op, sleep 10ms for each item to write
         try {
             Thread.sleep(10 * list.size());

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
     JBoss, Home of Professional Open Source
     Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
@@ -17,80 +17,24 @@
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.wildfly.quickstarts</groupId>
-    <artifactId>wildfly-app-client</artifactId>
-    <version>10.0.0-SNAPSHOT</version>
+    <parent>
+        <groupId>org.wildfly.quickstarts</groupId>
+        <artifactId>quickstart-parent</artifactId>
+        <version>11.0.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>jboss-app-client</artifactId>
     <packaging>pom</packaging>
-    <name>WildFly Quickstart: app-client</name>
-    <description>app-client: An example that demonstrates how to package and use an EE application client.
+    <name>${qs.name.prefix} Quickstart: app-client</name>
+    <description>This project demonstrates how to package and use an EE application client.
      This POM defines common properties to specify the used versions and plug-ins.
-     The subprojects are built in the appropriate sequence.
-    </description>
-    <url>http://wildfly.org</url>
-
-    <licenses>
-        <license>
-            <name>Apache License, Version 2.0</name>
-            <distribution>repo</distribution>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
-        </license>
-    </licenses>
-
-    <properties>
-    <!-- Explicitly declaring the source encoding eliminates the following message: -->
-    <!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent! -->
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-
-        <!-- WildFly Maven plug-in to deploy your WAR to a local WildFly container -->
-        <version.wildfly.maven.plugin>1.0.2.Final</version.wildfly.maven.plugin>
-        <version.wildfly>10.0.0.Final</version.wildfly>
-        <version.jboss.spec.javaee.7.0>1.0.3.Final</version.jboss.spec.javaee.7.0>
-
-        <!-- maven-compiler-plugin -->
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <maven.compiler.source>1.8</maven.compiler.source>
-
-        <version.exec.plugin>1.2.1</version.exec.plugin>
-        <jar.plugin.version>2.4</jar.plugin.version>
-        <ejb.plugin.version>2.3</ejb.plugin.version>
-        <ear.plugin.version>2.9</ear.plugin.version>
-    </properties>
+     The subprojects are built in the appropriate sequence.</description>
 
     <modules>
         <module>ejb</module>
         <module>client-simple</module>
         <module>ear</module>
     </modules>
-
-    <dependencyManagement>
-        <dependencies>
-            <!-- Define the version of JBoss' Java EE 7 APIs we want to import. Any
-              dependencies from org.jboss.spec will have their version defined by this
-              BOM -->
-            <!-- JBoss distributes a complete set of Java EE 7 APIs including
-              a Bill of Materials (BOM). A BOM specifies the versions of a "stack" (or
-              a collection) of artifacts. We use this here so that we always get the correct
-              versions of artifacts. Here we use the jboss-javaee-7.0 stack (you can
-              read this as the JBoss stack of the Java EE 7 APIs). You can actually
-              use this stack with any version of WildFly that implements Java EE 7, not
-              just WildFly 10! -->
-            <dependency>
-                <groupId>org.jboss.spec</groupId>
-                <artifactId>jboss-javaee-7.0</artifactId>
-                <version>${version.jboss.spec.javaee.7.0}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.wildfly</groupId>
-                <artifactId>wildfly-ejb-client-bom</artifactId>
-                <version>${version.wildfly}</version>
-                <scope>import</scope>
-                <type>pom</type>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 
     <build>
         <plugins>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
     JBoss, Home of Professional Open Source
     Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
@@ -15,93 +15,237 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
         <groupId>org.jboss</groupId>
         <artifactId>jboss-parent</artifactId>
-        <version>21</version>
-        <relativePath/>
+        <version>22</version>
+        <relativePath></relativePath>
     </parent>
     <groupId>org.wildfly.quickstarts</groupId>
-    <artifactId>wildfly-quickstart-parent</artifactId>
-    <version>10.0.0-SNAPSHOT</version>
+    <artifactId>quickstart-parent</artifactId>
+    <version>11.0.0-SNAPSHOT</version>
+
     <packaging>pom</packaging>
-    <name>WildFly Quickstart: wildfly-quickstarts</name>
+    <name>${qs.name.prefix} Parent</name>
     <description>WildFly Quickstarts Parent</description>
-    <url>https://github.com/wildfly/quickstart/</url>
+    <url>http://www.jboss.org/jdf/quickstarts/get-started/</url>
 
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
-            <distribution>repo</distribution>
             <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+            <distribution>repo</distribution>
         </license>
     </licenses>
 
     <properties>
-        <!-- A base list of dependency and plugin version used in the various quick starts. -->
+        <qs.name.prefix>WildFly Quickstart:</qs.name.prefix>
+        <root.dir>${project.basedir}</root.dir>
+        <jboss.home.name>WILDFLY_HOME</jboss.home.name>
+        <product.name>WildFly</product.name>
+        <!-- A base list of dependency and plug-in version used in the various quick starts. -->
+        <version.wildfly.maven.plugin>1.2.0.Alpha2</version.wildfly.maven.plugin>
 
-        <!-- JBoss dependency versions -->
+        <!-- other plug-in versions -->
+        <version.com.mycyla.license>3.0</version.com.mycyla.license>
 
-        <version.wildfly>10.1.0.Final</version.wildfly>
+        <!-- Explicitly declaring the source encoding eliminates the following
+            message: [WARNING] Using platform encoding (UTF-8 actually) to copy
+            filtered resources, i.e. build is platform dependent! -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
+        <version.spring.framework>4.3.6.RELEASE</version.spring.framework>
+        <!-- EAP component version management BOM -->
+        <version.jboss.bom.eap>11.0.0.Alpha1-SNAPSHOT</version.jboss.bom.eap>
+        
+        <version.jboss.spec.javaee.7.0>1.1.0.Beta1</version.jboss.spec.javaee.7.0>
 
-        <version.wildfly.maven.plugin>1.0.2.Final</version.wildfly.maven.plugin>
+        <!-- maven-compiler-plugin -->
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
 
-        <!-- Define the version of the JBoss BOMs we want to import to specify tested stacks. -->
-        <version.jboss.bom>10.1.0.Final</version.jboss.bom>
-
-
-        <version.jboss.spec.javaee.7.0>1.0.3.Final</version.jboss.spec.javaee.7.0>
-
+        <version.jaxws-tools-maven-plugin>1.2.0.Final</version.jaxws-tools-maven-plugin>
 
         <!-- Other dependency versions -->
-        <version.dom4j>1.6</version.dom4j>
-        <version.ro.isdc.wro4j>1.4.4</version.ro.isdc.wro4j>
+        <version.ro.isdc.wro4j>1.7.9</version.ro.isdc.wro4j>
+        <httpclient.version>4.5.3</httpclient.version>
+        <version.org.apache.commons.commons-lang3>3.5</version.org.apache.commons.commons-lang3>
+        <version.h2db>1.4.193</version.h2db>
     </properties>
 
+    <dependencyManagement>
+        <dependencies>
+            <!-- Add H2 dependency for embedded testing database -->
+            <dependency>
+                <groupId>com.h2database</groupId>
+                <artifactId>h2</artifactId>
+                <version>${version.h2db}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>2.5</version>
+                <scope>compile</scope>
+            </dependency>
+            <!-- TODO - remove here only till ejb-client isn't fix to not require it
+            see https://github.com/jbossas/jboss-ejb-client/pull/212
+            -->
+            <dependency>
+                <groupId>org.jboss.modules</groupId>
+                <artifactId>jboss-modules</artifactId>
+                <version>1.6.0.Beta4</version>
+            </dependency>
+         <!--<dependency>
+                <groupId>org.jboss</groupId>
+                <artifactId>jboss-ejb-client</artifactId>
+                <version>4.0.0.Beta16-SNAPSHOT</version>
+            </dependency>-->
+
+            <dependency>
+                <groupId>commons-logging</groupId>
+                <artifactId>commons-logging</artifactId>
+                <version>1.2</version>
+            </dependency>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.12</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${version.org.apache.commons.commons-lang3}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>${httpclient.version}</version>
+            </dependency>
+            <!-- JBoss distributes a complete set of Java EE APIs including a Bill
+                of Materials (BOM). A BOM specifies the versions of a "stack" (or a collection)
+                of artifacts. We use this here so that we always get the correct versions
+                of artifacts. Here we use the jboss-eap-javaee7-with-tools stack (you can
+                read this as the JBoss stack of the Java EE APIs, with some extras tools
+                for your project, such as Arquillian for testing) -->
+            <dependency>
+                <groupId>org.wildfly.bom</groupId>
+                <artifactId>wildfly-javaee7-with-tools</artifactId>
+                <version>${version.jboss.bom.eap}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- Define the version of the JBoss Java EE APIs we want to use -->
+            <!-- JBoss distributes a complete set of Java EE APIs including
+               a Bill of Materials (BOM). A BOM specifies the versions of a "stack" (or
+               a collection) of artifacts. We use this here so that we always get the correct
+               versions of artifacts. Here we use the jboss-javaee-7.0 stack (you can
+               read this as the JBoss stack of the Java EE APIs). You can actually
+               use this stack with any version of JBoss EAP that implements Java EE. -->
+            <dependency>
+                <groupId>org.jboss.spec</groupId>
+                <artifactId>jboss-javaee-7.0</artifactId>
+                <version>${version.jboss.spec.javaee.7.0}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+    <!-- Activate the JBoss Enterprise Maven Repository.
+
+        NOTE: Configuring the Maven repository in the pom.xml file is not a recommended procedure
+        and is only done here to make it easier to use the quickstarts.
+
+        For more information about how to configure Maven for your application,
+        see the section entitled 'Use the Maven Repository'
+        in the Development Guide for Red Hat JBoss Enterprise Application Platform located here:
+
+        https://access.redhat.com/documentation/en/red-hat-jboss-enterprise-application-platform/
+    -->
+    <repositories>
+        <repository>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <id>jboss-enterprise-maven-repository</id>
+            <url>https://maven.repository.redhat.com/ga/</url>
+        </repository>
+        <repository>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <id>jboss-enterprise-maven-repository-ea</id>
+            <url>https://maven.repository.redhat.com/earlyaccess/all/</url>
+        </repository>
+        <repository>
+            <id>jboss-public-repository-group</id>
+            <name>JBoss Public Maven Repository Group</name>
+            <url>https://repository.jboss.org/nexus/content/groups/public/</url>
+            <layout>default</layout>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>never</updatePolicy>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>never</updatePolicy>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <id>jboss-enterprise-maven-repository</id>
+            <url>https://maven.repository.redhat.com/ga/</url>
+        </pluginRepository>
+        <pluginRepository>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <id>jboss-enterprise-maven-repository-ea</id>
+            <url>https://maven.repository.redhat.com/earlyaccess/all/</url>
+        </pluginRepository>
+        <pluginRepository>
+            <id>jboss-public-repository-group</id>
+            <name>JBoss Public Maven Repository Group</name>
+            <url>https://repository.jboss.org/nexus/content/groups/public/</url>
+            <layout>default</layout>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>never</updatePolicy>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>never</updatePolicy>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
     <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-war-plugin</artifactId>
-                    <version>${version.war.plugin}</version>
-                    <configuration>
-                        <failOnMissingWebXml>false</failOnMissingWebXml>
-                    </configuration>
-                </plugin>
-                <!-- The WildFly plugin deploys your apps to a local WildFly container -->
-                <!-- Disabling it here means that we don't try to deploy this POM! -->
-                <plugin>
-                    <groupId>com.mycila.maven-license-plugin</groupId>
-                    <artifactId>maven-license-plugin</artifactId>
-                    <version>1.10.b1</version>
-                    <configuration>
-                        <header>${basedir}/dist/license.txt</header>
-                        <aggregate>true</aggregate>
-                        <strictCheck>true</strictCheck>
-                        <excludes>
-                            <exclude>target/**</exclude>
-                            <exclude>.clover/**</exclude>
-                        </excludes>
-                        <encoding>UTF-8</encoding>
-                        <headerDefinitions>
-                            <headerDefinition>dist/headerdefinition.xml</headerDefinition>
-                        </headerDefinitions>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>org.wildfly.plugins</groupId>
-                    <artifactId>wildfly-maven-plugin</artifactId>
-                    <version>${version.wildfly.maven.plugin}</version>
-                </plugin>
-            </plugins>
-        </pluginManagement>
+        <!-- Set the name of the WAR, used as the context root when the app is deployed. -->
+        <finalName>${project.artifactId}</finalName>
         <plugins>
-            <!-- The WildFly plugin deploys your apps to a local WildFly container -->
+            <!-- The WildFly plug-in deploys your apps to a local JBoss EAP container -->
             <!-- Disabling it here means that we don't try to deploy this POM! -->
             <plugin>
                 <groupId>org.wildfly.plugins</groupId>
@@ -112,12 +256,66 @@
                     <skip>true</skip>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>com.mycila</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+                <version>${version.com.mycyla.license}</version>
+                <configuration>
+                    <header>${basedir}/dist/license.txt</header>
+                    <aggregate>true</aggregate>
+                    <strictCheck>true</strictCheck>
+                    <excludes>
+                        <exclude>target/**</exclude>
+                        <exclude>.clover/**</exclude>
+                        <exclude>**/*.sql</exclude>
+                        <exclude>**/LICENSE*</exclude>
+                        <exclude>**/license*</exclude>
+                        <!-- Exclude specific Quickstarts -->
+                        <exclude>petclinic-spring/**</exclude>
+                        <!-- Javascrip Libraries -->
+                        <exclude>**/jquery*</exclude>
+                        <exclude>**/angular*</exclude>
+                        <exclude>**/qunit*</exclude>
+                        <exclude>**/backbone*</exclude>
+                        <exclude>**/lodash*</exclude>
+                        <exclude>**/modernizr*</exclude>
+                        <exclude>**/yepnope*</exclude>
+                        <exclude>**/mobile-nav*</exclude>
+                        <!--Other libraries -->
+                        <exclude>**/*glyphicons*/**</exclude>
+                        <exclude>**/*cordova*/**</exclude>
+                    </excludes>
+                    <encoding>UTF-8</encoding>
+                    <headerDefinitions>
+                        <headerDefinition>dist/headerdefinition.xml</headerDefinition>
+                    </headerDefinitions>
+                </configuration>
+            </plugin>
         </plugins>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.wildfly.plugins</groupId>
+                    <artifactId>wildfly-maven-plugin</artifactId>
+                    <version>${version.wildfly.maven.plugin}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-ejb-plugin</artifactId>
+                    <version>${version.ejb.plugin}</version>
+                    <configuration>
+                        <!-- Tell Maven we are using EJB -->
+                        <ejbVersion>3.2</ejbVersion>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
     </build>
 
     <profiles>
         <profile>
-            <!-- All the quickstarts that require Postgres to be running -->
+            <!-- All the modules that require nothing but JBoss Enterprise
+                    Application Platform or JBoss EAP -->
             <id>default</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
@@ -127,7 +325,8 @@
                 </property>
             </activation>
             <modules>
-                <!-- All the modules that require nothing but WildFly -->
+                <!-- All the modules that require nothing but JBoss Enterprise
+                    Application Platform or JBoss EAP -->
                 <module>app-client</module>
                 <module>batch-processing</module>
                 <module>bean-validation</module>
@@ -148,17 +347,15 @@
                 <module>ejb-asynchronous</module>
                 <module>ejb-in-ear</module>
                 <module>ejb-in-war</module>
-                <module>ejb-remote</module>
+                <module>ejb-multi-server</module>
                 <module>ejb-security</module>
                 <module>ejb-security-interceptors</module>
                 <module>ejb-security-plus</module>
-                <module>ejb-timer</module>
                 <module>ejb-throws-exception</module>
-                <module>ejb-multi-server</module>
+                <module>ejb-timer</module>
                 <module>greeter</module>
                 <module>helloworld</module>
                 <module>helloworld-classfiletransformer</module>
-                <module>helloworld-client-ssl</module>
                 <module>helloworld-html5</module>
                 <module>helloworld-jms</module>
                 <module>helloworld-mbean</module>
@@ -168,9 +365,10 @@
                 <module>helloworld-rs</module>
                 <module>helloworld-singleton</module>
                 <module>helloworld-ssl</module>
+                <module>helloworld-client-ssl</module>
+                <module>helloworld-war-ssl</module>
                 <module>helloworld-websocket</module>
                 <module>helloworld-ws</module>
-                <module>helloworld-war-ssl</module>
                 <module>hibernate4</module>
                 <module>hibernate5</module>
                 <module>inter-app</module>
@@ -202,6 +400,17 @@
                 <module>servlet-security</module>
                 <module>shopping-cart</module>
                 <module>shrinkwrap-resolver</module>
+                <module>spring-greeter</module>
+                <module>spring-kitchensink-asyncrequestmapping</module>
+                <module>spring-kitchensink-basic</module>
+                <module>spring-kitchensink-controlleradvice</module>
+                <module>spring-kitchensink-matrixvariables</module>
+                <module>spring-kitchensink-springmvctest</module>
+                <module>spring-petclinic</module>
+                <module>spring-resteasy</module>
+                <module>tasks</module>
+                <module>tasks-jsf</module>
+                <module>tasks-rs</module>
                 <module>temperature-converter</module>
                 <module>thread-racing</module>
                 <module>websocket-client</module>
@@ -239,6 +448,7 @@
             </activation>
             <modules>
                 <module>cluster-ha-singleton</module>
+                <module>ejb-remote</module>
                 <module>resteasy-jaxrs-client</module>
                 <module>jts</module>
             </modules>
@@ -255,7 +465,9 @@
                 </property>
             </activation>
             <modules>
+                <module>helloworld-mbean</module>
                 <module>helloworld-mdb</module>
+                <module>helloworld-mdb-propertysubstitution</module>
                 <module>jta-crash-rec</module>
             </modules>
         </profile>
@@ -283,10 +495,169 @@
                 <activeByDefault>false</activeByDefault>
             </activation>
             <modules>
+                <module>forge-from-scratch</module>
                 <module>h2-console</module>
                 <module>jts-distributed-crash-rec</module>
+                <module>messaging-clustering</module>
             </modules>
         </profile>
-    </profiles>
 
+        <profile>
+            <!-- An optional Arquillian testing profile that executes tests in your JBoss EAP instance.
+                 This profile will start a new JBoss EAP instance, and execute the test, shutting it down when done.
+                 Run with: mvn clean test -Parq-wildfly-managed -->
+            <id>arq-wildfly-managed</id>
+            <dependencies>
+                <dependency>
+                    <groupId>org.wildfly.arquillian</groupId>
+                    <artifactId>wildfly-arquillian-container-managed</artifactId>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <version>${version.failsafe.plugin}</version>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>integration-test</goal>
+                                    <goal>verify</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <!-- An optional Arquillian testing profile that executes tests in a remote JBoss EAP instance.
+                 Run with: mvn clean test -Parq-wildfly-remote -->
+            <id>arq-wildfly-remote</id>
+            <dependencies>
+                <dependency>
+                    <groupId>org.wildfly.arquillian</groupId>
+                    <artifactId>wildfly-arquillian-container-remote</artifactId>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <version>${version.failsafe.plugin}</version>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>integration-test</goal>
+                                    <goal>verify</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>root-dir</id>
+            <activation>
+                <file>
+                    <exists>${basedir}/../docs.properties</exists>
+                </file>
+            </activation>
+            <properties>
+                <root.dir>${basedir}/../</root.dir>
+            </properties>
+        </profile>
+        <profile>
+            <id>root-dir2</id>
+            <activation>
+                <file>
+                    <exists>${basedir}/../../docs.properties</exists>
+                </file>
+            </activation>
+            <properties>
+                <root.dir>${basedir}/../../</root.dir>
+            </properties>
+        </profile>
+        <profile>
+            <id>root-dir3</id>
+            <activation>
+                <file>
+                    <exists>${basedir}/../../../docs.properties</exists>
+                </file>
+            </activation>
+            <properties>
+                <root.dir>${basedir}/../../../</root.dir>
+            </properties>
+        </profile>
+        <profile>
+            <id>docs</id>
+            <activation>
+                <property>
+                    <name>docs</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-resources-plugin</artifactId>
+                        <version>${version.resources.plugin}</version>
+                        <executions>
+                            <execution>
+                                <id>copy-resources</id>
+                                <!-- here the phase you need -->
+                                <phase>generate-resources</phase>
+                                <goals>
+                                    <goal>copy-resources</goal>
+                                </goals>
+                                <configuration>
+                                    <outputDirectory>${project.build.directory}/docs</outputDirectory>
+                                    <filters>
+                                        <filter>${root.dir}/docs.properties</filter>
+                                    </filters>
+                                    <resources>
+                                        <resource>
+                                            <directory>${basedir}</directory>
+                                            <includes>
+                                                <include>*.md</include>
+                                            </includes>
+                                            <filtering>true</filtering>
+                                        </resource>
+                                    </resources>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>com.vladsch.flexmark</groupId>
+                        <artifactId>markdown-page-generator-plugin</artifactId>
+                        <version>0.14.0</version>
+                        <executions>
+                            <execution>
+                                <phase>process-resources</phase>
+                                <goals>
+                                    <goal>generate</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <inputDirectory>${project.build.directory}/docs</inputDirectory>
+                            <defaultTitle>${project.name}</defaultTitle>
+                            <inputEncoding>UTF-8</inputEncoding>
+                            <headerHtmlFile>${root.dir}/dist/header.html</headerHtmlFile>
+                            <footerHtmlFile>${root.dir}/dist/footer.html</footerHtmlFile>
+                            <pegdownExtensions>TABLES,TOC,AUTOLINKS,STRIKETHROUGH,ATXHEADERSPACE,FENCED_CODE_BLOCKS</pegdownExtensions>
+                            <!--<copyDirectories>css,js</copyDirectories>-->
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>

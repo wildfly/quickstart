@@ -88,6 +88,9 @@ public class JSONPRequestFilter implements Filter {
                 public ServletOutputStream getOutputStream() throws IOException {
                     return new ServletOutputStream() {
 
+                        // setWriteListener method in ServletOutputStream is abstract,
+                        // it must be implemented even though writerListener is not used
+                        @SuppressWarnings("unused")
                         WriteListener writeListener;
 
                         @Override

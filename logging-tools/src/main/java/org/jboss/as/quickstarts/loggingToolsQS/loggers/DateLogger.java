@@ -16,8 +16,6 @@
  */
 package org.jboss.as.quickstarts.loggingToolsQS.loggers;
 
-import java.text.ParseException;
-
 import org.jboss.logging.BasicLogger;
 import org.jboss.logging.Logger;
 import org.jboss.logging.Logger.Level;

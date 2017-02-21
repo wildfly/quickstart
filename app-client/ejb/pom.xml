@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
     JBoss, Home of Professional Open Source
     Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
@@ -20,19 +20,19 @@
 
     <parent>
         <groupId>org.wildfly.quickstarts</groupId>
-        <artifactId>wildfly-app-client</artifactId>
-        <version>10.0.0-SNAPSHOT</version>
+        <artifactId>jboss-app-client</artifactId>
+        <version>11.0.0-SNAPSHOT</version>
     </parent>
-    <artifactId>wildfly-app-client-ejb</artifactId>
+    <artifactId>jboss-app-client-ejb</artifactId>
     <packaging>ejb</packaging>
-    <name>WildFly Quickstart: app-client - ejb</name>
-    <url>http://wildfly.org</url>
+    <name>${qs.name.prefix} app-client - ejb</name>
+    <description>This project demonstrates how to package and use an EE application client; this is the EJB POM file</description>
 
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
-            <distribution>repo</distribution>
             <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+            <distribution>repo</distribution>
         </license>
     </licenses>
 
@@ -44,9 +44,9 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-          <groupId>org.jboss.spec.javax.interceptor</groupId>
-          <artifactId>jboss-interceptors-api_1.2_spec</artifactId>
-          <scope>provided</scope>
+            <groupId>org.jboss.spec.javax.interceptor</groupId>
+            <artifactId>jboss-interceptors-api_1.2_spec</artifactId>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 
@@ -56,9 +56,9 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-ejb-plugin</artifactId>
-                <version>${ejb.plugin.version}</version>
+                <version>${version.ejb.plugin}</version>
                 <configuration>
-                    <ejbVersion>3.1</ejbVersion>
+                    <ejbVersion>3.2</ejbVersion>
                     <generateClient>true</generateClient>
                     <archive>
                         <addMavenDescriptor>false</addMavenDescriptor>

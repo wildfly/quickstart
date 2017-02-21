@@ -1,65 +1,58 @@
-kitchensink-angularjs: Shows how to use AngularJS with JAX-RS and Java EE on JBoss
-========================
+kitchensink-angularjs: Demonstrates AngularJS with JAX-RS
+=========================================================
 Author: Pete Muir  
 Level: Intermediate  
 Technologies: AngularJS, CDI, JPA, EJB, JPA, JAX-RS, BV  
-Summary: An example that incorporates multiple technologies  
+Summary: The `kitchensink-angularjs` quickstart demonstrates a Java EE 7 application using AngularJS with JAX-RS, CDI, EJB, JPA, and Bean Validation.  
+Target Product: ${product.name}  
+Source: <${github.repo.url}>  
 
 What is it?
 -----------
 
-This is your project! It is a sample, deployable Maven 3 project to help you get your foot in the door developing with AngularJS on Java EE 7 on JBoss WildFly.
+The `kitchensink-angularjs` quickstart is a deployable Maven 3 project to help you get your foot in the door developing with AngularJS on Java EE 7 with ${product.name.full}. 
 
-This project is setup to allow you to create a compliant Java EE 7 application using CDI 1.1, EJB 3.2, JPA 2.1 and Bean Validation 1.1. It includes a persistence unit and some sample persistence and transaction code to introduce you to database access in enterprise Java.
+This project is setup to allow you to create a compliant Java EE 7 application using CDI 1.2, EJB 3.2, JPA 2.1 and Bean Validation 1.1. It includes a persistence unit and some sample persistence and transaction code to introduce you to database access in enterprise Java. 
 
-System requirements
+System Requirements
 -------------------
 
-All you need to build this project is Java 8 (Java SDK 1.8) or better, Maven 3.1 or better.
+The application this project produces is designed to be run on ${product.name.full} ${product.version} or later. 
 
-The application this project produces is designed to be run on JBoss WildFly.
+All you need to build this project is ${build.requirements}. See [Configure Maven for ${product.name} ${product.version}](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
 
- 
-Configure Maven
----------------
+Start the ${product.name} Server
+--------------------------
 
-If you have not yet done so, you must [Configure Maven](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN.md) before testing the quickstarts.
+1. Open a command line and navigate to the root of the ${product.name} directory.
+2. The following shows the command line to start the server with the default profile:
 
-
-Start JBoss WildFly with the Web Profile
--------------------------
-
-1. Open a command line and navigate to the root of the JBoss server directory.
-2. The following shows the command line to start the server with the web profile:
-
-        For Linux:   JBOSS_HOME/bin/standalone.sh
-        For Windows: JBOSS_HOME\bin\standalone.bat
+        For Linux:   EAP_HOME/bin/standalone.sh
+        For Windows: EAP_HOME\bin\standalone.bat
 
  
 Build and Deploy the Quickstart
--------------------------
+-------------------------------
 
-_NOTE: The following build command assumes you have configured your Maven user settings. If you have not, you must include Maven setting arguments on the command line. See [Build and Deploy the Quickstarts](https://github.com/jboss-developer/jboss-eap-quickstarts#build-and-deploy-the-quickstarts) for complete instructions and additional options._
-
-1. Make sure you have started the JBoss Server as described above.
+1. Make sure you have started the ${product.name} server as described above.
 2. Open a command line and navigate to the root directory of this quickstart.
 3. Type this command to build and deploy the archive:
 
         mvn clean package wildfly:deploy
 
-4. This will deploy `target/wildfly-kitchensink-angularjs.war` to the running instance of the server.
+4. This will deploy `target/${project.artifactId}.war` to the running instance of the server.
  
 
 Access the application 
 ---------------------
 
-The application will be running at the following URL: <http://localhost:8080/wildfly-kitchensink-angularjs/>.
+The application will be running at the following URL: <http://localhost:8080/${project.artifactId}/>.
 
 
 Undeploy the Archive
 --------------------
 
-1. Make sure you have started the JBoss Server as described above.
+1. Make sure you have started the ${product.name} server as described above.
 2. Open a command line and navigate to the root directory of this quickstart.
 3. When you are finished testing, type this command to undeploy the archive:
 
@@ -71,18 +64,41 @@ Run the Arquillian Tests
 
 This quickstart provides Arquillian tests. By default, these tests are configured to be skipped as Arquillian tests require the use of a container. 
 
-_NOTE: The following commands assume you have configured your Maven user settings. If you have not, you must include Maven setting arguments on the command line. See [Run the Arquillian Tests](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/RUN_ARQUILLIAN_TESTS.md) for complete instructions and additional options._
-
-1. Make sure you have started the JBoss Server as described above.
+1. Make sure you have started the ${product.name} server as described above.
 2. Open a command line and navigate to the root directory of this quickstart.
 3. Type the following command to run the test goal with the following profile activated:
 
-        mvn clean test -Parq-wildfly-remote
+        mvn clean verify -Parq-wildfly-remote 
+
+You can also let Arquillian manage the ${product.name} server by using the `arq-wildfly-managed` profile. For more information about how to run the Arquillian tests, see [Run the Arquillian Tests](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/RUN_ARQUILLIAN_TESTS.md#run-the-arquillian-tests).
 
 
-Run the Quickstart in JBoss Developer Studio or Eclipse
+Run the Arquillian Functional Tests
+-----------------------------------
+
+This quickstart provides Arquillian functional tests as well. They are located in the functional-tests/ subdirectory under the root directory of this quickstart.
+Functional tests verify that your application behaves correctly from the user's point of view. The tests open a browser instance, simulate clicking around the page as a normal user would do, and then close the browser instance.
+
+To run these tests, you must build the main project as described above.
+
+1. Open a command line and navigate to the root directory of this quickstart.
+2. Build the quickstart WAR using the following command:
+
+        mvn clean package
+
+3. Navigate to the `functional-tests/` directory in this quickstart.
+4. If you have a running instance of the ${product.name} server, as described above, run the remote tests by typing the following command:
+
+        mvn clean verify -Parq-wildfly-remote
+
+5. If you prefer to run the functional tests using managed instance of the ${product.name} server, meaning the tests will start the server for you, type fhe following command:
+
+        mvn clean verify -Parq-wildfly-managed
+
+
+Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 -------------------------------------
-You can also start the server and deploy the quickstarts from Eclipse using JBoss tools. For more information, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_JBDS.md) 
+You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a ${product.name} server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](${use.eclipse.url}). 
 
 
 Debug the Application
@@ -90,5 +106,5 @@ Debug the Application
 
 If you want to debug the source code or look at the Javadocs of any library in the project, run either of the following commands to pull them into your local repository. The IDE should then detect them.
 
-    mvn dependency:sources
-    mvn dependency:resolve -Dclassifier=javadoc
+        mvn dependency:sources
+        mvn dependency:resolve -Dclassifier=javadoc

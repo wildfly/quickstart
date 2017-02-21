@@ -181,7 +181,7 @@ jQuery.validator.addMethod( "cifES", function( value ) {
 }, "Please specify a valid CIF number." );
 
 /* NOTICE: Modified version of Castle.Components.Validator.CreditCardValidator
- * Redistributed under the the Apache License 2.0 at http://www.apache.org/licenses/LICENSE-2.0
+ * Redistributed under the Apache License 2.0 at http://www.apache.org/licenses/LICENSE-2.0
  * Valid Types: mastercard, visa, amex, dinersclub, enroute, discover, jcb, unknown, all (overrides all other settings)
  */
 jQuery.validator.addMethod("creditcardtypes", function(value, element, param) {

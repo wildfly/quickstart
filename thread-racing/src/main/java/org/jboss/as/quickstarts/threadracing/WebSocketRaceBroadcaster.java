@@ -69,9 +69,9 @@ public class WebSocketRaceBroadcaster implements RaceBroadcaster {
 
     @Override
     public void start() {
-        sendToClient("Wow what a crowd today at Threadianopolis... ");
+        sendToClient("Wow, what a crowd today at Threadianopolis... ");
         pause(2000);
-        sendToClient("There must be over a GIGABYTE thread racing fans going nuts.<br/><br/>");
+        sendToClient("There must be more than a GIGABYTE of thread racing fans going nuts.<br/><br/>");
         pause(3000);
     }
 
@@ -104,7 +104,7 @@ public class WebSocketRaceBroadcaster implements RaceBroadcaster {
 
     @Override
     public void raceEnd() {
-        sendToClient("<br/>Please await() for the official results ");
+        sendToClient("<br/>Please await() the official results ");
         pause(2000);
         sendToClient(":");
         pause(2000);

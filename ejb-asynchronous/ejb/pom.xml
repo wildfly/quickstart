@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
     JBoss, Home of Professional Open Source
     Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
@@ -20,24 +20,24 @@
 
     <parent>
         <groupId>org.wildfly.quickstarts</groupId>
-        <artifactId>wildfly-ejb-asynchronous</artifactId>
-        <version>10.0.0-SNAPSHOT</version>
+        <artifactId>jboss-ejb-asynchronous</artifactId>
+        <version>11.0.0-SNAPSHOT</version>
     </parent>
-    <artifactId>wildfly-ejb-asynchronous-ejb</artifactId>
+    <artifactId>jboss-ejb-asynchronous-ejb</artifactId>
     <packaging>ejb</packaging>
-    <name>WildFly Quickstart: ejb-asynchronous - ejb</name>
-    <description>wildfly-ejb-asynchronous: The application jar with an asynchronous EJB and a second EJB to demonstrate how an EJB can be used asynchronous</description>
+    <name>${qs.name.prefix} ejb-asynchronous - ejb</name>
+    <description>This project demonstrates asynchronous method invocations on an EJB; this is the EJB POM file</description>
 
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
-            <distribution>repo</distribution>
             <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+            <distribution>repo</distribution>
         </license>
     </licenses>
 
     <dependencies>
-        <!-- Import the EJB API, we use provided scope as the API is included in WildFly -->
+        <!-- Import the EJB API, we use provided scope as the API is included in JBoss EAP -->
         <dependency>
             <groupId>org.jboss.spec.javax.ejb</groupId>
             <artifactId>jboss-ejb-api_3.2_spec</artifactId>

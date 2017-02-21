@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
     JBoss, Home of Professional Open Source
     Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
@@ -17,21 +17,22 @@
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <parent>
         <groupId>org.wildfly.quickstarts</groupId>
-        <artifactId>wildfly-ejb-multi-server</artifactId>
-        <version>10.0.0-SNAPSHOT</version>
+        <artifactId>jboss-ejb-multi-server</artifactId>
+        <version>11.0.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>wildfly-ejb-multi-server-client</artifactId>
+    <artifactId>jboss-ejb-multi-server-client</artifactId>
     <packaging>jar</packaging>
-    <name>WildFly Quickstart: ejb-multi-server - client</name>
+    <name>${qs.name.prefix} ejb-multi-server - client</name>
+    <description>A project that demonstrates multiple applications deployed on different servers. This is the client POM file</description>
 
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
-            <distribution>repo</distribution>
             <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+            <distribution>repo</distribution>
         </license>
     </licenses>
 
@@ -39,7 +40,7 @@
 
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>wildfly-ejb-multi-server-app-main-ejb</artifactId>
+            <artifactId>jboss-ejb-multi-server-app-main-ejb</artifactId>
             <version>${project.version}</version>
             <type>ejb-client</type>
         </dependency>
@@ -51,17 +52,26 @@
             <type>pom</type>
             <scope>compile</scope>
         </dependency>
+        <!-- TODO remove-->
+        <dependency>
+            <groupId>org.jboss.modules</groupId>
+            <artifactId>jboss-modules</artifactId>
+        </dependency>
 
     </dependencies>
 
     <build>
         <finalName>${project.artifactId}</finalName>
         <plugins>
-      <!-- Add the maven exec plug-in to allow us to run a java program via maven -->
+            <!-- Add the maven exec plug-in to allow us to run a java program via maven -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
-                <version>${exec.plugin.version}</version>
+                <version>${version.exec.plugin}</version>
+                <configuration>
+                    <executable>java</executable>
+                    <mainClass>org.jboss.as.quickstarts.ejb.multi.server.Client</mainClass>
+                </configuration>
                 <executions>
                     <execution>
                         <goals>
@@ -69,11 +79,7 @@
                         </goals>
                     </execution>
                 </executions>
-                <configuration>
-                    <executable>java</executable>
-                    <mainClass>org.jboss.as.quickstarts.ejb.multi.server.Client</mainClass>
-                </configuration>
             </plugin>
         </plugins>
-     </build>
+    </build>
 </project>

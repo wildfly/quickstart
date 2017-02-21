@@ -1,4 +1,4 @@
-# Batch script to remove the the JMS configuration from the WildFly server
+# Batch script to remove the JMS configuration from the JBoss EAP server
 
 # Start batching commands
 batch
@@ -8,4 +8,8 @@ jms-queue remove --queue-address=testQueue
 
 # Run the batch commands
 run-batch
+
+# Reload the server configuration
+reload
+
 

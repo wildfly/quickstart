@@ -32,13 +32,17 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
-/*The Model uses JPA Entity as well as Hibernate Validators
- *
+/**
+ * JPA Entity for the ModelHibernateDemo table
+ * 
+ * <p>
+ * Also uses Hibernate Validators
+ * </p>
  */
 
 @Entity
 @XmlRootElement
-@Table(name = "MemberHibernate4Demo", uniqueConstraints = @UniqueConstraint(columnNames = "id"))
+@Table(name = "MemberHibernateDemo", uniqueConstraints = @UniqueConstraint(columnNames = "id"))
 public class Member implements Serializable {
     /** Default value included to remove warning. Remove or modify at will. **/
     private static final long serialVersionUID = 1L;

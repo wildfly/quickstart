@@ -26,16 +26,12 @@ package org.jboss.as.quickstarts.jaxrsclient;
  */
 import static org.junit.Assert.*;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
-import org.apache.http.client.ClientProtocolException;
-import org.jboss.resteasy.client.ClientRequest;
-import org.jboss.resteasy.client.ClientResponse;
+import org.jboss.resteasy.client.jaxrs.ResteasyClient;
+import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
+import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -98,42 +94,30 @@ public class JaxRsClientTest {
         System.out.println("URL: " + url);
         System.out.println("MediaType: " + mediaType.toString());
 
-        try {
-            // Using the RESTEasy libraries, initiate a client request
-            // using the url as a parameter
-            ClientRequest request = new ClientRequest(url);
+        
+        // Using the RESTEasy libraries, initiate a client request
+        ResteasyClient client = new ResteasyClientBuilder().build();
+            
+        // Set url as target
+        ResteasyWebTarget target = client.target(url);
 
-            // Be sure to set the mediatype of the request
-            request.accept(mediaType);
+        // Be sure to set the mediatype of the request
+        target.request(mediaType);
 
-            // Request has been made, now let's get the response
-            ClientResponse<String> response = request.get(String.class);
+        // Request has been made, now let's get the response
+        Response response = target.request().get();
+        result = response.readEntity(String.class);
+        response.close();
 
-            // Check the HTTP status of the request
-            // HTTP 200 indicates the request is OK
-            if (response.getStatus() != 200) {
-                throw new RuntimeException("Failed request with HTTP status: " + response.getStatus());
-            }
-
-            // We have a good response, let's now read it
-            BufferedReader br = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(response.getEntity()
-                .getBytes())));
-
-            // Loop over the br in order to print out the contents
-            System.out.println("\n*** Response from Server ***\n");
-            String output = null;
-            while ((output = br.readLine()) != null) {
-                System.out.println(output);
-                result = output;
-            }
-        } catch (ClientProtocolException cpe) {
-            System.err.println(cpe);
-        } catch (IOException ioe) {
-            System.err.println(ioe);
-        } catch (Exception e) {
-            System.err.println(e);
+        // Check the HTTP status of the request
+        // HTTP 200 indicates the request is OK
+        if (response.getStatus() != 200) {
+            throw new RuntimeException("Failed request with HTTP status: " + response.getStatus());
         }
 
+        // We have a good response, let's now read it
+        System.out.println("\n*** Response from Server ***\n");
+        System.out.println(result);
         System.out.println("\n===============================================");
 
         return result;

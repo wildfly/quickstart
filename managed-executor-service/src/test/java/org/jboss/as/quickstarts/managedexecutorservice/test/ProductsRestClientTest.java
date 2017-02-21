@@ -29,7 +29,7 @@ import org.junit.Test;
 
 public class ProductsRestClientTest {
 
-    private static final String REST_TARGET_URL = "http://localhost:8080/wildfly-managedexecutorservice/rest/products";
+    private static final String REST_TARGET_URL = "http://localhost:8080/jboss-managed-executor-service/rest/products";
 
     private Logger log = Logger.getLogger(ProductsRestClientTest.class.getName());
 
@@ -43,7 +43,7 @@ public class ProductsRestClientTest {
         Response response = ClientBuilder.newClient().target(REST_TARGET_URL).request().post(Entity.entity(c, MediaType.APPLICATION_JSON), Response.class);
         Assert.assertEquals(Response.ok().build().getStatus(), response.getStatus());
 
-        log.info("Product created. Executing a Long running task");
+        log.info("Product created. Executing a long running task");
         String result = ClientBuilder.newClient().target(REST_TARGET_URL + "/longrunningtask").request().get(String.class);
         Assert.assertTrue(result.startsWith("Result:"));
 

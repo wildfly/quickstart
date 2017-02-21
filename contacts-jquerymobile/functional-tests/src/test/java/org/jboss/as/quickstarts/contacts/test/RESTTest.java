@@ -109,7 +109,7 @@ public class RESTTest {
 
         HttpResponse response = httpClient.execute(post);
 
-        assertEquals(200, response.getStatusLine().getStatusCode());
+        assertEquals(201, response.getStatusLine().getStatusCode());
     }
 
     @Test

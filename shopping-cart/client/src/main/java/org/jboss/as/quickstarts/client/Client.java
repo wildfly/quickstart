@@ -17,7 +17,6 @@
 package org.jboss.as.quickstarts.client;
 
 import java.util.Map;
-import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -61,7 +60,7 @@ public class Client {
         final String moduleName = "jboss-shopping-cart-server";
 
         /*
-         * AS7 allows each deployment to have an (optional) distinct name. We haven't specified a distinct name for our EJB
+         * JBoss EAP allows each deployment to have an (optional) distinct name. We haven't specified a distinct name for our EJB
          * deployment, so this is an empty string
          */
         final String distinctName = "";

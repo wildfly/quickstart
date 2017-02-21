@@ -41,7 +41,7 @@ import javax.inject.Inject;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
-import org.apache.commons.lang.RandomStringUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 
 //The @Model stereotype is a convenience mechanism to make this a request-scoped bean that has an
 //EL name
@@ -67,7 +67,7 @@ public class BatchController {
     public void generate() throws IOException {
         File tempFile = new File(System.getProperty("java.io.tmpdir"), fileName);
         try (BufferedWriter bos = new BufferedWriter(new FileWriter(tempFile, false))) {
-            log.info("Starting to generate " + numRecords + " in file " + tempFile);
+            log.info("Starting to generate " + numRecords + " records in file " + tempFile);
             String previousName = null;
             for (int x = 0; x < numRecords; x++) {
                 String name = RandomStringUtils.randomAlphabetic(10);

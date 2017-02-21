@@ -14,8 +14,8 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 --%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="ISO-8859-1"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -28,7 +28,7 @@
 <body>
     <div id="container">
         <div align="right" class="dualbrand">
-            <img src="resources/gfx/dualbrand_logo.png" />
+            <img src="resources/gfx/rhjb_eap_logo.png" />
         </div>
         <div id="content">
 
@@ -44,20 +44,16 @@
 
         </div>
         <div id="aside">
-            <p>Learn more about JBoss WildFly.</p>
+            <p>Learn more about Red Hat JBoss Enterprise Application Platform.</p>
             <ul>
-                <li><a
-                    href="https://github.com/wildfly/quickstart/blob/master/guide/Introduction.asciidoc">Getting
-                        Started Developing Applications Guide</a></li>
-                <li><a href="http://www.wildfly.org/">Community
-                        Project Information</a></li>
+               <li><a href="https://access.redhat.com/documentation/en/red-hat-jboss-enterprise-application-platform/">Documentation</a></li>
+               <li><a href="http://www.redhat.com/en/technologies/jboss-middleware/application-platform">Product Information</a></li>
             </ul>
 
         </div>
         <div id="footer">
             <p>
-                This project was generated from a Maven archetype from
-                WildFly.<br />
+                This JBoss EAP quickstart project was generated from a Maven archetype.<br />
             </p>
         </div>
     </div>

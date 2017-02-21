@@ -1,6 +1,7 @@
 # Batch script to configure the security domain and define the database query used to authenticate users
 batch
 
+
 # Start by creating the JDBC datasource
 /subsystem=datasources/data-source=ServletSecurityDS:add(connection-url="jdbc:h2:mem:servlet-security;DB_CLOSE_ON_EXIT=FALSE", jndi-name="java:jboss/datasources/ServletSecurityDS", driver-name=h2, user-name="sa", password="sa")
 
@@ -11,7 +12,7 @@ batch
 /subsystem=elytron/simple-role-decoder=from-roles-attribute:add(attribute=roles)
 
 # Configure the servlet-security-quickstart security domain
-/subsystem=elytron/security-domain=servlet-security-quickstart-sd:add(default-realm=servlet-security-jdbc-realm, realms=[{realm=servlet-security-jdbc-realm, role-decoder=from-roles-attribute}], permission-mapper=login-permission-mapper,role-mapper=combined-role-mapper)
+/subsystem=elytron/security-domain=servlet-security-quickstart-sd:add(default-realm=servlet-security-jdbc-realm, realms=[{realm=servlet-security-jdbc-realm, role-decoder=from-roles-attribute}], permission-mapper=default-permission-mapper)
 
 # Configure the HTTP Authentication Factory
 /subsystem=elytron/http-authentication-factory=servlet-security-quickstart-http-auth:add(http-server-mechanism-factory=global,security-domain=servlet-security-quickstart-sd,mechanism-configurations=[{mechanism-name=BASIC,mechanism-realm-configurations=[{realm-name=RealmUsersRoles}]}])
@@ -23,6 +24,6 @@ batch
 run-batch
 
 # Reload the server configuration
-:reload
+reload
 
 

@@ -19,14 +19,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.wildfly.quickstarts</groupId>
-    <artifactId>wildfly-QUICKSTART_NAME</artifactId>
-    <version>10.0.0-SNAPSHOT</version>
+    <artifactId>jboss-QUICKSTART_NAME</artifactId>
+    <version>7.1.0-SNAPSHOT</version>
     <packaging>war</packaging>
-    <name>WildFly Quickstarts: QUICKSTART_NAME</name>
-    <description>QUICKSTART_NAME: A short description of this quickstart</description>
+    <name>JBoss PRODUCT_TYPE Quickstart: QUICKSTART_NAME-OPTIONAL_SUBFOLDER_NAME</name>
+    <description>A short description of this quickstart</description>
 
-    <url>http://wildfly.org</url>
-    <licenses>
+        <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
             <distribution>repo</distribution>
@@ -34,20 +33,77 @@
         </license>
     </licenses>
 
+    <!-- Activate the JBoss Enterprise Maven Repository.
+
+        NOTE: Configuring the Maven repository in the pom.xml file is not a recommended procedure
+        and is only done here to make it easier to use the quickstarts.
+
+        For more information about how to configure Maven for your application,
+        see the section entitled 'Use the Maven Repository'
+        in the Development Guide for Red Hat JBoss Enterprise Application Platform located here:
+
+        https://access.redhat.com/documentation/en/red-hat-jboss-enterprise-application-platform/
+    -->
+    <repositories>
+        <repository>
+            <id>jboss-developer-staging-repository</id>
+            <url>http://jboss-developer.github.io/temp-maven-repo/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>jboss-enterprise-maven-repository</id>
+            <url>https://maven.repository.redhat.com/ga/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>jboss-developer-staging-repository</id>
+            <url>http://jboss-developer.github.io/temp-maven-repo/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+        <pluginRepository>
+            <id>jboss-enterprise-maven-repository</id>
+            <url>https://maven.repository.redhat.com/ga/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+
     <properties>
-        <!-- Explicitly declaring the source encoding eliminates the following message: -->
-        <!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered
-        resources, i.e. build is platform dependent! -->
+        <!-- Explicitly declaring the source encoding eliminates the following
+            message: [WARNING] Using platform encoding (UTF-8 actually) to copy 
+            filtered resources, i.e. build is platform dependent! -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- JBoss dependency versions -->
 
         <version.wildfly.maven.plugin>1.0.2.Final</version.wildfly.maven.plugin>
 
-        <version.jboss.spec.javaee.7.0>1.0.3.Final</version.jboss.spec.javaee.7.0>
+        <version.jboss.spec.javaee.7.0>1.1.0.Beta1</version.jboss.spec.javaee.7.0>
 
         <!-- other plug-in versions -->
-        <version.war.plugin>3.0.0</version.war.plugin>
+        <version.war.plugin>2.6</version.war.plugin>
 
         <!-- maven-compiler-plugin -->
         <maven.compiler.target>1.8</maven.compiler.target>
@@ -63,7 +119,7 @@
             a collection) of artifacts. We use this here so that we always get the correct
             versions of artifacts. Here we use the jboss-javaee-7.0 stack (you can
             read this as the JBoss stack of the Java EE APIs). You can actually
-            use this stack with any version of WildFly that implements Java EE. -->
+            use this stack with any version of JBoss EAP that implements Java EE. -->
             <dependency>
                 <groupId>org.jboss.spec</groupId>
                 <artifactId>jboss-javaee-7.0</artifactId>
@@ -76,7 +132,7 @@
 
     <dependencies>
 
-        <!-- Import the CDI API, we use provided scope as the API is included  in WildFly -->
+        <!-- Import the CDI API, we use provided scope as the API is included  in JBoss EAP -->
         <dependency>
             <groupId>javax.enterprise</groupId>
             <artifactId>cdi-api</artifactId>
@@ -84,35 +140,35 @@
         </dependency>
 
         <!-- Import the Common Annotations API (JSR-250), we use provided scope
-        as the API is included in WildFly -->
+        as the API is included in JBoss EAP -->
         <dependency>
             <groupId>org.jboss.spec.javax.annotation</groupId>
             <artifactId>jboss-annotations-api_1.2_spec</artifactId>
             <scope>provided</scope>
         </dependency>
 
-        <!-- Import the JSF API, we use provided scope as the API is included in WildFly -->
+        <!-- Import the JSF API, we use provided scope as the API is included in JBoss EAP -->
         <dependency>
             <groupId>org.jboss.spec.javax.faces</groupId>
             <artifactId>jboss-jsf-api_2.2_spec</artifactId>
             <scope>provided</scope>
         </dependency>
 
-        <!-- Import the JPA API, we use provided scope as the API is included in WildFly -->
+        <!-- Import the JPA API, we use provided scope as the API is included in JBoss EAP -->
         <dependency>
             <groupId>org.hibernate.javax.persistence</groupId>
             <artifactId>hibernate-jpa-2.1-api</artifactId>
             <scope>provided</scope>
         </dependency>
 
-        <!-- Import the JPA API, we use provided scope as the API is included in WildFly -->
+        <!-- Import the JPA API, we use provided scope as the API is included in JBoss EAP -->
         <dependency>
             <groupId>org.jboss.spec.javax.transaction</groupId>
             <artifactId>jboss-transaction-api_1.2_spec</artifactId>
             <scope>provided</scope>
         </dependency>
 
-        <!-- Import the EJB API, we use provided scope as the API is included in WildFly -->
+        <!-- Import the EJB API, we use provided scope as the API is included in JBoss EAP -->
         <dependency>
             <groupId>org.jboss.spec.javax.ejb</groupId>
             <artifactId>jboss-ejb-api_3.2_spec</artifactId>
@@ -122,8 +178,7 @@
     </dependencies>
 
     <build>
-        <!-- Set the name of the WAR, used as the context root when the app
-        is deployed -->
+        <!-- Set the name of the WAR, used as the context root when the app is deployed -->
         <finalName>${project.artifactId}</finalName>
         <plugins>
             <plugin>

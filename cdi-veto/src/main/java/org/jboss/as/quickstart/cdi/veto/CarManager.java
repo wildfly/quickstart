@@ -16,13 +16,14 @@
  */
 package org.jboss.as.quickstart.cdi.veto;
 
-import org.jboss.as.quickstart.cdi.veto.model.Car;
+import java.util.logging.Logger;
 
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.transaction.UserTransaction;
-import java.util.logging.Logger;
+
+import org.jboss.as.quickstart.cdi.veto.model.Car;
 
 /**
  * Producer for the {@link Car} entity.

@@ -4,8 +4,8 @@ Author: Darran Lofthouse
 Level: Advanced  
 Technologies: EJB, Security  
 Summary: Demonstrates how interceptors can be used to supply additional information to be used for authentication before EJB calls.  
-Target Product: WildFly  
-Source: <https://github.com/wildfly/quickstart/>  
+Target Product: ${product.name}  
+Source: <${github.repo.url}>  
 
 What is it?
 -----------
@@ -55,19 +55,15 @@ This quickstart uses the ServiceLoader mechanism for registering the EJB client 
 System requirements
 -------------------
 
-All you need to build this project is Java 8.0 (Java SDK 1.8) or better, Maven 3.1 or better.
+The application this project produces is designed to be run on ${product.name.full} ${product.version} or later. 
 
-The application this project produces is designed to be run on JBoss WildFly 10.0.1.Final or later.
+All you need to build this project is ${build.requirements}. See [Configure Maven for ${product.name} ${product.version}](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
 
-Configure Maven
----------------
-
-If you have not yet done so, you must [Configure Maven](../README.md#mavenconfiguration) before testing the quickstarts.
 
 Prerequisites
 -------------
 
-_Note_: Unlike most of the quickstarts, this one requires JBoss WildFly 10.0.1.Final or later.
+_Note_: Unlike most of the quickstarts, this one requires ${product.name.full} ${product.version} or later.
 
 This quickstart uses the default standalone configuration plus the modifications described here.
 
@@ -135,7 +131,7 @@ _NOTE: The following build command assumes you have configured your Maven user s
 
 		mvn clean package wildfly:deploy
 
-4. This will deploy `target/wildfly-ejb-security-plus.jar` to the running instance of the server.
+4. This will deploy `target/${project.artifactId}.jar` to the running instance of the server.
 
 
 Run the client
@@ -173,7 +169,7 @@ At this point instead of the message shown above you should see a failure.
 Undeploy the Archive
 --------------------
 
-1. Make sure you have started the JBoss Server as described above.
+1. Make sure you have started the ${product.name} as described above.
 2. Open a command line and navigate to the root directory of this quickstart.
 3. When you are finished testing, type this command to undeploy the archive:
 
@@ -192,18 +188,21 @@ You can remove the security domain configuration by running the  `remove-securit
 2. Open a new command line, navigate to the root directory of this quickstart, and run the following command, replacing JBOSS_HOME with the path to your server:
 
         WILDFLY_HOME/bin/jboss-cli.sh --connect --file=remove-security-domain.cli 
+
 This script removes the `quickstart-domain` security domain from the `security` subsystem in the server configuration. 
 
-Run the Quickstart in JBoss Developer Studio or Eclipse
+Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 -------------------------------------
+You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a ${product.name} server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](${use.eclipse.url}). 
 
-You can also start the server and deploy the quickstarts from Eclipse using JBoss tools. For more information, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](../README.md#useeclipse) 
-
+* Be sure to [Add the Application Users](#add-the-application-users) as described above.
+* To deploy the server project, right-click on the `jboss-ejb-security` project and choose `Run As` --> `Run on Server`.
+* You are presented with a browser login challenge. Enter the credentials as described above to access and test the running application.
 
 Debug the Application
 ------------------------------------
 
-If you want to debug the source code or look at the Javadocs of any library in the project, run either of the following commands to pull them into your local repository. The IDE should then detect them.
+If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
 
-	mvn dependency:sources
-	mvn dependency:resolve -Dclassifier=javadoc
+    mvn dependency:sources
+   

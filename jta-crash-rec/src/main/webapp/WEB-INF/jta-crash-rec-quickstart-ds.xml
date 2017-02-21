@@ -17,12 +17,12 @@
 -->
 <!-- This is an unmanaged datasource. It should be used for proofs of concept
    or testing only. It uses H2, a lightweight, in-memory, example database that
-   ships with WildFly. It is not robust or scalable, is not supported,
+   ships with JBoss EAP. It is not robust or scalable, is not supported,
    and should NOT be used in a production environment! -->
 <datasources xmlns="http://www.jboss.org/ironjacamar/schema"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.jboss.org/ironjacamar/schema http://docs.jboss.org/ironjacamar/schema/datasources_1_0.xsd">
-    <xa-datasource jndi-name="java:jboss/datasources/JTACrashRecQuickstartDS" pool-name="JTACrashRecQuickstart" enabled="true" use-ccm="false">
+    <xa-datasource jndi-name="java:jboss/datasources/JTACrashRecQuickstartDS" pool-name="JTACrashRecQuickstart" enabled="true">
         <xa-datasource-property name="URL">
             jdbc:h2:file:~/jta-crash-rec-quickstart;DB_CLOSE_ON_EXIT=FALSE;DB_CLOSE_DELAY=-1
         </xa-datasource-property>

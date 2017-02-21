@@ -20,8 +20,9 @@
 
     <parent>
         <groupId>org.wildfly.quickstarts</groupId>
-        <artifactId>wildfly-ejb-multi-server</artifactId>
-        <version>10.0.0-SNAPSHOT</version>
+        <artifactId>jboss-ejb-multi-server</artifactId>
+        <version>11.0.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>wildfly-ejb-multi-server-app-web</artifactId>
     <packaging>war</packaging>
@@ -52,19 +53,19 @@
      -->
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>wildfly-ejb-multi-server-app-main-ejb</artifactId>
+            <artifactId>jboss-ejb-multi-server-app-main-ejb</artifactId>
             <version>${project.version}</version>
             <type>ejb-client</type>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>wildfly-ejb-multi-server-app-one-ejb</artifactId>
+            <artifactId>jboss-ejb-multi-server-app-one-ejb</artifactId>
             <version>${project.version}</version>
             <type>ejb-client</type>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>wildfly-ejb-multi-server-app-two-ejb</artifactId>
+            <artifactId>jboss-ejb-multi-server-app-two-ejb</artifactId>
             <version>${project.version}</version>
             <type>ejb-client</type>
         </dependency>
@@ -81,7 +82,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>${war.plugin.version}</version>
+                <version>${version.war.plugin}</version>
                 <configuration>
           <!-- Java EE doesn't require web.xml, Maven needs to catch up! -->
                     <failOnMissingWebXml>false</failOnMissingWebXml>

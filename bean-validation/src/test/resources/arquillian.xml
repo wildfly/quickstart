@@ -27,11 +27,14 @@
     <!-- Force the use of the Servlet 3.0 protocol with all containers, as it is the most mature -->
     <defaultProtocol type="Servlet 3.0" />
 
-    <!-- Example configuration for a remote WildFly instance -->
+    <!-- Example configuration for a managed ${product.name} instance -->
     <container qualifier="jboss" default="true">
-        <!-- By default, arquillian will use the JBOSS_HOME environment variable.  Alternatively, the configuration below can be uncommented. -->
-        <!--<configuration> -->
-        <!-- <property name="jbossHome">C:/tools/wildfly-9.0.0.Final</property> -->
-        <!--</configuration> -->
+        <!-- By default, Arquillian will use the JBOSS_HOME environment variable to find the ${product.name} installation.
+             If you prefer not to define the JBOSS_HOME environment variable, alternatively you can uncomment the 
+             following `jbossHome` property and replace ${jboss.home.name} with the path to your ${product.name} installation. -->
+        <!--<configuration> 
+            <property name="jbossHome">${jboss.home.name}</property>
+        </configuration> -->
     </container>
+
 </arquillian>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
     JBoss, Home of Professional Open Source
     Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
@@ -20,25 +20,26 @@
 
     <parent>
         <groupId>org.wildfly.quickstarts</groupId>
-        <artifactId>wildfly-shoppingcart-parent</artifactId>
-        <version>10.0.0-SNAPSHOT</version>
+        <artifactId>jboss-shopping-cart</artifactId>
+        <version>11.0.0-SNAPSHOT</version>
     </parent>
-    <artifactId>wildfly-shopping-cart-server</artifactId>
-    <packaging>jar</packaging>
-    <name>WildFly Quickstart: shopping-cart - server</name>
+    <artifactId>jboss-shopping-cart-server</artifactId>
+    <packaging>ejb</packaging>
+    <name>${qs.name.prefix} shopping-cart - server</name>
+    <description>This project demonstrates a shopping cart that uses a Stateful Session Bean; this is the server POM file</description>
 
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
-            <distribution>repo</distribution>
             <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+            <distribution>repo</distribution>
         </license>
     </licenses>
 
     <dependencies>
 
         <!-- Import the Common Annotations API (JSR-250), we use provided
-            scope as the API is included in WildFly -->
+            scope as the API is included in JBoss EAP -->
         <dependency>
             <groupId>org.jboss.spec.javax.annotation</groupId>
             <artifactId>jboss-annotations-api_1.2_spec</artifactId>
@@ -46,7 +47,7 @@
         </dependency>
 
         <!-- Import the EJB API, we use provided scope as the API is
-            included in WildFly -->
+            included in JBoss EAP -->
         <dependency>
             <groupId>org.jboss.spec.javax.ejb</groupId>
             <artifactId>jboss-ejb-api_3.2_spec</artifactId>
@@ -56,13 +57,14 @@
     </dependencies>
 
     <build>
-        <!-- Set the name of the deployment -->
+        <!-- Set the name of the deployment archive -->
         <finalName>${project.artifactId}</finalName>
         <plugins>
             <!-- WildFly plug-in to deploy the application -->
             <plugin>
                 <groupId>org.wildfly.plugins</groupId>
                 <artifactId>wildfly-maven-plugin</artifactId>
+                <version>${version.wildfly.maven.plugin}</version>
                 <configuration>
                     <skip>false</skip>
                     <filename>${project.build.finalName}.jar</filename>

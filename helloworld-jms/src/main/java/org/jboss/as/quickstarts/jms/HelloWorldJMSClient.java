@@ -16,8 +16,8 @@
  */
 package org.jboss.as.quickstarts.jms;
 
-import java.util.Properties;
 import java.util.logging.Logger;
+import java.util.Properties;
 
 import javax.jms.ConnectionFactory;
 import javax.jms.Destination;

@@ -4,52 +4,68 @@ Author: R Searls
 Level: Beginner  
 Technologies: JAX-WS  
 Summary: The `jaxws-retail` quickstart is a working example of a simple web service endpoint.  
-Target Product: WildFly    
-Source: <https://github.com/wildfly/quickstart/>  
+Target Product: ${product.name}  
+Source: <${github.repo.url}>  
 
 What is it?
 -----------
 
-The `jaxws-retail` quickstart demonstrates the use of *JAX-WS* in Red Hat JBoss Enterprise Application Platform as a simple profile management application.
+The `jaxws-retail` quickstart demonstrates the use of *JAX-WS* in ${product.name.full} as a simple profile management application. It also demonstrates usage of wsconsume to generate classes from WSDL file.
 
 System requirements
 -------------------
 
-The application this project produces is designed to be run on Red Hat JBoss Enterprise Application Platform 7 or later. 
+The application this project produces is designed to be run on ${product.name.full} ${product.version} or later. 
 
-All you need to build this project is Java 8.0 (Java SDK 1.8) or later and Maven 3.1.1 or later. See [Configure Maven for WildFly 10](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
-
-To build this sample with Java SDK 1.8, file jaxws-retail/jaxp.properties must be installed
-in ${JDK-8-PATH}/jre/lib/jaxp.properties.  (see http://docs.oracle.com/javase/7/docs/api/javax/xml/XMLConstants.html#ACCESS_EXTERNAL_SCHEMA)
+All you need to build this project is ${build.requirements}. See [Configure Maven for ${product.name} ${product.version}](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
 
 
-Start the WildFly Server
+Use of ${jboss.home.name}
+---------------
+
+In the following instructions, replace `${jboss.home.name}` with the actual path to your ${product.name} installation. The installation path is described in detail here: [Use of ${jboss.home.name} and JBOSS_HOME Variables](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_${jboss.home.name}.md#use-of-eap_home-and-jboss_home-variables).
+
+
+Start the ${product.name} Server
 ----------------------         
 
-1. Open a command prompt and navigate to the root of the WildFly directory.
+1. Open a command prompt and navigate to the root of the ${product.name} directory.
 2. The following shows the command line to start the server:
 
-        For Linux:   WILDFLY_HOME/bin/standalone.sh
-        For Windows: WILDFLY_HOME\bin\standalone.bat
+        For Linux:   ${jboss.home.name}/bin/standalone.sh
+        For Windows: ${jboss.home.name}\bin\standalone.bat
 
 
 Build and Deploy the Quickstart
 -------------------------
 
-_NOTE: The following build command assumes you have configured your Maven user settings. If you have not, you must include Maven setting arguments on the command line. See [Build and Deploy the Quickstarts](../README.md#build-and-deploy-the-quickstarts) for complete instructions and additional options._
-
-1. Make sure you have started the WildFly server as described above.
+1. Make sure you have started the ${product.name} server as described above.
 2. Open a command prompt and navigate to the root directory of this quickstart.
 3. Type this command to build and deploy the archive:
 
-        mvn clean install wildfy:deploy
+        mvn clean install wildfly:deploy
 
-4. This will deploy `service/target/wildfly-jaxws-retail-service.war` to the running instance of the server.
+4. This will deploy `service/target/jboss-jaxws-retail-service.war` to the running instance of the server.
+
+_Note:_ You will see the following errors and warnings in the server log. These messages come from the `jaxws-tools-maven-plugin` plugin that generates source files based on the WSDL. You can ignore these warnings.
+
+    [INFO] Could not find log4j.xml configuration, logging to console.
+    [INFO] 
+    [INFO] TODO! Cheek SOAP 1.2 extension
+    [ERROR] log4j:WARN No appenders could be found for logger (org.apache.cxf.common.logging.LogUtils).
+    [ERROR] log4j:WARN Please initialize the log4j system properly.
+    [ERROR] log4j:WARN See http://logging.apache.org/log4j/1.2/faq.html#noconfig for more info.
+
+_Note:_ You may also see the following errors if your Linux environment defines a BASH_FUNC_scl() function. You can ignore these errors.
+
+    [ERROR] /bin/sh: scl: line 1: syntax error: unexpected end of file
+    [ERROR] /bin/sh: error importing function definition for `BASH_FUNC_scl'
+
 
 Access the application 
 ---------------------
 
-You can check that the Web Service is running and deployed correctly by accessing the following URL: <http://localhost:8080/wildfly-jaxws-retail/ProfileMgmtService/ProfileMgmt?wsdl>. This URL will display the deployed WSDL endpoint for the Web Service.
+You can check that the Web Service is running and deployed correctly by accessing the following URL: <http://localhost:8080/${project.artifactId}/ProfileMgmtService/ProfileMgmt?wsdl>. This URL will display the deployed WSDL endpoint for the Web Service.
 
 Run the Client
 --------------
@@ -57,21 +73,41 @@ Run the Client
 
 2. Open a command prompt and navigate into the client directory of this quickstart.
 
-     cd client/
+        cd client/
 3. Type this command to run the client.
 
-     mvn exec:java
-     
+        mvn exec:java
 4. You should see the following output in the client console.
    
-     Jay Boss's discount is 10.00
+        Jay Boss's discount is 10.00
 
 
 Undeploy the Archive
 --------------------
 
-1. Make sure you have started the WildFly server as described above.
+1. Make sure you have started the ${product.name} server as described above.
 2. Open a command prompt and navigate to the root directory of this quickstart.
 3. When you are finished testing, type this command to undeploy the archive:
 
-        mvn wildfy:undeploy
+        mvn wildfly:undeploy
+
+
+Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+-------------------------------------
+You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a ${product.name} server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](${use.eclipse.url}). 
+
+
+Debug the Application
+------------------------------------
+
+If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
+
+    mvn dependency:sources
+
+_Note:_ You will see the following informational messages. This is because the source files for this JAR are not available in the Maven repository.
+
+    [INFO] The following files have NOT been resolved:
+    [INFO]    org.apache.ant:ant-launcher:jar:sources:1.7.0:provided
+    [INFO]    com.sun:tools:jar:sources:1.6:system
+    [INFO]    asm:asm:jar:sources:3.3.1:provided
+

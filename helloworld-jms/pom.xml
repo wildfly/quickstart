@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
     JBoss, Home of Professional Open Source
     Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
@@ -17,52 +17,34 @@
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.wildfly.quickstarts</groupId>
-    <artifactId>wildfly-helloworld-jms</artifactId>
-    <version>10.0.0-SNAPSHOT</version>
+    <parent>
+        <groupId>org.wildfly.quickstarts</groupId>
+        <artifactId>quickstart-parent</artifactId>
+        <version>11.0.0-SNAPSHOT</version>
+    </parent>
+    <artifactId>jboss-helloworld-jms</artifactId>
     <packaging>jar</packaging>
-    <name>WildFly Quickstart: helloworld-jms</name>
-    <description>helloworld-jms: Helloworld JMS external producer/consumer client</description>
-    <url>http://wildfly.org</url>
+    <name>${qs.name.prefix} helloworld-jms</name>
+    <description>A Helloworld JMS external producer/consumer client</description>
 
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
-            <distribution>repo</distribution>
             <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+            <distribution>repo</distribution>
         </license>
     </licenses>
-
-    <properties>
-        <!-- Explicitly declaring the source encoding eliminates the following message: -->
-        <!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered
-            resources, i.e. build is platform dependent! -->
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-        <version.wildfly>10.0.0.Final</version.wildfly>
-
-        <!-- WildFly Maven plug-in to deploy your WAR to a local WildFly container -->
-        <version.wildfly.maven.plugin>1.0.2.Final</version.wildfly.maven.plugin>
-
-        <!-- other plug-in versions -->
-        <version.jar.plugin>2.2</version.jar.plugin>
-        <version.exec.plugin>1.2.1</version.exec.plugin>
-
-        <!-- maven-compiler-plugin -->
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <maven.compiler.source>1.8</maven.compiler.source>
-    </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.wildfly</groupId>
             <artifactId>wildfly-jms-client-bom</artifactId>
-            <version>${version.wildfly}</version>
             <type>pom</type>
         </dependency>
     </dependencies>
 
     <build>
+        <!-- Set the name of the archive -->
         <finalName>${project.artifactId}</finalName>
         <plugins>
             <plugin>
@@ -112,14 +94,7 @@
             <plugin>
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>${version.jar.plugin}</version>
-                <configuration>
-                </configuration>
-            </plugin>
-            <!-- WildFly plug-in to deploy the WAR -->
-            <plugin>
-                <groupId>org.wildfly.plugins</groupId>
-                <artifactId>wildfly-maven-plugin</artifactId>
-                <version>${version.wildfly.maven.plugin}</version>
+                <configuration></configuration>
             </plugin>
         </plugins>
     </build>

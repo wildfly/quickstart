@@ -33,7 +33,7 @@ public class Client {
 
     public static void main(String[] args)
     {
-        String endPointAddress = "http://localhost:8080/wildfly-jaxws-retail/ProfileMgmtService/ProfileMgmt";
+        String endPointAddress = "http://localhost:8080/jboss-jaxws-retail/ProfileMgmtService/ProfileMgmt";
         QName serviceName = new QName("http://org.jboss.ws/samples/retail/profile", "ProfileMgmtService");
 
         try {

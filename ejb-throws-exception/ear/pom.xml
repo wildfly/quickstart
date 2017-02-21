@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
     JBoss, Home of Professional Open Source
     Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
@@ -20,38 +20,38 @@
 
     <parent>
         <groupId>org.wildfly.quickstarts</groupId>
-        <artifactId>wildfly-ejb-throws-exception</artifactId>
-        <version>10.0.0-SNAPSHOT</version>
+        <artifactId>jboss-ejb-throws-exception</artifactId>
+        <version>11.0.0-SNAPSHOT</version>
     </parent>
-    <artifactId>wildfly-ejb-throws-exception-ear</artifactId>
+    <artifactId>jboss-ejb-throws-exception-ear</artifactId>
     <packaging>ear</packaging>
-    <name>WildFly Quickstart: ejb-throws-exception - ear</name>
-    <url>http://wildfly.org</url>
+    <name>${qs.name.prefix} ejb-throws-exception - ear</name>
+    <description>This project demonstrates how to throw an exception in an EJB and catch it in the web layer; this it the EAR POM file</description>
 
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
-            <distribution>repo</distribution>
             <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+            <distribution>repo</distribution>
         </license>
     </licenses>
 
     <dependencies>
-
-        <!-- Depend on the EJB module and WAR so that we can package them -->
         <dependency>
             <groupId>org.wildfly.quickstarts</groupId>
-            <artifactId>wildfly-ejb-throws-exception-web</artifactId>
-            <type>war</type>
-        </dependency>
-        <dependency>
-            <groupId>org.wildfly.quickstarts</groupId>
-            <artifactId>wildfly-ejb-throws-exception-ejb</artifactId>
+            <artifactId>jboss-ejb-throws-exception-ejb</artifactId>
             <type>ejb</type>
         </dependency>
         <dependency>
             <groupId>org.wildfly.quickstarts</groupId>
-            <artifactId>wildfly-ejb-throws-exception-ejb-api</artifactId>
+            <artifactId>jboss-ejb-throws-exception-ejb-api</artifactId>
+        </dependency>
+
+        <!-- Depend on the EJB module and WAR so that we can package them -->
+        <dependency>
+            <groupId>org.wildfly.quickstarts</groupId>
+            <artifactId>jboss-ejb-throws-exception-web</artifactId>
+            <type>war</type>
         </dependency>
     </dependencies>
 
@@ -72,43 +72,19 @@
                     <fileNameMapping>no-version</fileNameMapping>
                 </configuration>
             </plugin>
-            <!-- The WildFly plug-in deploys your ear to a local WildFly
-                container -->
-            <!-- Due to Maven's lack of intelligence with EARs we need to
-                configure the WildFly Maven plug-in to skip deployment for all modules. We
-                then enable it specifically in the ear module. -->
+            <!-- The WildFly plug-in deploys your ear to a local JBoss EAP container. 
+                Due to Maven's lack of intelligence with EARs we need to configure
+                the WildFly Maven plug-in to skip deployment for all modules. We then enable
+                it specifically in the ear module. -->
             <plugin>
                 <groupId>org.wildfly.plugins</groupId>
                 <artifactId>wildfly-maven-plugin</artifactId>
+                <version>${version.wildfly.maven.plugin}</version>
                 <configuration>
                     <skip>false</skip>
                 </configuration>
             </plugin>
         </plugins>
     </build>
-
-    <profiles>
-        <profile>
-            <!-- When built in OpenShift the 'openshift' profile will be
-                used when invoking mvn. -->
-            <!-- Use this profile for any OpenShift specific customization
-                your app will need. -->
-            <!-- By default that is to put the resulting archive into the
-                'deployments' folder. -->
-            <!-- http://maven.apache.org/guides/mini/guide-building-for-different-environments.html -->
-            <id>openshift</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-ear-plugin</artifactId>
-                        <version>${version.ear.plugin}</version>
-                        <configuration>
-                            <outputDirectory>deployments</outputDirectory>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
 
 </project>

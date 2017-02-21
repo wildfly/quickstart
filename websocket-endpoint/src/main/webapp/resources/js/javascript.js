@@ -110,7 +110,8 @@ function openWebSocket() {
     if (loc.hostname.indexOf('rhcloud.com', 0) > 0) {
         port = 8000;
     }
-    var wsurl = "ws://" + loc.hostname + ':' + port + loc.pathname
+    var wsProtocol = window.location.protocol == "https:" ? "wss" : "ws";
+    var wsurl = wsProtocol + "://" + loc.hostname + ':' + port + loc.pathname
             + "/../bidsocket";
     wsocket = new WebSocket(wsurl);
     wsocket.onmessage = function(evt) {

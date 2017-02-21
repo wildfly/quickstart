@@ -25,7 +25,7 @@ import java.util.Set;
  * It is beyond the scope of this quickstart to provide a full bullet-proof implementation of a Resource Manager. Therefore a
  * simple Mock implementation is provided.
  *
- * You should refer to the XTS demo project, shipped as part of the JBossTS project, for a more complete example.
+ * You should refer to the XTS demo project, shipped as part of the Narayana project, for a more complete example.
  *
  * @author paul.robinson@redhat.com, 2011-12-21
  */

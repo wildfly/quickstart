@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
     JBoss, Home of Professional Open Source
     Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
@@ -15,70 +15,70 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
-    <artifactId>wildfly-cluster-ha-singleton-service</artifactId>
 
     <parent>
         <groupId>org.wildfly.quickstarts</groupId>
-        <artifactId>wildfly-cluster-ha-singleton</artifactId>
-        <version>10.0.0-SNAPSHOT</version>
+        <artifactId>jboss-cluster-ha-singleton</artifactId>
+        <version>11.0.0-SNAPSHOT</version>
     </parent>
-
-    <name>WildFly Quickstart: SingletonService (service)</name>
+    <artifactId>jboss-cluster-ha-singleton-service</artifactId>
     <packaging>ejb</packaging>
+    <name>${qs.name.prefix} cluster-ha-singleton - service</name>
+    <description>A project that demonstrates a SingletonService, deployed in a JAR, started by SingletonStartup, and accessed by an EJB; this is the service POM file</description>
 
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
-            <distribution>repo</distribution>
             <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+            <distribution>repo</distribution>
         </license>
     </licenses>
 
     <!-- As this is deployed as a jar, there is no need to mark dependencies
         as provided, as they won't be packaged anyway -->
     <dependencies>
-        <!-- Import MSC, to allow us to write WildFly services -->
-        <dependency>
-            <groupId>org.jboss.msc</groupId>
-            <artifactId>jboss-msc</artifactId>
-        </dependency>
-        <!-- Import the EJB 3.1 API, we use provided scope because we aren't
-            to use the version in WildFly -->
-        <dependency>
-            <groupId>org.jboss.spec.javax.ejb</groupId>
-            <artifactId>jboss-ejb-api_3.2_spec</artifactId>
-        </dependency>
-        <!-- Import the JSR-250 API, we use provided scope because we aren't
-            to use the version in WildFly -->
-        <dependency>
-            <groupId>org.jboss.spec.javax.annotation</groupId>
-            <artifactId>jboss-annotations-api_1.2_spec</artifactId>
-        </dependency>
-
         <!-- Import JBoss EAP Clustering Singleton, to allow us to create
-                    a singleton service -->
+            a singleton service -->
         <dependency>
             <groupId>org.wildfly</groupId>
             <artifactId>wildfly-clustering-singleton-api</artifactId>
         </dependency>
+        <!-- Import MSC, to allow us to write JBoss EAP services -->
+        <dependency>
+            <groupId>org.jboss.msc</groupId>
+            <artifactId>jboss-msc</artifactId>
+            <version>1.2.6.Final</version>
+        </dependency>
+        <!-- Import the JSR-250 API, we use provided scope because we aren't
+            to use the version in JBoss EAP -->
+        <dependency>
+            <groupId>org.jboss.spec.javax.annotation</groupId>
+            <artifactId>jboss-annotations-api_1.2_spec</artifactId>
+        </dependency>
+        <!-- Import the EJB API, we use provided scope because we aren't
+            to use the version in JBoss EAP -->
+        <dependency>
+            <groupId>org.jboss.spec.javax.ejb</groupId>
+            <artifactId>jboss-ejb-api_3.2_spec</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
-        <!-- Specify the artifact name -->
+        <!-- Specify the archive name -->
         <finalName>${project.artifactId}</finalName>
         <plugins>
             <plugin>
-                <!-- must include ejb-plugin to change the EJB version from
+                <!-- must include ejb-plug-in to change the EJB version from
                     2.1 to 3.0 -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-ejb-plugin</artifactId>
                 <version>${version.ejb.plugin}</version>
                 <configuration>
                     <ejbVersion>3.1</ejbVersion>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.source}</target>
                     <generateClient>true</generateClient>
                     <clientIncludes>
                         <clientInclude>**/ServiceAccess.class</clientInclude>
@@ -87,19 +87,19 @@
                         <addMavenDescriptor>false</addMavenDescriptor>
                         <manifestEntries>
                             <Dependencies>org.jboss.msc,
-                                org.wildfly.clustering.singleton,
-                                org.jboss.as.server</Dependencies>
+                                org.wildfly.clustering.singleton</Dependencies>
                         </manifestEntries>
                     </archive>
                 </configuration>
             </plugin>
-            <!-- WildFly plugin to deploy jar -->
+            <!-- WildFly plug-in to deploy jar -->
             <plugin>
                 <groupId>org.wildfly.plugins</groupId>
                 <artifactId>wildfly-maven-plugin</artifactId>
+                <version>${version.wildfly.maven.plugin}</version>
                 <configuration>
                     <skip>false</skip>
-                    <filename>wildfly-cluster-ha-singleton-service.jar</filename>
+                    <filename>jboss-cluster-ha-singleton-service.jar</filename>
                 </configuration>
             </plugin>
 

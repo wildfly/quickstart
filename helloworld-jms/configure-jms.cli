@@ -1,4 +1,4 @@
-# Batch script to add the JMS configuration to the WildFly server
+# Batch script to add the JMS configuration to the JBoss EAP server
 
 # Start batching commands
 batch
@@ -8,3 +8,8 @@ jms-queue add --queue-address=testQueue --entries=queue/test,java:jboss/exported
 
 # Run the batch commands
 run-batch
+
+# Reload the server configuration
+reload
+
+

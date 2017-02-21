@@ -1,34 +1,31 @@
 helloworld-ssl: Wildfly SSL configuration example
 ==================================================
 Author: Giriraj Sharma
-
 Level: Beginner
-
-Technologies: SSL, Undertow, Wildfly
-
-Summary: Basic example that demonstrates SSL configuration in wildlfy.
+Technologies: SSL, Undertow
+Summary: Basic example that demonstrates SSL configuration in ${product.name}.
+Target Product: ${product.name}  
+Source: <${github.repo.url}>
 
 What is it?
 -----------
 
-This example demonstrates the configuration of *SSL* in *JBoss Enterprise Application Platform 6* or *WildFly*.
+This example demonstrates the configuration of *SSL* in *${product.name.full}*.
 
 This quickstart shows how to configure wildfly to enable TLS/SSL configuration for the new wildfly web-subsystem Undertow.
 Before you run this example, you must create certificates and configure the server to use SSL and https listener.
 
 
-System requirements
+System Requirements
 -------------------
 
-All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven 3.0 or better.
+The applications these projects produce are designed to be run on ${product.name.full} ${product.version} or later. 
 
-The application this project produces is designed to be run on JBoss Enterprise Application Platform 6 or WildFly.
+All you need to build these projects is ${build.requirements}. See [Configure Maven for ${product.name} ${product.version}](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
 
+To run these quickstarts with the provided build scripts, you need the ${product.name} distribution ZIP. For information on how to install and run JBoss, see the [${product.name.full} Documentation](https://access.redhat.com/documentation/en/red-hat-jboss-enterprise-application-platform/) _Getting Started Guide_ located on the Customer Portal.
 
-Configure Maven
----------------
-
-If you have not yet done so, you must [Configure Maven](http://www.jboss.org/jdf/quickstarts/jboss-as-quickstart/#configure_maven) before testing the quickstarts.
+You can also use [JBoss Developer Studio or Eclipse](#use-jboss-developer-studio-or-eclipse-to-run-the-quickstarts) to run the quickstarts. 
 
 
 Generate a keystore and self-signed certificate 
@@ -59,7 +56,7 @@ Generate a keystore and self-signed certificate
 
    Make sure to put your desired "hostname" into the "first and last name" field, otherwise you might run into issues while permanently accepting this certificate as an exception in some browsers. Chrome doesn't have an issue with that though.
 
-Configure The Additional WildFly Security Realm
+Configure The Additional ${product.name} Security Realm
 -----------------------------------------------
 
 The next step is to configure the new keystore as a server identity for ssl in the WildFly security-realms section of the standalone.xml (if you're using -ha or other versions, edit those). Make sure to backup the file: `JBOSS_HOME/standalone/configuration/standalone.xml`
@@ -82,7 +79,7 @@ Configure Undertow Subsystem for SSL
 
 If you're running with the default-server, add the https-listener to the undertow subsystem:
 
-        <subsystem xmlns="urn:jboss:domain:undertow:2.0">
+        <subsystem xmlns="urn:jboss:domain:undertow:3.0">
             <server name="default-server">
                 <https-listener name="https" socket-binding="https" security-realm="UndertowRealm"/>
                 ...
@@ -99,7 +96,7 @@ Test the Server SSL Configuration
 
 To test the SSL configuration, access: <https://localhost:8443>
 
-Start JBoss Enterprise Application Platform 6 or WildFly with the Web Profile
+Start ${product.name} with the Web Profile
 ------------------------------------------------------------------------------
 
 1. Open a command line and navigate to the root of the JBoss server directory.
@@ -118,16 +115,15 @@ _NOTE: The following build command assumes you have configured your Maven user s
 2. Open a command line and navigate to the root directory of one of the quickstart.
 3. Type this command to build and deploy the archive:
 
-        For EAP 6:     mvn clean package jboss-as:deploy
-        For WildFly:   mvn -Pwildfly clean package wildfly:deploy
+        mvn clean package wildfly:deploy
 
-4. This will deploy `target/wildfly-helloworld-ssl.war` to the running instance of the server.
+4. This will deploy `target/${project.artifactId}.war` to the running instance of the server.
 
 
 Access the application 
 ---------------------
 
-The application will be running at the following URL: <https://localhost:8443/wildfly-helloworld-ssl>.
+The application will be running at the following URL: <https://localhost:8443/${project.artifactId}/>.
 
 
 Undeploy the Archive
@@ -137,8 +133,7 @@ Undeploy the Archive
 2. Open a command line and navigate to the root directory of this quickstart.
 3. When you are finished testing, type this command to undeploy the archive:
 
-        For EAP 6:     mvn jboss-as:undeploy
-        For WildFly:   mvn -Pwildfly wildfly:undeploy
+        mvn wildfly:undeploy
 
 
 Remove the SSL Configuration
@@ -148,16 +143,14 @@ Remove the SSL Configuration
 2. Replace the `WILDFLY_HOME/standalone/configuration/standalone.xml` file with the back-up copy of the file.
 
 
-Run the Quickstart in JBoss Developer Studio or Eclipse
+Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 -------------------------------------
-You can also start the server and deploy the quickstarts from Eclipse using JBoss tools.
+You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a ${product.name} server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](${use.eclipse.url}). 
 
 
 Debug the Application
 ------------------------------------
 
-If you want to debug the source code or look at the Javadocs of any library in the project, run either of the following commands to pull them into your local repository. The IDE should then detect them.
+If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
 
-        mvn dependency:sources
-        mvn dependency:resolve -Dclassifier=javadoc
-        
+        mvn dependency:sources        

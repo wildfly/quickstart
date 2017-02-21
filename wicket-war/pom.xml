@@ -19,7 +19,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.wildfly.quickstarts</groupId>
     <artifactId>wildfly-wicket-war</artifactId>
-    <version>10.0.0-SNAPSHOT</version>
+    <version>11.0.0-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>WildFly Quickstart: wicket-war</name>
     <description>
@@ -197,18 +197,8 @@
                 <version>${version.wildfly.maven.plugin}</version>
                 <configuration>
                     <fileNames>
-                        <fileName>target/${build.finalName}.war</fileName>
+                        <fileName>target/${project.finalName}.war</fileName>
                     </fileNames>
-                </configuration>
-            </plugin>
-            <!-- Compiler plugin enforces Java 1.6 compatibility and activates
-                annotation processors -->
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>${version.compiler.plugin}</version>
-                <configuration>
-                    <source>${maven.compiler.source}</source>
-                    <target>${maven.compiler.target}</target>
                 </configuration>
             </plugin>
         </plugins>

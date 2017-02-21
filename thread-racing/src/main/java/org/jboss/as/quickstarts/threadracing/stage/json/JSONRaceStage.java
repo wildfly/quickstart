@@ -69,7 +69,7 @@ public class JSONRaceStage implements RaceStage {
         }
         // 4. sanity check :)
         if (!jsonObject.equals(fromString)) {
-            throw new IllegalStateException("json object read from string does not equals the one built");
+            throw new IllegalStateException("json object read from string does not equal the one built");
         }
     }
 }

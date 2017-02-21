@@ -37,7 +37,7 @@ public class Person {
 
     private String addressCity = "Raleigh, NC";
 
-    private Integer addressZip = 27123;
+    private String addressZip = "27123";
 
     public String getName() {
         return name;
@@ -103,11 +103,11 @@ public class Person {
         this.addressCity = addressCity;
     }
 
-    public Integer getAddressZip() {
+    public String getAddressZip() {
         return addressZip;
     }
 
-    public void setAddressZip(Integer addressZip) {
+    public void setAddressZip(String addressZip) {
         this.addressZip = addressZip;
     }
 

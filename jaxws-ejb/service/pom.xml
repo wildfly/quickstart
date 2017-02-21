@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
     JBoss, Home of Professional Open Source
     Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
@@ -20,34 +20,34 @@
 
     <parent>
         <groupId>org.wildfly.quickstarts</groupId>
-        <artifactId>wildfly-jaxws-ejb</artifactId>
-        <version>10.0.0-SNAPSHOT</version>
+        <artifactId>jboss-jaxws-ejb</artifactId>
+        <version>11.0.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>wildfly-jaxws-ejb-service</artifactId>
+    <artifactId>jboss-jaxws-ejb-service</artifactId>
     <packaging>war</packaging>
-    <name>WildFly Quickstart: jaxws-ejb - service</name>
-    <url>http://www.wildfly.org</url>
+    <name>${qs.name.prefix} jaxws-ejb - service</name>
+    <description>This project is a working example of a JAX-WS web service EJB endpoint; this is the service POM file</description>
 
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
-            <distribution>repo</distribution>
             <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+            <distribution>repo</distribution>
         </license>
     </licenses>
 
     <dependencies>
- <!--       <dependency>
-            <groupId>org.jboss.ejb3</groupId>
-            <artifactId>jboss-ejb3-ext-api</artifactId>
-            <scope>provided</scope>
-        </dependency>
         <dependency>
             <groupId>com.sun.istack</groupId>
             <artifactId>istack-commons-runtime</artifactId>
             <scope>provided</scope>
-        </dependency>-->
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.ejb3</groupId>
+            <artifactId>jboss-ejb3-ext-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
         <dependency>
             <groupId>org.jboss.spec.javax.ejb</groupId>
             <artifactId>jboss-ejb-api_3.2_spec</artifactId>
@@ -56,9 +56,8 @@
     </dependencies>
 
     <build>
-        <!-- define the name for the deployable archive instead of using the default name with the version -->
+        <!-- Set the name of the archive instead of using the default name with the version -->
         <finalName>${project.artifactId}</finalName>
-        <sourceDirectory>src/main/java</sourceDirectory>
 
         <plugins>
             <plugin>
@@ -76,9 +75,11 @@
                 <artifactId>wildfly-maven-plugin</artifactId>
                 <version>${version.wildfly.maven.plugin}</version>
                 <configuration>
-                   <skip>false</skip>
+                    <skip>false</skip>
                 </configuration>
             </plugin>
+
         </plugins>
+        <sourceDirectory>src/main/java</sourceDirectory>
     </build>
 </project>

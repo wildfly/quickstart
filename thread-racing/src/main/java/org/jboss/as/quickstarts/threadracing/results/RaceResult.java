@@ -42,6 +42,11 @@ import java.util.List;
 })
 public class RaceResult implements Serializable {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int id;

@@ -47,6 +47,7 @@ public class HATimerServiceActivator implements ServiceActivator {
         ServiceName factoryServiceName = SingletonServiceName.BUILDER.getServiceName("server", "default");
         ServiceController<?> factoryService = context.getServiceRegistry().getRequiredService(factoryServiceName);
         SingletonServiceBuilderFactory factory = (SingletonServiceBuilderFactory) factoryService.getValue();
+        ServiceName ejbComponentService = ServiceName.of("jboss", "deployment", "unit", "jboss-cluster-ha-singleton-service.jar", "component", "SchedulerBean", "START");
         factory.createSingletonServiceBuilder(HATimerService.SINGLETON_SERVICE_NAME, service)
             /*
              * The NamePreference is a combination of the node name (-Djboss.node.name) and the name of
@@ -58,11 +59,13 @@ public class HATimerServiceActivator implements ServiceActivator {
              *   - To pass a list of more than one node, comment the first line and uncomment the
              * second line below.
              */
+
             .electionPolicy(new PreferredSingletonElectionPolicy(new SimpleSingletonElectionPolicy(), new NamePreference("node1/singleton")))
             //singleton.setElectionPolicy(new PreferredSingletonElectionPolicy(new SimpleSingletonElectionPolicy(), new NamePreference("node1/singleton"), new NamePreference("node2/singleton")));
 
             .build(new DelegatingServiceContainer(context.getServiceTarget(), context.getServiceRegistry()))
             .setInitialMode(ServiceController.Mode.ACTIVE)
+            .addDependency(ejbComponentService)
             .install();
     }
 }

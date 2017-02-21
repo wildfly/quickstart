@@ -4,67 +4,89 @@ Author: R Searls
 Level: Beginner  
 Technologies: JAX-WS  
 Summary: The `jaxws-pojo` quickstart is a working example of the web service endpoint created from a POJO.  
-Target Product: WildFly    
-Source: <https://github.com/wildfly/quickstart/>  
+Target Product: ${product.name}  
+Source: <${github.repo.url}>  
 
 What is it?
 -----------
 
-The `jaxws-pojo` quickstart demonstrates the use of *JAX-WS* in Red Hat JBoss Enterprise Application Platform as a simple POJO web service application.
+The `jaxws-pojo` quickstart demonstrates the use of *JAX-WS* in ${product.name.full} as a simple POJO web service application.
 
 System requirements
 -------------------
 
-The application this project produces is designed to be run on Red Hat JBoss Enterprise Application Platform 7 or later. 
+The application this project produces is designed to be run on ${product.name.full} ${product.version} or later. 
 
-All you need to build this project is Java 8.0 (Java SDK 1.8) or later and Maven 3.1.1 or later. See [Configure Maven for WildFly 10](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
+All you need to build this project is ${build.requirements}. See [Configure Maven for ${product.name} ${product.version}](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
 
 
-Start the WildFly Server
+Use of ${jboss.home.name}
+---------------
+
+In the following instructions, replace `${jboss.home.name}` with the actual path to your ${product.name} installation. The installation path is described in detail here: [Use of ${jboss.home.name} and JBOSS_HOME Variables](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_${jboss.home.name}.md#use-of-eap_home-and-jboss_home-variables).
+
+
+Start the ${product.name} Server
 ----------------------         
 
-1. Open a command prompt and navigate to the root of the WildFly directory.
+1. Open a command prompt and navigate to the root of the ${product.name} directory.
 2. The following shows the command line to start the server:
 
-        For Linux:   WILDFLY_HOME/bin/standalone.sh
-        For Windows: WILDFLY_HOME\bin\standalone.bat
+        For Linux:   ${jboss.home.name}/bin/standalone.sh
+        For Windows: ${jboss.home.name}\bin\standalone.bat
 
 
 Build and Deploy the Quickstart
 -------------------------
 
-_NOTE: The following build command assumes you have configured your Maven user settings. If you have not, you must include Maven setting arguments on the command line. See [Build and Deploy the Quickstarts](../README.md#build-and-deploy-the-quickstarts) for complete instructions and additional options._
-
-1. Make sure you have started the WildFly server as described above.
+1. Make sure you have started the ${product.name} server as described above.
 2. Open a command prompt and navigate to the root directory of this quickstart.
 3. Type this command to build and deploy the archive:
 
-        mvn clean install wildfy:deploy
+        mvn clean install wildfly:deploy
 
-4. This will deploy `service/target/wildfly-jaxws-pojo-service.war` to the running instance of the server.
+4. This will deploy `service/target/jboss-jaxws-pojo-service.war` to the running instance of the server.
 
 Access the application 
 ---------------------
 
-You can check that the Web Service is running and deployed correctly by accessing the following URL: <http://localhost:8080/wildfly-jaxws-pojo-endpoint/JSEBean01?wsdl>. This URL will display the deployed WSDL endpoint for the Web Service.
+You can check that the Web Service is running and deployed correctly by accessing the following URL: <http://localhost:8080/${project.artifactId}/JSEBean?wsdl>. This URL will display the deployed WSDL endpoint for the Web Service.
 
 Run the Client
 --------------
 1. Make sure the service deployed properly.
-2. Open a command prompt and navigate to the root directory of this quickstart.
+2. Open a command prompt and navigate into the client directory of this quickstart.
+
+        cd client/
+
 3. Type this command to run the client.
 
-        java -jar client/target/wildfly-jaxws-pojo-client.jar   org.jboss.quickstarts.ws.client.Client
+        mvn exec:java
+     
 4. You should see the following response.
 
-        JSEBean01 pojo: pojoClient calling
+        JSEBean pojo: pojoClient calling
 
 
 Undeploy the Archive
 --------------------
 
-1. Make sure you have started the WildFly server as described above.
+1. Make sure you have started the ${product.name} server as described above.
 2. Open a command prompt and navigate to the root directory of this quickstart.
 3. When you are finished testing, type this command to undeploy the archive:
 
-        mvn wildfy:undeploy
+        mvn wildfly:undeploy
+
+
+Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+-------------------------------------
+You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a ${product.name} server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](${use.eclipse.url}). 
+
+
+Debug the Application
+------------------------------------
+
+If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
+
+    mvn dependency:sources
+

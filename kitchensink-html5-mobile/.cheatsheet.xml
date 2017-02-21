@@ -18,7 +18,7 @@
 <cheatsheet title="HTML5 + Mobile + JAX-RS: Kitchensink quickstart">
   <intro>
     <description>
-      This quickstart shows off HTML5 based desktop/mobile web application development with Java EE 7 on Red Hat JBoss Enterprise Application Platform 7 or later. This project uses HTML5, jQuery Mobile, JAX-RS 2.0, CDI 1.1, EJB 3.2, JPA 2.1 and Bean Validation 1.1. It includes a persistence unit and some sample persistence and transaction code to help you get your feet wet with database access in enterprise Java.
+      This quickstart shows off HTML5 based desktop/mobile web application development with Java EE 7 on Red Hat JBoss Enterprise Application Platform 7 or later. This project uses HTML5, jQuery Mobile, JAX-RS 2.0, CDI 1.2, EJB 3.2, JPA 2.1 and Bean Validation 1.1. It includes a persistence unit and some sample persistence and transaction code to help you get your feet wet with database access in enterprise Java.
       <br/><br/>
       <b>HTML5</b>
       <br/><br/>
@@ -53,7 +53,7 @@
       The kitchensink-html5-mobile application shows off a number of Java EE technologies such as HTML5, jQuery Mobile, JAX-RS 2.0, CDI 1.1, EJB 3.2, JPA 2.1 and Bean Validation 1.1.
       It does this by providing a member registration database, available via HTML5 and JAX-RS.
       <br/><br/>
-      As usual, let&apos;s start by looking at the necessary deployment descriptors. By now, we&apos;re very used to seeing <b>beans.xml</b> in <b>WEB-INF/</b> (which can be found in the <b>src/main/webapp</b> directory of the example). Notice that, once again, we don&apos;t need a web.xml. There are two configuration files (which can be found in the <b>src/main/resources</b> directory of the example) Ñ <b>WEB-INF/classes/META-INF/persistence.xml</b>, which sets up JPA, and <b>WEB-INF/classes/import.sql</b> which Hibernate, the JPA provider in Red Hat JBoss Enterprise Application Platform, will use to load the initial users into the application when the application starts. We discussed both of these files in detail in The <b>greeter example in depth</b>, and these are largely the same.
+      As usual, let&apos;s start by looking at the necessary deployment descriptors. By now, we&apos;re very used to seeing <b>beans.xml</b> in <b>WEB-INF/</b> (which can be found in the <b>src/main/webapp</b> directory of the example). Notice that, once again, we don&apos;t need a web.xml. There are two configuration files (which can be found in the <b>src/main/resources</b> directory of the example) â€” <b>WEB-INF/classes/META-INF/persistence.xml</b>, which sets up JPA, and <b>WEB-INF/classes/import.sql</b> which Hibernate, the JPA provider in Red Hat JBoss Enterprise Application Platform, will use to load the initial users into the application when the application starts. We discussed both of these files in detail in The <b>greeter example in depth</b>, and these are largely the same.
     </description>
     <command
     required="true"
@@ -148,7 +148,7 @@
           skip="true">
           <command
         required="false"
-        serialization="org.jboss.tools.project.examples.cheatsheet.openFileInEditor(path=/${currentProject}/src/main/webapp/index.html,fromLine=236,toLine=268,editorID=org.jboss.tools.jst.jsp.jspeditor.HTMLTextEditor)"/>
+        serialization="org.jboss.tools.project.examples.cheatsheet.openFileInEditor(path=/${currentProject}/src/main/webapp/index.html,fromLine=192,toLine=226,editorID=org.jboss.tools.jst.jsp.jspeditor.HTMLTextEditor)"/>
     </subitem>
     <subitem
           label="Forms can be added to pages by clicking the Form component in the jQuery Mobile palette. The rest of the form can be constructed using other form components available in the palette."
@@ -271,7 +271,7 @@
       serialization="org.jboss.tools.project.examples.cheatsheet.openFileInEditor(path=/${currentProject}/src/main/webapp/js/app.js,fromLine=28,toLine=47)"/>
     </subitem>
     <subitem
-          label="The &quot;registerMember&quot; function invokes the the REST API located at &quot;/rest/members&quot; with the JSON representation of the values in the registration form. Any existing error messages are removed."
+          label="The &quot;registerMember&quot; function invokes the REST API located at &quot;/rest/members&quot; with the JSON representation of the values in the registration form. Any existing error messages are removed."
           skip="true">
       <command
       required="false"
@@ -540,11 +540,11 @@
       serialization="org.jboss.tools.project.examples.cheatsheet.openFileInEditor(path=/${currentProject}/src/main/java/org/jboss/as/quickstarts/html5_mobile/util/Resources.java,fromLine=44,toLine=47)"/>
   </subitem>
   <subitem
-            label="If you want to define your own datasource, take a look at the Administration and Configuration Guide for Red Hat JBoss Enterprise Application Platform 7"
+            label="If you want to define your own datasource, take a look at the Configuration Guide for Red Hat JBoss Enterprise Application Platform"
             skip="true">
     <command
            required="false"
-           serialization="org.eclipse.ui.browser.openBrowser(url=https://access.redhat.com/site/documentation/JBoss_Enterprise_Application_Platform/)"/>
+           serialization="org.eclipse.ui.browser.openBrowser(url=https://access.redhat.com/documentation/en/red-hat-jboss-enterprise-application-platform/)"/>
   </subitem>
   </item>
 
@@ -554,7 +554,7 @@
      <description>
        Before you proceed, ensure that you have setup and configured a JBoss EAP 7 server.
        <br/><br/>
-       Right-click the project and select <b>Run As</b> &gt; <b>Run On Server</b> or click on the &quot;Click to Perform&quot; link below.
+       Right-click the project and select <b>Run As</b> &gt; <b>Run On Server</b>. <!-- or click on the &quot;Click to Perform&quot; link below -->
     </description>
     <!-- the runOnServer command is not implemented yet
     <command
@@ -572,7 +572,7 @@
      <description>
        Locate the &quot;Run BrowserSim&quot; button on the toolbar and click it, or click on the &quot;Click to Perform&quot; link below.
        This launches BrowserSim where you can simulate the execution of the application on a mobile browser.
-       Once you launch BrowserSim, navigate to the deployed application via the BrowserSim address bar. The application is usually accessible at this following link: <b>http://localhost:8080/wildfly-kitchensink-html5-mobile/</b>
+       Once you launch BrowserSim, navigate to the deployed application via the BrowserSim address bar. The application is usually accessible at this following link: <b>http://localhost:8080/jboss-kitchensink-html5-mobile/</b>
     </description>
      <command
            required="false"
@@ -771,7 +771,7 @@
       What we didn&apos;t tell you about the <b>kitchensink-html5-mobile quickstart</b> is that it is generated from a Maven archetype.
       You can use this archetype to generate your own project.
       <br/><br/>
-      Simply select <b>Help&gt;JBoss Central</b> and click the <b>HTML5 Project</b> wizard.
+      Simply select <b>Help&gt;Red Hat Central</b> and click the <b>HTML5 Project</b> wizard.
       <br/>
       You will get a brand new project with the same functionality as <b>kitchensink-html5-mobile</b>,
       but customized with your details.

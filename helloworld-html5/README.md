@@ -3,19 +3,19 @@ helloworld-html5: HTML5 and REST Hello World Example
 Author: Jay Balunas, Burr Sutter, Douglas Campos, Bruno Olivera  
 Level: Beginner  
 Technologies: CDI, JAX-RS, HTML5  
-Summary: The `helloworld-html5` quickstart demonstrates the use of *CDI 1.1* and *JAX-RS 2.0* using the HTML5 architecture and RESTful services on the backend.  
-Target Product: WildFly  
-Source: <https://github.com/wildfly/quickstart/>  
+Summary: The `helloworld-html5` quickstart demonstrates the use of *CDI 1.2* and *JAX-RS 2.0* using the HTML5 architecture and RESTful services on the backend.  
+Target Product: ${product.name}  
+Source: <${github.repo.url}>  
 
 What is it?
 -----------
 
-The `helloworld-html5` quickstart demonstrates the use of *CDI 1.1* and *JAX-RS 2.0* in Red Hat JBoss Enterprise Application Platform 7 or later using the HTML5 + REST architecture.
+The `helloworld-html5` quickstart demonstrates the use of *CDI 1.2* and *JAX-RS 2.0* in ${product.name.full} ${product.version} or later using the HTML5 + REST architecture.
 
 The application is basically a smart, HTML5+CSS3+JavaScript front-end using RESTful services on the backend.
 
  * HelloWorld.java - establishes the RESTful endpoints using JAX-RS
- * Web.xml - maps RESTful endpoints to "/hello"
+ * Web.xml - maps RESTful endpoints to `/hello`
  * index.html - is a jQuery augmented plain old HTML5 web page
 
 The example can be deployed using Maven from the command line or from Eclipse using JBoss Tools.
@@ -23,23 +23,23 @@ The example can be deployed using Maven from the command line or from Eclipse us
 System requirements
 -------------------
 
-The application this project produces is designed to be run on Red Hat JBoss Enterprise Application Platform 7 or later. 
+The application this project produces is designed to be run on ${product.name.full} ${product.version} or later. 
 
-All you need to build this project is Java 8.0 (Java SDK 1.8) or later and Maven 3.1.1 or later. See [Configure Maven for WildFly 10](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
+All you need to build this project is ${build.requirements}. See [Configure Maven for ${product.name} ${product.version}](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
 
 An HTML5 compatible browser such as Chrome, Safari 5+, Firefox 5+, or IE 9+ is required.
 
-With the prerequisites out of the way, you're ready to build and deploy.
+With the prerequisites out of the way, you are ready to build and deploy.
 
 
-Start the WildFly Server
+Start the ${product.name} Server
 -------------------------
 
-1. Open a command line and navigate to the root of the WildFly directory.
+1. Open a command line and navigate to the root of the ${product.name} directory.
 2. The following shows the command line to start the server with the default profile:
 
-        For Linux:   WILDFLY_HOME/bin/standalone.sh
-        For Windows: WILDFLY_HOME\bin\standalone.bat
+        For Linux:   ${jboss.home.name}/bin/standalone.sh
+        For Windows: ${jboss.home.name}\bin\standalone.bat
 
 
 Build and Deploy the Quickstart
@@ -47,34 +47,67 @@ Build and Deploy the Quickstart
 
 _NOTE: The following build command assumes you have configured your Maven user settings. If you have not, you must include Maven setting arguments on the command line. See [Build and Deploy the Quickstarts](../README.md#build-and-deploy-the-quickstarts) for complete instructions and additional options._
 
-1. Make sure you have started the WildFly server as described above.
+1. Make sure you have started the ${product.name} server as described above.
 2. Open a command line and navigate to the root directory of this quickstart.
 3. Type this command to build and deploy both the client and service applications:
 
         mvn clean package wildfly:deploy
 
-4. This will deploy `target/wildfly-helloworld-html5.war` to the running instance of the server.
+4. This will deploy `target/${project.artifactId}.war` to the running instance of the server.
 
 
 Access the application 
 ---------------------
 
-The application will be running at the following URL <http://localhost:8080/wildfly-helloworld-html5/>.
+The application will be running at the following URL <http://localhost:8080/${project.artifactId}/>.
 
-You can also test the REST endpoint as follows. Feel free to replace `YOUR_NAME` with a name of your choosing.
+You can also test the REST endpoint by sending an HTTP *POST* request to the URLs below. Feel free to replace `YOUR_NAME` with a name of your choosing.
 
-* The *XML* content can be tested by accessing the following URL: <http://localhost:8080/wildfly-helloworld-html5/hello/xml/YOUR_NAME> 
-* The *JSON* content can be tested by accessing this URL: <http://localhost:8080/wildfly-helloworld-html5/hello/json/YOUR_NAME>
+* The *XML* content can be tested by sending an HTTP *POST* to the following URL: <http://localhost:8080/${project.artifactId}/hello/xml/YOUR_NAME> 
+
+    To issue the *POST* command using cURL, type the following command in terminal:
+
+        curl -i -X POST http://localhost:8080/${project.artifactId}/hello/xml/YOUR_NAME
+
+    You will see the following response:
+
+        HTTP/1.1 200 OK
+        Connection: keep-alive
+        X-Powered-By: Undertow/1
+        Server: JBoss-EAP/7
+        Content-Type: application/xml
+        Content-Length: 44
+        Date: Tue, 13 Oct 2015 18:40:04 GMT
+
+        <xml><result>Hello YOUR_NAME!</result></xml>
+
+* The *JSON* content can be tested by sending an HTTP *POST* to the following URL: <http://localhost:8080/${project.artifactId}/hello/json/YOUR_NAME>
+
+    To issue the *POST* command using cURL, type the following command in terminal:
+
+        curl -i -X POST http://localhost:8080/${project.artifactId}/hello/json/YOUR_NAME
+
+    You will see the following response:
+
+        HTTP/1.1 200 OK
+        Connection: keep-alive
+        X-Powered-By: Undertow/1
+        Server: JBoss-EAP/7
+        Content-Type: application/json
+        Content-Length: 29
+        Date: Tue, 13 Oct 2015 06:32:20 GMT
+        
+        {"result":"Hello YOUR_NAME!"}
 
 
 Undeploy the Archive
 --------------------
 
-1. Make sure you have started the WildFly server as described above.
+1. Make sure you have started the ${product.name} server as described above.
 2. Open a command line and navigate to the root directory of this quickstart.
 3. When you are finished testing, type this command to undeploy the archive:
 
-        mvn jboss-as:undeploy
+        mvn wildfly:undeploy
 
 Run the Arquillian Functional Tests
 -----------------------------------
@@ -90,18 +123,18 @@ To run these tests, you must build the main project as described above.
         mvn clean package
 
 3. Navigate to the functional-tests/ directory in this quickstart.
-4. If you have a running instance of the WildFly server, as described above, run the remote tests by typing the following command:
+4. If you have a running instance of the ${product.name} server, as described above, run the remote tests by typing the following command:
 
         mvn clean verify -Parq-wildfly-remote
 
-5. If you prefer to run the functional tests using managed instance of the WildFly server, meaning the tests will start the server for you, type fhe following command:
+5. If you prefer to run the functional tests using managed instance of the ${product.name} server, meaning the tests will start the server for you, type fhe following command:
 
         mvn clean verify -Parq-wildfly-managed
 
-
 Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 -------------------------------------
-You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For more information, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_JBDS.md#use-jboss-developer-studio-or-eclipse-to-run-the-quickstarts) 
+
+You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a ${product.name} server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](${use.eclipse.url}). 
 
 
 Debug the Application

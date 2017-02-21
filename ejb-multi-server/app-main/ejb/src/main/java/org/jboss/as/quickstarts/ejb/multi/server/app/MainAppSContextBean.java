@@ -32,7 +32,7 @@ import org.jboss.logging.Logger;
 
 /**
  * <p>
- * An example how to use the new features 'scoped context' introduced with EJBCLIENT-34 in AS7.2.0 or EAP6.1.<br/>
+ * An example how to use the scoped context in JBoss EAP.<br/>
  * If a server without that feature is used the outbound-connection will be used
  * and the behavior is different.
  * </p>
@@ -257,13 +257,13 @@ public class MainAppSContextBean implements MainApp {
         AppTwo beanB = null;
 
         try {
-            beanA = (AppTwo) appTwoScopedEjbContextA.lookup("wildfly-ejb-multi-server-app-two/ejb//AppTwoBean!" + AppTwo.class.getName());
+            beanA = (AppTwo) appTwoScopedEjbContextA.lookup("jboss-ejb-multi-server-app-two/ejb//AppTwoBean!" + AppTwo.class.getName());
         } catch (NamingException e) {
             LOGGER.error("Could not create InitialContext('appTwoA')");
         }
 
         try {
-            beanB = (AppTwo) appTwoScopedEjbContextB.lookup("wildfly-ejb-multi-server-app-two/ejb//AppTwoBean!" + AppTwo.class.getName());
+            beanB = (AppTwo) appTwoScopedEjbContextB.lookup("jboss-ejb-multi-server-app-two/ejb//AppTwoBean!" + AppTwo.class.getName());
         } catch (NamingException e) {
             LOGGER.error("Could not create InitialContext('appTwoB')");
         }
@@ -325,7 +325,7 @@ public class MainAppSContextBean implements MainApp {
         Context iCtxA = null;
         try {
             iCtxA = (Context) new InitialContext(ejbClientContextProps).lookup("ejb:");
-            beanA = (AppTwo) iCtxA.lookup("wildfly-ejb-multi-server-app-two/ejb//AppTwoBean!" + AppTwo.class.getName());
+            beanA = (AppTwo) iCtxA.lookup("jboss-ejb-multi-server-app-two/ejb//AppTwoBean!" + AppTwo.class.getName());
         } catch (NamingException e) {
             LOGGER.error("Could not create InitialContext('appTwoA')");
         }
@@ -338,7 +338,7 @@ public class MainAppSContextBean implements MainApp {
         Context iCtxB = null;
         try {
             iCtxB = (Context) new InitialContext(ejbClientContextProps).lookup("ejb:");
-            beanB = (AppTwo) iCtxB.lookup("wildfly-ejb-multi-server-app-two/ejb//AppTwoBean!" + AppTwo.class.getName());
+            beanB = (AppTwo) iCtxB.lookup("jboss-ejb-multi-server-app-two/ejb//AppTwoBean!" + AppTwo.class.getName());
         } catch (NamingException e) {
             LOGGER.error("Could not create InitialContext('appTwoB')");
         }

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
     JBoss, Home of Professional Open Source
     Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
@@ -20,27 +20,36 @@
 
     <parent>
         <groupId>org.wildfly.quickstarts</groupId>
-        <artifactId>wildfly-ejb-asynchronous</artifactId>
-        <version>10.0.0-SNAPSHOT</version>
+        <artifactId>jboss-ejb-asynchronous</artifactId>
+        <version>11.0.0-SNAPSHOT</version>
     </parent>
-    <artifactId>wildfly-ejb-asynchronous-client</artifactId>
+    <artifactId>jboss-ejb-asynchronous-client</artifactId>
     <packaging>jar</packaging>
-    <name>WildFly Quickstart: ejb-asynchronous - client</name>
+    <name>${qs.name.prefix} ejb-asynchronous - client</name>
+    <description>This project demonstrates asynchronous method invocations on an EJB; this is the Client POM file</description>
 
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
-            <distribution>repo</distribution>
             <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+            <distribution>repo</distribution>
         </license>
     </licenses>
 
     <dependencies>
 
+        <!-- Include the ejb client jars -->
+        <dependency>
+            <groupId>org.wildfly</groupId>
+            <artifactId>wildfly-ejb-client-bom</artifactId>
+            <type>pom</type>
+            <scope>runtime</scope>
+        </dependency>
+
         <!-- Import the client API of the EJB project -->
         <dependency>
             <groupId>org.wildfly.quickstarts</groupId>
-            <artifactId>wildfly-ejb-asynchronous-ejb</artifactId>
+            <artifactId>jboss-ejb-asynchronous-ejb</artifactId>
             <type>ejb-client</type>
         </dependency>
 
@@ -48,14 +57,6 @@
         <dependency>
             <groupId>org.jboss.spec.javax.ejb</groupId>
             <artifactId>jboss-ejb-api_3.2_spec</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-
-        <!-- Include the ejb client jars -->
-        <dependency>
-            <groupId>org.wildfly</groupId>
-            <artifactId>wildfly-ejb-client-bom</artifactId>
-            <type>pom</type>
             <scope>runtime</scope>
         </dependency>
 
@@ -70,13 +71,6 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>${version.exec.plugin}</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                    </execution>
-                </executions>
                 <configuration>
                     <executable>java</executable>
                     <workingDirectory>${project.build.directory}/exec-working-directory</workingDirectory>
@@ -84,11 +78,17 @@
                         <!-- automatically creates the classpath using all
                             project dependencies, also adding the project build directory -->
                         <argument>-classpath</argument>
-                        <classpath>
-                        </classpath>
+                        <classpath></classpath>
                         <argument>org.jboss.as.quickstarts.ejb.asynchronous.client.AsynchronousClient</argument>
                     </arguments>
                 </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

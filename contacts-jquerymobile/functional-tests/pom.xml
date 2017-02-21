@@ -20,12 +20,11 @@
 
     <groupId>org.jboss.as.quickstarts.eap</groupId>
     <artifactId>jboss-contacts-jquerymobile-test-webdriver</artifactId>
-    <version>10.0.0-SNAPSHOT</version>         <relativePath>../pom.xml</relativePath>
-    <name>WildFly Quickstarts: Contacts test via WebDriver with Arquillian</name>
-    <description>This project tests a starter Java EE webapp project for use on WildFly by WebDriver</description>
+    <version>7.1.0-SNAPSHOT</version>
+    <name>JBoss EAP Quickstarts: Contacts JQueryMobile test via WebDriver with Arquillian</name>
+    <description>This project tests a Contacts JQueryMobile for use on JBoss EAP by WebDriver</description>
 
-    <url>http://www.wildfly.org</url>
-    <licenses>
+        <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
             <distribution>repo</distribution>
@@ -33,11 +32,67 @@
         </license>
     </licenses>
 
+    <!-- Activate the JBoss Enterprise Maven Repository.
+
+        NOTE: Configuring the Maven repository in the pom.xml file is not a recommended procedure
+        and is only done here to make it easier to use the quickstarts.
+
+        For more information about how to configure Maven for your application,
+        see the section entitled 'Use the Maven Repository'
+        in the Development Guide for Red Hat JBoss Enterprise Application Platform located here:
+
+        https://access.redhat.com/documentation/en/red-hat-jboss-enterprise-application-platform/
+    -->
+    <repositories>
+        <repository>
+            <id>jboss-developer-staging-repository</id>
+            <url>http://jboss-developer.github.io/temp-maven-repo/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>jboss-enterprise-maven-repository</id>
+            <url>https://maven.repository.redhat.com/ga/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>jboss-developer-staging-repository</id>
+            <url>http://jboss-developer.github.io/temp-maven-repo/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+        <pluginRepository>
+            <id>jboss-enterprise-maven-repository</id>
+            <url>https://maven.repository.redhat.com/ga/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+
     <properties>
         <!-- Explicitly declaring the source encoding eliminates the following
-                                 message: -->
-        <!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered
-                         resources, i.e. build is platform dependent! -->
+            message: [WARNING] Using platform encoding (UTF-8 actually) to copy 
+            filtered resources, i.e. build is platform dependent! -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- To disable warning of missing beans.xml file in JBoss Tools -->
@@ -47,14 +102,17 @@
         <version.wildfly.maven.plugin>1.0.2.Final</version.wildfly.maven.plugin>
 
         <!-- Define the version of the JBoss BOMs we want to import. The JBoss BOMs specify tested stacks. -->
-        <version.jboss.bom.eap>7.0.0-build-7</version.jboss.bom.eap>
+        <version.jboss.bom.eap>7.0.0.GA</version.jboss.bom.eap>
 
         <!-- other plug-in versions -->
-        <version.surefire.plugin>2.10</version.surefire.plugin>
+        <version.surefire.plugin>2.19</version.surefire.plugin>
 
         <!-- maven-compiler-plugin -->
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.compiler.source>1.8</maven.compiler.source>
+
+        <!-- json version -->
+        <version.org.json>20150729</version.org.json>
     </properties>
 
     <build>
@@ -69,7 +127,6 @@
 
     <dependencyManagement>
         <dependencies>
-            <!-- Arquillian dependency -->
             <!-- Define the version of the JBoss Java EE APIs we want to import.
                  Any dependencies from org.jboss.spec will have their version defined by this BOM
 
@@ -78,10 +135,10 @@
                  a collection) of artifacts. We use this here so that we always get the correct
                  versions of artifacts. Here we use the jboss-javaee-7.0 stack (you can
                  read this as the JBoss stack of the Java EE APIs). You can actually
-                 use this stack with any version of WildFly that implements Java EE. -->
+                 use this stack with any version of JBoss EAP that implements Java EE. -->
             <dependency>
-                <groupId>org.jboss.bom</groupId>
-                <artifactId>jboss-javaee-7.0-eap-with-tools</artifactId>
+                <groupId>org.wildfly.bom</groupId>
+                <artifactId>wildfly-javaee7-with-tools</artifactId>
                 <version>${version.jboss.bom.eap}</version>
                 <type>pom</type>
                 <scope>import</scope>
@@ -119,14 +176,14 @@
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
-            <version>20090211</version>
+            <version>${version.org.json}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
 
     <profiles>
         <profile>
-            <!-- Profile that executes tests in managed WildFly instance. -->
+            <!-- Profile that executes tests in managed JBoss EAP instance. -->
             <id>arq-wildfly-managed</id>
             <dependencies>
                 <dependency>
@@ -138,7 +195,7 @@
         </profile>
 
         <profile>
-            <!-- Profile that executes tests in remote WildFly instance. -->
+            <!-- Profile that executes tests in remote JBoss EAP instance. -->
             <id>arq-wildfly-remote</id>
             <dependencies>
                 <dependency>
