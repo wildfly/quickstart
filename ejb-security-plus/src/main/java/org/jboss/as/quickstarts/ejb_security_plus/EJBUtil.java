@@ -33,7 +33,7 @@ class EJBUtil {
         jndiProperties.put(Context.URL_PKG_PREFIXES, "org.jboss.ejb.client.naming");
         final Context context = new InitialContext(jndiProperties);
 
-        return (SecuredEJBRemote) context.lookup("ejb:/wildfly-ejb-security-plus/SecuredEJB!"
+        return (SecuredEJBRemote) context.lookup("ejb:/ejb-security-plus/SecuredEJB!"
             + SecuredEJBRemote.class.getName());
     }
 

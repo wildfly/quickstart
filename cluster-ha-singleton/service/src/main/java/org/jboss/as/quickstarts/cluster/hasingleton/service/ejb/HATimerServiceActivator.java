@@ -47,7 +47,7 @@ public class HATimerServiceActivator implements ServiceActivator {
         ServiceName factoryServiceName = SingletonServiceName.BUILDER.getServiceName("server", "default");
         ServiceController<?> factoryService = context.getServiceRegistry().getRequiredService(factoryServiceName);
         SingletonServiceBuilderFactory factory = (SingletonServiceBuilderFactory) factoryService.getValue();
-        ServiceName ejbComponentService = ServiceName.of("jboss", "deployment", "unit", "jboss-cluster-ha-singleton-service.jar", "component", "SchedulerBean", "START");
+        ServiceName ejbComponentService = ServiceName.of("jboss", "deployment", "unit", "cluster-ha-singleton-service.jar", "component", "SchedulerBean", "START");
         factory.createSingletonServiceBuilder(HATimerService.SINGLETON_SERVICE_NAME, service)
             /*
              * The NamePreference is a combination of the node name (-Djboss.node.name) and the name of

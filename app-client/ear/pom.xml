@@ -20,10 +20,10 @@
 
     <parent>
         <groupId>org.wildfly.quickstarts</groupId>
-        <artifactId>jboss-app-client</artifactId>
+        <artifactId>app-client</artifactId>
         <version>11.0.0-SNAPSHOT</version>
     </parent>
-    <artifactId>jboss-app-client-ear</artifactId>
+    <artifactId>app-client-ear</artifactId>
     <packaging>ear</packaging>
     <name>${qs.name.prefix} app-client - ear</name>
     <description>This project demonstrates how to package and use an EE application client. 
@@ -41,14 +41,14 @@
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>jboss-app-client-client-simple</artifactId>
+            <artifactId>app-client-client-simple</artifactId>
             <version>${project.version}</version>
             <type>app-client</type>
         </dependency>
         <!-- add the EJB and WEB project as dependency to include it in the EAR -->
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>jboss-app-client-ejb</artifactId>
+            <artifactId>app-client-ejb</artifactId>
             <version>${project.version}</version>
             <type>ejb</type>
         </dependency>
@@ -74,12 +74,12 @@
                     <modules>
                         <ejbModule>
                             <groupId>${project.groupId}</groupId>
-                            <artifactId>jboss-app-client-ejb</artifactId>
+                            <artifactId>app-client-ejb</artifactId>
                             <bundleFileName>ejb.jar</bundleFileName>
                         </ejbModule>
                         <appClientModule>
                             <groupId>${project.groupId}</groupId>
-                            <artifactId>jboss-app-client-client-simple</artifactId>
+                            <artifactId>app-client-client-simple</artifactId>
                             <bundleFileName>simpleClient.jar</bundleFileName>
                         </appClientModule>
                     </modules>

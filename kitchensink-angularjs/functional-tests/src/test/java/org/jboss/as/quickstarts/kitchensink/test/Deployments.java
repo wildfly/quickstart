@@ -31,7 +31,7 @@ public class Deployments {
     /**
      * Specifies relative path to the war of built application in the main project.
      */
-    private static final String KITCHENSINK = "../target/jboss-kitchensink-angularjs.war";
+    private static final String KITCHENSINK = "../target/kitchensink-angularjs.war";
 
     /**
      * Creates deployment which is sent to the container upon test's start.

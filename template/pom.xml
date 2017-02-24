@@ -19,7 +19,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.wildfly.quickstarts</groupId>
-    <artifactId>jboss-QUICKSTART_NAME</artifactId>
+    <artifactId>QUICKSTART_NAME</artifactId>
     <version>7.1.0-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>JBoss PRODUCT_TYPE Quickstart: QUICKSTART_NAME-OPTIONAL_SUBFOLDER_NAME</name>
@@ -32,63 +32,6 @@
             <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
         </license>
     </licenses>
-
-    <!-- Activate the JBoss Enterprise Maven Repository.
-
-        NOTE: Configuring the Maven repository in the pom.xml file is not a recommended procedure
-        and is only done here to make it easier to use the quickstarts.
-
-        For more information about how to configure Maven for your application,
-        see the section entitled 'Use the Maven Repository'
-        in the Development Guide for Red Hat JBoss Enterprise Application Platform located here:
-
-        https://access.redhat.com/documentation/en/red-hat-jboss-enterprise-application-platform/
-    -->
-    <repositories>
-        <repository>
-            <id>jboss-developer-staging-repository</id>
-            <url>http://jboss-developer.github.io/temp-maven-repo/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>jboss-enterprise-maven-repository</id>
-            <url>https://maven.repository.redhat.com/ga/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
-
-    <pluginRepositories>
-        <pluginRepository>
-            <id>jboss-developer-staging-repository</id>
-            <url>http://jboss-developer.github.io/temp-maven-repo/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </pluginRepository>
-        <pluginRepository>
-            <id>jboss-enterprise-maven-repository</id>
-            <url>https://maven.repository.redhat.com/ga/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </pluginRepository>
-    </pluginRepositories>
 
     <properties>
         <!-- Explicitly declaring the source encoding eliminates the following
@@ -177,26 +120,6 @@
 
     </dependencies>
 
-    <build>
-        <!-- Set the name of the WAR, used as the context root when the app is deployed -->
-        <finalName>${project.artifactId}</finalName>
-        <plugins>
-            <plugin>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>${version.war.plugin}</version>
-                <configuration>
-                    <!-- Java EE doesn't require web.xml, Maven needs to catch up! -->
-                    <failOnMissingWebXml>false</failOnMissingWebXml>
-                </configuration>
-            </plugin>
-            <!-- WildFly plug-in to deploy the WAR -->
-            <plugin>
-                <groupId>org.wildfly.plugins</groupId>
-                <artifactId>wildfly-maven-plugin</artifactId>
-                <version>${version.wildfly.maven.plugin}</version>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>
 

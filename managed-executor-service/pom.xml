@@ -15,19 +15,21 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.wildfly.quickstarts</groupId>
         <artifactId>quickstart-parent</artifactId>
         <version>11.0.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>jboss-managed-executor-service</artifactId>
+    <artifactId>managed-executor-service</artifactId>
     <packaging>war</packaging>
     <name>${qs.name.prefix} managed-executor-service</name>
     <description>A starter Java EE web application project for use on JBoss EAP, generated from the jboss-javaee6-webapp archetype</description>
 
-        <licenses>
+    <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
             <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
@@ -143,46 +145,4 @@
         </dependency>
 
     </dependencies>
-
-    <profiles>
-        <profile>
-            <!-- The default profile skips all tests, though you can tune it to run
-                just unit tests based on a custom pattern. 
-                Separate profiles are provided for running all tests, including Arquillian
-                tests that execute in the specified container. -->
-            <id>default</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <version>${version.surefire.plugin}</version>
-                        <configuration>
-                            <skip>true</skip>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <!-- TODO arquilian tests -->
-        <profile>
-            <!-- An optional testing profile that executes JAX-RS Client API tests  
-                 Run with: mvn clean test -Prest-test -->
-            <id>rest-test</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <version>${version.surefire.plugin}</version>
-                        <configuration>
-                            <skip>false</skip>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-
-    </profiles>
 </project>

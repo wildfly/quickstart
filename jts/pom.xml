@@ -15,15 +15,17 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.wildfly.quickstarts</groupId>
         <artifactId>quickstart-parent</artifactId>
         <version>11.0.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
     <!-- TODO fix artifact name to match components -->
-    <artifactId>jboss-jts</artifactId>
+    <artifactId>jts</artifactId>
     <packaging>pom</packaging>
     <name>${qs.name.prefix} jts</name>
     <description>A project that demonstrates how to use CMT with JTS</description>
@@ -48,36 +50,11 @@
             <!-- Client stub for the application-component-2 -->
             <dependency>
                 <groupId>org.wildfly.quickstarts</groupId>
-                <artifactId>jboss-jts-application-component-2</artifactId>
+                <artifactId>jts-application-component-2</artifactId>
                 <version>${project.version}</version>
                 <classifier>client</classifier>
             </dependency>
         </dependencies>
     </dependencyManagement>
-
-    <build>
-        <pluginManagement>
-            <plugins>
-                <!-- The WildFly plug-in deploys your WAR to a local JBoss EAP container.
-                     To use, run: mvn package wildfly:deploy -->
-                <plugin>
-                    <groupId>org.wildfly.plugins</groupId>
-                    <artifactId>wildfly-maven-plugin</artifactId>
-                    <version>${version.wildfly.maven.plugin}</version>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-
-        <plugins>
-            <!-- Disable the WildFly plug-in for this POM artifact -->
-            <plugin>
-                <groupId>org.wildfly.plugins</groupId>
-                <artifactId>wildfly-maven-plugin</artifactId>
-                <inherited>false</inherited>
-                <configuration>
-                    <skip>true</skip>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+      
 </project>

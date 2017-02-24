@@ -68,7 +68,7 @@ public class HATimerService implements Service<String> {
         final String node = System.getProperty("jboss.node.name");
         try {
             InitialContext ic = new InitialContext();
-            ((Scheduler) ic.lookup("global/jboss-cluster-ha-singleton-service/SchedulerBean!org.jboss.as.quickstarts.cluster.hasingleton.service.ejb.Scheduler"))
+            ((Scheduler) ic.lookup("global/cluster-ha-singleton-service/SchedulerBean!org.jboss.as.quickstarts.cluster.hasingleton.service.ejb.Scheduler"))
                 .initialize("HASingleton timer @" + node + " " + new Date());
         } catch (NamingException e) {
             throw new StartException("Could not initialize timer", e);
@@ -82,7 +82,7 @@ public class HATimerService implements Service<String> {
             LOGGER.info("Stop HASingleton timer service '" + this.getClass().getName() + "'");
             try {
                 InitialContext ic = new InitialContext();
-                ((Scheduler) ic.lookup("global/jboss-cluster-ha-singleton-service/SchedulerBean!org.jboss.as.quickstarts.cluster.hasingleton.service.ejb.Scheduler")).stop();
+                ((Scheduler) ic.lookup("global/cluster-ha-singleton-service/SchedulerBean!org.jboss.as.quickstarts.cluster.hasingleton.service.ejb.Scheduler")).stop();
             } catch (NamingException e) {
                 LOGGER.info("Could not stop timer:" + e.getMessage());
             }

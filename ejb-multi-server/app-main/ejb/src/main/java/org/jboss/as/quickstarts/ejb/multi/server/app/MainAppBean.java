@@ -48,9 +48,9 @@ public class MainAppBean implements MainApp {
      */
     private InitialContext iCtx;
 
-    @EJB(lookup = "ejb:jboss-ejb-multi-server-app-one/ejb//AppOneBean!org.jboss.as.quickstarts.ejb.multi.server.app.AppOne")
+    @EJB(lookup = "ejb:ejb-multi-server-app-one/ejb//AppOneBean!org.jboss.as.quickstarts.ejb.multi.server.app.AppOne")
     AppOne appOneProxy;
-    @EJB(lookup = "ejb:jboss-ejb-multi-server-app-two/ejb//AppTwoBean!org.jboss.as.quickstarts.ejb.multi.server.app.AppTwo")
+    @EJB(lookup = "ejb:ejb-multi-server-app-two/ejb//AppTwoBean!org.jboss.as.quickstarts.ejb.multi.server.app.AppTwo")
     AppTwo appTwoProxy;
 
     /**
@@ -88,7 +88,7 @@ public class MainAppBean implements MainApp {
         String lookup = "";
         // Call AppTwo with the direct ejb: naming
         try {
-            lookup = "ejb:jboss-ejb-multi-server-app-two/ejb//AppTwoBean!" + AppTwo.class.getName();
+            lookup = "ejb:ejb-multi-server-app-two/ejb//AppTwoBean!" + AppTwo.class.getName();
             result.append(" > " + invokeAppTwo(lookup, text));
             LOGGER.info("Invoke '" + lookup + " OK");
         } catch (Exception e) {
@@ -134,7 +134,7 @@ public class MainAppBean implements MainApp {
      * The application two can be called via lookup.
      * <ul>
      * <li>with the standard naming
-     * <i>ejb:jboss-ejb-multi-server-app-two/ejb//AppTwoBean!org.jboss.as.quickstarts
+     * <i>ejb:ejb-multi-server-app-two/ejb//AppTwoBean!org.jboss.as.quickstarts
      * .ejb.multi.server.app.AppTwo</i></li>
      * <li><i>java:global/AliasAppTwo</i> the alias provided by the server
      * configuration <b>this is not recommended</b></li>

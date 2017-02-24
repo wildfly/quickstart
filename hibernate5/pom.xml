@@ -15,14 +15,16 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.wildfly.quickstarts</groupId>
         <artifactId>quickstart-parent</artifactId>
         <version>11.0.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>jboss-hibernate5</artifactId>
+    <artifactId>hibernate5</artifactId>
     <packaging>war</packaging>
     <name>${qs.name.prefix} hibernate5</name>
     <description>This project demonstrates how to use Hibernate 5</description>
@@ -87,19 +89,5 @@
         </dependency>
 
     </dependencies>
-
-    <build>
-        <!-- Set the name of the WAR, used as the context root when the app is deployed -->
-        <finalName>${project.artifactId}</finalName>
-        <plugins>
-            <!-- The WildFly plug-in deploys your WAR to a local JBoss EAP container.
-                 To use, run: mvn package wildfly:deploy -->
-            <plugin>
-                <groupId>org.wildfly.plugins</groupId>
-                <artifactId>wildfly-maven-plugin</artifactId>
-                <version>${version.wildfly.maven.plugin}</version>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>

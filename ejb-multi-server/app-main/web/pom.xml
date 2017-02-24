@@ -20,10 +20,10 @@
 
     <parent>
         <groupId>org.wildfly.quickstarts</groupId>
-        <artifactId>jboss-ejb-multi-server-app-main</artifactId>
+        <artifactId>ejb-multi-server-app-main</artifactId>
         <version>11.0.0-SNAPSHOT</version>
     </parent>
-    <artifactId>jboss-ejb-multi-server-app-main-web</artifactId>
+    <artifactId>ejb-multi-server-app-main-web</artifactId>
     <packaging>war</packaging>
     <name>${qs.name.prefix} ejb-multi-server - app-main - web</name>
     <description>A project that demonstrates multiple applications deployed on different servers. This is the main application web project.</description>
@@ -39,21 +39,21 @@
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>jboss-ejb-multi-server-app-main-ejb</artifactId>
+            <artifactId>ejb-multi-server-app-main-ejb</artifactId>
             <version>${project.version}</version>
             <type>ejb-client</type>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>jboss-ejb-multi-server-app-one-ejb</artifactId>
+            <artifactId>ejb-multi-server-app-one-ejb</artifactId>
             <version>${project.version}</version>
             <type>ejb-client</type>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>jboss-ejb-multi-server-app-two-ejb</artifactId>
+            <artifactId>ejb-multi-server-app-two-ejb</artifactId>
             <version>${project.version}</version>
             <type>ejb-client</type>
             <scope>provided</scope>
@@ -61,12 +61,6 @@
         <dependency>
             <groupId>javax.enterprise</groupId>
             <artifactId>cdi-api</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.wildfly</groupId>
-            <artifactId>wildfly-ejb-client-bom</artifactId>
-            <type>pom</type>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -78,64 +72,16 @@
             <artifactId>jboss-jsf-api_2.2_spec</artifactId>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>org.jboss.spec.javax.ejb</groupId>
+            <artifactId>jboss-ejb-api_3.2_spec</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.logging</groupId>
+            <artifactId>jboss-logging</artifactId>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
-
-    <!-- Activate the JBoss Enterprise Maven Repository.
-
-        NOTE: Configuring the Maven repository in the pom.xml file is not a recommended procedure
-        and is only done here to make it easier to use the quickstarts.
-
-        For more information about how to configure Maven for your application,
-        see the section entitled 'Use the Maven Repository'
-        in the Development Guide for Red Hat JBoss Enterprise Application Platform located here:
-
-        https://access.redhat.com/documentation/en/red-hat-jboss-enterprise-application-platform/
-    -->
-    <repositories>
-        <repository>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-            <id>jboss-developer-staging-repository</id>
-            <url>http://jboss-developer.github.io/temp-maven-repo/</url>
-        </repository>
-        <repository>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-            <id>jboss-enterprise-maven-repository</id>
-            <url>https://maven.repository.redhat.com/ga/</url>
-        </repository>
-    </repositories>
-
-    <pluginRepositories>
-        <pluginRepository>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-            <id>jboss-developer-staging-repository</id>
-            <url>http://jboss-developer.github.io/temp-maven-repo/</url>
-        </pluginRepository>
-        <pluginRepository>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-            <id>jboss-enterprise-maven-repository</id>
-            <url>https://maven.repository.redhat.com/ga/</url>
-        </pluginRepository>
-    </pluginRepositories>
 
     <build>
         <finalName>${project.artifactId}</finalName>

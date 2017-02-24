@@ -66,7 +66,7 @@ Build and Deploy the Quickstart
 
         mvn clean install wildfly:deploy
 
-4. This will deploy `ear/target/jboss-ejb-throws-exception.ear` to the running instance of the server.
+4. This will deploy `ear/target/${project.artifactId}.ear` to the running instance of the server.
 
 
 Access the application 

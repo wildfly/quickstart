@@ -15,19 +15,21 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.wildfly.quickstarts</groupId>
         <artifactId>quickstart-parent</artifactId>
         <version>11.0.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>jboss-jsonp</artifactId>
+    <artifactId>jsonp</artifactId>
     <packaging>war</packaging>
     <name>${qs.name.prefix} jsonp</name>
-    <description>A starter Java EE webapp project for use on JBoss EAP, generated from the jboss-javaee6-webapp archetype</description>
+    <description>A starter Java EE webapp project for use on JBoss EAP</description>
 
-        <licenses>
+    <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
             <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
@@ -97,42 +99,4 @@
 
     </dependencies>
 
-    <build>
-        <!-- Set the name of the WAR, used as the context root when the app is deployed -->
-        <finalName>${project.artifactId}</finalName>
-        <plugins>
-            <!-- WildFly plug-in to deploy the WAR to a local JBoss EAP container.
-                 To use, run: mvn package wildfly:deploy -->
-            <plugin>
-                <groupId>org.wildfly.plugins</groupId>
-                <artifactId>wildfly-maven-plugin</artifactId>
-                <version>${version.wildfly.maven.plugin}</version>
-            </plugin>
-        </plugins>
-    </build>
-
-    <profiles>
-        <profile>
-            <!-- The default profile skips all tests, though you can tune it 
-                 to run just unit tests based on a custom pattern.
-                 Separate profiles are provided for running all tests, including 
-                 Arquillian tests that execute in the specified container -->
-            <id>default</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <version>${version.surefire.plugin}</version>
-                        <configuration>
-                            <skip>true</skip>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-
-    </profiles>
 </project>

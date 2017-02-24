@@ -34,7 +34,7 @@ public interface EnvironmentProperties {
     String SERVER_PORT = "SERVER_PORT";
 
     /**
-     * the app's root path, e.g. /jboss-thread-racing
+     * the app's root path, e.g. /thread-racing
      */
     String ROOT_PATH = "ROOT_PATH";
 }

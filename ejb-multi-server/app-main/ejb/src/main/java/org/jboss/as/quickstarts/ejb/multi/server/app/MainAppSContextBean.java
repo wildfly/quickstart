@@ -202,7 +202,7 @@ public class MainAppSContextBean implements MainApp {
             // this context will not use the server configured
             // 'outbound-connection' and also did not use the
             // jboss-ejb-client.xml.
-            final AppOne bean = (AppOne) appOneScopedEjbContext.lookup("jboss-ejb-multi-server-app-one/ejb//AppOneBean!" + AppOne.class.getName());
+            final AppOne bean = (AppOne) appOneScopedEjbContext.lookup("ejb-multi-server-app-one/ejb//AppOneBean!" + AppOne.class.getName());
 
             StringBuilder result = new StringBuilder("{");
             for (int i = 0; i < 8; i++) {
@@ -257,13 +257,13 @@ public class MainAppSContextBean implements MainApp {
         AppTwo beanB = null;
 
         try {
-            beanA = (AppTwo) appTwoScopedEjbContextA.lookup("jboss-ejb-multi-server-app-two/ejb//AppTwoBean!" + AppTwo.class.getName());
+            beanA = (AppTwo) appTwoScopedEjbContextA.lookup("ejb-multi-server-app-two/ejb//AppTwoBean!" + AppTwo.class.getName());
         } catch (NamingException e) {
             LOGGER.error("Could not create InitialContext('appTwoA')");
         }
 
         try {
-            beanB = (AppTwo) appTwoScopedEjbContextB.lookup("jboss-ejb-multi-server-app-two/ejb//AppTwoBean!" + AppTwo.class.getName());
+            beanB = (AppTwo) appTwoScopedEjbContextB.lookup("ejb-multi-server-app-two/ejb//AppTwoBean!" + AppTwo.class.getName());
         } catch (NamingException e) {
             LOGGER.error("Could not create InitialContext('appTwoB')");
         }
@@ -325,7 +325,7 @@ public class MainAppSContextBean implements MainApp {
         Context iCtxA = null;
         try {
             iCtxA = (Context) new InitialContext(ejbClientContextProps).lookup("ejb:");
-            beanA = (AppTwo) iCtxA.lookup("jboss-ejb-multi-server-app-two/ejb//AppTwoBean!" + AppTwo.class.getName());
+            beanA = (AppTwo) iCtxA.lookup("ejb-multi-server-app-two/ejb//AppTwoBean!" + AppTwo.class.getName());
         } catch (NamingException e) {
             LOGGER.error("Could not create InitialContext('appTwoA')");
         }
@@ -338,7 +338,7 @@ public class MainAppSContextBean implements MainApp {
         Context iCtxB = null;
         try {
             iCtxB = (Context) new InitialContext(ejbClientContextProps).lookup("ejb:");
-            beanB = (AppTwo) iCtxB.lookup("jboss-ejb-multi-server-app-two/ejb//AppTwoBean!" + AppTwo.class.getName());
+            beanB = (AppTwo) iCtxB.lookup("ejb-multi-server-app-two/ejb//AppTwoBean!" + AppTwo.class.getName());
         } catch (NamingException e) {
             LOGGER.error("Could not create InitialContext('appTwoB')");
         }

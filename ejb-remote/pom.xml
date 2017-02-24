@@ -15,14 +15,16 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.wildfly.quickstarts</groupId>
         <artifactId>quickstart-parent</artifactId>
         <version>11.0.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>jboss-ejb-remote</artifactId>
+    <artifactId>ejb-remote</artifactId>
     <packaging>pom</packaging>
     <name>${qs.name.prefix} ejb-remote</name>
     <description>This project demonstrates how to access an EJB from a remote client</description>
@@ -47,14 +49,10 @@
     <build>
         <finalName>${project.artifactId}</finalName>
         <plugins>
-            <!-- The WildFly plug-in deploys your apps to a local JBoss EAP
-                container -->
-            <!-- Disabling it here means that we don't try to deploy this POM! -->
             <plugin>
                 <groupId>org.wildfly.plugins</groupId>
                 <artifactId>wildfly-maven-plugin</artifactId>
                 <version>${version.wildfly.maven.plugin}</version>
-                <inherited>true</inherited>
                 <configuration>
                     <skip>true</skip>
                 </configuration>

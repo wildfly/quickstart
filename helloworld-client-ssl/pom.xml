@@ -15,20 +15,22 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
         <groupId>org.wildfly.quickstarts</groupId>
         <artifactId>quickstart-parent</artifactId>
         <version>11.0.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>wildfly-helloworld-client-ssl</artifactId>
+    <artifactId>helloworld-client-ssl</artifactId>
     <packaging>war</packaging>
     <name>${qs.name.prefix} Helloworld Client SSL</name>
     <description>Helloworld Client Mutual SSL Authentication</description>
 
-    
+
     <properties>
         <!-- TODO we should remove dep to this-->
         <version.org.bouncycastle>1.56</version.org.bouncycastle>
@@ -50,14 +52,14 @@
             <artifactId>jboss-annotations-api_1.2_spec</artifactId>
             <scope>provided</scope>
         </dependency>
-        
+
         <!-- Import the Servlet API, we use provided scope as the API is included in JBoss WildFly -->
         <dependency>
             <groupId>org.jboss.spec.javax.servlet</groupId>
             <artifactId>jboss-servlet-api_3.1_spec</artifactId>
             <scope>provided</scope>
         </dependency>
-        
+
         <!-- Import the Bouncy castle cryptography API -->
         <dependency>
             <groupId>org.bouncycastle</groupId>
@@ -69,6 +71,6 @@
             <artifactId>bcpkix-jdk15on</artifactId>
             <version>${version.org.bouncycastle}</version>
         </dependency>
-        
+
     </dependencies>
 </project>

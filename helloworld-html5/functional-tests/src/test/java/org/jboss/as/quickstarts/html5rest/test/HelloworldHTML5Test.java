@@ -71,7 +71,7 @@ public class HelloworldHTML5Test {
     /**
      * Specifies relative path to the war of built application in the main project.
      */
-    private static final String DEPLOYMENT_WAR = "../target/jboss-helloworld-html5.war";
+    private static final String DEPLOYMENT_WAR = "../target/helloworld-html5.war";
 
     /**
      * Injects browser to our test.

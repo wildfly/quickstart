@@ -20,10 +20,10 @@
 
     <parent>
         <groupId>org.wildfly.quickstarts</groupId>
-        <artifactId>jboss-kitchensink-ml-ear</artifactId>
+        <artifactId>kitchensink-ml-ear</artifactId>
         <version>11.0.0-SNAPSHOT</version>
     </parent>
-    <artifactId>jboss-kitchensink-ml-ear-ear</artifactId>
+    <artifactId>kitchensink-ml-ear-ear</artifactId>
     <packaging>ear</packaging>
     <name>${qs.name.prefix} kitchensink-ml-ear - ear</name>
     <description>This project demonstrates how to create a localized version of the kitchensink EAR; this is the EAR POM file</description>
@@ -39,14 +39,14 @@
     <dependencies>
         <dependency>
             <groupId>org.wildfly.quickstarts</groupId>
-            <artifactId>jboss-kitchensink-ml-ear-ejb</artifactId>
+            <artifactId>kitchensink-ml-ear-ejb</artifactId>
             <type>ejb</type>
         </dependency>
 
         <!-- Depend on the EJB module and WAR so that we can package them -->
         <dependency>
             <groupId>org.wildfly.quickstarts</groupId>
-            <artifactId>jboss-kitchensink-ml-ear-web</artifactId>
+            <artifactId>kitchensink-ml-ear-web</artifactId>
             <type>war</type>
         </dependency>
     </dependencies>
@@ -60,20 +60,20 @@
                 <version>${version.ear.plugin}</version>
                 <configuration>
                     <!-- Tell Maven we are using Java EE -->
-                    <version>6</version>
+                    <version>7</version>
                     <!-- Use Java EE ear libraries as needed. Java EE ear libraries
                         are in easy way to package any libraries needed in the ear, and automatically
                         have any modules (EJB-JARs and WARs) use them -->
                     <defaultLibBundleDir>lib</defaultLibBundleDir>
                     <modules>
-                        <!-- Default context root of the web app is /jboss-kitchensink-ml-ear-web.
+                        <!-- Default context root of the web app is /kitchensink-ml-ear-web.
                         If a custom context root is needed, uncomment the following snippet to
                         register our War as a web module and set the contextRoot property -->
                         <!--
                         <webModule>
                             <groupId>org.wildfly.quickstarts</groupId>
-                            <artifactId>jboss-kitchensink-ml-ear-web</artifactId>
-                            <contextRoot>/jboss-kitchensink-ml-ear</contextRoot>
+                            <artifactId>kitchensink-ml-ear-web</artifactId>
+                            <contextRoot>/kitchensink-ml-ear</contextRoot>
                         </webModule>
                         -->
                     </modules>

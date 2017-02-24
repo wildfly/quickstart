@@ -15,14 +15,16 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.wildfly.quickstarts</groupId>
         <artifactId>quickstart-parent</artifactId>
         <version>11.0.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>jboss-ejb-asynchronous</artifactId>
+    <artifactId>ejb-asynchronous</artifactId>
     <packaging>pom</packaging>
     <name>${qs.name.prefix} ejb-asynchronous</name>
     <description>This project demonstrates asynchronous method invocations on an EJB</description>
@@ -47,7 +49,7 @@
                 ejb jar -->
             <dependency>
                 <groupId>org.wildfly.quickstarts</groupId>
-                <artifactId>jboss-ejb-asynchronous-ejb</artifactId>
+                <artifactId>ejb-asynchronous-ejb</artifactId>
                 <version>${project.version}</version>
                 <type>ejb-client</type>
             </dependency>
@@ -65,11 +67,7 @@
                     <skip>true</skip>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>${version.exec.plugin}</version>
-            </plugin>
+
         </plugins>
     </build>
 </project>

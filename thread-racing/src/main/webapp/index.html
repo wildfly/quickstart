@@ -18,10 +18,29 @@
 <html>
 <head>
 <title>Java EE Thread Racing</title>
-
+    <script type="text/javascript">
+        function letsRace() {
+            var output = document.getElementById("output");
+            document.getElementById("raceButton").disabled = true;
+            output.innerHTML = '';
+            var host = window.location.host;
+            var wsProtocol = window.location.protocol == "https:" ? "wss" : "ws";
+            var url = wsProtocol + '://' + host + window.location.pathname + 'race';
+            var ws = new WebSocket(url);
+            ws.onmessage = function (message) {
+                output.innerHTML += message.data;
+            }
+            ws.onclose = function (message) {
+                document.getElementById("raceButton").disabled = false;
+            }
+        }
+    </script>
+    <style type="text/css">
+        body{ margin-left: 20px}
+    </style>
 </head>
 <body>
-<div style="margin-left: 10px;">
+<div>
     <h1>Java EE Thread Racing</h1>
     <p>The GREATEST open source racing application ever developed, all for FREE, including TV live broadcast.</p>
     <p>A race where 4 threads run() for glory, completing different stages, each sponsored by a new or updated Java EE technology!</p>
@@ -31,29 +50,5 @@
     <br />
     <div id="output"></div>
 </div>
-<script>
-    var output = document.getElementById("output");
-    function letsRace() {
-        document.getElementById("raceButton").disabled = true;
-        output.innerHTML = '';
-        var openshift = ${openshift};
-        var host;
-        if (openshift) {
-            host = window.location.hostname + ':8000';
-        } else {
-            host = window.location.host;
-        }
-        var wsProtocol = window.location.protocol == "https:" ? "wss" : "ws";
-        var url = wsProtocol + '://' + host + window.location.pathname + 'race';
-        var ws = new WebSocket(url);
-        ws.onmessage = function (message) {
-            output.innerHTML += message.data;
-        }
-        ws.onclose = function (message) {
-            document.getElementById("raceButton").disabled = false;
-        }
-    }
-</script>
-</head>
 </body>
 </html>

@@ -17,121 +17,21 @@
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
-    <groupId>org.wildfly.quickstarts</groupId>
-    <artifactId>jboss-helloworld-html5-test-webdriver</artifactId>
-    <version>7.1.0-SNAPSHOT</version>
+    <parent>
+        <groupId>org.wildfly.quickstarts</groupId>
+        <artifactId>quickstart-parent</artifactId>
+        <version>11.0.0-SNAPSHOT</version>
+        <relativePath>../../pom.xml</relativePath>
+    </parent>
+    <artifactId>helloworld-html5-test-webdriver</artifactId>
     <name>${qs.name.prefix} Hello World test via WebDriver with Arquillian</name>
     <description>This project tests a Hello World using HTML5 and REST, for use on JBoss EAP by WebDriver</description>
 
-        <licenses>
-        <license>
-            <name>Apache License, Version 2.0</name>
-            <distribution>repo</distribution>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
-        </license>
-    </licenses>
-
-    <!-- Activate the JBoss Enterprise Maven Repository.
-        NOTE: Configuring the Maven repository in the pom.xml file is not a recommended procedure
-        and is only done here to make it easier to use the quickstarts.
-        For more information about how to configure Maven for your application,
-        see the section entitled 'Use the Maven Repository'
-        in the Development Guide for Red Hat JBoss Enterprise Application Platform located here:
-        https://access.redhat.com/documentation/en/red-hat-jboss-enterprise-application-platform/
-    -->
-    <repositories>
-        <repository>
-            <id>jboss-developer-staging-repository</id>
-            <url>http://jboss-developer.github.io/temp-maven-repo/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>jboss-enterprise-maven-repository</id>
-            <url>https://maven.repository.redhat.com/ga/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
-
-    <pluginRepositories>
-        <pluginRepository>
-            <id>jboss-developer-staging-repository</id>
-            <url>http://jboss-developer.github.io/temp-maven-repo/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </pluginRepository>
-        <pluginRepository>
-            <id>jboss-enterprise-maven-repository</id>
-            <url>https://maven.repository.redhat.com/ga/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </pluginRepository>
-    </pluginRepositories>
-
     <properties>
-        <!-- Explicitly declaring the source encoding eliminates the following
-            message: [WARNING] Using platform encoding (UTF-8 actually) to copy 
-            filtered resources, i.e. build is platform dependent! -->
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
         <!-- To disable warning of missing beans.xml file in JBoss Tools -->
         <m2e.cdi.activation>false</m2e.cdi.activation>
-
-        <version.wildfly.maven.plugin>1.0.2.Final</version.wildfly.maven.plugin>
-
-        <!-- Define the version of the JBoss BOMs we want to import to specify tested stacks. -->
-        <version.jboss.bom.eap>7.0.0.GA</version.jboss.bom.eap>
-
-        <!-- other plugin versions -->
-        <version.surefire.plugin>2.19</version.surefire.plugin>
-
-        <!-- maven-compiler-plugin -->
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <maven.compiler.source>1.8</maven.compiler.source>
     </properties>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>${version.surefire.plugin}</version>
-            </plugin>
-        </plugins>
-    </build>
-
-    <dependencyManagement>
-        <dependencies>
-            <!-- Arquillian dependency -->
-            <dependency>
-                <groupId>org.wildfly.bom</groupId>
-                <artifactId>wildfly-javaee7-with-tools</artifactId>
-                <version>${version.jboss.bom.eap}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-
-
+    
     <dependencies>
         <dependency>
             <groupId>org.jboss.arquillian.graphene</groupId>

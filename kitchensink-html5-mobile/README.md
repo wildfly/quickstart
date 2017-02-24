@@ -54,7 +54,7 @@ Build and Deploy the Quickstart
 
         mvn clean wildfly:deploy
 
-4. This deploys `target/jboss-kitchensink-html5-mobile.war` to the running instance of the server.
+4. This deploys `target/${project.artifactId}.war` to the running instance of the server.
 
 Access the application
 ----------------------

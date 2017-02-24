@@ -20,10 +20,10 @@
 
     <parent>
         <groupId>org.wildfly.quickstarts</groupId>
-        <artifactId>jboss-shopping-cart</artifactId>
+        <artifactId>shopping-cart</artifactId>
         <version>11.0.0-SNAPSHOT</version>
     </parent>
-    <artifactId>jboss-shopping-cart-server</artifactId>
+    <artifactId>shopping-cart-server</artifactId>
     <packaging>ejb</packaging>
     <name>${qs.name.prefix} shopping-cart - server</name>
     <description>This project demonstrates a shopping cart that uses a Stateful Session Bean; this is the server POM file</description>
@@ -68,14 +68,6 @@
                 <configuration>
                     <skip>false</skip>
                     <filename>${project.build.finalName}.jar</filename>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-ejb-plugin</artifactId>
-                <version>${version.ejb.plugin}</version>
-                <configuration>
-                    <ejbVersion>3.1</ejbVersion>
                 </configuration>
             </plugin>
         </plugins>

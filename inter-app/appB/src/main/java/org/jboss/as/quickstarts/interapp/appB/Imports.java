@@ -31,7 +31,7 @@ import org.jboss.as.quickstarts.interapp.shared.Foo;
 public class Imports {
 
     @Produces
-    @EJB(lookup = "java:global/jboss-inter-app-appA/FooImpl!org.jboss.as.quickstarts.interapp.shared.Foo")
+    @EJB(lookup = "java:global/inter-app-appA/FooImpl!org.jboss.as.quickstarts.interapp.shared.Foo")
     private Foo foo;
 
     private Imports() {

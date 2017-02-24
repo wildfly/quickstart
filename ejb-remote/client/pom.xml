@@ -20,22 +20,14 @@
 
     <parent>
         <groupId>org.wildfly.quickstarts</groupId>
-        <artifactId>jboss-ejb-remote</artifactId>
+        <artifactId>ejb-remote</artifactId>
         <version>11.0.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>jboss-ejb-remote-client</artifactId>
+    <artifactId>ejb-remote-client</artifactId>
     <packaging>jar</packaging>
     <name>${qs.name.prefix} ejb-remote - client</name>
     <description>This project demonstrates how to access an EJB from a remote client; this is the client POM file</description>
-
-    <licenses>
-        <license>
-            <name>Apache License, Version 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
-            <distribution>repo</distribution>
-        </license>
-    </licenses>
 
     <dependencies>
 
@@ -50,15 +42,20 @@
         <!-- We depend on the EJB remote business interfaces of this application -->
         <dependency>
             <groupId>org.wildfly.quickstarts</groupId>
-            <artifactId>jboss-ejb-remote-server-side</artifactId>
+            <artifactId>ejb-remote-server-side</artifactId>
             <version>${project.version}</version>
             <type>ejb-client</type>
+        </dependency>
+
+        <!-- TODO remove-->
+        <dependency>
+            <groupId>org.jboss.modules</groupId>
+            <artifactId>jboss-modules</artifactId>
         </dependency>
 
     </dependencies>
 
     <build>
-        <finalName>${project.artifactId}</finalName>
         <plugins>
 
             <!-- Add the maven exec plug-in to allow us to run a java program
@@ -98,20 +95,6 @@
                             <mainClass>org.jboss.as.quickstarts.ejb.remote.client.RemoteEJBClient</mainClass>
                         </manifest>
                     </archive>
-                </configuration>
-            </plugin>
-
-            <!-- The WildFly plug-in deploys your apps to a local JBoss EAP
-                container -->
-            <!-- Disabling it here means that we don't try to deploy this
-                POM! -->
-            <plugin>
-                <groupId>org.wildfly.plugins</groupId>
-                <artifactId>wildfly-maven-plugin</artifactId>
-                <version>${version.wildfly.maven.plugin}</version>
-                <inherited>true</inherited>
-                <configuration>
-                    <skip>true</skip>
                 </configuration>
             </plugin>
         </plugins>

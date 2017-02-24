@@ -20,10 +20,10 @@
 
     <parent>
         <groupId>org.wildfly.quickstarts</groupId>
-        <artifactId>jboss-ejb-asynchronous</artifactId>
+        <artifactId>ejb-asynchronous</artifactId>
         <version>11.0.0-SNAPSHOT</version>
     </parent>
-    <artifactId>jboss-ejb-asynchronous-client</artifactId>
+    <artifactId>ejb-asynchronous-client</artifactId>
     <packaging>jar</packaging>
     <name>${qs.name.prefix} ejb-asynchronous - client</name>
     <description>This project demonstrates asynchronous method invocations on an EJB; this is the Client POM file</description>
@@ -49,7 +49,7 @@
         <!-- Import the client API of the EJB project -->
         <dependency>
             <groupId>org.wildfly.quickstarts</groupId>
-            <artifactId>jboss-ejb-asynchronous-ejb</artifactId>
+            <artifactId>ejb-asynchronous-ejb</artifactId>
             <type>ejb-client</type>
         </dependency>
 
@@ -58,6 +58,12 @@
             <groupId>org.jboss.spec.javax.ejb</groupId>
             <artifactId>jboss-ejb-api_3.2_spec</artifactId>
             <scope>runtime</scope>
+        </dependency>
+
+        <!-- TODO remove -->
+        <dependency>
+            <groupId>org.jboss.modules</groupId>
+            <artifactId>jboss-modules</artifactId>
         </dependency>
 
     </dependencies>

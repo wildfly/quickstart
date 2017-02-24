@@ -59,7 +59,7 @@ public class Servlet extends HttpServlet {
             write(response, "<h2>Invoke AppOne on different server</h2>");
             try {
                 AppOne proxy = (AppOne) lookup(response, iCtx,
-                    "ejb:jboss-ejb-multi-server-app-one/ejb//AppOneBean!org.jboss.as.quickstarts.ejb.multi.server.app.AppOne");
+                    "ejb:ejb-multi-server-app-one/ejb//AppOneBean!org.jboss.as.quickstarts.ejb.multi.server.app.AppOne");
                 if (proxy != null) {
                     write(response, "Invocation #1 return node.name => " + proxy.getJBossNodeName() + "<br/>");
                     // second invocation shows whether the same or a different node is reached
@@ -76,7 +76,7 @@ public class Servlet extends HttpServlet {
             write(response, "<h2>Invoke AppTwo on different server</h2>");
             try {
                 AppTwo proxy = (AppTwo) lookup(response, iCtx,
-                    "ejb:jboss-ejb-multi-server-app-two/ejb//AppTwoBean!org.jboss.as.quickstarts.ejb.multi.server.app.AppTwo");
+                    "ejb:ejb-multi-server-app-two/ejb//AppTwoBean!org.jboss.as.quickstarts.ejb.multi.server.app.AppTwo");
                 if (proxy != null) {
                     write(response, "Invocation #1 return node.name => " + proxy.getJBossNodeName() + "<br/>");
                     // second invocation shows whether the same or a different node is reached

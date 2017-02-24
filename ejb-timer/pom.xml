@@ -15,41 +15,20 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.wildfly.quickstarts</groupId>
         <artifactId>quickstart-parent</artifactId>
         <version>11.0.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>jboss-ejb-timer</artifactId>
+    <artifactId>ejb-timer</artifactId>
     <packaging>war</packaging>
     <name>${qs.name.prefix} ejb-timer</name>
     <description>A sample Java EE project demonstrating how to use EJB timer (@Schedule and @Timeout).</description>
 
-    <licenses>
-        <license>
-            <name>Apache License, Version 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
-            <distribution>repo</distribution>
-        </license>
-    </licenses>
-
-    <dependencyManagement>
-        <dependencies>
-            <!-- JBoss distributes a complete set of Java EE APIs including
-                a Bill of Materials (BOM). A BOM specifies the versions of a "stack" (or
-                a collection) of artifacts. We use this here so that we always get the correct
-                versions of artifacts.  -->
-            <dependency>
-                <groupId>org.jboss.spec</groupId>
-                <artifactId>jboss-javaee-7.0</artifactId>
-                <version>${version.jboss.spec.javaee.7.0}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 
     <!-- Dependencies. -->
     <dependencies>
@@ -85,22 +64,4 @@
 
     </dependencies>
 
-    <build>
-        <!-- Set the name of the WAR, used as the context root when the app is deployed. -->
-        <finalName>${project.artifactId}</finalName>
-
-        <plugins>
-            <!-- WildFly plug-in to deploy the WAR. -->
-            <plugin>
-                <groupId>org.wildfly.plugins</groupId>
-                <artifactId>wildfly-maven-plugin</artifactId>
-                <version>${version.wildfly.maven.plugin}</version>
-                <configuration>
-                    <fileNames>
-                        <fileName>target/${project.build.finalName}.war</fileName>
-                    </fileNames>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 </project>

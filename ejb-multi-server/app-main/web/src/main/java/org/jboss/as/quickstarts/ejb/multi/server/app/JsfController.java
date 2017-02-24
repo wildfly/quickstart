@@ -49,7 +49,7 @@ public class JsfController {
      * Inject a different bean implementation of the same interface.<br/>
      * Or use the @Resource annotation with the lookup name only.
      */
-    @Resource(mappedName = "ejb:jboss-ejb-multi-server-app-main/ejb/MainAppSContextBean!org.jboss.as.quickstarts.ejb.multi.server.app.MainApp")
+    @Resource(mappedName = "ejb:ejb-multi-server-app-main/ejb/MainAppSContextBean!org.jboss.as.quickstarts.ejb.multi.server.app.MainApp")
     MainApp mainAppScopedContext;
 
     /**
@@ -59,14 +59,14 @@ public class JsfController {
      * Therefore a fix/workaround is necessary to be able to compile.
      * See <a href="http://jaitechwriteups.blogspot.co.uk/2011/02/resource-and-new-lookup-attribute-how.html">Jaikiran's technical blog<a>
      */
-    @Resource(lookup = "ejb:jboss-ejb-multi-server-app-one/ejb//AppOneBean!org.jboss.as.quickstarts.ejb.multi.server.app.AppOne")
+    @Resource(lookup = "ejb:ejb-multi-server-app-one/ejb//AppOneBean!org.jboss.as.quickstarts.ejb.multi.server.app.AppOne")
     AppOne oneApp;
 
     /**
      * Injection with @EJB is not possible for a foreign application in a different server. For this we can use @Resource.
      * Here, we use <code>mappedName</code>, which was available prior to Java EE 7, to avoid compilation errors.
      */
-    @Resource(mappedName = "ejb:jboss-ejb-multi-server-app-two/ejb//AppTwoBean!org.jboss.as.quickstarts.ejb.multi.server.app.AppTwo")
+    @Resource(mappedName = "ejb:ejb-multi-server-app-two/ejb//AppTwoBean!org.jboss.as.quickstarts.ejb.multi.server.app.AppTwo")
     AppTwo twoApp;
 
     /**

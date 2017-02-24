@@ -68,7 +68,7 @@ Build and Deploy the Quickstart
 
         mvn clean install wildfly:deploy
 
-4. This deploys `service/target/jboss-cluster-ha-singleton-service.jar` to the running instance of the first server. 
+4. This deploys `service/target/${project.artifactId}-service.jar` to the running instance of the first server. 
 5. Since default socket binding port is `9990` and the second server runs at a port offset of `100`, you must pass port `10090` (9990 + 100) as an argument when you deploy to the second server. Type this command to deploy the archive to the second server. 
 
         mvn wildfly:deploy -Dwildfly.port=10090
@@ -77,7 +77,7 @@ Build and Deploy the Quickstart
     
         mvn wildfly:deploy [-Dwildfly.hostname=OTHERHOST] -Dwildfly.port=10090
     _Note: If you test with more than two servers, repeat the command, replacing the unique port offset for each server._
-6. This deploys `service/target/jboss-cluster-ha-singleton-service.jar` to the running instance of the additional server.
+6. This deploys `service/target/${project.artifactId}-service.jar` to the running instance of the additional server.
  
 7. To verify the application deployed to each server instance, check the server logs. The first instance should have the following message:
 
@@ -90,7 +90,7 @@ Build and Deploy the Quickstart
 
    The other servers will have the message: 
 
-        WFLYSRV0010: Deployed "jboss-cluster-ha-singleton-service.jar" (runtime-name : "jboss-cluster-ha-singleton-service.jar")
+        WFLYSRV0010: Deployed "${project.artifactId}-service.jar" (runtime-name : "${project.artifactId}-service.jar")
 
    NOTE: You will see the following warnings in both server logs when you deploy the application. You can ignore them.
   
@@ -148,7 +148,7 @@ _NOTE_: If you have not yet configured the ${product.name} ${product.version} ru
             Execution Environment: (Choose your JRE 8 runtime if not correct)
             Configuration base directory: (This should already point to your server configuration directory)
             Configuration file: (Browse and choose the `standalone-ha.xml` file)
-   * In the `Add and Remove` dialog, add the `jboss-cluster-ha-singleton-service` to the `Configured` list and click `Finished`.
+   * In the `Add and Remove` dialog, add the `${project.artifactId}-service` to the `Configured` list and click `Finished`.
 4. Configure the second server instance in JBoss Developer Studio.
    * In the `Server` tab, right-click and choose `New` --> `Server`.
    * Under `Select the server type:`, expand `Red Hat JBoss Middleware` and choose `${product.name.full} ${product.version}.0`.
@@ -161,12 +161,12 @@ _NOTE_: If you have not yet configured the ${product.name} ${product.version} ru
             Execution Environment: (Choose your JRE 8 runtime if not correct)
             Configuration base directory: (This should already point to your cloned server configuration directory)
             Configuration file: (Browse and choose the `standalone-ha.xml` file)
-   * In the `Add and Remove` dialog, add the `jboss-cluster-ha-singleton-service` to the `Configured` list and click `Finished`.
+   * In the `Add and Remove` dialog, add the `${project.artifactId}-service` to the `Configured` list and click `Finished`.
    * In the `Server` tab, double-click on `EAP7-Server2` to open the `Overview` page. 
    * Click `Open launch configuration` and at the end of the `VM Arguments`, paste `-Djboss.socket.binding.port-offset=100` and click `OK`.
    * Still in the `Overview` page for `EAP7-Server2`, under `Server Ports`, uncheck the `Detect from Local Runtime` next to `Port Offset` and enter `100`. Save the changes using the menu `File --> Save`
 
-5. To deploy the cluster-ha-singleton service to `EAP7-Server1`, right-click on the `jboss-cluster-ha-singleton-service` project, choose `Run As` --> `Run on Server`, choose `EAP7-Server1` and click `Finish`. Note the messages in the `EAP7-Server1` server console indicate it is the singleton provider of the service.
+5. To deploy the cluster-ha-singleton service to `EAP7-Server1`, right-click on the `${project.artifactId}-service` project, choose `Run As` --> `Run on Server`, choose `EAP7-Server1` and click `Finish`. Note the messages in the `EAP7-Server1` server console indicate it is the singleton provider of the service.
    
         WFLYCLSV0003: localhost elected as the singleton provider of the jboss.quickstart.ha.singleton.timer service
         WFLYSRV0060: Http management interface listening on http://127.0.0.1:9990/management
@@ -175,7 +175,7 @@ _NOTE_: If you have not yet configured the ${product.name} ${product.version} ru
         INFO  [class org.jboss.as.quickstarts.cluster.hasingleton.service.ejb.SchedulerBean] (EJB default - 2) HASingletonTimer: Info=HASingleton timer @localhost <timestamp>
         INFO  [class org.jboss.as.quickstarts.cluster.hasingleton.service.ejb.SchedulerBean] (EJB default - 3) HASingletonTimer: Info=HASingleton timer @localhost <timestamp>
 
-6. To deploy the cluster-ha-singleton service to `EAP7-Server2`, right-click on the `jboss-cluster-ha-singleton-service` project, choose `Run As` --> `Run on Server`, choose `EAP7-Server2` and click `Finish`. Note that `EAP7-Server1` is still the singleton provider of the service. This message is in the `EAP7-Server2` console.
+6. To deploy the cluster-ha-singleton service to `EAP7-Server2`, right-click on the `${project.artifactId}-service` project, choose `Run As` --> `Run on Server`, choose `EAP7-Server2` and click `Finish`. Note that `EAP7-Server1` is still the singleton provider of the service. This message is in the `EAP7-Server2` console.
    
         WFLYSRV0060: Http management interface listening on http://127.0.0.1:10090/management   
 

@@ -67,7 +67,6 @@ public class ProductResourceRESTService {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response createContact(Product product) {
-
         Response.ResponseBuilder builder = null;
         try {
             PersitTask pt = persisTaskInstance.get();
@@ -81,6 +80,7 @@ public class ProductResourceRESTService {
             builder = Response.ok();
         } catch (Exception e) {
             // Handle generic exceptions
+            e.printStackTrace();
             builder = Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage());
         }
 

@@ -19,11 +19,11 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.wildfly.quickstarts</groupId>
-        <artifactId>jboss-ejb-remote</artifactId>
+        <artifactId>ejb-remote</artifactId>
         <version>11.0.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>jboss-ejb-remote-server-side</artifactId>
+    <artifactId>ejb-remote-server-side</artifactId>
     <version>11.0.0-SNAPSHOT</version>
     <packaging>ejb</packaging>
     <name>${qs.name.prefix} ejb-remote - server-side</name>
@@ -57,8 +57,6 @@
     </dependencies>
 
     <build>
-        <!-- Set the name of the deployment -->
-        <finalName>${project.artifactId}</finalName>
         <plugins>
             <!-- WildFly plug-in to deploy the application -->
             <plugin>
@@ -66,6 +64,7 @@
                 <artifactId>wildfly-maven-plugin</artifactId>
                 <version>${version.wildfly.maven.plugin}</version>
                 <configuration>
+                    <skip>false</skip>
                     <filename>${project.build.finalName}.jar</filename>
                 </configuration>
             </plugin>
@@ -74,7 +73,7 @@
                 <artifactId>maven-ejb-plugin</artifactId>
                 <version>${version.ejb.plugin}</version>
                 <configuration>
-                    <ejbVersion>3.1</ejbVersion>
+                    <ejbVersion>3.2</ejbVersion>
                     <!-- this is false by default -->
                     <generateClient>true</generateClient>
                 </configuration>

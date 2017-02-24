@@ -31,7 +31,7 @@ public class Deployments {
     /**
      * Specifies relative path to the war of built application in the main project.
      */
-    private static final String KITCHENSINK = "../target/jboss-spring-kitchensink-springmvctest.war";
+    private static final String KITCHENSINK = "../target/spring-kitchensink-springmvctest.war";
 
     /**
      * Creates deployment which is sent to the container upon test's start.

@@ -1,11 +1,11 @@
-managedexecutorservice: ManagedExecutorService example
+managed-executor-service: Managed Executor Service example
 ================================================================
 Author: Rafael Benevides  
 Level: Beginner  
-Technologies: EE Concurrency Utilities, JAX-RS, JAX-RS Client API 
-Summary:The `managedexecutorservice` quickstart demonstrates how Java EE applications can submit tasks for asynchronous execution.  
-Target Product: WildFly    
-Source: <https://github.com/wildfly/quickstart/>  
+Technologies: EE Concurrency Utilities, JAX-RS, JAX-RS Client API  
+Summary: The `managed-executor-service` quickstart demonstrates how Java EE applications can submit tasks for asynchronous execution.  
+Target Product: ${product.name}  
+Source: <${github.repo.url}>  
 
 
 What is it?
@@ -17,73 +17,74 @@ Managed Executor Service instances are managed by the application server, thus J
 
 A JAX-RS resource provides access to some operations that are executed asynchronously. 
 
-  
+_Note: This quickstart uses the H2 database included with ${product.name.full} ${product.version}. It is a lightweight, relational example datasource that is used for examples only. It is not robust or scalable, is not supported, and should NOT be used in a production environment!_
+
+_Note: This quickstart uses a `*-ds.xml` datasource configuration file for convenience and ease of database configuration. These files are deprecated in ${product.name} and should not be used in a production environment. Instead, you should configure the datasource using the Management CLI or Management Console. Datasource configuration is documented in the [Configuration Guide](https://access.redhat.com/documentation/en/red-hat-jboss-enterprise-application-platform/) for ${product.name.full}._
+
 System requirements
 -------------------
 
-The application this project produces is designed to be run on Red Hat JBoss Enterprise Application Platform 7 or later. 
+The application this project produces is designed to be run on ${product.name.full} ${product.version} or later. 
 
-All you need to build this project is Java 8.0 (Java SDK 1.8) or later and Maven 3.1.1 or later. See [Configure Maven for WildFly 10](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
+All you need to build this project is ${build.requirements}. See [Configure Maven for ${product.name} ${product.version}](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
 
 
-Start the WildFly Server
+Start the ${product.name} Server
 -------------------------
 
-1. Open a command line and navigate to the root of the  WildFly directory.
+1. Open a command line and navigate to the root of the  ${product.name} directory.
 2. The following shows the command line to start the server with the default profile:
 
-        For Linux:   WILDFLY_HOME/bin/standalone.sh
-        For Windows: WILDFLY_HOME\bin\standalone.bat
+        For Linux:   ${jboss.home.name}/bin/standalone.sh
+        For Windows: ${jboss.home.name}\bin\standalone.bat
 
 
 Build and Deploy the Quickstart
 -------------------------
 
-1. Make sure you have started the WildFly server as described above.
+1. Make sure you have started the ${product.name} server as described above.
 2. Open a command line and navigate to the root directory of this quickstart.
 3. Type this command to build and deploy the archive:
 
         mvn clean package wildfly:deploy
-4. This will deploy `target/wildfly-managedexecutorservice.war` to the running instance of the server.
+4. This will deploy `target/${project.artifactId}.war` to the running instance of the server.
  
 
 
-Run the Tests
+Run the Arquillian Tests 
 -------------------------
 
+This quickstart provides Arquillian tests. By default, these tests are configured to be skipped as Arquillian tests require the use of a container. 
 
-This quickstart provides tests that shows how the asynchronous tasks are executed. By default, these tests are configured to be skipped as the tests requires that the application to be deployed first. 
-
-
-1. Make sure you have started the WildFly server as described above.
-2. Open a command prompt and navigate to the root directory of this quickstart.
+1. Make sure you have started the ${product.name} server as described above.
+2. Open a command line and navigate to the root directory of this quickstart.
 3. Type the following command to run the test goal with the following profile activated:
 
-        mvn test -Prest-test
+        mvn clean verify -Parq-wildfly-remote
 
-Run tests from JBDS
------------------------
-
-To be able to run the tests from JBDS, first set the active Maven profile in project properties to be either 'rest-client'.
-
-To run the tests, right click on the project or individual classes and select Run As --> JUnit Test in the context menu.
+You can also let Arquillian manage the ${product.name} server by using the `arq-wildfly-managed` profile. For more information about how to run the Arquillian tests, see [Run the Arquillian Tests](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/RUN_ARQUILLIAN_TESTS.md#run-the-arquillian-tests).
 
 
 Investigate the Console Output
 ------------------------------
 
-
     -------------------------------------------------------
      T E S T S
     -------------------------------------------------------
-    Running org.jboss.as.quickstarts.managedexecutorservice.test.ProductsRestClientTest
-    [timestamp] org.jboss.as.quickstarts.managedexecutorservice.test.ProductsRestClientTest testRestResources
+    Running org.jboss.as.quickstarts.managedexecutorservice.test.ProductsRestClientIT
+    feb. 22, 2017 4:22:22 PM org.xnio.Xnio <clinit>
+    INFO: XNIO version 3.3.4.Final
+    feb. 22, 2017 4:22:22 PM org.xnio.nio.NioXnio <clinit>
+    INFO: XNIO NIO Implementation Version 3.3.4.Final
+    feb. 22, 2017 4:22:22 PM org.jboss.remoting3.EndpointImpl <clinit>
+    INFO: JBoss Remoting version 4.0.18.Final
+    feb. 22, 2017 4:22:23 PM org.jboss.as.quickstarts.managedexecutorservice.test.ProductsRestClientIT testRestResources
     INFO: creating a new product
-    [timestamp] org.jboss.as.quickstarts.managedexecutorservice.test.ProductsRestClientTest testRestResources
-    INFO: Product created. Executing a Long running task
-    [timestamp] org.jboss.as.quickstarts.managedexecutorservice.test.ProductsRestClientTest testRestResources
+    feb. 22, 2017 4:22:23 PM org.jboss.as.quickstarts.managedexecutorservice.test.ProductsRestClientIT testRestResources
+    INFO: Product created. Executing a long running task
+    feb. 22, 2017 4:22:26 PM org.jboss.as.quickstarts.managedexecutorservice.test.ProductsRestClientIT testRestResources
     INFO: Deleting all products
-    Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.202 sec - in org.jboss.as.quickstarts.managedexecutorservice.test.ProductsRestClientTest
+    Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 5.619 sec - in org.jboss.as.quickstarts.managedexecutorservice.test.ProductsRestClientIT
     
     Results :
     
@@ -91,7 +92,7 @@ Investigate the Console Output
     
 Investigate the Server Console Output
 -------------------------------------
-Look at the WildFly console or Server log and you should see log messages like the following:
+Look at the ${product.name} console or Server log and you should see log messages like the following:
 
     13:34:07,940 INFO  [ProductResourceRESTService] (default task-51) Will create a new Product on other Thread
     13:34:07,940 INFO  [ProductResourceRESTService] (default task-51) Returning response
@@ -121,22 +122,35 @@ Look at the WildFly console or Server log and you should see log messages like t
 Note that the PersistTask and DeleteTask were executed after ProductResourceRESTService sends a Response. The only exception is for LongRunningTask where ProductResourceRESTService waits for its response.
     
 
+Server Log: Expected warnings and errors
+-----------------------------------
+
+_Note:_ You will see the following warnings in the server log. You can ignore these warnings.
+
+    WFLYJCA0091: -ds.xml file deployments are deprecated. Support may be removed in a future version.
+
+    HHH000431: Unable to determine H2 database version, certain features may not work
+
 
 Undeploy the Archive
 --------------------
 
-1. Make sure you have started the WildFly server as described above.
+1. Make sure you have started the ${product.name} server as described above.
 2. Open a command prompt and navigate to the root directory of this quickstart.
 3. When you are finished testing, type this command to undeploy the archive:
 
         mvn wildfly:undeploy
 
 
-Run the Quickstart in JBoss Developer Studio or Eclipse
+Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 -------------------------------------
 
+You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a ${product.name} server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](${use.eclipse.url}). 
 
-You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For more information, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_JBDS.md#use-jboss-developer-studio-or-eclipse-to-run-the-quickstarts) 
+To run the tests in Red Hat JBoss Developer Studio:
+
+You must first set the active Maven profile in project properties to be either `arq-wildfly-managed` for running on managed server or `arq-wildfly-remote` for running on remote server. Then, to run the tests, right click on the project or individual classes and select Run As --> JUnit Test in the context menu.
+
 
 Debug the Application
 ------------------------------------

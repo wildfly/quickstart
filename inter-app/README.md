@@ -17,9 +17,9 @@ CDI only provides intra-applicaion injection (i.e within a top level deployment,
 
 In all, the project has three modules:
 
-* `jboss-inter-app-shared.jar` - this module contains the interfaces which define the contract between the beans exposed by the WARs. It is deployed as an EJB JAR module because Eclipse Web Tools Platform can not deploy simple JARs.
-* `jboss-inter-app-appA.war` - the first WAR, whiches exposes an EJB singleton, and a simple UI that allows you to read the value set on the bean in appB
-* `jboss-inter-app-appB.war` - the second WAR, whiches exposes an EJB singleton, and a simple UI that allows you to read the value set on the bean in appA
+* `${project.artifactId}-app-shared.jar` - this module contains the interfaces which define the contract between the beans exposed by the WARs. It is deployed as an EJB JAR module because Eclipse Web Tools Platform can not deploy simple JARs.
+* `${project.artifactId}-app-appA.war` - the first WAR, whiches exposes an EJB singleton, and a simple UI that allows you to read the value set on the bean in appB
+* `${project.artifactId}-app-appB.war` - the second WAR, whiches exposes an EJB singleton, and a simple UI that allows you to read the value set on the bean in appA
 
 System requirements
 -------------------
@@ -53,7 +53,7 @@ Build and Deploy the Quickstart
 3. Type this command to build and deploy the archive:
 
         mvn clean install wildfly:deploy
-4. This will deploy `shared/target/jboss-inter-app-shared.jar`, `appA/target/jboss-inter-app-appA.war` and `appB/target/jboss-inter-app-appB.war` to the running instance of the server.
+4. This will deploy `shared/target/${project.artifactId}-app-shared.jar`, `appA/target/${project.artifactId}-app-appA.war` and `appB/target/${project.artifactId}-app-appB.war` to the running instance of the server.
 
 Access the application
 ---------------------
@@ -85,10 +85,10 @@ This quickstart consists of multiple projects containing interdependencies on ea
 
 1. In the `Servers` tab, right-click on the ${product.name} server and choose `Start`.
 2. Deploy the projects in one of the following ways.
-   * `Drag and Drop` mode: Click to multi-select the `jboss-inter-app-shared`, `jboss-inter-app-appA`, and `jboss-inter-app-appB` projects, then drag and drop them on the running ${product.name} server. This deploys the projects to the server without opening the browser.
-   * `Batch` mode: In the `Servers` tab, right-click on the server and choose `Add and Remove`. If the `jboss-inter-app-shared`, `jboss-inter-app-appA`, and `jboss-inter-app-appB` projects are the only projects in the list, click `Add All`. Otherwise, use multi-select to select them and click `Add`. Then click `Finish`.
-3. Right-click on the `jboss-inter-app-appA` project and choose `Run As` --> `Run on Server`. A browser window appears that accesses the running `appA` application.
-4. Right-click on the `jboss-inter-app-appB` project and choose `Run As` --> `Run on Server`. A browser window appears that accesses the running `appB` application.
+   * `Drag and Drop` mode: Click to multi-select the `${project.artifactId}-app-shared`, `${project.artifactId}-app-appA`, and `${project.artifactId}-app-appB` projects, then drag and drop them on the running ${product.name} server. This deploys the projects to the server without opening the browser.
+   * `Batch` mode: In the `Servers` tab, right-click on the server and choose `Add and Remove`. If the `${project.artifactId}-app-shared`, `${project.artifactId}-app-appA`, and `${project.artifactId}-app-appB` projects are the only projects in the list, click `Add All`. Otherwise, use multi-select to select them and click `Add`. Then click `Finish`.
+3. Right-click on the `${project.artifactId}-app-appA` project and choose `Run As` --> `Run on Server`. A browser window appears that accesses the running `appA` application.
+4. Right-click on the `${project.artifactId}-app-appB` project and choose `Run As` --> `Run on Server`. A browser window appears that accesses the running `appB` application.
 
 
 Debug the Application

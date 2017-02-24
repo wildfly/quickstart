@@ -20,10 +20,10 @@
 
     <parent>
         <groupId>org.wildfly.quickstarts</groupId>
-        <artifactId>jboss-ejb-multi-server-app-main</artifactId>
+        <artifactId>ejb-multi-server-app-main</artifactId>
         <version>11.0.0-SNAPSHOT</version>
     </parent>
-    <artifactId>jboss-ejb-multi-server-app-main-ear</artifactId>
+    <artifactId>ejb-multi-server-app-main-ear</artifactId>
     <packaging>ear</packaging>
     <name>${qs.name.prefix} ejb-multi-server - app-main - ear</name>
     <description>A project that demonstrates multiple applications deployed on different servers. This is the main application EAR project.
@@ -41,80 +41,17 @@
         <!-- add the EJB and WEB project as dependency to include it in the EAR -->
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>jboss-ejb-multi-server-app-main-ejb</artifactId>
+            <artifactId>ejb-multi-server-app-main-ejb</artifactId>
             <version>${project.version}</version>
             <type>ejb</type>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>jboss-ejb-multi-server-app-main-web</artifactId>
+            <artifactId>ejb-multi-server-app-main-web</artifactId>
             <version>${project.version}</version>
             <type>war</type>
         </dependency>
-        <dependency>
-            <groupId>org.wildfly</groupId>
-            <artifactId>wildfly-ejb-client-bom</artifactId>
-            <type>pom</type>
-            <scope>provided</scope>
-        </dependency>
     </dependencies>
-
-    <!-- Activate the JBoss Enterprise Maven Repository.
-
-        NOTE: Configuring the Maven repository in the pom.xml file is not a recommended procedure
-        and is only done here to make it easier to use the quickstarts.
-
-        For more information about how to configure Maven for your application,
-        see the section entitled 'Use the Maven Repository'
-        in the Development Guide for Red Hat JBoss Enterprise Application Platform located here:
-
-        https://access.redhat.com/documentation/en/red-hat-jboss-enterprise-application-platform/
-    -->
-    <repositories>
-        <repository>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-            <id>jboss-developer-staging-repository</id>
-            <url>http://jboss-developer.github.io/temp-maven-repo/</url>
-        </repository>
-        <repository>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-            <id>jboss-enterprise-maven-repository</id>
-            <url>https://maven.repository.redhat.com/ga/</url>
-        </repository>
-    </repositories>
-
-    <pluginRepositories>
-        <pluginRepository>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-            <id>jboss-developer-staging-repository</id>
-            <url>http://jboss-developer.github.io/temp-maven-repo/</url>
-        </pluginRepository>
-        <pluginRepository>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-            <id>jboss-enterprise-maven-repository</id>
-            <url>https://maven.repository.redhat.com/ga/</url>
-        </pluginRepository>
-    </pluginRepositories>
 
     <build>
         <!-- define the name for the deployable archive instead of using the default name with the version -->
@@ -139,30 +76,30 @@
                     <displayName>Application Main</displayName>
                     <description>A simple quickstart application to demonstrate the
                         server-server communication</description>
-                    <version>6</version>
+                    <version>7</version>
                     <generateApplicationXml>true</generateApplicationXml>
                     <!-- must start in order to ensure that the reference to MainApp is found in the JsfController -->
                     <initializeInOrder>true</initializeInOrder>
                     <modules>
                         <ejbModule>
                             <groupId>${project.groupId}</groupId>
-                            <artifactId>jboss-ejb-multi-server-app-main-ejb</artifactId>
+                            <artifactId>ejb-multi-server-app-main-ejb</artifactId>
                             <bundleFileName>ejb.jar</bundleFileName>
                         </ejbModule>
                         <webModule>
                             <groupId>${project.groupId}</groupId>
-                            <artifactId>jboss-ejb-multi-server-app-main-web</artifactId>
+                            <artifactId>ejb-multi-server-app-main-web</artifactId>
                             <bundleFileName>jsf.war</bundleFileName>
                         </webModule>
                         <!-- add the necessary EJB client interfaces of AppOne and AppTwo to the lib directory of the EAR -->
                         <ejbClientModule>
                             <groupId>${project.groupId}</groupId>
-                            <artifactId>jboss-ejb-multi-server-app-one-ejb</artifactId>
+                            <artifactId>ejb-multi-server-app-one-ejb</artifactId>
                             <bundleDir>lib</bundleDir>
                         </ejbClientModule>
                         <ejbClientModule>
                             <groupId>${project.groupId}</groupId>
-                            <artifactId>jboss-ejb-multi-server-app-two-ejb</artifactId>
+                            <artifactId>ejb-multi-server-app-two-ejb</artifactId>
                             <bundleDir>lib</bundleDir>
                         </ejbClientModule>
                     </modules>

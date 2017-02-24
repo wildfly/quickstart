@@ -11,7 +11,7 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
  *
  */
 public class Deployments {
-    private static final String PETCLINIC = "../target/jboss-spring-petclinic.war";
+    private static final String PETCLINIC = "../target/spring-petclinic.war";
 
     public static WebArchive archive() {
         WebArchive archive = ShrinkWrap.createFromZipFile(WebArchive.class, new File(PETCLINIC));

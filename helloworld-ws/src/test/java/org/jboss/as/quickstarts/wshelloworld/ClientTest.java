@@ -37,7 +37,7 @@ public class ClientTest {
     /**
      * The name of the WAR Archive that will be used by Arquillian to deploy the application.
      */
-    private static final String APP_NAME = "jboss-helloworld-ws";
+    private static final String APP_NAME = "helloworld-ws";
     /**
      * The path of the WSDL endpoint in relation to the deployed web application.
      */

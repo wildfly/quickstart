@@ -45,7 +45,7 @@ Build and Deploy the Quickstart
 
         mvn clean install wildfly:deploy
 
-4. This will deploy `service/target/jboss-jaxws-retail-service.war` to the running instance of the server.
+4. This will deploy `service/target/${project.artifactId}-service.war` to the running instance of the server.
 
 _Note:_ You will see the following errors and warnings in the server log. These messages come from the `jaxws-tools-maven-plugin` plugin that generates source files based on the WSDL. You can ignore these warnings.
 

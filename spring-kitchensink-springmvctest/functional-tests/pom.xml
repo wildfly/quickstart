@@ -17,135 +17,22 @@
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.wildfly.quickstarts</groupId>
+        <artifactId>quickstart-parent</artifactId>
+        <version>11.0.0-SNAPSHOT</version>
+        <relativePath>../../pom.xml</relativePath>
+    </parent>
+    <artifactId>spring-kitchensink-springmvctest-test-webdriver</artifactId>
 
-    <groupId>org.jboss.as.quickstarts.eap</groupId>
-    <artifactId>jboss-spring-kitchensink-springmvctest-test-webdriver</artifactId>
-    <version>7.1.0-SNAPSHOT</version>
-    <name>JBoss EAP Quickstarts: Spring Kitchensink SpringMvcTest test via WebDriver with Arquillian</name>
+    <name>${qs.name.prefix} Spring Kitchensink SpringMvcTest test via WebDriver with Arquillian</name>
     <description>This project tests a Spring Kitchensink SpringMvcTest for use on JBoss EAP by WebDriver</description>
 
-        <licenses>
-        <license>
-            <name>Apache License, Version 2.0</name>
-            <distribution>repo</distribution>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
-        </license>
-    </licenses>
-
-    <!-- Activate the JBoss Enterprise Maven Repository.
-
-        NOTE: Configuring the Maven repository in the pom.xml file is not a recommended procedure
-        and is only done here to make it easier to use the quickstarts.
-
-        For more information about how to configure Maven for your application,
-        see the section entitled 'Use the Maven Repository'
-        in the Development Guide for Red Hat JBoss Enterprise Application Platform located here:
-
-        https://access.redhat.com/documentation/en/red-hat-jboss-enterprise-application-platform/
-    -->
-    <repositories>
-        <repository>
-            <id>jboss-developer-staging-repository</id>
-            <url>http://jboss-developer.github.io/temp-maven-repo/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>jboss-enterprise-maven-repository</id>
-            <url>https://maven.repository.redhat.com/ga/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
-
-    <pluginRepositories>
-        <pluginRepository>
-            <id>jboss-developer-staging-repository</id>
-            <url>http://jboss-developer.github.io/temp-maven-repo/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </pluginRepository>
-        <pluginRepository>
-            <id>jboss-enterprise-maven-repository</id>
-            <url>https://maven.repository.redhat.com/ga/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </pluginRepository>
-    </pluginRepositories>
-
     <properties>
-        <!-- Explicitly declaring the source encoding eliminates the following
-            message: [WARNING] Using platform encoding (UTF-8 actually) to copy 
-            filtered resources, i.e. build is platform dependent! -->
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-        <!-- To disable warning of missing beans.xml file in JBoss Tools -->
-        <m2e.cdi.activation>false</m2e.cdi.activation>
-
-        <!-- JBoss dependency versions -->
-        <version.wildfly.maven.plugin>1.0.2.Final</version.wildfly.maven.plugin>
-
-        <!-- Define the version of the JBoss BOMs we want to import. The JBoss BOMs specify tested stacks. -->
-        <version.jboss.bom.eap>7.0.0.GA</version.jboss.bom.eap>
-
-        <!-- other plug-in versions -->
-        <version.surefire.plugin>2.19</version.surefire.plugin>
-
-        <!-- maven-compiler-plugin -->
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <maven.compiler.source>1.8</maven.compiler.source>
-
         <!-- json version -->
         <version.org.json>20150729</version.org.json>
     </properties>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>${version.surefire.plugin}</version>
-            </plugin>
-        </plugins>
-    </build>
-
-    <dependencyManagement>
-        <dependencies>
-            <!-- Arquillian dependency -->
-            <!-- Define the version of the JBoss Java EE APIs we want to import.
-                 Any dependencies from org.jboss.spec will have their version defined by this BOM
-
-                 JBoss distributes a complete set of Java EE APIs including
-                 a Bill of Materials (BOM). A BOM specifies the versions of a "stack" (or
-                 a collection) of artifacts. We use this here so that we always get the correct
-                 versions of artifacts. Here we use the jboss-javaee-7.0 stack (you can
-                 read this as the JBoss stack of the Java EE APIs). You can actually
-                 use this stack with any version of JBoss EAP that implements Java EE. -->
-            <dependency>
-                <groupId>org.wildfly.bom</groupId>
-                <artifactId>wildfly-javaee7-with-tools</artifactId>
-                <version>${version.jboss.bom.eap}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 
 
     <dependencies>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
     JBoss, Home of Professional Open Source
     Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
@@ -20,52 +20,43 @@
 
     <parent>
         <groupId>org.wildfly.quickstarts</groupId>
-        <artifactId>jboss-ejb-multi-server</artifactId>
+        <artifactId>ejb-multi-server</artifactId>
         <version>11.0.0-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>wildfly-ejb-multi-server-app-web</artifactId>
+    <artifactId>ejb-multi-server-app-web</artifactId>
     <packaging>war</packaging>
-    <name>WildFly Quickstart: ejb-multi-server - app-web</name>
-    <description>A simple web application, which contains a simple Servlet,
-    to demonstrate how a plain web application can use a EJB application
-    deployed on a different server.
-  </description>
-    <url>http://www.wildfly.org</url>
+    <name>${qs.name.prefix} ejb-multi-server - app-web</name>
+    <description>A project that demonstrates multiple applications deployed on different servers. 
+        This is web application project, which contains a simple servlet to demonstrate 
+        how a plain web application can use an EJB application deployed on a different server.</description>
 
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
-            <distribution>repo</distribution>
             <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+            <distribution>repo</distribution>
         </license>
     </licenses>
 
     <dependencies>
-        <dependency>
-            <groupId>org.wildfly</groupId>
-            <artifactId>wildfly-ejb-client-bom</artifactId>
-            <type>pom</type>
-            <scope>provided</scope>
-        </dependency>
-    <!-- add dependencies to all related EJB applications which are used.
+        <!-- add dependencies to all related EJB applications which are used.
          The API jar files will be packed into the lib directory of the WAR archive.
      -->
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>jboss-ejb-multi-server-app-main-ejb</artifactId>
+            <artifactId>ejb-multi-server-app-main-ejb</artifactId>
             <version>${project.version}</version>
             <type>ejb-client</type>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>jboss-ejb-multi-server-app-one-ejb</artifactId>
+            <artifactId>ejb-multi-server-app-one-ejb</artifactId>
             <version>${project.version}</version>
             <type>ejb-client</type>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>jboss-ejb-multi-server-app-two-ejb</artifactId>
+            <artifactId>ejb-multi-server-app-two-ejb</artifactId>
             <version>${project.version}</version>
             <type>ejb-client</type>
         </dependency>
@@ -84,7 +75,7 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <version>${version.war.plugin}</version>
                 <configuration>
-          <!-- Java EE doesn't require web.xml, Maven needs to catch up! -->
+                    <!-- Java EE doesn't require web.xml, Maven needs to catch up! -->
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                     <archive>
                         <addMavenDescriptor>false</addMavenDescriptor>

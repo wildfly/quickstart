@@ -15,14 +15,16 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.wildfly.quickstarts</groupId>
         <artifactId>quickstart-parent</artifactId>
         <version>11.0.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>jboss-ejb-in-ear</artifactId>
+    <artifactId>ejb-in-ear</artifactId>
     <packaging>pom</packaging>
     <name>${qs.name.prefix} ejb-in-ear</name>
     <description>This project demonstrates how to package an EJB and WAR in an EAR; this is the top level POM file</description>
@@ -47,7 +49,7 @@
                 to repeat ourselves in every module -->
             <dependency>
                 <groupId>org.wildfly.quickstarts</groupId>
-                <artifactId>jboss-ejb-in-ear-ejb</artifactId>
+                <artifactId>ejb-in-ear-ejb</artifactId>
                 <version>${project.version}</version>
                 <type>ejb</type>
             </dependency>
@@ -56,7 +58,7 @@
                 ourselves in every module -->
             <dependency>
                 <groupId>org.wildfly.quickstarts</groupId>
-                <artifactId>jboss-ejb-in-ear-web</artifactId>
+                <artifactId>ejb-in-ear-web</artifactId>
                 <version>${project.version}</version>
                 <type>war</type>
                 <scope>compile</scope>

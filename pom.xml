@@ -59,7 +59,7 @@
 
         <version.spring.framework>4.3.6.RELEASE</version.spring.framework>
         <!-- EAP component version management BOM -->
-        <version.jboss.bom.eap>11.0.0.Alpha1</version.jboss.bom.eap>
+        <version.server.bom>11.0.0.Alpha1</version.server.bom>
         
         <version.jboss.spec.javaee.7.0>1.1.0.Beta1</version.jboss.spec.javaee.7.0>
 
@@ -90,19 +90,44 @@
                 <version>2.5</version>
                 <scope>compile</scope>
             </dependency>
-            <!-- TODO - remove here only till ejb-client isn't fix to not require it
-            see https://github.com/jbossas/jboss-ejb-client/pull/212
+            <!-- TODO - remove here only till wildfly-discovery-client 1.0.0.Beta9 is released and used in EAP
+            see https://github.com/wildfly/wildfly-discovery/pull/13
             -->
             <dependency>
                 <groupId>org.jboss.modules</groupId>
                 <artifactId>jboss-modules</artifactId>
                 <version>1.6.0.Beta4</version>
+            <scope>provided</scope>
             </dependency>
          <!--<dependency>
+                <groupId>org.wildfly.discovery</groupId>
+                <artifactId>wildfly-discovery-client</artifactId>
+                <version>1.0.0.Beta9-SNAPSHOT</version>
+            </dependency>-->
+
+            <!--
+            uncomment if you want to test with latest jms & ejb client 
+            -->
+            <!--<dependency>
+                <groupId>org.wildfly</groupId>
+                <artifactId>wildfly-jms-client-bom</artifactId>
+                <version>7.1.0.Alpha1-redhat-SNAPSHOT</version>
+                <type>pom</type>
+            </dependency>
+            <dependency>
+                <groupId>org.wildfly</groupId>
+                <artifactId>wildfly-ejb-client-bom</artifactId>
+                <version>7.1.0.Alpha1-redhat-SNAPSHOT</version>
+                <type>pom</type>
+            </dependency>
+            <dependency>
                 <groupId>org.jboss</groupId>
                 <artifactId>jboss-ejb-client</artifactId>
-                <version>4.0.0.Beta16-SNAPSHOT</version>
-            </dependency>-->
+                <version>4.0.0.Beta16</version>
+            </dependency>
+            -->
+
+            <!-- end TODO -->
 
             <dependency>
                 <groupId>commons-logging</groupId>
@@ -134,7 +159,7 @@
             <dependency>
                 <groupId>org.wildfly.bom</groupId>
                 <artifactId>wildfly-javaee7-with-tools</artifactId>
-                <version>${version.jboss.bom.eap}</version>
+                <version>${version.server.bom}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -501,11 +526,25 @@
                 <module>messaging-clustering</module>
             </modules>
         </profile>
+        <profile>
+            <id>functional-tests</id>
+            <modules>
+                <module>contacts-jquerymobile/functional-tests</module>
+                <module>helloworld-html5/functional-tests</module>
+                <module>kitchensink-angularjs/functional-tests</module>
+                <module>spring-greeter/functional-tests</module>
+                <module>spring-kitchensink-basic/functional-tests</module>
+                <module>spring-kitchensink-controlleradvice/functional-tests</module>
+                <module>spring-kitchensink-springmvctest/functional-tests</module>
+                <module>spring-kitchensink-matrixvariables/functional-tests</module>
+                <module>spring-petclinic/functional-tests</module>
+            </modules>
+        </profile>
 
         <profile>
             <!-- An optional Arquillian testing profile that executes tests in your JBoss EAP instance.
                  This profile will start a new JBoss EAP instance, and execute the test, shutting it down when done.
-                 Run with: mvn clean test -Parq-wildfly-managed -->
+                 Run with: mvn clean verify -Parq-wildfly-managed -->
             <id>arq-wildfly-managed</id>
             <dependencies>
                 <dependency>
@@ -535,7 +574,7 @@
 
         <profile>
             <!-- An optional Arquillian testing profile that executes tests in a remote JBoss EAP instance.
-                 Run with: mvn clean test -Parq-wildfly-remote -->
+                 Run with: mvn clean verify -Parq-wildfly-remote -->
             <id>arq-wildfly-remote</id>
             <dependencies>
                 <dependency>

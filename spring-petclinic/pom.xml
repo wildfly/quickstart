@@ -14,25 +14,19 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.wildfly.quickstarts</groupId>
         <artifactId>quickstart-parent</artifactId>
         <version>11.0.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>jboss-spring-petclinic</artifactId>
+    <artifactId>spring-petclinic</artifactId>
     <packaging>war</packaging>
     <name>${qs.name.prefix} spring-petclinic</name>
     <description>The Spring PetClinic project file</description>
-
-    <licenses>
-        <license>
-            <name>Apache License, Version 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
-            <distribution>repo</distribution>
-        </license>
-    </licenses>
 
     <properties>
 
@@ -81,23 +75,6 @@
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-framework-bom</artifactId>
                 <version>${version.spring.framework}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-
-            <!-- Define the version of the JBoss Java EE APIs we want to import.
-                 Any dependencies from org.jboss.spec will have their version defined by this BOM
-
-                 JBoss distributes a complete set of Java EE APIs including
-                 a Bill of Materials (BOM). A BOM specifies the versions of a "stack" (or
-                 a collection) of artifacts. We use this here so that we always get the correct
-                 versions of artifacts. Here we use the jboss-javaee-7.0 stack (you can
-                 read this as the JBoss stack of the Java EE APIs). You can actually
-                 use this stack with any version of JBoss EAP that implements Java EE. -->
-            <dependency>
-                <groupId>org.wildfly.bom</groupId>
-                <artifactId>wildfly-javaee7-with-tools</artifactId>
-                <version>${version.jboss.bom.eap}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -395,13 +372,6 @@
                     </execution>
                 </executions>
             </plugin>
-            <!-- The WildFly plug-in deploys the WAR to a local JBoss EAP container.
-                 To use, run: mvn package wildfly:deploy -->
-            <plugin>
-                <groupId>org.wildfly.plugins</groupId>
-                <artifactId>wildfly-maven-plugin</artifactId>
-                <version>${version.wildfly.maven.plugin}</version>
-            </plugin>
         </plugins>
     </build>
     <reporting>
@@ -448,12 +418,6 @@
                     </plugin>
                 </plugins>
             </build>
-        </profile>
-        <profile>
-            <id>eap</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
         </profile>
     </profiles>
 </project>

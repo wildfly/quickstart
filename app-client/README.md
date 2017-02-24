@@ -92,8 +92,8 @@ This example shows how to invoke an EJB from a remote standalone application on 
 1. Be sure the quickstart deployed successfully as described above.
 2. Navigate to the root directory of this quickstart and type the following command to run the application. Be sure to replace `${jboss.home.name}` with the path to your ${product.name} installation.
 
-        For Linux:   ${jboss.home.name}/bin/appclient.sh ear/target/jboss-app-client.ear#simpleClient.jar Hello from command line
-        For Windows: ${jboss.home.name}\bin\appclient.bat ear\target\jboss-app-client.ear#simpleClient.jar Hello from command line
+        For Linux:   ${jboss.home.name}/bin/appclient.sh ear/target/app-client.ear#simpleClient.jar Hello from command line
+        For Windows: ${jboss.home.name}\bin\appclient.bat ear\target\app-client.ear#simpleClient.jar Hello from command line
 
 3. Review the result. The client outputs the following information provided by the server application:
 
@@ -145,8 +145,8 @@ This example shows how to invoke an EJB from a remote standalone Java EE applica
 6. Be sure that the quickstart deployed successfully and the server is running on `Machine_1` as described above.
 7. Type this command to run the `app-client` application:
 
-        For Linux:   ${jboss.home.name}/bin/appclient.sh --ejb-client-properties=jboss-ejb-client.properties ear/target/jboss-app-client.ear#simpleClient.jar Hello from command line
-        For Windows: ${jboss.home.name}\bin\appclient.bat --ejb-client-properties=jboss-ejb-client.properties ear\target\jboss-app-client.ear#simpleClient.jar Hello from command line
+        For Linux:   ${jboss.home.name}/bin/appclient.sh --ejb-client-properties=ejb-client.properties ear/target/app-client.ear#simpleClient.jar Hello from command line
+        For Windows: ${jboss.home.name}\bin\appclient.bat --ejb-client-properties=ejb-client.properties ear\target\app-client.ear#simpleClient.jar Hello from command line
 
 8. Review the result. The client outputs the following information, which was provided by the application:
 

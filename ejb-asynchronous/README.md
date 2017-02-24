@@ -52,7 +52,7 @@ Build and Deploy the Quickstart
 3. Type this command to build and deploy the archive:
 
         mvn clean install wildfly:deploy
-4. This will deploy `ejb/target/jboss-ejb-asynchronous-ejb.jar` to the running instance of the server.
+4. This will deploy `ejb/target/${project.artifactId}-ejb.jar` to the running instance of the server.
  
 Check whether the application is deployed successfully.
 
@@ -101,11 +101,11 @@ You can also start the server and deploy the quickstarts or run the Arquillian t
 This quickstart consists of multiple projects, so it deploys and runs differently in JBoss Developer Studio than the other quickstarts.
 
 1. Install the required Maven artifacts and deploy the asynchronous EJB quickstart project.
-   * Right-click on the `jboss-ejb-asynchronous-ejb` project and choose `Run As` --> `Maven Install`.
-   * Right-click on the `jboss-ejb-asynchronous-ejb` project and choose `Run As` --> `Run on Server`.
+   * Right-click on the `${project.artifactId}-ejb` project and choose `Run As` --> `Maven Install`.
+   * Right-click on the `${project.artifactId}-ejb` project and choose `Run As` --> `Run on Server`.
 
 2. Build and run the client side of the quickstart project.
-   * Right-click on the `jboss-ejb-asynchronous-client` project and choose `Run As` --> `Java Application`. 
+   * Right-click on the `${project.artifactId}-client` project and choose `Run As` --> `Java Application`. 
    * In the `Select Java Application` window, choose `AsynchronousClient - org.jboss.as.quickstarts.ejb.asynchronous.client` and click `OK`.
    * The client output displays in the `Console` window.
 

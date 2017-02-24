@@ -15,25 +15,19 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.wildfly.quickstarts</groupId>
         <artifactId>quickstart-parent</artifactId>
         <version>11.0.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>jboss-thread-racing</artifactId>
+    <artifactId>thread-racing</artifactId>
     <packaging>war</packaging>
     <name>${qs.name.prefix} thread-racing</name>
     <description>A web application that triggers a thread race to complete Java EE 7 related tasks</description>
-
-    <licenses>
-        <license>
-            <name>Apache License, Version 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
-            <distribution>repo</distribution>
-        </license>
-    </licenses>
 
     <dependencies>
 
@@ -50,25 +44,7 @@
             <artifactId>hibernate-jpa-2.1-api</artifactId>
             <scope>provided</scope>
         </dependency>
-        <!-- RESTEasy implementation of JAX-RS Client API -->
-        <dependency>
-            <groupId>org.jboss.resteasy</groupId>
-            <artifactId>resteasy-client</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <!-- RESTEasy implementation of JAX-RS API -->
-        <dependency>
-            <groupId>org.jboss.resteasy</groupId>
-            <artifactId>resteasy-jaxrs</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <!-- RESTEasy plugin to use JSON-P as a provider -->
-        <dependency>
-            <groupId>org.jboss.resteasy</groupId>
-            <artifactId>resteasy-json-p-provider</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
+        
         <!-- Import the Common Annotations API (JSR-250), we use provided scope
             as the API is included in JBoss EAP -->
         <dependency>
@@ -126,43 +102,4 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
-
-    <build>
-        <!-- Set the name of the WAR, used as the context root when the app is deployed. -->
-        <finalName>${project.artifactId}</finalName>
-        <plugins>
-            <plugin>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>${version.war.plugin}</version>
-                <configuration>
-                    <!-- Java EE 7 doesn't require web.xml -->
-                    <failOnMissingWebXml>false</failOnMissingWebXml>
-                    <!-- activate the filtering of web resource index.html -->
-                    <webResources>
-                        <resource>
-                            <directory>src/main/webapp</directory>
-                            <filtering>true</filtering>
-                            <includes>
-                                <include>index.html</include>
-                            </includes>
-                        </resource>
-                        <resource>
-                            <directory>src/main/webapp</directory>
-                            <filtering>false</filtering>
-                            <excludes>
-                                <exclude>index.html</exclude>
-                            </excludes>
-                        </resource>
-                    </webResources>
-                </configuration>
-            </plugin>
-            <!-- WildFly plugin to deploy war -->
-            <plugin>
-                <groupId>org.wildfly.plugins</groupId>
-                <artifactId>wildfly-maven-plugin</artifactId>
-                <version>${version.wildfly.maven.plugin}</version>
-            </plugin>
-        </plugins>
-    </build>
-
 </project>

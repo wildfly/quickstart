@@ -30,7 +30,7 @@ public class Client {
 
     public static void main(String[] args)
     {
-        String endPointAddress = "http://localhost:8080/jboss-jaxws-pojo-endpoint/JSEBean";
+        String endPointAddress = "http://localhost:8080/jaxws-pojo-endpoint/JSEBean";
         QName serviceName = new QName("http://jsr181pojo.samples.jaxws.ws.quickstarts.jboss.org/", "JSEBeanService");
 
         try {

@@ -132,7 +132,7 @@ public class GreeterSpringTest {
     /**
      * Specifies relative path to the war of built application in the main project.
      */
-    private static final String DEPLOYMENT_WAR = "../target/jboss-spring-greeter.war";
+    private static final String DEPLOYMENT_WAR = "../target/spring-greeter.war";
 
     /**
      * Injects browser to our test.
