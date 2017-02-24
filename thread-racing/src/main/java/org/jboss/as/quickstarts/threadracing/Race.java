@@ -232,7 +232,7 @@ public class Race {
         public void aborted(Throwable t) {
             int racerPosition = abortedPosition.getAndDecrement();
             t.printStackTrace();
-            broadcast("aborted the race... such a looser! Reason: " + (t != null ? t.getMessage() : "N/A)"));
+            broadcast("aborted the race. Reason: " + (t != null ? t.getMessage() : "N/A)"));
             result.setPosition(this, racerPosition);
             endCountDownLatch.countDown();
         }

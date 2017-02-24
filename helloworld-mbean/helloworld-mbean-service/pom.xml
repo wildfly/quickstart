@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
     JBoss, Home of Professional Open Source
     Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
@@ -20,20 +20,20 @@
 
     <parent>
         <groupId>org.wildfly.quickstarts</groupId>
-        <artifactId>wildfly-helloworld-mbean</artifactId>
-        <version>10.0.0-SNAPSHOT</version>
+        <artifactId>helloworld-mbean</artifactId>
+        <version>11.0.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>wildfly-helloworld-mbean-helloworld-mbean-service</artifactId>
+    <artifactId>helloworld-mbean-helloworld-mbean-service</artifactId>
     <packaging>jboss-sar</packaging>
-    <name>WildFly Quickstart: helloworld-mbean - helloworld-mbean-service</name>
-    <url>http://www.wildfly.org</url>
+    <name>${qs.name.prefix} helloworld-mbean - helloworld-mbean-service</name>
+    <description>This project demonstrates a simple Hello World MBean application; this is the service POM file</description>
 
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
-            <distribution>repo</distribution>
             <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+            <distribution>repo</distribution>
         </license>
     </licenses>
 
@@ -43,7 +43,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>jboss-packaging-maven-plugin</artifactId>
-                <version>${version.jboss.packaging.plugin}</version>
+                <version>2.2</version>
                 <!-- Enable packaging types and lifecycle bindings. -->
                 <extensions>true</extensions>
             </plugin>

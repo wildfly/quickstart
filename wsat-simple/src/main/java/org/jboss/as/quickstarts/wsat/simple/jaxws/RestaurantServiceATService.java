@@ -53,6 +53,10 @@ public class RestaurantServiceATService extends Service {
         super(wsdlLocation, serviceName);
     }
 
+    public RestaurantServiceATService(URL wsdlLocation, QName serviceName, WebServiceFeature... features) {
+        super(wsdlLocation, serviceName, features);
+    }
+
     public RestaurantServiceATService() {
         super(RESTAURANTSERVICEATSERVICE_WSDL_LOCATION, new QName(
             "http://www.jboss.org/jboss-jdf/jboss-as-quickstart/wsat/simple/Restaurant", "RestaurantServiceATService"));

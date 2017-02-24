@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
     JBoss, Home of Professional Open Source
     Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
@@ -20,35 +20,31 @@
 
     <parent>
         <groupId>org.wildfly.quickstarts</groupId>
-        <artifactId>wildfly-inter-app-parent</artifactId>
-        <version>10.0.0-SNAPSHOT</version>
+        <artifactId>inter-app</artifactId>
+        <version>11.0.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>wildfly-inter-app-appB</artifactId>
+
+    <artifactId>inter-app-appB</artifactId>
     <packaging>war</packaging>
-    <name>WildFly Quickstart: inter-app - appB</name>
-    <description>Inter-application: Shows how to communicate between two applications using EJB and CDI</description>
+
+    <name>${qs.name.prefix} inter-app - appB</name>
+    <description>This project demonstrates inter-application communication between two applications using EJB and CDI; this is the appB POM file</description>
 
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
-            <distribution>repo</distribution>
             <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+            <distribution>repo</distribution>
         </license>
     </licenses>
 
     <dependencies>
 
-        <!-- Import the CDI API, we use provided scope as the API is included in WildFly -->
+        <!-- Import the CDI API, we use provided scope as the API is included in JBoss EAP -->
         <dependency>
             <groupId>javax.enterprise</groupId>
             <artifactId>cdi-api</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
-        <!-- Import the EJB API, we use provided scope as the API is included in WildFly -->
-        <dependency>
-            <groupId>org.jboss.spec.javax.ejb</groupId>
-            <artifactId>jboss-ejb-api_3.2_spec</artifactId>
             <scope>provided</scope>
         </dependency>
 
@@ -57,9 +53,16 @@
             the dependency at runtime. -->
         <dependency>
             <groupId>org.wildfly.quickstarts</groupId>
-            <artifactId>wildfly-inter-app-shared</artifactId>
-            <scope>provided</scope>
+            <artifactId>inter-app-shared</artifactId>
             <type>ejb</type>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Import the EJB API, we use provided scope as the API is included in JBoss EAP -->
+        <dependency>
+            <groupId>org.jboss.spec.javax.ejb</groupId>
+            <artifactId>jboss-ejb-api_3.2_spec</artifactId>
+            <scope>provided</scope>
         </dependency>
 
     </dependencies>
@@ -81,7 +84,7 @@
                         in the POM, which defines the dependency at compile time. -->
                     <archive>
                         <manifestEntries>
-                            <Dependencies>deployment.wildfly-inter-app-shared.jar</Dependencies>
+                            <Dependencies>deployment.inter-app-shared.jar</Dependencies>
                         </manifestEntries>
                     </archive>
                 </configuration>

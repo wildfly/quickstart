@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
     JBoss, Home of Professional Open Source
     Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
@@ -15,89 +15,39 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.wildfly.quickstarts</groupId>
-    <artifactId>wildfly-helloworld-mbean</artifactId>
-    <version>10.0.0-SNAPSHOT</version>
+    <parent>
+        <groupId>org.wildfly.quickstarts</groupId>
+        <artifactId>quickstart-parent</artifactId>
+        <version>11.0.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+    <artifactId>helloworld-mbean</artifactId>
     <packaging>pom</packaging>
-    <name>WildFly Quickstart: helloworld-mbean</name>
-    <url>http://www.wildfly.org</url>
+    <name>${qs.name.prefix} helloworld-mbean</name>
+    <description>This project demonstrates a simple Hello World MBean application</description>
 
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
-            <distribution>repo</distribution>
             <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+            <distribution>repo</distribution>
         </license>
     </licenses>
-
-    <properties>
-        <!-- Explicitly declaring the source encoding eliminates the following
-             message: -->
-        <!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered
-             resources, i.e. build is platform dependent! -->
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-        <!-- JBoss dependency versions -->
-        <version.wildfly.maven.plugin>1.0.2.Final</version.wildfly.maven.plugin>
-
-        <!-- Define the version of the JBoss BOMs we want to import to specify tested stacks. -->
-        <version.jboss.bom>10.1.0.Final</version.jboss.bom>
-
-        <!-- other plug-in versions -->
-        <version.jboss.packaging.plugin>2.2</version.jboss.packaging.plugin>
-        <version.war.plugin>3.0.0</version.war.plugin>
-        <version.surefire.plugin>2.10</version.surefire.plugin>
-
-        <!-- maven-compiler-plugin -->
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <maven.compiler.source>1.8</maven.compiler.source>
-    </properties>
 
     <modules>
         <module>helloworld-mbean-webapp</module>
         <module>helloworld-mbean-service</module>
     </modules>
-
-    <dependencyManagement>
-      <dependencies>
-          <!-- JBoss distributes a complete set of Java EE 7 APIs including a Bill
-              of Materials (BOM). A BOM specifies the versions of a "stack" (or a collection)
-              of artifacts. We use this here so that we always get the correct versions
-              of artifacts. Here we use the jboss-javaee-7.0-with tools stack (you can read this as
-              the JBoss stack of the Java EE 7 APIs, with some extras tools for your project, such
-              as Arquillian for testing) -->
-          <dependency>
-              <groupId>org.wildfly.bom</groupId>
-              <artifactId>wildfly-javaee7-with-tools</artifactId>
-              <version>${version.jboss.bom}</version>
-              <type>pom</type>
-              <scope>import</scope>
-          </dependency>
-        </dependencies>
-    </dependencyManagement>
-
     <dependencies>
-        <!-- Import the CDI API, we use provided scope as the API is included in WildFly -->
+        <!-- Import the CDI API, we use provided scope as the API is included in JBoss EAP -->
         <dependency>
             <groupId>javax.enterprise</groupId>
             <artifactId>cdi-api</artifactId>
             <scope>provided</scope>
         </dependency>
-
-        <!-- Import the Servlet API, we use provided scope as the API is included in WildFly -->
-        <dependency>
-            <groupId>org.jboss.spec.javax.servlet</groupId>
-            <artifactId>jboss-servlet-api_3.1_spec</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.spec.javax.ejb</groupId>
-            <artifactId>jboss-ejb-api_3.2_spec</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
 
         <!-- Needed for running tests (you may also use TestNG) -->
         <dependency>
@@ -119,75 +69,19 @@
             <artifactId>arquillian-protocol-servlet</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.jboss.spec.javax.ejb</groupId>
+            <artifactId>jboss-ejb-api_3.2_spec</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Import the Servlet API, we use provided scope as the API is included in JBoss EAP -->
+        <dependency>
+            <groupId>org.jboss.spec.javax.servlet</groupId>
+            <artifactId>jboss-servlet-api_3.1_spec</artifactId>
+            <scope>provided</scope>
+        </dependency>
 
     </dependencies>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.wildfly.plugins</groupId>
-                <artifactId>wildfly-maven-plugin</artifactId>
-                <version>${version.wildfly.maven.plugin}</version>
-                <configuration>
-                    <skip>true</skip>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
-
-    <profiles>
-        <profile>
-            <!-- The default profile skips all tests, though you can tune it to run just unit tests based on a custom pattern -->
-            <!-- Separate profiles are provided for running all tests, including Arquillian tests that execute in the specified container -->
-            <id>default</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <version>${version.surefire.plugin}</version>
-                        <configuration>
-                            <skip>true</skip>
-                        </configuration>
-                    </plugin>
-                    <!-- The WildFly plug-in deploys your WAR to a local WildFly container -->
-                    <!-- To use, run: mvn package wildfly:deploy -->
-                    <plugin>
-                        <groupId>org.wildfly.plugins</groupId>
-                        <artifactId>wildfly-maven-plugin</artifactId>
-                        <version>${version.wildfly.maven.plugin}</version>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-
-        <profile>
-            <!-- An optional Arquillian testing profile that executes tests in your WildFly instance -->
-            <!-- This profile will start a new WildFly instance, and execute the test, shutting it down when done -->
-            <!-- Run with: mvn clean test -Parq-wildfly-managed -->
-            <id>arq-wildfly-managed</id>
-            <dependencies>
-                <dependency>
-                    <groupId>org.wildfly.arquillian</groupId>
-                    <artifactId>wildfly-arquillian-container-managed</artifactId>
-                    <scope>test</scope>
-                </dependency>
-            </dependencies>
-        </profile>
-
-        <profile>
-            <!-- An optional Arquillian testing profile that executes tests in a remote WildFly instance -->
-            <!-- Run with: mvn clean test -Parq-wildfly-remote -->
-            <id>arq-wildfly-remote</id>
-            <dependencies>
-                <dependency>
-                    <groupId>org.wildfly.arquillian</groupId>
-                    <artifactId>wildfly-arquillian-container-remote</artifactId>
-                    <scope>test</scope>
-                </dependency>
-            </dependencies>
-        </profile>
-    </profiles>
 </project>

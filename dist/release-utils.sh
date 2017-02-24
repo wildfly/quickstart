@@ -99,10 +99,17 @@ markdown_to_html()
       readmes=`find $subdir -iname readme.md`
       for readme in $readmes
       do
+         # Only process the top level quickstart README files to prevent
+         # subdirectory README files from being added to the quickstart table.
+         # Directories look like this: ./helloworld/README.html
+         # So search for more than 2 "/".
+         NUM_DIRS=`grep -o "/" <<<"$readme" | wc -l`
+         if [ $NUM_DIRS -le "2" ]; then
          echo "Processing $readme"
          output_filename=${readme//.md/.html}
          output_filename=${output_filename//.MD/.html}
-         $DIR/github-flavored-markdown.rb $readme > $output_filename  
+            $DIR/github-flavored-markdown.rb $readme > $output_filename
+        fi
       done
    done
    # Now process the root readme

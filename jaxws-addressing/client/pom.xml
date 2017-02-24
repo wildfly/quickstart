@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
     JBoss, Home of Professional Open Source
     Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
@@ -16,57 +16,51 @@
     limitations under the License.
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0                              http://maven.apache.org/maven-v4_0_0.xsd">
-   <modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
 
     <parent>
         <groupId>org.wildfly.quickstarts</groupId>
-        <artifactId>wildfly-jaxws-addressing</artifactId>
-        <version>10.0.0-SNAPSHOT</version>
+        <artifactId>jaxws-addressing</artifactId>
+        <version>11.0.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>wildfly-jaxws-addressing-client</artifactId>
+    <artifactId>jaxws-addressing-client</artifactId>
     <packaging>jar</packaging>
-    <name>WildFly Quickstart: jaxws-addressing - client</name>
-    <url>http://www.wildfly.org</url>
+    <name>${qs.name.prefix} jaxws-addressing - client</name>
+    <description>This project is a working example of a JAX-WS web service addressing endpoint; this is the client POM file</description>
 
     <licenses>
-      <license>
-         <name>Apache License, Version 2.0</name>
-         <distribution>repo</distribution>
-         <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
-      </license>
-   </licenses>
-
-    <properties>
-     <version.exec.plugin>1.2.1</version.exec.plugin>
-   </properties>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
 
     <dependencies>
 
-      <dependency>
-         <groupId>org.wildfly.quickstarts</groupId>
-         <artifactId>wildfly-jaxws-addressing-service</artifactId>
-         <version>${project.version}</version>
-         <classifier>classes</classifier>
-      </dependency>
+        <dependency>
+            <groupId>org.wildfly.quickstarts</groupId>
+            <artifactId>jaxws-addressing-service</artifactId>
+            <version>${project.version}</version>
+            <classifier>classes</classifier>
+        </dependency>
 
-   </dependencies>
+    </dependencies>
 
     <build>
 
-      <finalName>${project.artifactId}</finalName>
-
-      <plugins>
-         <!-- Allows AddressingTestCase to be run via 'mvn exec:java' -->
-         <plugin>
-           <groupId>org.codehaus.mojo</groupId>
-           <artifactId>exec-maven-plugin</artifactId>
-           <version>${version.exec.plugin}</version>
-           <configuration>
-             <mainClass>org.jboss.quickstarts.ws.jaxws.samples.wsa.AddressingTestCase</mainClass>
-           </configuration>
-         </plugin>
-      </plugins>
-   </build>
+        <plugins>
+            <!-- Allows AddressingTestCase to be run via 'mvn exec:java' -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>${version.exec.plugin}</version>
+                <configuration>
+                    <mainClass>org.jboss.quickstarts.ws.jaxws.samples.wsa.AddressingClient</mainClass>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

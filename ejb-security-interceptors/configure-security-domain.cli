@@ -1,4 +1,4 @@
-# Batch script to add and configure the quickstart-domain security domain in the WildFly server
+# Batch script to add and configure the quickstart-domain security domain in the JBoss EAP server
 
 # Start batching commands
 batch
@@ -18,13 +18,13 @@ batch
 /socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=ejb-outbound:add(host=localhost,port=8080)
 
 # Create the outbound connection
-/subsystem=remoting/remote-outbound-connection=ejb-outbound-connection:add(outbound-socket-binding-ref=ejb-outbound,username=ConnectionUser,security-realm=ejb-outbound-realm, protocol=http-remoting)
+/subsystem=remoting/remote-outbound-connection=ejb-outbound-connection:add(outbound-socket-binding-ref=ejb-outbound,username=ConnectionUser,security-realm=ejb-outbound-realm)
 /subsystem=remoting/remote-outbound-connection=ejb-outbound-connection/property=SSL_ENABLED:add(value=false)
 	
 # Run the batch commands
 run-batch
 
 # Reload the server configuration
-:reload
+reload
 
 

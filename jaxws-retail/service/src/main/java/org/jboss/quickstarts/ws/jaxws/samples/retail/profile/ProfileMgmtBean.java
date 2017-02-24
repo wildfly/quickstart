@@ -16,9 +16,6 @@
  */
 package org.jboss.quickstarts.ws.jaxws.samples.retail.profile;
 
-import org.jboss.quickstarts.ws.jaxws.samples.retail.profile.DiscountRequest;
-import org.jboss.quickstarts.ws.jaxws.samples.retail.profile.DiscountResponse;
-
 import javax.ejb.Stateless;
 import javax.jws.WebService;
 import javax.jws.WebMethod;

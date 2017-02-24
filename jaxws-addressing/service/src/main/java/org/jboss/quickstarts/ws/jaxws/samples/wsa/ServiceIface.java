@@ -26,5 +26,5 @@ import javax.jws.WebService;
     name = "ServiceIface",
     targetNamespace = "http://www.jboss.org/jbossws/ws-extensions/wsaddressing")
 public interface ServiceIface {
-    public String sayHello();
+    String sayHello();
 }

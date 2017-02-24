@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
     JBoss, Home of Professional Open Source
     Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
@@ -20,27 +20,28 @@
 
     <parent>
         <groupId>org.wildfly.quickstarts</groupId>
-        <artifactId>wildfly-inter-app-parent</artifactId>
-        <version>10.0.0-SNAPSHOT</version>
+        <artifactId>inter-app</artifactId>
+        <version>11.0.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>wildfly-inter-app-shared</artifactId>
+    <artifactId>inter-app-shared</artifactId>
     <packaging>ejb</packaging>
 
-    <name>WildFly Quickstart: inter-app - shared</name>
-    <description>Inter-application: Shows how to communicate between two applications using EJB and CDI</description>
+    <name>${qs.name.prefix} inter-app - shared</name>
+    <description>This project demonstrates inter-application communication between two applications using EJB and CDI; this is the shared project POM file</description>
 
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
-            <distribution>repo</distribution>
             <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+            <distribution>repo</distribution>
         </license>
     </licenses>
 
     <dependencies>
 
-        <!-- Import the EJB API, we use provided scope as the API is included in WildFly -->
+        <!-- Import the EJB API, we use provided scope as the API is included in JBoss EAP -->
         <dependency>
             <groupId>org.jboss.spec.javax.ejb</groupId>
             <artifactId>jboss-ejb-api_3.2_spec</artifactId>
@@ -53,7 +54,7 @@
         <!-- Set the name of the deployment -->
         <finalName>${project.artifactId}</finalName>
         <plugins>
-            <!-- This jar is deployed to WildFly as a JBoss Module, which
+            <!-- This jar is deployed to JBoss EAP as a JBoss Module, which
                 we can depend on from other deployments -->
             <plugin>
                 <groupId>org.wildfly.plugins</groupId>

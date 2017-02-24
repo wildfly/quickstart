@@ -25,7 +25,14 @@ import javax.persistence.EntityManager;
 import java.util.logging.Logger;
 import org.hibernate.Session;
 
-// The @Stateless annotation eliminates the need for manual transaction demarcation
+/**
+ * Registers a Member
+ * 
+ * <p>
+ * The @Stateless annotation eliminates the need for manual transaction demarcation
+ * </p>
+ */
+
 @Stateless
 public class MemberRegistration {
 

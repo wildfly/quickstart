@@ -27,12 +27,14 @@
     <!-- Force the use of the Servlet 3.0 protocol with all containers, as it is the most mature -->
     <!-- defaultProtocol type="Local" / -->
 
-    <!-- Example configuration for a remote WildFly instance -->
+    <!-- Example configuration for a managed JBoss EAP instance -->
     <container qualifier="jboss" default="true">
-        <!-- If you want to use the JBOSS_HOME environment variable, just delete the jbossHome property -->
-        <!-- <configuration>                                                                            -->
-        <!--  <property name="jbossHome">/path/to/jboss</property>                                      -->
-        <!-- </configuration>                                                                           -->
+        <!-- By default, Arquillian will use the JBOSS_HOME environment variable to find the JBoss EAP installation.  
+             If you prefer not to define the JBOSS_HOME environment variable, alternatively you can uncomment the 
+             following `jbossHome` property and replace EAP_HOME with the path to your JBoss EAP installation. -->
+        <!--<configuration> 
+            <property name="jbossHome">EAP_HOME</property> 
+        </configuration> -->
     </container>
 
 </arquillian>

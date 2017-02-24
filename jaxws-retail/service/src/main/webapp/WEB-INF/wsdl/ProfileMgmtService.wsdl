@@ -79,9 +79,9 @@
    </binding>
    <service name='ProfileMgmtService'>
       <port binding='tns:ProfileMgmtBinding' name='ProfileMgmtPort'>
- 
-         <soap:address
-             location='SERVER:PORT/wildfly-jaxws-retail/ProfileMgmtBean'/>
+
+         <!-- service address will be rewritten to actual one when WSDL is requested from running server -->
+         <soap:address location='http://SERVER:PORT/jaxws-retail/ProfileMgmtBean'/>
       </port>
    </service>
 </definitions>	

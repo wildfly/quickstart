@@ -58,9 +58,10 @@ public class JMSRaceStage implements RaceStage {
                 if (response == null) {
                     registration.aborted(new IllegalStateException("Message processing timed out"));
                 } else if (!response.equals(request)) {
-                    registration.aborted(new IllegalStateException("Response content does not matches the request. Response: " + response + ", request: " + request));
+                    registration.aborted(new IllegalStateException("Response content does not match the request. Response: " + response + ", request: " + request));
                 }
             }
         }
     }
 }
+

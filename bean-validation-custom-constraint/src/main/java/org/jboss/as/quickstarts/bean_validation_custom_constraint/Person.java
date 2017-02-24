@@ -55,6 +55,7 @@ public class Person implements Serializable {
     private String lastName;
 
     // Custom Constraint @Address for bean validation
+    @NotNull
     @Address
     @OneToOne(mappedBy = "person", cascade = CascadeType.ALL)
     private PersonAddress personAddress;

@@ -23,7 +23,7 @@ import java.util.Map;
 import javax.ejb.EJBAccessException;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
-import javax.resource.spi.IllegalStateException;
+
 
 import org.jboss.as.core.security.api.UserPrincipal;
 import org.jboss.as.security.api.ContextStateCache;

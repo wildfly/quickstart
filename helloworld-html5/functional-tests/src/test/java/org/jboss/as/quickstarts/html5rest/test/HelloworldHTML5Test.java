@@ -33,6 +33,7 @@ import java.io.File;
 import java.net.URL;
 
 import static org.jboss.arquillian.graphene.Graphene.guardAjax;
+import static org.jboss.arquillian.graphene.Graphene.guardNoRequest;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -70,7 +71,7 @@ public class HelloworldHTML5Test {
     /**
      * Specifies relative path to the war of built application in the main project.
      */
-    private static final String DEPLOYMENT_WAR = "../target/wildfly-helloworld-html5.war";
+    private static final String DEPLOYMENT_WAR = "../target/helloworld-html5.war";
 
     /**
      * Injects browser to our test.
@@ -103,6 +104,16 @@ public class HelloworldHTML5Test {
         guardAjax(button).click();
 
         assertEquals("Entered name does not match.", "Hello " + NAME + "!", message.getText());
+    }
+
+    @Test
+    public void sayHelloEmptyFieldTest() {
+        browser.get(contextPath.toString());
+        input.clear();
+
+        guardNoRequest(button).click();
+
+        assertEquals("Can't say hello if name is not provided.", "A name is required!", message.getText());
     }
 
 }

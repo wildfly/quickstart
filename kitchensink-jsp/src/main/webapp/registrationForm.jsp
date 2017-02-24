@@ -23,13 +23,11 @@
 <title>registrationPage.jsp</title>
 </head>
 <body>
-    <h1>Welcome to WildFly!</h1>
+    <h1>Welcome to JBoss!</h1>
 
     <div>
         <p>You have successfully deployed a Java EE web
             application.</p>
-        <h3>Your application can run on:</h3>
-        <img src="resources/gfx/wildfly_400x130.jpg" />
     </div>
 
     <form id="reg" action="register.do" method="POST">

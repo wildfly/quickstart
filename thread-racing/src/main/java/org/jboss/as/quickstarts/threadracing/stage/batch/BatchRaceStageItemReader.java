@@ -40,7 +40,7 @@ public class BatchRaceStageItemReader extends AbstractItemReader {
     /**
      * the items to read iterator
      */
-    private Iterator items;
+    private Iterator<Object> items;
 
     /**
      * This method is implemented when the ItemReader requires any open time processing.
@@ -50,7 +50,7 @@ public class BatchRaceStageItemReader extends AbstractItemReader {
     @Override
     public void open(Serializable checkpoint) throws Exception {
         // retrieve the items to read, let's just simulate something, a list containing a random number of objects
-        final List list = new ArrayList();
+        final List<Object> list = new ArrayList<Object>();
         for (int i = 0; i < random.nextInt(50); i++) {
             list.add(new Object());
         }

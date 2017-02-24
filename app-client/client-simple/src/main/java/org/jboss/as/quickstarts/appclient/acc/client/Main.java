@@ -57,7 +57,7 @@ public class Main {
             LOG.info("            " + Arrays.asList(args));
 
         // add an client side interceptor to provide the client machine name to the server application
-        EJBClientContext.getCurrent().registerInterceptor(0, new ClientInterceptor());
+        //EJBClientContext.getCurrent().registerInterceptor(0, new ClientInterceptor());
         LOG.info(slsb.getGreeting());
         slsb.invokeWithClientContext();
     }

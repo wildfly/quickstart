@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2002-2013 the original author or authors.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+         http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+
+<!--
+    Application context definition for PetClinic Datasource.
+-->
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xmlns:jee="http://www.springframework.org/schema/jee"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+         http://www.springframework.org/schema/beans/spring-beans.xsd
+         http://www.springframework.org/schema/context
+         http://www.springframework.org/schema/context/spring-context.xsd
+         http://www.springframework.org/schema/jdbc
+         http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+         http://www.springframework.org/schema/jee
+         http://www.springframework.org/schema/jee/spring-jee.xsd">
+
+    <!-- ========================= DATASOURCE DEFINITION ========================= -->
+
+    <!-- Configurer that replaces ${...} placeholders with values from a properties file -->
+    <!-- (in this case, JDBC-related settings for the dataSource definition below) -->
+    <context:property-placeholder location="classpath:spring/data-access.properties" system-properties-mode="OVERRIDE"/>
+
+    <!-- DataSource configuration for the tomcat jdbc connection pool 
+    See here for more details on commons-dbcp versus tomcat-jdbc: 
+    http://blog.ippon.fr/2013/03/13/improving-the-performance-of-the-spring-petclinic-sample-application-part-3-of-5/-->
+    <bean id="dataSource" class="org.apache.tomcat.jdbc.pool.DataSource"
+          p:driverClassName="${jdbc.driverClassName}" p:url="${jdbc.url}"
+          p:username="${jdbc.username}" p:password="${jdbc.password}"/>
+
+    <!-- Database initializer. If any of the script fails, the initialization stops. -->
+    <!-- As an alternative, for embedded databases see <jdbc:embedded-database/>. -->
+    <jdbc:initialize-database data-source="dataSource">
+        <jdbc:script location="${jdbc.initLocation}"/>
+        <jdbc:script location="${jdbc.dataLocation}"/>
+    </jdbc:initialize-database>
+
+    <beans profile="javaee">
+        <!-- JNDI DataSource for JEE environments -->
+        <jee:jndi-lookup id="dataSource" jndi-name="java:comp/env/jdbc/petclinic"/>
+    </beans>
+</beans>

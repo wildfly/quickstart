@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
     JBoss, Home of Professional Open Source
     Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
@@ -20,37 +20,37 @@
 
     <parent>
         <groupId>org.wildfly.quickstarts</groupId>
-        <artifactId>wildfly-app-client</artifactId>
-        <version>10.0.0-SNAPSHOT</version>
+        <artifactId>app-client</artifactId>
+        <version>11.0.0-SNAPSHOT</version>
     </parent>
-    <artifactId>wildfly-app-client-ear</artifactId>
+    <artifactId>app-client-ear</artifactId>
     <packaging>ear</packaging>
-    <name>WildFly Quickstart: app-client - ear</name>
-    <description>Create the deployable application archive
-     Include the EJB and client application together with the necessary API libraries
-    </description>
+    <name>${qs.name.prefix} app-client - ear</name>
+    <description>This project demonstrates how to package and use an EE application client. 
+      This is the EAR POM file, which creates the deployable application archive by 
+     including the EJB and client application together with the necessary API libraries.</description>
 
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
-            <distribution>repo</distribution>
             <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+            <distribution>repo</distribution>
         </license>
     </licenses>
 
     <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>app-client-client-simple</artifactId>
+            <version>${project.version}</version>
+            <type>app-client</type>
+        </dependency>
         <!-- add the EJB and WEB project as dependency to include it in the EAR -->
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>wildfly-app-client-ejb</artifactId>
-            <type>ejb</type>
+            <artifactId>app-client-ejb</artifactId>
             <version>${project.version}</version>
-        </dependency>
-        <dependency>
-          <groupId>${project.groupId}</groupId>
-          <artifactId>wildfly-app-client-client-simple</artifactId>
-          <version>${project.version}</version>
-          <type>app-client</type>
+            <type>ejb</type>
         </dependency>
     </dependencies>
 
@@ -61,25 +61,25 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-acr-plugin</artifactId>
-                <version>1.0</version>
+                <version>3.0.0</version>
                 <extensions>true</extensions>
             </plugin>
             <plugin>
                 <artifactId>maven-ear-plugin</artifactId>
-                <version>${ear.plugin.version}</version>
+                <version>${version.ear.plugin}</version>
                 <configuration>
                     <displayName>SimpleApplicationForApplicationClient</displayName>
-                    <version>6</version>
+                    <version>7</version>
                     <generateApplicationXml>true</generateApplicationXml>
                     <modules>
                         <ejbModule>
                             <groupId>${project.groupId}</groupId>
-                            <artifactId>wildfly-app-client-ejb</artifactId>
+                            <artifactId>app-client-ejb</artifactId>
                             <bundleFileName>ejb.jar</bundleFileName>
                         </ejbModule>
                         <appClientModule>
                             <groupId>${project.groupId}</groupId>
-                            <artifactId>wildfly-app-client-client-simple</artifactId>
+                            <artifactId>app-client-client-simple</artifactId>
                             <bundleFileName>simpleClient.jar</bundleFileName>
                         </appClientModule>
                     </modules>

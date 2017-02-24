@@ -27,10 +27,13 @@ import javax.inject.Named;
 import org.jboss.as.quickstart.hibernate.model.Member;
 import org.jboss.as.quickstart.hibernate.service.MemberRegistration;
 
-// The @Model stereotype is a convenience mechanism to make this a request-scoped bean that has an
-// EL name
-// Read more about the @Model stereotype in this FAQ:
-// http://www.cdi-spec.org/faq/#accordion6
+/**
+ * Registers a new Member
+ * 
+ * <p>
+ * The @Model stereotype is a convenience mechanism to make this a 
+ * request-scoped bean that has an EL name
+ */
 @Model
 public class MemberController {
 

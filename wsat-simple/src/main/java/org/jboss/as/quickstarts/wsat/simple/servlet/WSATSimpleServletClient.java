@@ -108,7 +108,7 @@ public class WSATSimpleServletClient extends HttpServlet {
             rollbackIfActive(ut);
             client.reset();
 
-            out.write("<p><i>Go to your WildFly Server console or log to see the detailed result of the transaction.</i></p>");
+            out.write("<p><i>Go to your JBoss EAP Server console or log to see the detailed result of the transaction.</i></p>");
         }
     }
 

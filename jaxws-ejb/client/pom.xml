@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
     JBoss, Home of Professional Open Source
     Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
@@ -16,81 +16,53 @@
     limitations under the License.
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0                              http://maven.apache.org/maven-v4_0_0.xsd">
-   <modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
 
     <parent>
         <groupId>org.wildfly.quickstarts</groupId>
-        <artifactId>wildfly-jaxws-ejb</artifactId>
-        <version>10.0.0-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
+        <artifactId>jaxws-ejb</artifactId>
+        <version>11.0.0-SNAPSHOT</version>
     </parent>
-    <artifactId>wildfly-jaxws-ejb-client</artifactId>
+    <artifactId>jaxws-ejb-client</artifactId>
     <packaging>jar</packaging>
-    <name>WildFly Quickstart: jaxws-ejb - client</name>
-    <url>http://www.wildfly.org</url>
+    <name>${qs.name.prefix} jaxws-ejb - client</name>
+    <description>This project is a working example of a JAX-WS web service EJB endpoint; this is the client POM file</description>
 
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
-            <distribution>repo</distribution>
             <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+            <distribution>repo</distribution>
         </license>
     </licenses>
 
-    <repositories>
-     <repository>
-       <id>jboss-product-builds</id>
-       <url>http://repository.jboss.org/nexus/content/groups/public/ </url>
-     </repository>
-
-   </repositories>
-
-    <properties>
-     <version.exec-plugin>1.2.1</version.exec-plugin>
-     <version.jboss.jbossxb>2.0.3.GA</version.jboss.jbossxb>
-   </properties>
-
     <dependencies>
 
-      <dependency>
-          <groupId>org.wildfly.quickstarts</groupId>
-          <artifactId>wildfly-jaxws-ejb-service</artifactId>
-          <version>${project.version}</version>
-         <classifier>classes</classifier>
-      </dependency>
-        <!-- required for client to resolve org/jboss/ws/core/jaxws/spi/ProviderImpl -->
-      <!-- <dependency>
-           <groupId>org.jboss.ws.native</groupId>
-           <artifactId>jbossws-native-core</artifactId>
-       </dependency>-->
-        <!-- required for ProviderImpl to resolve org.jboss.logging.Logger -->
-     <!--  <dependency>
-           <groupId>org.jboss.logging</groupId>
-           <artifactId>jboss-logging-spi</artifactId>
-       </dependency>-->
-       <dependency>
-           <groupId>org.jboss.spec.javax.ejb</groupId>
-           <artifactId>jboss-ejb-api_3.2_spec</artifactId>
-       </dependency>
-     <!--  <dependency>
-         <groupId>org.jboss</groupId>
-           <artifactId>jbossxb</artifactId>
-       </dependency>-->
-   </dependencies>
+        <dependency>
+            <groupId>org.wildfly.quickstarts</groupId>
+            <artifactId>jaxws-ejb-service</artifactId>
+            <version>${project.version}</version>
+            <classifier>classes</classifier>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.spec.javax.ejb</groupId>
+            <artifactId>jboss-ejb-api_3.2_spec</artifactId>
+        </dependency>
+    </dependencies>
 
     <build>
-      <finalName>${project.artifactId}</finalName>
-      <plugins>
-         <!-- Allows Client to be run via 'mvn exec:java' -->
-         <plugin>
-           <groupId>org.codehaus.mojo</groupId>
-           <artifactId>exec-maven-plugin</artifactId>
-           <version>${version.exec.plugin}</version>
-           <configuration>
-             <mainClass>org.jboss.quickstarts.ws.client.Client</mainClass>
-           </configuration>
-         </plugin>
-      </plugins>
-   </build>
+        <finalName>${project.artifactId}</finalName>
+        <plugins>
+            <!-- Allows Client to be run via 'mvn exec:java' -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>${version.exec.plugin}</version>
+                <configuration>
+                    <mainClass>org.jboss.quickstarts.ws.client.Client</mainClass>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

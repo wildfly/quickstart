@@ -4,12 +4,12 @@ Author: Tom Jenkinson
 Level: Intermediate  
 Technologies: EJB, CMT, JMS  
 Summary: The `cmt` quickstart demonstrates Container-Managed Transactions (CMT), showing how to use transactions managed by the container.  
-Target Product: WildFly  
-Source: <https://github.com/wildfly/quickstart/>  
+Target Product: ${product.name}  
+Source: <${github.repo.url}>  
 
 ## What is it?
 
-The `cmt` quickstart demonstrates using transactions managed by the container in Red Hat JBoss Enterprise Application Platform. It is a fairly typical scenario of updating a database and sending a JMS message in the same transaction. A simple MDB is provided that prints out the message sent but this is not a transactional MDB and is purely provided for debugging purposes.
+The `cmt` quickstart demonstrates using transactions managed by the container in ${product.name.full}. It is a fairly typical scenario of updating a database and sending a JMS message in the same transaction. A simple MDB is provided that prints out the message sent but this is not a transactional MDB and is purely provided for debugging purposes.
 
 Aspects touched upon in the code:
 
@@ -20,20 +20,20 @@ Aspects touched upon in the code:
 After users complete this quickstart, they are invited to run through the following quickstarts:
 
 1. [jts](../jts/README.md) - The JTS quickstart builds upon this quickstart by distributing the CustomerManager and InvoiceManager
-2. [jts-distributed-crash-rec](../jts-distributed-crash-rec/README.md) - The crash recovery quickstart builds upon the [jts](../jts/README.md) quickstart by demonstrating the fault tolerance of WildFly.
+2. [jts-distributed-crash-rec](../jts-distributed-crash-rec/README.md) - The crash recovery quickstart builds upon the [jts](../jts/README.md) quickstart by demonstrating the fault tolerance of ${product.name}.
 
-_Note: This quickstart uses a `*-ds.xml` datasource configuration file for convenience and ease of database configuration. These files are deprecated in WildFly and should not be used in a production environment. Instead, you should configure the datasource using the Management CLI or Management Console. Datasource configuration is documented in the [Administration and Configuration Guide](https://access.redhat.com/documentation/en-US/JBoss_Enterprise_Application_Platform/) for Red Hat JBoss Enterprise Application Platform._
+_Note: This quickstart uses the H2 database included with ${product.name.full} ${product.version}. It is a lightweight, relational example datasource that is used for examples only. It is not robust or scalable, is not supported, and should NOT be used in a production environment!_
 
 
 ### What are container managed transactions?
 
 Prior to EJB, getting the right incantation to ensure sound transactional operation of the business logic was a highly specialised skill. Although this still holds true to a great extent, EJB has provided a series of improvements to allow simplified transaction demarcation notation that is therefore easier to read and test. 
 
-With CMT, the EJB container sets the boundaries of a transaction. This differs from BMT (bean managed transactions) where the developer is responsible for initiating and completing a transaction via the methods begin, commit, rollback on a <code>javax.transaction.UserTransaction</code>.
+With CMT, the EJB container sets the boundaries of a transaction. This differs from BMT (bean managed transactions) where the developer is responsible for initiating and completing a transaction via the methods begin, commit, rollback on a `javax.transaction.UserTransaction`.
 
 ### What makes this an example of container managed transactions?
 
-Take a look at <code>org.jboss.as.quickstarts.cmt.ejb.CustomerManagerEJB</code>. You can see that this stateless session bean has been marked up with the @javax.ejb.TransactionAttribute annotation.
+Take a look at `org.jboss.as.quickstarts.cmt.ejb.CustomerManagerEJB`. You can see that this stateless session bean has been marked up with the @javax.ejb.TransactionAttribute annotation.
 
 The available options for this annotation are as follows:
 
@@ -48,25 +48,25 @@ The available options for this annotation are as follows:
 System requirements
 -------------------
 
-The application this project produces is designed to be run on Red Hat JBoss Enterprise Application Platform 7 or later. 
+The application this project produces is designed to be run on ${product.name.full} ${product.version} or later. 
 
-All you need to build this project is Java 8.0 (Java SDK 1.8) or later and Maven 3.1.1 or later. See [Configure Maven for WildFly 10](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
+All you need to build this project is ${build.requirements}. See [Configure Maven for ${product.name} ${product.version}](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
 
 
-Use of WILDFLY_HOME
+Use of ${jboss.home.name}
 ---------------
 
-In the following instructions, replace `WILDFLY_HOME` with the actual path to your WildFly installation. The installation path is described in detail here: [Use of WILDFLY_HOME and JBOSS_HOME Variables](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_EAP7_HOME.md#use-of-eap_home-and-jboss_home-variables).
+In the following instructions, replace `${jboss.home.name}` with the actual path to your ${product.name} installation. The installation path is described in detail here: [Use of ${jboss.home.name} and JBOSS_HOME Variables](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_${jboss.home.name}.md#use-of-eap_home-and-jboss_home-variables).
 
 
-Start the WildFly Server with the Full Profile
+Start the ${product.name} Server with the Full Profile
 ---------------
 
-1. Open a command prompt and navigate to the root of the WildFly directory.
+1. Open a command prompt and navigate to the root of the ${product.name} directory.
 2. The following shows the command line to start the server with the full profile:
 
-        For Linux:   WILDFLY_HOME/bin/standalone.sh -c standalone-full.xml
-        For Windows: WILDFLY_HOME\bin\standalone.bat -c standalone-full.xml
+        For Linux:   ${jboss.home.name}/bin/standalone.sh -c standalone-full.xml
+        For Windows: ${jboss.home.name}\bin\standalone.bat -c standalone-full.xml
  
 
 Build and Deploy the Quickstart
@@ -77,12 +77,12 @@ Build and Deploy the Quickstart
 
         mvn clean install wildfly:deploy
 
-3. This will deploy `target/wildfly-cmt.war` to the running instance of the server.
+3. This will deploy `target/${project.artifactId}.war` to the running instance of the server.
 
 Access the application 
 ---------------------
 
-The application will be running at the following URL: <http://localhost:8080/wildfly-cmt/>.
+The application will be running at the following URL: <http://localhost:8080/${project.artifactId}/>.
 
 You will be presented with a simple form for adding customers to a database.
 
@@ -96,10 +96,17 @@ The customer name should match: letter & '-', otherwise an error is given. This 
 that the method logCreateCustomer in the EJB LogMessageManagerEJB is decorated with. 
 
 
+Server Log: Expected warnings and errors
+-----------------------------------
+
+_Note:_ You will see the following warnings in the server log. You can ignore these warnings.
+
+    HHH000431: Unable to determine H2 database version, certain features may not work
+
 Undeploy the Archive
 --------------------
 
-1. Make sure you have started the WildFly server as described above.
+1. Make sure you have started the ${product.name} server as described above.
 2. Open a command prompt and navigate to the root directory of this quickstart.
 3. When you are finished testing, type this command to undeploy the archive:
 
@@ -108,7 +115,7 @@ Undeploy the Archive
 
 Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 -------------------------------------
-You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a WildFly server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_JBDS.md#use-jboss-developer-studio-or-eclipse-to-run-the-quickstarts) 
+You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a ${product.name} server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](${use.eclipse.url}). 
 
 _NOTE:_ Within JBoss Developer Studio, be sure to define a server runtime environment that uses the `standalone-full.xml` configuration file.
 

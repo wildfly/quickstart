@@ -5,14 +5,14 @@ Level: Intermediate
 Technologies: JAX-RS, CDI  
 Summary: The `resteasy-jaxrs-client` quickstart demonstrates an external JAX-RS RestEasy client, which interacts with a JAX-RS Web service that uses *CDI* and *JAX-RS*.  
 Prerequisites: helloworld-rs  
-Target Product: WildFly    
-Source: <https://github.com/wildfly/quickstart/>  
+Target Product: ${product.name}  
+Source: <${github.repo.url}>  
 
 What is it?
 -----------
 
-The `resteasy-jaxrs-client` quickstart demonstrates an external JAX-RS RestEasy client which interacts with a JAX-RS Web service that uses *CDI* and *JAX-RS*
-in Red Hat JBoss Enterprise Application Platform.
+The `resteasy-jaxrs-client` quickstart demonstrates an external JAX-RS RestEasy client which interacts with a JAX-RS Web service that uses *CDI* and *JAX-RS* 
+in ${product.name.full}.
 
 This client "calls" the HelloWorld JAX-RS Web Service that was created in the [helloworld-rs](../helloworld-rs/README.md) quickstart. See the **Prerequisite** section below for details on how to build and deploy the [helloworld-rs](../helloworld-rs/README.md) quickstart.
 
@@ -20,53 +20,53 @@ This client "calls" the HelloWorld JAX-RS Web Service that was created in the [h
 System requirements
 -------------------
 
-The application this project produces is designed to be run on Red Hat JBoss Enterprise Application Platform 7 or later.
+The application this project produces is designed to be run on ${product.name.full} ${product.version} or later. 
 
-All you need to build this project is Java 8.0 (Java SDK 1.8) or later and Maven 3.1.1 or later. See [Configure Maven for WildFly 10](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
+All you need to build this project is ${build.requirements}. See [Configure Maven for ${product.name} ${product.version}](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
 
 
 Prerequisites
 -----------
 
-IMPORTANT: This quickstart depends on the deployment of the 'helloworld-rs' quickstart for its test. Before running this quickstart, see the [helloworld-rs](../helloworld-rs/README.md)  README file for details on how to deploy it.
+IMPORTANT: This quickstart depends on the deployment of the `helloworld-rs` quickstart for its test. Before running this quickstart, see the [helloworld-rs](../helloworld-rs/README.md)  README file for details on how to deploy it.
 
 You can verify the deployment of the [helloworld-rs](../helloworld-rs/README.md) quickstart by accessing the following content:
 
-* The *XML* content can be viewed by accessing the following URL: <http://localhost:8080/wildfly-helloworld-rs/rest/xml>
-* The *JSON* content can be viewed by accessing this URL: <http://localhost:8080/wildfly-helloworld-rs/rest/json>
+* The *XML* content can be viewed by accessing the following URL: <http://localhost:8080/${project.artifactId}/rest/xml> 
+* The *JSON* content can be viewed by accessing this URL: <http://localhost:8080/${project.artifactId}/rest/json>
 
 
 
-Run the Arquillian Tests
+Run the Arquillian Tests 
 -------------------------
 
-This quickstart provides Arquillian tests.
+This quickstart provides Arquillian tests. 
 
-1. Make sure you have started the WildFly server as described above.
+1. Make sure you have started the ${product.name} server as described above.
 2. Make sure the `helloworld-rs` quickstart has been deployed on the server as noted in the **Prerequisites** section above.
 3. Open a command prompt and navigate to the root directory of this quickstart.
-4. Type the following command to run the test goal with the following profile activated:
+4. Type the following command to run the test goal:
 
-        mvn clean test
+        mvn clean test 
 
 
 Investigate the Console Output
 ----------------------------
 
-This command will compile the example and execute a test to make two separate requests to the Web Service.  Towards the end of the Maven build output, you
+This command will compile the example and execute a test to make two separate requests to the Web Service.  Towards the end of the Maven build output, you 
 should see the following if the execution is successful:
 
         ===============================================
-        URL: http://localhost:8080/wildfly-helloworld-rs/rest/xml
+        URL: http://localhost:8080/${project.artifactId}/rest/xml
         MediaType: application/xml
 
         *** Response from Server ***
 
         <xml><result>Hello World!</result></xml>
-
+    
         ===============================================
         ===============================================
-        URL: http://localhost:8080/wildfly-helloworld-rs/rest/json
+        URL: http://localhost:8080/${project.artifactId}/rest/json
         MediaType: application/json
 
         *** Response from Server ***
@@ -76,3 +76,4 @@ should see the following if the execution is successful:
 
 
 <!-- Build and Deploy the Quickstart to OpenShift - Coming soon! -->
+

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
     JBoss, Home of Professional Open Source
     Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
@@ -20,48 +20,43 @@
 
     <parent>
         <groupId>org.wildfly.quickstarts</groupId>
-        <artifactId>wildfly-jaxws-pojo</artifactId>
-        <version>10.0.0-SNAPSHOT</version>         <relativePath>../pom.xml</relativePath>
+        <artifactId>jaxws-pojo</artifactId>
+        <version>11.0.0-SNAPSHOT</version>
     </parent>
-    <artifactId>wildfly-jaxws-pojo-client</artifactId>
+    <artifactId>jaxws-pojo-client</artifactId>
     <packaging>jar</packaging>
-    <name>WildFly Quickstart: jaxws-pojo - client</name>
-    <url>http://www.wildfly.org</url>
+    <name>${qs.name.prefix} jaxws-pojo - client</name>
+    <description>This project is a working example of a JAX-WS web service endpoint; this is the client POM file</description>
 
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
-            <distribution>repo</distribution>
             <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+            <distribution>repo</distribution>
         </license>
     </licenses>
 
     <dependencies>
         <dependency>
             <groupId>org.wildfly.quickstarts</groupId>
-            <artifactId>wildfly-jaxws-pojo-service</artifactId>
+            <artifactId>jaxws-pojo-service</artifactId>
             <version>${project.version}</version>
             <classifier>classes</classifier>
         </dependency>
     </dependencies>
 
     <build>
-        <!-- define the name for the deployable archive instead of using the default name with the version -->
+        <!-- Set the name for the deployable archive instead of using the default name with the version -->
         <finalName>${project.artifactId}</finalName>
         <plugins>
 
+            <!-- Allows Client to be run via 'mvn exec:java' -->
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>${version.maven-jar-plugin}</version>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>${version.exec.plugin}</version>
                 <configuration>
-                    <archive>
-                        <manifest>
-                            <addClasspath>true</addClasspath>
-                            <mainClass>org.jboss.quickstarts.ws.client.Client
-                            </mainClass>
-                        </manifest>
-                    </archive>
+                    <mainClass>org.jboss.quickstarts.ws.client.Client</mainClass>
                 </configuration>
             </plugin>
 

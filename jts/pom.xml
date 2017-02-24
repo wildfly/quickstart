@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
     JBoss, Home of Professional Open Source
     Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
@@ -15,45 +15,28 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.wildfly.quickstarts</groupId>
-    <artifactId>wildfly-jts-parent</artifactId>
-    <version>10.0.0-SNAPSHOT</version>
+    <parent>
+        <groupId>org.wildfly.quickstarts</groupId>
+        <artifactId>quickstart-parent</artifactId>
+        <version>11.0.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+    <!-- TODO fix artifact name to match components -->
+    <artifactId>jts</artifactId>
     <packaging>pom</packaging>
-    <name>WildFly Quickstart: jts</name>
-    <description>Using CMT with JTS</description>
-    <url>http://wildfly.org</url>
+    <name>${qs.name.prefix} jts</name>
+    <description>A project that demonstrates how to use CMT with JTS</description>
 
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
-            <distribution>repo</distribution>
             <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+            <distribution>repo</distribution>
         </license>
     </licenses>
-
-    <properties>
-        <!-- Explicitly declaring the source encoding eliminates the following
-            message: -->
-        <!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered
-            resources, i.e. build is platform dependent! -->
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-        <!-- JBoss dependency versions -->
-
-        <version.wildfly.maven.plugin>1.0.2.Final</version.wildfly.maven.plugin>
-
-        <version.jboss.spec.javaee.7.0>1.0.3.Final</version.jboss.spec.javaee.7.0>
-
-        <!-- other plug-in versions -->
-        <version.ejb.plugin>2.3</version.ejb.plugin>
-        <version.war.plugin>3.0.0</version.war.plugin>
-
-        <!-- maven-compiler-plugin -->
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <maven.compiler.source>1.8</maven.compiler.source>
-    </properties>
 
     <modules>
         <!-- Build module 2 first as it is the remote EJB which provides
@@ -64,51 +47,14 @@
 
     <dependencyManagement>
         <dependencies>
-            <!-- JBoss distributes a complete set of Java EE APIs including
-                a Bill of Materials (BOM). A BOM specifies the versions of a "stack" (or
-                a collection) of artifacts. We use this here so that we always get the correct
-                versions of artifacts. Here we use the jboss-javaee-7.0 stack (you can read
-                this as the JBoss stack of the Java EE APIs) -->
-            <dependency>
-                <groupId>org.jboss.spec</groupId>
-                <artifactId>jboss-javaee-7.0</artifactId>
-                <version>${version.jboss.spec.javaee.7.0}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
             <!-- Client stub for the application-component-2 -->
             <dependency>
                 <groupId>org.wildfly.quickstarts</groupId>
-                <artifactId>wildfly-jts-application-component-2</artifactId>
+                <artifactId>jts-application-component-2</artifactId>
                 <version>${project.version}</version>
                 <classifier>client</classifier>
             </dependency>
         </dependencies>
     </dependencyManagement>
-
-    <build>
-        <pluginManagement>
-            <plugins>
-                <!-- The WildFly plug-in deploys your WAR to a local WildFly container -->
-                <!-- To use, run: mvn package wildfly:deploy -->
-                <plugin>
-                    <groupId>org.wildfly.plugins</groupId>
-                    <artifactId>wildfly-maven-plugin</artifactId>
-                    <version>${version.wildfly.maven.plugin}</version>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-
-        <plugins>
-            <!-- Disable the WildFly plug-in for this POM artifact -->
-            <plugin>
-                <groupId>org.wildfly.plugins</groupId>
-                <artifactId>wildfly-maven-plugin</artifactId>
-                <inherited>false</inherited>
-                <configuration>
-                    <skip>true</skip>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+      
 </project>

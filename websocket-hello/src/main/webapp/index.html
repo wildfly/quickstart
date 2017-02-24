@@ -23,7 +23,8 @@
             var websocket = null;
 
             function connect() {
-                var wsURI = 'ws://' + window.location.host + '/wildfly-websocket-hello/websocket/helloName';
+                var wsProtocol = window.location.protocol == "https:" ? "wss" : "ws";
+                var wsURI = wsProtocol + '://' + window.location.host + '/websocket-hello/websocket/helloName';
                 websocket = new WebSocket(wsURI);
 
                 websocket.onopen = function() {

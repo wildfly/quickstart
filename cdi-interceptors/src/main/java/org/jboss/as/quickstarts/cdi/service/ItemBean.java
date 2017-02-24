@@ -44,7 +44,7 @@ public class ItemBean {
     private static final String EMPTY_STRING = "";
 
     public void add() {
-        if (name.isEmpty()) {
+        if (name == EMPTY_STRING) {
             FacesMessage fm = new FacesMessage("Name can't be empty");
             context.addMessage(fm.getSummary(), fm);
             refresh();

@@ -5340,7 +5340,7 @@
      * to the debounced function will return the result of the last `func` call.
      *
      * Note: If `leading` and `trailing` options are `true` `func` will be called
-     * on the trailing edge of the timeout only if the the debounced function is
+     * on the trailing edge of the timeout only if the debounced function is
      * invoked more than once during the `wait` timeout.
      *
      * @static
@@ -5670,7 +5670,7 @@
      * return the result of the last `func` call.
      *
      * Note: If `leading` and `trailing` options are `true` `func` will be called
-     * on the trailing edge of the timeout only if the the throttled function is
+     * on the trailing edge of the timeout only if the throttled function is
      * invoked more than once during the `wait` timeout.
      *
      * @static

@@ -16,6 +16,7 @@
  */
 package org.jboss.quickstarts.contact;
 
+import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,8 +36,14 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriBuilder;
+import javax.ws.rs.core.UriInfo;
+
+import org.jboss.resteasy.spi.LoggableFailure;
+
 import javax.ws.rs.WebApplicationException;
 
 /**
@@ -68,6 +75,9 @@ public class ContactRESTService {
     @Inject
     private ContactService service;
 
+    @Context
+    private UriInfo uriInfo;
+
     /**
      * Search for and return all the Contacts.  They are sorted alphabetically by name.
      *
@@ -76,9 +86,6 @@ public class ContactRESTService {
     @GET
     public Response retrieveAllContacts() {
         List<Contact> contacts = service.findAllOrderedByName();
-        if (contacts.isEmpty()) {
-            throw new WebApplicationException(Response.Status.NOT_FOUND);
-        }
         return Response.ok(contacts).build();
     }
 
@@ -136,10 +143,21 @@ public class ContactRESTService {
 
         try {
             // Go add the new Contact.
-            service.create(contact);
+            Contact created = service.create(contact);
 
-            // Create an OK Response and pass the contact back in case it is needed.
-            builder = Response.ok(contact);
+            // Construct a location of created contact.
+            URI location = null;
+            try {
+                UriBuilder uriBuilder = uriInfo.getAbsolutePathBuilder();
+                uriBuilder.path(Long.toString(created.getId()));
+                location = uriBuilder.build();
+            } catch (LoggableFailure lf) {
+                // IGNORED: UriInfo methods throw this if called outside the scope of request,
+                // that happens in ContactRegistrationTest.testRegister method.
+            }
+
+            // Create an CREATED Response and pass the URI location back in case it is needed.
+            builder = Response.created(location);
 
             log.info("createContact completed. Contact = " + contact.getFirstName() + " " + contact.getLastName() + " " + contact.getEmail() + " " + contact.getPhoneNumber() + " "
                 + contact.getBirthDate() + " " + contact.getId());

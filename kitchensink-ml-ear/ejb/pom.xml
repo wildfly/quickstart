@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
     JBoss, Home of Professional Open Source
     Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
@@ -19,70 +19,29 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <artifactId>wildfly-kitchensink-ml-ear</artifactId>
         <groupId>org.wildfly.quickstarts</groupId>
-        <version>10.0.0-SNAPSHOT</version>
+        <artifactId>kitchensink-ml-ear</artifactId>
+        <version>11.0.0-SNAPSHOT</version>
     </parent>
-    <artifactId>wildfly-kitchensink-ml-ear-ejb</artifactId>
+    <artifactId>kitchensink-ml-ear-ejb</artifactId>
     <packaging>ejb</packaging>
-    <name>WildFly Quickstart: kitchensink-ml-ear - ejb</name>
-    <url>http://www.wildfly.org</url>
+    <name>${qs.name.prefix} kitchensink-ml-ear - ejb</name>
+    <description>This project demonstrates how to create a localized version of the kitchensink EAR; this is the EJB POM file</description>
 
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
-            <distribution>repo</distribution>
             <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+            <distribution>repo</distribution>
         </license>
     </licenses>
 
     <dependencies>
 
-        <!-- Declare the APIs we depend on and need for compilation. All of
-            them are provided by WildFly -->
-
-        <!-- Import the EJB API, we use provided scope as the API is included in WildFly -->
-        <dependency>
-            <groupId>org.jboss.spec.javax.ejb</groupId>
-            <artifactId>jboss-ejb-api_3.2_spec</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
-        <!-- Import the CDI API, we use provided scope as the API is included in WildFly -->
+        <!-- Import the CDI API, we use provided scope as the API is included in JBoss EAP -->
         <dependency>
             <groupId>javax.enterprise</groupId>
             <artifactId>cdi-api</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
-        <!-- Import the JPA API, we use provided scope as the API is included in WildFly -->
-        <dependency>
-            <groupId>org.hibernate.javax.persistence</groupId>
-            <artifactId>hibernate-jpa-2.1-api</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
-        <!-- JSR-349 (Bean Validation) Implementation -->
-        <!-- Provides portable constraints such as @Email -->
-        <!-- Hibernate Validator is shipped in WildFly -->
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-validator</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
-        <!-- JBoss Logging is provided by the server -->
-        <dependency>
-            <groupId>org.jboss.logging</groupId>
-            <artifactId>jboss-logging</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
-        <!-- Logging tooling is only needed for annotation processing at
-            compile time, no runtime dependency needed -->
-        <dependency>
-            <groupId>org.jboss.logging</groupId>
-            <artifactId>jboss-logging-processor</artifactId>
             <scope>provided</scope>
         </dependency>
 
@@ -90,6 +49,22 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
+        </dependency>
+
+        <!-- JSR-349 (Bean Validation) Implementation 
+             Provides portable constraints such as @Email 
+             Hibernate Validator is shipped in JBoss EAP -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Import the JPA API, we use provided scope as the API is included in JBoss EAP -->
+        <dependency>
+            <groupId>org.hibernate.javax.persistence</groupId>
+            <artifactId>hibernate-jpa-2.1-api</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <!-- Optional, but highly recommended -->
@@ -107,75 +82,36 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- JBoss Logging is provided by the server -->
+        <dependency>
+            <groupId>org.jboss.logging</groupId>
+            <artifactId>jboss-logging</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Logging tooling is only needed for annotation processing at
+            compile time, no runtime dependency needed -->
+        <dependency>
+            <groupId>org.jboss.logging</groupId>
+            <artifactId>jboss-logging-processor</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Declare the APIs we depend on and need for compilation. All of
+            them are provided by JBoss EAP -->
+
+        <!-- Import the EJB API, we use provided scope as the API is included in JBoss EAP -->
+        <dependency>
+            <groupId>org.jboss.spec.javax.ejb</groupId>
+            <artifactId>jboss-ejb-api_3.2_spec</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
     </dependencies>
 
     <build>
         <finalName>${project.artifactId}</finalName>
-        <plugins>
-            <plugin>
-                <artifactId>maven-ejb-plugin</artifactId>
-                <version>${version.ejb.plugin}</version>
-                <configuration>
-                    <!-- Tell Maven we are using EJB -->
-                    <ejbVersion>3.1</ejbVersion>
-                </configuration>
-            </plugin>
-        </plugins>
     </build>
 
-    <profiles>
-        <profile>
-            <!-- The default profile skips all tests, though you can tune
-                it to run just unit tests based on a custom pattern -->
-            <!-- Separate profiles are provided for running all tests, including
-                Arquillian tests that execute in the specified container -->
-            <id>default</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <version>${version.surefire.plugin}</version>
-                        <configuration>
-                            <skip>true</skip>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-
-        <profile>
-            <!-- An optional Arquillian testing profile that executes tests
-                in your WildFly instance -->
-            <!-- This profile will start a new WildFly instance, and execute
-                the test, shutting it down when done -->
-            <!-- Run with: mvn clean test -Parq-wildfly-managed -->
-            <id>arq-wildfly-managed</id>
-            <dependencies>
-                <dependency>
-                    <groupId>org.wildfly.arquillian</groupId>
-                    <artifactId>wildfly-arquillian-container-managed</artifactId>
-                    <scope>test</scope>
-                </dependency>
-            </dependencies>
-        </profile>
-
-        <profile>
-            <!-- An optional Arquillian testing profile that executes tests
-                in a remote WildFly instance -->
-            <!-- Run with: mvn clean test -Parq-wildfly-remote -->
-            <id>arq-wildfly-remote</id>
-            <dependencies>
-                <dependency>
-                    <groupId>org.wildfly.arquillian</groupId>
-                    <artifactId>wildfly-arquillian-container-remote</artifactId>
-                    <scope>test</scope>
-                </dependency>
-            </dependencies>
-        </profile>
-
-    </profiles>
 
 </project>

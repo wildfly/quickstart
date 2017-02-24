@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
     JBoss, Home of Professional Open Source
     Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
@@ -15,129 +15,50 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.wildfly.quickstarts</groupId>
-    <artifactId>wildfly-jaxws-retail</artifactId>
-    <version>10.0.0-SNAPSHOT</version>
+    <parent>
+        <groupId>org.wildfly.quickstarts</groupId>
+        <artifactId>quickstart-parent</artifactId>
+        <version>11.0.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+    <artifactId>jaxws-retail</artifactId>
     <packaging>pom</packaging>
-    <name>WildFly Quickstart: jaxws-retail</name>
-    <description>jaxws-retail: Working example of the web service discussed in section,
-      "Write and Deploy a JAX-WS Web Service Endpoint" of the "JBoss Development Application Platform Development Guide".
-   </description>
-    <url>http://www.wildfly.org</url>
+    <name>${qs.name.prefix} jaxws-retail</name>
+    <description>This project is a working example of a JAX-WS web service retail endpoint</description>
 
     <licenses>
-      <license>
-         <name>Apache License, Version 2.0</name>
-         <distribution>repo</distribution>
-         <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
-      </license>
-   </licenses>
-
-    <properties>
-      <!-- Explicitly declaring the source encoding eliminates the following message: -->
-      <!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent! -->
-      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-      <!-- JBoss dependency versions -->
-      <version.wildfly.maven.plugin>1.0.2.Final</version.wildfly.maven.plugin>
-      <!-- maven-compiler-plugin -->
-      <maven.compiler.target>1.8</maven.compiler.target>
-      <maven.compiler.source>1.8</maven.compiler.source>
-      <version.exec.plugin>1.2.1</version.exec.plugin>
-      <!-- Define the version of the JBoss BOMs we want to import to specify tested stacks. -->
-      <version.jboss.bom>10.1.0.Final</version.jboss.bom>
-      <version.jaxws-tools-maven-plugin>1.2.0.Final</version.jaxws-tools-maven-plugin>
-      <version.war.plugin>3.0.0</version.war.plugin>
-      <version.jboss-ejb-api>1.0.2.Final</version.jboss-ejb-api>
-      <version.jbossws-cxf-client>5.1.0.Beta1</version.jbossws-cxf-client>
-    </properties>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
 
     <modules>
-      <module>service</module>
-      <module>client</module>
-   </modules>
-
-    <dependencyManagement>
-      <dependencies>
-          <!-- JBoss distributes a complete set of Java EE 7 APIs including a Bill
-              of Materials (BOM). A BOM specifies the versions of a "stack" (or a collection)
-              of artifacts. We use this here so that we always get the correct versions
-              of artifacts. Here we use the jboss-javaee-7.0-with tools stack (you can read this as
-              the JBoss stack of the Java EE 7 APIs, with some extras tools for your project, such
-              as Arquillian for testing) -->
-          <dependency>
-              <groupId>org.wildfly.bom</groupId>
-              <artifactId>wildfly-javaee7-with-tools</artifactId>
-              <version>${version.jboss.bom}</version>
-              <type>pom</type>
-              <scope>import</scope>
-          </dependency>
-         <dependency>
-           <groupId>org.jboss.ws.cxf</groupId>
-           <artifactId>jbossws-cxf-client</artifactId>
-           <version>${version.jbossws-cxf-client}</version>
-           <exclusions>
-             <exclusion>
-               <groupId>org.jboss.com.sun.httpserver</groupId>
-               <artifactId>httpserver</artifactId>
-             </exclusion>
-           </exclusions>
-         </dependency>
-      </dependencies>
-   </dependencyManagement>
+        <module>service</module>
+        <module>client</module>
+    </modules>
 
     <build>
 
-      <pluginManagement>
         <plugins>
-          <!--This plugin's configuration is used to store Eclipse m2e settings 
-              only. It has no influence on the Maven build itself. -->
-          <plugin>
-            <groupId>org.eclipse.m2e</groupId>
-            <artifactId>lifecycle-mapping</artifactId>
-            <version>1.0.0</version>
-            <configuration>
-              <lifecycleMappingMetadata>
-                <pluginExecutions>
-                  <pluginExecution>
-                    <pluginExecutionFilter>
-                      <groupId>org.jboss.ws.plugins</groupId>
-                      <artifactId>jaxws-tools-maven-plugin</artifactId>
-                      <versionRange>[1.2.0.Final,)</versionRange>
-                      <goals>
-                        <goal>wsconsume</goal>
-                      </goals>
-                    </pluginExecutionFilter>
-                    <action>
-                      <execute>
-                        <runOnConfiguration>true</runOnConfiguration>
-                        <runOnIncremental>false</runOnIncremental>
-                      </execute>
-                    </action>
-                  </pluginExecution>
-                </pluginExecutions>
-              </lifecycleMappingMetadata>
-            </configuration>
-          </plugin>
+            <plugin>
+                <groupId>org.wildfly.plugins</groupId>
+                <artifactId>wildfly-maven-plugin</artifactId>
+                <version>${version.wildfly.maven.plugin}</version>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>${version.exec.plugin}</version>
+            </plugin>
         </plugins>
-      </pluginManagement>
-    
-      <plugins>
-         <plugin>
-            <groupId>org.wildfly.plugins</groupId>
-            <artifactId>wildfly-maven-plugin</artifactId>
-            <version>${version.wildfly.maven.plugin}</version>
-            <configuration>
-               <skip>true</skip>
-            </configuration>
-         </plugin>
-         <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>exec-maven-plugin</artifactId>
-            <version>${version.exec.plugin}</version>
-         </plugin>
-      </plugins>
-   </build>
+    </build>
 
 </project>

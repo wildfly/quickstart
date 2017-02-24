@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
     JBoss, Home of Professional Open Source
     Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
@@ -19,55 +19,48 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <artifactId>wildfly-kitchensink-ml-ear</artifactId>
         <groupId>org.wildfly.quickstarts</groupId>
-        <version>10.0.0-SNAPSHOT</version>
+        <artifactId>kitchensink-ml-ear</artifactId>
+        <version>11.0.0-SNAPSHOT</version>
     </parent>
-    <artifactId>wildfly-kitchensink-ml-ear-web</artifactId>
+    <artifactId>kitchensink-ml-ear-web</artifactId>
     <packaging>war</packaging>
-    <name>WildFly Quickstart: kitchensink-ml-ear - web</name>
-    <url>http://www.wildfly.org</url>
+    <name>${qs.name.prefix} kitchensink-ml-ear - web</name>
+    <description>This project demonstrates how to create a localized version of the kitchensink EAR; this is the web POM file</description>
 
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
-            <distribution>repo</distribution>
             <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+            <distribution>repo</distribution>
         </license>
     </licenses>
 
     <dependencies>
 
-        <!-- Dependency on the EJB module so we can use it's services if needed -->
-        <dependency>
-            <groupId>org.wildfly.quickstarts</groupId>
-            <artifactId>wildfly-kitchensink-ml-ear-ejb</artifactId>
-            <type>ejb</type>
-            <scope>provided</scope>
-        </dependency>
-
-        <!-- Import the JAX-RS API, we use provided scope as the API is included in WildFly -->
-        <dependency>
-            <groupId>org.jboss.spec.javax.ws.rs</groupId>
-            <artifactId>jboss-jaxrs-api_2.0_spec</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
-        <!-- Import the CDI API, we use provided scope as the API is included in WildFly -->
+        <!-- Import the CDI API, we use provided scope as the API is included in JBoss EAP -->
         <dependency>
             <groupId>javax.enterprise</groupId>
             <artifactId>cdi-api</artifactId>
             <scope>provided</scope>
         </dependency>
 
-        <!-- Import the JSF API, we use provided scope as the API is included in WildFly -->
+        <!-- Bean Validation Implementation 
+             Provides portable constraints such as @Email 
+             Hibernate Validator is shipped in JBoss EAP -->
         <dependency>
-            <groupId>org.jboss.spec.javax.faces</groupId>
-            <artifactId>jboss-jsf-api_2.2_spec</artifactId>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
             <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
-        <!-- Import the JPA API, we use provided scope as the API is included in WildFly -->
+        <!-- Import the JPA API, we use provided scope as the API is included in JBoss EAP -->
         <dependency>
             <groupId>org.hibernate.javax.persistence</groupId>
             <artifactId>hibernate-jpa-2.1-api</artifactId>
@@ -89,19 +82,26 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- Bean Validation Implementation -->
-        <!-- Provides portable constraints such as @Email -->
-        <!-- Hibernate Validator is shipped in WildFly -->
+        <!-- Dependency on the EJB module so we can use it's services if needed -->
         <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-validator</artifactId>
+            <groupId>org.wildfly.quickstarts</groupId>
+            <artifactId>kitchensink-ml-ear-ejb</artifactId>
+            <type>ejb</type>
             <scope>provided</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>slf4j-api</artifactId>
-                </exclusion>
-            </exclusions>
+        </dependency>
+
+        <!-- Import the JSF API, we use provided scope as the API is included in JBoss EAP -->
+        <dependency>
+            <groupId>org.jboss.spec.javax.faces</groupId>
+            <artifactId>jboss-jsf-api_2.2_spec</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Import the JAX-RS API, we use provided scope as the API is included in JBoss EAP -->
+        <dependency>
+            <groupId>org.jboss.spec.javax.ws.rs</groupId>
+            <artifactId>jboss-jaxrs-api_2.0_spec</artifactId>
+            <scope>provided</scope>
         </dependency>
 
     </dependencies>

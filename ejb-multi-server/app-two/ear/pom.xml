@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
     JBoss, Home of Professional Open Source
     Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
@@ -20,33 +20,28 @@
 
     <parent>
         <groupId>org.wildfly.quickstarts</groupId>
-        <artifactId>wildfly-ejb-multi-server-app-two</artifactId>
-        <version>10.0.0-SNAPSHOT</version>
+        <artifactId>ejb-multi-server-app-two</artifactId>
+        <version>11.0.0-SNAPSHOT</version>
     </parent>
-    <artifactId>wildfly-ejb-multi-server-app-two-ear</artifactId>
+    <artifactId>ejb-multi-server-app-two-ear</artifactId>
     <packaging>ear</packaging>
-    <name>WildFly Quickstart: Quickstart: ear</name>
+    <name>${qs.name.prefix} ejb-multi-server - app-two - ear</name>
+    <description>A project that demonstrates multiple applications deployed on different servers. This is the app-two EAR POM file</description>
 
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
-            <distribution>repo</distribution>
             <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+            <distribution>repo</distribution>
         </license>
     </licenses>
 
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>wildfly-ejb-multi-server-app-two-ejb</artifactId>
-            <type>ejb</type>
+            <artifactId>ejb-multi-server-app-two-ejb</artifactId>
             <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.wildfly</groupId>
-            <artifactId>wildfly-ejb-client-bom</artifactId>
-            <scope>provided</scope>
-            <type>pom</type>
+            <type>ejb</type>
         </dependency>
     </dependencies>
 
@@ -55,19 +50,19 @@
         <plugins>
             <plugin>
                 <artifactId>maven-ear-plugin</artifactId>
-                <version>${ear.plugin.version}</version>
+                <version>${version.ear.plugin}</version>
                 <configuration>
                     <displayName>Application Two</displayName>
                     <description>A simple quickstart application to demonstrate the
                         server-server communication</description>
                     <version>6</version>
-          <!-- it work also without a application.xml but this is to demonstrate
+                    <!-- it work also without a application.xml but this is to demonstrate
             how to use it and activate the jarModule in it -->
                     <generateApplicationXml>true</generateApplicationXml>
                     <modules>
                         <ejbModule>
                             <groupId>${project.groupId}</groupId>
-                            <artifactId>wildfly-ejb-multi-server-app-two-ejb</artifactId>
+                            <artifactId>ejb-multi-server-app-two-ejb</artifactId>
                             <bundleFileName>ejb.jar</bundleFileName>
                         </ejbModule>
                     </modules>

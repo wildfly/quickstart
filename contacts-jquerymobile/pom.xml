@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
     JBoss, Home of Professional Open Source
     Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
@@ -15,69 +15,49 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.wildfly.quickstarts</groupId>
-    <artifactId>wildfly-contacts-jquerymobile</artifactId>
-    <version>10.0.0-SNAPSHOT</version>
+    <parent>
+        <groupId>org.wildfly.quickstarts</groupId>
+        <artifactId>quickstart-parent</artifactId>
+        <version>11.0.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+    <artifactId>contacts-jquerymobile</artifactId>
     <packaging>war</packaging>
-    <name>WildFly Quickstart: contacts-jquerymobile</name>
-    <description>A Java EE HTML5 mobile web application for use with JBoss.</description>
-    <url>http://www.wildfly.org</url>
+    <name>${qs.name.prefix} contacts-jquerymobile</name>
+    <description>A Java EE HTML5 mobile web application for use with JBoss EAP</description>
 
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
-            <distribution>repo</distribution>
             <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+            <distribution>repo</distribution>
         </license>
     </licenses>
 
-    <properties>
-        <!-- Explicitly declaring the source encoding eliminates the following message: -->
-        <!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent! -->
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-        <!-- You can reference property in pom.xml or filtered resources (must enable third-party plug-in if using Maven < 2.1) -->
-
-        <!-- JBoss dependency versions -->
-
-        <version.wildfly.maven.plugin>1.0.2.Final</version.wildfly.maven.plugin>
-
-        <!-- Define the version of the JBoss BOMs we want to import to specify tested stacks. -->
-        <version.jboss.bom>10.1.0.Final</version.jboss.bom>
-
-        <!-- Other dependency versions -->
-        <version.ro.isdc.wro4j>1.7.8</version.ro.isdc.wro4j>
-
-        <!-- other plug-in versions -->
-        <version.surefire.plugin>2.10</version.surefire.plugin>
-        <version.war.plugin>2.2</version.war.plugin>
-
-        <!-- maven-compiler-plugin -->
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <maven.compiler.source>1.8</maven.compiler.source>
-    </properties>
-
     <dependencyManagement>
-      <dependencies>
-          <!-- JBoss distributes a complete set of Java EE 7 APIs including a Bill
-              of Materials (BOM). A BOM specifies the versions of a "stack" (or a collection)
-              of artifacts. We use this here so that we always get the correct versions
-              of artifacts. Here we use the jboss-javaee-7.0-with tools stack (you can read this as
-              the JBoss stack of the Java EE 7 APIs, with some extras tools for your project, such
-              as Arquillian for testing) -->
-          <dependency>
-              <groupId>org.wildfly.bom</groupId>
-              <artifactId>wildfly-javaee7-with-tools</artifactId>
-              <version>${version.jboss.bom}</version>
-              <type>pom</type>
-              <scope>import</scope>
-          </dependency>
+        <dependencies>
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>2.4</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>4.5.1</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
     <dependencies>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <scope>test</scope>
+        </dependency>
         <!-- First declare the APIs we depend on and need for compilation. All of them are provided by EAP -->
 
         <!-- Import the CDI API, we use provided scope as the API is included in EAP -->
@@ -86,15 +66,75 @@
             <artifactId>cdi-api</artifactId>
             <scope>provided</scope>
         </dependency>
+
+        <!-- Import the Bean Validation, we use provided scope as the API is included in EAP -->
         <dependency>
-            <groupId>javax.inject</groupId>
-            <artifactId>javax.inject</artifactId>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <scope>provided</scope>
         </dependency>
 
-        <!-- Import the Common Annotations API (JSR-250), we use provided scope as the API is included in EAP -->
+        <!-- Needed for running tests (you may also use TestNG) -->
         <dependency>
-            <groupId>org.jboss.spec.javax.annotation</groupId>
-            <artifactId>jboss-annotations-api_1.2_spec</artifactId>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Now we declare any tools needed -->
+
+        <!-- Annotation processor to generate the JPA metamodel classes for typesafe criteria queries -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-jpamodelgen</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Bean Validation Implementation 
+             Provides portable constraints such as @Email 
+             Hibernate Validator is shipped in JBoss EAP -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- Import the JPA API, we use provided scope as the API is included in EAP -->
+        <dependency>
+            <groupId>org.hibernate.javax.persistence</groupId>
+            <artifactId>hibernate-jpa-2.1-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Optional, but highly recommended, Arquillian allows you to test enterprise code 
+             such as EJBs and Transactional(JTA) JPA from JUnit/TestNG -->
+        <dependency>
+            <groupId>org.jboss.arquillian.junit</groupId>
+            <artifactId>arquillian-junit-container</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Test dependencies required for testing REST services -->
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-client</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-jackson2-provider</artifactId>
             <scope>provided</scope>
         </dependency>
 
@@ -105,10 +145,16 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- Import the JPA API, we use provided scope as the API is included in EAP -->
         <dependency>
-            <groupId>org.hibernate.javax.persistence</groupId>
-            <artifactId>hibernate-jpa-2.1-api</artifactId>
+            <groupId>org.jboss.shrinkwrap.resolver</groupId>
+            <artifactId>shrinkwrap-resolver-api-maven</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Import the Common Annotations API (JSR-250), we use provided scope as the API is included in EAP -->
+        <dependency>
+            <groupId>org.jboss.spec.javax.annotation</groupId>
+            <artifactId>jboss-annotations-api_1.2_spec</artifactId>
             <scope>provided</scope>
         </dependency>
 
@@ -125,145 +171,17 @@
             <artifactId>jboss-servlet-api_3.1_spec</artifactId>
             <scope>provided</scope>
         </dependency>
-
-        <!-- Import the Bean Validation, we use provided scope as the API is included in EAP -->
-        <dependency>
-            <groupId>javax.validation</groupId>
-            <artifactId>validation-api</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
-        <!-- Bean Validation Implementation -->
-        <!-- Provides portable constraints such as @Email -->
-        <!-- Hibernate Validator is shipped in JBoss -->
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-validator</artifactId>
-            <scope>provided</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>slf4j-api</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <dependency>
-            <groupId>org.jboss.resteasy</groupId>
-            <artifactId>resteasy-jackson2-provider</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
-        <!-- Now we declare any tools needed -->
-
-        <!-- Annotation processor to generate the JPA metamodel classes for typesafe criteria queries -->
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-jpamodelgen</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
-        <!-- Needed for running tests (you may also use TestNG) -->
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <!-- Optional, but highly recommended -->
-        <!-- Arquillian allows you to test enterprise code such as EJBs and Transactional(JTA) JPA from JUnit/TestNG -->
-        <dependency>
-            <groupId>org.jboss.arquillian.junit</groupId>
-            <artifactId>arquillian-junit-container</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.jboss.arquillian.protocol</groupId>
-            <artifactId>arquillian-protocol-servlet</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.jboss.arquillian.container</groupId>
-            <artifactId>arquillian-container-test-api</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.jboss.arquillian.junit</groupId>
-            <artifactId>arquillian-junit-core</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.jboss.shrinkwrap</groupId>
-            <artifactId>shrinkwrap-api</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.jboss.shrinkwrap.resolver</groupId>
-            <artifactId>shrinkwrap-resolver-api-maven</artifactId>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
 
     <build>
-        <!-- Maven will append the version to the finalName (which is the name given to the generated WAR, and hence the context
-            root) -->
+        <!-- Set the name of the WAR, used as the context root when the app is deployed -->
         <finalName>${project.artifactId}</finalName>
-        <plugins>
-            <!-- This skips all tests, though you can tune it to run just unit tests based on a custom pattern -->
-            <!-- Separate profiles are provided for running all tests, including Arquillian tests that execute in the specified container -->
-            <plugin>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>${version.surefire.plugin}</version>
-                <configuration>
-                    <skip>true</skip>
-                </configuration>
-            </plugin>
-            <plugin>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>${version.war.plugin}</version>
-                <configuration>
-                    <!-- Java EE doesn't require web.xml, Maven needs to catch up! -->
-                    <failOnMissingWebXml>false</failOnMissingWebXml>
-                </configuration>
-            </plugin>
-            <!-- The WildFly plug-in deploys the WAR to a local WildFly container -->
-            <!-- To use, run: mvn package wildfly:deploy -->
-            <plugin>
-                <groupId>org.wildfly.plugins</groupId>
-                <artifactId>wildfly-maven-plugin</artifactId>
-                <version>${version.wildfly.maven.plugin}</version>
-            </plugin>
-        </plugins>
     </build>
 
     <profiles>
         <profile>
-            <!-- When built in OpenShift the 'openshift' profile will be used when invoking mvn. -->
-            <!-- Use this profile for any OpenShift specific customization your app will need. -->
-            <!-- By default that is to put the resulting archive into the 'deployments' folder. -->
-            <!-- http://maven.apache.org/guides/mini/guide-building-for-different-environments.html -->
-            <id>openshift</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-war-plugin</artifactId>
-                        <version>${version.war.plugin}</version>
-                        <configuration>
-                            <outputDirectory>deployments</outputDirectory>
-                            <warName>ROOT</warName>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <!-- Use this profile to use the wro4j plug-in for validation, concatenation and -->
-            <!-- minification of JavaScript and CSS files during the build -->
+            <!-- Use this profile to use the wro4j plug-in for validation, concatenation and 
+                minification of JavaScript and CSS files during the build -->
             <id>minify</id>
             <activation>
                 <activeByDefault>false</activeByDefault>
@@ -275,68 +193,21 @@
                         <groupId>ro.isdc.wro4j</groupId>
                         <artifactId>wro4j-maven-plugin</artifactId>
                         <version>${version.ro.isdc.wro4j}</version>
-                        <executions>
-                            <execution>
-                                <phase>compile</phase>
-                                <goals>
-                                    <goal>run</goal>
-                                </goals>
-                            </execution>
-                        </executions>
                         <configuration>
-                            <targetGroups>app.min,formSetup.min,namespace.min,submissions.min,theming.min,util.min,validation.min,app-style.min,validator.min</targetGroups>
+                            <targetGroups>app.min,formSetup.min,namespace.min,submissions.min,theming.min,util.min,validation.min,app-style.min,validator.min
+                            </targetGroups>
                             <cssDestinationFolder>${project.build.directory}/${project.build.finalName}/css/</cssDestinationFolder>
                             <jsDestinationFolder>${project.build.directory}/${project.build.finalName}/js/</jsDestinationFolder>
                             <wroManagerFactory>ro.isdc.wro.maven.plugin.manager.factory.ConfigurableWroManagerFactory</wroManagerFactory>
                         </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <!-- An optional Arquillian testing profile that executes tests in your WildFly instance -->
-            <!-- This profile will start a new WildFly instance, and execute the test, shutting it down when done -->
-            <!-- Run with: mvn clean test -Parq-wildfly-managed -->
-            <id>arq-wildfly-managed</id>
-            <dependencies>
-                <dependency>
-                    <groupId>org.wildfly.arquillian</groupId>
-                    <artifactId>wildfly-arquillian-container-managed</artifactId>
-                    <scope>test</scope>
-                </dependency>
-            </dependencies>
-            <build>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <version>${version.surefire.plugin}</version>
-                        <configuration>
-                            <skip>false</skip>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-
-        <profile>
-            <!-- An optional Arquillian testing profile that executes tests in a remote WildFly instance -->
-            <!-- Run with: mvn clean test -Parq-wildfly-remote -->
-            <id>arq-wildfly-remote</id>
-            <dependencies>
-                <dependency>
-                    <groupId>org.wildfly.arquillian</groupId>
-                    <artifactId>wildfly-arquillian-container-remote</artifactId>
-                    <scope>test</scope>
-                </dependency>
-            </dependencies>
-            <build>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <version>${version.surefire.plugin}</version>
-                        <configuration>
-                            <skip>false</skip>
-                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <phase>compile</phase>
+                            </execution>
+                        </executions>
                     </plugin>
                 </plugins>
             </build>

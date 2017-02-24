@@ -20,15 +20,14 @@
 
     <defaultProtocol type="Servlet 3.0" />
 
-    <!-- Example configuration for a remote Red Hat JBoss Enterprise Application Platform instance -->
+    <!-- Example configuration for a managed JBoss EAP instance -->
     <container qualifier="jboss" default="true">
-        <!-- By default, Arquillian will use the JBOSS_HOME environment variable.
-            Alternatively, the configuration below can be uncommented. -->
-        <!--
-        <configuration>
-            <property name="jbossHome">/path/to/jboss/as</property>
-        </configuration>
-        -->
+        <!-- By default, Arquillian will use the JBOSS_HOME environment variable to find the JBoss EAP installation.  
+             If you prefer not to define the JBOSS_HOME environment variable, alternatively you can uncomment the 
+             following `jbossHome` property and replace EAP_HOME with the path to your JBoss EAP installation. -->
+        <!--<configuration> 
+            <property name="jbossHome">EAP_HOME</property> 
+        </configuration> -->
     </container>
 
     <!-- WebDriver extension -->
@@ -36,8 +35,7 @@
         <!-- By default, the browser you are going to use for your tests is set to Firefox. -->
         <property name="browser">firefox</property>
         <!-- Uncomment this line in order to specify where your Firefox binary is located, WebDriver
-            will use the default one in your system otherwise. These tests are verified to be functioning
-            with Firefox 23. -->
+            will use the default one in your system otherwise. -->
         <!--
         <property name="firefox_binary">/path/to/firefox/binary</property>
         -->

@@ -84,7 +84,6 @@ final class SecurityActions {
             public void popIdentity(ContextStateCache stateCache) {
                 ConnectionSecurityContext.popIdentity(stateCache);
             }
-
         };
 
         ConnectionSecurityContextActions PRIVILEGED = new ConnectionSecurityContextActions() {

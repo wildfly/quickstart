@@ -29,6 +29,8 @@ import javax.inject.Named;
 import org.jboss.as.quickstart.hibernate.model.Member;
 
 /**
+ * Retrieves the Member List
+ * 
  * @author Madhumita Sadhukhan
  */
 

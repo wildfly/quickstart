@@ -15,160 +15,126 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<project  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.wildfly.quickstarts</groupId>
-    <artifactId>wildfly-ejb-security-plus</artifactId>
-    <version>10.0.0-SNAPSHOT</version>
+    <parent>
+        <groupId>org.wildfly.quickstarts</groupId>
+        <artifactId>quickstart-parent</artifactId>
+        <version>11.0.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
     <packaging>jar</packaging>
-    <name>WildFly Quickstart: ejb-security-plus</name>
+    <artifactId>ejb-security-plus</artifactId>
+    <name>${qs.name.prefix}: ejb-security-plus</name>
     <description>WildFly Quickstarts: EJB Security Plus</description>
-    <url>http://wildfly.org</url>
-
-    <licenses>
-        <license>
-            <name>Apache License, Version 2.0</name>
-            <distribution>repo</distribution>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
-        </license>
-    </licenses>
-
-    <properties>
-        <!-- Explicitly declaring the source encoding eliminates the following
-            message: -->
-        <!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered
-            resources, i.e. build is platform dependent! -->
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-        <!-- JBoss dependency versions -->
-
-        <version.wildfly.maven.plugin>1.0.2.Final</version.wildfly.maven.plugin>
-
-        <version.wildfly>10.0.0.Final</version.wildfly>
-
-        <version.jboss.spec.javaee.7.0>1.0.3.Final</version.jboss.spec.javaee.7.0>
-
-        <!-- other plugin versions -->
-        <version.compiler.plugin>3.5.1</version.compiler.plugin>
-        <version.exec.plugin>1.2.1</version.exec.plugin>
-
-        <!-- maven-compiler-plugin -->
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <maven.compiler.source>1.8</maven.compiler.source>
-    </properties>
-
-    <dependencyManagement>
-        <dependencies>
-            <!-- Define the version of JBoss' Java EE 7 APIs we want to use. -->
-            <!-- JBoss distributes a complete set of Java EE 7 APIs including a Bill of Materials (BOM).
-            A BOM specifies the versions of a "stack" (or a collection) of artifacts.
-            We use this here so that we always get the correct versions of artifacts.
-            Here we use the jboss-javaee-7.0 stack (you can read this as the JBoss stack of the Java EE 7 APIs).
-            You can actually use this stack with any version of WildFly that implements Java EE 7, not just WildFly 10! -->
-            <dependency>
-                <groupId>org.jboss.spec</groupId>
-                <artifactId>jboss-javaee-7.0</artifactId>
-                <version>${version.jboss.spec.javaee.7.0}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.wildfly</groupId>
-                <artifactId>wildfly-ejb-client-bom</artifactId>
-                <version>${version.wildfly}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-
+    
     <dependencies>
-
+        <dependency>
+            <groupId>org.wildfly</groupId>
+            <artifactId>wildfly-ejb-client-bom</artifactId>
+            <type>pom</type>
+            <scope>provided</scope>
+        </dependency>
         <dependency>
             <groupId>org.wildfly</groupId>
             <artifactId>wildfly-security-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.wildfly.core</groupId>
-            <artifactId>wildfly-core-security-api</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.wildfly.core</groupId>
+                    <artifactId>wildfly-domain-management</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.wildfly.core</groupId>
+                    <artifactId>wildfly-server</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.wildfly.core</groupId>
+                    <artifactId>wildfly-controller</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.wildfly</groupId>
+                    <artifactId>wildfly-naming</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.wildfly</groupId>
+                    <artifactId>wildfly-clustering-infinispan-spi</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.wildfly</groupId>
+                    <artifactId>wildfly-transactions</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.wildfly</groupId>
+                    <artifactId>wildfly-ee</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.jboss.msc</groupId>
+                    <artifactId>jboss-msc</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.jboss.logging</groupId>
+                    <artifactId>jboss-logging</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.jboss.security</groupId>
+                    <artifactId>jboss-negotiation-extras</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.jboss.security</groupId>
+                    <artifactId>jboss-negotiation-spnego</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.picketbox</groupId>
+                    <artifactId>picketbox-infinispan</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.jboss.spec.javax.security.jacc</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>commons-cli</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.wildfly.checkstyle</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.wildfly.security</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
-
-        <!-- Import the CDI API, we use provided scope as the API is included in JBoss WildFly -->
         <dependency>
-            <groupId>javax.enterprise</groupId>
-            <artifactId>cdi-api</artifactId>
+            <groupId>org.jboss.spec.javax.interceptor</groupId>
+            <artifactId>jboss-interceptors-api_1.2_spec</artifactId>
             <scope>provided</scope>
         </dependency>
 
-        <!-- Import the Common Annotations API (JSR-250), we use provided scope
-            as the API is included in JBoss WildFly -->
         <dependency>
             <groupId>org.jboss.spec.javax.annotation</groupId>
             <artifactId>jboss-annotations-api_1.2_spec</artifactId>
             <scope>provided</scope>
         </dependency>
-
-        <!-- Import the Servlet API, we use provided scope as the API is included in JBoss WildFly -->
-        <dependency>
-            <groupId>org.jboss.spec.javax.servlet</groupId>
-            <artifactId>jboss-servlet-api_3.1_spec</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.jboss.spec.javax.ejb</groupId>
-            <artifactId>jboss-ejb-api_3.2_spec</artifactId>
-        </dependency>
-
         <dependency>
             <groupId>org.jboss.ejb3</groupId>
             <artifactId>jboss-ejb3-ext-api</artifactId>
         </dependency>
-
-          <!-- JBoss EJB client API jar. We use runtime scope because the EJB client
-              API isn't directly used in this example. We just need it in our runtime classpath -->
+        <!-- TODO remove-->
         <dependency>
-            <groupId>org.jboss</groupId>
-            <artifactId>jboss-ejb-client</artifactId>
+            <groupId>org.jboss.modules</groupId>
+            <artifactId>jboss-modules</artifactId>
         </dependency>
-
-          <!-- client communications with the server use XNIO -->
-        <dependency>
-            <groupId>org.jboss.xnio</groupId>
-            <artifactId>xnio-api</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.jboss.xnio</groupId>
-            <artifactId>xnio-nio</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-
-          <!-- data serialization for invoking remote EJBs -->
-        <dependency>
-            <groupId>org.jboss.marshalling</groupId>
-            <artifactId>jboss-marshalling-river</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-
-       <!-- Import the transaction spec API, we use runtime scope because we aren't using any direct
-        reference to the spec API in our client code -->
-      <dependency>
-         <groupId>org.jboss.spec.javax.transaction</groupId>
-         <artifactId>jboss-transaction-api_1.2_spec</artifactId>
-         <scope>runtime</scope>
-      </dependency>
 
     </dependencies>
 
     <build>
-          <!-- Set the name of the war, used as the context root when the app is
-              deployed -->
+        <!-- Set the name of the war, used as the context root when the app is
+            deployed -->
         <finalName>${project.artifactId}</finalName>
         <plugins>
-                <!-- Add the maven exec plugin to allow us to run a java program via maven -->
+            <!-- Add the maven exec plugin to allow us to run a java program via maven -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
@@ -184,30 +150,13 @@
                     <executable>java</executable>
                     <workingDirectory>${project.build.directory}/exec-working-directory</workingDirectory>
                     <arguments>
-                                  <!-- automatically creates the classpath using all project dependencies,
-                                      also adding the project build directory -->
+                        <!-- automatically creates the classpath using all project dependencies,
+                            also adding the project build directory -->
                         <argument>-classpath</argument>
                         <classpath>
                         </classpath>
                         <argument>org.jboss.as.quickstarts.ejb_security_plus.RemoteClient</argument>
                     </arguments>
-                </configuration>
-            </plugin>
-
-            <!-- WildFly plugin to deploy war -->
-            <plugin>
-                <groupId>org.wildfly.plugins</groupId>
-                <artifactId>wildfly-maven-plugin</artifactId>
-                <version>${version.wildfly.maven.plugin}</version>
-            </plugin>
-            <!-- Compiler plugin enforces Java 1.8 compatibility and activates
-                annotation processors -->
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>${version.compiler.plugin}</version>
-                <configuration>
-                    <source>${maven.compiler.source}</source>
-                    <target>${maven.compiler.target}</target>
                 </configuration>
             </plugin>
         </plugins>

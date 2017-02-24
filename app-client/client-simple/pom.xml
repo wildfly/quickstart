@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
     JBoss, Home of Professional Open Source
     Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
@@ -21,19 +21,19 @@
 
     <parent>
         <groupId>org.wildfly.quickstarts</groupId>
-        <artifactId>wildfly-app-client</artifactId>
-        <version>10.0.0-SNAPSHOT</version>
+        <artifactId>app-client</artifactId>
+        <version>11.0.0-SNAPSHOT</version>
     </parent>
-    <artifactId>wildfly-app-client-client-simple</artifactId>
+    <artifactId>app-client-client-simple</artifactId>
     <packaging>jar</packaging>
-    <name>WildFly Quickstart: app-client - client-simple</name>
-    <url>http://wildfly.org</url>
-
+    <name>${qs.name.prefix} app-client - client-simple</name>
+    <description>This project demonstrates how to package and use an EE application client; this is the client POM file</description>
+    
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
-            <distribution>repo</distribution>
             <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+            <distribution>repo</distribution>
         </license>
     </licenses>
 
@@ -46,8 +46,12 @@
         </dependency>
         <dependency>
             <groupId>org.wildfly.quickstarts</groupId>
-            <artifactId>wildfly-app-client-ejb</artifactId>
+            <artifactId>app-client-ejb</artifactId>
             <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.modules</groupId>
+            <artifactId>jboss-modules</artifactId>
         </dependency>
     </dependencies>
 
@@ -58,7 +62,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>${jar.plugin.version}</version>
+                <version>${version.jar.plugin}</version>
                 <configuration>
                     <archive>
                         <addMavenDescriptor>false</addMavenDescriptor>

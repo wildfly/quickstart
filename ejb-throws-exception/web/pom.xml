@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
     JBoss, Home of Professional Open Source
     Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
@@ -20,43 +20,26 @@
 
     <parent>
         <groupId>org.wildfly.quickstarts</groupId>
-        <artifactId>wildfly-ejb-throws-exception</artifactId>
-        <version>10.0.0-SNAPSHOT</version>
+        <artifactId>ejb-throws-exception</artifactId>
+        <version>11.0.0-SNAPSHOT</version>
     </parent>
-    <artifactId>wildfly-ejb-throws-exception-web</artifactId>
+    <artifactId>ejb-throws-exception-web</artifactId>
     <packaging>war</packaging>
-    <name>WildFly Quickstart: ejb-throws-exception - web</name>
-    <url>http://wildfly.org</url>
+    <name>${qs.name.prefix} ejb-throws-exception - web</name>
+    <description>This project demonstrates how to throw an exception in an EJB and catch it in the web layer; this is the web POM file</description>
 
     <licenses>
-       <license>
-          <name>Apache License, Version 2.0</name>
-          <distribution>repo</distribution>
-          <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
-       </license>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+            <distribution>repo</distribution>
+        </license>
     </licenses>
 
     <dependencies>
 
-        <!-- Dependency on the EJB module so we can use it's services if
-            needed -->
-        <dependency>
-            <groupId>org.wildfly.quickstarts</groupId>
-            <artifactId>wildfly-ejb-throws-exception-ejb</artifactId>
-            <type>ejb</type>
-            <scope>provided</scope>
-        </dependency>
-
-        <!-- Import the JAX-RS API, we use provided scope as the API is included
-            in WildFly -->
-        <dependency>
-            <groupId>org.jboss.spec.javax.ws.rs</groupId>
-            <artifactId>jboss-jaxrs-api_2.0_spec</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
         <!-- Import the CDI API, we use provided scope as the API is included
-            in WildFly -->
+            in JBoss EAP -->
         <dependency>
             <groupId>javax.enterprise</groupId>
             <artifactId>cdi-api</artifactId>
@@ -64,16 +47,33 @@
         </dependency>
 
         <!-- Import the JPA API, we use provided scope as the API is included
-            in WildFly -->
+            in JBoss EAP -->
         <dependency>
             <groupId>org.hibernate.javax.persistence</groupId>
             <artifactId>hibernate-jpa-2.1-api</artifactId>
             <scope>provided</scope>
         </dependency>
 
+        <!-- Dependency on the EJB module so we can use it's services if
+            needed -->
+        <dependency>
+            <groupId>org.wildfly.quickstarts</groupId>
+            <artifactId>ejb-throws-exception-ejb</artifactId>
+            <type>ejb</type>
+            <scope>provided</scope>
+        </dependency>
+
         <dependency>
             <groupId>org.jboss.spec.javax.ejb</groupId>
             <artifactId>jboss-ejb-api_3.2_spec</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Import the JAX-RS API, we use provided scope as the API is included
+            in JBoss EAP -->
+        <dependency>
+            <groupId>org.jboss.spec.javax.ws.rs</groupId>
+            <artifactId>jboss-jaxrs-api_2.0_spec</artifactId>
             <scope>provided</scope>
         </dependency>
     </dependencies>

@@ -20,15 +20,14 @@
     xsi:schemaLocation="http://jboss.org/schema/arquillian
         http://jboss.org/schema/arquillian/arquillian_1_0.xsd">
 
-    <!-- Example configuration for a managed JBoss WildFly instance -->
-    <!-- By default, Arquillian will try to use the JBOSS_HOME environment variable. -->
-    <!-- If this doesn't work, uncomment the configuration below and enter the path to your Wildfly installation. -->
-
-    <!--
-    <container qualifier="jbossas-managed" default="true">
-        <configuration>
-            <property name="jbossHome">/path/to/wildfly</property>
-        </configuration>
+    <!-- Example configuration for a managed JBoss EAP instance -->
+    <container qualifier="jboss" default="true">
+        <!-- By default, Arquillian will use the JBOSS_HOME environment variable to find the JBoss EAP installation.  
+             If you prefer not to define the JBOSS_HOME environment variable, alternatively you can uncomment the 
+             following `jbossHome` property and replace EAP_HOME with the path to your JBoss EAP installation. -->
+        <!--<configuration> 
+            <property name="jbossHome">EAP_HOME</property> 
+        </configuration> -->
     </container>
-    -->
+
 </arquillian>

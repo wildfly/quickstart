@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
     JBoss, Home of Professional Open Source
     Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
@@ -15,47 +15,27 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.wildfly.quickstarts</groupId>
-    <artifactId>wildfly-shoppingcart-parent</artifactId>
-    <version>10.0.0-SNAPSHOT</version>
+    <parent>
+        <groupId>org.wildfly.quickstarts</groupId>
+        <artifactId>quickstart-parent</artifactId>
+        <version>11.0.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+    <artifactId>shopping-cart</artifactId>
     <packaging>pom</packaging>
-    <name>WildFly Quickstart: shopping-cart</name>
-    <description>WildFly Quickstart: EJB Stateful Session Bean Quickstart Parent</description>
+    <name>${qs.name.prefix} shopping-cart</name>
+    <description>This project demonstrates a shopping cart that uses a Stateful Session Bean</description>
 
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
-            <distribution>repo</distribution>
             <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+            <distribution>repo</distribution>
         </license>
     </licenses>
-
-    <properties>
-        <!-- Explicitly declaring the source encoding eliminates the following
-            message: -->
-        <!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered
-            resources, i.e. build is platform dependent! -->
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-        <version.wildfly>10.0.0.Final</version.wildfly>
-
-
-        <version.jboss.spec.javaee.7.0>1.0.3.Final</version.jboss.spec.javaee.7.0>
-
-        <!-- WildFly Maven plug-in to deploy your WAR to a local WildFly container -->
-        <version.wildfly.maven.plugin>1.0.2.Final</version.wildfly.maven.plugin>
-
-        <!-- other plug-in versions -->
-        <version.exec.plugin>1.2.1</version.exec.plugin>
-        <version.war.plugin>3.0.0</version.war.plugin>
-        <version.ejb.plugin>2.3</version.ejb.plugin>
-
-        <!-- maven-compiler-plugin -->
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <maven.compiler.source>1.8</maven.compiler.source>
-    </properties>
 
     <!-- This quickstart consists of a server side component and a client
         side that accesses the server side component. Each component has its own
@@ -67,53 +47,16 @@
 
     <dependencyManagement>
         <dependencies>
-            <!-- JBoss distributes a complete set of Java EE 7 APIs including
-                a Bill of Materials (BOM). A BOM specifies the versions of a "stack" (or
-                a collection) of artifacts. We use this here so that we always get the correct
-                versions of artifacts. Here we use the jboss-javaee-7.0 stack (you can read
-                this as the JBoss stack of the Java EE 7 APIs) -->
-            <dependency>
-                <groupId>org.jboss.spec</groupId>
-                <artifactId>jboss-javaee-7.0</artifactId>
-                <version>${version.jboss.spec.javaee.7.0}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
 
             <!-- We depend on the server side EJBs of this application -->
             <dependency>
                 <groupId>org.wildfly.quickstarts</groupId>
-                <artifactId>wildfly-shopping-cart-server</artifactId>
+                <artifactId>shopping-cart-server</artifactId>
                 <version>${project.version}</version>
                 <type>ejb</type>
             </dependency>
-            <!-- We need the EJB Client -->
-             <dependency>
-                 <groupId>org.wildfly</groupId>
-                 <artifactId>wildfly-ejb-client-bom</artifactId>
-                 <version>${version.wildfly}</version>
-                 <type>pom</type>
-             </dependency>
 
         </dependencies>
     </dependencyManagement>
 
-    <build>
-        <finalName>${project.artifactId}</finalName>
-        <plugins>
-            <!-- The WildFly plug-in deploys your apps to a local WildFly
-                container -->
-            <!-- Disabling it here means that we don't try to deploy this
-                POM! -->
-            <plugin>
-                <groupId>org.wildfly.plugins</groupId>
-                <artifactId>wildfly-maven-plugin</artifactId>
-                <version>${version.wildfly.maven.plugin}</version>
-                <inherited>true</inherited>
-                <configuration>
-                    <skip>true</skip>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 </project>

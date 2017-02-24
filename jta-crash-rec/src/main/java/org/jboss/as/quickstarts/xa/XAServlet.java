@@ -61,14 +61,14 @@ public class XAServlet extends HttpServlet {
         "<p>To demonstrate XA recovery, you will take the following steps:</p> " +
         "<ol>" +
         "<li>Add a <b>key</b>/<b>value</b> as described above.</li>" +
-        "<li>Stop the WildFly server.</li>" +
+        "<li>Stop the JBoss EAP server.</li>" +
         "<li>Clear any transaction objectstore data remaining from previous tests.</li>" +
-        "<li>Configure Byteman to halt the WildFly server.</li>" +
-        "<li>Start the WildFly server.</li>" +
-        "<li>Add another <b>key</b>/<b>value</b>. This will cause Byteman to halt the WildFly server.</li>" +
+        "<li>Configure Byteman to halt the JBoss EAP server.</li>" +
+        "<li>Start the JBoss EAP server.</li>" +
+        "<li>Add another <b>key</b>/<b>value</b>. This will cause Byteman to halt the JBoss EAP server.</li>" +
         "<li>Verify the database record.</li>" +
         "<li>Disable Byteman.</li>" +
-        "<li>Start the WildFly server.</li>" +
+        "<li>Start the JBoss EAP server.</li>" +
         "<li>View the resulting recovered row in the table, indicated by the text \"<i>updated via JMS</i>\".</li>" +
         "</ol>" +
         "</p> " +

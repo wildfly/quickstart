@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
     JBoss, Home of Professional Open Source
     Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
@@ -20,82 +20,86 @@
 
     <parent>
         <groupId>org.wildfly.quickstarts</groupId>
-        <artifactId>wildfly-ejb-multi-server-app-main</artifactId>
-        <version>10.0.0-SNAPSHOT</version>
+        <artifactId>ejb-multi-server-app-main</artifactId>
+        <version>11.0.0-SNAPSHOT</version>
     </parent>
-    <artifactId>wildfly-ejb-multi-server-app-main-ear</artifactId>
+    <artifactId>ejb-multi-server-app-main-ear</artifactId>
     <packaging>ear</packaging>
-    <name>WildFly Quickstart: Quickstart: ear</name>
-    <description>Create the deployable main-app archive
-     Include the EJB and WEB application together with the necessary API libraries
-     of the sub applications app-one and app-two.
-    </description>
+    <name>${qs.name.prefix} ejb-multi-server - app-main - ear</name>
+    <description>A project that demonstrates multiple applications deployed on different servers. This is the main application EAR project.
+       Includes the EJB and web application together with the necessary API libraries of the sub applications app-one and app-two.</description>
 
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
-            <distribution>repo</distribution>
             <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+            <distribution>repo</distribution>
         </license>
     </licenses>
 
     <dependencies>
-  <!-- add the EJB and WEB project as dependency to include it in the EAR -->
+        <!-- add the EJB and WEB project as dependency to include it in the EAR -->
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>wildfly-ejb-multi-server-app-main-ejb</artifactId>
+            <artifactId>ejb-multi-server-app-main-ejb</artifactId>
+            <version>${project.version}</version>
             <type>ejb</type>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>wildfly-ejb-multi-server-app-main-web</artifactId>
-            <type>war</type>
+            <artifactId>ejb-multi-server-app-main-web</artifactId>
             <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.wildfly</groupId>
-            <artifactId>wildfly-ejb-client-bom</artifactId>
-            <scope>provided</scope>
-            <type>pom</type>
+            <type>war</type>
         </dependency>
     </dependencies>
 
     <build>
         <!-- define the name for the deployable archive instead of using the default name with the version -->
         <finalName>${project.parent.artifactId}</finalName>
+        <resources>
+            <resource>
+                <targetPath>META-INF</targetPath>
+                <directory>src/main/resources/META-INF</directory>
+                <!--  add the client configuration containing the remote-connections and cluster definition
+              which is used by the MainApp bean.
+         -->
+                <includes>
+                    <include>jboss-ejb-client.xml</include>
+                </includes>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <artifactId>maven-ear-plugin</artifactId>
-                <version>${ear.plugin.version}</version>
+                <version>${version.ear.plugin}</version>
                 <configuration>
                     <displayName>Application Main</displayName>
                     <description>A simple quickstart application to demonstrate the
                         server-server communication</description>
-                    <version>6</version>
+                    <version>7</version>
                     <generateApplicationXml>true</generateApplicationXml>
-          <!-- must start in order to ensure that the reference to MainApp is found in the JsfController -->
+                    <!-- must start in order to ensure that the reference to MainApp is found in the JsfController -->
                     <initializeInOrder>true</initializeInOrder>
                     <modules>
                         <ejbModule>
                             <groupId>${project.groupId}</groupId>
-                            <artifactId>wildfly-ejb-multi-server-app-main-ejb</artifactId>
+                            <artifactId>ejb-multi-server-app-main-ejb</artifactId>
                             <bundleFileName>ejb.jar</bundleFileName>
                         </ejbModule>
                         <webModule>
                             <groupId>${project.groupId}</groupId>
-                            <artifactId>wildfly-ejb-multi-server-app-main-web</artifactId>
+                            <artifactId>ejb-multi-server-app-main-web</artifactId>
                             <bundleFileName>jsf.war</bundleFileName>
                         </webModule>
-            <!-- add the necessary EJB client interfaces of AppOne and AppTwo to the lib directory of the EAR -->
+                        <!-- add the necessary EJB client interfaces of AppOne and AppTwo to the lib directory of the EAR -->
                         <ejbClientModule>
                             <groupId>${project.groupId}</groupId>
-                            <artifactId>wildfly-ejb-multi-server-app-one-ejb</artifactId>
+                            <artifactId>ejb-multi-server-app-one-ejb</artifactId>
                             <bundleDir>lib</bundleDir>
                         </ejbClientModule>
                         <ejbClientModule>
                             <groupId>${project.groupId}</groupId>
-                            <artifactId>wildfly-ejb-multi-server-app-two-ejb</artifactId>
+                            <artifactId>ejb-multi-server-app-two-ejb</artifactId>
                             <bundleDir>lib</bundleDir>
                         </ejbClientModule>
                     </modules>
@@ -105,17 +109,5 @@
                 </configuration>
             </plugin>
         </plugins>
-        <resources>
-            <resource>
-                <directory>src/main/resources/META-INF</directory>
-        <!--  add the client configuration containing the remote-connections and cluster definition
-              which is used by the MainApp bean.
-         -->
-                <includes>
-                    <include>jboss-ejb-client.xml</include>
-                </includes>
-                <targetPath>META-INF</targetPath>
-            </resource>
-        </resources>
     </build>
 </project>

@@ -1,4 +1,4 @@
-# Batch script to add and configure logging in the WildFly server
+# Batch script to add and configure logging in the JBoss EAP server
 
 # Start batching commands
 batch
@@ -23,6 +23,6 @@ batch
 ### NOTE: To view different logging levels, change the level below from TRACE to DEBUG, INFO, WARN, ERROR, or FATAL, then access the application.
 /subsystem=logging/logger=org.jboss.as.quickstarts.logging:add(level=TRACE,handlers=[TRACE_QS_ASYNC,DEBUG_QS_ASYNC,INFO_QS_ASYNC,WARN_QS_ASYNC,ERROR_QS_ASYNC,FATAL_QS_ASYNC])
 
-
 # Run the batch commands
 run-batch
+

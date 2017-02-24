@@ -16,17 +16,23 @@
  */
 package org.jboss.as.quickstarts.xa;
 
+import java.util.List;
+import java.util.logging.Logger;
+
 import javax.annotation.Resource;
 import javax.inject.Inject;
-import javax.jms.JMSConnectionFactory;
-import javax.jms.JMSContext;
+import javax.jms.JMSException;
+import javax.jms.MessageProducer;
 import javax.jms.Queue;
+import javax.jms.TextMessage;
+import javax.jms.XAConnection;
+import javax.jms.XAConnectionFactory;
+import javax.jms.XASession;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.transaction.Status;
 import javax.transaction.UserTransaction;
-import java.util.List;
 
 /**
  * A bean for updating a database and sending a JMS message within a single JTA transaction
@@ -34,6 +40,8 @@ import java.util.List;
  * @author Mike Musgrove
  */
 public class XAService {
+
+    private final static Logger LOGGER = Logger.getLogger(XAService.class.getName());
 
     /*
      * Ask the container to inject a persistence context corresponding to the database that will hold our key/value pair table.
@@ -49,17 +57,36 @@ public class XAService {
     @Inject
     private UserTransaction userTransaction;
 
-    @Inject
-    @JMSConnectionFactory("java:/JmsXA")
-    // we want to deliver JMS messages withing an XA transaction
-    private JMSContext jmsContext;
+    @Resource(mappedName = "java:/JmsXA")
+    private XAConnectionFactory xaConnectionFactory; // we want to deliver JMS messages withing an XA transaction
 
     // use our JMS queue. Note that messages must be persistent in order for them to survive an AS restart
-    @Resource(lookup = "java:/queue/jta-crash-rec-quickstart")
+    @Resource(mappedName = "java:/queue/jta-crash-rec-quickstart")
     private Queue queue;
 
-    private void notifyUpdate(Queue queue, String msg) {
-        jmsContext.createProducer().send(queue, msg);
+    private void notifyUpdate(Queue queue, String msg) throws Exception {
+        XAConnection connection = null;
+
+        try {
+            connection = xaConnectionFactory.createXAConnection();
+            XASession session = connection.createXASession();
+            MessageProducer messageProducer = session.createProducer(queue);
+
+            connection.start();
+            TextMessage message = session.createTextMessage();
+            message.setText(msg);
+
+            messageProducer.send(message);
+            messageProducer.close();
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (JMSException e) {
+                    LOGGER.info("Error closing JMS connection: " + e.getMessage());
+                }
+            }
+        }
     }
 
     // must be called inside a transaction
@@ -114,7 +141,7 @@ public class XAService {
             KVPair pair = entityManager.find(KVPair.class, key);
 
             if (pair == null) {
-                // insert a new entry into the the key/value table
+                // insert a new entry into the key/value table
                 entityManager.persist(new KVPair(key, value));
             } else {
                 // there is already a value for this key - update it with the new value

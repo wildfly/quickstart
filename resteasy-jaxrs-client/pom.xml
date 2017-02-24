@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
     JBoss, Home of Professional Open Source
     Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
@@ -15,101 +15,28 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.wildfly.quickstarts</groupId>
-    <artifactId>wildfly-resteasy-jaxrs-client</artifactId>
-    <version>10.0.0-SNAPSHOT</version>
-    <name>WildFly Quickstart: resteasy-jaxrs-client</name>
-    <description>resteasy-jaxrs-client: Demonstrates the use an external JAX-RS RestEasy client</description>
-    <url>http://www.wildfly.org</url>
+    <parent>
+        <groupId>org.wildfly.quickstarts</groupId>
+        <artifactId>quickstart-parent</artifactId>
+        <version>11.0.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+    <artifactId>resteasy-jaxrs-client</artifactId>
+    <name>${qs.name.prefix} resteasy-jaxrs-client</name>
+    <description>This project demonstrates the use an external JAX-RS RestEasy client</description>
 
     <licenses>
-      <license>
-        <name>Apache License, Version 2.0</name>
-        <distribution>repo</distribution>
-        <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
-      </license>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+            <distribution>repo</distribution>
+        </license>
     </licenses>
 
-    <properties>
-        <!-- Explicitly declaring the source encoding eliminates the following
-            message: -->
-        <!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered
-            resources, i.e. build is platform dependent! -->
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-        <!-- JBoss dependency versions -->
-
-        <!-- Define the version of the JBoss BOMs we want to import to specify tested stacks. -->
-        <version.jboss.bom>10.1.0.Final</version.jboss.bom>
-
-        <!-- Other dependency versions -->
-        <version.org.apache.httpcomponents>4.3.3</version.org.apache.httpcomponents>
-        <version.commons.logging>1.1.1</version.commons.logging>
-
-        <!-- other plug-in versions -->
-        <version.surefire.plugin>2.10</version.surefire.plugin>
-        <version.war.plugin>3.0.0</version.war.plugin>
-
-        <httpclient.version>4.5</httpclient.version>
-        <commons-io.version>2.4</commons-io.version>
-
-        <!-- maven-compiler-plugin -->
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <maven.compiler.source>1.8</maven.compiler.source>
-    </properties>
-
-    <dependencyManagement>
-      <dependencies>
-          <!-- JBoss distributes a complete set of Java EE 7 APIs including a Bill
-              of Materials (BOM). A BOM specifies the versions of a "stack" (or a collection)
-              of artifacts. We use this here so that we always get the correct versions
-              of artifacts. Here we use the jboss-javaee-7.0-with tools stack (you can read this as
-              the JBoss stack of the Java EE 7 APIs, with some extras tools for your project, such
-              as Arquillian for testing) -->
-          <dependency>
-              <groupId>org.wildfly.bom</groupId>
-              <artifactId>wildfly-javaee7-with-tools</artifactId>
-              <version>${version.jboss.bom}</version>
-              <type>pom</type>
-              <scope>import</scope>
-          </dependency>
-            <dependency>
-                <groupId>commons-logging</groupId>
-                <artifactId>commons-logging</artifactId>
-                <version>${version.commons.logging}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.httpcomponents</groupId>
-                <artifactId>httpclient</artifactId>
-                <version>${httpclient.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>commons-io</groupId>
-                <artifactId>commons-io</artifactId>
-                <version>${commons-io.version}</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-
     <dependencies>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.resteasy</groupId>
-            <artifactId>resteasy-jaxrs</artifactId>
-        </dependency>
-
-        <!-- Now we declare the dependencies needed by the client -->
-        <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpclient</artifactId>
-            <scope>test</scope>
-        </dependency>
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
@@ -119,6 +46,22 @@
         <dependency>
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Now we declare the dependencies needed by the client -->
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-client</artifactId>
         </dependency>
     </dependencies>
 
@@ -137,16 +80,17 @@
                 <plugins>
                     <plugin>
                         <artifactId>maven-surefire-plugin</artifactId>
+                        <version>${version.surefire.plugin}</version>
                         <configuration>
                             <skip>true</skip>
                             <systemProperties>
                                 <property>
                                     <name>xmlUrl</name>
-                                    <value>http://localhost:8080/wildfly-helloworld-rs/rest/xml</value>
+                                    <value>http://localhost:8080/helloworld-rs/rest/xml</value>
                                 </property>
                                 <property>
                                     <name>jsonUrl</name>
-                                    <value>http://localhost:8080/wildfly-helloworld-rs/rest/json</value>
+                                    <value>http://localhost:8080/helloworld-rs/rest/json</value>
                                 </property>
                             </systemProperties>
                         </configuration>

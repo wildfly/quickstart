@@ -1,74 +1,73 @@
-helloworld-ws: Hello World JAX-WS Web Service_
+helloworld-ws: Hello World JAX-WS Web Service
 ==================================================
 Author: Lee Newson  
 Level: Beginner  
 Technologies: JAX-WS  
 Summary: The `helloworld-ws` quickstart demonstrates a simple Hello World application, bundled and deployed as a WAR, that uses *JAX-WS* to say Hello.  
-Target Product: WildFly  
-Source: <https://github.com/wildfly/quickstart/>  
+Target Product: ${product.name}  
+Source: <${github.repo.url}>  
 
 What is it?
 -----------
 
-The `helloworld-ws` quickstart demonstrates the use of *JAX-WS* in Red Hat JBoss Enterprise Application Platform as a simple Hello World application.
+The `helloworld-ws` quickstart demonstrates the use of *JAX-WS* in ${product.name.full} as a simple Hello World application.
 
 System requirements
 -------------------
 
-The application this project produces is designed to be run on Red Hat JBoss Enterprise Application Platform 7 or later. 
+The application this project produces is designed to be run on ${product.name.full} ${product.version} or later. 
 
-All you need to build this project is Java 8.0 (Java SDK 1.8) or later and Maven 3.1.1 or later. See [Configure Maven for WildFly 10](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
+All you need to build this project is ${build.requirements}. See [Configure Maven for ${product.name} ${product.version}](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
 
 
-Use of WILDFLY_HOME
+Use of ${jboss.home.name}
 ---------------
 
-In the following instructions, replace `WILDFLY_HOME` with the actual path to your WildFly installation. The installation path is described in detail here: [Use of WILDFLY_HOME and JBOSS_HOME Variables](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_EAP7_HOME.md#use-of-eap_home-and-jboss_home-variables).
+In the following instructions, replace `${jboss.home.name}` with the actual path to your ${product.name} installation. The installation path is described in detail here: [Use of ${jboss.home.name} and JBOSS_HOME Variables](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_${jboss.home.name}.md#use-of-eap_home-and-jboss_home-variables).
 
 
-Start the WildFly Server
+Start the ${product.name} Server
 ----------------------         
 
-1. Open a command prompt and navigate to the root of the WildFly directory.
+1. Open a command prompt and navigate to the root of the ${product.name} directory.
 2. The following shows the command line to start the server:
 
-        For Linux:   WILDFLY_HOME/bin/standalone.sh
-        For Windows: WILDFLY_HOME\bin\standalone.bat
+        For Linux:   ${jboss.home.name}/bin/standalone.sh
+        For Windows: ${jboss.home.name}\bin\standalone.bat
 
 
 Build and Deploy the Quickstart
 -------------------------
 
-1. Make sure you have started the WildFly server as described above.
+1. Make sure you have started the ${product.name} server as described above.
 2. Open a command prompt and navigate to the root directory of this quickstart.
 3. Type this command to build and deploy the archive:
 
         mvn clean install wildfly:deploy
 
-4. This will deploy `target/wildfly-helloworld-ws.war` to the running instance of the server.
+4. This will deploy `target/${project.artifactId}.war` to the running instance of the server.
 5. Review the server log to see useful information about the deployed web service endpoint.
 
         JBWS024061: Adding service endpoint metadata: id=org.jboss.as.quickstarts.wshelloworld.HelloWorldServiceImpl
-         address=http://localhost:8080/wildfly-helloworld-ws/HelloWorldService
+         address=http://localhost:8080/${project.artifactId}/HelloWorldService
          implementor=org.jboss.as.quickstarts.wshelloworld.HelloWorldServiceImpl
-         serviceName={http://www.wildfly.org/quickstarts/wshelloworld/HelloWorld}HelloWorldService
-         portName={http://www.wildfly.org/quickstarts/wshelloworld/HelloWorld}HelloWorld
+         serviceName={http://www.jboss.org/eap/quickstarts/wshelloworld/HelloWorld}HelloWorldService
+         portName={http://www.jboss.org/eap/quickstarts/wshelloworld/HelloWorld}HelloWorld
          annotationWsdlLocation=null
          wsdlLocationOverride=null
          mtomEnabled=false
 
 
-
 Access the application 
 ---------------------
 
-You can verify that the Web Service is running and deployed correctly by accessing the following URL: <http://localhost:8080/wildfly-helloworld-ws/HelloWorldService?wsdl>. This URL will display the deployed WSDL endpoint for the Web Service.
+You can verify that the Web Service is running and deployed correctly by accessing the following URL: <http://localhost:8080/${project.artifactId}/HelloWorldService?wsdl>. This URL will display the deployed WSDL endpoint for the Web Service.
 
 
 Undeploy the Archive
 --------------------
 
-1. Make sure you have started the WildFly server as described above.
+1. Make sure you have started the ${product.name} server as described above.
 2. Open a command prompt and navigate to the root directory of this quickstart.
 3. When you are finished testing, type this command to undeploy the archive:
 
@@ -80,13 +79,13 @@ Run the Client Tests using Arquillian
 
 This quickstart provides Arquillian tests. By default, these tests are configured to be skipped as Arquillian tests require the use of a container. 
 
-1. Make sure you have a WildFly server installed on your machine. 
-2. Edit the arquillian.xml file and enter the path of your local WildFly installation. 
+1. Make sure you have started the ${product.name} server as described above.
 2. Open a command prompt and navigate to the root directory of this quickstart.
 3. Type the following command to run the test goal with the following profile activated:
 
-		mvn clean test -Parq-wildfly-managed
+        mvn clean verify -Parq-wildfly-remote
 
+You can also let Arquillian manage the ${product.name} server by using the `arq-wildfly-managed` profile. For more information about how to run the Arquillian tests, see [Run the Arquillian Tests](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/RUN_ARQUILLIAN_TESTS.md#run-the-arquillian-tests).
 
 Investigate the Console Output
 ----------------------------
@@ -108,8 +107,9 @@ The following expected output should appear. The output shows what was said to t
 
 Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 -------------------------------------
-You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a WildFly server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_JBDS.md#use-jboss-developer-studio-or-eclipse-to-run-the-quickstarts) 
+You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a ${product.name} server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](${use.eclipse.url}). 
 
+When you deploy this quickstart, you are presented with a window that explains there is no user interface for this quickstart and directs you to click on a link to view the WSDL definition. However, the Eclipse browser does not support the display of WSDL definitions. Instead, open an external browser and access the following URL: <http://localhost:8080/${project.artifactId}/HelloWorldService?wsdl>. This URL will display the deployed WSDL endpoint for the Web Service.
 
 Debug the Application
 ------------------------------------
