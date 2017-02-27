@@ -99,7 +99,7 @@ For example:
 OR
 
     #With Tests
-    mvn clean verify wildfly:deploy -Pminify,arq-wildfly-remote
+    mvn clean verify wildfly:deploy -Pminify,arq-remote
  
 Run the Arquillian tests
 -------------------------------------
@@ -108,7 +108,7 @@ By default, tests are configured to be skipped. The reason is that the sample te
 
 To run the test in JBoss, first start the container instance. Then, run the test goal with the following profile activated:
 
-    mvn clean verify -Parq-wildfly-remote
+    mvn clean verify -Parq-remote
 
 Run the QUnit tests
 -------------------------------------

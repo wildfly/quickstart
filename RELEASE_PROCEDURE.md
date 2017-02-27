@@ -6,11 +6,11 @@ Testing the quickstarts
 
   Most of the quickstarts require starting ${product.name.full} in standalone mode. Some require the "standalone-full" profile, some require XTS, some require Postgres and some require other quickstarts to be deployed. Profiles are used in the root POM to separate out these groups, allowing you to test the quickstarts easily. For example, to run those that require only standalone mode:
 
-      mvn clean verify wildfly:deploy wildfly:undeploy -Parq-wildfly-remote -P-requires-postgres,-requires-full,-complex-dependencies,-requires-xts
+      mvn clean verify wildfly:deploy wildfly:undeploy -Parq-remote -P-requires-postgres,-requires-full,-complex-dependencies,-requires-xts
 
   Or, to run those only those quickstarts that require the full profile
 
-      mvn clean verify wildfly:deploy wildfly:undeploy -Parq-wildfly-remote -P-requires-postgres,-default,-complex-dependencies,-requires-xts
+      mvn clean verify wildfly:deploy wildfly:undeploy -Parq-remote -P-requires-postgres,-default,-complex-dependencies,-requires-xts
 
   And so on.
 

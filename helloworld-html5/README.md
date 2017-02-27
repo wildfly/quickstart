@@ -125,11 +125,11 @@ To run these tests, you must build the main project as described above.
 3. Navigate to the functional-tests/ directory in this quickstart.
 4. If you have a running instance of the ${product.name} server, as described above, run the remote tests by typing the following command:
 
-        mvn clean verify -Parq-wildfly-remote
+        mvn clean verify -Parq-remote
 
 5. If you prefer to run the functional tests using managed instance of the ${product.name} server, meaning the tests will start the server for you, type fhe following command:
 
-        mvn clean verify -Parq-wildfly-managed
+        mvn clean verify -Parq-managed
 
 Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 -------------------------------------

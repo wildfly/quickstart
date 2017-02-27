@@ -60,9 +60,9 @@ This quickstart provides Arquillian tests. By default, these tests are configure
 2. Open a command line and navigate to the root directory of this quickstart.
 3. Type the following command to run the test goal with the following profile activated:
 
-        mvn clean verify -Parq-wildfly-remote
+        mvn clean verify -Parq-remote
 
-You can also let Arquillian manage the ${product.name} server by using the `arq-wildfly-managed` profile. For more information about how to run the Arquillian tests, see [Run the Arquillian Tests](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/RUN_ARQUILLIAN_TESTS.md#run-the-arquillian-tests).
+You can also let Arquillian manage the ${product.name} server by using the `arq-managed` profile. For more information about how to run the Arquillian tests, see [Run the Arquillian Tests](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/RUN_ARQUILLIAN_TESTS.md#run-the-arquillian-tests).
 
 
 Investigate the Console Output
@@ -149,7 +149,7 @@ You can also start the server and deploy the quickstarts or run the Arquillian t
 
 To run the tests in Red Hat JBoss Developer Studio:
 
-You must first set the active Maven profile in project properties to be either `arq-wildfly-managed` for running on managed server or `arq-wildfly-remote` for running on remote server. Then, to run the tests, right click on the project or individual classes and select Run As --> JUnit Test in the context menu.
+You must first set the active Maven profile in project properties to be either `arq-managed` for running on managed server or `arq-remote` for running on remote server. Then, to run the tests, right click on the project or individual classes and select Run As --> JUnit Test in the context menu.
 
 
 Debug the Application

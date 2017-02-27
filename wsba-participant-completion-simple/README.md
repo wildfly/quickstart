@@ -77,7 +77,7 @@ This quickstart provides Arquillian tests. By default, these tests are configure
 2. Open a command prompt and navigate to the root directory of this quickstart.
 3. Type the following command to run the test goal with the following profile activated:
 
-        mvn clean verify -Parq-wildfly-remote 
+        mvn clean verify -Parq-remote 
 
 4. You should see the following result.
 
@@ -93,7 +93,7 @@ _Note: You see the following warning when you run the Arquillian tests in remote
 
 _This is because, in remote mode, you are responsible for starting the server with the XTS subsystem enabled. When you run the Arquillian tests in managed mode, the container uses the `serverConfig` property defined in the `arquillian.xml` file to start the server with the XTS subsystem enabled._
 
-You can also let Arquillian manage the ${product.name} server by using the `arq-wildfly-managed` profile. For more information about how to run the Arquillian tests, see [Run the Arquillian Tests](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/RUN_ARQUILLIAN_TESTS.md#run-the-arquillian-tests).
+You can also let Arquillian manage the ${product.name} server by using the `arq-managed` profile. For more information about how to run the Arquillian tests, see [Run the Arquillian Tests](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/RUN_ARQUILLIAN_TESTS.md#run-the-arquillian-tests).
 
 
 Investigate the Server Log
@@ -153,7 +153,7 @@ This quickstart is more complex than the others. It requires that you configure 
             Configuration base directory: (This should already point to your server configuration directory)
             Configuration file: ../../docs/examples/configs/standalone-xts.xml
 3. Start the new `${product.name} XTS Configuration` server. 
-4. Right-click on the `jboss-wsba-participant-completion-simple` project, choose `Run As` --> `Maven build`, enter `clean verify -Parq-wildfly-remote` for the `Goals:`, and click `Run` to run the Arquillian tests. The test results appear in the console.
+4. Right-click on the `jboss-wsba-participant-completion-simple` project, choose `Run As` --> `Maven build`, enter `clean verify -Parq-remote` for the `Goals:`, and click `Run` to run the Arquillian tests. The test results appear in the console.
 
 
 Debug the Application

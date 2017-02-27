@@ -47,9 +47,9 @@ public class ShrinkwrapImportFromPomIT {
     public static Archive<?> createTestArchive() {
 
         File[] libs = Maven.configureResolver()
-            // This will load the pom.xml file. For example purpose, the pom file had the arq-wildfly-remote profile
+            // This will load the pom.xml file. For example purpose, the pom file had the arq-remote profile
             // activated and default profile deactivated (which was active by default)
-            .loadPomFromFile("pom.xml", "arq-wildfly-remote", "!default")
+            .loadPomFromFile("pom.xml", "arq-remote", "!default")
             .importCompileAndRuntimeDependencies().resolve().withoutTransitivity().asFile();
 
         return ShrinkWrap.create(WebArchive.class, "test.war")

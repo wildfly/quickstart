@@ -117,11 +117,11 @@ NOTE: The arquillian-based functional tests deploy the application, so be sure y
 4. Navigate to the functional-tests/ directory in this quickstart.
 5. If you have a running instance of the ${product.name} server, as described above, run the remote tests by typing the following command:
 
-        mvn clean verify -Parq-wildfly-remote
+        mvn clean verify -Parq-remote
 
 6. If you prefer to run the functional tests using managed instance of the ${product.name} server, meaning the tests will start the server for you, type the following command:
 
-        mvn clean verify -Parq-wildfly-managed
+        mvn clean verify -Parq-managed
 
 7. The `spring-petclinic` quickstart contains three configurations: JDBC, JPA, and Spring Data JPA. You should see the tests run 3 times, one for each configuration. 
 

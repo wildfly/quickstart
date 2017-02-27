@@ -714,12 +714,12 @@ image:gfx/eclipse_arquillian_0.png[]
 
 Now, make sure the server is not running (so that the instance started for running the test does not interfere), and then run the tests from the command line by typing:
 
-    mvn clean test -Parq-wildfly-managed
+    mvn clean test -Parq-managed
 
 You should see the server start up, a `test.war` deployed, test executed, and then the results displayed to you on the console: 
 
 ------------------------------------------------------------------------
-$ > mvn clean test -Parq-wildfly-managed
+$ > mvn clean test -Parq-managed
 
 
 [INFO] Scanning for projects...
@@ -851,10 +851,10 @@ Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
 
 As you can see, that didn't take too long (approximately 15s), and is great for running in your QA environment, but if you running locally, you might prefer to connect to a running server. To do that, start up JBoss WildFly (as described in <<GettingStarted-, Getting Started with JBoss Enterprise Application Platform of WildFly>>. Now, run your test, but use the `arq-wildfly-remote` profile:
 
-    mvn clean test -Parq-wildfly-remote
+    mvn clean test -Parq-remote
 
 ------------------------------------------------------------------------
-$ > mvn clean test -Parq-wildfly-remote
+$ > mvn clean test -Parq-remote
 
 
 [INFO] Scanning for projects...
@@ -925,7 +925,7 @@ Now, locate the Maven panel:
 
 image:gfx/eclipse_arquillian_2.png[]
 
-And activate the `arq-wildfly-managed` profile:
+And activate the `arq-managed` profile:
 
 image:gfx/eclipse_arquillian_3.png[]
 
@@ -939,7 +939,7 @@ image:gfx/eclipse_arquillian_12.png[]
 
 You should see the server start in the Eclipse Console, the test be deployed, and finally the JUnit View pop up with the result (a pass of course!).
 
-We can also run the test in an already running instance of Eclipse. Simply change the active profile to `arq-wildfly-remote`:
+We can also run the test in an already running instance of Eclipse. Simply change the active profile to `arq-remote`:
 
 image:gfx/eclipse_arquillian_11.png[]
 
@@ -1049,7 +1049,7 @@ Now, we need to look at how we select between containers in the `pom.xml`:
         in your WildFly instance -->
     <!-- This profile will start a new WildFly instance, and
         execute the test, shutting it down when done -->
-    <!-- Run with: mvn clean test -Parq-wildfly-managed -->
+    <!-- Run with: mvn clean test -Parq-managed -->
     <id>arq-wildfly-managed</id>                                     <1>
     <dependencies>
         <dependency>
@@ -1063,9 +1063,9 @@ Now, we need to look at how we select between containers in the `pom.xml`:
 </profile>
 
 <profile>
-    <!-- An optional Arquillian testing profile that executes 
+    <!-- An optional Arquillian testing profile that executes
         tests in a remote WildFly instance -->
-    <!-- Run with: mvn clean test -Parq-wildfly-remote -->
+    <!-- Run with: mvn clean test -Parq-remote -->
     <id>arq-wildfly-remote</id>
     <dependencies>
         <dependency>
