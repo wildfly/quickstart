@@ -71,7 +71,13 @@ Since this quickstart builds two separate components, you can not use the standa
             mvn clean compile
     * Execute the client application within Maven
 
-            mvn exec:exec
+            mvn exec:exec        
+    
+    __Note__: This quickstart requires `quickstart-parent` artifact to be installed in your local Maven repository. 
+    To install it, navigate to quickstarts project root directory and run the following command:
+
+        mvn clean install
+
 
 
 Investigate the Console Output

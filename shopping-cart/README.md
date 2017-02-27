@@ -120,7 +120,13 @@ You can use the command prompt from the previous step or open a new one and navi
 
 Type the following command:
 
-        mvn exec:java -f client/pom.xml 
+        mvn exec:java -f client/pom.xml         
+    
+__Note__: This quickstart requires `quickstart-parent` artifact to be installed in your local Maven repository. 
+To install it, navigate to quickstarts project root directory and run the following command:
+
+        mvn clean install
+
 
 Investigate the Console Output
 -------------------------------

@@ -61,7 +61,12 @@ Run the Client
         cd client/
 3. Type this command to run the client.
      
-        mvn exec:java    
+        mvn exec:java        
+    __Note__: This quickstart requires `quickstart-parent` artifact to be installed in your local Maven repository. 
+    To install it, navigate to quickstarts project root directory and run the following command:
+
+        mvn clean install
+    
 4. You should see the following output in the client console.
    
         EJB3Bean returning: ejbClient calling

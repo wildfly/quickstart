@@ -65,6 +65,12 @@ Access the application
 
         cd client
         mvn exec:exec
+        
+    __Note__: This quickstart requires `quickstart-parent` artifact to be installed in your local Maven repository. 
+    To install it, navigate to quickstarts project root directory and run the following command:
+
+        mvn clean install
+
 3. Check the client output
 
         INFO: The server log should contain a message at (about) <date>, indicating that the call to the asynchronous bean completed.

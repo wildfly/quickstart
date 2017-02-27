@@ -252,6 +252,11 @@ It also demonstrates how to invoke an EJB from a client using a scoped-context r
     This output shows that the `MainApp` is called with the user `anonymous` at node `master:app-main` and the sub-call is proceeded by the `master:app-oneA` node and `master:app-twoA` node as `quickuser2`. 
     
     Review the server log files to see the bean invocations on the servers.
+        
+    __Note__: This quickstart requires `quickstart-parent` artifact to be installed in your local Maven repository. 
+    To install it, navigate to quickstarts project root directory and run the following command:
+
+        mvn clean install
 
 4. To invoke the bean that uses the `scoped-client-context`, you must pass a property. Type the following command
 
