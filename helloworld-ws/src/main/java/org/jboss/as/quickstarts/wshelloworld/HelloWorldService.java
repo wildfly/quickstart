@@ -17,7 +17,6 @@
 package org.jboss.as.quickstarts.wshelloworld;
 
 import java.util.List;
-
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 
@@ -36,7 +35,7 @@ public interface HelloWorldService {
      * @return A simple hello world message
      */
     @WebMethod
-    public String sayHello();
+    String sayHello();
 
     /**
      * Say hello to someone precisely
@@ -45,7 +44,7 @@ public interface HelloWorldService {
      * @return the number of current bookings
      */
     @WebMethod
-    public String sayHelloToName(String name);
+    String sayHelloToName(String name);
 
     /**
      * Say hello to a list of people
@@ -54,5 +53,5 @@ public interface HelloWorldService {
      * @return the number of current bookings
      */
     @WebMethod
-    public String sayHelloToNames(List<String> names);
+    String sayHelloToNames(List<String> names);
 }

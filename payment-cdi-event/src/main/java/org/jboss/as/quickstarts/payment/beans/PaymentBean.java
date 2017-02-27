@@ -53,7 +53,7 @@ public class PaymentBean implements Serializable {
     private BigDecimal amount = new BigDecimal(0);
 
     private PaymentTypeEnum paymentOption = PaymentTypeEnum.DEBIT;
-    
+
     @PostConstruct
     private void init() {
         amount = new BigDecimal(0);

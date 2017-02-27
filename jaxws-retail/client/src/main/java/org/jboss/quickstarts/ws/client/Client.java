@@ -16,23 +16,21 @@
  */
 package org.jboss.quickstarts.ws.client;
 
+import java.net.URL;
+import javax.xml.namespace.QName;
+import javax.xml.ws.Service;
+
 import org.jboss.quickstarts.ws.jaxws.samples.retail.profile.Customer;
 import org.jboss.quickstarts.ws.jaxws.samples.retail.profile.DiscountRequest;
 import org.jboss.quickstarts.ws.jaxws.samples.retail.profile.DiscountResponse;
 import org.jboss.quickstarts.ws.jaxws.samples.retail.profile.ProfileMgmt;
 
-import javax.xml.namespace.QName;
-import javax.xml.ws.Service;
-import java.net.URL;
-
 /**
- *
  * @author rsearls@redhat.com
  */
 public class Client {
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         String endPointAddress = "http://localhost:8080/jaxws-retail/ProfileMgmtService/ProfileMgmt";
         QName serviceName = new QName("http://org.jboss.ws/samples/retail/profile", "ProfileMgmtService");
 
@@ -51,10 +49,10 @@ public class Client {
             DiscountResponse dResponse = proxy.getCustomerDiscount(dRequest);
             Customer responseCustomer = dResponse.getCustomer();
             System.out.format("%s %s\'s discount is %.2f%n", responseCustomer.getFirstName(),
-                responseCustomer.getLastName(), dResponse.getDiscount());
+                    responseCustomer.getLastName(), dResponse.getDiscount());
 
         } catch (Exception e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
     }
 }

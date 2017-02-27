@@ -1,7 +1,10 @@
 package org.springframework.samples.petclinic.web;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -37,17 +40,17 @@ public class CrashControllerTests {
     @Before
     public void setup() {
         this.mockMvc = MockMvcBuilders
-            .standaloneSetup(crashController)
-            .setHandlerExceptionResolvers(simpleMappingExceptionResolver)
-            .build();
+                .standaloneSetup(crashController)
+                .setHandlerExceptionResolvers(simpleMappingExceptionResolver)
+                .build();
     }
 
     @Test
     public void testTriggerException() throws Exception {
         mockMvc.perform(get("/oups"))
-            .andExpect(view().name("exception"))
-            .andExpect(model().attributeExists("exception"))
-            .andExpect(forwardedUrl("exception"))
-            .andExpect(status().isOk());
+                .andExpect(view().name("exception"))
+                .andExpect(model().attributeExists("exception"))
+                .andExpect(forwardedUrl("exception"))
+                .andExpect(status().isOk());
     }
 }

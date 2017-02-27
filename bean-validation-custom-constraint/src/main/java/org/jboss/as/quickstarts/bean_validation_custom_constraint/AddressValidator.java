@@ -18,7 +18,6 @@ package org.jboss.as.quickstarts.bean_validation_custom_constraint;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import org.jboss.as.quickstarts.bean_validation_custom_constraint.PersonAddress;
 
 public class AddressValidator implements ConstraintValidator<Address, PersonAddress> {
 

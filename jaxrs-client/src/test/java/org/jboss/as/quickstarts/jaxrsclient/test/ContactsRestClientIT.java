@@ -66,7 +66,7 @@ public class ContactsRestClientIT {
     private String getRequestUrl() {
         return new StringBuilder(deploymentUrl.toString())
                 .append("rest/contacts")
-                .toString();        
+                .toString();
     }
 
 

@@ -32,8 +32,8 @@ import java.util.logging.Logger;
 @WebServiceClient(name = "SetServiceBAService", targetNamespace = "http://www.jboss.org/jboss-jdf/jboss-as-quickstart/helloworld/wsba/participantcompletion/set")
 public class SetServiceBAService extends Service {
 
-    private final static URL SETSERVICEBASERVICE_WSDL_LOCATION;
-    private final static Logger logger = Logger.getLogger(SetServiceBAService.class.getName());
+    private static final URL SETSERVICEBASERVICE_WSDL_LOCATION;
+    private static final Logger logger = Logger.getLogger(SetServiceBAService.class.getName());
 
     static {
         URL url = null;

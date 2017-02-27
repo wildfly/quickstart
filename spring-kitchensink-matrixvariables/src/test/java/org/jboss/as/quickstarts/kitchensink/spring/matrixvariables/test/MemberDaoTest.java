@@ -16,15 +16,15 @@
  */
 package org.jboss.as.quickstarts.kitchensink.spring.matrixvariables.test;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 import java.util.List;
 
 import org.jboss.as.quickstarts.kitchensink.spring.matrixvariables.data.MemberDao;
 import org.jboss.as.quickstarts.kitchensink.spring.matrixvariables.model.Member;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import static org.junit.Assert.*;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
@@ -32,8 +32,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:test-context.xml",
-        "classpath:/META-INF/spring/applicationContext.xml" })
+@ContextConfiguration(locations = {"classpath:test-context.xml",
+        "classpath:/META-INF/spring/applicationContext.xml"})
 @Transactional
 @Rollback
 public class MemberDaoTest {
@@ -42,7 +42,7 @@ public class MemberDaoTest {
 
     @Test
     public void testFindById() {
-        Member member = memberDao.findById(0l);
+        Member member = memberDao.findById(0L);
 
         assertEquals("John Smith", member.getName());
         assertEquals("john.smith@mailinator.com", member.getEmail());

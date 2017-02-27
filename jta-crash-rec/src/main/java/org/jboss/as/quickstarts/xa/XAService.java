@@ -41,7 +41,7 @@ import javax.transaction.UserTransaction;
  */
 public class XAService {
 
-    private final static Logger LOGGER = Logger.getLogger(XAService.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(XAService.class.getName());
 
     /*
      * Ask the container to inject a persistence context corresponding to the database that will hold our key/value pair table.

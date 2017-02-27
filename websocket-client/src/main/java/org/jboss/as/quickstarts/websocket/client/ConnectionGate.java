@@ -22,9 +22,9 @@ import java.util.concurrent.locks.AbstractQueuedSynchronizer;
 /**
  * Block when disconnected. Do not block when connected. Release blocks upon connection established. Toggle between connected
  * and disconnected.
- * 
+ * <p>
  * Based on org.infinispan.util.concurrent.ReclosableLatch
- * 
+ *
  * @author <a href="http://monospacesoftware.com">Paul Cowan</a>
  */
 
@@ -37,33 +37,33 @@ public class ConnectionGate {
         // the following states are used in the AQS.
         private static final int OPEN_STATE = 0, CLOSED_STATE = 1;
 
-        public ReclosableLatch() {
+        ReclosableLatch() {
             setState(CLOSED_STATE);
         }
 
-        public ReclosableLatch(boolean defaultOpen) {
+        ReclosableLatch(boolean defaultOpen) {
             setState(defaultOpen ? OPEN_STATE : CLOSED_STATE);
         }
 
         @Override
-        public final int tryAcquireShared(int ignored) {
+        public int tryAcquireShared(int ignored) {
             // return 1 if we allow the requestor to proceed, -1 if we want the requestor to block.
             return getState() == OPEN_STATE ? 1 : -1;
         }
 
         @Override
-        public final boolean tryReleaseShared(int state) {
+        public boolean tryReleaseShared(int state) {
             // used as a mechanism to set the state of the Sync.
             setState(state);
             return true;
         }
 
-        public final void open() {
+        public void open() {
             // do not use setState() directly since this won't notify parked threads.
             releaseShared(OPEN_STATE);
         }
 
-        public final void close() {
+        public void close() {
             // do not use setState() directly since this won't notify parked threads.
             releaseShared(CLOSED_STATE);
         }
@@ -72,11 +72,11 @@ public class ConnectionGate {
             return getState() == OPEN_STATE;
         }
 
-        public final void await() throws InterruptedException {
+        public void await() throws InterruptedException {
             acquireSharedInterruptibly(1); // the 1 is a dummy value that is not used.
         }
 
-        public final boolean await(long time, TimeUnit unit) throws InterruptedException {
+        public boolean await(long time, TimeUnit unit) throws InterruptedException {
             return tryAcquireSharedNanos(1, unit.toNanos(time)); // the 1 is a dummy value that is not used.
         }
 

@@ -21,7 +21,7 @@ public class BiddingFactory {
     private static Bidding bidding;
 
     // obtain a singleton instance of the Bidding
-    public synchronized static Bidding getBidding() {
+    public static synchronized Bidding getBidding() {
         if (bidding == null) {
             resetBidding();
         }
@@ -33,7 +33,7 @@ public class BiddingFactory {
     }
 
     // creates a new bidding
-    public synchronized static void resetBidding() {
+    public static synchronized void resetBidding() {
         Item item = new Item("1 Red Fedora Hat", "A beautiful red fedora hat that makes you charming!", 1000, "/resources/gfx/redfedora1.jpg");
         bidding = new Bidding(item, 100);
     }

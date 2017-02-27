@@ -27,6 +27,9 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.inject.Inject;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
 import javax.xml.bind.JAXBException;
 
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -49,7 +52,6 @@ import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 
 // JAX-RS 2.0 import statement
-import javax.ws.rs.client.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;

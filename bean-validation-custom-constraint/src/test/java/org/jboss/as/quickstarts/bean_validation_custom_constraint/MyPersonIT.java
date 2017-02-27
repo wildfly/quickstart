@@ -24,10 +24,6 @@ import javax.validation.Validator;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.as.quickstarts.bean_validation_custom_constraint.Address;
-import org.jboss.as.quickstarts.bean_validation_custom_constraint.AddressValidator;
-import org.jboss.as.quickstarts.bean_validation_custom_constraint.Person;
-import org.jboss.as.quickstarts.bean_validation_custom_constraint.PersonAddress;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;

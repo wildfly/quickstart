@@ -20,7 +20,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.security.cert.X509Certificate;
-
 import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -34,14 +33,13 @@ import org.bouncycastle.openssl.PEMWriter;
  * <p>
  * A simple servlet taking advantage of features added in 3.0.
  * </p>
- * 
+ * <p>
  * <p>
  * The servlet is registered and mapped to /HelloServlet using the {@linkplain WebServlet
+ *
+ * @author Giriraj Sharma
  * @HttpServlet}. The {@link HelloService} is injected by CDI.
  * </p>
- * 
- * @author Giriraj Sharma
- * 
  */
 @SuppressWarnings("serial")
 @WebServlet("/HelloWorld")
@@ -64,7 +62,7 @@ public class HelloWorldServlet extends HttpServlet {
         writer.println(PAGE_FOOTER);
         writer.close();
     }
-    
+
     protected X509Certificate extractCertificate(HttpServletRequest req) {
         X509Certificate[] certs = (X509Certificate[]) req.getAttribute("javax.servlet.request.X509Certificate");
         if (null != certs && certs.length > 0) {
@@ -72,7 +70,7 @@ public class HelloWorldServlet extends HttpServlet {
         }
         throw new RuntimeException("No X.509 client certificate found in request");
     }
-    
+
     public static String getPemFromCertificate(X509Certificate certificate) {
         if (certificate != null) {
             StringWriter writer = new StringWriter();
@@ -90,7 +88,7 @@ public class HelloWorldServlet extends HttpServlet {
             return null;
         }
     }
-    
+
     public static String removeBeginEnd(String pem) {
         pem = pem.replaceAll("-----BEGIN (.*)-----", "");
         pem = pem.replaceAll("-----END (.*)----", "");

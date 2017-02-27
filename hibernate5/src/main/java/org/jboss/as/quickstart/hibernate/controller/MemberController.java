@@ -29,9 +29,9 @@ import org.jboss.as.quickstart.hibernate.service.MemberRegistration;
 
 /**
  * Registers a new Member
- * 
  * <p>
- * The @Model stereotype is a convenience mechanism to make this a 
+ * <p>
+ * The @Model stereotype is a convenience mechanism to make this a
  * request-scoped bean that has an EL name
  */
 @Model
@@ -55,12 +55,12 @@ public class MemberController {
         try {
             memberRegistration.register(newMember);
             facesContext.addMessage(null,
-                new FacesMessage(FacesMessage.SEVERITY_INFO, "Registered!", "Registration successful"));
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Registered!", "Registration successful"));
             initNewMember();
         } catch (Exception e) {
             String errorMessage = getRootErrorMessage(e);
             facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                errorMessage, "Registration unsuccessful"));
+                    errorMessage, "Registration unsuccessful"));
         }
     }
 

@@ -34,7 +34,7 @@ public enum Scale {
      *
      * @param symbol
      */
-    private Scale(String symbol) {
+    Scale(String symbol) {
         this.symbol = symbol;
     }
 

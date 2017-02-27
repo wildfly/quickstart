@@ -20,9 +20,7 @@ import java.util.Arrays;
 
 import javax.ejb.EJB;
 
-import org.jboss.as.quickstarts.appclient.acc.client.interceptor.ClientInterceptor;
 import org.jboss.as.quickstarts.appclient.server.ejb.StatelessSession;
-import org.jboss.ejb.client.EJBClientContext;
 import org.jboss.logging.Logger;
 
 /**
@@ -50,7 +48,7 @@ public class Main {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         // Show that the client is started with arguments at command line
         LOG.info("Main started " + (args.length != 0 ? "with" : "without") + " arguments");
         if (args.length > 0)

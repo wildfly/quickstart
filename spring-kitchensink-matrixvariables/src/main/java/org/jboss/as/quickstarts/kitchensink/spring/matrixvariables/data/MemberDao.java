@@ -21,13 +21,13 @@ import java.util.List;
 import org.jboss.as.quickstarts.kitchensink.spring.matrixvariables.model.Member;
 
 public interface MemberDao {
-    public Member findById(Long id);
+    Member findById(Long id);
 
-    public List<Member> findByNameAndEmail(String name, String email);
+    List<Member> findByNameAndEmail(String name, String email);
 
-    public Member findByEmail(String email);
+    Member findByEmail(String email);
 
-    public List<Member> findAllOrderedByName();
+    List<Member> findAllOrderedByName();
 
-    public void register(Member member);
+    void register(Member member);
 }

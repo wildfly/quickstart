@@ -18,14 +18,22 @@ package org.jboss.as.quickstarts.websocket.client;
 
 import static java.lang.String.format;
 
-import java.util.logging.*;
-
-import javax.enterprise.context.*;
-import javax.enterprise.event.*;
-import javax.inject.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.Initialized;
+import javax.enterprise.event.Event;
+import javax.enterprise.event.Observes;
+import javax.inject.Inject;
 import javax.servlet.ServletContext;
-import javax.websocket.*;
-import javax.websocket.server.*;
+import javax.websocket.CloseReason;
+import javax.websocket.DeploymentException;
+import javax.websocket.Endpoint;
+import javax.websocket.EndpointConfig;
+import javax.websocket.MessageHandler;
+import javax.websocket.Session;
+import javax.websocket.server.ServerContainer;
+import javax.websocket.server.ServerEndpointConfig;
 
 /**
  * @author <a href="http://monospacesoftware.com">Paul Cowan</a>
@@ -64,17 +72,16 @@ public class Frontend extends Endpoint {
         // context.
 
         ServerEndpointConfig config = ServerEndpointConfig.Builder
-            .create(Frontend.class, WEBSOCKET_PATH)
-            .configurator(new ServerEndpointConfig.Configurator() {
-                @SuppressWarnings("unchecked")
-                @Override
-                public <T> T getEndpointInstance(final Class<T> endpointClass) throws InstantiationException {
-                    if (endpointClass.isAssignableFrom(Frontend.class))
-                        return (T) Frontend.this;
-                    return super.getEndpointInstance(endpointClass);
-                }
-            })
-            .build();
+                .create(Frontend.class, WEBSOCKET_PATH)
+                .configurator(new ServerEndpointConfig.Configurator() {
+                    @SuppressWarnings("unchecked")
+                    @Override
+                    public <T> T getEndpointInstance(final Class<T> endpointClass) throws InstantiationException {
+                        if (endpointClass.isAssignableFrom(Frontend.class)) { return (T) Frontend.this; }
+                        return super.getEndpointInstance(endpointClass);
+                    }
+                })
+                .build();
 
         try {
             serverContainer.addEndpoint(config);

@@ -27,8 +27,8 @@ import javax.ejb.Local;
 @Local
 public interface Bar {
 
-    public void setName(String name);
+    void setName(String name);
 
-    public String getName();
+    String getName();
 
 }

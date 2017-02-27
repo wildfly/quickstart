@@ -38,7 +38,7 @@ import javax.jms.TextMessage;
     @ActivationConfigProperty(propertyName = "acknowledgeMode", propertyValue = "Auto-acknowledge") })
 public class HelloWorldTopicMDB implements MessageListener {
 
-    private final static Logger LOGGER = Logger.getLogger(HelloWorldTopicMDB.class.toString());
+    private static final Logger LOGGER = Logger.getLogger(HelloWorldTopicMDB.class.toString());
 
     /**
      * @see MessageListener#onMessage(Message)

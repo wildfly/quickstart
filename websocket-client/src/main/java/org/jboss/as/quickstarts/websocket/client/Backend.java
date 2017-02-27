@@ -18,20 +18,35 @@ package org.jboss.as.quickstarts.websocket.client;
 
 import static java.lang.String.format;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.Reader;
+import java.io.Writer;
 import java.net.URI;
 import java.security.NoSuchAlgorithmException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.*;
-
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.event.*;
+import javax.enterprise.event.Event;
+import javax.enterprise.event.Observes;
 import javax.inject.Inject;
-import javax.json.*;
+import javax.json.Json;
+import javax.json.JsonObject;
 import javax.net.ssl.SSLContext;
-import javax.websocket.*;
+import javax.websocket.ClientEndpointConfig;
+import javax.websocket.CloseReason;
+import javax.websocket.ContainerProvider;
+import javax.websocket.DecodeException;
+import javax.websocket.Decoder;
+import javax.websocket.EncodeException;
+import javax.websocket.Encoder;
+import javax.websocket.Endpoint;
+import javax.websocket.EndpointConfig;
+import javax.websocket.MessageHandler;
+import javax.websocket.Session;
 
 /**
  * @author <a href="http://monospacesoftware.com">Paul Cowan</a>
@@ -66,10 +81,10 @@ public class Backend extends Endpoint implements MessageHandler.Whole<SessionMes
         decoders.add(SessionMessageDecoder.class);
 
         config = ClientEndpointConfig.Builder.create()
-            // .encoders(Arrays.asList(SessionMessageEncoder.class)) // too bad this doesn't work...
-            .encoders(encoders)
-            .decoders(decoders)
-            .build();
+                // .encoders(Arrays.asList(SessionMessageEncoder.class)) // too bad this doesn't work...
+                .encoders(encoders)
+                .decoders(decoders)
+                .build();
 
         try {
             config.getUserProperties().put("io.undertow.websocket.SSL_CONTEXT", SSLContext.getDefault());
@@ -120,7 +135,7 @@ public class Backend extends Endpoint implements MessageHandler.Whole<SessionMes
     @Override
     public void onMessage(SessionMessage message) {
         frontendTrigger
-            .fire(new SessionMessage(message.getSessionId(), format("Received message from backend session %s to frontend session %s ", session.getId(), message.getSessionId())));
+                .fire(new SessionMessage(message.getSessionId(), format("Received message from backend session %s to frontend session %s ", session.getId(), message.getSessionId())));
         frontendTrigger.fire(message);
     }
 
@@ -128,12 +143,12 @@ public class Backend extends Endpoint implements MessageHandler.Whole<SessionMes
         connectionGate.waitForConnection(5, TimeUnit.SECONDS);
         if (!connectionGate.isConnected()) {
             frontendTrigger
-                .fire(new SessionMessage(message.getSessionId(), format("Failed to send frontend session %s message: not connected to backend", message.getSessionId())));
+                    .fire(new SessionMessage(message.getSessionId(), format("Failed to send frontend session %s message: not connected to backend", message.getSessionId())));
             return;
         }
 
         frontendTrigger
-            .fire(new SessionMessage(message.getSessionId(), format("Sending message from frontend session %s to backend session %s", message.getSessionId(), session.getId())));
+                .fire(new SessionMessage(message.getSessionId(), format("Sending message from frontend session %s to backend session %s", message.getSessionId(), session.getId())));
         session.getBasicRemote().sendObject(message);
     }
 
@@ -151,9 +166,9 @@ public class Backend extends Endpoint implements MessageHandler.Whole<SessionMes
         @Override
         public void encode(SessionMessage object, Writer writer) throws EncodeException, IOException {
             JsonObject jsonObject = Json.createObjectBuilder()
-                .add("sessionId", object.getSessionId())
-                .add("txt", object.getText())
-                .build();
+                    .add("sessionId", object.getSessionId())
+                    .add("txt", object.getText())
+                    .build();
             Json.createWriter(writer).writeObject(jsonObject);
         }
 

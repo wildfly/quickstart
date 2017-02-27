@@ -20,8 +20,14 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.regex.Pattern;
-
-import javax.servlet.*;
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.WriteListener;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -38,7 +44,6 @@ import javax.servlet.http.HttpServletResponseWrapper;
  * </p>
  *
  * @author balunasj
- *
  */
 @WebFilter("/rest/*")
 public class JSONPRequestFilter implements Filter {
@@ -57,7 +62,7 @@ public class JSONPRequestFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
-        ServletException {
+            ServletException {
 
         if (!(request instanceof HttpServletRequest)) {
             throw new ServletException("Only HttpServletRequest requests are supported");

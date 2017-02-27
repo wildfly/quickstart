@@ -22,7 +22,6 @@ import javax.annotation.Resource;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
-import org.jboss.as.quickstarts.ejb.multi.server.app.AppTwo;
 import org.jboss.ejb3.annotation.SecurityDomain;
 import org.jboss.logging.Logger;
 
@@ -33,8 +32,8 @@ import org.jboss.logging.Logger;
  * @author <a href="mailto:wfink@redhat.com">Wolf-Dieter Fink</a>
  */
 @SecurityDomain(value = "other")
-public @Stateless
-class AppTwoBean implements AppTwo {
+@Stateless
+public class AppTwoBean implements AppTwo {
     private static final Logger LOGGER = Logger.getLogger(AppTwoBean.class);
 
     @Resource

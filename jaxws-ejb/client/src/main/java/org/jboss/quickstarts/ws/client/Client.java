@@ -16,28 +16,25 @@
  */
 package org.jboss.quickstarts.ws.client;
 
-import org.jboss.quickstarts.ws.jaxws.samples.jsr181pojo.EJB3RemoteInterface;
+import java.net.URL;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
-import java.lang.Exception;
-import java.lang.System;
-import java.net.URL;
+
+import org.jboss.quickstarts.ws.jaxws.samples.jsr181pojo.EJB3RemoteInterface;
 
 /**
- *
  * @author rsearls@redhat.com
  */
 public class Client {
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         String endPointAddress = "http://localhost:8080/jaxws-ejb-endpoint/EJB3Bean";
         QName serviceName = new QName("http://jsr181pojo.samples.jaxws.ws.quickstarts.jboss.org/", "EJB3BeanService");
 
         try {
             URL wsdlURL = new URL(endPointAddress + "?wsdl");
             Service service = Service.create(wsdlURL, serviceName);
-            EJB3RemoteInterface proxy = (EJB3RemoteInterface) service.getPort(EJB3RemoteInterface.class);
+            EJB3RemoteInterface proxy = service.getPort(EJB3RemoteInterface.class);
             System.out.println(proxy.echo("ejbClient calling"));
         } catch (Exception e) {
             System.out.println(e);

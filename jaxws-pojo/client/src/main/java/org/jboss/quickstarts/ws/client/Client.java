@@ -16,20 +16,18 @@
  */
 package org.jboss.quickstarts.ws.client;
 
-import org.jboss.quickstarts.ws.jaxws.samples.jsr181pojo.JSEBean;
+import java.net.URL;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
-import java.lang.System;
-import java.net.URL;
+
+import org.jboss.quickstarts.ws.jaxws.samples.jsr181pojo.JSEBean;
 
 /**
- *
  * @author rsearls@redhat.com
  */
 public class Client {
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         String endPointAddress = "http://localhost:8080/jaxws-pojo-endpoint/JSEBean";
         QName serviceName = new QName("http://jsr181pojo.samples.jaxws.ws.quickstarts.jboss.org/", "JSEBeanService");
 

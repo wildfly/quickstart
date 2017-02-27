@@ -17,7 +17,6 @@
 package org.jboss.as.quickstart.hibernate.model;
 
 import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -34,7 +33,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * JPA Entity for the ModelHibernateDemo table
- * 
+ * <p>
  * <p>
  * Also uses Hibernate Validators
  * </p>
@@ -44,7 +43,9 @@ import org.hibernate.validator.constraints.NotEmpty;
 @XmlRootElement
 @Table(name = "MemberHibernateDemo", uniqueConstraints = @UniqueConstraint(columnNames = "id"))
 public class Member implements Serializable {
-    /** Default value included to remove warning. Remove or modify at will. **/
+    /**
+     * Default value included to remove warning. Remove or modify at will.
+     **/
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -55,7 +56,9 @@ public class Member implements Serializable {
     @Pattern(regexp = "[A-Za-z ]*", message = "must contain only letters and spaces")
     private String name;
 
-    /** using hibernate5 validators **/
+    /**
+     * using hibernate5 validators
+     **/
     @NotNull
     @NotEmpty
     @Email

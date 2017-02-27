@@ -18,8 +18,11 @@ package org.jboss.as.quickstarts.tasks;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
-import javax.persistence.*;
 import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 /**
  * User's task entity
@@ -82,23 +85,16 @@ public class Task implements Serializable {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) { return true; }
+        if (obj == null) { return false; }
+        if (getClass() != obj.getClass()) { return false; }
         Task other = (Task) obj;
         if (owner == null) {
-            if (other.owner != null)
-                return false;
-        } else if (!owner.equals(other.owner))
-            return false;
+            if (other.owner != null) { return false; }
+        } else if (!owner.equals(other.owner)) { return false; }
         if (title == null) {
-            if (other.title != null)
-                return false;
-        } else if (!title.equals(other.title))
-            return false;
+            if (other.title != null) { return false; }
+        } else if (!title.equals(other.title)) { return false; }
         return true;
     }
 

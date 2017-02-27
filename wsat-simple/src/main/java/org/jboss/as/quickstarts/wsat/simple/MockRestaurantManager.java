@@ -38,7 +38,7 @@ public class MockRestaurantManager {
      *
      * @return the singleton RestaurantManager instance.
      */
-    public synchronized static MockRestaurantManager getSingletonInstance() {
+    public static synchronized MockRestaurantManager getSingletonInstance() {
         if (singletonInstance == null) {
             singletonInstance = new MockRestaurantManager();
         }

@@ -69,9 +69,9 @@ final class SecurityActions {
 
         Collection<Principal> getConnectionPrincipals();
 
-        ContextStateCache pushIdentity(final Principal principal, final Object credential) throws Exception;
+        ContextStateCache pushIdentity(Principal principal, Object credential) throws Exception;
 
-        void popIdentity(final ContextStateCache stateCache);
+        void popIdentity(ContextStateCache stateCache);
 
         ConnectionSecurityContextActions NON_PRIVILEGED = new ConnectionSecurityContextActions() {
 
@@ -80,7 +80,7 @@ final class SecurityActions {
             }
 
             @Override
-            public ContextStateCache pushIdentity(final Principal principal, final Object credential) throws Exception {
+            public ContextStateCache pushIdentity(Principal principal, Object credential) throws Exception {
                 return ConnectionSecurityContext.pushIdentity(principal, credential);
             }
 
@@ -106,7 +106,7 @@ final class SecurityActions {
             }
 
             @Override
-            public ContextStateCache pushIdentity(final Principal principal, final Object credential) throws Exception {
+            public ContextStateCache pushIdentity(Principal principal, Object credential) throws Exception {
                 try {
                     return AccessController.doPrivileged(new PrivilegedExceptionAction<ContextStateCache>() {
 
@@ -121,7 +121,7 @@ final class SecurityActions {
             }
 
             @Override
-            public void popIdentity(final ContextStateCache stateCache) {
+            public void popIdentity(ContextStateCache stateCache) {
                 AccessController.doPrivileged(new PrivilegedAction<Void>() {
 
                     @Override
@@ -141,7 +141,7 @@ final class SecurityActions {
      * SecurityContext Actions
      */
 
-    static SecurityContext securityContextSetPrincipalCredential(final Principal principal, final Object credential)
+    static SecurityContext securityContextSetPrincipalCredential(Principal principal, Object credential)
         throws Exception {
         return securityContextActions().setPrincipalCredential(principal, credential);
     }
@@ -160,13 +160,13 @@ final class SecurityActions {
 
     private interface SecurityContextActions {
 
-        SecurityContext setPrincipalCredential(final Principal principal, final Object credential) throws Exception;
+        SecurityContext setPrincipalCredential(Principal principal, Object credential) throws Exception;
 
         Principal getPrincipal();
 
         Object getCredential();
 
-        void set(final SecurityContext securityContext);
+        void set(SecurityContext securityContext);
 
         SecurityContextActions NON_PRIVILEGED = new SecurityContextActions() {
 
@@ -218,7 +218,7 @@ final class SecurityActions {
             };
 
             @Override
-            public SecurityContext setPrincipalCredential(final Principal principal, final Object credential) throws Exception {
+            public SecurityContext setPrincipalCredential(Principal principal, Object credential) throws Exception {
                 try {
                     return AccessController.doPrivileged(new PrivilegedExceptionAction<SecurityContext>() {
 
@@ -244,7 +244,7 @@ final class SecurityActions {
             }
 
             @Override
-            public void set(final SecurityContext securityContext) {
+            public void set(SecurityContext securityContext) {
                 AccessController.doPrivileged(new PrivilegedAction<Void>() {
 
                     @Override
@@ -294,7 +294,7 @@ final class SecurityActions {
         };
     }
 
-    static Properties loadProperties(final String name) throws IOException {
+    static Properties loadProperties(String name) throws IOException {
         return propertiesAction().loadProperties(name);
     }
 
@@ -304,7 +304,7 @@ final class SecurityActions {
 
     private interface PropertiesAction {
 
-        Properties loadProperties(final String name) throws IOException;
+        Properties loadProperties(String name) throws IOException;
 
         PropertiesAction NON_PRIVILEGED = new PropertiesAction() {
 

@@ -20,13 +20,17 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.FileNotFoundException;
-
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.as.quickstarts.tasksrs.model.*;
+import org.jboss.as.quickstarts.tasksrs.model.Resources;
+import org.jboss.as.quickstarts.tasksrs.model.Task;
+import org.jboss.as.quickstarts.tasksrs.model.TaskDao;
+import org.jboss.as.quickstarts.tasksrs.model.User;
+import org.jboss.as.quickstarts.tasksrs.model.UserDao;
+import org.jboss.as.quickstarts.tasksrs.model.UserDaoImpl;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Assert;
 import org.junit.Test;
@@ -42,7 +46,7 @@ public class UserDaoIT {
     @Deployment
     public static WebArchive deployment() throws IllegalArgumentException, FileNotFoundException {
         return new DefaultDeployment().withPersistence().withImportedData().getArchive()
-            .addClasses(Resources.class, User.class, UserDao.class, Task.class, TaskDao.class, UserDaoImpl.class);
+                .addClasses(Resources.class, User.class, UserDao.class, Task.class, TaskDao.class, UserDaoImpl.class);
     }
 
     @Inject

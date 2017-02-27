@@ -19,7 +19,6 @@ package org.jboss.as.quickstarts.sfsb;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
-
 import javax.ejb.Remove;
 import javax.ejb.Stateful;
 
@@ -29,9 +28,9 @@ import javax.ejb.Stateful;
 @Stateful
 public class ShoppingCartBean implements ShoppingCart {
 
-    private final static Logger LOGGER = Logger.getLogger(ShoppingCartBean.class.toString());
+    private static final Logger LOGGER = Logger.getLogger(ShoppingCartBean.class.toString());
 
-    private Map<String, Integer> cart = new HashMap<String, Integer>();
+    private Map<String, Integer> cart = new HashMap<>();
 
     public void buy(String product, int quantity) {
         if (cart.containsKey(product)) {

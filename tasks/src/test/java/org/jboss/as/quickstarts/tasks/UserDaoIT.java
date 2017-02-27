@@ -20,7 +20,6 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.FileNotFoundException;
-
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 

@@ -16,9 +16,14 @@
  */
 package org.jboss.as.quickstarts.wsat.simple;
 
-import com.arjuna.wst.*;
-
 import java.io.Serializable;
+
+import com.arjuna.wst.Aborted;
+import com.arjuna.wst.Durable2PCParticipant;
+import com.arjuna.wst.Prepared;
+import com.arjuna.wst.SystemException;
+import com.arjuna.wst.Vote;
+import com.arjuna.wst.WrongStateException;
 
 /**
  * An adapter class that exposes the RestaurantManager as a WS-T Atomic Transaction participant.
@@ -90,7 +95,7 @@ public class RestaurantParticipant implements Durable2PCParticipant, Serializabl
         // Log the event and invoke the rollback operation
         // on the backend business logic.
         System.out
-            .println("[SERVICE] one or more participants voted 'aborted' or a failure occurred, so coordinator tells the participant to rollback");
+                .println("[SERVICE] one or more participants voted 'aborted' or a failure occurred, so coordinator tells the participant to rollback");
         mockRestaurantManager.rollback(txID);
     }
 

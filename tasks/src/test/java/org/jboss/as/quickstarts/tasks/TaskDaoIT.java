@@ -21,7 +21,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.FileNotFoundException;
 import java.util.List;
-
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
@@ -70,7 +69,7 @@ public class TaskDaoIT {
         em.persist(user);
         taskDao.createTask(user, task);
         List<Task> userTasks = em.createQuery("SELECT t FROM Task t WHERE t.owner = :owner", Task.class).setParameter("owner", user)
-            .getResultList();
+                .getResultList();
 
         // then
         assertEquals(1, userTasks.size());

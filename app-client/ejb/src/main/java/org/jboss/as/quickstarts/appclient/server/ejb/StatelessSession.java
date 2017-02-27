@@ -26,11 +26,11 @@ public interface StatelessSession {
     /**
      * Show the provided client context data via INFO logging.
      */
-    public abstract void invokeWithClientContext();
+    void invokeWithClientContext();
 
     /**
      *
      * @return a greeting string with the jboss.node.name
      */
-    public abstract String getGreeting();
+    String getGreeting();
 }

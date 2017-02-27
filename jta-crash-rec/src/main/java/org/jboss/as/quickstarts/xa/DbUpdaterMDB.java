@@ -42,7 +42,7 @@ import java.util.logging.Logger;
     @ActivationConfigProperty(propertyName = "acknowledgeMode", propertyValue = "Auto-acknowledge") })
 public class DbUpdaterMDB implements MessageListener {
 
-    private final static Logger LOGGER = Logger.getLogger(DbUpdaterMDB.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(DbUpdaterMDB.class.getName());
 
     // A helper service for persisting key value pairs
     @Inject

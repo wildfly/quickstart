@@ -27,7 +27,7 @@ import javax.ejb.Local;
 @Local
 public interface UserDao {
 
-    public User getForUsername(String username);
+    User getForUsername(String username);
 
-    public void createUser(User user);
+    void createUser(User user);
 }

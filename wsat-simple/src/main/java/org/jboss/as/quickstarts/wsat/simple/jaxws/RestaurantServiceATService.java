@@ -33,8 +33,8 @@ import java.util.logging.Logger;
 @WebServiceClient(name = "RestaurantServiceATService", targetNamespace = "http://www.jboss.org/jboss-jdf/jboss-as-quickstart/wsat/simple/Restaurant")
 public class RestaurantServiceATService extends Service {
 
-    private final static URL RESTAURANTSERVICEATSERVICE_WSDL_LOCATION;
-    private final static Logger logger = Logger.getLogger(RestaurantServiceATService.class.getName());
+    private static final URL RESTAURANTSERVICEATSERVICE_WSDL_LOCATION;
+    private static final Logger logger = Logger.getLogger(RestaurantServiceATService.class.getName());
 
     static {
         URL url = null;

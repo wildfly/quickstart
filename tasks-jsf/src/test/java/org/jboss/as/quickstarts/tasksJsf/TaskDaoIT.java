@@ -21,19 +21,12 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.FileNotFoundException;
 import java.util.List;
-
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.junit.InSequence;
-import org.jboss.as.quickstarts.tasksJsf.Resources;
-import org.jboss.as.quickstarts.tasksJsf.Task;
-import org.jboss.as.quickstarts.tasksJsf.TaskDao;
-import org.jboss.as.quickstarts.tasksJsf.TaskDaoImpl;
-import org.jboss.as.quickstarts.tasksJsf.User;
-import org.jboss.as.quickstarts.tasksJsf.UserDao;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Before;
 import org.junit.Test;
@@ -49,7 +42,7 @@ public class TaskDaoIT {
     @Deployment
     public static WebArchive deployment() throws IllegalArgumentException, FileNotFoundException {
         return new DefaultDeployment().withPersistence().withImportedData().getArchive()
-            .addClasses(Resources.class, User.class, UserDao.class, Task.class, TaskDao.class, TaskDaoImpl.class);
+                .addClasses(Resources.class, User.class, UserDao.class, Task.class, TaskDao.class, TaskDaoImpl.class);
     }
 
     @Inject
@@ -77,7 +70,7 @@ public class TaskDaoIT {
         em.persist(user);
         taskDao.createTask(user, task);
         List<Task> userTasks = em.createQuery("SELECT t FROM Task t WHERE t.owner = :owner", Task.class)
-            .setParameter("owner", user).getResultList();
+                .setParameter("owner", user).getResultList();
 
         // then
         assertEquals(1, userTasks.size());

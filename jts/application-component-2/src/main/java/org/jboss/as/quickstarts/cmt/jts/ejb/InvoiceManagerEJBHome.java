@@ -22,6 +22,6 @@ import javax.ejb.EJBHome;
 
 public interface InvoiceManagerEJBHome extends EJBHome {
 
-    public InvoiceManagerEJB create() throws RemoteException;
+    InvoiceManagerEJB create() throws RemoteException;
 
 }

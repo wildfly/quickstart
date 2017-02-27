@@ -17,7 +17,6 @@
 package org.jboss.as.quickstart.hibernate.data;
 
 import java.util.List;
-
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;

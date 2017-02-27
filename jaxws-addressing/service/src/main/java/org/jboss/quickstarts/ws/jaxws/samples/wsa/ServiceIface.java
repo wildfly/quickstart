@@ -19,12 +19,11 @@ package org.jboss.quickstarts.ws.jaxws.samples.wsa;
 import javax.jws.WebService;
 
 /**
- *
  * @author rsearls@redhat.com
  */
 @WebService(
-    name = "ServiceIface",
-    targetNamespace = "http://www.jboss.org/jbossws/ws-extensions/wsaddressing")
+        name = "ServiceIface",
+        targetNamespace = "http://www.jboss.org/jbossws/ws-extensions/wsaddressing")
 public interface ServiceIface {
     String sayHello();
 }

@@ -17,7 +17,6 @@
 package org.jboss.as.quickstart.hibernate.data;
 
 import java.util.List;
-
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.event.Observes;
@@ -30,7 +29,7 @@ import org.jboss.as.quickstart.hibernate.model.Member;
 
 /**
  * Retrieves the Member List
- * 
+ *
  * @author Madhumita Sadhukhan
  */
 

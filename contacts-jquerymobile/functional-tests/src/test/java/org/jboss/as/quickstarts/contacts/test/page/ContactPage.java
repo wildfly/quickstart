@@ -16,6 +16,12 @@
  */
 package org.jboss.as.quickstarts.contacts.test.page;
 
+import static org.jboss.arquillian.graphene.Graphene.guardAjax;
+import static org.jboss.arquillian.graphene.Graphene.guardNoRequest;
+import static org.jboss.arquillian.graphene.Graphene.waitModel;
+
+import java.util.List;
+
 import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.graphene.condition.element.WebElementConditionFactory;
 import org.jboss.arquillian.graphene.findby.FindByJQuery;
@@ -24,10 +30,6 @@ import org.jboss.as.quickstarts.contacts.test.Contact;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-
-import java.util.List;
-
-import static org.jboss.arquillian.graphene.Graphene.*;
 
 /**
  * Manipulation with Add/Edit Contact pages

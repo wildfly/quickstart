@@ -24,7 +24,8 @@ package org.jboss.as.quickstarts.jaxrsclient;
  * quickstart helloworld-rs.  Please refer to the helloworld-rs README.md
  * for instructions on how to build and deploy helloworld-rs.
  */
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -39,7 +40,6 @@ import org.junit.Test;
  * JUnit4 Test class which makes a request to the RESTful helloworld-rs web service.
  *
  * @author bmincey (Blaine Mincey)
- *
  */
 public class JaxRsClientTest {
     /**
@@ -75,16 +75,16 @@ public class JaxRsClientTest {
     @Test
     public void test() {
         assertEquals("XML Response", JaxRsClientTest.XML_RESPONSE,
-            this.runRequest(JaxRsClientTest.XML_URL, MediaType.APPLICATION_XML_TYPE));
+                this.runRequest(JaxRsClientTest.XML_URL, MediaType.APPLICATION_XML_TYPE));
 
         assertEquals("JSON Response", JaxRsClientTest.JSON_RESPONSE,
-            this.runRequest(JaxRsClientTest.JSON_URL, MediaType.APPLICATION_JSON_TYPE));
+                this.runRequest(JaxRsClientTest.JSON_URL, MediaType.APPLICATION_JSON_TYPE));
     }
 
     /**
      * The purpose of this method is to run the external REST request.
      *
-     * @param url The url of the RESTful service
+     * @param url       The url of the RESTful service
      * @param mediaType The mediatype of the RESTful service
      */
     private String runRequest(String url, MediaType mediaType) {
@@ -94,10 +94,10 @@ public class JaxRsClientTest {
         System.out.println("URL: " + url);
         System.out.println("MediaType: " + mediaType.toString());
 
-        
+
         // Using the RESTEasy libraries, initiate a client request
         ResteasyClient client = new ResteasyClientBuilder().build();
-            
+
         // Set url as target
         ResteasyWebTarget target = client.target(url);
 

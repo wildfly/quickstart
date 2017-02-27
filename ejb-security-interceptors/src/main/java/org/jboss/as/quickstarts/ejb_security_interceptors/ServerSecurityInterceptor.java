@@ -85,7 +85,6 @@ public class ServerSecurityInterceptor {
             // switch back to original context
             if (stateCache != null) {
                 SecurityActions.popIdentity(stateCache);
-                ;
             }
         }
     }

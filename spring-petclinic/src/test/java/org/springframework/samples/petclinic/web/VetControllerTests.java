@@ -16,7 +16,11 @@
 package org.springframework.samples.petclinic.web;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -63,16 +67,16 @@ public class VetControllerTests {
     @Test
     public void testShowResourcesVetList() throws Exception {
         ResultActions actions = mockMvc.perform(get("/vets.json").accept(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk());
+                .andExpect(status().isOk());
         actions.andExpect(content().contentType("application/json;charset=UTF-8"))
-            .andExpect(jsonPath("$.vetList[0].id").value(1));
+                .andExpect(jsonPath("$.vetList[0].id").value(1));
     }
 
     private void testShowVetList(String url) throws Exception {
         mockMvc.perform(get(url))
-            .andExpect(status().isOk())
-            .andExpect(model().attributeExists("vets"))
-            .andExpect(view().name("vets/vetList"));
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("vets"))
+                .andExpect(view().name("vets/vetList"));
     }
 
 

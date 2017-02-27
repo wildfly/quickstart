@@ -19,16 +19,10 @@ package org.jboss.as.quickstarts.tasksJsf;
 import static org.junit.Assert.assertEquals;
 
 import java.io.FileNotFoundException;
-
 import javax.inject.Inject;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.as.quickstarts.tasksJsf.Task;
-import org.jboss.as.quickstarts.tasksJsf.TaskDao;
-import org.jboss.as.quickstarts.tasksJsf.TaskList;
-import org.jboss.as.quickstarts.tasksJsf.TaskListBean;
-import org.jboss.as.quickstarts.tasksJsf.User;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -44,7 +38,7 @@ public class TaskListBeanIT {
     @Deployment
     public static WebArchive deployment() throws IllegalArgumentException, FileNotFoundException {
         return new DefaultDeployment(true).withPersistence().withImportedData().getArchive()
-            .addClasses(User.class, Task.class, TaskList.class, TaskListBean.class, TaskDao.class, TaskDaoStub.class, Testing.class);
+                .addClasses(User.class, Task.class, TaskList.class, TaskListBean.class, TaskDao.class, TaskDaoStub.class, Testing.class);
     }
 
     @Inject

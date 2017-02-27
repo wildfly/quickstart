@@ -42,7 +42,7 @@ public interface SetServiceBA {
      * @throws SetServiceException if an error occurred during the adding of the item to the set.
      */
     @WebMethod
-    public void addValueToSet(String value) throws AlreadyInSetException, SetServiceException;
+    void addValueToSet(String value) throws AlreadyInSetException, SetServiceException;
 
     /**
      * Query the set to see if it contains a particular value.
@@ -51,12 +51,12 @@ public interface SetServiceBA {
      * @return true if the value was present, false otherwise.
      */
     @WebMethod
-    public boolean isInSet(String value);
+    boolean isInSet(String value);
 
     /**
      * Empty the set
      */
     @WebMethod
-    public void clear();
+    void clear();
 
 }

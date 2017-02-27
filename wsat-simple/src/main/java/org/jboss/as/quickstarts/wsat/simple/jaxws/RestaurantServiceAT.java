@@ -34,7 +34,7 @@ public interface RestaurantServiceAT {
      * Create a new booking
      */
     @WebMethod
-    public void makeBooking() throws RestaurantException;
+    void makeBooking() throws RestaurantException;
 
     /**
      * obtain the number of existing bookings
@@ -42,12 +42,12 @@ public interface RestaurantServiceAT {
      * @return the number of current bookings
      */
     @WebMethod
-    public int getBookingCount();
+    int getBookingCount();
 
     /**
      * Reset the booking count to zero
      */
     @WebMethod
-    public void reset();
+    void reset();
 
 }

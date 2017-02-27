@@ -30,7 +30,6 @@ import javax.jms.TextMessage;
  * </p>
  *
  * @author Serge Pagop (spagop@redhat.com)
- *
  */
 @MessageDriven(name = "HelloWorldQueueMDB", activationConfig = {
     @ActivationConfigProperty(propertyName = "destinationLookup", propertyValue = "queue/HELLOWORLDMDBQueue"),
@@ -38,7 +37,7 @@ import javax.jms.TextMessage;
     @ActivationConfigProperty(propertyName = "acknowledgeMode", propertyValue = "Auto-acknowledge") })
 public class HelloWorldQueueMDB implements MessageListener {
 
-    private final static Logger LOGGER = Logger.getLogger(HelloWorldQueueMDB.class.toString());
+    private static final Logger LOGGER = Logger.getLogger(HelloWorldQueueMDB.class.toString());
 
     /**
      * @see MessageListener#onMessage(Message)

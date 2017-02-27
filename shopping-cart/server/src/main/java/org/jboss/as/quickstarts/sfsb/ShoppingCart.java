@@ -17,7 +17,6 @@
 package org.jboss.as.quickstarts.sfsb;
 
 import java.util.Map;
-
 import javax.ejb.Remote;
 
 /**
@@ -25,9 +24,9 @@ import javax.ejb.Remote;
  */
 @Remote
 public interface ShoppingCart {
-    public void buy(String product, int quantity);
+    void buy(String product, int quantity);
 
-    public void checkout();
+    void checkout();
 
-    public Map<String, Integer> getCartContents();
+    Map<String, Integer> getCartContents();
 }

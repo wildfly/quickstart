@@ -16,8 +16,9 @@
  */
 package org.jboss.as.quickstarts.threadracing.results;
 
-import org.jboss.as.quickstarts.threadracing.Race;
-
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -26,9 +27,8 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+
+import org.jboss.as.quickstarts.threadracing.Race;
 
 /**
  * A race result, a JPA entity.
@@ -38,12 +38,12 @@ import java.util.List;
 @Entity
 @Table(name = "THREAD_RACE_RESULTS")
 @NamedQueries({
-    @NamedQuery(name = "RaceResult.findAll", query = "SELECT e FROM RaceResult e")
+        @NamedQuery(name = "RaceResult.findAll", query = "SELECT e FROM RaceResult e")
 })
 public class RaceResult implements Serializable {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 1L;
 
@@ -149,6 +149,7 @@ public class RaceResult implements Serializable {
 
     /**
      * Sets the result for the provided registration.
+     *
      * @param registration
      * @param position
      */
@@ -177,6 +178,7 @@ public class RaceResult implements Serializable {
 
     /**
      * Retrieves a list with racers ordered by race position.
+     *
      * @return
      */
     public List<String> getSortedRacers() {
@@ -190,6 +192,7 @@ public class RaceResult implements Serializable {
 
     /**
      * Retrieves the racer with the specified position
+     *
      * @param i
      * @return
      */

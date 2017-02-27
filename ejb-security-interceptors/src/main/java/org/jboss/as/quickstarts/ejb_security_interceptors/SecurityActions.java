@@ -49,11 +49,11 @@ final class SecurityActions {
         return connectionSecurityContextActions().getConnectionPrincipals();
     }
 
-    static ContextStateCache pushIdentity(final Principal principal, final Object credential) throws Exception {
+    static ContextStateCache pushIdentity(Principal principal, Object credential) throws Exception {
         return connectionSecurityContextActions().pushIdentity(principal, credential);
     }
 
-    static void popIdentity(final ContextStateCache stateCache) {
+    static void popIdentity(ContextStateCache stateCache) {
         connectionSecurityContextActions().popIdentity(stateCache);
     }
 
@@ -65,9 +65,9 @@ final class SecurityActions {
 
         Collection<Principal> getConnectionPrincipals();
 
-        ContextStateCache pushIdentity(final Principal principal, final Object credential) throws Exception;
+        ContextStateCache pushIdentity(Principal principal, Object credential) throws Exception;
 
-        void popIdentity(final ContextStateCache stateCache);
+        void popIdentity(ContextStateCache stateCache);
 
         ConnectionSecurityContextActions NON_PRIVILEGED = new ConnectionSecurityContextActions() {
 
@@ -76,7 +76,7 @@ final class SecurityActions {
             }
 
             @Override
-            public ContextStateCache pushIdentity(final Principal principal, final Object credential) throws Exception {
+            public ContextStateCache pushIdentity(Principal principal, Object credential) throws Exception {
                 return ConnectionSecurityContext.pushIdentity(principal, credential);
             }
 
@@ -101,7 +101,7 @@ final class SecurityActions {
             }
 
             @Override
-            public ContextStateCache pushIdentity(final Principal principal, final Object credential) throws Exception {
+            public ContextStateCache pushIdentity(Principal principal, Object credential) throws Exception {
                 try {
                     return AccessController.doPrivileged(new PrivilegedExceptionAction<ContextStateCache>() {
 
@@ -116,7 +116,7 @@ final class SecurityActions {
             }
 
             @Override
-            public void popIdentity(final ContextStateCache stateCache) {
+            public void popIdentity(ContextStateCache stateCache) {
                 AccessController.doPrivileged(new PrivilegedAction<Void>() {
 
                     @Override
@@ -136,7 +136,7 @@ final class SecurityActions {
      * SecurityContext Actions
      */
 
-    static void securityContextSet(final SecurityContext context) {
+    static void securityContextSet(SecurityContext context) {
         securityContextActions().setSecurityContext(context);
     }
 
@@ -148,14 +148,14 @@ final class SecurityActions {
         return securityContextActions().getPrincipal();
     }
 
-    static void securityContextSetPrincpal(final Principal principal) {
+    static void securityContextSetPrincpal(Principal principal) {
         securityContextActions().setPrincipal(principal);
     }
 
     /**
      * @return The SecurityContext previously set if any.
      */
-    static SecurityContext securityContextSetPrincipalInfo(final Principal principal, final OuterUserCredential credential)
+    static SecurityContext securityContextSetPrincipalInfo(Principal principal, OuterUserCredential credential)
         throws Exception {
         return securityContextActions().setPrincipalInfo(principal, credential);
     }
@@ -166,15 +166,15 @@ final class SecurityActions {
 
     private interface SecurityContextActions {
 
-        void setSecurityContext(final SecurityContext context);
+        void setSecurityContext(SecurityContext context);
 
         void clear();
 
         Principal getPrincipal();
 
-        void setPrincipal(final Principal principal);
+        void setPrincipal(Principal principal);
 
-        SecurityContext setPrincipalInfo(final Principal principal, final OuterUserCredential credential) throws Exception;
+        SecurityContext setPrincipalInfo(Principal principal, OuterUserCredential credential) throws Exception;
 
         SecurityContextActions NON_PRIVILEGED = new SecurityContextActions() {
 

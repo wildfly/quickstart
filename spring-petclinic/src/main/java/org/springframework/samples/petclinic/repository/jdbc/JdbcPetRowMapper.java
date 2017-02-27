@@ -19,7 +19,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
 
-import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.springframework.jdbc.core.RowMapper;
 

@@ -30,7 +30,6 @@ import javax.jms.TextMessage;
  * </p>
  *
  * @author Serge Pagop (spagop@redhat.com)
- *
  */
 @MessageDriven(name = "HelloWorldQTopicMDB", activationConfig = {
     @ActivationConfigProperty(propertyName = "destinationLookup", propertyValue = "topic/HELLOWORLDMDBTopic"),
@@ -38,7 +37,7 @@ import javax.jms.TextMessage;
     @ActivationConfigProperty(propertyName = "acknowledgeMode", propertyValue = "Auto-acknowledge") })
 public class HelloWorldTopicMDB implements MessageListener {
 
-    private final static Logger LOGGER = Logger.getLogger(HelloWorldTopicMDB.class.toString());
+    private static final Logger LOGGER = Logger.getLogger(HelloWorldTopicMDB.class.toString());
 
     /**
      * @see MessageListener#onMessage(Message)
