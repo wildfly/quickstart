@@ -68,23 +68,23 @@
                     <executable>java</executable>
                     <workingDirectory>${project.build.directory}/exec-working-directory</workingDirectory>
                     <arguments>
-                        <!-- automatically creates the classpath using all
-                            project dependencies, also adding the project build directory -->
                         <argument>-classpath</argument>
                         <classpath></classpath>
                         <argument>org.jboss.as.quickstarts.ejb.remote.client.RemoteEJBClient</argument>
                     </arguments>
+                    <!--<detail>true</detail>-->
                 </configuration>
-                <executions>
+                <!--<executions>
                     <execution>
                         <goals>
                             <goal>exec</goal>
                         </goals>
                     </execution>
-                </executions>
+                </executions>-->
             </plugin>
             <!-- build standalone exe jar -->
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <configuration>
                     <descriptorRefs>
