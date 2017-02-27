@@ -105,8 +105,8 @@ You configure the domain server by running JBoss CLI commands. For your convenie
 
 6. Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing ${jboss.home.name} with the path to your server:
  
-        For Linux: ${jboss.home.name}/bin/jboss-cli.sh --connect --file=install-domain.cli
-        For Windows: ${jboss.home.name}\bin\jboss-cli.bat --connect --file=install-domain.cli
+        For Linux: ${jboss.home.name}/bin/jboss-cli.sh -c --file=install-domain.cli
+        For Windows: ${jboss.home.name}\bin\jboss-cli.bat -c --file=install-domain.cli
      You should see the following result when you run the script:
         
         {
@@ -202,8 +202,8 @@ Build and Deploy the Quickstart
         
 4. In the same command prompt, deploy the applications using the provided CLI batch script by typing the following command:
 
-        For Linux: ${jboss.home.name}/bin/jboss-cli.sh --connect --file=deploy-domain.cli
-        For Windows: ${jboss.home.name}\bin\jboss-cli.bat --connect --file=deploy-domain.cli
+        For Linux: ${jboss.home.name}/bin/jboss-cli.sh -c --file=deploy-domain.cli
+        For Windows: ${jboss.home.name}\bin\jboss-cli.bat -c --file=deploy-domain.cli
        
      This will deploy the app-*.ear files to different server-groups of the running domain. You should see the following result when you run the script:
 
@@ -264,7 +264,7 @@ It also demonstrates how to invoke an EJB from a client using a scoped-context r
     
     The invocation of `appTwo` throws a  `java.lang.reflect.InvocationTargetException` since the secured method is called and there is no Role for the user defined.  You get a `BUILD FAILURE` and the client outputs the following information:
 
-        [ERROR] Failed to execute goal org.codehaus.mojo:exec-maven-plugin:1.2.1:java (default-cli) on project jboss-ejb-multi-server-client: An exception occured while executing the Java class. null: InvocationTargetException: WFLYEJB0364: Invocation on method: public abstract java.lang.String org.jboss.as.quickstarts.ejb.multi.server.app.AppTwo.invokeSecured(java.lang.String) of bean: AppTwoBean is not allowed -> [Help 1]
+        [ERROR] Failed to execute goal org.codehaus.mojo:exec-maven-plugin:1.2.1:java (default-cli) on project ejb-multi-server-client: An exception occured while executing the Java class. null: InvocationTargetException: WFLYEJB0364: Invocation on method: public abstract java.lang.String org.jboss.as.quickstarts.ejb.multi.server.app.AppTwo.invokeSecured(java.lang.String) of bean: AppTwoBean is not allowed -> [Help 1]
 
     Update the user `quickuser1` and `quickuser2` and give them one of the Roles `AppTwo` or `Intern`.
     To update the roles, open a command prompt and type the following commands:
@@ -291,7 +291,7 @@ It also demonstrates how to invoke an EJB from a client using a scoped-context r
 
 5. If it is necessary to invoke the client with a different ${product.name} version the main class can be invoked by using the following command from the root directory of this quickstart. Replace ${jboss.home.name} with your current installation path. The output should be similar to the previous mvn executions.
 
-        java -cp ${jboss.home.name}/bin/client/jboss-client.jar:app-main/ejb/target/jboss-ejb-multi-server-app-main-ejb-client.jar:app-two/ejb/target/jboss-ejb-multi-server-app-two-ejb-client.jar:client/target/jboss-ejb-multi-server-client.jar org.jboss.as.quickstarts.ejb.multi.server.Client
+        java -cp ${jboss.home.name}/bin/client/jboss-client.jar:app-main/ejb/target/ejb-multi-server-app-main-ejb-client.jar:app-two/ejb/target/ejb-multi-server-app-two-ejb-client.jar:client/target/ejb-multi-server-client.jar org.jboss.as.quickstarts.ejb.multi.server.Client
 
 
 _NOTE:_
@@ -306,7 +306,7 @@ Access the JSF application inside the main-application
 The JSF example shows different annotations to inject the EJB. Also how to handle the annotation if different beans implement the same interface and therefore the container is not able to decide which bean needs to be injected without additional informations.
 
 1. Make sure that the deployments are successful as described above.
-2. Use a browser to access the JSF application at the following URL: <http://localhost:8080/${project.artifactId}/>
+2. Use a browser to access the JSF application at the following URL: <http://localhost:8080/ejb-multi-server-app-main-web/>
 3. Insert a message in the Text input and invoke the different methods. The result is shown in the browser.
 4. See server logfiles and find your given message logged as INFO.
 
@@ -320,7 +320,7 @@ Access the Servlet application deployed as a WAR inside a minimal server
 An example how to access EJBs from a separate instance which only contains a web application.
 
 1. Make sure that the deployments are successful as described above.
-2. Use a browser to access the Servlet at the following URL: <http://localhost:8380/${project.artifactId}/>
+2. Use a browser to access the Servlet at the following URL: <http://localhost:8380/ejb-multi-server-app-web/>
 3. The Servlet will invoke the remote EJBs directly and show the results, compare that the invocation is successful
 
 

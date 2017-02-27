@@ -89,16 +89,14 @@ batch
 /profile=default-web/subsystem="logging"/periodic-rotating-file-handler="FILE":add(append="true",autoflush="true",file={"relative-to" => "jboss.server.log.dir","path" => "server.log"},name="FILE",named-formatter="PATTERN",suffix=".yyyy-MM-dd")
 /profile=default-web/subsystem="logging"/pattern-formatter="PATTERN":add(pattern="%d{yyyy-MM-dd HH:mm:ss,SSS} %-5p [%c] (%t) %s%E%n")
 /profile=default-web/subsystem="logging"/logger="com.arjuna":add(category="com.arjuna",level="WARN")
-/profile=default-web/subsystem="logging"/logger="org.apache.tomcat.util.modeler":add(category="org.apache.tomcat.util.modeler",level="WARN")
-/profile=default-web/subsystem="logging"/logger="org.jboss.as.config":add(category="org.jboss.as.config",level="DEBUG")
 /profile=default-web/subsystem="logging"/logger="sun.rmi":add(category="sun.rmi",level="WARN")
 /profile=default-web/subsystem="logging"/root-logger="ROOT":add(handlers=["FILE"],level="INFO")
 
-/profile=default-web/subsystem="batch-jberet":add(default-job-repository="in-memory", default-thread-pool="batch")
-/profile=default-web/subsystem="batch-jberet"/in-memory-job-repository=in-memory:add()
-/profile=default-web/subsystem="batch-jberet"/thread-pool="batch":add(keepalive-time={"time" => "30","unit" => "SECONDS"},max-threads="10")
+#/profile=default-web/subsystem="batch-jberet":add(default-job-repository="in-memory", default-thread-pool="batch")
+#/profile=default-web/subsystem="batch-jberet"/in-memory-job-repository=in-memory:add()
+#/profile=default-web/subsystem="batch-jberet"/thread-pool="batch":add(keepalive-time={"time" => "30","unit" => "SECONDS"},max-threads="10")
 
-/profile=default-web/subsystem="bean-validation":add()
+#/profile=default-web/subsystem="bean-validation":add()
 
 /profile=default-web/subsystem="ee":add(spec-descriptor-property-replacement="false")
 /profile=default-web/subsystem="ee"/context-service="default":add(jndi-name="java:jboss/ee/concurrency/context/default",use-transaction-setup-provider="true")
@@ -150,21 +148,21 @@ batch
 /profile=default-web/subsystem="infinispan"/cache-container="hibernate"/local-cache="local-query"/expiration="EXPIRATION":add(max-idle="100000")
 /profile=default-web/subsystem="infinispan"/cache-container="hibernate"/local-cache="timestamps":add()
 
-/profile=default-web/subsystem="jca":add()
-/profile=default-web/subsystem="jca"/archive-validation="archive-validation":add(enabled="true",fail-on-error="true",fail-on-warn="false")
-/profile=default-web/subsystem="jca"/bean-validation="bean-validation":add(enabled="true")
-/profile=default-web/subsystem="jca"/bootstrap-context="default":add(name="default",workmanager="default")
-/profile=default-web/subsystem="jca"/cached-connection-manager="cached-connection-manager":add()
-/profile=default-web/subsystem="jca"/workmanager="default":add(name="default")
-/profile=default-web/subsystem="jca"/workmanager="default"/long-running-threads="default":add(core-threads="50",keepalive-time={"time" => "10","unit" => "SECONDS"},max-threads="50",queue-length="50")
-/profile=default-web/subsystem="jca"/workmanager="default"/short-running-threads="default":add(core-threads="50",keepalive-time={"time" => "10","unit" => "SECONDS"},max-threads="50",queue-length="50")
+#/profile=default-web/subsystem="jca":add()
+#/profile=default-web/subsystem="jca"/archive-validation="archive-validation":add(enabled="true",fail-on-error="true",fail-on-warn="false")
+#/profile=default-web/subsystem="jca"/bean-validation="bean-validation":add(enabled="true")
+#/profile=default-web/subsystem="jca"/bootstrap-context="default":add(name="default",workmanager="default")
+#/profile=default-web/subsystem="jca"/cached-connection-manager="cached-connection-manager":add()
+#/profile=default-web/subsystem="jca"/workmanager="default":add(name="default")
+#/profile=default-web/subsystem="jca"/workmanager="default"/long-running-threads="default":add(core-threads="50",keepalive-time={"time" => "10","unit" => "SECONDS"},max-threads="50",queue-length="50")
+#/profile=default-web/subsystem="jca"/workmanager="default"/short-running-threads="default":add(core-threads="50",keepalive-time={"time" => "10","unit" => "SECONDS"},max-threads="50",queue-length="50")
 
 /profile=default-web/subsystem="jsf":add()
 
 /profile=default-web/subsystem="naming":add()
 /profile=default-web/subsystem="naming"/service="remote-naming":add()
 
-/profile=default-web/subsystem="pojo":add()
+#/profile=default-web/subsystem="pojo":add()
 
 /profile=default-web/subsystem="remoting":add()
 /profile=default-web/subsystem="remoting"/configuration="endpoint":add(worker="default")
@@ -202,12 +200,12 @@ batch
 /profile=default-web/subsystem="undertow"/servlet-container="default":add()
 /profile=default-web/subsystem="undertow"/servlet-container="default"/setting="jsp":add()
 
-/profile=default-web/subsystem="webservices":add(wsdl-host="${jboss.bind.address:127.0.0.1}")
-/profile=default-web/subsystem="webservices"/client-config="Standard-Client-Config":add()
-/profile=default-web/subsystem="webservices"/endpoint-config="Standard-Endpoint-Config":add()
-/profile=default-web/subsystem="webservices"/endpoint-config="Recording-Endpoint-Config":add()
-/profile=default-web/subsystem="webservices"/endpoint-config="Recording-Endpoint-Config"/pre-handler-chain="recording-handlers":add(protocol-bindings="##SOAP11_HTTP ##SOAP11_HTTP_MTOM ##SOAP12_HTTP ##SOAP12_HTTP_MTOM")
-/profile=default-web/subsystem="webservices"/endpoint-config="Recording-Endpoint-Config"/pre-handler-chain="recording-handlers"/handler="RecordingHandler":add(class="org.jboss.ws.common.invocation.RecordingServerHandler")
+#/profile=default-web/subsystem="webservices":add(wsdl-host="${jboss.bind.address:127.0.0.1}")
+#/profile=default-web/subsystem="webservices"/client-config="Standard-Client-Config":add()
+#/profile=default-web/subsystem="webservices"/endpoint-config="Standard-Endpoint-Config":add()
+#/profile=default-web/subsystem="webservices"/endpoint-config="Recording-Endpoint-Config":add()
+#/profile=default-web/subsystem="webservices"/endpoint-config="Recording-Endpoint-Config"/pre-handler-chain="recording-handlers":add(protocol-bindings="##SOAP11_HTTP ##SOAP11_HTTP_MTOM ##SOAP12_HTTP ##SOAP12_HTTP_MTOM")
+#/profile=default-web/subsystem="webservices"/endpoint-config="Recording-Endpoint-Config"/pre-handler-chain="recording-handlers"/handler="RecordingHandler":add(class="org.jboss.ws.common.invocation.RecordingServerHandler")
 
 /profile=default-web/subsystem="weld":add()
 
