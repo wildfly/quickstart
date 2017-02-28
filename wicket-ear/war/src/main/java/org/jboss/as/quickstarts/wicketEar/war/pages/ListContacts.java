@@ -20,7 +20,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
 import javax.annotation.Resource;
 import javax.inject.Inject;
 
@@ -57,7 +56,7 @@ public class ListContacts extends WebPage {
 
         // Populate the table of contacts
         add(new RefreshingView<ContactDto>("contacts") {
-            
+
             @Override
             protected Iterator<IModel<ContactDto>> getItemModels() {
                 List<IModel<ContactDto>> models = new ArrayList<>();
@@ -66,7 +65,7 @@ public class ListContacts extends WebPage {
                 }
                 return models.iterator();
             }
-            
+
             @Override
             protected void populateItem(final Item<ContactDto> item) {
                 ContactDto contact = item.getModelObject();
@@ -88,7 +87,7 @@ public class ListContacts extends WebPage {
     /**
      * This class is detached version of {@link Contact} and it's purpose is to
      * avoid detachable model in order not to complicate this example.
-     * 
+     * <p>
      * For more information please see
      * https://ci.apache.org/projects/wicket/guide/7.x/guide/modelsforms.html#modelsforms_6
      */
@@ -96,13 +95,13 @@ public class ListContacts extends WebPage {
         private final Long id;
         private final String name;
         private final String email;
-        
-        public ContactDto(Contact contact) {
+
+        ContactDto(Contact contact) {
             this.id = contact.getId();
             this.name = contact.getName();
             this.email = contact.getEmail();
         }
-        
+
         public Long getId() {
             return id;
         }
@@ -110,6 +109,7 @@ public class ListContacts extends WebPage {
         public String getName() {
             return name;
         }
+
         public String getEmail() {
             return email;
         }

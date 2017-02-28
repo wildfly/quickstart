@@ -17,13 +17,11 @@
 package org.jboss.as.quickstarts.wicketWar.dao;
 
 import java.util.List;
-
 import javax.ejb.Local;
 
 import org.jboss.as.quickstarts.wicketWar.model.Contact;
 
 /**
- *
  * @author Filippo Diotalevi
  */
 @Local
@@ -34,7 +32,7 @@ public interface ContactDao {
      *
      * @return every contact in the database
      */
-    public List<Contact> getContacts();
+    List<Contact> getContacts();
 
     /**
      * Returns a specific Contact from DB.
@@ -42,20 +40,20 @@ public interface ContactDao {
      * @param id The Id for the Contact
      * @return The specified Contact object
      */
-    public Contact getContact(Long id);
+    Contact getContact(Long id);
 
     /**
      * Persist a new Contact in the DB.
      *
-     * @param name The name of the new Contact
+     * @param name  The name of the new Contact
      * @param email The e-mail address of the new Contact
      */
-    public void addContact(String name, String email);
+    void addContact(String name, String email);
 
     /**
      * Removes a specific item from the DB.
      *
      * @param id of the specific Contact object, which we wants to remove
      */
-    public void remove(Long id);
+    void remove(Long id);
 }

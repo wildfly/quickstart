@@ -4,8 +4,8 @@ Author: Ondrej Zizka <ozizka@redhat.com>
 Level: Intermediate  
 Technologies: Apache Wicket, JPA  
 Summary: Demonstrates how to use the Wicket Framework 7.x with the JBoss server using the Wicket Java EE integration packaged as a WAR  
-Target Product: WildFly  
-Source: <https://github.com/wildfly/quickstart/>  
+Target Product: ${product.name}  
+Source: <${github.repo.url}>  
 
 What is it?
 -----------

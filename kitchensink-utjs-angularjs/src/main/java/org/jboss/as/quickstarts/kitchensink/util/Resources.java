@@ -17,10 +17,8 @@
 package org.jboss.as.quickstarts.kitchensink.util;
 
 import java.util.logging.Logger;
-
 import javax.enterprise.inject.Produces;
 import javax.enterprise.inject.spi.InjectionPoint;
-import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -28,11 +26,11 @@ import javax.validation.Validator;
 
 /**
  * This class uses CDI to alias Java EE resources, such as the persistence context, to CDI beans
- * 
+ * <p>
  * <p>
  * Example injection on a managed bean field:
  * </p>
- * 
+ * <p>
  * <pre>
  * &#064;Inject
  * private EntityManager em;

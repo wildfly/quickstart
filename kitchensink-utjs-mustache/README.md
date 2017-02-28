@@ -5,7 +5,7 @@ Level: Intermediate
 Technologies: Undertow.js, Mustache
 Summary: Based on kitchensink, but uses Mustache for the front end and Undertow.js for the back end
 Target Project: WildFly
-Source: <https://github.com/wildfly/quickstart/>
+Source: <${github.repo.url}>
 
 What is it?
 -----------

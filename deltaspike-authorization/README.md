@@ -5,7 +5,7 @@ Level: Beginner
 Technologies: JSF, CDI, Deltaspike  
 Summary: Demonstrate the creation of a custom authorization example using @SecurityBindingType from DeltaSpike  
 Prerequisites: 
-Target Product: WildFly  
+Target Product: ${product.name}  
 Source: <https://github.com/jboss-jdf/jboss-as-quickstart/>  
 
 What is it?

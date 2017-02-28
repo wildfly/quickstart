@@ -17,7 +17,6 @@
 package org.jboss.as.quickstarts.jsf;
 
 import java.io.Serializable;
-
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
@@ -27,7 +26,6 @@ import javax.inject.Named;
  * {@link RichBean} is the JSF backing bean for the application, holding the input data to be
  * re-displayed.
  * </p>
- *
  */
 @Named
 @SessionScoped

@@ -5,7 +5,7 @@ Level: Intermediate
 Technologies: Undertow.js, Angular.js
 Summary: Based on kitchensink, but uses a Angular for the front end and Undertow.js for the back end
 Target Project: WildFly
-Source: <https://github.com/wildfly/quickstart/>
+Source: <${github.repo.url}>
 
 What is it?
 -----------

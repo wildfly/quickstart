@@ -24,6 +24,6 @@ package org.jboss.as.quickstarts.deltaspike.projectstage.bean;
  */
 public interface MessageProvider {
 
-    public String message();
+    String message();
 
 }

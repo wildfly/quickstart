@@ -5,7 +5,7 @@ Level: Beginner
 Technologies: JSF, CDI, Deltaspike  
 Summary: Demonstrate usage of DeltaSpike project stage and shows usage of a conditional @Exclude  
 Prerequisites: 
-Target Product: WildFly  
+Target Product: ${product.name}  
 Source: <https://github.com/jboss-jdf/jboss-as-quickstart/>  
 
 What is it?

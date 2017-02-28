@@ -17,7 +17,6 @@
 package org.jboss.as.quickstart.hibernate4.data;
 
 import java.util.List;
-
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.event.Observes;

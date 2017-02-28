@@ -4,8 +4,8 @@ Author: Pete Muir
 Level: Beginner  
 Technologies: CDI, Servlet  
 Summary: The `helloworld` quickstart demonstrates the use of *CDI* and *Servlet 3* and is a good starting point to verify WildFly is configured correctly.  
-Target Product: WildFly  
-Source: <https://github.com/wildfly/quickstart/>  
+Target Product: ${product.name}  
+Source: <${github.repo.url}>  
 
 What is it?
 -----------
