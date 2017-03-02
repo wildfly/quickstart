@@ -20,12 +20,14 @@ import java.util.Map;
 
 import org.jboss.ejb.client.EJBClientInterceptor;
 import org.jboss.ejb.client.EJBClientInvocationContext;
+import org.jboss.ejb.client.annotation.ClientInterceptorPriority;
 
 /**
  * Client side interceptor responsible for propagating the authentication token.
  *
  * @author <a href="mailto:darran.lofthouse@jboss.com">Darran Lofthouse</a>
  */
+@ClientInterceptorPriority(ClientInterceptorPriority.APPLICATION + 10)
 public class ClientSecurityInterceptor implements EJBClientInterceptor {
 
     public void handleInvocation(EJBClientInvocationContext context) throws Exception {

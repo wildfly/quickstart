@@ -16,11 +16,14 @@
  */
 package org.jboss.as.quickstarts.ejb_security_interceptors;
 
+import org.jboss.ejb.client.annotation.ClientInterceptors;
+
 /**
  * The interface used to access the SecuredEJB
  *
  * @author <a href="mailto:darran.lofthouse@jboss.com">Darran Lofthouse</a>
  */
+@ClientInterceptors(ClientSecurityInterceptor.class)
 public interface SecuredEJBRemote {
 
     /**

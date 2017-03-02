@@ -49,19 +49,27 @@ In the real world, remote calls between servers in the servers-to-server scenari
 Note on EJB client interceptors
 -----------------------
 
-${product.name} allows client side interceptors for EJB invocations. Such interceptors are expected to implement the `org.jboss.ejb.client.EJBClientInterceptor` interface. User applications can then plug in such interceptors in the `EJBClientContext` either programatically or through the ServiceLoader mechanism.
+${product.name} allows client side interceptors for EJB invocations. Such interceptors are expected to implement the `org.jboss.ejb.client.EJBClientInterceptor` interface.  Interceptors can be established in many ways, including the following:
 
-- The programmatic way involves calling the `org.jboss.ejb.client.EJBClientContext.registerInterceptor(int order, EJBClientInterceptor interceptor)` API and passing the `order` and the `interceptor` instance. The `order` is used to decide where exactly in the client interceptor chain, this `interceptor` is going to be placed.
-- The ServiceLoader mechanism is an alternate approach which involves creating a `META-INF/services/org.jboss.ejb.client.EJBClientInterceptor` file and placing/packaging it in the classpath of the client application. The rules for such a file are dictated by the [Java ServiceLoader Mechanism](http://docs.oracle.com/javase/8/docs/api/java/util/ServiceLoader.html). This file is expected to contain in each separate line the fully qualified class name of the EJB client interceptor implementation, which is expected to be available in the classpath. EJB client interceptors added via the ServiceLoader mechanism are added to the end of the client interceptor chain, in the order they were found in the classpath.
+- Using the `@ClientInterceptors` annotation, which exists in the `org.jboss.ejb.client.annotations` package of the EJB client API.  The annotation accepts a list of classes which implement the `EJBClientInterceptor` interface and each have a public, no-argument constructor, operating in much the same way as its server-side counterpart `@Interceptors` annotation in the standard `javax.interceptor` package.  The classes themselves may optionally be annotated with the `@ClientInterceptorPriority` annotation, which assigns a numerical priority used in sorting the interceptors for invocation.  The constant integer values on that annotation type represent standard values; if no priority is given, then the value of `APPLICATION` is chosen.
+- Establishing a list of interceptors in the `wildfly-client.xml` configuration file, which applies to standalone applications.
+- Using the `ServiceLoader`-based mechanism, which is an alternate approach which involves creating a `META-INF/services/org.jboss.ejb.client.EJBClientInterceptor` file and placing/packaging it in the classpath of the client application. The rules for such a file are dictated by the [Java ServiceLoader Mechanism](http://docs.oracle.com/javase/8/docs/api/java/util/ServiceLoader.html). This file is expected to contain on each separate line the fully qualified class name of the EJB client interceptor implementation, which is expected to be available in the classpath. EJB client interceptors follow the same ordering rules as annotated or configured interceptors.
 
-This quickstart uses the ServiceLoader mechanism for registering the EJB client interceptor and places the `META-INF/services/org.jboss.ejb.client.EJBClientInterceptor` in the classpath, with the following content:
+This quickstart uses the annotation-based approach.
 
-        # EJB client interceptor(s) that will be added to the end of the interceptor chain during an invocation
-        # on EJB. If these interceptors are to be added at a specific position, other than last, then use the
-        # programmatic API in the application to register it explicitly to the EJBClientContext
+### Ordering
 
-        org.jboss.as.quickstarts.ejb_security_interceptors.ClientSecurityInterceptor
+Interceptors are ordered according to their assigned priority, which is `APPLICATION` if none is given.  Lower numbers come earlier, and higher numbers come later.  If more than one interceptor have the same priority, they are considered in the following order:
 
+- Method-level annotated interceptors
+- Class-level annotated interceptors
+- Configuration-declared method interceptors
+- Configuration-declared class interceptors
+- Configuration-declared global interceptors
+- `ServiceLoader`-based interceptors from the class path
+- System-installed JBoss interceptors
+
+If after these rules apply, more than one interceptor are still of equal priority, then they are applied in declaration or encounter order.
 
 System requirements
 -------------------
