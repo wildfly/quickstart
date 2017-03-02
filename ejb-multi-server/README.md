@@ -110,11 +110,24 @@ _NOTE: The following build command assumes you have configured your Maven user s
 
         WILDFLY_HOME/bin/jboss-cli.sh --connect --file=deploy-domain.cli
        
-    This will deploy the app-*.ear files to different server-groups of the running domain.
+     This will deploy the app-*.ear files to different server-groups of the running domain. You should see the following result when you run the script:
 
+        The batch executed successfully
+        process-state: reload-required 
+
+     You may see the following warnings in the server log. You can ignore these warnings.
+     
+        [Server:app-oneB] 13:00:13,346 WARN  [org.jboss.as.clustering.jgroups.protocol.UDP] (ServerService Thread Pool -- 13) JGRP000015: the send buffer of socket MulticastSocket was set to 1MB, but the OS only allocated 212.99KB. This might lead to performance problems. Please set your max send buffer in the OS correctly (e.g. net.core.wmem_max on Linux)
+        [Server:app-oneB] 13:00:13,346 WARN  [org.jboss.as.clustering.jgroups.protocol.UDP] (ServerService Thread Pool -- 13) JGRP000015: the receive buffer of socket MulticastSocket was set to 20MB, but the OS only allocated 212.99KB. This might lead to performance problems. Please set your max receive buffer in the OS correctly (e.g. net.core.rmem_max on Linux)
+        [Server:app-oneB] 13:00:13,347 WARN  [org.jboss.as.clustering.jgroups.protocol.UDP] (ServerService Thread Pool -- 13) JGRP000015: the send buffer of socket MulticastSocket was set to 1MB, but the OS only allocated 212.99KB. This might lead to performance problems. Please set your max send buffer in the OS correctly (e.g. net.core.wmem_max on Linux)
+        [Server:app-oneB] 13:00:13,347 WARN  [org.jboss.as.clustering.jgroups.protocol.UDP] (ServerService Thread Pool -- 13) JGRP000015: the receive buffer of socket MulticastSocket was set to 25MB, but the OS only allocated 212.99KB. This might lead to performance problems. Please set your max receive buffer in the OS correctly (e.g. net.core.rmem_max on Linux)
+        [Server:app-twoA] 13:00:13,403 INFO  [org.jboss.as.clustering.infinispan] (ServerService Thread Pool -- 5) WFLYCLINF0002: Started client-mappings cache from ejb container
+        [Server:app-oneA] 13:00:13,407 WARN  [org.jboss.as.clustering.jgroups.protocol.UDP] (ServerService Thread Pool -- 11) JGRP000015: the send buffer of socket MulticastSocket was set to 1MB, but the OS only allocated 212.99KB. This might lead to performance problems. Please set your max send buffer in the OS correctly (e.g. net.core.wmem_max on Linux)
+        [Server:app-oneA] 13:00:13,408 WARN  [org.jboss.as.clustering.jgroups.protocol.UDP] (ServerService Thread Pool -- 11) JGRP000015: the receive buffer of socket MulticastSocket was set to 20MB, but the OS only allocated 212.99KB. This might lead to performance problems. Please set your max receive buffer in the OS correctly (e.g. net.core.rmem_max on Linux)
+        [Server:app-oneA] 13:00:13,408 WARN  [org.jboss.as.clustering.jgroups.protocol.UDP] (ServerService Thread Pool -- 11) JGRP000015: the send buffer of socket MulticastSocket was set to 1MB, but the OS only allocated 212.99KB. This might lead to performance problems. Please set your max send buffer in the OS correctly (e.g. net.core.wmem_max on Linux)
+        [Server:app-oneA] 13:00:13,408 WARN  [org.jboss.as.clustering.jgroups.protocol.UDP] (ServerService Thread Pool -- 11) JGRP000015: the receive buffer of socket MulticastSocket was set to 25MB, but the OS only allocated 212.99KB. This might lead to performance problems. Please set your max receive buffer in the OS correctly (e.g. net.core.rmem_max on Linux)
  
-_NOTE: If ERRORs appear in the server.log when the installing or deploying the quickstart, please stop the domain and restart it. This should ensure further steps run correctly._
-
+_NOTE:_ If ERRORs appear in the `server.log` when installing or deploying the quickstart, stop the domain and restart it. This should ensure further steps run correctly.
 
 Access the Remote Client Application
 ---------------------
