@@ -77,21 +77,21 @@ You must first set the active Maven profile in project properties to be either `
 Investigate the Console Output
 ------------------------------
 
+When you run the tests, you are presented with the test report summary:
 
-### Maven
--------------------------------------------------------
- T E S T S
--------------------------------------------------------
-Running org.jboss.as.quickstarts.shrinkwrap.resolver.ShrinkwrapImportFromPomTest
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.633 sec
-Running org.jboss.as.quickstarts.shrinkwrap.resolver.ShrinkwrapResolveGAPCVCustomRepoWithoutCentralTest
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.439 sec
-Running org.jboss.as.quickstarts.shrinkwrap.resolver.ShrinkwrapResolveGAVWithoutTransitiveDepsTest
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.016 sec
+    -------------------------------------------------------
+     T E S T S
+    -------------------------------------------------------
+    Running org.jboss.as.quickstarts.shrinkwrap.resolver.ShrinkwrapImportFromPomTest
+    Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.633 sec
+    Running org.jboss.as.quickstarts.shrinkwrap.resolver.ShrinkwrapResolveGAPCVCustomRepoWithoutCentralTest
+    Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.439 sec
+    Running org.jboss.as.quickstarts.shrinkwrap.resolver.ShrinkwrapResolveGAVWithoutTransitiveDepsTest
+    Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.016 sec
 
-Results :
+    Results :
 
-Tests run: 3, Failures: 0, Errors: 0, Skipped: 0
+    Tests run: 3, Failures: 0, Errors: 0, Skipped: 0
 
 
 Debug the Application
