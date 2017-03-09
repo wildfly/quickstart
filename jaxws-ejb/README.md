@@ -93,10 +93,10 @@ If you want to debug the source code of any library in the project, run the foll
 
     mvn dependency:sources
 
-_Note:_ You will see the following informational messages. This is because the source files for these JARs are not available in the Maven repository. The `jboss-jaxws-ejb-service` source files are available in the `jaxws-ejb` project.
+_Note:_ You will see the following informational messages. This is because the source files for these JARs are not available in the Maven repository. The `jaxws-ejb-service` source files are available in the `jaxws-ejb` project.
 
     [INFO] The following files have NOT been resolved:
     [INFO]    xerces:xercesImpl:jar:sources:2.9.1:compile
     [INFO]    com.wutka:dtdparser:jar:sources:1.21:compile
-    [INFO]    org.jboss.quickstarts.eap:jboss-jaxws-ejb-service:jar:sources:7.0.0.GA:compile
+    [INFO]    org.jboss.quickstarts.eap:jaxws-ejb-service:jar:sources:7.0.0.GA:compile
 
