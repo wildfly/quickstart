@@ -18,12 +18,15 @@ package org.jboss.as.quickstarts.ejb_security_interceptors;
 
 import javax.ejb.Remote;
 
+import org.jboss.ejb.client.annotation.ClientInterceptors;
+
 /**
  * The interface to the intermediate EJB used to test EJB to remote EJB calls.
  *
  * @author <a href="mailto:darran.lofthouse@jboss.com">Darran Lofthouse</a>
  */
 @Remote
+@ClientInterceptors(ClientSecurityInterceptor.class)
 public interface IntermediateEJBRemote {
 
     String makeTestCalls();
