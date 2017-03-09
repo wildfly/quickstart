@@ -58,7 +58,7 @@ Configure the ${product.name} Server
 _NOTE_: The _Byteman_ scripts only work in JTA mode. They do not work in JTS mode. If you have configured the server for a quickstart that uses JTS, you must follow the quickstart instructions to remove the JTS configuration from the ${product.name} server before making the following changes. Otherwise _Byteman_ will not halt the server. 
 
 
-Start the ${product.name} Server
+Start the Server
 ---------------
 
 Start the ${product.name} Server with the Full Profile
@@ -111,13 +111,12 @@ Test the application
         For Windows: 
         
              JAVA_OPTS=%JAVA_OPTS% -javaagent:C:BYTEMAN_HOME\lib\byteman.jar=script:C:\QUICKSTART_HOME\jta-crash-rec\src\main\scripts\xa.btm %JAVA_OPTS%
-    * [Start the ${product.name} server](#start-the-jboss-eap-server) as instructed above.
+    * [Start the server](#start-the-server) as instructed above.
     
 5. Once you complete step 4, you are ready to create a _recovery record_. Go to the application URL <http://localhost:8080/jboss-jta-crash-rec/XA> and insert another row into the database. At this point, Byteman halts the application server. 
 
 6. If you want to verify the database insert was committed but that message delivery is still pending, you can use an SQL client such as the H2 database console tool. Issue a query to show that the value is present but does not contain the message added by the consumer (`updated via JMS`). Here is how you can do it using H2:
     * Start the H2 console by typing:
-
 
             java -cp ${jboss.home.name}/modules/system/layers/base/com/h2database/h2/main/h2*.jar org.h2.tools.Console
     * Log in:
@@ -145,7 +144,7 @@ Test the application
 
             Database may be already in use: "Locked by another process"
     * [Disable the Byteman script](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_BYTEMAN.md#disable-the-byteman-script) by restoring the backup server configuration file.
-    * [Start the ${product.name} server](#start-the-jboss-eap-server) as instructed above.
+    * [Start the server](#start-the-server) as instructed above.
     * Load the web interface to the application 
     * By the time the ${product.name} server is ready, the transaction should have recovered.
     * A message is printed on the ${product.name} server console when the consumer has completed the update. Look for a line that reads:
