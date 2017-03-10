@@ -1,16 +1,16 @@
-jboss-logging-tools: Internationalization and Localization with JBoss Logging Tools
+logging-tools: Internationalization and Localization with JBoss Logging Tools
 ======================
 Author: Darrin Mison  
 Level: Beginner  
 Technologies: JBoss Logging Tools  
-Summary: The `jboss-logging-tools` quickstart shows how to use JBoss Logging Tools to create internationalized loggers, exceptions, and messages and localize them.  
+Summary: The `logging-tools` quickstart shows how to use JBoss Logging Tools to create internationalized loggers, exceptions, and messages and localize them.  
 Target Product: ${product.name}  
 Source: <${github.repo.url}>  
 
 What is it?
 ------------
 
-The `jboss-logging-tools` quickstart demonstrates the use of JBoss Logging Tools in ${product.name.full}. The logging tools create internationalized loggers, exceptions, and generic messages; and then provide localizations for them. This is done using a simple JAX-RS service. Translations in French(fr-FR), German(de-DE), and Swedish (sv-SE) are provided courtesy of <http://translate.google.com> for demonstration. My apologies if they are less than ideal translations.
+The `logging-tools` quickstart demonstrates the use of JBoss Logging Tools in ${product.name.full}. The logging tools create internationalized loggers, exceptions, and generic messages; and then provide localizations for them. This is done using a simple JAX-RS service. Translations in French(fr-FR), German(de-DE), and Swedish (sv-SE) are provided courtesy of <http://translate.google.com> for demonstration. My apologies if they are less than ideal translations.
 
 Once the quick start is deployed you can access it using URLs documented below.
 

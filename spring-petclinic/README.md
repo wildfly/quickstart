@@ -67,9 +67,9 @@ Build and Deploy the Quickstart
 
         mvn clean package wildfly:deploy
 
-4. This will deploy `spring-petclinic/target/jboss-spring-petclinic.war` to the running instance of the server.
+4. This will deploy `spring-petclinic/target/${project.artifactId}.war` to the running instance of the server.
 
-If you do not have maven configured you can manually copy `spring-petclinic/target/jboss-spring-petclinic.war` to ${jboss.home.name}/standalone/deployments.
+If you do not have maven configured you can manually copy `spring-petclinic/target/${project.artifactId}.war` to ${jboss.home.name}/standalone/deployments.
 
 For MySQL, you need to use the corresponding schema and SQL scripts in the `db/mysql` subdirectory.
 

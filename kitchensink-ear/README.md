@@ -52,13 +52,13 @@ Build and Deploy the Quickstart
 
         mvn clean install wildfly:deploy
 
-4. This will deploy `ear/target/jboss-kitchensink-ear.ear` to the running instance of the server.
+4. This will deploy `ear/target/${project.artifactId}.ear` to the running instance of the server.
 
 
 Access the application 
 ---------------------
 
-The application will be running at the following URL: <http://localhost:8080/${project.artifactId}/>.
+The application will be running at the following URL: <http://localhost:8080/kitchensink-ear/>.
 
 1. Enter a name, email address, and Phone nubmer in the input field and click the _Register_ button.
 2. If the data entered is valid, the new member will be registered and added to the _Members_ display list.
@@ -133,7 +133,7 @@ For this quickstart, follow the special instructions to build [Quickstarts Conta
 
 1. Right-click on the `${project.artifactId}-ear` subproject, and choose `Run As` --> `Run on Server`.
 2. Choose the server and click `Finish`. 
-3. This starts the server, deploys the application, and opens a browser window that accesses the running application at <http://localhost:8080/jboss-kitchensink-ear-web>.
+3. This starts the server, deploys the application, and opens a browser window that accesses the running application at <http://localhost:8080/kitchensink-ear-web>.
 
 
 Debug the Application

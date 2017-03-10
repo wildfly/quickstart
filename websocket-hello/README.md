@@ -1,4 +1,4 @@
-jboss-websocket-hello: A simple WebSocket application
+websocket-hello: A simple WebSocket application
 ========================
 Author: Sande Gilda, Emmanuel Hugonett   
 Level: Beginner  

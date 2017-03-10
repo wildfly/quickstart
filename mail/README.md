@@ -174,7 +174,7 @@ _NOTE:_
 
 * Be sure to [Configure an SMTP Server on Your Local Machine](#configure-an-smtp-server-on-your-local-machine).
 * Be sure to configure the ${product.name} custom mail configuration as described above under [Configure the ${product.name} Server](#configure-the-jboss-eap-server). Stop the server at the end of that step.
-* To deploy the server project, right-click on the `jboss-mail` project and choose `Run As` --> `Run on Server`.  A browser window appears that accesses the running application.
+* To deploy the server project, right-click on the `${project.artifactId}` project and choose `Run As` --> `Run on Server`.  A browser window appears that accesses the running application.
 * Be sure to [Remove the Mail Configuration](#remove-the-mail-configuration) when you have completed testing this quickstart.
 
 

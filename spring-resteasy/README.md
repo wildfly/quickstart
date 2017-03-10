@@ -40,7 +40,7 @@ Build and Deploy the Quickstart
 
         mvn clean package wildfly:deploy
 
-4. This deploys the `target/jboss-spring-resteasy.war` to the running instance of the server.
+4. This deploys the `target/${project.artifactId}.war` to the running instance of the server.
 
 
 Access the application 
