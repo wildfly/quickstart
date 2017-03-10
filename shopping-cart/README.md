@@ -94,21 +94,21 @@ Build and Deploy the Quickstart
 3. To build both the server component and the remote client program, deploy the server module, change into the examples shopping-cart directory and type the following:
 
         mvn clean install wildfly:deploy 
-4. This Maven goal will deploy `server/target/jboss-shopping-cart-server.jar`. You can check the server console to see information messages regarding the deployment.
+4. This Maven goal will deploy `server/target/${project.artifactId}-server.jar`. You can check the server console to see information messages regarding the deployment.
 
-        INFO  [org.jboss.as.ejb3.deployment] (MSC service thread 1-2) WFLYEJB0473: JNDI bindings for session bean named 'ShoppingCartBean' in deployment unit 'deployment "jboss-shopping-cart-server.jar"' are as follows:
+        INFO  [org.jboss.as.ejb3.deployment] (MSC service thread 1-2) WFLYEJB0473: JNDI bindings for session bean named 'ShoppingCartBean' in deployment unit 'deployment "${project.artifactId}-server.jar"' are as follows:
 
-          java:global/jboss-shopping-cart-server/ShoppingCartBean!org.jboss.as.quickstarts.sfsb.ShoppingCart
-          java:app/jboss-shopping-cart-server/ShoppingCartBean!org.jboss.as.quickstarts.sfsb.ShoppingCart
+          java:global/${project.artifactId}-server/ShoppingCartBean!org.jboss.as.quickstarts.sfsb.ShoppingCart
+          java:app/${project.artifactId}-server/ShoppingCartBean!org.jboss.as.quickstarts.sfsb.ShoppingCart
           java:module/ShoppingCartBean!org.jboss.as.quickstarts.sfsb.ShoppingCart
-          java:jboss/exported/jboss-shopping-cart-server/ShoppingCartBean!org.jboss.as.quickstarts.sfsb.ShoppingCart
-          java:global/jboss-shopping-cart-server/ShoppingCartBean
-          java:app/jboss-shopping-cart-server/ShoppingCartBean
+          java:jboss/exported/${project.artifactId}-server/ShoppingCartBean!org.jboss.as.quickstarts.sfsb.ShoppingCart
+          java:global/${project.artifactId}-server/ShoppingCartBean
+          java:app/${project.artifactId}-server/ShoppingCartBean
           java:module/ShoppingCartBean
 
-        INFO  [org.jboss.weld.deployer] (MSC service thread 1-4) WFLYWELD0006: Starting Services for CDI deployment: jboss-shopping-cart-server.jar
-        INFO  [org.jboss.weld.deployer] (MSC service thread 1-8) WFLYWELD0009: Starting weld service for deployment jboss-shopping-cart-server.jar
-        INFO  [org.jboss.as.server] (management-handler-thread - 3) WFLYSRV0010: Deployed "jboss-shopping-cart-server.jar" (runtime-name : "jboss-shopping-cart-server.jar")
+        INFO  [org.jboss.weld.deployer] (MSC service thread 1-4) WFLYWELD0006: Starting Services for CDI deployment: ${project.artifactId}-server.jar
+        INFO  [org.jboss.weld.deployer] (MSC service thread 1-8) WFLYWELD0009: Starting weld service for deployment ${project.artifactId}-server.jar
+        INFO  [org.jboss.as.server] (management-handler-thread - 3) WFLYSRV0010: Deployed "${project.artifactId}-server.jar" (runtime-name : "${project.artifactId}-server.jar")
 
 
 Run the Client Application
@@ -202,8 +202,8 @@ You can also start the server and deploy the quickstarts or run the Arquillian t
 This quickstart consists of multiple projects, so it deploys and runs differently in JBoss Developer Studio than the other quickstarts.
 
 * Be sure to configure ${product.name} to suppress system exception logging as described above under [Configure the ${product.name} Server](#configure-the-jboss-eap-server). Stop the server at the end of that step.
-* To deploy the server project, right-click on the `jboss-shopping-cart-server` project and choose `Run As` --> `Run on Server`.
-* To run the client, right-click on the `jboss-shopping-cart-client` project and choose `Run As` --> `Java Application`. In the `Select Java Application` window, choose `Client - org.jboss.as.quickstarts.client` and click `OK`. The client output displays in the `Console` window.
+* To deploy the server project, right-click on the `${project.artifactId}-server` project and choose `Run As` --> `Run on Server`.
+* To run the client, right-click on the `${project.artifactId}-client` project and choose `Run As` --> `Java Application`. In the `Select Java Application` window, choose `Client - org.jboss.as.quickstarts.client` and click `OK`. The client output displays in the `Console` window.
 * Be sure to [Restore the Server Configuration](#restore-the-server-configuration) when you have completed testing this quickstart.
 
 Debug the Application

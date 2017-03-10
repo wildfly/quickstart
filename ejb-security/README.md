@@ -147,7 +147,7 @@ Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a ${product.name} server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](${use.eclipse.url}). 
 
 * Be sure to [Add the Application Users](#add-the-application-users) as described above.
-* To deploy the server project, right-click on the `jboss-ejb-security` project and choose `Run As` --> `Run on Server`.
+* To deploy the server project, right-click on the `${project.artifactId}` project and choose `Run As` --> `Run on Server`.
 * You are presented with a browser login challenge. Enter the credentials as described above to access and test the running application.
 
 Debug the Application

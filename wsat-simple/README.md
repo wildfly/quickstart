@@ -154,7 +154,7 @@ This quickstart is more complex than the others. It requires that you configure 
             Configuration base directory: (This should already point to your server configuration directory)
             Configuration file: ../../docs/examples/configs/standalone-xts.xml
 3. Start the new `${product.name} XTS Configuration` server. 
-4. Right-click on the `jboss-wsat-simple` project, choose `Run As` --> `Maven build`, enter `clean verify -Parq-remote` for the `Goals:`, and click `Run` to run the Arquillian tests. The test results appear in the console.
+4. Right-click on the `${project.artifactId}` project, choose `Run As` --> `Maven build`, enter `clean verify -Parq-remote` for the `Goals:`, and click `Run` to run the Arquillian tests. The test results appear in the console.
 
 
 Debug the Application

@@ -62,7 +62,7 @@ Configure Optional Components
  * This quickstart uses Byteman to help demonstrate crash recovery. Instructions to install and configure Byteman can be found here: [Configure Byteman for Use with the Quickstarts](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_BYTEMAN.md#configure-byteman-for-use-with-the-quickstarts)
 
 
-Start the ${product.name} Server
+Start the Server
 -------------------------
 
 <!-- Contributor: Does this quickstart require one or more running servers? If so, you must show how to start the server. If you start the server in one of the following 3 ways, you can simply copy the instructions in the README file located in the root folder of the quickstart directory: -->
@@ -88,17 +88,17 @@ Build and Deploy the Quickstart
 3. Type this command to build and deploy the archive:
 
         mvn clean install wildfly:deploy
-4. This will deploy `target/jboss-QUICKSTART_NAME.war` (or `target/jboss-QUICKSTART_NAME.ear`) to the running instance of the server.
+4. This will deploy `target/${project.artifactId}.war` (or `target/${project.artifactId}.ear`) to the running instance of the server.
  
 <!-- Contributor: Be sure to replace the `QUICKSTART_NAME`. If this quickstart requires different or additional instructions, be sure to modify or add those instructions here. -->
 
 
-Access the application
+Access the Application
 ---------------------
 
 <!-- Contributor: Add this section only if the quickstart has a UI component and provide the URL to access the running application. Be sure to make the URL a hyperlink as below, substituting the your quickstart name for the `QUICKSTART_NAME`. -->
 
-        Access the running application in a browser at the following URL:  <http://localhost:8080/jboss-QUICKSTART_NAME>
+        Access the running application in a browser at the following URL:  <http://localhost:8080/${project.artifactId}>
 
 
 <!--Contributor: Briefly describe what you will see when you access the application. For example: -->

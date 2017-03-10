@@ -55,13 +55,13 @@ Build and Deploy the Quickstart
 
         mvn clean wildfly:deploy
 
-4. This will deploy `${project.artifactId}-webapp\target\${project.artifactId}-webapp.war` and `${project.artifactId}-service\target\jboss-${project.artifactId}-${project.artifactId}-service.sar` to the running instance of the server.
+4. This will deploy `${project.artifactId}-webapp/target/${project.artifactId}-webapp.war` and `${project.artifactId}-service/target/${project.artifactId}-${project.artifactId}-service.sar` to the running instance of the server.
 
 
 Access and Test the MBeans
 --------------------------
 
-This quickstart differs from the other quickstarts in that it uses _JConsole_ to access and test the quickstart rather than access an URL in the browser. If you do access <http://localhost:8080/jboss-${project.artifactId}-${project.artifactId}-webapp/>, you will see a screen shot image of the _JConsole_ application,
+This quickstart differs from the other quickstarts in that it uses _JConsole_ to access and test the quickstart rather than access an URL in the browser. If you do access <http://localhost:8080/${project.artifactId}-${project.artifactId}-webapp/>, you will see a screen shot image of the _JConsole_ application,
 
 The following sections describe how to use _JConsole_ to inspect and test the MBeans. 
 
@@ -128,7 +128,7 @@ This quickstart consists of multiple projects and requires installation of the `
    * If the `Red Hat Central` page is not showing, open it by choosing `Help` --> `Red Hat Central`.
    * Click the `Software/Update` tab at the bottom of the `Red Hat Central`.
    * Scroll down to the `Maven` section, select the `JBoss Tools Maven Packaging Configurator` and click `Install/Update`.
-2. Right click on the parent `jboss-helloworld-mbean` parent project and choose `Maven` --> `Update Project...`. Select all projects and click `OK`.
+2. Right click on the parent `${project.artifactId}` parent project and choose `Maven` --> `Update Project...`. Select all projects and click `OK`.
 3. Right-click on the `${project.artifactId}-${project.artifactId}-service` project and choose `Run As` --> `Run on Server`. 
 4. Right-click on the `${project.artifactId}-${project.artifactId}-webapp` project and choose `Run As` --> `Run on Server`. 
 5. [Start JConsole](#start-jconsole) and [Test the MBeans in JConsole](#test-the-mbeans-in-jconsole) as described above.

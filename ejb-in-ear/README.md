@@ -63,7 +63,7 @@ Build and Deploy the Quickstart
 
         mvn clean install wildfly:deploy
 
-4. This will deploy `ear/target/jboss-ejb-in-ear.ear` to the running instance of the server.
+4. This will deploy `ear/target/${project.artifactId}.ear` to the running instance of the server.
 
  
 
@@ -92,9 +92,9 @@ You can also start the server and deploy the quickstarts or run the Arquillian t
 
 For this quickstart, follow the special instructions to build [Quickstarts Containing an EAR](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_JBDS.md#quickstarts-containing-an-ear)
 
-1. Right-click on the `jboss-ejb-in-ear-ear` subproject, and choose `Run As` --> `Run on Server`.
+1. Right-click on the `${project.artifactId}` subproject, and choose `Run As` --> `Run on Server`.
 2. Choose the server and click `Finish`. 
-3. This starts the server, deploys the application, and opens a browser window that accesses the running application at <http://localhost:8080/jboss-ejb-in-ear>.
+3. This starts the server, deploys the application, and opens a browser window that accesses the running application at <http://localhost:8080/ejb-in-ear>.
 
 
 Debug the Application
