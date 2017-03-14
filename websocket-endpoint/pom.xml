@@ -84,28 +84,4 @@
 
     </dependencies>
 
-    <profiles>
-        <profile>
-            <!-- The default profile skips all tests, though you can tune it 
-                 to run just unit tests based on a custom pattern.
-                 Separate profiles are provided for running all tests, including 
-                 Arquillian tests that execute in the specified container -->
-            <id>default</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <version>${version.surefire.plugin}</version>
-                        <configuration>
-                            <skip>true</skip>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-
-    </profiles>
 </project>
