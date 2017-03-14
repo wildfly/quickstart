@@ -24,7 +24,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <!-- Here we include the css file  -->
 <link rel="stylesheet" type="text/css" href="resources/css/screen.css" />
-<head>
+</head>
 <body>
     <div id="container">
         <div align="right" class="dualbrand">

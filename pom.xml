@@ -61,7 +61,7 @@
         <!-- EAP component version management BOM -->
         <version.server.bom>11.0.0.Alpha1</version.server.bom>
         
-        <version.jboss.spec.javaee.7.0>1.1.0.Beta1</version.jboss.spec.javaee.7.0>
+        <version.jboss.spec.javaee.7.0>1.1.0.Final</version.jboss.spec.javaee.7.0>
 
         <!-- maven-compiler-plugin -->
         <maven.compiler.target>1.8</maven.compiler.target>
@@ -406,6 +406,25 @@
                 						</versionRange>
                 						<goals>
                 							<goal>archive</goal>
+                						</goals>
+                					</pluginExecutionFilter>
+                					<action>
+                						<ignore></ignore>
+                					</action>
+                				</pluginExecution>
+                				<pluginExecution>
+                					<pluginExecutionFilter>
+                						<groupId>
+                							org.jboss.ws.plugins
+                						</groupId>
+                						<artifactId>
+                							jaxws-tools-maven-plugin
+                						</artifactId>
+                						<versionRange>
+                							[1.2.0.Final,)
+                						</versionRange>
+                						<goals>
+                							<goal>wsconsume</goal>
                 						</goals>
                 					</pluginExecutionFilter>
                 					<action>
