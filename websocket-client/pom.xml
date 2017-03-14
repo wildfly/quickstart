@@ -85,21 +85,7 @@
 
     </dependencies>
 
-    <build>
-        <!-- Set the name of the WAR, used as the context root when the app is deployed -->
-        <finalName>${project.artifactId}</finalName>
-        <plugins>
-            <!-- WildFly plug-in to deploy the WAR to a local JBoss EAP container.
-                 To use, run: mvn package wildfly:deploy -->
-            <plugin>
-                <groupId>org.wildfly.plugins</groupId>
-                <artifactId>wildfly-maven-plugin</artifactId>
-                <version>${version.wildfly.maven.plugin}</version>
-            </plugin>
-        </plugins>
-    </build>
-
-    <profiles>
+   <profiles>
         <profile>
             <!-- The default profile skips all tests, though you can tune it 
                  to run just unit tests based on a custom pattern.

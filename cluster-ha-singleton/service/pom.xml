@@ -66,19 +66,14 @@
     </dependencies>
 
     <build>
-        <!-- Specify the archive name -->
-        <finalName>${project.artifactId}</finalName>
         <plugins>
             <plugin>
                 <!-- must include ejb-plug-in to change the EJB version from
                     2.1 to 3.0 -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-ejb-plugin</artifactId>
-                <version>${version.ejb.plugin}</version>
                 <configuration>
-                    <ejbVersion>3.1</ejbVersion>
-                    <source>${maven.compiler.source}</source>
-                    <target>${maven.compiler.source}</target>
+                    <ejbVersion>3.2</ejbVersion>
                     <generateClient>true</generateClient>
                     <clientIncludes>
                         <clientInclude>**/ServiceAccess.class</clientInclude>
@@ -86,8 +81,7 @@
                     <archive>
                         <addMavenDescriptor>false</addMavenDescriptor>
                         <manifestEntries>
-                            <Dependencies>org.jboss.msc,
-                                org.wildfly.clustering.singleton</Dependencies>
+                            <Dependencies>org.jboss.msc, org.wildfly.clustering.singleton</Dependencies>
                         </manifestEntries>
                     </archive>
                 </configuration>
@@ -96,13 +90,11 @@
             <plugin>
                 <groupId>org.wildfly.plugins</groupId>
                 <artifactId>wildfly-maven-plugin</artifactId>
-                <version>${version.wildfly.maven.plugin}</version>
                 <configuration>
                     <skip>false</skip>
                     <filename>${project.artifactId}.jar</filename>
                 </configuration>
             </plugin>
-
         </plugins>
     </build>
 </project>

@@ -64,15 +64,12 @@
     </dependencies>
 
     <build>
-        <!-- Set the name of the archive -->
-        <finalName>${project.artifactId}</finalName>
         <plugins>
             <!-- The WildFly plug-in deploys your WAR to a local JBoss EAP container.
                  To use, run: mvn package wildfly:deploy -->
             <plugin>
                 <groupId>org.wildfly.plugins</groupId>
                 <artifactId>wildfly-maven-plugin</artifactId>
-                <version>${version.wildfly.maven.plugin}</version>
                 <configuration>
                     <port>10090</port>
                     <filename>${project.build.finalName}.jar</filename>
@@ -82,7 +79,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-ejb-plugin</artifactId>
-                <version>${version.ejb.plugin}</version>
                 <configuration>
                     <ejbVersion>3.2</ejbVersion>
                     <!-- this is false by default -->

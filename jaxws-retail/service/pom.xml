@@ -56,10 +56,9 @@
 
         <plugins>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>${version.war.plugin}</version>
                 <configuration>
-                    <failOnMissingWebXml>false</failOnMissingWebXml>
                     <attachClasses>true</attachClasses>
                 </configuration>
             </plugin>
@@ -67,7 +66,6 @@
             <plugin>
                 <groupId>org.wildfly.plugins</groupId>
                 <artifactId>wildfly-maven-plugin</artifactId>
-                <version>${version.wildfly.maven.plugin}</version>
                 <configuration>
                     <skip>false</skip>
                 </configuration>
@@ -99,7 +97,6 @@
                     </execution>
                 </executions>
             </plugin>
-
         </plugins>
         <sourceDirectory>src/main/java</sourceDirectory>
     </build>

@@ -50,10 +50,10 @@ Build and Deploy the Quickstart
 -------------------------
 
 1. Make sure you have started the ${product.name} server as described above.
-2. Open a command propmt and navigate to the root directory of this quickstart.
+2. Open a command prompt and navigate to the root directory of this quickstart.
 3. Type this command to build and deploy the archive:
 
-        mvn clean wildfly:deploy
+        mvn clean install wildfly:deploy
 
 4. This will deploy `${project.artifactId}-webapp/target/${project.artifactId}-webapp.war` and `${project.artifactId}-service/target/${project.artifactId}-${project.artifactId}-service.sar` to the running instance of the server.
 
