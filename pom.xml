@@ -21,8 +21,8 @@
     <parent>
         <groupId>org.jboss</groupId>
         <artifactId>jboss-parent</artifactId>
-        <version>22</version>
-        <relativePath></relativePath>
+       <version>23</version>
+       <relativePath />
     </parent>
     <groupId>org.wildfly.quickstarts</groupId>
     <artifactId>quickstart-parent</artifactId>
@@ -514,6 +514,7 @@
                 <module>h2-console</module>
                 <module>jts-distributed-crash-rec</module>
                 <module>messaging-clustering</module>
+                <module>dist</module>
             </modules>
         </profile>
         <profile>
@@ -593,6 +594,44 @@
                 <module>spring-kitchensink-matrixvariables/functional-tests</module>
                 <module>spring-petclinic/functional-tests</module>
             </modules>
+        </profile>
+        <profile>
+            <id>release</id>
+            <modules>
+                <module>dist</module>
+            </modules>
+            <build>
+                <!--<plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>flatten-maven-plugin</artifactId>
+                        <version>1.0.0</version>
+                        <configuration>
+                            <pomElements>
+                                <dependencyManagement>keep</dependencyManagement>
+                                <properties>interpolate</properties>
+                                <dependencies>interpolate</dependencies>
+                            </pomElements>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>flatten</id>
+                                <phase>process-resources</phase>
+                                <goals>
+                                    <goal>flatten</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>flatten.clean</id>
+                                <phase>clean</phase>
+                                <goals>
+                                    <goal>clean</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>-->
+            </build>
         </profile>
 
         <profile>
@@ -704,7 +743,6 @@
                         <executions>
                             <execution>
                                 <id>copy-resources</id>
-                                <!-- here the phase you need -->
                                 <phase>generate-resources</phase>
                                 <goals>
                                     <goal>copy-resources</goal>
@@ -728,9 +766,27 @@
                         </executions>
                     </plugin>
                     <plugin>
+                        <groupId>org.wildfly.maven.plugins</groupId>
+                        <artifactId>quickstart-documentation-plugin</artifactId>
+                        <version>1.0.0</version>
+                        <inherited>false</inherited>
+                        <configuration>
+                            <rootDirectory>.</rootDirectory>
+                            <targetDocument>${project.build.directory}/docs/README.md</targetDocument>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <phase>process-resources</phase>
+                                <goals>
+                                    <goal>table-of-contents</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
                         <groupId>com.vladsch.flexmark</groupId>
                         <artifactId>markdown-page-generator-plugin</artifactId>
-                        <version>0.14.0</version>
+                        <version>0.18.2</version>
                         <executions>
                             <execution>
                                 <phase>process-resources</phase>
