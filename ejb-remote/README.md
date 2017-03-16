@@ -136,7 +136,7 @@ The remote client application can also be built as a standalone executable JAR w
         cd client
 2. Type the following in the command line:
 
-        mvn clean package assembly:assembly
+        mvn clean package assembly:single
       
 4. You can then run the executable JAR using the `java -jar` command. You will see the same console output as above.
       
