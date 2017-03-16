@@ -10,7 +10,7 @@ Source: <${github.repo.url}>
 What is this?
 -------------
 
-The application this project produces is designed to be run on ${product.name.full} (${product.name}) 7 or later.
+The application this project produces is designed to be run on ${product.name.full} ${product.version} or later.
 
 The `spring-greeter` quickstart is based on the `greeter` quickstart, but differs in that it uses Spring MVC for Mapping GET and POST requests:
 
@@ -51,8 +51,8 @@ Start the ${product.name} Server
 1. Open a command line and navigate to the root of the ${product.name} directory.
 2. The following shows the command line to start the server with the default profile:
 
-        For Linux:   ${jboss.home.name}/bin/standalone.sh
-        For Windows: ${jboss.home.name}\bin\standalone.bat
+        For Linux:   bin/standalone.sh
+        For Windows: bin\standalone.bat
 
 Build and Deploy the Quickstart
 ----------------------------

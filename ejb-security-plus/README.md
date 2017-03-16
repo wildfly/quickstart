@@ -79,24 +79,23 @@ This quickstart uses the default standalone configuration plus the modifications
 It is recommended that you test this approach in a separate and clean environment before you attempt to port the changes in your own environment.
 
 
-Configure the JBoss WildFly server
+Configure the Server
 ---------------------------
 
 These steps assume that you are running the server in standalone mode and using the default standalone.xml supplied with the distribution.
 
 _NOTE - Before you begin:_
 
-1. If it is running, stop the JBoss WildFly Server.
-2. Backup the file: `WILDFLY_HOME/standalone/configuration/standalone.xml`
-3. After you have completed testing this quickstart, you can replace this file to restore the server to its original configuration.
+1. If it is running, stop the ${product.name} Server.
+2. Backup the `${jboss.home.name}/standalone/configuration/standalone.xml` file. After you have completed testing this quickstart, you can replace this file to restore the server to its original configuration.
+3. Open a command prompt and navigate to the root of the ${product.name} directory.
+4. The following shows the command line to start the server:
 
-1. Start the WildFly Server by typing the following: 
+        For Linux:   bin/standalone.sh
+        For Windows: bin\standalone.bat
+5. Open a new command line, navigate to the root directory of this quickstart, and run the following command, replacing ${jboss.home.name} with the path to your server:
 
-        For Linux:  WILDFLY_HOME/bin/standalone.sh 
-        For Windows:  WILDFLY_HOME\bin\standalone.bat
-2. Open a new command line, navigate to the root directory of this quickstart, and run the following command, replacing JBOSS_HOME with the path to your server:
-
-        WILDFLY_HOME/bin/jboss-cli.sh --connect --file=configure-security-domain.cli
+        ${jboss.home.name}/bin/jboss-cli.sh --connect --file=configure-security-domain.cli
 This script adds the `quickstart-domain` domain to the `security` subsystem in the server configuration and configures authentication access. You should see the following result when you run the script:
 
         #1 /subsystem=security/security-domain=quickstart-domain:add(cache-type=default)
@@ -109,7 +108,7 @@ This script adds the `quickstart-domain` domain to the `security` subsystem in t
 Add the Application Users
 ---------------
 
-This quickstart is built around the default `ApplicationRealm` as configured in the JBoss WildFly server distribution. Using the add-user utility script, you must add the following user to the `ApplicationRealm`:
+This quickstart is built around the default `ApplicationRealm` as configured in the ${product.name} server distribution. Using the add-user utility script, you must add the following user to the `ApplicationRealm`:
 
 | **UserName** | **Realm** | **Password** | **Roles** |
 |:-----------|:-----------|:-----------|:-----------|
@@ -119,14 +118,14 @@ This user is used to both connect to the server and is used for the actual EJB i
 
 For an example of how to use the add-user utility, see instructions in the root README file located here: [Add User](../README.md#addapplicationuser).
 
-Start JBoss WildFly Server
+Start the Server
 -------------------------
 
-1. Open a command line and navigate to the root of the JBoss server directory.
+1. Open a command line and navigate to the root of the ${product.name} directory.
 2. The following shows the command line to start the server with the web profile:
 
-		For Linux:   WILDFLY_HOME/bin/standalone.sh
-		For Windows: WILDFLY_HOME\bin\standalone.bat
+		For Linux:   bin/standalone.sh
+		For Windows: bin\standalone.bat
 
 
 Build and Deploy the Quickstart
@@ -190,13 +189,13 @@ Remove the Security Domain Configuration
 
 You can remove the security domain configuration by running the  `remove-security-domain.cli` script provided in the root directory of this quickstart.
 
-1. Start the JBoss WildFly Server by typing the following: 
+1. Open a command line, navigate to the root of the ${product.name} directory, and start the server by typing the following command:
 
-        For Linux:  WILDFLY_HOME/bin/standalone.sh
-        For Windows:  WILDFLY_HOME\bin\standalone.bat
-2. Open a new command line, navigate to the root directory of this quickstart, and run the following command, replacing JBOSS_HOME with the path to your server:
+        For Linux:  bin/standalone.sh
+        For Windows:  bin\standalone.bat
+2. Open a new command line, navigate to the root directory of this quickstart, and run the following command, replacing ${jboss.home.name} with the path to your server:
 
-        WILDFLY_HOME/bin/jboss-cli.sh --connect --file=remove-security-domain.cli 
+        ${jboss.home.name}/bin/jboss-cli.sh --connect --file=remove-security-domain.cli 
 
 This script removes the `quickstart-domain` security domain from the `security` subsystem in the server configuration. 
 

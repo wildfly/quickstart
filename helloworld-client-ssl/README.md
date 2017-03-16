@@ -1,11 +1,11 @@
 helloworld-client-ssl: ${product.name} mutual SSL(two-way) configuration example
 =======================================================================
-Author: Giriraj Sharma
-Level: Intermediate
-Technologies: Mutual SSL, Undertow
-Summary: Basic example that demonstrates client mutual SSL authentication in ${product.name}.
+Author: Giriraj Sharma  
+Level: Intermediate  
+Technologies: Mutual SSL, Undertow  
+Summary: Basic example that demonstrates client mutual SSL authentication in ${product.name}  
 Target Product: ${product.name}  
-Source: <${github.repo.url}> 
+Source: <${github.repo.url}>  
 
 What is it?
 -----------
@@ -22,36 +22,31 @@ The application this project produces is designed to be run on ${product.name.fu
 All you need to build this project is ${build.requirements}. See [Configure Maven for ${product.name} ${product.version}](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
 
 
-Configure Maven
----------------
+## Set Up CA, Server and Client Keys Using OpenSSL
 
-If you have not yet done so, you must [Configure Maven](http://www.jboss.org/jdf/quickstarts/jboss-as-quickstart/#configure_maven) before testing the quickstarts.
+Certificate Authority, server, and client keys can be generated either using traditional openSSL tool or using cross-platform Java keytool.
 
-## Setup CA, server and client keys using openSSL
+### Set Up the Certificate Authority
 
-Certificate Authority, server and client keys can be generated either viua traditional openSSL tool or via cross-paltform java keytool.
+First, you need to set up the Certificate Authority (CA) to issue certificate.
 
-### Setup CA
+1. First download OpenSSL and install it.
+2. Set up the directory structure and files required by OpenSSL.
+3. Create a directory `~\OpenSSL\workspace` and place the `openssl.conf` file in the workplace.
 
-First of all we need to set up the Certificate Authority (CA) to issue certificate.
-
-    1. First download OpenSSL and install it.
-    2. Set up the directory structure and files required by OpenSSL.
-    3. Create a directory ~\OpenSSL\workspace and place the openssl.conf file in the workplace.
-
-    ➜ mkdir -p OpenSSL/workspace
-    ➜ workspace cd  OpenSSL/workspace
-    ➜ workspace mkdir Keys CSR Certificates
-    ➜ workspace touch serial.txt database.txt
+       mkdir -p OpenSSL/workspace
+       workspace cd  OpenSSL/workspace
+       workspace mkdir Keys CSR Certificates
+       workspace touch serial.txt database.txt
 
 4. Generate a key for your Root CA. Execute the below OpenSSL command at workspace where you have openssl configuration file.
-    
+
         openssl genrsa -des3 -out  Keys/RootCA.key 2048
 
-5. This will ask for passphrase for the key, please provide the passphrase and remember it. This will be used later.
+5. You are prompted to provide a `passphrase` for the key, Provide the `passphrase` and remember it. This will be used later.
 
 6. The next step is to create a self-signed certificate for our CA, this certificate will be used to sign and issue other certificates.
-        
+
         openssl req -config openssl.conf -new -x509 -days 360 -key Keys/RootCA.key -out Certificates/RootCA.crt
 
 7. You will be asked to provide the following information:-
@@ -65,20 +60,20 @@ First of all we need to set up the Certificate Authority (CA) to issue certifica
         Email Address :sample@sample.com
 
 8. Export root CA certificate into a keystore
-  
+
         keytool -export -alias server -keystore RootCA.keystore -rfc -file Certificates/RootCA.crt -keypass keypassword -storepass keypassword
 
 9. Export root CA certificate into a truststore
-        
+
         keytool -import -file Certificates/RootCA.crt -keystore RootCA.truststore -keypass keypassword -storepass keypassword
 
 Now we can see our CA’s certificate in the Certificates folder and is ready to sign the certificates.
 The server/client certificate pair can be used when an application is trying to access a web service which is configured to authenticate the client application using the client ssl certificates. We can follow steps below to create server and client certificate using OpenSSL
 
-### Create the server and client certificate
+### Create the Server and Client Certificate
 
 1. Create private key for the server.
-        
+
         openssl genrsa -des3 -out Keys/server.key 2048
 
 2. Create CSR for the server.
@@ -90,7 +85,7 @@ The server/client certificate pair can be used when an application is trying to 
         openssl ca -config openssl.cnf -days 360 -in CSR/server.csr -out Certificates/server.crt -keyfile Keys/RootCA.key -cert Certificates/RootCA.crt -policy policy_anything
 
 4. Export server certificate into a keystore
-  
+
         keytool -export -alias server -keystore server.keystore -rfc -file Certificates/server.crt -keypass keypassword -storepass keypassword
 
 5. Create private key for the client.
@@ -98,7 +93,7 @@ The server/client certificate pair can be used when an application is trying to 
         openssl genrsa -des3 -out Keys/client.key 2048
 
 6. Create CSR for the client.
-        
+
         openssl req -config openssl.cnf -new -key Keys/client.key -out CSR/client.csr
 
 7. Create client certificate.
@@ -109,14 +104,14 @@ The server/client certificate pair can be used when an application is trying to 
 
         openssl pkcs12 -export -in Certificates/client.crt -inkey Keys/client.key -certfile Certificates/RootCA.crt -out Certificates/clientCert.p12
 
-## Setup CA, server and client keys using Java Keytool
+## Setup CA, Server and Client Keys Using Java Keytool
 
-### Create the server and client certificate
+### Create the Server and Client Certificate
 
-1.  Open a command line and navigate to the JBoss server `configuration` directory:
+1.  Open a command line and navigate to the ${product.name} server `configuration` directory:
 
-        For Linux:   JBOSS_HOME/standalone/configuration
-        For Windows: JBOSS_HOME\standalone\configuration
+        For Linux:   ${jboss.home.name}/standalone/configuration
+        For Windows: ${jboss.home.name}\standalone\configuration
 2. Create a certificate for your server using the following command:
 
         keytool -genkey -keyalg RSA -keystore server.keystore -storepass keypassword -validity 365
@@ -140,19 +135,19 @@ Configure ${product.name} for mutual client SSL authentication
 
 1.  Open a command line and navigate to the JBoss server `configuration` directory:
 
-        For Linux:   JBOSS_HOME/standalone/configuration
-        For Windows: JBOSS_HOME\standalone\configuration
-        
+        For Linux:   ${jboss.home.name}/standalone/configuration
+        For Windows: ${jboss.home.name}\standalone\configuration
+
 2.  Copy `RootCA.trustsore` and `server.keystore` (or `server.keystore` and `client.truststore`) into the JBoss server `configuration` directory.
 
-### Configure The Additional WildFly Security Realm
+## Configure The Additional Security Realm
 
-The next step is to configure the new keystore as a server identity for ssl in the WildFly security-realms section of the standalone.xml (if you're using -ha or other versions, edit those). Make sure to backup the file: `JBOSS_HOME/standalone/configuration/standalone.xml`
- 
+The next step is to configure the new keystore as a server identity for ssl in the ${product.name} security-realms section of the standalone.xml (if you're using -ha or other versions, edit those). Make sure to backup the file: `${jboss.home.name}/standalone/configuration/standalone.xml`
+
  In case keys and certificates have been generated using openSSL
- 
+
  `keystore path` can be configured either via `RootCA.keystore` or `server.keystore`.
- 
+
         <management>
             <security-realms>
                 <security-realm name="UndertowRealm">
@@ -169,7 +164,7 @@ The next step is to configure the new keystore as a server identity for ssl in t
             </authentication>
             ...
         </management>
-        
+
 else In case keys and certificates have been generated using java keytool
 
         <management>
@@ -189,7 +184,7 @@ else In case keys and certificates have been generated using java keytool
             ...
         </management>
 
-###Configure Undertow Subsystem for SSL
+## Configure Undertow Subsystem for SSL
 
 If you're running with the default-server, add the https-listener to the undertow subsystem:
 
@@ -217,7 +212,7 @@ Import the Certificate into Your Browser
 
 Before you access the application, you must import the *clientCert.p12*, which holds the client certificate, into your browser.
 
-#### Import the Certificate into Google Chrome
+### Import the Certificate into Google Chrome
 
 1. Click the Chrome menu icon (3 horizontal bars) in the upper right on the browser toolbar and choose 'Settings'. This takes you to <chrome://settings/>.
 2. At the bottom of the page, click on the 'Show advanced settings...' link.
@@ -226,7 +221,7 @@ Before you access the application, you must import the *clientCert.p12*, which h
 5. Select the `clientCert.p12` file. You will be prompted to enter the  password: `keypassword`.
 6. The certificate is now installed in the Google Chrome browser.
 
-#### Import the Certificate into Mozilla Firefox
+### Import the Certificate into Mozilla Firefox
 
 1. Click the 'Edit' menu item on the browser menu and choose 'Preferences'.
 2. A new window will open. Select the 'Advanced' icon and after that the 'Certificates' tab.
@@ -235,22 +230,22 @@ Before you access the application, you must import the *clientCert.p12*, which h
 5. Select the `clientCert.p12` file. You will be prompted to enter the  password: `keypassword`.
 6. The certificate is now installed in the Mozilla Firefox browser.
 
-Start JBoss Enterprise Application Platform 6 or WildFly with the Web Profile
+Start the Server with the Web Profile
 ------------------------------------------------------------------------------
 
 1. Open a command line and navigate to the root of the JBoss server directory.
 2. The following shows the command line to start the server with the web profile:
 
-        For Linux:   JBOSS_HOME/bin/standalone.sh
-        For Windows: JBOSS_HOME\bin\standalone.bat
+        For Linux:   /bin/standalone.sh
+        For Windows: bin\standalone.bat
 
- 
+
 Build and Deploy the Quickstart
 -------------------------
 
 _NOTE: The following build command assumes you have configured your Maven user settings. If you have not, you must include Maven setting arguments on the command line. See [Build and Deploy the Quickstarts](../README.md#build-and-deploy-the-quickstarts) for complete instructions and additional options._
 
-1. Make sure you have started the Wildfly Server as described above.
+1. Make sure you have started the ${product.name} server as described above.
 2. Open a command line and navigate to the root directory of one of the quickstart.
 3. Type this command to build and deploy the archive:
 
@@ -259,7 +254,7 @@ _NOTE: The following build command assumes you have configured your Maven user s
 4. This will deploy `target/${project.artifactId}.war` to the running instance of the server.
 
 
-Access the application 
+Access the application
 ---------------------
 
 The application will be running at the following URL: `<https://localhost:8443/${project.artifactId}>`.
@@ -277,8 +272,8 @@ Undeploy the Archive
 Remove the SSL Configuration
 ----------------------------
 
-1. If the server is running, stop the JBoss Enterprise Application Platform 6 or WildFly Server.
-2. Replace the `WILDFLY_HOME/standalone/configuration/standalone.xml` file with the back-up copy of the file.
+1. If the server is running, stop the ${product.name} server.
+2. Replace the `${jboss.home.name}/standalone/configuration/standalone.xml` file with the back-up copy of the file.
 
 
 Run the Quickstart in JBoss Developer Studio or Eclipse
@@ -293,4 +288,3 @@ If you want to debug the source code or look at the Javadocs of any library in t
 
         mvn dependency:sources
         mvn dependency:resolve -Dclassifier=javadoc
-        

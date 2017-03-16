@@ -27,8 +27,8 @@ Start the ${product.name} Server
 1. Open a command line and navigate to the root of the ${product.name} directory.
 2. The following shows the command line to start the server with the default profile:
 
-        For Linux:   EAP_HOME/bin/standalone.sh
-        For Windows: EAP_HOME\bin\standalone.bat
+        For Linux:   bin/standalone.sh
+        For Windows: bin\standalone.bat
 
  
 Build and Deploy the Quickstart

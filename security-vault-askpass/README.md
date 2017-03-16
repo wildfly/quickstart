@@ -10,7 +10,7 @@ Source: <${github.repo.url}>
 What is it?
 -----------
 
-This example demonstrates the use of Security Vault to secure Datasource password in JBoss WildFly.
+This example demonstrates the use of Security Vault to secure Datasource password in ${product.name.full}.
 
 Security Vault is a facility of PicketBox which allows to mask sensitive attributes such as passwords.
 With the use of Security Vault any password can be masked by a cipher algorithm whose key is taken from a Java KeyStore.
@@ -34,7 +34,7 @@ This quickstart takes the following steps to set up Security Vault:
 System requirements
 -------------------
 
-The application this project produces is designed to be run on ${product.name.full} ${product.version} or later. 
+The application this project produces is designed to be run on ${product.name.full} ${product.version} or later.
 
 All you need to build this project is ${build.requirements}. See [Configure Maven for ${product.name} ${product.version}](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
 
@@ -77,13 +77,13 @@ Use the Vault Tool script to store the password into the Vault
 
 This quickstart needs to store the Datasource password (`sa`) to the Vault. This can be done with the following command:
 
-        $ $JBOSS_HOME/bin/vault.sh -k "$PWD/vault.keystore" -p "{CMD}sh,$PWD/bin/askpass.sh,Enter passphrase for askpass quickstart" -e "$PWD" -i 50 -s 12345678 -v vault -b ds_SecurityVaultDS -a password -x sa
+        $ ${jboss.home.name}/bin/vault.sh -k "$PWD/vault.keystore" -p "{CMD}sh,$PWD/bin/askpass.sh,Enter passphrase for askpass quickstart" -e "$PWD" -i 50 -s 12345678 -v vault -b ds_SecurityVaultDS -a password -x sa
 
         =========================================================================
 
           JBoss Vault
 
-          JBOSS_HOME: .../wildfly-8.0.0.Final
+          ${jboss.home.name}: .../wildfly-8.0.0.Final
 
           JAVA: .../bin/java
 
@@ -99,7 +99,7 @@ This quickstart needs to store the Datasource password (`sa`) to the Vault. This
         Configuration should be done as follows:
         VAULT::ds_SecurityVaultDS::password::1
         ********************************************
-        Vault Configuration in WildFly configuration file:
+        Vault Configuration in ${product.name} configuration file:
         ********************************************
         ...
         </extensions>
@@ -124,9 +124,9 @@ For more information use `vault.sh --help`.
 
 ### Configure the Security Vault by Manually Editing the Server Configuration File
 
-1.  If it is running, stop the JBoss WildFly Server.
-2.  Backup the file: `JBOSS_HOME/standalone/configuration/standalone.xml`
-3.  Open the `JBOSS_HOME/standalone/configuration/standalone.xml` file in an editor and locate the terminating element `</extensions>` there.
+1.  If it is running, stop the ${product.name} Server.
+2.  Backup the file: `${jboss.home.name}/standalone/configuration/standalone.xml`
+3.  Open the `${jboss.home.name}/standalone/configuration/standalone.xml` file in an editor and locate the terminating element `</extensions>` there.
 4.  Add the XML snippet generated before to the configuration file:
 
         <vault>
@@ -139,14 +139,14 @@ For more information use `vault.sh --help`.
         </vault>
 
 
-Start JBoss WildFly with the Web Profile
+Start the Server with the Web Profile
 -------------------------
 
-1. Open a command line and navigate to the root of the JBoss server directory.
+1. Open a command line and navigate to the root of the ${product.name} server directory.
 2. The following shows the command line to start the server with the web profile:
 
-        For Linux:   JBOSS_HOME/bin/standalone.sh
-        For Windows: JBOSS_HOME\bin\standalone.bat
+        For Linux:   bin/standalone.sh
+        For Windows: bin\standalone.bat
 
 
 <a id="buildanddeploy"></a>
@@ -164,7 +164,7 @@ _NOTE: The following build command assumes you have configured your Maven user s
 4. This will deploy `target/${project.artifactId}.war` to the running instance of the server.
 
 
-Access the Application 
+Access the Application
 ---------------------
 
 The application will be running at the following URL <http://localhost:8080/${project.artifactId}/AskpassServlet>.
@@ -192,8 +192,8 @@ Remove the Security Vault Configuration
 You can remove the Security Vault configuration by manually restoring the back-up copy of the configuration file.
 
 ### Remove the Security Domain Configuration Manually
-1. If it is running, stop the JBoss WildFly Server.
-2. Replace the `JBOSS_HOME/standalone/configuration/standalone.xml` file with the back-up copy of the file
+1. If it is running, stop the ${product.name} server.
+2. Replace the `${jboss.home.name}/standalone/configuration/standalone.xml` file with the back-up copy of the file
    or remove the Vault related lines added there before.
 
 

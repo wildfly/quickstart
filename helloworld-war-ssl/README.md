@@ -1,35 +1,37 @@
 helloworld-war-ssl: Securing war application with mutual(two-way) SSL configuration over wildfly
 =================================================================================================
-Author: Giriraj Sharma
-Level: Intermediate
-Technologies: Mutual SSL, Undertow
-Summary: Basic example that demonstrates securing war application via client mutual SSL authentication in ${product.name}.
+Author: Giriraj Sharma  
+Level: Intermediate  
+Technologies: Mutual SSL, Undertow  
+Summary: Basic example that demonstrates securing war application via client mutual SSL authentication in ${product.name}  
 Target Product: ${product.name}  
-Source: <${github.repo.url}>
+Source: <${github.repo.url}>  
 
 What is it?
 -----------
 
 This example demonstrates the configuration of *client mutual SSL authentication* in ${product.name.full} ${product.version} to secure a war application.
 
-Mutual SSL provides the same security as SSL, with the addition of authentication and non-repudiation of the client authentication, using digital signatures. When mutual authentication is used the server would request the client to provide a certificate in addition to the server certificate issued to the client. Mutual authentication requires an extra round trip time for client certificate exchange. In addition the client must buy and maintain a digital certificate. We can secure our war application deployed over wildfly with mutual(two-way) client certificate authentication and provide access permissions or privileges to legitimate users.
+Mutual SSL provides the same security as SSL, with the addition of authentication and non-repudiation of the client authentication, using digital signatures. When mutual authentication is used the server would request the client to provide a certificate in addition to the server certificate issued to the client. Mutual authentication requires an extra round trip time for client certificate exchange. In addition the client must buy and maintain a digital certificate. We can secure our war application deployed over ${product.name} with mutual(two-way) client certificate authentication and provide access permissions or privileges to legitimate users.
 
-This quickstart shows how to configure wildfly to enable TLS/SSL configuration for the new wildfly web-subsystem Undertow and enable mutual (two-way) SSL authentication for clients in order to secure a war application with restricted access.
+This quickstart shows how to configure ${product.name} to enable TLS/SSL configuration for the new wildfly web-subsystem Undertow and enable mutual (two-way) SSL authentication for clients in order to secure a war application with restricted access.
 Before we run this example, we must create certificates and configure the server to use SSL, https listener, certificate roles and require client verification.
 
 System requirements
 -------------------
 
-The application this project produces is designed to be run on ${product.name.full} ${product.version} or later. 
+The application this project produces is designed to be run on ${product.name.full} ${product.version} or later.
 
 All you need to build this project is ${build.requirements}. See [Configure Maven for ${product.name} ${product.version}](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
 
 
-## Setup CA, server and client keys using openSSL
+## Setup Certificate Authority, Server, and Client Keys
 
-Certificate Authority, server and client keys can be generated either viua traditional openSSL tool or via cross-paltform java keytool.
+Certificate Authority, server and client keys can be generated either using traditional OpenSSL tool or using cross-platform Java Keytool.
 
-### Setup CA
+### Setup Certificate Authority, Server, and Client Keys Using OpenSSL
+
+#### Setup CA
 
 First of all we need to set up the Certificate Authority (CA) to issue certificate.
 
@@ -43,13 +45,13 @@ First of all we need to set up the Certificate Authority (CA) to issue certifica
     ➜ workspace touch serial.txt database.txt
 
 4. Generate a key for your Root CA. Execute the below OpenSSL command at workspace where you have openssl configuration file.
-    
+
         openssl genrsa -des3 -out  Keys/RootCA.key 2048
 
 5. This will ask for passphrase for the key, please provide the passphrase and remember it. This will be used later.
 
 6. The next step is to create a self-signed certificate for our CA, this certificate will be used to sign and issue other certificates.
-        
+
         openssl req -config openssl.conf -new -x509 -days 360 -key Keys/RootCA.key -out Certificates/RootCA.crt
 
 7. You will be asked to provide the following information:-
@@ -63,20 +65,20 @@ First of all we need to set up the Certificate Authority (CA) to issue certifica
         Email Address :sample@sample.com
 
 8. Import root CA certificate into a keystore
-  
+
         keytool -import -alias server -keystore RootCA.keystore -rfc -file Certificates/RootCA.crt -keypass keypassword -storepass keypassword
 
 9. Import root CA certificate into a truststore
-        
+
         keytool -import -file Certificates/RootCA.crt -keystore RootCA.truststore -keypass keypassword -storepass keypassword
 
 Now we can see our CA’s certificate in the Certificates folder and is ready to sign the certificates.
 The server/client certificate pair can be used when an application is trying to access a web service which is configured to authenticate the client application using the client ssl certificates. We can follow steps below to create server and client certificate using OpenSSL
 
-### Create the server and client certificate
+#### Create the server and client certificate
 
 1. Create private key for the server.
-        
+
         openssl genrsa -des3 -out Keys/server.key 2048
 
 2. Create CSR for the server.
@@ -88,7 +90,7 @@ The server/client certificate pair can be used when an application is trying to 
         openssl ca -config openssl.cnf -days 360 -in CSR/server.csr -out Certificates/server.crt -keyfile Keys/RootCA.key -cert Certificates/RootCA.crt -policy policy_anything
 
 4. Export server certificate into a keystore
-  
+
         keytool -export -alias server -keystore server.keystore -rfc -file Certificates/server.crt -keypass keypassword -storepass keypassword
 
 5. Create private key for the client.
@@ -96,7 +98,7 @@ The server/client certificate pair can be used when an application is trying to 
         openssl genrsa -des3 -out Keys/client.key 2048
 
 6. Create CSR for the client.
-        
+
         openssl req -config openssl.cnf -new -key Keys/client.key -out CSR/client.csr
 
 7. Create client certificate.
@@ -107,14 +109,14 @@ The server/client certificate pair can be used when an application is trying to 
 
         openssl pkcs12 -export -in Certificates/client.crt -inkey Keys/client.key -certfile Certificates/RootCA.crt -out Certificates/clientCert.p12
 
-## Setup CA, server and client keys using Java Keytool
+### Setup CA, server and client keys using Java Keytool
 
-### Create the server and client certificate
+#### Create the server and client certificate
 
-1.  Open a command line and navigate to the JBoss server `configuration` directory:
+1.  Open a command line and navigate to the ${product.name} server `configuration` directory:
 
-        For Linux:   JBOSS_HOME/standalone/configuration
-        For Windows: JBOSS_HOME\standalone\configuration
+        For Linux:   ${jboss.home.name}/standalone/configuration
+        For Windows: ${jboss.home.name}\standalone\configuration
 2. Create a certificate for your server using the following command:
 
         keytool -genkey -keyalg RSA -keystore server.keystore -storepass keypassword -validity 365
@@ -133,24 +135,21 @@ The server/client certificate pair can be used when an application is trying to 
 
 6. The certificates and keystores are now properly configured.
 
-Configure Wildlfy for mutual client SSL authentication
-------------------------------------------------------
+## Configure the Server for Mutual Client SSL Authentication
 
-1.  Open a command line and navigate to the JBoss server `configuration` directory:
+1.  Open a command line and navigate to the ${product.name} server `configuration` directory:
 
-        For Linux:   JBOSS_HOME/standalone/configuration
-        For Windows: JBOSS_HOME\standalone\configuration
-        
+        For Linux:   ${jboss.home.name}/standalone/configuration
+        For Windows: ${jboss.home.name}\standalone\configuration
+
 2.  Copy `RootCA.trustsore` and `server.keystore` (or `server.keystore` and `client.truststore` in case of java keytool) into the JBoss server `configuration` directory.
 
-### Configure The Additional WildFly Security Realm
+## Configure The Additional Security Realm
 
-The next step is to configure the new keystore as a server identity for ssl in the WildFly security-realms section of the standalone.xml (if you're using -ha or other versions, edit those). Make sure to backup the file: `JBOSS_HOME/standalone/configuration/standalone.xml`. Configuring keystore would enable ssl and configuring truststore would restrict ssl access only to those client certificate's which are present in truststore.
- 
- In case keys and certificates have been generated using openSSL
- 
- `keystore path` can be configured either via `RootCA.keystore` or `server.keystore`. For simplicity, we will use `RootCA.keystore`.
- 
+The next step is to configure the new keystore as a server identity for ssl in the ${product.name} security-realms section of the standalone.xml (if you're using -ha or other versions, edit those). Make sure to backup the file: `${jboss.home.name}/standalone/configuration/standalone.xml`. Configuring keystore would enable ssl and configuring truststore would restrict ssl access only to those client certificate's which are present in truststore.
+
+ In case keys and certificates have been generated using openSSL `keystore path` can be configured either via `RootCA.keystore` or `server.keystore`. For simplicity, we will use `RootCA.keystore`.
+
         <management>
             <security-realms>
                 <security-realm name="UndertowRealm">
@@ -167,7 +166,7 @@ The next step is to configure the new keystore as a server identity for ssl in t
             </security-realm>
             ...
         </management>
-        
+
 else In case keys and certificates have been generated using java keytool
 
         <management>
@@ -187,7 +186,7 @@ else In case keys and certificates have been generated using java keytool
             ...
         </management>
 
-###Configure Undertow Subsystem for SSL
+## Configure Undertow Subsystem for SSL
 
 If you're running with the default-server, add the https-listener to the undertow subsystem:
 
@@ -213,10 +212,10 @@ If it is configured correctly, you should be asked to trust the server certifica
 Define a security-domain
 ------------------------
 
-`For simplicity, let's keep the truststore same for security realm as well as security domain. In other words, mutual client ssl will be successfully enabled and war app will be secured and accessible by a client certificate only if it is present in truststore (security-realm as well as security-domain) and having the DN same as mentioned in 'app-roles.properties' file.` Different client certificates present in security-domain truststore can be assigned different roles on the basis of `app-roles.properties` file.
+For simplicity, let's keep the truststore same for security realm as well as security domain. In other words, mutual client ssl will be successfully enabled and war app will be secured and accessible by a client certificate only if it is present in truststore (security-realm as well as security-domain) and having the DN same as mentioned in 'app-roles.properties' file. Different client certificates present in security-domain truststore can be assigned different roles on the basis of `app-roles.properties` file.
 
-In order to link the war application with wildfly configuration, define a security-domain using login module (certificateRoles login module)
-in wildfly subsystem `urn:jboss:domain:security:*` .
+In order to link the war application with ${product.name} configuration, define a security-domain using login module (certificateRoles login module)
+in the `urn:jboss:domain:security:*` subsystem.
 
  In case keys and certificates have been generated using openSSL, configure keystore with `RootCA.keystore` and truststore with `RootCA.truststore` else in case keys and certificates have been generated using java keytool configure keystore with `server.keystore` and truststore with `client.truststore` .
 
@@ -236,8 +235,7 @@ in wildfly subsystem `urn:jboss:domain:security:*` .
                 ...
         </subsystem>
 
-Make an app-roles.properities file in wildfly configuration directory with the format
-`CERTIFICATE_DN=ROLE_NAME`
+Make an `app-roles.properities` file in ${product.name} configuration directory with the format `CERTIFICATE_DN=ROLE_NAME`.
 
 The DN of client certificate imported into the browser must be same as `CERTIFICATE_DN` in order to access the application with defined role.
 A sample `app-roles.properties` file is like:
@@ -268,22 +266,21 @@ Before you access the application, you must import the *clientCert.p12*, which h
 5. Select the `clientCert.p12` file. You will be prompted to enter the  password: `keypassword`.
 6. The certificate is now installed in the Mozilla Firefox browser.
 
-Start ${product.name} with the Web Profile
+Start the Server with the Web Profile
 ------------------------------------------------------------------------------
 
-1. Open a command line and navigate to the root of the JBoss server directory.
+1. Open a command line and navigate to the root of the ${product.name} directory.
 2. The following shows the command line to start the server with the web profile:
 
-        For Linux:   JBOSS_HOME/bin/standalone.sh
-        For Windows: JBOSS_HOME\bin\standalone.bat
+        For Linux:   bin/standalone.sh
+        For Windows: bin\standalone.bat
 
- 
 Build and Deploy the Quickstart
 -------------------------
 
 _NOTE: The following build command assumes you have configured your Maven user settings. If you have not, you must include Maven setting arguments on the command line. See [Build and Deploy the Quickstarts](../README.md#build-and-deploy-the-quickstarts) for complete instructions and additional options._
 
-1. Make sure you have started the Wildfly Server as described above.
+1. Make sure you have started the ${product.name} server as described above.
 2. Open a command line and navigate to the root directory of one of the quickstart.
 3. Type this command to build and deploy the archive:
 
@@ -293,10 +290,10 @@ _NOTE: The following build command assumes you have configured your Maven user s
 5. In case mutual ssl is configured properly and war app is secured, you will be able to access the application only if the DN of client certificate i.e., `clientCert.p12` is same as the one mentioned in `app-roles.properties` file. It will otherwise result into a `HTTP Status 403` or forbidden error.
 
 
-Access the application 
+Access the application
 ---------------------
 
-The application will be running at the following URL: `<https://localhost:8443/${project.artifactId}>`. 
+The application will be running at the following URL: `<https://localhost:8443/${project.artifactId}>`.
 
 
 Undeploy the Archive
@@ -312,12 +309,12 @@ Remove the SSL Configuration
 ----------------------------
 
 1. If the server is running, stop the ${product.name}.
-2. Replace the `WILDFLY_HOME/standalone/configuration/standalone.xml` file with the back-up copy of the file.
+2. Replace the `${jboss.home.name}/standalone/configuration/standalone.xml` file with the back-up copy of the file.
 
 
 Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 -------------------------------------
-You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a ${product.name} server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](${use.eclipse.url}). 
+You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a ${product.name} server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](${use.eclipse.url}).
 
 
 Debug the Application
@@ -325,5 +322,4 @@ Debug the Application
 
 If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
 
-        mvn dependency:sources        
-
+        mvn dependency:sources  
