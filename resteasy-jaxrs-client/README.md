@@ -37,18 +37,15 @@ You can verify the deployment of the [helloworld-rs](../helloworld-rs/README.md)
 
 
 
-Run the Arquillian Tests 
--------------------------
-
-This quickstart provides Arquillian tests. 
+Run the client 
+--------------
 
 1. Make sure you have started the ${product.name} server as described above.
 2. Make sure the `helloworld-rs` quickstart has been deployed on the server as noted in the **Prerequisites** section above.
 3. Open a command prompt and navigate to the root directory of this quickstart.
 4. Type the following command to run the test goal:
 
-        mvn clean test 
-
+        mvn clean package exec:java 
 
 Investigate the Console Output
 ----------------------------
@@ -74,6 +71,4 @@ should see the following if the execution is successful:
         {"result":"Hello World!"}
         ===============================================
 
-
-<!-- Build and Deploy the Quickstart to OpenShift - Coming soon! -->
 

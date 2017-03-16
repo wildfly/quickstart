@@ -37,66 +37,34 @@
     </licenses>
 
     <dependencies>
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>commons-logging</groupId>
-            <artifactId>commons-logging</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
-
+ 
         <!-- Now we declare the dependencies needed by the client -->
-        <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpclient</artifactId>
-            <scope>test</scope>
-        </dependency>
         <dependency>
             <groupId>org.jboss.resteasy</groupId>
             <artifactId>resteasy-client</artifactId>
         </dependency>
     </dependencies>
 
-    <profiles>
-        <profile>
-            <!-- The default profile skips all tests, though you can tune it
-                to run just unit tests based on a custom pattern -->
-            <!-- Separate profiles are provided for running all tests, including
-                Arquillian tests that execute in the specified container -->
-            <id>default</id>
-
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <configuration>
-                            <skip>true</skip>
-                            <systemProperties>
-                                <property>
-                                    <name>xmlUrl</name>
-                                    <value>http://localhost:8080/helloworld-rs/rest/xml</value>
-                                </property>
-                                <property>
-                                    <name>jsonUrl</name>
-                                    <value>http://localhost:8080/helloworld-rs/rest/json</value>
-                                </property>
-                            </systemProperties>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>org.wildfly.quickstart.jaxrs.client.JaxRsClient</mainClass>
+                    <detail>true</detail>
+                    <systemProperties>
+                        <property>
+                            <key>xmlUrl</key>
+                            <value>http://localhost:8080/helloworld-rs/rest/xml</value>
+                        </property>
+                        <property>
+                            <key>jsonUrl</key>
+                            <value>http://localhost:8080/helloworld-rs/rest/json</value>
+                        </property>
+                    </systemProperties>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

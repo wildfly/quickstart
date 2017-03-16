@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jboss.as.quickstarts.jaxrsclient;
+package org.wildfly.quickstart.jaxrs.client;
 
 /**
  * This example demonstrates the use an external JAX-RS RestEasy client
@@ -25,23 +25,19 @@ package org.jboss.as.quickstarts.jaxrsclient;
  * for instructions on how to build and deploy helloworld-rs.
  */
 
-import static org.junit.Assert.assertEquals;
-
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.jboss.resteasy.client.jaxrs.ResteasyClient;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
-import org.junit.BeforeClass;
-import org.junit.Test;
 
 /**
  * JUnit4 Test class which makes a request to the RESTful helloworld-rs web service.
  *
  * @author bmincey (Blaine Mincey)
  */
-public class JaxRsClientTest {
+public class JaxRsClient {
     /**
      * Request URLs pulled from system properties in pom.xml
      */
@@ -63,22 +59,28 @@ public class JaxRsClientTest {
     /**
      * Method executes BEFORE the test method. Values are read from system properties that can be modified in the pom.xml.
      */
-    @BeforeClass
-    public static void beforeClass() {
-        JaxRsClientTest.XML_URL = System.getProperty(JaxRsClientTest.XML_PROPERTY);
-        JaxRsClientTest.JSON_URL = System.getProperty(JaxRsClientTest.JSON_PROPERTY);
+
+    public static void main(String[] args) {
+        JaxRsClient.XML_URL = System.getProperty(JaxRsClient.XML_PROPERTY);
+        JaxRsClient.JSON_URL = System.getProperty(JaxRsClient.JSON_PROPERTY);
+        new JaxRsClient().test();
     }
 
     /**
      * Test method which executes the runRequest method that calls the RESTful helloworld-rs web service.
      */
-    @Test
-    public void test() {
-        assertEquals("XML Response", JaxRsClientTest.XML_RESPONSE,
-                this.runRequest(JaxRsClientTest.XML_URL, MediaType.APPLICATION_XML_TYPE));
+    void test() {
+        String response = runRequest(JaxRsClient.XML_URL, MediaType.APPLICATION_XML_TYPE);
 
-        assertEquals("JSON Response", JaxRsClientTest.JSON_RESPONSE,
-                this.runRequest(JaxRsClientTest.JSON_URL, MediaType.APPLICATION_JSON_TYPE));
+        if (!JaxRsClient.XML_RESPONSE.equals(response)) {
+            throw new RuntimeException("Response is wrong:\nXML Response:" + response + "\nshould be: " + XML_RESPONSE);
+        }
+        response = runRequest(JaxRsClient.JSON_URL, MediaType.APPLICATION_JSON_TYPE);
+
+        if (!JaxRsClient.JSON_RESPONSE.equals(response)) {
+            throw new RuntimeException("Response is wrong:\nJSON Response:" + response + "\nshould be: " + JSON_RESPONSE);
+        }
+
     }
 
     /**
