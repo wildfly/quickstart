@@ -44,7 +44,7 @@ There is another test that shows what happens if the client decides to rollback 
 System requirements
 -------------------
 
-The application this project produces is designed to be run on ${product.name.full} ${product.version} or later. 
+The application this project produces is designed to be run on ${product.name.full} ${product.version} or later.
 
 All you need to build this project is ${build.requirements}. See [Configure Maven for ${product.name} ${product.version}](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
 
@@ -65,16 +65,16 @@ Next you need to start ${product.name} with the XTS subsystem enabled. This is e
         For Windows:   \bin\standalone.bat --server-config=..\..\docs\examples\configs\standalone-xts.xml
 
 
-Run the Arquillian Tests 
+Run the Arquillian Tests
 -------------------------
 
-This quickstart provides Arquillian tests. By default, these tests are configured to be skipped as Arquillian tests require the use of a container. 
+This quickstart provides Arquillian tests. By default, these tests are configured to be skipped as Arquillian tests require the use of a container.
 
 1. Make sure you have started the ${product.name} server as described above.
 2. Open a command prompt and navigate to the root directory of this quickstart.
 3. Type the following command to run the test goal with the following profile activated:
 
-        mvn clean verify -Parq-remote 
+        mvn clean verify -Parq-remote
 
 4. You should see the following result.
 
@@ -96,7 +96,7 @@ You can also let Arquillian manage the ${product.name} server by using the `arq-
 Investigate the Server Log
 ----------------------------
 
-The following messages should appear in the server log. The messages trace the steps taken by the tests. Note there may be other informational log messages interlaced between these. 
+The following messages should appear in the server log. The messages trace the steps taken by the tests. Note there may be other informational log messages interlaced between these.
 
 Test rollback:
 
@@ -136,24 +136,24 @@ _Note: You can ignore the warning message `ARJUNA043219: Could not save recovery
 
 Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 -------------------------------------
-You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a ${product.name} server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](${use.eclipse.url}). 
+You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a ${product.name} server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](${use.eclipse.url}).
 
 This quickstart is more complex than the others. It requires that you configure the ${product.name} server to use the *standalone-xts.xml* configuration file, which is located in an external configuration directory.
 
-1. Import the quickstart into JBoss Developer Studio. 
+1. Import the quickstart into JBoss Developer Studio.
 2. If you have not already done so, you must configure a new ${product.name} server to use the XTS configuration.
    * In the `Server` tab, right-click and choose `New` --> `Server`.
-   * Under `Select the server type:`, expand `Red Hat JBoss Middleware` and choose `${product.name.full} ${product.version}.0`.
+   * Under `Select the server type:`, expand `Red Hat JBoss Middleware` and choose `${jbds.eap.server.name}`.
    * For the `Server name`, enter `${product.name} XTS Configuration` and click `Next`.
    * In the `Create a new Server Adapter` dialog, choose `Create a new runtime (next page)` and click `Next`.
    * In the `JBoss Runtime` dialog, enter the following information and then click `Finish`.
-   
+
             Name: ${product.name} XTS Runtime
             Home Directory: (Browse to the server directory and select it)
             Execution Environment: (Choose your runtime JRE if not correct)
             Configuration base directory: (This should already point to your server configuration directory)
             Configuration file: ../../docs/examples/configs/standalone-xts.xml
-3. Start the new `${product.name} XTS Configuration` server. 
+3. Start the new `${product.name} XTS Configuration` server.
 4. Right-click on the `${project.artifactId}` project, choose `Run As` --> `Maven build`, enter `clean verify -Parq-remote` for the `Goals:`, and click `Run` to run the Arquillian tests. The test results appear in the console.
 
 
@@ -166,5 +166,3 @@ If you want to debug the source code of any library in the project, run the foll
 
 
 <!-- Build and Deploy the Quickstart to OpenShift - Coming soon! -->
-
-
