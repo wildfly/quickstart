@@ -12,12 +12,12 @@ What is it?
 
 The `ejb-remote` quickstart shows how to access an EJB from a remote Java client application. It demonstrates the use of *EJB* and *JNDI* in ${product.name.full}.
 
-There are two components to this example: 
+There are two components to this example:
 
 1. A server side component:
 
     The server component is comprised of a stateful EJB and a stateless EJB. It provides both an EJB JAR that is deployed to the server and a JAR file containing the remote business interfaces required by the remote client application.
-2. A remote client application that accesses the server component. 
+2. A remote client application that accesses the server component.
 
     The remote client application depends on the remote business interfaces from the server component. This application looks up the stateless and stateful beans via JNDI and invokes a number of methods on them.
 
@@ -27,7 +27,7 @@ Each component is defined in its own standalone Maven module. The quickstart pro
 System requirements
 -------------------
 
-The application this project produces is designed to be run on ${product.name.full} ${product.version} or later. 
+The application this project produces is designed to be run on ${product.name.full} ${product.version} or later.
 
 All you need to build this project is ${build.requirements}. See [Configure Maven for ${product.name} ${product.version}](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
 
@@ -72,8 +72,8 @@ Since this quickstart builds two separate components, you can not use the standa
     * Execute the client application within Maven
 
             mvn exec:exec        
-    
-    __Note__: This quickstart requires `quickstart-parent` artifact to be installed in your local Maven repository. 
+
+    __Note__: This quickstart requires `quickstart-parent` artifact to be installed in your local Maven repository.
     To install it, navigate to quickstarts project root directory and run the following command:
 
         mvn clean install
@@ -137,10 +137,10 @@ The remote client application can also be built as a standalone executable JAR w
 2. Type the following in the command line:
 
         mvn clean package assembly:single
-      
+
 4. You can then run the executable JAR using the `java -jar` command. You will see the same console output as above.
-      
-        java -jar target/${project.artifactId}-client-jar-with-dependencies.jar 
+
+        java -jar target/${project.artifactId}-client-jar-with-dependencies.jar
 
 
 Undeploy the Archive
@@ -159,19 +159,19 @@ To undeploy the server side component from the ${product.name} server:
 
 Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 -------------------------------------
-You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a ${product.name} server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](${use.eclipse.url}). 
+You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a ${product.name} server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](${use.eclipse.url}).
 
 
 This quickstart consists of multiple projects, so it deploys and runs differently in JBoss Developer Studio than the other quickstarts.
 
 1. Install the required Maven artifacts and deploy the server side of the quickstart project.
-   * Right-click on the `${project.artifactId}-server-side` project and choose `Run As` --> `Maven Install`.
-   * Right-click on the `${project.artifactId}-server-side` project and choose `Run As` --> `Run on Server`.
+    * Right-click on the `${project.artifactId}-server-side` project and choose `Run As` --> `Maven Install`.
+    * Right-click on the `${project.artifactId}-server-side` project and choose `Run As` --> `Run on Server`.
 
 2. Build and run the client side of the quickstart project.
-   * Right-click on the `${project.artifactId}-client` project and choose `Run As` --> `Java Application`. 
-   * In the `Select Java Application` window, choose `RemoteEJBClient - org.jboss.as.quickstarts.ejb.remote.client` and click `OK`.
-   * The client output displays in the `Console` window.
+    * Right-click on the `${project.artifactId}-client` project and choose `Run As` --> `Java Application`.
+    * In the `Select Java Application` window, choose `RemoteEJBClient - org.jboss.as.quickstarts.ejb.remote.client` and click `OK`.
+    * The client output displays in the `Console` window.
 
 
 Debug the Application
@@ -180,4 +180,3 @@ Debug the Application
 If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
 
         mvn dependency:sources
-
