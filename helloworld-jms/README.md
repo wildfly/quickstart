@@ -51,7 +51,7 @@ If you prefer, you can use the add-user utility interactively.
 For an example of how to use the add-user utility, see the instructions located here: [Add an Application User](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CREATE_USERS.md#add-an-application-user).
 
 
-Configure the ${product.name} Server
+Configure the Server
 ---------------------------
 
 You configure the JMS `test` queue by running JBoss CLI commands. For your convenience, this quickstart batches the commands into a `configure-jms.cli` script provided in the root directory of this quickstart.
@@ -221,7 +221,7 @@ This quickstart consists of multiple projects, so it deploys and runs differentl
 2. Configure and start the ${product.name} server in Red Hat JBoss Developer Studio:
     * Define a server runtime environment that uses the `standalone-full.xml` configuration file.
     * Start the server defined in the previous step.
-3. Outside of JBoss Developer Studio, configure the JMS `test` queue by running the JBoss CLI commands as described above under [Configure the ${product.name} Server](#configure-the-jboss-eap-server).
+3. Outside of JBoss Developer Studio, configure the JMS `test` queue by running the JBoss CLI commands as described above under [Configure the Server](#configure-the-server).
 4. In JBoss Developer Studio, right-click on the `${project.artifactId}` project and choose `Run As` --> `Java Application`.  In the `Select Java Application` window, choose `HellowWorldJMSClient - org.jboss.as.quickstarts.jms` and click `OK`. The client output displays in the `Console` window.
 The output messages appear in the `Console` window.
 5. Be sure to [Remove the JMS Configuration](#remove-the-jms-configuration) when you have completed testing this quickstart.

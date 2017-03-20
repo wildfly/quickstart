@@ -40,7 +40,7 @@ Clone the Server Directory
 While you can run this example starting only one instance of the server, if you want to see the singleton behavior, you must start at least two instances of the server. Make a copy of the ${product.name} directory structure to use for the second server.
 
 
-Start the ${product.name} Server with a HA profile
+Start the Server with a HA profile
 -------------------------
 
 _Note: You must start the server using the HA profile or the singleton service will not start correctly._
