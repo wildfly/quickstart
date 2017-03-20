@@ -1,5 +1,5 @@
-ejb-remote: Remote EJB Client Example
-=====================================
+# ejb-remote: Remote EJB Client Example
+
 Author: Jaikiran Pai, Mike Musgrove  
 Level: Intermediate  
 Technologies: EJB, JNDI  
@@ -7,8 +7,7 @@ Summary: The `ejb-remote` quickstart uses *EJB* and *JNDI* to demonstrate how to
 Target Product: ${product.name}  
 Source: <${github.repo.url}>  
 
-What is it?
------------
+## What is it?
 
 The `ejb-remote` quickstart shows how to access an EJB from a remote Java client application. It demonstrates the use of *EJB* and *JNDI* in ${product.name.full}.
 
@@ -24,22 +23,19 @@ There are two components to this example:
 Each component is defined in its own standalone Maven module. The quickstart provides a top level Maven module to simplify the packaging of the artifacts.
 
 
-System requirements
--------------------
+## System Requirements
 
 The application this project produces is designed to be run on ${product.name.full} ${product.version} or later.
 
 All you need to build this project is ${build.requirements}. See [Configure Maven for ${product.name} ${product.version}](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
 
 
-Use of ${jboss.home.name}
----------------
+## Use of ${jboss.home.name}
 
 In the following instructions, replace `${jboss.home.name}` with the actual path to your ${product.name} installation. The installation path is described in detail here: [Use of ${jboss.home.name} and JBOSS_HOME Variables](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_${jboss.home.name}.md#use-of-eap_home-and-jboss_home-variables).
 
 
-Start the Server
--------------------------
+## Start the Server
 
 1. Open a command prompt and navigate to the root of the ${product.name} directory.
 2. The following shows the command line to start the server:
@@ -48,8 +44,7 @@ Start the Server
         For Windows: ${jboss.home.name}\bin\standalone.bat
 
 
-Build and Deploy the Quickstart
--------------------------
+## Build and Deploy the Quickstart
 
 Since this quickstart builds two separate components, you can not use the standard *Build and Deploy* commands used by most of the other quickstarts. You must follow these steps to build, deploy, and run this quickstart.
 
@@ -79,9 +74,7 @@ Since this quickstart builds two separate components, you can not use the standa
         mvn clean install
 
 
-
-Investigate the Console Output
--------------------------
+## Investigate the Console Output
 
 When the client application runs, it performs the following steps:
 
@@ -126,8 +119,7 @@ The output in the terminal window  will look like the following:
 Logging statements have been removed from this output here to make it clearer.
 
 
-Build and Run The Quickstart as an Executable JAR
--------------------------
+## Build and Run The Quickstart as an Executable JAR
 
 The remote client application can also be built as a standalone executable JAR with all of its dependencies.
 
@@ -143,10 +135,9 @@ The remote client application can also be built as a standalone executable JAR w
         java -jar target/${project.artifactId}-client-jar-with-dependencies.jar
 
 
-Undeploy the Archive
---------------------
+## Undeploy the Archive
 
-To undeploy the server side component from the ${product.name} server:
+To undeploy the server-side component from the ${product.name} server:
 
 1. Navigate to the server-side subdirectory:
 
@@ -157,8 +148,8 @@ To undeploy the server side component from the ${product.name} server:
 
 
 
-Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
--------------------------------------
+## Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+
 You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a ${product.name} server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](${use.eclipse.url}).
 
 
@@ -174,8 +165,7 @@ This quickstart consists of multiple projects, so it deploys and runs differentl
     * The client output displays in the `Console` window.
 
 
-Debug the Application
-------------------------------------
+## Debug the Application
 
 If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
 

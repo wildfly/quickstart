@@ -1,5 +1,5 @@
-shopping-cart: EJB Stateful Session Bean (SFSB) Example
-=====================================
+# shopping-cart: EJB Stateful Session Bean (SFSB) Example
+
 Author: Serge Pagop  
 Level: Intermediate  
 Technologies: SFSB EJB  
@@ -7,8 +7,7 @@ Summary: The `shopping-cart` quickstart demonstrates how to deploy and run a sim
 Target Product: ${product.name}  
 Source: <${github.repo.url}>  
 
-What is it?
------------
+## What is it?
 
 The `shopping-cart` quickstart demonstrates how to deploy and run a simple Java EE 7 application that uses a stateful session bean (SFSB) in ${product.name.full}. The application allows customers to buy, checkout, and view their cart contents.
 
@@ -22,22 +21,19 @@ The `shopping-cart` application consists of the following:
     This simple Java client is launched using a `main` method. The remote client looks up a reference to the server module's API, via JNDI. It then uses this API to perform the operations the customer requests.
 
 
-System requirements
--------------------
+## System Requirements
 
 The application this project produces is designed to be run on ${product.name.full} ${product.version} or later.
 
 All you need to build this project is ${build.requirements}. See [Configure Maven for ${product.name} ${product.version}](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
 
 
-Use of ${jboss.home.name}
----------------
+## Use of ${jboss.home.name}
 
 In the following instructions, replace `${jboss.home.name}` with the actual path to your ${product.name} installation. The installation path is described in detail here: [Use of ${jboss.home.name} and JBOSS_HOME Variables](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_${jboss.home.name}.md#use-of-eap_home-and-jboss_home-variables).
 
 
-Configure the Server
----------------------------
+## Configure the Server
 
 This example quickstart purposely throws a `NoSuchEJBException` exception when the shopping cart is empty. This is the expected result because method is annotated with `@Remove`. This means the next invocation after the shopping cart checkout fails because the container has destroyed the instance and it is no longer available. If you do not run this script, you see the following ERROR in the server log, followed by the stacktrace
 
@@ -65,8 +61,7 @@ Follow the steps below to suppress system exception logging.
 5. Stop the ${product.name} server.
 
 
-Review the Modified Server Configuration
------------------------------------
+## Review the Modified Server Configuration
 
 After stopping the server, open the `${jboss.home.name}/standalone/configuration/standalone.xml` file and review the changes.
 
@@ -75,8 +70,7 @@ You should see the following configuration in the `ejb3` subsystem.
       <log-system-exceptions value="false"/>
 
 
-Start the Server
--------------------------
+## Start the Server
 
 1. Open a command prompt and navigate to the root of the ${product.name} directory.
 2. The following shows the command line to start the server:
@@ -85,8 +79,7 @@ Start the Server
         For Windows: ${jboss.home.name}\bin\standalone.bat
 
 
-Build and Deploy the Quickstart
--------------------------
+## Build and Deploy the Quickstart
 
 1. Make sure you have started the ${product.name} server. See the instructions in the previous section.
 
@@ -111,8 +104,7 @@ Build and Deploy the Quickstart
         INFO  [org.jboss.as.server] (management-handler-thread - 3) WFLYSRV0010: Deployed "${project.artifactId}-server.jar" (runtime-name : "${project.artifactId}-server.jar")
 
 
-Run the Client Application
-------------------------
+## Run the Client Application
 
 Now start a client that will access the beans you just deployed.
 
@@ -128,8 +120,7 @@ To install it, navigate to quickstarts project root directory and run the follow
         mvn clean install
 
 
-Investigate the Console Output
--------------------------------
+## Investigate the Console Output
 
 You should see the following:
 
@@ -155,13 +146,12 @@ On the client console, you should see output similar to:
     &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 
 
-On the server log, you should see:
+In the server log, you should see:
 
     INFO  [stdout] (pool-9-thread-8) implementing checkout() left as exercise for the reader!
 
 
-Restore the Server Configuration
-----------------------------
+## Restore the Server Configuration
 
 You can restore the system exception configuration by running the `restore-system-exception.cli` script provided in the root directory of this quickstart or by manually restoring the back-up copy the configuration file.
 
@@ -184,9 +174,7 @@ You can restore the system exception configuration by running the `restore-syste
 2. Replace the `${jboss.home.name}/standalone/configuration/standalone.xml` file with the back-up copy of the file.
 
 
-
-Undeploy the Archive
---------------------
+## Undeploy the Archive
 
 1. Make sure you have started the ${product.name} server as described above.
 2. Open a command prompt and navigate to the root directory of this quickstart.
@@ -195,8 +183,7 @@ Undeploy the Archive
         mvn wildfly:undeploy
 
 
-Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
--------------------------------------
+## Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a ${product.name} server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](${use.eclipse.url}).
 
 This quickstart consists of multiple projects, so it deploys and runs differently in JBoss Developer Studio than the other quickstarts.
@@ -206,8 +193,7 @@ This quickstart consists of multiple projects, so it deploys and runs differentl
 * To run the client, right-click on the `${project.artifactId}-client` project and choose `Run As` --> `Java Application`. In the `Select Java Application` window, choose `Client - org.jboss.as.quickstarts.client` and click `OK`. The client output displays in the `Console` window.
 * Be sure to [Restore the Server Configuration](#restore-the-server-configuration) when you have completed testing this quickstart.
 
-Debug the Application
----------------------
+## Debug the Application
 
 If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
 

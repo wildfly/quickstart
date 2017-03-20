@@ -1,23 +1,22 @@
-helloworld-ssl: Wildfly SSL configuration example
-==================================================
+# helloworld-ssl: Wildfly SSL Configuration Example
+
 Author: Giriraj Sharma  
 Level: Beginner  
 Technologies: SSL, Undertow  
-Summary: Basic example that demonstrates SSL configuration in ${product.name}.  
+Summary: The `helloworld-ssl` quickstart is a basic example that demonstrates SSL configuration in ${product.name}.  
 Target Product: ${product.name}  
 Source: <${github.repo.url}>  
 
-What is it?
------------
+## What is it?
 
-This example demonstrates the configuration of *SSL* in *${product.name.full}*.
+This `helloworld-ssl` quickstart demonstrates the configuration of *SSL* in *${product.name.full}*.
 
 This quickstart shows how to configure ${product.name} to enable TLS/SSL configuration for the new `Undertow` web subsystem.
-Before you run this example, you must create certificates and configure the server to use SSL and https listener.
+
+Before you run this example, you must create certificates and configure the server to use SSL and and `https` listener.
 
 
-System Requirements
--------------------
+## System Requirements
 
 The applications these projects produce are designed to be run on ${product.name.full} ${product.version} or later.
 
@@ -28,8 +27,7 @@ To run these quickstarts with the provided build scripts, you need the ${product
 You can also use [JBoss Developer Studio or Eclipse](#use-jboss-developer-studio-or-eclipse-to-run-the-quickstarts) to run the quickstarts.
 
 
-Generate a keystore and self-signed certificate
------------------------------------------------
+## Generate a Keystore and Self-signed Certificate
 
 1.  Open a command line and navigate to the ${product.name} server `configuration` directory:
 
@@ -54,12 +52,13 @@ Generate a keystore and self-signed certificate
         Is CN=localhost, OU=wildfly, O=jboss, L=Raleigh, ST=Carolina, C=US correct?
            [no]:  yes
 
-   Make sure to put your desired "hostname" into the "first and last name" field, otherwise you might run into issues while permanently accepting this certificate as an exception in some browsers. Chrome doesn't have an issue with that though.
+    Make sure to put your desired "hostname" into the "first and last name" field, otherwise you might run into issues while permanently accepting this certificate as an exception in some browsers. Chrome does not have an issue with that though.
 
-Configure The Additional ${product.name} Security Realm
------------------------------------------------
+## Configure The Additional Server Security Realm
 
-The next step is to configure the new keystore as a server identity for ssl in the ${product.name} security-realms section of the standalone.xml (if you're using -ha or other versions, edit those). Make sure to backup the file: `${jboss.home.name}/standalone/configuration/standalone.xml`
+<!-- Add CLI scripts and instructions! -->
+
+The next step is to configure the new keystore as a server identity for `ssl` in the ${product.name} `<security-realms>` section of the `standalone.xml`file. Make sure to backup the file: `${jboss.home.name}/standalone/configuration/standalone.xml`
 
         <management>
             <security-realms>
@@ -74,10 +73,9 @@ The next step is to configure the new keystore as a server identity for ssl in t
             ...
         </management>
 
-Configure Undertow Subsystem for SSL
-------------------------------------
+## Configure Undertow Subsystem for SSL
 
-If you're running with the default-server, add the https-listener to the undertow subsystem:
+If you are running with the default-server, add the `https-listener` to the `undertow` subsystem:
 
         <subsystem xmlns="urn:jboss:domain:undertow:3.0">
             <server name="default-server">
@@ -89,15 +87,13 @@ If you're running with the default-server, add the https-listener to the underto
             ...
         </subsystem>
 
-That's it, now you're ready to connect to the ssl port of your instance https://localhost:8443/. Note, that you get the privacy error as the server certificate is self signed. If you need to use a fully signed certificate you mostly get a PEM file from the Certificate Authority. In such a case, you need to import the PEM into the keystore.
+Now you're ready to connect to the SSL port of your instance https://localhost:8443/. Note, that you get the privacy error as the server certificate is self-signed. If you need to use a fully signed certificate you mostly get a PEM file from the Certificate Authority. In such a case, you need to import the PEM into the keystore.
 
-Test the Server SSL Configuration
----------------------------------
+## Test the Server SSL Configuration
 
 To test the SSL configuration, access: <https://localhost:8443>
 
-Start ${product.name} with the Web Profile
-------------------------------------------------------------------------------
+## Start the Server with the Web Profile
 
 1. Open a command line and navigate to the root of the ${product.name} directory.
 2. The following shows the command line to start the server with the web profile:
@@ -106,8 +102,7 @@ Start ${product.name} with the Web Profile
         For Windows: bin\standalone.bat
 
 
-Build and Deploy the Quickstart
--------------------------
+## Build and Deploy the Quickstart
 
 _NOTE: The following build command assumes you have configured your Maven user settings. If you have not, you must include Maven setting arguments on the command line. See [Build and Deploy the Quickstarts](../README.md#build-and-deploy-the-quickstarts) for complete instructions and additional options._
 
@@ -120,14 +115,12 @@ _NOTE: The following build command assumes you have configured your Maven user s
 4. This will deploy `target/${project.artifactId}.war` to the running instance of the server.
 
 
-Access the application
----------------------
+## Access the Application
 
 The application will be running at the following URL: <https://localhost:8443/${project.artifactId}/>.
 
 
-Undeploy the Archive
---------------------
+## Undeploy the Archive
 
 1. Make sure you have started the JBoss Server as described above.
 2. Open a command line and navigate to the root directory of this quickstart.
@@ -136,20 +129,18 @@ Undeploy the Archive
         mvn wildfly:undeploy
 
 
-Remove the SSL Configuration
-----------------------------
+## Remove the SSL Configuration
 
 1. If the server is running, stop the ${product.name} server.
 2. Replace the `${jboss.home.name}/standalone/configuration/standalone.xml` file with the back-up copy of the file.
 
 
-Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
--------------------------------------
+## Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+
 You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a ${product.name} server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](${use.eclipse.url}).
 
 
-Debug the Application
-------------------------------------
+## Debug the Application
 
 If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
 

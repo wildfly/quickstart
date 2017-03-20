@@ -1,5 +1,5 @@
-batch-processing: Chunk oriented Batch 1.0 processing
-=====================================================
+# batch-processing: Chunk oriented Batch 1.0 processing
+
 Author: Rafael Benevides  
 Level: Intermediate  
 Technologies: CDI, Batch 1.0, JSF  
@@ -8,14 +8,13 @@ Target Product: ${product.name}
 Source: <${github.repo.url}>  
 
 
-What is it?
------------
+## What is it?
 
 This quickstart simulates a file importation using batch jobs. To make it easy, this quickstart offers the user a way to generate files. The generate file can have its name and the number of records customized. The user may also specify if the file contains an error or not.
 
 The Job contains two steps (tasks):
 
-1. Import the file (Chunk oriented) - The chunk size was set to `3`. The `RecordsReader` is responsible for parsing the file and create an instance of `Contact`. The `ContactsFormatter` applies the proper case to the Contact name and it also applies a mask to the phone number. Finally, `ContactsPersister` will send the Contact instance to the Database. 
+1. Import the file (Chunk oriented) - The chunk size was set to `3`. The `RecordsReader` is responsible for parsing the file and create an instance of `Contact`. The `ContactsFormatter` applies the proper case to the Contact name and it also applies a mask to the phone number. Finally, `ContactsPersister` will send the Contact instance to the Database.
 2. Log the number of records imported
 
 The database schema defines that the column for name is unique. For that reason, any atempt to persist a duplicate value will throw an exception. On the second attempt to run the job, the `ChunkCheckpoint` will provide information to skip the Contacts that were already persisted.  
@@ -24,23 +23,21 @@ _Note: This quickstart uses the H2 database included with ${product.name.full} $
 
 _Note: This quickstart uses a `*-ds.xml` datasource configuration file for convenience and ease of database configuration. These files are deprecated in ${product.name} and should not be used in a production environment. Instead, you should configure the datasource using the Management CLI or Management Console. Datasource configuration is documented in the [Configuration Guide](https://access.redhat.com/documentation/en/red-hat-jboss-enterprise-application-platform/) for ${product.name.full}._
 
-System requirements
--------------------
+## System Requirements
 
-The application this project produces is designed to be run on ${product.name.full} ${product.version} or later. 
+The application this project produces is designed to be run on ${product.name.full} ${product.version} or later.
 
 All you need to build this project is ${build.requirements}. See [Configure Maven for ${product.name} ${product.version}](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
 
 
-Use of ${jboss.home.name}
----------------
+## Use of ${jboss.home.name}
 
 In the following instructions, replace `${jboss.home.name}` with the actual path to your ${product.name} installation. The installation path is described in detail here: [Use of ${jboss.home.name} and JBOSS_HOME Variables](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_${jboss.home.name}.md#use-of-eap_home-and-jboss_home-variables).
 
 
 
-Start the ${product.name} Server
--------------------------
+## Start the Server
+
 
 1. Open a command line and navigate to the root of the  ${product.name} directory.
 2. The following shows the command line to start the server with the default profile:
@@ -49,8 +46,7 @@ Start the ${product.name} Server
         For Windows: ${jboss.home.name}\bin\standalone.bat
 
 
-Build and Deploy the Quickstart
--------------------------
+## Build and Deploy the Quickstart
 
 1. Make sure you have started the ${product.name} server as described above.
 2. Open a command line and navigate to the root directory of this quickstart.
@@ -58,25 +54,23 @@ Build and Deploy the Quickstart
 
         mvn clean package wildfly:deploy
 4. This will deploy `target/${project.artifactId}.war` to the running instance of the server.
- 
 
 
-Access the application
----------------------
+## Access the Application
 
 Access the running application in a browser at the following URL:  <http://localhost:8080/${project.artifactId}/>
 
-You are presented with a simple form that allows you to generate sample files to be imported. 
+You are presented with a simple form that allows you to generate sample files to be imported.
 
-### Usage 1: Import the file without any errors ###
+### Usage 1: Import the file without any errors
 
 Click on `Generate a new file and start import job` button. This will generate a new file with 10 unique records to be imported. After the file is generated, the import job will start.
 
 You will see a table containing information about the task that was just started. You can click on `Update jobs list` button and verify that the job was completed.
 
-#### Investigate the Console Output ####
+#### Investigate the Console Output
 
-At the logs you will see that the files with 10 records were processed using 3 records at a time. 
+At the logs you will see that the files with 10 records were processed using 3 records at a time.
 
     INFO  [org.jboss.as.quickstarts.batch.controller.BatchController] (default task-3) Starting to generate 10 in file /var/folders/j8/63sgdmbn5tqdkyw0tz6df53r0000gn/T/temp-file.txt
     INFO  [org.jboss.as.quickstarts.batch.controller.BatchController] (default task-3) File generated at /var/folders/j8/63sgdmbn5tqdkyw0tz6df53r0000gn/T/temp-file.txt
@@ -103,7 +97,7 @@ At the logs you will see that the files with 10 records were processed using 3 r
     INFO  [org.jboss.as.quickstarts.batch.job.ReportBatchelet] (Batch Thread - 1) Imported 10 to Database
     INFO  [org.jboss.as.quickstarts.batch.job.listener.JobListener] (Batch Thread - 1) Job import-file - Execution #1 finished. Status: COMPLETED
 
-### Usage 2: Import an error file and fix it ###
+### Usage 2: Import an error file and fix it
 
 Now we will simulate a file with duplicate records. This will raise an exception and stop the processing. After that, we will fix the file and continue the importing where it stopped.
 
@@ -117,7 +111,7 @@ Analyze the logs and check that the job started from the last checkpoint.
 
     16:08:56,323 INFO  [org.jboss.as.quickstarts.batch.job.RecordsReader] (Batch Thread - 3) Skipping to line 3 as marked by previous checkpoint
 
-#### Investigate the Console Output ####
+#### Investigate the Console Output
 
     INFO  [org.jboss.as.quickstarts.batch.job.listener.JobListener] (Batch Thread - 3) Job import-file - Execution #3 starting.
     INFO  [org.jboss.as.quickstarts.batch.job.RecordsReader] (Batch Thread - 3) Skipping to line 3 as marked by previous checkpoint
@@ -138,14 +132,13 @@ Analyze the logs and check that the job started from the last checkpoint.
     INFO  [org.jboss.as.quickstarts.batch.job.ReportBatchelet] (Batch Thread - 3) Imported 10 to Database
     INFO  [org.jboss.as.quickstarts.batch.job.listener.JobListener] (Batch Thread - 3) Job import-file - Execution #3 finished. Status: COMPLETED
 
-### Usage 3: Import an error file and do not fix the errors ###
+### Usage 3: Import an error file and do not fix the errors
 
 Check the `Generate a duplicate record` checkbox and click on `Generate a new file ans start import job` button. If you click on `Update jobs list` button, you will see that the job failed with the following Exit Status: `Error : org.hibernate.exception.ConstraintViolationException: could not execute statement`. This was caused because we tried to insert a duplicate record at the Database.
 
-This time we will not fix the file. Just click on `Restart` button again. If you  click on `Update jobs list` button, you will see that the job was marked as `ABANDONED` this time because it was restarted once. Notice that there is a new parameter: `restartedOnce=true`. This behavior was implemented at `JobListener` for demonstration purpose to avoid that a `FAILED` job that was already restarted once, to be restarted twice. 
+This time we will not fix the file. Just click on `Restart` button again. If you  click on `Update jobs list` button, you will see that the job was marked as `ABANDONED` this time because it was restarted once. Notice that there is a new parameter: `restartedOnce=true`. This behavior was implemented at `JobListener` for demonstration purpose to avoid that a `FAILED` job that was already restarted once, to be restarted twice.
 
-Server Log: Expected warnings and errors
------------------------------------
+## Server Log: Expected Warnings and Errors
 
 _Note:_ You will see the following warnings in the server log. You can ignore these warnings.
 
@@ -153,8 +146,7 @@ _Note:_ You will see the following warnings in the server log. You can ignore th
 
     HHH000431: Unable to determine H2 database version, certain features may not work
 
-Undeploy the Archive
---------------------
+## Undeploy the Archive
 
 1. Make sure you have started the ${product.name} server as described above.
 2. Open a command prompt and navigate to the root directory of this quickstart.
@@ -163,20 +155,16 @@ Undeploy the Archive
         mvn wildfly:undeploy
 
 
-Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
--------------------------------------
+## Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 
-You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a ${product.name} server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](${use.eclipse.url}). 
+You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a ${product.name} server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](${use.eclipse.url}).
 
 
-Debug the Application
-------------------------------------
+## Debug the Application
 
 If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
 
     mvn dependency:sources
-   
+
 
 <!-- Build and Deploy the Quickstart to OpenShift - Coming soon! -->
-
-

@@ -1,5 +1,5 @@
-mail: E-Mail Example using CDI and JSF
-======================================
+# mail: E-Mail Example using CDI and JSF
+
 Author: Joel Tosi  
 Level: Beginner  
 Technologies: JavaMail, CDI, JSF  
@@ -7,8 +7,7 @@ Summary: The `mail` quickstart demonstrates how to send email using CDI and JSF 
 Target Product: ${product.name}  
 Source: <${github.repo.url}>  
 
-What is it?
------------
+## What is it?
 
 The `mail` quickstart demonstrates sending email with the use of *CDI* (Contexts and Dependency Injection) and *JSF* (JavaServer Faces) in ${product.name.full}.
 
@@ -19,29 +18,25 @@ You can use the default mail provider that comes out of the box with ${product.n
 This example is a web application that takes `To`, `From`, `Subject`, and `Message Body` input and sends mail to that address. The front end is a JSF page with a simple POJO backing, leveraging CDI for resource injection.
 
 
-System requirements
--------------------
+## System Requirements
 
 The application this project produces is designed to be run on ${product.name.full} ${product.version} or later.
 
 All you need to build this project is ${build.requirements}. See [Configure Maven for ${product.name} ${product.version}](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
 
 
-Use of ${jboss.home.name}
----------------
+## Use of ${jboss.home.name}
 
 In the following instructions, replace `${jboss.home.name}` with the actual path to your ${product.name} installation. The installation path is described in detail here: [Use of ${jboss.home.name} and JBOSS_HOME Variables](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_${jboss.home.name}.md#use-of-eap_home-and-jboss_home-variables).
 
-Configure an SMTP Server on Your Local Machine
----------------------------
+##  Configure an SMTP Server on Your Local Machine
 
 This quickstart expects that you have an SMTP mail server running on your machine and configured for the default port `localhost:25`.
 To configure an SMTP mail server, consult the documentation for your operating system. It is beyond the scope of this quickstart to provide these instructions.
 
 If you do not configure an SMTP mail server on your local machine, you will see the exception `com.sun.mail.util.MailConnectException:  Couldn't connect to host, port: localhost, 25; timeout -1;` when you access the application and attempt to send an email.
 
-Configure the Server
----------------------------
+## Configure the Server
 
 You configure the custom mail session in ${product.name} by running Management CLI commands. For your convenience, this quickstart batches the commands into a `configure-mail-session.cli` script provided in the root directory of this quickstart.
 
@@ -67,8 +62,7 @@ You configure the custom mail session in ${product.name} by running Management C
 5. Stop the ${product.name} server.
 
 
-Review the Modified Server Configuration
------------------------------------
+## Review the Modified Server Configuration
 
 After stopping the server, open the `${jboss.home.name}/standalone/configuration/standalone.xml` file and review the changes.
 
@@ -101,8 +95,7 @@ The `MyOtherMail` mail session is added to the `mail` subsystem and configured t
          </mail-session>
       </subsystem>
 
-Start the ${product.name} Server
--------------------------
+## Start the Server
 
 1. Open a command prompt and navigate to the root of the ${product.name} directory.
 2. The following shows the command line to start the server:
@@ -111,8 +104,7 @@ Start the ${product.name} Server
         For Windows: ${jboss.home.name}\bin\standalone.bat
 
 
-Build and Deploy the Quickstart
--------------------------
+## Build and Deploy the Quickstart
 
 1. Make sure you have started the ${product.name} server as described above.
 2. Open a command prompt and navigate to the root directory of this quickstart.
@@ -123,15 +115,13 @@ Build and Deploy the Quickstart
 4. This will deploy `target/${project.artifactId}.war` to the running instance of the server.
 
 
-Access the application
----------------------
+## Access the Application
 
 The application will be running at the following URL: <http://localhost:8080/${project.artifactId}/>.
 
 Note: If you see `Error processing request` in the browser when you access the application and attempt to send email, followed by `javax.servlet.ServletException: com.sun.mail.util.MailConnectException: Couldn't connect to host, port: localhost, 25; timeout -1; nested exception is: java.net.ConnectException: Connction refused`, make sure you followed the instructions above to [Configure an SMTP Server on Your Local Machine](#configure-an-smtp-server-on-your-local-machine).
 
-Undeploy the Archive
---------------------
+## Undeploy the Archive
 
 1. Make sure you have started the ${product.name} server as described above.
 2. Open a command prompt and navigate to the root directory of this quickstart.
@@ -140,8 +130,7 @@ Undeploy the Archive
         mvn wildfly:undeploy
 
 
-Remove the Mail Configuration
-----------------------------
+## Remove the Mail Configuration
 
 You can remove the mail configuration by running the  `remove-mail-session.cli` script provided in the root directory of this quickstart or by manually restoring the back-up copy the configuration file.
 
@@ -166,20 +155,19 @@ You can remove the mail configuration by running the  `remove-mail-session.cli` 
 2. Replace the `${jboss.home.name}/standalone/configuration/standalone-full.xml` file with the back-up copy of the file.
 
 
-Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
--------------------------------------
+## Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+
 You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a ${product.name} server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](${use.eclipse.url}).
 
 _NOTE:_
 
 * Be sure to [Configure an SMTP Server on Your Local Machine](#configure-an-smtp-server-on-your-local-machine).
-* Be sure to configure the ${product.name} custom mail configuration as described above under [Configure the ${product.name} Server](#configure-the-jboss-eap-server). Stop the server at the end of that step.
+* Be sure to configure the ${product.name} custom mail configuration as described above under [Configure the ${product.name} Server](#configure-the-server). Stop the server at the end of that step.
 * To deploy the server project, right-click on the `${project.artifactId}` project and choose `Run As` --> `Run on Server`.  A browser window appears that accesses the running application.
 * Be sure to [Remove the Mail Configuration](#remove-the-mail-configuration) when you have completed testing this quickstart.
 
 
-Debug the Application
-------------------------------------
+## Debug the Application
 
 If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
 
