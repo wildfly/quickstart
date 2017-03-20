@@ -38,7 +38,7 @@ Use of ${jboss.home.name}
 In the following instructions, replace `${jboss.home.name}` with the actual path to your ${product.name} installation. The installation path is described in detail here: [Use of ${jboss.home.name} and JBOSS_HOME Variables](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_${jboss.home.name}.md#use-of-eap_home-and-jboss_home-variables).
 
 
-Start the ${product.name} Server
+Start the Server
 -------------------------
 
 1. Open a command prompt and navigate to the root of the ${product.name} directory.

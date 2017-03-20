@@ -36,7 +36,7 @@ Use of ${jboss.home.name}
 In the following instructions, replace `${jboss.home.name}` with the actual path to your ${product.name} installation. The installation path is described in detail here: [Use of ${jboss.home.name} and JBOSS_HOME Variables](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_${jboss.home.name}.md#use-of-eap_home-and-jboss_home-variables).
 
 
-Configure the ${product.name} Server
+Configure the Server
 ---------------------------
 
 This example quickstart purposely throws a `NoSuchEJBException` exception when the shopping cart is empty. This is the expected result because method is annotated with `@Remove`. This means the next invocation after the shopping cart checkout fails because the container has destroyed the instance and it is no longer available. If you do not run this script, you see the following ERROR in the server log, followed by the stacktrace
@@ -75,7 +75,7 @@ You should see the following configuration in the `ejb3` subsystem.
       <log-system-exceptions value="false"/>
 
 
-Start the ${product.name} Server
+Start the Server
 -------------------------
 
 1. Open a command prompt and navigate to the root of the ${product.name} directory.
@@ -201,7 +201,7 @@ You can also start the server and deploy the quickstarts or run the Arquillian t
 
 This quickstart consists of multiple projects, so it deploys and runs differently in JBoss Developer Studio than the other quickstarts.
 
-* Be sure to configure ${product.name} to suppress system exception logging as described above under [Configure the ${product.name} Server](#configure-the-jboss-eap-server). Stop the server at the end of that step.
+* Be sure to configure ${product.name} to suppress system exception logging as described above under [Configure the Server](#configure-the-server). Stop the server at the end of that step.
 * To deploy the server project, right-click on the `${project.artifactId}-server` project and choose `Run As` --> `Run on Server`.
 * To run the client, right-click on the `${project.artifactId}-client` project and choose `Run As` --> `Java Application`. In the `Select Java Application` window, choose `Client - org.jboss.as.quickstarts.client` and click `OK`. The client output displays in the `Console` window.
 * Be sure to [Restore the Server Configuration](#restore-the-server-configuration) when you have completed testing this quickstart.
