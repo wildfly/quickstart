@@ -15,7 +15,7 @@ The Managed Executor Service (javax.enterprise.concurrent.ManagedExecutorService
 
 Managed Executor Service instances are managed by the application server, thus Java EE applications are forbidden to invoke any lifecycle related method.
 
-A JAX-RS resource provides access to some operations that are executed asynchronously. 
+A JAX-RS resource provides access to some operations that are executed asynchronously.
 
 This quickstart does not contain any user interface. The tests must be run to verify everything is working correctly.
 
@@ -26,12 +26,12 @@ _Note: This quickstart uses a `*-ds.xml` datasource configuration file for conve
 System requirements
 -------------------
 
-The application this project produces is designed to be run on ${product.name.full} ${product.version} or later. 
+The application this project produces is designed to be run on ${product.name.full} ${product.version} or later.
 
 All you need to build this project is ${build.requirements}. See [Configure Maven for ${product.name} ${product.version}](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
 
 
-Start the ${product.name} Server
+Start the Server
 -------------------------
 
 1. Open a command line and navigate to the root of the  ${product.name} directory.
@@ -41,10 +41,10 @@ Start the ${product.name} Server
         For Windows: ${jboss.home.name}\bin\standalone.bat
 
 
-Run the Arquillian Tests 
+Run the Arquillian Tests
 -------------------------
 
-This quickstart provides Arquillian tests. By default, these tests are configured to be skipped as Arquillian tests require the use of a container. 
+This quickstart provides Arquillian tests. By default, these tests are configured to be skipped as Arquillian tests require the use of a container.
 
 1. Make sure you have started the ${product.name} server as described above.
 2. Open a command line and navigate to the root directory of this quickstart.
@@ -75,11 +75,11 @@ Investigate the Console Output
     feb. 22, 2017 4:22:26 PM org.jboss.as.quickstarts.managedexecutorservice.test.ProductsRestClientIT testRestResources
     INFO: Deleting all products
     Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 5.619 sec - in org.jboss.as.quickstarts.managedexecutorservice.test.ProductsRestClientIT
-    
+
     Results :
-    
+
     Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
-    
+
 Investigate the Server Console Output
 -------------------------------------
 Look at the ${product.name} console or Server log and you should see log messages like the following:
@@ -110,7 +110,7 @@ Look at the ${product.name} console or Server log and you should see log message
     13:34:11,092 INFO  [DeleteTask] (EE-ManagedExecutorService-default-Thread-5) Commit transaction. Products deleted: 1
 
 Note that the PersistTask and DeleteTask were executed after ProductResourceRESTService sends a Response. The only exception is for LongRunningTask where ProductResourceRESTService waits for its response.
-    
+
 
 Server Log: Expected warnings and errors
 -----------------------------------
@@ -122,20 +122,10 @@ _Note:_ You will see the following warnings in the server log. You can ignore th
     HHH000431: Unable to determine H2 database version, certain features may not work
 
 
-Undeploy the Archive
---------------------
-
-1. Make sure you have started the ${product.name} server as described above.
-2. Open a command prompt and navigate to the root directory of this quickstart.
-3. When you are finished testing, type this command to undeploy the archive:
-
-        mvn wildfly:undeploy
-
-
 Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 -------------------------------------
 
-You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a ${product.name} server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](${use.eclipse.url}). 
+You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a ${product.name} server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](${use.eclipse.url}).
 
 To run the tests in Red Hat JBoss Developer Studio:
 
@@ -148,5 +138,3 @@ Debug the Application
 If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
 
     mvn dependency:sources
-   
-
