@@ -34,7 +34,7 @@ Use of ${jboss.home.name}
 In the following instructions, replace `${jboss.home.name}` with the actual path to your ${product.name} installation. The installation path is described in detail here: [Use of ${jboss.home.name} and JBOSS_HOME Variables](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_${jboss.home.name}.md#use-of-eap_home-and-jboss_home-variables).
 
 
-Clone the ${jboss.home.name} Directory
+Clone the Server Directory
 ----------------------------
 
 While you can run this example starting only one instance of the server, if you want to see the singleton behavior, you must start at least two instances of the server. Make a copy of the ${product.name} directory structure to use for the second server.
@@ -135,7 +135,7 @@ This quickstart is more complex than the others. It requires that you configure 
 _NOTE_: If you have not yet configured the ${product.name} ${product.version} runtime in JBoss Developer Studio, choose `Window`--> `Preferences` --> `Runtime Environment` and click `Add` to configure the following server instances.
 
 1. Be sure to import the quickstart into JBoss Developer Studio.
-2. Follow the instructions above to [Clone the ${jboss.home.name} Directory](#clone-the-eaphome-directory).
+2. Follow the instructions above to [Clone the Server Directory](#clone-the-server-directory).
 3. Configure the first server instance in JBoss Developer Studio.
    * In the `Server` tab, right-click and choose `New` --> `Server`.
    * Under `Select the server type:`, expand `Red Hat JBoss Middleware` and choose `${jbds.eap.server.name}`.
