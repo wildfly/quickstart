@@ -1,5 +1,5 @@
-spring-kitchensink-controlleradvice: Kitchensink ControllerAdvice Example using Spring 4.x
-==========================================================================================
+# spring-kitchensink-controlleradvice: Kitchensink ControllerAdvice Example using Spring 4.x
+
 Author: Marius Bogoevici, Tejas Mehta, Joshua Wilson  
 Level: Intermediate  
 Technologies: JSP, JPA, JSON, Spring, JUnit  
@@ -7,16 +7,15 @@ Summary: The `spring-kitchensink-controlleradvice` quickstart showcases Spring 4
 Target Product: ${product.name}  
 Source: <${github.repo.url}>  
 
-What is it?
------------
+## What is it?
 
-The `spring-kitchensink-controlleradvice` quickstart is a deployable Maven 3 project that demonstrates how to use JSP, JPA, and Spring 4.x in ${product.name.full} ${product.version} or later. 
+The `spring-kitchensink-controlleradvice` quickstart is a deployable Maven 3 project that demonstrates how to use JSP, JPA, and Spring 4.x in ${product.name.full} ${product.version} or later.
 
 This example showcases Spring 4.x's `@ControllerAdvice`, introduced in Spring 3.2, and used by `MemberControllerAdvice.java`.
 
 * MemberControllerAdvice uses `@ExceptionHandler`, `@InitBinder` and `@ModelAttribute` to configure global actions to be performed.
 
-* In `jboss-as-spring-mvc-context.xml` `<context:component-scan base-package="org.jboss.as.quickstarts.kitchensink.spring.controlleradvice.controller"/>` 
+* In `jboss-as-spring-mvc-context.xml` `<context:component-scan base-package="org.jboss.as.quickstarts.kitchensink.spring.controlleradvice.controller"/>`
 and `<mvc:annotation-driven/>` are used to register both the non-rest and rest controllers.
 
 * The controllers map the respective urls to methods using `@RequestMapping(url)`.
@@ -26,16 +25,14 @@ and `<mvc:annotation-driven/>` are used to register both the non-rest and rest c
 * The datasource and entitymanager are retrieved via JNDI.
 
 
-System Requirements
--------------------
+## System Requirements
 
-The application this project produces is designed to be run on ${product.name.full} ${product.version} or later. 
+The application this project produces is designed to be run on ${product.name.full} ${product.version} or later.
 
 All you need to build this project is ${build.requirements}. See [Configure Maven for ${product.name} ${product.version}](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
 
 
-Start the ${product.name} Server
--------------------------
+## Start the Server
 
 1. Open a command line and navigate to the root of the ${product.name} directory.
 2. The following shows the command line to start the server:
@@ -43,9 +40,8 @@ Start the ${product.name} Server
         For Linux:   ${jboss.home.name}/bin/standalone.sh
         For Windows: ${jboss.home.name}\bin\standalone.bat
 
- 
-Build and Deploy the Quickstart
--------------------------
+
+## Build and Deploy the Quickstart
 
 1. Make sure you have started the ${product.name} server as described above.
 2. Open a command line and navigate to the root directory of this quickstart.
@@ -56,14 +52,12 @@ Build and Deploy the Quickstart
 4. This will deploy `target/${project.artifactId}.war` to the running instance of the server.
 
 
-Access the application
-----------------------
+## Access the Application
 
 The application will be running at the following URL: <http://localhost:8080/${project.artifactId}/>.
 
 
-Undeploy the Archive
---------------------
+## Undeploy the Archive
 
 1. Make sure you have started the ${product.name} server as described above.
 2. Open a command line and navigate to the root directory of this quickstart.
@@ -72,11 +66,10 @@ Undeploy the Archive
         mvn wildfly:undeploy
 
 
-Run the Arquillian Functional Tests
------------------------------------
+## Run the Arquillian Functional Tests
 
-This quickstart provides Arquillian functional tests as well. They are located in the functional-tests/ subdirectory under 
-the root directory of this quickstart. Functional tests verify that your application behaves correctly from the user's point 
+This quickstart provides Arquillian functional tests as well. They are located in the functional-tests/ subdirectory under
+the root directory of this quickstart. Functional tests verify that your application behaves correctly from the user's point
 of view. The tests open a browser instance, simulate clicking around the page as a normal user would do, and then close the browser instance.
 
 To run these tests, you must build the main project as described above.
@@ -91,21 +84,20 @@ To run these tests, you must build the main project as described above.
 
         mvn clean verify -Parq-remote
 
-5. If you prefer to run the functional tests using managed instance of the ${product.name} server, meaning the tests will start the 
+5. If you prefer to run the functional tests using managed instance of the ${product.name} server, meaning the tests will start the
 server for you, type the following command:
 
         mvn clean verify -Parq-managed
 
 
-Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
--------------------------------------
-You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a ${product.name} server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](${use.eclipse.url}). 
+## Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+
+You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a ${product.name} server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](${use.eclipse.url}).
 
 
-Debug the Application
----------------------
+## Debug the Application
 
-If you want to debug the source code or look at the Javadocs of any library in the project, run either of the following 
+If you want to debug the source code or look at the Javadocs of any library in the project, run either of the following
 commands to pull them into your local repository. The IDE should then detect them.
 
         mvn dependency:sources

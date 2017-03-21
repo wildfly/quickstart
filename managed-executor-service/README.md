@@ -1,5 +1,5 @@
-managed-executor-service: Managed Executor Service example
-================================================================
+# managed-executor-service: Managed Executor Service example
+
 Author: Rafael Benevides  
 Level: Beginner  
 Technologies: EE Concurrency Utilities, JAX-RS, JAX-RS Client API  
@@ -8,8 +8,7 @@ Target Product: ${product.name}
 Source: <${github.repo.url}>  
 
 
-What is it?
------------
+## What is it?
 
 The Managed Executor Service (javax.enterprise.concurrent.ManagedExecutorService) allows Java EE applications to submit tasks for asynchronous execution. It is an extension of Java SE's Executor Service (java.util.concurrent.ExecutorService) adapted to the Java EE platform requirements.
 
@@ -23,16 +22,14 @@ _Note: This quickstart uses the H2 database included with ${product.name.full} $
 
 _Note: This quickstart uses a `*-ds.xml` datasource configuration file for convenience and ease of database configuration. These files are deprecated in ${product.name} and should not be used in a production environment. Instead, you should configure the datasource using the Management CLI or Management Console. Datasource configuration is documented in the [Configuration Guide](https://access.redhat.com/documentation/en/red-hat-jboss-enterprise-application-platform/) for ${product.name.full}._
 
-System requirements
--------------------
+## System Requirements
 
 The application this project produces is designed to be run on ${product.name.full} ${product.version} or later.
 
 All you need to build this project is ${build.requirements}. See [Configure Maven for ${product.name} ${product.version}](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
 
 
-Start the Server
--------------------------
+## Start the Server
 
 1. Open a command line and navigate to the root of the  ${product.name} directory.
 2. The following shows the command line to start the server with the default profile:
@@ -41,8 +38,7 @@ Start the Server
         For Windows: ${jboss.home.name}\bin\standalone.bat
 
 
-Run the Arquillian Tests
--------------------------
+## Run the Arquillian Tests
 
 This quickstart provides Arquillian tests. By default, these tests are configured to be skipped as Arquillian tests require the use of a container.
 
@@ -55,8 +51,7 @@ This quickstart provides Arquillian tests. By default, these tests are configure
 You can also let Arquillian manage the ${product.name} server by using the `arq-managed` profile. For more information about how to run the Arquillian tests, see [Run the Arquillian Tests](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/RUN_ARQUILLIAN_TESTS.md#run-the-arquillian-tests).
 
 
-Investigate the Console Output
-------------------------------
+## Investigate the Console Output
 
     -------------------------------------------------------
      T E S T S
@@ -80,8 +75,8 @@ Investigate the Console Output
 
     Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
 
-Investigate the Server Console Output
--------------------------------------
+## Investigate the Server Console Output
+
 Look at the ${product.name} console or Server log and you should see log messages like the following:
 
     13:34:07,940 INFO  [ProductResourceRESTService] (default task-51) Will create a new Product on other Thread
@@ -112,8 +107,7 @@ Look at the ${product.name} console or Server log and you should see log message
 Note that the PersistTask and DeleteTask were executed after ProductResourceRESTService sends a Response. The only exception is for LongRunningTask where ProductResourceRESTService waits for its response.
 
 
-Server Log: Expected warnings and errors
------------------------------------
+## Server Log: Expected Warnings and Errors
 
 _Note:_ You will see the following warnings in the server log. You can ignore these warnings.
 
@@ -122,8 +116,7 @@ _Note:_ You will see the following warnings in the server log. You can ignore th
     HHH000431: Unable to determine H2 database version, certain features may not work
 
 
-Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
--------------------------------------
+## Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 
 You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a ${product.name} server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](${use.eclipse.url}).
 
@@ -132,8 +125,7 @@ To run the tests in Red Hat JBoss Developer Studio:
 You must first set the active Maven profile in project properties to be either `arq-managed` for running on managed server or `arq-remote` for running on remote server. Then, to run the tests, right click on the project or individual classes and select Run As --> JUnit Test in the context menu.
 
 
-Debug the Application
-------------------------------------
+## Debug the Application
 
 If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
 

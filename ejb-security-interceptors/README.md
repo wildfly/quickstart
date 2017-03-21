@@ -1,5 +1,5 @@
-ejb-security-interceptors: Use Interceptors to Switch Identities for an EJB Call
-====================
+# ejb-security-interceptors: Use Interceptors to Switch Identities for an EJB Call
+
 Author: Darran Lofthouse  
 Level: Advanced  
 Technologies: EJB, Security  
@@ -7,8 +7,7 @@ Summary: The `ejb-security-interceptors` quickstart demonstrates how to use clie
 Target Product: ${product.name}  
 Source: <${github.repo.url}>  
 
-What is it?
------------
+## What is it?
 
 The `ejb-security-interceptors` quickstart demonstrates how to use client and server side interceptors to switch the identity for an EJB call in ${product.name.full}.
 
@@ -46,8 +45,7 @@ Finally there is the `RemoteClient` stand-alone client. The client makes calls u
 
 In the real world, remote calls between servers in the servers-to-server scenario would truly be remote and separate. For the purpose of this quickstart, we make use of a loopback connection to the same server so we do not need two servers just to run the test.
 
-Note on EJB client interceptors
------------------------
+## Note on EJB client interceptors
 
 ${product.name} allows client side interceptors for EJB invocations. Such interceptors are expected to implement the `org.jboss.ejb.client.EJBClientInterceptor` interface.  Interceptors can be established in many ways, including the following:
 
@@ -71,29 +69,25 @@ Interceptors are ordered according to their assigned priority, which is `APPLICA
 
 If after these rules apply, more than one interceptor are still of equal priority, then they are applied in declaration or encounter order.
 
-System requirements
--------------------
+## System Requirements
 
 The application this project produces is designed to be run on ${product.name.full} ${product.version}.
 
 All you need to build this project is ${build.requirements}. See [Configure Maven for ${product.name} ${product.version}](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
 
 
-Prerequisites
--------------
+## Prerequisites
 
 This quickstart uses the default standalone configuration plus the modifications described here.
 
 It is recommended that you test this approach in a separate and clean environment before you attempt to port the changes in your own environment.
 
-Use of ${jboss.home.name}
----------------
+## Use of ${jboss.home.name}
 
 In the following instructions, replace `${jboss.home.name}` with the actual path to your ${product.name} installation. The installation path is described in detail here: [Use of ${jboss.home.name} and JBOSS_HOME Variables](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_${jboss.home.name}.md#use-of-eap_home-and-jboss_home-variables).
 
 
-Add the Application Users
----------------
+## Add the Application Users
 
 This quickstart uses secured management interfaces and is built around the default `ApplicationRealm` as configured in the ${product.name} distribution.  You must create the following application users to access the running application:
 
@@ -126,10 +120,9 @@ If you prefer, you can use the add-user utility interactively.
 For an example of how to use the add-user utility, see the instructions located here: [Add an Application User](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CREATE_USERS.md#add-an-application-user).
 
 
-Configure the Server
----------------------------
+## Configure the Server
 
-These steps assume you are running the server in standalone mode and using the default standalone.xml supplied with the distribution.
+These steps assume you are running the server in standalone mode and using the default `standalone.xml` supplied with the distribution.
 
 You configure the security domain by running JBoss CLI commands. For your convenience, this quickstart batches the commands into a `configure-security-domain.cli` script provided in the root directory of this quickstart.
 
@@ -160,8 +153,7 @@ You configure the security domain by running JBoss CLI commands. For your conven
         The batch executed successfully
 6. Stop the ${product.name} server.
 
-Review the Modified Server Configuration
------------------------------------
+## Review the Modified Server Configuration
 
 After stopping the server, open the `${jboss.home.name}/standalone/configuration/standalone.xml` file and review the changes.
 
@@ -233,8 +225,7 @@ After stopping the server, open the `${jboss.home.name}/standalone/configuration
         <log-system-exceptions value="false"/>
 
 
-Start the Server
--------------------------
+## Start the Server
 
 1. Open a command prompt and navigate to the root of the ${product.name} directory.
 2. The following shows the command line to start the server:
@@ -243,8 +234,7 @@ Start the Server
         For Windows: ${jboss.home.name}\bin\standalone.bat
 
 
-Build and Deploy the Quickstart
--------------------------
+## Build and Deploy the Quickstart
 
 1. Make sure you have started the ${product.name} server as described above.
 2. Open a command prompt and navigate to the root directory of this quickstart.
@@ -254,8 +244,7 @@ Build and Deploy the Quickstart
 
 4. This will deploy `target/${project.artifactId}.war` to the running instance of the server.
 
-Run the client
----------------------
+## Run the Client
 
 Before you run the client, make sure you have already successfully deployed the EJBs to the server in the previous step and that your command prompt is still in the same folder.
 
@@ -264,8 +253,7 @@ Type this command to execute the client:
         mvn exec:exec
 
 
-Investigate the Console Output
-----------------------------
+## Investigate the Console Output
 
 When you run the `mvn exec:exec` command, you see the following output. Note there may be other log messages interspersed between these.
 
@@ -402,8 +390,7 @@ When you run the `mvn exec:exec` command, you see the following output. Note the
 
     * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-Investigate the Server Console Output
-----------------------------
+## Investigate the Server Console Output
 
 If you chose not to run the script to suppress system exceptions, you should see the following exceptions in the ${product.name} server console or log. The exceptions are logged for each of the tests where a request is rejected because the user is not authorized. The stacktraces were removed from this text for readability.
 
@@ -444,16 +431,14 @@ If you chose not to run the script to suppress system exceptions, you should see
     ERROR [org.jboss.as.ejb3.invocation] (EJB default - 8) WFLYEJB0034: EJB Invocation failed on component SecuredEJB for method public abstract java.lang.String org.jboss.as.quickstarts.ejb_security_interceptors.SecuredEJBRemote.getSecurityInformation(): javax.ejb.EJBAccessException: WFLYSEC0027: Invalid User
 
 
-Server Log: Expected warnings and errors
------------------------------------
+## Server Log: Expected warnings and errors
 
 _Note:_ You will see the following warning appear twice in the server log. You can ignore these warnings.
 
     WARN  [org.jboss.as.dependency.deprecated] (MSC service thread 1-7) WFLYSRV0221: Deployment "deployment.jboss-ejb-security-interceptors.jar" is using a deprecated module ("org.jboss.as.core-security-api:main") which may be removed in future versions without notice.
 
 
-Undeploy the Archive
---------------------
+## Undeploy the Archive
 
 1. Make sure you have started the ${product.name} server as described above.
 2. Open a command prompt and navigate to the root directory of this quickstart.
@@ -462,8 +447,7 @@ Undeploy the Archive
         mvn wildfly:undeploy
 
 
-Remove the Security Domain Configuration
-----------------------------
+## Remove the Security Domain Configuration
 
 You can remove the security domain configuration by running the  `remove-security-domain.cli` script provided in the root directory of this quickstart or by manually restoring the back-up copy the configuration file.
 
@@ -496,8 +480,7 @@ You can remove the security domain configuration by running the  `remove-securit
 
 
 
-Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
--------------------------------------
+## Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 
 You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a ${product.name} server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](${use.eclipse.url}).
 
@@ -513,8 +496,7 @@ This quickstart requires additional configuration and deploys and runs different
 7. Be sure to [Remove the Security Domain Configuration](#remove-the-security-domain-configuration) when you have completed testing this quickstart.
 
 
-Debug the Application
-------------------------------------
+## Debug the Application
 
 If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
 

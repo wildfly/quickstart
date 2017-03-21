@@ -1,5 +1,5 @@
-wsba-coordinator-completion-simple: Example of a WS-BA Enabled JAX-WS Web Service
-=================================================================================
+# wsba-coordinator-completion-simple: Example of a WS-BA Enabled JAX-WS Web Service
+
 Author: Paul Robinson  
 Level: Intermediate  
 Technologies: WS-BA, JAX-WS  
@@ -7,8 +7,7 @@ Summary:  The `wsba-coordinator-completion-simple` quickstart deploys a WS-BA (W
 Target Product: ${product.name}  
 Source: <${github.repo.url}>  
 
-What is it?
------------
+## What is it?
 
 The `wsba-coordinator-completion-simple` quickstart demonstrates the deployment of a WS-BA (WS Business Activity) enabled JAX-WS Web service bundled in a WAR archive (Participant Completion protocol) for deployment to ${product.name.full}.
 
@@ -43,16 +42,14 @@ When running the org.jboss.as.quickstarts.wsba.coordinatorcompletion.simple.Clie
 There is another test that shows how the client can cancel a BA.
 
 
-System requirements
--------------------
+## System Requirements
 
 The application this project produces is designed to be run on ${product.name.full} ${product.version} or later.
 
 All you need to build this project is ${build.requirements}. See [Configure Maven for ${product.name} ${product.version}](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
 
 
-Start the ${product.name} Server with the Custom Options
-----------------------
+## Start the Server with the Custom Options
 
 Next you need to start ${product.name} with the XTS subsystem enabled. This is enabled through the optional server configuration *standalone-xts.xml*. To do this, run the following commands from the top-level directory of ${product.name}:
 
@@ -63,8 +60,7 @@ Next you need to start ${product.name} with the XTS subsystem enabled. This is e
 Note, the pipe to egrep (| egrep "started|stdout") is useful to just show when the server has started and the output from these tests. For normal operation, this pipe can be removed.
 
 
-Run the Arquillian Tests
--------------------------
+## Run the Arquillian Tests
 
 This quickstart provides Arquillian tests. By default, these tests are configured to be skipped as Arquillian tests require the use of a container.
 
@@ -91,8 +87,7 @@ _This is because, in remote mode, you are responsible for starting the server wi
 You can also let Arquillian manage the ${product.name} server by using the `arq-managed` profile. For more information about how to run the Arquillian tests, see [Run the Arquillian Tests](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/RUN_ARQUILLIAN_TESTS.md#run-the-arquillian-tests).
 
 
-Investigate the Server Log
-----------------------------
+## Investigate the Server Log
 
 The following messages should appear in the server log. Note there may be other log messages interlaced between these. The messages trace the steps taken by the tests.
 
@@ -135,8 +130,8 @@ Test cancel:
     16:24:19,816 INFO  [stdout] (TaskWorker-3) [SERVICE] Compensate the backend resource by removing '2' from the set (e.g. undo any changes to databases that were previously made visible to others)
 
 
-Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
--------------------------------------
+## Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+
 You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a ${product.name} server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](${use.eclipse.url}).
 
 This quickstart is more complex than the others. It requires that you configure the ${product.name} server to use the *standalone-xts.xml* configuration file, which is located in an external configuration directory.
@@ -158,8 +153,7 @@ This quickstart is more complex than the others. It requires that you configure 
 4. Right-click on the `${project.artifactId}` project, choose `Run As` --> `Maven build`, enter `clean verify -Parq-remote` for the `Goals:`, and click `Run` to run the Arquillian tests. The test results appear in the console.
 
 
-Debug the Application
-------------------------------------
+## Debug the Application
 
 If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
 

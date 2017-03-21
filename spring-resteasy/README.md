@@ -1,5 +1,5 @@
-spring-resteasy: Example Using Resteasy Spring Integration
-==========================================================
+# spring-resteasy: Example Using Resteasy Spring Integration
+
 Author: Weinan Li <l.weinan@gmail.com>, Paul Gier <pgier@redhat.com>  
 Level: Beginner  
 Technologies: Resteasy, Spring  
@@ -7,22 +7,19 @@ Summary: The `spring-resteasy` quickstart demonstrates how to package and deploy
 Target Product: ${product.name}  
 Source: <${github.repo.url}>  
 
-What is it?
------------
+## What is it?
 
-The `spring-resteasy` quickstart demonstrates how to package and deploy a web application, which includes resteasy-spring integration, in 
+The `spring-resteasy` quickstart demonstrates how to package and deploy a web application, which includes resteasy-spring integration, in
 ${product.name.full}.
 
-System requirements
--------------------
+## System Requirements
 
-The application this project produces is designed to be run on ${product.name.full} ${product.version} or later. 
+The application this project produces is designed to be run on ${product.name.full} ${product.version} or later.
 
 All you need to build this project is ${build.requirements}. See [Configure Maven for ${product.name} ${product.version}](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
 
 
-Start the ${product.name} Server
-----------------------
+## Start the Server
 
 1. Open a command line and navigate to the root of the ${product.name} directory.
 2. The following shows the command line to start the server with the full profile:
@@ -31,8 +28,7 @@ Start the ${product.name} Server
         For Windows: ${jboss.home.name}\bin\standalone.bat
 
 
-Build and Deploy the Quickstart
--------------------------------
+## Build and Deploy the Quickstart
 
 1. Make sure you have started the ${product.name} server as described above.
 2. Open a command line and navigate to the root directory of this quickstart.
@@ -43,10 +39,9 @@ Build and Deploy the Quickstart
 4. This deploys the `target/${project.artifactId}.war` to the running instance of the server.
 
 
-Access the application 
----------------------
+## Access the Application
 
-The application will be running at the following URL:  <http://localhost:8080/${project.artifactId}/>. 
+The application will be running at the following URL:  <http://localhost:8080/${project.artifactId}/>.
 
 That will provide links to the following URLs that demonstrate various path and parameter configurations.
 
@@ -65,8 +60,7 @@ And the same set as above but using the `locating` path.
 * [${project.artifactId}/locating/uriParam/789](http://localhost:8080/${project.artifactId}/locating/uriParam/789)
 
 
-Run the Tests
--------------
+## Run the Tests
 
 1. Make sure you have **started** the ${product.name} server as described above and **deployed** the quickstart.
 2. Open a command prompt and navigate to the root directory of this quickstart.
@@ -92,8 +86,7 @@ Run the Tests
 
 
 
-Undeploy the Archive
---------------------
+## Undeploy the Archive
 
 1. Make sure you have started the ${product.name} server as described above.
 2. Open a command line and navigate to the root directory of this quickstart.

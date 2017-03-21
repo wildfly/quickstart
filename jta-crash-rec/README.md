@@ -1,5 +1,5 @@
-jta-crash-rec: Example of JTA Crash Recovery
-=============================
+# jta-crash-rec: Example of JTA Crash Recovery
+
 Author: Mike Musgrove  
 Level: Advanced  
 Technologies: JTA, Crash Recovery  
@@ -7,8 +7,7 @@ Summary: The `jta-crash-rec` quickstart uses JTA and Byteman to show how to code
 Target Product: ${product.name}  
 Source: <${github.repo.url}>  
 
-What is it?
------------
+## What is it?
 
 The `jta-crash-rec` quickstart demonstrates how to code distributed or XA (eXtended Architecture) transactions so that the ACID properties are preserved across participating resources deployed to ${product.name.full} after a server crash. An XA transaction is one in which multiple resources, such as MDBs and databases, participate within the same transaction. It ensures all operations are performed as a single entity of work. ACID is a set of 4 properties that guarantee the resources are processed in the following manner:
 
@@ -30,36 +29,31 @@ _Note: This quickstart uses the H2 database included with ${product.name.full} $
 _Note: This quickstart uses a `*-ds.xml` datasource configuration file for convenience and ease of database configuration. These files are deprecated in ${product.name} and should not be used in a production environment. Instead, you should configure the datasource using the Management CLI or Management Console. Datasource configuration is documented in the [Configuration Guide](https://access.redhat.com/documentation/en/red-hat-jboss-enterprise-application-platform/) for ${product.name.full}._
 
 
-System requirements
--------------------
+## System Requirements
 
 The application this project produces is designed to be run on ${product.name.full} ${product.version} or later.
 
 All you need to build this project is ${build.requirements}. See [Configure Maven for ${product.name} ${product.version}](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
 
 
-Use of ${jboss.home.name}
----------------
+## Use of ${jboss.home.name}
 
 In the following instructions, replace `${jboss.home.name}` with the actual path to your ${product.name} installation. The installation path is described in detail here: [Use of ${jboss.home.name} and JBOSS_HOME Variables](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_${jboss.home.name}.md#use-of-eap_home-and-jboss_home-variables).
 
 
-Download and Configure Byteman
-------------------------
+## Download and Configure Byteman
 
 This quickstart uses _Byteman_ to help demonstrate crash recovery. You can find more information about _Byteman_ here: [Configure Byteman for Use with the Quickstarts](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_BYTEMAN.md#configure-byteman-for-use-with-the-quickstarts)
 
 Follow the instructions here to download and configure _Byteman_: [Download and Configure Byteman](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_BYTEMAN.md#download-and-configure-byteman)
 
 
-Configure the ${product.name} Server
----------------------------
+## Configure the Server
 
 _NOTE_: The _Byteman_ scripts only work in JTA mode. They do not work in JTS mode. If you have configured the server for a quickstart that uses JTS, you must follow the quickstart instructions to remove the JTS configuration from the ${product.name} server before making the following changes. Otherwise _Byteman_ will not halt the server.
 
 
-Start the Server
----------------
+## Start the Server
 
 Start the ${product.name} Server with the Full Profile
 
@@ -70,8 +64,7 @@ Start the ${product.name} Server with the Full Profile
         For Windows: ${jboss.home.name}\bin\standalone.bat -c standalone-full.xml
 
 
-Build and Deploy the Quickstart
--------------------------
+## Build and Deploy the Quickstart
 
 1. Make sure you have started the ${product.name} server as described above.
 2. Open a command prompt and navigate to the root directory of this quickstart.
@@ -82,14 +75,12 @@ Build and Deploy the Quickstart
 4. This will deploy `target/${project.artifactId}.war` to the running instance of the server.
 
 
-Access the application
----------------------
+## Access the Application
 
 The application will be running at the following URL: <http://localhost:8080/${project.artifactId}/XA>.
 
 
-Test the application
--------------------------
+## Test the Application
 
 1. When you access the application, you will find a web page containing two html input boxes for adding `key` / `value` pairs to a database. Instructions for using the application are shown at the top of the application web page.
 
@@ -163,8 +154,7 @@ Test the application
 
 8. Do NOT forget to [Disable the Byteman script](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_BYTEMAN.md#disable-the-byteman-script) by restoring the backup server configuration file. The Byteman rule must be removed to ensure that your application server will be able to commit 2PC transactions!
 
-Server Log: Expected warnings and errors
------------------------------------
+## Server Log: Expected Warnings and Errors
 
 _Note:_ You will see the following warnings in the server log. You can ignore these warnings.
 
@@ -172,8 +162,7 @@ _Note:_ You will see the following warnings in the server log. You can ignore th
     HHH000431: Unable to determine H2 database version, certain features may not work
 
 
-Undeploy the Archive
---------------------
+## Undeploy the Archive
 
 1. Make sure you have started the ${product.name} server as described above.
 2. Open a command prompt and navigate to the root directory of this quickstart.
@@ -182,15 +171,14 @@ Undeploy the Archive
         mvn wildfly:undeploy
 
 
-Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
--------------------------------------
+## Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+
 You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a ${product.name} server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](${use.eclipse.url}).
 
 _NOTE:_ Within JBoss Developer Studio, be sure to define a server runtime environment that uses the `standalone-full.xml` configuration file.
 
 
-Debug the Application
-------------------------------------
+## Debug the Application
 
 If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
 

@@ -1,5 +1,5 @@
-cluster-ha-singleton: A SingletonService Started by a SingletonStartup
-=============================================================================================================
+# cluster-ha-singleton: A SingletonService Started by a SingletonStartup
+
 Author: Wolf-Dieter Fink  
 Level: Advanced  
 Technologies: EJB, HASingleton, JNDI, Clustering, MSC
@@ -7,8 +7,7 @@ Summary: The `cluster-ha-singleton` quickstart deploys a Service, wrapped with t
 Target Product: ${product.name}  
 Source: <${github.repo.url}>  
 
-What is it?
------------
+## What is it?
 
 The `cluster-ha-singleton` quickstart demonstrates the deployment of a Service that is wrapped with the
 SingletonService decorator and used as a cluster-wide singleton service in ${product.name.full}.
@@ -20,28 +19,24 @@ The example is composed of a Maven subproject and a parent project. The projects
 2. The root parent `pom.xml` builds the `service` subproject and deploys the archive to the server.
 
 
-System requirements
--------------------
+## System Requirements
 
 The application this project produces is designed to be run on ${product.name.full} ${product.version} or later.
 
 All you need to build this project is ${build.requirements}. See [Configure Maven for ${product.name} ${product.version}](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
 
 
-Use of ${jboss.home.name}
----------------
+## Use of ${jboss.home.name}
 
 In the following instructions, replace `${jboss.home.name}` with the actual path to your ${product.name} installation. The installation path is described in detail here: [Use of ${jboss.home.name} and JBOSS_HOME Variables](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_${jboss.home.name}.md#use-of-eap_home-and-jboss_home-variables).
 
 
-Clone the Server Directory
-----------------------------
+## Clone the Server Directory
 
 While you can run this example starting only one instance of the server, if you want to see the singleton behavior, you must start at least two instances of the server. Make a copy of the ${product.name} directory structure to use for the second server.
 
 
-Start the Server with a HA profile
--------------------------
+## Start the Server with a HA profile
 
 _Note: You must start the server using the HA profile or the singleton service will not start correctly._
 
@@ -59,8 +54,7 @@ If you are using Windows
 
 _Note: If you want to test with more than two servers, you can start additional servers by specifying a unique port offset for each one._
 
-Build and Deploy the Quickstart
--------------------------
+## Build and Deploy the Quickstart
 
 1. Make sure you have started the ${product.name} servers as described above.
 2. Open a command prompt and navigate to the root directory of this quickstart.
@@ -110,8 +104,7 @@ Build and Deploy the Quickstart
 9. In the example, the `${jboss.home.name}_1` instance used as master, if it is available. If it has failed or shutdown, any other service instance will be used.
 
 
-Undeploy the Archive
---------------------
+## Undeploy the Archive
 
 1. Make sure you have started the ${product.name} server as described above.
 2. Open a command prompt and navigate to the root directory of this quickstart.
@@ -125,8 +118,7 @@ _NOTE:_ You may see the following error in the server log when you undeploy the 
     ERROR [org.jboss.as.ejb3.invocation] (MSC service thread 1-7) WFLYEJB0034: EJB Invocation failed on component SchedulerBean for method public abstract void org.jboss.as.quickstarts.cluster.hasingleton.service.ejb.Scheduler.stop(): org.jboss.as.ejb3.component.EJBComponentUnavailableException: WFLYEJB0421: Invocation cannot proceed as component is shutting down
 
 
-Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
--------------------------------------
+## Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 
 You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a ${product.name} server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](${use.eclipse.url}).
 
@@ -187,12 +179,8 @@ _NOTE_: If you have not yet configured the ${product.name} ${product.version} ru
         INFO  [class org.jboss.as.quickstarts.cluster.hasingleton.service.ejb.SchedulerBean] (EJB default - 3) HASingletonTimer: Info=HASingleton timer @localhost <timestamp>
 
 
-Debug the Application
-------------------------------------
+## Debug the Application
 
 If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
 
     mvn dependency:sources
-
-
-------------------------------------

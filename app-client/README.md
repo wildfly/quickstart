@@ -1,5 +1,5 @@
-app-client: Use the ${product.name} Application Client Container
-======================================================
+# app-client: Use the ${product.name} Application Client Container
+
 Author: Wolf-Dieter Fink  
 Level: Intermediate  
 Technologies: EJB, EAR, AppClient  
@@ -8,8 +8,7 @@ Target Product: ${product.name}
 Source: <${github.repo.url}>  
 
 
-What is it?
------------
+## What is it?
 
 The `app-client` quickstart demonstrates how to use the ${product.name} client container to start the client `Main` program and provide Dependency Injections (DI) for client applications in ${product.name.full}. It also shows you how to use Maven to package the application according to the JavaEE specification.
 
@@ -26,22 +25,19 @@ The root `pom.xml` file builds each of the subprojects in the appropriate order.
 
 
 
-System requirements
--------------------
+## System Requirements
 
-The application this project produces is designed to be run on ${product.name.full} ${product.version} or later. 
+The application this project produces is designed to be run on ${product.name.full} ${product.version} or later.
 
 All you need to build this project is ${build.requirements}. See [Configure Maven for ${product.name} ${product.version}](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
 
 
-Use of ${jboss.home.name}
----------------
+## Use of ${jboss.home.name}
 
 In the following instructions, replace `${jboss.home.name}` with the actual path to your ${product.name} installation. The installation path is described in detail here: [Use of ${jboss.home.name} and JBOSS_HOME Variables](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_${jboss.home.name}.md#use-of-eap_home-and-jboss_home-variables).
 
 
-Add the Application Users
----------------
+## Add the Application Users
 
 If the client and server are run on different hosts, you must add the following users to the ${product.name} server side application. Be sure to use the names and passwords specified in the table as they are required to run this example.
 
@@ -63,8 +59,7 @@ To add the users, open a command prompt and type the following commands:
 If you prefer, you can use the add-user utility interactively. For an example of how to use the add-user utility, see the instructions located here: [Add an Application User](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CREATE_USERS.md#add-an-application-user).
 
 
-Start the ${product.name} Server
--------------------------
+## Start the Server
 
 1. Open a command prompt and navigate to the root of the ${product.name} directory.
 2. The following shows the command line to start the server:
@@ -73,8 +68,7 @@ Start the ${product.name} Server
         For Windows: ${jboss.home.name}\bin\standalone.bat
 
 
-Build and Deploy the Quickstart
--------------------------
+## Build and Deploy the Quickstart
 
 1. Make sure you have started the ${product.name} server as described above.
 2. Open a command prompt and navigate to the root directory of this quickstart.
@@ -84,8 +78,7 @@ Build and Deploy the Quickstart
 
 
 
-Access the Remote Client Application from the same machine
----------------------
+## Access the Remote Client Application from the Same Machine
 
 This example shows how to invoke an EJB from a remote standalone application on the same machine. Both the client and server are on the same machine, so the defaults are sufficient and no authentication is necessary.
 
@@ -109,8 +102,7 @@ This example shows how to invoke an EJB from a remote standalone application on 
          ClientContext is here = {Client =myhost}
 
 
-Access the Remote Client Application from a different machine
----------------------
+## Access the Remote Client Application from a Different Machine
 
 This example shows how to invoke an EJB from a remote standalone Java EE application on a different machine. In this case, the client needs to define a properties file to define properties to connect and authenticate to the server. The properties file is passed on the command line using the `--ejb-client-properties` argument.
 
@@ -118,7 +110,7 @@ This example shows how to invoke an EJB from a remote standalone Java EE applica
 
 1. Install ${product.name} on this machine.
 2. Add the application users to the ${product.name} server on this machine as described above.
-3. Start the ${product.name} server with the following command. Be sure to replace `MACHINE_1_IP_ADDRESS` with the IP address of this machine. These arguments make the server accessible to the network. 
+3. Start the ${product.name} server with the following command. Be sure to replace `MACHINE_1_IP_ADDRESS` with the IP address of this machine. These arguments make the server accessible to the network.
 
         For Linux:   ${jboss.home.name}/bin/standalone.sh -b MACHINE_1_IP_ADDRESS -bmanagement MACHINE_1_IP_ADDRESS
         For Windows: ${jboss.home.name}\bin\standalone.bat -b MACHINE_1_IP_ADDRESS -bmanagement MACHINE_1_IP_ADDRESS
@@ -127,7 +119,7 @@ This example shows how to invoke an EJB from a remote standalone Java EE applica
 ### Configure Machine_2 (Local Client Machine)
 
 1. Install ${product.name} on this server. There is no need to add the application users to this server.
-2. Download the `app-client` quickstart to this machine. 
+2. Download the `app-client` quickstart to this machine.
 3. Create a `jboss-ejb-client.properties` file. This file can be located anywhere in the file system, but for ease of demonstration, we create it in the root directory of this quickstart. Add the following content, replacing `MACHINE_1_IP_ADDRESS` with the IP address of `Machine_1`.
 
         remote.connectionprovider.create.options.org.xnio.Options.SSL_ENABLED=false
@@ -165,8 +157,8 @@ This example shows how to invoke an EJB from a remote standalone Java EE applica
 
 
 
-Undeploy the Archive from the Local machine
---------------------
+## Undeploy the Archive from the Local Machine
+
 
 Follow these instructions if you are testing the quickstart on the same machine.
 
@@ -175,18 +167,14 @@ Follow these instructions if you are testing the quickstart on the same machine.
 3. When you are finished testing, type this command to undeploy the archive from the local machine.
 
         mvn wildfly:undeploy
-        
 
-Undeploy the Archive from the Remote Machine
---------------------
 
-Follow these instructions if you are testing the quickstart on a diffent machine.
+## Undeploy the Archive from the Remote Machine
+
+Follow these instructions if you are testing the quickstart on a different machine.
 
 1. Make sure you have started the ${product.name} server on the remote server machine, `Machine_1`, where the quickstart is deployed as described above.
 2. Open a command prompt on the local client machine, `Machine_2`, and navigate to the root directory of this quickstart.
 3. When you are finished testing, type this command to undeploy the archive from the remote server machine, `Machine_1`.
 
         mvn wildfly:undeploy -Dwildfly.hostname=MACHINE_1_IP_ADDRESS [-Dwildfly.port=9099] -Dwildfly.username=admin -Dwildfly.password=admin-123
-        
-
-

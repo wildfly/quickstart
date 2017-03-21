@@ -1,5 +1,5 @@
-jts-distributed-crash-rec: JTS and distributed crash recovery 
-=============================================================
+# jts-distributed-crash-rec: JTS and distributed crash recovery
+
 Author: Tom Jenkinson  
 Level: Advanced  
 Technologies: JTS, Crash Recovery  
@@ -8,10 +8,9 @@ Prerequisites: jts
 Target Product: ${product.name}  
 Source: <${github.repo.url}>  
 
-What is it?
------------
+## What is it?
 
-The `jts-distributed-crash-rec` quickstart demonstrates a distributed crash recovery across multiple application servers in ${product.name.full}. 
+The `jts-distributed-crash-rec` quickstart demonstrates a distributed crash recovery across multiple application servers in ${product.name.full}.
 
 Crash recovery is a key feature provided by an application server and ensures an application's data consistency, even in the presence of failure. Providing reliable crash recovery helps qualify the pedigree of an application server, distributed crash recovery even more so.
 
@@ -29,24 +28,21 @@ As an overview, the sequence of events to expect:
 6. ${product.name} server 1 should be restarted. It will then recover the "invoices" delivered to the MDBs, just as it does in the `jts` quickstart.
 
 
-System requirements
--------------------
+## System Requirements
 
-The application this project produces is designed to be run on ${product.name.full} ${product.version} or later. 
+The application this project produces is designed to be run on ${product.name.full} ${product.version} or later.
 
 All you need to build this project is ${build.requirements}. See [Configure Maven for ${product.name} ${product.version}](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
 
 
-Download and Configure Byteman
------------------
- 
+## Download and Configure Byteman
+
 This quickstart uses _Byteman_ to help demonstrate crash recovery. You can find more information about _Byteman_ here: [Configure Byteman for Use with the Quickstarts](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_BYTEMAN.md#configure-byteman-for-use-with-the-quickstarts)
 
 Follow the instructions here to download and configure _Byteman_: [Download and Configure Byteman](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_BYTEMAN.md#download-and-configure-byteman)
 
 
-Prerequisites
---------------
+## Prerequisites
 
 Developers should be familiar with the concepts introduced in the following quickstarts:
 
@@ -58,18 +54,16 @@ IMPORTANT: This quickstart depends on the deployment of the `jts` quickstart for
 You can verify the deployment of the `jts` quickstart by accessing the following URL:  <http://localhost:8080/${project.artifactId}-1/>.
 
 
-Use of ${jboss.home.name}
----------------
+## Use of ${jboss.home.name}
 
 In the following instructions, replace `${jboss.home.name}` with the actual path to your ${product.name} installation. The installation path is described in detail here: [Use of ${jboss.home.name} and JBOSS_HOME Variables](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_${jboss.home.name}.md#use-of-eap_home-and-jboss_home-variables).
 
 
-Test the Application
------------------------------------
+## Test the Application
 
 _Note:_ This quickstart README file uses the following replaceable values. When you encounter these values in a README file, be sure to replace them with the actual path to the correct ${product.name} server.
 
-    `${jboss.home.name}` denotes the path to the original ${product.name} installation. 
+    `${jboss.home.name}` denotes the path to the original ${product.name} installation.
     `${jboss.home.name}_1` denotes the path to the modified ${product.name} server 1 configuration.
     `${jboss.home.name}_2` denotes the path to the modified ${product.name} server 2 configuration.
 
@@ -82,14 +76,14 @@ _Note:_ This quickstart README file uses the following replaceable values. When 
     * The following 2 lines of text must be appended to the server configuration file for server 1 only using the instructions located here: [Use Byteman to Halt the Application](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_BYTEMAN.md#use-byteman-to-halt-the-application)
 
         For Linux:
-        
+
             JAVA_OPTS="-javaagent:/BYTEMAN_HOME/lib/byteman.jar=script:/QUICKSTART_HOME/jts-distributed-crash-rec/byteman-scripts/failAfterPrepare.btm ${JAVA_OPTS}"
             JAVA_OPTS="-Dorg.jboss.byteman.transform.all -Djboss.modules.system.pkgs=org.jboss.byteman -Dorg.jboss.byteman.verbose=true ${JAVA_OPTS}"
 
-        For Windows: 
-        
+        For Windows:
+
             JAVA_OPTS=%JAVA_OPTS% -javaagent:C:BYTEMAN_HOME\lib\byteman.jar=script:C:\QUICKSTART_HOME\jts-distributed-crash-rec\byteman-scripts\failAfterPrepare.btm %JAVA_OPTS%
-            JAVA_OPTS=%JAVA_OPTS% -Dorg.jboss.byteman.transform.all -Djboss.modules.system.pkgs=org.jboss.byteman -Dorg.jboss.byteman.verbose=true 
+            JAVA_OPTS=%JAVA_OPTS% -Dorg.jboss.byteman.transform.all -Djboss.modules.system.pkgs=org.jboss.byteman -Dorg.jboss.byteman.verbose=true
 
 3. Start both of the ${product.name} servers
 
@@ -101,7 +95,7 @@ _Note:_ This quickstart README file uses the following replaceable values. When 
    If you are using Windows
 
         Server 1: ${jboss.home.name}_1\bin\standalone.bat -c standalone-full.xml -Djboss.tx.node.id=UNIQUE_NODE_ID_1
-        Server 2: ${jboss.home.name}_2\bin\standalone.bat -c standalone-full.xml -Djboss.tx.node.id=UNIQUE_NODE_ID_2 -Djboss.socket.binding.port-offset=100 
+        Server 2: ${jboss.home.name}_2\bin\standalone.bat -c standalone-full.xml -Djboss.tx.node.id=UNIQUE_NODE_ID_2 -Djboss.socket.binding.port-offset=100
 
 4. Access the application at the following URL: <http://localhost:8080/${project.artifactId}-1/>
     * When you enter a name and click to "add" that customer, you will see the following in the application server 1 console:
@@ -124,53 +118,53 @@ _Note:_ This quickstart README file uses the following replaceable values. When 
     This should display:
 
         ${jboss.home.name}_1/standalone/data/tx-object-store
-        `-- ShadowNoFileLockStore
-            `-- defaultStore
+         -- ShadowNoFileLockStore
+             -- defaultStore
                 |-- CosTransactions
-                |   `-- XAResourceRecord
-                |       `-- 0_ffffc0a8013c_38e104bd_4f280cdb_1d
+                |   -- XAResourceRecord
+                |       -- 0_ffffc0a8013c_38e104bd_4f280cdb_1d
                 |-- Recovery
-                |   `-- FactoryContact
+                |   -- FactoryContact
                 |       |-- 0_ffffc0a8013c_38e104bd_4f280cdb_17
                 |       |-- 0_ffffc0a8013c_-671009a_4f280e7e_17
-                |       `-- 0_ffffc0a8013c_6d5d82b5_4f280a16_f
+                |       -- 0_ffffc0a8013c_6d5d82b5_4f280a16_f
                 |-- RecoveryCoordinator
-                |   `-- 0_ffff52e38d0c_c91_4140398c_0
-                `-- StateManager
-                    `-- BasicAction
-                        `-- TwoPhaseCoordinator
-                            `-- ArjunaTransactionImple
-                                `-- 0_ffffc0a8013c_38e104bd_4f280cdb_19
+                |   -- 0_ffff52e38d0c_c91_4140398c_0
+                 -- StateManager
+                    -- BasicAction
+                        -- TwoPhaseCoordinator
+                            -- ArjunaTransactionImple
+                                -- 0_ffffc0a8013c_38e104bd_4f280cdb_19
 
     View the contents of the object store for the second server by typing the following in the terminal for server 2. Be sure to replace `${jboss.home.name}_2` with the path to the second server.
-   
+
          tree ${jboss.home.name}_2/standalone/data/tx-object-store
 
     This should display:
 
         ${jboss.home.name}_2/standalone/data/tx-object-store
-        `-- ShadowNoFileLockStore
-            `-- defaultStore
+        -- ShadowNoFileLockStore
+            -- defaultStore
                 |-- CosTransactions
-                |   `-- XAResourceRecord
-                |       `-- 0_ffffc0a8013c_-2eb1158b_4f280ce3_1e
+                |   -- XAResourceRecord
+                |       -- 0_ffffc0a8013c_-2eb1158b_4f280ce3_1e
                 |-- Recovery
-                |   `-- FactoryContact
+                |   -- FactoryContact
                 |       |-- 0_ffffc0a8013c_-2eb1158b_4f280ce3_18
-                |       `-- 0_ffffc0a8013c_4f6459f0_4f280a24_f
+                |       -- 0_ffffc0a8013c_4f6459f0_4f280a24_f
                 |-- RecoveryCoordinator
-                |   `-- 0_ffff52e38d0c_c91_4140398c_0
-                `-- StateManager
-                    `-- BasicAction
-                        `-- TwoPhaseCoordinator
-                            `-- ArjunaTransactionImple
-                                `-- ServerTransaction
-                                    `-- 0_ffffc0a8013c_-2eb1158b_4f280ce3_1a
+                |   -- 0_ffff52e38d0c_c91_4140398c_0
+                 -- StateManager
+                    -- BasicAction
+                        -- TwoPhaseCoordinator
+                            -- ArjunaTransactionImple
+                                -- ServerTransaction
+                                    -- 0_ffffc0a8013c_-2eb1158b_4f280ce3_1a
 
 
-6. [Disable the Byteman script](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_BYTEMAN.md##disable-the-byteman-script) by restoring the backup configuration file for server 1.
+6. [Disable the Byteman script](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_BYTEMAN.md#disable-the-byteman-script) by restoring the backup configuration file for server 1.
 
-7. Follow the steps above to restart server 1 and wait for recovery to complete. 
+7. Follow the steps above to restart server 1 and wait for recovery to complete.
 
     _IMPORTANT: By default, the recovery process checks the transactional state every two minutes, therefore it can take a while for recovery to happen. Also recovery for each server will take place at its own recovery interval._
     * You will know when recovery is complete for server 2 as you will see the following in application-server-2 console:
@@ -196,7 +190,7 @@ _Note:_ This quickstart README file uses the following replaceable values. When 
 	            at com.arjuna.ArjunaOTS._ArjunaSubtranAwareResourceStub.commit(_ArjunaSubtranAwareResourceStub.java:124)
 	            at com.arjuna.ats.internal.jts.resources.ExtendedResourceRecord.topLevelCommit(ExtendedResourceRecord.java:502)
               ...
-    * The easiest way to check when ${product.name} server 1 is recovered is to look in the object store and check that all the records are now cleaned up. The records that should be cleared are the ones in the defaultStore/CosTransactions/XAResourceRecord and defaultStore/StateManager/BasicAction/TwoPhaseCoordinator/ArjunaTransactionImple. 
+    * The easiest way to check when ${product.name} server 1 is recovered is to look in the object store and check that all the records are now cleaned up. The records that should be cleared are the ones in the defaultStore/CosTransactions/XAResourceRecord and defaultStore/StateManager/BasicAction/TwoPhaseCoordinator/ArjunaTransactionImple.
     * Records will remain in defaultStore/Recovery/FactoryContact and defaultStore/RecoveryCoordinator for server 1 and that is to be expected. Run:
 
             tree ${jboss.home.name}_1/standalone/data/tx-object-store
@@ -204,43 +198,43 @@ _Note:_ This quickstart README file uses the following replaceable values. When 
       You should see this output:
 
             ${jboss.home.name}_1/standalone/data/tx-object-store
-            `-- ShadowNoFileLockStore
-                `-- defaultStore
+            -- ShadowNoFileLockStore
+                -- defaultStore
                     |-- CosTransactions
-                    |   `-- XAResourceRecord
+                    |   -- XAResourceRecord
                     |-- Recovery
-                    |   `-- FactoryContact
+                    |   -- FactoryContact
                     |       |-- 0_ffffc0a8013c_38e104bd_4f280cdb_17
                     |       |-- 0_ffffc0a8013c_-671009a_4f280e7e_17
-                    |       `-- 0_ffffc0a8013c_6d5d82b5_4f280a16_f
+                    |       -- 0_ffffc0a8013c_6d5d82b5_4f280a16_f
                     |-- RecoveryCoordinator
-                    |   `-- 0_ffff52e38d0c_c91_4140398c_0
-                    `-- StateManager
-                        `-- BasicAction
-                            `-- TwoPhaseCoordinator
-                              `-- ArjunaTransactionImple
+                    |   -- 0_ffff52e38d0c_c91_4140398c_0
+                     -- StateManager
+                        -- BasicAction
+                            -- TwoPhaseCoordinator
+                              -- ArjunaTransactionImple
       View the contents of the object store for the second server by typing the following in the terminal for server 2. Be sure to replace `${jboss.home.name}_2` with the path to the second server.
-   
+
             tree ${jboss.home.name}_2/standalone/data/tx-object-store
 
       This should display:
 
             ${jboss.home.name}_2/standalone/data/tx-object-store
-            `-- ShadowNoFileLockStore
-                `-- defaultStore
+            -- ShadowNoFileLockStore
+                -- defaultStore
                     |-- CosTransactions
-                    |   `-- XAResourceRecord
+                    |   -- XAResourceRecord
                     |-- Recovery
-                    |   `-- FactoryContact
+                    |   -- FactoryContact
                     |       |-- 0_ffffc0a8013c_-2eb1158b_4f280ce3_18
-                    |       `-- 0_ffffc0a8013c_4f6459f0_4f280a24_f
+                    |       -- 0_ffffc0a8013c_4f6459f0_4f280a24_f
                     |-- RecoveryCoordinator
-                    |   `-- 0_ffff52e38d0c_c91_4140398c_0
-                    `-- StateManager
-                        `-- BasicAction
-                            `-- TwoPhaseCoordinator
-                                `-- ArjunaTransactionImple
-                                    `-- ServerTransaction
+                    |   -- 0_ffff52e38d0c_c91_4140398c_0
+                    -- StateManager
+                        -- BasicAction
+                            -- TwoPhaseCoordinator
+                                -- ArjunaTransactionImple
+                                    -- ServerTransaction
 
 7. After recovery is complete, access the application URL <http://localhost:8080/${project.artifactId}-1/customers.jsf>. The user you created should now appear in the list.
 

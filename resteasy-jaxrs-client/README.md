@@ -1,5 +1,5 @@
-resteasy-jaxrs-client: External JAX-RS Client
-======================
+# resteasy-jaxrs-client: External JAX-RS Client
+
 Author: Blaine Mincey  
 Level: Intermediate  
 Technologies: JAX-RS, CDI  
@@ -8,8 +8,7 @@ Prerequisites: helloworld-rs
 Target Product: ${product.name}  
 Source: <${github.repo.url}>  
 
-What is it?
------------
+## What is it?
 
 The `resteasy-jaxrs-client` quickstart demonstrates an external JAX-RS RestEasy client which interacts with a JAX-RS Web service that uses *CDI* and *JAX-RS*
 in ${product.name.full}.
@@ -17,16 +16,14 @@ in ${product.name.full}.
 This client "calls" the HelloWorld JAX-RS Web Service that was created in the [helloworld-rs](../helloworld-rs/README.md) quickstart. See the **Prerequisite** section below for details on how to build and deploy the [helloworld-rs](../helloworld-rs/README.md) quickstart.
 
 
-System requirements
--------------------
+## System Requirements
 
 The application this project produces is designed to be run on ${product.name.full} ${product.version} or later.
 
 All you need to build this project is ${build.requirements}. See [Configure Maven for ${product.name} ${product.version}](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
 
 
-Prerequisites
------------
+## Prerequisites
 
 IMPORTANT: This quickstart depends on the deployment of the `helloworld-rs` quickstart for its test. Before running this quickstart, see the [helloworld-rs](../helloworld-rs/README.md)  README file for details on how to deploy it.
 
@@ -37,8 +34,7 @@ You can verify the deployment of the [helloworld-rs](../helloworld-rs/README.md)
 
 
 
-Run the client
---------------
+## Run the Client
 
 1. Make sure you have started the ${product.name} server as described above.
 2. Make sure the `helloworld-rs` quickstart has been deployed on the server as noted in the **Prerequisites** section above.
@@ -47,8 +43,7 @@ Run the client
 
         mvn clean package exec:java
 
-Investigate the Console Output
-----------------------------
+## Investigate the Console Output
 
 This command will compile the example and execute a test to make two separate requests to the Web Service.  Towards the end of the Maven build output, you
 should see the following if the execution is successful:
@@ -71,8 +66,8 @@ should see the following if the execution is successful:
         {"result":"Hello World!"}
         ===============================================
 
-Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
--------------------------------------
+## Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+
 You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a ${product.name} server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](${use.eclipse.url}).
 
 1. Before you run this quickstart, be sure to import, deploy, and test the `helloworld-rs` quickstart as described in the [Prerequisites](#prerequisites) section of this file.

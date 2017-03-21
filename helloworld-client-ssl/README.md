@@ -1,5 +1,5 @@
-helloworld-client-ssl: ${product.name} mutual SSL(two-way) configuration example
-=======================================================================
+# helloworld-client-ssl: ${product.name} mutual SSL(two-way) configuration example
+
 Author: Giriraj Sharma  
 Level: Intermediate  
 Technologies: Mutual SSL, Undertow  
@@ -7,16 +7,15 @@ Summary: Basic example that demonstrates client mutual SSL authentication in ${p
 Target Product: ${product.name}  
 Source: <${github.repo.url}>  
 
-What is it?
------------
+## What is it?
 
 Mutual SSL provides the same security as SSL, with the addition of authentication and non-repudiation of the client authentication, using digital signatures. When mutual authentication is used the server would request the client to provide a certificate in addition to the server certificate issued to the client. Mutual authentication requires an extra round trip time for client certificate exchange. In addition the client must buy and maintain a digital certificate.
 
 This quickstart shows how to configure ${product.name} to enable TLS/SSL configuration for the new ${product.name} subsystem Undertow and enable mutual (two-way) SSL authentication for clients.
 Before we run this example, we must create certificates and configure the server to use SSL, https listener and require client verification.
 
-System requirements
--------------------
+## System Requirements
+
 The application this project produces is designed to be run on ${product.name.full} ${product.version} or later.
 
 All you need to build this project is ${build.requirements}. See [Configure Maven for ${product.name} ${product.version}](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
@@ -130,8 +129,7 @@ The server/client certificate pair can be used when an application is trying to 
 
 6. The certificates and keystores are now properly configured.
 
-Configure ${product.name} for mutual client SSL authentication
-------------------------------------------------------
+## Configure the Server For mutual Client SSL Authentication
 
 1.  Open a command line and navigate to the JBoss server `configuration` directory:
 
@@ -186,7 +184,7 @@ else In case keys and certificates have been generated using java keytool
 
 ## Configure Undertow Subsystem for SSL
 
-If you're running with the default-server, add the https-listener to the undertow subsystem:
+If you are running with the default-server, add the https-listener to the undertow subsystem:
 
         <subsystem xmlns="urn:jboss:domain:undertow:2.0">
             <server name="default-server">
@@ -200,15 +198,13 @@ If you're running with the default-server, add the https-listener to the underto
 
 That's it, now we are ready to connect to the ssl port of our instance `https://localhost:8443/`. Note, that we get the privacy error as the server certificate is self signed. If we need to use a fully signed certificate, we mostly get a PEM file from the Certificate Authority. In such a case, we need to import the PEM into the keystore and truststore.
 
-Test the Server SSL Configuration
----------------------------------
+## Test the Server SSL Configuration
 
 To test the SSL configuration, access: `<https://localhost:8443>`
 
 If it is configured correctly, you should be asked to trust the server certificate.
 
-Import the Certificate into Your Browser
----------------------------------------
+## Import the Certificate into Your Browser
 
 Before you access the application, you must import the *clientCert.p12*, which holds the client certificate, into your browser.
 
@@ -230,8 +226,7 @@ Before you access the application, you must import the *clientCert.p12*, which h
 5. Select the `clientCert.p12` file. You will be prompted to enter the  password: `keypassword`.
 6. The certificate is now installed in the Mozilla Firefox browser.
 
-Start the Server with the Web Profile
-------------------------------------------------------------------------------
+## Start the Server with the Web Profile
 
 1. Open a command line and navigate to the root of the JBoss server directory.
 2. The following shows the command line to start the server with the web profile:
@@ -240,8 +235,7 @@ Start the Server with the Web Profile
         For Windows: bin\standalone.bat
 
 
-Build and Deploy the Quickstart
--------------------------
+## Build and Deploy the Quickstart
 
 _NOTE: The following build command assumes you have configured your Maven user settings. If you have not, you must include Maven setting arguments on the command line. See [Build and Deploy the Quickstarts](../README.md#build-and-deploy-the-quickstarts) for complete instructions and additional options._
 
@@ -254,14 +248,12 @@ _NOTE: The following build command assumes you have configured your Maven user s
 4. This will deploy `target/${project.artifactId}.war` to the running instance of the server.
 
 
-Access the application
----------------------
+## Access the application
 
 The application will be running at the following URL: `<https://localhost:8443/${project.artifactId}>`.
 
 
-Undeploy the Archive
---------------------
+## Undeploy the Archive
 
 1. Make sure you have started the JBoss Server as described above.
 2. Open a command line and navigate to the root directory of this quickstart.
@@ -269,20 +261,18 @@ Undeploy the Archive
 
         mvn wildfly:undeploy
 
-Remove the SSL Configuration
-----------------------------
+## Remove the SSL Configuration
 
 1. If the server is running, stop the ${product.name} server.
 2. Replace the `${jboss.home.name}/standalone/configuration/standalone.xml` file with the back-up copy of the file.
 
 
-Run the Quickstart in JBoss Developer Studio or Eclipse
--------------------------------------
+## Run the Quickstart in JBoss Developer Studio or Eclipse
+
 You can also start the server and deploy the quickstarts from Eclipse using JBoss tools.
 
 
-Debug the Application
-------------------------------------
+## Debug the Application
 
 If you want to debug the source code or look at the Javadocs of any library in the project, run either of the following commands to pull them into your local repository. The IDE should then detect them.
 
