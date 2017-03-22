@@ -1,0 +1,17 @@
+<configuration>
+    <authentication-client xmlns="urn:elytron:1.0">
+        <authentication-rules>
+            <rule use-configuration="ejb"/>
+        </authentication-rules>
+        <authentication-configurations>
+            <configuration name="ejb">
+                <set-user-name name="ConnectionUser"/>
+                <credentials>
+                    <clear-password password="ConnectionPassword1!"/>
+                </credentials>
+                <set-mechanism-realm name="ApplicationRealm"/>
+                <use-service-loader-providers/>
+            </configuration>
+        </authentication-configurations>
+    </authentication-client>
+</configuration>

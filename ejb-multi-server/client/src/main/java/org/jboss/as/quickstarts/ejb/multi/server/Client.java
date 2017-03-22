@@ -48,14 +48,15 @@ public class Client {
         Logger.getLogger("org.xnio").setLevel(Level.OFF);
 
         Properties p = new Properties();
-        p.put("remote.connectionprovider.create.options.org.xnio.Options.SSL_ENABLED", "false");
-        p.put("remote.connections", "one");
-        p.put("remote.connection.one.port", "8080");
-        p.put("remote.connection.one.host", "localhost");
-        p.put("remote.connection.one.username", "quickuser");
-        p.put("remote.connection.one.password", "quick-123");
+        //p.put("remote.connectionprovider.create.options.org.xnio.Options.SSL_ENABLED", "false");
+        //p.put("remote.connections", "one");
+        //p.put("remote.connection.one.port", "8080");
+        //p.put("remote.connection.one.host", "localhost");
+        //p.put("remote.connection.one.username", "quickuser");
+        //p.put("remote.connection.one.password", "quick-123");
 
-        p.put(Context.URL_PKG_PREFIXES, "org.jboss.ejb.client.naming");
+        p.put(Context.INITIAL_CONTEXT_FACTORY, "org.wildfly.naming.client.WildFlyInitialContextFactory");
+        p.put(Context.PROVIDER_URL, "remote+http://localhost:8080");
         InitialContext context = new InitialContext(p);
 
         final boolean useScopedExample = Boolean.getBoolean("UseScopedContext");
