@@ -70,7 +70,8 @@ You can check that the Web Service is running and deployed correctly by accessin
         cd client/
 3. Type this command to run the client.
 
-        mvn exec:java        
+        mvn exec:java
+
     __Note__: This quickstart requires `quickstart-parent` artifact to be installed in your local Maven repository.
     To install it, navigate to quickstarts project root directory and run the following command:
 
@@ -94,6 +95,29 @@ You can check that the Web Service is running and deployed correctly by accessin
 
 You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a ${product.name} server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](${use.eclipse.url}).
 
+This quickstart is dependent on a WSDL file that is included in the `${project.artifactId}-service` project, so it deploys and runs differently in JBoss Developer Studio than the other quickstarts.
+
+When you import this project into JBoss Developer Studio, you see 17 errors. These `Java Problems` are because these classes are not included in this project. Instead, they are defined in and generated from the `${project.artifactId}-service/src/main/webapp/WEB-INF/wsdl/ProfileMgmtService.wsdl` WSDL file. You can ignore these errors.
+
+This quickstart requires that you first deploy the service, and then run the client.
+
+1. To deploy the service:
+
+    * Right-click on the `${project.artifactId}-service` project and choose `Run As` --> `Run on Server`.
+    * Select the ${product.name} server and click `Finish`.
+    * You should see the following message in the `Console` tab:
+
+        `WFLYSRV0010: Deployed "${project.artifactId}-service.war"`
+
+    * You also see the "404 - Not Found" error in the application window. This is because there is no user interface for this quickstart. You can ignore this error.
+
+2. To run the application:
+
+    * Right-click on the `${project.artifactId}-client` project and choose `Run As` --> `Maven Build`.
+    * Enter `exec:java` for the `Goals` and click `Run`.
+    * Review the output in the console window. You should see the following message:
+
+        `Jay Boss's discount is 10.00`
 
 ## Debug the Application
 
