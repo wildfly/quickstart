@@ -15,9 +15,9 @@ The Web service exposes a simple 'set' collection as a service. The Service allo
 
 The example demonstrates the basics of implementing a WS-BA enabled Web service. It is beyond the scope of this quickstart to demonstrate more advanced features. In particular
 
-1. The Service does not implement the required hooks to support recovery in the presence of failures.
-2. It also does not utilize a transactional back end resource.
-3. Only one Web service participates in the protocol. As WS-BA is a coordination protocol, it is best suited to multi-participant scenarios.
+* The Service does not implement the required hooks to support recovery in the presence of failures.
+* It also does not utilize a transactional back-end resource.
+* Only one web service participates in the protocol. As WS-BA is a coordination protocol, it is best suited to multi-participant scenarios.
 
 For a more complete example, please see the XTS demonstrator application that ships with the Narayana project: http://narayana.io.
 
@@ -41,7 +41,7 @@ following steps occur:
 9. Providing the above steps where successful, the service notifies the coordinator that it has completed. The service has now made its changes visible and is not holding any locks. Allowing the service to notify completion is an optimisation that prevents the holding of locks, whilst waiting for other participants to complete. This notification is required as the Service participates in the `ParticipantCompletion` protocol.
 10. The client can then decide to complete or cancel the BA. If the client decides to complete, all participants will be told to close. If the participant decides to cancel, all participants will be told to compensate.
 
-There are other tests that show:
+There are additional tests that show:
 
 * What happens when an application exception is thrown by the service.
 * How the client can cancel a BA.
@@ -58,8 +58,8 @@ All you need to build this project is ${build.requirements}. See [Configure Mave
 
 Next you need to start ${product.name} with the XTS subsystem enabled. This is enabled through the optional server configuration *standalone-xts.xml*. To do this, run the following commands from the top-level directory of ${product.name}:
 
-        For Linux:     ./bin/standalone.sh --server-config=../../docs/examples/configs/standalone-xts.xml | egrep "started|stdout"
-        For Windows:   \bin\standalone.bat --server-config=..\..\docs\examples\configs\standalone-xts.xml | egrep "started|stdout"
+    For Linux:     ./bin/standalone.sh --server-config=../../docs/examples/configs/standalone-xts.xml | egrep "started|stdout"
+    For Windows:   \bin\standalone.bat --server-config=..\..\docs\examples\configs\standalone-xts.xml | egrep "started|stdout"
 
 
 Note, the pipe to egrep (| egrep "started|stdout") is useful to just show when the server has started and the output from these tests. For normal operation, this pipe can be removed.
@@ -83,9 +83,9 @@ This quickstart provides Arquillian tests. By default, these tests are configure
 
 _Note: You see the following warning when you run the Arquillian tests in remote mode._
 
-      WARNING: Configuration contain properties not supported by the backing object org.jboss.as.arquillian.container.remote.RemoteContainerConfiguration
-      Unused property entries: {serverConfig=../../docs/examples/configs/standalone-xts.xml}
-      Supported property names: [managementAddress, password, managementPort, managementProtocol, username]
+    WARNING: Configuration contain properties not supported by the backing object org.jboss.as.arquillian.container.remote.RemoteContainerConfiguration
+    Unused property entries: {serverConfig=../../docs/examples/configs/standalone-xts.xml}
+    Supported property names: [managementAddress, password, managementPort, managementProtocol, username]
 
 _This is because, in remote mode, you are responsible for starting the server with the XTS subsystem enabled. When you run the Arquillian tests in managed mode, the container uses the `serverConfig` property defined in the `arquillian.xml` file to start the server with the XTS subsystem enabled._
 
@@ -136,17 +136,18 @@ This quickstart is more complex than the others. It requires that you configure 
 
 1. Import the quickstart into JBoss Developer Studio.
 2. If you have not already done so, you must configure a new ${product.name} server to use the XTS configuration.
-   * In the `Server` tab, right-click and choose `New` --> `Server`.
-   * Under `Select the server type:`, expand `Red Hat JBoss Middleware` and choose `${jbds.eap.server.name}`.
-   * For the `Server name`, enter `${product.name} XTS Configuration` and click `Next`.
-   * In the `Create a new Server Adapter` dialog, choose `Create a new runtime (next page)` and click `Next`.
-   * In the `JBoss Runtime` dialog, enter the following information and then click `Finish`.
+     * In the `Server` tab, right-click and choose `New` --> `Server`.
+     * Under `Select the server type:`, expand `Red Hat JBoss Middleware` and choose `${jbds.eap.server.name}`.
+     * For the `Server name`, enter `${product.name} XTS Configuration` and click `Next`.
+     * In the `Create a new Server Adapter` dialog, choose `Create a new runtime (next page)` and click `Next`.
+     * In the `JBoss Runtime` dialog, enter the following information and then click `Finish`.
 
             Name: ${product.name} XTS Runtime
             Home Directory: (Browse to the server directory and select it)
             Execution Environment: (Choose your runtime JRE if not correct)
             Configuration base directory: (This should already point to your server configuration directory)
             Configuration file: ../../docs/examples/configs/standalone-xts.xml
+
 3. Start the new `${product.name} XTS Configuration` server.
 4. Right-click on the `${project.artifactId}` project, choose `Run As` --> `Maven build`, enter `clean verify -Parq-remote` for the `Goals:`, and click `Run` to run the Arquillian tests. The test results appear in the console.
 
@@ -155,4 +156,4 @@ This quickstart is more complex than the others. It requires that you configure 
 
 If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
 
-        mvn dependency:sources
+    mvn dependency:sources
