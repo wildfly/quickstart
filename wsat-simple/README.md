@@ -15,9 +15,9 @@ The Web service is offered by a Restaurant for making bookings. The Service allo
 
 This example demonstrates the basics of implementing a WS-AT enabled Web service. It is beyond the scope of this quick start to demonstrate more advanced features. In particular:
 
-1. The Service does not implement the required hooks to support recovery in the presence of failures.
-2. It also does not utilize a transactional back end resource.
-3. Only one Web service participates in the protocol. As WS-AT is a 2PC coordination protocol, it is best suited to multi-participant scenarios.
+* The Service does not implement the required hooks to support recovery in the presence of failures.
+* It also does not utilize a transactional back-end resource.
+* Only one web service participates in the protocol. As WS-AT is a 2PC coordination protocol, it is best suited to multi-participant scenarios.
 
 For a more complete example, please see the XTS demonstrator application that ships with the Narayana project: http://narayana.io/.
 
@@ -52,14 +52,14 @@ All you need to build this project is ${build.requirements}. See [Configure Mave
 First, edit the log level to reduce the amount of log output. This should make it easier to read the logs produced by this example. To do this add the
 following logger block to the ./docs/examples/configs/standalone-xts.xml of your JBoss distribution. You should add it just bellow one of the other logger blocks.
 
-        <logger category="org.apache.cxf.service.factory.ReflectionServiceFactoryBean">
-            <level name="WARN"/>
-        </logger>         
+    <logger category="org.apache.cxf.service.factory.ReflectionServiceFactoryBean">
+        <level name="WARN"/>
+    </logger>
 
 Next you need to start ${product.name} with the XTS subsystem enabled. This is enabled through the optional server configuration *standalone-xts.xml*. To do this, run the following commands from the top-level directory of ${product.name}:
 
-        For Linux:     ./bin/standalone.sh --server-config=../../docs/examples/configs/standalone-xts.xml
-        For Windows:   \bin\standalone.bat --server-config=..\..\docs\examples\configs\standalone-xts.xml
+    For Linux:     ./bin/standalone.sh --server-config=../../docs/examples/configs/standalone-xts.xml
+    For Windows:   \bin\standalone.bat --server-config=..\..\docs\examples\configs\standalone-xts.xml
 
 
 ## Run the Arquillian Tests
@@ -80,9 +80,9 @@ This quickstart provides Arquillian tests. By default, these tests are configure
 
 _Note: You see the following warning when you run the Arquillian tests in remote mode._
 
-      WARNING: Configuration contain properties not supported by the backing object org.jboss.as.arquillian.container.remote.RemoteContainerConfiguration
-      Unused property entries: {serverConfig=../../docs/examples/configs/standalone-xts.xml}
-      Supported property names: [managementAddress, password, managementPort, managementProtocol, username]
+    WARNING: Configuration contain properties not supported by the backing object org.jboss.as.arquillian.container.remote.RemoteContainerConfiguration
+    Unused property entries: {serverConfig=../../docs/examples/configs/standalone-xts.xml}
+    Supported property names: [managementAddress, password, managementPort, managementProtocol, username]
 
 _This is because, in remote mode, you are responsible for starting the server with the XTS subsystem enabled. When you run the Arquillian tests in managed mode, the container uses the `serverConfig` property defined in the `arquillian.xml` file to start the server with the XTS subsystem enabled._
 
@@ -95,35 +95,35 @@ The following messages should appear in the server log. The messages trace the s
 
 Test rollback:
 
-        10:54:29,607 INFO  [stdout] (http-localhost.localdomain/127.0.0.1:8080-4) Starting 'testRollback'. This test invokes a WS within an AT. The AT is later rolled back, which causes the back-end resource(s) to be rolled back.
-        10:54:29,607 INFO  [stdout] (http-localhost.localdomain/127.0.0.1:8080-4) [CLIENT] Creating a new WS-AT User Transaction
-        10:54:29,608 INFO  [stdout] (http-localhost.localdomain/127.0.0.1:8080-4) [CLIENT] Beginning Atomic Transaction (All calls to Web services that support WS-AT wil be included in this transaction)
-        10:54:29,932 INFO  [stdout] (http-localhost.localdomain/127.0.0.1:8080-4) [CLIENT] invoking makeBooking() on WS
-        10:54:30,000 INFO  [stdout] (http-localhost.localdomain/127.0.0.1:8080-25) [SERVICE] Restaurant service invoked to make a booking
-        10:54:30,000 INFO  [stdout] (http-localhost.localdomain/127.0.0.1:8080-25) [SERVICE] Enlisting a Durable2PC participant into the AT
-        10:54:30,121 INFO  [stdout] (http-localhost.localdomain/127.0.0.1:8080-25) [SERVICE] Invoking the back-end business logic
-        10:54:30,122 INFO  [stdout] (http-localhost.localdomain/127.0.0.1:8080-25) [SERVICE] makeBooking called on backend resource.
-        10:54:30,126 INFO  [stdout] (http-localhost.localdomain/127.0.0.1:8080-4) [CLIENT] rolling back Atomic Transaction (This will cause the AT and thus the enlisted back-end resources to rollback)
-        10:54:30,349 INFO  [stdout] (TaskWorker-2) [SERVICE] one or more participants voted 'aborted' or a failure occurred, so coordinator tells the participant to rollback
-        10:54:30,350 INFO  [stdout] (TaskWorker-2) [SERVICE] rollback called on backend resource.
+    10:54:29,607 INFO  [stdout] (http-localhost.localdomain/127.0.0.1:8080-4) Starting 'testRollback'. This test invokes a WS within an AT. The AT is later rolled back, which causes the back-end resource(s) to be rolled back.
+    10:54:29,607 INFO  [stdout] (http-localhost.localdomain/127.0.0.1:8080-4) [CLIENT] Creating a new WS-AT User Transaction
+    10:54:29,608 INFO  [stdout] (http-localhost.localdomain/127.0.0.1:8080-4) [CLIENT] Beginning Atomic Transaction (All calls to Web services that support WS-AT wil be included in this transaction)
+    10:54:29,932 INFO  [stdout] (http-localhost.localdomain/127.0.0.1:8080-4) [CLIENT] invoking makeBooking() on WS
+    10:54:30,000 INFO  [stdout] (http-localhost.localdomain/127.0.0.1:8080-25) [SERVICE] Restaurant service invoked to make a booking
+    10:54:30,000 INFO  [stdout] (http-localhost.localdomain/127.0.0.1:8080-25) [SERVICE] Enlisting a Durable2PC participant into the AT
+    10:54:30,121 INFO  [stdout] (http-localhost.localdomain/127.0.0.1:8080-25) [SERVICE] Invoking the back-end business logic
+    10:54:30,122 INFO  [stdout] (http-localhost.localdomain/127.0.0.1:8080-25) [SERVICE] makeBooking called on backend resource.
+    10:54:30,126 INFO  [stdout] (http-localhost.localdomain/127.0.0.1:8080-4) [CLIENT] rolling back Atomic Transaction (This will cause the AT and thus the enlisted back-end resources to rollback)
+    10:54:30,349 INFO  [stdout] (TaskWorker-2) [SERVICE] one or more participants voted 'aborted' or a failure occurred, so coordinator tells the participant to rollback
+    10:54:30,350 INFO  [stdout] (TaskWorker-2) [SERVICE] rollback called on backend resource.
 
 Test commit:
 
-        10:54:30,662 INFO  [stdout] (http-localhost.localdomain/127.0.0.1:8080-54) Starting 'testCommit'. This test invokes a WS within an AT. The AT is later committed, which causes the back-end resource(s) to be committed.
-        10:54:30,663 INFO  [stdout] (http-localhost.localdomain/127.0.0.1:8080-54) [CLIENT] Creating a new WS-AT User Transaction
-        10:54:30,663 INFO  [stdout] (http-localhost.localdomain/127.0.0.1:8080-54) [CLIENT] Beginning Atomic Transaction (All calls to Web services that support WS-AT wil be included in this transaction)
-        10:54:30,797 INFO  [stdout] (http-localhost.localdomain/127.0.0.1:8080-54) [CLIENT] invoking makeBooking() on WS
-        10:54:30,848 INFO  [stdout] (http-localhost.localdomain/127.0.0.1:8080-66) [SERVICE] Restaurant service invoked to make a booking
-        10:54:30,849 INFO  [stdout] (http-localhost.localdomain/127.0.0.1:8080-66) [SERVICE] Enlisting a Durable2PC participant into the AT
-        10:54:30,936 INFO  [stdout] (http-localhost.localdomain/127.0.0.1:8080-66) [SERVICE] Invoking the back-end business logic
-        10:54:30,937 INFO  [stdout] (http-localhost.localdomain/127.0.0.1:8080-66) [SERVICE] makeBooking called on backend resource.
-        10:54:30,942 INFO  [stdout] (http-localhost.localdomain/127.0.0.1:8080-54) [CLIENT] committing Atomic Transaction (This will cause the AT to complete successfully)
-        10:54:31,046 INFO  [stdout] (TaskWorker-2) [SERVICE] Prepare called on participant, about to prepare the back-end resource
-        10:54:31,046 INFO  [stdout] (TaskWorker-2) [SERVICE] prepare called on backend resource.
-        10:54:31,047 INFO  [stdout] (TaskWorker-2) [SERVICE] back-end resource prepared, participant votes prepared
-        10:54:31,067 WARN  [com.arjuna.wst] (TaskWorker-2) ARJUNA043219: Could not save recovery state for non-serializable durable WS-AT participant restaurantServiceAT:ba222c73-00c3-4ecc-921c-80fd5dfdc11a
-        10:54:31,209 INFO  [stdout] (TaskWorker-2) [SERVICE] all participants voted 'prepared', so coordinator tells the participant to commit
-        10:54:31,210 INFO  [stdout] (TaskWorker-2) [SERVICE] commit called on backend resource.
+    10:54:30,662 INFO  [stdout] (http-localhost.localdomain/127.0.0.1:8080-54) Starting 'testCommit'. This test invokes a WS within an AT. The AT is later committed, which causes the back-end resource(s) to be committed.
+    10:54:30,663 INFO  [stdout] (http-localhost.localdomain/127.0.0.1:8080-54) [CLIENT] Creating a new WS-AT User Transaction
+    10:54:30,663 INFO  [stdout] (http-localhost.localdomain/127.0.0.1:8080-54) [CLIENT] Beginning Atomic Transaction (All calls to Web services that support WS-AT wil be included in this transaction)
+    10:54:30,797 INFO  [stdout] (http-localhost.localdomain/127.0.0.1:8080-54) [CLIENT] invoking makeBooking() on WS
+    10:54:30,848 INFO  [stdout] (http-localhost.localdomain/127.0.0.1:8080-66) [SERVICE] Restaurant service invoked to make a booking
+    10:54:30,849 INFO  [stdout] (http-localhost.localdomain/127.0.0.1:8080-66) [SERVICE] Enlisting a Durable2PC participant into the AT
+    10:54:30,936 INFO  [stdout] (http-localhost.localdomain/127.0.0.1:8080-66) [SERVICE] Invoking the back-end business logic
+    10:54:30,937 INFO  [stdout] (http-localhost.localdomain/127.0.0.1:8080-66) [SERVICE] makeBooking called on backend resource.
+    10:54:30,942 INFO  [stdout] (http-localhost.localdomain/127.0.0.1:8080-54) [CLIENT] committing Atomic Transaction (This will cause the AT to complete successfully)
+    10:54:31,046 INFO  [stdout] (TaskWorker-2) [SERVICE] Prepare called on participant, about to prepare the back-end resource
+    10:54:31,046 INFO  [stdout] (TaskWorker-2) [SERVICE] prepare called on backend resource.
+    10:54:31,047 INFO  [stdout] (TaskWorker-2) [SERVICE] back-end resource prepared, participant votes prepared
+    10:54:31,067 WARN  [com.arjuna.wst] (TaskWorker-2) ARJUNA043219: Could not save recovery state for non-serializable durable WS-AT participant restaurantServiceAT:ba222c73-00c3-4ecc-921c-80fd5dfdc11a
+    10:54:31,209 INFO  [stdout] (TaskWorker-2) [SERVICE] all participants voted 'prepared', so coordinator tells the participant to commit
+    10:54:31,210 INFO  [stdout] (TaskWorker-2) [SERVICE] commit called on backend resource.
 
 _Note: You can ignore the warning message `ARJUNA043219: Could not save recovery state for non-serializable durable WS-AT participant restaurantServiceAT` that is printed in the server console. This quickstart does not implement the required recovery hooks in the interest of making it easy to follow. In a real world production application, you should provide the required recovery code. For more information, see_ <http://narayana.io/docs/product>.
 
@@ -136,17 +136,18 @@ This quickstart is more complex than the others. It requires that you configure 
 
 1. Import the quickstart into JBoss Developer Studio.
 2. If you have not already done so, you must configure a new ${product.name} server to use the XTS configuration.
-   * In the `Server` tab, right-click and choose `New` --> `Server`.
-   * Under `Select the server type:`, expand `Red Hat JBoss Middleware` and choose `${jbds.eap.server.name}`.
-   * For the `Server name`, enter `${product.name} XTS Configuration` and click `Next`.
-   * In the `Create a new Server Adapter` dialog, choose `Create a new runtime (next page)` and click `Next`.
-   * In the `JBoss Runtime` dialog, enter the following information and then click `Finish`.
+     * In the `Server` tab, right-click and choose `New` --> `Server`.
+     * Under `Select the server type:`, expand `Red Hat JBoss Middleware` and choose `${jbds.eap.server.name}`.
+     * For the `Server name`, enter `${product.name} XTS Configuration` and click `Next`.
+     * In the `Create a new Server Adapter` dialog, choose `Create a new runtime (next page)` and click `Next`.
+     * In the `JBoss Runtime` dialog, enter the following information and then click `Finish`.
 
             Name: ${product.name} XTS Runtime
             Home Directory: (Browse to the server directory and select it)
             Execution Environment: (Choose your runtime JRE if not correct)
             Configuration base directory: (This should already point to your server configuration directory)
             Configuration file: ../../docs/examples/configs/standalone-xts.xml
+
 3. Start the new `${product.name} XTS Configuration` server.
 4. Right-click on the `${project.artifactId}` project, choose `Run As` --> `Maven build`, enter `clean verify -Parq-remote` for the `Goals:`, and click `Run` to run the Arquillian tests. The test results appear in the console.
 
@@ -155,7 +156,7 @@ This quickstart is more complex than the others. It requires that you configure 
 
 If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
 
-        mvn dependency:sources
+    mvn dependency:sources
 
 
 <!-- Build and Deploy the Quickstart to OpenShift - Coming soon! -->
