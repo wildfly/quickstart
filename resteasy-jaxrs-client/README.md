@@ -39,7 +39,7 @@ You can verify the deployment of the [helloworld-rs](../helloworld-rs/README.md)
 1. Make sure you have started the ${product.name} server as described above.
 2. Make sure the `helloworld-rs` quickstart has been deployed on the server as noted in the **Prerequisites** section above.
 3. Open a command prompt and navigate to the root directory of this quickstart.
-4. Type the following command to run the test goal:
+4. Type the following command to run the client:
 
         mvn clean package exec:java
 
