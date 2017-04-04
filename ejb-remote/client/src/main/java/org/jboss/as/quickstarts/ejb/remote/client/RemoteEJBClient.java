@@ -107,7 +107,8 @@ public class RemoteEJBClient {
      */
     private static RemoteCalculator lookupRemoteStatelessCalculator() throws NamingException {
         final Hashtable<String, String> jndiProperties = new Hashtable<>();
-        jndiProperties.put(Context.URL_PKG_PREFIXES, "org.jboss.ejb.client.naming");
+        jndiProperties.put(Context.INITIAL_CONTEXT_FACTORY, "org.wildfly.naming.client.WildFlyInitialContextFactory");
+        jndiProperties.put(Context.PROVIDER_URL,"remote+http://localhost:8080");
         final Context context = new InitialContext(jndiProperties);
 
         // The JNDI lookup name for a stateless session bean has the syntax of:
@@ -141,7 +142,9 @@ public class RemoteEJBClient {
      */
     private static RemoteCounter lookupRemoteStatefulCounter() throws NamingException {
         final Hashtable<String, String> jndiProperties = new Hashtable<>();
-        jndiProperties.put(Context.URL_PKG_PREFIXES, "org.jboss.ejb.client.naming");
+        //jndiProperties.put(Context.URL_PKG_PREFIXES, "org.jboss.ejb.client.naming");
+        jndiProperties.put(Context.INITIAL_CONTEXT_FACTORY, "org.wildfly.naming.client.WildFlyInitialContextFactory");
+        jndiProperties.put(Context.PROVIDER_URL,"remote+http://localhost:8080");
         final Context context = new InitialContext(jndiProperties);
 
         // The JNDI lookup name for a stateful session bean has the syntax of:
