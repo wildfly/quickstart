@@ -1,0 +1,5 @@
+# Adds a deployment overlay for the quickstart deployment
+deployment-overlay add --name=singleton-deployment --deployments=ha-singleton-deployment.jar --content=META-INF/singleton-deployment.xml=singleton-deployment.xml
+
+# Redeploys all deployments affected by the above change
+deployment-overlay redeploy-affected --name=singleton-deployment
