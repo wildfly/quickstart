@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
     JBoss, Home of Professional Open Source
-    Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
+    Copyright 2017, Red Hat, Inc. and/or its affiliates, and individual
     contributors by the @authors tag. See the copyright.txt in the
     distribution for a full listing of individual contributors.
 
@@ -15,23 +15,22 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<!-- This is an unmanaged datasource. It should be used for proofs of concept 
-   or testing only. It uses H2, an in memory database that ships with JBoss 
+<!-- This is an unmanaged datasource. It should be used for proofs of concept
+   or testing only. It uses H2, an in memory database that ships with JBoss
    AS. -->
 <datasources xmlns="http://www.jboss.org/ironjacamar/schema"
-   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-   xsi:schemaLocation="http://www.jboss.org/ironjacamar/schema http://docs.jboss.org/ironjacamar/schema/datasources_1_1.xsd">
-   <!-- The datasource is bound into JNDI at this location. We reference 
-      this in META-INF/test-persistence.xml -->
-   <datasource jndi-name="java:jboss/datasources/KitchensinkAngularJSQuickstartTestDS"
-      pool-name="kitchensink-quickstart-test" enabled="true"
-      use-java-context="true">
-      <connection-url>jdbc:h2:mem:kitchensink-angularjs-quickstart-test;DB_CLOSE_DELAY=-1</connection-url>
-      <driver>h2</driver>
-      <security>
-         <user-name>sa</user-name>
-         <password>sa</password>
-      </security>
-   </datasource>
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.jboss.org/ironjacamar/schema http://docs.jboss.org/ironjacamar/schema/datasources_1_1.xsd">
+    <!-- The datasource is bound into JNDI at this location. We reference
+       this in META-INF/test-persistence.xml -->
+    <datasource jndi-name="java:jboss/datasources/KitchensinkAngularJSQuickstartTestDS"
+                pool-name="kitchensink-quickstart-test" enabled="true"
+                use-java-context="true">
+        <connection-url>jdbc:h2:mem:kitchensink-angularjs-quickstart-test;DB_CLOSE_DELAY=-1</connection-url>
+        <driver>h2</driver>
+        <security>
+            <user-name>sa</user-name>
+            <password>sa</password>
+        </security>
+    </datasource>
 </datasources>
- 
