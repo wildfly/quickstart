@@ -22,9 +22,9 @@
        xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns:jpa="http://www.springframework.org/schema/data/jpa" xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
-		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+        http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
     <!-- ========================= RESOURCE DEFINITIONS ========================= -->
 
@@ -32,7 +32,7 @@
     <import resource="datasource-config.xml"/>
 
     <context:component-scan
-        base-package="org.springframework.samples.petclinic.service"/>
+            base-package="org.springframework.samples.petclinic.service"/>
 
     <!-- Configurer that replaces ${...} placeholders with values from a properties file -->
     <!-- (in this case, JDBC-related settings for the JPA EntityManager definition below) -->
@@ -42,7 +42,7 @@
     <tx:annotation-driven/>
 
 
-    <!-- ==================		 3 Profiles to choose from 			===================
+    <!-- ==================      3 Profiles to choose from      ===================
                                     - jdbc (uses Spring" JdbcTemplate)
                                     - jpa
                                     - spring-data-jpa
@@ -56,8 +56,8 @@
                 <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"
                       p:database="${jpa.database}" p:showSql="${jpa.showSql}"/>
                 <!-- the 'database' parameter refers to the database dialect being used.
-                	By default, Hibernate will use a 'HSQL' dialect because 'jpa.database' has been set to 'HSQL'
-                	inside file spring/data-access.properties
+                    By default, Hibernate will use a 'HSQL' dialect because 'jpa.database' has been set to 'HSQL'
+                    inside file spring/data-access.properties
 
                  -->
             </property>
