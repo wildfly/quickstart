@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.wildfly.quickstart.jaxrs.client;
+package org.jboss.as.quickstarts.jaxrs.client;
 
 /**
  * This example demonstrates the use an external JAX-RS RestEasy client

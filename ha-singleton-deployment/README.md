@@ -65,8 +65,8 @@ The demonstration is not limited to two servers. Additional servers can be start
         INFO [org.wildfly.clustering.server] (DistributedSingletonService - 1) WFLYCLSV0001: This node will now operate as the singleton provider of the jboss.deployment.unit."ha-singleton-deployment.jar".FIRST_MODULE_USE service
         INFO [org.jboss.as.server] (management-handler-thread - 4) WFLYSRV0010: Deployed "ha-singleton-deployment.jar" (runtime-name : "ha-singleton-deployment.jar")
         ...
-        WARNING [class org.wildfly.quickstarts.ha.singleton.SingletonTimer] (ServerService Thread Pool -- 68) SingletonTimer is initializing.
-        INFO  [class org.wildfly.quickstarts.ha.singleton.SingletonTimer] (EJB default - 1) SingletonTimer: Hello World!
+        WARNING [class org.jboss.as.quickstarts.ha.singleton.SingletonTimer] (ServerService Thread Pool -- 68) SingletonTimer is initializing.
+        INFO  [class org.jboss.as.quickstarts.ha.singleton.SingletonTimer] (EJB default - 1) SingletonTimer: Hello World!
 
    Note that the following warnings might appear in the server output after the applications are deployed. These can be safely ignored in a development environment.
 
@@ -91,7 +91,7 @@ The demonstration is not limited to two servers. Additional servers can be start
 
 7. Verify the timer is running only on one instance by observing the logs. The node running the timer will output the following every 5 seconds:
 
-        INFO  [class org.wildfly.quickstarts.ha.singleton.SingletonTimer] (EJB default - 1) SingletonTimer: Hello World!
+        INFO  [class org.jboss.as.quickstarts.ha.singleton.SingletonTimer] (EJB default - 1) SingletonTimer: Hello World!
 
    While the instance not running, the timer will display the following as the last log line:
 
@@ -99,10 +99,10 @@ The demonstration is not limited to two servers. Additional servers can be start
 
 8. Verify failover of the singleton deployment. Shutdown the server operating as the singleton master, for instance by using the `Ctrl` + `C` key combination in the command prompt. Observe the following messages on the node being shutdown:
 
-        INFO  [class org.wildfly.quickstarts.ha.singleton.SingletonTimer] (EJB default - 3) SingletonTimer: Hello World!
-        INFO  [class org.wildfly.quickstarts.ha.singleton.SingletonTimer] (EJB default - 4) SingletonTimer: Hello World!
+        INFO  [class org.jboss.as.quickstarts.ha.singleton.SingletonTimer] (EJB default - 3) SingletonTimer: Hello World!
+        INFO  [class org.jboss.as.quickstarts.ha.singleton.SingletonTimer] (EJB default - 4) SingletonTimer: Hello World!
         INFO  [org.jboss.as.server] (Thread-2) WFLYSRV0220: Server shutdown has been requested via an OS signal
-        WARNING [class org.wildfly.quickstarts.ha.singleton.SingletonTimer] (ServerService Thread Pool -- 31) SingletonTimer is stopping: the server is either being shutdown or another node has become elected to be the singleton master.
+        WARNING [class org.jboss.as.quickstarts.ha.singleton.SingletonTimer] (ServerService Thread Pool -- 31) SingletonTimer is stopping: the server is either being shutdown or another node has become elected to be the singleton master.
         ...
         INFO  [org.jboss.as] (MSC service thread 1-6) WFLYSRV0050: WildFly Core 3.0.0.Beta13 "Kenny" stopped in 88ms
 
@@ -112,9 +112,9 @@ The demonstration is not limited to two servers. Additional servers can be start
         INFO  [org.wildfly.clustering.server] (DistributedSingletonService - 1) WFLYCLSV0001: This node will now operate as the singleton provider of the jboss.deployment.unit."ha-singleton-deployment.jar".FIRST_MODULE_USE service
         INFO  [org.infinispan.remoting.transport.jgroups.JGroupsTransport] (thread-4) ISPN000094: Received new cluster view for channel server: [node2|2] (1) [node2]
         ...
-        WARNING [class org.wildfly.quickstarts.ha.singleton.SingletonTimer] (ServerService Thread Pool -- 68) SingletonTimer is initializing.
-        INFO  [class org.wildfly.quickstarts.ha.singleton.SingletonTimer] (EJB default - 1) SingletonTimer: Hello World!
-        INFO  [class org.wildfly.quickstarts.ha.singleton.SingletonTimer] (EJB default - 2) SingletonTimer: Hello World!
+        WARNING [class org.jboss.as.quickstarts.ha.singleton.SingletonTimer] (ServerService Thread Pool -- 68) SingletonTimer is initializing.
+        INFO  [class org.jboss.as.quickstarts.ha.singleton.SingletonTimer] (EJB default - 1) SingletonTimer: Hello World!
+        INFO  [class org.jboss.as.quickstarts.ha.singleton.SingletonTimer] (EJB default - 2) SingletonTimer: Hello World!
 
 
 ## Troubleshooting
