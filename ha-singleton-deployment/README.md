@@ -14,6 +14,7 @@ The `ha-singleton-deployment` quickstart demonstrates the deployment of a servic
 In this example, the service is a timer that is initialized by a `@Startup @Singleton` bean.
 The example is built and packaged as a single EJB archive.
 
+For more information about singleton deployments, see _HA Singleton Deployments_ in the [Development Guide](https://access.redhat.com/documentation/en/red-hat-jboss-enterprise-application-platform/) for JBoss EAP.
 
 ## System Requirements
 
@@ -34,7 +35,7 @@ Begin by making a copy of the entire ${product.name} directory to be used as sec
 Note that the example can be run on a single node as well, but without observation of the singleton properties.
 
 Start the two ${product.name} servers with the same HA profile using the following commands.
-Note that a socket binding port offset and an unique node name must be passed to the second server if the servers are binding to the same host.
+Note that a socket binding port offset and a unique node name must be passed to the second server if the servers are binding to the same host.
 
 For Linux:
 
