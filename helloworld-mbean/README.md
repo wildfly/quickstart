@@ -56,7 +56,7 @@ In the following instructions, replace `${jboss.home.name}` with the actual path
 
 ## Access and Test the MBeans
 
-This quickstart differs from the other quickstarts in that it uses _JConsole_ to access and test the quickstart rather than access an URL in the browser. If you do access <http://localhost:8080/${project.artifactId}-${project.artifactId}-webapp/>, you will see a screen shot image of the _JConsole_ application,
+This quickstart differs from the other quickstarts in that it uses _JConsole_ to access and test the quickstart rather than access an URL in the browser. If you do access <http://localhost:8080/${project.artifactId}-webapp/>, you will see a screen shot image of the _JConsole_ application,
 
 The following sections describe how to use _JConsole_ to inspect and test the MBeans.
 
