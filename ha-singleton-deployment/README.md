@@ -69,7 +69,7 @@ The demonstration is not limited to two servers. Additional servers can be start
         WARNING [class org.jboss.as.quickstarts.ha.singleton.SingletonTimer] (ServerService Thread Pool -- 68) SingletonTimer is initializing.
         INFO  [class org.jboss.as.quickstarts.ha.singleton.SingletonTimer] (EJB default - 1) SingletonTimer: Hello World!
 
-   Note that the following warnings might appear in the server output after the applications are deployed. These can be safely ignored in a development environment.
+     Note that the following warnings might appear in the server output after the applications are deployed. These can be safely ignored in a development environment.
 
         WARN  [org.jboss.as.clustering.jgroups.protocol.UDP] (ServerService Thread Pool -- 68) JGRP000015: the receive buffer of socket MulticastSocket was set to 20MB, but the OS only allocated 6.71MB. This might lead to performance problems. Please set your max receive buffer in the OS correctly (e.g. net.core.rmem_max on Linux)
         WARN  [org.jboss.as.clustering.jgroups.protocol.UDP] (ServerService Thread Pool -- 68) JGRP000015: the receive buffer of socket MulticastSocket was set to 25MB, but the OS only allocated 6.71MB. This might lead to performance problems. Please set your max receive buffer in the OS correctly (e.g. net.core.rmem_max on Linux)
@@ -94,7 +94,7 @@ The demonstration is not limited to two servers. Additional servers can be start
 
         INFO  [class org.jboss.as.quickstarts.ha.singleton.SingletonTimer] (EJB default - 1) SingletonTimer: Hello World!
 
-   While the instance not running, the timer will display the following as the last log line:
+     While the instance not running, the timer will display the following as the last log line:
 
         INFO  [org.jboss.as.server] (management-handler-thread - 2) WFLYSRV0010: Deployed "ha-singleton-deployment.jar" (runtime-name : "ha-singleton-deployment.jar")
 
@@ -107,7 +107,7 @@ The demonstration is not limited to two servers. Additional servers can be start
         ...
         INFO  [org.jboss.as] (MSC service thread 1-6) WFLYSRV0050: WildFly Core 3.0.0.Beta13 "Kenny" stopped in 88ms
 
-   Now observe the log messages on the second server. The node will now be elected as the singleton master, deployment will complete, and the timer will start operating:
+     Now observe the log messages on the second server. The node will now be elected as the singleton master, deployment will complete, and the timer will start operating:
 
         INFO  [org.wildfly.clustering.server] (DistributedSingletonService - 1) WFLYCLSV0003: node2 elected as the singleton provider of the jboss.deployment.unit."ha-singleton-deployment.jar".FIRST_MODULE_USE service
         INFO  [org.wildfly.clustering.server] (DistributedSingletonService - 1) WFLYCLSV0001: This node will now operate as the singleton provider of the jboss.deployment.unit."ha-singleton-deployment.jar".FIRST_MODULE_USE service
@@ -149,7 +149,7 @@ To demonstrate how to use deployment overlays, follow these steps:
         deployment-overlay add --name=singleton-deployment --deployments=ha-singleton-deployment.jar --content=META-INF/singleton-deployment.xml=singleton-deployment.xml
         deployment-overlay redeploy-affected --name=singleton-deployment
 
-   Repeat this process for the second server using the port offset:
+     Repeat this process for the second server using the port offset:
 
         ${jboss.home.name}-1/bin/jboss-cli.sh --connect --controller=localhost:10090
         deployment-overlay add --name=singleton-deployment --deployments=ha-singleton-deployment.jar --content=META-INF/singleton-deployment.xml=singleton-deployment.xml
