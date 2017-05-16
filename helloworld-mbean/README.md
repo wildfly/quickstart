@@ -51,7 +51,7 @@ In the following instructions, replace `${jboss.home.name}` with the actual path
 
         mvn clean install wildfly:deploy
 
-4. This will deploy `${project.artifactId}-webapp/target/${project.artifactId}-webapp.war` and `${project.artifactId}-service/target/${project.artifactId}-${project.artifactId}-service.sar` to the running instance of the server.
+4. This will deploy `${project.artifactId}-webapp/target/${project.artifactId}-webapp.war` and `${project.artifactId}-service/target/${project.artifactId}-service.sar` to the running instance of the server.
 
 
 ## Access and Test the MBeans
@@ -120,8 +120,8 @@ This quickstart consists of multiple projects and requires installation of the `
    * Click the `Software/Update` tab at the bottom of the `Red Hat Central`.
    * Scroll down to the `Maven` section, select the `JBoss Tools Maven Packaging Configurator` and click `Install/Update`.
 2. Right click on the parent `${project.artifactId}` parent project and choose `Maven` --> `Update Project...`. Select all projects and click `OK`.
-3. Right-click on the `${project.artifactId}-${project.artifactId}-service` project and choose `Run As` --> `Run on Server`.
-4. Right-click on the `${project.artifactId}-${project.artifactId}-webapp` project and choose `Run As` --> `Run on Server`.
+3. Right-click on the `${project.artifactId}-service` project and choose `Run As` --> `Run on Server`.
+4. Right-click on the `${project.artifactId}-webapp` project and choose `Run As` --> `Run on Server`.
 5. [Start JConsole](#start-jconsole) and [Test the MBeans in JConsole](#test-the-mbeans-in-jconsole) as described above.
 
 ## Debug the Application
