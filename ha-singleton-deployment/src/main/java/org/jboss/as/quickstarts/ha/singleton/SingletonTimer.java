@@ -36,7 +36,7 @@ import javax.ejb.TimerService;
 
 /**
  * This class implements demonstration singleton deployment @Startup @Singleton which for the purposes of the quickstart
- * prints out hello world every 5 seconds. This easily illustates which of the cluster members is currently running
+ * prints out hello world every 5 seconds. This simply illustrates which of the cluster members is currently running
  * the singleton.
  *
  * @author Radoslav Husar
