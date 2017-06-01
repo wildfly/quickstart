@@ -81,12 +81,11 @@
                         <wsdl>${basedir}/src/main/webapp/WEB-INF/wsdl/ProfileMgmtService.wsdl</wsdl>
                     </wsdls>
                     <extension>true</extension>
-                    <verbose>true</verbose>
+                    <verbose>false</verbose>
                     <endpointClass></endpointClass>
                     <!-- some JDK implementations forbid file access for external schema,
                          see http://docs.oracle.com/javase/8/docs/api/javax/xml/XMLConstants.html#ACCESS_EXTERNAL_SCHEMA -->
                     <argLine>-Djavax.xml.accessExternalSchema=all</argLine>
-                    <fork>true</fork>
                     <targetPackage>org.jboss.quickstarts.ws.jaxws.samples.retail.profile</targetPackage>
                 </configuration>
                 <executions>
