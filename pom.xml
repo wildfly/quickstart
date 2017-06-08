@@ -501,12 +501,6 @@
                 <module>wicket-war</module>
                 <module>xml-dom4j</module>
                 <module>xml-jaxp</module>
-                <!-- not real maven projects, but here for centralized mgmt and docs -->
-                <module>forge-from-scratch</module>
-                <module>h2-console</module>
-                <module>jts-distributed-crash-rec</module>
-                <module>messaging-clustering</module>
-                <module>dist</module>
             </modules>
         </profile>
         <profile>
@@ -587,45 +581,7 @@
                 <module>spring-petclinic/functional-tests</module>
             </modules>
         </profile>
-        <profile>
-            <id>release</id>
-            <modules>
-                <module>dist</module>
-            </modules>
-            <build>
-                <!--<plugins>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>flatten-maven-plugin</artifactId>
-                        <version>1.0.0</version>
-                        <configuration>
-                            <pomElements>
-                                <dependencyManagement>keep</dependencyManagement>
-                                <properties>interpolate</properties>
-                                <dependencies>interpolate</dependencies>
-                            </pomElements>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>flatten</id>
-                                <phase>process-resources</phase>
-                                <goals>
-                                    <goal>flatten</goal>
-                                </goals>
-                            </execution>
-                            <execution>
-                                <id>flatten.clean</id>
-                                <phase>clean</phase>
-                                <goals>
-                                    <goal>clean</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>-->
-            </build>
-        </profile>
-
+      
         <profile>
             <!-- An optional Arquillian testing profile that executes tests in your JBoss EAP instance.
                  This profile will start a new JBoss EAP instance, and execute the test, shutting it down when done.
@@ -723,9 +679,16 @@
             <id>docs</id>
             <activation>
                 <property>
-                    <name>docs</name>
+                    <name>release</name>
                 </property>
             </activation>
+            <modules>
+                <!-- not real maven projects, but here for centralized mgmt and docs -->
+                <module>forge-from-scratch</module>
+                <module>h2-console</module>
+                <module>jts-distributed-crash-rec</module>
+                <module>messaging-clustering</module>
+            </modules>
             <build>
                 <plugins>
                     <plugin>
@@ -734,7 +697,7 @@
                         <version>${version.resources.plugin}</version>
                         <executions>
                             <execution>
-                                <id>copy-resources</id>
+                                <id>filter-markdown</id>
                                 <phase>generate-resources</phase>
                                 <goals>
                                     <goal>copy-resources</goal>
@@ -778,7 +741,7 @@
                     <plugin>
                         <groupId>com.vladsch.flexmark</groupId>
                         <artifactId>markdown-page-generator-plugin</artifactId>
-                        <version>0.18.2</version>
+                        <version>0.19.6</version>
                         <executions>
                             <execution>
                                 <phase>process-resources</phase>
@@ -795,9 +758,49 @@
                             <headerHtmlFile>${root.dir}/dist/header.html</headerHtmlFile>
                             <footerHtmlFile>${root.dir}/dist/footer.html</footerHtmlFile>
                             <pegdownExtensions>TABLES,TOC,AUTOLINKS,STRIKETHROUGH,ATXHEADERSPACE,FENCED_CODE_BLOCKS,HARDWRAPS,ANCHORLINKS,RELAXEDHRULES</pegdownExtensions>
-                            <!--<copyDirectories>css,js</copyDirectories>-->
                             <transformRelativeMarkdownLinks>true</transformRelativeMarkdownLinks>
                         </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>dist</id>
+            <activation>
+                <property>
+                    <name>release</name>
+                </property>
+            </activation>
+            <modules>
+                <module>dist</module>
+            </modules>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-resources-plugin</artifactId>
+                        <version>${version.resources.plugin}</version>
+                        <executions>
+                            <execution>
+                                <id>copy-processed-resources</id>
+                                <phase>process-resources</phase>
+                                <goals>
+                                    <goal>copy-resources</goal>
+                                </goals>
+                                <configuration>
+                                    <outputDirectory>${basedir}</outputDirectory>
+                                    <resources>
+                                        <resource>
+                                            <directory>${project.build.directory}/docs</directory>
+                                            <includes>
+                                                <include>*.md</include>
+                                            </includes>
+                                            <filtering>false</filtering>
+                                        </resource>
+                                    </resources>
+                                </configuration>
+                            </execution>
+                        </executions>
                     </plugin>
                 </plugins>
             </build>

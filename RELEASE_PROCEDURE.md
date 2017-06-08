@@ -34,23 +34,11 @@ Quickstarts in other repositories
 Rendering Markdown
 ------------------
 
-  The quickstarts use Redcarpet to process the markdown, the same processor used by GitHub. This builds on the basic markdown syntax, adding support for tables, code highlighting, relaxed code blocks etc). We add a couple of custom piece of markup - \[TOC\] which allows a table of contents, based on headings, to be added to any file, and [Quickstart-TOC], which adds in a table listing the quickstarts.
+  The quickstarts use flexmark maven plugin to process the markdown. This builds on the basic markdown syntax, adding support for tables, code highlighting, relaxed code blocks etc). We add a couple of custom piece of markup - \[TOC\] which allows a table of contents, based on headings, to be added to any file, and [Quickstart-TOC], which adds in a table listing the quickstarts.
+    
+Just run
 
-  To render the quickstarts README's you will need, a working Ruby and Python install, with the various gems and eggs set up. 
-
-  To setup the environment you need to follow these steps. *Certify to use the correct versions*.
-
-1. Install Ruby *1.9.X*
-
-    For RHEL you can use this [spec](https://github.com/lnxchk/ruby-1.9.3-rpm)
-
-2. Install Ruby GEMs
-
-        gem install redcarpet nokogiri pygments.rb
-
-Then just run
-
-        ./dist/release-utils.sh -m
+        mvn process-resources -Pdocs 
 
   To render all markdown files to HTML.
 

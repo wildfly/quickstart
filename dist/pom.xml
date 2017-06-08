@@ -39,9 +39,12 @@
         </license>
     </licenses>
     <build>
+        <finalName>wildfly-${project.version}</finalName>
         <plugins>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
+                <version>${version.assembly.plugin}</version>
                 <executions>
                     <execution>
                         <id>distribution</id>
@@ -53,12 +56,11 @@
                             <descriptors>
                                 <descriptor>src/main/assembly/assembly.xml</descriptor>
                             </descriptors>
-                            <finalName>wildfly-quickstarts-${project.version}</finalName>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
         </plugins>
     </build>
-
+   
 </project>
