@@ -25,12 +25,14 @@
         </authentication-rules>
         <authentication-configurations>
             <configuration name="default">
-                <allow-all-sasl-mechanisms />
+                <allow-all-sasl-mechanisms/>
                 <set-mechanism-properties>
-                    <property key="wildfly.sasl.local-user.quiet-auth" value="true" />
-                 </set-mechanism-properties>
-                 <use-service-loader-providers />
-             </configuration>
+                    <property key="wildfly.sasl.local-user.quiet-auth" value="true"/>
+                </set-mechanism-properties>
+                <providers>
+                    <use-service-loader/>
+                </providers>
+            </configuration>
         </authentication-configurations>
     </authentication-client>
 </configuration>
