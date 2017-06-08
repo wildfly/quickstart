@@ -50,7 +50,7 @@ public class TimeoutExample {
     }
 
     @PostConstruct
-    public void initialize(InvocationContext ctx) {
+    public void initialize() {
         ScheduleExpression se = new ScheduleExpression();
         // Set schedule to every 3 seconds (starting at second 0 of every minute).
         se.hour("*").minute("*").second("0/3");
