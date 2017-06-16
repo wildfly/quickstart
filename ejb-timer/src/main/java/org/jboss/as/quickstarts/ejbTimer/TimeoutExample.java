@@ -28,7 +28,6 @@ import javax.ejb.Timeout;
 import javax.ejb.Timer;
 import javax.ejb.TimerConfig;
 import javax.ejb.TimerService;
-import javax.interceptor.InvocationContext;
 
 /**
  * Demonstrates how to use the EJB's @Timeout.
