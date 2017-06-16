@@ -13,13 +13,13 @@ The `helloworld-mbean` quickstart demonstrates the use of *CDI* and *MBean* in $
 
 The example is composed of the following MBeans:
 
-1. `AnnotatedComponentHelloWorld`: This MBean is a managed bean with `@MXBean` annotation.
+* `AnnotatedComponentHelloWorld`: This MBean is a managed bean with `@MXBean` annotation.
 
-1. `MXComponentHelloWorld`:  This MBean is a managed bean with `MXBean` interface.
+* `MXComponentHelloWorld`:  This MBean is a managed bean with `MXBean` interface.
 
-1. `MXPojoHelloWorld`:  This MBean is a pojo using MXBean interface and declared in the `jboss-service.xml` file.
+* `MXPojoHelloWorld`:  This MBean is a pojo using MXBean interface and declared in the `jboss-service.xml` file.
 
-1. `SarMXPojoHelloWorld`:  This MBean is a pojo using MXBean interface and declared in jboss-service.xml in SAR packaging.
+* `SarMXPojoHelloWorld`:  This MBean is a pojo using MXBean interface and declared in jboss-service.xml in SAR packaging.
 
 
 ## System Requirements
@@ -64,8 +64,8 @@ The following sections describe how to use _JConsole_ to inspect and test the MB
 
 To connect to the ${product.name} server using _JConsole_, open a command prompt and type the following command :
 
-        For Linux:   JDK_HOME/bin/jconsole
-        For Windows: JDK_HOME\bin\jconsole.exe
+    For Linux:   JDK_HOME/bin/jconsole
+    For Windows: JDK_HOME\bin\jconsole.exe
 
 Select the local `org.jboss.modules.Main` process and click `Connect`.
 
@@ -116,9 +116,9 @@ You can also start the server and deploy the quickstarts or run the Arquillian t
 This quickstart consists of multiple projects and requires installation of the `JBoss Tools Maven Packaging Configurator`, so it deploys and runs differently in JBoss Developer Studio than the other quickstarts.
 
 1. Install the JBoss Tools Maven Packaging Configurator
-   * If the `Red Hat Central` page is not showing, open it by choosing `Help` --> `Red Hat Central`.
-   * Click the `Software/Update` tab at the bottom of the `Red Hat Central`.
-   * Scroll down to the `Maven` section, select the `JBoss Tools Maven Packaging Configurator` and click `Install/Update`.
+    * If the `Red Hat Central` page is not showing, open it by choosing `Help` --> `Red Hat Central`.
+    * Click the `Software/Update` tab at the bottom of the `Red Hat Central`.
+    * Scroll down to the `Maven` section, select the `JBoss Tools Maven Packaging Configurator` and click `Install/Update`.
 2. Right click on the parent `${project.artifactId}` parent project and choose `Maven` --> `Update Project...`. Select all projects and click `OK`.
 3. Right-click on the `${project.artifactId}-service` project and choose `Run As` --> `Run on Server`.
 4. Right-click on the `${project.artifactId}-webapp` project and choose `Run As` --> `Run on Server`.
@@ -128,4 +128,4 @@ This quickstart consists of multiple projects and requires installation of the `
 
 If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
 
-        mvn dependency:sources
+    mvn dependency:sources
