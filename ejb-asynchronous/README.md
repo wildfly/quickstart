@@ -13,8 +13,8 @@ The `ejb-asynchronous` quickstart demonstrates the behavior of asynchronous EJB 
 
 The example is composed of 2 Maven modules, each with a shared parent. The modules are as follows:
 
-1. `ejb`: This module contains the EJB's and will be deployed to the server
-2. `client` : This module contains a remote EJB client
+* `ejb`: This module contains the EJB's and will be deployed to the server
+* `client` : This module contains a remote EJB client
 
 The root `pom.xml` builds each of the submodules in the above order and deploys the archive to the server.
 
@@ -36,8 +36,8 @@ In the following instructions, replace `${jboss.home.name}` with the actual path
 1. Open a command prompt and navigate to the root of the ${product.name} directory.
 2. The following shows the command line to start the server:
 
-         For Linux:   ${jboss.home.name}/bin/standalone.sh
-         For Windows: ${jboss.home.name}\bin\standalone.bat
+        For Linux:   ${jboss.home.name}/bin/standalone.sh
+        For Windows: ${jboss.home.name}\bin\standalone.bat
 
 
 ## Build and Deploy the Quickstart
@@ -77,11 +77,11 @@ Check whether the application is deployed successfully.
 
     There should be two INFO log messages for the `fireAndForget` invocation:
 
-          'fireAndForget' Will wait for 15000ms
+        'fireAndForget' Will wait for 15000ms
 
     and 15sec later (the client should be finished at this time)
 
-          action 'fireAndForget' finished
+        action 'fireAndForget' finished
 
 
 ## Undeploy the Archive
@@ -100,13 +100,12 @@ You can also start the server and deploy the quickstarts or run the Arquillian t
 This quickstart consists of multiple projects, so it deploys and runs differently in JBoss Developer Studio than the other quickstarts.
 
 1. Install the required Maven artifacts and deploy the asynchronous EJB quickstart project.
-   * Right-click on the `${project.artifactId}-ejb` project and choose `Run As` --> `Maven Install`.
-   * Right-click on the `${project.artifactId}-ejb` project and choose `Run As` --> `Run on Server`.
-
+    * Right-click on the `${project.artifactId}-ejb` project and choose `Run As` --> `Maven Install`.
+    * Right-click on the `${project.artifactId}-ejb` project and choose `Run As` --> `Run on Server`.
 2. Build and run the client side of the quickstart project.
-   * Right-click on the `${project.artifactId}-client` project and choose `Run As` --> `Java Application`.
-   * In the `Select Java Application` window, choose `AsynchronousClient - org.jboss.as.quickstarts.ejb.asynchronous.client` and click `OK`.
-   * The client output displays in the `Console` window.
+    * Right-click on the `${project.artifactId}-client` project and choose `Run As` --> `Java Application`.
+    * In the `Select Java Application` window, choose `AsynchronousClient - org.jboss.as.quickstarts.ejb.asynchronous.client` and click `OK`.
+    * The client output displays in the `Console` window.
 
 
 ## Debug the Application
