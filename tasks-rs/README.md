@@ -259,10 +259,6 @@ You can also start the server and deploy the quickstarts or run the Arquillian t
 
 Be sure to [Add an Application User](#add-an-application-user) as described above.
 
-_Note:_ When you deploy this quickstart, you see the following error. This is because JBoss Developer Studio automatically attempts to access the URL <http://localhost:8080/${project.artifactId}/>, however, all incoming requests are handled by the REST application. You can ignore this error.
-
-    JBWEB000065: HTTP Status 404 - RESTEASY001185: Could not find resource for relative : / of full path: http://localhost:8080/${project.artifactId}/
-
 
 ## Debug the Application
 
