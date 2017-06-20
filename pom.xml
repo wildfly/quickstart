@@ -71,6 +71,7 @@
         <version.org.apache.commons.commons-lang3>3.5</version.org.apache.commons.commons-lang3>
         <version.h2db>1.4.193</version.h2db>
         <version.org.wildfly.checkstyle-config>1.0.5.Final</version.org.wildfly.checkstyle-config>
+        <linkXRef>false</linkXRef>
     </properties>
 
     <dependencyManagement>
@@ -273,6 +274,10 @@
                         <headerDefinition>dist/headerdefinition.xml</headerDefinition>
                     </headerDefinitions>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
             </plugin>
         </plugins>
         <pluginManagement>
