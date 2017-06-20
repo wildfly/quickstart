@@ -77,8 +77,8 @@ This quickstart consists of multiple projects containing interdependencies on ea
 
 1. In the `Servers` tab, right-click on the ${product.name} server and choose `Start`.
 2. Deploy the projects in one of the following ways.
-   * `Drag and Drop` mode: Click to multi-select the `${project.artifactId}-app-shared`, `${project.artifactId}-app-appA`, and `${project.artifactId}-app-appB` projects, then drag and drop them on the running ${product.name} server. This deploys the projects to the server without opening the browser.
-   * `Batch` mode: In the `Servers` tab, right-click on the server and choose `Add and Remove`. If the `${project.artifactId}-app-shared`, `${project.artifactId}-app-appA`, and `${project.artifactId}-app-appB` projects are the only projects in the list, click `Add All`. Otherwise, use multi-select to select them and click `Add`. Then click `Finish`.
+    * `Drag and Drop` mode: Click to multi-select the `${project.artifactId}-app-shared`, `${project.artifactId}-app-appA`, and `${project.artifactId}-app-appB` projects, then drag and drop them on the running ${product.name} server. This deploys the projects to the server without opening the browser.
+    * `Batch` mode: In the `Servers` tab, right-click on the server and choose `Add and Remove`. If the `${project.artifactId}-app-shared`, `${project.artifactId}-app-appA`, and `${project.artifactId}-app-appB` projects are the only projects in the list, click `Add All`. Otherwise, use multi-select to select them and click `Add`. Then click `Finish`.
 3. Right-click on the `${project.artifactId}-app-appA` project and choose `Run As` --> `Run on Server`. A browser window appears that accesses the running `appA` application.
 4. Right-click on the `${project.artifactId}-app-appB` project and choose `Run As` --> `Run on Server`. A browser window appears that accesses the running `appB` application.
 
