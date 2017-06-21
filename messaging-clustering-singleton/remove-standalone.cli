@@ -1,0 +1,16 @@
+## Batch file to configure the standalone server for the messaging-clustering-singleton quickstart.
+
+batch
+
+# -- Disable clustering by removing the clustering password
+/subsystem=messaging-activemq/server=default:undefine-attribute(name=cluster-password)
+
+# -- Remove mdb-delivery-group "abc"
+/subsystem=ejb3/mdb-delivery-group=abc:remove
+
+# -- Run this batch file
+run-batch
+
+# Reload the server
+reload
+
