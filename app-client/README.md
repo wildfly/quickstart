@@ -99,7 +99,7 @@ This example shows how to invoke an EJB from a remote standalone application on 
 
 4. Review the server log files to see the bean invocations on the server.
 
-         ClientContext is here = {Client =myhost}
+         ClientContext is here = {jboss.source-address=/127.0.0.1:54383}
 
 
 ## Access the Remote Client Application from a Different Machine
@@ -150,7 +150,7 @@ This example shows how to invoke an EJB from a remote standalone Java EE applica
 
 9. Review the server log files on the remote machine to see the bean invocations on the server.
 
-         ClientContext is here = {Client =myhost}
+         ClientContext is here = {jboss.source-address=/127.0.0.1:54383}
 
     As shown above, the connected server(s) can be configured using the properties file. It is also possible to connect multiple servers
     or a cluster using the same `jboss-ejb-client.properties` file.
