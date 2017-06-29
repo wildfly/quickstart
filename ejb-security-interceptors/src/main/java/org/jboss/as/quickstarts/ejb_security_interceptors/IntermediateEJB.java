@@ -19,6 +19,7 @@ package org.jboss.as.quickstarts.ejb_security_interceptors;
 import static org.jboss.as.quickstarts.ejb_security_interceptors.EJBUtil.lookupSecuredEJB;
 
 import javax.annotation.security.PermitAll;
+import javax.ejb.EJB;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
 
@@ -35,11 +36,12 @@ import org.jboss.ejb3.annotation.SecurityDomain;
 @PermitAll
 public class IntermediateEJB implements IntermediateEJBRemote {
 
+    @EJB(lookup="ejb:/ejb-security-interceptors/SecuredEJB!org.jboss.as.quickstarts.ejb_security_interceptors.SecuredEJBRemote")
+    private SecuredEJBRemote remote;
+
     public String makeTestCalls() {
         try {
             StringBuilder sb = new StringBuilder("* * IntermediateEJB - Begin Testing * * \n");
-            SecuredEJBRemote remote = lookupSecuredEJB();
-
             sb.append("SecuredEJBRemote.getSecurityInformation()=").append(remote.getSecurityInformation()).append("\n");
 
             try {

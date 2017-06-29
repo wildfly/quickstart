@@ -16,11 +16,10 @@
  */
 package org.jboss.as.quickstarts.ejb_security_interceptors;
 
-import java.security.Principal;
-import java.util.Map;
-
 import org.jboss.ejb.client.EJBClientInterceptor;
 import org.jboss.ejb.client.EJBClientInvocationContext;
+import org.wildfly.security.auth.server.SecurityDomain;
+import org.wildfly.security.auth.server.SecurityIdentity;
 
 /**
  * Client side interceptor responsible for propagating the local identity.
@@ -29,14 +28,23 @@ import org.jboss.ejb.client.EJBClientInvocationContext;
  */
 public class ClientSecurityInterceptor implements EJBClientInterceptor {
 
-    public void handleInvocation(EJBClientInvocationContext context) throws Exception {
-        Principal currentPrincipal = SecurityActions.securityContextGetPrincipal();
+    static final ThreadLocal<String> delegateName = new ThreadLocal<>();
 
-        if (currentPrincipal != null) {
-            Map<String, Object> contextData = context.getContextData();
-            contextData.put(ServerSecurityInterceptor.DELEGATED_USER_KEY, currentPrincipal.getName());
+    public void handleInvocation(EJBClientInvocationContext context) throws Exception {
+        String delegateUser = null;
+        SecurityDomain securityDomain = SecurityDomain.getCurrent();
+        if (securityDomain != null) {
+            SecurityIdentity currentIdentity = securityDomain.getCurrentSecurityIdentity();
+            if (!currentIdentity.isAnonymous()) {
+                delegateUser = currentIdentity.getPrincipal().getName();
+            }
+        } else {
+            delegateUser = delegateName.get();
         }
 
+        if (delegateUser != null) {
+            context.getContextData().put(ServerSecurityInterceptor.DELEGATED_USER_KEY, delegateUser);
+        }
         context.sendRequest();
     }
 
