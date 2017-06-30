@@ -13,18 +13,18 @@ The `ejb-security` quickstart demonstrates the use of Java EE declarative securi
 
 This quickstart takes the following steps to implement EJB security:
 
-1. Define the security domain. This can be done either in the `security` subsytem of the `standalone.xml` configuration file or in the `WEB-INF/jboss-web.xml` configuration file. This quickstart uses the `other` security domain, which is provided by default in the `standalone.xml` file.
+1. Add `application-security-domain` mappings in the `ejb3` and `undertow` subsystems to enable Elytron security for the quickstart EJB and Web components.
+    
+    EJB3:
 
-        <security-domain name="other" cache-type="default">
-            <authentication>
-                <login-module code="Remoting" flag="optional">
-                    <module-option name="password-stacking" value="useFirstPass"/>
-                </login-module>
-                <login-module code="RealmDirect" flag="required">
-                    <module-option name="password-stacking" value="useFirstPass"/>
-                </login-module>
-            </authentication>
-        </security-domain>
+            <application-security-domains>
+                <application-security-domain name="other" security-domain="ApplicationDomain"/>
+            </application-security-domains>
+
+    Undertow:
+            <application-security-domains>
+                <application-security-domain name="other" http-authentication-factory="application-http-authentication"/>
+            </application-security-domains>
 
 2. Add the `@SecurityDomain("other")` security annotation to the EJB declaration to tell the EJB container to apply authorization to this EJB.
 3. Add the `@RolesAllowed({ "guest" })` annotation to the EJB declaration to authorize access only to users with `guest` role access rights.
@@ -70,6 +70,50 @@ To add the application users, open a command prompt and type the following comma
 If you prefer, you can use the add-user utility interactively.
 For an example of how to use the add-user utility, see the instructions located here: [Add an Application User](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CREATE_USERS.md#add-an-application-user).
 
+## Configure the Server
+
+These steps assume you are running the server in standalone mode and using the default `standalone.xml` supplied with the distribution.
+
+You configure the security domain by running JBoss CLI commands. For your convenience, this quickstart batches the commands into a `configure-elytron.cli` script provided in the root directory of this quickstart.
+
+1. Before you begin, back up your server configuration file
+    * If it is running, stop the ${product.name} server.
+    * Backup the file: `${jboss.home.name}/standalone/configuration/standalone.xml`
+    * After you have completed testing this quickstart, you can replace this file to restore the server to its original configuration.
+
+2. Start the ${product.name} server by typing the following:
+
+        For Linux:  ${jboss.home.name}/bin/standalone.sh
+        For Windows:  ${jboss.home.name}\bin\standalone.bat
+3. Review the `configure-elytron.cli` file in the root of this quickstart directory. This script adds the configuration that enables Elytron security for the quickstart components. Comments in the script describe the purpose of each block of commands.
+
+4. Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing ${jboss.home.name} with the path to your server:
+
+        For Linux: ${jboss.home.name}/bin/jboss-cli.sh --connect --file=configure-elytron.cli
+        For Windows: ${jboss.home.name}\bin\jboss-cli.bat --connect --file=configure-elytron.cli
+    You should see the following result when you run the script:
+
+        The batch executed successfully
+6. Stop the ${product.name} server.
+
+## Review the Modified Server Configuration
+
+After stopping the server, open the `${jboss.home.name}/standalone/configuration/standalone.xml` file and review the changes.
+
+1. The following `application-security-domain` mapping was added to the `ejb3` subsystem:
+
+        <application-security-domains>
+            <application-security-domain name="other" security-domain="ApplicationDomain"/>
+        </application-security-domains>
+
+    The `application-security-domain` essentially enables Elytron security for the quickstart EJBs. It maps the `other` security domain that was set in the EJBs via annotation to the Elytron `ApplicationDomain` that will be responsible for authenticating and authorizing access to the EJBs.
+2. The following `application-security-domain` mapping was added to the `undertow` subsystem:
+
+        <application-security-domains>
+            <application-security-domain name="other" http-authentication-factory="application-http-authentication"/>
+        </application-security-domains>
+
+   The mapping in the `undertow` subsystem is similar to the one in the `ejb3` subsystem but in this case it maps the `other` security domain to the `http-authentication-factory` that will be used to authenticate and authorize access to the Web components.
 
 ## Start the Server
 
@@ -78,7 +122,6 @@ For an example of how to use the add-user utility, see the instructions located 
 
         For Linux:   ${jboss.home.name}/bin/standalone.sh
         For Windows: ${jboss.home.name}\bin\standalone.bat
-
 
 ## Build and Deploy the Quickstart
 
@@ -89,7 +132,6 @@ For an example of how to use the add-user utility, see the instructions located 
         mvn clean install wildfly:deploy
 
 4. This will deploy `target/${project.artifactId}.war` to the running instance of the server.
-
 
 ## Access the Application
 
@@ -124,7 +166,6 @@ When you access the application, you are presented with a browser login challeng
         javax.ejb.EJBAccessException: WFLYEJB0364: Invocation on method: public java.lang.String org.jboss.as.quickstarts.ejb_security.SecuredEJB.getSecurityInfo() of bean: SecuredEJB is not allowed
 
 
-
 ## Undeploy the Archive
 
 1. Make sure you have started the ${product.name} server as described above.
@@ -133,6 +174,27 @@ When you access the application, you are presented with a browser login challeng
 
         mvn wildfly:undeploy
 
+## Restore the Original Server Configuration
+
+You can restore the original server configuration by running the  `restore-configuration.cli` script provided in the root directory of this quickstart or by manually restoring the back-up copy the configuration file.
+
+### Restore the Original Server Configuration by Running the JBoss CLI Script
+
+        For Linux:  ${jboss.home.name}/bin/standalone.sh
+        For Windows:  ${jboss.home.name}\bin\standalone.bat
+2. Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing ${jboss.home.name} with the path to your server:
+
+        For Linux: ${jboss.home.name}/bin/jboss-cli.sh --connect --file=restore-configuration.cli
+        For Windows: ${jboss.home.name}\bin\jboss-cli.bat --connect --file=restore-configuration.cli
+    This script removes the `test` queue from the `messaging` subsystem in the server configuration. You should see the following result when you run the script:
+
+        The batch executed successfully
+        process-state: reload-required
+
+### Restore the Original Server Configuration Manually
+
+1. If it is running, stop the ${product.name} server.
+2. Replace the `${jboss.home.name}/standalone/configuration/standalone.xml` file with the back-up copy of the file.
 
 ## Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 
@@ -141,6 +203,7 @@ You can also start the server and deploy the quickstarts or run the Arquillian t
 * Be sure to [Add the Application Users](#add-the-application-users) as described above.
 * To deploy the server project, right-click on the `${project.artifactId}` project and choose `Run As` --> `Run on Server`.
 * You are presented with a browser login challenge. Enter the credentials as described above to access and test the running application.
+* Be sure to [Restore the Original Server Configuration](#restore-the-original-server-configuration) when you have completed testing this quickstart.
 
 ## Debug the Application
 
