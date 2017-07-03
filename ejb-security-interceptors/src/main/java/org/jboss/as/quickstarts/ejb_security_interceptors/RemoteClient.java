@@ -19,24 +19,7 @@ package org.jboss.as.quickstarts.ejb_security_interceptors;
 import static org.jboss.as.quickstarts.ejb_security_interceptors.EJBUtil.lookupIntermediateEJB;
 import static org.jboss.as.quickstarts.ejb_security_interceptors.EJBUtil.lookupSecuredEJB;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.ejb.EJBAccessException;
-import javax.security.auth.Subject;
-import javax.security.auth.callback.Callback;
-import javax.security.auth.callback.CallbackHandler;
-import javax.security.auth.callback.NameCallback;
-import javax.security.auth.callback.PasswordCallback;
-import javax.security.auth.callback.UnsupportedCallbackException;
-import javax.security.auth.login.AppConfigurationEntry;
-import javax.security.auth.login.Configuration;
-import javax.security.auth.login.LoginContext;
-import javax.security.auth.login.LoginException;
-
-import org.jboss.security.ClientLoginModule;
-import org.jboss.security.SimplePrincipal;
 
 /**
  * The remote client responsible for making a number of calls to the server to demonstrate the capabilities of the interceptors.
@@ -46,13 +29,13 @@ import org.jboss.security.SimplePrincipal;
 public class RemoteClient {
 
     /**
-     * Perform the tests of this quick start using the SecurityContextAssociation API to set the desired Principal.
+     * Perform the tests of this quick start using a thread local in the client-side interceptor to set the desired principal name.
      */
-    private static void performTestingSecurityContext(final String user, final SecuredEJBRemote secured,
+    private static void performTestingThreadLocal(final String user, final SecuredEJBRemote secured,
         final IntermediateEJBRemote intermediate) {
         try {
             if (user != null) {
-                SecurityActions.securityContextSetPrincpal(new SimplePrincipal(user));
+                ClientSecurityInterceptor.delegateName.set(user);
             }
 
             System.out.println("-------------------------------------------------");
@@ -61,73 +44,10 @@ public class RemoteClient {
 
             makeCalls(secured, intermediate);
         } finally {
-            SecurityActions.securityContextClear();
+            ClientSecurityInterceptor.delegateName.remove();
             System.out.println("* * Test Complete * * \n\n\n");
             System.out.println("-------------------------------------------------");
         }
-    }
-
-    /**
-     * Perform the tests of this quick start using the ClientLoginModule and LoginContext API to set the desired Principal.
-     */
-    private static void performTestingClientLoginModule(final String user, final SecuredEJBRemote secured,
-        final IntermediateEJBRemote intermediate) throws Exception {
-        LoginContext loginContext = null;
-        try {
-            if (user != null) {
-                loginContext = getCLMLoginContext(user, "");
-                loginContext.login();
-            }
-
-            System.out.println("-------------------------------------------------");
-            System.out
-                .println(String.format("* * About to perform test as %s * *\n\n", user == null ? "ConnectionUser" : user));
-
-            makeCalls(secured, intermediate);
-        } finally {
-            if (loginContext != null) {
-                loginContext.logout();
-            }
-            System.out.println("* * Test Complete * * \n\n");
-            System.out.println("-------------------------------------------------");
-        }
-    }
-
-    public static LoginContext getCLMLoginContext(final String username, final String password) throws LoginException {
-        final String configurationName = "Testing";
-
-        CallbackHandler cbh = new CallbackHandler() {
-            public void handle(Callback[] callbacks) throws IOException, UnsupportedCallbackException {
-                for (Callback current : callbacks) {
-                    if (current instanceof NameCallback) {
-                        ((NameCallback) current).setName(username);
-                    } else if (current instanceof PasswordCallback) {
-                        ((PasswordCallback) current).setPassword(password.toCharArray());
-                    } else {
-                        throw new UnsupportedCallbackException(current);
-                    }
-                }
-            }
-        };
-        Configuration config = new Configuration() {
-
-            @Override
-            public AppConfigurationEntry[] getAppConfigurationEntry(String name) {
-                if (configurationName.equals(name) == false) {
-                    throw new IllegalArgumentException("Unexpected configuration name '" + name + "'");
-                }
-                Map<String, String> options = new HashMap<>();
-                options.put("multi-threaded", "true");
-                options.put("restore-login-identity", "true");
-
-                AppConfigurationEntry clmEntry = new AppConfigurationEntry(ClientLoginModule.class.getName(),
-                    AppConfigurationEntry.LoginModuleControlFlag.REQUIRED, options);
-
-                return new AppConfigurationEntry[] { clmEntry };
-            }
-        };
-
-        return new LoginContext(configurationName, new Subject(), cbh, config);
     }
 
     private static void makeCalls(final SecuredEJBRemote secured, final IntermediateEJBRemote intermediate) {
@@ -155,9 +75,6 @@ public class RemoteClient {
         System.out.println(intermediate.makeTestCalls());
     }
 
-    /**
-     * @param args
-     */
     public static void main(String[] args) throws Exception {
         System.out.println("\n\n\n* * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\n\n");
 
@@ -167,24 +84,11 @@ public class RemoteClient {
         System.out
             .println("This first round of tests is using the (PicketBox) SecurityContextAssociation API to set the desired Principal.\n\n");
 
-        performTestingSecurityContext(null, secured, intermediate);
-        performTestingSecurityContext("AppUserOne", secured, intermediate);
-        performTestingSecurityContext("AppUserTwo", secured, intermediate);
+        performTestingThreadLocal(null, secured, intermediate);
+        performTestingThreadLocal("AppUserOne", secured, intermediate);
+        performTestingThreadLocal("AppUserTwo", secured, intermediate);
         try {
-            performTestingSecurityContext("AppUserThree", secured, intermediate);
-            System.err.println("ERROR - We did not expect the switch to 'AppUserThree' to work.");
-        } catch (Exception e) {
-            System.out.println("Call as 'AppUserThree' correctly rejected.\n");
-        }
-
-        System.out
-            .println("This second round of tests is using the (PicketBox) ClientLoginModule with LoginContext API to set the desired Principal.\n\n");
-
-        performTestingClientLoginModule(null, secured, intermediate);
-        performTestingClientLoginModule("AppUserOne", secured, intermediate);
-        performTestingClientLoginModule("AppUserTwo", secured, intermediate);
-        try {
-            performTestingClientLoginModule("AppUserThree", secured, intermediate);
+            performTestingThreadLocal("AppUserThree", secured, intermediate);
             System.err.println("ERROR - We did not expect the switch to 'AppUserThree' to work.");
         } catch (Exception e) {
             System.out.println("Call as 'AppUserThree' correctly rejected.\n");

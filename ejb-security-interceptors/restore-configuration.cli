@@ -1,0 +1,30 @@
+# Batch script to restore the JBEAP configuration that was modified to run the quickstart
+
+# Start batching commands
+batch
+
+# Remove the remote outbound connection
+/subsystem=remoting/http-connector=http-remoting-connector:undefine-attribute(name=sasl-authentication-factory)
+/subsystem=remoting/remote-outbound-connection=ejb-outbound-connection:remove
+
+# Remove the outbound socket binding
+/socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=ejb-outbound:remove
+
+# Remove the permissions added for the quickstart
+/subsystem=elytron/constant-permission-mapper=constant-permission-mapper:list-remove(name=permissions,value={class-name=org.wildfly.security.auth.permission.RunAsPrincipalPermission,target-name=AppUserOne})
+/subsystem=elytron/constant-permission-mapper=constant-permission-mapper:list-remove(name=permissions,value={class-name=org.wildfly.security.auth.permission.RunAsPrincipalPermission,target-name=AppUserTwo})
+
+# Remove the authentication context and authentication configurations
+/subsystem=elytron/authentication-context=ejb-outbound-context:remove
+/subsystem=elytron/authentication-configuration=ejb-outbound-configuration:remove
+
+# Remove the application security domain mapping from the EJB3 subsystem
+/subsystem=ejb3/application-security-domain=quickstart-domain:remove
+
+# Run the batch commands
+run-batch
+
+# Reload the server configuration
+reload
+
+
