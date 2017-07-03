@@ -1,0 +1,21 @@
+## Batch file to configure the standalone server for the messaging-clustering quickstart.
+
+batch
+
+# -- Enable clustering, and set a cluster password
+/subsystem=messaging-activemq/server=default:write-attribute(name=cluster-password, value=password)
+
+# -- Add mdb-delivery-group named "abc"
+/subsystem=ejb3/mdb-delivery-group=abc:add(active=true)
+
+# -- Deploy the messaging-clustering-singleton.war file
+# NOTE: The following command assumes the quickstart is built
+#       If that is not the case, run mvn clean install before this script
+deploy target/messaging-clustering-singleton.war
+
+# -- Run this batch file
+run-batch
+
+# Reload the server
+reload
+
