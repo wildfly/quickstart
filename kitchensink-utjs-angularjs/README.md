@@ -14,22 +14,13 @@ This quickstart is a deployable Maven 3 project to help you get your foot in the
 
 This project is setup to allow you to create a compliant Java EE 7 application using Undertow.js CDI 1.1, JPA 2.1 and Bean Validation 1.1. It includes a persistence unit and some sample persistence and transaction code to introduce you to database access in Undertow.js.
 
-System requirements
--------------------
+## System requirements
 
-All you need to build this project is Java 8.0 (Java SDK 1.8) or better, Maven 3.1 or better.
-
-The application this project produces is designed to be run on JBoss WildFly 10+.
-
- 
-Configure Maven
----------------
-
-If you have not yet done so, you must [Configure Maven](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN.md) before testing the quickstarts.
+All you need to build this project is ${build.requirements}. See [Configure Maven for ${product.name} ${product.version}](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
 
 
-Start JBoss WildFly with the Web Profile
--------------------------
+
+## Start JBoss WildFly with the Web Profile
 
 1. Open a command line and navigate to the root of the JBoss server directory.
 2. The following shows the command line to start the server with the web profile:
@@ -38,8 +29,7 @@ Start JBoss WildFly with the Web Profile
         For Windows: JBOSS_HOME\bin\standalone.bat
 
  
-Build and Deploy the Quickstart
--------------------------
+## Build and Deploy the Quickstart
 
 _NOTE: The following build command assumes you have configured your Maven user settings. If you have not, you must include Maven setting arguments on the command line. See [Build and Deploy the Quickstarts](https://github.com/jboss-developer/jboss-eap-quickstarts#build-and-deploy-the-quickstarts) for complete instructions and additional options._
 
@@ -49,13 +39,13 @@ _NOTE: The following build command assumes you have configured your Maven user s
 
         mvn clean package wildfly:deploy
 
-4. This will deploy `target/wildfly-kitchensink-utjs-angularjs.war` to the running instance of the server.
+4. This will deploy `target/${project.artifactId}.war` to the running instance of the server.
  
 
 Access the application 
 ---------------------
 
-The application will be running at the following URL: <http://localhost:8080/wildfly-kitchensink-utjs-angularjs/>.
+The application will be running at the following URL: <http://localhost:8080/${project.artifactId}/>.
 
 
 Undeploy the Archive
