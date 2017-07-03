@@ -16,8 +16,6 @@
  */
 package org.jboss.as.quickstarts.ejb_security_interceptors;
 
-import static org.jboss.as.quickstarts.ejb_security_interceptors.EJBUtil.lookupSecuredEJB;
-
 import javax.annotation.security.PermitAll;
 import javax.ejb.EJB;
 import javax.ejb.Remote;
