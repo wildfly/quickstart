@@ -1,15 +1,15 @@
-# hibernate5: How to Use Hibernate 5 in an Application
+# hibernate: How to Use Hibernate 5 in an Application
 
 Author: Madhumita Sadhukhan  
 Level: Intermediate  
-Technologies: Hibernate 5  
-Summary: The `hibernate5` quickstart demonstrates how to use Hibernate ORM 5 API over JPA, using Hibernate-Core and Hibernate Bean Validation, and EJB.
-Target Product: ${product.name}  
+Technologies: Hibernate
+Summary: The `hibernate` quickstart demonstrates how to use Hibernate ORM 5 API over JPA, using Hibernate-Core and Hibernate Bean Validation, and EJB.
+Target Product: ${product.name}
 Source: <${github.repo.url}>  
 
 ## What is it?
 
-The `hibernate5` quickstart is based upon the [kitchensink](../kitchensink/README.md) example, but demonstrates how to use Hibernate Object/Relational Mapping (ORM) 5 over JPA in ${product.name.full}.
+The `hibernate` quickstart is based upon the [kitchensink](../kitchensink/README.md) example, but demonstrates how to use Hibernate Object/Relational Mapping (ORM) 5 over JPA in ${product.name.full}.
 
 This project is setup to allow you to create a compliant Java EE 7 application using JSF, CDI, EJB, JPA , Hibernate-Core and Hibernate Bean Validation.  It includes a persistence unit associated with Hibernate session and some sample persistence and transaction code to help you with database access in enterprise Java.
 
@@ -37,7 +37,7 @@ If you use Hibernate 5 packaged within ${product.name}, you will need to first i
 
 This quickstart demonstrates usage of Hibernate Session and Hibernate Validators.
 
-If you look at the pom.xml file in the root of the hibernate5 quickstart directory, you will see that the dependencies for the Hibernate modules have been added with the scope as `provided`.
+If you look at the pom.xml file in the root of the hibernate quickstart directory, you will see that the dependencies for the Hibernate modules have been added with the scope as `provided`.
 For example:
 
       <dependency>
