@@ -796,13 +796,16 @@
                                 </goals>
                                 <configuration>
                                     <outputDirectory>${basedir}</outputDirectory>
+                                    <filters>
+                                        <filter>${root.dir}/docs.properties</filter>
+                                    </filters>
                                     <resources>
                                         <resource>
                                             <directory>${project.build.directory}/docs</directory>
                                             <includes>
                                                 <include>*.md</include>
                                             </includes>
-                                            <filtering>false</filtering>
+                                            <filtering>true</filtering>
                                         </resource>
                                     </resources>
                                 </configuration>
