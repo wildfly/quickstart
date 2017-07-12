@@ -304,13 +304,15 @@
                     <configuration>
                         <configLocation>wildfly-checkstyle/checkstyle.xml</configLocation>
                         <includeTestSourceDirectory>true</includeTestSourceDirectory>
-                        <excludes>**/*$logger.java,**/*$bundle.java</excludes>
+                        <sourceDirectories>
+                            <directory>${project.build.sourceDirectory}</directory>
+                        </sourceDirectories>
                         <resourceIncludes>**/*.properties,**/*.xml</resourceIncludes>
                         <includeTestResources>true</includeTestResources>
                         <includeResources>true</includeResources>
-                        <failOnViolation>true</failOnViolation>
-                        <failsOnError>true</failsOnError>
                         <consoleOutput>true</consoleOutput>
+                        <failsOnError>true</failsOnError>
+                        <failOnViolation>true</failOnViolation>
                     </configuration>
                     <dependencies>
                         <dependency>
