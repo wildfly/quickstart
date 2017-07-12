@@ -15,26 +15,27 @@ When you deploy this example, two users are automatically created for you: user 
 
 This quickstart takes the following steps to implement Servlet security:
 
-1. Defines a security domain in the `standalone.xml` configuration file using the Database JAAS LoginModule.
-2. Adds an application user with access rights to the application.
+1. Web Application:
+	* Adds a security constraint to the Servlet using the `@ServletSecurity` and `@HttpConstraint` annotations.
+	* Adds a security domain reference to `WEB-INF/jboss-web.xml`.
+	* Adds a `login-config` that sets the `auth-method` to `BASIC` in the `WEB-INF/web.xml`.
+2. Application Server (`standalone.xml`):
+	* Defines a security domain in the `elytron` subsystem that uses the JDBC security realm to obtain the security data used to authenticate and authorize users.
+	* Defines an `http-authentication-factory` in the `elytron` subsystem that uses the security domain created in step 1 for BASIC authentication.
+	* Adds an `application-security-domain` mapping in the `undertow` subsystem to map the Servlet security domain to the HTTP authentication factory defined in step 2.
+3. Database Configuration:
+	* Adds an application user with access rights to the application.
 
         User Name: quickstartUser
         Password: quickstartPwd1!
         Role: quickstarts
-3. Adds another user with no access rights to the application.
+	* Adds another user with no access rights to the application.
 
         User Name: guest
         Password: guestPwd1!
         Role: notauthorized
-4. Adds a security domain reference to `WEB-INF/jboss-web.xml`.
-5. Adds a security constraint to the `WEB-INF/web.xml` .
-6. Adds a security annotation to the EJB declaration.
-
-Please note the allowed user role `quickstarts` in the annotation `@RolesAllowed` is the same as the user role defined in step 2.
 
 _Note: This quickstart uses the H2 database included with ${product.name.full} ${product.version}. It is a lightweight, relational example datasource that is used for examples only. It is not robust or scalable, is not supported, and should NOT be used in a production environment!_
-
-_Note: This quickstart uses a `*-ds.xml` datasource configuration file for convenience and ease of database configuration. These files are deprecated in ${product.name} and should not be used in a production environment. Instead, you should configure the datasource using the Management CLI or Management Console. Datasource configuration is documented in the [Configuration Guide](https://access.redhat.com/documentation/en/red-hat-jboss-enterprise-application-platform/) for ${product.name.full}._
 
 ## System Requirements
 
@@ -50,9 +51,7 @@ In the following instructions, replace `${jboss.home.name}` with the actual path
 
 ## Configure the Server
 
-This quickstart authenticates users using a simple database setup. The datasource configuration is located in the `/src/main/webapp/WEB-INF/servlet-security-quickstart-ds.xml` file. You must define a security domain using the database JAAS login module.
-
-You can configure the security domain by running JBoss CLI commands. For your convenience, this quickstart batches the commands into a `configure-security-domain.cli` script provided in the root directory of this quickstart.
+You can configure the server by running JBoss CLI commands. For your convenience, this quickstart batches the commands into a `configure-server.cli` script provided in the root directory of this quickstart.
 
 1. Before you begin, back up your server configuration file
     * If it is running, stop the ${product.name} server.
@@ -63,12 +62,12 @@ You can configure the security domain by running JBoss CLI commands. For your co
 
         For Linux:  ${jboss.home.name}/bin/standalone.sh
         For Windows:  ${jboss.home.name}\bin\standalone.bat
-3. Review the `configure-security-domain.cli` file in the root of this quickstart directory. This script adds the `servlet-security-quickstart` security domain to the `security` subsystem in the server configuration and configures authentication access.
+3. Review the `configure-server.cli` file in the root of this quickstart directory. This script adds security domain and HTTP authentication factory to the `elytron` subsystem in the server configuration and also configures the `undertow` subsystem to use the configured HTTP authentication factory for the Web application.
 
 4. Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing ${jboss.home.name} with the path to your server:
 
-        For Linux: ${jboss.home.name}/bin/jboss-cli.sh --connect --file=configure-security-domain.cli
-        For Windows: ${jboss.home.name}\bin\jboss-cli.bat --connect --file=configure-security-domain.cli
+        For Linux: ${jboss.home.name}/bin/jboss-cli.sh --connect --file=configure-server.cli
+        For Windows: ${jboss.home.name}\bin\jboss-cli.bat --connect --file=configure-server.cli
 You should see the following result when you run the script:
 
         The batch executed successfully
@@ -79,20 +78,59 @@ You should see the following result when you run the script:
 
 After stopping the server, open the `${jboss.home.name}/standalone/configuration/standalone.xml` file and review the changes.
 
-The following `servlet-security-quickstart` security-domain element was added to the `security` subsystem.
+1. The following datasource was added to the `datasources` subsystem.
 
-      	<security-domain name="servlet-security-quickstart" cache-type="default">
-    	      <authentication>
-          	    <login-module code="Database" flag="required">
-            	      <module-option name="dsJndiName" value="java:jboss/datasources/ServletSecurityDS"/>
-                    <module-option name="principalsQuery" value="SELECT PASSWORD FROM USERS WHERE USERNAME = ?"/>
-                    <module-option name="rolesQuery" value="SELECT R.NAME, 'Roles' FROM USERS_ROLES UR INNER JOIN ROLES R ON R.ID = UR.ROLE_ID INNER JOIN USERS U ON U.ID = UR.USER_ID WHERE U.USERNAME = ?"/>
-                </login-module>
-            </authentication>
+        <datasource jndi-name="java:jboss/datasources/ServletSecurityDS" pool-name="ServletSecurityDS">
+            <connection-url>jdbc:h2:mem:servlet-security;DB_CLOSE_ON_EXIT=FALSE</connection-url>
+            <driver>h2</driver>
+            <security>
+                <user-name>sa</user-name>
+                <password>sa</password>
+            </security>
+        </datasource>
+
+2. The following `security-realm` was added to the `elytron` subsystem.
+
+        <jdbc-realm name="servlet-security-jdbc-realm">
+            <principal-query sql="SELECT PASSWORD FROM USERS WHERE USERNAME = ?" data-source="ServletSecurityDS">
+                <clear-password-mapper password-index="1"/>
+            </principal-query>
+            <principal-query sql="SELECT R.NAME, 'Roles' FROM USERS_ROLES UR INNER JOIN ROLES R ON R.ID = UR.ROLE_ID INNER JOIN USERS U ON U.ID = UR.USER_ID WHERE U.USERNAME = ?" data-source="ServletSecurityDS">
+                <attribute-mapping>
+                    <attribute to="roles" index="1"/>
+                </attribute-mapping>
+            </principal-query>
+        </jdbc-realm>
+The `security-realm` is responsible for verifying the credentials for a given principal and for obtaining security attributes (like roles) that are associated with the authenticated identity.
+
+3. The following `role-decoder` was added to the `elytron` subsystem.
+
+        <simple-role-decoder name="from-roles-attribute" attribute="roles"/>
+The `jdbc-realm` in this quickstart stores the roles associated with a principal in an attribute named roles. Other realms might use different attributes for roles (such as `group`). The purpose of a `role-decoder` is to instruct the security domain how roles are to be retrieved from an authorized identity.
+
+4. The following `security-domain` was added to the `elytron` subsystem.
+
+        <security-domain name="servlet-security-quickstart-sd" default-realm="servlet-security-jdbc-realm" permission-mapper="default-permission-mapper">
+            <realm name="servlet-security-jdbc-realm" role-decoder="from-roles-attribute"/>
         </security-domain>
 
-Please note that the security domain name `servlet-security-quickstart` must match the one defined in the `/src/main/webapp/WEB-INF/jboss-web.xml` file.
+5. The following `http-authentication-factory` was added to the `elytron` subsystem.
 
+        <http-authentication-factory name="servlet-security-quickstart-http-auth" http-server-mechanism-factory="global" security-domain="servlet-security-quickstart-sd">
+            <mechanism-configuration>
+                <mechanism mechanism-name="BASIC">
+                    <mechanism-realm realm-name="RealmUsersRoles"/>
+                </mechanism>
+            </mechanism-configuration>
+        </http-authentication-factory>
+It basically defines an HTTP authentication factory for the BASIC mechanism that relies on the `servlet-security-quickstart-sd` security domain to authenticate and authorize access to Web applications.
+
+6. The following `application-security-domain` was added to the `undertow` subsystem.
+
+        <application-security-domains>
+            <application-security-domain name="servlet-security-quickstart" http-authentication-factory="servlet-security-quickstart-http-auth"/>
+        </application-security-domains>
+This configuration tells `Undertow` that applications with the `servlet-security-quickstart` security domain (as defined in `jboss-web.xml` or via `@SecurityDomain` annotation in the Servlet class) should use the `http-authentication-factory` named `servlet-security-quickstart-http-auth`. If no `application-security-domain` is defined for a particular security domain, `Undertow` assumes the legacy JAAS based security domains should be used for authentication/authorization (and in this case the security domain defined in the Web application must match a security domai in the legacy `security` subsystem. The presence of an `application-security-domain` configuration is what enables Elytron authentication for a Web application.
 
 ## Start the Server
 
@@ -134,9 +172,7 @@ Now close the browser. Open a new browser and log in with username `guest` and p
 
 ## Server Log: Expected Warnings and Errors
 
-_Note:_ You will see the following warnings in the server log. You can ignore these warnings.
-
-    WFLYJCA0091: -ds.xml file deployments are deprecated. Support may be removed in a future version.
+_Note:_ You will see the following warning in the server log. You can ignore it.
 
     HHH000431: Unable to determine H2 database version, certain features may not work
 
@@ -150,11 +186,11 @@ _Note:_ You will see the following warnings in the server log. You can ignore th
         mvn wildfly:undeploy
 
 
-## Remove the Security Domain Configuration
+## Restore the Server Configuration
 
-You can remove the security domain configuration by running the  `remove-security-domain.cli` script provided in the root directory of this quickstart or by manually restoring the back-up copy the configuration file.
+You can restore the original server configuration by running the  `restore-configuration.cli` script provided in the root directory of this quickstart or by manually restoring the back-up copy the configuration file.
 
-### Remove the Security Domain Configuration by Running the JBoss CLI Script
+### Restore the Server Configuration by Running the JBoss CLI Script
 
 1. Start the ${product.name} server by typing the following:
 
@@ -162,14 +198,14 @@ You can remove the security domain configuration by running the  `remove-securit
         For Windows:  ${jboss.home.name}\bin\standalone.bat
 2. Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing ${jboss.home.name} with the path to your server:
 
-        For Linux: ${jboss.home.name}/bin/jboss-cli.sh --connect --file=remove-security-domain.cli
-        For Windows: ${jboss.home.name}\bin\jboss-cli.bat --connect --file=remove-security-domain.cli
-This script removes the `servlet-security-quickstart` security domain from the `security` subsystem in the server configuration. You should see the following result when you run the script:
+        For Linux: ${jboss.home.name}/bin/jboss-cli.sh --connect --file=restore-configuration.cli
+        For Windows: ${jboss.home.name}\bin\jboss-cli.bat --connect --file=restore-configuration.cli
+This script removes the `application-security-domain` configuration from the `undertow` subsystem, the `http-authentication-factory`, `security-domain`, `security-realm` and `role-decoder` configuration from the `elytron` subsystem and it also removes the `datasource` used for this quickstart. You should see the following result when you run the script:
 
         The batch executed successfully
         process-state: reload-required
 
-### Remove the Security Domain Configuration Manually
+### Restore the Server Configuration Manually
 1. If it is running, stop the ${product.name} server.
 2. Replace the `${jboss.home.name}/standalone/configuration/standalone.xml` file with the back-up copy of the file.
 
@@ -178,8 +214,8 @@ This script removes the `servlet-security-quickstart` security domain from the `
 
 You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a ${product.name} server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](${use.eclipse.url}).
 
-* Be sure to configure the security domain by running the JBoss CLI commands as described above under [Configure the ${product.name} Server](#configure-the-server). Stop the server at the end of that step.
-* Be sure to [Remove the Security Domain Configuration](#remove-the-security-domain-configuration) when you have completed testing this quickstart.
+* Be sure to configure the server by running the JBoss CLI commands as described above under [Configure the ${product.name} Server](#configure-the-server). Stop the server at the end of that step.
+* Be sure to [Restore the Server Configuration](#restore-the-server-configuration) when you have completed testing this quickstart.
 
 ## Debug the Application
 
