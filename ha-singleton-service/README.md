@@ -28,11 +28,11 @@ The deployments this project produces are designed to be run on ${product.name.f
 Everything needed to build this project is ${build.requirements}. See [Configure Maven for ${product.name} ${product.version}](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure the environment is configured correctly for testing the quickstarts.
 
 
-## Use of ${jboss.home.name}-1 and ${jboss.home.name}-2
+## Use of ${jboss.home.name}_1 and ${jboss.home.name}_2
 
 This quickstart requires that you clone your `${jboss.home.name}` installation directory and run two servers. The installation path is described in detail here: [Use of ${jboss.home.name} and JBOSS_HOME Variables](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_${jboss.home.name}.md#use-of-eap_home-and-jboss_home-variables).
 
-In the following instructions, replace `${jboss.home.name}-1` with the path to your first ${product.name} server and replace `${jboss.home.name}-2` with the path to your second cloned ${product.name} server.
+In the following instructions, replace `${jboss.home.name}_1` with the path to your first ${product.name} server and replace `${jboss.home.name}_2` with the path to your second cloned ${product.name} server.
 
 ## Clone the ${product.name} Directory
 
@@ -47,13 +47,13 @@ To start the servers, type the following commands.
 
 For Linux:
 
-    Server 1: ${jboss.home.name}-1/bin/standalone.sh -c standalone-ha.xml -Djboss.node.name=node1
-    Server 2: ${jboss.home.name}-2/bin/standalone.sh -c standalone-ha.xml -Djboss.node.name=node2 -Djboss.socket.binding.port-offset=100
+    Server 1: ${jboss.home.name}_1/bin/standalone.sh -c standalone-ha.xml -Djboss.node.name=node1
+    Server 2: ${jboss.home.name}_2/bin/standalone.sh -c standalone-ha.xml -Djboss.node.name=node2 -Djboss.socket.binding.port-offset=100
 
 For Windows:
 
-    Server 1: ${jboss.home.name}-1\bin\standalone.bat -c standalone-ha.xml -Djboss.node.name=node1
-    Server 2: ${jboss.home.name}-2\bin\standalone.bat -c standalone-ha.xml -Djboss.node.name=node2 -Djboss.socket.binding.port-offset=100
+    Server 1: ${jboss.home.name}_1\bin\standalone.bat -c standalone-ha.xml -Djboss.node.name=node1
+    Server 2: ${jboss.home.name}_2\bin\standalone.bat -c standalone-ha.xml -Djboss.node.name=node2 -Djboss.socket.binding.port-offset=100
 
 This example is not limited to two servers. Additional servers can be started by specifying a unique node name and port offset for each one.
 
@@ -71,14 +71,14 @@ This example demonstrates a singleton service and a querying service that regula
 
 4. Investigate the primary-only Console Output for Server 1. Verify that the `target/ha-singleton-service-primary-only.jar` archive is deployed to `node1`, which is the first server started without port offset, by checking the server log.
 
-    INFO  [org.jboss.as.server.deployment] (MSC service thread 1-7) WFLYSRV0027: Starting deployment of "ha-singleton-service-primary-only.jar" (runtime-name: "ha-singleton-service-primary-only.jar")
-    INFO  [org.jboss.as.quickstarts.ha.singleton.service.primary.ServiceActivator] (MSC service thread 1-5) Singleton and querying services activated.
-    INFO  [org.jboss.as.quickstarts.ha.singleton.service.primary.QueryingService] (MSC service thread 1-3) Querying service is starting.
-    ...
-    INFO  [org.wildfly.clustering.server] (DistributedSingletonService - 1) WFLYCLSV0001: This node will now operate as the singleton provider of the org.jboss.as.quickstarts.ha.singleton.service.primary-only service
-    INFO  [org.jboss.as.quickstarts.ha.singleton.service.primary.SingletonService] (MSC service thread 1-7) Singleton service is starting on node 'node1'.
-    ...
-    INFO  [org.jboss.as.quickstarts.ha.singleton.service.primary.QueryingService] (pool-4-thread-1) Singleton service is running on node 'node1'.
+        INFO  [org.jboss.as.server.deployment] (MSC service thread 1-7) WFLYSRV0027: Starting deployment of "ha-singleton-service-primary-only.jar" (runtime-name: "ha-singleton-service-primary-only.jar")
+        INFO  [org.jboss.as.quickstarts.ha.singleton.service.primary.ServiceActivator] (MSC service thread 1-5) Singleton and querying services activated.
+        INFO  [org.jboss.as.quickstarts.ha.singleton.service.primary.QueryingService] (MSC service thread 1-3) Querying service is starting.
+        ...
+        INFO  [org.wildfly.clustering.server] (DistributedSingletonService - 1) WFLYCLSV0001: This node will now operate as the singleton provider of the org.jboss.as.quickstarts.ha.singleton.service.primary-only service
+        INFO  [org.jboss.as.quickstarts.ha.singleton.service.primary.SingletonService] (MSC service thread 1-7) Singleton service is starting on node 'node1'.
+        ...
+        INFO  [org.jboss.as.quickstarts.ha.singleton.service.primary.QueryingService] (pool-4-thread-1) Singleton service is running on node 'node1'.
 
 _NOTE:_ You might see the following warnings in the server log after the applications are deployed. These warnings can be ignored in a development environment.
 
@@ -89,7 +89,7 @@ _NOTE:_ You might see the following warnings in the server log after the applica
 
 1. Use the following command to deploy the same archive to the second server. Because the default socket binding port for deployment is `9990` and the second server ports are offset by `100`, you must pass the sum, `10090`, for the socket binding port as the argument to the `deploy` Maven goal.
 
-      mvn wildfly:deploy -Dwildfly.port=10090
+        mvn wildfly:deploy -Dwildfly.port=10090
 
 2. Investigate the primary-only console output for both servers. Verify that the `target/ha-singleton-service-primary-only.jar` archive is deployed to `node2` by checking the server log.
 
@@ -221,8 +221,8 @@ This example configures the default election policy to be based on logical names
 
 5. Repeat these steps for the second server. Note that if the second server is using a port offset, you must specify the controller address on the command line by adding `--controller=127.0.0.1:10090`.
 
-        For Linux: ${jboss.home.name}-2/bin/jboss-cli.sh --connect --controller=127.0.0.1:10090 --file=name-preference-election-policy-add.cli
-        For Windows: ${jboss.home.name}-2\bin\jboss-cli.bat --connect --controller=127.0.0.1:10090 --file=name-preference-election-policy-add.cli
+        For Linux: ${jboss.home.name}_2/bin/jboss-cli.sh --connect --controller=127.0.0.1:10090 --file=name-preference-election-policy-add.cli
+        For Windows: ${jboss.home.name}_2\bin\jboss-cli.bat --connect --controller=127.0.0.1:10090 --file=name-preference-election-policy-add.cli
 
 6. Be sure both servers are started, deploy one of the examples to both servers, and verify that the election policy is now in effect. The server running the election policy should now log the following message.
 
@@ -237,7 +237,7 @@ This example configures the default election policy to be based on logical names
 This example configures an election policy that elects a random cluster member when the cluster membership changes.
 
 1. Start the two servers with the HA profile as described above.
-2. Review the contents of the `random-election-policy-add.cli` file located in the root of this quickstart directory. This script removes the default simple election policy and configures the default election policy to elect a random cluster member using this command.
+2. Review the contents of the `random-election-policy-add.cli` file located in the root of this quickstart directory. This script removes the default simple election policy and configures the default election policy to elect a random cluster member using these commands.
 
         /subsystem=singleton/singleton-policy=default/election-policy=simple:remove(){allow-resource-service-restart=true}
         /subsystem=singleton/singleton-policy=default/election-policy=random:add()
@@ -266,8 +266,8 @@ This example configures an election policy that elects a random cluster member w
 
   5. Repeat these steps for the second server. Note that if the second server is using a port offset, you must specify the controller address on the command line by adding `--controller=127.0.0.1:10090`.
 
-        For Linux: ${jboss.home.name}-2/bin/jboss-cli.sh --connect --controller=127.0.0.1:10090 --file=random-election-policy-add.cli
-        For Windows: ${jboss.home.name}-2\bin\jboss-cli.bat --connect --controller=127.0.0.1:10090 --file=random-election-policy-add.cli
+        For Linux: ${jboss.home.name}_2/bin/jboss-cli.sh --connect --controller=127.0.0.1:10090 --file=random-election-policy-add.cli
+        For Windows: ${jboss.home.name}_2\bin\jboss-cli.bat --connect --controller=127.0.0.1:10090 --file=random-election-policy-add.cli
 
 6. Be sure both servers are started, deploy one of the examples to both servers, and verify that the election policy is now in effect.
 
@@ -283,7 +283,7 @@ A quorum policy specifies the minimum number of cluster members that must be pre
 3. Open a new command prompt, navigate to the root directory of this quickstart, and run the following command to execute the script for Server 1. Be sure to replace ${jboss.home.name}-1 with the path to the target Server 1.
 
         For Linux: ${jboss.home.name}-1/bin/jboss-cli.sh --connect --file=quorum-add.cli
-        For Windows: ${jboss.home.name}-1\bin\jboss-cli.bat --connect --file=rquorum-add.cli
+        For Windows: ${jboss.home.name}-1\bin\jboss-cli.bat --connect --file=quorum-add.cli
 
     You should see the following result when you run the script.
 
@@ -304,8 +304,8 @@ A quorum policy specifies the minimum number of cluster members that must be pre
 
 5. Repeat these steps for the second server. Note that if the second server is using a port offset, you must specify the controller address on the command line by adding `--controller=127.0.0.1:10090`.
 
-          For Linux: ${jboss.home.name}-2/bin/jboss-cli.sh --connect --controller=127.0.0.1:10090 --file=quorum-add.cli
-          For Windows: ${jboss.home.name}-2\bin\jboss-cli.bat --connect --controller=127.0.0.1:10090 --file=quorum-add.cli
+          For Linux: ${jboss.home.name}_2/bin/jboss-cli.sh --connect --controller=127.0.0.1:10090 --file=quorum-add.cli
+          For Windows: ${jboss.home.name}_2\bin\jboss-cli.bat --connect --controller=127.0.0.1:10090 --file=quorum-add.cli
 
 6. Be sure both servers are started, deploy one of the examples to both servers. While both servers are running, observe the server logs. The server logs warn that the number of cluster members is equal to the quorum.
 
@@ -330,7 +330,7 @@ If the singleton is running on multiple nodes, check for the following issues.
 
 * Another common cause is because the server instances did not discover each other and each server is operating as a singleton cluster. Ensure that `multicast` is enabled or change the `jgroups` subsystem configuration to use a different discovery mechanism. Confirm the following message in the server log to ensure that the discovery was successful.
 
-    INFO  [org.infinispan.remoting.transport.jgroups.JGroupsTransport] (MSC service thread 1-3) ISPN000094: Received new cluster view for channel server: [node1|1] (2) [node1, node2]
+        INFO  [org.infinispan.remoting.transport.jgroups.JGroupsTransport] (MSC service thread 1-3) ISPN000094: Received new cluster view for channel server: [node1|1] (2) [node1, node2]
 
 ## Undeploy the Deployments
 
