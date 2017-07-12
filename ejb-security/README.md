@@ -14,18 +14,6 @@ The `ejb-security` quickstart demonstrates the use of Java EE declarative securi
 This quickstart takes the following steps to implement EJB security:
 
 1. Add `application-security-domain` mappings in the `ejb3` and `undertow` subsystems to enable Elytron security for the quickstart EJB and Web components.
-    
-    EJB3:
-
-            <application-security-domains>
-                <application-security-domain name="other" security-domain="ApplicationDomain"/>
-            </application-security-domains>
-
-    Undertow:
-            <application-security-domains>
-                <application-security-domain name="other" http-authentication-factory="application-http-authentication"/>
-            </application-security-domains>
-
 2. Add the `@SecurityDomain("other")` security annotation to the EJB declaration to tell the EJB container to apply authorization to this EJB.
 3. Add the `@RolesAllowed({ "guest" })` annotation to the EJB declaration to authorize access only to users with `guest` role access rights.
 4. Add the `@RolesAllowed({ "guest" })` annotation to the Servlet declaration to authorize access only to users with `guest` role access rights.
