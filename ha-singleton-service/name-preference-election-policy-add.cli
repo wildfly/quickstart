@@ -1,16 +1,5 @@
-# Batch script to add a simple election policy based on logical names
-
-# Start batching commands
-batch
-
-# If the random script was run before this one, the simple election policy is removed
-# We need to test for this and add it if it is not there.
-
-# Add a simple election policy with ordered list of logical names
+# Script to add a simple election policy based on logical names
 /subsystem=singleton/singleton-policy=default/election-policy=simple:write-attribute(name=name-preferences,value=[node3,node2,node1])
-
-# Run the batch commands
-run-batch
 
 # Reload the server configuration
 reload

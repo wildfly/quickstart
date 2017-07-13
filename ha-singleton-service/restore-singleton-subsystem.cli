@@ -1,0 +1,19 @@
+# Batch script to restore the singleton subsystem to the default configuration
+
+# Start batching commands
+batch
+
+# Remove the singleton subsystem
+/subsystem=singleton:remove
+
+# Add the singleton subsystem
+/subsystem=singleton:add(default=default)
+
+# Configure the default singleton policy
+/subsystem=singleton/singleton-policy=default:add(cache-container=server)
+
+# Run the batch commands
+run-batch
+
+# Reload the server configuration
+reload

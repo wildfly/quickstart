@@ -1,13 +1,5 @@
-# Batch script to add a quorum election policy
-
-# Start batching commands
-batch
-
-# Configure the quorum election policy
+# Script to configure a quorum for a singleton election policy
 /subsystem=singleton/singleton-policy=default:write-attribute(name=quorum,value=2)
-
-# Run the batch commands
-run-batch
 
 # Reload the server configuration
 reload
