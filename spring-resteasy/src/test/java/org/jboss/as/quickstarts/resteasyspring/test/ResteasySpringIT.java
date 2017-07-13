@@ -17,6 +17,7 @@
 package org.jboss.as.quickstarts.resteasyspring.test;
 
 import java.net.URI;
+import java.net.URL;
 
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -27,105 +28,119 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.as.quickstarts.resteasyspring.GreetingBean;
 import org.jboss.resteasy.util.HttpResponseCodes;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.asset.EmptyAsset;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * Basic unit tests for resteasy spring integration
  */
-public class ResteasySpringTest {
+
+@RunWith(Arquillian.class)
+@RunAsClient
+public class ResteasySpringIT {
+    @Deployment
+    public static WebArchive getDeployment() {
+        return ShrinkWrap.create(WebArchive.class, "spring-resteasy.war")
+                .addPackages(true, GreetingBean.class.getPackage())
+                .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
+                .addAsWebInfResource("web.xml")
+                .addAsWebInfResource("applicationContext.xml")
+                .addAsLibraries(Maven.configureResolver()
+                        .resolve("org.springframework:spring-web:4.3.9.RELEASE")
+                        .withTransitivity().asFile());
+    }
+
+    @ArquillianResource
+    URL url;
+
     @Test
     public void testHelloSpringResource() throws Exception {
-        CloseableHttpClient client = HttpClients.createDefault();
-        try {
+        try (CloseableHttpClient client = HttpClients.createDefault()) {
             {
                 URI uri = new URIBuilder()
                         .setScheme("http")
-                        .setHost("localhost:8080")
-                        .setPath("/spring-resteasy/hello")
+                        .setHost(url.getHost())
+                        .setPort(url.getPort())
+                        .setPath(url.getPath() + "hello")
                         .setParameter("name", "JBoss Developer")
                         .build();
                 HttpGet method = new HttpGet(uri);
-                CloseableHttpResponse response = client.execute(method);
-                try {
+                try (CloseableHttpResponse response = client.execute(method)) {
                     Assert.assertEquals(HttpResponseCodes.SC_OK, response.getStatusLine().getStatusCode());
                     Assert.assertTrue(EntityUtils.toString(response.getEntity()).contains("JBoss Developer"));
                 } finally {
-                    response.close();
                     method.releaseConnection();
                 }
             }
             {
-                HttpGet method = new HttpGet("http://localhost:8080/spring-resteasy/basic");
-                CloseableHttpResponse response = client.execute(method);
-                try {
+                HttpGet method = new HttpGet(url.toString() + "basic");
+                try (CloseableHttpResponse response = client.execute(method)) {
                     Assert.assertEquals(HttpResponseCodes.SC_OK, response.getStatusLine().getStatusCode());
                     Assert.assertTrue(EntityUtils.toString(response.getEntity()).contains("basic"));
                 } finally {
-                    response.close();
                     method.releaseConnection();
                 }
             }
             {
-                HttpPut method = new HttpPut("http://localhost:8080/spring-resteasy/basic");
+                HttpPut method = new HttpPut(url.toString() + "basic");
                 method.setEntity(new StringEntity("basic", ContentType.TEXT_PLAIN));
-                CloseableHttpResponse response = client.execute(method);
-                try {
+                try (CloseableHttpResponse response = client.execute(method)) {
                     Assert.assertEquals(HttpResponseCodes.SC_NO_CONTENT, response.getStatusLine().getStatusCode());
                 } finally {
-                    response.close();
                     method.releaseConnection();
                 }
             }
             {
                 URI uri = new URIBuilder()
                         .setScheme("http")
-                        .setHost("localhost:8080")
-                        .setPath("/spring-resteasy/queryParam")
+                        .setHost(url.getHost())
+                        .setPort(url.getPort())
+                        .setPath(url.getPath() + "queryParam")
                         .setParameter("param", "hello world")
                         .build();
                 HttpGet method = new HttpGet(uri);
-                CloseableHttpResponse response = client.execute(method);
-                try {
+                try (CloseableHttpResponse response = client.execute(method)) {
                     Assert.assertEquals(HttpResponseCodes.SC_OK, response.getStatusLine().getStatusCode());
                     Assert.assertTrue(EntityUtils.toString(response.getEntity()).contains("hello world"));
                 } finally {
-                    response.close();
                     method.releaseConnection();
                 }
             }
             {
-                HttpGet method = new HttpGet("http://localhost:8080/spring-resteasy/matrixParam;param=matrix");
-                CloseableHttpResponse response = client.execute(method);
-                try {
+                HttpGet method = new HttpGet(url.toString() + "matrixParam;param=matrix");
+                try (CloseableHttpResponse response = client.execute(method)) {
                     Assert.assertEquals(HttpResponseCodes.SC_OK, response.getStatusLine().getStatusCode());
                     Assert.assertTrue(EntityUtils.toString(response.getEntity()).equals("matrix"));
                 } finally {
-                    response.close();
                     method.releaseConnection();
                 }
             }
             {
                 HttpGet method = new HttpGet("http://localhost:8080/spring-resteasy/uriParam/1234");
-                CloseableHttpResponse response = client.execute(method);
-                try {
+                try (CloseableHttpResponse response = client.execute(method)) {
                     Assert.assertEquals(HttpResponseCodes.SC_OK, response.getStatusLine().getStatusCode());
                     Assert.assertTrue(EntityUtils.toString(response.getEntity()).equals("1234"));
                 } finally {
-                    response.close();
                     method.releaseConnection();
                 }
             }
-        } finally {
-            client.close();
         }
     }
 
     @Test
     public void testLocatingResource() throws Exception {
-        CloseableHttpClient client = HttpClients.createDefault();
-        try {
+        try (CloseableHttpClient client = HttpClients.createDefault()) {
             {
                 URI uri = new URIBuilder()
                         .setScheme("http")
@@ -134,34 +149,28 @@ public class ResteasySpringTest {
                         .setParameter("name", "JBoss Developer")
                         .build();
                 HttpGet method = new HttpGet(uri);
-                CloseableHttpResponse response = client.execute(method);
-                try {
+                try (CloseableHttpResponse response = client.execute(method)) {
                     Assert.assertEquals(HttpResponseCodes.SC_OK, response.getStatusLine().getStatusCode());
                     Assert.assertTrue(EntityUtils.toString(response.getEntity()).contains("JBoss Developer"));
                 } finally {
-                    response.close();
                     method.releaseConnection();
                 }
             }
             {
                 HttpGet method = new HttpGet("http://localhost:8080/spring-resteasy/locating/basic");
-                CloseableHttpResponse response = client.execute(method);
-                try {
+                try (CloseableHttpResponse response = client.execute(method)) {
                     Assert.assertEquals(HttpResponseCodes.SC_OK, response.getStatusLine().getStatusCode());
                     Assert.assertTrue(EntityUtils.toString(response.getEntity()).contains("basic"));
                 } finally {
-                    response.close();
                     method.releaseConnection();
                 }
             }
             {
                 HttpPut method = new HttpPut("http://localhost:8080/spring-resteasy/locating/basic");
                 method.setEntity(new StringEntity("basic", ContentType.TEXT_PLAIN));
-                CloseableHttpResponse response = client.execute(method);
-                try {
+                try (CloseableHttpResponse response = client.execute(method)) {
                     Assert.assertEquals(HttpResponseCodes.SC_NO_CONTENT, response.getStatusLine().getStatusCode());
                 } finally {
-                    response.close();
                     method.releaseConnection();
                 }
             }
@@ -173,39 +182,31 @@ public class ResteasySpringTest {
                         .setParameter("param", "hello world")
                         .build();
                 HttpGet method = new HttpGet(uri);
-                CloseableHttpResponse response = client.execute(method);
-                try {
+                try (CloseableHttpResponse response = client.execute(method)) {
                     Assert.assertEquals(HttpResponseCodes.SC_OK, response.getStatusLine().getStatusCode());
                     Assert.assertTrue(EntityUtils.toString(response.getEntity()).contains("hello world"));
                 } finally {
-                    response.close();
                     method.releaseConnection();
                 }
             }
             {
                 HttpGet method = new HttpGet("http://localhost:8080/spring-resteasy/locating/matrixParam;param=matrix");
-                CloseableHttpResponse response = client.execute(method);
-                try {
+                try (CloseableHttpResponse response = client.execute(method)) {
                     Assert.assertEquals(HttpResponseCodes.SC_OK, response.getStatusLine().getStatusCode());
                     Assert.assertTrue(EntityUtils.toString(response.getEntity()).equals("matrix"));
                 } finally {
-                    response.close();
                     method.releaseConnection();
                 }
             }
             {
                 HttpGet method = new HttpGet("http://localhost:8080/spring-resteasy/locating/uriParam/1234");
-                CloseableHttpResponse response = client.execute(method);
-                try {
+                try (CloseableHttpResponse response = client.execute(method)) {
                     Assert.assertEquals(HttpResponseCodes.SC_OK, response.getStatusLine().getStatusCode());
                     Assert.assertTrue(EntityUtils.toString(response.getEntity()).equals("1234"));
                 } finally {
-                    response.close();
                     method.releaseConnection();
                 }
             }
-        } finally {
-            client.close();
         }
     }
 

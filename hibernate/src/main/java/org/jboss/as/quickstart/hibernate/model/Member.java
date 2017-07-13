@@ -57,7 +57,7 @@ public class Member implements Serializable {
     private String name;
 
     /**
-     * using hibernate5 validators
+     * using hibernate validators
      **/
     @NotNull
     @NotEmpty

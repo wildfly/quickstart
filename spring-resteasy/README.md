@@ -59,33 +59,6 @@ And the same set as above but using the `locating` path.
 * [${project.artifactId}/locating/matrixParam;param=matrix](http://localhost:8080/${project.artifactId}/locating/matrixParam;param=matrix)
 * [${project.artifactId}/locating/uriParam/789](http://localhost:8080/${project.artifactId}/locating/uriParam/789)
 
-
-## Run the Tests
-
-1. Make sure you have **started** the ${product.name} server as described above and **deployed** the quickstart.
-2. Open a command prompt and navigate to the root directory of this quickstart.
-3. Type the following command to run the test goal with the following profile activated:
-
-        mvn install -Prest-test
-
-4. You should see the following output:
-
-        -------------------------------------------------------
-         T E S T S
-        -------------------------------------------------------
-        Running org.jboss.as.quickstarts.resteasyspring.test.ResteasySpringTest
-        Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.211 sec
-
-        Results :
-
-        Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
-
-        [INFO] ------------------------------------------------------------------------
-        [INFO] BUILD SUCCESS
-        [INFO] ------------------------------------------------------------------------
-
-
-
 ## Undeploy the Archive
 
 1. Make sure you have started the ${product.name} server as described above.
@@ -93,3 +66,26 @@ And the same set as above but using the `locating` path.
 3. When you are finished testing, type this command to undeploy the archive:
 
         mvn wildfly:undeploy
+
+## Run the Arquillian Functional Tests
+
+This quickstart provides Arquillian functional tests as well. They are located in the functional-tests/ subdirectory under
+the root directory of this quickstart. Functional tests verify that your application behaves correctly from the user's point
+of view. The tests open a browser instance, simulate clicking around the page as a normal user would do, and then close the browser instance.
+
+To run these tests, you must build the main project as described above.
+
+1. Open a command line and navigate to the root directory of this quickstart.
+2. Build the quickstart WAR using the following command:
+
+        mvn clean package
+
+3. Navigate to the functional-tests/ directory in this quickstart.
+4. If you have a running instance of the ${product.name} server, as described above, run the remote tests by typing the following command:
+
+        mvn clean verify -Parq-remote
+
+5. If you prefer to run the functional tests using managed instance of the ${product.name} server, meaning the tests will start the
+server for you, type the following command:
+
+        mvn clean verify -Parq-managed
