@@ -39,13 +39,13 @@ Note that a socket binding port offset and a unique node name must be passed to 
 
 For Linux:
 
-    Server 1: ${jboss.home.name}-1/bin/standalone.sh -c standalone-ha.xml -Djboss.node.name=node1
-    Server 2: ${jboss.home.name}-2/bin/standalone.sh -c standalone-ha.xml -Djboss.node.name=node2 -Djboss.socket.binding.port-offset=100
+    Server 1: ${jboss.home.name}_1/bin/standalone.sh -c standalone-ha.xml -Djboss.node.name=node1
+    Server 2: ${jboss.home.name}_2/bin/standalone.sh -c standalone-ha.xml -Djboss.node.name=node2 -Djboss.socket.binding.port-offset=100
 
 For Windows:
 
-    Server 1: ${jboss.home.name}-1\bin\standalone.bat -c standalone-ha.xml -Djboss.node.name=node1
-    Server 2: ${jboss.home.name}-2\bin\standalone.bat -c standalone-ha.xml -Djboss.node.name=node2 -Djboss.socket.binding.port-offset=100
+    Server 1: ${jboss.home.name}_1\bin\standalone.bat -c standalone-ha.xml -Djboss.node.name=node1
+    Server 2: ${jboss.home.name}_2\bin\standalone.bat -c standalone-ha.xml -Djboss.node.name=node2 -Djboss.socket.binding.port-offset=100
 
 The demonstration is not limited to two servers. Additional servers can be started by specifying a unique port offset for each one.
 
@@ -86,7 +86,7 @@ The demonstration is not limited to two servers. Additional servers can be start
         INFO  [org.infinispan.remoting.transport.jgroups.JGroupsTransport] (MSC service thread 1-3) ISPN000094: Received new cluster view for channel server: [node1|1] (2) [node1, node2]
         ...
         INFO  [org.infinispan.remoting.transport.jgroups.JGroupsTransport] (MSC service thread 1-3) ISPN000079: Channel server local address is node2, physical addresses are [127.0.0.1:55300]
-        INFO  [org.infinispan.factories.GlobalComponentRegistry] (MSC service thread 1-6) ISPN000128: Infinispan version: Infinispan 'Chakra' 8.2.6.Final
+        INFO  [org.infinispan.factories.GlobalComponentRegistry] (MSC service thread 1-6) ISPN000128: Infinispan version: Infinispan 'Chakra' 8.2.7.Final
         INFO  [org.jboss.as.clustering.infinispan] (ServerService Thread Pool -- 68) WFLYCLINF0002: Started default cache from server container
         INFO  [org.jboss.as.server] (management-handler-thread - 2) WFLYSRV0010: Deployed "ha-singleton-deployment.jar" (runtime-name : "ha-singleton-deployment.jar")
 
@@ -105,7 +105,7 @@ The demonstration is not limited to two servers. Additional servers can be start
         INFO  [org.jboss.as.server] (Thread-2) WFLYSRV0220: Server shutdown has been requested via an OS signal
         WARNING [class org.jboss.as.quickstarts.ha.singleton.SingletonTimer] (ServerService Thread Pool -- 31) SingletonTimer is stopping: the server is either being shutdown or another node has become elected to be the singleton master.
         ...
-        INFO  [org.jboss.as] (MSC service thread 1-6) WFLYSRV0050: WildFly Core 3.0.0.Beta13 "Kenny" stopped in 88ms
+        INFO  [org.jboss.as] (MSC service thread 1-6) WFLYSRV0050: WildFly Core 3.0.0.Final "Kenny" stopped in 88ms
 
      Now observe the log messages on the second server. The node will now be elected as the singleton master, deployment will complete, and the timer will start operating:
 
@@ -145,13 +145,13 @@ To demonstrate how to use deployment overlays, follow these steps:
 
 3. Start the management CLI and set up a deployment overlay on both servers:
 
-        ${jboss.home.name}-1/bin/jboss-cli.sh --connect
+        ${jboss.home.name}_1/bin/jboss-cli.sh --connect
         deployment-overlay add --name=singleton-deployment --deployments=ha-singleton-deployment.jar --content=META-INF/singleton-deployment.xml=singleton-deployment.xml
         deployment-overlay redeploy-affected --name=singleton-deployment
 
      Repeat this process for the second server using the port offset:
 
-        ${jboss.home.name}-1/bin/jboss-cli.sh --connect --controller=localhost:10090
+        ${jboss.home.name}_2/bin/jboss-cli.sh --connect --controller=localhost:10090
         deployment-overlay add --name=singleton-deployment --deployments=ha-singleton-deployment.jar --content=META-INF/singleton-deployment.xml=singleton-deployment.xml
         deployment-overlay redeploy-affected --name=singleton-deployment
 
