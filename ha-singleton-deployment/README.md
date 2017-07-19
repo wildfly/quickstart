@@ -56,7 +56,7 @@ The demonstration is not limited to two servers. Additional servers can be start
 2. Navigate to the root directory of this quickstart in the command prompt.
 3. Use the following command to clean up previously built artifacts, and build and deploy the EJB archive:
 
-      mvn clean install wildfly:deploy
+        mvn clean install wildfly:deploy
 
 4. Ensure the `target/${project.artifactId}.jar` archive is deployed to `node1` (the one without port offset) by observing the log.
 
