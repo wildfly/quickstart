@@ -12,8 +12,12 @@ Source: <${github.repo.url}>
 
 The `ha-singleton-services` quickstart demonstrates two patterns, or ways, to deploy a cluster-wide singleton MSC service.
 
-1. The first example, which is located in the `primary-only/` directory of the quickstart, demonstrates a singleton service and a querying service that regularly queries for the value that the singleton service provides. It is transparent whether the singleton service is running on the same node or whether the value is obtained remotely.
-2. The second example, which is located in the `with-backups/` directory of the quickstart, demonstrates a singleton service that is installed with a backup service. The backup service is running on all nodes that are not elected to be running the singleton service.
+1. The first example, located in the `primary-only/` directory of the quickstart, demonstrates a singleton service and a querying service deployed on all nodes that regularly queries for the value provided by the singleton service.
+2. The second example, located in the `with-backups/` directory of the quickstart, demonstrates a singleton service that is installed with a backup service. The backup services are running on all nodes that were not elected to be running the singleton service itself.
+
+Singleton service's `getValue()` always returns the value of the primary node unless a backup service is installed.
+If no backup service is installed, a default backup service is used whose `getValue()` returns the service value of the primary node. 
+Should a backup service be installed then the `getValue()` is delegated to the primary or backup service depending on the state of the local node.
 
 Be sure to inspect the `activate()` method of the `ServiceActivator` class for each example. Although the default election policy is used to build the singleton services for each of these examples, scripts and instructions are provided later in this document to demonstrate how to [configure other election policies](#configuring-election-policies).
 
