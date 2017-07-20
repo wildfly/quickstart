@@ -1,6 +1,6 @@
 # servlet-security:  Using Java EE Declarative Security to Control Servlet Access
 
-Author: Sherif F. Makary, Pedro Igor  
+Author: Sherif F. Makary, Pedro Igor, Stefan Guilhen  
 Level: Intermediate  
 Technologies: Servlet, Security  
 Summary: The `servlet-security` quickstart demonstrates the use of Java EE declarative security to control access to Servlets and Security in ${product.name}.  
@@ -16,24 +16,24 @@ When you deploy this example, two users are automatically created for you: user 
 This quickstart takes the following steps to implement Servlet security:
 
 1. Web Application:
-	* Adds a security constraint to the Servlet using the `@ServletSecurity` and `@HttpConstraint` annotations.
-	* Adds a security domain reference to `WEB-INF/jboss-web.xml`.
-	* Adds a `login-config` that sets the `auth-method` to `BASIC` in the `WEB-INF/web.xml`.
+    * Adds a security constraint to the Servlet using the `@ServletSecurity` and `@HttpConstraint` annotations.
+    * Adds a security domain reference to `WEB-INF/jboss-web.xml`.
+    * Adds a `login-config` that sets the `auth-method` to `BASIC` in the `WEB-INF/web.xml`.
 2. Application Server (`standalone.xml`):
-	* Defines a security domain in the `elytron` subsystem that uses the JDBC security realm to obtain the security data used to authenticate and authorize users.
-	* Defines an `http-authentication-factory` in the `elytron` subsystem that uses the security domain created in step 1 for BASIC authentication.
-	* Adds an `application-security-domain` mapping in the `undertow` subsystem to map the Servlet security domain to the HTTP authentication factory defined in step 2.
+    * Defines a security domain in the `elytron` subsystem that uses the JDBC security realm to obtain the security data used to authenticate and authorize users.
+    * Defines an `http-authentication-factory` in the `elytron` subsystem that uses the security domain created in step 1 for BASIC authentication.
+    * Adds an `application-security-domain` mapping in the `undertow` subsystem to map the Servlet security domain to the HTTP authentication factory defined in step 2.
 3. Database Configuration:
-	* Adds an application user with access rights to the application.
+    * Adds an application user with access rights to the application.
 
-        User Name: quickstartUser
-        Password: quickstartPwd1!
-        Role: quickstarts
-	* Adds another user with no access rights to the application.
+            User Name: quickstartUser
+            Password: quickstartPwd1!
+            Role: quickstarts
+    * Adds another user with no access rights to the application.
 
-        User Name: guest
-        Password: guestPwd1!
-        Role: notauthorized
+            User Name: guest
+            Password: guestPwd1!
+            Role: notauthorized
 
 _Note: This quickstart uses the H2 database included with ${product.name.full} ${product.version}. It is a lightweight, relational example datasource that is used for examples only. It is not robust or scalable, is not supported, and should NOT be used in a production environment!_
 
@@ -63,12 +63,11 @@ You can configure the server by running JBoss CLI commands. For your convenience
         For Linux:  ${jboss.home.name}/bin/standalone.sh
         For Windows:  ${jboss.home.name}\bin\standalone.bat
 3. Review the `configure-server.cli` file in the root of this quickstart directory. This script adds security domain and HTTP authentication factory to the `elytron` subsystem in the server configuration and also configures the `undertow` subsystem to use the configured HTTP authentication factory for the Web application.
-
 4. Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing ${jboss.home.name} with the path to your server:
 
         For Linux: ${jboss.home.name}/bin/jboss-cli.sh --connect --file=configure-server.cli
         For Windows: ${jboss.home.name}\bin\jboss-cli.bat --connect --file=configure-server.cli
-You should see the following result when you run the script:
+    You should see the following result when you run the script:
 
         The batch executed successfully
 5. Stop the ${product.name} server.
@@ -101,12 +100,14 @@ After stopping the server, open the `${jboss.home.name}/standalone/configuration
                 </attribute-mapping>
             </principal-query>
         </jdbc-realm>
-The `security-realm` is responsible for verifying the credentials for a given principal and for obtaining security attributes (like roles) that are associated with the authenticated identity.
+
+      The `security-realm` is responsible for verifying the credentials for a given principal and for obtaining security attributes (like roles) that are associated with the authenticated identity.
 
 3. The following `role-decoder` was added to the `elytron` subsystem.
 
         <simple-role-decoder name="from-roles-attribute" attribute="roles"/>
-The `jdbc-realm` in this quickstart stores the roles associated with a principal in an attribute named roles. Other realms might use different attributes for roles (such as `group`). The purpose of a `role-decoder` is to instruct the security domain how roles are to be retrieved from an authorized identity.
+
+    The `jdbc-realm` in this quickstart stores the roles associated with a principal in an attribute named roles. Other realms might use different attributes for roles (such as `group`). The purpose of a `role-decoder` is to instruct the security domain how roles are to be retrieved from an authorized identity.
 
 4. The following `security-domain` was added to the `elytron` subsystem.
 
@@ -123,14 +124,16 @@ The `jdbc-realm` in this quickstart stores the roles associated with a principal
                 </mechanism>
             </mechanism-configuration>
         </http-authentication-factory>
-It basically defines an HTTP authentication factory for the BASIC mechanism that relies on the `servlet-security-quickstart-sd` security domain to authenticate and authorize access to Web applications.
+
+    It basically defines an HTTP authentication factory for the BASIC mechanism that relies on the `servlet-security-quickstart-sd` security domain to authenticate and authorize access to Web applications.
 
 6. The following `application-security-domain` was added to the `undertow` subsystem.
 
         <application-security-domains>
             <application-security-domain name="servlet-security-quickstart" http-authentication-factory="servlet-security-quickstart-http-auth"/>
         </application-security-domains>
-This configuration tells `Undertow` that applications with the `servlet-security-quickstart` security domain (as defined in `jboss-web.xml` or via `@SecurityDomain` annotation in the Servlet class) should use the `http-authentication-factory` named `servlet-security-quickstart-http-auth`. If no `application-security-domain` is defined for a particular security domain, `Undertow` assumes the legacy JAAS based security domains should be used for authentication/authorization (and in this case the security domain defined in the Web application must match a security domai in the legacy `security` subsystem. The presence of an `application-security-domain` configuration is what enables Elytron authentication for a Web application.
+
+This configuration tells `Undertow` that applications with the `servlet-security-quickstart` security domain, as defined in the `jboss-web.xml` or by using the `@SecurityDomain` annotation in the Servlet class, should use the `http-authentication-factory` named `servlet-security-quickstart-http-auth`. If no `application-security-domain` is defined for a particular security domain, `Undertow` assumes the legacy JAAS based security domains should be used for authentication/authorization and, in this case, the security domain defined in the Web application must match a security domain in the legacy `security` subsystem. The presence of an `application-security-domain` configuration is what enables Elytron authentication for a Web application.
 
 ## Start the Server
 
