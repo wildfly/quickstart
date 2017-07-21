@@ -1,10 +1,10 @@
 kitchensink-utjs-angular: Example using Undertow.js with Angular.js on the front end
 ====================================================================================
-Author: Stuart Douglas
-Level: Intermediate
-Technologies: Undertow.js, Angular.js
-Summary: Based on kitchensink, but uses a Angular for the front end and Undertow.js for the back end
-Target Project: WildFly
+Author: Stuart Douglas  
+Level: Intermediate  
+Technologies: Undertow.js, Angular.js  
+Summary: Based on kitchensink, but uses a Angular for the front end and Undertow.js for the back end.  
+Target Project: WildFly  
 Source: <${github.repo.url}>
 
 What is it?
