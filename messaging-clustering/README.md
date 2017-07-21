@@ -142,13 +142,13 @@ When you start the servers, you must pass the cluster password on the command li
 
 If you are using Linux:
 
-        Server 1: ${jboss.home.name}_1/bin/standalone.sh -c standalone-full-ha.xml -Djboss.messaging.cluster.password=password
-        Server 2: ${jboss.home.name}_2/bin/standalone.sh -c standalone-full-ha.xml -Djboss.messaging.cluster.password=password -Djboss.socket.binding.port-offset=100
+        Server 1: ${jboss.home.name}_1/bin/standalone.sh -c standalone-full-ha.xml
+        Server 2: ${jboss.home.name}_2/bin/standalone.sh -c standalone-full-ha.xml -Djboss.socket.binding.port-offset=100
 
 If you are using Windows:
 
-        Server 1: ${jboss.home.name}_1\bin\standalone.bat -c standalone-full-ha.xml -Djboss.messaging.cluster.password=password
-        Server 2: ${jboss.home.name}_2\bin\standalone.bat -c standalone-full-ha.xml -Djboss.messaging.cluster.password=password -Djboss.socket.binding.port-offset=100
+        Server 1: ${jboss.home.name}_1\bin\standalone.bat -c standalone-full-ha.xml
+        Server 2: ${jboss.home.name}_2\bin\standalone.bat -c standalone-full-ha.xml -Djboss.socket.binding.port-offset=100
 
 
 ## Access the Application
@@ -268,8 +268,8 @@ _Note: This script returns the server to a default configuration and the result 
 
 1. Start the ${product.name} server by typing the following:
 
-        For Linux:   ${jboss.home.name}_1/bin/standalone.sh -c standalone-full-ha.xml -Djboss.messaging.cluster.password=password
-        For Windows: ${jboss.home.name}_1\bin\domain.bat -c standalone-full-ha.xml -Djboss.messaging.cluster.password=password
+        For Linux:   ${jboss.home.name}_1/bin/standalone.sh -c standalone-full-ha.xml
+        For Windows: ${jboss.home.name}_1\bin\domain.bat -c standalone-full-ha.xml
 2. Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing ${jboss.home.name}_1 with the path to your server.
 
         For Linux: ${jboss.home.name}_1/bin/jboss-cli.sh --connect --file=remove-standalone.cli
