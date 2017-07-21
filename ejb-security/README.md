@@ -189,6 +189,7 @@ You can restore the original server configuration by running the  `restore-confi
 You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a ${product.name} server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](${use.eclipse.url}).
 
 * Be sure to [Add the Application Users](#add-the-application-users) as described above.
+* Be sure to configure the server by running the JBoss CLI script as described above under [Configure the Server](#configure-the-server).
 * To deploy the server project, right-click on the `${project.artifactId}` project and choose `Run As` --> `Run on Server`.
 * You are presented with a browser login challenge. Enter the credentials as described above to access and test the running application.
 * Be sure to [Restore the Original Server Configuration](#restore-the-original-server-configuration) when you have completed testing this quickstart.
