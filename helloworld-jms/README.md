@@ -124,7 +124,7 @@ If the Maven command is successful, with the default configuration you will see 
     INFO: Attempting to acquire destination "jms/queue/test"
     timestamp org.jboss.as.quickstarts.jms.HelloWorldJMSClient main
     INFO: Found destination "jms/queue/test" in JNDI
-    timestamp AM org.jboss.as.quickstarts.jms.HelloWorldJMSClient main
+    timestamp org.jboss.as.quickstarts.jms.HelloWorldJMSClient main
     INFO: Sending 1 messages with content: Hello, World!
     timestamp org.jboss.as.quickstarts.jms.HelloWorldJMSClient main
     INFO: Received message with content Hello, World!
