@@ -17,7 +17,7 @@
 package org.jboss.as.quickstarts.tasksrs.model;
 
 // JSON: uncomment to include json support (note json is not part of the JAX-RS standard)
-//import com.fasterxml.jackson.annotation.JsonIgnore;
+// import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -73,7 +73,7 @@ public class Task implements Serializable {
 
     @XmlTransient
     // JSON: uncomment to include json support (note json is not part of the JAX-RS standard)
-    //    @JsonIgnore
+    // @JsonIgnore
     public User getOwner() {
         return owner;
     }
