@@ -105,7 +105,11 @@ The demonstration is not limited to two servers. Additional servers can be start
         INFO  [org.jboss.as.server] (Thread-2) WFLYSRV0220: Server shutdown has been requested via an OS signal
         WARNING [class org.jboss.as.quickstarts.ha.singleton.SingletonTimer] (ServerService Thread Pool -- 31) SingletonTimer is stopping: the server is either being shutdown or another node has become elected to be the singleton master.
         ...
-        INFO  [org.jboss.as] (MSC service thread 1-6) WFLYSRV0050: WildFly Core 3.0.0.Final "Kenny" stopped in 88ms
+        INFO  [org.jboss.as] (MSC service thread 1-6) WFLYSRV0050: WildFly Core 3.0.0.Final stopped in 88ms
+
+     You will also see the following error in the singleton master log. This is due to the shutdown not finishing cleanly and is documented in [JBEAP-9408](https://issues.jboss.org/browse/JBEAP-9408). You can ignore this error.
+
+        ERROR [org.jboss.as.clustering.jgroups.protocol.NAKACK2] (thread-20) JGRP000039: node1: failed to deliver OOB message [dst: <null>, src: node2 (3 headers), size=73 bytes, flags=OOB|DONT_BUNDLE]: java.lang.IllegalStateException: channel is not connected
 
      Now observe the log messages on the second server. The node will now be elected as the singleton master, deployment will complete, and the timer will start operating:
 
