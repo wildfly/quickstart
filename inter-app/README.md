@@ -11,7 +11,7 @@ Source: <${github.repo.url}>
 
 The `inter-app` quickstart shows you how to easily communicate between two modular deployments to ${product.name.full}. Two WARs, with a shared API JAR, are deployed to the application server. EJB is used to provide inter-application communication, with EJB beans alised to CDI beans, making the inter-application communication transparent to clients of the bean.
 
-CDI only provides intra-applicaion injection (i.e within a top level deployment, EAR, WAR, JAR etc). This improves performance of the application server, as to satisfy an injection point all possible candidates have to be scanned / analyzed. If inter-app injection was supported by CDI, performance would scale according to the number of deployments you have (the more deployments in the running system, the slower the deployment). Java EE injection uses unique JNDI names for the wiring, so each injection point is O(1). The approach shown here combines the two approaches such that you limit the name based wiring to one location in your code, and the main consumers of components can use CDI injection to reference these name wired components. For the name approach to work though, you still need to publish instances, and EJB singletons allow you to do that with just one extra annotation.
+CDI only provides intra-application injection within a top level deployment, for example, an EAR, WAR, or JAR. This improves performance of the application server, as to satisfy an injection point all possible candidates have to be scanned / analyzed. If inter-app injection was supported by CDI, performance would scale according to the number of deployments you have (the more deployments in the running system, the slower the deployment). Java EE injection uses unique JNDI names for the wiring, so each injection point is O(1). The approach shown here combines the two approaches such that you limit the name based wiring to one location in your code, and the main consumers of components can use CDI injection to reference these name wired components. For the name approach to work though, you still need to publish instances, and EJB singletons allow you to do that with just one extra annotation.
 
 
 In all, the project has three modules:
@@ -54,19 +54,27 @@ In the following instructions, replace `${jboss.home.name}` with the actual path
 
 Access the running application in a browser at the following URLs:
 
-* <http://localhost:8080/${project.artifactId}>
-* <http://localhost:8080/${project.artifactId}>
+* <http://localhost:8080/${project.artifactId}-appA>
+* <http://localhost:8080/${project.artifactId}-appB>
 
 You are presented with a form that allows you to set the value on the bean in the other application, as well as display of the value on this application's bean. Enter a new value and press `Update and Send!` to update the value on the other application. Do the same on the other application, and hit the button again on the first application. You should see the values shared between the applications.
 
 
 ## Undeploy the Archive
 
+This quickstart undeploys differently than some of the others because of the WAR and JAR interdependencies.
+
+When you are finished testing, follow these steps to undeploy the archives:
+
 1. Make sure you have started the ${product.name} server as described above.
 2. Open a command prompt and navigate to the root directory of this quickstart.
-3. When you are finished testing, type this command to undeploy the archive:
+3. Type the following command to undeploy the `inter-app-appA.war` and `inter-app-appB.war` archives.
 
-        mvn package wildfly:undeploy
+        mvn wildfly:undeploy -pl appA,appB
+
+4. Type the following command to undeploy the `inter-app-shared.jar` archive.
+
+        mvn wildfly:undeploy -pl shared
 
 
 ## Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
