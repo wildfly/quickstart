@@ -2,7 +2,7 @@
 
 Author: Jason Porter  
 Level: Beginner  
-Technologies: CDI, JSF
+Technologies: CDI, JSF  
 Summary: The `cdi-injection` quickstart demonstrates the use of *CDI Injection and Qualifiers* in ${product.name} with a JSF front-end client.  
 Target Product: ${product.name}  
 Source: <${github.repo.url}>  

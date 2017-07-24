@@ -2,9 +2,9 @@
 
 Author: Madhumita Sadhukhan  
 Level: Intermediate  
-Technologies: Hibernate
-Summary: The `hibernate` quickstart demonstrates how to use Hibernate ORM 5 API over JPA, using Hibernate-Core and Hibernate Bean Validation, and EJB.
-Target Product: ${product.name}
+Technologies: Hibernate  
+Summary: The `hibernate` quickstart demonstrates how to use Hibernate ORM 5 API over JPA, using Hibernate-Core and Hibernate Bean Validation, and EJB.  
+Target Product: ${product.name}  
 Source: <${github.repo.url}>  
 
 ## What is it?
