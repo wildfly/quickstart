@@ -205,7 +205,7 @@ JSON is not part of the JAX-RS standard but most JAX-RS implementations do suppo
 3. Open the `src/main/java/org/jboss/as/quickstarts/tasksrs/service/TaskResource.java` file and make sure the *GET* methods produce "application/json" as well as "application/xml". Again, look for lines beginning with `// JSON:`.
     * Remove comments from this line:
 
-            //@Produces({ "application/xml", "application/json" })
+            // @Produces({ "application/xml", "application/json" })
     * Add comments to this line:
 
             @Produces({ "application/xml" })
