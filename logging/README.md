@@ -46,7 +46,7 @@ In the following instructions, replace `${jboss.home.name}` with the actual path
 
         mvn clean install wildfly:deploy
 
-4. This deploys `target/jboss-logging.war` to the running instance of the server.
+4. This deploys `target/${project.artifactId}.war` to the running instance of the server.
 
 
 ## Access the Application
