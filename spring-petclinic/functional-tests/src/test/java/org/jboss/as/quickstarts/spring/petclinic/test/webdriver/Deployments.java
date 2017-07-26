@@ -16,7 +16,7 @@ public class Deployments {
     public static WebArchive archive() {
         WebArchive archive = ShrinkWrap.createFromZipFile(WebArchive.class, new File(PETCLINIC));
 
-        String discriminator = System.getProperty("discriminator");
+        String discriminator = System.getProperty("discriminator", "jpa");
         if (discriminator.equals("jdbc")) {
             archive.addAsWebInfResource(new File("src/test/resources/jdbc_web.xml"), "web.xml");
         } else if (discriminator.equals("spring-data-jpa")) {
