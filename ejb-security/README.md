@@ -24,10 +24,14 @@ This quickstart takes the following steps to implement EJB security:
 
 ## System Requirements
 
-The application this project produces is designed to be run on ${product.name.full} ${product.version} or later.
+The applications these projects produce are designed to be run on ${product.name.full} ${product.version} or later.
 
-All you need to build this project is ${build.requirements}. See [Configure Maven for ${product.name} ${product.version}](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
+All you need to build these projects is ${build.requirements}. See [Configure Maven for ${product.name} ${product.version}](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
 
+To run these quickstarts with the provided build scripts, you need the ${product.name} distribution ZIP. For information on
+ how to install and run JBoss, see the [${product.name.full} Documentation](https://access.redhat.com/documentation/en/red-hat-jboss-enterprise-application-platform/) _Getting Started Guide_ located on the Customer Portal.
+
+You can also use [JBoss Developer Studio or Eclipse](#use-jboss-developer-studio-or-eclipse-to-run-the-quickstarts) to run the quickstarts.
 
 ## Use of ${jboss.home.name}
 
@@ -82,7 +86,7 @@ You configure the security domain by running JBoss CLI commands. For your conven
     You should see the following result when you run the script:
 
         The batch executed successfully
-6. Stop the ${product.name} server.
+5. Stop the ${product.name} server.
 
 ## Review the Modified Server Configuration
 
@@ -162,11 +166,13 @@ When you access the application, you are presented with a browser login challeng
 
         mvn wildfly:undeploy
 
-## Restore the Original Server Configuration
+## Restore the Server Configuration
 
 You can restore the original server configuration by running the  `restore-configuration.cli` script provided in the root directory of this quickstart or by manually restoring the back-up copy the configuration file.
 
-### Restore the Original Server Configuration by Running the JBoss CLI Script
+### Restore the Server Configuration by Running the JBoss CLI Script
+
+1. Start the ${product.name} server by typing the following:
 
         For Linux:  ${jboss.home.name}/bin/standalone.sh
         For Windows:  ${jboss.home.name}\bin\standalone.bat
@@ -174,12 +180,12 @@ You can restore the original server configuration by running the  `restore-confi
 
         For Linux: ${jboss.home.name}/bin/jboss-cli.sh --connect --file=restore-configuration.cli
         For Windows: ${jboss.home.name}\bin\jboss-cli.bat --connect --file=restore-configuration.cli
-    This script removes the `test` queue from the `messaging` subsystem in the server configuration. You should see the following result when you run the script:
+    This script reverts the changes made to the `ejb3` and `undertow` subsystems. You should see the following result when you run the script:
 
         The batch executed successfully
         process-state: reload-required
 
-### Restore the Original Server Configuration Manually
+### Restore the Server Configuration Manually
 
 1. If it is running, stop the ${product.name} server.
 2. Replace the `${jboss.home.name}/standalone/configuration/standalone.xml` file with the back-up copy of the file.
@@ -192,7 +198,7 @@ You can also start the server and deploy the quickstarts or run the Arquillian t
 * Be sure to configure the server by running the JBoss CLI script as described above under [Configure the Server](#configure-the-server).
 * To deploy the server project, right-click on the `${project.artifactId}` project and choose `Run As` --> `Run on Server`.
 * You are presented with a browser login challenge. Enter the credentials as described above to access and test the running application.
-* Be sure to [Restore the Original Server Configuration](#restore-the-original-server-configuration) when you have completed testing this quickstart.
+* Be sure to [Restore the Server Configuration](#restore-the-server-configuration) when you have completed testing this quickstart.
 
 ## Debug the Application
 
