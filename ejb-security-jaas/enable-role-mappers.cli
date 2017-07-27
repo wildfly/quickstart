@@ -1,0 +1,8 @@
+# Batch script to enable the legacy role mappers for the quickstart application in the JBoss EAP server
+
+# Enable the legacy security domain role mappers in the exported realm
+/subsystem=security/elytron-realm=LegacyRealm:write-attribute(name=apply-role-mappers,value=true)
+
+# Reload the server configuration
+reload
+

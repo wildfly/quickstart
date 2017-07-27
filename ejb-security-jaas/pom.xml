@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    JBoss, Home of Professional Open Source
+    Copyright 2017, Red Hat, Inc. and/or its affiliates, and individual
+    contributors by the @authors tag. See the copyright.txt in the
+    distribution for a full listing of individual contributors.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.jboss.eap.quickstarts</groupId>
+        <artifactId>quickstart-parent</artifactId>
+        <version>7.1.0.Beta1-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+    <artifactId>ejb-security-jaas</artifactId>
+    <packaging>war</packaging>
+    <name>${qs.name.prefix} ejb-security-jaas</name>
+    <description>This project demonstrates EJB Security using the legacy JAAS integration</description>
+
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>org.jboss.eap</groupId>
+            <artifactId>wildfly-ejb-client-bom</artifactId>
+            <type>pom</type>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.eap</groupId>
+            <artifactId>wildfly-security-api</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.wildfly.core</groupId>
+                    <artifactId>wildfly-domain-management</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.wildfly.core</groupId>
+                    <artifactId>wildfly-server</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.wildfly.core</groupId>
+                    <artifactId>wildfly-controller</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.jboss.eap</groupId>
+                    <artifactId>wildfly-naming</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.jboss.eap</groupId>
+                    <artifactId>wildfly-clustering-infinispan-spi</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.jboss.eap</groupId>
+                    <artifactId>wildfly-transactions</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.jboss.eap</groupId>
+                    <artifactId>wildfly-ee</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.jboss.msc</groupId>
+                    <artifactId>jboss-msc</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.jboss.logging</groupId>
+                    <artifactId>jboss-logging</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.jboss.security</groupId>
+                    <artifactId>jboss-negotiation-extras</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.jboss.security</groupId>
+                    <artifactId>jboss-negotiation-spnego</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.picketbox</groupId>
+                    <artifactId>picketbox-infinispan</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.jboss.spec.javax.security.jacc</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>commons-cli</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.wildfly.checkstyle</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.wildfly.security</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.ejb3</groupId>
+            <artifactId>jboss-ejb3-ext-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.spec.javax.annotation</groupId>
+            <artifactId>jboss-annotations-api_1.2_spec</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.spec.javax.ejb</groupId>
+            <artifactId>jboss-ejb-api_3.2_spec</artifactId>
+        </dependency>
+
+        <!-- Import the Servlet API, we use provided scope as the API is included in JBoss EAP -->
+        <dependency>
+            <groupId>org.jboss.spec.javax.servlet</groupId>
+            <artifactId>jboss-servlet-api_3.1_spec</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+    </dependencies>
+    <build>
+        <!-- Set the name of the WAR, used as the context root when the app is deployed -->
+        <finalName>${project.artifactId}</finalName>
+        <plugins>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-ejb-plugin</artifactId>
+                <configuration>
+                    <ejbVersion>3.2</ejbVersion>
+                    <generateClient>true</generateClient>
+                </configuration>
+            </plugin>
+            <!-- Add the Maven exec plug-in to allow us to run a Java program via Maven -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <configuration>
+                    <executable>java</executable>
+                    <workingDirectory>${project.build.directory}/exec-working-directory</workingDirectory>
+                    <arguments>
+                        <!-- automatically creates the classpath using all project dependencies,
+                                      also adding the project build directory -->
+                        <argument>-classpath</argument>
+                        <classpath></classpath>
+                        <argument>org.jboss.as.quickstarts.ejb_security_jaas.RemoteClient</argument>
+                    </arguments>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
