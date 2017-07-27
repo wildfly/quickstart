@@ -1,0 +1,37 @@
+# Batch script to restore the JBoss EAP server configuration
+
+# Start batching commands
+batch
+
+# Revert the changes in the undertow subsystem
+/subsystem=undertow/server=default-server/https-listener=https:undefine-attribute(name=ssl-context)
+/subsystem=undertow/server=default-server/https-listener=https:write-attribute(name=security-realm,value=ApplicationRealm)
+
+# Remove the application-security-domain mapping that was added for the quickstart
+/subsystem=undertow/application-security-domain=client_cert_domain:remove
+
+# Remove the http-authentication-factory that handles the CLIENT_CERT authentication from the elytron subsystem
+/subsystem=elytron/http-authentication-factory=quickstart-http-authentication:remove
+
+# Remove the security domain and principal decoder from the elytron subsystem
+/subsystem=elytron/security-domain=QuickstartDomain:remove
+/subsystem=elytron/x500-attribute-principal-decoder=QuickstartDecoder:remove
+
+# Remove the aggregate and keystore realms from the elytron subsystem
+/subsystem=elytron/aggregate-realm=QuickstartRealm:remove
+/subsystem=elytron/key-store-realm=KeyStoreRealm:remove
+
+# Remove the ssl context, key manager, trust manager and keystores configuration from the elytron subsystem
+/subsystem=elytron/server-ssl-context=qsSSLContext:remove
+/subsystem=elytron/key-manager=qsKeyManager:remove
+/subsystem=elytron/trust-manager=qsTrustManager:remove
+/subsystem=elytron/key-store=qsKeyStore:remove
+/subsystem=elytron/key-store=qsTrustStore:remove
+
+# Run the batch commands
+run-batch
+
+# Reload the server configuration
+reload
+
+
