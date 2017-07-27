@@ -1,0 +1,18 @@
+# Batch script to enable elytron for the quickstart application in the JBoss EAP server
+
+# Start batching commands
+batch
+
+# Add security domain mapping in EJB3 subsystem to enable elytron for the quickstart deployment
+/subsystem=ejb3/application-security-domain=quickstart-domain:add(security-domain=ApplicationDomain)
+
+# Update the http-remoting-connector to use the sasl-authentication-factory
+/subsystem=remoting/http-connector=http-remoting-connector:write-attribute(name=sasl-authentication-factory,value=application-sasl-authentication)
+
+# Run the batch commands
+run-batch
+
+# Reload the server configuration
+reload
+
+
