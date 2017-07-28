@@ -255,6 +255,19 @@ Where `nodeX` will be either `node1` or `node2`, depending on which node is the 
 
 If you now try to access the servlet urls, you will see that the new provider is receiving all new messages.
 
+_Note:_ You will see the following warnings in the remaining server log. These messages show that the other node went down unexpectedly, which is exactly the scenario we are reproducing in this quickstart. For that reason, those warnings can be ignored.
+
+        WARN  [org.apache.activemq.artemis.core.client] (Thread-2 (ActiveMQ-client-global-threads)) AMQ212037: Connection failure has been detected: AMQ119015: The connection was disconnected because of server shutdown [code=DISCONNECTED]
+        WARN  [org.apache.activemq.artemis.core.server] (Thread-2 (ActiveMQ-client-global-threads)) AMQ222095: Connection failed with failedOver=false
+
+
+_NOTE:_ You may see the following log message as well.When a server is restarted, it may broadcast that it is up and running (with its nodeID) while other nodes still reference the previous server instance for the same nodeID.
+                                                      Eventually, the cluster will be informed of the new instance representing the given nodeID but as the warning explains, it is possible to see this log (once or more) when a server is restarted.
+
+        WARN  [org.apache.activemq.artemis.core.client] (activemq-discovery-group-thread-dg-group1) AMQ212034: There are more than one servers on the network broadcasting the same node id. You will see this message exactly once (per node) if a node is restarted, in which case it can be safely ignored. But if it is logged continuously it means you really do have more than one node on the same network active concurrently with the same node id. This could occur if you have a backup node active at the same time as its live node. nodeID=a114b652-689e-11e7-a2f4-54ee751c6182
+
+
+
 
 ### Rebooting the Singleton Provider Server Node in a Managed Domain
 
