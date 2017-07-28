@@ -1,0 +1,41 @@
+# Batch script to configure mutual(two way) SSL and role based access control in the JBoss EAP server
+
+# Start batching commands
+batch
+
+# Add the keystores, key manager, trust manager and ssl context configuration in the elytron subsystem
+/subsystem=elytron/key-store=qsKeyStore:add(path=server.keystore,relative-to=jboss.server.config.dir,type=JKS,credential-reference={clear-text=secret})
+/subsystem=elytron/key-store=qsTrustStore:add(path=client.truststore,relative-to=jboss.server.config.dir,type=JKS,credential-reference={clear-text=secret})
+/subsystem=elytron/key-manager=qsKeyManager:add(key-store=qsKeyStore,algorithm=SunX509,credential-reference={clear-text=secret})
+/subsystem=elytron/trust-manager=qsTrustManager:add(key-store=qsTrustStore,algorithm=SunX509)
+/subsystem=elytron/server-ssl-context=qsSSLContext:add(key-manager=qsKeyManager,trust-manager=qsTrustManager,protocols=[TLSv1.2],need-client-auth=true,want-client-auth=true)
+
+# Add a keystore realm that relies on the truststore to authenticate requests
+/subsystem=elytron/key-store-realm=KeyStoreRealm:add(key-store=qsTrustStore)
+
+# Add an aggregate realm that uses the keystore realm for authentication and the application realm for authorization
+/subsystem=elytron/aggregate-realm=QuickstartRealm:add(authentication-realm=KeyStoreRealm,authorization-realm=ApplicationRealm)
+
+# Add a principal decoder to select the CN attribute from the certificate presented by the client
+/subsystem=elytron/x500-attribute-principal-decoder=QuickstartDecoder:add(attribute-name=cn)
+
+# Add a security domain that uses the aggregate realm and principal decoder defined above
+/subsystem=elytron/security-domain=QuickstartDomain:add(default-realm=QuickstartRealm,permission-mapper=default-permission-mapper,principal-decoder=QuickstartDecoder,realms=[{realm=QuickstartRealm,role-decoder=groups-to-roles}])
+
+# Add the http-authentication-factory that uses the new security domain for the CLIENT_CERT authentication
+/subsystem=elytron/http-authentication-factory=quickstart-http-authentication:add(security-domain=QuickstartDomain,http-server-mechanism-factory=global,mechanism-configurations=[{mechanism-name=CLIENT_CERT}])
+
+# Change the undertow subsystem configuration to use the ssl context configured above for https
+/subsystem=undertow/server=default-server/https-listener=https:undefine-attribute(name=security-realm)
+/subsystem=undertow/server=default-server/https-listener=https:write-attribute(name=ssl-context,value=qsSSLContext)
+
+# Add an application-security-domain in the undertow subsystem to map the client_cert_domain from the quickstart app to the http-authentication-factory
+/subsystem=undertow/application-security-domain=client_cert_domain:add(http-authentication-factory=quickstart-http-authentication)
+
+# Run the batch commands
+run-batch
+
+# Reload the server configuration
+reload
+
+

@@ -1,0 +1,29 @@
+# Batch script to enable elytron for the quickstart application in the JBoss EAP server
+
+# Start batching commands
+batch
+
+# Add security domain mapping in EJB3 subsystem to enable elytron for the quickstart deployment
+/subsystem=ejb3/application-security-domain=quickstart-domain:add(security-domain=ApplicationDomain)
+
+# Add the authentication configuration and authentication context that will be used for outbound connections
+/subsystem=elytron/authentication-configuration=ejb-outbound-configuration:add(security-domain=ApplicationDomain,sasl-mechanism-selector="PLAIN")
+/subsystem=elytron/authentication-context=ejb-outbound-context:add(match-rules=[{authentication-configuration=ejb-outbound-configuration}])
+
+# Add the outbound socket binding
+/socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=ejb-outbound:add(host=localhost,port=8080)
+
+# Add the remote outbound connection and set the sasl-authentication-factory in the http-connector
+/subsystem=remoting/remote-outbound-connection=ejb-outbound-connection:add(outbound-socket-binding-ref=ejb-outbound, authentication-context=ejb-outbound-context)
+/subsystem=remoting/http-connector=http-remoting-connector:write-attribute(name=sasl-authentication-factory,value=application-sasl-authentication)
+
+# Add the PLAIN mechanism to the application-sasl-authentication factory
+/subsystem=elytron/sasl-authentication-factory=application-sasl-authentication:write-attribute(name=mechanism-configurations,value=[{mechanism-name=PLAIN},{mechanism-name=JBOSS-LOCAL-USER,realm-mapper=local},{mechanism-name=DIGEST-MD5,mechanism-realm-configurations=[{realm-name=ApplicationRealm}]}])
+
+# Run the batch commands
+run-batch
+
+# Reload the server configuration
+reload
+
+
