@@ -16,7 +16,7 @@ The `ha-singleton-services` quickstart demonstrates two patterns, or ways, to de
 2. The second example, located in the `with-backups/` directory of the quickstart, demonstrates a singleton service that is installed with a backup service. The backup services are running on all nodes that were not elected to be running the singleton service itself.
 
 Singleton service's `getValue()` always returns the value of the primary node unless a backup service is installed.
-If no backup service is installed, a default backup service is used whose `getValue()` returns the service value of the primary node. 
+If no backup service is installed, a default backup service is used whose `getValue()` returns the service value of the primary node.
 Should a backup service be installed then the `getValue()` is delegated to the primary or backup service depending on the state of the local node.
 
 Be sure to inspect the `activate()` method of the `ServiceActivator` class for each example. Although the default election policy is used to build the singleton services for each of these examples, scripts and instructions are provided later in this document to demonstrate how to [configure other election policies](#configuring-election-policies).
@@ -175,7 +175,7 @@ All other nodes log that the backup singleton service is running.
 ### Undeploy the with-backups Example
 
 1. Start the ${product.name} servers as described in the above section.
-2. Open a command prompt and navigate to the `primary-only/` directory located in the root directory of this quickstart.
+2. Open a command prompt and navigate to the `with-backups/` directory located in the root directory of this quickstart.
 3. Use the following command to undeploy the JAR archive from Server 1.
 
         mvn wildfly:undeploy
@@ -249,10 +249,10 @@ This example configures an election policy that elects a random cluster member w
         /subsystem=singleton/singleton-policy=default/election-policy=simple:remove(){allow-resource-service-restart=true}
         /subsystem=singleton/singleton-policy=default/election-policy=random:add()
 
-4. Open a new command prompt, navigate to the root directory of this quickstart, and run the following command to execute the script for Server 1. Be sure to replace ${jboss.home.name}-1 with the path to the target Server 1.
+4. Open a new command prompt, navigate to the root directory of this quickstart, and run the following command to execute the script for Server 1. Be sure to replace ${jboss.home.name}_1 with the path to the target Server 1.
 
-        For Linux: ${jboss.home.name}-1/bin/jboss-cli.sh --connect --file=random-election-policy-add.cli
-        For Windows: ${jboss.home.name}-1\bin\jboss-cli.bat --connect --file=random-election-policy-add.cli
+        For Linux: ${jboss.home.name}_1/bin/jboss-cli.sh --connect --file=random-election-policy-add.cli
+        For Windows: ${jboss.home.name}_1\bin\jboss-cli.bat --connect --file=random-election-policy-add.cli
 
     You should see the following result when you run the script.
 
@@ -288,10 +288,10 @@ A quorum specifies the minimum number of cluster members that must be present fo
 
         /subsystem=singleton/singleton-policy=default:write-attribute(name=quorum,value=2)
 
-4. Open a new command prompt, navigate to the root directory of this quickstart, and run the following command to execute the script for Server 1. Be sure to replace ${jboss.home.name}-1 with the path to the target Server 1.
+4. Open a new command prompt, navigate to the root directory of this quickstart, and run the following command to execute the script for Server 1. Be sure to replace ${jboss.home.name}_1 with the path to the target Server 1.
 
-        For Linux: ${jboss.home.name}-1/bin/jboss-cli.sh --connect --file=quorum-add.cli
-        For Windows: ${jboss.home.name}-1\bin\jboss-cli.bat --connect --file=quorum-add.cli
+        For Linux: ${jboss.home.name}_1/bin/jboss-cli.sh --connect --file=quorum-add.cli
+        For Windows: ${jboss.home.name}_1\bin\jboss-cli.bat --connect --file=quorum-add.cli
 
     You should see the following result when you run the script.
 
