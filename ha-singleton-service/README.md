@@ -175,7 +175,7 @@ All other nodes log that the backup singleton service is running.
 ### Undeploy the with-backups Example
 
 1. Start the ${product.name} servers as described in the above section.
-2. Open a command prompt and navigate to the `primary-only/` directory located in the root directory of this quickstart.
+2. Open a command prompt and navigate to the `with-backups/` directory located in the root directory of this quickstart.
 3. Use the following command to undeploy the JAR archive from Server 1.
 
         mvn wildfly:undeploy
@@ -251,8 +251,8 @@ This example configures an election policy that elects a random cluster member w
 
 4. Open a new command prompt, navigate to the root directory of this quickstart, and run the following command to execute the script for Server 1. Be sure to replace ${jboss.home.name}-1 with the path to the target Server 1.
 
-        For Linux: ${jboss.home.name}-1/bin/jboss-cli.sh --connect --file=random-election-policy-add.cli
-        For Windows: ${jboss.home.name}-1\bin\jboss-cli.bat --connect --file=random-election-policy-add.cli
+        For Linux: ${jboss.home.name}_1/bin/jboss-cli.sh --connect --file=random-election-policy-add.cli
+        For Windows: ${jboss.home.name}_1\bin\jboss-cli.bat --connect --file=random-election-policy-add.cli
 
     You should see the following result when you run the script.
 
@@ -290,8 +290,8 @@ A quorum specifies the minimum number of cluster members that must be present fo
 
 4. Open a new command prompt, navigate to the root directory of this quickstart, and run the following command to execute the script for Server 1. Be sure to replace ${jboss.home.name}-1 with the path to the target Server 1.
 
-        For Linux: ${jboss.home.name}-1/bin/jboss-cli.sh --connect --file=quorum-add.cli
-        For Windows: ${jboss.home.name}-1\bin\jboss-cli.bat --connect --file=quorum-add.cli
+        For Linux: ${jboss.home.name}_1/bin/jboss-cli.sh --connect --file=quorum-add.cli
+        For Windows: ${jboss.home.name}_1\bin\jboss-cli.bat --connect --file=quorum-add.cli
 
     You should see the following result when you run the script.
 
