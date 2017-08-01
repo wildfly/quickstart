@@ -12,6 +12,10 @@ batch
 /host=master/server-config=quickstart-messagingcluster-node1:add(group=quickstart-messaging-clustering-group, auto-start=true, socket-binding-port-offset=1000)
 /host=master/server-config=quickstart-messagingcluster-node2:add(group=quickstart-messaging-clustering-group, auto-start=true, socket-binding-port-offset=1100)
 
+# -- Enable the console to allow us to view the quickstart output.
+/profile=full-ha/subsystem=logging/console-handler=CONSOLE:add(level=INFO,formatter="%K{level}%d{HH:mm:ss,SSS} %-5p [%c] (%t) %s%E%n")
+/profile=full-ha/subsystem=logging/root-logger=ROOT:add-handler(name="CONSOLE")
+
 # -- Configure Messaging Clustering in the full-ha profile
 /profile=full-ha/subsystem=messaging-activemq/server=default:write-attribute(name=cluster-password, value=password)
 /profile=full-ha/subsystem=messaging-activemq/server=default/connection-factory=RemoteConnectionFactory/:undefine-attribute(name=connectors)
