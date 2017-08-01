@@ -92,12 +92,13 @@ After you have completed testing this quickstart, you can replace these files to
 
 1. Review the `install-domain.cli` file located in the root of this quickstart directory. This script creates the server group and servers and configures messaging clustering for testing this quickstart. You will note it does the following:
     * Stops the servers.
-    * Creates a `server-group` to test ActiveMQ clustering.
+    * Creates the `quickstart-messaging-clustering-singleton-group` server group to test ActiveMQ clustering.
+    * Enables console logging to allow you to view the quickstart output.
     * Adds two servers to the `server-group`.
     * Configures ActiveMQ clustering in the `full-ha` profile.
     * Creates a delivery group named `my-mdb-delivery-group`, with initial active value set to `true`.
     * Deploys the `${project.artifactId}.war` archive.
-    * Restarts the managed domain.
+    * Starts the servers that were added to the managed domain.
 
 
 2. Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing ${jboss.home.name} with the path to your server:
@@ -154,6 +155,7 @@ After you have completed testing this quickstart, you can replace this file to r
 #### Configure the Standalone Server and Deploy the Quickstart Using the JBoss CLI
 
 1. Review the `install-standalone.cli` file located in the root of this quickstart directory. This script configures clustering for a standalone server. You will note it does the following:
+    * Because the console is disabled by default in the Full HA profile, it enables console logging to allow you to view the quickstart output.
     * Enables clustering and sets a cluster password.
     * Creates a delivery group named `my-mdb-delivery-group`, with initial active value set to `true`.
     * Deploys the `${project.artifactId}.war` archive.
@@ -216,7 +218,7 @@ To send messages to the topic, use the following URL: <http://localhost:8080/${p
 
 Review the messages in both ${product.name} server consoles or logs.
 
-The following messages are sent from the queue:
+The following messages are sent to the queue:
 
     INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldQueueMDB] (Thread-0 (ActiveMQ-client-global-threads)) Received Message from queue: This is message 1
     INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldQueueMDB] (Thread-2 (ActiveMQ-client-global-threads)) Received Message from queue: This is message 3
@@ -224,7 +226,7 @@ The following messages are sent from the queue:
     INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldQueueMDB] (Thread-3 (ActiveMQ-client-global-threads)) Received Message from queue: This is message 4
     INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldQueueMDB] (Thread-1 (ActiveMQ-client-global-threads)) Received Message from queue: This is message 2
 
-The following messages are sent from a topic:
+The following messages are sent to the topic:
 
     INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldTopicMDB] (Thread-5 (ActiveMQ-client-global-threads)) Received Message from topic: This is message 1
     INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldTopicMDB] (Thread-6 (ActiveMQ-client-global-threads)) Received Message from topic: This is message 2
@@ -255,7 +257,7 @@ Where `nodeX` will be either `node1` or `node2`, depending on which node is the 
 
 If you now try to access the servlet urls, you will see that the new provider is receiving all new messages.
 
-_Note:_ You will see the following warnings in the remaining server log. These messages show that the other node went down unexpectedly, which is exactly the scenario we are reproducing in this quickstart. For that reason, those warnings can be ignored.
+_Note:_ You will see the following warnings in the log of the server that is _not_ the singleton provider. These messages show that the other node went down unexpectedly, which is exactly the scenario we are reproducing in this quickstart. For that reason, those warnings can be ignored.
 
         WARN  [org.apache.activemq.artemis.core.client] (Thread-2 (ActiveMQ-client-global-threads)) AMQ212037: Connection failure has been detected: AMQ119015: The connection was disconnected because of server shutdown [code=DISCONNECTED]
         WARN  [org.apache.activemq.artemis.core.server] (Thread-2 (ActiveMQ-client-global-threads)) AMQ222095: Connection failed with failedOver=false
