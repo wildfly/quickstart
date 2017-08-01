@@ -16,6 +16,10 @@ batch
 # -- Remove mdb-delivery-group "abc" from full-ha profile
 /profile=full-ha/subsystem=ejb3/mdb-delivery-group=abc:remove
 
+# -- Remove the CONSOLE logging handler
+/profile=full-ha/subsystem=logging/root-logger=ROOT:remove-handler(name="CONSOLE")
+/profile=full-ha/subsystem=logging/console-handler=CONSOLE:remove
+
 # -- Run this batch file
 run-batch
 
