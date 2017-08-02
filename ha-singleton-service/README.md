@@ -207,10 +207,15 @@ This example configures the default election policy to be based on logical names
 
     You should see the following result when you run the script.
 
-        The batch executed successfully
-        process-state: reload-required
+        {
+            "outcome" => "success",
+            "response-headers" => {
+                "operation-requires-reload" => true,
+                "process-state" => "reload-required"
+            }
+        }
 
-    Note that the `name-preference-election-policy-add.cli` batch script executes the `reload` command, so a reload is not required.
+    Note that the `name-preference-election-policy-add.cli` script executes the `reload` command, so a reload is not required.
 
 5. Stop the server and review the changes made to the `standalone-ha.xml` server configuration file by the management CLI commands. The `singleton` subsystem now contains a  `name-preferences` element under the `simple-election-policy` that specifies the preferences `node3 node2 node1`.
 
@@ -259,7 +264,7 @@ This example configures an election policy that elects a random cluster member w
         The batch executed successfully
         process-state: reload-required
 
-    Note that the `random-election-policy-add.cli` batch script executes the `reload` command, so a reload is not required.
+    Note that the `random-election-policy-add.cli` script executes the `reload` command, so a reload is not required.
 
 5. Stop the server and review the changes made to the `standalone-ha.xml` server configuration file by the management CLI commands. The `singleton` subsystem now contains a  `random-election-policy` element under the `singleton-policy` that specifies the preferences `node3 node2 node1`.
 
@@ -295,10 +300,15 @@ A quorum specifies the minimum number of cluster members that must be present fo
 
     You should see the following result when you run the script.
 
-        The batch executed successfully
-        process-state: reload-required
+        {
+            "outcome" => "success",
+            "response-headers" => {
+                "operation-requires-reload" => true,
+                "process-state" => "reload-required"
+            }
+        }
 
-    Note that the `quorum-add.cli` batch script executes the `reload` command, so a reload is not required.
+    Note that the `quorum-add.cli` script executes the `reload` command, so a reload is not required.
 
 5. Review the changes made to the `standalone-ha.xml` server configuration file by the management CLI commands. The `singleton` subsystem now contains a `quorum` attribute for the `singleton-policy` element that specifies the minimum number.
 
