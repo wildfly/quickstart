@@ -42,7 +42,7 @@ You configure the custom mail session in ${product.name} by running Management C
 
 1. Before you begin, back up your server configuration file
     * If it is running, stop the ${product.name} server.
-    * Backup the file: `${jboss.home.name}/standalone/configuration/standalone.xml`
+    * Back up the file: `${jboss.home.name}/standalone/configuration/standalone.xml`
     * After you have completed testing this quickstart, you can replace this file to restore the server to its original configuration.
 2. Start the ${product.name} server by typing the following:
 

@@ -72,7 +72,7 @@ If you prefer, you can use the add-user utility interactively. For an example of
 ${product.name} server configuration for this quickstart is very complicated and not easily restored by running a JBoss CLI script, so it is important to back up your server configuration files before you begin.
 
 1. If it is running, stop the ${product.name} server.
-2. Backup the following files, replacing ${jboss.home.name} with the path to your ${product.name} installation:
+2. Back up the following files, replacing ${jboss.home.name} with the path to your ${product.name} installation:
 
         ${jboss.home.name}/domain/configuration/domain.xml
         ${jboss.home.name}/domain/configuration/host.xml        

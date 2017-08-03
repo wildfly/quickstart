@@ -44,12 +44,12 @@ _NOTE - Before you begin:_
 
 1. If it is running, stop the ${product.name} server.
 
-2. If you plan to test using a standalone server, backup the file:
+2. If you plan to test using a standalone server, back up the file:
 
         ${jboss.home.name}/standalone/configuration/standalone-full-ha.xml
 
 
-3. If you plan to test using a managed domain, backup the following files:
+3. If you plan to test using a managed domain, back up the following files:
 
         ${jboss.home.name}/domain/configuration/domain.xml
         ${jboss.home.name}/domain/configuration/host.xml

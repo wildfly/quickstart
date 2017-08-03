@@ -37,7 +37,7 @@ You enable MDB property substitution by running JBoss CLI commands. For your con
 
 1. Before you begin, back up your server configuration file
     * If it is running, stop the ${product.name} server.
-    * Backup the file: `${jboss.home.name}/standalone/configuration/standalone-full.xml`
+    * Back up the file: `${jboss.home.name}/standalone/configuration/standalone-full.xml`
     * After you have completed testing this quickstart, you can replace this file to restore the server to its original configuration.
 2. Start the ${product.name} server by typing the following:
 

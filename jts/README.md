@@ -94,7 +94,7 @@ You configure JTS transactions by running JBoss CLI commands. For your convenien
 
 1. Before you begin, back up your server configuration file
     * If it is running, stop the ${product.name} server.
-    * Backup the file: `${jboss.home.name}/standalone/configuration/standalone-full.xml`
+    * Back up the file: `${jboss.home.name}/standalone/configuration/standalone-full.xml`
     * After you have completed testing this quickstart, you can replace this file to restore the server to its original configuration.
 2. Start the ${product.name} server with the full profile, passing a unique node ID by typing the following command. Be sure to replace `UNIQUE_NODE_ID_1` with a node identifier that is unique to both servers.
 
