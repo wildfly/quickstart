@@ -3,8 +3,7 @@
 Author: Stefan Guilhen  
 Level: Advanced  
 Technologies: EJB, Security  
-Summary: The `ejb-security-context-propagation` quickstart demonstrates how the security context can be propagated to a 
-remote EJB using a remote outbound connection configuration  
+Summary: The `ejb-security-context-propagation` quickstart demonstrates how the security context can be propagated to a remote EJB using a remote outbound connection configuration  
 Target Product: ${product.name}  
 Source: <${github.repo.url}>  
 
@@ -28,7 +27,7 @@ The `SecuredEJB` has four methods:
 The first method can be called by all users that are created in this quickstart. The purpose of this method is to return a
 String containing the name of the Principal that called the EJB along with the user's authorized role information, for example:
 
-        [Principal=[quickstartUser], In role [guest]=true, In role [user]=true, In role [admin]=false]
+    [Principal=[quickstartUser], In role [guest]=true, In role [user]=true, In role [admin]=false]
 
 The next three methods are annotated to require that the calling user is authorized for roles `guest`, `user` and `admin` respectively.
 
@@ -49,8 +48,7 @@ to run the test.
 
 The application this project produces is designed to be run on ${product.name.full} ${product.version}.
 
-All you need to build this project is ${build.requirements}. See [Configure Maven for ${product.name} ${product.version}](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) 
-to make sure you are configured correctly for testing the quickstarts.
+All you need to build this project is ${build.requirements}. See [Configure Maven for ${product.name} ${product.version}](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
 
 To run these quickstarts with the provided build scripts, you need the ${product.name} distribution ZIP. For information on
 how to install and run JBoss, see the [${product.name.full} Documentation](https://access.redhat.com/documentation/en/red-hat-jboss-enterprise-application-platform/) _Getting Started Guide_ located on the Customer Portal.
@@ -70,8 +68,7 @@ installation path is described in detail here: [Use of ${jboss.home.name} and JB
 
 ## Add the Application Users
 
-This quickstart uses secured management interfaces and is built around the default `ApplicationRealm` as configured in the 
-${product.name} distribution. You must create the following application user to access the running application:
+This quickstart uses secured management interfaces and is built around the default `ApplicationRealm` as configured in the ${product.name} distribution. You must create the following application user to access the running application:
 
 | **UserName** | **Realm** | **Password** | **Roles** |
 |:-----------|:-----------|:-----------|:-----------|
@@ -80,15 +77,15 @@ ${product.name} distribution. You must create the following application user to 
 
 To add the user, open a command prompt and type the following commands:
 
-        For Linux:
-          ${jboss.home.name}/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'guest,user'
-          ${jboss.home.name}/bin/add-user.sh -a -u 'superUser' -p 'superPwd1!' -g 'guest,user,admin'
+    For Linux:
+      ${jboss.home.name}/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'guest,user'
+      ${jboss.home.name}/bin/add-user.sh -a -u 'superUser' -p 'superPwd1!' -g 'guest,user,admin'
 
-        For Windows:
-          ${jboss.home.name}\bin\add-user.bat -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'guest,user'
-          ${jboss.home.name}\bin\add-user.bat -a -u 'superUser' -p 'superPwd1!' -g 'guest,user,admin'
+    For Windows:
+      ${jboss.home.name}\bin\add-user.bat -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'guest,user'
+      ${jboss.home.name}\bin\add-user.bat -a -u 'superUser' -p 'superPwd1!' -g 'guest,user,admin'
 
-The `quickstart` user establishes the actual connection to the server
+The `quickstart` user establishes the actual connection to the server.
 
 If you prefer, you can use the add-user utility interactively.
 For an example of how to use the add-user utility, see the instructions located here: [Add an Application User](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CREATE_USERS.md#add-an-application-user).
@@ -101,7 +98,7 @@ You configure the security domain by running JBoss CLI commands. For your conven
 
 1. Before you begin, back up your server configuration file
     * If it is running, stop the ${product.name} server.
-    * Backup the file: `${jboss.home.name}/standalone/configuration/standalone.xml`
+    * Back up the file: `${jboss.home.name}/standalone/configuration/standalone.xml`
     * After you have completed testing this quickstart, you can replace this file to restore the server to its original configuration.
 
 2. Start the ${product.name} server by typing the following:
@@ -124,6 +121,7 @@ You configure the security domain by running JBoss CLI commands. For your conven
     You should see the following result when you run the script:
 
         The batch executed successfully
+        process-state: reload-required
 6. Stop the ${product.name} server.
 
 ## Review the Modified Server Configuration
@@ -136,9 +134,7 @@ After stopping the server, open the `${jboss.home.name}/standalone/configuration
             <application-security-domain name="quickstart-domain" security-domain="ApplicationDomain"/>
         </application-security-domains>
 
-    The `application-security-domain` essentially enables Elytron security for the quickstart EJBs. It maps the `quickstart-domain` 
-    that was set in the EJBs via annotation to the Elytron `ApplicationDomain` that will be responsible for authenticating and 
-    authorizing access to the EJBs.
+    The `application-security-domain` essentially enables Elytron security for the quickstart EJBs. It maps the `quickstart-domain` that was set in the EJBs via annotation to the Elytron `ApplicationDomain` that will be responsible for authenticating and     authorizing access to the EJBs.
 2. The following `ejb-outbound-configuration` authentication configuration and `ejb-outbound-context` authentication context were added to the `elytron` subsystem:
 
         <authentication-configuration name="ejb-outbound-configuration" security-domain="ApplicationDomain" sasl-mechanism-selector="PLAIN"/>
@@ -146,15 +142,12 @@ After stopping the server, open the `${jboss.home.name}/standalone/configuration
             <match-rule authentication-configuration="ejb-outbound-configuration"/>
         </authentication-context>
 
-    The `ejb-outbound-configuration` contains the authentication configuration that will be used when invoking a method on a remote EJB 
-    (i.e. when `IntermediateEJB` calls the methods on the `SecuredEJB`). The above configuration specifies that the identity that is currently
+    The `ejb-outbound-configuration` contains the authentication configuration that will be used when invoking a method on a remote EJB, for example when `IntermediateEJB` calls the methods on the `SecuredEJB`. The above configuration specifies that the identity that is currently
     authenticated to the `ApplicationDomain` will be used to establish the connection to the remote EJB. The `sasl-mechanism-selector`
-    defines the SASL mechanisms that should be tried. In this quickstart the `PLAIN` mechanism has been chosen because other 
-    challenge-response mechanisms such as `DIGEST-MD5` can't provide the original credential to establish the connection to
+    defines the SASL mechanisms that should be tried. In this quickstart the `PLAIN` mechanism has been chosen because other     challenge-response mechanisms such as `DIGEST-MD5` can't provide the original credential to establish the connection to
     the remote EJB.
 
-    The `ejb-outbound-context` is the authentication context that is used by the remote outbound connection and it automatically 
-    selects the `ejb-outbound-configuration`.
+    The `ejb-outbound-context` is the authentication context that is used by the remote outbound connection and it automatically     selects the `ejb-outbound-configuration`.
 
 3. The following `ejb-outbound` outbound-socket-binding connection was created within the `standard-sockets` socket-binding-group:
 
@@ -209,42 +202,43 @@ Before you run the client, make sure you have already successfully deployed the 
 
 Type this command to execute the client:
 
-        mvn exec:exec
+    mvn exec:exec
 
 ## Investigate the Console Output
 
 When you run the `mvn exec:exec` command, you see the following output. Note there may be other log messages interspersed between these.
 
         * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-        
-        
-        * * IntermediateEJB - Begin Testing with principal quickstartUser * * 
-        
+
+
+        * * IntermediateEJB - Begin Testing with principal quickstartUser * *
+
         Remote Security Information: [Principal=[quickstartUser], In role [guest]=true, In role [user]=true, In role [admin]=false]
         Can invoke guestMethod? true
         Can invoke userMethod? true
         Can invoke adminMethod? false
-        
-        * * IntermediateEJB - End Testing * * 
-        
-        
+
+        * * IntermediateEJB - End Testing * *
+
+
         * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-        
-        
+
+
         * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-        
-        
-        * * IntermediateEJB - Begin Testing with principal superUser * * 
-        
+
+
+        * * IntermediateEJB - Begin Testing with principal superUser * *
+
         Remote Security Information: [Principal=[superUser], In role [guest]=true, In role [user]=true, In role [admin]=true]
         Can invoke guestMethod? true
         Can invoke userMethod? true
         Can invoke adminMethod? true
-        
-        * * IntermediateEJB - End Testing * * 
-        
-        
+
+        * * IntermediateEJB - End Testing * *
+
+
         * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
 
 As can be seen from the output the identities authenticated to the intermediate EJB were propagated all the way to the remote
 secured EJB and their roles have been correctly evaluated.
@@ -259,7 +253,7 @@ secured EJB and their roles have been correctly evaluated.
 
 ## Restore the Server Configuration
 
-You can restore the original server configuration by running the  `restore-configuration.cli` script provided in the root directory of this quickstart or by manually restoring the back-up copy the configuration file.
+You can restore the original server configuration by running the  `restore-configuration.cli` script provided in the root directory of this quickstart or by manually restoring the backup copy the configuration file.
 
 ### Restore the Server Configuration by Running the JBoss CLI Script
 
@@ -275,7 +269,7 @@ You can restore the original server configuration by running the  `restore-confi
 
         The batch executed successfully
         process-state: reload-required
-3. If you chose to run the script to suppress system exceptions, run the following command, replacing ${jboss.home.name} with the path to your server:
+3. If you choose to run the script to suppress system exceptions, run the following command, replacing ${jboss.home.name} with the path to your server:
 
         For Linux: ${jboss.home.name}/bin/jboss-cli.sh --connect --file=restore-system-exception.cli
         For Windows: ${jboss.home.name}\bin\jboss-cli.bat --connect --file=restore-system-exception.cli
@@ -287,7 +281,7 @@ You can restore the original server configuration by running the  `restore-confi
 ### Restore the Server Configuration Manually
 
 1. If it is running, stop the ${product.name} server.
-2. Replace the `${jboss.home.name}/standalone/configuration/standalone.xml` file with the back-up copy of the file.
+2. Replace the `${jboss.home.name}/standalone/configuration/standalone.xml` file with the backup copy of the file.
 
 ## Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 
@@ -308,4 +302,4 @@ This quickstart requires additional configuration and deploys and runs different
 
 If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
 
-        mvn dependency:sources
+    mvn dependency:sources
