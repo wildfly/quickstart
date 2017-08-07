@@ -263,7 +263,7 @@ Before you access the application, you must import the *clientCert.p12*, which h
 2. At the bottom of the page, click on the 'Show advanced settings...' link.
 3. Find the section 'HTTPS/SSL' and click on the 'Manage certificates...' button.
 4. In the 'Certificate manager' dialog box, choose the 'Your Certificates' tab and click the 'Import' button.
-5. Select the `clientCert.p12` file. You will be prompted to enter the  password: `keypassword`.
+5. Select the `clientCert.p12` file. You will be prompted to enter the  password: `secret`.
 6. The certificate is now installed in the Google Chrome browser.
 
 #### Import the Certificate into Mozilla Firefox
@@ -272,7 +272,7 @@ Before you access the application, you must import the *clientCert.p12*, which h
 2. A new window will open. Select the 'Advanced' icon and after that the 'Certificates' tab.
 3. On the 'Certificates' tab, mark the option 'Ask me every time' and click the 'View Certificates' button.
 4. A new window will open. Select the 'Your Certificates' tab and click the 'Import' button.
-5. Select the `clientCert.p12` file. You will be prompted to enter the  password: `keypassword`.
+5. Select the `clientCert.p12` file. You will be prompted to enter the  password: `secret`.
 6. The certificate is now installed in the Mozilla Firefox browser.
 
 ## Start the Server
