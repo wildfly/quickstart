@@ -163,6 +163,8 @@ You configure the SSL context and required security domain by running JBoss CLI 
     You should see the following result when you run the script:
 
         The batch executed successfully
+        process-state: reload-required 
+        
 5. Stop the ${product.name} server.
 
 ## Review the Modified Server Configuration
@@ -174,12 +176,12 @@ After stopping the server, open the `${jboss.home.name}/standalone/configuration
         <key-store name="qsKeyStore">
             <credential-reference clear-text="secret"/>
             <implementation type="JKS"/>
-            <file path="../standalone/configuration/server.keystore"/>
+            <file path="server.keystore" relative-to="jboss.server.config.dir"/>
         </key-store>
         <key-store name="qsTrustStore">
             <credential-reference clear-text="secret"/>
             <implementation type="JKS"/>
-            <file path="../standalone/configuration/client.truststore"/>
+            <file path="client.truststore" relative-to="jboss.server.config.dir"/>
         </key-store>
 
 2. The following `key-manager` was added to the `elytron` subsystem:
