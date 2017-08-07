@@ -1,0 +1,15 @@
+# Batch script to re-enable system exception logging in the EJB3 subsystem
+
+# Start batching commands
+batch
+
+# Restore system exception stacktraces in the server log
+/subsystem=ejb3:write-attribute(name=log-system-exceptions,value=true)
+
+# Run the batch commands
+run-batch
+
+# Reload the server configuration
+reload
+
+
