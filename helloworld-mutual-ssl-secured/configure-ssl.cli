@@ -6,9 +6,9 @@ batch
 # Add the keystores, key manager, trust manager and ssl context configuration in the elytron subsystem
 /subsystem=elytron/key-store=qsKeyStore:add(path=server.keystore,relative-to=jboss.server.config.dir,type=JKS,credential-reference={clear-text=secret})
 /subsystem=elytron/key-store=qsTrustStore:add(path=client.truststore,relative-to=jboss.server.config.dir,type=JKS,credential-reference={clear-text=secret})
-/subsystem=elytron/key-manager=qsKeyManager:add(key-store=qsKeyStore,algorithm=SunX509,credential-reference={clear-text=secret})
-/subsystem=elytron/trust-manager=qsTrustManager:add(key-store=qsTrustStore,algorithm=SunX509)
-/subsystem=elytron/server-ssl-context=qsSSLContext:add(key-manager=qsKeyManager,trust-manager=qsTrustManager,protocols=[TLSv1.2],need-client-auth=true,want-client-auth=true)
+/subsystem=elytron/key-manager=qsKeyManager:add(key-store=qsKeyStore,credential-reference={clear-text=secret})
+/subsystem=elytron/trust-manager=qsTrustManager:add(key-store=qsTrustStore)
+/subsystem=elytron/server-ssl-context=qsSSLContext:add(key-manager=qsKeyManager,trust-manager=qsTrustManager,protocols=[TLSv1.2],need-client-auth=true)
 
 # Add a keystore realm that relies on the truststore to authenticate requests
 /subsystem=elytron/key-store-realm=KeyStoreRealm:add(key-store=qsTrustStore)
