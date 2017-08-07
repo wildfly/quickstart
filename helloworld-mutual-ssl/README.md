@@ -189,12 +189,12 @@ Before you access the application, you must import the *clientCert.p12*, which h
 
 ### Import the Client Certificate into Google Chrome
 
-1. Click the Chrome menu icon (3 horizontal bars) in the upper right on the browser toolbar and choose 'Settings'. This takes you to <chrome://settings/>.
-2. At the bottom of the page, click on the 'Show advanced settings...' link.
-3. Find the section 'HTTPS/SSL' and click on the 'Manage certificates...' button.
-4. In the 'Certificate manager' dialog box, choose the 'Your Certificates' tab and click the 'Import' button.
+1. Click the Chrome menu icon (3 dots) in the upper right on the browser toolbar and choose 'Settings'. This takes you to <chrome://settings/>.
+2. Scroll to the bottom of the page and click on the 'Advanced' link to reveal the advanced settings.
+3. Search for the 'Manager Certificates' line under 'Privacy and security' and then click on it.
+4. In the 'Manage certificates' screen, select the 'Your Certificates' tab and click on the 'Import' button.
 5. Select the `clientCert.p12` file. You will be prompted to enter the  password: `secret`.
-6. The certificate is now installed in the Google Chrome browser.
+6. The client certificate is now installed in the Google Chrome browser.
 
 ### Import the Client Certificate into Mozilla Firefox
 
@@ -292,12 +292,12 @@ After you are done with this quickstart, remember to remove the certificate that
 
 ### Remove the Client Certificate from Google Chrome
 
-1. Click the Chrome menu icon (3 horizontal bars) in the upper right on the browser toolbar and choose 'Settings'. This takes you to <chrome://settings/>.
-2. At the bottom of the page, click on the 'Show advanced settings...' link.
-3. Find the section 'HTTPS/SSL' and click on the 'Manage certificates...' button.
-4. Choose the 'Your Certificates' tab and select the certificate to be removed, expanding it.
-5. Click the button to the right of the certificate and select 'Delete'.
-6. The certificate has now been removed from the Google Chrome browser.
+1. Click the Chrome menu icon (3 dots) in the upper right on the browser toolbar and choose 'Settings'. This takes you to <chrome://settings/>.
+2. Scroll to the bottom of the page and click on the 'Advanced' link to reveal the advanced settings.
+3. Search for the 'Manager Certificates' line under 'Privacy and security' and then click on it.
+4. In the 'Manage certificates' screen, select the 'Your Certificates' tab and then click on the arrow to the right of the certificate to be removed.
+5. The certificate is expanded, displaying the `quickstartUser` entry. Click on the icon (3 dots) to the right of it and then select 'Delete'.
+6. Confirm the deletion in the dialog box. The certificate has now been removed from the Google Chrome browser.
 
 ### Remove the Client Certificate from Mozilla Firefox
 
