@@ -104,7 +104,7 @@ After stopping the server, open the `${jboss.home.name}/standalone/configuration
 2. The following `key-manager` was added to the `elytron` subsystem:
 
         <key-managers>
-            <key-manager name="qsKeyManager" algorithm="SunX509" key-store="qsKeyStore">
+            <key-manager name="qsKeyManager" key-store="qsKeyStore">
                 <credential-reference clear-text="secret"/>
             </key-manager>
         </key-managers>

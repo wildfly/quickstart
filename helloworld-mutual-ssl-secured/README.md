@@ -187,7 +187,7 @@ After stopping the server, open the `${jboss.home.name}/standalone/configuration
 2. The following `key-manager` was added to the `elytron` subsystem:
 
         <key-managers>
-            <key-manager name="qsKeyManager" algorithm="SunX509" key-store="qsKeyStore">
+            <key-manager name="qsKeyManager" key-store="qsKeyStore">
                 <credential-reference clear-text="secret"/>
             </key-manager>
         </key-managers>
@@ -195,13 +195,13 @@ After stopping the server, open the `${jboss.home.name}/standalone/configuration
 3. The following `trust-manager` was added to the `elytron` subsystem:
 
         <trust-managers>
-            <trust-manager name="qsTrustManager" algorithm="SunX509" key-store="qsTrustStore"/>
+            <trust-manager name="qsTrustManager" key-store="qsTrustStore"/>
         </trust-managers>
 
 4. The following `ssl-context` was added to the `elytron` subsystem:
 
         <server-ssl-contexts>
-            <server-ssl-context name="qsSSLContext" protocols="TLSv1.2" want-client-auth="true" need-client-auth="true" key-manager="qsKeyManager" trust-manager="qsTrustManager"/>
+            <server-ssl-context name="qsSSLContext" protocols="TLSv1.2" need-client-auth="true" key-manager="qsKeyManager" trust-manager="qsTrustManager"/>
         </server-ssl-contexts>
 
 5. The following realms were added to the `elytron` subsystem:
