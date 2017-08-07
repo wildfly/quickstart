@@ -46,7 +46,7 @@ In the following instructions, replace `${jboss.home.name}` with the actual path
 
 ## Access the Application
 
-The application will be running at the following URL: <http://localhost:8080/${project.artifactId}/HelloWorld>.
+The application will be running at the following URL: <http://localhost:8080/${project.artifactId}>.
 
 
 ## Undeploy the Archive
