@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head><title> cdi-stereotype: Example Using CDI Stereotype.</title>
+    <link href="http://static.jboss.org/ffe/0/www/vendor/redhat/documentation.css" rel="stylesheet"></link>
+    <link href="http://static.jboss.org/ffe/0/www/vendor/redhat/pygments.css" rel="stylesheet"></link>
+</head>
+<body><h1><a href="#cdi-stereotype-example-using-cdi-stereotype" id="cdi-stereotype-example-using-cdi-stereotype">cdi-stereotype: Example Using CDI Stereotype.</a></h1>
+<p>Author: Ievgen Shulga<br />
+Level: Intermediate<br />
+Technologies: JPA, JSF, EJB<br />
+Summary: The <code>cdi-stereotype</code> quickstart demonstrates how to apply CDI stereotypes to beans to encapsulate CDI interceptor bindings and CDI alternatives.<br />
+Target Product: WildFly<br />
+Source: <a href="https://github.com/wildfly/quickstart/">https://github.com/wildfly/quickstart/</a></p>
+<h2><a href="#what-is-it" id="what-is-it">What is it?</a></h2>
+<p>The <code>cdi-stereotype</code> quickstart is an extension of the <a href="../cdi-interceptors/README.html">cdi-interceptors</a> quickstart and demonstrates how to use a CDI stereotype in WildFly Application Server.</p>
+<p>A stereotype is an annotation, annotated <code>@Stereotype</code>, that packages several other annotations. Stereotypes allow a developer to declare common metadata for beans in a central place.</p>
+<p>In this example, the stereotype encapsulates the following :</p>
+<ul>
+<li>All beans with this stereotype inherit the following interceptor bindings: <code>@Logging</code> and <code>@Audit</code></li>
+<li>All beans with this stereotype are alternatives</li>
+</ul>
+<p>This quickstart defines stereotype with 2 interceptors bindings (<code>@Logging</code> and <code>@Audit</code>) to be inherited by all beans with that stereotype. It also indicates that all beans to which it is applied are <code>@Alternatives</code>. An alternative stereotype lets us classify beans by deployment scenario. Arquillian tests added in <a href="../cdi-interceptors/README.html">cdi-interceptors</a> quickstart.</p>
+<p><em>Note: This quickstart uses the H2 database included with WildFly Application Server 11. It is a lightweight, relational example datasource that is used for examples only. It is not robust or scalable, is not supported, and should NOT be used in a production environment!</em></p>
+<p><em>Note: This quickstart uses a <code>*-ds.xml</code> datasource configuration file for convenience and ease of database configuration. These files are deprecated in WildFly and should not be used in a production environment. Instead, you should configure the datasource using the Management CLI or Management Console. Datasource configuration is documented in the <a href="https://access.redhat.com/documentation/en/red-hat-jboss-enterprise-application-platform/">Configuration Guide</a> for WildFly Application Server.</em></p>
+<h2><a href="#system-requirements" id="system-requirements">System Requirements</a></h2>
+<p>The application this project produces is designed to be run on WildFly Application Server 11 or later.</p>
+<p>All you need to build this project is Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later. See <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts">Configure Maven for WildFly 11</a> to make sure you are configured correctly for testing the quickstarts.</p>
+<h2><a href="#use-of-wildfly-home" id="use-of-wildfly-home">Use of WILDFLY_HOME</a></h2>
+<p>In the following instructions, replace <code>WILDFLY_HOME</code> with the actual path to your WildFly installation. The installation path is described in detail here: <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_WILDFLY_HOME.md#use-of-eap_home-and-jboss_home-variables">Use of WILDFLY_HOME and JBOSS_HOME Variables</a>.</p>
+<h2><a href="#start-the-wildfly-server" id="start-the-wildfly-server">Start the WildFly Server</a></h2>
+<ol>
+<li>Open a command prompt and navigate to the root of the WildFly directory.</li>
+<li>The following shows the command line to start the server:
+<pre><code>For Linux:   WILDFLY_HOME/bin/standalone.sh
+For Windows: WILDFLY_HOME\bin\standalone.bat
+</code></pre>
+</li>
+</ol>
+<h2><a href="#build-and-deploy-the-quickstart" id="build-and-deploy-the-quickstart">Build and Deploy the Quickstart</a></h2>
+<ol>
+<li>Make sure you have started the WildFly server as described above.</li>
+<li>Open a command prompt and navigate to the root directory of this quickstart.</li>
+<li>Type this command to build and deploy the archive:
+<pre><code>mvn clean install wildfly:deploy
+</code></pre>
+</li>
+<li>
+<p>This will deploy <code>target/cdi-stereotype.war</code> to the running instance of the server.</p>
+</li>
+</ol>
+<h2><a href="#access-the-application" id="access-the-application">Access the Application</a></h2>
+<p>The application will be running at the following URL <a href="http://localhost:8080/cdi-stereotype/">http://localhost:8080/cdi-stereotype/</a></p>
+<p>You can now comment out classes in the <code>WEB-INF/beans.xml</code> file to disable one or both of the interceptors or alternative stereotype and view the results.</p>
+<ul>
+<li>Comment the <code>&lt;class&gt;org.jboss.as.quickstarts.cdi.interceptor.AuditInterceptor&lt;/class&gt;</code> and you will no longer see the audit history on the browser page.</li>
+<li>Comment the <code>&lt;class&gt;org.jboss.as.quickstarts.cdi.interceptor.LoggingInterceptor&lt;/class&gt;</code> and you will no longer see the log messages in the server log.</li>
+<li>Comment the <code>&lt;stereotype&gt;org.jboss.as.quickstarts.cdi.interceptor.ServiceStereotype&lt;/stereotype&gt;</code> and you no longer see ItemAlternativeServiceBean implementation invoked.</li>
+</ul>
+<p>In this quickstart, in order to switch back to the default implementation, uncomment the <code>&lt;interceptors&gt;</code> and <code>&lt;stereotype&gt;</code> block in the <code>WEB-INF/beans.xml</code> file and redeploy the quickstart.</p>
+<h2><a href="#server-log-expected-warnings-and-errors" id="server-log-expected-warnings-and-errors">Server Log: Expected Warnings and Errors</a></h2>
+<p><em>Note:</em> You will see the following warnings in the server log. You can ignore these warnings.</p>
+<pre><code>WFLYJCA0091: -ds.xml file deployments are deprecated. Support may be removed in a future version.
+
+HHH000431: Unable to determine H2 database version, certain features may not work
+</code></pre>
+<h2><a href="#undeploy-the-archive" id="undeploy-the-archive">Undeploy the Archive</a></h2>
+<ol>
+<li>Make sure you have started the WildFly server as described above.</li>
+<li>Open a command prompt and navigate to the root directory of this quickstart.</li>
+<li>When you are finished testing, type this command to undeploy the archive:
+<pre><code>mvn wildfly:undeploy
+</code></pre>
+</li>
+</ol>
+<h2><a href="#run-the-quickstart-in-red-hat-jboss-developer-studio-or-eclipse" id="run-the-quickstart-in-red-hat-jboss-developer-studio-or-eclipse">Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse</a></h2>
+<p>You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a WildFly server, and build and deploy a quickstart, see <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_JBDS.md#use-jboss-developer-studio-or-eclipse-to-run-the-quickstarts">Use JBoss Developer Studio or Eclipse to Run the Quickstarts</a>.</p>
+<h2><a href="#debug-the-application" id="debug-the-application">Debug the Application</a></h2>
+<p>If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.</p>
+<pre><code>    mvn dependency:sources
+</code></pre>
+</body>
+</html>

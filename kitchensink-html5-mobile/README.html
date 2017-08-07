@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head><title> kitchensink-html5-mobile: More Complex Example of HTML5, Mobile and JAX-RS</title>
+    <link href="http://static.jboss.org/ffe/0/www/vendor/redhat/documentation.css" rel="stylesheet"></link>
+    <link href="http://static.jboss.org/ffe/0/www/vendor/redhat/pygments.css" rel="stylesheet"></link>
+</head>
+<body><h1><a href="#kitchensink-html5-mobile-more-complex-example-of-html5-mobile-and-jax-rs" id="kitchensink-html5-mobile-more-complex-example-of-html5-mobile-and-jax-rs">kitchensink-html5-mobile: More Complex Example of HTML5, Mobile and JAX-RS</a></h1>
+<p>Author: Jay Balunas<br />
+Level: Beginner<br />
+Technologies: CDI, HTML5, REST<br />
+Summary: The <code>kitchensink-html5-mobile</code> quickstart is based on <code>kitchensink</code>, but uses HTML5 and jQuery Mobile, making it suitable for mobile and tablet computers.<br />
+Target Product: WildFly<br />
+Source: <a href="https://github.com/wildfly/quickstart/">https://github.com/wildfly/quickstart/</a></p>
+<h2><a href="#what-is-it" id="what-is-it">What is it?</a></h2>
+<p>The <code>kitchensink-html5-mobile</code> quickstart is based on the <code>kitchensink</code> quickstart and demonstrates a Java EE 7 mobile database application using HTML5, jQuery Mobile, JAX-RS, JPA, and REST in WildFly Application Server.</p>
+<p>This application is built using a HTML5 + REST approach. This uses a pure HTML client that interacts with the application server via restful end-points (JAX-RS). This application also uses some of the latest HTML5 features and advanced JAX-RS. And since testing is just as important with client side as it is server side, this application uses QUnit to show you how to unit test your JavaScript.</p>
+<p>What is a modern web application without mobile web support? This application also integrates jQuery mobile and basic client side device detection to give you both a desktop and mobile version of the interface. Both support the same features, including form validation, member registration, etc. However the mobile version adds in mobile layout, touch, and performance improvements needed to get you started with mobile web development on JBoss.</p>
+<h2><a href="#system-requirements" id="system-requirements">System Requirements</a></h2>
+<p>The application this project produces is designed to be run on WildFly Application Server 11 or later.</p>
+<p>All you need to build this project is Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later. See <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts">Configure Maven for WildFly 11</a> to make sure you are configured correctly for testing the quickstarts.</p>
+<p>An HTML5 compatible browser such as Chrome, Safari 5+, Firefox 5+, or IE 9+ are required. and note that some behaviors will vary slightly (ex. validations) based on browser support, especially IE 9.</p>
+<p>Mobile web support is limited to Android and iOS devices. It should run on HP, and Black Berry devices as well. Windows Phone, and others will be supported as jQuery Mobile announces support.</p>
+<p>With the prerequisites out of the way, you are ready to build and deploy.</p>
+<h2><a href="#start-the-server" id="start-the-server">Start the Server</a></h2>
+<ol>
+<li>Open a command line and navigate to the root of the WildFly directory.</li>
+<li>The following shows the command line to start the server with the default profile:
+<pre><code>For Linux:   WILDFLY_HOME/bin/standalone.sh
+For Windows: WILDFLY_HOME\bin\standalone.bat
+</code></pre>
+</li>
+</ol>
+<p>Note: Adding <code>-b 0.0.0.0</code> to the above commands will allow external clients, such as phones, tablets, and desktops, connect through your local network.</p>
+<p>For example</p>
+<pre><code>    For Linux:   WILDFLY_HOME/bin/standalone.sh -b 0.0.0.0
+    For Windows: WILDFLY_HOME\bin\standalone.bat -b 0.0.0.0
+</code></pre>
+<h2><a href="#build-and-deploy-the-quickstart" id="build-and-deploy-the-quickstart">Build and Deploy the Quickstart</a></h2>
+<ol>
+<li>Make sure you have started the WildFly server as described above.</li>
+<li>Open a command line and navigate to the root directory of this quickstart.</li>
+<li>Type this command to build and deploy the archive:
+<pre><code>mvn clean wildfly:deploy
+</code></pre>
+</li>
+<li>
+<p>This deploys <code>target/kitchensink-html5-mobile.war</code> to the running instance of the server.</p>
+</li>
+</ol>
+<h2><a href="#access-the-application" id="access-the-application">Access the Application</a></h2>
+<p>Access the running client application in a browser at the following URL: <a href="http://localhost:8080/kitchensink-html5-mobile/">http://localhost:8080/kitchensink-html5-mobile/</a>.</p>
+<h2><a href="#undeploy-the-archive" id="undeploy-the-archive">Undeploy the Archive</a></h2>
+<ol>
+<li>Make sure you have started the WildFly server as described above.</li>
+<li>Open a command line and navigate to the root directory of this quickstart.</li>
+<li>When you are finished testing, type this command to undeploy the archive:
+<pre><code>mvn wildfly:undeploy
+</code></pre>
+</li>
+</ol>
+<h2><a href="#run-the-quickstart-in-red-hat-jboss-developer-studio-or-eclipse" id="run-the-quickstart-in-red-hat-jboss-developer-studio-or-eclipse">Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse</a></h2>
+<p>You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a WildFly server, and build and deploy a quickstart, see <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_JBDS.md#use-jboss-developer-studio-or-eclipse-to-run-the-quickstarts">Use JBoss Developer Studio or Eclipse to Run the Quickstarts</a>.</p>
+<!-- Build and Deploy the Quickstart to OpenShift - Coming soon! -->
+<h2><a href="#minification" id="minification">Minification</a></h2>
+<p>By default, the project uses the <a href="https://github.com/wro4j/wro4j">wro4j</a> plugin, which provides the ability to concatenate, validate and minify JavaScript and CSS files. These minified files, as well as their unmodified versions are deployed with the project.</p>
+<p>With just a few quick changes to the project, you can link to the minified versions of your JavaScript and CSS files.</p>
+<p>First, in the <code>&lt;project-root&gt;/src/main/webapp/index.html</code> file, search for references to minification and comment or uncomment the appropriate lines.</p>
+<p>Finally, wro4j runs in the compile phase so any standard build command like package, install, etc. will trigger it. The plugin is in a profile with an id of <code>minify</code> so you will want to specify that profile in your maven build.</p>
+<p>NOTE: By default there are turn off tests so you must use the arquillian test profile to run tests when minifying. For example:</p>
+<pre><code>#No Tests
+mvn clean wildfly:deploy -Pminify
+</code></pre>
+<p>OR</p>
+<pre><code>#With Tests
+mvn clean verify wildfly:deploy -Pminify,arq-remote
+</code></pre>
+<h2><a href="#run-the-arquillian-tests" id="run-the-arquillian-tests">Run the Arquillian Tests</a></h2>
+<p>By default, tests are configured to be skipped. The reason is that the sample test is an Arquillian test, which requires the use of a container. You can activate this test by selecting one of the container configuration provided for JBoss.</p>
+<p>To run the test in JBoss, first start the container instance. Then, run the test goal with the following profile activated:</p>
+<pre><code>mvn clean verify -Parq-remote
+</code></pre>
+<h2><a href="#run-the-qunit-tests" id="run-the-qunit-tests">Run the QUnit tests</a></h2>
+<p>QUnit is a JavaScript unit testing framework used and built by jQuery. Because JavaScript code is the core of an HTML5 application, this quickstart provides a set of QUnit tests that automate testing of this code in various browsers.</p>
+<p>Executing QUnit test cases is quite easy. Simply load the following HTML file in the browser you want to test.</p>
+<pre><code>    QUICKSTART_HOME/kitchensink-html5-mobile/src/test/qunit/index.html
+</code></pre>
+<p>You can also display the QUnit tests using the Eclipse built-in browser.</p>
+<p>For more information on QUnit tests see <a href="http://qunitjs.com/">http://qunitjs.com/</a></p>
+<h2><a href="#run-the-quickstart-in-red-hat-jboss-developer-studio-or-eclipse" id="run-the-quickstart-in-red-hat-jboss-developer-studio-or-eclipse">Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse</a></h2>
+<p>You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a WildFly server, and build and deploy a quickstart, see <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_JBDS.md#use-jboss-developer-studio-or-eclipse-to-run-the-quickstarts">Use JBoss Developer Studio or Eclipse to Run the Quickstarts</a>.</p>
+<h2><a href="#debug-the-application" id="debug-the-application">Debug the Application</a></h2>
+<p>If you want to be able to debug into the source code or look at the Javadocs of any library in the project, you can run either of the following two commands to pull them into your local repository. The IDE should then detect them.</p>
+<pre><code>mvn dependency:sources
+mvn dependency:resolve -Dclassifier=javadoc
+</code></pre>
+</body>
+</html>

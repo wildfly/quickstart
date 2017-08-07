@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head><title> payment-cdi-event: Use CDI Events to Process Debit and Credit Operations</title>
+    <link href="http://static.jboss.org/ffe/0/www/vendor/redhat/documentation.css" rel="stylesheet"></link>
+    <link href="http://static.jboss.org/ffe/0/www/vendor/redhat/pygments.css" rel="stylesheet"></link>
+</head>
+<body><h1><a href="#payment-cdi-event-use-cdi-events-to-process-debit-and-credit-operations" id="payment-cdi-event-use-cdi-events-to-process-debit-and-credit-operations">payment-cdi-event: Use CDI Events to Process Debit and Credit Operations</a></h1>
+<p>Author: Elvadas Nono<br />
+Level: Beginner<br />
+Technologies: CDI, JSF<br />
+Summary: The <code>payment-cdi-event</code> quickstart demonstrates how to create credit and debit <em>CDI Events</em> in WildFly, using a JSF front-end client.<br />
+Target Product: WildFly<br />
+Source: <a href="https://github.com/wildfly/quickstart/">https://github.com/wildfly/quickstart/</a></p>
+<h2><a href="#what-is-it" id="what-is-it">What is it?</a></h2>
+<p>The <code>payment-cdi-event</code> quickstart demonstrates how to use <em>CDI Events</em> in WildFly Application Server.</p>
+<p>The JSF front-end client allows you to create both credit and debit operation events.</p>
+<p>To test this quickstart, enter an amount, choose either a Credit or Debit operation, and then click on <em>Pay</em> to create the event.</p>
+<p>A Session scoped (<code>@SessionScoped</code>) payment event handler catches the operation and produces (<code>@Produces</code>) a named list of all operations performed during this session. The event is logged in the WildFly server log and the event list is displayed in a table at the bottom of the form.</p>
+<p>The <code>payment-cdi-event</code> quickstart defines the following classes and interfaces:</p>
+<ul>
+<li>The <code>beans</code> package contains the <code>PaymentBean</code> bean class:</li>
+<li>This is a session scoped bean that stores the payment form information:
+<ul>
+<li>payment amount</li>
+<li>operation type: debit or credit</li>
+</ul>
+</li>
+<li>It contains the following utility methods:
+<ul>
+<li><code>private void init()</code>: This is a PostConstruct (<code>@PostConstruct</code>) method that performs initialization before the class is put into service. It resets the <code>amount</code> to <code>$0</code> and the <code>paymentOption</code> to the default type of debit.</li>
+<li><code>public String pay()</code>: This method processes the operation when the user clicks on submit. We have only one JSF page, so the method does not return anything and the flow of control does not change.</li>
+<li><code>public void reset()</code>: Reset calls the <code>init()</code> method reinitialize the form values.</li>
+</ul>
+</li>
+<li>The <code>events</code> package contains the <code>PaymentEvent</code> class and the enum <code>PaymentTypeEnum</code>.</li>
+<li><code>PaymentEvent</code>: We have only one event that handles both credit and debit operations. Qualifiers help us to make the difference at injection point.</li>
+<li><code>PaymentTypeEnum</code>:  A typesafe enum is used to represent the operation payment type. It contains utility methods to convert between <code>String</code> and <code>Enum</code>.</li>
+<li>The <code>qualifiers</code> package contains the <code>Credit</code> and <code>Debit</code> interfaces. The annotation determines the operation of the injecting <code>Event</code>.</li>
+<li>The <code>handler</code> package contains interfaces and implementations of <code>PaymentEvent</code> observers.</li>
+<li><code>ICreditEventObserver</code>: Interface to listen to <code>CREDIT</code> event only (<code>@Observes</code> <code>@Credit</code>).</li>
+<li><code>IDebitEventObserver</code>: Interface to listen to <code>DEBIT</code> event (<code>@Observes</code> <code>@Debit</code>).</li>
+<li><code>PaymentHandler</code>: The concrete implementation of the payment handler.
+<ul>
+<li>It implements both <code>ICreditEventObserver</code> and <code>IDebitEventObserver</code>.</li>
+<li>The payment handler exposes the list of events caught during a session (<code>@Named</code>  <code>name=payments</code>).</li>
+</ul>
+</li>
+<li>The <code>resources</code> package contains the <code>Resources</code> class that produces the logger for the application.</li>
+</ul>
+<h2><a href="#system-requirements" id="system-requirements">System Requirements</a></h2>
+<p>The application this project produces is designed to be run on WildFly Application Server 11 or later.</p>
+<p>All you need to build this project is Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later. See <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts">Configure Maven for WildFly 11</a> to make sure you are configured correctly for testing the quickstarts.</p>
+<h2><a href="#use-of-wildfly-home" id="use-of-wildfly-home">Use of WILDFLY_HOME</a></h2>
+<p>In the following instructions, replace <code>WILDFLY_HOME</code> with the actual path to your WildFly installation. The installation path is described in detail here: <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_WILDFLY_HOME.md#use-of-eap_home-and-jboss_home-variables">Use of WILDFLY_HOME and JBOSS_HOME Variables</a>.</p>
+<h2><a href="#start-the-wildfly-server" id="start-the-wildfly-server">Start the WildFly Server</a></h2>
+<ol>
+<li>Open a command prompt and navigate to the root of the WildFly directory.</li>
+<li>The following shows the command line to start the server:
+<pre><code>For Linux:   WILDFLY_HOME/bin/standalone.sh
+For Windows: WILDFLY_HOME\bin\standalone.bat
+</code></pre>
+</li>
+</ol>
+<h2><a href="#build-and-deploy-the-quickstart" id="build-and-deploy-the-quickstart">Build and Deploy the Quickstart</a></h2>
+<ol>
+<li>Make sure you have started the WildFly server as described above.</li>
+<li>Open a command prompt and navigate to the root directory of this quickstart.</li>
+<li>Type this command to build and deploy the archive:
+<pre><code>mvn clean install wildfly:deploy
+</code></pre>
+</li>
+<li>
+<p>This will deploy <code>target/payment-cdi-event.war</code> to the running instance of the server.</p>
+</li>
+</ol>
+<h2><a href="#access-the-application" id="access-the-application">Access the Application</a></h2>
+<p>The application will be running at the following URL: <a href="http://localhost:8080/payment-cdi-event/">http://localhost:8080/payment-cdi-event/</a>.</p>
+<h2><a href="#undeploy-the-archive" id="undeploy-the-archive">Undeploy the Archive</a></h2>
+<ol>
+<li>Make sure you have started the WildFly server as described above.</li>
+<li>Open a command prompt and navigate to the root directory of this quickstart.</li>
+<li>When you are finished testing, type this command to undeploy the archive:
+<pre><code>mvn wildfly:undeploy
+</code></pre>
+</li>
+</ol>
+<h2><a href="#run-the-quickstart-in-red-hat-jboss-developer-studio-or-eclipse" id="run-the-quickstart-in-red-hat-jboss-developer-studio-or-eclipse">Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse</a></h2>
+<p>You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a WildFly server, and build and deploy a quickstart, see <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_JBDS.md#use-jboss-developer-studio-or-eclipse-to-run-the-quickstarts">Use JBoss Developer Studio or Eclipse to Run the Quickstarts</a>.</p>
+<h2><a href="#debug-the-application" id="debug-the-application">Debug the Application</a></h2>
+<p>If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.</p>
+<pre><code>    mvn dependency:sources
+</code></pre>
+</body>
+</html>

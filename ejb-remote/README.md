@@ -3,13 +3,13 @@
 Author: Jaikiran Pai, Mike Musgrove  
 Level: Intermediate  
 Technologies: EJB, JNDI  
-Summary: The `ejb-remote` quickstart uses *EJB* and *JNDI* to demonstrate how to access an EJB, deployed to ${product.name}, from a remote Java client application.  
-Target Product: ${product.name}  
-Source: <${github.repo.url}>  
+Summary: The `ejb-remote` quickstart uses *EJB* and *JNDI* to demonstrate how to access an EJB, deployed to WildFly, from a remote Java client application.  
+Target Product: WildFly  
+Source: <https://github.com/wildfly/quickstart/>  
 
 ## What is it?
 
-The `ejb-remote` quickstart shows how to access an EJB from a remote Java client application. It demonstrates the use of *EJB* and *JNDI* in ${product.name.full}.
+The `ejb-remote` quickstart shows how to access an EJB from a remote Java client application. It demonstrates the use of *EJB* and *JNDI* in WildFly Application Server.
 
 There are two components to this example:
 
@@ -25,36 +25,36 @@ Each component is defined in its own standalone Maven module. The quickstart pro
 
 ## System Requirements
 
-The application this project produces is designed to be run on ${product.name.full} ${product.version} or later.
+The application this project produces is designed to be run on WildFly Application Server 11 or later.
 
-All you need to build this project is ${build.requirements}. See [Configure Maven for ${product.name} ${product.version}](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
+All you need to build this project is Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later. See [Configure Maven for WildFly 11](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
 
 
-## Use of ${jboss.home.name}
+## Use of WILDFLY_HOME
 
-In the following instructions, replace `${jboss.home.name}` with the actual path to your ${product.name} installation. The installation path is described in detail here: [Use of ${jboss.home.name} and JBOSS_HOME Variables](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_${jboss.home.name}.md#use-of-eap_home-and-jboss_home-variables).
+In the following instructions, replace `WILDFLY_HOME` with the actual path to your WildFly installation. The installation path is described in detail here: [Use of WILDFLY_HOME and JBOSS_HOME Variables](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_WILDFLY_HOME.md#use-of-eap_home-and-jboss_home-variables).
 
 
 ## Start the Server
 
-1. Open a command prompt and navigate to the root of the ${product.name} directory.
+1. Open a command prompt and navigate to the root of the WildFly directory.
 2. The following shows the command line to start the server:
 
-        For Linux:   ${jboss.home.name}/bin/standalone.sh
-        For Windows: ${jboss.home.name}\bin\standalone.bat
+        For Linux:   WILDFLY_HOME/bin/standalone.sh
+        For Windows: WILDFLY_HOME\bin\standalone.bat
 
 
 ## Build and Deploy the Quickstart
 
 Since this quickstart builds two separate components, you can not use the standard *Build and Deploy* commands used by most of the other quickstarts. You must follow these steps to build, deploy, and run this quickstart.
 
-1. Make sure you have started the ${product.name} server. See the instructions in the previous section.
+1. Make sure you have started the WildFly server. See the instructions in the previous section.
 2. Open a command prompt and navigate to the ejb-remote quickstart directory
 3. Build and install the server side component:
     * Build the EJB and client interfaces JARs and install them in your local Maven repository.
 
             mvn clean install         
-    * Deploy the EJB JAR to your server. This Maven goal will deploy `server-side/target/${project.artifactId}-server-side.jar`. You can check the ${product.name} server console to see information messages regarding the deployment.
+    * Deploy the EJB JAR to your server. This Maven goal will deploy `server-side/target/ejb-remote-server-side.jar`. You can check the WildFly server console to see information messages regarding the deployment.
 
             mvn wildfly:deploy
 4. Build and run the client application
@@ -132,12 +132,12 @@ The remote client application can also be built as a standalone executable JAR w
 
 4. You can then run the executable JAR using the `java -jar` command. You will see the same console output as above.
 
-        java -jar target/${project.artifactId}-client-jar-with-dependencies.jar
+        java -jar target/ejb-remote-client-jar-with-dependencies.jar
 
 
 ## Undeploy the Archive
 
-To undeploy the server-side component from the ${product.name} server:
+To undeploy the server-side component from the WildFly server:
 
 1. Navigate to the server-side subdirectory:
 
@@ -150,17 +150,17 @@ To undeploy the server-side component from the ${product.name} server:
 
 ## Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 
-You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a ${product.name} server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](${use.eclipse.url}).
+You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a WildFly server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_JBDS.md#use-jboss-developer-studio-or-eclipse-to-run-the-quickstarts).
 
 
 This quickstart consists of multiple projects, so it deploys and runs differently in JBoss Developer Studio than the other quickstarts.
 
 1. Install the required Maven artifacts and deploy the server side of the quickstart project.
-    * Right-click on the `${project.artifactId}-server-side` project and choose `Run As` --> `Maven Install`.
-    * Right-click on the `${project.artifactId}-server-side` project and choose `Run As` --> `Run on Server`.
+    * Right-click on the `ejb-remote-server-side` project and choose `Run As` --> `Maven Install`.
+    * Right-click on the `ejb-remote-server-side` project and choose `Run As` --> `Run on Server`.
 
 2. Build and run the client side of the quickstart project.
-    * Right-click on the `${project.artifactId}-client` project and choose `Run As` --> `Java Application`.
+    * Right-click on the `ejb-remote-client` project and choose `Run As` --> `Java Application`.
     * In the `Select Java Application` window, choose `RemoteEJBClient - org.jboss.as.quickstarts.ejb.remote.client` and click `OK`.
     * The client output displays in the `Console` window.
 

@@ -5,8 +5,8 @@ Level: Intermediate
 Technologies: EJB, Security  
 Summary: The `ejb-security-programmatic-auth` quickstart demonstrates how to programmatically setup different identities when 
 invoking a remote secured EJB.  
-Target Product: ${product.name}  
-Source: <${github.repo.url}>  
+Target Product: WildFly  
+Source: <https://github.com/wildfly/quickstart/>  
 
 ## What is it?
 
@@ -16,19 +16,19 @@ secured EJB under different `AuthenticationContext`s. Each context is setup to u
 
 ## System Requirements
 
-The applications these projects produce are designed to be run on ${product.name.full} ${product.version} or later.
+The applications these projects produce are designed to be run on WildFly Application Server 11 or later.
 
-All you need to build these projects is ${build.requirements}. See [Configure Maven for ${product.name} ${product.version}](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
+All you need to build these projects is Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later. See [Configure Maven for WildFly 11](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
 
-To run these quickstarts with the provided build scripts, you need the ${product.name} distribution ZIP. For information on
- how to install and run JBoss, see the [${product.name.full} Documentation](https://access.redhat.com/documentation/en/red-hat-jboss-enterprise-application-platform/) _Getting Started Guide_ located on the Customer Portal.
+To run these quickstarts with the provided build scripts, you need the WildFly distribution ZIP. For information on
+ how to install and run JBoss, see the [WildFly Application Server Documentation](https://access.redhat.com/documentation/en/red-hat-jboss-enterprise-application-platform/) _Getting Started Guide_ located on the Customer Portal.
 
 You can also use [JBoss Developer Studio or Eclipse](#use-jboss-developer-studio-or-eclipse-to-run-the-quickstarts) to run the quickstarts.
 
-## Use of ${jboss.home.name}
+## Use of WILDFLY_HOME
 
-In the following instructions, replace `${jboss.home.name}` with the actual path to your ${product.name} installation. The
-installation path is described in detail here: [Use of ${jboss.home.name} and JBOSS_HOME Variables](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_${jboss.home.name}.md#use-of-eap_home-and-jboss_home-variables).
+In the following instructions, replace `WILDFLY_HOME` with the actual path to your WildFly installation. The
+installation path is described in detail here: [Use of WILDFLY_HOME and JBOSS_HOME Variables](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_WILDFLY_HOME.md#use-of-eap_home-and-jboss_home-variables).
 
 ## Add the Application Users
 
@@ -44,12 +44,12 @@ The first application user has `guest` access rights to the application but no `
 To add the application users, open a command prompt and type the following commands:
 
         For Linux:        
-          ${jboss.home.name}/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'guest'
-          ${jboss.home.name}/bin/add-user.sh -a -u 'superUser' -p 'superPwd1!' -g 'guest,admin'
+          WILDFLY_HOME/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'guest'
+          WILDFLY_HOME/bin/add-user.sh -a -u 'superUser' -p 'superPwd1!' -g 'guest,admin'
 
         For Windows:
-          ${jboss.home.name}\bin\add-user.bat  -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'guest'
-          ${jboss.home.name}\bin\add-user.bat -a -u 'superUser' -p 'superPwd1!' -g 'guest,admin'
+          WILDFLY_HOME\bin\add-user.bat  -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'guest'
+          WILDFLY_HOME\bin\add-user.bat -a -u 'superUser' -p 'superPwd1!' -g 'guest,admin'
 
 If you prefer, you can use the add-user utility interactively.
 For an example of how to use the add-user utility, see the instructions located here: [Add an Application User](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CREATE_USERS.md#add-an-application-user).
@@ -62,30 +62,30 @@ You configure the security domain by running JBoss CLI commands. For your conven
 into a `configure-elytron.cli` script provided in the root directory of this quickstart.
 
 1. Before you begin, back up your server configuration file
-    * If it is running, stop the ${product.name} server.
-    * Back up the file: `${jboss.home.name}/standalone/configuration/standalone.xml`
+    * If it is running, stop the WildFly server.
+    * Back up the file: `WILDFLY_HOME/standalone/configuration/standalone.xml`
     * After you have completed testing this quickstart, you can replace this file to restore the server to its original configuration.
 
-2. Start the ${product.name} server by typing the following:
+2. Start the WildFly server by typing the following:
 
-        For Linux:  ${jboss.home.name}/bin/standalone.sh
-        For Windows:  ${jboss.home.name}\bin\standalone.bat
+        For Linux:  WILDFLY_HOME/bin/standalone.sh
+        For Windows:  WILDFLY_HOME\bin\standalone.bat
 3. Review the `configure-elytron.cli` file in the root of this quickstart directory. This script adds the configuration
 that enables Elytron security for the quickstart components. Comments in the script describe the purpose of each block of commands.
 
 4. Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing 
-${jboss.home.name} with the path to your server:
+WILDFLY_HOME with the path to your server:
 
-        For Linux: ${jboss.home.name}/bin/jboss-cli.sh --connect --file=configure-elytron.cli
-        For Windows: ${jboss.home.name}\bin\jboss-cli.bat --connect --file=configure-elytron.cli
+        For Linux: WILDFLY_HOME/bin/jboss-cli.sh --connect --file=configure-elytron.cli
+        For Windows: WILDFLY_HOME\bin\jboss-cli.bat --connect --file=configure-elytron.cli
     You should see the following result when you run the script:
 
         The batch executed successfully
-5. Stop the ${product.name} server.
+5. Stop the WildFly server.
 
 ## Review the Modified Server Configuration
 
-After stopping the server, open the `${jboss.home.name}/standalone/configuration/standalone.xml` file and review the changes.
+After stopping the server, open the `WILDFLY_HOME/standalone/configuration/standalone.xml` file and review the changes.
 
 1. The following `application-security-domain` mapping was added to the `ejb3` subsystem:
 
@@ -103,21 +103,21 @@ After stopping the server, open the `${jboss.home.name}/standalone/configuration
 
 ## Start the Server
 
-1. Open a command prompt and navigate to the root of the ${product.name} directory.
+1. Open a command prompt and navigate to the root of the WildFly directory.
 2. The following shows the command line to start the server:
 
-        For Linux:   ${jboss.home.name}/bin/standalone.sh
-        For Windows: ${jboss.home.name}\bin\standalone.bat
+        For Linux:   WILDFLY_HOME/bin/standalone.sh
+        For Windows: WILDFLY_HOME\bin\standalone.bat
 
 ## Build and Deploy the Quickstart
 
-1. Make sure you have started the ${product.name} server as described above.
+1. Make sure you have started the WildFly server as described above.
 2. Open a command prompt and navigate to the root directory of this quickstart.
 3. Type this command to build and deploy the archive:
 
         mvn clean package wildfly:deploy
 
-4. This will deploy `target/${project.artifactId}.jar` to the running instance of the server.
+4. This will deploy `target/ejb-security-programmatic-auth.jar` to the running instance of the server.
 
 ## Access the Application
 
@@ -153,7 +153,7 @@ to call administrative methods on the remote EJB. The `superUser` on the other h
 
 ## Undeploy the Archive
 
-1. Make sure you have started the ${product.name} server as described above.
+1. Make sure you have started the WildFly server as described above.
 2. Open a command prompt and navigate to the root directory of this quickstart.
 3. When you are finished testing, type this command to undeploy the archive:
 
@@ -166,15 +166,15 @@ of this quickstart or by manually restoring the back-up copy the configuration f
 
 ### Restore the Server Configuration by Running the JBoss CLI Script
 
-1. Start the ${product.name} server by typing the following:
+1. Start the WildFly server by typing the following:
 
-        For Linux:  ${jboss.home.name}/bin/standalone.sh
-        For Windows:  ${jboss.home.name}\bin\standalone.bat
-2. Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing ${jboss.home.name}
+        For Linux:  WILDFLY_HOME/bin/standalone.sh
+        For Windows:  WILDFLY_HOME\bin\standalone.bat
+2. Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing WILDFLY_HOME
 with the path to your server:
 
-        For Linux: ${jboss.home.name}/bin/jboss-cli.sh --connect --file=restore-configuration.cli
-        For Windows: ${jboss.home.name}\bin\jboss-cli.bat --connect --file=restore-configuration.cli
+        For Linux: WILDFLY_HOME/bin/jboss-cli.sh --connect --file=restore-configuration.cli
+        For Windows: WILDFLY_HOME\bin\jboss-cli.bat --connect --file=restore-configuration.cli
     This script reverts the changes made to the `ejb3` and `remoting` subsystems. You should see the following result when you run the script:
 
         The batch executed successfully
@@ -182,12 +182,12 @@ with the path to your server:
 
 ### Restore the Server Configuration Manually
 
-1. If it is running, stop the ${product.name} server.
-2. Replace the `${jboss.home.name}/standalone/configuration/standalone.xml` file with the back-up copy of the file.
+1. If it is running, stop the WildFly server.
+2. Replace the `WILDFLY_HOME/standalone/configuration/standalone.xml` file with the back-up copy of the file.
 
 ## Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 
-You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a ${product.name} server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](${use.eclipse.url}).
+You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a WildFly server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_JBDS.md#use-jboss-developer-studio-or-eclipse-to-run-the-quickstarts).
 
 * Be sure to [Create the Properties Files for the JAAS Security Domain](#create-the-properties-files-for-the-jaas-security-domain) as described above.
 * Be sure to configure the server by running the JBoss CLI script as described above under [Configure the Server](#configure-the-server).

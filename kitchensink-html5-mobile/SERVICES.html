@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head><title>kitchensink-html5-mobile: JAX-RS Services Documentation</title>
+    <link href="http://static.jboss.org/ffe/0/www/vendor/redhat/documentation.css" rel="stylesheet"></link>
+    <link href="http://static.jboss.org/ffe/0/www/vendor/redhat/pygments.css" rel="stylesheet"></link>
+</head>
+<body><h1><a href="#kitchensink-html5-mobile-jax-rs-services-documentation" id="kitchensink-html5-mobile-jax-rs-services-documentation">kitchensink-html5-mobile: JAX-RS Services Documentation</a></h1>
+<p>Author: Jay Balunas, Marius Bogoevici</p>
+<p>This example supports various RESTFul end points which also includes JSONP support for cross domain requests.</p>
+<p>By default the base URL for services is <code>/jboss-as-kitchensink-html5-mobile/rest</code>.</p>
+<h2><a href="#memberservice-end-points" id="memberservice-end-points">MemberService End Points</a></h2>
+<h3><a href="#list-all-members" id="list-all-members">List all members</a></h3>
+<h4><a href="#restmembers" id="restmembers">/rest/members</a></h4>
+<ul>
+<li>Request type: GET</li>
+<li>Return type: JSON</li>
+<li>Response example:</li>
+</ul>
+<pre><code class="language-javascript">[{&quot;id&quot;:1,&quot;name&quot;:&quot;Jane Smith&quot;,&quot;email&quot;:&quot;jane.smith@mailinator.com&quot;,&quot;phoneNumber&quot;:&quot;2125551212&quot;},{&quot;id&quot;:0,&quot;name&quot;:&quot;John Smith&quot;,&quot;email&quot;:&quot;john.smith@mailinator.com&quot;,&quot;phoneNumber&quot;:&quot;2125551212&quot;}]
+</code></pre>
+<h3><a href="#create-a-new-member" id="create-a-new-member">Create a new member</a></h3>
+<h4><a href="#restmembers" id="restmembers">/rest/members</a></h4>
+<ul>
+<li>Request type: POST</li>
+<li>Request type: JSON</li>
+<li>Return type: JSON</li>
+<li>Request example:</li>
+</ul>
+<pre><code class="language-JavaScript">[{&quot;name&quot;:&quot;Jane Smith&quot;,&quot;email&quot;:&quot;jane.smith@mailinator.com&quot;,&quot;phoneNumber&quot;:&quot;4160000000&quot;}]
+
+* Response example:
+ * Success: 200 OK
+ * Validation error: Collection of `&lt;field name&gt;:&lt;error msg&gt;` for each error
+
+```JavaScript
+{&quot;phoneNumber&quot;:&quot;10-12 Numbers&quot;,&quot;email&quot;:&quot;Invalid format&quot;}
+</code></pre>
+<h4><a href="#restmembersid" id="restmembersid">/rest/members/&lt;id&gt;</a></h4>
+<ul>
+<li>Request type: GET</li>
+<li>Return type: JSON</li>
+<li>Response example:</li>
+</ul>
+<pre><code class="language-javascript">{&quot;id&quot;:0,&quot;name&quot;:&quot;John Smith&quot;,&quot;email&quot;:&quot;john.smith@mailinator.com&quot;,&quot;phoneNumber&quot;:&quot;2125551212&quot;}
+</code></pre>
+</body>
+</html>

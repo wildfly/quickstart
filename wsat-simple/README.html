@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head><title> wsat-simple: WS-AT (WS-AtomicTransaction) - Simple</title>
+    <link href="http://static.jboss.org/ffe/0/www/vendor/redhat/documentation.css" rel="stylesheet"></link>
+    <link href="http://static.jboss.org/ffe/0/www/vendor/redhat/pygments.css" rel="stylesheet"></link>
+</head>
+<body><h1><a href="#wsat-simple-ws-at-ws-atomictransaction-simple" id="wsat-simple-ws-at-ws-atomictransaction-simple">wsat-simple: WS-AT (WS-AtomicTransaction) - Simple</a></h1>
+<p>Author: Paul Robinson<br />
+Level: Intermediate<br />
+Technologies: WS-AT, JAX-WS<br />
+Summary: The <code>wsat-simple</code> quickstart demonstrates a WS-AT (WS-AtomicTransaction) enabled JAX-WS Web service, bundled as a WAR, and deployed to WildFly.<br />
+Target Product: WildFly<br />
+Source: <a href="https://github.com/wildfly/quickstart/">https://github.com/wildfly/quickstart/</a></p>
+<h2><a href="#what-is-it" id="what-is-it">What is it?</a></h2>
+<p>The <code>wsat-simple</code> quickstart demonstrates the deployment of a WS-AT (WS-AtomicTransaction) enabled JAX-WS Web service bundled in a WAR archive for deployment to WildFly Application Server.</p>
+<p>The Web service is offered by a Restaurant for making bookings. The Service allows bookings to be made within an Atomic Transaction.</p>
+<p>This example demonstrates the basics of implementing a WS-AT enabled Web service. It is beyond the scope of this quick start to demonstrate more advanced features. In particular:</p>
+<ul>
+<li>The Service does not implement the required hooks to support recovery in the presence of failures.</li>
+<li>It also does not utilize a transactional back-end resource.</li>
+<li>Only one web service participates in the protocol. As WS-AT is a 2PC coordination protocol, it is best suited to multi-participant scenarios.</li>
+</ul>
+<p>For a more complete example, please see the XTS demonstrator application that ships with the Narayana project: <a href="http://narayana.io/">http://narayana.io/</a>.</p>
+<p>It is also assumed that you have an understanding of WS-AtomicTransaction. For more details, read the XTS documentation that ships with the Narayana project: <a href="http://narayana.io/docs/product">http://narayana.io/docs/product</a>.</p>
+<p>The application consists of a single JAX-WS web service that is deployed within a WAR archive. It is tested with a JBoss Arquillian enabled JUnit test.</p>
+<p>When running the <code>org.jboss.as.quickstarts.wsat.simple.ClientTest#testCommit()</code> method, the following steps occur:</p>
+<ol>
+<li>A new Atomic Transaction (AT) is created by the client.</li>
+<li>An operation on a WS-AT enabled Web service is invoked by the client.</li>
+<li>The JaxWSHeaderContextProcessor in the WS Client handler chain inserts the WS-AT context into the outgoing SOAP message</li>
+<li>When the service receives the SOAP request, the JaxWSHeaderContextProcessor in its handler chain inspects the WS-AT context and associates the request with this AT.</li>
+<li>The Web service operation is invoked...</li>
+<li>A participant is enlisted in this AT. This allows the Web Service logic to respond to protocol events, such as Commit and Rollback.</li>
+<li>The service invokes the business logic. In this case, a booking is made with the restaurant.</li>
+<li>The backend resource is prepared. This ensures that the Backend resource can undo or make permanent the change when told to do so by the coordinator.</li>
+<li>The client can then decide to commit or rollback the AT. If the client decides to commit, the coordinator will begin the 2PC protocol. If the participant decides to rollback, all participants will be told to rollback.</li>
+</ol>
+<p>There is another test that shows what happens if the client decides to rollback the AT.</p>
+<h2><a href="#system-requirements" id="system-requirements">System Requirements</a></h2>
+<p>The application this project produces is designed to be run on WildFly Application Server 11 or later.</p>
+<p>All you need to build this project is Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later. See <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts">Configure Maven for WildFly 11</a> to make sure you are configured correctly for testing the quickstarts.</p>
+<h2><a href="#start-the-server-with-the-custom-options" id="start-the-server-with-the-custom-options">Start the Server with the Custom Options</a></h2>
+<p>First, edit the log level to reduce the amount of log output. This should make it easier to read the logs produced by this example. To do this add the following logger block to the ./docs/examples/configs/standalone-xts.xml of your JBoss distribution. You should add it just bellow one of the other logger blocks.</p>
+<pre><code>&lt;logger category=&quot;org.apache.cxf.service.factory.ReflectionServiceFactoryBean&quot;&gt;
+    &lt;level name=&quot;WARN&quot;/&gt;
+&lt;/logger&gt;
+</code></pre>
+<p>Next you need to start WildFly with the XTS subsystem enabled. This is enabled through the optional server configuration <em>standalone-xts.xml</em>. To do this, run the following commands from the top-level directory of WildFly:</p>
+<pre><code>For Linux:     ./bin/standalone.sh --server-config=../../docs/examples/configs/standalone-xts.xml
+For Windows:   \bin\standalone.bat --server-config=..\..\docs\examples\configs\standalone-xts.xml
+</code></pre>
+<h2><a href="#run-the-arquillian-tests" id="run-the-arquillian-tests">Run the Arquillian Tests</a></h2>
+<p>This quickstart provides Arquillian tests. By default, these tests are configured to be skipped as Arquillian tests require the use of a container.</p>
+<ol>
+<li>Make sure you have started the WildFly server as described above.</li>
+<li>Open a command prompt and navigate to the root directory of this quickstart.</li>
+<li>Type the following command to run the test goal with the following profile activated:
+<pre><code>mvn clean verify -Parq-remote
+</code></pre>
+</li>
+<li>
+<p>You should see the following result.</p>
+<pre><code>Results :
+
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
+</code></pre>
+</li>
+</ol>
+<p><em>Note: You see the following warning when you run the Arquillian tests in remote mode.</em></p>
+<pre><code>WARNING: Configuration contain properties not supported by the backing object org.jboss.as.arquillian.container.remote.RemoteContainerConfiguration
+Unused property entries: {serverConfig=../../docs/examples/configs/standalone-xts.xml}
+Supported property names: [managementAddress, password, managementPort, managementProtocol, username]
+</code></pre>
+<p><em>This is because, in remote mode, you are responsible for starting the server with the XTS subsystem enabled. When you run the Arquillian tests in managed mode, the container uses the <code>serverConfig</code> property defined in the <code>arquillian.xml</code> file to start the server with the XTS subsystem enabled.</em></p>
+<p>You can also let Arquillian manage the WildFly server by using the <code>arq-managed</code> profile. For more information about how to run the Arquillian tests, see <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/RUN_ARQUILLIAN_TESTS.md#run-the-arquillian-tests">Run the Arquillian Tests</a>.</p>
+<h2><a href="#investigate-the-server-log" id="investigate-the-server-log">Investigate the Server Log</a></h2>
+<p>The following messages should appear in the server log. The messages trace the steps taken by the tests. Note there may be other informational log messages interlaced between these.</p>
+<p>Test rollback:</p>
+<pre><code>10:54:29,607 INFO  [stdout] (http-localhost.localdomain/127.0.0.1:8080-4) Starting 'testRollback'. This test invokes a WS within an AT. The AT is later rolled back, which causes the back-end resource(s) to be rolled back.
+10:54:29,607 INFO  [stdout] (http-localhost.localdomain/127.0.0.1:8080-4) [CLIENT] Creating a new WS-AT User Transaction
+10:54:29,608 INFO  [stdout] (http-localhost.localdomain/127.0.0.1:8080-4) [CLIENT] Beginning Atomic Transaction (All calls to Web services that support WS-AT wil be included in this transaction)
+10:54:29,932 INFO  [stdout] (http-localhost.localdomain/127.0.0.1:8080-4) [CLIENT] invoking makeBooking() on WS
+10:54:30,000 INFO  [stdout] (http-localhost.localdomain/127.0.0.1:8080-25) [SERVICE] Restaurant service invoked to make a booking
+10:54:30,000 INFO  [stdout] (http-localhost.localdomain/127.0.0.1:8080-25) [SERVICE] Enlisting a Durable2PC participant into the AT
+10:54:30,121 INFO  [stdout] (http-localhost.localdomain/127.0.0.1:8080-25) [SERVICE] Invoking the back-end business logic
+10:54:30,122 INFO  [stdout] (http-localhost.localdomain/127.0.0.1:8080-25) [SERVICE] makeBooking called on backend resource.
+10:54:30,126 INFO  [stdout] (http-localhost.localdomain/127.0.0.1:8080-4) [CLIENT] rolling back Atomic Transaction (This will cause the AT and thus the enlisted back-end resources to rollback)
+10:54:30,349 INFO  [stdout] (TaskWorker-2) [SERVICE] one or more participants voted 'aborted' or a failure occurred, so coordinator tells the participant to rollback
+10:54:30,350 INFO  [stdout] (TaskWorker-2) [SERVICE] rollback called on backend resource.
+</code></pre>
+<p>Test commit:</p>
+<pre><code>10:54:30,662 INFO  [stdout] (http-localhost.localdomain/127.0.0.1:8080-54) Starting 'testCommit'. This test invokes a WS within an AT. The AT is later committed, which causes the back-end resource(s) to be committed.
+10:54:30,663 INFO  [stdout] (http-localhost.localdomain/127.0.0.1:8080-54) [CLIENT] Creating a new WS-AT User Transaction
+10:54:30,663 INFO  [stdout] (http-localhost.localdomain/127.0.0.1:8080-54) [CLIENT] Beginning Atomic Transaction (All calls to Web services that support WS-AT wil be included in this transaction)
+10:54:30,797 INFO  [stdout] (http-localhost.localdomain/127.0.0.1:8080-54) [CLIENT] invoking makeBooking() on WS
+10:54:30,848 INFO  [stdout] (http-localhost.localdomain/127.0.0.1:8080-66) [SERVICE] Restaurant service invoked to make a booking
+10:54:30,849 INFO  [stdout] (http-localhost.localdomain/127.0.0.1:8080-66) [SERVICE] Enlisting a Durable2PC participant into the AT
+10:54:30,936 INFO  [stdout] (http-localhost.localdomain/127.0.0.1:8080-66) [SERVICE] Invoking the back-end business logic
+10:54:30,937 INFO  [stdout] (http-localhost.localdomain/127.0.0.1:8080-66) [SERVICE] makeBooking called on backend resource.
+10:54:30,942 INFO  [stdout] (http-localhost.localdomain/127.0.0.1:8080-54) [CLIENT] committing Atomic Transaction (This will cause the AT to complete successfully)
+10:54:31,046 INFO  [stdout] (TaskWorker-2) [SERVICE] Prepare called on participant, about to prepare the back-end resource
+10:54:31,046 INFO  [stdout] (TaskWorker-2) [SERVICE] prepare called on backend resource.
+10:54:31,047 INFO  [stdout] (TaskWorker-2) [SERVICE] back-end resource prepared, participant votes prepared
+10:54:31,067 WARN  [com.arjuna.wst] (TaskWorker-2) ARJUNA043219: Could not save recovery state for non-serializable durable WS-AT participant restaurantServiceAT:ba222c73-00c3-4ecc-921c-80fd5dfdc11a
+10:54:31,209 INFO  [stdout] (TaskWorker-2) [SERVICE] all participants voted 'prepared', so coordinator tells the participant to commit
+10:54:31,210 INFO  [stdout] (TaskWorker-2) [SERVICE] commit called on backend resource.
+</code></pre>
+<p><em>Note: You can ignore the warning message <code>ARJUNA043219: Could not save recovery state for non-serializable durable WS-AT participant restaurantServiceAT</code> that is printed in the server console. This quickstart does not implement the required recovery hooks in the interest of making it easy to follow. In a real world production application, you should provide the required recovery code. For more information, see</em> <a href="http://narayana.io/docs/product">http://narayana.io/docs/product</a>.</p>
+<h2><a href="#run-the-quickstart-in-red-hat-jboss-developer-studio-or-eclipse" id="run-the-quickstart-in-red-hat-jboss-developer-studio-or-eclipse">Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse</a></h2>
+<p>You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a WildFly server, and build and deploy a quickstart, see <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_JBDS.md#use-jboss-developer-studio-or-eclipse-to-run-the-quickstarts">Use JBoss Developer Studio or Eclipse to Run the Quickstarts</a>.</p>
+<p>This quickstart is more complex than the others. It requires that you configure the WildFly server to use the <em>standalone-xts.xml</em> configuration file, which is located in an external configuration directory.</p>
+<ol>
+<li>Import the quickstart into JBoss Developer Studio.</li>
+<li>If you have not already done so, you must configure a new WildFly server to use the XTS configuration.
+<ul>
+<li>In the <code>Server</code> tab, right-click and choose <code>New</code> --&gt; <code>Server</code>.</li>
+<li>Under <code>Select the server type:</code>, expand <code>Red Hat JBoss Middleware</code> and choose <code>Red Hat JBoss Enterprise Application Platform 7.x</code>.</li>
+<li>For the <code>Server name</code>, enter <code>WildFly XTS Configuration</code> and click <code>Next</code>.</li>
+<li>In the <code>Create a new Server Adapter</code> dialog, choose <code>Create a new runtime (next page)</code> and click <code>Next</code>.</li>
+<li>In the <code>JBoss Runtime</code> dialog, enter the following information and then click <code>Finish</code>.
+<pre><code>Name: WildFly XTS Runtime
+Home Directory: (Browse to the server directory and select it)
+Execution Environment: (Choose your runtime JRE if not correct)
+Configuration base directory: (This should already point to your server configuration directory)
+Configuration file: ../../docs/examples/configs/standalone-xts.xml
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p>Start the new <code>WildFly XTS Configuration</code> server.</p>
+</li>
+<li>Right-click on the <code>wsat-simple</code> project, choose <code>Run As</code> --&gt; <code>Maven build</code>, enter <code>clean verify -Parq-remote</code> for the <code>Goals:</code>, and click <code>Run</code> to run the Arquillian tests. The test results appear in the console.</li>
+</ol>
+<h2><a href="#debug-the-application" id="debug-the-application">Debug the Application</a></h2>
+<p>If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.</p>
+<pre><code>mvn dependency:sources
+</code></pre>
+<!-- Build and Deploy the Quickstart to OpenShift - Coming soon! -->
+</body>
+</html>

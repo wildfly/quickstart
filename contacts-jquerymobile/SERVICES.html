@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head><title>CREATE</title>
+    <link href="http://static.jboss.org/ffe/0/www/vendor/redhat/documentation.css" rel="stylesheet"></link>
+    <link href="http://static.jboss.org/ffe/0/www/vendor/redhat/pygments.css" rel="stylesheet"></link>
+</head>
+<body><h1><a href="#contacts-jquerymobile-jax-rs-services-documentation" id="contacts-jquerymobile-jax-rs-services-documentation">contacts-jquerymobile: JAX-RS Services Documentation</a></h1>
+<p>Author: Joshua Wilson</p>
+<p>This example supports various RESTFul end points which also includes JSONP support for cross domain requests.</p>
+<p>By default the base URL for services is <code>/jboss-contacts-jquerymobile/rest</code>.</p>
+<h2><a href="#contactservice-end-points" id="contactservice-end-points">ContactService End Points</a></h2>
+<p>##CREATE</p>
+<h3><a href="#create-a-new-contact" id="create-a-new-contact">Create a new contact</a></h3>
+<h4><a href="#restcontacts" id="restcontacts">/rest/contacts</a></h4>
+<ul>
+<li>Request type: POST</li>
+<li>Request type: JSON</li>
+<li>Return type: JSON</li>
+<li>Request example:</li>
+</ul>
+<pre><code class="language-JavaScript">{email: &quot;jane.doe@company.com&quot;, id: 14, firstName: &quot;Jane&quot;, lastName: 'Doe', phoneNumber: &quot;223-223-1231&quot;, birthDate:'1966-01-03'}
+</code></pre>
+<ul>
+<li>Response example:</li>
+<li>Success: 200 OK</li>
+<li>Validation error: Collection of <code>&lt;field name&gt;:&lt;error msg&gt;</code> for each error</li>
+</ul>
+<pre><code class="language-JavaScript">{&quot;email&quot;:&quot;That email is already used, please use a unique email&quot;}
+</code></pre>
+<p>##READ</p>
+<h3><a href="#list-all-contacts" id="list-all-contacts">List all contacts</a></h3>
+<h4><a href="#restcontacts" id="restcontacts">/rest/contacts</a></h4>
+<ul>
+<li>Request type: GET</li>
+<li>Return type: JSON</li>
+<li>Response example:</li>
+</ul>
+<pre><code class="language-javascript">[{email: &quot;jane.doe@company.com&quot;, id: 14, firstName: &quot;Jane&quot;, lastName: 'Doe', phoneNumber: &quot;223-223-1231&quot;, birthDate:'1966-01-03'},
+ {email: &quot;john.doe@company.com&quot;, id: 15, firstName: &quot;John&quot;, lastName: 'Doe', phoneNumber: &quot;212-555-1212&quot;, birthDate:'1978-02-23'}]
+</code></pre>
+<h3><a href="#find-a-contact-by-its-id" id="find-a-contact-by-its-id">Find a contact by it's ID.</a></h3>
+<h4><a href="#restcontactsid" id="restcontactsid">/rest/contacts/&lt;id&gt;</a></h4>
+<ul>
+<li>Request type: GET</li>
+<li>Return type: JSON</li>
+<li>Response example:</li>
+</ul>
+<pre><code class="language-javascript">{email: &quot;jane.doe@company.com&quot;, id: 14, firstName: &quot;Jane&quot;, lastName: 'Doe', phoneNumber: &quot;223-223-1231&quot;, birthDate:'1966-01-03'}
+</code></pre>
+<p>##UPDATE</p>
+<h3><a href="#edit-one-contact" id="edit-one-contact">Edit one contact</a></h3>
+<h4><a href="#restcontacts" id="restcontacts">/rest/contacts</a></h4>
+<ul>
+<li>Request type: PUT</li>
+<li>Return type: JSON</li>
+<li>Response example:</li>
+</ul>
+<pre><code class="language-javascript">{email: &quot;jane.doe@company.com&quot;, id: 14, firstName: &quot;Jane&quot;, lastName: 'Doe', phoneNumber: &quot;223-223-1231&quot;, birthDate:'1966-01-03'}
+</code></pre>
+<p>##DELETE</p>
+<h3><a href="#delete-one-contact" id="delete-one-contact">Delete one contact</a></h3>
+<h4><a href="#restcontacts" id="restcontacts">/rest/contacts</a></h4>
+<ul>
+<li>Request type: DELETE</li>
+<li>Return type: JSON</li>
+<li>Response example:</li>
+</ul>
+<pre><code class="language-javascript">{email: &quot;jane.doe@company.com&quot;, id: 14, firstName: &quot;Jane&quot;, lastName: 'Doe', phoneNumber: &quot;223-223-1231&quot;, birthDate:'1966-01-03'}
+</code></pre>
+</body>
+</html>

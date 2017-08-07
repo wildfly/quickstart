@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head><title>What is it?</title>
+    <link href="http://static.jboss.org/ffe/0/www/vendor/redhat/documentation.css" rel="stylesheet"></link>
+    <link href="http://static.jboss.org/ffe/0/www/vendor/redhat/pygments.css" rel="stylesheet"></link>
+</head>
+<body><h1><a href="#deltaspike-authorization-demonstrate-the-creation-of-a-custom-authorization-example-using-securitybindingtype-from-deltaspike" id="deltaspike-authorization-demonstrate-the-creation-of-a-custom-authorization-example-using-securitybindingtype-from-deltaspike">deltaspike-authorization: Demonstrate the creation of a custom authorization example using @SecurityBindingType from DeltaSpike</a></h1>
+<p>Author: Rafael Benevides<br />
+Level: Beginner<br />
+Technologies: JSF, CDI, Deltaspike<br />
+Summary: Demonstrate the creation of a custom authorization example using @SecurityBindingType from DeltaSpike<br />
+Prerequisites: Target Product: WildFly<br />
+Source: <a href="https://github.com/jboss-jdf/jboss-as-quickstart/">https://github.com/jboss-jdf/jboss-as-quickstart/</a></p>
+<h2><a href="#what-is-it" id="what-is-it">What is it?</a></h2>
+<p>Security binding is DeltaSpike feature that restricts who can invoke a method (under the covers, it uses interceptors).</p>
+<p>To restrict who can invoke a method, we create an annotation, called a security binding type. This quickstart has two security binding types - <code>@AdminAllowed</code> and <code>@GuestAllowed</code>.</p>
+<p>The quickstart defines an <code>Authorizer</code> class that implements the restrictions for the security binding types. The authorizer is a CDI bean which defines methods (annotated with `@Secures) which perform the authorization checks for each security binding we create.</p>
+<p>In this quickstart the <code>Authorizer</code> we delegate authentication to JAAS, but other authentication solutions could be used.</p>
+<p>Methods on the <code>Controller</code> bean have been restricted using the security binding types.</p>
+<h2><a href="#system-requirements" id="system-requirements">System requirements</a></h2>
+<p>All you need to build this project is Java 8.0 (Java SDK 1.8) or better, Maven 3.1 or better.</p>
+<p>The application this project produces is designed to be run on WildFly 10.</p>
+<h2><a href="#configure-maven" id="configure-maven">Configure Maven</a></h2>
+<p>If you have not yet done so, you must <a href="../README.html#mavenconfiguration">Configure Maven</a> before testing the quickstarts.</p>
+<h2><a href="#add-an-application-user" id="add-an-application-user">Add an Application User</a></h2>
+<p>This quickstart uses secured management interfaces and requires that you create an application user to access the running application. Instructions to set up the quickstart application user can be found here: <a href="../README.html#addapplicationuser">Add an Application User</a></p>
+<h2><a href="#start-wildfly-10" id="start-wildfly-10">Start WildFly 10</a></h2>
+<ol>
+<li>Open a command line and navigate to the root of the JBoss server directory.</li>
+<li>The following shows the command line to start the server with the web profile:
+<pre><code>For Linux:   JBOSS_HOME/bin/standalone.sh
+For Windows: JBOSS_HOME\bin\standalone.bat
+</code></pre>
+</li>
+</ol>
+<h2><a href="#build-and-deploy-the-quickstart" id="build-and-deploy-the-quickstart">Build and Deploy the Quickstart</a></h2>
+<p><em>NOTE: The following build command assumes you have configured your Maven user settings. If you have not, you must include Maven setting arguments on the command line. See <a href="../README.html#buildanddeploy">Build and Deploy the Quickstarts</a> for complete instructions and additional options.</em></p>
+<ol>
+<li>Make sure you have started the JBoss Server as described above.</li>
+<li>Open a command line and navigate to the root directory of this quickstart.</li>
+<li>Type this command to build and deploy the archive:
+<pre><code>mvn clean package wildfly:deploy
+</code></pre>
+</li>
+<li>This will deploy <code>target/wildfly-as-deltaspike-authorization.war</code> to the running instance of the server.</li>
+</ol>
+<h2><a href="#access-the-application" id="access-the-application">Access the application</a></h2>
+<p>You can access the running application in a browser at the following URL: <a href="localhost:8080/wildfly-deltaspike-authorization/">localhost:8080/wildfly-deltaspike-authorization/</a></p>
+<p>When you access the application you are redirected to a login form, already filled in with the details of the application user you set up above. Once you have logged into the application you see a page showing your username and two buttons.</p>
+<p>When you click on the <code>Employee Method</code> button you will see the following message: <code>You executed a @EmployeeAllowed method</code> - you are authorized to invoke this method.</p>
+<p>When you click on the <code>Admin Method</code> button you will be redirected to a error page with the following exception: <code>org.apache.deltaspike.security.api.authorization.AccessDeniedException</code> - you aren't authorized to invole thos method.</p>
+<h2><a href="#undeploy-the-archive" id="undeploy-the-archive">Undeploy the Archive</a></h2>
+<ol>
+<li>Make sure you have started the JBoss Server as described above.</li>
+<li>Open a command line and navigate to the root directory of this quickstart.</li>
+<li>When you are finished testing, type this command to undeploy the archive:
+<pre><code>mvn wildfly:undeploy
+</code></pre>
+</li>
+</ol>
+<h2><a href="#run-the-quickstart-in-jboss-developer-studio-or-eclipse" id="run-the-quickstart-in-jboss-developer-studio-or-eclipse">Run the Quickstart in JBoss Developer Studio or Eclipse</a></h2>
+<p>You can also start the server and deploy the quickstarts from Eclipse using JBoss tools. For more information, see <a href="../README.html#useeclipse">Use JBoss Developer Studio or Eclipse to Run the Quickstarts</a></p>
+<h2><a href="#debug-the-application" id="debug-the-application">Debug the Application</a></h2>
+<p>If you want to debug the source code or look at the Javadocs of any library in the project, run either of the following commands to pull them into your local repository. The IDE should then detect them.</p>
+<pre><code>mvn dependency:sources
+mvn dependency:resolve -Dclassifier=javadoc
+</code></pre>
+</body>
+</html>

@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html>
+<head><title> ha-singleton-service: Deploying Cluster-wide Singleton MSC Services</title>
+    <link href="http://static.jboss.org/ffe/0/www/vendor/redhat/documentation.css" rel="stylesheet"></link>
+    <link href="http://static.jboss.org/ffe/0/www/vendor/redhat/pygments.css" rel="stylesheet"></link>
+</head>
+<body><h1><a href="#ha-singleton-service-deploying-cluster-wide-singleton-msc-services" id="ha-singleton-service-deploying-cluster-wide-singleton-msc-services">ha-singleton-service: Deploying Cluster-wide Singleton MSC Services</a></h1>
+<p>Author: Radoslav Husar<br />
+Level: Advanced<br />
+Technologies: MSC, Singleton Service, Clustering<br />
+Summary: The <code>ha-singleton-service</code> quickstart demonstrates how to deploy a cluster-wide singleton MSC service.<br />
+Target Product: WildFly<br />
+Source: <a href="https://github.com/wildfly/quickstart/">https://github.com/wildfly/quickstart/</a></p>
+<h2><a href="#what-is-it" id="what-is-it">What is it?</a></h2>
+<p>The <code>ha-singleton-services</code> quickstart demonstrates two patterns, or ways, to deploy a cluster-wide singleton MSC service.</p>
+<ol>
+<li>The first example, located in the <code>primary-only/</code> directory of the quickstart, demonstrates a singleton service and a querying service deployed on all nodes that regularly queries for the value provided by the singleton service.</li>
+<li>The second example, located in the <code>with-backups/</code> directory of the quickstart, demonstrates a singleton service that is installed with a backup service. The backup services are running on all nodes that were not elected to be running the singleton service itself.</li>
+</ol>
+<p>Singleton service's <code>getValue()</code> always returns the value of the primary node unless a backup service is installed. If no backup service is installed, a default backup service is used whose <code>getValue()</code> returns the service value of the primary node. Should a backup service be installed then the <code>getValue()</code> is delegated to the primary or backup service depending on the state of the local node.</p>
+<p>Be sure to inspect the <code>activate()</code> method of the <code>ServiceActivator</code> class for each example. Although the default election policy is used to build the singleton services for each of these examples, scripts and instructions are provided later in this document to demonstrate how to <a href="#configuring-election-policies">configure other election policies</a>.</p>
+<p>These examples are built and packaged as JAR archives.</p>
+<p>For more information about clustered singleton services, see <em>HA Singleton Service</em> in the <a href="https://access.redhat.com/documentation/en/red-hat-jboss-enterprise-application-platform/">Development Guide</a> for JBoss EAP.</p>
+<h2><a href="#system-requirements" id="system-requirements">System Requirements</a></h2>
+<p>The deployments this project produces are designed to be run on WildFly Application Server 11 or later.</p>
+<p>Everything needed to build this project is Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later. See <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts">Configure Maven for WildFly 11</a> to make sure the environment is configured correctly for testing the quickstarts.</p>
+<h2><a href="#use-of-wildfly-home-1-and-wildfly-home-2" id="use-of-wildfly-home-1-and-wildfly-home-2">Use of WILDFLY_HOME_1 and WILDFLY_HOME_2</a></h2>
+<p>This quickstart requires that you clone your <code>WILDFLY_HOME</code> installation directory and run two servers. The installation path is described in detail here: <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_WILDFLY_HOME.md#use-of-eap_home-and-jboss_home-variables">Use of WILDFLY_HOME and JBOSS_HOME Variables</a>.</p>
+<p>In the following instructions, replace <code>WILDFLY_HOME_1</code> with the path to your first WildFly server and replace <code>WILDFLY_HOME_2</code> with the path to your second cloned WildFly server.</p>
+<h2><a href="#clone-the-wildfly-directory" id="clone-the-wildfly-directory">Clone the WildFly Directory</a></h2>
+<p>While you can run this example starting only one instance of the server, if you want to see the singleton behavior, you must start at least two instances of the server. Copy the entire WildFly directory to a new location to use for the second cluster member.</p>
+<h2><a href="#start-the-servers-with-the-ha-profile" id="start-the-servers-with-the-ha-profile">Start the Servers with the HA Profile</a></h2>
+<p><em>Note: You must start the server using the HA profile or the singleton service will not start correctly.</em></p>
+<p>Start the two WildFly servers with the HA profile, passing a unique node ID. These logical node names are used in the log to identify which node is elected. If you are running the servers on the same host, you must also pass a socket binding port offset on the command line to start the second server. To start the servers, type the following commands.</p>
+<p>For Linux:</p>
+<pre><code>Server 1: WILDFLY_HOME_1/bin/standalone.sh -c standalone-ha.xml -Djboss.node.name=node1
+Server 2: WILDFLY_HOME_2/bin/standalone.sh -c standalone-ha.xml -Djboss.node.name=node2 -Djboss.socket.binding.port-offset=100
+</code></pre>
+<p>For Windows:</p>
+<pre><code>Server 1: WILDFLY_HOME_1\bin\standalone.bat -c standalone-ha.xml -Djboss.node.name=node1
+Server 2: WILDFLY_HOME_2\bin\standalone.bat -c standalone-ha.xml -Djboss.node.name=node2 -Djboss.socket.binding.port-offset=100
+</code></pre>
+<p>This example is not limited to two servers. Additional servers can be started by specifying a unique node name and port offset for each one.</p>
+<h2><a href="#run-the-primary-only-example" id="run-the-primary-only-example">Run the primary-only Example</a></h2>
+<p>This example demonstrates a singleton service and a querying service that regularly queries for the value that the singleton service provides.</p>
+<h3><a href="#build-and-deploy-primary-only-to-server-1" id="build-and-deploy-primary-only-to-server-1">Build and Deploy primary-only to Server 1</a></h3>
+<ol>
+<li>Start the WildFly servers as described in the above section.</li>
+<li>Open a command prompt and navigate to the <code>primary-only/</code> directory located in the root directory of this quickstart.</li>
+<li>Use the following command to clean up any previously built artifacts, and to build and deploy the JAR archive.
+<pre><code>mvn clean install wildfly:deploy
+</code></pre>
+</li>
+<li>
+<p>Investigate the primary-only Console Output for Server 1. Verify that the <code>target/ha-singleton-service-primary-only.jar</code> archive is deployed to <code>node1</code>, which is the first server started without port offset, by checking the server log.</p>
+<pre><code>INFO  [org.jboss.as.server.deployment] (MSC service thread 1-7) WFLYSRV0027: Starting deployment of &quot;ha-singleton-service-primary-only.jar&quot; (runtime-name: &quot;ha-singleton-service-primary-only.jar&quot;)
+INFO  [org.jboss.as.quickstarts.ha.singleton.service.primary.ServiceActivator] (MSC service thread 1-5) Singleton and querying services activated.
+INFO  [org.jboss.as.quickstarts.ha.singleton.service.primary.QueryingService] (MSC service thread 1-3) Querying service is starting.
+...
+INFO  [org.wildfly.clustering.server] (DistributedSingletonService - 1) WFLYCLSV0001: This node will now operate as the singleton provider of the org.jboss.as.quickstarts.ha.singleton.service.primary-only service
+INFO  [org.jboss.as.quickstarts.ha.singleton.service.primary.SingletonService] (MSC service thread 1-7) Singleton service is starting on node 'node1'.
+...
+INFO  [org.jboss.as.quickstarts.ha.singleton.service.primary.QueryingService] (pool-4-thread-1) Singleton service is running on node 'node1'.
+</code></pre>
+</li>
+</ol>
+<p><em>NOTE:</em> You might see the following warnings in the server log after the applications are deployed. These warnings can be ignored in a development environment.</p>
+<pre><code>WARN  [org.jboss.as.clustering.jgroups.protocol.UDP] (ServerService Thread Pool -- 68) JGRP000015: the receive buffer of socket MulticastSocket was set to 20MB, but the OS only allocated 6.71MB. This might lead to performance problems. Please set your max receive buffer in the OS correctly (e.g. net.core.rmem_max on Linux)
+WARN  [org.jboss.as.clustering.jgroups.protocol.UDP] (ServerService Thread Pool -- 68) JGRP000015: the receive buffer of socket MulticastSocket was set to 25MB, but the OS only allocated 6.71MB. This might lead to performance problems. Please set your max receive buffer in the OS correctly (e.g. net.core.rmem_max on Linux)
+</code></pre>
+<h3><a href="#deploy-the-primary-only-archive-to-server-2" id="deploy-the-primary-only-archive-to-server-2">Deploy the primary-only Archive to Server 2</a></h3>
+<ol>
+<li>
+<p>Use the following command to deploy the same archive to the second server. Because the default socket binding port for deployment is <code>9990</code> and the second server ports are offset by <code>100</code>, you must pass the sum, <code>10090</code>, for the socket binding port as the argument to the <code>deploy</code> Maven goal.</p>
+<pre><code>mvn wildfly:deploy -Dwildfly.port=10090
+</code></pre>
+</li>
+<li>
+<p>Investigate the primary-only console output for both servers. Verify that the <code>target/ha-singleton-service-primary-only.jar</code> archive is deployed to <code>node2</code> by checking the server log.</p>
+<pre><code>INFO  [org.jboss.as.repository] (management-handler-thread - 4) WFLYDR0001: Content added at location /Users/rhusar/wildfly/build/target/y/standalone/data/content/18/6efcc6c07b471f641cfcc97f9120505726e6bd/content
+INFO  [org.jboss.as.server.deployment] (MSC service thread 1-1) WFLYSRV0027: Starting deployment of &quot;ha-singleton-service-primary-only.jar&quot; (runtime-name: &quot;ha-singleton-service-primary-only.jar&quot;)
+INFO  [org.jboss.as.quickstarts.ha.singleton.service.primary.ServiceActivator] (MSC service thread 1-6) Singleton and querying services activated.
+INFO  [org.jboss.as.quickstarts.ha.singleton.service.primary.QueryingService] (MSC service thread 1-5) Querying service is starting.
+...
+INFO  [org.jboss.as.server] (management-handler-thread - 4) WFLYSRV0010: Deployed &quot;ha-singleton-service-primary-only.jar&quot; (runtime-name : &quot;ha-singleton-service-primary-only.jar&quot;)
+...
+INFO  [org.jboss.as.quickstarts.ha.singleton.service.primary.QueryingService] (pool-4-thread-1) Singleton service is running on node 'node1'.
+</code></pre>
+</li>
+<li>
+<p>Inspect the server log of the first node. Since the cluster membership has changed, the election policy determines which node will run the singleton.</p>
+<pre><code>INFO  [org.infinispan.CLUSTER] (remote-thread--p7-t1) ISPN000336: Finished cluster-wide rebalance for cache default, topology id = 5
+INFO  [org.wildfly.clustering.server] (DistributedSingletonService - 1) WFLYCLSV0003: node1 elected as the singleton provider of the org.jboss.as.quickstarts.ha.singleton.service.primary-only service
+</code></pre>
+</li>
+<li>
+<p>Verify that the querying service is running on all nodes and that all are querying the same singleton service instance by confirming that the same node name is printed in the log. Both nodes will output the following message every 5 seconds:</p>
+<pre><code>INFO  [org.jboss.as.quickstarts.ha.singleton.service.primary.QueryingService] (pool-4-thread-1) Singleton service is running on node 'node1'.
+</code></pre>
+</li>
+</ol>
+<h3><a href="#test-singleton-service-failover-for-the-primary-only-example" id="test-singleton-service-failover-for-the-primary-only-example">Test Singleton Service Failover for the primary-only Example</a></h3>
+<ol>
+<li>
+<p>To verify failover of the singleton service, shut down the server operating as the singleton master by using the <code>Ctrl</code> + <code>C</code> key combination in the command prompt. The following messages confirm that the node is shut down.</p>
+<pre><code>INFO  [org.jboss.as.quickstarts.ha.singleton.service.primary.QueryingService] (pool-4-thread-1) Singleton service is running on node 'node1'.
+INFO  [org.jboss.as.server] (Thread-2) WFLYSRV0220: Server shutdown has been requested via an OS signal
+INFO  [org.jboss.as.quickstarts.ha.singleton.service.primary.SingletonService] (MSC service thread 1-3) Singleton service is stopping on node 'node1'.
+INFO  [org.jboss.as.quickstarts.ha.singleton.service.primary.QueryingService] (MSC service thread 1-6) Querying service is stopping.
+...
+INFO  [org.jboss.as] (MSC service thread 1-6) WFLYSRV0050: JBoss EAP 7.1.0.Beta1 (WildFly Core 3.0.0.Beta26-redhat-1) stopped in 66ms
+</code></pre>
+</li>
+<li>
+<p>Now observe the log messages on the second server. The second node is now elected as the singleton master.</p>
+<pre><code>INFO  [org.wildfly.clustering.server] (DistributedSingletonService - 1) WFLYCLSV0003: node2 elected as the singleton provider of the org.jboss.as.quickstarts.ha.singleton.service.primary-only service
+INFO  [org.wildfly.clustering.server] (DistributedSingletonService - 1) WFLYCLSV0001: This node will now operate as the singleton provider of the org.jboss.as.quickstarts.ha.singleton.service.primary-only service
+INFO  [org.jboss.as.quickstarts.ha.singleton.service.primary.SingletonService] (MSC service thread 1-8) Singleton service is starting on node 'node2'.
+</code></pre>
+</li>
+</ol>
+<h3><a href="#undeploy-the-primary-only-example" id="undeploy-the-primary-only-example">Undeploy the primary-only Example</a></h3>
+<ol>
+<li>Start the WildFly servers as described in the above section.</li>
+<li>Open a command prompt and navigate to the <code>primary-only/</code> directory located in the root directory of this quickstart.</li>
+<li>Use the following command to undeploy the JAR archive from Server 1.
+<pre><code>mvn wildfly:undeploy
+</code></pre>
+</li>
+<li>
+<p>Use the following command to undeploy the JAR archive from Server 2.</p>
+<pre><code>mvn wildfly:undeploy -Dwildfly.port=10090
+</code></pre>
+</li>
+</ol>
+<h2><a href="#run-the-with-backups-example" id="run-the-with-backups-example">Run the with-backups Example</a></h2>
+<h3><a href="#build-and-deploy-with-backups-to-server-1" id="build-and-deploy-with-backups-to-server-1">Build and Deploy with-backups to Server 1</a></h3>
+<p>This example demonstrates a singleton service that is installed with a backup service. The backup service is running on all nodes that are <em>not</em> elected to be running the singleton service.</p>
+<ol>
+<li>Start the WildFly servers as described in the above section.</li>
+<li>Open a command prompt and navigate to the <code>with-backups/</code> directory located in the root directory of this quickstart.</li>
+<li>Use the following command to clean up any previously built artifacts, and build and deploy the JAR archive.
+<pre><code>mvn clean install wildfly:deploy
+</code></pre>
+</li>
+</ol>
+<h3><a href="#deploy-the-with-backups-archive-to-server-2" id="deploy-the-with-backups-archive-to-server-2">Deploy the with-backups Archive to Server 2</a></h3>
+<p>Use the following command to deploy the same archive to the second server. Because the default socket binding port for deployment is <code>9990</code> and the second server ports are offset by <code>100</code>, you must pass the sum, <code>10090</code>, for the socket binding port as the argument to the <code>deploy</code> Maven goal.</p>
+<pre><code>mvn wildfly:deploy -Dwildfly.port=10090
+</code></pre>
+<h3><a href="#investigate-the-with-backups-console-output-for-both-servers" id="investigate-the-with-backups-console-output-for-both-servers">Investigate the with-backups Console Output for Both Servers</a></h3>
+<p>Verify that the <code>target/ha-singleton-service-with-backups.jar</code> archive is deployed to <code>node1</code>, which is the first server started without port offset, by checking the server log to see that the primary service is running.</p>
+<pre><code>INFO  [org.jboss.as.quickstarts.ha.singleton.service.backups.SingletonService] (pool-18-thread-1) Primary singleton service is running on node 'node1'.
+</code></pre>
+<p>All other nodes log that the backup singleton service is running.</p>
+<pre><code>INFO  [org.jboss.as.quickstarts.ha.singleton.service.backups.SingletonService] (pool-20-thread-1) Backup singleton service is running on node 'node2'.
+</code></pre>
+<h3><a href="#undeploy-the-with-backups-example" id="undeploy-the-with-backups-example">Undeploy the with-backups Example</a></h3>
+<ol>
+<li>Start the WildFly servers as described in the above section.</li>
+<li>Open a command prompt and navigate to the <code>with-backups/</code> directory located in the root directory of this quickstart.</li>
+<li>Use the following command to undeploy the JAR archive from Server 1.
+<pre><code>mvn wildfly:undeploy
+</code></pre>
+</li>
+<li>
+<p>Use the following command to undeploy the JAR archive from Server 2.</p>
+<pre><code>mvn wildfly:undeploy -Dwildfly.port=10090
+</code></pre>
+</li>
+</ol>
+<h2><a href="#configuring-election-policies" id="configuring-election-policies">Configuring Election Policies</a></h2>
+<p>As mentioned previously, the <code>activate()</code> method in the <code>ServiceActivator</code> class for each example in this quickstart uses the default election policy to build the singleton services. Once you have successfully deployed and verified these examples, you might want to test different election policy configurations to see how they work.</p>
+<p>Election policies are configured using WildFly management CLI commands. Scripts are provided to configure a simple <a href="#configure-a-name-preference-election-policy">name preference election policy</a> and a <a href="#configure-a-random-election-policy">random election policy</a>. A script is also provided to configure a <a href="#configure-a-singleton-policy-that-defines-a-quorum">quorum for the singleton policy</a>.</p>
+<h3><a href="#configure-a-name-preference-election-policy" id="configure-a-name-preference-election-policy">Configure a Name Preference Election Policy</a></h3>
+<p>This example configures the default election policy to be based on logical names.</p>
+<ol>
+<li>If you have tested other election policies that configured the <code>singleton</code> subsystem, see <a href="#restoring-the-default-singleton-subsystem-configuration">Restoring the Default Singleton Subsystem Configuration</a> for instructions to restore the singleton election policy to the default configuration.</li>
+<li>Start the two servers with the HA profile as described above.</li>
+<li>Review the contents of the <code>name-preference-election-policy-add.cli</code> file located in the root of this quickstart directory. This script configures the default election policy to choose nodes in a preferred order of <code>node3</code>, <code>node2</code>, and <code>node1</code> using this command.
+<pre><code>/subsystem=singleton/singleton-policy=default/election-policy=simple:write-attribute(name=name-preferences,value=[node3,node2,node1])
+</code></pre>
+</li>
+<li>Open a new command prompt, navigate to the root directory of this quickstart, and run the following command to execute the script for Server 1. Be sure to replace WILDFLY_HOME_1 with the path to the target Server 1.
+<pre><code>For Linux: WILDFLY_HOME_1/bin/jboss-cli.sh --connect --file=name-preference-election-policy-add.cli
+For Windows: WILDFLY_HOME_1\bin\jboss-cli.bat --connect --file=name-preference-election-policy-add.cli
+</code></pre>
+<p>You should see the following result when you run the script.</p>
+<pre><code>{
+    &quot;outcome&quot; =&gt; &quot;success&quot;,
+    &quot;response-headers&quot; =&gt; {
+        &quot;operation-requires-reload&quot; =&gt; true,
+        &quot;process-state&quot; =&gt; &quot;reload-required&quot;
+    }
+}
+</code></pre>
+<p>Note that the <code>name-preference-election-policy-add.cli</code> script executes the <code>reload</code> command, so a reload is not required.</p>
+</li>
+<li>
+<p>Stop the server and review the changes made to the <code>standalone-ha.xml</code> server configuration file by the management CLI commands. The <code>singleton</code> subsystem now contains a  <code>name-preferences</code> element under the <code>simple-election-policy</code> that specifies the preferences <code>node3 node2 node1</code>.</p>
+<pre><code>&lt;subsystem xmlns=&quot;urn:jboss:domain:singleton:1.0&quot;&gt;
+    &lt;singleton-policies default=&quot;default&quot;&gt;
+        &lt;singleton-policy name=&quot;default&quot; cache-container=&quot;server&quot;&gt;
+            &lt;simple-election-policy&gt;
+                &lt;name-preferences&gt;node3 node2 node1&lt;/name-preferences&gt;
+            &lt;/simple-election-policy&gt;
+        &lt;/singleton-policy&gt;
+    &lt;/singleton-policies&gt;
+&lt;/subsystem&gt;
+</code></pre>
+</li>
+<li>
+<p>Repeat these steps for the second server. Note that if the second server is using a port offset, you must specify the controller address on the command line by adding <code>--controller=localhost:10090</code>.</p>
+<pre><code>For Linux: WILDFLY_HOME_2/bin/jboss-cli.sh --connect --controller=localhost:10090 --file=name-preference-election-policy-add.cli
+For Windows: WILDFLY_HOME_2\bin\jboss-cli.bat --connect --controller=localhost:10090 --file=name-preference-election-policy-add.cli
+</code></pre>
+</li>
+<li>
+<p>Be sure both servers are started, deploy one of the examples to both servers, and verify that the election policy is now in effect. The server running the election policy should now log the following message.</p>
+<pre><code>INFO  [org.wildfly.clustering.server] (DistributedSingletonService - 1) WFLYCLSV0003: node2 elected as the singleton provider of the org.jboss.as.quickstarts.ha.singleton.service.primary-only service
+</code></pre>
+<p>The other nodes should log the following message.</p>
+<pre><code>INFO  [org.jboss.as.quickstarts.ha.singleton.service.primary.QueryingService] (pool-7-thread-1) Singleton service is running on node 'node2'.
+</code></pre>
+</li>
+</ol>
+<h3><a href="#configure-a-random-election-policy" id="configure-a-random-election-policy">Configure a Random Election Policy</a></h3>
+<p>This example configures an election policy that elects a random cluster member when the cluster membership changes.</p>
+<ol>
+<li>If you have tested other election policies that configured the <code>singleton</code> subsystem, see <a href="#restoring-the-default-singleton-subsystem-configuration">Restoring the Default Singleton Subsystem Configuration</a> for instructions to restore the singleton election policy to the default configuration.</li>
+<li>Start the two servers with the HA profile as described above.</li>
+<li>Review the contents of the <code>random-election-policy-add.cli</code> file located in the root of this quickstart directory. This script removes the default simple election policy and configures the default election policy to elect a random cluster member using these commands.
+<pre><code>/subsystem=singleton/singleton-policy=default/election-policy=simple:remove(){allow-resource-service-restart=true}
+/subsystem=singleton/singleton-policy=default/election-policy=random:add()
+</code></pre>
+</li>
+<li>
+<p>Open a new command prompt, navigate to the root directory of this quickstart, and run the following command to execute the script for Server 1. Be sure to replace WILDFLY_HOME_1 with the path to the target Server 1.</p>
+<pre><code>For Linux: WILDFLY_HOME_1/bin/jboss-cli.sh --connect --file=random-election-policy-add.cli
+For Windows: WILDFLY_HOME_1\bin\jboss-cli.bat --connect --file=random-election-policy-add.cli
+</code></pre>
+<p>You should see the following result when you run the script.</p>
+<pre><code>The batch executed successfully
+process-state: reload-required
+</code></pre>
+<p>Note that the <code>random-election-policy-add.cli</code> script executes the <code>reload</code> command, so a reload is not required.</p>
+</li>
+<li>
+<p>Stop the server and review the changes made to the <code>standalone-ha.xml</code> server configuration file by the management CLI commands. The <code>singleton</code> subsystem now contains a  <code>random-election-policy</code> element under the <code>singleton-policy</code> that specifies the preferences <code>node3 node2 node1</code>.</p>
+<pre><code>&lt;subsystem xmlns=&quot;urn:jboss:domain:singleton:1.0&quot;&gt;
+    &lt;singleton-policies default=&quot;default&quot;&gt;
+        &lt;singleton-policy name=&quot;default&quot; cache-container=&quot;server&quot;&gt;
+            &lt;random-election-policy/&gt;
+        &lt;/singleton-policy&gt;
+    &lt;/singleton-policies&gt;
+&lt;/subsystem&gt;
+</code></pre>
+</li>
+<li>
+<p>Repeat these steps for the second server. Note that if the second server is using a port offset, you must specify the controller address on the command line by adding <code>--controller=localhost:10090</code>.</p>
+<pre><code>For Linux: WILDFLY_HOME_2/bin/jboss-cli.sh --connect --controller=localhost:10090 --file=random-election-policy-add.cli
+For Windows: WILDFLY_HOME_2\bin\jboss-cli.bat --connect --controller=localhost:10090 --file=random-election-policy-add.cli
+</code></pre>
+</li>
+<li>
+<p>Be sure both servers are started, deploy one of the examples to both servers, and verify that the election policy is now in effect.</p>
+</li>
+</ol>
+<h3><a href="#configure-a-quorum-for-the-singleton-policy" id="configure-a-quorum-for-the-singleton-policy">Configure a Quorum for the Singleton Policy</a></h3>
+<p>A quorum specifies the minimum number of cluster members that must be present for the election to even begin. This mechanism is used to mitigate a split brain problem by sacrificing the availability of the singleton service. If there are less members than the specified quorum, no election is performed and the singleton service is not run on any node.</p>
+<ol>
+<li>If you have tested other election policies that configured the <code>singleton</code> subsystem, see <a href="#restoring-the-default-singleton-subsystem-configuration">Restoring the Default Singleton Subsystem Configuration</a> for instructions to restore the singleton election policy to the default configuration.</li>
+<li>Start the two servers with the HA profile as described above.</li>
+<li>Review the contents of the <code>quorum-add.cli</code> file located in the root of this quickstart directory. This script specifies the minimum number of cluster members required for the singleton policy using this command.
+<pre><code>/subsystem=singleton/singleton-policy=default:write-attribute(name=quorum,value=2)
+</code></pre>
+</li>
+<li>
+<p>Open a new command prompt, navigate to the root directory of this quickstart, and run the following command to execute the script for Server 1. Be sure to replace WILDFLY_HOME_1 with the path to the target Server 1.</p>
+<pre><code>For Linux: WILDFLY_HOME_1/bin/jboss-cli.sh --connect --file=quorum-add.cli
+For Windows: WILDFLY_HOME_1\bin\jboss-cli.bat --connect --file=quorum-add.cli
+</code></pre>
+<p>You should see the following result when you run the script.</p>
+<pre><code>{
+    &quot;outcome&quot; =&gt; &quot;success&quot;,
+    &quot;response-headers&quot; =&gt; {
+        &quot;operation-requires-reload&quot; =&gt; true,
+        &quot;process-state&quot; =&gt; &quot;reload-required&quot;
+    }
+}
+</code></pre>
+<p>Note that the <code>quorum-add.cli</code> script executes the <code>reload</code> command, so a reload is not required.</p>
+</li>
+<li>
+<p>Review the changes made to the <code>standalone-ha.xml</code> server configuration file by the management CLI commands. The <code>singleton</code> subsystem now contains a <code>quorum</code> attribute for the <code>singleton-policy</code> element that specifies the minimum number.</p>
+<pre><code>&lt;subsystem xmlns=&quot;urn:jboss:domain:singleton:1.0&quot;&gt;
+    &lt;singleton-policies default=&quot;default&quot;&gt;
+        &lt;singleton-policy name=&quot;default&quot; cache-container=&quot;server&quot; quorum=&quot;2&quot;&gt;
+            &lt;random-election-policy/&gt;
+        &lt;/singleton-policy&gt;
+    &lt;/singleton-policies&gt;
+&lt;/subsystem&gt;
+</code></pre>
+</li>
+<li>
+<p>Repeat these steps for the second server. Note that if the second server is using a port offset, you must specify the controller address on the command line by adding <code>--controller=localhost:10090</code>.</p>
+<pre><code>  For Linux: WILDFLY_HOME_2/bin/jboss-cli.sh --connect --controller=localhost:10090 --file=quorum-add.cli
+  For Windows: WILDFLY_HOME_2\bin\jboss-cli.bat --connect --controller=localhost:10090 --file=quorum-add.cli
+</code></pre>
+</li>
+<li>
+<p>Be sure both servers are started, deploy one of the examples to both servers. While both servers are running, observe the server logs. The server running the election policy should now log the following message.</p>
+<pre><code>INFO  [org.wildfly.clustering.server] (DistributedSingletonService - 1) WFLYCLSV0007: Just reached required quorum of 2 for org.jboss.as.quickstarts.ha.singleton.service.primary-only service. If this cluster loses another member, no node will be chosen to provide this service.
+</code></pre>
+</li>
+<li>
+<p>Shut down one of the servers by using the <code>Ctrl</code> + <code>C</code> key combination in the command prompt to verify that no singleton service will be running after the quorum is not reached.</p>
+<pre><code>WARN  [org.wildfly.clustering.server] (DistributedSingletonService - 1) WFLYCLSV0006: Failed to reach quorum of 2 for org.jboss.as.quickstarts.ha.singleton.service.primary-only service. No singleton master will be elected.
+INFO  [org.wildfly.clustering.server] (thread-20) WFLYCLSV0002: This node will no longer operate as the singleton provider of the org.jboss.as.quickstarts.ha.singleton.service.primary-only service
+INFO  [org.jboss.as.quickstarts.ha.singleton.service.primary.SingletonService] (MSC service thread 1-3) Singleton service is stopping on node 'node2'.
+INFO  [org.infinispan.remoting.transport.jgroups.JGroupsTransport] (thread-2) ISPN000094: Received new cluster view for channel server: [node2|4] (1) [node2]
+...
+WARN  [org.jboss.as.quickstarts.ha.singleton.service.primary.QueryingService] (pool-4-thread-1) Failed to query singleton service.
+</code></pre>
+</li>
+<li>
+<p>A <code>quorum-remove.cli</code> script is provided in the root directory of this quickstart that removes the quorum limit from the <code>singleton</code> subsystem.</p>
+</li>
+</ol>
+<h2><a href="#troubleshooting-runtime-problems" id="troubleshooting-runtime-problems">Troubleshooting Runtime Problems</a></h2>
+<p>If the singleton is running on multiple nodes, check for the following issues.</p>
+<ul>
+<li>
+<p>The most common cause of this problem is starting the servers with the <code>standalone.xml</code> or <code>standalone-full.xml</code> profile instead of with the <code>standalone-ha.xml</code> or <code>standalone-full-ha.xml</code> profile. Make sure to start the server with an HA profile using <code>-c standalone-ha.xml</code>.</p>
+</li>
+<li>
+<p>Another common cause is because the server instances did not discover each other and each server is operating as a singleton cluster. Ensure that <code>multicast</code> is enabled or change the <code>jgroups</code> subsystem configuration to use a different discovery mechanism. Confirm the following message in the server log to ensure that the discovery was successful.</p>
+<pre><code>INFO  [org.infinispan.remoting.transport.jgroups.JGroupsTransport] (MSC service thread 1-3) ISPN000094: Received new cluster view for channel server: [node1|1] (2) [node1, node2]
+</code></pre>
+</li>
+</ul>
+<h2><a href="#undeploy-the-deployments" id="undeploy-the-deployments">Undeploy the Deployments</a></h2>
+<p>If you have not yet done so, you can undeploy all of the deployed artifacts by following these steps.</p>
+<ol>
+<li>Start the two servers with the HA profile as described above.</li>
+<li>Open a command prompt and navigate to the root directory of this quickstart.</li>
+<li>Use the following commands to undeploy all of the artifacts.
+<pre><code>mvn wildfly:undeploy
+mvn wildfly:undeploy -Dwildfly.port=10090
+</code></pre>
+</li>
+</ol>
+<h2><a href="#restoring-the-default-singleton-subsystem-configuration" id="restoring-the-default-singleton-subsystem-configuration">Restoring the Default Singleton Subsystem Configuration</a></h2>
+<p>Some of these examples require that you modify the election policies for the <code>singleton</code> subsystem by running management CLI scripts. After you have completed testing each configuration, it is important to restore the <code>singleton</code> subsystem to its default configuration before you run any other examples.</p>
+<ol>
+<li>Start both servers with the HA profile as described above.</li>
+<li>Open a command prompt and navigate to the root directory of this quickstart.</li>
+<li>Restore your default server configurations by running these commands.
+<ul>
+<li>
+<p>For Linux:</p>
+<pre><code>WILDFLY_HOME_1/bin/jboss-cli.sh --connect --file=restore-singleton-subsystem.cli
+WILDFLY_HOME_2/bin/jboss-cli.sh --connect --controller=localhost:10090 --file=restore-singleton-subsystem.cli
+</code></pre>
+</li>
+<li>
+<p>For Windows:</p>
+<pre><code>WILDFLY_HOME_1\bin\jboss-cli.bat --connect --file=restore-singleton-subsystem.cli
+WILDFLY_HOME_2\bin\jboss-cli.bat --connect --controller=localhost:10090 --file=restore-singleton-subsystem.cli
+</code></pre>
+</li>
+</ul>
+</li>
+</ol>
+<h2><a href="#debug-the-application" id="debug-the-application">Debug the Application</a></h2>
+<p>If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.</p>
+<pre><code>    mvn dependency:sources
+</code></pre>
+</body>
+</html>

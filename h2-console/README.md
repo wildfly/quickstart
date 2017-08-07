@@ -1,46 +1,46 @@
-# h2-console: Example Using the H2 Console with ${product.name}
+# h2-console: Example Using the H2 Console with WildFly
 
 Author: Pete Muir  
 Level: Beginner  
 Technologies: H2  
-Summary: The `h2-console` quickstart demonstrates how to use the H2 Console that is bundled with and built specifically for ${product.name}.  
-Target Product: ${product.name}  
-Source: <${github.repo.url}>  
+Summary: The `h2-console` quickstart demonstrates how to use the H2 Console that is bundled with and built specifically for WildFly.  
+Target Product: WildFly  
+Source: <https://github.com/wildfly/quickstart/>  
 
 ## What is it?
 
-${product.name.full} bundles H2 as an in-memory, in-process database. H2 is written in Java so it can run on any platform that ${product.name} runs on.
+WildFly Application Server bundles H2 as an in-memory, in-process database. H2 is written in Java so it can run on any platform that WildFly runs on.
 
-The `h2-console` quickstart comes bundled with a version of the H2 Console built for ${product.name}. To make the H2 console run on ${product.name}, the H2 libraries were removed from the WAR and a dependency on the H2 module was added to the `META-INF/MANIFEST.MF` file. The rebuilt console is provided in the root directory of this quickstart.
+The `h2-console` quickstart comes bundled with a version of the H2 Console built for WildFly. To make the H2 console run on WildFly, the H2 libraries were removed from the WAR and a dependency on the H2 module was added to the `META-INF/MANIFEST.MF` file. The rebuilt console is provided in the root directory of this quickstart.
 
-This quickstart demonstrates how to use the H2 console with ${product.name.full}. It uses the `greeter` quickstart as a GUI for entering data.
+This quickstart demonstrates how to use the H2 console with WildFly Application Server. It uses the `greeter` quickstart as a GUI for entering data.
 
-_Note: This quickstart uses the H2 database included with ${product.name.full} ${product.version}. It is a lightweight, relational example datasource that is used for examples only. It is not robust or scalable, is not supported, and should NOT be used in a production environment!_
+_Note: This quickstart uses the H2 database included with WildFly Application Server 11. It is a lightweight, relational example datasource that is used for examples only. It is not robust or scalable, is not supported, and should NOT be used in a production environment!_
 
 ## System Requirements
 
-The application this project produces is designed to be run on ${product.name.full} ${product.version} or later.
+The application this project produces is designed to be run on WildFly Application Server 11 or later.
 
-All you need to build this project is ${build.requirements}. See [Configure Maven for ${product.name} ${product.version}](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
+All you need to build this project is Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later. See [Configure Maven for WildFly 11](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
 
 
 ## Prerequisites
 
 This quickstart depends on the deployment of the `greeter` quickstart. Before running this quickstart, see the [greeter README](../greeter/README.md) file for details on how to deploy it.
 
-You can verify the deployment of the `greeter` quickstart by accessing the following URL: <http://localhost:8080/${project.artifactId}/>
+You can verify the deployment of the `greeter` quickstart by accessing the following URL: <http://localhost:8080/h2-console/>
 
 When you have completed testing this quickstart, see the [greeter README](../greeter/README.md) file for instructions to undeploy the archive.
 
 
-## Use of ${jboss.home.name}
+## Use of WILDFLY_HOME
 
-In the following instructions, replace `${jboss.home.name}` with the actual path to your ${product.name} installation. The installation path is described in detail here: [Use of ${jboss.home.name} and JBOSS_HOME Variables](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_${jboss.home.name}.md#use-of-eap_home-and-jboss_home-variables).
+In the following instructions, replace `WILDFLY_HOME` with the actual path to your WildFly installation. The installation path is described in detail here: [Use of WILDFLY_HOME and JBOSS_HOME Variables](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_WILDFLY_HOME.md#use-of-eap_home-and-jboss_home-variables).
 
 
 ## Deploy the H2 Console
 
-Deploy the console by copying the `h2console.war` located in the root directory of this quickstart to the `${jboss.home.name}/standalone/deployments` directory.
+Deploy the console by copying the `h2console.war` located in the root directory of this quickstart to the `WILDFLY_HOME/standalone/deployments` directory.
 
 _Note:_ You will see the following warning in the server log. You can ignore this warning.
 
@@ -48,7 +48,7 @@ _Note:_ You will see the following warning in the server log. You can ignore thi
 
 ## Access the H2 Console
 
-You can access the console at the following URL:  <http://localhost:8080/${project.artifactId}/>.
+You can access the console at the following URL:  <http://localhost:8080/h2-console/>.
 
 You need to enter the JDBC URL, and credentials. To access the `test` database that the `greeter` quickstart uses, enter these details:
 
@@ -69,7 +69,7 @@ You should see the two users seeded by the `greeter` quickstart, plus any users 
 
 ## Undeploy the Archive
 
-To undeploy this example, simply delete the `h2console.war` from the `${jboss.home.name}/standalone/deployments` directory.
+To undeploy this example, simply delete the `h2console.war` from the `WILDFLY_HOME/standalone/deployments` directory.
 
-     cd ${jboss.home.name}/standalone/deployments
+     cd WILDFLY_HOME/standalone/deployments
      rm h2console.war

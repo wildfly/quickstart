@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html>
+<head><title> helloworld-mutual-ssl: WildFly Mutual SSL(two-way) Configuration Example</title>
+    <link href="http://static.jboss.org/ffe/0/www/vendor/redhat/documentation.css" rel="stylesheet"></link>
+    <link href="http://static.jboss.org/ffe/0/www/vendor/redhat/pygments.css" rel="stylesheet"></link>
+</head>
+<body><h1><a href="#helloworld-mutual-ssl-wildfly-mutual-ssltwo-way-configuration-example" id="helloworld-mutual-ssl-wildfly-mutual-ssltwo-way-configuration-example">helloworld-mutual-ssl: WildFly Mutual SSL(two-way) Configuration Example</a></h1>
+<p>Author: Giriraj Sharma, Stefan Guilhen<br />
+Level: Intermediate<br />
+Technologies: Mutual SSL, Undertow<br />
+Summary: The <code>helloworld-mutual-ssl</code> quickstart is a basic example that demonstrates mutual SSL configuration in WildFly<br />
+Target Product: WildFly<br />
+Source: <a href="https://github.com/wildfly/quickstart/">https://github.com/wildfly/quickstart/</a></p>
+<h2><a href="#what-is-it" id="what-is-it">What is it?</a></h2>
+<p>Mutual SSL provides the same security as SSL, with the addition of authentication and non-repudiation of the client authentication, using digital signatures. When mutual authentication is used the server would request the client to provide a certificate in addition to the server certificate issued to the client. Mutual authentication requires an extra round trip time for client certificate exchange. In addition the client must buy and maintain a digital certificate.</p>
+<p>This quickstart shows how to configure WildFly to enable TLS/SSL configuration for the new WildFly <code>undertow</code> subsystem and enable mutual (two-way) SSL authentication.</p>
+<p>Before we run this example, we must create certificates and configure the server to use two-way SSL.</p>
+<h2><a href="#system-requirements" id="system-requirements">System Requirements</a></h2>
+<p>The applications these projects produce are designed to be run on WildFly Application Server 11 or later.</p>
+<p>All you need to build these projects is Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later. See <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts">Configure Maven for WildFly 11</a> to make sure you are configured correctly for testing the quickstarts.</p>
+<p>To run these quickstarts with the provided build scripts, you need the WildFly distribution ZIP. For information on how to install and run JBoss, see the <a href="https://access.redhat.com/documentation/en/red-hat-jboss-enterprise-application-platform/">WildFly Application Server Documentation</a> <em>Getting Started Guide</em> located on the Customer Portal.</p>
+<p>You can also use <a href="#use-jboss-developer-studio-or-eclipse-to-run-the-quickstarts">JBoss Developer Studio or Eclipse</a> to run the quickstarts.</p>
+<h2><a href="#use-of-wildfly-home" id="use-of-wildfly-home">Use of WILDFLY_HOME</a></h2>
+<p>In the following instructions, replace <code>WILDFLY_HOME</code> with the actual path to your WildFly installation. The installation path is described in detail here: <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_WILDFLY_HOME.md#use-of-eap_home-and-jboss_home-variables">Use of WILDFLY_HOME and JBOSS_HOME Variables</a>.</p>
+<h2><a href="#setup-client-and-server-keystores-using-java-keytool" id="setup-client-and-server-keystores-using-java-keytool">Setup Client and Server Keystores Using Java Keytool</a></h2>
+<ol>
+<li>Open a command line and navigate to the WildFly server <code>configuration</code> directory:
+<pre><code>For Linux:   WILDFLY_HOME/standalone/configuration
+For Windows: WILDFLY_HOME\standalone\configuration
+</code></pre>
+</li>
+<li>Create a certificate for your server using the following command:
+<pre><code>$&gt;keytool -genkey -keyalg RSA -keystore server.keystore -storepass secret -keypass secret -validity 365
+
+What is your first and last name?
+   [Unknown]:  localhost
+What is the name of your organizational unit?
+   [Unknown]:  wildfly
+What is the name of your organization?
+   [Unknown]:  jboss
+What is the name of your City or Locality?
+   [Unknown]:  Raleigh
+What is the name of your State or Province?
+   [Unknown]:  Carolina
+What is the two-letter country code for this unit?
+   [Unknown]:  US
+Is CN=localhost, OU=wildfly, O=jboss, L=Raleigh, ST=Carolina, C=US correct?
+   [no]:  yes
+</code></pre>
+</li>
+<li>
+<p>Create the client certificate, which is used to authenticate against the server when accessing a resource through SSL.</p>
+<pre><code>$&gt;keytool -genkey -keystore client.keystore -storepass secret -validity 365 -keyalg RSA -keysize 2048 -storetype pkcs12
+
+What is your first and last name?
+    [Unknown]:  quickstartUser
+What is the name of your organizational unit?
+    [Unknown]:  Sales
+What is the name of your organization?
+    [Unknown]:  My Company
+What is the name of your City or Locality?
+    [Unknown]:  Sao Paulo
+What is the name of your State or Province?
+    [Unknown]:  Sao Paulo
+What is the two-letter country code for this unit?
+    [Unknown]:  BR
+Is CN=quickstartUser, OU=Sales, O=My Company, L=Sao Paulo, ST=Sao Paulo, C=BR correct?
+    [no]:  yes
+</code></pre>
+</li>
+<li>
+<p>Export the client certificate and create a truststore by importing this certificate:</p>
+<pre><code>$&gt;keytool -exportcert -keystore client.keystore  -storetype pkcs12 -storepass secret -keypass secret -file client.crt
+$&gt;keytool -import -file client.crt -alias quickstartUser -keystore client.truststore -storepass secret
+
+Owner: CN=quickstartUser, OU=Sales, O=My Company, L=Sao Paulo, ST=Sao Paulo, C=BR
+Issuer: CN=quickstartUser, OU=Sales, O=My Company, L=Sao Paulo, ST=Sao Paulo, C=BR
+Serial number: 7fd95ce4
+Valid from: Mon Jul 24 16:14:03 BRT 2017 until: Tue Jul 24 16:14:03 BRT 2018
+Certificate fingerprints:
+     MD5:  87:41:C5:CC:E6:79:91:F0:9D:90:AD:9E:DD:57:81:80
+     SHA1: 55:35:CA:B0:DC:DD:4F:E6:B8:9F:45:4B:4B:98:93:B5:3B:7C:55:84
+     SHA256: 0A:FC:93:B6:25:5A:74:42:B8:A1:C6:5F:69:88:72:7F:27:A9:81:B0:17:0C:F1:AF:3D:DE:B7:E5:F1:69:66:4B
+     Signature algorithm name: SHA256withRSA
+     Version: 3
+
+Extensions: 
+
+#1: ObjectId: 2.5.29.14 Criticality=false
+SubjectKeyIdentifier [
+KeyIdentifier [
+0000: 95 84 BE C6 32 BB 2B 13   4C 7F 5D D4 C4 C8 22 12  ....2.+.L.]...&quot;.
+0010: CB 09 39 09                                        ..9.
+]
+]
+
+Trust this certificate? [no]:  yes
+Certificate was added to keystore
+</code></pre>
+</li>
+<li>
+<p>Export client certificate to pkcs12 format</p>
+<pre><code>$&gt;keytool -importkeystore -srckeystore client.keystore -srcstorepass secret -destkeystore clientCert.p12 -srcstoretype PKCS12 -deststoretype PKCS12 -deststorepass secret
+</code></pre>
+</li>
+<li>
+<p>The certificates and keystores are now properly configured.</p>
+</li>
+</ol>
+<h2><a href="#configure-the-server" id="configure-the-server">Configure the Server</a></h2>
+<p>These steps assume you are running the server in standalone mode and using the default <code>standalone.xml</code> supplied with the distribution.</p>
+<p>You configure the SSL context by running JBoss CLI commands. For your convenience, this quickstart batches the commands into a <code>configure-ssl.cli</code> script provided in the root directory of this quickstart.</p>
+<ol>
+<li>
+<p>Before you begin, back up your server configuration file</p>
+<ul>
+<li>If it is running, stop the WildFly server.</li>
+<li>Back up the file: <code>WILDFLY_HOME/standalone/configuration/standalone.xml</code></li>
+<li>After you have completed testing this quickstart, you can replace this file to restore the server to its original configuration.</li>
+</ul>
+</li>
+<li>
+<p>Start the WildFly server by typing the following:</p>
+<pre><code>For Linux:  WILDFLY_HOME/bin/standalone.sh
+For Windows:  WILDFLY_HOME\bin\standalone.bat
+</code></pre>
+</li>
+<li>Review the <code>configure-ssl.cli</code> file in the root of this quickstart directory. Comments in the script describe the purpose of each block of commands.</li>
+<li>
+<p>Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing WILDFLY_HOME with the path to your server:</p>
+<pre><code>For Linux: WILDFLY_HOME/bin/jboss-cli.sh --connect --file=configure-ssl.cli
+For Windows: WILDFLY_HOME\bin\jboss-cli.bat --connect --file=configure-ssl.cli
+</code></pre>
+<p>You should see the following result when you run the script:</p>
+<pre><code>The batch executed successfully
+</code></pre>
+</li>
+<li>Stop the WildFly server.</li>
+</ol>
+<h2><a href="#review-the-modified-server-configuration" id="review-the-modified-server-configuration">Review the Modified Server Configuration</a></h2>
+<p>After stopping the server, open the <code>WILDFLY_HOME/standalone/configuration/standalone.xml</code> file and review the changes.</p>
+<ol>
+<li>
+<p>The following <code>key-store</code>s were added to the <code>elytron</code> subsystem:</p>
+<pre><code>&lt;key-store name=&quot;qsKeyStore&quot;&gt;
+    &lt;credential-reference clear-text=&quot;secret&quot;/&gt;
+    &lt;implementation type=&quot;JKS&quot;/&gt;
+    &lt;file path=&quot;../standalone/configuration/server.keystore&quot;/&gt;
+&lt;/key-store&gt;
+&lt;key-store name=&quot;qsTrustStore&quot;&gt;
+    &lt;credential-reference clear-text=&quot;secret&quot;/&gt;
+    &lt;implementation type=&quot;JKS&quot;/&gt;
+    &lt;file path=&quot;../standalone/configuration/client.truststore&quot;/&gt;
+&lt;/key-store&gt;
+</code></pre>
+</li>
+<li>
+<p>The following <code>key-manager</code> was added to the <code>elytron</code> subsystem:</p>
+<pre><code>&lt;key-managers&gt;
+    &lt;key-manager name=&quot;qsKeyManager&quot; algorithm=&quot;SunX509&quot; key-store=&quot;qsKeyStore&quot;&gt;
+        &lt;credential-reference clear-text=&quot;secret&quot;/&gt;
+    &lt;/key-manager&gt;
+&lt;/key-managers&gt;
+</code></pre>
+</li>
+<li>
+<p>The following <code>trust-manager</code> was added to the <code>elytron</code> subsystem:</p>
+<pre><code>&lt;trust-managers&gt;
+    &lt;trust-manager name=&quot;qsTrustManager&quot; algorithm=&quot;SunX509&quot; key-store=&quot;qsTrustStore&quot;/&gt;
+&lt;/trust-managers&gt;
+</code></pre>
+</li>
+<li>
+<p>The following <code>ssl-context</code> was added to the <code>elytron</code> subsystem:</p>
+<pre><code>&lt;server-ssl-contexts&gt;
+    &lt;server-ssl-context name=&quot;qsSSLContext&quot; protocols=&quot;TLSv1.2&quot; want-client-auth=&quot;true&quot; need-client-auth=&quot;true&quot; key-manager=&quot;qsKeyManager&quot; trust-manager=&quot;qsTrustManager&quot;/&gt;
+&lt;/server-ssl-contexts&gt;
+</code></pre>
+</li>
+<li>
+<p>The <code>https-listener</code> in the <code>undertow</code> subsystem was changed to reference the <code>qsSSLContext</code> <code>ssl-context</code>:</p>
+<pre><code>&lt;https-listener name=&quot;https&quot; socket-binding=&quot;https&quot; ssl-context=&quot;qsSSLContext&quot; enable-http2=&quot;true&quot;/&gt;
+</code></pre>
+</li>
+</ol>
+<h2><a href="#test-the-server-ssl-configuration" id="test-the-server-ssl-configuration">Test the Server SSL Configuration</a></h2>
+<p>To test the SSL configuration, access: <code>&lt;https://localhost:8443&gt;</code></p>
+<p>If it is configured correctly, you should be asked to trust the server certificate.</p>
+<h2><a href="#import-the-client-certificate-into-your-browser" id="import-the-client-certificate-into-your-browser">Import the Client Certificate into Your Browser</a></h2>
+<p>Before you access the application, you must import the <em>clientCert.p12</em>, which holds the client certificate, into your browser.</p>
+<h3><a href="#import-the-client-certificate-into-google-chrome" id="import-the-client-certificate-into-google-chrome">Import the Client Certificate into Google Chrome</a></h3>
+<ol>
+<li>Click the Chrome menu icon (3 horizontal bars) in the upper right on the browser toolbar and choose 'Settings'. This takes you to <a href="chrome://settings/">chrome://settings/</a>.</li>
+<li>At the bottom of the page, click on the 'Show advanced settings...' link.</li>
+<li>Find the section 'HTTPS/SSL' and click on the 'Manage certificates...' button.</li>
+<li>In the 'Certificate manager' dialog box, choose the 'Your Certificates' tab and click the 'Import' button.</li>
+<li>Select the <code>clientCert.p12</code> file. You will be prompted to enter the  password: <code>secret</code>.</li>
+<li>The certificate is now installed in the Google Chrome browser.</li>
+</ol>
+<h3><a href="#import-the-client-certificate-into-mozilla-firefox" id="import-the-client-certificate-into-mozilla-firefox">Import the Client Certificate into Mozilla Firefox</a></h3>
+<ol>
+<li>Click the 'Edit' menu item on the browser menu and choose 'Preferences'.</li>
+<li>A new window will open. Select the 'Advanced' icon and after that the 'Certificates' tab.</li>
+<li>On the 'Certificates' tab, mark the option 'Ask me every time' and click the 'View Certificates' button.</li>
+<li>A new window will open. Select the 'Your Certificates' tab and click the 'Import' button.</li>
+<li>Select the <code>clientCert.p12</code> file. You will be prompted to enter the  password: <code>secret</code>.</li>
+<li>The certificate is now installed in the Mozilla Firefox browser.</li>
+</ol>
+<h2><a href="#start-the-server" id="start-the-server">Start the Server</a></h2>
+<ol>
+<li>Open a command line and navigate to the root of the JBoss server directory.</li>
+<li>The following shows the command line to start the server with the web profile:
+<pre><code>For Linux:   /bin/standalone.sh
+For Windows: bin\standalone.bat
+</code></pre>
+</li>
+</ol>
+<h2><a href="#build-and-deploy-the-quickstart" id="build-and-deploy-the-quickstart">Build and Deploy the Quickstart</a></h2>
+<p><em>NOTE: The following build command assumes you have configured your Maven user settings. If you have not, you must include Maven setting arguments on the command line. See <a href="../README.html#build-and-deploy-the-quickstarts">Build and Deploy the Quickstarts</a> for complete instructions and additional options.</em></p>
+<ol>
+<li>Make sure you have started the WildFly server as described above.</li>
+<li>Open a command line and navigate to the root directory of one of the quickstart.</li>
+<li>Type this command to build and deploy the archive:
+<pre><code>mvn clean package wildfly:deploy
+</code></pre>
+</li>
+<li>
+<p>This will deploy <code>target/helloworld-mutual-ssl.war</code> to the running instance of the server.</p>
+</li>
+</ol>
+<h2><a href="#access-the-application" id="access-the-application">Access the application</a></h2>
+<p>The application will be running at the following URL: <code>&lt;https://localhost:8443/helloworld-mutual-ssl/HelloWorld&gt;</code>. A page displaying the client certificate should be visible:</p>
+<pre><code>    Hello World ! Wildfly mutual SSL is configured and client certificate is verified !!
+
+    Client Certificate Pem: MIIDhTCCAm2gAwIBAgIEf9lc5DANBgkqhkiG9w0BAQsFADBzMQswCQYDVQQGEwJCUjESMBAGA1UECBMJU2FvIFBhd
+    WxvMRIwEAYDVQQHEwlTYW8gUGF1bG8xEzARBgNVBAoTCk15IENvbXBhbnkxDjAMBgNVBAsTBVNhbGVzMRcwFQYDVQQDEw5xdWlja3N0YXJ0VXNlcj
+    AeFw0xNzA3MjQxOTE0MDNaFw0xODA3MjQxOTE0MDNaMHMxCzAJBgNVBAYTAkJSMRIwEAYDVQQIEwlTYW8gUGF1bG8xEjAQBgNVBAcTCVNhbyBQYXV
+    sbzETMBEGA1UEChMKTXkgQ29tcGFueTEOMAwGA1UECxMFU2FsZXMxFzAVBgNVBAMTDnF1aWNrc3RhcnRVc2VyMIIBIjANBgkqhkiG9w0BAQEFAAOC
+    AQ8AMIIBCgKCAQEAnHwflE8K/ArTPbTeZZEFK+1jtpg9grPSD62GIz/awoIDr6Rf9vCBTpAg4lom62A0BNZDEJKdab/ExNOOBRY+/pOnYlXZTYlDp
+    dQQap0E7UP5EfHNZsafgpfILCop2LdTuUbcV7tLKBsthJLJ0ZCoG5QJFble+OPxEbissOvIqHfvUJZi34k9ULteLJc330g0uTuDrLgtoFQ0cbHa4F
+    CQ86o85EuRPpFeW6EBA3iYE/tKHSYsK7QSajefX6jZjXoZiUflw97SAGL43ZtvNbrKRywEfsVqDpDurjBg2HI+YahuDz5R1QWTSyTHWMZzcyJYqxj
+    XiSf0oK1cUahn6m5t1wIDAQABoyEwHzAdBgNVHQ4EFgQUlYS+xjK7KxNMf13UxMgiEssJOQkwDQYJKoZIhvcNAQELBQADggEBADkp+R6kSNXJNfih
+    qbDRp3uFtNMG6OgaYsfC7RtNLMdrhvoLlU7uWzxVCFuifvNlWVRiADBHDCRQU2uNRFW35GQSfHQyok4KoBuKlfBtQ+Xu7c8R0JzxN/rPJPXoCbShz
+    DHo1uoz5/dzXZz0EjjWCPJk+LVEhEvH0GcWAp3x3irpNU4hRZLd0XomY0Z4NnUt7VMBNYDOxVxgT9qcLnEaEpIfYULubLLCFHwAga2YgsKzZYLuwM
+    aEWK4zhPVFynfnMaOxI67FC2QzhfzERyKqHj47WuwN0xWbS/1gBypS2nUwvItyxaEQG2X5uQY8j8QoY9wcMzIIkP2Mk14gJGHUnA8=
+</code></pre>
+<h2><a href="#undeploy-the-archive" id="undeploy-the-archive">Undeploy the Archive</a></h2>
+<ol>
+<li>Make sure you have started the JBoss Server as described above.</li>
+<li>Open a command line and navigate to the root directory of this quickstart.</li>
+<li>When you are finished testing, type this command to undeploy the archive:
+<pre><code>mvn wildfly:undeploy
+</code></pre>
+</li>
+</ol>
+<h2><a href="#restore-the-server-configuration" id="restore-the-server-configuration">Restore the Server Configuration</a></h2>
+<p>You can restore the original server configuration by running the  <code>restore-configuration.cli</code> script provided in the root directory of this quickstart or by manually restoring the back-up copy the configuration file.</p>
+<h3><a href="#restore-the-server-configuration-by-running-the-jboss-cli-script" id="restore-the-server-configuration-by-running-the-jboss-cli-script">Restore the Server Configuration by Running the JBoss CLI Script</a></h3>
+<ol>
+<li>Start the WildFly server by typing the following:
+<pre><code>For Linux:  WILDFLY_HOME/bin/standalone.sh
+For Windows:  WILDFLY_HOME\bin\standalone.bat
+</code></pre>
+</li>
+<li>Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing WILDFLY_HOME with the path to your server:
+<pre><code>For Linux: WILDFLY_HOME/bin/jboss-cli.sh --connect --file=restore-configuration.cli
+For Windows: WILDFLY_HOME\bin\jboss-cli.bat --connect --file=restore-configuration.cli
+</code></pre>
+<p>This script reverts the changes made to the <code>undertow</code> subsystem and it also removes the <code>ssl-context</code>, <code>key-manager</code>, <code>trust-manager</code> and <code>key-store</code>s from the <code>elytron</code> subsystem. You should see the following result when you run the script:</p>
+<pre><code>The batch executed successfully
+process-state: reload-required
+</code></pre>
+</li>
+</ol>
+<h3><a href="#restore-the-server-configuration-manually" id="restore-the-server-configuration-manually">Restore the Server Configuration Manually</a></h3>
+<ol>
+<li>If it is running, stop the WildFly server.</li>
+<li>Replace the <code>WILDFLY_HOME/standalone/configuration/standalone.xml</code> file with the back-up copy of the file.</li>
+</ol>
+<h2><a href="#remove-the-keystores-and-certificates-created-for-this-quickstart" id="remove-the-keystores-and-certificates-created-for-this-quickstart">Remove the keystores and certificates created for this quickstart</a></h2>
+<ol>
+<li>Open a command line and navigate to the WildFly server <code>configuration</code> directory:
+<pre><code>For Linux:   standalone/configuration
+For Windows: standalone\configuration
+</code></pre>
+</li>
+<li>Remove the <code>clientCert.p12</code>, <code>client.crt</code>, <code>client.keystore</code>, <code>client.truststore</code> and <code>server.keystore</code> files that were generated for this quickstart.</li>
+</ol>
+<h2><a href="#remove-the-client-certificate-from-your-browser" id="remove-the-client-certificate-from-your-browser">Remove the Client Certificate from Your Browser</a></h2>
+<p>After you are done with this quickstart, remember to remove the certificate that was imported into your browser.</p>
+<h3><a href="#remove-the-client-certificate-from-google-chrome" id="remove-the-client-certificate-from-google-chrome">Remove the Client Certificate from Google Chrome</a></h3>
+<ol>
+<li>Click the Chrome menu icon (3 horizontal bars) in the upper right on the browser toolbar and choose 'Settings'. This takes you to <a href="chrome://settings/">chrome://settings/</a>.</li>
+<li>At the bottom of the page, click on the 'Show advanced settings...' link.</li>
+<li>Find the section 'HTTPS/SSL' and click on the 'Manage certificates...' button.</li>
+<li>Choose the 'Your Certificates' tab and select the certificate to be removed, expanding it.</li>
+<li>Click the button to the right of the certificate and select 'Delete'.</li>
+<li>The certificate has now been removed from the Google Chrome browser.</li>
+</ol>
+<h3><a href="#remove-the-client-certificate-from-mozilla-firefox" id="remove-the-client-certificate-from-mozilla-firefox">Remove the Client Certificate from Mozilla Firefox</a></h3>
+<ol>
+<li>Click the 'Edit' menu item on the browser menu and choose 'Preferences'.</li>
+<li>A new window will open. Select the 'Advanced' icon and after that the 'Certificates' tab.</li>
+<li>On the 'Certificates' tab click the 'View Certificates' button.</li>
+<li>A new window will open. Select the 'Your Certificates' tab.</li>
+<li>Select the <code>quickstartUser</code> certificate and click the <code>Delete</code> button.</li>
+<li>The certificate has now been removed from the Mozilla Firefox browser.</li>
+</ol>
+<h2><a href="#run-the-quickstart-in-jboss-developer-studio-or-eclipse" id="run-the-quickstart-in-jboss-developer-studio-or-eclipse">Run the Quickstart in JBoss Developer Studio or Eclipse</a></h2>
+<p>You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a WildFly server, and build and deploy a quickstart, see <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_JBDS.md#use-jboss-developer-studio-or-eclipse-to-run-the-quickstarts">Use JBoss Developer Studio or Eclipse to Run the Quickstarts</a>.</p>
+<ul>
+<li>Be sure to configure the server by running the JBoss CLI commands as described above under <a href="#configure-the-server">Configure the WildFly Server</a>. Stop the server at the end of that step.</li>
+<li>Be sure to <a href="#restore-the-server-configuration">Restore the Server Configuration</a> when you have completed testing this quickstart.</li>
+</ul>
+<h2><a href="#debug-the-application" id="debug-the-application">Debug the Application</a></h2>
+<p>If you want to debug the source code or look at the Javadocs of any library in the project, run either of the following commands to pull them into your local repository. The IDE should then detect them.</p>
+<pre><code>    mvn dependency:sources
+    mvn dependency:resolve -Dclassifier=javadoc
+</code></pre>
+</body>
+</html>

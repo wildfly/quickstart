@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head><title> contacts-jquerymobile: CRUD Example Using HTML5, jQuery Mobile and JAX-RS</title>
+    <link href="http://static.jboss.org/ffe/0/www/vendor/redhat/documentation.css" rel="stylesheet"></link>
+    <link href="http://static.jboss.org/ffe/0/www/vendor/redhat/pygments.css" rel="stylesheet"></link>
+</head>
+<body><h1><a href="#contacts-jquerymobile-crud-example-using-html5-jquery-mobile-and-jax-rs" id="contacts-jquerymobile-crud-example-using-html5-jquery-mobile-and-jax-rs">contacts-jquerymobile: CRUD Example Using HTML5, jQuery Mobile and JAX-RS</a></h1>
+<p>Author: Joshua Wilson<br />
+Level: Beginner<br />
+Technologies: jQuery Mobile, jQuery, JavaScript, HTML5, REST<br />
+Summary: The <code>contacts-jquerymobile</code> quickstart demonstrates a Java EE 7 mobile database application using HTML5, jQuery Mobile, JAX-RS, JPA, and REST.<br />
+Target Product: WildFly<br />
+Source: <a href="https://github.com/wildfly/quickstart/">https://github.com/wildfly/quickstart/</a></p>
+<h2><a href="#what-is-it" id="what-is-it">What is it?</a></h2>
+<p>The <code>contact-jquerymobile</code> quickstart is a deployable Maven 3 project designed to help you get your foot in the door developing HTML5 based mobile web applications with Java EE 7 in WildFly Application Server. This project is setup to allow you to create a basic Java EE 7 application using HTML5, jQuery Mobile, JAX-RS, CDI, EJB, JPA, and Bean Validation. It includes a persistence unit and some sample persistence and transaction code to help you get your feet wet with database access in enterprise Java.</p>
+<p>This application is built using a HTML5 + REST approach. This uses a pure HTML client that interacts with with the application server via restful end-points (JAX-RS). This application also uses some of the latest HTML5 features and advanced JAX-RS. And since testing is just as important with client side as it is server side, this application uses QUnit to show you how to unit test your JavaScript.</p>
+<p>This application focuses on <strong>CRUD</strong> in a strictly mobile app using only <strong>jQuery Mobile</strong>(no other frameworks). The user will have the ability to:</p>
+<ul>
+<li>
+<p><strong>Create</strong> a new contact.</p>
+</li>
+<li>
+<p><strong>Read</strong> a list of contacts.</p>
+</li>
+<li>
+<p><strong>Update</strong> an existing contact.</p>
+</li>
+<li>
+<p><strong>Delete</strong> a contact.</p>
+</li>
+</ul>
+<p><strong>Validation</strong> is an important part of an application. Typically in an HTML5 app you can let the built-in HTML5 form validation do the work for you. However, mobile browsers do not support this feature at this time. In order to validate the forms, the <code>jquery.validate</code> plugin was added, which provides both client-side and server-side validation. Over AJAX, if there is an error, the error is returned and displayed in the form. You can see an example of this in the <code>Edit</code> form if you enter an email that is already in use. The application will attempt to insert the error message into a field if that field exists. If the field does not exist then it display it at the top. In addition, there are <a href="#run-the-qunit-tests">qunit tests</a> for every form of validation.</p>
+<h2><a href="#system-requirements" id="system-requirements">System Requirements</a></h2>
+<p>The application this project produces is designed to be run on WildFly Application Server 11 or later.</p>
+<p>All you need to build this project is Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later. See <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts">Configure Maven for WildFly 11</a> to make sure you are configured correctly for testing the quickstarts.</p>
+<p>An HTML5 compatible browser such as Chrome, Safari 5+, Firefox 5+, or IE 9+ is required. Note that some behaviors, such as validation, will vary slightly based on browser support, especially IE 9.</p>
+<p>Mobile web support is limited to Android and iOS devices. It should run on HP, and Black Berry devices as well. Windows Phone, and others will be supported as jQuery Mobile announces support.</p>
+<p>With the prerequisites out of the way, you are ready to build and deploy.</p>
+<h2><a href="#start-the-server" id="start-the-server">Start the Server</a></h2>
+<ol>
+<li>Open a command line and navigate to the root of the WildFly directory.</li>
+<li>The following shows the command line to start the server with the default profile:
+<pre><code>For Linux:   WILDFLY_HOME/bin/standalone.sh
+For Windows: WILDFLY_HOME\bin\standalone.bat
+</code></pre>
+</li>
+</ol>
+<p>Note: Adding <code>-b 0.0.0.0</code> to the above commands will allow external clients, such as phones, tablets, and desktops, connect through your local network.</p>
+<p>For example</p>
+<pre><code>    For Linux:   WILDFLY_HOME/bin/standalone.sh -b 0.0.0.0
+    For Windows: WILDFLY_HOME\bin\standalone.bat -b 0.0.0.0
+</code></pre>
+<h2><a href="#build-and-deploy-the-quickstart" id="build-and-deploy-the-quickstart">Build and Deploy the Quickstart</a></h2>
+<ol>
+<li>Make sure you have started the WildFly server as described above.</li>
+<li>Open a command line and navigate to the root directory of this quickstart.</li>
+<li>Type this command to build and deploy the archive:
+<pre><code>mvn clean package wildfly:deploy
+</code></pre>
+</li>
+<li>
+<p>This deploys <code>target/contacts-jquerymobile.war</code> to the running instance of the server.</p>
+</li>
+</ol>
+<h2><a href="#access-the-application" id="access-the-application">Access the Application</a></h2>
+<p>Access the running client application in a browser at the following URL: <a href="http://localhost:8080/contacts-jquerymobile/">http://localhost:8080/contacts-jquerymobile/</a>.</p>
+<p>The app is made up of the following pages:</p>
+<p><strong>Main page</strong></p>
+<ul>
+<li>Displays a list of contacts</li>
+<li>Search bar for the list</li>
+<li>Details button changes to the Detailed list</li>
+<li>Clicking on a contact brings up an Edit form</li>
+<li>Menu button (in upper left) opens menu</li>
+</ul>
+<p><strong>Menu pullout</strong></p>
+<ul>
+<li>Add a new Contact</li>
+<li>List/Detail view switcher, depending on what is currently displayed</li>
+<li>About information</li>
+<li>Theming - apply various themes (only on the List view)</li>
+</ul>
+<p><strong>Details page</strong></p>
+<ul>
+<li>Same as Main page except all information is displayed with each contact</li>
+</ul>
+<p><strong>Add form</strong></p>
+<ul>
+<li>First name, Last name, Phone, Email, and BirthDate fields</li>
+<li>Save = submit the form</li>
+<li>Clear = reset the form but stay on the form</li>
+<li>Cancel = reset the form and go the Main page</li>
+</ul>
+<p><strong>Edit form</strong></p>
+<ul>
+<li>Same as Add form</li>
+<li>Delete button will delete the contact currently viewed and return you to the Main page</li>
+</ul>
+<h2><a href="#undeploy-the-archive" id="undeploy-the-archive">Undeploy the Archive</a></h2>
+<ol>
+<li>Make sure you have started the WildFly server as described above.</li>
+<li>Open a command line and navigate to the root directory of this quickstart.</li>
+<li>When you are finished testing, type this command to undeploy the archive:
+<pre><code>mvn wildfly:undeploy
+</code></pre>
+</li>
+</ol>
+<h2><a href="#minification" id="minification">Minification</a></h2>
+<p>By default, the project uses the <a href="http://code.google.com/p/wro4j/">wro4j</a> plugin, which provides the ability to concatenate, validate and minify JavaScript and CSS files. These minified files, as well as their unmodified versions are deployed with the project.</p>
+<p>With just a few quick changes to the project, you can link to the minified versions of your JavaScript and CSS files.</p>
+<p>First, in the <code>&lt;project-root&gt;/src/main/webapp/index.html</code> file, search for references to minification and comment or uncomment the appropriate lines.</p>
+<p>Finally, wro4j runs in the compile phase so any standard build command like package, install, etc. will trigger it. The plug-in is in a profile with an id of <code>minify</code> so you will want to specify that profile in your maven build.</p>
+<p>NOTE: By default there are turn off tests so you must use the arquillian test profile to run tests when minifying. For example:</p>
+<pre><code>#No Tests
+mvn clean package wildfly:deploy -Pminify
+</code></pre>
+<p>OR</p>
+<pre><code>#With Tests
+mvn clean verify wildfly:deploy -Pminify,arq-remote
+</code></pre>
+<h2><a href="#run-the-arquillian-tests" id="run-the-arquillian-tests">Run the Arquillian Tests</a></h2>
+<p>By default, tests are configured to be skipped. The reason is that the sample test is an Arquillian test, which requires the use of a container. You can activate this test by selecting one of the container configuration provided for JBoss.</p>
+<p>To run the test in JBoss, first start the container instance. Then, run the test goal with the following profile activated:</p>
+<pre><code>mvn clean verify -Parq-remote
+</code></pre>
+<h2><a href="#run-the-qunit-tests" id="run-the-qunit-tests">Run the QUnit tests</a></h2>
+<p>QUnit is a JavaScript unit testing framework used and built by jQuery. Because JavaScript code is the core of this HTML5 application, this quickstart provides a set of QUnit tests that automate testing of this code in various browsers. Executing QUnit test cases are quite easy.</p>
+<p>Simply load the following HTML in the browser you wish to test.</p>
+<pre><code>    QUICKSTART_HOME/contacts-jquerymobile/src/test/qunit/index.html
+</code></pre>
+<p><em>Note:</em> If you use <strong>Chrome</strong>, some date tests fail. These are false failures and are known issues with Chrome. FireFox, Safari, and IE run the tests correctly. You can also display the tests using the Eclipse built-in browser.</p>
+<p>For more information on QUnit tests see <a href="http://qunitjs.com/">http://qunitjs.com/</a>.</p>
+<h2><a href="#run-the-arquillian-functional-tests" id="run-the-arquillian-functional-tests">Run the Arquillian Functional Tests</a></h2>
+<p>This quickstart provides Arquillian functional tests. They are located under the directory <code>functional-tests</code>. Functional tests verify that your application behaves correctly from the user's point of view - simulating clicking around the page as a normal user would do.</p>
+<p>To run these tests, you must build the main project as described above.</p>
+<ol>
+<li>Open a command line and navigate to the root directory of this quickstart.</li>
+<li>Build the quickstart WAR using the following command:
+<pre><code>mvn clean package
+</code></pre>
+</li>
+<li>
+<p>Navigate to the functional-tests/ directory in this quickstart.</p>
+</li>
+<li>If you have a running instance of the WildFly server, as described above, run the remote tests by typing the following command:
+<pre><code>mvn clean verify -Parq-remote
+</code></pre>
+</li>
+<li>
+<p>If you prefer to run the functional tests using managed instance of the WildFly server, meaning the tests will start the server for you, type the following command:</p>
+</li>
+</ol>
+<p><em>NOTE: For this to work, Arquillian needs to know the location of the WildFly server. This can be declared through the <code>JBOSS_HOME</code> environment variable or the <code>jbossHome</code> property in <code>arquillian.xml</code>. See <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/RUN_ARQUILLIAN_TESTS.md#run-the-arquillian-tests">Run the Arquillian Tests</a> for complete instructions and additional options.</em></p>
+<pre><code>    mvn clean verify -Parq-managed
+</code></pre>
+<h2><a href="#run-the-quickstart-in-red-hat-jboss-developer-studio-or-eclipse" id="run-the-quickstart-in-red-hat-jboss-developer-studio-or-eclipse">Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse</a></h2>
+<p>You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a WildFly server, and build and deploy a quickstart, see <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_JBDS.md#use-jboss-developer-studio-or-eclipse-to-run-the-quickstarts">Use JBoss Developer Studio or Eclipse to Run the Quickstarts</a>.</p>
+<!-- Build and Deploy the Quickstart to OpenShift - Coming soon! -->
+<h2><a href="#debug-the-application" id="debug-the-application">Debug the Application</a></h2>
+<p>If you want to be able to debug into the source code or look at the Javadocs of any library in the project, you can run either of the following two commands to pull them into your local repository. The IDE should then detect them.</p>
+<pre><code>mvn dependency:sources
+mvn dependency:resolve -Dclassifier=javadoc
+</code></pre>
+</body>
+</html>

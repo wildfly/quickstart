@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head><title> logging-tools: Internationalization and Localization with JBoss Logging Tools</title>
+    <link href="http://static.jboss.org/ffe/0/www/vendor/redhat/documentation.css" rel="stylesheet"></link>
+    <link href="http://static.jboss.org/ffe/0/www/vendor/redhat/pygments.css" rel="stylesheet"></link>
+</head>
+<body><h1><a href="#logging-tools-internationalization-and-localization-with-jboss-logging-tools" id="logging-tools-internationalization-and-localization-with-jboss-logging-tools">logging-tools: Internationalization and Localization with JBoss Logging Tools</a></h1>
+<p>Author: Darrin Mison<br />
+Level: Beginner<br />
+Technologies: JBoss Logging Tools<br />
+Summary: The <code>logging-tools</code> quickstart shows how to use JBoss Logging Tools to create internationalized loggers, exceptions, and messages and localize them.<br />
+Target Product: WildFly<br />
+Source: <a href="https://github.com/wildfly/quickstart/">https://github.com/wildfly/quickstart/</a></p>
+<h2><a href="#what-is-it" id="what-is-it">What is it?</a></h2>
+<p>The <code>logging-tools</code> quickstart demonstrates the use of JBoss Logging Tools in WildFly Application Server. The logging tools create internationalized loggers, exceptions, and generic messages; and then provide localizations for them. This is done using a simple JAX-RS service. Translations in French(fr-FR), German(de-DE), and Swedish (sv-SE) are provided courtesy of <a href="http://translate.google.com">http://translate.google.com</a> for demonstration. My apologies if they are less than ideal translations.</p>
+<p>Once the quick start is deployed you can access it using URLs documented below.</p>
+<p>Instructions are included below for starting WildFly with a different locale than the system default.</p>
+<h2><a href="#system-requirements" id="system-requirements">System Requirements</a></h2>
+<p>The application this project produces is designed to be run on WildFly Application Server 11 or later.</p>
+<p>All you need to build this project is Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later. See <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts">Configure Maven for WildFly 11</a> to make sure you are configured correctly for testing the quickstarts.</p>
+<h2><a href="#use-of-wildfly-home" id="use-of-wildfly-home">Use of WILDFLY_HOME</a></h2>
+<p>In the following instructions, replace <code>WILDFLY_HOME</code> with the actual path to your WildFly installation. The installation path is described in detail here: <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_WILDFLY_HOME.md#use-of-eap_home-and-jboss_home-variables">Use of WILDFLY_HOME and JBOSS_HOME Variables</a>.</p>
+<h2><a href="#configure-the-server-to-start-with-a-different-locale-optional" id="configure-the-server-to-start-with-a-different-locale-optional">Configure the Server to Start With a Different Locale (Optional)</a></h2>
+<p>To start the WildFly server with a different locale than the system default:</p>
+<ol>
+<li>Make a backup copy of the <code>WILDFLY_HOME/bin/standalone.conf</code> file.</li>
+<li>Edit the file and append commands to set the JVM parameters for the required country and language. The following example sets the country to Germany (<code>DE</code>) and the language to German (<code>de</code>).
+<pre><code>JAVA_OPTS=&quot;$JAVA_OPTS -Duser.country=DE&quot;
+JAVA_OPTS=&quot;$JAVA_OPTS -Duser.language=de&quot;
+</code></pre>
+</li>
+</ol>
+<p>This can be done as a single line if you prefer:</p>
+<pre><code>    JAVA_OPTS=&quot;$JAVA_OPTS -Duser.country=DE -Duser.language=de&quot;   
+</code></pre>
+<p>For more information about internationalization and localization, see <a href="http://www.oracle.com/technetwork/java/javase/tech/intl-139810.html">http://www.oracle.com/technetwork/java/javase/tech/intl-139810.html</a>.</p>
+<h2><a href="#start-the-server" id="start-the-server">Start the Server</a></h2>
+<ol>
+<li>Open a command prompt and navigate to the root of the WildFly directory.</li>
+<li>The following shows the command line to start the server:
+<pre><code>For Linux:   WILDFLY_HOME/bin/standalone.sh
+For Windows: WILDFLY_HOME\bin\standalone.bat
+</code></pre>
+</li>
+</ol>
+<h2><a href="#build-and-deploy-the-quickstart" id="build-and-deploy-the-quickstart">Build and Deploy the Quickstart</a></h2>
+<ol>
+<li>Make sure you have started the WildFly server as described above.</li>
+<li>Open a command prompt and navigate to the root directory of this quickstart.</li>
+<li>Type this command to build and deploy the archive:
+<pre><code>mvn clean install wildfly:deploy
+</code></pre>
+</li>
+<li>
+<p>This will deploy <code>target/logging-tools.war</code> to the running instance of the server.</p>
+</li>
+</ol>
+<h2><a href="#access-the-application" id="access-the-application">Access the Application</a></h2>
+<p>The application will be running at the following URL: <a href="http://localhost:8080/logging-tools/">http://localhost:8080/logging-tools/</a></p>
+<p>This landing page provides details and links to test the quickstart features. You can also directly access the following URLs.</p>
+<ol>
+<li>
+<p><code>http://localhost:8080/logging-tools/rest/greetings/'name'</code></p>
+<ul>
+<li>Example:  <a href="http://localhost:8080/logging-tools/rest/greetings/Harold">http://localhost:8080/logging-tools/rest/greetings/Harold</a></li>
+<li>Demonstrates simple use of localized messages (with parameter) and logging.</li>
+<li>It returns the localized <code>hello NAME</code> string where <code>NAME</code> is the last component of the URL.</li>
+<li>It also logs the localized <code>Hello message sent</code> in the server log.</li>
+</ul>
+</li>
+<li>
+<p><code>http://localhost:8080/logging-tools/rest/greetings/'locale'/'name'</code></p>
+<ul>
+<li>Example: <a href="http://localhost:8080/logging-tools/rest/greetings/fr-FR/Harold">http://localhost:8080/logging-tools/rest/greetings/fr-FR/Harold</a></li>
+<li>Demonstrates how to obtain a message bundle for a specified locale and how to throw a localized exceptions. Note that the localized exception is a wrapper around <code>WebApplicationException</code>.</li>
+<li>Returns a localized <code>hello NAME</code> string where <code>NAME</code> is the last component of the URL and the locale used is the one supplied in the <code>locale</code> URL.</li>
+<li>Logs a localized <code>Hello message sent in LOCALE</code> message using the JVM locale for the translation.</li>
+<li>If the supplied locale is invalid (in this case if it contains more than 3 components, eg. fr-FR-POSIX-FOO), it throws a <code>WebApplicationException</code> (404) using a localizable sub-class of <code>WebApplicationException</code>.</li>
+</ul>
+<p>Note that <code>WebApplicationException</code> cannot be directly localized by JBoss Logging Tools using the <code>@Message</code> annotation due to the message parameter being ignored by the <code>WebApplicationException</code> constructors. Cases like this can be worked around by creating a subclass with a constructor that does deal with the message parameter.</p>
+</li>
+<li>
+<p><a href="http://localhost:8080/logging-tools/rest/greetings/crashme">http://localhost:8080/logging-tools/rest/greetings/crashme</a></p>
+<ul>
+<li>Demonstrates how to throw a localized exception with another exception specified as the cause.  This is a completely contrived example.</li>
+<li>Attempts to divide by zero, catches the exception, and throws the localized one.</li>
+</ul>
+</li>
+<li>
+<p><code>http://localhost:8080/logging-tools/rest/dates/daysuntil/'targetdate'</code></p>
+<ul>
+<li>Example: <a href="http://localhost:8080/logging-tools/rest/dates/daysuntil/2020-12-25">http://localhost:8080/logging-tools/rest/dates/daysuntil/2020-12-25</a></li>
+<li>Demonstrates how to pass parameters through to the constructor of a localized exception, and how to specify an exception as a cause of a log message.</li>
+<li>Attempts to turn the <code>targetdate</code> URL component into a date object using the format <code>yyyy-MM-dd</code></li>
+<li>Returns number of days (as an integer) until that date</li>
+<li>If the <code>targetdate</code> is invalid, for example, <a href="http://localhost:8080/logging-tools/rest/dates/daysuntil/2015-02-31">http://localhost:8080/logging-tools/rest/dates/daysuntil/2015-02-31</a>:
+<ul>
+<li>Catches the <code>ParseException</code></li>
+<li>Creates a localized <code>ParseException</code> passing values from the caught exception as parameters to its constructor</li>
+<li>Logs a localized message with the localized exception as the cause</li>
+<li>Throws a <code>WebApplicationException</code>(400) with the text from the localized <code>ParseException</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h2><a href="#undeploy-the-archive" id="undeploy-the-archive">Undeploy the Archive</a></h2>
+<ol>
+<li>Make sure you have started the WildFly server as described above.</li>
+<li>Open a command prompt and navigate to the root directory of this quickstart.</li>
+<li>When you are finished testing, type this command to undeploy the archive:
+<pre><code>mvn wildfly:undeploy
+</code></pre>
+</li>
+</ol>
+<h2><a href="#run-the-quickstart-in-red-hat-jboss-developer-studio-or-eclipse" id="run-the-quickstart-in-red-hat-jboss-developer-studio-or-eclipse">Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse</a></h2>
+<p>You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a WildFly server, and build and deploy a quickstart, see <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_JBDS.md#use-jboss-developer-studio-or-eclipse-to-run-the-quickstarts">Use JBoss Developer Studio or Eclipse to Run the Quickstarts</a>.</p>
+<p>You may see the following warning when you import this quickstart into JBoss Developer Studio. You can ignore this warning as it occurs in a generated file.</p>
+<pre><code>    The import org.jboss.as.quickstarts.loggingToolsQS.exceptions.LocaleInvalidException is never used
+    GreeterExceptionBundle_$bundle.java
+    /logging-tools/target/generated-sources/annotations/org/jboss/as/quickstarts/loggingToolsQS/exceptions	line 8
+    Java Problem
+</code></pre>
+<h2><a href="#debug-the-application" id="debug-the-application">Debug the Application</a></h2>
+<p>If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.</p>
+<pre><code>  mvn dependency:sources
+</code></pre>
+</body>
+</html>

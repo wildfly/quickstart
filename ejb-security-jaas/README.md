@@ -5,14 +5,14 @@ Level: Intermediate
 Technologies: EJB, Security  
 Summary: The `ejb-security-jaas` quickstart demonstrates how legacy `JAAS` security domains can be used in conjunction with `Elytron` 
 to secure JEE applications.  
-Target Product: ${product.name}  
-Source: <${github.repo.url}>  
+Target Product: WildFly  
+Source: <https://github.com/wildfly/quickstart/>  
 
 ## What is it?
 
 The `ejb-security-jaas` quickstart demonstrates how legacy `JAAS`-based security domains can be used in conjunction with `WildFly
 Elytron` to secure JEE applications. The secured EJB component can be accessed indirectly via a Web application and it can
-also be directly invoked by a remote client. This quickstart shows how ${product.name.full}  must be configured to support
+also be directly invoked by a remote client. This quickstart shows how WildFly Application Server  must be configured to support
 both scenarios using the legacy `JAAS` integration.
 
 The overall steps required to use the `JAAS` integration are as follows:
@@ -25,26 +25,26 @@ The overall steps required to use the `JAAS` integration are as follows:
 
 ## System Requirements
 
-The applications these projects produce are designed to be run on ${product.name.full} ${product.version} or later.
+The applications these projects produce are designed to be run on WildFly Application Server 11 or later.
 
-All you need to build these projects is ${build.requirements}. See [Configure Maven for ${product.name} ${product.version}](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
+All you need to build these projects is Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later. See [Configure Maven for WildFly 11](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
 
-To run these quickstarts with the provided build scripts, you need the ${product.name} distribution ZIP. For information on
- how to install and run JBoss, see the [${product.name.full} Documentation](https://access.redhat.com/documentation/en/red-hat-jboss-enterprise-application-platform/) _Getting Started Guide_ located on the Customer Portal.
+To run these quickstarts with the provided build scripts, you need the WildFly distribution ZIP. For information on
+ how to install and run JBoss, see the [WildFly Application Server Documentation](https://access.redhat.com/documentation/en/red-hat-jboss-enterprise-application-platform/) _Getting Started Guide_ located on the Customer Portal.
 
 You can also use [JBoss Developer Studio or Eclipse](#use-jboss-developer-studio-or-eclipse-to-run-the-quickstarts) to run the quickstarts.
 
-## Use of ${jboss.home.name}
+## Use of WILDFLY_HOME
 
-In the following instructions, replace `${jboss.home.name}` with the actual path to your ${product.name} installation. The
-installation path is described in detail here: [Use of ${jboss.home.name} and JBOSS_HOME Variables](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_${jboss.home.name}.md#use-of-eap_home-and-jboss_home-variables).
+In the following instructions, replace `WILDFLY_HOME` with the actual path to your WildFly installation. The
+installation path is described in detail here: [Use of WILDFLY_HOME and JBOSS_HOME Variables](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_WILDFLY_HOME.md#use-of-eap_home-and-jboss_home-variables).
 
 ## Create the Properties Files for the JAAS Security Domain
 
-1. Open a command line and navigate to the ${product.name} server `configuration` directory:
+1. Open a command line and navigate to the WildFly server `configuration` directory:
 
-        For Linux:   ${jboss.home.name}/standalone/configuration
-        For Windows: ${jboss.home.name}\standalone\configuration
+        For Linux:   WILDFLY_HOME/standalone/configuration
+        For Windows: WILDFLY_HOME\standalone\configuration
 2. Create a file named `users.properties` and add the following username/password pair:
 
         quickstartUser=quickstartPwd1!
@@ -60,30 +60,30 @@ You configure the security domain by running JBoss CLI commands. For your conven
 into a `configure-elytron-jaas.cli` script provided in the root directory of this quickstart.
 
 1. Before you begin, back up your server configuration file
-    * If it is running, stop the ${product.name} server.
-    * Back up the file: `${jboss.home.name}/standalone/configuration/standalone.xml`
+    * If it is running, stop the WildFly server.
+    * Back up the file: `WILDFLY_HOME/standalone/configuration/standalone.xml`
     * After you have completed testing this quickstart, you can replace this file to restore the server to its original configuration.
 
-2. Start the ${product.name} server by typing the following:
+2. Start the WildFly server by typing the following:
 
-        For Linux:  ${jboss.home.name}/bin/standalone.sh
-        For Windows:  ${jboss.home.name}\bin\standalone.bat
+        For Linux:  WILDFLY_HOME/bin/standalone.sh
+        For Windows:  WILDFLY_HOME\bin\standalone.bat
 3. Review the `configure-elytron-jaas.cli` file in the root of this quickstart directory. This script adds the configuration
 that enables Elytron security for the quickstart components. Comments in the script describe the purpose of each block of commands.
 
 4. Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing 
-${jboss.home.name} with the path to your server:
+WILDFLY_HOME with the path to your server:
 
-        For Linux: ${jboss.home.name}/bin/jboss-cli.sh --connect --file=configure-elytron-jaas.cli
-        For Windows: ${jboss.home.name}\bin\jboss-cli.bat --connect --file=configure-elytron-jaas.cli
+        For Linux: WILDFLY_HOME/bin/jboss-cli.sh --connect --file=configure-elytron-jaas.cli
+        For Windows: WILDFLY_HOME\bin\jboss-cli.bat --connect --file=configure-elytron-jaas.cli
     You should see the following result when you run the script:
 
         The batch executed successfully
-5. Stop the ${product.name} server.
+5. Stop the WildFly server.
 
 ## Review the Modified Server Configuration
 
-After stopping the server, open the `${jboss.home.name}/standalone/configuration/standalone.xml` file and review the changes.
+After stopping the server, open the `WILDFLY_HOME/standalone/configuration/standalone.xml` file and review the changes.
 
 1. The following `security-domain` was added to the legacy `security` subsystem:
 
@@ -172,25 +172,25 @@ After stopping the server, open the `${jboss.home.name}/standalone/configuration
     
 ## Start the Server
 
-1. Open a command prompt and navigate to the root of the ${product.name} directory.
+1. Open a command prompt and navigate to the root of the WildFly directory.
 2. The following shows the command line to start the server:
 
-        For Linux:   ${jboss.home.name}/bin/standalone.sh
-        For Windows: ${jboss.home.name}\bin\standalone.bat
+        For Linux:   WILDFLY_HOME/bin/standalone.sh
+        For Windows: WILDFLY_HOME\bin\standalone.bat
 
 ## Build and Deploy the Quickstart
 
-1. Make sure you have started the ${product.name} server as described above.
+1. Make sure you have started the WildFly server as described above.
 2. Open a command prompt and navigate to the root directory of this quickstart.
 3. Type this command to build and deploy the archive:
 
         mvn clean install wildfly:deploy
 
-4. This will deploy `target/${project.artifactId}.war` to the running instance of the server.
+4. This will deploy `target/ejb-security-jaas.war` to the running instance of the server.
 
 ## Access the Application
 
-The application will be running at the following URL <http://localhost:8080/${project.artifactId}/>.
+The application will be running at the following URL <http://localhost:8080/ejb-security-jaas/>.
 
 When you access the application, you are presented with a browser login challenge.
 
@@ -221,11 +221,11 @@ When you access the application, you are presented with a browser login challeng
   
 4. Next, lets change the exported realm so that it now uses the legacy role mappers as defined in the legacy `JAAS` security domain.
 
-    Make sure you are still in the root directory of this quickstart, and run the following command, replacing ${jboss.home.name}
+    Make sure you are still in the root directory of this quickstart, and run the following command, replacing WILDFLY_HOME
     with the path to your server:
 
-        For Linux: ${jboss.home.name}/bin/jboss-cli.sh --connect --file=enable-role-mappers.cli
-        For Windows: ${jboss.home.name}\bin\jboss-cli.bat --connect --file=enable-role-mappers.cli
+        For Linux: WILDFLY_HOME/bin/jboss-cli.sh --connect --file=enable-role-mappers.cli
+        For Windows: WILDFLY_HOME\bin\jboss-cli.bat --connect --file=enable-role-mappers.cli
     You should see the following result when you run the script:
         {
             "outcome" => "success",
@@ -236,7 +236,7 @@ When you access the application, you are presented with a browser login challeng
         }
 
 5. If you didn't close your Web browser, re-load the quickstart application page. Otherwise open a new browser, point it to the 
-URL <http://localhost:8080/${project.artifactId}/> and login with `quickstartUser/quickstartPwd1!`. It should now display a
+URL <http://localhost:8080/ejb-security-jaas/> and login with `quickstartUser/quickstartPwd1!`. It should now display a
 page confirming the user now has the `admin` role that was provided by the legacy role mapper:
 
         Successfully called Secured EJB
@@ -260,7 +260,7 @@ page confirming the user now has the `admin` role that was provided by the legac
 
 ## Undeploy the Archive
 
-1. Make sure you have started the ${product.name} server as described above.
+1. Make sure you have started the WildFly server as described above.
 2. Open a command prompt and navigate to the root directory of this quickstart.
 3. When you are finished testing, type this command to undeploy the archive:
 
@@ -273,15 +273,15 @@ of this quickstart or by manually restoring the back-up copy the configuration f
 
 ### Restore the Server Configuration by Running the JBoss CLI Script
 
-1. Start the ${product.name} server by typing the following:
+1. Start the WildFly server by typing the following:
 
-        For Linux:  ${jboss.home.name}/bin/standalone.sh
-        For Windows:  ${jboss.home.name}\bin\standalone.bat
-2. Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing ${jboss.home.name}
+        For Linux:  WILDFLY_HOME/bin/standalone.sh
+        For Windows:  WILDFLY_HOME\bin\standalone.bat
+2. Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing WILDFLY_HOME
 with the path to your server:
 
-        For Linux: ${jboss.home.name}/bin/jboss-cli.sh --connect --file=restore-configuration.cli
-        For Windows: ${jboss.home.name}\bin\jboss-cli.bat --connect --file=restore-configuration.cli
+        For Linux: WILDFLY_HOME/bin/jboss-cli.sh --connect --file=restore-configuration.cli
+        For Windows: WILDFLY_HOME\bin\jboss-cli.bat --connect --file=restore-configuration.cli
     This script reverts the changes made to the `ejb3`, `elytron`, `security` and `undertow` subsystems. You should see the following result when you run the script:
 
         The batch executed successfully
@@ -289,17 +289,17 @@ with the path to your server:
 
 ### Restore the Server Configuration Manually
 
-1. If it is running, stop the ${product.name} server.
-2. Replace the `${jboss.home.name}/standalone/configuration/standalone.xml` file with the back-up copy of the file.
+1. If it is running, stop the WildFly server.
+2. Replace the `WILDFLY_HOME/standalone/configuration/standalone.xml` file with the back-up copy of the file.
 
 ## Remove the Properties Files from the Server
 
 After you are done with this quickstart, remember to remove the `users.properties` and `roles.properties` files from the
-server configuration directory (`${jboss.home.name}/standalone/configuration/`).
+server configuration directory (`WILDFLY_HOME/standalone/configuration/`).
 
 ## Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 
-You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a ${product.name} server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](${use.eclipse.url}).
+You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a WildFly server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_JBDS.md#use-jboss-developer-studio-or-eclipse-to-run-the-quickstarts).
 
 * Be sure to [Create the Properties Files for the JAAS Security Domain](#create-the-properties-files-for-the-jaas-security-domain) as described above.
 * Be sure to configure the server by running the JBoss CLI script as described above under [Configure the Server](#configure-the-server).

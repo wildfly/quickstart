@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head><title>What is it?</title>
+    <link href="http://static.jboss.org/ffe/0/www/vendor/redhat/documentation.css" rel="stylesheet"></link>
+    <link href="http://static.jboss.org/ffe/0/www/vendor/redhat/pygments.css" rel="stylesheet"></link>
+</head>
+<body><h1><a href="#deltaspike-beanbuilder-shows-how-to-create-new-beans-using-deltaspike-utilities" id="deltaspike-beanbuilder-shows-how-to-create-new-beans-using-deltaspike-utilities">deltaspike-beanbuilder: Shows how to create new beans using DeltaSpike utilities</a></h1>
+<p>Author: Rafael Benevides<br />
+Level: Advanced<br />
+Technologies: CDI, DeltaSpike<br />
+Summary: Shows how to create new beans using DeltaSpike utilities.<br />
+Target Product: WildFly<br />
+Source: <a href="https://github.com/jboss-jdf/jboss-as-quickstart/">https://github.com/jboss-jdf/jboss-as-quickstart/</a></p>
+<h2><a href="#what-is-it" id="what-is-it">What is it?</a></h2>
+<p>This project demonstrates a CDI Portable Extension that uses DeltaSpike utilities to create new Beans.</p>
+<p>This extension permits the injection of JPA entities by id, without the need to query it. To achieve this, the extension observes the <code>ProcessInjectionTarget</code> event and get locates all the injection points that have requested injection by id. In <code>AfterBeanDiscovery</code> event, the extension creates <code>Bean</code> instances using the <code>BeanBuilder</code> utility.</p>
+<p>The project contains a very simple JPA entity class, the extension class, the service registration file for that extension and an Arquillian test to verify the extension is working correctly.</p>
+<p>It does not contain any user interface; the tests must be run to verify everything is working correctly.</p>
+<h2><a href="#system-requirements" id="system-requirements">System requirements</a></h2>
+<p>All you need to build this project is Java 8 (Java SDK 1.8) or better, Maven 3.1 or better.</p>
+<p>The application this project produces is designed to be run on WildFly 10.</p>
+<h2><a href="#configure-maven" id="configure-maven">Configure Maven</a></h2>
+<p>If you have not yet done so, you must <a href="../README.html#mavenconfiguration">Configure Maven</a> before testing the quickstarts.</p>
+<h2><a href="#start-wildfly-10-with-the-web-profile" id="start-wildfly-10-with-the-web-profile">Start WildFly 10 with the Web Profile</a></h2>
+<ol>
+<li>Open a command line and navigate to the root of the JBoss server directory.</li>
+<li>The following shows the command line to start the server with the web profile:
+<pre><code>For Linux:   JBOSS_HOME/bin/standalone.sh
+For Windows: JBOSS_HOME\bin\standalone.bat
+</code></pre>
+</li>
+</ol>
+<h2><a href="#run-the-arquillian-tests" id="run-the-arquillian-tests">Run the Arquillian Tests</a></h2>
+<p>This quickstart provides Arquillian tests. By default, these tests are configured to be skipped as Arquillian tests require the use of a container.</p>
+<p><em>NOTE: The following commands assume you have configured your Maven user settings. If you have not, you must include Maven setting arguments on the command line. See <a href="../README.html#arquilliantests">Run the Arquillian Tests</a> for complete instructions and additional options.</em></p>
+<ol>
+<li>Make sure you have started the JBoss Server as described above.</li>
+<li>Open a command line and navigate to the root directory of this quickstart.</li>
+<li>Type the following command to run the test goal with the following profile activated:
+<pre><code>mvn clean test -Parq-jbossas-remote
+</code></pre>
+</li>
+</ol>
+<h2><a href="#run-tests-from-jbds" id="run-tests-from-jbds">Run tests from JBDS</a></h2>
+<p>To be able to run the tests from JBDS, first set the active Maven profile in project properties to be either 'arq-jbossas-managed' for running on managed server or 'arq-jbossas-remote' for running on remote server.</p>
+<p>To run the tests, right click on the project or individual classes and select Run As --&gt; JUnit Test in the context menu.</p>
+<h2><a href="#investigate-the-console-output" id="investigate-the-console-output">Investigate the Console Output</a></h2>
+<h3><a href="#maven" id="maven">Maven</a></h3>
+<p>Maven prints summary of performed tests into the console:</p>
+<hr />
+<pre><code> T E S T S
+-------------------------------------------------------
+Running org.jboss.as.quickstart.deltaspike.beanbuilder.test.ByIdExtensionTest
+log4j:WARN No appenders could be found for logger (org.jboss.logging).
+log4j:WARN Please initialize the log4j system properly.
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 8.641 sec
+
+Results :
+
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
+</code></pre>
+<h2><a href="#run-the-quickstart-in-jboss-developer-studio-or-eclipse" id="run-the-quickstart-in-jboss-developer-studio-or-eclipse">Run the Quickstart in JBoss Developer Studio or Eclipse</a></h2>
+<p>You can also start the server and deploy the quickstarts from Eclipse using JBoss tools. For more information, see <a href="../README.html#useeclipse">Use JBoss Developer Studio or Eclipse to Run the Quickstarts</a></p>
+<h2><a href="#debug-the-application" id="debug-the-application">Debug the Application</a></h2>
+<p>If you want to debug the source code or look at the Javadocs of any library in the project, run either of the following commands to pull them into your local repository. The IDE should then detect them.</p>
+<pre><code>    mvn dependency:sources
+    mvn dependency:resolve -Dclassifier=javadoc
+</code></pre>
+</body>
+</html>

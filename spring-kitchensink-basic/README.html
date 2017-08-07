@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head><title> spring-kitchensink-basic: Kitchensink Example using Spring 4.x</title>
+    <link href="http://static.jboss.org/ffe/0/www/vendor/redhat/documentation.css" rel="stylesheet"></link>
+    <link href="http://static.jboss.org/ffe/0/www/vendor/redhat/pygments.css" rel="stylesheet"></link>
+</head>
+<body><h1><a href="#spring-kitchensink-basic-kitchensink-example-using-spring-4x" id="spring-kitchensink-basic-kitchensink-example-using-spring-4x">spring-kitchensink-basic: Kitchensink Example using Spring 4.x</a></h1>
+<p>Author: Marius Bogoevici, Tejas Mehta, Joshua Wilson<br />
+Level: Intermediate<br />
+Technologies: JSP, JPA, JSON, Spring, JUnit<br />
+Summary: The <code>spring-kitchensink-basic</code> quickstart is an example of a Java EE 7 application using JSP, JPA and Spring 4.x.<br />
+Target Product: WildFly<br />
+Source: <a href="https://github.com/wildfly/quickstart/">https://github.com/wildfly/quickstart/</a></p>
+<h2><a href="#what-is-it" id="what-is-it">What is it?</a></h2>
+<p>The <code>spring-kitchensink-basic</code> quickstart is an example of a Java EE 7 application using JSP, JPA and Spring 4.x in WildFly Application Server. It includes a persistence unit and some sample persistence and transaction code to introduce you to database access in enterprise Java:</p>
+<ul>
+<li>
+<p>In <code>jboss-as-spring-mvc-context.xml</code> <code>&lt;context:component-scan base-package=&quot;org.jboss.as.quickstarts.kitchensink.spring.basic.controller&quot;/&gt;</code> and <code>&lt;mvc:annotation-driven/&gt;</code> are used to register both the non-rest and rest controllers.</p>
+</li>
+<li>
+<p>The controllers map the respective urls to methods using <code>@RequestMapping(url)</code>.</p>
+</li>
+<li>
+<p>To return JSON, the rest controller uses <code>@ResponseBody</code>.</p>
+</li>
+<li>
+<p>The datasource and entitymanager are retrieved via JNDI.</p>
+</li>
+</ul>
+<h2><a href="#system-requirements" id="system-requirements">System Requirements</a></h2>
+<p>The application this project produces is designed to be run on WildFly Application Server 11 or later.</p>
+<p>All you need to build this project is Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later. See <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts">Configure Maven for WildFly 11</a> to make sure you are configured correctly for testing the quickstarts.</p>
+<h2><a href="#start-the-server" id="start-the-server">Start the Server</a></h2>
+<ol>
+<li>Open a command line and navigate to the root of the WildFly directory.</li>
+<li>The following shows the command line to start the server:
+<pre><code>For Linux:   WILDFLY_HOME/bin/standalone.sh
+For Windows: WILDFLY_HOME\bin\standalone.bat
+</code></pre>
+</li>
+</ol>
+<h2><a href="#build-and-deploy-the-quickstart" id="build-and-deploy-the-quickstart">Build and Deploy the Quickstart</a></h2>
+<ol>
+<li>Make sure you have started the WildFly server as described above.</li>
+<li>Open a command line and navigate to the root directory of this quickstart.</li>
+<li>Type this command to build and deploy the archive:
+<pre><code>mvn clean install wildfly:deploy
+</code></pre>
+</li>
+<li>
+<p>This will deploy <code>target/spring-kitchensink-basic.war</code> to the running instance of the server.</p>
+</li>
+</ol>
+<h2><a href="#access-the-application" id="access-the-application">Access the application</a></h2>
+<p>The application will be running at the following URL: <a href="http://localhost:8080/spring-kitchensink-basic/">http://localhost:8080/spring-kitchensink-basic/</a>.</p>
+<h2><a href="#undeploy-the-archive" id="undeploy-the-archive">Undeploy the Archive</a></h2>
+<ol>
+<li>Make sure you have started the WildFly server as described above.</li>
+<li>Open a command line and navigate to the root directory of this quickstart.</li>
+<li>When you are finished testing, type this command to undeploy the archive:
+<pre><code>mvn wildfly:undeploy
+</code></pre>
+</li>
+</ol>
+<h2><a href="#run-the-arquillian-functional-tests" id="run-the-arquillian-functional-tests">Run the Arquillian Functional Tests</a></h2>
+<p>This quickstart provides Arquillian functional tests as well. They are located in the functional-tests/ subdirectory under the root directory of this quickstart. Functional tests verify that your application behaves correctly from the user's point of view. The tests open a browser instance, simulate clicking around the page as a normal user would do, and then close the browser instance.</p>
+<p>To run these tests, you must build the main project as described above.</p>
+<ol>
+<li>Open a command line and navigate to the root directory of this quickstart.</li>
+<li>Build the quickstart WAR using the following command:
+<pre><code>mvn clean package
+</code></pre>
+</li>
+<li>
+<p>Navigate to the functional-tests/ directory in this quickstart.</p>
+</li>
+<li>If you have a running instance of the WildFly server, as described above, run the remote tests by typing the following command:
+<pre><code>mvn clean verify -Parq-remote
+</code></pre>
+</li>
+<li>
+<p>If you prefer to run the functional tests using managed instance of the WildFly server, meaning the tests will start the server for you, type the following command:</p>
+<pre><code>mvn clean verify -Parq-managed
+</code></pre>
+</li>
+</ol>
+<h2><a href="#run-the-quickstart-in-red-hat-jboss-developer-studio-or-eclipse" id="run-the-quickstart-in-red-hat-jboss-developer-studio-or-eclipse">Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse</a></h2>
+<p>You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a WildFly server, and build and deploy a quickstart, see <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_JBDS.md#use-jboss-developer-studio-or-eclipse-to-run-the-quickstarts">Use JBoss Developer Studio or Eclipse to Run the Quickstarts</a>.</p>
+<h2><a href="#debug-the-application" id="debug-the-application">Debug the Application</a></h2>
+<p>If you want to debug the source code or look at the Javadocs of any library in the project, run either of the following commands to pull them into your local repository. The IDE should then detect them.</p>
+<pre><code>    mvn dependency:sources
+    mvn dependency:resolve -Dclassifier=javadoc
+</code></pre>
+</body>
+</html>

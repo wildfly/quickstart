@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head><title>What is it?</title>
+    <link href="http://static.jboss.org/ffe/0/www/vendor/redhat/documentation.css" rel="stylesheet"></link>
+    <link href="http://static.jboss.org/ffe/0/www/vendor/redhat/pygments.css" rel="stylesheet"></link>
+</head>
+<body><h1><a href="#deltaspike-projectstage-demonstrate-usage-of-deltaspike-project-stage-and-shows-usage-of-a-conditional-exclude" id="deltaspike-projectstage-demonstrate-usage-of-deltaspike-project-stage-and-shows-usage-of-a-conditional-exclude">deltaspike-projectstage: Demonstrate usage of DeltaSpike project stage and shows usage of a conditional @Exclude</a></h1>
+<p>Author: Rafael Benevides<br />
+Level: Beginner<br />
+Technologies: JSF, CDI, Deltaspike<br />
+Summary: Demonstrate usage of DeltaSpike project stage and shows usage of a conditional @Exclude<br />
+Prerequisites: Target Product: WildFly<br />
+Source: <a href="https://github.com/jboss-jdf/jboss-as-quickstart/">https://github.com/jboss-jdf/jboss-as-quickstart/</a></p>
+<h2><a href="#what-is-it" id="what-is-it">What is it?</a></h2>
+<p>Project stages provide a way to customize the implementation based on the type of deployment environment. For example, you may want to generate sample data for system testing, but not for production. You can create a bean that generates sample data and activate it only for project stage <em>SystemTest</em></p>
+<p><em>Besides custom project stages</em> it's possible to use the following pre-defined project stages:</p>
+<ul>
+<li>UnitTest</li>
+<li>Development</li>
+<li>SystemTest</li>
+<li>IntegrationTest</li>
+<li>Staging</li>
+<li>Production</li>
+</ul>
+<p>Furthermore, with <code>@Exclude</code>, it is possible to annotate beans which should be ignored by CDI, even if they are in a CDI enabled archive.</p>
+<p>This project has a interface called <code>MyBean</code> that has 4 different implementations:</p>
+<ul>
+<li>ExcludedExceptOnDevelopment - Uses the annotation <code>@Exclude(exceptIfProjectStage=Development.class)</code> to exclude the implementation if the project stage is anything other than Development..</li>
+<li>ExcludedOnDevelopment - Uses the annotation <code>@Exclude(ifProjectStage=Development.class)</code> to exclude the implementation for project stage Development.</li>
+<li>MyExcludedBean  - Uses the annotation <code>@Exclude</code> to exclude the implementation for all project stages.</li>
+<li>NoExcludedBean - The implementation is always available because this bean does not use any annotation.</li>
+</ul>
+<h2><a href="#system-requirements" id="system-requirements">System requirements</a></h2>
+<p>All you need to build this project is Java 8.0 (Java SDK 1.8) or better, Maven 3.1 or better.</p>
+<p>The application this project produces is designed to be run on WildFly 10.</p>
+<h2><a href="#configure-maven" id="configure-maven">Configure Maven</a></h2>
+<p>If you have not yet done so, you must <a href="../README.html#mavenconfiguration">Configure Maven</a> before testing the quickstarts.</p>
+<h2><a href="#start-wildfly-10" id="start-wildfly-10">Start WildFly 10</a></h2>
+<ol>
+<li>Open a command line and navigate to the root of the JBoss server directory.</li>
+<li>The following shows the command line to start the server with the web profile:
+<pre><code>For Linux:   JBOSS_HOME/bin/standalone.sh
+For Windows: JBOSS_HOME\bin\standalone.bat
+</code></pre>
+</li>
+</ol>
+<h2><a href="#build-and-deploy-the-quickstart" id="build-and-deploy-the-quickstart">Build and Deploy the Quickstart</a></h2>
+<p><em>NOTE: The following build command assumes you have configured your Maven user settings. If you have not, you must include Maven setting arguments on the command line. See <a href="../README.html#buildanddeploy">Build and Deploy the Quickstarts</a> for complete instructions and additional options.</em></p>
+<ol>
+<li>Make sure you have started the JBoss Server as described above.</li>
+<li>Open a command line and navigate to the root directory of this quickstart.</li>
+<li>Type this command to build and deploy the archive:
+<pre><code>mvn clean package wildfly:deploy
+</code></pre>
+</li>
+<li>This will deploy <code>target/wildfly-as-deltaspike-projectstage.war</code> to the running instance of the server.</li>
+</ol>
+<h2><a href="#access-the-application" id="access-the-application">Access the application</a></h2>
+<p>Access the running application in a browser at the following URL:  <a href="http://localhost:8080/wildfly-deltaspike-projectstage">http://localhost:8080/wildfly-deltaspike-projectstage</a></p>
+<p>You be presented with a simple page that shows the current project stage: <em>Staging</em>. You will se also the <em>List of available CDI instances for MyBean</em> table with two available implementations.</p>
+<p>Edit the file <code>src/main/resources/META-INF/apache-deltaspike.properties</code> and change the <code>org.apache.deltaspike.ProjectStage</code> property to <code>Development</code>. Deploy the application again</p>
+<pre><code>    mvn clean package wildfly:deploy
+</code></pre>
+<p>Access the application again at the same URL:  <a href="http://localhost:8080/wildfly-deltaspike-projectstage">http://localhost:8080/wildfly-deltaspike-projectstage</a></p>
+<p>Look at <em>List of available CDI instances for MyBean</em> table and realize that the available implementations has changed.</p>
+<h2><a href="#undeploy-the-archive" id="undeploy-the-archive">Undeploy the Archive</a></h2>
+<ol>
+<li>Make sure you have started the JBoss Server as described above.</li>
+<li>Open a command line and navigate to the root directory of this quickstart.</li>
+<li>When you are finished testing, type this command to undeploy the archive:
+<pre><code>mvn wildfly:undeploy
+</code></pre>
+</li>
+</ol>
+<h2><a href="#run-the-quickstart-in-jboss-developer-studio-or-eclipse" id="run-the-quickstart-in-jboss-developer-studio-or-eclipse">Run the Quickstart in JBoss Developer Studio or Eclipse</a></h2>
+<p>You can also start the server and deploy the quickstarts from Eclipse using JBoss tools. For more information, see <a href="../README.html#useeclipse">Use JBoss Developer Studio or Eclipse to Run the Quickstarts</a></p>
+<h2><a href="#debug-the-application" id="debug-the-application">Debug the Application</a></h2>
+<p>If you want to debug the source code or look at the Javadocs of any library in the project, run either of the following commands to pull them into your local repository. The IDE should then detect them.</p>
+<pre><code>mvn dependency:sources
+mvn dependency:resolve -Dclassifier=javadoc
+</code></pre>
+</body>
+</html>

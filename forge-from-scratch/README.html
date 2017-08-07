@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head><title> forge-from-scratch: Shows How Forge Can Generate an Application</title>
+    <link href="http://static.jboss.org/ffe/0/www/vendor/redhat/documentation.css" rel="stylesheet"></link>
+    <link href="http://static.jboss.org/ffe/0/www/vendor/redhat/pygments.css" rel="stylesheet"></link>
+</head>
+<body><h1><a href="#forge-from-scratch-shows-how-forge-can-generate-an-application" id="forge-from-scratch-shows-how-forge-can-generate-an-application">forge-from-scratch: Shows How Forge Can Generate an Application</a></h1>
+<p>Author: Lincoln Baxter, Matej Briskar<br />
+Level: Intermediate<br />
+Technologies: Forge<br />
+Summary: The <code>forge-from-scratch</code> quickstart demonstrates how <em>JBoss Forge</em> can generate a Java EE (JPA, EJB, JAX-RS, JSF) web-enabled database application.<br />
+Target Product: WildFly<br />
+Source: <a href="https://github.com/wildfly/quickstart/">https://github.com/wildfly/quickstart/</a></p>
+<h2><a href="#what-is-it" id="what-is-it">What is it?</a></h2>
+<p>The <code>forge-from-scratch</code> quickstart demonstrates how to create a fully <strong>Java EE compliant</strong> project using <strong>JBoss Forge</strong> and <strong>Red Hat JBoss Developer Studio</strong> and deploy it to <strong>WildFly Application Server 11</strong> or later.</p>
+<p>The generated example will be a standard Maven, Java Web project with <strong>JPA, EJB, CDI, JSF</strong> with complete <strong>JAX-RS</strong> endpoints for all data Entities. It will also provide views to <code>Create</code>, <code>Read</code>, <code>Update</code>, and <code>Delete</code> records.</p>
+<p>But that is not all! You can use Forge on your new or existing projects to continue to enhance any application.</p>
+<p><em>Note: This quickstart uses the H2 database included with WildFly Application Server 11. It is a lightweight, relational example datasource that is used for examples only. It is not robust or scalable, is not supported, and should NOT be used in a production environment!</em></p>
+<h2><a href="#system-requirements" id="system-requirements">System Requirements</a></h2>
+<p>The application this project produces is designed to be run on WildFly Application Server 11 or later.</p>
+<p>All you need to build this project is Java 8.0 (Java SDK 1.8) or later and Red Hat JBoss Developer Studio 10.0 or greater. These versions of JBoss Developer Studio embed Maven 3.3.3, so you do not need to install it separately.</p>
+<h2><a href="#run-the-quickstart-in-red-hat-jboss-developer-studio" id="run-the-quickstart-in-red-hat-jboss-developer-studio">Run the Quickstart in Red Hat JBoss Developer Studio</a></h2>
+<p>JBoss Developer Studio 10.3 ships with Forge 3.5.1.Final.</p>
+<h3><a href="#generate-and-build-the-application" id="generate-and-build-the-application">Generate and Build the Application</a></h3>
+<ol>
+<li>Start JBoss Developer Studio.</li>
+<li>Open the <code>Forge Console</code> Window. To open it, navigate to menu item <em>Window -&gt; Show View -&gt; Other</em>. Locate <em>Forge -&gt; Forge Console</em> and click <em>OK</em>.</li>
+<li>Click the <em>Start</em> button (green triangle) in top right corner of the Forge Console to start the default Forge runtime.</li>
+<li>In the Forge Console Window, navigate to the root directory of this quickstart.
+<pre><code>$ cd QUICKSTART_HOME/forge-from-scratch/
+</code></pre>
+</li>
+<li>Notice there is a file in this directory named <code>generate.fsh</code>. Run this file from the Forge console using the <code>run</code> command:
+<pre><code>$ run generate.fsh
+</code></pre>
+</li>
+<li>
+<p>At this point, Forge creates the new project and builds it.</p>
+<ul>
+<li>The script issues this command: <code>$ project-new --named forge-example --top-level-package org.example;</code></li>
+<li>You next see the console message: <code>***SUCCESS*** Project named 'forge-example' has been created.</code></li>
+<li>This is followed by a number of commands that set up JPA, create an entity and its fields, set up and generate the scaffold, and set up CDI and REST. Each command should result in a <code>***SUCCESS***</code> message.</li>
+<li>Finally, the <code>build</code> command is executed, which should result in <code>***SUCCESS*** Build Success</code> near the end of the console output.</li>
+</ul>
+</li>
+</ol>
+<p><em>NOTE:</em> After you run the <code>run generate.fsh</code> command, you will see the following warnings in the <em>Problems</em> window for the generated files. You can ignore these warnings.</p>
+<pre><code>  Web XML Problem: location references to &quot;/faces/error.xhtml&quot; that does not exist in web content	web.xml	/forge-example/src/main/webapp/WEB-INF	line 17
+  Web XML Problem: location references to &quot;/faces/error.xhtml&quot; that does not exist in web content	web.xml	/forge-example/src/main/webapp/WEB-INF	line 21
+  JPA Problem: No connection specified for project. No database-specific validation will be performed.	forge-example
+</code></pre>
+<h3><a href="#what-did-this-create" id="what-did-this-create">What Did This Create?</a></h3>
+<p>This quickstart created a native Java EE 7 application.</p>
+<ul>
+<li>After the command completes, look in your <code>QUICKSTART_HOME/forge-from-scratch/</code> folder. You see a folder with the name <code>forge-example</code>.</li>
+<li>This project also appears in the <code>Project Explorer</code> view in JBoss Developer Studio.</li>
+<li>Browse through this project to see the code that was generated as a result of this command.</li>
+</ul>
+<h3><a href="#deploy-the-generated-application" id="deploy-the-generated-application">Deploy the Generated Application</a></h3>
+<ol>
+<li>If you have not yet done so, add the WildFly 11 runtime server to Red Hat JBoss Developer Studio. For general information about how to import a quickstart, add a WildFly server, and build and deploy a quickstart, see <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_JBDS.md">Use JBoss Developer Studio or Eclipse to Run the Quickstarts</a>.</li>
+<li>Right-click on the project name and choose <code>Run As</code> --&gt; <code>Run on Server</code>. If you have more than one server, choose the WildFly 11 Runtime server. Then click <code>Finish</code>.</li>
+<li>Upon successful deployment, a <strong>Welcome to Forge Window</strong> opens with the application running at the following URL: <a href="http://localhost:8080/forge-example/">http://localhost:8080/forge-example/</a></li>
+</ol>
+<h3><a href="#server-log-expected-warnings-and-errors" id="server-log-expected-warnings-and-errors">Server Log: Expected warnings and errors</a></h3>
+<p><em>Note:</em> You will see the following warnings in the server log. You can ignore these warnings.</p>
+<pre><code>WFLYTX0013: Node identifier property is set to the default value. Please make sure it is unique.
+WFLYDM0111: Keystore /home/user/eap-7.1/standalone/configuration/application.keystore not found, it will be auto generated on first use with a self signed certificate for host localhost
+HHH000059: Defining hibernate.transaction.flush_before_completion=true ignored in HEM
+HHH000431: Unable to determine H2 database version, certain features may not work
+</code></pre>
+<h3><a href="#access-the-running-application" id="access-the-running-application">Access the Running Application</a></h3>
+<p>The application appears in a 'Welcome to Forge' Window and displays the following:</p>
+<pre><code>Welcome to Forge
+
+Your application is running.
+</code></pre>
+<p>The following entities are displayed on the lower left side of the page:</p>
+<ul>
+<li>Address</li>
+<li>Customer</li>
+<li>Item</li>
+<li>Product Order</li>
+<li>Profile</li>
+<li>Zip Code</li>
+</ul>
+<p>When you click on an entity, you are provided with a form that allows you to:</p>
+<ul>
+<li>Search for an existing entity</li>
+<li>Create a new entity</li>
+<li>Edit or delete an existing entity</li>
+</ul>
+<p>The running application also provides links to find more information about the Forge.</p>
+<h2><a href="#undeploy-the-application" id="undeploy-the-application">Undeploy the Application</a></h2>
+<p>When you are ready to undeploy the application from WildFly:</p>
+<ol>
+<li>Go to the Red Hat JBoss Developer Studio <code>Servers</code> window.</li>
+<li>Expand the WildFly Server to see the list of deployed applications.</li>
+<li>Choose the <code>forge-example</code> project created by this quickstart, right-click, and choose <code>Remove</code>.</li>
+<li>Click <code>OK</code> when asked if you are sure you want to remove resource from the server. You should see the following message:
+<pre><code>INFO  [org.jboss.as.server] (DeploymentScanner-threads - 1) WFLYSRV0009: Undeployed &quot;forge-example.war&quot; (runtime-name: &quot;forge-example.war&quot;)
+</code></pre>
+</li>
+</ol>
+<h2><a href="#next-steps" id="next-steps">Next Steps</a></h2>
+<p>Open <code>generate.fsh</code> and take a look inside! There is not much magic happening here. All of the commands used to generate this project are clearly listed just as if they were typed by your own hands.</p>
+<p>Play around with creating more entities, relationships, UI, and generating JAX-RS endpoints,all with just a few simple commands.</p>
+</body>
+</html>

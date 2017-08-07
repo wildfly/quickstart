@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head><title> cmt: Container Managed Transactions (CMT)</title>
+    <link href="http://static.jboss.org/ffe/0/www/vendor/redhat/documentation.css" rel="stylesheet"></link>
+    <link href="http://static.jboss.org/ffe/0/www/vendor/redhat/pygments.css" rel="stylesheet"></link>
+</head>
+<body><h1><a href="#cmt-container-managed-transactions-cmt" id="cmt-container-managed-transactions-cmt">cmt: Container Managed Transactions (CMT)</a></h1>
+<p>Author: Tom Jenkinson<br />
+Level: Intermediate<br />
+Technologies: EJB, CMT, JMS<br />
+Summary: The <code>cmt</code> quickstart demonstrates Container-Managed Transactions (CMT), showing how to use transactions managed by the container.<br />
+Target Product: WildFly<br />
+Source: <a href="https://github.com/wildfly/quickstart/">https://github.com/wildfly/quickstart/</a></p>
+<h2><a href="#what-is-it" id="what-is-it">What is it?</a></h2>
+<p>The <code>cmt</code> quickstart demonstrates using transactions managed by the container in WildFly Application Server. It is a fairly typical scenario of updating a database and sending a JMS message in the same transaction. A simple MDB is provided that prints out the message sent but this is not a transactional MDB and is purely provided for debugging purposes.</p>
+<p>Aspects touched upon in the code:</p>
+<ol>
+<li>XA transaction control using the container managed transaction annotations</li>
+<li>XA access to the standard default datasource using the JPA API</li>
+<li>XA access to a JMS queue</li>
+</ol>
+<p>After users complete this quickstart, they are invited to run through the following quickstarts:</p>
+<ol>
+<li><a href="../jts/README.html">jts</a> - The JTS quickstart builds upon this quickstart by distributing the CustomerManager and InvoiceManager</li>
+<li><a href="../jts-distributed-crash-rec/README.html">jts-distributed-crash-rec</a> - The crash recovery quickstart builds upon the <a href="../jts/README.html">jts</a> quickstart by demonstrating the fault tolerance of WildFly.</li>
+</ol>
+<p><em>Note: This quickstart uses the H2 database included with WildFly Application Server 11. It is a lightweight, relational example datasource that is used for examples only. It is not robust or scalable, is not supported, and should NOT be used in a production environment!</em></p>
+<h3><a href="#what-are-container-managed-transactions" id="what-are-container-managed-transactions">What are Container Managed Transactions?</a></h3>
+<p>Prior to EJB, getting the right incantation to ensure sound transactional operation of the business logic was a highly specialised skill. Although this still holds true to a great extent, EJB has provided a series of improvements to allow simplified transaction demarcation notation that is therefore easier to read and test.</p>
+<p>With CMT, the EJB container sets the boundaries of a transaction. This differs from BMT (bean managed transactions) where the developer is responsible for initiating and completing a transaction via the methods begin, commit, rollback on a <code>javax.transaction.UserTransaction</code>.</p>
+<h3><a href="#what-makes-this-an-example-of-container-managed-transactions" id="what-makes-this-an-example-of-container-managed-transactions">What Makes This an Example of Container Managed Transactions?</a></h3>
+<p>Take a look at <code>org.jboss.as.quickstarts.cmt.ejb.CustomerManagerEJB</code>. You can see that this stateless session bean has been marked up with the @javax.ejb.TransactionAttribute annotation.</p>
+<p>The available options for this annotation are as follows:</p>
+<ul>
+<li>Required - As demonstrated in the quickstart. If a transaction does not already exist, this will initiate a transaction and complete it for you, otherwise the business logic will be integrated into the existing transaction</li>
+<li>RequiresNew - If there is already a transaction running, it will be suspended, the work performed within a new transaction which is completed at exit of the method and then the original transaction resumed.</li>
+<li>Mandatory - If there is no transaction running, calling a business method with this annotation will result in an error</li>
+<li>NotSupported - If there is a transaction running, it will be suspended and no transaction will be initiated for this business method</li>
+<li>Supports - This will run the method within a transaction if a transaction exists, alternatively, if there is no transaction running, the method will not be executed within the scope of a transaction</li>
+<li>Never - If the client has a transaction running and does not suspend it but calls a method annotated with Never then an EJB exception will be raised.</li>
+</ul>
+<h2><a href="#system-requirements" id="system-requirements">System Requirements</a></h2>
+<p>The application this project produces is designed to be run on WildFly Application Server 11 or later.</p>
+<p>All you need to build this project is Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later. See <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts">Configure Maven for WildFly 11</a> to make sure you are configured correctly for testing the quickstarts.</p>
+<h2><a href="#use-of-wildfly-home" id="use-of-wildfly-home">Use of WILDFLY_HOME</a></h2>
+<p>In the following instructions, replace <code>WILDFLY_HOME</code> with the actual path to your WildFly installation. The installation path is described in detail here: <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_WILDFLY_HOME.md#use-of-eap_home-and-jboss_home-variables">Use of WILDFLY_HOME and JBOSS_HOME Variables</a>.</p>
+<h2><a href="#start-the-server-with-the-full-profile" id="start-the-server-with-the-full-profile">Start the Server with the Full Profile</a></h2>
+<ol>
+<li>Open a command prompt and navigate to the root of the WildFly directory.</li>
+<li>The following shows the command line to start the server with the full profile:
+<pre><code>For Linux:   WILDFLY_HOME/bin/standalone.sh -c standalone-full.xml
+For Windows: WILDFLY_HOME\bin\standalone.bat -c standalone-full.xml
+</code></pre>
+</li>
+</ol>
+<h2><a href="#build-and-deploy-the-quickstart" id="build-and-deploy-the-quickstart">Build and Deploy the Quickstart</a></h2>
+<ol>
+<li>Open a command prompt and navigate to the root directory of this quickstart.</li>
+<li>Type this command to build and deploy the archive:
+<pre><code>mvn clean install wildfly:deploy
+</code></pre>
+</li>
+<li>
+<p>This will deploy <code>target/cmt.war</code> to the running instance of the server.</p>
+</li>
+</ol>
+<h2><a href="#access-the-application" id="access-the-application">Access the Application</a></h2>
+<p>The application will be running at the following URL: <a href="http://localhost:8080/cmt/">http://localhost:8080/cmt/</a>.</p>
+<p>You will be presented with a simple form for adding customers to a database.</p>
+<p>After a user is successfully added to the database, a message is produced containing the details of the user. An example MDB will dequeue this message and print the following contents:</p>
+<pre><code>Received Message: Created invoice for customer named:  Jack
+</code></pre>
+<p>When the same customer name is given, a duplicate warning is given and no JMS-message is send to cause the above message.</p>
+<p>The customer name should match: letter &amp; '-', otherwise an error is given. This is to show that a 'LogMessage' entity is still stored in the database thanks to the <code>@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)</code> that the method logCreateCustomer in the EJB LogMessageManagerEJB is decorated with.</p>
+<h2><a href="#server-log-expected-warnings-and-errors" id="server-log-expected-warnings-and-errors">Server Log: Expected Warnings and Errors</a></h2>
+<p><em>Note:</em> You will see the following warnings in the server log. You can ignore these warnings.</p>
+<pre><code>HHH000431: Unable to determine H2 database version, certain features may not work
+</code></pre>
+<h2><a href="#undeploy-the-archive" id="undeploy-the-archive">Undeploy the Archive</a></h2>
+<ol>
+<li>Make sure you have started the WildFly server as described above.</li>
+<li>Open a command prompt and navigate to the root directory of this quickstart.</li>
+<li>When you are finished testing, type this command to undeploy the archive:
+<pre><code>mvn wildfly:undeploy
+</code></pre>
+</li>
+</ol>
+<h2><a href="#run-the-quickstart-in-red-hat-jboss-developer-studio-or-eclipse" id="run-the-quickstart-in-red-hat-jboss-developer-studio-or-eclipse">Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse</a></h2>
+<p>You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a WildFly server, and build and deploy a quickstart, see <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_JBDS.md#use-jboss-developer-studio-or-eclipse-to-run-the-quickstarts">Use JBoss Developer Studio or Eclipse to Run the Quickstarts</a>.</p>
+<p><em>NOTE:</em> Within JBoss Developer Studio, be sure to define a server runtime environment that uses the <code>standalone-full.xml</code> configuration file.</p>
+<h2><a href="#debug-the-application" id="debug-the-application">Debug the Application</a></h2>
+<p>If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.</p>
+<pre><code>    mvn dependency:sources
+</code></pre>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head><title>WildFly Quickstart: Hello World ClassFileTransformers</title>
+    <link href="http://static.jboss.org/ffe/0/www/vendor/redhat/documentation.css" rel="stylesheet"></link>
+    <link href="http://static.jboss.org/ffe/0/www/vendor/redhat/pygments.css" rel="stylesheet"></link>
+</head>
+<body><h1><a href="#wildfly-examples-applying-classtransformers-to-your-java-ee-archive" id="wildfly-examples-applying-classtransformers-to-your-java-ee-archive">WildFly Examples: Applying ClassTransformers to your Java EE archive</a></h1>
+<p>This is a WAR based application showing you how Wildfly let you apply a ClassTransformer to the classes in your enterprise archive.</p>
+<p>It consists of a server component and a client component: * The server component is a simple @Stateless session EJB called HelloBean, which exposes a SOAP based view * The client component is a simple Java application that makes a call to the EJB through it's Web service interface</p>
+<p>All code is co-bundled in this projects' WAR src directory.</p>
+<h1><a href="#about-the-code" id="about-the-code">About the code</a></h1>
+<p>This project is a Web ARchive (WAR) project. It's src folder contains three packages: * hello.client : this is where you find the SOAP based Java application client * hello.server.ejb : this is where you find the EJB that exposes a SOAP based view * hello.server.transformation : this is where you find the bytecode manipulation code</p>
+<p>Note the file: src/main/webapp/META-INF/jboss-deployment-structure.xml. This is where we register a Java ClassFileTransformer. A ClassFileTransformer is a class that has a transform method that receives a class's bytecode as a byte array input and then produces the class's new bytecode. If the transformer doesn't want to modify the class received, then it simply returns the input array directly. If, however, it want's to transform it, it does so by means of cglib, javaassist, etc. This example demonstrates bytecode manipulation using Javassist.</p>
+<p>It is the EJB's implementation class, HelloBean, that is modified in this example. The modification is really simple: it simply injects logging statements before and after the sayHello() method. But Javaassist can do much more - check out the relevant documentation for Javassist. Or choose another bytecode generation library. The choice is yours - Wildfly doesn't care what you choose.</p>
+<p>You could achieve the same effect using EJB interceptors or CDI interceptors. They are standard and would normally be the recommended way to go about &quot;around&quot; behavior. But Java EE interceptors are not as powerful as bytecode manipulation can be: with bytecode manipulation you can easily advice unmanaged classes (including static member methods etc), &quot;add/remove&quot; interfaces, fields, methods and so on. And you can even advice code that is a third party dependency to your application (say Apache Commons library code).</p>
+<h1><a href="#deploy-the-war" id="deploy-the-war">Deploy the WAR</a></h1>
+<ul>
+<li>Start WildFly 10.1.0.Final (or newer)</li>
+<li>mvn clean install wildfly:deploy</li>
+</ul>
+<h1><a href="#run-the-soap-client" id="run-the-soap-client">Run the SOAP client</a></h1>
+<ul>
+<li>mvn compile exec:java</li>
+</ul>
+<h1><a href="#inspect-the-server-log" id="inspect-the-server-log">Inspect the server log</a></h1>
+<p>Note that a single EJB was installed: HelloBean. It exposes a SOAP based interface, which is used by the client application.</p>
+<p>Upon deployment you should see something like: &quot;Instrumenting hello.server.ejb.HelloBean&quot; and &quot;Successfully instrumented hello.server.ejb.HelloBean&quot;. That is the example class transformer that tells you it has instrumented the HelloBean EJB.</p>
+<p>Upon calling the EJB's web service endpoint you should see something like: &quot;INTERCEPTED MethodInvocation&quot;. One line before the method invocation. And one line after the method invocation.</p>
+<p>Do make sure to verify that these lines hasn't just been printed by the EJB's sayHello() method.</p>
+<p>And then check out the class &quot;HelloByteCodeManipulator&quot; which do the manipulation on behalf of the class transformer.</p>
+<p>Finally: note that the transformer is registered in the WAR' archives META-INF/jboss-deployment-structure.xml file.</p>
+<p>/Enjoy what is otherwise normally only performed by advanced Java Agents.</p>
+</body>
+</html>

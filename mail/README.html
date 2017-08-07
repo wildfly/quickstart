@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head><title> mail: E-Mail Example using CDI and JSF</title>
+    <link href="http://static.jboss.org/ffe/0/www/vendor/redhat/documentation.css" rel="stylesheet"></link>
+    <link href="http://static.jboss.org/ffe/0/www/vendor/redhat/pygments.css" rel="stylesheet"></link>
+</head>
+<body><h1><a href="#mail-e-mail-example-using-cdi-and-jsf" id="mail-e-mail-example-using-cdi-and-jsf">mail: E-Mail Example using CDI and JSF</a></h1>
+<p>Author: Joel Tosi<br />
+Level: Beginner<br />
+Technologies: JavaMail, CDI, JSF<br />
+Summary: The <code>mail</code> quickstart demonstrates how to send email using CDI and JSF and the default Mail provider that ships with WildFly.<br />
+Target Product: WildFly<br />
+Source: <a href="https://github.com/wildfly/quickstart/">https://github.com/wildfly/quickstart/</a></p>
+<h2><a href="#what-is-it" id="what-is-it">What is it?</a></h2>
+<p>The <code>mail</code> quickstart demonstrates sending email with the use of <em>CDI</em> (Contexts and Dependency Injection) and <em>JSF</em> (JavaServer Faces) in WildFly Application Server.</p>
+<p>The mail provider is configured in the <code>mail</code> subsystem of the <code>WILDFLY_HOME/standalone/configuration/standalone.xml</code> configuration file if you are running a standalone server or in the <code>WILDFLY_HOME/domain/configuration/domain.xml</code> configuration file if you are running in a managed domain.</p>
+<p>You can use the default mail provider that comes out of the box with WildFly. It uses your local mail relay and the default SMTP port of 25. However, this quickstart demonstrates how to define and use a custom mail provider.</p>
+<p>This example is a web application that takes <code>To</code>, <code>From</code>, <code>Subject</code>, and <code>Message Body</code> input and sends mail to that address. The front end is a JSF page with a simple POJO backing, leveraging CDI for resource injection.</p>
+<h2><a href="#system-requirements" id="system-requirements">System Requirements</a></h2>
+<p>The application this project produces is designed to be run on WildFly Application Server 11 or later.</p>
+<p>All you need to build this project is Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later. See <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts">Configure Maven for WildFly 11</a> to make sure you are configured correctly for testing the quickstarts.</p>
+<h2><a href="#use-of-wildfly-home" id="use-of-wildfly-home">Use of WILDFLY_HOME</a></h2>
+<p>In the following instructions, replace <code>WILDFLY_HOME</code> with the actual path to your WildFly installation. The installation path is described in detail here: <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_WILDFLY_HOME.md#use-of-eap_home-and-jboss_home-variables">Use of WILDFLY_HOME and JBOSS_HOME Variables</a>.</p>
+<h2><a href="#configure-an-smtp-server-on-your-local-machine" id="configure-an-smtp-server-on-your-local-machine">Configure an SMTP Server on Your Local Machine</a></h2>
+<p>This quickstart expects that you have an SMTP mail server running on your machine and configured for the default port <code>localhost:25</code>. To configure an SMTP mail server, consult the documentation for your operating system. It is beyond the scope of this quickstart to provide these instructions.</p>
+<p>If you do not configure an SMTP mail server on your local machine, you will see the exception <code>com.sun.mail.util.MailConnectException: Couldn't connect to host, port: localhost, 25; timeout -1;</code> when you access the application and attempt to send an email.</p>
+<h2><a href="#configure-the-server" id="configure-the-server">Configure the Server</a></h2>
+<p>You configure the custom mail session in WildFly by running Management CLI commands. For your convenience, this quickstart batches the commands into a <code>configure-mail-session.cli</code> script provided in the root directory of this quickstart.</p>
+<ol>
+<li>Before you begin, back up your server configuration file
+<ul>
+<li>If it is running, stop the WildFly server.</li>
+<li>Back up the file: <code>WILDFLY_HOME/standalone/configuration/standalone.xml</code></li>
+<li>After you have completed testing this quickstart, you can replace this file to restore the server to its original configuration.</li>
+</ul>
+</li>
+<li>Start the WildFly server by typing the following:
+<pre><code>For Linux:  WILDFLY_HOME/bin/standalone.sh
+For Windows:  WILDFLY_HOME\bin\standalone.bat
+</code></pre>
+</li>
+<li>Review the <code>configure-mail-session.cli</code> file in the root of this quickstart directory. This script creates custom outbound socket binding port for SMTP, POP3, and IMAP. It then creates the custom <code>MyOtherMail</code> mail session and configures it to use the custom outbound socket binding ports.</li>
+<li>
+<p>Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing WILDFLY_HOME with the path to your server:</p>
+<pre><code>For Linux: WILDFLY_HOME/bin/jboss-cli.sh --connect --file=configure-mail-session.cli
+For Windows: WILDFLY_HOME\bin\jboss-cli.bat --connect --file=configure-mail-session.cli
+</code></pre>
+<p>You should see the following result when you run the script:</p>
+<pre><code>The batch executed successfully
+process-state: reload-required
+</code></pre>
+</li>
+<li>
+<p>Stop the WildFly server.</p>
+</li>
+</ol>
+<h2><a href="#review-the-modified-server-configuration" id="review-the-modified-server-configuration">Review the Modified Server Configuration</a></h2>
+<p>After stopping the server, open the <code>WILDFLY_HOME/standalone/configuration/standalone.xml</code> file and review the changes.</p>
+<p>The following <code>outbound-socket-binding</code> groups are added to the <code>standard-sockets</code> <code>&lt;socket-binding-group&gt;</code> element.</p>
+<pre><code>  &lt;socket-binding-group name=&quot;standard-sockets&quot; default-interface=&quot;public&quot; port-offset=&quot;${jboss.socket.binding.port-offset:0}&quot;&gt;
+    ...
+    &lt;/outbound-socket-binding&gt;
+    &lt;outbound-socket-binding name=&quot;my-smtp-binding&quot;&gt;
+        &lt;remote-destination host=&quot;localhost&quot; port=&quot;25&quot;/&gt;
+    &lt;/outbound-socket-binding&gt;
+    &lt;outbound-socket-binding name=&quot;my-pop3-binding&quot;&gt;
+        &lt;remote-destination host=&quot;localhost&quot; port=&quot;110&quot;/&gt;
+    &lt;/outbound-socket-binding&gt;
+    &lt;outbound-socket-binding name=&quot;my-imap-binding&quot;&gt;
+        &lt;remote-destination host=&quot;localhost&quot; port=&quot;143&quot;/&gt;
+    &lt;/outbound-socket-binding&gt;
+ &lt;/socket-binding-group&gt;
+</code></pre>
+<p>The <code>MyOtherMail</code> mail session is added to the <code>mail</code> subsystem and configured to use the custom outbound socket binding ports.</p>
+<pre><code>  &lt;subsystem xmlns=&quot;urn:jboss:domain:mail:2.0&quot;&gt;
+     &lt;mail-session name=&quot;default&quot; jndi-name=&quot;java:jboss/mail/Default&quot;&gt;
+        &lt;smtp-server outbound-socket-binding-ref=&quot;mail-smtp&quot;/&gt;
+     &lt;/mail-session&gt;
+     &lt;mail-session name=&quot;MyOtherMail&quot; jndi-name=&quot;java:jboss/mail/MyOtherMail&quot;&gt;
+        &lt;smtp-server password=&quot;pass&quot; username=&quot;nobody&quot; tls=&quot;true&quot; outbound-socket-binding-ref=&quot;my-smtp-binding&quot;/&gt;
+        &lt;pop3-server outbound-socket-binding-ref=&quot;my-pop3-binding&quot;/&gt;
+        &lt;imap-server password=&quot;pass&quot; username=&quot;nobody&quot; outbound-socket-binding-ref=&quot;my-imap-binding&quot;/&gt;
+     &lt;/mail-session&gt;
+  &lt;/subsystem&gt;
+</code></pre>
+<h2><a href="#start-the-server" id="start-the-server">Start the Server</a></h2>
+<ol>
+<li>Open a command prompt and navigate to the root of the WildFly directory.</li>
+<li>The following shows the command line to start the server:
+<pre><code>For Linux:   WILDFLY_HOME/bin/standalone.sh
+For Windows: WILDFLY_HOME\bin\standalone.bat
+</code></pre>
+</li>
+</ol>
+<h2><a href="#build-and-deploy-the-quickstart" id="build-and-deploy-the-quickstart">Build and Deploy the Quickstart</a></h2>
+<ol>
+<li>Make sure you have started the WildFly server as described above.</li>
+<li>Open a command prompt and navigate to the root directory of this quickstart.</li>
+<li>Type this command to build and deploy the archive:
+<pre><code>mvn clean install wildfly:deploy
+</code></pre>
+</li>
+<li>
+<p>This will deploy <code>target/mail.war</code> to the running instance of the server.</p>
+</li>
+</ol>
+<h2><a href="#access-the-application" id="access-the-application">Access the Application</a></h2>
+<p>The application will be running at the following URL: <a href="http://localhost:8080/mail/">http://localhost:8080/mail/</a>.</p>
+<p>Note: If you see <code>Error processing request</code> in the browser when you access the application and attempt to send email, followed by <code>javax.servlet.ServletException: com.sun.mail.util.MailConnectException: Couldn't connect to host, port: localhost, 25; timeout -1; nested exception is: java.net.ConnectException: Connction refused</code>, make sure you followed the instructions above to <a href="#configure-an-smtp-server-on-your-local-machine">Configure an SMTP Server on Your Local Machine</a>.</p>
+<h2><a href="#undeploy-the-archive" id="undeploy-the-archive">Undeploy the Archive</a></h2>
+<ol>
+<li>Make sure you have started the WildFly server as described above.</li>
+<li>Open a command prompt and navigate to the root directory of this quickstart.</li>
+<li>When you are finished testing, type this command to undeploy the archive:
+<pre><code>mvn wildfly:undeploy
+</code></pre>
+</li>
+</ol>
+<h2><a href="#remove-the-mail-configuration" id="remove-the-mail-configuration">Remove the Mail Configuration</a></h2>
+<p>You can remove the mail configuration by running the  <code>remove-mail-session.cli</code> script provided in the root directory of this quickstart or by manually restoring the back-up copy the configuration file.</p>
+<h3><a href="#remove-the-custom-mail-configuration-by-running-the-jboss-cli-script" id="remove-the-custom-mail-configuration-by-running-the-jboss-cli-script">Remove the Custom Mail Configuration by Running the JBoss CLI Script</a></h3>
+<ol>
+<li>Start the WildFly server by typing the following:
+<pre><code>For Linux:  WILDFLY_HOME/bin/standalone.sh
+For Windows:  WILDFLY_HOME\bin\standalone.bat
+</code></pre>
+</li>
+<li>Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing WILDFLY_HOME with the path to your server:
+<pre><code>For Linux: WILDFLY_HOME/bin/jboss-cli.sh --connect --file=remove-mail-session.cli
+For Windows: WILDFLY_HOME\bin\jboss-cli.bat --connect --file=remove-mail-session.cli
+</code></pre>
+</li>
+</ol>
+<p>This script removes the custom <code>MyOtherMail</code> session from the <code>mail</code> subsystem in the server configuration. file You should see the following result when you run the script:</p>
+<pre><code>    The batch executed successfully
+    process-state: reload-required
+</code></pre>
+<h3><a href="#remove-the-custom-mail-configuration-manually" id="remove-the-custom-mail-configuration-manually">Remove the Custom Mail Configuration Manually</a></h3>
+<ol>
+<li>If it is running, stop the WildFly server.</li>
+<li>Replace the <code>WILDFLY_HOME/standalone/configuration/standalone-full.xml</code> file with the back-up copy of the file.</li>
+</ol>
+<h2><a href="#run-the-quickstart-in-red-hat-jboss-developer-studio-or-eclipse" id="run-the-quickstart-in-red-hat-jboss-developer-studio-or-eclipse">Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse</a></h2>
+<p>You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a WildFly server, and build and deploy a quickstart, see <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_JBDS.md#use-jboss-developer-studio-or-eclipse-to-run-the-quickstarts">Use JBoss Developer Studio or Eclipse to Run the Quickstarts</a>.</p>
+<p><em>NOTE:</em></p>
+<ul>
+<li>Be sure to <a href="#configure-an-smtp-server-on-your-local-machine">Configure an SMTP Server on Your Local Machine</a>.</li>
+<li>Be sure to configure the WildFly custom mail configuration as described above under <a href="#configure-the-server">Configure the WildFly Server</a>. Stop the server at the end of that step.</li>
+<li>To deploy the server project, right-click on the <code>mail</code> project and choose <code>Run As</code> --&gt; <code>Run on Server</code>.  A browser window appears that accesses the running application.</li>
+<li>Be sure to <a href="#remove-the-mail-configuration">Remove the Mail Configuration</a> when you have completed testing this quickstart.</li>
+</ul>
+<h2><a href="#debug-the-application" id="debug-the-application">Debug the Application</a></h2>
+<p>If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.</p>
+<pre><code>    mvn dependency:sources
+</code></pre>
+</body>
+</html>

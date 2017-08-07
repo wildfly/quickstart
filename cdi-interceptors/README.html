@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head><title> cdi-interceptors: Example Using CDI Interceptors</title>
+    <link href="http://static.jboss.org/ffe/0/www/vendor/redhat/documentation.css" rel="stylesheet"></link>
+    <link href="http://static.jboss.org/ffe/0/www/vendor/redhat/pygments.css" rel="stylesheet"></link>
+</head>
+<body><h1><a href="#cdi-interceptors-example-using-cdi-interceptors" id="cdi-interceptors-example-using-cdi-interceptors">cdi-interceptors: Example Using CDI Interceptors</a></h1>
+<p>Author: Ievgen Shulga<br />
+Level: Intermediate<br />
+Technologies: JPA, JSF, EJB<br />
+Summary: The <code>cdi-interceptors</code> quickstart demonstrates how to use CDI interceptors for cross-cutting concerns such as logging and simple auditing.<br />
+Target Product: WildFly<br />
+Source: <a href="https://github.com/wildfly/quickstart/">https://github.com/wildfly/quickstart/</a></p>
+<h2><a href="#what-is-it" id="what-is-it">What is it?</a></h2>
+<p>The <code>cdi-interceptors</code> quickstart demonstrates how to use CDI interceptors for cross-cutting concerns such as logging and simple auditing in applications deployed to WildFly Application Server. Interceptors can be applied to any business methods or beans, simply by adding appropriate interceptor binding type annotation. The project contains EJB service that can create and retrieve object from database. This example demonstrates 2 interceptors: <code>AuditInterceptor</code> and <code>LoggingInterceptor</code></p>
+<p>The quickstart defines the <code>@Audit</code> and <code>@Logging</code> interceptor binding types. The <code>AuditInterceptor</code> and <code>LoggingInterceptor</code> classes are annotated with the binding type annotation and contain a method annotated <code>@AroundInvoke</code>. If the interceptor is enabled, this method will be called when the intercepted methods are invoked. In the <code>ItemServiceBean</code> bean, notice the <code>create()</code>and <code>getList()</code> methods are annotated with the <code>@Audit</code> and <code>@Logging</code> binding types. This means the <code>aroundInvoke()</code> method in the <code>AuditInterceptor</code> and <code>LoggingInterceptor</code> classes will be called when the <code>ItemServiceBean</code> bean's <code>create()</code> and <code>getList()</code> methods are called, but only if that interceptor is enabled. To enable an interceptor, you must add the interceptor class to the <code>WEB-INF/beans.xml</code> descriptor file.</p>
+<p><em>Note: This quickstart uses the H2 database included with WildFly Application Server 11. It is a lightweight, relational example datasource that is used for examples only. It is not robust or scalable, is not supported, and should NOT be used in a production environment!</em></p>
+<p><em>Note: This quickstart uses a <code>*-ds.xml</code> datasource configuration file for convenience and ease of database configuration. These files are deprecated in WildFly and should not be used in a production environment. Instead, you should configure the datasource using the Management CLI or Management Console. Datasource configuration is documented in the <a href="https://access.redhat.com/documentation/en/red-hat-jboss-enterprise-application-platform/">Configuration Guide</a> for WildFly Application Server.</em></p>
+<h2><a href="#system-requirements" id="system-requirements">System Requirements</a></h2>
+<p>The application this project produces is designed to be run on WildFly Application Server 11 or later.</p>
+<p>All you need to build this project is Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later. See <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts">Configure Maven for WildFly 11</a> to make sure you are configured correctly for testing the quickstarts.</p>
+<h2><a href="#use-of-wildfly-home" id="use-of-wildfly-home">Use of WILDFLY_HOME</a></h2>
+<p>In the following instructions, replace <code>WILDFLY_HOME</code> with the actual path to your WildFly installation. The installation path is described in detail here: <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_WILDFLY_HOME.md#use-of-eap_home-and-jboss_home-variables">Use of WILDFLY_HOME and JBOSS_HOME Variables</a>.</p>
+<h2><a href="#start-the-server" id="start-the-server">Start the Server</a></h2>
+<ol>
+<li>Open a command prompt and navigate to the root of the WildFly directory.</li>
+<li>The following shows the command line to start the server:
+<pre><code>For Linux:   WILDFLY_HOME/bin/standalone.sh
+For Windows: WILDFLY_HOME\bin\standalone.bat
+</code></pre>
+</li>
+</ol>
+<h2><a href="#build-and-deploy-the-quickstart" id="build-and-deploy-the-quickstart">Build and Deploy the Quickstart</a></h2>
+<ol>
+<li>Make sure you have started the WildFly server as described above.</li>
+<li>Open a command prompt and navigate to the root directory of this quickstart.</li>
+<li>Type this command to build and deploy the archive:
+<pre><code>mvn clean install wildfly:deploy
+</code></pre>
+</li>
+<li>
+<p>This will deploy <code>target/cdi-interceptors.war</code> to the running instance of the server.</p>
+</li>
+</ol>
+<h2><a href="#access-the-application" id="access-the-application">Access the Application</a></h2>
+<p>The application will be running at the following URL: <a href="http://localhost:8080/cdi-interceptors">http://localhost:8080/cdi-interceptors</a>.</p>
+<p>You can now comment out classes in the <code>WEB-INF/beans.xml</code> file to disable one or both of the interceptors and view the results.</p>
+<ul>
+<li>Comment the <code>&lt;class&gt;org.jboss.as.quickstarts.cdi.interceptor.AuditInterceptor&lt;/class&gt;</code> and you will no longer see the audit history on the browser page.</li>
+<li>Comment the <code>&lt;class&gt;org.jboss.as.quickstarts.cdi.interceptor.LoggingInterceptor&lt;/class&gt;</code> and you will no longer see the log messages in the server log.</li>
+</ul>
+<p>In this quickstart, in order to switch back to the default implementation, comment the <code>interceptors</code> block in the <code>WEB-INF/beans.xml</code> file and redeploy the quickstart.</p>
+<h2><a href="#server-log-expected-warnings-and-errors" id="server-log-expected-warnings-and-errors">Server Log: Expected Warnings and Errors</a></h2>
+<p><em>Note:</em> You will see the following warnings in the server log. You can ignore these warnings.</p>
+<pre><code>WFLYJCA0091: -ds.xml file deployments are deprecated. Support may be removed in a future version.
+
+HHH000431: Unable to determine H2 database version, certain features may not work
+</code></pre>
+<h2><a href="#undeploy-the-archive" id="undeploy-the-archive">Undeploy the Archive</a></h2>
+<ol>
+<li>Make sure you have started the WildFly server as described above.</li>
+<li>Open a command prompt and navigate to the root directory of this quickstart.</li>
+<li>When you are finished testing, type this command to undeploy the archive:
+<pre><code>mvn wildfly:undeploy
+</code></pre>
+</li>
+</ol>
+<h2><a href="#run-the-arquillian-tests" id="run-the-arquillian-tests">Run the Arquillian Tests</a></h2>
+<p>This quickstart provides Arquillian tests. By default, these tests are configured to be skipped as Arquillian tests require the use of a container.</p>
+<ol>
+<li>Make sure you have started the WildFly server as described above.</li>
+<li>Open a command prompt and navigate to the root directory of this quickstart.</li>
+<li>Type the following command to run the test goal with the following profile activated:
+<pre><code>mvn clean verify -Parq-remote
+</code></pre>
+</li>
+</ol>
+<p>You can also let Arquillian manage the WildFly server by using the <code>arq-managed</code> profile. For more information about how to run the Arquillian tests, see <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/RUN_ARQUILLIAN_TESTS.md#run-the-arquillian-tests">Run the Arquillian Tests</a>.</p>
+<h2><a href="#run-the-quickstart-in-red-hat-jboss-developer-studio-or-eclipse" id="run-the-quickstart-in-red-hat-jboss-developer-studio-or-eclipse">Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse</a></h2>
+<p>You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a WildFly server, and build and deploy a quickstart, see <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_JBDS.md#use-jboss-developer-studio-or-eclipse-to-run-the-quickstarts">Use JBoss Developer Studio or Eclipse to Run the Quickstarts</a>.</p>
+<h2><a href="#debug-the-application" id="debug-the-application">Debug the Application</a></h2>
+<p>If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.</p>
+<pre><code>    mvn dependency:sources
+</code></pre>
+</body>
+</html>

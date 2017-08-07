@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head><title> helloworld-mbean: Helloworld Using MBean and CDI component</title>
+    <link href="http://static.jboss.org/ffe/0/www/vendor/redhat/documentation.css" rel="stylesheet"></link>
+    <link href="http://static.jboss.org/ffe/0/www/vendor/redhat/pygments.css" rel="stylesheet"></link>
+</head>
+<body><h1><a href="#helloworld-mbean-helloworld-using-mbean-and-cdi-component" id="helloworld-mbean-helloworld-using-mbean-and-cdi-component">helloworld-mbean: Helloworld Using MBean and CDI component</a></h1>
+<p>Author: Lagarde Jeremie<br />
+Level: Intermediate<br />
+Technologies: CDI, JMX, MBean<br />
+Summary: The <code>helloworld-mbean</code> quickstart demonstrates the use of <em>CDI</em> and <em>MBean</em> in WildFly and includes JConsole instructions and Arquillian tests.<br />
+Target Product: WildFly<br />
+Source: <a href="https://github.com/wildfly/quickstart/">https://github.com/wildfly/quickstart/</a></p>
+<h2><a href="#what-is-it" id="what-is-it">What is it?</a></h2>
+<p>The <code>helloworld-mbean</code> quickstart demonstrates the use of <em>CDI</em> and <em>MBean</em> in WildFly Application Server. The project also includes a set of Arquillian tests for MBeans.</p>
+<p>The example is composed of the following MBeans:</p>
+<ul>
+<li>
+<p><code>AnnotatedComponentHelloWorld</code>: This MBean is a managed bean with <code>@MXBean</code> annotation.</p>
+</li>
+<li>
+<p><code>MXComponentHelloWorld</code>:  This MBean is a managed bean with <code>MXBean</code> interface.</p>
+</li>
+<li>
+<p><code>MXPojoHelloWorld</code>:  This MBean is a pojo using MXBean interface and declared in the <code>jboss-service.xml</code> file.</p>
+</li>
+<li>
+<p><code>SarMXPojoHelloWorld</code>:  This MBean is a pojo using MXBean interface and declared in jboss-service.xml in SAR packaging.</p>
+</li>
+</ul>
+<h2><a href="#system-requirements" id="system-requirements">System Requirements</a></h2>
+<p>The application this project produces is designed to be run on WildFly Application Server 11 or later.</p>
+<p>All you need to build this project is Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later. See <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts">Configure Maven for WildFly 11</a> to make sure you are configured correctly for testing the quickstarts.</p>
+<h2><a href="#use-of-wildfly-home" id="use-of-wildfly-home">Use of WILDFLY_HOME</a></h2>
+<p>In the following instructions, replace <code>WILDFLY_HOME</code> with the actual path to your WildFly installation. The installation path is described in detail here: <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_WILDFLY_HOME.md#use-of-eap_home-and-jboss_home-variables">Use of WILDFLY_HOME and JBOSS_HOME Variables</a>.</p>
+<h2><a href="#start-the-wildfly-server" id="start-the-wildfly-server">Start the WildFly Server</a></h2>
+<ol>
+<li>Open a command prompt and navigate to the root of the WildFly directory.</li>
+<li>The following shows the command line to start the server:
+<pre><code>For Linux:   WILDFLY_HOME/bin/standalone.sh
+For Windows: WILDFLY_HOME\bin\standalone.bat
+</code></pre>
+</li>
+</ol>
+<h2><a href="#build-and-deploy-the-quickstart" id="build-and-deploy-the-quickstart">Build and Deploy the Quickstart</a></h2>
+<ol>
+<li>Make sure you have started the WildFly server as described above.</li>
+<li>Open a command prompt and navigate to the root directory of this quickstart.</li>
+<li>Type this command to build and deploy the archive:
+<pre><code>mvn clean install wildfly:deploy
+</code></pre>
+</li>
+<li>
+<p>This will deploy <code>helloworld-mbean-webapp/target/helloworld-mbean-webapp.war</code> and <code>helloworld-mbean-service/target/helloworld-mbean-service.sar</code> to the running instance of the server.</p>
+</li>
+</ol>
+<h2><a href="#access-and-test-the-mbeans" id="access-and-test-the-mbeans">Access and Test the MBeans</a></h2>
+<p>This quickstart differs from the other quickstarts in that it uses <em>JConsole</em> to access and test the quickstart rather than access an URL in the browser. If you do access <a href="http://localhost:8080/helloworld-mbean-webapp/">http://localhost:8080/helloworld-mbean-webapp/</a>, you will see a screen shot image of the <em>JConsole</em> application,</p>
+<p>The following sections describe how to use <em>JConsole</em> to inspect and test the MBeans.</p>
+<h2><a href="#start-jconsole" id="start-jconsole">Start JConsole</a></h2>
+<p>To connect to the WildFly server using <em>JConsole</em>, open a command prompt and type the following command :</p>
+<pre><code>For Linux:   JDK_HOME/bin/jconsole
+For Windows: JDK_HOME\bin\jconsole.exe
+</code></pre>
+<p>Select the local <code>org.jboss.modules.Main</code> process and click <code>Connect</code>.</p>
+<p><img src="helloworld-mbean-webapp/src/main/webapp/jconsole_connection.png" alt="MBeans in JConsole Connection" /></p>
+<p>A dialog displays with the warning <code>Secure connection failed. Retry insecurely?</code>. Click <code>Insecure</code> to continue.</p>
+<h2><a href="#test-the-mbeans-in-jconsole" id="test-the-mbeans-in-jconsole">Test the MBeans in JConsole</a></h2>
+<p>You can use <em>JConsole</em> to inspect and use the MBeans : <img src="helloworld-mbean-webapp/src/main/webapp/jconsole.png" alt="MBeans in JConsole" /></p>
+<ol>
+<li>Click on the MBeans tab.</li>
+<li>Expand <code>quickstarts</code> in the left column of the console.</li>
+<li>Under <code>quickstarts</code>, you see the 4 MBeans: <code>AnnotatedComponentHelloWorld</code>, <code>MXComponentHelloWorld</code>, <code>MXPojoHelloWorld</code>, and <code>SarMXPojoHelloWorld</code></li>
+<li>Expand each MBean and choose: <code>Operations</code> --&gt; <code>sayHello</code>.</li>
+<li>Type your name in the (p0 String ) input text box and click the <code>sayHello</code> button.</li>
+</ol>
+<ul>
+<li>For the <code>AnnotatedComponentHelloWorld</code> and <code>MXComponentHelloWorld</code> examples, you will see a popup Window displaying <code>Hello &lt;your name&gt;!</code>.</li>
+<li>For the <code>MXPojoHelloWorld</code> and <code>SarMXPojoHelloWorld</code> examples, you will see a popup Window displaying <code>Welcome &lt;your name&gt;!</code>.</li>
+</ul>
+<h2><a href="#undeploy-the-archive" id="undeploy-the-archive">Undeploy the Archive</a></h2>
+<ol>
+<li>Make sure you have started the WildFly server as described above.</li>
+<li>Open a command prompt and navigate to the root directory of this quickstart.</li>
+<li>When you are finished testing, type this command to undeploy the archive:
+<pre><code>mvn wildfly:undeploy
+</code></pre>
+</li>
+</ol>
+<h2><a href="#run-the-arquillian-tests" id="run-the-arquillian-tests">Run the Arquillian Tests</a></h2>
+<p>This quickstart provides Arquillian tests. By default, these tests are configured to be skipped as Arquillian tests require the use of a container.</p>
+<ol>
+<li>Make sure you have started the WildFly server as described above.</li>
+<li>Open a command prompt and navigate to the root directory of this quickstart.</li>
+<li>Type the following command to run the test goal with the following profile activated:
+<pre><code>mvn clean verify -Parq-remote
+</code></pre>
+</li>
+</ol>
+<p>You can also let Arquillian manage the WildFly server by using the <code>arq-managed</code> profile. For more information about how to run the Arquillian tests, see <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/RUN_ARQUILLIAN_TESTS.md#run-the-arquillian-tests">Run the Arquillian Tests</a>.</p>
+<h2><a href="#run-the-quickstart-in-red-hat-jboss-developer-studio-or-eclipse" id="run-the-quickstart-in-red-hat-jboss-developer-studio-or-eclipse">Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse</a></h2>
+<p>You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a WildFly server, and build and deploy a quickstart, see <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_JBDS.md#use-jboss-developer-studio-or-eclipse-to-run-the-quickstarts">Use JBoss Developer Studio or Eclipse to Run the Quickstarts</a>.</p>
+<p>This quickstart consists of multiple projects and requires installation of the <code>JBoss Tools Maven Packaging Configurator</code>, so it deploys and runs differently in JBoss Developer Studio than the other quickstarts.</p>
+<ol>
+<li>Install the JBoss Tools Maven Packaging Configurator
+<ul>
+<li>If the <code>Red Hat Central</code> page is not showing, open it by choosing <code>Help</code> --&gt; <code>Red Hat Central</code>.</li>
+<li>Click the <code>Software/Update</code> tab at the bottom of the <code>Red Hat Central</code>.</li>
+<li>Scroll down to the <code>Maven</code> section, select the <code>JBoss Tools Maven Packaging Configurator</code> and click <code>Install/Update</code>.</li>
+</ul>
+</li>
+<li>Right click on the parent <code>helloworld-mbean</code> parent project and choose <code>Maven</code> --&gt; <code>Update Project...</code>. Select all projects and click <code>OK</code>.</li>
+<li>Right-click on the <code>helloworld-mbean-service</code> project and choose <code>Run As</code> --&gt; <code>Run on Server</code>.</li>
+<li>Right-click on the <code>helloworld-mbean-webapp</code> project and choose <code>Run As</code> --&gt; <code>Run on Server</code>.</li>
+<li><a href="#start-jconsole">Start JConsole</a> and <a href="#test-the-mbeans-in-jconsole">Test the MBeans in JConsole</a> as described above.</li>
+</ol>
+<h2><a href="#debug-the-application" id="debug-the-application">Debug the Application</a></h2>
+<p>If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.</p>
+<pre><code>mvn dependency:sources
+</code></pre>
+</body>
+</html>

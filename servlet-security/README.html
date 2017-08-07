@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head><title> servlet-security:  Using Java EE Declarative Security to Control Servlet Access</title>
+    <link href="http://static.jboss.org/ffe/0/www/vendor/redhat/documentation.css" rel="stylesheet"></link>
+    <link href="http://static.jboss.org/ffe/0/www/vendor/redhat/pygments.css" rel="stylesheet"></link>
+</head>
+<body><h1><a href="#servlet-security-using-java-ee-declarative-security-to-control-servlet-access" id="servlet-security-using-java-ee-declarative-security-to-control-servlet-access">servlet-security:  Using Java EE Declarative Security to Control Servlet Access</a></h1>
+<p>Author: Sherif F. Makary, Pedro Igor, Stefan Guilhen<br />
+Level: Intermediate<br />
+Technologies: Servlet, Security<br />
+Summary: The <code>servlet-security</code> quickstart demonstrates the use of Java EE declarative security to control access to Servlets and Security in WildFly.<br />
+Target Product: WildFly<br />
+Source: <a href="https://github.com/wildfly/quickstart/">https://github.com/wildfly/quickstart/</a></p>
+<h2><a href="#what-is-it" id="what-is-it">What is it?</a></h2>
+<p>The <code>servlet-security</code> quickstart demonstrates the use of Java EE declarative security to control access to Servlets and Security in WildFly Application Server.</p>
+<p>When you deploy this example, two users are automatically created for you: user <code>quickstartUser</code> with password <code>quickstartPwd1!</code> and user <code>guest</code> with password <code>guestPwd1!</code>. This data is located in the <code>src/main/resources/import.sql</code> file.</p>
+<p>This quickstart takes the following steps to implement Servlet security:</p>
+<ol>
+<li>Web Application:
+<ul>
+<li>Adds a security constraint to the Servlet using the <code>@ServletSecurity</code> and <code>@HttpConstraint</code> annotations.</li>
+<li>Adds a security domain reference to <code>WEB-INF/jboss-web.xml</code>.</li>
+<li>Adds a <code>login-config</code> that sets the <code>auth-method</code> to <code>BASIC</code> in the <code>WEB-INF/web.xml</code>.</li>
+</ul>
+</li>
+<li>Application Server (<code>standalone.xml</code>):
+<ul>
+<li>Defines a security domain in the <code>elytron</code> subsystem that uses the JDBC security realm to obtain the security data used to authenticate and authorize users.</li>
+<li>Defines an <code>http-authentication-factory</code> in the <code>elytron</code> subsystem that uses the security domain created in step 1 for BASIC authentication.</li>
+<li>Adds an <code>application-security-domain</code> mapping in the <code>undertow</code> subsystem to map the Servlet security domain to the HTTP authentication factory defined in step 2.</li>
+</ul>
+</li>
+<li>Database Configuration:
+<ul>
+<li>Adds an application user with access rights to the application.
+<pre><code>User Name: quickstartUser
+Password: quickstartPwd1!
+Role: quickstarts
+</code></pre>
+</li>
+<li>Adds another user with no access rights to the application.
+<pre><code>User Name: guest
+Password: guestPwd1!
+Role: notauthorized
+</code></pre>
+</li>
+</ul>
+</li>
+</ol>
+<p><em>Note: This quickstart uses the H2 database included with WildFly Application Server 11. It is a lightweight, relational example datasource that is used for examples only. It is not robust or scalable, is not supported, and should NOT be used in a production environment!</em></p>
+<h2><a href="#system-requirements" id="system-requirements">System Requirements</a></h2>
+<p>The application this project produces is designed to be run on WildFly Application Server 11 or later.</p>
+<p>All you need to build this project is Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later. See <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts">Configure Maven for WildFly 11</a> to make sure you are configured correctly for testing the quickstarts.</p>
+<h2><a href="#use-of-wildfly-home" id="use-of-wildfly-home">Use of WILDFLY_HOME</a></h2>
+<p>In the following instructions, replace <code>WILDFLY_HOME</code> with the actual path to your WildFly installation. The installation path is described in detail here: <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_WILDFLY_HOME.md#use-of-eap_home-and-jboss_home-variables">Use of WILDFLY_HOME and JBOSS_HOME Variables</a>.</p>
+<h2><a href="#configure-the-server" id="configure-the-server">Configure the Server</a></h2>
+<p>You can configure the server by running JBoss CLI commands. For your convenience, this quickstart batches the commands into a <code>configure-server.cli</code> script provided in the root directory of this quickstart.</p>
+<ol>
+<li>
+<p>Before you begin, back up your server configuration file</p>
+<ul>
+<li>If it is running, stop the WildFly server.</li>
+<li>Back up the file: <code>WILDFLY_HOME/standalone/configuration/standalone.xml</code></li>
+<li>After you have completed testing this quickstart, you can replace this file to restore the server to its original configuration.</li>
+</ul>
+</li>
+<li>
+<p>Start the WildFly server by typing the following:</p>
+<pre><code>For Linux:  WILDFLY_HOME/bin/standalone.sh
+For Windows:  WILDFLY_HOME\bin\standalone.bat
+</code></pre>
+</li>
+<li>Review the <code>configure-server.cli</code> file in the root of this quickstart directory. This script adds security domain and HTTP authentication factory to the <code>elytron</code> subsystem in the server configuration and also configures the <code>undertow</code> subsystem to use the configured HTTP authentication factory for the Web application.</li>
+<li>Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing WILDFLY_HOME with the path to your server:
+<pre><code>For Linux: WILDFLY_HOME/bin/jboss-cli.sh --connect --file=configure-server.cli
+For Windows: WILDFLY_HOME\bin\jboss-cli.bat --connect --file=configure-server.cli
+</code></pre>
+<p>You should see the following result when you run the script:</p>
+<pre><code>The batch executed successfully
+</code></pre>
+</li>
+<li>Stop the WildFly server.</li>
+</ol>
+<h2><a href="#review-the-modified-server-configuration" id="review-the-modified-server-configuration">Review the Modified Server Configuration</a></h2>
+<p>After stopping the server, open the <code>WILDFLY_HOME/standalone/configuration/standalone.xml</code> file and review the changes.</p>
+<ol>
+<li>
+<p>The following datasource was added to the <code>datasources</code> subsystem.</p>
+<pre><code>&lt;datasource jndi-name=&quot;java:jboss/datasources/ServletSecurityDS&quot; pool-name=&quot;ServletSecurityDS&quot;&gt;
+    &lt;connection-url&gt;jdbc:h2:mem:servlet-security;DB_CLOSE_ON_EXIT=FALSE&lt;/connection-url&gt;
+    &lt;driver&gt;h2&lt;/driver&gt;
+    &lt;security&gt;
+        &lt;user-name&gt;sa&lt;/user-name&gt;
+        &lt;password&gt;sa&lt;/password&gt;
+    &lt;/security&gt;
+&lt;/datasource&gt;
+</code></pre>
+</li>
+<li>
+<p>The following <code>security-realm</code> was added to the <code>elytron</code> subsystem.</p>
+<pre><code>&lt;jdbc-realm name=&quot;servlet-security-jdbc-realm&quot;&gt;
+    &lt;principal-query sql=&quot;SELECT PASSWORD FROM USERS WHERE USERNAME = ?&quot; data-source=&quot;ServletSecurityDS&quot;&gt;
+        &lt;clear-password-mapper password-index=&quot;1&quot;/&gt;
+    &lt;/principal-query&gt;
+    &lt;principal-query sql=&quot;SELECT R.NAME, 'Roles' FROM USERS_ROLES UR INNER JOIN ROLES R ON R.ID = UR.ROLE_ID INNER JOIN USERS U ON U.ID = UR.USER_ID WHERE U.USERNAME = ?&quot; data-source=&quot;ServletSecurityDS&quot;&gt;
+        &lt;attribute-mapping&gt;
+            &lt;attribute to=&quot;roles&quot; index=&quot;1&quot;/&gt;
+        &lt;/attribute-mapping&gt;
+    &lt;/principal-query&gt;
+&lt;/jdbc-realm&gt;
+</code></pre>
+<p>The <code>security-realm</code> is responsible for verifying the credentials for a given principal and for obtaining security attributes (like roles) that are associated with the authenticated identity.</p>
+</li>
+<li>
+<p>The following <code>role-decoder</code> was added to the <code>elytron</code> subsystem.</p>
+<pre><code>&lt;simple-role-decoder name=&quot;from-roles-attribute&quot; attribute=&quot;roles&quot;/&gt;
+</code></pre>
+<p>The <code>jdbc-realm</code> in this quickstart stores the roles associated with a principal in an attribute named roles. Other realms might use different attributes for roles (such as <code>group</code>). The purpose of a <code>role-decoder</code> is to instruct the security domain how roles are to be retrieved from an authorized identity.</p>
+</li>
+<li>
+<p>The following <code>security-domain</code> was added to the <code>elytron</code> subsystem.</p>
+<pre><code>&lt;security-domain name=&quot;servlet-security-quickstart-sd&quot; default-realm=&quot;servlet-security-jdbc-realm&quot; permission-mapper=&quot;default-permission-mapper&quot;&gt;
+    &lt;realm name=&quot;servlet-security-jdbc-realm&quot; role-decoder=&quot;from-roles-attribute&quot;/&gt;
+&lt;/security-domain&gt;
+</code></pre>
+</li>
+<li>
+<p>The following <code>http-authentication-factory</code> was added to the <code>elytron</code> subsystem.</p>
+<pre><code>&lt;http-authentication-factory name=&quot;servlet-security-quickstart-http-auth&quot; http-server-mechanism-factory=&quot;global&quot; security-domain=&quot;servlet-security-quickstart-sd&quot;&gt;
+    &lt;mechanism-configuration&gt;
+        &lt;mechanism mechanism-name=&quot;BASIC&quot;&gt;
+            &lt;mechanism-realm realm-name=&quot;RealmUsersRoles&quot;/&gt;
+        &lt;/mechanism&gt;
+    &lt;/mechanism-configuration&gt;
+&lt;/http-authentication-factory&gt;
+</code></pre>
+<p>It basically defines an HTTP authentication factory for the BASIC mechanism that relies on the <code>servlet-security-quickstart-sd</code> security domain to authenticate and authorize access to Web applications.</p>
+</li>
+<li>
+<p>The following <code>application-security-domain</code> was added to the <code>undertow</code> subsystem.</p>
+<pre><code>&lt;application-security-domains&gt;
+    &lt;application-security-domain name=&quot;servlet-security-quickstart&quot; http-authentication-factory=&quot;servlet-security-quickstart-http-auth&quot;/&gt;
+&lt;/application-security-domains&gt;
+</code></pre>
+</li>
+</ol>
+<p>This configuration tells <code>Undertow</code> that applications with the <code>servlet-security-quickstart</code> security domain, as defined in the <code>jboss-web.xml</code> or by using the <code>@SecurityDomain</code> annotation in the Servlet class, should use the <code>http-authentication-factory</code> named <code>servlet-security-quickstart-http-auth</code>. If no <code>application-security-domain</code> is defined for a particular security domain, <code>Undertow</code> assumes the legacy JAAS based security domains should be used for authentication/authorization and, in this case, the security domain defined in the Web application must match a security domain in the legacy <code>security</code> subsystem. The presence of an <code>application-security-domain</code> configuration is what enables Elytron authentication for a Web application.</p>
+<h2><a href="#start-the-server" id="start-the-server">Start the Server</a></h2>
+<ol>
+<li>Open a command prompt and navigate to the root of the WildFly directory.</li>
+<li>The following shows the command line to start the server:
+<pre><code>For Linux:   WILDFLY_HOME/bin/standalone.sh
+For Windows: WILDFLY_HOME\bin\standalone.bat
+</code></pre>
+</li>
+</ol>
+<h2><a href="#build-and-deploy-the-quickstart" id="build-and-deploy-the-quickstart">Build and Deploy the Quickstart</a></h2>
+<ol>
+<li>Make sure you have started the WildFly server as described above.</li>
+<li>Open a command prompt and navigate to the root directory of this quickstart.</li>
+<li>Type this command to build and deploy the archive:
+<pre><code>mvn clean install wildfly:deploy
+</code></pre>
+</li>
+<li>
+<p>This will deploy <code>target/servlet-security.war</code> to the running instance of the server.</p>
+</li>
+</ol>
+<h2><a href="#access-the-application" id="access-the-application">Access the Application</a></h2>
+<p>The application will be running at the following URL <a href="http://localhost:8080/servlet-security/">http://localhost:8080/servlet-security/</a>.</p>
+<p>When you access the application, you should get a browser login challenge.</p>
+<p>Log in using the username <code>quickstartUser</code> and password <code>quickstartPwd1!</code>. The browser will display the following security info:</p>
+<pre><code>Successfully called Secured Servlet
+
+Principal : quickstartUser
+Remote User : quickstartUser
+Authentication Type : BASIC
+</code></pre>
+<p>Now close the browser. Open a new browser and log in with username <code>guest</code> and password <code>guestPwd1!</code>. The browser will display the following error:</p>
+<pre><code>Forbidden
+</code></pre>
+<h2><a href="#server-log-expected-warnings-and-errors" id="server-log-expected-warnings-and-errors">Server Log: Expected Warnings and Errors</a></h2>
+<p><em>Note:</em> You will see the following warning in the server log. You can ignore it.</p>
+<pre><code>HHH000431: Unable to determine H2 database version, certain features may not work
+</code></pre>
+<h2><a href="#undeploy-the-archive" id="undeploy-the-archive">Undeploy the Archive</a></h2>
+<ol>
+<li>Make sure you have started the WildFly server as described above.</li>
+<li>Open a command prompt and navigate to the root directory of this quickstart.</li>
+<li>When you are finished testing, type this command to undeploy the archive:
+<pre><code>mvn wildfly:undeploy
+</code></pre>
+</li>
+</ol>
+<h2><a href="#restore-the-server-configuration" id="restore-the-server-configuration">Restore the Server Configuration</a></h2>
+<p>You can restore the original server configuration by running the  <code>restore-configuration.cli</code> script provided in the root directory of this quickstart or by manually restoring the back-up copy the configuration file.</p>
+<h3><a href="#restore-the-server-configuration-by-running-the-jboss-cli-script" id="restore-the-server-configuration-by-running-the-jboss-cli-script">Restore the Server Configuration by Running the JBoss CLI Script</a></h3>
+<ol>
+<li>Start the WildFly server by typing the following:
+<pre><code>For Linux:  WILDFLY_HOME/bin/standalone.sh
+For Windows:  WILDFLY_HOME\bin\standalone.bat
+</code></pre>
+</li>
+<li>Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing WILDFLY_HOME with the path to your server:
+<pre><code>For Linux: WILDFLY_HOME/bin/jboss-cli.sh --connect --file=restore-configuration.cli
+For Windows: WILDFLY_HOME\bin\jboss-cli.bat --connect --file=restore-configuration.cli
+</code></pre>
+</li>
+</ol>
+<p>This script removes the <code>application-security-domain</code> configuration from the <code>undertow</code> subsystem, the <code>http-authentication-factory</code>, <code>security-domain</code>, <code>security-realm</code> and <code>role-decoder</code> configuration from the <code>elytron</code> subsystem and it also removes the <code>datasource</code> used for this quickstart. You should see the following result when you run the script:</p>
+<pre><code>    The batch executed successfully
+    process-state: reload-required
+</code></pre>
+<h3><a href="#restore-the-server-configuration-manually" id="restore-the-server-configuration-manually">Restore the Server Configuration Manually</a></h3>
+<ol>
+<li>If it is running, stop the WildFly server.</li>
+<li>Replace the <code>WILDFLY_HOME/standalone/configuration/standalone.xml</code> file with the back-up copy of the file.</li>
+</ol>
+<h2><a href="#run-the-quickstart-in-red-hat-jboss-developer-studio-or-eclipse" id="run-the-quickstart-in-red-hat-jboss-developer-studio-or-eclipse">Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse</a></h2>
+<p>You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a WildFly server, and build and deploy a quickstart, see <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_JBDS.md#use-jboss-developer-studio-or-eclipse-to-run-the-quickstarts">Use JBoss Developer Studio or Eclipse to Run the Quickstarts</a>.</p>
+<ul>
+<li>Be sure to configure the server by running the JBoss CLI commands as described above under <a href="#configure-the-server">Configure the WildFly Server</a>. Stop the server at the end of that step.</li>
+<li>Be sure to <a href="#restore-the-server-configuration">Restore the Server Configuration</a> when you have completed testing this quickstart.</li>
+</ul>
+<h2><a href="#debug-the-application" id="debug-the-application">Debug the Application</a></h2>
+<p>If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.</p>
+<pre><code>  mvn dependency:sources
+</code></pre>
+</body>
+</html>

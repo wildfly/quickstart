@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html>
+<head><title> ejb-security-interceptors: Use Interceptors to Switch Identities for an EJB Call</title>
+    <link href="http://static.jboss.org/ffe/0/www/vendor/redhat/documentation.css" rel="stylesheet"></link>
+    <link href="http://static.jboss.org/ffe/0/www/vendor/redhat/pygments.css" rel="stylesheet"></link>
+</head>
+<body><h1><a href="#ejb-security-interceptors-use-interceptors-to-switch-identities-for-an-ejb-call" id="ejb-security-interceptors-use-interceptors-to-switch-identities-for-an-ejb-call">ejb-security-interceptors: Use Interceptors to Switch Identities for an EJB Call</a></h1>
+<p>Author: Darran Lofthouse, Stefan Guilhen<br />
+Level: Advanced<br />
+Technologies: EJB, Security<br />
+Summary: The <code>ejb-security-interceptors</code> quickstart demonstrates how to use client and server side interceptors to switch the identity for an EJB call.<br />
+Target Product: WildFly<br />
+Source: <a href="https://github.com/wildfly/quickstart/">https://github.com/wildfly/quickstart/</a></p>
+<h2><a href="#what-is-it" id="what-is-it">What is it?</a></h2>
+<p>The <code>ejb-security-interceptors</code> quickstart demonstrates how to use client and server side interceptors to switch the identity for an EJB call in WildFly Application Server. It also demonstrates how Elytron supports identity switching based on permissions.</p>
+<p>By default, when you make a remote call to an EJB deployed to the application server, the connection to the server is authenticated and any request received over this connection is executed as the identity that authenticated the connection. This is true for both client-to-server and server-to-server calls. Although it is possible to switch identities without requiring a new connection to be established, in this quickstart a single identity is used to establish the connection to and the interceptors are then used to switch the connection identity to a different identity for the EJB call. This is achieved with the addition of the following two components:</p>
+<ol>
+<li>A client side interceptor to pass the requested identity to the remote server.</li>
+<li>A server side interceptor to receive the identity and request that the call switches to that identity.</li>
+</ol>
+<p>The quickstart then makes use of two EJBs, <code>SecuredEJB</code> and <code>IntermediateEJB</code>, to verify that the propagation and identity switching is correct and a <code>RemoteClient</code> standalone client.</p>
+<h3><a href="#securedejb" id="securedejb">SecuredEJB</a></h3>
+<p>The <code>SecuredEJB</code> has three methods:</p>
+<pre><code>String getSecurityInformation();
+boolean roleOneMethod();
+boolean roleTwoMethod();
+</code></pre>
+<p>The first method can be called by all users that are created in this quickstart. The purpose of this method is to return a String containing the name of the Principal that called the EJB along with the user's authorized role information, for example:</p>
+<pre><code>    [Principal={ConnectionUser}, In role {User}=true, In role {RoleOne}=false, In role {RoleTwo}=false]
+</code></pre>
+<p>The next two methods are annotated to require that the calling user is authorized for roles <code>RoleOne</code> and <code>RoleTwo</code> respectively.</p>
+<h3><a href="#intermediateejb" id="intermediateejb">IntermediateEJB</a></h3>
+<p>The <code>IntermediateEJB</code> contains a single method. Its purpose is to make use of a remote connection and invoke each of the methods on the <code>SecuredEJB</code>. A summary is then returned with the outcome of the calls.</p>
+<h3><a href="#remoteclient" id="remoteclient">RemoteClient</a></h3>
+<p>Finally there is the <code>RemoteClient</code> stand-alone client. The client makes calls using the identity of the established connection and also makes calls switching the identity to the different users.</p>
+<p>In the real world, remote calls between servers in the servers-to-server scenario would truly be remote and separate. For the purpose of this quickstart, we make use of a loopback connection to the same server so we do not need two servers just to run the test.</p>
+<h2><a href="#note-on-ejb-client-interceptors" id="note-on-ejb-client-interceptors">Note on EJB client interceptors</a></h2>
+<p>WildFly allows client side interceptors for EJB invocations. Such interceptors are expected to implement the <code>org.jboss.ejb.client.EJBClientInterceptor</code> interface.  Interceptors can be established in many ways, including the following:</p>
+<ul>
+<li>Using the <code>@ClientInterceptors</code> annotation, which exists in the <code>org.jboss.ejb.client.annotations</code> package of the EJB client API.  The annotation accepts a list of classes which implement the <code>EJBClientInterceptor</code> interface and each have a public, no-argument constructor, operating in much the same way as its server-side counterpart <code>@Interceptors</code> annotation in the standard <code>javax.interceptor</code> package.  The classes themselves may optionally be annotated with the <code>@ClientInterceptorPriority</code> annotation, which assigns a numerical priority used in sorting the interceptors for invocation.  The constant integer values on that annotation type represent standard values; if no priority is given, then the value of <code>APPLICATION</code> is chosen.</li>
+<li>Establishing a list of interceptors in the <code>wildfly-client.xml</code> configuration file, which applies to standalone applications.</li>
+<li>Using the <code>ServiceLoader</code>-based mechanism, which is an alternate approach which involves creating a <code>META-INF/services/org.jboss.ejb.client.EJBClientInterceptor</code> file and placing/packaging it in the classpath of the client application. The rules for such a file are dictated by the <a href="http://docs.oracle.com/javase/8/docs/api/java/util/ServiceLoader.html">Java ServiceLoader Mechanism</a>. This file is expected to contain on each separate line the fully qualified class name of the EJB client interceptor implementation, which is expected to be available in the classpath. EJB client interceptors follow the same ordering rules as annotated or configured interceptors.</li>
+</ul>
+<p>This quickstart uses the annotation-based approach.</p>
+<h3><a href="#ordering" id="ordering">Ordering</a></h3>
+<p>Interceptors are ordered according to their assigned priority, which is <code>APPLICATION</code> if none is given.  Lower numbers come earlier, and higher numbers come later.  If more than one interceptor have the same priority, they are considered in the following order:</p>
+<ul>
+<li>Method-level annotated interceptors</li>
+<li>Class-level annotated interceptors</li>
+<li>Configuration-declared method interceptors</li>
+<li>Configuration-declared class interceptors</li>
+<li>Configuration-declared global interceptors</li>
+<li><code>ServiceLoader</code>-based interceptors from the class path</li>
+<li>System-installed JBoss interceptors</li>
+</ul>
+<p>If after these rules apply, more than one interceptor are still of equal priority, then they are applied in declaration or encounter order.</p>
+<h2><a href="#system-requirements" id="system-requirements">System Requirements</a></h2>
+<p>The application this project produces is designed to be run on WildFly Application Server 11.</p>
+<p>All you need to build this project is Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later. See <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts">Configure Maven for WildFly 11</a> to make sure you are configured correctly for testing the quickstarts.</p>
+<h2><a href="#prerequisites" id="prerequisites">Prerequisites</a></h2>
+<p>This quickstart uses the default standalone configuration plus the modifications described here.</p>
+<p>It is recommended that you test this approach in a separate and clean environment before you attempt to port the changes in your own environment.</p>
+<h2><a href="#use-of-wildfly-home" id="use-of-wildfly-home">Use of WILDFLY_HOME</a></h2>
+<p>In the following instructions, replace <code>WILDFLY_HOME</code> with the actual path to your WildFly installation. The installation path is described in detail here: <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_WILDFLY_HOME.md#use-of-eap_home-and-jboss_home-variables">Use of WILDFLY_HOME and JBOSS_HOME Variables</a>.</p>
+<h2><a href="#add-the-application-users" id="add-the-application-users">Add the Application Users</a></h2>
+<p>This quickstart uses secured management interfaces and is built around the default <code>ApplicationRealm</code> as configured in the WildFly distribution.  You must create the following application users to access the running application:</p>
+<table>
+<thead>
+<tr><th align="left"> <strong>UserName</strong> </th><th align="left"> <strong>Realm</strong> </th><th align="left"> <strong>Password</strong> </th><th align="left"> <strong>Roles</strong> </th></tr>
+</thead>
+<tbody>
+<tr><td align="left"> ConnectionUser</td><td align="left"> ApplicationRealm </td><td align="left"> ConnectionPassword1!</td><td align="left"> User </td></tr>
+<tr><td align="left"> AppUserOne </td><td align="left"> ApplicationRealm </td><td align="left"> AppPasswordOne1! </td><td align="left"> User, RoleOne </td></tr>
+<tr><td align="left"> AppUserTwo </td><td align="left"> ApplicationRealm </td><td align="left"> AppPasswordTwo1! </td><td align="left"> User, RoleTwo </td></tr>
+<tr><td align="left"> AppUserThree </td><td align="left"> ApplicationRealm </td><td align="left"> AppPasswordThree1! </td><td align="left"> User, RoleOne, RoleTwo </td></tr>
+</tbody>
+</table>
+<p>To add the users, open a command prompt and type the following commands:</p>
+<pre><code>    For Linux:
+      WILDFLY_HOME/bin/add-user.sh -a -u 'ConnectionUser' -p 'ConnectionPassword1!' -g 'User'
+      WILDFLY_HOME/bin/add-user.sh -a -u 'AppUserOne' -p 'AppPasswordOne1!' -g 'User,RoleOne'
+      WILDFLY_HOME/bin/add-user.sh -a -u 'AppUserTwo' -p 'AppPasswordTwo1!' -g 'User,RoleTwo'
+      WILDFLY_HOME/bin/add-user.sh -a -u 'AppUserThree' -p 'AppPasswordThree1!' -g 'User,RoleOne,RoleTwo'
+
+    For Windows:
+      WILDFLY_HOME\bin\add-user.bat -a -u 'ConnectionUser' -p 'ConnectionPassword1!' -g 'User'
+      WILDFLY_HOME\bin\add-user.bat -a -u 'AppUserOne' -p 'AppPasswordOne1!' -g 'User,RoleOne'
+      WILDFLY_HOME\bin\add-user.bat -a -u 'AppUserTwo' -p 'AppPasswordTwo1!' -g 'User,RoleTwo'
+      WILDFLY_HOME\bin\add-user.bat -a -u 'AppUserThree' -p 'AppPasswordThree1!' -g 'User,RoleOne,RoleTwo'
+</code></pre>
+<p>The first user establishes the actual connection to the server. The subsequent two users demonstrate how to switch identities on demand. The final user can access everything but can not participate in identity switching.</p>
+<p>Note that within the quickstart, we do not make use of the passwords for any of the <code>App</code> users. The passwords specified for those users are only suggested values that meet password minimum requirements.</p>
+<p>If you prefer, you can use the add-user utility interactively. For an example of how to use the add-user utility, see the instructions located here: <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CREATE_USERS.md#add-an-application-user">Add an Application User</a>.</p>
+<h2><a href="#configure-the-server" id="configure-the-server">Configure the Server</a></h2>
+<p>These steps assume you are running the server in standalone mode and using the default <code>standalone.xml</code> supplied with the distribution.</p>
+<p>You configure the security domain by running JBoss CLI commands. For your convenience, this quickstart batches the commands into a <code>configure-elytron.cli</code> script provided in the root directory of this quickstart.</p>
+<ol>
+<li>
+<p>Before you begin, back up your server configuration file</p>
+<ul>
+<li>If it is running, stop the WildFly server.</li>
+<li>Back up the file: <code>WILDFLY_HOME/standalone/configuration/standalone.xml</code></li>
+<li>After you have completed testing this quickstart, you can replace this file to restore the server to its original configuration.</li>
+</ul>
+</li>
+<li>
+<p>Start the WildFly server by typing the following:</p>
+<pre><code>For Linux:  WILDFLY_HOME/bin/standalone.sh
+For Windows:  WILDFLY_HOME\bin\standalone.bat
+</code></pre>
+</li>
+<li>Review the <code>configure-elytron.cli</code> file in the root of this quickstart directory. This script adds the configuration that enables Elytron security for the quickstart deployment. Comments in the script describe the purpose of each block of commands.</li>
+<li>
+<p>Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing WILDFLY_HOME with the path to your server:</p>
+<pre><code>For Linux: WILDFLY_HOME/bin/jboss-cli.sh --connect --file=configure-elytron.cli
+For Windows: WILDFLY_HOME\bin\jboss-cli.bat --connect --file=configure-elytron.cli
+</code></pre>
+<p>You should see the following result when you run the script:</p>
+<pre><code>The batch executed successfully
+</code></pre>
+</li>
+<li>Because this example quickstart demonstrates security, exceptions are thrown when secured EJB access is attempted by an invalid user. If you want to review the security exceptions in the server log, you can skip this step. If you want to suppress these exceptions in the server log, run the following command, replacing WILDFLY_HOME with the path to your server:
+<pre><code>For Linux: WILDFLY_HOME/bin/jboss-cli.sh --connect --file=configure-system-exception.cli
+For Windows: WILDFLY_HOME\bin\jboss-cli.bat --connect --file=configure-system-exception.cli
+</code></pre>
+<p>You should see the following result when you run the script:</p>
+<pre><code>The batch executed successfully
+</code></pre>
+</li>
+<li>Stop the WildFly server.</li>
+</ol>
+<h2><a href="#review-the-modified-server-configuration" id="review-the-modified-server-configuration">Review the Modified Server Configuration</a></h2>
+<p>After stopping the server, open the <code>WILDFLY_HOME/standalone/configuration/standalone.xml</code> file and review the changes.</p>
+<ol>
+<li>The following <code>application-security-domain</code> was added to the <code>ejb3</code> subsystem:
+<pre><code>&lt;application-security-domains&gt;
+    &lt;application-security-domain name=&quot;quickstart-domain&quot; security-domain=&quot;ApplicationDomain&quot;/&gt;
+&lt;/application-security-domains&gt;
+</code></pre>
+<p>The <code>application-security-domain</code> essentially enables Elytron security for the quickstart EJBs. It maps the <code>quickstart-domain</code> that was set in the EJBs via annotation to the Elytron <code>ApplicationDomain</code> that will be responsible for authenticating and authorizing access to the EJBs.</p>
+</li>
+<li>The following <code>ejb-outbound-configuration</code> authentication configuration and <code>ejb-outbound-context</code> authentication context were added to the <code>elytron</code> subsystem:
+<pre><code>&lt;authentication-configuration name=&quot;ejb-outbound-configuration&quot; authentication-name=&quot;ConnectionUser&quot; realm=&quot;ApplicationRealm&quot; sasl-mechanism-selector=&quot;-JBOSS-LOCAL-USER #ALL&quot;&gt;
+    &lt;credential-reference clear-text=&quot;ConnectionPassword1!&quot;/&gt;
+&lt;/authentication-configuration&gt;
+&lt;authentication-context name=&quot;ejb-outbound-context&quot;&gt;
+    &lt;match-rule authentication-configuration=&quot;ejb-outbound-configuration&quot;/&gt;
+&lt;/authentication-context&gt;
+</code></pre>
+<p>The <code>ejb-outbound-configuration</code> contains the authentication configuration that will be used when invoking a method on a remote EJB (i.e. when <code>IntermediateEJB</code> calls the methods on the <code>SecuredEJB</code>). It contains the user/credential pair that should be used when establishing the connection to the remote EJB and the <code>sasl-mechanism-selector</code> defines the SASL mechanisms that should be tried. In the configuration above it allows for all mechanisms except for <code>JBOSS-LOCAL-USER</code>.</p>
+<p>The <code>ejb-outbound-context</code> is the authentiation context that is used by the remote outbound connection and it automatically selects the <code>ejb-outbound-configuration</code>.</p>
+</li>
+<li>The following permissions were added to the <code>constant-permission-mapper</code> in the <code>elytron</code> subsystem:
+<pre><code>&lt;permission class-name=&quot;org.wildfly.security.auth.permission.RunAsPrincipalPermission&quot; target-name=&quot;AppUserOne&quot;/&gt;
+&lt;permission class-name=&quot;org.wildfly.security.auth.permission.RunAsPrincipalPermission&quot; target-name=&quot;AppUserTwo&quot;/&gt;
+</code></pre>
+<p>When switching identities via <code>createRunAsIdentity</code>, Elytron checks if the identity making the switch has permissions to do so. The above configuration essentially grants any identity permission to create a run-as identity.</p>
+<p>For the purpose of this quickstart this permissions configuration is acceptable but in a real world scenario the recommendation would be to use a more fine-grained permissions configuration and grant the <code>RunAsPrincipalPermission</code>s only to the <code>ConnectionUser</code> identity. This could be done as follows: Create a <code>simple-permission-mapper</code> that assigns the necessary permissions to the <code>ConnectionUser</code>.</p>
+<pre><code>&lt;simple-permission-mapper name=&quot;run-as-permission-mapper&quot;&gt;
+    &lt;permission-mapping principals=&quot;ConnectionUser&quot;&gt;
+        &lt;permission class-name=&quot;org.wildfly.security.auth.permission.RunAsPrincipalPermission&quot; target-name=&quot;AppUserOne&quot;/&gt;
+        &lt;permission class-name=&quot;org.wildfly.security.auth.permission.RunAsPrincipalPermission&quot; target-name=&quot;AppUserTwo&quot;/&gt;
+    &lt;/permission-mapping&gt;
+&lt;/simple-permission-mapper&gt;
+</code></pre>
+<p>Create a <code>logical-permission-mapper</code> that expands the permissions of the <code>default-permission-mapper</code> to include the new <code>simple-permission-mapper</code>.</p>
+<pre><code>&lt;logical-permission-mapper name=&quot;quickstart-permission-mapper&quot; logical-operation=&quot;or&quot; left=&quot;default-permission-mapper&quot; right=&quot;run-as-permission-mapper&quot;/&gt;
+</code></pre>
+<p>Change the <code>ApplicationDomain</code> to use the extended mapper instead of the <code>default-permission-mapper</code>.</p>
+<pre><code>&lt;security-domain name=&quot;ApplicationDomain&quot; default-realm=&quot;ApplicationRealm&quot; permission-mapper=&quot;quickstart-permission-mapper&quot; security-event-listener=&quot;local-audit&quot;&gt;
+</code></pre>
+<p>By doing that the same result is achieved but in a more controlled way, without granting permissions to all identities in the <code>constant-permission-mapper</code>.</p>
+</li>
+<li>
+<p>The following <code>ejb-outbound</code> outbound-socket-binding connection was created within the <code>standard-sockets</code> socket-binding-group:</p>
+<pre><code>&lt;outbound-socket-binding name=&quot;ejb-outbound&quot;&gt;
+    &lt;remote-destination host=&quot;localhost&quot; port=&quot;8080&quot;/&gt;
+&lt;/outbound-socket-binding&gt;
+</code></pre>
+<p>For the purpose of the quickstart we just need an outbound connection that loops back to the same server. This will be sufficient to demonstrate the server-to-server capabilities.</p>
+</li>
+<li>The following <code>ejb-outbound-connection</code> remote-outbound-connection was added to the outbound-connections within the <code>remoting</code> subsytem:
+<pre><code>&lt;outbound-connections&gt;
+    &lt;remote-outbound-connection name=&quot;ejb-outbound-connection&quot; outbound-socket-binding-ref=&quot;ejb-outbound&quot; authentication-context=&quot;ejb-outbound-context&quot;/&gt;
+&lt;/outbound-connections&gt;
+</code></pre>
+</li>
+<li>Finally the <code>http-connector</code> in the <code>remoting</code> subsystem was updated to use the <code>application-sasl-authentication</code> authentication factory. It allows for the identity that was established in the connection authentication to be propagated to the components.
+<pre><code>&lt;http-connector name=&quot;http-remoting-connector&quot; connector-ref=&quot;default&quot; security-realm=&quot;ApplicationRealm&quot; sasl-authentication-factory=&quot;application-sasl-authentication&quot;/&gt;
+</code></pre>
+</li>
+<li>If you chose to run the script to suppress system exceptions, you should see the following configuration in the <code>ejb3</code> subsystem.
+<pre><code>&lt;log-system-exceptions value=&quot;false&quot;/&gt;
+</code></pre>
+</li>
+</ol>
+<h2><a href="#start-the-server" id="start-the-server">Start the Server</a></h2>
+<ol>
+<li>Open a command prompt and navigate to the root of the WildFly directory.</li>
+<li>The following shows the command line to start the server:
+<pre><code>For Linux:   WILDFLY_HOME/bin/standalone.sh
+For Windows: WILDFLY_HOME\bin\standalone.bat
+</code></pre>
+</li>
+</ol>
+<h2><a href="#build-and-deploy-the-quickstart" id="build-and-deploy-the-quickstart">Build and Deploy the Quickstart</a></h2>
+<ol>
+<li>Make sure you have started the WildFly server as described above.</li>
+<li>Open a command prompt and navigate to the root directory of this quickstart.</li>
+<li>Type this command to build and deploy the archive:
+<pre><code>mvn clean install wildfly:deploy
+</code></pre>
+</li>
+<li>
+<p>This will deploy <code>target/ejb-security-interceptors.jar</code> to the running instance of the server.</p>
+</li>
+</ol>
+<h2><a href="#run-the-client" id="run-the-client">Run the Client</a></h2>
+<p>Before you run the client, make sure you have already successfully deployed the EJBs to the server in the previous step and that your command prompt is still in the same folder.</p>
+<p>Type this command to execute the client:</p>
+<pre><code>    mvn exec:exec
+</code></pre>
+<h2><a href="#investigate-the-console-output" id="investigate-the-console-output">Investigate the Console Output</a></h2>
+<p>When you run the <code>mvn exec:exec</code> command, you see the following output. Note there may be other log messages interspersed between these.</p>
+<pre><code>-------------------------------------------------
+* * About to perform test as ConnectionUser * *
+
+* Making Direct Calls to the SecuredEJB
+
+* getSecurityInformation()=[Principal={ConnectionUser}, In role {User}=true, In role {RoleOne}=false, In role {RoleTwo}=false]
+* Can call roleOneMethod()=false
+* Can call roleTwoMethod()=false
+
+* Calling the IntermediateEJB to repeat the test server to server
+
+* * IntermediateEJB - Begin Testing * *
+SecuredEJBRemote.getSecurityInformation()=[Principal={ConnectionUser}, In role {User}=true, In role {RoleOne}=false, In role {RoleTwo}=false]
+Can call roleOneMethod=false
+Can call roleTwoMethod=false
+* * IntermediateEJB - End Testing * *
+* * Test Complete * *
+
+-------------------------------------------------
+* * About to perform test as AppUserOne * *
+
+* Making Direct Calls to the SecuredEJB
+
+* getSecurityInformation()=[Principal={AppUserOne}, In role {User}=true, In role {RoleOne}=true, In role {RoleTwo}=false]
+* Can call roleOneMethod()=true
+* Can call roleTwoMethod()=false
+
+* Calling the IntermediateEJB to repeat the test server to server
+
+* * IntermediateEJB - Begin Testing * *
+SecuredEJBRemote.getSecurityInformation()=[Principal={AppUserOne}, In role {User}=true, In role {RoleOne}=true, In role {RoleTwo}=false]
+Can call roleOneMethod=true
+Can call roleTwoMethod=false
+* * IntermediateEJB - End Testing * *
+* * Test Complete * *
+
+-------------------------------------------------
+* * About to perform test as AppUserTwo * *
+
+* Making Direct Calls to the SecuredEJB
+
+* getSecurityInformation()=[Principal={AppUserTwo}, In role {User}=true, In role {RoleOne}=false, In role {RoleTwo}=true]
+* Can call roleOneMethod()=false
+* Can call roleTwoMethod()=true
+
+* Calling the IntermediateEJB to repeat the test server to server
+
+* * IntermediateEJB - Begin Testing * *
+SecuredEJBRemote.getSecurityInformation()=[Principal={AppUserTwo}, In role {User}=true, In role {RoleOne}=false, In role {RoleTwo}=true]
+Can call roleOneMethod=false
+Can call roleTwoMethod=true
+* * IntermediateEJB - End Testing * *
+* * Test Complete * *
+
+-------------------------------------------------
+* * About to perform test as AppUserThree * *
+
+* Making Direct Calls to the SecuredEJB
+
+* * Test Complete * *
+
+-------------------------------------------------
+Call as 'AppUserThree' correctly rejected.
+</code></pre>
+<h2><a href="#investigate-the-server-console-output" id="investigate-the-server-console-output">Investigate the Server Console Output</a></h2>
+<p>If you chose not to run the script to suppress system exceptions, you should see the following exceptions in the WildFly server console or log. The exceptions are logged for each of the tests where a request is rejected because the user is not authorized. The stacktraces were removed from this text for readability.</p>
+<pre><code>ERROR [org.jboss.as.ejb3.invocation] (EJB default - 10) WFLYEJB0034: EJB Invocation failed on component SecuredEJB for method public abstract boolean org.jboss.as.quickstarts.ejb_security_interceptors.SecuredEJBRemote.roleOneMethod(): javax.ejb.EJBAccessException: WFLYEJB0364: Invocation on method: public abstract boolean org.jboss.as.quickstarts.ejb_security_interceptors.SecuredEJBRemote.roleOneMethod() of bean: SecuredEJB is not allowed
+...
+ERROR [org.jboss.as.ejb3.invocation] (EJB default - 5) WFLYEJB0034: EJB Invocation failed on component SecuredEJB for method public abstract boolean org.jboss.as.quickstarts.ejb_security_interceptors.SecuredEJBRemote.roleTwoMethod(): javax.ejb.EJBAccessException: WFLYEJB0364: Invocation on method: public abstract boolean org.jboss.as.quickstarts.ejb_security_interceptors.SecuredEJBRemote.roleTwoMethod() of bean: SecuredEJB is not allowed
+...
+ERROR [org.jboss.as.ejb3.invocation] (EJB default - 7) WFLYEJB0034: EJB Invocation failed on component SecuredEJB for method public abstract boolean org.jboss.as.quickstarts.ejb_security_interceptors.SecuredEJBRemote.roleOneMethod(): javax.ejb.EJBAccessException: WFLYEJB0364: Invocation on method: public abstract boolean org.jboss.as.quickstarts.ejb_security_interceptors.SecuredEJBRemote.roleOneMethod() of bean: SecuredEJB is not allowed
+...
+ERROR [org.jboss.as.ejb3.invocation] (EJB default - 8) WFLYEJB0034: EJB Invocation failed on component SecuredEJB for method public abstract boolean org.jboss.as.quickstarts.ejb_security_interceptors.SecuredEJBRemote.roleTwoMethod(): javax.ejb.EJBAccessException: WFLYEJB0364: Invocation on method: public abstract boolean org.jboss.as.quickstarts.ejb_security_interceptors.SecuredEJBRemote.roleTwoMethod() of bean: SecuredEJB is not allowed
+...
+ERROR [org.jboss.as.ejb3.invocation] (EJB default - 3) WFLYEJB0034: EJB Invocation failed on component SecuredEJB for method public abstract boolean org.jboss.as.quickstarts.ejb_security_interceptors.SecuredEJBRemote.roleTwoMethod(): javax.ejb.EJBAccessException: WFLYEJB0364: Invocation on method: public abstract boolean org.jboss.as.quickstarts.ejb_security_interceptors.SecuredEJBRemote.roleTwoMethod() of bean: SecuredEJB is not allowed
+...
+ERROR [org.jboss.as.ejb3.invocation] (EJB default - 7) WFLYEJB0034: EJB Invocation failed on component SecuredEJB for method public abstract boolean org.jboss.as.quickstarts.ejb_security_interceptors.SecuredEJBRemote.roleTwoMethod(): javax.ejb.EJBAccessException: WFLYEJB0364: Invocation on method: public abstract boolean org.jboss.as.quickstarts.ejb_security_interceptors.SecuredEJBRemote.roleTwoMethod() of bean: SecuredEJB is not allowed
+...
+ERROR [org.jboss.as.ejb3.invocation] (EJB default - 2) WFLYEJB0034: EJB Invocation failed on component SecuredEJB for method public abstract boolean org.jboss.as.quickstarts.ejb_security_interceptors.SecuredEJBRemote.roleOneMethod(): javax.ejb.EJBAccessException: WFLYEJB0364: Invocation on method: public abstract boolean org.jboss.as.quickstarts.ejb_security_interceptors.SecuredEJBRemote.roleOneMethod() of bean: SecuredEJB is not allowed
+...
+ERROR [org.jboss.as.ejb3.invocation] (EJB default - 5) WFLYEJB0034: EJB Invocation failed on component SecuredEJB for method public abstract boolean org.jboss.as.quickstarts.ejb_security_interceptors.SecuredEJBRemote.roleOneMethod(): javax.ejb.EJBAccessException: WFLYEJB0364: Invocation on method: public abstract boolean org.jboss.as.quickstarts.ejb_security_interceptors.SecuredEJBRemote.roleOneMethod() of bean: SecuredEJB is not allowed
+...
+ERROR [org.jboss.as.ejb3.invocation] (default task-54) WFLYEJB0034: EJB Invocation failed on component SecuredEJB for method public abstract java.lang.String org.jboss.as.quickstarts.ejb_security_interceptors.SecuredEJBRemote.getSecurityInformation(): org.wildfly.security.authz.AuthorizationFailureException: ELY01088: Attempting to run as &quot;AppUserThree&quot; authorization operation failed
+</code></pre>
+<h2><a href="#server-log-expected-warnings-and-errors" id="server-log-expected-warnings-and-errors">Server Log: Expected warnings and errors</a></h2>
+<p><em>Note:</em> You will see the following warning appear twice in the server log. You can ignore these warnings.</p>
+<pre><code>WARN  [org.jboss.as.dependency.deprecated] (MSC service thread 1-7) WFLYSRV0221: Deployment &quot;deployment.jboss-ejb-security-interceptors.jar&quot; is using a deprecated module (&quot;org.jboss.as.core-security-api:main&quot;) which may be removed in future versions without notice.
+</code></pre>
+<h2><a href="#undeploy-the-archive" id="undeploy-the-archive">Undeploy the Archive</a></h2>
+<ol>
+<li>Make sure you have started the WildFly server as described above.</li>
+<li>Open a command prompt and navigate to the root directory of this quickstart.</li>
+<li>When you are finished testing, type this command to undeploy the archive:
+<pre><code>mvn wildfly:undeploy
+</code></pre>
+</li>
+</ol>
+<h2><a href="#restore-the-original-server-configuration" id="restore-the-original-server-configuration">Restore the Original Server Configuration</a></h2>
+<p>You can restore the original server configuration by running the  <code>restore-configuration.cli</code> script provided in the root directory of this quickstart or by manually restoring the back-up copy the configuration file.</p>
+<h3><a href="#restore-the-original-server-configuration-by-running-the-jboss-cli-script" id="restore-the-original-server-configuration-by-running-the-jboss-cli-script">Restore the Original Server Configuration by Running the JBoss CLI Script</a></h3>
+<pre><code>    For Linux:  WILDFLY_HOME/bin/standalone.sh
+    For Windows:  WILDFLY_HOME\bin\standalone.bat
+</code></pre>
+<ol>
+<li>Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing WILDFLY_HOME with the path to your server:
+<pre><code>For Linux: WILDFLY_HOME/bin/jboss-cli.sh --connect --file=restore-configuration.cli
+For Windows: WILDFLY_HOME\bin\jboss-cli.bat --connect --file=restore-configuration.cli
+</code></pre>
+<p>This script removes the <code>test</code> queue from the <code>messaging</code> subsystem in the server configuration. You should see the following result when you run the script:</p>
+<pre><code>The batch executed successfully
+process-state: reload-required
+</code></pre>
+</li>
+<li>If you chose to run the script to suppress system exceptions, run the following command, replacing WILDFLY_HOME with the path to your server:
+<pre><code>For Linux: WILDFLY_HOME/bin/jboss-cli.sh --connect --file=restore-system-exception.cli
+For Windows: WILDFLY_HOME\bin\jboss-cli.bat --connect --file=restore-system-exception.cli
+</code></pre>
+<p>You should see the following result when you run the script:</p>
+<pre><code>The batch executed successfully
+</code></pre>
+</li>
+</ol>
+<h3><a href="#restore-the-original-server-configuration-manually" id="restore-the-original-server-configuration-manually">Restore the Original Server Configuration Manually</a></h3>
+<ol>
+<li>If it is running, stop the WildFly server.</li>
+<li>Replace the <code>WILDFLY_HOME/standalone/configuration/standalone.xml</code> file with the back-up copy of the file.</li>
+</ol>
+<h2><a href="#run-the-quickstart-in-red-hat-jboss-developer-studio-or-eclipse" id="run-the-quickstart-in-red-hat-jboss-developer-studio-or-eclipse">Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse</a></h2>
+<p>You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a WildFly server, and build and deploy a quickstart, see <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_JBDS.md#use-jboss-developer-studio-or-eclipse-to-run-the-quickstarts">Use JBoss Developer Studio or Eclipse to Run the Quickstarts</a>.</p>
+<p>This quickstart requires additional configuration and deploys and runs differently in JBoss Developer Studio than the other quickstarts.</p>
+<ol>
+<li>Be sure to <a href="#add-the-application-users">Add the Application Users</a> as described above.</li>
+<li>Follow the steps above to <a href="#configure-the-server">Configure the Server</a>. Stop the server at the end of that step.</li>
+<li>To deploy the application to the WildFly server, right-click on the <code>ejb-security-interceptors</code> project and choose <code>Run As</code> --&gt; <code>Run on Server</code>.</li>
+<li>To access the application, right-click on the <code>ejb-security-interceptors</code> project and choose <code>Run As</code> --&gt; <code>Java Application</code>.</li>
+<li>Choose <code>RemoteClient - org.jboss.as.quickstarts.ejb_security_interceptors</code> and click <code>OK</code>.</li>
+<li>Review the output in the console window.</li>
+<li>Be sure to <a href="#restore-the-original-server-configuration">Restore the Original Server Configuration</a> when you have completed testing this quickstart.</li>
+</ol>
+<h2><a href="#debug-the-application" id="debug-the-application">Debug the Application</a></h2>
+<p>If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.</p>
+<pre><code>    mvn dependency:sources
+</code></pre>
+</body>
+</html>

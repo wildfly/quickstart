@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head><title>wicket-war: Wicket Framework used in a WAR.</title>
+    <link href="http://static.jboss.org/ffe/0/www/vendor/redhat/documentation.css" rel="stylesheet"></link>
+    <link href="http://static.jboss.org/ffe/0/www/vendor/redhat/pygments.css" rel="stylesheet"></link>
+</head>
+<body><h1><a href="#wicket-war-wicket-framework-used-in-a-war" id="wicket-war-wicket-framework-used-in-a-war">wicket-war: Wicket Framework used in a WAR.</a></h1>
+<p>Author: Ondrej Zizka <a href="&#109;&#x61;&#105;&#108;&#x74;o&#58;&#111;&#x7a;&#x69;z&#107;&#x61;&#64;&#x72;e&#100;ha&#116;&#x2e;&#x63;o&#x6d;">&#x6f;&#122;&#x69;z&#107;a&#x40;&#114;ed&#104;a&#x74;&#46;c&#x6f;&#109;</a><br />
+Level: Intermediate<br />
+Technologies: Apache Wicket, JPA<br />
+Summary: Demonstrates how to use the Wicket Framework 7.x with the JBoss server using the Wicket Java EE integration packaged as a WAR<br />
+Target Product: WildFly<br />
+Source: <a href="https://github.com/wildfly/quickstart/">https://github.com/wildfly/quickstart/</a></p>
+<h2><a href="#what-is-it" id="what-is-it">What is it?</a></h2>
+<p>This is an example of how to use Wicket Framework 7.x with WildFly, leveraging features of Java EE 7, using the Wicket-Stuff Java EE integration.</p>
+<p>Features used:</p>
+<ul>
+<li>Injection of <code>@PersistenceContext</code></li>
+<li>Injection of a value from <code>web.xml</code> using <code>@Resource</code></li>
+<li>Injection of a stateless session bean using <code>@EJB</code></li>
+</ul>
+<p>This is a WAR version.</p>
+<h2><a href="#system-requirements" id="system-requirements">System requirements</a></h2>
+<p>All you need to build this project is Java 8 (Java SDK 1.8) or better, Maven 3.1 or better.</p>
+<p>The application this project produces is designed to be run on JBoss WildFly.</p>
+<h2><a href="#configure-maven" id="configure-maven">Configure Maven</a></h2>
+<p>If you have not yet done so, you must <a href="../README.html#mavenconfiguration">Configure Maven</a> before testing the quickstarts.</p>
+<h2><a href="#start-jboss-wildfly-with-the-web-profile" id="start-jboss-wildfly-with-the-web-profile">Start JBoss WildFly with the Web Profile</a></h2>
+<ol>
+<li>Open a command line and navigate to the root of the JBoss server directory.</li>
+<li>The following shows the command line to start the server with the web profile:
+<pre><code>For Linux:   JBOSS_HOME/bin/standalone.sh
+For Windows: JBOSS_HOME\bin\standalone.bat
+</code></pre>
+</li>
+</ol>
+<h2><a href="#build-and-deploy-the-quickstart" id="build-and-deploy-the-quickstart">Build and Deploy the Quickstart</a></h2>
+<p><em>NOTE: The following build command assumes you have configured your Maven user settings. If you have not, you must include Maven setting arguments on the command line. See <a href="../README.html#buildanddeploy">Build and Deploy the Quickstarts</a> for complete instructions and additional options.</em></p>
+<ol>
+<li>Make sure you have started the JBoss Server as described above.</li>
+<li>Open a command line and navigate to the root directory of this quickstart.</li>
+<li>Type this command to build and deploy the archive:
+<pre><code>mvn clean package wildfly:deploy
+</code></pre>
+</li>
+<li>
+<p>This will deploy <code>target/wildfly-wicket-war.war</code> to the running instance of the server.</p>
+</li>
+</ol>
+<h2><a href="#access-the-application" id="access-the-application">Access the application</a></h2>
+<p>Access the running application in a browser at the following URL:  <a href="http://localhost:8080/wildfly-wicket-war">http://localhost:8080/wildfly-wicket-war</a></p>
+<p>You will see a page with a table listing user entities. Initially, this table is empty.  By clicking a link, you can add more users.</p>
+<h2><a href="#undeploy-the-archive" id="undeploy-the-archive">Undeploy the Archive</a></h2>
+<ol>
+<li>Make sure you have started the JBoss Server as described above.</li>
+<li>Open a command line and navigate to the root directory of this quickstart.</li>
+<li>When you are finished testing, type this command to undeploy the archive:
+<pre><code>mvn wildfly:undeploy
+</code></pre>
+</li>
+</ol>
+<h2><a href="#debug-the-application" id="debug-the-application">Debug the Application</a></h2>
+<p>If you want to debug the source code or look at the Javadocs of any library in the project, run either of the following commands to pull them into your local repository. The IDE should then detect them.</p>
+<pre><code>    mvn dependency:sources
+    mvn dependency:resolve -Dclassifier=javadoc
+</code></pre>
+</body>
+</html>

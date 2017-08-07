@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+<head><title> WildFly Application Server (WildFly) Quickstarts</title>
+    <link href="http://static.jboss.org/ffe/0/www/vendor/redhat/documentation.css" rel="stylesheet"></link>
+    <link href="http://static.jboss.org/ffe/0/www/vendor/redhat/pygments.css" rel="stylesheet"></link>
+</head>
+<body><h1><a href="#wildfly-application-server-wildfly-quickstarts" id="wildfly-application-server-wildfly-quickstarts">WildFly Application Server (WildFly) Quickstarts</a></h1>
+<p>Summary: The quickstarts demonstrate Java EE 7 and a few additional technologies from the JBoss stack. They provide small, specific, working examples that can be used as a reference for your own project.</p>
+<h2><a href="#introduction" id="introduction">Introduction</a></h2>
+<p>These quickstarts run on WildFly Application Server 11 or later. We recommend using the WildFly ZIP file. This version uses the correct dependencies and ensures you test and compile against your runtime environment.</p>
+<p>Be sure to read this entire document before you attempt to work with the quickstarts. It contains the following information:</p>
+<ul>
+<li>
+<p><a href="#available-quickstarts">Available Quickstarts</a>: List of the available quickstarts and details about each one.</p>
+</li>
+<li>
+<p><a href="#suggested-approach-to-the-quickstarts">Suggested Approach to the Quickstarts</a>: A suggested approach on how to work with the quickstarts.</p>
+</li>
+<li>
+<p><a href="#system-requirements">System Requirements</a>: List of software required to run the quickstarts.</p>
+</li>
+<li>
+<p><a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts">Configure Maven</a>: How to configure the Maven repository for use by the quickstarts.</p>
+</li>
+<li>
+<p><a href="#run-the-quickstarts">Run the Quickstarts</a>: General instructions for building, deploying, and running the quickstarts.</p>
+</li>
+<li>
+<p><a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/RUN_ARQUILLIAN_TESTS.md#run-the-arquillian-tests">Run the Arquillian Tests</a>: How to run the Arquillian tests provided by some of the quickstarts.</p>
+</li>
+<li>
+<p><a href="#optional-components">Optional Components</a>: How to install and configure optional components required by some of the quickstarts.</p>
+</li>
+<li>
+<p><a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONTRIBUTING.md#jboss-developer-contributing-guide">Contributing Guide</a>: This document contains information targeted for developers who want to contribute to JBoss developer projects.</p>
+</li>
+</ul>
+<h2><a href="#use-of-wildfly-home-and-jboss-home-variables" id="use-of-wildfly-home-and-jboss-home-variables">Use of WILDFLY_HOME and JBOSS_HOME Variables</a></h2>
+<p>The quickstart README files use the <em>replaceable</em> value <code>WILDFLY_HOME</code> to denote the path to the WildFly installation. When you encounter this value in a README file, be sure to replace it with the actual path to your WildFly installation. The installation path is described in detail here: <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_WILDFLY_HOME.md#use-of-eap_home-and-jboss_home-variables">Use of WILDFLY_HOME and JBOSS_HOME Variables</a>.</p>
+<h2><a href="#available-quickstarts" id="available-quickstarts">Available Quickstarts</a></h2>
+<p>All available quickstarts can be found here: <a href="http://www.jboss.org/developer-materials/#!formats=jbossdeveloper_quickstart">http://www.jboss.org/developer-materials/#!formats=jbossdeveloper_quickstart</a>. You can filter by the quickstart name, the product, and the technologies demonstrated by the quickstart. You can also limit the results based on skill level and date published. The resulting page provides a brief description of each matching quickstart, the skill level, and the technologies used. Click on the quickstart to see more detailed information about how to run it. Some quickstarts require deployment of other quickstarts. This information is noted in the <code>Prerequisites</code> section of the quickstart README file.</p>
+<p><em>Note</em>: Some of these quickstarts use the H2 database included with WildFly. It is a lightweight, relational example datasource that is used for examples only. It is not robust or scalable, is not supported, and should NOT be used in a production environment!</p>
+<table>
+<thead>
+<tr><th> <em>Quickstart Name</em> </th><th> <em>Demonstrated Technologies</em> </th><th> <em>Description</em> </th><th> <em>Experience Level Required</em> </th><th> <em>Prerequisites</em> </th></tr>
+</thead>
+<tbody>
+<tr><td> <a href="app-client/README.html">app-client</a> </td><td>EJB, EAR, AppClient </td><td> The <code>app-client</code> quickstart demonstrates how to code and package a client app and use the WildFly client container to start the client Main program. </td><td> Intermediate </td><td>  </td></tr>
+<tr><td> <a href="batch-processing/README.html">batch-processing</a> </td><td>CDI, Batch 1.0, JSF </td><td> The <code>batch-processing</code> quickstart shows how to use chunk oriented batch jobs to import a file to a database. </td><td> Intermediate </td><td>  </td></tr>
+<tr><td> <a href="bean-validation/README.html">bean-validation</a> </td><td>CDI, JPA, BV </td><td> The <code>bean-validation</code> quickstart provides Arquillian tests to demonstrate how to use CDI, JPA, and Bean Validation. </td><td> Beginner </td><td>  </td></tr>
+<tr><td> <a href="bean-validation-custom-constraint/README.html">bean-validation-custom-constraint</a> </td><td>CDI, JPA, BV </td><td> The <code>bean-validation-custom-constraint</code> quickstart demonstrates how to use the Bean Validation API to define custom constraints and validators. </td><td> Beginner </td><td>  </td></tr>
+<tr><td> <a href="bmt/README.html">bmt</a> </td><td>EJB, BMT </td><td> The <code>bmt</code> quickstart demonstrates Bean-Managed Transactions (BMT), showing how to manually manage transaction demarcation while accessing JPA entities. </td><td> Intermediate </td><td>  </td></tr>
+<tr><td> <a href="cdi-alternative/README.html">cdi-alternative</a> </td><td>CDI, Servlet, JSP </td><td> The <code>cdi-alternative</code> quickstart demonstrates how to create a bean that can be implemented for different purposes without changing the source code. </td><td> Intermediate </td><td>  </td></tr>
+<tr><td> <a href="cdi-decorator/README.html">cdi-decorator</a> </td><td>CDI, JSF </td><td> The <code>cdi-decorator</code> quickstart demonstrates the use of a CDI Decorator to intercept bean methods and modify the business logic. </td><td> Intermediate </td><td>  </td></tr>
+<tr><td> <a href="cdi-injection/README.html">cdi-injection</a> </td><td>CDI, JSF </td><td> The <code>cdi-injection</code> quickstart demonstrates the use of <em>CDI Injection and Qualifiers</em> in WildFly with a JSF front-end client. </td><td> Beginner </td><td>  </td></tr>
+<tr><td> <a href="cdi-interceptors/README.html">cdi-interceptors</a> </td><td>JPA, JSF, EJB </td><td> The <code>cdi-interceptors</code> quickstart demonstrates how to use CDI interceptors for cross-cutting concerns such as logging and simple auditing. </td><td> Intermediate </td><td>  </td></tr>
+<tr><td> <a href="cdi-portable-extension/README.html">cdi-portable-extension</a> </td><td>CDI </td><td> The <code>cdi-portable-extension</code> quickstart demonstrates a simple CDI Portable Extension that uses SPI classes to inject beans with data from an XML file. </td><td> Intermediate </td><td>  </td></tr>
+<tr><td> <a href="cdi-stereotype/README.html">cdi-stereotype</a> </td><td>JPA, JSF, EJB </td><td> The <code>cdi-stereotype</code> quickstart demonstrates how to apply CDI stereotypes to beans to encapsulate CDI interceptor bindings and CDI alternatives. </td><td> Intermediate </td><td>  </td></tr>
+<tr><td> <a href="cdi-veto/README.html">cdi-veto</a> </td><td>CDI </td><td> The <code>cdi-veto</code> quickstart is a simple CDI Portable Extension that uses SPI classes to show how to remove beans and inject JPA entities into an application. </td><td> Intermediate </td><td>  </td></tr>
+<tr><td> <a href="cmt/README.html">cmt</a> </td><td>EJB, CMT, JMS </td><td> The <code>cmt</code> quickstart demonstrates Container-Managed Transactions (CMT), showing how to use transactions managed by the container. </td><td> Intermediate </td><td>  </td></tr>
+<tr><td> <a href="contacts-jquerymobile/README.html">contacts-jquerymobile</a> </td><td>jQuery Mobile, jQuery, JavaScript, HTML5, REST </td><td> The <code>contacts-jquerymobile</code> quickstart demonstrates a Java EE 7 mobile database application using HTML5, jQuery Mobile, JAX-RS, JPA, and REST. </td><td> Beginner </td><td>  </td></tr>
+<tr><td> <a href="deltaspike-authorization/README.html">deltaspike-authorization</a> </td><td>JSF, CDI, Deltaspike </td><td> Demonstrate the creation of a custom authorization example using @SecurityBindingType from DeltaSpike </td><td> Beginner </td><td>  </td></tr>
+<tr><td> <a href="deltaspike-beanbuilder/README.html">deltaspike-beanbuilder</a> </td><td>CDI, DeltaSpike </td><td> Shows how to create new beans using DeltaSpike utilities. </td><td> Advanced </td><td>  </td></tr>
+<tr><td> <a href="deltaspike-projectstage/README.html">deltaspike-projectstage</a> </td><td>JSF, CDI, Deltaspike </td><td> Demonstrate usage of DeltaSpike project stage and shows usage of a conditional @Exclude </td><td> Beginner </td><td>  </td></tr>
+<tr><td> <a href="ejb-asynchronous/README.html">ejb-asynchronous</a> </td><td>Asynchronous EJB </td><td> The <code>ejb-asynchronous</code> quickstart demonstrates the behavior of asynchronous EJB invocations by a deployed EJB and a remote client and how to handle errors. </td><td> Advanced </td><td>  </td></tr>
+<tr><td> <a href="ejb-in-ear/README.html">ejb-in-ear</a> </td><td>EJB, EAR </td><td> The <code>ejb-in-ear</code> quickstart demonstrates how to deploy an EAR archive that contains a <em>JSF</em> WAR and an <em>EJB</em> JAR. </td><td> Intermediate </td><td>  </td></tr>
+<tr><td> <a href="ejb-in-war/README.html">ejb-in-war</a> </td><td>EJB, JSF, WAR </td><td> The <code>ejb-in-war</code> quickstart demonstrates how to package an <em>EJB</em> bean in a WAR archive and deploy it to WildFly. Arquillian tests are also provided. </td><td> Intermediate </td><td>  </td></tr>
+<tr><td> <a href="ejb-multi-server/README.html">ejb-multi-server</a> </td><td>EJB, EAR </td><td> The <code>ejb-multi-server</code> quickstart shows how to communicate between multiple applications deployed to different servers using an EJB to log the invocation. </td><td> Advanced </td><td>  </td></tr>
+<tr><td> <a href="ejb-remote/README.html">ejb-remote</a> </td><td>EJB, JNDI </td><td> The <code>ejb-remote</code> quickstart uses <em>EJB</em> and <em>JNDI</em> to demonstrate how to access an EJB, deployed to WildFly, from a remote Java client application. </td><td> Intermediate </td><td>  </td></tr>
+<tr><td> <a href="ejb-security/README.html">ejb-security</a> </td><td>EJB, Security </td><td> The <code>ejb-security</code> quickstart demonstrates the use of Java EE declarative security to control access to Servlets and EJBs in WildFly. </td><td> Intermediate </td><td>  </td></tr>
+<tr><td> <a href="ejb-security-context-propagation/README.html">ejb-security-context-propagation</a> </td><td>EJB, Security </td><td> The <code>ejb-security-context-propagation</code> quickstart demonstrates how the security context can be propagated to a remote EJB using a remote outbound connection configuration </td><td> Advanced </td><td>  </td></tr>
+<tr><td> <a href="ejb-security-interceptors/README.html">ejb-security-interceptors</a> </td><td>EJB, Security </td><td> The <code>ejb-security-interceptors</code> quickstart demonstrates how to use client and server side interceptors to switch the identity for an EJB call. </td><td> Advanced </td><td>  </td></tr>
+<tr><td> <a href="ejb-security-jaas/README.html">ejb-security-jaas</a> </td><td>EJB, Security </td><td> The <code>ejb-security-jaas</code> quickstart demonstrates how legacy <code>JAAS</code> security domains can be used in conjunction with <code>Elytron</code> </td><td> Intermediate </td><td>  </td></tr>
+<tr><td> <a href="ejb-security-programmatic-auth/README.html">ejb-security-programmatic-auth</a> </td><td>EJB, Security </td><td> The <code>ejb-security-programmatic-auth</code> quickstart demonstrates how to programmatically setup different identities when </td><td> Intermediate </td><td>  </td></tr>
+<tr><td> <a href="ejb-throws-exception/README.html">ejb-throws-exception</a> </td><td>EJB, EAR </td><td> The <code>ejb-throws-exception</code> quickstart demonstrates how to throw and handle Exceptions across JARs in an EAR. </td><td> Intermediate </td><td>  </td></tr>
+<tr><td> <a href="ejb-timer/README.html">ejb-timer</a> </td><td>EJB Timer </td><td> The <code>ejb-timer</code> quickstart demonstrates how to use the EJB timer service <code>@Schedule</code> and <code>@Timeout</code> annotations with WildFly. </td><td> Beginner </td><td>  </td></tr>
+<tr><td> <a href="forge-from-scratch/README.html">forge-from-scratch</a> </td><td>Forge </td><td> The <code>forge-from-scratch</code> quickstart demonstrates how <em>JBoss Forge</em> can generate a Java EE (JPA, EJB, JAX-RS, JSF) web-enabled database application. </td><td> Intermediate </td><td>  </td></tr>
+<tr><td> <a href="greeter/README.html">greeter</a> </td><td>CDI, JSF, JPA, EJB, JTA </td><td> The <code>greeter</code> quickstart demonstrates the use of <em>CDI</em>, <em>JPA</em>, <em>JTA</em>, <em>EJB</em> and <em>JSF</em> in WildFly. </td><td> Beginner </td><td>  </td></tr>
+<tr><td> <a href="h2-console/README.html">h2-console</a> </td><td>H2 </td><td> The <code>h2-console</code> quickstart demonstrates how to use the H2 Console that is bundled with and built specifically for WildFly. </td><td> Beginner </td><td>  </td></tr>
+<tr><td> <a href="ha-singleton-deployment/README.html">ha-singleton-deployment</a> </td><td>EJB, Singleton Deployments, Clustering </td><td> The <code>ha-singleton-deployment</code> quickstart demonstrates the recommended way to deploy any service packaged in an application archive as a cluster-wide singleton. </td><td> Advanced </td><td>  </td></tr>
+<tr><td> <a href="ha-singleton-service/README.html">ha-singleton-service</a> </td><td>MSC, Singleton Service, Clustering </td><td> The <code>ha-singleton-service</code> quickstart demonstrates how to deploy a cluster-wide singleton MSC service. </td><td> Advanced </td><td>  </td></tr>
+<tr><td> <a href="helloworld/README.html">helloworld</a> </td><td>CDI, Servlet </td><td> The <code>helloworld</code> quickstart demonstrates the use of <em>CDI</em> and <em>Servlet 3</em> and is a good starting point to verify WildFly is configured correctly. </td><td> Beginner </td><td>  </td></tr>
+<tr><td> <a href="helloworld-classfiletransformer/README.html">helloworld-classfiletransformer</a> </td><td> </td><td> null </td><td> null </td><td>  </td></tr>
+<tr><td> <a href="helloworld-html5/README.html">helloworld-html5</a> </td><td>CDI, JAX-RS, HTML5 </td><td> The <code>helloworld-html5</code> quickstart demonstrates the use of <em>CDI 1.2</em> and <em>JAX-RS 2.0</em> using the HTML5 architecture and RESTful services on the backend. </td><td> Beginner </td><td>  </td></tr>
+<tr><td> <a href="helloworld-jms/README.html">helloworld-jms</a> </td><td>JMS </td><td> The <code>helloworld-jms</code> quickstart demonstrates the use of external JMS clients with WildFly. </td><td> Intermediate </td><td>  </td></tr>
+<tr><td> <a href="helloworld-mbean/README.html">helloworld-mbean</a> </td><td>CDI, JMX, MBean </td><td> The <code>helloworld-mbean</code> quickstart demonstrates the use of <em>CDI</em> and <em>MBean</em> in WildFly and includes JConsole instructions and Arquillian tests. </td><td> Intermediate </td><td>  </td></tr>
+<tr><td> <a href="helloworld-mdb/README.html">helloworld-mdb</a> </td><td>JMS, EJB, MDB </td><td> The <code>helloworld-mdb</code> quickstart uses <em>JMS</em> and <em>EJB Message-Driven Bean</em> (MDB) to create and deploy JMS topic and queue resources in WildFly. </td><td> Intermediate </td><td>  </td></tr>
+<tr><td> <a href="helloworld-mdb-propertysubstitution/README.html">helloworld-mdb-propertysubstitution</a> </td><td>JMS, EJB, MDB </td><td> The <code>helloworld-mdb-propertysubstitution</code> quickstart demonstrates the use of <em>JMS</em> and <em>EJB MDB</em>, enabling property substitution with annotations. </td><td> Intermediate </td><td>  </td></tr>
+<tr><td> <a href="helloworld-mutual-ssl/README.html">helloworld-mutual-ssl</a> </td><td>Mutual SSL, Undertow </td><td> The <code>helloworld-mutual-ssl</code> quickstart is a basic example that demonstrates mutual SSL configuration in WildFly </td><td> Intermediate </td><td>  </td></tr>
+<tr><td> <a href="helloworld-mutual-ssl-secured/README.html">helloworld-mutual-ssl-secured</a> </td><td>Mutual SSL, Security, Undertow </td><td> The <code>helloworld-mutual-ssl-secured</code> quickstart demonstrates securing a Web application using client mutual SSL authentication and role-based access control </td><td> Intermediate </td><td>  </td></tr>
+<tr><td> <a href="helloworld-rf/README.html">helloworld-rf</a> </td><td>CDI, JSF, RichFaces </td><td> Similar to the helloworld quickstart, but with a JSF front end </td><td> Beginner </td><td>  </td></tr>
+<tr><td> <a href="helloworld-rs/README.html">helloworld-rs</a> </td><td>CDI, JAX-RS </td><td> The <code>helloworld-rs</code> quickstart demonstrates a simple Hello World application, bundled and deployed as a WAR, that uses <em>JAX-RS</em> to say Hello. </td><td> Intermediate </td><td>  </td></tr>
+<tr><td> <a href="helloworld-singleton/README.html">helloworld-singleton</a> </td><td>EJB, Singleton </td><td> The <code>helloworld-singleton</code> quickstart demonstrates an <em>EJB Singleton Bean</em> that is instantiated once and maintains state for the life of the session. </td><td> Beginner </td><td>  </td></tr>
+<tr><td> <a href="helloworld-ssl/README.html">helloworld-ssl</a> </td><td>SSL, Undertow </td><td> The <code>helloworld-ssl</code> quickstart is a basic example that demonstrates server side SSL configuration in WildFly. </td><td> Beginner </td><td>  </td></tr>
+<tr><td> <a href="helloworld-ws/README.html">helloworld-ws</a> </td><td>JAX-WS </td><td> The <code>helloworld-ws</code> quickstart demonstrates a simple Hello World application, bundled and deployed as a WAR, that uses <em>JAX-WS</em> to say Hello. </td><td> Beginner </td><td>  </td></tr>
+<tr><td> <a href="hibernate/README.html">hibernate</a> </td><td>Hibernate </td><td> The <code>hibernate</code> quickstart demonstrates how to use Hibernate ORM 5 API over JPA, using Hibernate-Core and Hibernate Bean Validation, and EJB. </td><td> Intermediate </td><td>  </td></tr>
+<tr><td> <a href="hibernate4/README.html">hibernate4</a> </td><td>Hibernate 4 </td><td> This quickstart performs the same functions as the <em>hibernate5</em> quickstart, but uses Hibernate 4 for database access. Compare this quickstart to the <em>hibernate5</em> quickstart to see the changes needed to run with Hibernate 5. </td><td> Intermediate </td><td>  </td></tr>
+<tr><td> <a href="inter-app/README.html">inter-app</a> </td><td>EJB, CDI, JSF </td><td> The <code>inter-app</code> quickstart shows you how to use a shared API JAR and an EJB to provide inter-application communication between two WAR deployments. </td><td> Advanced </td><td>  </td></tr>
+<tr><td> <a href="jaxrs-client/README.html">jaxrs-client</a> </td><td>JAX-RS </td><td> The <code>jaxrs-client</code> quickstart demonstrates JAX-RS Client API, which interacts with a JAX-RS Web service that runs on WildFly. </td><td> Beginner </td><td>  </td></tr>
+<tr><td> <a href="jaxws-addressing/README.html">jaxws-addressing</a> </td><td>JAX-WS </td><td> The <code>jaxws-addressing</code> quickstart is a working example of the web service using WS-Addressing. </td><td> Beginner </td><td>  </td></tr>
+<tr><td> <a href="jaxws-ejb/README.html">jaxws-ejb</a> </td><td>JAX-WS </td><td> The <code>jaxws-ejb</code> quickstart is a working example of the web service endpoint created from an EJB. </td><td> Beginner </td><td>  </td></tr>
+<tr><td> <a href="jaxws-pojo/README.html">jaxws-pojo</a> </td><td>JAX-WS </td><td> The <code>jaxws-pojo</code> quickstart is a working example of the web service endpoint created from a POJO. </td><td> Beginner </td><td>  </td></tr>
+<tr><td> <a href="jaxws-retail/README.html">jaxws-retail</a> </td><td>JAX-WS </td><td> The <code>jaxws-retail</code> quickstart is a working example of a simple web service endpoint. </td><td> Beginner </td><td>  </td></tr>
+<tr><td> <a href="jsonp/README.html">jsonp</a> </td><td>CDI, JSF, JSON-P </td><td> The <code>jsonp</code> quickstart demonstrates how to use the JSON-P API to produce object-based structures and then parse and consume them as stream-based JSON strings. </td><td> Beginner </td><td>  </td></tr>
+<tr><td> <a href="jta-crash-rec/README.html">jta-crash-rec</a> </td><td>JTA, Crash Recovery </td><td> The <code>jta-crash-rec</code> quickstart uses JTA and Byteman to show how to code distributed (XA) transactions in order to preserve ACID properties on server crash. </td><td> Advanced </td><td>  </td></tr>
+<tr><td> <a href="jts/README.html">jts</a> </td><td>JTS, EJB, JMS </td><td> The <code>jts</code> quickstart shows how to use JTS to perform distributed transactions across multiple containers, fulfilling the properties of an ACID transaction. </td><td> Intermediate </td><td> cmt </td></tr>
+<tr><td> <a href="jts-distributed-crash-rec/README.html">jts-distributed-crash-rec</a> </td><td>JTS, Crash Recovery </td><td> The <code>jts-distributed-crash-rec</code> quickstart uses JTS and Byteman to demonstrate distributed crash recovery across multiple application servers. </td><td> Advanced </td><td> jts </td></tr>
+<tr><td> <a href="kitchensink/README.html">kitchensink</a> </td><td>CDI, JSF, JPA, EJB, JAX-RS, BV </td><td> The <code>kitchensink</code> quickstart demonstrates a Java EE 7 web-enabled database application using JSF, CDI, EJB, JPA, and Bean Validation. </td><td> Intermediate </td><td>  </td></tr>
+<tr><td> <a href="kitchensink-angularjs/README.html">kitchensink-angularjs</a> </td><td>AngularJS, CDI, JPA, EJB, JPA, JAX-RS, BV </td><td> The <code>kitchensink-angularjs</code> quickstart demonstrates a Java EE 7 application using AngularJS with JAX-RS, CDI, EJB, JPA, and Bean Validation. </td><td> Intermediate </td><td>  </td></tr>
+<tr><td> <a href="kitchensink-ear/README.html">kitchensink-ear</a> </td><td>CDI, JSF, JPA, EJB, JAX-RS, BV, EAR </td><td> The <code>kitchensink-ear</code> quickstart demonstrates web-enabled database application, using JSF, CDI, EJB, JPA, and Bean Validation, packaged as an EAR. </td><td> Intermediate </td><td>  </td></tr>
+<tr><td> <a href="kitchensink-html5-mobile/README.html">kitchensink-html5-mobile</a> </td><td>CDI, HTML5, REST </td><td> The <code>kitchensink-html5-mobile</code> quickstart is based on <code>kitchensink</code>, but uses HTML5 and jQuery Mobile, making it suitable for mobile and tablet computers. </td><td> Beginner </td><td>  </td></tr>
+<tr><td> <a href="kitchensink-jsp/README.html">kitchensink-jsp</a> </td><td>JSP, JSTL, CDI, JPA, EJB, JAX-RS, BV </td><td> The <code>kitchensink-jsp</code> quickstart demonstrates how to use JSP, JSTL, CDI, EJB, JPA, and Bean Validation in WildFly. </td><td> Intermediate </td><td>  </td></tr>
+<tr><td> <a href="kitchensink-ml/README.html">kitchensink-ml</a> </td><td>CDI, JSF, JPA, EJB, JAX-RS, BV, i18n, l10n </td><td> The <code>kitchensink-ml</code> quickstart demonstrates a localized Java EE 7 compliant application using JSF, CDI, EJB, JPA, and Bean Validation. </td><td> Intermediate </td><td>  </td></tr>
+<tr><td> <a href="kitchensink-ml-ear/README.html">kitchensink-ml-ear</a> </td><td>CDI, JSF, JPA, EJB, JAX-RS, BV, EAR, i18n, l10n </td><td> The <code>kitchensink-ml-ear</code> quickstart demonstrates a localized database application, using JSF, CDI, EJB, JPA, and Bean Validation, packaged as an EAR. </td><td> Intermediate </td><td>  </td></tr>
+<tr><td> <a href="kitchensink-utjs-angularjs/README.html">kitchensink-utjs-angularjs</a> </td><td>Undertow.js, Angular.js </td><td> Based on kitchensink, but uses a Angular for the front end and Undertow.js for the back end. </td><td> Intermediate </td><td>  </td></tr>
+<tr><td> <a href="kitchensink-utjs-mustache/README.html">kitchensink-utjs-mustache</a> </td><td>Undertow.js, Mustache </td><td> Based on kitchensink, but uses Mustache for the front end and Undertow.js for the back end. </td><td> Intermediate </td><td>  </td></tr>
+<tr><td> <a href="logging/README.html">logging</a> </td><td>Logging </td><td> The <code>logging</code> quickstart demonstrates how to configure different logging levels in WildFly. It also includes an asynchronous logging example. </td><td> Intermediate </td><td> None </td></tr>
+<tr><td> <a href="logging-tools/README.html">logging-tools</a> </td><td>JBoss Logging Tools </td><td> The <code>logging-tools</code> quickstart shows how to use JBoss Logging Tools to create internationalized loggers, exceptions, and messages and localize them. </td><td> Beginner </td><td>  </td></tr>
+<tr><td> <a href="mail/README.html">mail</a> </td><td>JavaMail, CDI, JSF </td><td> The <code>mail</code> quickstart demonstrates how to send email using CDI and JSF and the default Mail provider that ships with WildFly. </td><td> Beginner </td><td>  </td></tr>
+<tr><td> <a href="managed-executor-service/README.html">managed-executor-service</a> </td><td>EE Concurrency Utilities, JAX-RS, JAX-RS Client API </td><td> The <code>managed-executor-service</code> quickstart demonstrates how Java EE applications can submit tasks for asynchronous execution. </td><td> Beginner </td><td>  </td></tr>
+<tr><td> <a href="messaging-clustering/README.html">messaging-clustering</a> </td><td>JMS, MDB </td><td> The <code>messaging-clustering</code> quickstart does not contain any code and instead uses the <code>helloworld-mdb</code> quickstart to demonstrate clustering using ActiveMQ Messaging. </td><td> Intermediate </td><td> helloworld-mdb </td></tr>
+<tr><td> <a href="messaging-clustering-singleton/README.html">messaging-clustering-singleton</a> </td><td>JMS, MDB, Clustering </td><td> The <code>messaging-clustering-singleton</code> quickstart uses a JMS topic and a queue to demonstrate clustering using ActiveMQMessaging with MDB singleton configuration (only one node in the cluster will be active) </td><td> Advanced </td><td>  </td></tr>
+<tr><td> <a href="numberguess/README.html">numberguess</a> </td><td>CDI, JSF </td><td> The <code>numberguess</code> quickstart demonstrates the use of <em>CDI</em>  (Contexts and Dependency Injection) and <em>JSF</em> (JavaServer Faces) in WildFly. </td><td> Beginner </td><td>  </td></tr>
+<tr><td> <a href="payment-cdi-event/README.html">payment-cdi-event</a> </td><td>CDI, JSF </td><td> The <code>payment-cdi-event</code> quickstart demonstrates how to create credit and debit <em>CDI Events</em> in WildFly, using a JSF front-end client. </td><td> Beginner </td><td>  </td></tr>
+<tr><td> <a href="resteasy-jaxrs-client/README.html">resteasy-jaxrs-client</a> </td><td>JAX-RS, CDI </td><td> The <code>resteasy-jaxrs-client</code> quickstart demonstrates an external JAX-RS RestEasy client, which interacts with a JAX-RS Web service that uses <em>CDI</em> and <em>JAX-RS</em>. </td><td> Intermediate </td><td> helloworld-rs </td></tr>
+<tr><td> <a href="servlet-async/README.html">servlet-async</a> </td><td>Asynchronous Servlet, CDI, EJB </td><td> The <code>servlet-async</code> quickstart demonstrates how to use asynchronous servlets to detach long-running tasks and free up the request processing thread. </td><td> Intermediate </td><td>  </td></tr>
+<tr><td> <a href="servlet-filterlistener/README.html">servlet-filterlistener</a> </td><td>Servlet Filter, Servlet Listener </td><td> The <code>servlet-filterlistener</code> quickstart demonstrates how to use Servlet filters and listeners in an application. </td><td> Intermediate </td><td>  </td></tr>
+<tr><td> <a href="servlet-security/README.html">servlet-security</a> </td><td>Servlet, Security </td><td> The <code>servlet-security</code> quickstart demonstrates the use of Java EE declarative security to control access to Servlets and Security in WildFly. </td><td> Intermediate </td><td>  </td></tr>
+<tr><td> <a href="shopping-cart/README.html">shopping-cart</a> </td><td>SFSB EJB </td><td> The <code>shopping-cart</code> quickstart demonstrates how to deploy and run a simple Java EE 7 shopping cart application that uses a stateful session bean (SFSB). </td><td> Intermediate </td><td>  </td></tr>
+<tr><td> <a href="shrinkwrap-resolver/README.html">shrinkwrap-resolver</a> </td><td>CDI, Arquillian, Shrinkwrap </td><td> The <code>shrinkwrap-resolver</code> quickstart demonstrates three common use cases for ShrinkWrap Resolver in WildFly Application Server. </td><td> Intermediate </td><td>  </td></tr>
+<tr><td> <a href="spring-greeter/README.html">spring-greeter</a> </td><td>Spring MVC, JSP, JPA </td><td> The <code>spring-greeter</code> quickstart is based on the <code>greeter</code> quickstart, but differs in that it uses Spring MVC for Mapping GET and POST requests. </td><td> Beginner </td><td>  </td></tr>
+<tr><td> <a href="spring-kitchensink-asyncrequestmapping/README.html">spring-kitchensink-asyncrequestmapping</a> </td><td>JSP, JPA, JSON, Spring, JUnit </td><td> The <code>spring-kitchensink-asyncrequestmapping</code> quickstart showcases the use of asynchronous requests is an example using JSP, JPA and Spring 4.x. </td><td> Intermediate </td><td>  </td></tr>
+<tr><td> <a href="spring-kitchensink-basic/README.html">spring-kitchensink-basic</a> </td><td>JSP, JPA, JSON, Spring, JUnit </td><td> The <code>spring-kitchensink-basic</code> quickstart is an example of a Java EE 7 application using JSP, JPA and Spring 4.x. </td><td> Intermediate </td><td>  </td></tr>
+<tr><td> <a href="spring-kitchensink-controlleradvice/README.html">spring-kitchensink-controlleradvice</a> </td><td>JSP, JPA, JSON, Spring, JUnit </td><td> The <code>spring-kitchensink-controlleradvice</code> quickstart showcases Spring 4.x's <code>@ControllerAdvice</code>, which was introduced in Spring 3.2. </td><td> Intermediate </td><td>  </td></tr>
+<tr><td> <a href="spring-kitchensink-matrixvariables/README.html">spring-kitchensink-matrixvariables</a> </td><td>JSP, JPA, JSON, Spring, JUnit </td><td> The <code>spring-kitchensink-matrixvariables</code> quickstart showcases Spring 4.x's support for <strong>Matrix Variables</strong> in URLs that was introduced in Spring 3.2. </td><td> Intermediate </td><td>  </td></tr>
+<tr><td> <a href="spring-kitchensink-springmvctest/README.html">spring-kitchensink-springmvctest</a> </td><td>JSP, JPA, JSON, Spring, JUnit </td><td> The  <code>spring-kitchensink-springmvctest</code> quickstart demonstrates how to create an MVC application using JSP, JPA and Spring 4.x. </td><td> Intermediate </td><td>  </td></tr>
+<tr><td> <a href="spring-petclinic/README.html">spring-petclinic</a> </td><td>JPA, Junit, JMX, Spring MVC Annotations, AOP, Spring Data, JSP, webjars, Dandellion </td><td> The <code>spring-petclinic</code> quickstart shows how to run the Spring PetClinic Application in WildFly using the WildFly BOMs. </td><td> Advanced </td><td>  </td></tr>
+<tr><td> <a href="spring-resteasy/README.html">spring-resteasy</a> </td><td>Resteasy, Spring </td><td> The <code>spring-resteasy</code> quickstart demonstrates how to package and deploy a web application that includes resteasy-spring integration. </td><td> Beginner </td><td>  </td></tr>
+<tr><td> <a href="tasks/README.html">tasks</a> </td><td>JPA, Arquillian </td><td> The <code>tasks</code> quickstart includes a persistence unit and sample persistence code to demonstrate how to use JPA for database access in WildFly. </td><td> Intermediate </td><td>  </td></tr>
+<tr><td> <a href="tasks-jsf/README.html">tasks-jsf</a> </td><td>JSF, JPA </td><td> The <code>tasks-jsf</code> quickstart demonstrates how to use JPA persistence with JSF as the view layer. </td><td> Intermediate </td><td> tasks </td></tr>
+<tr><td> <a href="tasks-rs/README.html">tasks-rs</a> </td><td>JPA, JAX-RS </td><td> The <code>tasks-rs</code> quickstart demonstrates how to implement a JAX-RS service that uses JPA persistence. </td><td> Intermediate </td><td> tasks </td></tr>
+<tr><td> <a href="temperature-converter/README.html">temperature-converter</a> </td><td>CDI, JSF, SLSB EJB </td><td> The <code>temperature-converter</code> quickstart does temperature conversion using an <em>EJB Stateless Session Bean</em> (SLSB), <em>CDI</em>, and a <em>JSF</em> front-end client. </td><td> Beginner </td><td>  </td></tr>
+<tr><td> <a href="thread-racing/README.html">thread-racing</a> </td><td>Batch, CDI, EE Concurrency, JAX-RS, JMS, JPA, JSON, Web Sockets </td><td> A thread racing web application that demonstrates technologies introduced or updated in the latest Java EE specification. </td><td> Beginner </td><td>  </td></tr>
+<tr><td> <a href="websocket-client/README.html">websocket-client</a> </td><td>Web Socket, CDI Events, JSON, SSL </td><td> Demonstrates use of a Javascript WebSocket client, WebSocket configuration, programmatic binding, and secure WebSocket. </td><td> Intermediate </td><td>  </td></tr>
+<tr><td> <a href="websocket-endpoint/README.html">websocket-endpoint</a> </td><td>CDI, WebSocket, JSON-P </td><td> Shows how to use WebSockets with JSON to broadcast information to all open WebSocket sessions in WildFly. </td><td> Beginner </td><td>  </td></tr>
+<tr><td> <a href="websocket-hello/README.html">websocket-hello</a> </td><td>WebSocket, CDI, JSF </td><td> The <code>websocket-hello</code> quickstart demonstrates how to create a simple WebSocket application. </td><td> Beginner </td><td>  </td></tr>
+<tr><td> <a href="wicket-ear/README.html">wicket-ear</a> </td><td>Apache Wicket, JPA </td><td> Demonstrates how to use the Wicket Framework 7.x with the JBoss server using the Wicket Java EE integration, packaged as an EAR </td><td> Intermediate </td><td>  </td></tr>
+<tr><td> <a href="wicket-war/README.html">wicket-war</a> </td><td>Apache Wicket, JPA </td><td> Demonstrates how to use the Wicket Framework 7.x with the JBoss server using the Wicket Java EE integration packaged as a WAR </td><td> Intermediate </td><td>  </td></tr>
+<tr><td> <a href="wsat-simple/README.html">wsat-simple</a> </td><td>WS-AT, JAX-WS </td><td> The <code>wsat-simple</code> quickstart demonstrates a WS-AT (WS-AtomicTransaction) enabled JAX-WS Web service, bundled as a WAR, and deployed to WildFly. </td><td> Intermediate </td><td>  </td></tr>
+<tr><td> <a href="wsba-coordinator-completion-simple/README.html">wsba-coordinator-completion-simple</a> </td><td>WS-BA, JAX-WS </td><td> The <code>wsba-coordinator-completion-simple</code> quickstart deploys a WS-BA (WS Business Activity) enabled JAX-WS Web service WAR (CoordinatorCompletion protocol). </td><td> Intermediate </td><td>  </td></tr>
+<tr><td> <a href="wsba-participant-completion-simple/README.html">wsba-participant-completion-simple</a> </td><td>WS-BA, JAX-WS </td><td> The <code>wsba-participant-completion-simple</code> quickstart deploys a WS-BA (WS Business Activity) enabled JAX-WS Web service WAR (ParticipantCompletion Protocol). </td><td> Intermediate </td><td>  </td></tr>
+<tr><td> <a href="xml-dom4j/README.html">xml-dom4j</a> </td><td>DOM4J, Servlet, JSF </td><td> The <code>xml-dom4j</code> quickstart demonstrates how to use Servlet and JSF to upload an XML file to WildFly and parse it using a 3rd party XML parsing library. </td><td> Intermediate </td><td>  </td></tr>
+<tr><td> <a href="xml-jaxp/README.html">xml-jaxp</a> </td><td>JAXP, SAX, DOM, Servlet </td><td> The <code>xml-jaxp</code> quickstart demonstrates how to use Servlet and JSF to upload an XML file to WildFly and validate and parse it using DOM or SAX. </td><td> Intermediate </td><td>  </td></tr>
+</tbody>
+</table>
+<h2><a href="#suggested-approach-to-the-quickstarts" id="suggested-approach-to-the-quickstarts">Suggested Approach to the Quickstarts</a></h2>
+<p>We suggest you approach the quickstarts as follows:</p>
+<ul>
+<li>Regardless of your level of expertise, we suggest you start with the <strong>helloworld</strong> quickstart. It is the simplest example and is an easy way to prove your server is configured and started correctly.</li>
+<li>If you are a beginner or new to JBoss, start with the quickstarts labeled <strong>Beginner</strong>, then try those marked as <strong>Intermediate</strong>. When you are comfortable with those, move on to the <strong>Advanced</strong> quickstarts.</li>
+<li>Some quickstarts are based upon other quickstarts but have expanded capabilities and functionality. If a prerequisite quickstart is listed, be sure to deploy and test it before looking at the expanded version.</li>
+</ul>
+<h2><a href="#system-requirements" id="system-requirements">System Requirements</a></h2>
+<p>The applications these projects produce are designed to be run on WildFly Application Server 11 or later.</p>
+<p>All you need to build these projects is Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later. See <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts">Configure Maven for WildFly 11</a> to make sure you are configured correctly for testing the quickstarts.</p>
+<p>To run these quickstarts with the provided build scripts, you need the WildFly distribution ZIP. For information on how to install and run JBoss, see the <a href="https://access.redhat.com/documentation/en/red-hat-jboss-enterprise-application-platform/">WildFly Application Server Documentation</a> <em>Getting Started Guide</em> located on the Customer Portal.</p>
+<p>You can also use <a href="#use-jboss-developer-studio-or-eclipse-to-run-the-quickstarts">JBoss Developer Studio or Eclipse</a> to run the quickstarts.</p>
+<h2><a href="#run-the-quickstarts" id="run-the-quickstarts">Run the Quickstarts</a></h2>
+<p>The root folder of each individual quickstart contains a README file with specific details on how to build and run the example. In most cases you do the following:</p>
+<ul>
+<li><a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/START_JBOSS_EAP.md#start-the-jboss-eap-server">Start the WildFly Server</a></li>
+<li><a href="#build-and-deploy-the-quickstarts">Build and deploy the quickstarts</a></li>
+</ul>
+<h3><a href="#build-and-deploy-the-quickstarts" id="build-and-deploy-the-quickstarts">Build and Deploy the Quickstarts</a></h3>
+<p>See the README file in each individual quickstart folder for specific details and information on how to run and access the example.</p>
+<h4><a href="#build-the-quickstart-archive" id="build-the-quickstart-archive">Build the Quickstart Archive</a></h4>
+<p>In most cases, you can use the following steps to build the application to test for compile errors or to view the contents of the archive. See the specific quickstart README file for complete details.</p>
+<ol>
+<li>Open a command prompt and navigate to the root directory of the quickstart you want to build.</li>
+<li>Use this command if you only want to build the archive, but not deploy it:
+<pre><code>    mvn clean install
+</code></pre>
+</li>
+</ol>
+<h4><a href="#build-and-deploy-the-quickstart-archive" id="build-and-deploy-the-quickstart-archive">Build and Deploy the Quickstart Archive</a></h4>
+<p>In most cases, you can use the following steps to build and deploy the application. See the specific quickstart README file for complete details.</p>
+<ol>
+<li>Make sure you start the WildFly server as described in the quickstart README file.</li>
+<li>Open a command prompt and navigate to the root directory of the quickstart you want to run.</li>
+<li>Use this command to build and deploy the archive:
+<pre><code>    mvn clean install wildfly:deploy
+</code></pre>
+</li>
+</ol>
+<h4><a href="#undeploy-an-archive" id="undeploy-an-archive">Undeploy an Archive</a></h4>
+<p>The command to undeploy the quickstart is simply:</p>
+<pre><code>    mvn wildfly:undeploy
+</code></pre>
+<h3><a href="#verify-the-quickstarts-build-with-one-command" id="verify-the-quickstarts-build-with-one-command">Verify the Quickstarts Build with One Command</a></h3>
+<p>You can verify the quickstarts build using one command. However, quickstarts that have complex dependencies must be skipped. For example, the <code>resteasy-jaxrs-client</code> quickstart is a RESTEasy client that depends on the deployment of the <code>helloworld-rs</code> quickstart. As noted above, the root <code>pom.xml</code> file defines a <code>complex-dependencies</code> profile to exclude these quickstarts from the root build process.</p>
+<p>To build the quickstarts:</p>
+<ol>
+<li>Do not start the WildFly server.</li>
+<li>Open a command prompt and navigate to the root directory of the quickstarts.</li>
+<li>Use this command to build the quickstarts that do not have complex dependencies:
+<pre><code>    mvn clean install '-Pdefault,!complex-dependencies'
+</code></pre>
+</li>
+</ol>
+<h3><a href="#undeploy-the-deployed-quickstarts-with-one-command" id="undeploy-the-deployed-quickstarts-with-one-command">Undeploy the Deployed Quickstarts with One Command</a></h3>
+<p>To undeploy the quickstarts from the root of the quickstart folder, you must pass the argument <code>-fae</code> (fail at end) on the command line. This allows the command to continue past quickstarts that fail due to complex dependencies and quickstarts that only have Arquillian tests and do not deploy archives to the server.</p>
+<p>You can undeploy quickstarts using the following procedure:</p>
+<ol>
+<li>Start the WildFly server.</li>
+<li>Open a command prompt and navigate to the root directory of the quickstarts.</li>
+<li>Use this command to undeploy any deployed quickstarts:
+<pre><code>    mvn wildfly:undeploy -fae
+</code></pre>
+</li>
+</ol>
+<p>To undeploy any quickstarts that fail due to complex dependencies, follow the undeploy procedure described in the quickstart's README file.</p>
+<h2><a href="#run-the-quickstarts-in-red-hat-jboss-developer-studio-or-eclipse" id="run-the-quickstarts-in-red-hat-jboss-developer-studio-or-eclipse">Run the Quickstarts in Red Hat JBoss Developer Studio or Eclipse</a></h2>
+<p>You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a WildFly server, and build and deploy a quickstart, see <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_JBDS.md#use-jboss-developer-studio-or-eclipse-to-run-the-quickstarts">Use JBoss Developer Studio or Eclipse to Run the Quickstarts</a>.</p>
+<h2><a href="#optional-components" id="optional-components">Optional Components</a></h2>
+<p>The following components are needed for only a small subset of the quickstarts. Do not install or configure them unless the quickstart requires it.</p>
+<ul>
+<li>
+<p><a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CREATE_USERS.md#create-users-required-by-the-quickstarts">Create Users Required by the Quickstarts</a>: Add a Management or Application user for the quickstarts that run in a secured mode.</p>
+</li>
+<li>
+<p><a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_POSTGRESQL_EAP7.md#configure-the-postgresql-database-for-use-with-the-quickstarts">Configure the PostgreSQL Database for Use with the Quickstarts</a>: The PostgreSQL database is used for the distributed transaction quickstarts.</p>
+</li>
+<li>
+<p><a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_BYTEMAN.md#configure-byteman-for-use-with-the-quickstarts">Configure Byteman for Use with the Quickstarts</a>: This tool is used to demonstrate crash recovery for distributed transaction quickstarts.</p>
+</li>
+</ul>
+</body>
+</html>

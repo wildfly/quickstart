@@ -5,23 +5,23 @@ Level: Intermediate
 Technologies: JMS, MDB  
 Summary: The `messaging-clustering` quickstart does not contain any code and instead uses the `helloworld-mdb` quickstart to demonstrate clustering using ActiveMQ Messaging.  
 Prerequisites: helloworld-mdb  
-Target Product: ${product.name}  
-Source: <${github.repo.url}>  
+Target Product: WildFly  
+Source: <https://github.com/wildfly/quickstart/>  
 
 ## What is it?
 
-The `messaging-clustering` quickstart demonstrates the use of clustering with Apache ActiveMQ and ${product.name.full}. It uses the [helloworld-mdb](../helloworld-mdb/README.md) quickstart for its tests, so there is no code associated with this quickstart. Instructions are provided to run the quickstart on either a standalone server or in a managed domain.
+The `messaging-clustering` quickstart demonstrates the use of clustering with Apache ActiveMQ and WildFly Application Server. It uses the [helloworld-mdb](../helloworld-mdb/README.md) quickstart for its tests, so there is no code associated with this quickstart. Instructions are provided to run the quickstart on either a standalone server or in a managed domain.
 
 ## System Requirements
 
-The application this project produces is designed to be run on ${product.name.full} ${product.version} or later.
+The application this project produces is designed to be run on WildFly Application Server 11 or later.
 
-All you need to build this project is ${build.requirements}. See [Configure Maven for ${product.name} ${product.version}](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
+All you need to build this project is Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later. See [Configure Maven for WildFly 11](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
 
 
-## Use of ${jboss.home.name}
+## Use of WILDFLY_HOME
 
-In the following instructions, replace `${jboss.home.name}` with the actual path to your ${product.name} installation. The installation path is described in detail here: [Use of ${jboss.home.name} and JBOSS_HOME Variables](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_${jboss.home.name}.md#use-of-eap_home-and-jboss_home-variables).
+In the following instructions, replace `WILDFLY_HOME` with the actual path to your WildFly installation. The installation path is described in detail here: [Use of WILDFLY_HOME and JBOSS_HOME Variables](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_WILDFLY_HOME.md#use-of-eap_home-and-jboss_home-variables).
 
 
 ## Prerequisites
@@ -42,17 +42,17 @@ You can choose to deploy and run this quickstart in a managed domain or on a sta
 
 _NOTE - Before you begin:_
 
-1. If it is running, stop the ${product.name} server.
+1. If it is running, stop the WildFly server.
 
 2. If you plan to test using a standalone server, back up the file:
 
-        ${jboss.home.name}/standalone/configuration/standalone-full-ha.xml
+        WILDFLY_HOME/standalone/configuration/standalone-full-ha.xml
 
 
 3. If you plan to test using a managed domain, back up the following files:
 
-        ${jboss.home.name}/domain/configuration/domain.xml
-        ${jboss.home.name}/domain/configuration/host.xml
+        WILDFLY_HOME/domain/configuration/domain.xml
+        WILDFLY_HOME/domain/configuration/host.xml
 
 After you have completed testing this quickstart, you can replace these files to restore the server to its original configuration.
 
@@ -62,11 +62,11 @@ After you have completed testing this quickstart, you can replace these files to
 You configure the server by running the install-domain.cli script provided in the root directory of this quickstart.
 
 #### Start the server in domain mode.
-1. Open a command prompt and navigate to the root of the ${product.name} directory.
+1. Open a command prompt and navigate to the root of the WildFly directory.
 2. The following shows the command line to start the server in domain mode:
 
-        For Linux:   ${jboss.home.name}/bin/domain.sh
-        For Windows: ${jboss.home.name}\bin\domain.bat
+        For Linux:   WILDFLY_HOME/bin/domain.sh
+        For Windows: WILDFLY_HOME\bin\domain.bat
 
 
 #### Configure the Domain Server and Deploy the Quickstart Using the JBoss CLI
@@ -84,8 +84,8 @@ You configure the server by running the install-domain.cli script provided in th
 
 2. Open a command prompt, navigate to the root directory of this quickstart, and run the following command to run the script:
 
-        For Linux: ${jboss.home.name}/bin/jboss-cli.sh --connect --file=install-domain.cli
-        For Windows: ${jboss.home.name}\bin\jboss-cli.bat --connect --file=install-domain.cli
+        For Linux: WILDFLY_HOME/bin/jboss-cli.sh --connect --file=install-domain.cli
+        For Windows: WILDFLY_HOME\bin\jboss-cli.bat --connect --file=install-domain.cli
 
    You should see "outcome" => "success" for all of the commands.
 3. Restart the server in domain mode as described above.
@@ -99,11 +99,11 @@ Since both application servers must be configured in the same way, you must conf
 
 #### Start the Server in Standalone Mode using the Full HA Profile.
 
-1. Open a command prompt and navigate to the root of the ${product.name} directory.
+1. Open a command prompt and navigate to the root of the WildFly directory.
 2. The following shows the command line to start the server with the full-ha profile. This profile supports clustering/HA
 
-        For Linux:   ${jboss.home.name}_1/bin/standalone.sh -c standalone-full-ha.xml
-        For Windows: ${jboss.home.name}_1\bin\standalone.bat -c standalone-full-ha.xml
+        For Linux:   WILDFLY_HOME_1/bin/standalone.sh -c standalone-full-ha.xml
+        For Windows: WILDFLY_HOME_1\bin\standalone.bat -c standalone-full-ha.xml
 
 
 #### Configure the Standalone Server and Deploy the Quickstart Using the JBoss CLI
@@ -119,60 +119,60 @@ Since both application servers must be configured in the same way, you must conf
     must modify its path in this script. Find the `NOTE:` in the file for instructions._
 2. Open a command prompt, navigate to the root directory of this quickstart, and run the following command to run the script:
 
-        For Linux: ${jboss.home.name}_1/bin/jboss-cli.sh --connect --file=install-standalone.cli
-        For Windows: ${jboss.home.name}_1\bin\jboss-cli.bat --connect --file=install-standalone.cli
+        For Linux: WILDFLY_HOME_1/bin/jboss-cli.sh --connect --file=install-standalone.cli
+        For Windows: WILDFLY_HOME_1\bin\jboss-cli.bat --connect --file=install-standalone.cli
 
    You should see "outcome" => "success" for all of the commands.
 
-#### Clone the ${product.name} Directory
+#### Clone the WildFly Directory
 
-After you have successfully configured the server, you must make a copy of this ${product.name} directory structure to use for the second server.
+After you have successfully configured the server, you must make a copy of this WildFly directory structure to use for the second server.
 
 1. Stop the server.
-2. Make a copy of this ${product.name} directory structure to use for the second server.
+2. Make a copy of this WildFly directory structure to use for the second server.
 3. Remove the following directories from the cloned instance:
 
-        ${jboss.home.name}_2/standalone/data/activemq/bindings
-        ${jboss.home.name}_2/standalone/data/activemq/journal
-        ${jboss.home.name}_2/standalone/data/activemq/largemessages
+        WILDFLY_HOME_2/standalone/data/activemq/bindings
+        WILDFLY_HOME_2/standalone/data/activemq/journal
+        WILDFLY_HOME_2/standalone/data/activemq/largemessages
 
-#### Start the ${product.name} Standalone Servers with the Full HA Profile
+#### Start the WildFly Standalone Servers with the Full HA Profile
 
 When you start the servers, you must pass the cluster password on the command line to avoid the warning "AMQ222186: unable to authorise cluster control".
 
 If you are using Linux:
 
-        Server 1: ${jboss.home.name}_1/bin/standalone.sh -c standalone-full-ha.xml
-        Server 2: ${jboss.home.name}_2/bin/standalone.sh -c standalone-full-ha.xml -Djboss.socket.binding.port-offset=100
+        Server 1: WILDFLY_HOME_1/bin/standalone.sh -c standalone-full-ha.xml
+        Server 2: WILDFLY_HOME_2/bin/standalone.sh -c standalone-full-ha.xml -Djboss.socket.binding.port-offset=100
 
 If you are using Windows:
 
-        Server 1: ${jboss.home.name}_1\bin\standalone.bat -c standalone-full-ha.xml
-        Server 2: ${jboss.home.name}_2\bin\standalone.bat -c standalone-full-ha.xml -Djboss.socket.binding.port-offset=100
+        Server 1: WILDFLY_HOME_1\bin\standalone.bat -c standalone-full-ha.xml
+        Server 2: WILDFLY_HOME_2\bin\standalone.bat -c standalone-full-ha.xml -Djboss.socket.binding.port-offset=100
 
 
 ## Access the Application
 
 ### Access the Application Running in Domain Dode
 
-The application will be running at the following URL: <http://localhost:9080/${project.artifactId}/HelloWorldMDBServletClient>.
+The application will be running at the following URL: <http://localhost:9080/messaging-clustering/HelloWorldMDBServletClient>.
 
 It will send some messages to the queue.
 
-To send messages to the topic, use the following URL: <http://localhost:9080/${project.artifactId}/HelloWorldMDBServletClient?topic>
+To send messages to the topic, use the following URL: <http://localhost:9080/messaging-clustering/HelloWorldMDBServletClient?topic>
 
 ### Access the Application Running in Standalone Mode
 
-The application will be running at the following URL: <http://localhost:8080/${project.artifactId}/HelloWorldMDBServletClient>.
+The application will be running at the following URL: <http://localhost:8080/messaging-clustering/HelloWorldMDBServletClient>.
 
 It will send some messages to the queue.
 
-To send messages to the topic, use the following URL: <http://localhost:8080/${project.artifactId}/HelloWorldMDBServletClient?topic>
+To send messages to the topic, use the following URL: <http://localhost:8080/messaging-clustering/HelloWorldMDBServletClient?topic>
 
 
 ## Investigate the Server Console Output
 
-Look at the ${product.name} server console or log and you should see log messages like the following:
+Look at the WildFly server console or log and you should see log messages like the following:
 
         [Server:quickstart-messagingcluster-node1] 16:34:41,165 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldQueueMDB] (Thread-8 (ActiveMQ-client-global-threads-1067469862)) Received Message from queue: This is message 1
         [Server:quickstart-messagingcluster-node1] 16:34:41,274 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldQueueMDB] (Thread-8 (ActiveMQ-client-global-threads-1067469862)) Received Message from queue: This is message 3
@@ -200,20 +200,20 @@ When you are finished testing, use the following instructions to undeploy the qu
 
 ### Undeploy the quickstart in Domain Mode
 
-1. Make sure you have started the ${product.name} server in domain mode as described above.
+1. Make sure you have started the WildFly server in domain mode as described above.
 3. Open a command prompt, navigate to the root directory of this quickstart, and run the following command to undeploy the helloworld-mdb quickstart:
 
-        For Linux: ${jboss.home.name}/bin/jboss-cli.sh --connect --file=undeploy-domain.cli
-        For Windows: ${jboss.home.name}\bin\jboss-cli.bat --connect --file=undeploy-domain.cli
+        For Linux: WILDFLY_HOME/bin/jboss-cli.sh --connect --file=undeploy-domain.cli
+        For Windows: WILDFLY_HOME\bin\jboss-cli.bat --connect --file=undeploy-domain.cli
 
 
 ### Undeploy the quickstart in Standalone Mode
 
-1. Make sure you have started the ${product.name} server in standalone mode as described above.
+1. Make sure you have started the WildFly server in standalone mode as described above.
 3. Open a command prompt, navigate to the root directory of this quickstart, and run the following command to undeploy the helloworld-mdb quickstart:
 
-        For Linux: ${jboss.home.name}_1/bin/jboss-cli.sh --connect --file=undeploy-standalone.cli
-        For Windows: ${jboss.home.name}_1\bin\jboss-cli.bat --connect --file=undeploy-standalone.cli
+        For Linux: WILDFLY_HOME_1/bin/jboss-cli.sh --connect --file=undeploy-standalone.cli
+        For Windows: WILDFLY_HOME_1\bin\jboss-cli.bat --connect --file=undeploy-standalone.cli
 
 
 
@@ -227,21 +227,21 @@ You can remove the domain configuration by manually restoring the back-up copies
 
 _Note: This method ensures the server is restored to its prior configuration._
 
-1. If it is running, stop the ${product.name} server.
-2. Restore the `${jboss.home.name}/domain/configuration/domain.xml` and `${jboss.home.name}/domain/configuration/host.xml` files with the back-up copies of the files. Be sure to replace ${jboss.home.name} with the path to your server.
+1. If it is running, stop the WildFly server.
+2. Restore the `WILDFLY_HOME/domain/configuration/domain.xml` and `WILDFLY_HOME/domain/configuration/host.xml` files with the back-up copies of the files. Be sure to replace WILDFLY_HOME with the path to your server.
 
 #### Remove the Domain Server Configuration by Running the JBoss CLI Script
 
 _Note: This script returns the server to a default configuration and the result may not match the server configuration prior to testing this quickstart. If you were not running with the default configuration before testing this quickstart, you should follow the intructions above to manually restore the configuration to its previous state._
 
-1. Start the ${product.name} server by typing the following:
+1. Start the WildFly server by typing the following:
 
-        For Linux:   ${jboss.home.name}/bin/domain.sh
-        For Windows: ${jboss.home.name}\bin\domain.bat
-2. Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing ${jboss.home.name} with the path to your server.
+        For Linux:   WILDFLY_HOME/bin/domain.sh
+        For Windows: WILDFLY_HOME\bin\domain.bat
+2. Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing WILDFLY_HOME with the path to your server.
 
-        For Linux: ${jboss.home.name}/bin/jboss-cli.sh --connect --file=remove-domain.cli
-        For Windows: ${jboss.home.name}\bin\jboss-cli.bat --connect --file=remove-domain.cli
+        For Linux: WILDFLY_HOME/bin/jboss-cli.sh --connect --file=remove-domain.cli
+        For Windows: WILDFLY_HOME\bin\jboss-cli.bat --connect --file=remove-domain.cli
    This script removes the server configuration that was done by the `install-domain.cli` script. You should see the following result following the script commands:
 
         The batch executed successfully
@@ -259,26 +259,26 @@ You can remove the domain configuration by manually restoring the back-up copies
 
 _Note: This method ensures the server is restored to its prior configuration._
 
-1. If they are running, stop both ${product.name} servers.
-2. Restore the `${jboss.home.name}_1/standalone/configuration/standalone-full-ha.xml` file with the back-up copies of the file. Be sure to replace ${jboss.home.name}_1 with the path to your server.
+1. If they are running, stop both WildFly servers.
+2. Restore the `WILDFLY_HOME_1/standalone/configuration/standalone-full-ha.xml` file with the back-up copies of the file. Be sure to replace WILDFLY_HOME_1 with the path to your server.
 
 #### Remove the Standalone Configuration by Running the JBoss CLI Script
 
 _Note: This script returns the server to a default configuration and the result may not match the server configuration prior to testing this quickstart. If you were not running with the default configuration before testing this quickstart, you should follow the intructions above to manually restore the configuration to its previous state._
 
-1. Start the ${product.name} server by typing the following:
+1. Start the WildFly server by typing the following:
 
-        For Linux:   ${jboss.home.name}_1/bin/standalone.sh -c standalone-full-ha.xml
-        For Windows: ${jboss.home.name}_1\bin\domain.bat -c standalone-full-ha.xml
-2. Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing ${jboss.home.name}_1 with the path to your server.
+        For Linux:   WILDFLY_HOME_1/bin/standalone.sh -c standalone-full-ha.xml
+        For Windows: WILDFLY_HOME_1\bin\domain.bat -c standalone-full-ha.xml
+2. Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing WILDFLY_HOME_1 with the path to your server.
 
-        For Linux: ${jboss.home.name}_1/bin/jboss-cli.sh --connect --file=remove-standalone.cli
-        For Windows: ${jboss.home.name}_1\bin\jboss-cli.bat --connect --file=remove-standalone.cli
+        For Linux: WILDFLY_HOME_1/bin/jboss-cli.sh --connect --file=remove-standalone.cli
+        For Windows: WILDFLY_HOME_1\bin\jboss-cli.bat --connect --file=remove-standalone.cli
 This script removes the server configuration that was done by the `install-standalone.cli` script. You should see the following result following the script commands:
 
         The batch executed successfully
 
-### Delete the Cloned Standalone ${product.name} Directory
+### Delete the Cloned Standalone WildFly Directory
 
-1. If it is running, stop the second instance of the ${product.name} server.
+1. If it is running, stop the second instance of the WildFly server.
 2. Delete the cloned directory.

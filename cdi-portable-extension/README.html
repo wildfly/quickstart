@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head><title> cdi-portable-extension: CDI Portable Extension</title>
+    <link href="http://static.jboss.org/ffe/0/www/vendor/redhat/documentation.css" rel="stylesheet"></link>
+    <link href="http://static.jboss.org/ffe/0/www/vendor/redhat/pygments.css" rel="stylesheet"></link>
+</head>
+<body><h1><a href="#cdi-portable-extension-cdi-portable-extension" id="cdi-portable-extension-cdi-portable-extension">cdi-portable-extension: CDI Portable Extension</a></h1>
+<p>Author: Jason Porter<br />
+Level: Intermediate<br />
+Technologies: CDI<br />
+Summary: The <code>cdi-portable-extension</code> quickstart demonstrates a simple CDI Portable Extension that uses SPI classes to inject beans with data from an XML file.<br />
+Target Product: WildFly<br />
+Source: <a href="https://github.com/wildfly/quickstart/">https://github.com/wildfly/quickstart/</a></p>
+<h2><a href="#what-is-it" id="what-is-it">What is it?</a></h2>
+<p>The <code>cdi-portable-extension</code> quickstart demonstrates how to use some of the SPI classes to create a simple CDI portable extension in an application deployed to WildFly Application Server.</p>
+<p>CDI exposes a set of SPIs to allow development of portable extensions to CDI. A portable extension is an extension to Java EE 6 and above that is tailored to a specific use case and runs on any Java EE 6 or later implementation. Portable extensions can implement features not yet supported by the specifications, such as type-safe messages or external configuration of beans.</p>
+<p>This particular extension explores the <code>ProcessInjectionTarget</code> and <code>InjectionTarget</code> SPI classes of CDI to demonstrate one possible way to seed data into beans. It uses the <code>ProcessInjectionTarget</code> to create and add state to beans using XML. It is similar to the Seam XML configuration idea from Seam 3, but is much more simplistic.</p>
+<p>The project contains very simple domain model classes, an extension class, the service registration file for that extension and an Arquillian test to verify the extension is working correctly.</p>
+<ul>
+<li><code>CreatureExtension</code>: Class that implements <code>Extension</code>. This is the first step in creating a portable extension. It is not a bean since it is instantiated by the container during the initialization process, before any beans or contexts exist. However, it can be injected into other beans once the initialization process is complete.</li>
+<li><code>XmlBackedWrappedInjectionTarget</code>: Wrapper class for the standard <code>@link InjectionTarget</code> to add the field values from the XML file.</li>
+<li><code>CreatureType</code>: An enum in the <code>model</code> package. It defines the two types of creatures, <code>MONSTER</code> and <code>NPC</code>.</li>
+<li><code>Creature</code>: The interface in the <code>model</code> package. Defines the name and type of creature.</li>
+<li><code>Monster</code>: Class in the <code>model</code> package that implments creature with a type <code>MONSTER</code>.</li>
+<li><code>NonPlayerCharacter</code>: Class in the <code>model</code> package that implements creature with a type <code>NPC</code>.</li>
+<li><code>META-INF/creatures.xml</code>: The XML in this file seeds the bean with data.</li>
+<li><code>META-INF/creatures.xsd</code>: The schema for the XML that seeds the bean with data.</li>
+</ul>
+<p>On application start, there will be one instance of <code>Monster</code> with a name of <code>Cat</code>, hitpoints of <code>10</code> and an initiative of <code>25</code>. There will also be one instance of <code>NonPlayerCharacter</code> with name of <code>Drunkard</code> and location of <code>Drunken Duck Tavern</code>. There is no instantiation code for the object outside of the CDI extension.</p>
+<p><em>Note:</em> This quickstart does not contain any user interface. Instead, you run tests and check server log messages to verify everything is working correctly.</p>
+<h2><a href="#system-requirements" id="system-requirements">System Requirements</a></h2>
+<p>The application this project produces is designed to be run on WildFly Application Server 11 or later.</p>
+<p>All you need to build this project is Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later. See <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts">Configure Maven for WildFly 11</a> to make sure you are configured correctly for testing the quickstarts.</p>
+<h2><a href="#use-of-wildfly-home" id="use-of-wildfly-home">Use of WILDFLY_HOME</a></h2>
+<p>In the following instructions, replace <code>WILDFLY_HOME</code> with the actual path to your WildFly installation. The installation path is described in detail here: <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_WILDFLY_HOME.md#use-of-eap_home-and-jboss_home-variables">Use of WILDFLY_HOME and JBOSS_HOME Variables</a>.</p>
+<h2><a href="#start-the-server" id="start-the-server">Start the Server</a></h2>
+<ol>
+<li>Open a command prompt and navigate to the root of the WildFly directory.</li>
+<li>The following shows the command line to start the server:
+<pre><code>For Linux:   WILDFLY_HOME/bin/standalone.sh
+For Windows: WILDFLY_HOME\bin\standalone.bat
+</code></pre>
+</li>
+</ol>
+<h2><a href="#run-the-arquillian-tests" id="run-the-arquillian-tests">Run the Arquillian Tests</a></h2>
+<p>This quickstart provides Arquillian tests. By default, these tests are configured to be skipped as Arquillian tests require the use of a container.</p>
+<ol>
+<li>Make sure you have started the WildFly server as described above.</li>
+<li>Open a command prompt and navigate to the root directory of this quickstart.</li>
+<li>Type the following command to run the test goal with the following profile activated:
+<pre><code>mvn clean verify -Parq-remote
+</code></pre>
+</li>
+</ol>
+<p>You can also let Arquillian manage the WildFly server by using the <code>arq-managed</code> profile. For more information about how to run the Arquillian tests, see <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/RUN_ARQUILLIAN_TESTS.md#run-the-arquillian-tests">Run the Arquillian Tests</a>.</p>
+<h2><a href="#investigate-the-console-output" id="investigate-the-console-output">Investigate the Console Output</a></h2>
+<p>Maven prints a summary of the two performed tests to the console.</p>
+<pre><code>-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+Running org.jboss.as.quickstart.cdi.extension.test.CreatureExtensionTest
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.87 sec
+
+Results :
+
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
+</code></pre>
+<h3><a href="#server-log" id="server-log">Server log</a></h3>
+<p>The following messages are written to the server log when the tests are run:</p>
+<pre><code>INFO  [org.jboss.as.server.deployment] (MSC service thread 1-6) WFLYSRV0027: Starting deployment of &quot;test.war&quot; (runtime-name: &quot;test.war&quot;)
+...
+INFO  [org.jboss.as.quickstart.cdi.extension.CreatureExtension] (MSC service thread 1-3) Setting up injection target for class org.jboss.as.quickstart.cdi.extension.model.Monster
+[timestamp] INFO  [org.jboss.as.quickstart.cdi.extension.CreatureExtension] (MSC service thread 1-3) Setting up injection target for class org.jboss.as.quickstart.cdi.extension.model.NonPlayerCharacter
+...
+INFO  [org.jboss.as.server] (management-handler-thread - 6) WFLYSRV0010: Deployed &quot;test.war&quot; (runtime-name : &quot;test.war&quot;)
+...
+[timestamp] INFO  [org.jboss.as.server.deployment] (MSC service thread 1-4) WFLYSRV0028: Stopped deployment test.war (runtime-name: test.war) in 27ms
+...
+INFO  [org.jboss.as.server] (management-handler-thread - 6) WFLYSRV0009: Undeployed &quot;test.war&quot; (runtime-name: &quot;test.war&quot;)
+</code></pre>
+<p>The two statements to look for are these:</p>
+<pre><code>INFO  [org.jboss.as.quickstart.cdi.extension.CreatureExtension] (MSC service thread 1-3) Setting up injection target for class org.jboss.as.quickstart.cdi.extension.model.Monster
+
+INFO  [org.jboss.as.quickstart.cdi.extension.CreatureExtension] (MSC service thread 1-3) Setting up injection target for class org.jboss.as.quickstart.cdi.extension.model.NonPlayerCharacter
+</code></pre>
+<h2><a href="#run-the-quickstart-in-red-hat-jboss-developer-studio-or-eclipse" id="run-the-quickstart-in-red-hat-jboss-developer-studio-or-eclipse">Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse</a></h2>
+<p>You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a WildFly server, and build and deploy a quickstart, see <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_JBDS.md#use-jboss-developer-studio-or-eclipse-to-run-the-quickstarts">Use JBoss Developer Studio or Eclipse to Run the Quickstarts</a>.</p>
+<h2><a href="#debug-the-application" id="debug-the-application">Debug the Application</a></h2>
+<p>If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.</p>
+<pre><code>    mvn dependency:sources
+</code></pre>
+</body>
+</html>

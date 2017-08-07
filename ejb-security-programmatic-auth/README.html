@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head><title> ejb-security-programmatic-auth: Using the programmatic API to invoke a remote EJB using different identities</title>
+    <link href="http://static.jboss.org/ffe/0/www/vendor/redhat/documentation.css" rel="stylesheet"></link>
+    <link href="http://static.jboss.org/ffe/0/www/vendor/redhat/pygments.css" rel="stylesheet"></link>
+</head>
+<body><h1><a href="#ejb-security-programmatic-auth-using-the-programmatic-api-to-invoke-a-remote-ejb-using-different-identities" id="ejb-security-programmatic-auth-using-the-programmatic-api-to-invoke-a-remote-ejb-using-different-identities">ejb-security-programmatic-auth: Using the programmatic API to invoke a remote EJB using different identities</a></h1>
+<p>Author: Stefan Guilhen<br />
+Level: Intermediate<br />
+Technologies: EJB, Security<br />
+Summary: The <code>ejb-security-programmatic-auth</code> quickstart demonstrates how to programmatically setup different identities when invoking a remote secured EJB.<br />
+Target Product: WildFly<br />
+Source: <a href="https://github.com/wildfly/quickstart/">https://github.com/wildfly/quickstart/</a></p>
+<h2><a href="#what-is-it" id="what-is-it">What is it?</a></h2>
+<p>The <code>ejb-security-programmatic-auth</code> quickstart demonstrates how to invoke a remote secured EJB  using the <code>Elytron</code> client API to establish different identities. The quickstart client application accomplishes that by looking up and invoking the secured EJB under different <code>AuthenticationContext</code>s. Each context is setup to use a different identities and credentials.</p>
+<h2><a href="#system-requirements" id="system-requirements">System Requirements</a></h2>
+<p>The applications these projects produce are designed to be run on WildFly Application Server 11 or later.</p>
+<p>All you need to build these projects is Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later. See <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts">Configure Maven for WildFly 11</a> to make sure you are configured correctly for testing the quickstarts.</p>
+<p>To run these quickstarts with the provided build scripts, you need the WildFly distribution ZIP. For information on how to install and run JBoss, see the <a href="https://access.redhat.com/documentation/en/red-hat-jboss-enterprise-application-platform/">WildFly Application Server Documentation</a> <em>Getting Started Guide</em> located on the Customer Portal.</p>
+<p>You can also use <a href="#use-jboss-developer-studio-or-eclipse-to-run-the-quickstarts">JBoss Developer Studio or Eclipse</a> to run the quickstarts.</p>
+<h2><a href="#use-of-wildfly-home" id="use-of-wildfly-home">Use of WILDFLY_HOME</a></h2>
+<p>In the following instructions, replace <code>WILDFLY_HOME</code> with the actual path to your WildFly installation. The installation path is described in detail here: <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_WILDFLY_HOME.md#use-of-eap_home-and-jboss_home-variables">Use of WILDFLY_HOME and JBOSS_HOME Variables</a>.</p>
+<h2><a href="#add-the-application-users" id="add-the-application-users">Add the Application Users</a></h2>
+<p>Using the add-user utility script, you must add the following users to the <code>ApplicationRealm</code>:</p>
+<table>
+<thead>
+<tr><th align="left"> <strong>UserName</strong> </th><th align="left"> <strong>Realm</strong> </th><th align="left"> <strong>Password</strong> </th><th align="left"> <strong>Roles</strong> </th></tr>
+</thead>
+<tbody>
+<tr><td align="left"> quickstartUser</td><td align="left"> ApplicationRealm </td><td align="left"> quickstartPwd1!</td><td align="left"> guest </td></tr>
+<tr><td align="left"> superUser </td><td align="left"> ApplicationRealm </td><td align="left"> superPwd1! </td><td align="left"> guest,admin </td></tr>
+</tbody>
+</table>
+<p>The first application user has <code>guest</code> access rights to the application but no <code>admin</code> rights. The second user has both rights.</p>
+<p>To add the application users, open a command prompt and type the following commands:</p>
+<pre><code>    For Linux:        
+      WILDFLY_HOME/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'guest'
+      WILDFLY_HOME/bin/add-user.sh -a -u 'superUser' -p 'superPwd1!' -g 'guest,admin'
+
+    For Windows:
+      WILDFLY_HOME\bin\add-user.bat  -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'guest'
+      WILDFLY_HOME\bin\add-user.bat -a -u 'superUser' -p 'superPwd1!' -g 'guest,admin'
+</code></pre>
+<p>If you prefer, you can use the add-user utility interactively. For an example of how to use the add-user utility, see the instructions located here: <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CREATE_USERS.md#add-an-application-user">Add an Application User</a>.</p>
+<h2><a href="#configure-the-server" id="configure-the-server">Configure the Server</a></h2>
+<p>These steps assume you are running the server in standalone mode and using the default <code>standalone.xml</code> supplied with the distribution.</p>
+<p>You configure the security domain by running JBoss CLI commands. For your convenience, this quickstart batches the commands into a <code>configure-elytron.cli</code> script provided in the root directory of this quickstart.</p>
+<ol>
+<li>
+<p>Before you begin, back up your server configuration file</p>
+<ul>
+<li>If it is running, stop the WildFly server.</li>
+<li>Back up the file: <code>WILDFLY_HOME/standalone/configuration/standalone.xml</code></li>
+<li>After you have completed testing this quickstart, you can replace this file to restore the server to its original configuration.</li>
+</ul>
+</li>
+<li>
+<p>Start the WildFly server by typing the following:</p>
+<pre><code>For Linux:  WILDFLY_HOME/bin/standalone.sh
+For Windows:  WILDFLY_HOME\bin\standalone.bat
+</code></pre>
+</li>
+<li>Review the <code>configure-elytron.cli</code> file in the root of this quickstart directory. This script adds the configuration that enables Elytron security for the quickstart components. Comments in the script describe the purpose of each block of commands.</li>
+<li>
+<p>Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing WILDFLY_HOME with the path to your server:</p>
+<pre><code>For Linux: WILDFLY_HOME/bin/jboss-cli.sh --connect --file=configure-elytron.cli
+For Windows: WILDFLY_HOME\bin\jboss-cli.bat --connect --file=configure-elytron.cli
+</code></pre>
+<p>You should see the following result when you run the script:</p>
+<pre><code>The batch executed successfully
+</code></pre>
+</li>
+<li>Stop the WildFly server.</li>
+</ol>
+<h2><a href="#review-the-modified-server-configuration" id="review-the-modified-server-configuration">Review the Modified Server Configuration</a></h2>
+<p>After stopping the server, open the <code>WILDFLY_HOME/standalone/configuration/standalone.xml</code> file and review the changes.</p>
+<ol>
+<li>
+<p>The following <code>application-security-domain</code> mapping was added to the <code>ejb3</code> subsystem:</p>
+<pre><code>&lt;application-security-domains&gt;
+    &lt;application-security-domain name=&quot;quickstart-domain&quot; security-domain=&quot;ApplicationDomain&quot;/&gt;
+&lt;/application-security-domains&gt;
+</code></pre>
+<p>The <code>application-security-domain</code> essentially enables Elytron security for the quickstart EJBs. It maps the <code>quickstart-domain</code> that was set in the EJBs via annotation to the Elytron <code>ApplicationDomain</code> that will be responsible for authenticating and authorizing access to the EJBs.</p>
+</li>
+<li>
+<p>The <code>http-connector</code> in the <code>remoting</code> subsystem was updated to use the <code>application-sasl-authentication</code> authentication factory:</p>
+<pre><code>&lt;http-connector name=&quot;http-remoting-connector&quot; connector-ref=&quot;default&quot; security-realm=&quot;ApplicationRealm&quot; sasl-authentication-factory=&quot;application-sasl-authentication&quot;/&gt;
+</code></pre>
+<p>This allows for the identity that was established in the connection authentication to be propagated to the components.</p>
+</li>
+</ol>
+<h2><a href="#start-the-server" id="start-the-server">Start the Server</a></h2>
+<ol>
+<li>Open a command prompt and navigate to the root of the WildFly directory.</li>
+<li>The following shows the command line to start the server:
+<pre><code>For Linux:   WILDFLY_HOME/bin/standalone.sh
+For Windows: WILDFLY_HOME\bin\standalone.bat
+</code></pre>
+</li>
+</ol>
+<h2><a href="#build-and-deploy-the-quickstart" id="build-and-deploy-the-quickstart">Build and Deploy the Quickstart</a></h2>
+<ol>
+<li>Make sure you have started the WildFly server as described above.</li>
+<li>Open a command prompt and navigate to the root directory of this quickstart.</li>
+<li>Type this command to build and deploy the archive:
+<pre><code>mvn clean package wildfly:deploy
+</code></pre>
+</li>
+<li>
+<p>This will deploy <code>target/ejb-security-programmatic-auth.jar</code> to the running instance of the server.</p>
+</li>
+</ol>
+<h2><a href="#access-the-application" id="access-the-application">Access the Application</a></h2>
+<p>Before you run the client, make sure you have already successfully deployed the EJBs to the server in the previous step and that your command prompt is still in the same folder.</p>
+<p>Type this command to execute the client:</p>
+<pre><code>    mvn exec:exec
+</code></pre>
+<h2><a href="#investigate-the-console-output" id="investigate-the-console-output">Investigate the Console Output</a></h2>
+<p>When you run the <code>mvn exec:exec</code> command, you see the following output. Note there may be other log messages interspersed between these.</p>
+<ul>
+<li>
+<hr />
+Called secured bean, caller principal quickstartUser
+<p>Principal has admin permission: false</p>
+<hr />
+<hr />
+<p>Called secured bean, caller principal superUser</p>
+<p>Principal has admin permission: true</p>
+<hr />
+</li>
+</ul>
+<p>As expected, the <code>quickstart</code> user is able to call the methods available for <code>guest</code>s but does not have the <code>admin</code> permission to call administrative methods on the remote EJB. The <code>superUser</code> on the other hand has permissions to call both methods.</p>
+<h2><a href="#undeploy-the-archive" id="undeploy-the-archive">Undeploy the Archive</a></h2>
+<ol>
+<li>Make sure you have started the WildFly server as described above.</li>
+<li>Open a command prompt and navigate to the root directory of this quickstart.</li>
+<li>When you are finished testing, type this command to undeploy the archive:
+<pre><code>mvn wildfly:undeploy
+</code></pre>
+</li>
+</ol>
+<h2><a href="#restore-the-server-configuration" id="restore-the-server-configuration">Restore the Server Configuration</a></h2>
+<p>You can restore the original server configuration by running the  <code>restore-configuration.cli</code> script provided in the root directory of this quickstart or by manually restoring the back-up copy the configuration file.</p>
+<h3><a href="#restore-the-server-configuration-by-running-the-jboss-cli-script" id="restore-the-server-configuration-by-running-the-jboss-cli-script">Restore the Server Configuration by Running the JBoss CLI Script</a></h3>
+<ol>
+<li>Start the WildFly server by typing the following:
+<pre><code>For Linux:  WILDFLY_HOME/bin/standalone.sh
+For Windows:  WILDFLY_HOME\bin\standalone.bat
+</code></pre>
+</li>
+<li>Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing WILDFLY_HOME with the path to your server:
+<pre><code>For Linux: WILDFLY_HOME/bin/jboss-cli.sh --connect --file=restore-configuration.cli
+For Windows: WILDFLY_HOME\bin\jboss-cli.bat --connect --file=restore-configuration.cli
+</code></pre>
+<p>This script reverts the changes made to the <code>ejb3</code> and <code>remoting</code> subsystems. You should see the following result when you run the script:</p>
+<pre><code>The batch executed successfully
+process-state: reload-required
+</code></pre>
+</li>
+</ol>
+<h3><a href="#restore-the-server-configuration-manually" id="restore-the-server-configuration-manually">Restore the Server Configuration Manually</a></h3>
+<ol>
+<li>If it is running, stop the WildFly server.</li>
+<li>Replace the <code>WILDFLY_HOME/standalone/configuration/standalone.xml</code> file with the back-up copy of the file.</li>
+</ol>
+<h2><a href="#run-the-quickstart-in-red-hat-jboss-developer-studio-or-eclipse" id="run-the-quickstart-in-red-hat-jboss-developer-studio-or-eclipse">Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse</a></h2>
+<p>You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a WildFly server, and build and deploy a quickstart, see <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_JBDS.md#use-jboss-developer-studio-or-eclipse-to-run-the-quickstarts">Use JBoss Developer Studio or Eclipse to Run the Quickstarts</a>.</p>
+<ul>
+<li>Be sure to <a href="#create-the-properties-files-for-the-jaas-security-domain">Create the Properties Files for the JAAS Security Domain</a> as described above.</li>
+<li>Be sure to configure the server by running the JBoss CLI script as described above under <a href="#configure-the-server">Configure the Server</a>.</li>
+<li>Be sure to <a href="#restore-the-server-configuration">Restore the Server Configuration</a> when you have completed testing this quickstart.</li>
+</ul>
+<h2><a href="#debug-the-application" id="debug-the-application">Debug the Application</a></h2>
+<p>If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.</p>
+<pre><code>mvn dependency:sources
+</code></pre>
+</body>
+</html>

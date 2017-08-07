@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head><title> helloworld-mdb-propertysubstitution: MDB (Message-Driven Bean) Using Property Substitution</title>
+    <link href="http://static.jboss.org/ffe/0/www/vendor/redhat/documentation.css" rel="stylesheet"></link>
+    <link href="http://static.jboss.org/ffe/0/www/vendor/redhat/pygments.css" rel="stylesheet"></link>
+</head>
+<body><h1><a href="#helloworld-mdb-propertysubstitution-mdb-message-driven-bean-using-property-substitution" id="helloworld-mdb-propertysubstitution-mdb-message-driven-bean-using-property-substitution">helloworld-mdb-propertysubstitution: MDB (Message-Driven Bean) Using Property Substitution</a></h1>
+<p>Author: Serge Pagop, Andy Taylor, Jeff Mesnil<br />
+Level: Intermediate<br />
+Technologies: JMS, EJB, MDB<br />
+Summary: The <code>helloworld-mdb-propertysubstitution</code> quickstart demonstrates the use of <em>JMS</em> and <em>EJB MDB</em>, enabling property substitution with annotations.<br />
+Target Product: WildFly<br />
+Source: <a href="https://github.com/wildfly/quickstart/">https://github.com/wildfly/quickstart/</a></p>
+<h2><a href="#what-is-it" id="what-is-it">What is it?</a></h2>
+<p>The <code>helloworld-mdb-propertysubstitution</code> quickstart demonstrates the use of <em>JMS</em> and <em>EJB Message-Driven Bean</em> in WildFly Application Server.</p>
+<p>It is based on the <a href="../helloworld-mdb/README.html">helloworld-mdb</a> quickstart, but has been enhanced to enable property substitution using the <code>@Resource</code> and <code>@ActivationConfigProperty</code> annotations.</p>
+<p>This project creates two JMS resources:</p>
+<ul>
+<li>A queue named <code>HELLOWORLDMDBQueue</code> bound in JNDI as <code>java:/${property.helloworldmdb.queue}</code></li>
+<li>A topic named <code>HELLOWORLDMDBTopic</code> bound in JNDI as <code>java:/${property.helloworldmdb.topic}</code></li>
+</ul>
+<h2><a href="#system-requirements" id="system-requirements">System Requirements</a></h2>
+<p>The application this project produces is designed to be run on WildFly Application Server 11 or later.</p>
+<p>All you need to build this project is Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later. See <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts">Configure Maven for WildFly 11</a> to make sure you are configured correctly for testing the quickstarts.</p>
+<h2><a href="#use-of-wildfly-home" id="use-of-wildfly-home">Use of WILDFLY_HOME</a></h2>
+<p>In the following instructions, replace <code>WILDFLY_HOME</code> with the actual path to your WildFly installation. The installation path is described in detail here: <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_WILDFLY_HOME.md#use-of-eap_home-and-jboss_home-variables">Use of WILDFLY_HOME and JBOSS_HOME Variables</a>.</p>
+<h2><a href="#configure-the-server" id="configure-the-server">Configure the Server</a></h2>
+<p>You enable MDB property substitution by running JBoss CLI commands. For your convenience, this quickstart batches the commands into a <code>enable-mdb-property-substitution.cli</code> script provided in the root directory of this quickstart.</p>
+<ol>
+<li>Before you begin, back up your server configuration file
+<ul>
+<li>If it is running, stop the WildFly server.</li>
+<li>Back up the file: <code>WILDFLY_HOME/standalone/configuration/standalone-full.xml</code></li>
+<li>After you have completed testing this quickstart, you can replace this file to restore the server to its original configuration.</li>
+</ul>
+</li>
+<li>Start the WildFly server by typing the following:
+<pre><code>For Linux:  WILDFLY_HOME/bin/standalone.sh -c standalone-full.xml
+For Windows:  WILDFLY_HOME\bin\standalone.bat -c standalone-full.xml
+</code></pre>
+</li>
+<li>Review the <code>enable-mdb-property-substitution.cli</code> script file in the root of this quickstart directory. This script first enables MDB annotation property substitution the <code>ee</code> subsystem of the server configuration file by creating an <code>annotation-property-replacement</code> property with a value of <code>true</code>. It then defines the system properties that are used in the substitution.</li>
+<li>
+<p>Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing WILDFLY_HOME with the path to your server:</p>
+<pre><code>For Linux: WILDFLY_HOME/bin/jboss-cli.sh --connect --file=enable-mdb-property-substitution.cli
+For Windows: WILDFLY_HOME\bin\jboss-cli.bat --connect --file=enable-mdb-property-substitution.cli
+</code></pre>
+</li>
+</ol>
+<p>You should see the following result when you run the script:</p>
+<pre><code>    The batch executed successfully
+</code></pre>
+<ol>
+<li>Stop the WildFly server.</li>
+</ol>
+<h2><a href="#review-the-modified-server-configuration" id="review-the-modified-server-configuration">Review the Modified Server Configuration</a></h2>
+<p>After stopping the server, open the <code>WILDFLY_HOME/standalone/configuration/standalone-full.xml</code> file and review the changes.</p>
+<p>The <code>&lt;annotation-property-replacement&gt;</code> attribute is set to true in the <code>ee</code> subsystem :</p>
+<pre><code>    &lt;subsystem xmlns=&quot;urn:jboss:domain:ee:4.0&quot;&gt;
+        ...
+        &lt;annotation-property-replacement&gt;true&lt;/annotation-property-replacement&gt;
+        ...
+    &lt;/subsystem&gt;
+</code></pre>
+<p>The following system properties are defined and appear after the <code>&lt;extensions&gt;</code>:</p>
+<pre><code>&lt;system-properties&gt;
+    &lt;property name=&quot;property.helloworldmdb.queue&quot; value=&quot;java:/queue/HELLOWORLDMDBPropQueue&quot;/&gt;
+    &lt;property name=&quot;property.helloworldmdb.topic&quot; value=&quot;java:/topic/HELLOWORLDMDBPropTopic&quot;/&gt;
+    &lt;property name=&quot;property.connection.factory&quot; value=&quot;java:/ConnectionFactory&quot;/&gt;
+&lt;/system-properties&gt;
+</code></pre>
+<h2><a href="#start-the-server-with-the-full-profile" id="start-the-server-with-the-full-profile">Start the Server with the Full Profile</a></h2>
+<ol>
+<li>Open a command prompt and navigate to the root of the WildFly directory.</li>
+<li>The following shows the command line to start the server with the full profile:
+<pre><code>For Linux:   WILDFLY_HOME/bin/standalone.sh -c standalone-full.xml
+For Windows: WILDFLY_HOME\bin\standalone.bat -c standalone-full.xml
+</code></pre>
+</li>
+</ol>
+<h2><a href="#build-and-deploy-the-quickstart" id="build-and-deploy-the-quickstart">Build and Deploy the Quickstart</a></h2>
+<ol>
+<li>Make sure you have started the WildFly server as described above.</li>
+<li>Open a command prompt and navigate to the root directory of this quickstart.</li>
+<li>Type this command to build and deploy the archive:
+<pre><code>mvn clean install wildfly:deploy
+</code></pre>
+</li>
+<li>
+<p>This will deploy <code>target/helloworld-mdb-propertysubstitution.war</code> to the running instance of the server. Look at the WildFly console or Server log and you should see log messages corresponding to the deployment of the message-driven beans and the JMS destinations:</p>
+<pre><code>INFO  [org.wildfly.extension.messaging-activemq] (MSC service thread 1-8) WFLYMSGAMQ0002: Bound messaging object to jndi name java:/${property.helloworldmdb.queue}
+INFO  [org.wildfly.extension.messaging-activemq] (MSC service thread 1-5) WFLYMSGAMQ0002: Bound messaging object to jndi name java:/${property.helloworldmdb.topic}
+...
+INFO  [org.wildfly.extension.messaging-activemq] (ServerService Thread Pool -- 70) WFLYMSGAMQ0002: Bound messaging object to jndi name java:/queue/HELLOWORLDMDBPropQueue
+INFO  [org.apache.activemq.artemis.core.server] (ServerService Thread Pool -- 73) AMQ221003: trying to deploy queue jms.topic.HelloWorldMDBTopic
+INFO  [org.apache.activemq.artemis.core.server] (ServerService Thread Pool -- 72) AMQ221003: trying to deploy queue jms.topic.HELLOWORLDMDBTopic
+INFO  [org.wildfly.extension.messaging-activemq] (ServerService Thread Pool -- 72) WFLYMSGAMQ0002: Bound messaging object to jndi name java:/topic/HELLOWORLDMDBPropTopic
+INFO  [org.apache.activemq.artemis.core.server] (ServerService Thread Pool -- 71) AMQ221003: trying to deploy queue jms.queue.HelloWorldMDBQueue
+INFO  [org.jboss.as.ejb3] (MSC service thread 1-7) WFLYEJB0042: Started message driven bean 'HelloWorldQTopicMDB' with 'activemq-ra.rar' resource adapter
+INFO  [org.jboss.as.ejb3] (MSC service thread 1-6) WFLYEJB0042: Started message driven bean 'HelloWorldQueueMDB' with 'activemq-ra.rar' resource adapter
+</code></pre>
+</li>
+</ol>
+<h2><a href="#access-the-application" id="access-the-application">Access the Application</a></h2>
+<p>The application will be running at the following URL: <a href="http://localhost:8080/helloworld-mdb-propertysubstitution/">http://localhost:8080/helloworld-mdb-propertysubstitution/</a> and will send some messages to the queue.</p>
+<p>To send messages to the topic, use the following URL: <a href="http://localhost:8080/helloworld-mdb-propertysubstitution/HelloWorldMDBServletClient?topic">http://localhost:8080/helloworld-mdb-propertysubstitution/HelloWorldMDBServletClient?topic</a></p>
+<h2><a href="#investigate-the-server-console-output" id="investigate-the-server-console-output">Investigate the Server Console Output</a></h2>
+<p>Look at the WildFly console or Server log and you should see log messages like the following:</p>
+<pre><code>INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldQueueMDB] (Thread-9 (ActiveMQ-client-global-threads-1189700957)) Received Message from queue: This is message 5
+INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldQueueMDB] (Thread-6 (ActiveMQ-client-global-threads-1189700957)) Received Message from queue: This is message 1
+INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldQueueMDB] (Thread-7 (ActiveMQ-client-global-threads-1189700957)) Received Message from queue: This is message 4
+INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldQueueMDB] (Thread-5 (ActiveMQ-client-global-threads-1189700957)) Received Message from queue: This is message 2
+INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldQueueMDB] (Thread-4 (ActiveMQ-client-global-threads-1189700957)) Received Message from queue: This is message 3
+</code></pre>
+<h2><a href="#undeploy-the-archive" id="undeploy-the-archive">Undeploy the Archive</a></h2>
+<ol>
+<li>Make sure you have started the WildFly server as described above.</li>
+<li>Open a command prompt and navigate to the root directory of this quickstart.</li>
+<li>When you are finished testing, type this command to undeploy the archive:
+<pre><code>mvn wildfly:undeploy
+</code></pre>
+</li>
+</ol>
+<h2><a href="#restore-the-server-configuration" id="restore-the-server-configuration">Restore the Server Configuration</a></h2>
+<p>You can remove the server configuration by running the  <code>disable-mdb-property-substitution.cli</code> script provided in the root directory of this quickstart or by manually restoring the back-up copy the configuration file.</p>
+<h3><a href="#restore-configuration-by-running-the-jboss-cli-script" id="restore-configuration-by-running-the-jboss-cli-script">Restore Configuration by Running the JBoss CLI Script</a></h3>
+<ol>
+<li>Start the WildFly server by typing the following:
+<pre><code>For Linux:  WILDFLY_HOME/bin/standalone.sh -c standalone-full.xml
+For Windows:  WILDFLY_HOME\bin\standalone.bat -c standalone-full.xml
+</code></pre>
+</li>
+<li>Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing WILDFLY_HOME with the path to your server:
+<pre><code>For Linux: WILDFLY_HOME/bin/jboss-cli.sh --connect --file=disable-mdb-property-substitution.cli
+For Windows: WILDFLY_HOME\bin\jboss-cli.bat --connect --file=disable-mdb-property-substitution.cli
+</code></pre>
+</li>
+</ol>
+<p>This script removes the system properties and sets the <code>&lt;annotation-property-replacement&gt;</code> value to <code>false</code> in the <code>ee</code> subsystem of the server configuration. You should see the following result when you run the script:</p>
+<pre><code>    The batch executed successfully
+</code></pre>
+<h3><a href="#restore-the-configuration-manually" id="restore-the-configuration-manually">Restore the Configuration Manually</a></h3>
+<ol>
+<li>If it is running, stop the WildFly server.</li>
+<li>Replace the <code>WILDFLY_HOME/standalone/configuration/standalone-full.xml</code> file with the back-up copy of the file.</li>
+</ol>
+<h2><a href="#run-the-quickstart-in-red-hat-jboss-developer-studio-or-eclipse" id="run-the-quickstart-in-red-hat-jboss-developer-studio-or-eclipse">Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse</a></h2>
+<p>You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a WildFly server, and build and deploy a quickstart, see <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_JBDS.md#use-jboss-developer-studio-or-eclipse-to-run-the-quickstarts">Use JBoss Developer Studio or Eclipse to Run the Quickstarts</a>.</p>
+<ul>
+<li>Be sure to enable MDB property substitution by running the JBoss CLI commands as described above under <a href="#configure-the-server">Configure the WildFly Server</a>. Stop the server at the end of that step.</li>
+<li>Within JBoss Developer Studio, be sure to define a server runtime environment that uses the <code>standalone-full.xml</code> configuration file.</li>
+<li>Be sure to <a href="#restore-the-server-configuration">Restore the WildFly Server Configuration</a> when you have completed testing this quickstart.</li>
+</ul>
+<h2><a href="#debug-the-application" id="debug-the-application">Debug the Application</a></h2>
+<p>If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.</p>
+<pre><code>mvn dependency:sources
+</code></pre>
+</body>
+</html>

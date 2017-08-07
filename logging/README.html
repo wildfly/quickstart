@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+<head><title> logging: Example That Sets Up Different Logging Levels</title>
+    <link href="http://static.jboss.org/ffe/0/www/vendor/redhat/documentation.css" rel="stylesheet"></link>
+    <link href="http://static.jboss.org/ffe/0/www/vendor/redhat/pygments.css" rel="stylesheet"></link>
+</head>
+<body><h1><a href="#logging-example-that-sets-up-different-logging-levels" id="logging-example-that-sets-up-different-logging-levels">logging: Example That Sets Up Different Logging Levels</a></h1>
+<p>Author: Joel Tosi<br />
+Level: Intermediate<br />
+Technologies: Logging<br />
+Summary: The <code>logging</code> quickstart demonstrates how to configure different logging levels in WildFly. It also includes an asynchronous logging example.<br />
+Prerequisites: None<br />
+Target Product: WildFly<br />
+Source: <a href="https://github.com/wildfly/quickstart/">https://github.com/wildfly/quickstart/</a></p>
+<h2><a href="#what-is-it" id="what-is-it">What is it?</a></h2>
+<p>The <code>logging</code> quickstart demonstrates how to set up and log different levels of information in WildFly Application Server. An example of asynchronous logging is also included in the configuration examples.</p>
+<p>This quickstart contains just one class file and one JSP file. When you access the application, it fires off the logging information.</p>
+<p>To better visualize how the logging configuration works, you first deploy and access the application before configuring the logs and view the resulting log files. Then you configure the logs, redeploy and access the application, and look at the log files again to see the differences.</p>
+<h2><a href="#system-requirements" id="system-requirements">System Requirements</a></h2>
+<p>The application this project produces is designed to be run on WildFly Application Server 11 or later.</p>
+<p>All you need to build this project is Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later. See <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts">Configure Maven for WildFly 11</a> to make sure you are configured correctly for testing the quickstarts.</p>
+<h2><a href="#use-of-wildfly-home" id="use-of-wildfly-home">Use of WILDFLY_HOME</a></h2>
+<p>In the following instructions, replace <code>WILDFLY_HOME</code> with the actual path to your WildFly installation. The installation path is described in detail here: <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_WILDFLY_HOME.md#use-of-eap_home-and-jboss_home-variables">Use of WILDFLY_HOME and JBOSS_HOME Variables</a>.</p>
+<h2><a href="#start-the-server" id="start-the-server">Start the Server</a></h2>
+<ol>
+<li>Open a command prompt and navigate to the root of the WildFly directory.</li>
+<li>The following shows the command line to start the WildFly server with the default profile:
+<pre><code>For Linux:   WILDFLY_HOME/bin/standalone.sh
+For Windows: WILDFLY_HOME\bin\standalone.bat
+</code></pre>
+</li>
+</ol>
+<h2><a href="#build-and-deploy-the-quickstart" id="build-and-deploy-the-quickstart">Build and Deploy the Quickstart</a></h2>
+<ol>
+<li>Make sure you have started the WildFly server as described above.</li>
+<li>Open a command prompt and navigate to the root directory of this quickstart.</li>
+<li>Type this command to build and deploy the archive:
+<pre><code>mvn clean install wildfly:deploy
+</code></pre>
+</li>
+<li>
+<p>This deploys <code>target/jboss-logging.war</code> to the running instance of the server.</p>
+</li>
+</ol>
+<h2><a href="#access-the-application" id="access-the-application">Access the Application</a></h2>
+<p>The application is running at the following URL: <a href="http://localhost:8080/jboss-logging/">http://localhost:8080/jboss-logging/</a>.</p>
+<p>You will see the following message in the server console:</p>
+<pre><code>    FATAL [org.jboss.as.quickstarts.logging.LoggingExample] (default task-1) THIS IS A FATAL MESSAGE
+    ERROR [org.jboss.as.quickstarts.logging.LoggingExample] (default task-1) THIS IS AN ERROR MESSAGE
+    WARN  [org.jboss.as.quickstarts.logging.LoggingExample] (default task-1) THIS IS A WARNING MESSAGE
+    INFO  [org.jboss.as.quickstarts.logging.LoggingExample] (default task-1) THIS IS AN INFO MESSAGE
+    ERROR [org.jboss.as.quickstarts.logging.LoggingExample] (default task-1) THIS IS AN ERROR MESSAGE
+    FATAL [org.jboss.as.quickstarts.logging.LoggingExample] (default task-1) THIS IS A FATAL MESSAGE
+    INFO  [org.jboss.as.quickstarts.logging.LoggingExample] (default task-1) THIS IS AN INFO MESSAGE
+    WARN  [org.jboss.as.quickstarts.logging.LoggingExample] (default task-1) THIS IS A WARNING MESSAGE
+</code></pre>
+<h2><a href="#check-the-server-logs" id="check-the-server-logs">Check the Server Logs</a></h2>
+<p>The log files are located in the <code>WILDFLY_HOME/standalone/log</code> log directory. At this point you should see the following log files.</p>
+<pre><code>    * `server.log` - This is the standard log produced by the application server. By default, it contains all the server log messages, including the server startup messages.
+    * `gc.log.0.current` - This is a garbage collection log. It contains garbage collection activity and can be used for diagnostic purposes. This log can be ignored as it is not used in this quickstart.
+</code></pre>
+<h2><a href="#configure-the-server" id="configure-the-server">Configure the Server</a></h2>
+<p>You configure server logging by running JBoss CLI commands. For your convenience, this quickstart batches the commands into a <code>configure-logging.cli</code> script provided in the root directory of this quickstart.</p>
+<ol>
+<li>
+<p>Before you begin, back up your server configuration file</p>
+<ul>
+<li>If it is running, stop the WildFly server.</li>
+<li>Back up the file: <code>WILDFLY_HOME/standalone/configuration/standalone.xml</code></li>
+<li>After you have completed testing this quickstart, you can replace this file to restore the server to its original configuration.</li>
+</ul>
+</li>
+<li>
+<p>Start the WildFly server by typing the following:</p>
+<pre><code>For Linux:  WILDFLY_HOME/bin/standalone.sh
+For Windows:  WILDFLY_HOME\bin\standalone.bat
+</code></pre>
+</li>
+<li>Review the <code>configure-logging.cli</code> file in the root of this quickstart directory. This script configures the logging subsytem in the server configuration file. It configures the periodic rotating file handlers and the async handlers, creates the logger for our quickstart class and sets the level to TRACE, and assigns the async handlers for our quickstart class.</li>
+<li>
+<p>Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing WILDFLY_HOME with the path to your server:</p>
+<pre><code>For Linux: WILDFLY_HOME/bin/jboss-cli.sh --connect --file=configure-logging.cli
+For Windows: WILDFLY_HOME\bin\jboss-cli.bat --connect --file=configure-logging.cli
+</code></pre>
+</li>
+</ol>
+<p>You should see the following result when you run the script:</p>
+<pre><code>    The batch executed successfully
+</code></pre>
+<h2><a href="#review-the-modified-server-configuration" id="review-the-modified-server-configuration">Review the Modified Server Configuration</a></h2>
+<p>After stopping the server, open the <code>WILDFLY_HOME/standalone/configuration/standalone.xml</code> file and review the changes.</p>
+<p>The following XML was added to the <code>logging</code> subsystem.</p>
+<pre><code>    &lt;async-handler name=&quot;TRACE_QS_ASYNC&quot;&gt;
+        &lt;level name=&quot;TRACE&quot;/&gt;
+        &lt;queue-length value=&quot;1024&quot;/&gt;
+        &lt;overflow-action value=&quot;block&quot;/&gt;
+        &lt;subhandlers&gt;
+            &lt;handler name=&quot;FILE_QS_TRACE&quot;/&gt;
+        &lt;/subhandlers&gt;
+    &lt;/async-handler&gt;
+    &lt;async-handler name=&quot;DEBUG_QS_ASYNC&quot;&gt;
+        &lt;level name=&quot;DEBUG&quot;/&gt;
+        &lt;queue-length value=&quot;1024&quot;/&gt;
+        &lt;overflow-action value=&quot;block&quot;/&gt;
+        &lt;subhandlers&gt;
+            &lt;handler name=&quot;FILE_QS_DEBUG&quot;/&gt;
+        &lt;/subhandlers&gt;
+    &lt;/async-handler&gt;
+    &lt;async-handler name=&quot;INFO_QS_ASYNC&quot;&gt;
+        &lt;level name=&quot;INFO&quot;/&gt;
+        &lt;queue-length value=&quot;1024&quot;/&gt;
+        &lt;overflow-action value=&quot;block&quot;/&gt;
+        &lt;subhandlers&gt;
+            &lt;handler name=&quot;FILE_QS_INFO&quot;/&gt;
+        &lt;/subhandlers&gt;
+    &lt;/async-handler&gt;
+    &lt;async-handler name=&quot;WARN_QS_ASYNC&quot;&gt;
+        &lt;level name=&quot;WARN&quot;/&gt;
+        &lt;queue-length value=&quot;1024&quot;/&gt;
+        &lt;overflow-action value=&quot;block&quot;/&gt;
+        &lt;subhandlers&gt;
+            &lt;handler name=&quot;FILE_QS_WARN&quot;/&gt;
+        &lt;/subhandlers&gt;
+    &lt;/async-handler&gt;
+    &lt;async-handler name=&quot;ERROR_QS_ASYNC&quot;&gt;
+        &lt;level name=&quot;ERROR&quot;/&gt;
+        &lt;queue-length value=&quot;1024&quot;/&gt;
+        &lt;overflow-action value=&quot;block&quot;/&gt;
+        &lt;subhandlers&gt;
+            &lt;handler name=&quot;FILE_QS_ERROR&quot;/&gt;
+        &lt;/subhandlers&gt;
+    &lt;/async-handler&gt;
+    &lt;async-handler name=&quot;FATAL_QS_ASYNC&quot;&gt;
+        &lt;level name=&quot;FATAL&quot;/&gt;
+        &lt;queue-length value=&quot;1024&quot;/&gt;
+        &lt;overflow-action value=&quot;block&quot;/&gt;
+        &lt;subhandlers&gt;
+            &lt;handler name=&quot;FILE_QS_FATAL&quot;/&gt;
+        &lt;/subhandlers&gt;
+    &lt;/async-handler&gt;
+    ...
+    &lt;periodic-rotating-file-handler name=&quot;FILE_QS_TRACE&quot;&gt;
+        &lt;file relative-to=&quot;jboss.server.log.dir&quot; path=&quot;quickstart.trace.log&quot;/&gt;
+        &lt;suffix value=&quot;.yyyy.MM.dd&quot;/&gt;
+    &lt;/periodic-rotating-file-handler&gt;
+    &lt;periodic-rotating-file-handler name=&quot;FILE_QS_DEBUG&quot;&gt;
+        &lt;file relative-to=&quot;jboss.server.log.dir&quot; path=&quot;quickstart.debug.log&quot;/&gt;
+        &lt;suffix value=&quot;.yyyy.MM.dd&quot;/&gt;
+    &lt;/periodic-rotating-file-handler&gt;
+    &lt;periodic-rotating-file-handler name=&quot;FILE_QS_INFO&quot;&gt;
+        &lt;file relative-to=&quot;jboss.server.log.dir&quot; path=&quot;quickstart.info.log&quot;/&gt;
+        &lt;suffix value=&quot;.yyyy.MM.dd&quot;/&gt;
+    &lt;/periodic-rotating-file-handler&gt;
+    &lt;periodic-rotating-file-handler name=&quot;FILE_QS_WARN&quot;&gt;
+        &lt;file relative-to=&quot;jboss.server.log.dir&quot; path=&quot;quickstart.warn.log&quot;/&gt;
+        &lt;suffix value=&quot;.yyyy.MM.dd&quot;/&gt;
+    &lt;/periodic-rotating-file-handler&gt;
+    &lt;periodic-rotating-file-handler name=&quot;FILE_QS_ERROR&quot;&gt;
+        &lt;file relative-to=&quot;jboss.server.log.dir&quot; path=&quot;quickstart.error.log&quot;/&gt;
+        &lt;suffix value=&quot;.yyyy.MM.dd&quot;/&gt;
+    &lt;/periodic-rotating-file-handler&gt;
+    &lt;periodic-rotating-file-handler name=&quot;FILE_QS_FATAL&quot;&gt;
+        &lt;file relative-to=&quot;jboss.server.log.dir&quot; path=&quot;quickstart.fatal.log&quot;/&gt;
+        &lt;suffix value=&quot;.yyyy.MM.dd&quot;/&gt;
+    &lt;/periodic-rotating-file-handler&gt;
+    ...
+    &lt;logger category=&quot;org.jboss.as.quickstarts.logging&quot;&gt;
+        &lt;level name=&quot;TRACE&quot;/&gt;
+        &lt;handlers&gt;
+            &lt;handler name=&quot;TRACE_QS_ASYNC&quot;/&gt;
+            &lt;handler name=&quot;DEBUG_QS_ASYNC&quot;/&gt;
+            &lt;handler name=&quot;INFO_QS_ASYNC&quot;/&gt;
+            &lt;handler name=&quot;WARN_QS_ASYNC&quot;/&gt;
+            &lt;handler name=&quot;ERROR_QS_ASYNC&quot;/&gt;
+            &lt;handler name=&quot;FATAL_QS_ASYNC&quot;/&gt;
+        &lt;/handlers&gt;
+    &lt;/logger&gt;
+</code></pre>
+<h2><a href="#test-the-new-logging-configuration" id="test-the-new-logging-configuration">Test the New Logging Configuration</a></h2>
+<ol>
+<li>If your server is not started, then <a href="#start-the-server">Start the WildFly server</a>.</li>
+<li><a href="#build-and-deploy-the-quickstart">Build and deploy the quickstart</a>.</li>
+<li><a href="#access-the-application">Access the application</a>.</li>
+</ol>
+<h2><a href="#recheck-the-server-logs" id="recheck-the-server-logs">Recheck the Server Logs</a></h2>
+<p>The log files are located in the <code>WILDFLY_HOME/standalone/log</code> log directory. You should now see 8 log files.</p>
+<ul>
+<li>
+<p>The following logs are the standard log files produced by the application server:</p>
+<ul>
+<li><code>server.log</code> - The standard log produced by the application server.</li>
+<li><code>gc.log.0.current</code> - The garbage collection log can be ignored as it is not used in this quickstart.</li>
+</ul>
+</li>
+<li>
+<p>The following logs are produced by the quickstart. They are listed below in hierarchical order from the largest file containing the most messages to the smallest file containing the least messages.</p>
+<ul>
+<li><code>quickstart.trace.log</code></li>
+<li><code>quickstart.debug.log</code></li>
+<li><code>quickstart.info.log</code></li>
+<li><code>quickstart.warn.log</code></li>
+<li><code>quickstart.error.log</code></li>
+<li><code>quickstart.fatal.log</code></li>
+</ul>
+</li>
+</ul>
+<p>The following describes what happens when you access this quickstart:</p>
+<ol>
+<li>The application class file fires off logs of the various types (INFO, DEBUG, TRACE, WARN, ERROR, FATAL).  Each log message goes to a different file, as defined in the <code>standalone.xml</code> file.  Also notice in the <code>standalone.xml</code> that the application package defines its own log level.</li>
+<li>The class file demonstrates the usage of <em>log guards</em>.  <em>Log guards</em> are a development best practice.  Simply put, instead of just writing out logs, we wrap the log writes in a check for that log level being enabled. While this may seem like overhead, that boolean check is more efficient than relying on the underlying framework to do the check at write time.</li>
+<li>Finally, the class file logs various levels, each to its own file as configured in <code>standalone.xml</code>.  Note that log levels are hierarchical.  When set, all log levels above the specified level are logged as well.</li>
+<li>Common uses of the 6 log levels are outlined below. You should use the level that makes the most sense in your environment.
+<pre><code>FATAL - Used to track critical system failures.  When this log message is written, it is writing application error that has caused service to cease.  This is the most narrow logging.  
+ERROR - Used to track application errors that may cause one request to fail (not a service ceasement).
+WARN - This is setting is used in most production environments.  At this level, all *WARN*, *ERROR*, and *FATAL* messages are written.  Use this level message  as a predictive measure for possible forthcoming issues.  
+INFO - Usually only used in a development environment.  This provides any information - state transition, object values, etc
+DEBUG - Turned on in any environment when a problem is occuring.  The information captured may be throughput, communication, object values, etc.
+TRACE - Turned on in any environment where you are trying to follow an execution path, for optimization or debugging.  This is the most broad logging level and all messages are written.
+</code></pre>
+</li>
+<li>
+<p>To view log file differences for different logging levels, change the level for the &quot;org.jboss.as.quickstarts.logging&quot; logger from TRACE to DEBUG, INFO, WARN, ERROR, or FATAL, then access the application.</p>
+</li>
+</ol>
+<h2><a href="#undeploy-the-archive" id="undeploy-the-archive">Undeploy the Archive</a></h2>
+<ol>
+<li>Make sure you have started the WildFly server as described above.</li>
+<li>Open a command prompt and navigate to the root directory of this quickstart.</li>
+<li>When you are finished testing, type this command to undeploy the archive:
+<pre><code>mvn wildfly:undeploy
+</code></pre>
+</li>
+</ol>
+<h2><a href="#remove-the-logging-configuration" id="remove-the-logging-configuration">Remove the Logging Configuration</a></h2>
+<p>You can remove the logging configuration by running the  <code>remove-logging.cli</code> script provided in the root directory of this quickstart or by manually restoring the back-up copy the configuration file.</p>
+<h3><a href="#remove-the-logging-configuration-by-running-the-jboss-cli-script" id="remove-the-logging-configuration-by-running-the-jboss-cli-script">Remove the Logging Configuration by Running the JBoss CLI Script</a></h3>
+<ol>
+<li>Start the WildFly server by typing the following:
+<pre><code>For Linux:  WILDFLY_HOME/bin/standalone.sh
+For Windows:  WILDFLY_HOME\bin\standalone.bat
+</code></pre>
+</li>
+<li>Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing WILDFLY_HOME with the path to your server:
+<pre><code>For Linux: WILDFLY_HOME/bin/jboss-cli.sh --connect --file=remove-logging.cli
+For Windows: WILDFLY_HOME\bin\jboss-cli.bat --connect --file=remove-logging.cli
+</code></pre>
+</li>
+</ol>
+<p>This script removes the log and file handlers from the <code>logging</code> subsystem in the server configuration. You should see the following result when you run the script:</p>
+<pre><code>    The batch executed successfully
+</code></pre>
+<h3><a href="#remove-the-logging-configuration-manually" id="remove-the-logging-configuration-manually">Remove the Logging Configuration Manually</a></h3>
+<ol>
+<li>If it is running, stop the WildFly server.</li>
+<li>Replace the <code>WILDFLY_HOME/standalone/configuration/standalone.xml</code> file with the back-up copy of the file.</li>
+</ol>
+<h2><a href="#run-the-quickstart-in-red-hat-jboss-developer-studio-or-eclipse" id="run-the-quickstart-in-red-hat-jboss-developer-studio-or-eclipse">Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse</a></h2>
+<p>You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a WildFly server, and build and deploy a quickstart, see <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_JBDS.md#use-jboss-developer-studio-or-eclipse-to-run-the-quickstarts">Use JBoss Developer Studio or Eclipse to Run the Quickstarts</a>.</p>
+<ul>
+<li>Be sure to configure WildFly server logging as described above under <a href="#configure-the-server">Configure the WildFly Server</a>. Stop the server at the end of that step.</li>
+<li>Be sure to <a href="#remove-the-logging-configuration">Remove the Logging Configuration</a> when you have completed testing this quickstart.</li>
+</ul>
+<h2><a href="#debug-the-application" id="debug-the-application">Debug the Application</a></h2>
+<p>If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.</p>
+<pre><code>mvn dependency:sources
+</code></pre>
+</body>
+</html>

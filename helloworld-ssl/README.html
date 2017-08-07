@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head><title> helloworld-ssl: WildFly Server Side SSL Configuration Example</title>
+    <link href="http://static.jboss.org/ffe/0/www/vendor/redhat/documentation.css" rel="stylesheet"></link>
+    <link href="http://static.jboss.org/ffe/0/www/vendor/redhat/pygments.css" rel="stylesheet"></link>
+</head>
+<body><h1><a href="#helloworld-ssl-wildfly-server-side-ssl-configuration-example" id="helloworld-ssl-wildfly-server-side-ssl-configuration-example">helloworld-ssl: WildFly Server Side SSL Configuration Example</a></h1>
+<p>Author: Giriraj Sharma, Stefan Guilhen<br />
+Level: Beginner<br />
+Technologies: SSL, Undertow<br />
+Summary: The <code>helloworld-ssl</code> quickstart is a basic example that demonstrates server side SSL configuration in WildFly.<br />
+Target Product: WildFly<br />
+Source: <a href="https://github.com/wildfly/quickstart/">https://github.com/wildfly/quickstart/</a></p>
+<h2><a href="#what-is-it" id="what-is-it">What is it?</a></h2>
+<p>This <code>helloworld-ssl</code> quickstart demonstrates the configuration of <em>SSL</em> in <em>WildFly Application Server</em>.</p>
+<p>This quickstart shows how to configure WildFly to enable TLS/SSL configuration for the new <code>undertow</code> web subsystem.</p>
+<p>Before you run this example, you must create certificates and configure the server to use SSL.</p>
+<h2><a href="#system-requirements" id="system-requirements">System Requirements</a></h2>
+<p>The applications these projects produce are designed to be run on WildFly Application Server 11 or later.</p>
+<p>All you need to build these projects is Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later. See <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts">Configure Maven for WildFly 11</a> to make sure you are configured correctly for testing the quickstarts.</p>
+<p>To run these quickstarts with the provided build scripts, you need the WildFly distribution ZIP. For information on how to install and run JBoss, see the <a href="https://access.redhat.com/documentation/en/red-hat-jboss-enterprise-application-platform/">WildFly Application Server Documentation</a> <em>Getting Started Guide</em> located on the Customer Portal.</p>
+<p>You can also use <a href="#use-jboss-developer-studio-or-eclipse-to-run-the-quickstarts">JBoss Developer Studio or Eclipse</a> to run the quickstarts.</p>
+<h2><a href="#use-of-wildfly-home" id="use-of-wildfly-home">Use of WILDFLY_HOME</a></h2>
+<p>In the following instructions, replace <code>WILDFLY_HOME</code> with the actual path to your WildFly installation. The installation path is described in detail here: <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_WILDFLY_HOME.md#use-of-eap_home-and-jboss_home-variables">Use of WILDFLY_HOME and JBOSS_HOME Variables</a>.</p>
+<h2><a href="#generate-a-keystore-and-self-signed-certificate" id="generate-a-keystore-and-self-signed-certificate">Generate a Keystore and Self-signed Certificate</a></h2>
+<ol>
+<li>Open a command line and navigate to the WildFly server <code>configuration</code> directory:
+<pre><code>For Linux:   standalone/configuration
+For Windows: standalone\configuration
+</code></pre>
+</li>
+<li>Create a certificate for your server using the following command:
+<pre><code>$&gt;keytool -genkey -alias mycert -keyalg RSA -sigalg MD5withRSA -keystore server.keystore -storepass secret -keypass secret -validity 9999
+
+What is your first and last name?
+   [Unknown]:  localhost
+What is the name of your organizational unit?
+   [Unknown]:  wildfly
+What is the name of your organization?
+   [Unknown]:  jboss
+What is the name of your City or Locality?
+   [Unknown]:  Raleigh
+What is the name of your State or Province?
+   [Unknown]:  Carolina
+What is the two-letter country code for this unit?
+   [Unknown]:  US
+Is CN=localhost, OU=wildfly, O=jboss, L=Raleigh, ST=Carolina, C=US correct?
+   [no]:  yes
+</code></pre>
+<p>Make sure to put your desired &quot;hostname&quot; into the &quot;first and last name&quot; field, otherwise you might run into issues while permanently accepting this certificate as an exception in some browsers. Chrome does not have an issue with that though.</p>
+</li>
+</ol>
+<h2><a href="#configure-the-server" id="configure-the-server">Configure the Server</a></h2>
+<p>These steps assume you are running the server in standalone mode and using the default <code>standalone.xml</code> supplied with the distribution.</p>
+<p>You configure the SSL context by running JBoss CLI commands. For your convenience, this quickstart batches the commands into a <code>configure-ssl.cli</code> script provided in the root directory of this quickstart.</p>
+<ol>
+<li>
+<p>Before you begin, back up your server configuration file</p>
+<ul>
+<li>If it is running, stop the WildFly server.</li>
+<li>Back up the file: <code>WILDFLY_HOME/standalone/configuration/standalone.xml</code></li>
+<li>After you have completed testing this quickstart, you can replace this file to restore the server to its original configuration.</li>
+</ul>
+</li>
+<li>
+<p>Start the WildFly server by typing the following:</p>
+<pre><code>For Linux:  WILDFLY_HOME/bin/standalone.sh
+For Windows:  WILDFLY_HOME\bin\standalone.bat
+</code></pre>
+</li>
+<li>Review the <code>configure-ssl.cli</code> file in the root of this quickstart directory. Comments in the script describe the purpose of each block of commands.</li>
+<li>
+<p>Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing WILDFLY_HOME with the path to your server:</p>
+<pre><code>For Linux: WILDFLY_HOME/bin/jboss-cli.sh --connect --file=configure-ssl.cli
+For Windows: WILDFLY_HOME\bin\jboss-cli.bat --connect --file=configure-ssl.cli
+</code></pre>
+<p>You should see the following result when you run the script:</p>
+<pre><code>The batch executed successfully
+</code></pre>
+</li>
+<li>Stop the WildFly server.</li>
+</ol>
+<p>Now you're ready to connect to the SSL port of your instance <a href="https://localhost:8443/">https://localhost:8443/</a>. Note, that you get the privacy error as the server certificate is self-signed. If you need to use a fully signed certificate you mostly get a PEM file from the Certificate Authority. In such a case, you need to import the PEM into the keystore.</p>
+<h2><a href="#review-the-modified-server-configuration" id="review-the-modified-server-configuration">Review the Modified Server Configuration</a></h2>
+<p>After stopping the server, open the <code>WILDFLY_HOME/standalone/configuration/standalone.xml</code> file and review the changes.</p>
+<ol>
+<li>
+<p>The following <code>key-store</code> was added to the <code>elytron</code> subsystem:</p>
+<pre><code>&lt;key-stores&gt;
+    &lt;key-store name=&quot;qsKeyStore&quot;&gt;
+        &lt;credential-reference clear-text=&quot;secret&quot;/&gt;
+        &lt;implementation type=&quot;JKS&quot;/&gt;
+        &lt;file path=&quot;../standalone/configuration/my.keystore&quot;/&gt;
+    &lt;/key-store&gt;
+&lt;/key-stores&gt;
+</code></pre>
+</li>
+<li>
+<p>The following <code>key-manager</code> was added to the <code>elytron</code> subsystem:</p>
+<pre><code>&lt;key-managers&gt;
+    &lt;key-manager name=&quot;qsKeyManager&quot; algorithm=&quot;SunX509&quot; key-store=&quot;qsKeyStore&quot;&gt;
+        &lt;credential-reference clear-text=&quot;secret&quot;/&gt;
+    &lt;/key-manager&gt;
+&lt;/key-managers&gt;
+</code></pre>
+</li>
+<li>
+<p>The following <code>ssl-context</code> was added to the <code>elytron</code> subsystem:</p>
+<pre><code>&lt;server-ssl-contexts&gt;
+    &lt;server-ssl-context name=&quot;qsSSLContext&quot; protocols=&quot;TLSv1.2&quot; key-manager=&quot;qsKeyManager&quot;/&gt;
+&lt;/server-ssl-contexts&gt;
+</code></pre>
+</li>
+<li>
+<p>The <code>https-listener</code> in the <code>undertow</code> subsystem was changed to reference the <code>qsSSLContext</code> <code>ssl-context</code>:</p>
+<pre><code>&lt;https-listener name=&quot;https&quot; socket-binding=&quot;https&quot; ssl-context=&quot;qsSSLContext&quot; enable-http2=&quot;true&quot;/&gt;
+</code></pre>
+</li>
+</ol>
+<h2><a href="#test-the-server-ssl-configuration" id="test-the-server-ssl-configuration">Test the Server SSL Configuration</a></h2>
+<p>To test the SSL configuration, access: <a href="https://localhost:8443">https://localhost:8443</a></p>
+<h2><a href="#start-the-server" id="start-the-server">Start the Server</a></h2>
+<ol>
+<li>Open a command line and navigate to the root of the WildFly directory.</li>
+<li>The following shows the command line to start the server with the web profile:
+<pre><code>For Linux:   bin/standalone.sh
+For Windows: bin\standalone.bat
+</code></pre>
+</li>
+</ol>
+<h2><a href="#build-and-deploy-the-quickstart" id="build-and-deploy-the-quickstart">Build and Deploy the Quickstart</a></h2>
+<p><em>NOTE: The following build command assumes you have configured your Maven user settings. If you have not, you must include Maven setting arguments on the command line. See <a href="../README.html#build-and-deploy-the-quickstarts">Build and Deploy the Quickstarts</a> for complete instructions and additional options.</em></p>
+<ol>
+<li>Make sure you have started the WildFly server as described above.</li>
+<li>Open a command line and navigate to the root directory of one of the quickstart.</li>
+<li>Type this command to build and deploy the archive:
+<pre><code>mvn clean package wildfly:deploy
+</code></pre>
+</li>
+<li>
+<p>This will deploy <code>target/helloworld-ssl.war</code> to the running instance of the server.</p>
+</li>
+</ol>
+<h2><a href="#access-the-application" id="access-the-application">Access the Application</a></h2>
+<p>The application will be running at the following URL: <a href="https://localhost:8443/helloworld-ssl/">https://localhost:8443/helloworld-ssl/</a>.</p>
+<h2><a href="#undeploy-the-archive" id="undeploy-the-archive">Undeploy the Archive</a></h2>
+<ol>
+<li>Make sure you have started the JBoss Server as described above.</li>
+<li>Open a command line and navigate to the root directory of this quickstart.</li>
+<li>When you are finished testing, type this command to undeploy the archive:
+<pre><code>mvn wildfly:undeploy
+</code></pre>
+</li>
+</ol>
+<h2><a href="#restore-the-server-configuration" id="restore-the-server-configuration">Restore the Server Configuration</a></h2>
+<p>You can restore the original server configuration by running the  <code>restore-configuration.cli</code> script provided in the root directory of this quickstart or by manually restoring the back-up copy the configuration file.</p>
+<h3><a href="#restore-the-server-configuration-by-running-the-jboss-cli-script" id="restore-the-server-configuration-by-running-the-jboss-cli-script">Restore the Server Configuration by Running the JBoss CLI Script</a></h3>
+<ol>
+<li>Start the WildFly server by typing the following:
+<pre><code>For Linux:  WILDFLY_HOME/bin/standalone.sh
+For Windows:  WILDFLY_HOME\bin\standalone.bat
+</code></pre>
+</li>
+<li>Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing WILDFLY_HOME with the path to your server:
+<pre><code>For Linux: WILDFLY_HOME/bin/jboss-cli.sh --connect --file=restore-configuration.cli
+For Windows: WILDFLY_HOME\bin\jboss-cli.bat --connect --file=restore-configuration.cli
+</code></pre>
+<p>This script reverts the changes made to the <code>undertow</code> subsystem and it also removes the <code>ssl-context</code>, <code>key-manager</code> and <code>key-store</code> from the <code>elytron</code> subsystem. You should see the following result when you run the script:</p>
+<pre><code>The batch executed successfully
+process-state: reload-required
+</code></pre>
+</li>
+</ol>
+<h3><a href="#restore-the-server-configuration-manually" id="restore-the-server-configuration-manually">Restore the Server Configuration Manually</a></h3>
+<ol>
+<li>If it is running, stop the WildFly server.</li>
+<li>Replace the <code>WILDFLY_HOME/standalone/configuration/standalone.xml</code> file with the back-up copy of the file.</li>
+</ol>
+<h2><a href="#remove-the-keystore-created-for-this-quickstart" id="remove-the-keystore-created-for-this-quickstart">Remove the keystore created for this quickstart</a></h2>
+<ol>
+<li>Open a command line and navigate to the WildFly server <code>configuration</code> directory:
+<pre><code>For Linux:   standalone/configuration
+For Windows: standalone\configuration
+</code></pre>
+</li>
+<li>Remove the keystore generated for this quickstart.</li>
+</ol>
+<h2><a href="#run-the-quickstart-in-red-hat-jboss-developer-studio-or-eclipse" id="run-the-quickstart-in-red-hat-jboss-developer-studio-or-eclipse">Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse</a></h2>
+<p>You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a WildFly server, and build and deploy a quickstart, see <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_JBDS.md#use-jboss-developer-studio-or-eclipse-to-run-the-quickstarts">Use JBoss Developer Studio or Eclipse to Run the Quickstarts</a>.</p>
+<ul>
+<li>Be sure to configure the server by running the JBoss CLI commands as described above under <a href="#configure-the-server">Configure the WildFly Server</a>. Stop the server at the end of that step.</li>
+<li>Be sure to <a href="#restore-the-server-configuration">Restore the Server Configuration</a> when you have completed testing this quickstart.</li>
+</ul>
+<h2><a href="#debug-the-application" id="debug-the-application">Debug the Application</a></h2>
+<p>If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.</p>
+<pre><code>    mvn dependency:sources        
+</code></pre>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head><title> bean-validation-custom-constraint: Bean Validation Using Custom Constraints</title>
+    <link href="http://static.jboss.org/ffe/0/www/vendor/redhat/documentation.css" rel="stylesheet"></link>
+    <link href="http://static.jboss.org/ffe/0/www/vendor/redhat/pygments.css" rel="stylesheet"></link>
+</head>
+<body><h1><a href="#bean-validation-custom-constraint-bean-validation-using-custom-constraints" id="bean-validation-custom-constraint-bean-validation-using-custom-constraints">bean-validation-custom-constraint: Bean Validation Using Custom Constraints</a></h1>
+<p>Author: Giriraj Sharma<br />
+Level: Beginner<br />
+Technologies: CDI, JPA, BV<br />
+Summary: The <code>bean-validation-custom-constraint</code> quickstart demonstrates how to use the Bean Validation API to define custom constraints and validators.<br />
+Target Product: WildFly<br />
+Source: <a href="https://github.com/wildfly/quickstart/">https://github.com/wildfly/quickstart/</a></p>
+<h2><a href="#what-is-it" id="what-is-it">What is it</a></h2>
+<p>The <code>bean-validation-custom-constraint</code> quickstart demonstrates how to use CDI, JPA, and Bean Validation in WildFly Application Server. Bean Validation API allows the developers to define their own constraints by creating a new annotation and writing the validator which is used to validate the value. This quickstart will show you how to create custom constraints and then use it to validate your data. It includes a persistence unit and some sample persistence code to introduce you to database access in enterprise Java.</p>
+<p>This quickstart does not contain a user interface layer. The purpose of this project is to show you how to test bean validation using custom constraints with Arquillian. In this quickstart, the personAddress field of entity Person is validated using a set of custom constraints defined in the class AddressValidator. If you want to see an example of how to test bean validation with a user interface, look at the <a href="../kitchensink/README.html">kitchensink</a> example.</p>
+<p><em>Note: This quickstart uses the H2 database included with WildFly Application Server 11. It is a lightweight, relational example datasource that is used for examples only. It is not robust or scalable, is not supported, and should NOT be used in a production environment!</em></p>
+<p><em>Note: This quickstart uses a <code>*-ds.xml</code> datasource configuration file for convenience and ease of database configuration. These files are deprecated in WildFly and should not be used in a production environment. Instead, you should configure the datasource using the Management CLI or Management Console. Datasource configuration is documented in the <a href="https://access.redhat.com/documentation/en/red-hat-jboss-enterprise-application-platform/">Configuration Guide</a> for WildFly Application Server.</em></p>
+<h2><a href="#system-requirements" id="system-requirements">System Requirements</a></h2>
+<p>The application this project produces is designed to be run on WildFly Application Server 11 or later.</p>
+<p>All you need to build this project is Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later. See <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts">Configure Maven for WildFly 11</a> to make sure you are configured correctly for testing the quickstarts.</p>
+<h2><a href="#use-of-wildfly-home" id="use-of-wildfly-home">Use of WILDFLY_HOME</a></h2>
+<p>In the following instructions, replace <code>WILDFLY_HOME</code> with the actual path to your WildFly installation. The installation path is described in detail here: <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_WILDFLY_HOME.md#use-of-eap_home-and-jboss_home-variables">Use of WILDFLY_HOME and JBOSS_HOME Variables</a>.</p>
+<h2><a href="#start-the-server" id="start-the-server">Start the Server</a></h2>
+<ol>
+<li>Open a command prompt and navigate to the root of the WildFly directory.</li>
+<li>The following shows the command line to start the server:
+<pre><code>For Linux:   WILDFLY_HOME/bin/standalone.sh
+For Windows: WILDFLY_HOME\bin\standalone.bat
+</code></pre>
+</li>
+</ol>
+<h2><a href="#run-the-arquillian-tests" id="run-the-arquillian-tests">Run the Arquillian Tests</a></h2>
+<p>This quickstart provides Arquillian tests. By default, these tests are configured to be skipped as Arquillian tests require the use of a container.</p>
+<ol>
+<li>Make sure you have started the WildFly server as described above.</li>
+<li>Open a command prompt and navigate to the root directory of this quickstart.</li>
+<li>Type the following command to run the test goal with the following profile activated:
+<pre><code>mvn clean verify -Parq-remote
+</code></pre>
+</li>
+</ol>
+<p>You can also let Arquillian manage the WildFly server by using the <code>arq-managed</code> profile. For more information about how to run the Arquillian tests, see <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/RUN_ARQUILLIAN_TESTS.md#run-the-arquillian-tests">Run the Arquillian Tests</a>.</p>
+<h2><a href="#investigate-the-console-output" id="investigate-the-console-output">Investigate the Console Output</a></h2>
+<p>When you run the tests, JUnit will present you test report summary:</p>
+<pre><code>Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
+</code></pre>
+<p>If you are interested in more details, look in the <code>target/surefire-reports</code> directory.</p>
+<p>You can also check the server console output to verify that the Arquillian tests deployed to and ran in the application server. Search for lines similar to the following ones in the server output log:</p>
+<pre><code>INFO [org.jboss.as.server.deployment] (MSC service thread 1-5) WFLYSRV0027: Starting deployment of &quot;test.war&quot; (runtime-name: &quot;test.war&quot;)
+...
+INFO [org.jboss.as.server] (management-handler-thread - 2) WFLYSRV0010: Deployed &quot;test.war&quot; (runtime-name : &quot;test.war&quot;)
+...
+INFO [org.jboss.as.server.deployment] (MSC service thread 1-3) WFLYSRV0028: Stopped deployment test.war (runtime-name: test.war) in 32ms
+...
+INFO [[org.jboss.as.server] (management-handler-thread - 2) WFLYSRV0009: Undeployed &quot;test.war&quot; (runtime-name: &quot;test.war&quot;)
+</code></pre>
+<h2><a href="#server-log-expected-warnings-and-errors" id="server-log-expected-warnings-and-errors">Server Log: Expected Warnings and Errors</a></h2>
+<p><em>Note:</em> You will see the following warnings in the server log. You can ignore these warnings.</p>
+<pre><code>WFLYJCA0091: -ds.xml file deployments are deprecated. Support may be removed in a future version.
+
+HHH000431: Unable to determine H2 database version, certain features may not work
+</code></pre>
+<h2><a href="#test-the-quickstart-in-red-hat-jboss-developer-studio-or-eclipse" id="test-the-quickstart-in-red-hat-jboss-developer-studio-or-eclipse">Test the Quickstart in Red Hat JBoss Developer Studio or Eclipse</a></h2>
+<p>You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a WildFly server, and build and deploy a quickstart, see <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_JBDS.md#use-jboss-developer-studio-or-eclipse-to-run-the-quickstarts">Use JBoss Developer Studio or Eclipse to Run the Quickstarts</a>.</p>
+<h2><a href="#debug-the-application" id="debug-the-application">Debug the Application</a></h2>
+<p>If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.</p>
+<pre><code>    mvn dependency:sources
+</code></pre>
+<p>You may see the following message when you run the command. It indicates the source is not provided in the third-party <code>antlr</code> JAR.</p>
+<pre><code>    [INFO] The following files have NOT been resolved:
+    [INFO]    antlr:antlr:jar:sources:2.7.7:provided
+</code></pre>
+</body>
+</html>

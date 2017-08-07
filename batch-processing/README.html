@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head><title> batch-processing: Chunk oriented Batch 1.0 processing</title>
+    <link href="http://static.jboss.org/ffe/0/www/vendor/redhat/documentation.css" rel="stylesheet"></link>
+    <link href="http://static.jboss.org/ffe/0/www/vendor/redhat/pygments.css" rel="stylesheet"></link>
+</head>
+<body><h1><a href="#batch-processing-chunk-oriented-batch-10-processing" id="batch-processing-chunk-oriented-batch-10-processing">batch-processing: Chunk oriented Batch 1.0 processing</a></h1>
+<p>Author: Rafael Benevides<br />
+Level: Intermediate<br />
+Technologies: CDI, Batch 1.0, JSF<br />
+Summary: The <code>batch-processing</code> quickstart shows how to use chunk oriented batch jobs to import a file to a database.<br />
+Target Product: WildFly<br />
+Source: <a href="https://github.com/wildfly/quickstart/">https://github.com/wildfly/quickstart/</a></p>
+<h2><a href="#what-is-it" id="what-is-it">What is it?</a></h2>
+<p>This quickstart simulates a file importation using batch jobs. To make it easy, this quickstart offers the user a way to generate files. The generate file can have its name and the number of records customized. The user may also specify if the file contains an error or not.</p>
+<p>The Job contains two steps (tasks):</p>
+<ol>
+<li>Import the file (Chunk oriented) - The chunk size was set to <code>3</code>. The <code>RecordsReader</code> is responsible for parsing the file and create an instance of <code>Contact</code>. The <code>ContactsFormatter</code> applies the proper case to the Contact name and it also applies a mask to the phone number. Finally, <code>ContactsPersister</code> will send the Contact instance to the Database.</li>
+<li>Log the number of records imported</li>
+</ol>
+<p>The database schema defines that the column for name is unique. For that reason, any atempt to persist a duplicate value will throw an exception. On the second attempt to run the job, the <code>ChunkCheckpoint</code> will provide information to skip the Contacts that were already persisted.</p>
+<p><em>Note: This quickstart uses the H2 database included with WildFly Application Server 11. It is a lightweight, relational example datasource that is used for examples only. It is not robust or scalable, is not supported, and should NOT be used in a production environment!</em></p>
+<p><em>Note: This quickstart uses a <code>*-ds.xml</code> datasource configuration file for convenience and ease of database configuration. These files are deprecated in WildFly and should not be used in a production environment. Instead, you should configure the datasource using the Management CLI or Management Console. Datasource configuration is documented in the <a href="https://access.redhat.com/documentation/en/red-hat-jboss-enterprise-application-platform/">Configuration Guide</a> for WildFly Application Server.</em></p>
+<h2><a href="#system-requirements" id="system-requirements">System Requirements</a></h2>
+<p>The application this project produces is designed to be run on WildFly Application Server 11 or later.</p>
+<p>All you need to build this project is Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later. See <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts">Configure Maven for WildFly 11</a> to make sure you are configured correctly for testing the quickstarts.</p>
+<h2><a href="#use-of-wildfly-home" id="use-of-wildfly-home">Use of WILDFLY_HOME</a></h2>
+<p>In the following instructions, replace <code>WILDFLY_HOME</code> with the actual path to your WildFly installation. The installation path is described in detail here: <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_WILDFLY_HOME.md#use-of-eap_home-and-jboss_home-variables">Use of WILDFLY_HOME and JBOSS_HOME Variables</a>.</p>
+<h2><a href="#start-the-server" id="start-the-server">Start the Server</a></h2>
+<ol>
+<li>Open a command line and navigate to the root of the  WildFly directory.</li>
+<li>The following shows the command line to start the server with the default profile:
+<pre><code>For Linux:   WILDFLY_HOME/bin/standalone.sh
+For Windows: WILDFLY_HOME\bin\standalone.bat
+</code></pre>
+</li>
+</ol>
+<h2><a href="#build-and-deploy-the-quickstart" id="build-and-deploy-the-quickstart">Build and Deploy the Quickstart</a></h2>
+<ol>
+<li>Make sure you have started the WildFly server as described above.</li>
+<li>Open a command line and navigate to the root directory of this quickstart.</li>
+<li>Type this command to build and deploy the archive:
+<pre><code>mvn clean package wildfly:deploy
+</code></pre>
+</li>
+<li>This will deploy <code>target/batch-processing.war</code> to the running instance of the server.</li>
+</ol>
+<h2><a href="#access-the-application" id="access-the-application">Access the Application</a></h2>
+<p>Access the running application in a browser at the following URL:  <a href="http://localhost:8080/batch-processing/">http://localhost:8080/batch-processing/</a></p>
+<p>You are presented with a simple form that allows you to generate sample files to be imported.</p>
+<h3><a href="#usage-1-import-the-file-without-any-errors" id="usage-1-import-the-file-without-any-errors">Usage 1: Import the file without any errors</a></h3>
+<p>Click on <code>Generate a new file and start import job</code> button. This will generate a new file with 10 unique records to be imported. After the file is generated, the import job will start.</p>
+<p>You will see a table containing information about the task that was just started. You can click on <code>Update jobs list</code> button and verify that the job was completed.</p>
+<h4><a href="#investigate-the-console-output" id="investigate-the-console-output">Investigate the Console Output</a></h4>
+<p>At the logs you will see that the files with 10 records were processed using 3 records at a time.</p>
+<pre><code>INFO  [org.jboss.as.quickstarts.batch.controller.BatchController] (default task-3) Starting to generate 10 in file /var/folders/j8/63sgdmbn5tqdkyw0tz6df53r0000gn/T/temp-file.txt
+INFO  [org.jboss.as.quickstarts.batch.controller.BatchController] (default task-3) File generated at /var/folders/j8/63sgdmbn5tqdkyw0tz6df53r0000gn/T/temp-file.txt
+INFO  [org.jboss.as.quickstarts.batch.job.listener.JobListener] (Batch Thread - 1) Job import-file - Execution #1 starting.
+INFO  [org.jboss.as.quickstarts.batch.job.ContactsPersister] (Batch Thread - 1) No checkpoint detected. Cleaning the Database
+INFO  [org.jboss.as.quickstarts.batch.job.ContactsFormatter] (Batch Thread - 1) Register #1 - Changing name ZIqYKITxiM -&gt; Ziqykitxim | phone  978913851 -&gt; (978)-913-851
+INFO  [org.jboss.as.quickstarts.batch.job.ContactsFormatter] (Batch Thread - 1) Register #2 - Changing name JbHjnaThps -&gt; Jbhjnathps | phone  095108018 -&gt; (095)-108-018
+INFO  [org.jboss.as.quickstarts.batch.job.ContactsFormatter] (Batch Thread - 1) Register #3 - Changing name FJTlXRtCdR -&gt; Fjtlxrtcdr | phone  286847939 -&gt; (286)-847-939
+INFO  [org.jboss.as.quickstarts.batch.job.listener.PersistListener] (Batch Thread - 1) Preparing to persist 3 contacts
+INFO  [org.jboss.as.quickstarts.batch.job.listener.PersistListener] (Batch Thread - 1) Persisting 3 contacts
+INFO  [org.jboss.as.quickstarts.batch.job.ContactsFormatter] (Batch Thread - 1) Register #4 - Changing name mlmBABWzfL -&gt; Mlmbabwzfl | phone  744478648 -&gt; (744)-478-648
+INFO  [org.jboss.as.quickstarts.batch.job.ContactsFormatter] (Batch Thread - 1) Register #5 - Changing name jVlTYiBRMP -&gt; Jvltyibrmp | phone  135063841 -&gt; (135)-063-841
+INFO  [org.jboss.as.quickstarts.batch.job.ContactsFormatter] (Batch Thread - 1) Register #6 - Changing name DwEFbSjfQE -&gt; Dwefbsjfqe | phone  404572175 -&gt; (404)-572-175
+INFO  [org.jboss.as.quickstarts.batch.job.listener.PersistListener] (Batch Thread - 1) Preparing to persist 3 contacts
+INFO  [org.jboss.as.quickstarts.batch.job.listener.PersistListener] (Batch Thread - 1) Persisting 3 contacts
+INFO  [org.jboss.as.quickstarts.batch.job.ContactsFormatter] (Batch Thread - 1) Register #7 - Changing name niDXWwGJuQ -&gt; Nidxwwgjuq | phone  949448390 -&gt; (949)-448-390
+15:57:40,850 INFO  [org.jboss.as.quickstarts.batch.job.ContactsFormatter] (Batch Thread - 1) Register #8 - Changing name VZBArfowSe -&gt; Vzbarfowse | phone  902370961 -&gt; (902)-370-961
+INFO  [org.jboss.as.quickstarts.batch.job.ContactsFormatter] (Batch Thread - 1) Register #9 - Changing name aSpyWCWwje -&gt; Aspywcwwje | phone  246977695 -&gt; (246)-977-695
+INFO  [org.jboss.as.quickstarts.batch.job.listener.PersistListener] (Batch Thread - 1) Preparing to persist 3 contacts
+INFO  [org.jboss.as.quickstarts.batch.job.listener.PersistListener] (Batch Thread - 1) Persisting 3 contacts
+INFO  [org.jboss.as.quickstarts.batch.job.ContactsFormatter] (Batch Thread - 1) Register #10 - Changing name TofTfbRBzI -&gt; Toftfbrbzi | phone  868339088 -&gt; (868)-339-088
+INFO  [org.jboss.as.quickstarts.batch.job.listener.PersistListener] (Batch Thread - 1) Preparing to persist 1 contacts
+INFO  [org.jboss.as.quickstarts.batch.job.listener.PersistListener] (Batch Thread - 1) Persisting 1 contacts
+INFO  [org.jboss.as.quickstarts.batch.job.ReportBatchelet] (Batch Thread - 1) Imported 10 to Database
+INFO  [org.jboss.as.quickstarts.batch.job.listener.JobListener] (Batch Thread - 1) Job import-file - Execution #1 finished. Status: COMPLETED
+</code></pre>
+<h3><a href="#usage-2-import-an-error-file-and-fix-it" id="usage-2-import-an-error-file-and-fix-it">Usage 2: Import an error file and fix it</a></h3>
+<p>Now we will simulate a file with duplicate records. This will raise an exception and stop the processing. After that, we will fix the file and continue the importing where it stopped.</p>
+<p>Mark the <code>Generate a duplicate record</code> checkbox and click on <code>Generate a new file and start import job</code> button. If you click on <code>Update jobs list</code> button, you will see that the job failed with the following Exit Status: <code>Error : org.hibernate.exception.ConstraintViolationException: could not execute statement</code>. This was caused because the job tried to insert a duplicate record at the Database. You will also see <code>org.h2.jdbc.JdbcSQLException: Unique index or primary key violation</code> exception stacktraces in the server log.</p>
+<p>Now we will fix the file and restart that job execution. Uncheck the <code>Generate a duplicate record</code> checkbox and click on <code>Generate a new file</code> button. This will generate file without errors.</p>
+<p>Click on <code>Restart</code> button in the last column for that job instance in the <code>List of Jobs</code> table. If you  click on <code>Update jobs list</code> button, you will see that the job was completed.</p>
+<p>Analyze the logs and check that the job started from the last checkpoint.</p>
+<pre><code>16:08:56,323 INFO  [org.jboss.as.quickstarts.batch.job.RecordsReader] (Batch Thread - 3) Skipping to line 3 as marked by previous checkpoint
+</code></pre>
+<h4><a href="#investigate-the-console-output" id="investigate-the-console-output">Investigate the Console Output</a></h4>
+<pre><code>INFO  [org.jboss.as.quickstarts.batch.job.listener.JobListener] (Batch Thread - 3) Job import-file - Execution #3 starting.
+INFO  [org.jboss.as.quickstarts.batch.job.RecordsReader] (Batch Thread - 3) Skipping to line 3 as marked by previous checkpoint
+INFO  [org.jboss.as.quickstarts.batch.job.ContactsFormatter] (Batch Thread - 3) Register #4 - Changing name HdeqwzEjbA -&gt; Hdeqwzejba | phone  686417040 -&gt; (686)-417-040
+INFO  [org.jboss.as.quickstarts.batch.job.ContactsFormatter] (Batch Thread - 3) Register #5 - Changing name veEEbtpYTJ -&gt; Veeebtpytj | phone  367981821 -&gt; (367)-981-821
+INFO  [org.jboss.as.quickstarts.batch.job.ContactsFormatter] (Batch Thread - 3) Register #6 - Changing name bQIKTUyqMW -&gt; Bqiktuyqmw | phone  103363182 -&gt; (103)-363-182
+INFO  [org.jboss.as.quickstarts.batch.job.listener.PersistListener] (Batch Thread - 3) Preparing to persist 3 contacts
+INFO  [org.jboss.as.quickstarts.batch.job.listener.PersistListener] (Batch Thread - 3) Persisting 3 contacts
+INFO  [org.jboss.as.quickstarts.batch.job.ContactsFormatter] (Batch Thread - 3) Register #7 - Changing name KVLIGXhCry -&gt; Kvligxhcry | phone  117327691 -&gt; (117)-327-691
+INFO  [org.jboss.as.quickstarts.batch.job.ContactsFormatter] (Batch Thread - 3) Register #8 - Changing name PBAZgernHy -&gt; Pbazgernhy | phone  066203468 -&gt; (066)-203-468
+INFO  [org.jboss.as.quickstarts.batch.job.ContactsFormatter] (Batch Thread - 3) Register #9 - Changing name DGtNZdteGB -&gt; Dgtnzdtegb | phone  908779587 -&gt; (908)-779-587
+INFO  [org.jboss.as.quickstarts.batch.job.listener.PersistListener] (Batch Thread - 3) Preparing to persist 3 contacts
+INFO  [org.jboss.as.quickstarts.batch.job.listener.PersistListener] (Batch Thread - 3) Persisting 3 contacts
+INFO  [org.jboss.as.quickstarts.batch.job.ContactsFormatter] (Batch Thread - 3) Register #10 - Changing name mhmIHhZMhv -&gt; Mhmihhzmhv | phone  094518410 -&gt; (094)-518-410
+INFO  [org.jboss.as.quickstarts.batch.job.listener.PersistListener] (Batch Thread - 3) Preparing to persist 1 contacts
+INFO  [org.jboss.as.quickstarts.batch.job.listener.PersistListener] (Batch Thread - 3) Persisting 1 contacts
+WARN  [org.jberet] (Batch Thread - 3) JBERET000018: Could not find the original step execution to restart.  Current step execution id: 0, step name: reportBatchelet
+INFO  [org.jboss.as.quickstarts.batch.job.ReportBatchelet] (Batch Thread - 3) Imported 10 to Database
+INFO  [org.jboss.as.quickstarts.batch.job.listener.JobListener] (Batch Thread - 3) Job import-file - Execution #3 finished. Status: COMPLETED
+</code></pre>
+<h3><a href="#usage-3-import-an-error-file-and-do-not-fix-the-errors" id="usage-3-import-an-error-file-and-do-not-fix-the-errors">Usage 3: Import an error file and do not fix the errors</a></h3>
+<p>Check the <code>Generate a duplicate record</code> checkbox and click on <code>Generate a new file ans start import job</code> button. If you click on <code>Update jobs list</code> button, you will see that the job failed with the following Exit Status: <code>Error : org.hibernate.exception.ConstraintViolationException: could not execute statement</code>. This was caused because we tried to insert a duplicate record at the Database.</p>
+<p>This time we will not fix the file. Just click on <code>Restart</code> button again. If you  click on <code>Update jobs list</code> button, you will see that the job was marked as <code>ABANDONED</code> this time because it was restarted once. Notice that there is a new parameter: <code>restartedOnce=true</code>. This behavior was implemented at <code>JobListener</code> for demonstration purpose to avoid that a <code>FAILED</code> job that was already restarted once, to be restarted twice.</p>
+<h2><a href="#server-log-expected-warnings-and-errors" id="server-log-expected-warnings-and-errors">Server Log: Expected Warnings and Errors</a></h2>
+<p><em>Note:</em> You will see the following warnings in the server log. You can ignore these warnings.</p>
+<pre><code>WFLYJCA0091: -ds.xml file deployments are deprecated. Support may be removed in a future version.
+
+HHH000431: Unable to determine H2 database version, certain features may not work
+</code></pre>
+<h2><a href="#undeploy-the-archive" id="undeploy-the-archive">Undeploy the Archive</a></h2>
+<ol>
+<li>Make sure you have started the WildFly server as described above.</li>
+<li>Open a command prompt and navigate to the root directory of this quickstart.</li>
+<li>When you are finished testing, type this command to undeploy the archive:
+<pre><code>mvn wildfly:undeploy
+</code></pre>
+</li>
+</ol>
+<h2><a href="#run-the-quickstart-in-red-hat-jboss-developer-studio-or-eclipse" id="run-the-quickstart-in-red-hat-jboss-developer-studio-or-eclipse">Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse</a></h2>
+<p>You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a WildFly server, and build and deploy a quickstart, see <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_JBDS.md#use-jboss-developer-studio-or-eclipse-to-run-the-quickstarts">Use JBoss Developer Studio or Eclipse to Run the Quickstarts</a>.</p>
+<h2><a href="#debug-the-application" id="debug-the-application">Debug the Application</a></h2>
+<p>If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.</p>
+<pre><code>mvn dependency:sources
+</code></pre>
+<!-- Build and Deploy the Quickstart to OpenShift - Coming soon! -->
+</body>
+</html>

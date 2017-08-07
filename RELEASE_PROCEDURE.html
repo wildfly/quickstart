@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head><title>Testing the quickstarts</title>
+    <link href="http://static.jboss.org/ffe/0/www/vendor/redhat/documentation.css" rel="stylesheet"></link>
+    <link href="http://static.jboss.org/ffe/0/www/vendor/redhat/pygments.css" rel="stylesheet"></link>
+</head>
+<body><h1><a href="#quickstarts-release-procedure" id="quickstarts-release-procedure">Quickstarts Release Procedure</a></h1>
+<h2><a href="#testing-the-quickstarts" id="testing-the-quickstarts">Testing the quickstarts</a></h2>
+<p>Most of the quickstarts require starting WildFly Application Server in standalone mode. Some require the &quot;standalone-full&quot; profile, some require XTS, some require Postgres and some require other quickstarts to be deployed. Profiles are used in the root POM to separate out these groups, allowing you to test the quickstarts easily. For example, to run those that require only standalone mode:</p>
+<pre><code>  mvn clean verify wildfly:deploy wildfly:undeploy -Parq-remote -P-requires-postgres,-requires-full,-complex-dependencies,-requires-xts
+</code></pre>
+<p>Or, to run those only those quickstarts that require the full profile</p>
+<pre><code>  mvn clean verify wildfly:deploy wildfly:undeploy -Parq-remote -P-requires-postgres,-default,-complex-dependencies,-requires-xts
+</code></pre>
+<p>And so on.</p>
+<h2><a href="#quickstarts-in-other-repositories" id="quickstarts-in-other-repositories">Quickstarts in other repositories</a></h2>
+<p>If the quickstarts are stored in another repository, you may wish to merge them in from there, do this:</p>
+<ol>
+<li>
+<p>Add the other repo as a remote</p>
+<pre><code> git remote add -f &lt;other repo&gt; &lt;other repo url&gt;
+</code></pre>
+</li>
+<li>
+<p>Merge from the tag in the other repo that you wish to use. It is important to use a tag, to make tracking of history easier. We use a recursive merge strategy, always preferring changes from the other repo, in effect overwriting what we have locally.</p>
+<pre><code> git merge &lt;tag&gt; -s recursive -Xtheirs -m &quot;Merge &lt;Other repository name&gt; '&lt;Tag&gt;'&quot;
+</code></pre>
+</li>
+<li>
+<p>Review and push to upstream</p>
+<pre><code> git push upstream HEAD:master
+</code></pre>
+</li>
+</ol>
+<h2><a href="#rendering-markdown" id="rendering-markdown">Rendering Markdown</a></h2>
+<p>The quickstarts use flexmark maven plugin to process the markdown. This builds on the basic markdown syntax, adding support for tables, code highlighting, relaxed code blocks etc). We add a couple of custom piece of markup - [TOC] which allows a table of contents, based on headings, to be added to any file, and [Quickstart-TOC], which adds in a table listing the quickstarts.</p>
+<p>Just run</p>
+<pre><code>    mvn generate-resources -Pdocs
+</code></pre>
+<p>To render all markdown files to HTML.</p>
+<p>To do proper release with zip file &amp;  all markdown files with resolved variables and rendered html files, run</p>
+<pre><code>    mvn clean install -Drelease
+</code></pre>
+<p>Which will also result in zip with all quickstarts in dist/target</p>
+<h2><a href="#publishing-builds-to-maven" id="publishing-builds-to-maven">Publishing builds to Maven</a></h2>
+<ol>
+<li>You must have gpg set up and your key registered, as described at <a href="hhttp://blog.sonatype.com/people/2010/01/how-to-generate-pgp-signatures-with-maven/">hhttp://blog.sonatype.com/people/2010/01/how-to-generate-pgp-signatures-with-maven/</a></li>
+<li>You must provide a property <code>gpg.passphrase</code> in your <code>settings.xml</code> in the <code>release</code> profile e.g.
+<pre><code>  &lt;profile&gt;
+        &lt;id&gt;release&lt;/id&gt;
+        &lt;properties&gt;
+            &lt;gpg.passphrase&gt;myPassPhrase&lt;/gpg.passphrase&gt;
+        &lt;/properties&gt;
+  &lt;/profile&gt;
+</code></pre>
+</li>
+<li>You must have a JBoss Nexus account, configured with the server id in <code>settings.xml</code> with the id <code>jboss-releases-repository</code> e.g.
+<pre><code>  &lt;server&gt;
+      &lt;id&gt;jboss-releases-repository&lt;/id&gt;
+      &lt;username&gt;myUserName&lt;/username&gt;
+      &lt;password&gt;myPassword&lt;/password&gt;
+  &lt;/server&gt;
+</code></pre>
+</li>
+<li>
+<p>Add <code>org.sonatype.plugins</code> plug-in group to your <code>settings.xml</code> so the Nexus plug-in can be available for publishing scripts.</p>
+<pre><code>  &lt;pluginGroups&gt;
+      &lt;pluginGroup&gt;org.sonatype.plugins&lt;/pluginGroup&gt;
+  &lt;/pluginGroups&gt;
+</code></pre>
+</li>
+</ol>
+<h2><a href="#release-procedure" id="release-procedure">Release Procedure</a></h2>
+<ol>
+<li>Make sure you have access to rsync files to <code>filemgmt.jboss.org/download_htdocs/jbossas</code></li>
+<li>Release the archetypes</li>
+<li>Regenerate the quickstart based on archetypes
+<pre><code> dist/release-utils.sh -r
+</code></pre>
+</li>
+<li>
+<p>Release</p>
+<pre><code> dist/release.sh -s &lt;old snapshot version&gt; -r &lt;release version&gt;
+</code></pre>
+<p>This will update the version number, commit and tag, build the distro zip and upload it to &lt;download.jboss.org&gt;. Then it will reset the version number back to the snapshot version number.</p>
+</li>
+</ol>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head><title> h2-console: Example Using the H2 Console with WildFly</title>
+    <link href="http://static.jboss.org/ffe/0/www/vendor/redhat/documentation.css" rel="stylesheet"></link>
+    <link href="http://static.jboss.org/ffe/0/www/vendor/redhat/pygments.css" rel="stylesheet"></link>
+</head>
+<body><h1><a href="#h2-console-example-using-the-h2-console-with-wildfly" id="h2-console-example-using-the-h2-console-with-wildfly">h2-console: Example Using the H2 Console with WildFly</a></h1>
+<p>Author: Pete Muir<br />
+Level: Beginner<br />
+Technologies: H2<br />
+Summary: The <code>h2-console</code> quickstart demonstrates how to use the H2 Console that is bundled with and built specifically for WildFly.<br />
+Target Product: WildFly<br />
+Source: <a href="https://github.com/wildfly/quickstart/">https://github.com/wildfly/quickstart/</a></p>
+<h2><a href="#what-is-it" id="what-is-it">What is it?</a></h2>
+<p>WildFly Application Server bundles H2 as an in-memory, in-process database. H2 is written in Java so it can run on any platform that WildFly runs on.</p>
+<p>The <code>h2-console</code> quickstart comes bundled with a version of the H2 Console built for WildFly. To make the H2 console run on WildFly, the H2 libraries were removed from the WAR and a dependency on the H2 module was added to the <code>META-INF/MANIFEST.MF</code> file. The rebuilt console is provided in the root directory of this quickstart.</p>
+<p>This quickstart demonstrates how to use the H2 console with WildFly Application Server. It uses the <code>greeter</code> quickstart as a GUI for entering data.</p>
+<p><em>Note: This quickstart uses the H2 database included with WildFly Application Server 11. It is a lightweight, relational example datasource that is used for examples only. It is not robust or scalable, is not supported, and should NOT be used in a production environment!</em></p>
+<h2><a href="#system-requirements" id="system-requirements">System Requirements</a></h2>
+<p>The application this project produces is designed to be run on WildFly Application Server 11 or later.</p>
+<p>All you need to build this project is Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later. See <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts">Configure Maven for WildFly 11</a> to make sure you are configured correctly for testing the quickstarts.</p>
+<h2><a href="#prerequisites" id="prerequisites">Prerequisites</a></h2>
+<p>This quickstart depends on the deployment of the <code>greeter</code> quickstart. Before running this quickstart, see the <a href="../greeter/README.html">greeter README</a> file for details on how to deploy it.</p>
+<p>You can verify the deployment of the <code>greeter</code> quickstart by accessing the following URL: <a href="http://localhost:8080/h2-console/">http://localhost:8080/h2-console/</a></p>
+<p>When you have completed testing this quickstart, see the <a href="../greeter/README.html">greeter README</a> file for instructions to undeploy the archive.</p>
+<h2><a href="#use-of-wildfly-home" id="use-of-wildfly-home">Use of WILDFLY_HOME</a></h2>
+<p>In the following instructions, replace <code>WILDFLY_HOME</code> with the actual path to your WildFly installation. The installation path is described in detail here: <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_WILDFLY_HOME.md#use-of-eap_home-and-jboss_home-variables">Use of WILDFLY_HOME and JBOSS_HOME Variables</a>.</p>
+<h2><a href="#deploy-the-h2-console" id="deploy-the-h2-console">Deploy the H2 Console</a></h2>
+<p>Deploy the console by copying the <code>h2console.war</code> located in the root directory of this quickstart to the <code>WILDFLY_HOME/standalone/deployments</code> directory.</p>
+<p><em>Note:</em> You will see the following warning in the server log. You can ignore this warning.</p>
+<pre><code>WFLYSRV0019: Deployment &quot;deployment.h2console.war&quot; is using an unsupported module (&quot;com.h2database.h2:main&quot;) which may be changed or removed in future versions without notice.
+</code></pre>
+<h2><a href="#access-the-h2-console" id="access-the-h2-console">Access the H2 Console</a></h2>
+<p>You can access the console at the following URL:  <a href="http://localhost:8080/h2-console/">http://localhost:8080/h2-console/</a>.</p>
+<p>You need to enter the JDBC URL, and credentials. To access the <code>test</code> database that the <code>greeter</code> quickstart uses, enter these details:</p>
+<ul>
+<li>JDBC URL: <code>jdbc:h2:mem:greeter-quickstart;DB_CLOSE_ON_EXIT=FALSE;DB_CLOSE_DELAY=-1</code></li>
+<li>User Name: <code>sa</code></li>
+<li>Password: <code>sa</code></li>
+</ul>
+<p>Click on the <em>Test Connection</em> button to make sure you can connect. If you can, go ahead and click <em>Connect</em>.</p>
+<h2><a href="#investigate-the-h2-console" id="investigate-the-h2-console">Investigate the H2 Console</a></h2>
+<p>Take a look at the data added by the <code>greeter</code> application. Run the following SQL command:</p>
+<pre><code>    select * from users;
+</code></pre>
+<p>You should see the two users seeded by the <code>greeter</code> quickstart, plus any users you added when testing that application.</p>
+<h2><a href="#undeploy-the-archive" id="undeploy-the-archive">Undeploy the Archive</a></h2>
+<p>To undeploy this example, simply delete the <code>h2console.war</code> from the <code>WILDFLY_HOME/standalone/deployments</code> directory.</p>
+<pre><code> cd WILDFLY_HOME/standalone/deployments
+ rm h2console.war
+</code></pre>
+</body>
+</html>

@@ -3,19 +3,19 @@
 Author: Ken Krebs, Juergen Hoeller, Rob Harrop, Costin Leau, Sam Brannen, Scott Andrews  
 Level: Advanced  
 Technologies: JPA, Junit, JMX, Spring MVC Annotations, AOP, Spring Data, JSP, webjars, Dandellion  
-Summary: The `spring-petclinic` quickstart shows how to run the Spring PetClinic Application in ${product.name} using the ${product.name} BOMs.  
-Target Product: ${product.name}  
-Source: <${github.repo.url}>  
+Summary: The `spring-petclinic` quickstart shows how to run the Spring PetClinic Application in WildFly using the WildFly BOMs.  
+Target Product: WildFly  
+Source: <https://github.com/wildfly/quickstart/>  
 
 ## What is it?  
 
 The `spring-petclinic` quickstart shows how to run the [Spring PetClinic](<http://github.com/spring-projects/spring-petclinic>) Application
-in ${product.name.full} with the use of Red Hat ${product.name} BOMs (_for the best compatibility_). One of the major
+in WildFly Application Server with the use of Red Hat WildFly BOMs (_for the best compatibility_). One of the major
 changes is the use of the `webapp/WEB-INF/jboss-deployment-structure.xml` file. This file specifies which modules
 to include or exclude when building the application. In this case, we exclude Hibernate libraries since the application
 uses Spring Data JPA. Additionally, this is only required when using the spring-data-jpa profile, see `resources/spring/business-config.xml`.
 
-For detailed explanation of the changes made to adapt the Quickstart to ${product.name.full} see: [CHANGES.md](CHANGES.md)
+For detailed explanation of the changes made to adapt the Quickstart to WildFly Application Server see: [CHANGES.md](CHANGES.md)
 
 PetClinic features alternative DAO implementations and application configurations for JDBC, JPA, and Spring Data JPA, with
 HSQLDB and MySQL as target databases. The default PetClinic configuration is JPA on HSQLDB.  
@@ -42,31 +42,31 @@ _Note that the sample configurations for JDBC, JPA, and Spring Data JPA configur
 
 ## System Requirements  
 
-The application this project produces is designed to be run on ${product.name.full} ${product.version} or later.
+The application this project produces is designed to be run on WildFly Application Server 11 or later.
 
-All you need to build this project is ${build.requirements}. See [Configure Maven for ${product.name} ${product.version}](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
+All you need to build this project is Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later. See [Configure Maven for WildFly 11](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
 
 
 ## Start the Server  
 
-1. Open a command line and navigate to the root of the ${product.name} directory.
+1. Open a command line and navigate to the root of the WildFly directory.
 2. The following shows the command line to start the server with the default profile:
 
-        For Linux:   ${jboss.home.name}/bin/standalone.sh
-        For Windows: ${jboss.home.name}\bin\standalone.bat
+        For Linux:   WILDFLY_HOME/bin/standalone.sh
+        For Windows: WILDFLY_HOME\bin\standalone.bat
 
 
 ## Build and Deploy the Quickstart
 
-1. Make sure you have started the ${product.name} server as described above.
+1. Make sure you have started the WildFly server as described above.
 2. Open a command line and navigate to the root directory of this quickstart.
 3. Type this command to build and deploy the archive:
 
         mvn clean package wildfly:deploy
 
-4. This will deploy `spring-petclinic/target/${project.artifactId}.war` to the running instance of the server.
+4. This will deploy `spring-petclinic/target/spring-petclinic.war` to the running instance of the server.
 
-If you do not have maven configured you can manually copy `spring-petclinic/target/${project.artifactId}.war` to ${jboss.home.name}/standalone/deployments.
+If you do not have maven configured you can manually copy `spring-petclinic/target/spring-petclinic.war` to WILDFLY_HOME/standalone/deployments.
 
 For MySQL, you need to use the corresponding schema and SQL scripts in the `db/mysql` subdirectory.
 
@@ -76,7 +76,7 @@ To use a JTA DataSource, you need to set up corresponding DataSources in your Ja
 
 ## Access the Application
 
-The application will be running at the following URL: <http://localhost:8080/${project.artifactId}/>.
+The application will be running at the following URL: <http://localhost:8080/spring-petclinic/>.
 
 _Note:_ You see the following warning in the server log when you access the application. This example does not provide a `dandelion.properties` file because it does not require any changes to the dandelion default configuration. You can ignore this warning.
 
@@ -85,7 +85,7 @@ _Note:_ You see the following warning in the server log when you access the appl
 
 ## Undeploy the Archive
 
-1. Make sure you have started the ${product.name} server as described above.
+1. Make sure you have started the WildFly server as described above.
 2. Open a command line and navigate to the root directory of this quickstart.
 3. When you are finished testing, type this command to undeploy the archive:
 
@@ -107,11 +107,11 @@ NOTE: The arquillian-based functional tests deploy the application, so be sure y
         mvn clean package
 
 4. Navigate to the functional-tests/ directory in this quickstart.
-5. If you have a running instance of the ${product.name} server, as described above, run the remote tests by typing the following command:
+5. If you have a running instance of the WildFly server, as described above, run the remote tests by typing the following command:
 
         mvn clean verify -Parq-remote
 
-6. If you prefer to run the functional tests using managed instance of the ${product.name} server, meaning the tests will start the server for you, type the following command:
+6. If you prefer to run the functional tests using managed instance of the WildFly server, meaning the tests will start the server for you, type the following command:
 
         mvn clean verify -Parq-managed
 
@@ -131,7 +131,7 @@ NOTE: The arquillian-based functional tests deploy the application, so be sure y
 
 ## Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 
-You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a ${product.name} server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](${use.eclipse.url}).
+You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a WildFly server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_JBDS.md#use-jboss-developer-studio-or-eclipse-to-run-the-quickstarts).
 
 
 ## Debug the Application

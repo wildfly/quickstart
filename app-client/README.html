@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head><title> app-client: Use the WildFly Application Client Container</title>
+    <link href="http://static.jboss.org/ffe/0/www/vendor/redhat/documentation.css" rel="stylesheet"></link>
+    <link href="http://static.jboss.org/ffe/0/www/vendor/redhat/pygments.css" rel="stylesheet"></link>
+</head>
+<body><h1><a href="#app-client-use-the-wildfly-application-client-container" id="app-client-use-the-wildfly-application-client-container">app-client: Use the WildFly Application Client Container</a></h1>
+<p>Author: Wolf-Dieter Fink<br />
+Level: Intermediate<br />
+Technologies: EJB, EAR, AppClient<br />
+Summary: The <code>app-client</code> quickstart demonstrates how to code and package a client app and use the WildFly client container to start the client Main program.<br />
+Target Product: WildFly<br />
+Source: <a href="https://github.com/wildfly/quickstart/">https://github.com/wildfly/quickstart/</a></p>
+<h2><a href="#what-is-it" id="what-is-it">What is it?</a></h2>
+<p>The <code>app-client</code> quickstart demonstrates how to use the WildFly client container to start the client <code>Main</code> program and provide Dependency Injections (DI) for client applications in WildFly Application Server. It also shows you how to use Maven to package the application according to the JavaEE specification.</p>
+<p>This example consists of the following Maven projects, each with a shared parent:</p>
+<table>
+<thead>
+<tr><th align="left"> <strong>Sub-project</strong> </th><th align="left"> <strong>Description</strong> </th></tr>
+</thead>
+<tbody>
+<tr><td align="left"> <code>ejb</code> </td><td align="left"> An application that can be called by the <code>client</code>.</td></tr>
+<tr><td align="left"> <code>ear</code> </td><td align="left"> The EAR packaging contains the server and client side.</td></tr>
+<tr><td align="left"> <code>client-simple</code> </td><td align="left"> A simple client application for running in the application-client container to show the injection</td></tr>
+</tbody>
+</table>
+<p>The root <code>pom.xml</code> file builds each of the subprojects in the appropriate order.</p>
+<h2><a href="#system-requirements" id="system-requirements">System Requirements</a></h2>
+<p>The application this project produces is designed to be run on WildFly Application Server 11 or later.</p>
+<p>All you need to build this project is Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later. See <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts">Configure Maven for WildFly 11</a> to make sure you are configured correctly for testing the quickstarts.</p>
+<h2><a href="#use-of-wildfly-home" id="use-of-wildfly-home">Use of WILDFLY_HOME</a></h2>
+<p>In the following instructions, replace <code>WILDFLY_HOME</code> with the actual path to your WildFly installation. The installation path is described in detail here: <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_WILDFLY_HOME.md#use-of-eap_home-and-jboss_home-variables">Use of WILDFLY_HOME and JBOSS_HOME Variables</a>.</p>
+<h2><a href="#add-the-application-users" id="add-the-application-users">Add the Application Users</a></h2>
+<p>If the client and server are run on different hosts, you must add the following users to the WildFly server side application. Be sure to use the names and passwords specified in the table as they are required to run this example.</p>
+<table>
+<thead>
+<tr><th align="left"> <strong>UserName</strong> </th><th align="left"> <strong>Realm</strong> </th><th align="left"> <strong>Password</strong> </th><th align="left"> <strong>Roles</strong> </th></tr>
+</thead>
+<tbody>
+<tr><td align="left"> admin</td><td align="left"> ManagementRealm </td><td align="left"> admin-123 </td><td align="left"> <em>leave blank for none</em> </td></tr>
+<tr><td align="left"> quickuser</td><td align="left"> ApplicationRealm </td><td align="left"> quick-123 </td><td align="left"> <em>leave blank for none</em> </td></tr>
+</tbody>
+</table>
+<p>To add the users, open a command prompt and type the following commands:</p>
+<pre><code>    For Linux:
+        WILDFLY_HOME/bin/add-user.sh -u admin -p admin-123
+        WILDFLY_HOME/bin/add-user.sh -a -u quickuser -p quick-123
+
+    For Windows:
+        WILDFLY_HOME\bin\add-user.bat -u admin -p admin-123
+        WILDFLY_HOME\bin\add-user.bat -a -u quickuser -p quick-123
+</code></pre>
+<p>If you prefer, you can use the add-user utility interactively. For an example of how to use the add-user utility, see the instructions located here: <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CREATE_USERS.md#add-an-application-user">Add an Application User</a>.</p>
+<h2><a href="#start-the-server" id="start-the-server">Start the Server</a></h2>
+<ol>
+<li>Open a command prompt and navigate to the root of the WildFly directory.</li>
+<li>The following shows the command line to start the server:
+<pre><code>For Linux:   WILDFLY_HOME/bin/standalone.sh
+For Windows: WILDFLY_HOME\bin\standalone.bat
+</code></pre>
+</li>
+</ol>
+<h2><a href="#build-and-deploy-the-quickstart" id="build-and-deploy-the-quickstart">Build and Deploy the Quickstart</a></h2>
+<ol>
+<li>Make sure you have started the WildFly server as described above.</li>
+<li>Open a command prompt and navigate to the root directory of this quickstart.</li>
+<li>Type this command to build the artifacts:
+<pre><code>mvn clean install wildfly:deploy
+</code></pre>
+</li>
+</ol>
+<h2><a href="#access-the-remote-client-application-from-the-same-machine" id="access-the-remote-client-application-from-the-same-machine">Access the Remote Client Application from the Same Machine</a></h2>
+<p>This example shows how to invoke an EJB from a remote standalone application on the same machine. Both the client and server are on the same machine, so the defaults are sufficient and no authentication is necessary.</p>
+<ol>
+<li>Be sure the quickstart deployed successfully as described above.</li>
+<li>Navigate to the root directory of this quickstart and type the following command to run the application. Be sure to replace <code>WILDFLY_HOME</code> with the path to your WildFly installation.
+<pre><code>For Linux:   WILDFLY_HOME/bin/appclient.sh ear/target/app-client.ear#simpleClient.jar Hello from command line
+For Windows: WILDFLY_HOME\bin\appclient.bat ear\target\app-client.ear#simpleClient.jar Hello from command line
+</code></pre>
+</li>
+<li>
+<p>Review the result. The client outputs the following information provided by the server application:</p>
+<pre><code>[org.jboss.as.quickstarts.appclient.acc.client.Main] (Thread-51) Main started with arguments
+[org.jboss.as.quickstarts.appclient.acc.client.Main] (Thread-51)             [Hello, from, command, line]
+[org.jboss.as.quickstarts.appclient.acc.client.Main] (Thread-##) Hello from StatelessSessionBean@myhost
+</code></pre>
+<p>This output shows that the <code>ServerApplication</code> is called at the jboss.node <code>myhost</code>. The application client connected automatically a server on the same machine.</p>
+</li>
+<li>
+<p>Review the server log files to see the bean invocations on the server.</p>
+<pre><code> ClientContext is here = {jboss.source-address=/127.0.0.1:54383}
+</code></pre>
+</li>
+</ol>
+<h2><a href="#access-the-remote-client-application-from-a-different-machine" id="access-the-remote-client-application-from-a-different-machine">Access the Remote Client Application from a Different Machine</a></h2>
+<p>This example shows how to invoke an EJB from a remote standalone Java EE application on a different machine. In this case, the client needs to define a properties file to define properties to connect and authenticate to the server. The properties file is passed on the command line using the <code>--ejb-client-properties</code> argument.</p>
+<h3><a href="#configure-machine-1-remote-server-machine" id="configure-machine-1-remote-server-machine">Configure Machine_1 (Remote Server Machine)</a></h3>
+<ol>
+<li>Install WildFly on this machine.</li>
+<li>Add the application users to the WildFly server on this machine as described above.</li>
+<li>Start the WildFly server with the following command. Be sure to replace <code>MACHINE_1_IP_ADDRESS</code> with the IP address of this machine. These arguments make the server accessible to the network.
+<pre><code>For Linux:   WILDFLY_HOME/bin/standalone.sh -b MACHINE_1_IP_ADDRESS -bmanagement MACHINE_1_IP_ADDRESS
+For Windows: WILDFLY_HOME\bin\standalone.bat -b MACHINE_1_IP_ADDRESS -bmanagement MACHINE_1_IP_ADDRESS
+</code></pre>
+</li>
+</ol>
+<h3><a href="#configure-machine-2-local-client-machine" id="configure-machine-2-local-client-machine">Configure Machine_2 (Local Client Machine)</a></h3>
+<ol>
+<li>Install WildFly on this server. There is no need to add the application users to this server.</li>
+<li>Download the <code>app-client</code> quickstart to this machine.</li>
+<li>Create a <code>jboss-ejb-client.properties</code> file. This file can be located anywhere in the file system, but for ease of demonstration, we create it in the root directory of this quickstart. Add the following content, replacing <code>MACHINE_1_IP_ADDRESS</code> with the IP address of <code>Machine_1</code>.
+<pre><code>remote.connectionprovider.create.options.org.xnio.Options.SSL_ENABLED=false
+remote.connections=default
+remote.connection.default.host=MACHINE_1_IP_ADDRESS
+remote.connection.default.port=8080
+remote.connection.default.connect.options.org.xnio.Options.SASL_POLICY_NOANONYMOUS=false
+remote.connection.default.username=quickuser
+remote.connection.default.password=quick-123
+</code></pre>
+</li>
+<li>
+<p>Open a command prompt and navigate to the root directory of the quickstart.</p>
+</li>
+<li>Deploy the <code>app-client</code> quickstart to the remote machine using the following command:
+<pre><code>mvn clean install wildfly:deploy -Dwildfly.hostname=MACHINE_1_IP_ADDRESS [-Dwildfly.port=9099] -Dwildfly.username=admin -Dwildfly.password=admin-123
+</code></pre>
+</li>
+<li>Be sure that the quickstart deployed successfully and the server is running on <code>Machine_1</code> as described above.</li>
+<li>Type this command to run the <code>app-client</code> application:
+<pre><code>For Linux:   WILDFLY_HOME/bin/appclient.sh --ejb-client-properties=ejb-client.properties ear/target/app-client.ear#simpleClient.jar Hello from command line
+For Windows: WILDFLY_HOME\bin\appclient.bat --ejb-client-properties=ejb-client.properties ear\target\app-client.ear#simpleClient.jar Hello from command line
+</code></pre>
+</li>
+<li>
+<p>Review the result. The client outputs the following information, which was provided by the application:</p>
+<pre><code>[org.jboss.as.quickstarts.appclient.acc.client.Main] (Thread-51) Main started with arguments
+[org.jboss.as.quickstarts.appclient.acc.client.Main] (Thread-51)             [Hello, from, command, line]
+[org.jboss.as.quickstarts.appclient.acc.client.Main] (Thread-##) Hello from StatelessSessionBean@theOtherHOST
+</code></pre>
+<p>This output shows that the <code>ServerApplication</code> is called at the jboss.node <code>theOtherHOST</code>.</p>
+</li>
+<li>
+<p>Review the server log files on the remote machine to see the bean invocations on the server.</p>
+<pre><code> ClientContext is here = {jboss.source-address=/127.0.0.1:54383}
+</code></pre>
+<p>As shown above, the connected server(s) can be configured using the properties file. It is also possible to connect multiple servers or a cluster using the same <code>jboss-ejb-client.properties</code> file.</p>
+</li>
+</ol>
+<h2><a href="#undeploy-the-archive-from-the-local-machine" id="undeploy-the-archive-from-the-local-machine">Undeploy the Archive from the Local Machine</a></h2>
+<p>Follow these instructions if you are testing the quickstart on the same machine.</p>
+<ol>
+<li>Make sure you have started the WildFly server on the machine where the quickstart is deployed as described above.</li>
+<li>Open a command prompt on that server and navigate to the root directory of this quickstart.</li>
+<li>When you are finished testing, type this command to undeploy the archive from the local machine.
+<pre><code>mvn wildfly:undeploy
+</code></pre>
+</li>
+</ol>
+<h2><a href="#undeploy-the-archive-from-the-remote-machine" id="undeploy-the-archive-from-the-remote-machine">Undeploy the Archive from the Remote Machine</a></h2>
+<p>Follow these instructions if you are testing the quickstart on a different machine.</p>
+<ol>
+<li>Make sure you have started the WildFly server on the remote server machine, <code>Machine_1</code>, where the quickstart is deployed as described above.</li>
+<li>Open a command prompt on the local client machine, <code>Machine_2</code>, and navigate to the root directory of this quickstart.</li>
+<li>When you are finished testing, type this command to undeploy the archive from the remote server machine, <code>Machine_1</code>.
+<pre><code>mvn wildfly:undeploy -Dwildfly.hostname=MACHINE_1_IP_ADDRESS [-Dwildfly.port=9099] -Dwildfly.username=admin -Dwildfly.password=admin-123
+</code></pre>
+</li>
+</ol>
+</body>
+</html>

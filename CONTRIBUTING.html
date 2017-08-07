@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+<head><title>Quickstarts Contributing Guide</title>
+    <link href="http://static.jboss.org/ffe/0/www/vendor/redhat/documentation.css" rel="stylesheet"></link>
+    <link href="http://static.jboss.org/ffe/0/www/vendor/redhat/pygments.css" rel="stylesheet"></link>
+</head>
+<body><h1><a href="#quickstarts-contributing-guide" id="quickstarts-contributing-guide">Quickstarts Contributing Guide</a></h1>
+<h2><a href="#purpose-of-the-quickstarts" id="purpose-of-the-quickstarts">Purpose of the quickstarts</a></h2>
+<ul>
+<li>
+<p>To demonstrate Java EE 7 technologies</p>
+</li>
+<li>
+<p>To provide developers with working examples and instructions that are easy to follow .</p>
+</li>
+<li>
+<p>To allow examples to be copied by developers and used as the basis for their own projects.</p>
+</li>
+</ul>
+<h2><a href="#basic-steps" id="basic-steps">Basic Steps</a></h2>
+<p>To contribute to the quickstarts, fork the quickstart repository to your own Git, clone your fork, commit your work on topic branches, and make pull requests.</p>
+<p>If you don't have the Git client (<code>git</code>), get it from: <a href="http://git-scm.com/">http://git-scm.com/</a></p>
+<p>Here are the steps in detail:</p>
+<ol>
+<li>
+<p><a href="https://github.com/wildfly/quickstart/fork_select">Fork</a> the project. This creates a the project in your own Git with the default remote name 'origin'.</p>
+</li>
+<li>
+<p>Clone your fork. This creates and populates a directory in your local file system.</p>
+<pre><code>git clone git@github.com:&lt;your-username&gt;/quickstart.git
+</code></pre>
+</li>
+<li>
+<p>Add the remote <code>upstream</code> repository so you can fetch any changes to the original forked repository.</p>
+<pre><code>git remote add upstream git@github.com:wildfly/quickstart.git
+</code></pre>
+</li>
+<li>
+<p>Get the latest files from the <code>upstream</code> repository.</p>
+<pre><code>git fetch upstream
+</code></pre>
+</li>
+<li>
+<p>Create a new topic branch to contain your features, changes, or fixes using the <code>git checkout -b &lt;topic-branch-name&gt; upstream/master</code> command. For example:</p>
+<pre><code>git checkout -b helloworld-fix upstream/master
+</code></pre>
+</li>
+<li>
+<p>Contribute new code or make changes to existing files. Make sure that you follow the <em>General Guidelines</em> below.</p>
+</li>
+<li>
+<p>To verify if your code followed the General Guidelines you can run <a href="http://www.jboss.org/jdf/quickstarts/qstools/">QS Tools</a> on your project.</p>
+</li>
+</ol>
+<ul>
+<li>To run QS Tools, go to your quickstart project root and execute:
+<pre><code>   mvn -U org.jboss.maven.plugins:maven-qstools-plugin:check
+</code></pre>
+</li>
+</ul>
+<p>This will generate a report on <code>QUICKSTART_HOME/target/site/qschecker.html</code>. Review the report to determine if your quickstart project violates any item in the <em>General Guidelines</em>.</p>
+<ol>
+<li>Use the <code>git add</code> command to add new or changed file contents to the staging area.</li>
+</ol>
+<ul>
+<li>If you create a new quickstart, you can add files using the subfolder and file names. The following is an example of new quickstart folders and files you may want to stage:
+<pre><code>    git add src/
+    git add pom.xml
+    git add README.md
+</code></pre>
+</li>
+</ul>
+<p><em>Note: It is probably best not to add the entire quickstart root folder because you may unintentionally add classes or other target files that should not be in source control.</em><br />
+* If you only modified a few files, use <code>git add &lt;filename&gt;</code> for every file you create or change. For example:</p>
+<pre><code>        git add README.md
+</code></pre>
+<ol>
+<li>
+<p>Use the git status command to view the status of the files in the directory and in the staging area and ensure that all modified files are properly staged:</p>
+<pre><code>git status
+</code></pre>
+</li>
+<li>
+<p>Commit your changes to your local topic branch.</p>
+<pre><code>git commit -m 'Description of change...'
+</code></pre>
+</li>
+<li>
+<p>Push your local topic branch to your github forked repository. This will create a branch on your Git fork repository with the same name as your local topic branch name.</p>
+<pre><code>git push origin HEAD            
+</code></pre>
+</li>
+</ol>
+<p><em>Note: The above command assumes your remote repository is named 'origin'. You can verify your forked remote repository name using the command <code>git remote -v</code></em>. 12. Browse to the <topic-branch-name> branch on your forked Git repository and <a href="http://help.github.com/send-pull-requests/">open a Pull Request</a>. Give it a clear title and description.</p>
+<h2><a href="#general-guidelines" id="general-guidelines">General Guidelines</a></h2>
+<ul>
+<li>
+<p>The sample project should be formatted using the WildFly profiles found at <a href="http://github.com/jboss/ide-config/tree/master/">http://github.com/jboss/ide-config/tree/master/</a></p>
+</li>
+<li>
+<p>Code should be well documented with good comments. Please add an author tag (@author) to credit yourself for writing the code.</p>
+</li>
+<li>You should use readable variable names to make it easy for users to read the code.</li>
+<li>
+<p>The package must be <em>org.wildfly.quickstarts</em></p>
+</li>
+<li>
+<p>The quickstart project or folder name should match the quickstart name. Each sample project should have a unique name, allowing easy identification by users and developers.</p>
+</li>
+<li>
+<p>The quickstart project <code>&lt;artifactId&gt;</code> in the <code>pom.xml</code> file must be prefixed by <code>wildfly-</code>. For example, the <code>&lt;artifactId&gt;</code> for a <code>is-f-fast</code> quickstart is <code>wildfly-is-f-fast</code>.</p>
+</li>
+<li>
+<p>If you create a quickstart that uses a database table, make sure the name you use for the table is unique across all quickstarts.</p>
+</li>
+<li>
+<p>The project must follow the structure used by existing quickstarts such as <a href="https://github.com/wildfly/quickstart/tree/master/numberguess">numberguess</a>. A good starting point would be to copy the  <code>numberguess</code> project.</p>
+</li>
+<li>
+<p>The sample project should be importable into JBoss Developer Studio/JBoss Tools and be deployable from there.</p>
+</li>
+<li>
+<p>Maven POMs must be used. No other build system is allowed unless the purpose of the quickstart is to show another build system in use. If using Maven it should:</p>
+</li>
+<li>
+<p>Not inherit from another POM</p>
+</li>
+<li>Maven POMs must use the Java EE spec BOM/POM imports</li>
+<li>The POMs must be commented, with a comment each item in the POM</li>
+<li>Import the various BOMs, either directly from a project, or from <a href="http://www.jboss.org/jdf/stack/stacks/">JBoss BOMs</a>, to determine version numbers. You should aim to have no dependencies declared directly. If you do, work with the jdf team to get them added to a BOM.</li>
+<li>Use the WildFly Maven Plugin to deploy the example</li>
+<li>
+<p>The sample project must contain a <code>README.md</code> file using the <code>template/README.md</code> file as a guideline</p>
+</li>
+<li>
+<p>Don't forget to update the <code>pom.xml</code> in the quickstart root directory. Add your quickstart to the 'modules' section.</p>
+</li>
+<li>
+<p>The project must target Java 6</p>
+</li>
+<li>
+<p>CDI should be used as the programming model</p>
+</li>
+<li>Avoid using a web.xml if possible. Use faces-config.xml to activate JSF if needed.</li>
+<li>Any tests should use Arquillian.</li>
+</ul>
+<h2><a href="#kitchensink-variants" id="kitchensink-variants">Kitchensink variants</a></h2>
+<p>There are multiple quickstarts based on the kitchensink example.  Each showcases different technologies and techniques including pure EE7, JSF, HTML5, and GWT.</p>
+<p>If you wish to contribute a kitchensink variant is it important that you follow the look and feel of the original so that useful comparisons can be made.  This does not mean that variants can not expand, and showcase additional functionality.  Multiple variants already do that.  These include mobile interfaces, push updates, and more.</p>
+<p>Below are rules for the <em>look and feel</em> of the variants:</p>
+<ul>
+<li>
+<p>Follow the primary layout, style, and graphics of the original.</p>
+</li>
+<li>
+<p>Projects can have 3-4 lines directly under the WildFly banner in the middle section to describe what makes this variant different.</p>
+<ul>
+<li>How projects use that space is up to them, but options include plain text, bullet points, etc....</li>
+</ul>
+</li>
+<li>
+<p>Projects can have their logo in the left side of the banner.</p>
+<ul>
+<li>The sidebar area can contain a section with links to the related projects, wiki, tutorials, etc...</li>
+<li>This should be below any WildFly link areas.</li>
+</ul>
+<p>If appropriate for the technology the application should expose RESTful endpoints following the example of the original kitchensink quickstart.  This should also include the RESTful links in the member table.</p>
+</li>
+</ul>
+<h2><a href="#setup-your-environment" id="setup-your-environment">Setup your environment</a></h2>
+<p>The quickstart README.md files are converted to HTML using markdown. We recommend using redcarpet, as that is what github uses, but you can use any markdown tool really.</p>
+<p>There are two scripts, <code>dist/github-flaoured-markdown.rb</code>, that will convert an individual file, and <code>dist/release-utils.sh -m</code>, that will convert all the files.</p>
+<p>To setup the environment you need to follow these steps.</p>
+<ol>
+<li>
+<p>Install Ruby <em>1.9.X</em></p>
+<p>For RHEL you can use this <a href="https://github.com/lnxchk/ruby-1.9.3-rpm">spec</a></p>
+<p>In general, you're better off not relying on your OSs ruby install, they are often quite broken.</p>
+</li>
+<li>
+<p>Install Ruby GEMs</p>
+<pre><code>gem install nokogiri pygments.rb redcarpet fileutils
+</code></pre>
+</li>
+<li>
+<p>Install Python Eggs</p>
+<p>You'll need python eggs installed, which often isn't available on OS installs of python. Google to find out how to install it</p>
+</li>
+<li>
+<p>Install pygments</p>
+<pre><code>    sudo easy_install pygments
+</code></pre>
+</li>
+</ol>
+<h2><a href="#license-information-and-contributor-agreement" id="license-information-and-contributor-agreement">License Information and Contributor Agreement</a></h2>
+<p>JBoss Developer Framework is licensed under the Apache License 2.0, as we believe it is one of the most permissive Open Source license. This allows developers to easily make use of the code samples in JBoss Developer Framework.</p>
+<p>There is no need to sign a contributor agreement to contribute to JBoss Developer Framework. You just need to explicitly license any contribution under the AL 2.0. If you add any new files to JBoss Developer Framework, make sure to add the correct header.</p>
+<h3><a href="#java-javascript-and-css-files" id="java-javascript-and-css-files">Java,  Javascript and CSS files</a></h3>
+<pre><code>  /** 
+   * JBoss, Home of Professional Open Source
+   * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
+   * contributors by the @authors tag. See the copyright.txt in the 
+   * distribution for a full listing of individual contributors.
+   *
+   * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+   * you may not use this file except in compliance with the License.
+   * You may obtain a copy of the License at
+   * http://www.apache.org/licenses/LICENSE-2.0
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,  
+   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   * See the License for the specific language governing permissions and
+   * limitations under the License.
+   */
+</code></pre>
+<h3><a href="#html-xml-xsd-and-xhtml-files" id="html-xml-xsd-and-xhtml-files">HTML, XML, XSD and XHTML files</a></h3>
+<pre><code>  &lt;!--
+   JBoss, Home of Professional Open Source
+   Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
+   contributors by the @authors tag. See the copyright.txt in the 
+   distribution for a full listing of individual contributors.
+
+   Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+   http://www.apache.org/licenses/LICENSE-2.0
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an &quot;AS IS&quot; BASIS,  
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+   --&gt;
+</code></pre>
+<h3><a href="#properties-files-and-bash-scripts" id="properties-files-and-bash-scripts">Properties files and Bash Scripts</a></h3>
+<pre><code>   # JBoss, Home of Professional Open Source
+   # Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
+   # contributors by the @authors tag. See the copyright.txt in the 
+   # distribution for a full listing of individual contributors.
+   #
+   # Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+   # you may not use this file except in compliance with the License.
+   # You may obtain a copy of the License at
+   # http://www.apache.org/licenses/LICENSE-2.0
+   # Unless required by applicable law or agreed to in writing, software
+   # distributed under the License is distributed on an &quot;AS IS&quot; BASIS,  
+   # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   # See the License for the specific language governing permissions and
+   # limitations under the License.
+</code></pre>
+<h3><a href="#sql-files" id="sql-files">SQL files</a></h3>
+<pre><code>  --
+  -- JBoss, Home of Professional Open Source
+  -- Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
+  -- contributors by the @authors tag. See the copyright.txt in the
+  -- distribution for a full listing of individual contributors.
+  --
+  -- Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+  -- you may not use this file except in compliance with the License.
+  -- You may obtain a copy of the License at
+  -- http://www.apache.org/licenses/LICENSE-2.0
+  -- Unless required by applicable law or agreed to in writing, software
+  -- distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+  -- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  -- See the License for the specific language governing permissions and
+  -- limitations under the License.
+  --
+</code></pre>
+<h3><a href="#jsp-files" id="jsp-files">JSP files</a></h3>
+<pre><code>  &lt;%--
+  JBoss, Home of Professional Open Source
+  Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
+  contributors by the @authors tag. See the copyright.txt in the
+  distribution for a full listing of individual contributors.
+
+  Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  http://www.apache.org/licenses/LICENSE-2.0
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  --%&gt;
+</code></pre>
+</body>
+</html>
