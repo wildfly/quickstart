@@ -1,26 +1,26 @@
 # ejb-security:  Using Java EE Declarative Security to Control Access
 
-Author: Sherif F. Makary  
+Author: Sherif F. Makary, Stefan Guilhen  
 Level: Intermediate  
 Technologies: EJB, Security  
-Summary: The `ejb-security` quickstart demonstrates the use of Java EE declarative security to control access to Servlets and EJBs in ${product.name}.  
+Summary: The `ejb-security` quickstart demonstrates the use of Java EE declarative security to control access to EJBs in ${product.name}.  
 Target Product: ${product.name}  
 Source: <${github.repo.url}>  
 
 ## What is it?
 
-The `ejb-security` quickstart demonstrates the use of Java EE declarative security to control access to Servlets and EJBs in ${product.name.full}.
+The `ejb-security` quickstart demonstrates the use of Java EE declarative security to control access to EJBs in ${product.name.full}.
 
 This quickstart takes the following steps to implement EJB security:
 
-1. Add `application-security-domain` mappings in the `ejb3` and `undertow` subsystems to enable Elytron security for the quickstart EJB and Web components.
+1. Add an `application-security-domain` mapping in the `ejb3` subsystem to enable Elytron security for the `SecuredEJB`.
 2. Add the `@SecurityDomain("other")` security annotation to the EJB declaration to tell the EJB container to apply authorization to this EJB.
 3. Add the `@RolesAllowed({ "guest" })` annotation to the EJB declaration to authorize access only to users with `guest` role access rights.
-4. Add the `@RolesAllowed({ "guest" })` annotation to the Servlet declaration to authorize access only to users with `guest` role access rights.
-5. Add a `<login-config>` security constraint to the `WEB-INF/web.xml` file to force the login prompt.
-6. Add an application user with `guest` role access rights to the EJB. This quickstart defines a user `quickstartUser` with password `quickstartPwd1!` in the `guest` role. The `guest` role matches the allowed user role defined in the `@RolesAllowed` annotation in the EJB.
-7. Add a second user that has no `guest` role access rights.
-
+4. Add the `@RolesAllowed({ "admin" })` annotation to the administrative method in the `SecuredEJB` to authorize access only
+to users with `admin` role access rights.
+5. Add an application user with `guest` role access rights to the EJB. This quickstart defines a user `quickstartUser` with 
+password `quickstartPwd1!` in the `guest` role. The `guest` role matches the allowed user role defined in the `@RolesAllowed`
+annotation in the EJB but it should not be granted access to the administrative method annotated with `RolesAllowed({"admin"})`.
 
 ## System Requirements
 
@@ -35,8 +35,8 @@ You can also use [JBoss Developer Studio or Eclipse](#use-jboss-developer-studio
 
 ## Use of ${jboss.home.name}
 
-In the following instructions, replace `${jboss.home.name}` with the actual path to your ${product.name} installation. The installation path is described in detail here: [Use of ${jboss.home.name} and JBOSS_HOME Variables](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_${jboss.home.name}.md#use-of-eap_home-and-jboss_home-variables).
-
+In the following instructions, replace `${jboss.home.name}` with the actual path to your ${product.name} installation. The
+installation path is described in detail here: [Use of ${jboss.home.name} and JBOSS_HOME Variables](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_${jboss.home.name}.md#use-of-eap_home-and-jboss_home-variables).
 
 ## Add the Application Users
 
@@ -45,19 +45,16 @@ Using the add-user utility script, you must add the following users to the `Appl
 | **UserName** | **Realm** | **Password** | **Roles** |
 |:-----------|:-----------|:-----------|:-----------|
 | quickstartUser| ApplicationRealm | quickstartPwd1!| guest |
-| user1 | ApplicationRealm | password1! | app-user |
 
-The first application user has access rights to the application. The second application user is not authorized to access the application.
+The application user has `guest` access rights to the application but no `admin` rights.
 
 To add the application users, open a command prompt and type the following commands:
 
         For Linux:        
           ${jboss.home.name}/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'guest'
-          ${jboss.home.name}/bin/add-user.sh -a -u 'user1' -p 'password1!' -g 'app-user'
 
         For Windows:
           ${jboss.home.name}\bin\add-user.bat  -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'guest'
-          ${jboss.home.name}\bin\add-user.bat -a -u 'user1' -p 'password1!' -g 'app-user'
 
 If you prefer, you can use the add-user utility interactively.
 For an example of how to use the add-user utility, see the instructions located here: [Add an Application User](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CREATE_USERS.md#add-an-application-user).
@@ -86,6 +83,8 @@ You configure the security domain by running JBoss CLI commands. For your conven
     You should see the following result when you run the script:
 
         The batch executed successfully
+        process-state: reload-required 
+
 5. Stop the ${product.name} server.
 
 ## Review the Modified Server Configuration
@@ -98,15 +97,15 @@ After stopping the server, open the `${jboss.home.name}/standalone/configuration
             <application-security-domain name="other" security-domain="ApplicationDomain"/>
         </application-security-domains>
 
-    The `application-security-domain` essentially enables Elytron security for the quickstart EJBs. It maps the `other` security domain that was set in the EJBs via annotation to the Elytron `ApplicationDomain` that will be responsible for authenticating and authorizing access to the EJBs.
-2. The following `application-security-domain` mapping was added to the `undertow` subsystem:
+    The `application-security-domain` essentially enables Elytron security for the quickstart EJBs. It maps the `other` security
+    domain that was set in the EJBs via annotation to the Elytron `ApplicationDomain` that will be responsible for authenticating
+    and authorizing access to the EJBs.
+2. The `http-remoting-connector` in the `remoting` subsystem was updated to use the `application-sasl-authentication` factory:
+    
+            <http-connector name="http-remoting-connector" connector-ref="default" security-realm="ApplicationRealm" sasl-authentication-factory="application-sasl-authentication"/>
 
-        <application-security-domains>
-            <application-security-domain name="other" http-authentication-factory="application-http-authentication"/>
-        </application-security-domains>
-
-   The mapping in the `undertow` subsystem is similar to the one in the `ejb3` subsystem but in this case it maps the `other` security domain to the `http-authentication-factory` that will be used to authenticate and authorize access to the Web components.
-
+    This config allows for the identity that was established at the connection level to be propagated to the components.
+    
 ## Start the Server
 
 1. Open a command prompt and navigate to the root of the ${product.name} directory.
@@ -121,41 +120,55 @@ After stopping the server, open the `${jboss.home.name}/standalone/configuration
 2. Open a command prompt and navigate to the root directory of this quickstart.
 3. Type this command to build and deploy the archive:
 
-        mvn clean install wildfly:deploy
+        mvn clean package wildfly:deploy
 
-4. This will deploy `target/${project.artifactId}.war` to the running instance of the server.
+4. This will deploy `target/${project.artifactId}.jar` to the running instance of the server.
 
-## Access the Application
+## Run the Client
 
-The application will be running at the following URL <http://localhost:8080/${project.artifactId}/>.
+Before you run the client, make sure you have already successfully deployed the EJBs to the server in the previous step and
+that your command prompt is still in the same folder.
 
-When you access the application, you are presented with a browser login challenge.
+Type this command to execute the client:
 
-1. If you attempt to login with a user name and password combination that has not been added to the server, the login challenge will be redisplayed.
-2. When you login successfully using `quickstartUser`/`quickstartPwd1!`, the browser displays the following security info:
+        mvn exec:exec
 
-        Successfully called Secured EJB
+## Investigate the Console Output
 
-        Principal : quickstartUser
-        Remote User : quickstartUser
-        Authentication Type : BASIC
+When you run the `mvn exec:exec` command, you see the following output. Note there may be other log messages interspersed between these.
 
-3. Now close and reopen the brower session and access the application using the `user1`/`password1!` credentials. In this case, the Servlet, which only allows the `guest` role, restricts the access and you get a security exception similar to the following:
+        * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+        
+        
+        Successfully called secured bean, caller principal quickstartUser
+        
+        Principal has admin permission: false
+        
+        
+        * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-        HTTP Status 403 - Access to the requested resource has been denied
+The username and credentials used to establish the connection to the application server are configured in the `wildfly-config.xml`
+file. As expected, the `quickstartUser` was able to invoke the method availabled for `guest`s but not the administrative method
+that requires the `admin` role. As an exercise, one could re-run the `add-user` script described in the [Add the Application Users](#add-the-application-users)
+section but this time include the `admin` role as follows to grant `quickstartUser` the admin role:
 
-        type Status report
-        message Access to the requested resource has been denied
-        description Access to the specified resource (Access to the requested resource has been denied) has been forbidden.
+        For Linux:        
+          ${jboss.home.name}/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'guest,admin'
 
-4. Next, change the EJB (SecuredEJB.java) to a different role, for example, `@RolesAllowed({ "other-role" })`. Do not modify the `guest` role in the Servlet (SecuredEJBServlet.java). Build and redeploy the quickstart, then close and reopen the browser and login using `quickstartUser`/`quickstartPwd1!`. This time the Servlet will allow the `guest` access, but the EJB, which only allows the role `other-role`, will throw an EJBAccessException:
+        For Windows:
+          ${jboss.home.name}\bin\add-user.bat  -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'guest,admin'
 
-        HTTP Status 500
+Running the client again should immediately reflect the new permission level of the user:
 
-        message
-        description  The server encountered an internal error () that prevented it from fulfilling this request.
-        exception
-        javax.ejb.EJBAccessException: WFLYEJB0364: Invocation on method: public java.lang.String org.jboss.as.quickstarts.ejb_security.SecuredEJB.getSecurityInfo() of bean: SecuredEJB is not allowed
+        * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+        
+        
+        Successfully called secured bean, caller principal quickstartUser
+        
+        Principal has admin permission: true
+        
+        
+        * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 
 ## Undeploy the Archive
