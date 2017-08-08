@@ -27,7 +27,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.bouncycastle.openssl.PEMWriter;
+import org.bouncycastle.openssl.jcajce.JcaPEMWriter;
 
 /**
  * <p>
@@ -75,7 +75,7 @@ public class HelloWorldServlet extends HttpServlet {
     public static String getPemFromCertificate(X509Certificate certificate) {
         if (certificate != null) {
             StringWriter writer = new StringWriter();
-            PEMWriter pemWriter = new PEMWriter(writer);
+            JcaPEMWriter pemWriter = new JcaPEMWriter(writer);
             try {
                 pemWriter.writeObject(certificate);
                 pemWriter.flush();
