@@ -91,7 +91,7 @@ public class ContactRegistrationIT {
             //            .addAsLibraries(libs)
             .addAsResource("META-INF/test-persistence.xml", "META-INF/persistence.xml")
             .addAsWebInfResource("arquillian-ds.xml")
-            .addAsWebInfResource("jboss-web.xml")
+            //.addAsWebInfResource("jboss-web.xml")
             .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
 
         return archive;
