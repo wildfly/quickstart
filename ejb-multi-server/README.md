@@ -238,38 +238,7 @@ It also demonstrates how to invoke an EJB from a client using a scoped-context r
 
         mvn clean install
 
-4. To invoke the bean that uses the `scoped-client-context`, you must pass a property. Type the following command
-
-        mvn exec:java -DUseScopedContext=true
-
-    The invocation of `appTwo` throws a  `java.lang.reflect.InvocationTargetException` since the secured method is called and there is no Role for the user defined.  You get a `BUILD FAILURE` and the client outputs the following information:
-
-        [ERROR] Failed to execute goal org.codehaus.mojo:exec-maven-plugin:1.2.1:java (default-cli) on project ejb-multi-server-client: An exception occured while executing the Java class. null: InvocationTargetException: WFLYEJB0364: Invocation on method: public abstract java.lang.String org.jboss.as.quickstarts.ejb.multi.server.app.AppTwo.invokeSecured(java.lang.String) of bean: AppTwoBean is not allowed -> [Help 1]
-
-    Update the user `quickuser1` and `quickuser2` and give them one of the Roles `AppTwo` or `Intern`.
-    To update the roles, open a command prompt and type the following commands:
-
-        For Linux:
-              ${jboss.home.name}/bin/add-user.sh -a -u quickuser1 -p quick123+ -g Intern
-              ${jboss.home.name}/bin/add-user.sh -a -u quickuser2 -p quick+123 -g AppTwo
-
-        For Windows:
-              ${jboss.home.name}\bin\add-user.bat -a -u quickuser1 -p quick123+ -g Intern
-              ${jboss.home.name}\bin\add-user.bat -a -u quickuser2 -p quick+123 -g AppTwo
-
-    If the connection was established before changing the roles it might be necessary to restart the main server, or even the whole domain.
-    After that the invocation will be successful. The log output of the `appTwo` servers shows which Role is applied to the user. The output of the client will show you a simple line with the information provided by the different applications:
-
-          InvokeAll succeed: MainAppSContext[anonymous]@master:app-main  >  [ {app1[quickuser1]@master:app-oneA, app1[quickuser2]@master:app-oneB, app1[quickuser2]@master:app-oneB, app1[quickuser1]@master:app-oneA, app1[quickuser2]@master:app-oneB, app1[quickuser1]@master:app-oneA, app1[quickuser1]@master:app-oneA, app1[quickuser1]@master:app-oneA} >  appTwo loop(4 time A-B expected){app2[quickuser1]@master:app-twoA, app2[quickuser2]@master:app-twoB, app2[quickuser1]@master:app-twoA, app2[quickuser2]@master:app-twoB, app2[quickuser1]@master:app-twoA, app2[quickuser2]@master:app-twoB, app2[quickuser1]@master:app-twoA, app2[quickuser2]@master:app-twoB} ]
-
-    The resulting output in detail:
-    * The client calls the `MainAppSContext` bean on the `app-main` server on host master with no application security.
-    * The `MainAppSContext` bean in `app-main` calls the `AppOne` bean in `app-one` using the scoped-context and establishes the clustered view.
-        * It initially connects using `quickuser1`
-        * The clustered view is created using `quickuser2`. This takes some time, but once it takes effect, all calls are load-balanced.
-    * The calls to the `AppTwo` bean in `app-two` are made using two different scoped-context settings and both are used alternately 7 times. This means the servers `app-twoA` and `app-twoB` are called alternately seven times each.
-
-5. If it is necessary to invoke the client with a different ${product.name} version the main class can be invoked by using the following command from the root directory of this quickstart. Replace ${jboss.home.name} with your current installation path. The output should be similar to the previous mvn executions.
+4. If it is necessary to invoke the client with a different ${product.name} version the main class can be invoked by using the following command from the root directory of this quickstart. Replace ${jboss.home.name} with your current installation path. The output should be similar to the previous mvn executions.
 
         java -cp ${jboss.home.name}/bin/client/jboss-client.jar:app-main/ejb/target/ejb-multi-server-app-main-ejb-client.jar:app-two/ejb/target/ejb-multi-server-app-two-ejb-client.jar:client/target/ejb-multi-server-client.jar org.jboss.as.quickstarts.ejb.multi.server.Client
 
@@ -288,10 +257,6 @@ The JSF example shows different annotations to inject the EJB. Also how to handl
 2. Use a browser to access the JSF application at the following URL: <http://localhost:8080/ejb-multi-server-app-main-web/>
 3. Insert a message in the Text input and invoke the different methods. The result is shown in the browser.
 4. See server logfiles and find your given message logged as INFO.
-
-_NOTE :_
-
-* _If you try to invoke `MainAppSContext` you need to update the user `quickuser1` and `quickuser2` and give them one of the Roles `AppTwo` or `Intern`._
 
 ## Access the Servlet Application Deployed as a WAR Inside a Minimal Server
 
