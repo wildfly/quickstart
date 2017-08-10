@@ -6,8 +6,8 @@ batch
 # Remove the application security domain mapping from the EJB3 subsystem
 /subsystem=ejb3/application-security-domain=other:remove
 
-# Remove the application security domain mapping from the Undertow subsystem
-/subsystem=undertow/application-security-domain=other:remove
+# Restore the http-remoting-connector configuration
+/subsystem=remoting/http-connector=http-remoting-connector:undefine-attribute(name=sasl-authentication-factory)
 
 # Run the batch commands
 run-batch

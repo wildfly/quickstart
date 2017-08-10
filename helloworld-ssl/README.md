@@ -81,6 +81,8 @@ You configure the SSL context by running JBoss CLI commands. For your convenienc
     You should see the following result when you run the script:
 
         The batch executed successfully
+        process-state: reload-required
+
 5. Stop the ${product.name} server.
 
 Now you're ready to connect to the SSL port of your instance https://localhost:8443/. Note, that you get the privacy error as the server certificate is self-signed. If you need to use a fully signed certificate you mostly get a PEM file from the Certificate Authority. In such a case, you need to import the PEM into the keystore.
@@ -95,14 +97,14 @@ After stopping the server, open the `${jboss.home.name}/standalone/configuration
             <key-store name="qsKeyStore">
                 <credential-reference clear-text="secret"/>
                 <implementation type="JKS"/>
-                <file path="../standalone/configuration/my.keystore"/>
+                <file path="server.keystore" relative-to="jboss.server.config.dir"/>
             </key-store>
         </key-stores>
 
 2. The following `key-manager` was added to the `elytron` subsystem:
 
         <key-managers>
-            <key-manager name="qsKeyManager" algorithm="SunX509" key-store="qsKeyStore">
+            <key-manager name="qsKeyManager" key-store="qsKeyStore">
                 <credential-reference clear-text="secret"/>
             </key-manager>
         </key-managers>

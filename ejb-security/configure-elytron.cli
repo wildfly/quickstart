@@ -6,8 +6,8 @@ batch
 # Add security domain mapping in the EJB3 subsystem to enable elytron for the quickstart EJBs
 /subsystem=ejb3/application-security-domain=other:add(security-domain=ApplicationDomain)
 
-# Add security domain mapping in the Undertow subsystem to enable elytron for the quickstart Web components
-/subsystem=undertow/application-security-domain=other:add(http-authentication-factory=application-http-authentication)
+# Update the http-remoting-connector to use the application-sasl-authentication factory
+/subsystem=remoting/http-connector=http-remoting-connector:write-attribute(name=sasl-authentication-factory,value=application-sasl-authentication)
 
 # Run the batch commands
 run-batch

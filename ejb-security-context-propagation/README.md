@@ -177,6 +177,11 @@ After stopping the server, open the `${jboss.home.name}/standalone/configuration
                 </mechanism>
             </mechanism-configuration>
         </sasl-authentication-factory>
+        
+7. If you chose to run the script to suppress system exceptions, you should see the following configuration in the `ejb3` subsystem.
+        
+        <log-system-exceptions value="false"/>
+
 
 ## Start the Server
 
@@ -242,6 +247,45 @@ When you run the `mvn exec:exec` command, you see the following output. Note the
 
 As can be seen from the output the identities authenticated to the intermediate EJB were propagated all the way to the remote
 secured EJB and their roles have been correctly evaluated.
+
+## Investigate the Server Console Output
+
+If you chose not to run the script to suppress system exceptions, you should see the following exceptions in the ${product.name}
+server console or log. The exceptions are logged for each of the tests where a request is rejected because the user is not
+authorized.
+
+        12:26:06,556 ERROR [org.jboss.as.ejb3.invocation] (default task-57) WFLYEJB0034: EJB Invocation failed on component SecuredEJB for method public abstract java.lang.String org.jboss.as.quickstarts.ejb_security_context_propagation.SecuredEJBRemote.adminMethod(): javax.ejb.EJBAccessException: WFLYEJB0364: Invocation on method: public abstract java.lang.String org.jboss.as.quickstarts.ejb_security_context_propagation.SecuredEJBRemote.adminMethod() of bean: SecuredEJB is not allowed
+            at org.jboss.as.ejb3.security.RolesAllowedInterceptor.processInvocation(RolesAllowedInterceptor.java:67)
+            at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:422)
+            at org.jboss.as.ejb3.security.SecurityDomainInterceptor.processInvocation(SecurityDomainInterceptor.java:44)
+            at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:422)
+            at org.jboss.as.ejb3.deployment.processors.StartupAwaitInterceptor.processInvocation(StartupAwaitInterceptor.java:22)
+            at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:422)
+            at org.jboss.as.ejb3.component.interceptors.ShutDownInterceptorFactory$1.processInvocation(ShutDownInterceptorFactory.java:64)
+            at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:422)
+            at org.jboss.as.ejb3.deployment.processors.EjbSuspendInterceptor.processInvocation(EjbSuspendInterceptor.java:57)
+            at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:422)
+            at org.jboss.as.ejb3.component.interceptors.LoggingInterceptor.processInvocation(LoggingInterceptor.java:67)
+            at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:422)
+            at org.jboss.as.ee.component.NamespaceContextInterceptor.processInvocation(NamespaceContextInterceptor.java:50)
+            at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:422)
+            at org.jboss.as.ejb3.component.interceptors.AdditionalSetupInterceptor.processInvocation(AdditionalSetupInterceptor.java:54)
+            at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:422)
+            at org.jboss.invocation.ContextClassLoaderInterceptor.processInvocation(ContextClassLoaderInterceptor.java:60)
+            at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:422)
+            at org.jboss.invocation.InterceptorContext.run(InterceptorContext.java:438)
+            at org.wildfly.security.manager.WildFlySecurityManager.doChecked(WildFlySecurityManager.java:609)
+            at org.jboss.invocation.AccessCheckingInterceptor.processInvocation(AccessCheckingInterceptor.java:57)
+            at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:422)
+            at org.jboss.invocation.ChainedInterceptor.processInvocation(ChainedInterceptor.java:53)
+            at org.jboss.as.ee.component.ViewService$View.invoke(ViewService.java:198)
+            at org.wildfly.security.auth.server.SecurityIdentity.runAsFunctionEx(SecurityIdentity.java:380)
+            at org.jboss.as.ejb3.remote.AssociationImpl.invokeWithIdentity(AssociationImpl.java:492)
+            at org.jboss.as.ejb3.remote.AssociationImpl.invokeMethod(AssociationImpl.java:487)
+            at org.jboss.as.ejb3.remote.AssociationImpl.lambda$receiveInvocationRequest$0(AssociationImpl.java:188)
+            at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+            at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+            at java.lang.Thread.run(Thread.java:745)
 
 ## Undeploy the Archive
 
