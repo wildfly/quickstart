@@ -50,8 +50,6 @@ public class MainAppBean implements MainApp {
 
     @EJB(lookup = "ejb:ejb-multi-server-app-one/ejb//AppOneBean!org.jboss.as.quickstarts.ejb.multi.server.app.AppOne")
     AppOne appOneProxy;
-    @EJB(lookup = "ejb:ejb-multi-server-app-two/ejb//AppTwoBean!org.jboss.as.quickstarts.ejb.multi.server.app.AppTwo")
-    AppTwo appTwoProxy;
 
     /**
      * Initialize and store the context for the EJB invocations.

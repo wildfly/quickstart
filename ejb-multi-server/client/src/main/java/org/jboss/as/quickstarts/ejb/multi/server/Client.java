@@ -30,9 +30,6 @@ import org.jboss.as.quickstarts.ejb.multi.server.app.MainApp;
  * <p>
  * A simple standalone application which uses the JBoss API to invoke the MainApp demonstration Bean.
  * </p>
- * <p>
- * With the boolean property <i>UseScopedContext</i> the basic example or the example with the scoped-environment will be called.
- * </p>
  *
  * @author <a href="mailto:wfink@redhat.com">Wolf-Dieter Fink</a>
  */
@@ -48,19 +45,11 @@ public class Client {
         Logger.getLogger("org.xnio").setLevel(Level.OFF);
 
         Properties p = new Properties();
-        //p.put("remote.connectionprovider.create.options.org.xnio.Options.SSL_ENABLED", "false");
-        //p.put("remote.connections", "one");
-        //p.put("remote.connection.one.port", "8080");
-        //p.put("remote.connection.one.host", "localhost");
-        //p.put("remote.connection.one.username", "quickuser");
-        //p.put("remote.connection.one.password", "quick-123");
-
         p.put(Context.INITIAL_CONTEXT_FACTORY, "org.wildfly.naming.client.WildFlyInitialContextFactory");
         p.put(Context.PROVIDER_URL, "remote+http://localhost:8080");
         InitialContext context = new InitialContext(p);
 
-        final boolean useScopedExample = Boolean.getBoolean("UseScopedContext");
-        final String rcal = "ejb:ejb-multi-server-app-main/ejb//" + (useScopedExample ? "MainAppSContextBean" : "MainAppBean") + "!" + MainApp.class.getName();
+        final String rcal = "ejb:ejb-multi-server-app-main/ejb//MainAppBean!" + MainApp.class.getName();
         final MainApp remote = (MainApp) context.lookup(rcal);
         final String result = remote.invokeAll("Client call at " + new Date());
 
