@@ -179,6 +179,29 @@ You can also start the server and deploy the quickstarts or run the Arquillian t
 
 * Be sure to [Add the Application Users](#add-the-application-users) as described above.
 * Be sure to configure the server by running the JBoss CLI script as described above under [Configure the Server](#configure-the-server).
+* Right-click on the `${project.artifactId}` project and choose `Run As` --> `Maven build`.
+Enter `clean package wildfly:deploy` for the `Goals:` and click `Run`. This deploys the `${project.artifactId}` JAR to the ${product.name} server.
+* Right-click on the `${project.artifactId}` project and choose `Run As` --> `Run Configurations...`.
+* Review the output in the console window. You should see the following output.
+
+            * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+            Called secured bean, caller principal quickstartUser
+
+            Principal has admin permission: false
+
+            * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+            * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+            Called secured bean, caller principal superUser
+
+            Principal has admin permission: true
+
+            * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+* Enter `exec:exec` for the `Goals` and click `Run`.
+
 * Be sure to [Restore the Server Configuration](#restore-the-server-configuration) when you have completed testing this quickstart.
 
 ## Debug the Application
