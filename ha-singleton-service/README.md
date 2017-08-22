@@ -287,7 +287,7 @@ This example configures an election policy that elects a random cluster member w
 
 A quorum specifies the minimum number of cluster members that must be present for the election to even begin. This mechanism is used to mitigate a split brain problem by sacrificing the availability of the singleton service. If there are less members than the specified quorum, no election is performed and the singleton service is not run on any node.
 
-1. If you have tested other election policies that configured the `singleton` subsystem, see [Restoring the Default Singleton Subsystem Configuration](#restoring-the-default-singleton-subsystem-configuration) for instructions to restore the singleton election policy to the default configuration.
+1. Quorum can be configured for any singleton policy. Optionally, if you have reconfigured the `singleton` subsystem, see [Restoring the Default Singleton Subsystem Configuration](#restoring-the-default-singleton-subsystem-configuration) for instructions to restore the singleton election policy to the default configuration.
 2. Start the two servers with the HA profile as described above.
 3. Review the contents of the `quorum-add.cli` file located in the root of this quickstart directory. This script specifies the minimum number of cluster members required for the singleton policy using this command.
 
@@ -315,7 +315,7 @@ A quorum specifies the minimum number of cluster members that must be present fo
         <subsystem xmlns="urn:jboss:domain:singleton:1.0">
             <singleton-policies default="default">
                 <singleton-policy name="default" cache-container="server" quorum="2">
-                    <random-election-policy/>
+                    <simple-election-policy/>
                 </singleton-policy>
             </singleton-policies>
         </subsystem>
@@ -338,7 +338,7 @@ A quorum specifies the minimum number of cluster members that must be present fo
         ...
         WARN  [org.jboss.as.quickstarts.ha.singleton.service.primary.QueryingService] (pool-4-thread-1) Failed to query singleton service.
 
-8. A `quorum-remove.cli` script is provided in the root directory of this quickstart that removes the quorum limit from the `singleton` subsystem.
+8. A `quorum-remove.cli` script is provided in the root directory of this quickstart that removes the quorum from the `singleton` subsystem.
 
 ## Troubleshooting Runtime Problems
 
