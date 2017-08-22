@@ -205,7 +205,7 @@ When you access the application, you are presented with a browser login challeng
 
             * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-4. Next, lets change the exported realm so that it now uses the legacy role mappers as defined in the legacy `JAAS` security domain.
+4. Next, change the exported realm so that it now uses the legacy role mappers as defined in the legacy `JAAS` security domain.
 
     Make sure you are still in the root directory of this quickstart, and run the following command, replacing ${jboss.home.name}
     with the path to your server:
@@ -286,7 +286,11 @@ server configuration directory (`${jboss.home.name}/standalone/configuration/`).
 You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a ${product.name} server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](${use.eclipse.url}).
 
 * Be sure to [Create the Properties Files for the JAAS Security Domain](#create-the-properties-files-for-the-jaas-security-domain) as described above.
-* Be sure to configure the server by running the JBoss CLI script as described above under [Configure the Server](#configure-the-server).
+* Be sure to configure the server by running the JBoss CLI script as described above under [Configure the Server](#configure-the-server). Stop the server at the end of that step.
+* To deploy the application to the ${product.name} server, right-click on the `${project.artifactId}` project and choose `Run As` --> `Run on Server`.
+* You are presented with a browser login challenge. Enter the credentials as described above under [Access the Application](#access-the-application) to see the running application. Note that `Has admin permission` is `false`.
+* Leave the application running in JBoss Developer Studio. To configure the server to use the legacy role mappers, open a terminal, and run the `enable-role-mappers.cli` script as described above under [Access the Application](#access-the-application).
+* Go back to JBoss Developer Studio and click `Refresh the current page`. Note that `Has admin permission` is now `true`.
 * Be sure to [Restore the Server Configuration](#restore-the-server-configuration) when you have completed testing this quickstart.
 
 ## Debug the Application
