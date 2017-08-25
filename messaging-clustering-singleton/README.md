@@ -263,10 +263,34 @@ _Note:_ You will see the following warnings in the log of the server that is _no
         WARN  [org.apache.activemq.artemis.core.server] (Thread-2 (ActiveMQ-client-global-threads)) AMQ222095: Connection failed with failedOver=false
 
 
-_NOTE:_ You may see the following log message as well.When a server is restarted, it may broadcast that it is up and running (with its nodeID) while other nodes still reference the previous server instance for the same nodeID.
-                                                      Eventually, the cluster will be informed of the new instance representing the given nodeID but as the warning explains, it is possible to see this log (once or more) when a server is restarted.
+_Note:_ You may see the following log message as well. When a server is restarted, it may broadcast that it is up and running (with its nodeID) while other nodes still reference the previous server instance for the same nodeID. Eventually, the cluster will be informed of the new instance representing the given nodeID but as the warning explains, it is possible to see this log (once or more) when a server is restarted.
 
         WARN  [org.apache.activemq.artemis.core.client] (activemq-discovery-group-thread-dg-group1) AMQ212034: There are more than one servers on the network broadcasting the same node id. You will see this message exactly once (per node) if a node is restarted, in which case it can be safely ignored. But if it is logged continuously it means you really do have more than one node on the same network active concurrently with the same node id. This could occur if you have a backup node active at the same time as its live node. nodeID=a114b652-689e-11e7-a2f4-54ee751c6182
+
+_Note:_ The next error message is a [known issue](https://issues.jboss.org/browse/WFLY-9261). You can ignore it, as it does not affect the scenario that this quickstart reproduces:
+
+        ERROR [org.apache.activemq.artemis.core.server] (Thread-3 (ActiveMQ-client-global-threads)) AMQ224037: cluster connection Failed to handle message: java.lang.IllegalStateException: Cannot find binding for jms.queue.HelloWorldMDBQueuedea3e995-713c-11e7-85f2-b8f6b112daf7 on ClusterConnectionImpl@1129705701[nodeUUID=dabaa1fa-713c-11e7-8f3a-b8f6b112daf7, connector=TransportConfiguration(name=http-connector, factory=org-apache-activemq-artemis-core-remoting-impl-netty-NettyConnectorFactory) ?httpUpgradeEndpoint=http-acceptor&activemqServerName=default&httpUpgradeEnabled=true&port=9080&host=localhost, address=jms, server=ActiveMQServerImpl::serverUUID=dabaa1fa-713c-11e7-8f3a-b8f6b112daf7]
+
+	at org.apache.activemq.artemis.core.server.cluster.impl.ClusterConnectionImpl$MessageFlowRecordImpl.doConsumerCreated(ClusterConnectionImpl.java:1294)
+
+	at org.apache.activemq.artemis.core.server.cluster.impl.ClusterConnectionImpl$MessageFlowRecordImpl.handleNotificationMessage(ClusterConnectionImpl.java:1029)
+
+	at org.apache.activemq.artemis.core.server.cluster.impl.ClusterConnectionImpl$MessageFlowRecordImpl.onMessage(ClusterConnectionImpl.java:1004)
+
+	at org.apache.activemq.artemis.core.client.impl.ClientConsumerImpl.callOnMessage(ClientConsumerImpl.java:1001)
+
+	at org.apache.activemq.artemis.core.client.impl.ClientConsumerImpl.access$400(ClientConsumerImpl.java:49)
+
+	at org.apache.activemq.artemis.core.client.impl.ClientConsumerImpl$Runner.run(ClientConsumerImpl.java:1124)
+
+	at org.apache.activemq.artemis.utils.OrderedExecutorFactory$OrderedExecutor$ExecutorTask.run(OrderedExecutorFactory.java:101)
+
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+
+	at java.lang.Thread.run(Thread.java:745)
+
 
 
 
