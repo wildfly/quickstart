@@ -114,6 +114,8 @@ You configure the security domain by running JBoss CLI commands. For your conven
     You should see the following result when you run the script:
 
         The batch executed successfully
+        process-state: reload-required
+
 5. Because this example quickstart demonstrates security, exceptions are thrown when secured EJB access is attempted by an invalid user. If you want to review the security exceptions in the server log, you can skip this step. If you want to suppress these exceptions in the server log, run the following command, replacing ${jboss.home.name} with the path to your server:
 
         For Linux: ${jboss.home.name}/bin/jboss-cli.sh --connect --file=configure-system-exception.cli
@@ -121,7 +123,6 @@ You configure the security domain by running JBoss CLI commands. For your conven
     You should see the following result when you run the script:
 
         The batch executed successfully
-        process-state: reload-required
 6. Stop the ${product.name} server.
 
 ## Review the Modified Server Configuration
@@ -177,9 +178,9 @@ After stopping the server, open the `${jboss.home.name}/standalone/configuration
                 </mechanism>
             </mechanism-configuration>
         </sasl-authentication-factory>
-        
+
 7. If you chose to run the script to suppress system exceptions, you should see the following configuration in the `ejb3` subsystem.
-        
+
         <log-system-exceptions value="false"/>
 
 
