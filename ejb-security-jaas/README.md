@@ -213,6 +213,7 @@ When you access the application, you are presented with a browser login challeng
         For Linux: ${jboss.home.name}/bin/jboss-cli.sh --connect --file=enable-role-mappers.cli
         For Windows: ${jboss.home.name}\bin\jboss-cli.bat --connect --file=enable-role-mappers.cli
     You should see the following result when you run the script:
+    
         {
             "outcome" => "success",
             "response-headers" => {
