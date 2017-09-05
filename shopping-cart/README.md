@@ -191,6 +191,7 @@ This quickstart consists of multiple projects, so it deploys and runs differentl
 * Be sure to configure ${product.name} to suppress system exception logging as described above under [Configure the Server](#configure-the-server). Stop the server at the end of that step.
 * To deploy the server project, right-click on the `${project.artifactId}-server` project and choose `Run As` --> `Run on Server`.
 * To run the client, right-click on the `${project.artifactId}-client` project and choose `Run As` --> `Java Application`. In the `Select Java Application` window, choose `Client - org.jboss.as.quickstarts.client` and click `OK`. The client output displays in the `Console` window.
+* To undeploy the project, right-click on the `${project.artifactId}-server` project and choose `Run As` --> `Maven build`. Enter `wildfly:undeploy` for the `Goals` and click `Run`.
 * Be sure to [Restore the Server Configuration](#restore-the-server-configuration) when you have completed testing this quickstart.
 
 ## Debug the Application
