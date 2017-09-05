@@ -9,11 +9,11 @@ Source: <${github.repo.url}>
 
 ## What is it?
 
-Mutual SSL provides the same security as SSL, with the addition of authentication and non-repudiation of the client authentication, using digital signatures. When mutual authentication is used the server would request the client to provide a certificate in addition to the server certificate issued to the client. Mutual authentication requires an extra round trip time for client certificate exchange. In addition the client must buy and maintain a digital certificate.
+Mutual SSL provides the same security as SSL, with the addition of authentication and non-repudiation of the client authentication, using digital signatures. When mutual authentication is used, the server requests the client to provide a certificate in addition to the server certificate issued to the client. Mutual authentication requires an extra round trip each time for client certificate exchange. In addition, the client must buy and maintain a digital certificate.
 
 This quickstart shows how to configure ${product.name} to enable TLS/SSL configuration for the new ${product.name} `undertow` subsystem and enable mutual (two-way) SSL authentication.
 
-Before we run this example, we must create certificates and configure the server to use two-way SSL.
+Before you run this example, you must create certificates and configure the server to use two-way SSL.
 
 ## System Requirements
 
@@ -29,7 +29,7 @@ You can also use [JBoss Developer Studio or Eclipse](#use-jboss-developer-studio
 
 In the following instructions, replace `${jboss.home.name}` with the actual path to your ${product.name} installation. The installation path is described in detail here: [Use of ${jboss.home.name} and JBOSS_HOME Variables](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_${jboss.home.name}.md#use-of-eap_home-and-jboss_home-variables).
 
-## Setup Client and Server Keystores Using Java Keytool
+## Set Up Client and Server Keystores Using Java Keytool
 
 1.  Open a command line and navigate to the ${product.name} server `configuration` directory:
 
@@ -57,7 +57,7 @@ In the following instructions, replace `${jboss.home.name}` with the actual path
 3. Create the client certificate, which is used to authenticate against the server when accessing a resource through SSL.
 
         $>keytool -genkey -keystore client.keystore -storepass secret -validity 365 -keyalg RSA -keysize 2048 -storetype pkcs12
-        
+
         What is your first and last name?
             [Unknown]:  quickstartUser
         What is the name of your organizational unit?
@@ -88,8 +88,8 @@ In the following instructions, replace `${jboss.home.name}` with the actual path
 	         SHA256: 0A:FC:93:B6:25:5A:74:42:B8:A1:C6:5F:69:88:72:7F:27:A9:81:B0:17:0C:F1:AF:3D:DE:B7:E5:F1:69:66:4B
 	         Signature algorithm name: SHA256withRSA
 	         Version: 3
-        
-        Extensions: 
+
+        Extensions:
 
         #1: ObjectId: 2.5.29.14 Criticality=false
         SubjectKeyIdentifier [
@@ -179,7 +179,7 @@ After stopping the server, open the `${jboss.home.name}/standalone/configuration
 
 ## Test the Server SSL Configuration
 
-To test the SSL configuration, access: `<https://localhost:8443>`
+To test the SSL configuration, access: <https://localhost:8443>
 
 If it is configured correctly, you should be asked to trust the server certificate.
 
@@ -225,10 +225,11 @@ _NOTE: The following build command assumes you have configured your Maven user s
 
 4. This will deploy `target/${project.artifactId}.war` to the running instance of the server.
 
-## Access the application
+## Access the Application
 
-The application will be running at the following URL: `<https://localhost:8443/${project.artifactId}/HelloWorld>`. A page
-displaying the client certificate should be visible:
+The application will be running at the following URL: <https://localhost:8443/${project.artifactId}/HelloWorld>.
+
+A page displaying the client certificate should be visible:
 
         Hello World ! Wildfly mutual SSL is configured and client certificate is verified !!
 
@@ -283,7 +284,7 @@ from the `elytron` subsystem. You should see the following result when you run t
 
         For Linux:   standalone/configuration
         For Windows: standalone\configuration
-2. Remove the `clientCert.p12`, `client.crt`, `client.keystore`, `client.truststore` and `server.keystore` files that 
+2. Remove the `clientCert.p12`, `client.crt`, `client.keystore`, `client.truststore` and `server.keystore` files that
 were generated for this quickstart.
 
 ## Remove the Client Certificate from Your Browser
@@ -312,7 +313,11 @@ After you are done with this quickstart, remember to remove the certificate that
 
 You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a ${product.name} server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](${use.eclipse.url}).
 
+* Be sure to configure the keystores and client certificates as described under [Set Up Client and Server Keystores Using Java Keytool](#set-up-client-and-server-keystores-using-java-keytool).
+* Depending on the browser you choose, be sure to either [import the certificate into Chrome](#import-the-client-certificate-into-google-chrome) or [import the certificate into Firefox](#import-the-client-certificate-into-mozilla-firefox).
 * Be sure to configure the server by running the JBoss CLI commands as described above under [Configure the ${product.name} Server](#configure-the-server). Stop the server at the end of that step.
+* In JBoss Developer Studio, choose *Window* --> *Web Browser*, then select the browser you chose to import the certificate.
+* To deploy the application, right-click on the `${project.artifactId}` project and choose `Run As` --> `Run on Server`.
 * Be sure to [Restore the Server Configuration](#restore-the-server-configuration) when you have completed testing this quickstart.
 
 ## Debug the Application
