@@ -119,11 +119,12 @@ _Note:_ You will see the following warnings in the server log. You can ignore th
 
 You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a ${product.name} server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](${use.eclipse.url}).
 
-For this quickstart, follow the special instructions to build [Quickstarts Containing an EAR](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_JBDS.md#quickstarts-containing-an-ear)
+For this quickstart, follow the special instructions to build [Quickstarts Containing an EAR](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_JBDS.md#deploy-and-undeploy-a-quickstart-ear-project)
 
 1. Right-click on the `${project.artifactId}-ear` subproject, and choose `Run As` --> `Run on Server`.
 2. Choose the server and click `Finish`.
 3. This starts the server, deploys the application, and opens a browser window that accesses the running application at <http://localhost:8080/kitchensink-ear-web>.
+4. To undeploy the project, right-click on the `${project.artifactId}-ear` project and choose `Run As` --> `Maven build`. Enter `wildfly:undeploy` for the `Goals` and click `Run`.
 
 
 ## Debug the Application

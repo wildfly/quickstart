@@ -89,6 +89,8 @@ This quickstart consists of multiple projects containing interdependencies on ea
     * `Batch` mode: In the `Servers` tab, right-click on the server and choose `Add and Remove`. If the `${project.artifactId}-app-shared`, `${project.artifactId}-app-appA`, and `${project.artifactId}-app-appB` projects are the only projects in the list, click `Add All`. Otherwise, use multi-select to select them and click `Add`. Then click `Finish`.
 3. Right-click on the `${project.artifactId}-app-appA` project and choose `Run As` --> `Run on Server`. A browser window appears that accesses the running `appA` application.
 4. Right-click on the `${project.artifactId}-app-appB` project and choose `Run As` --> `Run on Server`. A browser window appears that accesses the running `appB` application.
+5. To undeploy the `${project.artifactId}-app-appB`project, right-click on it and choose `Run As` --> `Maven build`. Enter `wildfly:undeploy` for the `Goals` and click `Run`.
+6. To undeploy the `${project.artifactId}-app-appA`project, right-click on it and choose `Run As` --> `Maven build`. Enter `wildfly:undeploy` for the `Goals` and click `Run`.
 
 
 ## Debug the Application
