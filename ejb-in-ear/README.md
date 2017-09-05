@@ -83,9 +83,10 @@ You can also start the server and deploy the quickstarts or run the Arquillian t
 
 For this quickstart, follow the special instructions to build [Quickstarts Containing an EAR](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_JBDS.md#quickstarts-containing-an-ear).
 
-1. Right-click on the `${project.artifactId}` subproject, and choose `Run As` --> `Run on Server`.
+1. Right-click on the `${project.artifactId}-ear` subproject, and choose `Run As` --> `Run on Server`.
 2. Choose the server and click `Finish`.
 3. This starts the server, deploys the application, and opens a browser window that accesses the running application at <http://localhost:8080/ejb-in-ear>.
+4. 3. To undeploy the project, right-click on the `${project.artifactId}-ear` project and choose `Run As` --> `Maven build`. Enter `wildfly:undeploy` for the `Goals` and click `Run`.
 
 
 ## Debug the Application

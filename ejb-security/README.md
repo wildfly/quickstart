@@ -18,7 +18,7 @@ This quickstart takes the following steps to implement EJB security:
 3. Add the `@RolesAllowed({ "guest" })` annotation to the EJB declaration to authorize access only to users with `guest` role access rights.
 4. Add the `@RolesAllowed({ "admin" })` annotation to the administrative method in the `SecuredEJB` to authorize access only
 to users with `admin` role access rights.
-5. Add an application user with `guest` role access rights to the EJB. This quickstart defines a user `quickstartUser` with 
+5. Add an application user with `guest` role access rights to the EJB. This quickstart defines a user `quickstartUser` with
 password `quickstartPwd1!` in the `guest` role. The `guest` role matches the allowed user role defined in the `@RolesAllowed`
 annotation in the EJB but it should not be granted access to the administrative method annotated with `RolesAllowed({"admin"})`.
 
@@ -83,7 +83,7 @@ You configure the security domain by running JBoss CLI commands. For your conven
     You should see the following result when you run the script:
 
         The batch executed successfully
-        process-state: reload-required 
+        process-state: reload-required
 
 5. Stop the ${product.name} server.
 
@@ -101,11 +101,11 @@ After stopping the server, open the `${jboss.home.name}/standalone/configuration
     domain that was set in the EJBs via annotation to the Elytron `ApplicationDomain` that will be responsible for authenticating
     and authorizing access to the EJBs.
 2. The `http-remoting-connector` in the `remoting` subsystem was updated to use the `application-sasl-authentication` factory:
-    
+
             <http-connector name="http-remoting-connector" connector-ref="default" security-realm="ApplicationRealm" sasl-authentication-factory="application-sasl-authentication"/>
 
     This config allows for the identity that was established at the connection level to be propagated to the components.
-    
+
 ## Start the Server
 
 1. Open a command prompt and navigate to the root of the ${product.name} directory.
@@ -138,13 +138,13 @@ Type this command to execute the client:
 When you run the `mvn exec:exec` command, you see the following output. Note there may be other log messages interspersed between these.
 
         * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-        
-        
+
+
         Successfully called secured bean, caller principal quickstartUser
-        
+
         Principal has admin permission: false
-        
-        
+
+
         * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 The username and credentials used to establish the connection to the application server are configured in the `wildfly-config.xml`
@@ -161,13 +161,13 @@ section but this time include the `admin` role as follows to grant `quickstartUs
 Running the client again should immediately reflect the new permission level of the user:
 
         * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-        
-        
+
+
         Successfully called secured bean, caller principal quickstartUser
-        
+
         Principal has admin permission: true
-        
-        
+
+
         * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 
@@ -212,6 +212,7 @@ You can also start the server and deploy the quickstarts or run the Arquillian t
 * To deploy the server project, right-click on the `${project.artifactId}` project and choose `Run As` --> `Run on Server`.
 * You are presented with a browser login challenge. Enter the credentials as described above to access and test the running application.
 * Be sure to [Restore the Server Configuration](#restore-the-server-configuration) when you have completed testing this quickstart.
+* To undeploy the project, right-click on the `${project.artifactId}` project and choose `Run As` --> `Maven build`. Enter `wildfly:undeploy` for the `Goals` and click `Run`.
 
 ## Debug the Application
 

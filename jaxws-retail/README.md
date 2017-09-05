@@ -124,6 +124,7 @@ This quickstart requires that you first deploy the service, and then run the cli
     * Review the output in the console window. You should see the following message:
 
         `Jay Boss's discount is 10.00`
+3. To undeploy the project, right-click on the `${project.artifactId}-service` project and choose `Run As` --> `Maven build`. Enter `wildfly:undeploy` for the `Goals` and click `Run`.
 
 ## Debug the Application
 

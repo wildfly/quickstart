@@ -213,7 +213,7 @@ When you access the application, you are presented with a browser login challeng
         For Linux: ${jboss.home.name}/bin/jboss-cli.sh --connect --file=enable-role-mappers.cli
         For Windows: ${jboss.home.name}\bin\jboss-cli.bat --connect --file=enable-role-mappers.cli
     You should see the following result when you run the script:
-    
+
         {
             "outcome" => "success",
             "response-headers" => {
@@ -292,6 +292,7 @@ You can also start the server and deploy the quickstarts or run the Arquillian t
 * You are presented with a browser login challenge. Enter the credentials as described above under [Access the Application](#access-the-application) to see the running application. Note that `Has admin permission` is `false`.
 * Leave the application running in JBoss Developer Studio. To configure the server to use the legacy role mappers, open a terminal, and run the `enable-role-mappers.cli` script as described above under [Access the Application](#access-the-application).
 * Go back to JBoss Developer Studio and click `Refresh the current page`. Note that `Has admin permission` is now `true`.
+* To undeploy the project, right-click on the `${project.artifactId}` project and choose `Run As` --> `Maven build`. Enter `wildfly:undeploy` for the `Goals` and click `Run`.
 * Be sure to [Restore the Server Configuration](#restore-the-server-configuration) when you have completed testing this quickstart.
 
 ## Debug the Application

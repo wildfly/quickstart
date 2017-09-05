@@ -337,11 +337,12 @@ This quickstart requires additional configuration and deploys and runs different
 
 1. Be sure to [Add the Application Users](#add-the-application-users) as described above.
 2. Follow the steps above to [Configure the Server](#configure-the-server). Stop the server at the end of that step.
-3. To deploy the application to the ${product.name} server, right-click on the `ejb-security-context-propagation` project and choose `Run As` --> `Run on Server`.
-4. To access the application, right-click on the `ejb-security-context-propagation` project and choose `Run As` --> `Java Application`.
+3. To deploy the application to the ${product.name} server, right-click on the `${project.artifactId}` project and choose `Run As` --> `Run on Server`.
+4. To access the application, right-click on the `${project.artifactId}` project and choose `Run As` --> `Java Application`.
 5. Choose `RemoteClient - org.jboss.as.quickstarts.ejb_security_context_propagation` and click `OK`.
 6. Review the output in the console window.
-7. Be sure to [Restore the Server Configuration](#restore-the-server-configuration) when you have completed testing this quickstart.
+7. To undeploy the project, right-click on the `${project.artifactId}` project and choose `Run As` --> `Maven build`. Enter `wildfly:undeploy` for the `Goals` and click `Run`.
+8. Be sure to [Restore the Server Configuration](#restore-the-server-configuration) when you have completed testing this quickstart.
 
 ## Debug the Application
 
