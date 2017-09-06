@@ -99,9 +99,10 @@ This quickstart is dependent on a WSDL file that is included in the `${project.a
 
 When you import this project into JBoss Developer Studio, you see 17 errors. These `Java Problems` are because these classes are not included in this project. Instead, they are defined in and generated from the `${project.artifactId}-service/src/main/webapp/WEB-INF/wsdl/ProfileMgmtService.wsdl` WSDL file. You can ignore these errors.
 
-This quickstart requires that you first deploy the service, and then run the client.
+This quickstart requires that you build the parent project, deploy the service, and then run the client.
 
-1. To deploy the service:
+1. To build the parent project, right-click on the `${project.artifactId}` project and choose `Run As` --> `Maven install`.
+2. To deploy the service:
 
     * Right-click on the `${project.artifactId}-service` project and choose `Run As` --> `Maven build...`.
     * Enter `install` in the `Goals` field.
@@ -117,7 +118,7 @@ This quickstart requires that you first deploy the service, and then run the cli
 
     * You also see the "404 - Not Found" error in the application window. This is because there is no user interface for this quickstart. You can ignore this error.
 
-2. To run the application:
+3. To run the application:
 
     * Right-click on the `${project.artifactId}-client` project and choose `Run As` --> `Maven Build`.
     * Enter `exec:java` for the `Goals` and click `Run`.
