@@ -28,7 +28,7 @@ All you need to build this project is ${build.requirements}. See [Configure Mave
 
 This quickstart depends on the deployment of the `greeter` quickstart. Before running this quickstart, see the [greeter README](../greeter/README.md) file for details on how to deploy it.
 
-You can verify the deployment of the `greeter` quickstart by accessing the following URL: <http://localhost:8080/${project.artifactId}/>
+You can verify the deployment of the `greeter` quickstart by accessing the following URL: <http://localhost:8080/greeter/>
 
 When you have completed testing this quickstart, see the [greeter README](../greeter/README.md) file for instructions to undeploy the archive.
 
