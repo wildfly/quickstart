@@ -201,7 +201,7 @@ Enter `clean package wildfly:deploy` for the `Goals:` and click `Run`. This depl
             * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 * Enter `exec:exec` for the `Goals` and click `Run`.
-
+* To undeploy the project, right-click on the `${project.artifactId}` project and choose `Run As` --> `Maven build`. Enter `wildfly:undeploy` for the `Goals` and click `Run`.
 * Be sure to [Restore the Server Configuration](#restore-the-server-configuration) when you have completed testing this quickstart.
 
 ## Debug the Application

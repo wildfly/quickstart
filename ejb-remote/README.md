@@ -164,6 +164,7 @@ This quickstart consists of multiple projects, so it deploys and runs differentl
     * In the `Select Java Application` window, choose `RemoteEJBClient - org.jboss.as.quickstarts.ejb.remote.client` and click `OK`.
     * The client output displays in the `Console` window.
 
+3. To undeploy the project, right-click on the `${project.artifactId}-server-side` project and choose `Run As` --> `Maven build`. Enter `wildfly:undeploy` for the `Goals` and click `Run`.
 
 ## Debug the Application
 

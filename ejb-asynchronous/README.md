@@ -106,6 +106,7 @@ This quickstart consists of multiple projects, so it deploys and runs differentl
     * Right-click on the `${project.artifactId}-client` project and choose `Run As` --> `Java Application`.
     * In the `Select Java Application` window, choose `AsynchronousClient - org.jboss.as.quickstarts.ejb.asynchronous.client` and click `OK`.
     * The client output displays in the `Console` window.
+3. To undeploy the project, right-click on the `${project.artifactId}-ejb` project and choose `Run As` --> `Maven build`. Enter `wildfly:undeploy` for the `Goals` and click `Run`.
 
 
 ## Debug the Application

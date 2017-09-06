@@ -123,6 +123,8 @@ This quickstart consists of multiple projects and requires installation of the `
 3. Right-click on the `${project.artifactId}-service` project and choose `Run As` --> `Run on Server`.
 4. Right-click on the `${project.artifactId}-webapp` project and choose `Run As` --> `Run on Server`.
 5. [Start JConsole](#start-jconsole) and [Test the MBeans in JConsole](#test-the-mbeans-in-jconsole) as described above.
+6. To undeploy the web application, right-click on the `${project.artifactId}-wepapp` project and choose `Run As` --> `Maven build`. Enter `wildfly:undeploy` for the `Goals` and click `Run`.
+7. To undeploy the web service, right-click on the `${project.artifactId}-service` project and choose `Run As` --> `Maven build`. Enter `wildfly:undeploy` for the `Goals` and click `Run`.
 
 ## Debug the Application
 
