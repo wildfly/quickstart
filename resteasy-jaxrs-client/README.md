@@ -29,8 +29,8 @@ IMPORTANT: This quickstart depends on the deployment of the `helloworld-rs` quic
 
 You can verify the deployment of the [helloworld-rs](../helloworld-rs/README.md) quickstart by accessing the following content:
 
-* The *XML* content can be viewed by accessing the following URL: <http://localhost:8080/${project.artifactId}/rest/xml>
-* The *JSON* content can be viewed by accessing this URL: <http://localhost:8080/${project.artifactId}/rest/json>
+* The *XML* content can be viewed by accessing the following URL: <http://localhost:8080/helloworld-rs/rest/xml>
+* The *JSON* content can be viewed by accessing this URL: <http://localhost:8080/helloworld-rs/rest/json>
 
 
 
@@ -49,7 +49,7 @@ This command will compile the example and execute a test to make two separate re
 should see the following if the execution is successful:
 
         ===============================================
-        URL: http://localhost:8080/${project.artifactId}/rest/xml
+        URL: http://localhost:8080/helloworld-rs/rest/xml
         MediaType: application/xml
 
         *** Response from Server ***
@@ -58,7 +58,7 @@ should see the following if the execution is successful:
 
         ===============================================
         ===============================================
-        URL: http://localhost:8080/${project.artifactId}/rest/json
+        URL: http://localhost:8080/helloworld-rs/rest/json
         MediaType: application/json
 
         *** Response from Server ***
@@ -78,4 +78,4 @@ You can also start the server and deploy the quickstarts or run the Arquillian t
     * Right-click on the `${project.artifactId}` project and choose `Run As` --> `Maven build`.
     * Enter `clean package exec:java` for the `Goals:` and click `Run`.
     * The client output displays in the `Console` window.
-4. To undeploy the project, right-click on the `${project.artifactId}` project and choose `Run As` --> `Maven build`. Enter `wildfly:undeploy` for the `Goals` and click `Run`.
+4. To undeploy the `helloworld-rs` quickstart, right-click on the `helloworld-rs` project and choose `Run As` --> `Maven build`. Enter `wildfly:undeploy` for the `Goals` and click `Run`.
