@@ -209,7 +209,7 @@ You can also start the server and deploy the quickstarts or run the Arquillian t
 
 * Be sure to [Add the Application Users](#add-the-application-users) as described above.
 * Be sure to configure the server by running the JBoss CLI script as described above under [Configure the Server](#configure-the-server).
-* To deploy the server project, right-click on the `${project.artifactId}` project and choose `Run As` --> `Run on Server`.
+* To deploy the server project, right-click on the `${project.artifactId}` project and choose `Run As` --> `Maven build`. Enter `clean package wildfly:deploy` for the `Goals:` and click `Run`. This deploys the `${project.artifactId}` JAR to the ${product.name} server.
 * You are presented with a browser login challenge. Enter the credentials as described above to access and test the running application.
 * Be sure to [Restore the Server Configuration](#restore-the-server-configuration) when you have completed testing this quickstart.
 * To undeploy the project, right-click on the `${project.artifactId}` project and choose `Run As` --> `Maven build`. Enter `wildfly:undeploy` for the `Goals` and click `Run`.
