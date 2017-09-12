@@ -217,7 +217,6 @@ _NOTE:_ If ERRORs appear in the `server.log` when installing or deploying the qu
 ## Access the Remote Client Application
 
 This example shows how to invoke an EJB from a remote standalone application.
-It also demonstrates how to invoke an EJB from a client using a scoped-context rather than a properties file containing the parameters required by the InitialContext.
 
 1. Make sure that the deployments are successful as described above.
 2. Navigate to the quickstart `client/` subdirectory.
