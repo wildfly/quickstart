@@ -86,8 +86,8 @@ After stopping the server, open the `${jboss.home.name}/standalone/configuration
                     <module-option name="password-stacking" value="useFirstPass"/>
                 </login-module>
                 <login-module code="UsersRoles" flag="required">
-                    <module-option name="usersProperties" value="../standalone/configuration/users.properties"/>
-                    <module-option name="rolesProperties" value="../standalone/configuration/roles.properties"/>
+                    <module-option name="usersProperties" value="${jboss.server.config.dir}/users.properties"/>
+                    <module-option name="rolesProperties" value="${jboss.server.config.dir}/roles.properties"/>
                     <module-option name="password-stacking" value="useFirstPass"/>
                 </login-module>
             </authentication>
