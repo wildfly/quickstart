@@ -182,6 +182,7 @@ You can also start the server and deploy the quickstarts or run the Arquillian t
 * Right-click on the `${project.artifactId}` project and choose `Run As` --> `Maven build`.
 Enter `clean package wildfly:deploy` for the `Goals:` and click `Run`. This deploys the `${project.artifactId}` JAR to the ${product.name} server.
 * Right-click on the `${project.artifactId}` project and choose `Run As` --> `Run Configurations...`.
+* Enter `exec:exec` for the `Goals` and click `Run`.
 * Review the output in the console window. You should see the following output.
 
             * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -200,7 +201,6 @@ Enter `clean package wildfly:deploy` for the `Goals:` and click `Run`. This depl
 
             * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-* Enter `exec:exec` for the `Goals` and click `Run`.
 * To undeploy the project, right-click on the `${project.artifactId}` project and choose `Run As` --> `Maven build`. Enter `wildfly:undeploy` for the `Goals` and click `Run`.
 * Be sure to [Restore the Server Configuration](#restore-the-server-configuration) when you have completed testing this quickstart.
 
