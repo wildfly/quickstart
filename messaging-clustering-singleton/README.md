@@ -3,13 +3,13 @@
 Author: Flavia Rainone, Jess Sightler  
 Level: Advanced  
 Technologies: JMS, MDB, Clustering  
-Summary: The `messaging-clustering-singleton` quickstart uses a JMS topic and a queue to demonstrate clustering using ActiveMQMessaging with MDB singleton configuration (only one node in the cluster will be active)
+Summary: The `messaging-clustering-singleton` quickstart uses a JMS topic and a queue to demonstrate clustering using ${product.name} messaging with MDB singleton configuration where only one node in the cluster will be active.  
 Target Product: ${product.name}  
 Source: <${github.repo.url}>  
 
 ## What is it?
 
-The `messaging-clustering-singleton` quickstart demonstrates the use of clustering with Apache ActiveMQ and ${product.name.full}. It uses the same code as in [helloworld-mdb](../helloworld-mdb/README.md) quickstart, with only a difference in the configuration to run it as a clustered singleton. Instructions are provided to run the quickstart on either a standalone server or in a managed domain.
+The `messaging-clustering-singleton` quickstart demonstrates the use of clustering with integrated Apache ActiveMQ Artemis. It uses the same code as in [helloworld-mdb](../helloworld-mdb/README.md) quickstart, with only a difference in the configuration to run it as a clustered singleton. Instructions are provided to run the quickstart on either a standalone server or in a managed domain.
 
 These are the two JMS resources contained in this quickstart:
 
