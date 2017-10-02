@@ -11,7 +11,7 @@ Source: <${github.repo.url}>
 
 This example demonstrates the configuration of *mutual SSL authentication* in ${product.name.full} ${product.version} to secure a war application.
 
-Mutual SSL provides the same security as SSL, with the addition of authentication and non-repudiation of the client authentication, using digital signatures. When mutual authentication is used the server would request the client to provide a certificate in addition to the server certificate issued to the client. Mutual authentication requires an extra round trip time for client certificate exchange. In addition the client must buy and maintain a digital certificate. We can secure our war application deployed over ${product.name} with mutual(two-way) client certificate authentication and provide access permissions or privileges to legitimate users.
+Mutual SSL provides the same security as SSL, with the addition of authentication and non-repudiation of the client authentication, using digital signatures. When mutual authentication is used, the server would request the client to provide a certificate in addition to the server certificate issued to the client. Mutual authentication requires an extra round trip time for client certificate exchange. In addition, the client must buy and maintain a digital certificate. We can secure our war application deployed over ${product.name} with mutual(two-way) client certificate authentication and provide access permissions or privileges to legitimate users.
 
 This quickstart shows how to configure ${product.name} to enable TLS/SSL configuration for the new ${product.name} `undertow` subsystem and enable mutual (two-way) SSL authentication for clients in order to secure a WAR application with restricted access.
 
@@ -21,7 +21,7 @@ The applications these projects produce are designed to be run on ${product.name
 
 All you need to build these projects is ${build.requirements}. See [Configure Maven for ${product.name} ${product.version}](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
 
-To run these quickstarts with the provided build scripts, you need the ${product.name} distribution ZIP. For information on how to install and run JBoss, see the [${product.name.full} Documentation](https://access.redhat.com/documentation/en/red-hat-jboss-enterprise-application-platform/) _Getting Started Guide_ located on the Customer Portal.
+To run these quickstarts with the provided build scripts, you need the ${product.name} distribution ZIP. For information on how to install and run ${product.name}, see the [${product.name.full} Documentation](https://access.redhat.com/documentation/en/red-hat-jboss-enterprise-application-platform/) _Getting Started Guide_ located on the Customer Portal.
 
 You can also use [JBoss Developer Studio or Eclipse](#use-jboss-developer-studio-or-eclipse-to-run-the-quickstarts) to run the quickstarts.
 
@@ -37,12 +37,11 @@ Using the add-user utility script, you must add the following user to the `Appli
 |:-----------|:-----------|:-----------|:-----------|
 | quickstartUser| ApplicationRealm | quickstartPwd1!| JBossAdmin |
 
-For the purpose of this quickstart the password can contain any valid value because the `ApplicationRealm` will be used for authorization only 
-(i.e. to obtain the securiy roles)
+For the purpose of this quickstart the password can contain any valid value because the `ApplicationRealm` will be used for authorization only, for example, to obtain the security roles.
 
 To add the application user, open a command prompt and type the following commands:
 
-        For Linux:        
+        For Linux:
           ${jboss.home.name}/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'JBossAdmin'
 
         For Windows:
@@ -79,7 +78,7 @@ For an example of how to use the add-user utility, see the instructions located 
 3. Create the client certificate, which is used to authenticate against the server when accessing a resource through SSL.
 
         $>keytool -genkey -keystore client.keystore -storepass secret -validity 365 -keyalg RSA -keysize 2048 -storetype pkcs12
-        
+
         What is your first and last name?
             [Unknown]:  quickstartUser
         What is the name of your organizational unit?
@@ -98,7 +97,7 @@ For an example of how to use the add-user utility, see the instructions located 
     Notice that we set the `fisrt and last name` to `quickstartUser` and that this matches the user we've added to the
     `ApplicationRealm`. When authorizing access to a resource, the CN (common name) of the client's certificate is
     extracted by a principal decoder and this name is then used by the `ApplicationRealm` to obtain the client's roles.
-    
+
 4. Export the client certificate and create a truststore by importing this certificate:
 
         $>keytool -exportcert -keystore client.keystore  -storetype pkcs12 -storepass secret -keypass secret -file client.crt
@@ -114,8 +113,8 @@ For an example of how to use the add-user utility, see the instructions located 
 	         SHA256: 0A:FC:93:B6:25:5A:74:42:B8:A1:C6:5F:69:88:72:7F:27:A9:81:B0:17:0C:F1:AF:3D:DE:B7:E5:F1:69:66:4B
 	         Signature algorithm name: SHA256withRSA
 	         Version: 3
-        
-        Extensions: 
+
+        Extensions:
 
         #1: ObjectId: 2.5.29.14 Criticality=false
         SubjectKeyIdentifier [
@@ -132,7 +131,7 @@ For an example of how to use the add-user utility, see the instructions located 
     client in a `CLIENT_CERT` configuration, the CN (common name) of the client's certificate is extracted by a principal
     decoder and this name is then used by the `KeyStoreRealm` to match an alias in the trust store. If a trusted certificate
     is found under this alas, the client is considered authenticated.
-    
+
 5. Export client certificate to pkcs12 format
 
         $>keytool -importkeystore -srckeystore client.keystore -srcstorepass secret -destkeystore clientCert.p12 -srcstoretype PKCS12 -deststoretype PKCS12 -deststorepass secret
@@ -163,8 +162,8 @@ You configure the SSL context and required security domain by running JBoss CLI 
     You should see the following result when you run the script:
 
         The batch executed successfully
-        process-state: reload-required 
-        
+        process-state: reload-required
+
 5. Stop the ${product.name} server.
 
 ## Review the Modified Server Configuration
@@ -211,8 +210,7 @@ After stopping the server, open the `${jboss.home.name}/standalone/configuration
         <aggregate-realm name="QuickstartRealm" authentication-realm="KeyStoreRealm" authorization-realm="ApplicationRealm"/>
 
     The `aggregate-realm` defines different security realms for authentication and authorization. In this case, the
-    `KeyStoreRealm` is responsible for authenticating the principal extracted from the client's certificate and the 
-    `ApplicationRealm` is responsible for obtaining the roles required to access the application.
+    `KeyStoreRealm` is responsible for authenticating the principal extracted from the client's certificate and the `ApplicationRealm` is responsible for obtaining the roles required to access the application.
 
 6. The following `principal-decoder` and `security-domain` were added to the `elytron` subsystem:
 
@@ -225,7 +223,7 @@ After stopping the server, open the `${jboss.home.name}/standalone/configuration
     The `x500-attribute-principal-decoder` creates a new `Principal` from the CN attribute of the `X500Principal` obtained
     from the client's certificate. This new principal is supplied to the security realms and is also the principal returned
     in methods like `getUserPrincipal` and `getCallerPrincipal`.
-    
+
 7. The following `http-authentication-factory` was added to the `elytron` subsystem:
 
         <http-authentication-factory name="quickstart-http-authentication" http-server-mechanism-factory="global" security-domain="QuickstartDomain">
@@ -235,23 +233,22 @@ After stopping the server, open the `${jboss.home.name}/standalone/configuration
         </http-authentication-factory>
 
     It defines the security domain that will handle requests using the `CLIENT_CERT` HTTP mechanism.
-    
+
 8. The `https-listener` in the `undertow` subsystem was changed to reference the `qsSSLContext` `ssl-context`:
 
         <https-listener name="https" socket-binding="https" ssl-context="qsSSLContext" enable-http2="true"/>
- 
+
 9. The following `application-security-domain` was added to the `undertow` subsystem:
 
         <application-security-domains>
             <application-security-domain name="client_cert_domain" http-authentication-factory="quickstart-http-authentication"/>
         </application-security-domains>
 
-    It maps the `client_cert_domain` from the quickstart application to the `http-authentication-factory` shown above, so 
-    requests made to the application go through the configured HTTP authentication factory.
+    It maps the `client_cert_domain` from the quickstart application to the `http-authentication-factory` shown above, so requests made to the application go through the configured HTTP authentication factory.
 
 ## Test the Server SSL Configuration
 
-To test the SSL configuration, access: `<https://localhost:8443>`
+To test the SSL configuration, access: <https://localhost:8443>
 
 If it is configured correctly, you should be asked to trust the server certificate.
 
@@ -306,7 +303,7 @@ principal and the client certificate used for mutual SSL should be visible:
         Hello World ! Mutual SSL client authentication is successful and your war app is secured.!!
 
         Caller Principal: quickstartUser
-        
+
         Client Certificate Pem: MIIDhTCCAm2gAwIBAgIEf9lc5DANBgkqhkiG9w0BAQsFADBzMQswCQYDVQQGEwJCUjESMBAGA1UECBMJU2FvIFBhdW
         xvMRIwEAYDVQQHEwlTYW8gUGF1bG8xEzARBgNVBAoTCk15IENvbXBhbnkxDjAMBgNVBAsTBVNhbGVzMRcwFQYDVQQDEw5xdWlja3N0YXJ0VXNlcjAe
         Fw0xNzA3MjQxOTE0MDNaFw0xODA3MjQxOTE0MDNaMHMxCzAJBgNVBAYTAkJSMRIwEAYDVQQIEwlTYW8gUGF1bG8xEjAQBgNVBAcTCVNhbyBQYXVsbz
@@ -321,7 +318,7 @@ principal and the client certificate used for mutual SSL should be visible:
 
 ## Undeploy the Archive
 
-1. Make sure you have started the JBoss Server as described above.
+1. Make sure you have started the ${product.name} server as described above.
 2. Open a command line and navigate to the root directory of this quickstart.
 3. When you are finished testing, type this command to undeploy the archive:
 
@@ -329,7 +326,7 @@ principal and the client certificate used for mutual SSL should be visible:
 
 ## Restore the Server Configuration
 
-You can restore the original server configuration by running the  `restore-configuration.cli` script provided in the root directory of this quickstart or by manually restoring the back-up copy the configuration file.
+You can restore the original server configuration by running the `restore-configuration.cli` script provided in the root directory of this quickstart or by manually restoring the back-up copy the configuration file.
 
 ### Restore the Server Configuration by Running the JBoss CLI Script
 
@@ -357,8 +354,7 @@ You can restore the original server configuration by running the  `restore-confi
 
         For Linux:   standalone/configuration
         For Windows: standalone\configuration
-2. Remove the `clientCert.p12`, `client.crt`, `client.keystore`, `client.truststore` and `server.keystore` files that 
-were generated for this quickstart.
+2. Remove the `clientCert.p12`, `client.crt`, `client.keystore`, `client.truststore` and `server.keystore` files that were generated for this quickstart.
 
 ## Remove the Client Certificate from Your Browser
 
