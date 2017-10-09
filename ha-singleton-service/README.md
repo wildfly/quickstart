@@ -126,6 +126,12 @@ _NOTE:_ You might see the following warnings in the server log after the applica
         ...
         INFO  [org.jboss.as] (MSC service thread 1-6) WFLYSRV0050: JBoss EAP 7.1.0.Beta1 (WildFly Core 3.0.0.Beta26-redhat-1) stopped in 66ms
 
+   Note that during shutdown of the server an exception relating to clean shutdown of the Infinispan component might appear in the log, for instance:
+
+        ERROR [org.infinispan.remoting.transport.jgroups.CommandAwareRpcDispatcher] (thread-19) ISPN000065: Exception while marshalling object: CacheNotFoundResponse: org.infinispan.IllegalLifecycleStateException: Cache marshaller has been stopped
+
+   The issue can be safely ignored for now and will be fixed in future versions of the application server.
+
 2. Now observe the log messages on the second server. The second node is now elected as the singleton master.
 
         INFO  [org.wildfly.clustering.server] (DistributedSingletonService - 1) WFLYCLSV0003: node2 elected as the singleton provider of the org.jboss.as.quickstarts.ha.singleton.service.primary-only service
