@@ -4,12 +4,12 @@ Author: Marius Bogoevici, Tejas Mehta, Joshua Wilson
 Level: Intermediate  
 Technologies: JSP, JPA, JSON, Spring, JUnit  
 Summary: The `spring-kitchensink-asyncrequestmapping` quickstart showcases the use of asynchronous requests is an example using JSP, JPA and Spring 4.x.  
-Target Product: ${product.name}  
-Source: <${github.repo.url}>  
+Target Product: WildFly  
+Source: <https://github.com/wildfly/quickstart/>  
 
 ## What is it?
 
-The `spring-kitchensink-asyncrequestmapping` quickstart is an example of a Java EE 7 application using JSP, JPA and Spring 4.x in ${product.name.full}. It includes a persistence unit and some sample persistence and transaction code to introduce you to database access in enterprise Java:
+The `spring-kitchensink-asyncrequestmapping` quickstart is an example of a Java EE 7 application using JSP, JPA and Spring 4.x in WildFly Application Server. It includes a persistence unit and some sample persistence and transaction code to introduce you to database access in enterprise Java:
 
 * This module showcases the use of asynchronous requests in `MemberRestController.java`, introduced in the Spring 3.2.
 [More on Spring's Asynchronous Request Processing](http://docs.spring.io/spring/docs/3.2.x/spring-framework-reference/html/mvc.html#mvc-ann-async)
@@ -26,39 +26,39 @@ and `<mvc:annotation-driven/>` are used to register both the non-rest and rest c
 
 ## System Requirements
 
-The application this project produces is designed to be run on ${product.name.full} ${product.version} or later.
+The application this project produces is designed to be run on WildFly Application Server 11 or later.
 
-All you need to build this project is ${build.requirements}. See [Configure Maven for ${product.name} ${product.version}](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
+All you need to build this project is Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later. See [Configure Maven for WildFly 11](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
 
 
 ## Start the Server
 
-1. Open a command line and navigate to the root of the ${product.name} directory.
+1. Open a command line and navigate to the root of the WildFly directory.
 2. The following shows the command line to start the server with the default profile:
 
-        For Linux:   ${jboss.home.name}/bin/standalone.sh
-        For Windows: ${jboss.home.name}\bin\standalone.bat
+        For Linux:   WILDFLY_HOME/bin/standalone.sh
+        For Windows: WILDFLY_HOME\bin\standalone.bat
 
 
 ## Build and Deploy the Quickstart
 
-1. Make sure you have started the ${product.name} server as described above.
+1. Make sure you have started the WildFly server as described above.
 2. Open a command line and navigate to the root directory of this quickstart.
 3. Type this command to build and deploy the archive:
 
         mvn clean install wildfly:deploy
 
-4. This will deploy `target/${project.artifactId}.war` to the running instance of the server.
+4. This will deploy `target/spring-kitchensink-asyncrequestmapping.war` to the running instance of the server.
 
 
 ## Access the Application
 
-The application will be running at the following URL: <http://localhost:8080/${project.artifactId}/>.
+The application will be running at the following URL: <http://localhost:8080/spring-kitchensink-asyncrequestmapping/>.
 
 
 ## Undeploy the Archive
 
-1. Make sure you have started the ${product.name} server as described above.
+1. Make sure you have started the WildFly server as described above.
 2. Open a command line and navigate to the root directory of this quickstart.
 3. When you are finished testing, type this command to undeploy the archive:
 
@@ -79,11 +79,11 @@ To run these tests, you must build the main project as described above.
         mvn clean package
 
 3. Navigate to the functional-tests/ directory in this quickstart.
-4. If you have a running instance of the ${product.name} server, as described above, run the remote tests by typing the following command:
+4. If you have a running instance of the WildFly server, as described above, run the remote tests by typing the following command:
 
         mvn clean verify -Parq-remote
 
-5. If you prefer to run the functional tests using managed instance of the ${product.name} server, meaning the tests will start the
+5. If you prefer to run the functional tests using managed instance of the WildFly server, meaning the tests will start the
 server for you, type the following command:
 
         mvn clean verify -Parq-managed
@@ -91,7 +91,7 @@ server for you, type the following command:
 
 ## Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 
-You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a ${product.name} server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](${use.eclipse.url}).
+You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a WildFly server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_JBDS.md#use-jboss-developer-studio-or-eclipse-to-run-the-quickstarts).
 
 
 ## Debug the Application

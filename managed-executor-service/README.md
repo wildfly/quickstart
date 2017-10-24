@@ -4,8 +4,8 @@ Author: Rafael Benevides
 Level: Beginner  
 Technologies: EE Concurrency Utilities, JAX-RS, JAX-RS Client API  
 Summary: The `managed-executor-service` quickstart demonstrates how Java EE applications can submit tasks for asynchronous execution.  
-Target Product: ${product.name}  
-Source: <${github.repo.url}>  
+Target Product: WildFly  
+Source: <https://github.com/wildfly/quickstart/>  
 
 
 ## What is it?
@@ -18,37 +18,37 @@ A JAX-RS resource provides access to some operations that are executed asynchron
 
 This quickstart does not contain any user interface. The tests must be run to verify everything is working correctly.
 
-_Note: This quickstart uses the H2 database included with ${product.name.full} ${product.version}. It is a lightweight, relational example datasource that is used for examples only. It is not robust or scalable, is not supported, and should NOT be used in a production environment!_
+_Note: This quickstart uses the H2 database included with WildFly Application Server 11. It is a lightweight, relational example datasource that is used for examples only. It is not robust or scalable, is not supported, and should NOT be used in a production environment!_
 
-_Note: This quickstart uses a `*-ds.xml` datasource configuration file for convenience and ease of database configuration. These files are deprecated in ${product.name} and should not be used in a production environment. Instead, you should configure the datasource using the Management CLI or Management Console. Datasource configuration is documented in the [Configuration Guide](https://access.redhat.com/documentation/en/red-hat-jboss-enterprise-application-platform/) for ${product.name.full}._
+_Note: This quickstart uses a `*-ds.xml` datasource configuration file for convenience and ease of database configuration. These files are deprecated in WildFly and should not be used in a production environment. Instead, you should configure the datasource using the Management CLI or Management Console. Datasource configuration is documented in the [Configuration Guide](https://access.redhat.com/documentation/en/red-hat-jboss-enterprise-application-platform/) for WildFly Application Server._
 
 ## System Requirements
 
-The application this project produces is designed to be run on ${product.name.full} ${product.version} or later.
+The application this project produces is designed to be run on WildFly Application Server 11 or later.
 
-All you need to build this project is ${build.requirements}. See [Configure Maven for ${product.name} ${product.version}](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
+All you need to build this project is Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later. See [Configure Maven for WildFly 11](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
 
 
 ## Start the Server
 
-1. Open a command line and navigate to the root of the  ${product.name} directory.
+1. Open a command line and navigate to the root of the  WildFly directory.
 2. The following shows the command line to start the server with the default profile:
 
-        For Linux:   ${jboss.home.name}/bin/standalone.sh
-        For Windows: ${jboss.home.name}\bin\standalone.bat
+        For Linux:   WILDFLY_HOME/bin/standalone.sh
+        For Windows: WILDFLY_HOME\bin\standalone.bat
 
 
 ## Run the Arquillian Tests
 
 This quickstart provides Arquillian tests. By default, these tests are configured to be skipped as Arquillian tests require the use of a container.
 
-1. Make sure you have started the ${product.name} server as described above.
+1. Make sure you have started the WildFly server as described above.
 2. Open a command line and navigate to the root directory of this quickstart.
 3. Type the following command to run the test goal with the following profile activated:
 
         mvn clean verify -Parq-remote
 
-You can also let Arquillian manage the ${product.name} server by using the `arq-managed` profile. For more information about how to run the Arquillian tests, see [Run the Arquillian Tests](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/RUN_ARQUILLIAN_TESTS.md#run-the-arquillian-tests).
+You can also let Arquillian manage the WildFly server by using the `arq-managed` profile. For more information about how to run the Arquillian tests, see [Run the Arquillian Tests](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/RUN_ARQUILLIAN_TESTS.md#run-the-arquillian-tests).
 
 
 ## Investigate the Console Output
@@ -77,7 +77,7 @@ You can also let Arquillian manage the ${product.name} server by using the `arq-
 
 ## Investigate the Server Console Output
 
-Look at the ${product.name} console or Server log and you should see log messages like the following:
+Look at the WildFly console or Server log and you should see log messages like the following:
 
     13:34:07,940 INFO  [ProductResourceRESTService] (default task-51) Will create a new Product on other Thread
     13:34:07,940 INFO  [ProductResourceRESTService] (default task-51) Returning response
@@ -118,7 +118,7 @@ _Note:_ You will see the following warnings in the server log. You can ignore th
 
 ## Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 
-You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a ${product.name} server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](${use.eclipse.url}).
+You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a WildFly server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_JBDS.md#use-jboss-developer-studio-or-eclipse-to-run-the-quickstarts).
 
 To run the tests in Red Hat JBoss Developer Studio:
 

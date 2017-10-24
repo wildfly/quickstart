@@ -4,13 +4,13 @@ Author: Darran Lofthouse, Stefan Guilhen
 Level: Advanced  
 Technologies: EJB, Security  
 Summary: The `ejb-security-interceptors` quickstart demonstrates how to use client and server side interceptors to switch the identity for an EJB call.  
-Target Product: ${product.name}  
-Source: <${github.repo.url}>
+Target Product: WildFly  
+Source: <https://github.com/wildfly/quickstart/>
 Deprecated: This quickstart is deprecated in favour of ejb-security-context-propagation and ejb-security-programatic-auth
 
 ## What is it?
 
-The `ejb-security-interceptors` quickstart demonstrates how to use client and server side interceptors to switch the identity for an EJB call in ${product.name.full}.
+The `ejb-security-interceptors` quickstart demonstrates how to use client and server side interceptors to switch the identity for an EJB call in WildFly Application Server.
 
 By default, when you make a remote call to an EJB deployed to the application server, the connection to the server is authenticated and any request received over this connection is executed as the identity that authenticated the connection. This is true for both client-to-server and server-to-server calls. If you need to use different identities from the same client, you normally need to open multiple connections to the server so that each one is authenticated as a different identity.
 
@@ -48,7 +48,7 @@ In the real world, remote calls between servers in the servers-to-server scenari
 
 ## Note on EJB client interceptors
 
-${product.name} allows client side interceptors for EJB invocations. Such interceptors are expected to implement the `org.jboss.ejb.client.EJBClientInterceptor` interface. User applications can then plug in such interceptors in the 'EJBClientContext' either programatically or through the ServiceLoader mechanism.
+WildFly allows client side interceptors for EJB invocations. Such interceptors are expected to implement the `org.jboss.ejb.client.EJBClientInterceptor` interface. User applications can then plug in such interceptors in the 'EJBClientContext' either programatically or through the ServiceLoader mechanism.
 
 - The programmatic way involves calling the `org.jboss.ejb.client.EJBClientContext.registerInterceptor(int order, EJBClientInterceptor interceptor)` API and passing the 'order' and the 'interceptor' instance. The 'order' is used to decide where exactly in the client interceptor chain, this 'interceptor' is going to be placed.
 - The ServiceLoader mechanism is an alternate approach which involves creating a `META-INF/services/org.jboss.ejb.client.EJBClientInterceptor` file and placing/packaging it in the classpath of the client application. The rules for such a file are dictated by the [Java ServiceLoader Mechanism](http://docs.oracle.com/javase/8/docs/api/java/util/ServiceLoader.html). This file is expected to contain in each separate line the fully qualified class name of the EJB client interceptor implementation, which is expected to be available in the classpath. EJB client interceptors added via the ServiceLoader mechanism are added to the end of the client interceptor chain, in the order they were found in the classpath.
@@ -63,9 +63,9 @@ This quickstart uses the ServiceLoader mechanism for registering the EJB client 
 
 ## System Requirements
 
-The application this project produces is designed to be run on ${product.name.full} ${product.version}.
+The application this project produces is designed to be run on WildFly Application Server 11.
 
-All you need to build this project is ${build.requirements}. See [Configure Maven for ${product.name} ${product.version}](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
+All you need to build this project is Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later. See [Configure Maven for WildFly 11](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
 
 ## Prerequisites
 
@@ -73,13 +73,13 @@ This quickstart uses the default standalone configuration plus the modifications
 
 It is recommended that you test this approach in a separate and clean environment before you attempt to port the changes in your own environment.
 
-## Use of ${jboss.home.name}
+## Use of WILDFLY_HOME
 
-In the following instructions, replace `${jboss.home.name}` with the actual path to your ${product.name} installation. The installation path is described in detail here: [Use of ${jboss.home.name} and JBOSS_HOME Variables](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_${jboss.home.name}.md#use-of-eap_home-and-jboss_home-variables).
+In the following instructions, replace `WILDFLY_HOME` with the actual path to your WildFly installation. The installation path is described in detail here: [Use of WILDFLY_HOME and JBOSS_HOME Variables](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_WILDFLY_HOME.md#use-of-eap_home-and-jboss_home-variables).
 
 ## Add the Application Users
 
-This quickstart uses secured management interfaces and is built around the default `ApplicationRealm` as configured in the ${product.name} distribution.  You must create the following application users to access the running application:
+This quickstart uses secured management interfaces and is built around the default `ApplicationRealm` as configured in the WildFly distribution.  You must create the following application users to access the running application:
 
 | **UserName** | **Realm** | **Password** | **Roles** |
 |:-----------|:-----------|:-----------|:-----------|
@@ -91,16 +91,16 @@ This quickstart uses secured management interfaces and is built around the defau
 To add the users, open a command prompt and type the following commands:
 
         For Linux:
-          ${jboss.home.name}/bin/add-user.sh -a -u 'ConnectionUser' -p 'ConnectionPassword1!' -g 'User'
-          ${jboss.home.name}/bin/add-user.sh -a -u 'AppUserOne' -p 'AppPasswordOne1!' -g 'User,RoleOne'
-          ${jboss.home.name}/bin/add-user.sh -a -u 'AppUserTwo' -p 'AppPasswordTwo1!' -g 'User,RoleTwo'
-          ${jboss.home.name}/bin/add-user.sh -a -u 'AppUserThree' -p 'AppPasswordThree1!' -g 'User,RoleOne,RoleTwo'
+          WILDFLY_HOME/bin/add-user.sh -a -u 'ConnectionUser' -p 'ConnectionPassword1!' -g 'User'
+          WILDFLY_HOME/bin/add-user.sh -a -u 'AppUserOne' -p 'AppPasswordOne1!' -g 'User,RoleOne'
+          WILDFLY_HOME/bin/add-user.sh -a -u 'AppUserTwo' -p 'AppPasswordTwo1!' -g 'User,RoleTwo'
+          WILDFLY_HOME/bin/add-user.sh -a -u 'AppUserThree' -p 'AppPasswordThree1!' -g 'User,RoleOne,RoleTwo'
 
         For Windows:
-          ${jboss.home.name}\bin\add-user.bat -a -u 'ConnectionUser' -p 'ConnectionPassword1!' -g 'User'
-          ${jboss.home.name}\bin\add-user.bat -a -u 'AppUserOne' -p 'AppPasswordOne1!' -g 'User,RoleOne'
-          ${jboss.home.name}\bin\add-user.bat -a -u 'AppUserTwo' -p 'AppPasswordTwo1!' -g 'User,RoleTwo'
-          ${jboss.home.name}\bin\add-user.bat -a -u 'AppUserThree' -p 'AppPasswordThree1!' -g 'User,RoleOne,RoleTwo'
+          WILDFLY_HOME\bin\add-user.bat -a -u 'ConnectionUser' -p 'ConnectionPassword1!' -g 'User'
+          WILDFLY_HOME\bin\add-user.bat -a -u 'AppUserOne' -p 'AppPasswordOne1!' -g 'User,RoleOne'
+          WILDFLY_HOME\bin\add-user.bat -a -u 'AppUserTwo' -p 'AppPasswordTwo1!' -g 'User,RoleTwo'
+          WILDFLY_HOME\bin\add-user.bat -a -u 'AppUserThree' -p 'AppPasswordThree1!' -g 'User,RoleOne,RoleTwo'
 
 The first user establishes the actual connection to the server. The subsequent two users demonstrate how to switch identities on demand. The final user can access everything but can not participate in identity switching.
 
@@ -116,35 +116,35 @@ These steps assume you are running the server in standalone mode and using the d
 You configure the security domain by running JBoss CLI commands. For your convenience, this quickstart batches the commands into a `configure-security-domain.cli` script provided in the root directory of this quickstart.
 
 1. Before you begin, back up your server configuration file
-    * If it is running, stop the ${product.name} server.
-    * Back up the file: `${jboss.home.name}/standalone/configuration/standalone.xml`
+    * If it is running, stop the WildFly server.
+    * Back up the file: `WILDFLY_HOME/standalone/configuration/standalone.xml`
     * After you have completed testing this quickstart, you can replace this file to restore the server to its original configuration.
 
-2. Start the ${product.name} server by typing the following:
+2. Start the WildFly server by typing the following:
 
-        For Linux:  ${jboss.home.name}/bin/standalone.sh
-        For Windows:  ${jboss.home.name}\bin\standalone.bat
+        For Linux:  WILDFLY_HOME/bin/standalone.sh
+        For Windows:  WILDFLY_HOME\bin\standalone.bat
 3. Review the `configure-security-domain.cli` file in the root of this quickstart directory. This script adds the `quickstart-domain` security domain to the `security` subsystem in the server configuration and configures authentication access. Comments in the script describe the purpose of each block of commands.
 
-4. Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing ${jboss.home.name} with the path to your server:
+4. Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing WILDFLY_HOME with the path to your server:
 
-        For Linux: ${jboss.home.name}/bin/jboss-cli.sh --connect --file=configure-security-domain.cli
-        For Windows: ${jboss.home.name}\bin\jboss-cli.bat --connect --file=configure-security-domain.cli
+        For Linux: WILDFLY_HOME/bin/jboss-cli.sh --connect --file=configure-security-domain.cli
+        For Windows: WILDFLY_HOME\bin\jboss-cli.bat --connect --file=configure-security-domain.cli
     You should see the following result when you run the script:
 
         The batch executed successfully
-5. Because this example quickstart demonstrates security, exceptions are thrown when secured EJB access is attempted by an invalid user. If you want to review the security exceptions in the server log, you can skip this step. If you want to suppress these exceptions in the server log, run the following command, replacing ${jboss.home.name} with the path to your server:
+5. Because this example quickstart demonstrates security, exceptions are thrown when secured EJB access is attempted by an invalid user. If you want to review the security exceptions in the server log, you can skip this step. If you want to suppress these exceptions in the server log, run the following command, replacing WILDFLY_HOME with the path to your server:
 
-        For Linux: ${jboss.home.name}/bin/jboss-cli.sh --connect --file=configure-system-exception.cli
-        For Windows: ${jboss.home.name}\bin\jboss-cli.bat --connect --file=configure-system-exception.cli
+        For Linux: WILDFLY_HOME/bin/jboss-cli.sh --connect --file=configure-system-exception.cli
+        For Windows: WILDFLY_HOME\bin\jboss-cli.bat --connect --file=configure-system-exception.cli
     You should see the following result when you run the script:
 
         The batch executed successfully
-6. Stop the ${product.name} server.
+6. Stop the WildFly server.
 
 ## Review the Modified Server Configuration
 
-After stopping the server, open the `${jboss.home.name}/standalone/configuration/standalone.xml` file and review the changes.
+After stopping the server, open the `WILDFLY_HOME/standalone/configuration/standalone.xml` file and review the changes.
 
 1. The following `quickstart-domain` security-domain was added to the `security` subsystem.
 
@@ -216,21 +216,21 @@ After stopping the server, open the `${jboss.home.name}/standalone/configuration
 
 ## Start the Server
 
-1. Open a command prompt and navigate to the root of the ${product.name} directory.
+1. Open a command prompt and navigate to the root of the WildFly directory.
 2. The following shows the command line to start the server:
 
-        For Linux:   ${jboss.home.name}/bin/standalone.sh
-        For Windows: ${jboss.home.name}\bin\standalone.bat
+        For Linux:   WILDFLY_HOME/bin/standalone.sh
+        For Windows: WILDFLY_HOME\bin\standalone.bat
 
 ## Build and Deploy the Quickstart
 
-1. Make sure you have started the ${product.name} server as described above.
+1. Make sure you have started the WildFly server as described above.
 2. Open a command prompt and navigate to the root directory of this quickstart.
 3. Type this command to build and deploy the archive:
 
         mvn clean install wildfly:deploy
 
-4. This will deploy `target/${project.artifactId}.jar` to the running instance of the server.
+4. This will deploy `target/ejb-security-interceptors.jar` to the running instance of the server.
 
 ## Run the Client
 
@@ -379,7 +379,7 @@ When you run the `mvn exec:exec` command, you see the following output. Note the
 
 ## Investigate the Server Console Output
 
-If you chose not to run the script to suppress system exceptions, you should see the following exceptions in the ${product.name} server console or log. The exceptions are logged for each of the tests where a request is rejected because the user is not authorized. The stacktraces were removed from this text for readability.
+If you chose not to run the script to suppress system exceptions, you should see the following exceptions in the WildFly server console or log. The exceptions are logged for each of the tests where a request is rejected because the user is not authorized. The stacktraces were removed from this text for readability.
 
     ERROR [org.jboss.as.ejb3.invocation] (EJB default - 3) WFLYEJB0034: EJB Invocation failed on component SecuredEJB for method public abstract boolean org.jboss.as.quickstarts.ejb_security_interceptors.SecuredEJBRemote.roleOneMethod(): javax.ejb.EJBAccessException: WFLYEJB0364: Invocation on method: public abstract boolean org.jboss.as.quickstarts.ejb_security_interceptors.SecuredEJBRemote.roleOneMethod() of bean: SecuredEJB is not allowed
     ...
@@ -425,7 +425,7 @@ _Note:_ You will see the following warning appear twice in the server log. You c
 
 ## Undeploy the Archive
 
-1. Make sure you have started the ${product.name} server as described above.
+1. Make sure you have started the WildFly server as described above.
 2. Open a command prompt and navigate to the root directory of this quickstart.
 3. When you are finished testing, type this command to undeploy the archive:
 
@@ -437,20 +437,20 @@ You can remove the security domain configuration by running the  `remove-securit
 
 ### Restore the Original Server Configuration by Running the JBoss CLI Script
 
-        For Linux:  ${jboss.home.name}/bin/standalone.sh
-        For Windows:  ${jboss.home.name}\bin\standalone.bat
-2. Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing ${jboss.home.name} with the path to your server:
+        For Linux:  WILDFLY_HOME/bin/standalone.sh
+        For Windows:  WILDFLY_HOME\bin\standalone.bat
+2. Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing WILDFLY_HOME with the path to your server:
 
-        For Linux: ${jboss.home.name}/bin/jboss-cli.sh  --connect --file=remove-security-domain.cli
-        For Windows: ${jboss.home.name}\bin\jboss-cli.bat  --connect --file=remove-security-domain.cli
+        For Linux: WILDFLY_HOME/bin/jboss-cli.sh  --connect --file=remove-security-domain.cli
+        For Windows: WILDFLY_HOME\bin\jboss-cli.bat  --connect --file=remove-security-domain.cli
     This script removes the `test` queue from the `messaging` subsystem in the server configuration. You should see the following result when you run the script:
 
         The batch executed successfully
         process-state: reload-required
-3. If you chose to run the script to suppress system exceptions, run the following command, replacing ${jboss.home.name} with the path to your server:
+3. If you chose to run the script to suppress system exceptions, run the following command, replacing WILDFLY_HOME with the path to your server:
 
-        For Linux: ${jboss.home.name}/bin/jboss-cli.sh --connect --file=restore-system-exception.cli
-        For Windows: ${jboss.home.name}\bin\jboss-cli.bat --connect --file=restore-system-exception.cli
+        For Linux: WILDFLY_HOME/bin/jboss-cli.sh --connect --file=restore-system-exception.cli
+        For Windows: WILDFLY_HOME\bin\jboss-cli.bat --connect --file=restore-system-exception.cli
 
      You should see the following result when you run the script:
 
@@ -458,23 +458,23 @@ You can remove the security domain configuration by running the  `remove-securit
 
 ### Restore the Original Server Configuration Manually
 
-1. If it is running, stop the ${product.name} server.
-2. Replace the `${jboss.home.name}/standalone/configuration/standalone.xml` file with the back-up copy of the file.
+1. If it is running, stop the WildFly server.
+2. Replace the `WILDFLY_HOME/standalone/configuration/standalone.xml` file with the back-up copy of the file.
 
 ## Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 
-You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a ${product.name} server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](${use.eclipse.url}).
+You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a WildFly server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_JBDS.md#use-jboss-developer-studio-or-eclipse-to-run-the-quickstarts).
 
 
 This quickstart requires additional configuration and deploys and runs differently in JBoss Developer Studio than the other quickstarts.
 
 1. Be sure to [Add the Application Users](#add-the-application-users) as described above.
 2. Follow the steps above to [Configure the Server](#configure-the-server). Stop the server at the end of that step.
-3. To deploy the application to the ${product.name} server, right-click on the `${project.artifactId}` project and choose `Run As` --> `Run on Server`.
-4. To access the application, right-click on the `${project.artifactId}` project and choose `Run As` --> `Java Application`.
+3. To deploy the application to the WildFly server, right-click on the `ejb-security-interceptors` project and choose `Run As` --> `Run on Server`.
+4. To access the application, right-click on the `ejb-security-interceptors` project and choose `Run As` --> `Java Application`.
 5. Choose `RemoteClient - org.jboss.as.quickstarts.ejb_security_interceptors` and click `OK`.
 6. Review the output in the console window.
-7. To undeploy the project, right-click on the `${project.artifactId}` project and choose `Run As` --> `Maven build`. Enter `wildfly:undeploy` for the `Goals` and click `Run`.
+7. To undeploy the project, right-click on the `ejb-security-interceptors` project and choose `Run As` --> `Maven build`. Enter `wildfly:undeploy` for the `Goals` and click `Run`.
 8. Be sure to [Restore the Original Server Configuration](#restore-the-original-server-configuration) when you have completed testing this quickstart.
 
 ## Debug the Application

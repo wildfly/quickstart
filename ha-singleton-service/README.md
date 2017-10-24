@@ -4,8 +4,8 @@ Author: Radoslav Husar
 Level: Advanced  
 Technologies: MSC, Singleton Service, Clustering  
 Summary: The `ha-singleton-service` quickstart demonstrates how to deploy a cluster-wide singleton MSC service.  
-Target Product: ${product.name}  
-Source: <${github.repo.url}>  
+Target Product: WildFly  
+Source: <https://github.com/wildfly/quickstart/>  
 
 
 ## What is it?
@@ -27,37 +27,37 @@ For more information about clustered singleton services, see _HA Singleton Servi
 
 ## System Requirements
 
-The deployments this project produces are designed to be run on ${product.name.full} ${product.version} or later.
+The deployments this project produces are designed to be run on WildFly Application Server 11 or later.
 
-Everything needed to build this project is ${build.requirements}. See [Configure Maven for ${product.name} ${product.version}](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure the environment is configured correctly for testing the quickstarts.
+Everything needed to build this project is Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later. See [Configure Maven for WildFly 11](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure the environment is configured correctly for testing the quickstarts.
 
 
-## Use of ${jboss.home.name}_1 and ${jboss.home.name}_2
+## Use of WILDFLY_HOME_1 and WILDFLY_HOME_2
 
-This quickstart requires that you clone your `${jboss.home.name}` installation directory and run two servers. The installation path is described in detail here: [Use of ${jboss.home.name} and JBOSS_HOME Variables](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_${jboss.home.name}.md#use-of-eap_home-and-jboss_home-variables).
+This quickstart requires that you clone your `WILDFLY_HOME` installation directory and run two servers. The installation path is described in detail here: [Use of WILDFLY_HOME and JBOSS_HOME Variables](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_WILDFLY_HOME.md#use-of-eap_home-and-jboss_home-variables).
 
-In the following instructions, replace `${jboss.home.name}_1` with the path to your first ${product.name} server and replace `${jboss.home.name}_2` with the path to your second cloned ${product.name} server.
+In the following instructions, replace `WILDFLY_HOME_1` with the path to your first WildFly server and replace `WILDFLY_HOME_2` with the path to your second cloned WildFly server.
 
-## Clone the ${product.name} Directory
+## Clone the WildFly Directory
 
-While you can run this example starting only one instance of the server, if you want to see the singleton behavior, you must start at least two instances of the server. Copy the entire ${product.name} directory to a new location to use for the second cluster member.
+While you can run this example starting only one instance of the server, if you want to see the singleton behavior, you must start at least two instances of the server. Copy the entire WildFly directory to a new location to use for the second cluster member.
 
 ## Start the Servers with the HA Profile
 
 _Note: You must start the server using the HA profile or the singleton service will not start correctly._
 
-Start the two ${product.name} servers with the HA profile, passing a unique node ID. These logical node names are used in the log to identify which node is elected. If you are running the servers on the same host, you must also pass a socket binding port offset on the command line to start the second server.
+Start the two WildFly servers with the HA profile, passing a unique node ID. These logical node names are used in the log to identify which node is elected. If you are running the servers on the same host, you must also pass a socket binding port offset on the command line to start the second server.
 To start the servers, type the following commands.
 
 For Linux:
 
-    Server 1: ${jboss.home.name}_1/bin/standalone.sh -c standalone-ha.xml -Djboss.node.name=node1
-    Server 2: ${jboss.home.name}_2/bin/standalone.sh -c standalone-ha.xml -Djboss.node.name=node2 -Djboss.socket.binding.port-offset=100
+    Server 1: WILDFLY_HOME_1/bin/standalone.sh -c standalone-ha.xml -Djboss.node.name=node1
+    Server 2: WILDFLY_HOME_2/bin/standalone.sh -c standalone-ha.xml -Djboss.node.name=node2 -Djboss.socket.binding.port-offset=100
 
 For Windows:
 
-    Server 1: ${jboss.home.name}_1\bin\standalone.bat -c standalone-ha.xml -Djboss.node.name=node1
-    Server 2: ${jboss.home.name}_2\bin\standalone.bat -c standalone-ha.xml -Djboss.node.name=node2 -Djboss.socket.binding.port-offset=100
+    Server 1: WILDFLY_HOME_1\bin\standalone.bat -c standalone-ha.xml -Djboss.node.name=node1
+    Server 2: WILDFLY_HOME_2\bin\standalone.bat -c standalone-ha.xml -Djboss.node.name=node2 -Djboss.socket.binding.port-offset=100
 
 This example is not limited to two servers. Additional servers can be started by specifying a unique node name and port offset for each one.
 
@@ -67,7 +67,7 @@ This example demonstrates a singleton service and a querying service that regula
 
 ### Build and Deploy primary-only to Server 1
 
-1. Start the ${product.name} servers as described in the above section.
+1. Start the WildFly servers as described in the above section.
 2. Open a command prompt and navigate to the `primary-only/` directory located in the root directory of this quickstart.
 3. Use the following command to clean up any previously built artifacts, and to build and deploy the JAR archive.
 
@@ -140,7 +140,7 @@ _NOTE:_ You might see the following warnings in the server log after the applica
 
 ### Undeploy the primary-only Example
 
-1. Start the ${product.name} servers as described in the above section.
+1. Start the WildFly servers as described in the above section.
 2. Open a command prompt and navigate to the `primary-only/` directory located in the root directory of this quickstart.
 3. Use the following command to undeploy the JAR archive from Server 1.
 
@@ -155,7 +155,7 @@ _NOTE:_ You might see the following warnings in the server log after the applica
 ### Build and Deploy with-backups to Server 1
 This example demonstrates a singleton service that is installed with a backup service. The backup service is running on all nodes that are _not_ elected to be running the singleton service.
 
-1. Start the ${product.name} servers as described in the above section.
+1. Start the WildFly servers as described in the above section.
 2. Open a command prompt and navigate to the `with-backups/` directory located in the root directory of this quickstart.
 3. Use the following command to clean up any previously built artifacts, and build and deploy the JAR archive.
 
@@ -180,7 +180,7 @@ All other nodes log that the backup singleton service is running.
 
 ### Undeploy the with-backups Example
 
-1. Start the ${product.name} servers as described in the above section.
+1. Start the WildFly servers as described in the above section.
 2. Open a command prompt and navigate to the `with-backups/` directory located in the root directory of this quickstart.
 3. Use the following command to undeploy the JAR archive from Server 1.
 
@@ -195,7 +195,7 @@ All other nodes log that the backup singleton service is running.
 
 As mentioned previously, the `activate()` method in the `ServiceActivator` class for each example in this quickstart uses the default election policy to build the singleton services. Once you have successfully deployed and verified these examples, you might want to test different election policy configurations to see how they work.
 
-Election policies are configured using ${product.name} management CLI commands. Scripts are provided to configure a simple [name preference election policy](#configure-a-name-preference-election-policy) and a [random election policy](#configure-a-random-election-policy). A script is also provided to configure a [quorum for the singleton policy](#configure-a-singleton-policy-that-defines-a-quorum).
+Election policies are configured using WildFly management CLI commands. Scripts are provided to configure a simple [name preference election policy](#configure-a-name-preference-election-policy) and a [random election policy](#configure-a-random-election-policy). A script is also provided to configure a [quorum for the singleton policy](#configure-a-singleton-policy-that-defines-a-quorum).
 
 ### Configure a Name Preference Election Policy
 
@@ -206,10 +206,10 @@ This example configures the default election policy to be based on logical names
 3. Review the contents of the `name-preference-election-policy-add.cli` file located in the root of this quickstart directory. This script configures the default election policy to choose nodes in a preferred order of `node3`, `node2`, and `node1` using this command.
 
         /subsystem=singleton/singleton-policy=default/election-policy=simple:write-attribute(name=name-preferences,value=[node3,node2,node1])
-4. Open a new command prompt, navigate to the root directory of this quickstart, and run the following command to execute the script for Server 1. Be sure to replace ${jboss.home.name}_1 with the path to the target Server 1.
+4. Open a new command prompt, navigate to the root directory of this quickstart, and run the following command to execute the script for Server 1. Be sure to replace WILDFLY_HOME_1 with the path to the target Server 1.
 
-        For Linux: ${jboss.home.name}_1/bin/jboss-cli.sh --connect --file=name-preference-election-policy-add.cli
-        For Windows: ${jboss.home.name}_1\bin\jboss-cli.bat --connect --file=name-preference-election-policy-add.cli
+        For Linux: WILDFLY_HOME_1/bin/jboss-cli.sh --connect --file=name-preference-election-policy-add.cli
+        For Windows: WILDFLY_HOME_1\bin\jboss-cli.bat --connect --file=name-preference-election-policy-add.cli
 
     You should see the following result when you run the script.
 
@@ -237,8 +237,8 @@ This example configures the default election policy to be based on logical names
 
 6. Repeat these steps for the second server. Note that if the second server is using a port offset, you must specify the controller address on the command line by adding `--controller=localhost:10090`.
 
-        For Linux: ${jboss.home.name}_2/bin/jboss-cli.sh --connect --controller=localhost:10090 --file=name-preference-election-policy-add.cli
-        For Windows: ${jboss.home.name}_2\bin\jboss-cli.bat --connect --controller=localhost:10090 --file=name-preference-election-policy-add.cli
+        For Linux: WILDFLY_HOME_2/bin/jboss-cli.sh --connect --controller=localhost:10090 --file=name-preference-election-policy-add.cli
+        For Windows: WILDFLY_HOME_2\bin\jboss-cli.bat --connect --controller=localhost:10090 --file=name-preference-election-policy-add.cli
 
 7. Be sure both servers are started, deploy one of the examples to both servers, and verify that the election policy is now in effect. The server running the election policy should now log the following message.
 
@@ -260,10 +260,10 @@ This example configures an election policy that elects a random cluster member w
         /subsystem=singleton/singleton-policy=default/election-policy=simple:remove(){allow-resource-service-restart=true}
         /subsystem=singleton/singleton-policy=default/election-policy=random:add()
 
-4. Open a new command prompt, navigate to the root directory of this quickstart, and run the following command to execute the script for Server 1. Be sure to replace ${jboss.home.name}_1 with the path to the target Server 1.
+4. Open a new command prompt, navigate to the root directory of this quickstart, and run the following command to execute the script for Server 1. Be sure to replace WILDFLY_HOME_1 with the path to the target Server 1.
 
-        For Linux: ${jboss.home.name}_1/bin/jboss-cli.sh --connect --file=random-election-policy-add.cli
-        For Windows: ${jboss.home.name}_1\bin\jboss-cli.bat --connect --file=random-election-policy-add.cli
+        For Linux: WILDFLY_HOME_1/bin/jboss-cli.sh --connect --file=random-election-policy-add.cli
+        For Windows: WILDFLY_HOME_1\bin\jboss-cli.bat --connect --file=random-election-policy-add.cli
 
     You should see the following result when you run the script.
 
@@ -284,8 +284,8 @@ This example configures an election policy that elects a random cluster member w
 
 6. Repeat these steps for the second server. Note that if the second server is using a port offset, you must specify the controller address on the command line by adding `--controller=localhost:10090`.
 
-        For Linux: ${jboss.home.name}_2/bin/jboss-cli.sh --connect --controller=localhost:10090 --file=random-election-policy-add.cli
-        For Windows: ${jboss.home.name}_2\bin\jboss-cli.bat --connect --controller=localhost:10090 --file=random-election-policy-add.cli
+        For Linux: WILDFLY_HOME_2/bin/jboss-cli.sh --connect --controller=localhost:10090 --file=random-election-policy-add.cli
+        For Windows: WILDFLY_HOME_2\bin\jboss-cli.bat --connect --controller=localhost:10090 --file=random-election-policy-add.cli
 
 7. Be sure both servers are started, deploy one of the examples to both servers, and verify that the election policy is now in effect.
 
@@ -299,10 +299,10 @@ A quorum specifies the minimum number of cluster members that must be present fo
 
         /subsystem=singleton/singleton-policy=default:write-attribute(name=quorum,value=2)
 
-4. Open a new command prompt, navigate to the root directory of this quickstart, and run the following command to execute the script for Server 1. Be sure to replace ${jboss.home.name}_1 with the path to the target Server 1.
+4. Open a new command prompt, navigate to the root directory of this quickstart, and run the following command to execute the script for Server 1. Be sure to replace WILDFLY_HOME_1 with the path to the target Server 1.
 
-        For Linux: ${jboss.home.name}_1/bin/jboss-cli.sh --connect --file=quorum-add.cli
-        For Windows: ${jboss.home.name}_1\bin\jboss-cli.bat --connect --file=quorum-add.cli
+        For Linux: WILDFLY_HOME_1/bin/jboss-cli.sh --connect --file=quorum-add.cli
+        For Windows: WILDFLY_HOME_1\bin\jboss-cli.bat --connect --file=quorum-add.cli
 
     You should see the following result when you run the script.
 
@@ -328,8 +328,8 @@ A quorum specifies the minimum number of cluster members that must be present fo
 
 6. Repeat these steps for the second server. Note that if the second server is using a port offset, you must specify the controller address on the command line by adding `--controller=localhost:10090`.
 
-          For Linux: ${jboss.home.name}_2/bin/jboss-cli.sh --connect --controller=localhost:10090 --file=quorum-add.cli
-          For Windows: ${jboss.home.name}_2\bin\jboss-cli.bat --connect --controller=localhost:10090 --file=quorum-add.cli
+          For Linux: WILDFLY_HOME_2/bin/jboss-cli.sh --connect --controller=localhost:10090 --file=quorum-add.cli
+          For Windows: WILDFLY_HOME_2\bin\jboss-cli.bat --connect --controller=localhost:10090 --file=quorum-add.cli
 
 7. Be sure both servers are started, deploy one of the examples to both servers. While both servers are running, observe the server logs. The server running the election policy should now log the following message.
 
@@ -377,13 +377,13 @@ Some of these examples require that you modify the election policies for the `si
 
     * For Linux:
 
-            ${jboss.home.name}_1/bin/jboss-cli.sh --connect --file=restore-singleton-subsystem.cli
-            ${jboss.home.name}_2/bin/jboss-cli.sh --connect --controller=localhost:10090 --file=restore-singleton-subsystem.cli
+            WILDFLY_HOME_1/bin/jboss-cli.sh --connect --file=restore-singleton-subsystem.cli
+            WILDFLY_HOME_2/bin/jboss-cli.sh --connect --controller=localhost:10090 --file=restore-singleton-subsystem.cli
 
     * For Windows:
 
-            ${jboss.home.name}_1\bin\jboss-cli.bat --connect --file=restore-singleton-subsystem.cli
-            ${jboss.home.name}_2\bin\jboss-cli.bat --connect --controller=localhost:10090 --file=restore-singleton-subsystem.cli
+            WILDFLY_HOME_1\bin\jboss-cli.bat --connect --file=restore-singleton-subsystem.cli
+            WILDFLY_HOME_2\bin\jboss-cli.bat --connect --controller=localhost:10090 --file=restore-singleton-subsystem.cli
 
 ## Debug the Application
 

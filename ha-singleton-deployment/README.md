@@ -4,8 +4,8 @@ Author: Radoslav Husar
 Level: Advanced  
 Technologies: EJB, Singleton Deployments, Clustering  
 Summary: The `ha-singleton-deployment` quickstart demonstrates the recommended way to deploy any service packaged in an application archive as a cluster-wide singleton.  
-Target Product: ${product.name}  
-Source: <${github.repo.url}>  
+Target Product: WildFly  
+Source: <https://github.com/wildfly/quickstart/>  
 
 
 ## What is it?
@@ -18,47 +18,47 @@ For more information about singleton deployments, see _HA Singleton Deployments_
 
 ## System Requirements
 
-The application this project produces is designed to be run on ${product.name.full} ${product.version} or later.
+The application this project produces is designed to be run on WildFly Application Server 11 or later.
 
-Everything needed to build this project is ${build.requirements}. See [Configure Maven for ${product.name} ${product.version}](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure the environment is configured correctly for testing the quickstarts.
+Everything needed to build this project is Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later. See [Configure Maven for WildFly 11](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure the environment is configured correctly for testing the quickstarts.
 
 
-## Use of ${jboss.home.name}
+## Use of WILDFLY_HOME
 
-In the following instructions, replace `${jboss.home.name}` with the actual path to your ${product.name} installation. The installation path is described in detail here: [Use of ${jboss.home.name} and JBOSS_HOME Variables](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_${jboss.home.name}.md#use-of-eap_home-and-jboss_home-variables).
+In the following instructions, replace `WILDFLY_HOME` with the actual path to your WildFly installation. The installation path is described in detail here: [Use of WILDFLY_HOME and JBOSS_HOME Variables](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_WILDFLY_HOME.md#use-of-eap_home-and-jboss_home-variables).
 
 
 ## Setting Up the Test Environment
 
 To demonstrate the singleton behavior, at least two application server instances must be started.
-Begin by making a copy of the entire ${product.name} directory to be used as second cluster member.
+Begin by making a copy of the entire WildFly directory to be used as second cluster member.
 Note that the example can be run on a single node as well, but without observation of the singleton properties.
 
-Start the two ${product.name} servers with the same HA profile using the following commands.
+Start the two WildFly servers with the same HA profile using the following commands.
 Note that a socket binding port offset and a unique node name must be passed to the second server if the servers are binding to the same host.
 
 For Linux:
 
-    Server 1: ${jboss.home.name}_1/bin/standalone.sh -c standalone-ha.xml -Djboss.node.name=node1
-    Server 2: ${jboss.home.name}_2/bin/standalone.sh -c standalone-ha.xml -Djboss.node.name=node2 -Djboss.socket.binding.port-offset=100
+    Server 1: WILDFLY_HOME_1/bin/standalone.sh -c standalone-ha.xml -Djboss.node.name=node1
+    Server 2: WILDFLY_HOME_2/bin/standalone.sh -c standalone-ha.xml -Djboss.node.name=node2 -Djboss.socket.binding.port-offset=100
 
 For Windows:
 
-    Server 1: ${jboss.home.name}_1\bin\standalone.bat -c standalone-ha.xml -Djboss.node.name=node1
-    Server 2: ${jboss.home.name}_2\bin\standalone.bat -c standalone-ha.xml -Djboss.node.name=node2 -Djboss.socket.binding.port-offset=100
+    Server 1: WILDFLY_HOME_1\bin\standalone.bat -c standalone-ha.xml -Djboss.node.name=node1
+    Server 2: WILDFLY_HOME_2\bin\standalone.bat -c standalone-ha.xml -Djboss.node.name=node2 -Djboss.socket.binding.port-offset=100
 
 The demonstration is not limited to two servers. Additional servers can be started by specifying a unique port offset for each one.
 
 
 ## Running the Quickstart
 
-1. Start the ${product.name} servers as described in the above section.
+1. Start the WildFly servers as described in the above section.
 2. Navigate to the root directory of this quickstart in the command prompt.
 3. Use the following command to clean up previously built artifacts, and build and deploy the EJB archive:
 
         mvn clean install wildfly:deploy
 
-4. Ensure the `target/${project.artifactId}.jar` archive is deployed to `node1` (the one without port offset) by observing the log.
+4. Ensure the `target/ha-singleton-deployment.jar` archive is deployed to `node1` (the one without port offset) by observing the log.
 
         INFO [org.jboss.as.server.deployment] (MSC service thread 1-1) WFLYSRV0027: Starting deployment of "ha-singleton-deployment.jar" (runtime-name: "ha-singleton-deployment.jar")
         ...
@@ -78,7 +78,7 @@ The demonstration is not limited to two servers. Additional servers can be start
 
         mvn wildfly:deploy -Dwildfly.port=10090
 
-6. Ensure the `service/target/${project.artifactId}.jar` archive is deployed to `node2` by observing the log. Note that even though the logs indicate "Deployed", the deployment does not actually deploy completely and the timer is not operating on this node.
+6. Ensure the `service/target/ha-singleton-deployment.jar` archive is deployed to `node2` by observing the log. Note that even though the logs indicate "Deployed", the deployment does not actually deploy completely and the timer is not operating on this node.
 
         INFO  [org.jboss.as.server.deployment] (MSC service thread 1-6) WFLYSRV0027: Starting deployment of "ha-singleton-deployment.jar" (runtime-name: "ha-singleton-deployment.jar")
         INFO  [org.infinispan.remoting.transport.jgroups.JGroupsTransport] (MSC service thread 1-3) ISPN000078: Starting JGroups channel server
@@ -149,13 +149,13 @@ To demonstrate how to use deployment overlays, follow these steps:
 
 3. Start the management CLI and set up a deployment overlay on both servers:
 
-        ${jboss.home.name}_1/bin/jboss-cli.sh --connect
+        WILDFLY_HOME_1/bin/jboss-cli.sh --connect
         deployment-overlay add --name=singleton-deployment --deployments=ha-singleton-deployment.jar --content=META-INF/singleton-deployment.xml=singleton-deployment.xml
         deployment-overlay redeploy-affected --name=singleton-deployment
 
      Repeat this process for the second server using the port offset:
 
-        ${jboss.home.name}_2/bin/jboss-cli.sh --connect --controller=localhost:10090
+        WILDFLY_HOME_2/bin/jboss-cli.sh --connect --controller=localhost:10090
         deployment-overlay add --name=singleton-deployment --deployments=ha-singleton-deployment.jar --content=META-INF/singleton-deployment.xml=singleton-deployment.xml
         deployment-overlay redeploy-affected --name=singleton-deployment
 
@@ -181,7 +181,7 @@ For convenience, the management CLI scripts to add the deployment overlay, `sing
 
 ## Undeploy the Archives
 
-1. Ensure all ${product.name} servers are started.
+1. Ensure all WildFly servers are started.
 2. Navigate to the root directory of this quickstart in the command prompt.
 3. Use the following commands to undeploy the artifacts:
 
