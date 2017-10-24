@@ -3,13 +3,13 @@
 Author: Sherif F. Makary, Pedro Igor, Stefan Guilhen  
 Level: Intermediate  
 Technologies: Servlet, Security  
-Summary: The `servlet-security` quickstart demonstrates the use of Java EE declarative security to control access to Servlets and Security in WildFly.  
-Target Product: WildFly  
-Source: <https://github.com/wildfly/quickstart/>  
+Summary: The `servlet-security` quickstart demonstrates the use of Java EE declarative security to control access to Servlets and Security in ${product.name}.  
+Target Product: ${product.name}  
+Source: <${github.repo.url}>  
 
 ## What is it?
 
-The `servlet-security` quickstart demonstrates the use of Java EE declarative security to control access to Servlets and Security in WildFly Application Server.
+The `servlet-security` quickstart demonstrates the use of Java EE declarative security to control access to Servlets and Security in ${product.name.full}.
 
 When you deploy this example, two users are automatically created for you: user `quickstartUser` with password `quickstartPwd1!` and user `guest` with password `guestPwd1!`. This data is located in the `src/main/resources/import.sql` file.
 
@@ -35,18 +35,18 @@ This quickstart takes the following steps to implement Servlet security:
             Password: guestPwd1!
             Role: notauthorized
 
-_Note: This quickstart uses the H2 database included with WildFly Application Server 11. It is a lightweight, relational example datasource that is used for examples only. It is not robust or scalable, is not supported, and should NOT be used in a production environment!_
+_Note: This quickstart uses the H2 database included with ${product.name.full} ${product.version}. It is a lightweight, relational example datasource that is used for examples only. It is not robust or scalable, is not supported, and should NOT be used in a production environment!_
 
 ## System Requirements
 
-The application this project produces is designed to be run on WildFly Application Server 11 or later.
+The application this project produces is designed to be run on ${product.name.full} ${product.version} or later.
 
-All you need to build this project is Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later. See [Configure Maven for WildFly 11](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
+All you need to build this project is ${build.requirements}. See [Configure Maven for ${product.name} ${product.version}](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
 
 
-## Use of WILDFLY_HOME
+## Use of ${jboss.home.name}
 
-In the following instructions, replace `WILDFLY_HOME` with the actual path to your WildFly installation. The installation path is described in detail here: [Use of WILDFLY_HOME and JBOSS_HOME Variables](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_WILDFLY_HOME.md#use-of-eap_home-and-jboss_home-variables).
+In the following instructions, replace `${jboss.home.name}` with the actual path to your ${product.name} installation. The installation path is described in detail here: [Use of ${jboss.home.name} and JBOSS_HOME Variables](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_${jboss.home.name}.md#use-of-eap_home-and-jboss_home-variables).
 
 
 ## Configure the Server
@@ -54,28 +54,28 @@ In the following instructions, replace `WILDFLY_HOME` with the actual path to yo
 You can configure the server by running JBoss CLI commands. For your convenience, this quickstart batches the commands into a `configure-server.cli` script provided in the root directory of this quickstart.
 
 1. Before you begin, back up your server configuration file
-    * If it is running, stop the WildFly server.
-    * Back up the file: `WILDFLY_HOME/standalone/configuration/standalone.xml`
+    * If it is running, stop the ${product.name} server.
+    * Back up the file: `${jboss.home.name}/standalone/configuration/standalone.xml`
     * After you have completed testing this quickstart, you can replace this file to restore the server to its original configuration.
 
-2. Start the WildFly server by typing the following:
+2. Start the ${product.name} server by typing the following:
 
-        For Linux:  WILDFLY_HOME/bin/standalone.sh
-        For Windows:  WILDFLY_HOME\bin\standalone.bat
+        For Linux:  ${jboss.home.name}/bin/standalone.sh
+        For Windows:  ${jboss.home.name}\bin\standalone.bat
 3. Review the `configure-server.cli` file in the root of this quickstart directory. This script adds security domain and HTTP authentication factory to the `elytron` subsystem in the server configuration and also configures the `undertow` subsystem to use the configured HTTP authentication factory for the Web application.
-4. Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing WILDFLY_HOME with the path to your server:
+4. Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing ${jboss.home.name} with the path to your server:
 
-        For Linux: WILDFLY_HOME/bin/jboss-cli.sh --connect --file=configure-server.cli
-        For Windows: WILDFLY_HOME\bin\jboss-cli.bat --connect --file=configure-server.cli
+        For Linux: ${jboss.home.name}/bin/jboss-cli.sh --connect --file=configure-server.cli
+        For Windows: ${jboss.home.name}\bin\jboss-cli.bat --connect --file=configure-server.cli
     You should see the following result when you run the script:
 
         The batch executed successfully
-5. Stop the WildFly server.
+5. Stop the ${product.name} server.
 
 
 ## Review the Modified Server Configuration
 
-After stopping the server, open the `WILDFLY_HOME/standalone/configuration/standalone.xml` file and review the changes.
+After stopping the server, open the `${jboss.home.name}/standalone/configuration/standalone.xml` file and review the changes.
 
 1. The following datasource was added to the `datasources` subsystem.
 
@@ -137,26 +137,26 @@ This configuration tells `Undertow` that applications with the `servlet-security
 
 ## Start the Server
 
-1. Open a command prompt and navigate to the root of the WildFly directory.
+1. Open a command prompt and navigate to the root of the ${product.name} directory.
 2. The following shows the command line to start the server:
 
-        For Linux:   WILDFLY_HOME/bin/standalone.sh
-        For Windows: WILDFLY_HOME\bin\standalone.bat
+        For Linux:   ${jboss.home.name}/bin/standalone.sh
+        For Windows: ${jboss.home.name}\bin\standalone.bat
 
 
 ## Build and Deploy the Quickstart
 
-1. Make sure you have started the WildFly server as described above.
+1. Make sure you have started the ${product.name} server as described above.
 2. Open a command prompt and navigate to the root directory of this quickstart.
 3. Type this command to build and deploy the archive:
 
         mvn clean install wildfly:deploy
 
-4. This will deploy `target/servlet-security.war` to the running instance of the server.
+4. This will deploy `target/${project.artifactId}.war` to the running instance of the server.
 
 ## Access the Application
 
-The application will be running at the following URL <http://localhost:8080/servlet-security/>.
+The application will be running at the following URL <http://localhost:8080/${project.artifactId}/>.
 
 When you access the application, you should get a browser login challenge.
 
@@ -182,7 +182,7 @@ _Note:_ You will see the following warning in the server log. You can ignore it.
 
 ## Undeploy the Archive
 
-1. Make sure you have started the WildFly server as described above.
+1. Make sure you have started the ${product.name} server as described above.
 2. Open a command prompt and navigate to the root directory of this quickstart.
 3. When you are finished testing, type this command to undeploy the archive:
 
@@ -195,29 +195,29 @@ You can restore the original server configuration by running the  `restore-confi
 
 ### Restore the Server Configuration by Running the JBoss CLI Script
 
-1. Start the WildFly server by typing the following:
+1. Start the ${product.name} server by typing the following:
 
-        For Linux:  WILDFLY_HOME/bin/standalone.sh
-        For Windows:  WILDFLY_HOME\bin\standalone.bat
-2. Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing WILDFLY_HOME with the path to your server:
+        For Linux:  ${jboss.home.name}/bin/standalone.sh
+        For Windows:  ${jboss.home.name}\bin\standalone.bat
+2. Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing ${jboss.home.name} with the path to your server:
 
-        For Linux: WILDFLY_HOME/bin/jboss-cli.sh --connect --file=restore-configuration.cli
-        For Windows: WILDFLY_HOME\bin\jboss-cli.bat --connect --file=restore-configuration.cli
+        For Linux: ${jboss.home.name}/bin/jboss-cli.sh --connect --file=restore-configuration.cli
+        For Windows: ${jboss.home.name}\bin\jboss-cli.bat --connect --file=restore-configuration.cli
 This script removes the `application-security-domain` configuration from the `undertow` subsystem, the `http-authentication-factory`, `security-domain`, `security-realm` and `role-decoder` configuration from the `elytron` subsystem and it also removes the `datasource` used for this quickstart. You should see the following result when you run the script:
 
         The batch executed successfully
         process-state: reload-required
 
 ### Restore the Server Configuration Manually
-1. If it is running, stop the WildFly server.
-2. Replace the `WILDFLY_HOME/standalone/configuration/standalone.xml` file with the back-up copy of the file.
+1. If it is running, stop the ${product.name} server.
+2. Replace the `${jboss.home.name}/standalone/configuration/standalone.xml` file with the back-up copy of the file.
 
 
 ## Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 
-You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a WildFly server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_JBDS.md#use-jboss-developer-studio-or-eclipse-to-run-the-quickstarts).
+You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a ${product.name} server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](${use.eclipse.url}).
 
-* Be sure to configure the server by running the JBoss CLI commands as described above under [Configure the WildFly Server](#configure-the-server). Stop the server at the end of that step.
+* Be sure to configure the server by running the JBoss CLI commands as described above under [Configure the ${product.name} Server](#configure-the-server). Stop the server at the end of that step.
 * Be sure to [Restore the Server Configuration](#restore-the-server-configuration) when you have completed testing this quickstart.
 
 ## Debug the Application

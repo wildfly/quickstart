@@ -4,22 +4,22 @@ Author: Lincoln Baxter, Matej Briskar
 Level: Intermediate  
 Technologies: Forge  
 Summary: The `forge-from-scratch` quickstart demonstrates how *JBoss Forge* can generate a Java EE (JPA, EJB, JAX-RS, JSF) web-enabled database application.   
-Target Product: WildFly  
-Source: <https://github.com/wildfly/quickstart/>  
+Target Product: ${product.name}  
+Source: <${github.repo.url}>  
 
 ## What is it?
 
-The `forge-from-scratch` quickstart demonstrates how to create a fully **Java EE compliant** project using **JBoss Forge** and **Red Hat JBoss Developer Studio** and deploy it to **WildFly Application Server 11** or later.
+The `forge-from-scratch` quickstart demonstrates how to create a fully **Java EE compliant** project using **JBoss Forge** and **Red Hat JBoss Developer Studio** and deploy it to **${product.name.full} ${product.version}** or later.
 
 The generated example will be a standard Maven, Java Web project with **JPA, EJB, CDI, JSF** with complete **JAX-RS** endpoints for all data Entities. It will also provide views to `Create`, `Read`, `Update`, and `Delete` records.
 
 But that is not all! You can use Forge on your new or existing projects to continue to enhance any application.
 
-_Note: This quickstart uses the H2 database included with WildFly Application Server 11. It is a lightweight, relational example datasource that is used for examples only. It is not robust or scalable, is not supported, and should NOT be used in a production environment!_
+_Note: This quickstart uses the H2 database included with ${product.name.full} ${product.version}. It is a lightweight, relational example datasource that is used for examples only. It is not robust or scalable, is not supported, and should NOT be used in a production environment!_
 
 ## System Requirements
 
-The application this project produces is designed to be run on WildFly Application Server 11 or later.
+The application this project produces is designed to be run on ${product.name.full} ${product.version} or later.
 
 All you need to build this project is Java 8.0 (Java SDK 1.8) or later and Red Hat JBoss Developer Studio 10.0 or greater. These versions of JBoss Developer Studio embed Maven 3.3.3, so you do not need to install it separately.
 
@@ -63,8 +63,8 @@ This quickstart created a native Java EE 7 application.
 
 ### Deploy the Generated Application
 
-1. If you have not yet done so, add the WildFly 11 runtime server to Red Hat JBoss Developer Studio. For general information about how to import a quickstart, add a WildFly server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_JBDS.md).
-2. Right-click on the project name and choose `Run As` --> `Run on Server`. If you have more than one server, choose the WildFly 11 Runtime server. Then click `Finish`.
+1. If you have not yet done so, add the ${product.name} ${product.version} runtime server to Red Hat JBoss Developer Studio. For general information about how to import a quickstart, add a ${product.name} server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_JBDS.md).
+2. Right-click on the project name and choose `Run As` --> `Run on Server`. If you have more than one server, choose the ${product.name} ${product.version} Runtime server. Then click `Finish`.
 3. Upon successful deployment, a **Welcome to Forge Window** opens with the application running at the following URL: <http://localhost:8080/forge-example/>
 
 ### Server Log: Expected warnings and errors
@@ -105,11 +105,11 @@ The running application also provides links to find more information about the F
 
 ## Undeploy the Application
 
-When you are ready to undeploy the application from WildFly:
+When you are ready to undeploy the application from ${product.name}:
 
 
 1. Go to the Red Hat JBoss Developer Studio `Servers` window.
-2. Expand the WildFly Server to see the list of deployed applications.
+2. Expand the ${product.name} Server to see the list of deployed applications.
 3. Choose the `forge-example` project created by this quickstart, right-click, and choose `Remove`.
 4. Click `OK` when asked if you are sure you want to remove resource from the server. You should see the following message:
 

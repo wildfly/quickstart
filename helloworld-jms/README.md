@@ -3,31 +3,31 @@
 Author: Weston Price  
 Level: Intermediate  
 Technologies: JMS  
-Summary: The `helloworld-jms` quickstart demonstrates the use of external JMS clients with WildFly.  
-Target Product: WildFly  
-Source: <https://github.com/wildfly/quickstart/>  
+Summary: The `helloworld-jms` quickstart demonstrates the use of external JMS clients with ${product.name}.  
+Target Product: ${product.name}  
+Source: <${github.repo.url}>  
 
 ## What is it?
 
-The `helloworld-jms` quickstart demonstrates the use of external JMS clients with WildFly Application Server.
+The `helloworld-jms` quickstart demonstrates the use of external JMS clients with ${product.name.full}.
 
 It contains the following:
 
-1. A message producer that sends messages to a JMS destination deployed to a WildFly server.
+1. A message producer that sends messages to a JMS destination deployed to a ${product.name} server.
 
-2. A message consumer that receives message from a JMS destination deployed to a WildFly server.
+2. A message consumer that receives message from a JMS destination deployed to a ${product.name} server.
 
 
 ## System Requirements
 
-The application this project produces is designed to be run on WildFly Application Server 11 or later.
+The application this project produces is designed to be run on ${product.name.full} ${product.version} or later.
 
-All you need to build this project is Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later. See [Configure Maven for WildFly 11](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
+All you need to build this project is ${build.requirements}. See [Configure Maven for ${product.name} ${product.version}](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
 
 
-## Use of WILDFLY_HOME
+## Use of ${jboss.home.name}
 
-In the following instructions, replace `WILDFLY_HOME` with the actual path to your WildFly installation. The installation path is described in detail here: [Use of WILDFLY_HOME and JBOSS_HOME Variables](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_WILDFLY_HOME.md#use-of-eap_home-and-jboss_home-variables).
+In the following instructions, replace `${jboss.home.name}` with the actual path to your ${product.name} installation. The installation path is described in detail here: [Use of ${jboss.home.name} and JBOSS_HOME Variables](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_${jboss.home.name}.md#use-of-eap_home-and-jboss_home-variables).
 
 
 ## Add an Application User
@@ -40,8 +40,8 @@ This quickstart uses secured management interfaces and requires that you create 
 
 To add the application user, open a command prompt and type the following command:
 
-        For Linux:   WILDFLY_HOME/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'guest'
-        For Windows: WILDFLY_HOME\bin\add-user.bat  -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'guest'
+        For Linux:   ${jboss.home.name}/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'guest'
+        For Windows: ${jboss.home.name}\bin\add-user.bat  -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'guest'
 
 If you prefer, you can use the add-user utility interactively.
 For an example of how to use the add-user utility, see the instructions located here: [Add an Application User](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CREATE_USERS.md#add-an-application-user).
@@ -52,28 +52,28 @@ For an example of how to use the add-user utility, see the instructions located 
 You configure the JMS `test` queue by running JBoss CLI commands. For your convenience, this quickstart batches the commands into a `configure-jms.cli` script provided in the root directory of this quickstart.
 
 1. Before you begin, back up your server configuration file
-    * If it is running, stop the WildFly server.
-    * Back up the file: `WILDFLY_HOME/standalone/configuration/standalone-full.xml`
+    * If it is running, stop the ${product.name} server.
+    * Back up the file: `${jboss.home.name}/standalone/configuration/standalone-full.xml`
     * After you have completed testing this quickstart, you can replace this file to restore the server to its original configuration.
-2. Start the WildFly server by typing the following:
+2. Start the ${product.name} server by typing the following:
 
-        For Linux:  WILDFLY_HOME/bin/standalone.sh -c standalone-full.xml
-        For Windows:  WILDFLY_HOME\bin\standalone.bat -c standalone-full.xml
+        For Linux:  ${jboss.home.name}/bin/standalone.sh -c standalone-full.xml
+        For Windows:  ${jboss.home.name}\bin\standalone.bat -c standalone-full.xml
 3. Review the `configure-jms.cli` file in the root of this quickstart directory. This script adds the `test` queue to the `messaging` subsystem in the server configuration file.
 
-4. Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing WILDFLY_HOME with the path to your server:
+4. Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing ${jboss.home.name} with the path to your server:
 
-        For Linux: WILDFLY_HOME/bin/jboss-cli.sh --connect --file=configure-jms.cli
-        For Windows: WILDFLY_HOME\bin\jboss-cli.bat --connect --file=configure-jms.cli
+        For Linux: ${jboss.home.name}/bin/jboss-cli.sh --connect --file=configure-jms.cli
+        For Windows: ${jboss.home.name}\bin\jboss-cli.bat --connect --file=configure-jms.cli
 5. You should see the following result when you run the script:
 
         The batch executed successfully
-6. Stop the WildFly server.
+6. Stop the ${product.name} server.
 
 
 ## Review the Modified Server Configuration
 
-After stopping the server, open the `WILDFLY_HOME/standalone/configuration/standalone-full.xml` file and review the changes.
+After stopping the server, open the `${jboss.home.name}/standalone/configuration/standalone-full.xml` file and review the changes.
 
 The following `testQueue` jms-queue was configured in the default server configuration of the  `messaging-activemq` subsystem.
 
@@ -82,18 +82,18 @@ The following `testQueue` jms-queue was configured in the default server configu
 
 ## Start the Server with the Full Profile
 
-1. Open a command prompt and navigate to the root of the WildFly directory.
+1. Open a command prompt and navigate to the root of the ${product.name} directory.
 2. The following shows the command line to start the server with the full profile:
 
-        For Linux:   WILDFLY_HOME/bin/standalone.sh -c standalone-full.xml
-        For Windows: WILDFLY_HOME\bin\standalone.bat -c standalone-full.xml
+        For Linux:   ${jboss.home.name}/bin/standalone.sh -c standalone-full.xml
+        For Windows: ${jboss.home.name}\bin\standalone.bat -c standalone-full.xml
 
 
 ## Build and Execute the Quickstart
 
 To run the quickstart from the command line:
 
-1. Make sure you have started the WildFly server. See the instructions in the previous section.
+1. Make sure you have started the ${product.name} server. See the instructions in the previous section.
 
 2. Open a command prompt and navigate to the root of the helloworld-jms quickstart directory:
 
@@ -183,35 +183,35 @@ You can remove the JMS configuration by running the  `remove-jms.cli` script pro
 
 ### Remove the JMS Configuration by Running the JBoss CLI Script
 
-1. Start the WildFly server by typing the following:
+1. Start the ${product.name} server by typing the following:
 
-        For Linux:  WILDFLY_HOME/bin/standalone.sh -c standalone-full.xml
-        For Windows:  WILDFLY_HOME\bin\standalone.bat -c standalone-full.xml
-2. Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing WILDFLY_HOME with the path to your server:
+        For Linux:  ${jboss.home.name}/bin/standalone.sh -c standalone-full.xml
+        For Windows:  ${jboss.home.name}\bin\standalone.bat -c standalone-full.xml
+2. Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing ${jboss.home.name} with the path to your server:
 
-        For Linux: WILDFLY_HOME/bin/jboss-cli.sh --connect --file=remove-jms.cli
-        For Windows: WILDFLY_HOME\bin\jboss-cli.bat --connect --file=remove-jms.cli
+        For Linux: ${jboss.home.name}/bin/jboss-cli.sh --connect --file=remove-jms.cli
+        For Windows: ${jboss.home.name}\bin\jboss-cli.bat --connect --file=remove-jms.cli
 3. This script removes the `test` queue from the `messaging` subsystem in the server configuration. You should see the following result when you run the script:
 
         The batch executed successfully
 
 ### Remove the JMS Configuration Manually
-1. If it is running, stop the WildFly server.
-2. Replace the `WILDFLY_HOME/standalone/configuration/standalone-full.xml` file with the back-up copy of the file.
+1. If it is running, stop the ${product.name} server.
+2. Replace the `${jboss.home.name}/standalone/configuration/standalone-full.xml` file with the back-up copy of the file.
 
 
 ## Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 
-You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a WildFly server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_JBDS.md#use-jboss-developer-studio-or-eclipse-to-run-the-quickstarts).
+You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a ${product.name} server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](${use.eclipse.url}).
 
 This quickstart consists of multiple projects, so it deploys and runs differently in JBoss Developer Studio than the other quickstarts.
 
 1. Be sure to [Add an Application User](#add-an-application-user) as described above.
-2. Configure and start the WildFly server in Red Hat JBoss Developer Studio:
+2. Configure and start the ${product.name} server in Red Hat JBoss Developer Studio:
     * Define a server runtime environment that uses the `standalone-full.xml` configuration file.
     * Start the server defined in the previous step.
 3. Outside of JBoss Developer Studio, configure the JMS `test` queue by running the JBoss CLI commands as described above under [Configure the Server](#configure-the-server).
-4. In JBoss Developer Studio, right-click on the `helloworld-jms` project and choose `Run As` --> `Java Application`.  In the `Select Java Application` window, choose `HellowWorldJMSClient - org.jboss.as.quickstarts.jms` and click `OK`. The client output displays in the `Console` window.
+4. In JBoss Developer Studio, right-click on the `${project.artifactId}` project and choose `Run As` --> `Java Application`.  In the `Select Java Application` window, choose `HellowWorldJMSClient - org.jboss.as.quickstarts.jms` and click `OK`. The client output displays in the `Console` window.
 The output messages appear in the `Console` window.
 5. Be sure to [Remove the JMS Configuration](#remove-the-jms-configuration) when you have completed testing this quickstart.
 

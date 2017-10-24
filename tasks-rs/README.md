@@ -5,12 +5,12 @@ Level: Intermediate
 Technologies: JPA, JAX-RS  
 Summary: The `tasks-rs` quickstart demonstrates how to implement a JAX-RS service that uses JPA persistence.  
 Prerequisites: tasks  
-Target Product: WildFly  
-Source: <https://github.com/wildfly/quickstart/>  
+Target Product: ${product.name}  
+Source: <${github.repo.url}>  
 
 ## What is it?
 
-The `tasks-rs` quickstart demonstrates how to implement a JAX-RS service that uses JPA persistence deployed to WildFly Application Server.
+The `tasks-rs` quickstart demonstrates how to implement a JAX-RS service that uses JPA persistence deployed to ${product.name.full}.
 
 * The client uses HTTP to interact with the service. It builds on the *tasks* quickstart, which provides simple task management with secure login.
 
@@ -18,21 +18,21 @@ The `tasks-rs` quickstart demonstrates how to implement a JAX-RS service that us
 
 The application manages `User` and `Task` JPA entities. A user represents an authenticated principal and is associated with zero or more tasks. Service methods validate that there is an authenticated principal and the first time a principal is seen, a JPA User entity is created to correspond to the principal. JAX-RS annotated methods are provided for associating tasks with this user and for listing and removing tasks.
 
-_Note: This quickstart uses the H2 database included with WildFly Application Server 11. It is a lightweight, relational example datasource that is used for examples only. It is not robust or scalable, is not supported, and should NOT be used in a production environment!_
+_Note: This quickstart uses the H2 database included with ${product.name.full} ${product.version}. It is a lightweight, relational example datasource that is used for examples only. It is not robust or scalable, is not supported, and should NOT be used in a production environment!_
 
-_Note: This quickstart uses a `*-ds.xml` datasource configuration file for convenience and ease of database configuration. These files are deprecated in WildFly and should not be used in a production environment. Instead, you should configure the datasource using the Management CLI or Management Console. Datasource configuration is documented in the [Configuration Guide](https://access.redhat.com/documentation/en/red-hat-jboss-enterprise-application-platform/) for WildFly Application Server._
+_Note: This quickstart uses a `*-ds.xml` datasource configuration file for convenience and ease of database configuration. These files are deprecated in ${product.name} and should not be used in a production environment. Instead, you should configure the datasource using the Management CLI or Management Console. Datasource configuration is documented in the [Configuration Guide](https://access.redhat.com/documentation/en/red-hat-jboss-enterprise-application-platform/) for ${product.name.full}._
 
 
 ## System Requirements
 
-The application this project produces is designed to be run on WildFly Application Server 11 or later.
+The application this project produces is designed to be run on ${product.name.full} ${product.version} or later.
 
-All you need to build this project is Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later. See [Configure Maven for WildFly 11](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
+All you need to build this project is ${build.requirements}. See [Configure Maven for ${product.name} ${product.version}](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
 
 
-## Use of WILDFLY_HOME
+## Use of ${jboss.home.name}
 
-In the following instructions, replace `WILDFLY_HOME` with the actual path to your WildFly installation. The installation path is described in detail here: [Use of WILDFLY_HOME and JBOSS_HOME Variables](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_WILDFLY_HOME.md#use-of-eap_home-and-jboss_home-variables).
+In the following instructions, replace `${jboss.home.name}` with the actual path to your ${product.name} installation. The installation path is described in detail here: [Use of ${jboss.home.name} and JBOSS_HOME Variables](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_${jboss.home.name}.md#use-of-eap_home-and-jboss_home-variables).
 
 
 ## Add an Application User
@@ -45,8 +45,8 @@ This quickstart uses secured management interfaces and requires that you create 
 
 To add the application user, open a command prompt and type the following command:
 
-      For Linux:   WILDFLY_HOME/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'guest'
-      For Windows: WILDFLY_HOME\bin\add-user.bat  -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'guest'
+      For Linux:   ${jboss.home.name}/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'guest'
+      For Windows: ${jboss.home.name}\bin\add-user.bat  -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'guest'
 
 If you prefer, you can use the add-user utility interactively.
 For an example of how to use the add-user utility, see the instructions located here: [Add an Application User](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CREATE_USERS.md#add-an-application-user).
@@ -54,27 +54,27 @@ For an example of how to use the add-user utility, see the instructions located 
 
 ## Start the Server
 
-1. Open a command prompt and navigate to the root of the WildFly directory.
+1. Open a command prompt and navigate to the root of the ${product.name} directory.
 2. The following shows the command line to start the server:
 
-        For Linux:   WILDFLY_HOME/bin/standalone.sh
-        For Windows: WILDFLY_HOME\bin\standalone.bat
+        For Linux:   ${jboss.home.name}/bin/standalone.sh
+        For Windows: ${jboss.home.name}\bin\standalone.bat
 
 
 ## Build and Deploy the Quickstart
 
-1. Make sure you have started the WildFly server as described above.
+1. Make sure you have started the ${product.name} server as described above.
 2. Open a command prompt and navigate to the root directory of this quickstart.
 3. Type this command to build and deploy the archive:
 
         mvn clean install wildfly:deploy
 
-4. This will deploy `target/tasks-rs.war` to the running instance of the server.
+4. This will deploy `target/${project.artifactId}.war` to the running instance of the server.
 
 
 ## Access the Application Resources
 
-Application resources for this quickstart are prefixed with the URL <http://localhost:8080/tasks-rs/> and can be accessed by an HTTP client.
+Application resources for this quickstart are prefixed with the URL <http://localhost:8080/${project.artifactId}/> and can be accessed by an HTTP client.
 
 * A web browser can be used for methods that accept *GET*.
 * Otherwise, you must use cURL or some other command line tool that supports HTTP *POST* and *DELETE* methods.
@@ -83,11 +83,11 @@ Below you will find instructions to create, display, and delete tasks.
 
 ### Create a Task
 
-To associate a task called `task1` with the user `quickstartUser`, you must authenticate as user `quickstartUser` and send an HTTP *POST* request to the url <http://localhost:8080/tasks-rs/tasks/title/task1>.
+To associate a task called `task1` with the user `quickstartUser`, you must authenticate as user `quickstartUser` and send an HTTP *POST* request to the url <http://localhost:8080/${project.artifactId}/tasks/title/task1>.
 
 To issue the *POST* command using cURL, type the following command:
 
-    curl -i -u 'quickstartUser:quickstartPwd1!' -H "Content-Length: 0" -X POST http://localhost:8080/tasks-rs/tasks/title/task1
+    curl -i -u 'quickstartUser:quickstartPwd1!' -H "Content-Length: 0" -X POST http://localhost:8080/${project.artifactId}/tasks/title/task1
 
 You will see the following response:
 
@@ -97,7 +97,7 @@ You will see the following response:
     X-Powered-By: Undertow/1
     Server: JBoss-EAP/7
     Pragma: no-cache
-    Location: http://localhost:8080/tasks-rs/tasks/id/1
+    Location: http://localhost:8080/${project.artifactId}/tasks/id/1
     Date: Thu, 20 Aug 2015 17:30:24 GMT
 
 This is what happens when the command is issued:
@@ -108,7 +108,7 @@ This is what happens when the command is issued:
 * The `-X` flag tells cURL which HTTP method to use. The HTTP *POST* is used to create resources.
 * The `Location` header of the response contains the URI of the resource representing the newly created task.
 
-The final argument to cURL determines the title of the task. Note that this approach is perhaps not very restful but it simplifies this quickstart. A better approach would be to *POST* to `http://localhost:8080/tasks-rs/tasks/title` passing the task title in the body of the request.
+The final argument to cURL determines the title of the task. Note that this approach is perhaps not very restful but it simplifies this quickstart. A better approach would be to *POST* to `http://localhost:8080/${project.artifactId}/tasks/title` passing the task title in the body of the request.
 
 
 ### Display the XML Representation of a Task
@@ -117,10 +117,10 @@ To display the XML representation of the newly created resource, issue a *GET* r
 
 1. To issue a *GET* using a browser, open a browser and access the URI. You will be challenged to enter valid authentication credentials.
 
-    <http://localhost:8080/tasks-rs/tasks/id/1>
+    <http://localhost:8080/${project.artifactId}/tasks/id/1>
 2. To issue a *GET* using cURL, type the following command:
 
-        curl -H "Accept: application/xml" -u 'quickstartUser:quickstartPwd1!' -X GET http://localhost:8080/tasks-rs/tasks/id/1
+        curl -H "Accept: application/xml" -u 'quickstartUser:quickstartPwd1!' -X GET http://localhost:8080/${project.artifactId}/tasks/id/1
 
     The `-H` flag tells the server that the client wishes to accept XML content.
 
@@ -138,11 +138,11 @@ To obtain a list of all tasks for user `quickstartUser` in XML format, authentic
 
 1. To issue a *GET* using a browser, open a browser and access the following URL. You will be challenged to enter valid authentication credentials.
 
-    <http://localhost:8080/tasks-rs/tasks/title>
+    <http://localhost:8080/${project.artifactId}/tasks/title>
 
 2. To list all tasks associated with the user `quickstartUser` using cURL, type:
 
-        curl -H "Accept: application/xml" -u 'quickstartUser:quickstartPwd1!' -X GET http://localhost:8080/tasks-rs/tasks/title
+        curl -H "Accept: application/xml" -u 'quickstartUser:quickstartPwd1!' -X GET http://localhost:8080/${project.artifactId}/tasks/title
 
 Using either of the above *GET* methods, you should see the following XML:
 
@@ -159,7 +159,7 @@ To delete a task, again authenticate as principal `quickstartUser` and send an H
 
 To delete the task with id `1`:
 
-    curl -i -u 'quickstartUser:quickstartPwd1!' -X DELETE http://localhost:8080/tasks-rs/tasks/id/1
+    curl -i -u 'quickstartUser:quickstartPwd1!' -X DELETE http://localhost:8080/${project.artifactId}/tasks/id/1
 
 You will see this response:
 
@@ -173,7 +173,7 @@ You will see this response:
 
 Now list all tasks associated with user `quickstartUser`:
 
-    curl -u 'quickstartUser:quickstartPwd1!' -X GET http://localhost:8080/tasks-rs/tasks/title
+    curl -u 'quickstartUser:quickstartPwd1!' -X GET http://localhost:8080/${project.artifactId}/tasks/title
 
 You will see a response with an empty collection:
 
@@ -216,7 +216,7 @@ JSON is not part of the JAX-RS standard but most JAX-RS implementations do suppo
 
 6. View task resources in JSON media type by specifying the correct *Accept* header. For example, using the cURL tool, type the following command:
 
-        curl -H "Accept: application/json" -u 'quickstartUser:quickstartPwd1!' -X GET http://localhost:8080/tasks-rs/tasks/id/1
+        curl -H "Accept: application/json" -u 'quickstartUser:quickstartPwd1!' -X GET http://localhost:8080/${project.artifactId}/tasks/id/1
    You will see the following response:
 
         {"id":1,"title":"task1","ownerName":"quickstartUser"}
@@ -233,7 +233,7 @@ _Note:_ You will see the following warnings in the server log. You can ignore th
 
 ## Undeploy the Archive
 
-1. Make sure you have started the WildFly server as described above.
+1. Make sure you have started the ${product.name} server as described above.
 2. Open a command prompt and navigate to the root directory of this quickstart.
 3. When you are finished testing, type this command to undeploy the archive:
 
@@ -244,18 +244,18 @@ _Note:_ You will see the following warnings in the server log. You can ignore th
 
 This quickstart provides Arquillian tests. By default, these tests are configured to be skipped as Arquillian tests require the use of a container.
 
-1. Make sure you have started the WildFly server as described above.
+1. Make sure you have started the ${product.name} server as described above.
 2. Open a command prompt and navigate to the root directory of this quickstart.
 3. Type the following command to run the test goal with the following profile activated:
 
         mvn clean verify -Parq-remote
 
-You can also let Arquillian manage the WildFly server by using the `arq-managed` profile. For more information about how to run the Arquillian tests, see [Run the Arquillian Tests](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/RUN_ARQUILLIAN_TESTS.md#run-the-arquillian-tests).
+You can also let Arquillian manage the ${product.name} server by using the `arq-managed` profile. For more information about how to run the Arquillian tests, see [Run the Arquillian Tests](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/RUN_ARQUILLIAN_TESTS.md#run-the-arquillian-tests).
 
 
 ## Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 
-You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a WildFly server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_JBDS.md#use-jboss-developer-studio-or-eclipse-to-run-the-quickstarts).
+You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a ${product.name} server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](${use.eclipse.url}).
 
 Be sure to [Add an Application User](#add-an-application-user) as described above.
 

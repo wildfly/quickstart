@@ -4,56 +4,56 @@ Author: Sande Gilda, Emmanuel Hugonett
 Level: Beginner  
 Technologies: WebSocket, CDI, JSF  
 Summary: The `websocket-hello` quickstart demonstrates how to create a simple WebSocket application.  
-Target Product: WildFly  
-Source: <https://github.com/wildfly/quickstart/>  
+Target Product: ${product.name}  
+Source: <${github.repo.url}>  
 
 ## What is it?
 
-The `websocket-hello` quickstart demonstrates how to create a simple WebSocket-enabled application in WildFly Application Server. It consists of the following:
+The `websocket-hello` quickstart demonstrates how to create a simple WebSocket-enabled application in ${product.name.full}. It consists of the following:
 
 * A JavaScript enabled WebSocket HTML client.
 * A WebSocket server endpoint that uses annotations to interact with the WebSocket events.
 * A `jboss-web.xml` file configured to enable WebSockets
 
-WebSockets are a requirement of the Java EE 7 specification and are implemented in WildFly 11. They are configured in the `undertow` subsystem of the server configuration file. This quickstart uses the WebSocket default settings, so it is not necessary to modify the server configuration to deploy and run this quickstart.
+WebSockets are a requirement of the Java EE 7 specification and are implemented in ${product.name} ${product.version}. They are configured in the `undertow` subsystem of the server configuration file. This quickstart uses the WebSocket default settings, so it is not necessary to modify the server configuration to deploy and run this quickstart.
 
 _Note: This quickstart demonstrates only a few of the basic functions. A fully functional application should provide better error handling and intercept and handle additional events._
 
 ## System Requirements
 
-The application this project produces is designed to be run on WildFly Application Server 11 or later.
+The application this project produces is designed to be run on ${product.name.full} ${product.version} or later.
 
-All you need to build this project is Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later. See [Configure Maven for WildFly 11](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
-
-
-## Use of WILDFLY_HOME
-
-In the following instructions, replace `WILDFLY_HOME` with the actual path to your WildFly installation. The installation path is described in detail here: [Use of WILDFLY_HOME and JBOSS_HOME Variables](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_WILDFLY_HOME.md#use-of-eap_home-and-jboss_home-variables).
+All you need to build this project is ${build.requirements}. See [Configure Maven for ${product.name} ${product.version}](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
 
 
-## Start the WildFly Server
+## Use of ${jboss.home.name}
 
-1. Open a command prompt and navigate to the root of the WildFly directory.
+In the following instructions, replace `${jboss.home.name}` with the actual path to your ${product.name} installation. The installation path is described in detail here: [Use of ${jboss.home.name} and JBOSS_HOME Variables](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_${jboss.home.name}.md#use-of-eap_home-and-jboss_home-variables).
+
+
+## Start the ${product.name} Server
+
+1. Open a command prompt and navigate to the root of the ${product.name} directory.
 2. The following shows the command line to start the server:
 
-        For Linux:   WILDFLY_HOME/bin/standalone.sh
-        For Windows: WILDFLY_HOME\bin\standalone.bat
+        For Linux:   ${jboss.home.name}/bin/standalone.sh
+        For Windows: ${jboss.home.name}\bin\standalone.bat
 
 
 ## Build and Deploy the Quickstart
 
-1. Make sure you have started the WildFly server as described above.
+1. Make sure you have started the ${product.name} server as described above.
 2. Open a command prompt and navigate to the root directory of this quickstart.
 3. Type this command to build and deploy the archive:
 
         mvn clean install wildfly:deploy
 
-4. This will deploy `target/websocket-hello.war` to the running instance of the server.
+4. This will deploy `target/${project.artifactId}.war` to the running instance of the server.
 
 
 ## Access the Application
 
-The application will be running at the following URL: <http://localhost:8080/websocket-hello/>.
+The application will be running at the following URL: <http://localhost:8080/${project.artifactId}/>.
 
 1. Click on the `Open Connection` button to create the WebSocket connection and display current status of `Open`.
 2. Type a name and click `Say Hello` to create and send the `Say hello to <NAME>` message. The message appears in the server log and a response is sent to the client.
@@ -65,7 +65,7 @@ The application will be running at the following URL: <http://localhost:8080/web
 
 ## Undeploy the Archive
 
-1. Make sure you have started the WildFly server as described above.
+1. Make sure you have started the ${product.name} server as described above.
 2. Open a command prompt and navigate to the root directory of this quickstart.
 3. When you are finished testing, type this command to undeploy the archive:
 
@@ -74,7 +74,7 @@ The application will be running at the following URL: <http://localhost:8080/web
 
 ## Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 
-You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a WildFly server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_JBDS.md#use-jboss-developer-studio-or-eclipse-to-run-the-quickstarts).
+You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a ${product.name} server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](${use.eclipse.url}).
 
 
 ## Debug the Application

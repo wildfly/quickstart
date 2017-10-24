@@ -5,7 +5,7 @@ Level: Intermediate
 Technologies: Undertow.js, Angular.js  
 Summary: Based on kitchensink, but uses a Angular for the front end and Undertow.js for the back end.  
 Target Project: WildFly  
-Source: <https://github.com/wildfly/quickstart/>
+Source: <${github.repo.url}>
 
 What is it?
 -----------
@@ -16,7 +16,7 @@ This project is setup to allow you to create a compliant Java EE 7 application u
 
 ## System requirements
 
-All you need to build this project is Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later. See [Configure Maven for WildFly 11](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
+All you need to build this project is ${build.requirements}. See [Configure Maven for ${product.name} ${product.version}](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
 
 
 
@@ -39,13 +39,13 @@ _NOTE: The following build command assumes you have configured your Maven user s
 
         mvn clean package wildfly:deploy
 
-4. This will deploy `target/kitchensink-utjs-angularjs.war` to the running instance of the server.
+4. This will deploy `target/${project.artifactId}.war` to the running instance of the server.
  
 
 Access the application 
 ---------------------
 
-The application will be running at the following URL: <http://localhost:8080/kitchensink-utjs-angularjs/>.
+The application will be running at the following URL: <http://localhost:8080/${project.artifactId}/>.
 
 
 Undeploy the Archive

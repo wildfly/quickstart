@@ -4,30 +4,30 @@ Author: Giriraj Sharma, Stefan Guilhen
 Level: Intermediate  
 Technologies: Mutual SSL, Security, Undertow  
 Summary: The `helloworld-mutual-ssl-secured` quickstart demonstrates securing a Web application using client mutual SSL authentication and role-based access control  
-Target Product: WildFly  
-Source: <https://github.com/wildfly/quickstart/>  
+Target Product: ${product.name}  
+Source: <${github.repo.url}>  
 
 ## What is it?
 
-This example demonstrates the configuration of *mutual SSL authentication* in WildFly Application Server 11 to secure a war application.
+This example demonstrates the configuration of *mutual SSL authentication* in ${product.name.full} ${product.version} to secure a war application.
 
-Mutual SSL provides the same security as SSL, with the addition of authentication and non-repudiation of the client authentication, using digital signatures. When mutual authentication is used, the server would request the client to provide a certificate in addition to the server certificate issued to the client. Mutual authentication requires an extra round trip time for client certificate exchange. In addition, the client must buy and maintain a digital certificate. We can secure our war application deployed over WildFly with mutual(two-way) client certificate authentication and provide access permissions or privileges to legitimate users.
+Mutual SSL provides the same security as SSL, with the addition of authentication and non-repudiation of the client authentication, using digital signatures. When mutual authentication is used, the server would request the client to provide a certificate in addition to the server certificate issued to the client. Mutual authentication requires an extra round trip time for client certificate exchange. In addition, the client must buy and maintain a digital certificate. We can secure our war application deployed over ${product.name} with mutual(two-way) client certificate authentication and provide access permissions or privileges to legitimate users.
 
-This quickstart shows how to configure WildFly to enable TLS/SSL configuration for the new WildFly `undertow` subsystem and enable mutual (two-way) SSL authentication for clients in order to secure a WAR application with restricted access.
+This quickstart shows how to configure ${product.name} to enable TLS/SSL configuration for the new ${product.name} `undertow` subsystem and enable mutual (two-way) SSL authentication for clients in order to secure a WAR application with restricted access.
 
 ## System Requirements
 
-The applications these projects produce are designed to be run on WildFly Application Server 11 or later.
+The applications these projects produce are designed to be run on ${product.name.full} ${product.version} or later.
 
-All you need to build these projects is Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later. See [Configure Maven for WildFly 11](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
+All you need to build these projects is ${build.requirements}. See [Configure Maven for ${product.name} ${product.version}](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
 
-To run these quickstarts with the provided build scripts, you need the WildFly distribution ZIP. For information on how to install and run WildFly, see the [WildFly Application Server Documentation](https://access.redhat.com/documentation/en/red-hat-jboss-enterprise-application-platform/) _Getting Started Guide_ located on the Customer Portal.
+To run these quickstarts with the provided build scripts, you need the ${product.name} distribution ZIP. For information on how to install and run ${product.name}, see the [${product.name.full} Documentation](https://access.redhat.com/documentation/en/red-hat-jboss-enterprise-application-platform/) _Getting Started Guide_ located on the Customer Portal.
 
 You can also use [JBoss Developer Studio or Eclipse](#use-jboss-developer-studio-or-eclipse-to-run-the-quickstarts) to run the quickstarts.
 
-## Use of WILDFLY_HOME
+## Use of ${jboss.home.name}
 
-In the following instructions, replace `WILDFLY_HOME` with the actual path to your WildFly installation. The installation path is described in detail here: [Use of WILDFLY_HOME and JBOSS_HOME Variables](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_WILDFLY_HOME.md#use-of-eap_home-and-jboss_home-variables).
+In the following instructions, replace `${jboss.home.name}` with the actual path to your ${product.name} installation. The installation path is described in detail here: [Use of ${jboss.home.name} and JBOSS_HOME Variables](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_${jboss.home.name}.md#use-of-eap_home-and-jboss_home-variables).
 
 ## Add the Application Users
 
@@ -42,20 +42,20 @@ For the purpose of this quickstart the password can contain any valid value beca
 To add the application user, open a command prompt and type the following commands:
 
         For Linux:
-          WILDFLY_HOME/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'JBossAdmin'
+          ${jboss.home.name}/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'JBossAdmin'
 
         For Windows:
-          WILDFLY_HOME\bin\add-user.bat  -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'JBossAdmin'
+          ${jboss.home.name}\bin\add-user.bat  -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'JBossAdmin'
 
 If you prefer, you can use the add-user utility interactively.
 For an example of how to use the add-user utility, see the instructions located here: [Add an Application User](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CREATE_USERS.md#add-an-application-user).
 
 ## Setup Client and Server Keystores Using Java Keytool
 
-1.  Open a command line and navigate to the WildFly server `configuration` directory:
+1.  Open a command line and navigate to the ${product.name} server `configuration` directory:
 
-        For Linux:   WILDFLY_HOME/standalone/configuration
-        For Windows: WILDFLY_HOME\standalone\configuration
+        For Linux:   ${jboss.home.name}/standalone/configuration
+        For Windows: ${jboss.home.name}\standalone\configuration
 2. Create a certificate for your server using the following command:
 
         $>keytool -genkey -keyalg RSA -keystore server.keystore -storepass secret -keypass secret -validity 365
@@ -145,30 +145,30 @@ These steps assume you are running the server in standalone mode and using the d
 You configure the SSL context and required security domain by running JBoss CLI commands. For your convenience, this quickstart batches the commands into a `configure-ssl.cli` script provided in the root directory of this quickstart.
 
 1. Before you begin, back up your server configuration file
-    * If it is running, stop the WildFly server.
-    * Back up the file: `WILDFLY_HOME/standalone/configuration/standalone.xml`
+    * If it is running, stop the ${product.name} server.
+    * Back up the file: `${jboss.home.name}/standalone/configuration/standalone.xml`
     * After you have completed testing this quickstart, you can replace this file to restore the server to its original configuration.
 
-2. Start the WildFly server by typing the following:
+2. Start the ${product.name} server by typing the following:
 
-        For Linux:  WILDFLY_HOME/bin/standalone.sh
-        For Windows:  WILDFLY_HOME\bin\standalone.bat
+        For Linux:  ${jboss.home.name}/bin/standalone.sh
+        For Windows:  ${jboss.home.name}\bin\standalone.bat
 3. Review the `configure-ssl.cli` file in the root of this quickstart directory. Comments in the script describe the purpose of each block of commands.
 
-4. Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing WILDFLY_HOME with the path to your server:
+4. Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing ${jboss.home.name} with the path to your server:
 
-        For Linux: WILDFLY_HOME/bin/jboss-cli.sh --connect --file=configure-ssl.cli
-        For Windows: WILDFLY_HOME\bin\jboss-cli.bat --connect --file=configure-ssl.cli
+        For Linux: ${jboss.home.name}/bin/jboss-cli.sh --connect --file=configure-ssl.cli
+        For Windows: ${jboss.home.name}\bin\jboss-cli.bat --connect --file=configure-ssl.cli
     You should see the following result when you run the script:
 
         The batch executed successfully
         process-state: reload-required
 
-5. Stop the WildFly server.
+5. Stop the ${product.name} server.
 
 ## Review the Modified Server Configuration
 
-After stopping the server, open the `WILDFLY_HOME/standalone/configuration/standalone.xml` file and review the changes.
+After stopping the server, open the `${jboss.home.name}/standalone/configuration/standalone.xml` file and review the changes.
 
 1. The following `key-store`s were added to the `elytron` subsystem:
 
@@ -276,7 +276,7 @@ Before you access the application, you must import the *clientCert.p12*, which h
 
 ## Start the Server
 
-1. Open a command line and navigate to the root of the WildFly directory.
+1. Open a command line and navigate to the root of the ${product.name} directory.
 2. The following shows the command line to start the server with the web profile:
 
         For Linux:   bin/standalone.sh
@@ -286,18 +286,18 @@ Before you access the application, you must import the *clientCert.p12*, which h
 
 _NOTE: The following build command assumes you have configured your Maven user settings. If you have not, you must include Maven setting arguments on the command line. See [Build and Deploy the Quickstarts](../README.md#build-and-deploy-the-quickstarts) for complete instructions and additional options._
 
-1. Make sure you have started the WildFly server as described above.
+1. Make sure you have started the ${product.name} server as described above.
 2. Open a command line and navigate to the root directory of one of the quickstart.
 3. Type this command to build and deploy the archive:
 
         mvn clean package wildfly:deploy
 
-4. This will deploy `target/helloworld-mutual-ssl-secured.war` to the running instance of the server.
+4. This will deploy `target/${project.artifactId}.war` to the running instance of the server.
 5. In case mutual ssl is configured properly and war app is secured, you will be able to access the application only if the DN of client certificate i.e., `clientCert.p12` is same as the one mentioned in `app-roles.properties` file. It will otherwise result into a `HTTP Status 403` or forbidden error.
 
 ## Access the Application
 
-The application will be running at the following URL: `<https://localhost:8443/helloworld-mutual-ssl-secured>`. A page displaying the caller
+The application will be running at the following URL: `<https://localhost:8443/${project.artifactId}>`. A page displaying the caller
 principal and the client certificate used for mutual SSL should be visible:
 
         Hello World ! Mutual SSL client authentication is successful and your war app is secured.!!
@@ -318,7 +318,7 @@ principal and the client certificate used for mutual SSL should be visible:
 
 ## Undeploy the Archive
 
-1. Make sure you have started the WildFly server as described above.
+1. Make sure you have started the ${product.name} server as described above.
 2. Open a command line and navigate to the root directory of this quickstart.
 3. When you are finished testing, type this command to undeploy the archive:
 
@@ -330,14 +330,14 @@ You can restore the original server configuration by running the `restore-config
 
 ### Restore the Server Configuration by Running the JBoss CLI Script
 
-1. Start the WildFly server by typing the following:
+1. Start the ${product.name} server by typing the following:
 
-        For Linux:  WILDFLY_HOME/bin/standalone.sh
-        For Windows:  WILDFLY_HOME\bin\standalone.bat
-2. Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing WILDFLY_HOME with the path to your server:
+        For Linux:  ${jboss.home.name}/bin/standalone.sh
+        For Windows:  ${jboss.home.name}\bin\standalone.bat
+2. Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing ${jboss.home.name} with the path to your server:
 
-        For Linux: WILDFLY_HOME/bin/jboss-cli.sh --connect --file=restore-configuration.cli
-        For Windows: WILDFLY_HOME\bin\jboss-cli.bat --connect --file=restore-configuration.cli
+        For Linux: ${jboss.home.name}/bin/jboss-cli.sh --connect --file=restore-configuration.cli
+        For Windows: ${jboss.home.name}\bin\jboss-cli.bat --connect --file=restore-configuration.cli
     This script reverts the changes made to the `undertow` and `elytron` subsystems. You should see the following result when you run the script:
 
         The batch executed successfully
@@ -345,12 +345,12 @@ You can restore the original server configuration by running the `restore-config
 
 ### Restore the Server Configuration Manually
 
-1. If it is running, stop the WildFly server.
-2. Replace the `WILDFLY_HOME/standalone/configuration/standalone.xml` file with the back-up copy of the file.
+1. If it is running, stop the ${product.name} server.
+2. Replace the `${jboss.home.name}/standalone/configuration/standalone.xml` file with the back-up copy of the file.
 
 ## Remove the keystores and certificates created for this quickstart
 
-1. Open a command line and navigate to the WildFly server `configuration` directory:
+1. Open a command line and navigate to the ${product.name} server `configuration` directory:
 
         For Linux:   standalone/configuration
         For Windows: standalone\configuration
@@ -380,9 +380,9 @@ After you are done with this quickstart, remember to remove the certificate that
 
 ## Run the Quickstart in JBoss Developer Studio or Eclipse
 
-You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a WildFly server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_JBDS.md#use-jboss-developer-studio-or-eclipse-to-run-the-quickstarts).
+You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a ${product.name} server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](${use.eclipse.url}).
 
-* Be sure to configure the server by running the JBoss CLI commands as described above under [Configure the WildFly Server](#configure-the-server). Stop the server at the end of that step.
+* Be sure to configure the server by running the JBoss CLI commands as described above under [Configure the ${product.name} Server](#configure-the-server). Stop the server at the end of that step.
 * Be sure to [Restore the Server Configuration](#restore-the-server-configuration) when you have completed testing this quickstart.
 
 ## Debug the Application

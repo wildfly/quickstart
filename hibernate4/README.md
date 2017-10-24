@@ -4,8 +4,8 @@ Author: Madhumita Sadhukhan
 Level: Intermediate  
 Technologies: Hibernate 4  
 Summary: This quickstart performs the same functions as the _hibernate5_ quickstart, but uses Hibernate 4 for database access. Compare this quickstart to the _hibernate5_ quickstart to see the changes needed to run with Hibernate 5.  
-Target Product: WildFly  
-Source: <https://github.com/wildfly/quickstart/>  
+Target Product: ${product.name}  
+Source: <${github.repo.url}>  
 
 What is it?
 -----------
@@ -44,7 +44,7 @@ For example:
       <dependency>
          <groupId>org.hibernate</groupId>
          <artifactId>hibernate-validator</artifactId>
-         <version>4.2.21.Final</version>
+         <version>${version.hibernate4}</version>
          <exclusions>
             <exclusion>
                <groupId>org.slf4j</groupId>

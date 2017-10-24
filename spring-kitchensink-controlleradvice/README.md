@@ -4,12 +4,12 @@ Author: Marius Bogoevici, Tejas Mehta, Joshua Wilson
 Level: Intermediate  
 Technologies: JSP, JPA, JSON, Spring, JUnit  
 Summary: The `spring-kitchensink-controlleradvice` quickstart showcases Spring 4.x's `@ControllerAdvice`, which was introduced in Spring 3.2.  
-Target Product: WildFly  
-Source: <https://github.com/wildfly/quickstart/>  
+Target Product: ${product.name}  
+Source: <${github.repo.url}>  
 
 ## What is it?
 
-The `spring-kitchensink-controlleradvice` quickstart is a deployable Maven 3 project that demonstrates how to use JSP, JPA, and Spring 4.x in WildFly Application Server 11 or later.
+The `spring-kitchensink-controlleradvice` quickstart is a deployable Maven 3 project that demonstrates how to use JSP, JPA, and Spring 4.x in ${product.name.full} ${product.version} or later.
 
 This example showcases Spring 4.x's `@ControllerAdvice`, introduced in Spring 3.2, and used by `MemberControllerAdvice.java`.
 
@@ -27,39 +27,39 @@ and `<mvc:annotation-driven/>` are used to register both the non-rest and rest c
 
 ## System Requirements
 
-The application this project produces is designed to be run on WildFly Application Server 11 or later.
+The application this project produces is designed to be run on ${product.name.full} ${product.version} or later.
 
-All you need to build this project is Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later. See [Configure Maven for WildFly 11](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
+All you need to build this project is ${build.requirements}. See [Configure Maven for ${product.name} ${product.version}](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
 
 
 ## Start the Server
 
-1. Open a command line and navigate to the root of the WildFly directory.
+1. Open a command line and navigate to the root of the ${product.name} directory.
 2. The following shows the command line to start the server:
 
-        For Linux:   WILDFLY_HOME/bin/standalone.sh
-        For Windows: WILDFLY_HOME\bin\standalone.bat
+        For Linux:   ${jboss.home.name}/bin/standalone.sh
+        For Windows: ${jboss.home.name}\bin\standalone.bat
 
 
 ## Build and Deploy the Quickstart
 
-1. Make sure you have started the WildFly server as described above.
+1. Make sure you have started the ${product.name} server as described above.
 2. Open a command line and navigate to the root directory of this quickstart.
 3. Type this command to build and deploy the archive:
 
         mvn clean install wildfly:deploy
 
-4. This will deploy `target/spring-kitchensink-controlleradvice.war` to the running instance of the server.
+4. This will deploy `target/${project.artifactId}.war` to the running instance of the server.
 
 
 ## Access the Application
 
-The application will be running at the following URL: <http://localhost:8080/spring-kitchensink-controlleradvice/>.
+The application will be running at the following URL: <http://localhost:8080/${project.artifactId}/>.
 
 
 ## Undeploy the Archive
 
-1. Make sure you have started the WildFly server as described above.
+1. Make sure you have started the ${product.name} server as described above.
 2. Open a command line and navigate to the root directory of this quickstart.
 3. When you are finished testing, type this command to undeploy the archive:
 
@@ -80,11 +80,11 @@ To run these tests, you must build the main project as described above.
         mvn clean package
 
 3. Navigate to the functional-tests/ directory in this quickstart.
-4. If you have a running instance of the WildFly server, as described above, run the remote tests by typing the following command:
+4. If you have a running instance of the ${product.name} server, as described above, run the remote tests by typing the following command:
 
         mvn clean verify -Parq-remote
 
-5. If you prefer to run the functional tests using managed instance of the WildFly server, meaning the tests will start the
+5. If you prefer to run the functional tests using managed instance of the ${product.name} server, meaning the tests will start the
 server for you, type the following command:
 
         mvn clean verify -Parq-managed
@@ -92,7 +92,7 @@ server for you, type the following command:
 
 ## Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 
-You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a WildFly server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_JBDS.md#use-jboss-developer-studio-or-eclipse-to-run-the-quickstarts).
+You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a ${product.name} server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](${use.eclipse.url}).
 
 
 ## Debug the Application
