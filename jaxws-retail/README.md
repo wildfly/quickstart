@@ -104,12 +104,8 @@ This quickstart requires that you build the parent project, deploy the service, 
 1. To build the parent project, right-click on the `${project.artifactId}` project and choose `Run As` --> `Maven install`.
 2. To deploy the service:
 
-    * Right-click on the `${project.artifactId}-service` project and choose `Run As` --> `Maven build...`.
-    * Enter `install` in the `Goals` field.
-    * Select the `JRE` tab.
-    * Make sure the Java runtime used is a JDK one.
-    * Click `Run`.
-    * In the `${project.artifactId}-service` project, select the `target/generated-sources/wsconsume` folder and choose `Build Path` --> `Use a Source Folder`.
+    * Right-click on the `${project.artifactId}-service` project and choose `Run As` --> `Maven install`.
+    * In the `${project.artifactId}-service` project, select the `target/generated-sources/wsconsume` folder and choose `Build Path` --> `Use as Source Folder`.
     * Right-click on the `jaxws-retail-service` project and choose `Run As` --> `Run on Server`.
     * Select the JBoss EAP server and click `Finish`.
     * You should see the following message in the `Console` tab:
@@ -120,12 +116,13 @@ This quickstart requires that you build the parent project, deploy the service, 
 
 3. To run the application:
 
-    * Right-click on the `${project.artifactId}-client` project and choose `Run As` --> `Maven Build`.
-    * Enter `exec:java` for the `Goals` and click `Run`.
+    * To access the application, right-click on the `${project.artifactId}` project and choose `Run As` --> `Java Application`.
+    * Choose the `Client` class and click `OK`.
     * Review the output in the console window. You should see the following message:
 
         `Jay Boss's discount is 10.00`
-3. To undeploy the project, right-click on the `${project.artifactId}-service` project and choose `Run As` --> `Maven build`. Enter `wildfly:undeploy` for the `Goals` and click `Run`.
+
+4. To undeploy the project, right-click on the `${project.artifactId}-service` project and choose `Run As` --> `Maven build`. Enter `wildfly:undeploy` for the `Goals` and click `Run`.
 
 ## Debug the Application
 
