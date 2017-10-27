@@ -28,8 +28,7 @@ The applications these projects produce are designed to be run on ${product.name
 
 All you need to build these projects is ${build.requirements}. See [Configure Maven for ${product.name} ${product.version}](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts) to make sure you are configured correctly for testing the quickstarts.
 
-To run these quickstarts with the provided build scripts, you need the ${product.name} distribution ZIP. For information on
- how to install and run JBoss, see the ${product.name.full} [_Getting Started Guide_](https://access.redhat.com/documentation/en/red-hat-jboss-enterprise-application-platform/) located on the Customer Portal.
+To run these quickstarts with the provided build scripts, you need the ${product.name} distribution ZIP. For information on how to install and run ${product.name}, see the ${product.name.full} [_Getting Started Guide_](https://access.redhat.com/documentation/en/red-hat-jboss-enterprise-application-platform/) located on the Customer Portal.
 
 You can also [run the quickstart in Red Hat JBoss Developer Studio or Eclipse](#run-the-quickstart-in-red-hat-jboss-developer-studio-or-eclipse).
 
