@@ -49,7 +49,7 @@ You enable MDB property substitution by running JBoss CLI commands. For your con
 
         For Linux: ${jboss.home.name}/bin/jboss-cli.sh --connect --file=enable-mdb-property-substitution.cli
         For Windows: ${jboss.home.name}\bin\jboss-cli.bat --connect --file=enable-mdb-property-substitution.cli
-You should see the following result when you run the script:
+    You should see the following result when you run the script:
 
         The batch executed successfully
 5. Stop the ${product.name} server.
