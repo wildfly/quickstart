@@ -79,13 +79,19 @@ You can check that the Web Service is running and deployed correctly by accessin
 
 You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a ${product.name} server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](${use.eclipse.url}).
 
-For this quickstart, follow the special instructions to build [Quickstarts Containing an EAR](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_JBDS.md#deploy-and-undeploy-a-quickstart-containing-server-and-java-client-projects)
+For this quickstart, follow the special instructions to [Deploy and Undeploy a Quickstart Containing Server and Java Client Projects](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_JBDS.md#deploy-and-undeploy-a-quickstart-containing-server-and-java-client-projects)
 
-1. Right-click on the `${project.artifactId}-service` subproject, and choose `Run As` --> `Run on Server`.
-2. Choose the server and click `Finish`.
-3. This starts the server, deploys the application, and opens a browser window that accesses the running application.
-4. To undeploy the project, right-click on the `${project.artifactId}-ear` project and choose `Run As` --> `Maven build`. Enter `wildfly:undeploy` for the `Goals` and click `Run`.
+1. To build all of the artifacts, right-click on the `${project.artifactId}` parent project, and choose `Run As` --> `Maven install`.
+2. To deploy the service:
+    * Right-click on the `${project.artifactId}-service` subproject, and choose `Run As` --> `Run on Server`.
+    * Choose the server and click `Finish`.
+    * This starts the server and deploys the service to the server.
+3. To access the application:
+    * Right-click on the `${project.artifactId}-client` subproject and choose `Run As` --> `Java Application`.
+    * You should see the following message in the `Console` tab:
 
+            JSEBean pojo: pojoClient calling
+4. To undeploy the project, right-click on the `${project.artifactId}` parent project and choose `Run As` --> `Maven build`. Enter `wildfly:undeploy` for the `Goals` and click `Run`.
 
 ## Debug the Application
 
