@@ -26,8 +26,8 @@ The example uses Java Transaction Service (JTS) to propagate a transaction conte
 The code base is essentially the same as the [cmt](../cmt/README.md) quickstart, however in this case the `InvoiceManager` has been separated to a different deployment archive to demonstrate the usage of JTS. You can see the changes in the
 following ways:
 
-1. `cmt/src/main/java/org/jboss/as/quickstarts/cmt/ejb/InvoiceManagerEJB.java` has been moved to `application-component-2/src/main/java/org/jboss/as/quickstarts/cmt/jts/ejb/InvoiceManagerEJB`
-2. `cmt/src/main/java/org/jboss/as/quickstarts/cmt/ejb/CustomerManagerEJB.java` has been moved to `jts/application-component-1/src/main/java/org/jboss/as/quickstarts/cmt/jts/ejb/CustomerManagerEJB.java`
+* `cmt/src/main/java/org/jboss/as/quickstarts/cmt/ejb/InvoiceManagerEJB.java` has been moved to `application-component-2/src/main/java/org/jboss/as/quickstarts/cmt/jts/ejb/InvoiceManagerEJB`
+* `cmt/src/main/java/org/jboss/as/quickstarts/cmt/ejb/CustomerManagerEJB.java` has been moved to `jts/application-component-1/src/main/java/org/jboss/as/quickstarts/cmt/jts/ejb/CustomerManagerEJB.java`
 
 The changes to `CustomerManagerEJB` are purely to accommodate the fact that `InvoiceManager` is now distributed.
 
@@ -105,13 +105,11 @@ You configure JTS transactions by running JBoss CLI commands. For your convenien
 
         For Linux: ${jboss.home.name}/bin/jboss-cli.sh --connect --file=configure-jts-transactions.cli
         For Windows: ${jboss.home.name}\bin\jboss-cli.bat --connect --file=configure-jts-transactions.cli
- You should see the following result when you run the script:
+    You should see the following result when you run the script:
 
+        The batch executed successfully
         process-state: restart-required
-        {
-        "outcome" => "success",
-        "result" => undefined
-        }
+
 5. Stop the ${product.name} server.
 
 _NOTE:_ When you have completed testing this quickstart, it is important to [Remove the JTS Configuration from the ${product.name} Server](#remove-the-jts-configuration-from-the-server).
@@ -123,13 +121,13 @@ After stopping the server, open the `${jboss.home.name}/standalone/configuration
 
 1. The orb initializers `transactions` attribute is changed from `spec` to `full` in the  `iiop-openjdk` subsystem to enable JTS.
 
-        <subsystem xmlns="urn:jboss:domain:iiop-openjdk:1.0">
+        <subsystem xmlns="urn:jboss:domain:iiop-openjdk:2.0">
             <initializers transactions="full" security="identity"/>
         </subsystem>
 
 2. An empty `<jts/>` element is added to the end of the `transactions` subsystem to enable JTS.
 
-        <subsystem xmlns="urn:jboss:domain:transactions:3.0">
+        <subsystem xmlns="urn:jboss:domain:transactions:4.0">
             <core-environment node-identifier="${jboss.tx.node.id}">
                 <process-id>
                     <uuid/>
@@ -141,7 +139,7 @@ After stopping the server, open the `${jboss.home.name}/standalone/configuration
 
 _NOTE:_ When you have completed testing this quickstart, it is important to [Remove the JTS Configuration from the ${product.name} Server](#remove-the-jts-configuration-from-the-server).
 
-### Clone the Server Directory     
+### Clone the Server Directory
 
 Make a copy of this ${product.name} directory structure to use for the second server.
 
@@ -290,13 +288,13 @@ This script removes the JTS configuration from the `iiop-openjdk` and `transacti
 
     * Find the `orb` subsystem and change the configuration back to its original state.
 
-            <subsystem xmlns="urn:jboss:domain:iiop-openjdk:1.0">
+            <subsystem xmlns="urn:jboss:domain:iiop-openjdk:2.0">
                 <initializers transactions="spec" security="identity"/>
             </subsystem>
 
     * Find the `transaction` subsystem and remove the `node-identifier` attribute from the `core-environment` element. Also remove the `<jts/>` element.
 
-            <subsystem xmlns="urn:jboss:domain:transactions:3.0">
+            <subsystem xmlns="urn:jboss:domain:transactions:4.0">
                 <core-environment>
                     <process-id>
                         <uuid/>
