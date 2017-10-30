@@ -51,7 +51,7 @@ Developers should be familiar with the concepts introduced in the following quic
 
 IMPORTANT: This quickstart depends on the deployment of the `jts` quickstart for its test. Before running this quickstart, see the [jts README](../jts/README.md) file for details on how to deploy it.
 
-You can verify the deployment of the `jts` quickstart by accessing the following URL:  <http://localhost:8080/jts-1/>.
+You can verify the deployment of the `jts` quickstart by accessing the following URL:  <http://localhost:8080/jts-application-component-1/>.
 
 
 ## Use of ${jboss.home.name}
@@ -97,7 +97,7 @@ _Note:_ This quickstart README file uses the following replaceable values. When 
         Server 1: ${jboss.home.name}_1\bin\standalone.bat -c standalone-full.xml -Djboss.tx.node.id=UNIQUE_NODE_ID_1
         Server 2: ${jboss.home.name}_2\bin\standalone.bat -c standalone-full.xml -Djboss.tx.node.id=UNIQUE_NODE_ID_2 -Djboss.socket.binding.port-offset=100
 
-4. Access the application at the following URL: <http://localhost:8080/jts-1/>
+4. Access the application at the following URL: <http://localhost:8080/jts-application-component-1/>
     * When you enter a name and click to "add" that customer, you will see the following in the application server 1 console:
 
             INFO  [org.jboss.ejb.client] (default task-2) JBoss EJB Client version 2.1.4.Final-redhat-1
@@ -236,6 +236,6 @@ _Note:_ This quickstart README file uses the following replaceable values. When 
                                 -- ArjunaTransactionImple
                                     -- ServerTransaction
 
-7. After recovery is complete, access the application URL <http://localhost:8080/jts-1/customers.jsf>. The user you created should now appear in the list.
+7. After recovery is complete, access the application URL <http://localhost:8080/jts-application-component-1/customers.jsf>. The user you created should now appear in the list.
 
 8. Do NOT forget to [Disable the Byteman script](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_BYTEMAN.md#disable-the-byteman-script) by restoring the backup server configuration file. The Byteman rule must be removed to ensure that your application server will be able to commit 2PC transactions!
