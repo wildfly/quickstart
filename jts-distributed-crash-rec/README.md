@@ -87,12 +87,12 @@ _Note:_ This quickstart README file uses the following replaceable values. When 
 
 3. Start both of the ${product.name} servers
 
-   If you are using Linux:
+    If you are using Linux:
 
         Server 1: ${jboss.home.name}_1/bin/standalone.sh -c standalone-full.xml -Djboss.tx.node.id=UNIQUE_NODE_ID_1
         Server 2: ${jboss.home.name}_2/bin/standalone.sh -c standalone-full.xml -Djboss.tx.node.id=UNIQUE_NODE_ID_2 -Djboss.socket.binding.port-offset=100
 
-   If you are using Windows
+    If you are using Windows
 
         Server 1: ${jboss.home.name}_1\bin\standalone.bat -c standalone-full.xml -Djboss.tx.node.id=UNIQUE_NODE_ID_1
         Server 2: ${jboss.home.name}_2\bin\standalone.bat -c standalone-full.xml -Djboss.tx.node.id=UNIQUE_NODE_ID_2 -Djboss.socket.binding.port-offset=100
@@ -167,11 +167,12 @@ _Note:_ This quickstart README file uses the following replaceable values. When 
 7. Follow the steps above to restart server 1 and wait for recovery to complete.
 
     _IMPORTANT: By default, the recovery process checks the transactional state every two minutes, therefore it can take a while for recovery to happen. Also recovery for each server will take place at its own recovery interval._
+
     * You will know when recovery is complete for server 2 as you will see the following in application-server-2 console:
 
             INFO  [org.jboss.ejb.client] (RequestProcessor-10) JBoss EJB Client version 2.1.2.Final
             INFO  [class org.jboss.as.quickstarts.cmt.jts.mdb.HelloWorldMDB] (Thread-3 (group:ActiveMQ-client-global-threads-649946595)) Received Message: Created invoice for customer named: Tom
-    * NOTE: You will also get several stack traces in ${product.name} server 1 console during recovery, these are to be expected as not all resources are available at all stages of recovery.
+    * _NOTE:_ You will also get several stack traces in ${product.name} server 1 console during recovery, these are to be expected as not all resources are available at all stages of recovery.
 
             WARN  [com.arjuna.ats.jts] (Periodic Recovery) ARJUNA022223: ExtendedResourceRecord.topLevelCommit caught exception: org.omg.CORBA.OBJECT_NOT_EXIST: ----------BEGIN server-side stack trace----------
             org.omg.CORBA.OBJECT_NOT_EXIST:   vmcid: SUN  minor code: 1004  completed: No
@@ -190,12 +191,12 @@ _Note:_ This quickstart README file uses the following replaceable values. When 
 	            at com.arjuna.ArjunaOTS._ArjunaSubtranAwareResourceStub.commit(_ArjunaSubtranAwareResourceStub.java:124)
 	            at com.arjuna.ats.internal.jts.resources.ExtendedResourceRecord.topLevelCommit(ExtendedResourceRecord.java:502)
               ...
-    * The easiest way to check when ${product.name} server 1 is recovered is to look in the object store and check that all the records are now cleaned up. The records that should be cleared are the ones in the defaultStore/CosTransactions/XAResourceRecord and defaultStore/StateManager/BasicAction/TwoPhaseCoordinator/ArjunaTransactionImple.
-    * Records will remain in defaultStore/Recovery/FactoryContact and defaultStore/RecoveryCoordinator for server 1 and that is to be expected. Run:
+    * The easiest way to check when ${product.name} server 1 is recovered is to look in the object store and check that all the records are now cleaned up. The records that should be cleared are the ones in the `defaultStore/CosTransactions/XAResourceRecord` and `defaultStore/StateManager/BasicAction/TwoPhaseCoordinator/ArjunaTransactionImple`.
+    * Records will remain in `defaultStore/Recovery/FactoryContact` and `defaultStore/RecoveryCoordinator` for server 1 and that is to be expected. Run:
 
             tree ${jboss.home.name}_1/standalone/data/tx-object-store
 
-      You should see this output:
+        You should see this output:
 
             ${jboss.home.name}_1/standalone/data/tx-object-store
             -- ShadowNoFileLockStore
@@ -213,11 +214,11 @@ _Note:_ This quickstart README file uses the following replaceable values. When 
                         -- BasicAction
                             -- TwoPhaseCoordinator
                               -- ArjunaTransactionImple
-      View the contents of the object store for the second server by typing the following in the terminal for server 2. Be sure to replace `${jboss.home.name}_2` with the path to the second server.
+        View the contents of the object store for the second server by typing the following in the terminal for server 2. Be sure to replace `${jboss.home.name}_2` with the path to the second server.
 
             tree ${jboss.home.name}_2/standalone/data/tx-object-store
 
-      This should display:
+        This should display:
 
             ${jboss.home.name}_2/standalone/data/tx-object-store
             -- ShadowNoFileLockStore
