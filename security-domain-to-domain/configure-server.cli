@@ -1,0 +1,42 @@
+# Batch script to configure the security domains and define the database query used to authenticate users
+batch
+
+# Start by creating the JDBC datasource
+/subsystem=datasources/data-source=SecurityDomainToDomainDS:add(connection-url="jdbc:h2:mem:servlet-security;DB_CLOSE_ON_EXIT=FALSE", \
+    jndi-name="java:jboss/datasources/SecurityDomainToDomainDS", driver-name=h2, user-name="sa", password="sa")
+
+# Add the JDBC security realms
+/subsystem=elytron/jdbc-realm=entry-realm:add(principal-query=[{sql="SELECT PASSWORD FROM USERS WHERE USERNAME = ?", data-source="SecurityDomainToDomainDS", \
+    clear-password-mapper={password-index=1}},{sql="SELECT R.NAME, 'Roles' FROM ENTRY_ROLES ER INNER JOIN ROLES R ON R.ID = ER.ROLE_ID INNER JOIN USERS U ON U.ID = ER.USER_ID WHERE U.USERNAME = ?", \
+    data-source="SecurityDomainToDomainDS", attribute-mapping=[{index=1, to=roles}]}])
+
+/subsystem=elytron/jdbc-realm=business-realm:add(principal-query=[{sql="SELECT PASSWORD FROM USERS WHERE USERNAME = ?", data-source="SecurityDomainToDomainDS", \
+    clear-password-mapper={password-index=1}},{sql="SELECT R.NAME, 'Roles' FROM BUSINESS_ROLES BR INNER JOIN ROLES R ON R.ID = BR.ROLE_ID INNER JOIN USERS U ON U.ID = BR.USER_ID WHERE U.USERNAME = ?", \
+    data-source="SecurityDomainToDomainDS", attribute-mapping=[{index=1, to=roles}]}])
+
+# Add a simple role decoder for the "roles" attribute mapping
+/subsystem=elytron/simple-role-decoder=from-roles-attribute:add(attribute=roles)
+
+# Configure the security domains
+/subsystem=elytron/security-domain=entry-security-domain:add(default-realm=entry-realm, realms=[{realm=entry-realm, role-decoder=from-roles-attribute}], \
+    permission-mapper=default-permission-mapper, outflow-security-domains=[business-security-domain])
+
+/subsystem=elytron/security-domain=business-security-domain:add(default-realm=business-realm, realms=[{realm=business-realm, role-decoder=from-roles-attribute}], \
+    trusted-security-domains=[entry-security-domain])
+
+# Configure the HTTP Authentication Factory
+/subsystem=elytron/http-authentication-factory=security-domain-to-domain-http:add(http-server-mechanism-factory=global, security-domain=entry-security-domain, \
+    mechanism-configurations=[{mechanism-name=BASIC,mechanism-realm-configurations=[{realm-name=RealmUsersRoles}]}])
+
+# Configure Undertow's application security domain
+/subsystem=undertow/application-security-domain=EntryDomain:add(http-authentication-factory=security-domain-to-domain-http)
+# Configure the EJB3 Subsystem application security domain
+/subsystem=ejb3/application-security-domain=BusinessDomain:add(security-domain=business-security-domain)
+
+# Run the batch commands
+run-batch
+
+# Reload the server configuration
+reload
+
+

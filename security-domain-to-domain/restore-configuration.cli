@@ -1,0 +1,34 @@
+# Batch script to remove the security-domain-to-domain quickstart configuration
+
+# Start batching commands
+batch
+
+# Remove the EJB3 subsystem application security domain
+/subsystem=ejb3/application-security-domain=BusinessDomain:remove()
+
+# Remove Undertow's application security domain
+/subsystem=undertow/application-security-domain=EntryDomain:remove()
+
+# Remove the HTTP Authentication Factory
+/subsystem=elytron/http-authentication-factory=security-domain-to-domain-http:remove()
+
+# Remove the security domains
+/subsystem=elytron/security-domain=business-security-domain:remove()
+/subsystem=elytron/security-domain=entry-security-domain:remove()
+
+# Remove a simple role decoder for the "roles" attribute mapping
+/subsystem=elytron/simple-role-decoder=from-roles-attribute:remove()
+
+# Remove the security realms
+/subsystem=elytron/jdbc-realm=business-realm:remove()
+/subsystem=elytron/jdbc-realm=entry-realm:remove()
+
+# Remove the JDBC datasource
+/subsystem=datasources/data-source=SecurityDomainToDomainDS:remove()
+
+# Run the batch commands
+run-batch
+
+# Reload the server configuration
+reload
+
