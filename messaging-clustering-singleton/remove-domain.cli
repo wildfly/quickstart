@@ -6,15 +6,15 @@
 
 batch
 
-# -- Remove the two servers from the quickstart-messaging-clustering-group
+# -- Remove the two servers from the quickstart-messaging-clustering-singleton-group
 /host=master/server-config=quickstart-messagingcluster-node1:remove
 /host=master/server-config=quickstart-messagingcluster-node2:remove
 
-# -- Remove the quickstart-messaging-clustering-group
-/server-group=quickstart-messaging-clustering-group:remove
+# -- Remove the quickstart-messaging-clustering-singleton-group
+/server-group=quickstart-messaging-clustering-singleton-group:remove
 
-# -- Remove mdb-delivery-group "abc" from full-ha profile
-/profile=full-ha/subsystem=ejb3/mdb-delivery-group=abc:remove
+# -- Remove mdb-delivery-group "my-mdb-delivery-group" from full-ha profile
+/profile=full-ha/subsystem=ejb3/mdb-delivery-group=my-mdb-delivery-group:remove
 
 # -- Remove the CONSOLE logging handler
 /profile=full-ha/subsystem=logging/root-logger=ROOT:remove-handler(name="CONSOLE")

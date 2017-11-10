@@ -40,11 +40,11 @@ In the following instructions, replace `${jboss.home.name}` with the actual path
 
 ## Deploy the H2 Console
 
-Deploy the console by copying the `h2console.war` located in the root directory of this quickstart to the `${jboss.home.name}/standalone/deployments` directory.
+Deploy the console by copying the `h2-console.war` located in the root directory of this quickstart to the `${jboss.home.name}/standalone/deployments` directory.
 
 _Note:_ You will see the following warning in the server log. You can ignore this warning.
 
-    WFLYSRV0019: Deployment "deployment.h2console.war" is using an unsupported module ("com.h2database.h2:main") which may be changed or removed in future versions without notice.
+    WFLYSRV0019: Deployment "deployment.h2-console.war" is using an unsupported module ("com.h2database.h2:main") which may be changed or removed in future versions without notice.
 
 ## Access the H2 Console
 
@@ -69,7 +69,7 @@ You should see the two users seeded by the `greeter` quickstart, plus any users 
 
 ## Undeploy the Archive
 
-To undeploy this example, simply delete the `h2console.war` from the `${jboss.home.name}/standalone/deployments` directory.
+To undeploy this example, simply delete the `h2-console.war` from the `${jboss.home.name}/standalone/deployments` directory.
 
      cd ${jboss.home.name}/standalone/deployments
-     rm h2console.war
+     rm h2-console.war

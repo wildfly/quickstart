@@ -5,8 +5,8 @@ batch
 # -- Disable clustering by removing the clustering password
 /subsystem=messaging-activemq/server=default:undefine-attribute(name=cluster-password)
 
-# -- Remove mdb-delivery-group "abc"
-/subsystem=ejb3/mdb-delivery-group=abc:remove
+# -- Remove mdb-delivery-group "my-mdb-delivery-group"
+/subsystem=ejb3/mdb-delivery-group=my-mdb-delivery-group:remove
 
 # -- Remove the CONSOLE logging handler
 /subsystem=logging/root-logger=ROOT:remove-handler(name="CONSOLE")
@@ -17,4 +17,3 @@ run-batch
 
 # Reload the server
 reload
-
