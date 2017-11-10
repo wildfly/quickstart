@@ -178,7 +178,7 @@ Since this quickstart builds two separate components, you can not use the standa
 
         mvn clean install wildfly:deploy
 
-4. This will deploy `${project.artifactId}-application-component-1.war` and `${project.artifactId}application-component-2.jar` to the running instance of the server.
+4. This will deploy `${project.artifactId}-application-component-1.war` and `${project.artifactId}-application-component-2.jar` to the running instance of the server.
 
 ## Access the Application
 
