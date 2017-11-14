@@ -120,8 +120,8 @@ This quickstart requires that you build the parent project, deploy the service, 
 
 3. To run the application:
 
-    * Right-click on the `${project.artifactId}-client` project and choose `Run As` --> `Maven Build`.
-    * Enter `exec:java` for the `Goals` and click `Run`.
+    * To access the application, right-click on the `${project.artifactId}-client` project and choose `Run As` --> `Java Application`.
+    * Choose the `Client` class and click `OK`.
     * Review the output in the console window. You should see the following message:
 
         `Jay Boss's discount is 10.00`
