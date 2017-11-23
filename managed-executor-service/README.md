@@ -120,10 +120,12 @@ _Note:_ You will see the following warnings in the server log. You can ignore th
 
 You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a ${product.name} server, and build and deploy a quickstart, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](${use.eclipse.url}).
 
-To run the tests in Red Hat JBoss Developer Studio:
+To run the tests in Red Hat JBoss Developer Studio, you must first set the active Maven profile in project properties to one of the following:
 
-You must first set the active Maven profile in project properties to be either `arq-managed` for running on managed server or `arq-remote` for running on remote server. Then, to run the tests, right click on the project or individual classes and select Run As --> JUnit Test in the context menu.
+* `arq-remote`: This setting is used for a remote server. JBoss Developer Studio starts the server for you.
+* `arq-managed`:  This setting is used for a managed server. If you use this setting, you must [start the server](#start-the-server) before you run the tests.
 
+Then, to run the tests, right click on the project or individual classes and select `Run As` --> `JUnit Test` in the context menu.
 
 ## Debug the Application
 
