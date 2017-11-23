@@ -116,7 +116,7 @@ This quickstart requires that you build the parent project, deploy the service, 
 
 3. To run the application:
 
-    * To access the application, right-click on the `${project.artifactId}` project and choose `Run As` --> `Java Application`.
+    * To access the application, right-click on the `${project.artifactId}-client` project and choose `Run As` --> `Java Application`.
     * Choose the `Client` class and click `OK`.
     * Review the output in the console window. You should see the following message:
 
