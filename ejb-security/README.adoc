@@ -1,0 +1,256 @@
+= ejb-security:  Using Java EE Declarative Security to Control Access
+:author: Sherif F. Makary, Stefan Guilhen
+:productName: WildFly
+:productNameFull: WildFly Application Server
+:jbossHomeName: WILDFLY_HOME
+:productVersion: 12
+:buildRequirements: Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later
+include::../attributes.adoc[]
+
+:level: Intermediate
+:technologies: EJB, Security
+:source: {githubRepoUrl}
+
+[abstract]
+The `ejb-security` quickstart demonstrates the use of Java EE declarative security to control access to EJBs in {productName}.
+
+== What is it?
+
+The `ejb-security` quickstart demonstrates the use of Java EE declarative security to control access to EJBs in {productNameFull}.
+
+This quickstart takes the following steps to implement EJB security:
+
+. Add an `application-security-domain` mapping in the `ejb3` subsystem to enable Elytron security for the `SecuredEJB`.
+. Add the `@SecurityDomain(&quot;other&quot;)` security annotation to the EJB declaration to tell the EJB container to apply authorization to this EJB.
+. Add the `@RolesAllowed({ &quot;guest&quot; })` annotation to the EJB declaration to authorize access only to users with `guest` role access rights.
+. Add the `@RolesAllowed({ &quot;admin&quot; })` annotation to the administrative method in the `SecuredEJB` to authorize access only
+to users with `admin` role access rights.
+. Add an application user with `guest` role access rights to the EJB. This quickstart defines a user `quickstartUser` with
+password `quickstartPwd1!` in the `guest` role. The `guest` role matches the allowed user role defined in the `@RolesAllowed`
+annotation in the EJB but it should not be granted access to the administrative method annotated with `RolesAllowed({&quot;admin&quot;})`.
+
+== System Requirements
+
+The applications these projects produce are designed to be run on {productNameFull} {productVersion} or later.
+
+All you need to build these projects is {buildRequirements}. See https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts[Configure Maven for {productName} {productVersion}] to make sure you are configured correctly for testing the quickstarts.
+
+To run these quickstarts with the provided build scripts, you need the {productName} distribution ZIP. For information on how to install and run {productName}, see the {productNameFull} https://access.redhat.com/documentation/en/red-hat-jboss-enterprise-application-platform/[_Getting Started Guide_] located on the Customer Portal.
+
+You can also <<run-the-quickstart-in-red-hat-jboss-developer-studio-or-eclipse,run the quickstart in Red Hat JBoss Developer Studio or Eclipse>>.
+
+== Use of {jbossHomeName}
+
+In the following instructions, replace `{jbossHomeName}` with the actual path to your {productName} installation. The
+installation path is described in detail here: https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_{jbossHomeName}.md#use-of-eap_home-and-jboss_home-variables[Use of {jbossHomeName} and JBOSS_HOME Variables].
+
+== Add the Application Users
+
+Using the add-user utility script, you must add the following users to the `ApplicationRealm`:
+
+[cols="<,<,<,<"]
+|===
+|*UserName* |*Realm* |*Password* |*Roles* 
+
+|quickstartUser |ApplicationRealm |quickstartPwd1! |guest 
+|===
+
+The application user has `guest` access rights to the application but no `admin` rights.
+
+To add the application users, open a command prompt and type the following commands:
+[subs="+quotes,attributes+"]
+----
+For Linux:
+  {jbossHomeName}/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'guest'
+
+For Windows:
+  {jbossHomeName}\bin\add-user.bat  -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'guest'
+----
+
+If you prefer, you can use the add-user utility interactively.
+For an example of how to use the add-user utility, see the instructions located here: https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CREATE_USERS.md#add-an-application-user[Add an Application User].
+
+== Configure the Server
+
+These steps assume you are running the server in standalone mode and using the default `standalone.xml` supplied with the distribution.
+
+You configure the security domain by running JBoss CLI commands. For your convenience, this quickstart batches the commands into a `configure-elytron.cli` script provided in the root directory of this quickstart.
+
+. Before you begin, back up your server configuration file
+
+** If it is running, stop the {productName} server.
+** Back up the file: `{jbossHomeName}/standalone/configuration/standalone.xml`
+** After you have completed testing this quickstart, you can replace this file to restore the server to its original configuration.
+. Start the {productName} server by typing the following:
++
+[subs="+quotes,attributes+"]
+----
+For Linux:  {jbossHomeName}/bin/standalone.sh
+For Windows:  {jbossHomeName}\bin\standalone.bat
+----
+
+. Review the `configure-elytron.cli` file in the root of this quickstart directory. This script adds the configuration that enables Elytron security for the quickstart components. Comments in the script describe the purpose of each block of commands.
+. Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing {jbossHomeName} with the path to your server:
++
+[subs="+quotes,attributes+"]
+----
+For Linux: {jbossHomeName}/bin/jboss-cli.sh --connect --file=configure-elytron.cli
+For Windows: {jbossHomeName}\bin\jboss-cli.bat --connect --file=configure-elytron.cli
+----
+
+. Stop the {productName} server.
+
+== Review the Modified Server Configuration
+
+After stopping the server, open the `{jbossHomeName}/standalone/configuration/standalone.xml` file and review the changes.
+
+. The following `application-security-domain` mapping was added to the `ejb3` subsystem:
++
+[source, xml]
+----
+<application-security-domains>
+    <application-security-domain name="other" security-domain="ApplicationDomain"/>
+</application-security-domains>
+----
+
+. The `http-remoting-connector` in the `remoting` subsystem was updated to use the `application-sasl-authentication` factory:
++
+[source, xml]
+----
+    <http-connector name="http-remoting-connector" connector-ref="default" security-realm="ApplicationRealm" sasl-authentication-factory="application-sasl-authentication"/>
+----
+
+== Start the Server
+
+. Open a command prompt and navigate to the root of the {productName} directory.
+. The following shows the command line to start the server:
++
+[subs=normal]
+----
+For Linux:   {jbossHomeName}/bin/standalone.sh
+For Windows: {jbossHomeName}\bin\standalone.bat
+----
+
+== Build and Deploy the Quickstart
+
+. Make sure you have started the {productName} server as described above.
+. Open a command prompt and navigate to the root directory of this quickstart.
+. Type this command to build and deploy the archive:
+
+----
+mvn clean package wildfly:deploy
+----
+
+. This will deploy `target/{artifactId}.jar` to the running instance of the server.
+
+== Run the Client
+
+Before you run the client, make sure you have already successfully deployed the EJBs to the server in the previous step and that your command prompt is still in the root directory of this quickstart.
+
+Type this command to execute the client:
+
+----
+mvn exec:exec
+----
+
+== Investigate the Console Output
+
+When you run the `mvn exec:exec` command, you see the following output. Note there may be other log messages interspersed between these messages.
+
+----
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+Successfully called secured bean, caller principal quickstartUser
+
+Principal has admin permission: false
+
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+----
+
+The username and credentials used to establish the connection to the application server are configured in the `wildfly-config.xml` file. As expected, the `quickstartUser` was able to invoke the method available for the `guest`role, but not the administrative method that requires the `admin` role.
+
+NOTE: You should also see the following `EJBAccessException` printed in the server log, followed by a stack trace. This is to be expected because the user does not have the correct permissions to access the EJB.
+
+----
+07:00:15,364 ERROR [org.jboss.as.ejb3.invocation] (default task-38) WFLYEJB0034: EJB Invocation failed on component SecuredEJB for method public abstract boolean org.jboss.as.quickstarts.ejb_security.SecuredEJBRemote.administrativeMethod(): javax.ejb.EJBAccessException: WFLYEJB0364: Invocation on method: public abstract boolean org.jboss.as.quickstarts.ejb_security.SecuredEJBRemote.administrativeMethod() of bean: SecuredEJB is not allowed
+----
+
+As an exercise, you can rerun the `add-user` script described in the <<add-the-application-users,Add the Application Users>> section, but this time grant the `quickstartUser` the admin role as follows:
+
+[subs="+quotes,attributes+"]
+----
+For Linux:
+  {jbossHomeName}/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'guest,admin'
+
+For Windows:
+  {jbossHomeName}\bin\add-user.bat  -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'guest,admin'
+----
+
+After you update the `quickstartUser` user role, you must restart the server for it to take effect. Running the client again should immediately reflect the new permission level of the user:
+
+----
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+Successfully called secured bean, caller principal quickstartUser
+
+Principal has admin permission: true
+
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+----
+
+== Undeploy the Archive
+
+. Make sure you have started the {productName} server as described above.
+. Open a command prompt and navigate to the root directory of this quickstart.
+. When you are finished testing, type this command to undeploy the archive:
+
+----
+mvn wildfly:undeploy
+----
+
+== Restore the Server Configuration
+
+You can restore the original server configuration by running the `restore-configuration.cli` script provided in the root directory of this quickstart or by manually restoring the back-up copy the configuration file.
+
+=== Restore the Server Configuration by Running the JBoss CLI Script
+
+. Start the {productName} server by typing the following:
++
+[subs="+quotes,attributes+"]
+----
+For Linux:  {jbossHomeName}/bin/standalone.sh
+For Windows:  {jbossHomeName}\bin\standalone.bat
+----
+
+. Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing {jbossHomeName} with the path to your server:
++
+[subs="+quotes,attributes+"]
+----
+For Linux: {jbossHomeName}/bin/jboss-cli.sh --connect --file=restore-configuration.cli
+For Windows: {jbossHomeName}\bin\jboss-cli.bat --connect --file=restore-configuration.cli
+----
+
+=== Restore the Server Configuration Manually
+
+. If it is running, stop the {productName} server.
+. Replace the `{jbossHomeName}/standalone/configuration/standalone.xml` file with the back-up copy of the file.
+
+== Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+
+You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a {productName} server, and build and deploy a quickstart, see link:{useEclipseUrl}[Use JBoss Developer Studio or Eclipse to Run the Quickstarts].
+
+. Be sure to <<add-the-application-users,Add the Application Users>> as described above.
+. Be sure to configure the server by running the JBoss CLI script as described above under <<configure-the-server,Configure the Server>>.
+. To deploy the server project, right-click on the `{artifactId}` project and choose `Run As` –&gt; `Maven build`. Enter `clean package wildfly:deploy` for the `Goals:` and click `Run`. This deploys the `{artifactId}` JAR to the {productName} server.
+. Right-click on the `{artifactId}` project and choose `Run As` –&gt; `Run Configurations`. Enter `exec:exec` for the `Goals`, and then click `Run`.
+. Review the output in the console window. You should see the same results as when running Maven in the command line.
+. To undeploy the project, right-click on the `{artifactId}` project and choose `Run As` –&gt; `Run Configurations`. Enter `wildfly:undeploy` for the `Goals` and click `Run`.
+. Be sure to <<restore-the-server-configuration,Restore the Server Configuration>> when you have completed testing this quickstart.
+
+== Debug the Application
+
+If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
+
+----
+mvn dependency:sources
+----

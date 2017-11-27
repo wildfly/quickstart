@@ -1,0 +1,189 @@
+= ha-singleton-deployment: Deploying Cluster-wide Singleton Services Using Singleton Deployments
+:author: Radoslav Husar
+:productName: WildFly
+:productNameFull: WildFly Application Server
+:jbossHomeName: WILDFLY_HOME
+:productVersion: 12
+:buildRequirements: Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later
+include::../attributes.adoc[]
+
+:level: Advanced
+:technologies: EJB, Singleton Deployments, Clustering
+:source: {githubRepoUrl}
+
+[abstract]
+The `ha-singleton-deployment` quickstart demonstrates the recommended way to deploy any service packaged in an application archive as a cluster-wide singleton.
+
+== What is it?
+
+The `ha-singleton-deployment` quickstart demonstrates the deployment of a service packaged in an application as a cluster-wide singleton using singleton deployments.
+In this example, the service is a timer that is initialized by a `@Startup @Singleton` bean.
+The example is built and packaged as a single EJB archive.
+
+For more information about singleton deployments, see _HA Singleton Deployments_ in the https://access.redhat.com/documentation/en/red-hat-jboss-enterprise-application-platform/[Development Guide] for JBoss EAP.
+
+== System Requirements
+
+The application this project produces is designed to be run on {productNameFull} {productVersion} or later.
+
+Everything needed to build this project is {buildRequirements}. See https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts[Configure Maven for {productName} {productVersion}] to make sure the environment is configured correctly for testing the quickstarts.
+
+== Use of {jbossHomeName}
+
+In the following instructions, replace `{jbossHomeName}` with the actual path to your {productName} installation. The installation path is described in detail here: https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_{jbossHomeName}.md#use-of-eap_home-and-jboss_home-variables[Use of {jbossHomeName} and JBOSS_HOME Variables].
+
+== Setting Up the Test Environment
+
+To demonstrate the singleton behavior, at least two application server instances must be started.
+Begin by making a copy of the entire {productName} directory to be used as second cluster member.
+Note that the example can be run on a single node as well, but without observation of the singleton properties.
+
+Start the two {productName} servers with the same HA profile using the following commands.
+Note that a socket binding port offset and a unique node name must be passed to the second server if the servers are binding to the same host.
+
+For Linux:
+[subs="+quotes,attributes+"]
+----
+Server 1: {jbossHomeName}_1/bin/standalone.sh -c standalone-ha.xml -Djboss.node.name=node1
+Server 2: {jbossHomeName}_2/bin/standalone.sh -c standalone-ha.xml -Djboss.node.name=node2 -Djboss.socket.binding.port-offset=100
+----
+
+For Windows:
+[subs="+quotes,attributes+"]
+----
+Server 1: {jbossHomeName}_1\bin\standalone.bat -c standalone-ha.xml -Djboss.node.name=node1
+Server 2: {jbossHomeName}_2\bin\standalone.bat -c standalone-ha.xml -Djboss.node.name=node2 -Djboss.socket.binding.port-offset=100
+----
+
+The demonstration is not limited to two servers. Additional servers can be started by specifying a unique port offset for each one.
+
+== Running the Quickstart
+
+. Start the {productName} servers as described in the above section.
+. Navigate to the root directory of this quickstart in the command prompt.
+. Use the following command to clean up previously built artifacts, and build and deploy the EJB archive:
++
+----
+mvn clean install wildfly:deploy
+----
+
+. Ensure the `target/{artifactId}.jar` archive is deployed to `node1` (the one without port offset) by observing the log.
++
+----
+INFO [org.jboss.as.server.deployment] (MSC service thread 1-1) WFLYSRV0027: Starting deployment of "ha-singleton-deployment.jar" (runtime-name: "ha-singleton-deployment.jar")
+...
+INFO [org.wildfly.clustering.server] (DistributedSingletonService - 1) WFLYCLSV0003: node1 elected as the singleton provider of the jboss.deployment.unit."ha-singleton-deployment.jar".FIRST_MODULE_USE service
+INFO [org.wildfly.clustering.server] (DistributedSingletonService - 1) WFLYCLSV0001: This node will now operate as the singleton provider of the jboss.deployment.unit."ha-singleton-deployment.jar".FIRST_MODULE_USE service
+INFO [org.jboss.as.server] (management-handler-thread - 4) WFLYSRV0010: Deployed "ha-singleton-deployment.jar" (runtime-name : "ha-singleton-deployment.jar")
+...
+WARNING [class org.jboss.as.quickstarts.ha.singleton.SingletonTimer] (ServerService Thread Pool -- 68) SingletonTimer is initializing.
+INFO  [class org.jboss.as.quickstarts.ha.singleton.SingletonTimer] (EJB default - 1) SingletonTimer: Hello World!
+----
+
+. Use the following command to deploy the already built archive to the second server. Note that since the default socket binding port is `9990` and the second server has ports offsetted by `100`, the sum, `10090` must be passed as an argument to the deploy maven goal.
++
+----
+mvn wildfly:deploy -Dwildfly.port=10090
+----
+
+. Ensure the `service/target/{artifactId}.jar` archive is deployed to `node2` by observing the log. Note that even though the logs indicate "Deployed", the deployment does not actually deploy completely and the timer is not operating on this node.
++
+----
+INFO  [org.jboss.as.server.deployment] (MSC service thread 1-6) WFLYSRV0027: Starting deployment of "ha-singleton-deployment.jar" (runtime-name: "ha-singleton-deployment.jar")
+INFO  [org.infinispan.remoting.transport.jgroups.JGroupsTransport] (MSC service thread 1-3) ISPN000078: Starting JGroups channel server
+...
+INFO  [org.infinispan.remoting.transport.jgroups.JGroupsTransport] (MSC service thread 1-3) ISPN000094: Received new cluster view for channel server: [node1|1] (2) [node1, node2]
+...
+INFO  [org.infinispan.remoting.transport.jgroups.JGroupsTransport] (MSC service thread 1-3) ISPN000079: Channel server local address is node2, physical addresses are [127.0.0.1:55300]
+INFO  [org.infinispan.factories.GlobalComponentRegistry] (MSC service thread 1-6) ISPN000128: Infinispan version: Infinispan 'Chakra' 8.2.7.Final
+INFO  [org.jboss.as.clustering.infinispan] (ServerService Thread Pool -- 68) WFLYCLINF0002: Started default cache from server container
+INFO  [org.jboss.as.server] (management-handler-thread - 2) WFLYSRV0010: Deployed "ha-singleton-deployment.jar" (runtime-name : "ha-singleton-deployment.jar")
+----
+
+. Verify the timer is running only on one instance by observing the logs. The node running the timer will output the following every 5 seconds:
++
+----
+INFO  [class org.jboss.as.quickstarts.ha.singleton.SingletonTimer] (EJB default - 1) SingletonTimer: Hello World!
+----
+
+. Verify failover of the singleton deployment. Shutdown the server operating as the singleton master, for instance by using the `Ctrl` + `C` key combination in the command prompt. Observe the following messages on the node being shutdown:
++
+----
+INFO  [class org.jboss.as.quickstarts.ha.singleton.SingletonTimer] (EJB default - 3) SingletonTimer: Hello World!
+INFO  [class org.jboss.as.quickstarts.ha.singleton.SingletonTimer] (EJB default - 4) SingletonTimer: Hello World!
+INFO  [org.jboss.as.server] (Thread-2) WFLYSRV0220: Server shutdown has been requested via an OS signal
+WARNING [class org.jboss.as.quickstarts.ha.singleton.SingletonTimer] (ServerService Thread Pool -- 31) SingletonTimer is stopping: the server is either being shutdown or another node has become elected to be the singleton master.
+...
+INFO  [org.jboss.as] (MSC service thread 1-6) WFLYSRV0050: WildFly Core 3.0.0.Final stopped in 88ms
+----
+
+== Troubleshooting
+
+Should the singleton be running on multiple nodes, the most common causes are accidentally starting with the `standalone.xml` or `standalone-full.xml` profile instead of with the `standalone-ha.xml` or `standalone-full-ha.xml` profile.
+Make sure to start the server with an HA profile using `-c standalone-ha.xml`.
+
+Another common cause is that the server instances did not discover each other and each server is operating as a singleton cluster. Ensure that multicast is enabled or change the `jgroups` subsystem configuration to use a different discovery mechanism.
+Observe the following log line to ensure that the discovery was successful:
+
+----
+INFO  [org.infinispan.remoting.transport.jgroups.JGroupsTransport] (MSC service thread 1-3) ISPN000094: Received new cluster view for channel server: [node1|1] (2) [node1, node2]
+----
+
+== Making Existing Deployments Singleton
+
+In this quickstart, the deployment is made singleton by a configuration file bundled in the archive.
+Inspect the content in `src/main/resources/META-INF/singleton-deployment.xml`.
+Any existing deployment can be made singleton by using _deployment overlays_ mechanism.
+To demonstrate how to use deployment overlays, follow these steps:
+
+. Move the `src/main/resources/META-INF/singleton-deployment.xml` file into root directory of this quickstart.
+. Rebuild the project. Ensure that the servers are started, and redeploy the application, which will no longer be configured by singleton deployment by the archive:
++
+----
+mvn clean install
+mvn wildfly:deploy
+mvn wildfly:deploy -Dwildfly.port=10090
+----
+
+. Start the management CLI and set up a deployment overlay on both servers:
++
+[subs="+quotes,attributes+"]
+----
+{jbossHomeName}_1/bin/jboss-cli.sh --connect
+deployment-overlay add --name=singleton-deployment --deployments=ha-singleton-deployment.jar --content=META-INF/singleton-deployment.xml=singleton-deployment.xml
+deployment-overlay redeploy-affected --name=singleton-deployment
+----
+
+. Review the deployment overlay changes in the `standalone-ha.xml` server profile:
++
+[source, xml]
+----
+<deployment-overlays>
+    <deployment-overlay name="singleton-deployment">
+        <content path="META-INF/singleton-deployment.xml" content="60a35e2bb6a1886f0a4abe499c7af16833d2a533"/>
+        <deployment name="ha-singleton-deployment.jar"/>
+    </deployment-overlay>
+</deployment-overlays>
+----
+
+. Observe the server output. The deployments are now set up as singleton deployments.
+
+. To remove the deployment overlay run the following CLI command:
++
+----
+deployment-overlay remove --name=singleton-deployment
+deployment-overlay redeploy-affected --name=singleton-deployment
+----
+
+For convenience, the management CLI scripts to add the deployment overlay, `singleton-deployment-overlay-add.cli`, and to remove the deployment overlay, `singleton-deployment-overlay-remove.cli`, are located in the root directory of this quickstart.
+
+== Undeploy the Archives
+
+. Ensure all {productName} servers are started.
+. Navigate to the root directory of this quickstart in the command prompt.
+. Use the following commands to undeploy the artifacts:
++
+----
+mvn wildfly:undeploy
+mvn wildfly:undeploy -Dwildfly.port=10090
+----

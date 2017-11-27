@@ -1,0 +1,121 @@
+= jts-distributed-crash-rec: JTS and distributed crash recovery
+:author: Tom Jenkinson
+:productName: WildFly
+:productNameFull: WildFly Application Server
+:jbossHomeName: WILDFLY_HOME
+:productVersion: 12
+:buildRequirements: Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later
+include::../attributes.adoc[]
+
+:level: Advanced
+:technologies: JTS, Crash Recovery
+:source: {githubRepoUrl}
+:prerequisites: jts
+
+[abstract]
+The `jts-distributed-crash-rec` quickstart uses JTS and Byteman to demonstrate distributed crash recovery across multiple application servers.
+
+== What is it?
+
+The `jts-distributed-crash-rec` quickstart demonstrates a distributed crash recovery across multiple application servers in {productNameFull}.
+
+Crash recovery is a key feature provided by an application server and ensures an application's data consistency, even in the presence of failure. Providing reliable crash recovery helps qualify the pedigree of an application server, distributed crash recovery even more so.
+
+This quickstart uses the application components from the `jts` quickstart. It provides a Byteman rule to inject a halt into the application server at a crucial point in the phase2 commit of the transaction. Byteman is used solely to raise an artificial fault. An IDE could also provide this simulation, although it is more complex to use an IDE for this purpose.
+
+Apart from that, this quickstart works the same as the `jts` quickstart and if the Byteman rule is left out, this quickstart _is_ the JTS quickstart.
+
+As an overview, the sequence of events to expect:
+
+. Configure and start two {productName} servers.
+. Build and deploy the two application components.
+. Open a web browser and attempt to invoice two customers as with the `jts` quickstart.
+. {productName} server 1 will run through a two-phase commit (2PC), preparing the resources in {productName} server 1 and {productName} server 2. {productName} server 1 will then crash before it can call commit.
+. The user is invited to inspect the content of the transaction objectstore.
+. {productName} server 1 should be restarted. It will then recover the "invoices" delivered to the MDBs, just as it does in the `jts` quickstart.
+
+== System Requirements
+
+The application this project produces is designed to be run on {productNameFull} {productVersion} or later.
+
+All you need to build this project is {buildRequirements}. See https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts[Configure Maven for {productName} {productVersion}] to make sure you are configured correctly for testing the quickstarts.
+
+== Download and Configure Byteman
+
+This quickstart uses _Byteman_ to help demonstrate crash recovery. You can find more information about _Byteman_ here: https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_BYTEMAN.md#configure-byteman-for-use-with-the-quickstarts[Configure Byteman for Use with the Quickstarts]
+
+Follow the instructions here to download and configure _Byteman_: https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_BYTEMAN.md#download-and-configure-byteman[Download and Configure Byteman]
+
+== Prerequisites
+
+Developers should be familiar with the concepts introduced in the following quickstarts:
+
+* _cmt_
+* _jts_
+
+IMPORTANT: This quickstart depends on the deployment of the `jts` quickstart for its test. Before running this quickstart, see the link:../jts/README.md[jts README] file for details on how to deploy it.
+
+You can verify the deployment of the `jts` quickstart by accessing the following URL: http://localhost:8080/jts-application-component-1/.
+
+== Use of {jbossHomeName}
+
+In the following instructions, replace `{jbossHomeName}` with the actual path to your {productName} installation. The installation path is described in detail here: https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_{jbossHomeName}.md#use-of-eap_home-and-jboss_home-variables[Use of {jbossHomeName} and JBOSS_HOME Variables].
+
+== Test the Application
+
+NOTE: This quickstart README file uses the following replaceable values. When you encounter these values in a README file, be sure to replace them with the actual path to the correct {productName} server.
+
+[subs="+quotes,attributes+"]
+----
+`{jbossHomeName}` denotes the path to the original {productName} installation.
+`{jbossHomeName}_1` denotes the path to the modified {productName} server 1 configuration.
+`{jbossHomeName}_2` denotes the path to the modified {productName} server 2 configuration.
+----
+
+. If you have not yet done so, configure the two application servers and deploy the `jts` quickstart. Follow the instructions in the link:../jts/README.md[jts README] file.
+
+. Configure _Byteman_ to halt {productName} server 1
+
+** Stop both {productName} servers.
+** Follow the instructions here to clear the transaction objectstore remaining from any previous tests: https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_BYTEMAN.md#clear-the-transaction-objectstore[Clear the Transaction ObjectStore]
+** The following 2 lines of text must be appended to the server configuration file for server 1 only using the instructions located here: https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_BYTEMAN.md#use-byteman-to-halt-the-application[Use Byteman to Halt the Application]
+
+For Linux:
+
+. Start both of the {productName} servers
+
+If you are using Linux:
+
+. Access the application at the following URL: http://localhost:8080/jts-application-component-1/
+
+** When you enter a name and click to "add" that customer, you will see the following in the application server 1 console:
+
+----
+INFO  [org.jboss.ejb.client] (default task-2) JBoss EJB Client version 2.1.4.Final-redhat-1
+INFO  [stdout] (default task-2) Rule.execute called for Fail 2PC after prepare_0
+INFO  [stdout] (default task-2) HelperManager.install for helper class org.jboss.byteman.rule.helper.Helper
+INFO  [stdout] (default task-2) calling activated() for helper class org.jboss.byteman.rule.helper.Helper
+INFO  [stdout] (default task-2) Default helper activated
+INFO  [stdout] (default task-2) calling installed(Fail 2PC after prepare) for helper classorg.jboss.byteman.rule.helper.Helper
+INFO  [stdout] (default task-2) Installed rule using default helper : Fail 2PC after prepare
+INFO  [stdout] (default task-2) Fail 2PC after prepare execute
+INFO  [stdout] (default task-2) rule.debug{Fail 2PC after prepare} : Prepare completed
+INFO  [stdout] (default task-2) rule.debug{Fail 2PC after prepare} : !!!killing JVM!!!
+----
+
+. At this point, Byteman halts or crashes server 1. You should be able to view the contents of the object store for this server by typing the following in the terminal for server 1. Be sure to replace `{jbossHomeName}_1` with the path to the first server.
++
+[subs="+quotes,attributes+"]
+----
+tree {jbossHomeName}_1/standalone/data/tx-object-store
+----
+
+. https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_BYTEMAN.md#disable-the-byteman-script[Disable the Byteman script] by restoring the backup configuration file for server 1.
+
+. Follow the steps above to restart server 1 and wait for recovery to complete.
+
+_IMPORTANT: By default, the recovery process checks the transactional state every two minutes, therefore it can take a while for recovery to happen. Also recovery for each server will take place at its own recovery interval._
+
+. After recovery is complete, access the application URL http://localhost:8080/jts-application-component-1/customers.jsf. The user you created should now appear in the list.
+
+. Do NOT forget to https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_BYTEMAN.md#disable-the-byteman-script[Disable the Byteman script] by restoring the backup server configuration file. The Byteman rule must be removed to ensure that your application server will be able to commit 2PC transactions!

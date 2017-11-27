@@ -1,0 +1,108 @@
+= kitchensink: Assortment of technologies including Arquillian
+:author: Pete Muir
+:productName: WildFly
+:productNameFull: WildFly Application Server
+:jbossHomeName: WILDFLY_HOME
+:productVersion: 12
+:buildRequirements: Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later
+include::../attributes.adoc[]
+
+:level: Intermediate
+:technologies: CDI, JSF, JPA, EJB, JAX-RS, BV
+:source: {githubRepoUrl}
+
+[abstract]
+The `kitchensink` quickstart demonstrates a Java EE 7 web-enabled database application using JSF, CDI, EJB, JPA, and Bean Validation.
+
+== What is it?
+
+The `kitchensink` quickstart is a deployable Maven 3 project designed to help you get your foot in the door developing with Java EE 7 on {productNameFull}.
+
+It demonstrates how to create a compliant Java EE 7 application using JSF, CDI, JAX-RS, EJB, JPA, and Bean Validation. It also includes a persistence unit and some sample persistence and transaction code to introduce you to database access in enterprise Java.
+
+_Note: This quickstart uses the H2 database included with {productNameFull} {productVersion}. It is a lightweight, relational example datasource that is used for examples only. It is not robust or scalable, is not supported, and should NOT be used in a production environment!_
+
+_Note: This quickstart uses a `*-ds.xml` datasource configuration file for convenience and ease of database configuration. These files are deprecated in {productName} and should not be used in a production environment. Instead, you should configure the datasource using the Management CLI or Management Console. Datasource configuration is documented in the https://access.redhat.com/documentation/en/red-hat-jboss-enterprise-application-platform/[Configuration Guide] for {productNameFull}._
+
+== System Requirements
+
+The application this project produces is designed to be run on {productNameFull} {productVersion} or later.
+
+All you need to build this project is {buildRequirements}. See https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts[Configure Maven for {productName} {productVersion}] to make sure you are configured correctly for testing the quickstarts.
+
+== Use of {jbossHomeName}
+
+In the following instructions, replace `{jbossHomeName}` with the actual path to your {productName} installation. The installation path is described in detail here: https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_{jbossHomeName}.md#use-of-eap_home-and-jboss_home-variables[Use of {jbossHomeName} and JBOSS_HOME Variables].
+
+== Start the Server
+
+. Open a command prompt and navigate to the root of the {productName} directory.
+. The following shows the command line to start the server:
+
+[subs=normal]
+----
+For Linux:   {jbossHomeName}/bin/standalone.sh
+For Windows: {jbossHomeName}\bin\standalone.bat
+----
+
+== Build and Deploy the Quickstart
+
+. Make sure you have started the {productName} server as described above.
+. Open a command prompt and navigate to the root directory of this quickstart.
+. Type this command to build and deploy the archive:
+
+----
+mvn clean install wildfly:deploy
+----
+
+. This will deploy `target/{artifactId}.war` to the running instance of the server.
+
+== Access the Application
+
+The application will be running at the following URL: http://localhost:8080/{artifactId}/.
+
+== Server Log: Expected Warnings and Errors
+
+NOTE: You will see the following warnings in the server log. You can ignore these warnings.
+
+----
+WFLYJCA0091: -ds.xml file deployments are deprecated. Support may be removed in a future version.
+
+HHH000431: Unable to determine H2 database version, certain features may not work
+----
+
+== Undeploy the Archive
+
+. Make sure you have started the {productName} server as described above.
+. Open a command prompt and navigate to the root directory of this quickstart.
+. When you are finished testing, type this command to undeploy the archive:
+
+----
+mvn wildfly:undeploy
+----
+
+== Run the Arquillian Tests
+
+This quickstart provides Arquillian tests. By default, these tests are configured to be skipped as Arquillian tests require the use of a container.
+
+. Make sure you have started the {productName} server as described above.
+. Open a command prompt and navigate to the root directory of this quickstart.
+. Type the following command to run the test goal with the following profile activated:
+
+----
+mvn clean verify -Parq-remote
+----
+
+You can also let Arquillian manage the {productName} server by using the `arq-managed` profile. For more information about how to run the Arquillian tests, see https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/RUN_ARQUILLIAN_TESTS.md#run-the-arquillian-tests[Run the Arquillian Tests].
+
+== Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+
+You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a {productName} server, and build and deploy a quickstart, see link:{useEclipseUrl}[Use JBoss Developer Studio or Eclipse to Run the Quickstarts].
+
+== Debug the Application
+
+If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
+
+----
+mvn dependency:sources
+----

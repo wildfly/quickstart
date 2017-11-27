@@ -1,0 +1,241 @@
+= helloworld-ssl: {productName} Server Side SSL Configuration Example
+:author: Giriraj Sharma, Stefan Guilhen
+:productName: WildFly
+:productNameFull: WildFly Application Server
+:jbossHomeName: WILDFLY_HOME
+:productVersion: 12
+:buildRequirements: Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later
+include::../attributes.adoc[]
+
+:level: Beginner
+:technologies: SSL, Undertow
+:source: {githubRepoUrl}
+
+[abstract]
+The `helloworld-ssl` quickstart is a basic example that demonstrates server side SSL configuration in {productName}.
+
+== What is it?
+
+This `helloworld-ssl` quickstart demonstrates the configuration of _SSL_ in _{productNameFull}_.
+
+This quickstart shows how to configure {productName} to enable TLS/SSL configuration for the new `undertow` web subsystem.
+
+Before you run this example, you must create certificates and configure the server to use SSL.
+
+== System Requirements
+
+The applications these projects produce are designed to be run on {productNameFull} {productVersion} or later.
+
+All you need to build these projects is {buildRequirements}. See https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts[Configure Maven for {productName} {productVersion}] to make sure you are configured correctly for testing the quickstarts.
+
+To run these quickstarts with the provided build scripts, you need the {productName} distribution ZIP. For information on how to install and run JBoss, see the https://access.redhat.com/documentation/en/red-hat-jboss-enterprise-application-platform/[{productNameFull} Documentation] _Getting Started Guide_ located on the Customer Portal.
+
+You can also use <<use-jboss-developer-studio-or-eclipse-to-run-the-quickstarts,JBoss Developer Studio or Eclipse>> to run the quickstarts.
+
+== Use of {jbossHomeName}
+
+In the following instructions, replace `{jbossHomeName}` with the actual path to your {productName} installation. The installation path is described in detail here: https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_{jbossHomeName}.md#use-of-eap_home-and-jboss_home-variables[Use of {jbossHomeName} and JBOSS_HOME Variables].
+
+== Generate a Keystore and Self-signed Certificate
+
+. Open a command line and navigate to the {productName} server `configuration` directory:
+
+----
+For Linux:   standalone/configuration
+For Windows: standalone\configuration
+----
+
+. Create a certificate for your server using the following command:
+
+----
+$>keytool -genkey -alias mycert -keyalg RSA -sigalg MD5withRSA -keystore server.keystore -storepass secret -keypass secret -validity 9999
+
+What is your first and last name?
+   [Unknown]:  localhost
+What is the name of your organizational unit?
+   [Unknown]:  wildfly
+What is the name of your organization?
+   [Unknown]:  jboss
+What is the name of your City or Locality?
+   [Unknown]:  Raleigh
+What is the name of your State or Province?
+   [Unknown]:  Carolina
+What is the two-letter country code for this unit?
+   [Unknown]:  US
+Is CN=localhost, OU=wildfly, O=jboss, L=Raleigh, ST=Carolina, C=US correct?
+   [no]:  yes
+----
+
+== Configure the Server
+
+These steps assume you are running the server in standalone mode and using the default `standalone.xml` supplied with the distribution.
+
+You configure the SSL context by running JBoss CLI commands. For your convenience, this quickstart batches the commands into a `configure-ssl.cli` script provided in the root directory of this quickstart.
+
+. Before you begin, back up your server configuration file
+
+** If it is running, stop the {productName} server.
+** Back up the file: `{jbossHomeName}/standalone/configuration/standalone.xml`
+** After you have completed testing this quickstart, you can replace this file to restore the server to its original configuration.
+. Start the {productName} server by typing the following:
++
+[subs="+quotes,attributes+"]
+----
+For Linux:  {jbossHomeName}/bin/standalone.sh
+For Windows:  {jbossHomeName}\bin\standalone.bat
+----
+
+. Review the `configure-ssl.cli` file in the root of this quickstart directory. Comments in the script describe the purpose of each block of commands.
+. Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing {jbossHomeName} with the path to your server:
+
++
+[subs="+quotes,attributes+"]
+----
+For Linux: {jbossHomeName}/bin/jboss-cli.sh --connect --file=configure-ssl.cli
+For Windows: {jbossHomeName}\bin\jboss-cli.bat --connect --file=configure-ssl.cli
+----
+
+. Stop the {productName} server.
+
+Now you're ready to connect to the SSL port of your instance https://localhost:8443/. Note, that you get the privacy error as the server certificate is self-signed. If you need to use a fully signed certificate you mostly get a PEM file from the Certificate Authority. In such a case, you need to import the PEM into the keystore.
+
+== Review the Modified Server Configuration
+
+After stopping the server, open the `{jbossHomeName}/standalone/configuration/standalone.xml` file and review the changes.
+
+. The following `key-store` was added to the `elytron` subsystem:
++
+[source, xml]
+----
+<key-stores>
+    <key-store name="qsKeyStore">
+        <credential-reference clear-text="secret"/>
+        <implementation type="JKS"/>
+        <file path="server.keystore" relative-to="jboss.server.config.dir"/>
+    </key-store>
+</key-stores>
+----
+
+. The following `key-manager` was added to the `elytron` subsystem:
++
+[source, xml]
+----
+<key-managers>
+    <key-manager name="qsKeyManager" key-store="qsKeyStore">
+        <credential-reference clear-text="secret"/>
+    </key-manager>
+</key-managers>
+----
+
+. The following `ssl-context` was added to the `elytron` subsystem:
+
++
+[source, xml]
+----
+<server-ssl-contexts>
+    <server-ssl-context name="qsSSLContext" protocols="TLSv1.2" key-manager="qsKeyManager"/>
+</server-ssl-contexts>
+----
+
+. The `https-listener` in the `undertow` subsystem was changed to reference the `qsSSLContext` `ssl-context`:
+
++
+[source, xml]
+----
+<https-listener name="https" socket-binding="https" ssl-context="qsSSLContext" enable-http2="true"/>
+----
+
+== Test the Server SSL Configuration
+
+To test the SSL configuration, access: https://localhost:8443
+
+== Start the Server
+
+. Open a command line and navigate to the root of the {productName} directory.
+. The following shows the command line to start the server with the web profile:
+
+----
+For Linux:   bin/standalone.sh
+For Windows: bin\standalone.bat
+----
+
+== Build and Deploy the Quickstart
+
+_NOTE: The following build command assumes you have configured your Maven user settings. If you have not, you must include Maven setting arguments on the command line. See link:../README.md#build-and-deploy-the-quickstarts[Build and Deploy the Quickstarts] for complete instructions and additional options._
+
+. Make sure you have started the {productName} server as described above.
+. Open a command line and navigate to the root directory of one of the quickstart.
+. Type this command to build and deploy the archive:
+
+----
+mvn clean package wildfly:deploy
+----
+
+. This will deploy `target/{artifactId}.war` to the running instance of the server.
+
+== Access the Application
+
+The application will be running at the following URL: https://localhost:8443/{artifactId}/.
+
+== Undeploy the Archive
+
+. Make sure you have started the JBoss Server as described above.
+. Open a command line and navigate to the root directory of this quickstart.
+. When you are finished testing, type this command to undeploy the archive:
+
+----
+mvn wildfly:undeploy
+----
+
+== Restore the Server Configuration
+
+You can restore the original server configuration by running the `restore-configuration.cli` script provided in the root directory of this quickstart or by manually restoring the back-up copy the configuration file.
+
+=== Restore the Server Configuration by Running the JBoss CLI Script
+
+. Start the {productName} server by typing the following:
++
+[subs="+quotes,attributes+"]
+----
+For Linux:  {jbossHomeName}/bin/standalone.sh
+For Windows:  {jbossHomeName}\bin\standalone.bat
+----
+
+. Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing {jbossHomeName} with the path to your server:
++
+[subs="+quotes,attributes+"]
+----
+For Linux: {jbossHomeName}/bin/jboss-cli.sh --connect --file=restore-configuration.cli
+For Windows: {jbossHomeName}\bin\jboss-cli.bat --connect --file=restore-configuration.cli
+----
+
+=== Restore the Server Configuration Manually
+
+. If it is running, stop the {productName} server.
+. Replace the `{jbossHomeName}/standalone/configuration/standalone.xml` file with the back-up copy of the file.
+
+== Remove the keystore created for this quickstart
+
+. Open a command line and navigate to the {productName} server `configuration` directory:
++
+----
+For Linux:   standalone/configuration
+For Windows: standalone\configuration
+----
+
+. Remove the keystore generated for this quickstart.
+
+== Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+
+You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a {productName} server, and build and deploy a quickstart, see link:{useEclipseUrl}[Use JBoss Developer Studio or Eclipse to Run the Quickstarts].
+
+* Be sure to configure the server by running the JBoss CLI commands as described above under <<configure-the-server,Configure the {productName} Server>>. Stop the server at the end of that step.
+* Be sure to <<restore-the-server-configuration,Restore the Server Configuration>> when you have completed testing this quickstart.
+
+== Debug the Application
+
+If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
+
+----
+mvn dependency:sources
+----

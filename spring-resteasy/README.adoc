@@ -1,0 +1,109 @@
+= spring-resteasy: Example Using Resteasy Spring Integration
+:author: Weinan Li <l.weinan@gmail.com>, Paul Gier <pgier@redhat.com>
+:productName: WildFly
+:productNameFull: WildFly Application Server
+:jbossHomeName: WILDFLY_HOME
+:productVersion: 12
+:buildRequirements: Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later
+include::../attributes.adoc[]
+
+:level: Beginner
+:technologies: Resteasy, Spring
+:source: {githubRepoUrl}
+
+[abstract]
+The `spring-resteasy` quickstart demonstrates how to package and deploy a web application that includes resteasy-spring integration.
+
+== What is it?
+
+The `spring-resteasy` quickstart demonstrates how to package and deploy a web application, which includes resteasy-spring integration, in
+{productNameFull}.
+
+== System Requirements
+
+The application this project produces is designed to be run on {productNameFull} {productVersion} or later.
+
+All you need to build this project is {buildRequirements}. See https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts[Configure Maven for {productName} {productVersion}] to make sure you are configured correctly for testing the quickstarts.
+
+== Start the Server
+
+. Open a command line and navigate to the root of the {productName} directory.
+. The following shows the command line to start the server with the full profile:
+
+[subs=normal]
+----
+For Linux:   {jbossHomeName}/bin/standalone.sh
+For Windows: {jbossHomeName}\bin\standalone.bat
+----
+
+== Build and Deploy the Quickstart
+
+. Make sure you have started the {productName} server as described above.
+. Open a command line and navigate to the root directory of this quickstart.
+. Type this command to build and deploy the archive:
+
+----
+mvn clean package wildfly:deploy
+----
+
+. This deploys the `target/{artifactId}.war` to the running instance of the server.
+
+== Access the Application
+
+The application will be running at the following URL: http://localhost:8080/{artifactId}/.
+
+That will provide links to the following URLs that demonstrate various path and parameter configurations.
+
+* http://localhost:8080/{artifactId}/hello?name=yourname[{artifactId}/hello?name=yourname]
+* http://localhost:8080/{artifactId}/basic[{artifactId}/basic]
+* http://localhost:8080/{artifactId}/queryParam?param=query[{artifactId}/queryParam?param=query]
+* http://localhost:8080/{artifactId}/matrixParam;param=matrix[{artifactId}/matrixParam;param=matrix]
+* http://localhost:8080/{artifactId}/uriParam/789[{artifactId}/uriParam/789]
+
+And the same set as above but using the `locating` path.
+
+* http://localhost:8080/{artifactId}/locating/hello?name=yourname[{artifactId}/locating/hello?name=yourname]
+* http://localhost:8080/{artifactId}/locating/basic[{artifactId}/locating/basic]
+* http://localhost:8080/{artifactId}/locating/queryParam?param=query[{artifactId}/locating/queryParam?param=query]
+* http://localhost:8080/{artifactId}/locating/matrixParam;param=matrix[{artifactId}/locating/matrixParam;param=matrix]
+* http://localhost:8080/{artifactId}/locating/uriParam/789[{artifactId}/locating/uriParam/789]
+
+== Undeploy the Archive
+
+. Make sure you have started the {productName} server as described above.
+. Open a command line and navigate to the root directory of this quickstart.
+. When you are finished testing, type this command to undeploy the archive:
+
+----
+mvn wildfly:undeploy
+----
+
+== Run the Arquillian Functional Tests
+
+This quickstart provides Arquillian functional tests as well. They are located in the functional-tests/ subdirectory under
+the root directory of this quickstart. Functional tests verify that your application behaves correctly from the user's point
+of view. The tests open a browser instance, simulate clicking around the page as a normal user would do, and then close the browser instance.
+
+To run these tests, you must build the main project as described above.
+
+. Open a command line and navigate to the root directory of this quickstart.
+. Build the quickstart WAR using the following command:
+
+----
+mvn clean package
+----
+
+. Navigate to the functional-tests/ directory in this quickstart.
+
+. If you have a running instance of the {productName} server, as described above, run the remote tests by typing the following command:
+
+----
+mvn clean verify -Parq-remote
+----
+
+. If you prefer to run the functional tests using managed instance of the {productName} server, meaning the tests will start the
+server for you, type the following command:
+
+----
+mvn clean verify -Parq-managed
+----
