@@ -1,0 +1,112 @@
+= ejb-throws-exception: Handle Exceptions across JARs in an EAR
+:author: Brad Maxwell
+:productName: WildFly
+:productNameFull: WildFly Application Server
+:jbossHomeName: WILDFLY_HOME
+:productVersion: 12
+:buildRequirements: Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later
+include::../attributes.adoc[]
+
+:level: Intermediate
+:technologies: EJB, EAR
+:source: {githubRepoUrl}
+
+[abstract]
+The `ejb-throws-exception` quickstart demonstrates how to throw and handle Exceptions across JARs in an EAR.
+
+== What is it?
+
+The `ejb-throws-exception` quickstart extends the link:../ejb-in-ear/README.md[ejb-in-ear] quickstart and demonstrates how to handle Exceptions across JARs in an EAR deployed to {productNameFull}. In this quickstart, an EJB in the EJB JAR throws a custom Exception. The web application in the client JAR catches the Exception and displays it in a nicely formatted message. The EAR contains: _JSF WAR_, an _EJB_ JAR and a client library JAR containg classes that both the WAR and EJB JAR use.
+
+The example is composed of three Maven projects, each with a shared parent. The projects are as follows:
+
+. `ejb`: This project contains the EJB code and can be built independently to produce the JAR archive. The EJB has a single method `sayHello` which will take in a String `name` and return `Hello &lt;name&gt;` if the `name` is not null or an empty String. If the `name` is null or an empty String, then it will throw a custom Exception (`GreeterException`) back to the client.
+
+. `web`: This project contains the JSF pages and the CDI managed bean. The CDI Managed Bean (GreeterBean) will be bound to the JSF page (index.xhtml) and will invoke the GreeterEJB and display the response back from the EJB. The GreeterBean catches the custom Exception (GreeterException) thrown by GreeterEJB and displays the Exception message in the response text on the JSF page.
+
+. `ear`: This project builds the EAR artifact and pulls in the ejb, web, and client artifacts.
+
+. `ejb-api`: This project builds the ejb-api library artifact which is used by the ejb, web, as well as remote client artifacts. The ejb-api directory contains the EJB interfaces, custom exceptions the EJB throws and any other transfer objects which the EJB may receive or send back to the client. The EJB interfaces, custom exceptions, and other transfer objects are split into a separate JAR which is packaged in the ear/lib. This allows all sub deployments of the EAR to see the classes of the ejb-api JAR in the classpath. This is also useful for remote clients. The ejb-api JAR can be distributed to a remote client and give the remote clients the classes that are needed to interact with the EJB.
+
+The root `pom.xml` builds each of the subprojects in the above order and deploys the EAR archive to the server.
+
+The example follows the common `Hello World` pattern. These are the steps that occur:
+
+. A JSF page (http://localhost:8080/{artifactId}/) asks for the user name.
+. On clicking `Say Hello`, the value of the `Name` input text is sent to a managed bean named `GreeterBean`.
+. On setting the name, the `Greeter` invokes the `GreeterEJB`, which was injected to the managed bean. Notice the field annotated with `@EJB`.
+. The EJB responds with `Hello &lt;name&gt;` or throws an Exception if the name is empty or null.
+. The response or exception's message from invoking the `GreeterEJB` is stored in a field (response) of the managed bean.
+. The managed bean is annotated as `@RequestScoped`, so the same managed bean instance is used only for the request/response.
+
+== System Requirements
+
+The application this project produces is designed to be run on {productNameFull} {productVersion} or later.
+
+All you need to build this project is {buildRequirements}. See https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts[Configure Maven for {productName} {productVersion}] to make sure you are configured correctly for testing the quickstarts.
+
+== Use of {jbossHomeName}
+
+In the following instructions, replace `{jbossHomeName}` with the actual path to your {productName} installation. The installation path is described in detail here: https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_{jbossHomeName}.md#use-of-eap_home-and-jboss_home-variables[Use of {jbossHomeName} and JBOSS_HOME Variables].
+
+== Start the Server
+
+. Open a command prompt and navigate to the root of the {productName} directory.
+. The following shows the command line to start the server:
+
+[subs=normal]
+----
+For Linux:   {jbossHomeName}/bin/standalone.sh
+For Windows: {jbossHomeName}\bin\standalone.bat
+----
+
+== Build and Deploy the Quickstart
+
+. Make sure you have started the {productName} server as described above.
+. Open a command prompt and navigate to the root directory of this quickstart.
+. Type this command to build and deploy the archive:
+
+----
+mvn clean install wildfly:deploy
+----
+
+. This will deploy `ear/target/{artifactId}.ear` to the running instance of the server.
+
+== Access the Application
+
+The application will be running at the following URL http://localhost:8080/{artifactId}/.
+
+Enter a name in the input field `Name` and click the `Say Hello` button to see the response.
+
+The `Response` output text will display the response from the EJB.
+If the `Name` input text box is not empty, then the `Response` output text will display `Hello &lt;name&gt;`
+If the `Name` input text box is empty, then the `Response` output text will display the message of the exception throw back from the EJB.
+
+== Undeploy the Archive
+
+. Make sure you have started the {productName} server as described above.
+. Open a command prompt and navigate to the root directory of this quickstart.
+. When you are finished testing, type this command to undeploy the archive:
+
+----
+mvn wildfly:undeploy
+----
+
+== Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+
+You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a {productName} server, and build and deploy a quickstart, see link:{useEclipseUrl}[Use JBoss Developer Studio or Eclipse to Run the Quickstarts].
+
+For this quickstart, follow the special instructions to build https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_JBDS.md#deploy-and-undeploy-a-quickstart-ear-project[Quickstarts Containing an EAR]
+
+. Right-click on the `{artifactId}-ear` subproject, and choose `Run As` –&gt; `Run on Server`.
+. Choose the server and click `Finish`.
+. This starts the server, deploys the application, and opens a browser window that accesses the running application.
+. To undeploy the project, right-click on the `{artifactId}-ear` project and choose `Run As` –&gt; `Maven build`. Enter `wildfly:undeploy` for the `Goals` and click `Run`.
+
+== Debug the Application
+
+If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
+
+----
+    mvn dependency:sources
+----

@@ -1,0 +1,116 @@
+= spring-kitchensink-basic: Kitchensink Example using Spring 4.x
+:author: Marius Bogoevici, Tejas Mehta, Joshua Wilson
+:productName: WildFly
+:productNameFull: WildFly Application Server
+:jbossHomeName: WILDFLY_HOME
+:productVersion: 12
+:buildRequirements: Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later
+include::../attributes.adoc[]
+
+:level: Intermediate
+:technologies: JSP, JPA, JSON, Spring, JUnit
+:source: {githubRepoUrl}
+
+[abstract]
+The `spring-kitchensink-basic` quickstart is an example of a Java EE 7 application using JSP, JPA and Spring 4.x.
+
+== What is it?
+
+The `spring-kitchensink-basic` quickstart is an example of a Java EE 7 application using JSP, JPA and Spring 4.x in {productNameFull}. It
+includes a persistence unit and some sample persistence and transaction code to introduce you to database access in enterprise Java:
+
+* In `jboss-as-spring-mvc-context.xml` `&lt;context:component-scan base-package=&quot;org.jboss.as.quickstarts.kitchensink.spring.basic.controller&quot;/&gt;`
+and `&lt;mvc:annotation-driven/&gt;` are used to register both the non-rest and rest controllers.
+
+* The controllers map the respective urls to methods using `@RequestMapping(url)`.
+
+* To return JSON, the rest controller uses `@ResponseBody`.
+
+* The datasource and entitymanager are retrieved via JNDI.
+
+== System Requirements
+
+The application this project produces is designed to be run on {productNameFull} {productVersion} or later.
+
+All you need to build this project is {buildRequirements}. See https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts[Configure Maven for {productName} {productVersion}] to make sure you are configured correctly for testing the quickstarts.
+
+== Start the Server
+
+. Open a command line and navigate to the root of the {productName} directory.
+. The following shows the command line to start the server:
+
+[subs=normal]
+----
+For Linux:   {jbossHomeName}/bin/standalone.sh
+For Windows: {jbossHomeName}\bin\standalone.bat
+----
+
+== Build and Deploy the Quickstart
+
+. Make sure you have started the {productName} server as described above.
+. Open a command line and navigate to the root directory of this quickstart.
+. Type this command to build and deploy the archive:
+
+----
+mvn clean install wildfly:deploy
+----
+
+. This will deploy `target/{artifactId}.war` to the running instance of the server.
+
+== Access the application
+
+The application will be running at the following URL: http://localhost:8080/{artifactId}/.
+
+== Undeploy the Archive
+
+. Make sure you have started the {productName} server as described above.
+. Open a command line and navigate to the root directory of this quickstart.
+. When you are finished testing, type this command to undeploy the archive:
+
+----
+mvn wildfly:undeploy
+----
+
+== Run the Arquillian Functional Tests
+
+This quickstart provides Arquillian functional tests as well. They are located in the functional-tests/ subdirectory under
+the root directory of this quickstart. Functional tests verify that your application behaves correctly from the user's point
+of view. The tests open a browser instance, simulate clicking around the page as a normal user would do, and then close the browser instance.
+
+To run these tests, you must build the main project as described above.
+
+. Open a command line and navigate to the root directory of this quickstart.
+. Build the quickstart WAR using the following command:
+
+----
+mvn clean package
+----
+
+. Navigate to the functional-tests/ directory in this quickstart.
+
+. If you have a running instance of the {productName} server, as described above, run the remote tests by typing the following command:
+
+----
+mvn clean verify -Parq-remote
+----
+
+. If you prefer to run the functional tests using managed instance of the {productName} server, meaning the tests will start the
+server for you, type the following command:
+
+----
+mvn clean verify -Parq-managed
+----
+
+== Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+
+You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a {productName} server, and build and deploy a quickstart, see link:{useEclipseUrl}[Use JBoss Developer Studio or Eclipse to Run the Quickstarts].
+
+== Debug the Application
+
+If you want to debug the source code or look at the Javadocs of any library in the project, run either of the following
+commands to pull them into your local repository. The IDE should then detect them.
+
+----
+    mvn dependency:sources
+    mvn dependency:resolve -Dclassifier=javadoc
+----

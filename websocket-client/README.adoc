@@ -1,0 +1,109 @@
+= websocket-client: WebSocket Java Client Example
+:author: Paul Cowan
+:productName: WildFly
+:productNameFull: WildFly Application Server
+:jbossHomeName: WILDFLY_HOME
+:productVersion: 12
+:buildRequirements: Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later
+include::../attributes.adoc[]
+
+:level: Intermediate
+:technologies: Web Socket, CDI Events, JSON, SSL
+:source: {githubRepoUrl}
+
+[abstract]
+Demonstrates use of a Javascript WebSocket client, WebSocket configuration, programmatic binding, and secure WebSocket.
+
+== What is it?
+
+The `websocket-client` quickstart demonstrates how to use the Java API for WebSockets to create Java client endpoint connected to a remote WebSocket server.
+
+The example is modeled as a relay between a _frontend_ WebSocket server endpoint and a _backend_ WebSocket client endpoint.
+
+Message Flow: +
+`(Browser Javascript WebSocket Client) &lt;-&gt; ({productName} WebSocket Server Endpoint) &lt;-&gt; ({productName} Websocket Client Endpoint) &lt;-&gt; (Remote WebSocket Echo Server)`
+
+CDI events are used to pass messages between the frontend and backend. A single backend WebSocket client endpoint is shared for all frontend clients.
+
+The remote WebSocket server must be an _Echo_ server; a simple WebSocket server that echos back messages the client sends for the purpose of testing. Such a server is publicly available at ws://echo.websocket.org, but any echo server will work.
+
+`Frontend` does not use WebSocket annotations because it demonstrates how to use `ServerEndpointConfig` to modify the default `Configurator` to use an application scoped Endpoint, and how to deploy the Endpoint programatically.
+
+`Backend` does not use WebSocket annotations because it demonstrates how to use `ClientEndpointConfig` to configure the WebSocket client to connect to a secure (wss) WebSocket.
+
+== System Requirements
+
+The application this project produces is designed to be run on {productNameFull} {productVersion} or later.
+
+All you need to build this project is {buildRequirements}. See https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts[Configure Maven for {productName} {productVersion}] to make sure you are configured correctly for testing the quickstarts.
+
+== Use of {jbossHomeName}
+
+In the following instructions, replace `{jbossHomeName}` with the actual path to your {productName} installation. The installation path is described in detail here: https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_{jbossHomeName}.md#use-of-eap_home-and-jboss_home-variables[Use of {jbossHomeName} and JBOSS_HOME Variables].
+
+== Start the Server
+
+. Open a command line and navigate to the root of the {productName} directory.
+. The following shows the command line to start the server with the default profile:
+
+[subs=normal]
+----
+For Linux:   {jbossHomeName}/bin/standalone.sh
+For Windows: {jbossHomeName}\bin\standalone.bat
+----
+
+== Build and Deploy the Quickstart
+
+. Make sure you have started the {productName} server as described above.
+. Open a command line and navigate to the root directory of this quickstart.
+. Type this command to build and deploy the archive:
+
+----
+mvn clean package wildfly:deploy
+----
+
+. This will deploy `target/{artifactId}.war` to the running instance of the server.
+
+== Access the Application
+
+Access the running application in a browser at the following URL: http://localhost:8080/{artifactId}/
+
+You are presented with the `WebSocket Echo Replay` page confirming the connection to the remote WebSocket _Echo_ server.
+
+----
+Connecting to ws://localhost:8080/{artifactId}/relay
+RECV: Opened frontend session FRONTEND_SESSION_ID
+----
+
+Type a message in the text input field at the bottom of the page and click `Send`. The message is processed and the form displays the relayed results. The message `This is a test` was used in the following example.
+
+----
+SEND: This is a test
+RECV: BROADCAST: Connecting to backend wss://echo.websocket.org
+RECV: BROADCAST: Opened backend session BACKEND_SESSION_ID
+RECV: Sending message from frontend session FRONTEND_SESSION_ID
+RECV: Received message from backend session BACKEND_SESSION_ID
+RECV: This is a test
+----
+
+== Undeploy the Archive
+
+. Make sure you have started the {productName} server as described above.
+. Open a command prompt and navigate to the root directory of this quickstart.
+. When you are finished testing, type this command to undeploy the archive:
+
+----
+mvn wildfly:undeploy
+----
+
+== Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+
+You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a {productName} server, and build and deploy a quickstart, see link:{useEclipseUrl}[Use JBoss Developer Studio or Eclipse to Run the Quickstarts].
+
+== Debug the Application
+
+If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
+
+----
+mvn dependency:sources
+----

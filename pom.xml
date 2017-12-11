@@ -468,6 +468,7 @@
                 <module>logging-tools</module>
                 <module>mail</module>
                 <module>managed-executor-service</module>
+                <module>messaging-clustering-singleton</module>
                 <module>numberguess</module>
                 <module>payment-cdi-event</module>
                 <module>resteasy-jaxrs-client</module>
@@ -478,10 +479,7 @@
                 <module>shopping-cart</module>
                 <module>shrinkwrap-resolver</module>
                 <module>spring-greeter</module>
-                <module>spring-kitchensink-asyncrequestmapping</module>
                 <module>spring-kitchensink-basic</module>
-                <module>spring-kitchensink-controlleradvice</module>
-                <module>spring-kitchensink-matrixvariables</module>
                 <module>spring-kitchensink-springmvctest</module>
                 <module>spring-petclinic</module>
                 <module>spring-resteasy</module>
@@ -570,9 +568,7 @@
                 <module>kitchensink-angularjs/functional-tests</module>
                 <module>spring-greeter/functional-tests</module>
                 <module>spring-kitchensink-basic/functional-tests</module>
-                <module>spring-kitchensink-controlleradvice/functional-tests</module>
                 <module>spring-kitchensink-springmvctest/functional-tests</module>
-                <module>spring-kitchensink-matrixvariables/functional-tests</module>
                 <module>spring-petclinic/functional-tests</module>
             </modules>
         </profile>
@@ -638,39 +634,6 @@
             </build>
         </profile>
         <profile>
-            <id>root-dir</id>
-            <activation>
-                <file>
-                    <exists>${basedir}/../docs.properties</exists>
-                </file>
-            </activation>
-            <properties>
-                <root.dir>${basedir}/../</root.dir>
-            </properties>
-        </profile>
-        <profile>
-            <id>root-dir2</id>
-            <activation>
-                <file>
-                    <exists>${basedir}/../../docs.properties</exists>
-                </file>
-            </activation>
-            <properties>
-                <root.dir>${basedir}/../../</root.dir>
-            </properties>
-        </profile>
-        <profile>
-            <id>root-dir3</id>
-            <activation>
-                <file>
-                    <exists>${basedir}/../../../docs.properties</exists>
-                </file>
-            </activation>
-            <properties>
-                <root.dir>${basedir}/../../../</root.dir>
-            </properties>
-        </profile>
-        <profile>
             <id>docs</id>
             <activation>
                 <property>
@@ -685,43 +648,16 @@
             </modules>
             <build>
                 <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-resources-plugin</artifactId>
-                        <version>${version.resources.plugin}</version>
-                        <executions>
-                            <execution>
-                                <id>filter-markdown</id>
-                                <phase>process-sources</phase>
-                                <goals>
-                                    <goal>copy-resources</goal>
-                                </goals>
-                                <configuration>
-                                    <outputDirectory>${project.build.directory}/docs</outputDirectory>
-                                    <filters>
-                                        <filter>${root.dir}/docs.properties</filter>
-                                    </filters>
-                                    <resources>
-                                        <resource>
-                                            <directory>${basedir}</directory>
-                                            <includes>
-                                                <include>*.md</include>
-                                            </includes>
-                                            <filtering>true</filtering>
-                                        </resource>
-                                    </resources>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
+              
                     <plugin>
                         <groupId>org.wildfly.maven.plugins</groupId>
                         <artifactId>quickstart-documentation-plugin</artifactId>
-                        <version>1.0.1</version>
+                        <version>2.0.0.Beta1</version>
                         <inherited>false</inherited>
                         <configuration>
                             <rootDirectory>.</rootDirectory>
-                            <targetDocument>${project.build.directory}/docs/README.md</targetDocument>
+                            <!--<targetDocument>${project.build.directory}/docs/README.md</targetDocument>-->
+                            <targetDocument>README.adoc</targetDocument>
                         </configuration>
                         <executions>
                             <execution>
@@ -734,43 +670,53 @@
                         </executions>
                     </plugin>
                     <plugin>
-                        <groupId>com.vladsch.flexmark</groupId>
-                        <artifactId>markdown-page-generator-plugin</artifactId>
-                        <version>0.22.4</version>
+                        <groupId>org.asciidoctor</groupId>
+                        <artifactId>asciidoctor-maven-plugin</artifactId>
+                        <version>1.5.6</version>
+                        <configuration>
+                            <backend>html5</backend>
+                            <attributes>
+                                <artifactId>${project.artifactId}</artifactId>
+                            </attributes>
+                            <resources>
+                                <resource>
+                                    <directory>none</directory>
+                                    <excludes>
+                                        <exclude>**/*</exclude>
+                                    </excludes>
+                                </resource>
+                            </resources>
+                            <!--<baseDir>.</baseDir>-->
+                            <doctype>article</doctype>
+                            <sourceDirectory>.</sourceDirectory>
+                            <sourceDocumentName>README.adoc</sourceDocumentName>
+                            <outputFile>README.html</outputFile>
+                            
+                        </configuration>
                         <executions>
                             <execution>
-                                <id>generate-html</id>
+                                <id>output-html</id>
                                 <phase>generate-resources</phase>
                                 <goals>
-                                    <goal>generate</goal>
+                                    <goal>process-asciidoc</goal>
                                 </goals>
-                            </execution>
-                            <execution>
-                                <!-- this is special case so we can handle only root README with TOC-->
-                                <id>generate-root-html</id>
-                                <phase>process-resources</phase>
-                                <goals>
-                                    <goal>generate</goal>
-                                </goals>
-                                <inherited>false</inherited>
-                                <configuration>
-                                    <inputDirectory>${project.basedir}</inputDirectory>
-                                </configuration>
                             </execution>
                         </executions>
-                        <configuration>
-                            <inputDirectory>${project.build.directory}/docs</inputDirectory>
-                            <outputDirectory>${project.basedir}</outputDirectory>
-                            <defaultTitle>${project.name}</defaultTitle>
-                            <inputEncoding>UTF-8</inputEncoding>
-                            <headerHtmlFile>${root.dir}/dist/header.html</headerHtmlFile>
-                            <footerHtmlFile>${root.dir}/dist/footer.html</footerHtmlFile>
-                            <pegdownExtensions>TABLES,TOC,AUTOLINKS,STRIKETHROUGH,ATXHEADERSPACE,FENCED_CODE_BLOCKS,ANCHORLINKS,RELAXEDHRULES</pegdownExtensions>
-                            <transformRelativeMarkdownLinks>true</transformRelativeMarkdownLinks>
-                        </configuration>
                     </plugin>
+             
                 </plugins>
             </build>
+        </profile>
+        <profile>
+            <id>adoc</id>
+            <activation>
+                <file>
+                    <missing>README.adoc</missing>
+                </file>
+            </activation>
+            <properties>
+                <asciidoctor.skip>true</asciidoctor.skip>
+            </properties>
         </profile>
         <profile>
             <id>dist</id>

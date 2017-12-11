@@ -1,0 +1,137 @@
+= Quickstarts Release Procedure
+
+== Testing the quickstarts
+
+Most of the quickstarts require starting server in standalone mode. Some require the "standalone-full" profile, some require XTS, some require Postgres and some require other quickstarts to be deployed. Profiles are used in the root POM to separate out these groups, allowing you to test the quickstarts easily. For example, to run those that require only standalone mode:
+
+[source]
+----
+  mvn clean verify wildfly:deploy wildfly:undeploy -Parq-remote -P-requires-postgres,-requires-full,-complex-dependencies,-requires-xts
+----
+
+Or, to run those only those quickstarts that require the full profile
+
+[source]
+----
+mvn clean verify wildfly:deploy wildfly:undeploy -Parq-remote -P-requires-postgres,-default,-complex-dependencies,-requires-xts
+----
+
+And so on.
+
+== Quickstarts in other repositories
+
+If the quickstarts are stored in another repository, you may wish to merge them in from there, do this:
+
+. 
+
+Add the other repo as a remote
+
+[source]
+----
+git remote add -f <other repo> <other repo url>
+----
+
+. 
+
+Merge from the tag in the other repo that you wish to use. It is important to use a tag, to make tracking of history easier. We use a recursive merge strategy, always preferring changes from the other repo, in effect overwriting what we have locally.
+
+[source]
+----
+ git merge <tag> -s recursive -Xtheirs -m "Merge <Other repository name> '<Tag>'"
+----
+
+. 
+
+Review and push to upstream
+
+[source]
+----
+ git push upstream HEAD:master
+----
+
+== Rendering Markdown
+
+The quickstarts use flexmark maven plugin to process the markdown. This builds on the basic markdown syntax, adding support for tables, code highlighting, relaxed code blocks etc). We add a couple of custom piece of markup - [TOC] which allows a table of contents, based on headings, to be added to any file, and [Quickstart-TOC], which adds in a table listing the quickstarts.
+
+Just run
+
+[source]
+----
+    mvn generate-resources -Pdocs
+----
+
+To render all markdown files to HTML.
+
+To do proper release with zip file &amp; all markdown files with resolved variables and rendered html files, run
+
+[source]
+----
+    mvn clean install -Drelease
+----
+
+Which will also result in zip with all quickstarts in dist/target
+
+== Publishing builds to Maven
+
+. You must have gpg set up and your key registered, as described at hhttp://blog.sonatype.com/people/2010/01/how-to-generate-pgp-signatures-with-maven/[hhttp://blog.sonatype.com/people/2010/01/how-to-generate-pgp-signatures-with-maven/]
+. 
+
+You must provide a property `gpg.passphrase` in your `settings.xml` in the `release` profile e.g.
+
+[source, xml]
+----
+  <profile>
+        <id>release</id>
+        <properties>
+            <gpg.passphrase>myPassPhrase</gpg.passphrase>
+        </properties>
+  </profile>
+----
+
+. 
+
+You must have a JBoss Nexus account, configured with the server id in `settings.xml` with the id `jboss-releases-repository` e.g.
+
+[source, xml]
+----
+  <server>
+      <id>jboss-releases-repository</id>
+      <username>myUserName</username>
+      <password>myPassword</password>
+  </server>
+----
+
+. 
+
+Add `org.sonatype.plugins` plug-in group to your `settings.xml` so the Nexus plug-in can be available for publishing scripts.
+
+[source, xml]
+----
+  <pluginGroups>
+      <pluginGroup>org.sonatype.plugins</pluginGroup>
+  </pluginGroups>
+----
+
+== Release Procedure
+
+. Make sure you have access to rsync files to `filemgmt.jboss.org/download_htdocs/jbossas`
+. Release the archetypes
+. 
+
+Regenerate the quickstart based on archetypes
+
+[source]
+----
+ dist/release-utils.sh -r
+----
+
+. 
+
+Release
+
+[source]
+----
+ dist/release.sh -s <old snapshot version> -r <release version>
+----
+
+This will update the version number, commit and tag, build the distro zip and upload it to &lt;download.jboss.org&gt;. Then it will reset the version number back to the snapshot version number.
