@@ -52,7 +52,7 @@ There is another test that shows how the client can cancel a BA.
 
 The application this project produces is designed to be run on {productNameFull} {productVersion} or later.
 
-All you need to build this project is {buildRequirements}. See https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts[Configure Maven for {productName} {productVersion}] to make sure you are configured correctly for testing the quickstarts.
+All you need to build this project is {buildRequirements}. See link:{configureMavenDocUrl}[Configure Maven to Build and Deploy the Quickstarts] to make sure you are configured correctly for testing the quickstarts.
 
 == Start the Server with the Custom Options
 
@@ -70,11 +70,11 @@ Note, the pipe to egrep (| egrep "started|stdout") is useful to just show when t
 This quickstart provides Arquillian tests. By default, these tests are configured to be skipped as Arquillian tests require the use of a container.
 
 . Make sure you have started the {productName} server as described above.
-. Open a command prompt and navigate to the root directory of this quickstart.
+. Open a terminal and navigate to the root directory of this quickstart.
 . Type the following command to run the test goal with the following profile activated:
 
 ----
-mvn clean verify -Parq-remote
+$ mvn clean verify -Parq-remote
 ----
 
 . You should see the following result.
@@ -95,7 +95,7 @@ Supported property names: [managementAddress, password, managementPort, manageme
 
 _This is because, in remote mode, you are responsible for starting the server with the XTS subsystem enabled. When you run the Arquillian tests in managed mode, the container uses the `serverConfig` property defined in the `arquillian.xml` file to start the server with the XTS subsystem enabled._
 
-You can also let Arquillian manage the {productName} server by using the `arq-managed` profile. For more information about how to run the Arquillian tests, see https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/RUN_ARQUILLIAN_TESTS.md#run-the-arquillian-tests[Run the Arquillian Tests].
+You can also let Arquillian manage the {productName} server by using the `arq-managed` profile. For more information about how to run the Arquillian tests, see link:{arquillianTestsDocUrl}[Run the Arquillian Tests].
 
 == Investigate the Server Log
 
@@ -174,5 +174,5 @@ Configuration file: ../../docs/examples/configs/standalone-xts.xml
 If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
 
 ----
-mvn dependency:sources
+$ mvn dependency:sources
 ----

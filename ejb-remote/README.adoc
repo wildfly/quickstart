@@ -21,11 +21,11 @@ The `ejb-remote` quickstart shows how to access an EJB from a remote Java client
 There are two components to this example:
 
 . A server side component:
-
++
 The server component is comprised of a stateful EJB and a stateless EJB. It provides both an EJB JAR that is deployed to the server and a JAR file containing the remote business interfaces required by the remote client application.
 
 . A remote client application that accesses the server component.
-
++
 The remote client application depends on the remote business interfaces from the server component. This application looks up the stateless and stateful beans via JNDI and invokes a number of methods on them.
 
 Each component is defined in its own standalone Maven module. The quickstart provides a top level Maven module to simplify the packaging of the artifacts.
@@ -34,59 +34,60 @@ Each component is defined in its own standalone Maven module. The quickstart pro
 
 The application this project produces is designed to be run on {productNameFull} {productVersion} or later.
 
-All you need to build this project is {buildRequirements}. See https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts[Configure Maven for {productName} {productVersion}] to make sure you are configured correctly for testing the quickstarts.
+All you need to build this project is {buildRequirements}. See link:{configureMavenDocUrl}[Configure Maven to Build and Deploy the Quickstarts] to make sure you are configured correctly for testing the quickstarts.
 
 == Use of {jbossHomeName}
 
-In the following instructions, replace `{jbossHomeName}` with the actual path to your {productName} installation. The installation path is described in detail here: https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_{jbossHomeName}.md#use-of-eap_home-and-jboss_home-variables[Use of {jbossHomeName} and JBOSS_HOME Variables].
+In the following instructions, replace `__{jbossHomeName}__` with the actual path to your {productName} installation. The installation path is described in detail here: link:{useProductHomeDocUrl}[Use of {jbossHomeName} and JBOSS_HOME Variables].
 
 == Start the Server
 
-. Open a command prompt and navigate to the root of the {productName} directory.
+. Open a terminal and navigate to the root of the {productName} directory.
 . The following shows the command line to start the server:
-
-[subs=normal]
++
+[source,subs="+quotes,attributes+",options="nowrap"]
 ----
-For Linux:   {jbossHomeName}/bin/standalone.sh
-For Windows: {jbossHomeName}\bin\standalone.bat
+$ __{jbossHomeName}__/bin/standalone.sh
 ----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\standalone.bat` script.
 
 == Build and Deploy the Quickstart
 
 Since this quickstart builds two separate components, you can not use the standard _Build and Deploy_ commands used by most of the other quickstarts. You must follow these steps to build, deploy, and run this quickstart.
 
 . Make sure you have started the {productName} server. See the instructions in the previous section.
-. Open a command prompt and navigate to the ejb-remote quickstart directory
+. Open a terminal and navigate to the ejb-remote quickstart directory
 . Build and install the server side component:
 ** Build the EJB and client interfaces JARs and install them in your local Maven repository.
-
++
 ----
-mvn clean install         
+$ mvn clean install
 ----
 
 ** Deploy the EJB JAR to your server. This Maven goal will deploy `server-side/target/{artifactId}-server-side.jar`. You can check the {productName} server console to see information messages regarding the deployment.
-
++
 ----
-mvn wildfly:deploy
+$ mvn wildfly:deploy
 ----
 
 . Build and run the client application
 ** Navigate to the client subdirectory:
-
++
 ----
-cd ../client
+$ cd ../client
 ----
 
 ** Compile the client code
-
++
 ----
-mvn clean compile
+$ mvn clean compile
 ----
 
 ** Execute the client application within Maven
-
++
 ----
-mvn exec:exec        
+$ mvn exec:exec
 ----
 
 == Investigate the Console Output
@@ -139,22 +140,22 @@ Logging statements have been removed from this output here to make it clearer.
 
 The remote client application can also be built as a standalone executable JAR with all of its dependencies.
 
-. Open a command prompt and navigate to the ejb-remote/client quickstart directory
-
+. Open a terminal and navigate to the ejb-remote/client quickstart directory
++
 ----
-cd client
+$ cd client
 ----
 
 . Type the following in the command line:
-
++
 ----
-mvn clean package assembly:single
+$ mvn clean package assembly:single
 ----
 
 . You can then run the executable JAR using the `java -jar` command. You will see the same console output as above.
-
++
 ----
-java -jar target/{artifactId}-client-jar-with-dependencies.jar
+$ java -jar target/{artifactId}-client-jar-with-dependencies.jar
 ----
 
 == Undeploy the Archive
@@ -162,15 +163,15 @@ java -jar target/{artifactId}-client-jar-with-dependencies.jar
 To undeploy the server-side component from the {productName} server:
 
 . Navigate to the server-side subdirectory:
-
++
 ----
-cd ../server-side
+$ cd ../server-side
 ----
 
 . Type the following command:
-
++
 ----
-mvn wildfly:undeploy
+$ mvn wildfly:undeploy
 ----
 
 == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
@@ -181,19 +182,19 @@ This quickstart consists of multiple projects, so it deploys and runs differentl
 
 . Install the required Maven artifacts and deploy the server side of the quickstart project.
 
-** Right-click on the `{artifactId}-server-side` project and choose `Run As` –&gt; `Maven Install`.
-** Right-click on the `{artifactId}-server-side` project and choose `Run As` –&gt; `Run on Server`.
+** Right-click on the *{artifactId}-server-side* project and choose *Run As* -> *Maven Install*.
+** Right-click on the *{artifactId}-server-side* project and choose *Run As* -> *Run on Server*.
 . Build and run the client side of the quickstart project.
 
-** Right-click on the `{artifactId}-client` project and choose `Run As` –&gt; `Java Application`.
-** In the `Select Java Application` window, choose `RemoteEJBClient - org.jboss.as.quickstarts.ejb.remote.client` and click `OK`.
-** The client output displays in the `Console` window.
-. To undeploy the project, right-click on the `{artifactId}-server-side` project and choose `Run As` –&gt; `Maven build`. Enter `wildfly:undeploy` for the `Goals` and click `Run`.
+** Right-click on the *{artifactId}-client* project and choose *Run As* -> *Java Application*.
+** In the *Select Java Application* window, choose *RemoteEJBClient - org.jboss.as.quickstarts.ejb.remote.client* and click *OK*.
+** The client output displays in the *Console* window.
+. To undeploy the project, right-click on the *{artifactId}-server-side* project and choose *Run As* -> *Maven build*. Enter `wildfly:undeploy` for the *Goals* and click *Run*.
 
 == Debug the Application
 
 If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
 
 ----
-    mvn dependency:sources
+$ mvn dependency:sources
 ----

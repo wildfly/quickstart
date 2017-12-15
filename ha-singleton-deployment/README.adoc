@@ -26,11 +26,11 @@ For more information about singleton deployments, see _HA Singleton Deployments_
 
 The application this project produces is designed to be run on {productNameFull} {productVersion} or later.
 
-Everything needed to build this project is {buildRequirements}. See https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts[Configure Maven for {productName} {productVersion}] to make sure the environment is configured correctly for testing the quickstarts.
+Everything needed to build this project is {buildRequirements}. See link:{configureMavenDocUrl}[Configure Maven to Build and Deploy the Quickstarts] to make sure the environment is configured correctly for testing the quickstarts.
 
 == Use of {jbossHomeName}
 
-In the following instructions, replace `{jbossHomeName}` with the actual path to your {productName} installation. The installation path is described in detail here: https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_{jbossHomeName}.md#use-of-eap_home-and-jboss_home-variables[Use of {jbossHomeName} and JBOSS_HOME Variables].
+In the following instructions, replace `__{jbossHomeName}__` with the actual path to your {productName} installation. The installation path is described in detail here: link:{useProductHomeDocUrl}[Use of {jbossHomeName} and JBOSS_HOME Variables].
 
 == Setting Up the Test Environment
 
@@ -41,34 +41,40 @@ Note that the example can be run on a single node as well, but without observati
 Start the two {productName} servers with the same HA profile using the following commands.
 Note that a socket binding port offset and a unique node name must be passed to the second server if the servers are binding to the same host.
 
-For Linux:
-[subs="+quotes,attributes+"]
+* Start server 1:
++
+[source,subs="+quotes,attributes+",options="nowrap"]
 ----
-Server 1: {jbossHomeName}_1/bin/standalone.sh -c standalone-ha.xml -Djboss.node.name=node1
-Server 2: {jbossHomeName}_2/bin/standalone.sh -c standalone-ha.xml -Djboss.node.name=node2 -Djboss.socket.binding.port-offset=100
+$ __{jbossHomeName}_1__/bin/standalone.sh -c standalone-ha.xml -Djboss.node.name=node1
 ----
++
+NOTE: For Windows, use the `{jbossHomeName}_1\bin\standalone.bat` script.
 
-For Windows:
-[subs="+quotes,attributes+"]
+* Start server 2, using the port offset:
++
+[source,subs="+quotes,attributes+",options="nowrap"]
 ----
-Server 1: {jbossHomeName}_1\bin\standalone.bat -c standalone-ha.xml -Djboss.node.name=node1
-Server 2: {jbossHomeName}_2\bin\standalone.bat -c standalone-ha.xml -Djboss.node.name=node2 -Djboss.socket.binding.port-offset=100
+$ __{jbossHomeName}_2__/bin/standalone.sh -c standalone-ha.xml -Djboss.node.name=node2 -Djboss.socket.binding.port-offset=100
 ----
++
+NOTE: For Windows, use the `{jbossHomeName}_1\bin\standalone.bat` script.
 
-The demonstration is not limited to two servers. Additional servers can be started by specifying a unique port offset for each one.
+This example is not limited to two servers. Additional servers can be started by specifying a unique port offset for each one.
 
 == Running the Quickstart
 
 . Start the {productName} servers as described in the above section.
-. Navigate to the root directory of this quickstart in the command prompt.
+. Navigate to the root directory of this quickstart in the terminal.
 . Use the following command to clean up previously built artifacts, and build and deploy the EJB archive:
 +
+[source,options="nowrap"]
 ----
-mvn clean install wildfly:deploy
+$ mvn clean install wildfly:deploy
 ----
 
 . Ensure the `target/{artifactId}.jar` archive is deployed to `node1` (the one without port offset) by observing the log.
 +
+[source,options="nowrap"]
 ----
 INFO [org.jboss.as.server.deployment] (MSC service thread 1-1) WFLYSRV0027: Starting deployment of "ha-singleton-deployment.jar" (runtime-name: "ha-singleton-deployment.jar")
 ...
@@ -82,12 +88,14 @@ INFO  [class org.jboss.as.quickstarts.ha.singleton.SingletonTimer] (EJB default 
 
 . Use the following command to deploy the already built archive to the second server. Note that since the default socket binding port is `9990` and the second server has ports offsetted by `100`, the sum, `10090` must be passed as an argument to the deploy maven goal.
 +
+[source,options="nowrap"]
 ----
 mvn wildfly:deploy -Dwildfly.port=10090
 ----
 
 . Ensure the `service/target/{artifactId}.jar` archive is deployed to `node2` by observing the log. Note that even though the logs indicate "Deployed", the deployment does not actually deploy completely and the timer is not operating on this node.
 +
+[source,options="nowrap"]
 ----
 INFO  [org.jboss.as.server.deployment] (MSC service thread 1-6) WFLYSRV0027: Starting deployment of "ha-singleton-deployment.jar" (runtime-name: "ha-singleton-deployment.jar")
 INFO  [org.infinispan.remoting.transport.jgroups.JGroupsTransport] (MSC service thread 1-3) ISPN000078: Starting JGroups channel server
@@ -102,12 +110,14 @@ INFO  [org.jboss.as.server] (management-handler-thread - 2) WFLYSRV0010: Deploye
 
 . Verify the timer is running only on one instance by observing the logs. The node running the timer will output the following every 5 seconds:
 +
+[source,options="nowrap"]
 ----
 INFO  [class org.jboss.as.quickstarts.ha.singleton.SingletonTimer] (EJB default - 1) SingletonTimer: Hello World!
 ----
 
-. Verify failover of the singleton deployment. Shutdown the server operating as the singleton master, for instance by using the `Ctrl` + `C` key combination in the command prompt. Observe the following messages on the node being shutdown:
+. Verify failover of the singleton deployment. Shutdown the server operating as the singleton master, for instance by using the `Ctrl` + `C` key combination in the terminal. Observe the following messages on the node being shutdown:
 +
+[source,options="nowrap"]
 ----
 INFO  [class org.jboss.as.quickstarts.ha.singleton.SingletonTimer] (EJB default - 3) SingletonTimer: Hello World!
 INFO  [class org.jboss.as.quickstarts.ha.singleton.SingletonTimer] (EJB default - 4) SingletonTimer: Hello World!
@@ -125,6 +135,7 @@ Make sure to start the server with an HA profile using `-c standalone-ha.xml`.
 Another common cause is that the server instances did not discover each other and each server is operating as a singleton cluster. Ensure that multicast is enabled or change the `jgroups` subsystem configuration to use a different discovery mechanism.
 Observe the following log line to ensure that the discovery was successful:
 
+[source,options="nowrap"]
 ----
 INFO  [org.infinispan.remoting.transport.jgroups.JGroupsTransport] (MSC service thread 1-3) ISPN000094: Received new cluster view for channel server: [node1|1] (2) [node1, node2]
 ----
@@ -139,24 +150,27 @@ To demonstrate how to use deployment overlays, follow these steps:
 . Move the `src/main/resources/META-INF/singleton-deployment.xml` file into root directory of this quickstart.
 . Rebuild the project. Ensure that the servers are started, and redeploy the application, which will no longer be configured by singleton deployment by the archive:
 +
+[source,options="nowrap"]
 ----
-mvn clean install
-mvn wildfly:deploy
-mvn wildfly:deploy -Dwildfly.port=10090
+$ mvn clean install
+$ mvn wildfly:deploy
+$ mvn wildfly:deploy -Dwildfly.port=10090
 ----
 
 . Start the management CLI and set up a deployment overlay on both servers:
 +
-[subs="+quotes,attributes+"]
+[source,subs="+quotes,attributes+",options="nowrap"]
 ----
-{jbossHomeName}_1/bin/jboss-cli.sh --connect
+$ __{jbossHomeName}_1__/bin/jboss-cli.sh --connect
 deployment-overlay add --name=singleton-deployment --deployments=ha-singleton-deployment.jar --content=META-INF/singleton-deployment.xml=singleton-deployment.xml
 deployment-overlay redeploy-affected --name=singleton-deployment
 ----
++
+NOTE: For Windows, use the ` __{jbossHomeName}_1__\bin\jboss-cli.bat` script.
 
 . Review the deployment overlay changes in the `standalone-ha.xml` server profile:
 +
-[source, xml]
+[source,xml,options="nowrap"]
 ----
 <deployment-overlays>
     <deployment-overlay name="singleton-deployment">
@@ -170,6 +184,7 @@ deployment-overlay redeploy-affected --name=singleton-deployment
 
 . To remove the deployment overlay run the following CLI command:
 +
+[source,options="nowrap"]
 ----
 deployment-overlay remove --name=singleton-deployment
 deployment-overlay redeploy-affected --name=singleton-deployment
@@ -180,10 +195,11 @@ For convenience, the management CLI scripts to add the deployment overlay, `sing
 == Undeploy the Archives
 
 . Ensure all {productName} servers are started.
-. Navigate to the root directory of this quickstart in the command prompt.
+. Navigate to the root directory of this quickstart in the terminal.
 . Use the following commands to undeploy the artifacts:
 +
+[source,options="nowrap"]
 ----
-mvn wildfly:undeploy
-mvn wildfly:undeploy -Dwildfly.port=10090
+$ mvn wildfly:undeploy
+$ mvn wildfly:undeploy -Dwildfly.port=10090
 ----

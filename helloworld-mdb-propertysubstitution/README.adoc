@@ -18,7 +18,7 @@ The `helloworld-mdb-propertysubstitution` quickstart demonstrates the use of *JM
 
 The `helloworld-mdb-propertysubstitution` quickstart demonstrates the use of _JMS_ and _EJB Message-Driven Bean_ in {productNameFull}.
 
-It is based on the link:../helloworld-mdb/README.md[helloworld-mdb] quickstart, but has been enhanced to enable property substitution using the `@Resource` and `@ActivationConfigProperty` annotations.
+It is based on the link:../helloworld-mdb/README.adoc[helloworld-mdb] quickstart, but has been enhanced to enable property substitution using the `@Resource` and `@ActivationConfigProperty` annotations.
 
 This project creates two JMS resources:
 
@@ -29,11 +29,11 @@ This project creates two JMS resources:
 
 The application this project produces is designed to be run on {productNameFull} {productVersion} or later.
 
-All you need to build this project is {buildRequirements}. See https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts[Configure Maven for {productName} {productVersion}] to make sure you are configured correctly for testing the quickstarts.
+All you need to build this project is {buildRequirements}. See link:{configureMavenDocUrl}[Configure Maven to Build and Deploy the Quickstarts] to make sure you are configured correctly for testing the quickstarts.
 
 == Use of {jbossHomeName}
 
-In the following instructions, replace `{jbossHomeName}` with the actual path to your {productName} installation. The installation path is described in detail here: https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_{jbossHomeName}.md#use-of-eap_home-and-jboss_home-variables[Use of {jbossHomeName} and JBOSS_HOME Variables].
+In the following instructions, replace `__{jbossHomeName}__` with the actual path to your {productName} installation. The installation path is described in detail here: link:{useProductHomeDocUrl}[Use of {jbossHomeName} and JBOSS_HOME Variables].
 
 == Configure the Server
 
@@ -44,22 +44,23 @@ You enable MDB property substitution by running JBoss CLI commands. For your con
 ** Back up the file: `{jbossHomeName}/standalone/configuration/standalone-full.xml`
 ** After you have completed testing this quickstart, you can replace this file to restore the server to its original configuration.
 . Start the {productName} server by typing the following:
-
 +
-[subs="+quotes,attributes+"]
+[source,subs="+quotes,attributes+",options="nowrap"]
 ----
-For Linux:  {jbossHomeName}/bin/standalone.sh -c standalone-full.xml
-For Windows:  {jbossHomeName}\bin\standalone.bat -c standalone-full.xml
+$ __{jbossHomeName}__/bin/standalone.sh -c standalone-full.xml
 ----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\standalone.bat` script.
 
 . Review the `enable-mdb-property-substitution.cli` script file in the root of this quickstart directory. This script first enables MDB annotation property substitution the `ee` subsystem of the server configuration file by creating an `annotation-property-replacement` property with a value of `true`. It then defines the system properties that are used in the substitution.
-. Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing {jbossHomeName} with the path to your server:
+. Open a new terminal, navigate to the root directory of this quickstart, and run the following command, replacing {jbossHomeName} with the path to your server:
 +
-[subs="+quotes,attributes+"]
+[source,subs="+quotes,attributes+",options="nowrap"]
 ----
-For Linux: {jbossHomeName}/bin/jboss-cli.sh --connect --file=enable-mdb-property-substitution.cli
-For Windows: {jbossHomeName}\bin\jboss-cli.bat --connect --file=enable-mdb-property-substitution.cli
+$ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=enable-mdb-property-substitution.cli
 ----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
 
 . Stop the {productName} server.
 
@@ -67,9 +68,9 @@ For Windows: {jbossHomeName}\bin\jboss-cli.bat --connect --file=enable-mdb-prope
 
 After stopping the server, open the `{jbossHomeName}/standalone/configuration/standalone-full.xml` file and review the changes.
 
-The `&lt;annotation-property-replacement&gt;` attribute is set to true in the `ee` subsystem :
+The `<annotation-property-replacement>` attribute is set to true in the `ee` subsystem :
 
-[source, xml]
+[source,xml,options="nowrap"]
 ----
 <subsystem xmlns="urn:jboss:domain:ee:4.0">
     ...
@@ -80,7 +81,7 @@ The `&lt;annotation-property-replacement&gt;` attribute is set to true in the `e
 
 The following system properties are defined and appear after the `&lt;extensions&gt;`:
 
-[source, xml]
+[source,xml,options="nowrap"]
 ----
 <system-properties>
     <property name="property.helloworldmdb.queue" value="java:/queue/HELLOWORLDMDBPropQueue"/>
@@ -91,28 +92,30 @@ The following system properties are defined and appear after the `&lt;extensions
 
 == Start the Server with the Full Profile
 
-. Open a command prompt and navigate to the root of the {productName} directory.
+. Open a terminal and navigate to the root of the {productName} directory.
 . The following shows the command line to start the server with the full profile:
-
 +
-[subs=normal]
+[source,subs="+quotes,attributes+",options="nowrap"]
 ----
-For Linux:   {jbossHomeName}/bin/standalone.sh -c standalone-full.xml
-For Windows: {jbossHomeName}\bin\standalone.bat -c standalone-full.xml
+$ __{jbossHomeName}__/bin/standalone.sh -c standalone-full.xml
 ----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\standalone.bat` script.
 
 == Build and Deploy the Quickstart
 
 . Make sure you have started the {productName} server as described above.
-. Open a command prompt and navigate to the root directory of this quickstart.
+. Open a terminal and navigate to the root directory of this quickstart.
 . Type this command to build and deploy the archive:
 +
+[source,options="nowrap"]
 ----
-mvn clean install wildfly:deploy
+$ mvn clean install wildfly:deploy
 ----
 
 . This will deploy `target/{artifactId}.war` to the running instance of the server. Look at the {productName} console or Server log and you should see log messages corresponding to the deployment of the message-driven beans and the JMS destinations:
-
++
+[source,options="nowrap"]
 ----
 INFO  [org.wildfly.extension.messaging-activemq] (MSC service thread 1-8) WFLYMSGAMQ0002: Bound messaging object to jndi name java:/${property.helloworldmdb.queue}
 INFO  [org.wildfly.extension.messaging-activemq] (MSC service thread 1-5) WFLYMSGAMQ0002: Bound messaging object to jndi name java:/${property.helloworldmdb.topic}
@@ -136,6 +139,7 @@ To send messages to the topic, use the following URL: http://localhost:8080/{art
 
 Look at the {productName} console or Server log and you should see log messages like the following:
 
+[source,options="nowrap"]
 ----
 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldQueueMDB] (Thread-9 (ActiveMQ-client-global-threads-1189700957)) Received Message from queue: This is message 5
 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldQueueMDB] (Thread-6 (ActiveMQ-client-global-threads-1189700957)) Received Message from queue: This is message 1
@@ -147,11 +151,12 @@ INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldQueueMDB] (Thread-4 (ActiveM
 == Undeploy the Archive
 
 . Make sure you have started the {productName} server as described above.
-. Open a command prompt and navigate to the root directory of this quickstart.
+. Open a terminal and navigate to the root directory of this quickstart.
 . When you are finished testing, type this command to undeploy the archive:
-
++
+[source,options="nowrap"]
 ----
-mvn wildfly:undeploy
+$ mvn wildfly:undeploy
 ----
 
 == Restore the Server Configuration
@@ -162,24 +167,25 @@ You can remove the server configuration by running the `disable-mdb-property-sub
 
 . Start the {productName} server by typing the following:
 +
-[subs="+quotes,attributes+"]
+[source,subs="+quotes,attributes+",options="nowrap"]
 ----
-For Linux:  {jbossHomeName}/bin/standalone.sh -c standalone-full.xml
-For Windows:  {jbossHomeName}\bin\standalone.bat -c standalone-full.xml
+$ __{jbossHomeName}__/bin/standalone.sh -c standalone-full.xml
 ----
-
-. Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing {jbossHomeName} with the path to your server:
 +
-[subs="+quotes,attributes+"]
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\standalone.bat -c standalone-full.xml` script.
+
+. Open a new terminal, navigate to the root directory of this quickstart, and run the following command, replacing __{jbossHomeName}__ with the path to your server:
++
+[source,subs="+quotes,attributes+",options="nowrap"]
 ----
-For Linux: {jbossHomeName}/bin/jboss-cli.sh --connect --file=disable-mdb-property-substitution.cli
-For Windows: {jbossHomeName}\bin\jboss-cli.bat --connect --file=disable-mdb-property-substitution.cli
+$ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=disable-mdb-property-substitution.cli
 ----
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
 
 === Restore the Configuration Manually
 
 . If it is running, stop the {productName} server.
-. Replace the `{jbossHomeName}/standalone/configuration/standalone-full.xml` file with the back-up copy of the file.
+. Replace the `__{jbossHomeName}__/standalone/configuration/standalone-full.xml` file with the back-up copy of the file.
 
 == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 
@@ -193,6 +199,7 @@ You can also start the server and deploy the quickstarts or run the Arquillian t
 
 If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
 
+[source,options="nowrap"]
 ----
-mvn dependency:sources
+$ mvn dependency:sources
 ----

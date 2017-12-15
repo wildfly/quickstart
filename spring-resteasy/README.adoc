@@ -23,7 +23,7 @@ The `spring-resteasy` quickstart demonstrates how to package and deploy a web ap
 
 The application this project produces is designed to be run on {productNameFull} {productVersion} or later.
 
-All you need to build this project is {buildRequirements}. See https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts[Configure Maven for {productName} {productVersion}] to make sure you are configured correctly for testing the quickstarts.
+All you need to build this project is {buildRequirements}. See link:{configureMavenDocUrl}[Configure Maven to Build and Deploy the Quickstarts] to make sure you are configured correctly for testing the quickstarts.
 
 == Start the Server
 
@@ -32,8 +32,8 @@ All you need to build this project is {buildRequirements}. See https://github.co
 
 [subs=normal]
 ----
-For Linux:   {jbossHomeName}/bin/standalone.sh
-For Windows: {jbossHomeName}\bin\standalone.bat
+For Linux:   $ __{jbossHomeName}__/bin/standalone.sh
+For Windows: __{jbossHomeName}__\bin\standalone.bat
 ----
 
 == Build and Deploy the Quickstart
@@ -43,7 +43,7 @@ For Windows: {jbossHomeName}\bin\standalone.bat
 . Type this command to build and deploy the archive:
 
 ----
-mvn clean package wildfly:deploy
+$ mvn clean package wildfly:deploy
 ----
 
 . This deploys the `target/{artifactId}.war` to the running instance of the server.
@@ -75,7 +75,7 @@ And the same set as above but using the `locating` path.
 . When you are finished testing, type this command to undeploy the archive:
 
 ----
-mvn wildfly:undeploy
+$ mvn wildfly:undeploy
 ----
 
 == Run the Arquillian Functional Tests
@@ -90,7 +90,7 @@ To run these tests, you must build the main project as described above.
 . Build the quickstart WAR using the following command:
 
 ----
-mvn clean package
+$ mvn clean package
 ----
 
 . Navigate to the functional-tests/ directory in this quickstart.
@@ -98,12 +98,12 @@ mvn clean package
 . If you have a running instance of the {productName} server, as described above, run the remote tests by typing the following command:
 
 ----
-mvn clean verify -Parq-remote
+$ mvn clean verify -Parq-remote
 ----
 
 . If you prefer to run the functional tests using managed instance of the {productName} server, meaning the tests will start the
 server for you, type the following command:
 
 ----
-mvn clean verify -Parq-managed
+$ mvn clean verify -Parq-managed
 ----

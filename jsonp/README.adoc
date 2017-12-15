@@ -24,7 +24,7 @@ It shows how to use the JSON-P API to generate, parse, and consume JSON files.
 
 The application this project produces is designed to be run on {productNameFull} {productVersion} or later.
 
-All you need to build this project is {buildRequirements}. See https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts[Configure Maven for {productName} {productVersion}] to make sure you are configured correctly for testing the quickstarts.
+All you need to build this project is {buildRequirements}. See link:{configureMavenDocUrl}[Configure Maven to Build and Deploy the Quickstarts] to make sure you are configured correctly for testing the quickstarts.
 
 == Start the Server
 
@@ -33,8 +33,8 @@ All you need to build this project is {buildRequirements}. See https://github.co
 
 [subs=normal]
 ----
-For Linux:   {jbossHomeName}/bin/standalone.sh
-For Windows: {jbossHomeName}\bin\standalone.bat
+For Linux:   $ __{jbossHomeName}__/bin/standalone.sh
+For Windows: __{jbossHomeName}__\bin\standalone.bat
 ----
 
 == Build and Deploy the Quickstart
@@ -44,7 +44,7 @@ For Windows: {jbossHomeName}\bin\standalone.bat
 . Type this command to build and deploy the archive:
 
 ----
-mvn clean package wildfly:deploy
+$ mvn clean package wildfly:deploy
 ----
 
 . This will deploy `target/{artifactId}` to the running instance of the server.
@@ -64,11 +64,11 @@ Now, click on `Parse JSON String using Stream` button. The textarea below the bu
 == Undeploy the Archive
 
 . Make sure you have started the {productName} server as described above.
-. Open a command prompt and navigate to the root directory of this quickstart.
+. Open a terminal and navigate to the root directory of this quickstart.
 . When you are finished testing, type this command to undeploy the archive:
 
 ----
-mvn wildfly:undeploy
+$ mvn wildfly:undeploy
 ----
 
 == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
@@ -80,5 +80,5 @@ You can also start the server and deploy the quickstarts or run the Arquillian t
 If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
 
 ----
-mvn dependency:sources
+$ mvn dependency:sources
 ----

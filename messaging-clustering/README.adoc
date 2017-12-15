@@ -10,37 +10,37 @@ include::../attributes.adoc[]
 :level: Intermediate
 :technologies: JMS, MDB
 :source: {githubRepoUrl}
-:prerequisites: helloworld-mdb
+:prerequisites: link:helloworld-mdb/README{outfilesuffix}[helloworld-mdb]
 
 [abstract]
 The `messaging-clustering` quickstart does not contain any code and instead uses the `helloworld-mdb` quickstart to demonstrate clustering using ActiveMQ Messaging.
 
 == What is it?
 
-The `messaging-clustering` quickstart demonstrates the use of clustering with Apache ActiveMQ and {productNameFull}. It uses the link:../helloworld-mdb/README.md[helloworld-mdb] quickstart for its tests, so there is no code associated with this quickstart. Instructions are provided to run the quickstart on either a standalone server or in a managed domain.
+The `messaging-clustering` quickstart demonstrates the use of clustering with Apache ActiveMQ and {productNameFull}. It uses the link:../helloworld-mdb/README.adoc[helloworld-mdb] quickstart for its tests, so there is no code associated with this quickstart. Instructions are provided to run the quickstart on either a standalone server or in a managed domain.
 
 == System Requirements
 
 The application this project produces is designed to be run on {productNameFull} {productVersion} or later.
 
-All you need to build this project is {buildRequirements}. See https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts[Configure Maven for {productName} {productVersion}] to make sure you are configured correctly for testing the quickstarts.
+All you need to build this project is {buildRequirements}. See link:{configureMavenDocUrl}[Configure Maven to Build and Deploy the Quickstarts] to make sure you are configured correctly for testing the quickstarts.
 
 == Use of {jbossHomeName}
 
-In the following instructions, replace `{jbossHomeName}` with the actual path to your {productName} installation. The installation path is described in detail here: https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_{jbossHomeName}.md#use-of-eap_home-and-jboss_home-variables[Use of {jbossHomeName} and JBOSS_HOME Variables].
+In the following instructions, replace `__{jbossHomeName}__` with the actual path to your {productName} installation. The installation path is described in detail here: link:{useProductHomeDocUrl}[Use of {jbossHomeName} and JBOSS_HOME Variables].
 
 == Prerequisites
 
 *IMPORTANT:* This quickstart depends on the deployment of the `helloworld-mdb` quickstart WAR for its tests. Before you continue, you must build the `helloworld-mdb` quickstart WAR.
 
-Open a command prompt and navigate to the root directory of the helloworld-mdb quickstart.
+Open a terminal and navigate to the root directory of the helloworld-mdb quickstart.
 Type this command to build the WAR archive:
 
 ----
-    mvn clean install
+    $ mvn clean install
 ----
 
-See the helloworld-mdb link:../helloworld-mdb/README.md[README] for further information about this quickstart.
+See the helloworld-mdb link:../helloworld-mdb/README.adoc[README] for further information about this quickstart.
 
 == Configure the Server and Deploy the Quickstart
 
@@ -71,12 +71,12 @@ You configure the server by running the install-domain.cli script provided in th
 
 ==== Start the server in domain mode.
 
-. Open a command prompt and navigate to the root of the {productName} directory.
+. Open a terminal and navigate to the root of the {productName} directory.
 . The following shows the command line to start the server in domain mode:
 
 ----
-For Linux:   {jbossHomeName}/bin/domain.sh
-For Windows: {jbossHomeName}\bin\domain.bat
+For Linux:   $ __{jbossHomeName}__/bin/domain.sh
+For Windows: __{jbossHomeName}__\bin\domain.bat
 ----
 
 ==== Configure the Domain Server and Deploy the Quickstart Using the JBoss CLI
@@ -89,11 +89,11 @@ For Windows: {jbossHomeName}\bin\domain.bat
 ** Configures ActiveMQ clustering in the full-ha profile
 ** Deploys the `helloworld-mdb.war` archive
 ** Restarts the servers.
-. Open a command prompt, navigate to the root directory of this quickstart, and run the following command to run the script:
+. Open a terminal, navigate to the root directory of this quickstart, and run the following command to run the script:
 
 ----
-For Linux: {jbossHomeName}/bin/jboss-cli.sh --connect --file=install-domain.cli
-For Windows: {jbossHomeName}\bin\jboss-cli.bat --connect --file=install-domain.cli
+For Linux: $ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=install-domain.cli
+For Windows: __{jbossHomeName}__\bin\jboss-cli.bat --connect --file=install-domain.cli
 ----
 
 You should see "outcome" =&gt; "success" for all of the commands.
@@ -108,7 +108,7 @@ Since both application servers must be configured in the same way, you must conf
 
 ==== Start the Server in Standalone Mode using the Full HA Profile.
 
-. Open a command prompt and navigate to the root of the {productName} directory.
+. Open a terminal and navigate to the root of the {productName} directory.
 . The following shows the command line to start the server with the full-ha profile. This profile supports clustering/HA
 
 ----
@@ -124,7 +124,7 @@ For Windows: {jbossHomeName}_1\bin\standalone.bat -c standalone-full-ha.xml
 ** Enables clustering in the RemoteConnectionFactory
 ** Deploys the `helloworld-mdb.war` archive
 ** Reloads the server configuration
-. Open a command prompt, navigate to the root directory of this quickstart, and run the following command to run the script:
+. Open a terminal, navigate to the root directory of this quickstart, and run the following command to run the script:
 
 ----
 For Linux: {jbossHomeName}_1/bin/jboss-cli.sh --connect --file=install-standalone.cli
@@ -219,17 +219,17 @@ When you are finished testing, use the following instructions to undeploy the qu
 === Undeploy the quickstart in Domain Mode
 
 . Make sure you have started the {productName} server in domain mode as described above.
-. Open a command prompt, navigate to the root directory of this quickstart, and run the following command to undeploy the helloworld-mdb quickstart:
+. Open a terminal, navigate to the root directory of this quickstart, and run the following command to undeploy the helloworld-mdb quickstart:
 
 ----
-For Linux: {jbossHomeName}/bin/jboss-cli.sh --connect --file=undeploy-domain.cli
-For Windows: {jbossHomeName}\bin\jboss-cli.bat --connect --file=undeploy-domain.cli
+For Linux: $ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=undeploy-domain.cli
+For Windows: __{jbossHomeName}__\bin\jboss-cli.bat --connect --file=undeploy-domain.cli
 ----
 
 === Undeploy the quickstart in Standalone Mode
 
 . Make sure you have started the {productName} server in standalone mode as described above.
-. Open a command prompt, navigate to the root directory of this quickstart, and run the following command to undeploy the helloworld-mdb quickstart:
+. Open a terminal, navigate to the root directory of this quickstart, and run the following command to undeploy the helloworld-mdb quickstart:
 
 ----
 For Linux: {jbossHomeName}_1/bin/jboss-cli.sh --connect --file=undeploy-standalone.cli
@@ -256,15 +256,15 @@ _Note: This script returns the server to a default configuration and the result 
 . Start the {productName} server by typing the following:
 
 ----
-For Linux:   {jbossHomeName}/bin/domain.sh
-For Windows: {jbossHomeName}\bin\domain.bat
+For Linux:   $ __{jbossHomeName}__/bin/domain.sh
+For Windows: __{jbossHomeName}__\bin\domain.bat
 ----
 
-. Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing {jbossHomeName} with the path to your server.
+. Open a new terminal, navigate to the root directory of this quickstart, and run the following command, replacing {jbossHomeName} with the path to your server.
 
 ----
-For Linux: {jbossHomeName}/bin/jboss-cli.sh --connect --file=remove-domain.cli
-For Windows: {jbossHomeName}\bin\jboss-cli.bat --connect --file=remove-domain.cli
+For Linux: $ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=remove-domain.cli
+For Windows: __{jbossHomeName}__\bin\jboss-cli.bat --connect --file=remove-domain.cli
 ----
 
 _Note: If the `:stop-server` command does not complete before the next commands are issued, you may see an error similar to the following:
@@ -297,7 +297,7 @@ For Linux:   {jbossHomeName}_1/bin/standalone.sh -c standalone-full-ha.xml
 For Windows: {jbossHomeName}_1\bin\domain.bat -c standalone-full-ha.xml
 ----
 
-. Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing {jbossHomeName}_1 with the path to your server.
+. Open a new terminal, navigate to the root directory of this quickstart, and run the following command, replacing {jbossHomeName}_1 with the path to your server.
 
 ----
 For Linux: {jbossHomeName}_1/bin/jboss-cli.sh --connect --file=remove-standalone.cli

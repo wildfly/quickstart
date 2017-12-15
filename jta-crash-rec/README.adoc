@@ -31,25 +31,28 @@ In this example, you halt the {productName} server in the middle of an XA transa
 
 {productName} ships with H2, an in-memory database written in Java. In this example, we use H2 for the database. Although H2 XA support is not recommended for production systems, the example does illustrate the general steps you need to perform for any datasource vendor. This example provides its own H2 XA datasource configuration. It is defined in the `jta-crash-rec-ds.xml` file in the WEB-INF folder of the WAR archive.
 
-_Note: This quickstart uses the H2 database included with {productNameFull} {productVersion}. It is a lightweight, relational example datasource that is used for examples only. It is not robust or scalable, is not supported, and should NOT be used in a production environment!_
-
-_Note: This quickstart uses a `*-ds.xml` datasource configuration file for convenience and ease of database configuration. These files are deprecated in {productName} and should not be used in a production environment. Instead, you should configure the datasource using the Management CLI or Management Console. Datasource configuration is documented in the https://access.redhat.com/documentation/en/red-hat-jboss-enterprise-application-platform/[Configuration Guide] for {productNameFull}._
+//*************************************************
+// Add notes about use in a production environment.
+//*************************************************
+:uses-h2:
+:uses-ds-xml:
+include::../development-shortcuts.adoc[leveloffset=+1]
 
 == System Requirements
 
 The application this project produces is designed to be run on {productNameFull} {productVersion} or later.
 
-All you need to build this project is {buildRequirements}. See https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts[Configure Maven for {productName} {productVersion}] to make sure you are configured correctly for testing the quickstarts.
+All you need to build this project is {buildRequirements}. See link:{configureMavenDocUrl}[Configure Maven to Build and Deploy the Quickstarts] to make sure you are configured correctly for testing the quickstarts.
 
 == Use of {jbossHomeName}
 
-In the following instructions, replace `{jbossHomeName}` with the actual path to your {productName} installation. The installation path is described in detail here: https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_{jbossHomeName}.md#use-of-eap_home-and-jboss_home-variables[Use of {jbossHomeName} and JBOSS_HOME Variables].
+In the following instructions, replace `__{jbossHomeName}__` with the actual path to your {productName} installation. The installation path is described in detail here: link:{useProductHomeDocUrl}[Use of {jbossHomeName} and JBOSS_HOME Variables].
 
 == Download and Configure Byteman
 
-This quickstart uses _Byteman_ to help demonstrate crash recovery. You can find more information about _Byteman_ here: https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_BYTEMAN.md#configure-byteman-for-use-with-the-quickstarts[Configure Byteman for Use with the Quickstarts]
+This quickstart uses _Byteman_ to help demonstrate crash recovery. You can find more information about _Byteman_ here: link:{configureBytemanQuickstartsDocUrl}[Configure Byteman for Use with the Quickstarts]
 
-Follow the instructions here to download and configure _Byteman_: https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_BYTEMAN.md#download-and-configure-byteman[Download and Configure Byteman]
+Follow the instructions here to download and configure _Byteman_: link:{configureBytemanDownloadDocUrl}[Download and Configure Byteman]
 
 == Configure the Server
 
@@ -59,23 +62,23 @@ _NOTE_: The _Byteman_ scripts only work in JTA mode. They do not work in JTS mod
 
 Start the {productName} Server with the Full Profile
 
-. Open a command prompt and navigate to the root of the {productName} directory.
+. Open a terminal and navigate to the root of the {productName} directory.
 . The following shows the command line to start the {productName} server with the full profile:
 
 [subs=normal]
 ----
-For Linux:   {jbossHomeName}/bin/standalone.sh -c standalone-full.xml
-For Windows: {jbossHomeName}\bin\standalone.bat -c standalone-full.xml
+For Linux:   $ __{jbossHomeName}__/bin/standalone.sh -c standalone-full.xml
+For Windows: __{jbossHomeName}__\bin\standalone.bat -c standalone-full.xml
 ----
 
 == Build and Deploy the Quickstart
 
 . Make sure you have started the {productName} server as described above.
-. Open a command prompt and navigate to the root directory of this quickstart.
+. Open a terminal and navigate to the root directory of this quickstart.
 . Type this command to build and deploy the archive:
 
 ----
-mvn clean install wildfly:deploy
+$ mvn clean install wildfly:deploy
 ----
 
 . This will deploy `target/{artifactId}.war` to the running instance of the server.
@@ -98,8 +101,8 @@ The application will be running at the following URL: http://localhost:8080/{art
 . To demonstrate XA recovery, you must enable the Byteman tool to terminate the application server while _phase 2_ is running as follows:
 
 ** Stop the {productName} server.
-** Follow the instructions here to clear the transaction objectstore remaining from any previous tests: https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_BYTEMAN.md#clear-the-transaction-objectstore[Clear the Transaction ObjectStore]
-** The following line of text must be appended to the server configuration file using the instructions located here: https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_BYTEMAN.md#use-byteman-to-halt-the-application[Use Byteman to Halt the Application]
+** Follow the instructions here to clear the transaction objectstore remaining from any previous tests: link:{configureBytemanClearDocUrl}[Clear the Transaction ObjectStore]
+** The following line of text must be appended to the server configuration file using the instructions located here: link:{configureBytemanHaltDocUrl}[Use Byteman to Halt the Application]
 
 For Linux:
 
@@ -130,9 +133,9 @@ Password:     sa
 select * from kvpair
 ----
 
-** Log out of the H2 console and be sure to close out the command prompt. H2 is limited to one connection and the application will need it from this point forward.
+** Log out of the H2 console and be sure to close out the terminal. H2 is limited to one connection and the application will need it from this point forward.
 ** If you are using the default file based transaction logging store, there will be a record in the file system corresponding to the pending transaction.
-*** Open a command prompt and navigate to the `{jbossHomeName}` directory
+*** Open a terminal and navigate to the `__{jbossHomeName}__` directory
 *** List the contents of the following directory:
 +
 [subs="+quotes,attributes+"]
@@ -148,13 +151,13 @@ ls {jbossHomeName}/standalone/data/tx-object-store/ShadowNoFileLockStore/default
 
 *** After recovery, log records are normally deleted automatically. However, logs may remain in the case where the Transaction Manager (TM) commit request was received and acted upon by a resource, but the TM crashed before it had time to clean up the logs of that resource.
 . To observe XA recovery
-** Stop the H2 console and exit the command prompt to close the database connections. Otherwise, you may see messages like the following when you start your server:
+** Stop the H2 console and exit the terminal to close the database connections. Otherwise, you may see messages like the following when you start your server:
 +
 ----
 Database may be already in use: "Locked by another process"
 ----
 
-** https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_BYTEMAN.md#disable-the-byteman-script[Disable the Byteman script] by restoring the backup server configuration file.
+** link:{configureBytemanDisableDocUrl}[Disable the Byteman script] by restoring the backup server configuration file.
 ** <<start-the-server,Start the server>> as instructed above.
 ** Load the web interface to the application
 ** By the time the {productName} server is ready, the transaction should have recovered.
@@ -173,7 +176,7 @@ WARN  [com.arjuna.ats.jta] (Periodic Recovery) ARJUNA016037: Could not find new 
 WARN  [com.arjuna.ats.jta] (Periodic Recovery) ARJUNA016038: No XAResource to recover < formatId=131077, gtrid_length=29, bqual_length=36, tx_uid=0:ffff7f000001:1040a11d:534ede43:1c, node_name=1, branch_uid=0:ffff7f000001:1040a11d:534ede43:20, subordinatenodename=null, eis_name=java:jboss/datasources/JTACrashRecQuickstartDS >
 ----
 
-. Do NOT forget to https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_BYTEMAN.md#disable-the-byteman-script[Disable the Byteman script] by restoring the backup server configuration file. The Byteman rule must be removed to ensure that your application server will be able to commit 2PC transactions!
+. Do NOT forget to link:{configureBytemanDisableDocUrl}[Disable the Byteman script] by restoring the backup server configuration file. The Byteman rule must be removed to ensure that your application server will be able to commit 2PC transactions!
 
 == Server Log: Expected Warnings and Errors
 
@@ -187,11 +190,11 @@ HHH000431: Unable to determine H2 database version, certain features may not wor
 == Undeploy the Archive
 
 . Make sure you have started the {productName} server as described above.
-. Open a command prompt and navigate to the root directory of this quickstart.
+. Open a terminal and navigate to the root directory of this quickstart.
 . When you are finished testing, type this command to undeploy the archive:
 
 ----
-mvn wildfly:undeploy
+$ mvn wildfly:undeploy
 ----
 
 == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
@@ -205,5 +208,5 @@ NOTE: Within JBoss Developer Studio, be sure to define a server runtime environm
 If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
 
 ----
-    mvn dependency:sources
+    $ mvn dependency:sources
 ----

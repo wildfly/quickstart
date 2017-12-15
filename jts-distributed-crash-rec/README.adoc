@@ -10,7 +10,7 @@ include::../attributes.adoc[]
 :level: Advanced
 :technologies: JTS, Crash Recovery
 :source: {githubRepoUrl}
-:prerequisites: jts
+:prerequisites: link:jts/README{outfilesuffix}[jts]
 
 [abstract]
 The `jts-distributed-crash-rec` quickstart uses JTS and Byteman to demonstrate distributed crash recovery across multiple application servers.
@@ -38,13 +38,13 @@ As an overview, the sequence of events to expect:
 
 The application this project produces is designed to be run on {productNameFull} {productVersion} or later.
 
-All you need to build this project is {buildRequirements}. See https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts[Configure Maven for {productName} {productVersion}] to make sure you are configured correctly for testing the quickstarts.
+All you need to build this project is {buildRequirements}. See link:{configureMavenDocUrl}[Configure Maven to Build and Deploy the Quickstarts] to make sure you are configured correctly for testing the quickstarts.
 
 == Download and Configure Byteman
 
-This quickstart uses _Byteman_ to help demonstrate crash recovery. You can find more information about _Byteman_ here: https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_BYTEMAN.md#configure-byteman-for-use-with-the-quickstarts[Configure Byteman for Use with the Quickstarts]
+This quickstart uses _Byteman_ to help demonstrate crash recovery. You can find more information about _Byteman_ here: link:{configureBytemanQuickstartsDocUrl}[Configure Byteman for Use with the Quickstarts]
 
-Follow the instructions here to download and configure _Byteman_: https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_BYTEMAN.md#download-and-configure-byteman[Download and Configure Byteman]
+Follow the instructions here to download and configure _Byteman_: link:{configureBytemanDownloadDocUrl}[Download and Configure Byteman]
 
 == Prerequisites
 
@@ -53,13 +53,13 @@ Developers should be familiar with the concepts introduced in the following quic
 * _cmt_
 * _jts_
 
-IMPORTANT: This quickstart depends on the deployment of the `jts` quickstart for its test. Before running this quickstart, see the link:../jts/README.md[jts README] file for details on how to deploy it.
+IMPORTANT: This quickstart depends on the deployment of the `jts` quickstart for its test. Before running this quickstart, see the link:../jts/README.adoc[jts README] file for details on how to deploy it.
 
 You can verify the deployment of the `jts` quickstart by accessing the following URL: http://localhost:8080/jts-application-component-1/.
 
 == Use of {jbossHomeName}
 
-In the following instructions, replace `{jbossHomeName}` with the actual path to your {productName} installation. The installation path is described in detail here: https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_{jbossHomeName}.md#use-of-eap_home-and-jboss_home-variables[Use of {jbossHomeName} and JBOSS_HOME Variables].
+In the following instructions, replace `__{jbossHomeName}__` with the actual path to your {productName} installation. The installation path is described in detail here: link:{useProductHomeDocUrl}[Use of {jbossHomeName} and JBOSS_HOME Variables].
 
 == Test the Application
 
@@ -67,18 +67,18 @@ NOTE: This quickstart README file uses the following replaceable values. When yo
 
 [subs="+quotes,attributes+"]
 ----
-`{jbossHomeName}` denotes the path to the original {productName} installation.
+`__{jbossHomeName}__` denotes the path to the original {productName} installation.
 `{jbossHomeName}_1` denotes the path to the modified {productName} server 1 configuration.
 `{jbossHomeName}_2` denotes the path to the modified {productName} server 2 configuration.
 ----
 
-. If you have not yet done so, configure the two application servers and deploy the `jts` quickstart. Follow the instructions in the link:../jts/README.md[jts README] file.
+. If you have not yet done so, configure the two application servers and deploy the `jts` quickstart. Follow the instructions in the link:../jts/README.adoc[jts README] file.
 
 . Configure _Byteman_ to halt {productName} server 1
 
 ** Stop both {productName} servers.
-** Follow the instructions here to clear the transaction objectstore remaining from any previous tests: https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_BYTEMAN.md#clear-the-transaction-objectstore[Clear the Transaction ObjectStore]
-** The following 2 lines of text must be appended to the server configuration file for server 1 only using the instructions located here: https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_BYTEMAN.md#use-byteman-to-halt-the-application[Use Byteman to Halt the Application]
+** Follow the instructions here to clear the transaction objectstore remaining from any previous tests: link:{configureBytemanClearDocUrl}[Clear the Transaction ObjectStore]
+** The following 2 lines of text must be appended to the server configuration file for server 1 only using the instructions located here: link:{configureBytemanHaltDocUrl}[Use Byteman to Halt the Application]
 
 For Linux:
 
@@ -110,7 +110,7 @@ INFO  [stdout] (default task-2) rule.debug{Fail 2PC after prepare} : !!!killing 
 tree {jbossHomeName}_1/standalone/data/tx-object-store
 ----
 
-. https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_BYTEMAN.md#disable-the-byteman-script[Disable the Byteman script] by restoring the backup configuration file for server 1.
+. link:{configureBytemanDisableDocUrl}[Disable the Byteman script] by restoring the backup configuration file for server 1.
 
 . Follow the steps above to restart server 1 and wait for recovery to complete.
 
@@ -118,4 +118,4 @@ _IMPORTANT: By default, the recovery process checks the transactional state ever
 
 . After recovery is complete, access the application URL http://localhost:8080/jts-application-component-1/customers.jsf. The user you created should now appear in the list.
 
-. Do NOT forget to https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_BYTEMAN.md#disable-the-byteman-script[Disable the Byteman script] by restoring the backup server configuration file. The Byteman rule must be removed to ensure that your application server will be able to commit 2PC transactions!
+. Do NOT forget to link:{configureBytemanDisableDocUrl}[Disable the Byteman script] by restoring the backup server configuration file. The Byteman rule must be removed to ensure that your application server will be able to commit 2PC transactions!

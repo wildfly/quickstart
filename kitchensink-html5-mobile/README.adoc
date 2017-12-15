@@ -26,7 +26,7 @@ What is a modern web application without mobile web support? This application al
 
 The application this project produces is designed to be run on {productNameFull} {productVersion} or later.
 
-All you need to build this project is {buildRequirements}. See https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts[Configure Maven for {productName} {productVersion}] to make sure you are configured correctly for testing the quickstarts.
+All you need to build this project is {buildRequirements}. See link:{configureMavenDocUrl}[Configure Maven to Build and Deploy the Quickstarts] to make sure you are configured correctly for testing the quickstarts.
 
 An HTML5 compatible browser such as Chrome, Safari 5+, Firefox 5+, or IE 9+ are required. and note that some behaviors will vary slightly (ex. validations) based on browser support, especially IE 9.
 
@@ -41,8 +41,8 @@ With the prerequisites out of the way, you are ready to build and deploy.
 
 [subs=normal]
 ----
-For Linux:   {jbossHomeName}/bin/standalone.sh
-For Windows: {jbossHomeName}\bin\standalone.bat
+For Linux:   $ __{jbossHomeName}__/bin/standalone.sh
+For Windows: __{jbossHomeName}__\bin\standalone.bat
 ----
 
 Note: Adding `-b 0.0.0.0` to the above commands will allow external clients, such as phones, tablets, and desktops, connect through your local network.
@@ -51,8 +51,8 @@ For example
 
 [subs="+quotes,attributes+"]
 ----
-For Linux:   {jbossHomeName}/bin/standalone.sh -b 0.0.0.0
-For Windows: {jbossHomeName}\bin\standalone.bat -b 0.0.0.0
+For Linux:   $ __{jbossHomeName}__/bin/standalone.sh -b 0.0.0.0
+For Windows: __{jbossHomeName}__\bin\standalone.bat -b 0.0.0.0
 ----
 
 == Build and Deploy the Quickstart
@@ -62,7 +62,7 @@ For Windows: {jbossHomeName}\bin\standalone.bat -b 0.0.0.0
 . Type this command to build and deploy the archive:
 
 ----
-mvn clean wildfly:deploy
+$ mvn clean wildfly:deploy
 ----
 
 . This deploys `target/{artifactId}.war` to the running instance of the server.
@@ -78,7 +78,7 @@ Access the running client application in a browser at the following URL: http://
 . When you are finished testing, type this command to undeploy the archive:
 
 ----
-mvn wildfly:undeploy
+$ mvn wildfly:undeploy
 ----
 
 == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
@@ -100,14 +100,14 @@ For example:
 
 ----
 #No Tests
-mvn clean wildfly:deploy -Pminify
+$ mvn clean wildfly:deploy -Pminify
 ----
 
 OR
 
 ----
 #With Tests
-mvn clean verify wildfly:deploy -Pminify,arq-remote
+$ mvn clean verify wildfly:deploy -Pminify,arq-remote
 ----
 
 == Run the Arquillian Tests
@@ -117,7 +117,7 @@ By default, tests are configured to be skipped. The reason is that the sample te
 To run the test in JBoss, first start the container instance. Then, run the test goal with the following profile activated:
 
 ----
-mvn clean verify -Parq-remote
+$ mvn clean verify -Parq-remote
 ----
 
 == Run the QUnit tests
@@ -143,6 +143,6 @@ You can also start the server and deploy the quickstarts or run the Arquillian t
 If you want to be able to debug into the source code or look at the Javadocs of any library in the project, you can run either of the following two commands to pull them into your local repository. The IDE should then detect them.
 
 ----
-mvn dependency:sources
-mvn dependency:resolve -Dclassifier=javadoc
+$ mvn dependency:sources
+$ mvn dependency:resolve -Dclassifier=javadoc
 ----

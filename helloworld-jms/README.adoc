@@ -28,33 +28,33 @@ It contains the following:
 
 The application this project produces is designed to be run on {productNameFull} {productVersion} or later.
 
-All you need to build this project is {buildRequirements}. See https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts[Configure Maven for {productName} {productVersion}] to make sure you are configured correctly for testing the quickstarts.
+All you need to build this project is {buildRequirements}. See link:{configureMavenDocUrl}[Configure Maven to Build and Deploy the Quickstarts] to make sure you are configured correctly for testing the quickstarts.
 
 == Use of {jbossHomeName}
 
-In the following instructions, replace `{jbossHomeName}` with the actual path to your {productName} installation. The installation path is described in detail here: https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_{jbossHomeName}.md#use-of-eap_home-and-jboss_home-variables[Use of {jbossHomeName} and JBOSS_HOME Variables].
+In the following instructions, replace `__{jbossHomeName}__` with the actual path to your {productName} installation. The installation path is described in detail here: link:{useProductHomeDocUrl}[Use of {jbossHomeName} and JBOSS_HOME Variables].
 
 == Add an Application User
 
 This quickstart uses secured management interfaces and requires that you create the following application user to access the running application.
 
-[cols="<,<,<,<"]
+[cols="20%,20%,20%,40%",options="headers"]
 |===
-|*UserName* |*Realm* |*Password* |*Roles* 
+|UserName |Realm |Password |Roles
 
-|quickstartUser |ApplicationRealm |quickstartPwd1! |guest 
+|quickstartUser |ApplicationRealm |quickstartPwd1! |guest
 |===
 
-To add the application user, open a command prompt and type the following command:
+To add the application user, open a terminal and type the following command:
 
-[subs="+quotes,attributes+"]
+[source,subs="+quotes,attributes+",options="nowrap"]
 ----
-For Linux:   {jbossHomeName}/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'guest'
-For Windows: {jbossHomeName}\bin\add-user.bat  -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'guest'
+$ __{jbossHomeName}__/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'guest'
 ----
+NOTE: For Window, use the `__{jbossHomeName}__\bin\add-user.bat` script.
 
-If you prefer, you can use the add-user utility interactively.
-For an example of how to use the add-user utility, see the instructions located here: https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CREATE_USERS.md#add-an-application-user[Add an Application User].
+If you prefer, you can use the `add-user` utility interactively.
+For an example of how to use the add-user utility, see the instructions located here: link:{addApplicationUserDocUrl}[Add an Application User].
 
 == Configure the Server
 
@@ -66,20 +66,21 @@ You configure the JMS `test` queue by running JBoss CLI commands. For your conve
 ** After you have completed testing this quickstart, you can replace this file to restore the server to its original configuration.
 . Start the {productName} server by typing the following:
 +
-[subs="+quotes,attributes+"]
+[source,subs="+quotes,attributes+",options="nowrap"]
 ----
-For Linux:  {jbossHomeName}/bin/standalone.sh -c standalone-full.xml
-For Windows:  {jbossHomeName}\bin\standalone.bat -c standalone-full.xml
+$ __{jbossHomeName}__/bin/standalone.sh -c standalone-full.xml
 ----
+For Windows, use the `__{jbossHomeName}__\bin\standalone.bat` script.
 
 . Review the `configure-jms.cli` file in the root of this quickstart directory. This script adds the `test` queue to the `messaging` subsystem in the server configuration file.
-. Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing {jbossHomeName} with the path to your server:
+. Open a new terminal, navigate to the root directory of this quickstart, and run the following command, replacing {jbossHomeName} with the path to your server:
 +
-[subs="+quotes,attributes+"]
+[source,subs="+quotes,attributes+",options="nowrap"]
 ----
-For Linux: {jbossHomeName}/bin/jboss-cli.sh --connect --file=configure-jms.cli
-For Windows: {jbossHomeName}\bin\jboss-cli.bat --connect --file=configure-jms.cli
+$ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=configure-jms.cli
 ----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
 
 . You should see the following result when you run the script:
 +
@@ -91,25 +92,26 @@ The batch executed successfully
 
 == Review the Modified Server Configuration
 
-After stopping the server, open the `{jbossHomeName}/standalone/configuration/standalone-full.xml` file and review the changes.
+After stopping the server, open the `__{jbossHomeName}__/standalone/configuration/standalone-full.xml` file and review the changes.
 
 The following `testQueue` jms-queue was configured in the default server configuration of the `messaging-activemq` subsystem.
 
-[source, xml]
+[source,xml,options="nowrap"]
 ----
-  <jms-queue name="testQueue" entries="queue/test java:jboss/exported/jms/queue/test"/>
+<jms-queue name="testQueue" entries="queue/test java:jboss/exported/jms/queue/test"/>
 ----
 
 == Start the Server with the Full Profile
 
-. Open a command prompt and navigate to the root of the {productName} directory.
+. Open a terminal and navigate to the root of the {productName} directory.
 . The following shows the command line to start the server with the full profile:
 +
-[subs=normal]
+[source,subs="+quotes,attributes+",options="nowrap"]
 ----
-For Linux:   {jbossHomeName}/bin/standalone.sh -c standalone-full.xml
-For Windows: {jbossHomeName}\bin\standalone.bat -c standalone-full.xml
+$ __{jbossHomeName}__/bin/standalone.sh -c standalone-full.xml
 ----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\standalone.bat` script.
 
 == Build and Execute the Quickstart
 
@@ -117,7 +119,7 @@ To run the quickstart from the command line:
 
 . Make sure you have started the {productName} server. See the instructions in the previous section.
 
-. Open a command prompt and navigate to the root of the helloworld-jms quickstart directory:
+. Open a terminal and navigate to the root of the helloworld-jms quickstart directory:
 +
 ----
 cd PATH_TO_QUICKSTARTS/helloworld-jms
@@ -126,15 +128,18 @@ cd PATH_TO_QUICKSTARTS/helloworld-jms
 . Type the following command to compile and execute the quickstart:
 +
 ----
-mvn clean compile exec:java
+$ mvn clean compile exec:java
 ----
 
-NOTE: If you execute this command multiple times, you may see the following warning and exception, followed by a stacktrace. This is caused by a bug in Artemis that has been fixed, but not yet released. For details, see https://issues.apache.org/jira/browse/ARTEMIS-158. You can ignore this warning._
+[NOTE]
+====
+If you execute this command multiple times, you may see the following warning and exception, followed by a stacktrace. This is caused by a bug in Artemis that has been fixed, but not yet released. For details, see https://issues.apache.org/jira/browse/ARTEMIS-158. You can ignore this warning._
 
 ----
 WARN: AMQ212007: connector.create or connectorFactory.createConnector should never throw an exception, implementation is badly behaved, but we will deal with it anyway.
 java.lang.IllegalArgumentException: port out of range:-1
 ----
+====
 
 == Investigate the Console Output
 
@@ -162,33 +167,32 @@ INFO: Received message with content Hello, World!
 
 The example provides for a certain amount of customization for the `mvn:exec` plug-in using the system properties.
 
-* `username`
+[cols="30%,70%",options="headers"]
+|===
+| Property
+| Description
 
-This username is used for both the JMS connection and the JNDI look-up. Instructions to set up the quickstart application user can be found here: https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CREATE_USERS.md#add-an-application-user[Add an Application User].
+| username
+| This `username` is used for both the JMS connection and the JNDI look up. Instructions to set up the quickstart application user can be found here: link:{addApplicationUserDocUrl}[Add an Application User].
 
-* `password`
+| password
+| This `password` is used for both the JMS connection and the JNDI look up. Instructions to set up the quickstart application user can be found here: link:{addApplicationUserDocUrl}[Add an Application User]
 
-This password is used for both the JMS connection and the JNDI look-up. Instructions to set up the quickstart application user can be found here: https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CREATE_USERS.md#add-an-application-user[Add an Application User]
+| connection.factory
+| The name of the JMS `ConnectionFactory` you want to use.
 
-* `connection.factory`
+| destination
+| The name of the JMS `Destination` you want to use.
 
-The name of the JMS ConnectionFactory you want to use.
+| message.count
+| The number of JMS messages you want to produce and consume.
 
-* `destination`
+| message.content
+| The content of the JMS `TextMessage`.
 
-The name of the JMS Destination you want to use.
-
-* `message.count`
-
-The number of JMS messages you want to produce and consume.
-
-* `message.content`
-
-The content of the JMS TextMessage.
-
-* `java.naming.provider.url`
-
-This property allows configuration of the JNDI directory used to lookup the JMS destination. This is useful when the client resides on another host.
+| java.naming.provider.url
+| This property allows configuration of the JNDI directory used to look up the JMS destination. This is useful when the client resides on another host.
+|===
 
 == Remove the JMS Configuration
 
@@ -198,23 +202,25 @@ You can remove the JMS configuration by running the `remove-jms.cli` script prov
 
 . Start the {productName} server by typing the following:
 +
-[subs="+quotes,attributes+"]
+[source,subs="+quotes,attributes+",options="nowrap"]
 ----
-For Linux:  {jbossHomeName}/bin/standalone.sh -c standalone-full.xml
-For Windows:  {jbossHomeName}\bin\standalone.bat -c standalone-full.xml
+$ __{jbossHomeName}__/bin/standalone.sh -c standalone-full.xml
 ----
-
-. Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing {jbossHomeName} with the path to your server:
 +
-[subs="+quotes,attributes+"]
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\standalone.bat` script.
+
+. Open a new terminal, navigate to the root directory of this quickstart, and run the following command, replacing {jbossHomeName} with the path to your server:
++
+[source,subs="+quotes,attributes+",options="nowrap"]
 ----
-For Linux: {jbossHomeName}/bin/jboss-cli.sh --connect --file=remove-jms.cli
-For Windows: {jbossHomeName}\bin\jboss-cli.bat --connect --file=remove-jms.cli
+$ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=remove-jms.cli
 ----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
 
 . This script removes the `test` queue from the `messaging` subsystem in the server configuration. You should see the following result when you run the script:
 +
-[subs="+quotes,attributes+"]
+[source,options="nowrap"]
 ----
 The batch executed successfully
 ----
@@ -222,7 +228,7 @@ The batch executed successfully
 === Remove the JMS Configuration Manually
 
 . If it is running, stop the {productName} server.
-. Replace the `{jbossHomeName}/standalone/configuration/standalone-full.xml` file with the back-up copy of the file.
+. Replace the `__{jbossHomeName}__/standalone/configuration/standalone-full.xml` file with the back-up copy of the file.
 
 == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 
@@ -235,8 +241,8 @@ This quickstart consists of multiple projects, so it deploys and runs differentl
 ** Define a server runtime environment that uses the `standalone-full.xml` configuration file.
 ** Start the server defined in the previous step.
 . Outside of JBoss Developer Studio, configure the JMS `test` queue by running the JBoss CLI commands as described above under <<configure-the-server,Configure the Server>>.
-. In JBoss Developer Studio, right-click on the `{artifactId}` project and choose `Run As` –&gt; `Java Application`. In the `Select Java Application` window, choose `HellowWorldJMSClient - org.jboss.as.quickstarts.jms` and click `OK`. The client output displays in the `Console` window.
-The output messages appear in the `Console` window.
+. In JBoss Developer Studio, right-click on the *{artifactId}* project and choose *Run As* -> *Java Application*. In the *Select Java Application* window, choose *HellowWorldJMSClient - org.jboss.as.quickstarts.jms* and click *OK*. The client output displays in the *Console* window.
+The output messages appear in the *Console* window.
 . Be sure to <<remove-the-jms-configuration,Remove the JMS Configuration>> when you have completed testing this quickstart.
 
 == Debug the Application
@@ -244,5 +250,5 @@ The output messages appear in the `Console` window.
 If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
 
 ----
-mvn dependency:sources
+$ mvn dependency:sources
 ----

@@ -16,48 +16,59 @@ The `batch-processing` quickstart shows how to use chunk oriented batch jobs to 
 
 == What is it?
 
-This quickstart simulates a file importation using batch jobs. To make it easy, this quickstart offers the user a way to generate files. The generate file can have its name and the number of records customized. The user may also specify if the file contains an error or not.
+This quickstart simulates a file importation using batch jobs. To make it easy, this quickstart offers the user a way to generate files. The generated file can have its name and the number of records customized. The user can also specify if the file contains an error or not.
 
-The Job contains two steps (tasks):
+The job contains two tasks:
 
-. Import the file (Chunk oriented) - The chunk size was set to `3`. The `RecordsReader` is responsible for parsing the file and create an instance of `Contact`. The `ContactsFormatter` applies the proper case to the Contact name and it also applies a mask to the phone number. Finally, `ContactsPersister` will send the Contact instance to the Database.
-. Log the number of records imported
+. It imports the file using a chunk oriented approach.
 
-The database schema defines that the column for name is unique. For that reason, any atempt to persist a duplicate value will throw an exception. On the second attempt to run the job, the `ChunkCheckpoint` will provide information to skip the Contacts that were already persisted. 
+* The chunk size is set to `3`.
+* The `RecordsReader` is responsible for parsing the file and create an instance of `Contact`.
+* The `ContactsFormatter` applies the proper case to the contact name and it also applies a mask to the phone number.
+* Finally, `ContactsPersister` sends the contact instance to the database.
 
-_Note: This quickstart uses the H2 database included with {productNameFull} {productVersion}. It is a lightweight, relational example datasource that is used for examples only. It is not robust or scalable, is not supported, and should NOT be used in a production environment!_
+. It logs the number of records imported.
 
-_Note: This quickstart uses a `*-ds.xml` datasource configuration file for convenience and ease of database configuration. These files are deprecated in {productName} and should not be used in a production environment. Instead, you should configure the datasource using the Management CLI or Management Console. Datasource configuration is documented in the https://access.redhat.com/documentation/en/red-hat-jboss-enterprise-application-platform/[Configuration Guide] for {productNameFull}._
+The database schema defines that the column for name is unique. For that reason, any attempt to persist a duplicate value will throw an exception. On the second attempt to run the job, the `ChunkCheckpoint` provides information to skip the contacts that were already persisted.
+
+//*************************************************
+// Add notes about use in a production environment.
+//*************************************************
+:uses-h2:
+:uses-ds-xml:
+include::../development-shortcuts.adoc[leveloffset=+1]
 
 == System Requirements
 
 The application this project produces is designed to be run on {productNameFull} {productVersion} or later.
 
-All you need to build this project is {buildRequirements}. See https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts[Configure Maven for {productName} {productVersion}] to make sure you are configured correctly for testing the quickstarts.
+All you need to build this project is {buildRequirements}. See link:{configureMavenDocUrl}[Configure Maven to Build and Deploy the Quickstarts] to make sure you are configured correctly for testing the quickstarts.
 
 == Use of {jbossHomeName}
 
-In the following instructions, replace `{jbossHomeName}` with the actual path to your {productName} installation. The installation path is described in detail here: https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_{jbossHomeName}.md#use-of-eap_home-and-jboss_home-variables[Use of {jbossHomeName} and JBOSS_HOME Variables].
+In the following instructions, replace `__{jbossHomeName}__` with the actual path to your {productName} installation. The installation path is described in detail here: link:{useProductHomeDocUrl}[Use of {jbossHomeName} and JBOSS_HOME Variables].
 
 == Start the Server
 
 . Open a command line and navigate to the root of the {productName} directory.
 . The following shows the command line to start the server with the default profile:
-
-[subs=normal]
++
+[source,subs="+quotes,attributes+",options="nowrap"]
 ----
-For Linux:   {jbossHomeName}/bin/standalone.sh
-For Windows: {jbossHomeName}\bin\standalone.bat
+$ __{jbossHomeName}__/bin/standalone.sh
 ----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\standalone.bat` script.
 
 == Build and Deploy the Quickstart
 
 . Make sure you have started the {productName} server as described above.
 . Open a command line and navigate to the root directory of this quickstart.
 . Type this command to build and deploy the archive:
-
++
+[source,options="nowrap"]
 ----
-mvn clean package wildfly:deploy
+$ mvn clean package wildfly:deploy
 ----
 
 . This will deploy `target/{artifactId}.war` to the running instance of the server.
@@ -70,14 +81,15 @@ You are presented with a simple form that allows you to generate sample files to
 
 === Usage 1: Import the file without any errors
 
-Click on `Generate a new file and start import job` button. This will generate a new file with 10 unique records to be imported. After the file is generated, the import job will start.
+Click on *Generate a new file and start import job* button. This will generate a new file with 10 unique records to be imported. After the file is generated, the import job will start.
 
-You will see a table containing information about the task that was just started. You can click on `Update jobs list` button and verify that the job was completed.
+You will see a table containing information about the task that was just started. You can click on *Update jobs list* button and verify that the job was completed.
 
 ==== Investigate the Console Output
 
 At the logs you will see that the files with 10 records were processed using 3 records at a time.
 
+[source,options="nowrap"]
 ----
 INFO  [org.jboss.as.quickstarts.batch.controller.BatchController] (default task-3) Starting to generate 10 in file /var/folders/j8/63sgdmbn5tqdkyw0tz6df53r0000gn/T/temp-file.txt
 INFO  [org.jboss.as.quickstarts.batch.controller.BatchController] (default task-3) File generated at /var/folders/j8/63sgdmbn5tqdkyw0tz6df53r0000gn/T/temp-file.txt
@@ -107,13 +119,13 @@ INFO  [org.jboss.as.quickstarts.batch.job.listener.JobListener] (Batch Thread - 
 
 === Usage 2: Import an error file and fix it
 
-Now we will simulate a file with duplicate records. This will raise an exception and stop the processing. After that, we will fix the file and continue the importing where it stopped.
+Now you will simulate a file with duplicate records. This will raise an exception and stop the processing. After that, you will fix the file and continue the importing where it stopped.
 
-Mark the `Generate a duplicate record` checkbox and click on `Generate a new file and start import job` button. If you click on `Update jobs list` button, you will see that the job failed with the following Exit Status: `Error : org.hibernate.exception.ConstraintViolationException: could not execute statement`. This was caused because the job tried to insert a duplicate record at the Database. You will also see `org.h2.jdbc.JdbcSQLException: Unique index or primary key violation` exception stacktraces in the server log.
+Mark the *Generate a duplicate record* checkbox and click on *Generate a new file and start import job* button. If you click on *Update jobs list* button, you will see that the job failed with the following Exit Status: `Error : org.hibernate.exception.ConstraintViolationException: could not execute statement`. This was caused because the job tried to insert a duplicate record at the Database. You will also see `org.h2.jdbc.JdbcSQLException: Unique index or primary key violation` exception stacktraces in the server log.
 
-Now we will fix the file and restart that job execution. Uncheck the `Generate a duplicate record` checkbox and click on `Generate a new file` button. This will generate file without errors.
+Next, you will fix the file and restart that job execution. Uncheck the *Generate a duplicate record* checkbox and click on *Generate a new file* button. This will generate file without errors.
 
-Click on `Restart` button in the last column for that job instance in the `List of Jobs` table. If you click on `Update jobs list` button, you will see that the job was completed.
+Click on *Restart* button in the last column for that job instance in the *List of Jobs* table. If you click on *Update jobs list* button, you will see that the job was completed.
 
 Analyze the logs and check that the job started from the last checkpoint.
 
@@ -146,14 +158,15 @@ INFO  [org.jboss.as.quickstarts.batch.job.listener.JobListener] (Batch Thread - 
 
 === Usage 3: Import an error file and do not fix the errors
 
-Check the `Generate a duplicate record` checkbox and click on `Generate a new file ans start import job` button. If you click on `Update jobs list` button, you will see that the job failed with the following Exit Status: `Error : org.hibernate.exception.ConstraintViolationException: could not execute statement`. This was caused because we tried to insert a duplicate record at the Database.
+Check the *Generate a duplicate record* checkbox and click on *Generate a new file ans start import job* button. If you click on *Update jobs list* button, you will see that the job failed with the following Exit Status: `Error : org.hibernate.exception.ConstraintViolationException: could not execute statement`. This was caused because you tried to insert a duplicate record at the Database.
 
-This time we will not fix the file. Just click on `Restart` button again. If you click on `Update jobs list` button, you will see that the job was marked as `ABANDONED` this time because it was restarted once. Notice that there is a new parameter: `restartedOnce=true`. This behavior was implemented at `JobListener` for demonstration purpose to avoid that a `FAILED` job that was already restarted once, to be restarted twice.
+This time you will not fix the file. Just click on *Restart* button again. If you click on *Update jobs list* button, you will see that the job was marked as `ABANDONED` this time because it was restarted once. Notice that there is a new parameter: `restartedOnce=true`. This behavior was implemented at `JobListener` for demonstration purpose to avoid that a `FAILED` job that was already restarted once, to be restarted twice.
 
 == Server Log: Expected Warnings and Errors
 
-NOTE: You will see the following warnings in the server log. You can ignore these warnings.
+You will see the following warnings in the server log. You can ignore these warnings.
 
+[source,options="nowrap"]
 ----
 WFLYJCA0091: -ds.xml file deployments are deprecated. Support may be removed in a future version.
 
@@ -163,11 +176,12 @@ HHH000431: Unable to determine H2 database version, certain features may not wor
 == Undeploy the Archive
 
 . Make sure you have started the {productName} server as described above.
-. Open a command prompt and navigate to the root directory of this quickstart.
+. Open a terminal and navigate to the root directory of this quickstart.
 . When you are finished testing, type this command to undeploy the archive:
-
++
+[source,options="nowrap"]
 ----
-mvn wildfly:undeploy
+$ mvn wildfly:undeploy
 ----
 
 == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
@@ -178,6 +192,7 @@ You can also start the server and deploy the quickstarts or run the Arquillian t
 
 If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
 
+[source,options="nowrap"]
 ----
-mvn dependency:sources
+$ mvn dependency:sources
 ----

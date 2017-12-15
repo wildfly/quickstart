@@ -36,7 +36,7 @@ This application focuses on *CRUD* in a strictly mobile app using only *jQuery M
 
 The application this project produces is designed to be run on {productNameFull} {productVersion} or later.
 
-All you need to build this project is {buildRequirements}. See https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts[Configure Maven for {productName} {productVersion}] to make sure you are configured correctly for testing the quickstarts.
+All you need to build this project is {buildRequirements}. See link:{configureMavenDocUrl}[Configure Maven to Build and Deploy the Quickstarts] to make sure you are configured correctly for testing the quickstarts.
 
 An HTML5 compatible browser such as Chrome, Safari 5+, Firefox 5+, or IE 9+ is required. Note that some behaviors, such as validation, will vary slightly based on browser support, especially IE 9.
 
@@ -48,21 +48,19 @@ With the prerequisites out of the way, you are ready to build and deploy.
 
 . Open a command line and navigate to the root of the {productName} directory.
 . The following shows the command line to start the server with the default profile:
-
-[subs=normal]
++
+[source,subs="+quotes,attributes+",options="nowrap"]
 ----
-For Linux:   {jbossHomeName}/bin/standalone.sh
-For Windows: {jbossHomeName}\bin\standalone.bat
+$ __{jbossHomeName}__/bin/standalone.sh
 ----
-
-Note: Adding `-b 0.0.0.0` to the above commands will allow external clients, such as phones, tablets, and desktops, connect through your local network.
-
-For example
-
-[subs=normal]
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\standalone.bat` script.
++
+Adding `-b 0.0.0.0` to the above command will allow external clients, such as phones, tablets, and desktops, connect through your local network. For example:
++
+[source,subs="+quotes,attributes+",options="nowrap"]
 ----
-For Linux:   {jbossHomeName}/bin/standalone.sh -b 0.0.0.0
-For Windows: {jbossHomeName}\bin\standalone.bat -b 0.0.0.0
+$ __{jbossHomeName}__/bin/standalone.sh -b 0.0.0.0
 ----
 
 == Build and Deploy the Quickstart
@@ -70,9 +68,9 @@ For Windows: {jbossHomeName}\bin\standalone.bat -b 0.0.0.0
 . Make sure you have started the {productName} server as described above.
 . Open a command line and navigate to the root directory of this quickstart.
 . Type this command to build and deploy the archive:
-
++
 ----
-mvn clean package wildfly:deploy
+$ mvn clean package wildfly:deploy
 ----
 
 . This deploys `target/{artifactId}.war` to the running instance of the server.
@@ -81,47 +79,47 @@ mvn clean package wildfly:deploy
 
 Access the running client application in a browser at the following URL: http://localhost:8080/{artifactId}/.
 
-The app is made up of the following pages:
+The application is made up of the following pages:
 
 *Main page*
 
-* Displays a list of contacts
-* Search bar for the list
-* Details button changes to the Detailed list
-* Clicking on a contact brings up an Edit form
-* Menu button (in upper left) opens menu
+* Displays a list of contacts.
+* Search bar for the list.
+* Details button changes to the Detailed list.
+* Clicking on a contact brings up an Edit form.
+* Menu button (in upper left) opens menu.
 
 *Menu pullout*
 
-* Add a new Contact
-* List/Detail view switcher, depending on what is currently displayed
-* About information
-* Theming - apply various themes (only on the List view)
+* Add a new contact.
+* List/Detail view switcher, depending on what is currently displayed.
+* About information.
+* Theming - apply various themes (only on the List view).
 
 *Details page*
 
-* Same as Main page except all information is displayed with each contact
+* Same as Main page except all information is displayed with each contact.
 
 *Add form*
 
-* First name, Last name, Phone, Email, and BirthDate fields
-* Save = submit the form
-* Clear = reset the form but stay on the form
-* Cancel = reset the form and go the Main page
+* *First name*, *Last name*, *Phone*, *Email*, and *BirthDate* fields.
+* *Save* submits the form.
+* *Clear* resets the form but stays on the form.
+* *Cancel* resets the form and goes the Main page.
 
 *Edit form*
 
-* Same as Add form
-* Delete button will delete the contact currently viewed and return you to the Main page
+* Same as *Add form*.
+* *Delete* button will delete the contact currently viewed and return you to the Main page.
 
 == Undeploy the Archive
 
 . Make sure you have started the {productName} server as described above.
 . Open a command line and navigate to the root directory of this quickstart.
 . When you are finished testing, type this command to undeploy the archive:
-
++
 ----
-mvn wildfly:undeploy
+$ mvn wildfly:undeploy
 ----
 
 == Minification
@@ -130,22 +128,22 @@ By default, the project uses the http://code.google.com/p/wro4j/[wro4j] plugin, 
 
 With just a few quick changes to the project, you can link to the minified versions of your JavaScript and CSS files.
 
-First, in the `&lt;project-root&gt;/src/main/webapp/index.html` file, search for references to minification and comment or uncomment the appropriate lines.
+First, in the `<project-root>/src/main/webapp/index.html` file, search for references to minification and comment or uncomment the appropriate lines.
 
 Finally, wro4j runs in the compile phase so any standard build command like package, install, etc. will trigger it. The plug-in is in a profile with an id of `minify` so you will want to specify that profile in your maven build.
 
-NOTE: By default there are turn off tests so you must use the arquillian test profile to run tests when minifying. For example:
+By default, tests are disabled, so you must use the Arquillian test profile to run tests when minifying.
 
+* For example, to deploy with no tests:
++
 ----
-#No Tests
-mvn clean package wildfly:deploy -Pminify
+$ mvn clean package wildfly:deploy -Pminify
 ----
 
-OR
-
+* To deploy with tests:
++
 ----
-#With Tests
-mvn clean verify wildfly:deploy -Pminify,arq-remote
+$ mvn clean verify wildfly:deploy -Pminify,arq-remote
 ----
 
 == Run the Arquillian Tests
@@ -155,18 +153,14 @@ By default, tests are configured to be skipped. The reason is that the sample te
 To run the test in JBoss, first start the container instance. Then, run the test goal with the following profile activated:
 
 ----
-mvn clean verify -Parq-remote
+$ mvn clean verify -Parq-remote
 ----
 
 == Run the QUnit tests
 
 QUnit is a JavaScript unit testing framework used and built by jQuery. Because JavaScript code is the core of this HTML5 application, this quickstart provides a set of QUnit tests that automate testing of this code in various browsers. Executing QUnit test cases are quite easy.
 
-Simply load the following HTML in the browser you wish to test.
-
-----
-    QUICKSTART_HOME/contacts-jquerymobile/src/test/qunit/index.html
-----
+Simply load the `contacts-jquerymobile/src/test/qunit/index.html` file in the browser you wish to test.
 
 NOTE: If you use *Chrome*, some date tests fail. These are false failures and are known issues with Chrome. FireFox, Safari, and IE run the tests correctly. You can also display the tests using the Eclipse built-in browser.
 
@@ -180,25 +174,25 @@ To run these tests, you must build the main project as described above.
 
 . Open a command line and navigate to the root directory of this quickstart.
 . Build the quickstart WAR using the following command:
-
++
 ----
-mvn clean package
+$ mvn clean package
 ----
 
 . Navigate to the functional-tests/ directory in this quickstart.
 
 . If you have a running instance of the {productName} server, as described above, run the remote tests by typing the following command:
-
++
 ----
-mvn clean verify -Parq-remote
+$ mvn clean verify -Parq-remote
 ----
 
 . If you prefer to run the functional tests using managed instance of the {productName} server, meaning the tests will start the server for you, type the following command:
-
-_NOTE: For this to work, Arquillian needs to know the location of the {productName} server. This can be declared through the `JBOSS_HOME` environment variable or the `jbossHome` property in `arquillian.xml`. See https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/RUN_ARQUILLIAN_TESTS.md#run-the-arquillian-tests[Run the Arquillian Tests] for complete instructions and additional options._
-
++
+_NOTE: For this to work, Arquillian needs to know the location of the {productName} server. This can be declared through the `JBOSS_HOME` environment variable or the `jbossHome` property in `arquillian.xml`. See link:{arquillianTestsDocUrl}[Run the Arquillian Tests] for complete instructions and additional options._
++
 ----
-    mvn clean verify -Parq-managed
+$ mvn clean verify -Parq-managed
 ----
 
 == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
@@ -211,6 +205,6 @@ If you want to be able to debug into the source code or look at the Javadocs of 
 either of the following two commands to pull them into your local repository. The IDE should then detect them.
 
 ----
-mvn dependency:sources
-mvn dependency:resolve -Dclassifier=javadoc
+$ mvn dependency:sources
+$ mvn dependency:resolve -Dclassifier=javadoc
 ----

@@ -51,7 +51,7 @@ _Note that the sample configurations for JDBC, JPA, and Spring Data JPA configur
 
 The application this project produces is designed to be run on {productNameFull} {productVersion} or later.
 
-All you need to build this project is {buildRequirements}. See https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts[Configure Maven for {productName} {productVersion}] to make sure you are configured correctly for testing the quickstarts.
+All you need to build this project is {buildRequirements}. See link:{configureMavenDocUrl}[Configure Maven to Build and Deploy the Quickstarts] to make sure you are configured correctly for testing the quickstarts.
 
 == Start the Server
 
@@ -60,8 +60,8 @@ All you need to build this project is {buildRequirements}. See https://github.co
 
 [subs=normal]
 ----
-For Linux:   {jbossHomeName}/bin/standalone.sh
-For Windows: {jbossHomeName}\bin\standalone.bat
+For Linux:   $ __{jbossHomeName}__/bin/standalone.sh
+For Windows: __{jbossHomeName}__\bin\standalone.bat
 ----
 
 == Build and Deploy the Quickstart
@@ -71,7 +71,7 @@ For Windows: {jbossHomeName}\bin\standalone.bat
 . Type this command to build and deploy the archive:
 
 ----
-mvn clean package wildfly:deploy
+$ mvn clean package wildfly:deploy
 ----
 
 . This will deploy `spring-petclinic/target/{artifactId}.war` to the running instance of the server.
@@ -100,7 +100,7 @@ WARN  [com.github.dandelion.core.config.StandardConfigurationLoader] (default ta
 . When you are finished testing, type this command to undeploy the archive:
 
 ----
-mvn wildfly:undeploy
+$ mvn wildfly:undeploy
 ----
 
 == Run the Arquillian Functional Tests
@@ -113,13 +113,13 @@ NOTE: The arquillian-based functional tests deploy the application, so be sure y
 . If the application is still deployed from the previous section, undeploy it now.
 
 ----
-mvn wildfly:undeploy
+$ mvn wildfly:undeploy
 ----
 
 . Build the quickstart WAR using the following command:
 
 ----
-mvn clean package
+$ mvn clean package
 ----
 
 . Navigate to the functional-tests/ directory in this quickstart.
@@ -127,13 +127,13 @@ mvn clean package
 . If you have a running instance of the {productName} server, as described above, run the remote tests by typing the following command:
 
 ----
-mvn clean verify -Parq-remote
+$ mvn clean verify -Parq-remote
 ----
 
 . If you prefer to run the functional tests using managed instance of the {productName} server, meaning the tests will start the server for you, type the following command:
 
 ----
-mvn clean verify -Parq-managed
+$ mvn clean verify -Parq-managed
 ----
 
 . The `spring-petclinic` quickstart contains three configurations: JDBC, JPA, and Spring Data JPA. You should see the tests run 3 times, one for each configuration.
@@ -162,6 +162,6 @@ Note: Eclipse/JBDS may generate a persistence.xml file in the src/main/resources
 If you want to debug the source code or look at the Javadocs of any library in the project, run either of the following commands to pull them into your local repository. The IDE should then detect them.
 
 ----
-    mvn dependency:sources
-    mvn dependency:resolve -Dclassifier=javadoc
+    $ mvn dependency:sources
+    $ mvn dependency:resolve -Dclassifier=javadoc
 ----

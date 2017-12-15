@@ -10,9 +10,11 @@ include::../attributes.adoc[]
 :level: Intermediate
 :technologies: CDI, JMX, MBean
 :source: {githubRepoUrl}
+:imagesdir: images/
+
 
 [abstract]
-The `helloworld-mbean` quickstart demonstrates the use of *CDI* and *MBean* in {productName} and includes JConsole instructions and Arquillian tests.
+The `helloworld-mbean` quickstart demonstrates the use of CDI and MBean in {productName} and includes JConsole instructions and Arquillian tests.
 
 == What is it?
 
@@ -20,43 +22,45 @@ The `helloworld-mbean` quickstart demonstrates the use of _CDI_ and _MBean_ in {
 
 The example is composed of the following MBeans:
 
-* `AnnotatedComponentHelloWorld`: This MBean is a managed bean with `@MXBean` annotation.
+AnnotatedComponentHelloWorld:: This MBean is a managed bean with `@MXBean` annotation.
 
-* `MXComponentHelloWorld`: This MBean is a managed bean with `MXBean` interface.
+MXComponentHelloWorld:: This MBean is a managed bean with `MXBean` interface.
 
-* `MXPojoHelloWorld`: This MBean is a pojo using MXBean interface and declared in the `jboss-service.xml` file.
+MXPojoHelloWorld:: This MBean is a POJO using `MXBean` interface and declared in the `jboss-service.xml` file.
 
-* `SarMXPojoHelloWorld`: This MBean is a pojo using MXBean interface and declared in jboss-service.xml in SAR packaging.
+SarMXPojoHelloWorld:: This MBean is a pojo using `MXBean` interface and declared in the `jboss-service.xml` file using SAR packaging.
 
 == System Requirements
 
 The application this project produces is designed to be run on {productNameFull} {productVersion} or later.
 
-All you need to build this project is {buildRequirements}. See https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts[Configure Maven for {productName} {productVersion}] to make sure you are configured correctly for testing the quickstarts.
+All you need to build this project is {buildRequirements}. See link:{configureMavenDocUrl}[Configure Maven to Build and Deploy the Quickstarts] to make sure you are configured correctly for testing the quickstarts.
 
 == Use of {jbossHomeName}
 
-In the following instructions, replace `{jbossHomeName}` with the actual path to your {productName} installation. The installation path is described in detail here: https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_{jbossHomeName}.md#use-of-eap_home-and-jboss_home-variables[Use of {jbossHomeName} and JBOSS_HOME Variables].
+In the following instructions, replace `__{jbossHomeName}__` with the actual path to your {productName} installation. The installation path is described in detail here: link:{useProductHomeDocUrl}[Use of {jbossHomeName} and JBOSS_HOME Variables].
 
 == Start the {productName} Server
 
-. Open a command prompt and navigate to the root of the {productName} directory.
-. The following shows the command line to start the server:
-
-[subs=normal]
+. Open a terminal and navigate to the root of the {productName} directory.
+. Type this command to start the server:
++
+[source,subs="+quotes,attributes+",options="nowrap"]
 ----
-For Linux:   {jbossHomeName}/bin/standalone.sh
-For Windows: {jbossHomeName}\bin\standalone.bat
+$ __{jbossHomeName}__/bin/standalone.sh
 ----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\standalone.bat` script.
 
 == Build and Deploy the Quickstart
 
 . Make sure you have started the {productName} server as described above.
-. Open a command prompt and navigate to the root directory of this quickstart.
+. Open a terminal and navigate to the root directory of this quickstart.
 . Type this command to build and deploy the archive:
-
++
+[source,options="nowrap"]
 ----
-mvn clean install wildfly:deploy
+$ mvn clean install wildfly:deploy
 ----
 
 . This will deploy `{artifactId}-webapp/target/{artifactId}-webapp.war` and `{artifactId}-service/target/{artifactId}-service.sar` to the running instance of the server.
@@ -69,40 +73,43 @@ The following sections describe how to use _JConsole_ to inspect and test the MB
 
 == Start JConsole
 
-To connect to the {productName} server using _JConsole_, open a command prompt and type the following command :
-
+. To connect to the {productName} server using _JConsole_, open a terminal and type the following command, replacing __JDK_HOME__ with the path to your JDK installation :
++
+[source,subs="+quotes,attributes+",options="nowrap"]
 ----
-For Linux:   JDK_HOME/bin/jconsole
-For Windows: JDK_HOME\bin\jconsole.exe
+__JDK_HOME__/bin/jconsole
 ----
+NOTE: For Windows, type `JDK_HOME\bin\jconsole.exe`.
 
-Select the local `org.jboss.modules.Main` process and click `Connect`.
+. Select the local *org.jboss.modules.Main* process and click *Connect*.
++
+image:jconsole_connection.png[MBeans in JConsole Connection]
 
-image:{artifactId}-webapp/src/main/webapp/jconsole_connection.png[MBeans in JConsole Connection]
+. A dialog displays with the warning: `Secure connection failed. Retry insecurely?`
 
-A dialog displays with the warning `Secure connection failed. Retry insecurely?`. Click `Insecure` to continue.
+. Click *Insecure* to continue.
 
 == Test the MBeans in JConsole
 
 You can use _JConsole_ to inspect and use the MBeans :
-image:{artifactId}-webapp/src/main/webapp/jconsole.png[MBeans in JConsole]
+image:jconsole.png[MBeans in JConsole]
 
 . Click on the MBeans tab.
-. Expand `quickstarts` in the left column of the console.
-. Under `quickstarts`, you see the 4 MBeans: `AnnotatedComponentHelloWorld`, `MXComponentHelloWorld`, `MXPojoHelloWorld`, and `SarMXPojoHelloWorld`
-. Expand each MBean and choose: `Operations` –&gt; `sayHello`.
-. Type your name in the (p0 String ) input text box and click the `sayHello` button.
-* For the `AnnotatedComponentHelloWorld` and `MXComponentHelloWorld` examples, you will see a popup Window displaying `Hello &lt;your name&gt;!`.
-* For the `MXPojoHelloWorld` and `SarMXPojoHelloWorld` examples, you will see a popup Window displaying `Welcome &lt;your name&gt;!`.
+. Expand *quickstarts* in the left column of the console.
+. Under *quickstarts*, you see the 4 MBeans: *AnnotatedComponentHelloWorld*, *MXComponentHelloWorld*, *MXPojoHelloWorld*, and *SarMXPojoHelloWorld*
+. Expand each MBean and choose: *Operations* -> *sayHello*.
+. Type your name in the *(p0 String )* input text box and click the *sayHello* button.
+* For the *AnnotatedComponentHelloWorld* and *MXComponentHelloWorld* examples, you will see a popup Window displaying *Hello <your name>!*.
+* For the *MXPojoHelloWorld* and *SarMXPojoHelloWorld* examples, you will see a popup Window displaying *Welcome <your name>!*.
 
 == Undeploy the Archive
 
 . Make sure you have started the {productName} server as described above.
-. Open a command prompt and navigate to the root directory of this quickstart.
+. Open a terminal and navigate to the root directory of this quickstart.
 . When you are finished testing, type this command to undeploy the archive:
-
++
 ----
-mvn wildfly:undeploy
+$ mvn wildfly:undeploy
 ----
 
 == Run the Arquillian Tests
@@ -110,14 +117,14 @@ mvn wildfly:undeploy
 This quickstart provides Arquillian tests. By default, these tests are configured to be skipped as Arquillian tests require the use of a container.
 
 . Make sure you have started the {productName} server as described above.
-. Open a command prompt and navigate to the root directory of this quickstart.
+. Open a terminal and navigate to the root directory of this quickstart.
 . Type the following command to run the test goal with the following profile activated:
-
++
 ----
-mvn clean verify -Parq-remote
+$ mvn clean verify -Parq-remote
 ----
 
-You can also let Arquillian manage the {productName} server by using the `arq-managed` profile. For more information about how to run the Arquillian tests, see https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/RUN_ARQUILLIAN_TESTS.md#run-the-arquillian-tests[Run the Arquillian Tests].
+You can also let Arquillian manage the {productName} server by using the `arq-managed` profile. For more information about how to run the Arquillian tests, see link:{arquillianTestsDocUrl}[Run the Arquillian Tests].
 
 == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 
@@ -126,20 +133,20 @@ You can also start the server and deploy the quickstarts or run the Arquillian t
 This quickstart consists of multiple projects and requires installation of the `JBoss Tools Maven Packaging Configurator`, so it deploys and runs differently in JBoss Developer Studio than the other quickstarts.
 
 . Install the JBoss Tools Maven Packaging Configurator
-** If the `Red Hat Central` page is not showing, open it by choosing `Help` –&gt; `Red Hat Central`.
-** Click the `Software/Update` tab at the bottom of the `Red Hat Central`.
-** Scroll down to the `Maven` section, select the `JBoss Tools Maven Packaging Configurator` and click `Install/Update`.
-. Right click on the parent `{artifactId}` parent project and choose `Maven` –&gt; `Update Project...`. Select all projects and click `OK`.
-. Right-click on the `{artifactId}-service` project and choose `Run As` –&gt; `Run on Server`.
-. Right-click on the `{artifactId}-webapp` project and choose `Run As` –&gt; `Run on Server`.
+** If the *Red Hat Central* page is not showing, open it by choosing *Help* -> *Red Hat Central*.
+** Click the *Software/Update* tab at the bottom of the *Red Hat Central*.
+** Scroll down to the *Maven* section, select the *JBoss Tools Maven Packaging Configurator* and click *Install/Update*.
+. Right click on the parent *{artifactId}* parent project and choose *Maven* -> *Update Project...*. Select all projects and click *OK*.
+. Right-click on the *{artifactId}-service* project and choose *Run As* -> *Run on Server*.
+. Right-click on the *{artifactId}-webapp* project and choose *Run As* -> *Run on Server*.
 . <<start-jconsole,Start JConsole>> and <<test-the-mbeans-in-jconsole,Test the MBeans in JConsole>> as described above.
-. To undeploy the web application, right-click on the `{artifactId}-wepapp` project and choose `Run As` –&gt; `Maven build`. Enter `wildfly:undeploy` for the `Goals` and click `Run`.
-. To undeploy the web service, right-click on the `{artifactId}-service` project and choose `Run As` –&gt; `Maven build`. Enter `wildfly:undeploy` for the `Goals` and click `Run`.
+. To undeploy the web application, right-click on the *{artifactId}-wepapp* project and choose *Run As* -> *Maven build*. Enter `wildfly:undeploy` for the *Goals* and click *Run*.
+. To undeploy the web service, right-click on the *{artifactId}-service* project and choose *Run As* -> *Maven build*. Enter `wildfly:undeploy` for the *Goals* and click *Run*.
 
 == Debug the Application
 
 If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
 
 ----
-mvn dependency:sources
+$ mvn dependency:sources
 ----

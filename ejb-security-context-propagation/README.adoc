@@ -60,7 +60,7 @@ to run the test.
 
 The application this project produces is designed to be run on {productNameFull} {productVersion}.
 
-All you need to build this project is {buildRequirements}. See https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts[Configure Maven for {productName} {productVersion}] to make sure you are configured correctly for testing the quickstarts.
+All you need to build this project is {buildRequirements}. See link:{configureMavenDocUrl}[Configure Maven to Build and Deploy the Quickstarts] to make sure you are configured correctly for testing the quickstarts.
 
 To run these quickstarts with the provided build scripts, you need the {productName} distribution ZIP. For information on
 how to install and run JBoss, see the https://access.redhat.com/documentation/en/red-hat-jboss-enterprise-application-platform/[{productNameFull} Documentation] _Getting Started Guide_ located on the Customer Portal.
@@ -75,38 +75,35 @@ It is recommended that you test this approach in a separate and clean environmen
 
 == Use of {jbossHomeName}
 
-In the following instructions, replace `{jbossHomeName}` with the actual path to your {productName} installation. The
-installation path is described in detail here: https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_{jbossHomeName}.md#use-of-eap_home-and-jboss_home-variables[Use of {jbossHomeName} and JBOSS_HOME Variables].
+In the following instructions, replace `__{jbossHomeName}__` with the actual path to your {productName} installation. The
+installation path is described in detail here: link:{useProductHomeDocUrl}[Use of {jbossHomeName} and JBOSS_HOME Variables].
 
 == Add the Application Users
 
 This quickstart uses secured management interfaces and is built around the default `ApplicationRealm` as configured in the {productName} distribution. You must create the following application user to access the running application:
 
-[cols="<,<,<,<"]
+[cols="20%,20%,20%,40%",options="headers"]
 |===
-|*UserName* |*Realm* |*Password* |*Roles*
+|UserName |Realm |Password |Roles
 
 |quickstartUser |ApplicationRealm |quickstartPwd1! |guest,user
 |superUser |ApplicationRealm |superPwd1! |guest,user,admin
 |===
 
-To add the user, open a command prompt and type the following commands:
+To add the user, open a terminal and type the following commands:
 
-[source, bash, subs=normal]
+[source,subs="+quotes,attributes+",options="nowrap"]
 ----
-For Linux:
-  {jbossHomeName}/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'guest,user'
-  {jbossHomeName}/bin/add-user.sh -a -u 'superUser' -p 'superPwd1!' -g 'guest,user,admin'
+$ __{jbossHomeName}__/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'guest,user'
+$ __{jbossHomeName}__/bin/add-user.sh -a -u 'superUser' -p 'superPwd1!' -g 'guest,user,admin'
+----
 
-For Windows:
-  {jbossHomeName}\bin\add-user.bat -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'guest,user'
-  {jbossHomeName}\bin\add-user.bat -a -u 'superUser' -p 'superPwd1!' -g 'guest,user,admin'
-----
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\add-user.bat` script.
 
 The `quickstart` user establishes the actual connection to the server.
 
-If you prefer, you can use the add-user utility interactively.
-For an example of how to use the add-user utility, see the instructions located here: https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CREATE_USERS.md#add-an-application-user[Add an Application User].
+If you prefer, you can use the `add-user` utility interactively.
+For an example of how to use the add-user utility, see the instructions located here: link:{addApplicationUserDocUrl}[Add an Application User].
 
 == Configure the Server
 
@@ -117,41 +114,45 @@ You configure the security domain by running JBoss CLI commands. For your conven
 . Before you begin, back up your server configuration file
 
 ** If it is running, stop the {productName} server.
-** Back up the file: `{jbossHomeName}/standalone/configuration/standalone.xml`
+** Back up the file: `__{jbossHomeName}__/standalone/configuration/standalone.xml`
 ** After you have completed testing this quickstart, you can replace this file to restore the server to its original configuration.
 . Start the {productName} server by typing the following:
 +
-[source, bash, subs=normal]
+[source,subs="+quotes,attributes+",options="nowrap"]
 ----
-For Linux:  {jbossHomeName}/bin/standalone.sh
-For Windows:  {jbossHomeName}\bin\standalone.bat
+$ __{jbossHomeName}__/bin/standalone.sh
 ----
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\standalone.bat` script.
+
 . Review the `configure-elytron.cli` file in the root of this quickstart directory. This script adds the configuration that enables Elytron security for the quickstart deployment. Comments in the script describe the purpose of each block of commands.
-. Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing {jbossHomeName} with the path to your server:
+. Open a new terminal, navigate to the root directory of this quickstart, and run the following command, replacing `__{jbossHomeName}__` with the path to your server:
 +
-[source, bash, subs=normal]
+[source,subs="+quotes,attributes+",options="nowrap"]
 ----
-For Linux: {jbossHomeName}/bin/jboss-cli.sh --connect --file=configure-elytron.cli
-For Windows: {jbossHomeName}\bin\jboss-cli.bat --connect --file=configure-elytron.cli
+$ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=configure-elytron.cli
 ----
 +
-. Because this example quickstart demonstrates security, exceptions are thrown when secured EJB access is attempted by an invalid user. If you want to review the security exceptions in the server log, you can skip this step. If you want to suppress these exceptions in the server log, run the following command, replacing {jbossHomeName} with the path to your server:
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
+
 +
-[source, bash, subs=normal]
+. Because this example quickstart demonstrates security, exceptions are thrown when secured EJB access is attempted by an invalid user. If you want to review the security exceptions in the server log, you can skip this step. If you want to suppress these exceptions in the server log, run the following command, replacing `__{jbossHomeName}__` with the path to your server:
++
+[source,subs="+quotes,attributes+",options="nowrap"]
 ----
-For Linux: {jbossHomeName}/bin/jboss-cli.sh --connect --file=configure-system-exception.cli
-For Windows: {jbossHomeName}\bin\jboss-cli.bat --connect --file=configure-system-exception.cli
+$ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=configure-system-exception.cli
 ----
++
+NOTE: For Windows,use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
 
 . Stop the {productName} server.
 
 == Review the Modified Server Configuration
 
-After stopping the server, open the `{jbossHomeName}/standalone/configuration/standalone.xml` file and review the changes.
+After stopping the server, open the `__{jbossHomeName}__/standalone/configuration/standalone.xml` file and review the changes.
 
 . The following `application-security-domain` was added to the `ejb3` subsystem:
 +
-[source, xml]
+[source,xml,options="nowrap"]
 ----
 <application-security-domains>
     <application-security-domain name="quickstart-domain" security-domain="ApplicationDomain"/>
@@ -160,7 +161,7 @@ After stopping the server, open the `{jbossHomeName}/standalone/configuration/st
 +
 . The following `ejb-outbound-configuration` authentication configuration and `ejb-outbound-context` authentication context were added to the `elytron` subsystem:
 +
-[source, xml]
+[source,xml,options="nowrap"]
 ----
 <authentication-configuration name="ejb-outbound-configuration" security-domain="ApplicationDomain" sasl-mechanism-selector="PLAIN"/>
 <authentication-context name="ejb-outbound-context">
@@ -170,7 +171,7 @@ After stopping the server, open the `{jbossHomeName}/standalone/configuration/st
 
 . The following `ejb-outbound` outbound-socket-binding connection was created within the `standard-sockets` socket-binding-group:
 +
-[source, xml]
+[source,xml,options="nowrap"]
 ----
 <outbound-socket-binding name="ejb-outbound">
     <remote-destination host="localhost" port="8080"/>
@@ -179,7 +180,7 @@ After stopping the server, open the `{jbossHomeName}/standalone/configuration/st
 +
 . The following `ejb-outbound-connection` remote-outbound-connection was added to the outbound-connections within the `remoting` subsytem:
 +
-[source, xml]
+[source,xml,options="nowrap"]
 ----
 <outbound-connections>
     <remote-outbound-connection name="ejb-outbound-connection" outbound-socket-binding-ref="ejb-outbound" authentication-context="ejb-outbound-context"/>
@@ -188,13 +189,13 @@ After stopping the server, open the `{jbossHomeName}/standalone/configuration/st
 
 . The `http-connector` in the `remoting` subsystem was updated to use the `application-sasl-authentication` authentication factory. It allows for the identity that was established in the connection authentication to be propagated to the components.
 +
-[source, xml]
+[source,xml,options="nowrap"]
 ----
 <http-connector name="http-remoting-connector" connector-ref="default" security-realm="ApplicationRealm" sasl-authentication-factory="application-sasl-authentication"/>
 ----
 . Finally, the `application-sasl-authentication` factory was updated in the `elytron` subsystem to include the `PLAIN` mechanism:
 +
-[source, xml]
+[source,xml,options="nowrap"]
 ----
 <sasl-authentication-factory name="application-sasl-authentication" sasl-server-factory="configured" security-domain="ApplicationDomain">
     <mechanism-configuration>
@@ -209,51 +210,51 @@ After stopping the server, open the `{jbossHomeName}/standalone/configuration/st
 
 . If you chose to run the script to suppress system exceptions, you should see the following configuration in the `ejb3` subsystem.
 +
-[source, xml]
+[source,xml,options="nowrap"]
 ----
 <log-system-exceptions value="false"/>
 ----
 
 == Start the Server
 
-. Open a command prompt and navigate to the root of the {productName} directory.
+. Open a terminal and navigate to the root of the {productName} directory.
 . The following shows the command line to start the server:
 +
-[subs=normal]
+[source,subs="+quotes,attributes+",options="nowrap"]
 ----
-For Linux:   {jbossHomeName}/bin/standalone.sh
-For Windows: {jbossHomeName}\bin\standalone.bat
+$ __{jbossHomeName}__/bin/standalone.sh
 ----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\standalone.bat` script.
 
 == Build and Deploy the Quickstart
 
 . Make sure you have started the {productName} server as described above.
-. Open a command prompt and navigate to the root directory of this quickstart.
+. Open a terminal and navigate to the root directory of this quickstart.
 . Type this command to build and deploy the archive:
 +
 ----
-mvn clean package wildfly:deploy
+$ mvn clean package wildfly:deploy
 ----
 
 . This will deploy `target/{artifactId}.jar` to the running instance of the server.
 
 == Run the Client
 
-Before you run the client, make sure you have already successfully deployed the EJBs to the server in the previous step and that your command prompt is still in the same folder.
+Before you run the client, make sure you have already successfully deployed the EJBs to the server in the previous step and that your terminal is still in the same folder.
 
 Type this command to execute the client:
 
 ----
-mvn exec:exec
+$ mvn exec:exec
 ----
 
 == Investigate the Console Output
 
 When you run the `mvn exec:exec` command, you see the following output. Note there may be other log messages interspersed between these.
-
+[source,options="nowrap"]
 ----
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-
 * * IntermediateEJB - Begin Testing with principal quickstartUser * *
 
 Remote Security Information: [Principal=[quickstartUser], In role [guest]=true, In role [user]=true, In role [admin]=false]
@@ -262,11 +263,8 @@ Can invoke userMethod? true
 Can invoke adminMethod? false
 
 * * IntermediateEJB - End Testing * *
-
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-
 * * IntermediateEJB - Begin Testing with principal superUser * *
 
 Remote Security Information: [Principal=[superUser], In role [guest]=true, In role [user]=true, In role [admin]=true]
@@ -275,7 +273,6 @@ Can invoke userMethod? true
 Can invoke adminMethod? true
 
 * * IntermediateEJB - End Testing * *
-
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 ----
 
@@ -288,6 +285,7 @@ If you chose not to run the script to suppress system exceptions, you should see
 server console or log. The exceptions are logged for each of the tests where a request is rejected because the user is not
 authorized.
 
+[source,options="nowrap"]
 ----
 12:26:06,556 ERROR [org.jboss.as.ejb3.invocation] (default task-57) WFLYEJB0034: EJB Invocation failed on component SecuredEJB for method public abstract java.lang.String org.jboss.as.quickstarts.ejb_security_context_propagation.SecuredEJBRemote.adminMethod(): javax.ejb.EJBAccessException: WFLYEJB0364: Invocation on method: public abstract java.lang.String org.jboss.as.quickstarts.ejb_security_context_propagation.SecuredEJBRemote.adminMethod() of bean: SecuredEJB is not allowed
     at org.jboss.as.ejb3.security.RolesAllowedInterceptor.processInvocation(RolesAllowedInterceptor.java:67)
@@ -326,11 +324,11 @@ authorized.
 == Undeploy the Archive
 
 . Make sure you have started the {productName} server as described above.
-. Open a command prompt and navigate to the root directory of this quickstart.
+. Open a terminal and navigate to the root directory of this quickstart.
 . When you are finished testing, type this command to undeploy the archive:
 +
 ----
-mvn wildfly:undeploy
+$ mvn wildfly:undeploy
 ----
 
 == Restore the Server Configuration
@@ -343,30 +341,33 @@ You can restore the original server configuration by running the `restore-config
 +
 [source, subs=normal]
 ----
-For Linux:  {jbossHomeName}/bin/standalone.sh
-For Windows:  {jbossHomeName}\bin\standalone.bat
+$ __{jbossHomeName}__/bin/standalone.sh
 ----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\standalone.bat` script.
 
-. Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing {jbossHomeName} with the path to your server:
+. Open a new terminal, navigate to the root directory of this quickstart, and run the following command, replacing `__{jbossHomeName}__` with the path to your server:
 +
 [source, subs=normal]
 ----
-For Linux: {jbossHomeName}/bin/jboss-cli.sh --connect --file=restore-configuration.cli
-For Windows: {jbossHomeName}\bin\jboss-cli.bat --connect --file=restore-configuration.cli
+$ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=restore-configuration.cli
 ----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
 
-. If you choose to run the script to suppress system exceptions, run the following command, replacing {jbossHomeName} with the path to your server:
+. If you choose to run the script to suppress system exceptions, run the following command, replacing `__{jbossHomeName}__` with the path to your server:
 +
 [source, subs=normal]
 ----
-For Linux: {jbossHomeName}/bin/jboss-cli.sh --connect --file=restore-system-exception.cli
-For Windows: {jbossHomeName}\bin\jboss-cli.bat --connect --file=restore-system-exception.cli
+$ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=restore-system-exception.cli
 ----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
 
 === Restore the Server Configuration Manually
 
 . If it is running, stop the {productName} server.
-. Replace the `{jbossHomeName}/standalone/configuration/standalone.xml` file with the backup copy of the file.
+. Replace the `__{jbossHomeName}__/standalone/configuration/standalone.xml` file with the backup copy of the file.
 
 == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 
@@ -376,11 +377,11 @@ This quickstart requires additional configuration and deploys and runs different
 
 . Be sure to <<add-the-application-users,Add the Application Users>> as described above.
 . Follow the steps above to <<configure-the-server,Configure the Server>>. Stop the server at the end of that step.
-. To deploy the application to the {productName} server, right-click on the `{artifactId}` project and choose `Run As` –&gt; `Run on Server`.
-. To access the application, right-click on the `{artifactId}` project and choose `Run As` –&gt; `Java Application`.
-. Choose `RemoteClient - org.jboss.as.quickstarts.ejb_security_context_propagation` and click `OK`.
+. To deploy the application to the {productName} server, right-click on the *{artifactId}* project and choose *Run As* -> *Run on Server*.
+. To access the application, right-click on the *{artifactId}* project and choose *Run As* -> *Java Application*.
+. Choose *RemoteClient - org.jboss.as.quickstarts.ejb_security_context_propagation* and click *OK*.
 . Review the output in the console window.
-. To undeploy the project, right-click on the `{artifactId}` project and choose `Run As` –&gt; `Maven build`. Enter `wildfly:undeploy` for the `Goals` and click `Run`.
+. To undeploy the project, right-click on the *{artifactId}* project and choose *Run As* -> *Maven build*. Enter `wildfly:undeploy` for the *Goals* and click *Run*.
 . Be sure to <<restore-the-server-configuration,Restore the Server Configuration>> when you have completed testing this quickstart.
 
 == Debug the Application
@@ -388,5 +389,5 @@ This quickstart requires additional configuration and deploys and runs different
 If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
 
 ----
-mvn dependency:sources
+$ mvn dependency:sources
 ----

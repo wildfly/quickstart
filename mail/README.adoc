@@ -28,11 +28,11 @@ This example is a web application that takes `To`, `From`, `Subject`, and `Messa
 
 The application this project produces is designed to be run on {productNameFull} {productVersion} or later.
 
-All you need to build this project is {buildRequirements}. See https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts[Configure Maven for {productName} {productVersion}] to make sure you are configured correctly for testing the quickstarts.
+All you need to build this project is {buildRequirements}. See link:{configureMavenDocUrl}[Configure Maven to Build and Deploy the Quickstarts] to make sure you are configured correctly for testing the quickstarts.
 
 == Use of {jbossHomeName}
 
-In the following instructions, replace `{jbossHomeName}` with the actual path to your {productName} installation. The installation path is described in detail here: https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_{jbossHomeName}.md#use-of-eap_home-and-jboss_home-variables[Use of {jbossHomeName} and JBOSS_HOME Variables].
+In the following instructions, replace `__{jbossHomeName}__` with the actual path to your {productName} installation. The installation path is described in detail here: link:{useProductHomeDocUrl}[Use of {jbossHomeName} and JBOSS_HOME Variables].
 
 == Configure an SMTP Server on Your Local Machine
 
@@ -53,17 +53,17 @@ You configure the custom mail session in {productName} by running Management CLI
 +
 [subs="+quotes,attributes+"]
 ----
-For Linux:  {jbossHomeName}/bin/standalone.sh
-For Windows:  {jbossHomeName}\bin\standalone.bat
+For Linux:  $ __{jbossHomeName}__/bin/standalone.sh
+For Windows:  __{jbossHomeName}__\bin\standalone.bat
 ----
 
 . Review the `configure-mail-session.cli` file in the root of this quickstart directory. This script creates custom outbound socket binding port for SMTP, POP3, and IMAP. It then creates the custom `MyOtherMail` mail session and configures it to use the custom outbound socket binding ports.
-. Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing {jbossHomeName} with the path to your server:
+. Open a new terminal, navigate to the root directory of this quickstart, and run the following command, replacing {jbossHomeName} with the path to your server:
 +
 [subs="+quotes,attributes+"]
 ----
-For Linux: {jbossHomeName}/bin/jboss-cli.sh --connect --file=configure-mail-session.cli
-For Windows: {jbossHomeName}\bin\jboss-cli.bat --connect --file=configure-mail-session.cli
+For Linux: $ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=configure-mail-session.cli
+For Windows: __{jbossHomeName}__\bin\jboss-cli.bat --connect --file=configure-mail-session.cli
 ----
 
 . Stop the {productName} server.
@@ -74,7 +74,7 @@ After stopping the server, open the `{jbossHomeName}/standalone/configuration/st
 
 The following `outbound-socket-binding` groups are added to the `standard-sockets` `&lt;socket-binding-group&gt;` element.
 
-[source, xml]
+[source,xml,options="nowrap"]
 ----
   <socket-binding-group name="standard-sockets" default-interface="public" port-offset="${jboss.socket.binding.port-offset:0}">
     ...
@@ -93,7 +93,7 @@ The following `outbound-socket-binding` groups are added to the `standard-socket
 
 The `MyOtherMail` mail session is added to the `mail` subsystem and configured to use the custom outbound socket binding ports.
 
-[source, xml]
+[source,xml,options="nowrap"]
 ----
   <subsystem xmlns="urn:jboss:domain:mail:2.0">
      <mail-session name="default" jndi-name="java:jboss/mail/Default">
@@ -109,23 +109,23 @@ The `MyOtherMail` mail session is added to the `mail` subsystem and configured t
 
 == Start the Server
 
-. Open a command prompt and navigate to the root of the {productName} directory.
+. Open a terminal and navigate to the root of the {productName} directory.
 . The following shows the command line to start the server:
 
 [subs=normal]
 ----
-For Linux:   {jbossHomeName}/bin/standalone.sh
-For Windows: {jbossHomeName}\bin\standalone.bat
+For Linux:   $ __{jbossHomeName}__/bin/standalone.sh
+For Windows: __{jbossHomeName}__\bin\standalone.bat
 ----
 
 == Build and Deploy the Quickstart
 
 . Make sure you have started the {productName} server as described above.
-. Open a command prompt and navigate to the root directory of this quickstart.
+. Open a terminal and navigate to the root directory of this quickstart.
 . Type this command to build and deploy the archive:
 
 ----
-mvn clean install wildfly:deploy
+$ mvn clean install wildfly:deploy
 ----
 
 . This will deploy `target/{artifactId}.war` to the running instance of the server.
@@ -139,11 +139,11 @@ NOTE: If you see `Error processing request` in the browser when you access the a
 == Undeploy the Archive
 
 . Make sure you have started the {productName} server as described above.
-. Open a command prompt and navigate to the root directory of this quickstart.
+. Open a terminal and navigate to the root directory of this quickstart.
 . When you are finished testing, type this command to undeploy the archive:
 
 ----
-mvn wildfly:undeploy
+$ mvn wildfly:undeploy
 ----
 
 == Remove the Mail Configuration
@@ -156,16 +156,16 @@ You can remove the mail configuration by running the `remove-mail-session.cli` s
 +
 [subs="+quotes,attributes+"]
 ----
-For Linux:  {jbossHomeName}/bin/standalone.sh
-For Windows:  {jbossHomeName}\bin\standalone.bat
+For Linux:  $ __{jbossHomeName}__/bin/standalone.sh
+For Windows:  __{jbossHomeName}__\bin\standalone.bat
 ----
 
-. Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing {jbossHomeName} with the path to your server:
+. Open a new terminal, navigate to the root directory of this quickstart, and run the following command, replacing {jbossHomeName} with the path to your server:
 +
 [subs="+quotes,attributes+"]
 ----
-For Linux: {jbossHomeName}/bin/jboss-cli.sh --connect --file=remove-mail-session.cli
-For Windows: {jbossHomeName}\bin\jboss-cli.bat --connect --file=remove-mail-session.cli
+For Linux: $ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=remove-mail-session.cli
+For Windows: __{jbossHomeName}__\bin\jboss-cli.bat --connect --file=remove-mail-session.cli
 ----
 
 === Remove the Custom Mail Configuration Manually
@@ -191,5 +191,5 @@ You can also start the server and deploy the quickstarts or run the Arquillian t
 If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
 
 ----
-mvn dependency:sources
+$ mvn dependency:sources
 ----

@@ -46,7 +46,7 @@ The user is added and a message displays the new user id number.
 
 The application this project produces is designed to be run on {productNameFull} {productVersion} or later.
 
-All you need to build this project is {buildRequirements}. See https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts[Configure Maven for {productName} {productVersion}] to make sure you are configured correctly for testing the quickstarts.
+All you need to build this project is {buildRequirements}. See link:{configureMavenDocUrl}[Configure Maven to Build and Deploy the Quickstarts] to make sure you are configured correctly for testing the quickstarts.
 
 == Start the Server
 
@@ -63,7 +63,7 @@ For Windows: bin\standalone.bat
 . Make sure you have started the {productName} server as described above.
 . Open a command line and navigate to the root directory of this quickstart.
 . Type this command to build and deploy the archive:
- mvn clean package wildfly:deploy
+ $ mvn clean package wildfly:deploy
 . This will deploy target/spring-greeter.war to the running instance of the server.
 
 If you do not have maven configured you can manually copy target/spring-greeter.war to {jbossHomeName}/standalone/deployments.
@@ -79,7 +79,7 @@ The application will be running at the following URL: http://localhost:8080/{art
 . When you are finished testing, type this command to undeploy the archive:
 
 ----
-mvn wildfly:undeploy
+$ mvn wildfly:undeploy
 ----
 
 Or you can manually remove the application by removing spring-greeter.war from {jbossHomeName}/standalone/deployments
@@ -96,7 +96,7 @@ To run these tests, you must build the main project as described above.
 . Build the quickstart WAR using the following command:
 
 ----
-mvn clean package
+$ mvn clean package
 ----
 
 . Navigate to the functional-tests/ directory in this quickstart.
@@ -104,14 +104,14 @@ mvn clean package
 . If you have a running instance of the {productName} server, as described above, run the remote tests by typing the following command:
 
 ----
-mvn clean verify -Parq-remote
+$ mvn clean verify -Parq-remote
 ----
 
 . If you prefer to run the functional tests using managed instance of the {productName} server, meaning the tests will start the
 server for you, type the following command:
 
 ----
-mvn clean verify -Parq-managed
+$ mvn clean verify -Parq-managed
 ----
 
 == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
@@ -124,6 +124,6 @@ If you want to debug the source code or look at the Javadocs of any library in t
 commands to pull them into your local repository. The IDE should then detect them.
 
 ----
-    mvn dependency:sources
-    mvn dependency:resolve -Dclassifier=javadoc
+    $ mvn dependency:sources
+    $ mvn dependency:resolve -Dclassifier=javadoc
 ----

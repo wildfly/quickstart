@@ -10,7 +10,7 @@ include::../attributes.adoc[]
 :level: Intermediate
 :technologies: JTS, EJB, JMS
 :source: {githubRepoUrl}
-:prerequisites: cmt
+:prerequisites: link:cmt/README{outfilesuffix}[cmt]
 
 [abstract]
 The `jts` quickstart shows how to use JTS to perform distributed transactions across multiple containers, fulfilling the properties of an ACID transaction.
@@ -28,7 +28,7 @@ ACID is a set of 4 properties that guarantee the resources are processed in the 
 
 The example uses Java Transaction Service (JTS) to propagate a transaction context across two Container-Managed Transaction (CMT) EJBs that, although deployed in separate servers, participate in the same transaction. In this example, one server processes the Customer and Account data and the other server processes the Invoice data.
 
-The code base is essentially the same as the link:../cmt/README.md[cmt] quickstart, however in this case the `InvoiceManager` has been separated to a different deployment archive to demonstrate the usage of JTS. You can see the changes in the
+The code base is essentially the same as the link:../cmt/README.adoc[cmt] quickstart, however in this case the `InvoiceManager` has been separated to a different deployment archive to demonstrate the usage of JTS. You can see the changes in the
 following ways:
 
 * `cmt/src/main/java/org/jboss/as/quickstarts/cmt/ejb/InvoiceManagerEJB.java` has been moved to `application-component-2/src/main/java/org/jboss/as/quickstarts/cmt/jts/ejb/InvoiceManagerEJB`
@@ -42,19 +42,23 @@ A simple MDB has been provided that prints out the messages sent but this is not
 
 Also, while the `cmt` quickstart uses the Java EE container default datasource, which is not distributed, this quickstart instead uses an external PostgreSQL database.
 
-After you complete this quickstart, you are invited to run through the link:../jts-distributed-crash-rec/README.md[jts-distributed-crash-rec] quickstart. The crash recovery quickstart builds upon this quickstart by demonstrating the fault tolerance of {productNameFull}.
+After you complete this quickstart, you are invited to run through the link:../jts-distributed-crash-rec/README.adoc[jts-distributed-crash-rec] quickstart. The crash recovery quickstart builds upon this quickstart by demonstrating the fault tolerance of {productNameFull}.
 
-_Note: This quickstart uses a `*-ds.xml` datasource configuration file for convenience and ease of database configuration. These files are deprecated in {productName} and should not be used in a production environment. Instead, you should configure the datasource using the Management CLI or Management Console. Datasource configuration is documented in the https://access.redhat.com/documentation/en/red-hat-jboss-enterprise-application-platform/[Configuration Guide] for {productNameFull}._
+//*************************************************
+// Add notes about use in a production environment.
+//*************************************************
+:uses-ds-xml:
+include::../development-shortcuts.adoc[leveloffset=+1]
 
 == System Requirements
 
 The application this project produces is designed to be run on {productNameFull} {productVersion} or later.
 
-All you need to build this project is {buildRequirements}. See https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts[Configure Maven for {productName} {productVersion}] to make sure you are configured correctly for testing the quickstarts.
+All you need to build this project is {buildRequirements}. See link:{configureMavenDocUrl}[Configure Maven to Build and Deploy the Quickstarts] to make sure you are configured correctly for testing the quickstarts.
 
 == Use of {jbossHomeName}
 
-In the following instructions, replace `{jbossHomeName}` with the actual path to your {productName} installation. The installation path is described in detail here: https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_{jbossHomeName}.md#use-of-eap_home-and-jboss_home-variables[Use of {jbossHomeName} and JBOSS_HOME Variables].
+In the following instructions, replace `__{jbossHomeName}__` with the actual path to your {productName} installation. The installation path is described in detail here: link:{useProductHomeDocUrl}[Use of {jbossHomeName} and JBOSS_HOME Variables].
 
 == Prerequisites
 
@@ -66,11 +70,11 @@ This quickstart requires the configuration of two servers. The first server must
 
 This quickstart requires the PostgreSQL database.
 
-Instructions to install and configure PostgreSQL can be found here: https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_POSTGRESQL_EAP7.md#download-and-install-postgresql[Download and Install PostgreSQL]
+Instructions to install and configure PostgreSQL can be found here: link:{configurePostgresDownloadDocUrl}[Download and Install PostgreSQL]
 
 _Note_: For the purpose of this quickstart, replace the word `QUICKSTART_DATABASE_NAME` with `jts-quickstart-database` in the PostgreSQL instructions.
 
-Be sure to https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_POSTGRESQL_EAP7.md#create-a-database-user[Create a Database User] for the PostgeSQL database.
+Be sure to link:{configurePostgresCreateUserDocUrl}[Create a Database User] for the PostgeSQL database.
 
 When you have completed these steps, be sure to start the PostgreSQL database. Unless you have set up the database to automatically start as a service, you must repeat the instructions to start the database server for your operating system every time you reboot your machine.
 
@@ -84,7 +88,7 @@ Since both application servers must be configured in the same way, you must conf
 
 NOTE: This quickstart README file use the following replaceable values. When you encounter these values in a README file, be sure to replace them with the actual path to the correct {productName} server.
 
-* `{jbossHomeName}` denotes the path to the original {productName} installation.
+* `__{jbossHomeName}__` denotes the path to the original {productName} installation.
 * `{jbossHomeName}_1` denotes the path to the modified {productName} server 1 configuration.
 * `{jbossHomeName}_2` denotes the path to the modified {productName} server 2 configuration.
 
@@ -100,16 +104,16 @@ You configure JTS transactions by running JBoss CLI commands. For your convenien
 +
 [subs="+quotes,attributes+"]
 ----
-For Linux:  {jbossHomeName}/bin/standalone.sh -c standalone-full.xml -Djboss.tx.node.id=UNIQUE_NODE_ID_1
-For Windows:  {jbossHomeName}\bin\standalone.bat -c standalone-full.xml  -Djboss.tx.node.id=UNIQUE_NODE_ID_1
+For Linux:  $ __{jbossHomeName}__/bin/standalone.sh -c standalone-full.xml -Djboss.tx.node.id=UNIQUE_NODE_ID_1
+For Windows:  __{jbossHomeName}__\bin\standalone.bat -c standalone-full.xml  -Djboss.tx.node.id=UNIQUE_NODE_ID_1
 ----
 
 . Review the `configure-jts-transactions.cli` file in the root of this quickstart directory. This script configures the server to use jts transaction processing.
-. Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing {jbossHomeName} with the path to your server:
+. Open a new terminal, navigate to the root directory of this quickstart, and run the following command, replacing {jbossHomeName} with the path to your server:
 +
 ----
-For Linux: {jbossHomeName}/bin/jboss-cli.sh --connect --file=configure-jts-transactions.cli
-For Windows: {jbossHomeName}\bin\jboss-cli.bat --connect --file=configure-jts-transactions.cli
+For Linux: $ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=configure-jts-transactions.cli
+For Windows: __{jbossHomeName}__\bin\jboss-cli.bat --connect --file=configure-jts-transactions.cli
 ----
 
 . Stop the {productName} server.
@@ -123,7 +127,7 @@ After stopping the server, open the `{jbossHomeName}/standalone/configuration/st
 . The orb initializers `transactions` attribute is changed from `spec` to `full` in the `iiop-openjdk` subsystem to enable JTS.
 
 +
-[source, xml]
+[source,xml,options="nowrap"]
 ----
 <subsystem xmlns="urn:jboss:domain:iiop-openjdk:2.0">
     <initializers transactions="full" security="identity"/>
@@ -133,7 +137,7 @@ After stopping the server, open the `{jbossHomeName}/standalone/configuration/st
 . An empty `&lt;jts/&gt;` element is added to the end of the `transactions` subsystem to enable JTS.
 
 +
-[source, xml]
+[source,xml,options="nowrap"]
 ----
 <subsystem xmlns="urn:jboss:domain:transactions:4.0">
     <core-environment node-identifier="${jboss.tx.node.id}">
@@ -157,8 +161,8 @@ Make a copy of this {productName} directory structure to use for the second serv
 Application server 1 must be now configured to use the PostgreSQL database created previously in the <<configure-the-postgresql-database-for-use-with-this-quickstart,Configure the PostgreSQL Database for Use with this Quickstart>> section.
 
 . Be sure to start the PostgreSQL database. Unless you have set up the database to automatically start as a service, you must repeat the instructions "Start the database server" for your operating system every time you reboot your machine.
-. Follow the instructions to https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_POSTGRESQL_EAP7.md#add-the-postgresql-module-to-the-red-hat-jboss-enterprise-application-platform-server[Add the PostgreSQL Module to the {productName} Server] to the server 1 install only.
-. Follow the instructions to https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_POSTGRESQL_EAP7.md#configure-the-postgresql-driver-in-the-red-hat-jboss-enterprise-application-platform-server[Configure the PostgreSQL Driver in the {productName} Server] for the server 1 configuration. Be sure to pass the `-Djboss.tx.node.id=UNIQUE_NODE_ID_1` on the command line when you start the first server to configure PostgreSQL.
+. Follow the instructions to link:{configurePostgresAddModuleDocUrl}[Add the PostgreSQL Module to the {productName} Server] to the server 1 install only.
+. Follow the instructions to link:{configurePostgresDriverDocUrl}[Configure the PostgreSQL Driver in the {ProductName} Server] for the server 1 configuration. Be sure to pass the `-Djboss.tx.node.id=UNIQUE_NODE_ID_1` on the command line when you start the first server to configure PostgreSQL.
 
 == Start the Servers
 
@@ -185,11 +189,11 @@ Server 2: {jbossHomeName}_2\bin\standalone.bat -c standalone-full.xml -Djboss.tx
 Since this quickstart builds two separate components, you can not use the standard _Build and Deploy_ commands used by most of the other quickstarts. You must follow these steps to build, deploy, and run this quickstart.
 
 . Make sure you have started the {productName} server with the PostgreSQL driver
-. Open a command prompt and navigate to the root directory of this quickstart.
+. Open a terminal and navigate to the root directory of this quickstart.
 . Type this command to build and deploy the archive:
 
 ----
-mvn clean install wildfly:deploy
+$ mvn clean install wildfly:deploy
 ----
 
 . This will deploy `{artifactId}-application-component-1.war` and `{artifactId}-application-component-2.jar` to the running instance of the server.
@@ -225,11 +229,11 @@ WFLYJCA0091: -ds.xml file deployments are deprecated. Support may be removed in 
 == Undeploy the Archive
 
 . Make sure you have started the {productName} server as described above.
-. Open a command prompt and navigate to the root directory of this quickstart.
+. Open a terminal and navigate to the root directory of this quickstart.
 . When you are finished testing, type this command to undeploy the archive:
 
 ----
-mvn package wildfly:undeploy
+$ mvn package wildfly:undeploy
 ----
 
 == Remove the JTS Configuration From the Server
@@ -248,7 +252,7 @@ For Linux:  {jbossHomeName}_1/bin/standalone.sh -c standalone-full.xml  -Djboss.
 For Windows:  {jbossHomeName}_1\bin\standalone.bat -c standalone-full.xml  -Djboss.tx.node.id=UNIQUE_NODE_ID_1
 ----
 
-. Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing {jbossHomeName} with the path to your server:
+. Open a new terminal, navigate to the root directory of this quickstart, and run the following command, replacing {jbossHomeName} with the path to your server:
 +
 [subs="+quotes,attributes+"]
 ----
@@ -266,7 +270,7 @@ For Linux:  {jbossHomeName}_1/bin/standalone.sh -c standalone-full.xml -Djboss.t
 For Windows:  {jbossHomeName}_1\bin\standalone.bat -c standalone-full.xml -Djboss.tx.node.id=UNIQUE_NODE_ID_1
 ----
 
-. To start the JBoss CLI tool, open a new command prompt, navigate to the {jbossHomeName} directory, and type the following:
+. To start the JBoss CLI tool, open a new terminal, navigate to the {jbossHomeName} directory, and type the following:
 +
 [subs="+quotes,attributes+"]
 ----
@@ -290,7 +294,7 @@ For Windows: {jbossHomeName}_1\bin\jboss-cli.bat --connect
 ** Find the `orb` subsystem and change the configuration back to its original state.
 
 +
-[source, xml]
+[source,xml,options="nowrap"]
 ----
 <subsystem xmlns="urn:jboss:domain:iiop-openjdk:2.0">
     <initializers transactions="spec" security="identity"/>
@@ -300,7 +304,7 @@ For Windows: {jbossHomeName}_1\bin\jboss-cli.bat --connect
 ** Find the `transaction` subsystem and remove the `node-identifier` attribute from the `core-environment` element. Also remove the `&lt;jts/&gt;` element.
 
 +
-[source, xml]
+[source,xml,options="nowrap"]
 ----
 <subsystem xmlns="urn:jboss:domain:transactions:4.0">
     <core-environment>

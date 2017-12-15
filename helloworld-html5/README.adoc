@@ -16,13 +16,13 @@ The `helloworld-html5` quickstart demonstrates the use of *CDI 1.2* and *JAX-RS 
 
 == What is it?
 
-The `helloworld-html5` quickstart demonstrates the use of _CDI 1.2_ and _JAX-RS 2.0_ in {productNameFull} {productVersion} or later using the HTML5 + REST architecture.
+The `helloworld-html5` quickstart demonstrates the use of CDI 1.2 and JAX-RS 2.0 in {productNameFull} {productVersion} or later using the HTML5 + REST architecture.
 
 The application is basically a smart, HTML5+CSS3+JavaScript front-end using RESTful services on the backend.
 
-* HelloWorld.java - establishes the RESTful endpoints using JAX-RS
-* Web.xml - maps RESTful endpoints to `/hello`
-* index.html - is a jQuery augmented plain old HTML5 web page
+* `HelloWorld.java`: Establishes the RESTful endpoints using JAX-RS.
+* `web.xml`: Maps RESTful endpoints to `/hello`.
+* `index.html`: Is a jQuery augmented plain old HTML5 web page.
 
 The example can be deployed using Maven from the command line or from Eclipse using JBoss Tools.
 
@@ -30,7 +30,7 @@ The example can be deployed using Maven from the command line or from Eclipse us
 
 The application this project produces is designed to be run on {productNameFull} {productVersion} or later.
 
-All you need to build this project is {buildRequirements}. See https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts[Configure Maven for {productName} {productVersion}] to make sure you are configured correctly for testing the quickstarts.
+All you need to build this project is {buildRequirements}. See link:{configureMavenDocUrl}[Configure Maven to Build and Deploy the Quickstarts] to make sure you are configured correctly for testing the quickstarts.
 
 An HTML5 compatible browser such as Chrome, Safari 5+, Firefox 5+, or IE 9+ is required.
 
@@ -40,23 +40,23 @@ With the prerequisites out of the way, you are ready to build and deploy.
 
 . Open a command line and navigate to the root of the {productName} directory.
 . The following shows the command line to start the server with the default profile:
-
-[subs=normal]
++
+[source,subs="+quotes,attributes+",options="nowrap"]
 ----
-For Linux:   {jbossHomeName}/bin/standalone.sh
-For Windows: {jbossHomeName}\bin\standalone.bat
+$ __{jbossHomeName}__/bin/standalone.sh
 ----
++
+For Windows, use the `__{jbossHomeName}__\bin\standalone.bat` script.
 
 == Build and Deploy the Quickstart
-
-_NOTE: The following build command assumes you have configured your Maven user settings. If you have not, you must include Maven setting arguments on the command line. See link:../README.md#build-and-deploy-the-quickstarts[Build and Deploy the Quickstarts] for complete instructions and additional options._
 
 . Make sure you have started the {productName} server as described above.
 . Open a command line and navigate to the root directory of this quickstart.
 . Type this command to build and deploy both the client and service applications:
-
++
+[source,options="nowrap"]
 ----
-mvn clean package wildfly:deploy
+$ mvn clean package wildfly:deploy
 ----
 
 . This will deploy `target/{artifactId}.war` to the running instance of the server.
@@ -65,24 +65,25 @@ mvn clean package wildfly:deploy
 
 The application will be running at the following URL http://localhost:8080/{artifactId}/.
 
-You can also test the REST endpoint by sending an HTTP _POST_ request to the URLs below. Feel free to replace `YOUR_NAME` with a name of your choosing.
+You can also test the REST endpoint by sending an HTTP `POST` request to the URLs below. Replace `__YOUR_NAME__` with a name of your choosing.
 
-* The _XML_ content can be tested by sending an HTTP _POST_ to the following URL: http://localhost:8080/{artifactId}/hello/xml/YOUR_NAME
+* The XML content can be tested by sending an HTTP `POST` to the following URL: http://localhost:8080/{artifactId}/hello/xml/__YOUR_NAME__
 
-To issue the _POST_ command using cURL, type the following command in terminal:
+To issue the `POST` command using cURL, type the following command in terminal:
 
-* The _JSON_ content can be tested by sending an HTTP _POST_ to the following URL: http://localhost:8080/{artifactId}/hello/json/YOUR_NAME
+* The JSON content can be tested by sending an HTTP `POST` to the following URL: http://localhost:8080/{artifactId}/hello/json/__YOUR_NAME__
 
-To issue the _POST_ command using cURL, type the following command in terminal:
+To issue the `POST` command using cURL, type the following command in terminal:
 
 == Undeploy the Archive
 
 . Make sure you have started the {productName} server as described above.
 . Open a command line and navigate to the root directory of this quickstart.
 . When you are finished testing, type this command to undeploy the archive:
-
++
+[source,options="nowrap"]
 ----
-mvn wildfly:undeploy
+$ mvn wildfly:undeploy
 ----
 
 == Run the Arquillian Functional Tests
@@ -94,23 +95,26 @@ To run these tests, you must build the main project as described above.
 
 . Open a command line and navigate to the root directory of this quickstart.
 . Build the quickstart WAR using the following command:
-
++
+[source,options="nowrap"]
 ----
-mvn clean package
+$ mvn clean package
 ----
 
 . Navigate to the functional-tests/ directory in this quickstart.
 
 . If you have a running instance of the {productName} server, as described above, run the remote tests by typing the following command:
-
++
+[source,options="nowrap"]
 ----
-mvn clean verify -Parq-remote
+$ mvn clean verify -Parq-remote
 ----
 
 . If you prefer to run the functional tests using managed instance of the {productName} server, meaning the tests will start the server for you, type fhe following command:
-
++
+[source,options="nowrap"]
 ----
-mvn clean verify -Parq-managed
+$ mvn clean verify -Parq-managed
 ----
 
 == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
@@ -121,7 +125,8 @@ You can also start the server and deploy the quickstarts or run the Arquillian t
 
 If you want to debug the source code or look at the Javadocs of any library in the project, run either of the following commands to pull them into your local repository. The IDE should then detect them.
 
+[source,options="nowrap"]
 ----
-    mvn dependency:sources
-    mvn dependency:resolve -Dclassifier=javadoc
+$ mvn dependency:sources
+$ mvn dependency:resolve -Dclassifier=javadoc
 ----
