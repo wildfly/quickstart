@@ -12,27 +12,35 @@ include::../attributes.adoc[]
 :source: {githubRepoUrl}
 
 [abstract]
-The `ejb-in-ear` quickstart demonstrates how to deploy an EAR archive that contains a *JSF* WAR and an *EJB* JAR.
+The `ejb-in-ear` quickstart demonstrates how to deploy an EAR archive that contains a *JSF* WAR and an EJB JAR.
 
 == What is it?
 
-The `ejb-in-ear` quickstart demonstrates the deployment of an EAR artifact to {productNameFull}. The EAR contains: _JSF_ WAR and an _EJB_ JAR.
+The `ejb-in-ear` quickstart demonstrates the deployment of an EAR artifact to {productNameFull}. The EAR contains a JSF WAR and an EJB JAR.
 
-The example is composed of three Maven projects, each with a shared parent. The projects are as follows:
+This example consists of the following Maven projects, each with a shared parent.
 
-. `ejb`: This project contains the EJB code and can be built independently to produce the JAR archive.
+[cols="30%,70%",options="headers"]
+|===
+|Project |Description
 
-. `web`: This project contains the JSF pages and the managed bean.
+| `ejb`
+| This project contains the EJB code and can be built independently to produce the JAR archive.
 
-. `ear`: This project builds the EAR artifact and pulls in the EJB and Web artifacts.
+| `web`
+| This project contains the JSF pages and the managed bean.
+
+| `ear`
+| This project builds the EAR artifact and pulls in the EJB and web artifacts.
+|===
 
 The root `pom.xml` builds each of the subprojects in the above order and deploys the EAR archive to the server.
 
-The example follows the common "Hello World" pattern. These are the steps that occur:
+The example follows the common "Hello World" pattern, using the following workflow.
 
-. A JSF page asks the user for their name.
-. On clicking _Greet_, the name is sent to a managed bean named `Greeter`.
-. On setting the name, the `Greeter` invokes the `GreeterEJB`, which was injected to the managed bean. Notice the field annotated with `@EJB`.
+. A JSF page asks for a user name.
+. On clicking *Greet*, the name is sent to a managed bean named `Greeter`.
+. On setting the name, the `Greeter` invokes the `GreeterEJB`, which was injected to the managed bean. Notice the field is annotated with `@EJB`.
 . The response from invoking the `GreeterEJB` is stored in a field (message) of the managed bean.
 . The managed bean is annotated as `@SessionScoped`, so the same managed bean instance is used for the entire session. This ensures that the message is available when the page reloads and is displayed to the user.
 
@@ -49,7 +57,7 @@ In the following instructions, replace `__{jbossHomeName}__` with the actual pat
 == Start the Server
 
 . Open a terminal and navigate to the root of the {productName} directory.
-. The following shows the command line to start the server:
+. Start the {productName} server with the default standalone profile by typing the following command.
 +
 [source,subs="+quotes,attributes+",options="nowrap"]
 ----
@@ -74,7 +82,7 @@ $ mvn clean install wildfly:deploy
 
 The application will be running at the following URL http://localhost:8080/{artifactId}/.
 
-Enter a name in the input field and click the _Greet_ button to see the response.
+Enter a name in the input field and click the *Greet* button to see the response.
 
 == Undeploy the Archive
 
@@ -82,6 +90,7 @@ Enter a name in the input field and click the _Greet_ button to see the response
 . Open a terminal and navigate to the root directory of this quickstart.
 . When you are finished testing, type this command to undeploy the archive:
 +
+[source,options="nowrap"]
 ----
 $ mvn wildfly:undeploy
 ----
@@ -101,6 +110,7 @@ For this quickstart, follow the special instructions to build link:{useEclipseDe
 
 If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
 
+[source,options="nowrap"]
 ----
 $ mvn dependency:sources
 ----

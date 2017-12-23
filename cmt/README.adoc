@@ -1,4 +1,4 @@
-= cmt: Container Managed Transactions (CMT)
+make sure you= cmt: Container Managed Transactions (CMT)
 :author: Tom Jenkinson
 :productName: WildFly
 :productNameFull: WildFly Application Server
@@ -16,7 +16,7 @@ The `cmt` quickstart demonstrates Container-Managed Transactions (CMT), showing 
 
 == What is it?
 
-The `cmt` quickstart demonstrates using transactions managed by the container in {productNameFull}. It is a fairly typical scenario of updating a database and sending a JMS message in the same transaction. A simple MDB is provided that prints out the message sent but this is not a transactional MDB and is purely provided for debugging purposes.
+The `cmt` quickstart demonstrates how to use container-managed transactions (CMT), which are transactions managed by the container in {productNameFull}. It is a fairly typical scenario of updating a database and sending a JMS message in the same transaction. A simple MDB is provided that prints out the message sent but this is not a transactional MDB and is purely provided for debugging purposes.
 
 Aspects touched upon in the code:
 
@@ -24,9 +24,9 @@ Aspects touched upon in the code:
 * XA access to the standard default datasource using the JPA API
 * XA access to a JMS queue
 
-After users complete this quickstart, they are invited to run through the following quickstarts:
+After you complete this quickstart, you are invited to run through the following quickstarts:
 
-* link:../jts/README.adoc[jts] - The JTS quickstart builds upon this quickstart by distributing the CustomerManager and InvoiceManager
+* link:../jts/README.adoc[jts] - The `jts` quickstart builds upon this quickstart by distributing the `CustomerManager` and `InvoiceManager`.
 * link:../jts-distributed-crash-rec/README.adoc[jts-distributed-crash-rec] - The crash recovery quickstart builds upon the link:../jts/README.adoc[jts] quickstart by demonstrating the fault tolerance of {productName}.
 
 
@@ -40,19 +40,19 @@ include::../development-shortcuts.adoc[leveloffset=+1]
 
 Prior to EJB, getting the right incantation to ensure sound transactional operation of the business logic was a highly specialized skill. Although this still holds true to a great extent, EJB has provided a series of improvements to allow simplified transaction demarcation notation that is therefore easier to read and test.
 
-With CMT, the EJB container sets the boundaries of a transaction. This differs from BMT (bean managed transactions) where the developer is responsible for initiating and completing a transaction via the methods begin, commit, rollback on a `javax.transaction.UserTransaction`.
+With CMT, the EJB container sets the boundaries of a transaction. This differs from BMT (bean-managed transactions), where the developer is responsible for initiating and completing a transaction using the `begin`, `commit`, and `rollback` methods on a `javax.transaction.UserTransaction`.
 
 === What Makes This an Example of Container Managed Transactions?
 
 Take a look at `org.jboss.as.quickstarts.cmt.ejb.CustomerManagerEJB`. You can see that this stateless session bean has been marked up with the `@javax.ejb.TransactionAttribute` annotation.
 
-The available options for this annotation are as follows:
+The following options are available for this annotation.
 
-Required:: As demonstrated in the quickstart. If a transaction does not already exist, this will initiate a transaction and complete it for you, otherwise the business logic will be integrated into the existing transaction
+Required:: As demonstrated in the quickstart. If a transaction does not already exist, this will initiate a transaction and complete it for you, otherwise the business logic will be integrated into the existing transaction.
 RequiresNew:: If there is already a transaction running, it will be suspended, the work performed within a new transaction which is completed at exit of the method and then the original transaction resumed.
-Mandatory:: If there is no transaction running, calling a business method with this annotation will result in an error
-NotSupported:: If there is a transaction running, it will be suspended and no transaction will be initiated for this business method
-Supports:: This will run the method within a transaction if a transaction exists, alternatively, if there is no transaction running, the method will not be executed within the scope of a transaction
+Mandatory:: If there is no transaction running, calling a business method with this annotation will result in an error.
+NotSupported:: If there is a transaction running, it will be suspended and no transaction will be initiated for this business method.
+Supports:: This will run the method within a transaction if a transaction exists, alternatively, if there is no transaction running, the method will not be executed within the scope of a transaction.
 Never:: If the client has a transaction running and does not suspend it but calls a method annotated with Never then an EJB exception will be raised.
 
 == System Requirements
@@ -68,7 +68,7 @@ In the following instructions, replace `__{jbossHomeName}__` with the actual pat
 == Start the Server with the Full Profile
 
 . Open a terminal and navigate to the root of the {productName} directory.
-. The following shows the command line to start the server with the full profile:
+. Start the {productName} server with the standalone full profile by typing the following command:
 +
 [source,subs="+quotes,attributes+",options="nowrap"]
 ----
@@ -80,7 +80,7 @@ NOTE: For Windows, use the `__{jbossHomeName}__\bin\standalone.bat` script.
 == Build and Deploy the Quickstart
 
 . Open a terminal and navigate to the root directory of this quickstart.
-. Type this command to build and deploy the archive:
+. Type this command to build and deploy the archive.
 +
 ----
 $ mvn clean install wildfly:deploy
@@ -92,18 +92,17 @@ $ mvn clean install wildfly:deploy
 
 The application will be running at the following URL: http://localhost:8080/{artifactId}/
 
-You will be presented with a simple form for adding customers to a database.
+You are presented with a simple form for adding customers to a database.
 
-After a user is successfully added to the database, a message is produced containing the details of the user. An example MDB will dequeue this message and print the following contents:
+After a customer is successfully added to the database, a message is produced containing the details of the customer. An example MDB dequeues this message and print the following contents.
 
 ----
 Received Message: Created invoice for customer named:  Jack
 ----
 
-When the same customer name is given, a duplicate warning is given and no JMS-message is send to cause the above message.
+If an existing customer name is provided, no JMS message is sent. Instead of the above message, a duplicate warning is displayed.
 
-The customer name should match: letter &amp; '-', otherwise an error is given. This is to show that a 'LogMessage' entity is still stored in the database thanks to the `@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)`
-that the method logCreateCustomer in the EJB LogMessageManagerEJB is decorated with.
+The customer name should match: letter &amp; '-', otherwise an error is given. This is to show that a `LogMessage` entity is still stored in the database. That is because the `logCreateCustomer` method in the `LogMessageManagerEJB` EJB is decorated with the `@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)` annotation.
 
 == Server Log: Expected Warnings and Errors
 
@@ -117,7 +116,7 @@ HHH000431: Unable to determine H2 database version, certain features may not wor
 
 . Make sure you have started the {productName} server as described above.
 . Open a terminal and navigate to the root directory of this quickstart.
-. When you are finished testing, type this command to undeploy the archive:
+. When you are finished testing, type this command to undeploy the archive.
 +
 ----
 $ mvn wildfly:undeploy
@@ -127,7 +126,7 @@ $ mvn wildfly:undeploy
 
 You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a {productName} server, and build and deploy a quickstart, see link:{useEclipseUrl}[Use JBoss Developer Studio or Eclipse to Run the Quickstarts].
 
-NOTE: Within JBoss Developer Studio, be sure to define a server runtime environment that uses the `standalone-full.xml` configuration file.
+NOTE: Within JBoss Developer Studio, make sure you define a server runtime environment that uses the `standalone-full.xml` configuration file.
 
 == Debug the Application
 

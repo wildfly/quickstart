@@ -41,20 +41,22 @@ In the following instructions, replace `__{jbossHomeName}__` with the actual pat
 == Start the Server
 
 . Open a terminal and navigate to the root of the {productName} directory.
-. The following shows the command line to start the server:
-
-[subs=normal]
+. Start the {productName} server with the default standalone profile by typing the following command.
++
+[source,subs="+quotes,attributes+",options="nowrap"]
 ----
-For Linux:   $ __{jbossHomeName}__/bin/standalone.sh
-For Windows: __{jbossHomeName}__\bin\standalone.bat
+$ __{jbossHomeName}__/bin/standalone.sh
 ----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\standalone.bat` script.
 
 == Build and Deploy the Quickstart
 
 . Make sure you have started the {productName} server as described above.
 . Open a terminal and navigate to the root directory of this quickstart.
 . Type this command to build and deploy the archive:
-
++
+[source,options="nowrap"]
 ----
 $ mvn clean install wildfly:deploy
 ----
@@ -67,8 +69,9 @@ The application will be running at the following URL: http://localhost:8080/{art
 
 == Server Log: Expected Warnings and Errors
 
-NOTE: You will see the following warnings in the server log. You can ignore these warnings.
+You will see the following warnings in the server log. You can ignore these warnings.
 
+[source,options="nowrap"]
 ----
 WFLYJCA0091: -ds.xml file deployments are deprecated. Support may be removed in a future version.
 
@@ -80,7 +83,8 @@ HHH000431: Unable to determine H2 database version, certain features may not wor
 . Make sure you have started the {productName} server as described above.
 . Open a terminal and navigate to the root directory of this quickstart.
 . When you are finished testing, type this command to undeploy the archive:
-
++
+[source,options="nowrap"]
 ----
 $ mvn wildfly:undeploy
 ----
@@ -92,7 +96,8 @@ This quickstart provides Arquillian tests. By default, these tests are configure
 . Make sure you have started the {productName} server as described above.
 . Open a terminal and navigate to the root directory of this quickstart.
 . Type the following command to run the test goal with the following profile activated:
-
++
+[source,options="nowrap"]
 ----
 $ mvn clean verify -Parq-remote
 ----
@@ -107,6 +112,7 @@ You can also start the server and deploy the quickstarts or run the Arquillian t
 
 If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
 
+[source,options="nowrap"]
 ----
 $ mvn dependency:sources
 ----

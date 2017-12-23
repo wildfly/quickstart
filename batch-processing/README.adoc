@@ -50,8 +50,8 @@ In the following instructions, replace `__{jbossHomeName}__` with the actual pat
 
 == Start the Server
 
-. Open a command line and navigate to the root of the {productName} directory.
-. The following shows the command line to start the server with the default profile:
+. Open a terminal and navigate to the root of the {productName} directory.
+. Start the {productName} server with the default standalone profile by typing the following command.
 +
 [source,subs="+quotes,attributes+",options="nowrap"]
 ----
@@ -63,8 +63,8 @@ NOTE: For Windows, use the `__{jbossHomeName}__\bin\standalone.bat` script.
 == Build and Deploy the Quickstart
 
 . Make sure you have started the {productName} server as described above.
-. Open a command line and navigate to the root directory of this quickstart.
-. Type this command to build and deploy the archive:
+. Open a terminal and navigate to the root directory of this quickstart.
+. Type the following command to build and deploy the archive.
 +
 [source,options="nowrap"]
 ----
@@ -81,14 +81,12 @@ You are presented with a simple form that allows you to generate sample files to
 
 === Usage 1: Import the file without any errors
 
-Click on *Generate a new file and start import job* button. This will generate a new file with 10 unique records to be imported. After the file is generated, the import job will start.
+. Click on *Generate a new file and start import job* button. This generates a new file with 10 unique records to be imported. The import job starts after the file is generated.
 
-You will see a table containing information about the task that was just started. You can click on *Update jobs list* button and verify that the job was completed.
+. A table is displayed containing information about the task that was started. Click on the *Update jobs list* button and verify that the job was completed.
 
-==== Investigate the Console Output
-
-At the logs you will see that the files with 10 records were processed using 3 records at a time.
-
+. Investigate the console output. It shows that files with 10 records were processed, 3 records at a time.
++
 [source,options="nowrap"]
 ----
 INFO  [org.jboss.as.quickstarts.batch.controller.BatchController] (default task-3) Starting to generate 10 in file /var/folders/j8/63sgdmbn5tqdkyw0tz6df53r0000gn/T/temp-file.txt
@@ -106,7 +104,7 @@ INFO  [org.jboss.as.quickstarts.batch.job.ContactsFormatter] (Batch Thread - 1) 
 INFO  [org.jboss.as.quickstarts.batch.job.listener.PersistListener] (Batch Thread - 1) Preparing to persist 3 contacts
 INFO  [org.jboss.as.quickstarts.batch.job.listener.PersistListener] (Batch Thread - 1) Persisting 3 contacts
 INFO  [org.jboss.as.quickstarts.batch.job.ContactsFormatter] (Batch Thread - 1) Register #7 - Changing name niDXWwGJuQ -> Nidxwwgjuq | phone  949448390 -> (949)-448-390
-15:57:40,850 INFO  [org.jboss.as.quickstarts.batch.job.ContactsFormatter] (Batch Thread - 1) Register #8 - Changing name VZBArfowSe -> Vzbarfowse | phone  902370961 -> (902)-370-961
+INFO  [org.jboss.as.quickstarts.batch.job.ContactsFormatter] (Batch Thread - 1) Register #8 - Changing name VZBArfowSe -> Vzbarfowse | phone  902370961 -> (902)-370-961
 INFO  [org.jboss.as.quickstarts.batch.job.ContactsFormatter] (Batch Thread - 1) Register #9 - Changing name aSpyWCWwje -> Aspywcwwje | phone  246977695 -> (246)-977-695
 INFO  [org.jboss.as.quickstarts.batch.job.listener.PersistListener] (Batch Thread - 1) Preparing to persist 3 contacts
 INFO  [org.jboss.as.quickstarts.batch.job.listener.PersistListener] (Batch Thread - 1) Persisting 3 contacts
@@ -121,20 +119,22 @@ INFO  [org.jboss.as.quickstarts.batch.job.listener.JobListener] (Batch Thread - 
 
 Now you will simulate a file with duplicate records. This will raise an exception and stop the processing. After that, you will fix the file and continue the importing where it stopped.
 
-Mark the *Generate a duplicate record* checkbox and click on *Generate a new file and start import job* button. If you click on *Update jobs list* button, you will see that the job failed with the following Exit Status: `Error : org.hibernate.exception.ConstraintViolationException: could not execute statement`. This was caused because the job tried to insert a duplicate record at the Database. You will also see `org.h2.jdbc.JdbcSQLException: Unique index or primary key violation` exception stacktraces in the server log.
+. Mark the *Generate a duplicate record* checkbox and click on *Generate a new file and start import job* button. If you click on *Update jobs list* button, you will see that the job failed with the following Exit Status: `Error : org.hibernate.exception.ConstraintViolationException: could not execute statement`. This was caused because the job tried to insert a duplicate record at the Database. You will also see `org.h2.jdbc.JdbcSQLException: Unique index or primary key violation` exception stacktraces in the server log.
 
-Next, you will fix the file and restart that job execution. Uncheck the *Generate a duplicate record* checkbox and click on *Generate a new file* button. This will generate file without errors.
+. Next, you will fix the file and restart that job execution. Uncheck the *Generate a duplicate record* checkbox and click on *Generate a new file* button. This will generate the file without errors.
 
-Click on *Restart* button in the last column for that job instance in the *List of Jobs* table. If you click on *Update jobs list* button, you will see that the job was completed.
+. Click on *Restart* button in the last column for that job instance in the *List of Jobs* table. If you click on *Update jobs list* button, you will see that the job was completed.
 
-Analyze the logs and check that the job started from the last checkpoint.
-
+. Review the server logs and verify that the job started from the last checkpoint.
++
+[source,options="nowrap"]
 ----
-16:08:56,323 INFO  [org.jboss.as.quickstarts.batch.job.RecordsReader] (Batch Thread - 3) Skipping to line 3 as marked by previous checkpoint
+INFO  [org.jboss.as.quickstarts.batch.job.RecordsReader] (Batch Thread - 3) Skipping to line 3 as marked by previous checkpoint
 ----
 
-==== Investigate the Console Output
-
+. Investigate the console output.
++
+[source,options="nowrap"]
 ----
 INFO  [org.jboss.as.quickstarts.batch.job.listener.JobListener] (Batch Thread - 3) Job import-file - Execution #3 starting.
 INFO  [org.jboss.as.quickstarts.batch.job.RecordsReader] (Batch Thread - 3) Skipping to line 3 as marked by previous checkpoint
@@ -158,9 +158,9 @@ INFO  [org.jboss.as.quickstarts.batch.job.listener.JobListener] (Batch Thread - 
 
 === Usage 3: Import an error file and do not fix the errors
 
-Check the *Generate a duplicate record* checkbox and click on *Generate a new file ans start import job* button. If you click on *Update jobs list* button, you will see that the job failed with the following Exit Status: `Error : org.hibernate.exception.ConstraintViolationException: could not execute statement`. This was caused because you tried to insert a duplicate record at the Database.
+. Check the *Generate a duplicate record* checkbox and click on *Generate a new file ans start import job* button. If you click on *Update jobs list* button, you will see that the job failed with the following Exit Status: `Error : org.hibernate.exception.ConstraintViolationException: could not execute statement`. This was caused because you tried to insert a duplicate record at the Database.
 
-This time you will not fix the file. Just click on *Restart* button again. If you click on *Update jobs list* button, you will see that the job was marked as `ABANDONED` this time because it was restarted once. Notice that there is a new parameter: `restartedOnce=true`. This behavior was implemented at `JobListener` for demonstration purpose to avoid that a `FAILED` job that was already restarted once, to be restarted twice.
+. This time you will not fix the file. Just click on *Restart* button again. If you click on *Update jobs list* button, you will see that the job was marked as `ABANDONED` this time because it was restarted once. Notice that there is a new parameter: `restartedOnce=true`. This behavior was implemented in `JobListener` for demonstration purposes, to prevent a `FAILED` job from being restarted twice.
 
 == Server Log: Expected Warnings and Errors
 

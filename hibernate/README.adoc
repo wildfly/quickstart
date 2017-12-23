@@ -66,7 +66,7 @@ For example:
 == Start the Server
 
 . Open a terminal and navigate to the root of the {productName} directory.
-. The following shows the command line to start the server:
+. Start the {productName} server with the default standalone profile by typing the following command.
 +
 [source,subs="+quotes,attributes+",options="nowrap"]
 ----
@@ -75,13 +75,13 @@ $ __{jbossHomeName}__/bin/standalone.sh
 +
 NOTE: For Windows, use the `__{jbossHomeName}__\bin\standalone.bat` script.
 
-
 == Build and Deploy the Quickstart
 
 . Make sure you have started the {productName} server as described above.
 . Open a terminal and navigate to the root directory of this quickstart.
 . Type this command to build and deploy the archive:
-
++
+[source,options="nowrap"]
 ----
 $ mvn clean install wildfly:deploy
 ----
@@ -108,6 +108,7 @@ HHH000431: Unable to determine H2 database version, certain features may not wor
 . Open a terminal and navigate to the root directory of this quickstart.
 . When you are finished testing, type this command to undeploy the archive:
 +
+[source,options="nowrap"]
 ----
 $ mvn wildfly:undeploy
 ----
@@ -120,13 +121,15 @@ You can also start the server and deploy the quickstarts or run the Arquillian t
 
 If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
 
+[source,options="nowrap"]
 ----
 $ mvn dependency:sources
 ----
 
 You may see the following message when you run the command. It indicates the source is not provided in the third-party `antlr` JAR.
 
+[source,options="nowrap"]
 ----
-    [INFO] The following files have NOT been resolved:
-    [INFO]    antlr:antlr:jar:sources:2.7.7:provided
+  [INFO] The following files have NOT been resolved:
+  [INFO]    antlr:antlr:jar:sources:2.7.7:provided
 ----

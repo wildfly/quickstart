@@ -20,15 +20,24 @@ The `helloworld-mbean` quickstart demonstrates the use of CDI and MBean in {prod
 
 The `helloworld-mbean` quickstart demonstrates the use of _CDI_ and _MBean_ in {productNameFull}. The project also includes a set of Arquillian tests for MBeans.
 
-The example is composed of the following MBeans:
+The example is composed of the following MBeans.
 
-AnnotatedComponentHelloWorld:: This MBean is a managed bean with `@MXBean` annotation.
+[cols="30%,70%",options="headers"]
+|===
+|MBean |Description
 
-MXComponentHelloWorld:: This MBean is a managed bean with `MXBean` interface.
+| `AnnotatedComponentHelloWorld`
+| This MBean is a managed bean with `@MXBean` annotation.
 
-MXPojoHelloWorld:: This MBean is a POJO using `MXBean` interface and declared in the `jboss-service.xml` file.
+| `MXComponentHelloWorld`
+| This MBean is a managed bean with `MXBean` interface.
 
-SarMXPojoHelloWorld:: This MBean is a pojo using `MXBean` interface and declared in the `jboss-service.xml` file using SAR packaging.
+| `MXPojoHelloWorld`
+| This MBean is a POJO using `MXBean` interface and declared in the `jboss-service.xml` file.
+
+| `SarMXPojoHelloWorld`
+| This MBean is a pojo using `MXBean` interface and declared in the `jboss-service.xml` file using SAR packaging.
+|===
 
 == System Requirements
 
@@ -71,6 +80,7 @@ This quickstart differs from the other quickstarts in that it uses _JConsole_ to
 
 The following sections describe how to use _JConsole_ to inspect and test the MBeans.
 
+[[start_jconsole]]
 == Start JConsole
 
 . To connect to the {productName} server using _JConsole_, open a terminal and type the following command, replacing __JDK_HOME__ with the path to your JDK installation :
@@ -89,6 +99,7 @@ image:jconsole_connection.png[MBeans in JConsole Connection]
 
 . Click *Insecure* to continue.
 
+[[test_the_mbeans_in_jconsole]]
 == Test the MBeans in JConsole
 
 You can use _JConsole_ to inspect and use the MBeans :
@@ -139,7 +150,7 @@ This quickstart consists of multiple projects and requires installation of the `
 . Right click on the parent *{artifactId}* parent project and choose *Maven* -> *Update Project...*. Select all projects and click *OK*.
 . Right-click on the *{artifactId}-service* project and choose *Run As* -> *Run on Server*.
 . Right-click on the *{artifactId}-webapp* project and choose *Run As* -> *Run on Server*.
-. <<start-jconsole,Start JConsole>> and <<test-the-mbeans-in-jconsole,Test the MBeans in JConsole>> as described above.
+. xref:start_jconsole[Start JConsole] and xref:test_the_mbeans_in_jconsole[Test the MBeans in JConsole] as described above.
 . To undeploy the web application, right-click on the *{artifactId}-wepapp* project and choose *Run As* -> *Maven build*. Enter `wildfly:undeploy` for the *Goals* and click *Run*.
 . To undeploy the web service, right-click on the *{artifactId}-service* project and choose *Run As* -> *Maven build*. Enter `wildfly:undeploy` for the *Goals* and click *Run*.
 

@@ -1,4 +1,4 @@
-= helloworld-mutual-ssl: {productName} Mutual SSL(two-way) Configuration Example
+make sure you= helloworld-mutual-ssl: {productName} Mutual SSL(two-way) Configuration Example
 :author: Giriraj Sharma, Stefan Guilhen
 :productName: WildFly
 :productNameFull: WildFly Application Server
@@ -30,15 +30,17 @@ All you need to build these projects is {buildRequirements}. See link:{configure
 
 To run these quickstarts with the provided build scripts, you need the {productName} distribution ZIP. For information on how to install and run JBoss, see the https://access.redhat.com/documentation/en/red-hat-jboss-enterprise-application-platform/[{productNameFull} Documentation] _Getting Started Guide_ located on the Customer Portal.
 
-You can also use <<use-jboss-developer-studio-or-eclipse-to-run-the-quickstarts,JBoss Developer Studio or Eclipse>> to run the quickstarts.
+You can also run the quickstart in xref:run_the_quickstart_in_jboss_developer_studio_or_eclipse[JBoss Developer Studio or Eclipse].
+
 
 == Use of {jbossHomeName}
 
 In the following instructions, replace `__{jbossHomeName}__` with the actual path to your {productName} installation. The installation path is described in detail here: link:{useProductHomeDocUrl}[Use of {jbossHomeName} and JBOSS_HOME Variables].
 
+[[set_up_client_and_server_keystores_using_java_keytool]]
 == Set Up Client and Server Keystores Using Java Keytool
 
-. Open a command line and navigate to the {productName} server `configuration` directory:
+. Open a terminal and navigate to the {productName} server `configuration` directory:
 +
 [source,subs="+quotes,attributes+",options="nowrap"]
 ----
@@ -130,6 +132,7 @@ $>keytool -importkeystore -srckeystore client.keystore -srcstorepass secret -des
 
 . The certificates and keystores are now properly configured.
 
+[[configure_the_server]]
 == Configure the Server
 
 These steps assume you are running the server in standalone mode and using the default `standalone.xml` supplied with the distribution.
@@ -159,6 +162,15 @@ $ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=configure-ssl.cli
 ----
 +
 NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
+
++
+You should see the following result when you run the script:
++
+[source,options="nowrap"]
+----
+The batch executed successfully
+process-state: reload-required
+----
 
 . Stop the {productName} server.
 
@@ -221,25 +233,29 @@ After stopping the server, open the `__{jbossHomeName}__/standalone/configuratio
 <https-listener name="https" socket-binding="https" ssl-context="qsSSLContext" enable-http2="true"/>
 ----
 
+[[test_the_server_ssl_configuration]]
 == Test the Server SSL Configuration
 
 To test the SSL configuration, access: https://localhost:8443
 
 If it is configured correctly, you should be asked to trust the server certificate.
 
+[[import_the_client_certificate_into_your_browser]]
 == Import the Client Certificate into Your Browser
 
 Before you access the application, you must import the _clientCert.p12_, which holds the client certificate, into your browser.
 
+[[import_the_client_certificate_into_google_chrome]]
 === Import the Client Certificate into Google Chrome
 
-. Click the Chrome menu icon (3 dots) in the upper right on the browser toolbar and choose *Settings*. This takes you to `link:`chrome://settings/``.
+. Click the Chrome menu icon (3 dots) in the upper right on the browser toolbar and choose *Settings*. This takes you to `link:`chrome://settings/`.
 . Scroll to the bottom of the page and click on the *Advanced* link to reveal the advanced settings.
 . Search for the *Manage Certificates* line under *Privacy and security* and then click on it.
 . In the *Manage certificates* screen, select the *Your Certificates* tab and click on the *Import* button.
 . Select the *clientCert.p12* file. You will be prompted to enter the password: `secret`.
 . The client certificate is now installed in the Google Chrome browser.
 
+[[import_the_client_certificate_into_mozilla_firefox]]
 === Import the Client Certificate into Mozilla Firefox
 
 . Click the *Edit* menu item on the browser menu and choose *Preferences*.
@@ -249,10 +265,11 @@ Before you access the application, you must import the _clientCert.p12_, which h
 . Select the *clientCert.p12* file. You will be prompted to enter the password: `secret`.
 . The certificate is now installed in the Mozilla Firefox browser.
 
+[[start_the_server]]
 == Start the Server
 
-. Open a command line and navigate to the root of the JBoss server directory.
-. The following shows the command line to start the server with the web profile:
+. Open a terminal and navigate to the root of the JBoss server directory.
+. Start the {productName} server with the default standalone profile by typing the following command.
 +
 [source,subs="+quotes,attributes+",options="nowrap"]
 ----
@@ -264,7 +281,7 @@ NOTE: For Windows, use the `__{jbossHomeName__\bin\standalone.bat` script.
 == Build and Deploy the Quickstart
 
 . Make sure you have started the {productName} server as described above.
-. Open a command line and navigate to the root directory of one of the quickstart.
+. Open a terminal and navigate to the root directory of one of the quickstart.
 . Type this command to build and deploy the archive:
 +
 [source,options="nowrap"]
@@ -300,7 +317,7 @@ aEWK4zhPVFynfnMaOxI67FC2QzhfzERyKqHj47WuwN0xWbS/1gBypS2nUwvItyxaEQG2X5uQY8j8QoY9
 == Undeploy the Archive
 
 . Make sure you have started the JBoss Server as described above.
-. Open a command line and navigate to the root directory of this quickstart.
+. Open a terminal and navigate to the root directory of this quickstart.
 . When you are finished testing, type this command to undeploy the archive:
 +
 [source,options="nowrap"]
@@ -308,6 +325,7 @@ aEWK4zhPVFynfnMaOxI67FC2QzhfzERyKqHj47WuwN0xWbS/1gBypS2nUwvItyxaEQG2X5uQY8j8QoY9
 $ mvn wildfly:undeploy
 ----
 
+[[restore_the_server_configuration]]
 == Restore the Server Configuration
 
 You can restore the original server configuration by running the `restore-configuration.cli` script provided in the root directory of this quickstart or by manually restoring the back-up copy the configuration file.
@@ -333,6 +351,15 @@ $ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=restore-configuration.cl
 +
 NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
 
++
+This script reverts the changes made to the `undertow` subsystem and it also removes the `ssl-context`, `key-manager`, `trust-manager` and `key-store`s
+from the `elytron` subsystem. You should see the following result when you run the script:
++
+[source,options="nowrap"]
+----
+The batch executed successfully
+process-state: reload-required
+----
 
 === Restore the Server Configuration Manually
 
@@ -341,7 +368,7 @@ NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
 
 == Remove the keystores and certificates created for this quickstart
 
-. Open a command line and navigate to the {productName} server `configuration` directory:
+. Open a terminal and navigate to the {productName} server `configuration` directory:
 +
 [source,subs="+quotes,attributes+",options="nowrap"]
 ----
@@ -351,6 +378,7 @@ $ cd __{jbossHomeName}__/standalone/configuration/
 . Remove the `clientCert.p12`, `client.crt`, `client.keystore`, `client.truststore` and `server.keystore` files that
 were generated for this quickstart.
 
+[[remove_the_client_certificate_from_your_browser]]
 == Remove the Client Certificate from Your Browser
 
 After you are done with this quickstart, remember to remove the certificate that was imported into your browser.
@@ -373,16 +401,17 @@ After you are done with this quickstart, remember to remove the certificate that
 . Select the `quickstartUser` certificate and click the `Delete` button.
 . The certificate has now been removed from the Mozilla Firefox browser.
 
+[[run_the_quickstart_in_jboss_developer_studio_or_eclipse]]
 == Run the Quickstart in JBoss Developer Studio or Eclipse
 
 You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a {productName} server, and build and deploy a quickstart, see link:{useEclipseUrl}[Use JBoss Developer Studio or Eclipse to Run the Quickstarts].
 
-* Be sure to configure the keystores and client certificates as described under <<set-up-client-and-server-keystores-using-java-keytool,Set Up Client and Server Keystores Using Java Keytool>>.
-* Depending on the browser you choose, be sure to either <<import-the-client-certificate-into-google-chrome,import the certificate into Chrome>> or <<import-the-client-certificate-into-mozilla-firefox,import the certificate into Firefox>>.
-* Be sure to configure the server by running the JBoss CLI commands as described above under <<configure-the-server,Configure the {productName} Server>>. Stop the server at the end of that step.
+* Make sure you configure the keystores and client certificates as described under xref:set_up_client_and_server_keystores_using_java_keytool[Set Up Client and Server Keystores Using Java Keytool].
+* Depending on the browser you choose, make sure you either xref:import_the_client_certificate_into_google_chrome[import the certificate into Google Chrome] or xref:import_the_client_certificate_into_mozilla_firefox[import the certificate into Mozilla Firefox].
+* Make sure you configure the server by running the JBoss CLI commands as described above under xref:configure_the_server[Configure the Server]. Stop the server at the end of that step.
 * In JBoss Developer Studio, choose *Window* –> *Web Browser*, then select the browser you chose to import the certificate.
 * To deploy the application, right-click on the *{artifactId}* project and choose *Run As* –> *Run on Server*.
-* Be sure to <<restore-the-server-configuration,Restore the Server Configuration>> when you have completed testing this quickstart.
+* Make sure you xref:restore_the_server_configuration[Restore the Server Configuration>>] when you have completed testing this quickstart.
 
 == Debug the Application
 

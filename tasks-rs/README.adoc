@@ -42,6 +42,7 @@ All you need to build this project is {buildRequirements}. See link:{configureMa
 
 In the following instructions, replace `__{jbossHomeName}__` with the actual path to your {productName} installation. The installation path is described in detail here: link:{useProductHomeDocUrl}[Use of {jbossHomeName} and JBOSS_HOME Variables].
 
+[[add_an_application_user]]
 == Add an Application User
 
 This quickstart uses secured management interfaces and requires that you create the following application user to access the running application.
@@ -55,12 +56,11 @@ This quickstart uses secured management interfaces and requires that you create 
 
 To add the application user, open a terminal and type the following command:
 
-+
-[subs="+quotes,attributes+"]
+[source,subs="+quotes,attributes+",options="nowrap"]
 ----
-For Linux:   $ __{jbossHomeName}__/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'guest'
-For Windows: __{jbossHomeName}__\bin\add-user.bat  -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'guest'
+$ __{jbossHomeName}__/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'guest'
 ----
+NOTE: For Window, use the `__{jbossHomeName}__\bin\add-user.bat` script.
 
 If you prefer, you can use the `add-user` utility interactively.
 For an example of how to use the add-user utility, see the instructions located here: link:{addApplicationUserDocUrl}[Add an Application User].
@@ -68,20 +68,22 @@ For an example of how to use the add-user utility, see the instructions located 
 == Start the Server
 
 . Open a terminal and navigate to the root of the {productName} directory.
-. The following shows the command line to start the server:
-
-[subs=normal]
+. Start the {productName} server with the default standalone profile by typing the following command.
++
+[source,subs="+quotes,attributes+",options="nowrap"]
 ----
-For Linux:   $ __{jbossHomeName}__/bin/standalone.sh
-For Windows: __{jbossHomeName}__\bin\standalone.bat
+$ __{jbossHomeName}__/bin/standalone.sh
 ----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\standalone.bat` script.
 
 == Build and Deploy the Quickstart
 
 . Make sure you have started the {productName} server as described above.
 . Open a terminal and navigate to the root directory of this quickstart.
 . Type this command to build and deploy the archive:
-
++
+[source,options="nowrap"]
 ----
 $ mvn clean install wildfly:deploy
 ----
@@ -92,23 +94,26 @@ $ mvn clean install wildfly:deploy
 
 Application resources for this quickstart are prefixed with the URL http://localhost:8080/{artifactId}/ and can be accessed by an HTTP client.
 
-* A web browser can be used for methods that accept _GET_.
+* A web browser can be used for methods that accept `GET`.
 * Otherwise, you must use cURL or some other command line tool that supports HTTP _POST_ and _DELETE_ methods.
 
 Below you will find instructions to create, display, and delete tasks.
 
+[[create_a_task]]
 === Create a Task
 
 To associate a task called `task1` with the user `quickstartUser`, you must authenticate as user `quickstartUser` and send an HTTP _POST_ request to the url http://localhost:8080/{artifactId}/tasks/title/task1.
 
 To issue the _POST_ command using cURL, type the following command:
 
+[source,options="nowrap"]
 ----
 curl -i -u 'quickstartUser:quickstartPwd1!' -H "Content-Length: 0" -X POST http://localhost:8080/{artifactId}/tasks/title/task1
 ----
 
 You will see the following response:
 
+[source,options="nowrap"]
 ----
 HTTP/1.1 201 Created
 Expires: 0
@@ -132,19 +137,25 @@ The final argument to cURL determines the title of the task. Note that this appr
 
 === Display the XML Representation of a Task
 
-To display the XML representation of the newly created resource, issue a _GET_ request on the task URI returned in the `Location` header during the create.
+To display the XML representation of the newly created resource, issue a `GET` request on the task URI returned in the `Location` header during the create.
 
-. To issue a _GET_ using a browser, open a browser and access the URI. You will be challenged to enter valid authentication credentials.
-
+. To issue a `GET` using a browser, open a browser and access the URI. You will be challenged to enter valid authentication credentials.
++
+[source,options="nowrap"]
+----
 http://localhost:8080/{artifactId}/tasks/id/1
+----
 
-. To issue a _GET_ using cURL, type the following command:
-
+. To issue a `GET` using cURL, type the following command:
++
+[source,options="nowrap"]
 ----
 curl -H "Accept: application/xml" -u 'quickstartUser:quickstartPwd1!' -X GET http://localhost:8080/{artifactId}/tasks/id/1
 ----
++
+The ``-H` flag tells the server that the client wishes to accept XML content.
 
-Using either of the above _GET_ methods, you should see the following XML:
+Using either of the above `GET` methods, you should see the following XML:
 
 [source,xml,options="nowrap"]
 ----
@@ -158,17 +169,21 @@ Using either of the above _GET_ methods, you should see the following XML:
 
 To obtain a list of all tasks for user `quickstartUser` in XML format, authenticate as user `quickstartUser` and send an HTTP `GET` request to the resource `tasks` URL.
 
-. To issue a _GET_ using a browser, open a browser and access the following URL. You will be challenged to enter valid authentication credentials.
-
+. To issue a `GET` using a browser, open a browser and access the following URL. You will be challenged to enter valid authentication credentials.
++
+[source,options="nowrap"]
+----
 http://localhost:8080/{artifactId}/tasks/title
+----
 
 . To list all tasks associated with the user `quickstartUser` using cURL, type:
-
++
+[source,options="nowrap"]
 ----
 curl -H "Accept: application/xml" -u 'quickstartUser:quickstartPwd1!' -X GET http://localhost:8080/{artifactId}/tasks/title
 ----
 
-Using either of the above _GET_ methods, you should see the following XML:
+Using either of the above `GET` methods, you should see the following XML:
 
 [source,xml,options="nowrap"]
 ----
@@ -186,12 +201,14 @@ To delete a task, again authenticate as principal `quickstartUser` and send an H
 
 To delete the task with id `1`:
 
+[source,options="nowrap"]
 ----
 curl -i -u 'quickstartUser:quickstartPwd1!' -X DELETE http://localhost:8080/{artifactId}/tasks/id/1
 ----
 
 You will see this response:
 
+[source,options="nowrap"]
 ----
 HTTP/1.1 204 No Content
 Expires: 0
@@ -204,6 +221,7 @@ Date: Thu, 20 Aug 2015 17:32:39 GMT
 
 Now list all tasks associated with user `quickstartUser`:
 
+[source,options="nowrap"]
 ----
 curl -u 'quickstartUser:quickstartPwd1!' -X GET http://localhost:8080/{artifactId}/tasks/title
 ----
@@ -236,39 +254,51 @@ JSON is not part of the JAX-RS standard but most JAX-RS implementations do suppo
 
 . Open the `src/main/java/org/jboss/as/quickstarts/tasksrs/model/Task.java` file and remove the comments from the following two lines.
 +
+[source,java,options="nowrap"]
 ----
 // import com.fasterxml.jackson.annotation.JsonIgnore;
 
 // @JsonIgnore
 ----
 
-. Open the `src/main/java/org/jboss/as/quickstarts/tasksrs/service/TaskResource.java` file and make sure the _GET_ methods produce "application/json" as well as "application/xml". Again, look for lines beginning with `// JSON:`.
+. Open the `src/main/java/org/jboss/as/quickstarts/tasksrs/service/TaskResource.java` file and make sure the `GET` methods produce "application/json" as well as "application/xml". Again, look for lines beginning with `// JSON:`.
 
 ** Remove comments from this line:
 +
+[source,java,options="nowrap"]
 ----
 // @Produces({ "application/xml", "application/json" })
 ----
 
 ** Add comments to this line:
 +
+[source,java,options="nowrap"]
 ----
 @Produces({ "application/xml" })
 ----
 
 . Rebuild and redeploy the quickstart.
-. <<create-a-task,Create a Task>> as you did for the XML version of this quickstart.
+. xref:create_a_task[Create a Task] as you did for the XML version of this quickstart.
 
 . View task resources in JSON media type by specifying the correct _Accept_ header. For example, using the cURL tool, type the following command:
-
++
+[source,options="nowrap"]
 ----
 curl -H "Accept: application/json" -u 'quickstartUser:quickstartPwd1!' -X GET http://localhost:8080/{artifactId}/tasks/id/1
+----
++
+You will see the following response:
++
+[source,options="nowrap"]
+----
+{"id":1,"title":"task1","ownerName":"quickstartUser"}
 ----
 
 == Server Log: Expected Warnings and Errors
 
-NOTE: You will see the following warnings in the server log. You can ignore these warnings.
+You will see the following warnings in the server log. You can ignore these warnings.
 
+[source,options="nowrap"]
 ----
 WFLYJCA0091: -ds.xml file deployments are deprecated. Support may be removed in a future version.
 
@@ -280,7 +310,8 @@ HHH000431: Unable to determine H2 database version, certain features may not wor
 . Make sure you have started the {productName} server as described above.
 . Open a terminal and navigate to the root directory of this quickstart.
 . When you are finished testing, type this command to undeploy the archive:
-
++
+[source,options="nowrap"]
 ----
 $ mvn wildfly:undeploy
 ----
@@ -292,7 +323,8 @@ This quickstart provides Arquillian tests. By default, these tests are configure
 . Make sure you have started the {productName} server as described above.
 . Open a terminal and navigate to the root directory of this quickstart.
 . Type the following command to run the test goal with the following profile activated:
-
++
+[source,options="nowrap"]
 ----
 $ mvn clean verify -Parq-remote
 ----
@@ -303,12 +335,13 @@ You can also let Arquillian manage the {productName} server by using the `arq-ma
 
 You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a {productName} server, and build and deploy a quickstart, see link:{useEclipseUrl}[Use JBoss Developer Studio or Eclipse to Run the Quickstarts].
 
-Be sure to <<add-an-application-user,Add an Application User>> as described above.
+Make sure you xref:add_an_application_user[Add an Application User] as described above.
 
 == Debug the Application
 
 If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
 
+[source,options="nowrap"]
 ----
 $ mvn dependency:sources
 ----

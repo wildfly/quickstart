@@ -18,12 +18,19 @@ The `ejb-asynchronous` quickstart demonstrates the behavior of asynchronous EJB 
 
 The `ejb-asynchronous` quickstart demonstrates the behavior of asynchronous EJB invocations in {productNameFull}. The methods are invoked by both an EJB in the deployment and by a remote client. The quickstart also shows error handling if the asynchronous method invocation fails.
 
-The example is composed of 2 Maven modules, each with a shared parent. The modules are as follows:
+This example consists of the following Maven projects, each with a shared parent.
 
-* `ejb`: This module contains the EJB's and will be deployed to the server
-* `client` : This module contains a remote EJB client
+[cols="30%,70%",options="headers"]
+|===
+|Project |Description
 
-The root `pom.xml` builds each of the submodules in the above order and deploys the archive to the server.
+| `ejb`
+| This project contains the EJBs that are deployed to the server.
+| `client`
+| This project contains a remote EJB client.
+|===
+
+The root `pom.xml` builds each of the subprojects in the above order and deploys the archive to the server.
 
 == System Requirements
 
@@ -38,7 +45,7 @@ In the following instructions, replace `__{jbossHomeName}__` with the actual pat
 == Start the Server
 
 . Open a terminal and navigate to the root of the {productName} directory.
-. The following shows the command line to start the server:
+. Start the {productName} server with the default standalone profile by typing the following command.
 +
 [source,subs="+quotes,attributes+",options="nowrap"]
 ----
@@ -59,20 +66,22 @@ $ mvn clean install wildfly:deploy
 
 . This will deploy `ejb/target/{artifactId}-ejb.jar` to the running instance of the server.
 
-Check whether the application is deployed successfully.
+* In the server log, verify that the application deployed successfully.
 
 == Access the Application
 
 . Open a terminal and navigate to the root directory of this quickstart.
-. Type this command to start the client
+. Type the following command to start the client.
 +
+[source,options="nowrap"]
 ----
-cd client
-mvn exec:exec
+$ cd client
+$ mvn exec:exec
 ----
 
 . Check the client output
 +
+[source,options="nowrap"]
 ----
 INFO: The server log should contain a message at (about) <date>, indicating that the call to the asynchronous bean completed.
 INFO: Got the async result as expected => returning at <date>, duration was 200ms
@@ -81,9 +90,21 @@ INFO: Catch the expected Exception of the asynchronous execution!
 INFO: Results of the parallel (server) processing : [returning at <date> duration was 5000ms, returning at <date>, duration was 3000ms]
 ----
 
-. Check the server log.
+. Check the server log. There should be two `INFO` log messages for the `fireAndForget` invocation.
 +
-There should be two INFO log messages for the `fireAndForget` invocation:
+First, you should see the following message.
++
+[source,options="nowrap"]
+----
+'fireAndForget' Will wait for 15000ms
+----
++
+The second message appears after the client is finished, approximately 15 seconds later.
++
+[source,options="nowrap"]
+----
+action 'fireAndForget' finished
+----
 
 == Undeploy the Archive
 
@@ -91,6 +112,7 @@ There should be two INFO log messages for the `fireAndForget` invocation:
 . Open a terminal and navigate to the root directory of this quickstart.
 . When you are finished testing, type this command to undeploy the archive:
 +
+[source,options="nowrap"]
 ----
 $ mvn wildfly:undeploy
 ----
@@ -108,12 +130,13 @@ This quickstart consists of multiple projects, so it deploys and runs differentl
 ** Right-click on the *{artifactId}-client* project and choose *Run As* -> *Java Application*.
 ** In the *Select Java Application* window, choose *AsynchronousClient - org.jboss.as.quickstarts.ejb.asynchronous.client* and click *OK*.
 ** The client output displays in the *Console* window.
-. To undeploy the project, right-click on the *{artifactId}-ejb* project and choose *Run As* -> *Maven build*. Enter *wildfly:undeploy* for the *Goals* and click *Run*.
+. To undeploy the project, right-click on the *{artifactId}-ejb* project and choose *Run As* -> *Maven build*. Enter `wildfly:undeploy` for the *Goals* and click *Run*.
 
 == Debug the Application
 
 If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
 
+[source,options="nowrap"]
 ----
 $ mvn dependency:sources
 ----

@@ -34,21 +34,24 @@ In the following instructions, replace `__{jbossHomeName}__` with the actual pat
 
 == Start the Server
 
-. Open a command line and navigate to the root of the {productName} directory.
-. The following shows the command line to start the server with the default profile:
+. Open a terminal and navigate to the root of the {productName} directory.
+. Start the {productName} server with the default standalone profile by typing the following command.
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}__/bin/standalone.sh
+----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\standalone.bat` script.
 
-[subs=normal]
-----
-For Linux:   $ __{jbossHomeName}__/bin/standalone.sh
-For Windows: __{jbossHomeName}__\bin\standalone.bat
-----
 
 == Build and Deploy the Quickstart
 
 . Make sure you have started the {productName} server as described above.
-. Open a command line and navigate to the root directory of this quickstart.
+. Open a terminal and navigate to the root directory of this quickstart.
 . Type this command to build and deploy the archive:
-
++
+[source,options="nowrap"]
 ----
 $ mvn clean package wildfly:deploy
 ----
@@ -72,7 +75,8 @@ You can restart the bidding if you click on `Reset bidding` button.
 . Make sure you have started the {productName} server as described above.
 . Open a terminal and navigate to the root directory of this quickstart.
 . When you are finished testing, type this command to undeploy the archive:
-
++
+[source,options="nowrap"]
 ----
 $ mvn wildfly:undeploy
 ----
@@ -85,6 +89,7 @@ You can also start the server and deploy the quickstarts or run the Arquillian t
 
 If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
 
+[source,options="nowrap"]
 ----
 $ mvn dependency:sources
 ----

@@ -66,17 +66,18 @@ Developers should be familiar with the concepts introduced in the `cmt` quicksta
 
 This quickstart requires the configuration of two servers. The first server must be configured to use the PostgreSQL database. Instructions to install and configure PostgreSQL are below.
 
+[[configure_the_postgresql_database_for_use_with_this_quickstart]]
 == Configure the PostgreSQL Database for Use with this Quickstart
 
 This quickstart requires the PostgreSQL database.
 
-Instructions to install and configure PostgreSQL can be found here: link:{configurePostgresDownloadDocUrl}[Download and Install PostgreSQL]
+. Instructions to install and configure PostgreSQL can be found here: link:{configurePostgresDownloadDocUrl}[Download and Install PostgreSQL]
 
-_Note_: For the purpose of this quickstart, replace the word `QUICKSTART_DATABASE_NAME` with `jts-quickstart-database` in the PostgreSQL instructions.
+. For the purpose of this quickstart, replace the word `__QUICKSTART_DATABASE_NAME__` with `jts-quickstart-database` in the PostgreSQL instructions.
 
-Be sure to link:{configurePostgresCreateUserDocUrl}[Create a Database User] for the PostgeSQL database.
+. Make sure you link:{configurePostgresCreateUserDocUrl}[Create a Database User] for the PostgeSQL database.
 
-When you have completed these steps, be sure to start the PostgreSQL database. Unless you have set up the database to automatically start as a service, you must repeat the instructions to start the database server for your operating system every time you reboot your machine.
+. When you have completed these steps, make sure you start the PostgreSQL database. Unless you have set up the database to automatically start as a service, you must repeat the instructions to start the database server for your operating system every time you reboot your machine.
 
 Wait until later in these instructions to add the PostgreSQL module and driver configuration to the first {productName} server.
 
@@ -86,11 +87,11 @@ For this example, you will need two instances of the application server, with a 
 
 Since both application servers must be configured in the same way, you must configure the first server and then clone it. After you clone the second server, the first server must be configured for PostgreSQL.
 
-NOTE: This quickstart README file use the following replaceable values. When you encounter these values in a README file, be sure to replace them with the actual path to the correct {productName} server.
+NOTE: This quickstart README file use the following replaceable values. When you encounter these values in a README file, make sure you replace them with the actual path to the correct {productName} server.
 
 * `__{jbossHomeName}__` denotes the path to the original {productName} installation.
-* `{jbossHomeName}_1` denotes the path to the modified {productName} server 1 configuration.
-* `{jbossHomeName}_2` denotes the path to the modified {productName} server 2 configuration.
+* `__{jbossHomeName}_1__` denotes the path to the original installation, which has been modified with the {productName} server 1 configuration.
+* `__{jbossHomeName}_2__` denotes the path to the modified {productName} server 2 configuration.
 
 === Configure the First Server
 
@@ -98,34 +99,46 @@ You configure JTS transactions by running JBoss CLI commands. For your convenien
 
 . Before you begin, back up your server configuration file
 ** If it is running, stop the {productName} server.
-** Back up the file: `{jbossHomeName}/standalone/configuration/standalone-full.xml`
+** Back up the file: `__{jbossHomeName}__/standalone/configuration/standalone-full.xml`
 ** After you have completed testing this quickstart, you can replace this file to restore the server to its original configuration.
-. Start the {productName} server with the full profile, passing a unique node ID by typing the following command. Be sure to replace `UNIQUE_NODE_ID_1` with a node identifier that is unique to both servers.
+. Start the {productName} server with the standalone full profile, passing a unique node ID by typing the following command. Make sure you replace `UNIQUE_NODE_ID_1` with a node identifier that is unique to both servers.
+. Start the {productName} server with the standalone full profile, passing a unique node ID, by typing the following command. Make sure you replace `UNIQUE_NODE_ID_1` with a node identifier that is unique to both servers.
 +
-[subs="+quotes,attributes+"]
+[source,subs="+quotes,attributes+",options="nowrap"]
 ----
-For Linux:  $ __{jbossHomeName}__/bin/standalone.sh -c standalone-full.xml -Djboss.tx.node.id=UNIQUE_NODE_ID_1
-For Windows:  __{jbossHomeName}__\bin\standalone.bat -c standalone-full.xml  -Djboss.tx.node.id=UNIQUE_NODE_ID_1
+$ __{jbossHomeName}__/bin/standalone.sh -c standalone-full.xml -Djboss.tx.node.id=UNIQUE_NODE_ID_1
 ----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\standalone.bat` script.
 
 . Review the `configure-jts-transactions.cli` file in the root of this quickstart directory. This script configures the server to use jts transaction processing.
-. Open a new terminal, navigate to the root directory of this quickstart, and run the following command, replacing {jbossHomeName} with the path to your server:
+. Open a new terminal, navigate to the root directory of this quickstart, and run the following command, replacing `__{jbossHomeName}__` with the path to your server:
 +
+[source,subs="+quotes,attributes+",options="nowrap"]
 ----
-For Linux: $ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=configure-jts-transactions.cli
-For Windows: __{jbossHomeName}__\bin\jboss-cli.bat --connect --file=configure-jts-transactions.cli
+$ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=configure-jts-transactions.cli
+----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
+
++
+You should see the following result when you run the script:
++
+[source,options="nowrap"]
+----
+The batch executed successfully
+process-state: restart-required
 ----
 
 . Stop the {productName} server.
 
-NOTE: When you have completed testing this quickstart, it is important to <<remove-the-jts-configuration-from-the-server,Remove the JTS Configuration from the {productName} Server>>.
+IMPORTANT: When you have completed testing this quickstart, it is important to xref:remove_the_jts_configuration_from_the_server[Remove the JTS Configuration from the {productName} Server].
 
 === Review the Modified Server Configuration
 
-After stopping the server, open the `{jbossHomeName}/standalone/configuration/standalone-full.xml` file and review the changes.
+After stopping the server, open the `__{jbossHomeName}__/standalone/configuration/standalone-full.xml` file and review the changes.
 
 . The orb initializers `transactions` attribute is changed from `spec` to `full` in the `iiop-openjdk` subsystem to enable JTS.
-
 +
 [source,xml,options="nowrap"]
 ----
@@ -134,8 +147,7 @@ After stopping the server, open the `{jbossHomeName}/standalone/configuration/st
 </subsystem>
 ----
 
-. An empty `&lt;jts/&gt;` element is added to the end of the `transactions` subsystem to enable JTS.
-
+. An empty `<jts/>` element is added to the end of the `transactions` subsystem to enable JTS.
 +
 [source,xml,options="nowrap"]
 ----
@@ -150,48 +162,39 @@ After stopping the server, open the `{jbossHomeName}/standalone/configuration/st
 </subsystem>
 ----
 
-NOTE: When you have completed testing this quickstart, it is important to <<remove-the-jts-configuration-from-the-server,Remove the JTS Configuration from the {productName} Server>>.
-
 === Clone the Server Directory
 
 Make a copy of this {productName} directory structure to use for the second server.
 
 === Configure Server1 to use PostgreSQL
 
-Application server 1 must be now configured to use the PostgreSQL database created previously in the <<configure-the-postgresql-database-for-use-with-this-quickstart,Configure the PostgreSQL Database for Use with this Quickstart>> section.
+Application server 1 must be now configured to use the PostgreSQL database created previously in the xref:configure_the_postgresql_database_for_use_with_this_quickstart[Configure the PostgreSQL Database for Use with this Quickstart] section.
 
-. Be sure to start the PostgreSQL database. Unless you have set up the database to automatically start as a service, you must repeat the instructions "Start the database server" for your operating system every time you reboot your machine.
+. Make sure you start the PostgreSQL database. Unless you have set up the database to automatically start as a service, you must repeat the instructions "Start the database server" for your operating system every time you reboot your machine.
 . Follow the instructions to link:{configurePostgresAddModuleDocUrl}[Add the PostgreSQL Module to the {productName} Server] to the server 1 install only.
-. Follow the instructions to link:{configurePostgresDriverDocUrl}[Configure the PostgreSQL Driver in the {ProductName} Server] for the server 1 configuration. Be sure to pass the `-Djboss.tx.node.id=UNIQUE_NODE_ID_1` on the command line when you start the first server to configure PostgreSQL.
+. Follow the instructions to link:{configurePostgresDriverDocUrl}[Configure the PostgreSQL Driver in the {ProductName} Server] for the server 1 configuration. Make sure you pass the `-Djboss.tx.node.id=UNIQUE_NODE_ID_1` on the command line when you start the first server to configure PostgreSQL.
 
 == Start the Servers
 
-Start the two {productName} servers with the full profile, passing a unique node ID by typing the following command. You must pass a socket binding port offset on the command to start the second server. Be sure to replace `UNIQUE_NODE_ID` with a node identifier that is unique to both servers.
+Start the two {productName} server with the standalone full profile, passing a unique node ID, by typing the following commands. You must pass a socket binding port offset on the command to start the second server. Make sure you replace `UNIQUE_NODE_ID_1` and `UNIQUE_NODE_ID_2` with  node identifiers that are unique across both servers.
 
-If you are using Linux:
-
-[subs="+quotes,attributes+"]
+[source,subs="+quotes,attributes+",options="nowrap"]
 ----
-Server 1: {jbossHomeName}_1/bin/standalone.sh -c standalone-full.xml -Djboss.tx.node.id=UNIQUE_NODE_ID_1
-Server 2: {jbossHomeName}_2/bin/standalone.sh -c standalone-full.xml -Djboss.tx.node.id=UNIQUE_NODE_ID_2 -Djboss.socket.binding.port-offset=100
+$ __{jbossHomeName}_1__/bin/standalone.sh -c standalone-full.xml -Djboss.tx.node.id=UNIQUE_NODE_ID_1
+$ __{jbossHomeName}_2__/bin/standalone.sh -c standalone-full.xml -Djboss.tx.node.id=UNIQUE_NODE_ID_2 -Djboss.socket.binding.port-offset=100
 ----
 
-If you are using Windows
-
-[subs="+quotes,attributes+"]
-----
-Server 1: {jbossHomeName}_1\bin\standalone.bat -c standalone-full.xml -Djboss.tx.node.id=UNIQUE_NODE_ID_1
-Server 2: {jbossHomeName}_2\bin\standalone.bat -c standalone-full.xml -Djboss.tx.node.id=UNIQUE_NODE_ID_2 -Djboss.socket.binding.port-offset=100
-----
+NOTE: For Windows, use the `__{jbossHomeName}_1__\bin\standalone.bat` and  `__{jbossHomeName}_2__\bin\standalone.bat` scripts.
 
 == Build and Deploy the Quickstart
 
 Since this quickstart builds two separate components, you can not use the standard _Build and Deploy_ commands used by most of the other quickstarts. You must follow these steps to build, deploy, and run this quickstart.
 
-. Make sure you have started the {productName} server with the PostgreSQL driver
+. Make sure you have started the {productName} server with the PostgreSQL driver.
 . Open a terminal and navigate to the root directory of this quickstart.
-. Type this command to build and deploy the archive:
-
+. Type this command to build and deploy the archive.
++
+[source,options="nowrap"]
 ----
 $ mvn clean install wildfly:deploy
 ----
@@ -204,6 +207,7 @@ The application will be running at the following URL: http://localhost:8080/{art
 
 When you enter a name and click to `Add` that customer, you will see the following in the application server 1 console:
 
+[source,options="nowrap"]
 ----
 INFO  [org.hibernate.hql.internal.QueryTranslatorFactoryInitiator] (default task-2) HHH000397: Using ASTQueryTranslatorFactory
 INFO  [org.jboss.ejb.client] (default task-4) JBoss EJB Client version 2.1.4.Final-redhat-1
@@ -211,6 +215,7 @@ INFO  [org.jboss.ejb.client] (default task-4) JBoss EJB Client version 2.1.4.Fin
 
 You will also see the following in application-server-2 console:
 
+[source,options="nowrap"]
 ----
 INFO  [org.jboss.ejb.client] (p: default-threadpool; w: Idle) JBoss EJB Client version 2.1.4.Final-redhat-1
 INFO  [class org.jboss.as.quickstarts.cmt.jts.mdb.HelloWorldMDB] (Thread-97 (ActiveMQ-client-global-threads-6840624)) Received Message: Created invoice for customer named: Tom
@@ -220,7 +225,7 @@ The web page will also change and show you the new list of customers.
 
 == Server Log: Expected Warnings and Errors
 
-NOTE: You will see the following warnings in the server log. You can ignore these warnings.
+You will see the following warnings in the server log. You can ignore these warnings.
 
 ----
 WFLYJCA0091: -ds.xml file deployments are deprecated. Support may be removed in a future version.
@@ -230,69 +235,103 @@ WFLYJCA0091: -ds.xml file deployments are deprecated. Support may be removed in 
 
 . Make sure you have started the {productName} server as described above.
 . Open a terminal and navigate to the root directory of this quickstart.
-. When you are finished testing, type this command to undeploy the archive:
-
+. When you are finished testing, type this command to undeploy the archive.
++
+[source,options="nowrap"]
 ----
 $ mvn package wildfly:undeploy
 ----
 
+[[remove_the_jts_configuration_from_the_server]]
 == Remove the JTS Configuration From the Server
 
 You must remove the JTS server configuration you did during setup because it interferes with the JTA quickstarts.
 
 You can modify the server configuration by running the `remove-jts-transactions.cli` script provided in the root directory of this quickstart, by using the JBoss CLI interactively, or by manually editing the configuration file.
 
-=== Remove the JTS Server Configuration by Running the JBoss CLI Script
+=== Remove the JTS Server Configuration by Running the CLI Script
 
-. Start the {productName} server with the full profile.
+. Start the first {productName} server with the standalone full profile, passing a unique node ID, by typing the following command. Make sure you replace `UNIQUE_NODE_ID_1` with the node identifier that you used when you previously started the server.
 +
-[subs="+quotes,attributes+"]
+[source,subs="+quotes,attributes+",options="nowrap"]
 ----
-For Linux:  {jbossHomeName}_1/bin/standalone.sh -c standalone-full.xml  -Djboss.tx.node.id=UNIQUE_NODE_ID_1
-For Windows:  {jbossHomeName}_1\bin\standalone.bat -c standalone-full.xml  -Djboss.tx.node.id=UNIQUE_NODE_ID_1
+$ __{jbossHomeName}_1__/bin/standalone.sh -c standalone-full.xml -Djboss.tx.node.id=UNIQUE_NODE_ID_1
 ----
-
-. Open a new terminal, navigate to the root directory of this quickstart, and run the following command, replacing {jbossHomeName} with the path to your server:
 +
-[subs="+quotes,attributes+"]
-----
-For Linux: {jbossHomeName}_1/bin/jboss-cli.sh --connect --file=remove-jts-transactions.cli
-For Windows: {jbossHomeName}_1\bin\jboss-cli.bat --connect --file=remove-jts-transactions.cli
-----
+NOTE: For Windows, use the `__{jbossHomeName}_1__\bin\standalone.bat` script.
 
-=== Remove the JTS Server Configuration using the JBoss CLI Tool
-
-. Start the {productName} server with the full profile.
+. Open a new terminal, navigate to the root directory of this quickstart, and run the following command, replacing `__{jbossHomeName}_1__` with the path to your server:
 +
-[subs="+quotes,attributes+"]
+[source,subs="+quotes,attributes+",options="nowrap"]
 ----
-For Linux:  {jbossHomeName}_1/bin/standalone.sh -c standalone-full.xml -Djboss.tx.node.id=UNIQUE_NODE_ID_1
-For Windows:  {jbossHomeName}_1\bin\standalone.bat -c standalone-full.xml -Djboss.tx.node.id=UNIQUE_NODE_ID_1
+__{jbossHomeName}_1__/bin/jboss-cli.sh --connect --file=remove-jts-transactions.cli
+----
++
+NOTE: For Windows, use the `__{jbossHomeName}_1__\bin\jboss-cli.bat` script.
+
++
+This script removes the JTS configuration from the `iiop-openjdk` and `transactions` subsystems in the server configuration. You should see the following result when you run the script:
++
+[source,options="nowrap"]
+----
+The batch executed successfully
+process-state: restart-required
+{
+    "outcome" => "success",
+    "result" => undefined
+}
 ----
 
-. To start the JBoss CLI tool, open a new terminal, navigate to the {jbossHomeName} directory, and type the following:
-+
-[subs="+quotes,attributes+"]
-----
-For Linux: {jbossHomeName}_1/bin/jboss-cli.sh --connect
-For Windows: {jbossHomeName}_1\bin\jboss-cli.bat --connect
-----
+=== Remove the JTS Server Configuration using the Management CLI
 
-. At the prompt, type the following:
+. Start the first {productName} server with the standalone full profile, passing a unique node ID, by typing the following command. Make sure you replace `UNIQUE_NODE_ID_1` with the node identifier that you used when you previously started the server.
 +
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}_1__/bin/standalone.sh -c standalone-full.xml -Djboss.tx.node.id=UNIQUE_NODE_ID_1
+----
++
+NOTE: For Windows, use the `__{jbossHomeName}_1__\bin\standalone.bat` script.
+
+. To start the JBoss CLI tool, open a new terminal, navigate to the `__{jbossHomeName}_1__` directory, and type the following:
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}_1__/bin/jboss-cli.sh --connect
+----
++
+NOTE: For Windows, use the `__{jbossHomeName}_1__\bin\jboss-cli.bat` script.
+
+. At the prompt, type the following commands.
++
+[source,options="nowrap"]
 ----
 /subsystem=iiop-openjdk/:write-attribute(name=transactions,value=spec)
 /subsystem=transactions/:undefine-attribute(name=jts)
 /subsystem=transactions/:undefine-attribute(name=node-identifier)
 ----
 
+. You should see the following response after each command execution.
++
+[source,options="nowrap"]
+----
+{
+    "outcome" => "success",
+    "response-headers" => {
+        "operation-requires-reload" => true,
+        "process-state" => "restart-required"
+    }
+}
+----
+
+
+
 === Remove the JTS Server Configuration Manually
 
 . Stop the server.
-. If you backed up the {jbossHomeName}/standalone/configuration/standalone-full.xml,simply replace the edited configuration file with the backup copy.
-. If you did not make a backup copy, open the file {jbossHomeName}/standalone/configuration/standalone-full.xml and disable JTS as follows:
+. If you backed up the `__{jbossHomeName}__/standalone/configuration/standalone-full.xml` file, ,simply replace the edited configuration file with the backup copy.
+. If you did not make a backup copy, open the file `__{jbossHomeName}__/standalone/configuration/standalone-full.`xml` and disable JTS as follows:
 ** Find the `orb` subsystem and change the configuration back to its original state.
-
 +
 [source,xml,options="nowrap"]
 ----
@@ -302,7 +341,6 @@ For Windows: {jbossHomeName}_1\bin\jboss-cli.bat --connect
 ----
 
 ** Find the `transaction` subsystem and remove the `node-identifier` attribute from the `core-environment` element. Also remove the `&lt;jts/&gt;` element.
-
 +
 [source,xml,options="nowrap"]
 ----

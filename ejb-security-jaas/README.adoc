@@ -20,7 +20,8 @@ Source: &lt;{githubRepoUrl}&gt;
 
 The `ejb-security-jaas` quickstart demonstrates how legacy `JAAS`-based security domains can be used in conjunction with `WildFly Elytron` to secure JEE applications. The secured EJB component can be accessed indirectly using a web application and it can also be directly invoked by a remote client. This quickstart shows how {productNameFull} must be configured to support both scenarios using the legacy `JAAS` integration.
 
-The overall steps required to use the `JAAS` integration are as follows:
+The following steps required to use the `JAAS` integration.
+
 1. Specify a `JAAS` security domain in the legacy `security` subsystem.
 2. Export an `Elytron`-compatible security realm that delegates to the legacy JAAS security domain.
 3. Create a `security-domain` in the `elytron` subsystem that uses the exported realm.
@@ -36,33 +37,40 @@ All you need to build these projects is {buildRequirements}. See link:{configure
 
 To run these quickstarts with the provided build scripts, you need the {productName} distribution ZIP. For information on how to install and run JBoss, see the https://access.redhat.com/documentation/en/red-hat-jboss-enterprise-application-platform/[{productNameFull} Documentation] _Getting Started Guide_ located on the Customer Portal.
 
-You can also use <<use_jboss_developer_studio_or_eclipse_to-run_the_quickstarts,JBoss Developer Studio or Eclipse>> to run the quickstarts.
+You can also run the quickstart in xref:run_the_quickstart_in_jboss_developer_studio_or_eclipse[JBoss Developer Studio or Eclipse].
+
 
 == Use of {jbossHomeName}
 
 In the following instructions, replace `__{jbossHomeName}__` with the actual path to your {productName} installation. The installation path is described in detail here: link:{useProductHomeDocUrl}[Use of {jbossHomeName} and JBOSS_HOME Variables].
 
+[[create_the_properties_files_for_the_jaas_security_domain]]
 == Create the Properties Files for the JAAS Security Domain
 
-. Open a command line and navigate to the {productName} server `configuration` directory:
+. Open a terminal and navigate to the {productName} server `configuration` directory:
 +
 [source,subs="+quotes,attributes+",options="nowrap"]
 ----
 $ cd __{jbossHomeName}__/standalone/configuration/
 ----
 
-. Create a file named `users.properties` and add the following username/password pair:
+. Create a file named `users.properties` and add the following username/password pair.
 +
+[source,options="nowrap"]
 ----
 quickstartUser=quickstartPwd1!
 ----
 
-. Create a file named `roles.properties` and add the following username/roles pair:
+. Create a file named `roles.properties` and add the following username/roles pair.
 +
+[source,options="nowrap"]
 ----
 quickstartUser=guest
 ----
 
+This concludes the configuration required by the legacy `JAAS` login module used in this quickstart.
+
+[[configure_the_server]]
 == Configure the Server
 
 These steps assume you are running the server in standalone mode and using the default `standalone.xml` supplied with the distribution.
@@ -74,7 +82,7 @@ You configure the security domain by running JBoss CLI commands. For your conven
 ** If it is running, stop the {productName} server.
 ** Back up the file: `__{jbossHomeName}__/standalone/configuration/standalone.xml`
 ** After you have completed testing this quickstart, you can replace this file to restore the server to its original configuration.
-. Start the {productName} server by typing the following:
+. Start the {productName} server by typing the following.
 +
 [source,subs="+quotes,attributes+",options="nowrap"]
 ----
@@ -84,7 +92,7 @@ $ __{jbossHomeName}__/bin/standalone.sh
 NOTE: For Windows, use the `__{jbossHomeName}__\bin\standalone.bat` script.
 
 . Review the `configure-elytron-jaas.cli` file in the root of this quickstart directory. This script adds the configuration that enables Elytron security for the quickstart components. Comments in the script describe the purpose of each block of commands.
-. Open a new terminal, navigate to the root directory of this quickstart, and run the following command, replacing __{jbossHomeName}__ with the path to your server:
+. Open a new terminal, navigate to the root directory of this quickstart, and run the following command, replacing __{jbossHomeName}__ with the path to your server.
 +
 [source,subs="+quotes,attributes+",options="nowrap"]
 ----
@@ -93,13 +101,22 @@ $ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=configure-elytron-jaas.c
 +
 NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
 
++
+You should see the following result when you run the script.
++
+[source,options="nowrap"]
+----
+The batch executed successfully
+process-state: reload-required
+----
+
 . Stop the {productName} server.
 
 == Review the Modified Server Configuration
 
 After stopping the server, open the `__{jbossHomeName}__/standalone/configuration/standalone.xml` file and review the changes.
 
-. The following `security-domain` was added to the legacy `security` subsystem:
+. The following `security-domain` was added to the legacy `security` subsystem.
 +
 [source,xml,options="nowrap"]
 ----
@@ -121,8 +138,10 @@ After stopping the server, open the `__{jbossHomeName}__/standalone/configuratio
     </mapping>
 </security-domain>
 ----
++
+The `quickstart-domain`is used to authenticate and authorize users. The `Remoting` login module is added to properly authenticate requests made from remote clients. A `mapping-module` is added that can be used to provide an extra role (`admin`). It is used later on to show how the legacy role mappers can be enabled and disabled.
 
-. The following `elytron-realm` was added to the legacy `security` subsystem:
+. The following `elytron-realm` was added to the legacy `security` subsystem.
 +
 [source,xml,options="nowrap"]
 ----
@@ -132,8 +151,10 @@ After stopping the server, open the `__{jbossHomeName}__/standalone/configuratio
     </security-realms>
 </elytron-integration>
 ----
++
+This block tells the `security` subsystem to export an `Elytron`-compatible realm called `LegacyRealm` that will delegate authentication and authorization decisions to the legacy `quickstart-domain`. Setting the `apply-role-mappers` attribute to `false` indicates to the exported realm that it should not use any role mappers defined in the legacy security domain.
 
-. The following `security-domain` was added to the `elytron` subsystem:
+. The following `security-domain` was added to the `elytron` subsystem.
 +
 [source,xml,options="nowrap"]
 ----
@@ -142,8 +163,7 @@ After stopping the server, open the `__{jbossHomeName}__/standalone/configuratio
 </security-domain>
 ----
 
-. The following `http-authentication-factory` was added to the `elytron` subsystem:
-
+. The following `http-authentication-factory` was added to the `elytron` subsystem.
 +
 [source,xml,options="nowrap"]
 ----
@@ -155,8 +175,10 @@ After stopping the server, open the `__{jbossHomeName}__/standalone/configuratio
     </mechanism-configuration>
 </http-authentication-factory>
 ----
++
+It creates the HTTP authentication factory that will handle BASIC requests by delegating the security domain, which was created in the previous step.
 
-. The following `application-security-domain` mapping was added to the `undertow` subsystem:
+. The following `application-security-domain` mapping was added to the `undertow` subsystem.
 +
 [source,xml,otions="nowrap"]
 ----
@@ -164,8 +186,10 @@ After stopping the server, open the `__{jbossHomeName}__/standalone/configuratio
     <application-security-domain name="legacy-domain" http-authentication-factory="quickstart-http-authentication"/>
 </application-security-domains>
 ----
++
+It tells the `undertow` subsystem to use the HTTP authentication factory, which was created in the previous step, for web applications that specify the security domain `legacy-domain` in their metadata. The quickstart application specifies this domain both for the web layer, in the `jboss-web.xml` file, and the EJB component, using annotation in the code.
 
-. The following `sasl-authentication-factory` was added to the `elytron` subsystem:
+. The following `sasl-authentication-factory` was added to the `elytron` subsystem.
 
 +
 [source,xml,options="nowrap"]
@@ -177,16 +201,16 @@ After stopping the server, open the `__{jbossHomeName}__/standalone/configuratio
 </sasl-authentication-factory>
 ----
 
-. The `http-remoting-connector` in the `remoting` subsystem was updated to use the `sasl-authentication-factory` created in step 6:
-
+. The `http-remoting-connector` in the `remoting` subsystem was updated to use the `sasl-authentication-factory`, which was created in the previous step.
 +
 [source,xml,options="nowrap"]
 ----
 <http-connector name="http-remoting-connector" connector-ref="default" security-realm="ApplicationRealm" sasl-authentication-factory="quickstart-sasl-authentication"/>
 ----
++
+Authentication performed by the quickstart remote client is handled by this SASL authentication factory.
 
-. Finally, the following `application-security-domain` mapping was added to the `ejb3` subsystem:
-
+. Finally, the following `application-security-domain` mapping was added to the `ejb3` subsystem.
 +
 [source,xml,options="nowrap"]
 ----
@@ -194,11 +218,13 @@ After stopping the server, open the `__{jbossHomeName}__/standalone/configuratio
     <application-security-domain name="legacy-domain" security-domain="LegacyDomain"/>
 </application-security-domains>
 ----
++
+This mapping basically enables `Elytron` security for EJB3 applications that specify the security domain `legacy-domain` in their metadata (either via jboss-ejb3.xml or annotations). The quickstart application uses the `@SecurityDomain` annotation in the bean class to specify this security domain.
 
 == Start the Server
 
 . Open a terminal and navigate to the root of the {productName} directory.
-. The following shows the command line to start the server:
+. Start the {productName} server with the default standalone profile by typing the following command.
 +
 [source,subs="+quotes,attributes+",options="nowrap"]
 ----
@@ -213,12 +239,14 @@ NOTE: For Windows, use the `__{jbossHomeName}__\bin\standalone.bat` script.
 . Open a terminal and navigate to the root directory of this quickstart.
 . Type this command to build and deploy the archive:
 +
+[source,options="nowrap"]
 ----
 $ mvn clean install wildfly:deploy
 ----
 
 . This will deploy `target/{artifactId}.war` to the running instance of the server.
 
+[[access_the_application]]
 == Access the Application
 
 The application will be running at the following URL http://localhost:8080/{artifactId}/.
@@ -228,6 +256,7 @@ When you access the application, you are presented with a browser login challeng
 . If you attempt to login with a user name and password combination that has not been added to the server, the login challenge will be redisplayed.
 . When you login successfully using `quickstartUser`/`quickstartPwd1!`, the browser displays the following security info:
 +
+[source,options="nowrap"]
 ----
 Successfully called Secured EJB
 
@@ -239,19 +268,51 @@ Authentication Type : BASIC
 
 . The application can also be accessed directly by a remote client. Type the following command in the root directory of the quickstart:
 +
+[source,options="nowrap"]
 ----
 $ mvn exec:exec
 ----
++
+The remote client application runs and displays the results of calling the secured bean.
++
+[source,options="nowrap"]
+----
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+Called secured bean, caller principal quickstartUser
 
+Principal has admin permission: false
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+----
 . Next, change the exported realm so that it now uses the legacy role mappers as defined in the legacy `JAAS` security domain.
 +
-Make sure you are still in the root directory of this quickstart, and run the following command, replacing `__{jbossHomeName}__`
-with the path to your server:
+Make sure you are still in the root directory of this quickstart, and run the following command, replacing `__{jbossHomeName}__` with the path to your server.
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+__{jbossHomeName}__/bin/jboss-cli.sh --connect --file=enable-role-mappers.cli
+----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
+
++
+You should see the following result when you run the script/
++
+[source,options="nowrap"]
+----
+{
+    "outcome" => "success",
+    "response-headers" => {
+        "operation-requires-reload" => true,
+        "process-state" => "reload-required"
+    }
+}
+----
 
 . If you didn't close your web browser, re-load the quickstart application page. Otherwise open a new browser, point it to the
 URL http://localhost:8080/{artifactId}/ and login with `quickstartUser/quickstartPwd1!`. It should now display a
 page confirming the user now has the `admin` role that was provided by the legacy role mapper:
 +
+[source,options="nowrap"]
 ----
 Successfully called Secured EJB
 
@@ -263,14 +324,13 @@ Authentication Type : BASIC
 
 . The same result can be observed when re-running the remote client application:
 +
+[source,options="nowrap"]
+
 ----
-    * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-
-    Called secured bean, caller principal quickstartUser
-
-    Principal has admin permission: true
-
-    * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+Called secured bean, caller principal quickstartUser
+Principal has admin permission: true
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 ----
 
 == Undeploy the Archive
@@ -279,10 +339,12 @@ Authentication Type : BASIC
 . Open a terminal and navigate to the root directory of this quickstart.
 . When you are finished testing, type this command to undeploy the archive:
 +
+[source,options="nowrap"]
 ----
 $ mvn wildfly:undeploy
 ----
 
+[[restore_the_server_configuration]]
 == Restore the Server Configuration
 
 You can restore the original server configuration by running the `restore-configuration.cli` script provided in the root directory of this quickstart or by manually restoring the backup copy the configuration file.
@@ -307,6 +369,15 @@ $ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=restore-configuration.cl
 +
 NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
 
++
+This script reverts the changes made to the `ejb3`, `elytron`, `security` and `undertow` subsystems. You should see the following result when you run the script.
++
+[source,options="nowrap"]
+----
+The batch executed successfully
+process-state: reload-required
+----
+
 === Restore the Server Configuration Manually
 
 . If it is running, stop the {productName} server.
@@ -317,23 +388,25 @@ NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
 After you are done with this quickstart, remember to remove the `users.properties` and `roles.properties` files from the
 server configuration directory (`__{jbossHomeName}__/standalone/configuration/`).
 
+[[run_the_quickstart_in_jboss_developer_studio_or_eclipse]]
 == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 
 You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a {productName} server, and build and deploy a quickstart, see link:{useEclipseUrl}[Use JBoss Developer Studio or Eclipse to Run the Quickstarts].
 
-* Be sure to <<create_the_properties_files_for_the_jaas_security_domain,Create the Properties Files for the JAAS Security Domain>> as described above.
-* Be sure to configure the server by running the JBoss CLI script as described above under <<configure-the-server,Configure the Server>>. Stop the server at the end of that step.
+* Make sure you xref:create_the_properties_files_for_the_jaas_security_domain[Create the Properties Files for the JAAS Security Domain] as described above.
+* Make sure you configure the server by running the JBoss CLI script as described above under xref:configure_the_server[Configure the Server]. Stop the server at the end of that step.
 * To deploy the application to the {productName} server, right-click on the *{artifactId}* project and choose *Run As* -> *Run on Server*.
-* You are presented with a browser login challenge. Enter the credentials as described above under <<access_the_application,Access the Application>> to see the running application. Note that *Has admin permission* is `false`.
-* Leave the application running in JBoss Developer Studio. To configure the server to use the legacy role mappers, open a terminal, and run the `enable-role-mappers.cli` script as described above under <<access_the_application,Access the Application>>.
+* You are presented with a browser login challenge. Enter the credentials as described above under xref:access_the_application[Access the Application] to see the running application. Note that *Has admin permission* is `false`.
+* Leave the application running in JBoss Developer Studio. To configure the server to use the legacy role mappers, open a terminal, and run the `enable-role-mappers.cli` script as described above under xref:access_the_application[Access the Application].
 * Go back to JBoss Developer Studio and click *Refresh the current page*. Note that *Has admin permission* is now `true`.
 * To undeploy the project, right-click on the *{artifactId}* project and choose *Run As* -> *Maven build*. Enter `wildfly:undeploy` for the *Goals* and click *Run*.
-* Be sure to <<restore_the_server_configuration,Restore the Server Configuration>> when you have completed testing this quickstart.
+* Make sure you xref:restore_the_server_configuration[Restore the Server Configuration] when you have completed testing this quickstart.
 
 == Debug the Application
 
 If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
 
+[source,options="nowrap"]
 ----
 $ mvn dependency:sources
 ----

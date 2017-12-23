@@ -1,4 +1,4 @@
->= inter-app: Communicate Between Two Applications Using EJB and CDI
+= inter-app: Communicate Between Two Applications Using EJB and CDI
 :author: Pete Muir
 :productName: WildFly
 :productNameFull: WildFly Application Server
@@ -20,11 +20,30 @@ The `inter-app` quickstart shows you how to easily communicate between two modul
 
 CDI only provides intra-application injection within a top level deployment, for example, an EAR, WAR, or JAR. This improves performance of the application server, as to satisfy an injection point all possible candidates have to be scanned / analyzed. If inter-app injection was supported by CDI, performance would scale according to the number of deployments you have (the more deployments in the running system, the slower the deployment). Java EE injection uses unique JNDI names for the wiring, so each injection point is O(1). The approach shown here combines the two approaches such that you limit the name based wiring to one location in your code, and the main consumers of components can use CDI injection to reference these name wired components. For the name approach to work though, you still need to publish instances, and EJB singletons allow you to do that with just one extra annotation.
 
-In all, the project has three modules:
+This example consists of the following Maven projects, each with a shared parent.
 
-* `{artifactId}-app-shared.jar` - this module contains the interfaces which define the contract between the beans exposed by the WARs. It is deployed as an EJB JAR module because Eclipse Web Tools Platform can not deploy simple JARs.
-* `{artifactId}-app-appA.war` - the first WAR, whiches exposes an EJB singleton, and a simple UI that allows you to read the value set on the bean in appB
-* `{artifactId}-app-appB.war` - the second WAR, whiches exposes an EJB singleton, and a simple UI that allows you to read the value set on the bean in appA
+[cols="30%,70%",options="headers"]
+|===
+|Project |Description
+
+| `shared`
+a| This project contains the interfaces which define the contract between the beans exposed by the WARs.
+
+* It generates the `{artifactId}-app-shared.jar` archive.
+* It is deployed as an EJB JAR module because Eclipse Web Tools Platform can not deploy simple JARs.
+
+| `appA`
+a| This project contains the first WAR.
+
+* It generates the `{artifactId}-app-appA.war` archive.
+* It exposes an EJB singleton and a simple UI that allows you to read the value set on the bean in `appB`.
+
+| `appB`
+a| This project contains the second WAR.
+
+* It generates the `{artifactId}-app-appB.war` archive.
+* It exposes an EJB singleton and a simple UI that allows you to read the value set on the bean in `appA`.
+|===
 
 == System Requirements
 
@@ -39,20 +58,22 @@ In the following instructions, replace `__{jbossHomeName}__` with the actual pat
 == Start the Server
 
 . Open a terminal and navigate to the root of the {productName} directory.
-. The following shows the command line to start the server:
-
-[subs=normal]
+. Start the {productName} server with the default standalone profile by typing the following command.
++
+[source,subs="+quotes,attributes+",options="nowrap"]
 ----
-For Linux:   $ __{jbossHomeName}__/bin/standalone.sh
-For Windows: __{jbossHomeName}__\bin\standalone.bat
+$ __{jbossHomeName}__/bin/standalone.sh
 ----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\standalone.bat` script.
 
 == Build and Deploy the Quickstart
 
 . Make sure you have started the {productName} server as described above.
 . Open a terminal and navigate to the root directory of this quickstart.
 . Type this command to build and deploy the archive:
-
++
+[source,options="nowrap"]
 ----
 $ mvn clean install wildfly:deploy
 ----
@@ -77,13 +98,15 @@ When you are finished testing, follow these steps to undeploy the archives:
 . Make sure you have started the {productName} server as described above.
 . Open a terminal and navigate to the root directory of this quickstart.
 . Type the following command to undeploy the `inter-app-appA.war` and `inter-app-appB.war` archives.
-
++
+[source,options="nowrap"]
 ----
 $ mvn wildfly:undeploy -pl appA,appB
 ----
 
 . Type the following command to undeploy the `inter-app-shared.jar` archive.
-
++
+[source,options="nowrap"]
 ----
 $ mvn wildfly:undeploy -pl shared
 ----
@@ -107,6 +130,7 @@ This quickstart consists of multiple projects containing interdependencies on ea
 
 If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
 
+[source,options="nowrap"]
 ----
 $ mvn dependency:sources
 ----

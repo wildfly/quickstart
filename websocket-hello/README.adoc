@@ -24,7 +24,7 @@ The `websocket-hello` quickstart demonstrates how to create a simple WebSocket-e
 
 WebSockets are a requirement of the Java EE 7 specification and are implemented in {productName} {productVersion}. They are configured in the `undertow` subsystem of the server configuration file. This quickstart uses the WebSocket default settings, so it is not necessary to modify the server configuration to deploy and run this quickstart.
 
-_Note: This quickstart demonstrates only a few of the basic functions. A fully functional application should provide better error handling and intercept and handle additional events._
+NOTE: This quickstart demonstrates only a few of the basic functions. A fully functional application should provide better error handling and intercept and handle additional events.
 
 == System Requirements
 
@@ -39,20 +39,22 @@ In the following instructions, replace `__{jbossHomeName}__` with the actual pat
 == Start the {productName} Server
 
 . Open a terminal and navigate to the root of the {productName} directory.
-. The following shows the command line to start the server:
-
-[subs=normal]
+. Start the {productName} server with the default standalone profile by typing the following command.
++
+[source,subs="+quotes,attributes+",options="nowrap"]
 ----
-For Linux:   $ __{jbossHomeName}__/bin/standalone.sh
-For Windows: __{jbossHomeName}__\bin\standalone.bat
+$ __{jbossHomeName}__/bin/standalone.sh
 ----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\standalone.bat` script.
 
 == Build and Deploy the Quickstart
 
 . Make sure you have started the {productName} server as described above.
 . Open a terminal and navigate to the root directory of this quickstart.
 . Type this command to build and deploy the archive:
-
++
+[source,options="nowrap"]
 ----
 $ mvn clean install wildfly:deploy
 ----
@@ -63,11 +65,12 @@ $ mvn clean install wildfly:deploy
 
 The application will be running at the following URL: http://localhost:8080/{artifactId}/.
 
-. Click on the `Open Connection` button to create the WebSocket connection and display current status of `Open`.
-. Type a name and click `Say Hello` to create and send the `Say hello to &lt;NAME&gt;` message. The message appears in the server log and a response is sent to the client.
-. Click on the `Close Connection` button to close the WebSocket connection and display the current status of `Closed`.
+. Click on the *Open Connection* button to create the WebSocket connection and display current status of `Open`.
+. Type a name and click *Say Hello* to create and send the `Say hello to __NAME__` message. The message appears in the server log and a response is sent to the client.
+. Click on the *Close Connection* button to close the WebSocket connection and display the current status of *Closed*.
 . If you attempt to send another message after closing the connection, the following message appears on the page:
-
++
+[source,options="nowrap"]
 ----
 WebSocket connection is not established. Please click the Open Connection button.
 ----
@@ -77,7 +80,8 @@ WebSocket connection is not established. Please click the Open Connection button
 . Make sure you have started the {productName} server as described above.
 . Open a terminal and navigate to the root directory of this quickstart.
 . When you are finished testing, type this command to undeploy the archive:
-
++
+[source,options="nowrap"]
 ----
 $ mvn wildfly:undeploy
 ----
@@ -90,6 +94,7 @@ You can also start the server and deploy the quickstarts or run the Arquillian t
 
 If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
 
+[source,options="nowrap"]
 ----
-    $ mvn dependency:sources
+$ mvn dependency:sources
 ----

@@ -18,14 +18,14 @@ Demonstrates use of a Javascript WebSocket client, WebSocket configuration, prog
 
 The `websocket-client` quickstart demonstrates how to use the Java API for WebSockets to create Java client endpoint connected to a remote WebSocket server.
 
-The example is modeled as a relay between a _frontend_ WebSocket server endpoint and a _backend_ WebSocket client endpoint.
+The example is modeled as a relay between a front-end WebSocket server endpoint and a back-end WebSocket client endpoint.
 
 Message Flow: +
 `(Browser Javascript WebSocket Client) &lt;-&gt; ({productName} WebSocket Server Endpoint) &lt;-&gt; ({productName} Websocket Client Endpoint) &lt;-&gt; (Remote WebSocket Echo Server)`
 
-CDI events are used to pass messages between the frontend and backend. A single backend WebSocket client endpoint is shared for all frontend clients.
+CDI events are used to pass messages between the front-end and back-end servers. A single back-end WebSocket client endpoint is shared for all front-end clients.
 
-The remote WebSocket server must be an _Echo_ server; a simple WebSocket server that echos back messages the client sends for the purpose of testing. Such a server is publicly available at ws://echo.websocket.org, but any echo server will work.
+The remote WebSocket server must be an `Echo` server; a simple WebSocket server that echos back messages the client sends for the purpose of testing. Such a server is publicly available at ws://echo.websocket.org, but any echo server will work.
 
 `Frontend` does not use WebSocket annotations because it demonstrates how to use `ServerEndpointConfig` to modify the default `Configurator` to use an application scoped Endpoint, and how to deploy the Endpoint programatically.
 
@@ -43,21 +43,23 @@ In the following instructions, replace `__{jbossHomeName}__` with the actual pat
 
 == Start the Server
 
-. Open a command line and navigate to the root of the {productName} directory.
-. The following shows the command line to start the server with the default profile:
-
-[subs=normal]
+. Open a terminal and navigate to the root of the {productName} directory.
+. Start the {productName} server with the default standalone profile by typing the following command.
++
+[source,subs="+quotes,attributes+",options="nowrap"]
 ----
-For Linux:   $ __{jbossHomeName}__/bin/standalone.sh
-For Windows: __{jbossHomeName}__\bin\standalone.bat
+$ __{jbossHomeName}__/bin/standalone.sh
 ----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\standalone.bat` script.
 
 == Build and Deploy the Quickstart
 
 . Make sure you have started the {productName} server as described above.
-. Open a command line and navigate to the root directory of this quickstart.
+. Open a terminal and navigate to the root directory of this quickstart.
 . Type this command to build and deploy the archive:
-
++
+[source,options="nowrap"]
 ----
 $ mvn clean package wildfly:deploy
 ----
@@ -70,19 +72,21 @@ Access the running application in a browser at the following URL: http://localho
 
 You are presented with the `WebSocket Echo Replay` page confirming the connection to the remote WebSocket _Echo_ server.
 
+[source,subs="+quotes,attributes+",options="nowrap"]
 ----
 Connecting to ws://localhost:8080/{artifactId}/relay
-RECV: Opened frontend session FRONTEND_SESSION_ID
+RECV: Opened frontend session __FRONTEND_SESSION_ID__
 ----
 
 Type a message in the text input field at the bottom of the page and click `Send`. The message is processed and the form displays the relayed results. The message `This is a test` was used in the following example.
 
+[source,subs="+quotes,attributes+",options="nowrap"]
 ----
 SEND: This is a test
 RECV: BROADCAST: Connecting to backend wss://echo.websocket.org
-RECV: BROADCAST: Opened backend session BACKEND_SESSION_ID
-RECV: Sending message from frontend session FRONTEND_SESSION_ID
-RECV: Received message from backend session BACKEND_SESSION_ID
+RECV: BROADCAST: Opened backend session __BACKEND_SESSION_ID__
+RECV: Sending message from frontend session __FRONTEND_SESSION_ID__
+RECV: Received message from backend session __BACKEND_SESSION_ID__
 RECV: This is a test
 ----
 
@@ -91,7 +95,8 @@ RECV: This is a test
 . Make sure you have started the {productName} server as described above.
 . Open a terminal and navigate to the root directory of this quickstart.
 . When you are finished testing, type this command to undeploy the archive:
-
++
+[source,options="nowrap"]
 ----
 $ mvn wildfly:undeploy
 ----
@@ -104,6 +109,7 @@ You can also start the server and deploy the quickstarts or run the Arquillian t
 
 If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
 
+[source,options="nowrap"]
 ----
 $ mvn dependency:sources
 ----

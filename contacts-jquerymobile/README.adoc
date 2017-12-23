@@ -30,7 +30,7 @@ This application focuses on *CRUD* in a strictly mobile app using only *jQuery M
 
 * *Delete* a contact.
 
-*Validation* is an important part of an application. Typically in an HTML5 app you can let the built-in HTML5 form validation do the work for you. However, mobile browsers do not support this feature at this time. In order to validate the forms, the `jquery.validate` plugin was added, which provides both client-side and server-side validation. Over AJAX, if there is an error, the error is returned and displayed in the form. You can see an example of this in the `Edit` form if you enter an email that is already in use. The application will attempt to insert the error message into a field if that field exists. If the field does not exist then it display it at the top. In addition, there are <<run-the-qunit-tests,qunit tests>> for every form of validation.
+Validation is an important part of an application. Typically in an HTML5 app you can let the built-in HTML5 form validation do the work for you. However, mobile browsers do not support this feature at this time. In order to validate the forms, the `jquery.validate` plugin was added, which provides both client-side and server-side validation. Over AJAX, if there is an error, the error is returned and displayed in the form. You can see an example of this in the *Edit* form if you enter an email that is already in use. The application will attempt to insert the error message into a field if that field exists. If the field does not exist then it display it at the top. In addition, there are xref:run_the_qunit_tests[QUnit Tests] for every form of validation.
 
 == System Requirements
 
@@ -46,8 +46,8 @@ With the prerequisites out of the way, you are ready to build and deploy.
 
 == Start the Server
 
-. Open a command line and navigate to the root of the {productName} directory.
-. The following shows the command line to start the server with the default profile:
+. Open a terminal and navigate to the root of the {productName} directory.
+. Start the {productName} server with the default standalone profile by typing the following command.
 +
 [source,subs="+quotes,attributes+",options="nowrap"]
 ----
@@ -66,9 +66,10 @@ $ __{jbossHomeName}__/bin/standalone.sh -b 0.0.0.0
 == Build and Deploy the Quickstart
 
 . Make sure you have started the {productName} server as described above.
-. Open a command line and navigate to the root directory of this quickstart.
+. Open a terminal and navigate to the root directory of this quickstart.
 . Type this command to build and deploy the archive:
 +
+[source,options="nowrap"]
 ----
 $ mvn clean package wildfly:deploy
 ----
@@ -115,9 +116,10 @@ The application is made up of the following pages:
 == Undeploy the Archive
 
 . Make sure you have started the {productName} server as described above.
-. Open a command line and navigate to the root directory of this quickstart.
+. Open a terminal and navigate to the root directory of this quickstart.
 . When you are finished testing, type this command to undeploy the archive:
 +
+[source,options="nowrap"]
 ----
 $ mvn wildfly:undeploy
 ----
@@ -128,43 +130,47 @@ By default, the project uses the http://code.google.com/p/wro4j/[wro4j] plugin, 
 
 With just a few quick changes to the project, you can link to the minified versions of your JavaScript and CSS files.
 
-First, in the `<project-root>/src/main/webapp/index.html` file, search for references to minification and comment or uncomment the appropriate lines.
+First, in the `{artifactId}/src/main/webapp/index.html` file, search for references to minification and comment or uncomment the appropriate lines.
 
-Finally, wro4j runs in the compile phase so any standard build command like package, install, etc. will trigger it. The plug-in is in a profile with an id of `minify` so you will want to specify that profile in your maven build.
+Finally, wro4j runs in the compile phase, so any standard build command like `package` or `install`, will trigger it. The plugin is in a profile with an ID of `minify` so you must specify that profile in your Maven build.
 
 By default, tests are disabled, so you must use the Arquillian test profile to run tests when minifying.
 
 * For example, to deploy with no tests:
 +
+[source,options="nowrap"]
 ----
 $ mvn clean package wildfly:deploy -Pminify
 ----
 
 * To deploy with tests:
 +
+[source,options="nowrap"]
 ----
 $ mvn clean verify wildfly:deploy -Pminify,arq-remote
 ----
 
 == Run the Arquillian Tests
 
-By default, tests are configured to be skipped. The reason is that the sample test is an Arquillian test, which requires the use of a container. You can activate this test by selecting one of the container configuration provided for JBoss.
+By default, tests are configured to be skipped. The reason for is that the sample test is an Arquillian test, which requires the use of a container. You can activate this test by selecting one of the container configurations provided for {productName}.
 
-To run the test in JBoss, first start the container instance. Then, run the test goal with the following profile activated:
+To run the test in {productName}, first start the container instance. Then, run the test goal with the following profile activated:
 
+[source,options="nowrap"]
 ----
 $ mvn clean verify -Parq-remote
 ----
 
-== Run the QUnit tests
+[[run_the_qunit_tests]]
+== Run the QUnit Tests
 
 QUnit is a JavaScript unit testing framework used and built by jQuery. Because JavaScript code is the core of this HTML5 application, this quickstart provides a set of QUnit tests that automate testing of this code in various browsers. Executing QUnit test cases are quite easy.
 
-Simply load the `contacts-jquerymobile/src/test/qunit/index.html` file in the browser you wish to test.
+Simply load the `__QUICKSTART_HOME__/contacts-jquerymobile/src/test/qunit/index.html` file in the browser you want to test.
 
 NOTE: If you use *Chrome*, some date tests fail. These are false failures and are known issues with Chrome. FireFox, Safari, and IE run the tests correctly. You can also display the tests using the Eclipse built-in browser.
 
-For more information on QUnit tests see http://qunitjs.com/.
+For more information on QUnit tests, see http://qunitjs.com/.
 
 == Run the Arquillian Functional Tests
 
@@ -172,9 +178,10 @@ This quickstart provides Arquillian functional tests. They are located under the
 
 To run these tests, you must build the main project as described above.
 
-. Open a command line and navigate to the root directory of this quickstart.
+. Open a terminal and navigate to the root directory of this quickstart.
 . Build the quickstart WAR using the following command:
 +
+[source,options="nowrap"]
 ----
 $ mvn clean package
 ----
@@ -183,17 +190,22 @@ $ mvn clean package
 
 . If you have a running instance of the {productName} server, as described above, run the remote tests by typing the following command:
 +
+[source,options="nowrap"]
 ----
 $ mvn clean verify -Parq-remote
 ----
 
 . If you prefer to run the functional tests using managed instance of the {productName} server, meaning the tests will start the server for you, type the following command:
 +
-_NOTE: For this to work, Arquillian needs to know the location of the {productName} server. This can be declared through the `JBOSS_HOME` environment variable or the `jbossHome` property in `arquillian.xml`. See link:{arquillianTestsDocUrl}[Run the Arquillian Tests] for complete instructions and additional options._
-+
+[NOTE]
+====
+For this to work, Arquillian needs to know the location of the {productName} server. This can be declared by using either the `JBOSS_HOME` environment variable, or by setting the `jbossHome` property in the `arquillian.xml` file. See link:{arquillianTestsDocUrl}[Run the Arquillian Tests] for complete instructions and additional options.
+
+[source,options="nowrap"]
 ----
 $ mvn clean verify -Parq-managed
 ----
+====
 
 == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 
@@ -204,6 +216,7 @@ You can also start the server and deploy the quickstarts or run the Arquillian t
 If you want to be able to debug into the source code or look at the Javadocs of any library in the project, you can run
 either of the following two commands to pull them into your local repository. The IDE should then detect them.
 
+[source,options="nowrap"]
 ----
 $ mvn dependency:sources
 $ mvn dependency:resolve -Dclassifier=javadoc

@@ -30,12 +30,13 @@ All you need to build these projects is {buildRequirements}. See link:{configure
 
 To run these quickstarts with the provided build scripts, you need the {productName} distribution ZIP. For information on how to install and run {productName}, see the https://access.redhat.com/documentation/en/red-hat-jboss-enterprise-application-platform/[{productNameFull} Documentation] _Getting Started Guide_ located on the Customer Portal.
 
-You can also use <<use-jboss-developer-studio-or-eclipse-to-run-the-quickstarts,JBoss Developer Studio or Eclipse>> to run the quickstarts.
+You can also run the quickstart in xref:run_the_quickstart_in_jboss_developer_studio_or_eclipse[JBoss Developer Studio or Eclipse].
 
 == Use of {jbossHomeName}
 
 In the following instructions, replace `__{jbossHomeName}__` with the actual path to your {productName} installation. The installation path is described in detail here: link:{useProductHomeDocUrl}[Use of {jbossHomeName} and JBOSS_HOME Variables].
 
+[[add_the_application_users]]
 == Add the Application Users
 
 Using the add-user utility script, you must add the following user to the `ApplicationRealm`:
@@ -61,9 +62,10 @@ NOTE: For Windows, use the `__{jbossHomeName}__\bin\add-user.bat` script.
 If you prefer, you can use the `add-user` utility interactively.
 For an example of how to use the add-user utility, see the instructions located here: link:{addApplicationUserDocUrl}[Add an Application User].
 
-== Setup Client and Server Keystores Using Java Keytool
+[[set_up_client_and_server_keystores_using_java_keytool]]
+== Set Up Client and Server Keystores Using Java Keytool
 
-. Open a command line and navigate to the {productName} server `configuration` directory:
+. Open a terminal and navigate to the {productName} server `configuration` directory:
 +
 [source,subs="+quotes,attributes+",options="nowrap"]
 ----
@@ -114,6 +116,9 @@ Is CN=quickstartUser, OU=Sales, O=My Company, L=Sao Paulo, ST=Sao Paulo, C=BR co
     [no]:  yes
 ----
 
++
+Notice that it sets the `first and last name` to `quickstartUser` and that this matches the user that was added to the `ApplicationRealm`. When authorizing access to a resource, the CN (common name) of the client's certificate is extracted by a principal decoder and this name is then used by the `ApplicationRealm` to obtain the client's roles.
+
 . Export the client certificate and create a truststore by importing this certificate.
 +
 [source,options="nowrap"]
@@ -145,6 +150,8 @@ KeyIdentifier [
 Trust this certificate? [no]:  yes
 Certificate was added to keystore
 ----
++
+It is worth noticing that the client certificate was imported under the `quickstartUser` alias. When authenticating a client in a `CLIENT_CERT` configuration, the CN (common name) of the client's certificate is extracted by a principal decoder and this name is then used by the `KeyStoreRealm` to match an alias in the trust store. If a trusted certificate is found under this alas, the client is considered authenticated.
 
 . Export client certificate to pkcs12 format.
 +
@@ -155,6 +162,7 @@ $>keytool -importkeystore -srckeystore client.keystore -srcstorepass secret -des
 
 . The certificates and keystores are now properly configured.
 
+[[configure_the_server]]
 == Configure the Server
 
 These steps assume you are running the server in standalone mode and using the default `standalone.xml` supplied with the distribution.
@@ -185,6 +193,14 @@ $ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=configure-ssl.cli
 +
 NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
 
++
+You should see the following result when you run the script.
++
+[source,options="nowrap"]
+----
+The batch executed successfully
+process-state: reload-required
+----
 
 . Stop the {productName} server.
 
@@ -229,7 +245,6 @@ After stopping the server, open the `{jbossHomeName}/standalone/configuration/st
 ----
 
 . The following `ssl-context` was added to the `elytron` subsystem:
-
 +
 [source,xml,options="nowrap"]
 ----
@@ -239,7 +254,6 @@ After stopping the server, open the `{jbossHomeName}/standalone/configuration/st
 ----
 
 . The following realms were added to the `elytron` subsystem:
-
 +
 [source,xml,options="nowrap"]
 ----
@@ -247,9 +261,10 @@ After stopping the server, open the `{jbossHomeName}/standalone/configuration/st
 
 <aggregate-realm name="QuickstartRealm" authentication-realm="KeyStoreRealm" authorization-realm="ApplicationRealm"/>
 ----
++
+The `aggregate-realm` defines different security realms for authentication and authorization. In this case, the `KeyStoreRealm` is responsible for authenticating the principal extracted from the client's certificate and the `ApplicationRealm` is responsible for obtaining the roles required to access the application.
 
 . The following `principal-decoder` and `security-domain` were added to the `elytron` subsystem:
-
 +
 [source,xml,options="nowrap"]
 ----
@@ -259,9 +274,10 @@ After stopping the server, open the `{jbossHomeName}/standalone/configuration/st
     <realm name="QuickstartRealm" role-decoder="groups-to-roles"/>
 </security-domain>
 ----
++
+The `x500-attribute-principal-decoder` creates a new `Principal` from the CN attribute of the `X500Principal` obtained from the client's certificate. This new principal is supplied to the security realms and is also the principal returned in methods like `getUserPrincipal` and `getCallerPrincipal`.
 
 . The following `http-authentication-factory` was added to the `elytron` subsystem:
-
 +
 [source,xml,options="nowrap"]
 ----
@@ -271,9 +287,10 @@ After stopping the server, open the `{jbossHomeName}/standalone/configuration/st
     </mechanism-configuration>
 </http-authentication-factory>
 ----
++
+It defines the security domain that will handle requests using the `CLIENT_CERT` HTTP mechanism.
 
 . The `https-listener` in the `undertow` subsystem was changed to reference the `qsSSLContext` `ssl-context`:
-
 +
 [source,xml,options="nowrap"]
 ----
@@ -281,7 +298,6 @@ After stopping the server, open the `{jbossHomeName}/standalone/configuration/st
 ----
 
 . The following `application-security-domain` was added to the `undertow` subsystem:
-
 +
 [source,xml,options="nowrap"]
 ----
@@ -289,17 +305,22 @@ After stopping the server, open the `{jbossHomeName}/standalone/configuration/st
     <application-security-domain name="client_cert_domain" http-authentication-factory="quickstart-http-authentication"/>
 </application-security-domains>
 ----
++
+It maps the `client_cert_domain` from the quickstart application to the `http-authentication-factory` shown above, so requests made to the application go through the configured HTTP authentication factory.
 
+[[test_the_server_ssl_configuration]]
 == Test the Server SSL Configuration
 
 To test the SSL configuration, access: https://localhost:8443
 
 If it is configured correctly, you should be asked to trust the server certificate.
 
+[[import_the_client_certificate_into_your_browser]]
 == Import the Certificate into Your Browser
 
 Before you access the application, you must import the _clientCert.p12_, which holds the client certificate, into your browser.
 
+[[import_the_client_certificate_into_google_chrome]]
 === Import the Certificate into Google Chrome
 
 . Click the Chrome menu icon (3 dots) in the upper right on the browser toolbar and choose *Settings*. This takes you to chrome://settings/.
@@ -309,6 +330,7 @@ Before you access the application, you must import the _clientCert.p12_, which h
 . Select the *clientCert.p12* file. You will be prompted to enter the password: `secret`.
 . The client certificate is now installed in the Google Chrome browser.
 
+[[import_the_client_certificate_into_mozilla_firefox]]
 === Import the Certificate into Mozilla Firefox
 
 . Click the *Edit* menu item on the browser menu and choose *Preferences*.
@@ -320,8 +342,8 @@ Before you access the application, you must import the _clientCert.p12_, which h
 
 == Start the Server
 
-. Open a command line and navigate to the root of the {productName} directory.
-. The following shows the command line to start the server with the web profile:
+. Open a terminal and navigate to the root of the {productName} directory.
+. Start the {productName} server with the default standalone profile by typing the following command.
 +
 [source,subs="+quotes,attributes+",options="nowrap"]
 ----
@@ -333,7 +355,7 @@ NOTE: For Windows, use the `__{jbossHomeName}__\bin\standalone.bat` script.
 == Build and Deploy the Quickstart
 
 . Make sure you have started the {productName} server as described above.
-. Open a command line and navigate to the root directory of one of the quickstart.
+. Open a terminal and navigate to the root directory of one of the quickstart.
 . Type this command to build and deploy the archive:
 +
 [source,options="nowrap"]
@@ -373,7 +395,7 @@ ynfnMaOxI67FC2QzhfzERyKqHj47WuwN0xWbS/1gBypS2nUwvItyxaEQG2X5uQY8j8QoY9wcMzIIkP2M
 == Undeploy the Archive
 
 . Make sure you have started the {productName} server as described above.
-. Open a command line and navigate to the root directory of this quickstart.
+. Open a terminal and navigate to the root directory of this quickstart.
 . When you are finished testing, type this command to undeploy the archive:
 +
 [source,options="nowrap"]
@@ -381,6 +403,7 @@ ynfnMaOxI67FC2QzhfzERyKqHj47WuwN0xWbS/1gBypS2nUwvItyxaEQG2X5uQY8j8QoY9wcMzIIkP2M
 $ mvn wildfly:undeploy
 ----
 
+[[restore_the_server_configuration]]
 == Restore the Server Configuration
 
 You can restore the original server configuration by running the `restore-configuration.cli` script provided in the root directory of this quickstart or by manually restoring the back-up copy the configuration file.
@@ -405,6 +428,15 @@ $ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=restore-configuration.cl
 +
 NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
 
++
+This script reverts the changes made to the `undertow` and `elytron` subsystems. You should see the following result when you run the script:
++
+[source,options="nowrap"]
+----
+The batch executed successfully
+process-state: reload-required
+----
+
 === Restore the Server Configuration Manually
 
 . If it is running, stop the {productName} server.
@@ -412,7 +444,7 @@ NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
 
 == Remove the keystores and certificates created for this quickstart
 
-. Open a command line and navigate to the {productName} server `configuration` directory:
+. Open a terminal and navigate to the {productName} server `configuration` directory:
 +
 [source,subs="+quotes,attributes+",options="nowrap"]
 ----
@@ -423,6 +455,7 @@ NOTE: For Windows, use the `__{jbossHomeName}__\bin\standalone.bat` script.
 
 . Remove the `clientCert.p12`, `client.crt`, `client.keystore`, `client.truststore` and `server.keystore` files that were generated for this quickstart.
 
+[[remove_the_client_certificate_from_your_browser]]
 == Remove the Client Certificate from Your Browser
 
 After you are done with this quickstart, remember to remove the certificate that was imported into your browser.
@@ -445,12 +478,17 @@ After you are done with this quickstart, remember to remove the certificate that
 . Select the *quickstartUser* certificate and click the *Delete* button.
 . The certificate has now been removed from the Mozilla Firefox browser.
 
+[[run_the_quickstart_in_jboss_developer_studio_or_eclipse]]
 == Run the Quickstart in JBoss Developer Studio or Eclipse
 
 You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a {productName} server, and build and deploy a quickstart, see link:{useEclipseUrl}[Use JBoss Developer Studio or Eclipse to Run the Quickstarts].
 
-* Be sure to configure the server by running the JBoss CLI commands as described above under <<configure-the-server,Configure the {productName} Server>>. Stop the server at the end of that step.
-* Be sure to <<restore-the-server-configuration,Restore the Server Configuration>> when you have completed testing this quickstart.
+* Make sure you configure the keystores and client certificates as described under xref:set_up_client_and_server_keystores_using_java_keytool[Set Up Client and Server Keystores Using Java Keytool].
+* Depending on the browser you choose, make sure you either xref:import_the_client_certificate_into_google_chrome[import the certificate into Google Chrome] or xref:import_the_client_certificate_into_mozilla_firefox[import the certificate into Mozilla Firefox].
+* Make sure you configure the server by running the JBoss CLI commands as described above under xref:configure_the_server[Configure the Server]. Stop the server at the end of that step.
+* In JBoss Developer Studio, choose *Window* –> *Web Browser*, then select the browser you chose to import the certificate.
+* To deploy the application, right-click on the *{artifactId}* project and choose *Run As* –> *Run on Server*.
+* Make sure you xref:restore_the_server_configuration[Restore the Server Configuration>>] when you have completed testing this quickstart.
 
 == Debug the Application
 

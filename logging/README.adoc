@@ -32,54 +32,59 @@ All you need to build this project is {buildRequirements}. See link:{configureMa
 
 In the following instructions, replace `__{jbossHomeName}__` with the actual path to your {productName} installation. The installation path is described in detail here: link:{useProductHomeDocUrl}[Use of {jbossHomeName} and JBOSS_HOME Variables].
 
+[[start_the_server]]
 == Start the Server
 
 . Open a terminal and navigate to the root of the {productName} directory.
-. The following shows the command line to start the {productName} server with the default profile:
-
-[subs=normal]
+. Start the {productName} server with the default standalone profile by typing the following command.
++
+[source,subs="+quotes,attributes+",options="nowrap"]
 ----
-For Linux:   $ __{jbossHomeName}__/bin/standalone.sh
-For Windows: __{jbossHomeName}__\bin\standalone.bat
+$ __{jbossHomeName}__/bin/standalone.sh
 ----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\standalone.bat` script.
 
+[[build_and_deploy_the_quickstart]]
 == Build and Deploy the Quickstart
 
 . Make sure you have started the {productName} server as described above.
 . Open a terminal and navigate to the root directory of this quickstart.
 . Type this command to build and deploy the archive:
-
++
+[source,options="nowrap"]
 ----
 $ mvn clean install wildfly:deploy
 ----
 
 . This deploys `target/{artifactId}.war` to the running instance of the server.
 
+[[access_the_application]]
 == Access the Application
 
 The application is running at the following URL: http://localhost:8080/{artifactId}/.
 
 You will see the following message in the server console:
 
+[source,options="nowrap"]
 ----
-    FATAL [org.jboss.as.quickstarts.logging.LoggingExample] (default task-1) THIS IS A FATAL MESSAGE
-    ERROR [org.jboss.as.quickstarts.logging.LoggingExample] (default task-1) THIS IS AN ERROR MESSAGE
-    WARN  [org.jboss.as.quickstarts.logging.LoggingExample] (default task-1) THIS IS A WARNING MESSAGE
-    INFO  [org.jboss.as.quickstarts.logging.LoggingExample] (default task-1) THIS IS AN INFO MESSAGE
-    ERROR [org.jboss.as.quickstarts.logging.LoggingExample] (default task-1) THIS IS AN ERROR MESSAGE
-    FATAL [org.jboss.as.quickstarts.logging.LoggingExample] (default task-1) THIS IS A FATAL MESSAGE
-    INFO  [org.jboss.as.quickstarts.logging.LoggingExample] (default task-1) THIS IS AN INFO MESSAGE
-    WARN  [org.jboss.as.quickstarts.logging.LoggingExample] (default task-1) THIS IS A WARNING MESSAGE
+FATAL [org.jboss.as.quickstarts.logging.LoggingExample] (default task-1) THIS IS A FATAL MESSAGE
+ERROR [org.jboss.as.quickstarts.logging.LoggingExample] (default task-1) THIS IS AN ERROR MESSAGE
+WARN  [org.jboss.as.quickstarts.logging.LoggingExample] (default task-1) THIS IS A WARNING MESSAGE
+INFO  [org.jboss.as.quickstarts.logging.LoggingExample] (default task-1) THIS IS AN INFO MESSAGE
+ERROR [org.jboss.as.quickstarts.logging.LoggingExample] (default task-1) THIS IS AN ERROR MESSAGE
+FATAL [org.jboss.as.quickstarts.logging.LoggingExample] (default task-1) THIS IS A FATAL MESSAGE
+INFO  [org.jboss.as.quickstarts.logging.LoggingExample] (default task-1) THIS IS AN INFO MESSAGE
+WARN  [org.jboss.as.quickstarts.logging.LoggingExample] (default task-1) THIS IS A WARNING MESSAGE
 ----
 
 == Check the Server Logs
 
-The log files are located in the `{jbossHomeName}/standalone/log` log directory. At this point you should see the following log files.
+The log files are located in the `__{jbossHomeName}__/standalone/log` log directory. At this point you should see the following log files.
 
-----
-    * `server.log` - This is the standard log produced by the application server. By default, it contains all the server log messages, including the server startup messages.
-    * `gc.log.0.current` - This is a garbage collection log. It contains garbage collection activity and can be used for diagnostic purposes. This log can be ignored as it is not used in this quickstart.
-----
+* `server.log` - This is the standard log produced by the application server. By default, it contains all the server log messages, including the server startup messages.
+* `gc.log.0.current` - This is a garbage collection log. It contains garbage collection activity and can be used for diagnostic purposes. This log can be ignored as it is not used in this quickstart.
+
 
 == Configure the Server
 
@@ -88,31 +93,41 @@ You configure server logging by running JBoss CLI commands. For your convenience
 . Before you begin, back up your server configuration file
 
 ** If it is running, stop the {productName} server.
-** Back up the file: `{jbossHomeName}/standalone/configuration/standalone.xml`
+** Back up the file: `__{jbossHomeName}__/standalone/configuration/standalone.xml`
 ** After you have completed testing this quickstart, you can replace this file to restore the server to its original configuration.
 . Start the {productName} server by typing the following:
-=
-[subs="+quotes,attributes+"]
++
+[source,subs="+quotes,attributes+",options="nowrap"]
 ----
-For Linux:  $ __{jbossHomeName}__/bin/standalone.sh
-For Windows:  __{jbossHomeName}__\bin\standalone.bat
+$ __{jbossHomeName}__/bin/standalone.sh
 ----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\standalone.bat` script.
 
 . Review the `configure-logging.cli` file in the root of this quickstart directory. This script configures the logging subsytem in the server configuration file. It configures the periodic rotating file handlers and the async handlers, creates the logger for our quickstart class and sets the level to TRACE, and assigns the async handlers for our quickstart class.
-. Open a new terminal, navigate to the root directory of this quickstart, and run the following command, replacing {jbossHomeName} with the path to your server:
+. Open a new terminal, navigate to the root directory of this quickstart, and run the following command, replacing `__{jbossHomeName}__` with the path to your server:
 +
-[subs="+quotes,attributes+"]
+[source,subs="+quotes,attributes+",options="nowrap"]
 ----
-For Linux: $ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=configure-logging.cli
-For Windows: __{jbossHomeName}__\bin\jboss-cli.bat --connect --file=configure-logging.cli
+$ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=configure-logging.cli
+----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
+
++
+You should see the following result when you run the script:
++
+[source,options="nowrap"]
+----
+The batch executed successfully
 ----
 
 == Review the Modified Server Configuration
 
-After stopping the server, open the `{jbossHomeName}/standalone/configuration/standalone.xml` file and review the changes.
+After stopping the server, open the `__{jbossHomeName}__/standalone/configuration/standalone.xml` file and review the changes.
 
 The following XML was added to the `logging` subsystem.
-+
+
 [source,xml,options="nowrap"]
 ----
 <async-handler name="TRACE_QS_ASYNC">
@@ -204,13 +219,13 @@ The following XML was added to the `logging` subsystem.
 
 == Test the New Logging Configuration
 
-. If your server is not started, then <<start-the-server,Start the {productName} server>>.
-. <<build-and-deploy-the-quickstart,Build and deploy the quickstart>>.
-. <<access-the-application,Access the application>>.
+. If your server is not started, then xref:start_the_server[Start the server].
+. xref:build_and_deploy_the_quickstart[Build and deploy the quickstart].
+. xref:access_the_application[Access the application].
 
 == Recheck the Server Logs
 
-The log files are located in the `{jbossHomeName}/standalone/log` log directory. You should now see 8 log files.
+The log files are located in the `__{jbossHomeName}__/standalone/log` log directory. You should now see 8 log files.
 
 * The following logs are the standard log files produced by the application server:
 
@@ -231,7 +246,8 @@ The following describes what happens when you access this quickstart:
 . The class file demonstrates the usage of _log guards_. _Log guards_ are a development best practice. Simply put, instead of just writing out logs, we wrap the log writes in a check for that log level being enabled. While this may seem like overhead, that boolean check is more efficient than relying on the underlying framework to do the check at write time.
 . Finally, the class file logs various levels, each to its own file as configured in `standalone.xml`. Note that log levels are hierarchical. When set, all log levels above the specified level are logged as well.
 . Common uses of the 6 log levels are outlined below. You should use the level that makes the most sense in your environment.
-
++
+[source,options="nowrap"]
 ----
 FATAL - Used to track critical system failures.  When this log message is written, it is writing application error that has caused service to cease.  This is the most narrow logging.
 ERROR - Used to track application errors that may cause one request to fail (not a service ceasement).
@@ -249,11 +265,13 @@ from TRACE to DEBUG, INFO, WARN, ERROR, or FATAL, then access the application.
 . Make sure you have started the {productName} server as described above.
 . Open a terminal and navigate to the root directory of this quickstart.
 . When you are finished testing, type this command to undeploy the archive:
-
++
+[source,options="nowrap"]
 ----
 $ mvn wildfly:undeploy
 ----
 
+[[remove_the_logging_configuration]]
 == Remove the Logging Configuration
 
 You can remove the logging configuration by running the `remove-logging.cli` script provided in the root directory of this quickstart or by manually restoring the back-up copy the configuration file.
@@ -261,39 +279,47 @@ You can remove the logging configuration by running the `remove-logging.cli` scr
 === Remove the Logging Configuration by Running the JBoss CLI Script
 
 . Start the {productName} server by typing the following:
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}__/bin/standalone.sh
+----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\standalone.bat` script.
+
+. Open a new terminal, navigate to the root directory of this quickstart, and run the following command, replacing `__{jbossHomeName}__` with the path to your server:
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=remove-logging.cli
+----
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
 
 +
-[subs="+quotes,attributes+"]
-----
-For Linux:  $ __{jbossHomeName}__/bin/standalone.sh
-For Windows:  __{jbossHomeName}__\bin\standalone.bat
-----
-
-. Open a new terminal, navigate to the root directory of this quickstart, and run the following command, replacing {jbossHomeName} with the path to your server:
-
+This script removes the log and file handlers from the `logging` subsystem in the server configuration. You should see the following result when you run the script:
 +
-[subs="+quotes,attributes+"]
+[source,options="nowrap"]
 ----
-For Linux: $ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=remove-logging.cli
-For Windows: __{jbossHomeName}__\bin\jboss-cli.bat --connect --file=remove-logging.cli
+The batch executed successfully
 ----
 
 === Remove the Logging Configuration Manually
 
 . If it is running, stop the {productName} server.
-. Replace the `{jbossHomeName}/standalone/configuration/standalone.xml` file with the back-up copy of the file.
+. Replace the `__{jbossHomeName}__/standalone/configuration/standalone.xml` file with the back-up copy of the file.
 
 == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 
 You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a {productName} server, and build and deploy a quickstart, see link:{useEclipseUrl}[Use JBoss Developer Studio or Eclipse to Run the Quickstarts].
 
-* Be sure to configure {productName} server logging as described above under <<configure-the-server,Configure the {productName} Server>>. Stop the server at the end of that step.
-* Be sure to <<remove-the-logging-configuration,Remove the Logging Configuration>> when you have completed testing this quickstart.
+* Make sure you configure {productName} server logging as described above under xref:configure_the_server[Configure the Server]. Stop the server at the end of that step.
+* Make sure you xref:remove_the_logging_configuration[Remove the Logging Configuration] when you have completed testing this quickstart.
 
 == Debug the Application
 
 If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
 
+[source,iptions="nowrap"]
 ----
 $ mvn dependency:sources
 ----

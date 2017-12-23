@@ -32,7 +32,8 @@ This quickstart takes the following steps to implement Servlet security:
 ** Adds an `application-security-domain` mapping in the `undertow` subsystem to map the Servlet security domain to the HTTP authentication factory defined in step 2.
 . Database Configuration:
 ** Adds an application user with access rights to the application.
-
++
+[source,options="nowrap"]
 ----
 User Name: quickstartUser
 Password: quickstartPwd1!
@@ -40,7 +41,8 @@ Role: quickstarts
 ----
 
 ** Adds another user with no access rights to the application.
-
++
+[source,options="nowrap"]
 ----
 User Name: guest
 Password: guestPwd1!
@@ -63,6 +65,7 @@ All you need to build this project is {buildRequirements}. See link:{configureMa
 
 In the following instructions, replace `__{jbossHomeName}__` with the actual path to your {productName} installation. The installation path is described in detail here: link:{useProductHomeDocUrl}[Use of {jbossHomeName} and JBOSS_HOME Variables].
 
+[[configure_the_server]]
 == Configure the Server
 
 You can configure the server by running JBoss CLI commands. For your convenience, this quickstart batches the commands into a `configure-server.cli` script provided in the root directory of this quickstart.
@@ -70,32 +73,40 @@ You can configure the server by running JBoss CLI commands. For your convenience
 . Before you begin, back up your server configuration file
 
 ** If it is running, stop the {productName} server.
-** Back up the file: `{jbossHomeName}/standalone/configuration/standalone.xml`
+** Back up the file: `__{jbossHomeName}__/standalone/configuration/standalone.xml`
 ** After you have completed testing this quickstart, you can replace this file to restore the server to its original configuration.
-. Start the {productName} server by typing the following:
-
+. Start the {productName} server with the default profile by typing the following command.
 +
-[subs="+quotes,attributes+"]
+[source,subs="+quotes,attributes+",options="nowrap"]
 ----
-For Linux:  $ __{jbossHomeName}__/bin/standalone.sh
-For Windows:  __{jbossHomeName}__\bin\standalone.bat
+$ __{jbossHomeName}__/bin/standalone.sh
 ----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\standalone.bat` script.
 
 . Review the `configure-server.cli` file in the root of this quickstart directory. This script adds security domain and HTTP authentication factory to the `elytron` subsystem in the server configuration and also configures the `undertow` subsystem to use the configured HTTP authentication factory for the Web application.
-. Open a new terminal, navigate to the root directory of this quickstart, and run the following command, replacing {jbossHomeName} with the path to your server:
+. Open a new terminal, navigate to the root directory of this quickstart, and run the following command, replacing `__{jbossHomeName}__` with the path to your server:
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=configure-server.cli
+----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
 
 +
-[subs="+quotes,attributes+"]
+You should see the following result when you run the script:
++
+[source,options="nowrap"]
 ----
-For Linux: $ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=configure-server.cli
-For Windows: __{jbossHomeName}__\bin\jboss-cli.bat --connect --file=configure-server.cli
+The batch executed successfully
 ----
 
 . Stop the {productName} server.
 
 == Review the Modified Server Configuration
 
-After stopping the server, open the `{jbossHomeName}/standalone/configuration/standalone.xml` file and review the changes.
+After stopping the server, open the `__{jbossHomeName}__/standalone/configuration/standalone.xml` file and review the changes.
 
 . The following datasource was added to the `datasources` subsystem.
 +
@@ -126,6 +137,8 @@ After stopping the server, open the `{jbossHomeName}/standalone/configuration/st
     </principal-query>
 </jdbc-realm>
 ----
++
+The `security-realm` is responsible for verifying the credentials for a given principal and for obtaining security attributes (like roles) that are associated with the authenticated identity.
 
 . The following `role-decoder` was added to the `elytron` subsystem.
 +
@@ -133,6 +146,8 @@ After stopping the server, open the `{jbossHomeName}/standalone/configuration/st
 ----
 <simple-role-decoder name="from-roles-attribute" attribute="roles"/>
 ----
++
+The `jdbc-realm` in this quickstart stores the roles associated with a principal in an attribute named roles. Other realms might use different attributes for roles (such as `group`). The purpose of a `role-decoder` is to instruct the security domain how roles are to be retrieved from an authorized identity.
 
 . The following `security-domain` was added to the `elytron` subsystem.
 +
@@ -155,6 +170,8 @@ After stopping the server, open the `{jbossHomeName}/standalone/configuration/st
     </mechanism-configuration>
 </http-authentication-factory>
 ----
++
+It basically defines an HTTP authentication factory for the BASIC mechanism that relies on the `servlet-security-quickstart-sd` security domain to authenticate and authorize access to web applications.
 
 . The following `application-security-domain` was added to the `undertow` subsystem.
 +
@@ -170,20 +187,22 @@ This configuration tells `Undertow` that applications with the `servlet-security
 == Start the Server
 
 . Open a terminal and navigate to the root of the {productName} directory.
-. The following shows the command line to start the server:
-
-[subs=normal]
+. Start the {productName} server with the default standalone profile by typing the following command.
++
+[source,subs="+quotes,attributes+",options="nowrap"]
 ----
-For Linux:   $ __{jbossHomeName}__/bin/standalone.sh
-For Windows: __{jbossHomeName}__\bin\standalone.bat
+$ __{jbossHomeName}__/bin/standalone.sh
 ----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\standalone.bat` script.
 
 == Build and Deploy the Quickstart
 
 . Make sure you have started the {productName} server as described above.
 . Open a terminal and navigate to the root directory of this quickstart.
 . Type this command to build and deploy the archive:
-
++
+[source,options="nowrap"]
 ----
 $ mvn clean install wildfly:deploy
 ----
@@ -198,6 +217,7 @@ When you access the application, you should get a browser login challenge.
 
 Log in using the username `quickstartUser` and password `quickstartPwd1!`. The browser will display the following security info:
 
+[source,options="nowrap"]
 ----
 Successfully called Secured Servlet
 
@@ -208,13 +228,14 @@ Authentication Type : BASIC
 
 Now close the browser. Open a new browser and log in with username `guest` and password `guestPwd1!`. The browser will display the following error:
 
+[source,options="nowrap"]
 ----
 Forbidden
 ----
 
 == Server Log: Expected Warnings and Errors
 
-NOTE: You will see the following warning in the server log. You can ignore it.
+You will see the following warning in the server log. You can ignore it.
 
 ----
 HHH000431: Unable to determine H2 database version, certain features may not work
@@ -225,11 +246,13 @@ HHH000431: Unable to determine H2 database version, certain features may not wor
 . Make sure you have started the {productName} server as described above.
 . Open a terminal and navigate to the root directory of this quickstart.
 . When you are finished testing, type this command to undeploy the archive:
-
++
+[source,options="nowrap"]
 ----
 $ mvn wildfly:undeploy
 ----
 
+[[restore_the_server_configuration]]
 == Restore the Server Configuration
 
 You can restore the original server configuration by running the `restore-configuration.cli` script provided in the root directory of this quickstart or by manually restoring the back-up copy the configuration file.
@@ -237,39 +260,50 @@ You can restore the original server configuration by running the `restore-config
 === Restore the Server Configuration by Running the JBoss CLI Script
 
 . Start the {productName} server by typing the following:
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}__/bin/standalone.sh
+----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\standalone.bat` script.
+
+. Open a new terminal, navigate to the root directory of this quickstart, and run the following command, replacing `__{jbossHomeName}__` with the path to your server:
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=restore-configuration.cli
+----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
 
 +
-[subs="+quotes,attributes+"]
-----
-For Linux:  $ __{jbossHomeName}__/bin/standalone.sh
-For Windows:  __{jbossHomeName}__\bin\standalone.bat
-----
-
-. Open a new terminal, navigate to the root directory of this quickstart, and run the following command, replacing {jbossHomeName} with the path to your server:
-
+This script removes the application-security-domain configuration from the undertow subsystem, the http-authentication-factory, security-domain, security-realm and role-decoder configuration from the elytron subsystem and it also removes the datasource used for this quickstart. You should see the following result when you run the script:
 +
-[subs="+quotes,attributes+"]
+[source,options="nowrap"]
 ----
-For Linux: $ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=restore-configuration.cli
-For Windows: __{jbossHomeName}__\bin\jboss-cli.bat --connect --file=restore-configuration.cli
+The batch executed successfully
+process-state: reload-required
 ----
 
+[[restore_the_server_configuration]]
 === Restore the Server Configuration Manually
 
 . If it is running, stop the {productName} server.
-. Replace the `{jbossHomeName}/standalone/configuration/standalone.xml` file with the back-up copy of the file.
+. Replace the `__{jbossHomeName}__/standalone/configuration/standalone.xml` file with the back-up copy of the file.
 
 == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 
 You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a {productName} server, and build and deploy a quickstart, see link:{useEclipseUrl}[Use JBoss Developer Studio or Eclipse to Run the Quickstarts].
 
-* Be sure to configure the server by running the JBoss CLI commands as described above under <<configure-the-server,Configure the {productName} Server>>. Stop the server at the end of that step.
-* Be sure to <<restore-the-server-configuration,Restore the Server Configuration>> when you have completed testing this quickstart.
+* Make sure you configure the server by running the JBoss CLI commands as described above under xref:configure_the_server{Configure the Server]. Stop the server at the end of that step.
+* Make sure you xref:restore_the_server_configuration[Restore the Server Configuration] when you have completed testing this quickstart.
 
 == Debug the Application
 
 If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
 
+[source,options="nowrap"]
 ----
 $ mvn dependency:sources
 ----

@@ -37,20 +37,23 @@ In the following instructions, replace `__{jbossHomeName}__` with the actual pat
 == Start the Server
 
 . Open a terminal and navigate to the root of the {productName} directory.
-. The following shows the command line to start the server:
+. Start the {productName} server with the default profile by typing the following command.
 
-[subs=normal]
++
+[source,subs="+quotes,attributes+",options="nowrap"]
 ----
-For Linux:   $ __{jbossHomeName}__/bin/standalone.sh
-For Windows: __{jbossHomeName}__\bin\standalone.bat
+$ __{jbossHomeName}__/bin/standalone.sh
 ----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\standalone.bat` script.
 
 == Build and Deploy the Quickstart
 
 . Make sure you have started the {productName} server as described above.
 . Open a terminal and navigate to the root directory of this quickstart.
 . Type this command to build and deploy the archive:
-
++
+[source,options="nowrap"]
 ----
 $ mvn clean install wildfly:deploy
 ----
@@ -64,40 +67,46 @@ The application will be running at the following URL http://localhost:8080/{arti
 You are presented with a form containing an input field and a _Send_ button. To test the quickstart:
 
 . Enter some text in the field, for example:
-
++
+[source,options="nowrap"]
 ----
 This is only a test!
 ----
 
 . Click _Send_.
 . The servlet filter intercepts and removes the vowels from the text entered in the form and displays:
-
++
+[source,options="nowrap"]
 ----
 You Typed: Ths s nly tst!
 ----
 
 . The server console displays the following log messages.
-
++
 The following messages appear in the log when you access the application URL. This is because the ParameterDumpingRequestListener, which is a ServletRequestListener, and the VowelRemoverFilter both map to the application context and print logs for every request. Note that the VowelRemoveFilter contains logic to handle empty input field arguments.
-
++
+[source,options="nowrap"]
 ----
-    INFO  [io.undertow.servlet] (default task-46) ParameterDumpingRequestListener: request has been initialized. It has 0 parameters:
-    INFO  [io.undertow.servlet] (default task-46) VowelRemoverFilter initialized
-    INFO  [io.undertow.servlet] (default task-46) VowelRemoverFilter invoking filter chain...
-    INFO  [io.undertow.servlet] (default task-46) VowelRemoverFilter done filtering request
-    INFO  [io.undertow.servlet] (default task-46) ParameterDumpingRequestListener: request has been destroyed
-    INFO  [io.undertow.servlet] (default task-48) ParameterDumpingRequestListener: request has been initialized. It has 0 parameters:
-    INFO  [io.undertow.servlet] (default task-48) VowelRemoverFilter invoking filter chain...
-    INFO  [io.undertow.servlet] (default task-48) VowelRemoverFilter done filtering request
-    INFO  [io.undertow.servlet] (default task-48) ParameterDumpingRequestListener: request has been destroyed
-
+INFO  [io.undertow.servlet] (default task-46) ParameterDumpingRequestListener: request has been initialized. It has 0 parameters:
+INFO  [io.undertow.servlet] (default task-46) VowelRemoverFilter initialized
+INFO  [io.undertow.servlet] (default task-46) VowelRemoverFilter invoking filter chain...
+INFO  [io.undertow.servlet] (default task-46) VowelRemoverFilter done filtering request
+INFO  [io.undertow.servlet] (default task-46) ParameterDumpingRequestListener: request has been destroyed
+INFO  [io.undertow.servlet] (default task-48) ParameterDumpingRequestListener: request has been initialized. It has 0 parameters:
+INFO  [io.undertow.servlet] (default task-48) VowelRemoverFilter invoking filter chain...
+INFO  [io.undertow.servlet] (default task-48) VowelRemoverFilter done filtering request
+INFO  [io.undertow.servlet] (default task-48) ParameterDumpingRequestListener: request has been destroyed
+----
++
 The following messages appear in the log when you type "This is only a test!" in the input field and click `Send`.
-
-    INFO  [io.undertow.servlet] (default task-50) ParameterDumpingRequestListener: request has been initialized. It has 1 parameters:
-    INFO  [io.undertow.servlet] (default task-50)   userInput=This is only a test!
-    INFO  [io.undertow.servlet] (default task-50) VowelRemoverFilter invoking filter chain...
-    INFO  [io.undertow.servlet] (default task-50) VowelRemoverFilter done filtering request
-    INFO  [io.undertow.servlet] (default task-50) ParameterDumpingRequestListener: request has been destroyed
++
+[source,options="nowrap"]
+----
+INFO  [io.undertow.servlet] (default task-50) ParameterDumpingRequestListener: request has been initialized. It has 1 parameters:
+INFO  [io.undertow.servlet] (default task-50)   userInput=This is only a test!
+INFO  [io.undertow.servlet] (default task-50) VowelRemoverFilter invoking filter chain...
+INFO  [io.undertow.servlet] (default task-50) VowelRemoverFilter done filtering request
+INFO  [io.undertow.servlet] (default task-50) ParameterDumpingRequestListener: request has been destroyed
 ----
 
 == Undeploy the Archive
@@ -105,7 +114,8 @@ The following messages appear in the log when you type "This is only a test!" in
 . Make sure you have started the {productName} server as described above.
 . Open a terminal and navigate to the root directory of this quickstart.
 . When you are finished testing, type this command to undeploy the archive:
-
++
+[source,options="nowrap"]
 ----
 $ mvn wildfly:undeploy
 ----
@@ -118,6 +128,7 @@ You can also start the server and deploy the quickstarts or run the Arquillian t
 
 If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
 
+[source,options="nowrap"]
 ----
-    $ mvn dependency:sources
+$ mvn dependency:sources
 ----

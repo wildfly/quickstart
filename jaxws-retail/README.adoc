@@ -31,12 +31,24 @@ In the following instructions, replace `__{jbossHomeName}__` with the actual pat
 == Start the Server
 
 . Open a terminal and navigate to the root of the {productName} directory.
-. The following shows the command line to start the server:
-
-[subs=normal]
+. Start the {productName} server with the default standalone profile by typing the following command.
++
+[source,subs="+quotes,attributes+",options="nowrap"]
 ----
-For Linux:   $ __{jbossHomeName}__/bin/standalone.sh
-For Windows: __{jbossHomeName}__\bin\standalone.bat
+$ __{jbossHomeName}__/bin/standalone.sh
+----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\standalone.bat` script.
+
+[[install_the_quickstart_parent_artifact_in_maven]]
+== Install the Quickstart Parent Artifact in Maven
+
+This quickstart requires the `quickstart-parent` artifact to be installed in your local Maven repository. To install it, navigate to your __QUICKSTART_HOME__ directory  directory and run the following command.
+
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ cd __QUICKSTART_HOME__
+$ mvn clean install
 ----
 
 == Build and Deploy the Quickstart
@@ -44,15 +56,19 @@ For Windows: __{jbossHomeName}__\bin\standalone.bat
 . Make sure you have started the {productName} server as described above.
 . Open a terminal and navigate to the root directory of this quickstart.
 . Type this command to build and deploy the archive:
-
++
+[source,options="nowrap"]
 ----
 $ mvn clean install wildfly:deploy
 ----
 
 . This will deploy `service/target/{artifactId}-service.war` to the running instance of the server.
 
-NOTE: You will see the following errors and warnings in the server log. These messages come from the `jaxws-tools-maven-plugin` plugin that generates source files based on the WSDL. You can ignore these warnings.
+== Server Log: Expected Warnings and Errors
 
+You will see the following errors and warnings in the server log. These messages come from the `jaxws-tools-maven-plugin` plugin that generates source files based on the WSDL. You can ignore these warnings.
+
+[source,options="nowrap"]
 ----
 [INFO] Could not find log4j.xml configuration, logging to console.
 [INFO]
@@ -62,12 +78,14 @@ NOTE: You will see the following errors and warnings in the server log. These me
 [ERROR] log4j:WARN See http://logging.apache.org/log4j/1.2/faq.html#noconfig for more info.
 ----
 
-NOTE: You may also see the following errors if your Linux environment defines a BASH_FUNC_scl() function. You can ignore these errors.
+You might also see the following errors if your Linux environment defines a BASH_FUNC_scl() function. You can ignore these errors.
 
+[source,options="nowrap"]
 ----
 [ERROR] /bin/sh: scl: line 1: syntax error: unexpected end of file
 [ERROR] /bin/sh: error importing function definition for `BASH_FUNC_scl`
 ----
+
 
 == Access the Application
 
@@ -75,22 +93,27 @@ You can check that the Web Service is running and deployed correctly by accessin
 
 == Run the Client
 
-. Make sure the service deployed properly.
+. Make sure you xref:install_the_quickstart_parent_artifact_in_maven[Install the Quickstart Parent Artifact in Maven].
+
+. Verify that the service is deployed properly.
 
 . Open a terminal and navigate into the client directory of this quickstart.
-
++
+[source,options="nowrap"]
 ----
-cd client/
+$ cd client/
 ----
 
 . Type this command to run the client.
-
++
+[source,options="nowrap"]
 ----
 $ mvn exec:java
 ----
 
 . You should see the following output in the client console.
-
++
+[source,options="nowrap"]
 ----
 Jay Boss's discount is 10.00
 ----
@@ -100,7 +123,8 @@ Jay Boss's discount is 10.00
 . Make sure you have started the {productName} server as described above.
 . Open a terminal and navigate to the root directory of this quickstart.
 . When you are finished testing, type this command to undeploy the archive:
-
++
+[source,options="nowrap"]
 ----
 $ mvn wildfly:undeploy
 ----
@@ -115,41 +139,49 @@ When you import this project into JBoss Developer Studio, you see 17 errors. The
 
 This quickstart requires that you build the parent project, deploy the service, and then run the client.
 
-. To build the parent project, right-click on the `{artifactId}` project and choose `Run As` –&gt; `Maven install`.
+. To build the parent project, right-click on the *{artifactId}* project and choose *Run As* –> *Maven install*.
 . To deploy the service:
-** Right-click on the `{artifactId}-service` project and choose `Run As` –&gt; `Maven install`.
-** In the `{artifactId}-service` project, select the `target/generated-sources/wsconsume` folder and choose `Build Path` –&gt; `Use as Source Folder`.
-** Right-click on the `jaxws-retail-service` project and choose `Run As` –&gt; `Run on Server`.
-** Select the JBoss EAP server and click `Finish`.
-** You should see the following message in the `Console` tab:
-
-`WFLYSRV0010: Deployed &quot;{artifactId}-service.war&quot;`
-
+** Right-click on the *{artifactId}-service* project and choose *Run As* –> *Maven install*.
+** In the *{artifactId}-service* project, select the *target/generated-sources/wsconsume* folder and choose *Build Path* –> *Use as Source Folder*.
+** Right-click on the *jaxws-retail-service* project and choose *Run As* –> *Run on Server*.
+** Select the JBoss EAP server and click *Finish*.
+** You should see the following message in the *Console* tab:
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+WFLYSRV0010: Deployed &quot;{artifactId}-service.war&quot;
+----
 ** You also see the "404 - Not Found" error in the application window. This is because there is no user interface for this quickstart. You can ignore this error.
 
 . To run the application:
 
-** To access the application, right-click on the `{artifactId}-client` project and choose `Run As` –&gt; `Java Application`.
-** Choose the `Client` class and click `OK`.
+** To access the application, right-click on the *{artifactId}-client* project and choose *Run As* –> *Java Application*.
+** Choose the *Client* class and click *OK*.
 ** Review the output in the console window. You should see the following message:
-
-`Jay Boss&#39;s discount is 10.00`
-
-. To undeploy the project, right-click on the `{artifactId}-service` project and choose `Run As` –&gt; `Maven build`. Enter `wildfly:undeploy` for the `Goals` and click `Run`.
++
+[source,options="nowrap"]
+----
+Jay Boss's discount is 10.00
+----
+. To undeploy the project, right-click on the *{artifactId}-service* project and choose *Run As* –> *Maven build*. Enter `wildfly:undeploy` for the *Goals* and click *Run*.
 
 == Debug the Application
 
 If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
 
+[source,options="nowrap"]
 ----
 $ mvn dependency:sources
 ----
 
-NOTE: You will see the following informational messages. This is because the source files for this JAR are not available in the Maven repository.
-
+[NOTE]
+====
+You will see the following informational messages. This is because the source files for this JAR are not available in the Maven repository.
+[source,options="nowrap"]
 ----
 [INFO] The following files have NOT been resolved:
 [INFO]    org.apache.ant:ant-launcher:jar:sources:1.7.0:provided
 [INFO]    com.sun:tools:jar:sources:1.6:system
 [INFO]    asm:asm:jar:sources:3.3.1:provided
 ----
+====

@@ -16,17 +16,23 @@ The `app-client` quickstart demonstrates how to code and package a client app an
 
 == What is it?
 
-The `app-client` quickstart demonstrates how to use the {productName} client container to start the client `Main` program and provide Dependency Injections (DI) for client applications in {productNameFull}. It also shows you how to use Maven to package the application according to the JavaEE specification.
+The `app-client` quickstart demonstrates how to use the {productName} client container to start the client `Main` program and provide Dependency Injections (DI) for client applications in {productNameFull}. It also shows you how to use Maven to package the application according to the Java EE specification.
 
-This example consists of the following Maven projects, each with a shared parent:
+This example consists of the following Maven projects, each with a shared parent.
 
 [cols="30%,70%",options="headers"]
 |===
-|Sub-project |Description
+|Project |Description
 
-|`ejb` |An application that can be called by the `client`.
-|`ear` |The EAR packaging contains the server and client side.
-|`client-simple` |A simple client application for running in the application-client container to show the injection
+| `ejb`
+| This project contains the EJB code that can be called by the client.
+
+| `client-simple`
+| This project contains a simple client application that runs in the application-client container to show the injection.
+
+| `ear`
+| This project builds the EAR artifact and pulls in the EJB and client artifacts.
+
 |===
 
 The root `pom.xml` file builds each of the subprojects in the appropriate order.
@@ -41,9 +47,10 @@ All you need to build this project is {buildRequirements}. See link:{configureMa
 
 In the following instructions, replace `__{jbossHomeName}__` with the actual path to your {productName} installation. The installation path is described in detail here: link:{useProductHomeDocUrl}[Use of {jbossHomeName} and JBOSS_HOME Variables].
 
+[[add_the_application_users]]
 == Add the Application Users
 
-If the client and server are run on different hosts, you must add the following users to the {productName} server side application. Be sure to use the names and passwords specified in the table as they are required to run this example.
+If the client and server are run on different hosts, you must add the following users to the {productName} server side application. Make sure you use the names and passwords specified in the table as they are required to run this example.
 
 [cols="20%,20%,20%,40%",options="headers"]
 |===
@@ -53,7 +60,7 @@ If the client and server are run on different hosts, you must add the following 
 |quickuser |ApplicationRealm |quick-123 |_leave blank for none_
 |===
 
-To add the users, open a terminal and type the following commands:
+To add the users, open a terminal and type the following commands.
 
 [source,subs="+quotes,attributes+",options="nowrap"]
 ----
@@ -68,7 +75,7 @@ If you prefer, you can use the `add-user` utility interactively. For an example 
 == Start the Server
 
 . Open a terminal and navigate to the root of the {productName} directory.
-. Use the following command to start the server:
+. Start the {productName} server with the default standalone profile by typing the following command.
 +
 [source,subs="+quotes,attributes+",options="nowrap"]
 ----
@@ -81,7 +88,7 @@ NOTE: For Windows, use the `__{jbossHomeName}__\bin\standalone.bat` script.
 
 . Make sure you have started the {productName} server as described above.
 . Open a terminal and navigate to the root directory of this quickstart.
-. Type this command to build the artifacts:
+. Type the following command to build the artifacts.
 +
 [source,options="nowrap"]
 ----
@@ -92,8 +99,8 @@ $ mvn clean install wildfly:deploy
 
 This example shows how to invoke an EJB from a remote standalone application on the same machine. Both the client and server are on the same machine, so the defaults are sufficient and no authentication is necessary.
 
-. Be sure the quickstart deployed successfully as described above.
-. Navigate to the root directory of this quickstart and type the following command to run the application. Be sure to replace `__{jbossHomeName}__` with the path to your {productName} installation.
+. Verify that the quickstart deployed successfully as described above.
+. Navigate to the root directory of this quickstart and type the following command to run the application. Make sure you replace `__{jbossHomeName}__` with the path to your {productName} installation.
 +
 [source,subs="+quotes,attributes+",options="nowrap"]
 ----
@@ -102,14 +109,16 @@ $ __{jbossHomeName}__/bin/appclient.sh ear/target/app-client.ear#simpleClient.ja
 +
 NOTE: For Windows, use the `__{jbossHomeName}__\bin\appclient.bat` script.
 
-. Review the result. The client outputs the following information, which is provided by the server application:
+. Review the result. The client outputs the following information, which is provided by the server application.
 +
 [source,options="nowrap"]
 ----
 [org.jboss.as.quickstarts.appclient.acc.client.Main] (Thread-51) Main started with arguments
-[org.jboss.as.quickstarts.appclient.acc.client.Main] (Thread-51)             [Hello, from, command, line]
+[org.jboss.as.quickstarts.appclient.acc.client.Main] (Thread-51) [Hello, from, command, line]
 [org.jboss.as.quickstarts.appclient.acc.client.Main] (Thread-##) Hello from StatelessSessionBean@myhost
 ----
++
+The client output shows that the `ServerApplication` is called at the jboss.node `myhost`. The application client connected automatically a server on the same machine.
 
 . Review the server log files to see the bean invocations on the server.
 +
@@ -125,8 +134,8 @@ This example shows how to invoke an EJB from a remote standalone Java EE applica
 === Configure Machine_1 (Remote Server Machine)
 
 . Install {productName} on this machine.
-. Add the application users to the {productName} server on this machine as described above.
-. Start the {productName} server with the following command. Be sure to replace `__MACHINE_1_IP_ADDRESS__` with the IP address of this machine. These arguments make the server accessible to the network.
+. xref:add_the_application_users[Add the application users] to the {productName} server on this machine as described above.
+. Start the {productName} server with the following command, replacing `__MACHINE_1_IP_ADDRESS__` with the IP address of this machine. These arguments make the server accessible to the network.
 +
 [source,subs="+quotes,attributes+",options="nowrap"]
 ----
@@ -155,15 +164,15 @@ remote.connection.default.password=quick-123
 
 . Open a terminal and navigate to the root directory of the quickstart.
 
-. Deploy the `app-client` quickstart to the remote machine using the following command:
+. Deploy the `app-client` quickstart to the remote machine using the following command. Make sure you replace `__MACHINE_1_IP_ADDRESS__` with the IP address of `Machine_1`.
 +
 [source,subs="+quotes,attributes+",options="nowrap"]
 ----
 $ mvn clean install wildfly:deploy -Dwildfly.hostname=__MACHINE_1_IP_ADDRESS__ [-Dwildfly.port=9099] -Dwildfly.username=admin -Dwildfly.password=admin-123
 ----
 
-. Be sure that the quickstart deployed successfully and the server is running on `Machine_1` as described above.
-. Type this command to run the `app-client` application:
+. Verify that the quickstart deployed successfully and the server is running on `Machine_1` as described above.
+. Type the following command to run the `app-client` application.
 +
 [source,subs="+quotes,attributes+",options="nowrap"]
 ----
@@ -172,7 +181,7 @@ $ __{jbossHomeName}__/bin/appclient.sh --ejb-client-properties=ejb-client.proper
 +
 NOTE: For Windows, use the `__{jbossHomeName}__\bin\appclient.bat` script.
 
-. Review the result. The client outputs the following information, which was provided by the application:
+. Review the result. The client outputs the following information, which was provided by the application.
 +
 [source,options="nowrap"]
 ----
@@ -180,6 +189,8 @@ NOTE: For Windows, use the `__{jbossHomeName}__\bin\appclient.bat` script.
 [org.jboss.as.quickstarts.appclient.acc.client.Main] (Thread-51)             [Hello, from, command, line]
 [org.jboss.as.quickstarts.appclient.acc.client.Main] (Thread-##) Hello from StatelessSessionBean@theOtherHOST
 ----
++
+The client output shows that the `ServerApplication` is called at the jboss.node `theOtherHOST`.
 
 . Review the server log files on the remote machine to see the bean invocations on the server.
 +
@@ -187,6 +198,8 @@ NOTE: For Windows, use the `__{jbossHomeName}__\bin\appclient.bat` script.
 ----
 ClientContext is here = {Client =dev84, jboss.source-address=localhost/127.0.0.1:45315}
 ----
++
+As shown above, the connected servers can be configured using the properties file. It is also possible to connect multiple servers or a cluster using the same `jboss-ejb-client.properties` file.
 
 == Undeploy the Archive from the Local Machine
 

@@ -30,15 +30,17 @@ All you need to build these projects is {buildRequirements}. See link:{configure
 
 To run these quickstarts with the provided build scripts, you need the {productName} distribution ZIP. For information on how to install and run JBoss, see the https://access.redhat.com/documentation/en/red-hat-jboss-enterprise-application-platform/[{productNameFull} Documentation] _Getting Started Guide_ located on the Customer Portal.
 
-You can also use <<use-jboss-developer-studio-or-eclipse-to-run-the-quickstarts,JBoss Developer Studio or Eclipse>> to run the quickstarts.
+You can also run the quickstart in xref:run_the_quickstart_in_jboss_developer_studio_or_eclipse[JBoss Developer Studio or Eclipse].
+
 
 == Use of {jbossHomeName}
 
 In the following instructions, replace `__{jbossHomeName}__` with the actual path to your {productName} installation. The installation path is described in detail here: link:{useProductHomeDocUrl}[Use of {jbossHomeName} and JBOSS_HOME Variables].
 
+[[generate_a_keystore_and_self_signed_certificate]]
 == Generate a Keystore and Self-signed Certificate
 
-. Open a command line and navigate to the {productName} server `configuration` directory:
+. Open a terminal and navigate to the {productName} server `configuration` directory:
 +
 [source,subs="+quotes,attributes+",options="nowrap"]
 ----
@@ -67,6 +69,10 @@ Is CN=localhost, OU=wildfly, O=jboss, L=Raleigh, ST=Carolina, C=US correct?
    [no]:  yes
 ----
 
++
+Make sure you enter your desired "hostname" for the `first and last name` field, otherwise you might run into issues while permanently accepting this certificate as an exception in some browsers. Chrome does not currently exhibit this issue.
+
+[[configure_the_server]]
 == Configure the Server
 
 These steps assume you are running the server in standalone mode and using the default `standalone.xml` supplied with the distribution.
@@ -95,9 +101,18 @@ $ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=configure-ssl.cli
 ----
 NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
 
++
+You should see the following result when you run the script:
++
+[source,options="nowrap"]
+----
+The batch executed successfully
+process-state: reload-required
+----
+
 . Stop the {productName} server.
 
-Now you're ready to connect to the SSL port of your instance https://localhost:8443/. Note, that you get the privacy error as the server certificate is self-signed. If you need to use a fully signed certificate you mostly get a PEM file from the Certificate Authority. In such a case, you need to import the PEM into the keystore.
+Now you are ready to connect to the SSL port of your instance https://localhost:8443/. Note, that you get the privacy error as the server certificate is self-signed. If you need to use a fully signed certificate you mostly get a PEM file from the Certificate Authority. In such a case, you need to import the PEM into the keystore.
 
 == Review the Modified Server Configuration
 
@@ -145,14 +160,16 @@ After stopping the server, open the `__{jbossHomeName}__/standalone/configuratio
 <https-listener name="https" socket-binding="https" ssl-context="qsSSLContext" enable-http2="true"/>
 ----
 
+[[test_the_server_ssl_configuration]]
 == Test the Server SSL Configuration
 
 To test the SSL configuration, access: https://localhost:8443
 
+[[start_the_server]]
 == Start the Server
 
-. Open a command line and navigate to the root of the {productName} directory.
-. The following shows the command line to start the server with the web profile:
+. Open a terminal and navigate to the root of the {productName} directory.
+. Start the {productName} server with the default standalone profile by typing the following command.
 +
 [source,subs="+quotes,attributes+",options="nowrap"]
 ----
@@ -161,11 +178,11 @@ $ __{jbossHomeName}__/bin/standalone.sh
 +
 NOTE: For Windows, use the `__{jbossHomeName}__\bin\standalone.bat` script.
 
-
+[[build_and_deploy_the_quickstart]]
 == Build and Deploy the Quickstart
 
 . Make sure you have started the {productName} server as described above.
-. Open a command line and navigate to the root directory of one of the quickstart.
+. Open a terminal and navigate to the root directory of one of the quickstart.
 . Type this command to build and deploy the archive:
 +
 [source,options="nowrap"]
@@ -175,14 +192,16 @@ $ mvn clean package wildfly:deploy
 
 . This will deploy `target/{artifactId}.war` to the running instance of the server.
 
+[[access_the_application]]
 == Access the Application
 
 The application will be running at the following URL: https://localhost:8443/{artifactId}/.
 
+[[undeploy_the_archive]]
 == Undeploy the Archive
 
 . Make sure you have started the JBoss Server as described above.
-. Open a command line and navigate to the root directory of this quickstart.
+. Open a terminal and navigate to the root directory of this quickstart.
 . When you are finished testing, type this command to undeploy the archive:
 +
 [source,options="nowrap"]
@@ -190,6 +209,7 @@ The application will be running at the following URL: https://localhost:8443/{ar
 $ mvn wildfly:undeploy
 ----
 
+[[restore_the_server_configuration]]
 == Restore the Server Configuration
 
 You can restore the original server configuration by running the `restore-configuration.cli` script provided in the root directory of this quickstart or by manually restoring the back-up copy the configuration file.
@@ -205,13 +225,22 @@ $ __{jbossHomeName}__/bin/standalone.sh
 +
 NOTE: For Windows, use the `__{jbossHomeName}__\bin\standalone.bat` script.
 
-. Open a new terminal, navigate to the root directory of this quickstart, and run the following command, replacing {jbossHomeName} with the path to your server:
+. Open a new terminal, navigate to the root directory of this quickstart, and run the following command, replacing {jbossHomeName} with the path to your server.
 +
 [source,subs="+quotes,attributes+",options="nowrap"]
 ----
 $ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=restore-configuration.cli
 ----
 NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
+
++
+This script reverts the changes made to the `undertow` subsystem and it also removes the `ssl-context`, `key-manager`, and `key-store` from the `elytron` subsystem. You should see the following result when you run the script.
++
+[source,options="nowrap"]
+----
+The batch executed successfully
+process-state: reload-required
+----
 
 === Restore the Server Configuration Manually
 
@@ -220,7 +249,7 @@ NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
 
 == Remove the keystore created for this quickstart
 
-. Open a command line and navigate to the {productName} server `configuration` directory:
+. Open a terminal and navigate to the {productName} server `configuration` directory.
 +
 [source,subs="+quotes,attributes+",options="nowrap"]
 ----
@@ -229,12 +258,13 @@ $ cd __{jbossHomeName}__/standalone/configuration/
 
 . Remove the keystore generated for this quickstart.
 
+[[run_the_quickstart_in_jboss_developer_studio_or_eclipse]]
 == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 
 You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a {productName} server, and build and deploy a quickstart, see link:{useEclipseUrl}[Use JBoss Developer Studio or Eclipse to Run the Quickstarts].
 
-* Be sure to configure the server by running the JBoss CLI commands as described above under <<configure-the-server,Configure the {productName} Server>>. Stop the server at the end of that step.
-* Be sure to <<restore-the-server-configuration,Restore the Server Configuration>> when you have completed testing this quickstart.
+* Make sure you configure the server by running the JBoss CLI commands as described above under xref:configure_the_server[Configure the Server]. Stop the server at the end of that step.
+* Make sure you xref:restore-the-server-configuration[Restore the Server Configuration>> when you have completed testing this quickstart.
 
 == Debug the Application
 

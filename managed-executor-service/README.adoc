@@ -37,25 +37,28 @@ The application this project produces is designed to be run on {productNameFull}
 
 All you need to build this project is {buildRequirements}. See link:{configureMavenDocUrl}[Configure Maven to Build and Deploy the Quickstarts] to make sure you are configured correctly for testing the quickstarts.
 
+[[start_the_server]]
 == Start the Server
 
-. Open a command line and navigate to the root of the {productName} directory.
-. The following shows the command line to start the server with the default profile:
-
-[subs=normal]
+. Open a terminal and navigate to the root of the {productName} directory.
+. Start the {productName} server with the default standalone profile by typing the following command.
++
+[source,subs="+quotes,attributes+",options="nowrap"]
 ----
-For Linux:   $ __{jbossHomeName}__/bin/standalone.sh
-For Windows: __{jbossHomeName}__\bin\standalone.bat
+$ __{jbossHomeName}__/bin/standalone.sh
 ----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\standalone.bat` script.
 
 == Run the Arquillian Tests
 
 This quickstart provides Arquillian tests. By default, these tests are configured to be skipped as Arquillian tests require the use of a container.
 
 . Make sure you have started the {productName} server as described above.
-. Open a command line and navigate to the root directory of this quickstart.
+. Open a terminal and navigate to the root directory of this quickstart.
 . Type the following command to run the test goal with the following profile activated:
-
++
+[source,options="nowrap"]
 ----
 $ mvn clean verify -Parq-remote
 ----
@@ -64,6 +67,7 @@ You can also let Arquillian manage the {productName} server by using the `arq-ma
 
 == Investigate the Console Output
 
+[source,options="nowrap"]
 ----
 -------------------------------------------------------
  T E S T S
@@ -92,39 +96,41 @@ Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
 
 Look at the {productName} console or Server log and you should see log messages like the following:
 
+[source,options="nowrap"]
 ----
-13:34:07,940 INFO  [ProductResourceRESTService] (default task-51) Will create a new Product on other Thread
-13:34:07,940 INFO  [ProductResourceRESTService] (default task-51) Returning response
-13:34:07,941 INFO  [PersitTask] (EE-ManagedExecutorService-default-Thread-5) Begin transaction
-13:34:07,941 INFO  [PersitTask] (EE-ManagedExecutorService-default-Thread-5) Persisting a new product
-13:34:07,946 INFO  [PersitTask] (EE-ManagedExecutorService-default-Thread-5) Commit transaction
-13:34:08,002 INFO  [ProductResourceRESTService] (default task-52) Submitting a new long running task to be executed
-13:34:08,003 INFO  [ProductResourceRESTService] (default task-52) Waiting for the result to be available...
-13:34:08,009 INFO  [LongRunningTask] (EE-ManagedExecutorService-default-Thread-5) Starting a long running task
-13:34:08,010 INFO  [LongRunningTask] (EE-ManagedExecutorService-default-Thread-5) Analysing A Product
-13:34:08,306 INFO  [ProductResourceRESTService] (default task-52) Waiting for the result to be available...
-13:34:08,608 INFO  [ProductResourceRESTService] (default task-52) Waiting for the result to be available...
-13:34:08,912 INFO  [ProductResourceRESTService] (default task-52) Waiting for the result to be available...
-13:34:09,215 INFO  [ProductResourceRESTService] (default task-52) Waiting for the result to be available...
-13:34:09,519 INFO  [ProductResourceRESTService] (default task-52) Waiting for the result to be available...
-13:34:09,823 INFO  [ProductResourceRESTService] (default task-52) Waiting for the result to be available...
-13:34:10,128 INFO  [ProductResourceRESTService] (default task-52) Waiting for the result to be available...
-13:34:10,431 INFO  [ProductResourceRESTService] (default task-52) Waiting for the result to be available...
-13:34:10,735 INFO  [ProductResourceRESTService] (default task-52) Waiting for the result to be available...
-13:34:11,040 INFO  [ProductResourceRESTService] (default task-52) Result is available. Returning result...56
-13:34:11,082 INFO  [ProductResourceRESTService] (default task-53) Will delete all Products on other Thread
-13:34:11,082 INFO  [ProductResourceRESTService] (default task-53) Returning response
-13:34:11,082 INFO  [DeleteTask] (EE-ManagedExecutorService-default-Thread-5) Begin transaction
-13:34:11,083 INFO  [DeleteTask] (EE-ManagedExecutorService-default-Thread-5) Deleting all products
-13:34:11,092 INFO  [DeleteTask] (EE-ManagedExecutorService-default-Thread-5) Commit transaction. Products deleted: 1
+INFO  [ProductResourceRESTService] (default task-51) Will create a new Product on other Thread
+INFO  [ProductResourceRESTService] (default task-51) Returning response
+INFO  [PersitTask] (EE-ManagedExecutorService-default-Thread-5) Begin transaction
+INFO  [PersitTask] (EE-ManagedExecutorService-default-Thread-5) Persisting a new product
+INFO  [PersitTask] (EE-ManagedExecutorService-default-Thread-5) Commit transaction
+INFO  [ProductResourceRESTService] (default task-52) Submitting a new long running task to be executed
+INFO  [ProductResourceRESTService] (default task-52) Waiting for the result to be available...
+INFO  [LongRunningTask] (EE-ManagedExecutorService-default-Thread-5) Starting a long running task
+INFO  [LongRunningTask] (EE-ManagedExecutorService-default-Thread-5) Analysing A Product
+INFO  [ProductResourceRESTService] (default task-52) Waiting for the result to be available...
+INFO  [ProductResourceRESTService] (default task-52) Waiting for the result to be available...
+INFO  [ProductResourceRESTService] (default task-52) Waiting for the result to be available...
+INFO  [ProductResourceRESTService] (default task-52) Waiting for the result to be available...
+INFO  [ProductResourceRESTService] (default task-52) Waiting for the result to be available...
+INFO  [ProductResourceRESTService] (default task-52) Waiting for the result to be available...
+INFO  [ProductResourceRESTService] (default task-52) Waiting for the result to be available...
+INFO  [ProductResourceRESTService] (default task-52) Waiting for the result to be available...
+INFO  [ProductResourceRESTService] (default task-52) Waiting for the result to be available...
+INFO  [ProductResourceRESTService] (default task-52) Result is available. Returning result...56
+INFO  [ProductResourceRESTService] (default task-53) Will delete all Products on other Thread
+INFO  [ProductResourceRESTService] (default task-53) Returning response
+INFO  [DeleteTask] (EE-ManagedExecutorService-default-Thread-5) Begin transaction
+INFO  [DeleteTask] (EE-ManagedExecutorService-default-Thread-5) Deleting all products
+INFO  [DeleteTask] (EE-ManagedExecutorService-default-Thread-5) Commit transaction. Products deleted: 1
 ----
 
 Note that the PersistTask and DeleteTask were executed after ProductResourceRESTService sends a Response. The only exception is for LongRunningTask where ProductResourceRESTService waits for its response.
 
 == Server Log: Expected Warnings and Errors
 
-NOTE: You will see the following warnings in the server log. You can ignore these warnings.
+You will see the following warnings in the server log. You can ignore these warnings.
 
+[source,options="nowrap"]
 ----
 WFLYJCA0091: -ds.xml file deployments are deprecated. Support may be removed in a future version.
 
@@ -138,14 +144,15 @@ You can also start the server and deploy the quickstarts or run the Arquillian t
 To run the tests in Red Hat JBoss Developer Studio, you must first set the active Maven profile in project properties to one of the following:
 
 * `arq-remote`: This setting is used for a remote server. JBoss Developer Studio starts the server for you.
-* `arq-managed`: This setting is used for a managed server. If you use this setting, you must <<start-the-server,start the server>> before you run the tests.
+* `arq-managed`: This setting is used for a managed server. If you use this setting, you must xref:start_the_server[start the server] before you run the tests.
 
-Then, to run the tests, right click on the project or individual classes and select `Run As` –&gt; `JUnit Test` in the context menu.
+Then, to run the tests, right click on the project or individual classes and select `Run As* –> *JUnit Test* in the context menu.
 
 == Debug the Application
 
 If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
 
+[source,options="nowrap"]
 ----
 $ mvn dependency:sources
 ----

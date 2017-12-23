@@ -41,23 +41,13 @@ Note that the example can be run on a single node as well, but without observati
 Start the two {productName} servers with the same HA profile using the following commands.
 Note that a socket binding port offset and a unique node name must be passed to the second server if the servers are binding to the same host.
 
-* Start server 1:
-+
 [source,subs="+quotes,attributes+",options="nowrap"]
 ----
 $ __{jbossHomeName}_1__/bin/standalone.sh -c standalone-ha.xml -Djboss.node.name=node1
-----
-+
-NOTE: For Windows, use the `{jbossHomeName}_1\bin\standalone.bat` script.
-
-* Start server 2, using the port offset:
-+
-[source,subs="+quotes,attributes+",options="nowrap"]
-----
 $ __{jbossHomeName}_2__/bin/standalone.sh -c standalone-ha.xml -Djboss.node.name=node2 -Djboss.socket.binding.port-offset=100
 ----
-+
-NOTE: For Windows, use the `{jbossHomeName}_1\bin\standalone.bat` script.
+
+NOTE: For Windows, use the `__{jbossHomeName}_1__\bin\standalone.bat` and `__{jbossHomeName}_2__\bin\standalone.bat` scripts.
 
 This example is not limited to two servers. Additional servers can be started by specifying a unique port offset for each one.
 
@@ -84,6 +74,14 @@ INFO [org.jboss.as.server] (management-handler-thread - 4) WFLYSRV0010: Deployed
 ...
 WARNING [class org.jboss.as.quickstarts.ha.singleton.SingletonTimer] (ServerService Thread Pool -- 68) SingletonTimer is initializing.
 INFO  [class org.jboss.as.quickstarts.ha.singleton.SingletonTimer] (EJB default - 1) SingletonTimer: Hello World!
+----
++
+The following warnings might appear in the server output after the applications are deployed. These warnings can be safely ignored in a development environment.
++
+[source,options="nowrap"]
+----
+WARN  [org.jboss.as.clustering.jgroups.protocol.UDP] (ServerService Thread Pool -- 68) JGRP000015: the receive buffer of socket MulticastSocket was set to 20MB, but the OS only allocated 6.71MB. This might lead to performance problems. Please set your max receive buffer in the OS correctly (e.g. net.core.rmem_max on Linux)
+WARN  [org.jboss.as.clustering.jgroups.protocol.UDP] (ServerService Thread Pool -- 68) JGRP000015: the receive buffer of socket MulticastSocket was set to 25MB, but the OS only allocated 6.71MB. This might lead to performance problems. Please set your max receive buffer in the OS correctly (e.g. net.core.rmem_max on Linux)
 ----
 
 . Use the following command to deploy the already built archive to the second server. Note that since the default socket binding port is `9990` and the second server has ports offsetted by `100`, the sum, `10090` must be passed as an argument to the deploy maven goal.
@@ -114,6 +112,13 @@ INFO  [org.jboss.as.server] (management-handler-thread - 2) WFLYSRV0010: Deploye
 ----
 INFO  [class org.jboss.as.quickstarts.ha.singleton.SingletonTimer] (EJB default - 1) SingletonTimer: Hello World!
 ----
++
+While the instance not running, the timer will display the following as the last log line:
++
+[source,options="nowrap"]
+----
+INFO  [org.jboss.as.server] (management-handler-thread - 2) WFLYSRV0010: Deployed "ha-singleton-deployment.jar" (runtime-name : "ha-singleton-deployment.jar")
+----
 
 . Verify failover of the singleton deployment. Shutdown the server operating as the singleton master, for instance by using the `Ctrl` + `C` key combination in the terminal. Observe the following messages on the node being shutdown:
 +
@@ -125,6 +130,26 @@ INFO  [org.jboss.as.server] (Thread-2) WFLYSRV0220: Server shutdown has been req
 WARNING [class org.jboss.as.quickstarts.ha.singleton.SingletonTimer] (ServerService Thread Pool -- 31) SingletonTimer is stopping: the server is either being shutdown or another node has become elected to be the singleton master.
 ...
 INFO  [org.jboss.as] (MSC service thread 1-6) WFLYSRV0050: WildFly Core 3.0.0.Final stopped in 88ms
+----
++
+You might also see the following error in the singleton master log. This is due to the shutdown not finishing cleanly and is documented in https://issues.jboss.org/browse/JBEAP-9408[JBEAP-9408]. You can ignore this error.
++
+[source,options="nowrap"]
+----
+ERROR [org.jboss.as.clustering.jgroups.protocol.NAKACK2] (thread-20) JGRP000039: node1: failed to deliver OOB message [dst: <null>, src: node2 (3 headers), size=73 bytes, flags=OOB|DONT_BUNDLE]: java.lang.IllegalStateException: channel is not connected
+----
++
+Now observe the log messages on the second server. The node will now be elected as the singleton master, deployment will complete, and the timer will start operating:
++
+[source,options="nowrap"]
+----
+INFO  [org.wildfly.clustering.server] (DistributedSingletonService - 1) WFLYCLSV0003: node2 elected as the singleton provider of the jboss.deployment.unit."ha-singleton-deployment.jar".FIRST_MODULE_USE service
+INFO  [org.wildfly.clustering.server] (DistributedSingletonService - 1) WFLYCLSV0001: This node will now operate as the singleton provider of the jboss.deployment.unit."ha-singleton-deployment.jar".FIRST_MODULE_USE service
+INFO  [org.infinispan.remoting.transport.jgroups.JGroupsTransport] (thread-4) ISPN000094: Received new cluster view for channel server: [node2|2] (1) [node2]
+...
+WARNING [class org.jboss.as.quickstarts.ha.singleton.SingletonTimer] (ServerService Thread Pool -- 68) SingletonTimer is initializing.
+INFO  [class org.jboss.as.quickstarts.ha.singleton.SingletonTimer] (EJB default - 1) SingletonTimer: Hello World!
+INFO  [class org.jboss.as.quickstarts.ha.singleton.SingletonTimer] (EJB default - 2) SingletonTimer: Hello World!
 ----
 
 == Troubleshooting
@@ -157,16 +182,17 @@ $ mvn wildfly:deploy
 $ mvn wildfly:deploy -Dwildfly.port=10090
 ----
 
-. Start the management CLI and set up a deployment overlay on both servers:
+. Start the management CLI and set up a deployment overlay on both servers. Make sure you use the port offset for the second server.
 +
 [source,subs="+quotes,attributes+",options="nowrap"]
 ----
 $ __{jbossHomeName}_1__/bin/jboss-cli.sh --connect
 deployment-overlay add --name=singleton-deployment --deployments=ha-singleton-deployment.jar --content=META-INF/singleton-deployment.xml=singleton-deployment.xml
 deployment-overlay redeploy-affected --name=singleton-deployment
+$ __{jbossHomeName}_2__/bin/jboss-cli.sh --connect --controller=localhost:10090 deployment-overlay add --name=singleton-deployment --deployments=ha-singleton-deployment.jar --content=META-INF/singleton-deployment.xml=singleton-deployment.xml deployment-overlay redeploy-affected --name=singleton-deployment
 ----
 +
-NOTE: For Windows, use the ` __{jbossHomeName}_1__\bin\jboss-cli.bat` script.
+NOTE: For Windows, use the ` __{jbossHomeName}_1__\bin\jboss-cli.bat` and ` __{jbossHomeName}_2__\bin\jboss-cli.bat` scripts.
 
 . Review the deployment overlay changes in the `standalone-ha.xml` server profile:
 +
@@ -202,4 +228,13 @@ For convenience, the management CLI scripts to add the deployment overlay, `sing
 ----
 $ mvn wildfly:undeploy
 $ mvn wildfly:undeploy -Dwildfly.port=10090
+----
+
+== Debug the Application
+
+If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
+
+[source,options="nowrap"]
+----
+$ mvn dependency:sources
 ----

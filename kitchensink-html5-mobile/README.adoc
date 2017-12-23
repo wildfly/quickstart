@@ -36,31 +36,32 @@ With the prerequisites out of the way, you are ready to build and deploy.
 
 == Start the Server
 
-. Open a command line and navigate to the root of the {productName} directory.
-. The following shows the command line to start the server with the default profile:
-
-[subs=normal]
+. Open a terminal and navigate to the root of the {productName} directory.
+. Start the {productName} server with the default standalone profile by typing the following command.
++
+[source,subs="+quotes,attributes+",options="nowrap"]
 ----
-For Linux:   $ __{jbossHomeName}__/bin/standalone.sh
-For Windows: __{jbossHomeName}__\bin\standalone.bat
+$ __{jbossHomeName}__/bin/standalone.sh
+----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\standalone.bat` script.
++
+
+Adding `-b 0.0.0.0` to the above commands will allow external clients, such as phones, tablets, and desktops, connect through your local network. For example:
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}__/bin/standalone.sh -b 0.0.0.0
 ----
 
-Note: Adding `-b 0.0.0.0` to the above commands will allow external clients, such as phones, tablets, and desktops, connect through your local network.
-
-For example
-
-[subs="+quotes,attributes+"]
-----
-For Linux:   $ __{jbossHomeName}__/bin/standalone.sh -b 0.0.0.0
-For Windows: __{jbossHomeName}__\bin\standalone.bat -b 0.0.0.0
-----
 
 == Build and Deploy the Quickstart
 
 . Make sure you have started the {productName} server as described above.
-. Open a command line and navigate to the root directory of this quickstart.
+. Open a terminal and navigate to the root directory of this quickstart.
 . Type this command to build and deploy the archive:
-
++
+[source,options="nowrap"]
 ----
 $ mvn clean wildfly:deploy
 ----
@@ -74,9 +75,10 @@ Access the running client application in a browser at the following URL: http://
 == Undeploy the Archive
 
 . Make sure you have started the {productName} server as described above.
-. Open a command line and navigate to the root directory of this quickstart.
+. Open a terminal and navigate to the root directory of this quickstart.
 . When you are finished testing, type this command to undeploy the archive:
-
++
+[source,options="nowrap"]
 ----
 $ mvn wildfly:undeploy
 ----
@@ -91,31 +93,33 @@ By default, the project uses the https://github.com/wro4j/wro4j[wro4j] plugin, w
 
 With just a few quick changes to the project, you can link to the minified versions of your JavaScript and CSS files.
 
-First, in the `&lt;project-root&gt;/src/main/webapp/index.html` file, search for references to minification and comment or uncomment the appropriate lines.
+First, in the `__QUICKSTART_HOME__/kitchensink-html5-mobile/src/main/webapp/index.html` file, search for references to minification and comment or uncomment the appropriate lines.
 
-Finally, wro4j runs in the compile phase so any standard build command like package, install, etc. will trigger it. The plugin is in a profile with an id of `minify` so you will want to specify that profile in your maven build.
+Finally, wro4j runs in the compile phase, so any standard build command like `package` or `install`, will trigger it. The plugin is in a profile with an ID of `minify` so you must specify that profile in your Maven build.
 
-NOTE: By default there are turn off tests so you must use the arquillian test profile to run tests when minifying.
-For example:
+By default, tests are disabled, so you must use the Arquillian test profile to run tests when minifying.
 
+* For example, to deploy with no tests:
++
+[source,options="nowrap"]
 ----
-#No Tests
-$ mvn clean wildfly:deploy -Pminify
+$ mvn clean package wildfly:deploy -Pminify
 ----
 
-OR
-
+* To deploy with tests:
++
+[source,options="nowrap"]
 ----
-#With Tests
 $ mvn clean verify wildfly:deploy -Pminify,arq-remote
 ----
 
 == Run the Arquillian Tests
 
-By default, tests are configured to be skipped. The reason is that the sample test is an Arquillian test, which requires the use of a container. You can activate this test by selecting one of the container configuration provided for JBoss.
+By default, tests are configured to be skipped. The reason for this is that the sample test is an Arquillian test, which requires the use of a container. You can activate this test by selecting one of the container configurations provided for {productName}.
 
-To run the test in JBoss, first start the container instance. Then, run the test goal with the following profile activated:
+To run the test in {productName}, first start the container instance. Then, run the test goal with the following profile activated:
 
+[source,options="nowrap"]
 ----
 $ mvn clean verify -Parq-remote
 ----
@@ -126,8 +130,9 @@ QUnit is a JavaScript unit testing framework used and built by jQuery. Because J
 
 Executing QUnit test cases is quite easy. Simply load the following HTML file in the browser you want to test.
 
+[source,subs="+quotes,attributes+",options="nowrap"]
 ----
-    QUICKSTART_HOME/kitchensink-html5-mobile/src/test/qunit/index.html
+__QUICKSTART_HOME__/kitchensink-html5-mobile/src/test/qunit/index.html
 ----
 
 You can also display the QUnit tests using the Eclipse built-in browser.
@@ -142,6 +147,7 @@ You can also start the server and deploy the quickstarts or run the Arquillian t
 
 If you want to be able to debug into the source code or look at the Javadocs of any library in the project, you can run either of the following two commands to pull them into your local repository. The IDE should then detect them.
 
+[source,options="nowrap"]
 ----
 $ mvn dependency:sources
 $ mvn dependency:resolve -Dclassifier=javadoc

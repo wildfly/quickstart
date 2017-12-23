@@ -31,12 +31,24 @@ In the following instructions, replace `__{jbossHomeName}__` with the actual pat
 == Start the Server
 
 . Open a terminal and navigate to the root of the {productName} directory.
-. The following shows the command line to start the server:
+. Start the {productName} server with the default standalone profile by typing the following command.
 +
-[subs=normal]
+[source,subs="+quotes,attributes+",options="nowrap"]
 ----
-For Linux:   $ __{jbossHomeName}__/bin/standalone.sh
-For Windows: __{jbossHomeName}__\bin\standalone.bat
+$ __{jbossHomeName}__/bin/standalone.sh
+----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\standalone.bat` script.
+
+[[install_the_quickstart_parent_artifact_in_maven]]
+== Install the Quickstart Parent Artifact in Maven
+
+This quickstart requires the `quickstart-parent` artifact to be installed in your local Maven repository. To install it, navigate to your __QUICKSTART_HOME__ directory  directory and run the following command.
+
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ cd __QUICKSTART_HOME__
+$ mvn clean install
 ----
 
 == Build and Deploy the Quickstart
@@ -57,22 +69,27 @@ You can check that the Web Service is running and deployed correctly by accessin
 
 == Run the Client
 
-. Make sure the service deployed properly.
+. Make sure you xref:install_the_quickstart_parent_artifact_in_maven[Install the Quickstart Parent Artifact in Maven].
+
+. Verify that the service is deployed properly.
 
 . Open a terminal and navigate into the client directory of this quickstart.
 +
+[source,options="nowrap"]
 ----
-cd client/
+$ cd client/
 ----
 
 . Type this command to run the client.
 +
+[source,options="nowrap"]
 ----
-$ mvn exec:java        
+$ mvn exec:java
 ----
 
 . You should see the following output in the client console.
 +
+[source,options="nowrap"]
 ----
 EJB3Bean returning: ejbClient calling
 ----
@@ -83,6 +100,7 @@ EJB3Bean returning: ejbClient calling
 . Open a terminal and navigate to the root directory of this quickstart.
 . When you are finished testing, type this command to undeploy the archive:
 +
+[source,options="nowrap"]
 ----
 $ mvn wildfly:undeploy
 ----
@@ -93,34 +111,40 @@ You can also start the server and deploy the quickstarts or run the Arquillian t
 
 For this quickstart, follow the special instructions to link:{useEclipseDeployJavaClientDocUrl}[Deploy and Undeploy a Quickstart Containing Server and Java Client Projects]
 
-. To build all of the artifacts, right-click on the `{artifactId}` parent project, and choose `Run As` –&gt; `Maven install`.
+. To build all of the artifacts, right-click on the *{artifactId}* parent project, and choose *Run As* –> *Maven install*.
 . To deploy the service:
-** Right-click on the `{artifactId}-service` subproject, and choose `Run As` –&gt; `Run on Server`.
-** Choose the server and click `Finish`.
+** Right-click on the *{artifactId}-service* subproject, and choose *Run As* –> *Run on Server*.
+** Choose the server and click *Finish*.
 ** This starts the server and deploys the service to the server.
 . To access the application:
-** Right-click on the `{artifactId}-client` subproject and choose `Run As` –&gt; `Java Application`.
-** You should see the following message in the `Console` tab:
-
+** Right-click on the *{artifactId}-client* subproject and choose *Run As* –> *Java Application*.
+** You should see the following message in the *Console* tab:
++
+[source,options="nowrap"]
 ----
 EJB3Bean returning: ejbClient calling
 ----
 
-. To undeploy the project, right-click on the `{artifactId}` parent project and choose `Run As` –&gt; `Maven build`. Enter `wildfly:undeploy` for the `Goals` and click `Run`.
+. To undeploy the project, right-click on the *{artifactId}* parent project and choose *Run As* –> *Maven build*. Enter `wildfly:undeploy` for the *Goals* and click *Run*.
 
 == Debug the Application
 
 If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
 
+[source,options="nowrap"]
 ----
 $ mvn dependency:sources
 ----
 
-NOTE: You will see the following informational messages. This is because the source files for these JARs are not available in the Maven repository. The `jaxws-ejb-service` source files are available in the `jaxws-ejb` project.
+[NOTE]
+====
+You will see the following informational messages. This is because the source files for these JARs are not available in the Maven repository. The `jaxws-ejb-service` source files are available in the `jaxws-ejb` project.
 
+[source,options="nowrap"]
 ----
 [INFO] The following files have NOT been resolved:
 [INFO]    xerces:xercesImpl:jar:sources:2.9.1:compile
 [INFO]    com.wutka:dtdparser:jar:sources:1.21:compile
 [INFO]    org.jboss.quickstarts.eap:jaxws-ejb-service:jar:sources:7.0.0.GA:compile
 ----
+====

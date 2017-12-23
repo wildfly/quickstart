@@ -61,14 +61,19 @@ All you need to build this project is {buildRequirements}. See link:{configureMa
 
 == Start the Server
 
-Next you need to start {productName} with the XTS subsystem enabled. This is enabled through the optional server configuration _standalone-xts.xml_. To do this, run the following commands from the top-level directory of {productName}:
+You must start {productName} with the XTS subsystem enabled.
 
+. Open a terminal and navigate to the root of the {productName} directory.
+. Start the {productName} server with XTS subsystem enabled by typing the following command.
++
+[source,subs="+quotes,attributes+",options="nowrap"]
 ----
-For Linux:     ./bin/standalone.sh --server-config=../../docs/examples/configs/standalone-xts.xml | egrep "started|stdout"
-For Windows:   \bin\standalone.bat --server-config=..\..\docs\examples\configs\standalone-xts.xml | egrep "started|stdout"
+$ __{jbossHomeName}__/bin/standalone.sh --server-config=../../docs/examples/configs/standalone-xts.xml | egrep "started|stdout"
 ----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\standalone.bat` script.
 
-Note, the pipe to egrep (| egrep "started|stdout") is useful to just show when the server has started and the output from these tests. For normal operation, this pipe can be removed.
+The pipe to egrep, `| egrep "started|stdout"`, is useful to show when the server has started and the output from these tests. For normal operation, this pipe can be removed.
 
 == Run the Arquillian Tests
 
@@ -77,28 +82,34 @@ This quickstart provides Arquillian tests. By default, these tests are configure
 . Make sure you have started the {productName} server as described above.
 . Open a terminal and navigate to the root directory of this quickstart.
 . Type the following command to run the test goal with the following profile activated:
-
++
+[source,options="nowrap"]
 ----
 $ mvn clean verify -Parq-remote
 ----
 
 . You should see the following result.
-
++
+[source,options="nowrap"]
 ----
 Results :
 
 Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
 ----
 
-_Note: You see the following warning when you run the Arquillian tests in remote mode._
+[NOTE]
+====
+You see the following warning when you run the Arquillian tests in remote mode.
 
+[source,options="nowrap"]
 ----
 WARNING: Configuration contain properties not supported by the backing object org.jboss.as.arquillian.container.remote.RemoteContainerConfiguration
 Unused property entries: {serverConfig=../../docs/examples/configs/standalone-xts.xml}
 Supported property names: [managementAddress, password, managementPort, managementProtocol, username]
 ----
 
-_This is because, in remote mode, you are responsible for starting the server with the XTS subsystem enabled. When you run the Arquillian tests in managed mode, the container uses the `serverConfig` property defined in the `arquillian.xml` file to start the server with the XTS subsystem enabled._
+This is because, in remote mode, you are responsible for starting the server with the XTS subsystem enabled. When you run the Arquillian tests in managed mode, the container uses the `serverConfig` property defined in the `arquillian.xml` file to start the server with the XTS subsystem enabled.
+====
 
 You can also let Arquillian manage the {productName} server by using the `arq-managed` profile. For more information about how to run the Arquillian tests, see link:{arquillianTestsDocUrl}[Run the Arquillian Tests].
 
@@ -108,6 +119,7 @@ The following messages should appear in the server log. Note there may be other 
 
 Test success:
 
+[source,options="nowrap"]
 ----
 INFO  [stdout] (management-handler-threads - 6) Starting 'testSuccess'. This test invokes a WS within a BA. The BA is later closed, which causes the WS call to complete successfully.
 INFO  [stdout] (management-handler-threads - 6) [CLIENT] Creating a new Business Activity
@@ -126,6 +138,7 @@ INFO  [stdout] (TaskWorker-2) [SERVICE] Participant.close (The participant knows
 
 Test cancel:
 
+[source,options="nowrap"]
 ----
 INFO  [stdout] (management-handler-threads - 5) Starting 'testCancel'. This test invokes a WS within a BA. The BA is later cancelled, which causes these WS call to be compensated.
 INFO  [stdout] (management-handler-threads - 5) [CLIENT] Creating a new Business Activity
@@ -147,28 +160,29 @@ This quickstart is more complex than the others. It requires that you configure 
 
 . Import the quickstart into JBoss Developer Studio.
 . If you have not already done so, you must configure a new {productName} server to use the XTS configuration.
-** In the `Server` tab, right-click and choose `New` –&gt; `Server`.
-** Under `Select the server type:`, expand `Red Hat JBoss Middleware` and choose `{jbdsEapServerName}`.
-** For the `Server name`, enter `{productName} XTS Configuration` and click `Next`.
-** In the `Create a new Server Adapter` dialog, choose `Create a new runtime (next page)` and click `Next`.
-** In the `JBoss Runtime` dialog, enter the following information and then click `Finish`.
-
+** In the *Servers* tab, right-click and choose *New* -> *Server*.
+** Under *Select the server type:*, expand *Red Hat JBoss Middleware* and choose *{jbdsEapServerName}*.
+** For the *Server name*, enter `{productName} XTS Configuration` and click `Next`.
+** In the *Create a new Server Adapter* dialog, choose *Create a new runtime (next page)* from the drop-down menu and click *Next*.
+** In the *JBoss Runtime* dialog, enter the following information and then click *Finish*.
++
+[source,subs="+quotes,attributes+",options="nowrap"]
 ----
-Name: {productName} XTS Runtime
-Home Directory: (Browse to the server directory and select it)
-Execution Environment: (Choose your runtime JRE if not correct)
-Configuration base directory: (This should already point to your server configuration directory)
-Configuration file: ../../docs/examples/configs/standalone-xts.xml
+*Name*: `{productName} XTS Runtime`
+*Home Directory*: __Browse to the __EAP_HOME__ directory and select it.__
+*Runtime JRE*: __Choose an alternate JRE if not correct.__
+*Server base directory*: __This should already point to your standalone server configuration directory,__
+*Configuration file*: `../../docs/examples/configs/standalone-xts.xml`
 ----
 
-. Start the new `{productName} XTS Configuration` server.
-
-. Right-click on the `{artifactId}` project, choose `Run As` –&gt; `Maven build`, enter `clean verify -Parq-remote` for the `Goals:`, and click `Run` to run the Arquillian tests. The test results appear in the console.
+. Start the new *{productName} XTS Configuration* server.
+. Right-click on the *{artifactId}* project, choose *Run As* -> *Maven build*, enter `clean verify -Parq-remote` for the *Goals*, and click *Run* to run the Arquillian tests. The test results appear in the console.
 
 == Debug the Application
 
 If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
 
+[source,options="nowrap"]
 ----
 $ mvn dependency:sources
 ----

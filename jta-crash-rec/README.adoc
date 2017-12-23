@@ -58,25 +58,28 @@ Follow the instructions here to download and configure _Byteman_: link:{configur
 
 _NOTE_: The _Byteman_ scripts only work in JTA mode. They do not work in JTS mode. If you have configured the server for a quickstart that uses JTS, you must follow the quickstart instructions to remove the JTS configuration from the {productName} server before making the following changes. Otherwise _Byteman_ will not halt the server.
 
+[[start_the_server]]
 == Start the Server
 
 Start the {productName} Server with the Full Profile
 
 . Open a terminal and navigate to the root of the {productName} directory.
-. The following shows the command line to start the {productName} server with the full profile:
-
-[subs=normal]
+. Start the {productName} server with the standalone full profile by typing the following command:
++
+[source,subs="+quotes,attributes+",options="nowrap"]
 ----
-For Linux:   $ __{jbossHomeName}__/bin/standalone.sh -c standalone-full.xml
-For Windows: __{jbossHomeName}__\bin\standalone.bat -c standalone-full.xml
+$ __{jbossHomeName}__/bin/standalone.sh -c standalone-full.xml
 ----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\standalone.bat` script.
 
 == Build and Deploy the Quickstart
 
 . Make sure you have started the {productName} server as described above.
 . Open a terminal and navigate to the root directory of this quickstart.
 . Type this command to build and deploy the archive:
-
++
+[source,options="nowrap"]
 ----
 $ mvn clean install wildfly:deploy
 ----
@@ -98,24 +101,38 @@ The application will be running at the following URL: http://localhost:8080/{art
 ** In phase 1 each of the resources, in this example the database and the JMS message producer, are asked to prepare to commit any changes made during the transaction.
 ** If all resources vote to commit then the application server starts phase 2 in which it tells each resource to commit those changes.
 ** The added complexity is to cope with failures, especially failures that occur during phase 2. Some failure modes require cooperation between the application server and the resources in order to guarantee that any pending changes are recovered.
+
 . To demonstrate XA recovery, you must enable the Byteman tool to terminate the application server while _phase 2_ is running as follows:
 
 ** Stop the {productName} server.
 ** Follow the instructions here to clear the transaction objectstore remaining from any previous tests: link:{configureBytemanClearDocUrl}[Clear the Transaction ObjectStore]
 ** The following line of text must be appended to the server configuration file using the instructions located here: link:{configureBytemanHaltDocUrl}[Use Byteman to Halt the Application]
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+JAVA_OPTS="-javaagent:/BYTEMAN_HOME/lib/byteman.jar=script:/QUICKSTART_HOME/jta-crash-rec/src/main/scripts/xa.btm ${JAVA_OPTS}"
+----
++
+[NOTE]
+====
+For Windows, append the following line.
 
-For Linux:
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+`JAVA_OPTS=%JAVA_OPTS% -javaagent:C:BYTEMAN_HOME\lib\byteman.jar=script:C:\QUICKSTART_HOME\jta-crash-rec\src\main\scripts\xa.btm %JAVA_OPTS%``
+----
+====
 
-** <<start-the-server,Start the server>> as instructed above.
+** xref:start_the_server[Start the server] as instructed above.
 . Once you complete step 4, you are ready to create a _recovery record_. Go to the application URL http://localhost:8080/{artifactId}/XA and insert another row into the database. At this point, Byteman halts the application server.
 
 . If you want to verify the database insert was committed but that message delivery is still pending, you can use an SQL client such as the H2 database console tool. Issue a query to show that the value is present but does not contain the message added by the consumer (`updated via JMS`). Here is how you can do it using H2:
 
 ** Start the H2 console by typing:
 +
-[subs="+quotes,attributes+"]
+[source,subs="+quotes,attributes+",options="nowrap"]
 ----
-java -cp {jbossHomeName}/modules/system/layers/base/com/h2database/h2/main/h2*.jar org.h2.tools.Console
+java -cp __{jbossHomeName}__/modules/system/layers/base/com/h2database/h2/main/h2*.jar org.h2.tools.Console
 ----
 
 ** Log in:
@@ -133,14 +150,14 @@ Password:     sa
 select * from kvpair
 ----
 
-** Log out of the H2 console and be sure to close out the terminal. H2 is limited to one connection and the application will need it from this point forward.
+** Log out of the H2 console and make sure you close the terminal. H2 is limited to one connection and the application will need it from this point forward.
 ** If you are using the default file based transaction logging store, there will be a record in the file system corresponding to the pending transaction.
 *** Open a terminal and navigate to the `__{jbossHomeName}__` directory
 *** List the contents of the following directory:
 +
-[subs="+quotes,attributes+"]
+[source,subs="+quotes,attributes+",options="nowrap"]
 ----
-ls {jbossHomeName}/standalone/data/tx-object-store/ShadowNoFileLockStore/defaultStore/StateManager/BasicAction/TwoPhaseCoordinator/AtomicAction/
+ls __{jbossHomeName}__/standalone/data/tx-object-store/ShadowNoFileLockStore/defaultStore/StateManager/BasicAction/TwoPhaseCoordinator/AtomicAction/
 ----
 
 *** An example of a logging record file name is:
@@ -158,11 +175,12 @@ Database may be already in use: "Locked by another process"
 ----
 
 ** link:{configureBytemanDisableDocUrl}[Disable the Byteman script] by restoring the backup server configuration file.
-** <<start-the-server,Start the server>> as instructed above.
+** xref:start_the_server[Start the server] as instructed above.
 ** Load the web interface to the application
 ** By the time the {productName} server is ready, the transaction should have recovered.
 ** A message is printed on the {productName} server console when the consumer has completed the update. Look for a line that reads:
 +
+[source,options="now"]
 ----
 JTA Crash Record Quickstart: key value pair updated via JMS
 ----
@@ -171,17 +189,21 @@ JTA Crash Record Quickstart: key value pair updated via JMS
 
 ** You will most likely see the following messages in the server log.
 +
+[source,options="nowrap"]
 ----
 WARN  [com.arjuna.ats.jta] (Periodic Recovery) ARJUNA016037: Could not find new XAResource to use for recovering non-serializable XAResource XAResourceRecord < resource:null, txid:< formatId=131077, gtrid_length=29, bqual_length=36, tx_uid=0:ffff7f000001:1040a11d:534ede43:1c, node_name=1, branch_uid=0:ffff7f000001:1040a11d:534ede43:20, subordinatenodename=null, eis_name=java:jboss/datasources/JTACrashRecQuickstartDS >, heuristic: TwoPhaseOutcome.FINISH_OK, product: H2/1.3.168-redhat-2 (2012-07-13), jndiName: java:jboss/datasources/JTACrashRecQuickstartDS com.arjuna.ats.internal.jta.resources.arjunacore.XAResourceRecord@788f0ec1 >
 WARN  [com.arjuna.ats.jta] (Periodic Recovery) ARJUNA016038: No XAResource to recover < formatId=131077, gtrid_length=29, bqual_length=36, tx_uid=0:ffff7f000001:1040a11d:534ede43:1c, node_name=1, branch_uid=0:ffff7f000001:1040a11d:534ede43:20, subordinatenodename=null, eis_name=java:jboss/datasources/JTACrashRecQuickstartDS >
 ----
++
+This is normal. What actually happened is that the first resource, `JTACrashRecQuickstartDS`, committed before the {productName} server was halted to insert the recovery record. The transaction logs are only updated/deleted after the outcome of the transaction is determined. If the transaction manager did update the log as each participant (database and JMS queue) completed then throughput would suffer. Notice you do not get a similar message for the JMS resource since that is the resource that recovered and the log record was updated to reflect this change. You need to manually remove the record for the first participant if you know which one is which or, if you are using the community version of the ${product.name} server, then you can also inspect the transaction logs using a JMX browser. For the demo it is simplest to delete the records from the file system, however, *be wary of doing this on a production system*.
 
 . Do NOT forget to link:{configureBytemanDisableDocUrl}[Disable the Byteman script] by restoring the backup server configuration file. The Byteman rule must be removed to ensure that your application server will be able to commit 2PC transactions!
 
 == Server Log: Expected Warnings and Errors
 
-NOTE: You will see the following warnings in the server log. You can ignore these warnings.
+You will see the following warnings in the server log. You can ignore these warnings.
 
+[source,options="nowrap"]
 ----
 WFLYJCA0091: -ds.xml file deployments are deprecated. Support may be removed in a future version.
 HHH000431: Unable to determine H2 database version, certain features may not work
@@ -192,7 +214,8 @@ HHH000431: Unable to determine H2 database version, certain features may not wor
 . Make sure you have started the {productName} server as described above.
 . Open a terminal and navigate to the root directory of this quickstart.
 . When you are finished testing, type this command to undeploy the archive:
-
++
+[source,options="nowrap"]
 ----
 $ mvn wildfly:undeploy
 ----
@@ -201,12 +224,13 @@ $ mvn wildfly:undeploy
 
 You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a {productName} server, and build and deploy a quickstart, see link:{useEclipseUrl}[Use JBoss Developer Studio or Eclipse to Run the Quickstarts].
 
-NOTE: Within JBoss Developer Studio, be sure to define a server runtime environment that uses the `standalone-full.xml` configuration file.
+NOTE: Within JBoss Developer Studio, make sure you define a server runtime environment that uses the `standalone-full.xml` configuration file.
 
 == Debug the Application
 
 If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
 
+[source,options="nowrap"]
 ----
-    $ mvn dependency:sources
+$ mvn dependency:sources
 ----

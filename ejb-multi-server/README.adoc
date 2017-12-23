@@ -22,12 +22,21 @@ This example consists of the following Maven projects, each with a shared parent
 
 [cols="40%,60%",options="headers"]
 |===
-|Sub-project |Description
+|Project |Description
 
-|`app-main` |An application that can be called by the `client`. It can also call the different sub-applications.
-|`app-one` and `app-two` |These are simple applications that contain an EJB sub-project to build the `ejb.jar` file and an EAR sub-project to build the `app.ear` file. Each application contains only one EJB that logs a statement on a method call and returns the `jboss.node.name` and credentials.
-|`app-web` |A simple WAR application. It consists of one Servlet that demonstrates how to invoke EJBs on a different server.
-|`client` |This project builds the standalone client and executes it.
+|`app-main`
+|An application that can be called by the client. It can also call the different sub-applications.
+
+a|`app-one`
+
+`app-two`
+|These simple applications contain an EJB subproject that builds the `ejb.jar` file and an EAR subproject that builds the `app.ear` file. Each application contains only one EJB that logs a statement on a method call and returns the `jboss.node.name` and credentials.
+
+|`app-web`
+|A simple WAR application. It consists of one servlet that demonstrates how to invoke EJBs on a different server.
+
+|`client`
+|This project builds the standalone client and executes it.
 |===
 
 The root `pom.xml` builds each of the subprojects in an appropriate order.
@@ -42,7 +51,7 @@ All you need to build this project is {buildRequirements}. See link:{configureMa
 
 == Start with a Clean Server Install
 
-It is important to start with a clean version of {productName} before testing this quickstart. Be sure to unzip or install a fresh {productName} instance.
+It is important to start with a clean version of {productName} before testing this quickstart. Make sure you unzip or install a fresh {productName} instance.
 
 == Use of {jbossHomeName}
 
@@ -50,7 +59,7 @@ In the following instructions, replace `__{jbossHomeName}__` with the actual pat
 
 == Add the Application Users
 
-The following users must be added to the `ApplicationRealm` to run this quickstart. Be sure to use the names and passwords specified in the table as they are required to run this example.
+The following users must be added to the `ApplicationRealm` to run this quickstart. Make sure you use the names and passwords specified in the table as they are required to run this example.
 
 [cols="20%,20%,20%,40%",options="headers"]
 |===
@@ -61,7 +70,7 @@ The following users must be added to the `ApplicationRealm` to run this quicksta
 |quickuser2 |ApplicationRealm |quick+123 |_leave blank for none_
 |===
 
-To add the users, open a terminal and type the following commands:
+To add the users, open a terminal and type the following commands.
 
 [source,subs="+quotes,attributes+",options="nowrap"]
 ----
@@ -93,15 +102,15 @@ __{jbossHomeName}__/domain/configuration/host.xml
 
 You configure the domain server by running JBoss CLI commands. For your convenience, this quickstart batches the commands into a `install-domain.cli` script provided in the root directory of this quickstart.
 
-. Start with a fresh instance of the {productName} as noted above under <<start_with_a_clean_server_install,Start with a Clean {productName} Install>>.
+. Start with a fresh instance of the {productName} as noted above under xref:start_with_a_clean_server_install[Start with a Clean {productName} Install].
 
-. Be sure you add the required users as specified above under <<add_the_application_users,Add the Application Users>>.
+. Make sure you add the required users as specified above under xref:add_the_application_users[Add the Application Users].
 
-. Before you begin, make sure you followed the instructions above under <<back_up_the_server_configuration_files,Back Up the {productName} Server Configuration Files>>.
+. Before you begin, make sure you followed the instructions above under xref:back_up_the_server_configuration_files[Back Up the {productName} Server Configuration Files].
 
 . Start the {productName} server
-** Open a terminal and navigate to the root of the EAP directory.
-** Start the server using the following command:
+** Open a terminal and navigate to the root of the {productName} directory.
+** Start the {productName} managed domain by typing the following command.
 +
 [source,subs="+quotes,attributes+",options="nowrap"]
 ----
@@ -119,18 +128,32 @@ $ __{jbossHomeName}__/bin/jboss-cli.sh -c --file=install-domain.cli
 ----
 +
 NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
++
+You should see a result of `"outcome" => "success"` for every step in the execution.
 
-IMPORTANT: Depending on your machine configuration, you might see "Exception in thread "main" java.lang.OutOfMemoryError: unable to create new native thread" exceptions in the server log when you run this script. If you do, you must increase the ulimit open files and max user processes settings. Instructions to do this are located here: http://ithubinfo.blogspot.com/2013/07/how-to-increase-ulimit-open-file-and.html. After you update the ulimit settings, be sure to reboot and start with a fresh instance of the server.
+IMPORTANT: Depending on your machine configuration, you might see "Exception in thread "main" java.lang.OutOfMemoryError: unable to create new native thread" exceptions in the server log when you run this script. If you do, you must increase the ulimit open files and max user processes settings. Instructions to do this are located here: http://ithubinfo.blogspot.com/2013/07/how-to-increase-ulimit-open-file-and.html. After you update the ulimit settings, you must reboot and start with a fresh instance of the server.
 
 == Review the Modified Server Configuration
 
 There are too many additions to the configuration files to list here. Feel free to compare the `domain.xml` and `host.xml` to the backup copies to see the changes made to configure the server to run this quickstart.
 
+[[install_the_quickstart_parent_artifact_in_maven]]
+== Install the Quickstart Parent Artifact in Maven
+
+This quickstart requires the `quickstart-parent` artifact to be installed in your local Maven repository. To install it, navigate to your __QUICKSTART_HOME__ directory  directory and run the following command.
+
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ cd __QUICKSTART_HOME__
+$ mvn clean install
+----
+
 == Build and Deploy the Quickstart
 
+. Make sure you have xref:install_the_quickstart_parent_artifact_in_maven[installed the quickstart parent artifact] in your Maven repository.
 . Make sure you have started and configured the {productName} server successfully as described above.
 . Open a terminal and navigate to the root directory of this quickstart.
-. Type this command to build the artifacts:
+. Type this command to build the artifacts.
 +
 ----
 $ mvn clean install
@@ -138,7 +161,7 @@ $ mvn clean install
 +
 You should see `BUILD SUCCESS` at the end of the build `SUCCESS` messages for each component.
 
-. In the same terminal, deploy the applications using the provided CLI batch script by typing the following command:
+. In the same terminal, deploy the applications using the provided CLI batch script by typing the following command.
 +
 [source,subs="+quotes,attributes+",options="nowrap"]
 ----
@@ -146,6 +169,29 @@ $ __{jbossHomeName}__/bin/jboss-cli.sh -c --file=deploy-domain.cli
 ----
 +
 NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
+
++
+This deploys the `app-*.ear` files to different server groups of the running domain. You should see the following result when you run the script.
++
+[source,options="nowrap"]
+----
+The batch executed successfully
+process-state: reload-required
+----
+
+. You might see the following warnings in the server log. You can ignore these warnings.
++
+[source,options="nowrap"]
+----
+[Server:app-oneB] 13:00:13,346 WARN  [org.jboss.as.clustering.jgroups.protocol.UDP] (ServerService Thread Pool -- 13) JGRP000015: the send buffer of socket MulticastSocket was set to 1MB, but the OS only allocated 212.99KB. This might lead to performance problems. Please set your max send buffer in the OS correctly (e.g. net.core.wmem_max on Linux)
+[Server:app-oneB] 13:00:13,346 WARN  [org.jboss.as.clustering.jgroups.protocol.UDP] (ServerService Thread Pool -- 13) JGRP000015: the receive buffer of socket MulticastSocket was set to 20MB, but the OS only allocated 212.99KB. This might lead to performance problems. Please set your max receive buffer in the OS correctly (e.g. net.core.rmem_max on Linux)
+[Server:app-oneB] 13:00:13,347 WARN  [org.jboss.as.clustering.jgroups.protocol.UDP] (ServerService Thread Pool -- 13) JGRP000015: the send buffer of socket MulticastSocket was set to 1MB, but the OS only allocated 212.99KB. This might lead to performance problems. Please set your max send buffer in the OS correctly (e.g. net.core.wmem_max on Linux)
+[Server:app-oneB] 13:00:13,347 WARN  [org.jboss.as.clustering.jgroups.protocol.UDP] (ServerService Thread Pool -- 13) JGRP000015: the receive buffer of socket MulticastSocket was set to 25MB, but the OS only allocated 212.99KB. This might lead to performance problems. Please set your max receive buffer in the OS correctly (e.g. net.core.rmem_max on Linux)
+[Server:app-oneA] 13:00:13,407 WARN  [org.jboss.as.clustering.jgroups.protocol.UDP] (ServerService Thread Pool -- 11) JGRP000015: the send buffer of socket MulticastSocket was set to 1MB, but the OS only allocated 212.99KB. This might lead to performance problems. Please set your max send buffer in the OS correctly (e.g. net.core.wmem_max on Linux)
+[Server:app-oneA] 13:00:13,408 WARN  [org.jboss.as.clustering.jgroups.protocol.UDP] (ServerService Thread Pool -- 11) JGRP000015: the receive buffer of socket MulticastSocket was set to 20MB, but the OS only allocated 212.99KB. This might lead to performance problems. Please set your max receive buffer in the OS correctly (e.g. net.core.rmem_max on Linux)
+[Server:app-oneA] 13:00:13,408 WARN  [org.jboss.as.clustering.jgroups.protocol.UDP] (ServerService Thread Pool -- 11) JGRP000015: the send buffer of socket MulticastSocket was set to 1MB, but the OS only allocated 212.99KB. This might lead to performance problems. Please set your max send buffer in the OS correctly (e.g. net.core.wmem_max on Linux)
+[Server:app-oneA] 13:00:13,408 WARN  [org.jboss.as.clustering.jgroups.protocol.UDP] (ServerService Thread Pool -- 11) JGRP000015: the receive buffer of socket MulticastSocket was set to 25MB, but the OS only allocated 212.99KB. This might lead to performance problems. Please set your max receive buffer in the OS correctly (e.g. net.core.rmem_max on Linux)
+----
 
 IMPORTANT: If ERRORs appear in the `server.log` when installing or deploying the quickstart, stop the domain and restart it. This should ensure further steps run correctly.
 
@@ -157,9 +203,21 @@ This example shows how to invoke an EJB from a remote standalone application.
 . Navigate to the quickstart `client/` subdirectory.
 . Type this command to run the application:
 +
+[source,options="nowrap"]
 ----
 $ mvn exec:java
 ----
++
+The client will output the following information provided by the applications:
++
+[source,options="nowrap"]
+----
+InvokeAll succeed: MainApp[anonymous]@master:app-main  >  [ app1[quickuser1]@master:app-oneB > app2[quickuser2]@master:app-twoA ; app2[quickuser2]@master:app-twoA ]
+----
++
+This output shows that the `MainApp` is called with the user `anonymous` at node `master:app-main` and the sub-call is proceeded by the `master:app-oneA` node and `master:app-twoA` node as `quickuser2`.
+
+. Review the server log files to see the bean invocations on the servers.
 
 . If it is necessary to invoke the client with a different {productName} version the main class can be invoked by using the following command from the root directory of this quickstart. Replace __{jbossHomeName}__ with your current installation path. The output should be similar to the previous mvn executions.
 +
@@ -207,7 +265,7 @@ NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat`.
 == Remove the Server Domain Configuration
 
 . If it is running, stop the {productName} server.
-. Restore the `__{jbossHomeName}__/domain/configuration/domain.xml` and `__{jbossHomeName}__/domain/configuration/host.xml` files with the back-up copies of the files. Be sure to replace `__{jbossHomeName}__` with the path to your server.
+. Restore the `__{jbossHomeName}__/domain/configuration/domain.xml` and `__{jbossHomeName}__/domain/configuration/host.xml` files with the back-up copies of the files. Make sure you replace `__{jbossHomeName}__` with the path to your server.
 
 == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 
