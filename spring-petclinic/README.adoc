@@ -23,13 +23,13 @@ For detailed explanation of the changes made to adapt the Quickstart to {product
 
 PetClinic features alternative DAO implementations and application configurations for JDBC, JPA, and Spring Data JPA, with HSQLDB and MySQL as target databases. The default PetClinic configuration is JPA on HSQLDB.
 
-* The `src/main/resources/spring/business-config.xml` pulls in `src/main/resources/spring/data-access.properties` to set the JDBC-related settings for the JPA EntityManager definition.
+* The `src/main/resources/spring/business-config.xml` file pulls in the `src/main/resources/spring/data-access.properties` file to set the JDBC-related settings for the JPA EntityManager definition.
 ** A simple comment change in `data-access.properties` switches between the data access strategies.
-* In `webapp/WEB_INF/web.xml` the `&lt;param-name&gt;spring.profiles.active&lt;/param-name&gt;` using `&lt;param-value&gt;jpa&lt;/param-value&gt;`
-(_as the default_) refers to the bean to be used in `src/main/resources/spring/business-config.xml`.
-** Setting the `&lt;param-value&gt;` to `jdbc`, `jpa`, or `spring-data-jpa` is all that is needed to change the DAO implementation.
+* In the `webapp/WEB_INF/web.xml` file, the `<param-name>spring.profiles.active</param-name>` using `<param-value>jpa</param-value>`
+(_as the default_) refers to the bean to be used in the `src/main/resources/spring/business-config.xml` file.
+** Setting the `<param-value>` to `jdbc`, `jpa`, or `spring-data-jpa` is all that is needed to change the DAO implementation.
 
-All versions of PetClinic also demonstrate JMX support via the use of `&lt;context:mbean-export/&gt;` in `resources/spring/tools-config.xml` for exporting MBeans. The `CallMonitoringAspect.java` is exposed using Spring's `@ManagedResource` and `@ManagedOperation` annotations and with `@Around` annotation we add monitoring around all `org.springframework.stereotype.Repository *` functions.
+All versions of PetClinic also demonstrate JMX support via the use of `<context:mbean-export/>` in `resources/spring/tools-config.xml` for exporting MBeans. The `CallMonitoringAspect.java` is exposed using Spring's `@ManagedResource` and `@ManagedOperation` annotations and with `@Around` annotation we add monitoring around all `org.springframework.stereotype.Repository *` functions.
 You can start up the JDK's JConsole to manage the exported bean.
 
 The use of `@Cacheable` is also demonstrated in `ClinicServiceImpl.java` by caching the results of the method `findVets`.

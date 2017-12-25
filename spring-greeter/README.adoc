@@ -20,13 +20,12 @@ The application this project produces is designed to be run on {productNameFull}
 
 The `spring-greeter` quickstart is based on the `greeter` quickstart, but differs in that it uses Spring MVC for Mapping `GET` and `POST` requests:
 
-* `&lt;mvc:annotation-driven\&gt;` configured in `src/main/webapp/WEB-INF/spring-mvc-context.xml` tells Spring to look for
-`@RequestMapping` in our controllers.
+* The `mvc:annotation-driven` element configured in the `src/main/webapp/WEB-INF/spring-mvc-context.xml` file tells Spring to look for `@RequestMapping` in the controllers.
 * Spring then routes the HTTP requests to the correct methods in `CreateController.java` and `GreetController`
 
 Spring's XML configurations are used to get hold of the database and entity manager (via jndi) to perform transactional operations:
 
-* `&lt;tx:jta-transaction-manager/&gt;` and `&lt;tx:annotation-driven/&gt;` are configured in `/src/main/webapp/WEB-INF/spring-business-context.xml`
+* The `tx:jta-transaction-manager` and `tx:annotation-driven` elements are configured in the `/src/main/webapp/WEB-INF/spring-business-context.xml` file.
 * Methods in UserDaoImpl are marked as `@Transactional`, which Spring, using aspect oriented programming, surrounds with
 boilerplate code to make the methods transactional
 
