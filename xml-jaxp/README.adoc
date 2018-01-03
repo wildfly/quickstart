@@ -20,38 +20,40 @@ The `xml-jaxp` quickstart is a simple Java EE JAXP example that demonstrates how
 
 This quickstart provides an example XML schema and document file to use when testing this quickstart.
 
-* The XML schema is located here: `QUICKSTART_HOME/src/main/resources/catalog.xsd`
-* The XML document is located here: `QUICKSTART_HOME/src/main/resources/catalog.xml`
+* The XML schema is located here: `__QUICKSTART_HOME__/src/main/resources/catalog.xsd`
+* The XML document is located here: `__QUICKSTART_HOME__/src/main/resources/catalog.xml`
 
 == System Requirements
 
 The application this project produces is designed to be run on {productNameFull} {productVersion} or later.
 
-All you need to build this project is {buildRequirements}. See https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts[Configure Maven for {productName} {productVersion}] to make sure you are configured correctly for testing the quickstarts.
+All you need to build this project is {buildRequirements}. See link:{configureMavenDocUrl}[Configure Maven to Build and Deploy the Quickstarts] to make sure you are configured correctly for testing the quickstarts.
 
 == Use of {jbossHomeName}
 
-In the following instructions, replace `{jbossHomeName}` with the actual path to your {productName} installation. The installation path is described in detail here: https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_{jbossHomeName}.md#use-of-eap_home-and-jboss_home-variables[Use of {jbossHomeName} and JBOSS_HOME Variables].
+In the following instructions, replace `__{jbossHomeName}__` with the actual path to your {productName} installation. The installation path is described in detail here: link:{useProductHomeDocUrl}[Use of {jbossHomeName} and JBOSS_HOME Variables].
 
 == Start the Server
 
-. Open a command prompt and navigate to the root of the {productName} directory.
-. The following shows the command line to start the server:
-
-[subs=normal]
+. Open a terminal and navigate to the root of the {productName} directory.
+. Start the {productName} server with the default standalone profile by typing the following command.
++
+[source,subs="+quotes,attributes+",options="nowrap"]
 ----
-For Linux:   {jbossHomeName}/bin/standalone.sh
-For Windows: {jbossHomeName}\bin\standalone.bat
+$ __{jbossHomeName}__/bin/standalone.sh
 ----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\standalone.bat` script.
 
 == Build and Deploy the Quickstart
 
 . Make sure you have started the {productName} server as described above.
-. Open a command prompt and navigate to the root directory of this quickstart.
+. Open a terminal and navigate to the root directory of this quickstart.
 . Type this command to build and deploy the archive:
-
++
+[source,options="nowrap"]
 ----
-mvn clean install wildfly:deploy
+$ mvn clean install wildfly:deploy
 ----
 
 . This will deploy `target/{artifactId}.war` to the running instance of the server.
@@ -62,10 +64,11 @@ The application will be running at the following URL: http://localhost:8080/{art
 
 To test the quickstart, follow these steps.
 
-. Click the `Browse` button and navigate to the `QUICKSTART_HOME/src/main/resources/catalog.xml` file.
-. Click the `Upload` button. The XML file content is parsed and displayed on the page.
+. Click the *Browse* button and navigate to the `__QUICKSTART_HOME__/src/main/resources/catalog.xml` file.
+. Click the *Upload* button. The XML file content is parsed and displayed on the page.
 . You should see the following output in the server console that shows the DOMXMLParser was used:
-
++
+[source,options="nowrap"]
 ----
 INFO  [stdout] (http-/127.0.0.1:8080-1) Parsing the document using the DOMXMLParser!
 ----
@@ -74,10 +77,11 @@ To enable the alternative SAXXMLParser parser:
 
 . Remove the comments that surround the alternate parser element in the `WEB-INF/beans.xml` file.
 . Redeploy the application using the instructions above and access the application in a browser at the following URL: http://localhost:8080/{artifactId}/.
-. Click the `Browse` button and navigate to the `QUICKSTART_HOME/src/main/resources/catalog.xml` file.
-. Click the `Upload` button. The XML file content is parsed and displayed on the page.
+. Click the *Browse* button and navigate to the `__QUICKSTART_HOME__/src/main/resources/catalog.xml` file.
+. Click the *Upload* button. The XML file content is parsed and displayed on the page.
 . You should now see following output in the server console:
-
++
+[source,options="nowrap"]
 ----
 INFO  [stdout] (http-/127.0.0.1:8080-1) Parsing the document using the SAXXMLParser!
 ----
@@ -85,11 +89,12 @@ INFO  [stdout] (http-/127.0.0.1:8080-1) Parsing the document using the SAXXMLPar
 == Undeploy the Archive
 
 . Make sure you have started the {productName} server as described above.
-. Open a command prompt and navigate to the root directory of this quickstart.
+. Open a terminal and navigate to the root directory of this quickstart.
 . When you are finished testing, type this command to undeploy the archive:
-
++
+[source,options="nowrap"]
 ----
-mvn wildfly:undeploy
+$ mvn wildfly:undeploy
 ----
 
 == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
@@ -100,6 +105,7 @@ You can also start the server and deploy the quickstarts or run the Arquillian t
 
 If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
 
+[source,options="nowrap"]
 ----
-    mvn dependency:sources
+$ mvn dependency:sources
 ----

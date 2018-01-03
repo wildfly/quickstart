@@ -1,4 +1,4 @@
-= spring-petclinic: PetClinic Example using Spring 4.x  
+= spring-petclinic: PetClinic Example using Spring 4.x
 :author: Ken Krebs, Juergen Hoeller, Rob Harrop, Costin Leau, Sam Brannen, Scott Andrews
 :productName: WildFly
 :productNameFull: WildFly Application Server
@@ -17,26 +17,19 @@ The `spring-petclinic` quickstart shows how to run the Spring PetClinic Applicat
 == What is it?
 
 The `spring-petclinic` quickstart shows how to run the http://github.com/spring-projects/spring-petclinic[Spring PetClinic] Application
-in {productNameFull} with the use of Red Hat {productName} BOMs (_for the best compatibility_). One of the major
-changes is the use of the `webapp/WEB-INF/jboss-deployment-structure.xml` file. This file specifies which modules
-to include or exclude when building the application. In this case, we exclude Hibernate libraries since the application
-uses Spring Data JPA. Additionally, this is only required when using the spring-data-jpa profile, see `resources/spring/business-config.xml`.
+in {productNameFull} with the use of Red Hat {productName} BOMs (_for the best compatibility_). One of the major changes is the use of the `webapp/WEB-INF/jboss-deployment-structure.xml` file. This file specifies which modules to include or exclude when building the application. In this case, we exclude Hibernate libraries since the application uses Spring Data JPA. Additionally, this is only required when using the spring-data-jpa profile, see `resources/spring/business-config.xml`.
 
 For detailed explanation of the changes made to adapt the Quickstart to {productNameFull} see: link:CHANGES.md[CHANGES.md]
 
-PetClinic features alternative DAO implementations and application configurations for JDBC, JPA, and Spring Data JPA, with
-HSQLDB and MySQL as target databases. The default PetClinic configuration is JPA on HSQLDB. 
+PetClinic features alternative DAO implementations and application configurations for JDBC, JPA, and Spring Data JPA, with HSQLDB and MySQL as target databases. The default PetClinic configuration is JPA on HSQLDB.
 
-* The `src/main/resources/spring/business-config.xml` pulls in `src/main/resources/spring/data-access.properties` to set
-the JDBC-related settings for the JPA EntityManager definition.
+* The `src/main/resources/spring/business-config.xml` file pulls in the `src/main/resources/spring/data-access.properties` file to set the JDBC-related settings for the JPA EntityManager definition.
 ** A simple comment change in `data-access.properties` switches between the data access strategies.
-* In `webapp/WEB_INF/web.xml` the `&lt;param-name&gt;spring.profiles.active&lt;/param-name&gt;` using `&lt;param-value&gt;jpa&lt;/param-value&gt;`
-(_as the default_) refers to the bean to be used in `src/main/resources/spring/business-config.xml`.
-** Setting the `&lt;param-value&gt;` to `jdbc`, `jpa`, or `spring-data-jpa` is all that is needed to change the DAO implementation.
+* In the `webapp/WEB_INF/web.xml` file, the `<param-name>spring.profiles.active</param-name>` using `<param-value>jpa</param-value>`
+(_as the default_) refers to the bean to be used in the `src/main/resources/spring/business-config.xml` file.
+** Setting the `<param-value>` to `jdbc`, `jpa`, or `spring-data-jpa` is all that is needed to change the DAO implementation.
 
-All versions of PetClinic also demonstrate JMX support via the use of `&lt;context:mbean-export/&gt;` in `resources/spring/tools-config.xml`
-for exporting MBeans. The `CallMonitoringAspect.java` is exposed using Spring's `@ManagedResource` and `@ManagedOperation`
-annotations and with `@Around` annotation we add monitoring around all `org.springframework.stereotype.Repository *` functions.
+All versions of PetClinic also demonstrate JMX support via the use of `<context:mbean-export/>` in `resources/spring/tools-config.xml` for exporting MBeans. The `CallMonitoringAspect.java` is exposed using Spring's `@ManagedResource` and `@ManagedOperation` annotations and with `@Around` annotation we add monitoring around all `org.springframework.stereotype.Repository *` functions.
 You can start up the JDK's JConsole to manage the exported bean.
 
 The use of `@Cacheable` is also demonstrated in `ClinicServiceImpl.java` by caching the results of the method `findVets`.
@@ -51,32 +44,34 @@ _Note that the sample configurations for JDBC, JPA, and Spring Data JPA configur
 
 The application this project produces is designed to be run on {productNameFull} {productVersion} or later.
 
-All you need to build this project is {buildRequirements}. See https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts[Configure Maven for {productName} {productVersion}] to make sure you are configured correctly for testing the quickstarts.
+All you need to build this project is {buildRequirements}. See link:{configureMavenDocUrl}[Configure Maven to Build and Deploy the Quickstarts] to make sure you are configured correctly for testing the quickstarts.
 
 == Start the Server
 
-. Open a command line and navigate to the root of the {productName} directory.
-. The following shows the command line to start the server with the default profile:
-
-[subs=normal]
+. Open a terminal and navigate to the root of the {productName} directory.
+. Start the {productName} server with the default standalone profile by typing the following command.
++
+[source,subs="+quotes,attributes+",options="nowrap"]
 ----
-For Linux:   {jbossHomeName}/bin/standalone.sh
-For Windows: {jbossHomeName}\bin\standalone.bat
+$ __{jbossHomeName}__/bin/standalone.sh
 ----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\standalone.bat` script.
 
 == Build and Deploy the Quickstart
 
 . Make sure you have started the {productName} server as described above.
-. Open a command line and navigate to the root directory of this quickstart.
+. Open a terminal and navigate to the root directory of this quickstart.
 . Type this command to build and deploy the archive:
-
++
+[source,options="nowrap"]
 ----
-mvn clean package wildfly:deploy
+$ mvn clean package wildfly:deploy
 ----
 
 . This will deploy `spring-petclinic/target/{artifactId}.war` to the running instance of the server.
 
-If you do not have maven configured you can manually copy `spring-petclinic/target/{artifactId}.war` to {jbossHomeName}/standalone/deployments.
+If you do not have Maven configured you can manually copy `spring-petclinic/target/{artifactId}.war` to {jbossHomeName}/standalone/deployments.
 
 For MySQL, you need to use the corresponding schema and SQL scripts in the `db/mysql` subdirectory.
 
@@ -89,6 +84,7 @@ The application will be running at the following URL: http://localhost:8080/{art
 
 NOTE: You see the following warning in the server log when you access the application. This example does not provide a `dandelion.properties` file because it does not require any changes to the dandelion default configuration. You can ignore this warning.
 
+[source,options="nowrap"]
 ----
 WARN  [com.github.dandelion.core.config.StandardConfigurationLoader] (default task-1) No file "dandelion.properties" was found in "dandelion/dandelion.properties" (classpath). The default configuration will be used.
 ----
@@ -96,50 +92,57 @@ WARN  [com.github.dandelion.core.config.StandardConfigurationLoader] (default ta
 == Undeploy the Archive
 
 . Make sure you have started the {productName} server as described above.
-. Open a command line and navigate to the root directory of this quickstart.
+. Open a terminal and navigate to the root directory of this quickstart.
 . When you are finished testing, type this command to undeploy the archive:
-
++
+[source,options="nowrap"]
 ----
-mvn wildfly:undeploy
+$ mvn wildfly:undeploy
 ----
 
 == Run the Arquillian Functional Tests
 
 This quickstart provides Arquillian functional tests as well. They are located in the `functional-tests/` subdirectory under the root directory of this quickstart. Functional tests verify that your application behaves correctly from the user's point of view. The tests open a browser instance, simulate clicking around the page as a normal user would do, and then close the browser instance.
 
-NOTE: The arquillian-based functional tests deploy the application, so be sure you have undeployed it before you begin. To run these tests, you must build the main project as described above.
+NOTE: The arquillian-based functional tests deploy the application, so make sure you have undeployed it before you begin. To run these tests, you must build the main project as described above.
 
-. Open a command line and navigate to the root directory of this quickstart.
+. Open a terminal and navigate to the root directory of this quickstart.
 . If the application is still deployed from the previous section, undeploy it now.
-
++
+[source,options="nowrap"]
 ----
-mvn wildfly:undeploy
+$ mvn wildfly:undeploy
 ----
 
 . Build the quickstart WAR using the following command:
 
++
+[source,options="nowrap"]
 ----
-mvn clean package
+$ mvn clean package
 ----
 
 . Navigate to the functional-tests/ directory in this quickstart.
 
 . If you have a running instance of the {productName} server, as described above, run the remote tests by typing the following command:
-
++
+[source,options="nowrap"]
 ----
-mvn clean verify -Parq-remote
+$ mvn clean verify -Parq-remote
 ----
 
 . If you prefer to run the functional tests using managed instance of the {productName} server, meaning the tests will start the server for you, type the following command:
-
++
+[source,options="nowrap"]
 ----
-mvn clean verify -Parq-managed
+$ mvn clean verify -Parq-managed
 ----
 
 . The `spring-petclinic` quickstart contains three configurations: JDBC, JPA, and Spring Data JPA. You should see the tests run 3 times, one for each configuration.
 
 . Review the server log. You will see an exception for each test configuration run similar to the following in the server log. This is intentional to demonstrate how exceptions are handled within application. This the same exception you can test by clicking on the `Error` menu item in the upper right corner in the deployed application. The application shows a nice error page in the browser instead of the exception.
-
++
+[source,options="nowrap"]
 ----
 WARN  [warn] (default task-15) Handler execution resulted in exception: java.lang.RuntimeException: Expected: controller used to showcase what happens when an exception is thrown
     at org.springframework.samples.petclinic.web.CrashController.triggerException(CrashController.java:35)
@@ -160,8 +163,9 @@ You can also start the server and deploy the quickstarts or run the Arquillian t
 Note: Eclipse/JBDS may generate a persistence.xml file in the src/main/resources/META-INF/ directory. In order to avoid errors, delete this file.
 
 If you want to debug the source code or look at the Javadocs of any library in the project, run either of the following commands to pull them into your local repository. The IDE should then detect them.
-
++
+[source,options="nowrap"]
 ----
-    mvn dependency:sources
-    mvn dependency:resolve -Dclassifier=javadoc
+$ mvn dependency:sources
+$ mvn dependency:resolve -Dclassifier=javadoc
 ----
