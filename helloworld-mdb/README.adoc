@@ -12,11 +12,11 @@ include::../attributes.adoc[]
 :source: {githubRepoUrl}
 
 [abstract]
-The `helloworld-mdb` quickstart uses *JMS* and *EJB Message-Driven Bean* (MDB) to create and deploy JMS topic and queue resources in {productName}.
+The `helloworld-mdb` quickstart uses JMS and EJB Message-Driven Bean (MDB) to create and deploy JMS topic and queue resources in {productName}.
 
 == What is it?
 
-The `helloworld-mdb` quickstart demonstrates the use of _JMS_ and _EJB Message-Driven Bean_ in {productNameFull}.
+The `helloworld-mdb` quickstart demonstrates the use of JMS and EJB Message-Driven Bean in {productNameFull}.
 
 This project creates two JMS resources:
 
@@ -27,31 +27,32 @@ This project creates two JMS resources:
 
 The application this project produces is designed to be run on {productNameFull} {productVersion} or later.
 
-All you need to build this project is {buildRequirements}. See https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts[Configure Maven for {productName} {productVersion}] to make sure you are configured correctly for testing the quickstarts.
+All you need to build this project is {buildRequirements}. See link:{configureMavenDocUrl}[Configure Maven to Build and Deploy the Quickstarts] to make sure you are configured correctly for testing the quickstarts.
 
 == Use of {jbossHomeName}
 
-In the following instructions, replace `{jbossHomeName}` with the actual path to your {productName} installation. The installation path is described in detail here: https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_{jbossHomeName}.md#use-of-eap_home-and-jboss_home-variables[Use of {jbossHomeName} and JBOSS_HOME Variables].
+In the following instructions, replace `__{jbossHomeName}__` with the actual path to your {productName} installation. The installation path is described in detail here: link:{useProductHomeDocUrl}[Use of {jbossHomeName} and JBOSS_HOME Variables].
 
 == Start the Server with the Full Profile
 
-. Open a command prompt and navigate to the root of the {productName} directory.
-. The following shows the command line to start the server with the full profile:
-
-[subs=normal]
+. Open a terminal and navigate to the root of the {productName} directory.
+. Start the {productName} server with the standalone full profile by typing the following command:
++
+[source,subs="+quotes,attributes+",options="nowrap"]
 ----
-For Linux:   {jbossHomeName}/bin/standalone.sh -c standalone-full.xml
-For Windows: {jbossHomeName}\bin\standalone.bat -c standalone-full.xml
+$ __{jbossHomeName}__/bin/standalone.sh -c standalone-full.xml
 ----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\standalone.bat` script.
 
 == Build and Deploy the Quickstart
 
 . Make sure you have started the {productName} server as described above.
-. Open a command prompt and navigate to the root directory of this quickstart.
+. Open a terminal and navigate to the root directory of this quickstart.
 . Type this command to build and deploy the archive:
 +
 ----
-mvn clean install wildfly:deploy
+$ mvn clean install wildfly:deploy
 ----
 
 . This will deploy `target/{artifactId}.war` to the running instance of the server. Look at the {productName} console or Server log and you should see log messages corresponding to the deployment of the message-driven beans and the JMS destinations:
@@ -89,23 +90,23 @@ INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldQueueMDB] (Thread-4 (ActiveM
 == Undeploy the Archive
 
 . Make sure you have started the {productName} server as described above.
-. Open a command prompt and navigate to the root directory of this quickstart.
+. Open a terminal and navigate to the root directory of this quickstart.
 . When you are finished testing, type this command to undeploy the archive:
 +
 ----
-mvn wildfly:undeploy
+$ mvn wildfly:undeploy
 ----
 
 == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 
 You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a {productName} server, and build and deploy a quickstart, see link:{useEclipseUrl}[Use JBoss Developer Studio or Eclipse to Run the Quickstarts].
 
-NOTE: Within JBoss Developer Studio, be sure to define a server runtime environment that uses the `standalone-full.xml` configuration file.
+NOTE: Within JBoss Developer Studio, make sure you define a server runtime environment that uses the `standalone-full.xml` configuration file.
 
 == Debug the Application
 
 If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
 
 ----
-mvn dependency:sources
+$ mvn dependency:sources
 ----

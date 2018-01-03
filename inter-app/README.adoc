@@ -20,41 +20,62 @@ The `inter-app` quickstart shows you how to easily communicate between two modul
 
 CDI only provides intra-application injection within a top level deployment, for example, an EAR, WAR, or JAR. This improves performance of the application server, as to satisfy an injection point all possible candidates have to be scanned / analyzed. If inter-app injection was supported by CDI, performance would scale according to the number of deployments you have (the more deployments in the running system, the slower the deployment). Java EE injection uses unique JNDI names for the wiring, so each injection point is O(1). The approach shown here combines the two approaches such that you limit the name based wiring to one location in your code, and the main consumers of components can use CDI injection to reference these name wired components. For the name approach to work though, you still need to publish instances, and EJB singletons allow you to do that with just one extra annotation.
 
-In all, the project has three modules:
+This example consists of the following Maven projects, each with a shared parent.
 
-* `{artifactId}-app-shared.jar` - this module contains the interfaces which define the contract between the beans exposed by the WARs. It is deployed as an EJB JAR module because Eclipse Web Tools Platform can not deploy simple JARs.
-* `{artifactId}-app-appA.war` - the first WAR, whiches exposes an EJB singleton, and a simple UI that allows you to read the value set on the bean in appB
-* `{artifactId}-app-appB.war` - the second WAR, whiches exposes an EJB singleton, and a simple UI that allows you to read the value set on the bean in appA
+[cols="30%,70%",options="headers"]
+|===
+|Project |Description
+
+| `shared`
+a| This project contains the interfaces which define the contract between the beans exposed by the WARs.
+
+* It generates the `{artifactId}-app-shared.jar` archive.
+* It is deployed as an EJB JAR module because Eclipse Web Tools Platform can not deploy simple JARs.
+
+| `appA`
+a| This project contains the first WAR.
+
+* It generates the `{artifactId}-app-appA.war` archive.
+* It exposes an EJB singleton and a simple UI that allows you to read the value set on the bean in `appB`.
+
+| `appB`
+a| This project contains the second WAR.
+
+* It generates the `{artifactId}-app-appB.war` archive.
+* It exposes an EJB singleton and a simple UI that allows you to read the value set on the bean in `appA`.
+|===
 
 == System Requirements
 
 The application this project produces is designed to be run on {productNameFull} {productVersion} or later.
 
-All you need to build this project is {buildRequirements}. See https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts[Configure Maven for {productName} {productVersion}] to make sure you are configured correctly for testing the quickstarts.
+All you need to build this project is {buildRequirements}. See link:{configureMavenDocUrl}[Configure Maven to Build and Deploy the Quickstarts] to make sure you are configured correctly for testing the quickstarts.
 
 == Use of {jbossHomeName}
 
-In the following instructions, replace `{jbossHomeName}` with the actual path to your {productName} installation. The installation path is described in detail here: https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_{jbossHomeName}.md#use-of-eap_home-and-jboss_home-variables[Use of {jbossHomeName} and JBOSS_HOME Variables].
+In the following instructions, replace `__{jbossHomeName}__` with the actual path to your {productName} installation. The installation path is described in detail here: link:{useProductHomeDocUrl}[Use of {jbossHomeName} and JBOSS_HOME Variables].
 
 == Start the Server
 
-. Open a command prompt and navigate to the root of the {productName} directory.
-. The following shows the command line to start the server:
-
-[subs=normal]
+. Open a terminal and navigate to the root of the {productName} directory.
+. Start the {productName} server with the default standalone profile by typing the following command.
++
+[source,subs="+quotes,attributes+",options="nowrap"]
 ----
-For Linux:   {jbossHomeName}/bin/standalone.sh
-For Windows: {jbossHomeName}\bin\standalone.bat
+$ __{jbossHomeName}__/bin/standalone.sh
 ----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\standalone.bat` script.
 
 == Build and Deploy the Quickstart
 
 . Make sure you have started the {productName} server as described above.
-. Open a command prompt and navigate to the root directory of this quickstart.
+. Open a terminal and navigate to the root directory of this quickstart.
 . Type this command to build and deploy the archive:
-
++
+[source,options="nowrap"]
 ----
-mvn clean install wildfly:deploy
+$ mvn clean install wildfly:deploy
 ----
 
 . This will deploy `shared/target/{artifactId}-app-shared.jar`, `appA/target/{artifactId}-app-appA.war` and `appB/target/{artifactId}-app-appB.war` to the running instance of the server.
@@ -66,7 +87,7 @@ Access the running application in a browser at the following URLs:
 * http://localhost:8080/{artifactId}-appA
 * http://localhost:8080/{artifactId}-appB
 
-You are presented with a form that allows you to set the value on the bean in the other application, as well as display of the value on this application's bean. Enter a new value and press `Update and Send!` to update the value on the other application. Do the same on the other application, and hit the button again on the first application. You should see the values shared between the applications.
+You are presented with a form that allows you to set the value on the bean in the other application, as well as display of the value on this application's bean. Enter a new value and click *Update and Send!* to update the value on the other application. Do the same on the other application, and hit the button again on the first application. You should see the values shared between the applications.
 
 == Undeploy the Archive
 
@@ -75,17 +96,19 @@ This quickstart undeploys differently than some of the others because of the WAR
 When you are finished testing, follow these steps to undeploy the archives:
 
 . Make sure you have started the {productName} server as described above.
-. Open a command prompt and navigate to the root directory of this quickstart.
+. Open a terminal and navigate to the root directory of this quickstart.
 . Type the following command to undeploy the `inter-app-appA.war` and `inter-app-appB.war` archives.
-
++
+[source,options="nowrap"]
 ----
-mvn wildfly:undeploy -pl appA,appB
+$ mvn wildfly:undeploy -pl appA,appB
 ----
 
 . Type the following command to undeploy the `inter-app-shared.jar` archive.
-
++
+[source,options="nowrap"]
 ----
-mvn wildfly:undeploy -pl shared
+$ mvn wildfly:undeploy -pl shared
 ----
 
 == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
@@ -94,19 +117,20 @@ You can also start the server and deploy the quickstarts or run the Arquillian t
 
 This quickstart consists of multiple projects containing interdependencies on each other, so it deploys and runs differently in JBoss Developer Studio than the other quickstarts.
 
-. In the `Servers` tab, right-click on the {productName} server and choose `Start`.
+. In the *Servers* tab, right-click on the {productName} server and choose *Start*.
 . Deploy the projects in one of the following ways.
-** `Drag and Drop` mode: Click to multi-select the `{artifactId}-app-shared`, `{artifactId}-app-appA`, and `{artifactId}-app-appB` projects, then drag and drop them on the running {productName} server. This deploys the projects to the server without opening the browser.
-** `Batch` mode: In the `Servers` tab, right-click on the server and choose `Add and Remove`. If the `{artifactId}-app-shared`, `{artifactId}-app-appA`, and `{artifactId}-app-appB` projects are the only projects in the list, click `Add All`. Otherwise, use multi-select to select them and click `Add`. Then click `Finish`.
-. Right-click on the `{artifactId}-app-appA` project and choose `Run As` –&gt; `Run on Server`. A browser window appears that accesses the running `appA` application.
-. Right-click on the `{artifactId}-app-appB` project and choose `Run As` –&gt; `Run on Server`. A browser window appears that accesses the running `appB` application.
-. To undeploy the `{artifactId}-app-appB`project, right-click on it and choose `Run As` –&gt; `Maven build`. Enter `wildfly:undeploy` for the `Goals` and click `Run`.
-. To undeploy the `{artifactId}-app-appA`project, right-click on it and choose `Run As` –&gt; `Maven build`. Enter `wildfly:undeploy` for the `Goals` and click `Run`.
+** `Drag and Drop` mode: Click to multi-select the *{artifactId}-app-shared*, *{artifactId}-app-appA*, and *{artifactId}-app-appB* projects, then drag and drop them on the running {productName} server. This deploys the projects to the server without opening the browser.
+** `Batch` mode: In the *Servers* tab, right-click on the server and choose *Add and Remove*. If the *{artifactId}-app-shared*, *{artifactId}-app-appA*, and *{artifactId}-app-appB* projects are the only projects in the list, click *Add All*. Otherwise, use multi-select to select them and click *Add*. Then click *Finish*.
+. Right-click on the *{artifactId}-app-appA* project and choose *Run As* –>; *Run on Server*. A browser window appears that accesses the running `appA` application.
+. Right-click on the *{artifactId}-app-appB* project and choose *Run As* –>; *Run on Server*. A browser window appears that accesses the running `appB` application.
+. To undeploy the *{artifactId}-app-appB* project, right-click on it and choose *Run As* –>; *Maven build*. Enter `wildfly:undeploy` for the *Goals* and click *Run*.
+. To undeploy the `{artifactId}-app-appA` project, right-click on it and choose *Run As* –>; *Maven build*. Enter `wildfly:undeploy` for the *Goals* and click *Run*.
 
 == Debug the Application
 
 If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
 
+[source,options="nowrap"]
 ----
-mvn dependency:sources
+$ mvn dependency:sources
 ----
