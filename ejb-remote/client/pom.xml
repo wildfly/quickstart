@@ -29,6 +29,10 @@
     <name>${qs.name.prefix} ejb-remote - client</name>
     <description>This project demonstrates how to access an EJB from a remote client; this is the client POM file</description>
 
+    <properties>
+            <http>false</http>
+    </properties>
+
     <dependencies>
 
         <!-- Include the ejb client jars -->
@@ -61,6 +65,7 @@
                     <executable>java</executable>
                     <workingDirectory>${project.build.directory}/exec-working-directory</workingDirectory>
                     <arguments>
+                        <argument>-Dhttp=${http}</argument>
                         <argument>-classpath</argument>
                         <classpath></classpath>
                         <argument>org.jboss.as.quickstarts.ejb.remote.client.RemoteEJBClient</argument>

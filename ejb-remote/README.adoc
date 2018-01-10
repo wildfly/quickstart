@@ -196,5 +196,22 @@ This quickstart consists of multiple projects, so it deploys and runs differentl
 If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
 
 ----
-$ mvn dependency:sources
+mvn dependency:sources
+----
+
+== Using EJB over HTTP
+
+You can use EJB over HTTP by specifying -Dhttp=true to both the maven and command line based execution. This should not change
+the output, but will use EJB over HTTP for the invocations. This means that each EJB request maps to a single HTTP
+request (actually HTTP/2 by default, if it is enabled on the server).
+
+Before you can use this however you need to setup a user on the server, as HTTP does not support transparent auth.
+
+[subs="+quotes,attributes+"]
+----
+For Linux:
+  $JBOSS_HOME/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!'
+
+For Windows:
+  %JBOSS_HOME%\bin\add-user.bat  -a -u 'quickstartUser' -p 'quickstartPwd1!'
 ----
