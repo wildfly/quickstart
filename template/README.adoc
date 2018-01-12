@@ -5,7 +5,13 @@
 :jbossHomeName: WILDFLY_HOME
 :productVersion: 12
 :buildRequirements: Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later
-include::../attributes.adoc[]
+include::../shared-doc/attributes.adoc[]
+////
+:uses-h2: Define this variable if the quickstart uses the H2 database.
+:uses-ds-xml: Define this variable if the quickstart uses an *-ds.xml file.
+:performance-scalability: Define this variable if you need to consider scalability.
+:uses-cli: Define this variable if CLI configuration scripts are provided.
+////
 
 :level: [one of the following: Beginner, Intermediate, or Advanced]
 :technologies: (list technologies used here)
@@ -37,17 +43,35 @@ You should include any information that would help the user understand the quick
 
 If possible, give an overview, including any code they should look at to understand how it works..
 
-[[system_requirements]]
-== System Requirements
+////
+    Include this "Considerations for Use in a Production Environment" file
+    in the following is true for your quickstart:
+    * It uses the H2 database. Be sure to define the `:uses-h2:` variable.
+    * It uses a `*-ds.xml` file. Be sure to define the `:uses-ds-xml:` variable.
+    * It has performance and scalability considerations. Define the `:performance-scalability:` variable.
+////
+//***************************************
+// Add notes about use in a production environment.
+//***************************************
+include::../shared-doc/development-shortcuts.adoc[leveloffset=+1]
 
-The application this project produces is designed to be run on {productNameFull} {productVersion} or later.
+////
+    Always add the system requirements.
+    If this quickstart uses CLI scripts, be sure to define the :uses-cli: variable.
+    Add any additional requirements for this quickstart after the include.
+////
+//*************************************************
+// Add System Requirements
+//*************************************************
+include::../shared-doc/system-requirements.adoc[leveloffset=+1]
 
-All you need to build this project is {buildRequirements}. See link:{configureMavenDocUrl}[Configure Maven to Build and Deploy the Quickstarts] to make sure you are configured correctly for testing the quickstarts.
-
-[[use_of_home]]
-== Use of {jbossHomeName}
-
-In the following instructions, replace `__{jbossHomeName}__` with the actual path to your {productName} installation. The installation path is described in detail here: link:{useProductHomeDocUrl}[Use of {jbossHomeName} and JBOSS_HOME Variables].
+////
+    Add the following if you refer to the {jbossHomeName}.
+////
+//*************************************************
+// Add Use of JBoss Home Name
+//*************************************************
+include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
 
 [[configure_optional_components]]
 == Configure Optional Components

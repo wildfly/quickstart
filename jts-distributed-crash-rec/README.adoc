@@ -5,7 +5,8 @@
 :jbossHomeName: WILDFLY_HOME
 :productVersion: 12
 :buildRequirements: Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later
-include::../attributes.adoc[]
+include::../shared-doc/attributes.adoc[]
+:requires-multiple-servers:
 
 :level: Advanced
 :technologies: JTS, Crash Recovery
@@ -34,11 +35,15 @@ As an overview, the sequence of events to expect:
 . The user is invited to inspect the content of the transaction objectstore.
 . {productName} server 1 should be restarted. It will then recover the "invoices" delivered to the MDBs, just as it does in the `jts` quickstart.
 
-== System Requirements
+//*************************************************
+// Add System Requirements
+//*************************************************
+include::../shared-doc/system-requirements.adoc[leveloffset=+1]
 
-The application this project produces is designed to be run on {productNameFull} {productVersion} or later.
-
-All you need to build this project is {buildRequirements}. See link:{configureMavenDocUrl}[Configure Maven to Build and Deploy the Quickstarts] to make sure you are configured correctly for testing the quickstarts.
+//*************************************************
+// Add Use of JBoss Home Name
+//*************************************************
+include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
 
 == Download and Configure Byteman
 
@@ -57,20 +62,7 @@ IMPORTANT: This quickstart depends on the deployment of the `jts` quickstart for
 
 You can verify the deployment of the `jts` quickstart by accessing the following URL: http://localhost:8080/jts-application-component-1/.
 
-== Use of {jbossHomeName}
-
-In the following instructions, replace `__{jbossHomeName}__` with the actual path to your {productName} installation. The installation path is described in detail here: link:{useProductHomeDocUrl}[Use of {jbossHomeName} and JBOSS_HOME Variables].
-
 == Test the Application
-
-NOTE: This quickstart README file uses the following replaceable values. When you encounter these values in a README file, make sure you replace them with the actual path to the correct {productName} server.
-
-[source,subs="+quotes,attributes+",options="nowrap"]
-----
-`__{jbossHomeName}__` denotes the path to the original {productName} installation.
-`__{jbossHomeName}_1__` denotes the path to the modified {productName} server 1 configuration.
-`__{jbossHomeName}_2__` denotes the path to the modified {productName} server 2 configuration.
-----
 
 . If you have not yet done so, configure the two application servers and deploy the `jts` quickstart. Follow the instructions in the link:../jts/README.adoc[jts README] file.
 

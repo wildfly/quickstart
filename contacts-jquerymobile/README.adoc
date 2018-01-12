@@ -5,7 +5,7 @@
 :jbossHomeName: WILDFLY_HOME
 :productVersion: 12
 :buildRequirements: Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later
-include::../attributes.adoc[]
+include::../shared-doc/attributes.adoc[]
 
 :level: Beginner
 :technologies: jQuery Mobile, jQuery, JavaScript, HTML5, REST
@@ -32,17 +32,22 @@ This application focuses on *CRUD* in a strictly mobile app using only *jQuery M
 
 Validation is an important part of an application. Typically in an HTML5 app you can let the built-in HTML5 form validation do the work for you. However, mobile browsers do not support this feature at this time. In order to validate the forms, the `jquery.validate` plugin was added, which provides both client-side and server-side validation. Over AJAX, if there is an error, the error is returned and displayed in the form. You can see an example of this in the *Edit* form if you enter an email that is already in use. The application will attempt to insert the error message into a field if that field exists. If the field does not exist then it display it at the top. In addition, there are xref:run_the_qunit_tests[QUnit Tests] for every form of validation.
 
-== System Requirements
+//*************************************************
+// Add System Requirements
+//*************************************************
+include::../shared-doc/system-requirements.adoc[leveloffset=+1]
 
-The application this project produces is designed to be run on {productNameFull} {productVersion} or later.
-
-All you need to build this project is {buildRequirements}. See link:{configureMavenDocUrl}[Configure Maven to Build and Deploy the Quickstarts] to make sure you are configured correctly for testing the quickstarts.
-
+// Additional system requirements for this quickstart:
 An HTML5 compatible browser such as Chrome, Safari 5+, Firefox 5+, or IE 9+ is required. Note that some behaviors, such as validation, will vary slightly based on browser support, especially IE 9.
 
 Mobile web support is limited to Android and iOS devices. It should run on HP, and Black Berry devices as well. Windows Phone, and others will be supported as jQuery Mobile announces support.
 
 With the prerequisites out of the way, you are ready to build and deploy.
+
+//*************************************************
+// Add Use of JBoss Home Name
+//*************************************************
+include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
 
 == Start the Server
 
@@ -207,6 +212,7 @@ $ mvn clean verify -Parq-managed
 ----
 ====
 
+[[run_the_quickstart_in_jboss_developer_studio_or_eclipse]]
 == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 
 You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a {productName} server, and build and deploy a quickstart, see link:{useEclipseUrl}[Use JBoss Developer Studio or Eclipse to Run the Quickstarts].

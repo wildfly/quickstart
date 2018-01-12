@@ -5,7 +5,10 @@
 :jbossHomeName: WILDFLY_HOME
 :productVersion: 12
 :buildRequirements: Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later
-include::../attributes.adoc[]
+include::../shared-doc/attributes.adoc[]
+:uses-h2:
+:uses-ds-xml:
+:performance-scalability:
 
 :level: Intermediate
 :technologies: EJB, BMT
@@ -25,25 +28,22 @@ When you run this example, you are presented with a *Use bean managed Entity Man
 * If you check the checkbox, it shows the developer responsibilities when injecting an Entity Manager into a managed (stateless) bean.
 * If you uncheck the checkbox, shows the developer responsibilities when using JPA and transactions with an unmanaged component.
 
-{productName} ships with H2, an in-memory database written in Java. This example shows how to transactionally insert key value pairs into the H2 database and demonstrates the requirements on the developer with respect to the JPA Entity Manager.
+This example shows how to transactionally insert key value pairs into the database and demonstrates the requirements on the developer with respect to the JPA Entity Manager.
 
 //***************************************
 // Add notes about use in a production environment.
 //***************************************
-:uses-h2:
-:uses-ds-xml:
-:performance-scalability:
-include::../development-shortcuts.adoc[leveloffset=+1]
+include::../shared-doc/development-shortcuts.adoc[leveloffset=+1]
 
-== System Requirements
+//*************************************************
+// Add System Requirements
+//*************************************************
+include::../shared-doc/system-requirements.adoc[leveloffset=+1]
 
-The application this project produces is designed to be run on {productNameFull} {productVersion} or later.
-
-All you need to build this project is {buildRequirements}. See link:{configureMavenDocUrl}[Configure Maven to Build and Deploy the Quickstarts] to make sure you are configured correctly for testing the quickstarts.
-
-== Use of {jbossHomeName}
-
-In the following instructions, replace `__{jbossHomeName}__` with the actual path to your {productName} installation. The installation path is described in detail here: link:{useProductHomeDocUrl}[Use of {jbossHomeName} and JBOSS_HOME Variables].
+//*************************************************
+// Add Use of JBoss Home Name
+//*************************************************
+include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
 
 == Start the Server
 
@@ -99,6 +99,7 @@ HHH000431: Unable to determine H2 database version, certain features may not wor
 $ mvn wildfly:undeploy
 ----
 
+[[run_the_quickstart_in_jboss_developer_studio_or_eclipse]]
 == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 
 You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a {productName} server, and build and deploy a quickstart, see link:{useEclipseUrl}[Use JBoss Developer Studio or Eclipse to Run the Quickstarts].

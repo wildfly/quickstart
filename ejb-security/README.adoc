@@ -5,7 +5,8 @@
 :jbossHomeName: WILDFLY_HOME
 :productVersion: 12
 :buildRequirements: Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later
-include::../attributes.adoc[]
+include::../shared-doc/attributes.adoc[]
+:includes-cli-scripts:
 
 :level: Intermediate
 :technologies: EJB, Security
@@ -29,20 +30,15 @@ to users with `admin` role access rights.
 password `quickstartPwd1!` in the `guest` role. The `guest` role matches the allowed user role defined in the `@RolesAllowed`
 annotation in the EJB but it should not be granted access to the administrative method annotated with `RolesAllowed({&quot;admin&quot;})`.
 
-== System Requirements
+//*************************************************
+// Add System Requirements
+//*************************************************
+include::../shared-doc/system-requirements.adoc[leveloffset=+1]
 
-The applications these projects produce are designed to be run on {productNameFull} {productVersion} or later.
-
-All you need to build these projects is {buildRequirements}. See link:{configureMavenDocUrl}[Configure Maven to Build and Deploy the Quickstarts] to make sure you are configured correctly for testing the quickstarts.
-
-To run these quickstarts with the provided build scripts, you need the {productName} distribution ZIP. For information on how to install and run {productName}, see the {productNameFull} https://access.redhat.com/documentation/en/red-hat-jboss-enterprise-application-platform/[_Getting Started Guide_] located on the Customer Portal.
-
-You can also run the quickstart in xref:run_the_quickstart_in_jboss_developer_studio_or_eclipse[JBoss Developer Studio or Eclipse].
-
-== Use of {jbossHomeName}
-
-In the following instructions, replace `__{jbossHomeName}__` with the actual path to your {productName} installation. The
-installation path is described in detail here: link:{useProductHomeDocUrl}[Use of {jbossHomeName} and JBOSS_HOME Variables].
+//*************************************************
+// Add Use of JBoss Home Name
+//*************************************************
+include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
 
 [[add_the_application_users]]
 == Add the Application Users

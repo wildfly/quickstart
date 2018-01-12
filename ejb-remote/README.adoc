@@ -5,7 +5,7 @@
 :jbossHomeName: WILDFLY_HOME
 :productVersion: 12
 :buildRequirements: Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later
-include::../attributes.adoc[]
+include::../shared-doc/attributes.adoc[]
 
 :level: Intermediate
 :technologies: EJB, JNDI
@@ -30,15 +30,15 @@ The remote client application depends on the remote business interfaces from the
 
 Each component is defined in its own standalone Maven module. The quickstart provides a top level Maven module to simplify the packaging of the artifacts.
 
-== System Requirements
+//*************************************************
+// Add System Requirements
+//*************************************************
+include::../shared-doc/system-requirements.adoc[leveloffset=+1]
 
-The application this project produces is designed to be run on {productNameFull} {productVersion} or later.
-
-All you need to build this project is {buildRequirements}. See link:{configureMavenDocUrl}[Configure Maven to Build and Deploy the Quickstarts] to make sure you are configured correctly for testing the quickstarts.
-
-== Use of {jbossHomeName}
-
-In the following instructions, replace `__{jbossHomeName}__` with the actual path to your {productName} installation. The installation path is described in detail here: link:{useProductHomeDocUrl}[Use of {jbossHomeName} and JBOSS_HOME Variables].
+//*************************************************
+// Add Use of JBoss Home Name
+//*************************************************
+include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
 
 == Start the Server
 
@@ -136,6 +136,7 @@ The output in the terminal window will look like the following:
 
 Logging statements have been removed from this output here to make it clearer.
 
+[[run_the_quickstart_in_jboss_developer_studio_or_eclipse]]
 == Build and Run The Quickstart as an Executable JAR
 
 The remote client application can also be built as a standalone executable JAR with all of its dependencies.

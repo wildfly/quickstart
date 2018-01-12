@@ -5,7 +5,10 @@
 :jbossHomeName: WILDFLY_HOME
 :productVersion: 12
 :buildRequirements: Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later
-include::../attributes.adoc[]
+:buildForgeRequirements: Java 8.0 (Java SDK 1.8) or later and Red Hat JBoss Developer Studio 10.0 or greater
+include::../shared-doc/attributes.adoc[]
+:forge-from-scratch:
+:uses-h2:
 
 :level: Intermediate
 :technologies: Forge
@@ -25,15 +28,14 @@ But that is not all! You can use Forge on your new or existing projects to conti
 //*************************************************
 // Add notes about use in a production environment.
 //*************************************************
-:uses-h2:
-include::../development-shortcuts.adoc[leveloffset=+1]
+include::../shared-doc/development-shortcuts.adoc[leveloffset=+1]
 
-== System Requirements
+//*************************************************
+// Add System Requirements
+//*************************************************
+include::../shared-doc/system-requirements.adoc[leveloffset=+1]
 
-The application this project produces is designed to be run on {productNameFull} {productVersion} or later.
-
-All you need to build this project is Java 8.0 (Java SDK 1.8) or later and Red Hat JBoss Developer Studio 10.0 or greater. These versions of JBoss Developer Studio embed Maven 3.3.3, so you do not need to install it separately.
-
+[[run_the_quickstart_in_jboss_developer_studio_or_eclipse]]
 == Run the Quickstart in Red Hat JBoss Developer Studio
 
 JBoss Developer Studio 10.3 ships with Forge 3.5.1.Final.

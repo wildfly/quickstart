@@ -5,7 +5,9 @@
 :jbossHomeName: WILDFLY_HOME
 :productVersion: 12
 :buildRequirements: Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later
-include::../attributes.adoc[]
+include::../shared-doc/attributes.adoc[]
+:includes-cli-scripts:
+:requires-multiple-servers:
 
 :level: Advanced
 :technologies: MSC, Singleton Service, Clustering
@@ -31,17 +33,15 @@ These examples are built and packaged as JAR archives.
 
 For more information about clustered singleton services, see _HA Singleton Service_ in the https://access.redhat.com/documentation/en/red-hat-jboss-enterprise-application-platform/[Development Guide] for JBoss EAP.
 
-== System Requirements
+//*************************************************
+// Add System Requirements
+//*************************************************
+include::../shared-doc/system-requirements.adoc[leveloffset=+1]
 
-The deployments this project produces are designed to be run on {productNameFull} {productVersion} or later.
-
-Everything needed to build this project is {buildRequirements}. See link:{configureMavenDocUrl}[Configure Maven to Build and Deploy the Quickstarts] to make sure the environment is configured correctly for testing the quickstarts.
-
-== Use of {jbossHomeName}_1 and {jbossHomeName}_2
-
-This quickstart requires that you clone your `__{jbossHomeName}__` installation directory and run two servers. The installation path is described in detail here: link:{useProductHomeDocUrl}[Use of {jbossHomeName} and JBOSS_HOME Variables].
-
-In the following instructions, replace `{jbossHomeName}_1` with the path to your first {productName} server and replace `{jbossHomeName}_2` with the path to your second cloned {productName} server.
+//*************************************************
+// Add Use of JBoss Home Name
+//*************************************************
+include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
 
 == Clone the {productName} Directory
 
@@ -294,9 +294,9 @@ Note that the `name-preference-election-policy-add.cli` script executes the `rel
 
 . Stop the server and review the changes made to the `standalone-ha.xml` server configuration file by the management CLI commands. The `singleton` subsystem now contains a `name-preferences` element under the `simple-election-policy` that specifies the preferences `node3 node2 node1`.
 +
-[source,xml,options="nowrap"]
+[source,xml,subs="attributes+",options="nowrap"]
 ----
-<subsystem xmlns="urn:jboss:domain:singleton:1.0">
+<subsystem xmlns="{SingletonSubsystemNamespace}">
     <singleton-policies default="default">
         <singleton-policy name="default" cache-container="server">
             <simple-election-policy>
@@ -367,9 +367,9 @@ Note that the `random-election-policy-add.cli` script executes the `reload` comm
 
 . Stop the server and review the changes made to the `standalone-ha.xml` server configuration file by the management CLI commands. The `singleton` subsystem now contains a `random-election-policy` element under the `singleton-policy` that specifies the preferences `node3 node2 node1`.
 +
-[source,xml,options="nowrap"]
+[source,xml,subs="attributes+",options="nowrap"]
 ----
-<subsystem xmlns="urn:jboss:domain:singleton:1.0">
+<subsystem xmlns="{SingletonSubsystemNamespace}">
     <singleton-policies default="default">
         <singleton-policy name="default" cache-container="server">
             <random-election-policy/>
@@ -430,9 +430,9 @@ Note that the `quorum-add.cli` script executes the `reload` command, so a reload
 
 . Review the changes made to the `standalone-ha.xml` server configuration file by the management CLI commands. The `singleton` subsystem now contains a `quorum` attribute for the `singleton-policy` element that specifies the minimum number.
 +
-[source,xml,options="nowrap"]
+[source,xml,subs="attributes+",options="nowrap"]
 ----
-<subsystem xmlns="urn:jboss:domain:singleton:1.0">
+<subsystem xmlns="{SingletonSubsystemNamespace}">
     <singleton-policies default="default">
         <singleton-policy name="default" cache-container="server" quorum="2">
             <simple-election-policy/>

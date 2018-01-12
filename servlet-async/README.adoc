@@ -5,7 +5,7 @@
 :jbossHomeName: WILDFLY_HOME
 :productVersion: 12
 :buildRequirements: Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later
-include::../attributes.adoc[]
+include::../shared-doc/attributes.adoc[]
 
 :level: Intermediate
 :technologies: Asynchronous Servlet, CDI, EJB
@@ -22,15 +22,15 @@ It shows how to detach the execution of a long-running task from the request pro
 
 A long-running task in this context does not refer to a computation intensive task executed on the same machine but could for example be contacting a third-party service that has limited resources or only allows for a limited number of concurrent connections. Moving the calls to this service into a separate and smaller sized thread pool ensures that less threads will be busy interacting with the long-running service and that more requests can be served that do not depend on this service.
 
-== System Requirements
+//*************************************************
+// Add System Requirements
+//*************************************************
+include::../shared-doc/system-requirements.adoc[leveloffset=+1]
 
-The application this project produces is designed to be run on {productNameFull} {productVersion} or later.
-
-All you need to build this project is {buildRequirements}. See link:{configureMavenDocUrl}[Configure Maven to Build and Deploy the Quickstarts] to make sure you are configured correctly for testing the quickstarts.
-
-== Use of {jbossHomeName}
-
-In the following instructions, replace `__{jbossHomeName}__` with the actual path to your {productName} installation. The installation path is described in detail here: link:{useProductHomeDocUrl}[Use of {jbossHomeName} and JBOSS_HOME Variables].
+//*************************************************
+// Add Use of JBoss Home Name
+//*************************************************
+include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
 
 == Start the Server
 

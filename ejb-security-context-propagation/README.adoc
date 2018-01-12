@@ -5,7 +5,8 @@
 :jbossHomeName: WILDFLY_HOME
 :productVersion: 12
 :buildRequirements: Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later
-include::../attributes.adoc[]
+include::../shared-doc/attributes.adoc[]
+:includes-cli-scripts:
 
 :level: Advanced
 :technologies: EJB, Security
@@ -19,9 +20,9 @@ The `ejb-security-context-propagation` quickstart demonstrates how the security 
 The `ejb-security-context-propagation` quickstart demonstrates how the security context of an EJB can be propagated to a
 remote EJB in {productNameFull}.
 
-The quickstart makes use of two EJBs, `SecuredEJB` and `IntermediateEJB`, to verify that the security context propagation is
-correct, and a `RemoteClient` standalone client.
+The quickstart makes use of two EJBs, xref:secured_ejb[`SecuredEJB`] and xref:intermediate_ejb[`IntermediateEJB`], to verify that the security context propagation is correct, and a xref:remote_client[`RemoteClient`] standalone client.
 
+[[secured_ejb]]
 === SecuredEJB
 
 The `SecuredEJB` has four methods.
@@ -44,11 +45,13 @@ The first method can be called by all users that are created in this quickstart.
 
 The next three methods are annotated to require that the calling user is authorized for roles `guest`, `user` and `admin` respectively.
 
+[[intermediate_ejb]]
 === IntermediateEJB
 
 The `IntermediateEJB` contains a single method. Its purpose is to make use of a remote connection and invoke each of the
 methods on the `SecuredEJB`. A summary is then returned with the outcome of the calls.
 
+[[remote_client]]
 === RemoteClient
 
 Finally there is the `RemoteClient` stand-alone client. The client makes calls using the identity of the established connection.
@@ -57,27 +60,21 @@ In the real world, remote calls between servers in the servers-to-server scenari
 the purpose of this quickstart, we make use of a loopback connection to the same server so we do not need two servers just
 to run the test.
 
-== System Requirements
+//*************************************************
+// Add System Requirements
+//*************************************************
+include::../shared-doc/system-requirements.adoc[leveloffset=+1]
 
-The application this project produces is designed to be run on {productNameFull} {productVersion}.
-
-All you need to build this project is {buildRequirements}. See link:{configureMavenDocUrl}[Configure Maven to Build and Deploy the Quickstarts] to make sure you are configured correctly for testing the quickstarts.
-
-To run these quickstarts with the provided build scripts, you need the {productName} distribution ZIP. For information on
-how to install and run JBoss, see the https://access.redhat.com/documentation/en/red-hat-jboss-enterprise-application-platform/[{productNameFull} Documentation] _Getting Started Guide_ located on the Customer Portal.
-
-You can also run the quickstart in xref:run_the_quickstart_in_jboss_developer_studio_or_eclipse[JBoss Developer Studio or Eclipse].
+//*************************************************
+// Add Use of JBoss Home Name
+//*************************************************
+include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
 
 == Prerequisites
 
 This quickstart uses the default standalone configuration plus the modifications described here.
 
 It is recommended that you test this approach in a separate and clean environment before you attempt to port the changes in your own environment.
-
-== Use of {jbossHomeName}
-
-In the following instructions, replace `__{jbossHomeName}__` with the actual path to your {productName} installation. The
-installation path is described in detail here: link:{useProductHomeDocUrl}[Use of {jbossHomeName} and JBOSS_HOME Variables].
 
 [[add_the_application_users]]
 == Add the Application Users
