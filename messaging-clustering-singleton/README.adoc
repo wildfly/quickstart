@@ -54,11 +54,13 @@ If a delivery group is used in conjunction with singleton, as is the case of thi
 //*************************************************
 // Add System Requirements
 //*************************************************
+// == System Requirements
 include::../shared-doc/system-requirements.adoc[leveloffset=+1]
 
 //*************************************************
 // Add Use of JBoss Home Name
 //*************************************************
+// == Use of {jbossHomeName}
 include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
 
 == Build the Project
@@ -98,17 +100,11 @@ __{jbossHomeName}__/domain/configuration/host.xml
 
 After you have completed testing this quickstart, you can replace these files to restore the server to its original configuration.
 
-==== Start the Managed Domain
-
-. Open a terminal and navigate to the root of the {productName} directory.
-. Start the {productName} managed domain by typing the following command.
-+
-[source,subs="+quotes,attributes+",options="nowrap"]
-----
-$ __{jbossHomeName}__/bin/domain.sh
-----
-+
-NOTE: For Windows, use the `__{jbossHomeName}__\bin\domain.bat` script.
+//*************************************************
+// Start the server as a managed domain
+//*************************************************
+// ==== Start {productName} as a Managed Domain
+include::../shared-doc/start-server-managed-domain.adoc[leveloffset=+3]
 
 ==== Configure the Domain Server and Deploy the Quickstart Using the JBoss CLI
 
@@ -174,18 +170,11 @@ __{jbossHomeName}__/standalone/configuration/standalone-full-ha.xml
 
 After you have completed testing this quickstart, you can replace this file to restore the server to its original configuration.
 
-==== Start the Standalone Server Using the Full HA Profile.
-
-. Open a terminal and navigate to the root of the {productName} directory.
-. Start the {productName} server with the standalone full HA profile, which supports messaging and high availability, by typing the following command.
-+
-[source,subs="+quotes,attributes+",options="nowrap"]
-----
-$ __{jbossHomeName}__/bin/standalone.sh -c standalone-full-ha.xml
-----
-+
-NOTE: For Windows, use the `__{jbossHomeName}__\bin\standalone.bat` script.
-
+//*************************************************
+// Start the server with the full HA profile
+//*************************************************
+// == Start the Server with the Full HA Profile
+include::../shared-doc/start-server-full-ha-profile.adoc[leveloffset=+3]
 
 ==== Configure the Standalone Server and Deploy the Quickstart Using the JBoss CLI
 
@@ -418,7 +407,7 @@ When you are finished testing, use the following instructions to undeploy the qu
 
 === Undeploy the quickstart in a Managed Domain
 
-. Make sure you have started the managed domain as described above.
+. xref:start_eap_in_a_managed_domain[Start the {productName} managed domain] as described above.
 . Open a new terminal, navigate to the root directory of this quickstart, and run the `undeploy-domain.cli` script, replacing `__{jbossHomeName}__` with the path to your server:
 +
 [source,subs="+quotes,attributes+",options="nowrap"]
@@ -430,7 +419,7 @@ NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
 
 === Undeploy the quickstart in a Standalone Server
 
-. Make sure you have started the standalone server as described above.
+. xref:start_eap_standalone_server_with_the_full_ha_profile[Start the {productName} server with the standalone full HA profile] as described above.
 . Open a terminal, navigate to the root directory of this quickstart, and run the `undeploy-standalone.cli` script, replacing `__{jbossHomeName}_1__` and `__{jbossHomeName}_2__` with the path to the appropriate server:
 +
 [source,subs="+quotes,attributes+",options="nowrap"]
@@ -459,15 +448,7 @@ of the files. Make sure you replace `__{jbossHomeName}__` with the path to your 
 
 IMPORTANT: This script returns the server to a default configuration and the result might not match the server configuration prior to testing this quickstart. If you were not running with the default configuration before testing this quickstart, you should follow the intructions above to manually restore the configuration to its previous state.
 
-. Start the {productName} managed domain by typing the following command.
-+
-[source,subs="+quotes,attributes+",options="nowrap"]
-----
-$ __{jbossHomeName}__/bin/domain.sh
-----
-+
-NOTE: For Windows, use the `__{jbossHomeName}__\bin\domain.bat` script.
-
+. xref:start_eap_in_a_managed_domain[Start the {productName} managed domain] as described above.
 
 . Open a new terminal, navigate to the root directory of this quickstart, and run the `remove-domain.cli` script, replacing `__{jbossHomeName}__` with the path to your server.
 +

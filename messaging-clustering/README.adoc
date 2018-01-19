@@ -6,8 +6,6 @@
 :productVersion: 12
 :buildRequirements: Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later
 include::../shared-doc/attributes.adoc[]
-:includes-cli-scripts:
-:optional-domain-or-multiple-servers:
 
 :level: Intermediate
 :technologies: JMS, MDB
@@ -24,11 +22,15 @@ The `messaging-clustering` quickstart demonstrates the use of clustering with Ap
 //*************************************************
 // Add System Requirements
 //*************************************************
+// == System Requirements
+:includes-cli-scripts:
 include::../shared-doc/system-requirements.adoc[leveloffset=+1]
 
 //*************************************************
 // Add Use of JBoss Home Name
 //*************************************************
+// = Use of {jbossHomeName}_1 and {jbossHomeName}_2
+:optional-domain-or-multiple-servers:
 include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
 
 == Prerequisites
@@ -73,17 +75,11 @@ After you have completed testing this quickstart, you can replace these files to
 
 You configure the server by running the install-domain.cli script provided in the root directory of this quickstart.
 
-==== Start the server in domain mode.
-
-. Open a terminal and navigate to the root of the {productName} directory.
-. Start the {productName} managed domain by typing the following command.
-+
-[source,subs="+quotes,attributes+",options="nowrap"]
-----
-$ __{jbossHomeName}__/bin/domain.sh
-----
-+
-NOTE: For Windows, use the `__{jbossHomeName}__\bin\domain.bat` script.
+//*************************************************
+// Start the server as a managed domain
+//*************************************************
+// ==== Start {productName} as a Managed Domain
+include::../shared-doc/start-server-managed-domain.adoc[leveloffset=+3]
 
 ==== Configure the Domain Server and Deploy the Quickstart Using the JBoss CLI
 

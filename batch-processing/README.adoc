@@ -6,8 +6,6 @@
 :productVersion: 12
 :buildRequirements: Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later
 include::../shared-doc/attributes.adoc[]
-:uses-h2:
-:uses-ds-xml:
 
 :level: Intermediate
 :technologies: CDI, Batch 1.0, JSF
@@ -36,29 +34,28 @@ The database schema defines that the column for name is unique. For that reason,
 //*************************************************
 // Add notes about use in a production environment.
 //*************************************************
+// == Considerations for Use in a Production Environment
+:uses-h2:
+:uses-ds-xml:
 include::../shared-doc/development-shortcuts.adoc[leveloffset=+1]
 
 //*************************************************
 // Add System Requirements
 //*************************************************
+// == System Requirements
 include::../shared-doc/system-requirements.adoc[leveloffset=+1]
 
 //*************************************************
 // Add Use of JBoss Home Name
 //*************************************************
+// == Use of {jbossHomeName}
 include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
 
-== Start the Server
-
-. Open a terminal and navigate to the root of the {productName} directory.
-. Start the {productName} server with the default standalone profile by typing the following command.
-+
-[source,subs="+quotes,attributes+",options="nowrap"]
-----
-$ __{jbossHomeName}__/bin/standalone.sh
-----
-+
-NOTE: For Windows, use the `__{jbossHomeName}__\bin\standalone.bat` script.
+//*************************************************
+// Start the server with the default profile
+//*************************************************
+// == Start the Server with the Default Profile
+include::../shared-doc/start-server-default-profile.adoc[leveloffset=+1]
 
 == Build and Deploy the Quickstart
 
