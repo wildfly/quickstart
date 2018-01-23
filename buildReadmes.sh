@@ -6,7 +6,7 @@ NO_COLOR="\033[0m"
 
 usage(){
   cat <<EOM
-Run this script from the root of your cloned repository: 
+Run this script from the root of your cloned repository:
 
   ~/eap-quickstarts $ ./buildReadmes.sh
 EOM
@@ -49,4 +49,3 @@ else
     echo -e "${RED}Please fix all issues before requesting a merge!${NO_COLOR}"
     exit 1;
 fi
-

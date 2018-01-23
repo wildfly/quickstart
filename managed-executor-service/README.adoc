@@ -54,7 +54,7 @@ include::../shared-doc/start-server-default-profile.adoc[leveloffset=+1]
 
 This quickstart provides Arquillian tests. By default, these tests are configured to be skipped as Arquillian tests require the use of a container.
 
-. Make sure you have started the {productName} server as described above.
+. Make sure you xref:start_eap_standalone_server_with_the_default_profile[start the {productName} server with the standalone default profile] as described above.
 . Open a terminal and navigate to the root directory of this quickstart.
 . Type the following command to run the test goal with the following profile activated:
 +
@@ -144,15 +144,12 @@ You can also start the server and deploy the quickstarts or run the Arquillian t
 To run the tests in Red Hat JBoss Developer Studio, you must first set the active Maven profile in project properties to one of the following:
 
 * `arq-remote`: This setting is used for a remote server. JBoss Developer Studio starts the server for you.
-* `arq-managed`: This setting is used for a managed server. If you use this setting, you must xref:start_the_server[start the server] before you run the tests.
+* `arq-managed`: This setting is used for a managed server. If you use this setting, you must xref:start_eap_standalone_server_with_the_default_profile[start the server] before you run the tests.
 
 Then, to run the tests, right click on the project or individual classes and select *Run As* –> *JUnit Test* in the context menu.
 
-== Debug the Application
-
-If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
-
-[source,options="nowrap"]
-----
-$ mvn dependency:sources
-----
+//*************************************************
+// Add info to debug the application
+//*************************************************
+// == Debug the Application
+include::../shared-doc/debug-the-application.adoc[leveloffset=+1]

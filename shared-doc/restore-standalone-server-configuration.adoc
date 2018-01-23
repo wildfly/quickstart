@@ -1,0 +1,34 @@
+[[restore_the_standalone_server_configuration]]
+= Restore the {productName} Standalone Server Configuration
+
+// This content can be reused by any quickstart that provides a script to restore a
+// server to its original configuration.
+// Make sure you define the script file name using the `restoreScriptName` attribute.
+// For example:
+// :restoreScriptName: remove-configuration.cli
+
+You can restore the original server configuration by running the `{restoreScriptName}` script provided in the root directory of this quickstart or by manually restoring the back-up copy the configuration file.
+
+== Restore the {productName} Standalone Server Configuration by Running the JBoss CLI Script
+
+ifdef::standalone-server-default[]
+. xref:start_eap_standalone_server_with_the_default_profile[Start the {productName} server with the standalone default profile] as described above.
+endif::[]
+
+ifdef::standalone-server-full[]
+. xref:start_eap_standalone_server_with_the_full_profile[Start the {productName} server with the standalone full profile] as described above.
+
+endif::[]
+
+ifdef::standalone-server-full-ha[]
+. xref:start_eap_standalone_server_with_the_full_ha_profile[Start the {productName} server with the standalone full HA profile] as described above.
+endif::[]
+
+. Open a new terminal, navigate to the root directory of this quickstart, and run the following command, replacing `__{jbossHomeName}__` with the path to your server:
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file={restoreScriptName}
+----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.

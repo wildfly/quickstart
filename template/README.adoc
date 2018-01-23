@@ -46,8 +46,8 @@ If possible, give an overview, including any code they should look at to underst
 ////
     Include this "Considerations for Use in a Production Environment" file
     in the following is true for your quickstart:
-    * It uses the H2 database. Be sure to define the `:uses-h2:` variable.
-    * It uses a `*-ds.xml` file. Be sure to define the `:uses-ds-xml:` variable.
+    * It uses the H2 database. Make sure you define the `:uses-h2:` variable.
+    * It uses a `*-ds.xml` file. Make sure you define the `:uses-ds-xml:` variable.
     * It has performance and scalability considerations. Define the `:performance-scalability:` variable.
 ////
 //***************************************
@@ -57,7 +57,7 @@ include::../shared-doc/development-shortcuts.adoc[leveloffset=+1]
 
 ////
     Always add the system requirements.
-    If this quickstart uses CLI scripts, be sure to define the :uses-cli: variable.
+    If this quickstart uses CLI scripts, make sure you define the :uses-cli: variable.
     Add any additional requirements for this quickstart after the include.
 ////
 //*************************************************
@@ -183,11 +183,8 @@ You can also let Arquillian manage the {productName} server by using the `arq-ma
 
 You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a {productName} server, and build and deploy a quickstart, see link:{useEclipseUrl}[Use JBoss Developer Studio or Eclipse to Run the Quickstarts].
 
-== Debug the Application
-
-If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
-
-[source,options="nowrap"]
-----
-$ mvn dependency:sources
-----
+//*************************************************
+// Add info to debug the application
+//*************************************************
+// == Debug the Application
+include::../shared-doc/debug-the-application.adoc[leveloffset=+1]

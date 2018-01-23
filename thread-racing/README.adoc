@@ -53,17 +53,11 @@ include::../shared-doc/system-requirements.adoc[leveloffset=+1]
 // == Use of {jbossHomeName}
 include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
 
-== Start the {productName} Server with the Full Profile
-
-. Open a terminal and navigate to the root of the {productName} directory.
-. Start the {productName} server with the standalone full profile by typing the following command:
-+
-[source,subs="+quotes,attributes+",options="nowrap"]
-----
-$ __{jbossHomeName}__/bin/standalone.sh -c standalone-full.xml
-----
-+
-NOTE: For Windows, use the `__{jbossHomeName}__\bin\standalone.bat` script.
+//*************************************************
+// Start the server with the full profile
+//*************************************************
+// == Start the Server with the Full Profile
+include::../shared-doc/start-server-full-profile.adoc[leveloffset=+1]
 
 == Build and Deploy the Quickstart
 
@@ -107,10 +101,8 @@ You can also start the server and deploy the quickstarts or run the Arquillian t
 
 NOTE: Within JBoss Developer Studio, make sure you define a server runtime environment that uses the `standalone-full.xml` configuration file.
 
-== Debug the Application
-
-If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
-
-----
-$ mvn dependency:sources
-----
+//*************************************************
+// Add info to debug the application
+//*************************************************
+// == Debug the Application
+include::../shared-doc/debug-the-application.adoc[leveloffset=+1]

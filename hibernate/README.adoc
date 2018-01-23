@@ -114,19 +114,20 @@ $ mvn wildfly:undeploy
 
 You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a {productName} server, and build and deploy a quickstart, see link:{useEclipseUrl}[Use JBoss Developer Studio or Eclipse to Run the Quickstarts].
 
-== Debug the Application
+//*************************************************
+// Add info to debug the application
+//*************************************************
+// == Debug the Application
+include::../shared-doc/debug-the-application.adoc[leveloffset=+1]
 
-If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
+// Additional debug info
+[NOTE]
+====
+You might see the following message when you run the command. It indicates the source is not provided in the third-party `antlr` JAR.
 
 [source,options="nowrap"]
 ----
-$ mvn dependency:sources
+[INFO] The following files have NOT been resolved:
+[INFO]    antlr:antlr:jar:sources:2.7.7:provided
 ----
-
-You may see the following message when you run the command. It indicates the source is not provided in the third-party `antlr` JAR.
-
-[source,options="nowrap"]
-----
-  [INFO] The following files have NOT been resolved:
-  [INFO]    antlr:antlr:jar:sources:2.7.7:provided
-----
+====

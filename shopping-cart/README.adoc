@@ -41,6 +41,19 @@ include::../shared-doc/system-requirements.adoc[leveloffset=+1]
 // == Use of {jbossHomeName}
 include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
 
+//*************************************************
+// Back up the server configuration files
+//*************************************************
+// == Back Up the {productName} Standalone Server Configuration
+:standalone-server-default:
+include::../shared-doc/back-up-server-standalone-configuration.adoc[leveloffset=+1]
+
+//*************************************************
+// Start the server with the default profile
+//*************************************************
+// == Start the Server with the Default Profile
+include::../shared-doc/start-server-default-profile.adoc[leveloffset=+1]
+
 [[configure_the_server]]
 == Configure the Server
 
@@ -53,18 +66,10 @@ ERROR [org.jboss.as.ejb3.invocation] (EJB default - 7) WFLYEJB0034: EJB Invocati
 
 Follow the steps below to suppress system exception logging.
 
-. Before you begin, back up your server configuration file
-** If it is running, stop the {productName} server.
-** Back up the file: `{jbossHomeName}/standalone/configuration/standalone.xml`
-** After you have completed testing this quickstart, you can replace this file to restore the server to its original configuration.
-. Start the {productName} server by typing the following:
-+
-[source,subs="+quotes,attributes+",options="nowrap"]
-----
-$ __{jbossHomeName}__/bin/standalone.sh
-----
-+
-NOTE: For Windows, use the `__{jbossHomeName}__\bin\standalone.bat` script.
+. Before you begin, make sure you  do the following:
+
+* xref:back_up_standalone_server_configuration[Back up the {productName} standalone server configuration] as described above.
+* xref:start_eap_standalone_server_with_the_default_profile[Start the {productName} server with the standalone default profile] as described above.
 
 . Review the `configure-system-exception.cli` file in the root of this quickstart directory. This script sets the `log-system-exceptions` attribute to `false` in the `ejb3` subsystem in the server configuration file.
 . Open a new terminal, navigate to the root directory of this quickstart, and run the following command, replacing {jbossHomeName} with the path to your server:
@@ -97,34 +102,12 @@ You should see the following configuration in the `ejb3` subsystem.
 <log-system-exceptions value="false"/>
 ----
 
-== Start the Server
-
-. Open a terminal and navigate to the root of the {productName} directory.
-. Start the {productName} server with the default standalone profile by typing the following command.
-+
-[source,subs="+quotes,attributes+",options="nowrap"]
-----
-$ __{jbossHomeName}__/bin/standalone.sh
-----
-+
-NOTE: For Windows, use the `__{jbossHomeName}__\bin\standalone.bat` script.
-
-[[install_the_quickstart_parent_artifact_in_maven]]
-== Install the Quickstart Parent Artifact in Maven
-
-This quickstart requires the `quickstart-parent` artifact to be installed in your local Maven repository. To install it, navigate to your __QUICKSTART_HOME__ directory  directory and run the following command.
-
-[source,subs="+quotes,attributes+",options="nowrap"]
-----
-$ cd __QUICKSTART_HOME__
-$ mvn clean install
-----
 
 == Build and Deploy the Quickstart
 
-. Make sure you have started the {productName} server. See the instructions in the previous section.
+. xref:start_eap_standalone_server_with_the_default_profile[Start the {productName} server with the standalone default profile] as described above.
 
-. Open a terminal and navigate to the `shopping-cart` quickstart directory
+. Open a terminal and navigate to the root directory of this quickstart.
 
 . To build both the server component and the remote client program, deploy the server module, change into the examples shopping-cart directory and type the following:
 +
@@ -200,54 +183,40 @@ Cart was correctly removed, as expected, after Checkout
 INFO  [stdout] (pool-9-thread-8) implementing checkout() left as exercise for the reader!
 ----
 
-[[restore_the_server_configuration]]
-== Restore the Server Configuration
+== Undeploy the Archive
 
-You can restore the system exception configuration by running the `restore-system-exception.cli` script provided in the root directory of this quickstart or by manually restoring the back-up copy the configuration file.
+When you are finished testing, follow these steps to undeploy the archive.
 
-=== Restore the Server Configuration by Running the JBoss CLI Script
-
-. Start the {productName} server by typing the following:
+. Make sure you xref:start_eap_standalone_server_with_the_default_profile[start the {productName} server with the standalone default profile] as described above.
+. Open a terminal and navigate to the root directory of this quickstart.
+. Type this command to undeploy the archive:
 +
-[source,subs="+quotes,attributes+",options="nowrap"]
+[source,options="nowrap"]
 ----
-$ __{jbossHomeName}__/bin/standalone.sh
+$ mvn wildfly:undeploy
 ----
-+
-NOTE: For Windows, use the `__{jbossHomeName}__\bin\standalone.bat` script.
 
-. Open a new terminal, navigate to the root directory of this quickstart, and run the following command, replacing {jbossHomeName} with the path to your server:
-+
-[source,subs="+quotes,attributes+",options="nowrap"]
-----
-$ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=restore-system-exception.cli
-----
-+
-NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
+//************************************************************
+// Restore the {productName} Standalone Server Configuration
+//************************************************************
+// == Restore the {productName} Standalone Server Configuration
+:restoreScriptName: restore-system-exception.cli
+include::../shared-doc/restore-standalone-server-configuration.adoc[leveloffset=+1]
 
-+
-This script restores the the log-system-exceptions attribute value to true. You should see the following result when you run the script:
+// Additional information about this script
+This script restores the the `log-system-exceptions` attribute value to `true`. You should see the following result when you run the script:
 +
 [source,options="nowrap"]
 ----
 The batch executed successfully
 ----
 
-=== Restore the Server Configuration Manually
+//******************************************************
+// Restore the standalone server configuration manually
+//******************************************************
+// == Restore the {productName} Standalone Server Configuration Manually
+include::../shared-doc/restore-standalone-server-configuration-manual.adoc[leveloffset=+2]
 
-. If it is running, stop the {productName} server.
-. Replace the `{jbossHomeName}/standalone/configuration/standalone.xml` file with the back-up copy of the file.
-
-== Undeploy the Archive
-
-. Make sure you have started the {productName} server as described above.
-. Open a terminal and navigate to the root directory of this quickstart.
-. When you are finished testing, type this command to undeploy the archive:
-+
-[source,options="nowrap"]
-----
-$ mvn wildfly:undeploy
-----
 
 == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 
@@ -259,13 +228,10 @@ This quickstart consists of multiple projects, so it deploys and runs differentl
 * To deploy the server project, right-click on the *{artifactId}-server* project and choose *Run As* –> *Run on Server*.
 * To run the client, right-click on the *{artifactId}-client* project and choose *Run As* –> *Java Application*. In the *Select Java Application* window, choose *Client - org.jboss.as.quickstarts.client* and click *OK*. The client output displays in the *Console* window.
 * To undeploy the project, right-click on the *{artifactId}-server* project and choose *Run As* –> *Maven build*. Enter `wildfly:undeploy` for the *Goals* and click *Run*.
-* Make sure you xref:restore_the_server_configuration[Restore the Server Configuration] when you have completed testing this quickstart.
+* Make sure you xref:restore_the_server_configuration[restore the {productName} standalone server configuration] when you have completed testing this quickstart.
 
-== Debug the Application
-
-If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
-
-[source,options="nowrap"]
-----
-$ mvn dependency:sources
-----
+//*************************************************
+// Add info to debug the application
+//*************************************************
+// == Debug the Application
+include::../shared-doc/debug-the-application.adoc[leveloffset=+1]
