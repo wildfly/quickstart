@@ -14,6 +14,9 @@ include::../shared-doc/attributes.adoc[]
 [abstract]
 The `contacts-jquerymobile` quickstart demonstrates a Java EE 7 mobile database application using HTML5, jQuery Mobile, JAX-RS, JPA, and REST.
 
+:standalone-server-default:
+:archiveType: war
+
 == What is it?
 
 The `contact-jquerymobile` quickstart is a deployable Maven 3 project designed to help you get your foot in the door developing HTML5 based mobile web applications with Java EE 7 in {productNameFull}. This project is setup to allow you to create a basic Java EE 7 application using HTML5, jQuery Mobile, JAX-RS, CDI, EJB, JPA, and Bean Validation. It includes a persistence unit and some sample persistence and transaction code to help you get your feet wet with database access in enterprise Java.
@@ -54,22 +57,15 @@ include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
 //*************************************************
 // Start the server with the default profile
 //*************************************************
-// == Start the Server with the Default Profile
+// == Start the {productName} Standalone Server
 :mobileApp:
-include::../shared-doc/start-server-default-profile.adoc[leveloffset=+1]
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
 
-== Build and Deploy the Quickstart
-
-. Make sure you have started the {productName} server as described above.
-. Open a terminal and navigate to the root directory of this quickstart.
-. Type this command to build and deploy the archive:
-+
-[source,options="nowrap"]
-----
-$ mvn clean package wildfly:deploy
-----
-
-. This deploys `target/{artifactId}.war` to the running instance of the server.
+//*************************************************
+// Build and deploy the quickstart WAR
+//*************************************************
+// == Build and Deploy the Quickstart
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
 
 == Access the Application
 
@@ -108,16 +104,12 @@ The application is made up of the following pages:
 * Same as *Add form*.
 * *Delete* button will delete the contact currently viewed and return you to the Main page.
 
-== Undeploy the Archive
+//*************************************************
+// Undeploy the quickstart archive
+//*************************************************
+// == Undeploy the Quickstart
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
 
-. Make sure you have started the {productName} server as described above.
-. Open a terminal and navigate to the root directory of this quickstart.
-. When you are finished testing, type this command to undeploy the archive:
-+
-[source,options="nowrap"]
-----
-$ mvn wildfly:undeploy
-----
 
 == Minification
 

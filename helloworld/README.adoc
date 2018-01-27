@@ -14,6 +14,9 @@ include::../shared-doc/attributes.adoc[]
 [abstract]
 The `helloworld` quickstart demonstrates the use of CDI and Servlet 3 and is a good starting point to verify {productName} is configured correctly.
 
+:standalone-server-default:
+:archiveType: war
+
 == What is it?
 
 The `helloworld` quickstart demonstrates the use of _CDI_ and _Servlet 3_ in {productNameFull} {productVersion}.
@@ -33,34 +36,25 @@ include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
 //*************************************************
 // Start the server with the default profile
 //*************************************************
-// == Start the Server with the Default Profile
-include::../shared-doc/start-server-default-profile.adoc[leveloffset=+1]
+// == Start the {productName} Standalone Server
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
 
-== Build and Deploy the Quickstart
-
-. Make sure you have started the {productName} server as described above.
-. Open a terminal and navigate to the root directory of this quickstart.
-. Type this command to build and deploy the archive:
-+
-----
-$ mvn clean install wildfly:deploy
-----
-
-. This will deploy `target/{artifactId}.war` to the running instance of the server.
+//*************************************************
+// Build and deploy the quickstart WAR
+//*************************************************
+// == Build and Deploy the Quickstart
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
 
 == Access the Application
 
 The application will be running at the following URL: http://localhost:8080/{artifactId}/.
 
-== Undeploy the Archive
+//*************************************************
+// Undeploy the quickstart archive
+//*************************************************
+// == Undeploy the Quickstart
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
 
-. Make sure you have started the {productName} server as described above.
-. Open a terminal and navigate to the root directory of this quickstart.
-. When you are finished testing, type this command to undeploy the archive:
-+
-----
-$ mvn wildfly:undeploy
-----
 
 == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 

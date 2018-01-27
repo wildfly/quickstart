@@ -14,6 +14,9 @@ include::../shared-doc/attributes.adoc[]
 [abstract]
 The `helloworld-mdb` quickstart uses JMS and EJB Message-Driven Bean (MDB) to create and deploy JMS topic and queue resources in {productName}.
 
+:standalone-server-full:
+:archiveType: war
+
 == What is it?
 
 The `helloworld-mdb` quickstart demonstrates the use of JMS and EJB Message-Driven Bean in {productNameFull}.
@@ -38,22 +41,17 @@ include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
 //*************************************************
 // Start the server with the full profile
 //*************************************************
-// == Start the Server with the Full Profile
-include::../shared-doc/start-server-full-profile.adoc[leveloffset=+1]
+// == Start the {productName} Standalone Server
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
 
+//*************************************************
+// Build and deploy the quickstart WAR
+//*************************************************
+// == Build and Deploy the Quickstart
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
 
-== Build and Deploy the Quickstart
-
-. Make sure you have started the {productName} server as described above.
-. Open a terminal and navigate to the root directory of this quickstart.
-. Type this command to build and deploy the archive:
-+
-----
-$ mvn clean install wildfly:deploy
-----
-
-. This will deploy `target/{artifactId}.war` to the running instance of the server. Look at the {productName} console or Server log and you should see log messages corresponding to the deployment of the message-driven beans and the JMS destinations:
-+
+// Additional deployment information
+Look at the {productName} console or server log and you should see log messages corresponding to the deployment of the message-driven beans and the JMS destinations:
 ----
 ...
 INFO  [org.wildfly.extension.messaging-activemq] (MSC service thread 1-4) WFLYMSGAMQ0002: Bound messaging object to jndi name java:/queue/HELLOWORLDMDBQueue
@@ -84,15 +82,12 @@ INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldQueueMDB] (Thread-5 (ActiveM
 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldQueueMDB] (Thread-4 (ActiveMQ-client-global-threads-1189700957)) Received Message from queue: This is message 3
 ----
 
-== Undeploy the Archive
+//*************************************************
+// Undeploy the quickstart archive
+//*************************************************
+// == Undeploy the Quickstart
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
 
-. Make sure you have started the {productName} server as described above.
-. Open a terminal and navigate to the root directory of this quickstart.
-. When you are finished testing, type this command to undeploy the archive:
-+
-----
-$ mvn wildfly:undeploy
-----
 
 == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 

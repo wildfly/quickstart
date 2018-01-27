@@ -7,12 +7,15 @@
 :buildRequirements: Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later
 include::../shared-doc/attributes.adoc[]
 
+[abstract]
+The `app-client` quickstart demonstrates how to code and package a client app and use the {productName} client container to start the client `Main` program.
+
 :level: Intermediate
 :technologies: EJB, EAR, AppClient
 :source: {githubRepoUrl}
 
-[abstract]
-The `app-client` quickstart demonstrates how to code and package a client app and use the {productName} client container to start the client `Main` program.
+:standalone-server-default:
+:archiveType: ear
 
 == What is it?
 
@@ -77,19 +80,16 @@ If you prefer, you can use the `add-user` utility interactively. For an example 
 //*************************************************
 // Start the server with the default profile
 //*************************************************
-// == Start the Server with the Default Profile
-include::../shared-doc/start-server-default-profile.adoc[leveloffset=+1]
+// == Start the Server
+//include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
 
-== Build and Deploy the Quickstart
+//*************************************************
+// Build and deploy the quickstart EAR
+//*************************************************
+// == Build and Deploy the Quickstart
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
 
-. Make sure you xref:start_eap_standalone_server_with_the_default_profile[start the {productName} server with the standalone default profile] as described above.
-. Open a terminal and navigate to the root directory of this quickstart.
-. Type the following command to build the artifacts.
-+
-[source,options="nowrap"]
-----
-$ mvn clean install wildfly:deploy
-----
 
 == Access the Remote Client Application from the Same Machine
 

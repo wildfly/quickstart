@@ -14,6 +14,9 @@ include::../shared-doc/attributes.adoc[]
 [abstract]
 The `ejb-throws-exception` quickstart demonstrates how to throw and handle exceptions across JARs in an EAR.
 
+:standalone-server-default:
+:archiveType: ear
+
 == What is it?
 
 The `ejb-throws-exception` quickstart extends the link:../ejb-in-ear/README.adoc[ejb-in-ear] quickstart and demonstrates how to handle exceptions across JARs in an EAR deployed to {productNameFull}. In this quickstart, an EJB in the EJB JAR throws a custom exception. The web application in the client JAR catches the exception and displays it in a nicely formatted message. The EAR contains: _JSF WAR_, an _EJB_ JAR and a client library JAR containg classes that both the WAR and EJB JAR use.
@@ -76,21 +79,14 @@ include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
 //*************************************************
 // Start the server with the default profile
 //*************************************************
-// == Start the Server with the Default Profile
-include::../shared-doc/start-server-default-profile.adoc[leveloffset=+1]
+// == Start the {productName} Standalone Server
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
 
-== Build and Deploy the Quickstart
-
-. Make sure you have started the {productName} server as described above.
-. Open a terminal and navigate to the root directory of this quickstart.
-. Type this command to build and deploy the archive:
-+
-[source,options="nowrap"]
-----
-$ mvn clean install wildfly:deploy
-----
-
-. This will deploy `ear/target/{artifactId}.ear` to the running instance of the server.
+//*************************************************
+// Build and deploy the quickstart EAR
+//*************************************************
+// == Build and Deploy the Quickstart
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
 
 == Access the Application
 
@@ -102,16 +98,12 @@ The *Response* output text will display the response from the EJB.
 If the *Name* input text box is not empty, then the *Response* output text will display *Hello <name>*
 If the *Name* input text box is empty, then the *Response* output text will display the message of the exception throw back from the EJB.
 
-== Undeploy the Archive
+//*************************************************
+// Undeploy the quickstart archive
+//*************************************************
+// == Undeploy the Quickstart
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
 
-. Make sure you have started the {productName} server as described above.
-. Open a terminal and navigate to the root directory of this quickstart.
-. When you are finished testing, type this command to undeploy the archive:
-+
-[source,options="nowrap"]
-----
-$ mvn wildfly:undeploy
-----
 
 [[run_the_quickstart_in_jboss_developer_studio_or_eclipse]]
 == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse

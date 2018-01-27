@@ -14,6 +14,9 @@ include::../shared-doc/attributes.adoc[]
 [abstract]
 The `xml-jaxp` quickstart demonstrates how to use Servlet and JSF to upload an XML file to {productName} and validate and parse it using DOM or SAX.
 
+:standalone-server-default:
+:archiveType: war
+
 == What is it?
 
 The `xml-jaxp` quickstart is a simple Java EE JAXP example that demonstrates how to use Servlet 3.0 and JSF to upload an XML file to _{productNameFull}_ and parse it using DOM or SAX, both of which are built into Java. It also shows how to use modules available in {productName}.
@@ -38,21 +41,15 @@ include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
 //*************************************************
 // Start the server with the default profile
 //*************************************************
-// == Start the Server with the Default Profile
-include::../shared-doc/start-server-default-profile.adoc[leveloffset=+1]
+// == Start the {productName} Standalone Server
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
 
-== Build and Deploy the Quickstart
+//*************************************************
+// Build and deploy the quickstart WAR
+//*************************************************
+// == Build and Deploy the Quickstart
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
 
-. Make sure you have started the {productName} server as described above.
-. Open a terminal and navigate to the root directory of this quickstart.
-. Type this command to build and deploy the archive:
-+
-[source,options="nowrap"]
-----
-$ mvn clean install wildfly:deploy
-----
-
-. This will deploy `target/{artifactId}.war` to the running instance of the server.
 
 == Access the Application
 
@@ -82,16 +79,13 @@ To enable the alternative SAXXMLParser parser:
 INFO  [stdout] (http-/127.0.0.1:8080-1) Parsing the document using the SAXXMLParser!
 ----
 
-== Undeploy the Archive
 
-. Make sure you have started the {productName} server as described above.
-. Open a terminal and navigate to the root directory of this quickstart.
-. When you are finished testing, type this command to undeploy the archive:
-+
-[source,options="nowrap"]
-----
-$ mvn wildfly:undeploy
-----
+//*************************************************
+// Undeploy the quickstart archive
+//*************************************************
+// == Undeploy the Quickstart
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
+
 
 == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 

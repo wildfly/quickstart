@@ -14,6 +14,9 @@ include::../shared-doc/attributes.adoc[]
 [abstract]
 The `temperature-converter` quickstart does temperature conversion using an EJB Stateless Session Bean (SLSB), CDI, and a JSF front-end client.
 
+:standalone-server-default:
+:archiveType: war
+
 == What is it?
 
 The `temperature-converter` example demonstrates the use of an EJB Stateless Session Bean (SLSB) and CDI, accessed using a JSF, and deployed to {productNameFull} using a WAR archive.
@@ -41,22 +44,15 @@ include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
 //*************************************************
 // Start the server with the default profile
 //*************************************************
-// == Start the Server with the Default Profile
-include::../shared-doc/start-server-default-profile.adoc[leveloffset=+1]
+// == Start the {productName} Standalone Server
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
 
+//*************************************************
+// Build and deploy the quickstart WAR
+//*************************************************
+// == Build and Deploy the Quickstart
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
 
-== Build and Deploy the Quickstart
-
-. Make sure you have started the {productName} server as described above.
-. Open a terminal and navigate to the root directory of this quickstart.
-. Type this command to build and deploy the archive:
-+
-[source,options="nowrap"]
-----
-$ mvn clean install wildfly:deploy
-----
-
-. This will deploy `target/{artifactId}.war` to the running instance of the server.
 
 == Access the Application
 
@@ -68,16 +64,13 @@ You will be presented with a simple form for temperature conversion.
 . Enter a temperature.
 . Press the `Convert` button to see the results.
 
-== Undeploy the Archive
 
-. Make sure you have started the {productName} server as described above.
-. Open a terminal and navigate to the root directory of this quickstart.
-. When you are finished testing, type this command to undeploy the archive:
-+
-[source,options="nowrap"]
-----
-$ mvn wildfly:undeploy
-----
+//*************************************************
+// Undeploy the quickstart archive
+//*************************************************
+// == Undeploy the Quickstart
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
+
 
 == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 

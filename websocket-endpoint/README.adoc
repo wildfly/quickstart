@@ -14,6 +14,9 @@ include::../shared-doc/attributes.adoc[]
 [abstract]
 Shows how to use WebSockets with JSON to broadcast information to all open WebSocket sessions in {productName}.
 
+:standalone-server-default:
+:archiveType: war
+
 == What is it?
 
 The `websocket-endpoint` quickstart demonstrates how to use Java API for WebSockets to create server endpoints in {productNameFull}.
@@ -37,21 +40,15 @@ include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
 //*************************************************
 // Start the server with the default profile
 //*************************************************
-// == Start the Server with the Default Profile
-include::../shared-doc/start-server-default-profile.adoc[leveloffset=+1]
+// == Start the {productName} Standalone Server
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
 
-== Build and Deploy the Quickstart
+//*************************************************
+// Build and deploy the quickstart WAR
+//*************************************************
+// == Build and Deploy the Quickstart
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
 
-. Make sure you have started the {productName} server as described above.
-. Open a terminal and navigate to the root directory of this quickstart.
-. Type this command to build and deploy the archive:
-+
-[source,options="nowrap"]
-----
-$ mvn clean package wildfly:deploy
-----
-
-. This will deploy `target/{artifactId}.war` to the running instance of the server.
 
 == Access the application
 
@@ -65,16 +62,13 @@ You should open the application URL in other browsers or tabs. You will notice t
 
 You can restart the bidding if you click on `Reset bidding` button.
 
-== Undeploy the Archive
 
-. Make sure you have started the {productName} server as described above.
-. Open a terminal and navigate to the root directory of this quickstart.
-. When you are finished testing, type this command to undeploy the archive:
-+
-[source,options="nowrap"]
-----
-$ mvn wildfly:undeploy
-----
+//*************************************************
+// Undeploy the quickstart archive
+//*************************************************
+// == Undeploy the Quickstart
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
+
 
 == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 

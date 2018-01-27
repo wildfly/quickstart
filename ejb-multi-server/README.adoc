@@ -56,10 +56,12 @@ include::../shared-doc/system-requirements.adoc[leveloffset=+1]
 // == Use of {jbossHomeName}
 include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
 
+[[start_with_a_clean_server_install]]
 == Start with a Clean Server Install
 
 It is important to start with a clean version of {productName} before testing this quickstart. Make sure you unzip or install a fresh {productName} instance.
 
+[[add_the_application_users]]
 == Add the Application Users
 
 The following users must be added to the `ApplicationRealm` to run this quickstart. Make sure you use the names and passwords specified in the table as they are required to run this example.
@@ -86,41 +88,30 @@ NOTE: For Windows, use the `__{jbossHomeName}__\bin\add-user.bat` script.
 
 If you prefer, you can use the `add-user` utility interactively. For an example of how to use the add-user utility, see the instructions located here: link:{addApplicationUserDocUrl}[Add an Application User].
 
-== Back Up the Server Configuration Files
+//*************************************************
+// Back up the server configuration files
+//*************************************************
+// == Back Up the {productName} Managed Domain Configuration
+include::../shared-doc/back-up-managed-domain-configuration.adoc[leveloffset=+1]
 
-The {productName} server configuration for this quickstart is very complicated and not easily restored by running a JBoss CLI script, so it is important to back up your server configuration files before you begin.
 
-. If it is running, stop the {productName} server.
-. Back up the following files, replacing __{jbossHomeName}__ with the path to your {productName} installation:
-+
-[source,subs="+quotes,attributes+",options="nowrap"]
-----
-__{jbossHomeName}__/domain/configuration/domain.xml
-__{jbossHomeName}__/domain/configuration/host.xml
-----
+//*************************************************
+// Start the managed domain
+//*************************************************
+// == Start the {productName} Managed Domain
+include::../shared-doc/start-server-managed-domain.adoc[leveloffset=+1]
 
-. After you have completed testing and undeployed this quickstart, you can replace these files to restore the server to its original configuration.
-
+[[configure_the_server]]
 == Configure the Server
 
 You configure the domain server by running JBoss CLI commands. For your convenience, this quickstart batches the commands into a `install-domain.cli` script provided in the root directory of this quickstart.
 
-. Start with a fresh instance of the {productName} as noted above under xref:start_with_a_clean_server_install[Start with a Clean {productName} Install].
+. Before you begin, make sure you do the following:
 
-. Make sure you add the required users as specified above under xref:add_the_application_users[Add the Application Users].
-
-. Before you begin, make sure you followed the instructions above under xref:back_up_the_server_configuration_files[Back Up the {productName} Server Configuration Files].
-
-. Start the {productName} server
-** Open a terminal and navigate to the root of the {productName} directory.
-** Start the {productName} managed domain by typing the following command.
-+
-[source,subs="+quotes,attributes+",options="nowrap"]
-----
-$ __EAP_HOME__/bin/domain.sh
-----
-+
-NOTE: For Windows, use the `__EAP_HOME__/bin/domain.bat` script.
+* xref:start_with_a_clean_server_install[Start with clean {productName} installation].
+* xref:back_up_managed_domain_configuration[Back up the {productName} managed domain configuration].
+* xref:add_the_application_users[Add the application users].
+* xref:start_eap_managed_domain[Start the {productName} managed domain].
 
 . Review the `install-domain.cli` file in the root of this quickstart directory. This script configures and starts multiple servers needed to run this quickstart.
 . Open a new terminal, navigate to the root directory of this quickstart, and run the following command, replacing __{jbossHomeName}__ with the path to your server:
@@ -136,6 +127,7 @@ You should see a result of `"outcome" => "success"` for every step in the execut
 +
 IMPORTANT: Depending on your machine configuration, you might see "Exception in thread "main" java.lang.OutOfMemoryError: unable to create new native thread" exceptions in the server log when you run this script. If you do, you must increase the ulimit open files and max user processes settings. Instructions to do this are located here: http://ithubinfo.blogspot.com/2013/07/how-to-increase-ulimit-open-file-and.html. After you update the ulimit settings, you must reboot and start with a fresh instance of the server.
 
+[[review_the_modified_server_configuration]]
 == Review the Modified Server Configuration
 
 There are too many additions to the configuration files to list here. Feel free to compare the `domain.xml` and `host.xml` to the backup copies to see the changes made to configure the server to run this quickstart.
@@ -151,6 +143,7 @@ $ cd __QUICKSTART_HOME__
 $ mvn clean install
 ----
 
+[[build_and_deploy_the_quickstart]]
 == Build and Deploy the Quickstart
 
 . Make sure you have xref:install_the_quickstart_parent_artifact_in_maven[installed the quickstart parent artifact] in your Maven repository.
@@ -198,6 +191,7 @@ process-state: reload-required
 
 IMPORTANT: If ERRORs appear in the `server.log` when installing or deploying the quickstart, stop the domain and restart it. This should ensure further steps run correctly.
 
+[[access_the_remote_client_application]]
 == Access the Remote Client Application
 
 This example shows how to invoke an EJB from a remote standalone application.
@@ -235,7 +229,8 @@ java -cp $ __{jbossHomeName}__/bin/client/jboss-client.jar:app-main/ejb/target/e
 * A {productName} will deny the invocation of unsecured methods of `appOne`/`appTwo` since security is enabled but the method does not include `@Roles`. You need to set `default-missing-method-permissions-deny-access = false` for the `ejb3` subsystem within the domain profile `ha` and `default` to allow the method invocation. See the `install-domain.cli` script.
 ====
 
-== Access the JSF application Inside the Main Application
+[[access_the_jsf_application_inside_the_main_application]]
+== Access the JSF Application Inside the Main Application
 
 The JSF example shows different annotations to inject the EJB. Also how to handle the annotation if different beans implement the same interface and therefore the container is not able to decide which bean needs to be injected without additional informations.
 
@@ -244,6 +239,7 @@ The JSF example shows different annotations to inject the EJB. Also how to handl
 . Insert a message in the Text input and invoke the different methods. The result is shown in the browser.
 . See server logfiles and find your given message logged as INFO.
 
+[[access_the_servlet_application_deployed_as_a_war_inside_a_minimal_server]]
 == Access the Servlet Application Deployed as a WAR Inside a Minimal Server
 
 An example how to access EJBs from a separate instance which only contains a web application.
@@ -252,9 +248,10 @@ An example how to access EJBs from a separate instance which only contains a web
 . Use a browser to access the Servlet at the following URL: http://localhost:8380/ejb-multi-server-app-web/
 . The Servlet will invoke the remote EJBs directly and show the results, compare that the invocation is successful
 
-== Undeploy the Archives
+[[undeploy_the_quickstart]]
+== Undeploy the Quickstart
 
-. Make sure you have started the {productName} server as described above.
+. xref:start_eap_managed_domain[Start the {productName} managed domain] as described above.
 . Open a terminal and navigate to the root directory of this quickstart.
 . When you are finished testing, type this command to undeploy the archive:
 +
@@ -265,10 +262,13 @@ $ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=undeploy-domain.cli
 +
 NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat`.
 
-== Remove the Server Domain Configuration
 
-. If it is running, stop the {productName} server.
-. Restore the `__{jbossHomeName}__/domain/configuration/domain.xml` and `__{jbossHomeName}__/domain/configuration/host.xml` files with the back-up copies of the files. Make sure you replace `__{jbossHomeName}__` with the path to your server.
+//******************************************************
+// Restore the domain configuration manually
+//******************************************************
+// == Restore the {productName} Managed Domain Configuration Manually
+include::../shared-doc/restore-managed-domain-configuration-manual.adoc[leveloffset=+1]
+
 
 [[run_the_quickstart_in_jboss_developer_studio_or_eclipse]]
 == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse

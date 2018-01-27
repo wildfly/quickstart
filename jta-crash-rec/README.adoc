@@ -14,6 +14,9 @@ include::../shared-doc/attributes.adoc[]
 [abstract]
 The `jta-crash-rec` quickstart uses JTA and Byteman to show how to code distributed (XA) transactions in order to preserve ACID properties on server crash.
 
+:standalone-server-full:
+:archiveType: war
+
 == What is it?
 
 The `jta-crash-rec` quickstart demonstrates how to code distributed or XA (eXtended Architecture) transactions so that the ACID properties are preserved across participating resources deployed to {productNameFull} after a server crash. An XA transaction is one in which multiple resources, such as MDBs and databases, participate within the same transaction. It ensures all operations are performed as a single entity of work. ACID is a set of 4 properties that guarantee the resources are processed in the following manner:
@@ -64,21 +67,14 @@ _NOTE_: The _Byteman_ scripts only work in JTA mode. They do not work in JTS mod
 //*************************************************
 // Start the server with the full profile
 //*************************************************
-// == Start the Server with the Full Profile
-include::../shared-doc/start-server-full-profile.adoc[leveloffset=+1]
+// == Start the {productName} Standalone Server
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
 
-== Build and Deploy the Quickstart
-
-. Make sure you have started the {productName} server as described above.
-. Open a terminal and navigate to the root directory of this quickstart.
-. Type this command to build and deploy the archive:
-+
-[source,options="nowrap"]
-----
-$ mvn clean install wildfly:deploy
-----
-
-. This will deploy `target/{artifactId}.war` to the running instance of the server.
+//*************************************************
+// Build and deploy the quickstart WAR
+//*************************************************
+// == Build and Deploy the Quickstart
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
 
 == Access the Application
 
@@ -117,7 +113,8 @@ For Windows, append the following line.
 ----
 ====
 
-** xref:start_the_server[Start the server] as instructed above.
+** xref:start_eap_standalone_server_with_the_full_profile[Start the {productName} server with the standalone full profile] as described above.
+
 . Once you complete step 4, you are ready to create a _recovery record_. Go to the application URL http://localhost:8080/{artifactId}/XA and insert another row into the database. At this point, Byteman halts the application server.
 
 . If you want to verify the database insert was committed but that message delivery is still pending, you can use an SQL client such as the H2 database console tool. Issue a query to show that the value is present but does not contain the message added by the consumer (`updated via JMS`). Here is how you can do it using H2:
@@ -169,7 +166,8 @@ Database may be already in use: "Locked by another process"
 ----
 
 ** link:{configureBytemanDisableDocUrl}[Disable the Byteman script] by restoring the backup server configuration file.
-** xref:start_the_server[Start the server] as instructed above.
+** xref:start_eap_standalone_server_with_the_full_profile[Start the {productName} server with the standalone full profile] as described above.
+
 ** Load the web interface to the application
 ** By the time the {productName} server is ready, the transaction should have recovered.
 ** A message is printed on the {productName} server console when the consumer has completed the update. Look for a line that reads:
@@ -205,7 +203,7 @@ HHH000431: Unable to determine H2 database version, certain features may not wor
 
 == Undeploy the Archive
 
-. Make sure you have started the {productName} server as described above.
+. xref:start_eap_standalone_server_with_the_full_profile[Start the {productName} server with the standalone full profile] as described above.
 . Open a terminal and navigate to the root directory of this quickstart.
 . When you are finished testing, type this command to undeploy the archive:
 +
