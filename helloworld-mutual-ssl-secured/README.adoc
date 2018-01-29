@@ -14,6 +14,9 @@ include::../shared-doc/attributes.adoc[]
 [abstract]
 The `helloworld-mutual-ssl-secured` quickstart demonstrates securing a Web application using client mutual SSL authentication and role-based access control
 
+:standalone-server-default:
+:archiveType: war
+
 == What is it?
 
 This example demonstrates the configuration of _mutual SSL authentication_ in {productNameFull} {productVersion} to secure a war application.
@@ -165,14 +168,13 @@ $>keytool -importkeystore -srckeystore client.keystore -srcstorepass secret -des
 // Back up the server configuration files
 //*************************************************
 // == Back Up the {productName} Standalone Server Configuration
-:standalone-server-default:
 include::../shared-doc/back-up-server-standalone-configuration.adoc[leveloffset=+1]
 
 //*************************************************
 // Start the server with the default profile
 //*************************************************
-// == Start the Server with the Default Profile
-include::../shared-doc/start-server-default-profile.adoc[leveloffset=+1]
+// == Start the {productName} Standalone Server
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
 
 [[configure_the_server]]
 == Configure the Server
@@ -341,20 +343,14 @@ Before you access the application, you must import the _clientCert.p12_, which h
 . Select the *clientCert.p12* file. You will be prompted to enter the password: `secret`.
 . The certificate is now installed in the Mozilla Firefox browser.
 
-== Build and Deploy the Quickstart
+//*************************************************
+// Build and deploy the quickstart WAR
+//*************************************************
+// == Build and Deploy the Quickstart
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
 
-. xref:start_eap_standalone_server_with_the_default_profile[Start the {productName} server with the standalone default profile] as described above.
-. Open a terminal and navigate to the root directory of one of the quickstart.
-. Type this command to build and deploy the archive:
-+
-[source,options="nowrap"]
-----
-$ mvn clean package wildfly:deploy
-----
-
-. This will deploy `target/{artifactId}.war` to the running instance of the server.
-
-. In case mutual ssl is configured properly and war app is secured, you will be able to access the application only if the DN of client certificate i.e., `clientCert.p12` is same as the one mentioned in `app-roles.properties` file. It will otherwise result into a `HTTP Status 403` or forbidden error.
+// Additional deployment information
+If mutual SSL is configured properly and the WAR application is secured, you will be able to access the application only if the DN of client certificate, for example `clientCert.p12`, is same as the one defined in `app-roles.properties` file. Otherwise, it will result in an HTTP error status code of `403 Access Denied/Forbidden`.
 
 == Access the Application
 
@@ -381,16 +377,12 @@ dzXZz0EjjWCPJk+LVEhEvH0GcWAp3x3irpNU4hRZLd0XomY0Z4NnUt7VMBNYDOxVxgT9qcLnEaEpIfYU
 ynfnMaOxI67FC2QzhfzERyKqHj47WuwN0xWbS/1gBypS2nUwvItyxaEQG2X5uQY8j8QoY9wcMzIIkP2Mk14gJGHUnA8=
 ----
 
-== Undeploy the Archive
+//*************************************************
+// Undeploy the quickstart archive
+//*************************************************
+// == Undeploy the Quickstart
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
 
-. Make sure you have started the {productName} server as described above.
-. Open a terminal and navigate to the root directory of this quickstart.
-. When you are finished testing, type this command to undeploy the archive:
-+
-[source,options="nowrap"]
-----
-$ mvn wildfly:undeploy
-----
 
 //************************************************************
 // Restore the {productName} Standalone Server Configuration

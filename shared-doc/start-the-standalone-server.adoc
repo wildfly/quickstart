@@ -1,0 +1,71 @@
+[[start_the_eap_standalone_server]]
+= Start the {productName} Standalone Server
+//******************************************************************************
+// Use this template if your quickstart requires a normal start of a single
+// standalone server.
+//
+// * Define the standalone profile type. Supported values are:
+//    :standalone-server-default:
+//    :standalone-server-full:
+//    :standaone-server-full-ha:
+//    :standalone-server-custom:
+//
+// * For mobile applications, you can define the `mobileApp` variable in the
+//   `README.adoc` file to add `-b 0.0.0.0` to the command line. This allows
+//    external clients, such as phones, tablets, and desktops, to connect
+//    to the application through through your local network
+//    ::mobileApp: {artifactId}-service
+//
+//******************************************************************************
+
+// Start the standalone server with the default profile.
+ifdef::standalone-server-default[]
+:serverProfile: default profile
+:serverArguments:
+endif::[]
+
+// Start the standalone server with the full profile.
+ifdef::standalone-server-full[]
+:serverProfile: full profile
+:serverArguments:  -c standalone-full.xml
+endif::[]
+
+// Start the standalone server with the full HA profile.
+ifdef::standalone-server-full-ha[]
+:serverProfile: full HA profile
+:serverArguments:  -c standalone-full-ha.xml
+endif::[]
+
+// Start the standalone server with the HA profile.
+ifdef::standalone-server-ha[]
+:serverProfile: HA profile
+:serverArguments:  -c standalone-ha.xml
+endif::[]
+
+// Start the standalone server with the custom profile.
+// NOTE: This profile requires that you define the `serverArguments` variable
+//       within the quickstart README.adoc file. For example:
+//  :serverArguments: --server-config=../../docs/examples/configs/standalone-xts.xml
+ifdef::standalone-server-custom[]
+:serverProfile: custom profile
+endif::[]
+
+. Open a terminal and navigate to the root of the {productName} directory.
+. Start the {productName} server with the {serverProfile} by typing the following command.
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}__/bin/standalone.sh {serverArguments}
+----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\standalone.bat` script.
+
+ifdef::mobileApp[]
++
+Adding `-b 0.0.0.0` to the above command allows external clients, such as phones, tablets, and desktops, to connect through your local network. For example:
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}__/bin/standalone.sh {serverArguments} -b 0.0.0.0
+----
+endif::[]

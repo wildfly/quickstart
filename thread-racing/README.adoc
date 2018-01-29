@@ -15,6 +15,9 @@ include::../shared-doc/attributes.adoc[]
 [abstract]
 A thread racing web application that demonstrates technologies introduced or updated in the latest Java EE specification.
 
+:standalone-server-full:
+:archiveType: war
+
 == What is it?
 
 The `thread-racing` quickstart is a web application that demonstrates new and updated technologies introduced by the Java EE 7 specification through simple use cases.
@@ -56,20 +59,17 @@ include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
 //*************************************************
 // Start the server with the full profile
 //*************************************************
-// == Start the Server with the Full Profile
-include::../shared-doc/start-server-full-profile.adoc[leveloffset=+1]
+// == Start the {productName} Standalone Server
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
 
 == Build and Deploy the Quickstart
 
-. Make sure you have started the {productName} server as described above.
-. Open a terminal and navigate to the root directory of this quickstart.
-. Type this command to build and deploy the archive:
-+
-----
-$ mvn clean install wildfly:deploy
-----
+//*************************************************
+// Build and deploy the quickstart WAR
+//*************************************************
+// == Build and Deploy the Quickstart
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
 
-. This will deploy `target/{artifactId}.war` to the running instance of the server.
 
 == Access the application
 
@@ -85,15 +85,13 @@ NOTE: You will see the following warning in the server log. You can ignore this 
 HHH000431: Unable to determine H2 database version, certain features may not work
 ----
 
-== Undeploy the Archive
 
-. Make sure you have started the {productName} server as described above.
-. Open a terminal and navigate to the root directory of this quickstart.
-. When you are finished testing, type this command to undeploy the archive:
-+
-----
-$ mvn wildfly:undeploy
-----
+//*************************************************
+// Undeploy the quickstart archive
+//*************************************************
+// == Undeploy the Quickstart
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
+
 
 == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 

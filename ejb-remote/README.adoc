@@ -14,6 +14,12 @@ include::../shared-doc/attributes.adoc[]
 [abstract]
 The `ejb-remote` quickstart uses EJB and JNDI to demonstrate how to access an EJB, deployed to {productName}, from a remote Java client application.
 
+:standalone-server-default:
+:archiveType: jar
+// Override the archive name
+:archiveDir: {artifactId}/server-side/target
+:archiveName: {artifactId}-server-side.jar
+
 == What is it?
 
 The `ejb-remote` quickstart shows how to access an EJB from a remote Java client application. It demonstrates the use of EJB and JNDI in {productNameFull}.
@@ -45,43 +51,31 @@ include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
 //*************************************************
 // Start the server with the default profile
 //*************************************************
-// == Start the Server with the Default Profile
-include::../shared-doc/start-server-default-profile.adoc[leveloffset=+1]
+// == Start the {productName} Standalone Server
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
 
 
-== Build and Deploy the Quickstart
+//*************************************************
+// Build and deploy the quickstart JAR
+//*************************************************
+// == Build and Deploy the Quickstart
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
 
-Since this quickstart builds two separate components, you can not use the standard _Build and Deploy_ commands used by most of the other quickstarts. You must follow these steps to build, deploy, and run this quickstart.
+== Build and Run the Client Application
 
-. Make sure you have started the {productName} server. See the instructions in the previous section.
-. Open a terminal and navigate to the ejb-remote quickstart directory
-. Build and install the server side component:
-** Build the EJB and client interfaces JARs and install them in your local Maven repository.
-+
-----
-$ mvn clean install
-----
-
-** Deploy the EJB JAR to your server. This Maven goal will deploy `server-side/target/{artifactId}-server-side.jar`. You can check the {productName} server console to see information messages regarding the deployment.
-+
-----
-$ mvn wildfly:deploy
-----
-
-. Build and run the client application
-** Navigate to the client subdirectory:
+. Navigate to the client subdirectory.
 +
 ----
 $ cd ../client
 ----
 
-** Compile the client code
+. Compile the client code.
 +
 ----
 $ mvn clean compile
 ----
 
-** Execute the client application within Maven
+. Execute the client application within Maven.
 +
 ----
 $ mvn exec:exec

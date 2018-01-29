@@ -14,6 +14,9 @@ include::../shared-doc/attributes.adoc[]
 [abstract]
 The `cmt` quickstart demonstrates Container-Managed Transactions (CMT), showing how to use transactions managed by the container.
 
+:standalone-server-full:
+:archiveType: war
+
 == What is it?
 
 The `cmt` quickstart demonstrates how to use container-managed transactions (CMT), which are transactions managed by the container in {productNameFull}. It is a fairly typical scenario of updating a database and sending a JMS message in the same transaction. A simple MDB is provided that prints out the message sent but this is not a transactional MDB and is purely provided for debugging purposes.
@@ -70,20 +73,14 @@ include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
 //*************************************************
 // Start the server with the full profile
 //*************************************************
-// == Start the Server with the Full Profile
-include::../shared-doc/start-server-full-profile.adoc[leveloffset=+1]
+// == Start the {productName} Standalone Server
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
 
-
-== Build and Deploy the Quickstart
-
-. Open a terminal and navigate to the root directory of this quickstart.
-. Type this command to build and deploy the archive.
-+
-----
-$ mvn clean install wildfly:deploy
-----
-
-. This will deploy `target/{artifactId}.war` to the running instance of the server.
+//*************************************************
+// Build and deploy the quickstart WAR
+//*************************************************
+// == Build and Deploy the Quickstart
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
 
 == Access the Application
 
@@ -109,15 +106,12 @@ You will see the following warnings in the server log. You can ignore these warn
 HHH000431: Unable to determine H2 database version, certain features may not work
 ----
 
-== Undeploy the Archive
+//*************************************************
+// Undeploy the quickstart archive
+//*************************************************
+// == Undeploy the Quickstart
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
 
-. Make sure you have started the {productName} server as described above.
-. Open a terminal and navigate to the root directory of this quickstart.
-. When you are finished testing, type this command to undeploy the archive.
-+
-----
-$ mvn wildfly:undeploy
-----
 
 [[run_the_quickstart_in_jboss_developer_studio_or_eclipse]]
 == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse

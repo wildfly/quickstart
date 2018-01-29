@@ -16,6 +16,8 @@ include::../shared-doc/attributes.adoc[]
 [abstract]
 The `messaging-clustering-singleton` quickstart uses a JMS topic and a queue to demonstrate clustering using {productName} messaging with MDB singleton configuration where only one node in the cluster will be active.
 
+:standalone-server-full-ha:
+
 == What is it?
 
 The `messaging-clustering-singleton` quickstart demonstrates the use of clustering with integrated Apache ActiveMQ Artemis. It uses the same code as in link:../helloworld-mdb/README.adoc[helloworld-mdb] quickstart, with only a difference in the configuration to run it as a clustered singleton. Instructions are provided to run the quickstart on either a standalone server or in a managed domain.
@@ -84,26 +86,16 @@ You can choose to configure and deploy this quickstart to a xref:configure_the_s
 
 You configure the server by running the `install-domain.cli` script provided in the root directory of this quickstart.
 
-==== Back up the Server Configuration Files for a Managed Domain
-
-Before you begin, back up your server configuration files.
-
-. If it is running, stop the {productName} server.
-
-. Back up the following files:
-+
-[source,subs="+quotes,attributes+",options="nowrap"]
-----
-__{jbossHomeName}__/domain/configuration/domain.xml
-__{jbossHomeName}__/domain/configuration/host.xml
-----
-
-After you have completed testing this quickstart, you can replace these files to restore the server to its original configuration.
+//*************************************************
+// Back up the server configuration files
+//*************************************************
+// == Back Up the {productName} Managed Domain Configuration
+include::../shared-doc/back-up-managed-domain-configuration.adoc[leveloffset=+3]
 
 //*************************************************
-// Start the server as a managed domain
+// Start the managed domain
 //*************************************************
-// ==== Start {productName} as a Managed Domain
+// ==== Start the {productName} Managed Domain
 include::../shared-doc/start-server-managed-domain.adoc[leveloffset=+3]
 
 ==== Configure the Domain Server and Deploy the Quickstart Using the JBoss CLI
@@ -155,26 +147,17 @@ If you choose to use standalone servers rather than a managed domain, you need t
 
 Since both application servers must be configured in the same way, you must configure the first server and then clone it.
 
-==== Back up the Server Configuration File for a Standalone Server
-
-Before you begin, back up your server configuration file.
-
-. If it is running, stop the {productName} server.
-
-. Back up the following file:
-+
-[source,subs="+quotes,attributes+",options="nowrap"]
-----
-__{jbossHomeName}__/standalone/configuration/standalone-full-ha.xml
-----
-
-After you have completed testing this quickstart, you can replace this file to restore the server to its original configuration.
+//*************************************************
+// Back up the server configuration files
+//*************************************************
+// == Back Up the {productName} Standalone Server Configuration
+include::../shared-doc/back-up-server-standalone-configuration.adoc[leveloffset=+3]
 
 //*************************************************
 // Start the server with the full HA profile
 //*************************************************
-// == Start the Server with the Full HA Profile
-include::../shared-doc/start-server-full-ha-profile.adoc[leveloffset=+3]
+// == Start the {productName} Standalone Server
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+3]
 
 ==== Configure the Standalone Server and Deploy the Quickstart Using the JBoss CLI
 
@@ -407,7 +390,7 @@ When you are finished testing, use the following instructions to undeploy the qu
 
 === Undeploy the quickstart in a Managed Domain
 
-. xref:start_eap_in_a_managed_domain[Start the {productName} managed domain] as described above.
+. xref:start_eap_managed_domain[Start the {productName} managed domain] as described above.
 . Open a new terminal, navigate to the root directory of this quickstart, and run the `undeploy-domain.cli` script, replacing `__{jbossHomeName}__` with the path to your server:
 +
 [source,subs="+quotes,attributes+",options="nowrap"]
@@ -448,7 +431,7 @@ of the files. Make sure you replace `__{jbossHomeName}__` with the path to your 
 
 IMPORTANT: This script returns the server to a default configuration and the result might not match the server configuration prior to testing this quickstart. If you were not running with the default configuration before testing this quickstart, you should follow the intructions above to manually restore the configuration to its previous state.
 
-. xref:start_eap_in_a_managed_domain[Start the {productName} managed domain] as described above.
+. xref:start_eap_managed_domain[Start the {productName} managed domain] as described above.
 
 . Open a new terminal, navigate to the root directory of this quickstart, and run the `remove-domain.cli` script, replacing `__{jbossHomeName}__` with the path to your server.
 +

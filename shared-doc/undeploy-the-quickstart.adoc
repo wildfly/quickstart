@@ -1,0 +1,27 @@
+[[undeploy_the_quickstart]]
+= Undeploy the Quickstart
+
+When you are finished testing the quickstart, follow these steps to undeploy the archive.
+
+//*******************************************************************************
+// Use this template if your quickstart does a normal undeployment of an archive.
+//*******************************************************************************
+ifdef::standalone-server-default[]
+. Make sure you xref:start_eap_standalone_server_with_the_default_profile[start the {productName} server with the standalone default profile] as described above.
+endif::[]
+
+ifdef::standalone-server-full[]
+. Make sure you xref:start_eap_standalone_server_with_the_full_profile[start the {productName} server with the standalone full profile] as described above.
+endif::[]
+
+ifdef::standalone-server-full-ha[]
+. Make sure you xref:start_eap_standalone_server_with_the_full_ha_profile[start the {productName} server with the standalone full HA profile] as described above.
+endif::[]
+
+. Open a terminal and navigate to the root directory of this quickstart.
+. Type this command to undeploy the archive:
++
+[source,options="nowrap"]
+----
+$ mvn wildfly:undeploy
+----

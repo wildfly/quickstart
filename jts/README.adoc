@@ -173,6 +173,7 @@ Application server 1 must be now configured to use the PostgreSQL database creat
 . Follow the instructions to link:{configurePostgresAddModuleDocUrl}[Add the PostgreSQL Module to the {productName} Server] to the server 1 install only.
 . Follow the instructions to link:{configurePostgresDriverDocUrl}[Configure the PostgreSQL Driver in the {ProductName} Server] for the server 1 configuration. Make sure you pass the `-Djboss.tx.node.id=UNIQUE_NODE_ID_1` on the command line when you start the first server to configure PostgreSQL.
 
+[[start_the_servers]]
 == Start the Servers
 
 Start the two {productName} server with the standalone full profile, passing a unique node ID, by typing the following commands. You must pass a socket binding port offset on the command to start the second server. Make sure you replace `UNIQUE_NODE_ID_1` and `UNIQUE_NODE_ID_2` with  node identifiers that are unique across both servers.
@@ -186,7 +187,9 @@ $ __{jbossHomeName}_2__/bin/standalone.sh -c standalone-full.xml -Djboss.tx.node
 NOTE: For Windows, use the `__{jbossHomeName}_1__\bin\standalone.bat` and  `__{jbossHomeName}_2__\bin\standalone.bat` scripts.
 
 == Build and Deploy the Quickstart
-
+//
+// This quickstart deploys multiple archives and cannot use the shared doc.
+//
 Since this quickstart builds two separate components, you can not use the standard _Build and Deploy_ commands used by most of the other quickstarts. You must follow these steps to build, deploy, and run this quickstart.
 
 . Make sure you have started the {productName} server with the PostgreSQL driver.
@@ -232,7 +235,7 @@ WFLYJCA0091: -ds.xml file deployments are deprecated. Support may be removed in 
 
 == Undeploy the Archive
 
-. Make sure you have started the {productName} server as described above.
+. Make sure you have xref:[started the {productName} servers] as described above.
 . Open a terminal and navigate to the root directory of this quickstart.
 . When you are finished testing, type this command to undeploy the archive.
 +

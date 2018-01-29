@@ -14,6 +14,9 @@ include::../shared-doc/attributes.adoc[]
 [abstract]
 The `ejb-asynchronous` quickstart demonstrates the behavior of asynchronous EJB invocations by a deployed EJB and a remote client and how to handle errors.
 
+:standalone-server-default:
+:archiveType: jar
+
 == What is it?
 
 The `ejb-asynchronous` quickstart demonstrates the behavior of asynchronous EJB invocations in {productNameFull}. The methods are invoked by both an EJB in the deployment and by a remote client. The quickstart also shows error handling if the asynchronous method invocation fails.
@@ -47,23 +50,14 @@ include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
 //*************************************************
 // Start the server with the default profile
 //*************************************************
-// == Start the Server with the Default Profile
-include::../shared-doc/start-server-default-profile.adoc[leveloffset=+1]
+// == Start the {productName} Standalone Server
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
 
-
-== Build and Deploy the Quickstart
-
-. Make sure you have started the {productName} server as described above.
-. Open a terminal and navigate to the root directory of this quickstart.
-. Type this command to build and deploy the archive:
-+
-----
-$ mvn clean install wildfly:deploy
-----
-
-. This will deploy `ejb/target/{artifactId}-ejb.jar` to the running instance of the server.
-
-* In the server log, verify that the application deployed successfully.
+//*************************************************
+// Build and deploy the quickstart JAR
+//*************************************************
+// == Build and Deploy the Quickstart
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
 
 == Access the Application
 
@@ -103,16 +97,12 @@ The second message appears after the client is finished, approximately 15 second
 action 'fireAndForget' finished
 ----
 
-== Undeploy the Archive
+//*************************************************
+// Undeploy the quickstart archive
+//*************************************************
+// == Undeploy the Quickstart
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
 
-. Make sure you have started the {productName} server as described above.
-. Open a terminal and navigate to the root directory of this quickstart.
-. When you are finished testing, type this command to undeploy the archive:
-+
-[source,options="nowrap"]
-----
-$ mvn wildfly:undeploy
-----
 
 [[run_the_quickstart_in_jboss_developer_studio_or_eclipse]]
 == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse

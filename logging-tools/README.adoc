@@ -14,6 +14,9 @@ include::../shared-doc/attributes.adoc[]
 [abstract]
 The `logging-tools` quickstart shows how to use JBoss Logging Tools to create internationalized loggers, exceptions, and messages and localize them.
 
+:standalone-server-default:
+:archiveType: war
+
 == What is it?
 
 The `logging-tools` quickstart demonstrates the use of JBoss Logging Tools in {productNameFull}. The logging tools create internationalized loggers, exceptions, and generic messages; and then provide localizations for them. This is done using a simple JAX-RS service. Translations in French(fr-FR), German(de-DE), and Swedish (sv-SE) are provided courtesy of http://translate.google.com for demonstration. My apologies if they are less than ideal translations.
@@ -60,22 +63,16 @@ For more information about internationalization and localization, see http://www
 //*************************************************
 // Start the server with the default profile
 //*************************************************
-// == Start the Server with the Default Profile
-include::../shared-doc/start-server-default-profile.adoc[leveloffset=+1]
+// == Start the {productName} Standalone Server
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
 
 
-== Build and Deploy the Quickstart
+//*************************************************
+// Build and deploy the quickstart WAR
+//*************************************************
+// == Build and Deploy the Quickstart
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
 
-. Make sure you have started the {productName} server as described above.
-. Open a terminal and navigate to the root directory of this quickstart.
-. Type this command to build and deploy the archive:
-+
-[source,options="nowrap"]
-----
-$ mvn clean install wildfly:deploy
-----
-
-. This will deploy `target/{artifactId}.war` to the running instance of the server.
 
 == Access the Application
 
@@ -115,16 +112,12 @@ Note that `WebApplicationException` cannot be directly localized by JBoss Loggin
 *** Logs a localized message with the localized exception as the cause
 *** Throws a `WebApplicationException`(400) with the text from the localized `ParseException`
 
-== Undeploy the Archive
+//*************************************************
+// Undeploy the quickstart archive
+//*************************************************
+// == Undeploy the Quickstart
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
 
-. Make sure you have started the {productName} server as described above.
-. Open a terminal and navigate to the root directory of this quickstart.
-. When you are finished testing, type this command to undeploy the archive:
-+
-[source,options="nowrap"]
-----
-$ mvn wildfly:undeploy
-----
 
 == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 

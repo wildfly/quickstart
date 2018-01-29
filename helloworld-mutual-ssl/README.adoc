@@ -14,6 +14,9 @@ include::../shared-doc/attributes.adoc[]
 [abstract]
 The `helloworld-mutual-ssl` quickstart is a basic example that demonstrates mutual SSL configuration in {productName}
 
+:standalone-server-default:
+:archiveType: war
+
 == What is it?
 
 Mutual SSL provides the same security as SSL, with the addition of authentication and non-repudiation of the client authentication, using digital signatures. When mutual authentication is used, the server requests the client to provide a certificate in addition to the server certificate issued to the client. Mutual authentication requires an extra round trip each time for client certificate exchange. In addition, the client must buy and maintain a digital certificate.
@@ -134,14 +137,13 @@ $>keytool -importkeystore -srckeystore client.keystore -srcstorepass secret -des
 // Back up the server configuration files
 //*************************************************
 // == Back Up the {productName} Standalone Server Configuration
-:standalone-server-default:
 include::../shared-doc/back-up-server-standalone-configuration.adoc[leveloffset=+1]
 
 //*************************************************
 // Start the server with the default profile
 //*************************************************
-// == Start the Server with the Default Profile
-include::../shared-doc/start-server-default-profile.adoc[leveloffset=+1]
+// == Start the {productName} Standalone Server
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
 
 
 [[configure_the_server]]
@@ -266,18 +268,12 @@ Before you access the application, you must import the _clientCert.p12_, which h
 . Select the *clientCert.p12* file. You will be prompted to enter the password: `secret`.
 . The certificate is now installed in the Mozilla Firefox browser.
 
-== Build and Deploy the Quickstart
+//*************************************************
+// Build and deploy the quickstart WAR
+//*************************************************
+// == Build and Deploy the Quickstart
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
 
-. xref:start_eap_standalone_server_with_the_default_profile[Start the {productName} server with the standalone default profile] as described above.
-. Open a terminal and navigate to the root directory of one of the quickstart.
-. Type this command to build and deploy the archive:
-+
-[source,options="nowrap"]
-----
-$ mvn clean package wildfly:deploy
-----
-
-. This will deploy `target/{artifactId}.war` to the running instance of the server.
 
 == Access the Application
 
@@ -302,16 +298,12 @@ DHo1uoz5/dzXZz0EjjWCPJk+LVEhEvH0GcWAp3x3irpNU4hRZLd0XomY0Z4NnUt7VMBNYDOxVxgT9qcL
 aEWK4zhPVFynfnMaOxI67FC2QzhfzERyKqHj47WuwN0xWbS/1gBypS2nUwvItyxaEQG2X5uQY8j8QoY9wcMzIIkP2Mk14gJGHUnA8=
 ----
 
-== Undeploy the Archive
+//*************************************************
+// Undeploy the quickstart archive
+//*************************************************
+// == Undeploy the Quickstart
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
 
-. Make sure you have started the JBoss Server as described above.
-. Open a terminal and navigate to the root directory of this quickstart.
-. When you are finished testing, type this command to undeploy the archive:
-+
-[source,options="nowrap"]
-----
-$ mvn wildfly:undeploy
-----
 
 //************************************************************
 // Restore the {productName} Standalone Server Configuration

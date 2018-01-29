@@ -14,6 +14,9 @@ include::../shared-doc/attributes.adoc[]
 [abstract]
 The `ejb-in-war` quickstart demonstrates how to package an EJB bean in a WAR archive and deploy it to {productName}. Arquillian tests are also provided.
 
+:standalone-server-default:
+:archiveType: war
+
 == What is it?
 
 The `ejb-in-war` quickstart demonstrates the deployment of an EJB bean bundled in a WAR archive for deployment to {productNameFull}. The project also includes a set of Arquillian tests for the managed bean and EJB.
@@ -41,40 +44,31 @@ include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
 //*************************************************
 // Start the server with the default profile
 //*************************************************
-// == Start the Server with the Default Profile
-include::../shared-doc/start-server-default-profile.adoc[leveloffset=+1]
+// == Start the {productName} Standalone Server
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
 
-== Build and Deploy the Quickstart
-
-. Make sure you have started the {productName} server as described above.
-. Open a terminal and navigate to the root directory of this quickstart.
-. Type this command to build and deploy the archive:
-+
-----
-$ mvn clean install wildfly:deploy
-----
-
-. This will deploy `target/{artifactId}.war` to the running instance of the server.
+//*************************************************
+// Build and deploy the quickstart WAR
+//*************************************************
+// == Build and Deploy the Quickstart
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
 
 == Access the Application
 
 The application will be running at the following URL http://localhost:8080/{artifactId}/.
 
-== Undeploy the Archive
+//*************************************************
+// Undeploy the quickstart archive
+//*************************************************
+// == Undeploy the Quickstart
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
 
-. Make sure you have started the {productName} server as described above.
-. Open a terminal and navigate to the root directory of this quickstart.
-. When you are finished testing, type this command to undeploy the archive:
-+
-----
-$ mvn wildfly:undeploy
-----
 
 == Run the Arquillian Tests
 
 This quickstart provides Arquillian tests. By default, these tests are configured to be skipped as Arquillian tests require the use of a container.
 
-. Make sure you have started the {productName} server as described above.
+. xref:start_eap_standalone_server_with_the_default_profile[Start the {productName} server with the standalone default profile] as described above.
 . Open a terminal and navigate to the root directory of this quickstart.
 . Type the following command to run the test goal with the following profile activated:
 +

@@ -6,6 +6,7 @@
 :productVersion: 12
 :buildRequirements: Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later
 include::../shared-doc/attributes.adoc[]
+:standalone-server-default:
 
 :level: Intermediate
 :technologies: SFSB EJB
@@ -13,6 +14,10 @@ include::../shared-doc/attributes.adoc[]
 
 [abstract]
 The `shopping-cart` quickstart demonstrates how to deploy and run a simple Java EE 7 shopping cart application that uses a stateful session bean (SFSB).
+
+:standalone-server-default:
+:archiveType: jar
+:archiveDir: {artifactId}/server/target
 
 == What is it?
 
@@ -45,14 +50,13 @@ include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
 // Back up the server configuration files
 //*************************************************
 // == Back Up the {productName} Standalone Server Configuration
-:standalone-server-default:
 include::../shared-doc/back-up-server-standalone-configuration.adoc[leveloffset=+1]
 
 //*************************************************
 // Start the server with the default profile
 //*************************************************
-// == Start the Server with the Default Profile
-include::../shared-doc/start-server-default-profile.adoc[leveloffset=+1]
+// == Start the {productName} Standalone Server
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
 
 [[configure_the_server]]
 == Configure the Server
@@ -102,22 +106,16 @@ You should see the following configuration in the `ejb3` subsystem.
 <log-system-exceptions value="false"/>
 ----
 
+//*************************************************
+// Build and deploy the quickstart JAR
+//*************************************************
+// == Build and Deploy the Quickstart
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
 
-== Build and Deploy the Quickstart
+// Additional deployment information
 
-. xref:start_eap_standalone_server_with_the_default_profile[Start the {productName} server with the standalone default profile] as described above.
+You can also check the server console to see information messages regarding the deployment.
 
-. Open a terminal and navigate to the root directory of this quickstart.
-
-. To build both the server component and the remote client program, deploy the server module, change into the examples shopping-cart directory and type the following:
-+
-[source,options="nowrap"]
-----
-$ mvn clean install wildfly:deploy
-----
-
-. This Maven goal will deploy `server/target/{artifactId}-server.jar`. You can check the server console to see information messages regarding the deployment.
-+
 [source,options="nowrap"]
 ----
 INFO  [org.jboss.as.ejb3.deployment] (MSC service thread 1-2) WFLYEJB0473: JNDI bindings for session bean named 'ShoppingCartBean' in deployment unit 'deployment "{artifactId}-server.jar"' are as follows:
@@ -183,18 +181,12 @@ Cart was correctly removed, as expected, after Checkout
 INFO  [stdout] (pool-9-thread-8) implementing checkout() left as exercise for the reader!
 ----
 
-== Undeploy the Archive
+//*************************************************
+// Undeploy the quickstart archive
+//*************************************************
+// == Undeploy the Quickstart
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
 
-When you are finished testing, follow these steps to undeploy the archive.
-
-. Make sure you xref:start_eap_standalone_server_with_the_default_profile[start the {productName} server with the standalone default profile] as described above.
-. Open a terminal and navigate to the root directory of this quickstart.
-. Type this command to undeploy the archive:
-+
-[source,options="nowrap"]
-----
-$ mvn wildfly:undeploy
-----
 
 //************************************************************
 // Restore the {productName} Standalone Server Configuration
