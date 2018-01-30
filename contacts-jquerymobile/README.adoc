@@ -137,16 +137,12 @@ $ mvn clean package wildfly:deploy -Pminify
 $ mvn clean verify wildfly:deploy -Pminify,arq-remote
 ----
 
-== Run the Arquillian Tests
+//*************************************************
+// Run the Arquillian tests
+//*************************************************
+// == Run the Arquillian Tests
+include::../shared-doc/run_the_arquillian_tests.adoc[leveloffset=+1]
 
-By default, tests are configured to be skipped. The reason for is that the sample test is an Arquillian test, which requires the use of a container. You can activate this test by selecting one of the container configurations provided for {productName}.
-
-To run the test in {productName}, first start the container instance. Then, run the test goal with the following profile activated:
-
-[source,options="nowrap"]
-----
-$ mvn clean verify -Parq-remote
-----
 
 [[run_the_qunit_tests]]
 == Run the QUnit Tests

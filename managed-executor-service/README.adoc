@@ -52,22 +52,16 @@ include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
 // == Start the {productName} Standalone Server
 include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
 
-== Run the Arquillian Tests
+//*************************************************
+// Run the Arquillian tests
+//*************************************************
+// == Run the Arquillian Tests
+include::../shared-doc/run-arquillian-tests.adoc[leveloffset=+1]
 
-This quickstart provides Arquillian tests. By default, these tests are configured to be skipped as Arquillian tests require the use of a container.
-
-. Make sure you xref:start_eap_standalone_server_with_the_default_profile[start the {productName} server with the standalone default profile] as described above.
-. Open a terminal and navigate to the root directory of this quickstart.
-. Type the following command to run the test goal with the following profile activated:
-+
-[source,options="nowrap"]
-----
-$ mvn clean verify -Parq-remote
-----
-
-You can also let Arquillian manage the {productName} server by using the `arq-managed` profile. For more information about how to run the Arquillian tests, see link:{arquillianTestsDocUrl}[Run the Arquillian Tests].
 
 == Investigate the Console Output
+
+When you run the Arquillian tests, Maven prints summary of the performed tests to the console. You should see the following results.
 
 [source,options="nowrap"]
 ----
@@ -75,17 +69,17 @@ You can also let Arquillian manage the {productName} server by using the `arq-ma
  T E S T S
 -------------------------------------------------------
 Running org.jboss.as.quickstarts.managedexecutorservice.test.ProductsRestClientIT
-feb. 22, 2017 4:22:22 PM org.xnio.Xnio <clinit>
+org.xnio.Xnio <clinit>
 INFO: XNIO version 3.3.4.Final
-feb. 22, 2017 4:22:22 PM org.xnio.nio.NioXnio <clinit>
+org.xnio.nio.NioXnio <clinit>
 INFO: XNIO NIO Implementation Version 3.3.4.Final
-feb. 22, 2017 4:22:22 PM org.jboss.remoting3.EndpointImpl <clinit>
+org.jboss.remoting3.EndpointImpl <clinit>
 INFO: JBoss Remoting version 4.0.18.Final
-feb. 22, 2017 4:22:23 PM org.jboss.as.quickstarts.managedexecutorservice.test.ProductsRestClientIT testRestResources
+org.jboss.as.quickstarts.managedexecutorservice.test.ProductsRestClientIT testRestResources
 INFO: creating a new product
-feb. 22, 2017 4:22:23 PM org.jboss.as.quickstarts.managedexecutorservice.test.ProductsRestClientIT testRestResources
+org.jboss.as.quickstarts.managedexecutorservice.test.ProductsRestClientIT testRestResources
 INFO: Product created. Executing a long running task
-feb. 22, 2017 4:22:26 PM org.jboss.as.quickstarts.managedexecutorservice.test.ProductsRestClientIT testRestResources
+org.jboss.as.quickstarts.managedexecutorservice.test.ProductsRestClientIT testRestResources
 INFO: Deleting all products
 Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 5.619 sec - in org.jboss.as.quickstarts.managedexecutorservice.test.ProductsRestClientIT
 
@@ -146,7 +140,7 @@ You can also start the server and deploy the quickstarts or run the Arquillian t
 To run the tests in Red Hat JBoss Developer Studio, you must first set the active Maven profile in project properties to one of the following:
 
 * `arq-remote`: This setting is used for a remote server. JBoss Developer Studio starts the server for you.
-* `arq-managed`: This setting is used for a managed server. If you use this setting, you must xref:start_eap_standalone_server_with_the_default_profile[start the server] before you run the tests.
+* `arq-managed`: This setting is used for a managed server. If you use this setting, you must xref:start_the_eap_standalone_server[start the server] before you run the tests.
 
 Then, to run the tests, right click on the project or individual classes and select *Run As* –> *JUnit Test* in the context menu.
 

@@ -78,20 +78,12 @@ HHH000431: Unable to determine H2 database version, certain features may not wor
 include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
 
 
-== Run the Arquillian Tests
+//*************************************************
+// Run the Arquillian tests
+//*************************************************
+// == Run the Arquillian Tests
+include::../shared-doc/run-arquillian-tests.adoc[leveloffset=+1]
 
-This quickstart provides Arquillian tests. By default, these tests are configured to be skipped as Arquillian tests require the use of a container.
-
-. xref:start_eap_standalone_server_with_the_default_profile[Start the {productName} server with the standalone default profile] as described above.
-. Open a terminal and navigate to the root directory of this quickstart.
-. Type the following command to run the test goal with the following profile activated:
-+
-[source,options="nowrap"]
-----
-$ mvn clean verify -Parq-remote
-----
-
-You can also let Arquillian manage the {productName} server by using the `arq-managed` profile. For more information about how to run the Arquillian tests, see link:{arquillianTestsDocUrl}[Run the Arquillian Tests].
 
 == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 

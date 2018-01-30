@@ -18,9 +18,9 @@ The `bean-validation` quickstart provides Arquillian tests to demonstrate how to
 
 The `bean-validation` quickstart demonstrates how to use CDI, JPA, and Bean Validation in {productNameFull}. It includes a persistence unit and some sample persistence code to introduce you to database access in enterprise Java.
 
-This quickstart does not contain a user interface layer. The purpose of this project is to show you how to test bean validation with Arquillian. If you want to see an example of how to test bean validation with a user interface, look at the link:../kitchensink/README.adoc[kitchensink] example.
+This quickstart does not contain a user interface layer. The purpose of this project is to show you how to test bean validation with Arquillian. If you want to see an example of how to test bean validation with a user interface, look at the link:../kitchensink/README{outfilesuffix}[kitchensink] example.
 
-This quickstart is a basic example of bean validation and is not localized. Because it is not localized, English messages are hard-coded in the constraint annotations in the `Member` class to ensure the test violation messages are matched when running the {productName} server using another language. For examples of localized quickstarts, see the `kitchensink-ml`, `kitchensink-ml-ear`, and `logging-tools` quickstarts.
+This quickstart is a basic example of bean validation and is not localized. Because it is not localized, English messages are hard-coded in the constraint annotations in the `Member` class to ensure the test violation messages are matched when running the {productName} server using another language. For examples of localized quickstarts, see the link:../kitchensink-ml/README{outfilesuffix}[kitchensink-ml] and link:../logging-tools/README{outfilesuffix}[logging-tools] quickstarts.
 
 //*************************************************
 // Add notes about use in a production environment.
@@ -48,23 +48,16 @@ include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
 // == Start the {productName} Standalone Server
 include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
 
-== Run the Arquillian Tests
+//*************************************************
+// Run the Arquillian tests
+//*************************************************
+// == Run the Arquillian Tests
+include::../shared-doc/run-arquillian-tests.adoc[leveloffset=+1]
 
-This quickstart provides Arquillian tests. By default, these tests are configured to be skipped as Arquillian tests require the use of a container.
-
-. xref:start_eap_standalone_server_with_the_default_profile[Start the {productName} server with the standalone default profile] as described above.
-. Open a terminal and navigate to the root directory of this quickstart.
-. Type the following command to run the test goal with the following profile activated:
-+
-----
-$ mvn clean verify -Parq-remote
-----
-
-You can also let Arquillian manage the {productName} server by using the `arq-managed` profile. For more information about how to run the Arquillian tests, see link:{arquillianTestsDocUrl}[Run the Arquillian Tests].
 
 == Investigate the Console Output
 
-When you run the tests, JUnit will present you test report summary:
+When you run the Arquillian tests, Maven prints summary of the performed tests to the console. You should see the following results.
 
 ----
 Tests run: 5, Failures: 0, Errors: 0, Skipped: 0
