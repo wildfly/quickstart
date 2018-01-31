@@ -6,30 +6,29 @@
 :productVersion: 12
 :buildRequirements: Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later
 include::../shared-doc/attributes.adoc[]
-////
-:uses-h2: Define this variable if the quickstart uses the H2 database.
-:uses-ds-xml: Define this variable if the quickstart uses an *-ds.xml file.
-:performance-scalability: Define this variable if you need to consider scalability.
-:uses-cli: Define this variable if CLI configuration scripts are provided.
-////
 
-:level: [one of the following: Beginner, Intermediate, or Advanced]
+:level: (one of the following: Beginner, Intermediate, or Advanced)
 :technologies: (list technologies used here)
 :source: (The URL for the repository that is the source of record for this quickstart)
 :prerequisites: (list any quickstarts that must be deployed prior to running this one)
 
 [abstract]
-(Create a  brief description of the quickstart. This description appears in the table and in Google search SEO results. Try to limit the description to 155 characters )
+Create a  brief description of the quickstart. This description appears in the table and in Google search SEO results. Try to limit the description to 155 characters.
 
-[IMPORTANT]
-====
-This file is meant to serve as a template or guideline for your own quickstart `README.adoc` file:
-
-* The first lines in the file after the quickstart name and description (Author:, Level:, etc.) are metadata tags used by the http://www.jboss.org/developer-materials/#!formats=jbossdeveloper_quickstart[JBoss Developer site]. Make sure you include 2 spaces at the end of each of these lines so they also render correctly when rendered as HTML files.
-* Make sure you replace the `__QUICKSTART_NAME__` and `__YOUR_NAME__` variables in your `README.adoc` file with the appropriate values.
-* These instructions are only meant to help you and you should NOT include them in your README file!
-* Review the other quickstart `README.adoc` files if you need help with formatting or content.
-====
+// Many instructions are defined in files located in the `shared-doc/` folder.
+// They require that you define attributes that can be used for conditional text.
+// Examples include:
+// :standalone-server-type: The server type. Can be one of default, full, full-ha, ha, custom
+// :managed-domain-type:
+// :archiveName: Defaults to {artifactId}. Override it if this quickstart is different.
+// :archiveType: Type of archive. Valid values are war, ear, and jar.
+// :archiveDir: The archive directory. Override if the other than the default.
+// :mavenCommand: The command to build and deploy the archive. Override it if it is different.
+// :configFileName: The name of the management CLI file used for configuration.
+// :uses-h2: Define this variable if the quickstart uses the H2 database.
+// :uses-ds-xml: Define this variable if the quickstart uses an *-ds.xml file.
+// :performance-scalability: Define this variable if you need to consider scalability.
+// :uses-cli: Define this variable if CLI configuration scripts are provided.
 
 [[what_is_it]]
 == What is it?
@@ -43,35 +42,33 @@ You should include any information that would help the user understand the quick
 
 If possible, give an overview, including any code they should look at to understand how it works..
 
-////
-    Include this "Considerations for Use in a Production Environment" file
-    in the following is true for your quickstart:
-    * It uses the H2 database. Make sure you define the `:uses-h2:` variable.
-    * It uses a `*-ds.xml` file. Make sure you define the `:uses-ds-xml:` variable.
-    * It has performance and scalability considerations. Define the `:performance-scalability:` variable.
-////
 //***************************************
 // Add notes about use in a production environment.
 //***************************************
-include::../shared-doc/development-shortcuts.adoc[leveloffset=+1]
+// == Considerations for Use in a Production Environment
+// :uses-h2:
+// :uses-ds-xml:
+// :performance-scalability:
+// include::../shared-doc/development-shortcuts.adoc[leveloffset=+1]
 
-////
-    Always add the system requirements.
-    If this quickstart uses CLI scripts, make sure you define the :uses-cli: variable.
-    Add any additional requirements for this quickstart after the include.
-////
+If this quickstart uses the h2 database, an *-ds.xml file, or has performance and scalability concerns, define the appropriate attributes and include the following `development-shortcuts.adoc` file.
+
 //*************************************************
 // Add System Requirements
 //*************************************************
+// == System Requirements
 include::../shared-doc/system-requirements.adoc[leveloffset=+1]
 
-////
-    Add the following if you refer to the {jbossHomeName}.
-////
+Always add the system requirements.
+If this quickstart uses CLI scripts, make sure you define the :uses-cli: variable.
+
 //*************************************************
 // Add Use of JBoss Home Name
 //*************************************************
-include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
+// == Use of {jbossHomeName}
+//include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
+
+Add the above if your README file refers to the {jbossHomeName} variable.
 
 [[configure_optional_components]]
 == Configure Optional Components
@@ -86,80 +83,69 @@ include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
 
 * If the quickstart uses Byteman to help demonstrate crash recovery, let them know that instructions to install and configure Byteman can be found here: link:{configureBytemanQuickstartsDocUrl}[Configure Byteman for Use with the Quickstarts]
 
-[[start_the_server]]
-== Start the Server
+//*************************************************
+// Back up the server configuration files
+//*************************************************
+// == Back Up the {productName} Standalone Server Configuration
+// include::../shared-doc/back-up-server-standalone-configuration.adoc[leveloffset=+1]
 
-* To start the {productName} server with the default profile, copy the following content into the README file:
-+
-[source,subs="+quotes",subs="attributes+",options="nowrap"]
-----
+* Add the above section if your quickstart changes the standalone server configuration files.
+* Make sure you define the `standalone-server-type` variable.
+* Make sure you define the `configFileName` variable.
+
 //*************************************************
 // Start the server with the default profile
 //*************************************************
 // == Start the {productName} Standalone Server
- include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
-----
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
 
-* To start the {productName} server with the full profile, copy the following content into the README file:
-+
-[source,subs="+quotes",subs="attributes+",options="nowrap"]
-----
-//*************************************************
-// Start the server with the full profile
-//*************************************************
-// == Start the {productName} Standalone Server
- include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
-----
-
-* To start the {productName} server with custom options
-
-** You must provide instructions similar to the ones copied in above.
-** You need to provide the argument string to pass on the command line, for example:
-+
-[source,subs="+quotes",options="nowrap"]
-----
---server-config=../../docs/examples/configs/standalone-xts.xml
-----
-
-[[build_and_deploy_the_quickstart]]
-== Build and Deploy the Quickstart
+* Add the above section if your quickstart uses a standalone server.
 
 //*************************************************
-// Build and deploy the quickstart archiveType
+// Build and deploy the quickstart WAR
 //*************************************************
 // == Build and Deploy the Quickstart
-// Define the archiveType, for example:
-// :archiveType: ear
-// To override the Maven command, define the `mavenCommand` variable, for example:
-// :mavenCommand: mvn clean install wildfly:deploy
-// Include the following file:
-//include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
+// include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
 
+* Add the above section if your quickstart deploys a normal JAR, WAR, or EAR.
+* Make sure you define the `archiveType`.
+* You can override the archive name and path.
 
 [[access_the_application]]
 == Access the Application
 
 Access the running application in a browser at the following URL:  http://localhost:8080/{artifactId}
 
-Describe what the user should look for in the running application.
+* Describe what the user should look for in the running application.
 
+//*************************************************
+// Undeploy the quickstart archive
+//*************************************************
+// == Undeploy the Quickstart
+// include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
 
-== Undeploy the Archive
-
-. Make sure you have started the {productName} server as described above.
-. Open a terminal and navigate to the root directory of this quickstart.
-. When you are finished testing, type this command to undeploy the archive:
-+
-[source,options="nowrap"]
-----
-$ mvn wildfly:undeploy
-----
+* Add the above section if your quickstart undeploys a normal JAR, WAR, or EAR.
+* Make sure you define the `archiveType`.
+* You can override the archive name and path.
 
 //*************************************************
 // Run the Arquillian tests
 //*************************************************
 // == Run the Arquillian Tests
 // include::../shared-doc/run-arquillian-tests.adoc[leveloffset=+1]
+
+* Add the above section if your quickstart provides Arquillian tests.
+* You can add additional information if required.
+
+//******************************************************
+// Restore the standalone server configuration manually
+//******************************************************
+// == Restore the {productName} Standalone Server Configuration Manually
+// include::../shared-doc/restore-standalone-server-configuration-manual.adoc[leveloffset=+2]
+* Add the above section if your quickstart changes the standalone server configuration files.
+* Make sure you define the `standalone-server-type` variable.
+* Make sure you define the `configFileName` variable.
+
 
 == Investigate the Console Output
 

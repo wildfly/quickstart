@@ -15,7 +15,7 @@ include::../shared-doc/attributes.adoc[]
 [abstract]
 The `helloworld-mbean` quickstart demonstrates the use of CDI and MBean in {productName} and includes JConsole instructions and Arquillian tests.
 
-:standalone-server-default:
+:standalone-server-type: default
 :archiveType: war
 
 == What is it?
@@ -63,23 +63,11 @@ include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
 // Build and deploy the quickstart JAR
 //*************************************************
 // == Build and Deploy the Quickstart
-
+:archiveName: {artifactId}-service
 include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
 
-== Build and Deploy the Quickstart
-//
-// This deploys multiple artifacts so, for now, it cannot use the shared doc.
-//
-. Make sure you xref:start_the_eap_standalone_server[start the {productName} server with the standalone default profile] as described above.
-. Open a terminal and navigate to the root directory of this quickstart.
-. Type this command to build and deploy the archive:
-+
-[source,options="nowrap"]
-----
-$ mvn clean install wildfly:deploy
-----
-
-. This deploys the `{artifactId}-webapp/target/{artifactId}-webapp.war` and `{artifactId}-service/target/{artifactId}-service.sar` to the running instance of the server.
+// Additional deployment information
+This also deploys the `{artifactId}-service/target/{artifactId}-service.sar` to the running instance of the server.
 
 == Access and Test the MBeans
 

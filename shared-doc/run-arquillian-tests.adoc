@@ -10,7 +10,7 @@
 // For example:
 //    :arquillianTestResults: Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
 //
-// NOTE: If you have more complicated output to present, you can still use 
+// NOTE: If you have more complicated output to present, you can still use
 // this and add a section following this one to describe the results.
 // For example:
 //
@@ -20,9 +20,13 @@
 
 This quickstart provides Arquillian tests. By default, these tests are configured to be skipped since Arquillian tests require the use of a container.
 
+NOTE: The Arquillian tests deploy the application, so make sure you undeploy the quickstart before you begin.
+
+Follow these steps to run the functional tests.
+
 . xref:start_the_eap_standalone_server[Start the {productName} server] as described above.
 . Open a terminal and navigate to the root directory of this quickstart.
-. Type the following command to run the `test` goal with the `arq-remote` profile activated.
+. Type the following command to run the `verify` goal with the `arq-remote` profile activated.
 +
 [source,options="nowrap"]
 ----
@@ -39,6 +43,7 @@ Results :
 ----
 endif::[]
 
-You can also let Arquillian manage the {productName} server by using the `arq-managed` profile.
-
-For more information about how to run the Arquillian tests, see link:{arquillianTestsDocUrl}[Run the Arquillian Tests].
+[NOTE]
+====
+You can also let Arquillian manage the {productName} server by using the `arq-managed` profile, meaning the tests will start the server for you. This profile requires that you provide Arquillian with the location of the {productName} server, either by setting the `JBOSS_HOME` environment variable, or by setting the `jbossHome` property in the `arquillian.xml` file. For more information, see link:{arquillianTestsDocUrl}[Run the Arquillian Tests].
+====

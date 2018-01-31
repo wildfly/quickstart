@@ -14,7 +14,7 @@ include::../shared-doc/attributes.adoc[]
 [abstract]
 The `jta-crash-rec` quickstart uses JTA and Byteman to show how to code distributed (XA) transactions in order to preserve ACID properties on server crash.
 
-:standalone-server-full:
+:standalone-server-type: full
 :archiveType: war
 
 == What is it?
@@ -113,7 +113,7 @@ For Windows, append the following line.
 ----
 ====
 
-** xref:start_the_eap_standalone_server[Start the {productName} server with the standalone full profile] as described above.
+** xref:start_the_eap_standalone_server[Start the {productName} server] with the standalone full profile as described above.
 
 . Once you complete step 4, you are ready to create a _recovery record_. Go to the application URL http://localhost:8080/{artifactId}/XA and insert another row into the database. At this point, Byteman halts the application server.
 
@@ -166,7 +166,7 @@ Database may be already in use: "Locked by another process"
 ----
 
 ** link:{configureBytemanDisableDocUrl}[Disable the Byteman script] by restoring the backup server configuration file.
-** xref:start_the_eap_standalone_server[Start the {productName} server with the standalone full profile] as described above.
+** xref:start_the_eap_standalone_server[Start the {productName} server] with the standalone full profile as described above.
 
 ** Load the web interface to the application
 ** By the time the {productName} server is ready, the transaction should have recovered.
@@ -201,16 +201,13 @@ WFLYJCA0091: -ds.xml file deployments are deprecated. Support may be removed in 
 HHH000431: Unable to determine H2 database version, certain features may not work
 ----
 
-== Undeploy the Archive
 
-. xref:start_the_eap_standalone_server[Start the {productName} server with the standalone full profile] as described above.
-. Open a terminal and navigate to the root directory of this quickstart.
-. When you are finished testing, type this command to undeploy the archive:
-+
-[source,options="nowrap"]
-----
-$ mvn wildfly:undeploy
-----
+//*************************************************
+// Undeploy the quickstart archive
+//*************************************************
+// == Undeploy the Quickstart
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
+
 
 == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 

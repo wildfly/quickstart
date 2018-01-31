@@ -14,7 +14,7 @@ include::../shared-doc/attributes.adoc[]
 [abstract]
 The `kitchensink-angularjs` quickstart demonstrates a Java EE 7 application using AngularJS with JAX-RS, CDI, EJB, JPA, and Bean Validation.
 
-:standalone-server-default:
+:standalone-server-type: default
 :archiveType: war
 
 == What is it?
@@ -66,36 +66,12 @@ include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
 include::../shared-doc/run-arquillian-tests.adoc[leveloffset=+1]
 
 
-== Run the Arquillian Functional Tests
+//*************************************************
+// Run the Arquillian functional tests
+//*************************************************
+// == Run the Arquillian Functional Tests
+include::../shared-doc/run-arquillian-functional-tests.adoc[leveloffset=+1]
 
-This quickstart provides Arquillian functional tests as well. They are located in the functional-tests/ subdirectory under the root directory of this quickstart.
-Functional tests verify that your application behaves correctly from the user's point of view. The tests open a browser instance, simulate clicking around the page as a normal user would do, and then close the browser instance.
-
-To run these tests, you must build the main project as described above.
-
-. Open a terminal and navigate to the root directory of this quickstart.
-. Build the quickstart WAR using the following command:
-+
-[source,options="nowrap"]
-----
-$ mvn clean package
-----
-
-. Navigate to the `functional-tests/` directory in this quickstart.
-
-. If you have a running instance of the {productName} server, as described above, run the remote tests by typing the following command:
-+
-[source,options="nowrap"]
-----
-$ mvn clean verify -Parq-remote
-----
-
-. If you prefer to run the functional tests using managed instance of the {productName} server, meaning the tests will start the server for you, type fhe following command:
-+
-[source,options="nowrap"]
-----
-$ mvn clean verify -Parq-managed
-----
 
 == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 

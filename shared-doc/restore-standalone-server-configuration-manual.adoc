@@ -1,19 +1,13 @@
 [[restore_standalone_server_configuration_manually]]
 = Restore the {productName} Standalone Server Configuration Manually
+//******************************************************************************
+// Use this template if your quickstart does a normal manual restoration
+// of a single standalone server.
+//******************************************************************************
+
+include::define-standalone-server-attributes.adoc[]
 
 When you have completed testing the quickstart, you can restore the original server configuration by manually restoring the backup copy the configuration file.
 
-ifdef::standalone-server-default[]
 . If it is running, stop the {productName} server.
-. Replace the `__{jbossHomeName}__/standalone/configuration/standalone.xml` file with the backup copy of the file.
-endif::[]
-
-ifdef::standalone-server-full[]
-. If it is running, stop the {productName} server.
-. Replace the `__{jbossHomeName}__/standalone/configuration/standalone-full.xml` file with the backup copy of the file.
-endif::[]
-
-ifdef::standalone-server-full-ha[]
-. If it is running, stop the {productName} server.
-. Back up the file: `__{jbossHomeName}__/standalone/configuration/standalone-full-ha.xml`
-endif::[]
+. Replace the `__{jbossHomeName}__/{configFileName}` file with the backup copy of the file.

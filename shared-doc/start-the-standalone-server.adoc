@@ -4,11 +4,12 @@
 // Use this template if your quickstart requires a normal start of a single
 // standalone server.
 //
-// * Define the standalone profile type. Supported values are:
-//    :standalone-server-default:
-//    :standalone-server-full:
-//    :standaone-server-full-ha:
-//    :standalone-server-custom:
+// You must define the `standalone-server-type`. Supported values are:
+//    default
+//    full
+//    full-ha
+//    ha
+//    custom
 //
 // * For mobile applications, you can define the `mobileApp` variable in the
 //   `README.adoc` file to add `-b 0.0.0.0` to the command line. This allows
@@ -18,37 +19,7 @@
 //
 //******************************************************************************
 
-// Start the standalone server with the default profile.
-ifdef::standalone-server-default[]
-:serverProfile: default profile
-:serverArguments:
-endif::[]
-
-// Start the standalone server with the full profile.
-ifdef::standalone-server-full[]
-:serverProfile: full profile
-:serverArguments:  -c standalone-full.xml
-endif::[]
-
-// Start the standalone server with the full HA profile.
-ifdef::standalone-server-full-ha[]
-:serverProfile: full HA profile
-:serverArguments:  -c standalone-full-ha.xml
-endif::[]
-
-// Start the standalone server with the HA profile.
-ifdef::standalone-server-ha[]
-:serverProfile: HA profile
-:serverArguments:  -c standalone-ha.xml
-endif::[]
-
-// Start the standalone server with the custom profile.
-// NOTE: This profile requires that you define the `serverArguments` variable
-//       within the quickstart README.adoc file. For example:
-//  :serverArguments: --server-config=../../docs/examples/configs/standalone-xts.xml
-ifdef::standalone-server-custom[]
-:serverProfile: custom profile
-endif::[]
+include::define-standalone-server-attributes.adoc[]
 
 . Open a terminal and navigate to the root of the {productName} directory.
 . Start the {productName} server with the {serverProfile} by typing the following command.
