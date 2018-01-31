@@ -129,7 +129,7 @@ You configure the security domain by running JBoss CLI commands. For your conven
 . Before you begin, make sure you do the following:
 
 * xref:back_up_standalone_server_configuration[Back up the {productName} standalone server configuration] as described above.
-* xref:start_eap_standalone_server_with_the_default_profile[Start the {productName} server with the standalone default profile] as described above.
+* xref:start_the_eap_standalone_server[Start the {productName} server with the standalone default profile] as described above.
 
 . Review the `configure-elytron.cli` file in the root of this quickstart directory. This script adds the configuration that enables Elytron security for the quickstart deployment. Comments in the script describe the purpose of each block of commands.
 . Open a new terminal, navigate to the root directory of this quickstart, and run the following command, replacing `__{jbossHomeName}__` with the path to your server:
@@ -175,6 +175,8 @@ After stopping the server, open the `__{jbossHomeName}__/standalone/configuratio
 </application-security-domains>
 ----
 +
+The `application-security-domain` enables Elytron security for the quickstart EJBs. It maps the `quickstart-domain` security domain that is set in the EJBs using the Java annotation `@SecurityDomain("quickstart-domain")` to the Elytron `ApplicationDomain` that is responsible for authenticating and authorizing access to the EJBs.
+
 . The following `ejb-outbound-configuration` authentication configuration and `ejb-outbound-context` authentication context were added to the `elytron` subsystem:
 +
 [source,xml,options="nowrap"]

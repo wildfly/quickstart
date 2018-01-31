@@ -90,7 +90,7 @@ You configure the security domain by running JBoss CLI commands. For your conven
 . Before you begin, make sure you do the following:
 
 * xref:back_up_standalone_server_configuration[Back up the {productName} standalone server configuration] as described above.
-* xref:start_eap_standalone_server_with_the_default_profile[Start the {productName} server with the standalone default profile] as described above.
+* xref:start_the_eap_standalone_server[Start the {productName} server with the standalone default profile] as described above.
 
 . Review the `configure-elytron.cli` file in the root of this quickstart directory. This script adds the configuration that enables Elytron security for the quickstart components. Comments in the script describe the purpose of each block of commands.
 . Open a new terminal, navigate to the root directory of this quickstart, and run the following command, replacing `__{jbossHomeName}__` with the path to your server:
@@ -125,6 +125,8 @@ After stopping the server, open the `__{jbossHomeName}__/standalone/configuratio
     <application-security-domain name="other" security-domain="ApplicationDomain"/>
 </application-security-domains>
 ----
++
+The `application-security-domain` enables Elytron security for the quickstart EJBs. It maps the `other` security domain that is set in the EJBs using the Java annotation `@SecurityDomain("other")` to the Elytron `ApplicationDomain` that is responsible for authenticating and authorizing access to the EJBs.
 
 . The `http-remoting-connector` in the `remoting` subsystem was updated to use the `application-sasl-authentication` factory:
 +
@@ -132,6 +134,8 @@ After stopping the server, open the `__{jbossHomeName}__/standalone/configuratio
 ----
 <http-connector name="http-remoting-connector" connector-ref="default" security-realm="ApplicationRealm" sasl-authentication-factory="application-sasl-authentication"/>
 ----
++
+This configuration allows the identity that was established at the connection level to be propagated to the components.
 
 //*************************************************
 // Build and deploy the quickstart JAR
@@ -166,11 +170,14 @@ Principal has admin permission: false
 
 The username and credentials used to establish the connection to the application server are configured in the `wildfly-config.xml` file. As expected, the `quickstartUser` was able to invoke the method available for the `guest`role, but not the administrative method that requires the `admin` role.
 
-NOTE: You should also see the following `EJBAccessException` printed in the server log, followed by a stack trace. This is to be expected because the user does not have the correct permissions to access the EJB.
+[NOTE]
+====
+You should also see the following `EJBAccessException` printed in the server log, followed by a stack trace. This is to be expected because the user does not have the correct permissions to access the EJB.
 
 ----
-07:00:15,364 ERROR [org.jboss.as.ejb3.invocation] (default task-38) WFLYEJB0034: EJB Invocation failed on component SecuredEJB for method public abstract boolean org.jboss.as.quickstarts.ejb_security.SecuredEJBRemote.administrativeMethod(): javax.ejb.EJBAccessException: WFLYEJB0364: Invocation on method: public abstract boolean org.jboss.as.quickstarts.ejb_security.SecuredEJBRemote.administrativeMethod() of bean: SecuredEJB is not allowed
+ERROR [org.jboss.as.ejb3.invocation] (default task-38) WFLYEJB0034: EJB Invocation failed on component SecuredEJB for method public abstract boolean org.jboss.as.quickstarts.ejb_security.SecuredEJBRemote.administrativeMethod(): javax.ejb.EJBAccessException: WFLYEJB0364: Invocation on method: public abstract boolean org.jboss.as.quickstarts.ejb_security.SecuredEJBRemote.administrativeMethod() of bean: SecuredEJB is not allowed
 ----
+====
 
 As an exercise, you can rerun the `add-user` script described in the xref:add_the_application_users[Add the Application Users] section, but this time grant the `quickstartUser` the admin role as follows:
 

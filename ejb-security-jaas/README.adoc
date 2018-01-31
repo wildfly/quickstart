@@ -89,7 +89,7 @@ You configure the security domain by running JBoss CLI commands. For your conven
 . Before you begin, make sure you do the following:
 
 * xref:back_up_standalone_server_configuration[Back up the {productName} standalone server configuration] as described above.
-* xref:start_eap_standalone_server_with_the_default_profile[Start the {productName} server with the standalone default profile] as described above.
+* xref:start_the_eap_standalone_server[Start the {productName} server with the standalone default profile] as described above.
 
 
 . Review the `configure-elytron-jaas.cli` file in the root of this quickstart directory. This script adds the configuration that enables Elytron security for the quickstart components. Comments in the script describe the purpose of each block of commands.
@@ -140,7 +140,7 @@ After stopping the server, open the `__{jbossHomeName}__/standalone/configuratio
 </security-domain>
 ----
 +
-The `quickstart-domain`is used to authenticate and authorize users. The `Remoting` login module is added to properly authenticate requests made from remote clients. A `mapping-module` is added that can be used to provide an extra role (`admin`). It is used later on to show how the legacy role mappers can be enabled and disabled.
+The `quickstart-domain` is used to authenticate and authorize users. The `Remoting` login module is added to properly authenticate requests made from remote clients. A `mapping-module` is added that can be used to provide an extra role (`admin`). It is used later on to show how the legacy role mappers can be enabled and disabled.
 
 . The following `elytron-realm` was added to the legacy `security` subsystem.
 +

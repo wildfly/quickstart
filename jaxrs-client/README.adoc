@@ -47,22 +47,16 @@ include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
 // == Build and Deploy the Quickstart
 include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
 
-== Run the Arquillian Tests
+//*************************************************
+// Run the Arquillian tests
+//*************************************************
+// == Run the Arquillian Tests
+include::../shared-doc/run-arquillian-tests.adoc[leveloffset=+1]
 
-This quickstart provides Arquillian tests. By default, these tests are configured to be skipped as Arquillian tests require the use of a container.
-
-. xref:start_eap_standalone_server_with_the_default_profile[Start the {productName} server with the standalone default profile] as described above.
-. Open a terminal and navigate to the root directory of this quickstart.
-. Type the following command to run the test goal with the following profile activated:
-+
-[source,options="nowrap"]
-----
-$ mvn clean verify -Parq-remote
-----
-
-You can also let Arquillian manage the {productName} server by using the `arq-managed` profile. For more information about how to run the Arquillian tests, see link:{arquillianTestsDocUrl}[Run the Arquillian Tests].
 
 == Investigate the Console Output
+
+When you run the Arquillian tests, Maven prints summary of the performed tests to the console. You should see the following results.
 
 [source,options="nowrap"]
 ----
@@ -70,57 +64,57 @@ You can also let Arquillian manage the {productName} server by using the `arq-ma
 T E S T S
 -------------------------------------------------------
 Running org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest
-Dec 29, 2014 3:34:44 PM org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest requestResponseFiltersTest
+org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest requestResponseFiltersTest
 INFO: ### Testing Request and Response Filters ###
-Dec 29, 2014 3:34:44 PM org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest requestResponseFiltersTest
+org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest requestResponseFiltersTest
 INFO: dropping all contacts
-Dec 29, 2014 3:34:45 PM org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest requestResponseFiltersTest
+org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest requestResponseFiltersTest
 INFO: Invoking create new contact using a ClientRequestFilter
-Dec 29, 2014 3:34:45 PM org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest requestResponseFiltersTest
+org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest requestResponseFiltersTest
 INFO: Invoking list all contacts using a ClientResponseFilter
-Dec 29, 2014 3:34:45 PM org.jboss.as.quickstarts.jaxrsclient.test.LogResponseFilter filter
+org.jboss.as.quickstarts.jaxrsclient.test.LogResponseFilter filter
 INFO: Date: Mon Dec 29 15:34:45 BRST 2014- Status: 200
-Dec 29, 2014 3:34:45 PM org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest delayedInvocationTest
+org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest delayedInvocationTest
 INFO: ### Testing Delayed invocaton ###
-Dec 29, 2014 3:34:45 PM org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest delayedInvocationTest
+org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest delayedInvocationTest
 INFO: dropping all contacts
-Dec 29, 2014 3:34:46 PM org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest delayedInvocationTest
+org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest delayedInvocationTest
 INFO: Creating a new contact invocation
-Dec 29, 2014 3:34:46 PM org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest delayedInvocationTest
+org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest delayedInvocationTest
 INFO: Creating list all contacts invocation
-Dec 29, 2014 3:34:46 PM org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest delayedInvocationTest
+org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest delayedInvocationTest
 INFO: invoking the new contact
-Dec 29, 2014 3:34:46 PM org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest delayedInvocationTest
+org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest delayedInvocationTest
 INFO: invoking list all contacts ASYNC
-Dec 29, 2014 3:34:46 PM org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest asyncCrudTest
+org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest asyncCrudTest
 INFO: ### CRUD tests  ASYNC ###
-Dec 29, 2014 3:34:46 PM org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest asyncCrudTest
+org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest asyncCrudTest
 INFO: dropping all contacts ASYNC
-Dec 29, 2014 3:34:46 PM org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest asyncCrudTest
+org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest asyncCrudTest
 INFO: creating a new contact ASYNC
-Dec 29, 2014 3:34:46 PM org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest asyncCrudTest
+org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest asyncCrudTest
 INFO: delete a contact by id ASYNC
-Dec 29, 2014 3:34:46 PM org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest asyncCrudTest
+org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest asyncCrudTest
 INFO: fetching all contacts ASYNC
-Dec 29, 2014 3:34:46 PM org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest invocationCallBackTest
+org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest invocationCallBackTest
 INFO: ### Testing invocation callback ###
-Dec 29, 2014 3:34:46 PM org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest invocationCallBackTest
+org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest invocationCallBackTest
 INFO: dropping all contacts
-Dec 29, 2014 3:34:46 PM org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest invocationCallBackTest
+org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest invocationCallBackTest
 INFO: Creating a InvocationCallback
-Dec 29, 2014 3:34:46 PM org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest invocationCallBackTest
+org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest invocationCallBackTest
 INFO: Invoking a service using the InvocationCallback
-Dec 29, 2014 3:34:46 PM org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest cruedTest
+org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest cruedTest
 INFO: ### CRUD tests ###
-Dec 29, 2014 3:34:46 PM org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest cruedTest
+org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest cruedTest
 INFO: dropping all contacts
-Dec 29, 2014 3:34:46 PM org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest cruedTest
+org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest cruedTest
 INFO: creating a new contact
-Dec 29, 2014 3:34:46 PM org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest cruedTest
+org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest cruedTest
 INFO: fetching a contact by id
-Dec 29, 2014 3:34:46 PM org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest cruedTest
+org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest cruedTest
 INFO: fetching all contacts
-Dec 29, 2014 3:34:46 PM org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest cruedTest
+org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest cruedTest
 INFO: delete a contact by id
 Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.51 sec - in org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest
 

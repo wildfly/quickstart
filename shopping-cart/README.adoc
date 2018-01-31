@@ -73,7 +73,7 @@ Follow the steps below to suppress system exception logging.
 . Before you begin, make sure you  do the following:
 
 * xref:back_up_standalone_server_configuration[Back up the {productName} standalone server configuration] as described above.
-* xref:start_eap_standalone_server_with_the_default_profile[Start the {productName} server with the standalone default profile] as described above.
+* xref:start_the_eap_standalone_server[Start the {productName} server with the standalone default profile] as described above.
 
 . Review the `configure-system-exception.cli` file in the root of this quickstart directory. This script sets the `log-system-exceptions` attribute to `false` in the `ejb3` subsystem in the server configuration file.
 . Open a new terminal, navigate to the root directory of this quickstart, and run the following command, replacing {jbossHomeName} with the path to your server:
@@ -105,6 +105,12 @@ You should see the following configuration in the `ejb3` subsystem.
 ----
 <log-system-exceptions value="false"/>
 ----
+
+//*************************************************
+// Install the quickstart parent artifact
+//*************************************************
+// == Install the Quickstart Parent Artifact in Maven
+include::../shared-doc/install-quickstart-parent-artifact.adoc[leveloffset=+1]
 
 //*************************************************
 // Build and deploy the quickstart JAR

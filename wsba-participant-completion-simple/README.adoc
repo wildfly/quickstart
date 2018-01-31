@@ -65,7 +65,8 @@ include::../shared-doc/system-requirements.adoc[leveloffset=+1]
 // == Use of {jbossHomeName}
 include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
 
-== Start the Server with Custom Options
+[[start_the_eap_standalone_server]]
+== Start the {productName} Standalone Server
 
 You must start {productName} with the XTS subsystem enabled.
 
@@ -81,21 +82,18 @@ NOTE: For Windows, use the `__{jbossHomeName}__\bin\standalone.bat` script.
 
 The pipe to egrep, `| egrep "started|stdout"`, is useful to show when the server has started and the output from these tests. For normal operation, this pipe can be removed.
 
-== Run the Arquillian Tests
+//*************************************************
+// Run the Arquillian tests
+//*************************************************
+// == Run the Arquillian Tests
+include::../shared-doc/run-arquillian-tests.adoc[leveloffset=+1]
 
-This quickstart provides Arquillian tests. By default, these tests are configured to be skipped as Arquillian tests require the use of a container.
 
-. Make sure you have started the {productName} server as described above.
-. Open a terminal and navigate to the root directory of this quickstart.
-. Type the following command to run the test goal with the following profile activated:
-+
-[source,options="nowrap"]
-----
-$ mvn clean verify -Parq-remote
-----
+[[investigate_the_console_output]]
+== Investigate the Console Output
 
-. You should see the following result.
-+
+When you run the Arquillian tests, Maven prints summary of the performed tests to the console. You should see the following results.
+
 [source,options="nowrap"]
 ----
 Results :
@@ -116,8 +114,6 @@ Supported property names: [managementAddress, password, managementPort, manageme
 
 This is because, in remote mode, you are responsible for starting the server with the XTS subsystem enabled. When you run the Arquillian tests in managed mode, the container uses the `serverConfig` property defined in the `arquillian.xml` file to start the server with the XTS subsystem enabled.
 ====
-
-You can also let Arquillian manage the {productName} server by using the `arq-managed` profile. For more information about how to run the Arquillian tests, see link:{arquillianTestsDocUrl}[Run the Arquillian Tests].
 
 == Investigate the Server Log
 

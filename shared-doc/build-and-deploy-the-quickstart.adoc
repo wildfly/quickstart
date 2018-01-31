@@ -1,5 +1,5 @@
-[[build_and_deploy_the_quickstart_archive]]
-= Build and Deploy the Quickstart Archive
+[[build_and_deploy_the_quickstart]]
+= Build and Deploy the Quickstart
 //******************************************************************************
 // Use this template if your quickstart does a normal deployment of a archive.
 //
@@ -38,30 +38,30 @@ endif::archiveType[]
 // If they have not defined the target archive directory, make it the default for the archive type.
 ifndef::archiveDir[]
 
-ifeval::[{archiveType}==ear]
+ifeval::["{archiveType}"=="ear"]
 :archiveDir: {artifactId}/ear/target
 endif::[]
 
-ifeval::[{archiveType}==war]
+ifeval::["{archiveType}"=="war"]
 :archiveDir: {artifactId}/target
 endif::[]
 
-ifeval::[{archiveType}==jar]
+ifeval::["{archiveType}"=="jar"]
 :archiveDir: {artifactId}/target
 endif::[]
 
 endif::archiveDir[]
 
 ifndef::mavenCommand[]
-ifeval::[{archiveType}==ear]
+ifeval::["{archiveType}"=="ear"]
 :mavenCommand: clean install wildfly:deploy
 endif::[]
 
-ifeval::[{archiveType}==war]
+ifeval::["{archiveType}"=="war"]
 :mavenCommand: clean package wildfly:deploy
 endif::[]
 
-ifeval::[{archiveType}==jar]
+ifeval::["{archiveType}"=="jar"]
 :mavenCommand: clean install wildfly:deploy
 endif::[]
 
@@ -93,7 +93,7 @@ ifdef::standalone-server-custom[]
 :serverProfile: custom profile
 endif::[]
 
-. Make sure you xref:start_the_eap_standalone_server[start the {productName} server with the {serverProfile}] as described above.
+. Make sure you xref:start_the_eap_standalone_server[start the {productName} server] with the {serverProfile} as described above.
 . Open a terminal and navigate to the root directory of this quickstart.
 . Type the following command to build the artifacts.
 +
