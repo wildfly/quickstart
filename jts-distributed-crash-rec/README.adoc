@@ -18,6 +18,7 @@ The `jts-distributed-crash-rec` quickstart uses JTS and Byteman to demonstrate d
 :standalone-server-type: full
 :archiveType: war
 :requires-multiple-servers:
+:jbds-not-supported:
 
 == What is it?
 
@@ -285,3 +286,9 @@ __{jbossHomeName}_2__/standalone/data/tx-object-store
 . After recovery is complete, access the application URL http://localhost:8080/jts-application-component-1/customers.jsf. The user you created should now appear in the list.
 
 . Do _not_ forget to link:{configureBytemanDisableDocUrl}[Disable the Byteman script] by restoring the backup server configuration file. The Byteman rule must be removed to ensure that your application server will be able to commit 2PC transactions!
+
+//*************************************************
+// Add JBoss Developer Studio instructions
+//*************************************************
+// == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]

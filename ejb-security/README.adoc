@@ -16,6 +16,7 @@ The `ejb-security` quickstart demonstrates the use of Java EE declarative securi
 
 :standalone-server-type: default
 :archiveType: jar
+:includes-cli-scripts:
 
 == What is it?
 
@@ -36,7 +37,6 @@ annotation in the EJB but it should not be granted access to the administrative 
 // Add System Requirements
 //*************************************************
 // == System Requirements
-:includes-cli-scripts:
 include::../shared-doc/system-requirements.adoc[leveloffset=+1]
 
 //*************************************************
@@ -230,11 +230,13 @@ process-state: reload-required
 include::../shared-doc/restore-standalone-server-configuration-manual.adoc[leveloffset=+2]
 
 
-[[run_the_quickstart_in_jboss_developer_studio_or_eclipse]]
-== Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+//*************************************************
+// Add JBoss Developer Studio instructions
+//*************************************************
+// == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
 
-You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a {productName} server, and build and deploy a quickstart, see link:{useEclipseUrl}[Use JBoss Developer Studio or Eclipse to Run the Quickstarts].
-
+// Additional JBoss Developer Studio instructions
 . Make sure you xref:add_the_application_users[Add the Application Users] as described above.
 . Make sure you configure the server by running the JBoss CLI script as described above under xref:configure_the_server[Configure the Server].
 . To deploy the server project, right-click on the *{artifactId}* project and choose *Run As* –> *Maven build*. Enter *clean package wildfly:deploy* for the *Goals* and click *Run*. This deploys the `{artifactId}` JAR to the {productName} server.

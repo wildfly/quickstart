@@ -16,6 +16,8 @@ The `ejb-multi-server` quickstart shows how to communicate between multiple appl
 
 :managed-domain-type: default
 :archiveType: ear
+:includes-cli-scripts:
+:jbds-not-supported:
 
 == What is it?
 
@@ -50,7 +52,6 @@ The server configuration is done using CLI batch scripts located in the root of 
 // Add System Requirements
 //*************************************************
 // == System Requirements
-:includes-cli-scripts:
 include::../shared-doc/system-requirements.adoc[leveloffset=+1]
 
 //*************************************************
@@ -102,7 +103,7 @@ include::../shared-doc/back-up-managed-domain-configuration.adoc[leveloffset=+1]
 // Start the managed domain
 //*************************************************
 // == Start the {productName} Managed Domain
-include::../shared-doc/start-server-managed-domain.adoc[leveloffset=+1]
+include::../shared-doc/start-the-managed-domain.adoc[leveloffset=+1]
 
 [[configure_the_server]]
 == Configure the Server
@@ -268,11 +269,14 @@ NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat`.
 // == Restore the {productName} Managed Domain Configuration Manually
 include::../shared-doc/restore-managed-domain-configuration-manual.adoc[leveloffset=+1]
 
+//*************************************************
+// Add JBoss Developer Studio instructions
+//*************************************************
+// == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
 
-[[run_the_quickstart_in_jboss_developer_studio_or_eclipse]]
-== Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
-
-EJB Client (ejb-client) currently has limited support in the Eclipse Web Tools Platform (WTP). For that reason, this quickstart is not supported in Red Hat JBoss Developer Studio.
+// Additional JBoss Developer Studio instructions
+EJB Client (ejb-client) currently has limited support in the Eclipse Web Tools Platform (WTP).
 
 //*************************************************
 // Add info to debug the application
