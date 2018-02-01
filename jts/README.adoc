@@ -15,6 +15,10 @@ include::../shared-doc/attributes.adoc[]
 [abstract]
 The `jts` quickstart shows how to use JTS to perform distributed transactions across multiple containers, fulfilling the properties of an ACID transaction.
 
+:standalone-server-type: full
+:archiveType: war
+:requires-multiple-servers:
+
 == What is it?
 
 The `jts` quickstart demonstrates how to perform distributed transactions across multiple containers in an application deployed to {productNameFull}. A distributed transaction is a set of operations performed by two or more nodes, participating in an activity coordinated as a single entity of work, and fulfilling the properties of an ACID transaction.
@@ -62,7 +66,6 @@ include::../shared-doc/system-requirements.adoc[leveloffset=+1]
 // Add Use of JBoss Home Name
 //*************************************************
 // == Use of {jbossHomeName}
-:requires-multiple-servers:
 include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
 
 == Prerequisites
@@ -233,16 +236,12 @@ You will see the following warnings in the server log. You can ignore these warn
 WFLYJCA0091: -ds.xml file deployments are deprecated. Support may be removed in a future version.
 ----
 
-== Undeploy the Archive
+//*************************************************
+// Undeploy the quickstart archive
+//*************************************************
+// == Undeploy the Quickstart
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
 
-. Make sure you have xref:[started the {productName} servers] as described above.
-. Open a terminal and navigate to the root directory of this quickstart.
-. When you are finished testing, type this command to undeploy the archive.
-+
-[source,options="nowrap"]
-----
-$ mvn package wildfly:undeploy
-----
 
 [[remove_the_jts_configuration_from_the_server]]
 == Remove the JTS Configuration From the Server

@@ -6,8 +6,6 @@
 :productVersion: 12
 :buildRequirements: Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later
 include::../shared-doc/attributes.adoc[]
-:includes-cli-scripts:
-:optional-domain-or-multiple-servers:
 
 :level: Advanced
 :technologies: JMS, MDB, Clustering
@@ -16,7 +14,10 @@ include::../shared-doc/attributes.adoc[]
 [abstract]
 The `messaging-clustering-singleton` quickstart uses a JMS topic and a queue to demonstrate clustering using {productName} messaging with MDB singleton configuration where only one node in the cluster will be active.
 
-:standalone-server-full-ha:
+:standalone-server-type: full-ha
+:archiveType: war
+:includes-cli-scripts:
+:optional-domain-or-multiple-servers:
 
 == What is it?
 
@@ -413,13 +414,13 @@ $ __{jbossHomeName}_2__/bin/jboss-cli.sh  --connect controller=localhost:10090 -
 
 NOTE: For Windows, use the `__{jbossHomeName}_1__\bin\jboss-cli.bat` and `__{jbossHomeName}_2__\bin\jboss-cli.bat` scripts.
 
-== Remove the Server Configuration
+== Restore the Server Configuration
 
-=== Remove the Domain Server Configuration
+=== Restore the Domain Server Configuration
 
-You can remove the domain configuration by manually restoring the backup configuration files or by running the management CLI script.
+You can Restore the domain configuration by manually restoring the backup configuration files or by running the management CLI script.
 
-==== Remove the Domain Server Configuration Manually
+==== Restore the Domain Server Configuration Manually
 
 IMPORTANT: This method ensures the server is restored to its prior configuration.
 
@@ -427,7 +428,7 @@ IMPORTANT: This method ensures the server is restored to its prior configuration
 . Restore the `__{jbossHomeName}__/domain/configuration/domain.xml` and `__{jbossHomeName}__/domain/configuration/host.xml` files with the back-up copies
 of the files. Make sure you replace `__{jbossHomeName}__` with the path to your server.
 
-==== Remove the Domain Server Configuration by Running the Management CLI Script
+==== Restore the Domain Server Configuration by Running the Management CLI Script
 
 IMPORTANT: This script returns the server to a default configuration and the result might not match the server configuration prior to testing this quickstart. If you were not running with the default configuration before testing this quickstart, you should follow the intructions above to manually restore the configuration to its previous state.
 
@@ -450,21 +451,21 @@ This script removes the server configuration that was done by the `install-domai
 The batch executed successfully
 ----
 
-=== Remove the Standalone Server Configuration
+=== Restore the Standalone Server Configuration
 
-You can remove the domain configuration by manually restoring the back-up copies the configuration files or by running the management CLI script.
+You can Restore the domain configuration by manually restoring the back-up copies the configuration files or by running the management CLI script.
 
-[[remove_the_standalone_server_configuration_manually]]
-==== Remove the Standalone Server Configuration Manually
+[[restore_the_standalone_server_configuration_manually]]
+==== Restore the Standalone Server Configuration Manually
 
 IMPORTANT: This method ensures the server is restored to its prior configuration.
 
 . If they are running, stop both {productName} servers.
 . Restore the `__{jbossHomeName}_1__/standalone/configuration/standalone-full-ha.xml` file with the back-up copies of the file. Make sure you replace `__{jbossHomeName}_1__` with the path to your server.
 
-==== Remove the Standalone Configuration by Running the Management CLI Script
+==== Restore the Standalone Configuration by Running the Management CLI Script
 
-IMPORTANT: This script returns the server to the default configuration, which might not match the server configuration that existed prior to testing this quickstart. If you were not running with the default configuration before testing this quickstart, you should follow the intructions above to xref:remove_the_standalone_server_configuration_manually[manually restore the standalone configuration] to its previous state.
+IMPORTANT: This script returns the server to the default configuration, which might not match the server configuration that existed prior to testing this quickstart. If you were not running with the default configuration before testing this quickstart, you should follow the intructions above to xref:restore_the_standalone_server_configuration_manually[manually restore the standalone configuration] to its previous state.
 
 . Start the {productName} server by typing the following, replacing `__{jbossHomeName}_1__` with the path to your first server:
 +

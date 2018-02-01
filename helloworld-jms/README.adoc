@@ -14,7 +14,8 @@ include::../shared-doc/attributes.adoc[]
 [abstract]
 The `helloworld-jms` quickstart demonstrates the use of external JMS clients with {productName}.
 
-:standalone-server-full:
+:standalone-server-type: full
+:archiveType: jar
 
 == What is it?
 
@@ -169,30 +170,38 @@ INFO: Received message with content Hello, World!
 
 The example provides for a certain amount of customization for the `mvn:exec` plug-in using the system properties.
 
-[cols="30%,70%",options="headers"]
+[cols="20%,30%,50%",options="headers"]
 |===
 | Property
+| Default value
 | Description
 
 | username
+| quickstartUser
 | This `username` is used for both the JMS connection and the JNDI look up. Instructions to set up the quickstart application user can be found here: link:{addApplicationUserDocUrl}[Add an Application User].
 
 | password
+| quickstartPwd1!
 | This `password` is used for both the JMS connection and the JNDI look up. Instructions to set up the quickstart application user can be found here: link:{addApplicationUserDocUrl}[Add an Application User]
 
 | connection.factory
+| jms/RemoteConnectionFactory
 | The name of the JMS `ConnectionFactory` you want to use.
 
 | destination
+| jms/queue/test
 | The name of the JMS `Destination` you want to use.
 
 | message.count
+| 1
 | The number of JMS messages you want to produce and consume.
 
 | message.content
+| "Hello, World!"
 | The content of the JMS `TextMessage`.
 
 | java.naming.provider.url
+| "localhost"
 | This property allows configuration of the JNDI directory used to look up the JMS destination. This is useful when the client resides on another host.
 |===
 

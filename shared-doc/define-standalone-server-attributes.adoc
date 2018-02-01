@@ -1,0 +1,54 @@
+//******************************************************************************
+// This template sets attributes for the different standalone server profiles.
+//
+// You must define the `standalone-server-type`. Supported values are:
+//    default
+//    full
+//    full-ha
+//    ha
+//    custom
+//******************************************************************************
+
+// Standalone server with the default profile.
+ifeval::["{standalone-server-type}"=="default"]
+:serverProfile: default profile
+:configFileName: standalone/configuration/standalone.xml
+:serverArguments:
+endif::[]
+
+// Standalone server with the full profile.
+ifeval::["{standalone-server-type}"=="full"]
+:serverProfile: full profile
+:configFileName: standalone/configuration/standalone-full.xml
+:serverArguments:  -c standalone-full.xml
+endif::[]
+
+// Standalone server with the full HA profile.
+ifeval::["{standalone-server-type}"=="full-ha"]
+:serverProfile: full HA profile
+:configFileName: standalone/configuration/standalone-full-ha.xml
+:serverArguments:  -c standalone-full-ha.xml
+endif::[]
+
+// Start the standalone server with the HA profile.
+ifeval::["{standalone-server-type}"=="ha"]
+:serverProfile: HA profile
+:configFileName: standalone/configuration/standalone-ha.xml
+:serverArguments:  -c standalone-ha.xml
+endif::[]
+
+// Standalone server with the custom profile.
+// NOTE: This profile requires that you define the `serverArguments` variable
+// within the quickstart README.adoc file. For example:
+//  :serverArguments: --server-config=../../docs/examples/configs/standalone-xts.xml
+ifeval::["{standalone-server-type}"=="custom"]
+:serverProfile: custom profile
+endif::[]
+
+// If there is no match, use the default profile.
+ifndef::serverProfile[]
+:standalone-server-type:  default
+:serverProfile: default profile
+:configFileName: standalone/configuration/standalone.xml
+:serverArguments:
+endif::serverProfile[]

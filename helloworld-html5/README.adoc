@@ -14,7 +14,7 @@ include::../shared-doc/attributes.adoc[]
 [abstract]
 The `helloworld-html5` quickstart demonstrates the use of CDI 1.2 and JAX-RS 2.0 using the HTML5 architecture and RESTful services on the backend.
 
-:standalone-server-default:
+:standalone-server-type: default
 :archiveType: war
 
 == What is it?
@@ -65,17 +65,20 @@ The application will be running at the following URL http://localhost:8080/{arti
 
 You can also test the REST endpoint by sending an HTTP `POST` request to the URLs below. Replace `__YOUR_NAME__` with a name of your choosing.
 
-* The XML content can be tested by sending an HTTP `POST` to the following URL: http://localhost:8080/{artifactId}/hello/xml/__YOUR_NAME__
+[discrete]
+=== Test the XML Content
 
-** To issue the `POST` command using cURL, type the following command in terminal:
-+
+You can test The XML content by sending an HTTP `POST` to the following URL: http://localhost:8080/{artifactId}/hello/xml/__YOUR_NAME__
+
+Type the following cURL command in terminal to issue the `POST` command:
+
 [source,options="nowrap"]
 ----
 curl -i -X POST http://localhost:8080/${project.artifactId}/hello/xml/__YOUR_NAME__
 ----
 
-** You will see the following response:
-+
+You will see the following response:
+
 [source,options="nowrap"]
 ----
 Connection: keep-alive
@@ -88,17 +91,21 @@ Date: Tue, 13 Oct 2015 18:40:04 GMT
 
 <xml><result>Hello YOUR_NAME!</result></xml>
 ----
-* The JSON content can be tested by sending an HTTP `POST` to the following URL: http://localhost:8080/{artifactId}/hello/json/__YOUR_NAME__
 
-** To issue the `POST` command using cURL, type the following command in terminal:
-+
+[discrete]
+=== Test the JSON Content
+
+You can test the JSON content by sending an HTTP `POST` to the following URL: http://localhost:8080/{artifactId}/hello/json/__YOUR_NAME__
+
+Type the following cURL command in terminal to issue the `POST` command:
+
 [source,options="nowrap"]
 ----
 curl -i -X POST http://localhost:8080/${project.artifactId}/hello/json/YOUR_NAME
 ----
 
 You will see the following response:
-+
+
 [source,options="nowrap"]
 ----
 HTTP/1.1 200 OK
@@ -118,37 +125,12 @@ Date: Tue, 13 Oct 2015 06:32:20 GMT
 // == Undeploy the Quickstart
 include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
 
+//*************************************************
+// Run the Arquillian functional tests
+//*************************************************
+// == Run the Arquillian Functional Tests
+include::../shared-doc/run-arquillian-functional-tests.adoc[leveloffset=+1]
 
-== Run the Arquillian Functional Tests
-
-This quickstart provides Arquillian functional tests as well. They are located in the functional-tests/ subdirectory under the root directory of this quickstart.
-Functional tests verify that your application behaves correctly from the user's point of view. The tests open a browser instance, simulate clicking around the page as a normal user would do, and then close the browser instance.
-
-To run these tests, you must build the main project as described above.
-
-. Open a terminal and navigate to the root directory of this quickstart.
-. Build the quickstart WAR using the following command:
-+
-[source,options="nowrap"]
-----
-$ mvn clean package
-----
-
-. Navigate to the functional-tests/ directory in this quickstart.
-
-. If you have a running instance of the {productName} server, as described above, run the remote tests by typing the following command:
-+
-[source,options="nowrap"]
-----
-$ mvn clean verify -Parq-remote
-----
-
-. If you prefer to run the functional tests using managed instance of the {productName} server, meaning the tests will start the server for you, type fhe following command:
-+
-[source,options="nowrap"]
-----
-$ mvn clean verify -Parq-managed
-----
 
 == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 

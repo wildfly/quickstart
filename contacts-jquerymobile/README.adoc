@@ -14,7 +14,7 @@ include::../shared-doc/attributes.adoc[]
 [abstract]
 The `contacts-jquerymobile` quickstart demonstrates a Java EE 7 mobile database application using HTML5, jQuery Mobile, JAX-RS, JPA, and REST.
 
-:standalone-server-default:
+:standalone-server-type: default
 :archiveType: war
 
 == What is it?
@@ -141,7 +141,7 @@ $ mvn clean verify wildfly:deploy -Pminify,arq-remote
 // Run the Arquillian tests
 //*************************************************
 // == Run the Arquillian Tests
-include::../shared-doc/run_the_arquillian_tests.adoc[leveloffset=+1]
+include::../shared-doc/run-arquillian-tests.adoc[leveloffset=+1]
 
 
 [[run_the_qunit_tests]]
@@ -155,40 +155,12 @@ NOTE: If you use *Chrome*, some date tests fail. These are false failures and ar
 
 For more information on QUnit tests, see http://qunitjs.com/.
 
-== Run the Arquillian Functional Tests
+//*************************************************
+// Run the Arquillian functional tests
+//*************************************************
+// == Run the Arquillian Functional Tests
+include::../shared-doc/run-arquillian-functional-tests.adoc[leveloffset=+1]
 
-This quickstart provides Arquillian functional tests. They are located under the directory `functional-tests`. Functional tests verify that your application behaves correctly from the user's point of view - simulating clicking around the page as a normal user would do.
-
-To run these tests, you must build the main project as described above.
-
-. Open a terminal and navigate to the root directory of this quickstart.
-. Build the quickstart WAR using the following command:
-+
-[source,options="nowrap"]
-----
-$ mvn clean package
-----
-
-. Navigate to the functional-tests/ directory in this quickstart.
-
-. If you have a running instance of the {productName} server, as described above, run the remote tests by typing the following command:
-+
-[source,options="nowrap"]
-----
-$ mvn clean verify -Parq-remote
-----
-
-. If you prefer to run the functional tests using managed instance of the {productName} server, meaning the tests will start the server for you, type the following command:
-+
-[NOTE]
-====
-For this to work, Arquillian needs to know the location of the {productName} server. This can be declared by using either the `JBOSS_HOME` environment variable, or by setting the `jbossHome` property in the `arquillian.xml` file. See link:{arquillianTestsDocUrl}[Run the Arquillian Tests] for complete instructions and additional options.
-
-[source,options="nowrap"]
-----
-$ mvn clean verify -Parq-managed
-----
-====
 
 [[run_the_quickstart_in_jboss_developer_studio_or_eclipse]]
 == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse

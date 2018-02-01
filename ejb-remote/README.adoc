@@ -14,11 +14,11 @@ include::../shared-doc/attributes.adoc[]
 [abstract]
 The `ejb-remote` quickstart uses EJB and JNDI to demonstrate how to access an EJB, deployed to {productName}, from a remote Java client application.
 
-:standalone-server-default:
+:standalone-server-type: default
 :archiveType: jar
 // Override the archive name
 :archiveDir: {artifactId}/server-side/target
-:archiveName: {artifactId}-server-side.jar
+:archiveName: {artifactId}-server-side
 
 == What is it?
 
@@ -152,6 +152,7 @@ $ mvn clean package assembly:single
 
 . You can then run the executable JAR using the `java -jar` command. You will see the same console output as above.
 +
+[source,subs="attributes+",options="nowrap"]
 ----
 $ java -jar target/{artifactId}-client-jar-with-dependencies.jar
 ----

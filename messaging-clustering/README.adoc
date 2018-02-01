@@ -15,6 +15,9 @@ include::../shared-doc/attributes.adoc[]
 [abstract]
 The `messaging-clustering` quickstart does not contain any code and instead uses the `helloworld-mdb` quickstart to demonstrate clustering using ActiveMQ Messaging.
 
+:standalone-server-type: full-ha
+:archiveType: war
+
 == What is it?
 
 The `messaging-clustering` quickstart demonstrates the use of clustering with Apache ActiveMQ and {productNameFull}. It uses the link:../helloworld-mdb/README{outfilesuffix}[helloworld-mdb] quickstart for its tests, so there is no code associated with this quickstart. Instructions are provided to run the quickstart on either a standalone server or in a managed domain.
@@ -49,7 +52,7 @@ See the `helloworld-mdb` link:../helloworld-mdb/README{outfilesuffix}[helloworld
 
 == Configure the Server and Deploy the Quickstart
 
-You can choose to deploy and run this quickstart in a managed domain or on a standalone server. The sections below describe how to configure and start the server for both modes.
+You can choose to deploy and run this quickstart in a managed domain or on a standalone server. The sections below describe how to configure and start each type of server.
 
 Before you begin:
 
@@ -106,16 +109,17 @@ NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
 +
 You should see `"outcome" => "success"` for all of the commands.
 
-. Restart the server in domain mode as described above.
+. Restart the server in a managed domainas described above.
 
 === Configure the Server and Deploy the Quickstart to a Standalone Server
 
-If you choose to use standalone servers rather than domain mode, you will need two instances of the application server. Application
-server 2 must be started with a port offset parameter provided to the startup script as `-Djboss.socket.binding.port-offset=100`.
+If you choose to run standalone servers instead of a managed domain, you will need two instances of the application server.
+Application server 2 must be started with a port offset parameter provided to the startup script as `-Djboss.socket.binding.port-offset=100`.
 
 Since both application servers must be configured in the same way, you must configure the first server and then clone it.
 
-==== Start the Server in Standalone Mode using the Full HA Profile.
+[[start_the_eap_standalone_server]]
+==== Start the Standalone Server Using the Full HA Profile.
 
 . Open a terminal and navigate to the root of the {productName} directory.
 . Start the {productName} server with the standalone full HA profile, which supports messaging and high availability, by typing the following command.
@@ -164,6 +168,7 @@ __{jbossHomeName}_2__/standalone/data/activemq/journal/
 __{jbossHomeName}_2__/standalone/data/activemq/largemessages/
 ----
 
+[[start_the_eap_standalone_servers]]
 ==== Start the {productName} Standalone Servers with the Full HA Profile
 
 When you start the servers, you must pass the cluster password on the command line to avoid the warning `AMQ222186: unable to authorise cluster control`.
@@ -178,7 +183,7 @@ NOTE: For Windows, use the `__{jbossHomeName}_1__\bin\standalone.bat` and `__{jb
 
 == Access the Application
 
-=== Access the Application Running in Domain Dode
+=== Access the Application Running in a Managed Domain
 
 The application will be running at the following URL: http://localhost:9080/helloworld-mdb/HelloWorldMDBServletClient.
 
@@ -186,7 +191,7 @@ It will send some messages to the queue.
 
 To send messages to the topic, use the following URL: http://localhost:9080/helloworld-mdb/HelloWorldMDBServletClient?topic
 
-=== Access the Application Running in Standalone Mode
+=== Access the Application Running in a Standalone Server
 
 The application will be running at the following URL: http://localhost:8080/helloworld-mdb/HelloWorldMDBServletClient.
 
@@ -232,9 +237,9 @@ WARN  [org.infinispan.topology.ClusterTopologyManagerImpl] (transport-thread--p1
 
 When you are finished testing, use the following instructions to undeploy the quickstart.
 
-=== Undeploy the quickstart in Domain Mode
+=== Undeploy the Quickstart from a Managed Domain
 
-. Make sure you have started the {productName} server in domain mode as described above.
+. Make sure you have xref:start_eap_managed_domain[started the {productName} server] in a managed domain as described above.
 . Open a terminal, navigate to the root directory of this quickstart, and run the following command to undeploy the helloworld-mdb quickstart:
 +
 [source,subs="+quotes,attributes+",options="nowrap"]
@@ -244,9 +249,9 @@ $ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=undeploy-domain.cli
 +
 NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
 
-=== Undeploy the quickstart in Standalone Mode
+=== Undeploy the Quickstart from a Standalone Server
 
-. Make sure you have started the {productName} server in standalone mode as described above.
+. Make sure you xref:start_the_eap_standalone_server[start the {productName} server] as described above.
 . Open a terminal, navigate to the root directory of this quickstart, and run the following command to undeploy the helloworld-mdb quickstart:
 +
 [source,subs="+quotes,attributes+",options="nowrap"]
