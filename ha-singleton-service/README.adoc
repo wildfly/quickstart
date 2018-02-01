@@ -17,6 +17,8 @@ The `ha-singleton-service` quickstart demonstrates how to deploy a cluster-wide 
 :standalone-server-type: ha
 :archiveType: jar
 :requires-multiple-servers:
+:includes-cli-scripts:
+:jbds-not-supported:
 
 == What is it?
 
@@ -39,14 +41,12 @@ For more information about clustered singleton services, see _HA Singleton Servi
 // Add System Requirements
 //*************************************************
 // == System Requirements
-:includes-cli-scripts:
 include::../shared-doc/system-requirements.adoc[leveloffset=+1]
 
 //*************************************************
 // Add Use of JBoss Home Name
 //*************************************************
 // == Use of {jbossHomeName}_1 and {jbossHomeName}_2
-:requires-multiple-servers:
 include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
 
 == Clone the {productName} Directory
@@ -520,6 +520,12 @@ $ __{jbossHomeName}_2__/bin/jboss-cli.sh --connect --controller=localhost:10090 
 ----
 +
 NOTE: For Windows, use the `__{jbossHomeName}_1__\bin\jboss-cli.bat` and `__{jbossHomeName}_2__\bin\jboss-cli.bat` scripts.
+
+//*************************************************
+// Add JBoss Developer Studio instructions
+//*************************************************
+// == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
 
 //*************************************************
 // Add info to debug the application

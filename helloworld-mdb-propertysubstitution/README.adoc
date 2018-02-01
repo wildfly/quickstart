@@ -16,6 +16,7 @@ The `helloworld-mdb-propertysubstitution` quickstart demonstrates the use of JMS
 
 :standalone-server-type: full
 :archiveType: war
+:includes-cli-scripts:
 
 == What is it?
 
@@ -32,7 +33,6 @@ This project creates two JMS resources:
 // Add System Requirements
 //*************************************************
 // == System Requirements
-:includes-cli-scripts:
 include::../shared-doc/system-requirements.adoc[leveloffset=+1]
 
 //*************************************************
@@ -180,10 +180,13 @@ The batch executed successfully
 include::../shared-doc/restore-standalone-server-configuration-manual.adoc[leveloffset=+2]
 
 
-== Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+//*************************************************
+// Add JBoss Developer Studio instructions
+//*************************************************
+// == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
 
-You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a {productName} server, and build and deploy a quickstart, see link:{useEclipseUrl}[Use JBoss Developer Studio or Eclipse to Run the Quickstarts].
-
+// Additional JBoss Developer Studio instructions
 * Make sure you enable MDB property substitution by running the JBoss CLI commands as described above under xref:configure_the_server[Configure the Server]. Stop the server at the end of that step.
 * Within JBoss Developer Studio, make sure you define a server runtime environment that uses the `standalone-full.xml` configuration file.
 * Make sure you xref:restore_the_server_configuration[restore the server configuration] when you have completed testing this quickstart.

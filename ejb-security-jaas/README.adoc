@@ -16,6 +16,7 @@ The `ejb-security-jaas` quickstart demonstrates how legacy `JAAS` security domai
 
 :standalone-server-type: default
 :archiveType: war
+:includes-cli-scripts:
 
 == What is it?
 
@@ -34,7 +35,6 @@ The following steps required to use the `JAAS` integration.
 // Add System Requirements
 //*************************************************
 // == System Requirements
-:includes-cli-scripts:
 include::../shared-doc/system-requirements.adoc[leveloffset=+1]
 
 //*************************************************
@@ -349,11 +349,13 @@ include::../shared-doc/restore-standalone-server-configuration-manual.adoc[level
 After you are done with this quickstart, remember to remove the `users.properties` and `roles.properties` files from the
 server configuration directory (`__{jbossHomeName}__/standalone/configuration/`).
 
-[[run_the_quickstart_in_jboss_developer_studio_or_eclipse]]
-== Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+//*************************************************
+// Add JBoss Developer Studio instructions
+//*************************************************
+// == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
 
-You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a {productName} server, and build and deploy a quickstart, see link:{useEclipseUrl}[Use JBoss Developer Studio or Eclipse to Run the Quickstarts].
-
+// Additional JBoss Developer Studio instructions
 * Make sure you xref:create_the_properties_files_for_the_jaas_security_domain[Create the Properties Files for the JAAS Security Domain] as described above.
 * Make sure you configure the server by running the JBoss CLI script as described above under xref:configure_the_server[Configure the Server]. Stop the server at the end of that step.
 * To deploy the application to the {productName} server, right-click on the *{artifactId}* project and choose *Run As* -> *Run on Server*.

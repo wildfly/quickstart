@@ -17,6 +17,8 @@ The `ha-singleton-deployment` quickstart demonstrates the recommended way to dep
 :standalone-server-type: ha
 :archiveType: jar
 :requires-multiple-servers:
+:includes-cli-scripts:
+:jbds-not-supported:
 
 == What is it?
 
@@ -30,7 +32,6 @@ For more information about singleton deployments, see _HA Singleton Deployments_
 // Add System Requirements
 //*************************************************
 // == System Requirements
-:includes-cli-scripts:
 include::../shared-doc/system-requirements.adoc[leveloffset=+1]
 
 //*************************************************
@@ -236,6 +237,12 @@ For convenience, the management CLI scripts to add the deployment overlay, `sing
 $ mvn wildfly:undeploy
 $ mvn wildfly:undeploy -Dwildfly.port=10090
 ----
+
+//*************************************************
+// Add JBoss Developer Studio instructions
+//*************************************************
+// == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
 
 //*************************************************
 // Add info to debug the application

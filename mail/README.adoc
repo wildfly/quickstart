@@ -16,6 +16,7 @@ The `mail` quickstart demonstrates how to send email using CDI and JSF and the d
 
 :standalone-server-type: default
 :archiveType: war
+:includes-cli-scripts:
 
 == What is it?
 
@@ -31,7 +32,6 @@ This example is a web application that takes `To`, `From`, `Subject`, and `Messa
 // Add System Requirements
 //*************************************************
 // == System Requirements
-:includes-cli-scripts:
 include::../shared-doc/system-requirements.adoc[leveloffset=+1]
 
 //*************************************************
@@ -173,10 +173,13 @@ process-state: reload-required
 // == Restore the {productName} Standalone Server Configuration Manually
 include::../shared-doc/restore-standalone-server-configuration-manual.adoc[leveloffset=+2]
 
-== Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+//*************************************************
+// Add JBoss Developer Studio instructions
+//*************************************************
+// == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
 
-You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a {productName} server, and build and deploy a quickstart, see link:{useEclipseUrl}[Use JBoss Developer Studio or Eclipse to Run the Quickstarts].
-
+// Additional JBoss Developer Studio instructions
 * Make sure you xref:configure_an_smtp_server_on_your_local_machine[Configure an SMTP Server on Your Local Machine].
 * Make sure you configure the {productName} custom mail configuration as described above under xref:configure_the_server[Configure the {productName} Server]. Stop the server at the end of that step.
 * To deploy the server project, right-click on the *{artifactId}* project and choose *Run As* –&gt; *Run on Server*. A browser window appears that accesses the running application.

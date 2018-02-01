@@ -16,6 +16,7 @@ The `helloworld-mutual-ssl-secured` quickstart demonstrates securing a Web appli
 
 :standalone-server-type: default
 :archiveType: war
+:includes-cli-scripts:
 
 == What is it?
 
@@ -29,7 +30,6 @@ This quickstart shows how to configure {productName} to enable TLS/SSL configura
 // Add System Requirements
 //*************************************************
 // == System Requirements
-:includes-cli-scripts:
 include::../shared-doc/system-requirements.adoc[leveloffset=+1]
 
 //*************************************************
@@ -442,11 +442,13 @@ After you are done with this quickstart, remember to remove the certificate that
 . Select the *quickstartUser* certificate and click the *Delete* button.
 . The certificate has now been removed from the Mozilla Firefox browser.
 
-[[run_the_quickstart_in_jboss_developer_studio_or_eclipse]]
-== Run the Quickstart in JBoss Developer Studio or Eclipse
+//*************************************************
+// Add JBoss Developer Studio instructions
+//*************************************************
+// == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
 
-You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a {productName} server, and build and deploy a quickstart, see link:{useEclipseUrl}[Use JBoss Developer Studio or Eclipse to Run the Quickstarts].
-
+// Additional JBoss Developer Studio instructions
 * Make sure you configure the keystores and client certificates as described under xref:set_up_client_and_server_keystores_using_java_keytool[Set Up Client and Server Keystores Using Java Keytool].
 * Depending on the browser you choose, make sure you either xref:import_the_client_certificate_into_google_chrome[import the certificate into Google Chrome] or xref:import_the_client_certificate_into_mozilla_firefox[import the certificate into Mozilla Firefox].
 * Make sure you configure the server by running the JBoss CLI commands as described above under xref:configure_the_server[Configure the Server]. Stop the server at the end of that step.
