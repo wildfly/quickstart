@@ -1,0 +1,16 @@
+
+batch
+
+/subsystem=undertow/application-security-domain=other:remove()
+
+/subsystem=elytron/http-authentication-factory=jwt-http-authentication:remove()
+
+/subsystem=elytron/security-domain=jwt-domain:remove()
+
+/subsystem=elytron/token-realm=jwt-realm:remove()
+
+/subsystem=elytron/key-store=jwt-key-store:remove()
+
+run-batch
+
+reload
