@@ -723,39 +723,6 @@
             <modules>
                 <module>dist</module>
             </modules>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-resources-plugin</artifactId>
-                        <version>${version.resources.plugin}</version>
-                        <executions>
-                            <execution>
-                                <id>copy-processed-resources</id>
-                                <phase>process-resources</phase>
-                                <goals>
-                                    <goal>copy-resources</goal>
-                                </goals>
-                                <configuration>
-                                    <outputDirectory>${basedir}</outputDirectory>
-                                    <filters>
-                                        <filter>${root.dir}/docs.properties</filter>
-                                    </filters>
-                                    <resources>
-                                        <resource>
-                                            <directory>${project.build.directory}/docs</directory>
-                                            <includes>
-                                                <include>*.md</include>
-                                            </includes>
-                                            <filtering>true</filtering>
-                                        </resource>
-                                    </resources>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
         </profile>
     </profiles>
 </project>
