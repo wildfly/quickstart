@@ -18,14 +18,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.wildfly.quickstarts</groupId>
-        <artifactId>quickstart-parent</artifactId>
-        <version>13.0.0-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
+        <groupId>org.wildfly.bom</groupId>
+        <artifactId>quickstart</artifactId>
+        <version>13.0.0.Alpha3</version>
+        <relativePath />
     </parent>
     <artifactId>deltaspike-authorization</artifactId>
+    <groupId>org.wildfly.quickstarts</groupId>
+    <version>13.0.0-SNAPSHOT</version>
     <packaging>war</packaging>
-    <name>WildFly Quickstart: deltaspike-authorization</name>
+    <name>Quickstart: deltaspike-authorization</name>
     <description>DeltaSpike Authorization: shows a custom authorization example using security binding types from DeltaSpike</description>
     <url>http://wildfly.org</url>
 
@@ -38,28 +40,12 @@
     </licenses>
 
     <properties>
-        <!-- Explicitly declaring the source encoding eliminates the following message:
-        [WARNING] Using platform encoding (UTF-8 actually) to copy filtered
-        resources, i.e. build is platform dependent! -->
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-        <!-- Define the version of the JBoss BOMs we want to import to specify tested stacks. -->
-        <version.jboss.bom>10.1.0.Final</version.jboss.bom>
-
         <version.deltaspike.core>1.5.1</version.deltaspike.core>
         <version.picketlink>2.7.0.Final</version.picketlink>
     </properties>
 
     <dependencyManagement>
         <dependencies>
-
-            <dependency>
-                <groupId>org.wildfly.bom</groupId>
-                <artifactId>wildfly-javaee7-with-tools</artifactId>
-                <version>${version.jboss.bom}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
 
             <!-- Deltaspike API. We use compile scope as we need it to compile the project against the API -->
             <dependency>

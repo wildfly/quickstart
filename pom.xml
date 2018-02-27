@@ -29,7 +29,7 @@
     <version>13.0.0-SNAPSHOT</version>
 
     <packaging>pom</packaging>
-    <name>${qs.name.prefix} Parent</name>
+    <name>Quickstart: Parent</name>
     <description>WildFly Quickstarts Parent</description>
     <url>http://www.jboss.org/jdf/quickstarts/get-started/</url>
 
@@ -46,7 +46,7 @@
         <jboss.home.name>WILDFLY_HOME</jboss.home.name>
         <product.name>WildFly</product.name>
         <!-- A base list of dependency and plug-in version used in the various quick starts. -->
-        <version.wildfly.maven.plugin>1.2.0.Final</version.wildfly.maven.plugin>
+        <version.wildfly.maven.plugin>1.2.1.Final</version.wildfly.maven.plugin>
 
         <!-- other plug-in versions -->
         <version.com.mycyla.license>3.0</version.com.mycyla.license>
@@ -56,17 +56,9 @@
             filtered resources, i.e. build is platform dependent! -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <version.spring.framework>4.3.14.RELEASE</version.spring.framework>
-        <!-- EAP component version management BOM -->
-        <version.server.bom>12.0.0.CR1</version.server.bom>
-        
-        <version.jboss.spec.javaee.7.0>1.1.1.Final</version.jboss.spec.javaee.7.0>
-        <version.jaxws-tools-maven-plugin>1.2.2.Final</version.jaxws-tools-maven-plugin>
         <!-- Other dependency versions -->
         <version.ro.isdc.wro4j>1.7.9</version.ro.isdc.wro4j>
         <httpclient.version>4.5.3</httpclient.version>
-        <version.org.apache.commons.commons-lang3>3.5</version.org.apache.commons.commons-lang3>
-        <version.h2db>1.4.193</version.h2db>
         <version.org.wildfly.checkstyle-config>1.0.6.Final</version.org.wildfly.checkstyle-config>
         <linkXRef>false</linkXRef>
     </properties>
@@ -74,66 +66,7 @@
     <dependencyManagement>
         <dependencies>
             <!-- Add H2 dependency for embedded testing database -->
-            <dependency>
-                <groupId>com.h2database</groupId>
-                <artifactId>h2</artifactId>
-                <version>${version.h2db}</version>
-            </dependency>
-            <dependency>
-                <groupId>commons-io</groupId>
-                <artifactId>commons-io</artifactId>
-                <version>2.5</version>
-                <scope>compile</scope>
-            </dependency>
-            <dependency>
-                <groupId>commons-logging</groupId>
-                <artifactId>commons-logging</artifactId>
-                <version>1.2</version>
-            </dependency>
-            <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit</artifactId>
-                <version>4.12</version>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.commons</groupId>
-                <artifactId>commons-lang3</artifactId>
-                <version>${version.org.apache.commons.commons-lang3}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.httpcomponents</groupId>
-                <artifactId>httpclient</artifactId>
-                <version>${httpclient.version}</version>
-            </dependency>
-            <!-- JBoss distributes a complete set of Java EE APIs including a Bill
-                of Materials (BOM). A BOM specifies the versions of a "stack" (or a collection)
-                of artifacts. We use this here so that we always get the correct versions
-                of artifacts. Here we use the jboss-eap-javaee7-with-tools stack (you can
-                read this as the JBoss stack of the Java EE APIs, with some extras tools
-                for your project, such as Arquillian for testing) -->
-            <dependency>
-                <groupId>org.wildfly.bom</groupId>
-                <artifactId>wildfly-javaee7-with-tools</artifactId>
-                <version>${version.server.bom}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-
-            <!-- Define the version of the JBoss Java EE APIs we want to use -->
-            <!-- JBoss distributes a complete set of Java EE APIs including
-               a Bill of Materials (BOM). A BOM specifies the versions of a "stack" (or
-               a collection) of artifacts. We use this here so that we always get the correct
-               versions of artifacts. Here we use the jboss-javaee-7.0 stack (you can
-               read this as the JBoss stack of the Java EE APIs). You can actually
-               use this stack with any version of JBoss EAP that implements Java EE. -->
-            <dependency>
-                <groupId>org.jboss.spec</groupId>
-                <artifactId>jboss-javaee-7.0</artifactId>
-                <version>${version.jboss.spec.javaee.7.0}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
+           
 
         </dependencies>
     </dependencyManagement>
@@ -566,66 +499,7 @@
             </modules>
         </profile>
       
-        <profile>
-            <!-- An optional Arquillian testing profile that executes tests in your JBoss EAP instance.
-                 This profile will start a new JBoss EAP instance, and execute the test, shutting it down when done.
-                 Run with: mvn clean verify -Parq-managed -->
-            <id>arq-managed</id>
-            <dependencies>
-                <dependency>
-                    <groupId>org.wildfly.arquillian</groupId>
-                    <artifactId>wildfly-arquillian-container-managed</artifactId>
-                    <scope>test</scope>
-                </dependency>
-            </dependencies>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-failsafe-plugin</artifactId>
-                        <version>${version.failsafe.plugin}</version>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>integration-test</goal>
-                                    <goal>verify</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-
-        <profile>
-            <!-- An optional Arquillian testing profile that executes tests in a remote JBoss EAP instance.
-                 Run with: mvn clean verify -Parq-remote -->
-            <id>arq-remote</id>
-            <dependencies>
-                <dependency>
-                    <groupId>org.wildfly.arquillian</groupId>
-                    <artifactId>wildfly-arquillian-container-remote</artifactId>
-                    <scope>test</scope>
-                </dependency>
-            </dependencies>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-failsafe-plugin</artifactId>
-                        <version>${version.failsafe.plugin}</version>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>integration-test</goal>
-                                    <goal>verify</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
+       
         <profile>
             <id>docs</id>
             <activation>
