@@ -1,0 +1,357 @@
+= http-custom-mechanism: Create a custom HTTP authorization mechanism
+:author: Darran Lofthouse
+:productName: WildFly
+:productNameFull: WildFly Application Server
+:jbossHomeName: WILDFLY_HOME
+:productVersion: 12
+:buildRequirements: Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later
+include::../shared-doc/attributes.adoc[]
+
+:level: Intermediate
+:technologies: EJB, Security
+:source: {githubRepoUrl}
+
+[abstract]
+The `http-custom-mechanism` quickstart demonstrates how to implement a custom HTTP authentication mechanism that can be registered with Elytron.
+
+:standalone-server-type: default
+:archiveType: war
+:archiveName: {artifactId}-webapp
+:includes-cli-scripts:
+
+== What is it?
+
+The `http-custom-mechanism` quickstart demonstrates how to implement a custom HTTP mechanism and then register it with Elytron. This makes it possible to override the configuration within the deployment to make use of this mechanism without requiring modifications to the deployment. This example makes use of custom HTTP headers to receive a clear text `username` and `password` and use them for authentication.
+
+WARNING: Generally you should avoid passing clear text passwords. It is only done here to simplify the example.
+
+This example consists of the following Maven projects.
+
+[cols="20%,80%",options="headers"]
+|===
+|Project |Description
+
+| `webapp`
+a| The project in the `webapp/` folder contains a deployable web application consisting of a secured servlet that is used to test the configuration. It generates the `{archiveName}.war` archive that is used to test the secured application.
+
+| `custom-module`
+a| This project contains the source for a custom HTTP authentication module that overrides the deployment configuration. It contains of the following Java classes and resources.
+
+* `CustomMechanismFactory`: This class implements `HttpServerAuthenticationMechanismFactory` and creates the new custom `HttpServerAuthenticationMechanism`.
+* `CustomHeaderHttpAuthenticationMechanism`: This class implements `HttpServerAuthenticationMechanism` and contains the source code for the custom mechanism processing. An `HttpServerRequest` object is passed to the `evaluateRequest` method. The mechanism processes the requests and uses one of the following callback methods on the request to indicate the outcome:
+
+** `authenticationComplete` - The mechanism successfully authenticated the request.
+** `authenticationFailed` - Authentication was attempted but failed.
+** `authenticationInProgress` - Authentication started but an additional round trip is needed.
+** `badRequest` - The authentication for this mechanism failed validation of the request.
+** `noAuthenticationInProgress` - The mechanism did not attempt any stage of authentication.
+
+
+* `org.wildfly.security.examples.CustomMechanismFactory`: This resource file contains a single line of text that names the custom mechanism factory class, which in this case is `org.jboss.as.quickstart.http_custom_mechanism.CustomMechanismFactory`.
+|===
+
+You will follow these basic steps to test this quickstart:
+
+. xref:add_the_application_user[Add] the application user.
+. xref:back_up_standalone_server_configuration[Back up] the server configuration before xref:start_the_eap_standalone_server[starting] the server.
+. xref:configure_the_application_security_domain[Configure] the application security domain.
+. xref:build_and_deploy_the_quickstart[Build and deploy] the application.
+. xref:test_the_secured_servlet[Test] the secured servlet deployment.
+. xref:build_the_custom_http_mechanism[Build] the custom HTTP mechanism module and xref:add_the_custom_module_to_the_server[add] it to the server.
+. xref:configure_the_server_to_use_the_custom_module[Configure] the server to override the deployment and use the custom module.
+. xref:test_the_secured_servlet_using_the_custom_mechnism[Test] the secured servlet using the custom mechanism
+
+//*************************************************
+// Add System Requirements
+//*************************************************
+// == System Requirements
+include::../shared-doc/system-requirements.adoc[leveloffset=+1]
+
+//*************************************************
+// Add Use of JBoss Home Name
+//*************************************************
+// == Use of {jbossHomeName}
+include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
+
+
+[[add_the_application_user]]
+== Add the Application User
+
+Use the `add-user` utility script to add the following user to the `ApplicationRealm`.
+
+[cols="20%,20%,20%,40%",options="headers"]
+|===
+|UserName |Realm |Password |Roles
+
+|testuser |ApplicationRealm |Password1! |Users
+|===
+
+To add the application users open a terminal and type the following command.
+
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}__/bin/add-user.sh -a -u 'testuser' -p 'Password1!' -g 'Users'
+----
+
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\add-user.bat` script.
+
+If you prefer, you can use the `add-user` utility interactively.
+For an example of how to use the `add-user` utility, see the instructions located here: link:{addApplicationUserDocUrl}[Add an Application User].
+
+//*************************************************
+// Back up the server configuration files
+//*************************************************
+// == Back Up the {productName} Standalone Server Configuration
+include::../shared-doc/back-up-server-standalone-configuration.adoc[leveloffset=+1]
+
+//*************************************************
+// Start the server with the default profile
+//*************************************************
+// == Start the {productName} Standalone Server
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
+
+[[configure_the_application_security_domain]]
+== Configure the Application Security Domain
+
+By default, the deployed application uses the `other` security domain. You need to map this security domain to an Elytron HTTP authentication factory. For your convenience, this quickstart includes the command to configure the security domain in the `configure-security-domain.cli` script located in the root directory of this quickstart.
+
+In a terminal, navigate to the root directory of this quickstart, and run the following command, replacing `__{jbossHomeName}__` with the path to your server.
+
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=configure-security-domain.cli
+----
+
+You should see the following result.
+
+[source,options="nowrap"]
+----
+{"outcome" => "success"}
+----
+
+//*************************************************
+// Build and deploy the quickstart JAR
+//*************************************************
+// == Build and Deploy the Quickstart
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
+
+// These messages appear in the server log.
+
+[source,options="nowrap"]
+----
+WFLYUT0021: Registered web context: '/http-custom-mechanism-webapp' for server 'default-server'
+WFLYSRV0010: Deployed "http-custom-mechanism-webapp.war" (runtime-name : "http-custom-mechanism-webapp.war")
+----
+
+[[test_the_secured_servlet]]
+== Test the Secured Servlet
+
+Before you continue, you must test the secured servlet deployment to make sure it is working. Since this application uses a standard mechanism, it could be tested using a browser. However, after you implement the custom HTTP mechanism, the browser will not understand the request, so it is better to test the call using a client that will allow you to manipulate the headers yourself.
+
+Issue the following command to test the deployment.
+
+[source,options="nowrap"]
+----
+curl -v http://localhost:8080/http-custom-mechanism-webapp/secured -u testuser:Password1!
+----
+
+You should see the HTTP result `HTTP/1.1 200 OK`, along with some header information, then followed by this output.
+
+[source,xml,options="nowrap"]
+----
+<html>
+ <head><title>Secured Servlet</title></head>
+ <body>
+   <h1>Secured Servlet</h1>
+   <p>
+Current Principal 'testuser'    </p>
+ </body>
+</html>
+----
+
+[[build_the_custom_http_mechanism]]
+== Build the Custom HTTP Mechanism JAR
+
+Once the secured servlet is deployed and you have tested it to make sure it is working, you need to build the module for the custom HTTP mechanism.
+
+. Open a terminal and navigate to the `custom-module/` folder located in the root directory of this quickstart.
+. Type the following command to build the custom HTTP mechanism.
++
+[source,subs="attributes+",options="nowrap"]
+----
+$ mvn clean install
+----
+
+This creates the `target/{artifactId}.jar` file in the quickstart `custom-module/` directory.
+
+You should see `[INFO] BUILD SUCCESS` in the console output.
+
+[[add_the_custom_module_to_the_server]]
+== Add the Custom Module to the Server
+
+Now you must add the `{artifactId}.jar` as a custom module to the {productName} server. For your convenience, this quickstart includes the command to add the module in the `add-custom-module.cli` script located in the `custom-module/` directory of this quickstart.
+
+In a terminal, navigate to the `custom-module/` folder located in the root directory of this quickstart, and run the following command, replacing `__{jbossHomeName}__` with the path to your server.
+
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=add-custom-module.cli
+----
+
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
+
+This creates the custom `__{jbossHomeName}__/modules/modules/org/jboss/as/quickstart/http_custom_mechanism/main` folder, then copies in the `{artifactId}.jar` file and creates the required `module.xml` file.
+
+You can verify the module structure in your file manager.
+
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+.
+└── __{jbossHomeName}__
+    └── modules
+        └── org
+            └── jboss
+                └── as
+                    └── quickstart
+                        └── http_custom_mechanism
+                            └── main
+                                ├── {artifactId}.jar
+                                └── module.xml
+----
+
+[[configure_the_server_to_use_the_custom_module]]
+== Configure the Server to Use the Custom Module
+
+You configure the server to use the custom module by running CLI commands. For your convenience, this quickstart batches the commands into a `configure-elytron.cli` script provided in the root directory of this quickstart.
+
+. Before you begin, make sure you have done the following:
+
+* xref:back_up_standalone_server_configuration[Back up the {productName} standalone server configuration] as described above.
+* xref:start_the_eap_standalone_server[Start the {productName} server with the standalone default profile] as described above.
+
+. Review the `configure-elytron.cli` file in the root of this quickstart directory. This script adds the configuration that enables Elytron security fto use the custom HTTP module created by this quickstart . Comments in the script describe the purpose of each block of commands.
+. Open a new terminal, navigate to the root directory of this quickstart, and run the following command, replacing `__{jbossHomeName}__` with the path to your server.
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=configure-elytron.cli
+----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
+
++
+You should see the following result when you run the script.
++
+[source,options="nowrap"]
+----
+The batch executed successfully
+process-state: reload-required
+----
+
+. Stop the {productName} server.
+
+[[review_the_modified_server_configuration]]
+== Review the Modified Server Configuration
+
+After stopping the server, open the `__{jbossHomeName}__/standalone/configuration/standalone.xml` file and review the changes.
+
+. The following `service-loader-http-server-mechanism-factory` was added to the `http` element of the `elytron` subsystem:
++
+[source,xml,options="nowrap"]
+----
+<http>
+    <http-authentication-factory name="custom-mechanism" http-server-mechanism-factory="custom-factory" security-domain="ApplicationDomain">
+        <mechanism-configuration>
+            <mechanism mechanism-name="CUSTOM_MECHANISM"/>
+          </mechanism-configuration>
+    </http-authentication-factory>
+    ...
+    <service-loader-http-server-mechanism-factory name="custom-factory" module="org.jboss.as.quickstart.http_custom_mechanism.custom-http-mechanism"/>
+</http>
+----
+
+. The `application-security-domain` in the `undertow` subsystem was updated to use the `custom-mechanism` authentication factory with `override-deployment-config` set to `true`.
++
+[source,xml,options="nowrap"]
+----
+<application-security-domains>
+    <application-security-domain name="other" http-authentication-factory="custom-mechanism" override-deployment-config="true"/>
+</application-security-domains>
+----
+
+[[test_the_secured_servlet_using_the_custom_mechnism]]
+== Test the Secured Servlet Using the Custom Mechanism
+
+Now you need to test the override of the deployment with the custom HTTP mechanism.
+
+If you use the same `curl` command as when you xref:test_the_secured_servlet[tested the servlet before implementing the custom HTTP mechanism], it will fail with the following error.
+[source,options="nowrap"]
+----
+< HTTP/1.1 401 Unauthorized
+....
+< X-MESSAGE: Please resubmit the request with a username specified using the X-USERNAME and a password specified using the X-PASSWORD header.
+----
+
+This is because the authentication mechanism rejected the call and subsequently added a header describing how to do authentication. You must modify the curl command to the following.
+
+
+[source,options="nowrap"]
+----
+curl -v http://localhost:8080/http-custom-mechanism-webapp/secured -H "X-USERNAME:testuser" -H "X-PASSWORD:password"
+
+----
+
+You should see the HTTP result `HTTP/1.1 200 OK`, along with some header information, then followed by this output.
+
+[source,xml,options="nowrap"]
+----
+<html>
+ <head><title>Secured Servlet</title></head>
+ <body>
+   <h1>Secured Servlet</h1>
+   <p>
+Current Principal 'testuser'    </p>
+ </body>
+</html>
+----
+
+//*************************************************
+// Undeploy the quickstart archive
+//*************************************************
+// == Undeploy the Quickstart
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
+
+//******************************************************
+// Restore the standalone server configuration manually
+//******************************************************
+// == Restore the {productName} Standalone Server Configuration Manually
+include::../shared-doc/restore-standalone-server-configuration-manual.adoc[leveloffset=+2]
+
+//*************************************************
+// Add JBoss Developer Studio instructions
+//*************************************************
+// == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+////
+
+Not how to do curl commands in JBDS
+// include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
+
+// Additional JBoss Developer Studio instructions
+* Make sure you xref:add_the_application_user[Add the Application User] as described above.
+* Make sure you configure the security domain on the server by running the JBoss CLI script as described above under xref:configure_the_application_security_domain[Configure the Application Security Domain].
+* Right-click on the *{artifactId}* project and choose *Run As* -> *Maven build*.
+Enter `clean package wildfly:deploy` for the *Goals* and click *Run*. This deploys the `{artifactId}` JAR to the {productName} server.
+* BUILD AND ADD the MODULE, configure, test
+----
+
+* To undeploy the project, right-click on the *{artifactId}* project and choose *Run As* -> *Maven build*. Enter `wildfly:undeploy` for the *Goals* and click *Run*.
+
+* Make sure you xref:restore_the_server_configuration[restore the {productName} standalone server configuration] when you have completed testing this quickstart.
+
+////
+
+//*************************************************
+// Add info to debug the application
+//*************************************************
+// == Debug the Application
+include::../shared-doc/debug-the-application.adoc[leveloffset=+1]
