@@ -80,7 +80,8 @@ WARN  [org.jboss.as.quickstarts.logging.LoggingExample] (default task-1) THIS IS
 The log files are located in the `__{jbossHomeName}__/standalone/log` log directory. At this point you should see the following log files.
 
 * `server.log` - This is the standard log produced by the application server. By default, it contains all the server log messages, including the server startup messages.
-* `gc.log.0.current` - This is a garbage collection log. It contains garbage collection activity and can be used for diagnostic purposes. This log can be ignored as it is not used in this quickstart.
+* `gc.log.0.current` - This garbage collection log is produced only if garbage collection is enabled on the server. It contains garbage collection activity that can be used for diagnostic purposes. This log can be ignored as it is not used in this quickstart.
+
 
 == Configure the Server
 
@@ -213,13 +214,7 @@ The following XML was added to the `logging` subsystem.
 
 == Recheck the Server Logs
 
-The log files are located in the `__{jbossHomeName}__/standalone/log` log directory. You should now see 8 log files.
-
-* The following logs are the standard log files produced by the application server:
-
-** `server.log` - The standard log produced by the application server.
-** `gc.log.0.current` - The garbage collection log can be ignored as it is not used in this quickstart.
-* The following logs are produced by the quickstart. They are listed below in hierarchical order from the largest file containing the most messages to the smallest file containing the least messages.
+The log files are located in the `__{jbossHomeName}__/standalone/log` log directory. You should now see the 6 additional log files that are produced by this quickstart. They are listed below in hierarchical order from the largest file containing the most messages to the smallest file containing the least messages.
 
 ** `quickstart.trace.log`
 ** `quickstart.debug.log`
