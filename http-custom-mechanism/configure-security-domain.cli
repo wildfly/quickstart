@@ -1,0 +1,12 @@
+# Batch script to configure Elytron to use the new custom HTTP authentication mechanism.
+
+# Start batching commands
+batch
+#  Map the application security domain to an Elytron HTTP authentication factory.
+/subsystem=undertow/application-security-domain=other:add(http-authentication-factory=application-http-authentication)
+
+# Run the batch command
+run-batch
+
+# Reload the server configuration
+reload

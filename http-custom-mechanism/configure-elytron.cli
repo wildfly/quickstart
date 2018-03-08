@@ -1,0 +1,22 @@
+# Batch script to configure Elytron to use the new custom HTTP authentication mechanism.
+
+# Start batching commands
+batch
+
+# Add the resource to discover the factory implementation for the custom module.
+/subsystem=elytron/service-loader-http-server-mechanism-factory=custom-factory:add(module=org.jboss.as.quickstart.http_custom_mechanism.custom-http-mechanism)
+
+# Add an `http-authentication-factory` to the mechanism factory to a `security-domain` that will be used for the authentication.
+/subsystem=elytron/http-authentication-factory=custom-mechanism:add(http-server-mechanism-factory=custom-factory,security-domain=ApplicationDomain,mechanism-configurations=[{mechanism-name=CUSTOM_MECHANISM}])
+
+# Add the http-authentication-factory to the mechanism factory to a security-domain that will be used for the authentication.
+/subsystem=undertow/application-security-domain=other:write-attribute(name=http-authentication-factory,value=custom-mechanism)
+
+# Update the application-security-domain resource to use this new http-authentication-factory.
+/subsystem=undertow/application-security-domain=other:write-attribute(name=override-deployment-config,value=true)
+
+# Run the batch commands
+run-batch
+
+# Reload the server configuration
+reload
