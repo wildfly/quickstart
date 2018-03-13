@@ -15,7 +15,8 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0                              http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0                              http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -43,13 +44,18 @@
             <version>${project.version}</version>
             <classifier>classes</classifier>
         </dependency>
+        <dependency>
+            <groupId>org.jboss.spec.javax.xml.ws</groupId>
+            <artifactId>jboss-jaxws-api_2.2_spec</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.jws</groupId>
+            <artifactId>jsr181-api</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
-        <!-- Set the name for the deployable archive instead of using the default name with the version -->
-        <finalName>${project.artifactId}</finalName>
         <plugins>
-
             <!-- Allows Client to be run via 'mvn exec:java' -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -58,8 +64,6 @@
                     <mainClass>org.jboss.quickstarts.ws.client.Client</mainClass>
                 </configuration>
             </plugin>
-
         </plugins>
     </build>
-
 </project>

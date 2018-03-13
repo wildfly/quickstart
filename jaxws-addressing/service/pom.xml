@@ -29,9 +29,20 @@
     <name>${qs.name.prefix} jaxws-addressing - service</name>
     <description>This project is a working example of a JAX-WS web service addressing endpoint; this is the service POM file</description>
 
+    <dependencies>
+
+        <dependency>
+            <groupId>org.jboss.spec.javax.xml.ws</groupId>
+            <artifactId>jboss-jaxws-api_2.2_spec</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.jws</groupId>
+            <artifactId>jsr181-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
     <build>
-        <!-- Set the name for the deployable archive instead of using the default name with the version -->
-        <finalName>${project.artifactId}</finalName>
 
         <plugins>
             <plugin>
