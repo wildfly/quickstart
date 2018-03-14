@@ -39,22 +39,15 @@
     </licenses>
 
     <dependencies>
-
         <dependency>
             <groupId>org.wildfly.quickstarts</groupId>
             <artifactId>jaxws-addressing-service</artifactId>
             <classifier>classes</classifier>
         </dependency>
-
         <dependency>
-            <groupId>org.jboss.spec.javax.xml.ws</groupId>
-            <artifactId>jboss-jaxws-api_2.2_spec</artifactId>
+            <groupId>org.jboss.ws.cxf</groupId>
+            <artifactId>jbossws-cxf-client</artifactId>
         </dependency>
-        <dependency>
-            <groupId>javax.jws</groupId>
-            <artifactId>jsr181-api</artifactId>
-        </dependency>
-
     </dependencies>
 
     <build>
@@ -66,6 +59,7 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <configuration>
                     <mainClass>org.jboss.quickstarts.ws.jaxws.samples.wsa.AddressingClient</mainClass>
+                    <classpathScope>compile</classpathScope>
                 </configuration>
             </plugin>
         </plugins>
