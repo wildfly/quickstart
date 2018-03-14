@@ -43,6 +43,10 @@
             <version>${project.version}</version>
             <classifier>classes</classifier>
         </dependency>
+        <dependency>
+            <groupId>org.jboss.ws.cxf</groupId>
+            <artifactId>jbossws-cxf-client</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
@@ -53,6 +57,7 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <configuration>
                     <mainClass>org.jboss.quickstarts.ws.client.Client</mainClass>
+                    <classpathScope>compile</classpathScope>
                 </configuration>
             </plugin>
         </plugins>

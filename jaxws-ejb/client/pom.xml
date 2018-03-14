@@ -37,7 +37,6 @@
     </licenses>
 
     <dependencies>
-
         <dependency>
             <groupId>org.wildfly.quickstarts</groupId>
             <artifactId>jaxws-ejb-service</artifactId>
@@ -45,12 +44,8 @@
             <classifier>classes</classifier>
         </dependency>
         <dependency>
-            <groupId>org.jboss.spec.javax.ejb</groupId>
-            <artifactId>jboss-ejb-api_3.2_spec</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.spec.javax.xml.ws</groupId>
-            <artifactId>jboss-jaxws-api_2.2_spec</artifactId>
+            <groupId>org.jboss.ws.cxf</groupId>
+            <artifactId>jbossws-cxf-client</artifactId>
         </dependency>
     </dependencies>
 
@@ -62,6 +57,7 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <configuration>
                     <mainClass>org.jboss.quickstarts.ws.client.Client</mainClass>
+                    <classpathScope>compile</classpathScope>
                 </configuration>
             </plugin>
         </plugins>
