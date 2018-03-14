@@ -1,0 +1,37 @@
+[[add_the_application_user]]
+= Add the Authorized Application User
+
+// Note: The group ID syntax must be defined in the calling topic.
+// using the document attribute :app-user-groups:
+// Use a comma-delimited list to define more than one group.
+//
+// :app-user-groups: guest, users
+
+ifdef::app-user-groups[]
+:app-group-list: {app-user-groups}
+:app-group-command: -g '{app-user-groups}'
+endif::app-user-groups[]
+
+ifndef::app-user-groups[]
+:app-group-list:
+:app-group-command:
+endif::app-user-groups[]
+
+This quickstart uses secured management interfaces and requires that you create the following application user to access the running application.
+
+[cols="20%,20%,20%,40%",options="headers"]
+|===
+|UserName |Realm |Password |Roles
+
+|quickstartUser |ApplicationRealm |quickstartPwd1! |{app-group-list}
+|===
+
+To add the application user, open a terminal and type the following command:
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}__/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!' {app-group-command}
+----
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\add-user.bat` script.
+
+If you prefer, you can use the `add-user` utility interactively.
+For an example of how to use the add-user utility, see the instructions located here: link:{addApplicationUserDocUrl}[Add an Application User].

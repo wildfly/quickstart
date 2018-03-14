@@ -177,18 +177,13 @@ $ mvn wildfly:undeploy
 
 You can use HTTP as the transport for remote EJB invocations by specifying `-Dhttp=true` on both the Maven and command line based execution. This should not change the output, but it will use EJB over HTTP for the invocations. This means that each EJB request maps to a single HTTP request (actually HTTP/2 by default, if it is enabled on the server).
 
-Before you can use it, you need to set up a user on the server as HTTP does not support transparent authentication.
+Before you can use it, you need to set up a user on the server as HTTP does not support transparent authentication. The next section describes how to xref:add_the_application_user[add the authorized application user] so you can test the quickstart using HTTP as the transport.
 
-To add the user, open a terminal and type the following command.
-
-[source,subs="+quotes,attributes+",options="nowrap"]
-----
-$ __{jbossHomeName}__/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!'
-----
-
-NOTE: For Windows, use the `__{jbossHomeName}__\bin\add-user.bat` script.
-
-If you prefer, you can use the `add-user` utility interactively. For an example of how to use the add-user utility, see the instructions located here: link:{addApplicationUserDocUrl}[Add an Application User].
+//*************************************************
+// Add the Authorized Application User
+//*************************************************
+// == Add the Authorized Application User
+include::../shared-doc/add-application-user.adoc[leveloffset=+1]
 
 //*************************************************
 // Add JBoss Developer Studio instructions

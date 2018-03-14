@@ -52,30 +52,11 @@ include::../shared-doc/system-requirements.adoc[leveloffset=+1]
 // == Use of {jbossHomeName}
 include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
 
-[[add_the_application_users]]
-== Add the Application Users
-
-If the client and server are run on different hosts, you must add the following users to the {productName} server side application. Make sure you use the names and passwords specified in the table as they are required to run this example.
-
-[cols="20%,20%,20%,40%",options="headers"]
-|===
-|UserName |Realm |Password |Roles
-
-|admin |ManagementRealm |admin-123 |_leave blank for none_
-|quickuser |ApplicationRealm |quick-123 |_leave blank for none_
-|===
-
-To add the users, open a terminal and type the following commands.
-
-[source,subs="+quotes,attributes+",options="nowrap"]
-----
-$ __{jbossHomeName}__/bin/add-user.sh -u admin -p admin-123
-$ __{jbossHomeName}__/bin/add-user.sh -a -u quickuser -p quick-123
-----
-
-NOTE: For Windows, use the `__{jbossHomeName}__\bin\add-user.bat` script.
-
-If you prefer, you can use the `add-user` utility interactively. For an example of how to use the add-user utility, see the instructions located here: link:{addApplicationUserDocUrl}[Add an Application User].
+//*****************************************************
+// Add the Authorized Application and Management Users
+//*****************************************************
+// ==  Add the Authorized Application and Management Users
+include::../shared-doc/add-application-and-management-users.adoc[leveloffset=+1]
 
 //*************************************************
 // Start the server with the default profile
@@ -130,7 +111,7 @@ This example shows how to invoke an EJB from a remote standalone Java EE applica
 === Configure Machine_1 (Remote Server Machine)
 
 . Install {productName} on this machine.
-. xref:add_the_application_users[Add the application users] to the {productName} server on this machine as described above.
+. xref:add_the_application_management_users[Add the authorized application and management users] to the {productName} server on this machine as described above.
 . Start the {productName} server with the following command, replacing `__MACHINE_1_IP_ADDRESS__` with the IP address of this machine. These arguments make the server accessible to the network.
 +
 [source,subs="+quotes,attributes+",options="nowrap"]
@@ -154,8 +135,8 @@ remote.connections=default
 remote.connection.default.host=__MACHINE_1_IP_ADDRESS__
 remote.connection.default.port=8080
 remote.connection.default.connect.options.org.xnio.Options.SASL_POLICY_NOANONYMOUS=false
-remote.connection.default.username=quickuser
-remote.connection.default.password=quick-123
+remote.connection.default.username=quickstartUser
+remote.connection.default.password=quickstartPwd1!
 ----
 
 . Open a terminal and navigate to the root directory of the quickstart.
@@ -164,7 +145,7 @@ remote.connection.default.password=quick-123
 +
 [source,subs="+quotes,attributes+",options="nowrap"]
 ----
-$ mvn clean install wildfly:deploy -Dwildfly.hostname=__MACHINE_1_IP_ADDRESS__ [-Dwildfly.port=9099] -Dwildfly.username=admin -Dwildfly.password=admin-123
+$ mvn clean install wildfly:deploy -Dwildfly.hostname=__MACHINE_1_IP_ADDRESS__ [-Dwildfly.port=9099] -Dwildfly.username=quickstartAdmin -Dwildfly.password=adminPwd1!
 ----
 
 . Verify that the quickstart deployed successfully and the server is running on `Machine_1` as described above.
@@ -220,5 +201,5 @@ Follow these instructions if you are testing the quickstart on a different machi
 +
 [source,subs="+quotes,attributes+",options="nowrap"]
 ----
-$ mvn wildfly:undeploy -Dwildfly.hostname=__MACHINE_1_IP_ADDRESS__ [-Dwildfly.port=9099] -Dwildfly.username=admin -Dwildfly.password=admin-123
+$ mvn wildfly:undeploy -Dwildfly.hostname=__MACHINE_1_IP_ADDRESS__ [-Dwildfly.port=9099] -Dwildfly.username=quickstartAdmin -Dwildfly.password=adminPwd1!
 ----

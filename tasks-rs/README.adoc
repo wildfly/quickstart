@@ -48,28 +48,12 @@ include::../shared-doc/system-requirements.adoc[leveloffset=+1]
 // == Use of {jbossHomeName}
 include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
 
-[[add_an_application_user]]
-== Add an Application User
-
-This quickstart uses secured management interfaces and requires that you create the following application user to access the running application.
-
-[cols="20%,20%,20%,40%",options="headers"]
-|===
-|UserName |Realm |Password |Roles
-
-|quickstartUser |ApplicationRealm |quickstartPwd1! |guest
-|===
-
-To add the application user, open a terminal and type the following command:
-
-[source,subs="+quotes,attributes+",options="nowrap"]
-----
-$ __{jbossHomeName}__/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'guest'
-----
-NOTE: For Window, use the `__{jbossHomeName}__\bin\add-user.bat` script.
-
-If you prefer, you can use the `add-user` utility interactively.
-For an example of how to use the add-user utility, see the instructions located here: link:{addApplicationUserDocUrl}[Add an Application User].
+//*************************************************
+// Add the Authorized Application User
+//*************************************************
+// == Add the Authorized Application User
+:app-user-groups: guest
+include::../shared-doc/add-application-user.adoc[leveloffset=+1]
 
 //*************************************************
 // Start the server with the default profile
@@ -319,7 +303,7 @@ include::../shared-doc/run-arquillian-tests.adoc[leveloffset=+1]
 include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
 
 // Additional JBoss Developer Studio instructions
-Make sure you xref:add_an_application_user[Add an Application User] as described above.
+Make sure you xref:add_the_application_user[add the authorized application user].
 
 //*************************************************
 // Add info to debug the application
