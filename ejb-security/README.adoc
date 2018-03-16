@@ -45,30 +45,12 @@ include::../shared-doc/system-requirements.adoc[leveloffset=+1]
 // == Use of {jbossHomeName}
 include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
 
-[[add_the_application_users]]
-== Add the Application Users
-
-Using the add-user utility script, you must add the following users to the `ApplicationRealm`.
-
-[cols="20%,20%,20%,40%",options="headers"]
-|===
-|UserName |Realm |Password |Roles
-
-|quickstartUser |ApplicationRealm |quickstartPwd1! |guest
-|===
-
-The application user has `guest` access rights to the application but no `admin` rights.
-
-To add the application user, open a terminal and type the following commands.
-
-[source,subs="+quotes,attributes+",options="nowrap"]
-----
-$ __{jbossHomeName}__/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'guest'
-----
-NOTE: For Windows, use the `__{jbossHomeName}__\bin\add-user.bat` script.
-
-If you prefer, you can use the `add-user` utility interactively.
-For an example of how to use the add-user utility, see the instructions located here: link:{addApplicationUserDocUrl}[Add an Application User].
+//*************************************************
+// Add the Authorized Application User
+//*************************************************
+// == Add the Authorized Application User
+:app-user-groups: guest
+include::../shared-doc/add-application-user.adoc[leveloffset=+1]
 
 //*************************************************
 // Back up the server configuration files
@@ -179,7 +161,10 @@ ERROR [org.jboss.as.ejb3.invocation] (default task-38) WFLYEJB0034: EJB Invocati
 ----
 ====
 
-As an exercise, you can rerun the `add-user` script described in the xref:add_the_application_users[Add the Application Users] section, but this time grant the `quickstartUser` the admin role as follows:
+[[update_the_application_user_role]]
+== Update the Authorized Application User Role
+
+As an exercise, you can rerun the `add-user` script described in the xref:add_the_application_user[Add the Authorized Application User] section, but this time grant the `quickstartUser` the `admin` role as follows:
 
 [source,subs="+quotes,attributes+",options="nowrap"]
 ----
@@ -237,7 +222,7 @@ include::../shared-doc/restore-standalone-server-configuration-manual.adoc[level
 include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
 
 // Additional JBoss Developer Studio instructions
-. Make sure you xref:add_the_application_users[Add the Application Users] as described above.
+. Make sure you xref:add_the_application_user[Add the authorized application user] as described above.
 . Make sure you configure the server by running the JBoss CLI script as described above under xref:configure_the_server[Configure the Server].
 . To deploy the server project, right-click on the *{artifactId}* project and choose *Run As* –> *Maven build*. Enter *clean package wildfly:deploy* for the *Goals* and click *Run*. This deploys the `{artifactId}` JAR to the {productName} server.
 . Right-click on the *{artifactId}* project and choose *Run As* –> *Run Configurations*. Enter *exec:exec* for the *Goals*, and then click *Run*.

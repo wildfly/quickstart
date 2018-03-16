@@ -2,7 +2,7 @@
 
 == Introduction
 
-This document describe how to write a quickstart `README.adoc` file. It describes the attributes you must define and the sections needed in the correct order.
+This document describes how to write a quickstart `README.adoc` file. It describes the attributes you must define and the sections needed in the correct order.
 
 Many instructions are common across all quickstarts. These have been moved to files located in the `shared-doc/` directory. Rather than write them again, you can just include those files in your `README.adoc` file. Some of these included files have conditional logic and require that you define a document attribute to determine how the instructions should print for your quickstart.
 
@@ -10,6 +10,8 @@ Many instructions are common across all quickstarts. These have been moved to fi
 * Next, you must xref:define_the_metadata[define the metadata] that defines the quickstart.
 * determine what will display information about the quickstart and how the instructions will look.
 * Finally, you must determine which sections are needed for your quickstart and include or write them as needed.
+
+TIP: Find an existing quickstart that is similar to the one you are creating and make a copy of its `README.adoc` file to use for your own quickstart project. Then update the file as needed.
 
 [[define_the_heading]]
 == Define the Heading
@@ -70,24 +72,24 @@ Create a  brief description of the quickstart. This description appears in the t
 
 == Define Conditional Attributes for the Quickstart
 
-Define attributes specific for this quickstart. Many common instructions are defined in shared topic files located in the `shared-doc/` folder. They require that you define attributes for this quickstart that can be used for conditional text. Examples include the following.
+Many commonly used instructions are defined in shared topic files located in the `shared-doc/` folder. Some require that you set attribute values specific to your quickstart that can be used for conditional text. Examples include the following.
 
 .Example: Attributes Need by Included Shared Topics
-[source,options="nowrap"]
+[source,subs="+quotes",options="nowrap"]
 ----
-:standalone-server-type: The server type. valid values are default, full, full-ha, ha, custom.
-:managed-domain-type: Valid values are default.
-:archiveName: Defaults to {artifactId}. Override it if this quickstart is different.
-:archiveType: Type of archive. Valid values are war, ear, and jar.
+:standalone-server-type: The server type. valid values are `default`, `full`, `full-ha`, `ha`, `custom`.
+:managed-domain-type: Valid values are `default`.
+:archiveName: Defaults to `{artifactId}`. Override it if this quickstart is different.
+:archiveType: Type of archive. Valid values are `war`, `ear`, and `jar`.
 :archiveDir: The archive directory. Override if the other than the default.
 :mavenCommand: The command to build and deploy the archive. Override it if it is different.
 :configFileName: The name of the management CLI file used for configuration.
 :uses-h2: Define this attribute if the quickstart uses the H2 database.
-:uses-ds-xml: Define this attribute if the quickstart uses an *-ds.xml file.
-:performance-scalability: Define this attribute if you need to consider scalability.
+:uses-ds-xml: Define this attribute if the quickstart uses an `*-ds.xml` file.
+:performance-scalability: Define this attribute if the user needs to consider scalability when using this quickstart example.
 :uses-cli: Define this attribute if CLI configuration scripts are provided.
 :requires-multiple-servers: Define this attribute if you must start 2 servers.
-:optional-domain-or-multiple-servers:
+:optional-domain-or-multiple-servers: Define this attribute if the quickstart requires that you configure and start multiple servers.
 :jbds-not-supported: Define this attribute if the quickstart does not run in JBoss Developer Studio
 ----
 
@@ -168,11 +170,15 @@ Include this file using the following syntax.
 [[configure_optional_components]]
 == Configure Optional Components
 
-* If the quickstart uses a secured management interface and requires that you create a management or application user to access the running application, provide instructions to set up a management or application user. Optionally point them to additional information, for example:
+* If the quickstart uses a secured management interface and requires that you create a management or application user to access the running application, provide instructions to set up a management or application user.
++
+If you require the standard `quickstartUser`/`quickstartPwd1!` user for the `ApplicationRealm` and the `quickstartAdmin`/`adminPwd1!` for the `ManagementRealm`, you can just include one of the following files:
++
+** include::../shared-doc/add-application-user.adoc[leveloffset=+1]
 
-** link:{addManagementUserDocUrl}[Add a Management User]
-
-** link:{addApplicationUserDocUrl}[Add an Application User]
+** include::../shared-doc/add-application-and-management-users.adoc[leveloffset=+1]
++
+If you require other users, follow the standard format of one of those files.
 
 * If the quickstart requires the PostgreSQL database, provide instructions to install and configure PostgreSQL. Provide a link to the instructions here here: link:{configurePostgresDocUrl}[Configure the PostgreSQL Database for Use with the Quickstarts]
 
