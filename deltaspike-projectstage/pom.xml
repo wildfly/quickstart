@@ -18,14 +18,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.wildfly.quickstarts</groupId>
-        <artifactId>quickstart-parent</artifactId>
-        <version>13.0.0-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
+        <groupId>org.wildfly.bom</groupId>
+        <artifactId>quickstart</artifactId>
+        <version>13.0.0.Alpha3</version>
+        <relativePath />
     </parent>
     <artifactId>deltaspike-projectstage</artifactId>
+    <groupId>org.wildfly.quickstarts</groupId>
+    <version>13.0.0-SNAPSHOT</version>
     <packaging>war</packaging>
-    <name>WildFly Quickstart: deltaspike-projectstage</name>
+    <name>Quickstart: deltaspike-projectstage</name>
     <description>DeltaSpike Project Stage: shows how to use DeltaSpike ProjectStage that allows to use implementations depending on the current environment</description>
     <url>http://wildfly.org</url>
 
@@ -38,27 +40,11 @@
     </licenses>
 
     <properties>
-
-        <!-- maven-compiler-plugin -->
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <maven.compiler.source>1.8</maven.compiler.source>
-
-        <!-- Define the version of the JBoss BOMs we want to import to specify tested stacks. -->
-        <version.jboss.bom>10.1.0.Final</version.jboss.bom>
-
         <version.deltaspike.core>1.5.1</version.deltaspike.core>
     </properties>
 
     <dependencyManagement>
         <dependencies>
-
-            <dependency>
-                <groupId>org.wildfly.bom</groupId>
-                <artifactId>wildfly-javaee7-with-tools</artifactId>
-                <version>${version.jboss.bom}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
 
             <!-- Deltaspike API. We use compile scope as we need it to compile the project against the API -->
             <dependency>

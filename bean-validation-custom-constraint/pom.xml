@@ -19,15 +19,17 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.wildfly.quickstarts</groupId>
-        <artifactId>quickstart-parent</artifactId>
-        <version>13.0.0-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
+        <groupId>org.wildfly.bom</groupId>
+        <artifactId>quickstart</artifactId>
+        <version>13.0.0.Alpha3</version>
+        <relativePath />
     </parent>
 
     <artifactId>bean-validation-custom-constraint</artifactId>
+    <groupId>org.wildfly.quickstarts</groupId>
+    <version>13.0.0-SNAPSHOT</version>
     <packaging>war</packaging>
-    <name>${qs.name.prefix} bean-validation-custom-constraint</name>
+    <name>Quickstart: bean-validation-custom-constraint</name>
     <description>This project demonstrates Bean Validation Custom Constraints</description>
 
     <licenses>
@@ -81,11 +83,5 @@
         </dependency>
 
     </dependencies>
-
-    <build>
-        <!-- Set the name of the WAR, used as the context root when the app is deployed -->
-        <finalName>${project.artifactId}</finalName>
-
-    </build>
 
 </project>
