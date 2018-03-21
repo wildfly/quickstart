@@ -516,7 +516,6 @@
             </modules>
             <build>
                 <plugins>
-
                     <plugin>
                         <groupId>org.wildfly.maven.plugins</groupId>
                         <artifactId>quickstart-documentation-plugin</artifactId>
@@ -548,18 +547,19 @@
                             </attributes>
                             <resources>
                                 <resource>
-                                    <directory>none</directory>
+                                    <directory>shared-doc</directory>
                                     <excludes>
-                                        <exclude>**/*</exclude>
+                                        <exclude>**/*.*</exclude>
                                     </excludes>
                                 </resource>
                             </resources>
                             <!--<baseDir>.</baseDir>-->
                             <doctype>article</doctype>
                             <sourceDirectory>.</sourceDirectory>
-                            <sourceDocumentName>README.adoc</sourceDocumentName>
-                            <outputFile>README.html</outputFile>
-
+                            <!--<sourceDocumentName>README.adoc</sourceDocumentName>-->
+                            <!--<outputFile>README.html</outputFile>-->
+                            <preserveDirectories>true</preserveDirectories>
+                            <relativeBaseDir>true</relativeBaseDir>
                         </configuration>
                         <executions>
                             <execution>
@@ -568,6 +568,31 @@
                                 <goals>
                                     <goal>process-asciidoc</goal>
                                 </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-resources-plugin</artifactId>
+                        <version>${version.resources.plugin}</version>
+                        <executions>
+                            <execution>
+                                <id>copy-generated-docs</id>
+                                <phase>generate-resources</phase>
+                                <goals>
+                                    <goal>copy-resources</goal>
+                                </goals>
+                                <configuration>
+                                    <outputDirectory>${basedir}</outputDirectory>
+                                    <resources>
+                                        <resource>
+                                            <directory>${project.build.directory}/generated-docs</directory>
+                                            <includes>
+                                                <include>**/*.html</include>
+                                            </includes>
+                                        </resource>
+                                    </resources>
+                                </configuration>
                             </execution>
                         </executions>
                     </plugin>
