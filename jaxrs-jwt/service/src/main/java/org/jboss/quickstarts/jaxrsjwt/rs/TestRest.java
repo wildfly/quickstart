@@ -16,13 +16,9 @@
  */
 package org.jboss.quickstarts.jaxrsjwt.rs;
 
-import com.nimbusds.jwt.JWT;
-import com.nimbusds.jwt.JWTParser;
-import org.jboss.quickstarts.jaxrsjwt.auth.JwtManager;
-import org.jboss.quickstarts.jaxrsjwt.user.User;
-import org.jboss.quickstarts.jaxrsjwt.model.Jwt;
-import org.jboss.quickstarts.jaxrsjwt.user.UserService;
-
+import java.security.Principal;
+import java.text.ParseException;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -36,9 +32,13 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
-import java.security.Principal;
-import java.text.ParseException;
-import java.util.logging.Logger;
+
+import com.nimbusds.jwt.JWT;
+import com.nimbusds.jwt.JWTParser;
+import org.jboss.quickstarts.jaxrsjwt.auth.JwtManager;
+import org.jboss.quickstarts.jaxrsjwt.model.Jwt;
+import org.jboss.quickstarts.jaxrsjwt.user.User;
+import org.jboss.quickstarts.jaxrsjwt.user.UserService;
 
 @Path("/")
 @Produces(MediaType.APPLICATION_JSON)
@@ -61,19 +61,19 @@ public class TestRest {
     @GET
     @Path("/customer")
     public String getCustomerJSON() {
-    return "{\"path\":\"customer\",\"result\":"+sayHello()+"}";
-  }
+        return "{\"path\":\"customer\",\"result\":" + sayHello() + "}";
+    }
 
     @GET
     @Path("/protected")
     public String getProtectedJSON() {
-    return "{\"path\":\"protected\",\"result\":"+sayHello()+"}";
-  }
+        return "{\"path\":\"protected\",\"result\":" + sayHello() + "}";
+    }
 
     @GET
     @Path("/public")
     public String getPublicJSON() {
-        return "{\"path\":\"public\",\"result\":"+sayHello()+"}";
+        return "{\"path\":\"public\",\"result\":" + sayHello() + "}";
     }
 
     @GET
@@ -84,7 +84,7 @@ public class TestRest {
                 JWT j = JWTParser.parse(auth.substring(7));
                 return Response.ok(j.getJWTClaimsSet().getClaims()).build(); //Note: nimbusds converts token expiration time to milliseconds
             } catch (ParseException e) {
-                e.printStackTrace();
+                log.warning(e.toString());
                 return Response.status(400).build();
             }
         }

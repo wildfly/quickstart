@@ -22,7 +22,7 @@ public class User {
     private String password;
     private String[] roles;
 
-    public User( String name, String password, String... roles ) {
+    User(String name, String password, String... roles) {
         this.name = name;
         this.password = password;
         this.roles = roles;

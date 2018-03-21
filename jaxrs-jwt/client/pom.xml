@@ -16,7 +16,7 @@
     limitations under the License.
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -26,8 +26,8 @@
     </parent>
     <artifactId>jaxrs-jwt-client</artifactId>
     <packaging>jar</packaging>
-    <name>${qs.name.prefix} jaxrs-jwt - client</name>
-    <description>JWT authentication using Elytron</description>
+    <name>Quickstart: jaxrs-jwt - client</name>
+    <description>JWT authentication using Elytron - client</description>
 
     <licenses>
         <license>
@@ -56,12 +56,9 @@
             <artifactId>resteasy-jaxrs</artifactId>
             <scope>compile</scope>
         </dependency>
-        
+
     </dependencies>
     <build>
-        <!-- Maven will append the version to the finalName (which is the name
-            given to the generated war, and hence the context root) -->
-        <finalName>${project.artifactId}</finalName>
         <plugins>
             <!-- Allows Client to be run via 'mvn exec:java' -->
             <plugin>
@@ -72,6 +69,5 @@
                 </configuration>
             </plugin>
         </plugins>
-        <sourceDirectory>src/main/java/</sourceDirectory>
     </build>
 </project>

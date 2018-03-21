@@ -16,6 +16,16 @@
  */
 package org.jboss.quickstarts.jaxrsjwt.auth;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.security.Key;
+import java.security.KeyStore;
+import java.security.PrivateKey;
+import javax.enterprise.context.ApplicationScoped;
+import javax.json.Json;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonObjectBuilder;
+
 import com.nimbusds.jose.JOSEObjectType;
 import com.nimbusds.jose.JWSAlgorithm;
 import com.nimbusds.jose.JWSHeader;
@@ -23,16 +33,6 @@ import com.nimbusds.jose.JWSObject;
 import com.nimbusds.jose.JWSSigner;
 import com.nimbusds.jose.Payload;
 import com.nimbusds.jose.crypto.RSASSASigner;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.json.Json;
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonObjectBuilder;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.security.Key;
-import java.security.KeyStore;
-import java.security.PrivateKey;
 
 @ApplicationScoped
 public class JwtManager {
@@ -70,7 +70,7 @@ public class JwtManager {
     public String createJwt(final String subject, final String[] roles) throws Exception {
         JWSSigner signer = new RSASSASigner(privateKey);
         JsonArrayBuilder rolesBuilder = Json.createArrayBuilder();
-        for (String role : roles) rolesBuilder.add(role);
+        for (String role : roles) { rolesBuilder.add(role); }
 
         JsonObjectBuilder claimsBuilder = Json.createObjectBuilder()
                 .add("sub", subject)
