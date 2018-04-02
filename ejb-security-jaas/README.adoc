@@ -247,6 +247,8 @@ Remote User : quickstartUser
 Has admin permission : false
 Authentication Type : BASIC
 ----
++
+NOTE: See xref:server_log_expected_warnings_and_errors[Server Log: Expected Warnings and Errors] for the expected exception you will see in the server log.
 
 . The application can also be accessed directly by a remote client. Type the following command in the root directory of the quickstart:
 +
@@ -265,6 +267,10 @@ Called secured bean, caller principal quickstartUser
 Principal has admin permission: false
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 ----
+
++
+NOTE: See xref:server_log_expected_warnings_and_errors[Server Log: Expected Warnings and Errors] for the expected exception you will see in the server log.
+
 . Next, change the exported realm so that it now uses the legacy role mappers as defined in the legacy `JAAS` security domain.
 +
 Make sure you are still in the root directory of this quickstart, and run the following command, replacing `__{jbossHomeName}__` with the path to your server.
@@ -277,7 +283,7 @@ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=enable-role-mappers.cli
 NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
 
 +
-You should see the following result when you run the script/
+You should see the following result when you run the script.
 +
 [source,options="nowrap"]
 ----
@@ -303,6 +309,8 @@ Remote User : quickstartUser
 Has admin permission : true
 Authentication Type : BASIC
 ----
++
+NOTE: This time you will not see the exception in the server log because `quickstartUser` is authorized for the `admin` role.
 
 . The same result can be observed when re-running the remote client application:
 +
@@ -314,6 +322,25 @@ Called secured bean, caller principal quickstartUser
 Principal has admin permission: true
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 ----
+
++
+NOTE: This time you will not see the exception in the server log because `quickstartUser` is authorized for the `admin` role.
+
+[[server_log_expected_warnings_and_errors]]
+== Server Log: Expected Warnings and Errors
+
+When you initially test this quickstart, you will see the following exception in the server log when you log in using the application URL and when you run the `mvn exec:exec` command. This is because the `quickstartUser` does not yet have the `admin` role required by the `administrativeMethod()` method. You can ignore this exception.
+
+
+[source]
+----
+ERROR [org.jboss.as.ejb3.invocation] (default task-1) WFLYEJB0034: EJB Invocation failed on component SecuredEJB for method public abstract boolean org.jboss.as.quickstarts.ejb_security_jaas.SecuredEJBRemote.administrativeMethod(): javax.ejb.EJBAccessException: WFLYEJB0364: Invocation on method: public abstract boolean org.jboss.as.quickstarts.ejb_security_jaas.SecuredEJBRemote.administrativeMethod() of bean: SecuredEJB is not allowed
+	at org.jboss.as.ejb3.security.RolesAllowedInterceptor.processInvocation(RolesAllowedInterceptor.java:67)
+	at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:422)
+	...
+----
+
+After you enable the legacy security domain role mappers in the exported realm, the `quickstartUser` will have `admin` role access and you will no longer see the exception in the server log.
 
 //*************************************************
 // Undeploy the quickstart archive
