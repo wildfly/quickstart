@@ -40,7 +40,7 @@ public class RemoteClient {
 
         // now lets programmatically setup an authentication context to switch users before invoking the intermediate bean
         AuthenticationConfiguration superUser = AuthenticationConfiguration.empty().setSaslMechanismSelector(SaslMechanismSelector.NONE.addMechanism("PLAIN")).
-                useName("superUser").usePassword("superPwd1!");
+                useName("quickstartAdmin").usePassword("adminPwd1!");
         final AuthenticationContext authCtx = AuthenticationContext.empty().with(MatchRule.ALL, superUser);
         AuthenticationContext.getContextManager().setThreadDefault(authCtx);
         invokeIntermediateBean();
