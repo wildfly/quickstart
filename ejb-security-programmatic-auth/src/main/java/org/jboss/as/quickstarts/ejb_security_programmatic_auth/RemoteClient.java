@@ -42,7 +42,7 @@ public class RemoteClient {
 
         System.out.println(authCtx1.runCallable(callable));
 
-        AuthenticationConfiguration superUser = common.useName("superUser").usePassword("superPwd1!");
+        AuthenticationConfiguration superUser = common.useName("quickstartAdmin").usePassword("adminPwd1!");
         final AuthenticationContext authCtx2 = AuthenticationContext.empty().with(MatchRule.ALL, superUser);
 
         System.out.println(authCtx2.runCallable(callable));
