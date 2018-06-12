@@ -17,6 +17,7 @@
 package org.jboss.as.quickstarts.resteasyspring;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.GET;
 import javax.ws.rs.MatrixParam;
@@ -25,6 +26,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.PUT;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.UriInfo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -46,17 +48,18 @@ public class HelloSpringResource {
      */
     @GET
     @Produces("text/html")
-    public Response getDefault() {
-        String msg = "Hello. <br> Please try <a href='http://localhost:8080/spring-resteasy/hello?name=yourname'>spring-resteasy/hello?name=yourname</a>"
-            + "<br> Or try <a href='http://localhost:8080/spring-resteasy/basic'>spring-resteasy/basic</a>"
-            + "<br> Or try <a href='http://localhost:8080/spring-resteasy/queryParam?param=query'>spring-resteasy/queryParam?param=query</a>"
-            + "<br> Or try <a href='http://localhost:8080/spring-resteasy/matrixParam;param=matrix'>spring-resteasy/matrixParam;param=matrix</a>"
-            + "<br> Or try <a href='http://localhost:8080/spring-resteasy/uriParam/789'>spring-resteasy/uriParam/789</a>"
-            + "<br> Or try <a href='http://localhost:8080/spring-resteasy/locating/hello?name=yourname'>spring-resteasy/locating/hello?name=yourname</a>"
-            + "<br> Or try <a href='http://localhost:8080/spring-resteasy/locating/basic'>spring-resteasy/locating/basic</a>"
-            + "<br> Or try <a href='http://localhost:8080/spring-resteasy/locating/queryParam?param=query'>spring-resteasy/locating/queryParam?param=query</a>"
-            + "<br> Or try <a href='http://localhost:8080/spring-resteasy/locating/matrixParam;param=matrix'>spring-resteasy/locating/matrixParam;param=matrix</a>"
-            + "<br> Or try <a href='http://localhost:8080/spring-resteasy/locating/uriParam/789'>spring-resteasy/locating/uriParam/789</a>";
+    public Response getDefault(@Context UriInfo uriInfo) {
+        final String baseURI = uriInfo.getBaseUri().toString();
+        String msg = "Hello. <br> Please try <a href='"+baseURI+"/hello?name=yourname'>spring-resteasy/hello?name=yourname</a>"
+            + "<br> Or try <a href='"+baseURI+"/basic'>spring-resteasy/basic</a>"
+            + "<br> Or try <a href='"+baseURI+"/queryParam?param=query'>spring-resteasy/queryParam?param=query</a>"
+            + "<br> Or try <a href='"+baseURI+"/matrixParam;param=matrix'>spring-resteasy/matrixParam;param=matrix</a>"
+            + "<br> Or try <a href='"+baseURI+"/uriParam/789'>spring-resteasy/uriParam/789</a>"
+            + "<br> Or try <a href='"+baseURI+"/locating/hello?name=yourname'>spring-resteasy/locating/hello?name=yourname</a>"
+            + "<br> Or try <a href='"+baseURI+"/locating/basic'>spring-resteasy/locating/basic</a>"
+            + "<br> Or try <a href='"+baseURI+"/locating/queryParam?param=query'>spring-resteasy/locating/queryParam?param=query</a>"
+            + "<br> Or try <a href='"+baseURI+"/locating/matrixParam;param=matrix'>spring-resteasy/locating/matrixParam;param=matrix</a>"
+            + "<br> Or try <a href='"+baseURI+"/locating/uriParam/789'>spring-resteasy/locating/uriParam/789</a>";
         System.out.println("getDefault()");
         return Response.ok(msg).build();
     }
