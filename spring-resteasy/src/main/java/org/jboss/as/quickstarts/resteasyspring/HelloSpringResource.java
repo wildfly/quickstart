@@ -49,17 +49,18 @@ public class HelloSpringResource {
     @GET
     @Produces("text/html")
     public Response getDefault(@Context UriInfo uriInfo) {
-        final String baseURI = uriInfo.getBaseUri().toString();
-        String msg = "Hello. <br> Please try <a href='"+baseURI+"/hello?name=yourname'>spring-resteasy/hello?name=yourname</a>"
-            + "<br> Or try <a href='"+baseURI+"/basic'>spring-resteasy/basic</a>"
-            + "<br> Or try <a href='"+baseURI+"/queryParam?param=query'>spring-resteasy/queryParam?param=query</a>"
-            + "<br> Or try <a href='"+baseURI+"/matrixParam;param=matrix'>spring-resteasy/matrixParam;param=matrix</a>"
-            + "<br> Or try <a href='"+baseURI+"/uriParam/789'>spring-resteasy/uriParam/789</a>"
-            + "<br> Or try <a href='"+baseURI+"/locating/hello?name=yourname'>spring-resteasy/locating/hello?name=yourname</a>"
-            + "<br> Or try <a href='"+baseURI+"/locating/basic'>spring-resteasy/locating/basic</a>"
-            + "<br> Or try <a href='"+baseURI+"/locating/queryParam?param=query'>spring-resteasy/locating/queryParam?param=query</a>"
-            + "<br> Or try <a href='"+baseURI+"/locating/matrixParam;param=matrix'>spring-resteasy/locating/matrixParam;param=matrix</a>"
-            + "<br> Or try <a href='"+baseURI+"/locating/uriParam/789'>spring-resteasy/locating/uriParam/789</a>";
+        String baseURI = uriInfo.getBaseUri().toString();
+        if (!baseURI.endsWith("/")) baseURI += '/';        
+        String msg = "Hello. <br> Please try <a href='"+baseURI+"hello?name=yourname'>spring-resteasy/hello?name=yourname</a>"
+            + "<br> Or try <a href='"+baseURI+"basic'>spring-resteasy/basic</a>"
+            + "<br> Or try <a href='"+baseURI+"queryParam?param=query'>spring-resteasy/queryParam?param=query</a>"
+            + "<br> Or try <a href='"+baseURI+"matrixParam;param=matrix'>spring-resteasy/matrixParam;param=matrix</a>"
+            + "<br> Or try <a href='"+baseURI+"uriParam/789'>spring-resteasy/uriParam/789</a>"
+            + "<br> Or try <a href='"+baseURI+"locating/hello?name=yourname'>spring-resteasy/locating/hello?name=yourname</a>"
+            + "<br> Or try <a href='"+baseURI+"locating/basic'>spring-resteasy/locating/basic</a>"
+            + "<br> Or try <a href='"+baseURI+"locating/queryParam?param=query'>spring-resteasy/locating/queryParam?param=query</a>"
+            + "<br> Or try <a href='"+baseURI+"locating/matrixParam;param=matrix'>spring-resteasy/locating/matrixParam;param=matrix</a>"
+            + "<br> Or try <a href='"+baseURI+"locating/uriParam/789'>spring-resteasy/locating/uriParam/789</a>";
         System.out.println("getDefault()");
         return Response.ok(msg).build();
     }
