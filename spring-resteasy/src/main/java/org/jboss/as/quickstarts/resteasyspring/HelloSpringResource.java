@@ -50,7 +50,7 @@ public class HelloSpringResource {
     @Produces("text/html")
     public Response getDefault(@Context UriInfo uriInfo) {
         String baseURI = uriInfo.getBaseUri().toString();
-        if (!baseURI.endsWith("/")) baseURI += '/';        
+        if (!baseURI.endsWith("/")) baseURI += '/';
         String msg = "Hello. <br> Please try <a href='"+baseURI+"hello?name=yourname'>spring-resteasy/hello?name=yourname</a>"
             + "<br> Or try <a href='"+baseURI+"basic'>spring-resteasy/basic</a>"
             + "<br> Or try <a href='"+baseURI+"queryParam?param=query'>spring-resteasy/queryParam?param=query</a>"
