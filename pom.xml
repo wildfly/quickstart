@@ -42,6 +42,8 @@
     </licenses>
 
     <properties>
+        <qs.name.prefix>WildFly Quickstart:</qs.name.prefix>
+        <root.dir>${project.basedir}</root.dir>
         <jboss.home.name>WILDFLY_HOME</jboss.home.name>
         <product.name>WildFly</product.name>
         <!-- A base list of dependency and plug-in version used in the various quick starts. -->
@@ -55,8 +57,15 @@
             filtered resources, i.e. build is platform dependent! -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
+        <version.spring.framework>4.3.14.RELEASE</version.spring.framework>
+        <!-- EAP component version management BOM -->
+        <version.server.bom>14.0.0.Beta1-SNAPSHOT</version.server.bom>
+        
+        <version.jaxws-tools-maven-plugin>1.2.2.Final</version.jaxws-tools-maven-plugin>
+
         <!-- Other dependency versions -->
-        <version.ro.isdc.wro4j>1.7.9</version.ro.isdc.wro4j>
+        <version.org.apache.commons.commons-lang3>3.5</version.org.apache.commons.commons-lang3>
+        <version.org.apache.httpcomponents.httpclient>4.5.2</version.org.apache.httpcomponents.httpclient>
         <version.org.wildfly.checkstyle-config>1.0.7.Final</version.org.wildfly.checkstyle-config>
         <version.org.wildfly.quickstarts.documentation.plugin>2.0.0.Beta1</version.org.wildfly.quickstarts.documentation.plugin>
         <jboss.developer.drupal.url>http://developer-rhdp-drupal.web.stage.ext.phx2.redhat.com/</jboss.developer.drupal.url>
@@ -65,9 +74,44 @@
 
     <dependencyManagement>
         <dependencies>
-            <!-- Add H2 dependency for embedded testing database -->
-           
 
+            <dependency>
+                <groupId>org.wildfly</groupId>
+                <artifactId>wildfly-ejb-client-bom</artifactId>
+                <version>${version.server.bom}</version>
+                <type>pom</type>
+            </dependency>
+
+            <dependency>
+                <groupId>org.wildfly</groupId>
+                <artifactId>wildfly-jms-client-bom</artifactId>
+                <version>${version.server.bom}</version>
+                <type>pom</type>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${version.org.apache.commons.commons-lang3}</version>
+            </dependency>            
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>${version.org.apache.httpcomponents.httpclient}</version>
+            </dependency>            
+            <!-- JBoss distributes a complete set of Java EE APIs including a Bill
+                of Materials (BOM). A BOM specifies the versions of a "stack" (or a collection)
+                of artifacts. We use this here so that we always get the correct versions
+                of artifacts. Here we use the jboss-eap-javaee7-with-tools stack (you can
+                read this as the JBoss stack of the Java EE APIs, with some extras tools
+                for your project, such as Arquillian for testing) -->
+            <dependency>
+                <groupId>org.wildfly.bom</groupId>
+                <artifactId>wildfly-javaee7-with-tools</artifactId>
+                <version>${version.server.bom}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -385,7 +429,7 @@
                 <module>jaxws-ejb</module>
                 <module>jaxws-pojo</module>
                 <module>jaxws-retail</module>
-                <module>jsonp</module>
+                <module>jsonp</module>      
                 <module>kitchensink</module>
                 <module>kitchensink-angularjs</module>
                 <module>kitchensink-ear</module>
@@ -433,7 +477,7 @@
                 </property>
             </activation>
             <modules>
-                <module>jts</module>
+                <module>jts</module>              
             </modules>
         </profile>
         <profile>
@@ -480,10 +524,10 @@
                     <value>!disabled</value>
                 </property>
             </activation>
-            <modules>
+            <modules>            
                 <module>wsat-simple</module>
                 <module>wsba-coordinator-completion-simple</module>
-                <module>wsba-participant-completion-simple</module>
+                <module>wsba-participant-completion-simple</module>              
             </modules>
         </profile>
         <profile>
@@ -497,8 +541,67 @@
                 <module>spring-kitchensink-springmvctest/functional-tests</module>
             </modules>
         </profile>
+      
+        <profile>
+            <!-- An optional Arquillian testing profile that executes tests in your JBoss EAP instance.
+                 This profile will start a new JBoss EAP instance, and execute the test, shutting it down when done.
+                 Run with: mvn clean verify -Parq-managed -->
+            <id>arq-managed</id>
+            <dependencies>
+                <dependency>
+                    <groupId>org.wildfly.arquillian</groupId>
+                    <artifactId>wildfly-arquillian-container-managed</artifactId>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <version>${version.failsafe.plugin}</version>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>integration-test</goal>
+                                    <goal>verify</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
 
-
+        <profile>
+            <!-- An optional Arquillian testing profile that executes tests in a remote JBoss EAP instance.
+                 Run with: mvn clean verify -Parq-remote -->
+            <id>arq-remote</id>
+            <dependencies>
+                <dependency>
+                    <groupId>org.wildfly.arquillian</groupId>
+                    <artifactId>wildfly-arquillian-container-remote</artifactId>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <version>${version.failsafe.plugin}</version>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>integration-test</goal>
+                                    <goal>verify</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
         <profile>
             <id>docs</id>
             <activation>
@@ -572,6 +675,17 @@
             </build>
         </profile>
         <profile>
+            <id>adoc</id>
+            <activation>
+                <file>
+                    <missing>README.adoc</missing>
+                </file>
+            </activation>
+            <properties>
+                <asciidoctor.skip>true</asciidoctor.skip>
+            </properties>
+        </profile>
+        <profile>
             <id>dist</id>
             <activation>
                 <property>
@@ -581,6 +695,38 @@
             <modules>
                 <module>dist</module>
             </modules>
+        </profile>
+        <profile>
+            <!-- When built in OpenShift the 'openshift' profile will be
+                used when invoking mvn. -->
+            <!-- Use this profile for any OpenShift specific customization
+                your app will ne    ed. -->
+            <!-- By default that is to put the resulting archive into the
+                'deployments' folder. -->
+            <!-- http://maven.apache.org/guides/mini/guide-building-for-different-environments.html -->
+            <id>openshift</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-war-plugin</artifactId>
+                        <version>${version.war.plugin}</version>
+                        <configuration>
+                            <warName>ROOT</warName>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <phase>none</phase>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
         <profile>
             <id>publish-rh-developer</id>
