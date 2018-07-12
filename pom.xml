@@ -21,16 +21,15 @@
     <parent>
         <groupId>org.jboss</groupId>
         <artifactId>jboss-parent</artifactId>
-       <version>26</version>
-       <relativePath />
+        <version>26</version>
     </parent>
     <groupId>org.wildfly.quickstarts</groupId>
     <artifactId>quickstart-parent</artifactId>
     <version>14.0.0-SNAPSHOT</version>
 
     <packaging>pom</packaging>
-    <name>Quickstart: aggregator</name>
-    <description>WildFly Quickstart aggregator</description>
+    <name>Quickstart: Parent</name>
+    <description>Quickstart's parent</description>
     <url>https://github.com/wildfly/quickstart</url>
 
     <licenses>
@@ -42,7 +41,6 @@
     </licenses>
 
     <properties>
-        <qs.name.prefix>WildFly Quickstart:</qs.name.prefix>
         <root.dir>${project.basedir}</root.dir>
         <jboss.home.name>WILDFLY_HOME</jboss.home.name>
         <product.name>WildFly</product.name>
@@ -94,12 +92,12 @@
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
                 <version>${version.org.apache.commons.commons-lang3}</version>
-            </dependency>            
+            </dependency>
             <dependency>
                 <groupId>org.apache.httpcomponents</groupId>
                 <artifactId>httpclient</artifactId>
                 <version>${version.org.apache.httpcomponents.httpclient}</version>
-            </dependency>            
+            </dependency>
             <!-- JBoss distributes a complete set of Java EE APIs including a Bill
                 of Materials (BOM). A BOM specifies the versions of a "stack" (or a collection)
                 of artifacts. We use this here so that we always get the correct versions
@@ -430,7 +428,7 @@
                 <module>jaxws-ejb</module>
                 <module>jaxws-pojo</module>
                 <module>jaxws-retail</module>
-                <module>jsonp</module>      
+                <module>jsonp</module>
                 <module>kitchensink</module>
                 <module>kitchensink-angularjs</module>
                 <module>kitchensink-ear</module>
@@ -478,7 +476,7 @@
                 </property>
             </activation>
             <modules>
-                <module>jts</module>              
+                <module>jts</module>
             </modules>
         </profile>
         <profile>
@@ -525,10 +523,10 @@
                     <value>!disabled</value>
                 </property>
             </activation>
-            <modules>            
+            <modules>
                 <module>wsat-simple</module>
                 <module>wsba-coordinator-completion-simple</module>
-                <module>wsba-participant-completion-simple</module>              
+                <module>wsba-participant-completion-simple</module>
             </modules>
         </profile>
         <profile>
@@ -617,7 +615,6 @@
             </modules>
             <build>
                 <plugins>
-
                     <plugin>
                         <groupId>org.wildfly.maven.plugins</groupId>
                         <artifactId>quickstart-documentation-plugin</artifactId>
@@ -625,7 +622,6 @@
                         <inherited>false</inherited>
                         <configuration>
                             <rootDirectory>.</rootDirectory>
-                            <!--<targetDocument>${project.build.directory}/docs/README.md</targetDocument>-->
                             <targetDocument>README.adoc</targetDocument>
                         </configuration>
                         <executions>
@@ -671,7 +667,6 @@
                             </execution>
                         </executions>
                     </plugin>
-
                 </plugins>
             </build>
         </profile>
