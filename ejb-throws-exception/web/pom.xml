@@ -24,8 +24,6 @@
         <version>14.0.0-SNAPSHOT</version>
     </parent>
     <artifactId>ejb-throws-exception-web</artifactId>
-    <groupId>org.wildfly.quickstarts</groupId>
-    <version>14.0.0-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>Quickstart: ejb-throws-exception - web</name>
     <description>This project demonstrates how to throw an exception in an EJB and catch it in the web layer; this is the web POM file</description>
@@ -59,7 +57,7 @@
         <!-- Dependency on the EJB module so we can use it's services if
             needed -->
         <dependency>
-            <groupId>org.wildfly.quickstarts</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>ejb-throws-exception-ejb</artifactId>
             <type>ejb</type>
             <scope>provided</scope>

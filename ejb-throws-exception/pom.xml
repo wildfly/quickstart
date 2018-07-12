@@ -25,8 +25,6 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>ejb-throws-exception</artifactId>
-    <groupId>org.wildfly.quickstarts</groupId>
-    <version>14.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Quickstart: ejb-throws-exception</name>
     <description>This project demonstrates how to throw an exception in an EJB and catch it in the web layer</description>
@@ -52,7 +50,7 @@
             <!-- Define the version of the EJB jar so that we don't need
                 to repeat ourselves in every module -->
             <dependency>
-                <groupId>org.wildfly.quickstarts</groupId>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>ejb-throws-exception-ejb</artifactId>
                 <version>${project.version}</version>
                 <type>ejb</type>
@@ -61,7 +59,7 @@
             <!-- Define the version of the ejb-api so that we don't need to
                 repeat ourselves in every module -->
             <dependency>
-                <groupId>org.wildfly.quickstarts</groupId>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>ejb-throws-exception-ejb-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -69,7 +67,7 @@
             <!-- Define the version of the WAR so that we don't need to repeat
                 ourselves in every module -->
             <dependency>
-                <groupId>org.wildfly.quickstarts</groupId>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>ejb-throws-exception-web</artifactId>
                 <version>${project.version}</version>
                 <type>war</type>

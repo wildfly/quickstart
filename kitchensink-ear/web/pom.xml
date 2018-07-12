@@ -24,8 +24,6 @@
         <version>14.0.0-SNAPSHOT</version>
     </parent>
     <artifactId>kitchensink-ear-web</artifactId>
-    <groupId>org.wildfly.quickstarts</groupId>
-    <version>14.0.0-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>Quickstart: kitchensink-ear - web</name>
     <description>This kitchensink project demonstrates how to use JSF, CDI, JAX-RS, EJB, JPA, and Bean Validation in an application packaged as an EAR; this is the web POM file</description>
@@ -71,7 +69,7 @@
 
         <!-- Dependency on the EJB module so we can use it's services if needed -->
         <dependency>
-            <groupId>org.wildfly.quickstarts</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>kitchensink-ear-ejb</artifactId>
             <type>ejb</type>
             <scope>provided</scope>
