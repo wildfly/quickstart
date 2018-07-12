@@ -1,0 +1,34 @@
+
+[[prepare_openshift_for_quickstart_deployment]]
+= Prepare OpenShift for Quickstart Deployment
+
+. Log in to your OpenShift instance using the `oc login` command.
+. Create a new project for the quickstart in OpenShift. You can create a project in OpenShift using the following command.
++
+[options="nowrap",subs="attributes"]
+----
+$ oc new-project {artifactId}-project
+----
+////
+. Create a keystore.
++
+{xpaasproduct-shortname} requires a keystore to be imported to properly install and configure the image on your OpenShift instance.
++
+[WARNING]
+====
+The following commands generate a self-signed certificate, but for production environments Red Hat recommends that you use your own SSL certificate purchased from a verified Certificate Authority (CA) for SSL-encrypted connections (HTTPS).
+====
++
+You can use the Java `keytool` command to generate a keystore using the following command.
++
+[options="nowrap",subs="attributes"]
+----
+$ keytool -genkey -keyalg RSA -alias {artifactId}-project-selfsigned -keystore keystore.jks -validity 360 -keysize 2048
+----
+. Create a secret from the previously created keystore using the following command.
++
+[options="nowrap",subs="attributes"]
+----
+$ oc secrets new eap7-app-secret keystore.jks
+----
+////

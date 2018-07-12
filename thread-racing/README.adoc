@@ -1,30 +1,28 @@
+include::../shared-doc/attributes.adoc[]
+
 = thread-racing: A Java EE thread racing web application
 :author: Eduardo Martins
-:productName: WildFly
-:productNameFull: WildFly Application Server
-:jbossHomeName: WILDFLY_HOME
-:productVersion: 12
-:buildRequirements: Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later
-include::../shared-doc/attributes.adoc[]
-:uses-h2:
-
 :level: Beginner
 :technologies: Batch, CDI, EE Concurrency, JAX-RS, JMS, JPA, JSON, Web Sockets
-:source: {githubRepoUrl}
 
 [abstract]
 A thread racing web application that demonstrates technologies introduced or updated in the latest Java EE specification.
 
 :standalone-server-type: full
 :archiveType: war
+:uses-h2:
+
+//*************************************************
+// Shared CD and Product Release content
+//*************************************************
 
 == What is it?
 
-The `thread-racing` quickstart is a web application that demonstrates new and updated technologies introduced by the Java EE 7 specification through simple use cases.
+The `thread-racing` quickstart is a web application that demonstrates new and updated technologies introduced by the {javaVersion} specification through simple use cases.
 
 The web application allows the user to trigger a race between 4 threads and follow, in real time, the progress of each thread until the race ends.
 
-The race itself consists of multiple stages, each demonstrating the usage of a specific new or updated Java EE 7 technology:
+The race itself consists of multiple stages, each demonstrating the usage of a specific new or updated {javaVersion} technology:
 
 * Batch 1.0
 * EE Concurrency 1.0
@@ -32,42 +30,27 @@ The race itself consists of multiple stages, each demonstrating the usage of a s
 * JMS 2.0
 * JSON 1.0
 
-WebSockets 1.0 is one of the most relevant new technologies introduced by Java EE 7. Instead of being used in a race stage, a WebSockets 1.0 ServerEndpoint provides the remote application interface.
+WebSockets 1.0 is one of the most relevant new technologies introduced by {javaVersion}. Instead of being used in a race stage, a WebSockets 1.0 ServerEndpoint provides the remote application interface.
 A new race is run when a client establishes a session. That session is then used to update the client in real time, with respect to the race progress and results. The `src/main/java/org/jboss/as/quickstarts/threadracing/WebSocketRace.java` file is the WebSocket server endpoint class and is a good entry point when studying how the application code works.
 
 JPA 2.1 is also present in the application code. Specifically it is used to store race results in the default data source instance, which is also new to Java EE. Further details are included in the `src/main/java/org/jboss/as/quickstarts/threadracing/results/RaceResults.java` class.
 
+
 //*************************************************
-// Add notes about use in a production environment.
+// Product Release content only
 //*************************************************
-// == Considerations for Use in a Production Environment
-:uses-h2:
+
+ifndef::EAPCDRelease[]
+
+// Considerations for Use in a Production Environment
 include::../shared-doc/development-shortcuts.adoc[leveloffset=+1]
-
-//*************************************************
-// Add System Requirements
-//*************************************************
-// == System Requirements
+// System Requirements
 include::../shared-doc/system-requirements.adoc[leveloffset=+1]
-
-//*************************************************
-// Add Use of JBoss Home Name
-//*************************************************
-// == Use of {jbossHomeName}
+// Use of {jbossHomeName}
 include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
-
-//*************************************************
-// Start the server with the full profile
-//*************************************************
-// == Start the {productName} Standalone Server
+// Start the {productName} Standalone Server
 include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
-
-== Build and Deploy the Quickstart
-
-//*************************************************
-// Build and deploy the quickstart WAR
-//*************************************************
-// == Build and Deploy the Quickstart
+// Build and Deploy the Quickstart
 include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
 
 
@@ -85,31 +68,35 @@ NOTE: You will see the following warning in the server log. You can ignore this 
 HHH000431: Unable to determine H2 database version, certain features may not work
 ----
 
-
-//*************************************************
-// Undeploy the quickstart archive
-//*************************************************
-// == Undeploy the Quickstart
+// Undeploy the Quickstart
 include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
-
-
-//*************************************************
-// Add JBoss Developer Studio instructions
-//*************************************************
-// == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+// Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
 
 // Additional JBoss Developer Studio instructions
 NOTE: Within JBoss Developer Studio, make sure you define a server runtime environment that uses the `standalone-full.xml` configuration file.
 
-//*************************************************
-// Deploy the quickstart to OpenShift
-//*************************************************
-// == Deploy the Quickstart to OpenShift Online
-include::../shared-doc/deploy-to-openshift-online.adoc[leveloffset=+1]
+// Debug the Application
+include::../shared-doc/debug-the-application.adoc[leveloffset=+1]
+
+endif::[]
 
 //*************************************************
-// Add info to debug the application
+// CD Release content only
 //*************************************************
-// == Debug the Application
-include::../shared-doc/debug-the-application.adoc[leveloffset=+1]
+
+ifdef::EAPCDRelease[]
+
+// Getting Started with OpenShift
+include::../shared-doc/cd-openshift-getting-started.adoc[leveloffset=+1]
+//Prepare OpenShift for Quickstart Deployment
+include::../shared-doc/cd-create-project.adoc[leveloffset=+1]
+// Import the Latest {xpaasproduct-shortname} Image Streams and Templates
+include::../shared-doc/cd-import-imagestreams-templates.adoc[leveloffset=+1]
+// Deploy the {ProductShortName} Source-to-Image (S2I) Quickstart to OpenShift
+include::../shared-doc/cd-deploy-project.adoc[leveloffset=+1]
+// OpenShift Post Deployment Tasks: This is not currently needed.
+// include::../shared-doc/cd-post-deployment-tasks.adoc[leveloffset=+1]
+
+endif::[]
+

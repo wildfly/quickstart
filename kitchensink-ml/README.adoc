@@ -1,27 +1,27 @@
-= kitchensink-ml: Localized Version of the kitchensink Quickstart
-:author: Sande Gilda
-:productName: WildFly
-:productNameFull: WildFly Application Server
-:jbossHomeName: WILDFLY_HOME
-:productVersion: 12
-:buildRequirements: Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later
 include::../shared-doc/attributes.adoc[]
 
+= kitchensink-ml: Localized Version of the kitchensink Quickstart
+:author: Sande Gilda
 :level: Intermediate
 :technologies: CDI, JSF, JPA, EJB, JAX-RS, BV, i18n, l10n
-:source: {githubRepoUrl}
 
 [abstract]
-The `kitchensink-ml` quickstart demonstrates a localized Java EE 7 compliant application using JSF, CDI, EJB, JPA, and Bean Validation.
+The `kitchensink-ml` quickstart demonstrates a localized {javaVersion} compliant application using JSF, CDI, EJB, JPA, and Bean Validation.
 
 :standalone-server-type: default
 :archiveType: war
+:uses-h2:
+:uses-ds-xml:
+
+//*************************************************
+// Shared CD and Product Release content
+//*************************************************
 
 == What is it?
 
-The `kitchensink-ml` quickstart is a deployable Maven 3 project to help you get your foot in the door developing with Java EE 7 on {productNameFull}.
+The `kitchensink-ml` quickstart is a deployable Maven 3 project to help you get your foot in the door developing with {javaVersion} on {productNameFull}.
 
-It demonstrates how to create a _localized_ Java EE 7 compliant application using JSF, CDI, JAX-RS, EJB, JPA, and Bean Validation. A localized application is one that supports multiple languages. That is what the _-ml_ suffix denotes in the quickstart name _kitchensink-ml_. This quickstart also includes a persistence unit and some sample persistence and transaction code to introduce you to database access in enterprise Java.
+It demonstrates how to create a _localized_ {javaVersion} compliant application using JSF, CDI, JAX-RS, EJB, JPA, and Bean Validation. A localized application is one that supports multiple languages. That is what the _-ml_ suffix denotes in the quickstart name _kitchensink-ml_. This quickstart also includes a persistence unit and some sample persistence and transaction code to introduce you to database access in enterprise Java.
 
 This quickstart uses the link:../kitchensink/README{outfilesuffix}[kitchensink] quickstart as its starting point. It has been enhanced to provide localization of labels and messages. A user sets the preferred language choice in the browser and, if the application supports that language, the application web page is rendered in that language. For demonstration purposes, this quickstart has been tranlated into French(fr) and Spanish (es) using http://translate.google.com, so the translations may not be ideal.
 
@@ -112,35 +112,20 @@ FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_INFO,
 How you set your browser preferred locale depends on the browser and version you use. Use your browser help option to search for instructions to change the preferred language setting.
 
 //*************************************************
-// Add notes about use in a production environment.
+// Product Release content only
 //*************************************************
-// == Considerations for Use in a Production Environment
-:uses-h2:
-:uses-ds-xml:
+
+ifndef::EAPCDRelease[]
+
+// Considerations for Use in a Production Environment
 include::../shared-doc/development-shortcuts.adoc[leveloffset=+1]
-
-//*************************************************
-// Add System Requirements
-//*************************************************
-// == System Requirements
+// System Requirements
 include::../shared-doc/system-requirements.adoc[leveloffset=+1]
-
-//*************************************************
-// Add Use of JBoss Home Name
-//*************************************************
-// == Use of {jbossHomeName}
+// Use of {jbossHomeName}
 include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
-
-//*************************************************
-// Start the server with the default profile
-//*************************************************
-// == Start the {productName} Standalone Server
+// Start the {productName} Standalone Server
 include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
-
-//*************************************************
-// Build and deploy the quickstart WAR
-//*************************************************
-// == Build and Deploy the Quickstart
+// Build and Deploy the Quickstart
 include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
 
 == Access the Application
@@ -160,34 +145,34 @@ WFLYJCA0091: -ds.xml file deployments are deprecated. Support may be removed in 
 HHH000431: Unable to determine H2 database version, certain features may not work
 ----
 
-//*************************************************
-// Undeploy the quickstart archive
-//*************************************************
-// == Undeploy the Quickstart
+// Undeploy the Quickstart
 include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
-
-
-//*************************************************
-// Run the Arquillian tests
-//*************************************************
-// == Run the Arquillian Tests
+// Run the Arquillian Tests
 include::../shared-doc/run-arquillian-tests.adoc[leveloffset=+1]
-
-
-//*************************************************
-// Add JBoss Developer Studio instructions
-//*************************************************
-// == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+// Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
-
-//*************************************************
-// Deploy the quickstart to OpenShift
-//*************************************************
-// == Deploy the Quickstart to OpenShift Online
-include::../shared-doc/deploy-to-openshift-online.adoc[leveloffset=+1]
-
-//*************************************************
-// Add info to debug the application
-//*************************************************
-// == Debug the Application
+// Debug the Application
 include::../shared-doc/debug-the-application.adoc[leveloffset=+1]
+
+
+endif::[]
+
+//*************************************************
+// CD Release content only
+//*************************************************
+
+ifdef::EAPCDRelease[]
+
+// Getting Started with OpenShift
+include::../shared-doc/cd-openshift-getting-started.adoc[leveloffset=+1]
+//Prepare OpenShift for Quickstart Deployment
+include::../shared-doc/cd-create-project.adoc[leveloffset=+1]
+// Import the Latest {xpaasproduct-shortname} Image Streams and Templates
+include::../shared-doc/cd-import-imagestreams-templates.adoc[leveloffset=+1]
+// Deploy the {ProductShortName} Source-to-Image (S2I) Quickstart to OpenShift
+include::../shared-doc/cd-deploy-project.adoc[leveloffset=+1]
+// OpenShift Post Deployment Tasks: This is not currently needed.
+// include::../shared-doc/cd-post-deployment-tasks.adoc[leveloffset=+1]
+
+endif::[]
+

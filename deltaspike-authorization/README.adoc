@@ -1,15 +1,9 @@
-= deltaspike-authorization: Demonstrate the creation of a custom authorization example using @SecurityBindingType from DeltaSpike
-:author: Rafael Benevides
-:productName: WildFly
-:productNameFull: WildFly Application Server
-:jbossHomeName: WILDFLY_HOME
-:productVersion: 12
-:buildRequirements: Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later
 include::../shared-doc/attributes.adoc[]
 
+= deltaspike-authorization: Demonstrate the creation of a custom authorization example using @SecurityBindingType from DeltaSpike
+:author: Rafael Benevides
 :level: Beginner
 :technologies: JSF, CDI, Deltaspike
-:source: {githubRepoUrl}
 
 [abstract]
 Demonstrate the creation of a custom authorization example using @SecurityBindingType from DeltaSpike
@@ -27,76 +21,32 @@ In this quickstart the `Authorizer` we delegate authentication to JAAS, but othe
 
 Methods on the `Controller` bean have been restricted using the security binding types.
 
-== System requirements
+// System Requirements
+include::../shared-doc/system-requirements.adoc[leveloffset=+1]
+// Use of {jbossHomeName}
+include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
+// Add the Authorized Application and Management Users
+include::../shared-doc/add-application-user.adoc[leveloffset=+1]
+// Start the Server
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
+// Build and Deploy the Quickstart
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
 
-All you need to build this project is Java 8.0 (Java SDK 1.8) or better, Maven 3.1 or better.
-
-The application this project produces is designed to be run on WildFly 10.
-
-== Configure Maven
-
-If you have not yet done so, you must link:../README.md#mavenconfiguration[Configure Maven] before testing the quickstarts.
-
-== Add an Application User
-
-This quickstart uses secured management interfaces and requires that you create an application user to access the running application. Instructions to set up the quickstart application user can be found here: link:../README.md#addapplicationuser[Add an Application User]
-
-== Start WildFly 10
-
-. Open a command line and navigate to the root of the JBoss server directory.
-. 
-
-The following shows the command line to start the server with the web profile:
-
-[source]
-----
-For Linux:   JBOSS_HOME/bin/standalone.sh
-For Windows: JBOSS_HOME\bin\standalone.bat
-----
-
-== Build and Deploy the Quickstart
-
-_NOTE: The following build command assumes you have configured your Maven user settings. If you have not, you must include Maven setting arguments on the command line. See link:../README.md#buildanddeploy[Build and Deploy the Quickstarts] for complete instructions and additional options._
-
-. Make sure you have started the JBoss Server as described above.
-. Open a command line and navigate to the root directory of this quickstart.
-. 
-
-Type this command to build and deploy the archive:
-
-[source]
-----
-mvn clean package wildfly:deploy
-----
-
-. This will deploy `target/wildfly-as-deltaspike-authorization.war` to the running instance of the server.
 
 == Access the application
 
-You can access the running application in a browser at the following URL: &lt;localhost:8080/wildfly-deltaspike-authorization/&gt;
+The application will be running at the following URL: http://localhost:8080/{artifactId}/.
 
-When you access the application you are redirected to a login form, already filled in with the details of the application user you set up above. Once you have logged into the application you see a page showing your username and two buttons. 
+When you access the application you are redirected to a login form, already filled in with the details of the application user you set up above. Once you have logged into the application you see a page showing your username and two buttons.
 
 When you click on the `Employee Method` button you will see the following message: `You executed a @EmployeeAllowed method` - you are authorized to invoke this method.
 
-When you click on the `Admin Method` button you will be redirected to a error page with the following exception: `org.apache.deltaspike.security.api.authorization.AccessDeniedException` - you aren't authorized to invole thos method.
+When you click on the `Admin Method` button, you are redirected to an error page with the following exception: `org.apache.deltaspike.security.api.authorization.AccessDeniedException` because you aren't authorized to invoke this method.
 
-== Undeploy the Archive
-
-. Make sure you have started the JBoss Server as described above.
-. Open a command line and navigate to the root directory of this quickstart.
-. 
-
-When you are finished testing, type this command to undeploy the archive:
-
-[source]
-----
-mvn wildfly:undeploy
-----
-
-== Run the Quickstart in JBoss Developer Studio or Eclipse
-
-You can also start the server and deploy the quickstarts from Eclipse using JBoss tools. For more information, see link:../README.md#useeclipse[Use JBoss Developer Studio or Eclipse to Run the Quickstarts] 
+// Undeploy the Quickstart
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
+// Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
 
 == Debug the Application
 

@@ -1,21 +1,19 @@
-= ejb-in-war: Deployment of a WAR Containing an EJB
-:author: Paul Robinson
-:productName: WildFly
-:productNameFull: WildFly Application Server
-:jbossHomeName: WILDFLY_HOME
-:productVersion: 12
-:buildRequirements: Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later
 include::../shared-doc/attributes.adoc[]
 
+= ejb-in-war: Deployment of a WAR Containing an EJB
+:author: Paul Robinson
 :level: Intermediate
 :technologies: EJB, JSF, WAR
-:source: {githubRepoUrl}
 
 [abstract]
 The `ejb-in-war` quickstart demonstrates how to package an EJB bean in a WAR archive and deploy it to {productName}. Arquillian tests are also provided.
 
 :standalone-server-type: default
 :archiveType: war
+
+//*************************************************
+// Shared CD and Product Release content
+//*************************************************
 
 == What is it?
 
@@ -29,45 +27,29 @@ The example follows the common "Hello World" pattern using the following workflo
 . The response from invoking the `GreeterEJB` is stored in a field `message` of the managed bean.
 . The managed bean is annotated as `@SessionScoped`, so the same managed bean instance is used for the entire session. This ensures that the message is available when the page reloads and is displayed to the user.
 
+
 //*************************************************
-// Add System Requirements
+// Product Release content only
 //*************************************************
-// == System Requirements
+
+ifndef::EAPCDRelease[]
+
+// System Requirements
 include::../shared-doc/system-requirements.adoc[leveloffset=+1]
-
-//*************************************************
-// Add Use of JBoss Home Name
-//*************************************************
-// == Use of {jbossHomeName}
+// Use of {jbossHomeName}
 include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
-
-//*************************************************
-// Start the server with the default profile
-//*************************************************
-// == Start the {productName} Standalone Server
+// Start the {productName} Standalone Server
 include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
-
-//*************************************************
-// Build and deploy the quickstart WAR
-//*************************************************
-// == Build and Deploy the Quickstart
+// Build and Deploy the Quickstart
 include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
 
 == Access the Application
 
 The application will be running at the following URL http://localhost:8080/{artifactId}/.
 
-//*************************************************
-// Undeploy the quickstart archive
-//*************************************************
-// == Undeploy the Quickstart
+// Undeploy the Quickstart
 include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
-
-
-//*************************************************
-// Run the Arquillian tests
-//*************************************************
-// == Run the Arquillian Tests
+// Run the Arquillian Tests
 include::../shared-doc/run-arquillian-tests.adoc[leveloffset=+1]
 
 == Investigate the Console Output
@@ -92,20 +74,29 @@ INFO  [org.jboss.as.server] (management-handler-thread - 29) WFLYSRV0010: Deploy
 INFO  [org.jboss.as.server] (management-handler-thread - 30) WFLYSRV0009: Undeployed "test.war" (runtime-name: "test.war")
 ----
 
-//*************************************************
-// Add JBoss Developer Studio instructions
-//*************************************************
-// == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+// Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
-
-//*************************************************
-// Deploy the quickstart to OpenShift
-//*************************************************
-// == Deploy the Quickstart to OpenShift Online
-include::../shared-doc/deploy-to-openshift-online.adoc[leveloffset=+1]
-
-//*************************************************
-// Add info to debug the application
-//*************************************************
-// == Debug the Application
+// Debug the Application
 include::../shared-doc/debug-the-application.adoc[leveloffset=+1]
+
+endif::[]
+
+//*************************************************
+// CD Release content only
+//*************************************************
+
+ifdef::EAPCDRelease[]
+
+// Getting Started with OpenShift
+include::../shared-doc/cd-openshift-getting-started.adoc[leveloffset=+1]
+//Prepare OpenShift for Quickstart Deployment
+include::../shared-doc/cd-create-project.adoc[leveloffset=+1]
+// Import the Latest {xpaasproduct-shortname} Image Streams and Templates
+include::../shared-doc/cd-import-imagestreams-templates.adoc[leveloffset=+1]
+// Deploy the {ProductShortName} Source-to-Image (S2I) Quickstart to OpenShift
+include::../shared-doc/cd-deploy-project.adoc[leveloffset=+1]
+// OpenShift Post Deployment Tasks: This is not currently needed.
+// include::../shared-doc/cd-post-deployment-tasks.adoc[leveloffset=+1]
+
+endif::[]
+

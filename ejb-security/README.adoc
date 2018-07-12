@@ -1,15 +1,9 @@
-= ejb-security:  Using Java EE Declarative Security to Control Access
-:author: Sherif F. Makary, Stefan Guilhen
-:productName: WildFly
-:productNameFull: WildFly Application Server
-:jbossHomeName: WILDFLY_HOME
-:productVersion: 12
-:buildRequirements: Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later
 include::../shared-doc/attributes.adoc[]
 
+= ejb-security:  Using Java EE Declarative Security to Control Access
+:author: Sherif F. Makary, Stefan Guilhen
 :level: Intermediate
 :technologies: EJB, Security
-:source: {githubRepoUrl}
 
 [abstract]
 The `ejb-security` quickstart demonstrates the use of Java EE declarative security to control access to EJBs in {productName}.
@@ -17,6 +11,8 @@ The `ejb-security` quickstart demonstrates the use of Java EE declarative securi
 :standalone-server-type: default
 :archiveType: jar
 :includes-cli-scripts:
+:restoreScriptName: restore-configuration.cli
+:app-user-groups: guest
 
 == What is it?
 
@@ -33,35 +29,15 @@ to users with `admin` role access rights.
 password `quickstartPwd1!` in the `guest` role. The `guest` role matches the allowed user role defined in the `@RolesAllowed`
 annotation in the EJB but it should not be granted access to the administrative method annotated with `RolesAllowed({&quot;admin&quot;})`.
 
-//*************************************************
-// Add System Requirements
-//*************************************************
-// == System Requirements
+// System Requirements
 include::../shared-doc/system-requirements.adoc[leveloffset=+1]
-
-//*************************************************
-// Add Use of JBoss Home Name
-//*************************************************
-// == Use of {jbossHomeName}
+// Use of {jbossHomeName}
 include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
-
-//*************************************************
 // Add the Authorized Application User
-//*************************************************
-// == Add the Authorized Application User
-:app-user-groups: guest
 include::../shared-doc/add-application-user.adoc[leveloffset=+1]
-
-//*************************************************
-// Back up the server configuration files
-//*************************************************
-// == Back Up the {productName} Standalone Server Configuration
+// Back Up the {productName} Standalone Server Configuration
 include::../shared-doc/back-up-server-standalone-configuration.adoc[leveloffset=+1]
-
-//*************************************************
-// Start the server with the default profile
-//*************************************************
-// == Start the {productName} Standalone Server
+// Start the {productName} Standalone Server
 include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
 
 [[configure_the_server]]
@@ -119,10 +95,7 @@ The `application-security-domain` enables Elytron security for the quickstart EJ
 +
 This configuration allows the identity that was established at the connection level to be propagated to the components.
 
-//*************************************************
-// Build and deploy the quickstart JAR
-//*************************************************
-// == Build and Deploy the Quickstart
+// Build and Deploy the Quickstart
 include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
 
 
@@ -185,18 +158,9 @@ Principal has admin permission: true
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 ----
 
-//*************************************************
-// Undeploy the quickstart archive
-//*************************************************
-// == Undeploy the Quickstart
+// Undeploy the Quickstart
 include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
-
-
-//************************************************************
 // Restore the {productName} Standalone Server Configuration
-//************************************************************
-// == Restore the {productName} Standalone Server Configuration
-:restoreScriptName: restore-configuration.cli
 include::../shared-doc/restore-standalone-server-configuration.adoc[leveloffset=+1]
 
 // Additional information about this script
@@ -208,17 +172,9 @@ The batch executed successfully
 process-state: reload-required
 ----
 
-//******************************************************
-// Restore the standalone server configuration manually
-//******************************************************
-// == Restore the {productName} Standalone Server Configuration Manually
+// Restore the {productName} Standalone Server Configuration Manually
 include::../shared-doc/restore-standalone-server-configuration-manual.adoc[leveloffset=+2]
-
-
-//*************************************************
-// Add JBoss Developer Studio instructions
-//*************************************************
-// == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+// Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
 
 // Additional JBoss Developer Studio instructions
@@ -230,8 +186,5 @@ include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[levelof
 . To undeploy the project, right-click on the *{artifactId}* project and choose *Run As* –> *Run Configurations*. Enter `wildfly:undeploy` for the *Goals* and click *Run*.
 . Make sure you xref:restore_the_server_configuration[restore the server configuration] when you have completed testing this quickstart.
 
-//*************************************************
-// Add info to debug the application
-//*************************************************
-// == Debug the Application
+// Debug the Application
 include::../shared-doc/debug-the-application.adoc[leveloffset=+1]

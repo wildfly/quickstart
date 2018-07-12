@@ -1,15 +1,9 @@
-= deltaspike-projectstage: Demonstrate usage of DeltaSpike project stage and shows usage of a conditional @Exclude
-:author: Rafael Benevides
-:productName: WildFly
-:productNameFull: WildFly Application Server
-:jbossHomeName: WILDFLY_HOME
-:productVersion: 12
-:buildRequirements: Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later
 include::../shared-doc/attributes.adoc[]
 
+= deltaspike-projectstage: Demonstrate usage of DeltaSpike project stage and shows usage of a conditional @Exclude
+:author: Rafael Benevides
 :level: Beginner
 :technologies: JSF, CDI, Deltaspike
-:source: {githubRepoUrl}
 
 [abstract]
 Demonstrate usage of DeltaSpike project stage and shows usage of a conditional @Exclude
@@ -36,79 +30,39 @@ This project has a interface called `MyBean` that has 4 different implementation
 * MyExcludedBean - Uses the annotation `@Exclude` to exclude the implementation for all project stages.
 * NoExcludedBean - The implementation is always available because this bean does not use any annotation.
 
-== System requirements
+// System Requirements
+include::../shared-doc/system-requirements.adoc[leveloffset=+1]
+// Use of {jbossHomeName}
+include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
+// Start the Server
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
+//  Run the Arquillian Tests
+include::../shared-doc/run-arquillian-tests.adoc[leveloffset=+1]
 
-All you need to build this project is Java 8.0 (Java SDK 1.8) or better, Maven 3.1 or better.
+// Build and Deploy the Quickstart
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
 
-The application this project produces is designed to be run on WildFly 10.
+== Access the application
 
-== Configure Maven
+The application will be running at the following URL: http://localhost:8080/{artifactId}/.
 
-If you have not yet done so, you must link:../README.md#mavenconfiguration[Configure Maven] before testing the quickstarts.
+You are presented with a simple page that shows the current project stage: _Staging_. You will also see the _List of available CDI instances for MyBean_ table with two available implementations.
 
-== Start WildFly 10
-
-. Open a command line and navigate to the root of the JBoss server directory.
-. 
-
-The following shows the command line to start the server with the web profile:
-
-[source]
-----
-For Linux:   JBOSS_HOME/bin/standalone.sh
-For Windows: JBOSS_HOME\bin\standalone.bat
-----
-
-== Build and Deploy the Quickstart
-
-_NOTE: The following build command assumes you have configured your Maven user settings. If you have not, you must include Maven setting arguments on the command line. See link:../README.md#buildanddeploy[Build and Deploy the Quickstarts] for complete instructions and additional options._
-
-. Make sure you have started the JBoss Server as described above.
-. Open a command line and navigate to the root directory of this quickstart.
-. 
-
-Type this command to build and deploy the archive:
+Edit the file `src/main/resources/META-INF/apache-deltaspike.properties` and change the `org.apache.deltaspike.ProjectStage` property to `Development`. Deploy the application again
 
 [source]
 ----
 mvn clean package wildfly:deploy
 ----
 
-. This will deploy `target/wildfly-as-deltaspike-projectstage.war` to the running instance of the server.
-
-== Access the application
-
-Access the running application in a browser at the following URL: http://localhost:8080/wildfly-deltaspike-projectstage[http://localhost:8080/wildfly-deltaspike-projectstage]
-
-You be presented with a simple page that shows the current project stage: _Staging_. You will se also the _List of available CDI instances for MyBean_ table with two available implementations.
-
-Edit the file `src/main/resources/META-INF/apache-deltaspike.properties` and change the `org.apache.deltaspike.ProjectStage` property to `Development`. Deploy the application again
-
-[source]
-----
-    mvn clean package wildfly:deploy
-----
-
 Access the application again at the same URL: http://localhost:8080/wildfly-deltaspike-projectstage[http://localhost:8080/wildfly-deltaspike-projectstage]
 
-Look at _List of available CDI instances for MyBean_ table and realize that the available implementations has changed.
+Review the _List of available CDI instances for MyBean_ table to verify that the available implementations have changed.
 
-== Undeploy the Archive
-
-. Make sure you have started the JBoss Server as described above.
-. Open a command line and navigate to the root directory of this quickstart.
-. 
-
-When you are finished testing, type this command to undeploy the archive:
-
-[source]
-----
-mvn wildfly:undeploy
-----
-
-== Run the Quickstart in JBoss Developer Studio or Eclipse
-
-You can also start the server and deploy the quickstarts from Eclipse using JBoss tools. For more information, see link:../README.md#useeclipse[Use JBoss Developer Studio or Eclipse to Run the Quickstarts] 
+// Undeploy the Quickstart
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
+// Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
 
 == Debug the Application
 

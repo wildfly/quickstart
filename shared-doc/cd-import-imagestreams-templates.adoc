@@ -1,0 +1,42 @@
+
+[[import_imagestreams_templates]]
+= Import the Latest {xpaasproduct-shortname} Image Streams and Templates
+
+Use the following command to import the latest {xpaasproduct-shortname} image streams and templates into your OpenShift project's namespace.
+
+[options="nowrap",subs="+attributes"]
+----
+for resource in \
+  {ImagePrefixVersion}-image-stream.json \
+  {ImagePrefixVersion}-amq-persistent-s2i.json \
+  {ImagePrefixVersion}-amq-s2i.json \
+  {ImagePrefixVersion}-basic-s2i.json \
+  {ImagePrefixVersion}-https-s2i.json \
+  {ImagePrefixVersion}-mongodb-persistent-s2i.json \
+  {ImagePrefixVersion}-mongodb-s2i.json \
+  {ImagePrefixVersion}-mysql-persistent-s2i.json \
+  {ImagePrefixVersion}-mysql-s2i.json \
+  {ImagePrefixVersion}-postgresql-persistent-s2i.json \
+  {ImagePrefixVersion}-postgresql-s2i.json \
+ifndef::eap-openshift-online[  {ImagePrefixVersion}-third-party-db-s2i.json \]
+ifndef::eap-openshift-online[  {ImagePrefixVersion}-tx-recovery-s2i.json \]
+  {ImagePrefixVersion}-sso-s2i.json
+do
+  oc replace --force -f \
+{ImageandTemplateImportURL}${resource}
+done
+----
+
+[NOTE]
+====
+The {ProductShortName} image streams and templates imported using the above command are only available within that OpenShift project.
+
+If you have administrative access to the general `openshift` namespace and want the image streams and templates to be accessible by all projects, add `-n openshift` to the `oc replace` line of the command. For example:
+
+[options="nowrap"]
+----
+...
+oc replace -n openshift --force -f \
+...
+----
+====

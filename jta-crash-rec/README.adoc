@@ -1,21 +1,17 @@
-= jta-crash-rec: Example of JTA Crash Recovery
-:author: Mike Musgrove
-:productName: WildFly
-:productNameFull: WildFly Application Server
-:jbossHomeName: WILDFLY_HOME
-:productVersion: 12
-:buildRequirements: Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later
 include::../shared-doc/attributes.adoc[]
 
+= jta-crash-rec: Example of JTA Crash Recovery
+:author: Mike Musgrove
 :level: Advanced
 :technologies: JTA, Crash Recovery
-:source: {githubRepoUrl}
 
 [abstract]
 The `jta-crash-rec` quickstart uses JTA and Byteman to show how to code distributed (XA) transactions in order to preserve ACID properties on server crash.
 
 :standalone-server-type: full
 :archiveType: war
+:uses-h2:
+:uses-ds-xml:
 
 == What is it?
 
@@ -34,24 +30,11 @@ In this example, you halt the {productName} server in the middle of an XA transa
 
 {productName} ships with H2, an in-memory database written in Java. In this example, we use H2 for the database. Although H2 XA support is not recommended for production systems, the example does illustrate the general steps you need to perform for any datasource vendor. This example provides its own H2 XA datasource configuration. It is defined in the `jta-crash-rec-ds.xml` file in the WEB-INF folder of the WAR archive.
 
-//*************************************************
-// Add notes about use in a production environment.
-//*************************************************
-// == Considerations for Use in a Production Environment
-:uses-h2:
-:uses-ds-xml:
+// Considerations for Use in a Production Environment
 include::../shared-doc/development-shortcuts.adoc[leveloffset=+1]
-
-//*************************************************
-// Add System Requirements
-//*************************************************
-// == System Requirements
+// System Requirements
 include::../shared-doc/system-requirements.adoc[leveloffset=+1]
-
-//*************************************************
-// Add Use of JBoss Home Name
-//*************************************************
-// == Use of {jbossHomeName}
+// Use of {jbossHomeName}
 include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
 
 == Download and Configure Byteman
@@ -64,16 +47,9 @@ Follow the instructions here to download and configure _Byteman_: link:{configur
 
 _NOTE_: The _Byteman_ scripts only work in JTA mode. They do not work in JTS mode. If you have configured the server for a quickstart that uses JTS, you must follow the quickstart instructions to remove the JTS configuration from the {productName} server before making the following changes. Otherwise _Byteman_ will not halt the server.
 
-//*************************************************
-// Start the server with the full profile
-//*************************************************
-// == Start the {productName} Standalone Server
+// Start the {productName} Standalone Server
 include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
-
-//*************************************************
-// Build and deploy the quickstart WAR
-//*************************************************
-// == Build and Deploy the Quickstart
+// Build and Deploy the Quickstart
 include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
 
 == Access the Application
@@ -201,25 +177,13 @@ WFLYJCA0091: -ds.xml file deployments are deprecated. Support may be removed in 
 HHH000431: Unable to determine H2 database version, certain features may not work
 ----
 
-
-//*************************************************
-// Undeploy the quickstart archive
-//*************************************************
-// == Undeploy the Quickstart
+// Undeploy the Quickstart
 include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
-
-
-//*************************************************
-// Add JBoss Developer Studio instructions
-//*************************************************
-// == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+// Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
 
 
 NOTE: Within JBoss Developer Studio, make sure you define a server runtime environment that uses the `standalone-full.xml` configuration file.
 
-//*************************************************
-// Add info to debug the application
-//*************************************************
-// == Debug the Application
+// Debug the Application
 include::../shared-doc/debug-the-application.adoc[leveloffset=+1]

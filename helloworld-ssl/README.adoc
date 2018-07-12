@@ -1,15 +1,9 @@
-= helloworld-ssl: {productName} Server Side SSL Configuration Example
-:author: Giriraj Sharma, Stefan Guilhen
-:productName: WildFly
-:productNameFull: WildFly Application Server
-:jbossHomeName: WILDFLY_HOME
-:productVersion: 12
-:buildRequirements: Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later
 include::../shared-doc/attributes.adoc[]
 
+= helloworld-ssl: {productName} Server Side SSL Configuration Example
+:author: Giriraj Sharma, Stefan Guilhen
 :level: Beginner
 :technologies: SSL, Undertow
-:source: {githubRepoUrl}
 
 [abstract]
 The `helloworld-ssl` quickstart is a basic example that demonstrates server side SSL configuration in {productName}.
@@ -17,6 +11,7 @@ The `helloworld-ssl` quickstart is a basic example that demonstrates server side
 :standalone-server-type: default
 :archiveType: war
 :includes-cli-scripts:
+:restoreScriptName: restore-configuration.cli
 
 == What is it?
 
@@ -26,16 +21,9 @@ This quickstart shows how to configure {productName} to enable TLS/SSL configura
 
 Before you run this example, you must create certificates and configure the server to use SSL.
 
-//*************************************************
-// Add System Requirements
-//*************************************************
-// == System Requirements
+// System Requirements
 include::../shared-doc/system-requirements.adoc[leveloffset=+1]
-
-//*************************************************
-// Add Use of JBoss Home Name
-//*************************************************
-// == Use of {jbossHomeName}
+// Use of {jbossHomeName}
 include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
 
 [[generate_a_keystore_and_self_signed_certificate]]
@@ -73,18 +61,10 @@ Is CN=localhost, OU=wildfly, O=jboss, L=Raleigh, ST=Carolina, C=US correct?
 +
 Make sure you enter your desired "hostname" for the `first and last name` field, otherwise you might run into issues while permanently accepting this certificate as an exception in some browsers. Chrome does not currently exhibit this issue.
 
-//*************************************************
-// Back up the server configuration files
-//*************************************************
-// == Back Up the {productName} Standalone Server Configuration
+// Back Up the {productName} Standalone Server Configuration
 include::../shared-doc/back-up-server-standalone-configuration.adoc[leveloffset=+1]
-
-//*************************************************
-// Start the server with the default profile
-//*************************************************
-// == Start the {productName} Standalone Server
+// Start the {productName} Standalone Server
 include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
-
 
 [[configure_the_server]]
 == Configure the Server
@@ -113,7 +93,6 @@ You should see the following result when you run the script:
 The batch executed successfully
 process-state: reload-required
 ----
-
 
 [[test_the_server_ssl_configuration]]
 == Test the Server SSL Configuration
@@ -168,10 +147,7 @@ To test the connection to the SSL port of your your server instance by opening a
 <https-listener name="https" socket-binding="https" ssl-context="qsSSLContext" enable-http2="true"/>
 ----
 
-//*************************************************
-// Build and deploy the quickstart WAR
-//*************************************************
-// == Build and Deploy the Quickstart
+// Build and Deploy the Quickstart
 include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
 
 [[access_the_application]]
@@ -179,18 +155,9 @@ include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
 
 The application will be running at the following URL: https://localhost:8443/{artifactId}/.
 
-//*************************************************
-// Undeploy the quickstart archive
-//*************************************************
-// == Undeploy the Quickstart
+// Undeploy the Quickstart
 include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
-
-
-//************************************************************
 // Restore the {productName} Standalone Server Configuration
-//************************************************************
-// == Restore the {productName} Standalone Server Configuration
-:restoreScriptName: restore-configuration.cli
 include::../shared-doc/restore-standalone-server-configuration.adoc[leveloffset=+1]
 
 // Additional information about this script
@@ -202,10 +169,7 @@ The batch executed successfully
 process-state: reload-required
 ----
 
-//******************************************************
-// Restore the standalone server configuration manually
-//******************************************************
-// == Restore the {productName} Standalone Server Configuration Manually
+// Restore the {productName} Standalone Server Configuration Manually
 include::../shared-doc/restore-standalone-server-configuration-manual.adoc[leveloffset=+2]
 
 == Remove the keystore created for this quickstart
@@ -219,18 +183,12 @@ $ cd __{jbossHomeName}__/standalone/configuration/
 
 . Remove the keystore generated for this quickstart.
 
-//*************************************************
-// Add JBoss Developer Studio instructions
-//*************************************************
-// == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+// Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
 
 // Additional JBoss Developer Studio instructions
 * Make sure you configure the server by running the JBoss CLI commands as described above under xref:configure_the_server[Configure the Server]. Stop the server at the end of that step.
 * Make sure you xref:restore-the-server-configuration[restore the server configuration] when you have completed testing this quickstart.
 
-//*************************************************
-// Add info to debug the application
-//*************************************************
-// == Debug the Application
+// Debug the Application
 include::../shared-doc/debug-the-application.adoc[leveloffset=+1]

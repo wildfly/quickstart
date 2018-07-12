@@ -1,0 +1,37 @@
+[[post_deployment]]
+= OpenShift Post Deployment Tasks
+
+Depending on your application, some tasks might need to be performed after your OpenShift application has been built and deployed. This might include exposing a service so that the application is viewable from outside of OpenShift, or scaling your application to a specific number of replicas.
+
+. Get the service name of the quickstart application using the following command.
++
+[options="nowrap",subs="+quotes"]
+----
+$ oc get service
+----
+. Expose the main service as a route so you can access the application from outside of OpenShift. For example, for the `{artifactId}` quickstart, use the following command to expose the required service and port.
++
+[options="nowrap",subs="+quotes"]
+----
+$ oc expose service/__eap-app__ --port=__8080__
+----
++
+[NOTE]
+====
+If you used a template to create the application, the route might already exist. If it does, continue on to the next step.
+====
+. Get the URL of the route.
++
+[options="nowrap"]
+----
+$ oc get route
+----
+. Access the application in your web browser using the URL. The URL is the value of the `HOST/PORT` field from previous command's output.
++
+If your application does not use the {ProductShortName} root context, append the context of the application to the URL. For example, for the `kitchensink` quickstart, the URL might be `http://__HOST_PORT_VALUE__/{artifactId}/`.
+. Optionally, you can also scale up the application instance by running the following command. This increases the number of replicas to `3`.
++
+[options="nowrap",subs="+quotes"]
+----
+$ oc scale deploymentconfig eap-app --replicas=3
+----

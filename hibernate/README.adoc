@@ -1,46 +1,39 @@
-= hibernate: How to Use Hibernate 5 in an Application
-:author: Madhumita Sadhukhan
-:productName: WildFly
-:productNameFull: WildFly Application Server
-:jbossHomeName: WILDFLY_HOME
-:productVersion: 12
-:buildRequirements: Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later
 include::../shared-doc/attributes.adoc[]
 
+= hibernate: How to Use Hibernate 5 in an Application
+:author: Madhumita Sadhukhan
 :level: Intermediate
 :technologies: Hibernate
-:source: {githubRepoUrl}
 
 [abstract]
 The `hibernate` quickstart demonstrates how to use Hibernate ORM 5 API over JPA, using Hibernate-Core and Hibernate Bean Validation, and EJB.
 
 :standalone-server-type: default
 :archiveType: war
+:uses-h2:
+:uses-ds-xml:
+
+//*************************************************
+// Shared CD and Product Release content
+//*************************************************
 
 == What is it?
 
 The `hibernate` quickstart is based upon the link:../kitchensink/README{outfilesuffix}[kitchensink] example, but demonstrates how to use Hibernate Object/Relational Mapping (ORM) 5 over JPA in {productNameFull}.
 
-This project is setup to allow you to create a compliant Java EE 7 application using JSF, CDI, EJB, JPA , Hibernate-Core and Hibernate Bean Validation. It includes a persistence unit associated with Hibernate session and some sample persistence and transaction code to help you with database access in enterprise Java.
+This project is setup to allow you to create a compliant {javaVersion} application using JSF, CDI, EJB, JPA , Hibernate-Core and Hibernate Bean Validation. It includes a persistence unit associated with Hibernate session and some sample persistence and transaction code to help you with database access in enterprise Java.
 
 //*************************************************
-// Add notes about use in a production environment.
+// Product Release content only
 //*************************************************
-// == Considerations for Use in a Production Environment
-:uses-h2:
-:uses-ds-xml:
+
+ifndef::EAPCDRelease[]
+
+// Considerations for Use in a Production Environment
 include::../shared-doc/development-shortcuts.adoc[leveloffset=+1]
-
-//*************************************************
-// Add System Requirements
-//*************************************************
-// == System Requirements
+// System Requirements
 include::../shared-doc/system-requirements.adoc[leveloffset=+1]
-
-//*************************************************
-// Add Use of JBoss Home Name
-//*************************************************
-// == Use of {jbossHomeName}
+// Use of {jbossHomeName}
 include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
 
 == Add the Correct Dependencies
@@ -69,16 +62,9 @@ For example:
 </dependency>
 ----
 
-//*************************************************
-// Start the server with the default profile
-//*************************************************
-// == Start the {productName} Standalone Server
+// Start the {productName} Standalone Server
 include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
-
-//*************************************************
-// Build and deploy the quickstart WAR
-//*************************************************
-// == Build and Deploy the Quickstart
+// Build and Deploy the Quickstart
 include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
 
 == Access the Application
@@ -95,31 +81,11 @@ WFLYJCA0091: -ds.xml file deployments are deprecated. Support may be removed in 
 HHH000431: Unable to determine H2 database version, certain features may not work
 ----
 
-//*************************************************
-// Undeploy the quickstart archive
-//*************************************************
-// == Undeploy the Quickstart
+// Undeploy the Quickstart
 include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
-
-
-//*************************************************
-// Add JBoss Developer Studio instructions
-//*************************************************
-// == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+// Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
-
-// Additional JBoss Developer Studio instructions
-
-//*************************************************
-// Deploy the quickstart to OpenShift
-//*************************************************
-// == Deploy the Quickstart to OpenShift Online
-include::../shared-doc/deploy-to-openshift-online.adoc[leveloffset=+1]
-
-//*************************************************
-// Add info to debug the application
-//*************************************************
-// == Debug the Application
+// Debug the Application
 include::../shared-doc/debug-the-application.adoc[leveloffset=+1]
 
 // Additional debug info
@@ -133,3 +99,24 @@ You might see the following message when you run the command. It indicates the s
 [INFO]    antlr:antlr:jar:sources:2.7.7:provided
 ----
 ====
+
+endif::[]
+
+//*************************************************
+// CD Release content only
+//*************************************************
+
+ifdef::EAPCDRelease[]
+
+// Getting Started with OpenShift
+include::../shared-doc/cd-openshift-getting-started.adoc[leveloffset=+1]
+//Prepare OpenShift for Quickstart Deployment
+include::../shared-doc/cd-create-project.adoc[leveloffset=+1]
+// Import the Latest {xpaasproduct-shortname} Image Streams and Templates
+include::../shared-doc/cd-import-imagestreams-templates.adoc[leveloffset=+1]
+// Deploy the {ProductShortName} Source-to-Image (S2I) Quickstart to OpenShift
+include::../shared-doc/cd-deploy-project.adoc[leveloffset=+1]
+// OpenShift Post Deployment Tasks: This is not currently needed.
+// include::../shared-doc/cd-post-deployment-tasks.adoc[leveloffset=+1]
+
+endif::[]

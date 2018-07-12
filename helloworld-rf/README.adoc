@@ -1,22 +1,16 @@
-= helloworld-rf: Helloworld with a JSF (JavaServer Faces) Front End
-:author: Brian Leathem
-:productName: WildFly
-:productNameFull: WildFly Application Server
-:jbossHomeName: WILDFLY_HOME
-:productVersion: 12
-:buildRequirements: Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later
 include::../shared-doc/attributes.adoc[]
 
+= helloworld-rf: Helloworld with a JSF (JavaServer Faces) Front End
+:author: Brian Leathem
 :level: Beginner
 :technologies: CDI, JSF, RichFaces
-:source: https://github.com/richfaces/as-quickstarts
 
 [abstract]
-Similar to the helloworld quickstart, but with a JSF front end
+Similar to the helloworld quickstart, but with a JSF front end.
 
 == What is it?
 
-This project demonstrates how to create a Java EE 7 compliant application using JSF 2.2, CDI 1.2, and RichFaces 4.5.
+This project demonstrates how to create a {javaVersion} compliant application using JSF 2.2, CDI 1.2, and RichFaces 4.5.
 
 In this example, a standard JSF `h:inputText` component is AJAX enabled using the RichFaces `a4j:ajax tag`. This triggers the application server to re-render only a subsection of the page on a browser event.
 
@@ -33,7 +27,7 @@ If you have not yet done so, you must link:../README.md#mavenconfiguration[Confi
 == Start JBoss WildFly with the Web Profile
 
 . Open a command line and navigate to the root of the JBoss server directory.
-. 
+.
 
 The following shows the command line to start the server with the web profile:
 
@@ -49,7 +43,7 @@ _NOTE: The following build command assumes you have configured your Maven user s
 
 . Make sure you have started the JBoss Server as described above.
 . Open a command line and navigate to the root directory of this quickstart.
-. 
+.
 
 Type this command to build and deploy the archive:
 
@@ -58,7 +52,7 @@ Type this command to build and deploy the archive:
 mvn clean package wildfly:deploy
 ----
 
-. 
+.
 
 This will deploy `target/wildfly-helloworld-rf.war` to the running instance of the server.
 
@@ -82,7 +76,7 @@ mvn wildfly:undeploy
 
 == Run the Quickstart in JBoss Developer Studio or Eclipse
 
-You can also start the server and deploy the quickstarts from Eclipse using JBoss tools. For more information, see link:../README.md#useeclipse[Use JBoss Developer Studio or Eclipse to Run the Quickstarts] 
+You can also start the server and deploy the quickstarts from Eclipse using JBoss tools. For more information, see link:../README.md#useeclipse[Use JBoss Developer Studio or Eclipse to Run the Quickstarts]
 
 == Debug the Application
 

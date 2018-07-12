@@ -1,15 +1,9 @@
-= helloworld-jms: Helloworld JMS Example
-:author: Weston Price
-:productName: WildFly
-:productNameFull: WildFly Application Server
-:jbossHomeName: WILDFLY_HOME
-:productVersion: 12
-:buildRequirements: Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later
 include::../shared-doc/attributes.adoc[]
 
+= helloworld-jms: Helloworld JMS Example
+:author: Weston Price
 :level: Intermediate
 :technologies: JMS
-:source: {githubRepoUrl}
 
 [abstract]
 The `helloworld-jms` quickstart demonstrates the use of external JMS clients with {productName}.
@@ -17,6 +11,8 @@ The `helloworld-jms` quickstart demonstrates the use of external JMS clients wit
 :standalone-server-type: full
 :archiveType: jar
 :includes-cli-scripts:
+:restoreScriptName: remove-jms.cli
+:app-user-groups: guest
 
 == What is it?
 
@@ -28,35 +24,15 @@ It contains the following:
 
 . A message consumer that receives message from a JMS destination deployed to a {productName} server.
 
-//*************************************************
-// Add System Requirements
-//*************************************************
-// == System Requirements
+// System Requirements
 include::../shared-doc/system-requirements.adoc[leveloffset=+1]
-
-//*************************************************
-// Add Use of JBoss Home Name
-//*************************************************
-// == Use of {jbossHomeName}
+// Use of {jbossHomeName}
 include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
-
-//*************************************************
 // Add the Authorized Application User
-//*************************************************
-// == Add the Authorized Application User
-:app-user-groups: guest
 include::../shared-doc/add-application-user.adoc[leveloffset=+1]
-
-//*************************************************
-// Back up the server configuration files
-//*************************************************
-// == Back Up the {productName} Standalone Server Configuration
+// Back Up the {productName} Standalone Server Configuration
 include::../shared-doc/back-up-server-standalone-configuration.adoc[leveloffset=+1]
-
-//*************************************************
-// Start the server with the full profile
-//*************************************************
-// == Start the {productName} Standalone Server
+// Start the {productName} Standalone Server
 include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
 
 [[configure_the_server]]
@@ -189,11 +165,7 @@ The example provides for a certain amount of customization for the `mvn:exec` pl
 | This property allows configuration of the JNDI directory used to look up the JMS destination. This is useful when the client resides on another host.
 |===
 
-//************************************************************
 // Restore the {productName} Standalone Server Configuration
-//************************************************************
-// == Restore the {productName} Standalone Server Configuration
-:restoreScriptName: remove-jms.cli
 include::../shared-doc/restore-standalone-server-configuration.adoc[leveloffset=+1]
 
 // Additional information about this script
@@ -204,16 +176,9 @@ This script removes the `test` queue from the `messaging` subsystem in the serve
 The batch executed successfully
 ----
 
-//******************************************************
-// Restore the standalone server configuration manually
-//******************************************************
-// == Restore the {productName} Standalone Server Configuration Manually
+// Restore the {productName} Standalone Server Configuration Manually
 include::../shared-doc/restore-standalone-server-configuration-manual.adoc[leveloffset=+2]
-
-//*************************************************
-// Add JBoss Developer Studio instructions
-//*************************************************
-// == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+// Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
 
 // Additional JBoss Developer Studio instructions
@@ -228,8 +193,5 @@ This quickstart consists of multiple projects, so it deploys and runs differentl
 The output messages appear in the *Console* window.
 . Make sure you xref:restore_the_server_configuration[restore the {productName} server configuration] when you have completed testing this quickstart.
 
-//*************************************************
-// Add info to debug the application
-//*************************************************
-// == Debug the Application
+// Debug the Application
 include::../shared-doc/debug-the-application.adoc[leveloffset=+1]

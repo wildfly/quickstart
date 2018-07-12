@@ -1,15 +1,9 @@
-= messaging-clustering-singleton: Messaging Example that Demonstrates Clustering
-:author: Flavia Rainone, Jess Sightler
-:productName: WildFly
-:productNameFull: WildFly Application Server
-:jbossHomeName: WILDFLY_HOME
-:productVersion: 12
-:buildRequirements: Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later
 include::../shared-doc/attributes.adoc[]
 
+= messaging-clustering-singleton: Messaging Example that Demonstrates Clustering
+:author: Flavia Rainone, Jess Sightler
 :level: Advanced
 :technologies: JMS, MDB, Clustering
-:source: {githubRepoUrl}
 
 [abstract]
 The `messaging-clustering-singleton` quickstart uses a JMS topic and a queue to demonstrate clustering using {productName} messaging with MDB singleton configuration where only one node in the cluster will be active.
@@ -55,16 +49,9 @@ Here, you can see that only one of the MDBs, `HelloWorldTopicMDB`, is associated
 
 If a delivery group is used in conjunction with singleton, as is the case of this quickstart, the MDB will be active in the singleton provider node only if that node has `delivery-group` enabled. If not, the MDB will be inactive in that node and all remainder nodes of the cluster.
 
-//*************************************************
-// Add System Requirements
-//*************************************************
-// == System Requirements
+// System Requirements
 include::../shared-doc/system-requirements.adoc[leveloffset=+1]
-
-//*************************************************
-// Add Use of JBoss Home Name
-//*************************************************
-// == Use of {jbossHomeName}
+// Use of {jbossHomeName}
 include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
 
 == Build the Project
@@ -88,16 +75,9 @@ You can choose to configure and deploy this quickstart to a xref:configure_the_s
 
 You configure the server by running the `install-domain.cli` script provided in the root directory of this quickstart.
 
-//*************************************************
-// Back up the server configuration files
-//*************************************************
-// == Back Up the {productName} Managed Domain Configuration
+// Back Up the {productName} Managed Domain Configuration
 include::../shared-doc/back-up-managed-domain-configuration.adoc[leveloffset=+3]
-
-//*************************************************
-// Start the managed domain
-//*************************************************
-// ==== Start the {productName} Managed Domain
+// Start the {productName} Managed Domain
 include::../shared-doc/start-the-managed-domain.adoc[leveloffset=+3]
 
 ==== Configure the Domain Server and Deploy the Quickstart Using the JBoss CLI
@@ -149,16 +129,9 @@ If you choose to use standalone servers rather than a managed domain, you need t
 
 Since both application servers must be configured in the same way, you must configure the first server and then clone it.
 
-//*************************************************
-// Back up the server configuration files
-//*************************************************
-// == Back Up the {productName} Standalone Server Configuration
+// Back Up the {productName} Standalone Server Configuration
 include::../shared-doc/back-up-server-standalone-configuration.adoc[leveloffset=+3]
-
-//*************************************************
-// Start the server with the full HA profile
-//*************************************************
-// == Start the {productName} Standalone Server
+// Start the {productName} Standalone Server
 include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+3]
 
 ==== Configure the Standalone Server and Deploy the Quickstart Using the JBoss CLI
@@ -499,8 +472,5 @@ The batch executed successfully
 . If it is running, stop the second instance of the {productName} server.
 . Delete the cloned directory.
 
-//*************************************************
-// Add JBoss Developer Studio instructions
-//*************************************************
-// == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+// Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]

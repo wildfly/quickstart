@@ -1,15 +1,9 @@
-= jts-distributed-crash-rec: JTS and distributed crash recovery
-:author: Tom Jenkinson
-:productName: WildFly
-:productNameFull: WildFly Application Server
-:jbossHomeName: WILDFLY_HOME
-:productVersion: 12
-:buildRequirements: Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later
 include::../shared-doc/attributes.adoc[]
 
+= jts-distributed-crash-rec: JTS and distributed crash recovery
+:author: Tom Jenkinson
 :level: Advanced
 :technologies: JTS, Crash Recovery
-:source: {githubRepoUrl}
 :prerequisites: link:jts/README{outfilesuffix}[jts]
 
 [abstract]
@@ -39,17 +33,9 @@ As an overview, the sequence of events to expect:
 . The user is invited to inspect the content of the transaction objectstore.
 . {productName} server 1 should be restarted. It will then recover the "invoices" delivered to the MDBs, just as it does in the `jts` quickstart.
 
-//*************************************************
-// Add System Requirements
-//*************************************************
-// == System Requirements
+// System Requirements
 include::../shared-doc/system-requirements.adoc[leveloffset=+1]
-
-//*************************************************
-// Add Use of JBoss Home Name
-//*************************************************
-// == Use of {jbossHomeName}_1 and {jbossHomeName}_2
-:requires-multiple-servers:
+// Use of {jbossHomeName}_1 and {jbossHomeName}_2
 include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
 
 == Download and Configure Byteman
@@ -290,5 +276,5 @@ __{jbossHomeName}_2__/standalone/data/tx-object-store
 //*************************************************
 // Add JBoss Developer Studio instructions
 //*************************************************
-// == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+// Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]

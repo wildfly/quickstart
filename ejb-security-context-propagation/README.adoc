@@ -1,15 +1,9 @@
-= ejb-security-context-propagation: Demonstrate security context propagation in EJB to remote EJB calls
-:author: Stefan Guilhen
-:productName: WildFly
-:productNameFull: WildFly Application Server
-:jbossHomeName: WILDFLY_HOME
-:productVersion: 12
-:buildRequirements: Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later
 include::../shared-doc/attributes.adoc[]
 
+= ejb-security-context-propagation: Demonstrate security context propagation in EJB to remote EJB calls
+:author: Stefan Guilhen
 :level: Advanced
 :technologies: EJB, Security
-:source: {githubRepoUrl}
 
 [abstract]
 The `ejb-security-context-propagation` quickstart demonstrates how the security context can be propagated to a remote EJB using a remote outbound connection configuration
@@ -17,6 +11,9 @@ The `ejb-security-context-propagation` quickstart demonstrates how the security 
 :standalone-server-type: default
 :archiveType: jar
 :includes-cli-scripts:
+:restoreScriptName: restore-configuration.cli
+:app-user-groups: guest,user
+:admin-user-groups: guest,user,admin
 
 == What is it?
 
@@ -63,16 +60,9 @@ Finally there is the `RemoteClient` stand-alone client. The client makes calls u
 In the real world, remote calls between servers in the servers-to-server scenario would truly be remote and separate.
 For the purpose of this quickstart, we make use of a loopback connection to the same server so we do not need two servers just to run the test.
 
-//*************************************************
-// Add System Requirements
-//*************************************************
-// == System Requirements
+// System Requirements
 include::../shared-doc/system-requirements.adoc[leveloffset=+1]
-
-//*************************************************
-// Add Use of JBoss Home Name
-//*************************************************
-// == Use of {jbossHomeName}
+// Use of {jbossHomeName}
 include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
 
 == Prerequisites
@@ -81,24 +71,11 @@ This quickstart uses the default standalone configuration plus the modifications
 
 It is recommended that you test this approach in a separate and clean environment before you attempt to port the changes in your own environment.
 
-//*****************************************************
 // Add the Authorized Application and Management Users
-//*****************************************************
-// ==  Add the Authorized Application and Management Users
-:app-user-groups: guest,user
-:admin-user-groups: guest,user,admin
 include::../shared-doc/add-application-and-management-users.adoc[leveloffset=+1]
-
-//*************************************************
-// Back up the server configuration files
-//*************************************************
-// == Back Up the {productName} Standalone Server Configuration
+// Back Up the {productName} Standalone Server Configuration
 include::../shared-doc/back-up-server-standalone-configuration.adoc[leveloffset=+1]
-
-//*************************************************
-// Start the server with the default profile
-//*************************************************
-// == Start the {productName} Standalone Server
+//  Start the {productName} Standalone Server
 include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
 
 [[configure_the_server]]
@@ -219,10 +196,7 @@ For the purpose of the quickstart we just need an outbound connection that loops
 <log-system-exceptions value="false"/>
 ----
 
-//*************************************************
-// Build and deploy the quickstart JAR
-//*************************************************
-// == Build and Deploy the Quickstart
+// Build and Deploy the Quickstart JAR
 include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
 
 == Run the Client
@@ -307,18 +281,9 @@ authorized.
     at java.lang.Thread.run(Thread.java:745)
 ----
 
-//*************************************************
-// Undeploy the quickstart archive
-//*************************************************
-// == Undeploy the Quickstart
+// Undeploy the Quickstart
 include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
-
-
-//************************************************************
 // Restore the {productName} Standalone Server Configuration
-//************************************************************
-// == Restore the {productName} Standalone Server Configuration
-:restoreScriptName: restore-configuration.cli
 include::../shared-doc/restore-standalone-server-configuration.adoc[leveloffset=+1]
 
 // Additional information about this script
@@ -340,16 +305,9 @@ The batch executed successfully
 ----
 ====
 
-//******************************************************
-// Restore the standalone server configuration manually
-//******************************************************
-// == Restore the {productName} Standalone Server Configuration Manually
+// Restore the {productName} Standalone Server Configuration Manually
 include::../shared-doc/restore-standalone-server-configuration-manual.adoc[leveloffset=+2]
-
-//*************************************************
-// Add JBoss Developer Studio instructions
-//*************************************************
-// == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+// Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
 
 // Additional JBoss Developer Studio instructions
@@ -364,8 +322,5 @@ This quickstart requires additional configuration and deploys and runs different
 . To undeploy the project, right-click on the *{artifactId}* project and choose *Run As* -> *Maven build*. Enter `wildfly:undeploy` for the *Goals* and click *Run*.
 . Make sure you xref:restore_the_server_configuration[restore the server configuration] when you have completed testing this quickstart.
 
-//*************************************************
-// Add info to debug the application
-//*************************************************
-// == Debug the Application
+// Debug the Application
 include::../shared-doc/debug-the-application.adoc[leveloffset=+1]

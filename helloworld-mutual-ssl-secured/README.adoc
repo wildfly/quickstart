@@ -1,15 +1,9 @@
-= helloworld-mutual-ssl-secured: Securing a Web Application with Mutual (two-way) SSL Configuration and Role-based Access Control
-:author: Giriraj Sharma, Stefan Guilhen
-:productName: WildFly
-:productNameFull: WildFly Application Server
-:jbossHomeName: WILDFLY_HOME
-:productVersion: 12
-:buildRequirements: Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later
 include::../shared-doc/attributes.adoc[]
 
+= helloworld-mutual-ssl-secured: Securing a Web Application with Mutual (two-way) SSL Configuration and Role-based Access Control
+:author: Giriraj Sharma, Stefan Guilhen
 :level: Intermediate
 :technologies: Mutual SSL, Security, Undertow
-:source: {githubRepoUrl}
 
 [abstract]
 The `helloworld-mutual-ssl-secured` quickstart demonstrates securing a Web application using client mutual SSL authentication and role-based access control
@@ -17,6 +11,8 @@ The `helloworld-mutual-ssl-secured` quickstart demonstrates securing a Web appli
 :standalone-server-type: default
 :archiveType: war
 :includes-cli-scripts:
+:restoreScriptName: restore-configuration.cli
+:app-user-groups: JBossAdmin
 
 == What is it?
 
@@ -26,24 +22,11 @@ Mutual SSL provides the same security as SSL, with the addition of authenticatio
 
 This quickstart shows how to configure {productName} to enable TLS/SSL configuration for the new {productName} `undertow` subsystem and enable mutual (two-way) SSL authentication for clients in order to secure a WAR application with restricted access.
 
-//*************************************************
-// Add System Requirements
-//*************************************************
-// == System Requirements
+// System Requirements
 include::../shared-doc/system-requirements.adoc[leveloffset=+1]
-
-//*************************************************
-// Add Use of JBoss Home Name
-//*************************************************
-// == Use of {jbossHomeName}
+// Use of {jbossHomeName}
 include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
-
-//*************************************************
-// Add the Authorized Application User
-//*************************************************
-// == Add the Authorized Application User
-:app-user-groups: JBossAdmin
-
+//  Add the Authorized Application User
 include::../shared-doc/add-application-user.adoc[leveloffset=+1]
 
 IMPORTANT: For the purpose of this quickstart the password can contain any valid value because the `ApplicationRealm` will be used for authorization only, for example, to obtain the security roles.
@@ -148,16 +131,9 @@ $>keytool -importkeystore -srckeystore client.keystore -srcstorepass secret -des
 
 . The certificates and keystores are now properly configured.
 
-//*************************************************
-// Back up the server configuration files
-//*************************************************
-// == Back Up the {productName} Standalone Server Configuration
+// Back Up the {productName} Standalone Server Configuration
 include::../shared-doc/back-up-server-standalone-configuration.adoc[leveloffset=+1]
-
-//*************************************************
-// Start the server with the default profile
-//*************************************************
-// == Start the {productName} Standalone Server
+// Start the {productName} Standalone Server
 include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
 
 [[configure_the_server]]
@@ -327,10 +303,7 @@ Before you access the application, you must import the _clientCert.p12_, which h
 . Select the *clientCert.p12* file. You will be prompted to enter the password: `secret`.
 . The certificate is now installed in the Mozilla Firefox browser.
 
-//*************************************************
-// Build and deploy the quickstart WAR
-//*************************************************
-// == Build and Deploy the Quickstart
+// Build and Deploy the Quickstart
 include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
 
 // Additional deployment information
@@ -361,18 +334,11 @@ dzXZz0EjjWCPJk+LVEhEvH0GcWAp3x3irpNU4hRZLd0XomY0Z4NnUt7VMBNYDOxVxgT9qcLnEaEpIfYU
 ynfnMaOxI67FC2QzhfzERyKqHj47WuwN0xWbS/1gBypS2nUwvItyxaEQG2X5uQY8j8QoY9wcMzIIkP2Mk14gJGHUnA8=
 ----
 
-//*************************************************
-// Undeploy the quickstart archive
-//*************************************************
-// == Undeploy the Quickstart
+// Undeploy the Quickstart
 include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
 
 
-//************************************************************
 // Restore the {productName} Standalone Server Configuration
-//************************************************************
-// == Restore the {productName} Standalone Server Configuration
-:restoreScriptName: restore-configuration.cli
 include::../shared-doc/restore-standalone-server-configuration.adoc[leveloffset=+1]
 
 // Additional information about this script
@@ -384,10 +350,7 @@ The batch executed successfully
 process-state: reload-required
 ----
 
-//******************************************************
-// Restore the standalone server configuration manually
-//******************************************************
-// == Restore the {productName} Standalone Server Configuration Manually
+// Restore the {productName} Standalone Server Configuration Manually
 include::../shared-doc/restore-standalone-server-configuration-manual.adoc[leveloffset=+2]
 
 == Remove the keystores and certificates created for this quickstart
@@ -426,10 +389,7 @@ After you are done with this quickstart, remember to remove the certificate that
 . Select the *quickstartUser* certificate and click the *Delete* button.
 . The certificate has now been removed from the Mozilla Firefox browser.
 
-//*************************************************
-// Add JBoss Developer Studio instructions
-//*************************************************
-// == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+// Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
 
 // Additional JBoss Developer Studio instructions
@@ -440,8 +400,5 @@ include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[levelof
 * To deploy the application, right-click on the *{artifactId}* project and choose *Run As* –> *Run on Server*.
 * Make sure you xref:restore_the_server_configuration[restore the {productName} server configuration] when you have completed testing this quickstart.
 
-//*************************************************
-// Add info to debug the application
-//*************************************************
-// == Debug the Application
+// Debug the Application
 include::../shared-doc/debug-the-application.adoc[leveloffset=+1]

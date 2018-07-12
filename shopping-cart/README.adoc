@@ -1,28 +1,22 @@
+include::../shared-doc/attributes.adoc[]
+
 = shopping-cart: EJB Stateful Session Bean (SFSB) Example
 :author: Serge Pagop
-:productName: WildFly
-:productNameFull: WildFly Application Server
-:jbossHomeName: WILDFLY_HOME
-:productVersion: 12
-:buildRequirements: Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later
-include::../shared-doc/attributes.adoc[]
-:standalone-server-type: default
-
 :level: Intermediate
 :technologies: SFSB EJB
-:source: {githubRepoUrl}
 
 [abstract]
-The `shopping-cart` quickstart demonstrates how to deploy and run a simple Java EE 7 shopping cart application that uses a stateful session bean (SFSB).
+The `shopping-cart` quickstart demonstrates how to deploy and run a simple {javaVersion} shopping cart application that uses a stateful session bean (SFSB).
 
 :standalone-server-type: default
 :archiveType: jar
 :archiveDir: {artifactId}/server/target
 :includes-cli-scripts:
+:restoreScriptName: restore-system-exception.cli
 
 == What is it?
 
-The `shopping-cart` quickstart demonstrates how to deploy and run a simple Java EE 7 application that uses a stateful session bean (SFSB) in {productNameFull}. The application allows customers to buy, checkout, and view their cart contents.
+The `shopping-cart` quickstart demonstrates how to deploy and run a simple {javaVersion} application that uses a stateful session bean (SFSB) in {productNameFull}. The application allows customers to buy, checkout, and view their cart contents.
 
 The `shopping-cart` application consists of the following:
 
@@ -34,28 +28,13 @@ This standalone Java EE module is a JAR containing EJBs. It is responsible for m
 +
 This simple Java client is launched using a `main` method. The remote client looks up a reference to the server module's API, via JNDI. It then uses this API to perform the operations the customer requests.
 
-//*************************************************
-// Add System Requirements
-//*************************************************
-// == System Requirements
+// System Requirements
 include::../shared-doc/system-requirements.adoc[leveloffset=+1]
-
-//*************************************************
-// Add Use of JBoss Home Name
-//*************************************************
-// == Use of {jbossHomeName}
+// Use of {jbossHomeName}
 include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
-
-//*************************************************
-// Back up the server configuration files
-//*************************************************
-// == Back Up the {productName} Standalone Server Configuration
+// Back Up the {productName} Standalone Server Configuration
 include::../shared-doc/back-up-server-standalone-configuration.adoc[leveloffset=+1]
-
-//*************************************************
-// Start the server with the default profile
-//*************************************************
-// == Start the {productName} Standalone Server
+// Start the {productName} Standalone Server
 include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
 
 [[configure_the_server]]
@@ -106,16 +85,10 @@ You should see the following configuration in the `ejb3` subsystem.
 <log-system-exceptions value="false"/>
 ----
 
-//*************************************************
-// Install the quickstart parent artifact
-//*************************************************
-// == Install the Quickstart Parent Artifact in Maven
+// Install the Quickstart Parent Artifact in Maven
 include::../shared-doc/install-quickstart-parent-artifact.adoc[leveloffset=+1]
 
-//*************************************************
-// Build and deploy the quickstart JAR
-//*************************************************
-// == Build and Deploy the Quickstart
+// Build and Deploy the Quickstart
 include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
 
 // Additional deployment information
@@ -187,18 +160,9 @@ Cart was correctly removed, as expected, after Checkout
 INFO  [stdout] (pool-9-thread-8) implementing checkout() left as exercise for the reader!
 ----
 
-//*************************************************
-// Undeploy the quickstart archive
-//*************************************************
-// == Undeploy the Quickstart
+// Undeploy the Quickstart
 include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
-
-
-//************************************************************
 // Restore the {productName} Standalone Server Configuration
-//************************************************************
-// == Restore the {productName} Standalone Server Configuration
-:restoreScriptName: restore-system-exception.cli
 include::../shared-doc/restore-standalone-server-configuration.adoc[leveloffset=+1]
 
 // Additional information about this script
@@ -209,17 +173,9 @@ This script restores the the `log-system-exceptions` attribute value to `true`. 
 The batch executed successfully
 ----
 
-//******************************************************
-// Restore the standalone server configuration manually
-//******************************************************
-// == Restore the {productName} Standalone Server Configuration Manually
+// Restore the {productName} Standalone Server Configuration Manually
 include::../shared-doc/restore-standalone-server-configuration-manual.adoc[leveloffset=+2]
-
-
-//*************************************************
-// Add JBoss Developer Studio instructions
-//*************************************************
-// == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+// Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
 
 // Additional JBoss Developer Studio instructions
@@ -231,8 +187,5 @@ This quickstart consists of multiple projects, so it deploys and runs differentl
 * To undeploy the project, right-click on the *{artifactId}-server* project and choose *Run As* –> *Maven build*. Enter `wildfly:undeploy` for the *Goals* and click *Run*.
 * Make sure you xref:restore_the_server_configuration[restore the {productName} standalone server configuration] when you have completed testing this quickstart.
 
-//*************************************************
-// Add info to debug the application
-//*************************************************
-// == Debug the Application
+// Debug the Application
 include::../shared-doc/debug-the-application.adoc[leveloffset=+1]

@@ -1,15 +1,9 @@
-= ejb-security-jaas: Using the legacy JAAS security domains to secure JEE applications
-:author: Stefan Guilhen
-:productName: WildFly
-:productNameFull: WildFly Application Server
-:jbossHomeName: WILDFLY_HOME
-:productVersion: 12
-:buildRequirements: Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later
 include::../shared-doc/attributes.adoc[]
 
+= ejb-security-jaas: Using the legacy JAAS security domains to secure JEE applications
+:author: Stefan Guilhen
 :level: Intermediate
 :technologies: EJB, Security
-:source: {githubRepoUrl}
 
 [abstract]
 The `ejb-security-jaas` quickstart demonstrates how legacy `JAAS` security domains can be used in conjunction with `Elytron`
@@ -17,6 +11,7 @@ The `ejb-security-jaas` quickstart demonstrates how legacy `JAAS` security domai
 :standalone-server-type: default
 :archiveType: war
 :includes-cli-scripts:
+:restoreScriptName: restore-configuration.cli
 
 == What is it?
 
@@ -31,16 +26,9 @@ The following steps required to use the `JAAS` integration.
 5. Setup a `sasl-authentication-factory` in the `elytron` subsystem to handle the requests made by remote clients.
 6. Add the `application-security-domain` mappings to both `ejb3` and `undertow` subsystems to enable `Elytron` security for the EJB3 and web components.
 
-//*************************************************
-// Add System Requirements
-//*************************************************
-// == System Requirements
+// System Requirements
 include::../shared-doc/system-requirements.adoc[leveloffset=+1]
-
-//*************************************************
-// Add Use of JBoss Home Name
-//*************************************************
-// == Use of {jbossHomeName}
+// Use of {jbossHomeName}
 include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
 
 [[create_the_properties_files_for_the_jaas_security_domain]]
@@ -69,16 +57,9 @@ quickstartUser=guest
 
 This concludes the configuration required by the legacy `JAAS` login module used in this quickstart.
 
-//*************************************************
-// Back up the server configuration files
-//*************************************************
-// == Back Up the {productName} Standalone Server Configuration
+// Back Up the {productName} Standalone Server Configuration
 include::../shared-doc/back-up-server-standalone-configuration.adoc[leveloffset=+1]
-
-//*************************************************
-// Start the server with the default profile
-//*************************************************
-// == Start the {productName} Standalone Server
+// Start the {productName} Standalone Server
 include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
 
 [[configure_the_server]]
@@ -222,10 +203,7 @@ Authentication performed by the quickstart remote client is handled by this SASL
 +
 This mapping basically enables `Elytron` security for EJB3 applications that specify the security domain `legacy-domain` in their metadata (either via jboss-ejb3.xml or annotations). The quickstart application uses the `@SecurityDomain` annotation in the bean class to specify this security domain.
 
-//*************************************************
-// Build and deploy the quickstart WAR
-//*************************************************
-// == Build and Deploy the Quickstart
+// Build and Deploy the Quickstart WAR
 include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
 
 [[access_the_application]]
@@ -342,18 +320,9 @@ ERROR [org.jboss.as.ejb3.invocation] (default task-1) WFLYEJB0034: EJB Invocatio
 
 After you enable the legacy security domain role mappers in the exported realm, the `quickstartUser` will have `admin` role access and you will no longer see the exception in the server log.
 
-//*************************************************
-// Undeploy the quickstart archive
-//*************************************************
-// == Undeploy the Quickstart
+// Undeploy the Quickstart
 include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
-
-
-//************************************************************
 // Restore the {productName} Standalone Server Configuration
-//************************************************************
-// == Restore the {productName} Standalone Server Configuration
-:restoreScriptName: restore-configuration.cli
 include::../shared-doc/restore-standalone-server-configuration.adoc[leveloffset=+1]
 
 // Additional information about this script
@@ -365,10 +334,7 @@ The batch executed successfully
 process-state: reload-required
 ----
 
-//******************************************************
-// Restore the standalone server configuration manually
-//******************************************************
-// == Restore the {productName} Standalone Server Configuration Manually
+//  Restore the {productName} Standalone Server Configuration Manually
 include::../shared-doc/restore-standalone-server-configuration-manual.adoc[leveloffset=+2]
 
 == Remove the Properties Files from the Server
@@ -376,10 +342,7 @@ include::../shared-doc/restore-standalone-server-configuration-manual.adoc[level
 After you are done with this quickstart, remember to remove the `users.properties` and `roles.properties` files from the
 server configuration directory (`__{jbossHomeName}__/standalone/configuration/`).
 
-//*************************************************
-// Add JBoss Developer Studio instructions
-//*************************************************
-// == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+// Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
 
 // Additional JBoss Developer Studio instructions
@@ -392,8 +355,5 @@ include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[levelof
 * To undeploy the project, right-click on the *{artifactId}* project and choose *Run As* -> *Maven build*. Enter `wildfly:undeploy` for the *Goals* and click *Run*.
 * Make sure you xref:restore_the_server_configuration[restore the server configuration] when you have completed testing this quickstart.
 
-//*************************************************
-// Add info to debug the application
-//*************************************************
-// == Debug the Application
+// Debug the Application
 include::../shared-doc/debug-the-application.adoc[leveloffset=+1]

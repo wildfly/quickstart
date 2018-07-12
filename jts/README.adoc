@@ -1,15 +1,9 @@
-= jts: Java Transaction Service - Distributed EJB Transactions
-:author: Tom Jenkinson
-:productName: WildFly
-:productNameFull: WildFly Application Server
-:jbossHomeName: WILDFLY_HOME
-:productVersion: 12
-:buildRequirements: Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later
 include::../shared-doc/attributes.adoc[]
 
+= jts: Java Transaction Service - Distributed EJB Transactions
+:author: Tom Jenkinson
 :level: Intermediate
 :technologies: JTS, EJB, JMS
-:source: {githubRepoUrl}
 :prerequisites: link:cmt/README{outfilesuffix}[cmt]
 
 [abstract]
@@ -19,6 +13,8 @@ The `jts` quickstart shows how to use JTS to perform distributed transactions ac
 :archiveType: war
 :requires-multiple-servers:
 :jbds-not-supported:
+:uses-ds-xml:
+:includes-cli-scripts:
 
 == What is it?
 
@@ -49,24 +45,11 @@ Also, while the `cmt` quickstart uses the Java EE container default datasource, 
 
 After you complete this quickstart, you are invited to run through the link:../jts-distributed-crash-rec/README.adoc[jts-distributed-crash-rec] quickstart. The crash recovery quickstart builds upon this quickstart by demonstrating the fault tolerance of {productNameFull}.
 
-//*************************************************
-// Add notes about use in a production environment.
-//*************************************************
-// == Considerations for Use in a Production Environment
-:uses-ds-xml:
+// Considerations for Use in a Production Environment
 include::../shared-doc/development-shortcuts.adoc[leveloffset=+1]
-
-//*************************************************
-// Add System Requirements
-//*************************************************
-// == System Requirements
-:includes-cli-scripts:
+// System Requirements
 include::../shared-doc/system-requirements.adoc[leveloffset=+1]
-
-//*************************************************
-// Add Use of JBoss Home Name
-//*************************************************
-// == Use of {jbossHomeName}
+// Use of {jbossHomeName}
 include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
 
 == Prerequisites
@@ -237,10 +220,7 @@ You will see the following warnings in the server log. You can ignore these warn
 WFLYJCA0091: -ds.xml file deployments are deprecated. Support may be removed in a future version.
 ----
 
-//*************************************************
-// Undeploy the quickstart archive
-//*************************************************
-// == Undeploy the Quickstart
+// Undeploy the Quickstart
 include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
 
 
@@ -326,8 +306,6 @@ NOTE: For Windows, use the `__{jbossHomeName}_1__\bin\jboss-cli.bat` script.
 }
 ----
 
-
-
 === Remove the JTS Server Configuration Manually
 
 . Stop the server.
@@ -356,8 +334,5 @@ NOTE: For Windows, use the `__{jbossHomeName}_1__\bin\jboss-cli.bat` script.
 </subsystem>
 ----
 
-//*************************************************
-// Add JBoss Developer Studio instructions
-//*************************************************
-// == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+// Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
