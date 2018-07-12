@@ -1,15 +1,9 @@
-= servlet-security:  Using Java EE Declarative Security to Control Servlet Access
-:author: Sherif F. Makary, Pedro Igor, Stefan Guilhen
-:productName: WildFly
-:productNameFull: WildFly Application Server
-:jbossHomeName: WILDFLY_HOME
-:productVersion: 12
-:buildRequirements: Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later
 include::../shared-doc/attributes.adoc[]
 
+= servlet-security:  Using Java EE Declarative Security to Control Servlet Access
+:author: Sherif F. Makary, Pedro Igor, Stefan Guilhen
 :level: Intermediate
 :technologies: Servlet, Security
-:source: {githubRepoUrl}
 
 [abstract]
 The `servlet-security` quickstart demonstrates the use of Java EE declarative security to control access to Servlets and Security in {productName}.
@@ -18,6 +12,7 @@ The `servlet-security` quickstart demonstrates the use of Java EE declarative se
 :archiveType: war
 :uses-h2:
 :includes-cli-scripts:
+:restoreScriptName: restore-configuration.cli
 
 == What is it?
 
@@ -54,34 +49,15 @@ Password: guestPwd1!
 Role: notauthorized
 ----
 
-//*************************************************
-// Add notes about use in a production environment.
-//*************************************************
-// == Considerations for Use in a Production Environment
+//  Considerations for Use in a Production Environment
 include::../shared-doc/development-shortcuts.adoc[leveloffset=+1]
-
-//*************************************************
-// Add System Requirements
-//*************************************************
-// == System Requirements
+// System Requirements
 include::../shared-doc/system-requirements.adoc[leveloffset=+1]
-
-//*************************************************
-// Add Use of JBoss Home Name
-//*************************************************
-// == Use of {jbossHomeName}
+// Use of {jbossHomeName}
 include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
-
-//*************************************************
-// Back up the server configuration files
-//*************************************************
-// == Back Up the {productName} Standalone Server Configuration
+// Back Up the {productName} Standalone Server Configuration
 include::../shared-doc/back-up-server-standalone-configuration.adoc[leveloffset=+1]
-
-//*************************************************
-// Start the server with the default profile
-//*************************************************
-// == Start the {productName} Standalone Server
+// Start the {productName} Standalone Server
 include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
 
 
@@ -195,12 +171,8 @@ It basically defines an HTTP authentication factory for the BASIC mechanism that
 
 This configuration tells `Undertow` that applications with the `servlet-security-quickstart` security domain, as defined in the `jboss-web.xml` or by using the `@SecurityDomain` annotation in the Servlet class, should use the `http-authentication-factory` named `servlet-security-quickstart-http-auth`. If no `application-security-domain` is defined for a particular security domain, `Undertow` assumes the legacy JAAS based security domains should be used for authentication/authorization and, in this case, the security domain defined in the Web application must match a security domain in the legacy `security` subsystem. The presence of an `application-security-domain` configuration is what enables Elytron authentication for a Web application.
 
-//*************************************************
-// Build and deploy the quickstart WAR
-//*************************************************
-// == Build and Deploy the Quickstart
+// Build and Deploy the Quickstart
 include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
-
 
 == Access the Application
 
@@ -234,18 +206,10 @@ You will see the following warning in the server log. You can ignore it.
 HHH000431: Unable to determine H2 database version, certain features may not work
 ----
 
-//*************************************************
-// Undeploy the quickstart archive
-//*************************************************
-// == Undeploy the Quickstart
+// Undeploy the Quickstart
 include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
 
-
-//************************************************************
-// Restore the {productName} Standalone Server Configuration
-//************************************************************
-// == Restore the {productName} Standalone Server Configuration
-:restoreScriptName: restore-configuration.cli
+//  Restore the {productName} Standalone Server Configuration
 include::../shared-doc/restore-standalone-server-configuration.adoc[leveloffset=+1]
 
 // Additional information about this script
@@ -257,24 +221,14 @@ The batch executed successfully
 process-state: reload-required
 ----
 
-//******************************************************
-// Restore the standalone server configuration manually
-//******************************************************
-// == Restore the {productName} Standalone Server Configuration Manually
+// Restore the {productName} Standalone Server Configuration Manually
 include::../shared-doc/restore-standalone-server-configuration-manual.adoc[leveloffset=+2]
-
-//*************************************************
-// Add JBoss Developer Studio instructions
-//*************************************************
-// == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+// Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
 
 // Additional JBoss Developer Studio instructions
 * Make sure you configure the server by running the JBoss CLI commands as described above under xref:configure_the_server{Configure the Server]. Stop the server at the end of that step.
 * Make sure you xref:restore_the_server_configuration[restore the {productName} server configuration] when you have completed testing this quickstart.
 
-//*************************************************
-// Add info to debug the application
-//*************************************************
-// == Debug the Application
+// Debug the Application
 include::../shared-doc/debug-the-application.adoc[leveloffset=+1]

@@ -1,25 +1,23 @@
-= contacts-jquerymobile: CRUD Example Using HTML5, jQuery Mobile and JAX-RS
-:author: Joshua Wilson
-:productName: WildFly
-:productNameFull: WildFly Application Server
-:jbossHomeName: WILDFLY_HOME
-:productVersion: 12
-:buildRequirements: Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later
 include::../shared-doc/attributes.adoc[]
 
+= contacts-jquerymobile: CRUD Example Using HTML5, jQuery Mobile and JAX-RS
+:author: Joshua Wilson
 :level: Beginner
 :technologies: jQuery Mobile, jQuery, JavaScript, HTML5, REST
-:source: {githubRepoUrl}
 
 [abstract]
-The `contacts-jquerymobile` quickstart demonstrates a Java EE 7 mobile database application using HTML5, jQuery Mobile, JAX-RS, JPA, and REST.
+The `contacts-jquerymobile` quickstart demonstrates a {javaVersion} mobile database application using HTML5, jQuery Mobile, JAX-RS, JPA, and REST.
 
 :standalone-server-type: default
 :archiveType: war
 
+//*************************************************
+// Shared CD and Product Release content
+//*************************************************
+
 == What is it?
 
-The `contact-jquerymobile` quickstart is a deployable Maven 3 project designed to help you get your foot in the door developing HTML5 based mobile web applications with Java EE 7 in {productNameFull}. This project is setup to allow you to create a basic Java EE 7 application using HTML5, jQuery Mobile, JAX-RS, CDI, EJB, JPA, and Bean Validation. It includes a persistence unit and some sample persistence and transaction code to help you get your feet wet with database access in enterprise Java.
+The `contact-jquerymobile` quickstart is a deployable Maven 3 project designed to help you get your foot in the door developing HTML5 based mobile web applications with {javaVersion} in {productNameFull}. This project is setup to allow you to create a basic {javaVersion} application using HTML5, jQuery Mobile, JAX-RS, CDI, EJB, JPA, and Bean Validation. It includes a persistence unit and some sample persistence and transaction code to help you get your feet wet with database access in enterprise Java.
 
 This application is built using a HTML5 + REST approach. This uses a pure HTML client that interacts with with the application server via restful end-points (JAX-RS). This application also uses some of the latest HTML5 features and advanced JAX-RS. And since testing is just as important with client side as it is server side, this application uses QUnit to show you how to unit test your JavaScript.
 
@@ -36,9 +34,12 @@ This application focuses on *CRUD* in a strictly mobile app using only *jQuery M
 Validation is an important part of an application. Typically in an HTML5 app you can let the built-in HTML5 form validation do the work for you. However, mobile browsers do not support this feature at this time. In order to validate the forms, the `jquery.validate` plugin was added, which provides both client-side and server-side validation. Over AJAX, if there is an error, the error is returned and displayed in the form. You can see an example of this in the *Edit* form if you enter an email that is already in use. The application will attempt to insert the error message into a field if that field exists. If the field does not exist then it display it at the top. In addition, there are xref:run_the_qunit_tests[QUnit Tests] for every form of validation.
 
 //*************************************************
-// Add System Requirements
+// Product Release content only
 //*************************************************
-// == System Requirements
+
+ifndef::EAPCDRelease[]
+
+// System Requirements
 include::../shared-doc/system-requirements.adoc[leveloffset=+1]
 
 // Additional system requirements for this quickstart:
@@ -48,23 +49,12 @@ Mobile web support is limited to Android and iOS devices. It should run on HP, a
 
 With the prerequisites out of the way, you are ready to build and deploy.
 
-//*************************************************
-// Add Use of JBoss Home Name
-//*************************************************
-// == Use of {jbossHomeName}
+// Use of {jbossHomeName}
 include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
-
-//*************************************************
-// Start the server with the default profile
-//*************************************************
-// == Start the {productName} Standalone Server
+// Start the {productName} Standalone Server
 :mobileApp:
 include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
-
-//*************************************************
-// Build and deploy the quickstart WAR
-//*************************************************
-// == Build and Deploy the Quickstart
+// Build and Deploy the Quickstart
 include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
 
 == Access the Application
@@ -104,10 +94,7 @@ The application is made up of the following pages:
 * Same as *Add form*.
 * *Delete* button will delete the contact currently viewed and return you to the Main page.
 
-//*************************************************
-// Undeploy the quickstart archive
-//*************************************************
-// == Undeploy the Quickstart
+// Undeploy the Quickstart
 include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
 
 
@@ -137,10 +124,7 @@ $ mvn clean package wildfly:deploy -Pminify
 $ mvn clean verify wildfly:deploy -Pminify,arq-remote
 ----
 
-//*************************************************
-// Run the Arquillian tests
-//*************************************************
-// == Run the Arquillian Tests
+// Run the Arquillian Tests
 include::../shared-doc/run-arquillian-tests.adoc[leveloffset=+1]
 
 
@@ -155,23 +139,10 @@ NOTE: If you use *Chrome*, some date tests fail. These are false failures and ar
 
 For more information on QUnit tests, see http://qunitjs.com/.
 
-//*************************************************
-// Run the Arquillian functional tests
-//*************************************************
-// == Run the Arquillian Functional Tests
+// Run the Arquillian Functional Tests
 include::../shared-doc/run-arquillian-functional-tests.adoc[leveloffset=+1]
-
-//*************************************************
-// Add JBoss Developer Studio instructions
-//*************************************************
-// == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+// Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
-
-//*************************************************
-// Deploy the quickstart to OpenShift
-//*************************************************
-// == Deploy the Quickstart to OpenShift Online
-include::../shared-doc/deploy-to-openshift-online.adoc[leveloffset=+1]
 
 == Debug the Application
 
@@ -183,3 +154,24 @@ either of the following two commands to pull them into your local repository. Th
 $ mvn dependency:sources
 $ mvn dependency:resolve -Dclassifier=javadoc
 ----
+
+endif::[]
+
+//*************************************************
+// CD Release content only
+//*************************************************
+
+ifdef::EAPCDRelease[]
+
+// Getting Started with OpenShift
+include::../shared-doc/cd-openshift-getting-started.adoc[leveloffset=+1]
+//Prepare OpenShift for Quickstart Deployment
+include::../shared-doc/cd-create-project.adoc[leveloffset=+1]
+// Import the Latest {xpaasproduct-shortname} Image Streams and Templates
+include::../shared-doc/cd-import-imagestreams-templates.adoc[leveloffset=+1]
+// Deploy the {ProductShortName} Source-to-Image (S2I) Quickstart to OpenShift
+include::../shared-doc/cd-deploy-project.adoc[leveloffset=+1]
+// OpenShift Post Deployment Tasks: This is not currently needed.
+// include::../shared-doc/cd-post-deployment-tasks.adoc[leveloffset=+1]
+
+endif::[]

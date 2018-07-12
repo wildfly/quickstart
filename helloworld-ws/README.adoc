@@ -1,15 +1,9 @@
-= helloworld-ws: Hello World JAX-WS Web Service
-:author: Lee Newson
-:productName: WildFly
-:productNameFull: WildFly Application Server
-:jbossHomeName: WILDFLY_HOME
-:productVersion: 12
-:buildRequirements: Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later
 include::../shared-doc/attributes.adoc[]
 
+= helloworld-ws: Hello World JAX-WS Web Service
+:author: Lee Newson
 :level: Beginner
 :technologies: JAX-WS
-:source: {githubRepoUrl}
 
 [abstract]
 The `helloworld-ws` quickstart demonstrates a simple Hello World application, bundled and deployed as a WAR, that uses JAX-WS to say Hello.
@@ -21,28 +15,13 @@ The `helloworld-ws` quickstart demonstrates a simple Hello World application, bu
 
 The `helloworld-ws` quickstart demonstrates the use of JAX-WS in {productNameFull} as a simple Hello World application.
 
-//*************************************************
-// Add System Requirements
-//*************************************************
-// == System Requirements
+// System Requirements
 include::../shared-doc/system-requirements.adoc[leveloffset=+1]
-
-//*************************************************
-// Add Use of JBoss Home Name
-//*************************************************
-// == Use of {jbossHomeName}
+// Use of {jbossHomeName}
 include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
-
-//*************************************************
-// Start the server with the default profile
-//*************************************************
-// == Start the {productName} Standalone Server
+// Start the {productName} Standalone Server
 include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
-
-//*************************************************
-// Build and deploy the quickstart WAR
-//*************************************************
-// == Build and Deploy the Quickstart
+// Build and Deploy the Quickstart
 include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
 
 Review the server log to see useful information about the deployed web service endpoint.
@@ -63,19 +42,10 @@ JBWS024061: Adding service endpoint metadata: id=org.jboss.as.quickstarts.wshell
 
 You can verify that the Web Service is running and deployed correctly by accessing the following URL: http://localhost:8080/{artifactId}/HelloWorldService?wsdl. This URL will display the deployed WSDL endpoint for the Web Service.
 
-//*************************************************
-// Undeploy the quickstart archive
-//*************************************************
-// == Undeploy the Quickstart
+// Undeploy the Quickstart
 include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
-
-
-//*************************************************
-// Run the Arquillian tests
-//*************************************************
-// == Run the Arquillian Tests
+// Run the Arquillian Tests
 include::../shared-doc/run-arquillian-tests.adoc[leveloffset=+1]
-
 
 == Investigate the Console Output
 
@@ -96,23 +66,11 @@ Running org.jboss.as.quickstarts.wshelloworld.ClientArqTest
 Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.988 sec
 ----
 
-//*************************************************
-// Add JBoss Developer Studio instructions
-//*************************************************
-// == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+// Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
 
 // Additional JBoss Developer Studio instructions
 When you deploy this quickstart, you are presented with a window that explains there is no user interface for this quickstart and directs you to click on a link to view the WSDL definition. However, the Eclipse browser does not support the display of WSDL definitions. Instead, open an external browser and access the following URL: http://localhost:8080/{artifactId}/HelloWorldService?wsdl. This URL will display the deployed WSDL endpoint for the Web Service.
 
-//*************************************************
-// Deploy the quickstart to OpenShift
-//*************************************************
-// == Deploy the Quickstart to OpenShift Online
-include::../shared-doc/deploy-to-openshift-online.adoc[leveloffset=+1]
-
-//*************************************************
-// Add info to debug the application
-//*************************************************
-// == Debug the Application
+// Debug the Application
 include::../shared-doc/debug-the-application.adoc[leveloffset=+1]

@@ -1,15 +1,9 @@
-= WildFly Examples: Applying ClassTransformers to your Java EE archive
-:author: Stuart Douglas
-:productName: WildFly
-:productNameFull: WildFly Application Server
-:jbossHomeName: WILDFLY_HOME
-:productVersion: 12
-:buildRequirements: Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later
 include::../shared-doc/attributes.adoc[]
 
+= helloworld-classfiletransformer: Applying ClassTransformers to your Java EE archive
+:author: Stuart Douglas
 :level: Advanced
 :technologies: ClassLoading
-:source: {githubRepoUrl}
 
 [abstract]
 This is a WAR based application showing you how Wildfly let you apply a ClassTransformer to the classes in your enterprise archive.
@@ -38,11 +32,11 @@ It is the EJB's implementation class, HelloBean, that is modified in this exampl
 The modification is really simple: it simply injects logging statements before and after the sayHello() method.
 But Javaassist can do much more - check out the relevant documentation for Javassist.
 Or choose another bytecode generation library.
-The choice is yours - Wildfly doesn't care what you choose. 
+The choice is yours - Wildfly doesn't care what you choose.
 
 You could achieve the same effect using EJB interceptors or CDI interceptors. They are standard and would normally be the recommended way to go about "around" behavior.
 But Java EE interceptors are not as powerful as bytecode manipulation can be: with bytecode manipulation you can easily advice unmanaged classes (including static member methods etc), "add/remove" interfaces, fields, methods and so on.
-And you can even advice code that is a third party dependency to your application (say Apache Commons library code). 
+And you can even advice code that is a third party dependency to your application (say Apache Commons library code).
 
 Deploy the WAR
 ========================
@@ -61,7 +55,7 @@ Upon deployment you should see something like: "Instrumenting hello.server.ejb.H
 That is the example class transformer that tells you it has instrumented the HelloBean EJB.
 
 Upon calling the EJB's web service endpoint you should see something like: "INTERCEPTED MethodInvocation".
-One line before the method invocation. And one line after the method invocation. 
+One line before the method invocation. And one line after the method invocation.
 
 Do make sure to verify that these lines hasn't just been printed by the EJB's sayHello() method.
 

@@ -1,15 +1,9 @@
-= mail: E-Mail Example using CDI and JSF
-:author: Joel Tosi
-:productName: WildFly
-:productNameFull: WildFly Application Server
-:jbossHomeName: WILDFLY_HOME
-:productVersion: 12
-:buildRequirements: Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later
 include::../shared-doc/attributes.adoc[]
 
+= mail: E-Mail Example using CDI and JSF
+:author: Joel Tosi
 :level: Beginner
 :technologies: JavaMail, CDI, JSF
-:source: {githubRepoUrl}
 
 [abstract]
 The `mail` quickstart demonstrates how to send email using CDI and JSF and the default Mail provider that ships with {productName}.
@@ -17,6 +11,7 @@ The `mail` quickstart demonstrates how to send email using CDI and JSF and the d
 :standalone-server-type: default
 :archiveType: war
 :includes-cli-scripts:
+:restoreScriptName: remove-mail-session.cli
 
 == What is it?
 
@@ -28,16 +23,9 @@ You can use the default mail provider that comes out of the box with {productNam
 
 This example is a web application that takes `To`, `From`, `Subject`, and `Message Body` input and sends mail to that address. The front end is a JSF page with a simple POJO backing, leveraging CDI for resource injection.
 
-//*************************************************
-// Add System Requirements
-//*************************************************
-// == System Requirements
+// System Requirements
 include::../shared-doc/system-requirements.adoc[leveloffset=+1]
-
-//*************************************************
-// Add Use of JBoss Home Name
-//*************************************************
-// == Use of {jbossHomeName}
+// Use of {jbossHomeName}
 include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
 
 [[configure_an_smtp_server_on_your_local_machine]]
@@ -48,18 +36,10 @@ To configure an SMTP mail server, consult the documentation for your operating s
 
 If you do not configure an SMTP mail server on your local machine, you will see the exception `com.sun.mail.util.MailConnectException:  Couldn&#39;t connect to host, port: localhost, 25; timeout -1;` when you access the application and attempt to send an email.
 
-//*************************************************
-// Back up the server configuration files
-//*************************************************
-// == Back Up the {productName} Standalone Server Configuration
+// Back Up the {productName} Standalone Server Configuration
 include::../shared-doc/back-up-server-standalone-configuration.adoc[leveloffset=+1]
-
-//*************************************************
-// Start the server with the default profile
-//*************************************************
-// == Start the {productName} Standalone Server
+// Start the {productName} Standalone Server
 include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
-
 
 [[configure_the_server]]
 == Configure the Server
@@ -131,12 +111,8 @@ The `MyOtherMail` mail session is added to the `mail` subsystem and configured t
   </subsystem>
 ----
 
-//*************************************************
-// Build and deploy the quickstart WAR
-//*************************************************
-// == Build and Deploy the Quickstart
+// Build and Deploy the Quickstart
 include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
-
 
 == Access the Application
 
@@ -144,18 +120,9 @@ The application will be running at the following URL: http://localhost:8080/{art
 
 NOTE: If you see `Error processing request` in the browser when you access the application and attempt to send email, followed by `javax.servlet.ServletException: com.sun.mail.util.MailConnectException: Couldn&#39;t connect to host, port: localhost, 25; timeout -1; nested exception is: java.net.ConnectException: Connction refused`, make sure you followed the instructions above to xref:configure_an_smtp_server_on_your_local_machine[Configure an SMTP Server on Your Local Machine].
 
-//*************************************************
-// Undeploy the quickstart archive
-//*************************************************
-// == Undeploy the Quickstart
+// Undeploy the Quickstart
 include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
-
-
-//************************************************************
 // Restore the {productName} Standalone Server Configuration
-//************************************************************
-// == Restore the {productName} Standalone Server Configuration
-:restoreScriptName: remove-mail-session.cli
 include::../shared-doc/restore-standalone-server-configuration.adoc[leveloffset=+1]
 
 // Additional information about this script
@@ -167,16 +134,9 @@ The batch executed successfully
 process-state: reload-required
 ----
 
-//******************************************************
-// Restore the standalone server configuration manually
-//******************************************************
-// == Restore the {productName} Standalone Server Configuration Manually
+// Restore the {productName} Standalone Server Configuration Manually
 include::../shared-doc/restore-standalone-server-configuration-manual.adoc[leveloffset=+2]
-
-//*************************************************
-// Add JBoss Developer Studio instructions
-//*************************************************
-// == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+// Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
 
 // Additional JBoss Developer Studio instructions
@@ -186,8 +146,5 @@ include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[levelof
 * To undeploy the project, right-click on the *{artifactId}* project and choose *Run As* –&gt; *Maven build*. Enter `wildfly:undeploy` for the *Goals* and click *Run*.
 * Make sure you xref:restore_the_server_configuration[restore the {productName} server configuration] when you have completed testing this quickstart.
 
-//*************************************************
-// Add info to debug the application
-//*************************************************
-// == Debug the Application
+// Debug the Application
 include::../shared-doc/debug-the-application.adoc[leveloffset=+1]

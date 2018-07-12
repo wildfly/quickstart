@@ -1,21 +1,19 @@
-= websocket-hello: A simple WebSocket application
-:author: Sande Gilda, Emmanuel Hugonett
-:productName: WildFly
-:productNameFull: WildFly Application Server
-:jbossHomeName: WILDFLY_HOME
-:productVersion: 12
-:buildRequirements: Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later
 include::../shared-doc/attributes.adoc[]
 
+= websocket-hello: A simple WebSocket application
+:author: Sande Gilda, Emmanuel Hugonett
 :level: Beginner
 :technologies: WebSocket, CDI, JSF
-:source: {githubRepoUrl}
 
 [abstract]
 The `websocket-hello` quickstart demonstrates how to create a simple WebSocket application.
 
 :standalone-server-type: default
 :archiveType: war
+
+//*************************************************
+// Shared CD and Product Release content
+//*************************************************
 
 == What is it?
 
@@ -25,32 +23,23 @@ The `websocket-hello` quickstart demonstrates how to create a simple WebSocket-e
 * A WebSocket server endpoint that uses annotations to interact with the WebSocket events.
 * A `jboss-web.xml` file configured to enable WebSockets
 
-WebSockets are a requirement of the Java EE 7 specification and are implemented in {productName} {productVersion}. They are configured in the `undertow` subsystem of the server configuration file. This quickstart uses the WebSocket default settings, so it is not necessary to modify the server configuration to deploy and run this quickstart.
+WebSockets are a requirement of the {javaVersion} specification and are implemented in {productName} {productVersion}. They are configured in the `undertow` subsystem of the server configuration file. This quickstart uses the WebSocket default settings, so it is not necessary to modify the server configuration to deploy and run this quickstart.
 
 NOTE: This quickstart demonstrates only a few of the basic functions. A fully functional application should provide better error handling and intercept and handle additional events.
 
 //*************************************************
-// Add System Requirements
+// Product Release content only
 //*************************************************
-// == System Requirements
+
+ifndef::EAPCDRelease[]
+
+// System Requirements
 include::../shared-doc/system-requirements.adoc[leveloffset=+1]
-
-//*************************************************
-// Add Use of JBoss Home Name
-//*************************************************
-// == Use of {jbossHomeName}
+// Use of {jbossHomeName}
 include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
-
-//*************************************************
-// Start the server with the default profile
-//*************************************************
-// == Start the {productName} Standalone Server
+// Start the {productName} Standalone Server
 include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
-
-//*************************************************
-// Build and deploy the quickstart WAR
-//*************************************************
-// == Build and Deploy the Quickstart
+// Build and Deploy the Quickstart
 include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
 
 == Access the Application
@@ -67,29 +56,31 @@ The application will be running at the following URL: http://localhost:8080/{art
 WebSocket connection is not established. Please click the Open Connection button.
 ----
 
-
-//*************************************************
-// Undeploy the quickstart archive
-//*************************************************
-// == Undeploy the Quickstart
+// Undeploy the Quickstart
 include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
-
-
-//*************************************************
-// Add JBoss Developer Studio instructions
-//*************************************************
-// == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+// Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
-
-//*************************************************
-// Deploy the quickstart to OpenShift
-//*************************************************
-// == Deploy the Quickstart to OpenShift Online
-include::../shared-doc/deploy-to-openshift-online.adoc[leveloffset=+1]
-
-
-//*************************************************
-// Add info to debug the application
-//*************************************************
-// == Debug the Application
+// Debug the Application
 include::../shared-doc/debug-the-application.adoc[leveloffset=+1]
+
+endif::[]
+
+//*************************************************
+// CD Release content only
+//*************************************************
+
+ifdef::EAPCDRelease[]
+
+// Getting Started with OpenShift
+include::../shared-doc/cd-openshift-getting-started.adoc[leveloffset=+1]
+//Prepare OpenShift for Quickstart Deployment
+include::../shared-doc/cd-create-project.adoc[leveloffset=+1]
+// Import the Latest {xpaasproduct-shortname} Image Streams and Templates
+include::../shared-doc/cd-import-imagestreams-templates.adoc[leveloffset=+1]
+// Deploy the {ProductShortName} Source-to-Image (S2I) Quickstart to OpenShift
+include::../shared-doc/cd-deploy-project.adoc[leveloffset=+1]
+// OpenShift Post Deployment Tasks: This is not currently needed.
+// include::../shared-doc/cd-post-deployment-tasks.adoc[leveloffset=+1]
+
+endif::[]
+

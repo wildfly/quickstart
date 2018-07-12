@@ -1,21 +1,19 @@
-= helloworld-mdb: Helloworld Using an MDB (Message-Driven Bean)
-:author: Serge Pagop, Andy Taylor, Jeff Mesnil
-:productName: WildFly
-:productNameFull: WildFly Application Server
-:jbossHomeName: WILDFLY_HOME
-:productVersion: 12
-:buildRequirements: Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later
 include::../shared-doc/attributes.adoc[]
 
+= helloworld-mdb: Helloworld Using an MDB (Message-Driven Bean)
+:author: Serge Pagop, Andy Taylor, Jeff Mesnil
 :level: Intermediate
 :technologies: JMS, EJB, MDB
-:source: {githubRepoUrl}
 
 [abstract]
 The `helloworld-mdb` quickstart uses JMS and EJB Message-Driven Bean (MDB) to create and deploy JMS topic and queue resources in {productName}.
 
 :standalone-server-type: full
 :archiveType: war
+
+//*************************************************
+// Shared CD and Product Release content
+//*************************************************
 
 == What is it?
 
@@ -27,27 +25,18 @@ This project creates two JMS resources:
 * A topic named `HELLOWORLDMDBTopic` bound in JNDI as `java:/topic/HELLOWORLDMDBTopic`
 
 //*************************************************
-// Add System Requirements
+// Product Release content only
 //*************************************************
-// == System Requirements
+
+ifndef::EAPCDRelease[]
+
+// System Requirements
 include::../shared-doc/system-requirements.adoc[leveloffset=+1]
-
-//*************************************************
-// Add Use of JBoss Home Name
-//*************************************************
-// == Use of {jbossHomeName}
+// Use of {jbossHomeName}
 include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
-
-//*************************************************
-// Start the server with the full profile
-//*************************************************
-// == Start the {productName} Standalone Server
+// Start the {productName} Standalone Server
 include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
-
-//*************************************************
-// Build and deploy the quickstart WAR
-//*************************************************
-// == Build and Deploy the Quickstart
+// Build and Deploy the Quickstart
 include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
 
 // Additional deployment information
@@ -82,30 +71,35 @@ INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldQueueMDB] (Thread-5 (ActiveM
 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldQueueMDB] (Thread-4 (ActiveMQ-client-global-threads-1189700957)) Received Message from queue: This is message 3
 ----
 
-//*************************************************
-// Undeploy the quickstart archive
-//*************************************************
-// == Undeploy the Quickstart
+// Undeploy the Quickstart
 include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
-
-
-//*************************************************
-// Add JBoss Developer Studio instructions
-//*************************************************
-// == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+// Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
 
 // Additional JBoss Developer Studio instructions
 NOTE: Within JBoss Developer Studio, make sure you define a server runtime environment that uses the `standalone-full.xml` configuration file.
 
-//*************************************************
-// Deploy the quickstart to OpenShift
-//*************************************************
-// == Deploy the Quickstart to OpenShift Online
-include::../shared-doc/deploy-to-openshift-online.adoc[leveloffset=+1]
+
+// Debug the Application
+include::../shared-doc/debug-the-application.adoc[leveloffset=+1]
+
+endif::[]
 
 //*************************************************
-// Add info to debug the application
+// CD Release content only
 //*************************************************
-// == Debug the Application
-include::../shared-doc/debug-the-application.adoc[leveloffset=+1]
+
+ifdef::EAPCDRelease[]
+
+// Getting Started with OpenShift
+include::../shared-doc/cd-openshift-getting-started.adoc[leveloffset=+1]
+//Prepare OpenShift for Quickstart Deployment
+include::../shared-doc/cd-create-project.adoc[leveloffset=+1]
+// Import the Latest {xpaasproduct-shortname} Image Streams and Templates
+include::../shared-doc/cd-import-imagestreams-templates.adoc[leveloffset=+1]
+// Deploy the {ProductShortName} Source-to-Image (S2I) Quickstart to OpenShift
+include::../shared-doc/cd-deploy-project.adoc[leveloffset=+1]
+// OpenShift Post Deployment Tasks: This is not currently needed.
+// include::../shared-doc/cd-post-deployment-tasks.adoc[leveloffset=+1]
+
+endif::[]

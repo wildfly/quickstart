@@ -1,21 +1,17 @@
-= cmt: Container Managed Transactions (CMT)
-:author: Tom Jenkinson
-:productName: WildFly
-:productNameFull: WildFly Application Server
-:jbossHomeName: WILDFLY_HOME
-:productVersion: 12
-:buildRequirements: Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later
 include::../shared-doc/attributes.adoc[]
 
+= cmt: Container Managed Transactions (CMT)
+:author: Tom Jenkinson
 :level: Intermediate
 :technologies: EJB, CMT, JMS
-:source: {githubRepoUrl}
 
 [abstract]
 The `cmt` quickstart demonstrates Container-Managed Transactions (CMT), showing how to use transactions managed by the container.
 
 :standalone-server-type: full
 :archiveType: war
+:uses-h2:
+
 
 == What is it?
 
@@ -51,35 +47,21 @@ NotSupported:: If there is a transaction running, it will be suspended and no tr
 Supports:: This will run the method within a transaction if a transaction exists, alternatively, if there is no transaction running, the method will not be executed within the scope of a transaction.
 Never:: If the client has a transaction running and does not suspend it but calls a method annotated with Never then an EJB exception will be raised.
 
-//***************************************
-// Add notes about use in a production environment.
-//***************************************
-// == Considerations for Use in a Production Environment
-:uses-h2:
+//*************************************************
+// Product Release content only
+//*************************************************
+
+ifndef::EAPCDRelease[]
+
+// Considerations for Use in a Production Environment
 include::../shared-doc/development-shortcuts.adoc[leveloffset=+1]
-
-//*************************************************
-// Add System Requirements
-//*************************************************
-// == System Requirements
+// System Requirements
 include::../shared-doc/system-requirements.adoc[leveloffset=+1]
-
-//*************************************************
-// Add Use of JBoss Home Name
-//*************************************************
-// == Use of {jbossHomeName}
+// Use of {jbossHomeName}
 include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
-
-//*************************************************
-// Start the server with the full profile
-//*************************************************
-// == Start the {productName} Standalone Server
+// Start the {productName} Standalone Server (with the full profile)
 include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
-
-//*************************************************
-// Build and deploy the quickstart WAR
-//*************************************************
-// == Build and Deploy the Quickstart
+// Build and Deploy the Quickstart
 include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
 
 == Access the Application
@@ -106,30 +88,36 @@ You will see the following warnings in the server log. You can ignore these warn
 HHH000431: Unable to determine H2 database version, certain features may not work
 ----
 
-//*************************************************
-// Undeploy the quickstart archive
-//*************************************************
-// == Undeploy the Quickstart
+// Undeploy the Quickstart
 include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
-
-
-//*************************************************
-// Add JBoss Developer Studio instructions
-//*************************************************
-// == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+// Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
 
 // Additional JBoss Developer Studio instructions
 NOTE: Within JBoss Developer Studio, make sure you define a server runtime environment that uses the `standalone-full.xml` configuration file.
 
-//*************************************************
-// Deploy the quickstart to OpenShift
-//*************************************************
-// == Deploy the Quickstart to OpenShift Online
-include::../shared-doc/deploy-to-openshift-online.adoc[leveloffset=+1]
+// Debug the Application
+include::../shared-doc/debug-the-application.adoc[leveloffset=+1]
+
+endif::[]
 
 //*************************************************
-// Add info to debug the application
+// CD Release content only
 //*************************************************
-// == Debug the Application
-include::../shared-doc/debug-the-application.adoc[leveloffset=+1]
+
+ifdef::EAPCDRelease[]
+
+// Getting Started with OpenShift
+include::../shared-doc/cd-openshift-getting-started.adoc[leveloffset=+1]
+//Prepare OpenShift for Quickstart Deployment
+include::../shared-doc/cd-create-project.adoc[leveloffset=+1]
+// Import the Latest {xpaasproduct-shortname} Image Streams and Templates
+include::../shared-doc/cd-import-imagestreams-templates.adoc[leveloffset=+1]
+// Deploy the {ProductShortName} Source-to-Image (S2I) Quickstart to OpenShift
+include::../shared-doc/cd-deploy-project.adoc[leveloffset=+1]
+// OpenShift Post Deployment Tasks: This is not currently needed.
+// include::../shared-doc/cd-post-deployment-tasks.adoc[leveloffset=+1]
+
+endif::[]
+
+

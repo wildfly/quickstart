@@ -1,21 +1,17 @@
-= bean-validation: Bean Validation Tested Using Arquillian
-:author: Karel Piwko
-:productName: WildFly
-:productNameFull: WildFly Application Server
-:jbossHomeName: WILDFLY_HOME
-:productVersion: 12
-:buildRequirements: Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later
 include::../shared-doc/attributes.adoc[]
 
+= bean-validation: Bean Validation Tested Using Arquillian
+:author: Karel Piwko
 :level: Beginner
 :technologies: CDI, JPA, BV
-:source: {githubRepoUrl}
 
 [abstract]
 The `bean-validation` quickstart provides Arquillian tests to demonstrate how to use CDI, JPA, and Bean Validation.
 
 :standalone-server-type: default
 :archiveType: war
+:uses-h2:
+:uses-ds-xml:
 
 == What is it?
 
@@ -25,38 +21,16 @@ This quickstart does not contain a user interface layer. The purpose of this pro
 
 This quickstart is a basic example of bean validation and is not localized. Because it is not localized, English messages are hard-coded in the constraint annotations in the `Member` class to ensure the test violation messages are matched when running the {productName} server using another language. For examples of localized quickstarts, see the link:../kitchensink-ml/README{outfilesuffix}[kitchensink-ml] and link:../logging-tools/README{outfilesuffix}[logging-tools] quickstarts.
 
-//*************************************************
-// Add notes about use in a production environment.
-//*************************************************
-// == Considerations for Use in a Production Environment
-:uses-h2:
-:uses-ds-xml:
+// Considerations for Use in a Production Environment
 include::../shared-doc/development-shortcuts.adoc[leveloffset=+1]
-
-//*************************************************
-// Add System Requirements
-//*************************************************
-// == System Requirements
+// System Requirements
 include::../shared-doc/system-requirements.adoc[leveloffset=+1]
-
-//*************************************************
-// Add Use of JBoss Home Name
-//*************************************************
-// == Use of {jbossHomeName}
+// Use of {jbossHomeName}
 include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
-
-//*************************************************
-// Start the server with the default profile
-//*************************************************
-// == Start the {productName} Standalone Server
+// Start the {productName} Standalone Server
 include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
-
-//*************************************************
-// Run the Arquillian tests
-//*************************************************
-// == Run the Arquillian Tests
+// Run the Arquillian Tests
 include::../shared-doc/run-arquillian-tests.adoc[leveloffset=+1]
-
 
 == Investigate the Console Output
 
@@ -90,14 +64,7 @@ WFLYJCA0091: -ds.xml file deployments are deprecated. Support may be removed in 
 HHH000431: Unable to determine H2 database version, certain features may not work
 ----
 
-//*************************************************
-// Add JBoss Developer Studio instructions
-//*************************************************
-// == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+// Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
-
-//*************************************************
-// Add info to debug the application
-//*************************************************
-// == Debug the Application
+// Debug the Application
 include::../shared-doc/debug-the-application.adoc[leveloffset=+1]

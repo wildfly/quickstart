@@ -1,15 +1,9 @@
-= wsba-coordinator-completion-simple: Example of a WS-BA Enabled JAX-WS Web Service
-:author: Paul Robinson
-:productName: WildFly
-:productNameFull: WildFly Application Server
-:jbossHomeName: WILDFLY_HOME
-:productVersion: 12
-:buildRequirements: Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later
 include::../shared-doc/attributes.adoc[]
 
+= wsba-coordinator-completion-simple: Example of a WS-BA Enabled JAX-WS Web Service
+:author: Paul Robinson
 :level: Intermediate
 :technologies: WS-BA, JAX-WS
-:source: {githubRepoUrl}
 
 [abstract]
 The `wsba-coordinator-completion-simple` quickstart deploys a WS-BA (WS Business Activity) enabled JAX-WS Web service WAR (CoordinatorCompletion protocol).
@@ -51,16 +45,9 @@ When running the `org.jboss.as.quickstarts.wsba.coordinatorcompletion.simple.Cli
 
 There is another test that shows how the client can cancel a BA.
 
-//*************************************************
-// Add System Requirements
-//*************************************************
-// == System Requirements
+// System Requirements
 include::../shared-doc/system-requirements.adoc[leveloffset=+1]
-
-//*************************************************
-// Add Use of JBoss Home Name
-//*************************************************
-// == Use of {jbossHomeName}
+// Use of {jbossHomeName}
 include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
 
 [[start_the_eap_standalone_server]]
@@ -80,13 +67,8 @@ NOTE: For Windows, use the `__{jbossHomeName}__\bin\standalone.bat` script.
 
 The pipe to egrep, `| egrep "started|stdout"`, is useful to show when the server has started and the output from these tests. For normal operation, this pipe can be removed.
 
-
-//*************************************************
-// Run the Arquillian tests
-//*************************************************
-// == Run the Arquillian Tests
+// Run the Arquillian Tests
 include::../shared-doc/run-arquillian-tests.adoc[leveloffset=+1]
-
 
 [[investigate_the_console_output]]
 == Investigate the Console Output
@@ -162,10 +144,7 @@ Test cancel:
 16:24:19,816 INFO  [stdout] (TaskWorker-3) [SERVICE] Compensate the backend resource by removing '2' from the set (e.g. undo any changes to databases that were previously made visible to others)
 ----
 
-//*************************************************
-// Add JBoss Developer Studio instructions
-//*************************************************
-// == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+// Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
 
 // Additional JBoss Developer Studio instructions
@@ -192,9 +171,5 @@ This quickstart is more complex than the others. It requires that you configure 
 . Start the new *{productName} XTS Configuration* server.
 . Right-click on the *{artifactId}* project, choose *Run As* -> *Maven build*, enter `clean verify -Parq-remote` for the *Goals*, and click *Run* to run the Arquillian tests. The test results appear in the console.
 
-
-//*************************************************
-// Add info to debug the application
-//*************************************************
-// == Debug the Application
+// Debug the Application
 include::../shared-doc/debug-the-application.adoc[leveloffset=+1]

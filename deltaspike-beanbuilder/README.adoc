@@ -1,15 +1,9 @@
-= deltaspike-beanbuilder: Shows how to create new beans using DeltaSpike utilities
-:author: Rafael Benevides
-:productName: WildFly
-:productNameFull: WildFly Application Server
-:jbossHomeName: WILDFLY_HOME
-:productVersion: 12
-:buildRequirements: Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later
 include::../shared-doc/attributes.adoc[]
 
+= deltaspike-beanbuilder: Shows how to create new beans using DeltaSpike utilities
+:author: Rafael Benevides
 :level: Advanced
 :technologies: CDI, DeltaSpike
-:source: {githubRepoUrl}
 
 [abstract]
 Shows how to create new beans using DeltaSpike utilities.
@@ -18,62 +12,29 @@ Shows how to create new beans using DeltaSpike utilities.
 
 This project demonstrates a CDI Portable Extension that uses DeltaSpike utilities to create new Beans.
 
-This extension permits the injection of JPA entities by id, without the need to query it. To achieve this, the extension observes the `ProcessInjectionTarget` event and get locates all the injection points that have requested injection by id. In `AfterBeanDiscovery` event, the extension creates `Bean` instances using the `BeanBuilder` utility. 
+This extension permits the injection of JPA entities by id, without the need to query it. To achieve this, the extension observes the `ProcessInjectionTarget` event and get locates all the injection points that have requested injection by id. In `AfterBeanDiscovery` event, the extension creates `Bean` instances using the `BeanBuilder` utility.
 
 The project contains a very simple JPA entity class, the extension class, the service registration file for that extension and an Arquillian test to verify the extension is working correctly.
 
 It does not contain any user interface; the tests must be run to verify everything is working correctly.
 
-== System requirements
+// System Requirements
+include::../shared-doc/system-requirements.adoc[leveloffset=+1]
+// Use of {jbossHomeName}
+include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
+// Start the Server
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
+//  Run the Arquillian Tests
+include::../shared-doc/run-arquillian-tests.adoc[leveloffset=+1]
 
-All you need to build this project is Java 8 (Java SDK 1.8) or better, Maven 3.1 or better.
 
-The application this project produces is designed to be run on WildFly 10.
+== Run the Tests in Red Hat JBoss Developer Studio or Eclipse
 
-== Configure Maven
+To run the tests in JBoss Developer Studio, first set the active Maven profile in the project properties to be either `arq-jbossas-managed`, for running on a managed server, or `arq-jbossas-remote`, for running on remote server.
 
-If you have not yet done so, you must link:../README.md#mavenconfiguration[Configure Maven] before testing the quickstarts.
-
-== Start WildFly 10 with the Web Profile
-
-. Open a command line and navigate to the root of the JBoss server directory.
-. 
-
-The following shows the command line to start the server with the web profile:
-
-[source]
-----
-For Linux:   JBOSS_HOME/bin/standalone.sh
-For Windows: JBOSS_HOME\bin\standalone.bat
-----
-
-== Run the Arquillian Tests
-
-This quickstart provides Arquillian tests. By default, these tests are configured to be skipped as Arquillian tests require the use of a container.
-
-_NOTE: The following commands assume you have configured your Maven user settings. If you have not, you must include Maven setting arguments on the command line. See link:../README.md#arquilliantests[Run the Arquillian Tests] for complete instructions and additional options._
-
-. Make sure you have started the JBoss Server as described above.
-. Open a command line and navigate to the root directory of this quickstart.
-. 
-
-Type the following command to run the test goal with the following profile activated:
-
-[source]
-----
-mvn clean test -Parq-jbossas-remote
-----
-
-== Run tests from JBDS
-
-To be able to run the tests from JBDS, first set the active Maven profile in project properties to be either 'arq-jbossas-managed' for running on
-managed server or 'arq-jbossas-remote' for running on remote server.
-
-To run the tests, right click on the project or individual classes and select Run As –&gt; JUnit Test in the context menu.
+To run the tests, right click on the project or individual classes and select *Run As* –&gt; *JUnit Test* in the context menu.
 
 == Investigate the Console Output
-
-=== Maven
 
 Maven prints summary of performed tests into the console:
 
@@ -92,9 +53,8 @@ Results :
 Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
 ----
 
-== Run the Quickstart in JBoss Developer Studio or Eclipse
-
-You can also start the server and deploy the quickstarts from Eclipse using JBoss tools. For more information, see link:../README.md#useeclipse[Use JBoss Developer Studio or Eclipse to Run the Quickstarts]
+// Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
 
 == Debug the Application
 

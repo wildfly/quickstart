@@ -1,25 +1,23 @@
-= spring-kitchensink-basic: Kitchensink Example using Spring 4.x
-:author: Marius Bogoevici, Tejas Mehta, Joshua Wilson
-:productName: WildFly
-:productNameFull: WildFly Application Server
-:jbossHomeName: WILDFLY_HOME
-:productVersion: 12
-:buildRequirements: Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later
 include::../shared-doc/attributes.adoc[]
 
+= spring-kitchensink-basic: Kitchensink Example using Spring 4.x
+:author: Marius Bogoevici, Tejas Mehta, Joshua Wilson
 :level: Intermediate
 :technologies: JSP, JPA, JSON, Spring, JUnit
-:source: {githubRepoUrl}
 
 [abstract]
-The `spring-kitchensink-basic` quickstart is an example of a Java EE 7 application using JSP, JPA and Spring 4.x.
+The `spring-kitchensink-basic` quickstart is an example of a {javaVersion} application using JSP, JPA and Spring 4.x.
 
 :standalone-server-type: default
 :archiveType: war
 
+//*************************************************
+// Shared CD and Product Release content
+//*************************************************
+
 == What is it?
 
-The `spring-kitchensink-basic` quickstart is an example of a Java EE 7 application using JSP, JPA and Spring 4.x in {productNameFull}. It
+The `spring-kitchensink-basic` quickstart is an example of a {javaVersion} application using JSP, JPA and Spring 4.x in {productNameFull}. It
 includes a persistence unit and some sample persistence and transaction code to introduce you to database access in enterprise Java:
 
 * In the `jboss-as-spring-mvc-context.xml` file, the `context:component-scan`
@@ -32,58 +30,30 @@ and `mvc:annotation-driven` elements are used to register both the non-rest and 
 * The datasource and entitymanager are retrieved via JNDI.
 
 //*************************************************
-// Add System Requirements
+// Product Release content only
 //*************************************************
-// == System Requirements
+
+ifndef::EAPCDRelease[]
+
+// System Requirements
 include::../shared-doc/system-requirements.adoc[leveloffset=+1]
-
-//*************************************************
-// Add Use of JBoss Home Name
-//*************************************************
-// == Use of {jbossHomeName}
+// Use of {jbossHomeName}
 include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
-
-//*************************************************
-// Start the server with the default profile
-//*************************************************
-// == Start the {productName} Standalone Server
+// Start the {productName} Standalone Server
 include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
-
-//*************************************************
-// Build and deploy the quickstart WAR
-//*************************************************
-// == Build and Deploy the Quickstart
+// Build and Deploy the Quickstart
 include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
 
 == Access the application
 
 The application will be running at the following URL: http://localhost:8080/{artifactId}/.
 
-
-//*************************************************
-// Undeploy the quickstart archive
-//*************************************************
-// == Undeploy the Quickstart
+// Undeploy the Quickstart
 include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
-
-//*************************************************
-// Run the Arquillian functional tests
-//*************************************************
-// == Run the Arquillian Functional Tests
+// Run the Arquillian Functional Tests
 include::../shared-doc/run-arquillian-functional-tests.adoc[leveloffset=+1]
-
-
-//*************************************************
-// Add JBoss Developer Studio instructions
-//*************************************************
-// == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+// Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
-
-//*************************************************
-// Deploy the quickstart to OpenShift
-//*************************************************
-// == Deploy the Quickstart to OpenShift Online
-include::../shared-doc/deploy-to-openshift-online.adoc[leveloffset=+1]
 
 == Debug the Application
 
@@ -95,3 +65,24 @@ commands to pull them into your local repository. The IDE should then detect the
 $ mvn dependency:sources
 $ mvn dependency:resolve -Dclassifier=javadoc
 ----
+
+endif::[]
+
+//*************************************************
+// CD Release content only
+//*************************************************
+
+ifdef::EAPCDRelease[]
+
+// Getting Started with OpenShift
+include::../shared-doc/cd-openshift-getting-started.adoc[leveloffset=+1]
+//Prepare OpenShift for Quickstart Deployment
+include::../shared-doc/cd-create-project.adoc[leveloffset=+1]
+// Import the Latest {xpaasproduct-shortname} Image Streams and Templates
+include::../shared-doc/cd-import-imagestreams-templates.adoc[leveloffset=+1]
+// Deploy the {ProductShortName} Source-to-Image (S2I) Quickstart to OpenShift
+include::../shared-doc/cd-deploy-project.adoc[leveloffset=+1]
+// OpenShift Post Deployment Tasks: This is not currently needed.
+// include::../shared-doc/cd-post-deployment-tasks.adoc[leveloffset=+1]
+
+endif::[]

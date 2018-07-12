@@ -1,15 +1,9 @@
-= http-custom-mechanism: Create a custom HTTP authorization mechanism
-:author: Darran Lofthouse
-:productName: WildFly
-:productNameFull: WildFly Application Server
-:jbossHomeName: WILDFLY_HOME
-:productVersion: 12
-:buildRequirements: Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later
 include::../shared-doc/attributes.adoc[]
 
+= http-custom-mechanism: Create a custom HTTP authorization mechanism
+:author: Darran Lofthouse
 :level: Intermediate
 :technologies: EJB, Security
-:source: {githubRepoUrl}
 
 [abstract]
 The `http-custom-mechanism` quickstart demonstrates how to implement a custom HTTP authentication mechanism that can be registered with Elytron.
@@ -18,6 +12,7 @@ The `http-custom-mechanism` quickstart demonstrates how to implement a custom HT
 :archiveType: war
 :archiveName: {artifactId}-webapp
 :includes-cli-scripts:
+:app-user-groups: Users
 
 == What is it?
 
@@ -61,35 +56,15 @@ You will follow these basic steps to test this quickstart:
 . xref:configure_the_server_to_use_the_custom_module[Configure] the server to override the deployment and use the custom module.
 . xref:test_the_secured_servlet_using_the_custom_mechnism[Test] the secured servlet using the custom mechanism
 
-//*************************************************
-// Add System Requirements
-//*************************************************
-// == System Requirements
+// System Requirements
 include::../shared-doc/system-requirements.adoc[leveloffset=+1]
-
-//*************************************************
-// Add Use of JBoss Home Name
-//*************************************************
-// == Use of {jbossHomeName}
+// Use of {jbossHomeName}
 include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
-
-//*************************************************
 // Add the Authorized Application User
-//*************************************************
-// == Add the Authorized Application User
-:app-user-groups: Users
 include::../shared-doc/add-application-user.adoc[leveloffset=+1]
-
-//*************************************************
-// Back up the server configuration files
-//*************************************************
-// == Back Up the {productName} Standalone Server Configuration
+// Back Up the {productName} Standalone Server Configuration
 include::../shared-doc/back-up-server-standalone-configuration.adoc[leveloffset=+1]
-
-//*************************************************
-// Start the server with the default profile
-//*************************************************
-// == Start the {productName} Standalone Server
+// Start the {productName} Standalone Server
 include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
 
 [[configure_the_application_security_domain]]
@@ -111,10 +86,7 @@ You should see the following result.
 {"outcome" => "success"}
 ----
 
-//*************************************************
-// Build and deploy the quickstart JAR
-//*************************************************
-// == Build and Deploy the Quickstart
+// Build and Deploy the Quickstart
 include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
 
 // These messages appear in the server log.
@@ -297,22 +269,11 @@ Current Principal 'quickstartUser'    </p>
 </html>
 ----
 
-//*************************************************
-// Undeploy the quickstart archive
-//*************************************************
-// == Undeploy the Quickstart
+// Undeploy the Quickstart
 include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
-
-//******************************************************
-// Restore the standalone server configuration manually
-//******************************************************
-// == Restore the {productName} Standalone Server Configuration Manually
+// Restore the {productName} Standalone Server Configuration Manually
 include::../shared-doc/restore-standalone-server-configuration-manual.adoc[leveloffset=+2]
 
-//*************************************************
-// Add JBoss Developer Studio instructions
-//*************************************************
-// == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 ////
 
 Not how to do curl commands in JBDS
@@ -332,8 +293,5 @@ Enter `clean package wildfly:deploy` for the *Goals* and click *Run*. This deplo
 
 ////
 
-//*************************************************
-// Add info to debug the application
-//*************************************************
-// == Debug the Application
+// Debug the Application
 include::../shared-doc/debug-the-application.adoc[leveloffset=+1]

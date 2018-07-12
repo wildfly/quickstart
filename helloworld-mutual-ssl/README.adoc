@@ -1,15 +1,9 @@
-= helloworld-mutual-ssl: {productName} Mutual SSL(two-way) Configuration Example
-:author: Giriraj Sharma, Stefan Guilhen
-:productName: WildFly
-:productNameFull: WildFly Application Server
-:jbossHomeName: WILDFLY_HOME
-:productVersion: 12
-:buildRequirements: Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later
 include::../shared-doc/attributes.adoc[]
 
+= helloworld-mutual-ssl: {productName} Mutual SSL(two-way) Configuration Example
+:author: Giriraj Sharma, Stefan Guilhen
 :level: Intermediate
 :technologies: Mutual SSL, Undertow
-:source: {githubRepoUrl}
 
 [abstract]
 The `helloworld-mutual-ssl` quickstart is a basic example that demonstrates mutual SSL configuration in {productName}
@@ -17,7 +11,7 @@ The `helloworld-mutual-ssl` quickstart is a basic example that demonstrates mutu
 :standalone-server-type: default
 :archiveType: war
 :includes-cli-scripts:
-
+:restoreScriptName: restore-configuration.cli
 
 == What is it?
 
@@ -27,16 +21,9 @@ This quickstart shows how to configure {productName} to enable TLS/SSL configura
 
 Before you run this example, you must create certificates and configure the server to use two-way SSL.
 
-//*************************************************
-// Add System Requirements
-//*************************************************
-// == System Requirements
+// System Requirements
 include::../shared-doc/system-requirements.adoc[leveloffset=+1]
-
-//*************************************************
-// Add Use of JBoss Home Name
-//*************************************************
-// == Use of {jbossHomeName}
+// Use of {jbossHomeName}
 include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
 
 [[set_up_client_and_server_keystores_using_java_keytool]]
@@ -134,16 +121,9 @@ $>keytool -importkeystore -srckeystore client.keystore -srcstorepass secret -des
 
 . The certificates and keystores are now properly configured.
 
-//*************************************************
-// Back up the server configuration files
-//*************************************************
-// == Back Up the {productName} Standalone Server Configuration
+// Back Up the {productName} Standalone Server Configuration
 include::../shared-doc/back-up-server-standalone-configuration.adoc[leveloffset=+1]
-
-//*************************************************
-// Start the server with the default profile
-//*************************************************
-// == Start the {productName} Standalone Server
+// Start the {productName} Standalone Server
 include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
 
 
@@ -269,12 +249,8 @@ Before you access the application, you must import the _clientCert.p12_, which h
 . Select the *clientCert.p12* file. You will be prompted to enter the password: `secret`.
 . The certificate is now installed in the Mozilla Firefox browser.
 
-//*************************************************
-// Build and deploy the quickstart WAR
-//*************************************************
-// == Build and Deploy the Quickstart
+// Build and Deploy the Quickstart
 include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
-
 
 == Access the Application
 
@@ -299,18 +275,9 @@ DHo1uoz5/dzXZz0EjjWCPJk+LVEhEvH0GcWAp3x3irpNU4hRZLd0XomY0Z4NnUt7VMBNYDOxVxgT9qcL
 aEWK4zhPVFynfnMaOxI67FC2QzhfzERyKqHj47WuwN0xWbS/1gBypS2nUwvItyxaEQG2X5uQY8j8QoY9wcMzIIkP2Mk14gJGHUnA8=
 ----
 
-//*************************************************
-// Undeploy the quickstart archive
-//*************************************************
-// == Undeploy the Quickstart
+// Undeploy the Quickstart
 include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
-
-
-//************************************************************
 // Restore the {productName} Standalone Server Configuration
-//************************************************************
-// == Restore the {productName} Standalone Server Configuration
-:restoreScriptName: restore-configuration.cli
 include::../shared-doc/restore-standalone-server-configuration.adoc[leveloffset=+1]
 
 // Additional information about this script
@@ -323,10 +290,7 @@ The batch executed successfully
 process-state: reload-required
 ----
 
-//******************************************************
-// Restore the standalone server configuration manually
-//******************************************************
-// == Restore the {productName} Standalone Server Configuration Manually
+// Restore the {productName} Standalone Server Configuration Manually
 include::../shared-doc/restore-standalone-server-configuration-manual.adoc[leveloffset=+2]
 
 
@@ -365,10 +329,7 @@ After you are done with this quickstart, remember to remove the certificate that
 . Select the `quickstartUser` certificate and click the `Delete` button.
 . The certificate has now been removed from the Mozilla Firefox browser.
 
-//*************************************************
-// Add JBoss Developer Studio instructions
-//*************************************************
-// == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+// Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
 
 // Additional JBoss Developer Studio instructions

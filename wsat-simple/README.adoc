@@ -1,15 +1,9 @@
-= wsat-simple: WS-AT (WS-AtomicTransaction) - Simple
-:author: Paul Robinson
-:productName: WildFly
-:productNameFull: WildFly Application Server
-:jbossHomeName: WILDFLY_HOME
-:productVersion: 12
-:buildRequirements: Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later
 include::../shared-doc/attributes.adoc[]
 
+= wsat-simple: WS-AT (WS-AtomicTransaction) - Simple
+:author: Paul Robinson
 :level: Intermediate
 :technologies: WS-AT, JAX-WS
-:source: {githubRepoUrl}
 
 [abstract]
 The `wsat-simple` quickstart demonstrates a WS-AT (WS-AtomicTransaction) enabled JAX-WS Web service, bundled as a WAR, and deployed to {productName}.
@@ -49,16 +43,9 @@ When running the `org.jboss.as.quickstarts.wsat.simple.ClientTest#testCommit()` 
 
 There is another test that shows what happens if the client decides to rollback the AT.
 
-//*************************************************
-// Add System Requirements
-//*************************************************
-// == System Requirements
+// System Requirements
 include::../shared-doc/system-requirements.adoc[leveloffset=+1]
-
-//*************************************************
-// Add Use of JBoss Home Name
-//*************************************************
-// == Use of {jbossHomeName}
+// Use of {jbossHomeName}
 include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
 
 [[start_the_eap_standalone_server]]
@@ -85,11 +72,7 @@ $ __{jbossHomeName}__/bin/standalone.sh --server-config=../../docs/examples/conf
 +
 NOTE: For Windows, use the `__{jbossHomeName}__\bin\standalone.bat` script.
 
-
-//*************************************************
-// Run the Arquillian tests
-//*************************************************
-// == Run the Arquillian Tests
+// Run the Arquillian Tests
 include::../shared-doc/run-arquillian-tests.adoc[leveloffset=+1]
 
 
@@ -164,10 +147,7 @@ Test commit:
 
 NOTE: You can ignore the warning message `ARJUNA043219: Could not save recovery state for non-serializable durable WS-AT participant restaurantServiceAT` that is printed in the server console. This quickstart does not implement the required recovery hooks in the interest of making it easy to follow. In a real world production application, you should provide the required recovery code. For more information, see http://narayana.io/docs/product.
 
-//*************************************************
-// Add JBoss Developer Studio instructions
-//*************************************************
-// == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+// Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
 
 // Additional JBoss Developer Studio instructions
@@ -193,8 +173,5 @@ This quickstart is more complex than the others. It requires that you configure 
 . Start the new *{productName} XTS Configuration* server.
 . Right-click on the *{artifactId}* project, choose *Run As* -> *Maven build*, enter `clean verify -Parq-remote` for the *Goals*, and click *Run* to run the Arquillian tests. The test results appear in the console.
 
-//*************************************************
-// Add info to debug the application
-//*************************************************
-// == Debug the Application
+// Debug the Application
 include::../shared-doc/debug-the-application.adoc[leveloffset=+1]

@@ -1,82 +1,36 @@
-= kitchensink-utjs-angular: Example using Undertow.js with Angular.js on the front end
-:author: Stuart Douglas
-:productName: WildFly
-:productNameFull: WildFly Application Server
-:jbossHomeName: WILDFLY_HOME
-:productVersion: 12
-:buildRequirements: Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later
 include::../shared-doc/attributes.adoc[]
 
+= kitchensink-utjs-angular: Example using Undertow.js with Angular.js on the front end
+:author: Stuart Douglas
 :level: Intermediate
 :technologies: Undertow.js, Angular.js
-:source: {githubRepoUrl}
 
 [abstract]
 Based on kitchensink, but uses a Angular for the front end and Undertow.js for the back end.
 
 == What is it?
 
-This quickstart is a deployable Maven 3 project to help you get your foot in the door developing with Undertow.js and Java EE7 on JBoss WildFly.
+This quickstart is a deployable Maven 3 project to help you get your foot in the door developing with Undertow.js and {javaVersion} on JBoss WildFly.
 
-This project is setup to allow you to create a compliant Java EE 7 application using Undertow.js CDI 1.1, JPA 2.1 and Bean Validation 1.1. It includes a persistence unit and some sample persistence and transaction code to introduce you to database access in Undertow.js.
+This project is setup to allow you to create a compliant {javaVersion} application using Undertow.js CDI 1.1, JPA 2.1 and Bean Validation 1.1. It includes a persistence unit and some sample persistence and transaction code to introduce you to database access in Undertow.js.
 
-== System requirements
+// System Requirements
+include::../shared-doc/system-requirements.adoc[leveloffset=+1]
+// Use of {jbossHomeName}
+include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
+// Start the {productName} Standalone Server
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
+// Build and Deploy the Quickstart
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
 
-All you need to build this project is ${build.requirements}. See https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP7.md#configure-maven-to-build-and-deploy-the-quickstarts[Configure Maven for ${productName} ${product.version}] to make sure you are configured correctly for testing the quickstarts.
+== Access the application
 
-== Start JBoss WildFly with the Web Profile
+The application will be running at the following URL: http://localhost:8080/{artifactId}/
 
-. Open a command line and navigate to the root of the JBoss server directory.
-. 
-
-The following shows the command line to start the server with the web profile:
-
-[source]
-----
-For Linux:   JBOSS_HOME/bin/standalone.sh
-For Windows: JBOSS_HOME\bin\standalone.bat
-----
-
-== Build and Deploy the Quickstart
-
-_NOTE: The following build command assumes you have configured your Maven user settings. If you have not, you must include Maven setting arguments on the command line. See https://github.com/jboss-developer/jboss-eap-quickstarts#build-and-deploy-the-quickstarts[Build and Deploy the Quickstarts] for complete instructions and additional options._
-
-. Make sure you have started the JBoss Server as described above.
-. Open a command line and navigate to the root directory of this quickstart.
-. 
-
-Type this command to build and deploy the archive:
-
-[source]
-----
-mvn clean package wildfly:deploy
-----
-
-. 
-
-This will deploy `target/${project.artifactId}.war` to the running instance of the server.
-
-Access the application
-———————
-
-The application will be running at the following URL: http://localhost:8080/${project.artifactId}/[http://localhost:8080/${project.artifactId}/].
-
-== Undeploy the Archive
-
-. Make sure you have started the JBoss Server as described above.
-. Open a command line and navigate to the root directory of this quickstart.
-. 
-
-When you are finished testing, type this command to undeploy the archive:
-
-[source]
-----
-mvn wildfly:undeploy
-----
-
-== Run the Quickstart in JBoss Developer Studio or Eclipse
-
-You can also start the server and deploy the quickstarts from Eclipse using JBoss tools. For more information, see https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_JBDS.md[Use JBoss Developer Studio or Eclipse to Run the Quickstarts] 
+// Undeploy the Quickstart
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
+// Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
 
 == Debug the Application
 
