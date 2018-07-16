@@ -57,7 +57,7 @@ To issue the _POST_ command using cURL, type the following command:
 
 [source,options="nowrap"]
 ----
-curl -i -u 'quickstartUser:quickstartPwd1!' -H "Content-Length: 0" -X POST http://localhost:8080/{artifactId}/tasks/title/task1
+$ curl -i -u 'quickstartUser:quickstartPwd1!' -H "Content-Length: 0" -X POST http://localhost:8080/{artifactId}/tasks/title/task1
 ----
 
 You will see the following response:
@@ -99,7 +99,7 @@ http://localhost:8080/{artifactId}/tasks/id/1
 +
 [source,options="nowrap"]
 ----
-curl -H "Accept: application/xml" -u 'quickstartUser:quickstartPwd1!' -X GET http://localhost:8080/{artifactId}/tasks/id/1
+$ curl -H "Accept: application/xml" -u 'quickstartUser:quickstartPwd1!' -X GET http://localhost:8080/{artifactId}/tasks/id/1
 ----
 +
 The ``-H` flag tells the server that the client wishes to accept XML content.
@@ -129,7 +129,7 @@ http://localhost:8080/{artifactId}/tasks/title
 +
 [source,options="nowrap"]
 ----
-curl -H "Accept: application/xml" -u 'quickstartUser:quickstartPwd1!' -X GET http://localhost:8080/{artifactId}/tasks/title
+$ curl -H "Accept: application/xml" -u 'quickstartUser:quickstartPwd1!' -X GET http://localhost:8080/{artifactId}/tasks/title
 ----
 
 Using either of the above `GET` methods, you should see the following XML:
@@ -152,7 +152,7 @@ To delete the task with id `1`:
 
 [source,options="nowrap"]
 ----
-curl -i -u 'quickstartUser:quickstartPwd1!' -X DELETE http://localhost:8080/{artifactId}/tasks/id/1
+$ curl -i -u 'quickstartUser:quickstartPwd1!' -X DELETE http://localhost:8080/{artifactId}/tasks/id/1
 ----
 
 You will see this response:
@@ -172,7 +172,7 @@ Now list all tasks associated with user `quickstartUser`:
 
 [source,options="nowrap"]
 ----
-curl -u 'quickstartUser:quickstartPwd1!' -X GET http://localhost:8080/{artifactId}/tasks/title
+$ curl -u 'quickstartUser:quickstartPwd1!' -X GET http://localhost:8080/{artifactId}/tasks/title
 ----
 
 You will see a response with an empty collection:
@@ -233,7 +233,7 @@ JSON is not part of the JAX-RS standard but most JAX-RS implementations do suppo
 +
 [source,options="nowrap"]
 ----
-curl -H "Accept: application/json" -u 'quickstartUser:quickstartPwd1!' -X GET http://localhost:8080/{artifactId}/tasks/id/1
+$ curl -H "Accept: application/json" -u 'quickstartUser:quickstartPwd1!' -X GET http://localhost:8080/{artifactId}/tasks/id/1
 ----
 +
 You will see the following response:

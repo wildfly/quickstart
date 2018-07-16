@@ -80,35 +80,35 @@ The following `outbound-socket-binding` groups are added to the `standard-socket
 
 [source,xml,options="nowrap"]
 ----
-  <socket-binding-group name="standard-sockets" default-interface="public" port-offset="${jboss.socket.binding.port-offset:0}">
-    ...
-    </outbound-socket-binding>
-    <outbound-socket-binding name="my-smtp-binding">
-        <remote-destination host="localhost" port="25"/>
-    </outbound-socket-binding>
-    <outbound-socket-binding name="my-pop3-binding">
-        <remote-destination host="localhost" port="110"/>
-    </outbound-socket-binding>
-    <outbound-socket-binding name="my-imap-binding">
-        <remote-destination host="localhost" port="143"/>
-    </outbound-socket-binding>
- </socket-binding-group>
+<socket-binding-group name="standard-sockets" default-interface="public" port-offset="${jboss.socket.binding.port-offset:0}">
+  ...
+  </outbound-socket-binding>
+  <outbound-socket-binding name="my-smtp-binding">
+      <remote-destination host="localhost" port="25"/>
+  </outbound-socket-binding>
+  <outbound-socket-binding name="my-pop3-binding">
+      <remote-destination host="localhost" port="110"/>
+  </outbound-socket-binding>
+  <outbound-socket-binding name="my-imap-binding">
+      <remote-destination host="localhost" port="143"/>
+  </outbound-socket-binding>
+</socket-binding-group>
 ----
 
 The `MyOtherMail` mail session is added to the `mail` subsystem and configured to use the custom outbound socket binding ports.
 
 [source,xml,subs="attributes+",options="nowrap"]
 ----
-  <subsystem xmlns="{MailSubsystemNamespace}">
-     <mail-session name="default" jndi-name="java:jboss/mail/Default">
-        <smtp-server outbound-socket-binding-ref="mail-smtp"/>
-     </mail-session>
-     <mail-session name="MyOtherMail" jndi-name="java:jboss/mail/MyOtherMail">
-        <smtp-server password="pass" username="nobody" tls="true" outbound-socket-binding-ref="my-smtp-binding"/>
-        <pop3-server outbound-socket-binding-ref="my-pop3-binding"/>
-        <imap-server password="pass" username="nobody" outbound-socket-binding-ref="my-imap-binding"/>
-     </mail-session>
-  </subsystem>
+<subsystem xmlns="{MailSubsystemNamespace}">
+   <mail-session name="default" jndi-name="java:jboss/mail/Default">
+      <smtp-server outbound-socket-binding-ref="mail-smtp"/>
+   </mail-session>
+   <mail-session name="MyOtherMail" jndi-name="java:jboss/mail/MyOtherMail">
+      <smtp-server password="pass" username="nobody" tls="true" outbound-socket-binding-ref="my-smtp-binding"/>
+      <pop3-server outbound-socket-binding-ref="my-pop3-binding"/>
+      <imap-server password="pass" username="nobody" outbound-socket-binding-ref="my-imap-binding"/>
+   </mail-session>
+</subsystem>
 ----
 
 // Build and Deploy the Quickstart

@@ -148,6 +148,7 @@ INFO  [org.jboss.as] (MSC service thread 1-6) WFLYSRV0050: JBoss EAP 7.1.0.Beta1
 +
 Note that during shutdown of the server an exception relating to clean shutdown of the Infinispan component might appear in the log, for instance.
 +
+[source,options="nowrap"]
 ----
 ERROR [org.infinispan.remoting.transport.jgroups.CommandAwareRpcDispatcher] (thread-19) ISPN000065: Exception while marshalling object: CacheNotFoundResponse: org.infinispan.IllegalLifecycleStateException: Cache marshaller has been stopped
 ----
@@ -260,14 +261,14 @@ This example configures the default election policy to be based on logical names
 /subsystem=singleton/singleton-policy=default/election-policy=simple:write-attribute(name=name-preferences,value=[node3,node2,node1])
 ----
 
-. Open a new terminal, navigate to the root directory of this quickstart, and run the following command to execute the script for Server 1. Make sure you replace {jbossHomeName}_1 with the path to the target Server 1.
+. Open a new terminal, navigate to the root directory of this quickstart, and run the following command to execute the script for Server 1. Make sure you replace __{jbossHomeName}_1__ with the path to the target Server 1.
 +
 [source,subs="+quotes,attributes+",options="nowrap"]
 ----
 $ __{jbossHomeName}_1__/bin/jboss-cli.sh --connect --file=name-preference-election-policy-add.cli
 ----
 +
-NOTE: For Windows, use the `{jbossHomeName}_1\bin\jboss-cli.bat` script.
+NOTE: For Windows, use the `__{jbossHomeName}_1__\bin\jboss-cli.bat` script.
 
 +
 You should see the following result when you run the script.

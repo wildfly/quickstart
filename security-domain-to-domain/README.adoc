@@ -44,7 +44,7 @@ Database Configuration::
 
 * Adds an application user with access rights to the application.
 +
-[source]
+[source,options="nowrap"]
 ----
 User Name: quickstartUser
 Password: quickstartPwd1!
@@ -77,7 +77,7 @@ You can configure the server by running JBoss CLI commands. For your convenience
 * xref:start_the_eap_standalone_server[Start the {productName} server] with the standalone default profile as described above.
 
 . Review the `configure-server.cli` file in the root of this quickstart directory. This script adds security domain and HTTP authentication factory to the `elytron` subsystem in the server configuration and also configures the `undertow` subsystem to use the configured HTTP authentication factory for the Web application.
-. Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing {jbossHomeName} with the path to your server:
+. Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing __{jbossHomeName}__ with the path to your server:
 +
 [source,subs="+quotes,attributes+",options="nowrap"]
 ----
@@ -89,7 +89,7 @@ NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
 
 You should see the following result when you run the script:
 +
-[source]
+[source,options="nowrap"]
 ----
 The batch executed successfully
 ----
@@ -98,7 +98,7 @@ The batch executed successfully
 
 == Review the Modified Server Configuration
 
-After stopping the server, open the `{jbossHomeName}/standalone/configuration/standalone.xml` file and review the changes.
+After stopping the server, open the `__{jbossHomeName}__/standalone/configuration/standalone.xml` file and review the changes.
 
 . The following datasource was added to the `datasources` subsystem.
 +
@@ -252,7 +252,7 @@ This shows that the user `quickstartUser` calls the servlet and has role `User` 
 
 You will see the following warning in the server log. You can ignore it.
 
-[source]
+[source,options="nowrap"]
 ----
 HHH000431: Unable to determine H2 database version, certain features may not work
 ----
@@ -270,7 +270,7 @@ You can restore the original server configuration by running the `restore-config
 // Additional informatin about this script
 This script removes the `application-security-domain` configurations from the `ejb3` and `undertow` subsystem, the `http-authentication-factory`, `security-domain`, `security-realm` and `role-decoder` configuration from the `elytron` subsystem and it also removes the `datasource` used for this quickstart. You should see the following result when you run the script:
 
-[source]
+[source,options="nowrap"]
 ----
 The batch executed successfully
 process-state: reload-required

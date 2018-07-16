@@ -105,6 +105,7 @@ Before you run the client, make sure you have already successfully deployed the 
 
 Type this command to execute the client:
 
+[source,options="nowrap"]
 ----
 $ mvn exec:exec
 ----
@@ -113,6 +114,7 @@ $ mvn exec:exec
 
 When you run the `mvn exec:exec` command, you see the following output. Note there may be other log messages interspersed between these messages.
 
+[source,options="nowrap"]
 ----
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
@@ -129,6 +131,7 @@ The username and credentials used to establish the connection to the application
 ====
 You should also see the following `EJBAccessException` printed in the server log, followed by a stack trace. This is to be expected because the user does not have the correct permissions to access the EJB.
 
+[source,options="nowrap"]
 ----
 ERROR [org.jboss.as.ejb3.invocation] (default task-38) WFLYEJB0034: EJB Invocation failed on component SecuredEJB for method public abstract boolean org.jboss.as.quickstarts.ejb_security.SecuredEJBRemote.administrativeMethod(): javax.ejb.EJBAccessException: WFLYEJB0364: Invocation on method: public abstract boolean org.jboss.as.quickstarts.ejb_security.SecuredEJBRemote.administrativeMethod() of bean: SecuredEJB is not allowed
 ----
@@ -148,6 +151,7 @@ NOTE: For Windows, use the `__{jbossHomeName}__\bin\add-user.bat` scripts.
 
 After you update the `quickstartUser` user role, you must restart the server for it to take effect. Running the client again should immediately reflect the new permission level of the user:
 
+[source,options="nowrap"]
 ----
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 

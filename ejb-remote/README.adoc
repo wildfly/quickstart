@@ -45,18 +45,21 @@ include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
 
 . Navigate to the client subdirectory.
 +
+[source,options="nowrap"]
 ----
 $ cd ../client
 ----
 
 . Compile the client code.
 +
+[source,options="nowrap"]
 ----
 $ mvn clean compile
 ----
 
 . Execute the client application within Maven.
 +
+[source,options="nowrap"]
 ----
 $ mvn exec:exec
 ----
@@ -72,37 +75,38 @@ When the client application runs, it performs the following steps:
 . Sends several method invocations to the stateful bean to increment a field in the bean, displaying the result each time.
 . Sends several method invocations to the stateful bean to decrement a field in the bean, displaying the result each time.
 
-The output in the terminal window will look like the following:
+The following output is displayed in the terminal window:
 
+[source,options="nowrap"]
 ----
-  Obtained a remote stateless calculator for invocation
-  Adding 204 and 340 via the remote stateless calculator deployed on the server
-  Remote calculator returned sum = 544
-  Subtracting 2332 from 3434 via the remote stateless calculator deployed on the server
-  Remote calculator returned difference = 1102
-  Obtained a remote stateful counter for invocation
-  Counter will now be incremented 5 times
-  Incrementing counter
-  Count after increment is 1
-  Incrementing counter
-  Count after increment is 2
-  Incrementing counter
-  Count after increment is 3
-  Incrementing counter
-  Count after increment is 4
-  Incrementing counter
-  Count after increment is 5
-  Counter will now be decremented 5 times
-  Decrementing counter
-  Count after decrement is 4
-  Decrementing counter
-  Count after decrement is 3
-  Decrementing counter
-  Count after decrement is 2
-  Decrementing counter
-  Count after decrement is 1
-  Decrementing counter
-  Count after decrement is 0
+Obtained a remote stateless calculator for invocation
+Adding 204 and 340 via the remote stateless calculator deployed on the server
+Remote calculator returned sum = 544
+Subtracting 2332 from 3434 via the remote stateless calculator deployed on the server
+Remote calculator returned difference = 1102
+Obtained a remote stateful counter for invocation
+Counter will now be incremented 5 times
+Incrementing counter
+Count after increment is 1
+Incrementing counter
+Count after increment is 2
+Incrementing counter
+Count after increment is 3
+Incrementing counter
+Count after increment is 4
+Incrementing counter
+Count after increment is 5
+Counter will now be decremented 5 times
+Decrementing counter
+Count after decrement is 4
+Decrementing counter
+Count after decrement is 3
+Decrementing counter
+Count after decrement is 2
+Decrementing counter
+Count after decrement is 1
+Decrementing counter
+Count after decrement is 0
 ----
 
 Logging statements have been removed from this output here to make it clearer.
@@ -114,12 +118,14 @@ The remote client application can also be built as a standalone executable JAR w
 
 . Open a terminal and navigate to the ejb-remote/client quickstart directory
 +
+[source,options="nowrap"]
 ----
 $ cd client
 ----
 
 . Type the following in the command line:
 +
+[source,options="nowrap"]
 ----
 $ mvn clean package assembly:single
 ----
@@ -137,12 +143,14 @@ To undeploy the server-side component from the {productName} server:
 
 . Navigate to the server-side subdirectory:
 +
+[source,options="nowrap"]
 ----
 $ cd ../server-side
 ----
 
 . Type the following command:
 +
+[source,options="nowrap"]
 ----
 $ mvn wildfly:undeploy
 ----

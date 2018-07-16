@@ -6,7 +6,10 @@ include::../shared-doc/attributes.adoc[]
 :technologies: CDI, JSF, RichFaces
 
 [abstract]
-Similar to the helloworld quickstart, but with a JSF front end.
+Similar to the `helloworld` quickstart, but with a JSF front end.
+
+:standalone-server-type: default
+:archiveType: war
 
 == What is it?
 
@@ -14,76 +17,30 @@ This project demonstrates how to create a {javaVersion} compliant application us
 
 In this example, a standard JSF `h:inputText` component is AJAX enabled using the RichFaces `a4j:ajax tag`. This triggers the application server to re-render only a subsection of the page on a browser event.
 
-== System requirements
+// System Requirements
+include::../shared-doc/system-requirements.adoc[leveloffset=+1]
+// Use of {jbossHomeName}
+include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
+// Start the {productName} Standalone Server
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
+// Build and Deploy the Quickstart
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
 
-All you need to build this project is Java 8 (Java SDK 1.8) or better, Maven 3.1 or better.
+== Access the application
 
-The application this project produces is designed to be run on JBoss WildFly.
+The application will be running at the following URL: http://localhost:8080/{artifactId}/
 
-== Configure Maven
-
-If you have not yet done so, you must link:../README.md#mavenconfiguration[Configure Maven] before testing the quickstarts.
-
-== Start JBoss WildFly with the Web Profile
-
-. Open a command line and navigate to the root of the JBoss server directory.
-.
-
-The following shows the command line to start the server with the web profile:
-
-[source]
-----
-For Linux:   JBOSS_HOME/bin/standalone.sh
-For Windows: JBOSS_HOME\bin\standalone.bat
-----
-
-== Build and Deploy the Quickstart
-
-_NOTE: The following build command assumes you have configured your Maven user settings. If you have not, you must include Maven setting arguments on the command line. See link:../README.md#buildanddeploy[Build and Deploy the Quickstarts] for complete instructions and additional options._
-
-. Make sure you have started the JBoss Server as described above.
-. Open a command line and navigate to the root directory of this quickstart.
-.
-
-Type this command to build and deploy the archive:
-
-[source]
-----
-mvn clean package wildfly:deploy
-----
-
-.
-
-This will deploy `target/wildfly-helloworld-rf.war` to the running instance of the server.
-
-Access the application
-———————
-
-The application will be running at the following URL: http://localhost:8080/wildfly-helloworld-rf/[http://localhost:8080/wildfly-helloworld-rf/].
-
-== Undeploy the Archive
-
-. Make sure you have started the JBoss Server as described above.
-. Open a command line and navigate to the root directory of this quickstart.
-
-
-When you are finished testing, type this command to undeploy the archive:
-
-[source]
-----
-mvn wildfly:undeploy
-----
-
-== Run the Quickstart in JBoss Developer Studio or Eclipse
-
-You can also start the server and deploy the quickstarts from Eclipse using JBoss tools. For more information, see link:../README.md#useeclipse[Use JBoss Developer Studio or Eclipse to Run the Quickstarts]
+// Undeploy the Quickstart
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
+// Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
 
 == Debug the Application
 
 If you want to debug the source code or look at the Javadocs of any library in the project, run either of the following commands to pull them into your local repository. The IDE should then detect them.
 
-[source]
+[source,options="nowrap"]
 ----
-mvn dependency:sources
-mvn dependency:resolve -Dclassifier=javadoc
+$ mvn dependency:sources
+$ mvn dependency:resolve -Dclassifier=javadoc
 ----

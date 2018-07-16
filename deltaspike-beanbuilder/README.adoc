@@ -36,8 +36,10 @@ To run the tests, right click on the project or individual classes and select *R
 
 == Investigate the Console Output
 
-Maven prints summary of performed tests into the console:
+Maven prints a summary of the performed tests in the console:
 
+[source,options="nowrap"]
+----
 ——————————————————-
  T E S T S
  ——————————————————-
@@ -46,8 +48,6 @@ Maven prints summary of performed tests into the console:
  log4j:WARN Please initialize the log4j system properly.
  Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 8.641 sec
 
-[source]
-----
 Results :
 
 Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
@@ -60,8 +60,8 @@ include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[levelof
 
 If you want to debug the source code or look at the Javadocs of any library in the project, run either of the following commands to pull them into your local repository. The IDE should then detect them.
 
-[source]
+[source,options="nowrap"]
 ----
-    mvn dependency:sources
-    mvn dependency:resolve -Dclassifier=javadoc
+$ mvn dependency:sources
+$ mvn dependency:resolve -Dclassifier=javadoc
 ----

@@ -161,7 +161,7 @@ When you start the servers, you must pass the cluster password on the command li
 [source,subs="+quotes,attributes+",options="nowrap"]
 ----
 $ __{jbossHomeName}_1__/bin/standalone.sh -c standalone-full-ha.xml
-__{jbossHomeName}_2__/bin/standalone.sh -c standalone-full-ha.xml -Djboss.socket.binding.port-offset=100
+$ __{jbossHomeName}_2__/bin/standalone.sh -c standalone-full-ha.xml -Djboss.socket.binding.port-offset=100
 ----
 
 NOTE: For Windows, use the `__{jbossHomeName}_1__\bin\standalone.bat` and `__{jbossHomeName}_2__\bin\standalone.bat` scripts.
@@ -190,11 +190,11 @@ Look at the {productName} server console or log and you should see log messages 
 
 [source,options="nowrap"]
 ----
-[Server:quickstart-messagingcluster-node1] 16:34:41,165 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldQueueMDB] (Thread-8 (ActiveMQ-client-global-threads-1067469862)) Received Message from queue: This is message 1
-[Server:quickstart-messagingcluster-node1] 16:34:41,274 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldQueueMDB] (Thread-8 (ActiveMQ-client-global-threads-1067469862)) Received Message from queue: This is message 3
-[Server:quickstart-messagingcluster-node1] 16:34:41,323 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldQueueMDB] (Thread-6 (ActiveMQ-client-global-threads-1067469862)) Received Message from queue: This is message 5
-[Server:quickstart-messagingcluster-node2] 16:34:41,324 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldQueueMDB] (Thread-8 (ActiveMQ-client-global-threads-1771031398)) Received Message from queue: This is message 2
-[Server:quickstart-messagingcluster-node2] 16:34:41,330 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldQueueMDB] (Thread-7 (ActiveMQ-client-global-threads-1771031398)) Received Message from queue: This is message 4
+[Server:quickstart-messagingcluster-node1] INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldQueueMDB] (Thread-8 (ActiveMQ-client-global-threads-1067469862)) Received Message from queue: This is message 1
+[Server:quickstart-messagingcluster-node1] INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldQueueMDB] (Thread-8 (ActiveMQ-client-global-threads-1067469862)) Received Message from queue: This is message 3
+[Server:quickstart-messagingcluster-node1] INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldQueueMDB] (Thread-6 (ActiveMQ-client-global-threads-1067469862)) Received Message from queue: This is message 5
+[Server:quickstart-messagingcluster-node2] INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldQueueMDB] (Thread-8 (ActiveMQ-client-global-threads-1771031398)) Received Message from queue: This is message 2
+[Server:quickstart-messagingcluster-node2] INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldQueueMDB] (Thread-7 (ActiveMQ-client-global-threads-1771031398)) Received Message from queue: This is message 4
 ----
 
 Note that the logging indicates messages have arrived from both node 1, `quickstart-messagingcluster-node1`, as well as node 2, `quickstart-messagingcluster-node2`.
@@ -293,6 +293,7 @@ The batch executed successfully
 [IMPORTANT]
 ====
 If the `:stop-server` command does not complete before the next commands are issued, you might see an error similar to the following:
+
 [source,options="nowrap"]
 ----
 {"JBAS014653: Composite operation failed and was rolled back. Steps that failed:" => {"Operation step-1" => "JBAS010977: Server (quickstart-messagingcluster-node1) still running"}}

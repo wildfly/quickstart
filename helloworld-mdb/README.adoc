@@ -41,6 +41,8 @@ include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
 
 // Additional deployment information
 Look at the {productName} console or server log and you should see log messages corresponding to the deployment of the message-driven beans and the JMS destinations:
+
+[source,options="nowrap"]
 ----
 ...
 INFO  [org.wildfly.extension.messaging-activemq] (MSC service thread 1-4) WFLYMSGAMQ0002: Bound messaging object to jndi name java:/queue/HELLOWORLDMDBQueue
@@ -63,6 +65,7 @@ To send messages to the topic, use the following URL: http://localhost:8080/{art
 
 Look at the {productName} console or Server log and you should see log messages like the following:
 
+[source,options="nowrap"]
 ----
 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldQueueMDB] (Thread-9 (ActiveMQ-client-global-threads-1189700957)) Received Message from queue: This is message 5
 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldQueueMDB] (Thread-6 (ActiveMQ-client-global-threads-1189700957)) Received Message from queue: This is message 1

@@ -76,7 +76,7 @@ The application will be running at the following URL: http://localhost:8080/{art
 +
 [source,subs="+quotes,attributes+",options="nowrap"]
 ----
-JAVA_OPTS="-javaagent:/BYTEMAN_HOME/lib/byteman.jar=script:/QUICKSTART_HOME/jta-crash-rec/src/main/scripts/xa.btm ${JAVA_OPTS}"
+JAVA_OPTS="-javaagent:/__BYTEMAN_HOME__/lib/byteman.jar=script:/__QUICKSTART_HOME__/jta-crash-rec/src/main/scripts/xa.btm ${JAVA_OPTS}"
 ----
 +
 [NOTE]
@@ -85,7 +85,7 @@ For Windows, append the following line.
 
 [source,subs="+quotes,attributes+",options="nowrap"]
 ----
-`JAVA_OPTS=%JAVA_OPTS% -javaagent:C:BYTEMAN_HOME\lib\byteman.jar=script:C:\QUICKSTART_HOME\jta-crash-rec\src\main\scripts\xa.btm %JAVA_OPTS%``
+`JAVA_OPTS=%JAVA_OPTS% -javaagent:C:__BYTEMAN_HOME__\lib\byteman.jar=script:C:\__QUICKSTART_HOME__\jta-crash-rec\src\main\scripts\xa.btm %JAVA_OPTS%``
 ----
 ====
 
@@ -99,11 +99,12 @@ For Windows, append the following line.
 +
 [source,subs="+quotes,attributes+",options="nowrap"]
 ----
-java -cp __{jbossHomeName}__/modules/system/layers/base/com/h2database/h2/main/h2*.jar org.h2.tools.Console
+$ java -cp __{jbossHomeName}__/modules/system/layers/base/com/h2database/h2/main/h2*.jar org.h2.tools.Console
 ----
 
 ** Log in:
 +
+[source,options="nowrap"]
 ----
 Database URL: jdbc:h2:file:~/jta-crash-rec-quickstart
 User name:    sa
@@ -113,6 +114,7 @@ Password:     sa
 ** The console is available at the url http://localhost:8082. If you receive an error such as `Exception opening port &quot;8082&quot;` it is most likely because some other application has that port open. You will need to find which application is using the port and close it.
 ** Once you are logged in enter the following query to see that the pair you entered is present but does not contain _"updated via JMS"_.
 +
+[source,options="nowrap"]
 ----
 select * from kvpair
 ----
@@ -124,11 +126,12 @@ select * from kvpair
 +
 [source,subs="+quotes,attributes+",options="nowrap"]
 ----
-ls __{jbossHomeName}__/standalone/data/tx-object-store/ShadowNoFileLockStore/defaultStore/StateManager/BasicAction/TwoPhaseCoordinator/AtomicAction/
+$ ls __{jbossHomeName}__/standalone/data/tx-object-store/ShadowNoFileLockStore/defaultStore/StateManager/BasicAction/TwoPhaseCoordinator/AtomicAction/
 ----
 
 *** An example of a logging record file name is:
 +
+[source,options="nowrap"]
 ----
 0_ffff7f000001_-7f1cf331_4f0b0ad4_15
 ----
@@ -137,6 +140,7 @@ ls __{jbossHomeName}__/standalone/data/tx-object-store/ShadowNoFileLockStore/def
 . To observe XA recovery
 ** Stop the H2 console and exit the terminal to close the database connections. Otherwise, you may see messages like the following when you start your server:
 +
+[source,options="nowrap"]
 ----
 Database may be already in use: "Locked by another process"
 ----

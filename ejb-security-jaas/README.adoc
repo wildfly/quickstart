@@ -255,7 +255,7 @@ Make sure you are still in the root directory of this quickstart, and run the fo
 +
 [source,subs="+quotes,attributes+",options="nowrap"]
 ----
-__{jbossHomeName}__/bin/jboss-cli.sh --connect --file=enable-role-mappers.cli
+$ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=enable-role-mappers.cli
 ----
 +
 NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
@@ -293,7 +293,6 @@ NOTE: This time you will not see the exception in the server log because `quicks
 . The same result can be observed when re-running the remote client application:
 +
 [source,options="nowrap"]
-
 ----
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 Called secured bean, caller principal quickstartUser
@@ -310,7 +309,7 @@ NOTE: This time you will not see the exception in the server log because `quicks
 When you initially test this quickstart, you will see the following exception in the server log when you log in using the application URL and when you run the `mvn exec:exec` command. This is because the `quickstartUser` does not yet have the `admin` role required by the `administrativeMethod()` method. You can ignore this exception.
 
 
-[source]
+[source,options="nowrap"]
 ----
 ERROR [org.jboss.as.ejb3.invocation] (default task-1) WFLYEJB0034: EJB Invocation failed on component SecuredEJB for method public abstract boolean org.jboss.as.quickstarts.ejb_security_jaas.SecuredEJBRemote.administrativeMethod(): javax.ejb.EJBAccessException: WFLYEJB0364: Invocation on method: public abstract boolean org.jboss.as.quickstarts.ejb_security_jaas.SecuredEJBRemote.administrativeMethod() of bean: SecuredEJB is not allowed
 	at org.jboss.as.ejb3.security.RolesAllowedInterceptor.processInvocation(RolesAllowedInterceptor.java:67)
