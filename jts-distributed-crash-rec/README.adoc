@@ -67,7 +67,7 @@ You can verify the deployment of the `jts` quickstart by accessing the following
 +
 [source,subs="+quotes,attributes+",options="nowrap"]
 ----
-JAVA_OPTS="-javaagent:/BYTEMAN_HOME/lib/byteman.jar=script:/QUICKSTART_HOME/jts-distributed-crash-rec/byteman-scripts/failAfterPrepare.btm ${JAVA_OPTS}"
+JAVA_OPTS="-javaagent:/__BYTEMAN_HOME__/lib/byteman.jar=script:/__QUICKSTART_HOME__/jts-distributed-crash-rec/byteman-scripts/failAfterPrepare.btm ${JAVA_OPTS}"
 JAVA_OPTS="-Dorg.jboss.byteman.transform.all -Djboss.modules.system.pkgs=org.jboss.byteman -Dorg.jboss.byteman.verbose=true ${JAVA_OPTS}"
 ----
 +
@@ -77,7 +77,7 @@ For Windows, append the following line.
 
 [source,subs="+quotes,attributes+",options="nowrap"]
 ----
-JAVA_OPTS=%JAVA_OPTS% -javaagent:C:BYTEMAN_HOME\lib\byteman.jar=script:C:\QUICKSTART_HOME\jts-distributed-crash-rec\byteman-scripts\failAfterPrepare.btm %JAVA_OPTS%
+JAVA_OPTS=%JAVA_OPTS% -javaagent:C:__BYTEMAN_HOME__\lib\byteman.jar=script:C:\__QUICKSTART_HOME__\jts-distributed-crash-rec\byteman-scripts\failAfterPrepare.btm %JAVA_OPTS%
 JAVA_OPTS=%JAVA_OPTS% -Dorg.jboss.byteman.transform.all -Djboss.modules.system.pkgs=org.jboss.byteman -Dorg.jboss.byteman.verbose=true
 ----
 ====
@@ -86,8 +86,8 @@ JAVA_OPTS=%JAVA_OPTS% -Dorg.jboss.byteman.transform.all -Djboss.modules.system.p
 +
 [source,subs="+quotes,attributes+",options="nowrap"]
 ----
-$ __{jbossHomeName}_1__/bin/standalone.sh -c standalone-full.xml -Djboss.tx.node.id=UNIQUE_NODE_ID_1
-$ __{jbossHomeName}_2__/bin/standalone.sh -c standalone-full.xml -Djboss.tx.node.id=UNIQUE_NODE_ID_2 -Djboss.socket.binding.port-offset=100
+$ __{jbossHomeName}_1__/bin/standalone.sh -c standalone-full.xml -Djboss.tx.node.id=__UNIQUE_NODE_ID_1__
+$ __{jbossHomeName}_2__/bin/standalone.sh -c standalone-full.xml -Djboss.tx.node.id=__UNIQUE_NODE_ID_2__ -Djboss.socket.binding.port-offset=100
 ----
 +
 NOTE: For Windows, use the `__{jbossHomeName}_1__\bin\standalone.bat` and `__{jbossHomeName}_2__\bin\standalone.bat` scripts.
@@ -183,15 +183,15 @@ IMPORTANT: By default, the recovery process checks the transactional state every
 +
 [source,options="nowrap"]
 ----
-         INFO  [org.jboss.ejb.client] (RequestProcessor-10) JBoss EJB Client version 2.1.2.Final
-         INFO  [class org.jboss.as.quickstarts.cmt.jts.mdb.HelloWorldMDB] (Thread-3 (group:ActiveMQ-client-global-threads-649946595)) Received Message: Created invoice for customer named: Tom
+INFO  [org.jboss.ejb.client] (RequestProcessor-10) JBoss EJB Client version 2.1.2.Final
+INFO  [class org.jboss.as.quickstarts.cmt.jts.mdb.HelloWorldMDB] (Thread-3 (group:ActiveMQ-client-global-threads-649946595)) Received Message: Created invoice for customer named: Tom
 ----
 
 * You will also get several stack traces in {productName} server 1 console during recovery, these are to be expected as not all resources are available at all stages of recovery.
 +
 [source,options="nowrap"]
 ----
- WARN  [com.arjuna.ats.jts] (Periodic Recovery) ARJUNA022223: ExtendedResourceRecord.topLevelCommit caught exception: org.omg.CORBA.OBJECT_NOT_EXIST: ----------BEGIN server-side stack trace----------
+WARN  [com.arjuna.ats.jts] (Periodic Recovery) ARJUNA022223: ExtendedResourceRecord.topLevelCommit caught exception: org.omg.CORBA.OBJECT_NOT_EXIST: ----------BEGIN server-side stack trace----------
  org.omg.CORBA.OBJECT_NOT_EXIST:   vmcid: SUN  minor code: 1004  completed: No
    at com.sun.corba.se.impl.logging.POASystemException.nullServant(POASystemException.java:2040)
    at com.sun.corba.se.impl.logging.POASystemException.nullServant(POASystemException.java:2062)
@@ -213,7 +213,7 @@ IMPORTANT: By default, the recovery process checks the transactional state every
 * The easiest way to check when {productName} server 1 is recovered is to look in the object store and check that all the records are now cleaned up. The records that should be cleared are the ones in the `defaultStore/CosTransactions/XAResourceRecord` and `defaultStore/StateManager/BasicAction/TwoPhaseCoordinator/ArjunaTransactionImple`.
 * Records will remain in `defaultStore/Recovery/FactoryContact` and `defaultStore/RecoveryCoordinator` for server 1 and that is to be expected. Run:
 +
-[source,options="nowrap"]
+[source,subs="+quotes,attributes+",options="nowrap"]
 ----
 tree __{jbossHomeName}_1__/standalone/data/tx-object-store
 ----

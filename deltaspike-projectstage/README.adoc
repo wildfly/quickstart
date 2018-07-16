@@ -50,9 +50,9 @@ You are presented with a simple page that shows the current project stage: _Stag
 
 Edit the file `src/main/resources/META-INF/apache-deltaspike.properties` and change the `org.apache.deltaspike.ProjectStage` property to `Development`. Deploy the application again
 
-[source]
+[source,options="nowrap"]
 ----
-mvn clean package wildfly:deploy
+$ mvn clean package wildfly:deploy
 ----
 
 Access the application again at the same URL: http://localhost:8080/wildfly-deltaspike-projectstage[http://localhost:8080/wildfly-deltaspike-projectstage]
@@ -68,8 +68,8 @@ include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[levelof
 
 If you want to debug the source code or look at the Javadocs of any library in the project, run either of the following commands to pull them into your local repository. The IDE should then detect them.
 
-[source]
+[source,options="nowrap"]
 ----
-mvn dependency:sources
-mvn dependency:resolve -Dclassifier=javadoc
+$ mvn dependency:sources
+$ mvn dependency:resolve -Dclassifier=javadoc
 ----

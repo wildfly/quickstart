@@ -27,7 +27,7 @@ SecuredEJB::
 
 The `SecuredEJB` has four methods.
 +
-[source, java]
+[source,java,options="nowrap"]
 ----
 String getSecurityInformation();
 String guestMethod();
@@ -205,6 +205,7 @@ Before you run the client, make sure you have already successfully deployed the 
 
 Type this command to execute the client:
 
+[source,options="nowrap"]
 ----
 $ mvn exec:exec
 ----
@@ -212,6 +213,7 @@ $ mvn exec:exec
 == Investigate the Console Output
 
 When you run the `mvn exec:exec` command, you see the following output. Note there may be other log messages interspersed between these.
+
 [source,options="nowrap"]
 ----
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -247,7 +249,7 @@ authorized.
 
 [source,options="nowrap"]
 ----
-12:26:06,556 ERROR [org.jboss.as.ejb3.invocation] (default task-57) WFLYEJB0034: EJB Invocation failed on component SecuredEJB for method public abstract java.lang.String org.jboss.as.quickstarts.ejb_security_context_propagation.SecuredEJBRemote.adminMethod(): javax.ejb.EJBAccessException: WFLYEJB0364: Invocation on method: public abstract java.lang.String org.jboss.as.quickstarts.ejb_security_context_propagation.SecuredEJBRemote.adminMethod() of bean: SecuredEJB is not allowed
+ERROR [org.jboss.as.ejb3.invocation] (default task-57) WFLYEJB0034: EJB Invocation failed on component SecuredEJB for method public abstract java.lang.String org.jboss.as.quickstarts.ejb_security_context_propagation.SecuredEJBRemote.adminMethod(): javax.ejb.EJBAccessException: WFLYEJB0364: Invocation on method: public abstract java.lang.String org.jboss.as.quickstarts.ejb_security_context_propagation.SecuredEJBRemote.adminMethod() of bean: SecuredEJB is not allowed
     at org.jboss.as.ejb3.security.RolesAllowedInterceptor.processInvocation(RolesAllowedInterceptor.java:67)
     at org.jboss.invocation.InterceptorContext.proceed(InterceptorContext.java:422)
     at org.jboss.as.ejb3.security.SecurityDomainInterceptor.processInvocation(SecurityDomainInterceptor.java:44)

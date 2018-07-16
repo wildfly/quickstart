@@ -8,6 +8,10 @@ include::../shared-doc/attributes.adoc[]
 [abstract]
 This quickstart performs the same functions as the _hibernate_ quickstart, but uses Hibernate 4 for database access. Compare this quickstart to the _hibernate_ quickstart to see the changes needed to run with Hibernate 5.
 
+:standalone-server-type: default
+:archiveType: war
+
+
 == What is it?
 
 This quickstart is based upon the kitchensink example, but demonstrates how to use Hibernate ORM 4 over JPA in JBoss WildFly.
@@ -16,15 +20,10 @@ This project is setup to allow you to create a compliant {javaVersion} applicati
 
 You can compare this quickstart to the `hibernate` quickstart, which uses Hibernate 5, to see the code differences between Hibernate 4 and Hibernate 5.
 
-== System requirements
-
-All you need to build this project is Java 8 (Java SDK 1.8) or better, Maven 3.1 or better.
-
-The application this project produces is designed to be run on JBoss WildFly.
-
-== Configure Maven
-
-If you have not yet done so, you must link:../README.md#mavenconfiguration[Configure Maven] before testing the quickstarts.
+// System Requirements
+include::../shared-doc/system-requirements.adoc[leveloffset=+1]
+// Use of {jbossHomeName}
+include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
 
 == Add the Correct Dependencies
 
@@ -35,83 +34,43 @@ This quickstart demonstrates usage of Hibernate Session and Hibernate Validators
 If you look at the pom.xml file in the root of the hibernate4 quickstart directory, you will see that the dependencies for the Hibernate modules have been added with the `compile` scope (which is the default and thus omitted).
 For example:
 
-[source]
+[source,xml,options="nowrap"]
 ----
-  <dependency>
-     <groupId>org.hibernate</groupId>
-     <artifactId>hibernate-validator</artifactId>
-     <version>${version.hibernate4}</version>
-     <exclusions>
-        <exclusion>
-           <groupId>org.slf4j</groupId>
-           <artifactId>slf4j-api</artifactId>
-        </exclusion>
-     </exclusions>
-  </dependency>
+<dependency>
+   <groupId>org.hibernate</groupId>
+   <artifactId>hibernate-validator</artifactId>
+   <version>${version.hibernate4}</version>
+   <exclusions>
+      <exclusion>
+         <groupId>org.slf4j</groupId>
+         <artifactId>slf4j-api</artifactId>
+      </exclusion>
+   </exclusions>
+</dependency>
 ----
 
 The compile scope makes sure that the Hibernate dependencies also end-up in the final WAR file.
 
-== Start JBoss WildFly with the Web Profile
+// Start the {productName} Standalone Server
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
+// Build and Deploy the Quickstart
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
 
-. Open a command line and navigate to the root of the JBoss server directory.
-.
+== Access the application
 
-The following shows the command line to start the server with the web profile:
+The application will be running at the following URL: http://localhost:8080/{artifactId}/
 
-[source]
-----
-For Linux:   JBOSS_HOME/bin/standalone.sh
-For Windows: JBOSS_HOME\bin\standalone.bat
-----
-
-== Build and Deploy the Quickstart
-
-_NOTE: The following build command assumes you have configured your Maven user settings. If you have not, you must include Maven setting arguments on the command line. See link:../README.md#buildanddeploy[Build and Deploy the Quickstarts] for complete instructions and additional options._
-
-. Make sure you have started the JBoss Server as described above.
-. Open a command line and navigate to the root directory of this quickstart.
-.
-
-Type this command to build and deploy the archive:
-
-[source]
-----
-mvn clean package wildfly:deploy
-----
-
-.
-
-This will deploy `target/wildfly-hibernate4.war` to the running instance of the server.
-
-Access the application
-———————
-
-The application will be running at the following URL: http://localhost:8080/wildfly-hibernate4/[http://localhost:8080/wildfly-hibernate4/].
-
-== Undeploy the Archive
-
-. Make sure you have started the JBoss Server as described above.
-. Open a command line and navigate to the root directory of this quickstart.
-.
-
-When you are finished testing, type this command to undeploy the archive:
-
-[source]
-----
-mvn wildfly:undeploy
-----
-
-== Run the Quickstart in JBoss Developer Studio or Eclipse
-
-You can also start the server and deploy the quickstarts from Eclipse using JBoss tools. For more information, see link:../README.md#useeclipse[Use JBoss Developer Studio or Eclipse to Run the Quickstarts]
+// Undeploy the Quickstart
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
+// Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
 
 == Debug the Application
 
 If you want to debug the source code or look at the Javadocs of any library in the project, run either of the following commands to pull them into your local repository. The IDE should then detect them.
 
-[source]
+[source,options="nowrap"]
 ----
-    mvn dependency:sources
-    mvn dependency:resolve -Dclassifier=javadoc
+$ mvn dependency:sources
+$ mvn dependency:resolve -Dclassifier=javadoc
 ----
