@@ -19,12 +19,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.wildfly.quickstarts</groupId>
-        <artifactId>quickstart-parent</artifactId>
-        <version>14.0.0-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
+        <groupId>org.wildfly.bom</groupId>
+        <artifactId>quickstart</artifactId>
+        <version>13.0.0.Final</version>
+        <relativePath />
     </parent>
     <artifactId>jaxws-ejb</artifactId>
+    <groupId>org.wildfly.quickstarts</groupId>
+    <version>14.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Quickstart: jaxws-ejb</name>
     <description>This project is a working example of a JAX-WS web service EJB endpoint</description>
@@ -41,6 +43,10 @@
         <module>service</module>
         <module>client</module>
     </modules>
+
+    <properties>
+        <version.istack.commons.runtime>3.0.4</version.istack.commons.runtime>
+    </properties>
 
     <dependencyManagement>
         <dependencies>

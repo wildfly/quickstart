@@ -1,17 +1,21 @@
-include::../shared-doc/attributes.adoc[]
-
 = bean-validation-custom-constraint: Bean Validation Using Custom Constraints
 :author: Giriraj Sharma
+:productName: WildFly
+:productNameFull: WildFly Application Server
+:jbossHomeName: WILDFLY_HOME
+:productVersion: 12
+:buildRequirements: Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later
+include::../shared-doc/attributes.adoc[]
+
 :level: Beginner
 :technologies: CDI, JPA, BV
+:source: {githubRepoUrl}
 
 [abstract]
 The `bean-validation-custom-constraint` quickstart demonstrates how to use the Bean Validation API to define custom constraints and validators.
 
 :standalone-server-type: default
 :archiveType: war
-:uses-h2:
-:uses-ds-xml:
 
 == What is it
 
@@ -19,22 +23,43 @@ The `bean-validation-custom-constraint` quickstart demonstrates how to use CDI, 
 
 This quickstart does not contain a user interface layer. The purpose of this project is to show you how to test bean validation using custom constraints with Arquillian. In this quickstart, the personAddress field of entity Person is validated using a set of custom constraints defined in the class AddressValidator. If you want to see an example of how to test bean validation with a user interface, look at the link:../kitchensink/README{outfilesuffix}[kitchensink] example.
 
-// Considerations for Use in a Production Environment
+//*************************************************
+// Add notes about use in a production environment.
+//*************************************************
+// == Considerations for Use in a Production Environment
+:uses-h2:
+:uses-ds-xml:
 include::../shared-doc/development-shortcuts.adoc[leveloffset=+1]
-// System Requirements
+
+//*************************************************
+// Add System Requirements
+//*************************************************
+// == System Requirements
 include::../shared-doc/system-requirements.adoc[leveloffset=+1]
-// Use of {jbossHomeName}
+
+//*************************************************
+// Add Use of JBoss Home Name
+//*************************************************
+// == Use of {jbossHomeName}
 include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
-// Start the {productName} Standalone Server
+
+//*************************************************
+// Start the server with the default profile
+//*************************************************
+// == Start the {productName} Standalone Server
 include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
-// Run the Arquillian Tests
+
+
+//*************************************************
+// Run the Arquillian tests
+//*************************************************
+// == Run the Arquillian Tests
 include::../shared-doc/run-arquillian-tests.adoc[leveloffset=+1]
 
 == Investigate the Console Output
 
 When you run the Arquillian tests, Maven prints summary of the performed tests to the console. You should see the following results.
 
-[source,options="nowrap"]
 ----
 Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
 ----
@@ -43,7 +68,6 @@ If you are interested in more details, look in the `target/surefire-reports` dir
 
 You can also check the server console output to verify that the Arquillian tests deployed to and ran in the application server. Search for lines similar to the following ones in the server output log:
 
-[source,options="nowrap"]
 ----
 INFO [org.jboss.as.server.deployment] (MSC service thread 1-5) WFLYSRV0027: Starting deployment of "test.war" (runtime-name: "test.war")
 ...
@@ -58,16 +82,22 @@ INFO [[org.jboss.as.server] (management-handler-thread - 2) WFLYSRV0009: Undeplo
 
 You will see the following warnings in the server log. You can ignore these warnings.
 
-[source,options="nowrap"]
 ----
 WFLYJCA0091: -ds.xml file deployments are deprecated. Support may be removed in a future version.
 
 HHH000431: Unable to determine H2 database version, certain features may not work
 ----
 
-// Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+//*************************************************
+// Add JBoss Developer Studio instructions
+//*************************************************
+// == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
-// Debug the Application
+
+//*************************************************
+// Add info to debug the application
+//*************************************************
+// == Debug the Application
 include::../shared-doc/debug-the-application.adoc[leveloffset=+1]
 
 // Additional debugging information
@@ -75,7 +105,6 @@ include::../shared-doc/debug-the-application.adoc[leveloffset=+1]
 ====
 You might see the following message when you run the command. It indicates the source is not provided in the third-party `antlr` JAR.
 
-[source,options="nowrap"]
 ----
 [INFO] The following files have NOT been resolved:
 [INFO]    antlr:antlr:jar:sources:2.7.7:provided

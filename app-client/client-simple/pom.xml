@@ -23,6 +23,7 @@
         <groupId>org.wildfly.quickstarts</groupId>
         <artifactId>app-client</artifactId>
         <version>14.0.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>app-client-client-simple</artifactId>
     <packaging>jar</packaging>
@@ -39,13 +40,13 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.wildfly</groupId>
-            <artifactId>wildfly-ejb-client-bom</artifactId>
+            <groupId>org.wildfly.bom</groupId>
+            <artifactId>ejb-client-bom</artifactId>
             <type>pom</type>
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>${project.groupId}</groupId>
+            <groupId>org.wildfly.quickstarts</groupId>
             <artifactId>app-client-ejb</artifactId>
             <version>${project.version}</version>
         </dependency>

@@ -19,12 +19,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.wildfly.quickstarts</groupId>
-        <artifactId>quickstart-parent</artifactId>
-        <version>14.0.0-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
+        <groupId>org.wildfly.bom</groupId>
+        <artifactId>quickstart</artifactId>
+        <version>13.0.0.Final</version>
+        <relativePath />
     </parent>
     <artifactId>kitchensink-ear</artifactId>
+    <groupId>org.wildfly.quickstarts</groupId>
+    <version>14.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Quickstart: kitchensink-ear</name>
     <description>This kitchensink project demonstrates how to use JSF, CDI, JAX-RS, EJB, JPA, and Bean Validation in an application packaged as an EAR</description>
@@ -49,7 +51,7 @@
             <!-- Define the version of the EJB jar so that we don't need
                 to repeat ourselves in every module -->
             <dependency>
-                <groupId>${project.groupId}</groupId>
+                <groupId>org.wildfly.quickstarts</groupId>
                 <artifactId>kitchensink-ear-ejb</artifactId>
                 <version>${project.version}</version>
                 <type>ejb</type>
@@ -58,7 +60,7 @@
             <!-- Define the version of the WAR so that we don't need to repeat
                 ourselves in every module -->
             <dependency>
-                <groupId>${project.groupId}</groupId>
+                <groupId>org.wildfly.quickstarts</groupId>
                 <artifactId>kitchensink-ear-web</artifactId>
                 <version>${project.version}</version>
                 <type>war</type>
