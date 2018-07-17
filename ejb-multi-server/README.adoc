@@ -1,9 +1,15 @@
-include::../shared-doc/attributes.adoc[]
-
 = ejb-multi-server: EJB Communication Across Servers
 :author: Wolf-Dieter Fink
+:productName: WildFly
+:productNameFull: WildFly Application Server
+:jbossHomeName: WILDFLY_HOME
+:productVersion: 12
+:buildRequirements: Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later
+include::../shared-doc/attributes.adoc[]
+
 :level: Advanced
 :technologies: EJB, EAR
+:source: {githubRepoUrl}
 
 [abstract]
 The `ejb-multi-server` quickstart shows how to communicate between multiple applications deployed to different servers using an EJB to log the invocation.
@@ -42,9 +48,16 @@ The root `pom.xml` builds each of the subprojects in an appropriate order.
 
 The server configuration is done using CLI batch scripts located in the root of the quickstart folder.
 
-// System Requirements
+//*************************************************
+// Add System Requirements
+//*************************************************
+// == System Requirements
 include::../shared-doc/system-requirements.adoc[leveloffset=+1]
-// Use of {jbossHomeName}
+
+//*************************************************
+// Add Use of JBoss Home Name
+//*************************************************
+// == Use of {jbossHomeName}
 include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
 
 [[start_with_a_clean_server_install]]
@@ -79,9 +92,17 @@ NOTE: For Windows, use the `__{jbossHomeName}__\bin\add-user.bat` script.
 
 If you prefer, you can use the `add-user` utility interactively. For an example of how to use the add-user utility, see the instructions located here: link:{addApplicationUserDocUrl}[Add an Application User].
 
-// Back Up the {productName} Managed Domain Configuration
+//*************************************************
+// Back up the server configuration files
+//*************************************************
+// == Back Up the {productName} Managed Domain Configuration
 include::../shared-doc/back-up-managed-domain-configuration.adoc[leveloffset=+1]
-// Start the {productName} Managed Domain
+
+
+//*************************************************
+// Start the managed domain
+//*************************************************
+// == Start the {productName} Managed Domain
 include::../shared-doc/start-the-managed-domain.adoc[leveloffset=+1]
 
 [[configure_the_server]]
@@ -115,7 +136,10 @@ IMPORTANT: Depending on your machine configuration, you might see "Exception in 
 
 There are too many additions to the configuration files to list here. Feel free to compare the `domain.xml` and `host.xml` to the backup copies to see the changes made to configure the server to run this quickstart.
 
-// Install the Quickstart Parent Artifact in Maven
+//*************************************************
+// Install the quickstart parent artifact
+//*************************************************
+// == Install the Quickstart Parent Artifact in Maven
 include::../shared-doc/install-quickstart-parent-artifact.adoc[leveloffset=+1]
 
 
@@ -127,7 +151,6 @@ include::../shared-doc/install-quickstart-parent-artifact.adoc[leveloffset=+1]
 . Open a terminal and navigate to the root directory of this quickstart.
 . Type this command to build the artifacts.
 +
-[source,options="nowrap"]
 ----
 $ mvn clean install
 ----
@@ -166,7 +189,7 @@ process-state: reload-required
 [Server:app-oneA] 13:00:13,408 WARN  [org.jboss.as.clustering.jgroups.protocol.UDP] (ServerService Thread Pool -- 11) JGRP000015: the receive buffer of socket MulticastSocket was set to 25MB, but the OS only allocated 212.99KB. This might lead to performance problems. Please set your max receive buffer in the OS correctly (e.g. net.core.rmem_max on Linux)
 ----
 
-IMPORTANT: If errors appear in the `server.log` when installing or deploying the quickstart, stop the domain and restart it. This should ensure further steps run correctly.
+IMPORTANT: If ERRORs appear in the `server.log` when installing or deploying the quickstart, stop the domain and restart it. This should ensure further steps run correctly.
 
 [[access_the_remote_client_application]]
 == Access the Remote Client Application
@@ -240,13 +263,23 @@ $ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=undeploy-domain.cli
 NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat`.
 
 
-// Restore the {productName} Managed Domain Configuration Manually
+//******************************************************
+// Restore the domain configuration manually
+//******************************************************
+// == Restore the {productName} Managed Domain Configuration Manually
 include::../shared-doc/restore-managed-domain-configuration-manual.adoc[leveloffset=+1]
-// Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+
+//*************************************************
+// Add JBoss Developer Studio instructions
+//*************************************************
+// == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
 
 // Additional JBoss Developer Studio instructions
 EJB Client (ejb-client) currently has limited support in the Eclipse Web Tools Platform (WTP).
 
-// Debug the Application
+//*************************************************
+// Add info to debug the application
+//*************************************************
+// == Debug the Application
 include::../shared-doc/debug-the-application.adoc[leveloffset=+1]

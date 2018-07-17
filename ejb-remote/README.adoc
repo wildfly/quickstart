@@ -1,9 +1,15 @@
-include::../shared-doc/attributes.adoc[]
-
 = ejb-remote: Remote EJB Client Example
 :author: Jaikiran Pai, Mike Musgrove
+:productName: WildFly
+:productNameFull: WildFly Application Server
+:jbossHomeName: WILDFLY_HOME
+:productVersion: 12
+:buildRequirements: Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later
+include::../shared-doc/attributes.adoc[]
+
 :level: Intermediate
 :technologies: EJB, JNDI
+:source: {githubRepoUrl}
 
 [abstract]
 The `ejb-remote` quickstart uses EJB and JNDI to demonstrate how to access an EJB, deployed to {productName}, from a remote Java client application.
@@ -30,36 +36,53 @@ The remote client application depends on the remote business interfaces from the
 
 Each component is defined in its own standalone Maven module. The quickstart provides a top level Maven module to simplify the packaging of the artifacts.
 
-// System Requirements
+//*************************************************
+// Add System Requirements
+//*************************************************
+// == System Requirements
 include::../shared-doc/system-requirements.adoc[leveloffset=+1]
-// Use of {jbossHomeName}
+
+//*************************************************
+// Add Use of JBoss Home Name
+//*************************************************
+// == Use of {jbossHomeName}
 include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
-// Start the {productName} Standalone Server
+
+//*************************************************
+// Start the server with the default profile
+//*************************************************
+// == Start the {productName} Standalone Server
 include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
-// Install the Quickstart Parent Artifact in Maven
+
+//*************************************************
+// Install the quickstart parent artifact
+//*************************************************
+// == Install the Quickstart Parent Artifact in Maven
 include::../shared-doc/install-quickstart-parent-artifact.adoc[leveloffset=+1]
-// Build and Deploy the Quickstart
+
+
+//*************************************************
+// Build and deploy the quickstart JAR
+//*************************************************
+// == Build and Deploy the Quickstart
 include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
 
 == Build and Run the Client Application
 
 . Navigate to the client subdirectory.
 +
-[source,options="nowrap"]
 ----
 $ cd ../client
 ----
 
 . Compile the client code.
 +
-[source,options="nowrap"]
 ----
 $ mvn clean compile
 ----
 
 . Execute the client application within Maven.
 +
-[source,options="nowrap"]
 ----
 $ mvn exec:exec
 ----
@@ -75,38 +98,37 @@ When the client application runs, it performs the following steps:
 . Sends several method invocations to the stateful bean to increment a field in the bean, displaying the result each time.
 . Sends several method invocations to the stateful bean to decrement a field in the bean, displaying the result each time.
 
-The following output is displayed in the terminal window:
+The output in the terminal window will look like the following:
 
-[source,options="nowrap"]
 ----
-Obtained a remote stateless calculator for invocation
-Adding 204 and 340 via the remote stateless calculator deployed on the server
-Remote calculator returned sum = 544
-Subtracting 2332 from 3434 via the remote stateless calculator deployed on the server
-Remote calculator returned difference = 1102
-Obtained a remote stateful counter for invocation
-Counter will now be incremented 5 times
-Incrementing counter
-Count after increment is 1
-Incrementing counter
-Count after increment is 2
-Incrementing counter
-Count after increment is 3
-Incrementing counter
-Count after increment is 4
-Incrementing counter
-Count after increment is 5
-Counter will now be decremented 5 times
-Decrementing counter
-Count after decrement is 4
-Decrementing counter
-Count after decrement is 3
-Decrementing counter
-Count after decrement is 2
-Decrementing counter
-Count after decrement is 1
-Decrementing counter
-Count after decrement is 0
+  Obtained a remote stateless calculator for invocation
+  Adding 204 and 340 via the remote stateless calculator deployed on the server
+  Remote calculator returned sum = 544
+  Subtracting 2332 from 3434 via the remote stateless calculator deployed on the server
+  Remote calculator returned difference = 1102
+  Obtained a remote stateful counter for invocation
+  Counter will now be incremented 5 times
+  Incrementing counter
+  Count after increment is 1
+  Incrementing counter
+  Count after increment is 2
+  Incrementing counter
+  Count after increment is 3
+  Incrementing counter
+  Count after increment is 4
+  Incrementing counter
+  Count after increment is 5
+  Counter will now be decremented 5 times
+  Decrementing counter
+  Count after decrement is 4
+  Decrementing counter
+  Count after decrement is 3
+  Decrementing counter
+  Count after decrement is 2
+  Decrementing counter
+  Count after decrement is 1
+  Decrementing counter
+  Count after decrement is 0
 ----
 
 Logging statements have been removed from this output here to make it clearer.
@@ -118,14 +140,12 @@ The remote client application can also be built as a standalone executable JAR w
 
 . Open a terminal and navigate to the ejb-remote/client quickstart directory
 +
-[source,options="nowrap"]
 ----
 $ cd client
 ----
 
 . Type the following in the command line:
 +
-[source,options="nowrap"]
 ----
 $ mvn clean package assembly:single
 ----
@@ -143,14 +163,12 @@ To undeploy the server-side component from the {productName} server:
 
 . Navigate to the server-side subdirectory:
 +
-[source,options="nowrap"]
 ----
 $ cd ../server-side
 ----
 
 . Type the following command:
 +
-[source,options="nowrap"]
 ----
 $ mvn wildfly:undeploy
 ----
@@ -161,9 +179,16 @@ You can use HTTP as the transport for remote EJB invocations by specifying `-Dht
 
 Before you can use it, you need to set up a user on the server as HTTP does not support transparent authentication. The next section describes how to xref:add_the_application_user[add the authorized application user] so you can test the quickstart using HTTP as the transport.
 
+//*************************************************
 // Add the Authorized Application User
+//*************************************************
+// == Add the Authorized Application User
 include::../shared-doc/add-application-user.adoc[leveloffset=+1]
-// Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+
+//*************************************************
+// Add JBoss Developer Studio instructions
+//*************************************************
+// == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
 
 // Additional JBoss Developer Studio instructions
@@ -180,6 +205,10 @@ This quickstart consists of multiple projects, so it deploys and runs differentl
 ** The client output displays in the *Console* window.
 . To undeploy the project, right-click on the *{artifactId}-server-side* project and choose *Run As* -> *Maven build*. Enter `wildfly:undeploy` for the *Goals* and click *Run*.
 
-//  Debug the Application
-include::../shared-doc/debug-the-application.adoc[leveloffset=+1]
+== Debug the Application
 
+If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
+
+----
+mvn dependency:sources
+----
