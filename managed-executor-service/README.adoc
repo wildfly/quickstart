@@ -1,21 +1,21 @@
-= managed-executor-service: Managed Executor Service example
-:author: Rafael Benevides
-:productName: WildFly
-:productNameFull: WildFly Application Server
-:jbossHomeName: WILDFLY_HOME
-:productVersion: 12
-:buildRequirements: Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later
 include::../shared-doc/attributes.adoc[]
 
+= managed-executor-service: Managed Executor Service example
+:author: Rafael Benevides
 :level: Beginner
 :technologies: EE Concurrency Utilities, JAX-RS, JAX-RS Client API
-:source: {githubRepoUrl}
 
 [abstract]
 The `managed-executor-service` quickstart demonstrates how Java EE applications can submit tasks for asynchronous execution.
 
 :standalone-server-type: default
 :archiveType: war
+:uses-h2:
+:uses-ds-xml:
+
+//*************************************************
+// Shared CD and Product Release content
+//*************************************************
 
 == What is it?
 
@@ -27,38 +27,23 @@ A JAX-RS resource provides access to some operations that are executed asynchron
 
 This quickstart does not contain any user interface. The tests must be run to verify everything is working correctly.
 
+
 //*************************************************
-// Add notes about use in a production environment.
+// Product Release content only
 //*************************************************
-// == Considerations for Use in a Production Environment
-:uses-h2:
-:uses-ds-xml:
+
+ifndef::EAPCDRelease[]
+
+// Considerations for Use in a Production Environment
 include::../shared-doc/development-shortcuts.adoc[leveloffset=+1]
-
-//*************************************************
-// Add System Requirements
-//*************************************************
-// == System Requirements
+// System Requirements
 include::../shared-doc/system-requirements.adoc[leveloffset=+1]
-
-//*************************************************
-// Add Use of JBoss Home Name
-//*************************************************
-// == Use of {jbossHomeName}
+// Use of {jbossHomeName}
 include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
-
-//*************************************************
-// Start the server with the default profile
-//*************************************************
-// == Start the {productName} Standalone Server
+// Start the {productName} Standalone Server
 include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
-
-//*************************************************
-// Run the Arquillian tests
-//*************************************************
-// == Run the Arquillian Tests
+// Run the Arquillian Tests
 include::../shared-doc/run-arquillian-tests.adoc[leveloffset=+1]
-
 
 == Investigate the Console Output
 
@@ -134,10 +119,7 @@ WFLYJCA0091: -ds.xml file deployments are deprecated. Support may be removed in 
 HHH000431: Unable to determine H2 database version, certain features may not work
 ----
 
-//*************************************************
-// Add JBoss Developer Studio instructions
-//*************************************************
-// == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+// Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
 
 // Additional JBoss Developer Studio instructions
@@ -148,14 +130,26 @@ To run the tests in Red Hat JBoss Developer Studio, you must first set the activ
 
 Then, to run the tests, right click on the project or individual classes and select *Run As* –> *JUnit Test* in the context menu.
 
-//*************************************************
-// Deploy the quickstart to OpenShift
-//*************************************************
-// == Deploy the Quickstart to OpenShift Online
-include::../shared-doc/deploy-to-openshift-online.adoc[leveloffset=+1]
+// Debug the Application
+include::../shared-doc/debug-the-application.adoc[leveloffset=+1]
+
+endif::[]
 
 //*************************************************
-// Add info to debug the application
+// CD Release content only
 //*************************************************
-// == Debug the Application
-include::../shared-doc/debug-the-application.adoc[leveloffset=+1]
+
+ifdef::EAPCDRelease[]
+
+// Getting Started with OpenShift
+include::../shared-doc/cd-openshift-getting-started.adoc[leveloffset=+1]
+//Prepare OpenShift for Quickstart Deployment
+include::../shared-doc/cd-create-project.adoc[leveloffset=+1]
+// Import the Latest {xpaasproduct-shortname} Image Streams and Templates
+include::../shared-doc/cd-import-imagestreams-templates.adoc[leveloffset=+1]
+// Deploy the {ProductShortName} Source-to-Image (S2I) Quickstart to OpenShift
+include::../shared-doc/cd-deploy-project.adoc[leveloffset=+1]
+// OpenShift Post Deployment Tasks: This is not currently needed.
+// include::../shared-doc/cd-post-deployment-tasks.adoc[leveloffset=+1]
+
+endif::[]

@@ -37,15 +37,15 @@
 
         <!-- Include the ejb client jars -->
         <dependency>
-            <groupId>org.wildfly.bom</groupId>
-            <artifactId>ejb-client-bom</artifactId>
+            <groupId>org.wildfly</groupId>
+            <artifactId>wildfly-ejb-client-bom</artifactId>
             <type>pom</type>
             <scope>compile</scope>
         </dependency>
 
         <!-- We depend on the EJB remote business interfaces of this application -->
         <dependency>
-            <groupId>org.wildfly.quickstarts</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>ejb-remote-server-side</artifactId>
             <version>${project.version}</version>
             <type>ejb-client</type>

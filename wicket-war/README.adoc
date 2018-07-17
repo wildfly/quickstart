@@ -1,22 +1,19 @@
-= wicket-war: Wicket Framework used in a WAR.
-:author: Ondrej Zizka <ozizka@redhat.com>
-:productName: WildFly
-:productNameFull: WildFly Application Server
-:jbossHomeName: WILDFLY_HOME
-:productVersion: 12
-:buildRequirements: Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later
 include::../shared-doc/attributes.adoc[]
 
+= wicket-war: Wicket Framework used in a WAR.
+:author: Ondrej Zizka <ozizka@redhat.com>
 :level: Intermediate
 :technologies: Apache Wicket, JPA
-:source: {githubRepoUrl}
 
 [abstract]
 Demonstrates how to use the Wicket Framework 7.x with the JBoss server using the Wicket Java EE integration packaged as a WAR
 
+:standalone-server-type: default
+:archiveType: war
+
 == What is it?
 
-This is an example of how to use Wicket Framework 7.x with WildFly, leveraging features of Java EE 7, using the Wicket-Stuff Java EE integration.
+This is an example of how to use Wicket Framework 7.x with WildFly, leveraging features of {javaVersion}, using the Wicket-Stuff Java EE integration.
 
 Features used:
 
@@ -26,74 +23,31 @@ Features used:
 
 This is a WAR version.
 
-== System requirements
-
-All you need to build this project is Java 8 (Java SDK 1.8) or better, Maven 3.1 or better.
-
-The application this project produces is designed to be run on JBoss WildFly.
-
-== Configure Maven
-
-If you have not yet done so, you must link:../README.md#mavenconfiguration[Configure Maven] before testing the quickstarts.
-
-== Start JBoss WildFly with the Web Profile
-
-. Open a command line and navigate to the root of the JBoss server directory.
-. 
-
-The following shows the command line to start the server with the web profile:
-
-[source]
-----
-For Linux:   JBOSS_HOME/bin/standalone.sh
-For Windows: JBOSS_HOME\bin\standalone.bat
-----
-
-== Build and Deploy the Quickstart
-
-_NOTE: The following build command assumes you have configured your Maven user settings. If you have not, you must include Maven setting arguments on the command line. See link:../README.md#buildanddeploy[Build and Deploy the Quickstarts] for complete instructions and additional options._
-
-. Make sure you have started the JBoss Server as described above.
-. Open a command line and navigate to the root directory of this quickstart.
-. 
-
-Type this command to build and deploy the archive:
-
-[source]
-----
-mvn clean package wildfly:deploy
-----
-
-. 
-
-This will deploy `target/wildfly-wicket-war.war` to the running instance of the server.
+// System Requirements
+include::../shared-doc/system-requirements.adoc[leveloffset=+1]
+//  Use of {jbossHomeName}
+include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
+//  Start the {productName} Standalone Server
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
+//  Build and Deploy the Quickstart
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
 
 == Access the application
 
-Access the running application in a browser at the following URL: http://localhost:8080/wildfly-wicket-war[http://localhost:8080/wildfly-wicket-war]
+Access the running application in a browser at the following URL: http://localhost:8080/{artifactId}/
 
 You will see a page with a table listing user entities. Initially, this table is empty. By clicking a link, you can add more users.
 
-== Undeploy the Archive
-
-. Make sure you have started the JBoss Server as described above.
-. Open a command line and navigate to the root directory of this quickstart.
-. 
-
-When you are finished testing, type this command to undeploy the archive:
-
-[source]
-----
-mvn wildfly:undeploy
-----
+// Undeploy the Quickstart
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
 
 == Debug the Application
 
 If you want to debug the source code or look at the Javadocs of any library in the project,
 run either of the following commands to pull them into your local repository. The IDE should then detect them.
 
-[source]
+[source,options="nowrap"]
 ----
-    mvn dependency:sources
-    mvn dependency:resolve -Dclassifier=javadoc
+$ mvn dependency:sources
+$ mvn dependency:resolve -Dclassifier=javadoc
 ----

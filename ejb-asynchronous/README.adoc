@@ -1,15 +1,9 @@
-= ejb-asynchronous: EJB with asynchronous methods
-:author: Wolf-Dieter Fink
-:productName: WildFly
-:productNameFull: WildFly Application Server
-:jbossHomeName: WILDFLY_HOME
-:productVersion: 12
-:buildRequirements: Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later
 include::../shared-doc/attributes.adoc[]
 
+= ejb-asynchronous: EJB with asynchronous methods
+:author: Wolf-Dieter Fink
 :level: Advanced
 :technologies: Asynchronous EJB
-:source: {githubRepoUrl}
 
 [abstract]
 The `ejb-asynchronous` quickstart demonstrates the behavior of asynchronous EJB invocations by a deployed EJB and a remote client and how to handle errors.
@@ -35,35 +29,15 @@ This example consists of the following Maven projects, each with a shared parent
 
 The root `pom.xml` builds each of the subprojects in the above order and deploys the archive to the server.
 
-//*************************************************
-// Add System Requirements
-//*************************************************
-// == System Requirements
+//  System Requirements
 include::../shared-doc/system-requirements.adoc[leveloffset=+1]
-
-//*************************************************
-// Add Use of JBoss Home Name
-//*************************************************
-// == Use of {jbossHomeName}
+// Use of {jbossHomeName}
 include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
-
-//*************************************************
-// Start the server with the default profile
-//*************************************************
-// == Start the {productName} Standalone Server
+// Start the {productName} Standalone Server
 include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
-
-//*************************************************
-// Install the quickstart parent artifact
-//*************************************************
-// == Install the Quickstart Parent Artifact in Maven
+// Install the Quickstart Parent Artifact in Maven
 include::../shared-doc/install-quickstart-parent-artifact.adoc[leveloffset=+1]
-
-
-//*************************************************
-// Build and deploy the quickstart JAR
-//*************************************************
-// == Build and Deploy the Quickstart
+// Build and Deploy the Quickstart
 include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
 
 == Access the Application
@@ -104,16 +78,9 @@ The second message appears after the client is finished, approximately 15 second
 action 'fireAndForget' finished
 ----
 
-//*************************************************
-// Undeploy the quickstart archive
-//*************************************************
-// == Undeploy the Quickstart
+// Undeploy the Quickstart
 include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
-
-//*************************************************
-// Add JBoss Developer Studio instructions
-//*************************************************
-// == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+// Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
 
 // Additional JBoss Developer Studio instructions
@@ -128,8 +95,5 @@ This quickstart consists of multiple projects, so it deploys and runs differentl
 ** The client output displays in the *Console* window.
 . To undeploy the project, right-click on the *{artifactId}-ejb* project and choose *Run As* -> *Maven build*. Enter `wildfly:undeploy` for the *Goals* and click *Run*.
 
-//*************************************************
-// Add info to debug the application
-//*************************************************
-// == Debug the Application
+// Debug the Application
 include::../shared-doc/debug-the-application.adoc[leveloffset=+1]

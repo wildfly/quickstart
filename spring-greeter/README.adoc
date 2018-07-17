@@ -1,21 +1,19 @@
-= spring-greeter: Greeter Example using Spring 4.x
-:author: Marius Bogoevici
-:productName: WildFly
-:productNameFull: WildFly Application Server
-:jbossHomeName: WILDFLY_HOME
-:productVersion: 12
-:buildRequirements: Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later
 include::../shared-doc/attributes.adoc[]
 
+= spring-greeter: Greeter Example using Spring 4.x
+:author: Marius Bogoevici
 :level: Beginner
 :technologies: Spring MVC, JSP, JPA
-:source: {githubRepoUrl}
 
 [abstract]
 The `spring-greeter` quickstart is based on the `greeter` quickstart, but differs in that it uses Spring MVC for Mapping `GET` and `POST` requests.
 
 :standalone-server-type: default
 :archiveType: war
+
+//*************************************************
+// Shared CD and Product Release content
+//*************************************************
 
 == What is it?
 
@@ -45,27 +43,18 @@ The user is added and a message displays the new user ID number.
 . Click on the *Greet a user!* link to return to the *Greet!* page.
 
 //*************************************************
-// Add System Requirements
+// Product Release content only
 //*************************************************
-// == System Requirements
+
+ifndef::EAPCDRelease[]
+
+// System Requirements
 include::../shared-doc/system-requirements.adoc[leveloffset=+1]
-
-//*************************************************
-// Add Use of JBoss Home Name
-//*************************************************
-// == Use of {jbossHomeName}
+// Use of {jbossHomeName}
 include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
-
-//*************************************************
-// Start the server with the default profile
-//*************************************************
-// == Start the {productName} Standalone Server
+// Start the {productName} Standalone Server
 include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
-
-//*************************************************
-// Build and deploy the quickstart WAR
-//*************************************************
-// == Build and Deploy the Quickstart
+// Build and Deploy the Quickstart
 include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
 
 // Additional deployment information
@@ -75,33 +64,16 @@ If you do not have Maven configured you can manually copy `target/spring-greeter
 
 The application will be running at the following URL: http://localhost:8080/{artifactId}/
 
-//*************************************************
-// Undeploy the quickstart archive
-//*************************************************
-// == Undeploy the Quickstart
+// Undeploy the Quickstart
 include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
 
 // Additional undeploy information.
 Or you can manually remove the application by removing `{artifactId}.war` from the `__{jbossHomeName}__/standalone/deployments/` directory.
 
-//*************************************************
-// Run the Arquillian functional tests
-//*************************************************
-// == Run the Arquillian Functional Tests
+// Run the Arquillian Functional Tests
 include::../shared-doc/run-arquillian-functional-tests.adoc[leveloffset=+1]
-
-//*************************************************
-// Add JBoss Developer Studio instructions
-//*************************************************
-// == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+// Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
-
-//*************************************************
-// Deploy the quickstart to OpenShift
-//*************************************************
-// == Deploy the Quickstart to OpenShift Online
-include::../shared-doc/deploy-to-openshift-online.adoc[leveloffset=+1]
-
 
 == Debug the Application
 
@@ -112,3 +84,24 @@ If you want to debug the source code or look at the Javadocs of any library in t
 $ mvn dependency:sources
 $ mvn dependency:resolve -Dclassifier=javadoc
 ----
+
+endif::[]
+
+//*************************************************
+// CD Release content only
+//*************************************************
+
+ifdef::EAPCDRelease[]
+
+// Getting Started with OpenShift
+include::../shared-doc/cd-openshift-getting-started.adoc[leveloffset=+1]
+//Prepare OpenShift for Quickstart Deployment
+include::../shared-doc/cd-create-project.adoc[leveloffset=+1]
+// Import the Latest {xpaasproduct-shortname} Image Streams and Templates
+include::../shared-doc/cd-import-imagestreams-templates.adoc[leveloffset=+1]
+// Deploy the {ProductShortName} Source-to-Image (S2I) Quickstart to OpenShift
+include::../shared-doc/cd-deploy-project.adoc[leveloffset=+1]
+// OpenShift Post Deployment Tasks: This is not currently needed.
+// include::../shared-doc/cd-post-deployment-tasks.adoc[leveloffset=+1]
+
+endif::[]

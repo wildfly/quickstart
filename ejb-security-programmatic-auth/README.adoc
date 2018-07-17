@@ -1,15 +1,9 @@
-= ejb-security-programmatic-auth: Using the programmatic API to invoke a remote EJB using different identities
-:author: Stefan Guilhen
-:productName: WildFly
-:productNameFull: WildFly Application Server
-:jbossHomeName: WILDFLY_HOME
-:productVersion: 12
-:buildRequirements: Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later
 include::../shared-doc/attributes.adoc[]
 
+= ejb-security-programmatic-auth: Using the programmatic API to invoke a remote EJB using different identities
+:author: Stefan Guilhen
 :level: Intermediate
 :technologies: EJB, Security
-:source: {githubRepoUrl}
 
 [abstract]
 The `ejb-security-programmatic-auth` quickstart demonstrates how to programmatically setup different identities when invoking a remote secured EJB.
@@ -17,41 +11,23 @@ The `ejb-security-programmatic-auth` quickstart demonstrates how to programmatic
 :standalone-server-type: default
 :archiveType: jar
 :includes-cli-scripts:
+:restoreScriptName: restore-configuration.cli
+:app-user-groups: guest
+:admin-user-groups: guest,admin
 
 == What is it?
 
 The `ejb-security-programmatic-auth` quickstart demonstrates how to invoke a remote secured EJB using the `Elytron` client API to establish different identities. The quickstart client application accomplishes that by looking up and invoking the secured EJB under different `AuthenticationContext`s. Each context is setup to use a different identities and credentials.
 
-//*************************************************
-// Add System Requirements
-//*************************************************
-// == System Requirements
+// System Requirements
 include::../shared-doc/system-requirements.adoc[leveloffset=+1]
-
-//*************************************************
-// Add Use of JBoss Home Name
-//*************************************************
-// == Use of {jbossHomeName}
+// Use of {jbossHomeName}
 include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
-
-//*****************************************************
 // Add the Authorized Application and Management Users
-//*****************************************************
-// ==  Add the Authorized Application and Management Users
-:app-user-groups: guest
-:admin-user-groups: guest,admin
 include::../shared-doc/add-application-and-management-users.adoc[leveloffset=+1]
-
-//*************************************************
-// Back up the server configuration files
-//*************************************************
-// == Back Up the {productName} Standalone Server Configuration
+// Back Up the {productName} Standalone Server Configuration
 include::../shared-doc/back-up-server-standalone-configuration.adoc[leveloffset=+1]
-
-//*************************************************
-// Start the server with the default profile
-//*************************************************
-// == Start the {productName} Standalone Server
+// Start the {productName} Standalone Server
 include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
 
 [[configure_the_server]]
@@ -109,10 +85,7 @@ The `application-security-domain` essentially enables Elytron security for the q
 +
 This allows for the identity that was established in the connection authentication to be propagated to the components.
 
-//*************************************************
-// Build and deploy the quickstart JAR
-//*************************************************
-// == Build and Deploy the Quickstart
+// Build and Deploy the Quickstart
 include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
 
 == Access the Application
@@ -147,18 +120,9 @@ Principal has admin permission: true
 
 As expected, the `quickstart` user is able to call the methods available for `guest`, but does not have the `admin` permission to call administrative methods on the remote EJB. The `quickstartAdmin` on the other hand has permissions to call both methods.
 
-//*************************************************
-// Undeploy the quickstart archive
-//*************************************************
-// == Undeploy the Quickstart
+// Undeploy the Quickstart
 include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
-
-
-//************************************************************
 // Restore the {productName} Standalone Server Configuration
-//************************************************************
-// == Restore the {productName} Standalone Server Configuration
-:restoreScriptName: restore-configuration.cli
 include::../shared-doc/restore-standalone-server-configuration.adoc[leveloffset=+1]
 
 // Additional information about this script
@@ -170,16 +134,9 @@ The batch executed successfully
 process-state: reload-required
 ----
 
-//******************************************************
-// Restore the standalone server configuration manually
-//******************************************************
-// == Restore the {productName} Standalone Server Configuration Manually
+// Restore the {productName} Standalone Server Configuration Manually
 include::../shared-doc/restore-standalone-server-configuration-manual.adoc[leveloffset=+2]
-
-//*************************************************
-// Add JBoss Developer Studio instructions
-//*************************************************
-// == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+// Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
 
 // Additional JBoss Developer Studio instructions
@@ -207,8 +164,5 @@ Principal has admin permission: true
 
 * Make sure you xref:restore_the_server_configuration[restore the {productName} standalone server configuration] when you have completed testing this quickstart.
 
-//*************************************************
-// Add info to debug the application
-//*************************************************
-// == Debug the Application
+// Debug the Application
 include::../shared-doc/debug-the-application.adoc[leveloffset=+1]

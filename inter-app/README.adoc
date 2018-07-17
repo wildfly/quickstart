@@ -1,15 +1,9 @@
-= inter-app: Communicate Between Two Applications Using EJB and CDI
-:author: Pete Muir
-:productName: WildFly
-:productNameFull: WildFly Application Server
-:jbossHomeName: WILDFLY_HOME
-:productVersion: 12
-:buildRequirements: Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later
 include::../shared-doc/attributes.adoc[]
 
+= inter-app: Communicate Between Two Applications Using EJB and CDI
+:author: Pete Muir
 :level: Advanced
 :technologies: EJB, CDI, JSF
-:source: {githubRepoUrl}
 
 [abstract]
 The `inter-app` quickstart shows you how to use a shared API JAR and an EJB to provide inter-application communication between two WAR deployments.
@@ -48,22 +42,11 @@ a| This project contains the second WAR.
 * It exposes an EJB singleton and a simple UI that allows you to read the value set on the bean in `appA`.
 |===
 
-//*************************************************
-// Add System Requirements
-//*************************************************
-// == System Requirements
+// System Requirements
 include::../shared-doc/system-requirements.adoc[leveloffset=+1]
-
-//*************************************************
-// Add Use of JBoss Home Name
-//*************************************************
-// == Use of {jbossHomeName}
+// Use of {jbossHomeName}
 include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
-
-//*************************************************
-// Start the server with the default profile
-//*************************************************
-// == Start the {productName} Standalone Server
+// Start the {productName} Standalone Server
 include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
 
 == Build and Deploy the Quickstart
@@ -112,10 +95,7 @@ $ mvn wildfly:undeploy -pl appA,appB
 $ mvn wildfly:undeploy -pl shared
 ----
 
-//*************************************************
-// Add JBoss Developer Studio instructions
-//*************************************************
-// == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+// Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
 
 // Additional JBoss Developer Studio instructions
@@ -130,8 +110,5 @@ This quickstart consists of multiple projects containing interdependencies on ea
 . To undeploy the *{artifactId}-app-appB* project, right-click on it and choose *Run As* –>; *Maven build*. Enter `wildfly:undeploy` for the *Goals* and click *Run*.
 . To undeploy the `{artifactId}-app-appA` project, right-click on it and choose *Run As* –>; *Maven build*. Enter `wildfly:undeploy` for the *Goals* and click *Run*.
 
-//*************************************************
-// Add info to debug the application
-//*************************************************
-// == Debug the Application
+// Debug the Application
 include::../shared-doc/debug-the-application.adoc[leveloffset=+1]

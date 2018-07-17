@@ -1,15 +1,9 @@
-= ha-singleton-service: Deploying Cluster-wide Singleton MSC Services
-:author: Radoslav Husar
-:productName: WildFly
-:productNameFull: WildFly Application Server
-:jbossHomeName: WILDFLY_HOME
-:productVersion: 12
-:buildRequirements: Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later
 include::../shared-doc/attributes.adoc[]
 
+= ha-singleton-service: Deploying Cluster-wide Singleton MSC Services
+:author: Radoslav Husar
 :level: Advanced
 :technologies: MSC, Singleton Service, Clustering
-:source: {githubRepoUrl}
 
 [abstract]
 The `ha-singleton-service` quickstart demonstrates how to deploy a cluster-wide singleton MSC service.
@@ -37,16 +31,9 @@ These examples are built and packaged as JAR archives.
 
 For more information about clustered singleton services, see _HA Singleton Service_ in the {LinkDevelopmentGuide}[__{DevelopmentBookName}__] for {DocInfoProductName} located on the Red Hat Customer Portal.
 
-//*************************************************
-// Add System Requirements
-//*************************************************
-// == System Requirements
+// System Requirements
 include::../shared-doc/system-requirements.adoc[leveloffset=+1]
-
-//*************************************************
-// Add Use of JBoss Home Name
-//*************************************************
-// == Use of {jbossHomeName}_1 and {jbossHomeName}_2
+// Use of {jbossHomeName}_1 and {jbossHomeName}_2
 include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
 
 == Clone the {productName} Directory
@@ -161,6 +148,7 @@ INFO  [org.jboss.as] (MSC service thread 1-6) WFLYSRV0050: JBoss EAP 7.1.0.Beta1
 +
 Note that during shutdown of the server an exception relating to clean shutdown of the Infinispan component might appear in the log, for instance.
 +
+[source,options="nowrap"]
 ----
 ERROR [org.infinispan.remoting.transport.jgroups.CommandAwareRpcDispatcher] (thread-19) ISPN000065: Exception while marshalling object: CacheNotFoundResponse: org.infinispan.IllegalLifecycleStateException: Cache marshaller has been stopped
 ----
@@ -273,14 +261,14 @@ This example configures the default election policy to be based on logical names
 /subsystem=singleton/singleton-policy=default/election-policy=simple:write-attribute(name=name-preferences,value=[node3,node2,node1])
 ----
 
-. Open a new terminal, navigate to the root directory of this quickstart, and run the following command to execute the script for Server 1. Make sure you replace {jbossHomeName}_1 with the path to the target Server 1.
+. Open a new terminal, navigate to the root directory of this quickstart, and run the following command to execute the script for Server 1. Make sure you replace __{jbossHomeName}_1__ with the path to the target Server 1.
 +
 [source,subs="+quotes,attributes+",options="nowrap"]
 ----
 $ __{jbossHomeName}_1__/bin/jboss-cli.sh --connect --file=name-preference-election-policy-add.cli
 ----
 +
-NOTE: For Windows, use the `{jbossHomeName}_1\bin\jboss-cli.bat` script.
+NOTE: For Windows, use the `__{jbossHomeName}_1__\bin\jboss-cli.bat` script.
 
 +
 You should see the following result when you run the script.
@@ -521,14 +509,7 @@ $ __{jbossHomeName}_2__/bin/jboss-cli.sh --connect --controller=localhost:10090 
 +
 NOTE: For Windows, use the `__{jbossHomeName}_1__\bin\jboss-cli.bat` and `__{jbossHomeName}_2__\bin\jboss-cli.bat` scripts.
 
-//*************************************************
-// Add JBoss Developer Studio instructions
-//*************************************************
-// == Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+// Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
 include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
-
-//*************************************************
-// Add info to debug the application
-//*************************************************
-// == Debug the Application
+// Debug the Application
 include::../shared-doc/debug-the-application.adoc[leveloffset=+1]

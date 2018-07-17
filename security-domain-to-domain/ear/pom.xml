@@ -44,12 +44,12 @@
     <dependencies>
         <!-- Dependencies on the EJB and Web modules so that they can be found by the EAR plug-in -->
         <dependency>
-            <groupId>org.wildfly.quickstarts</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>security-domain-to-domain-ejb</artifactId>
             <type>ejb</type>
         </dependency>
         <dependency>
-            <groupId>org.wildfly.quickstarts</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>security-domain-to-domain-web</artifactId>
             <type>war</type>
         </dependency>
@@ -75,7 +75,7 @@
                         If a custom context root is needed, uncomment the following snippet to
                         register our War as a web module and set the contextRoot property -->
                         <webModule>
-                            <groupId>org.wildfly.quickstarts</groupId>
+                            <groupId>${project.groupId}</groupId>
                             <artifactId>security-domain-to-domain-web</artifactId>
                             <contextRoot>/security-domain-to-domain</contextRoot>
                         </webModule>
