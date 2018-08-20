@@ -67,6 +67,27 @@ include::../shared-doc/back-up-server-standalone-configuration.adoc[leveloffset=
 // Start the {productName} Standalone Server
 include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
 
+[[assign_role_to_the_application_user]]
+== Assign the appropriate Role to the Application User
+
+By default, the application user created in the "Add the application user" step will have no roles assigned. However, users must have a role of `Users` assigned to them in order to access the web appplication in this quickstart. In order to assign this role, edit the role assignment file:
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ vi __{jbossHomeName}__/standalone/configuration/application-users.properties
+----
+
+Add the following line at the end of the file:
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+quickstartUser=Users
+----
+
+Do the same for the domain configuration file:
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ vi __{jbossHomeName}__/domain/configuration/application-users.properties
+----
+
 [[configure_the_application_security_domain]]
 == Configure the Application Security Domain
 
