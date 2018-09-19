@@ -9,7 +9,7 @@ oc new-app --template={ImagePrefixVersion}-basic-s2i {backslash}<1>
  -p IMAGE_STREAM_NAMESPACE="{artifactId}-project" {backslash}<2>
  -p SOURCE_REPOSITORY_URL="{EAPQuickStartRepo}" {backslash}<3>
  -p SOURCE_REPOSITORY_REF="{EAPQuickStartRepoRef}" {backslash}<4>
- -p CONTEXT_DIR="kitchensink"<5>
+ -p CONTEXT_DIR="{artifactId}"<5>
 ----
 <1> The template to use.
 <2> The latest images streams and templates xref:import_imagestreams_templates[were imported into the project's namespace], so you must specify the namespace of where to find the image stream. This is usually the OpenShift project's name.
