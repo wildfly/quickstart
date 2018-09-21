@@ -38,7 +38,7 @@
                 build.</p>
         </div>
 
-        <form:form commandName="newMember" id="reg">
+        <form:form modelAttribute="newMember" id="reg">
             <h2>Member Registration</h2>
 
             <p>Enforces annotation-based constraints defined on the model class.</p>
