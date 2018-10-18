@@ -41,7 +41,7 @@ include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
 
 The application will be running at the following URL: http://localhost:8080/{artifactId}/.
 
-That will provide links to the following URLs that demonstrate various path and parameter configurations.
+This page provides links to the following URLs that demonstrate various path and parameter configurations.
 
 * http://localhost:8080/{artifactId}/hello?name=yourname[{artifactId}/hello?name=yourname]
 * http://localhost:8080/{artifactId}/basic[{artifactId}/basic]
@@ -49,7 +49,7 @@ That will provide links to the following URLs that demonstrate various path and 
 * http://localhost:8080/{artifactId}/matrixParam;param=matrix[{artifactId}/matrixParam;param=matrix]
 * http://localhost:8080/{artifactId}/uriParam/789[{artifactId}/uriParam/789]
 
-And the same set as above but using the `locating` path.
+It also provides the set of URLs that use the `locating` path.
 
 * http://localhost:8080/{artifactId}/locating/hello?name=yourname[{artifactId}/locating/hello?name=yourname]
 * http://localhost:8080/{artifactId}/locating/basic[{artifactId}/locating/basic]
@@ -57,6 +57,15 @@ And the same set as above but using the `locating` path.
 * http://localhost:8080/{artifactId}/locating/matrixParam;param=matrix[{artifactId}/locating/matrixParam;param=matrix]
 * http://localhost:8080/{artifactId}/locating/uriParam/789[{artifactId}/locating/uriParam/789]
 
+== Server Log: Expected Warnings and Errors
+
+You will see the following warnings in the server log. You can ignore these warnings.
+
+[source,options="nowrap"]
+----
+WARN  [org.jboss.as.ee] (MSC service thread 1-5) WFLYEE0007: Not installing optional component org.springframework.http.server.ServletServerHttpAsyncRequestControl due to an exception (enable DEBUG log level to see the cause)
+WARN  [org.jboss.as.ee] (MSC service thread 1-5) WFLYEE0007: Not installing optional component org.springframework.web.context.request.async.StandardServletAsyncWebRequest due to an exception (enable DEBUG log level to see the cause)
+----
 
 // Undeploy the Quickstart
 include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
