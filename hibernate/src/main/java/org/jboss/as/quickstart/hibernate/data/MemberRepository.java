@@ -21,9 +21,10 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
-import org.hibernate.Criteria;
-import org.hibernate.Session;
-import org.hibernate.criterion.Order;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+
 import org.jboss.as.quickstart.hibernate.model.Member;
 
 @ApplicationScoped
@@ -36,13 +37,12 @@ public class MemberRepository {
         return em.find(Member.class, id);
     }
 
-    @SuppressWarnings("unchecked")
     public List<Member> findAllOrderedByName() {
         // using Hibernate Session and Criteria Query via Hibernate Native API
-        Session session = (Session) em.getDelegate();
-        Criteria cb = session.createCriteria(Member.class);
-        cb.addOrder(Order.asc("name"));
-        return (List<Member>) cb.list();
-        // return members;
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Member> query = cb.createQuery(Member.class);
+        Root<Member> members = query.from(Member.class);
+        query.orderBy(cb.asc(members.get("name")));
+        return em.createQuery(query).getResultList();
     }
 }
