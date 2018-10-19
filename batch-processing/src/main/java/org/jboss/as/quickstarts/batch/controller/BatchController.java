@@ -25,6 +25,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.logging.Logger;
@@ -40,8 +41,6 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
-
-import org.apache.commons.lang3.RandomStringUtils;
 
 //The @Model stereotype is a convenience mechanism to make this a request-scoped bean that has an
 //EL name
@@ -69,9 +68,18 @@ public class BatchController {
         try (BufferedWriter bos = new BufferedWriter(new FileWriter(tempFile, false))) {
             log.info("Starting to generate " + numRecords + " records in file " + tempFile);
             String previousName = null;
+            final Random random = new Random();
             for (int x = 0; x < numRecords; x++) {
-                String name = RandomStringUtils.randomAlphabetic(10);
-                String phone = RandomStringUtils.randomNumeric(9);
+                // generate random name
+                String name = random.ints('a','z'+1)
+                        .limit(10)
+                        .collect(StringBuilder::new, (sb, i) -> sb.append((char) i), StringBuilder::append)
+                        .toString();
+                // generate random phone number
+                String phone = random.ints('0','9'+1)
+                        .limit(9)
+                        .collect(StringBuilder::new, (sb, i) -> sb.append((char) i), StringBuilder::append)
+                        .toString();
                 // Generate a duplicate name;
                 if (generateWithError && x == (numRecords / 2)) {
                     name = previousName;
