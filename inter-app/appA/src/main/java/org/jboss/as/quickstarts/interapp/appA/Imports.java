@@ -16,13 +16,14 @@
  */
 package org.jboss.as.quickstarts.interapp.appA;
 
-import javax.ejb.EJB;
 import javax.enterprise.inject.Produces;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 
 import org.jboss.as.quickstarts.interapp.shared.Bar;
 
 /**
- * The Imports class is used to alias EJBs imported from other applications as local CDI beans, thus allowing consumers to
+ * The Imports class is used to alias EJBs looked up from other applications as local CDI beans, thus allowing consumers to
  * ignore the details of inter-application communication.
  *
  * @author Pete Muir
@@ -31,8 +32,9 @@ import org.jboss.as.quickstarts.interapp.shared.Bar;
 public class Imports {
 
     @Produces
-    @EJB(lookup = "java:global/inter-app-appB/BarImpl!org.jboss.as.quickstarts.interapp.shared.Bar")
-    private Bar bar;
+    private Bar lookupBar() throws NamingException {
+        return InitialContext.doLookup("java:global/inter-app-appB/BarImpl!org.jboss.as.quickstarts.interapp.shared.Bar");
+    }
 
     private Imports() {
         // Disable instantiation of this class
