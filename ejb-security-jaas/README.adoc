@@ -341,16 +341,16 @@ include::../shared-doc/restore-standalone-server-configuration-manual.adoc[level
 After you are done with this quickstart, remember to remove the `users.properties` and `roles.properties` files from the
 server configuration directory (`__{jbossHomeName}__/standalone/configuration/`).
 
-// Run the Quickstart in Red Hat JBoss Developer Studio or Eclipse
+// Run the Quickstart in Red Hat Developer Studio or Eclipse
 include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
 
-// Additional JBoss Developer Studio instructions
+// Additional Red Hat Developer Studio instructions
 * Make sure you xref:create_the_properties_files_for_the_jaas_security_domain[Create the Properties Files for the JAAS Security Domain] as described above.
 * Make sure you configure the server by running the JBoss CLI script as described above under xref:configure_the_server[Configure the Server]. Stop the server at the end of that step.
 * To deploy the application to the {productName} server, right-click on the *{artifactId}* project and choose *Run As* -> *Run on Server*.
 * You are presented with a browser login challenge. Enter the credentials as described above under xref:access_the_application[Access the Application] to see the running application. Note that *Has admin permission* is `false`.
-* Leave the application running in JBoss Developer Studio. To configure the server to use the legacy role mappers, open a terminal, and run the `enable-role-mappers.cli` script as described above under xref:access_the_application[Access the Application].
-* Go back to JBoss Developer Studio and click *Refresh the current page*. Note that *Has admin permission* is now `true`.
+* Leave the application running in {JBDSProductName}. To configure the server to use the legacy role mappers, open a terminal, and run the `enable-role-mappers.cli` script as described above under xref:access_the_application[Access the Application].
+* Go back to {JBDSProductName} and click *Refresh the current page*. Note that *Has admin permission* is now `true`.
 * To undeploy the project, right-click on the *{artifactId}* project and choose *Run As* -> *Maven build*. Enter `wildfly:undeploy` for the *Goals* and click *Run*.
 * Make sure you xref:restore_the_server_configuration[restore the server configuration] when you have completed testing this quickstart.
 
