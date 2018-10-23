@@ -154,6 +154,17 @@ include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[levelof
 This quickstart is more complex than the others. It requires that you configure the {productName} server to use the _standalone-xts.xml_ configuration file, which is located in an external configuration directory.
 
 . Import the quickstart into {JBDSProductName}.
++
+[NOTE]
+====
+When you import this quickstart into {JBDSProductName}, you will see the following warning.
+[source]
+----
+WS-I: A problem occured while running the WS-I WSDL conformance check: org.eclipse.wst.wsi.internal.analyzer.WSIAnalyzerException: The WS-I Test Assertion Document (TAD)document was either not found or could not be processed.The WSDLAnalyzer was unable to validate the given WSDL File.
+----
+This is a known Eclipse issue. For more information, see Eclipse Bugzilla - https://bugs.eclipse.org/bugs/show_bug.cgi?id=535813[Bug 535813].
+====
+
 . If you have not already done so, you must configure a new {productName} server to use the XTS configuration.
 ** In the *Servers* tab, right-click and choose *New* -> *Server*.
 ** Under *Select the server type:*, expand *Red Hat JBoss Middleware* and choose *{jbdsEapServerName}*.

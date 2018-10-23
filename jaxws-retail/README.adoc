@@ -91,7 +91,17 @@ include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[levelof
 // Additional Red Hat Developer Studio instructions
 This quickstart is dependent on a WSDL file that is included in the `{artifactId}-service` project, so it deploys and runs differently in {JBDSProductName} than the other quickstarts.
 
+[NOTE]
+====
 When you import this project into {JBDSProductName}, you see 17 errors. These `Java Problems` are because these classes are not included in this project. Instead, they are defined in and generated from the `{artifactId}-service/src/main/webapp/WEB-INF/wsdl/ProfileMgmtService.wsdl` WSDL file. You can ignore these errors.
+
+You will also see the following warning:
+[source]
+----
+WS-I: A problem occured while running the WS-I WSDL conformance check: org.eclipse.wst.wsi.internal.analyzer.WSIAnalyzerException: The WS-I Test Assertion Document (TAD)document was either not found or could not be processed.The WSDLAnalyzer was unable to validate the given WSDL File.
+----
+This is a known Eclipse issue. For more information, see Eclipse Bugzilla - https://bugs.eclipse.org/bugs/show_bug.cgi?id=535813[Bug 535813].
+====
 
 This quickstart requires that you build the parent project, deploy the service, and then run the client.
 
