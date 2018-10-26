@@ -123,12 +123,25 @@ WFLYSRV0010: Deployed &quot;{artifactId}-service.war&quot;
 
 ** To access the application, right-click on the *{artifactId}-client* project and choose *Run As* –> *Java Application*.
 ** Choose the *Client* class and click *OK*.
-** Review the output in the console window. You should see the following message:
+** You should see the following message in the *Console* tab:
 +
 [source,options="nowrap"]
 ----
 Jay Boss's discount is 10.00
 ----
++
+[NOTE]
+====
+You will also see the following warnings in the *Problems* tab.
+[source]
+----
+log4j:WARN No appenders could be found for logger (org.apache.cxf.common.logging.LogUtils).
+log4j:WARN Please initialize the log4j system properly.
+log4j:WARN See http://logging.apache.org/log4j/1.2/faq.html#noconfig for more info.
+----
+You can ignore these warnings.
+====
+
 . To undeploy the project, right-click on the *{artifactId}-service* project and choose *Run As* –> *Maven build*. Enter `wildfly:undeploy` for the *Goals* and click *Run*.
 
 // Debug the Application
