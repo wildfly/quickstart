@@ -1,0 +1,561 @@
+:JBDSProductName: Red Hat Developer Studio
+
+[[jboss_developer_contributing_guide]]
+= JBoss Developer Contributing Guide
+
+This document contains information targeted for developers who want to contribute to Red Hat JBoss Enterprise Application Platform developer projects.
+
+* xref:join_the_mailing_list[Join the Mailing list]: Sign up for the JBoss developer mailing list.
+* xref:contribute_a_quickstart[Contribute a Quickstart]: Find out how to contribute a quickstart.
+* xref:create_a_quickstart_cheat_sheet[Create a Quickstart Cheat Sheet]: Learn how to create a `cheat sheet` for your quickstart.
+* xref:copy_a_quickstart_to_another_repository_and_preserve_its_history[Copy a Quickstart to Another Repository and Preserve Its History]: Copy a quickstart from another location and preserve the commit history.
+* xref:build_the_quickstart_readme_files[Build the README.html Files]: Build the README HTML file from its AsciiDoc source.
+
+[[join_the_mailing_list]]
+== Join the Mailing list
+
+To monitor and participate in the latest development discussions, join the JBoss developer mailing list here: https://lists.jboss.org/mailman/listinfo/jbossdeveloper
+
+[[contribute_a_quickstart]]
+== Contribute a Quickstart
+
+=== Purpose of the Quickstarts
+
+. To demonstrate Java EE technologies.
+. To provide developers with working examples and instructions that are easy to follow.
+. To provide code examples to be copied by developers and used as the basis for their own projects.
+
+=== Basic Steps
+
+To contribute to the quickstarts, fork the https://github.com/wildfly/quickstart[WildFly quickstart] repository to your own GitHub, clone your fork, check out a topic branch from the `master` branch, commit your work and push to your own repository, and submit pull requests back to the `master` branch.
+
+If you don't have the GitHub client (`git`), get it from: <http://git-scm.com/>
+
+This document details the steps needed to contribute to the JBoss EAP / WildFly quickstarts. For other Red Hat product quickstarts, you need to replace the GitHub repository URL with the correct repository location.
+
+. Fork the https://github.com/wildfly/quickstart[WildFly quickstart] repository for the appropriate product. This creates the project under your own GitHub ID. The following table lists the quickstart repository URLs and the resulting GitHub URL created by the fork.
++
+[cols="50%,50%",options="header"]
+|===
+| Product Repository URL
+| Forked Repository URL
+| https://github.com/wildfly/quickstart
+| \https://github.com/__YOUR_USER_NAME__/quickstart.git
+| https://github.com/jboss-developer/jboss-brms-quickstarts
+| \https://github.com/__YOUR_USER_NAME__/jboss-brms-quickstarts.git
+| https://github.com/jboss-developer/jboss-jdg-quickstarts
+| \https://github.com/__YOUR_USER_NAME__/jboss-jdg-quickstarts.git
+| https://github.com/jboss-developer/jboss-mobile-quickstarts
+| \https://github.com/__YOUR_USER_NAME__/jboss-mobile-quickstarts.git
+| https://github.com/jboss-developer/jboss-on-quickstarts
+| \https://github.com/__YOUR_USER_NAME__/jboss-on-quickstarts.git
+| https://github.com/jboss-developer/jboss-picketlink-quickstarts
+| \https://github.com/__YOUR_USER_NAME__/jboss-picketlink-quickstarts.git
+|===
+
+. Clone your forked repository. This creates and populates a directory on your local file system, for example `quickstart/` with the default remote repository name `origin`.
++
+[source,subs="+quotes",options="nowrap"]
+----
+git clone https://github.com/__YOUR_USER_NAME__/quickstart.git
+----
+. Navigate to the newly created directory, for example:
++
+[source,options="nowrap"]
+----
+cd quickstart/
+----
+. Add the remote `upstream` repository so you can fetch any changes to the original forked repository.
++
+[source,options="nowrap"]
+----
+git remote add upstream https://github.com/wildfly/quickstart.git
+----
+. Get the latest files from the `upstream` repository.
++
+[source,options="nowrap"]
+----
+git fetch upstream
+----
+. Check out a local topic branch to work with your new quickstart, features, changes, or fixes.
++
+IMPORTANT: Always work with the current developer branch of the quickstart repository. The is the branch that automatically displays in the dropdown when you browse to product quickstart directory. The default developer branch for the https://github.com/wildfly/quickstart[WildFly quickstarts] is the `master` branch.
+
+* Fetch the latest source from Git, then check out the latest source code from the development branch of the upstream repository into your own branch using the following syntax.
++
+[source,subs="+quotes",options="nowrap"]
+----
+git fetch upstream
+git checkout -b __TOPIC_BRANCH_NAME__ upstream/master
+----
++
+For example:
++
+[source,subs="+quotes",options="nowrap"]
+----
+git fetch upstream
+git checkout -b abc-quickstart upstream/master
+----
+
+* If you are fixing a Bugzilla or JIRA, it is a good practice to use the number in the branch name. For new quickstarts or other fixes, try to use a good description for the branch name. The following are examples of Git checkout commands:
++
+[source,options="nowrap"]
+----
+git checkout -b Bz-98765432 upstream/master
+git checkout -b JDF-9876543 upstream/master
+git checkout -b add-xyz-quickstart upstream/master
+----
+. Contribute new code or make changes to existing files. Make sure that you follow the xref:general_guidelines[General Guidelines] below.
+
+. Test your changes in 2 ways. Be sure to fix any checkstyle or build issues before you continue.
+* Run the Maven command line to build and deploy the quickstart.
+* Import the quickstart into {JBDSProductName} and make sure it builds and deploys with no errors or warnings.
+
+. Use the `git add` command to add new or changed file contents to the staging area.
+* If you create a new quickstart, you can add files using the subfolder and file names. The following is an example of new quickstart folders and files you might want to stage:
++
+[source,options="nowrap"]
+----
+git add src/
+git add pom.xml
+git add README.adoc
+----
++
+NOTE: It is probably best not to add the entire quickstart root folder because you might unintentionally add classes or other target files that should not be in source control.
+
+* If you only modified a few files, use `git add __FILE_NAME__` for every file you create or change. For example:
++
+[source,options="nowrap"]
+----
+git add README.adoc
+----
+. Use the `git status` command to view the status of the files in the directory and in the staging area and ensure that all modified files are properly staged:
++
+[source,options="nowrap"]
+----
+git status
+----
+. Commit your changes to your local topic branch.
++
+[source,options="nowrap"]
+----
+git commit -m 'Description of change...'
+----
+. Update your branch with any changes made upstream since you started.
+* Fetch the latest changes from upstream.
++
+[source,options="nowrap"]
+----
+git fetch upstream
+----
+* Rebase to apply any updates to your branch.
++
+[source,subs="+quotes",options="nowrap"]
+----
+git rebase upstream/master
+----
+* If anyone has committed changes to files that you have also changed, you might see conflicts. Resolve the conflicted files, add them using `git add`, and continue the rebase:
++
+[source,subs="+quotes",options="nowrap"]
+----
+git add __CONFLICTED_FILE_NAME__
+git rebase --continue
+----
+* If there were conflicts, it is a good idea to test your changes again to make they still work.
+
+. Push your local topic branch to your GitHub forked repository. This creates a branch on your Git fork repository with the same name as your local topic branch name.
++
+[source,options="nowrap"]
+----
+git push origin HEAD
+----
++
+NOTE: The above command assumes your own remote Git repository is named `origin`. You can verify your forked remote repository name using the command `git remote -v`.
+
+. Browse to the __TOPIC_BRANCH_NAME__ branch on your forked Git repository and https://help.github.com/articles/creating-a-pull-request//[create a Pull Request]. Give it a clear title and description.
+
+[[general_guidelines]]
+=== General Guidelines
+
+* The sample project should be formatted using the JBoss EAP profiles found at <http://github.com/jboss/ide-config/tree/master/>
+
+* Code should be well documented with good comments. Please add an author tag (@author) to credit yourself for writing the code.
+* You should use readable variable names to make it easy for users to read the code.
+
+* The package must be `org.jboss.quickstarts.<product-type>`, for example: `org.jboss.quickstarts.eap`, `org.jboss.quickstarts.jdg`, `org.jboss.quickstarts.brms`, or `org.jboss.quickstarts.fuse`.
+
+* The quickstart project or folder name should match the quickstart name. Each sample project should have a unique name, allowing easy identification by users and developers.
+
+* The quickstart project or folder name should be located in the root directory of the product quickstarts repository and should not be nested under other quickstarts or folders. For example, if you create quickstart "foo" for the JBoss EAP quickstarts, it should appear here: `__YOUR_PATH__/quickstart/foo`.
+
+* The quickstart directory structure should follow standard Java project rules:
+
+** All directories and packages containing Java source files should be placed in a `src/main/java/` directory,
+** All Java source files should use package names.
+** Index pages, JSF, and HTML files should be placed in a `src/main/webapp/` directory.
+** Any `beans.xml`, `faces-config.xml`, and other related configuration files should be placed in a `src/main/webapp/WEB-INF/` directory.
+** Resources such as images and stylesheets and the  should be placed in the `src/main/webapp/resources` directory.
+
+* The `<name>` in the quickstart `pom.xml` file should follow the template: `${qs.name.prefix} __QUICKSTART_NAME__  - __OPTIONAL_SUBFOLDER_NAME__` where:
+
+** `${qs.name.prefix}` is a property defined in the parent POM file that specifies the target product information, for example `JBoss EAP Quickstart:`.
+** `__QUICKSTART_NAME__` is the quickstart folder name
+** `__OPTIONAL_SUBFOLDER_NAME__` is the name of any nested subfolder that contains a `pom.xml` file.
++
+The following are a few examples of quickstart pom files and the correct name tags:
++
+[cols="50%,50%",options="header" ]
+|===
+| Quickstart POM File | <name> Element Value
+| greeter/pom.xml | `${qs.name.prefix} greeter`
+| kitchensink-ear/pom.xml | `${qs.name.prefix} kitchensink-ear`
+| kitchensink-ear/ear/pom.xml | `${qs.name.prefix} kitchensink-ear - ear`
+| kitchensink-ear/ejb/pom.xml | `${qs.name.prefix} kitchensink-ear - ejb`
+| kitchensink-ear/web/pom.xml |`${qs.name.prefix} kitchensink-ear - web`
+|===
+
+* The `<artifactId>` in the quickstart `pom.xml` file should match the quickstart name. For example, the `<artifactId>` for the `greeter` quickstart in the EAP project is `greeter`.
+
+* The quickstart parent POM file now includes `<repositories/>` and `<pluginRepositories/>` elements to make it easier for developers to build the quickstarts without requiring additional Maven configuration. The quickstart `pom.xml` file contains entries for the following repositories.
++
+[[eap_maven_repositories]]
+
+[cols="50%,50%a",options="header"]
+|===
+| Repository Description | Repository ID and URL
+| The online JBoss EAP product repository
+| ID: jboss-enterprise-maven-repository
+
+URL: https://maven.repository.redhat.com/ga/
+| The JBoss developer early access repository
+| ID: jboss-enterprise-maven-repository-ea
+
+URL: https://maven.repository.redhat.com/earlyaccess/all/
+|===
++
+See the https://github.com/wildfly/quickstart/blob/11.x/pom.xml#L155[WildFly parent `pom.xml`] file for an example of how to configure the `<repositories/>` and `<pluginRepositories/>` elements in a quickstart `pom.xml` file.
+
+* If you create a quickstart that uses a database table, make sure the name you use for the table is unique across all quickstarts.
+
+* The project must follow the structure used by existing quickstarts such as the `numberguess` quickstart. A good starting point would be to copy the https://github.com/wildfly/quickstart/tree/11.x/numberguess[`numberguess`] quickstart project.
+
+* You should be able to import the sample project into {JBDSProductName}/JBoss Tools and deploy it from there.
+
+* Maven POM files must be used. No other build system is allowed unless the purpose of the quickstart is to show another build system in use. If using Maven it should:
+
+** Not inherit from another POM except for the top-level parent POM.
+** Maven POMs must use the Java EE spec BOM/POM imports
+** The POMs must be commented, with a comment each item in the POM
+** Import the various BOMs defined in the xref:eap_maven_repositories[JBoss EAP repositories]. You should not declare dependencies directly. If you do need additional artifacts, contact the Quickstart team to get them added to a BOM.
+** Use the WildFly Maven Plugin to deploy the example.
+
+* The sample project must contain a `README.adoc` file using the `template/README.adoc` file as a guideline.
+
+** Many common instructions are included in AsciiDoc files located in the https://github.com/wildfly/quickstart/tree/master/shared-doc[shared-doc/] folder of the quickstart repository. Include those files if they contain the correct instructions for your quickstart.
+** Be aware that some of these AsciiDoc include files require that you define a document attribute to determine how to generate the instructions.
+** The `template/README.adoc` file shows the basic table of contents layout.
+** When in doubt, try to find an existing quickstart that is similar to yours that you can use for guidance.
+** Be sure to xref:build_the_quickstart_readme_files[build the README.html file] from its AsciiDoc source to make sure it renders correctly.
+
+* Do not forget to add your quickstart to the `modules` section in the parent `pom.xml` file.
+
+* The project must target Java EE 7 or Java EE 8.
+
+** CDI should be used as the programming model
+** Avoid using a `web.xml` file if possible. Use a `faces-config.xml` to activate JSF if needed.
+** Any tests should use Arquillian.
+
+* If the quickstart persists to a database, you must use a unique datasource JNDI name and connection URL for the application and for any Arquillian tests that it provides. Do not use the JNDI name `java:jboss/datasources/ExampleDS`. Failure to use unique names can result in a `DuplicateServiceException` when more than one quickstart is deployed to the same server.
+
+* Be sure to test the quickstart in {JBDSProductName}, which strictly enforces Java EE coding rules!
+
+* If possible, create a cheat sheet for the quickstart to guide users and developers through the example. See xref:create_a_quickstart_cheat_sheet[Create a Quickstart Cheat Sheet] for more information.
+
+[[kitchensink_variants]]
+=== Kitchensink variants
+
+There are multiple quickstarts based on the ``kitchensink` quickstarts example.  Each showcases different technologies and techniques including pure Java EE, JSF, HTML5, and GWT.
+
+If you wish to contribute a kitchensink variant is it important that you follow the look and feel of the original so that useful comparisons can be made.  This does not mean that variants can not expand, and showcase additional functionality.  Multiple variants already do that.  These include mobile interfaces, push updates, and more.
+
+Below are rules for the *look and feel* of the variants:
+
+* Follow the primary layout, style, and graphics of the original.
+
+* Projects can have three to four lines directly under the JBoss EAP banner in the middle section to describe what makes this variant different. How projects use that space is up to them, but options include use of content such as as plain text, bullet points, and so on.
+
+* Projects can have their logo in the left side of the banner. The sidebar area can contain a section with links to the related projects, for example a wiki or tutorials. This logo should be below any JBoss EAP link areas.
+
+If appropriate for the technology, the application should expose RESTful endpoints following the example of the original `kitchensink` quickstart.  This should also include the RESTful links in the member table.
+
+=== License Information and Contributor Agreement
+
+JBoss Developer Framework is licensed under the Apache License 2.0, as we believe it is one of the most permissive Open Source license. This allows developers to easily make use of the code samples in JBoss Developer Framework.
+
+There is no need to sign a contributor agreement to contribute to JBoss Developer Framework. You just need to explicitly license any contribution under the AL 2.0. If you add any new files to JBoss Developer Framework, make sure to add the correct header.
+
+==== Java,  Javascript and CSS files
+
+[source,java,options="nowrap"]
+----
+/**
+ * JBoss, Home of Professional Open Source
+ * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
+ * contributors by the @authors tag. See the copyright.txt in the
+ * distribution for a full listing of individual contributors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+----
+
+==== HTML, XML, XSD and XHTML files
+
+[source,xml,options="nowrap"]
+----
+<!--
+ JBoss, Home of Professional Open Source
+ Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
+ contributors by the @authors tag. See the copyright.txt in the
+ distribution for a full listing of individual contributors.
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ http://www.apache.org/licenses/LICENSE-2.0
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+ -->
+----
+
+==== Properties files and Bash Scripts
+
+[source,options="nowrap"]
+----
+ # JBoss, Home of Professional Open Source
+ # Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
+ # contributors by the @authors tag. See the copyright.txt in the
+ # distribution for a full listing of individual contributors.
+ #
+ # Licensed under the Apache License, Version 2.0 (the "License");
+ # you may not use this file except in compliance with the License.
+ # You may obtain a copy of the License at
+ # http://www.apache.org/licenses/LICENSE-2.0
+ # Unless required by applicable law or agreed to in writing, software
+ # distributed under the License is distributed on an "AS IS" BASIS,
+ # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ # See the License for the specific language governing permissions and
+ # limitations under the License.
+----
+
+==== SQL files
+
+[source,options="nowrap"]
+----
+--
+-- JBoss, Home of Professional Open Source
+-- Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
+-- contributors by the @authors tag. See the copyright.txt in the
+-- distribution for a full listing of individual contributors.
+--
+-- Licensed under the Apache License, Version 2.0 (the "License");
+-- you may not use this file except in compliance with the License.
+-- You may obtain a copy of the License at
+-- http://www.apache.org/licenses/LICENSE-2.0
+-- Unless required by applicable law or agreed to in writing, software
+-- distributed under the License is distributed on an "AS IS" BASIS,
+-- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+-- See the License for the specific language governing permissions and
+-- limitations under the License.
+--
+----
+
+==== JSP files
+
+[source,options="nowrap"]
+----
+<%--
+JBoss, Home of Professional Open Source
+Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
+contributors by the @authors tag. See the copyright.txt in the
+distribution for a full listing of individual contributors.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+http://www.apache.org/licenses/LICENSE-2.0
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+--%>
+----
+
+[[create_a_quickstart_cheat_sheet]]
+== Create a Quickstart Cheat Sheet
+
+[[create_a_quickstart_cheat_sheet_purpose]]
+=== Purpose of the Cheat Sheets
+
+* Cheat sheets function as a tutorial and provide a step by step guide through a quickstart.
+* They provide a way to step through and explain the code in an interactive way.
+* They can provide an in-depth analysis of specific sections of code.
+
+[[create_a_quickstart_cheat_sheet_steps]]
+=== Basic Steps to Create a Cheat Sheet
+
+You can create a cheat sheet using the Eclipse Wizard or you can copy and modify an existing cheat sheet from another quickstart. This section describes how to create a cheat sheet using the Eclipse wizard.
+
+IMPORTANT: Be sure your project folder is located outside of the Eclipse workspace before you begin this process.
+
+. Import your quickstart into {JBDSProductName}.
+.. From the menu, choose `File` --> `Import` --> `Maven` --> `Existing Maven Projects`, then click `Next`.
+.. Navigate to your quickstart, select it, then click `OK`.
+.. Click `Finish`.
+. Create the cheat sheet.
+.. Select the imported quickstart project.
+.. From the menu, choose `File` --> `New` --> `Other` --> `User Assistance` --> `Cheat Sheet`, then click `Next`.
+..  Select the quickstart folder, give it a name 'cheatsheet.xml', and choose `Simple Cheat Sheet`.
+.. Click `Finish`. When it prompts you to open the cheatsheet for the quickstart project, click `Yes`.
+. Populate the cheatsheet with useful information to help a user understand the quickstart.
+.. Expand the `Title` in the content section on the left.
+.. Select the `Title` field and modify it to something useful, for example: `helloworld`
+.. Select the `intro` field and add introduction text to the `Body`, for example:
++
+[source,options="nowrap"]
+----
+This quickstart demonstrates the use of CDI 1.0 and Servlet 3.0. It is a simple application that can be used to verify the JBoss EAP server is configured and running correctly.
+----
+.. Select `item`, then under `Command`, click `browse` and select 'Get current project' under `Uncategorized`. This adds the following XML to the cheat sheet.
++
+[source,xml,options="nowrap"]
+----
+<command
+required="true"
+returns="currentProject"
+serialization="org.jboss.tools.project.examples.cheatsheet.getProjectForCheatsheet"/>
+----
++
+This command allows you to use the variable `${currentProject}` instead of a hard-coded path name and ensures your cheat sheet will work regardless of the project location.
+
+. Add an `item` for each file or class you want to describe.
+*  This is dependent on the quickstart features you plan to demonstrate.
+*  Provide a good description.
+*  Add subitems to describe code sections and provide the line numbers that are referenced.
+. Test your cheat sheet by opening it in JDBS.
+.. Go through each step and make sure the descriptions are valid.
+.. Click on each link to make sure it opens the file and highlights the correct lines of code.
+. When you finish testing the cheat sheet, rename the file from `cheatsheet.xml` to `.cheatsheet.xml` and make sure it is located in the root directory of the quickstart.
+. Add the `.cheatsheet.xml` file using `git add`, commit the change, push it to your forked repository, and issue a pull request.
+. If your cheat sheet is for the quickstart based on an archetype, it automatically generates the cheat sheet for the archetype. However, you must add an `<include>.cheatsheet.*</include>` to the fileset for the root directory in the corresponding archetype's `archetype-metadata.xml` file. See the `jboss-javaee6-webapp-archetype` archetype for an example.
+
+[[create_a_quickstart_cheat_sheet_general_guidelines]]
+=== Quickstart Cheatsheet General Guidelines
+
+* If your project folder is located in the Eclipse workspace when you generate your cheat sheet using the Eclipse wizard, it will generate an invalid project name and attempts to open source code will fail. Be sure your project folder is located outside the Eclipse workspace before you begin.
+* The cheat sheet should be created in the root of the quickstart directory and named `.cheatsheet.xml`. Eclipse does not let you name the file with a leading '.', so you need to rename it after it is created.
+* Make sure you add the 'Get current project' command and use the replaceable `${currentProject}`  value to avoid hard-coding the project path. This ensures that if the quickstart folder is moved, the cheat sheet will work as expected.
+* Do not use the `<action>` tag if it can be avoided. It is more fragile than the `<command>` tag, which uses parameters names instead of indexes.
+* Try to highlight the most important features and code for the quickstart. Pay particular attention to areas that might confuse developers. Cheat sheets require that users execute or skip each step, so you don't want to bore developers with the code that has no impact on the purpose of the quickstart.
+* Make sure `<?xml version="1.0" encoding="UTF-8"?>` is the first line in the `.cheatsheet.xml` file, before the license information. This enables the cheat sheet to open automatically when you import the project into {JBDSProductName}.
+
+[[create_a_quickstart_cheat_sheet_find_help]]
+=== Find Quickstart Cheatsheet Help
+
+You can find additional help about cheat sheets at the following locations:
+
+* http://help.eclipse.org/kepler/index.jsp?topic=%2Forg.eclipse.platform.doc.isv%2Fguide%2Fua_cheatsheet.htm&resultof=%22cheat%22%20%22sheet%22%20[Eclipse Help: Cheat sheets]
+* http://www.eclipse.org/pde/pde-ui/articles/cheat_sheet_dev_workflow/[Recommended Work Flow for Cheat Sheet Development]
+* https://github.com/maxandersen/cheatsheet-helloworld[Max's cheat sheet example]
+
+
+[[copy_a_quickstart_to_another_repository_and_preserve_its_history]]
+== Copy a Quickstart to Another Repository and Preserve Its History
+
+NOTE: The following instructions are based on information in this blog: http://blog.neutrino.es/2012/git-copy-a-file-or-directory-from-another-repository-preserving-history
+
+This example copies the `xyz-quickstart` quickstart that is currently located in the `jboss-sandbox-quickstart` repository into the WildFly `quickstart` repository, preserving its commit history.
+
+. Navigate to the parent directory of the quickstart you want to copy.
++
+[source,options="nowrap"]
+----
+$ cd ~/jboss-sandbox-quickstarts
+----
+
+. Make sure you have downloaded the latest source from the sandbox repository that contains the quickstart and then check out a branch to work in.
++
+[source,options="nowrap"]
+----
+$ git fetch upstream
+$ git checkout -b copy-xyz-quickstart upstream/master
+----
+
+. Create a temporary directory to contain the quickstart patch files.
++
+[source,options="nowrap"]
+----
+$ mkdir -p ~/temp/qsPatchFolder
+----
+
+. Create a `QS_SOURCE` environment variable that defines the quickstart source path.
++
+[source,options="nowrap"]
+----
+$ export QS_SOURCE=~/jboss-sandbox-quickstarts/xyz-quickstart/
+----
+
+. Execute the following command to create the quickstart patch files in the temporary quickstart patch folder.
++
+[source,options="nowrap"]
+----
+$ git format-patch -o ~/temp/qsPatchFolder $(git log $QS_SOURCE|grep ^commit|tail -1|awk '{print $2}')^..HEAD $QS_SOURCE
+----
+
+. Navigate to parent directory where you want to move the quickstart.
++
+[source,options="nowrap"]
+----
+$ cd ~/quickstart
+----
+. Fetch the latest source code and check out a branch to work in.
++
+[source,options="nowrap"]
+----
+$ git fetch upstream
+$ git checkout -b merge-xyz-quickstart upstream/11.x
+----
+. Merge the patches into the destination directory.
++
+[source,options="nowrap"]
+----
+$ git am ~/temp/qsPatchFolder/*.patch
+----
+. Push the changes to your own Git.
+* Verify that the target quickstarts directory now contains the `xyz-quickstart` quickstart folder and files.
+* Verify that the commit history is included.
+
+. Issue a pull to the upstream repository, verify it is correct, and merge.
+
+[[build_the_quickstart_readme_files]]
+== Build the README.html Files
+
+To build the quickstart `README.html` file from the source `README.adoc` file, navigate to the quickstart directory and run the following command.
+
+[source]
+----
+$ mvn clean generate-resources -Pdocs
+----
+
+NOTE: You can build all of the quickstarts by running the command in the root folder of the quickstarts.

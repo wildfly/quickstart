@@ -2,13 +2,13 @@
 // Enable the following flag to build README.html files for Product (CD or JBoss EAP) builds.
 // Comment it out to build README.html files for WildFly builds.
 //***********************************************************************************
-//:ProductRelease:
+// :ProductRelease:
 
 //***********************************************************************************
 // Enable the following flag to build README.html files for CD product builds.
 // Comment it out to build README.html files for JBoss EAP product builds.
 //***********************************************************************************
-//:EAPCDRelease:
+// :EAPCDRelease:
 
 // This is a universal name for all releases
 :ProductShortName: JBoss EAP
@@ -21,14 +21,16 @@ ifdef::ProductRelease[]
 
 ifdef::EAPCDRelease[]
 // EAP CD release
-:productName: JBoss EAP for OpenShift
-:productNameFull: Red Hat JBoss Enterprise Application Platform for OpenShift
+:productName: JBoss EAP Continuous Delivery
+:productNameFull: JBoss Enterprise Application Platform continuous delivery
 :productVersion: 15
-:githubRepoUrl: https://github.com/jboss-developer/jboss-eap-quickstarts/
+:githubRepoUrl: https://github.com/jboss-developer/jboss-eap-quickstarts/openshift
 :jbossHomeName: EAP_HOME
 :DocInfoProductNameURL: jboss_enterprise_application_platform_continuous_delivery
 :DocInfoProductName: JBoss Enterprise Application Platform Continuous Delivery
-:DocInfoProductNumber: 15
+:DocInfoProductNumber: {productVersion}
+:quickstartDownloadName: JBoss EAP CD {productVersion} Quickstarts
+:quickstartDownloadUrl: https://access.redhat.com/jbossnetwork/restricted/listSoftware.html?product=eap-cd&downloadType=distributions
 endif::[]
 
 ifndef::EAPCDRelease[]
@@ -36,12 +38,14 @@ ifndef::EAPCDRelease[]
 :productName: JBoss EAP
 :productNameFull: JBoss Enterprise Application Platform Server
 :productVersion: 7.2
-:githubRepoUrl: https://github.com/jboss-developer/jboss-eap-quickstarts/
+:githubRepoUrl: https://github.com/jboss-developer/jboss-eap-quickstarts/{productVersion}
 :jbossHomeName: EAP_HOME
 :DocInfoProductName: red_hat_jboss_enterprise_application_platform
 :DocInfoProductNameURL: red_hat_jboss_enterprise_application_platform
-:DocInfoProductNumber: 7.2
+:DocInfoProductNumber: {productVersion}
 :DocInfoPreviousProductName: jboss-enterprise-application-platform
+:quickstartDownloadName: Red Hat JBoss Enterprise Application Platform {productVersion} Quickstarts
+:quickstartDownloadUrl: https://access.redhat.com/jbossnetwork/restricted/listSoftware.html?product=appplatform&downloadType=distributions
 endif::[]
 
 endif::[]
