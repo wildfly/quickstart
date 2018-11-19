@@ -3,7 +3,18 @@ include::shared-doc/attributes.adoc[]
 = {productNameFull} ({productName}) Quickstarts
 
 [abstract]
-These quickstarts demonstrate {javaVersion} and a few additional technologies from the {productNameFull} stack. They provide small, specific, working examples that can be used as a reference for your own project.
+The quickstarts demonstrate {javaVersion} and a few additional technologies from the {productNameFull} stack. They provide small, specific, working examples that can be used as a reference for your own project.
+
+// The Product builds provide the README.html files. so the following admonition is not needed there.
+ifndef::ProductRelease[]
+[IMPORTANT]
+====
+The quickstart `README` files are written in AsciiDoc, not only because the language is much more powerful than Markdown, but also also because it is possible to extract common instructions into separate files to be reused across the quickstarts. While this makes them more flexible and easier to maintain, unfortunately, included files do not render in a readable format in GitHub or in most text editors.
+
+The Maven plugin that is used to build and deploy the quickstarts can also generate fully rendered `README.html` instructions from the `README.adoc` files. For instructions on how to generate these files, see https://github.com/wildfly/quickstart/blob/master/CONTRIBUTING.adoc#build_the_quickstart_readme_files[Build the README.html Files] in the _CONTRIBUTING_ guide.
+====
+// End ifndef::ProductRelease[]
+endif::[]
 
 //*****************************************************************************
 // Begin Non-CD release Project (WildFly) and Product (JBoss EAP) instructions
@@ -17,7 +28,7 @@ ifndef::EAPCDRelease[]
 ifdef::ProductRelease[]
 These quickstarts run on {productNameFull} {productVersion}. Each quickstart folder contains a `README{outfilesuffix}` file that describes the quickstart features and provides instructions about how to build and run it.
 
-We recommend using the *{quickstartDownloadName}* ZIP file, which can be downloaded from {quickstartDownloadUrl}. This version of the quickstarts uses the correct dependencies and ensures that you test and compile against the correct runtime environment.
+We recommend that you use the *{quickstartDownloadName}* ZIP file, which you can download from the {quickstartDownloadUrl}[{ProductShortName} Software Download] page on the Red Hat Customer Portal. This version of the quickstarts uses the correct dependencies and ensures that you test and compile against the correct server runtime environment.
 
 // End ifdef::ProductRelease[]
 endif::[]
@@ -138,7 +149,7 @@ ifdef::EAPCDRelease[]
 
 These quickstarts run on {productNameFull} {productVersion}. Each quickstart folder contains a `README{outfilesuffix}` file that describes the quickstart features and provides instructions about how to build and run it.
 
-We recommend using the *{quickstartDownloadName}* ZIP file, which can be downloaded from {quickstartDownloadUrl}. This version of the quickstarts uses the correct dependencies and ensures that you test and compile against the correct runtime environment.
+We recommend that you use the *{quickstartDownloadName}* ZIP file, which you can download from the {quickstartDownloadUrl}[{ProductShortName} Software Download] page on the Red Hat Customer Portal. This version of the quickstarts uses the correct dependencies and ensures that you test and compile against the correct server runtime environment.
 
 Make sure you read this entire document before you attempt to work with the quickstarts. It contains the following information:
 

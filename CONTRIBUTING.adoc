@@ -7,9 +7,11 @@ This document contains information targeted for developers who want to contribut
 
 * xref:join_the_mailing_list[Join the Mailing list]: Sign up for the JBoss developer mailing list.
 * xref:contribute_a_quickstart[Contribute a Quickstart]: Find out how to contribute a quickstart.
+* xref:create_a_quickstart_readme_file[Create a Quickstart README.adoc File]: Instructions on how to create a well structured and useful `README.adoc` file.
+* xref:build_the_quickstart_readme_files[Build the README.html Files]: Build the README HTML file from its AsciiDoc source.
+* xref:build_the_server_and_boms[Build the Application Server]: Build the application server from source and install the artifacts for the BOMs.
 * xref:create_a_quickstart_cheat_sheet[Create a Quickstart Cheat Sheet]: Learn how to create a `cheat sheet` for your quickstart.
 * xref:copy_a_quickstart_to_another_repository_and_preserve_its_history[Copy a Quickstart to Another Repository and Preserve Its History]: Copy a quickstart from another location and preserve the commit history.
-* xref:build_the_quickstart_readme_files[Build the README.html Files]: Build the README HTML file from its AsciiDoc source.
 
 [[join_the_mailing_list]]
 == Join the Mailing list
@@ -294,13 +296,15 @@ JBoss Developer Framework is licensed under the Apache License 2.0, as we believ
 
 There is no need to sign a contributor agreement to contribute to JBoss Developer Framework. You just need to explicitly license any contribution under the AL 2.0. If you add any new files to JBoss Developer Framework, make sure to add the correct header.
 
+The following sections contain the correct header for various file types that you can copy and paste into your source files.
+
 ==== Java,  Javascript and CSS files
 
 [source,java,options="nowrap"]
 ----
 /**
  * JBoss, Home of Professional Open Source
- * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2018, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -322,7 +326,7 @@ There is no need to sign a contributor agreement to contribute to JBoss Develope
 ----
 <!--
  JBoss, Home of Professional Open Source
- Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
+ Copyright 2018, Red Hat, Inc. and/or its affiliates, and individual
  contributors by the @authors tag. See the copyright.txt in the
  distribution for a full listing of individual contributors.
 
@@ -343,7 +347,7 @@ There is no need to sign a contributor agreement to contribute to JBoss Develope
 [source,options="nowrap"]
 ----
  # JBoss, Home of Professional Open Source
- # Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
+ # Copyright 2018, Red Hat, Inc. and/or its affiliates, and individual
  # contributors by the @authors tag. See the copyright.txt in the
  # distribution for a full listing of individual contributors.
  #
@@ -364,7 +368,7 @@ There is no need to sign a contributor agreement to contribute to JBoss Develope
 ----
 --
 -- JBoss, Home of Professional Open Source
--- Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
+-- Copyright 2018, Red Hat, Inc. and/or its affiliates, and individual
 -- contributors by the @authors tag. See the copyright.txt in the
 -- distribution for a full listing of individual contributors.
 --
@@ -386,7 +390,7 @@ There is no need to sign a contributor agreement to contribute to JBoss Develope
 ----
 <%--
 JBoss, Home of Professional Open Source
-Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
+Copyright 2018, Red Hat, Inc. and/or its affiliates, and individual
 contributors by the @authors tag. See the copyright.txt in the
 distribution for a full listing of individual contributors.
 
@@ -401,6 +405,63 @@ See the License for the specific language governing permissions and
 limitations under the License.
 --%>
 ----
+
+[[create_a_quickstart_readme_file]]
+== Create a Quickstart README File
+
+The quickstart `README.adoc` file must follow a strict format that is consistent across all of the quickstarts. This not only looks more professional, it also makes it much easier for developers to try out the quickstarts.
+
+A template for creating a `README.adoc` file for a new quickstart is located in the https://github.com/wildfly/quickstart/tree/master/template[template] folder of the WildFly and JBoss EAP quickstarts. It includes instructions for creating the required metadata as well as the content.
+
+The quickstart `shared-doc` folder contains files with instructions for common procedures that you can include in your project's `README.adoc` file. Some of these procedures can be customized by defining document attributes.
+
+The easiest approach to get started with a new README file is to copy the `README.adoc` file for a quickstart that uses similar instructions, and then edit the file for the new quickstart. Be sure to xref:build_the_quickstart_readme_files[build the README.html file] to verify that the `README.adoc` file is formatted and renders correctly.
+
+
+[[build_the_quickstart_readme_files]]
+== Build the README.html Files
+
+Follow these instructions to build the quickstart `README.html` files from the source `README.adoc` files.
+
+. Navigate to the root directory of the quickstarts and type the following command to install the parent artifact.
++
+[source]
+----
+$ mvn clean install
+----
+
+. Navigate to the directory of the quickstart and run the following command.
++
+[source]
+----
+$ mvn clean generate-resources -Pdocs
+----
++
+TIP: You can build _all_ of the quickstart README files by running the above command in the root folder of the quickstarts. This also builds a table in the root README.html file that contains information about and links to each of the available quickstarts.
+
+If you see errors like `Non-resolvable import POM` or `Could not resolve dependencies for project` when you build the `README.html` file, it could mean that the quickstart uses a newly implemented WildFly application server feature and the artifacts have not yet been published to Maven. If that happens, you can try building the server and the BOMs as described below.
+
+[[build_the_server_and_boms]]
+== Build the Application Server
+
+Follow these steps to build the application server and install the BOM artifacts.
+
+. Clone the https://github.com/wildfly/wildfly[WildFly Application Server] source from GitHub.
+. Build the server using the following command.
++
+[source,options="nowrap"]
+----
+$ mvn clean install -DskipTests -Denforcer.skip=true -Dcheckstyle.skip=true
+----
+. Clone the https://github.com/wildfly/boms[WildFly BOMs] source from GitHub.
+. Build the BOMs using the following command.
++
+[source,options="nowrap"]
+----
+$ mvn clean install
+----
+
+You should now be able to build the quickstarts.
 
 [[create_a_quickstart_cheat_sheet]]
 == Create a Quickstart Cheat Sheet
@@ -548,14 +609,3 @@ $ git am ~/temp/qsPatchFolder/*.patch
 
 . Issue a pull to the upstream repository, verify it is correct, and merge.
 
-[[build_the_quickstart_readme_files]]
-== Build the README.html Files
-
-To build the quickstart `README.html` file from the source `README.adoc` file, navigate to the quickstart directory and run the following command.
-
-[source]
-----
-$ mvn clean generate-resources -Pdocs
-----
-
-NOTE: You can build all of the quickstarts by running the command in the root folder of the quickstarts.
