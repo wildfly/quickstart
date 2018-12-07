@@ -10,6 +10,8 @@ The `ee-security` quickstart demonstrates how EE security can be used with WildF
 
 :standalone-server-type: default
 :archiveType: war
+:restoreScriptName: restore-configuration.cli
+
 
 //*************************************************
 // Shared CD and Product Release content
@@ -17,9 +19,9 @@ The `ee-security` quickstart demonstrates how EE security can be used with WildF
 
 == What is it?
 
-The `ee-security` quickstart is a sample project showing the use of EE security integrated with WildFly Elytron in {productNameFull}.
+The `ee-security` quickstart is an example project showing the use of EE security integrated with WildFly Elytron in {productNameFull}.
 
-The deployment in this quickstart contains a simple HTTP servlet which is secured using a custom `HttpAuthenticationMechanism`, the authentication mechanism in turn makes use of a custom `IdentityStore` which delegates authentication to the WildFly Elytron `SecurityDomain` associated with the deployment.
+The deployment in this quickstart contains a simple HTTP servlet, which is secured using a custom `HttpAuthenticationMechanism`. The authentication mechanism in turn makes use of a custom `IdentityStore`, which delegates authentication to the WildFly Elytron `SecurityDomain` associated with the deployment.
 
 This quickstart defines a user `quickstartUser` with password `quickstartPwd1!`.
 
@@ -68,9 +70,11 @@ include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
 
 == Access the Application
 
-The application will be running at the following URL http://localhost:8080/{artifactId}/secured.
+The application will be running at the following URL: http://localhost:8080/{artifactId}/secured
 
-To see and manipulate the HTTP headers within the HTTP requests it is recommended to use a client like `curl` to invoke the servlet. 
+NOTE: If you attempt to access that URL, you will see "Unauthorized".
+
+To see and manipulate the HTTP headers within the HTTP requests, it is recommended to use a client like `curl` to invoke the servlet.
 
 [source,options="nowrap"]
 ----
@@ -81,23 +85,23 @@ $ curl -v http://localhost:8080/ee-security/secured
 < X-MESSAGE: Please resubmit the request with a username specified using the X-USERNAME and a password specified using the X-PASSWORD header.
 ----
 
-This first request shows the client is being promted to authenticate, the `X-MESSAGE` header is providing additional information as to how the client can achieve this.
+This first request shows the client is being prompted to authenticate. The `X-MESSAGE` header is providing additional information as to how the client can achieve this.
 
 The request can now be submitted with the previously added user.
 
 [source,options="nowrap"]
 ----
-$ curl -v http://localhost:8080/ee-security/secured -H "X-Username:darranl" -H "X-Password:password1!"
+$ curl -v http://localhost:8080/ee-security/secured -H "X-Username:quickstartUser" -H "X-Password:quickstartPwd1!"
 ...
 > GET /ee-security/secured HTTP/1.1
 > Host: localhost:8080
 > X-Username:quickstartUser
 > X-Password:quickstartPwd1!
-> 
+>
 < HTTP/1.1 200 OK
 < Connection: keep-alive
 < Content-Length: 125
-< 
+<
 SecuredServlet - doGet()
 Identity as available from SecurityContext 'quickstartUser'
 Identity as available from injection 'quickstartUser'
@@ -108,13 +112,11 @@ The resulting output shows authentication was successful and the correct identit
 // Undeploy the Quickstart
 include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
 
-The following CLI command will then revert the configuration changes made previously.
+// Restore the {productName} Standalone Server Configuration
+include::../shared-doc/restore-standalone-server-configuration.adoc[leveloffset=+1]
 
-[source,subs="+quotes,attributes+",options="nowrap"]
-----
-$ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=restore-configuration.cli
-----
-
+// Restore the {productName} Standalone Server Configuration Manually
+include::../shared-doc/restore-standalone-server-configuration-manual.adoc[leveloffset=+2]
 
 
 
