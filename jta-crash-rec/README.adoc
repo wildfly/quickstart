@@ -22,7 +22,7 @@ The `jta-crash-rec` quickstart demonstrates how to code distributed or XA (eXten
 * Isolated - the execution of the transaction for each resource is isolated from each others
 * Durable - the data will persist after the transaction is committed
 
-This quickstart shows how to atomically update multiple resources within one transaction. It updates a relational database table using JPA and sends a message using JMS. This type of paired updates to two different resources are called XA transactions and are defined by the Java EE JTA specification JSR-907. JTA transactions are not distributed across multiple application servers.
+This quickstart shows how to atomically update multiple resources within one transaction. It updates a relational database table using JPA and sends a message using JMS. This type of paired updates to two different resources are called XA transactions and are defined by the Java EE JTA specification JSR-907.
 
 The relational database table in this example contains two columns that represent a `key` / `value` pair. The application presents an HTML form containing two input text boxes and allows you to create, update, delete or list these pairs. When you add or update a `key` / `value` pair, the quickstart starts a transaction, updates the database table, produces a JMS message containing the update, and then commits the transaction. If all goes well, eventually the consumer gets the message and generates a database update, setting the `value` corresponding to the `key` to something that indicates it was changed by the message consumer.
 
