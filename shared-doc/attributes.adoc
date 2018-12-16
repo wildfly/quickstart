@@ -1,12 +1,12 @@
 //***********************************************************************************
-// Enable the following flag to build README.html files for Product (CD or JBoss EAP) builds.
-// Comment it out to build README.html files for WildFly builds.
+// Enable the following flag to build README.html files for JBoss EAP product builds.
+// Comment it out for WildFly or EAP CD builds.
 //***********************************************************************************
 // :ProductRelease:
 
 //***********************************************************************************
-// Enable the following flag to build README.html files for CD product builds.
-// Comment it out to build README.html files for JBoss EAP product builds.
+// Enable the following flag to build README.html files for EAP CD product builds.
+// Comment it out for WildFly or JBoss EAP product builds.
 //***********************************************************************************
 // :EAPCDRelease:
 
@@ -17,28 +17,27 @@
 // or the WildFly project.
 // The "DocInfo*" attributes are used to build the book links to the product documentation
 
-ifdef::ProductRelease[]
-
 ifdef::EAPCDRelease[]
 // EAP CD release
 :productName: JBoss EAP Continuous Delivery
 :productNameFull: JBoss Enterprise Application Platform continuous delivery
 :productVersion: 15
-:githubRepoUrl: https://github.com/jboss-developer/jboss-eap-quickstarts/openshift
+:githubRepoUrl: https://github.com/jboss-developer/jboss-eap-quickstarts/openshift/
 :jbossHomeName: EAP_HOME
 :DocInfoProductNameURL: jboss_enterprise_application_platform_continuous_delivery
 :DocInfoProductName: JBoss Enterprise Application Platform Continuous Delivery
 :DocInfoProductNumber: {productVersion}
 :quickstartDownloadName: JBoss EAP CD {productVersion} Quickstarts
 :quickstartDownloadUrl: https://access.redhat.com/jbossnetwork/restricted/listSoftware.html?product=eap-cd&downloadType=distributions
+// END ifdef::EAPCDRelease[]
 endif::[]
 
-ifndef::EAPCDRelease[]
+ifdef::ProductRelease[]
 // JBoss EAP release
 :productName: JBoss EAP
 :productNameFull: JBoss Enterprise Application Platform Server
 :productVersion: 7.2
-:githubRepoUrl: https://github.com/jboss-developer/jboss-eap-quickstarts/{productVersion}
+:githubRepoUrl: https://github.com/jboss-developer/jboss-eap-quickstarts/
 :jbossHomeName: EAP_HOME
 :DocInfoProductName: red_hat_jboss_enterprise_application_platform
 :DocInfoProductNameURL: red_hat_jboss_enterprise_application_platform
@@ -46,11 +45,11 @@ ifndef::EAPCDRelease[]
 :DocInfoPreviousProductName: jboss-enterprise-application-platform
 :quickstartDownloadName: Red Hat JBoss Enterprise Application Platform {productVersion} Quickstarts
 :quickstartDownloadUrl: https://access.redhat.com/jbossnetwork/restricted/listSoftware.html?product=appplatform&downloadType=distributions
+// END ifdef::ProductRelease[]
 endif::[]
 
-endif::[]
 
-ifndef::ProductRelease[]
+ifndef::ProductRelease,EAPCDRelease[]
 // WildFly project
 :productName: WildFly
 :productNameFull: WildFly Application Server
@@ -62,6 +61,7 @@ ifndef::ProductRelease[]
 // Do not update the following until after the 7.2 docs are published!
 :DocInfoProductNumber: 7.1
 :DocInfoPreviousProductName: jboss-enterprise-application-platform
+// END ifndef::ProductRelease,EAPCDRelease[]
 endif::[]
 
 :source: {githubRepoUrl}

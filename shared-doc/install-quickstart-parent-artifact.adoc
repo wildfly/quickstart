@@ -1,25 +1,26 @@
-// The product release and tagged downloads of the wildfly quickstarts
-// install the the quickstart parent artifact.
 // It is only necessary to install the parent artifact if you are working with the current
-// quickstart source in GitHub.
+// WildFly quickstart source in GitHub. It is not needed for JBoss EAP product quickstarts.
 
-ifndef::ProductRelease[]
+ifndef::ProductRelease,EAPCDRelease[]
 [[install_the_quickstart_parent_artifact_in_maven]]
 = Install the Quickstart Parent Artifact in Maven
 //******************************************************************************
-// We do not have a way of determining whether someone is working with a
-// WildFly tagged release or with the currenct quickstart source, so we add
+// We do not have a way of determining whether someone is working with a the
+// latest WildFly quickstart source, which needs this step, or with the a
+// tagged/released version of the WildFly quickstarts, so we add
 // a note instead.
 //******************************************************************************
 
-NOTE: The `quickstart-parent` artifact is already installed to Maven for tagged releases of the quickstarts. If you using a tagged release that you downloaded from the {githubRepoUrl}[WildFly quickstart repository], you can skip this step.
+NOTE: You can skip this step if you using a {githubRepoUrl}tags[tagged] or {githubRepoUrl}releases[released] version of the quickstarts as the `quickstart-parent` artifact is already installed to Maven.
+// END ifndef::ProductRelease,EAPCDRelease[]
 
-This quickstart requires the `quickstart-parent` artifact to be installed in your local Maven repository. To install it, navigate to your __QUICKSTART_HOME__ directory  directory and run the following command.
+
+If you are using the latest {githubRepoUrl}[development version] of the quickstarts, this quickstart requires the `quickstart-parent` artifact to be installed in your local Maven repository. To install it, navigate to your __QUICKSTART_HOME__ directory  directory and run the following command.
 
 [source,subs="+quotes,attributes+",options="nowrap"]
 ----
 $ cd __QUICKSTART_HOME__
 $ mvn clean install
 ----
-// end ifndef::ProductReleasae[]
+// END ifndef::ProductRelease,EAPCDRelease[]
 endif::[]
