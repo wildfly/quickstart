@@ -1,0 +1,19 @@
+# Batch script to restore the application server configuration that was modified to run the quickstart
+
+# Start batching commands
+batch
+
+# Remove the 'other' security domain mapping from Undertow
+/subsystem=undertow/application-security-domain=other:remove
+
+# Remove the WildFly Elytron JACC policy
+/subsystem=elytron/policy=jacc:remove
+
+# Restore the default PicketBox handling of JACC
+/subsystem=security:write-attribute(name=initialize-jacc, value=true)
+
+# Run the batch commands
+run-batch
+
+# Reload the server configuration
+reload
