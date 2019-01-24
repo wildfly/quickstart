@@ -8,10 +8,6 @@ batch
 # -- Remove mdb-delivery-group "my-mdb-delivery-group"
 /subsystem=ejb3/mdb-delivery-group=my-mdb-delivery-group:remove
 
-# -- Remove the CONSOLE logging handler
-/subsystem=logging/root-logger=ROOT:remove-handler(name="CONSOLE")
-/subsystem=logging/console-handler=CONSOLE:remove
-
 # -- Run this batch file
 run-batch
 

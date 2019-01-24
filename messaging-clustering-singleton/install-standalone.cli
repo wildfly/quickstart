@@ -2,10 +2,6 @@
 
 batch
 
-# -- The console is disabled by default in the Full HA profile. Enable the console to allow us to view the quickstart output.
-/subsystem=logging/console-handler=CONSOLE:add(level=INFO,formatter="%K{level}%d{HH:mm:ss,SSS} %-5p [%c] (%t) %s%E%n")
-/subsystem=logging/root-logger=ROOT:add-handler(name="CONSOLE")
-
 # -- Enable clustering, and set a cluster password
 /subsystem=messaging-activemq/server=default:write-attribute(name=cluster-password, value=password)
 
