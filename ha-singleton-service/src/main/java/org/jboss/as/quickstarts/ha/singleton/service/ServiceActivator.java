@@ -14,11 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jboss.as.quickstarts.ha.singleton.service.backups;
+package org.jboss.as.quickstarts.ha.singleton.service;
 
 import org.jboss.logging.Logger;
 import org.jboss.msc.service.Service;
 import org.jboss.msc.service.ServiceActivatorContext;
+import org.jboss.msc.service.ServiceController;
 import org.jboss.msc.service.ServiceName;
 import org.jboss.msc.service.ServiceRegistryException;
 import org.jboss.msc.value.InjectedValue;
@@ -28,8 +29,9 @@ import org.wildfly.clustering.singleton.SingletonDefaultRequirement;
 import org.wildfly.clustering.singleton.SingletonPolicy;
 
 /**
- * {@link org.jboss.msc.service.ServiceActivator} loaded by service loader mechanism (see {@code META-INF/services}) starts the singleton
- * service and a corresponding backup service during deployment of the archive.
+ * {@link org.jboss.msc.service.ServiceActivator} loaded by service loader mechanism (see {@code META-INF/services})
+ * starts the singleton service and a service which will regularly query the singleton service for the duration of the
+ * deployment of the archive.
  *
  * @author Radoslav Husar
  */
@@ -37,7 +39,10 @@ public class ServiceActivator implements org.jboss.msc.service.ServiceActivator 
 
     private final Logger LOG = Logger.getLogger(ServiceActivator.class);
 
-    private static final ServiceName SINGLETON_SERVICE_NAME = ServiceName.parse("org.jboss.as.quickstarts.ha.singleton.service.with-backups");
+    static final ServiceName SINGLETON_SERVICE_NAME =
+            ServiceName.parse("org.jboss.as.quickstarts.ha.singleton.service");
+    private static final ServiceName QUERYING_SERVICE_NAME =
+            ServiceName.parse("org.jboss.as.quickstarts.ha.singleton.service.querying");
 
     @Override
     public void activate(ServiceActivatorContext serviceActivatorContext) {
@@ -49,15 +54,19 @@ public class ServiceActivator implements org.jboss.msc.service.ServiceActivator 
 
             InjectedValue<Group> group = new InjectedValue<>();
 
-            Service<Node> primary = new SingletonService(true, group);
-            Service<Node> backup = new SingletonService(false, group);
+            Service<Node> service = new SingletonService(group);
 
-            policy.createSingletonServiceBuilder(SINGLETON_SERVICE_NAME, primary, backup)
+            policy.createSingletonServiceBuilder(SINGLETON_SERVICE_NAME, service)
                     .build(serviceActivatorContext.getServiceTarget())
                     .addDependency(ServiceName.parse("org.wildfly.clustering.default-group"), Group.class, group)
                     .install();
 
-            LOG.info("Singleton service activated.");
+            serviceActivatorContext.getServiceTarget()
+                    .addService(QUERYING_SERVICE_NAME, new QueryingService())
+                    .setInitialMode(ServiceController.Mode.ACTIVE)
+                    .install();
+
+            LOG.info("Singleton and querying services activated.");
         } catch (InterruptedException e) {
             throw new ServiceRegistryException(e);
         }
