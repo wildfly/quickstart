@@ -3,10 +3,10 @@ include::../shared-doc/attributes.adoc[]
 = ha-singleton-service: Deploying Cluster-wide Singleton MSC Services
 :author: Radoslav Husar
 :level: Advanced
-:technologies: MSC, Singleton Service, Clustering
+:technologies: JBoss MSC, Singleton Service, Clustering
 
 [abstract]
-The `ha-singleton-service` quickstart demonstrates how to deploy a cluster-wide singleton MSC service.
+The `ha-singleton-service` quickstart demonstrates how to deploy a cluster-wide singleton JBoss MSC service.
 
 :standalone-server-type: ha
 :archiveType: jar
@@ -15,9 +15,9 @@ The `ha-singleton-service` quickstart demonstrates how to deploy a cluster-wide 
 
 == What is it?
 
-The `ha-singleton-services` quickstart demonstrates pattern, or way, to deploy a cluster-wide singleton MSC service – singleton service and a querying service deployed on all nodes that regularly queries for the value provided by the singleton service.
+The `ha-singleton-services` quickstart demonstrates pattern, or way, to deploy a cluster-wide singleton JBoss MSC service – a singleton service and a querying service deployed on all nodes which regularly queries for the value provided by the singleton service.
 
-Make sure you inspect the `activate()` method of the `ServiceActivator` class for each example. Although the default election policy is used to build the singleton services for each of these examples, scripts and instructions are provided later in this document to demonstrate how to xref:configuring_election_policies[configure other election policies].
+Make sure you inspect the `activate()` method of the `SingletonServiceActivator` class of the example. Although the default election policy is used to build the singleton services for this example, scripts and instructions are provided later in this document to demonstrate how to xref:configuring_election_policies[configure other election policies].
 
 This example is built and packaged as JAR archive.
 
@@ -73,9 +73,9 @@ INFO  [ServiceActivator] (MSC service thread 1-5) Singleton and querying service
 INFO  [QueryingService] (MSC service thread 1-3) Querying service is starting.
 ...
 INFO  [org.wildfly.clustering.server] (DistributedSingletonService - 1) WFLYCLSV0001: This node will now operate as the singleton provider of the org.jboss.as.quickstarts.ha.singleton.service service
-INFO  [SingletonService] (MSC service thread 1-7) Singleton service is starting on node 'node1'.
+INFO  [org.jboss.as.quickstarts.ha.singleton.service.SingletonService] (MSC service thread 1-3) Singleton service is started on node 'node1'.
 ...
-INFO  [QueryingService] (pool-4-thread-1) Singleton service is running on node 'node1'.
+INFO  [org.jboss.as.quickstarts.ha.singleton.service.QueryingService] (pool-12-thread-1) Singleton service is running on this (node1) node.
 ----
 +
 You might see the following warnings in the server log after the applications are deployed. These warnings can be ignored in a development environment.
@@ -106,7 +106,7 @@ INFO  [QueryingService] (MSC service thread 1-5) Querying service is starting.
 ...
 INFO  [org.jboss.as.server] (management-handler-thread - 4) WFLYSRV0010: Deployed "ha-singleton-service.jar" (runtime-name : "ha-singleton-service.jar")
 ...
-INFO  [QueryingService] (pool-4-thread-1) Singleton service is running on node 'node1'.
+INFO  [org.jboss.as.quickstarts.ha.singleton.service.QueryingService] (pool-12-thread-1) Singleton service is not running on this node.
 ----
 
 . Inspect the server log of the first node. Since the cluster membership has changed, the election policy determines which node will run the singleton.
@@ -121,7 +121,14 @@ INFO  [org.wildfly.clustering.server] (DistributedSingletonService - 1) WFLYCLSV
 +
 [source,options="nowrap"]
 ----
-INFO  [QueryingService] (pool-4-thread-1) Singleton service is running on node 'node1'.
+INFO  [org.jboss.as.quickstarts.ha.singleton.service.QueryingService] (pool-12-thread-1) Singleton service is running on this (node1) node.
+----
+
+and
+
+[source,options="nowrap"]
+----
+INFO  [org.jboss.as.quickstarts.ha.singleton.service.QueryingService] (pool-12-thread-1) Singleton service is not running on this node.
 ----
 
 === Test Singleton Service Failover for the Example
@@ -130,9 +137,9 @@ INFO  [QueryingService] (pool-4-thread-1) Singleton service is running on node '
 +
 [source,options="nowrap"]
 ----
-INFO  [QueryingService] (pool-4-thread-1) Singleton service is running on node 'node1'.
+INFO  [org.jboss.as.quickstarts.ha.singleton.service.QueryingService] (pool-12-thread-1) Singleton service is running on this (node1) node.
 INFO  [org.jboss.as.server] (Thread-2) WFLYSRV0220: Server shutdown has been requested via an OS signal
-INFO  [SingletonService] (MSC service thread 1-3) Singleton service is stopping on node 'node1'.
+INFO  [org.jboss.as.quickstarts.ha.singleton.service.SingletonService] (MSC service thread 1-6) Singleton service is stopping on node 'node1'.
 INFO  [QueryingService] (MSC service thread 1-6) Querying service is stopping.
 ...
 INFO  [org.jboss.as] (MSC service thread 1-6) WFLYSRV0050: JBoss EAP 7.1.0.Beta1 (WildFly Core 3.0.0.Beta26-redhat-1) stopped in 66ms
@@ -153,7 +160,7 @@ The issue can be safely ignored for now and will be fixed in future versions of 
 ----
 INFO  [org.wildfly.clustering.server] (DistributedSingletonService - 1) WFLYCLSV0003: node2 elected as the singleton provider of the org.jboss.as.quickstarts.ha.singleton.service service
 INFO  [org.wildfly.clustering.server] (DistributedSingletonService - 1) WFLYCLSV0001: This node will now operate as the singleton provider of the org.jboss.as.quickstarts.ha.singleton.service service
-INFO  [SingletonService] (MSC service thread 1-8) Singleton service is starting on node 'node2'.
+INFO  [org.jboss.as.quickstarts.ha.singleton.service.SingletonService] (MSC service thread 1-3) Singleton service is started on node 'node2'.
 ----
 
 === Undeploy the Example
@@ -177,7 +184,7 @@ $ mvn wildfly:undeploy -Dwildfly.port=10090
 [[configuring_election_policies]]
 == Configuring Election Policies
 
-As mentioned previously, the `activate()` method in the `ServiceActivator` class for each example in this quickstart uses the default election policy to build the singleton services. Once you have successfully deployed and verified these examples, you might want to test different election policy configurations to see how they work.
+As mentioned previously, the `activate()` method in the `ServiceActivator` class for each example in this quickstart uses the default election policy to build the singleton services. Once you have successfully deployed and verified the example, you might want to test different election policy configurations to see how they work.
 
 Election policies are configured using {productName} management CLI commands. Scripts are provided to configure a simple xref:configure_a_name_preference_election_policy[name preference election policy] and a xref:configure_a_random_election_policy[random election policy]. A script is also provided to configure a xref:configure_a_singleton_policy_that_defines_a_quorum[quorum for the singleton policy].
 
@@ -244,7 +251,7 @@ $ __{jbossHomeName}_2__/bin/jboss-cli.sh --connect --controller=localhost:10090 
 +
 NOTE: For Windows, use the `__{jbossHomeName}_2__\bin\jboss-cli.bat` script.
 
-. Make sure both servers are started, deploy one of the examples to both servers, and verify that the election policy is now in effect. The server running the election policy should now log the following message.
+. Make sure both servers are started, deploy one the example to both servers, and verify that the election policy is now in effect. The server running the election policy should now log the following message.
 +
 [source,options="nowrap"]
 ----
@@ -255,7 +262,7 @@ The other nodes should log the following message.
 +
 [source,options="nowrap"]
 ----
-INFO  [QueryingService] (pool-7-thread-1) Singleton service is running on node 'node2'.
+INFO  [org.jboss.as.quickstarts.ha.singleton.service.QueryingService] (pool-12-thread-1) Singleton service is not running on this node.
 ----
 
 [[configure_a_random_election_policy]]
@@ -315,7 +322,7 @@ $ __{jbossHomeName}_2__/bin/jboss-cli.sh --connect --controller=localhost:10090 
 +
 NOTE: For Windows, use the `__{jbossHomeName}_2__\bin\jboss-cli.bat` script.
 
-. Make sure both servers are started, then deploy one of the examples to both servers, and verify that the election policy is now in effect.
+. Make sure both servers are started, then deploy the example to both servers, and verify that the election policy is now in effect.
 
 [[configure_a_singleton_policy_that_defines_a_quorum]]
 === Configure a Quorum for the Singleton Policy
@@ -378,7 +385,7 @@ $ __{jbossHomeName}_2__/bin/jboss-cli.sh --connect --controller=localhost:10090 
 +
 NOTE: For Windows, use the __{jbossHomeName}_2__\bin\jboss-cli.bat` script.
 
-. Make sure both servers are started, deploy one of the examples to both servers. While both servers are running, observe the server logs. The server running the election policy should now log the following message.
+. Make sure both servers are started, deploy the example to both servers. While both servers are running, observe the server logs. The server running the election policy should now log the following message.
 +
 [source,options="nowrap"]
 ----
@@ -391,7 +398,7 @@ INFO  [org.wildfly.clustering.server] (DistributedSingletonService - 1) WFLYCLSV
 ----
 WARN  [org.wildfly.clustering.server] (DistributedSingletonService - 1) WFLYCLSV0006: Failed to reach quorum of 2 for org.jboss.as.quickstarts.ha.singleton.service service. No singleton master will be elected.
 INFO  [org.wildfly.clustering.server] (thread-20) WFLYCLSV0002: This node will no longer operate as the singleton provider of the org.jboss.as.quickstarts.ha.singleton.service service
-INFO  [SingletonService] (MSC service thread 1-3) Singleton service is stopping on node 'node2'.
+INFO  [org.jboss.as.quickstarts.ha.singleton.service.SingletonService] (MSC service thread 1-1) Singleton service is stopping on node 'node2'.
 INFO  [org.infinispan.remoting.transport.jgroups.JGroupsTransport] (thread-2) ISPN000094: Received new cluster view for channel server: [node2|4] (1) [node2]
 ...
 WARN  [QueryingService] (pool-4-thread-1) Failed to query singleton service.
