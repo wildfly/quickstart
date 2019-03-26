@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.jboss.as.quickstarts.ha.singleton.service.primary;
+package org.jboss.as.quickstarts.ha.singleton.service;
 
 import org.jboss.logging.Logger;
 import org.jboss.msc.service.Service;
