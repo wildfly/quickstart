@@ -5,11 +5,6 @@ batch
 # -- Disable clustering by removing the clustering password
 /subsystem=messaging-activemq/server=default:undefine-attribute(name=cluster-password)
 
-# -- Remove the CONSOLE logging handler
-
-/subsystem=logging/root-logger=ROOT:remove-handler(name="CONSOLE")
-/subsystem=logging/console-handler=CONSOLE:remove
-
 # -- Run this batch file
 run-batch
 
