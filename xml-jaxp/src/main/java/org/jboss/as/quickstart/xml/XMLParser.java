@@ -47,10 +47,11 @@ public abstract class XMLParser {
          * Validate against schema before it triggers implementation.
          */
         StringBuilder xmlFile = new StringBuilder();
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(is));
-        String line = null;
-        while ((line = bufferedReader.readLine()) != null) {
-            xmlFile.append(line);
+        try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(is))) {
+            String line = null;
+            while ((line = bufferedReader.readLine()) != null) {
+                xmlFile.append(line);
+            }
         }
         String xml = xmlFile.toString();
         // validate against schema.
