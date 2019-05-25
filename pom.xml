@@ -21,7 +21,7 @@
     <parent>
         <groupId>org.jboss</groupId>
         <artifactId>jboss-parent</artifactId>
-        <version>29</version>
+        <version>35</version>
     </parent>
 
     <groupId>org.wildfly.quickstarts</groupId>
@@ -68,20 +68,7 @@
         -->
         <version.server.bom>17.0.0.Beta1-SNAPSHOT</version.server.bom>
 
-        <!-- Versions of dependencies on server's core -->
-        <version.commons-io>2.5</version.commons-io>
-        <version.org.apache.httpcomponents.httpclient>4.5.4</version.org.apache.httpcomponents.httpclient>
-        <version.org.jboss.msc.jboss-msc>1.4.5.Final</version.org.jboss.msc.jboss-msc>
-        <version.org.slf4j>1.7.22.jbossorg-1</version.org.slf4j>
-
-        <!-- Versions of dependencies on server -->
-        <version.com.fasterxml.jackson>2.9.8</version.com.fasterxml.jackson>
-        <version.com.h2database>1.4.193</version.com.h2database>
-        <version.com.sun.istack>3.0.7</version.com.sun.istack>
-        <version.org.bouncycastle>1.60</version.org.bouncycastle>
-        <version.org.javassist>3.23.1-GA</version.org.javassist>
-
-        <!-- Other versions of dependencies -->
+        <!-- Versions of unmanaged dependencies -->
         <version.arquillian.angularjs.graphene>1.2.0.Beta1</version.arquillian.angularjs.graphene>
         <version.com.nimbusds.jose.jwt>5.4</version.com.nimbusds.jose.jwt>
         <version.deltaspike.core>1.5.1</version.deltaspike.core>
@@ -100,21 +87,9 @@
 
     <dependencyManagement>
         <dependencies>
-
-            <dependency>
-                <groupId>org.apache.httpcomponents</groupId>
-                <artifactId>httpclient</artifactId>
-                <version>${version.org.apache.httpcomponents.httpclient}</version>
-            </dependency>
-            <!-- JBoss distributes a complete set of Java EE APIs including a Bill
-                of Materials (BOM). A BOM specifies the versions of a "stack" (or a collection)
-                of artifacts. We use this here so that we always get the correct versions
-                of artifacts. Here we use the jboss-eap-javaee8-with-tools stack (you can
-                read this as the JBoss stack of the Java EE APIs, with some extras tools
-                for your project, such as Arquillian for testing) -->
             <dependency>
                 <groupId>org.wildfly.bom</groupId>
-                <artifactId>wildfly-javaee8-with-tools</artifactId>
+                <artifactId>wildfly-quickstarts-bom</artifactId>
                 <version>${version.server.bom}</version>
                 <type>pom</type>
                 <scope>import</scope>
