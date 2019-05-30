@@ -87,6 +87,15 @@
 
     <dependencyManagement>
         <dependencies>
+            <!-- importing the javaee8-with-tools BOM adds specs and other useful artifacts as managed dependencies -->
+            <dependency>
+                <groupId>org.wildfly.bom</groupId>
+                <artifactId>wildfly-javaee8-with-tools</artifactId>
+                <version>${version.server.bom}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- import the internal Quickstarts BOM, provides dependency management in sync with server -->
             <dependency>
                 <groupId>org.wildfly.bom</groupId>
                 <artifactId>wildfly-quickstarts-bom</artifactId>
