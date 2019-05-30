@@ -146,6 +146,43 @@ INFO  [class org.jboss.as.quickstarts.ha.singleton.SingletonTimer] (EJB default 
 INFO  [class org.jboss.as.quickstarts.ha.singleton.SingletonTimer] (EJB default - 2) SingletonTimer: Hello World!
 ----
 
+[[determining_the_primary_provider_using_cli]]
+== Determining the primary provider of Singleton deployment using CLI
+
+The JBoss CLI tool can be used to determine the primary provider and the complete list of providers of any singleton service. This is generally useful for operations team or tooling.
+
+Once the server is running and the application is deployed, the server exposes runtime resources corresponding to the deployment.
+Note the `include-runtime` flag on the `read-resource` operation.
+
+[source,options="nowrap"]
+----
+[standalone@localhost:9990 /] /subsystem=singleton/singleton-policy=default/deployment=ha-singleton-deployment.jar:read-resource(include-runtime=true)
+{
+    "outcome" => "success",
+    "result" => {
+        "is-primary" => true,
+        "primary-provider" => "node1",
+        "providers" => [
+            "node1",
+            "node2"
+        ]
+    }
+}
+----
+
+The typical use case for scripting to determine the primary provider of a service and potentially act upon it, is to run the `jboss-cli` with a given operation and receive a JSON formatted output as shown here:
+
+[source,options="nowrap"]
+----
+[rhusar@ribera bin]$ ./jboss-cli.sh --output-json --connect "/subsystem=singleton/singleton-policy=default/deployment=ha-singleton-deployment.jar:read-attribute(name=primary-provider)"
+{
+    "outcome" : "success",
+    "result" : "node1"
+}
+----
+
+Note that the `include-runtime` flag is not required when a specific attribute is queried. Please refer to the documentation for more information on using the CLI.
+
 == Troubleshooting
 
 Should the singleton be running on multiple nodes, the most common causes are accidentally starting with the `standalone.xml` or `standalone-full.xml` profile instead of with the `standalone-ha.xml` or `standalone-full-ha.xml` profile.
