@@ -16,18 +16,17 @@
  */
 package org.jboss.as.quickstarts.helloworld;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.security.cert.X509Certificate;
 import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.bouncycastle.openssl.jcajce.JcaPEMWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.security.cert.CertificateEncodingException;
+import java.security.cert.X509Certificate;
+import java.util.Base64;
 
 /**
  * <p>
@@ -72,30 +71,15 @@ public class HelloWorldServlet extends HttpServlet {
         throw new RuntimeException("No X.509 client certificate found in request");
     }
 
-    public static String getPemFromCertificate(X509Certificate certificate) {
+    public static String getPemFromCertificate(X509Certificate certificate) throws ServletException {
         if (certificate != null) {
-            StringWriter writer = new StringWriter();
-            JcaPEMWriter pemWriter = new JcaPEMWriter(writer);
             try {
-                pemWriter.writeObject(certificate);
-                pemWriter.flush();
-                pemWriter.close();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+                return Base64.getEncoder().encodeToString(certificate.getEncoded());
+            } catch (CertificateEncodingException e) {
+                throw new ServletException(e);
             }
-            String s = writer.toString();
-            return removeBeginEnd(s);
         } else {
             return null;
         }
     }
-
-    public static String removeBeginEnd(String pem) {
-        pem = pem.replaceAll("-----BEGIN (.*)-----", "");
-        pem = pem.replaceAll("-----END (.*)----", "");
-        pem = pem.replaceAll("\r\n", "");
-        pem = pem.replaceAll("\n", "");
-        return pem.trim();
-    }
-
 }
