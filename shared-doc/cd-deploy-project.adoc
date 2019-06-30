@@ -5,17 +5,18 @@
 +
 [options="nowrap",subs="+attributes"]
 ----
-oc new-app --template={ImagePrefixVersion}-basic-s2i {backslash}<1>
- -p IMAGE_STREAM_NAMESPACE="{artifactId}-project" {backslash}<2>
- -p SOURCE_REPOSITORY_URL="{EAPQuickStartRepo}" {backslash}<3>
- -p SOURCE_REPOSITORY_REF="{EAPQuickStartRepoRef}" {backslash}<4>
- -p CONTEXT_DIR="{artifactId}"<5>
+oc new-app --template={ImagePrefixVersion}-basic-s2i {backslash}
+ -p IMAGE_STREAM_NAMESPACE="{artifactId}-project" {backslash}
+ -p SOURCE_REPOSITORY_URL="{EAPQuickStartRepo}" {backslash}
+ -p SOURCE_REPOSITORY_REF="{EAPQuickStartRepoRef}" {backslash}
+ -p CONTEXT_DIR="{artifactId}"
 ----
-<1> The template to use.
-<2> The latest images streams and templates xref:import_imagestreams_templates[were imported into the project's namespace], so you must specify the namespace of where to find the image stream. This is usually the OpenShift project's name.
-<3> URL to the repository containing the application source code.
-<4> The Git repository reference to use for the source code. This can be a Git branch or tag reference.
-<5> The directory within the source repository to build.
+With respect to the command parameters:
+* `--template` The template to use.
+* `-p IMAGE_STREAM_NAMESPACE` The latest images streams and templates xref:import_imagestreams_templates[were imported into the project's namespace], so you must specify the namespace of where to find the image stream. This is usually the OpenShift project's name.
+* `-p SOURCE_REPOSITORY_URL` The URL to the repository containing the application source code.
+* `-p SOURCE_REPOSITORY_REF` The Git repository reference to use for the source code. This can be a Git branch or tag reference.
+* `-p CONTEXT_DIR` The directory within the source repository to build.
 +
 NOTE: A template can specify default values for many template parameters, and you might have to override some, or all, of the defaults. To see template information, including a list of parameters and any default values, use the command `oc describe template __TEMPLATE_NAME__`.
 
