@@ -1,36 +1,20 @@
 //***********************************************************************************
 // Enable the following flag to build README.html files for JBoss EAP product builds.
-// Comment it out for WildFly or EAP CD builds.
+// Comment it out for WildFly builds.
 //***********************************************************************************
-// :ProductRelease:
+//:ProductRelease:
 
 //***********************************************************************************
 // Enable the following flag to build README.html files for EAP CD product builds.
 // Comment it out for WildFly or JBoss EAP product builds.
 //***********************************************************************************
-// :EAPCDRelease:
+//:EAPCDRelease:
 
 // This is a universal name for all releases
 :ProductShortName: JBoss EAP
-
 // Product names and links are dependent on whether it is a product release (CD or JBoss)
 // or the WildFly project.
 // The "DocInfo*" attributes are used to build the book links to the product documentation
-
-ifdef::EAPCDRelease[]
-// EAP CD release
-:productName: JBoss EAP Continuous Delivery
-:productNameFull: JBoss Enterprise Application Platform continuous delivery
-:productVersion: 16
-:githubRepoUrl: https://github.com/jboss-developer/jboss-eap-quickstarts/tree/openshift/
-:jbossHomeName: EAP_HOME
-:DocInfoProductNameURL: jboss_enterprise_application_platform_continuous_delivery
-:DocInfoProductName: JBoss Enterprise Application Platform Continuous Delivery
-:DocInfoProductNumber: {productVersion}
-:quickstartDownloadName: JBoss EAP CD {productVersion} Quickstarts
-:quickstartDownloadUrl: https://access.redhat.com/jbossnetwork/restricted/listSoftware.html?product=eap-cd&downloadType=distributions
-// END ifdef::EAPCDRelease[]
-endif::[]
 
 ifdef::ProductRelease[]
 // JBoss EAP release
@@ -48,13 +32,12 @@ ifdef::ProductRelease[]
 // END ifdef::ProductRelease[]
 endif::[]
 
-
 ifndef::ProductRelease,EAPCDRelease[]
 // WildFly project
 :productName: WildFly
 :productNameFull: WildFly Application Server
 :jbossHomeName: WILDFLY_HOME
-:productVersion: 17
+:productVersion: 18
 :githubRepoUrl: https://github.com/wildfly/quickstart/
 :DocInfoProductName: Red Hat JBoss Enterprise Application Platform
 :DocInfoProductNameURL: red_hat_jboss_enterprise_application_platform
@@ -72,7 +55,7 @@ endif::[]
 :CDProductTitle: JBoss Enterprise Application Platform Continuous Delivery
 :CDProductNameSentence: continuous delivery release for {ProductShortName}
 :CDProductAcronym: JBoss EAP CD
-:CDProductVersion: 16
+:CDProductVersion: 17
 :EapForOpenshiftBookName: Red Hat JBoss Enterprise Application Platform for OpenShift
 :EapForOpenshiftOnlineBookName: Red Hat JBoss Enterprise Application Platform for OpenShift Online
 :xpaasproduct: Red Hat JBoss Enterprise Application Platform for OpenShift
@@ -83,7 +66,22 @@ endif::[]
 :EapForOpenshiftBookName: Red Hat JBoss Enterprise Application Platform for OpenShift
 :EapForOpenshiftOnlineBookName: Red Hat JBoss Enterprise Application Platform for OpenShift Online
 :ImagePrefixVersion: eap-cd
-:ImageandTemplateImportURL: https://raw.githubusercontent.com/jboss-container-images/jboss-eap-7-openshift-image/CD{productVersion}/templates/
+:ImageandTemplateImportURL: https://raw.githubusercontent.com/jboss-container-images/jboss-eap-7-openshift-image/CD{CDProductVersion}/templates/
+
+ifdef::EAPCDRelease[]
+// EAP CD release
+:productName: {CDProductShortName}
+:productNameFull: {CDProductName}
+:productVersion: {CDProductVersion}
+:githubRepoUrl: https://github.com/jboss-developer/jboss-eap-quickstarts/tree/openshift/
+:jbossHomeName: EAP_HOME
+:DocInfoProductNameURL: jboss_enterprise_application_platform_continuous_delivery
+:DocInfoProductName: JBoss Enterprise Application Platform Continuous Delivery
+:DocInfoProductNumber: {productVersion}
+:quickstartDownloadName: JBoss EAP CD {productVersion} Quickstarts
+:quickstartDownloadUrl: https://access.redhat.com/jbossnetwork/restricted/listSoftware.html?product=eap-cd&downloadType=distributions
+// END ifdef::EAPCDRelease[]
+endif::[]
 
 // OpenShift repository and reference for quickstarts
 :EAPQuickStartRepo: https://github.com/jboss-developer/jboss-eap-quickstarts
@@ -155,5 +153,3 @@ endif::[]
 :JBDSInstallBookName: Installation Guide
 :LinkJBDSGettingStarted: https://access.redhat.com/documentation/en-us/red_hat_developer_studio/{JBDSVersion}/html-single/getting_started_with_developer_studio_tools/
 :JBDSGettingStartedBookName: Getting Started with Developer Studio Tools
-
-
