@@ -43,7 +43,7 @@
 
         <version.wildfly.maven.plugin>1.2.0.Beta1</version.wildfly.maven.plugin>
 
-        <version.jboss.spec.javaee.7.0>1.1.0.Final</version.jboss.spec.javaee.7.0>
+        <version.server.bom>18.0.0.Beta1-SNAPSHOT</version.server.bom>
 
         <!-- other plug-in versions -->
         <version.war.plugin>2.6</version.war.plugin>
@@ -55,18 +55,11 @@
 
     <dependencyManagement>
         <dependencies>
-            <!-- Define the version of the JBoss Java EE APIs we want to import.
-            Any dependencies from org.jboss.spec will have their version defined by this BOM -->
-            <!-- JBoss distributes a complete set of Java EE APIs including
-            a Bill of Materials (BOM). A BOM specifies the versions of a "stack" (or
-            a collection) of artifacts. We use this here so that we always get the correct
-            versions of artifacts. Here we use the jboss-javaee-7.0 stack (you can
-            read this as the JBoss stack of the Java EE APIs). You can actually
-            use this stack with any version of JBoss EAP that implements Java EE. -->
+            <!-- importing the javaee8-with-tools BOM adds specs and other useful artifacts as managed dependencies -->
             <dependency>
-                <groupId>org.jboss.spec</groupId>
-                <artifactId>jboss-javaee-7.0</artifactId>
-                <version>${version.jboss.spec.javaee.7.0}</version>
+                <groupId>org.wildfly.bom</groupId>
+                <artifactId>wildfly-javaee8-with-tools</artifactId>
+                <version>${version.server.bom}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -104,10 +97,10 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- Import the JPA API, we use provided scope as the API is included in JBoss EAP -->
+        <!-- Import the JTA API, we use provided scope as the API is included in JBoss EAP -->
         <dependency>
             <groupId>org.jboss.spec.javax.transaction</groupId>
-            <artifactId>jboss-transaction-api_1.2_spec</artifactId>
+            <artifactId>jboss-transaction-api_1.3_spec</artifactId>
             <scope>provided</scope>
         </dependency>
 
