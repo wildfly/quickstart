@@ -97,6 +97,12 @@
             <artifactId>hibernate-validator</artifactId>
             <scope>provided</scope>
         </dependency>
+        <!-- hibernate-validator dependencies excluded on server dependency management yet required -->
+        <dependency>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
 
         <!-- Annotation processor raises compilation errors whenever constraint
             annotations are incorrectly used. -->
@@ -107,8 +113,8 @@
         </dependency>
         <!-- Import the JPA API using the provided scope It is included in JBoss EAP -->
         <dependency>
-            <groupId>javax.persistence</groupId>
-            <artifactId>javax.persistence-api</artifactId>
+            <groupId>jakarta.persistence</groupId>
+            <artifactId>jakarta.persistence-api</artifactId>
             <scope>provided</scope>
         </dependency>
 
