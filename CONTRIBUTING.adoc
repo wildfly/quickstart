@@ -23,7 +23,7 @@ To monitor and participate in the latest development discussions, join the JBoss
 
 === Purpose of the Quickstarts
 
-. To demonstrate Java EE technologies.
+. To demonstrate Jakarta EE technologies.
 . To provide developers with working examples and instructions that are easy to follow.
 . To provide code examples to be copied by developers and used as the basis for their own projects.
 
@@ -246,7 +246,7 @@ See the https://github.com/wildfly/quickstart/blob/11.x/pom.xml#L155[WildFly par
 * Maven POM files must be used. No other build system is allowed unless the purpose of the quickstart is to show another build system in use. If using Maven it should:
 
 ** Not inherit from another POM except for the top-level parent POM.
-** Maven POMs must use the Java EE spec BOM/POM imports
+** Maven POMs must use the WildFly BOM/POM imports
 ** The POMs must be commented, with a comment each item in the POM
 ** Import the various BOMs defined in the xref:eap_maven_repositories[JBoss EAP repositories]. You should not declare dependencies directly. If you do need additional artifacts, contact the Quickstart team to get them added to a BOM.
 ** Use the WildFly Maven Plugin to deploy the example.
@@ -261,7 +261,7 @@ See the https://github.com/wildfly/quickstart/blob/11.x/pom.xml#L155[WildFly par
 
 * Do not forget to add your quickstart to the `modules` section in the parent `pom.xml` file.
 
-* The project must target Java EE 7 or Java EE 8.
+* The project must target Jakarta EE 8.
 
 ** CDI should be used as the programming model
 ** Avoid using a `web.xml` file if possible. Use a `faces-config.xml` to activate JSF if needed.
@@ -269,14 +269,14 @@ See the https://github.com/wildfly/quickstart/blob/11.x/pom.xml#L155[WildFly par
 
 * If the quickstart persists to a database, you must use a unique datasource JNDI name and connection URL for the application and for any Arquillian tests that it provides. Do not use the JNDI name `java:jboss/datasources/ExampleDS`. Failure to use unique names can result in a `DuplicateServiceException` when more than one quickstart is deployed to the same server.
 
-* Be sure to test the quickstart in {JBDSProductName}, which strictly enforces Java EE coding rules!
+* Be sure to test the quickstart in {JBDSProductName}, which strictly enforces Jakarta EE coding rules!
 
 * If possible, create a cheat sheet for the quickstart to guide users and developers through the example. See xref:create_a_quickstart_cheat_sheet[Create a Quickstart Cheat Sheet] for more information.
 
 [[kitchensink_variants]]
 === Kitchensink variants
 
-There are multiple quickstarts based on the ``kitchensink` quickstarts example.  Each showcases different technologies and techniques including pure Java EE, JSF, HTML5, and GWT.
+There are multiple quickstarts based on the ``kitchensink` quickstarts example.  Each showcases different technologies and techniques including pure Jakarta EE, JSF, HTML5, and GWT.
 
 If you wish to contribute a kitchensink variant is it important that you follow the look and feel of the original so that useful comparisons can be made.  This does not mean that variants can not expand, and showcase additional functionality.  Multiple variants already do that.  These include mobile interfaces, push updates, and more.
 

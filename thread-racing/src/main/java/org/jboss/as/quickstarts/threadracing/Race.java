@@ -27,7 +27,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * The awesome Java EE thread race. It's the core of the app logic, but has no usage of Java EE technologies, thus of limited interest to study.
+ * The awesome Jakarta EE thread race. It's the core of the app logic, but has no usage of Jakarta EE technologies, thus of limited interest to study.
  *
  * @author Eduardo Martins
  */
