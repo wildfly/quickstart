@@ -47,17 +47,12 @@ public class JsfController {
 
     /**
      * Injection with @EJB is not possible for foreign application in a different server. For this we can use @Resource.<br/>
-     * Lookup is introduced in Java EE6, so there are compiler or runtime problems if a Java version is used which not contain
-     * the <code>javax.annotation.Resource</code> <code>lookup</code>.
-     * Therefore a fix/workaround is necessary to be able to compile.
-     * See <a href="http://jaitechwriteups.blogspot.co.uk/2011/02/resource-and-new-lookup-attribute-how.html">Jaikiran's technical blog<a>
      */
     @Resource(lookup = "ejb:ejb-multi-server-app-one/ejb//AppOneBean!org.jboss.as.quickstarts.ejb.multi.server.app.AppOne")
     AppOne oneApp;
 
     /**
      * Injection with @EJB is not possible for a foreign application in a different server. For this we can use @Resource.
-     * Here, we use <code>mappedName</code>, which was available prior to Java EE 7, to avoid compilation errors.
      */
     @Resource(mappedName = "ejb:ejb-multi-server-app-two/ejb//AppTwoBean!org.jboss.as.quickstarts.ejb.multi.server.app.AppTwo")
     AppTwo twoApp;

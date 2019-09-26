@@ -24,7 +24,7 @@ import java.util.List;
 /**
  * A stateless EJB used to manage the storage of race results, through JPA.
  *
- * The JPA PU deployed with the app (see src/main/resources/META-INF/persistence.xml) is used to persist race's results, and has the particularity of not declaring the datasource it targets, and in such case the Java EE 7 introduced default datasource is used.
+ * The JPA PU deployed with the app (see src/main/resources/META-INF/persistence.xml) is used to persist race's results, and has the particularity of not declaring the datasource it targets, and in such case the Jakarta EE 7 introduced default datasource is used.
  * @author Eduardo Martins
  */
 @Stateless

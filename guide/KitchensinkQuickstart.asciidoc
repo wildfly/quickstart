@@ -4,12 +4,12 @@ CDI + JSF + EJB + JTA + Bean Validation + JAX-RS + Arquillian: Kitchensink quick
 
 [[KitchensinkQuickstart-]]
 
-This quickstart shows off all the new features of Java EE 6, and makes a great starting point for your project.
+This quickstart shows off all the new features of Jakarta EE, and makes a great starting point for your project.
 
 [TIP]
 .Bean Validation
 ========================================================================
-Bean Validation is a new specification in Java EE 6, inspired by 
+Bean Validation is a specification in Jakarta EE, inspired by
 Hibernate Validator. It allows application developers to specify 
 constraints once (often in their domain model), and have them applied in
 all layers of the application, protecting data and giving useful 
@@ -19,7 +19,7 @@ feedback to users.
 [TIP]
 .JAX-RS: The Java API for RESTful Web Services
 ========================================================================
-JAX-RS is a new specification in Java EE 6. It allows application 
+JAX-RS is a specification in Jakarta EE. It allows application
 developers to easily expose Java services as RESTful web services.
 ========================================================================
 
@@ -67,7 +67,7 @@ image:gfx/Eclipse_KitchenSink_Deploy_3.jpg[]
 The kitchensink quickstart in depth
 -----------------------------------
 
-The kitchensink application shows off a number of Java EE technologies such as CDI, JSF, EJB, JTA, JAX-RS and Arquillian. It does this by providing a member registration database, available via JSF and JAX-RS.
+The kitchensink application shows off a number of Jakarta EE technologies such as CDI, JSF, EJB, JTA, JAX-RS and Arquillian. It does this by providing a member registration database, available via JSF and JAX-RS.
 
 As usual, let's start by looking at the necessary deployment descriptors. By now, we're very used to seeing `beans.xml` and `faces-config.xml` in `WEB-INF/` (which can be found in the `src/main/webapp` directory). Notice that, once again, we don't need a `web.xml`. There are two configuration files in `WEB-INF/classes/META-INF` (which can be found in the `src/main/resources` directory) — `persistence.xml`, which sets up JPA, and `import.sql` which Hibernate, the JPA provider in JBoss WildFly, will use to load the initial users into the application when the application starts. We discussed both of these files in detail in <<GreeterQuickstart-,the Greeter Quickstart>>, and these are largely the same.
 
@@ -509,7 +509,7 @@ public class MemberController {
 <7> We also send a message to the user, to give them feedback on their actions
 <8> Finally, we replace the `newMember` with a new object, thus blanking out the data the user has added so far. This works as the producer field is dependent scoped
 
-Before we wrap up our tour of the kitchensink application, let's take a look at how the JAX-RS endpoints are created. Firstly, `JaxRSActivator`, which extends `Application` and is annotated with `@ApplicationPath`, is the Java EE 6 "no XML" approach to activating JAX-RS.
+Before we wrap up our tour of the kitchensink application, let's take a look at how the JAX-RS endpoints are created. Firstly, `JaxRSActivator`, which extends `Application` and is annotated with `@ApplicationPath`, is the Jakarta EE "no XML" approach to activating JAX-RS.
 
 .src/main/java/org/jboss/as/quickstarts/kitchensink/rest/JaxRsActivator.java
 [source,java]

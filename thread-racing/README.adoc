@@ -1,12 +1,12 @@
 include::../shared-doc/attributes.adoc[]
 
-= thread-racing: A Java EE thread racing web application
+= thread-racing: A Jakarta EE thread racing web application
 :author: Eduardo Martins
 :level: Beginner
 :technologies: Batch, CDI, EE Concurrency, JAX-RS, JMS, JPA, JSON, Web Sockets
 
 [abstract]
-A thread racing web application that demonstrates technologies introduced or updated in the latest Java EE specification.
+A thread racing web application that demonstrates technologies introduced or updated in the latest Jakarta EE specification.
 
 :standalone-server-type: full
 :archiveType: war
@@ -33,7 +33,7 @@ The race itself consists of multiple stages, each demonstrating the usage of a s
 WebSockets 1.0 is one of the most relevant new technologies introduced by {javaVersion}. Instead of being used in a race stage, a WebSockets 1.0 ServerEndpoint provides the remote application interface.
 A new race is run when a client establishes a session. That session is then used to update the client in real time, with respect to the race progress and results. The `src/main/java/org/jboss/as/quickstarts/threadracing/WebSocketRace.java` file is the WebSocket server endpoint class and is a good entry point when studying how the application code works.
 
-JPA 2.1 is also present in the application code. Specifically it is used to store race results in the default data source instance, which is also new to Java EE. Further details are included in the `src/main/java/org/jboss/as/quickstarts/threadracing/results/RaceResults.java` class.
+JPA 2.1 is also present in the application code. Specifically it is used to store race results in the default data source instance, which is also new to Jakarta EE. Further details are included in the `src/main/java/org/jboss/as/quickstarts/threadracing/results/RaceResults.java` class.
 
 
 //*************************************************

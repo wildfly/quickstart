@@ -26,7 +26,7 @@
     <h1>Welcome to JBoss!</h1>
 
     <div>
-        <p>You have successfully deployed a Java EE web
+        <p>You have successfully deployed a Jakarta EE web
             application.</p>
     </div>
 
