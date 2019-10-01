@@ -73,6 +73,7 @@
         <maven.repository.url>${maven.repository.protocol}://repository.jboss.org/nexus/content/groups/public/</maven.repository.url>
         <!-- https://access.redhat.com/maven-repository -->
         <maven.redhat.repository.url>${maven.repository.protocol}://maven.repository.redhat.com/ga/</maven.redhat.repository.url>
+        <maven.repository.product.url>${maven.repository.protocol}://download.devel.redhat.com/brewroot/repos/jb-eap-7.3-maven-build/latest/maven/</maven.repository.product.url>
 
         <!-- Version of BOMs
         note: a SNAPSHOT version *requires* checkout of BOMs at https://github.com/wildfly/boms and build through "mvn clean install"
@@ -104,6 +105,21 @@
     </dependencyManagement>
 
     <repositories>
+        <!-- keep this repository the first -->
+        <repository>
+            <id>jboss-eap-7.3-product-repository</id>
+            <name>JBoss EAP Product Repository</name>
+            <url>${maven.repository.product.url}</url>
+            <layout>default</layout>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>never</updatePolicy>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+                <updatePolicy>never</updatePolicy>
+            </snapshots>
+        </repository>
         <repository>
             <releases>
                 <enabled>true</enabled>
@@ -135,6 +151,20 @@
     </repositories>
 
     <pluginRepositories>
+        <pluginRepository>
+            <id>jboss-eap-7.3-product-repository</id>
+            <name>JBoss EAP Product Repository</name>
+            <url>${maven.repository.product.url}</url>
+            <layout>default</layout>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>never</updatePolicy>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+                <updatePolicy>never</updatePolicy>
+            </snapshots>
+        </pluginRepository>
         <pluginRepository>
             <releases>
                 <enabled>true</enabled>
