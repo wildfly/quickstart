@@ -37,10 +37,12 @@
     </licenses>
 
     <dependencies>
-
-        <!-- JBoss EJB client stack. We use runtime scope because the EJB
-            client API isn't directly used in this example. We just need it in our runtime
-            classpath -->
+        <!-- The EJB Client BOM provides application server-compatible dependency management,
+        used for building, testing or debugging EJB client applications. Import the BOM to the
+        dependency management section of the app's pom.xml file and then set dependencies on specific artifacts.
+        Alternatively, as shown in the following example, set a single dependency on the BOM for the app to depend
+        on all the artifacts it manages.
+        -->
         <dependency>
             <groupId>org.wildfly</groupId>
             <artifactId>wildfly-ejb-client-bom</artifactId>
