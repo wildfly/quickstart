@@ -1,0 +1,39 @@
+<!--
+    JBoss, Home of Professional Open Source
+    Copyright 2021, Red Hat, Inc. and/or its affiliates, and individual
+    contributors by the @authors tag. See the copyright.txt in the
+    distribution for a full listing of individual contributors.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<!-- For OpenShift: this xml file will be copied by WildFly s2i scripts under $JBOSS_HOME/configuration directory -->
+<configuration>
+    <authentication-client xmlns="urn:elytron:1.0">
+        <authentication-rules>
+            <rule use-configuration="jta">
+                <match-abstract-type name="jta" authority="jboss"/>
+            </rule>
+        </authentication-rules>
+        <authentication-configurations>
+            <configuration name="jta">
+                <sasl-mechanism-selector selector="DIGEST-MD5"/>
+                <providers>
+                    <use-service-loader/>
+                </providers>
+                <set-user-name name="quickstartUser"/>
+                <credentials>
+                    <clear-password password="quickstartPwd1!"/>
+                </credentials>
+                <set-mechanism-realm name="ApplicationRealm"/>
+            </configuration>
+        </authentication-configurations>
+    </authentication-client>
+</configuration>
