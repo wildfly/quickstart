@@ -105,6 +105,14 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <!-- importing the microprofile BOM adds MicroProfile specs -->
+            <dependency>
+                <groupId>org.wildfly.bom</groupId>
+                <artifactId>wildfly-microprofile</artifactId>
+                <version>${version.server.bom}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -408,6 +416,7 @@
                 <module>mail</module>
                 <module>managed-executor-service</module>
                 <module>messaging-clustering-singleton</module>
+                <module>microprofile-metrics</module>
                 <module>numberguess</module>
                 <module>payment-cdi-event</module>
                 <module>resteasy-jaxrs-client</module>
