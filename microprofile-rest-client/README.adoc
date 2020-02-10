@@ -1,0 +1,736 @@
+include::../shared-doc/attributes.adoc[]
+
+= microprofile-rest-client: MicroProfile REST Client QuickStart
+:author: Martin Stefanko
+:level: Beginner
+:technologies: MicroProfile REST Client
+
+[abstract]
+The `microprofile-rest-client` quickstart demonstrates the use of the MicroProfile
+REST Client specification in {productName}.
+
+:standalone-server-type: default
+:archiveType: jar
+:archiveName: {artifactId}
+
+== What is it?
+
+MicroProfile REST Client provides a type-safe approach to invoke RESTful services
+over HTTP. It relies on JAX-RS APIs for consistency and easier reuse.
+
+== Architecture
+
+In this quickstart, we have two services -- a country server and a country client. The
+server provides a simple REST interface providing information about some countries. The
+client consumes this API through the MicroProfile REST Client specification.
+
+== Solution
+
+We recommend that you follow the instructions in the next sections and create the
+application step by step. However, you can go right to the completed example which
+is available in this directory.
+
+. Start your {productName} server
+
+. Compile the application code and deploy it to {productName}
+[source,options="nowrap"]
+----
+$ mvn clean package wildfly:deploy
+----
+
+If you run this command in the current directory, the quickstart deploys
+first the `country-server` application and then the `country-client` application.
+If you prefer to do it manually, please do your deployments in the same order as
+`country-client` depends on the REST API provided by the `country-server`.
+
+// Start the {productName} Standalone Server
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
+
+== Creating the Maven Project
+
+As this quickstart is about MicroProfile REST Client integration we will just
+deploy the country server to the {productName} so we can create the client
+application that will be contacting this server.
+
+[source,options="nowrap"]
+----
+cd country-server
+mvn clean package wildfly:deploy
+----
+
+NOTE: Make sure that your {productName} server is running.
+
+You can verify that the server is responding by accessing
+`http://localhost:8080/country-server/api/name/France`
+endpoint using your browser or
+`curl http://localhost:8080/country-server/api/name/France`
+to get some information about `France`.
+
+Now we can start creating our MicroProfile REST Client application. In different
+directory run:
+
+[source,options="nowrap"]
+----
+mvn archetype:generate \
+    -DgroupId=org.wildfly.quickstarts \
+    -DartifactId=country-client \
+    -DinteractiveMode=false \
+    -DarchetypeGroupId=org.apache.maven.archetypes \
+    -DarchetypeArtifactId=maven-archetype-webapp
+cd country-client
+----
+
+Open the project in your favourite IDE.
+
+Open the generated `pom.xml`.
+
+The first thing to do is to setup our dependencies. Add the following section to your
+`pom.xml`:
+
+[source,xml]
+----
+<dependencyManagement>
+  <dependencies>
+    <!-- importing the microprofile BOM adds MicroProfile specs -->
+    <dependency>
+        <groupId>org.wildfly.bom</groupId>
+        <artifactId>wildfly-microprofile</artifactId>
+        <version>${version.server.bom}</version>
+        <type>pom</type>
+        <scope>import</scope>
+    </dependency>
+  </dependencies>
+</dependencyManagement>
+----
+
+where `${version.server.bom}` is the version of your {productName}, in our case
+"{productVersion}".
+
+Now we need to add the following dependencies:
+
+[source,xml]
+----
+<!-- Import the MicroProfile REST Client API, we use provided scope as the API is included in WildFly -->
+<dependency>
+  <groupId>org.eclipse.microprofile.rest.client</groupId>
+  <artifactId>microprofile-rest-client-api</artifactId>
+  <scope>provided</scope>
+</dependency>
+<!-- Import the MicroProfile Config API, we use provided scope as the API is included in WildFly -->
+<dependency>
+  <groupId>org.eclipse.microprofile.config</groupId>
+  <artifactId>microprofile-config-api</artifactId>
+  <scope>provided</scope>
+</dependency>
+<!-- Import the CDI API, we use provided scope as the API is included in WildFly -->
+<dependency>
+  <groupId>jakarta.enterprise</groupId>
+  <artifactId>jakarta.enterprise.cdi-api</artifactId>
+  <scope>provided</scope>
+</dependency>
+<!-- Import the Jakarta REST API, we use provided scope as the API is included in WildFly -->
+<dependency>
+  <groupId>org.jboss.spec.javax.ws.rs</groupId>
+  <artifactId>jboss-jaxrs-api_2.1_spec</artifactId>
+  <scope>provided</scope>
+</dependency>
+----
+
+All dependencies can have provided scope.
+
+As we are going to be deploying this application to the {productName} server, let's
+also add a maven plugin that will simplify the deployment operations (you can replace
+the generated build section):
+
+[source,xml]
+----
+<build>
+  <!-- Set the name of the archive -->
+  <finalName>${project.artifactId}</finalName>
+  <plugins>
+    <!-- Allows to use mvn wildfly:deploy -->
+    <plugin>
+      <groupId>org.wildfly.plugins</groupId>
+      <artifactId>wildfly-maven-plugin</artifactId>
+    </plugin>
+  </plugins>
+</build>
+----
+
+As this is a Jakarta REST application we need to also create an application class.
+Create `org.wildfly.quickstarts.microprofile.rest.client.JaxRsApplication` with the
+following content:
+
+NOTE: The new file should be created in
+`src/main/java/org/quickstarts/microprofile/rest/client/JaxRsApplication.java`.
+
+[source,java]
+----
+package org.wildfly.quickstarts.microprofile.rest.client;
+
+import javax.ws.rs.ApplicationPath;
+import javax.ws.rs.core.Application;
+
+@ApplicationPath("/")
+public class JaxRsApplication extends Application {
+}
+----
+
+Now we are ready to start working with MicroProfile REST Client.
+
+== Setting up the model
+
+In this guide, we will be demonstrating how to consume a part of the REST API
+supplied by the `country-server` service which should be already deployed and running
+on your {productName} server (check the introduction to this section). Our first step
+is to setup the model we will be using in form of the `Country` POJO which we will
+use for our JSON transformations. Create the
+`org.wildfly.quickstarts.microprofile.rest.client.model.Country` class:
+
+[source,java]
+----
+package org.wildfly.quickstarts.microprofile.rest.client.model;
+
+public class Country {
+
+    public String name;
+    public String capital;
+    public String currency;
+}
+----
+
+Now we can start working with the MicroProfile REST Client.
+
+== Crating the REST Client interface
+
+Using the MicroProfile REST Client is as simple as creating an interface which uses the
+proper JAX-RS and MicroProfile annotations. In our case, the
+interface should be created in
+`org.wildfly.quickstarts.microprofile.rest.client.CountriesServiceClient`:
+
+[source,java]
+----
+package org.wildfly.quickstarts.microprofile.rest.client;
+
+import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
+import org.wildfly.quickstarts.microprofile.rest.client.model.Country;
+
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+
+@Path("/api")
+public interface CountriesServiceClient {
+
+    @GET
+    @Path("/name/{name}")
+    @Produces("application/json")
+    Country getByName(@PathParam("name") String name);
+}
+----
+
+The `getByName` method gives our code the ability to query a country by name
+from the REST Countries API. The client will handle all the networking and
+marshalling leaving our code clean of such technical details.
+
+As you can see, all that our REST client interface uses for now are standard
+JAX-RS annotations. There are two ways how to expose the REST client to use it in
+your application: the CDI lookup and the programmatic lookup.
+
+== CDI lookup
+
+To register our created REST Client interface with the CDI we need to add the
+`@RegisterRestClient` annotation to its declaration:
+
+[source,java]
+----
+package org.wildfly.quickstarts.microprofile.rest.client;
+
+import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
+import org.wildfly.quickstarts.microprofile.rest.client.model.Country;
+
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+
+@Path("/api")
+@RegisterRestClient
+public interface CountriesServiceClient {
+
+    @GET
+    @Path("/name/{name}")
+    @Produces("application/json")
+    Country getByName(@PathParam("name") String name);
+}
+----
+
+Now it's ready to be injected in any CDI bean but first we must configure the
+base URL/URI to which REST calls will be made. There are also two options of how to
+configure it:
+
+* Directly in the `@RegisterRestClient` via the `baseUri` attribute if the the base
+URI is static.
+
+* MicroProfile Config if the base URI/URL should be configurable.
+
+Let's start with the easier definition directly in the `@RegisterRestClient`.
+Update `CountriesServiceClient`:
+
+[source,java]
+----
+package org.wildfly.quickstarts.microprofile.rest.client;
+
+import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
+import org.wildfly.quickstarts.microprofile.rest.client.model.Country;
+
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+
+@Path("/api")
+@RegisterRestClient(baseUri = "http://localhost:8080/country-server")
+public interface CountriesServiceClient {
+
+    @GET
+    @Path("/name/{name}")
+    @Produces("application/json")
+    Country getByName(@PathParam("name") String name);
+}
+----
+
+NOTE: We will cover the configuration through the MicroProfile Config in the later
+section.
+
+Now we can start using our statically configured REST client.
+
+=== Create the JAX-RS resource
+
+Update `org.wildfly.quickstarts.microprofile.rest.client.CountriesResource` with the
+following content:
+
+[source,java]
+----
+package org.wildfly.quickstarts.microprofile.rest.client;
+
+import org.eclipse.microprofile.rest.client.inject.RestClient;
+import org.wildfly.quickstarts.microprofile.rest.client.model.Country;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+
+@Path("/country")
+@ApplicationScoped
+public class CountriesResource {
+
+    @Inject
+    @RestClient
+    private CountriesServiceClient countriesServiceClient;
+
+    @GET
+    @Path("/cdi/{name}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Country cdiName(@PathParam("name") String name) {
+        return countriesServiceClient.getByName(name);
+    }
+}
+----
+
+Note the in addition to the standard CDI `@Inject` annotation, we also use the
+MicroProfile `@RestClient` qualifier annotation for the injection. The
+`@RestClient` is only required when there can be more produced CDI beans for
+the same class.
+
+Now we are ready to build, deploy and test our application:
+
+Build and deploy the application:
+
+[source,options="nowrap"]
+----
+$ mvn clean package wildfly:deploy
+----
+
+Now you can access
+`http://localhost:8080/country-client/country/cdi/France`
+endpoint using your browser or
+`curl http://localhost:8080/country-client/country/cdi/France`
+to get some information about `France`.
+
+Congratulations! You are already invoking custom REST client from your JAX-RS
+endpoint.
+
+=== Configuring the REST client base URL/URI dynamically
+
+To configure the base URI of the REST client dynamically the MicroProfile REST
+Client uses the MicroProfile Config specification. We already included it in our
+dependencies so we can start adding the configuration.
+
+First we remove the statically configured base URI from the `CountriesServiceClient`:
+
+[source,java]
+----
+package org.wildfly.quickstarts.microprofile.rest.client;
+
+import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
+import org.wildfly.quickstarts.microprofile.rest.client.model.Country;
+
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+
+@Path("/api")
+@RegisterRestClient
+public interface CountriesServiceClient {
+
+    @GET
+    @Path("/name/{name}")
+    @Produces("application/json")
+    Country getByName(@PathParam("name") String name);
+}
+----
+
+NOTE: If you are not familiar with the MicroProfile Config specification please see the
+`microprofile-config` guide.
+
+The name of the property for the base URI of our REST client needs to follow a
+certain convention. Create a new file
+`src/main/resources/META-INF/microprofile-config.properties`
+with the following content:
+
+[source,properties]
+----
+org.wildfly.quickstarts.microprofile.rest.client.CountriesServiceClient/mp-rest/url=https://restcountries.eu/rest
+org.wildfly.quickstarts.microprofile.rest.client.CountriesServiceClient/mp-rest/scope=javax.inject.Singleton
+----
+
+This configuration means that:
+
+* all requests performed using
+`org.wildfly.quickstarts.microprofile.rest.client.CountriesServiceClient` will use
+`http://localhost:8080/country-server` as a base URL. Using the configuration above, calling
+the `getByName` method of `CountriesServiceClient` with a value of `France` would
+result in an HTTP GET request being made to
+`http://localhost:8080/country-server/api/name/France`.
+* the default scope of
+`org.wildfly.quickstarts.microprofile.rest.client.CountriesServiceClient` will be
+`@Singleton`. All supported values are described later. The default scope can also
+be defined on the interface.
+
+NOTE that `org.wildfly.quickstarts.microprofile.rest.client.CountriesServiceClient`
+must match the fully qualified name of the `CountriesServiceClient` we created in
+the previous section.
+
+Now we can rebuild and redeploy the application:
+
+[source,options="nowrap"]
+----
+$ mvn clean package wildfly:deploy
+----
+
+And repeat the requests to
+`http://localhost:8080/country-client/country/cdi/France`
+endpoint using your browser or
+`curl http://localhost:8080/country-client/country/cdi/France`
+to get some information about `France`. The output should be the same. However,
+now we can change the base URL dynamically in the `microprofile-config.properties`
+file without the need to change the code. Again for more information about
+MicroProfile Config specification please see the `microprofile-config` quickstart or
+the specification available at https://github.com/eclipse/microprofile-config. This
+is particularly useful when you are developing the application in different
+environment than in which it will be running in production (e.g. localhost vs
+kubernetes addresses).
+
+=== CDI REST Client configuration properties
+
+The CDI defined interfaces can be configured through the MicroProfile Config
+properties to define additional behavior or to override `@RegisterRestClient`
+annotations. Supported properties are:
+
+* `my.package.MyClient/mp-rest/url` - base URL of the target
+* `my.package.MyClient/mp-rest/uri` - base URI of the target
+* `my.package.MyClient/mp-rest/scope` - CDI scope to use for injection, default is
+`javax.enterprise.context.Dependent`
+* `my.package.MyClient/mp-rest/providers/my.package.MyProvider/priority` - override
+the priority of the provider
+* `my.package.MyClient/mp-rest/connectTimeout` - connection timeout in milliseconds
+* `my.package.MyClient/mp-rest/readTimeout` - timeout to wait for response
+in milliseconds
+
+==== Configuration Keys
+
+It is also possible to define a custom configuration key in the `@RegisterRestClient`
+annotation. If you would define interface like this:
+
+[source,java]
+----
+package my.package;
+
+@RegisterRestClient(configKey="myClient")
+public interface MyClient {
+    // ...
+}
+----
+
+then you can define properties like:
+
+[source,properties]
+----
+myClient/mp-rest/url==...
+myClient/mp-rest/scope==...
+----
+
+== Programmatic lookup
+
+If you need to create the instance of the REST Client proxy programmatically you can
+use the `RestClientBuilder` class. Update the `CountriesResource` by adding the
+following method:
+
+[source,java]
+----
+@GET
+@Path("/programmatic/{name}")
+@Produces(MediaType.APPLICATION_JSON)
+public Country programmaticName(@PathParam("name") String name) throws MalformedURLException {
+    CountriesServiceClient client = RestClientBuilder.newBuilder()
+        .baseUrl(new URL("http://localhost:8080/country-server"))
+        .build(CountriesServiceClient.class);
+
+    return client.getByName(name);
+}
+----
+
+NOTE: You need to set the Java language level to 1.8 in order to use
+static interface method invocations.
+
+In this method, we use the MicroProfile `RestClientBuilder` to programmatically get
+access to the new instance of the `CountriesServiceClient`. The only required
+parameter is the base URL (or URI) which is set by the method `baseUrl`. The
+returned instance can be used as previously.
+
+Build and deploy the application:
+
+[source,options="nowrap"]
+----
+$ mvn clean package wildfly:deploy
+----
+
+Now you can access
+`http://localhost:8080/country-client/country/programmatic/France`
+endpoint using your browser or
+`curl http://localhost:8080/country-client/country/programmatic/France`
+to get some information about `France`. The output will be the same as previously.
+
+== Async support
+
+The MicroProfile REST Client supports asynchronous REST calls. Let's see it action
+by adding a `getByNameAsync` method in out `CountriesServiceClient` REST interface:
+
+[source,java]
+----
+package org.wildfly.quickstarts.microprofile.rest.client;
+
+import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
+import org.wildfly.quickstarts.microprofile.rest.client.model.Country;
+
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import java.util.concurrent.CompletionStage;
+
+@Path("/api")
+@RegisterRestClient
+public interface CountriesServiceClient {
+
+    @GET
+    @Path("/name/{name}")
+    @Produces("application/json")
+    Country getByName(@PathParam("name") String name);
+
+    @GET
+    @Path("/name/{name}")
+    @Produces("application/json")
+    CompletionStage<Country> getByNameAsync(@PathParam("name") String name);
+}
+----
+
+And add the following method to `CountriesResource`:
+
+[source,java]
+----
+@GET
+@Path("/name-async/{name}")
+@Produces(MediaType.APPLICATION_JSON)
+public CompletionStage<Country> nameAsync(@PathParam("name") String name) {
+    return countriesServiceClient.getByNameAsync(name);
+}
+----
+
+That's it. Build and redeploy the application:
+
+[source,options="nowrap"]
+----
+$ mvn clean package wildfly:deploy
+----
+
+Now you can access
+`http://localhost:8080/country-client/country/name-async/France`
+endpoint using your browser or
+`curl http://localhost:8080/country-client/country/name-async/France`
+to get some information about `France`. The output will be the same as previously
+but the method the call is now executed asynchronously. To verify this, you can add
+some code between the `getByNameAsync` call and the return of the completion stage:
+
+[source,java]
+----
+@GET
+@Path("/name-async/{name}")
+@Produces(MediaType.APPLICATION_JSON)
+public CompletionStage<Country> nameAsync(@PathParam("name") String name) {
+    CompletionStage<Country> completionStage = countriesServiceClient.getByNameAsync(name);
+
+    System.out.println("Async request happening now...");
+    try {
+        Thread.sleep(1000);
+    } catch (InterruptedException e) {
+        e.printStackTrace();
+    }
+
+    return completionStage;
+}
+----
+
+== Provider registration
+
+MicroProfile REST Client allows you to register custom JAX-RS providers when you
+are defining the interface or building the client with the builder. The supported
+providers which can be registered are:
+
+* `ClientResponseFilter`
+* `ClientRequestFilter`
+* `MessageBodyReader`
+* `MessageBodyWriter`
+* `ParamConverter`
+* `ReaderInterceptor`
+* `WriterInterceptor`
+* `ResponseExceptionMapper` - specific to the MicroProfile REST Client
+
+To declare a provider you can use:
+
+* `@RegisterProvider` on the REST Client interface
+* or `RestClientBuilder#register`
+
+As `ResponseExceptionMapper` is a custom provider of MicroProfile REST Client,
+let's define one in our application. `ResponseExceptionMapper` allows you to
+transform received `Response` object to a `Throwable` that will be thrown at the
+place of the client invocation. Let's say that we don't want to return error to
+users in case they pass in a wrong name of the country. Create a new class
+`org.wildfly.quickstarts.microprofile.rest.client.NotFoundResponseExceptionMapper`:
+
+[source,java]
+----
+package org.wildfly.quickstarts.microprofile.rest.client;
+
+import org.eclipse.microprofile.rest.client.ext.ResponseExceptionMapper;
+
+import javax.ws.rs.NotFoundException;
+import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.Response;
+
+public class NotFoundResponseExceptionMapper implements ResponseExceptionMapper<NotFoundException> {
+
+    @Override
+    public boolean handles(int status, MultivaluedMap<String, Object> headers) {
+        return status == 404;
+    }
+
+    @Override
+    public NotFoundException toThrowable(Response response) {
+        return new NotFoundException(response.hasEntity() ? response.readEntity(String.class) : "Resource not found");
+    }
+}
+----
+
+which is a `ResponseExceptionMapper` that transforms HTTP status code `404` to
+the `NotFoundException`. Now we need to register our provided with the
+`CountriesServiceClient`:
+
+[source,java]
+----
+package org.wildfly.quickstarts.microprofile.rest.client;
+
+import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;
+import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
+import org.wildfly.quickstarts.microprofile.rest.client.model.Country;
+
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import java.util.concurrent.CompletionStage;
+
+@Path("/api")
+@RegisterRestClient
+@RegisterProvider(NotFoundResponseExceptionMapper.class)
+public interface CountriesServiceClient {
+
+    @GET
+    @Path("/name/{name}")
+    @Produces("application/json")
+    Country getByName(@PathParam("name") String name);
+
+    @GET
+    @Path("/name/{name}")
+    @Produces("application/json")
+    CompletionStage<Country> getByNameAsync(@PathParam("name") String name);
+}
+----
+
+And the last step is to catch the exception at the code that is invoking
+`CountriesServiceClient`. Update `CountriesResource#cdiName` method:
+
+[source,java]
+----
+@GET
+@Path("/cdi/{name}")
+@Produces(MediaType.APPLICATION_JSON)
+public Country cdiName(@PathParam("name") String name) {
+    try {
+        return countriesServiceClient.getByName(name);
+    } catch (NotFoundException e) {
+        return null;
+    }
+}
+----
+
+Build and redeploy the application:
+
+[source,options="nowrap"]
+----
+$ mvn clean package wildfly:deploy
+----
+
+Now you can access
+`http://localhost:8080/country-client/country/cdi/doesNotExist`
+endpoint using your browser or
+`curl http://localhost:8080/country-client/country/cdi/doesNotExist`
+the application will return a 204 No Content response instead of the 404 error
+ received from `country-server`. You can verify the `country-server` response at
+`http://localhost:8080/country-server/api/name/doesNotExist`.
+
+== Conclusion
+
+MicroProfile REST Client provides you with an option to define REST clients in a
+clear, declarative, and intuitive way using the same annotations as for your
+JAX-RS resources. It also allows you to make the HTTP communication on the background
+transparent for your services with the direct data conversions and exception mappers.
+You can find more information about the MicroProfile REST Client specification at
+https://github.com/eclipse/microprofile-rest-client.
