@@ -34,6 +34,8 @@ Each component is defined in its own standalone Maven module. The quickstart pro
 include::../shared-doc/system-requirements.adoc[leveloffset=+1]
 // Use of {jbossHomeName}
 include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
+// Add the Authorized Application User
+include::../shared-doc/add-application-user.adoc[leveloffset=+1]
 // Start the {productName} Standalone Server
 include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
 // Install the Quickstart Parent Artifact in Maven
@@ -63,6 +65,23 @@ $ mvn clean compile
 ----
 $ mvn exec:exec
 ----
+
+[NOTE]
+====
+If you consider running the client execution manually then you can execute
+
+[source,sh,options="nowrap"]
+----
+mvn clean compile assembly:single
+----
+
+and run the client application with
+
+[source,sh,options="nowrap"]
+----
+java -jar target/ejb-remote-client-jar-with-dependencies.jar
+----
+====
 
 == Investigate the Console Output
 
@@ -161,8 +180,6 @@ You can use HTTP as the transport for remote EJB invocations by specifying `-Dht
 
 Before you can use it, you need to set up a user on the server as HTTP does not support transparent authentication. The next section describes how to xref:add_the_application_user[add the authorized application user] so you can test the quickstart using HTTP as the transport.
 
-// Add the Authorized Application User
-include::../shared-doc/add-application-user.adoc[leveloffset=+1]
 // Run the Quickstart in Red Hat CodeReady Studio or Eclipse
 include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
 
