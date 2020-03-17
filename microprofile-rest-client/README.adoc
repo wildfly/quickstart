@@ -32,19 +32,18 @@ is available in this directory.
 
 . Start your {productName} server
 
+// Start the {productName} Standalone Server
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
+
 . Compile the application code and deploy it to {productName}
 [source,options="nowrap"]
 ----
 $ mvn clean package wildfly:deploy
 ----
 
-If you run this command in the current directory, the quickstart deploys
-first the `country-server` application and then the `country-client` application.
-If you prefer to do it manually, please do your deployments in the same order as
+Run the above command first in the `country-server` directory and then in the
+`country-client` directory. It is important to do your deployments in this order as
 `country-client` depends on the REST API provided by the `country-server`.
-
-// Start the {productName} Standalone Server
-include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
 
 == Creating the Maven Project
 
