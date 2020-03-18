@@ -1,0 +1,160 @@
+:productName:	WildFly
+
+= Using MicroProfile OpenAPI in {productName}
+
+This guide demonstrate how to use the MicroProfile OpenAPI functionality in {productName} to expose an OpenAPI document for a simple REST application.
+
+== Prerequisites
+
+To complete this guide, you will need:
+
+* less than 15 minutes
+* JDK 1.8+ installed with `JAVA_HOME` configured appropriately
+* Apache Maven 3.5.3+
+
+== Steps
+
+. Start a {productName} instance.
++
+[source, shell]
+----
+$ mvn wildfly:run &
+----
+
+. Add support for MicroProfile OpenAPI by adding the requisite extension and subsystem.
++
+[source, shell]
+----
+$ mvn wildfly:execute-commands -Dwildfly.commands=/extension=org.wildfly.extension.microprofile.openapi-smallrye:add
+$ mvn wildfly:execute-commands -Dwildfly.commands=/subsystem=microprofile-openapi-smallrye:add
+----
+
+. Since the MicroProfile OpenAPI subsystem modifies {productName}'s deployment chain, the server needs to be reloaded.
++
+[source, shell]
+----
+$ mvn wildfly:shutdown -Dwildfly.reload=true
+----
+
+. Build and deploy the sample application to {productName}.
++
+[source, shell]
+----
+$ mvn wildfly:deploy
+----
+
+. Access the OpenAPI documentation of the sample application:
++
+[source, shell]
+----
+$ curl http://localhost:8080/openapi
+----
+
++
+Which should return a YAML document conforming to the http://spec.openapis.org/oas/v3.0.3[OpenAPI specification]:
++
+[source, yaml]
+----
+openapi: 3.0.1
+info:
+  title: Store inventory
+  description: Application for tracking store inventory
+  version: "1.0"
+servers:
+- url: /microprofile-openapi-quickstart
+paths:
+  /inventory/fruit:
+    get:
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Fruit'
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Fruit'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Fruit'
+    delete:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Fruit'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Fruit'
+components:
+  schemas:
+    Fruit:
+      type: object
+      properties:
+        description:
+          type: string
+        name:
+          type: string
+----
+
+. You can further enhance/complete your OpenAPI documentation by adding https://github.com/eclipse/microprofile-open-api/tree/master/api/src/main/java/org/eclipse/microprofile/openapi/annotations[MicroProfile OpenAPI annotations].
+  You will need to rebuild/redeploy for those changes to be reflected in the OpenAPI document.
+
+. Optionally, finalize your OpenAPI documentation as described in the <<finalizing-openapi-documentation>> section.
+
+. When you are ready, undeploy the sample application and shutdown the server.
++
+[source, shell]
+----
+$ mvn wildfly:undeploy wildfly:shutdown
+----
+
+
+=== Finalizing OpenAPI documentation
+
+Rather than processing JAX-RS and MicroProfile OpenAPI annotations every time an application is deployed, {productName} can be configured to serve a static OpenAPI document.
+When serving a static document, typically, we also want to disable annotation processing.
+This is generally suggested for production environments, to ensure an immutable/versioned API contract for integrators.
+
+. Save the generated document to the source tree.  Feel free to use JSON, if you prefer that over YAML.
++
+[source, shell]
+----
+$ mkdir src/main/webapp/META-INF
+$ curl http://localhost:8080/openapi?format=JSON > src/main/webapp/META-INF/openapi.json
+----
+
+. Reconfigure the application to skip annotation scanning when processing the OpenAPI document model.
++
+[source, shell]
+----
+$ echo "mp.openapi.scan.disable=true" > src/main/webapp/META-INF/application.properties
+----
+
+. Rebuild and redeploy the modified sample application.
++
+[source, shell]
+----
+$ mvn wildfly:deploy
+----
+
++
+The OpenAPI document model will now be built from the static content rather than annotation processing.
