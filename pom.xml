@@ -93,6 +93,11 @@
 
         <jboss.developer.drupal.url>http://rhdp-drupal.stage.redhat.com/</jboss.developer.drupal.url>
         <linkXRef>false</linkXRef>
+
+        <!-- We use this property name as the org.wildfly.plugins:wildfly-maven-plugin uses this property name to be
+             overridden from the command line.
+         -->
+        <version.server>19.0.0.Final</version.server>
     </properties>
 
     <dependencyManagement>
@@ -220,6 +225,9 @@
                     <groupId>org.wildfly.plugins</groupId>
                     <artifactId>wildfly-maven-plugin</artifactId>
                     <version>${version.wildfly.maven.plugin}</version>
+                    <configuration>
+                        <version>${version.server}</version>
+                    </configuration>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
