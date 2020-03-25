@@ -30,7 +30,7 @@
         Maintain separation between the artifact id and the version to help prevent
         merge conflicts between commits changing the GA and those changing the V.
         -->
-    <version>7.3.0.GA-redhat-SNAPSHOT</version>
+    <version>7.3.0.GA</version>
 
     <packaging>pom</packaging>
 
@@ -78,7 +78,7 @@
         <!-- Version of BOMs
         note: a SNAPSHOT version *requires* checkout of BOMs at https://github.com/wildfly/boms and build through "mvn clean install"
         -->
-        <version.server.bom>7.3.0.GA-redhat-SNAPSHOT</version.server.bom>
+        <version.server.bom>7.3.0.GA</version.server.bom>
 
         <!-- Versions of unmanaged dependencies -->
         <version.arquillian.angularjs.graphene>1.2.0.Beta1</version.arquillian.angularjs.graphene>
@@ -105,21 +105,6 @@
     </dependencyManagement>
 
     <repositories>
-        <!-- keep this repository the first -->
-        <repository>
-            <id>jboss-eap-7.3-product-repository</id>
-            <name>JBoss EAP Product Repository</name>
-            <url>${maven.repository.product.url}</url>
-            <layout>default</layout>
-            <releases>
-                <enabled>true</enabled>
-                <updatePolicy>never</updatePolicy>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-                <updatePolicy>never</updatePolicy>
-            </snapshots>
-        </repository>
         <repository>
             <releases>
                 <enabled>true</enabled>
@@ -151,20 +136,6 @@
     </repositories>
 
     <pluginRepositories>
-        <pluginRepository>
-            <id>jboss-eap-7.3-product-repository</id>
-            <name>JBoss EAP Product Repository</name>
-            <url>${maven.repository.product.url}</url>
-            <layout>default</layout>
-            <releases>
-                <enabled>true</enabled>
-                <updatePolicy>never</updatePolicy>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-                <updatePolicy>never</updatePolicy>
-            </snapshots>
-        </pluginRepository>
         <pluginRepository>
             <releases>
                 <enabled>true</enabled>
