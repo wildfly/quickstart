@@ -62,6 +62,9 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
                 <configuration>
+                    <arguments>
+                        <argument>${jvm.options}</argument>
+                    </arguments>
                     <mainClass>org.jboss.as.quickstarts.jaxrs.client.JaxRsClient</mainClass>
                     <detail>true</detail>
                     <systemProperties>
