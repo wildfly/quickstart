@@ -11,10 +11,6 @@ The `ejb-in-ear` quickstart demonstrates how to deploy an EAR archive that conta
 :standalone-server-type: default
 :archiveType: ear
 
-//*************************************************
-// Shared CD and Product Release content
-//*************************************************
-
 == What is it?
 
 The `ejb-in-ear` quickstart demonstrates the deployment of an EAR artifact to {productNameFull}. The EAR contains a JSF WAR and an EJB JAR.
@@ -85,20 +81,11 @@ include::../shared-doc/debug-the-application.adoc[leveloffset=+1]
 endif::[]
 
 //*************************************************
-// CD Release content only
+// Product Release content only
 //*************************************************
+ifdef::ProductRelease[]
 
-ifdef::EAPCDRelease[]
-
-// Getting Started with OpenShift
-include::../shared-doc/cd-openshift-getting-started.adoc[leveloffset=+1]
-//Prepare OpenShift for Quickstart Deployment
-include::../shared-doc/cd-create-project.adoc[leveloffset=+1]
-// Import the Latest {xpaasproduct-shortname} Image Streams and Templates
-include::../shared-doc/cd-import-imagestreams-templates.adoc[leveloffset=+1]
-// Deploy the {ProductShortName} Source-to-Image (S2I) Quickstart to OpenShift
-include::../shared-doc/cd-deploy-project.adoc[leveloffset=+1]
-// OpenShift Post Deployment Tasks: This is not currently needed.
-// include::../shared-doc/cd-post-deployment-tasks.adoc[leveloffset=+1]
+// Quickstart not compatible with OpenShift
+include::../shared-doc/openshift-incompatibility.adoc[leveloffset=+1]
 
 endif::[]
