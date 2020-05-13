@@ -27,21 +27,34 @@ functionalities of the MicroProfile Metrics specification. The metrics are expos
 through the management interface at `/metrics` path according to the specification.
 Metrics will be collected as a part of the REST invocations.
 
-== Solution
+// System Requirements
+include::../shared-doc/system-requirements.adoc[leveloffset=+1]
 
-We recommend that you follow the instructions in the next sections and create the
-application step by step. However, you can go right to the completed example which
-is available in this directory.
+// Use of {jbossHomeName}
+include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
 
 // Start the {productName} Standalone Server
 include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
 
-Compile the application code and deploy it to {productName}
-[source,options="nowrap"]
-----
-$ mvn clean package wildfly:deploy
-----
+== Solution
 
+We recommend that you follow the instructions that
+<<creating-new-project, create the application step by step>>. However, you can
+also go right to the completed example which is available in this directory.
+
+// Build and Deploy the Quickstart
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
+
+// Undeploy the Quickstart
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
+
+// Run the Arquillian Tests
+include::../shared-doc/run-arquillian-tests.adoc[leveloffset=+1]
+
+// Run the Quickstart in Red Hat CodeReady Studio or Eclipse
+include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
+
+[[creating-new-project]]
 == Creating the Maven Project
 
 [source,options="nowrap"]
@@ -85,19 +98,19 @@ Now we need to add the following dependencies:
 
 [source,xml]
 ----
-<!-- Import the MicroProfile Metrics API, we use provided scope as the API is included in WildFly -->
+<!-- Import the MicroProfile Metrics API, we use provided scope as the API is included in the server -->
 <dependency>
   <groupId>org.eclipse.microprofile.metrics</groupId>
   <artifactId>microprofile-metrics-api</artifactId>
   <scope>provided</scope>
 </dependency>
-<!-- Import the CDI API, we use provided scope as the API is included in WildFly -->
+<!-- Import the CDI API, we use provided scope as the API is included in the server -->
 <dependency>
   <groupId>jakarta.enterprise</groupId>
   <artifactId>jakarta.enterprise.cdi-api</artifactId>
   <scope>provided</scope>
 </dependency>
-<!-- Import the Jakarta REST API, we use provided scope as the API is included in WildFly -->
+<!-- Import the Jakarta REST API, we use provided scope as the API is included in the server -->
 <dependency>
   <groupId>org.jboss.spec.javax.ws.rs</groupId>
   <artifactId>jboss-jaxrs-api_2.1_spec</artifactId>
@@ -200,7 +213,12 @@ provided by the {productName} server. To see the full list please access
 the `http://localhost:9990/metrics/vendor` endpoint using your browser or
 `curl http://localhost:9990/metrics/vendor`. You can note that there are custom
 metrics exposed by the individual {productName} subsystems which are prefixed by
- `wildfly_` or `jboss_`.
+ifdef::ProductRelease,EAPCDRelease[]
+`jboss_`.
+endif::[]
+ifndef::ProductRelease[]
+`wildfly_`.
+endif::[]
 
 The application scope covers the metrics defined by your application. We will
 demonstrate how to define application metrics in the following sections.
@@ -926,8 +944,8 @@ Wait for the container to start and then you can access `http://localhost:9090` 
 your browser to view the Prometheus console. Because we configured Prometheus (in
 `prometheus.yml`) to scrap our `prime-checker` service running on {productName} server
 we can directly access the collected metrics which Prometheus collects from
-`http://localhost:9990/metrics`. You can test it be typing for instance
-`application_org_quickstart_microprofile_metrics_PrimeNumberChecker_performedChecks_total`
+`http://localhost:9990/metrics`. You can test it by typing for instance
+`application_org_wildfly_quickstart_microprofile_metrics_PrimeNumberChecker_performedChecks_total`
 as the query expression and executing this query.
 
 Congratulations. Your service metrics are now queried by Prometheus every second so
