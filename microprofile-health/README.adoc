@@ -25,22 +25,23 @@ In this quickstart, we have a simple REST application that exposes MicroProfile 
 functionalities at the `/health/live` and `/health/ready` endpoints according to the
 specification.
 
-== Solution
+// System Requirements
+include::../shared-doc/system-requirements.adoc[leveloffset=+1]
 
-We recommend that you follow the instructions in the next sections and create the
-application step by step. However, you can go right to the completed example which
-is available in this directory.
-
-. Start your {productName} server
-
-. Compile the application code and deploy it to {productName}
-[source,options="nowrap"]
-----
-$ mvn clean package wildfly:deploy
-----
+// Use of {jbossHomeName}
+include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
 
 // Start the {productName} Standalone Server
 include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
+
+== Solution
+
+We recommend that you follow the instructions that 
+<<creating-new-project, create the application step by step>>. However, you can 
+also go right to the completed example which is available in this directory.
+
+// Build and Deploy the Quickstart
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
 
 === Running the health check
 
@@ -61,8 +62,7 @@ All of the health REST endpoints return a simple JSON object with two fields:
 * `checks` -- an array of individual checks
 
 The general `status` of the health check is computed as a logical AND of all the
-declared health check procedures. The `checks` array is empty as we have not specified
-any health check procedure yet so let's define some.
+declared health check procedures.
 
 NOTE: Similarly you can access `http://localhost:9990/health/ready` and
 `http://localhost:9990/health`
@@ -70,6 +70,13 @@ NOTE: Similarly you can access `http://localhost:9990/health/ready` and
 Congratulations! You successfully deployed and run this quickstart. If you wish to
 create the application step by step you can follow the subsequent sections.
 
+// Run the Arquillian Tests
+include::../shared-doc/run-arquillian-tests.adoc[leveloffset=+1]
+
+// Undeploy the Quickstart
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
+
+[[creating-new-project]]
 == Creating the Maven Project
 
 [source,options="nowrap"]
@@ -113,13 +120,13 @@ Now we need to add the following two dependencies:
 
 [source,xml]
 ----
-<!-- Import the MicroProfile Health API, we use provided scope as the API is included in WildFly -->
+<!-- Import the MicroProfile Health API, we use provided scope as the API is included in the server -->
 <dependency>
   <groupId>org.eclipse.microprofile.health</groupId>
   <artifactId>microprofile-health-api</artifactId>
   <scope>provided</scope>
 </dependency>
-<!-- Import the CDI API, we use provided scope as the API is included in JBoss EAP -->
+<!-- Import the CDI API, we use provided scope as the API is included in the server -->
 <dependency>
   <groupId>jakarta.enterprise</groupId>
   <artifactId>jakarta.enterprise.cdi-api</artifactId>
@@ -280,7 +287,7 @@ dependency to our application:
 
 [source,xml]
 ----
-<!-- Import the MicroProfile Config API, we use provided scope as the API is included in WildFly -->
+<!-- Import the MicroProfile Config API, we use provided scope as the API is included in the server -->
 <dependency>
   <groupId>org.eclipse.microprofile.config</groupId>
   <artifactId>microprofile-config-api</artifactId>
