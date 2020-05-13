@@ -12,6 +12,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.wildfly.quickstarts.microprofile.config.custom.CustomPropertiesFileProvider;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -165,7 +166,7 @@ public class MicroProfileConfigIT {
      */
     @Test
     public void testConfigSourceReloadedValue() throws IOException {
-        Path customPropertiesPath = Paths.get(System.getenv("JBOSS_HOME") + "/custom.properties");
+        Path customPropertiesPath = Paths.get(CustomPropertiesFileProvider.getJBossHome() + "/custom.properties");
         Files.deleteIfExists(customPropertiesPath);
 
         WebTarget target = client
