@@ -8,7 +8,7 @@ include::../shared-doc/attributes.adoc[]
 [abstract]
 This guide demonstrate how to use the MicroProfile OpenAPI functionality in {productName} to expose an OpenAPI document for a simple REST application.
 
-:standalone-server-type: default
+:standalone-server-type: microprofile
 :archiveType: war
 :archiveName: {artifactId}
 
@@ -20,38 +20,15 @@ To complete this guide, you will need:
 * JDK 1.8+ installed with `JAVA_HOME` configured appropriately
 * Apache Maven 3.5.3+
 
+include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
+ 
 == Steps
 
-. Start a {productName} instance.
-+
-[source, shell]
-----
-$ mvn wildfly:run &
-----
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
 
-. Add support for MicroProfile OpenAPI by adding the requisite extension and subsystem.
-+
-[source, shell]
-----
-$ mvn wildfly:execute-commands -Dwildfly.commands=/extension=org.wildfly.extension.microprofile.openapi-smallrye:add
-$ mvn wildfly:execute-commands -Dwildfly.commands=/subsystem=microprofile-openapi-smallrye:add
-----
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
 
-. Since the MicroProfile OpenAPI subsystem modifies {productName}'s deployment chain, the server needs to be reloaded.
-+
-[source, shell]
-----
-$ mvn wildfly:shutdown -Dwildfly.reload=true
-----
-
-. Build and deploy the sample application to {productName}.
-+
-[source, shell]
-----
-$ mvn wildfly:deploy
-----
-
-. Access the OpenAPI documentation of the sample application:
+=== Access the OpenAPI documentation of the quickstart application
 +
 [source, shell]
 ----
@@ -123,18 +100,10 @@ components:
           type: string
 ----
 
-. You can further enhance/complete your OpenAPI documentation by adding https://github.com/eclipse/microprofile-open-api/tree/master/api/src/main/java/org/eclipse/microprofile/openapi/annotations[MicroProfile OpenAPI annotations].
-  You will need to rebuild/redeploy for those changes to be reflected in the OpenAPI document.
+=== Enhance OpenAPI documentation with annotations
 
-. Optionally, finalize your OpenAPI documentation as described in the <<finalizing-openapi-documentation>> section.
-
-. When you are ready, undeploy the sample application and shutdown the server.
-+
-[source, shell]
-----
-$ mvn wildfly:undeploy wildfly:shutdown
-----
-
+You can further enhance/complete your OpenAPI documentation by adding https://github.com/eclipse/microprofile-open-api/tree/master/api/src/main/java/org/eclipse/microprofile/openapi/annotations[MicroProfile OpenAPI annotations].
+You will need to rebuild/redeploy for those changes to be reflected in the OpenAPI document.
 
 === Finalizing OpenAPI documentation
 
@@ -158,11 +127,9 @@ $ echo "mp.openapi.scan.disable=true" > src/main/webapp/META-INF/application.pro
 ----
 
 . Rebuild and redeploy the modified sample application.
-+
-[source, shell]
-----
-$ mvn wildfly:deploy
-----
 
 +
 The OpenAPI document model will now be built from the static content rather than annotation processing.
+
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
+
