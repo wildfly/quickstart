@@ -42,7 +42,7 @@ public class CustomPropertiesFileProvider implements ConfigSourceProvider {
 
     private Map<String, String> reloadPropertiesFile() {
         Properties properties = new Properties();
-        Path customPropertiesPath = Paths.get(System.getenv("JBOSS_HOME") + "/custom.properties");
+        Path customPropertiesPath = Paths.get(getJBossHome() + "/custom.properties");
 
         if (!Files.exists(customPropertiesPath)) {
             return new HashMap<>();
@@ -60,5 +60,15 @@ public class CustomPropertiesFileProvider implements ConfigSourceProvider {
                 entry -> entry.getValue().toString()
             )
         );
+    }
+
+    public static String getJBossHome() {
+        String jbossHome = System.getenv("JBOSS_HOME");
+
+        if (jbossHome == null) {
+            jbossHome = System.getProperty("jbossHome");
+        }
+
+        return jbossHome;
     }
 }
