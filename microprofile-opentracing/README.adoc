@@ -11,6 +11,7 @@ The `microprofile-opentracing` quickstart demonstrates the use of the MicroProfi
 :standalone-server-type: default
 :archiveType: war
 :archiveName: {artifactId}
+:additional-startup-params: JAEGER_REPORTER_LOG_SPANS=true JAEGER_SAMPLER_TYPE=const JAEGER_SAMPLER_PARAM=1 \
 
 == What is it?
 
@@ -26,23 +27,34 @@ https://zipkin.io/[Zipkin]).
 In this quickstart, we have a collection of CDI beans and REST endpoints that
 expose functionalities of the MicroProfile OpenTracing specification.
 
-== Solution
+// System Requirements
+include::../shared-doc/system-requirements.adoc[leveloffset=+1]
 
-We recommend that you follow the instructions in the next sections and create the
-application step by step. However, you can go right to the completed example which
-is available in this directory.
-
-. Start your {productName} server
-
-. Compile the application code and deploy it to {productName}
-[source,options="nowrap"]
-----
-$ mvn clean package wildfly:deploy
-----
+// Use of {jbossHomeName}
+include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
 
 // Start the {productName} Standalone Server
 include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
 
+== Solution
+
+We recommend that you follow the instructions that
+<<creating-new-project, create the application step by step>>. However, you can
+also go right to the completed example which is available in this directory.
+
+// Build and Deploy the Quickstart
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
+
+// Undeploy the Quickstart
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
+
+// Run the Arquillian Tests
+include::../shared-doc/run-arquillian-tests.adoc[leveloffset=+1]
+
+// Run the Quickstart in Red Hat CodeReady Studio or Eclipse
+include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
+
+[[creating-new-project]]
 == Creating the Maven Project
 
 [source,options="nowrap"]
@@ -84,19 +96,19 @@ Now we need to add the following dependencies:
 
 [source,xml]
 ----
-<!-- Import the MicroProfile OpenTracing API, we use provided scope as the API is included in WildFly -->
+<!-- Import the MicroProfile OpenTracing API, we use provided scope as the API is included in the server -->
 <dependency>
   <groupId>org.eclipse.microprofile.opentracing</groupId>
   <artifactId>microprofile-opentracing-api</artifactId>
   <scope>provided</scope>
 </dependency>
-<!-- Import the CDI API, we use provided scope as the API is included in WildFly -->
+<!-- Import the CDI API, we use provided scope as the API is included in the server -->
 <dependency>
   <groupId>jakarta.enterprise</groupId>
   <artifactId>jakarta.enterprise.cdi-api</artifactId>
   <scope>provided</scope>
 </dependency>
-<!-- Import the Jakarta REST API, we use provided scope as the API is included in WildFly -->
+<!-- Import the Jakarta REST API, we use provided scope as the API is included in the server -->
 <dependency>
   <groupId>org.jboss.spec.javax.ws.rs</groupId>
   <artifactId>jboss-jaxrs-api_2.1_spec</artifactId>
