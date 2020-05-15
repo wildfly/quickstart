@@ -5,6 +5,7 @@ https://github.com/quarkusio/quarkus/tree/master/docs/src/main/asciidoc
 
 // Needed to correctly render on GitHub
 :productName: WildFly
+:standalone-server-type: microprofile
 
 include::../shared-doc/attributes.adoc[]
 
@@ -32,6 +33,8 @@ To complete this guide, you need:
 * an IDE
 * JDK 1.8+ installed with `JAVA_HOME` configured appropriately
 * Apache Maven 3.5.3+
+
+include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
 
 == The Scenario
 
@@ -133,36 +136,14 @@ Add the following section under configuration:
     <plugin>
       <groupId>org.wildfly.plugins</groupId>
       <artifactId>wildfly-maven-plugin</artifactId>
-      <configuration>
-        <version>${version.server}</version>
-      </configuration>
     </plugin>
   </plugins>
 </build>
 ----
 
-Start a {productName} instance or if you have provided specific version in plugin configuration above,
-use the maven plugin to provision and run on the background:
+Start a {productName} instance using the `microprofile` server profile.
 
-[source,shell]
-----
-mvn wildfly:run &
-----
-
-Add support for MicroProfile Fault Tolerance by adding the requisite extension and subsystem.
-
-[source,shell]
-----
-mvn wildfly:execute-commands -Dwildfly.commands=/extension=org.wildfly.extension.microprofile.fault-tolerance-smallrye:add
-mvn wildfly:execute-commands -Dwildfly.commands=/subsystem=microprofile-fault-tolerance-smallrye:add
-----
-
-Since the MicroProfile Fault Tolerance subsystem modifies deployment chain, the server needs to be reloaded.
-
-[source,shell]
-----
-mvn wildfly:shutdown -Dwildfly.reload=true
-----
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
 
 Now we are ready to start working with MicroProfile Fault Tolerance.
 
