@@ -6,6 +6,7 @@
 //    full
 //    full-ha
 //    ha
+//    microprofile
 //    custom
 //******************************************************************************
 
@@ -35,6 +36,13 @@ ifeval::["{standalone-server-type}"=="ha"]
 :serverProfile: HA profile
 :configFileName: standalone/configuration/standalone-ha.xml
 :serverArguments:  -c standalone-ha.xml
+endif::[]
+
+// Start the standalone server with the Eclipse MicroProfile profile.
+ifeval::["{standalone-server-type}"=="microprofile"]
+:serverProfile: MicroProfile profile
+:configFileName: standalone/configuration/standalone-microprofile.xml
+:serverArguments:  -c standalone-microprofile.xml
 endif::[]
 
 // Standalone server with the custom profile.
