@@ -25,6 +25,19 @@ In this guide, we demonstrate usage of MicroProfile Fault Tolerance annotations 
 `@Retry` and `@CircuitBreaker`. The specification also introduces `@Bulkhead` and `@Asynchronous` interceptor bindings not
 covered in this guide.
 
+== The Scenario
+
+The application built in this guide simulates a simple backend for a gourmet coffee on-line store. It implements a REST
+endpoint providing information about coffee samples we have in store.
+
+Let's imagine, although it's not implemented as such, that some methods in our endpoint require communication
+to external services like a database or an external microservice, which introduces a factor of unreliability.
+
+== Solution
+
+We recommend that you follow the instructions in the next sections and create the application step by step.
+However, you can go right to the completed example.
+
 == Prerequisites
 
 To complete this guide, you need:
@@ -34,20 +47,24 @@ To complete this guide, you need:
 * JDK 1.8+ installed with `JAVA_HOME` configured appropriately
 * Apache Maven 3.5.3+
 
+// System Requirements
+include::../shared-doc/system-requirements.adoc[leveloffset=+1]
+
+// Use of {jbossHomeName}
 include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
 
-== The Scenario
+// Build and Deploy the Quickstart
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
 
-The application built in this guide simulates a simple backend for a gourmet coffee on-line store. It implements a REST
-endpoint providing information about coffee samples we have in store.
+// Undeploy the Quickstart
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
 
-Let's imagine, although it's not implemented as such, that some of the methods in our endpoint require communication
-to external services like a database or an external microservice, which introduces a factor of unreliability.
+// NOTE: Enable this section once arquillian tests are added!
+// Run the Arquillian Tests
+//include::../shared-doc/run-arquillian-tests.adoc[leveloffset=+1]
 
-== Solution
-
-We recommend that you follow the instructions in the next sections and create the application step by step.
-However, you can go right to the completed example.
+// Run the Quickstart in Red Hat CodeReady Studio or Eclipse
+include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
 
 == Creating the Maven Project
 
@@ -66,9 +83,9 @@ cd microprofile-fault-tolerance
 
 This command generates a Maven structure.
 
-Open the project in your favourite IDE.
+Open the project in your favorite IDE.
 
-The first thing to do is to setup our dependencies. Add the following section to your `pom.xml`:
+The first thing to do is setting up our dependencies. Add the following section to your `pom.xml`:
 
 [source,xml]
 ----
@@ -291,7 +308,7 @@ At this point, we expose a single REST method that will show a list of coffee sa
 that we introduced some fault making code in our `CoffeeResource#maybeFail()` method, which is going to cause failures
 in the `CoffeeResource#coffees()` endpoint method in about 50% of requests.
 
-Why not check that our application works? Deploy the application in a running {productName} server with:
+Why not check our application works? Deploy the application in a running {productName} server with:
 
 [source,shell]
 ----
@@ -299,7 +316,7 @@ mvn package wildfly:deploy
 ----
 
 and open `http://localhost:8080/microprofile-fault-tolerance/coffee` in your browser. Make couple of requests (remember, some of them we expect
-to fail). At least some of the requests should show us the list of our coffee samples in JSON, the rest will fail
+to fail). At least some requests should show us the list of our coffee samples in JSON, the rest will fail
 with a `RuntimeException` thrown in `CoffeeResource#maybeFail()`.
 
 Congratulations, you've just made a working (although somewhat unreliable) application!
@@ -331,7 +348,7 @@ You can hit refresh couple more times. Practically all requests should now be su
 method is still in fact failing in about 50% of time, but every time it happens, the platform will automatically retry
 the call!
 
-To see that that the failures still happen, check the output of the development server. The log messages should be
+To see that the failures still happen, check the output of the development server. The log messages should be
 similar to these:
 
 [source]
@@ -386,11 +403,11 @@ public class CoffeeResource {
 ----
 
 We added some new functionality. We want to be able to recommend some related coffees based on a coffee that a user
-is currently looking at. It's not a critical functionality, it's a nice-to-have. When the system is overloaded and the
+is currently looking at. It's not a critical functionality, it's a nice-to-have. When the system is overloaded, and the
 logic behind obtaining recommendations takes too long to execute, we would rather time out and render the UI without
 recommendations.
 
-Note that the timeout was configured to 250 ms, and a random artificial delay between 0 to 500 ms was introduced
+Note that the timeout was configured to 250 ms, and a random artificial delay between 0 and 500 ms was introduced
 into the `CoffeeResource#recommendations()` method.
 
 In your browser, go to `http://localhost:8080/microprofile-fault-tolerance/coffee/2/recommendations` and hit refresh a couple of times.
@@ -479,7 +496,7 @@ public class CoffeeRepositoryService {
 }
 ----
 
-And inject the code below into the `CoffeeResource` endpoint:
+and inject the code below into the `CoffeeResource` endpoint:
 
 [source,java]
 ----
@@ -521,7 +538,7 @@ going to alternate between two successful and two failed invocations.
 
 We also added a `@CircuitBreaker` annotation with `requestVolumeThreshold = 4`. `CircuitBreaker.failureRatio` is
 by default 0.5, and `CircuitBreaker.delay` is by default 5 seconds. That means that a circuit breaker will open
-when 2 of the last 4 invocations failed and it will stay open for 5 seconds.
+when 2 of the last 4 invocations failed. It will stay open for 5 seconds.
 
 To test this out, do the following:
 
@@ -530,12 +547,12 @@ To test this out, do the following:
 3. Refresh two more times. Both times you should see text "RuntimeException: Service failed.", which is the exception
 thrown by `CoffeeRepositoryService#getAvailability()`.
 4. Refresh a couple more times. Unless you waited too long, you should again see exception, but this time it's
-"CircuitBreakerOpenException: getAvailability". This exception indicates that the circuit breaker opened
+"CircuitBreakerOpenException: getAvailability". This exception indicates that the circuit breaker opened,
 and the `CoffeeRepositoryService#getAvailability()` method is not being called anymore.
-5. Give it 5 seconds during which circuit breaker should close and you should be able to make two successful requests
+5. Give it 5 seconds during which circuit breaker should close. You should be able to make two successful requests
 again.
 
 == Conclusion
 
-MicroProfile Fault Tolerance allows to improve resiliency of your application, without having an impact on the complexity
+MicroProfile Fault Tolerance allows improving resiliency of your application, without having an impact on the complexity
 of our business logic.
