@@ -11,6 +11,7 @@ The `microprofile-config` quickstart demonstrates the use of the MicroProfile Co
 :standalone-server-type: default
 :archiveType: jar
 :archiveName: {artifactId}
+:arq-prerequisities: These tests require that JBOSS_HOME environment variable is set.
 
 == What is it?
 
@@ -25,23 +26,34 @@ In this quickstart, we have a collection of CDI beans that expose functionalitie
 the MicroProfile Config specification. The individual externally configured values
 are provided to the users through a set of REST endpoints.
 
-== Solution
+// System Requirements
+include::../shared-doc/system-requirements.adoc[leveloffset=+1]
 
-We recommend that you follow the instructions in the next sections and create the
-application step by step. However, you can go right to the completed example which
-is available in this directory.
-
-. Start your {productName} server
-
-. Compile the application code and deploy it to {productName}
-[source,options="nowrap"]
-----
-$ mvn clean package wildfly:deploy
-----
+// Use of {jbossHomeName}
+include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
 
 // Start the {productName} Standalone Server
 include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
 
+== Solution
+
+We recommend that you follow the instructions that
+<<creating-new-project, create the application step by step>>. However, you can
+also go right to the completed example which is available in this directory.
+
+// Build and Deploy the Quickstart
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
+
+// Undeploy the Quickstart
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
+
+// Run the Arquillian Tests
+include::../shared-doc/run-arquillian-tests.adoc[leveloffset=+1]
+
+// Run the Quickstart in Red Hat CodeReady Studio or Eclipse
+include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
+
+[[creating-new-project]]
 == Creating the Maven Project
 
 [source,options="nowrap"]
@@ -85,19 +97,19 @@ Now we need to add the following two dependencies:
 
 [source,xml]
 ----
-<!-- Import the MicroProfile Config API, we use provided scope as the API is included in WildFly -->
+<!-- Import the MicroProfile Config API, we use provided scope as the API is included in the server -->
 <dependency>
   <groupId>org.eclipse.microprofile.config</groupId>
   <artifactId>microprofile-config-api</artifactId>
   <scope>provided</scope>
 </dependency>
-<!-- Import the CDI API, we use provided scope as the API is included in JBoss EAP -->
+<!-- Import the CDI API, we use provided scope as the API is included in the server -->
 <dependency>
   <groupId>jakarta.enterprise</groupId>
   <artifactId>jakarta.enterprise.cdi-api</artifactId>
   <scope>provided</scope>
 </dependency>
-<!-- Import the Jakarta REST API, we use provided scope as the API is included in WildFly -->
+<!-- Import the Jakarta REST API, we use provided scope as the API is included in the server -->
 <dependency>
   <groupId>org.jboss.spec.javax.ws.rs</groupId>
   <artifactId>jboss-jaxrs-api_2.1_spec</artifactId>
@@ -598,6 +610,8 @@ public class CustomPropertiesFileProvider implements ConfigSourceProvider {
     }
 }
 ----
+
+IMPORTANT: This requires that the `JBOSS_HOME` environment variable is set.
 
 NOTE: Note that our new custom `ConfigSource` reloads the property file on every
 access.
