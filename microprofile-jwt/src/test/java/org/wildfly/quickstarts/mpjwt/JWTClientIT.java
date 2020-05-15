@@ -88,9 +88,15 @@ public class JWTClientIT {
         return webArchive;
     }
 
+    private String getDeploymentUrl() {
+        String deploymentUrl = this.deploymentUrl.toString();
+
+        return deploymentUrl.endsWith("/") ? deploymentUrl.substring(0, deploymentUrl.length() - 1) : deploymentUrl;
+    }
+
     @Test
     public void testHelloWorld() throws Exception {
-        HttpGet httpGet = new HttpGet(deploymentUrl.toString() + ROOT_PATH + HELLO_WORLD);
+        HttpGet httpGet = new HttpGet(getDeploymentUrl() + ROOT_PATH + HELLO_WORLD);
         CloseableHttpResponse httpResponse = httpClient.execute(httpGet);
 
         assertEquals("Successful call", 200, httpResponse.getStatusLine().getStatusCode());
@@ -104,7 +110,7 @@ public class JWTClientIT {
     public void testAuthenticated() throws Exception {
         String jwtToken = TokenUtil.generateJWT(PRINCIPAL_NAME, DATE , ECHOER_GROUP, SUBSCRIBER_GROUP);
 
-        HttpGet httpGet = new HttpGet(deploymentUrl.toString() + ROOT_PATH + HELLO_WORLD);
+        HttpGet httpGet = new HttpGet(getDeploymentUrl() + ROOT_PATH + HELLO_WORLD);
         httpGet.addHeader(AUTHORIZATION, BEARER + " " + jwtToken);
 
         CloseableHttpResponse httpResponse = httpClient.execute(httpGet);
@@ -118,7 +124,7 @@ public class JWTClientIT {
 
     @Test
     public void testAuthorizationRequired() throws Exception {
-        HttpGet httpGet = new HttpGet(deploymentUrl.toString() + ROOT_PATH + SUBSCRIPTION);
+        HttpGet httpGet = new HttpGet(getDeploymentUrl() + ROOT_PATH + SUBSCRIPTION);
         CloseableHttpResponse httpResponse = httpClient.execute(httpGet);
 
         assertEquals("Authorization required", 403, httpResponse.getStatusLine().getStatusCode());
@@ -130,7 +136,7 @@ public class JWTClientIT {
     public void testAuthorized() throws Exception {
         String jwtToken = TokenUtil.generateJWT(PRINCIPAL_NAME, DATE, ECHOER_GROUP, SUBSCRIBER_GROUP);
 
-        HttpGet httpGet = new HttpGet(deploymentUrl.toString() + ROOT_PATH + SUBSCRIPTION);
+        HttpGet httpGet = new HttpGet(getDeploymentUrl() + ROOT_PATH + SUBSCRIPTION);
         httpGet.addHeader(AUTHORIZATION, BEARER + " " + jwtToken);
 
         CloseableHttpResponse httpResponse = httpClient.execute(httpGet);
@@ -146,7 +152,7 @@ public class JWTClientIT {
     public void testMissingRole() throws Exception {
         String jwtToken = TokenUtil.generateJWT(PRINCIPAL_NAME, DATE, ECHOER_GROUP, OTHER_GROUP);
 
-        HttpGet httpGet = new HttpGet(deploymentUrl.toString() + ROOT_PATH + SUBSCRIPTION);
+        HttpGet httpGet = new HttpGet(getDeploymentUrl() + ROOT_PATH + SUBSCRIPTION);
         httpGet.addHeader(AUTHORIZATION, BEARER + " " + jwtToken);
 
         CloseableHttpResponse httpResponse = httpClient.execute(httpGet);
@@ -160,7 +166,7 @@ public class JWTClientIT {
     public void testClaimAccess() throws Exception {
         String jwtToken = TokenUtil.generateJWT(PRINCIPAL_NAME, DATE, ECHOER_GROUP, SUBSCRIBER_GROUP);
 
-        HttpGet httpGet = new HttpGet(deploymentUrl.toString() + ROOT_PATH + BIRTHDAY);
+        HttpGet httpGet = new HttpGet(getDeploymentUrl() + ROOT_PATH + BIRTHDAY);
         httpGet.addHeader(AUTHORIZATION, BEARER + " " + jwtToken);
 
         CloseableHttpResponse httpResponse = httpClient.execute(httpGet);
