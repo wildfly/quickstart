@@ -97,7 +97,18 @@ Open the project in your favourite IDE.
 
 Open the generated `pom.xml`.
 
-The first thing to do is to setup our dependencies. Add the following section to your
+The first thing to do is to change the packaging to `war` as this is required by 
+the IDEs to recognize the application as a deployment:
+
+[source,xml]
+----
+<packaging>war</packaging>
+----
+
+NOTE: For non-IDE deployments, the plain `jar` packaging is sufficient for
+the MicroProfile Health applications.
+
+Next we need to setup our dependencies. Add the following section to your
 `pom.xml`:
 
 [source,xml]
