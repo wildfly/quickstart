@@ -10,7 +10,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import java.util.concurrent.CompletionStage;
 
-@Path("/api")
+@Path("/")
 @RegisterRestClient
 @RegisterProvider(NotFoundResponseExceptionMapper.class)
 public interface CountriesServiceClient {

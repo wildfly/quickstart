@@ -23,6 +23,6 @@ import javax.ws.rs.core.Application;
 
 import org.eclipse.microprofile.auth.LoginConfig;
 
-@ApplicationPath("/rest")
+@ApplicationPath("/")
 @LoginConfig(authMethod="MP-JWT", realmName="MP JWT Realm")
 public class App extends Application {}

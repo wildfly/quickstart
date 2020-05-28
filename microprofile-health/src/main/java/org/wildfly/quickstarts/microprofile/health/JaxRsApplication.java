@@ -1,4 +1,4 @@
-package org.wildfly.quickstarts.microprofile.rest.client.api;
+package org.wildfly.quickstarts.microprofile.health;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;

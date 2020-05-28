@@ -24,6 +24,6 @@ package org.wildfly.quickstart.microprofile.openapi;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
-@ApplicationPath("/inventory")
+@ApplicationPath("/")
 public class InventoryApplication extends Application {
 }
