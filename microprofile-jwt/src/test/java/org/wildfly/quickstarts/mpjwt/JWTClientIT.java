@@ -52,7 +52,7 @@ import org.junit.runner.RunWith;
 @RunAsClient
 public class JWTClientIT {
 
-    private static final String ROOT_PATH = "/rest/Sample/";
+    private static final String ROOT_PATH = "/Sample/";
     private static final String HELLO_WORLD = "helloworld";
     private static final String SUBSCRIPTION = "subscription";
     private static final String BIRTHDAY = "birthday";

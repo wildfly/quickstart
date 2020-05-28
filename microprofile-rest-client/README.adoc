@@ -70,9 +70,9 @@ mvn clean package wildfly:deploy
 NOTE: Make sure that your {productName} server is running.
 
 You can verify that the server is responding by accessing
-`http://localhost:8080/country-server/api/name/France`
+`http://localhost:8080/country-server/name/France`
 endpoint using your browser or
-`curl http://localhost:8080/country-server/api/name/France`
+`curl http://localhost:8080/country-server/name/France`
 to get some information about `France`.
 
 Now we can start creating our MicroProfile REST Client application. In different
@@ -232,7 +232,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
-@Path("/api")
+@Path("/")
 public interface CountriesServiceClient {
 
     @GET
@@ -267,7 +267,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
-@Path("/api")
+@Path("/")
 @RegisterRestClient
 public interface CountriesServiceClient {
 
@@ -302,7 +302,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
-@Path("/api")
+@Path("/")
 @RegisterRestClient(baseUri = "http://localhost:8080/country-server")
 public interface CountriesServiceClient {
 
@@ -398,7 +398,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
-@Path("/api")
+@Path("/")
 @RegisterRestClient
 public interface CountriesServiceClient {
 
@@ -430,7 +430,7 @@ This configuration means that:
 `http://localhost:8080/country-server` as a base URL. Using the configuration above, calling
 the `getByName` method of `CountriesServiceClient` with a value of `France` would
 result in an HTTP GET request being made to
-`http://localhost:8080/country-server/api/name/France`.
+`http://localhost:8080/country-server/name/France`.
 * the default scope of
 `org.wildfly.quickstarts.microprofile.rest.client.CountriesServiceClient` will be
 `@Singleton`. All supported values are described later. The default scope can also
@@ -558,7 +558,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import java.util.concurrent.CompletionStage;
 
-@Path("/api")
+@Path("/")
 @RegisterRestClient
 public interface CountriesServiceClient {
 
@@ -689,7 +689,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import java.util.concurrent.CompletionStage;
 
-@Path("/api")
+@Path("/")
 @RegisterRestClient
 @RegisterProvider(NotFoundResponseExceptionMapper.class)
 public interface CountriesServiceClient {
@@ -736,7 +736,7 @@ endpoint using your browser or
 `curl http://localhost:8080/country-client/country/cdi/doesNotExist`
 the application will return a 204 No Content response instead of the 404 error
  received from `country-server`. You can verify the `country-server` response at
-`http://localhost:8080/country-server/api/name/doesNotExist`.
+`http://localhost:8080/country-server/name/doesNotExist`.
 
 == Conclusion
 

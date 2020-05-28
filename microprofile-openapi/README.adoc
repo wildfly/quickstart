@@ -48,7 +48,16 @@ info:
 servers:
 - url: /microprofile-openapi
 paths:
-  /inventory/fruit:
+  /:
+    get:
+      responses:
+        "200":
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+  /fruit:
     get:
       responses:
         "200":

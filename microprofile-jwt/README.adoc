@@ -61,7 +61,7 @@ An unauthenticated call can be made to one of the deployed endpoints using the f
 
 [source]
 ----
-$ curl http://localhost:8080/microprofile-jwt/rest/Sample/helloworld
+$ curl http://localhost:8080/microprofile-jwt/Sample/helloworld
 Hello anonymous
 ----
 
@@ -83,7 +83,7 @@ A call can now be made to the first endpoint using the generated JWT token withi
 
 [source]
 ----
-$ curl -H "Authorization: Bearer eyJ...59g" http://localhost:8080/microprofile-jwt/rest/Sample/helloworld
+$ curl -H "Authorization: Bearer eyJ...59g" http://localhost:8080/microprofile-jwt/Sample/helloworld
 Hello testUser
 ----
 
@@ -92,7 +92,7 @@ called using the following command: -
 
 [source]
 ----
-$ curl -H "Authorization: Bearer ey..rg" http://localhost:8080/microprofile-jwt/rest/Sample/subscription
+$ curl -H "Authorization: Bearer ey..rg" http://localhost:8080/microprofile-jwt/Sample/subscription
 hello + testUser, hasJWT: true
 ----
 
@@ -109,7 +109,7 @@ JWT Claims - {"sub":"testUser","upn":"testUser","iss":"quickstart-jwt-issuer","a
 Generated JWT Token 
 eyJraWQiOiJUZXN0IEtleSIsInR5cCI6Imp3dCIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiJ0ZXN0VXNlciIsInVwbiI6InRlc3RVc2VyIiwiaXNzIjoicXVpY2tzdGFydC1qd3QtaXNzdWVyIiwiYXVkIjoiand0LWF1ZGllbmNlIiwiZ3JvdXBzIjpbIkVjaG9lciJdLCJiaXJ0aGRhdGUiOiIyMDE3LTA5LTE1IiwianRpIjoiNDM0Njg3NGYtZWI0OC00ZDg0LWFiNTEtYzZlZmQxY2QyMmQ1IiwiaWF0IjoxNTgwMTM2OTcwLCJleHAiOjE1ODAxNTEzNzB9.NjWlGGi5iB2PW-g_fs74EgwiyOrgRSsHDym5PS7H3o6T3aEb3ZnMmx7W9uhT_pXvpAL_fboXxy7WMQHukGb_ywtxAmTlA7ecrsia-O9EYV2Gr1ZhlQ9kYVERwZdo5lFqphMvERJ1tClTR3Jk37tpu54HVgFquhUEXlEcldOSeRbYHF9fkiVD6_UPR9bfphhCdwzIbeDVnBJ3FuRl_ZuSxWCoWaRSLPGjuR3JzMlUWkRV8RXhRLTkFRgNowOx_uFFK6q7_aOVqQaHixRqT4ULcO9WiA7f6Up0NMscvq-aT3VFw64qEmn2S8pfX7PpSuAB71Z7w0dwhf4qx3iYklfAPw
 
-$ curl -H "Authorization: Bearer ey..rg" http://localhost:8080/microprofile-jwt/rest/Sample/subscription
+$ curl -H "Authorization: Bearer ey..rg" http://localhost:8080/microprofile-jwt/Sample/subscription
 Access forbidden: role not allowed
 ----
 
@@ -117,7 +117,7 @@ The quickstart also contains an endpoint that makes use of the `birthdate` claim
 
 [source]
 ----
-$ curl -H "Authorization: Bearer ey..rg" http://localhost:8080/microprofile-jwt/rest/Sample/birthday
+$ curl -H "Authorization: Bearer ey..rg" http://localhost:8080/microprofile-jwt/Sample/birthday
 7 months and 19 days until your next birthday.
 ----
 
@@ -291,7 +291,7 @@ import javax.ws.rs.core.Application;
 
 import org.eclipse.microprofile.auth.LoginConfig;
 
-@ApplicationPath("/rest")
+@ApplicationPath("/")
 @LoginConfig(authMethod="MP-JWT", realmName="MP JWT Realm")
 public class App extends Application {}
 ----
@@ -342,7 +342,7 @@ The endpoint can now be called using the following command: -
 
 [source]
 ----
-$ curl http://localhost:8080/microprofile-jwt/rest/Sample/helloworld
+$ curl http://localhost:8080/microprofile-jwt/Sample/helloworld
 Hello World
 ----
 
@@ -383,7 +383,7 @@ As before, deploy and call the endpoint.
 ----
 $ mvn package wildfly:deploy
 
-$ curl http://localhost:8080/microprofile-jwt/rest/Sample/helloworld
+$ curl http://localhost:8080/microprofile-jwt/Sample/helloworld
 Hello anonymous
 ----
 
@@ -546,7 +546,7 @@ import javax.ws.rs.core.Application;
 
 import org.eclipse.microprofile.auth.LoginConfig;
 
-@ApplicationPath("/rest")
+@ApplicationPath("/")
 @LoginConfig(authMethod="MP-JWT", realmName="MP JWT Realm")
 public class App extends Application {}
 ----
@@ -566,7 +566,7 @@ As before, deploy and call the endpoint.
 ----
 $ mvn package wildfly:deploy
 
-$ curl http://localhost:8080/microprofile-jwt/rest/Sample/helloworld
+$ curl http://localhost:8080/microprofile-jwt/Sample/helloworld
 Hello anonymous
 ----
 
@@ -574,7 +574,7 @@ A new token can now be generated using the TokenUtility created previously and t
 
 [source]
 ----
-$ curl -H "Authorization: Bearer eyJ...59g" http://localhost:8080/microprofile-jwt/rest/Sample/helloworld
+$ curl -H "Authorization: Bearer eyJ...59g" http://localhost:8080/microprofile-jwt/Sample/helloworld
 Hello testUser
 ----
 
@@ -640,7 +640,7 @@ Using a recently generated token the new endpoint can be called.
 
 [source]
 ----
-$ curl -H "Authorization: Bearer ey..rg" http://localhost:8080/microprofile-jwt/rest/Sample/subscription
+$ curl -H "Authorization: Bearer ey..rg" http://localhost:8080/microprofile-jwt/Sample/subscription
 hello + testUser, hasJWT: true
 ----
 
@@ -648,7 +648,7 @@ If a token is now generated without including the “Subscriber” group access 
 
 [source]
 ----
-$ curl -H "Authorization: Bearer ey..Pw" http://localhost:8080/microprofile-jwt/rest/Sample/subscription
+$ curl -H "Authorization: Bearer ey..Pw" http://localhost:8080/microprofile-jwt/Sample/subscription
 Access forbidden: role not allowed
 ----
 
@@ -713,7 +713,7 @@ Using a recently generated token the new endpoint can be called.
 
 [source]
 ----
-$ curl -H "Authorization: Bearer ey..rg" http://localhost:8080/microprofile-jwt/rest/Sample/birthday
+$ curl -H "Authorization: Bearer ey..rg" http://localhost:8080/microprofile-jwt/Sample/birthday
 7 months and 19 days until your next birthday.
 ----
 
