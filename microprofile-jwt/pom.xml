@@ -49,8 +49,15 @@
         <dependencies>
             <dependency>
                 <groupId>org.wildfly.bom</groupId>
-                <artifactId>wildfly-microprofile</artifactId>
+                <artifactId>wildfly-jakartaee8-with-tools</artifactId>
                 <version>${version.server.bom}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.wildfly.bom</groupId>
+                <artifactId>wildfly-microprofile</artifactId>
+                <version>${version.microprofile.bom}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -129,6 +136,23 @@
         </dependency>
     </dependencies>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.asciidoctor</groupId>
+                <artifactId>asciidoctor-maven-plugin</artifactId>
+                <configuration>
+                    <!-- adds versions properties as attributes for substitutions in README.adoc source blocks -->
+                    <attributes>
+                        <versionServerBom>${version.server.bom}</versionServerBom>
+                        <versionMicroprofileBom>${version.microprofile.bom}</versionMicroprofileBom>
+                        <versionGlassfishJson>${version.glassfish.json}</versionGlassfishJson>
+                        <versionComNimbusdsJoseJwt>${version.com.nimbusds.jose.jwt}</versionComNimbusdsJoseJwt>
+                    </attributes>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
 

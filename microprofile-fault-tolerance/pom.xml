@@ -64,7 +64,7 @@
             <dependency>
                 <groupId>org.wildfly.bom</groupId>
                 <artifactId>wildfly-microprofile</artifactId>
-                <version>${version.server.bom}</version>
+                <version>${version.microprofile.bom}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -104,6 +104,19 @@
                 </plugin>
             </plugins>
         </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.asciidoctor</groupId>
+                <artifactId>asciidoctor-maven-plugin</artifactId>
+                <configuration>
+                    <!-- adds versions properties as attributes for substitutions in README.adoc source blocks -->
+                    <attributes>
+                        <versionServerBom>${version.server.bom}</versionServerBom>
+                        <versionMicroprofileBom>${version.microprofile.bom}</versionMicroprofileBom>
+                    </attributes>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
 
 </project>

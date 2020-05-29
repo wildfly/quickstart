@@ -96,7 +96,7 @@ Open the generated `pom.xml`.
 The first thing to do is to setup our dependencies. Add the following section to your
 `pom.xml`:
 
-[source,xml]
+[source,xml,subs="attributes+"]
 ----
 <dependencyManagement>
   <dependencies>
@@ -104,16 +104,13 @@ The first thing to do is to setup our dependencies. Add the following section to
     <dependency>
         <groupId>org.wildfly.bom</groupId>
         <artifactId>wildfly-microprofile</artifactId>
-        <version>${version.server.bom}</version>
+        <version>{versionMicroprofileBom}</version>
         <type>pom</type>
         <scope>import</scope>
     </dependency>
   </dependencies>
 </dependencyManagement>
 ----
-
-where `${version.server.bom}` is the version of your {productName}, in our case
-"{productVersion}".
 
 Now we need to add the following dependencies:
 

@@ -159,11 +159,12 @@ available and so we have a plug-in installed which can deploy the quickstart dir
 
 Add the following properties to the `pom.xml`.
 
-[source,options="nowrap"]
+[source,options="nowrap",subs="attributes+"]
 ----
-<version.jboss.bom>19.0.0.Beta3</version.jboss.bom>
-<version.com.nimbusds.jose.jwt>5.4</version.com.nimbusds.jose.jwt>
-<version.glassfish.json>1.1.6</version.glassfish.json>
+<version.com.nimbusds.jose.jwt>{versionComNimbusdsJoseJwt}</version.com.nimbusds.jose.jwt>
+<version.glassfish.json>{versionGlassfishJson}</version.glassfish.json>
+<version.microprofile.bom>{versionMicroprofileBom}</version.microprofile.bom>
+<version.server.bom>{versionServerBom}</version.server.bom>
 ----
 
 Also the project can be updated to use Java 8 as the minimum.
@@ -183,14 +184,14 @@ Before the dependencies are defined add the following boms.
     <dependency>
       <groupId>org.wildfly.bom</groupId>
       <artifactId>wildfly-jakartaee8-with-tools</artifactId>
-      <version>${version.jboss.bom}</version>
+      <version>${version.server.bom}</version>
       <type>pom</type>
       <scope>import</scope>
     </dependency>
     <dependency>
       <groupId>org.wildfly.bom</groupId>
       <artifactId>wildfly-microprofile</artifactId>
-      <version>${version.jboss.bom}</version>
+      <version>${version.microprofile.bom}</version>
       <type>pom</type>
       <scope>import</scope>
     </dependency>
