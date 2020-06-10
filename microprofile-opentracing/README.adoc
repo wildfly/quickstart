@@ -36,6 +36,12 @@ include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
 // Start the {productName} Standalone Server
 include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
 
+Please note the additional parameters defined for the server startup script.
+These alternate some defaults of Jaeger service in {productName} server which are
+configured for production where the traffic is usually much bigger. As described
+on https://www.jaegertracing.io/docs/1.16/troubleshooting/[Jaeger troubleshooting],
+for development we shall alternate default sampling strategy and span logging at least.
+
 == Solution
 
 We recommend that you follow the instructions that
@@ -179,7 +185,6 @@ Now you can access `http://localhost:16686` in your browser to see the Jaeger UI
 console.
 
 Now we can start adding our custom spans from our application.
-
 
 == Implicit tracing of REST resources
 
