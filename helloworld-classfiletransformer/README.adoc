@@ -6,7 +6,7 @@ include::../shared-doc/attributes.adoc[]
 :technologies: ClassLoading
 
 [abstract]
-This is a WAR based application showing you how Wildfly let you apply a ClassTransformer to the classes in your enterprise archive.
+This is a WAR based application showing you how WildFly let you apply a ClassTransformer to the classes in your enterprise archive.
 
 It consists of a server component and a client component:
 * The server component is a simple @Stateless session EJB called HelloBean, which exposes a SOAP based view
@@ -32,7 +32,7 @@ It is the EJB's implementation class, HelloBean, that is modified in this exampl
 The modification is really simple: it simply injects logging statements before and after the sayHello() method.
 But Javaassist can do much more - check out the relevant documentation for Javassist.
 Or choose another bytecode generation library.
-The choice is yours - Wildfly doesn't care what you choose.
+The choice is yours - WildFly doesn't care what you choose.
 
 You could achieve the same effect using EJB interceptors or CDI interceptors. They are standard and would normally be the recommended way to go about "around" behavior.
 But Jakarta EE interceptors are not as powerful as bytecode manipulation can be: with bytecode manipulation you can easily advice unmanaged classes (including static member methods etc), "add/remove" interfaces, fields, methods and so on.
