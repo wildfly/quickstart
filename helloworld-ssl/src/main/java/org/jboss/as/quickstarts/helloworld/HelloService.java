@@ -24,7 +24,7 @@ package org.jboss.as.quickstarts.helloworld;
 public class HelloService {
 
     String createHelloMessage(String name) {
-        return "Hello " + name + "!" + " Wildfly SSL is configured successfully !!";
+        return "Hello " + name + "!" + " WildFly SSL is configured successfully !!";
     }
 
 }
