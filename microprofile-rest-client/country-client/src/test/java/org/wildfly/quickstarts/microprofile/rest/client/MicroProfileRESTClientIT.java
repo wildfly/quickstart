@@ -79,7 +79,7 @@ public class MicroProfileRESTClientIT {
     @Deployment(name = COUNTRY_SERVER, order = 1)
     public static WebArchive createServerDeployment() {
         return ShrinkWrap.create(WebArchive.class, COUNTRY_SERVER + ".war")
-            .addClasses(org.wildfly.quickstarts.microprofile.rest.client.api.JaxRsApplication.class, CountryProviderResource.class, Country.class)
+            .addClasses(JaxRsApplication.class, CountryProviderResource.class, Country.class)
             // enable CDI
             .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
     }
