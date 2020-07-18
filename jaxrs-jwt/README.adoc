@@ -96,24 +96,6 @@ $ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=configure-elytron.cli
 NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
 +
 
-. Because this example quickstart demonstrates security, system exceptions are thrown when secured EJB access is attempted by an invalid user. If you want to review the security exceptions in the server log, you can skip this step. If you want to suppress these exceptions in the server log, run the following command, replacing `__{jbossHomeName}__` with the path to your server:
-[[suppress_system_exceptions]]
-+
-[source,subs="+quotes,attributes+",options="nowrap"]
-----
-$ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=configure-system-exception.cli
-----
-+
-NOTE: For Windows,use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
-+
-
-You should see the following result when you run the script:
-+
-[source,options="nowrap"]
-----
-The batch executed successfully
-----
-
 . Stop the {productName} server.
 
 == Review the Modified Server Configuration
@@ -166,9 +148,9 @@ include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
 [[access_the_application]]
 == Access the Application
 
-Before you run the client, make sure you have already successfully deployed the REST to the server in the previous step and that your terminal is still in the same folder.
+Before you run the client, make sure you have already successfully deployed the REST to the server in the previous step.
 
-Type the following command to execute the client.
+Type the following command to execute the client in the `client` directory.
 
 [source,options="nowrap"]
 ----
