@@ -1,0 +1,82 @@
+[[post_deployment]]
+= OpenShift Post Deployment Tasks
+
+ifdef::include-management-port[]
+== Invoking management port in the Openshift environment
+
+In the Openshift environment the management port is not exposed. For this
+reason we need to access the health endpoint exposed on the management port manually by SSH.
+There are two ways to get access to the Openshift pod:
+
+- terminal - you can get the name of your running pod with `oc get pods` (it will be something \
+like `eap-xp1-basic-app-1-vpfdn`) and by executing `oc rsh {pod-name}` (oc rsh eap-xp1-basic-app-1-vpfdn) \
+
+- UI - In the Openshift console navigate to the `Topology` tab and click your application
+(`eap-xp1-basic-app`). Open the `Resources` tab and click the pod name under the `Pods` tab
+(it will be something like `eap-xp1-basic-app-1-vpfdn`). Now just click the `Terminal` tab and
+you will get a terminal into the pod.
+
+In the opened terminal you can now execute the cURL commands invoking the localhost in the
+similar manner as in bare metal deployment (e.g. `curl {include-management-port}`).
+
+== Other post deployment tasks
+endif::[]
+
+Depending on your application, you might need to complete some tasks after your OpenShift application has been built and deployed.
+
+Examples of post-deployment tasks include the following:
+
+* Exposing a service so that the application is viewable from outside of OpenShift.
+* Scaling your application to a specific number of replicas.
+
+.Procedure
+
+. Get the service name of your application using the following command.
++
+[options="nowrap",subs="+quotes"]
+----
+$ oc get service
+----
+
+. *Optional*: Expose the main service as a route so you can access your application from outside of OpenShift. For example, for the previously created application, use the following command to expose the required service and port.
++
+[NOTE]
+====
+If you used a template to create the application, the route might already exist. If it does, continue on to the next step.
+====
+
++
+[options="nowrap",subs="+attributes"]
+----
+$ oc expose service/{ImagePrefixVersion}-basic-app --port=8080
+----
++
+
+. Get the URL of the route.
++
+[options="nowrap"]
+----
+$ oc get route
+----
+. Access the application in your web browser using the URL. The URL is the value of the `HOST/PORT` field from previous command's output.
++
+[NOTE]
+====
+
+For example, to interact with this quickstart , the root of its application URLs should be `https://_HOST_PORT_Value_/`.
+====
++
+
+. Optionally, you can scale up the application instance by running the following command. This command increases the number of replicas to 3.
++
+[options="nowrap",subs="+quotes"]
+----
+$ oc scale deploymentconfig __DEPLOYMENTCONFIG_NAME__ --replicas=3
+----
++
+For example, for this` quickstart, use the following command to scale up the application.
++
+[options="nowrap",subs="+attributes"]
+----
+$ oc scale deploymentconfig/{ImagePrefixVersion}-basic-app --replicas=3
+----

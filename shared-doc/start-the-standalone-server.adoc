@@ -24,13 +24,13 @@ include::define-standalone-server-attributes.adoc[]
 . Open a terminal and navigate to the root of the {productName} directory.
 . Start the {productName} server with the {serverProfile} by typing the following command.
 +
-ifdef::additional-startup-params[]
+ifdef::uses-jaeger[]
 [source,subs="+quotes,attributes+",options="nowrap"]
 ----
-$ __{additional-startup-params}__ __{jbossHomeName}__/bin/standalone.sh {serverArguments}
+$ __JAEGER_REPORTER_LOG_SPANS=true JAEGER_SAMPLER_TYPE=const JAEGER_SAMPLER_PARAM=1__ __{jbossHomeName}__/bin/standalone.sh {serverArguments}
 ----
 endif::[]
-ifndef::additional-startup-params[]
+ifndef::uses-jaeger[]
 [source,subs="+quotes,attributes+",options="nowrap"]
 ----
 $ __{jbossHomeName}__/bin/standalone.sh {serverArguments}

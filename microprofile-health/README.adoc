@@ -11,6 +11,7 @@ The `microprofile-health` quickstart demonstrates the use of the MicroProfile He
 :standalone-server-type: default
 :archiveType: war
 :archiveName: {artifactId}
+:include-management-port: http://localhost:9990/health/live
 
 == What is it?
 
@@ -431,6 +432,19 @@ error along with the health check response.
                     .withData("error", e.getMessage()); // pass the exception message
         }
 ----
+
+ifdef::EAPXPRelease[]
+// Getting Started with OpenShift
+include::../shared-doc/xp-openshift-getting-started.adoc[leveloffset=+1]
+//Prepare OpenShift for Quickstart Deployment
+include::../shared-doc/xp-create-project.adoc[leveloffset=+2]
+// Import the Latest {xpaasproduct-shortname} Image Streams and Templates
+include::../shared-doc/xp-import-imagestreams-templates.adoc[leveloffset=+2]
+// Deploy the {ProductShortName} Source-to-Image (S2I) Quickstart to OpenShift
+include::../shared-doc/xp-deploy-project.adoc[leveloffset=+2]
+// Post deployment tasks
+include::../shared-doc/xp-post-deployment-tasks.adoc[leveloffset=+2]
+endif::[]
 
 == Conclusion
 

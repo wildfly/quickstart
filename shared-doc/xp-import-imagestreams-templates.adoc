@@ -1,0 +1,65 @@
+
+[[import_imagestreams_templates]]
+= Import the Latest {xpaasproduct-shortname} Image Streams and Templates
+
+[IMPORTANT]
+====
+If you are building and deploying this quickstart on {xpaasproduct-shortname}, you must configure authentication to the {ContainerRegistryName} before you import the image streams and templates into your namespace. link:{LinkOpenShiftGuide}#container_registry_authentication[_{EapForOpenshiftBookName}_] provides an example of one way to configure authentication to the registry. For additional information, see link:https://access.redhat.com/RegistryAuthentication[Red Hat Container Registry Authentication] on the Red Hat Customer Portal.
+
+Configuration of authentication to the registry is not necessary if you are building and deploying this quickstart on {xpaasproductOpenShiftOnline-shortname}.
+====
+
+.Procedure
+
+. Use the following commands to import the latest JDK 8 and JDK 11 image streams and templates for the OpenShift image for {xpaasproduct-shortname}, into your OpenShift project's namespace.
+
+.. Import JDK 8 image streams:
++
+[options="nowrap",subs="+attributes"]
+----
+oc replace --force -f {ImageandTemplateImportURL}jboss-eap-xp1-openjdk8-openshift.json
+----
++
+This command imports the following imagestreams and templates:
+
+* The JDK 8 builder imagestream: jboss-eap-xp1-openjdk8-openshift
+* The JDK 8 runtime imagestream: jboss-eap-xp1-openjdk8-runtime-openshift
++
+.. Import JDK 11 image stream:
++
+[options="nowrap",subs="+attributes"]
+----
+oc replace --force -f {ImageandTemplateImportURL}jboss-eap-xp1-openjdk11-openshift.json
+----
++
+This command imports the following imagestreams and templates:
+
+* The JDK 11 builder imagestream: jboss-eap-xp1-openjdk11-openshift
+* The JDK 11 runtime imagestream: jboss-eap-xp1-openjdk11-runtime-openshift
++
+.. Import the JDK 8 and JDK 11 templates:
++
+[options="nowrap",subs="+attributes"]
+----
+for resource in \
+  {ImagePrefixVersion}-basic-s2i.json \
+ifndef::eap-openshift-online[  {ImagePrefixVersion}-third-party-db-s2i.json ]
+do
+  oc replace --force -f \
+{ImageandTemplateImportURL}templates/${resource}
+done
+----
+
+[NOTE]
+====
+The {ProductShortName} image streams and templates imported using the above command are only available within that OpenShift project.
+
+If you have administrative access to the general `openshift` namespace and want the image streams and templates to be accessible by all projects, add `-n openshift` to the `oc replace` line of the command. For example:
+
+[options="nowrap"]
+----
+...
+oc replace -n openshift --force -f \
+...
+----
+====

@@ -20,6 +20,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -42,6 +43,7 @@ import org.jboss.resteasy.annotations.jaxrs.PathParam;
  */
 @Path("/coffee")
 @Produces(MediaType.APPLICATION_JSON)
+@ApplicationScoped
 public class CoffeeResource {
 
     private static final Logger LOGGER = Logger.getLogger(CoffeeResource.class);

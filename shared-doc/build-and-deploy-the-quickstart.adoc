@@ -76,6 +76,14 @@ endif::mavenCommand[]
 $ mvn {mavenCommand}
 ----
 
+ifdef::rest-client-qs[]
+This deploys the `country-server` and `country-client` to the running instance of the server.
+
+You should see a message in the server log indicating that the archives deployed successfully.
+endif::[]
+ifndef::rest-client-qs[]
 This deploys the `{archiveDir}/{archiveFileName}` to the running instance of the server.
 
 You should see a message in the server log indicating that the archive deployed successfully.
+endif::[]
+

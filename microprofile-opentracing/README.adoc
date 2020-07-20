@@ -11,7 +11,8 @@ The `microprofile-opentracing` quickstart demonstrates the use of the MicroProfi
 :standalone-server-type: default
 :archiveType: war
 :archiveName: {artifactId}
-:additional-startup-params: JAEGER_REPORTER_LOG_SPANS=true JAEGER_SAMPLER_TYPE=const JAEGER_SAMPLER_PARAM=1 \
+:uses-jaeger:
+
 
 == What is it?
 
@@ -454,6 +455,20 @@ service `microprofile-opentracing.war`. One for the JAX-RS call, one
 for the CDI bean invocation and two manually created spans in the
 `ExplicitlyTracedBean`.
 
+ifdef::EAPXPRelease[]
+// Getting Started with OpenShift
+include::../shared-doc/xp-openshift-getting-started.adoc[leveloffset=+1]
+//Prepare OpenShift for Quickstart Deployment
+include::../shared-doc/xp-create-project.adoc[leveloffset=+2]
+// Import the Latest {xpaasproduct-shortname} Image Streams and Templates
+include::../shared-doc/xp-import-imagestreams-templates.adoc[leveloffset=+2]
+// Install Jaeger
+include::../shared-doc/xp-install-jaeger.adoc[leveloffset=+2]
+// Deploy the {ProductShortName} Source-to-Image (S2I) Quickstart to OpenShift
+include::../shared-doc/xp-deploy-project.adoc[leveloffset=+2]
+// Post deployment tasks
+include::../shared-doc/xp-post-deployment-tasks.adoc[leveloffset=+2]
+endif::[]
 
 == Conclusion
 

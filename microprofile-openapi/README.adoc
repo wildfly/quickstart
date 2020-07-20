@@ -30,12 +30,14 @@ include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
 
 === Access the OpenAPI documentation of the quickstart application
 
+Run following command in your terminal:
+
 [source, shell]
 ----
 $ curl http://localhost:8080/openapi
 ----
 
-Which should return a YAML document conforming to the http://spec.openapis.org/oas/v3.0.3[OpenAPI specification]:
+It should return a YAML document conforming to the http://spec.openapis.org/oas/v3.0.3[OpenAPI specification]:
 
 [source, yaml]
 ----
@@ -141,3 +143,15 @@ The OpenAPI document model will now be built from the static content rather than
 
 include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
 
+ifdef::EAPXPRelease[]
+// Getting Started with OpenShift
+include::../shared-doc/xp-openshift-getting-started.adoc[leveloffset=+1]
+//Prepare OpenShift for Quickstart Deployment
+include::../shared-doc/xp-create-project.adoc[leveloffset=+2]
+// Import the Latest {xpaasproduct-shortname} Image Streams and Templates
+include::../shared-doc/xp-import-imagestreams-templates.adoc[leveloffset=+2]
+// Deploy the {ProductShortName} Source-to-Image (S2I) Quickstart to OpenShift
+include::../shared-doc/xp-deploy-project.adoc[leveloffset=+2]
+// Post deployment tasks
+include::../shared-doc/xp-post-deployment-tasks.adoc[leveloffset=+2]
+endif::[]
