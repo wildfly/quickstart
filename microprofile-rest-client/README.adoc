@@ -191,9 +191,9 @@ Now we are ready to start working with MicroProfile REST Client.
 
 In this guide, we will be demonstrating how to consume a part of the REST API
 supplied by the `country-server` service which should be already deployed and running
-on your {productName} server (check the introduction to this section). Our first step
-is to setup the model we will be using in form of the `Country` POJO which we will
-use for our JSON transformations. Create the
+on your {productName} server (see the <<creating-new-project, previous section>>).
+Our first step is to setup the model we will be using in form of the `Country` POJO
+which we will use for our JSON transformations. Create the
 `org.wildfly.quickstarts.microprofile.rest.client.model.Country` class:
 
 [source,java]
@@ -416,7 +416,7 @@ with the following content:
 
 [source,properties]
 ----
-org.wildfly.quickstarts.microprofile.rest.client.CountriesServiceClient/mp-rest/url=https://restcountries.eu/rest
+org.wildfly.quickstarts.microprofile.rest.client.CountriesServiceClient/mp-rest/url=http://localhost:8080/country-server
 org.wildfly.quickstarts.microprofile.rest.client.CountriesServiceClient/mp-rest/scope=javax.inject.Singleton
 ----
 
@@ -515,9 +515,6 @@ public Country programmaticName(@PathParam("name") String name) throws Malformed
     return client.getByName(name);
 }
 ----
-
-NOTE: You need to set the Java language level to 1.8 in order to use
-static interface method invocations.
 
 In this method, we use the MicroProfile `RestClientBuilder` to programmatically get
 access to the new instance of the `CountriesServiceClient`. The only required
