@@ -39,12 +39,34 @@
     </license>
   </licenses>
 
+  <properties>
+    <version.server.bootable-jar>21.0.0.Beta1</version.server.bootable-jar>
+    <version.wildfly-jar.maven.plugin>2.0.0.Beta7</version.wildfly-jar.maven.plugin>
+    <version.jkube.maven.plugin>1.0.0</version.jkube.maven.plugin>
+    <!-- not needed for WildFly, for XP 2.0, need a supported redhat builder image. Could be JDK8 or JDK11, us to choose -->
+    <jkube.generator.from>registry.access.redhat.com/redhat-openjdk-18/openjdk18-openshift:latest</jkube.generator.from>
+  </properties>
+
   <modules>
     <module>country-client</module>
     <module>country-server</module>
   </modules>
 
   <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.wildfly.plugins</groupId>
+          <artifactId>wildfly-jar-maven-plugin</artifactId>
+          <version>${version.wildfly-jar.maven.plugin}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.eclipse.jkube</groupId>
+          <artifactId>openshift-maven-plugin</artifactId>
+          <version>${version.jkube.maven.plugin}</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
     <plugins>
       <plugin>
         <groupId>org.asciidoctor</groupId>

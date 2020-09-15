@@ -1,0 +1,8 @@
+apiVersion: route.openshift.io/v1
+spec:
+  tls:
+    insecureEdgeTerminationPolicy: Redirect
+    termination: edge
+  to:
+    kind: Service
+    name: microprofile-health

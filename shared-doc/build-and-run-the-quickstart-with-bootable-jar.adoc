@@ -1,0 +1,194 @@
+[[build_and_run_the_quickstart_with_bootable_jar]]
+= Building and running the quickstart application in a bootable JAR
+
+You can package a {productName} server and an application inside a bootable JAR. You can then run the application on a {productName} bare-metal platform or on a {productName} Openshift platform.
+
+== On a {productName} bare-metal platform
+
+You can use the Maven plug-in to build a {productName} bootable JAR, and then you can run the application on a {productName} bare-metal platform. The following example demonstrates a quickstart `pom.xml` file that contains a Maven profile named *bootable-jar*:
+
+[source,xml,subs="attributes+"]
+----
+      <profile>
+          <id>bootable-jar</id>
+          <build>
+              <plugins>
+                  <plugin>
+                      <groupId>org.wildfly.plugins</groupId>
+                      <artifactId>wildfly-jar-maven-plugin</artifactId>
+                      <configuration>
+                          <feature-pack-location>wildfly@maven(org.jboss.universe:community-universe)#${version.server.bootable-jar}</feature-pack-location>
+                          <layers>
+                              <layer>jaxrs-server</layer>
+                              <layer>microprofile-platform</layer>
+                          </layers>
+                      </configuration>
+                      <executions>
+                          <execution>
+                              <goals>
+                                  <goal>package</goal>
+                              </goals>
+                          </execution>
+                      </executions>
+                  </plugin>
+              </plugins>
+          </build>
+      </profile>
+----
+
+ifdef::rest-client-qs[]
+NOTE: This configuration needs to be added to both the country-server and the country-client modules.
+endif::rest-client-qs[]
+
+.Procedure
+
+. Build the quickstart bootable JAR with the following command:
++
+[source,subs="attributes+",options="nowrap"]
+----
+$ mvn clean package -Pbootable-jar
+----
++
+. Run the quickstart application contained in the bootable JAR:
+ifndef::rest-client-qs[]
++
+[source,subs="attributes+",options="nowrap"]
+----
+ifdef::uses-jaeger[]
+$ JAEGER_REPORTER_LOG_SPANS=true JAEGER_SAMPLER_TYPE=const JAEGER_SAMPLER_PARAM=1 java -jar target/{artifactId}-bootable.jar
+endif::uses-jaeger[]
+ifndef::uses-jaeger[]
+$ java -jar target/{artifactId}-bootable.jar
+endif::uses-jaeger[]
+----
+endif::rest-client-qs[]
+ifdef::rest-client-qs[]
++
+*Country server*
++
+[source,subs="attributes+",options="nowrap"]
+----
+$ java -jar country-server/target/country-server-bootable.jar
+----
++
+*Country client*
++
+[source,subs="attributes+",options="nowrap"]
+----
+$ java -jar country-client/target/country-client-bootable.jar -Djboss.socket.binding.port-offset=100 -Dorg.wildfly.quickstarts.microprofile.rest.client.CountriesServiceClient/mp-rest/url=http://localhost:8080
+----
+endif::rest-client-qs[]
+
+. You can now interact with the quickstart application.
+
+[NOTE]
+====
+After the quickstart application is deployed, the bootable JAR includes the application in the root context. Therefore, any URLs related to the application should not have the `/{artifactId}` path segment after `HOST:PORT`.
+====
+
+== On a {productName} OpenShift platform
+
+You can use the Maven plug-in to build a {productName} bootable JAR, and then you can run the application on a {productName} OpenShift platform. The following example demonstrates a quickstart `pom.xml` file that contains a Maven profile named *bootable-jar-openshift*:
+
+[source,xml,subs="attributes+"]
+----
+      <profile>
+          <id>bootable-jar-openshift</id>
+          <build>
+              <plugins>
+                  <plugin>
+                      <groupId>org.wildfly.plugins</groupId>
+                      <artifactId>wildfly-jar-maven-plugin</artifactId>
+                      <configuration>
+                          <feature-pack-location>wildfly@maven(org.jboss.universe:community-universe)#${version.server.bootable-jar}</feature-pack-location>
+                          <layers>
+                              <layer>jaxrs-server</layer>
+                              <layer>microprofile-platform</layer>
+                          </layers>
+                          <cloud/>
+                      </configuration>
+                      <executions>
+                          <execution>
+                              <goals>
+                                  <goal>package</goal>
+                              </goals>
+                          </execution>
+                      </executions>
+                  </plugin>
+                  <plugin>
+                      <groupId>org.eclipse.jkube</groupId>
+                      <artifactId>openshift-maven-plugin</artifactId>
+                      <executions>
+                          <execution>
+                              <goals>
+                                  <goal>resource</goal>
+                                  <goal>build</goal>
+                              </goals>
+                          </execution>
+                      </executions>
+                      <configuration>
+                          <enricher>
+                              <config>
+                                  <jkube-service>
+                                      <type>NodePort</type>
+                                  </jkube-service>
+                              </config>
+                          </enricher>
+                          <resources>
+                              <env>
+                                  <JAVA_OPTIONS>-Djava.net.preferIPv4Stack=true</JAVA_OPTIONS>
+                              </env>
+                          </resources>
+                      </configuration>
+                  </plugin>
+              </plugins>
+          </build>
+      </profile>
+----
+
+.Procedure
+
+. Log in to your OpenShift instance using the `oc login` command.
+
+. Create a new project for the quickstart bootable JAR on OpenShift. For example:
++
+[options="nowrap",subs="attributes"]
+----
+$ oc new-project bootable-jar-project
+----
+
+. Build the quickstart bootable JAR by issuing the following command. This command also completes the following tasks: creates the OpenShift deployment, service and route; generates a docker image and pushes the docker image to OpenShift; and runs the application.
++
+[source,subs="attributes+",options="nowrap"]
+----
+$ mvn oc:deploy -Pbootable-jar-openshift
+----
+. Get the URL of the route.
++
+[options="nowrap"]
+----
+$ oc get route
+----
++
+. Access the application in your web browser by using a URL. The URL is the value of the `HOST/PORT` field that was provided by the `oc get route` command output. For example, the route of the URL for the quickstart used in this procedure is `https://_HOST_PORT_Value_/`.
+
+
+== Customizing OpenShift resources with resource fragments
+
+With the Eclipse JKube Maven plug-in, you can customize the generated OpenShift resources, such as deployments, routes, and so on,  with YAML file extracts located in the _src/main/jkube_ directory.
+
+The `route.yml` file, which is located in the _src/main/jkube_ directory, is an example of a resource fragment. You can configure this resource fragment to change the Openshift application service route to use HTTPS:
+
+[options="nowrap",subs="attributes"]
+----
+apiVersion: route.openshift.io/v1
+spec:
+  tls:
+    insecureEdgeTerminationPolicy: Redirect
+    termination: edge
+  to:
+    kind: Service
+    name: {artifactId}
+----
+
+For more information about resource fragments, see the link:https://www.eclipse.org/jkube/docs/openshift-maven-plugi[Eclipse JKube documentation].
