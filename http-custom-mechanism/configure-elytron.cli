@@ -9,6 +9,9 @@ batch
 # Add an `http-authentication-factory` to the mechanism factory to a `security-domain` that will be used for the authentication.
 /subsystem=elytron/http-authentication-factory=custom-mechanism:add(http-server-mechanism-factory=custom-factory,security-domain=ApplicationDomain,mechanism-configurations=[{mechanism-name=CUSTOM_MECHANISM}])
 
+# Undefine Elytron security domain mapping we previously used
+/subsystem=undertow/application-security-domain=other:undefine-attribute(name=security-domain)
+
 # Add the http-authentication-factory to the mechanism factory to a security-domain that will be used for the authentication.
 /subsystem=undertow/application-security-domain=other:write-attribute(name=http-authentication-factory,value=custom-mechanism)
 
