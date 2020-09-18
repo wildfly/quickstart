@@ -135,14 +135,23 @@ public class MicroProfileHealthIT {
         Assert.assertEquals("DOWN", json.get("status").asString());
 
         List<ModelNode> checks = json.get("checks").asList();
-        Assert.assertEquals(1, checks.size());
+        Assert.assertEquals(4, checks.size());
 
-        ModelNode check = checks.get(0);
-        Assert.assertEquals("Database connection health check", check.get("name").asString());
-        Assert.assertEquals("DOWN", check.get("status").asString());
+        boolean checkIncluded = false;
 
-        ModelNode data = check.get("data");
-        Assert.assertTrue(data.get("error") != null &&
-            data.get("error").asString().equals("Cannot contact database"));
+        for (int i = 0; i < 4; i++) {
+            ModelNode check = checks.get(i);
+            if (check.get("name").asString().equals("Database connection health check")) {
+                Assert.assertEquals("DOWN", check.get("status").asString());
+
+                ModelNode data = check.get("data");
+                Assert.assertTrue(data.get("error") != null &&
+                    data.get("error").asString().equals("Cannot contact database"));
+
+                checkIncluded = true;
+            }
+        }
+
+        Assert.assertTrue("The user defined check is not included in the readiness response", checkIncluded);
     }
 }
