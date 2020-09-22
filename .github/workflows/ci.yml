@@ -21,13 +21,33 @@ jobs:
       with:
           token: ${{ secrets.GITHUB_TOKEN }}
     - uses: actions/checkout@v2
+      with:
+        repository: wildfly/wildfly
+        path: wildfly
+    - uses: actions/checkout@v2
+      with:
+        repository: wildfly/boms
+        path: boms
+    - uses: actions/checkout@v2
+      with:
+        path: quickstarts
     - name: Set up JDK ${{ matrix.java }}
       uses: AdoptOpenJDK/install-jdk@v1
       with:
         version: ${{ matrix.jdk }}
         impl: hotspot
-    - name: Run Tests
-      run: mvn -U -B -fae clean install '-DfailIfNotTests=true'
+    - name: Build Wildfly
+      run: |
+        cd wildfly
+        mvn -U -B -fae -DskipTests clean install
+    - name: Build Boms
+      run: |
+        cd boms
+        mvn -U -B -fae clean install
+    - name: Build Quickstarts
+      run: |
+        cd quickstarts
+        mvn -U -B -fae clean install
     - uses: actions/upload-artifact@v2
       if: failure()
       with:
