@@ -1,0 +1,36 @@
+# This workflow will build a Java project with Maven
+# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
+name: Wildfly Quickstarts CI
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    branches:
+      - master
+jobs:
+  test-matrix:
+    name: JDK${{ matrix.jdk }} - ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        jdk: [8, 11]
+        os: [ubuntu-20.04, windows-latest]
+    steps:
+    - uses: n1hility/cancel-previous-runs@v2
+      with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+    - uses: actions/checkout@v2
+    - name: Set up JDK ${{ matrix.java }}
+      uses: AdoptOpenJDK/install-jdk@v1
+      with:
+        version: ${{ matrix.jdk }}
+        impl: hotspot
+    - name: Run Tests
+      run: mvn -U -B -fae clean install '-DfailIfNotTests=true'
+    - uses: actions/upload-artifact@v2
+      if: failure()
+      with:
+        name: surefire-reports-JDK${{ matrix.jdk }}-${{ matrix.os }}
+        path: '**/surefire-reports/*.txt'
+
