@@ -2,8 +2,9 @@
 
 # Start batching commands
 batch
-#  Map the application security domain to an Elytron HTTP authentication factory.
-/subsystem=undertow/application-security-domain=other:add(http-authentication-factory=application-http-authentication)
+
+#  Map the application security domain to an Elytron Security Domain.
+/subsystem=undertow/application-security-domain=other:add(security-domain=ApplicationDomain)
 
 # Run the batch command
 run-batch
