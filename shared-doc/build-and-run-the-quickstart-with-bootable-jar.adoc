@@ -134,11 +134,6 @@ You can use the Maven plug-in to build a {productName} bootable JAR, and then yo
                                   </jkube-service>
                               </config>
                           </enricher>
-                          <resources>
-                              <env>
-                                  <JAVA_OPTIONS>-Djava.net.preferIPv4Stack=true</JAVA_OPTIONS>
-                              </env>
-                          </resources>
                       </configuration>
                   </plugin>
               </plugins>
@@ -181,7 +176,6 @@ The `route.yml` file, which is located in the _src/main/jkube_ directory, is an 
 
 [options="nowrap",subs="attributes"]
 ----
-apiVersion: route.openshift.io/v1
 spec:
   tls:
     insecureEdgeTerminationPolicy: Redirect
