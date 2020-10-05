@@ -1,0 +1,250 @@
+[[deploy_eap_s2i]]
+= Deploy the {ProductShortName} Source-to-Image (S2I) Quickstart to OpenShift
+
+.Procedure
+
+ifndef::rest-client-qs[]
+. Create a new OpenShift application using the {xpaasproduct-shortname} image and the quickstart's source code. Use the following command to use the `{ImagePrefixVersion}-basic-s2i` template with the JDK 8 images and the `{artifactId}` source code on GitHub.
++
+[options="nowrap",subs="+attributes"]
+----
+$ oc new-app --template={ImagePrefixVersion}-basic-s2i {backslash}
+ -p EAP_IMAGE_NAME=jboss-eap-xp1-openjdk8-openshift:1.0 {backslash}
+ -p EAP_RUNTIME_IMAGE_NAME=jboss-eap-xp1-openjdk8-runtime-openshift:1.0 {backslash}
+ -p IMAGE_STREAM_NAMESPACE="{artifactId}-project" {backslash}
+ -p SOURCE_REPOSITORY_URL="{EAPQuickStartRepo}" {backslash}
+ -p SOURCE_REPOSITORY_REF="{EAPQuickStartRepoRef}" {backslash}
+ifdef::uses-h2[]
+ -p ENABLE_GENERATE_DEFAULT_DATASOURCE="true" {backslash}
+endif::[]
+ifdef::uses-jaeger[]
+ -p CONTEXT_DIR="{artifactId}" {backslash}
+ -e WILDFLY_TRACING_ENABLED="true" {backslash}
+ -e JAEGER_SAMPLER_TYPE="const" {backslash}
+ -e JAEGER_SAMPLER_PARAM="1" {backslash}
+ -e JAEGER_AGENT_HOST="jaeger-agent" {backslash}
+ -e JAEGER_AGENT_PORT="6831" {backslash}
+ -e JAEGER_SERVICE_NAME="{artifactId}"
+endif::[]
+ifndef::uses-jaeger[]
+ -p CONTEXT_DIR="{artifactId}"
+endif::[]
+----
++
+--
+* `--template` The template to use.
+* `-p IMAGE_STREAM_NAMESPACE` The latest images streams and templates xref:import_imagestreams_templates[were imported into the project's namespace], so you must specify the namespace of where to find the image stream. This is usually the OpenShift project's name.
+* `-p SOURCE_REPOSITORY_URL` The URL to the repository containing the application source code.
+* `-p SOURCE_REPOSITORY_REF` The Git repository reference to use for the source code. This can be a Git branch or tag reference.
+ifdef::uses-h2[]
+* `-p ENABLE_GENERATE_DEFAULT_DATASOURCE` Enables the default datasource, which is required by this quickstart.
+endif::[]
+* `-p CONTEXT_DIR` The directory within the source repository to build.
+--
++
+Alternatively, to create the quickstart application using the JDK 11 images enter the following command.
++
+[options="nowrap",subs="+attributes"]
+----
+$ oc new-app --template={ImagePrefixVersion}-basic-s2i {backslash}
+ -p EAP_IMAGE_NAME=jboss-eap-xp1-openjdk11-openshift:1.0 \
+ -p EAP_RUNTIME_IMAGE_NAME=jboss-eap-xp1-openjdk11-runtime-openshift:1.0 \
+ -p IMAGE_STREAM_NAMESPACE="{artifactId}-project" {backslash}
+ -p SOURCE_REPOSITORY_URL="{EAPQuickStartRepo}" {backslash}
+ -p SOURCE_REPOSITORY_REF="{EAPQuickStartRepoRef}" {backslash}
+ifdef::uses-h2[]
+ -p ENABLE_GENERATE_DEFAULT_DATASOURCE="true" {backslash}
+endif::[]
+ifdef::uses-jaeger[]
+ -p CONTEXT_DIR="{artifactId}" {backslash}
+ -e WILDFLY_TRACING_ENABLED="true" {backslash}
+ -e JAEGER_SAMPLER_TYPE="const" {backslash}
+ -e JAEGER_SAMPLER_PARAM="1" {backslash}
+ -e JAEGER_AGENT_HOST="jaeger-agent" {backslash}
+ -e JAEGER_AGENT_PORT="6831" {backslash}
+ -e JAEGER_SERVICE_NAME="{artifactId}"
+endif::[]
+ifndef::uses-jaeger[]
+ -p CONTEXT_DIR="{artifactId}"
+endif::[]
+----
++
+--
+* `--template` The template to use.
+* `-p IMAGE_STREAM_NAMESPACE` The latest images streams and templates xref:import_imagestreams_templates[were imported into the project's namespace], so you must specify the namespace of where to find the image stream. This is usually the OpenShift project's name.
+* `-p SOURCE_REPOSITORY_URL` The URL to the repository containing the application source code.
+* `-p SOURCE_REPOSITORY_REF` The Git repository reference to use for the source code. This can be a Git branch or tag reference.
+ifdef::uses-h2[]
+* `-p ENABLE_GENERATE_DEFAULT_DATASOURCE` Enables the default datasource, which is required by this quickstart.
+endif::[]
+* `-p CONTEXT_DIR` The directory within the source repository to build.
+--
+endif::rest-client-qs[]
+ifdef::rest-client-qs[]
+. Create new OpenShift applications using the {xpaasproduct-shortname} image and the quickstart's source code. Use the following command to use the `{ImagePrefixVersion}-basic-s2i` template with the JDK 8 images and the `{artifactId}` source code on GitHub.
++
+*Country-server application:*
++
+[options="nowrap",subs="+attributes"]
+----
+$ oc new-app --template={ImagePrefixVersion}-basic-s2i {backslash}
+ -p EAP_IMAGE_NAME=jboss-eap-xp1-openjdk8-openshift:1.0 {backslash}
+ -p EAP_RUNTIME_IMAGE_NAME=jboss-eap-xp1-openjdk8-runtime-openshift:1.0 {backslash}
+ -p IMAGE_STREAM_NAMESPACE="{artifactId}-project" {backslash}
+ -p SOURCE_REPOSITORY_URL="{EAPQuickStartRepo}" {backslash}
+ -p SOURCE_REPOSITORY_REF="{EAPQuickStartRepoRef}" {backslash}
+ifdef::uses-h2[]
+ -p ENABLE_GENERATE_DEFAULT_DATASOURCE="true" {backslash}
+endif::[]
+ -p CONTEXT_DIR="{artifactId}" \
+ -p ARTIFACT_DIR="country-server/target" \
+ -p APPLICATION_NAME="country-server"
+----
++
+--
+* `--template` The template to use.
+* `-p IMAGE_STREAM_NAMESPACE` The latest images streams and templates xref:import_imagestreams_templates[were imported into the project's namespace], so you must specify the namespace of where to find the image stream. This is usually the OpenShift project's name.
+* `-p SOURCE_REPOSITORY_URL` The URL to the repository containing the application source code.
+* `-p SOURCE_REPOSITORY_REF` The Git repository reference to use for the source code. This can be a Git branch or tag reference.
+ifdef::uses-h2[]
+* `-p ENABLE_GENERATE_DEFAULT_DATASOURCE` Enables the default datasource, which is required by this quickstart.
+endif::[]
+* `-p CONTEXT_DIR` The directory within the source repository to build.
+* `-P ARTIFACT_DIR` The directory from which to copy the artifact.
+* `-p APPLICATION_NAME` The name of the application.
+--
++
+Alternatively, to create the *country-server* application using the JDK 11 images enter the following command.
++
+[options="nowrap",subs="+attributes"]
+----
+$ oc new-app --template={ImagePrefixVersion}-basic-s2i {backslash}
+ -p EAP_IMAGE_NAME=jboss-eap-xp1-openjdk11-openshift:1.0 \
+ -p EAP_RUNTIME_IMAGE_NAME=jboss-eap-xp1-openjdk11-runtime-openshift:1.0 \
+ -p IMAGE_STREAM_NAMESPACE="{artifactId}-project" {backslash}
+ -p SOURCE_REPOSITORY_URL="{EAPQuickStartRepo}" {backslash}
+ -p SOURCE_REPOSITORY_REF="{EAPQuickStartRepoRef}" {backslash}
+ifdef::uses-h2[]
+ -p ENABLE_GENERATE_DEFAULT_DATASOURCE="true" {backslash}
+endif::[]
+ -p CONTEXT_DIR="{artifactId}" \
+ -p ARTIFACT_DIR="country-server/target" \
+ -p APPLICATION_NAME="country-server"
+----
++
+--
+* `--template` The template to use.
+* `-p IMAGE_STREAM_NAMESPACE` The latest images streams and templates xref:import_imagestreams_templates[were imported into the project's namespace], so you must specify the namespace of where to find the image stream. This is usually the OpenShift project's name.
+* `-p SOURCE_REPOSITORY_URL` The URL to the repository containing the application source code.
+* `-p SOURCE_REPOSITORY_REF` The Git repository reference to use for the source code. This can be a Git branch or tag reference.
+ifdef::uses-h2[]
+* `-p ENABLE_GENERATE_DEFAULT_DATASOURCE` Enables the default datasource, which is required by this quickstart.
+endif::[]
+* `-p CONTEXT_DIR` The directory within the source repository to build.
+* `-P ARTIFACT_DIR` The directory from which to copy the artifact.
+* `-p APPLICATION_NAME` The name of the application.
+--
++
+*Country-client application:*
++
+[options="nowrap",subs="+attributes"]
+----
+$ oc new-app --template={ImagePrefixVersion}-basic-s2i {backslash}
+ -p EAP_IMAGE_NAME=jboss-eap-xp1-openjdk8-openshift:1.0 {backslash}
+ -p EAP_RUNTIME_IMAGE_NAME=jboss-eap-xp1-openjdk8-runtime-openshift:1.0 {backslash}
+ -p IMAGE_STREAM_NAMESPACE="{artifactId}-project" {backslash}
+ -p SOURCE_REPOSITORY_URL="{EAPQuickStartRepo}" {backslash}
+ -p SOURCE_REPOSITORY_REF="{EAPQuickStartRepoRef}" {backslash}
+ifdef::uses-h2[]
+ -p ENABLE_GENERATE_DEFAULT_DATASOURCE="true" {backslash}
+endif::[]
+ -p CONTEXT_DIR="microprofile-rest-client" \
+ -p ARTIFACT_DIR="country-client/target" \
+ -p APPLICATION_NAME="country-client" \
+ -e JAVA_OPTS_APPEND="-Dorg.wildfly.quickstarts.microprofile.rest.client.CountriesServiceClient/mp-rest/url=http://country-server:8080"
+----
++
+--
+* `--template` The template to use.
+* `-p IMAGE_STREAM_NAMESPACE` The latest images streams and templates xref:import_imagestreams_templates[were imported into the project's namespace], so you must specify the namespace of where to find the image stream. This is usually the OpenShift project's name.
+* `-p SOURCE_REPOSITORY_URL` The URL to the repository containing the application source code.
+* `-p SOURCE_REPOSITORY_REF` The Git repository reference to use for the source code. This can be a Git branch or tag reference.
+ifdef::uses-h2[]
+* `-p ENABLE_GENERATE_DEFAULT_DATASOURCE` Enables the default datasource, which is required by this quickstart.
+endif::[]
+* `-p CONTEXT_DIR` The directory within the source repository to build.
+* `-P ARTIFACT_DIR` The directory from which to copy the artifact.
+* `-p APPLICATION_NAME` The name of the application.
+--
++
+Alternatively, to create the *country-client* application using the JDK 11 images enter the following command.
++
+[options="nowrap",subs="+attributes"]
+----
+$ oc new-app --template={ImagePrefixVersion}-basic-s2i {backslash}
+ -p EAP_IMAGE_NAME=jboss-eap-xp1-openjdk11-openshift:1.0 \
+ -p EAP_RUNTIME_IMAGE_NAME=jboss-eap-xp1-openjdk11-runtime-openshift:1.0 \
+ -p IMAGE_STREAM_NAMESPACE="{artifactId}-project" {backslash}
+ -p SOURCE_REPOSITORY_URL="{EAPQuickStartRepo}" {backslash}
+ -p SOURCE_REPOSITORY_REF="{EAPQuickStartRepoRef}" {backslash}
+ifdef::uses-h2[]
+ -p ENABLE_GENERATE_DEFAULT_DATASOURCE="true" {backslash}
+endif::[]
+ -p CONTEXT_DIR="microprofile-rest-client" \
+ -p ARTIFACT_DIR="country-client/target" \
+ -p APPLICATION_NAME="country-client" \
+ -e JAVA_OPTS_APPEND="-Dorg.wildfly.quickstarts.microprofile.rest.client.CountriesServiceClient/mp-rest/url=http://country-server:8080"
+----
++
+--
+* `--template` The template to use.
+* `-p IMAGE_STREAM_NAMESPACE` The latest images streams and templates xref:import_imagestreams_templates[were imported into the project's namespace], so you must specify the namespace of where to find the image stream. This is usually the OpenShift project's name.
+* `-p SOURCE_REPOSITORY_URL` The URL to the repository containing the application source code.
+* `-p SOURCE_REPOSITORY_REF` The Git repository reference to use for the source code. This can be a Git branch or tag reference.
+ifdef::uses-h2[]
+* `-p ENABLE_GENERATE_DEFAULT_DATASOURCE` Enables the default datasource, which is required by this quickstart.
+endif::[]
+* `-p CONTEXT_DIR` The directory within the source repository to build.
+* `-P ARTIFACT_DIR` The directory from which to copy the artifact.
+* `-p APPLICATION_NAME` The name of the application.
+--
+endif::rest-client-qs[]
+
++
+NOTE: A template can specify default values for many template parameters, and you might have to override some, or all, of the defaults. To see template information, including a list of parameters and any default values, use the command `oc describe template __TEMPLATE_NAME__`.
+
++
+TIP: It is possible to trim down the {xpaasproduct-shortname} image that will be used to run this quickstart. To do so, please add the `-p GALLEON_PROVISION_LAYERS=<galleon layers>` argument when creating the new application. Please refer to the JBoss EAP documentation for the list of supported galleon layers.
+
+. Retrieve the name of the build configuration.
++
+[options="nowrap"]
+----
+$ oc get bc -o name
+----
++
+. Use the name of the build configurations from the previous step to view the Maven progress of the builds.
++
+[options="nowrap",subs="+quotes"]
+----
+$ oc logs -f bc/${APPLICATION_NAME}-build-artifacts
+
+…
+Push successful
+$ oc logs -f bc/${APPLICATION_NAME}
+…
+Push successful
+----
++
+For example, for the previously created application, the following command shows the progress of the Maven builds.
++
+[options="nowrap",subs="+attributes"]
+----
+$ oc logs -f bc/{ImagePrefixVersion}-basic-app-build-artifacts
+
+…
+Push successful
+$ oc logs -f bc/{ImagePrefixVersion}-basic-app
+…
+Push successful
+----

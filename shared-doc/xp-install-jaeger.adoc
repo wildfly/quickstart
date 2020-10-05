@@ -1,0 +1,24 @@
+
+[[install_jaeger]]
+= Install Jaeger on Openshift
+
+The functionality of this quickstart depends on the running instance of the 
+https://www.jaegertracing.io/[Jaeger tracing]. To deploy Jaeger in Openshift environment:
+
+. Log in into the Openshift console as `kubeadmin` user (or any cluster administrator).
+. Navigate to `Operators` -> `OperatorHub`.
+. Search for `Jaeger` - click on the Jaeger operator (works with both community and Red Hat).
+Install it with the default values.
+. Run the following command:
++
+[options="nowrap",subs="+attributes"]
+----
+$ oc apply -n {artifactId}-project -f - <<EOF
+apiVersion: jaegertracing.io/v1
+kind: Jaeger
+metadata:
+  name: jaeger                                                     
+EOF
+----
++
+. Open the Jaeger UI with the created route called `jaeger`.

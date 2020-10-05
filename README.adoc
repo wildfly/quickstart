@@ -4,7 +4,7 @@ include::shared-doc/attributes.adoc[]
 :toclevels: 4
 :numbered:
 
-ifndef::ProductRelease,EAPCDRelease[]
+ifndef::ProductRelease,EAPCDRelease,EAPXPRelease[]
 = WildFly Quickstarts
 
 [toc]
@@ -249,7 +249,7 @@ Some of the quickstarts that demonstrate transactions require that you install a
 
 A few of the quickstarts use _Byteman_ to demonstrate distributed transaction processing and crash recovery. See  https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_BYTEMAN.adoc#configure_byteman_for_use_with_the_quickstarts[Configure Byteman for Use with the Quickstarts] for instructions.
 
-// END ifndef::ProductRelease,EAPCDRelease[]
+// END ifndef::ProductRelease,EAPCDRelease,EAPXPRelease[]
 endif::[]
 
 //**********************************************************************************
@@ -259,8 +259,8 @@ endif::[]
 //
 //**********************************************************************************
 
-ifdef::ProductRelease,EAPCDRelease[]
-// These instrutions are only for the JBoss EAP product and CD Releases.
+ifdef::ProductRelease,EAPCDRelease,EAPXPRelease[]
+// These instrutions are only for the JBoss EAP product, CD and XP Releases.
 = {productNameFull} ({productName}) Quickstarts
 
 [abstract]
@@ -278,26 +278,26 @@ Each quickstart folder contains a `README{outfilesuffix}` file that describes th
 Make sure you read this entire document before you attempt to work with the quickstarts.
 
 
-ifdef::ProductRelease[]
-// System Requirements are not needed for the CD Releases, only for the Product Release.
+ifdef::ProductRelease,EAPXPRelease[]
+// System Requirements are not needed for the CD Releases, only for the Product and XP Releases.
 [[system_requirements]]
 == System Requirements
 
 The applications these projects produce are designed to be run on {productNameFull} {productVersion} or later.
 
 All you need to build these projects is {buildRequirements}.
-// END ifdef::ProductRelease[]
+// END ifdef::ProductRelease,EAPXPRelease[]
 endif::[]
 
-ifdef::ProductRelease[]
-// Replaceable values are not used in the CD Releases, only for the Product Release.
+ifdef::ProductRelease,EAPXPRelease[]
+// Replaceable values are not used in the CD Releases, only for the Product and XP Releases.
 [[use_of_product_home_and_jboss_home_variables]]
 == Use of {jbossHomeName} and QUICKSTART_HOME Variables
 
 The quickstart `README` files use the _replaceable_ value `__{jbossHomeName}__`  to denote the path to the {productName} installation. When you encounter this value in a `README` file, make sure you replace it with the actual path to your {productName} installation. The installation path is described in detail here: link:{useProductHomeDocUrl}[Use of __{jbossHomeName}__ and __JBOSS_HOME__ Variables]
 
 When you see the replaceable variable __QUICKSTART_HOME__, replace it with the path to the root directory of all of the quickstarts.
-// END ifdef::ProductRelease[]
+// END ifdef::ProductRelease,EAPXPRelease[]
 endif::[]
 
 [[suggested_approach_to_the_quickstarts]]
@@ -318,8 +318,8 @@ include::shared-doc/cd-openshift-getting-started-overview.adoc[leveloffset=+1]
 endif::[]
 
 
-ifdef::ProductRelease[]
-// Running the quickstarts is not used in the CD Releases, only for the Product Release.
+ifdef::ProductRelease,EAPXPRelease[]
+// Running the quickstarts is not used in the CD Releases, only for the Product and XP Releases.
 [[run_the_quickstarts]]
 == Run the Quickstarts Using the Maven Command Line
 
@@ -368,22 +368,22 @@ Use the following command to undeploy the quickstart.
 ----
 $ mvn wildfly:undeploy
 ----
-// END ifdef::ProductRelease[]
+// END ifdef::ProductRelease,EAPXPRelease[]
 endif::[]
 
 
-ifdef::ProductRelease[]
-// Running the quickstarts in Eclipse is not used in the CD Releases, only for the Product Release.
+ifdef::ProductRelease,EAPXPRelease[]
+// Running the quickstarts in Eclipse is not used in the CD Releases, only for the Product and XP Releases.
 [[run_the_quickstarts_in_jboss_developer_studio_or_eclipse]]
 == Run the Quickstarts in {JBDSProductName} or Eclipse
 
 You can also start the server and deploy the quickstarts or run the Arquillian tests from Eclipse using JBoss tools. For general information about how to import a quickstart, add a {productName} server, and build and deploy a quickstart, see link:{useEclipseUrl}[Use {JBDSProductName} or Eclipse to Run the Quickstarts].
-// END ifdef::ProductRelease[]
+// END ifdef::ProductRelease,EAPXPRelease[]
 endif::[]
 
 
-ifdef::ProductRelease[]
-// Optional components are not used in the CD Releases, only for the Product Release.
+ifdef::ProductRelease,EAPXPRelease[]
+// Optional components are not used in the CD Releases, only for the Product and XP Releases.
 [[optional_components]]
 == Configure Optional Components
 
@@ -407,13 +407,13 @@ Some of the quickstarts that demonstrate transactions require that you install a
 === Configure Byteman
 
 A few of the quickstarts use _Byteman_ to demonstrate distributed transaction processing and crash recovery. See  https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_BYTEMAN.adoc#configure_byteman_for_use_with_the_quickstarts[Configure Byteman for Use with the Quickstarts] for instructions.
-// END ifdef::ProductRelease[]
+// END ifdef::ProductRelease,EAPXPRelease[]
 endif::[]
 
-// END ifdef::ProductRelease,EAPCDRelease[]
+// END ifdef::ProductRelease,EAPCDRelease,EAPXPRelease[]
 endif::[]
 
-// The following is included for all versions: WildFly, JBoss EAP, and EAP CD
+// The following is included for all versions: WildFly, JBoss EAP, EAP CD and EAP XP
 [[available_quickstarts]]
 == Table of Available Quickstarts
 

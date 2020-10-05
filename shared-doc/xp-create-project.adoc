@@ -1,0 +1,46 @@
+
+[[prepare_openshift_for_quickstart_deployment]]
+= Prepare OpenShift for Quickstart Deployment
+
+. Log in to your OpenShift instance using the `oc login` command.
+. Create a new project for the quickstart in OpenShift. You can create a project in OpenShift using the following command.
++
+[options="nowrap",subs="attributes"]
+----
+$ oc new-project {artifactId}-project
+----
++
+
+Before you can import and use the OpenShift image for {xpaasproduct-shortname} , you must configure authentication to the Red Hat Container Registry.
+
+Create an authentication token using a registry service account to configure access to the Red Hat Container Registry. You need not use or store your Red&nbsp;Hat account's username and password in your OpenShift configuration when you use an authentication token.
+
+.Procedure
+
+. Follow the instructions on Red&nbsp;Hat Customer Portal to create an authentication token using a registry service account.
+. Download the YAML file containing the OpenShift secret for the token.
++
+You can download the YAML file from the *OpenShift Secret* tab on your token's *Token Information* page.
+
+. Create the authentication token secret for your OpenShift project using the YAML file that you downloaded:
++
+[options="nowrap",subs="+quotes"]
+----
+oc create -f __1234567_myserviceaccount-secret.yaml__
+----
++
+. Configure the secret for your OpenShift project using the following commands, replacing the secret name below with the name of your secret created in the previous step.
++
+[options="nowrap",subs="+quotes"]
+----
+oc secrets link default __1234567-myserviceaccount-pull-secret__ --for=pull
+oc secrets link builder __1234567-myserviceaccount-pull-secret__ --for=pull
+----
+.Additional resources
+
+* link:https://access.redhat.com/RegistryAuthentication#registry-service-accounts-for-shared-environments-4[Create an authentication token using a registry service account]
+
+* link:https://access.redhat.com/documentation/en-us/openshift_container_platform/3.11/html/developer_guide/dev-guide-managing-images#allowing-pods-to-reference-images-from-other-secured-registries[Configuring access to secured registries]
+
+* link:https://access.redhat.com/RegistryAuthentication[Configuring authentication to the Red Hat Container Registry]
+
