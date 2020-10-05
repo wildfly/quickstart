@@ -1,0 +1,15 @@
+spec:
+  template:
+    spec:
+      containers:
+        - env:
+            - name: JAEGER_SAMPLER_TYPE
+              value: "const"
+            - name: JAEGER_SAMPLER_PARAM
+              value: "1"
+            - name: JAEGER_AGENT_HOST
+              value: "jaeger-agent"
+            - name: JAEGER_AGENT_PORT
+              value: "6831" 
+            - name: JAEGER_SERVICE_NAME
+              value: "microprofile-opentracing"

@@ -17,6 +17,14 @@
 
     <name>Quickstart: microprofile-openapi</name>
 
+    <properties>
+        <version.server.bootable-jar>21.0.0.Beta1</version.server.bootable-jar>
+        <version.wildfly-jar.maven.plugin>2.0.0.Beta7</version.wildfly-jar.maven.plugin>
+        <version.jkube.maven.plugin>1.0.0</version.jkube.maven.plugin>
+        <!-- not needed for WildFly, for XP 2.0, need a supported redhat builder image. Could be JDK8 or JDK11, us to choose -->
+        <jkube.generator.from>registry.access.redhat.com/redhat-openjdk-18/openjdk18-openshift:latest</jkube.generator.from>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.eclipse.microprofile.openapi</groupId>
@@ -40,4 +48,88 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>bootable-jar</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.wildfly.plugins</groupId>
+                        <artifactId>wildfly-jar-maven-plugin</artifactId>
+                        <version>${version.wildfly-jar.maven.plugin}</version>
+                        <configuration>
+                            <feature-pack-location>wildfly@maven(org.jboss.universe:community-universe)#${version.server.bootable-jar}</feature-pack-location>
+                            <layers>
+                                <layer>jaxrs-server</layer>
+                                <layer>microprofile-platform</layer>
+                            </layers>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>package</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>bootable-jar-openshift</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.wildfly.plugins</groupId>
+                        <artifactId>wildfly-jar-maven-plugin</artifactId>
+                        <version>${version.wildfly-jar.maven.plugin}</version>
+                        <configuration>
+                            <feature-pack-location>wildfly@maven(org.jboss.universe:community-universe)#${version.server.bootable-jar}</feature-pack-location>
+                            <layers>
+                                <layer>jaxrs-server</layer>
+                                <layer>microprofile-platform</layer>
+                            </layers>
+                            <cloud/>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>package</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.eclipse.jkube</groupId>
+                        <artifactId>openshift-maven-plugin</artifactId>
+                        <version>${version.jkube.maven.plugin}</version>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>resource</goal>
+                                    <goal>build</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <enricher>
+                                <config>
+                                    <jkube-service>
+                                        <type>NodePort</type>
+                                    </jkube-service>
+                                </config>
+                            </enricher>
+                            <resources>
+                                <env>
+                                    <JAVA_OPTIONS>-Djava.net.preferIPv4Stack=true</JAVA_OPTIONS>
+                                </env>
+                            </resources>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
 </project>
