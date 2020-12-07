@@ -1,13 +1,13 @@
 package org.wildfly.quickstarts.microprofile.opentracing;
 
 import io.opentracing.Tracer;
-import io.opentracing.contrib.tracerresolver.TracerResolver;
+import io.opentracing.contrib.tracerresolver.TracerFactory;
 import io.opentracing.mock.MockTracer;
 
-public class MockTracerResolver extends TracerResolver {
+public class MockTracerFactory implements TracerFactory {
 
     @Override
-    protected Tracer resolve() {
+    public Tracer getTracer() {
         return new MockTracer();
     }
 }

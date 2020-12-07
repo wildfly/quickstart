@@ -17,7 +17,7 @@
 package org.wildfly.quickstarts.microprofile.opentracing;
 
 import io.opentracing.Tracer;
-import io.opentracing.contrib.tracerresolver.TracerResolver;
+import io.opentracing.contrib.tracerresolver.TracerFactory;
 import io.opentracing.mock.MockSpan;
 import io.opentracing.mock.MockTracer;
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -82,7 +82,7 @@ public class MicroProfileOpenTracingIT {
         return ShrinkWrap.create(WebArchive.class)
             .addPackages(true, JaxRsApplication.class.getPackage())
             .addPackages(true, MockTracer.class.getPackage())
-            .addAsServiceProvider(TracerResolver.class, MockTracerResolver.class)
+            .addAsServiceProvider(TracerFactory.class, MockTracerFactory.class)
             // enable CDI
             .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
     }
