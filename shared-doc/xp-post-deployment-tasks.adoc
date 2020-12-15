@@ -8,12 +8,11 @@ In the Openshift environment the management port is not exposed. For this
 reason we need to access the health endpoint exposed on the management port manually by SSH.
 There are two ways to get access to the Openshift pod:
 
-- terminal - you can get the name of your running pod with `oc get pods` (it will be something \
-like `eap-xp1-basic-app-1-vpfdn`) and by executing `oc rsh {pod-name}` (oc rsh eap-xp1-basic-app-1-vpfdn) \
+- terminal - you can get the name of your running pod with `oc get pods` (it will be something like `{ImagePrefixVersion}-basic-app-1-vpfdn`) and by executing `oc rsh {pod-name}` (oc rsh {ImagePrefixVersion}-basic-app-1-vpfdn)
 
 - UI - In the Openshift console navigate to the `Topology` tab and click your application
-(`eap-xp1-basic-app`). Open the `Resources` tab and click the pod name under the `Pods` tab
-(it will be something like `eap-xp1-basic-app-1-vpfdn`). Now just click the `Terminal` tab and
+(`{ImagePrefixVersion}-basic-app`). Open the `Resources` tab and click the pod name under the `Pods` tab
+(it will be something like `{ImagePrefixVersion}-basic-app-1-vpfdn`). Now just click the `Terminal` tab and
 you will get a terminal into the pod.
 
 In the opened terminal you can now execute the cURL commands invoking the localhost in the
