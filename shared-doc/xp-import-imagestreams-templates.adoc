@@ -17,25 +17,25 @@ Configuration of authentication to the registry is not necessary if you are buil
 +
 [options="nowrap",subs="+attributes"]
 ----
-oc replace --force -f {ImageandTemplateImportURL}jboss-eap-xp1-openjdk8-openshift.json
+oc replace --force -f {ImageandTemplateImportURL}jboss-{ImagePrefixVersion}-openjdk8-openshift.json
 ----
 +
 This command imports the following imagestreams and templates:
 
-* The JDK 8 builder imagestream: jboss-eap-xp1-openjdk8-openshift
-* The JDK 8 runtime imagestream: jboss-eap-xp1-openjdk8-runtime-openshift
+* The JDK 8 builder imagestream: jboss-{ImagePrefixVersion}-openjdk8-openshift
+* The JDK 8 runtime imagestream: jboss-{ImagePrefixVersion}-openjdk8-runtime-openshift
 +
 .. Import JDK 11 image stream:
 +
 [options="nowrap",subs="+attributes"]
 ----
-oc replace --force -f {ImageandTemplateImportURL}jboss-eap-xp1-openjdk11-openshift.json
+oc replace --force -f {ImageandTemplateImportURL}jboss-{ImagePrefixVersion}-openjdk11-openshift.json
 ----
 +
 This command imports the following imagestreams and templates:
 
-* The JDK 11 builder imagestream: jboss-eap-xp1-openjdk11-openshift
-* The JDK 11 runtime imagestream: jboss-eap-xp1-openjdk11-runtime-openshift
+* The JDK 11 builder imagestream: jboss-{ImagePrefixVersion}-openjdk11-openshift
+* The JDK 11 runtime imagestream: jboss-{ImagePrefixVersion}-openjdk11-runtime-openshift
 +
 .. Import the JDK 8 and JDK 11 templates:
 +
