@@ -4,16 +4,13 @@ include::../shared-doc/attributes.adoc[]
 :author: Marius Bogoevici, Tejas Mehta, Joshua Wilson
 :level: Intermediate
 :technologies: JSP, JPA, JSON, Spring, JUnit
+:openshift: true
 
 [abstract]
 The  `spring-kitchensink-springmvctest` quickstart demonstrates how to create an MVC application using JSP, JPA and Spring 4.x.
 
 :standalone-server-type: default
 :archiveType: war
-
-//*************************************************
-// Shared CD and Product Release content
-//*************************************************
 
 == What is it?
 
@@ -82,20 +79,20 @@ $ mvn dependency:resolve -Dclassifier=javadoc
 endif::[]
 
 //*************************************************
-// CD Release content only
+// Product Release content only
 //*************************************************
-
-ifdef::EAPCDRelease[]
+ifdef::ProductRelease[]
 
 // Getting Started with OpenShift
-include::../shared-doc/cd-openshift-getting-started.adoc[leveloffset=+1]
+include::../shared-doc/openshift-getting-started.adoc[leveloffset=+1]
 //Prepare OpenShift for Quickstart Deployment
-include::../shared-doc/cd-create-project.adoc[leveloffset=+1]
+include::../shared-doc/openshift-create-project.adoc[leveloffset=+1]
 // Import the Latest {xpaasproduct-shortname} Image Streams and Templates
-include::../shared-doc/cd-import-imagestreams-templates.adoc[leveloffset=+1]
+include::../shared-doc/openshift-import-imagestreams-templates.adoc[leveloffset=+1]
 // Deploy the {ProductShortName} Source-to-Image (S2I) Quickstart to OpenShift
-include::../shared-doc/cd-deploy-project.adoc[leveloffset=+1]
-// OpenShift Post Deployment Tasks: This is not currently needed.
-// include::../shared-doc/cd-post-deployment-tasks.adoc[leveloffset=+1]
+include::../shared-doc/openshift-deploy-project.adoc[leveloffset=+1]
+// Openshift post deployment tasks
+include::../shared-doc/openshift-post-deployment-tasks.adoc[leveloffset=+1]
+
 
 endif::[]
