@@ -4,6 +4,7 @@ import org.eclipse.microprofile.config.spi.ConfigSource;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class CustomConfigSource implements ConfigSource {
 
@@ -17,6 +18,11 @@ public class CustomConfigSource implements ConfigSource {
     @Override
     public Map<String, String> getProperties() {
         return properties;
+    }
+
+    @Override
+    public Set<String> getPropertyNames() {
+        return properties.keySet();
     }
 
     @Override
