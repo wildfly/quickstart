@@ -1,0 +1,78 @@
+# This configuration file can be used to build and deploy the todo-backend
+# quickstart on OpenShift with the Helm Chart for WildFly.
+build:
+  uri: https://github.com/wildfly/quickstart.git
+  ref: todo-backend
+  mode: s2i
+  s2i:
+    galleonLayers: cloud-server,postgresql-datasource,ejb
+  env:
+    - name: ARTIFACT_DIR
+      value: todo-backend/target
+    - name: MAVEN_ARGS_APPEND
+      value: -am -pl todo-backend
+    - name: MAVEN_OPTS
+      value: '-XX:MetaspaceSize=96m -XX:MaxMetaspaceSize=256m'
+deploy:
+  replicas: 3
+  env:
+    # Env vars to connect to PostgreSQL DB
+    - name: POSTGRESQL_DATABASE
+      valueFrom:
+        secretKeyRef:
+          key: database-name
+          name: todos-db
+    - name: POSTGRESQL_USER
+      valueFrom:
+        secretKeyRef:
+          key: database-user
+          name: todos-db
+    - name: POSTGRESQL_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          key: database-password
+          name: todos-db
+    - name: POSTGRESQL_DATASOURCE
+      value: ToDos
+    - name: POSTGRESQL_SERVICE_HOST
+      value: todos-db
+    - name: POSTGRESQL_SERVICE_PORT
+      value: "5432"
+    # Env vars to configure CORS filter
+    - name: FILTERS
+      value: acao, acam, acah, acac, acma
+    - name: acao_FILTER_RESPONSE_HEADER_NAME
+      value: Access-Control-Allow-Origin
+    - name: acao_FILTER_RESPONSE_HEADER_VALUE
+      value: "*"
+    - name: acao_FILTER_REF_NAME
+      value: Access-Control-Allow-Origin
+    - name: acam_FILTER_RESPONSE_HEADER_NAME
+      value: Access-Control-Allow-Methods
+    - name: acam_FILTER_RESPONSE_HEADER_VALUE
+      value: GET, POST, OPTION, PUT, DELETE, PATCH
+    - name: acam_FILTER_REF_NAME
+      value: Access-Control-Allow-Methods
+    - name: acah_FILTER_RESPONSE_HEADER_NAME
+      value: Access-Control-Allow-Headers
+    - name: acah_FILTER_RESPONSE_HEADER_VALUE
+      value: accept, authorization, content-type, x-requested-with
+    - name: acah_FILTER_REF_NAME
+      value: Access-Control-Allow-Headers
+    - name: acac_FILTER_RESPONSE_HEADER_NAME
+      value: Access-Control-Allow-Credentials
+    - name: acac_FILTER_RESPONSE_HEADER_VALUE
+      value: "true"
+    - name: acac_FILTER_REF_NAME
+      value: Access-Control-Allow-Credentials
+    - name: acma_FILTER_RESPONSE_HEADER_NAME
+      value: Access-Control-Max-Age
+    - name: acma_FILTER_RESPONSE_HEADER_VALUE
+      value: "1"
+    - name: acma_FILTER_REF_NAME
+      value: Access-Control-Max-Age
+    # Env to avoid OOME
+    - name: GC_MAX_METASPACE_SIZE
+      value: "256"
+    - name: GC_METASPACE_SIZE
+      value: "96"
