@@ -1,0 +1,43 @@
+# This configuration file can be used to build and deploy the todo-backend
+# quickstart on OpenShift with the Helm Chart for WildFly.
+build:
+  uri: https://github.com/wildfly/quickstart.git
+  ref: todo-backend
+  mode: bootable-jar
+  env:
+    - name: ARTIFACT_DIR
+      value: todo-backend/target
+    - name: MAVEN_ARGS_APPEND
+      value: -am -pl todo-backend -P bootable-jar-openshift
+    - name: MAVEN_OPTS
+      value: '-XX:MetaspaceSize=96m -XX:MaxMetaspaceSize=256m'
+deploy:
+  replicas: 3
+  env:
+    # Env vars to connect to PostgreSQL DB
+    - name: POSTGRESQL_DATABASE
+      valueFrom:
+        secretKeyRef:
+          key: database-name
+          name: todos-db
+    - name: POSTGRESQL_USER
+      valueFrom:
+        secretKeyRef:
+          key: database-user
+          name: todos-db
+    - name: POSTGRESQL_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          key: database-password
+          name: todos-db
+    - name: POSTGRESQL_DATASOURCE
+      value: ToDos
+    - name: POSTGRESQL_SERVICE_HOST
+      value: todos-db
+    - name: POSTGRESQL_SERVICE_PORT
+      value: "5432"
+    # Env to avoid OOME
+    - name: GC_MAX_METASPACE_SIZE
+      value: "256"
+    - name: GC_METASPACE_SIZE
+      value: "96"
