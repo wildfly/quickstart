@@ -31,8 +31,9 @@
     <!-- By default, Arquillian will use the JBOSS_HOME environment variable to find the ${product.name} installation.
          If you prefer not to define the JBOSS_HOME environment variable, alternatively you can uncomment the
          following `jbossHome` property and replace ${jboss.home.name} with the path to your ${product.name} installation. -->
-    <!--<configuration>
-        <property name="jbossHome">${jboss.home.name}</property>
-    </configuration> -->
+    <configuration>
+      <property name="serverConfig">standalone-microprofile.xml</property>
+        <!-- <property name="jbossHome">${jboss.home.name}</property> -->
+    </configuration>
   </container>
 </arquillian>
