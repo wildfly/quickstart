@@ -24,6 +24,7 @@ services:
     ports:
       - "9092:9092"
     environment:
+      # Note that in some environments, these values are taken from the ./.env file instead
       LOG_DIR: "/tmp/logs"
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
       KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
