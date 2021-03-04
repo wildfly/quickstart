@@ -19,8 +19,15 @@ You can use the Maven plug-in to build a {productName} bootable JAR, and then yo
                       <configuration>
                           <feature-pack-location>wildfly@maven(org.jboss.universe:community-universe)#${version.server.bootable-jar}</feature-pack-location>
                           <layers>
+ifndef::custom-bootable-jar-layers[]
                               <layer>jaxrs-server</layer>
                               <layer>microprofile-platform</layer>
+endif::[]
+ifdef::reactive-messaging[]
+                              <layer>cloud-server</layer>
+                              <layer>h2-default-datasource</layer>
+                              <layer>microprofile-reactive-messaging-kafka</layer>
+endif::[]
                           </layers>
                           <plugin-options>
                               <jboss-fork-embedded>true</jboss-fork-embedded>
@@ -105,8 +112,15 @@ You can use the Maven plug-in to build a {productName} bootable JAR, and then yo
                       <configuration>
                           <feature-pack-location>wildfly@maven(org.jboss.universe:community-universe)#${version.server.bootable-jar}</feature-pack-location>
                           <layers>
+ifndef::custom-bootable-jar-layers[]
                               <layer>jaxrs-server</layer>
                               <layer>microprofile-platform</layer>
+endif::[]
+ifdef::reactive-messaging[]
+                              <layer>cloud-server</layer>
+                              <layer>h2-default-datasource</layer>
+                              <layer>microprofile-reactive-messaging-kafka</layer>
+endif::[]
                           </layers>
                           <plugin-options>
                               <jboss-fork-embedded>true</jboss-fork-embedded>

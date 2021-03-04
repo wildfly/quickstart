@@ -65,8 +65,6 @@ public class ReactiveMessagingKafkaIT {
         final WebArchive webArchive = ShrinkWrap.create(WebArchive.class, "reactive-messaging-kafka-tx.war")
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
                 .addPackage(MessagingBean.class.getPackage())
-                //.addPackage(ReactiveMessagingKafkaIT.class.getPackage())
-                //.addClasses(RunKafkaSetupTask.class, EnableReactiveExtensionsSetupTask.class)
                 .addAsWebInfResource("META-INF/persistence.xml", "classes/META-INF/persistence.xml")
                 .addAsWebInfResource("META-INF/microprofile-config.properties", "classes/META-INF/microprofile-config.properties");
 

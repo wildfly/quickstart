@@ -12,6 +12,7 @@ The `microprofile-reactive-messaging-kafka` quickstart demonstrates the use of t
 :archiveType: war
 :archiveName: {artifactId}
 :reactive-messaging:
+:custom-bootable-jar-layers:
 :uses-h2:
 
 
@@ -204,7 +205,7 @@ Now we are ready to start working with MicroProfile Reactive Messaging.
 This will walk you through the steps to write our application. They are:
 
 * Create a generator for the generated messages. We will create something which mocks a call to an asynchnronous resource.
-* Add a data object which wraps the generates messages and adds a timestamp. We will use JPA annotations on this to make it persistable.
+* Add a data object which wraps the generated messages and adds a timestamp. We will use JPA annotations on this to make it persistable.
 * Create our CDI bean interfacing with the Kafka streams via annotated methods. For the streams that are managed by Kafka we will provide a MicroProfile Config file to configure how to interact with Kafka. It will log, filter and store entries to a RDBMS.
 * Create a CDI bean that will be used to store and retrieve entries from a RDBMS.
 * Create a JAX-RS endpoint to return the data that was stored in the RDBMS to the user.
@@ -300,7 +301,7 @@ public class TimedEntry {
 
 === Adding our Messaging CDI Bean
 
-MicroProfile Reactive Messaging is based on CDI, so all interaction with the MicroProfile Reactive Messaging streams must happen from a CDI beans. **Note:** The beans must have either the `@ApplicationScoped` or `Dependent` scopes.
+MicroProfile Reactive Messaging is based on CDI, so all interaction with the MicroProfile Reactive Messaging streams must happen from a CDI beans. **Note:** The beans must have either the `@ApplicationScoped` or `@Dependent` scopes.
 
 Then within these beans we have a set of methods using the `@Incoming` and `@Outgoing` annotations from the MicroProfile Reactive Messaging specification to map the underlying streams. For an `@Outgoing` annotation its `value` specifies the Reactive Messaging stream to send data to, and for an `@Incoming` annotation its `value` specifies the Reactive Messaging stream to read data from. Although in this QuickStart we are putting all these methods into one CDI bean class, they could be spread over several beans.
 
@@ -370,7 +371,7 @@ Note that there is no Kafka involved yet. Since the `@Incoming` and `@Outgoing` 
 ----
 Now we have another 'processor' method. We get the data from the `filter` stream (what was relayed by the previous `logAllMessages()` method) and forward it on to the `sender` stream.
 
-In this method we want to do something a bit more advanced, namely apply a filter to the messages.We use a method receiving and returning a Reactive Stream, in this case we use `PublisherBuilder` from the MicroProfile Reactive Streams Operators specification. `PublisherBuilder` extends the `Publisher` interface from the Reactive Streams specification, and provides us with the `filter()` methods we will use here.
+In this method we want to do something a bit more advanced, namely apply a filter to the messages. We use a method receiving and returning a Reactive Stream, in this case we use `PublisherBuilder` from the MicroProfile Reactive Streams Operators specification. `PublisherBuilder` extends the `Publisher` interface from the Reactive Streams specification, and provides us with the `filter()` methods we will use here.
 
 Again the Reactive Messaging implementation does all the wrapping for us.
 
@@ -382,7 +383,7 @@ Our filter method tells us to only relay messages that match `Hello` or `Kafka`,
     @Outgoing("sender")
     public PublisherBuilder<String> filter(PublisherBuilder<String> messages) {
         return messages
-                ..filter(s -> s.equals("Hello") || s.equals("Kafka"));
+                .filter(s -> s.equals("Hello") || s.equals("Kafka"));
     }
 ----
 Next we have another 'processor' method, which receives data from the `sender` stream and forwards it on to the `to-kafka` stream.
@@ -404,7 +405,7 @@ Note that the conversion fromm `Publisher` to `PublisherBuilder` and back to `Pu
                 .buildRs();
     }
 ----
-Our final method is a 'consumer' method, as it has only an `@Incoming` annotation. You can think of this as a 'final destination' for the data in your application. We are using a simple `TimedEntry` as our method parameter, so Reactive Messaging will unwrap the `Publisher<TimedEntry` sent to the stream in the previous method.
+Our final method is a 'consumer' method, as it has only an `@Incoming` annotation. You can think of this as a 'final destination' for the data in your application. We are using a simple `TimedEntry` as our method parameter, so Reactive Messaging will unwrap the `Publisher<TimedEntry>` sent to the stream in the previous method.
 
 It calls through to our `dbBean` to store the received data in a RDBMS. We will look at this briefly later.
 [source, java]
@@ -478,10 +479,10 @@ mp.messaging.outgoing.to-kafka.bootstrap.servers=otherhost:9092
 
 For the incoming and outgoing properties we can see that they all specify that they should use the `smallrye-kafka` connector and that the outgoing one writes to the same topic, `testing`, as the incoming one reads from.
 
-Finally we see that the outgoing configuration uses a `TimedEntrySerializer` while the incoming one uses `TimedEntryDeserializer`. Kafka just deals with byte streams, so we need to tell it how to serialize the data we are sending and how to deserialize the data we are receiving. As seen is configured with properties of the form `mp.messaging.outcoming.<stream name>.serializer` and `mp.messaging.incoming.<stream name>.deserializer`. The link:https://kafka.apache.org/27/javadoc/org/apache/kafka/common/serialization/package-summary.html[org.apache.kafka.common.serialization] package contains implementations of serializers and deserializers for simple data types and constructs such as maps.
+Finally we see that the outgoing configuration uses a `TimedEntrySerializer` while the incoming one uses `TimedEntryDeserializer`. Kafka just deals with byte streams, so we need to tell it how to serialize the data we are sending and how to deserialize the data we are receiving. As seen is configured with properties of the form `mp.messaging.outgoing.<stream name>.value.serializer` and `mp.messaging.incoming.<stream name>.value.deserializer`. The link:https://kafka.apache.org/27/javadoc/org/apache/kafka/common/serialization/package-summary.html[org.apache.kafka.common.serialization] package contains implementations of serializers and deserializers for simple data types and constructs such as maps.
 
 ===== Custom (De)Serializers
-In our case the data we are sending to and receiving from Kafka is not a simple object. It is an object of a class defined in our application, so we need to define our own serialization and deserialization. Luckily, this is easy. We just need to implement the link:[org.apache.kafka.common.serialization.Serializer] and link:https://kafka.apache.org/27/javadoc/org/apache/kafka/common/serialization/Deserializer.html[org.apache.kafka.common.serialization.Deserializer] interfaces.
+In our case the data we are sending to and receiving from Kafka is not a simple object. It is an object of a class defined in our application, so we need to define our own serialization and deserialization. Luckily, this is easy. We just need to implement the link:https://kafka.apache.org/27/javadoc/org/apache/kafka/common/serialization/Serializer.html[org.apache.kafka.common.serialization.Serializer] and link:https://kafka.apache.org/27/javadoc/org/apache/kafka/common/serialization/Deserializer.html[org.apache.kafka.common.serialization.Deserializer] interfaces.
 
 Here is our `TimedEntrySerializer`:
 
@@ -659,9 +660,17 @@ public class JaxRsApplication extends Application {
 
 ----
 
-== Running the Apache Kafka service
+Now you should be able to compile the application and prepare it for deployment.
 
-To run the Apache Kafka service we will use its Docker container. Note that this also requires Apache Zookeeper, so rather than a simple `docker run` command this directory contains a `docker-compose.yml` file defining the two Docker containers needed.
+=== Running the Application on a Standalone {productName} Server
+
+We need to first start Apache Kafka. Then we will run the {productName} server and deploy our application to the server.
+
+
+== Running the Apache Kafka Service
+
+To run the Apache Kafka service we will use its Docker container. Note that this also requires Apache Zookeeper, so rather than a simple `docker run` command this quickstart directory contains a `docker-compose.yaml` file defining the two Docker containers needed. The
+file can be found link:./docker-compose.yaml[here].
 
 NOTE: If you don't have Docker installed on your machine please follow the
 instructions at https://www.docker.com/get-started.
@@ -675,7 +684,7 @@ docker-compose up
 
 NOTE: This can take a minute.
 
-=== Build and Deploy the Initial Application
+== Build and Deploy the Initial Application
 Let's check that our application works!
 
 . Make sure xref:start_the_eap_standalone_server[the {productName} server is started] as described above.
