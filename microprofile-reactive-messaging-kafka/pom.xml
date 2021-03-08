@@ -284,6 +284,18 @@
                                     </jkube-service>
                                 </config>
                             </enricher>
+                            <resources>
+                                <env>
+                                    <!--
+                                        Set environment vars to adjust the JVM metaspace or we might end up
+                                        with OutOfMemoryErrors on OpenShift
+                                    -->
+                                    <GC_MAX_METASPACE_SIZE>256</GC_MAX_METASPACE_SIZE>
+                                    <GC_METASPACE_SIZE>96</GC_METASPACE_SIZE>
+                                    <!-- Set the AMQ Streams URL to what is set up by the instructions -->
+                                    <MP_MESSAGING_CONNECTOR_SMALLRYE_KAFKA_BOOTSTRAP_SERVERS>my-cluster-kafka-bootstrap:9092</MP_MESSAGING_CONNECTOR_SMALLRYE_KAFKA_BOOTSTRAP_SERVERS>
+                                </env>
+                            </resources>
                         </configuration>
                     </plugin>
                 </plugins>

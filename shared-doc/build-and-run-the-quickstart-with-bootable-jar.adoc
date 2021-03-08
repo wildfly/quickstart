@@ -154,6 +154,20 @@ endif::[]
                                   </jkube-service>
                               </config>
                           </enricher>
+ifdef::reactive-messaging[]
+                          <resources>
+                              <env>
+                                  <!--
+                                    Set environment vars to adjust the JVM metaspace or we might end up
+                                    with OutOfMemoryErrors on OpenShift
+                                  -->
+                                  <GC_MAX_METASPACE_SIZE>256</GC_MAX_METASPACE_SIZE>
+                                  <GC_METASPACE_SIZE>96</GC_METASPACE_SIZE>
+                                  <!-- Set the AMQ Streams URL to what is set up by the instructions -->
+                                  <MP_MESSAGING_CONNECTOR_SMALLRYE_KAFKA_BOOTSTRAP_SERVERS>my-cluster-kafka-bootstrap:9092</MP_MESSAGING_CONNECTOR_SMALLRYE_KAFKA_BOOTSTRAP_SERVERS>
+                              </env>
+                          </resources>
+endif::[]
                       </configuration>
                   </plugin>
               </plugins>
@@ -171,7 +185,9 @@ endif::[]
 ----
 $ oc new-project bootable-jar-project
 ----
-
+ifdef::reactive-messaging[]
+. Install AMQ Streams into the `bootable-jar-project` OpenShift project as outlined link:#install_amq_streams[earlier]  in this quickstart. Note that the `MP_MESSAGING_CONNECTOR_SMALLRYE_KAFKA_BOOTSTRAP_SERVERS` environment variable in the pom.xml assume you have used the indicated name for your AMQ Streams cluster.
+endif::[]
 . Build the quickstart bootable JAR by issuing the following command. This command also completes the following tasks: creates the OpenShift deployment, service and route; generates a docker image and pushes the docker image to OpenShift; and runs the application.
 +
 [source,subs="attributes+",options="nowrap"]
