@@ -1,0 +1,761 @@
+include::../shared-doc/attributes.adoc[]
+
+= microprofile-reactive-messaging-kafka: MicroProfile Reactive Messaging with Kafka QuickStart
+:author: Kabir Khan
+:level: Beginner
+:technologies: MicroProfile Reactive Messaging
+
+[abstract]
+The `microprofile-reactive-messaging-kafka` quickstart demonstrates the use of the MicroProfile Reactive Messaging specification backed by Apache Kafka in {productName}.
+
+:standalone-server-type: default
+:archiveType: war
+:archiveName: {artifactId}
+:reactive-messaging:
+:custom-bootable-jar-layers:
+:uses-h2:
+
+
+== What is it?
+
+link:https://microprofile.io/project/eclipse/microprofile-reactive-messaging[MicroProfile Reactive Messaging] is a framework for building event-driven, data streaming, and event-sourcing applications using CDI. It lets your application interact using messaging technologies such as link:https://kafka.apache.org[Apache Kafka].
+
+The implementation of MicroProfile Reactive Messaging is built on top of link:https://microprofile.io/project/eclipse/microprofile-reactive-streams[MicroProfile Reactive Streams Operators]. Reactive Streams Operators extends the link:https://www.reactive-streams.org[Reactive Streams] specification, by adding operators such as `map()`, `filter()` and others.
+
+== Architecture
+
+In this quickstart, we have a CDI bean that demonstrates the functionality of the MicroProfile Reactive Messaging specification. Currently, we support Reactive Messaging 1.0. Connections to external messaging systems such as Apache Kafka are configured via MicroProfile Config. We will also use Reactive Streams Operators to modify the data relayed in these streams in the methods handling the Reactive Messaging streams.
+
+// System Requirements
+include::../shared-doc/system-requirements.adoc[leveloffset=+1]
+
+// Use of {jbossHomeName}
+include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
+
+// Start the {productName} Standalone Server
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
+
+== Solution
+
+We recommend that you follow the instructions that
+<<creating-new-project, create the application step by step>>. However, you can
+also go right to the completed example which is available in this directory.
+
+// Build and Deploy the Quickstart
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
+
+// Undeploy the Quickstart
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
+
+// Run the Arquillian Tests
+include::../shared-doc/run-arquillian-tests.adoc[leveloffset=+1]
+
+// Run the Quickstart in Red Hat CodeReady Studio or Eclipse
+include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
+
+[[creating-new-project]]
+== Creating the Maven Project
+
+[source,options="nowrap"]
+----
+mvn archetype:generate \
+    -DgroupId=org.wildfly.quickstarts \
+    -DartifactId=microprofile-reactive-messaging-kafka \
+    -DinteractiveMode=false \
+    -DarchetypeGroupId=org.apache.maven.archetypes \
+    -DarchetypeArtifactId=maven-archetype-webapp
+cd microprofile-reactive-messaging-kafka
+----
+
+Open the project in your favourite IDE.
+
+The project needs to be updated to use Java 8 as the minimum:
+
+[source,options="nowrap"]
+----
+<maven.compiler.source>1.8</maven.compiler.source>
+<maven.compiler.target>1.8</maven.compiler.target>
+----
+
+Next set up our dependencies. Add the following section to your
+`pom.xml`:
+
+[source,xml,subs="attributes+"]
+----
+<dependencyManagement>
+  <dependencies>
+    <!-- importing the jakartaee8-with-tools BOM adds specs and other useful artifacts as managed dependencies -->
+    <dependency>
+        <groupId>org.wildfly.bom</groupId>
+        <artifactId>wildfly-jakartaee8-with-tools</artifactId>
+        <version>{versionServerBom}</version>
+        <type>pom</type>
+        <scope>import</scope>
+    </dependency>
+
+    <!-- importing the microprofile BOM adds MicroProfile specs -->
+    <dependency>
+        <groupId>org.wildfly.bom</groupId>
+        <artifactId>wildfly-microprofile</artifactId>
+        <version>{versionMicroprofileBom}</version>
+        <type>pom</type>
+        <scope>import</scope>
+    </dependency>
+  </dependencies>
+</dependencyManagement>
+----
+By using boms the majority of dependencies used within this quickstart align with the version used by the application server.
+
+Now we need to add the dependencies which are needed by what is the focus of this QuickStart (CDI, MicroProfile Reactive Messaging, Reactive Streams Operators, Reactive Streams and the Apache Kafka Client). Additionally we need to add dependencies for 'supporting' functionality (JPA, JTA and JAX-RS):
+
+[source,xml]
+----
+<dependencies>
+    <!-- Core dependencies -->
+
+    <!-- Import the CDI API, we use provided scope as the API is included in WildFly -->
+    <dependency>
+        <groupId>jakarta.enterprise</groupId>
+        <artifactId>jakarta.enterprise.cdi-api</artifactId>
+        <scope>provided</scope>
+    </dependency>
+    <!-- Import the Kafka Client API, we use provided scope as the API is included in WildFly -->
+    <dependency>
+        <groupId>org.apache.kafka</groupId>
+        <artifactId>kafka-clients</artifactId>
+        <scope>provided</scope>
+    </dependency>
+    <!-- Import the Reactive Messaging API, we use provided scope as the API is included in WildFly -->
+    <dependency>
+        <groupId>org.eclipse.microprofile.reactive.messaging</groupId>
+        <artifactId>microprofile-reactive-messaging-api</artifactId>
+        <scope>provided</scope>
+    </dependency>
+    <!-- Import the Reactive Streams Operators API, we use provided scope as the API is included in WildFly -->
+    <dependency>
+        <groupId>org.eclipse.microprofile.reactive-streams-operators</groupId>
+        <artifactId>microprofile-reactive-streams-operators-api</artifactId>
+        <scope>provided</scope>
+    </dependency>
+    <!-- Import the Reactive Streams Operators API, we use provided scope as the API is included in WildFly -->
+    <dependency>
+        <groupId>org.reactivestreams</groupId>
+        <artifactId>reactive-streams</artifactId>
+        <scope>provided</scope>
+    </dependency>
+
+    <!-- 'Supporting' dependencies -->
+
+    <!-- Import the Persistence API, we use provided scope as the API is included in WildFly -->
+    <dependency>
+        <groupId>jakarta.persistence</groupId>
+        <artifactId>jakarta.persistence-api</artifactId>
+        <scope>provided</scope>
+    </dependency>
+    <!-- Import the Annotations API, we use provided scope as the API is included in WildFly -->
+    <dependency>
+        <groupId>org.jboss.spec.javax.annotation</groupId>
+        <artifactId>jboss-annotations-api_1.3_spec</artifactId>
+        <scope>provided</scope>
+    </dependency>
+    <!-- Import the Persistence API, we use provided scope as the API is included in WildFly -->
+    <dependency>
+        <groupId>org.jboss.spec.javax.transaction</groupId>
+        <artifactId>jboss-transaction-api_1.3_spec</artifactId>
+        <scope>provided</scope>
+    </dependency>
+    <!-- Import the JAX-RS API, we use provided scope as the API is included in WildFly -->
+    <dependency>
+        <groupId>org.jboss.spec.javax.ws.rs</groupId>
+        <artifactId>jboss-jaxrs-api_2.1_spec</artifactId>
+        <scope>provided</scope>
+    </dependency>
+</dependencies>
+----
+
+
+All dependencies have the 'provided' scope.
+
+As we are going to be deploying this application to the {productName} server, let's
+also add a maven plugin that will simplify the deployment operations (you can replace
+the generated build section):
+
+[source,xml]
+----
+<build>
+  <!-- Set the name of the archive -->
+  <finalName>${project.artifactId}</finalName>
+  <plugins>
+    <!-- Allows to use mvn wildfly:deploy -->
+    <plugin>
+      <groupId>org.wildfly.plugins</groupId>
+      <artifactId>wildfly-maven-plugin</artifactId>
+    </plugin>
+  </plugins>
+</build>
+----
+
+// Setup required repositories
+include::../shared-doc/setup-repositories.adoc[leveloffset=+1]
+
+Now we are ready to start working with MicroProfile Reactive Messaging.
+
+== Preparing the Application
+
+This will walk you through the steps to write our application. They are:
+
+* Create a generator for the generated messages. We will create something which mocks a call to an asynchnronous resource.
+* Add a data object which wraps the generated messages and adds a timestamp. We will use JPA annotations on this to make it persistable.
+* Create our CDI bean interfacing with the Kafka streams via annotated methods. For the streams that are managed by Kafka we will provide a MicroProfile Config file to configure how to interact with Kafka. It will log, filter and store entries to a RDBMS.
+* Create a CDI bean that will be used to store and retrieve entries from a RDBMS.
+* Create a JAX-RS endpoint to return the data that was stored in the RDBMS to the user.
+
+=== Adding our Data Generator
+Copy across the `microprofile-reactive-messaging-kafka/src/main/java/org/wildfly/quickstarts/microprofile/reactive/messaging/MockExternalAsyncResource.java` file to your project. This class mocks a call to an asynchronous external resource. The details of how it is implemented are not important for this QuickStart.
+
+`MockExternalAsyncResource` has one callable method:
+
+[source,java]
+----
+public CompletionStage<String> getNextValue()
+----
+
+The `CompletionStage` returned by this method will complete with a String when ready. A String is ready every two seconds. It will emit the following Strings in the given order: 
+
+* `Hello`
+* `World`
+* `Reactive`
+* `Messaging`
+* `with`
+* `Kafka`
+
+After this initial sequence the returned `CompletionStage` will complete with a random entry from the above list. A new entry is available every two seconds.
+
+=== Adding a Data Object
+Later we will wrap the strings in a `TimedEntry` object which contains the String and a timestamp. Since we will be storing it in a database, we add JPA annotations to it:
+
+[source,java]
+----
+package org.wildfly.quickstarts.microprofile.reactive.messaging;
+
+import java.sql.Timestamp;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity
+public class TimedEntry {
+    private Long id;
+    private Timestamp time;
+    private String message;
+
+    public TimedEntry() {
+
+    }
+
+    public TimedEntry(Timestamp time, String message) {
+        this.time = time;
+        this.message = message;
+    }
+
+    @Id
+    @GeneratedValue
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Timestamp getTime() {
+        return time;
+    }
+
+    public void setTime(Timestamp time) {
+        this.time = time;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    @Override
+    public String toString() {
+        String s = "TimedEntry{";
+        if (id != null) {
+            s += "id=" + id + ", ";
+        }
+        s += "time=" + time +
+                ", message='" + message + '\'' +
+                '}';
+        return s;
+    }
+}
+----
+
+=== Adding our Messaging CDI Bean
+
+MicroProfile Reactive Messaging is based on CDI, so all interaction with the MicroProfile Reactive Messaging streams must happen from a CDI beans. **Note:** The beans must have either the `@ApplicationScoped` or `@Dependent` scopes.
+
+Then within these beans we have a set of methods using the `@Incoming` and `@Outgoing` annotations from the MicroProfile Reactive Messaging specification to map the underlying streams. For an `@Outgoing` annotation its `value` specifies the Reactive Messaging stream to send data to, and for an `@Incoming` annotation its `value` specifies the Reactive Messaging stream to read data from. Although in this QuickStart we are putting all these methods into one CDI bean class, they could be spread over several beans.
+
+The MicroProfile Reactive Messaging specification contains a full list of all the valid method signatures for such `@Incoming`/`@Outging` methods. We will use a few of them, and see how they make different use-cases easier.
+
+Our bean looks as follows, and this is the main focus for the functionality in this QuickStart. We will also be using some other technologies, but they are secondary to this section. Explanations of each method will be given in line.
+
+[source, java]
+----
+package org.wildfly.quickstarts.microprofile.reactive.messaging;
+
+import java.sql.Timestamp;
+import java.util.concurrent.CompletionStage;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+
+import org.eclipse.microprofile.reactive.messaging.Incoming;
+import org.eclipse.microprofile.reactive.messaging.Outgoing;
+import org.eclipse.microprofile.reactive.streams.operators.PublisherBuilder;
+import org.eclipse.microprofile.reactive.streams.operators.ReactiveStreams;
+import org.reactivestreams.Publisher;
+
+
+@ApplicationScoped
+public class MessagingBean {
+----
+First we inject our mock asynchronous external data producer, which produces a string every two seconds. We explained this class in a previous section.
+[source, java]
+----
+
+    @Inject
+    MockExternalAsyncResource producer;
+----
+We inject a bean that will be used to persist entries to a RDBMS later on.
+[source, java]
+----
+    @Inject
+    DatabaseBean dbBean;
+----
+Now we get to the reactive messaging part.
+
+Our first method is a 'producer' method, since is annotated with the `@Outgoing` annotation. It simply relays the output of our mock producer bean to the reactive messaging system. It uses the channel `source` (as indicated in the `@Outgoing` annotation's value) as the target stream to send the data to. You can think of 'producer' methods as the entry point to push data into the reactive messaging streams.
+[source, java]
+----
+
+    @Outgoing("source")
+    public CompletionStage<String> sendInVm() {
+        return producer.getNextValue();
+    }
+----
+Next we have a 'processor' method. It is annotated with both `@Incoming` and `@Outgoing` annotations so it gets data from the reactive messaging streams and then pushes it to another stream. Essentially it simply relays data.
+
+In this case we get data from the `source` stream, so it will receive the entries made available by the `sendInVm()` method above, and forwards everything onto the `filter` stream.
+
+In this case, since we just want to log the strings that were emitted, we are using a simple method signature receiving and returning the raw string provided. The Reactive Messaging implementation has unwrapped the `CompletionStage` from the previous method for us.
+
+Note that there is no Kafka involved yet. Since the `@Incoming` and `@Outgoing` values match up, Reactive Messaging will use internal, in-memory streams.
+[source, java]
+----
+    @Incoming("source")
+    @Outgoing("filter")
+    public String logAllMessages(String message) {
+        System.out.println("Received " + message);
+        return message;
+    }
+----
+Now we have another 'processor' method. We get the data from the `filter` stream (what was relayed by the previous `logAllMessages()` method) and forward it on to the `sender` stream.
+
+In this method we want to do something a bit more advanced, namely apply a filter to the messages. We use a method receiving and returning a Reactive Stream, in this case we use `PublisherBuilder` from the MicroProfile Reactive Streams Operators specification. `PublisherBuilder` extends the `Publisher` interface from the Reactive Streams specification, and provides us with the `filter()` methods we will use here.
+
+Again the Reactive Messaging implementation does all the wrapping for us.
+
+Our filter method tells us to only relay messages that match `Hello` or `Kafka`, and drop everything else. In other words, later methods in the stream will only receive occurrences of `Hello` or `Kafka`.
+
+[source, java]
+----
+    @Incoming("filter")
+    @Outgoing("sender")
+    public PublisherBuilder<String> filter(PublisherBuilder<String> messages) {
+        return messages
+                .filter(s -> s.equals("Hello") || s.equals("Kafka"));
+    }
+----
+Next we have another 'processor' method, which receives data from the `sender` stream and forwards it on to the `to-kafka` stream.
+
+In this method we want to wrap up the data into the `TimedEntry` class we defined earlier, so we have tuple of the message and a timestamp. Since we are converting data, we should use a Reactive Stream artifact for the method parameter and return type. In this case, we are using `Publisher` from the Reactive Streams specification. Since `Publisher` does not provide any methods to modify the stream, we call `ReactiveStreams.fromPublisher()` to convert it to a MicroProfile Reactive Streams Operators `PublisherBuilder`.
+
+The `PublisherBuilder` gives us the `map()` method which we use to wrap our simple message (which at this stage is either 'Hello' or 'Kafka') and wrap it as a `TimedEntry` which adds a timestamp.
+
+Finally, we convert the `PublisherBuilder` to a `Publisher` again by calling `PublisherBuilder.buildRs()`.
+
+Note that the conversion fromm `Publisher` to `PublisherBuilder` and back to `Publisher` again is merely illustrative - it would have been perfectly fine to use `PublisherBuilder` as the method parameter and return type as we did for the `filter()` method above.
+[source, java]
+----
+    @Incoming("sender")
+    @Outgoing("to-kafka")
+    public Publisher<TimedEntry> sendToKafka(Publisher<String> messages) {
+        return ReactiveStreams.fromPublisher(messages)
+                .map(s -> new TimedEntry(new Timestamp(System.currentTimeMillis()), s))
+                .buildRs();
+    }
+----
+Our final method is a 'consumer' method, as it has only an `@Incoming` annotation. You can think of this as a 'final destination' for the data in your application. We are using a simple `TimedEntry` as our method parameter, so Reactive Messaging will unwrap the `Publisher<TimedEntry>` sent to the stream in the previous method.
+
+It calls through to our `dbBean` to store the received data in a RDBMS. We will look at this briefly later.
+[source, java]
+----
+    @Incoming("from-kafka")
+    public void receiveFromKafka(TimedEntry message) {
+        System.out.println("Received from Kafka, storing it in database: " + message);
+        dbBean.store(message);
+    }
+} // MessagingBean - END
+----
+You might have noticed that up to, and including, the `sendToKafka()` method the `@Incoming.value()` matches the `@Outgoing.value()` of the prior method. This indicates that these streams (`source`, `filter` and `sender`) are handled in memory by the Reactive Messaging implementation.
+
+For the last two methods this is different and there is no such pairing. The `sendToKafka()` method sends its data to the `to-kafka` stream:
+[source, java]
+----
+    ...
+    @Outgoing("to-kafka")
+    public Publisher<TimedEntry> sendToKafka(Publisher<String> messages) {
+       ...
+    }
+----
+However, there are no methods annotated with `@Incoming("to-kafka)`.
+
+And the `receiveFromKafka()` method is expecting to receive data from the `from-kafka` stream:
+[source, java]
+----
+    @Incoming("from-kafka")
+    public void receiveFromKafka(TimedEntry message) {
+       ...
+    }
+----
+Again, there are no methods annotated with `@Outgoing("from-kafka")`.
+
+These 'unpaired' sets of methods indicate that we do not want to use an in-memory stream, and want to use an external system for these streams. If we were try to deploy the MessagingBean in this state the application would fail to deploy. To fix this, and tell it what to map onto, we need to provide some configuration.
+
+==== Mapping Streams to Kafka using MicroProfile Config
+To map 'unpaired' streams onto Kafka we need to add a MicroProfile Config file to configure these streams.
+
+Create a file called `src/main/resources/META-INF/microprofile-config.properties` and add the following:
+
+[source,properties]
+----
+mp.messaging.connector.smallrye-kafka.bootstrap.servers=localhost:9092
+
+mp.messaging.outgoing.to-kafka.connector=smallrye-kafka
+mp.messaging.outgoing.to-kafka.topic=testing
+mp.messaging.outgoing.to-kafka.value.serializer=org.wildfly.quickstarts.microprofile.reactive.messaging.TimedEntrySerializer
+
+# Configure the Kafka source (we read from it)
+mp.messaging.incoming.from-kafka.connector=smallrye-kafka
+mp.messaging.incoming.from-kafka.topic=testing
+mp.messaging.incoming.from-kafka.value.deserializer=org.wildfly.quickstarts.microprofile.reactive.messaging.TimedEntryDeserializer
+
+----
+
+The MicroProfile Reactive Messaging specification mandates the following pre-fixes:
+
+* `mp.messaging.connector.` - used to set overall configuration for your application.
+* `mp.messaging.outgoing.` - used to configure streams we are writing to from methods annotated with `@Outgoing`. The next element determines the name of the stream as identified in the `@Outgoing` annotation so all the properties starting with `mp.messaging.outgoing.to-kafka` are used to configure the writing done by the `sendToKafka()` method which is annotated with `@Outgoing("to-kafka")`.
+* `mp.messaging.incoming.` - used to configure streams we are reading from in methods annotated with `@Incoming`. The next element determines the name of the stream as identified in the `@Incoming` annotation so all the properties starting with `mp.messaging.incoming.from-kafka` are used to configure the reading done by the `receiveFromKafka()` method which is annotated with `@Incoming("from-kafka")`.
+
+What comes after these prefixes is vendor dependent. We use the SmallRye implementation of MicroProfile Reactive Messaging.
+
+At the application level, the `mp.messaging.connector.smallrye-kafka.bootstrap.servers` property says that all conections to Kafka in this application should go to `localhost:9092`. This is not strictly necessary, since this value is the default that would be used if not specified. If we wanted to override this for say the `@Outgoing("to-kafka")` annotated `sendToKafka()` method we could specify this with a property such as:
+
+[source, properties]
+----
+mp.messaging.outgoing.to-kafka.bootstrap.servers=otherhost:9092
+----
+
+For the incoming and outgoing properties we can see that they all specify that they should use the `smallrye-kafka` connector and that the outgoing one writes to the same topic, `testing`, as the incoming one reads from.
+
+Finally we see that the outgoing configuration uses a `TimedEntrySerializer` while the incoming one uses `TimedEntryDeserializer`. Kafka just deals with byte streams, so we need to tell it how to serialize the data we are sending and how to deserialize the data we are receiving. As seen is configured with properties of the form `mp.messaging.outgoing.<stream name>.value.serializer` and `mp.messaging.incoming.<stream name>.value.deserializer`. The link:https://kafka.apache.org/27/javadoc/org/apache/kafka/common/serialization/package-summary.html[org.apache.kafka.common.serialization] package contains implementations of serializers and deserializers for simple data types and constructs such as maps.
+
+===== Custom (De)Serializers
+In our case the data we are sending to and receiving from Kafka is not a simple object. It is an object of a class defined in our application, so we need to define our own serialization and deserialization. Luckily, this is easy. We just need to implement the link:https://kafka.apache.org/27/javadoc/org/apache/kafka/common/serialization/Serializer.html[org.apache.kafka.common.serialization.Serializer] and link:https://kafka.apache.org/27/javadoc/org/apache/kafka/common/serialization/Deserializer.html[org.apache.kafka.common.serialization.Deserializer] interfaces.
+
+Here is our `TimedEntrySerializer`:
+
+[source,java]
+----
+package org.wildfly.quickstarts.microprofile.reactive.messaging;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+
+import org.apache.kafka.common.serialization.Serializer;
+
+public class TimedEntrySerializer implements Serializer<TimedEntry> {
+    @Override
+    public byte[] serialize(String topic, TimedEntry data) {
+        if (data == null) {
+            return null;
+        }
+
+        try {
+            ByteArrayOutputStream bout = new ByteArrayOutputStream();
+            ObjectOutputStream out = new ObjectOutputStream(bout);
+            out.writeLong(data.getTime().getTime());
+            out.writeUTF(data.getMessage());
+            out.close();
+            return bout.toByteArray();
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+
+    }
+}
+----
+
+And here is our `TimedEntryDeserializer`:
+
+[source,java]
+----
+package org.wildfly.quickstarts.microprofile.reactive.messaging;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.sql.Timestamp;
+
+import org.apache.kafka.common.serialization.Deserializer;
+
+public class TimedEntryDeserializer implements Deserializer<TimedEntry> {
+
+    @Override
+    public TimedEntry deserialize(String topic, byte[] data) {
+        if (data == null) {
+            return null;
+        }
+        try (ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(data))){
+            Timestamp time = new Timestamp(in.readLong());
+            String message = in.readUTF();
+            return new TimedEntry(time, message);
+        } catch (IOException e){
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+}
+----
+
+As you can see the serializer writes the time as a Long, and the message as a string, and the deserializer reads them in the same order. Then in our `microprofile-config.properties` above we saw how to make Kafka use our classes for serialization and deserialization.
+
+### Storing Data in an RDBMS
+We have covered all the reactive messaging parts, but have missed out how the `MessagingBean.receiveFromKafka()` stores data via the `DatabaseBean`. This is not the focus of this QuickStart, so we will just mention how this works quickly.
+
+This is the definition of `DatabaseBean`:
+
+[source,java]
+----
+package org.wildfly.quickstarts.microprofile.reactive.messaging;
+
+import java.util.List;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
+
+@ApplicationScoped
+public class DatabaseBean {
+
+    @PersistenceContext(unitName = "test")
+    EntityManager em;
+
+    @Transactional
+    public void store(Object entry) {
+        em.persist(entry);
+    }
+
+    public List<TimedEntry> loadAllTimedEntries() {
+        TypedQuery<TimedEntry> query = em.createQuery("SELECT t from TimedEntry t", TimedEntry.class);
+        List<TimedEntry> result = query.getResultList();
+        return result;
+    }
+}
+----
+It injects an `EntityManager` for the persitence context `test`, which is defined in the `src/main/resources/META-INF/persistence.xml` file:
+[source, java]
+----
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.2"
+             xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="
+        http://xmlns.jcp.org/xml/ns/persistence
+        http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
+    <persistence-unit name="test">
+        <jta-data-source>java:jboss/datasources/ExampleDS</jta-data-source>
+        <properties>
+            <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
+        </properties>
+    </persistence-unit>
+</persistence>
+----
+The `DatabaseBean.store()` method saves the `TimedEntry` and the `DatabaseBean.loadAllTimedEntries()` method loads all the ones we stored.
+
+It is worth pointing out that the `@Incoming` and `@Outgoing` annotated methods called by the Reactive Messaging implementation (such as `MessagingBean.receiveFromKafka()`) happen outside of user space, so there is no @Transaction associated with them. So we need to annotated the `DatabaseBean.store()` method with `@Transactional` in order to save our entry to the database.
+
+### Viewing the Data Stored in the RDBMS
+Finally, we would like to be able to view the data that was stored in the database. To do this we will add a JAX-RS endpoint that queries the database by calling `DatabaseBean.loadAllTimedEntries()`.
+
+[source,java]
+----
+package org.wildfly.quickstarts.microprofile.reactive.messaging;
+
+import java.util.List;
+
+import javax.inject.Inject;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+
+@Path("/")
+public class RootResource {
+
+    @Inject
+    DatabaseBean dbBean;
+
+    @GET
+    @Produces(MediaType.TEXT_PLAIN)
+    public String getRootResponse() {
+        List<TimedEntry> entries = dbBean.loadAllTimedEntries();
+        StringBuffer sb = new StringBuffer();
+        for (TimedEntry t : entries) {
+            sb.append(t);
+            sb.append("\n");
+        }
+        return sb.toString();
+    }
+}
+
+----
+
+We expose our JAX-RS application at the context path:
+
+[source,java]
+----
+package org.wildfly.quickstarts.microprofile.reactive.messaging;
+
+import javax.ws.rs.ApplicationPath;
+import javax.ws.rs.core.Application;
+
+@ApplicationPath("/")
+public class JaxRsApplication extends Application {
+}
+
+----
+
+Now you should be able to compile the application and prepare it for deployment.
+
+=== Running the Application on a Standalone {productName} Server
+
+We need to first start Apache Kafka. Then we will run the {productName} server and deploy our application to the server.
+
+
+== Running the Apache Kafka Service
+
+To run the Apache Kafka service we will use its Docker container. Note that this also requires Apache Zookeeper, so rather than a simple `docker run` command this quickstart directory contains a `docker-compose.yaml` file defining the two Docker containers needed. The
+file can be found link:./docker-compose.yaml[here].
+
+NOTE: If you don't have Docker installed on your machine please follow the
+instructions at https://www.docker.com/get-started.
+
+Run the following command from this folder:
+
+[source]
+----
+docker-compose up
+----
+
+NOTE: This can take a minute.
+
+== Build and Deploy the Initial Application
+Let's check that our application works!
+
+. Make sure xref:start_the_eap_standalone_server[the {productName} server is started] as described above.
+. {productName} ships with all the modules to run MicroProfile Reactive Messaging applications with Kafka, but the functionality is not enabled out of the box, so we need to enable it. Run: `$ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=enable-reactive-messaging.cli` to set everything up. The `enable-reactive-messaging.cli` file used can be found link:enable-reactive-messaging.cli[here].
+. Open new terminal and navigate to the root directory of your project.
+. Type the following command to build and deploy the project:
+
+[source,options="nowrap"]
+----
+$ mvn clean package wildfly:deploy
+----
+
+Now we should see output in the server console. First, we see output for the the ones in the determined order:
+[source, options="nowrap"]
+----
+7:34:53,388 INFO  [org.jboss.as.server] (management-handler-thread - 2) WFLYSRV0010: Deployed "microprofile-reactive-messaging-kafka.war" (runtime-name : "microprofile-reactive-messaging-kafka.war")
+17:34:55,266 INFO  [stdout] (pool-50-thread-1) Received Hello
+17:34:55,285 INFO  [stdout] (vert.x-eventloop-thread-0) Received from Kafka, storing it in database: TimedEntry{time=2021-01-26 17:34:55.267, message='Hello'}
+17:34:57,263 INFO  [stdout] (pool-50-thread-1) Received world
+17:34:59,264 INFO  [stdout] (pool-50-thread-1) Received Reactive
+17:35:01,265 INFO  [stdout] (pool-50-thread-1) Received Messaging
+17:35:03,264 INFO  [stdout] (pool-50-thread-1) Received with
+17:35:05,266 INFO  [stdout] (pool-50-thread-1) Received Kafka
+17:35:05,275 INFO  [stdout] (vert.x-eventloop-thread-0) Received from Kafka, storing it in database: TimedEntry{time=2021-01-26 17:35:05.266, message='Kafka'}
+----
+Then we get another section where it is using the randomised order
+[source, options="nowrap"]
+----
+17:35:07,264 INFO  [stdout] (pool-50-thread-1) Received Kafka
+17:35:07,274 INFO  [stdout] (vert.x-eventloop-thread-0) Received from Kafka, storing it in database: TimedEntry{time=2021-01-26 17:35:07.265, message='Kafka'}
+17:35:09,266 INFO  [stdout] (pool-50-thread-1) Received Reactive
+17:35:11,266 INFO  [stdout] (pool-50-thread-1) Received world
+17:35:13,261 INFO  [stdout] (pool-50-thread-1) Received Hello
+17:35:13,268 INFO  [stdout] (vert.x-eventloop-thread-0) Received from Kafka, storing it in database: TimedEntry{time=2021-01-26 17:35:13.261, message='Hello'}
+17:35:15,262 INFO  [stdout] (pool-50-thread-1) Received Kafka
+17:35:15,270 INFO  [stdout] (vert.x-eventloop-thread-0) Received from Kafka, storing it in database: TimedEntry{time=2021-01-26 17:35:15.262, message='Kafka'}
+----
+
+In both parts of the log we see that all messages reach the `logAllMessages()` method, while only `Hello` and `Kafka` reach the `receiveFromKafka()` method which saves them to the RDBMS.
+
+To inspect what was stored in the database, go to http://localhost:8080/microprofile-reactive-messaging-kafka in  your browser and you should see something like:
+
+[source, options="nowrap"]
+----
+TimedEntry{id=1, time=2021-01-26 17:34:55.267, message='Hello'}
+TimedEntry{id=2, time=2021-01-26 17:35:05.266, message='Kafka'}
+TimedEntry{id=3, time=2021-01-26 17:35:07.265, message='Kafka'}
+TimedEntry{id=4, time=2021-01-26 17:35:13.261, message='Hello'}
+TimedEntry{id=5, time=2021-01-26 17:35:15.262, message='Kafka'}
+----
+The timestamps of the entries in the browser match the ones we saw in the server logs.
+
+
+ifdef::EAPXPRelease[]
+// Getting Started with OpenShift
+include::../shared-doc/xp-openshift-getting-started.adoc[leveloffset=+1]
+//Prepare OpenShift for Quickstart Deployment
+include::../shared-doc/xp-create-project.adoc[leveloffset=+2]
+// Import the Latest {xpaasproduct-shortname} Image Streams and Templates
+include::../shared-doc/xp-import-imagestreams-templates.adoc[leveloffset=+2]
+// Install AMQ Streams
+include::../shared-doc/xp-install-amq-streams.adoc[leveloffset=+2]
+// Deploy the {ProductShortName} Source-to-Image (S2I) Quickstart to OpenShift
+include::../shared-doc/xp-deploy-project.adoc[leveloffset=+2]
+// Post deployment tasks
+include::../shared-doc/xp-post-deployment-tasks.adoc[leveloffset=+2]
+endif::[]
+
+//Bootable JAR
+include::../shared-doc/build-and-run-the-quickstart-with-bootable-jar.adoc[leveloffset=+1]
+
+== Conclusion
+
+MicroProfile Reactive Messaging and Reactive Streams Operators allow you to publish to, process and consume streams, optionally backed by Kafka, by adding `@Incoming` and `@Outgoing` annotations to your methods. 'Paired' streams work in memory. To map 'un-paired' streams to be backed by Kafka you need to provide configuration via MicroProfile Config.
