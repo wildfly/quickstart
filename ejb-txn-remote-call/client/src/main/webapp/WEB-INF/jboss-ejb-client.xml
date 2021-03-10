@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!--
+    JBoss, Home of Professional Open Source
+    Copyright 2021, Red Hat, Inc. and/or its affiliates, and individual
+    contributors by the @authors tag. See the copyright.txt in the
+    distribution for a full listing of individual contributors.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+
+<!-- check about cluster here: https://access.redhat.com/documentation/en-us/red_hat_jboss_enterprise_application_platform/7.1/html/developing_ejb_applications/clustered_enterprise_javabeans#standalone_and_in_server_client_configuration -->
+<jboss-ejb-client xmlns:xsi="urn:jboss:ejb-client:1.2" xsi:noNamespaceSchemaLocation="jboss-ejb-client_1_2.xsd">
+  <client-context>
+      <ejb-receivers>
+          <remoting-ejb-receiver outbound-connection-ref="remote-ejb-connection"/>
+      </ejb-receivers>
+  </client-context>
+</jboss-ejb-client>

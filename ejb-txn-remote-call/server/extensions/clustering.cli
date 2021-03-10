@@ -1,0 +1,66 @@
+# setup from cli.*.properties
+set serverConfig=${serverConfig}
+
+embed-server --std-out=echo  --server-config=$serverConfig
+
+echo "Adding jgroups extension and subsystem..."
+
+# adding jgroups extension for clustering may start use kube ping protocol
+batch
+/socket-binding-group=standard-sockets/socket-binding=jgroups-tcp:add(port=7600)
+/extension=org.jboss.as.clustering.jgroups:add()
+/subsystem=jgroups:add()
+run-batch
+batch
+/subsystem=jgroups/stack=tcp:add(transport={type=TCP, socket-binding=jgroups-tcp},protocols=[{type=kubernetes.KUBE_PING},{type=MERGE3},{type=FD_SOCK},{type=FD_ALL},{type=VERIFY_SUSPECT},{type=pbcast.NAKACK2},{type=UNICAST3},{type=pbcast.STABLE},{type=pbcast.GMS},{type=MFC},{type=FRAG3}])
+/subsystem=jgroups/channel=ee:add(stack=tcp,cluster=ejb)
+/subsystem=jgroups:write-attribute(name=default-channel, value=ee)
+run-batch
+
+echo "Rewriting infinispan caches configuration to dist..."
+
+# server cache-container
+batch
+/subsystem=infinispan/cache-container=server:list-add(name=aliases, value="cluster singleton")
+/subsystem=infinispan/cache-container=server/transport=jgroups:add(lock-timeout=60000)
+/subsystem=infinispan/cache-container=server/local-cache=default:remove
+/subsystem=infinispan/cache-container=server/replicated-cache=default:add
+/subsystem=infinispan/cache-container=server/replicated-cache=default/component=transaction:add(mode=BATCH)
+run-batch
+
+# ejb cache-container
+batch
+/subsystem=infinispan/cache-container=ejb/transport=jgroups:add(lock-timeout=60000)
+/subsystem=infinispan/cache-container=ejb/distributed-cache=dist:add()
+/subsystem=infinispan/cache-container=ejb/distributed-cache=dist/store=file:add()
+/subsystem=infinispan/cache-container=ejb:write-attribute(name=default-cache, value=dist)
+run-batch
+reload --start-mode=admin-only
+batch
+/subsystem=infinispan/cache-container=ejb/distributed-cache=dist/component=transaction:write-attribute(name=mode,value=BATCH)
+/subsystem=infinispan/cache-container=ejb/distributed-cache=dist/component=locking:write-attribute(name=isolation, value=REPEATABLE_READ)
+/subsystem=infinispan/cache-container=ejb/local-cache=passivation:remove
+run-batch
+
+# web cache-container
+batch
+/subsystem=infinispan/cache-container=web/transport=jgroups:add(lock-timeout=60000)
+/subsystem=infinispan/cache-container=web/distributed-cache=dist:add()
+/subsystem=infinispan/cache-container=web/distributed-cache=dist/store=file:add(passivation=true, purge=false)
+/subsystem=infinispan/cache-container=web:write-attribute(name=default-cache, value=dist)
+run-batch
+batch
+/subsystem=infinispan/cache-container=web/distributed-cache=dist/component=transaction:write-attribute(name=mode,value=BATCH)
+/subsystem=infinispan/cache-container=web/distributed-cache=dist/component=locking:write-attribute(name=isolation, value=REPEATABLE_READ)
+/subsystem=infinispan/cache-container=web/local-cache=passivation:remove
+run-batch
+
+# needed for ejb client works fine with multiple servers in ha cluster
+if (result == undefined) of /socket-binding-group=standard-sockets/socket-binding=http:read-attribute(name=client-mappings)
+  echo "Configuring server socket binding with client-mappings..."
+  /socket-binding-group=standard-sockets/socket-binding=http:list-add(name=client-mappings, value={destination-address="${env.HOSTNAME}.${env.STATEFULSET_HEADLESS_SERVICE_NAME}"})
+end-if
+
+echo "clustering.cli script finished"
+
+quit

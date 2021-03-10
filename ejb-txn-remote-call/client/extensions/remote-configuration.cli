@@ -1,0 +1,58 @@
+# setup from cli.*.properties
+set remoteDeploymentName=${remoteDeploymentName}
+set remoteServerHost=${remoteServerHost}
+set remoteServerPort=${remoteServerPort}
+set remoteServerUsername=${remoteServerUsername}
+set remoteServerPassword=${remoteServerPassword}
+set serverConfig=${serverConfig}
+set clientMappingsSocketBinding=${clientMappingsSocketBinding}
+
+# running embeded server with server config
+embed-server --server-config=$serverConfig
+
+/system-property=remote.server.host:add(value=$remoteServerHost)
+/system-property=remote.server.port:add(value=$remoteServerPort)
+/system-property=remote.server.username:add(value=quickstartUser)
+/system-property=remote.server.password:add(value=quickstartPwd1!)
+/system-property=remote.deployment.name:add(value=$remoteDeploymentName)
+/system-property=client.mappings.socket.binding:add(value=$clientMappingsSocketBinding)
+
+echo "System properties defined"
+
+/socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=server2:add(host=${remote.server.host}, port=${remote.server.port})
+
+echo "Outbound socket binding 'server2' created"
+
+# adding password realm where secret is password 'quickstartUser' converted to base64 format
+/core-service=management/security-realm=RemotePasswordRealm:add()
+/core-service=management/security-realm=RemotePasswordRealm/server-identity=secret:add(value="cXVpY2tzdGFydFB3ZDEh")
+# reload # when would be run not in embed mode
+
+echo "Security realm 'RemotePasswordRealm' created"
+
+/subsystem=remoting/remote-outbound-connection=remote-ejb-connection:add(outbound-socket-binding-ref=server2, username=${remote.server.username}, security-realm=RemotePasswordRealm, protocol=remote+http)
+/subsystem=remoting/remote-outbound-connection=remote-ejb-connection/property=SASL_POLICY_NOANONYMOUS:add(value=false)
+/subsystem=remoting/remote-outbound-connection=remote-ejb-connection/property=SSL_ENABLED:add(value=false)
+/subsystem=remoting/remote-outbound-connection=remote-ejb-connection/property=SASL_DISALLOWED_MECHANISMS:add(value=JBOSS-LOCAL-USER)
+
+echo "Remote outbound connection 'remote-ejb-connection' created"
+
+# for transaction manager could be asked for recovery to be started the listener at port has to be enabled (JVM restart needed)
+/subsystem=transactions:write-attribute(name=recovery-listener,value=true)
+echo "Transaction recovery listener enabled"
+# the recovery listener is normally bound at port 4712, you can verify it with:
+# /socket-binding-group=standard-sockets/socket-binding=txn-recovery-environment:read-attribute(name=bound-port)
+# for recovery invocation you can use e.g.: `telnet localhost 4712`; enter 'SCAN' on input
+
+# to get detailed insight on what happening during transaction processing switch on the TRACE logging for Narayana
+# /subsystem=logging/logger=com.arjuna:write-attribute(name=level,value=TRACE)
+
+# needed for ejb client works fine with multiple servers in ha cluster
+if (result == undefined) of /socket-binding-group=standard-sockets/socket-binding=http:read-attribute(name=client-mappings)
+  echo "Configuring server socket binding with client-mappings..."
+  /socket-binding-group=standard-sockets/socket-binding=http:list-add(name=client-mappings, value={destination-address="${client.mappings.socket.binding}"})
+end-if
+
+echo "remote-configuration.cli script finished"
+
+quit

@@ -1,0 +1,35 @@
+apiVersion: wildfly.org/v1alpha1
+kind: WildFlyServer
+metadata:
+  name: server
+spec:
+  applicationImage: "image-registry.openshift-image-registry.svc:5000/ejb-txn-remote-call-project/server:latest"
+  replicas: 2
+  env:
+    - name: DB_SERVICE_PREFIX_MAPPING
+      value: test-postgresql=TEST
+    - name: TEST_NONXA
+      value: false
+    - name: TEST_JNDI
+      value: java:jboss/datasources/ejbJtaDs
+    - name: TEST_POSTGRESQL_SERVICE_HOST
+      value: postgresql
+    - name: TEST_POSTGRESQL_SERVICE_PORT
+      value: '5432'
+    - name: TEST_DRIVER
+      value: postgresql
+    - name: TEST_DATABASE
+      valueFrom:
+        secretKeyRef:
+          name: postgresql
+          key: database-name
+    - name: TEST_USERNAME
+      valueFrom:
+        secretKeyRef:
+          name: postgresql
+          key: username
+    - name: TEST_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: postgresql
+          key: password
