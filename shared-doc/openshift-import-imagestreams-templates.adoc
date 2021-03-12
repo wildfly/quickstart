@@ -2,14 +2,43 @@
 [[import_imagestreams_templates]]
 = Import the Latest {xpaasproduct-shortname} Imagestreams and Templates
 
-You must import the latest {xpaasproduct-shortname} imagestreams and templates for your JDK into the namespace of your OpenShift project.
-
 [IMPORTANT]
 ====
-Log in to the Red Hat Container Registry using your Customer Portal credentials to import the JBoss EAP imagestreams and templates. For more information, see link:https://access.redhat.com/RegistryAuthentication[Red Hat Container Registry Authentication] on the Red Hat Customer Portal.
+If you are building and deploying this quickstart on {xpaasproduct-shortname}, you must configure authentication to the {ContainerRegistryName} before you import the image streams and templates into your namespace. link:{LinkOpenShiftGuide}#container_registry_authentication[_{EapForOpenshiftBookName}_] provides an example of one way to configure authentication to the registry. For additional information, see link:https://access.redhat.com/RegistryAuthentication[Red Hat Container Registry Authentication] on the Red Hat Customer Portal.
+
+Configuration of authentication to the registry is not necessary if you are building and deploying this quickstart on {xpaasproductOpenShiftOnline-shortname}.
 ====
 
-== Import command for JDK 8
+.Procedure
+
+. Use the following commands to import the latest JDK 8 and JDK 11 image streams and templates for the OpenShift image for {xpaasproduct-shortname}, into your OpenShift project's namespace.
+
+.. Import JDK 8 image streams:
++
+[options="nowrap",subs="+attributes"]
+----
+oc replace --force -f {ImageandTemplateImportURL}{ImagePrefixVersion}-openjdk8-image-stream.json
+----
++
+This command imports the following imagestreams:
+
+* The JDK 8 builder imagestream: jboss-{ImagePrefixVersion}-openjdk8-openshift
+* The JDK 8 runtime imagestream: jboss-{ImagePrefixVersion}-openjdk8-runtime-openshift
++
+.. Import JDK 11 image stream:
++
+[options="nowrap",subs="+attributes"]
+----
+oc replace --force -f {ImageandTemplateImportURL}{ImagePrefixVersion}-openjdk11-image-stream.json
+----
++
+This command imports the following imagestreams:
+
+* The JDK 11 builder imagestream: jboss-{ImagePrefixVersion}-openjdk11-openshift
+* The JDK 11 runtime imagestream: jboss-{ImagePrefixVersion}-openjdk11-runtime-openshift
++
+.. Import the JDK 8 and JDK 11 templates:
++
 [options="nowrap",subs="+attributes"]
 ----
 for resource in \
@@ -17,49 +46,19 @@ for resource in \
   {ImagePrefixVersion}-amq-s2i.json \
   {ImagePrefixVersion}-basic-s2i.json \
   {ImagePrefixVersion}-https-s2i.json \
-  {ImagePrefixVersion}-image-stream.json \
   {ImagePrefixVersion}-sso-s2i.json \
   {ImagePrefixVersion}-starter-s2i.json \
   {ImagePrefixVersion}-third-party-db-s2i.json \
   {ImagePrefixVersion}-tx-recovery-s2i.json
 do
   oc replace --force -f \
-{ImageandTemplateImportURL}${resource}
+{ImageandTemplateImportURL}templates/${resource}
 done
 ----
-This command imports the following imagestreams and templates:
-
-* The JDK 8 builder imagestream: jboss-{ImagePrefixVersion}-openshift
-* The JDK 8 runtime imagestream: jboss-{ImagePrefixVersion}-runtime-openshift
-* All templates specified in the command.
-
-== Import command for JDK 11
-[options="nowrap",subs="+attributes"]
-----
-for resource in \
-  {ImagePrefixVersion}-openjdk11-amq-persistent-s2i.json \
-  {ImagePrefixVersion}-openjdk11-amq-s2i.json \
-  {ImagePrefixVersion}-openjdk11-basic-s2i.json \
-  {ImagePrefixVersion}-openjdk11-https-s2i.json \
-  {ImagePrefixVersion}-openjdk11-image-stream.json \
-  {ImagePrefixVersion}-openjdk11-sso-s2i.json \
-  {ImagePrefixVersion}-openjdk11-starter-s2i.json \
-  {ImagePrefixVersion}-openjdk11-third-party-db-s2i.json \
-  {ImagePrefixVersion}-openjdk11-tx-recovery-s2i.json
-do
-  oc replace --force -f \
-{ImageandTemplateImportURL}${resource}
-done
-----
-This command imports the following imagestreams and templates:
-
-* The JDK 11 builder imagestream: jboss-{ImagePrefixVersion}-openjdk11-openshift
-* The JDK 11 runtime imagestream: jboss-{ImagePrefixVersion}-openjdk11-runtime-openshift
-* All templates specified in the command.
 
 [NOTE]
 ====
-The {ProductShortName} image streams and templates imported using the above commands are only available within that OpenShift project.
+The {ProductShortName} image streams and templates imported using the above command are only available within that OpenShift project.
 
 If you have administrative access to the general `openshift` namespace and want the image streams and templates to be accessible by all projects, add `-n openshift` to the `oc replace` line of the command. For example:
 
