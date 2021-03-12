@@ -8,6 +8,8 @@
 [options="nowrap",subs="+attributes"]
 ----
 $ oc new-app --template={ImagePrefixVersion}-basic-s2i {backslash}
+ -p EAP_IMAGE_NAME=jboss-{ImagePrefixVersion}-openjdk8-openshift:latest {backslash}
+ -p EAP_RUNTIME_IMAGE_NAME=jboss-{ImagePrefixVersion}-openjdk8-runtime-openshift:latest {backslash}
  -p IMAGE_STREAM_NAMESPACE="{artifactId}-project" {backslash}
  -p SOURCE_REPOSITORY_URL="{EAPQuickStartRepo}" {backslash}
  -p SOURCE_REPOSITORY_REF="{EAPQuickStartRepoRef}" {backslash}
@@ -32,7 +34,9 @@ Alternatively, to create the quickstart application using the JDK 11 images ente
 +
 [options="nowrap",subs="+attributes"]
 ----
-$ oc new-app --template={ImagePrefixVersion}-openjdk11-basic-s2i {backslash}
+$ oc new-app --template={ImagePrefixVersion}-basic-s2i {backslash}
+ -p EAP_IMAGE_NAME=jboss-{ImagePrefixVersion}-openjdk11-openshift:latest \
+ -p EAP_RUNTIME_IMAGE_NAME=jboss-{ImagePrefixVersion}-openjdk11-runtime-openshift:latest \
  -p IMAGE_STREAM_NAMESPACE="{artifactId}-project" {backslash}
  -p SOURCE_REPOSITORY_URL="{EAPQuickStartRepo}" {backslash}
  -p SOURCE_REPOSITORY_REF="{EAPQuickStartRepoRef}" {backslash}
