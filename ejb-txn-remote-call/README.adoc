@@ -559,7 +559,8 @@ which deploys the database on your OpenShift instance
 # change path to ${PATH_TO_QUICKSTART_DIR}
 cd ${PATH_TO_QUICKSTART_DIR}
 # deploy not-production ready XA capable PostgreSQL database to OpenShift
-oc create -f ejb-txn-remote-call/client/extensions/postgresql.deployment.yaml
+oc new-app --namespace=$(oc project -q) \
+           --file=${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call/client/extensions/postgresql.deployment.yaml
 ----
 
 [#_running_on_openshift_build_the_application]
@@ -575,34 +576,74 @@ but it's big as it contains many dependencies needed only for the build.
 The chain build defines the next step which is to get the runtime image
 and copy there the configured {productName} server with the application.
 
+ifndef::ProductRelease,EAPCDRelease,EAPXPRelease[]
 [source,sh,options="nowrap",subs="+quotes,attributes+"]
 ----
 # Install builder image streams
-oc create -f https://raw.githubusercontent.com/wildfly/wildfly-s2i/v22.0/imagestreams/wildfly-centos7.json
+oc create -f {ImageandTemplateImportURL}imagestreams/wildfly-centos7.json
 # Install runtime image streams
-oc create -f https://raw.githubusercontent.com/wildfly/wildfly-s2i/v22.0/templates/wildfly-runtime-imagestream.yml
+oc create -f {ImageandTemplateImportURL}imagestreams/wildfly-runtime-centos7.json
 
 # Deploy template with chain build to get the quickstart
 # being deployed within runtime image
-oc create -f https://raw.githubusercontent.com/wildfly/wildfly-s2i/v22.0/templates/wildfly-s2i-chained-build-template.yml
+oc create -f {ImageandTemplateImportURL}templates/wildfly-s2i-chained-build-template.yml
 ----
+endif::[]
+
+ifdef::ProductRelease,EAPCDRelease,EAPXPRelease[]
+[source,sh,options="nowrap",subs="+quotes,attributes+"]
+----
+# Install builder and runtime image streams
+oc create -f {ImageandTemplateImportURL}{ImagePrefixVersion}-openjdk11-image-stream.json
+
+# Deploy template with chain build to get the quickstart
+# being deployed within runtime image
+oc create -f {ImageandTemplateImportURL}templates/{ImagePrefixVersion}-basic-s2i.json
+----
+endif::[]
 
 The final step for starting the application start
 is the `s2i` chain build execution.
 
+ifndef::ProductRelease,EAPCDRelease,EAPXPRelease[]
 [source,sh,options="nowrap",subs="+quotes,attributes+"]
 ----
 # s2i chain build for client application
 oc new-app --template=wildfly-s2i-chained-build-template \
   -p IMAGE_STREAM_NAMESPACE=$(oc project -q) \
-  -p APPLICATION_NAME=client -p GIT_REPO=https://github.com/wildfly/quickstart.git \
-  -p GIT_BRANCH=master -p GIT_CONTEXT_DIR=ejb-txn-remote-call/client
+  -p APPLICATION_NAME=client -p GIT_REPO={githubRepoUrl} \
+  -p GIT_BRANCH={productVersion}.0.0.Final \
+  -p GIT_CONTEXT_DIR=ejb-txn-remote-call/client
 # s2i chain build for server application
 oc new-app --template=wildfly-s2i-chained-build-template \
   -p IMAGE_STREAM_NAMESPACE=$(oc project -q) \
-  -p APPLICATION_NAME=server -p GIT_REPO=https://github.com/wildfly/quickstart.git \
-  -p GIT_BRANCH=master -p GIT_CONTEXT_DIR=ejb-txn-remote-call/server
+  -p APPLICATION_NAME=server -p GIT_REPO={githubRepoUrl} \
+  -p GIT_BRANCH={productVersion}.0.0.Final \
+  -p GIT_CONTEXT_DIR=ejb-txn-remote-call/server
 ----
+endif::[]
+
+ifdef::ProductRelease,EAPCDRelease,EAPXPRelease[]
+[source,sh,options="nowrap",subs="+quotes,attributes+"]
+----
+# s2i chain build for client application
+oc new-app --template={ImagePrefixVersion}-basic-s2i \
+  -p IMAGE_STREAM_NAMESPACE=$(oc project -q) \
+  -p APPLICATION_NAME=client -p SOURCE_REPOSITORY_URL={EAPQuickStartRepo} \
+  -p SOURCE_REPOSITORY_REF={EAPQuickStartRepoRef} \
+  -p CONTEXT_DIR=ejb-txn-remote-call/client
+# s2i chain build for server application
+oc new-app --template={ImagePrefixVersion}-basic-s2i \
+  -p IMAGE_STREAM_NAMESPACE=$(oc project -q) \
+  -p APPLICATION_NAME=server -p SOURCE_REPOSITORY_URL={EAPQuickStartRepo} \
+  -p SOURCE_REPOSITORY_REF={EAPQuickStartRepoRef} \
+  -p CONTEXT_DIR=ejb-txn-remote-call/server
+
+# the template works with DeploymentConfig, switching to Operator, no replica needed
+oc patch dc client -p '[{"op":"replace", "path":"/spec/replicas", "value":0}]' --type json
+oc patch dc server -p '[{"op":"replace", "path":"/spec/replicas", "value":0}]' --type json
+----
+endif::[]
 
 Wait for the builds to finish. You can verify the build status by executing
 the `oc get pod` command.
@@ -627,15 +668,47 @@ With the prior step we have got the application image with the server being part
 The next step is to install the {productName} Operator which is responsible
 for managing the life cycle of the application image.
 
+ifndef::ProductRelease,EAPCDRelease,EAPXPRelease[]
 Manual installation of the {productName} Operator on OpenShift is summarized in the script
 https://github.com/wildfly/wildfly-operator/blob/master/build/run-openshift.sh[build/run-openshift.sh].
 
-[NOTE]
-====
-For OpenShift 4 the {productName} Operator is part of the https://operatorhub.io[OperatorHub]
-and can be installed from there.
-The {productName} Operator may be installed directly from the OpenShift console on OpenShift 4.
-====
+[source,sh]
+----
+git clone https://github.com/wildfly/wildfly-operator/
+./wildfly-operator/build/run-openshift.sh
+----
+endif::[]
+
+ifdef::ProductRelease,EAPCDRelease,EAPXPRelease[]
+Consult necessary steps to install the {productName} Operator
+at {productName} documentation
+https://access.redhat.com/documentation/en-us/red_hat_jboss_enterprise_application_platform/
+
+The following steps can be used as a quickstart guide
+
+[source,sh,options="nowrap",subs="+quotes,attributes+"]
+----
+# 1. log in to account with cluster-admin permission
+# 2. create a YAML file containing Subscription object
+cat >> /tmp/eap-operator-sub.yaml << EOF
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: eap
+  namespace: openshift-operators
+spec:
+  channel: alpha
+  installPlanApproval: Automatic
+  name: eap
+  source: redhat-operators
+  sourceNamespace: openshift-marketplace
+EOF
+# 3. create the Subscription object in the OpenShift
+oc apply -f eap-operator-sub.yaml
+# 4. verify the openshift-operators namespace that the object was created
+oc get csv -n openshift-operators
+----
+endif::[]
 
 [#_running_on_openshift_run_the_quickstart_with_productname_operator]
 ==== Running on OpenShift: Run the Quickstart with {productName} Operator
@@ -658,10 +731,10 @@ that, referencing to the <<_running_on_openshift_build_the_application, built ap
 
 [CAUTION]
 ====
-Adjust the value of the `applicationImage` value in the OpenShift deployment template
-`${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call/server/server-cr.yaml` to match the project
-name you are in and that application image was built into.
-It is the most probably {artifactId}-project.
+Adjust the value of the `applicationImage` value in the OpenShift deployment templates
+`${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call/client/client-cr.yaml` and
+`${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call/server/server-cr.yaml`
+to match the project. It is the most probably {artifactId}-project.
 ====
 
 [source,sh,options="nowrap"]
@@ -676,8 +749,7 @@ oc create -f ejb-txn-remote-call/server/server-cr.yaml
 
 If these commands are successful, the `oc get pod` command shows
 all the pods required for the quickstart, namely the quickstart client and two
-server pods, the {productName} Operator pod, and the PostgreSQL database pod
-that the application connects to.
+server pods and the PostgreSQL database pod that the application connects to.
 
 [source,sh,options="nowrap"]
 ----
@@ -686,8 +758,29 @@ client-0                            1/1     Running     0          29m
 postgresql-f9f475f87-l944r          1/1     Running     1          22h
 server-0                            1/1     Running     0          11m
 server-1                            1/1     Running     0          11m
+----
+
+To observe the {productName} Operator look at
+
+ifndef::ProductRelease,EAPCDRelease,EAPXPRelease[]
+[source,sh,options="nowrap",subs="+quotes,attributes+"]
+----
+oc get po -n $(oc project -q)
+
+NAME                                READY   STATUS      RESTARTS   AGE
 wildfly-operator-5d4b7cc868-zfxcv   1/1     Running     1          22h
 ----
+endif::[]
+
+ifdef::ProductRelease,EAPCDRelease,EAPXPRelease[]
+[source,sh,options="nowrap",subs="+quotes,attributes+"]
+----
+oc get po -n openshift-operators
+
+NAME                            READY   STATUS    RESTARTS   AGE
+eap-operator-75c77c789c-2zdnd   1/1     Running   0          86m
+----
+endif::[]
 
 [#_running_on_openshift_verify_the_quickstarts]
 ==== Running on OpenShift: Verify the Quickstarts
