@@ -598,7 +598,7 @@ oc create -f {ImageandTemplateImportURL}{ImagePrefixVersion}-openjdk11-image-str
 
 # Deploy template with chain build to get the quickstart
 # being deployed within runtime image
-oc create -f {ImageandTemplateImportURL}templates/{ImagePrefixVersion}-basic-s2i.json
+oc create -f {ImageandTemplateImportBaseURL}/master/eap-s2i-build.yaml
 ----
 endif::[]
 
@@ -611,13 +611,15 @@ ifndef::ProductRelease,EAPCDRelease,EAPXPRelease[]
 # s2i chain build for client application
 oc new-app --template=wildfly-s2i-chained-build-template \
   -p IMAGE_STREAM_NAMESPACE=$(oc project -q) \
-  -p APPLICATION_NAME=client -p GIT_REPO={githubRepoUrl} \
+  -p APPLICATION_NAME=client \
+  -p GIT_REPO={githubRepoUrl} \
   -p GIT_BRANCH={productVersion}.0.0.Final \
   -p GIT_CONTEXT_DIR=ejb-txn-remote-call/client
 # s2i chain build for server application
 oc new-app --template=wildfly-s2i-chained-build-template \
   -p IMAGE_STREAM_NAMESPACE=$(oc project -q) \
-  -p APPLICATION_NAME=server -p GIT_REPO={githubRepoUrl} \
+  -p APPLICATION_NAME=server \
+  -p GIT_REPO={githubRepoUrl} \
   -p GIT_BRANCH={productVersion}.0.0.Final \
   -p GIT_CONTEXT_DIR=ejb-txn-remote-call/server
 ----
@@ -627,21 +629,23 @@ ifdef::ProductRelease,EAPCDRelease,EAPXPRelease[]
 [source,sh,options="nowrap",subs="+quotes,attributes+"]
 ----
 # s2i chain build for client application
-oc new-app --template={ImagePrefixVersion}-basic-s2i \
-  -p IMAGE_STREAM_NAMESPACE=$(oc project -q) \
-  -p APPLICATION_NAME=client -p SOURCE_REPOSITORY_URL={EAPQuickStartRepo} \
+oc new-app --template=eap-s2i-build \
+  -p EAP_IMAGESTREAM_NAMESPACE=$(oc project -q) \
+  -p APPLICATION_IMAGE=client \
+  -p SOURCE_REPOSITORY_URL={EAPQuickStartRepo} \
   -p SOURCE_REPOSITORY_REF={EAPQuickStartRepoRef} \
-  -p CONTEXT_DIR=ejb-txn-remote-call/client
+  -p CONTEXT_DIR=ejb-txn-remote-call/client \
+  -p EAP_IMAGE={BuildImageStream} \
+  -p EAP_RUNTIME_IMAGE={RuntimeImageStream}
 # s2i chain build for server application
-oc new-app --template={ImagePrefixVersion}-basic-s2i \
-  -p IMAGE_STREAM_NAMESPACE=$(oc project -q) \
-  -p APPLICATION_NAME=server -p SOURCE_REPOSITORY_URL={EAPQuickStartRepo} \
+oc new-app --template=eap-s2i-build \
+  -p EAP_IMAGESTREAM_NAMESPACE=$(oc project -q) \
+  -p APPLICATION_IMAGE=server \
+  -p SOURCE_REPOSITORY_URL={EAPQuickStartRepo} \
   -p SOURCE_REPOSITORY_REF={EAPQuickStartRepoRef} \
-  -p CONTEXT_DIR=ejb-txn-remote-call/server
-
-# the template works with DeploymentConfig, switching to Operator, no replica needed
-oc patch dc client -p '[{"op":"replace", "path":"/spec/replicas", "value":0}]' --type json
-oc patch dc server -p '[{"op":"replace", "path":"/spec/replicas", "value":0}]' --type json
+  -p CONTEXT_DIR=ejb-txn-remote-call/server \
+  -p EAP_IMAGE={BuildImageStream} \
+  -p EAP_RUNTIME_IMAGE={RuntimeImageStream}
 ----
 endif::[]
 
