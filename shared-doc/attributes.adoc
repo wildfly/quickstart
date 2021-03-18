@@ -86,7 +86,10 @@ endif::[]
 :OpenShiftOnlinePlatformName: Red Hat OpenShift Container Platform
 :OpenShiftOnlineName: Red Hat OpenShift Online
 :ImagePrefixVersion: eap74
-:ImageandTemplateImportURL: https://raw.githubusercontent.com/jboss-container-images/jboss-eap-openshift-templates/{ImagePrefixVersion}/
+:ImageandTemplateImportBaseURL: https://raw.githubusercontent.com/jboss-container-images/jboss-eap-openshift-templates
+:ImageandTemplateImportURL: {ImageandTemplateImportBaseURL}/{ImagePrefixVersion}/
+:BuildImageStream: jboss-{ImagePrefixVersion}-openjdk11-openshift
+:RuntimeImageStream: jboss-{ImagePrefixVersion}-openjdk11-runtime-openshift
 
 // OpenShift repository and reference for quickstarts
 :EAPQuickStartRepo: https://github.com/jboss-developer/jboss-eap-quickstarts
@@ -129,7 +132,9 @@ ifdef::EAPXPRelease[]
 :EapForOpenshiftBookName: {productNameFull} for OpenShift
 :EapForOpenshiftOnlineBookName: {productNameFull} for OpenShift Online
 :ImagePrefixVersion: eap-xp3
-:ImageandTemplateImportURL: https://raw.githubusercontent.com/jboss-container-images/jboss-eap-openshift-templates/{ImagePrefixVersion}/
+:ImageandTemplateImportURL: {ImageandTemplateImportBaseURL}/{ImagePrefixVersion}/
+:BuildImageStream: jboss-{ImagePrefixVersion}-openjdk11-openshift
+:RuntimeImageStream: jboss-{ImagePrefixVersion}-openjdk11-runtime-openshift
 // OpenShift repository and reference for quickstarts
 :EAPQuickStartRepoRef: xp-3.0.x
 // Links to the OpenShift documentation
