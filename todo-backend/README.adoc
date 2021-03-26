@@ -272,7 +272,7 @@ $ helm repo add jboss-eap https://jbossas.github.io/eap-charts/
 "jboss-eap" has been added to your repositories
 $ helm search repo jboss-eap
 NAME                    CHART VERSION   APP VERSION     DESCRIPTION
-jboss-eap/eap7          ...             ...             A Helm chart to build and deploy EAP 7 applic...
+jboss-eap/eap74         ...             ...             A Helm chart to build and deploy EAP 7.4 applications
 ----
 endif::[]
 
@@ -295,9 +295,9 @@ ifndef::ProductRelease[]
 
 The backend will be built and deployed on OpenShift with a Helm Chart for {productName}.
 
-[source,options="nowrap"]
+[source,options="nowrap",subs="+attributes"]
 ----
-$ helm install todo-backend -f todo-backend-bootable-jar.yaml wildfly/wildfly
+$ helm install todo-backend --set build.ref={WildFlyQuickStartRepoTag} -f https://raw.githubusercontent.com/wildfly/wildfly-charts/main/examples/todo-backend/todo-backend-bootable-jar.yaml wildfly/wildfly
 NAME: todo-backend
 ...
 STATUS: deployed
@@ -319,9 +319,9 @@ endif::[]
 The backend will be built and deployed on OpenShift with a Helm Chart for {productName}.
 
 ifndef::ProductRelease[]
-[source,options="nowrap"]
+[source,options="nowrap",subs="+attributes"]
 ----
-$ helm install todo-backend -f todo-backend-s2i.yaml wildfly/wildfly
+$ helm install todo-backend --set build.ref={WildFlyQuickStartRepoTag} --set build.s2i.version={productImageVersion} -f https://raw.githubusercontent.com/wildfly/wildfly-charts/main/examples/todo-backend/todo-backend-s2i.yaml wildfly/wildfly
 NAME: todo-backend
 ...
 STATUS: deployed
@@ -329,9 +329,9 @@ REVISION: 1
 ----
 endif::[]
 ifdef::ProductRelease[]
-[source,options="nowrap"]
+[source,options="nowrap",subs="+attributes"]
 ----
-$ helm install todo-backend -f todo-backend-s2i.yaml jboss-eap/eap7
+$ helm install todo-backend --set build.ref={EAPQuickstartRepoTag} -f https://raw.githubusercontent.com/jbossas/eap-charts/main/examples/eap74/todo-backend/todo-backend-s2i.yaml jboss-eap/eap74
 NAME: todo-backend
 ...
 STATUS: deployed
