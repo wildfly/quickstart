@@ -14,8 +14,7 @@ It consists of a server component and a client component:
 
 All code is co-bundled in this projects' WAR src directory.
 
-About the code
-========================
+== About the code
 This project is a Web ARchive (WAR) project. It's src folder contains three packages:
 * hello.client : this is where you find the SOAP based Java application client
 * hello.server.ejb : this is where you find the EJB that exposes a SOAP based view
@@ -38,17 +37,20 @@ You could achieve the same effect using EJB interceptors or CDI interceptors. Th
 But Jakarta EE interceptors are not as powerful as bytecode manipulation can be: with bytecode manipulation you can easily advice unmanaged classes (including static member methods etc), "add/remove" interfaces, fields, methods and so on.
 And you can even advice code that is a third party dependency to your application (say Apache Commons library code).
 
-Deploy the WAR
-========================
-* Start WildFly 10.1.0.Final (or newer)
-* mvn clean install wildfly:deploy
+// System Requirements
+include::../shared-doc/system-requirements.adoc[leveloffset=+1]
+// Use of {jbossHomeName}
+include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
+// Start the {productName} Standalone Server
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
+// Build and Deploy the Quickstart
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
 
-Run the SOAP client
-========================
+== Run the SOAP client
 * mvn compile exec:java
 
-Inspect the server log
-========================
+== Inspect the server log
+
 Note that a single EJB was installed: HelloBean. It exposes a SOAP based interface, which is used by the client application.
 
 Upon deployment you should see something like: "Instrumenting hello.server.ejb.HelloBean" and "Successfully instrumented hello.server.ejb.HelloBean".
@@ -63,7 +65,7 @@ And then check out the class "HelloByteCodeManipulator" which do the manipulatio
 
 Finally: note that the transformer is registered in the WAR' archives META-INF/jboss-deployment-structure.xml file.
 
-/Enjoy what is otherwise normally only performed by advanced Java Agents.
+Enjoy what is otherwise normally only performed by advanced Java Agents.
 
 //*************************************************
 // Product Release content only

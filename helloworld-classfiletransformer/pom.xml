@@ -56,6 +56,7 @@
                 </executions>
                 <configuration>
                     <mainClass>hello.client.HelloClient</mainClass>
+                    <classpathScope>compile</classpathScope>
                 </configuration>
             </plugin>
         </plugins>
@@ -64,24 +65,23 @@
         <dependency>
             <groupId>org.jboss.spec.javax.ejb</groupId>
             <artifactId>jboss-ejb-api_3.2_spec</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.jboss.spec.javax.annotation</groupId>
             <artifactId>jboss-annotations-api_1.3_spec</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.javassist</groupId>
             <artifactId>javassist</artifactId>
             <scope>provided</scope>
         </dependency>
+        <!-- the jaxws client bom provides all dependencies needed for this quickstart client -->
         <dependency>
-            <groupId>org.jboss.spec.javax.xml.ws</groupId>
-            <artifactId>jboss-jaxws-api_2.3_spec</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>javax.jws</groupId>
-            <artifactId>jsr181-api</artifactId>
+            <groupId>org.wildfly</groupId>
+            <artifactId>wildfly-jaxws-client-bom</artifactId>
+            <type>pom</type>
             <scope>provided</scope>
         </dependency>
     </dependencies>
