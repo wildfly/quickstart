@@ -46,7 +46,7 @@ public class HelloClient {
 
     public static void main(String[] args) throws NamingException, MalformedURLException {
 
-        String wsdlUrl = "http://localhost:8080/wildfly-helloworld-classfiletransformers-8.1.0-SNAPSHOT/HelloBean?wsdl";
+        String wsdlUrl = "http://localhost:8080/helloworld-classfiletransformers/HelloBean?wsdl";
 
         Hello webServiceClient = createClient(wsdlUrl, Hello.class);
 

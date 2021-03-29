@@ -60,7 +60,7 @@ public class HelloByteCodeManipulator {
     // ------------------------------------------------------------------------
 
     public boolean shouldAccept(String className) {
-        return className.startsWith(classToAccept);
+        return className.equals(classToAccept);
     }
 
     public byte[] transform(ClassLoader loader, String className, byte[] classfileBuffer) {
