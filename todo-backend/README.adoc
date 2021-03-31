@@ -96,7 +96,10 @@ This backend is built using {productName} S2I Builder and Runtime images. When t
 ----
 build:
   s2i:
-    galleonLayers: cloud-server,postgresql-datasource,ejb
+    galleonLayers:
+      - cloud-server
+      - postgresql-datasource
+      - ejb
 ----
 
 The `cloud-server` and `ejb` layers provides everything need to run the backend on OpenShift. This also includes access to
@@ -348,7 +351,10 @@ build:
   uri: https://github.com/wildfly/quickstart.git
   mode: s2i
   s2i:
-    galleonLayers: cloud-server,postgresql-datasource,ejb
+    galleonLayers: 
+      - cloud-server
+      - postgresql-datasource
+      - ejb
 ----
 endif::[]
 ifdef::ProductRelease[]
@@ -358,7 +364,10 @@ build:
   uri: https://github.com/jboss-developer/jboss-eap-quickstarts.git
   mode: s2i
   s2i:
-    galleonLayers: cloud-server,postgresql-datasource,ejb
+    galleonLayers:
+      - cloud-server
+      - postgresql-datasource
+      - ejb
 ----
 endif::[]
 
