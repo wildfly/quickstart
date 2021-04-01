@@ -374,6 +374,24 @@ build:
 ----
 endif::[]
 
+Any configuration specified by this chart is described in its README that is displayed in OpenShift Dev console
+or using the command:
+
+ifndef::ProductRelease[]
+[source,options="nowrap"]
+----
+$ helm show readme wildfly/wildfly
+----
+endif::[]
+ifdef::ProductRelease[]
+[source,options="nowrap"]
+----
+$ helm show readme jboss-eap/eap74
+----
+endif::[]
+
+
+
 === Environment variables for PostgreSQL
 
 The Helm Chart also contains the environment variables required to connect to the PostgreSQL database.
@@ -428,6 +446,12 @@ We can verify that this application is properly working as a ToDo Backend by run
 
 
 Once all tests passed, we can use the https://todobackend.com/client/index.html[todobackend client] to have a Web application connected to the backend.
+
+[NOTE]
+====
+https://todobackend.com/[todobackend.com] is an external service used to showcase this quickstart.
+It might not always be functional but does not impact the availability of this backend.
+====
 
 === Clean Up
 
