@@ -58,11 +58,10 @@ The layers are defined in the `pom.xml` file in the `<configuration>` section of
 <layers>
   <layer>cloud-server</layer>
   <layer>postgresql-datasource</layer>
-  <layer>ejb-lite</layer>
 </layers>
 ----
 
-The `cloud-server` and `ejb-lite` layers provides everything need to run the backend on OpenShift. This also includes access to
+The `cloud-server` layer provides everything needed to run the backend on OpenShift. This also includes access to
 Jakarta EE APIs such as CDI, JAX-RS, JPA, etc. These two layers comes from the {productName} feature pack provided by the Bootable Jar plugin:
 
 [source,xml]
@@ -99,10 +98,9 @@ build:
     galleonLayers:
       - cloud-server
       - postgresql-datasource
-      - ejb-lite
 ----
 
-The `cloud-server` and `ejb-lite` layers provides everything need to run the backend on OpenShift. This also includes access to
+The `cloud-server` layer provides everything needed to run the backend on OpenShift. This also includes access to
 Jakarta EE APIs such as CDI, JAX-RS, JPA, etc. These two layers comes from the {productName} feature pack provided in the
 {productName} S2I builder image.
 
@@ -357,7 +355,6 @@ build:
     galleonLayers: 
       - cloud-server
       - postgresql-datasource
-      - ejb-lite
 ----
 endif::[]
 ifdef::ProductRelease[]
@@ -370,7 +367,6 @@ build:
     galleonLayers:
       - cloud-server
       - postgresql-datasource
-      - ejb-lite
 ----
 endif::[]
 
