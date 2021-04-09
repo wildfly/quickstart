@@ -1,23 +1,13 @@
-Setup the required repositories (if you don't have them set up globally):
+Setup the required Maven repositories (if you don't have them set up in Maven global settings):
 
 [source,xml]
 ----
 <repositories>
     <repository>
-        <releases>
-            <enabled>true</enabled>
-            <updatePolicy>never</updatePolicy>
-        </releases>
-        <snapshots>
-            <enabled>true</enabled>
-            <updatePolicy>never</updatePolicy>
-        </snapshots>
-        <id>jboss-public-repository-group</id>
-        <name>JBoss Public Repository Group</name>
+        <id>jboss-public-maven-repository</id>
+        <name>JBoss Public Maven Repository</name>
         <url>https://repository.jboss.org/nexus/content/groups/public</url>
         <layout>default</layout>
-    </repository>
-    <repository>
         <releases>
             <enabled>true</enabled>
             <updatePolicy>never</updatePolicy>
@@ -26,34 +16,44 @@ Setup the required repositories (if you don't have them set up globally):
             <enabled>true</enabled>
             <updatePolicy>never</updatePolicy>
         </snapshots>
-        <id>jboss-enterprise-maven-repository</id>
-        <name>JBoss Enterprise Maven Repository</name>
+    </repository>
+    <repository>
+        <id>redhat-ga-maven-repository</id>
+        <name>Red Hat GA Maven Repository</name>
         <url>https://maven.repository.redhat.com/ga/</url>
         <layout>default</layout>
+        <releases>
+            <enabled>true</enabled>
+            <updatePolicy>never</updatePolicy>
+        </releases>
+        <snapshots>
+            <enabled>true</enabled>
+            <updatePolicy>never</updatePolicy>
+        </snapshots>
     </repository>
 </repositories>
 <pluginRepositories>
     <pluginRepository>
+        <id>jboss-public-maven-repository</id>
+        <name>JBoss Public Maven Repository</name>
+        <url>https://repository.jboss.org/nexus/content/groups/public</url>
         <releases>
             <enabled>true</enabled>
         </releases>
         <snapshots>
             <enabled>true</enabled>
         </snapshots>
-        <id>jboss-public-repository-group</id>
-        <name>JBoss Public Repository Group</name>
-        <url>https://repository.jboss.org/nexus/content/groups/public</url>
     </pluginRepository>
     <pluginRepository>
+        <id>redhat-ga-maven-repository</id>
+        <name>Red Hat GA Maven Repository</name>
+        <url>https://maven.repository.redhat.com/ga/</url>
         <releases>
             <enabled>true</enabled>
         </releases>
         <snapshots>
             <enabled>true</enabled>
         </snapshots>
-        <id>jboss-enterprise-maven-repository</id>
-        <name>JBoss Enterprise Maven Repository</name>
-        <url>https://maven.repository.redhat.com/ga/</url>
     </pluginRepository>
 </pluginRepositories>
 ----
