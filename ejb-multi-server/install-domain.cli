@@ -21,6 +21,7 @@ batch
 /host=master/core-service=management/security-realm=ApplicationRealm/authentication=local:remove
 
 /profile=default/subsystem=ejb3:write-attribute(name=default-missing-method-permissions-deny-access, value=false)
+/profile=full/subsystem=ejb3:write-attribute(name=default-missing-method-permissions-deny-access, value=false)
 /profile=ha/subsystem=ejb3:write-attribute(name=default-missing-method-permissions-deny-access, value=false)
 
 # Set the property for unique Tx node identifier
@@ -236,6 +237,12 @@ batch
 /server-group=quickstart-ejb-multi-appWeb-server/jvm=default:add()
 /host=master/server-config=app-web:add(auto-start=true, group=quickstart-ejb-multi-appWeb-server, socket-binding-port-offset=300)
 /host=master/server-config=app-web/system-property=txNodeIdentifier:add(value=web)
+
+# update interface bind addresses from '127.0.0.1' to 'localhost' to workaround an authentication issue
+/host=master/interface=management:write-attribute(name=inet-address, value="${jboss.bind.address.management:localhost}"
+/host=master/interface=public:write-attribute(name=inet-address, value="${jboss.bind.address:localhost}"
+/interface=private:write-attribute(name=inet-address, value="${jboss.bind.address.private:localhost}")
+/interface=unsecure:write-attribute(name=inet-address, value="${jboss.bind.address.unsecure:localhost}")
 
 # Run the batch
 run-batch
