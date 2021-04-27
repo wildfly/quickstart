@@ -22,6 +22,8 @@ import javax.annotation.Resource;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 
+import org.jboss.ejb3.annotation.SecurityDomain;
+
 import org.jboss.logging.Logger;
 
 /**
@@ -37,6 +39,7 @@ import org.jboss.logging.Logger;
  * @author <a href="mailto:wfink@redhat.com">Wolf-Dieter Fink</a>
  */
 @Stateless
+@SecurityDomain("other")
 public class AppOneBean implements AppOne {
     private static final Logger LOGGER = Logger.getLogger(AppOneBean.class);
 
