@@ -34,10 +34,10 @@ ifndef::ProductRelease[]
 * It uses the Bootable Jar for local and cloud deployment
 endif::[]
 * It can be build with {productName} S2I images for cloud deployment
-ifndef::ProductRelease[]
+ifndef::ProductRelease,EAPXPRelease[]
 * It is deployed on OpenShift using the https://docs.wildfly.org/wildfly-charts/[Helm Chart for {productName}].
 endif::[]
-ifdef::ProductRelease[]
+ifdef::ProductRelease,EAPXPRelease[]
 * It is deployed on OpenShift using the https://jbossas.github.io/eap-charts//[Helm Chart for {productName}].
 endif::[]
 
@@ -46,7 +46,7 @@ include::../shared-doc/system-requirements.adoc[leveloffset=+1]
 
 == Architecture
 
-ifndef::ProductRelease[]
+ifndef::ProductRelease,EAPXPRelease[]
 
 === Architecture with Bootable Jar
 
@@ -87,6 +87,47 @@ The Git repository for this feature pack is hosted at https://github.com/wildfly
 It provides JDBC drivers and datasources for different databases but for this quickstart, we will only need the `postgresql-datasource`.
 endif::[]
 
+ifdef::EAPXPRelease[]
+
+=== Architecture with Bootable Jar
+
+This backend is built and deployed as Bootable Jar that provisions the {productName} application server and all the feature packs it needs for its features.
+The layers are defined in the `pom.xml` file in the `<configuration>` section of the `org.wildfly.plugins:wildfly-jar-maven-plugin` plugin:
+
+[source,xml]
+----
+<layers>
+  <layer>cloud-server</layer>
+  <layer>postgresql-datasource</layer>
+</layers>
+----
+
+The `cloud-server` layer provides everything needed to run the backend on OpenShift. This also includes access to
+Jakarta EE APIs such as CDI, JAX-RS, JPA, etc. These two layers comes from the {productName} feature pack provided by the Bootable Jar plugin:
+
+[source,xml]
+----
+<feature-pack>
+  <location>org.jboss.eap:wildfly-galleon-pack:${version.server.bootable-jar}</location>
+</feature-pack>
+----
+
+The `postgresql-datasource` layer provides a JDBC driver and DataSource to connect to a PostgreSQL database. It is not provided
+by the {productName} feature pack but by an extra feature pack:
+
+[source,xml]
+----
+ <feature-pack>
+   <groupId>org.jboss.eap</groupId>
+   <artifactId>eap-datasources-galleon-pack</artifactId>
+   <version>${version.eap-datasources-galleon-pack}</version>
+ </feature-pack>
+----
+
+The Git repository for this feature pack is hosted at https://github.com/jbossas/eap-datasources-galleon-pack.
+It provides JDBC drivers and datasources for different databases but for this quickstart, we will only need the `postgresql-datasource`.
+endif::[]
+
 === Architecture with S2I
 
 This backend is built using {productName} S2I Builder and Runtime images. When the image is built, it provisions the {productName} application server and all the feature packs it needs for its features:
@@ -104,9 +145,17 @@ The `cloud-server` layer provides everything needed to run the backend on OpenSh
 Jakarta EE APIs such as CDI, JAX-RS, JPA, etc. These two layers comes from the {productName} feature pack provided in the
 {productName} S2I builder image.
 
-ifndef::ProductRelease[]
+ifndef::ProductRelease,EAPXPRelease[]
 The `postgresql-datasource` layer provides a JDBC driver and DataSource to connect to a PostgreSQL database. It is also provided by
 `org.wildfly:wildfly-datasources-galleon-pack` which is included in the WildFly S2I image.
+
+The Git repository for this feature pack is hosted at https://github.com/wildfly-extras/wildfly-datasources-galleon-pack.
+It provides JDBC drivers and datasources for different databases but for this quickstart, we will only need the `postgresql-datasource`.
+endif::[]
+
+ifdef::ProductRelease,EAPXPRelease[]
+The `postgresql-datasource` layer provides a JDBC driver and DataSource to connect to a PostgreSQL database. It is also provided by
+the `org.jboss.eap:eap-datasources-galleon-pack` feature pack.
 
 The Git repository for this feature pack is hosted at https://github.com/wildfly-extras/wildfly-datasources-galleon-pack.
 It provides JDBC drivers and datasources for different databases but for this quickstart, we will only need the `postgresql-datasource`.
@@ -115,11 +164,11 @@ endif::[]
 
 === Connection to the PostgreSQL database
 
-ifndef::ProductRelease[]
+ifndef::ProductRelease,EAPXPRelease[]
 As mentioned, the JDBC drivers and datasource configuration that the backend uses to connect to the PostgreSQL database
 is provided by the `org.wildfly:wildfly-datasources-galleon-pack` feature pack.
 endif::[]
-ifdef::ProductRelease[]
+ifdef::ProductRelease,EAPXPRelease[]
 As mentioned, the JDBC drivers and datasource configuration that the backend uses to connect to the PostgreSQL database
 is provided by the `org.jboss.eap:eap-datasources-galleon-pack` feature pack.
 endif::[]
@@ -259,7 +308,7 @@ endif::[]
 
 Once you have installed Helm, you need to add the repository that provides Helm Charts for {productName}:
 
-ifndef::ProductRelease[]
+ifndef::ProductRelease,EAPXPRelease[]
 [source,options="nowrap"]
 ----
 $ helm repo add wildfly https://docs.wildfly.org/wildfly-charts/
@@ -279,7 +328,16 @@ NAME                    CHART VERSION   APP VERSION     DESCRIPTION
 jboss-eap/eap74         ...             ...             A Helm chart to build and deploy EAP 7.4 applications
 ----
 endif::[]
-
+ifdef::EAPXPRelease[]
+[source,options="nowrap"]
+----
+$ helm repo add jboss-eap https://jbossas.github.io/eap-charts/
+"jboss-eap" has been added to your repositories
+$ helm search repo jboss-eap
+NAME                    CHART VERSION   APP VERSION     DESCRIPTION
+jboss-eap/eap-xp3       ...             ...             A Helm chart to build and deploy EAP XP 3 applications
+----
+endif::[]
 
 === Deploy a PostgreSQL Database on OpenShift
 
@@ -294,7 +352,7 @@ This will create a PostgreSQL database named `todos` on OpenShift that can be ac
 We don't need to copy the credentials to connect to the database as we will retrieve them later using the `todos-db` secret that was created
 when the database is deployed.
 
-ifndef::ProductRelease[]
+ifndef::ProductRelease,EAPXPRelease[]
 === Build and Deploy the Backend on OpenShift with Bootable Jar
 
 The backend will be built and deployed on OpenShift with a Helm Chart for {productName}.
@@ -318,11 +376,35 @@ build:
 ----
 endif::[]
 
+ifdef::EAPXPRelease[]
+=== Build and Deploy the Backend on OpenShift with Bootable Jar
+
+The backend will be built and deployed on OpenShift with a Helm Chart for {productName}.
+
+[source,options="nowrap",subs="+attributes"]
+----
+$ helm install todo-backend --set build.ref={EAPQuickstartRepoTag} -f https://raw.githubusercontent.com/jbossas/eap-charts/main/examples/eap-xp3/todo-backend/todo-backend-bootable-jar.yaml jboss-eap/eap-xp3
+NAME: todo-backend
+...
+STATUS: deployed
+REVISION: 1
+----
+
+The Helm Chart for this quickstart contains all the information to build an image from the source code using Bootable Jar:
+
+[source,options="nowrap"]
+----
+build:
+  uri: https://github.com/jboss-developer/jboss-eap-quickstarts.git
+  mode: bootable-jar
+----
+endif::[]
+
 === Build and Deploy the Backend on OpenShift with {productName} S2I
 
 The backend will be built and deployed on OpenShift with a Helm Chart for {productName}.
 
-ifndef::ProductRelease[]
+ifndef::ProductRelease,EAPXPRelease[]
 [source,options="nowrap",subs="+attributes"]
 ----
 $ helm install todo-backend --set build.ref={WildFlyQuickStartRepoTag} --set build.s2i.version={productImageVersion} -f https://raw.githubusercontent.com/wildfly/wildfly-charts/main/examples/todo-backend/todo-backend-s2i.yaml wildfly/wildfly
@@ -332,10 +414,22 @@ STATUS: deployed
 REVISION: 1
 ----
 endif::[]
+
 ifdef::ProductRelease[]
 [source,options="nowrap",subs="+attributes"]
 ----
 $ helm install todo-backend --set build.ref={EAPQuickstartRepoTag} -f https://raw.githubusercontent.com/jbossas/eap-charts/main/examples/eap74/todo-backend/todo-backend-s2i.yaml jboss-eap/eap74
+NAME: todo-backend
+...
+STATUS: deployed
+REVISION: 1
+----
+endif::[]
+
+ifdef::EAPXPRelease[]
+[source,options="nowrap",subs="+attributes"]
+----
+$ helm install todo-backend --set build.ref={EAPQuickstartRepoTag} -f https://raw.githubusercontent.com/jbossas/eap-charts/main/examples/eap-xp3/todo-backend/todo-backend-s2i.yaml jboss-eap/eap-xp3
 NAME: todo-backend
 ...
 STATUS: deployed
@@ -369,11 +463,23 @@ build:
       - postgresql-datasource
 ----
 endif::[]
+ifdef::ProductRelease[]
+[source,options="nowrap"]
+----
+build:
+  uri: https://github.com/jboss-developer/jboss-eap-quickstarts.git
+  mode: s2i
+  s2i:
+    galleonLayers:
+      - cloud-server
+      - postgresql-datasource
+----
+endif::[]
 
 Any configuration specified by this chart is described in its README that is displayed in OpenShift Dev console
 or using the command:
 
-ifndef::ProductRelease[]
+ifndef::ProductRelease,EAPXPRelease[]
 [source,options="nowrap"]
 ----
 $ helm show readme wildfly/wildfly
@@ -385,7 +491,12 @@ ifdef::ProductRelease[]
 $ helm show readme jboss-eap/eap74
 ----
 endif::[]
-
+ifdef::EAPXPRelease[]
+[source,options="nowrap"]
+----
+$ helm show readme jboss-eap/eap-xp3
+----
+endif::[]
 
 
 === Environment variables for PostgreSQL
