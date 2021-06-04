@@ -58,7 +58,7 @@ class CustomHeaderHttpAuthenticationMechanism implements HttpServerAuthenticatio
          */
 
         public void sendResponse(HttpServerResponse response) throws HttpAuthenticationException {
-            response.addResponseHeader(MESSAGE_HEADER, "Please resubit the request with a username specified using the X-USERNAME and a password specified using the X-PASSWORD header.");
+            response.addResponseHeader(MESSAGE_HEADER, "Please resubmit the request with a username specified using the X-USERNAME and a password specified using the X-PASSWORD header.");
             response.setStatusCode(401);
         }
     };
