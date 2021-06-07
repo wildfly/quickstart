@@ -56,9 +56,4 @@ public class Resources {
         String category = ip.getMember().getDeclaringClass().getName();
         return Logger.getLogger(category);
     }
-
-    @Produces
-    public FacesContext getFacesContext() {
-        return FacesContext.getCurrentInstance();
-    }
 }
