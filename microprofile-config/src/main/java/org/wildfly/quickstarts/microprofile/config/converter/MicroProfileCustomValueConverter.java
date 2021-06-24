@@ -5,6 +5,8 @@ import org.wildfly.quickstarts.microprofile.config.converter.type.MicroProfileCu
 
 public class MicroProfileCustomValueConverter implements Converter<MicroProfileCustomValue> {
 
+    private static final long serialVersionUID = 1L;
+
     @Override
     public MicroProfileCustomValue convert(String value) {
         return new MicroProfileCustomValue(value);
