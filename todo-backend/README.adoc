@@ -233,8 +233,44 @@ of prefixes we used for each individual filter (such as `acam` in the example ab
 
 ifndef::ProductRelease[]
 
-// Run the Arquillian Tests
-include::../shared-doc/run-arquillian-tests.adoc[leveloffset=+1]
+=== Run The Arquillian Tests for Bootable Jar
+
+This quickstart provides Arquillian tests to verify the application using a local PostgreSQL database (from the Docker image).
+By default, these tests are skipped so they are not run when building the application.
+
+To run the tests, type the following command:
+
+[source,options="nowrap"]
+----
+mvn clean verify -Pbootable-jar-openshift,integration-test
+----
+
+This will start a local PostgreSQL database from a Docker image, run the Bootable Jar, perform the integration tests and stop the DB at the end.
+
+[source,options="nowrap"]
+----
+...
+[INFO] DOCKER> [postgres:latest] "todos-db": Start container 935e011f14a9
+...
+todos-db> 2021-06-25 10:41:12.358 UTC [1] LOG:  database system is ready to accept connections
+...
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running org.wildfly.quickstarts.todos.ToDoIT
+...
+[INFO] Results:
+[INFO]
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
+...
+todos-db> 2021-06-25 10:41:23.770 UTC [1] LOG:  database system is shut down
+...
+[INFO] DOCKER> [postgres:latest] "todos-db": Stop and removed container 935e011f14a9 after 0 ms
+...
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+----
 
 == Run the Backend Locally
 
@@ -297,6 +333,7 @@ $ curl -X POST -H "Content-Type: application/json"  -d '{"title": "This is my fi
 $ curl http://localhost:8080
 [{"completed":false,"id":1,"order":0,"title":"This is my first todo item!","url":"https://localhost:8080/1"}
 ----
+
 endif::[]
 
 == Run the Backend on OpenShift

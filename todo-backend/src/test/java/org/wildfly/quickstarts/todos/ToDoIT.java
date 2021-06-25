@@ -19,7 +19,6 @@ package org.wildfly.quickstarts.todos;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import java.net.URL;
 import java.util.List;
 
 import javax.ws.rs.client.ClientBuilder;
@@ -28,37 +27,24 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 
-import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.arquillian.test.api.ArquillianResource;
-import org.jboss.shrinkwrap.api.Archive;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.asset.EmptyAsset;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.jboss.as.arquillian.api.ContainerResource;
+import org.jboss.as.arquillian.container.ManagementClient;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(Arquillian.class)
 @RunAsClient
 public class ToDoIT {
-    @Deployment
-    public static Archive<?> createTestArchive() {
-        return ShrinkWrap.create(WebArchive.class, "test.war")
-                .addPackage(ToDo.class.getPackage())
-                .addAsResource("META-INF/test-persistence.xml", "META-INF/persistence.xml")
-                .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
-                // Deploy our test datasource
-                .addAsWebInfResource("test-ds.xml");
-    }
 
-    @ArquillianResource
-    private URL deploymentUrl;
+    @ContainerResource
+    private ManagementClient managementClient;
 
     @Test
     public void testCRUD() throws Exception {
 
-        WebTarget client = ClientBuilder.newClient().target(deploymentUrl.toURI());
+        WebTarget client = ClientBuilder.newClient().target(managementClient.getWebUri());
 
         GenericType<List<ToDo>> todosListType = new GenericType<List<ToDo>>() {};
         List<ToDo> allTodos = client.request().get(todosListType);
