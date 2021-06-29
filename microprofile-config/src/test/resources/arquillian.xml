@@ -18,18 +18,10 @@
             xsi:schemaLocation="http://jboss.org/schema/arquillian
     http://jboss.org/schema/arquillian/arquillian_1_0.xsd">
 
-  <!-- Uncomment to have test archives exported to the file system for inspection -->
-  <!-- <engine> -->
-  <!-- <property name="deploymentExportPath">target/</property> -->
-  <!-- </engine> -->
-
-  <!-- Example configuration for a managed ${product.name} instance -->
   <container qualifier="jboss" default="true">
-    <!-- By default, Arquillian will use the JBOSS_HOME environment variable to find the ${product.name} installation.
-         If you prefer not to define the JBOSS_HOME environment variable, alternatively you can uncomment the
-         following `jbossHome` property and replace ${jboss.home.name} with the path to your ${product.name} installation. -->
-    <!--<configuration>
-        <property name="jbossHome">${jboss.home.name}</property>
-    </configuration> -->
+    <configuration>
+      <property name="installDir">${install.dir}</property>
+      <property name="jarFile">${bootable.jar}</property>
+    </configuration>
   </container>
 </arquillian>

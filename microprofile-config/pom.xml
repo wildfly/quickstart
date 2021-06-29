@@ -22,6 +22,7 @@
     <maven.compiler.target>1.8</maven.compiler.target>
       <version.server.bootable-jar>24.0.0.Final</version.server.bootable-jar>
       <version.wildfly-jar.maven.plugin>5.0.0.Final</version.wildfly-jar.maven.plugin>
+      <version.org.wildfly.arquillian>3.0.1.Final</version.org.wildfly.arquillian>
       <version.jkube.maven.plugin>1.0.1</version.jkube.maven.plugin>
       <jkube.generator.from>registry.redhat.io/ubi8/openjdk-11:latest</jkube.generator.from>
   </properties>
@@ -69,6 +70,12 @@
       <artifactId>commons-logging-jboss-logging</artifactId>
       <scope>test</scope>
     </dependency>
+      <dependency>
+          <groupId>org.wildfly.arquillian</groupId>
+          <artifactId>wildfly-arquillian-container-bootable</artifactId>
+          <version>${version.org.wildfly.arquillian}</version>
+          <scope>test</scope>
+      </dependency>
   </dependencies>
 
   <build>
@@ -111,6 +118,28 @@
                           <execution>
                               <goals>
                                   <goal>package</goal>
+                              </goals>
+                          </execution>
+                      </executions>
+                  </plugin>
+                  <plugin>
+                      <groupId>org.apache.maven.plugins</groupId>
+                      <artifactId>maven-failsafe-plugin</artifactId>
+                      <version>${version.failsafe.plugin}</version>
+                      <configuration>
+                          <environmentVariables>
+                              <JBOSS_HOME>${project.build.directory}/wildfly-it</JBOSS_HOME>
+                          </environmentVariables>
+                          <systemPropertyVariables>
+                              <install.dir>${project.build.directory}/wildfly-it</install.dir>
+                              <bootable.jar>${project.build.directory}/${project.build.finalName}-bootable.jar</bootable.jar>
+                          </systemPropertyVariables>
+                      </configuration>
+                      <executions>
+                          <execution>
+                              <goals>
+                                  <goal>integration-test</goal>
+                                  <goal>verify</goal>
                               </goals>
                           </execution>
                       </executions>

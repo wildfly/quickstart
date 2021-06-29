@@ -1,29 +1,26 @@
 package org.wildfly.quickstarts.microprofile.config;
 
-import org.jboss.arquillian.container.test.api.Deployment;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.Response;
+
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.arquillian.test.api.ArquillianResource;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.asset.EmptyAsset;
-import org.jboss.shrinkwrap.api.spec.JavaArchive;
+import org.jboss.as.arquillian.api.ContainerResource;
+import org.jboss.as.arquillian.container.ManagementClient;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.wildfly.quickstarts.microprofile.config.custom.CustomPropertiesFileProvider;
-
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.Response;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 /**
  * Simple tests for MicroProfile Config quickstart. Arquillian deploys an WAR archive to the application server, which
@@ -36,8 +33,8 @@ import java.nio.file.Paths;
 @RunAsClient
 public class MicroProfileConfigIT {
 
-    @ArquillianResource
-    private URL deploymentURL;
+    @ContainerResource
+    private ManagementClient managementClient;
 
     private Client client;
 
@@ -54,32 +51,15 @@ public class MicroProfileConfigIT {
     }
 
     /**
-     * Constructs a deployment archive
-     *
-     * @return the deployment archive
-     */
-    @Deployment
-    public static JavaArchive createDeployment() {
-        return ShrinkWrap.create(JavaArchive.class)
-            .addPackages(true, ConfigResource.class.getPackage())
-            .addAsResource("META-INF/microprofile-config.properties")
-            .addAsResource("META-INF/services/org.eclipse.microprofile.config.spi.ConfigSource")
-            .addAsResource("META-INF/services/org.eclipse.microprofile.config.spi.ConfigSourceProvider")
-            .addAsResource("META-INF/services/org.eclipse.microprofile.config.spi.Converter")
-            // enable CDI
-            .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
-    }
-
-    /**
      * Tests that /config/value returns the value configured in microprofile-config.properties
      */
     @Test
     public void testConfigPropertiesValue() {
         Response response =  client
-            .target(deploymentURL.toString())
-            .path("/config/value")
-            .request()
-            .get();
+                .target(managementClient.getWebUri())
+                .path("/config/value")
+                .request()
+                .get();
 
         Assert.assertEquals(200, response.getStatus());
         Assert.assertEquals("MyPropertyFileConfigValue", response.readEntity(String.class));
@@ -93,10 +73,10 @@ public class MicroProfileConfigIT {
     @Test
     public void testDefaultValue() {
         Response response =  client
-            .target(deploymentURL.toString())
-            .path("/config/required")
-            .request()
-            .get();
+                .target(managementClient.getWebUri())
+                .path("/config/required")
+                .request()
+                .get();
 
         Assert.assertEquals(200, response.getStatus());
         Assert.assertEquals("Default required prop value", response.readEntity(String.class));
@@ -110,10 +90,10 @@ public class MicroProfileConfigIT {
     @Test
     public void testOptionalValue() {
         Response response =  client
-            .target(deploymentURL.toString())
-            .path("/config/optional")
-            .request()
-            .get();
+                .target(managementClient.getWebUri())
+                .path("/config/optional")
+                .request()
+                .get();
 
         Assert.assertEquals(200, response.getStatus());
         Assert.assertEquals("no optional value provided, use this as the default", response.readEntity(String.class));
@@ -127,10 +107,10 @@ public class MicroProfileConfigIT {
     @Test
     public void testConfigObjectAllProps() {
         Response response =  client
-            .target(deploymentURL.toString())
-            .path("/config/all-props")
-            .request()
-            .get();
+                .target(managementClient.getWebUri())
+                .path("/config/all-props")
+                .request()
+                .get();
 
         Assert.assertEquals(200, response.getStatus());
         Assert.assertTrue(response.readEntity(String.class).contains("config.prop"));
@@ -144,10 +124,10 @@ public class MicroProfileConfigIT {
     @Test
     public void testConfigSourceValue() {
         Response response =  client
-            .target(deploymentURL.toString())
-            .path("/custom-config/value")
-            .request()
-            .get();
+                .target(managementClient.getWebUri())
+                .path("/custom-config/value")
+                .request()
+                .get();
 
         Assert.assertEquals(200, response.getStatus());
         Assert.assertEquals("MyCustomValue", response.readEntity(String.class));
@@ -170,8 +150,8 @@ public class MicroProfileConfigIT {
         Files.deleteIfExists(customPropertiesPath);
 
         WebTarget target = client
-            .target(deploymentURL.toString())
-            .path("/custom-config/reloaded-value");
+                .target(managementClient.getWebUri())
+                .path("/custom-config/reloaded-value");
 
         Response response =  target.request().get();
 
@@ -202,10 +182,10 @@ public class MicroProfileConfigIT {
     @Test
     public void testConverterValue() {
         Response response =  client
-            .target(deploymentURL.toString())
-            .path("/converter/value")
-            .request()
-            .get();
+                .target(managementClient.getWebUri())
+                .path("/converter/value")
+                .request()
+                .get();
 
         Assert.assertEquals(200, response.getStatus());
         Assert.assertEquals("MyCustomConverterValue", response.readEntity(String.class));
