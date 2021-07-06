@@ -27,23 +27,27 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.eclipse.microprofile.rest.client.RestClientBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.as.arquillian.api.ServerSetup;
-import org.wildfly.quickstarts.microprofile.reactive.messaging.MessagingBean;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.reactivestreams.Subscriber;
+import org.reactivestreams.Subscription;
+import org.wildfly.quickstarts.microprofile.reactive.messaging.MessagingBean;
 
 /**
  * @author <a href="mailto:kabir.khan@jboss.com">Kabir Khan</a>
@@ -84,6 +88,43 @@ public class ReactiveMessagingKafkaIT {
         }
     }
 
+    @Test
+    public void testUserApi() throws Throwable {
+        final UserClient client = RestClientBuilder.newBuilder()
+                .baseUrl(url)
+                .build(UserClient.class);
+
+        final ListSubscriber taskA = new ListSubscriber(new CountDownLatch(3));
+        client.get().subscribe(taskA);
+        final ListSubscriber taskB = new ListSubscriber(new CountDownLatch(3));
+        client.get().subscribe(taskB);
+
+        client.send("one");
+        client.send("two");
+        client.send("three");
+
+        taskA.latch.await();
+        taskB.latch.await();
+
+        long end = System.currentTimeMillis() + TIMEOUT;
+        while (System.currentTimeMillis() < end) {
+            Thread.sleep(200);
+            if (taskA.lines.size() == 3) {
+                break;
+            }
+        }
+
+        checkAsynchTask(taskA, "one", "two", "three");
+        checkAsynchTask(taskB, "one", "two", "three");
+    }
+
+    private void checkAsynchTask(ListSubscriber task, String... values) {
+        Assert.assertEquals(3, task.lines.size());
+        for (int i = 0; i < values.length; i++) {
+            Assert.assertTrue("Line " + i + ": " + task.lines.get(i), task.lines.get(i).contains(values[i]));
+        }
+    }
+
     private boolean checkResponse(CloseableHttpResponse response, boolean fail) throws Throwable {
         String s;
         List<String> lines = new ArrayList<>();
@@ -112,5 +153,36 @@ public class ReactiveMessagingKafkaIT {
                             " of:\n" + lines, -2, lines.get(i).indexOf("Hello") + lines.get(i).indexOf("Kafka"));
         }
         return true;
+    }
+
+    private static class ListSubscriber implements Subscriber<String> {
+        private final CountDownLatch latch;
+        final List<String> lines;
+
+        private ListSubscriber(final CountDownLatch latch) {
+            this.latch = latch;
+            lines = new ArrayList<>();
+        }
+
+        @Override
+        public void onSubscribe(final Subscription s) {
+            s.request(latch.getCount());
+        }
+
+        @Override
+        public void onNext(final String s) {
+            lines.add(s);
+            latch.countDown();
+        }
+
+        @Override
+        public void onError(final Throwable t) {
+
+        }
+
+        @Override
+        public void onComplete() {
+
+        }
     }
 }

@@ -1,0 +1,33 @@
+# TODO Update to point to the released quickstarts and image
+# Will need a diff commit in the upstream-to-product repository
+build:
+  uri: https://github.com/wildfly/quickstart.git
+  contextDir: microprofile-reactive-messaging-kafka
+  s2i:
+    galleonLayers:
+      - cloud-server
+      - h2-default-datasource
+      - microprofile-reactive-messaging-kafka
+  env:
+  - name: MAVEN_OPTS
+    value: -XX:MetaspaceSize=256m -XX:MaxMetaspaceSize=256m
+  # This will make src/main/scripts/rhosak/s2i/install.sh copy across the
+  # src/main/scripts/rhosak/s2i/ directory to $JBOSS_HOME/extensions. The presence of
+  # $JBOSS_HOME/extensions/postconfigure.sh will run src/main/scripts/rhosak/s2i/initialize-server.cli
+  # to reconfigure the server to use the created ConfigMap and service binding
+  - name: QS_USE_RHOSAK
+    value: "1"
+deploy:
+  replicas: 1
+  env:
+    - name: GC_MAX_METASPACE_SIZE
+      value: "256"
+    - name: GC_METASPACE_SIZE
+      value: "96"
+  volumeMounts:
+      - name: reactive-messaging-properties
+        mountPath: /etc/config/reactive-messaging-properties
+  volumes:
+    - name: reactive-messaging-properties
+      configMap:
+        name: reactive-messaging-properties

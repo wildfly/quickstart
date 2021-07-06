@@ -1,0 +1,32 @@
+# TODO Update to point to the released quickstarts and image
+# Will need a diff commit in the upstream-to-product repository
+build:
+  uri: https://github.com/wildfly/quickstart.git
+  contextDir: microprofile-reactive-messaging-kafka
+  mode: bootable-jar
+  env:
+#  - name: ARTIFACT_DIR
+#    value: microprofile-reactive-messaging-kafka/target
+  - name: MAVEN_OPTS
+    value: -XX:MetaspaceSize=256m -XX:MaxMetaspaceSize=256m
+  - name: MAVEN_ARGS_APPEND
+    # Use the bootable-jar-openshift profile to ensure that the application
+    # can be deployed on OpenShift but disable JKube as the image will be
+    # built and deployed by this chart.
+    value: -Pbootable-jar-openshift -Djkube.skip=true
+deploy:
+  replicas: 1
+  env:
+    - name: GC_MAX_METASPACE_SIZE
+      value: "256"
+    - name: GC_METASPACE_SIZE
+      value: "96"
+    - name: MP_MESSAGING_CONNECTOR_SMALLRYE_KAFKA_BOOTSTRAP_SERVERS
+      value: my-cluster-kafka-bootstrap:9092
+  volumeMounts:
+      - name: reactive-messaging-properties
+        mountPath: /etc/config/reactive-messaging-properties
+  volumes:
+    - name: reactive-messaging-properties
+      configMap:
+        name: reactive-messaging-properties

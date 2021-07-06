@@ -1,0 +1,22 @@
+apiVersion: binding.operators.coreos.com/v1alpha1
+kind: ServiceBinding
+metadata:
+  name: kafka-config
+  # Adjust to name of your OpenShift project
+  namespace: kkhan1-dev
+spec:
+  application:
+    group: apps
+    # Should be the name of the application - no change needed if you followed the instructions properly :)
+    name: mp-rm-qs
+    resource: deployments
+    version: v1
+
+  bindAsFiles: true
+  services:
+  - group: rhoas.redhat.com
+    version: v1alpha1
+    kind: KafkaConnection
+    # Adjust to name of your Kafka instance
+    name: kabir-kafka
+
