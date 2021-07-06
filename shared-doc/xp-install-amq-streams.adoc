@@ -1,4 +1,4 @@
-
+:strimzi-version: v1beta2
 [[install_amq_streams]]
 = Install AMQ Streams on Openshift
 
@@ -14,7 +14,7 @@ Install it with the default values.
 [options="nowrap",subs="+attributes"]
 ----
 $ oc apply -n {artifactId}-project -f - <<EOF
-apiVersion: kafka.strimzi.io/v1beta1
+apiVersion: kafka.strimzi.io/{strimzi-version}
 kind: Kafka
 metadata:
   name: my-cluster
@@ -36,12 +36,16 @@ spec:
     topicOperator: {}
 EOF
 ----
+
+NOTE: If you see errors along the lines of _no matches for kind "Kafka" in version "kafka.strimzi.io/{strimzi-version}"_, execute the command `oc get crd kafkas.kafka.strimzi.io -o jsonpath="{.spec.versions[*].name}"` and update `apiVersion` to the returned version.
+
+
 . Next set up a topic called `testing` in the `my-cluster` cluster we created:
 +
 [options="nowrap",subs="+attributes"]
 ----
 oc apply -n microprofile-reactive-messaging-kafka-project -f - <<EOF
-apiVersion: kafka.strimzi.io/v1beta1
+apiVersion: kafka.strimzi.io/{strimzi-version}
 kind: KafkaTopic
 metadata:
   name: testing
