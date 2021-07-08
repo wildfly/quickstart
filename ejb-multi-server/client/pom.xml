@@ -69,6 +69,9 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <configuration>
                     <executable>java</executable>
+                    <arguments>
+                        <argument>${jvm.options}</argument>
+                    </arguments>
                     <mainClass>org.jboss.as.quickstarts.ejb.multi.server.Client</mainClass>
                 </configuration>
                 <executions>
