@@ -157,7 +157,7 @@ ifdef::ProductRelease,EAPXPRelease[]
 The `postgresql-datasource` layer provides a JDBC driver and DataSource to connect to a PostgreSQL database. It is also provided by
 the `org.jboss.eap:eap-datasources-galleon-pack` feature pack.
 
-The Git repository for this feature pack is hosted at https://github.com/wildfly-extras/wildfly-datasources-galleon-pack.
+The Git repository for this feature pack is hosted at https://github.com/jbossas/eap-datasources-galleon-pack.
 It provides JDBC drivers and datasources for different databases but for this quickstart, we will only need the `postgresql-datasource`.
 endif::[]
 
@@ -383,7 +383,7 @@ The backend will be built and deployed on OpenShift with a Helm Chart for {produ
 
 [source,options="nowrap",subs="+attributes"]
 ----
-$ helm install todo-backend --set build.ref={EAPQuickstartRepoTag} -f https://raw.githubusercontent.com/jbossas/eap-charts/main/examples/eap-xp3/todo-backend/todo-backend-bootable-jar.yaml jboss-eap/eap-xp3
+$ helm install todo-backend -f https://raw.githubusercontent.com/jbossas/eap-charts/main/examples/eap-xp3/todo-backend/todo-backend-bootable-jar.yaml jboss-eap/eap-xp3
 NAME: todo-backend
 ...
 STATUS: deployed
@@ -429,7 +429,7 @@ endif::[]
 ifdef::EAPXPRelease[]
 [source,options="nowrap",subs="+attributes"]
 ----
-$ helm install todo-backend --set build.ref={EAPQuickstartRepoTag} -f https://raw.githubusercontent.com/jbossas/eap-charts/main/examples/eap-xp3/todo-backend/todo-backend-s2i.yaml jboss-eap/eap-xp3
+$ helm install todo-backend -f https://raw.githubusercontent.com/jbossas/eap-charts/main/examples/eap-xp3/todo-backend/todo-backend-s2i.yaml jboss-eap/eap-xp3
 NAME: todo-backend
 ...
 STATUS: deployed
@@ -439,7 +439,7 @@ endif::[]
 
 The Helm Chart for this quickstart contains all the information to build an image from the source code using S2I:
 
-ifndef::ProductRelease[]
+ifndef::ProductRelease,EAPXPRelease[]
 [source,options="nowrap"]
 ----
 build:
@@ -463,7 +463,7 @@ build:
       - postgresql-datasource
 ----
 endif::[]
-ifdef::ProductRelease[]
+ifdef::EAPXPRelease[]
 [source,options="nowrap"]
 ----
 build:
