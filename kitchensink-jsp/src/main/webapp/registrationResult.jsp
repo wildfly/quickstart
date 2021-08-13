@@ -27,25 +27,40 @@
 <body>
 
 <h4>Members</h4>
-<table class="simpletablestyle">
-<thead>
-<tr>
-<th>Name</th>
-<th>Email</th>
-<th>PhoneNumber</th>
-</tr>
-</thead>
-<tbody>
-<!--  iterate on the member list @named attribute and display name,email and phone number -->
-<c:forEach items="${members}" var="member">
+<table id="table1">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone Number</th>
+        </tr>
+    </thead>
+    <tbody>
+    <c:forEach items="${members}" var="member">
 	<tr>
 		<td><c:out value="${member.name}"/></td>
 		<td><c:out value="${member.email}"/></td>
 		<td><c:out value="${member.phoneNumber}"/></td>
 	</tr>
 </c:forEach>
-</tbody>
-</table>	
+
+    </tbody>
+</table>
+
 
 </body>
+<script src="resources/js/jquery.min.js" type="text/javascript"></script>
+
+<link rel="stylesheet" type="text/css" href="resources/css/screen.css" />
+<link rel="stylesheet" type="text/css" href="resources/css/jquery.dataTables.min.css" />
+<script type="text/javascript" src="resources/js/jquery.dataTables.min.js"></script>
+
+
+<script>
+
+$( document ).ready(function() {
+    $('#table1').DataTable();
+});
+
+</script>
 </html>
