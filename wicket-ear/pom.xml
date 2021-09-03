@@ -50,9 +50,21 @@
         <module>ear</module>
     </modules>
 
+    <properties>
+        <version.org.apache.wicket>7.3.0</version.org.apache.wicket>
+        <version.server.bom>24.0.1.Final</version.server.bom>
+    </properties>
+
     <dependencyManagement>
         <dependencies>
-           
+            <!-- importing the jakartaee8-with-tools BOM adds specs and other useful artifacts as managed dependencies -->
+            <dependency>
+                <groupId>org.wildfly.bom</groupId>
+                <artifactId>wildfly-jakartaee8-with-tools</artifactId>
+                <version>${version.server.bom}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
             <!-- Wicket -->
             <dependency>
                 <groupId>org.apache.wicket</groupId>
