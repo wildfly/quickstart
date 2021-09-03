@@ -42,8 +42,22 @@
         </license>
     </licenses>
 
+    <properties>
+        <version.hibernate4>4.2.21.Final</version.hibernate4>
+        <version.hibernate4.validator>4.3.2.Final</version.hibernate4.validator>
+        <version.server.bom>24.0.0.Final</version.server.bom>
+    </properties>
+
     <dependencyManagement>
         <dependencies>
+            <!-- importing the jakartaee8-with-tools BOM adds specs and other useful artifacts as managed dependencies -->
+            <dependency>
+                <groupId>org.wildfly.bom</groupId>
+                <artifactId>wildfly-jakartaee8-with-tools</artifactId>
+                <version>${version.server.bom}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
             <dependency>
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-core</artifactId>

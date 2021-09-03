@@ -41,9 +41,21 @@
         </license>
     </licenses>
 
+    <properties>
+        <version.deltaspike.core>1.5.1</version.deltaspike.core>
+        <version.server.bom>24.0.0.Final</version.server.bom>
+    </properties>
+
     <dependencyManagement>
         <dependencies>
-
+            <!-- importing the jakartaee8-with-tools BOM adds specs and other useful artifacts as managed dependencies -->
+            <dependency>
+                <groupId>org.wildfly.bom</groupId>
+                <artifactId>wildfly-jakartaee8-with-tools</artifactId>
+                <version>${version.server.bom}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
             <!-- Deltaspike API. We use compile scope as we need it to compile the project against the API -->
             <dependency>
                 <groupId>org.apache.deltaspike.core</groupId>
@@ -51,7 +63,6 @@
                 <version>${version.deltaspike.core}</version>
                 <scope>compile</scope>
             </dependency>
-
             <!-- Deltaspike Impl. We use runtime scope as we only need the implementation
                 classes at runtime -->
             <dependency>
@@ -61,7 +72,6 @@
                 <version>${version.deltaspike.core}</version>
             </dependency>
         </dependencies>
-
     </dependencyManagement>
 
     <dependencies>

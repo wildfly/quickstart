@@ -36,7 +36,21 @@
     <properties>
         <!--JBEAP-9389 workaround for buggy eclipse -->
         <m2e.apt.activation>jdt_apt</m2e.apt.activation>
+        <version.server.bom>24.0.0.Final</version.server.bom>
     </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- importing the jakartaee8-with-tools BOM adds specs and other useful artifacts as managed dependencies -->
+            <dependency>
+                <groupId>org.wildfly.bom</groupId>
+                <artifactId>wildfly-jakartaee8-with-tools</artifactId>
+                <version>${version.server.bom}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <licenses>
         <license>

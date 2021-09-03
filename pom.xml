@@ -74,47 +74,9 @@
         <!-- https://access.redhat.com/maven-repository -->
         <maven.redhat.repository.url>${maven.repository.protocol}://maven.repository.redhat.com/ga/</maven.redhat.repository.url>
 
-        <!-- Version of BOMs
-        note: a SNAPSHOT version *requires* checkout of BOMs at https://github.com/wildfly/boms and build through "mvn clean install"
-        -->
-        <version.server.bom>24.0.0.Final</version.server.bom>
-        <version.microprofile.bom>24.0.0.Final</version.microprofile.bom>
-
-        <!-- Versions of unmanaged dependencies -->
-        <version.arquillian.angularjs.graphene>1.2.0.Beta1</version.arquillian.angularjs.graphene>
-        <version.com.nimbusds.jose.jwt>5.4</version.com.nimbusds.jose.jwt>
-        <version.deltaspike.core>1.5.1</version.deltaspike.core>
-        <version.org.apache.wicket>7.3.0</version.org.apache.wicket>
-        <version.hibernate4>4.2.21.Final</version.hibernate4>
-        <version.hibernate4.validator>4.3.2.Final</version.hibernate4.validator>
-        <version.org.json>20150729</version.org.json>
-        <version.org.richfaces>4.5.7.Final</version.org.richfaces>
-        <version.ro.isdc.wro4j>1.7.9</version.ro.isdc.wro4j>
-
         <jboss.developer.drupal.url>http://rhdp-drupal.stage.redhat.com/</jboss.developer.drupal.url>
         <linkXRef>false</linkXRef>
     </properties>
-
-    <dependencyManagement>
-        <dependencies>
-            <!-- importing the jakartaee8-with-tools BOM adds specs and other useful artifacts as managed dependencies -->
-            <dependency>
-                <groupId>org.wildfly.bom</groupId>
-                <artifactId>wildfly-jakartaee8-with-tools</artifactId>
-                <version>${version.server.bom}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <!-- importing the microprofile BOM adds MicroProfile specs -->
-            <dependency>
-                <groupId>org.wildfly.bom</groupId>
-                <artifactId>wildfly-microprofile</artifactId>
-                <version>${version.microprofile.bom}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 
     <repositories>
         <repository>
@@ -358,103 +320,100 @@
                 </property>
             </activation>
             <modules>
-                <!-- All the modules that require nothing but JBoss Enterprise
-                    Application Platform or JBoss EAP -->
-                <module>app-client</module>
-                <module>batch-processing</module>
-                <module>bean-validation</module>
-                <module>bean-validation-custom-constraint</module>
-                <module>bmt</module>
-                <module>cmt</module>
-                <module>contacts-jquerymobile</module>
-                <module>deltaspike-authorization</module>
-                <module>deltaspike-beanbuilder</module>
-                <module>deltaspike-projectstage</module>
-                <module>ee-security</module>
-                <module>ejb-asynchronous</module>
-                <module>ejb-in-ear</module>
-                <module>ejb-in-war</module>
-                <module>ejb-multi-server</module>
-                <module>ejb-security</module>
-                <module>ejb-security-context-propagation</module>
-                <module>ejb-security-jaas</module>
-                <module>ejb-security-programmatic-auth</module>
-                <module>ejb-throws-exception</module>
-                <module>ejb-timer</module>
-                <module>ejb-txn-remote-call</module>
-                <module>greeter</module>
-                <module>ha-singleton-deployment</module>
-                <module>ha-singleton-service</module>
-                <module>helloworld</module>
-                <module>helloworld-classfiletransformer</module>
-                <module>helloworld-html5</module>
-                <module>helloworld-jms</module>
-                <module>helloworld-mbean</module>
-                <module>helloworld-mdb</module>
-                <module>helloworld-mdb-propertysubstitution</module>
-                <module>helloworld-mutual-ssl</module>
-                <module>helloworld-mutual-ssl-secured</module>
-                <module>helloworld-rf</module>
-                <module>helloworld-rs</module>
-                <module>helloworld-singleton</module>
-                <module>helloworld-ssl</module>
-                <module>helloworld-ws</module>
-                <module>hibernate4</module>
-                <module>hibernate</module>
-                <module>http-custom-mechanism</module>
-                <module>inter-app</module>
-                <module>jaxrs-client</module>
-                <module>jaxrs-jwt</module>
-                <module>jaxws-addressing</module>
-                <module>jaxws-ejb</module>
-                <module>jaxws-pojo</module>
-                <module>jaxws-retail</module>
-                <module>jsonp</module>
-                <module>kitchensink</module>
-                <module>kitchensink-angularjs</module>
-                <module>kitchensink-ear</module>
-                <module>kitchensink-jsp</module>
-                <module>kitchensink-ml</module>
-                <module>kitchensink-utjs-angularjs</module>
-                <module>kitchensink-utjs-mustache</module>
-                <module>logging</module>
-                <module>logging-tools</module>
-                <module>mail</module>
-                <module>managed-executor-service</module>
-                <module>messaging-clustering-singleton</module>
-                <module>microprofile-config</module>
-                <module>microprofile-fault-tolerance</module>
-                <module>microprofile-health</module>
-                <module>microprofile-jwt</module>
-                <module>microprofile-metrics</module>
-                <module>microprofile-openapi</module>
-                <module>microprofile-opentracing</module>
-                <module>microprofile-reactive-messaging-kafka</module>
-                <module>microprofile-rest-client</module>
-                <module>numberguess</module>
-                <module>payment-cdi-event</module>
-                <module>resteasy-jaxrs-client</module>
-                <module>security-domain-to-domain</module>
-                <module>servlet-async</module>
-                <module>servlet-filterlistener</module>
-                <module>servlet-security</module>
-                <module>shopping-cart</module>
-                <module>spring-greeter</module>
-                <module>spring-kitchensink-basic</module>
-                <module>spring-kitchensink-springmvctest</module>
-                <module>spring-resteasy</module>
-                <module>tasks-jsf</module>
-                <module>tasks-rs</module>
-                <module>temperature-converter</module>
-                <module>todo-backend</module>
-                <module>thread-racing</module>
-                <module>websocket-client</module>
-                <module>websocket-endpoint</module>
-                <module>websocket-hello</module>
-                <module>wicket-ear</module>
-                <module>wicket-war</module>
-                <module>xml-jaxp</module>
-            </modules>
+    <!-- All the modules that require nothing but JBoss Enterprise
+        Application Platform or JBoss EAP -->
+    <module>app-client</module>
+    <module>batch-processing</module>
+    <module>bean-validation</module>
+    <module>bean-validation-custom-constraint</module>
+    <module>bmt</module>
+    <module>cmt</module>
+    <module>contacts-jquerymobile</module>
+    <module>deltaspike-authorization</module>
+    <module>deltaspike-beanbuilder</module>
+    <module>deltaspike-projectstage</module>
+    <module>ee-security</module>
+    <module>ejb-asynchronous</module>
+    <module>ejb-in-ear</module>
+    <module>ejb-in-war</module>
+    <module>ejb-multi-server</module>
+    <module>ejb-security</module>
+    <!--
+    <module>ejb-security-context-propagation</module>
+    <module>ejb-security-jaas</module>
+    <module>ejb-security-programmatic-auth</module>
+    -->
+    <module>ejb-throws-exception</module>
+    <module>ejb-timer</module>
+    <!--
+    <module>ejb-txn-remote-call</module>
+    -->
+    <module>greeter</module>
+    <module>ha-singleton-deployment</module>
+    <!--
+    <module>ha-singleton-service</module>
+    -->
+    <module>helloworld</module>
+    <module>helloworld-classfiletransformer</module>
+    <module>helloworld-html5</module>
+    <module>helloworld-jms</module>
+    <module>helloworld-mbean</module>
+    <module>helloworld-mdb</module>
+    <!-- <module>helloworld-mdb-propertysubstitution</module> -->
+    <module>helloworld-mutual-ssl</module>
+    <!-- <module>helloworld-mutual-ssl-secured</module> -->
+    <module>helloworld-rf</module>
+    <module>helloworld-rs</module>
+    <module>helloworld-singleton</module>
+    <module>helloworld-ssl</module>
+    <module>helloworld-ws</module>
+    <module>hibernate4</module>
+    <module>hibernate</module>
+    <module>http-custom-mechanism</module>
+    <!-- <module>inter-app</module> -->
+    <module>jaxrs-client</module>
+    <!-- <module>jaxrs-jwt</module> -->
+    <module>jaxws-addressing</module>
+    <module>jaxws-ejb</module>
+    <module>jaxws-pojo</module>
+    <module>jaxws-retail</module>
+    <module>jsonp</module>
+    <module>kitchensink</module>
+    <module>kitchensink-angularjs</module>
+    <module>kitchensink-ear</module>
+    <module>kitchensink-jsp</module>
+    <module>kitchensink-ml</module>
+    <module>kitchensink-utjs-angularjs</module>
+    <module>kitchensink-utjs-mustache</module>
+    <module>logging</module>
+    <module>logging-tools</module>
+    <!-- <module>mail</module> -->
+    <module>managed-executor-service</module>
+    <!-- <module>messaging-clustering-singleton</module> -->
+    <module>numberguess</module>
+    <module>payment-cdi-event</module>
+    <module>resteasy-jaxrs-client</module>
+    <!-- <module>security-domain-to-domain</module> -->
+    <module>servlet-async</module>
+    <module>servlet-filterlistener</module>
+    <!-- <module>servlet-security</module> -->
+    <module>shopping-cart</module>
+    <module>spring-greeter</module>
+    <module>spring-kitchensink-basic</module>
+    <module>spring-kitchensink-springmvctest</module>
+    <module>spring-resteasy</module>
+    <module>tasks-jsf</module>
+    <module>tasks-rs</module>
+    <module>temperature-converter</module>
+    <module>thread-racing</module>
+    <module>websocket-client</module>
+    <module>websocket-endpoint</module>
+    <module>websocket-hello</module>
+    <module>wicket-ear</module>
+    <module>wicket-war</module>
+    <module>xml-jaxp</module>
+</modules>
+
         </profile>
         <profile>
             <!-- All the quickstarts that require Postgres to be running -->
@@ -532,66 +491,6 @@
             </modules>
         </profile>
 
-        <profile>
-            <!-- An optional Arquillian testing profile that executes tests in your JBoss EAP instance.
-                 This profile will start a new JBoss EAP instance, and execute the test, shutting it down when done.
-                 Run with: mvn clean verify -Parq-managed -->
-            <id>arq-managed</id>
-            <dependencies>
-                <dependency>
-                    <groupId>org.wildfly.arquillian</groupId>
-                    <artifactId>wildfly-arquillian-container-managed</artifactId>
-                    <scope>test</scope>
-                </dependency>
-            </dependencies>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-failsafe-plugin</artifactId>
-                        <version>${version.failsafe.plugin}</version>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>integration-test</goal>
-                                    <goal>verify</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-
-        <profile>
-            <!-- An optional Arquillian testing profile that executes tests in a remote JBoss EAP instance.
-                 Run with: mvn clean verify -Parq-remote -->
-            <id>arq-remote</id>
-            <dependencies>
-                <dependency>
-                    <groupId>org.wildfly.arquillian</groupId>
-                    <artifactId>wildfly-arquillian-container-remote</artifactId>
-                    <scope>test</scope>
-                </dependency>
-            </dependencies>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-failsafe-plugin</artifactId>
-                        <version>${version.failsafe.plugin}</version>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>integration-test</goal>
-                                    <goal>verify</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
         <profile>
             <id>docs</id>
             <activation>

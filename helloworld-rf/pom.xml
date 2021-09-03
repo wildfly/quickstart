@@ -42,8 +42,21 @@
         </license>
     </licenses>
 
+    <properties>
+        <version.org.richfaces>4.5.7.Final</version.org.richfaces>
+        <version.server.bom>24.0.0.Final</version.server.bom>
+    </properties>
+
     <dependencyManagement>
         <dependencies>
+            <!-- importing the jakartaee8-with-tools BOM adds specs and other useful artifacts as managed dependencies -->
+            <dependency>
+                <groupId>org.wildfly.bom</groupId>
+                <artifactId>wildfly-jakartaee8-with-tools</artifactId>
+                <version>${version.server.bom}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
             <!-- Similarly to the JBoss Jakarta EE 8 BOM above, the RichFaces BOM specifies the
                 versions of artifacts required for using RichFaces in your project. -->
             <dependency>
@@ -51,7 +64,6 @@
                 <artifactId>richfaces</artifactId>
                 <version>${version.org.richfaces}</version>
             </dependency>
-
         </dependencies>
     </dependencyManagement>
 

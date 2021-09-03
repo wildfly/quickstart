@@ -33,7 +33,6 @@
     <name>Quickstart: jaxrs-jwt</name>
     <description>JWT authentication using Elytron</description>
 
-
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
@@ -46,4 +45,22 @@
         <module>client</module>
         <module>service</module>
     </modules>
+
+    <properties>
+        <version.com.nimbusds.jose.jwt>5.4</version.com.nimbusds.jose.jwt>
+        <version.server.bom>24.0.0.Final</version.server.bom>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- importing the jakartaee8-with-tools BOM adds specs and other useful artifacts as managed dependencies -->
+            <dependency>
+                <groupId>org.wildfly.bom</groupId>
+                <artifactId>wildfly-jakartaee8-with-tools</artifactId>
+                <version>${version.server.bom}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 </project>

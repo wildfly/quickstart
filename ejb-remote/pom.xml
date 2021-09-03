@@ -41,6 +41,23 @@
         </license>
     </licenses>
 
+    <properties>
+        <version.server.bom>24.0.0.Final</version.server.bom>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- importing the jakartaee8-with-tools BOM adds specs and other useful artifacts as managed dependencies -->
+            <dependency>
+                <groupId>org.wildfly.bom</groupId>
+                <artifactId>wildfly-jakartaee8-with-tools</artifactId>
+                <version>${version.server.bom}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <!-- This quickstart consists of a server side component and a client that accesses
      the server side component. Each component has its own self contain pom. However,
      you can add these modules here to keep things modular.
