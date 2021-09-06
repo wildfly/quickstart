@@ -44,10 +44,19 @@
 
     <properties>
         <version.spring.framework>5.2.4.RELEASE</version.spring.framework>
+        <version.server.bom>24.0.1.Final</version.server.bom>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <!-- importing the jakartaee8-with-tools BOM adds specs and other useful artifacts as managed dependencies -->
+            <dependency>
+                <groupId>org.wildfly.bom</groupId>
+                <artifactId>wildfly-jakartaee8-with-tools</artifactId>
+                <version>${version.server.bom}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
             <!-- Define the version of the Spring Framework we want to import.
                  Any dependencies from org.springframework.* will have their version defined by this BOM
             -->

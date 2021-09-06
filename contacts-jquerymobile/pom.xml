@@ -41,6 +41,23 @@
         </license>
     </licenses>
 
+    <properties>
+        <version.server.bom>24.0.1.Final</version.server.bom>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- importing the jakartaee8-with-tools BOM adds specs and other useful artifacts as managed dependencies -->
+            <dependency>
+                <groupId>org.wildfly.bom</groupId>
+                <artifactId>wildfly-jakartaee8-with-tools</artifactId>
+                <version>${version.server.bom}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <dependencies>
         <dependency>
             <groupId>commons-io</groupId>
@@ -188,7 +205,7 @@
                     <plugin>
                         <groupId>ro.isdc.wro4j</groupId>
                         <artifactId>wro4j-maven-plugin</artifactId>
-                        <version>${version.ro.isdc.wro4j}</version>
+                        <version>1.7.9</version>
                         <configuration>
                             <targetGroups>app.min,formSetup.min,namespace.min,submissions.min,theming.min,util.min,validation.min,app-style.min,validator.min
                             </targetGroups>

@@ -21,11 +21,34 @@
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
     <failOnMissingWebXml>false</failOnMissingWebXml>
+    <version.microprofile.bom>24.0.0.Final</version.microprofile.bom>
+    <version.server.bom>24.0.1.Final</version.server.bom>
     <version.server.bootable-jar>24.0.0.Final</version.server.bootable-jar>
     <version.wildfly-jar.maven.plugin>5.0.0.Final</version.wildfly-jar.maven.plugin>
     <version.jkube.maven.plugin>1.0.1</version.jkube.maven.plugin>
     <jkube.generator.from>registry.redhat.io/ubi8/openjdk-11:latest</jkube.generator.from>
   </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <!-- importing the microprofile BOM adds MicroProfile specs -->
+      <dependency>
+        <groupId>org.wildfly.bom</groupId>
+        <artifactId>wildfly-microprofile</artifactId>
+        <version>${version.microprofile.bom}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <!-- importing the jakartaee8-with-tools BOM adds specs and other useful artifacts as managed dependencies -->
+      <dependency>
+        <groupId>org.wildfly.bom</groupId>
+        <artifactId>wildfly-jakartaee8-with-tools</artifactId>
+        <version>${version.server.bom}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 
   <dependencies>
     <!-- Import the MicroProfile Metrics API, we use provided scope as the API is included in the server -->
