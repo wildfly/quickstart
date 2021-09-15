@@ -18,9 +18,12 @@
   <name>Quickstart: microprofile-metrics</name>
 
   <properties>
+    <failOnMissingWebXml>false</failOnMissingWebXml>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
-    <failOnMissingWebXml>false</failOnMissingWebXml>
+    <!-- The JBoss Public remote maven repo URL; can be overridden via -D for special use cases -->
+    <maven.repository.url>https://repository.jboss.org/nexus/content/groups/public/</maven.repository.url>
+    <!-- The versions for BOMs, Dependencies and Plugins -->
     <version.microprofile.bom>24.0.0.Final</version.microprofile.bom>
     <version.server.bom>24.0.1.Final</version.server.bom>
     <version.server.bootable-jar>24.0.0.Final</version.server.bootable-jar>
@@ -28,6 +31,23 @@
     <version.jkube.maven.plugin>1.0.1</version.jkube.maven.plugin>
     <jkube.generator.from>registry.redhat.io/ubi8/openjdk-11:latest</jkube.generator.from>
   </properties>
+
+  <repositories>
+    <repository>
+      <id>jboss-public-maven-repository</id>
+      <name>JBoss Public Maven Repository</name>
+      <url>${maven.jboss.public.repository.url}</url>
+      <layout>default</layout>
+      <releases>
+        <enabled>true</enabled>
+        <updatePolicy>never</updatePolicy>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+        <updatePolicy>never</updatePolicy>
+      </snapshots>
+    </repository>
+  </repositories>
 
   <dependencyManagement>
     <dependencies>
