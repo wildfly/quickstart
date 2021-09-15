@@ -68,7 +68,6 @@
         <maven.jboss.public.repository.url>https://repository.jboss.org/nexus/content/groups/public/</maven.jboss.public.repository.url>
         <maven.redhat.ga.repository.url>https://maven.repository.redhat.com/ga/</maven.redhat.ga.repository.url>
 
-        <jboss.developer.drupal.url>http://rhdp-drupal.stage.redhat.com/</jboss.developer.drupal.url>
         <linkXRef>false</linkXRef>
     </properties>
 
@@ -608,48 +607,6 @@
                     </plugin>
                 </plugins>
             </build>
-        </profile>
-        <profile>
-            <id>publish-rh-developer</id>
-            <activation>
-                <property>
-                    <name>publish-developer-website</name>
-                </property>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.wildfly.maven.plugins</groupId>
-                        <artifactId>quickstart-documentation-plugin</artifactId>
-                        <version>${version.org.wildfly.quickstarts.documentation.plugin}</version>
-                        <inherited>false</inherited>
-                        <executions>
-                            <execution>
-                                <phase>process-resources</phase>
-                                <goals>
-                                    <goal>drupal-push</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                        <configuration>
-                            <drupalUrl>${jboss.developer.drupal.url}</drupalUrl>
-                            <serverName>rh-drupal</serverName>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <id>publish-rh-developer-prod</id>
-            <activation>
-                <property>
-                    <name>publish-developer-website</name>
-                    <value>prod</value>
-                </property>
-            </activation>
-            <properties>
-                <jboss.developer.drupal.url>http://rhdp-drupal.redhat.com/</jboss.developer.drupal.url>
-            </properties>
         </profile>
     </profiles>
 </project>
