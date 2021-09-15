@@ -64,15 +64,9 @@
             filtered resources, i.e. build is platform dependent! -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <!-- Protocol to use for communication with remote maven repositories.
-                     You can set to 'http' if you are using a maven proxy and 'https'
-                     interferes with that. Use 'https' for builds that will be released
-                     to non-snapshot public maven repos -->
-        <maven.repository.protocol>https</maven.repository.protocol>
-        <!-- The full remote maven repo URL; can be overridden via -D for special use cases -->
-        <maven.repository.url>${maven.repository.protocol}://repository.jboss.org/nexus/content/groups/public/</maven.repository.url>
-        <!-- https://access.redhat.com/maven-repository -->
-        <maven.redhat.repository.url>${maven.repository.protocol}://maven.repository.redhat.com/ga/</maven.redhat.repository.url>
+        <!-- The remote maven repo URLs, which can be overridden via -D for special use cases -->
+        <maven.jboss.public.repository.url>https://repository.jboss.org/nexus/content/groups/public/</maven.jboss.public.repository.url>
+        <maven.redhat.ga.repository.url>https://maven.repository.redhat.com/ga/</maven.redhat.ga.repository.url>
 
         <jboss.developer.drupal.url>http://rhdp-drupal.stage.redhat.com/</jboss.developer.drupal.url>
         <linkXRef>false</linkXRef>
@@ -80,6 +74,10 @@
 
     <repositories>
         <repository>
+            <id>jboss-public-maven-repository</id>
+            <name>JBoss Public Maven Repository</name>
+            <url>${maven.jboss.public.repository.url}</url>
+            <layout>default</layout>
             <releases>
                 <enabled>true</enabled>
                 <updatePolicy>never</updatePolicy>
@@ -88,12 +86,12 @@
                 <enabled>true</enabled>
                 <updatePolicy>never</updatePolicy>
             </snapshots>
-            <id>jboss-public-repository-group</id>
-            <name>JBoss Public Repository Group</name>
-            <url>${maven.repository.url}</url>
-            <layout>default</layout>
         </repository>
         <repository>
+            <id>redhat-ga-maven-repository</id>
+            <name>Red Hat GA Maven Repository</name>
+            <url>${maven.redhat.ga.repository.url}</url>
+            <layout>default</layout>
             <releases>
                 <enabled>true</enabled>
                 <updatePolicy>never</updatePolicy>
@@ -102,35 +100,30 @@
                 <enabled>true</enabled>
                 <updatePolicy>never</updatePolicy>
             </snapshots>
-            <id>jboss-enterprise-maven-repository</id>
-            <name>JBoss Enterprise Maven Repository</name>
-            <url>${maven.redhat.repository.url}</url>
-            <layout>default</layout>
         </repository>
     </repositories>
-
     <pluginRepositories>
         <pluginRepository>
+            <id>jboss-public-maven-repository</id>
+            <name>JBoss Public Maven Repository</name>
+            <url>${maven.jboss.public.repository.url}</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
-            <id>jboss-public-repository-group</id>
-            <name>JBoss Public Repository Group</name>
-            <url>${maven.repository.url}</url>
         </pluginRepository>
         <pluginRepository>
+            <id>redhat-ga-maven-repository</id>
+            <name>Red Hat GA Maven Repository</name>
+            <url>${maven.redhat.ga.repository.url}</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
-            <id>jboss-enterprise-maven-repository</id>
-            <name>JBoss Enterprise Maven Repository</name>
-            <url>${maven.redhat.repository.url}</url>
         </pluginRepository>
     </pluginRepositories>
 
@@ -320,100 +313,103 @@
                 </property>
             </activation>
             <modules>
-    <!-- All the modules that require nothing but JBoss Enterprise
-        Application Platform or JBoss EAP -->
-    <module>app-client</module>
-    <module>batch-processing</module>
-    <module>bean-validation</module>
-    <module>bean-validation-custom-constraint</module>
-    <module>bmt</module>
-    <module>cmt</module>
-    <module>contacts-jquerymobile</module>
-    <module>deltaspike-authorization</module>
-    <module>deltaspike-beanbuilder</module>
-    <module>deltaspike-projectstage</module>
-    <module>ee-security</module>
-    <module>ejb-asynchronous</module>
-    <module>ejb-in-ear</module>
-    <module>ejb-in-war</module>
-    <module>ejb-multi-server</module>
-    <module>ejb-security</module>
-    <!--
-    <module>ejb-security-context-propagation</module>
-    <module>ejb-security-jaas</module>
-    <module>ejb-security-programmatic-auth</module>
-    -->
-    <module>ejb-throws-exception</module>
-    <module>ejb-timer</module>
-    <!--
-    <module>ejb-txn-remote-call</module>
-    -->
-    <module>greeter</module>
-    <module>ha-singleton-deployment</module>
-    <!--
-    <module>ha-singleton-service</module>
-    -->
-    <module>helloworld</module>
-    <module>helloworld-classfiletransformer</module>
-    <module>helloworld-html5</module>
-    <module>helloworld-jms</module>
-    <module>helloworld-mbean</module>
-    <module>helloworld-mdb</module>
-    <!-- <module>helloworld-mdb-propertysubstitution</module> -->
-    <module>helloworld-mutual-ssl</module>
-    <!-- <module>helloworld-mutual-ssl-secured</module> -->
-    <module>helloworld-rf</module>
-    <module>helloworld-rs</module>
-    <module>helloworld-singleton</module>
-    <module>helloworld-ssl</module>
-    <module>helloworld-ws</module>
-    <module>hibernate4</module>
-    <module>hibernate</module>
-    <module>http-custom-mechanism</module>
-    <!-- <module>inter-app</module> -->
-    <module>jaxrs-client</module>
-    <!-- <module>jaxrs-jwt</module> -->
-    <module>jaxws-addressing</module>
-    <module>jaxws-ejb</module>
-    <module>jaxws-pojo</module>
-    <module>jaxws-retail</module>
-    <module>jsonp</module>
-    <module>kitchensink</module>
-    <module>kitchensink-angularjs</module>
-    <module>kitchensink-ear</module>
-    <module>kitchensink-jsp</module>
-    <module>kitchensink-ml</module>
-    <module>kitchensink-utjs-angularjs</module>
-    <module>kitchensink-utjs-mustache</module>
-    <module>logging</module>
-    <module>logging-tools</module>
-    <!-- <module>mail</module> -->
-    <module>managed-executor-service</module>
-    <!-- <module>messaging-clustering-singleton</module> -->
-    <module>numberguess</module>
-    <module>payment-cdi-event</module>
-    <module>resteasy-jaxrs-client</module>
-    <!-- <module>security-domain-to-domain</module> -->
-    <module>servlet-async</module>
-    <module>servlet-filterlistener</module>
-    <!-- <module>servlet-security</module> -->
-    <module>shopping-cart</module>
-    <module>spring-greeter</module>
-    <module>spring-kitchensink-basic</module>
-    <module>spring-kitchensink-springmvctest</module>
-    <module>spring-resteasy</module>
-    <module>tasks-jsf</module>
-    <module>tasks-rs</module>
-    <module>temperature-converter</module>
-    <module>thread-racing</module>
-    <module>websocket-client</module>
-    <module>websocket-endpoint</module>
-    <module>websocket-hello</module>
-    <module>wicket-ear</module>
-    <module>wicket-war</module>
-    <module>xml-jaxp</module>
-</modules>
-
+                <!-- All the modules that require nothing but JBoss Enterprise
+                    Application Platform or JBoss EAP -->
+                <module>app-client</module>
+                <module>batch-processing</module>
+                <module>bean-validation</module>
+                <module>bean-validation-custom-constraint</module>
+                <module>bmt</module>
+                <module>cmt</module>
+                <module>contacts-jquerymobile</module>
+                <module>deltaspike-authorization</module>
+                <module>deltaspike-beanbuilder</module>
+                <module>deltaspike-projectstage</module>
+                <module>ee-security</module>
+                <module>ejb-asynchronous</module>
+                <module>ejb-in-ear</module>
+                <module>ejb-in-war</module>
+                <module>ejb-multi-server</module>
+                <module>ejb-security</module>
+                <module>ejb-security-context-propagation</module>
+                <module>ejb-security-jaas</module>
+                <module>ejb-security-programmatic-auth</module>
+                <module>ejb-throws-exception</module>
+                <module>ejb-timer</module>
+                <module>ejb-txn-remote-call</module>
+                <module>greeter</module>
+                <module>ha-singleton-deployment</module>
+                <module>ha-singleton-service</module>
+                <module>helloworld</module>
+                <module>helloworld-classfiletransformer</module>
+                <module>helloworld-html5</module>
+                <module>helloworld-jms</module>
+                <module>helloworld-mbean</module>
+                <module>helloworld-mdb</module>
+                <module>helloworld-mdb-propertysubstitution</module>
+                <module>helloworld-mutual-ssl</module>
+                <module>helloworld-mutual-ssl-secured</module>
+                <module>helloworld-rf</module>
+                <module>helloworld-rs</module>
+                <module>helloworld-singleton</module>
+                <module>helloworld-ssl</module>
+                <module>helloworld-ws</module>
+                <module>hibernate4</module>
+                <module>hibernate</module>
+                <module>http-custom-mechanism</module>
+                <module>inter-app</module>
+                <module>jaxrs-client</module>
+                <module>jaxrs-jwt</module>
+                <module>jaxws-addressing</module>
+                <module>jaxws-ejb</module>
+                <module>jaxws-pojo</module>
+                <module>jaxws-retail</module>
+                <module>jsonp</module>
+                <module>kitchensink</module>
+                <module>kitchensink-angularjs</module>
+                <module>kitchensink-ear</module>
+                <module>kitchensink-jsp</module>
+                <module>kitchensink-ml</module>
+                <module>kitchensink-utjs-angularjs</module>
+                <module>kitchensink-utjs-mustache</module>
+                <module>logging</module>
+                <module>logging-tools</module>
+                <module>mail</module>
+                <module>managed-executor-service</module>
+                <module>messaging-clustering-singleton</module>
+                <module>microprofile-config</module>
+                <module>microprofile-fault-tolerance</module>
+                <module>microprofile-health</module>
+                <module>microprofile-jwt</module>
+                <module>microprofile-metrics</module>
+                <module>microprofile-openapi</module>
+                <module>microprofile-opentracing</module>
+                <module>microprofile-reactive-messaging-kafka</module>
+                <module>microprofile-rest-client</module>
+                <module>numberguess</module>
+                <module>payment-cdi-event</module>
+                <module>resteasy-jaxrs-client</module>
+                <module>security-domain-to-domain</module>
+                <module>servlet-async</module>
+                <module>servlet-filterlistener</module>
+                <module>servlet-security</module>
+                <module>shopping-cart</module>
+                <module>spring-greeter</module>
+                <module>spring-kitchensink-basic</module>
+                <module>spring-kitchensink-springmvctest</module>
+                <module>spring-resteasy</module>
+                <module>tasks-jsf</module>
+                <module>tasks-rs</module>
+                <module>temperature-converter</module>
+                <module>todo-backend</module>
+                <module>thread-racing</module>
+                <module>websocket-client</module>
+                <module>websocket-endpoint</module>
+                <module>websocket-hello</module>
+                <module>wicket-ear</module>
+                <module>wicket-war</module>
+                <module>xml-jaxp</module>
+            </modules>
         </profile>
         <profile>
             <!-- All the quickstarts that require Postgres to be running -->
