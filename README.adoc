@@ -44,8 +44,6 @@ Before you begin, you must perform the following tasks.
 
 . xref:build_wildfly_boms[Build and Install the WildFly BOMs (Optional)]: This step is only required if you are building a development version of the WildFly server and see dependency issues when you build the quickstarts. It is not required if you are running a https://github.com/wildfly/quickstart/tags[tagged] or  https://github.com/wildfly/boms/releases[released] version of the WildFly server.
 
-. xref:install_the_quickstart_parent_artifact_in_maven[Install the Quickstart Parent Artifact in Maven (Optional)]: This step is only required if you are running the latest https://github.com/wildfly/quickstart[development version of the quickstarts]. It is not required if you are running a https://github.com/wildfly/quickstart/tags[tagged] or https://github.com/wildfly/quickstart/releases[released] version of the quickstarts.
-
 . xref:build_quickstart_readme_files[Build the Quickstart README.html Files (Required)]: The quickstart `README` files are written in AsciiDoc to provide modular, reusable content; however, this makes them difficult to read. For this reason, you must also build the quickstart `README.html` files from the AsciiDoc source.
 
 [[build_wildfly_server]]
@@ -123,21 +121,6 @@ NOTE: If you run into build errors, check with the WildFly team to see if the re
 [source,options="nowrap"]
 ----
 $ mvn clean install '-Pdefault,!complex-dependencies'
-----
-
-[[install_the_quickstart_parent_artifact_in_maven]]
-=== Install the Quickstart Parent Artifact in Maven (Optional)
-
-The root `POM.xml` file defines dependencies that are required by some of the quickstarts.
-
-If you have downloaded and are running a https://github.com/wildfly/quickstart/tags[tagged] or https://github.com/wildfly/quickstart/releases[released] version of the quickstarts, you can ignore this step because the `quickstart-parent` artifact is already installed in Maven.
-
-If you are running the latest https://github.com/wildfly/quickstart[development version] of the quickstarts, you must install the `quickstart-parent` artifact so its dependencies are available to the quickstarts that need it. To install it, navigate to your __QUICKSTART_HOME__ directory  directory and run the following command.
-
-[source,subs="+quotes,attributes+",options="nowrap"]
-----
-$ cd __QUICKSTART_HOME__
-$ mvn clean install -N
 ----
 
 [[build_quickstart_readme_files]]

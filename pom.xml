@@ -25,7 +25,7 @@
     </parent>
 
     <groupId>org.wildfly.quickstarts</groupId>
-    <artifactId>quickstart-parent</artifactId>
+    <artifactId>quickstart-aggregator</artifactId>
     <!--
         Maintain separation between the artifact id and the version to help prevent
         merge conflicts between commits changing the GA and those changing the V.
@@ -34,8 +34,8 @@
 
     <packaging>pom</packaging>
 
-    <name>Quickstart: Parent</name>
-    <description>Quickstart's parent</description>
+    <name>Quickstart: Aggregator</name>
+    <description>Quickstart's aggregator</description>
     <url>https://github.com/wildfly/quickstart</url>
 
     <licenses>
@@ -52,7 +52,6 @@
         <product.name>WildFly</product.name>
         <!-- A base list of dependency and plug-in version used in the various quick starts. -->
         <version.org.asciidoctor.asciidoctor-maven-plugin>2.1.0</version.org.asciidoctor.asciidoctor-maven-plugin>
-        <version.wildfly.maven.plugin>2.0.2.Final</version.wildfly.maven.plugin>
         <version.org.wildfly.checkstyle-config>1.0.7.Final</version.org.wildfly.checkstyle-config>
         <version.org.wildfly.quickstarts.documentation.plugin>2.3.0.Final</version.org.wildfly.quickstarts.documentation.plugin>
         <!-- other plug-in versions -->
@@ -62,11 +61,6 @@
             message: [WARNING] Using platform encoding (UTF-8 actually) to copy
             filtered resources, i.e. build is platform dependent! -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-        <!-- The remote maven repo URLs, which can be overridden via -D for special use cases -->
-        <maven.jboss.public.repository.url>https://repository.jboss.org/nexus/content/groups/public/</maven.jboss.public.repository.url>
-        <maven.redhat.ga.repository.url>https://maven.repository.redhat.com/ga/</maven.redhat.ga.repository.url>
-
         <linkXRef>false</linkXRef>
     </properties>
 
@@ -74,8 +68,7 @@
         <repository>
             <id>jboss-public-maven-repository</id>
             <name>JBoss Public Maven Repository</name>
-            <url>${maven.jboss.public.repository.url}</url>
-            <layout>default</layout>
+            <url>https://repository.jboss.org/nexus/content/groups/public/</url>
             <releases>
                 <enabled>true</enabled>
                 <updatePolicy>never</updatePolicy>
@@ -84,12 +77,12 @@
                 <enabled>true</enabled>
                 <updatePolicy>never</updatePolicy>
             </snapshots>
+            <layout>default</layout>
         </repository>
         <repository>
             <id>redhat-ga-maven-repository</id>
             <name>Red Hat GA Maven Repository</name>
-            <url>${maven.redhat.ga.repository.url}</url>
-            <layout>default</layout>
+            <url>https://maven.repository.redhat.com/ga/</url>
             <releases>
                 <enabled>true</enabled>
                 <updatePolicy>never</updatePolicy>
@@ -98,13 +91,14 @@
                 <enabled>true</enabled>
                 <updatePolicy>never</updatePolicy>
             </snapshots>
+            <layout>default</layout>
         </repository>
     </repositories>
     <pluginRepositories>
         <pluginRepository>
             <id>jboss-public-maven-repository</id>
             <name>JBoss Public Maven Repository</name>
-            <url>${maven.jboss.public.repository.url}</url>
+            <url>https://repository.jboss.org/nexus/content/groups/public/</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
@@ -115,7 +109,7 @@
         <pluginRepository>
             <id>redhat-ga-maven-repository</id>
             <name>Red Hat GA Maven Repository</name>
-            <url>${maven.redhat.ga.repository.url}</url>
+            <url>https://maven.repository.redhat.com/ga/</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
@@ -173,20 +167,6 @@
                     <groupId>org.asciidoctor</groupId>
                     <artifactId>asciidoctor-maven-plugin</artifactId>
                     <version>${version.org.asciidoctor.asciidoctor-maven-plugin}</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.wildfly.plugins</groupId>
-                    <artifactId>wildfly-maven-plugin</artifactId>
-                    <version>${version.wildfly.maven.plugin}</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-ejb-plugin</artifactId>
-                    <version>${version.ejb.plugin}</version>
-                    <configuration>
-                        <!-- Tell Maven we are using EJB -->
-                        <ejbVersion>3.2</ejbVersion>
-                    </configuration>
                 </plugin>
                 <!-- Checkstyle -->
                 <plugin>
@@ -574,38 +554,6 @@
             <modules>
                 <module>dist</module>
             </modules>
-        </profile>
-        <profile>
-            <!-- When built in OpenShift the 'openshift' profile will be
-                used when invoking mvn. -->
-            <!-- Use this profile for any OpenShift specific customization
-                your app will ne    ed. -->
-            <!-- By default that is to put the resulting archive into the
-                'deployments' folder. -->
-            <!-- http://maven.apache.org/guides/mini/guide-building-for-different-environments.html -->
-            <id>openshift</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-war-plugin</artifactId>
-                        <version>${version.war.plugin}</version>
-                        <configuration>
-                            <warName>ROOT</warName>
-                        </configuration>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-source-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>attach-sources</id>
-                                <phase>none</phase>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
         </profile>
     </profiles>
 </project>
