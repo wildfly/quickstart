@@ -47,7 +47,7 @@ jobs:
     - name: Build Quickstarts
       run: |
         cd quickstarts
-        mvn -U -B -fae clean install
+        mvn -U -B -fae clean install -Drelease
     - uses: actions/upload-artifact@v2
       if: failure()
       with:

@@ -19,16 +19,17 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.wildfly.quickstarts</groupId>
-        <artifactId>quickstart-parent</artifactId>
+        <artifactId>wildfly-quickstart-parent</artifactId>
         <!--
         Maintain separation between the artifact id and the version to help prevent
         merge conflicts between commits changing the GA and those changing the V.
         -->
-        <version>25.0.0.Beta1-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
+        <version>2</version>
+        <relativePath/>
     </parent>
 
     <artifactId>microprofile-jwt</artifactId>
+    <version>25.0.0.Beta1-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>Quickstart: microprofile-jwt</name>
     <description>Example project making use of MicroProfile JWT</description>
@@ -42,9 +43,6 @@
     </licenses>
 
     <properties>
-        <!-- The remote maven repo URLs, which can be overridden via -D for special use cases -->
-        <maven.jboss.public.repository.url>https://repository.jboss.org/nexus/content/groups/public/</maven.jboss.public.repository.url>
-        <maven.redhat.ga.repository.url>https://maven.repository.redhat.com/ga/</maven.redhat.ga.repository.url>
         <!-- The versions for BOMs, Dependencies and Plugins -->
         <version.com.nimbusds.jose.jwt>5.4</version.com.nimbusds.jose.jwt>
         <version.glassfish.json>1.1.6</version.glassfish.json>
@@ -60,8 +58,7 @@
         <repository>
             <id>jboss-public-maven-repository</id>
             <name>JBoss Public Maven Repository</name>
-            <url>${maven.jboss.public.repository.url}</url>
-            <layout>default</layout>
+            <url>https://repository.jboss.org/nexus/content/groups/public/</url>
             <releases>
                 <enabled>true</enabled>
                 <updatePolicy>never</updatePolicy>
@@ -70,12 +67,12 @@
                 <enabled>true</enabled>
                 <updatePolicy>never</updatePolicy>
             </snapshots>
+            <layout>default</layout>
         </repository>
         <repository>
             <id>redhat-ga-maven-repository</id>
             <name>Red Hat GA Maven Repository</name>
-            <url>${maven.redhat.ga.repository.url}</url>
-            <layout>default</layout>
+            <url>https://maven.repository.redhat.com/ga/</url>
             <releases>
                 <enabled>true</enabled>
                 <updatePolicy>never</updatePolicy>
@@ -84,13 +81,14 @@
                 <enabled>true</enabled>
                 <updatePolicy>never</updatePolicy>
             </snapshots>
+            <layout>default</layout>
         </repository>
     </repositories>
     <pluginRepositories>
         <pluginRepository>
             <id>jboss-public-maven-repository</id>
             <name>JBoss Public Maven Repository</name>
-            <url>${maven.jboss.public.repository.url}</url>
+            <url>https://repository.jboss.org/nexus/content/groups/public/</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
@@ -101,7 +99,7 @@
         <pluginRepository>
             <id>redhat-ga-maven-repository</id>
             <name>Red Hat GA Maven Repository</name>
-            <url>${maven.redhat.ga.repository.url}</url>
+            <url>https://maven.repository.redhat.com/ga/</url>
             <releases>
                 <enabled>true</enabled>
             </releases>

@@ -38,19 +38,15 @@
             message: [WARNING] Using platform encoding (UTF-8 actually) to copy 
             filtered resources, i.e. build is platform dependent! -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <!-- The remote maven repo URLs, which can be overridden via -D for special use cases -->
-        <maven.jboss.public.repository.url>https://repository.jboss.org/nexus/content/groups/public/</maven.jboss.public.repository.url>
-        <maven.redhat.ga.repository.url>https://maven.repository.redhat.com/ga/</maven.redhat.ga.repository.url>
         <!-- The versions for BOMs, Dependencies and Plugins -->
-        <version.server.bom>24.0.0.Final-SNAPSHOT</version.server.bom>
+        <version.server.bom>24.0.1.Final</version.server.bom>
     </properties>
 
     <repositories>
         <repository>
             <id>jboss-public-maven-repository</id>
             <name>JBoss Public Maven Repository</name>
-            <url>${maven.jboss.public.repository.url}</url>
-            <layout>default</layout>
+            <url>https://repository.jboss.org/nexus/content/groups/public/</url>
             <releases>
                 <enabled>true</enabled>
                 <updatePolicy>never</updatePolicy>
@@ -59,12 +55,12 @@
                 <enabled>true</enabled>
                 <updatePolicy>never</updatePolicy>
             </snapshots>
+            <layout>default</layout>
         </repository>
         <repository>
             <id>redhat-ga-maven-repository</id>
             <name>Red Hat GA Maven Repository</name>
-            <url>${maven.redhat.ga.repository.url}</url>
-            <layout>default</layout>
+            <url>https://maven.repository.redhat.com/ga/</url>
             <releases>
                 <enabled>true</enabled>
                 <updatePolicy>never</updatePolicy>
@@ -73,13 +69,14 @@
                 <enabled>true</enabled>
                 <updatePolicy>never</updatePolicy>
             </snapshots>
+            <layout>default</layout>
         </repository>
     </repositories>
     <pluginRepositories>
         <pluginRepository>
             <id>jboss-public-maven-repository</id>
             <name>JBoss Public Maven Repository</name>
-            <url>${maven.jboss.public.repository.url}</url>
+            <url>https://repository.jboss.org/nexus/content/groups/public/</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
@@ -90,7 +87,7 @@
         <pluginRepository>
             <id>redhat-ga-maven-repository</id>
             <name>Red Hat GA Maven Repository</name>
-            <url>${maven.redhat.ga.repository.url}</url>
+            <url>https://maven.repository.redhat.com/ga/</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
