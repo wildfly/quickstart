@@ -28,9 +28,9 @@ package org.jboss.as.quickstarts.jaxrs.client;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.jboss.resteasy.client.jaxrs.ResteasyClient;
-import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
-import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.WebTarget;
 
 /**
  * JUnit4 Test class which makes a request to the RESTful helloworld-rs web service.
@@ -98,10 +98,10 @@ public class JaxRsClient {
 
 
         // Using the RESTEasy libraries, initiate a client request
-        ResteasyClient client = new ResteasyClientBuilder().build();
+        Client client = ClientBuilder.newClient();
 
         // Set url as target
-        ResteasyWebTarget target = client.target(url);
+        WebTarget target = client.target(url);
 
         // Be sure to set the mediatype of the request
         target.request(mediaType);
