@@ -23,8 +23,7 @@ or restarted.
 == Architecture
 
 In this quickstart, we have a simple REST application that exposes MicroProfile Health
-functionalities at the `/health/live` and `/health/ready` endpoints according to the
-specification.
+functionalities at the `/health/live`, `/health/ready`, and `/health/started` endpoints according to the specification.
 
 // System Requirements
 include::../shared-doc/system-requirements.adoc[leveloffset=+1]
@@ -50,6 +49,7 @@ The {productName} server directly exposes three REST endpoints:
 
 - `/health/live` - The application is up and running.
 - `/health/ready` - The application is ready to serve requests.
+- `/health/started` - The application is started allowing switch to liveness check.
 - `/health` - Accumulating all health check procedures in the application.
 
 To check that the {productName} is working as expected:
@@ -65,8 +65,8 @@ All of the health REST endpoints return a simple JSON object with two fields:
 The general `status` of the health check is computed as a logical AND of all the
 declared health check procedures.
 
-NOTE: Similarly you can access `http://localhost:9990/health/ready` and
-`http://localhost:9990/health`
+NOTE: Similarly, you can access `http://localhost:9990/health/ready`,
+`http://localhost:9990/health/started`, and `http://localhost:9990/health`
 
 Congratulations! You successfully deployed and run this quickstart. If you wish to
 create the application step by step you can follow the subsequent sections.
@@ -209,6 +209,7 @@ following CDI qualifiers:
 
 - `@Liveness` - the liveness check accessible at `/health/live`
 - `@Readiness` - the readiness check accessible at `/health/ready`
+- `@Startup` - the readiness check accessible at `/health/started`
 
 `HealthCheck` is a functional interface whose single method `call` returns a
 `HealthCheckResponse` object which can be easily constructed by the fluent builder
@@ -289,6 +290,15 @@ is detailed in the MicroProfile Health specification. Generally, the liveness
 procedures determine whether the application should be restarted while readiness
 procedures determine whether it makes sense to contact the application with requests.
 
+== Startup health checks
+
+Startup health checks are used in cloud environments to define checks that should respond
+UP before the liveness checks start to be called. This is useful in cases of slow container
+startups so the container won't get prematurely restarted if liveness is called before the
+container is fully initialized. These checks are defined in the same way as liveness or
+readiness checks but with the `@Startup` CDI qualifier. The HTTP endpoint exposed for the
+startup checks is available at `/health/started`. For simplicity, we will not include code
+example in this quickstart.
 
 == Negative health check procedures
 
@@ -453,8 +463,10 @@ include::../shared-doc/build-and-run-the-quickstart-with-bootable-jar.adoc[level
 
 MicroProfile Health provides a way for your application to distribute information
 about its healthiness state to state whether or not it is able to function properly.
-Liveness checks are utilized to tell whether the application should be restarted and
-readiness checks are used to tell whether the application is able to process requests.
+Liveness checks are utilized to tell whether the application should be restarted.
+Readiness checks are used to tell whether the application is able to process requests.
+And last but not least, startup checks are useful if your container has a slow startup to
+prevent premature restarts if the liveness probes are called too soon.
 
 Congratulations! You have reached the end of this tutorial. You can find more information
 about the MicroProfile Health in the specification https://github.com/eclipse/microprofile-health[github repository].
