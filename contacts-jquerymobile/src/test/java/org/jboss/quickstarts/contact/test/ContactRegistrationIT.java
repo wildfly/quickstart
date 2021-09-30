@@ -22,10 +22,11 @@ import static org.junit.Assert.assertNotNull;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -44,7 +45,6 @@ import org.jboss.quickstarts.contact.ContactService;
 import org.jboss.quickstarts.contact.ContactValidator;
 import org.jboss.quickstarts.contact.JaxRsActivator;
 import org.jboss.quickstarts.util.JSONPRequestFilter;
-import org.jboss.quickstarts.util.JacksonConfig;
 import org.jboss.quickstarts.util.Resources;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
@@ -56,7 +56,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -85,7 +84,6 @@ public class ContactRegistrationIT {
                 ContactRepository.class,
                 ContactValidator.class,
                 ContactService.class,
-                JacksonConfig.class,
                 JSONPRequestFilter.class,
                 Resources.class)
             //            .addAsLibraries(libs)
@@ -103,16 +101,11 @@ public class ContactRegistrationIT {
     @Inject
     Logger log;
 
-    //Set millis 498484800000 from 1985-10-10T12:00:00.000Z
-    private Date date = new Date(498484800000L);
-
-    @BeforeClass
-    public static void setRestEasyAsDefaultClient() {
-        System.setProperty(ClientBuilder.JAXRS_DEFAULT_CLIENT_BUILDER_PROPERTY, "org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder");
-    }
+    private final LocalDate date = LocalDate.of(1985, 10, 10);
 
     @Test
     @InSequence(1)
+    @RequestScoped
     public void testRegister() throws Exception {
         Contact contact = createContactInstance("Jack", "Doe", "jack@mailinator.com", "2125551234", date);
         Response response = contactRESTService.createContact(contact);
@@ -214,7 +207,7 @@ public class ContactRegistrationIT {
         client.close();
     }
 
-    private Contact createContactInstance(String firstName, String lastName, String email, String phone, Date birthDate) {
+    private Contact createContactInstance(String firstName, String lastName, String email, String phone, LocalDate birthDate) {
         Contact contact = new Contact();
         contact.setFirstName(firstName);
         contact.setLastName(lastName);
