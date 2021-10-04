@@ -116,11 +116,6 @@
     </dependencyManagement>
 
     <dependencies>
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <scope>test</scope>
-        </dependency>
         <!-- First declare the APIs we depend on and need for compilation. All of them are provided by EAP -->
 
         <!-- Import the CDI API, we use provided scope as the API is included in EAP -->
@@ -141,11 +136,6 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpclient</artifactId>
             <scope>test</scope>
         </dependency>
 
@@ -188,23 +178,30 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- This is used in the ContactRESTService. While the usage seems a bit odd, it seems required to test with
+             Arquillian -->
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-core-spi</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
         <!-- Test dependencies required for testing REST services -->
         <dependency>
             <groupId>org.jboss.resteasy</groupId>
             <artifactId>resteasy-client</artifactId>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>org.jboss.resteasy</groupId>
-            <artifactId>resteasy-jackson2-provider</artifactId>
-            <scope>provided</scope>
+            <artifactId>resteasy-json-binding-provider</artifactId>
+            <scope>test</scope>
         </dependency>
 
         <!-- Import the JAX-RS API, we use provided scope as the API is included in EAP -->
         <dependency>
-            <groupId>org.jboss.resteasy</groupId>
-            <artifactId>resteasy-jaxrs</artifactId>
+            <groupId>org.jboss.spec.javax.ws.rs</groupId>
+            <artifactId>jboss-jaxrs-api_2.1_spec</artifactId>
             <scope>provided</scope>
         </dependency>
 
