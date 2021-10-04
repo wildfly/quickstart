@@ -33,7 +33,7 @@ import org.eclipse.microprofile.faulttolerance.Fallback;
 import org.eclipse.microprofile.faulttolerance.Retry;
 import org.eclipse.microprofile.faulttolerance.Timeout;
 import org.jboss.logging.Logger;
-import org.jboss.resteasy.annotations.jaxrs.PathParam;
+import javax.ws.rs.PathParam;
 
 /**
  * A JAX-RS resource that provides information about kinds of coffees we have on store and numbers of packages available.
