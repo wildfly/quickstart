@@ -17,7 +17,6 @@
 
 package org.jboss.as.quickstarts.ha.singleton.service;
 
-import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 import org.jboss.logging.Logger;
@@ -25,7 +24,6 @@ import org.jboss.msc.Service;
 import org.jboss.msc.service.StartContext;
 import org.jboss.msc.service.StopContext;
 import org.wildfly.clustering.group.Group;
-import org.wildfly.clustering.group.Node;
 
 /**
  * Implementation of the singleton service. The container will ensure that at most one instance of this service is running at
@@ -35,32 +33,22 @@ import org.wildfly.clustering.group.Node;
  */
 class SingletonService implements Service {
 
-    private Logger LOG = Logger.getLogger(this.getClass());
+    private final Logger log = Logger.getLogger(this.getClass());
 
-    private Node node;
+    private final Supplier<Group> group;
 
-    private Supplier<Group> groupSupplier;
-    private Consumer<Node> nodeConsumer;
-
-    SingletonService(Supplier<Group> groupSupplier, Consumer<Node> nodeConsumer) {
-        this.groupSupplier = groupSupplier;
-        this.nodeConsumer = nodeConsumer;
+    SingletonService(Supplier<Group> group) {
+        this.group = group;
     }
 
     @Override
     public void start(StartContext context) {
-        this.node = this.groupSupplier.get().getLocalMember();
-
-        this.nodeConsumer.accept(this.node);
-
-        LOG.infof("Singleton service is started on node '%s'.", this.node);
+        this.log.infof("Singleton service started on %s.", this.group.get().getLocalMember());
     }
 
     @Override
     public void stop(StopContext context) {
-        LOG.infof("Singleton service is stopping on node '%s'.", this.node);
-
-        this.node = null;
+        this.log.infof("Singleton service stopped on %s.", this.group.get().getLocalMember());
     }
 
 }

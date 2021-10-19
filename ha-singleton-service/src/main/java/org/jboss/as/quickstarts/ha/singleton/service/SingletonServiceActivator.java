@@ -26,8 +26,8 @@ import org.jboss.msc.service.ServiceBuilder;
 import org.jboss.msc.service.ServiceName;
 import org.jboss.msc.service.ServiceTarget;
 import org.wildfly.clustering.group.Group;
-import org.wildfly.clustering.group.Node;
-import org.wildfly.clustering.service.ActiveServiceSupplier;
+import org.wildfly.clustering.service.ChildTargetService;
+import org.wildfly.clustering.singleton.Singleton;
 import org.wildfly.clustering.singleton.SingletonDefaultRequirement;
 import org.wildfly.clustering.singleton.service.SingletonPolicy;
 
@@ -39,36 +39,31 @@ import org.wildfly.clustering.singleton.service.SingletonPolicy;
  */
 public class SingletonServiceActivator implements ServiceActivator {
 
-    private final Logger LOG = Logger.getLogger(SingletonServiceActivator.class);
+    private static final ServiceName SINGLETON_SERVICE_NAME = ServiceName.parse("org.jboss.as.quickstarts.ha.singleton.service");
+    private static final ServiceName QUERYING_SERVICE_NAME = ServiceName.parse("org.jboss.as.quickstarts.ha.singleton.service.querying");
+    private static final ServiceName INSTALLER_SERVICE_NAME = ServiceName.parse(SingletonServiceActivator.class.getName());
+    private static final ServiceName GROUP_SERVICE_NAME = ServiceName.parse("org.wildfly.clustering.default-group");
 
-    static final ServiceName SINGLETON_SERVICE_NAME =
-            ServiceName.parse("org.jboss.as.quickstarts.ha.singleton.service");
-    private static final ServiceName QUERYING_SERVICE_NAME =
-            ServiceName.parse("org.jboss.as.quickstarts.ha.singleton.service.querying");
+    private final Logger log = Logger.getLogger(this.getClass());
 
     @Override
-    public void activate(ServiceActivatorContext serviceActivatorContext) {
-
-        // Look up the default singleton policy
-
-        SingletonPolicy policy = new ActiveServiceSupplier<SingletonPolicy>(
-                serviceActivatorContext.getServiceRegistry(),
-                ServiceName.parse(SingletonDefaultRequirement.POLICY.getName())
-        ).get();
-
-        // Install singleton service
-
-        ServiceTarget target = serviceActivatorContext.getServiceTarget();
-        ServiceBuilder<?> builder = policy.createSingletonServiceConfigurator(SINGLETON_SERVICE_NAME).build(target);
-        Consumer<Node> member = builder.provides(SINGLETON_SERVICE_NAME);
-        Supplier<Group> group = builder.requires(ServiceName.parse("org.wildfly.clustering.default-group"));
-        builder.setInstance(new SingletonService(group, member)).install();
+    public void activate(ServiceActivatorContext context) {
+        ServiceBuilder<?> installerBuilder = context.getServiceTarget().addService(INSTALLER_SERVICE_NAME);
+        Supplier<SingletonPolicy> policy = installerBuilder.requires(ServiceName.parse(SingletonDefaultRequirement.POLICY.getName()));
+        Consumer<ServiceTarget> installer = target -> {
+            // Install singleton service
+            ServiceBuilder<?> builder = policy.get().createSingletonServiceConfigurator(SINGLETON_SERVICE_NAME).build(target);
+            Supplier<Group> group = builder.requires(GROUP_SERVICE_NAME);
+            builder.setInstance(new SingletonService(group)).install();
+        };
+        installerBuilder.setInstance(new ChildTargetService(installer)).install();
 
         // Install querying service
 
-        serviceActivatorContext.getServiceTarget().addService(QUERYING_SERVICE_NAME).setInstance(new QueryingService()).install();
+        ServiceBuilder<?> queryingBuilder = context.getServiceTarget().addService(QUERYING_SERVICE_NAME);
+        Supplier<Singleton> singleton = queryingBuilder.requires(SINGLETON_SERVICE_NAME.append("singleton"));
+        queryingBuilder.setInstance(new QueryingService(singleton)).install();
 
-        LOG.info("Singleton and querying services activated.");
-
+        this.log.info("Singleton and querying services activated.");
     }
 }
