@@ -27,7 +27,7 @@ import org.jboss.msc.Service;
 import org.jboss.msc.service.StartContext;
 import org.jboss.msc.service.StopContext;
 import org.wildfly.clustering.group.Node;
-import org.wildfly.clustering.service.PassiveServiceSupplier;
+import org.wildfly.clustering.singleton.Singleton;
 
 /**
  * This service periodically looks up the singleton service. If the service is running on this node it will log value provided
@@ -38,32 +38,38 @@ import org.wildfly.clustering.service.PassiveServiceSupplier;
  */
 class QueryingService implements Service {
 
-    private Logger LOG = Logger.getLogger(this.getClass());
-    private ScheduledExecutorService executor;
+    private final Logger log = Logger.getLogger(this.getClass());
+
+    private final Supplier<Singleton> singleton;
+
+    private volatile ScheduledExecutorService executor;
+
+    public QueryingService(Supplier<Singleton> singleton) {
+        this.singleton = singleton;
+    }
 
     @Override
     public void start(StartContext context) {
-        LOG.info("Querying service is starting.");
+        Singleton singleton = this.singleton.get();
 
-        executor = Executors.newSingleThreadScheduledExecutor();
-        executor.scheduleAtFixedRate(() -> {
-
-            Supplier<Node> node = new PassiveServiceSupplier<>(context.getController().getServiceContainer(), SingletonServiceActivator.SINGLETON_SERVICE_NAME);
-            if (node.get() != null) {
-                LOG.infof("Singleton service is running on this (%s) node.", node.get());
+        this.executor = Executors.newSingleThreadScheduledExecutor();
+        this.executor.scheduleAtFixedRate(() -> {
+            Node primary = singleton.getPrimaryProvider();
+            if (primary != null) {
+                this.log.infof("Singleton service running on %s.", primary);
             } else {
-                LOG.infof("Singleton service is not running on this node.");
-
+                this.log.infof("Singleton service not running anywhere.");
             }
-
         }, 5, 5, TimeUnit.SECONDS);
+
+        this.log.info("Querying service started");
     }
 
     @Override
     public void stop(StopContext context) {
-        LOG.info("Querying service is stopping.");
+        this.executor.shutdown();
 
-        executor.shutdown();
+        this.log.info("Querying service stopped.");
     }
 
 }
