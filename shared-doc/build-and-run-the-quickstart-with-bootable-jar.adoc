@@ -173,8 +173,54 @@ endif::[]
               </plugins>
           </build>
       </profile>
+ifdef::reactive-messaging[]
+      <profile>
+          <id>os-jar-amq-streams</id>
+          <build>
+              <plugins>
+                  <plugin>
+                      <groupId>org.eclipse.jkube</groupId>
+                      <artifactId>openshift-maven-plugin</artifactId>
+                      <version>${version.jkube.maven.plugin}</version>
+                      <configuration>
+                          <resources>
+                              <env>
+                                <!-- Set the AMQ Streams URL to what is set up by the instructions -->
+                                  <MP_MESSAGING_CONNECTOR_SMALLRYE_KAFKA_BOOTSTRAP_SERVERS>my-cluster-kafka-bootstrap:9092</MP_MESSAGING_CONNECTOR_SMALLRYE_KAFKA_BOOTSTRAP_SERVERS>
+                              </env>
+                          </resources>
+                      </configuration>
+                  </plugin>
+              </plugins>
+          </build>
+      </profile>
+      <profile>
+          <!-- Extra parameters needed for RHOSAK with bootable jar -->
+          <id>os-jar-rhosak</id>
+          <build>
+              <plugins>
+                  <plugin>
+                      <groupId>org.wildfly.plugins</groupId>
+                      <artifactId>wildfly-jar-maven-plugin</artifactId>
+                      <version>${version.wildfly-jar.maven.plugin}</version>
+                      <configuration>
+                          <cli-sessions>
+                              <cli-session>
+                                  <!-- do not resolve expression as they reference env vars that -->
+                                  <!-- can be set at runtime -->
+                                  <resolve-expressions>false</resolve-expressions>
+                                  <script-files>
+                                      <script>src/main/scripts/bootable-jar/initialize-server.cli</script>
+                                  </script-files>
+                              </cli-session>
+                          </cli-sessions>
+                      </configuration>
+                  </plugin>
+              </plugins>
+          </build>
+      </profile>
+endif::[]
 ----
-
 .Procedure
 
 . Log in to your OpenShift instance using the `oc login` command.
@@ -186,14 +232,65 @@ endif::[]
 $ oc new-project bootable-jar-project
 ----
 ifdef::reactive-messaging[]
-. Install AMQ Streams into the `bootable-jar-project` OpenShift project as outlined link:#install_amq_streams[earlier]  in this quickstart. Note that the `MP_MESSAGING_CONNECTOR_SMALLRYE_KAFKA_BOOTSTRAP_SERVERS` environment variable in the pom.xml assume you have used the indicated name for your AMQ Streams cluster.
+. Depending on which kind of Kafka you would like:
+ a. Install *AMQ Streams* into the `bootable-jar-project` OpenShift project as outlined link:#install_amq_streams[earlier]  in this quickstart.
+ b. Set up a Kafka instance on *RHOSAK*, and connect it to the `mp-rm-qs` application as outlined link:#install_rhosak[earlier]  in this quickstart. The `os-jar-rhosak` profile in the pom.xml triggers running the `src/main/scripts/bootable-jar/initialize-server.cli` when preparing the bootable jar, so that the config map and service binding become part of the configuration provided by the `microprofile-config-smallrye` subsystem.
 endif::[]
 . Build the quickstart bootable JAR by issuing the following command. This command also completes the following tasks: creates the OpenShift deployment, service and route; generates a docker image and pushes the docker image to OpenShift; and runs the application.
 +
+// Bootable jar Deployment
++
+ifndef::reactive-messaging[]
 [source,subs="attributes+",options="nowrap"]
 ----
 $ mvn oc:deploy -Pbootable-jar-openshift
 ----
+endif::[]
+ifdef::reactive-messaging[]
+The command to deploy the application is slightly different depending on which Kafka installation you want to target. First add the Helm repository if you have not done so already:
+// TODO needs a diff commit to differentiate between EAP and Wildfly
++
+[source,subs="attributes+",options="nowrap"]
+----
+helm repo add {helmRepoName} {helmRepoUrl}
+----
++
+Then, either:
++
+a. If you are targeting Kafka supplied by *AMQ Streams*, use the following command:
++
+[source,subs="attributes+",options="nowrap"]
+----
+$ helm install mp-rm-qs -f ./helm-bootable-jar-amq-streams.yml {helmChartName} --set build.ref={WildFlyQuickStartRepoTag}
+----
+The contents of link:./helm-bootable-jar-amq-streams.yml[`helm-bootable-jar-amq-streams.yml`] are mostly similar to what was discussed for link:./helm-amq-streams.yml[`helm-amq-streams.yml`] earlier. The main difference is that `build.mode` is set to `bootable-jar`, and we specify `-Pbootable-jar-openshift` in the `MAVEN_ARGS_APPEND` environment variable to trigger the `bootable-jar-openshift` Maven profile when building the bootable jar.
++
+NOTE: Although the above command will return quite quickly, it will take a while until the application pod is actually brought up. In the OpenShift console you will see a pod whose name starts with {hemlAppName} in the `ErrImagePull` or `ImagePullBackoff` state until the build has completed.
++
+b. If you are targeting Kafka supplied by *RHOSAK*, use the following commands.
++
+Then install our application:
++
+[source,subs="attributes+",options="nowrap"]
+----
+$ helm install mp-rm-qs -f ./helm-bootable-jar-rhosak.yml {helmChartName} --set build.ref={WildFlyQuickStartRepoTag}
+----
+The contents of link:./helm-bootable-jar-rhosak.yml[`helm-bootable-jar-rhosak.yml`] are mostly similar to what was discussed for link:./helm-rhosak.yml[`helm-rhoask.yml`] earlier. The main difference is that `build.mode` is set to `bootable-jar`, and we specify `-Pbootable-jar-openshift,os-jar-rhosak` in the `MAVEN_ARGS_APPEND` environment variable to trigger the `bootable-jar-openshift` and `os-jar-rhosak` Maven profiles when building the bootable jar. For this combination we don't need the `QS_USE_RHOSAK` environment variable as the `os-jar-rhosak` contains the CLI script needed to configure the config map and service binding.
+
++
+NOTE: Although the above command will return quite quickly, it will take a while until the application pod is actually brought up. In the OpenShift console you will see a pod whose name starts with {hemlAppName} in the `ErrImagePull` or `ImagePullBackoff` state until the build has completed.
++
+Once the CLI returns, remember to bind the RHOSAK Kafka connection so the service binding is available and the `/bindings/kafka-config` directory gets created on the application pod:
++
+[source,subs="attributes+",options="nowrap"]
+----
+rhoas cluster bind --app-name mp-rm-qs  --binding-name kafka-config --yes
+----
+
+endif::[]
++
+// Bootable jar Deployment - END
++
 . Get the URL of the route.
 +
 [options="nowrap"]

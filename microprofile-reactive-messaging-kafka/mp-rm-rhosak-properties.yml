@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: reactive-messaging-properties
+data:
+  ordinal: "500"
+  mp.messaging.connector.smallrye-kafka.bootstrap.servers: ${bootstrapServers}
+  mp.messaging.connector.smallrye-kafka.security.protocol: ${securityProtocol}
+  mp.messaging.connector.smallrye-kafka.sasl.mechanism: ${saslMechanism}
+  mp.messaging.connector.smallrye-kafka.sasl.jaas.config: >-
+    org.apache.kafka.common.security.plain.PlainLoginModule required
+    username="${user}"
+    password="${password}";

@@ -47,7 +47,7 @@ public class RunKafkaSetupTask implements ServerSetupTask {
 
         Files.createDirectories(kafkaDir);
 
-        broker = new EmbeddedKafkaBroker(1, true, "testing")
+        broker = new EmbeddedKafkaBroker(1, true, 1, "testing")
                 .zkPort(2181)
                 .kafkaPorts(9092)
                 .brokerProperty("log.dir", kafkaDir.toString())

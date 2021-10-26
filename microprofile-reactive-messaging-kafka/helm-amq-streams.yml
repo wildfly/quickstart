@@ -1,0 +1,22 @@
+# TODO Update to point to the released quickstarts and image
+# Will need a diff commit in the upstream-to-product repository
+build:
+  uri: https://github.com/wildfly/quickstart.git
+  contextDir: microprofile-reactive-messaging-kafka
+  s2i:
+    galleonLayers:
+      - cloud-server
+      - h2-default-datasource
+      - microprofile-reactive-messaging-kafka
+  env:
+  - name: MAVEN_OPTS
+    value: -XX:MetaspaceSize=256m -XX:MaxMetaspaceSize=256m
+deploy:
+  replicas: 1
+  env:
+    - name: MP_MESSAGING_CONNECTOR_SMALLRYE_KAFKA_BOOTSTRAP_SERVERS
+      value: my-cluster-kafka-bootstrap:9092
+    - name: GC_MAX_METASPACE_SIZE
+      value: "256"
+    - name: GC_METASPACE_SIZE
+      value: "96"
