@@ -23,10 +23,14 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import org.eclipse.microprofile.reactive.messaging.Incoming;
+import org.eclipse.microprofile.reactive.messaging.Message;
 import org.eclipse.microprofile.reactive.messaging.Outgoing;
 import org.eclipse.microprofile.reactive.streams.operators.PublisherBuilder;
-import org.eclipse.microprofile.reactive.streams.operators.ReactiveStreams;
-import org.reactivestreams.Publisher;
+
+import io.smallrye.reactive.messaging.kafka.api.IncomingKafkaRecordMetadata;
+import io.smallrye.reactive.messaging.kafka.api.KafkaMetadataUtil;
+import io.smallrye.reactive.messaging.kafka.api.OutgoingKafkaRecordMetadata;
+
 
 /**
  * @author <a href="mailto:kabir.khan@jboss.com">Kabir Khan</a>
@@ -61,16 +65,34 @@ public class MessagingBean {
 
     @Incoming("sender")
     @Outgoing("to-kafka")
-    public Publisher<TimedEntry> sendToKafka(Publisher<String> messages) {
-        return ReactiveStreams.fromPublisher(messages)
-                .map(s -> new TimedEntry(new Timestamp(System.currentTimeMillis()), s))
-                .buildRs();
+    public Message<TimedEntry> sendToKafka(String msg) {
+        TimedEntry te = new TimedEntry(new Timestamp(System.currentTimeMillis()), msg);
+        Message<TimedEntry> m = Message.of(te);
+        // Just use the hash as the Kafka key for this example
+        int key = te.getMessage().hashCode();
+
+        // Create Metadata containing the Kafka key
+        OutgoingKafkaRecordMetadata<Integer> md = OutgoingKafkaRecordMetadata
+                .<Integer>builder()
+                .withKey(key)
+                .build();
+
+        // The returned message will have the metadata added
+        return KafkaMetadataUtil.writeOutgoingKafkaMetadata(m, md);
     }
 
     @Incoming("from-kafka")
-    public void receiveFromKafka(TimedEntry message) {
-        System.out.println("Received from Kafka, storing it in database: " + message);
-        dbBean.store(message);
-    }
+    public CompletionStage<Void> receiveFromKafka(Message<TimedEntry> message) {
+        TimedEntry payload = message.getPayload();
 
+        IncomingKafkaRecordMetadata<Integer, TimedEntry> md = KafkaMetadataUtil.readIncomingKafkaMetadata(message).get();
+        String msg =
+                "Received from Kafka, storing it in database\n" +
+                "\t%s\n" +
+                "\tkey: %d; partition: %d, topic: %s";
+        msg = String.format(msg, payload, md.getKey(), md.getPartition(), md.getTopic());
+        System.out.println(msg);
+        dbBean.store(payload);
+        return message.ack();
+    }
 }

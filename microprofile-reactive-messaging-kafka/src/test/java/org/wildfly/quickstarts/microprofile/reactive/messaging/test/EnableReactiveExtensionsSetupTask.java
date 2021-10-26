@@ -22,14 +22,6 @@
 
 package org.wildfly.quickstarts.microprofile.reactive.messaging.test;
 
-import static org.jboss.as.controller.descriptions.ModelDescriptionConstants.FAILED;
-import static org.jboss.as.controller.descriptions.ModelDescriptionConstants.NAME;
-import static org.jboss.as.controller.descriptions.ModelDescriptionConstants.OP;
-import static org.jboss.as.controller.descriptions.ModelDescriptionConstants.OP_ADDR;
-import static org.jboss.as.controller.descriptions.ModelDescriptionConstants.OUTCOME;
-import static org.jboss.as.controller.descriptions.ModelDescriptionConstants.READ_ATTRIBUTE_OPERATION;
-import static org.jboss.as.controller.descriptions.ModelDescriptionConstants.RESULT;
-import static org.jboss.as.controller.descriptions.ModelDescriptionConstants.SUCCESS;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
@@ -42,7 +34,6 @@ import java.util.concurrent.ExecutionException;
 
 import org.jboss.as.arquillian.api.ServerSetupTask;
 import org.jboss.as.arquillian.container.ManagementClient;
-import org.jboss.as.controller.PathAddress;
 import org.jboss.as.controller.client.ModelControllerClient;
 import org.jboss.as.controller.client.helpers.ClientConstants;
 import org.jboss.dmr.ModelNode;
@@ -58,8 +49,27 @@ public class EnableReactiveExtensionsSetupTask implements ServerSetupTask {
     private static final String SUBSYSTEM_REACTIVE_MESSAGING = "microprofile-reactive-messaging-smallrye";
     private static final String SUBSYSTEM_REACTIVE_STREAMS_OPERATORS = "microprofile-reactive-streams-operators-smallrye";
     public static final int TIMEOUT = 30000;
+
+    public static final String ADD = "add";
+    public static final String ADDRESS = "address";
+    public static final String ADMIN_ONLY = "admin-only";
+    public static final String CHILD_TYPE = "child-type";
     public static final String EXTENSION = "extension";
+    public static final String FAILED = "failed";
+    public static final String NAME = "name";
+    public static final String OPERATION = "operation";
+    public static final String OUTCOME = "outcome";
+    public static final String READ_ATTRIBUTE = "read-attribute";
+    public static final String READ_CHILDREN_NAMES = "read-children-names";
+    public static final String RELOAD = "reload";
+    public static final String RELOAD_REQUIRED = "reload-required";
+    public static final String REMOVE = "remove";
+    public static final String RESULT = "result";
+    public static final String RUNNING = "running";
+    public static final String SERVER_CONFIG = "server-config";
+    public static final String SERVER_STATE = "server-state";
     public static final String SUBSYSTEM = "subsystem";
+    public static final String SUCCESS = "success";
 
     List<ModelNode> removeOps = new ArrayList<>();
 
@@ -105,8 +115,8 @@ public class EnableReactiveExtensionsSetupTask implements ServerSetupTask {
 
     private boolean containsChild(ManagementClient managementClient, String childType, String childName) throws Exception {
         ModelNode op = new ModelNode();
-        op.get("operation").set("read-children-names");
-        op.get("child-type").set(childType);
+        op.get(OPERATION).set(READ_CHILDREN_NAMES);
+        op.get(CHILD_TYPE).set(childType);
         ModelNode result = executeOperation(managementClient, op);
         List<ModelNode> names = result.asList();
         for (ModelNode name : names) {
@@ -118,44 +128,44 @@ public class EnableReactiveExtensionsSetupTask implements ServerSetupTask {
     }
 
     private void addExtension(ManagementClient managementClient, String name) throws Exception {
-        ModelNode op = createOperation(PathAddress.pathAddress(EXTENSION, name), "add");
+        ModelNode op = createOperation(getExtensionAddress(name), ADD);
         executeOperation(managementClient, op);
     }
 
     private void addSubsystem(ManagementClient managementClient, String name) throws Exception {
-        ModelNode op = createOperation(PathAddress.pathAddress(SUBSYSTEM, name), "add");
+        ModelNode op = createOperation(getSubsystemAddress(name), ADD);
         executeOperation(managementClient, op);
     }
 
     private ModelNode createRemoveExtension(String name) throws Exception {
-        return createOperation(PathAddress.pathAddress("extension", name), "remove");
+        return createOperation(getExtensionAddress(name), REMOVE);
     }
 
     private ModelNode createRemoveSubsystem(String name) throws Exception {
-        return createOperation(PathAddress.pathAddress("subsystem", name), "remove");
+        return createOperation(getSubsystemAddress(name), REMOVE);
     }
 
-    private ModelNode createOperation(PathAddress address, String operationName) throws Exception {
+    private ModelNode createOperation(ModelNode address, String operationName) throws Exception {
         ModelNode op = new ModelNode();
-        op.get("address").set(address.toModelNode());
-        op.get("operation").set(operationName);
+        op.get(ADDRESS).set(address);
+        op.get(OPERATION).set(operationName);
         return op;
     }
 
     private ModelNode executeOperation(ManagementClient managementClient, ModelNode op) throws Exception{
         ModelNode result = managementClient.getControllerClient().execute(op);
-        if (!result.get("outcome").asString().equals("success")) {
+        if (!result.get(OUTCOME).asString().equals(SUCCESS)) {
             throw new IllegalStateException(result.asString());
         }
-        return result.get("result");
+        return result.get(RESULT);
     }
 
     private void reloadIfRequired(final ManagementClient managementClient) throws Exception {
         String runningState = getContainerRunningState(managementClient);
-        if ("reload-required".equalsIgnoreCase(runningState)) {
+        if (RELOAD_REQUIRED.equalsIgnoreCase(runningState)) {
             executeReloadAndWaitForCompletion(managementClient);
         } else {
-            Assert.assertEquals("Server state 'running' is expected", "running", runningState);
+            Assert.assertEquals("Server state 'running' is expected", RUNNING, runningState);
         }
     }
 
@@ -171,9 +181,9 @@ public class EnableReactiveExtensionsSetupTask implements ServerSetupTask {
      */
     private String getContainerRunningState(ModelControllerClient modelControllerClient) throws IOException {
         ModelNode operation = new ModelNode();
-        operation.get(OP_ADDR).setEmptyList();
-        operation.get(OP).set(READ_ATTRIBUTE_OPERATION);
-        operation.get(NAME).set("server-state");
+        operation.get(ADDRESS).setEmptyList();
+        operation.get(OPERATION).set(READ_ATTRIBUTE);
+        operation.get(NAME).set(SERVER_STATE);
         ModelNode rsp = modelControllerClient.execute(operation);
         return SUCCESS.equals(rsp.get(OUTCOME).asString()) ? rsp.get(RESULT).asString() : FAILED;
     }
@@ -185,15 +195,15 @@ public class EnableReactiveExtensionsSetupTask implements ServerSetupTask {
 
     private void executeReload(ModelControllerClient client, boolean adminOnly, String serverConfig) {
         ModelNode operation = new ModelNode();
-        operation.get(OP_ADDR).setEmptyList();
-        operation.get(OP).set("reload");
-        operation.get("admin-only").set(adminOnly);
+        operation.get(ADDRESS).setEmptyList();
+        operation.get(OPERATION).set(RELOAD);
+        operation.get(ADMIN_ONLY).set(adminOnly);
         if(serverConfig != null) {
-            operation.get("server-config").set(serverConfig);
+            operation.get(SERVER_CONFIG).set(serverConfig);
         }
         try {
             ModelNode result = client.execute(operation);
-            if (!"success".equals(result.get(ClientConstants.OUTCOME).asString())) {
+            if (!SUCCESS.equals(result.get(ClientConstants.OUTCOME).asString())) {
                 fail("Reload operation didn't finish successfully: " + result.asString());
             }
         } catch(IOException e) {
@@ -208,9 +218,9 @@ public class EnableReactiveExtensionsSetupTask implements ServerSetupTask {
         int adjustedTimeout = timeout;
         long start = System.currentTimeMillis();
         ModelNode operation = new ModelNode();
-        operation.get(OP_ADDR).setEmptyList();
-        operation.get(OP).set(READ_ATTRIBUTE_OPERATION);
-        operation.get(NAME).set("server-state");
+        operation.get(ADDRESS).setEmptyList();
+        operation.get(OPERATION).set(READ_ATTRIBUTE);
+        operation.get(NAME).set(SERVER_STATE);
         while (System.currentTimeMillis() - start < adjustedTimeout) {
             //do the sleep before we check, as the attribute state may not change instantly
             //also reload generally takes longer than 100ms anyway
@@ -223,7 +233,7 @@ public class EnableReactiveExtensionsSetupTask implements ServerSetupTask {
                         serverAddress, serverPort);
                 try {
                     ModelNode result = liveClient.execute(operation);
-                    if ("running" .equals(result.get(RESULT).asString())) {
+                    if (RUNNING.equals(result.get(RESULT).asString())) {
                         return;
                     }
                 } catch (IOException e) {
@@ -239,5 +249,16 @@ public class EnableReactiveExtensionsSetupTask implements ServerSetupTask {
                 adjustedTimeout + "(" + timeout + ") milliseconds");
     }
 
+    private ModelNode getExtensionAddress(String extension) {
+        ModelNode addr = new ModelNode();
+        addr.add(EXTENSION, extension);
+        return addr;
+    }
+
+    private ModelNode getSubsystemAddress(String subsystem) {
+        ModelNode addr = new ModelNode();
+        addr.add(SUBSYSTEM, subsystem);
+        return addr;
+    }
 
 }
