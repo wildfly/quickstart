@@ -28,7 +28,7 @@
 <body>
 <div id="container">
     <div class="dualbrand">
-        <img src="<c:url value="/static/resources/gfx/rhjb_eap_logo.png"/>"/>
+        <img src="<c:url value="/static/resources/gfx/rhjb_eap_logo.png"/>" width="300" height="175"/>
     </div>
     <div id="content">
         <h1>Welcome to JBoss!</h1>

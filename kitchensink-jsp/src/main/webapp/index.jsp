@@ -27,7 +27,7 @@
 <body>
     <div id="container">
         <div align="right" class="dualbrand">
-            <img src="resources/gfx/rhjb_eap_logo.png" />
+            <img src="resources/gfx/rhjb_eap_logo.png" width="300" height="175" />
         </div>
         <div id="content">
             <!-- here we include the Registration Form in the template page
