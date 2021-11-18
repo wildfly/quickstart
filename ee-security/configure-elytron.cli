@@ -1,19 +1,10 @@
-# Batch script to enable elytron for the quickstart application in the application server
-
-# Start batching commands
-batch
-
-# Disable legacy PicketBox JACC so Elytron can take over
-/subsystem=security:write-attribute(name=initialize-jacc, value=false)
+# CLI script to enable elytron for the quickstart application in the application server
 
 # Enable a default JACC policy with WildFly Elytron
 /subsystem=elytron/policy=jacc:add(jacc-policy={})
 
-# Map the 'other' security domain to WildFly Elytron
-/subsystem=undertow/application-security-domain=other:add(security-domain=ApplicationDomain, integrated-jaspi=false)
-
-# Run the batch commands
-run-batch
+# Disable 'integrated-jaspi' as the quickstart will be managing it's own identities
+/subsystem=undertow/application-security-domain=other:write-attribute(name=integrated-jaspi, value=false)
 
 # Reload the server configuration
 reload
