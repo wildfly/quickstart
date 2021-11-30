@@ -1032,7 +1032,7 @@ Run `oc get route` to find the URL of our application.
 
 [[xp-deploy-project-rhosak]]
 === Deploy the {ProductShortName} Source-to-Image (S2I) Quickstart to OpenShift with RHOSAK
-This section describes how to deploy the application to OpenShift interacting with Kafka provided by AMQ Streams. If you want to use AMQ Streams instead, see the <<xp-deploy-project-amq-streams,AMQ Streams instructions>>.
+This section describes how to deploy the application to OpenShift interacting with Kafka provided by RHOSAK. If you want to use AMQ Streams instead, see the <<xp-deploy-project-amq-streams,AMQ Streams instructions>>.
 
 To deploy your application make sure you have downloaded the https://docs.openshift.com/container-platform/4.8/cli_reference/helm_cli/getting-started-with-helm-on-openshift-container-platform.html[Helm CLI Tool]. `./helm-rhosak.yml` contains the information to deploy the application to be backed by Kafka provided by RHOSAK.
 
@@ -1053,7 +1053,7 @@ NOTE: Although the above command will return quite quickly, it will take a while
 While the OpenShift cluster is doing the work to build and deploy the application (i.e. as soon as the `helm install` has completed in your terminal), run the following command to set up the service binding for the Kafka connection as mentioned earlier:
 [source,subs="attributes+",options="nowrap"]
 ----
-rhoas cluster bind --app-name mp-rm-qs  --binding-name kafka-config --yes
+rhoas cluster bind --app-name mp-rm-qs --service-type kafka --binding-name kafka-config --yes
 ----
 
 You may also wait performing the above command until the application pod has been brought up. In this case it will log errors that it is not able to connect to Kafka. Once the above command is run, the 'faulty' pod will be taken down and replaced by one containing the correct configuration.
