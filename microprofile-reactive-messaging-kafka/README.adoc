@@ -1055,8 +1055,7 @@ The contents of the link:helm-rhosak.yml[`helm-rhosak.yml`] file:
 ** `h2-default-datasource` enables the HSQL database we store data in
 ** `cloud-server` provides among other things the web server functionality.
 * For both the build (under `build/env`) and the deploy `deploy/env`) parts, we specify environment variables to increase some JVM arguments from the default.
-* Additionally, under `build/env` we set `QS_USE_RHOSAK` to `1` which makes the script in link:src/main/scripts/rhosak/s2i/install.sh[`src/main/scripts/rhosak/s2i/install.sh`] copy the contents of the directory, which in turn runs the link:[`src/main/scripts/rhosak/s2i/initialize-server.cli`] CLI script to enable the service binding and the config map via the `microprofile-config-smallrye` subsystem.
-* The `volumes` and `volumeMounts` entries mount the directory containing the config map.
+* Additionally, under `build/env` we set `QS_USE_RHOSAK` to `1` which makes the script in link:src/main/scripts/rhosak/s2i/install.sh[`src/main/scripts/rhosak/s2i/install.sh`] copy the contents of the directory, which in turn runs the link:[`src/main/scripts/rhosak/s2i/initialize-server.cli`] CLI script to enable the service binding and points relevant MicroProfile Config properties to the service binding via the `microprofile-config-smallrye` subsystem.
 
 Run `oc get route` find the URL of our application.
 

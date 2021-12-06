@@ -11,11 +11,4 @@ if [[ "$QS_USE_RHOSAK" == "1" ]] || [[ "$QS_USE_RHOSAK" == "true" ]]; then
   echo "Copying "$1" directory to $JBOSS_HOME/extensions"
   cp -rf ${injected_dir} $JBOSS_HOME/extensions
 fi
-## copy any needed files into the target build.
-#if [ -d "${JBOSS_HOME}" ]; then
-#  echo "Copying extensions directory to $JBOSS_HOME/extensions"
-#  cp -rf ${injected_dir} $JBOSS_HOME/extensions
-#else
-#  echo "Running in bootable jar mode, not copying extensions directory"
-#fi
 

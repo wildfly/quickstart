@@ -20,19 +20,6 @@ We will summarize the steps required to set up a Kafka instance in RHOSAK here. 
 2. Go into the instance and create a topic called `testing`. Use the suggested defaults for everything else.
 3. https://github.com/redhat-developer/app-services-cli[Download] the `rhoas` application for your OS. Make it available on your path.
 
-== Configuring your application
-The Quickstart was originally intended to run with local Kafka server. In order to configure it for RHOSAK, we will deploy a `ConfigMap` that provides the config properties required by MicroProfile Reactive Messaging based on the configuration of the Kafka instance.
-
-[source]
-----
-# QS_HOME is your local folder containing this README
-oc apply -f $QS_HOME/mp-rm-rhosak-properties.yml
-----
-
-If you look at the contents of the file you will see it follows the pattern of MicroProfile Config properties for Reactive Messaging. The ConfigMap properties are merged with the properties in the application's `microprofile-config.properties`. Where the same value exists in both places the ConfigMap entry takes precedence, so `mp.messaging.connector.smallrye-kafka.bootstrap.servers` from the ConfigMap value will be used. The ConfigMap also provides properties to set up authentication to the RHOSAK Kafka instance, and it contains references to properties (e.g. `${bootstrapServers}`) that will be populated from the service binding in the next step.
-
-Once deployed this will store the ConfigMap settings in the application pod's `/etc/config/reactive-messaging-properties` directory.
-
 ## Connecting the application to Kafka
 
 First we need to log in to RHOAS. The login process uses the browser session for the console.
@@ -60,12 +47,42 @@ Make a copy of the client ID to store in a safe place. Credentials won't appear 
 ----
 At the time of writing, if you did not make a note of the `Client ID`, it is possible to recover it by running `rhoas service-account list`, and looking for the `Client ID` associated with your account.
 
-The `rhoas cluster connect` output will also tell you to run `rhoas cluster bind`. However, we need to wait until we have deployed our application with `helm install` in the next step. Once we run `rhoas cluster bind --binding-name kafka` after  deploying our application, this will create a config map bound to the `/bindings/kafka-config` directory in the application pods.
-
-The `src/main/scripts/rhosak/s2i/initialize-server.cli` script will get run as part of initialising the application pod, and adds the mentioned `/bindings/kafka-config` and `/etc/config/reactive-messaging-properties` folders as config sources in the `microprofile-config-smallrye` subsystem, when we we pass in the environment variable `QS_USE_RHOSAK=true` when building the application as we will see later. For the bootable jar with RHOSAK combination there is a `src/main/scripts/rhoasak/bootable-jar/initialise-server.cli` script that does the same.
+The `rhoas cluster connect` output will also tell you to run `rhoas cluster bind`. However, we need to wait until we have deployed our application with `helm install` in the next step. Once we run `rhoas cluster bind --binding-name kafka-config` after  deploying our application, the Service Binding Operator will create a config map bound to the `/bindings/kafka-config` directory in the application pods. We will use this service binding in the next section, although we need to wait before we actually perform this binding.
 
 Next, we need to grant access to our service account. This is done by running the following command
 ----
 rhoas kafka acl grant-access --consumer --producer     --service-account <client id> --topic "*" --group "*"
 ----
 Substitute <client id> with the `Client ID` reported by the earlier `rhoas cluster connect` command.
+
+== Configuring your application
+The final part of the setup is to map the created service binding config map to our application. As mentioned, once we run `rhoas cluster bind`, we will get a Config Map with entries mapped to files under the /bindings/kafka-config` directory in the application pods.
+
+When building the application the link:/src/main/scripts/rhosak/s2i/initialize-server.cli[] CLI script gets run, and performs the following steps.
+
+First it adds the config map stored in the `/bindings/kafka-config` directory as a config source in the MicroProfile Config subsystem.
+----
+echo "Adding the kafka-config service binding..."
+/subsystem=microprofile-config-smallrye/config-source=rhosak-binding:add(dir={path=/bindings/kafka-config})/subsystem=microprofile-config-smallrye/config-source=rhosak-binding:add(dir={path=/bindings/kafka-config})
+----
+
+This config map contains properties such as `bootstrapServers`, `securityProtocol`, `saslMechanism`, `user` and `password`. These contain all the information we need to connect to the managed Kafka instance. However, we need to map these onto what our application understands, and this is done in the second part of the CLI script:
+-----
+echo "Adding the MicroProfile Config entries mapping the service binding..."
+/subsystem=microprofile-config-smallrye/config-source=reactive-messaging-properties:add(properties={\
+mp.messaging.connector.smallrye-kafka.bootstrap.servers=${bootstrapServers},\
+mp.messaging.connector.smallrye-kafka.security.protocol=${securityProtocol},\
+mp.messaging.connector.smallrye-kafka.sasl.mechanism=${saslMechanism},\
+mp.messaging.connector.smallrye-kafka.sasl.jaas.config="\n\
+org.apache.kafka.common.security.plain.PlainLoginModule required\n\
+username=\"${user}\"\n\
+password=\"${password}\";"\
+}, ordinal=500)
+-----
+
+This has the effect of, for example, the value `mp.messaging.connector.smallrye-kafka.bootstrap.servers` will use the `${bootstrapServers}` value provided by the service binding config map.
+
+These properties from the MicroProfile Config subsystem have the same names as some of the ones we already defined in link:src/main/resources/META-INF/microprofile-config.properties[microprofile-config.properties]. These get merged into one overall configuration. Where the same value exists in both places the one added in the CLI script above takes precedence, so `mp.messaging.connector.smallrye-kafka.bootstrap.servers` from the values provided by CLI script will be used. This is because the CLI script uses a higher `ordinal` when adding these properties.
+Once deployed this will store the ConfigMap settings in the application pod's `/etc/config/reactive-messaging-properties` directory.
+
+The CLI script will get run as part of initialising the application pod, when we pass in the environment variable `QS_USE_RHOSAK=true` when building the application as we will see later. For the bootable jar with RHOSAK combination there is a `src/main/scripts/rhoasak/bootable-jar/initialise-server.cli` script that does the same.
