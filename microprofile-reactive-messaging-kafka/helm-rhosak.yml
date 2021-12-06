@@ -24,10 +24,3 @@ deploy:
       value: "256"
     - name: GC_METASPACE_SIZE
       value: "96"
-  volumeMounts:
-      - name: reactive-messaging-properties
-        mountPath: /etc/config/reactive-messaging-properties
-  volumes:
-    - name: reactive-messaging-properties
-      configMap:
-        name: reactive-messaging-properties

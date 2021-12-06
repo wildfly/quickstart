@@ -17,11 +17,3 @@ echo "Executing microprofile-reactive-messaging-kafka ${JBOSS_HOME}/extensions/i
 [ "x$SCRIPT_DEBUG" = "xtrue" ] && cat "${JBOSS_HOME}/extensions/initialize-server.cli"
 "${JBOSS_HOME}"/bin/jboss-cli.sh --file="${JBOSS_HOME}/extensions/initialize-server.cli" --properties="${POSTCONFIGURE_PROPERTIES_FILE}"
 
-#if [[ "$QS_USE_RHOSAK" == "1" ]] || [[ "$QS_USE_RHOSAK" == "true" ]]; then
-#  echo "\$QS_USE_RHOSAK=true. Configuring server for use with RHOSAK"
-#  echo "Executing microprofile-reactive-messaging-kafka ${JBOSS_HOME}/extensions/initialize-server.cli file with properties file: ${POSTCONFIGURE_PROPERTIES_FILE}."
-#  [ "x$SCRIPT_DEBUG" = "xtrue" ] && cat "${JBOSS_HOME}/extensions/initialize-server.cli"
-#  "${JBOSS_HOME}"/bin/jboss-cli.sh --file="${JBOSS_HOME}/extensions/initialize-server.cli" --properties="${POSTCONFIGURE_PROPERTIES_FILE}"
-#else
-#  echo "\$QS_USE_RHOSAK was not set to true, so we will not configure the server for use with RHOSAK"
-#fi
