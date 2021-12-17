@@ -1,0 +1,8 @@
+# CLI script to restore the application server configuration that was modified to run the quickstart
+
+# Remove the WildFly OpenTelemetry extension
+/subsystem=opentelemetry:remove()
+/extension=org.wildfly.extension.opentelemetry:remove()
+
+# Reload the server configuration
+reload
