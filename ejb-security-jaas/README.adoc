@@ -8,6 +8,22 @@ include::../shared-doc/attributes.adoc[]
 [abstract]
 The `ejb-security-jaas` quickstart demonstrates how legacy `JAAS` security domains can be used in conjunction with `Elytron`
 
+NOTE: I have added this comment because I can't create an issue on the github project. This script is not working in Wildfly 26 because the legacy security extension is not
+available in versions 26, 25, but this script works with, at least, Wildfly versions 24 and 23.
+
+The error is:
+
+----
+$ WILDFLY_HOME\bin\jboss-cli.bat --connect --file=configure-elytron-jaas.cli
+org.jboss.as.cli.CommandFormatException: Failed to get the list of the operation properties: "WFLYCTL0030: No resource definition is registered for address [
+    ("subsystem" => "security"),
+    ("security-domain" => "quickstart-domain")
+]": Failed to get the list of the operation properties: "WFLYCTL0030: No resource definition is registered for address [
+    ("subsystem" => "security"),
+    ("security-domain" => "quickstart-domain")
+]"
+----
+
 :standalone-server-type: default
 :archiveType: war
 :restoreScriptName: restore-configuration.cli
