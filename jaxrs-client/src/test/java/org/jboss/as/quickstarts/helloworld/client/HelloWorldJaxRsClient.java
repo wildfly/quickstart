@@ -25,7 +25,7 @@ import javax.ws.rs.core.Response;
 
 public class HelloWorldJaxRsClient {
 
-    private static final String REST_TARGET_URL = "http://localhost:8080/jaxrs-client/rest/";
+    private static final String REST_TARGET_URL = "http://localhost:8080/helloworld-jaxrs/rest/";
 
     /**
      * Responses of the RESTful web service

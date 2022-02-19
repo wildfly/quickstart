@@ -53,7 +53,7 @@ public class HelloWorldJaxRsClientIT {
 
     @Deployment(testable = false)
     public static WebArchive createDeployment() {
-        WebArchive war = ShrinkWrap.create(WebArchive.class, "jaxrs-client.war")
+        WebArchive war = ShrinkWrap.create(WebArchive.class, "helloworld-jaxrs.war")
                 .addPackage(JaxRsActivator.class.getPackage())
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
         return war;
