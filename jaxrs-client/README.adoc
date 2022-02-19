@@ -1,23 +1,24 @@
 include::../shared-doc/attributes.adoc[]
 
-= jaxrs-client: JAX-RS Client API example
+= helloworld-jaxrs: JAX-RS Client API example
 :author: Rafael Benevides
 :level: Beginner
 :technologies: JAX-RS
 :openshift: true
 
 [abstract]
-The `jaxrs-client` quickstart demonstrates JAX-RS Client API, which interacts with a JAX-RS Web service that runs on {productName}.
+The `helloworld-jaxrs` quickstart demonstrates a JAX-RS resource class running on {productName}, accessed
+by way of various clients, including the JAX-RS Client API.
 
 :standalone-server-type: default
 :archiveType: war
 
 == What is it?
 
-The `jaxrs-client` quickstart demonstrates the JAX-RS Client API which interacts with a JAX-RS Web service.
+The `helloworld-jaxrs` quickstart demonstrates a JAX-RS resource class implementing `GET` and `POST` resource
+methods.
 
-This client "calls" many `POST`, `GET`, and `DELETE` operations using different ways: synchronized, asynchronous, delayed and filtered invocations.
-
+The resource is accessed by web servers, curl, and the JAX-RS Client API.
 //*************************************************
 // Product Release content only
 //*************************************************
@@ -32,77 +33,103 @@ include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
 include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
 // Build and Deploy the Quickstart
 include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
+
+== Invoking resource methods from a web browser
+
+The address of a JAX-RS resource method is the concatenation of
+
+1. the context path ("helloworld-jaxrs" in this case)
+2. the value of `@ApplicationPath` in the `Application` subclass ("/rest")
+3. the value of the `@Path` annotation on the resource class ("/"),
+4. the value of the `@Path` annotation on the resource method (e.g., "/get/xml").
+
+So the address of the resource method `HelloWorldJaxRsServer.getHelloWorldJSON()` looks something like
+
+http://localhost:8080/helloworld-jaxrs/rest/get/xml
+
+== Invoking resource methods with curl
+
+Curl being more flexible than web browsers, it is straightforward to access `POST` methods:
+
+curl -d "hola" -X POST http://localhost:8080/helloworld-jaxrs/rest/post/xml
+
+== JAX-RS client API
+
+The JAX-RS specification provides a client API for accessing JAX-RS resources, which is demonstrated
+by the `org.jboss.as.quickstarts.helloworld.client.HelloWorldJaxRsClientIT` class, which can be run with Arquillian.
+
 // Run the Arquillian Tests
 include::../shared-doc/run-arquillian-tests.adoc[leveloffset=+1]
-
-
+ 
 == Investigate the Console Output
 
 When you run the Arquillian tests, Maven prints summary of the performed tests to the console. You should see the following results.
 
 [source,options="nowrap"]
 ----
--------------------------------------------------------
-T E S T S
--------------------------------------------------------
-Running org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest
-org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest requestResponseFiltersTest
-INFO: ### Testing Request and Response Filters ###
-org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest requestResponseFiltersTest
-INFO: dropping all contacts
-org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest requestResponseFiltersTest
-INFO: Invoking create new contact using a ClientRequestFilter
-org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest requestResponseFiltersTest
-INFO: Invoking list all contacts using a ClientResponseFilter
-org.jboss.as.quickstarts.jaxrsclient.test.LogResponseFilter filter
-INFO: Date: Mon Dec 29 15:34:45 BRST 2014- Status: 200
-org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest delayedInvocationTest
-INFO: ### Testing Delayed invocaton ###
-org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest delayedInvocationTest
-INFO: dropping all contacts
-org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest delayedInvocationTest
-INFO: Creating a new contact invocation
-org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest delayedInvocationTest
-INFO: Creating list all contacts invocation
-org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest delayedInvocationTest
-INFO: invoking the new contact
-org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest delayedInvocationTest
-INFO: invoking list all contacts ASYNC
-org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest asyncCrudTest
-INFO: ### CRUD tests  ASYNC ###
-org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest asyncCrudTest
-INFO: dropping all contacts ASYNC
-org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest asyncCrudTest
-INFO: creating a new contact ASYNC
-org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest asyncCrudTest
-INFO: delete a contact by id ASYNC
-org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest asyncCrudTest
-INFO: fetching all contacts ASYNC
-org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest invocationCallBackTest
-INFO: ### Testing invocation callback ###
-org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest invocationCallBackTest
-INFO: dropping all contacts
-org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest invocationCallBackTest
-INFO: Creating a InvocationCallback
-org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest invocationCallBackTest
-INFO: Invoking a service using the InvocationCallback
-org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest cruedTest
-INFO: ### CRUD tests ###
-org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest cruedTest
-INFO: dropping all contacts
-org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest cruedTest
-INFO: creating a new contact
-org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest cruedTest
-INFO: fetching a contact by id
-org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest cruedTest
-INFO: fetching all contacts
-org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest cruedTest
-INFO: delete a contact by id
-Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.51 sec - in org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientTest
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running org.jboss.as.quickstarts.helloworld.client.HelloWorldJaxRsClientIT
+Feb 19, 2022 5:05:24 PM org.jboss.threads.Version <clinit>
+INFO: JBoss Threads version 2.4.0.Final
+Feb 19, 2022 5:05:24 PM org.jboss.logmanager.JBossLoggerFinder getLogger
+ERROR: The LogManager accessed before the "java.util.logging.manager" system property was set to "org.jboss.logmanager.LogManager". Results may be unexpected.
+Feb 19, 2022 5:05:24 PM org.jboss.remoting3.EndpointImpl <clinit>
+INFO: JBoss Remoting version 5.0.19.Final
+Feb 19, 2022 5:05:25 PM org.xnio.Xnio <clinit>
+INFO: XNIO version 3.8.2.Final
+Feb 19, 2022 5:05:25 PM org.xnio.nio.NioXnio <clinit>
+INFO: XNIO NIO Implementation Version 3.8.2.Final
+Feb 19, 2022 5:05:25 PM org.wildfly.security.Version <clinit>
+INFO: ELY00001: WildFly Elytron version 1.18.3.Final
+===============================================
+URL: http://127.0.0.1:8080/helloworld-jaxrs/rest/get/xml
+MediaType: application/xml
 
-Results :
+*** Response from Server ***
 
-Tests run: 5, Failures: 0, Errors: 0, Skipped: 0
+<xml><result>Hello World!</result></xml>
+
+===============================================
+===============================================
+URL: http://127.0.0.1:8080/helloworld-jaxrs/rest/get/json
+MediaType: application/json
+
+*** Response from Server ***
+
+{"result":"Hello World!"}
+
+===============================================
+===============================================
+URL: http://127.0.0.1:8080/helloworld-jaxrs/rest/post/xml
+MediaType: application/xml
+
+*** Response from Server ***
+
+<xml><result>Hola World!</result></xml>
+
+===============================================
+===============================================
+URL: http://127.0.0.1:8080/helloworld-jaxrs/rest/post/json
+MediaType: application/json
+
+*** Response from Server ***
+
+{"result":"Hola World!"}
+
+===============================================
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.082 s - in org.jboss.as.quickstarts.helloworld.client.HelloWorldJaxRsClientIT
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- maven-failsafe-plugin:2.22.2:verify (default) @ helloworld-jaxrs ---
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
 ----
 
 // Undeploy the Quickstart
