@@ -1010,7 +1010,7 @@ Then run the following command to deploy and start the application (note we are 
 
 [source,subs="attributes+",options="nowrap"]
 ----
-helm install mp-rm-qs -f ./helm-amq-streams.yml {helmChartName} --set build.ref={WildFlyQuickStartRepoTag}
+helm install mp-rm-qs -f ./helm-amq-streams.yml {helmChartName} --set build.uri={githubRepoCodeUrl} --set build.ref={WildFlyQuickStartRepoTag}
 ----
 
 NOTE: Although the above command will return quite quickly, it will take a while until the application pod is actually brought up. In the OpenShift console you will see a pod whose name starts with mp-rm-qs in the `ErrImagePull` or `ImagePullBackoff` state until the build has completed.
@@ -1036,7 +1036,7 @@ First add the Helm repository, if you have not done so already, as described in 
 Then run the following command to deploy and start the application (note we are using the name `mp-rm-qs` for our application here, as mentioned when we connected RHOSAK to our OpenShift project):
 [source,subs="attributes+",options="nowrap"]
 ----
-helm install mp-rm-qs -f ./helm-rhosak.yml {helmChartName} --set build.ref={WildFlyQuickStartRepoTag}
+helm install mp-rm-qs -f ./helm-rhosak.yml {helmChartName} --set build.uri={githubRepoCodeUrl} --set build.ref={WildFlyQuickStartRepoTag}
 ----
 NOTE: Although the above command will return quite quickly, it will take a while until the application pod is actually brought up. In the OpenShift console you will see a pod whose name starts with mp-rm-qs in the `ErrImagePull` or `ImagePullBackoff` state until the build has completed.
 
