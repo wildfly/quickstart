@@ -257,7 +257,7 @@ a. If you are targeting Kafka supplied by *AMQ Streams*, use the following comma
 +
 [source,subs="attributes+",options="nowrap"]
 ----
-$ helm install mp-rm-qs -f ./helm-bootable-jar-amq-streams.yml {helmChartName} --set build.ref={WildFlyQuickStartRepoTag}
+$ helm install mp-rm-qs -f ./helm-bootable-jar-amq-streams.yml {helmChartName} --set build.uri={githubRepoCodeUrl} --set build.ref={WildFlyQuickStartRepoTag}
 ----
 The contents of link:./helm-bootable-jar-amq-streams.yml[`helm-bootable-jar-amq-streams.yml`] are mostly similar to what was discussed for link:./helm-amq-streams.yml[`helm-amq-streams.yml`] earlier. The main difference is that `build.mode` is set to `bootable-jar`, and we specify `-Pbootable-jar-openshift` in the `MAVEN_ARGS_APPEND` environment variable to trigger the `bootable-jar-openshift` Maven profile when building the bootable jar.
 +
@@ -269,7 +269,7 @@ Then install our application:
 +
 [source,subs="attributes+",options="nowrap"]
 ----
-$ helm install mp-rm-qs -f ./helm-bootable-jar-rhosak.yml {helmChartName} --set build.ref={WildFlyQuickStartRepoTag}
+$ helm install mp-rm-qs -f ./helm-bootable-jar-rhosak.yml {helmChartName} --set build.uri={githubRepoCodeUrl} --set build.ref={WildFlyQuickStartRepoTag}
 ----
 The contents of link:./helm-bootable-jar-rhosak.yml[`helm-bootable-jar-rhosak.yml`] are mostly similar to what was discussed for link:./helm-rhosak.yml[`helm-rhoask.yml`] earlier. The main difference is that `build.mode` is set to `bootable-jar`, and we specify `-Pbootable-jar-openshift,os-jar-rhosak` in the `MAVEN_ARGS_APPEND` environment variable to trigger the `bootable-jar-openshift` and `os-jar-rhosak` Maven profiles when building the bootable jar. For this combination we don't need the `QS_USE_RHOSAK` environment variable as the `os-jar-rhosak` contains the CLI script needed to configure the config map and service binding.
 
