@@ -40,9 +40,8 @@
         <version.server.bom>26.0.0.Final</version.server.bom>
         <!-- Test dependencies versions -->
         <version.io.rest-assured>4.3.1</version.io.rest-assured>
-        <version.org.apache.kafka>2.8.0</version.org.apache.kafka>
         <version.org.jboss.jboss-dmr>1.5.1.Final</version.org.jboss.jboss-dmr>
-        <version.org.springframework.kafka>2.7.3</version.org.springframework.kafka>
+        <version.org.springframework.kafka>2.8.0</version.org.springframework.kafka>
         <!-- Plugin versions -->
         <version.server.bootable-jar>26.0.0.Final</version.server.bootable-jar>
         <version.wildfly-jar.maven.plugin>7.0.0.Final</version.wildfly-jar.maven.plugin>
@@ -210,56 +209,7 @@
             <artifactId>spring-kafka-test</artifactId>
             <scope>test</scope>
             <version>${version.org.springframework.kafka}</version>
-            <exclusions>
-                <!--
-                    This version pulls in a different version of Kafka from
-                    our version of Kafka Clients
-                -->
-                <exclusion>
-                    <groupId>org.apache.kafka</groupId>
-                    <artifactId>*</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
-        <!--
-            The org.springframework.kafka:spring-kafka-test dependency excludes all
-             org.apache.kafka:* dependencies in the dependency management.
-             Add them again here, so as not to pollute the parent pom with all these
-             test dependencies
-         -->
-        <dependency>
-            <groupId>org.apache.kafka</groupId>
-            <artifactId>kafka-clients</artifactId>
-            <classifier>test</classifier>
-            <scope>test</scope>
-            <version>${version.org.apache.kafka}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.kafka</groupId>
-            <artifactId>kafka-streams</artifactId>
-            <scope>test</scope>
-            <version>${version.org.apache.kafka}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.kafka</groupId>
-            <artifactId>kafka-streams-test-utils</artifactId>
-            <scope>test</scope>
-            <version>${version.org.apache.kafka}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.kafka</groupId>
-            <artifactId>kafka_2.13</artifactId>
-            <scope>test</scope>
-            <version>${version.org.apache.kafka}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.kafka</groupId>
-            <artifactId>kafka_2.13</artifactId>
-            <classifier>test</classifier>
-            <scope>test</scope>
-            <version>${version.org.apache.kafka}</version>
-        </dependency>
-
         <!-- Other test dependencies -->
         <dependency>
             <groupId>io.rest-assured</groupId>
