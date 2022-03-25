@@ -14,22 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jboss.as.quickstarts.jaxrsclient.test;
+package org.jboss.as.quickstarts.helloworld.server;
 
-import java.io.IOException;
-import java.util.logging.Logger;
+/**
+ * A simple CDI service which is able to say hello to someone
+ *
+ * @author Pete Muir
+ *
+ */
+public class HelloService {
 
-import javax.ws.rs.client.ClientRequestContext;
-import javax.ws.rs.client.ClientResponseContext;
-import javax.ws.rs.client.ClientResponseFilter;
-
-//This filter will log response date and status
-public class LogResponseFilter implements ClientResponseFilter {
-
-    private Logger log = Logger.getLogger(LogResponseFilter.class.getName());
-
-    @Override
-    public void filter(ClientRequestContext requestContext, ClientResponseContext responseContext) throws IOException {
-        log.info("Date: " + responseContext.getDate() + "- Status: " + responseContext.getStatus());
+    String createHelloMessage(String name) {
+        return "Hello " + name + "!";
     }
+
 }

@@ -1,0 +1,167 @@
+include::../shared-doc/attributes.adoc[]
+
+= helloworld-jaxrs: JAX-RS Client API example
+:author: Rafael Benevides
+:level: Beginner
+:technologies: JAX-RS
+:openshift: true
+
+[abstract]
+The `helloworld-jaxrs` quickstart demonstrates a JAX-RS resource class running on {productName}, accessed
+by way of various clients, including the JAX-RS Client API.
+
+:standalone-server-type: default
+:archiveType: war
+
+== What is it?
+
+The `helloworld-jaxrs` quickstart demonstrates a JAX-RS resource class implementing `GET` and `POST` resource
+methods.
+
+The resource is accessed by web servers, curl, and the JAX-RS Client API.
+//*************************************************
+// Product Release content only
+//*************************************************
+
+ifndef::EAPCDRelease[]
+
+//  System Requirements
+include::../shared-doc/system-requirements.adoc[leveloffset=+1]
+// Use of {jbossHomeName}
+include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
+// Start the {productName} Standalone Server
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
+// Build and Deploy the Quickstart
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
+
+== Invoking resource methods from a web browser
+
+The address of a JAX-RS resource method is the concatenation of
+
+1. the context path ("helloworld-jaxrs" in this case)
+2. the value of `@ApplicationPath` in the `Application` subclass ("/rest")
+3. the value of the `@Path` annotation on the resource class ("/"),
+4. the value of the `@Path` annotation on the resource method (e.g., "/get/xml").
+
+So the address of the resource method `HelloWorldJaxRsServer.getHelloWorldJSON()` looks something like
+
+http://localhost:8080/helloworld-jaxrs/rest/get/xml
+
+== Invoking resource methods with curl
+
+Curl being more flexible than web browsers, it is straightforward to access `POST` methods:
+
+curl -d "hola" -X POST http://localhost:8080/helloworld-jaxrs/rest/post/xml
+
+== JAX-RS client API
+
+The JAX-RS specification provides a client API for accessing JAX-RS resources, which is demonstrated
+by the `org.jboss.as.quickstarts.helloworld.client.HelloWorldJaxRsClientIT` class, which can be run with Arquillian.
+
+// Run the Arquillian Tests
+include::../shared-doc/run-arquillian-tests.adoc[leveloffset=+1]
+ 
+== Investigate the Console Output
+
+When you run the Arquillian tests, Maven prints summary of the performed tests to the console. You should see the following results.
+
+[source,options="nowrap"]
+----
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running org.jboss.as.quickstarts.helloworld.client.HelloWorldJaxRsClientIT
+Feb 19, 2022 5:05:24 PM org.jboss.threads.Version <clinit>
+INFO: JBoss Threads version 2.4.0.Final
+Feb 19, 2022 5:05:24 PM org.jboss.logmanager.JBossLoggerFinder getLogger
+ERROR: The LogManager accessed before the "java.util.logging.manager" system property was set to "org.jboss.logmanager.LogManager". Results may be unexpected.
+Feb 19, 2022 5:05:24 PM org.jboss.remoting3.EndpointImpl <clinit>
+INFO: JBoss Remoting version 5.0.19.Final
+Feb 19, 2022 5:05:25 PM org.xnio.Xnio <clinit>
+INFO: XNIO version 3.8.2.Final
+Feb 19, 2022 5:05:25 PM org.xnio.nio.NioXnio <clinit>
+INFO: XNIO NIO Implementation Version 3.8.2.Final
+Feb 19, 2022 5:05:25 PM org.wildfly.security.Version <clinit>
+INFO: ELY00001: WildFly Elytron version 1.18.3.Final
+===============================================
+URL: http://127.0.0.1:8080/helloworld-jaxrs/rest/get/xml
+MediaType: application/xml
+
+*** Response from Server ***
+
+<xml><result>Hello World!</result></xml>
+
+===============================================
+===============================================
+URL: http://127.0.0.1:8080/helloworld-jaxrs/rest/get/json
+MediaType: application/json
+
+*** Response from Server ***
+
+{"result":"Hello World!"}
+
+===============================================
+===============================================
+URL: http://127.0.0.1:8080/helloworld-jaxrs/rest/post/xml
+MediaType: application/xml
+
+*** Response from Server ***
+
+<xml><result>Hola World!</result></xml>
+
+===============================================
+===============================================
+URL: http://127.0.0.1:8080/helloworld-jaxrs/rest/post/json
+MediaType: application/json
+
+*** Response from Server ***
+
+{"result":"Hola World!"}
+
+===============================================
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.082 s - in org.jboss.as.quickstarts.helloworld.client.HelloWorldJaxRsClientIT
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- maven-failsafe-plugin:2.22.2:verify (default) @ helloworld-jaxrs ---
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+----
+
+// Undeploy the Quickstart
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
+// Run the Quickstart in Red Hat CodeReady Studio or Eclipse
+include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
+
+// Additional Red Hat CodeReady Studio instructions
+To run the tests in {JBDSProductName}:
+
+. You must first set the active Maven profile in project properties to be either `arq-managed` for running on managed server or `arq-remote` for running on remote server.
+. Then, to run the tests, right click on the project or individual classes and select Run As –&gt; JUnit Test in the context menu.
+
+// Debug the Application
+include::../shared-doc/debug-the-application.adoc[leveloffset=+1]
+
+endif::[]
+
+//*************************************************
+// Product Release content only
+//*************************************************
+ifdef::ProductRelease[]
+
+// Getting Started with OpenShift
+include::../shared-doc/openshift-getting-started.adoc[leveloffset=+1]
+//Prepare OpenShift for Quickstart Deployment
+include::../shared-doc/openshift-create-project.adoc[leveloffset=+1]
+// Import the Latest {xpaasproduct-shortname} Image Streams and Templates
+include::../shared-doc/openshift-import-imagestreams-templates.adoc[leveloffset=+1]
+// Deploy the {ProductShortName} Source-to-Image (S2I) Quickstart to OpenShift
+include::../shared-doc/openshift-deploy-project.adoc[leveloffset=+1]
+// Openshift post deployment tasks
+include::../shared-doc/openshift-post-deployment-tasks.adoc[leveloffset=+1]
+
+endif::[]
