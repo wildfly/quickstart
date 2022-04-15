@@ -25,6 +25,7 @@ import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.WebTarget;
 import jakarta.ws.rs.core.Response;
 import java.util.Map;
+import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 
 /**
  * The JAX-RS 2.0 race stage implements the race's boxes, which a racer uses to do a pit stop.
@@ -38,26 +39,31 @@ public class JAXRSRaceStage implements RaceStage {
         // build the REST service uri from race's environment
         final Map<String, String> environment = registration.getEnvironment();
         final String pitStopURI = new StringBuilder("http://")
-            .append(environment.get(EnvironmentProperties.SERVER_NAME))
-            .append(':')
-            .append(environment.get(EnvironmentProperties.SERVER_PORT))
-            .append(environment.get(EnvironmentProperties.ROOT_PATH))
-            .append('/')
-            .append(BoxApplication.PATH)
-            .append("/pitStop")
-            .toString();
+                .append(environment.get(EnvironmentProperties.SERVER_NAME))
+                .append(':')
+                .append(environment.get(EnvironmentProperties.SERVER_PORT))
+                .append(environment.get(EnvironmentProperties.ROOT_PATH))
+                .append('/')
+                .append(BoxApplication.PATH)
+                .append("/pitStop")
+                .toString();
         // create and setup the new standard JAX-RS client (and its web target)
-        final Client client = ClientBuilder.newClient();
-        final WebTarget target = client.target(pitStopURI);
-        // get current time
-        long now = System.currentTimeMillis();
-        // box box box, i.e. send a request to the Box rest service, with the racers name provided as param 'racer'
-        final Response response = target.path("{racer}").resolveTemplate("racer", registration.getRacer().getName()).request().get();
-        if (response.getStatus() != 200) {
-            throw new IllegalStateException("PIT STOP failure trouble " + response.getStatus());
-        } else {
-            // broadcast a msg indicating the duration of the pit stop operation
-            registration.broadcast("PIT STOP in " + (System.currentTimeMillis() - now) + "ms");
+        final Client client = ((ResteasyClientBuilder) ClientBuilder.newBuilder())
+                    .build();
+        try {
+            final WebTarget target = client.target(pitStopURI);
+            // get current time
+            long now = System.currentTimeMillis();
+            // box box box, i.e. send a request to the Box rest service, with the racers name provided as param 'racer'
+            final Response response = target.path("{racer}").resolveTemplate("racer", registration.getRacer().getName()).request().get();
+            if (response.getStatus() != 200) {
+                throw new IllegalStateException("PIT STOP failure trouble " + response.getStatus());
+            } else {
+                // broadcast a msg indicating the duration of the pit stop operation
+                registration.broadcast("PIT STOP in " + (System.currentTimeMillis() - now) + "ms");
+            }
+        } finally {
+            client.close();
         }
     }
 }
