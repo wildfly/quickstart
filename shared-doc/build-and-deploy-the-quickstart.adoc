@@ -54,15 +54,15 @@ endif::archiveDir[]
 
 ifndef::mavenCommand[]
 ifeval::["{archiveType}"=="ear"]
-:mavenCommand: clean install wildfly:deploy
+:mavenCommand: clean install
 endif::[]
 
 ifeval::["{archiveType}"=="war"]
-:mavenCommand: clean package wildfly:deploy
+:mavenCommand: clean package
 endif::[]
 
 ifeval::["{archiveType}"=="jar"]
-:mavenCommand: clean install wildfly:deploy
+:mavenCommand: clean install
 endif::[]
 
 endif::mavenCommand[]
@@ -77,15 +77,22 @@ ifdef::reactive-messaging[]
 $ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=enable-reactive-messaging.cli
 ----
 endif::reactive-messaging[]
-. Type the following command to build the artifacts.
+. Type the following command to build the quickstart.
 +
 [source,subs="attributes+",options="nowrap"]
 ----
 $ mvn {mavenCommand}
 ----
 
+. Type the following command to deploy the quickstart.
++
+[source,subs="attributes+",options="nowrap"]
+----
+$ mvn wildfly:deploy
+----
+
 ifdef::rest-client-qs[]
-This deploys the `country-server` and `country-client` to the running instance of the server.
+This builds and deploys the `country-server` and `country-client` to the running instance of the server.
 
 You should see a message in the server log indicating that the archives deployed successfully.
 endif::[]

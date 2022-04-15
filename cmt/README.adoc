@@ -47,20 +47,22 @@ NotSupported:: If there is a transaction running, it will be suspended and no tr
 Supports:: This will run the method within a transaction if a transaction exists, alternatively, if there is no transaction running, the method will not be executed within the scope of a transaction.
 Never:: If the client has a transaction running and does not suspend it but calls a method annotated with Never then an EJB exception will be raised.
 
-ifndef::EAPCDRelease[]
-
 // Considerations for Use in a Production Environment
 include::../shared-doc/development-shortcuts.adoc[leveloffset=+1]
 // System Requirements
 include::../shared-doc/system-requirements.adoc[leveloffset=+1]
 // Use of {jbossHomeName}
 include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
-// Start the {productName} Standalone Server (with the full profile)
-include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
-// Build and Deploy the Quickstart
-include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
 
-== Access the Application
+// build and run with standard server distribution
+[[build_and_run_the_quickstart_with_server_dist]]
+== Building and running the quickstart application with a {productName} server distribution
+// Start the {productName} Standalone Server
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+2]
+// Build and Deploy the Quickstart
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+2]
+
+=== Access the Application
 
 The application will be running at the following URL: http://localhost:8080/{artifactId}/
 
@@ -77,7 +79,7 @@ If an existing customer name is provided, no JMS message is sent. Instead of the
 
 The customer name should match: letter &amp; '-', otherwise an error is given. This is to show that a `LogMessage` entity is still stored in the database. That is because the `logCreateCustomer` method in the `LogMessageManagerEJB` EJB is decorated with the `@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)` annotation.
 
-== Server Log: Expected Warnings and Errors
+=== Server Log: Expected Warnings and Errors
 
 You will see the following warnings in the server log. You can ignore these warnings.
 
@@ -86,34 +88,13 @@ You will see the following warnings in the server log. You can ignore these warn
 HHH000431: Unable to determine H2 database version, certain features may not work
 ----
 
+// Testing with Arquillian
+include::../shared-doc/run-arquillian-integration-tests-with-server-distribution.adoc[leveloffset=+2]
 // Undeploy the Quickstart
-include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
-// Run the Quickstart in Red Hat CodeReady Studio or Eclipse
-include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+2]
 
-// Additional Red Hat CodeReady Studio instructions
-NOTE: Within {JBDSProductName}, make sure you define a server runtime environment that uses the `standalone-full.xml` configuration file.
-
-// Debug the Application
-include::../shared-doc/debug-the-application.adoc[leveloffset=+1]
-
+// Build and run sections for other environments/builds
+ifndef::ProductRelease,EAPXPRelease[]
+include::../shared-doc/build-and-run-the-quickstart-with-provisioned-server.adoc[leveloffset=+1]
 endif::[]
-
-//*************************************************
-// Product Release content only
-//*************************************************
-ifdef::ProductRelease[]
-
-// Getting Started with OpenShift
-include::../shared-doc/openshift-getting-started.adoc[leveloffset=+1]
-//Prepare OpenShift for Quickstart Deployment
-include::../shared-doc/openshift-create-project.adoc[leveloffset=+1]
-// Import the Latest {xpaasproduct-shortname} Image Streams and Templates
-include::../shared-doc/openshift-import-imagestreams-templates.adoc[leveloffset=+1]
-// Deploy the {ProductShortName} Source-to-Image (S2I) Quickstart to OpenShift
-include::../shared-doc/openshift-deploy-project.adoc[leveloffset=+1]
-// Openshift post deployment tasks
-include::../shared-doc/openshift-post-deployment-tasks.adoc[leveloffset=+1]
-
-
-endif::[]
+include::../shared-doc/build-and-run-the-quickstart-with-openshift.adoc[leveloffset=+1]

@@ -1,0 +1,39 @@
+[[prerequisites_helm_openshift]]
+== Prerequisites
+
+* You must be logged in OpenShift and have an `oc` client to connect to OpenShift
+* https://helm.sh[Helm] must be installed to deploy the backend on OpenShift.
+
+Once you have installed Helm, you need to add the repository that provides Helm Charts for {productName}.
+
+ifndef::ProductRelease,EAPXPRelease[]
+[source,options="nowrap"]
+----
+$ helm repo add wildfly https://docs.wildfly.org/wildfly-charts/
+"wildfly" has been added to your repositories
+$ helm search repo wildfly
+NAME                    CHART VERSION   APP VERSION     DESCRIPTION
+wildfly/wildfly         ...             ...            Build and Deploy WildFly applications on OpenShift
+wildfly/wildfly-common  ...             ...            A library chart for WildFly-based applications
+----
+endif::[]
+ifdef::ProductRelease[]
+[source,options="nowrap"]
+----
+$ helm repo add jboss-eap https://jbossas.github.io/eap-charts/
+"jboss-eap" has been added to your repositories
+$ helm search repo jboss-eap
+NAME                    CHART VERSION   APP VERSION     DESCRIPTION
+jboss-eap/eap74         ...             ...             A Helm chart to build and deploy EAP 7.4 applications
+----
+endif::[]
+ifdef::EAPXPRelease[]
+[source,options="nowrap"]
+----
+$ helm repo add jboss-eap https://jbossas.github.io/eap-charts/
+"jboss-eap" has been added to your repositories
+$ helm search repo jboss-eap
+NAME                    CHART VERSION   APP VERSION     DESCRIPTION
+jboss-eap/eap-xp3       ...             ...             A Helm chart to build and deploy EAP XP 3 applications
+----
+endif::[]

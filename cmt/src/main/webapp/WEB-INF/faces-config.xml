@@ -16,7 +16,7 @@
     limitations under the License.
 -->
 <!-- Marker file indicating JSF should be enabled -->
-<faces-config xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+<faces-config xmlns="https://jakarta.ee/xml/ns/jakartaee"
               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:schemaLocation="
                   https://jakarta.ee/xml/ns/jakartaee
@@ -26,19 +26,19 @@
   <navigation-rule>
     <from-view-id>/addCustomer.xhtml</from-view-id>
     <navigation-case>
-      <from-action>#{customerManager.addCustomer(name)}</from-action>
+      <from-action>#{customerManager.addCustomer}</from-action>
       <from-outcome>customerAdded</from-outcome>
       <to-view-id>/customers.xhtml</to-view-id>
       <redirect />
     </navigation-case>
     <navigation-case>
-      <from-action>#{customerManager.addCustomer(name)}</from-action>
+      <from-action>#{customerManager.addCustomer}</from-action>
       <from-outcome>customerDuplicate</from-outcome>
       <to-view-id>/duplicate.xhtml</to-view-id>
       <redirect />
     </navigation-case>
     <navigation-case>
-      <from-action>#{customerManager.addCustomer(name)}</from-action>
+      <from-action>#{customerManager.addCustomer}</from-action>
       <from-outcome>customerInvalidName</from-outcome>
       <to-view-id>/invalidName.xhtml</to-view-id>
       <redirect />

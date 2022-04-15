@@ -24,23 +24,20 @@ The application does the following:
 . The response from TemperatureConvertEJB is stored in the `temperature` field of the managed bean.
 . The managed bean is annotated as @SessionScoped, so the same managed bean instance is used for the entire session.
 
-
-//*************************************************
-// Product Release content only
-//*************************************************
-
-ifndef::EAPCDRelease[]
-
 // System Requirements
 include::../shared-doc/system-requirements.adoc[leveloffset=+1]
 // Use of {jbossHomeName}
 include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
-// Start the {productName} Standalone Server
-include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
-// Build and Deploy the Quickstart
-include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
 
-== Access the Application
+// build and run with standard server distribution
+[[build_and_run_the_quickstart_with_server_dist]]
+== Building and running the quickstart application with a {productName} server distribution
+// Start the {productName} Standalone Server
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+2]
+// Build and Deploy the Quickstart
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+2]
+
+=== Access the Application
 
 The application will be running at the following URL: http://localhost:8080/{artifactId}/.
 
@@ -50,30 +47,13 @@ You will be presented with a simple form for temperature conversion.
 . Enter a temperature.
 . Press the `Convert` button to see the results.
 
+// Testing with Arquillian
+include::../shared-doc/run-arquillian-integration-tests-with-server-distribution.adoc[leveloffset=+2]
 // Undeploy the Quickstart
-include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
-// Run the Quickstart in Red Hat CodeReady Studio or Eclipse
-include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
-// Debug the Application
-include::../shared-doc/debug-the-application.adoc[leveloffset=+1]
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+2]
 
+// Build and run sections for other environments/builds
+ifndef::ProductRelease,EAPXPRelease[]
+include::../shared-doc/build-and-run-the-quickstart-with-provisioned-server.adoc[leveloffset=+1]
 endif::[]
-
-//*************************************************
-// Product Release content only
-//*************************************************
-ifdef::ProductRelease[]
-
-// Getting Started with OpenShift
-include::../shared-doc/openshift-getting-started.adoc[leveloffset=+1]
-//Prepare OpenShift for Quickstart Deployment
-include::../shared-doc/openshift-create-project.adoc[leveloffset=+1]
-// Import the Latest {xpaasproduct-shortname} Image Streams and Templates
-include::../shared-doc/openshift-import-imagestreams-templates.adoc[leveloffset=+1]
-// Deploy the {ProductShortName} Source-to-Image (S2I) Quickstart to OpenShift
-include::../shared-doc/openshift-deploy-project.adoc[leveloffset=+1]
-// Openshift post deployment tasks
-include::../shared-doc/openshift-post-deployment-tasks.adoc[leveloffset=+1]
-
-
-endif::[]
+include::../shared-doc/build-and-run-the-quickstart-with-openshift.adoc[leveloffset=+1]
