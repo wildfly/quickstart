@@ -1,0 +1,16 @@
+## Batch file to configure the standalone server for the messaging-clustering quickstart.
+
+batch
+
+# -- Enable clustering, and set a cluster password
+/subsystem=messaging-activemq/server=default:write-attribute(name=cluster-password, value=password)
+
+# -- Deploy the jboss-helloworld-mdb.war file
+deploy ./target/helloworld-mdb.war
+
+# -- Run this batch file
+run-batch
+
+# Reload the server
+reload
+

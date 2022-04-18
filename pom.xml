@@ -299,71 +299,39 @@
             <modules>
                 <!-- All the modules that require nothing but JBoss Enterprise
                     Application Platform or JBoss EAP -->
-                <module>app-client</module>
                 <module>batch-processing</module>
-                <module>bean-validation</module>
                 <module>bean-validation-custom-constraint</module>
                 <module>bmt</module>
                 <module>cmt</module>
                 <module>contacts-jquerymobile</module>
-                <!-- disabled due to picketlink removal
-                <module>deltaspike-authorization</module>
-                -->
-                <module>deltaspike-beanbuilder</module>
-                <module>deltaspike-projectstage</module>
                 <module>ee-security</module>
-                <module>ejb-asynchronous</module>
-                <module>ejb-in-ear</module>
-                <module>ejb-in-war</module>
                 <module>ejb-multi-server</module>
-                <module>ejb-security</module>
                 <module>ejb-security-context-propagation</module>
-                <module>ejb-security-jaas</module>
                 <module>ejb-security-programmatic-auth</module>
                 <module>ejb-throws-exception</module>
                 <module>ejb-timer</module>
                 <module>ejb-txn-remote-call</module>
-                <module>greeter</module>
                 <module>ha-singleton-deployment</module>
                 <module>ha-singleton-service</module>
                 <module>helloworld</module>
-                <module>helloworld-classfiletransformer</module>
-                <module>helloworld-html5</module>
                 <module>helloworld-jms</module>
-                <module>helloworld-mbean</module>
                 <module>helloworld-mdb</module>
-                <module>helloworld-mdb-propertysubstitution</module>
                 <module>helloworld-mutual-ssl</module>
                 <module>helloworld-mutual-ssl-secured</module>
-                <module>helloworld-rf</module>
-                <module>helloworld-rs</module>
                 <module>helloworld-singleton</module>
-                <module>helloworld-ssl</module>
                 <module>helloworld-ws</module>
-                <module>hibernate4</module>
                 <module>hibernate</module>
                 <module>http-custom-mechanism</module>
-                <module>inter-app</module>
                 <module>jaxrs-client</module>
                 <!-- disabled due to resteasy move to 4.x 
                 <module>jaxrs-jwt</module>
                 -->
-                <module>jaxws-addressing</module>
                 <module>jaxws-ejb</module>
-                <module>jaxws-pojo</module>
                 <module>jaxws-retail</module>
                 <module>jsonp</module>
                 <module>kitchensink</module>
-                <module>kitchensink-angularjs</module>
-                <module>kitchensink-ear</module>
-                <module>kitchensink-jsp</module>
-                <module>kitchensink-ml</module>
-                <module>kitchensink-utjs-angularjs</module>
-                <module>kitchensink-utjs-mustache</module>
                 <module>logging</module>
-                <module>logging-tools</module>
                 <module>mail</module>
-                <module>managed-executor-service</module>
                 <module>messaging-clustering-singleton</module>
                 <module>microprofile-config</module>
                 <module>microprofile-fault-tolerance</module>
@@ -375,28 +343,18 @@
                 <module>microprofile-reactive-messaging-kafka</module>
                 <module>microprofile-rest-client</module>
                 <module>numberguess</module>
-                <module>payment-cdi-event</module>
-                <module>resteasy-jaxrs-client</module>
                 <module>security-domain-to-domain</module>
                 <module>servlet-async</module>
                 <module>servlet-filterlistener</module>
                 <module>servlet-security</module>
                 <module>shopping-cart</module>
-                <module>spring-greeter</module>
-                <module>spring-kitchensink-basic</module>
-                <module>spring-kitchensink-springmvctest</module>
                 <module>spring-resteasy</module>
                 <module>tasks-jsf</module>
-                <module>tasks-rs</module>
                 <module>temperature-converter</module>
                 <module>todo-backend</module>
                 <module>thread-racing</module>
-                <module>websocket-client</module>
                 <module>websocket-endpoint</module>
                 <module>websocket-hello</module>
-                <module>wicket-ear</module>
-                <module>wicket-war</module>
-                <module>xml-jaxp</module>
             </modules>
         </profile>
         <profile>
@@ -425,7 +383,6 @@
             </activation>
             <modules>
                 <module>ejb-remote</module>
-                <module>resteasy-jaxrs-client</module>
                 <module>jts</module>
             </modules>
         </profile>
@@ -441,9 +398,7 @@
                 </property>
             </activation>
             <modules>
-                <module>helloworld-mbean</module>
                 <module>helloworld-mdb</module>
-                <module>helloworld-mdb-propertysubstitution</module>
                 <module>jta-crash-rec</module>
             </modules>
         </profile>
@@ -467,11 +422,6 @@
             <id>functional-tests</id>
             <modules>
                 <module>contacts-jquerymobile/functional-tests</module>
-                <module>helloworld-html5/functional-tests</module>
-                <module>kitchensink-angularjs/functional-tests</module>
-                <module>spring-greeter/functional-tests</module>
-                <module>spring-kitchensink-basic/functional-tests</module>
-                <module>spring-kitchensink-springmvctest/functional-tests</module>
             </modules>
         </profile>
 
@@ -482,14 +432,9 @@
                     <name>release</name>
                 </property>
             </activation>
-            <modules>
-                <!-- not real maven projects, but here for centralized mgmt and docs -->
-                <module>jts-distributed-crash-rec</module>
-                <module>messaging-clustering</module>
-            </modules>
             <build>
                 <plugins>
-                    <!-- tmp disabling refresh of root readme ToC
+                    <!-- tmp disabling refresh of root readme ToC -->
                     <plugin>
                         <groupId>org.wildfly.maven.plugins</groupId>
                         <artifactId>quickstart-documentation-plugin</artifactId>
@@ -509,7 +454,6 @@
                             </execution>
                         </executions>
                     </plugin>
-                    -->
                     <plugin>
                         <groupId>org.asciidoctor</groupId>
                         <artifactId>asciidoctor-maven-plugin</artifactId>
