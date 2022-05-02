@@ -8,12 +8,42 @@ on:
     branches:
       - main
 env:
-  version-server: 27.0.0.Beta1-SNAPSHOT
-  version-boms: 27.0.0.Beta1-SNAPSHOT
+  VERSION_SERVER: 27.0.0.Beta1-SNAPSHOT
+  VERSION_BOMS: 27.0.0.Beta1-SNAPSHOT
 
 jobs:
-  test-matrix:
-    name: JDK${{ matrix.jdk }} - ${{ matrix.os }}
+  Test-build-default-matrix:
+    name: BUILD DEFAULT - JDK${{ matrix.jdk }} - ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        jdk: [11, 17]
+        os: [ubuntu-20.04, windows-latest]
+    steps:
+    - uses: n1hility/cancel-previous-runs@v2
+      with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+    - uses: actions/checkout@v2
+      with:
+        path: quickstarts
+    - name: Set up JDK ${{ matrix.java }}
+      uses: AdoptOpenJDK/install-jdk@v1
+      with:
+        version: ${{ matrix.jdk }}
+        impl: hotspot
+    - name: Build Quickstarts
+      run: |
+        cd quickstarts
+        mvn -U -B -fae clean install -Drelease
+    - uses: actions/upload-artifact@v3
+      if: failure()
+      with:
+        name: surefire-reports-JDK${{ matrix.jdk }}-${{ matrix.os }}
+        path: '**/surefire-reports/*.txt'
+
+  Test-build-with-deps-matrix:
+    name: BUILD WITH DEPS - JDK${{ matrix.jdk }} - ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -47,14 +77,13 @@ jobs:
     - name: Build BOMs
       run: |
         cd boms
-        mvn -U -B -fae clean install -Dversion.server=${{ env.version-wildfly }}
+        mvn -U -B -fae clean install -Dversion.server=${{ env.VERSION_SERVER }}
     - name: Build Quickstarts
       run: |
         cd quickstarts
-        mvn -U -B -fae clean install -Drelease -Dversion.server.bom=${{ env.version-boms }} -Dversion.microprofile.bom=${{ env.version-boms }} -Dversion.server.bootable-jar=${{ env.version-wildfly }}
-    - uses: actions/upload-artifact@v2
+        mvn -U -B -fae clean install -Drelease -Dversion.server.bom=${{ env.VERSION_BOMS }} -Dversion.microprofile.bom=${{ env.VERSION_BOMS }} -Dversion.server.bootable-jar=${{ env. VERSION_SERVER }}
+    - uses: actions/upload-artifact@v3
       if: failure()
       with:
         name: surefire-reports-JDK${{ matrix.jdk }}-${{ matrix.os }}
         path: '**/surefire-reports/*.txt'
-
