@@ -14,7 +14,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        jdk: [8, 11]
+        jdk: [11, 17]
         os: [ubuntu-20.04, windows-latest]
     steps:
     - uses: n1hility/cancel-previous-runs@v2
@@ -40,60 +40,10 @@ jobs:
       run: |
         cd wildfly
         mvn -U -B -fae -DskipTests clean install
-    - name: Build Boms
+    - name: Build BOMs
       run: |
         cd boms
         mvn -U -B -fae clean install
-    - name: Build Quickstarts
-      run: |
-        cd quickstarts
-        mvn -U -B -fae clean install -Drelease
-    - uses: actions/upload-artifact@v2
-      if: failure()
-      with:
-        name: surefire-reports-JDK${{ matrix.jdk }}-${{ matrix.os }}
-        path: '**/surefire-reports/*.txt'
-  test-later-jdk-matrix:
-    name: JDK${{ matrix.jdk }} - ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        jdk: [17]
-        os: [ubuntu-20.04, windows-latest]
-    steps:
-    - uses: n1hility/cancel-previous-runs@v2
-      with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-    - uses: actions/checkout@v2
-      with:
-        repository: wildfly/wildfly
-        path: wildfly
-    - uses: actions/checkout@v2
-      with:
-        repository: wildfly/boms
-        path: boms
-    - uses: actions/checkout@v2
-      with:
-        path: quickstarts
-    - name: Set up JDK 8
-      uses: AdoptOpenJDK/install-jdk@v1
-      with:
-        version: 8
-        impl: hotspot
-    - name: Build Wildfly
-      run: |
-        cd wildfly
-        mvn -U -B -fae -DskipTests clean install
-    - name: Build Boms
-      run: |
-        cd boms
-        mvn -U -B -fae clean install
-    - name: Set up JDK ${{ matrix.java }}
-      uses: AdoptOpenJDK/install-jdk@v1
-      with:
-        version: ${{ matrix.jdk }}
-        impl: hotspot
     - name: Build Quickstarts
       run: |
         cd quickstarts
