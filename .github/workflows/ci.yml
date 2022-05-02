@@ -7,6 +7,10 @@ on:
     types: [opened, synchronize, reopened, ready_for_review]
     branches:
       - main
+env:
+  version-server: 27.0.0.Beta1-SNAPSHOT
+  version-boms: 27.0.0.Beta1-SNAPSHOT
+
 jobs:
   test-matrix:
     name: JDK${{ matrix.jdk }} - ${{ matrix.os }}
@@ -43,11 +47,11 @@ jobs:
     - name: Build BOMs
       run: |
         cd boms
-        mvn -U -B -fae clean install
+        mvn -U -B -fae clean install -Dversion.server=${{ env.version-wildfly }}
     - name: Build Quickstarts
       run: |
         cd quickstarts
-        mvn -U -B -fae clean install -Drelease
+        mvn -U -B -fae clean install -Drelease -Dversion.server.bom=${{ env.version-boms }} -Dversion.microprofile.bom=${{ env.version-boms }} -Dversion.server.bootable-jar=${{ env.version-wildfly }}
     - uses: actions/upload-artifact@v2
       if: failure()
       with:
