@@ -45,6 +45,8 @@
     <properties>
         <!-- The versions for BOMs, Dependencies and Plugins -->
         <version.server.bom>26.0.0.Final</version.server.bom>
+        <version.server>26.1.0.Final</version.server>
+        <version.wildfly.maven.plugin>3.0.0.Final</version.wildfly.maven.plugin>
     </properties>
 
     <repositories>
@@ -186,5 +188,59 @@
             <artifactId>jboss-jaxrs-api_2.1_spec</artifactId>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-client-api</artifactId>
+            <type>jar</type>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
+
+    <profiles>
+        <profile>
+            <id>openshift</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.wildfly.plugins</groupId>
+                        <artifactId>wildfly-maven-plugin</artifactId>
+                        <configuration>
+                            <feature-packs>
+                                <feature-pack>
+                                    <location>org.wildfly:wildfly-galleon-pack:${version.server}</location>
+                                </feature-pack>
+                                <feature-pack>
+                                    <location>org.wildfly.cloud:wildfly-cloud-galleon-pack:1.0.0.Final</location>
+                                </feature-pack>
+                            </feature-packs>
+                            <layers>
+                                <layer>cloud-server</layer>
+                                <layer>ejb</layer>
+                                <layer>batch-jberet</layer>
+                                <layer>messaging-activemq</layer>
+                                <layer>h2-default-datasource</layer>
+                            </layers>
+                            <filename>ROOT.war</filename>
+                            <packagingScripts>
+                                <packagingScript>
+                                    <scripts>
+                                        <script>
+                                            scripts/embedded-broker.cli
+                                        </script>
+                                    </scripts>
+                                </packagingScript>
+                            </packagingScripts>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>package</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
