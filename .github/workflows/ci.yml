@@ -7,10 +7,6 @@ on:
     types: [opened, synchronize, reopened, ready_for_review]
     branches:
       - main
-env:
-  VERSION_SERVER: 27.0.0.Beta1-SNAPSHOT
-  VERSION_BOMS: 27.0.0.Beta1-SNAPSHOT
-
 jobs:
   Test-build-default-matrix:
     name: BUILD DEFAULT - JDK${{ matrix.jdk }} - ${{ matrix.os }}
@@ -36,11 +32,12 @@ jobs:
       run: |
         cd quickstarts
         mvn -U -B -fae clean install -Drelease
+      shell: bash
     - uses: actions/upload-artifact@v3
       if: failure()
       with:
         name: surefire-reports-JDK${{ matrix.jdk }}-${{ matrix.os }}
-        path: '**/surefire-reports/*.txt'
+        path: 'quickstarts/**/surefire-reports/*.txt'
 
   Test-build-with-deps-matrix:
     name: BUILD WITH DEPS - JDK${{ matrix.jdk }} - ${{ matrix.os }}
@@ -70,20 +67,33 @@ jobs:
       with:
         version: ${{ matrix.jdk }}
         impl: hotspot
-    - name: Build Wildfly
+    - name: Build Server
       run: |
         cd wildfly
         mvn -U -B -fae -DskipTests clean install
-    - name: Build BOMs
+      shell: bash
+    - name: Get Server Version
+      run: |
+        cd wildfly
+        echo "VERSION_SERVER=$(mvn -N org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
+      shell: bash
+    - name: Build BOMs with Server Version
       run: |
         cd boms
         mvn -U -B -fae clean install -Dversion.server=${{ env.VERSION_SERVER }}
-    - name: Build Quickstarts
+      shell: bash
+    - name: Get BOMs Version
+      run: |
+        cd boms
+        echo "VERSION_BOMS=$(mvn -N org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
+      shell: bash
+    - name: Build Quickstarts with Server and BOMs Versions
       run: |
         cd quickstarts
         mvn -U -B -fae clean install -Drelease -Dversion.server.bom=${{ env.VERSION_BOMS }} -Dversion.microprofile.bom=${{ env.VERSION_BOMS }} -Dversion.server.bootable-jar=${{ env. VERSION_SERVER }}
+      shell: bash
     - uses: actions/upload-artifact@v3
       if: failure()
       with:
         name: surefire-reports-JDK${{ matrix.jdk }}-${{ matrix.os }}
-        path: '**/surefire-reports/*.txt'
+        path: 'quickstarts/**/surefire-reports/*.txt'
