@@ -14,26 +14,40 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jboss.as.quickstarts.ejbTimer;
+package org.jboss.as.quickstarts.ejb.timer;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import javax.ejb.Schedule;
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
+import javax.ejb.ScheduleExpression;
 import javax.ejb.Singleton;
+import javax.ejb.Startup;
+import javax.ejb.Timeout;
+import javax.ejb.Timer;
+import javax.ejb.TimerConfig;
+import javax.ejb.TimerService;
 
 /**
- * Demonstrates how to use the EJB's @Schedule.
+ * Demonstrates how to use the EJB's @Timeout.
  *
  * @author <a href="mailto:ozizka@redhat.com">Ondrej Zizka</a>
+ * @author Paul Ferraro
  */
 @Singleton
-public class ScheduleExample {
+@Startup
+public class TimeoutExample {
 
-    @Schedule(second = "*/6", minute = "*", hour = "*", persistent = false)
-    public void doWork() {
-        Date currentTime = new Date();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd G 'at' HH:mm:ss z");
-        System.out.println("ScheduleExample.doWork() invoked at " + simpleDateFormat.format(currentTime));
+    @Resource
+    private TimerService timerService;
+
+    @Timeout
+    public void timeout(Timer timer) {
+        TimeoutHandler.INSTANCE.accept(timer);
     }
 
+    @PostConstruct
+    public void initialize() {
+        // Set schedule to every 3 seconds (starting at second 0 of every minute).
+        ScheduleExpression expression = new ScheduleExpression().hour("*").minute("*").second("0/3");
+        this.timerService.createCalendarTimer(expression, new TimerConfig(this.getClass().getSimpleName(), false));
+    }
 }
