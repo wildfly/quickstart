@@ -71,7 +71,7 @@ public class SingletonTimer {
     @PreDestroy
     public void stop() {
         LOGGER.warning("SingletonTimer is stopping: the server is either being shutdown or another node has " +
-                "become elected to be the singleton master.");
+                "become elected to be the primary provider of the singleton.");
     }
 
 }
