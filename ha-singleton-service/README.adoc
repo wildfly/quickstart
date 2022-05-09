@@ -126,7 +126,7 @@ INFO  [org.jboss.as.quickstarts.ha.singleton.service.QueryingService] (pool-12-t
 
 === Test Singleton Service Failover for the Example
 
-. To verify failover of the singleton service, shut down the server operating as the singleton master by using the `Ctrl` + `C` key combination in the terminal. The following messages confirm that the node is shut down.
+. To verify failover of the singleton service, shut down the server operating as the primary singleton provider by using the `Ctrl` + `C` key combination in the terminal. The following messages confirm that the node is shut down.
 +
 [source,options="nowrap"]
 ----
@@ -138,16 +138,7 @@ INFO  [QueryingService] (MSC service thread 1-6) Querying service stopped.
 INFO  [org.jboss.as] (MSC service thread 1-6) WFLYSRV0050: JBoss EAP 7.1.0.Beta1 (WildFly Core 3.0.0.Beta26-redhat-1) stopped in 66ms
 ----
 +
-Note that during shutdown of the server an exception relating to clean shutdown of the Infinispan component might appear in the log, for instance.
-+
-[source,options="nowrap"]
-----
-ERROR [org.infinispan.remoting.transport.jgroups.CommandAwareRpcDispatcher] (thread-19) ISPN000065: Exception while marshalling object: CacheNotFoundResponse: org.infinispan.IllegalLifecycleStateException: Cache marshaller has been stopped
-----
-+
-The issue can be safely ignored for now and will be fixed in future versions of the application server.
-
-. Now observe the log messages on the second server. The second node is now elected as the singleton master.
+. Now observe the log messages on the second server. The second node is now elected as the primary singleton provider.
 +
 [source,options="nowrap"]
 ----
@@ -389,7 +380,7 @@ INFO  [org.wildfly.clustering.server] (DistributedSingletonService - 1) WFLYCLSV
 +
 [source,options="nowrap"]
 ----
-WARN  [org.wildfly.clustering.server] (DistributedSingletonService - 1) WFLYCLSV0006: Failed to reach quorum of 2 for org.jboss.as.quickstarts.ha.singleton.service service. No singleton master will be elected.
+WARN  [org.wildfly.clustering.server] (DistributedSingletonService - 1) WFLYCLSV0006: Failed to reach quorum of 2 for org.jboss.as.quickstarts.ha.singleton.service service. No primary singleton provider will be elected.
 INFO  [org.wildfly.clustering.server] (thread-20) WFLYCLSV0002: This node will no longer operate as the singleton provider of the org.jboss.as.quickstarts.ha.singleton.service service
 INFO  [org.jboss.as.quickstarts.ha.singleton.service.SingletonService] (MSC service thread 1-1) Singleton service stopped on node2.
 INFO  [org.infinispan.remoting.transport.jgroups.JGroupsTransport] (thread-2) ISPN000094: Received new cluster view for channel server: [node2|4] (1) [node2]
