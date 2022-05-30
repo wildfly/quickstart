@@ -1,8 +1,0 @@
-# Batch script to disable the legacy role mappers for the quickstart application in the JBoss EAP server
-
-# Disable the legacy security domain role mappers in the exported realm
-/subsystem=security/elytron-realm=LegacyRealm:write-attribute(name=apply-role-mappers,value=false)
-
-# Reload the server configuration
-reload
-
