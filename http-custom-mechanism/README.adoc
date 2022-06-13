@@ -48,7 +48,6 @@ You will follow these basic steps to test this quickstart:
 
 . xref:add_the_application_user[Add] the application user.
 . xref:back_up_standalone_server_configuration[Back up] the server configuration before xref:start_the_eap_standalone_server[starting] the server.
-. xref:configure_the_application_security_domain[Configure] the application security domain.
 . xref:build_and_deploy_the_quickstart[Build and deploy] the application.
 . xref:test_the_secured_servlet[Test] the secured servlet deployment.
 . xref:build_the_custom_http_mechanism[Build] the custom HTTP mechanism module and xref:add_the_custom_module_to_the_server[add] it to the server.
@@ -66,25 +65,16 @@ include::../shared-doc/back-up-server-standalone-configuration.adoc[leveloffset=
 // Start the {productName} Standalone Server
 include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
 
-[[configure_the_application_security_domain]]
-== Configure the Application Security Domain
+[[add_the_application_user]]
+== Add the application user
+include::../shared-doc/add-application-user.adoc[leveloffset=+1]
 
-By default, the deployed application uses the `other` security domain. You need to map this security domain to an Elytron Security Domain. For your convenience, this quickstart includes the command to configure the security domain in the `configure-security-domain.cli` script located in the root directory of this quickstart.
+[[back_up_standalone_server_configuration]]
+== Back up the server configuration
+include::../shared-doc/back-up-server-standalone-configuration.adoc[leveloffset=+1]
 
-In a terminal, navigate to the root directory of this quickstart, and run the following command, replacing `__{jbossHomeName}__` with the path to your server.
-
-[source,subs="+quotes,attributes+",options="nowrap"]
-----
-$ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=configure-security-domain.cli
-----
-
-You should see the following result.
-
-[source,options="nowrap"]
-----
-{"outcome" => "success"}
-----
-
+[[build_and_deploy_the_quickstart]]
+== Build and deploy the application
 // Build and Deploy the Quickstart
 include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
 
@@ -182,7 +172,7 @@ You configure the server to use the custom module by running CLI commands. For y
 * xref:back_up_standalone_server_configuration[Back up the {productName} standalone server configuration] as described above.
 * xref:start_the_eap_standalone_server[Start the {productName} server with the standalone default profile] as described above.
 
-. Review the `configure-elytron.cli` file in the root of this quickstart directory. This script adds the configuration that enables Elytron security fto use the custom HTTP module created by this quickstart . Comments in the script describe the purpose of each block of commands.
+. Review the `configure-elytron.cli` file in the root of this quickstart directory. This script adds the configuration that enables Elytron security to use the custom HTTP module created by this quickstart . Comments in the script describe the purpose of each block of commands.
 . Open a new terminal, navigate to the root directory of this quickstart, and run the following command, replacing `__{jbossHomeName}__` with the path to your server.
 +
 [source,subs="+quotes,attributes+",options="nowrap"]
@@ -271,8 +261,20 @@ Current Principal 'quickstartUser'    </p>
 // Undeploy the Quickstart
 include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
 // Restore the {productName} Standalone Server Configuration Manually
+:restoreScriptName: restore-configuration.cli
 include::../shared-doc/restore-standalone-server-configuration-manual.adoc[leveloffset=+2]
 
+// Additional information about this script
+This script reverts the changes made to the `undertow`  and `elytron` subsystems. You should see the following result when you run the script.
+
+[source,options="nowrap"]
+----
+The batch executed successfully
+process-state: reload-required
+----
+
+// Restore the {productName} Standalone Server Configuration Manually
+include::../shared-doc/restore-standalone-server-configuration-manual.adoc[leveloffset=+2]
 ////
 
 Not how to do curl commands in JBDS
