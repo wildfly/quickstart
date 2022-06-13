@@ -15,7 +15,12 @@ batch
 /subsystem=elytron/http-authentication-factory=jwt-http-authentication:add(security-domain=jwt-domain,http-server-mechanism-factory=global,mechanism-configurations=[{mechanism-name="BEARER_TOKEN",mechanism-realm-configurations=[{realm-name="jwt-realm"}]}])
 
 # Configure Undertow to use our http authentication factory for authentication
-/subsystem=undertow/application-security-domain=other:add(http-authentication-factory=jwt-http-authentication)
+/subsystem=undertow/application-security-domain=other:undefine-attribute(name=security-domain)
+
+/subsystem=undertow/application-security-domain=other:write-attribute(name=http-authentication-factory,value=jwt-http-authentication)
+
+# Sync the application-security-domain in the ejb3 subsystem and undertow subsystem.
+/subsystem=ejb3/application-security-domain=other:write-attribute(name=security-domain,value=jwt-domain)
 
 run-batch
 
