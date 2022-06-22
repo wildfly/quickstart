@@ -868,20 +868,20 @@ We need to first start Apache Kafka. Then we will run the {productName} server a
 [[running-the-apache-kafka-service]]
 == Running the Apache Kafka Service
 
-To run the Apache Kafka service we will use its Docker container. Note that this also requires Apache Zookeeper, so rather than a simple `docker run` command this quickstart directory contains a `docker-compose.yaml` file defining the two Docker containers needed. The
-file can be found link:./docker-compose.yaml[here].
-
-NOTE: If you don't have Docker installed on your machine please follow the
-instructions at https://www.docker.com/get-started.
-
-Run the following command from this folder:
-
-[source]
+// As Kafka is strictly backwards compatible, I don't think we need to specify the version for users to download
+To run Apache Kafka locally you will need to https://kafka.apache.org/downloads[download] it first. Extract the zip to a location, and
+enter that directory in a terminal window. Then enter the following command to start Apache Zookeeper:
+[source, shell]
 ----
-docker-compose up
+$ ./bin/zookeeper-server-start.sh config/zookeeper.properties
+----
+Then open a new terminal window and go to the same directory. In this terminal, to start a Kafka instance, enter the command:
+[source, shell]
+----
+$ ./bin/kafka-server-start.sh config/server.properties
 ----
 
-NOTE: This can take a minute.
+NOTE: Zookeeper and Kafka must be left running, so use a new terminal for other commands outlined in this quickstart.
 
 == Build and Deploy the Initial Application
 Let's check that our application works!
