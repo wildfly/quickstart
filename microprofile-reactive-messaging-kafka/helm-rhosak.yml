@@ -25,3 +25,11 @@ deploy:
       value: "256"
     - name: GC_METASPACE_SIZE
       value: "96"
+  volumeMounts:
+    - name: rhoas
+      mountPath: /etc/config/rhoas
+      readOnly: true
+  volumes:
+    - name: rhoas
+      secret:
+        secretName: rhoas

@@ -5,8 +5,6 @@ build:
   contextDir: microprofile-reactive-messaging-kafka
   mode: bootable-jar
   env:
-#  - name: ARTIFACT_DIR
-#    value: microprofile-reactive-messaging-kafka/target
   - name: MAVEN_OPTS
     value: -XX:MetaspaceSize=256m -XX:MaxMetaspaceSize=256m
   - name: MAVEN_ARGS_APPEND
@@ -16,8 +14,11 @@ build:
     value: -Pbootable-jar-openshift,os-jar-rhosak -Djkube.skip=true
 deploy:
   replicas: 1
-  env:
-    - name: GC_MAX_METASPACE_SIZE
-      value: "256"
-    - name: GC_METASPACE_SIZE
-      value: "96"
+  volumeMounts:
+    - name: rhoas
+      mountPath: /etc/config/rhoas
+      readOnly: true
+  volumes:
+    - name: rhoas
+      secret:
+        secretName: rhoas
