@@ -26,7 +26,6 @@ batch
 /subsystem=elytron/http-authentication-factory=quickstart-http-authentication:add(security-domain=QuickstartDomain,http-server-mechanism-factory=global,mechanism-configurations=[{mechanism-name=CLIENT_CERT}])
 
 # Change the undertow subsystem configuration to use the ssl context configured above for https
-/subsystem=undertow/server=default-server/https-listener=https:undefine-attribute(name=security-realm)
 /subsystem=undertow/server=default-server/https-listener=https:write-attribute(name=ssl-context,value=qsSSLContext)
 
 # Add an application-security-domain in the undertow subsystem to map the client_cert_domain from the quickstart app to the http-authentication-factory
