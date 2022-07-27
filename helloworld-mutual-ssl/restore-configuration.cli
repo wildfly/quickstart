@@ -4,8 +4,7 @@
 batch
 
 # Revert the changes in the undertow subsystem
-/subsystem=undertow/server=default-server/https-listener=https:undefine-attribute(name=ssl-context)
-/subsystem=undertow/server=default-server/https-listener=https:write-attribute(name=security-realm,value=ApplicationRealm)
+/subsystem=undertow/server=default-server/https-listener=https:write-attribute(name=ssl-context,value=applicationSSC)
 
 # Remove the ssl context, key manager, trust manager and keystores configuration from the elytron subsystem
 /subsystem=elytron/server-ssl-context=qsSSLContext:remove

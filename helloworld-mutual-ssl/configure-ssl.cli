@@ -11,7 +11,6 @@ batch
 /subsystem=elytron/server-ssl-context=qsSSLContext:add(key-manager=qsKeyManager,trust-manager=qsTrustManager,protocols=[TLSv1.2],need-client-auth=true)
 
 # Change the undertow subsystem configuration to use the ssl context defined in the previous step for https
-/subsystem=undertow/server=default-server/https-listener=https:undefine-attribute(name=security-realm)
 /subsystem=undertow/server=default-server/https-listener=https:write-attribute(name=ssl-context,value=qsSSLContext)
 
 # Run the batch commands
