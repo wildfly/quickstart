@@ -16,7 +16,7 @@
 -->
 <!-- For OpenShift: this xml file will be copied by WildFly s2i scripts under $JBOSS_HOME/configuration directory -->
 <configuration>
-    <authentication-client xmlns="urn:elytron:1.0">
+    <authentication-client xmlns="urn:elytron:1.5">
         <authentication-rules>
             <rule use-configuration="jta">
                 <match-abstract-type name="jta" authority="jboss"/>
@@ -33,6 +33,9 @@
                     <clear-password password="quickstartPwd1!"/>
                 </credentials>
                 <set-mechanism-realm name="ApplicationRealm"/>
+                <providers>
+                    <use-service-loader />
+                </providers>
             </configuration>
         </authentication-configurations>
     </authentication-client>
