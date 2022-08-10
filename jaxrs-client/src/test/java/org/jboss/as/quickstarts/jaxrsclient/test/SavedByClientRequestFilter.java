@@ -18,8 +18,8 @@ package org.jboss.as.quickstarts.jaxrsclient.test;
 
 import java.io.IOException;
 
-import javax.ws.rs.client.ClientRequestContext;
-import javax.ws.rs.client.ClientRequestFilter;
+import jakarta.ws.rs.client.ClientRequestContext;
+import jakarta.ws.rs.client.ClientRequestFilter;
 
 import org.jboss.as.quickstarts.jaxrsclient.model.Contact;
 

@@ -19,13 +19,13 @@ package org.jboss.as.quickstarts.jaxrsclient.test;
 import java.util.List;
 import java.util.concurrent.Future;
 import java.util.logging.Logger;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.Invocation;
-import javax.ws.rs.client.InvocationCallback;
-import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.client.Entity;
+import jakarta.ws.rs.client.Invocation;
+import jakarta.ws.rs.client.InvocationCallback;
+import jakarta.ws.rs.core.GenericType;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
 import org.jboss.as.quickstarts.jaxrsclient.model.Contact;
 import org.junit.Assert;
@@ -118,7 +118,7 @@ public class ContactsRestClient {
         Assert.assertEquals("Should have no contacts", 0, allContacts.size());
     }
 
-    // This test shows how to use javax.ws.rs.client.InvocationCallback
+    // This test shows how to use jakarta.ws.rs.client.InvocationCallback
     public void invocationCallBackTest() throws Exception {
         log.info("### Testing invocation callback ###");
 
