@@ -19,12 +19,12 @@ package org.jboss.as.quickstarts.threadracing.stage.jms;
 import org.jboss.as.quickstarts.threadracing.Race;
 import org.jboss.as.quickstarts.threadracing.stage.RaceStage;
 
-import javax.annotation.Resource;
-import javax.jms.ConnectionFactory;
-import javax.jms.JMSConsumer;
-import javax.jms.JMSContext;
-import javax.jms.Queue;
-import javax.jms.TemporaryQueue;
+import jakarta.annotation.Resource;
+import jakarta.jms.ConnectionFactory;
+import jakarta.jms.JMSConsumer;
+import jakarta.jms.JMSContext;
+import jakarta.jms.Queue;
+import jakarta.jms.TemporaryQueue;
 import java.util.UUID;
 
 /**
