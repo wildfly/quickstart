@@ -17,10 +17,10 @@
 package org.jboss.as.quickstart.hibernate.service;
 
 import java.util.logging.Logger;
-import javax.ejb.Stateless;
-import javax.enterprise.event.Event;
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
+import jakarta.ejb.Stateless;
+import jakarta.enterprise.event.Event;
+import jakarta.inject.Inject;
+import jakarta.persistence.EntityManager;
 
 import org.hibernate.Session;
 import org.jboss.as.quickstart.hibernate.model.Member;

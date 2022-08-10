@@ -18,10 +18,10 @@ package org.jboss.as.quickstarts.batch.job;
 
 import java.util.logging.Logger;
 
-import javax.batch.api.Batchlet;
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.persistence.EntityManager;
+import jakarta.batch.api.Batchlet;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.persistence.EntityManager;
 
 //This batchlet just reports how many records was imported to database
 @Named("reportBatchelet")

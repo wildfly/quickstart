@@ -19,20 +19,20 @@ package org.jboss.as.quickstarts.xa;
 import java.util.List;
 import java.util.logging.Logger;
 
-import javax.annotation.Resource;
-import javax.inject.Inject;
-import javax.jms.JMSException;
-import javax.jms.MessageProducer;
-import javax.jms.Queue;
-import javax.jms.TextMessage;
-import javax.jms.XAConnection;
-import javax.jms.XAConnectionFactory;
-import javax.jms.XASession;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-import javax.transaction.Status;
-import javax.transaction.UserTransaction;
+import jakarta.annotation.Resource;
+import jakarta.inject.Inject;
+import jakarta.jms.JMSException;
+import jakarta.jms.MessageProducer;
+import jakarta.jms.Queue;
+import jakarta.jms.TextMessage;
+import jakarta.jms.XAConnection;
+import jakarta.jms.XAConnectionFactory;
+import jakarta.jms.XASession;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
+import jakarta.transaction.Status;
+import jakarta.transaction.UserTransaction;
 
 /**
  * A bean for updating a database and sending a JMS message within a single JTA transaction

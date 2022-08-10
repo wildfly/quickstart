@@ -16,7 +16,7 @@
  */
 package org.jboss.as.quickstarts.resteasyspring;
 
-import javax.ws.rs.Path;
+import jakarta.ws.rs.Path;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**

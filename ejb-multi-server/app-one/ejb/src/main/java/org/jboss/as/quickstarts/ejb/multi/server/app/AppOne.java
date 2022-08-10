@@ -16,7 +16,7 @@
  */
 package org.jboss.as.quickstarts.ejb.multi.server.app;
 
-import javax.ejb.Remote;
+import jakarta.ejb.Remote;
 
 /**
  * Interface for the demo application One.

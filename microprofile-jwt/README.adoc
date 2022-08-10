@@ -287,8 +287,8 @@ process the deployment as a JAX-RS deployment.
 ----
 package org.wildfly.quickstarts.mpjwt;
 
-import javax.ws.rs.ApplicationPath;
-import javax.ws.rs.core.Application;
+import jakarta.ws.rs.ApplicationPath;
+import jakarta.ws.rs.core.Application;
 
 import org.eclipse.microprofile.auth.LoginConfig;
 
@@ -303,8 +303,8 @@ Also within the `org.wildfly.quickstarts.mpjwt` package add the following endpoi
 ----
 package org.wildfly.quickstarts.mpjwt;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
 
 
 @Path("/Sample")
@@ -334,7 +334,7 @@ In the output of the application server's console check the deployment deployed 
 
 [source]
 ----
-15:48:22,159 INFO  [org.jboss.resteasy.resteasy_jaxrs.i18n] (ServerService Thread Pool -- 78) RESTEASY002225: Deploying javax.ws.rs.core.Application: class org.wildfly.quickstarts.mpjwt.App$Proxy$_$$_WeldClientProxy
+15:48:22,159 INFO  [org.jboss.resteasy.resteasy_jaxrs.i18n] (ServerService Thread Pool -- 78) RESTEASY002225: Deploying jakarta.ws.rs.core.Application: class org.wildfly.quickstarts.mpjwt.App$Proxy$_$$_WeldClientProxy
 15:48:22,193 INFO  [org.wildfly.extension.undertow] (ServerService Thread Pool -- 78) WFLYUT0021: Registered web context: '/microprofile-jwt' for server 'default-server'
 15:48:22,239 INFO  [org.jboss.as.server] (management-handler-thread - 1) WFLYSRV0010: Deployed "microprofile-jwt.war" (runtime-name : "microprofile-jwt.war")
 ----
@@ -360,8 +360,8 @@ Add the following `import` statements to the class.
 [source,java]
 ----
 import java.security.Principal;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.SecurityContext;
+import jakarta.ws.rs.core.Context;
+import jakarta.ws.rs.core.SecurityContext;
 ----
 
 Then replace the existing `helloWorld()` method with the following: -
@@ -436,9 +436,9 @@ import java.security.spec.PKCS8EncodedKeySpec;
 import java.util.Base64;
 import java.util.UUID;
 
-import javax.json.Json;
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonObjectBuilder;
+import jakarta.json.Json;
+import jakarta.json.JsonArrayBuilder;
+import jakarta.json.JsonObjectBuilder;
 
 import com.nimbusds.jose.JOSEObjectType;
 import com.nimbusds.jose.JWSAlgorithm;
@@ -542,8 +542,8 @@ the `@LoginConfig` annotation as follows.
 ----
 package org.wildfly.quickstarts.mpjwt;
 
-import javax.ws.rs.ApplicationPath;
-import javax.ws.rs.core.Application;
+import jakarta.ws.rs.ApplicationPath;
+import jakarta.ws.rs.core.Application;
 
 import org.eclipse.microprofile.auth.LoginConfig;
 
@@ -590,8 +590,8 @@ The following imports should be added to the “SampleEndPoint” class: -
 
 [source,java]
 ----
-import javax.annotation.security.RolesAllowed;
-import javax.inject.Inject;
+import jakarta.annotation.security.RolesAllowed;
+import jakarta.inject.Inject;
 
 import org.eclipse.microprofile.jwt.JsonWebToken;
 ----

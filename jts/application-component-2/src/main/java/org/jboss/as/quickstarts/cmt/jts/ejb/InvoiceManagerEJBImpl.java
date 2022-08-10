@@ -16,15 +16,15 @@
  */
 package org.jboss.as.quickstarts.cmt.jts.ejb;
 
-import javax.annotation.Resource;
-import javax.ejb.RemoteHome;
-import javax.ejb.Stateless;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
-import javax.inject.Inject;
-import javax.jms.JMSConnectionFactory;
-import javax.jms.JMSContext;
-import javax.jms.Queue;
+import jakarta.annotation.Resource;
+import jakarta.ejb.RemoteHome;
+import jakarta.ejb.Stateless;
+import jakarta.ejb.TransactionAttribute;
+import jakarta.ejb.TransactionAttributeType;
+import jakarta.inject.Inject;
+import jakarta.jms.JMSConnectionFactory;
+import jakarta.jms.JMSContext;
+import jakarta.jms.Queue;
 
 @RemoteHome(InvoiceManagerEJBHome.class)
 @Stateless

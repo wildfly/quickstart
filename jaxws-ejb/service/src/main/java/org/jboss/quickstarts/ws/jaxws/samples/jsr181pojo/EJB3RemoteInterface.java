@@ -16,7 +16,7 @@
  */
 package org.jboss.quickstarts.ws.jaxws.samples.jsr181pojo;
 
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 
 /**
  *

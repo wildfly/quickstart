@@ -151,8 +151,8 @@ NOTE: The new file should be created in
 ----
 package org.wildfly.quickstarts.microprofile.config;
 
-import javax.ws.rs.ApplicationPath;
-import javax.ws.rs.core.Application;
+import jakarta.ws.rs.ApplicationPath;
+import jakarta.ws.rs.core.Application;
 
 @ApplicationPath("/")
 public class JaxRsApplication extends Application {
@@ -176,10 +176,10 @@ package org.wildfly.quickstarts.microprofile.config;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
 
 @Path("/config")
 @ApplicationScoped
@@ -449,9 +449,9 @@ package org.wildfly.quickstarts.microprofile.config;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
-import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
 
 @Path("/custom-config")
 public class CustomConfigResource {
@@ -647,7 +647,7 @@ public String providedCustomProp() {
 }
 ----
 
-Note that we are now using `javax.inject.Provider` as an injected type. This means
+Note that we are now using `jakarta.inject.Provider` as an injected type. This means
 that our value will be reloaded from config sources on every access. Since we are
 reloading the property file from the file system on every access this allows us to
 change the configuration dynamically without the need to restart the {productName}
@@ -756,9 +756,9 @@ package org.wildfly.quickstarts.microprofile.config;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.wildfly.quickstarts.microprofile.config.converter.type.MicroProfileCustomValue;
 
-import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
 
 @Path("/converter")
 public class ConverterResource {

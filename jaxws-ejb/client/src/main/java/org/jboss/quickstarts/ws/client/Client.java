@@ -18,7 +18,7 @@ package org.jboss.quickstarts.ws.client;
 
 import java.net.URL;
 import javax.xml.namespace.QName;
-import javax.xml.ws.Service;
+import jakarta.xml.ws.Service;
 
 import org.jboss.quickstarts.ws.jaxws.samples.jsr181pojo.EJB3RemoteInterface;
 

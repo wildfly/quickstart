@@ -16,7 +16,7 @@
  */
 package org.jboss.as.quickstarts.ejb_security_context_propagation;
 
-import javax.ejb.Remote;
+import jakarta.ejb.Remote;
 
 /**
  * The interface to the intermediate EJB used to test EJB to remote EJB calls.

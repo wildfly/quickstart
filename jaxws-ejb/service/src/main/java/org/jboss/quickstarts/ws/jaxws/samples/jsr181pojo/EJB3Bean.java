@@ -16,11 +16,11 @@
  */
 package org.jboss.quickstarts.ws.jaxws.samples.jsr181pojo;
 
-import javax.ejb.Remote;
-import javax.ejb.Stateless;
-import javax.jws.WebMethod;
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
+import jakarta.ejb.Remote;
+import jakarta.ejb.Stateless;
+import jakarta.jws.WebMethod;
+import jakarta.jws.WebService;
+import jakarta.jws.soap.SOAPBinding;
 
 /**
  * @author rsearls@redhat@com

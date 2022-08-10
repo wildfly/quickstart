@@ -17,10 +17,10 @@
 
 package org.jboss.as.quickstarts.ejb.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.xml.bind.annotation.XmlRootElement;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
 /**
  * Hibernate entity and JSON element to be returned from a JAX-RS method.

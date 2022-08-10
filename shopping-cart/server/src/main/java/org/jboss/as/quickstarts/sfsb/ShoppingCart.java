@@ -17,7 +17,7 @@
 package org.jboss.as.quickstarts.sfsb;
 
 import java.util.Map;
-import javax.ejb.Remote;
+import jakarta.ejb.Remote;
 
 /**
  * @author Serge Pagop

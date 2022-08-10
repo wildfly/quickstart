@@ -43,7 +43,7 @@ This example quickstart purposely throws a `NoSuchEJBException` exception when t
 
 [source,options="nowrap"]
 ----
-ERROR [org.jboss.as.ejb3.invocation] (EJB default - 7) WFLYEJB0034: EJB Invocation failed on component ShoppingCartBean for method public abstract java.util.Map org.jboss.as.quickstarts.sfsb.ShoppingCart.getCartContents(): javax.ejb.NoSuchEJBException: WFLYEJB0168: Could not find EJB with id UnknownSessionID [5168576665505352655054705267485457555457535250485552546568575254]
+ERROR [org.jboss.as.ejb3.invocation] (EJB default - 7) WFLYEJB0034: EJB Invocation failed on component ShoppingCartBean for method public abstract java.util.Map org.jboss.as.quickstarts.sfsb.ShoppingCart.getCartContents(): jakarta.ejb.NoSuchEJBException: WFLYEJB0168: Could not find EJB with id UnknownSessionID [5168576665505352655054705267485457555457535250485552546568575254]
 ----
 
 Follow the steps below to suppress system exception logging.
@@ -130,7 +130,7 @@ You should see the following:
 . The client sends a remote method invocation to the stateful session bean to buy two `32 GB USB 2.0 Flash Drive` and one `Wireless Ergonomic Keyboard and Mouse`.
 . The client sends a remote method invocation to get the contents of the cart and prints it to the console.
 . The client sends a remote method invocation to invoke checkout. Note the `checkout()` method in the server `ShoppingCartBean` has the `@Remove` annotation. This means the container will destroy shopping cart after the call and it will no longer be available.
-. The client calls `getCartContents()` to make sure the shopping cart was removed after checkout. This results in a `javax.ejb.NoSuchEJBException` trace in the server, proving the cart was removed.
+. The client calls `getCartContents()` to make sure the shopping cart was removed after checkout. This results in a `jakarta.ejb.NoSuchEJBException` trace in the server, proving the cart was removed.
 
 . On the client console, you should see output similar to:
 +

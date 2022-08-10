@@ -16,9 +16,9 @@
  */
 package org.jboss.as.quickstarts.ear.controller;
 
-import javax.ejb.EJB;
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Named;
+import jakarta.ejb.EJB;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Named;
 
 import org.jboss.as.quickstarts.ear.client.GreeterEJBLocal;
 import org.jboss.as.quickstarts.ear.client.GreeterException;
