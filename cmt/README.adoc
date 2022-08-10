@@ -32,11 +32,11 @@ After you complete this quickstart, you are invited to run through the following
 
 Prior to EJB, getting the right incantation to ensure sound transactional operation of the business logic was a highly specialized skill. Although this still holds true to a great extent, EJB has provided a series of improvements to allow simplified transaction demarcation notation that is therefore easier to read and test.
 
-With CMT, the EJB container sets the boundaries of a transaction. This differs from BMT (bean-managed transactions), where the developer is responsible for initiating and completing a transaction using the `begin`, `commit`, and `rollback` methods on a `javax.transaction.UserTransaction`.
+With CMT, the EJB container sets the boundaries of a transaction. This differs from BMT (bean-managed transactions), where the developer is responsible for initiating and completing a transaction using the `begin`, `commit`, and `rollback` methods on a `jakarta.transaction.UserTransaction`.
 
 === What Makes This an Example of Container Managed Transactions?
 
-Take a look at `org.jboss.as.quickstarts.cmt.ejb.CustomerManagerEJB`. You can see that this stateless session bean has been marked up with the `@javax.ejb.TransactionAttribute` annotation.
+Take a look at `org.jboss.as.quickstarts.cmt.ejb.CustomerManagerEJB`. You can see that this stateless session bean has been marked up with the `@jakarta.ejb.TransactionAttribute` annotation.
 
 The following options are available for this annotation.
 
