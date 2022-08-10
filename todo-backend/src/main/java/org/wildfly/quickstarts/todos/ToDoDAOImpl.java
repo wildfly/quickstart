@@ -25,12 +25,12 @@ package org.wildfly.quickstarts.todos;
 import java.util.List;
 import java.util.Optional;
 
-import javax.ejb.Stateful;
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.UriInfo;
+import jakarta.ejb.Stateful;
+import jakarta.inject.Inject;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
+import jakarta.ws.rs.core.Context;
+import jakarta.ws.rs.core.UriInfo;
 
 @Stateful
 public class ToDoDAOImpl implements ToDoDAO {
