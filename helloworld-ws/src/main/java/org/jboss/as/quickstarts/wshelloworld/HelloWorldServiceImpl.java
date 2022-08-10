@@ -19,7 +19,7 @@ package org.jboss.as.quickstarts.wshelloworld;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 
 /**
  * The implementation of the HelloWorld JAX-WS Web Service.

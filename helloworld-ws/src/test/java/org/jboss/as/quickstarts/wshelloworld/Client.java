@@ -17,7 +17,7 @@
 package org.jboss.as.quickstarts.wshelloworld;
 
 import javax.xml.namespace.QName;
-import javax.xml.ws.Service;
+import jakarta.xml.ws.Service;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
