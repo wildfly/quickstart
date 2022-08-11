@@ -18,10 +18,10 @@ package org.jboss.as.quickstarts.servlet.filterlistener;
 
 import java.util.Map;
 
-import javax.servlet.ServletContext;
-import javax.servlet.ServletRequestEvent;
-import javax.servlet.ServletRequestListener;
-import javax.servlet.annotation.WebListener;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletRequestEvent;
+import jakarta.servlet.ServletRequestListener;
+import jakarta.servlet.annotation.WebListener;
 
 /**
  * A simple request listener that dumps all the parameters of the HTTP requests.

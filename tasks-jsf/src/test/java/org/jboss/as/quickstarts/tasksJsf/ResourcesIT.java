@@ -24,9 +24,9 @@ import java.io.FileNotFoundException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.enterprise.inject.Instance;
-import javax.faces.context.FacesContext;
-import javax.inject.Inject;
+import jakarta.enterprise.inject.Instance;
+import jakarta.faces.context.FacesContext;
+import jakarta.inject.Inject;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;

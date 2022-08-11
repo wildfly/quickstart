@@ -2,10 +2,10 @@ package org.wildfly.quickstarts.microprofile.config;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
-import javax.inject.Inject;
-import javax.inject.Provider;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
+import jakarta.inject.Inject;
+import jakarta.inject.Provider;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
 
 @Path("/custom-config")
 public class CustomConfigResource {

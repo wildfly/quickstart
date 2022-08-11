@@ -16,7 +16,7 @@
  */
 package org.jboss.as.quickstarts.ear.client;
 
-import javax.ejb.Local;
+import jakarta.ejb.Local;
 
 /**
  * @author bmaxwell

@@ -18,7 +18,7 @@ package org.jboss.as.quickstarts.tasksJsf;
 
 import java.util.List;
 
-import javax.ejb.Local;
+import jakarta.ejb.Local;
 
 /**
  * Basic operations for manipulation of tasks

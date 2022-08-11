@@ -21,14 +21,14 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.xml.ws.BindingProvider;
-import javax.xml.ws.WebServiceRef;
-import javax.xml.ws.handler.Handler;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.xml.ws.BindingProvider;
+import jakarta.xml.ws.WebServiceRef;
+import jakarta.xml.ws.handler.Handler;
 
 import org.jboss.as.quickstarts.wsat.simple.jaxws.RestaurantServiceAT;
 import org.jboss.as.quickstarts.wsat.simple.jaxws.RestaurantServiceATService;
@@ -44,7 +44,7 @@ import com.arjuna.mw.wst11.client.JaxWSHeaderContextProcessor;
  * </p>
  * <p/>
  * <p/>
- * The servlet is registered and mapped to /WSATSimpleServletClient using the {@linkplain javax.servlet.annotation.WebServlet}
+ * The servlet is registered and mapped to /WSATSimpleServletClient using the {@linkplain jakarta.servlet.annotation.WebServlet}
  *
  * @author Paul Robinson (paul.robinson@redhat.com)
  * @HttpServlet .

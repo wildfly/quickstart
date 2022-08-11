@@ -155,8 +155,8 @@ NOTE: The new file should be created in
 ----
 package org.wildfly.quickstarts.microprofile.opentracing;
 
-import javax.ws.rs.ApplicationPath;
-import javax.ws.rs.core.Application;
+import jakarta.ws.rs.ApplicationPath;
+import jakarta.ws.rs.core.Application;
 
 @ApplicationPath("/")
 public class JaxRsApplication extends Application {
@@ -207,11 +207,11 @@ Let's create a new JAX-RS resource to demonstrate this. Create a new class
 ----
 package org.wildfly.quickstarts.microprofile.opentracing;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
 
 @Path("/hello")
 @ApplicationScoped
@@ -336,7 +336,7 @@ package org.wildfly.quickstarts.microprofile.opentracing;
 
 import org.eclipse.microprofile.opentracing.Traced;
 
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class ExplicitlyTracedBean {
@@ -410,8 +410,8 @@ import io.opentracing.Span;
 import io.opentracing.Tracer;
 import org.eclipse.microprofile.opentracing.Traced;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 @ApplicationScoped
 public class ExplicitlyTracedBean {

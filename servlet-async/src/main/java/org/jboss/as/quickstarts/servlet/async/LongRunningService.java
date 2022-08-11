@@ -22,9 +22,9 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.ejb.Asynchronous;
-import javax.ejb.Stateless;
-import javax.servlet.AsyncContext;
+import jakarta.ejb.Asynchronous;
+import jakarta.ejb.Stateless;
+import jakarta.servlet.AsyncContext;
 
 /**
  * A simple service to simulate the execution of a long running task.

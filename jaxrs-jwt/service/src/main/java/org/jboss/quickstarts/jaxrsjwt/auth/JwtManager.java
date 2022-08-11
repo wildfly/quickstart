@@ -22,10 +22,10 @@ import java.io.IOException;
 import java.security.Key;
 import java.security.KeyStore;
 import java.security.PrivateKey;
-import javax.enterprise.context.ApplicationScoped;
-import javax.json.Json;
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonObjectBuilder;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.json.Json;
+import jakarta.json.JsonArrayBuilder;
+import jakarta.json.JsonObjectBuilder;
 
 import com.nimbusds.jose.JOSEObjectType;
 import com.nimbusds.jose.JWSAlgorithm;

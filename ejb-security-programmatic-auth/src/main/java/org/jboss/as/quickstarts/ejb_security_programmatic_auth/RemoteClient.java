@@ -19,7 +19,7 @@ package org.jboss.as.quickstarts.ejb_security_programmatic_auth;
 import java.util.Hashtable;
 import java.util.concurrent.Callable;
 
-import javax.ejb.EJBAccessException;
+import jakarta.ejb.EJBAccessException;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 

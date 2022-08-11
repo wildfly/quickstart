@@ -19,7 +19,7 @@ package org.jboss.as.quickstarts.tasksJsf;
 import static org.junit.Assert.assertEquals;
 
 import java.io.FileNotFoundException;
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;

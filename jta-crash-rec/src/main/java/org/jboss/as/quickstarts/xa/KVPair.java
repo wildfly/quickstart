@@ -18,9 +18,9 @@ package org.jboss.as.quickstarts.xa;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 
 /**
  * JPA Entity for storing key value pairs into a database.

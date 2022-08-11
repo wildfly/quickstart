@@ -16,9 +16,9 @@
  */
 package org.jboss.as.quickstarts.ejb.timer;
 
-import javax.ejb.Schedule;
-import javax.ejb.Singleton;
-import javax.ejb.Timer;
+import jakarta.ejb.Schedule;
+import jakarta.ejb.Singleton;
+import jakarta.ejb.Timer;
 
 /**
  * Demonstrates how to use the EJB's @Schedule.

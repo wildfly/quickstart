@@ -16,8 +16,8 @@
  */
 package org.jboss.as.quickstarts.singleton;
 
-import javax.ejb.Singleton;
-import javax.inject.Named;
+import jakarta.ejb.Singleton;
+import jakarta.inject.Named;
 
 /**
  * This singleton stores stores two counters which are only reset when the application is restarted.

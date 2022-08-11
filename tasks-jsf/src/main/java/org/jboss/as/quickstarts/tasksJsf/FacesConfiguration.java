@@ -16,8 +16,8 @@
  */
 package org.jboss.as.quickstarts.tasksJsf;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.faces.annotation.FacesConfig;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.faces.annotation.FacesConfig;
 
 /**
  * This class is needed to activate JSF-specific injections like FacesContext, ExternalContext, etc. in JBoss EAP 7.3

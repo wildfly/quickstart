@@ -16,10 +16,10 @@
  */
 package org.jboss.quickstarts.contact;
 
-import javax.enterprise.context.Dependent;
-import javax.inject.Inject;
-import javax.validation.ConstraintViolationException;
-import javax.validation.ValidationException;
+import jakarta.enterprise.context.Dependent;
+import jakarta.inject.Inject;
+import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.ValidationException;
 
 import java.util.List;
 import java.util.logging.Logger;

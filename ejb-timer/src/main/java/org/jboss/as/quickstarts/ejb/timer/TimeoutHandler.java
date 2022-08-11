@@ -25,7 +25,7 @@ package org.jboss.as.quickstarts.ejb.timer;
 import java.time.Instant;
 import java.util.function.Consumer;
 
-import javax.ejb.Timer;
+import jakarta.ejb.Timer;
 
 /**
  * Timeout handler that logs timer info.

@@ -26,12 +26,12 @@ import java.time.LocalDate;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
-import javax.xml.bind.JAXBException;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.client.Entity;
+import jakarta.xml.bind.JAXBException;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
@@ -52,9 +52,9 @@ import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 
 // JAX-RS 2.0 import statement
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriBuilder;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.UriBuilder;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -73,7 +73,7 @@ public class ContactRegistrationIT {
     @Deployment
     public static Archive<?> createTestArchive() {
         //        File[] libs = Maven.resolver().loadPomFromFile("pom.xml").resolve(
-        //                "org.hibernate.javax.persistence:hibernate-jpa-2.1-api"
+        //                "org.hibernate.jakarta.persistence:hibernate-jpa-2.1-api"
         //        ).withTransitivity().asFile();
 
         Archive<?> archive = ShrinkWrap

@@ -18,14 +18,14 @@ package org.jboss.as.quickstarts.jsonp;
 
 import java.io.StringReader;
 
-import javax.enterprise.inject.Model;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
-import javax.inject.Inject;
-import javax.json.Json;
-import javax.json.JsonException;
-import javax.json.stream.JsonParser;
-import javax.json.stream.JsonParser.Event;
+import jakarta.enterprise.inject.Model;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
+import jakarta.inject.Inject;
+import jakarta.json.Json;
+import jakarta.json.JsonException;
+import jakarta.json.stream.JsonParser;
+import jakarta.json.stream.JsonParser.Event;
 
 @Model
 public class JsonController {

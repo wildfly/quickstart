@@ -16,12 +16,12 @@
  */
 package org.jboss.as.quickstarts.ejb.multi.server.app;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
-import javax.ejb.EJB;
-import javax.enterprise.inject.Model;
-import javax.enterprise.inject.Produces;
-import javax.inject.Named;
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.Resource;
+import jakarta.ejb.EJB;
+import jakarta.enterprise.inject.Model;
+import jakarta.enterprise.inject.Produces;
+import jakarta.inject.Named;
 
 import org.jboss.logging.Logger;
 

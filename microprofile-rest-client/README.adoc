@@ -174,8 +174,8 @@ NOTE: The new file should be created in
 ----
 package org.wildfly.quickstarts.microprofile.rest.client;
 
-import javax.ws.rs.ApplicationPath;
-import javax.ws.rs.core.Application;
+import jakarta.ws.rs.ApplicationPath;
+import jakarta.ws.rs.core.Application;
 
 @ApplicationPath("/")
 public class JaxRsApplication extends Application {
@@ -221,10 +221,10 @@ package org.wildfly.quickstarts.microprofile.rest.client;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 import org.wildfly.quickstarts.microprofile.rest.client.model.Country;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
 
 @Path("/")
 public interface CountriesServiceClient {
@@ -256,10 +256,10 @@ package org.wildfly.quickstarts.microprofile.rest.client;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 import org.wildfly.quickstarts.microprofile.rest.client.model.Country;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
 
 @Path("/")
 @RegisterRestClient
@@ -291,10 +291,10 @@ package org.wildfly.quickstarts.microprofile.rest.client;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 import org.wildfly.quickstarts.microprofile.rest.client.model.Country;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
 
 @Path("/")
 @RegisterRestClient(baseUri = "http://localhost:8080/country-server")
@@ -324,13 +324,13 @@ package org.wildfly.quickstarts.microprofile.rest.client;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.wildfly.quickstarts.microprofile.rest.client.model.Country;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
 
 @Path("/country")
 @ApplicationScoped
@@ -387,10 +387,10 @@ package org.wildfly.quickstarts.microprofile.rest.client;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 import org.wildfly.quickstarts.microprofile.rest.client.model.Country;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
 
 @Path("/")
 @RegisterRestClient
@@ -414,7 +414,7 @@ with the following content:
 [source,properties]
 ----
 org.wildfly.quickstarts.microprofile.rest.client.CountriesServiceClient/mp-rest/url=http://localhost:8080/country-server
-org.wildfly.quickstarts.microprofile.rest.client.CountriesServiceClient/mp-rest/scope=javax.inject.Singleton
+org.wildfly.quickstarts.microprofile.rest.client.CountriesServiceClient/mp-rest/scope=jakarta.inject.Singleton
 ----
 
 This configuration means that:
@@ -463,7 +463,7 @@ annotations. Supported properties are:
 * `my.package.MyClient/mp-rest/url` - base URL of the target
 * `my.package.MyClient/mp-rest/uri` - base URI of the target
 * `my.package.MyClient/mp-rest/scope` - CDI scope to use for injection, default is
-`javax.enterprise.context.Dependent`
+`jakarta.enterprise.context.Dependent`
 * `my.package.MyClient/mp-rest/providers/my.package.MyProvider/priority` - override
 the priority of the provider
 * `my.package.MyClient/mp-rest/connectTimeout` - connection timeout in milliseconds
@@ -543,10 +543,10 @@ package org.wildfly.quickstarts.microprofile.rest.client;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 import org.wildfly.quickstarts.microprofile.rest.client.model.Country;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
 import java.util.concurrent.CompletionStage;
 
 @Path("/")
@@ -644,9 +644,9 @@ package org.wildfly.quickstarts.microprofile.rest.client;
 
 import org.eclipse.microprofile.rest.client.ext.ResponseExceptionMapper;
 
-import javax.ws.rs.NotFoundException;
-import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.NotFoundException;
+import jakarta.ws.rs.core.MultivaluedMap;
+import jakarta.ws.rs.core.Response;
 
 public class NotFoundResponseExceptionMapper implements ResponseExceptionMapper<NotFoundException> {
 
@@ -674,10 +674,10 @@ import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 import org.wildfly.quickstarts.microprofile.rest.client.model.Country;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
 import java.util.concurrent.CompletionStage;
 
 @Path("/")
