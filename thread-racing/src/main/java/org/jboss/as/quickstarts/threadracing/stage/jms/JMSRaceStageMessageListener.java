@@ -16,31 +16,31 @@
  */
 package org.jboss.as.quickstarts.threadracing.stage.jms;
 
-import javax.ejb.ActivationConfigProperty;
-import javax.ejb.MessageDriven;
-import javax.inject.Inject;
-import javax.jms.JMSContext;
-import javax.jms.JMSDestinationDefinition;
-import javax.jms.JMSException;
-import javax.jms.Message;
-import javax.jms.MessageListener;
-import javax.jms.TextMessage;
+import jakarta.ejb.ActivationConfigProperty;
+import jakarta.ejb.MessageDriven;
+import jakarta.inject.Inject;
+import jakarta.jms.JMSContext;
+import jakarta.jms.JMSDestinationDefinition;
+import jakarta.jms.JMSException;
+import jakarta.jms.Message;
+import jakarta.jms.MessageListener;
+import jakarta.jms.TextMessage;
 
 /**
- * The JMS race stage {@link javax.jms.MessageListener}, which simply returns back the received message's text.
+ * The JMS race stage {@link jakarta.jms.MessageListener}, which simply returns back the received message's text.
  *
- * This class, being a container managed class, creates a JMS destination through annotation {@link javax.jms.JMSDestinationDefinition}.
+ * This class, being a container managed class, creates a JMS destination through annotation {@link jakarta.jms.JMSDestinationDefinition}.
  *
  * @author Eduardo Martins
  */
 @JMSDestinationDefinition(name = JMSRaceStageMessageListener.REQUEST_QUEUE,
-    interfaceName = "javax.jms.Queue",
+    interfaceName = "jakarta.jms.Queue",
     destinationName = "JMSThreadRacingQueue")
 @MessageDriven(activationConfig = {
         @ActivationConfigProperty(propertyName = "destinationLookup",
         propertyValue = JMSRaceStageMessageListener.REQUEST_QUEUE),
         @ActivationConfigProperty(propertyName = "destinationType",
-        propertyValue = "javax.jms.Queue"),
+        propertyValue = "jakarta.jms.Queue"),
         }
 )
 public class JMSRaceStageMessageListener implements MessageListener {

@@ -39,7 +39,7 @@
             filtered resources, i.e. build is platform dependent! -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- The versions for BOMs, Dependencies and Plugins -->
-        <version.server.bom>26.0.0.Final</version.server.bom>
+        <version.server.bom>27.0.0.Alpha4</version.server.bom>
     </properties>
 
     <repositories>
@@ -102,7 +102,7 @@
             <!-- importing the jakartaee8-with-tools BOM adds specs and other useful artifacts as managed dependencies -->
             <dependency>
                 <groupId>org.wildfly.bom</groupId>
-                <artifactId>wildfly-jakartaee8-with-tools</artifactId>
+                <artifactId>wildfly-ee-with-tools</artifactId>
                 <version>${version.server.bom}</version>
                 <type>pom</type>
                 <scope>import</scope>
@@ -122,15 +122,15 @@
         <!-- Import the Common Annotations API (JSR-250), we use provided scope
         as the API is included in JBoss EAP -->
         <dependency>
-            <groupId>org.jboss.spec.javax.annotation</groupId>
-            <artifactId>jboss-annotations-api_1.3_spec</artifactId>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
             <scope>provided</scope>
         </dependency>
 
         <!-- Import the JSF API, we use provided scope as the API is included in JBoss EAP -->
         <dependency>
-            <groupId>org.jboss.spec.javax.faces</groupId>
-            <artifactId>jboss-jsf-api_2.3_spec</artifactId>
+            <groupId>jakarta.faces</groupId>
+            <artifactId>jakarta.faces-api</artifactId>
             <scope>provided</scope>
         </dependency>
 
@@ -143,15 +143,15 @@
 
         <!-- Import the JTA API, we use provided scope as the API is included in JBoss EAP -->
         <dependency>
-            <groupId>org.jboss.spec.javax.transaction</groupId>
-            <artifactId>jboss-transaction-api_1.3_spec</artifactId>
+            <groupId>jakarta.transaction</groupId>
+            <artifactId>jakarta.transaction-api</artifactId>
             <scope>provided</scope>
         </dependency>
 
         <!-- Import the EJB API, we use provided scope as the API is included in JBoss EAP -->
         <dependency>
-            <groupId>org.jboss.spec.javax.ejb</groupId>
-            <artifactId>jboss-ejb-api_3.2_spec</artifactId>
+            <groupId>jakarta.ejb</groupId>
+            <artifactId>jakarta.ejb-api</artifactId>
             <scope>provided</scope>
         </dependency>
 

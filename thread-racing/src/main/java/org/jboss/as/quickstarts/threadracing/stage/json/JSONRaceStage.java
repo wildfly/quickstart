@@ -19,10 +19,10 @@ package org.jboss.as.quickstarts.threadracing.stage.json;
 import org.jboss.as.quickstarts.threadracing.Race;
 import org.jboss.as.quickstarts.threadracing.stage.RaceStage;
 
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonReader;
-import javax.json.JsonWriter;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonReader;
+import jakarta.json.JsonWriter;
 import java.io.StringReader;
 import java.io.StringWriter;
 

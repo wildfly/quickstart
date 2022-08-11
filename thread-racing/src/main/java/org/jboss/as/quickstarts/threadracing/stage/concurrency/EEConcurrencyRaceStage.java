@@ -19,14 +19,14 @@ package org.jboss.as.quickstarts.threadracing.stage.concurrency;
 import org.jboss.as.quickstarts.threadracing.Race;
 import org.jboss.as.quickstarts.threadracing.stage.RaceStage;
 
-import javax.annotation.Resource;
-import javax.enterprise.concurrent.ManagedExecutorService;
-import javax.enterprise.concurrent.ManagedScheduledExecutorService;
+import jakarta.annotation.Resource;
+import jakarta.enterprise.concurrent.ManagedExecutorService;
+import jakarta.enterprise.concurrent.ManagedScheduledExecutorService;
 import javax.naming.InitialContext;
 import java.util.concurrent.TimeUnit;
 
 /**
- * The EE Concurrency 1.0 race shows how to retrieve and use the EE Concurrency 1.0 {@link javax.enterprise.concurrent.ManagedExecutorService} and {@link javax.enterprise.concurrent.ManagedScheduledExecutorService} default instances.
+ * The EE Concurrency 1.0 race shows how to retrieve and use the EE Concurrency 1.0 {@link jakarta.enterprise.concurrent.ManagedExecutorService} and {@link jakarta.enterprise.concurrent.ManagedScheduledExecutorService} default instances.
  *
  * @author Eduardo Martins
  */

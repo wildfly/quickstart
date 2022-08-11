@@ -45,7 +45,7 @@
 
     <properties>
         <!-- The versions for BOMs, Dependencies and Plugins -->
-        <version.server.bom>26.0.0.Final</version.server.bom>
+        <version.server.bom>27.0.0.Alpha4</version.server.bom>
     </properties>
 
     <repositories>
@@ -108,7 +108,7 @@
             <!-- importing the jakartaee8-with-tools BOM adds specs and other useful artifacts as managed dependencies -->
             <dependency>
                 <groupId>org.wildfly.bom</groupId>
-                <artifactId>wildfly-jakartaee8-with-tools</artifactId>
+                <artifactId>wildfly-ee-with-tools</artifactId>
                 <version>${version.server.bom}</version>
                 <type>pom</type>
                 <scope>import</scope>
@@ -128,15 +128,15 @@
         <!-- Import the Common Annotations API (JSR-250), we use provided scope 
             as the API is included in JBoss WildFly -->
         <dependency>
-            <groupId>org.jboss.spec.javax.annotation</groupId>
-            <artifactId>jboss-annotations-api_1.3_spec</artifactId>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
             <scope>provided</scope>
         </dependency>
 
         <!-- Import the Servlet API, we use provided scope as the API is included in JBoss WildFly -->
         <dependency>
-            <groupId>org.jboss.spec.javax.servlet</groupId>
-            <artifactId>jboss-servlet-api_4.0_spec</artifactId>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
             <scope>provided</scope>
         </dependency>
 

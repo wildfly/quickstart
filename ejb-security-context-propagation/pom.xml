@@ -46,7 +46,7 @@
         <!-- To run this quickstart in Eclipse, we must turn on JDT APT to activate annotation processing-->
         <m2e.apt.activation>jdt_apt</m2e.apt.activation>
         <!-- The versions for BOMs, Dependencies and Plugins -->
-        <version.server.bom>26.0.0.Final</version.server.bom>
+        <version.server.bom>27.0.0.Alpha4</version.server.bom>
     </properties>
 
     <repositories>
@@ -109,7 +109,7 @@
             <!-- importing the jakartaee8-with-tools BOM adds specs and other useful artifacts as managed dependencies -->
             <dependency>
                 <groupId>org.wildfly.bom</groupId>
-                <artifactId>wildfly-jakartaee8-with-tools</artifactId>
+                <artifactId>wildfly-ee-with-tools</artifactId>
                 <version>${version.server.bom}</version>
                 <type>pom</type>
                 <scope>import</scope>
@@ -131,8 +131,8 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>org.jboss.spec.javax.annotation</groupId>
-            <artifactId>jboss-annotations-api_1.3_spec</artifactId>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
         </dependency>
         <dependency>
             <groupId>org.jboss.ejb3</groupId>
@@ -140,8 +140,8 @@
         </dependency>
 
         <dependency>
-            <groupId>org.jboss.spec.javax.ejb</groupId>
-            <artifactId>jboss-ejb-api_3.2_spec</artifactId>
+            <groupId>jakarta.ejb</groupId>
+            <artifactId>jakarta.ejb-api</artifactId>
         </dependency>
 
     </dependencies>

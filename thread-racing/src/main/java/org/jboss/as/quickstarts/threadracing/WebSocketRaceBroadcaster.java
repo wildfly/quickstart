@@ -19,12 +19,12 @@ package org.jboss.as.quickstarts.threadracing;
 import org.jboss.as.quickstarts.threadracing.results.ChampionshipStandings;
 import org.jboss.as.quickstarts.threadracing.results.RaceResult;
 
-import javax.websocket.Session;
+import jakarta.websocket.Session;
 import java.io.IOException;
 import java.util.List;
 
 /**
- * A {@link org.jboss.as.quickstarts.threadracing.RaceBroadcaster} that sends html/text messages through a Web Socket {@link javax.websocket.Session}.
+ * A {@link org.jboss.as.quickstarts.threadracing.RaceBroadcaster} that sends html/text messages through a Web Socket {@link jakarta.websocket.Session}.
  *
  * @author Eduardo Martins
  */

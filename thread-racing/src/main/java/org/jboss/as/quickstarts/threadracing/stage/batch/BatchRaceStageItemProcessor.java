@@ -16,8 +16,8 @@
  */
 package org.jboss.as.quickstarts.threadracing.stage.batch;
 
-import javax.batch.api.chunk.ItemProcessor;
-import javax.inject.Named;
+import jakarta.batch.api.chunk.ItemProcessor;
+import jakarta.inject.Named;
 
 /**
  * The batch component that processes/filters read items, one by one.

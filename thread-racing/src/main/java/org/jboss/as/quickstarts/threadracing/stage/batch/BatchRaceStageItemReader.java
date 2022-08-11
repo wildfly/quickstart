@@ -16,8 +16,8 @@
  */
 package org.jboss.as.quickstarts.threadracing.stage.batch;
 
-import javax.batch.api.chunk.AbstractItemReader;
-import javax.inject.Named;
+import jakarta.batch.api.chunk.AbstractItemReader;
+import jakarta.inject.Named;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;

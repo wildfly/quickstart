@@ -19,9 +19,9 @@ package org.jboss.as.quickstarts.temperatureconverter.ejb;
 import static org.jboss.as.quickstarts.temperatureconverter.ejb.Scale.CELSIUS;
 import static org.jboss.as.quickstarts.temperatureconverter.ejb.Scale.FAHRENHEIT;
 
-import javax.ejb.Stateless;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
+import jakarta.ejb.Stateless;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
 
 /**
  * A simple SLSB EJB. The EJB does not use an interface.
