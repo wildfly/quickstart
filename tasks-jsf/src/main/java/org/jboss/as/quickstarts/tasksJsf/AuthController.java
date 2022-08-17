@@ -46,6 +46,16 @@ public class AuthController {
     @Inject
     private Conversation conversation;
 
+    private String userName;
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
     /**
      * <p>
      * Provides current user to the context available for injection using:
@@ -77,16 +87,15 @@ public class AuthController {
      * Starts the new conversation.
      * </p>
      *
-     * @param username the username of the user to authenticate
      */
-    public void authenticate(String username) {
+    public void authenticate() {
         if (isLogged()) {
             throw new IllegalStateException("User is logged and tries to authenticate again");
         }
 
-        User user = userDao.getForUsername(username);
+        User user = userDao.getForUsername(userName);
         if (user == null) {
-            user = createUser(username);
+            user = createUser(userName);
         }
         authentication.setCurrentUser(user);
         conversation.begin();

@@ -73,9 +73,9 @@
                 <legend>Add Task</legend>
                 <h:panelGrid columns="3">
                     <h:outputLabel value="Task title" />
-                    <h:inputText id="taskTitle" value="#{taskTitle}" />
+                    <h:inputText id="taskTitle" value="#{taskController.taskTitle}" />
 
-                    <h:commandButton value="Add task" action="#{taskController.createTask(taskTitle)}">
+                    <h:commandButton value="Add task" action="#{taskController.createTask}">
                         <f:ajax execute="@form" render=":form:taskGrid" onevent="onAddTask" />
                     </h:commandButton>
                 </h:panelGrid>
