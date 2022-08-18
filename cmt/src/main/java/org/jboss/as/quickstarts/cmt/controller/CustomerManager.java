@@ -36,16 +36,25 @@ import org.jboss.as.quickstarts.cmt.model.Customer;
 @RequestScoped
 public class CustomerManager {
     private Logger logger = Logger.getLogger(CustomerManager.class.getName());
+    private String name;
 
     @Inject
     private CustomerManagerEJB customerManager;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public List<Customer> getCustomers() throws SecurityException, IllegalStateException, NamingException,
         NotSupportedException, SystemException, RollbackException, HeuristicMixedException, HeuristicRollbackException {
         return customerManager.listCustomers();
     }
 
-    public String addCustomer(String name) {
+    public String addCustomer() {
         try {
             customerManager.createCustomer(name);
             return "customerAdded";

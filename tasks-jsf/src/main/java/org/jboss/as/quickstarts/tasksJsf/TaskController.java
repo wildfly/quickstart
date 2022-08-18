@@ -52,6 +52,17 @@ public class TaskController {
     @Inject
     private CurrentTaskStore currentTaskStore;
 
+    private String taskTitle;
+
+    public String getTaskTitle() {
+        return taskTitle;
+    }
+
+    public TaskController setTaskTitle(String taskTitle) {
+        this.taskTitle = taskTitle;
+        return this;
+    }
+
     /**
      * Set the current task to the context
      *

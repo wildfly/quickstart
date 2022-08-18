@@ -20,6 +20,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -61,7 +62,7 @@ public class BatchController {
 
     @Min(0)
     @Max(1000000)
-    private Integer numRecords = 10;
+    private Long numRecords = 10L;
 
     public void generate() throws IOException {
         File tempFile = new File(System.getProperty("java.io.tmpdir"), fileName);
@@ -158,11 +159,11 @@ public class BatchController {
         facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Execution " + executionId + " restarted! New execution id: " + newExecutionId, null));
     }
 
-    public Integer getNumRecords() {
+    public Long getNumRecords() {
         return numRecords;
     }
 
-    public void setNumRecords(Integer numRecords) {
+    public void setNumRecords(Long numRecords) {
         this.numRecords = numRecords;
     }
 
