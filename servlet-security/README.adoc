@@ -27,8 +27,7 @@ This quickstart takes the following steps to implement Servlet security:
 ** Adds a `login-config` that sets the `auth-method` to `BASIC` in the `WEB-INF/web.xml`.
 . Application Server (`standalone.xml`):
 ** Defines a security domain in the `elytron` subsystem that uses the JDBC security realm to obtain the security data used to authenticate and authorize users.
-** Defines an `http-authentication-factory` in the `elytron` subsystem that uses the security domain created in step 1 for BASIC authentication.
-** Adds an `application-security-domain` mapping in the `undertow` subsystem to map the Servlet security domain to the HTTP authentication factory defined in step 2.
+** Adds an `application-security-domain` mapping in the `undertow` subsystem to map the Servlet security domain to the security domain defined in step 1.
 . Database Configuration:
 ** Adds an application user with access rights to the application.
 +
@@ -126,49 +125,43 @@ After stopping the server, open the `__{jbossHomeName}__/standalone/configuratio
 +
 The `security-realm` is responsible for verifying the credentials for a given principal and for obtaining security attributes (like roles) that are associated with the authenticated identity.
 
-. The following `role-decoder` was added to the `elytron` subsystem.
+. The `jdbc-realm` in this quickstart stores the roles associated with a principal in an attribute named `Roles`.
 +
-[source,xml,options="nowrap"]
-----
-<simple-role-decoder name="from-roles-attribute" attribute="roles"/>
-----
+Other realms might use different attributes for roles (such as `group`).
+If an attribute name other than "Roles" is used to store the roles, a `role-decoder` can be configured as follows:
 +
-The `jdbc-realm` in this quickstart stores the roles associated with a principal in an attribute named roles. Other realms might use different attributes for roles (such as `group`). The purpose of a `role-decoder` is to instruct the security domain how roles are to be retrieved from an authorized identity.
+```
+/subsystem=elytron/simple-role-decoder=from-roles-attribute:add(attribute=ATTRIBUTE_NAME)
+```
++
+The command to create a `security-domain` could then be updated to reference this `role-decoder`:
++
+```
+/subsystem=elytron/security-domain=servlet-security-quickstart-sd:add(default-realm=servlet-security-jdbc-realm, realms=[{realm=servlet-security-jdbc-realm, role-decoder=from-roles-attribute}], permission-mapper=default-permission-mapper)
+```
++
+The purpose of a `role-decoder` is to instruct the security domain how roles are to be retrieved from an authorized identity.
+
 
 . The following `security-domain` was added to the `elytron` subsystem.
 +
 [source,xml,options="nowrap"]
 ----
 <security-domain name="servlet-security-quickstart-sd" default-realm="servlet-security-jdbc-realm" permission-mapper="default-permission-mapper">
-    <realm name="servlet-security-jdbc-realm" role-decoder="from-roles-attribute"/>
+    <realm name="servlet-security-jdbc-realm"/>
 </security-domain>
 ----
-
-. The following `http-authentication-factory` was added to the `elytron` subsystem.
-+
-[source,xml,options="nowrap"]
-----
-<http-authentication-factory name="servlet-security-quickstart-http-auth" http-server-mechanism-factory="global" security-domain="servlet-security-quickstart-sd">
-    <mechanism-configuration>
-        <mechanism mechanism-name="BASIC">
-            <mechanism-realm realm-name="RealmUsersRoles"/>
-        </mechanism>
-    </mechanism-configuration>
-</http-authentication-factory>
-----
-+
-It basically defines an HTTP authentication factory for the BASIC mechanism that relies on the `servlet-security-quickstart-sd` security domain to authenticate and authorize access to web applications.
 
 . The following `application-security-domain` was added to the `undertow` subsystem.
 +
 [source,xml,options="nowrap"]
 ----
 <application-security-domains>
-    <application-security-domain name="servlet-security-quickstart" http-authentication-factory="servlet-security-quickstart-http-auth"/>
+    <application-security-domain name="servlet-security-quickstart" security-domain="servlet-security-quickstart-sd"/>
 </application-security-domains>
 ----
 
-This configuration tells `Undertow` that applications with the `servlet-security-quickstart` security domain, as defined in the `jboss-web.xml` or by using the `@SecurityDomain` annotation in the Servlet class, should use the `http-authentication-factory` named `servlet-security-quickstart-http-auth`. If no `application-security-domain` is defined for a particular security domain, `Undertow` assumes the legacy JAAS based security domains should be used for authentication/authorization and, in this case, the security domain defined in the Web application must match a security domain in the legacy `security` subsystem. The presence of an `application-security-domain` configuration is what enables Elytron authentication for a Web application.
+This configuration tells `Undertow` that applications with the `servlet-security-quickstart` security domain, as defined in the `jboss-web.xml` or by using the `@SecurityDomain` annotation in the Servlet class, should use the `security-domain` named `servlet-security-quickstart-sd`.
 
 // Build and Deploy the Quickstart
 include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
@@ -195,15 +188,6 @@ Now close the browser. Open a new browser and log in with username `guest` and p
 [source,options="nowrap"]
 ----
 Forbidden
-----
-
-== Server Log: Expected Warnings and Errors
-
-You will see the following warning in the server log. You can ignore it.
-
-[source,options="nowrap"]
-----
-HHH000431: Unable to determine H2 database version, certain features may not work
 ----
 
 // Undeploy the Quickstart
