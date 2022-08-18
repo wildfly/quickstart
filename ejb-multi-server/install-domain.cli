@@ -17,9 +17,6 @@
 # Batch the commands
 batch
 
-# Disable the local authentication for applications
-/host=master/core-service=management/security-realm=ApplicationRealm/authentication=local:remove
-
 /profile=default/subsystem=ejb3:write-attribute(name=default-missing-method-permissions-deny-access, value=false)
 /profile=full/subsystem=ejb3:write-attribute(name=default-missing-method-permissions-deny-access, value=false)
 /profile=ha/subsystem=ejb3:write-attribute(name=default-missing-method-permissions-deny-access, value=false)
@@ -37,22 +34,17 @@ batch
 /socket-binding-group=full-sockets/remote-destination-outbound-socket-binding=remote-ejb-2:add(host=localhost, port=8280)
 
 # Add the outbound connections to the remoting subsystem of the full-profile used by app-main server
-/profile=full/subsystem=remoting/remote-outbound-connection=remote-ejb-connection-1:add(outbound-socket-binding-ref=remote-ejb-1, protocol=http-remoting, security-realm=ejb-security-realm-1, username=quickuser1)
-/profile=full/subsystem=remoting/remote-outbound-connection=remote-ejb-connection-1/property=SASL_POLICY_NOANONYMOUS:add(value=false)
-/profile=full/subsystem=remoting/remote-outbound-connection=remote-ejb-connection-1/property=SSL_ENABLED:add(value=false)
-/profile=full/subsystem=remoting/remote-outbound-connection=remote-ejb-connection-2:add(outbound-socket-binding-ref=remote-ejb-2, protocol=http-remoting, security-realm=ejb-security-realm-2, username=quickuser2)
-/profile=full/subsystem=remoting/remote-outbound-connection=remote-ejb-connection-2/property=SASL_POLICY_NOANONYMOUS:add(value=false)
-/profile=full/subsystem=remoting/remote-outbound-connection=remote-ejb-connection-2/property=SSL_ENABLED:add(value=false)
+/profile=full/subsystem=elytron/authentication-configuration=auth_config1:add(authentication-name=quickuser1,authorization-name=quickuser1, credential-reference={clear-text=quick123+}, realm="ApplicationRealm")
+/profile=full/subsystem=elytron/authentication-context=auth_context1:add(match-rules=[{authentication-configuration=auth_config1}])
+/profile=full/subsystem=remoting/remote-outbound-connection=remote-ejb-connection-1:add(outbound-socket-binding-ref=remote-ejb-1, authentication-context=auth_context1)
+
+/profile=full/subsystem=elytron/authentication-configuration=auth_config2:add(authentication-name=quickuser2,authorization-name=quickuser2, credential-reference={clear-text=quick+123}, realm="ApplicationRealm")
+/profile=full/subsystem=elytron/authentication-context=auth_context2:add(match-rules=[{authentication-configuration=auth_config2}])
+/profile=full/subsystem=remoting/remote-outbound-connection=remote-ejb-connection-2:add(outbound-socket-binding-ref=remote-ejb-2, authentication-context=auth_context2)
 
 # Add a pool for SLSB, otherwise the scoped-context EJB invocation will fail because it 
 # can not commit a transaction after executing the SLSB as the bean (with context) is destroyed before !!
 /profile=full/subsystem=ejb3:write-attribute(name=default-slsb-instance-pool, value=slsb-strict-max-pool)
-
-# Add the security realms with the secret (password base64) values for the server communication
-/host=master/core-service=management/security-realm=ejb-security-realm-1:add()
-/host=master/core-service=management/security-realm=ejb-security-realm-1/server-identity=secret:add(value=cXVpY2sxMjMr)
-/host=master/core-service=management/security-realm=ejb-security-realm-2:add()
-/host=master/core-service=management/security-realm=ejb-security-realm-2/server-identity=secret:add(value=cXVpY2srMTIz)
 
 # Add the main-server group and the server, which handle the standalone client requests
 /server-group=quickstart-ejb-multi-main-server:add(profile=full,socket-binding-group=full-sockets)
@@ -167,19 +159,7 @@ batch
 
 /profile=default-web/subsystem="remoting":add()
 /profile=default-web/subsystem="remoting"/configuration="endpoint":add(worker="default")
-/profile=default-web/subsystem="remoting"/http-connector="http-remoting-connector":add(connector-ref="default",security-realm="ApplicationRealm")
-
-/profile=default-web/subsystem="security":add()
-/profile=default-web/subsystem="security"/security-domain="other":add(cache-type="default")
-/profile=default-web/subsystem="security"/security-domain="other"/authentication="classic":add()
-/profile=default-web/subsystem="security"/security-domain="other"/authentication="classic"/login-module="Remoting":add(code="Remoting",flag="optional",module-options={"password-stacking" => "useFirstPass"})
-/profile=default-web/subsystem="security"/security-domain="other"/authentication="classic"/login-module="RealmDirect":add(code="RealmDirect",flag="required",module-options={"password-stacking" => "useFirstPass"})
-/profile=default-web/subsystem="security"/security-domain="jboss-web-policy":add(cache-type="default")
-/profile=default-web/subsystem="security"/security-domain="jboss-web-policy"/authorization="classic":add()
-/profile=default-web/subsystem="security"/security-domain="jboss-web-policy"/authorization="classic"/policy-module="Delegating":add(code="Delegating",flag="required")
-/profile=default-web/subsystem="security"/security-domain="jboss-ejb-policy":add(cache-type="default")
-/profile=default-web/subsystem="security"/security-domain="jboss-ejb-policy"/authorization="classic":add()
-/profile=default-web/subsystem="security"/security-domain="jboss-ejb-policy"/authorization="classic"/policy-module="Delegating":add(code="Delegating",flag="required")
+/profile=default-web/subsystem="remoting"/http-connector="http-remoting-connector":add(connector-ref="default")
 
 /profile=default-web/subsystem="transactions":add(process-id-uuid="true",socket-binding="txn-recovery-environment",status-socket-binding="txn-status-manager")
 /profile=default-web/subsystem="transactions"/log-store="log-store":add()
@@ -216,10 +196,30 @@ batch
 # Add the outbound connections to the remoting subsystem of the profile used by to connect the app servers
 # It might not be necessary to use a different name for 'outbound-socket-binding-ref'. 
 # It is just done to show the different configuration
-/profile=default-web/subsystem=remoting/remote-outbound-connection=remote-connection-war-ejb-1:add(outbound-socket-binding-ref=remote-war-1, protocol=http-remoting, security-realm=ejb-security-realm-1, username=quickuser1)
+
+# Add elytron subsystem with the default configuration and client configuration for remote outbound connections
+/profile=default-web/subsystem=elytron:add()
+/profile=default-web/subsystem=elytron/permission-set=login-permission:add(permissions=[{class-name="org.wildfly.security.auth.permission.LoginPermission"}])
+/profile=default-web/subsystem=elytron/permission-set=default-permissions:add(permissions=[{class-name="org.wildfly.extension.batch.jberet.deployment.BatchPermission",module="org.wildfly.extension.batch.jberet", target-name="*"},{class-name="org.wildfly.transaction.client.RemoteTransactionPermission",module="org.wildfly.transaction.client"},{class-name="org.jboss.ejb.client.RemoteEJBPermission",module="org.jboss.ejb-client"}])
+/profile=default-web/subsystem=elytron/simple-permission-mapper=default-permission-mapper:add(mapping-mode=first,permission-mappings=[{principals=[anonymous],permission-sets=[{permission-set=default-permissions}]},{permission-sets=[{permission-set=login-permission},{permission-set=default-permissions}]}])
+/profile=default-web/subsystem=elytron/provider-sasl-server-factory=global:add()
+/profile=default-web/subsystem=elytron/properties-realm=ApplicationRealm:add(groups-attribute=groups,groups-properties={path="${jboss.home.dir}/domain/configuration/application-roles.properties"},users-properties={path="${jboss.home.dir}/domain/configuration/application-users.properties",plain-text=true,digest-realm-name="ApplicationRealm"})
+/profile=default-web/subsystem=elytron/mechanism-provider-filtering-sasl-server-factory=elytron:add(sasl-server-factory=global,filters=[{provider-name=WildFlyElytron}])
+/profile=default-web/subsystem=elytron/simple-role-decoder=groups-to-roles:add(attribute=groups)
+/profile=default-web/subsystem=elytron/security-domain=ApplicationDomain:add(default-realm="ApplicationRealm",permission-mapper="default-permission-mapper",realms=[{realm=ApplicationRealm,role-decoder=groups-to-roles}])
+/profile=default-web/subsystem=elytron/configurable-sasl-server-factory=configured:add(sasl-server-factory="elytron",properties={"wildfly.sasl.local-user.default-user"="$local","wildfly.sasl.local-user.challenge-path"="${jboss.server.temp.dir}/auth"})
+
+# Add authentication configuration for outbound connections
+/profile=default-web/subsystem=elytron/authentication-configuration=auth_config1:add(authentication-name=quickuser1,authorization-name=quickuser1, credential-reference={clear-text=quick123+}, realm="ApplicationRealm")
+/profile=default-web/subsystem=elytron/authentication-context=auth_context1:add(match-rules=[{authentication-configuration=auth_config1}])
+/profile=default-web/subsystem=elytron/authentication-configuration=auth_config2:add(authentication-name=quickuser2,authorization-name=quickuser2, credential-reference={clear-text=quick+123}, realm="ApplicationRealm")
+/profile=default-web/subsystem=elytron/authentication-context=auth_context2:add(match-rules=[{authentication-configuration=auth_config2}])
+
+# Configure remote outbound connections
+/profile=default-web/subsystem=remoting/remote-outbound-connection=remote-connection-war-ejb-1:add(outbound-socket-binding-ref=remote-war-1, authentication-context=auth_context1)
 /profile=default-web/subsystem=remoting/remote-outbound-connection=remote-connection-war-ejb-1/property=SASL_POLICY_NOANONYMOUS:add(value=false)
 /profile=default-web/subsystem=remoting/remote-outbound-connection=remote-connection-war-ejb-1/property=SSL_ENABLED:add(value=false)
-/profile=default-web/subsystem=remoting/remote-outbound-connection=remote-connection-war-ejb-2:add(outbound-socket-binding-ref=remote-war-2, protocol=http-remoting, security-realm=ejb-security-realm-2, username=quickuser2)
+/profile=default-web/subsystem=remoting/remote-outbound-connection=remote-connection-war-ejb-2:add(outbound-socket-binding-ref=remote-war-2, authentication-context=auth_context2)
 /profile=default-web/subsystem=remoting/remote-outbound-connection=remote-connection-war-ejb-2/property=SASL_POLICY_NOANONYMOUS:add(value=false)
 /profile=default-web/subsystem=remoting/remote-outbound-connection=remote-connection-war-ejb-2/property=SSL_ENABLED:add(value=false)
 

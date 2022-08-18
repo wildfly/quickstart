@@ -23,17 +23,5 @@
             <remoting-ejb-receiver outbound-connection-ref="remote-ejb-connection-2" />
         </ejb-receivers>
 
-        <!-- if an outbound connection connect to a cluster a list of members is provided after successful connection.
-             To connect to this node this cluster element must be defined.
-          -->
-        <clusters>
-          <!-- cluster of remote-ejb-connection-1 -->
-            <cluster name="ejb" security-realm="ejb-security-realm-1" username="quickuser1">
-                <connection-creation-options>
-                    <property name="org.xnio.Options.SSL_ENABLED" value="false" />
-                    <property name="org.xnio.Options.SASL_POLICY_NOANONYMOUS" value="false" />
-                </connection-creation-options>
-            </cluster>
-        </clusters>
     </client-context>
 </jboss-ejb-client>
