@@ -28,7 +28,7 @@
         <jta-data-source>java:jboss/datasources/ServletSecurityDS</jta-data-source>
         <properties>
             <!-- Properties for Hibernate -->
-            <property name="hibernate.hbm2ddl.auto" value="create-drop" />
+            <property name="jakarta.persistence.schema-generation.database.action" value="drop-and-create" />
             <property name="hibernate.show_sql" value="false" />
             <property name="jakarta.persistence.sql-load-script-source" value="META-INF/import.sql"/>
         </properties>
