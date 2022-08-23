@@ -3,16 +3,13 @@
 # Start batching commands
 batch
 
-# Add the keystores, key manager, trust manager and ssl context configuration in the elytron subsystem
-/subsystem=elytron/key-store=qsKeyStore:add(path=server.keystore,relative-to=jboss.server.config.dir,type=JKS,credential-reference={clear-text=secret})
+# Add the keystore and trust manager configuration in the elytron subsystem
 /subsystem=elytron/key-store=qsTrustStore:add(path=client.truststore,relative-to=jboss.server.config.dir,type=JKS,credential-reference={clear-text=secret})
-/subsystem=elytron/key-manager=qsKeyManager:add(key-store=qsKeyStore,credential-reference={clear-text=secret})
 /subsystem=elytron/trust-manager=qsTrustManager:add(key-store=qsTrustStore)
-/subsystem=elytron/server-ssl-context=qsSSLContext:add(key-manager=qsKeyManager,trust-manager=qsTrustManager,protocols=[TLSv1.2],need-client-auth=true)
 
-# Change the undertow subsystem configuration to use the ssl context defined in the previous step for https
-/subsystem=undertow/server=default-server/https-listener=https:undefine-attribute(name=security-realm)
-/subsystem=undertow/server=default-server/https-listener=https:write-attribute(name=ssl-context,value=qsSSLContext)
+# Update the default server-ssl-context to reference the new trust-manager and require client auth
+/subsystem=elytron/server-ssl-context=applicationSSC:write-attribute(name=trust-manager, value=qsTrustManager)
+/subsystem=elytron/server-ssl-context=applicationSSC:write-attribute(name=need-client-auth, value=true)
 
 # Run the batch commands
 run-batch
