@@ -26,7 +26,7 @@ import org.junit.runner.RunWith;
 
 /**
  *
- * @author Emmanuel Hugonnet (c) 2021 Red Hat, Inc.
+ * @author Emmanuel Hugonnet (c) 2022 Red Hat, Inc.
  */
 @RunWith(Arquillian.class)
 @RunAsClient

@@ -45,9 +45,10 @@
     <properties>
         <!-- The versions for BOMs, Dependencies and Plugins -->
         <version.server.bom>27.0.0.Beta1</version.server.bom>
+        <version.server.bom>27.0.0.Beta1</version.server.bom>
         <version.server>27.0.0.Beta1</version.server>
-        <version.wildfly.maven.plugin>3.0.2.Final</version.wildfly.maven.plugin>
-        <version.cloud.fp>1.0.1.Final</version.cloud.fp>
+        <version.wildfly.maven.plugin>4.0.0.Beta3</version.wildfly.maven.plugin>
+        <version.cloud.fp>2.0.0.Alpha4</version.cloud.fp>
     </properties>
 
     <repositories>
@@ -190,19 +191,10 @@
                         <layer>cloud-server</layer>
                         <layer>ejb</layer>
                         <layer>jsf</layer>
-                        <layer>messaging-activemq</layer>
+                        <layer>embedded-activemq</layer>
                         <layer>h2-default-datasource</layer>
                     </layers>
                     <runtimeName>ROOT.war</runtimeName>
-                    <packagingScripts>
-                        <packagingScript>
-                            <scripts>
-                                <script>
-                                    scripts/embedded-broker.cli
-                                </script>
-                            </scripts>
-                        </packagingScript>
-                    </packagingScripts>
                 </configuration>
                 <executions>
                     <execution>
@@ -236,19 +228,10 @@
                                 <layer>cloud-server</layer>
                                 <layer>ejb</layer>
                                 <layer>jsf</layer>
-                                <layer>messaging-activemq</layer>
+                                <layer>embedded-activemq</layer>
                                 <layer>h2-default-datasource</layer>
                             </layers>
                             <filename>ROOT.war</filename>
-                            <packagingScripts>
-                                <packagingScript>
-                                    <scripts>
-                                        <script>
-                                            scripts/embedded-broker.cli
-                                        </script>
-                                    </scripts>
-                                </packagingScript>
-                            </packagingScripts>
                         </configuration>
                         <executions>
                             <execution>
