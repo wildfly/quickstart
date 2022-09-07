@@ -167,12 +167,12 @@ Add the following properties to the `pom.xml`.
 <version.server.bom>{versionServerBom}</version.server.bom>
 ----
 
-Also the project can be updated to use Java 8 as the minimum.
+Also the project can be updated to use Java 11 as the minimum.
 
 [source,options="nowrap"]
 ----
-<maven.compiler.source>1.8</maven.compiler.source>
-<maven.compiler.target>1.8</maven.compiler.target>
+<maven.compiler.source>11</maven.compiler.source>
+<maven.compiler.target>11</maven.compiler.target>
 ----
 
 Before the dependencies are defined add the following boms.
@@ -248,6 +248,11 @@ Also add the following test scoped dependencies.
   <version>${version.glassfish.json}</version>
   <scope>test</scope>
 </dependency>
+<dependency>
+  <groupId>org.eclipse.parsson</groupId>
+  <artifactId>parsson</artifactId>
+  <scope>test</scope>
+</dependency>
 ----
 
 Within the `<build></build>` section of the project add the following plug-in definition.
@@ -258,7 +263,6 @@ Within the `<build></build>` section of the project add the following plug-in de
   <plugin>
     <groupId>org.wildfly.plugins</groupId>
     <artifactId>wildfly-maven-plugin</artifactId>
-    <version>${version.wildfly.maven.plugin}</version>
   </plugin>
 </plugins>
 ----
@@ -534,23 +538,6 @@ We now have everything we need to activate `MP-JWT` authentication on the deploy
 At this stage we have a basic JAX-RS deployment, a pair of keys for the generation of and validation of JWT tokens and a utility to generate JWT tokens.  
 Our next step is to activate MicroProfile JWT authentication for the deployment and we can then make use of some of the advanced features such as role 
 based access control using the groups from within the token and access to individual claims within the token.
-
-As the project was created the class `org.wildfly.quickstarts.mpjwt.App` was added, this should be modified by adding
-the `@LoginConfig` annotation as follows.
-
-[source,java]
-----
-package org.wildfly.quickstarts.mpjwt;
-
-import jakarta.ws.rs.ApplicationPath;
-import jakarta.ws.rs.core.Application;
-
-import org.eclipse.microprofile.auth.LoginConfig;
-
-@ApplicationPath("/")
-@LoginConfig(authMethod="MP-JWT", realmName="MP JWT Realm")
-public class App extends Application {}
-----
 
 The configuration for JWT validation can be contained within a MicroProfile Config properties file, under `src/main/resources/META-INF` 
 add a `microprofile-config.properties` with the following content.
