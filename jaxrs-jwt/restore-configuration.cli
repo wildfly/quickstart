@@ -1,7 +1,9 @@
 
 batch
+/subsystem=undertow/application-security-domain=other:undefine-attribute(name=http-authentication-factory)
+/subsystem=undertow/application-security-domain=other:write-attribute(name=security-domain,value=ApplicationDomain)
 
-/subsystem=undertow/application-security-domain=other:remove()
+/subsystem=ejb3/application-security-domain=other:write-attribute(name=security-domain,value=ApplicationDomain)
 
 /subsystem=elytron/http-authentication-factory=jwt-http-authentication:remove()
 
