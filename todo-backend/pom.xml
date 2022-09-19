@@ -296,8 +296,8 @@
         </profile>
         <profile>
             <!-- An optional Arquillian testing profile that executes tests in your JBoss EAP instance.
-                 This profile will start a new JBoss EAP instance, and execute the test, shutting it down when done.
-                 Run with: mvn clean verify -Parq-managed -->
+            This profile will start a new JBoss EAP instance, and execute the test, shutting it down when done.
+            Run with: mvn clean verify -Parq-managed -->
             <id>arq-managed</id>
             <dependencies>
                 <dependency>
@@ -309,6 +309,42 @@
             <build>
                 <plugins>
                     <plugin>
+                        <groupId>org.wildfly.plugins</groupId>
+                        <artifactId>wildfly-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>prepare-server</id>
+                                <goals>
+                                    <goal>provision</goal>
+                                </goals>
+                                <configuration>
+                                    <feature-packs>
+                                        <feature-pack>
+                                            <location>org.wildfly:wildfly-galleon-pack:${version.server}</location>
+                                        </feature-pack>
+                                        <feature-pack>
+                                            <groupId>org.wildfly</groupId>
+                                            <artifactId>wildfly-datasources-galleon-pack</artifactId>
+                                            <version>${version.wildfly-datasources-galleon-pack}</version>
+                                        </feature-pack>
+                                    </feature-packs>
+                                    <layers>
+                                        <layer>cloud-server</layer>
+                                        <layer>h2-datasource</layer>
+                                    </layers>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <goals>
+                                    <goal>package</goal>
+                                </goals>
+                                <configuration>
+                                    <skip>true</skip>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-failsafe-plugin</artifactId>
                         <version>${version.failsafe.plugin}</version>
@@ -318,6 +354,11 @@
                                     <goal>integration-test</goal>
                                     <goal>verify</goal>
                                 </goals>
+                                <configuration>
+                                    <environmentVariables>
+                                        <JBOSS_HOME>${basedir}/target/server</JBOSS_HOME>
+                                    </environmentVariables>
+                                </configuration>
                             </execution>
                         </executions>
                     </plugin>
@@ -326,7 +367,7 @@
         </profile>
         <profile>
             <!-- An optional Arquillian testing profile that executes tests in a remote JBoss EAP instance.
-                 Run with: mvn clean verify -Parq-remote -->
+            Run with: mvn clean verify -Parq-remote -->
             <id>arq-remote</id>
             <dependencies>
                 <dependency>

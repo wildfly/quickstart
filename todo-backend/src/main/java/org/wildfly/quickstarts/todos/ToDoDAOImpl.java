@@ -29,8 +29,6 @@ import jakarta.ejb.Stateful;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
-import jakarta.ws.rs.core.Context;
-import jakarta.ws.rs.core.UriInfo;
 
 @Stateful
 public class ToDoDAOImpl implements ToDoDAO {
@@ -38,15 +36,13 @@ public class ToDoDAOImpl implements ToDoDAO {
     @Inject
     private EntityManager em;
 
-    @Context
-    UriInfo uriInfo;
-
     @Override
     public List<ToDo> findAll() {
         TypedQuery<ToDo> query = em.createQuery("SELECT t FROM ToDo t", ToDo.class);
         return query.getResultList();
     }
 
+    @Override
     public Optional<ToDo> findById(Long id) {
         ToDo toDo = em.find(ToDo.class, id);
         return Optional.ofNullable(toDo);
