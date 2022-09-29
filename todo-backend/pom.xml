@@ -282,6 +282,15 @@
                                 <layer>postgresql-datasource</layer>
                             </layers>
                             <filename>ROOT.war</filename>
+                            <packaging-scripts>
+                                <packaging-script>
+                                    <scripts>
+                                        <script>${project.build.scriptSourceDirectory}/cors_filters.cli</script>
+                                    </scripts>
+                                    <!-- Expressions resolved during server execution -->
+                                    <resolve-expressions>false</resolve-expressions>
+                                </packaging-script>
+                            </packaging-scripts>
                         </configuration>
                         <executions>
                             <execution>
@@ -309,42 +318,6 @@
             <build>
                 <plugins>
                     <plugin>
-                        <groupId>org.wildfly.plugins</groupId>
-                        <artifactId>wildfly-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>prepare-server</id>
-                                <goals>
-                                    <goal>provision</goal>
-                                </goals>
-                                <configuration>
-                                    <feature-packs>
-                                        <feature-pack>
-                                            <location>org.wildfly:wildfly-galleon-pack:${version.server}</location>
-                                        </feature-pack>
-                                        <feature-pack>
-                                            <groupId>org.wildfly</groupId>
-                                            <artifactId>wildfly-datasources-galleon-pack</artifactId>
-                                            <version>${version.wildfly-datasources-galleon-pack}</version>
-                                        </feature-pack>
-                                    </feature-packs>
-                                    <layers>
-                                        <layer>cloud-server</layer>
-                                        <layer>h2-datasource</layer>
-                                    </layers>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <goals>
-                                    <goal>package</goal>
-                                </goals>
-                                <configuration>
-                                    <skip>true</skip>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-failsafe-plugin</artifactId>
                         <version>${version.failsafe.plugin}</version>
@@ -356,7 +329,9 @@
                                 </goals>
                                 <configuration>
                                     <environmentVariables>
-                                        <JBOSS_HOME>${basedir}/target/server</JBOSS_HOME>
+                                        <!--
+                                        <JBOSS_HOME>/home/ehsavoie/dev/wildfly/wildfly/build/target/wildfly-27.0.0.Final-SNAPSHOT/</JBOSS_HOME>
+                                        -->
                                     </environmentVariables>
                                 </configuration>
                             </execution>
