@@ -28,27 +28,35 @@ build:
 
 This will create a new deployment on OpenShift and deploy the application.
 
-If you want to see all the configuration elements to cusomize your deployment you can use the following command:
+If you want to see all the configuration elements to customize your deployment you can use the following command:
 [source,options="nowrap",subs="+attributes"]
 ----
 $ helm show readme wildfly/wildfly
 ----
 
-Get the URL of the route to the deployement.
-+
-[options="nowrap"]
+Let’s wait for the application to be built and deployed:
+[source,options="nowrap",subs="+attributes"]
 ----
-$ oc get route
+$ oc get deployment {artifactId} -w
+NAME         DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+helloworld   1         1         1            0           12s
+...
+helloworld   1         1         1            1           2m
 ----
-. Access the application in your web browser using the URL. The URL is the value of the `HOST/PORT` field from previous command's output.
-+
+
+Get the URL of the route to the deployment.
+
+[source,options="nowrap",subs="+attributes"]
+----
+$ oc get route {artifactId} -o jsonpath="{.spec.host}"
+----
+Access the application in your web browser using the URL. 
+
 [NOTE]
 ====
 
 For example, to interact with this quickstart , the root of its application URLs should be `https://_HOST_PORT_Value_/`.
 ====
-+
-
 
 [[undeploy_helm]]
 == Undeploy the {ProductShortName} Source-to-Image (S2I) Quickstart to OpenShift with Helm Charts
