@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2022, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -14,17 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jboss.as.quickstarts.helloworld;
+package org.wildfly.quickstarts.security_domain_to_domain.web;
 
-/**
- * A simple CDI service which is able to say hello to someone
- *
- * @author Giriraj Sharma
- */
-public class HelloService {
+import java.io.Serializable;
 
-    String createHelloMessage(String name) {
-        return "Hello " + name + "!" + " Mutual TLS client authentication is successful and your war app is secured.!!";
-    }
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 
+@SuppressWarnings("serial")
+@Entity
+// This class should be removed once https://issues.redhat.com/browse/WFLY-16871 is resolved
+public class DummyEntity implements Serializable {
+
+    @Id
+    @GeneratedValue
+    private Long id;
 }

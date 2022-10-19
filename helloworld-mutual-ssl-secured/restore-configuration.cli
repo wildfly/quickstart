@@ -3,10 +3,6 @@
 # Start batching commands
 batch
 
-# Revert the changes in the undertow subsystem
-/subsystem=undertow/server=default-server/https-listener=https:undefine-attribute(name=ssl-context)
-/subsystem=undertow/server=default-server/https-listener=https:write-attribute(name=security-realm,value=ApplicationRealm)
-
 # Remove the application-security-domain mapping that was added for the quickstart
 /subsystem=undertow/application-security-domain=client_cert_domain:remove
 
@@ -21,11 +17,12 @@ batch
 /subsystem=elytron/aggregate-realm=QuickstartRealm:remove
 /subsystem=elytron/key-store-realm=KeyStoreRealm:remove
 
-# Remove the ssl context, key manager, trust manager and keystores configuration from the elytron subsystem
-/subsystem=elytron/server-ssl-context=qsSSLContext:remove
-/subsystem=elytron/key-manager=qsKeyManager:remove
+# Remove the changes that were made to the default server-ssl-context
+/subsystem=elytron/server-ssl-context=applicationSSC:undefine-attribute(name=trust-manager)
+/subsystem=elytron/server-ssl-context=applicationSSC:undefine-attribute(name=need-client-auth)
+
+# Remove the trust manager and keystore configuration from the elytron subsystem
 /subsystem=elytron/trust-manager=qsTrustManager:remove
-/subsystem=elytron/key-store=qsKeyStore:remove
 /subsystem=elytron/key-store=qsTrustStore:remove
 
 # Run the batch commands

@@ -132,13 +132,23 @@ After stopping the server, open the `__{jbossHomeName}__/standalone/configuratio
 </http-authentication-factory>
 ----
 
-. Finally, the application security domain is configured in Undertow to use the new HTTP authentication factory.
+. The application security domain in the Undertow subsystem is configured to use the new HTTP authentication factory.
 +
 [source,xml,options="nowrap"]
 ----
 
 <application-security-domains>
     <application-security-domain name="other" http-authentication-factory="jwt-http-authentication"/>
+</application-security-domains>
+----
+
+. Finally, the application security domain in the EJB subsystem is configured to use the `jwt-domain`.
++
+[source,xml,options="nowrap"]
+----
+
+<application-security-domains>
+    <application-security-domain name="other" security-domain="jwt-domain"/>
 </application-security-domains>
 ----
 

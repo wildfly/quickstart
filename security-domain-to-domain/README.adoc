@@ -36,8 +36,7 @@ Application Server (`standalone.xml`)::
 
 * Defines a security domain in the `elytron` subsystem that uses the JDBC security realm to obtain the security data used to authenticate and authorize users.
 * Defined a second security domain in the `elytron` subsystem similar to the first but with different role mappings.
-* Defines an `http-authentication-factory` in the `elytron` subsystem that uses the security domain created in step 1 for BASIC authentication.
-* Adds an `application-security-domain` mapping in the `undertow` subsystem to map the Servlet security domain to the HTTP authentication factory defined in step 3.
+* Adds an `application-security-domain` mapping in the `undertow` subsystem to map the Servlet security domain to the security domain defined in step 1.
 * Adds an `application-security-domain` mapping in the `ejb3` subystem to map the EJBs security domain to the security domain defined in step 2.
 Database Configuration::
 
@@ -75,7 +74,7 @@ You can configure the server by running JBoss CLI commands. For your convenience
 * xref:back_up_standalone_server_configuration[Back up the {productName} standalone server configuration] as described above.
 * xref:start_the_eap_standalone_server[Start the {productName} server] with the standalone default profile as described above.
 
-. Review the `configure-server.cli` file in the root of this quickstart directory. This script adds security domain and HTTP authentication factory to the `elytron` subsystem in the server configuration and also configures the `undertow` subsystem to use the configured HTTP authentication factory for the Web application.
+. Review the `configure-server.cli` file in the root of this quickstart directory. This script adds security domains to the `elytron` subsystem in the server configuration and also configures the `undertow` and `ejb3` subsystems to use the configured security domains for the Web application and for EJBs.
 . Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing __{jbossHomeName}__ with the path to your server:
 +
 [source,subs="+quotes,attributes+",options="nowrap"]
@@ -148,55 +147,49 @@ After stopping the server, open the `__{jbossHomeName}__/standalone/configuratio
 
 . The `business-realm` security realm is just used for loading the identity as it accesses the EJB.
 
-. The following `role-decoder` was added to the `elytron` subsystem.
+. The JDBC realms in this quickstart store the roles associated with a principal in an attribute named `Roles`.
 +
-[source,xml,options="nowrap"]
-----
-<simple-role-decoder name="from-roles-attribute" attribute="roles"/>
-----
+Other realms might use different attributes for roles (such as `group`).
+If an attribute name other than "Roles" is used to store the roles, a `role-decoder` can be configured as follows:
 +
-The realms in this quickstart store the roles associated with a principal in an attribute named roles. Other realms might use different attributes for roles (such as `group`). The purpose of a `role-decoder` is to instruct the security domain how roles are to be retrieved from an authorized identity.
+```
+/subsystem=elytron/simple-role-decoder=from-roles-attribute:add(attribute=ATTRIBUTE_NAME)
+```
++
+The commands to create the security domains could then be updated to reference this `role-decoder`:
++
+```
+/subsystem=elytron/security-domain=entry-security-domain:add(default-realm=entry-realm, realms=[{realm=entry-realm, role-decoder=from-roles-attribute}], permission-mapper=default-permission-mapper, outflow-security-domains=[business-security-domain])
 
+/subsystem=elytron/security-domain=business-security-domain:add(default-realm=business-realm, realms=[{realm=business-realm, role-decoder=from-roles-attribute}], trusted-security-domains=[entry-security-domain])
+```
++
+The purpose of a `role-decoder` is to instruct the security domain how roles are to be retrieved from an authorized identity.
 . The following security domains were added to the `elytron` subsystem.
 +
 [source,xml,options="nowrap"]
 ----
 <security-domain name="entry-security-domain" default-realm="entry-realm" permission-mapper="default-permission-mapper" outflow-security-domains="business-security-domain">
-    <realm name="entry-realm" role-decoder="from-roles-attribute"/>
+    <realm name="entry-realm"/>
 </security-domain>
 
 <security-domain name="business-security-domain" default-realm="business-realm" trusted-security-domains="entry-security-domain">
-    <realm name="business-realm" role-decoder="from-roles-attribute"/>
+    <realm name="business-realm"/>
 </security-domain>
 ----
 +
 The `entry-security-domain` is configured to automatically outflow any identities to the `business-security-domain` and in return the `business-security-domain` is configured to trust any identities coming from the `entry-security-domain`.
-
-. The following `http-authentication-factory` was added to the `elytron` subsystem.
-+
-[source,xml,options="nowrap"]
-----
-<http-authentication-factory name="security-domain-to-domain-http" security-domain="entry-security-domain" http-server-mechanism-factory="global">
-    <mechanism-configuration>
-        <mechanism mechanism-name="BASIC">
-            <mechanism-realm realm-name="RealmUsersRoles"/>
-        </mechanism>
-    </mechanism-configuration>
-</http-authentication-factory>
-----
-+
-It basically defines an HTTP authentication factory for the BASIC mechanism that relies on the `entry-security-domain` security domain to authenticate and authorize access to Web applications.
 
 . The following `application-security-domain` was added to the `undertow` subsystem.
 +
 [source,xml,options="nowrap"]
 ----
 <application-security-domains>
-    <application-security-domain name="EntryDomain" http-authentication-factory="security-domain-to-domain-http"/>
+    <application-security-domain name="EntryDomain" security-domain="entry-security-domain"/>
 </application-security-domains>
 ----
 +
-This configuration tells `Undertow` that applications with the `EntryDomain` security domain, as defined in the `jboss-web.xml` or by using the `@SecurityDomain` annotation in the Servlet class, should use the `http-authentication-factory` named `security-domain-to-domain-http`.
+This configuration tells `Undertow` that applications with the `EntryDomain` security domain, as defined in the `jboss-web.xml` or by using the `@SecurityDomain` annotation in the Servlet class, should use the `security-domain` named `entry-security-domain`.
 
 . The following `application-security-domain` was added to the `ejb3` subsystem.
 +
@@ -247,33 +240,11 @@ Caller Has Role 'Manager'=true
 
 This shows that the user `quickstartUser` calls the servlet and has role `User` but does not have the role `Manager`, as the call reaches the EJB the principal is still `quickstartUser` but now the identity does not have the role `User` and instead has the role `Manager`.
 
-== Server Log: Expected Warnings and Errors
-
-You will see the following warning in the server log. You can ignore it.
-
-[source,options="nowrap"]
-----
-HHH000431: Unable to determine H2 database version, certain features may not work
-----
-
 // Undeploy the Quickstart
 include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
 
 // Restore the {productName} Standalone Server Configuration
 include::../shared-doc/restore-standalone-server-configuration.adoc[leveloffset=+1]
-
-== Restore the Server Configuration
-
-You can restore the original server configuration by running the `restore-configuration.cli` script provided in the root directory of this quickstart or by manually restoring the back-up copy the configuration file.
-
-// Additional informatin about this script
-This script removes the `application-security-domain` configurations from the `ejb3` and `undertow` subsystem, the `http-authentication-factory`, `security-domain`, `security-realm` and `role-decoder` configuration from the `elytron` subsystem and it also removes the `datasource` used for this quickstart. You should see the following result when you run the script:
-
-[source,options="nowrap"]
-----
-The batch executed successfully
-process-state: reload-required
-----
 
 // Restore the {productName} Standalone Server Configuration Manually
 include::../shared-doc/restore-standalone-server-configuration-manual.adoc[leveloffset=+2]
