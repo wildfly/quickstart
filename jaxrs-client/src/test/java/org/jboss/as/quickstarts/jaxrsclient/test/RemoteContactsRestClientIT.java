@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2022, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -16,19 +16,11 @@
  */
 package org.jboss.as.quickstarts.jaxrsclient.test;
 
-public class ContactsRestClient extends AbstractContactsRestClient {
+import org.junit.Test;
+
+public class RemoteContactsRestClientIT extends AbstractContactsRestClient {
 
     private static final String REST_TARGET_URL = "http://localhost:8080/jaxrs-client/rest/contacts";
-
-    public static void main(String[] args) throws Exception {
-        ContactsRestClient client = new ContactsRestClient();
-        client.cruedTest();
-        client.asyncCrudTest();
-        client.delayedInvocationTest();
-        client.invocationCallBackTest();
-        client.requestResponseFiltersTest();
-
-    }
 
     private String getServerHost() {
         String host = System.getenv("SERVER_HOST");
@@ -38,8 +30,6 @@ public class ContactsRestClient extends AbstractContactsRestClient {
         return host;
     }
 
-    ;
-
     @Override
     String getRequestUrl() {
         String host = getServerHost();
@@ -47,5 +37,41 @@ public class ContactsRestClient extends AbstractContactsRestClient {
             host = REST_TARGET_URL;
         }
         return "http://" + host + "/jaxrs-client/rest/contacts";
+    }
+
+
+    // This test shows basic operations
+    @Test
+    @Override
+    public void cruedTest() {
+        super.cruedTest();
+    }
+
+    // This test shows some basic operations using ASYNC invocations and java.util.concurrent.Future
+    @Test
+    @Override
+    public void asyncCrudTest() throws Exception {
+        super.asyncCrudTest();
+    }
+
+    // This test shows how to use jakarta.ws.rs.client.InvocationCallback
+    @Test
+    @Override
+    public void invocationCallBackTest() throws Exception {
+        super.invocationCallBackTest();
+    }
+
+    // Shows how to use a delayed REST invocation
+    @Test
+    @Override
+    public void delayedInvocationTest() throws Exception {
+        super.delayedInvocationTest();
+    }
+
+    // Shows how to use Request and Response filters
+    @Test
+    @Override
+    public void requestResponseFiltersTest() {
+        super.requestResponseFiltersTest();
     }
 }

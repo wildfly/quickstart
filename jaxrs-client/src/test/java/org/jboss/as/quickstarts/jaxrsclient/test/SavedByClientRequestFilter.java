@@ -16,6 +16,7 @@
  */
 package org.jboss.as.quickstarts.jaxrsclient.test;
 
+import static jakarta.ws.rs.HttpMethod.POST;
 import java.io.IOException;
 
 import jakarta.ws.rs.client.ClientRequestContext;
@@ -31,7 +32,7 @@ public class SavedByClientRequestFilter implements ClientRequestFilter {
     @Override
     public void filter(ClientRequestContext requestContext) throws IOException {
         String method = requestContext.getMethod();
-        if ("POST".equals(method) && requestContext.hasEntity()) {
+        if (POST.equals(method) && requestContext.hasEntity()) {
             Contact contact = (Contact) requestContext.getEntity();
             contact.setSavedBy(USERNAME);
             requestContext.setEntity(contact);
