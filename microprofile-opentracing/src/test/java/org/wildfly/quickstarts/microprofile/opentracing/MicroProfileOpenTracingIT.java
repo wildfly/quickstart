@@ -16,15 +16,22 @@
  */
 package org.wildfly.quickstarts.microprofile.opentracing;
 
+import java.net.URL;
+import java.util.List;
+
 import io.opentracing.Tracer;
-import io.opentracing.contrib.tracerresolver.TracerFactory;
 import io.opentracing.mock.MockSpan;
 import io.opentracing.mock.MockTracer;
+import io.smallrye.opentracing.contrib.resolver.TracerFactory;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.core.Response;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.asset.EmptyAsset;
+import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.After;
 import org.junit.Assert;
@@ -32,19 +39,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import jakarta.inject.Inject;
-import jakarta.ws.rs.client.Client;
-import jakarta.ws.rs.client.ClientBuilder;
-import jakarta.ws.rs.core.Response;
-import java.net.URL;
-import java.util.List;
-
 /**
  * Simple tests for MicroProfile OpenTracing quickstart. Arquillian deploys an JAR archive to the application server, which
  * contains several REST endpoint and verifies that they are correctly invoked and the created spans are collected.
  *
  * @author <a href="mstefank@redhat.com">Martin Stefanko</a>
- *
  */
 @RunWith(Arquillian.class)
 public class MicroProfileOpenTracingIT {
@@ -80,11 +79,12 @@ public class MicroProfileOpenTracingIT {
     @Deployment
     public static WebArchive createDeployment() {
         return ShrinkWrap.create(WebArchive.class)
-            .addPackages(true, JaxRsApplication.class.getPackage())
-            .addPackages(true, MockTracer.class.getPackage())
-            .addAsServiceProvider(TracerFactory.class, MockTracerFactory.class)
-            // enable CDI
-            .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
+                .addClass(MockTracerFactory.class)
+                .addPackages(true, JaxRsApplication.class.getPackage())
+                .addPackages(true, MockTracer.class.getPackage())
+                .addAsServiceProvider(TracerFactory.class, MockTracerFactory.class)
+                // enable CDI
+                .addAsWebInfResource(new StringAsset("<beans bean-discovery-mode=\"all\"></beans>"), "beans.xml");
     }
 
     /**
@@ -123,18 +123,18 @@ public class MicroProfileOpenTracingIT {
 
         Assert.assertEquals("Invalid number of created spans", 4, finishedSpans.size());
         finishedSpans.forEach(span -> Assert.assertTrue(span.operationName().equals("process-hello") ||
-            span.operationName().equals("prepare-hello") ||
-            span.operationName().equals("org.wildfly.quickstarts.microprofile.opentracing.ExplicitlyTracedBean.getHello") ||
-            span.operationName().equals("GET:org.wildfly.quickstarts.microprofile.opentracing.TracedResource.cdiHello")));
+                span.operationName().equals("prepare-hello") ||
+                span.operationName().equals("org.wildfly.quickstarts.microprofile.opentracing.ExplicitlyTracedBean.getHello") ||
+                span.operationName().equals("GET:org.wildfly.quickstarts.microprofile.opentracing.TracedResource.cdiHello")));
     }
 
 
     private void appGetInvoke(String path) {
         Response response = client
-            .target(deploymentURL.toString())
-            .path(path)
-            .request()
-            .get();
+                .target(deploymentURL.toString())
+                .path(path)
+                .request()
+                .get();
 
         Assert.assertEquals(200, response.getStatus());
 
