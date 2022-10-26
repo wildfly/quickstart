@@ -40,8 +40,10 @@
         <version.server.bom>27.0.0.Beta1</version.server.bom>
         <!-- Test dependencies versions -->
         <version.io.rest-assured>4.3.1</version.io.rest-assured>
+        <version.io.smallrye-config>3.0.0</version.io.smallrye-config>
         <version.org.jboss.jboss-dmr>1.5.1.Final</version.org.jboss.jboss-dmr>
-        <version.org.springframework.kafka>2.8.0</version.org.springframework.kafka>
+        <version.org.springframework.kafka>2.9.1</version.org.springframework.kafka>
+        <version.org.jboss.resteasy.microprofile.rest-client>2.0.0.Final</version.org.jboss.resteasy.microprofile.rest-client>
         <!-- Plugin versions -->
         <version.server.bootable-jar>27.0.0.Beta1</version.server.bootable-jar>
         <version.wildfly-jar.maven.plugin>7.0.0.Final</version.wildfly-jar.maven.plugin>
@@ -228,21 +230,27 @@
             <scope>test</scope>
             <version>${version.org.jboss.jboss-dmr}</version>
         </dependency>
-
+        <dependency>
+            <groupId>io.smallrye.config</groupId>
+            <artifactId>smallrye-config-core</artifactId>
+            <version>${version.io.smallrye-config}</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>org.eclipse.microprofile.rest.client</groupId>
             <artifactId>microprofile-rest-client-api</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.jboss.resteasy</groupId>
-            <artifactId>resteasy-client-microprofile</artifactId>
-            <version>4.7.2.Final</version>
+            <groupId>org.jboss.resteasy.microprofile</groupId>
+            <artifactId>microprofile-rest-client-base</artifactId>
+            <version>${version.org.jboss.resteasy.microprofile.rest-client}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.jboss.resteasy</groupId>
-            <artifactId>resteasy-client</artifactId>
+            <groupId>org.jboss.resteasy.microprofile</groupId>
+            <artifactId>microprofile-rest-client</artifactId>
+            <version>${version.org.jboss.resteasy.microprofile.rest-client}</version>
             <scope>test</scope>
         </dependency>
 
