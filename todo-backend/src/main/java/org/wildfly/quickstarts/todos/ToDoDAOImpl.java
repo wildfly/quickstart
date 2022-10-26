@@ -43,7 +43,7 @@ public class ToDoDAOImpl implements ToDoDAO {
 
     @Override
     public List<ToDo> findAll() {
-        TypedQuery<ToDo> query = em.createQuery("FROM ToDo", ToDo.class);
+        TypedQuery<ToDo> query = em.createQuery("SELECT t FROM ToDo t", ToDo.class);
         return query.getResultList();
     }
 
