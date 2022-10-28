@@ -16,6 +16,9 @@
  */
 package org.jboss.as.quickstarts.jaxrsclient.test;
 
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import org.junit.Test;
 
 public class RemoteContactsRestClientIT extends AbstractContactsRestClient {
@@ -36,7 +39,11 @@ public class RemoteContactsRestClientIT extends AbstractContactsRestClient {
         if (host == null) {
             host = REST_TARGET_URL;
         }
-        return "http://" + host + "/jaxrs-client/rest/contacts";
+        try {
+            return new URI(host + "/jaxrs-client/rest/contacts").toURL().toString();
+        } catch (URISyntaxException | MalformedURLException ex) {
+            throw new RuntimeException(ex);
+        }
     }
 
 
