@@ -40,7 +40,7 @@ public class RemoteContactsRestClientIT extends AbstractContactsRestClient {
             host = REST_TARGET_URL;
         }
         try {
-            return new URI(host + "/jaxrs-client/rest/contacts").toURL().toString();
+            return new URI(host + "/rest/contacts").toURL().toString();
         } catch (URISyntaxException | MalformedURLException ex) {
             throw new RuntimeException(ex);
         }

@@ -22,7 +22,7 @@ $ oc get route
 +
 [source,options="nowrap",subs="+attributes"]
 ----
-$ mvn clean verify -Parq-remote -Dserver.host=http://$(oc get route {artifactId} --template='{{ .spec.host }}')
+$ mvn clean verify -Parq-remote -Dserver.host=https://$(oc get route {artifactId} --template='{{ .spec.host }}')
 ----
 
 [NOTE]

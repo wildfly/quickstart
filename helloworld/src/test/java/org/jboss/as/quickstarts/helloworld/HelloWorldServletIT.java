@@ -39,7 +39,7 @@ public class HelloWorldServletIT {
     protected URI getHTTPEndpoint() {
         String host = getServerHost();
         if (host == null) {
-            host = "http://localhost:8080";
+            host = "http://localhost:8080/helloworld";
         }
         try {
             return new URI(host + "/HelloWorld");
