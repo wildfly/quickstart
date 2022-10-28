@@ -1,12 +1,12 @@
 include::../shared-doc/attributes.adoc[]
 
-= ee-security: Using EE Security with WildFly Elytron
+= ee-security: Using Jakarta EE Security
 :author: Darran Lofthouse
 :level: Intermediate
-:technologies: EE Security, Servlet, CDI, WildFly Elytron
+:technologies: EE Security, Servlet, CDI
 
 [abstract]
-The `ee-security` quickstart demonstrates how EE security can be used with WildFly Elytron.
+The `ee-security` quickstart demonstrates Jakarta EE security.
 
 :standalone-server-type: default
 :archiveType: war
@@ -14,18 +14,16 @@ The `ee-security` quickstart demonstrates how EE security can be used with WildF
 
 == What is it?
 
-The `ee-security` quickstart is an example project showing the use of EE security integrated with WildFly Elytron in {productNameFull}.
+The `ee-security` quickstart is an example project showing the use of Jakarta EE security in {productNameFull}.
 
-The deployment in this quickstart contains a simple HTTP servlet, which is secured using a custom `HttpAuthenticationMechanism`. The authentication mechanism in turn makes use of a custom `IdentityStore`, which delegates authentication to the WildFly Elytron `SecurityDomain` associated with the deployment.
+The deployment in this quickstart contains a simple HTTP servlet, which is secured using a custom `HttpAuthenticationMechanism`. The authentication mechanism in turn makes use of a custom `IdentityStore`.
 
-This quickstart defines a user `quickstartUser` with password `quickstartPwd1!`.
+This quickstart is hard coded to work with a user `quickstartUser` with password `quickstartPwd1!`.
 
 // System Requirements
 include::../shared-doc/system-requirements.adoc[leveloffset=+1]
 // Use of {jbossHomeName}
 include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
-// Add the Authorized Application User
-include::../shared-doc/add-application-user.adoc[leveloffset=+1]
 // Back Up the {productName} Standalone Server Configuration
 include::../shared-doc/back-up-server-standalone-configuration.adoc[leveloffset=+1]
 // Start the {productName} Standalone Server
