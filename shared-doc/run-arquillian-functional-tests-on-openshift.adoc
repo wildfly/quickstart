@@ -24,8 +24,3 @@ $ oc get route
 ----
 $ mvn clean verify -Parq-remote -Dserver.host=https://$(oc get route {artifactId} --template='{{ .spec.host }}')
 ----
-
-[NOTE]
-====
-You may also use the environment variable `SERVER_HOST` to define the target host of the tests.
-====
