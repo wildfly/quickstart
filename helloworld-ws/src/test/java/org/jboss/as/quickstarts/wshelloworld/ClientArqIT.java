@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
@@ -38,6 +39,7 @@ import org.junit.runner.RunWith;
  * @author lnewson@redhat.com
  */
 @RunWith(Arquillian.class)
+@RunAsClient
 public class ClientArqIT {
     /**
      * The name of the WAR Archive that will be used by Arquillian to deploy the application.

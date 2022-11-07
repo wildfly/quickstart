@@ -25,7 +25,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Assume;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -35,7 +34,7 @@ import org.junit.Test;
  *
  * @author lnewson@redhat.com
  */
-public class ClientTest {
+public class ClientIT {
     /**
      * The path of the WSDL endpoint in relation to the deployed web application.
      */
@@ -71,14 +70,11 @@ public class ClientTest {
         System.out.println("WSDL Deployment URL: " + deploymentUrl);
 
         // Set the deployment url
-        ClientTest.deploymentUrl = deploymentUrl;
+        ClientIT.deploymentUrl = deploymentUrl;
     }
 
     @Before
     public void setup() {
-        if (true){
-            Assume.assumeFalse(true);
-        }
         try {
             client = new Client(new URL(deploymentUrl, WSDL_PATH));
         } catch (MalformedURLException e) {
