@@ -45,7 +45,7 @@ public abstract class AbstractContactsRestClient {
 
     // This test shows basic operations
     public void cruedTest() {
-        log.info("### CRUD tests ###");
+        log.info("### CRUD tests " + getRequestUrl() + " ###");
         // 1 - drop all contacts
         log.info("dropping all contacts");
         Response response = ClientBuilder.newClient().target(getRequestUrl()).request().delete();

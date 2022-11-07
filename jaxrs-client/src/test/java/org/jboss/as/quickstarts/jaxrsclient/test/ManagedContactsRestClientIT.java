@@ -25,7 +25,7 @@ import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.as.quickstarts.jaxrsclient.model.Contact;
 import org.jboss.as.quickstarts.jaxrsclient.rest.JaxRsActivator;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.asset.EmptyAsset;
+import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,12 +37,16 @@ public class ManagedContactsRestClientIT extends AbstractContactsRestClient {
     @ArquillianResource
     private URL deploymentUrl;
 
-    @Deployment(testable = false)
+    @Deployment
     public static WebArchive createDeployment() {
         WebArchive war = ShrinkWrap.create(WebArchive.class, "managed-executor-service.war")
                 .addPackage(JaxRsActivator.class.getPackage())
                 .addPackage(Contact.class.getPackage())
-                .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
+                .addClass(AbstractContactsRestClient.class)
+                .addAsWebInfResource(new StringAsset("<beans xmlns=\"https://jakarta.ee/xml/ns/jakartaee\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n"
+                        + "xsi:schemaLocation=\"https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/beans_3_0.xsd\"\n"
+                        + "bean-discovery-mode=\"all\">\n"
+                        + "</beans>"), "beans.xml");
         return war;
     }
 

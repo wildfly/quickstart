@@ -1,29 +1,41 @@
 /*
- * JBoss, Home of Professional Open Source
- * Copyright 2022, Red Hat, Inc. and/or its affiliates, and individual
- * contributors by the @authors tag. See the copyright.txt in the
- * distribution for a full listing of individual contributors.
+ * Copyright 2022 Red Hat, Inc.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * http://www.apache.org/licenses/LICENSE-2.0
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
  */
 package org.jboss.as.quickstarts.jaxrsclient.test;
 
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class RemoteContactsRestClientIT extends AbstractContactsRestClient {
-
-    private static final String REST_TARGET_URL = "http://localhost:8080/jaxrs-client";
+/**
+ *
+ * @author Emmanuel Hugonnet (c) 2022 Red Hat, Inc.
+ */
+@RunWith(Arquillian.class)
+@RunAsClient
+public class ProvisionnedManagedContactRestClientIT extends AbstractContactsRestClient {
+    private static final String REST_TARGET_URL = "http://localhost:8080";
 
     private String getServerHost() {
         String host = System.getenv("SERVER_HOST");
