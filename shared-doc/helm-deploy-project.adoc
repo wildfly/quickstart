@@ -50,12 +50,11 @@ Get the URL of the route to the deployment.
 ----
 $ oc get route {artifactId} -o jsonpath="{.spec.host}"
 ----
-Access the application in your web browser using the URL. 
+Access the application in your web browser using the displayed URL.
 
 [NOTE]
 ====
-
-For example, to interact with this quickstart , the root of its application URLs should be `https://_HOST_PORT_Value_/`.
+The Maven profile named `openshift` is used by the Helm chart to provision the server with the quickstart deployed on the root web context, and thus the application should be accessed with the URL without the `/{artifactId}` path segment after `HOST:PORT`.
 ====
 
 [[undeploy_helm]]
