@@ -33,7 +33,7 @@ public class Client implements HelloWorldService {
     /**
      * Default constructor
      *
-     * @param url The URL to the Hello World WSDL endpoint.
+     * @param wsdlUrl The URL to the Hello World WSDL endpoint.
      */
     public Client(final URL wsdlUrl) {
         QName serviceName = new QName("http://www.jboss.org/eap/quickstarts/wshelloworld/HelloWorld", "HelloWorldService");

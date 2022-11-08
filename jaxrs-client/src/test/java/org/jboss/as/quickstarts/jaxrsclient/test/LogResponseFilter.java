@@ -22,14 +22,15 @@ import java.util.logging.Logger;
 import jakarta.ws.rs.client.ClientRequestContext;
 import jakarta.ws.rs.client.ClientResponseContext;
 import jakarta.ws.rs.client.ClientResponseFilter;
+import java.util.logging.Level;
 
 //This filter will log response date and status
 public class LogResponseFilter implements ClientResponseFilter {
 
-    private Logger log = Logger.getLogger(LogResponseFilter.class.getName());
+    private static final Logger log = Logger.getLogger(LogResponseFilter.class.getName());
 
     @Override
     public void filter(ClientRequestContext requestContext, ClientResponseContext responseContext) throws IOException {
-        log.info("Date: " + responseContext.getDate() + "- Status: " + responseContext.getStatus());
+        log.log(Level.INFO, "Date: {0}- Status: {1}", new Object[]{responseContext.getDate(), responseContext.getStatus()});
     }
 }

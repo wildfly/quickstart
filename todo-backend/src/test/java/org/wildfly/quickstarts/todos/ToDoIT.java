@@ -34,7 +34,7 @@ import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.asset.EmptyAsset;
+import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -42,12 +42,16 @@ import org.junit.runner.RunWith;
 @RunWith(Arquillian.class)
 @RunAsClient
 public class ToDoIT {
+
     @Deployment
     public static Archive<?> createTestArchive() {
         return ShrinkWrap.create(WebArchive.class, "test.war")
                 .addPackage(ToDo.class.getPackage())
                 .addAsResource("META-INF/test-persistence.xml", "META-INF/persistence.xml")
-                .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
+                .addAsWebInfResource(new StringAsset("<beans xmlns=\"https://jakarta.ee/xml/ns/jakartaee\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n"
+                        + "xsi:schemaLocation=\"https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/beans_3_0.xsd\"\n"
+                        + "bean-discovery-mode=\"all\">\n"
+                        + "</beans>"), "beans.xml")
                 // Deploy our test datasource
                 .addAsWebInfResource("test-ds.xml");
     }
@@ -60,7 +64,8 @@ public class ToDoIT {
 
         WebTarget client = ClientBuilder.newClient().target(deploymentUrl.toURI());
 
-        GenericType<List<ToDo>> todosListType = new GenericType<List<ToDo>>() {};
+        GenericType<List<ToDo>> todosListType = new GenericType<List<ToDo>>() {
+        };
         List<ToDo> allTodos = client.request().get(todosListType);
         assertEquals(0, allTodos.size());
 

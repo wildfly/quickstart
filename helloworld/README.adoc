@@ -7,14 +7,14 @@ include::../shared-doc/attributes.adoc[]
 :openshift: true
 
 [abstract]
-The `helloworld` quickstart demonstrates the use of CDI and Servlet 3 and is a good starting point to verify {productName} is configured correctly.
+The `helloworld` quickstart demonstrates the use of CDI and Servlet 6 and is a good starting point to verify {productName} is configured correctly.
 
 :standalone-server-type: default
 :archiveType: war
 
 == What is it?
 
-The `helloworld` quickstart demonstrates the use of _CDI_ and _Servlet 3_ in {productNameFull} {productVersion}.
+The `helloworld` quickstart demonstrates the use of _CDI_ and _Servlet 6_ in {productNameFull} {productVersion}.
 
 
 //*************************************************
@@ -36,6 +36,8 @@ include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
 
 The application will be running at the following URL: http://localhost:8080/{artifactId}/.
 
+// Testing with Arquillian
+include::../shared-doc/run-arquillian-functional-tests-remote.adoc[leveloffset=+1]
 // Undeploy the Quickstart
 include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
 // Run the Quickstart in Red Hat CodeReady Studio or Eclipse
@@ -63,3 +65,13 @@ include::../shared-doc/openshift-post-deployment-tasks.adoc[leveloffset=+1]
 
 
 endif::[]
+
+// Getting Started with Helm
+include::../shared-doc/helm-getting-started-overview.adoc[leveloffset=+1]
+//Prepare Helm for Quickstart Deployment
+include::../shared-doc/helm-deploy-project.adoc[leveloffset=+1]
+
+// Testing on Openshift
+include::../shared-doc/run-arquillian-functional-tests-on-openshift.adoc[leveloffset=+1]
+
+

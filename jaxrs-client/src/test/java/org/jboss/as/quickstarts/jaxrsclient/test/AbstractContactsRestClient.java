@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2022, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -16,10 +16,6 @@
  */
 package org.jboss.as.quickstarts.jaxrsclient.test;
 
-import java.net.URL;
-import java.util.List;
-import java.util.concurrent.Future;
-import java.util.logging.Logger;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.client.Invocation;
@@ -27,53 +23,29 @@ import jakarta.ws.rs.client.InvocationCallback;
 import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.container.test.api.RunAsClient;
-import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.arquillian.test.api.ArquillianResource;
+import java.util.List;
+import java.util.concurrent.Future;
+import java.util.logging.Logger;
 import org.jboss.as.quickstarts.jaxrsclient.model.Contact;
-import org.jboss.as.quickstarts.jaxrsclient.rest.JaxRsActivator;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.asset.EmptyAsset;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
-@RunWith(Arquillian.class)
-@RunAsClient
-public class ContactsRestClientIT {
+/**
+ *
+ * @author Emmanuel Hugonnet (c) 2022 Red Hat, Inc.
+ */
+public abstract class AbstractContactsRestClient {
 
-    //private static final String getRequestUrl() = "http://localhost:8080/jaxrs-client/rest/contacts";
+    private static final Logger log = Logger.getLogger(AbstractContactsRestClient.class.getName());
+
     private static final String CONTACT_NAME = "New Contact";
     private static final String CONTACT_PHONE = "+55-61-5555-1234";
 
-    private Logger log = Logger.getLogger(ContactsRestClientIT.class.getName());
-
-    @ArquillianResource
-    private URL deploymentUrl;
-
-    @Deployment(testable = false)
-    public static WebArchive createDeployment() {
-        WebArchive war = ShrinkWrap.create(WebArchive.class, "managed-executor-service.war")
-                .addPackage(JaxRsActivator.class.getPackage())
-                .addPackage(Contact.class.getPackage())
-                .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
-        return war;
-    }
-
-    private String getRequestUrl() {
-        return new StringBuilder(deploymentUrl.toString())
-                .append("rest/contacts")
-                .toString();
-    }
-
+    abstract String getRequestUrl();
 
     // This test shows basic operations
-    @Test
     public void cruedTest() {
-        log.info("### CRUD tests ###");
+        log.info("### CRUD tests " + getRequestUrl() + " ###");
         // 1 - drop all contacts
         log.info("dropping all contacts");
         Response response = ClientBuilder.newClient().target(getRequestUrl()).request().delete();
@@ -85,13 +57,13 @@ public class ContactsRestClientIT {
         c.setName(CONTACT_NAME);
         c.setPhoneNumber(CONTACT_PHONE);
         Contact persistedContact = ClientBuilder.newClient().target(getRequestUrl()).request().post(Entity.entity(c, MediaType.APPLICATION_JSON), Contact.class);
-        Assert.assertEquals("A book should be persisted with Id=1!", (Long) 1L, (Long) persistedContact.getId());
+        Assert.assertEquals("A book should be persisted with Id=1!", (Long) 1L, persistedContact.getId());
 
         // 3 - Fetch Contact by Id
         log.info("fetching a contact by id");
-        Contact fetchContctById =
-                ClientBuilder.newClient().target(getRequestUrl()).path("/{contactId}").resolveTemplate("contactId", persistedContact.getId()).request().get(Contact.class);
-        Assert.assertEquals("Fetched book with Id=1!", (Long) 1L, (Long) fetchContctById.getId());
+        Contact fetchContctById
+                = ClientBuilder.newClient().target(getRequestUrl()).path("/{contactId}").resolveTemplate("contactId", persistedContact.getId()).request().get(Contact.class);
+        Assert.assertEquals("Fetched book with Id=1!", (Long) 1L, fetchContctById.getId());
         Assert.assertEquals("Fetched book with equal name", CONTACT_NAME, fetchContctById.getName());
         Assert.assertEquals("Fetched book with equal phone", CONTACT_PHONE, fetchContctById.getPhoneNumber());
 
@@ -109,7 +81,6 @@ public class ContactsRestClientIT {
     }
 
     // This test shows some basic operations using ASYNC invocations and java.util.concurrent.Future
-    @Test
     public void asyncCrudTest() throws Exception {
         log.info("### CRUD tests  ASYNC ###");
 
@@ -127,7 +98,7 @@ public class ContactsRestClientIT {
         Future<Contact> futureContact = ClientBuilder.newClient().target(getRequestUrl()).request().async().post(Entity.entity(c, MediaType.APPLICATION_JSON), Contact.class);
 
         Contact persistedContact = futureContact.get();
-        Assert.assertEquals("A contact should be persisted with Id=1!", (Long) 1L, (Long) persistedContact.getId());
+        Assert.assertEquals("A contact should be persisted with Id=1!", (Long) 1L, persistedContact.getId());
 
         // 3 - Delete a contact ASYNC
         log.info("delete a contact by id ASYNC");
@@ -174,7 +145,6 @@ public class ContactsRestClientIT {
     }
 
     // Shows how to use a delayed REST invocation
-    @Test
     public void delayedInvocationTest() throws Exception {
         log.info("### Testing Delayed invocaton ###");
 
@@ -209,7 +179,6 @@ public class ContactsRestClientIT {
     }
 
     // Shows how to use Request and Response filters
-    @Test
     public void requestResponseFiltersTest() {
         log.info("### Testing Request and Response Filters ###");
 
@@ -223,8 +192,8 @@ public class ContactsRestClientIT {
         Contact c = new Contact();
         c.setName(CONTACT_NAME);
         c.setPhoneNumber(CONTACT_PHONE);
-        Contact persistedContact =
-                ClientBuilder.newClient().register(SavedByClientRequestFilter.class).target(getRequestUrl()).request()
+        Contact persistedContact
+                = ClientBuilder.newClient().register(SavedByClientRequestFilter.class).target(getRequestUrl()).request()
                         .post(Entity.entity(c, MediaType.APPLICATION_JSON), Contact.class);
         Assert.assertEquals("A contact should be persisted with savedBy", SavedByClientRequestFilter.USERNAME, persistedContact.getSavedBy());
 
