@@ -1,11 +1,6 @@
 build:
   uri: https://github.com/ehsavoie/quickstart.git
-  mode: s2i
   contextDir: helloworld-mdb
   ref: s2iv2
-  s2i:
-    version: latest
-    builderImage: quay.io/wildfly/wildfly-s2i-jdk17
-    runtimeImage: quay.io/wildfly/wildfly-runtime-jdk17
 deploy:
   replicas: 2
