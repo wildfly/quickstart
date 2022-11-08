@@ -237,6 +237,17 @@
             <artifactId>jakarta.xml.bind-api</artifactId>
             <scope>provided</scope>
         </dependency>
+        
+        <dependency>
+            <groupId>jakarta.json</groupId>
+            <artifactId>jakarta.json-api</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.parsson</groupId>
+            <artifactId>parsson</artifactId>
+            <scope>test</scope>
+        </dependency>
 
     </dependencies>
 
@@ -285,6 +296,12 @@
                             <environmentVariables>
                                 <JBOSS_HOME>${project.build.directory}/server</JBOSS_HOME>
                             </environmentVariables>
+                            <includes>
+                                <include>**/MemberRegistrationIT</include>
+                            </includes>
+                            <excludes>
+                                <exclude>**/RemoteMemberRegistrationIT</exclude>
+                            </excludes>
                         </configuration>
                         <executions>
                             <execution>
@@ -316,6 +333,14 @@
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-failsafe-plugin</artifactId>
                         <version>${version.failsafe.plugin}</version>
+                        <configuration>
+                            <includes>
+                                <include>**/MemberRegistrationIT</include>
+                            </includes>
+                            <excludes>
+                                <exclude>**/RemoteMemberRegistrationIT</exclude>
+                            </excludes>
+                        </configuration>
                         <executions>
                             <execution>
                                 <goals>
@@ -345,6 +370,14 @@
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-failsafe-plugin</artifactId>
                         <version>${version.failsafe.plugin}</version>
+                        <configuration>
+                            <includes>
+                                <include>**/RemoteMemberRegistrationIT</include>
+                            </includes>
+                            <excludes>
+                                <exclude>**/MemberRegistrationIT</exclude>
+                            </excludes>
+                        </configuration>
                         <executions>
                             <execution>
                                 <goals>
