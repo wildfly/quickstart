@@ -16,17 +16,8 @@
  */
 package org.wildfly.quickstarts.todos;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 import java.net.URL;
-import java.util.List;
-
-import jakarta.ws.rs.client.ClientBuilder;
-import jakarta.ws.rs.client.Entity;
-import jakarta.ws.rs.client.WebTarget;
-import jakarta.ws.rs.core.GenericType;
-import jakarta.ws.rs.core.MediaType;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
@@ -41,7 +32,7 @@ import org.junit.runner.RunWith;
 
 @RunWith(Arquillian.class)
 @RunAsClient
-public class ToDoIT {
+public class ManagedToDoIT extends AbstractToDoIT {
 
     @Deployment
     public static Archive<?> createTestArchive() {
@@ -61,29 +52,12 @@ public class ToDoIT {
 
     @Test
     public void testCRUD() throws Exception {
+        super.internalCRUDTest();
+    }
 
-        WebTarget client = ClientBuilder.newClient().target(deploymentUrl.toURI());
-
-        GenericType<List<ToDo>> todosListType = new GenericType<List<ToDo>>() {
-        };
-        List<ToDo> allTodos = client.request().get(todosListType);
-        assertEquals(0, allTodos.size());
-
-        ToDo toDo = new ToDo();
-        toDo.setTitle("My First ToDo");
-        toDo.setOrder(1);
-        ToDo persistedTodo = client.request().post(Entity.entity(toDo, MediaType.APPLICATION_JSON_TYPE), ToDo.class);
-        assertNotNull(persistedTodo.getId());
-
-        allTodos = client.request().get(todosListType);
-        assertEquals(1, allTodos.size());
-        ToDo fetchedToDo = allTodos.get(0);
-        assertEquals(toDo.getTitle(), fetchedToDo.getTitle());
-
-        client.request().delete();
-
-        allTodos = client.request().get(todosListType);
-        assertEquals(0, allTodos.size());
+    @Override
+    URL getRequestUrl() {
+        return deploymentUrl;
     }
 
 }
