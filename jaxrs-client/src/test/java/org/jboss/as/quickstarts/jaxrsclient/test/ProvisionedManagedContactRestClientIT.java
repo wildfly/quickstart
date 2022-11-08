@@ -34,7 +34,7 @@ import org.junit.runner.RunWith;
  */
 @RunWith(Arquillian.class)
 @RunAsClient
-public class ProvisionnedManagedContactRestClientIT extends AbstractContactsRestClient {
+public class ProvisionedManagedContactRestClientIT extends AbstractContactsRestClient {
     private static final String REST_TARGET_URL = "http://localhost:8080";
 
     private String getServerHost() {
