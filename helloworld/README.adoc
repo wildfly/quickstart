@@ -16,26 +16,27 @@ The `helloworld` quickstart demonstrates the use of CDI and Servlet 6 and is a g
 
 The `helloworld` quickstart demonstrates the use of _CDI_ and _Servlet 6_ in {productNameFull} {productVersion}.
 
-
-//*************************************************
-// Product Release content only
-//*************************************************
-
-ifndef::EAPCDRelease[]
-
 // System Requirements
 include::../shared-doc/system-requirements.adoc[leveloffset=+1]
 // Use of {jbossHomeName}
 include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
 
-// Server distribution
-include::../shared-doc/build-and-run-the-quickstart-with-server-distribution.adoc[leveloffset=+1]
+// build and run with standard server distribution
+[[build_and_run_the_quickstart_with_server_dist]]
+== Building and running the quickstart application with a {productName} server distribution
+// Start the {productName} Standalone Server
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+2]
+// Build and Deploy the Quickstart
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+2]
 
-// Server provisoning
+=== Access the Application
+The application will be running at the following URL: http://localhost:8080/{artifactId}/.
+
+// Undeploy the Quickstart
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+2]
+// Testing with Arquillian
+include::../shared-doc/run-arquillian-integration-tests-with-server-distribution.adoc[leveloffset=+2]
+
+// Build and run sections for other environments/builds
 include::../shared-doc/build-and-run-the-quickstart-with-provisioned-server.adoc[leveloffset=+1]
-
-// OpenShift
 include::../shared-doc/build-and-run-the-quickstart-with-openshift.adoc[leveloffset=+1]
-
-
-
