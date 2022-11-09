@@ -151,28 +151,41 @@
             <artifactId>wildfly-elytron</artifactId>
             <scope>provided</scope>
         </dependency>
+        
+
+        <!-- Needed for running tests (you may also use TestNG) -->
         <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <version>5.6.0</version>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <!-- Optional, but highly recommended -->
+        <!-- Arquillian allows you to test enterprise code such as EJBs and Transactional(JTA)
+        JPA from JUnit/TestNG -->
         <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-params</artifactId>
-            <version>5.6.0</version>
+            <groupId>org.jboss.arquillian.junit</groupId>
+            <artifactId>arquillian-junit-container</artifactId>
             <scope>test</scope>
         </dependency>
+
         <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.6.0</version>
+            <groupId>org.jboss.arquillian.protocol</groupId>
+            <artifactId>arquillian-protocol-servlet</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>
+
     <profiles>
         <profile>
             <id>provisioned-server</id>
+            <dependencies>
+                <dependency>
+                    <groupId>org.wildfly.arquillian</groupId>
+                    <artifactId>wildfly-arquillian-container-managed</artifactId>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
             <build>
                 <plugins>
                     <plugin>
@@ -202,6 +215,30 @@
                             <execution>
                                 <goals>
                                     <goal>package</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>                    
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <version>${version.failsafe.plugin}</version>
+                        <configuration>
+                            <environmentVariables>
+                                <JBOSS_HOME>${project.build.directory}/server</JBOSS_HOME>
+                            </environmentVariables>
+                            <includes>
+                                <include>**/ProvisionedManagedSecureIT</include>
+                            </includes>
+                            <excludes>
+                                <exclude>**/RemoteSecureIT</exclude>
+                            </excludes>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>integration-test</goal>
+                                    <goal>verify</goal>
                                 </goals>
                             </execution>
                         </executions>
@@ -243,6 +280,34 @@
                             <execution>
                                 <goals>
                                     <goal>package</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>arq-remote</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <version>${version.failsafe.plugin}</version>
+                        <configuration>
+                            <includes>
+                                <include>**/RemoteSecureIT</include>
+                            </includes>
+                            <excludes>
+                                <exclude>**/ProvisionedManagedSecureIT</exclude>
+                            </excludes>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>integration-test</goal>
+                                    <goal>verify</goal>
                                 </goals>
                             </execution>
                         </executions>
