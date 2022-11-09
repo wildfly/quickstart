@@ -1,0 +1,23 @@
+[[run_the_arquillian_integration_tests_with_server_distribution]]
+= Run the Arquillian Integration Tests
+//******************************************************************************
+// Include this template if your quickstart provides standard Arquillian
+// integration tests.
+//******************************************************************************
+
+This quickstart includes Arquillian integration tests. They are located under the  `src/test/` directory. The integration tests verify that the quickstart runs correctly when deployed on the server.
+
+Follow these steps to run the integration tests.
+
+. Make sure you start the {productName} server, as previously described.
+
+. Make sure you build the quickstart, as previously described.
+
+. Make sure the quickstart is not deployed on the {productName} server.
+
+. Type the following command to run the `verify` goal with the `arq-remote` profile activated.
++
+[source,options="nowrap"]
+----
+$ mvn verify -Parq-remote
+----
