@@ -501,6 +501,7 @@ The backend will be built and deployed on OpenShift with a Helm Chart for {produ
 ifndef::ProductRelease,EAPXPRelease[]
 [source,options="nowrap",subs="+attributes"]
 ----
+$ helm dependency update todo-backend-chart/
 $ helm install todo-backend --set build.ref={WildFlyQuickStartRepoTag} --set build.s2i.version={productImageVersion} todo-backend-chart
 NAME: todo-backend
 ...

@@ -32,7 +32,7 @@ import org.junit.Test;
  */
 public class RemoteToDoIT extends AbstractToDoIT {
 
-    private static final String REST_TARGET_URL = "http://localhost:8080/";
+    private static final String REST_TARGET_URL = "http://localhost:8080/todo-backend";
 
     private String getServerHost() {
         String host = System.getenv("SERVER_HOST");
