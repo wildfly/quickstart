@@ -18,11 +18,9 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.jboss.as.quickstarts.servlet_security;
+package org.jboss.as.quickstarts.ee_security;
 
 import java.io.IOException;
-import java.net.Authenticator;
-import java.net.PasswordAuthentication;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.http.HttpClient;
@@ -35,16 +33,15 @@ import org.junit.Test;
  *
  * @author Emmanuel Hugonnet (c) 2022 Red Hat, Inc.
  */
-
 public class RemoteSecureIT {
 
     protected URI getHTTPEndpoint() {
         String host = getServerHost();
         if (host == null) {
-            host = "http://localhost:8080/servlet-security";
+            host = "http://localhost:8080/ee-security";
         }
         try {
-            return new URI(host + "/SecuredServlet");
+            return new URI(host + "/secured");
         } catch (URISyntaxException ex) {
             throw new RuntimeException(ex);
         }
@@ -63,33 +60,19 @@ public class RemoteSecureIT {
         HttpRequest request = HttpRequest.newBuilder(getHTTPEndpoint())
                 .GET()
                 .build();
-        HttpClient client = HttpClient.newBuilder().authenticator(new Authenticator() {
-            @Override
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication("quickstartUser", "quickstartPwd1!".toCharArray());
-            }
-        }).build();
-        HttpResponse response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        Assert.assertEquals(200, response.statusCode());
-        String[] lines = response.body().toString().split(System.lineSeparator());
-        Assert.assertEquals("<h1>Successfully called Secured Servlet </h1>", lines[1].trim());
-        Assert.assertEquals("<p>Principal  : quickstartUser</p>", lines[2].trim());
-        Assert.assertEquals("<p>Remote User : quickstartUser</p>", lines[3].trim());
-        Assert.assertEquals("<p>Authentication Type : BASIC</p>", lines[4].trim());
-    }
-
-    @Test
-    public void testConnectNotOk() throws IOException, InterruptedException {
-        HttpRequest request = HttpRequest.newBuilder(getHTTPEndpoint())
+        HttpResponse response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+        Assert.assertEquals(401, response.statusCode());
+        request = HttpRequest.newBuilder(getHTTPEndpoint())
+                .header("X-Username", "quickstartUser")
+                .header("X-Password", "quickstartPwd1!")
                 .GET()
                 .build();
-        HttpClient client = HttpClient.newBuilder().authenticator(new Authenticator() {
-            @Override
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication("guest", "guestPwd1!".toCharArray());
-            }
-        }).build();
-        HttpResponse response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        Assert.assertEquals(403, response.statusCode());
+        response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+        Assert.assertEquals(200, response.statusCode());
+        String[] lines = response.body().toString().split(System.lineSeparator());
+        Assert.assertEquals("SecuredServlet - doGet()", lines[0].trim());
+        Assert.assertEquals("Identity as available from SecurityContext 'quickstartUser'", lines[1].trim());
+        Assert.assertEquals("Identity as available from injection 'quickstartUser'", lines[2].trim());
     }
+
 }
