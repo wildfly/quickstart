@@ -52,7 +52,10 @@ public class RemoteWebSocketIT {
         if (host == null) {
             host = System.getProperty("server.host");
         }
-        return host.replaceFirst("http", "ws");
+        if(host != null) {
+            host= host.replaceFirst("http", "ws");
+        }
+        return host;
     }
 
     @Test
