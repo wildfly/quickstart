@@ -7,7 +7,7 @@ The backend will be built and deployed on OpenShift with a Helm Chart for {produ
 Navigate to the root directory of this quickstart and run the following command:
 [source,options="nowrap",subs="+attributes"]
 ----
-$ helm install {artifactId} -f charts/helm.yaml wildfly/wildfly
+$ helm install {artifactId} -f charts/helm.yaml {helmChartName}
 NAME: {artifactId}
 ...
 STATUS: deployed
@@ -19,7 +19,7 @@ The Helm Chart for this quickstart contains all the information to build an imag
 [source,options="nowrap",subs="+attributes"]
 ----
 build:
-  uri: https://github.com/wildfly/quickstart.git
+  uri: {githubRepoCodeUrl}
   contextDir: {artifactId}
 deploy:
   replicas: 1
@@ -30,7 +30,7 @@ This will create a new deployment on OpenShift and deploy the application.
 If you want to see all the configuration elements to customize your deployment you can use the following command:
 [source,options="nowrap",subs="+attributes"]
 ----
-$ helm show readme wildfly/wildfly
+$ helm show readme {helmChartName}
 ----
 
 Let’s wait for the application to be built and deployed:
@@ -57,7 +57,7 @@ The Maven profile named `openshift` is used by the Helm chart to provision the s
 ====
 
 [[undeploy_helm]]
-== Undeploy the {ProductShortName} Source-to-Image (S2I) Quickstart to OpenShift with Helm Charts
+== Undeploy the {ProductShortName} Source-to-Image (S2I) Quickstart from OpenShift with Helm Charts
 
 
 [source,options="nowrap",subs="+attributes"]
