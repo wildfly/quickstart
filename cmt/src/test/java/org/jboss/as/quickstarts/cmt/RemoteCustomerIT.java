@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jboss.as.quickstarts.temperatureconverter;
+package org.jboss.as.quickstarts.cmt;
 
 import java.io.IOException;
 import java.net.CookieManager;
@@ -31,18 +31,18 @@ import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
+import org.junit.Assert;
+import org.junit.Test;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 
-public class RemoteTemperatureConverterIT {
+public class RemoteCustomerIT {
 
-    private static final Logger log = Logger.getLogger(RemoteTemperatureConverterIT.class.getName());
+    private static final Logger log = Logger.getLogger(RemoteCustomerIT.class.getName());
 
     protected URI getHTTPEndpoint(String path) {
         String host = getServerHost();
         if (host == null) {
-            host = "http://localhost:8080/temperature-converter";
+            host = "http://localhost:8080/cmt";
         }
         try {
             return new URI(host + path);
@@ -60,40 +60,39 @@ public class RemoteTemperatureConverterIT {
     }
 
     @Test
-    public void testConvertTemperature() throws Exception {
-        convertTemperature();
+    public void testAddCustomer() throws Exception {
+        addCustomer("BartS");
     }
 
-    public void convertTemperature() throws IOException, InterruptedException {
+    public void addCustomer(String name) throws IOException, InterruptedException {
         CookieManager manager = new CookieManager(null, CookiePolicy.ACCEPT_ALL);
         HttpClient client = HttpClient.newBuilder()
                 .followRedirects(HttpClient.Redirect.ALWAYS)
                 .cookieHandler(manager)
                 .version(HttpClient.Version.HTTP_1_1)
                 .build();
-        HttpResponse response = client.send(HttpRequest.newBuilder(getHTTPEndpoint("/temperatureconvert.jsf")).GET().build(), HttpResponse.BodyHandlers.ofString());
+        HttpResponse response = client.send(HttpRequest.newBuilder(getHTTPEndpoint("/addCustomer.jsf")).GET().build(), HttpResponse.BodyHandlers.ofString());
         String body = response.body().toString();
-        Assertions.assertEquals(200, response.statusCode());
-        Assertions.assertTrue(body.contains("<input type=\"hidden\" name=\"jakarta.faces.ViewState\" id=\"j_id1:jakarta.faces.ViewState:0\" value=\""), body);
+        Assert.assertEquals(200, response.statusCode());
+        Assert.assertTrue(body, body.contains("<input type=\"hidden\" name=\"jakarta.faces.ViewState\" id=\"j_id1:jakarta.faces.ViewState:0\" value=\""));
         int startIndex = body.indexOf("<input type=\"hidden\" name=\"jakarta.faces.ViewState\" id=\"j_id1:jakarta.faces.ViewState:0\" value=\"") + 96;
         int endIndex= body.indexOf('"', startIndex);
         String viewState = body.substring(startIndex, endIndex);
-        HttpRequest request = HttpRequest.newBuilder(getHTTPEndpoint("/temperatureconvert.jsf"))
+        HttpRequest request = HttpRequest.newBuilder(getHTTPEndpoint("/addCustomer.jsf"))
                 .header("Content-Type", "application/x-www-form-urlencoded")
                 .POST(ofFormData(
                         Map.of(
-                            "convertForm", "convertForm",
-                            "convertForm:convert", "Convert",
-                            "convertForm:sourceTemperature", "100.0",
-                            "convertForm:radio", "CELSIUS",
+                            "addCustomerForm", "addCustomerForm",
+                            "addCustomerForm:name", name,
+                            "addCustomerForm:add", "Add",
                             "jakarta.faces.ViewState", viewState)
                             )
                         )
                 .build();
         response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        Assertions.assertEquals(200, response.statusCode());
+        Assert.assertEquals(200, response.statusCode());
         body = response.body().toString();
-        Assertions.assertTrue(body.contains("212 ℉"), body);
+        Assert.assertTrue(body, body.contains(name));
     }
 
     public static BodyPublisher ofFormData(Map<String, String> data) {
