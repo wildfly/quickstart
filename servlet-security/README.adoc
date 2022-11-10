@@ -194,10 +194,10 @@ Now close the browser. Open a new browser and log in with username `guest` and p
 Forbidden
 ----
 
-// Undeploy the Quickstart
-include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+2]
 // Testing with Arquillian
 include::../shared-doc/run-arquillian-integration-tests-with-server-distribution.adoc[leveloffset=+2]
+// Undeploy the Quickstart
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+2]
 
 //  Restore the {productName} Standalone Server Configuration
 include::../shared-doc/restore-standalone-server-configuration.adoc[leveloffset=+2]
@@ -215,5 +215,7 @@ process-state: reload-required
 include::../shared-doc/restore-standalone-server-configuration-manual.adoc[leveloffset=+3]
 
 // Build and run sections for other environments/builds
+ifndef::ProductRelease,EAPXPRelease[]
 include::../shared-doc/build-and-run-the-quickstart-with-provisioned-server.adoc[leveloffset=+1]
+endif::[]
 include::../shared-doc/build-and-run-the-quickstart-with-openshift.adoc[leveloffset=+1]
