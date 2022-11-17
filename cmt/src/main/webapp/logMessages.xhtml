@@ -16,29 +16,29 @@
 -->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core">
 
-<ui:composition template="template.xhtml">
-	<ui:define name="content">
-		<h:messages />
-		<h1>List of log-messages</h1>
-		<h:dataTable id="logmessages" value="#{logMessageManager.logMessages}" var="lm">
-			<h:column>
-				<f:facet name="header">
-               Message
-            </f:facet>
-				<h:outputText id="message" value="#{lm.message}" />
-			</h:column>
-			<h:column>
-				<f:facet name="header">
-               Id
-            </f:facet>
-				<h:outputText id="id" value="#{lm.id}" />
-			</h:column>
-		</h:dataTable>
-		<a href="javascript:history.back(-1)">Go Back</a>
-	</ui:define>
-</ui:composition>
+    <ui:composition template="template.xhtml">
+        <ui:define name="content">
+            <h:messages />
+            <h1>List of log-messages</h1>
+            <h:dataTable id="logmessages" value="#{logMessageManager.logMessages}" var="lm">
+                <h:column>
+                    <f:facet name="header">
+                        Message
+                    </f:facet>
+                    <h:outputText id="message" value="#{lm.message}" />
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        Id
+                    </f:facet>
+                    <h:outputText id="id" value="#{lm.id}" />
+                </h:column>
+            </h:dataTable>
+            <a href="javascript:history.back(-1)">Go Back</a>
+        </ui:define>
+    </ui:composition>
 </html>

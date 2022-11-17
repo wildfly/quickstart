@@ -130,7 +130,22 @@ endif::[]
 
 === Architecture with S2I
 
-This backend is built using {productName} S2I Builder and Runtime images. When the image is built, it provisions the {productName} application server and all the feature packs it needs for its features:
+This backend is built using {productName} S2I Builder and Runtime images. 
+
+ifndef::ProductRelease,EAPXPRelease[]
+When the image is built, `org.wildfly.plugins:wildfly-maven-plugin` plugin provisions the {productName} application server and all the feature packs it needs for its features.
+The layers are defined in the `pom.xml` file in the `<configuration>` section of the `org.wildfly.plugins:wildfly-maven-plugin` plugin:
+
+[source,xml]
+----
+<layers>
+  <layer>cloud-server</layer>
+  <layer>postgresql-datasource</layer>
+</layers>
+----
+endif::[]
+ifdef::ProductRelease,EAPXPRelease[]
+When the image is built, it provisions the {productName} application server and all the feature packs it needs for its features:
 
 [source,yaml]
 ----
@@ -140,6 +155,7 @@ build:
       - cloud-server
       - postgresql-datasource
 ----
+endif::[]
 
 The `cloud-server` layer provides everything needed to run the backend on OpenShift. This also includes access to
 Jakarta EE APIs such as CDI, JAX-RS, JPA, etc. These two layers comes from the {productName} feature pack provided in the
@@ -215,6 +231,7 @@ By default, the backend accepts requests from any origin (`*`). This is only sim
 the allowed origin using the environment variable `CORS_ORIGIN` at runtime.
 endif::[]
 
+ifdef::ProductRelease[]
 ==== Configuration with {productName} S2I
 
 As we use S2I to build the application, we need to provide environment variables that will be used to configure the CORS filters in Undertow.
@@ -230,13 +247,10 @@ We need one more environment variable to specify all the filters we want to enab
 of prefixes we used for each individual filter (such as `acam` in the example above):
 
 * `FILTERS=acao, acam, acah, acac, acma`
+endif::[]
 
 ifndef::ProductRelease[]
-
-// Run the Arquillian Tests
-include::../shared-doc/run-arquillian-tests.adoc[leveloffset=+1]
-
-== Run the Backend Locally
+== Run the Backend Locally as a Bootable Jar
 
 === Package the Backend as a Bootable Jar
 
@@ -254,14 +268,14 @@ We use the `postgresql` docker image to create one:
 
 [source,options="nowrap"]
 ----
-$ docker run --name todos-db \
+$ docker run --name todo-backend-db \
   -e POSTGRES_USER=todos \
   -e POSTGRES_PASSWORD=mysecretpassword \
   -p 5432:5432 \
   postgres
 ----
 
-This will create a database named `todos-db` that we can connect to on `localhost:5432` with the credentials `todos / mysecretpassword`.
+This will create a database named `todo-backend-db` that we can connect to on `localhost:5432` with the credentials `todos / mysecretpassword`.
 
 === Run the Bootable Jar Application
 
@@ -297,7 +311,78 @@ $ curl -X POST -H "Content-Type: application/json"  -d '{"title": "This is my fi
 $ curl http://localhost:8080
 [{"completed":false,"id":1,"order":0,"title":"This is my first todo item!","url":"https://localhost:8080/1"}
 ----
+
+== Run the Backend Locally
+
+=== Package the Backend
+
+The backend is packaged and deployed on a provisioned server:
+
+[source,options="nowrap"]
+----
+$ mvn clean package -Pprovisioned-server
+----
+
+=== Run a Local PostgreSQL Database
+
+Before running the backend locally, we need to have a local PostgreSQL database that we can connect to.
+We use the `postgresql` docker image to create one:
+
+[source,options="nowrap"]
+----
+$ docker run --name todo-backend-db \
+  -e POSTGRES_USER=todos \
+  -e POSTGRES_PASSWORD=mysecretpassword \
+  -p 5432:5432 \
+  postgres
+----
+
+This will create a database named `todo-backend-db` that we can connect to on `localhost:5432` with the credentials `todos / mysecretpassword`.
+
+=== Run the Application
+
+With the PostgreSQL database running, we can start the backend by passing the required environment variables to connect to the database:
+
+[source,options="nowrap"]
+----
+$ JBOSS_HOME=./target/server \
+  POSTGRESQL_DATABASE=todos \
+  POSTGRESQL_SERVICE_HOST=localhost \
+  POSTGRESQL_SERVICE_PORT=5432 \
+  POSTGRESQL_USER=todos \
+  POSTGRESQL_PASSWORD=mysecretpassword \
+  POSTGRESQL_DATASOURCE=ToDos \
+  ./target/server/bin/standalone.sh
+...
+14:41:58,111 INFO  [org.jboss.as.server] (Controller Boot Thread) WFLYSRV0010: Deployed "todo-backend.war" (runtime-name : "todo-backend.war")
+...
+----
+
+The backend is running, and we can use the HTTP API to manage a list of todos:
+
+[source,options="nowrap"]
+----
+# get a list of todos
+$ curl http://localhost:8080/todo-backend
+[]
+
+# create a todo with the title "This is my first todo item!"
+$ curl -X POST -H "Content-Type: application/json"  -d '{"title": "This is my first todo item!"}' http://localhost:8080/todo-backend
+{"completed":false,"id":1,"order":0,"title":"This is my first todo item!","url":"https://localhost:8080/todo-backend/1"}%
+
+# get a list of todos with the one that was just created
+$ curl http://localhost:8080/todo-backend
+[{"completed":false,"id":1,"order":0,"title":"This is my first todo item!","url":"https://localhost:8080/todo-backend/1"}
+----
 endif::[]
+
+// Run the Arquillian Tests
+include::../shared-doc/run-arquillian-functional-tests-remote.adoc[leveloffset=+1]
+
+[NOTE]
+====
+You may also execute those tests against a running bootable jar application, but you will need to add `-Dserver.host=http://localhost:8080` to the command.
+====
 
 == Run the Backend on OpenShift
 
@@ -306,7 +391,7 @@ endif::[]
 * You must be logged in OpenShift and have an `oc` client to connect to OpenShift
 * https://helm.sh[Helm] must be installed to deploy the backend on OpenShift.
 
-Once you have installed Helm, you need to add the repository that provides Helm Charts for {productName}:
+Once you have installed Helm, you need to add the repository that provides Helm Charts for {productName} and for postgresql:
 
 ifndef::ProductRelease,EAPXPRelease[]
 [source,options="nowrap"]
@@ -316,6 +401,7 @@ $ helm repo add wildfly https://docs.wildfly.org/wildfly-charts/
 $ helm search repo wildfly
 NAME                    CHART VERSION   APP VERSION     DESCRIPTION
 wildfly/wildfly         ...             ...            Build and Deploy WildFly applications on OpenShift
+wildfly/wildfly-common  ...             ...            A library chart for WildFly-based applications
 ----
 endif::[]
 ifdef::ProductRelease[]
@@ -339,23 +425,43 @@ jboss-eap/eap-xp3       ...             ...             A Helm chart to build an
 ----
 endif::[]
 
+
+ifdef::ProductRelease,EAPXPRelease[]
 === Deploy a PostgreSQL Database on OpenShift
 
 [source,options="nowrap"]
 ----
 $ oc new-app postgresql-ephemeral \
-   -p DATABASE_SERVICE_NAME=todos-db \
+   -p DATABASE_SERVICE_NAME=todo-backend-db \
    -p POSTGRESQL_DATABASE=todos
 ----
 
-This will create a PostgreSQL database named `todos` on OpenShift that can be accessed on the port `5432` on the service `todos-db`.
-We don't need to copy the credentials to connect to the database as we will retrieve them later using the `todos-db` secret that was created
+This will create a PostgreSQL database named `todos` on OpenShift that can be accessed on the port `5432` on the service `todo-backend-db`.
+We don't need to copy the credentials to connect to the database as we will retrieve them later using the `todo-backend-db` secret that was created
 when the database is deployed.
+endif::[]
 
-ifndef::ProductRelease,EAPXPRelease[]
+ifndef::ProductRelease[]
 === Build and Deploy the Backend on OpenShift with Bootable Jar
 
+==== Deploy a PostgreSQL Database on OpenShift
+
+[source,options="nowrap"]
+----
+$ oc new-app postgresql-ephemeral \
+   -p DATABASE_SERVICE_NAME=todo-backend-db \
+   -p POSTGRESQL_DATABASE=todos
+----
+
+This will create a PostgreSQL database named `todos` on OpenShift that can be accessed on the port `5432` on the service `todo-backend-db`.
+We don't need to copy the credentials to connect to the database as we will retrieve them later using the `todo-backend-db` secret that was created
+when the database is deployed.
+
+==== Build and Deploy the Backend on OpenShift with Bootable Jar using the Helm Chart
+
 The backend will be built and deployed on OpenShift with a Helm Chart for {productName}.
+
+ifndef::ProductRelease,EAPXPRelease[]
 
 [source,options="nowrap",subs="+attributes"]
 ----
@@ -377,8 +483,6 @@ build:
 endif::[]
 
 ifdef::EAPXPRelease[]
-=== Build and Deploy the Backend on OpenShift with Bootable Jar
-
 The backend will be built and deployed on OpenShift with a Helm Chart for {productName}.
 
 [source,options="nowrap",subs="+attributes"]
@@ -405,9 +509,19 @@ endif::[]
 The backend will be built and deployed on OpenShift with a Helm Chart for {productName}.
 
 ifndef::ProductRelease,EAPXPRelease[]
+Add the bitnami repository which provides an helm chart for PostgreSQL:
+[source,options="nowrap"]
+----
+$ helm repo add bitnami https://charts.bitnami.com/bitnami
+"bitnami" has been added to your repositories
+----
+
+Install the full application (database + backend).
+
 [source,options="nowrap",subs="+attributes"]
 ----
-$ helm install todo-backend --set build.ref={WildFlyQuickStartRepoTag} --set build.s2i.version={productImageVersion} -f https://raw.githubusercontent.com/wildfly/wildfly-charts/main/examples/todo-backend/todo-backend-s2i.yaml wildfly/wildfly
+$ helm dependency update todo-backend-chart/
+$ helm install todo-backend todo-backend-chart/
 NAME: todo-backend
 ...
 STATUS: deployed
@@ -437,9 +551,26 @@ REVISION: 1
 ----
 endif::[]
 
+ifdef::ProductRelease,EAPXPRelease[]
 The Helm Chart for this quickstart contains all the information to build an image from the source code using S2I:
+endif::[]
 
-ifndef::ProductRelease[]
+ifndef::ProductRelease,EAPXPRelease[]
+The Helm Chart for this quickstart contains all the information to build an image from the source code using S2I and install it with the database:
+
+[source,options="nowrap"]
+----
+dependencies:
+    - name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: ...
+    - name: wildfly
+      repository: http://docs.wildfly.org/wildfly-charts/
+      version: ...
+----
+
+endif::[]
+ifdef::EAPXPRelease[]
 [source,options="nowrap"]
 ----
 build:
@@ -447,18 +578,6 @@ build:
   mode: s2i
   s2i:
     galleonLayers: 
-      - cloud-server
-      - postgresql-datasource
-----
-endif::[]
-ifdef::ProductRelease[]
-[source,options="nowrap"]
-----
-build:
-  uri: https://github.com/jboss-developer/jboss-eap-quickstarts.git
-  mode: s2i
-  s2i:
-    galleonLayers:
       - cloud-server
       - postgresql-datasource
 ----
@@ -498,7 +617,6 @@ $ helm show readme jboss-eap/eap-xp3
 ----
 endif::[]
 
-
 === Environment variables for PostgreSQL
 
 The Helm Chart also contains the environment variables required to connect to the PostgreSQL database.
@@ -513,22 +631,25 @@ deploy:
       valueFrom:
         secretKeyRef:
           key: database-password
-          name: todos-db
+          name: todo-backend-db
 ----
 
 When the application is deployed, the value for the `POSTGRESQL_PASSWORD` will be taken from the key `database-password`
-in the secret `todos-db`.
+in the secret `todo-backend-db`.
 
 Let's wait for the application to be built and deployed:
 
 [source,options="nowrap"]
 ----
-$ oc get deployment/todo-backend -w
+$ oc get deployment todo-backend -w
 NAME           READY   UP-TO-DATE   AVAILABLE   AGE
 todo-backend   0/3     3            0           31s
 ...
 todo-backend   3/3     3            3           4m31s
 ----
+
+// Testing on Openshift
+include::../shared-doc/run-arquillian-integration-tests-with-openshift.adoc[leveloffset=+2]
 
 === Use the todobackend Web Frontend
 
@@ -579,11 +700,11 @@ The PostresSQL database can be deleted from OpenShift by running the commands:
 [source,options="nowrap"]
 ----
 $ oc delete all -l template=postgresql-ephemeral-template
-replicationcontroller "todos-db-1" deleted
-service "todos-db" deleted
-deploymentconfig.apps.openshift.io "todos-db" deleted
-$ oc delete secret todos-db
-secret "todos-db" deleted
+replicationcontroller "todo-backend-db-1" deleted
+service "todo-backend-db" deleted
+deploymentconfig.apps.openshift.io "todo-backend-db" deleted
+$ oc delete secret todo-backend-db
+secret "todo-backend-db" deleted
 ----
 
 == Conclusion

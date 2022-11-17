@@ -1,0 +1,11 @@
+if (outcome == success) of /subsystem=messaging-activemq:read-resource
+  /subsystem=messaging-activemq/server=default:add(elytron-domain=ApplicationDomain)
+end-if
+if (outcome == success) of /subsystem=messaging-activemq/server=default:read-resource
+    /subsystem=messaging-activemq/server=default/in-vm-acceptor=in-vm:add(server-id=0, params=[buffer-pooling=false])
+    /subsystem=messaging-activemq/server=default/in-vm-connector=in-vm:add(server-id=0, params=[buffer-pooling=false])
+    /subsystem=messaging-activemq/server=default/pooled-connection-factory=activemq-ra:add(connectors=[in-vm], transaction=xa, entries=[java:/JmsXA,java:jboss/DefaultJMSConnectionFactory])
+end-if
+if (outcome == success) of /subsystem=ee/service=default-bindings:read-resource
+    /subsystem=ee/service=default-bindings:write-attribute(name="jms-connection-factory", value="java:jboss/DefaultJMSConnectionFactory")
+end-if

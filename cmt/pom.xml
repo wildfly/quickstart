@@ -45,6 +45,9 @@
     <properties>
         <!-- The versions for BOMs, Dependencies and Plugins -->
         <version.server.bom>27.0.0.Final</version.server.bom>
+        <version.server>27.0.0.Final</version.server>
+        <version.wildfly.maven.plugin>4.0.0.Final</version.wildfly.maven.plugin>
+        <version.cloud.fp>2.0.0.Final</version.cloud.fp>
     </properties>
 
     <repositories>
@@ -123,12 +126,6 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- Needed for running tests (you may also use TestNG) -->
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
         <!-- Import the JPA API, we use provided scope as the API is included in JBoss EAP -->
         <dependency>
             <groupId>jakarta.persistence</groupId>
@@ -170,6 +167,169 @@
             <scope>provided</scope>
         </dependency>
 
+        <!-- Tests -->
+        <!-- Needed for running tests (you may also use TestNG) -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.arquillian.container</groupId>
+            <artifactId>arquillian-container-test-api</artifactId>
+            <scope>test</scope>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.arquillian.junit</groupId>
+            <artifactId>arquillian-junit-container</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.arquillian.protocol</groupId>
+            <artifactId>arquillian-protocol-servlet</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.wildfly.arquillian</groupId>
+            <artifactId>wildfly-arquillian-common</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.wildfly.arquillian</groupId>
+            <artifactId>wildfly-arquillian-container-managed</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
+    <profiles>
+        <profile>
+            <id>provisioned-server</id>
+            <dependencies>
+                <dependency>
+                    <groupId>org.wildfly.arquillian</groupId>
+                    <artifactId>wildfly-arquillian-container-managed</artifactId>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.wildfly.plugins</groupId>
+                        <artifactId>wildfly-maven-plugin</artifactId>
+                        <configuration>
+                            <feature-packs>
+                                <feature-pack>
+                                    <location>org.wildfly:wildfly-galleon-pack:${version.server}</location>
+                                </feature-pack>
+                            </feature-packs>
+                            <layers>
+                                <layer>cloud-server</layer>
+                                <layer>ejb</layer>
+                                <layer>jsf</layer>
+                                <layer>embedded-activemq</layer>
+                                <layer>h2-default-datasource</layer>
+                            </layers>
+                            <runtimeName>ROOT.war</runtimeName>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>package</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <version>${version.failsafe.plugin}</version>
+                        <configuration>
+                            <environmentVariables>
+                                <JBOSS_HOME>${project.build.directory}/server</JBOSS_HOME>
+                            </environmentVariables>
+                            <includes>
+                                <include>**/ProvisionedManagedCustomerIT</include>
+                            </includes>
+                            <excludes>
+                                <exclude>**/RemoteCustomerIT</exclude>
+                            </excludes>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>integration-test</goal>
+                                    <goal>verify</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>openshift</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.wildfly.plugins</groupId>
+                        <artifactId>wildfly-maven-plugin</artifactId>
+                        <configuration>
+                            <feature-packs>
+                                <feature-pack>
+                                    <location>org.wildfly:wildfly-galleon-pack:${version.server}</location>
+                                </feature-pack>
+                                <feature-pack>
+                                    <location>org.wildfly.cloud:wildfly-cloud-galleon-pack:${version.cloud.fp}</location>
+                                </feature-pack>
+                            </feature-packs>
+                            <layers>
+                                <layer>cloud-server</layer>
+                                <layer>ejb</layer>
+                                <layer>jsf</layer>
+                                <layer>embedded-activemq</layer>
+                                <layer>h2-default-datasource</layer>
+                            </layers>
+                            <filename>ROOT.war</filename>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>package</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>arq-remote</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <version>${version.failsafe.plugin}</version>
+                        <configuration>
+                            <includes>
+                                <include>**/RemoteCustomerIT</include>
+                            </includes>
+                            <excludes>
+                                <exclude>**/ProvisionedManagedCustomerIT</exclude>
+                            </excludes>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>integration-test</goal>
+                                    <goal>verify</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>

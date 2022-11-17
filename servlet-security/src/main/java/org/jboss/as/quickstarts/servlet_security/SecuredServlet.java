@@ -47,16 +47,12 @@ public class SecuredServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         PrintWriter writer = resp.getWriter();
-        Principal principal = null;
-        String authType = null;
-        String remoteUser = null;
-
         // Get security principal
-        principal = req.getUserPrincipal();
+        Principal principal = req.getUserPrincipal();
         // Get user name from login principal
-        remoteUser = req.getRemoteUser();
+        String remoteUser = req.getRemoteUser();
         // Get authentication type
-        authType = req.getAuthType();
+        String authType = req.getAuthType();
 
         writer.println(PAGE_HEADER);
         writer.println("<h1>" + "Successfully called Secured Servlet " + "</h1>");

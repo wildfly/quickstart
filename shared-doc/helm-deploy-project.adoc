@@ -1,0 +1,66 @@
+[[deploy_helm]]
+== Deploy the {ProductShortName} Source-to-Image (S2I) Quickstart to OpenShift with Helm Charts
+
+Log in to your OpenShift instance using the `oc login` command.
+The backend will be built and deployed on OpenShift with a Helm Chart for {productName}.
+
+Navigate to the root directory of this quickstart and run the following command:
+[source,options="nowrap",subs="+attributes"]
+----
+$ helm install {artifactId} -f charts/helm.yaml {helmChartName}
+NAME: {artifactId}
+...
+STATUS: deployed
+REVISION: 1
+----
+
+The Helm Chart for this quickstart contains all the information to build an image from the source code using S2I on Java 17:
+
+[source,options="nowrap",subs="+attributes"]
+----
+build:
+  uri: {githubRepoCodeUrl}
+  contextDir: {artifactId}
+deploy:
+  replicas: 1
+----
+
+This will create a new deployment on OpenShift and deploy the application.
+
+If you want to see all the configuration elements to customize your deployment you can use the following command:
+[source,options="nowrap",subs="+attributes"]
+----
+$ helm show readme {helmChartName}
+----
+
+Let’s wait for the application to be built and deployed:
+[source,options="nowrap",subs="+attributes"]
+----
+$ oc get deployment {artifactId} -w
+NAME         DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+{artifactId}   1         1         1            0           12s
+...
+{artifactId}   1         1         1            1           2m
+----
+
+Get the URL of the route to the deployment.
+
+[source,options="nowrap",subs="+attributes"]
+----
+$ oc get route {artifactId} -o jsonpath="{.spec.host}"
+----
+Access the application in your web browser using the displayed URL.
+
+[NOTE]
+====
+The Maven profile named `openshift` is used by the Helm chart to provision the server with the quickstart deployed on the root web context, and thus the application should be accessed with the URL without the `/{artifactId}` path segment after `HOST:PORT`.
+====
+
+[[undeploy_helm]]
+== Undeploy the {ProductShortName} Source-to-Image (S2I) Quickstart from OpenShift with Helm Charts
+
+
+[source,options="nowrap",subs="+attributes"]
+----
+$ helm uninstall {artifactId}
+----

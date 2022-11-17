@@ -1,0 +1,70 @@
+[[build_and_run_the_quickstart_with_provisioned_server]]
+= Building and running the quickstart application with provisioned {productName} server
+
+Instead of using a standard {productName} server distribution, you can alternatively provision a {productName} server to deploy and run the quickstart, by activating the Maven profile named `provisioned-server` when building the quickstart:
+
+ifndef::mavenServerProvisioningCommand[]
+ifeval::["{archiveType}"=="ear"]
+:mavenServerProvisioningCommand: clean install
+endif::[]
+
+ifeval::["{archiveType}"=="war"]
+:mavenServerProvisioningCommand: clean package
+endif::[]
+
+ifeval::["{archiveType}"=="jar"]
+:mavenServerProvisioningCommand: clean install
+endif::[]
+
+[source,subs="attributes+",options="nowrap"]
+----
+$ mvn {mavenServerProvisioningCommand} -Pprovisioned-server
+----
+
+The provisioned {productName} server, with the quickstart deployed, can then be found in the `target/server` directory, and its usage is similar to a standard server distribution.
+
+The server provisioning functionality is provided by the WildFly Maven Plugin, and you may find its configuration in the quickstart `pom.xml`:
+
+[source,xml,subs="attributes+"]
+----
+        <profile>
+            <id>provisioned-server</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.wildfly.plugins</groupId>
+                        <artifactId>wildfly-maven-plugin</artifactId>
+                        <configuration>
+                            <feature-packs>
+                                <feature-pack>
+                                    <location>org.wildfly:wildfly-galleon-pack:${version.server}</location>
+                                </feature-pack>
+                            </feature-packs>
+                            <layers>
+                                <!-- layers may be used to customize the provisioned server -->
+                                <layer>cloud-server</layer>
+                            </layers>
+                            <!-- deploys the quickstart on root web context -->
+                            <runtimeName>ROOT.war</runtimeName>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>package</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <!-- ... -->
+                </plugins>
+            </build>
+        </profile>
+----
+
+[NOTE]
+====
+Since the plugin configuration above deploys quickstart on root web context of the provisioned server, the URL to access the application should not have the `/{artifactId}` path segment after `HOST:PORT`.
+====
+
+// Testing with Arquillian
+include::../shared-doc/run-arquillian-integration-tests-with-provisioned-server.adoc[leveloffset=+1]

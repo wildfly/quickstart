@@ -19,11 +19,12 @@ package org.jboss.as.quickstarts.wshelloworld;
 import static org.junit.Assert.assertEquals;
 
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Assume;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -33,62 +34,47 @@ import org.junit.Test;
  *
  * @author lnewson@redhat.com
  */
-public class ClientTest {
-    /**
-     * The name of the WAR Archive that will be used by Arquillian to deploy the application.
-     */
-    private static final String APP_NAME = "helloworld-ws";
+public class ClientIT {
     /**
      * The path of the WSDL endpoint in relation to the deployed web application.
      */
     private static final String WSDL_PATH = "HelloWorldService?wsdl";
 
-    /**
-     * The name for the Server URL System Property.
-     */
-    private static final String SERVER_URL_PROPERTY = "serverUrl";
-    /**
-     * The Default Server URL if one isn't specified as a System Property
-     */
-    private static final String DEFAULT_SERVER_URL = "http://localhost:8080/";
+    protected static URL getHTTPEndpoint() {
+        String host = getServerHost();
+        if (host == null) {
+            host = "http://localhost:8080";
+        }
+        try {
+            return new URI(host + "/helloworld-ws/" + WSDL_PATH).toURL();
+        } catch (URISyntaxException | MalformedURLException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
 
+    private static String getServerHost() {
+        String host = System.getenv("SERVER_HOST");
+        if (host == null) {
+            host = System.getProperty("server.host");
+        }
+        return host;
+    }
     private static URL deploymentUrl;
 
     private HelloWorldService client;
 
     @BeforeClass
     public static void beforeClass() throws MalformedURLException {
-        String deploymentUrl = System.getProperty(SERVER_URL_PROPERTY);
-
-        // Check that the server URL property was set. If it wasn't then use the default.
-        if (deploymentUrl == null || deploymentUrl.isEmpty()) {
-            deploymentUrl = DEFAULT_SERVER_URL;
-        }
-
-        // Ensure that the URL ends with a forward slash
-        if (!deploymentUrl.endsWith("/")) {
-            deploymentUrl += "/";
-        }
-
-        // Ensure the App Name is specified in the URL
-        if (!deploymentUrl.matches(".*" + APP_NAME + ".*")) {
-            deploymentUrl += APP_NAME + "/";
-        }
-
-        // Add the WDSL Document location to the URL
-        deploymentUrl += WSDL_PATH;
+        URL deploymentUrl = getHTTPEndpoint();
 
         System.out.println("WSDL Deployment URL: " + deploymentUrl);
 
         // Set the deployment url
-        ClientTest.deploymentUrl = new URL(deploymentUrl);
+        ClientIT.deploymentUrl = deploymentUrl;
     }
 
     @Before
     public void setup() {
-        if (true){
-            Assume.assumeFalse(true);
-        }
         try {
             client = new Client(new URL(deploymentUrl, WSDL_PATH));
         } catch (MalformedURLException e) {

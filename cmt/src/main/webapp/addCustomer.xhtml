@@ -16,26 +16,26 @@
 -->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core">
 
-<ui:composition template="template.xhtml">
-	<ui:define name="content">
-		<h:messages />
-		<h:form id="addCustomerForm">
-			<h:panelGrid columns="3">
-				<h:outputLabel for="name">Name:</h:outputLabel>
-				<h:inputText id="name" value="#{customerManager.name}" />
-				<h:commandButton id="add" value="Add"
-					action="#{customerManager.addCustomer}">
-				</h:commandButton>
-			</h:panelGrid>
-		</h:form>
-		<ul>
-			<li><h:link outcome="/customers.xhtml">List customers</h:link></li>
-			<li><h:link outcome="/logMessages.xhtml">List log messages</h:link></li>
-		</ul>
-	</ui:define>
-</ui:composition>
+    <ui:composition template="template.xhtml">
+        <ui:define name="content">
+            <h:messages />
+            <h:form id="addCustomerForm">
+                <h:panelGrid columns="3">
+                    <h:outputLabel for="name">Name:</h:outputLabel>
+                    <h:inputText id="name" value="#{customerManager.name}" />
+                    <h:commandButton id="add" value="Add"
+                                     action="#{customerManager.addCustomer}">
+                    </h:commandButton>
+                </h:panelGrid>
+            </h:form>
+            <ul>
+                <li><h:link outcome="/customers.xhtml">List customers</h:link></li>
+                <li><h:link outcome="/logMessages.xhtml">List log messages</h:link></li>
+            </ul>
+        </ui:define>
+    </ui:composition>
 </html>

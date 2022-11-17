@@ -46,6 +46,10 @@
     <properties>
         <!-- The versions for BOMs, Dependencies and Plugins -->
         <version.server.bom>27.0.0.Final</version.server.bom>
+        <version.server>27.0.0.Final</version.server>
+        <version.wildfly.maven.plugin>4.0.0.Final</version.wildfly.maven.plugin>
+        <version.cloud.fp>2.0.0.Final</version.cloud.fp>
+        <version.wildfly-datasources-galleon-pack>3.0.0.Final</version.wildfly-datasources-galleon-pack>
     </properties>
 
     <repositories>
@@ -126,7 +130,7 @@
         </dependency>
 
         <!-- Import the Common Annotations API (JSR-250), we use provided scope
-            as the API is included in JBoss EAP -->
+        as the API is included in JBoss EAP -->
         <dependency>
             <groupId>jakarta.annotation</groupId>
             <artifactId>jakarta.annotation-api</artifactId>
@@ -146,15 +150,179 @@
             <scope>provided</scope>
         </dependency>
 
+        <!-- Needed for running tests (you may also use TestNG) -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Optional, but highly recommended -->
+        <!-- Arquillian allows you to test enterprise code such as EJBs and Transactional(JTA)
+        JPA from JUnit/TestNG -->
+        <dependency>
+            <groupId>org.jboss.arquillian.junit</groupId>
+            <artifactId>arquillian-junit-container</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.arquillian.protocol</groupId>
+            <artifactId>arquillian-protocol-servlet</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
-    <build>
-        <plugins>
-            <!-- WildFly plug-in to deploy the WAR -->
-            <plugin>
-                <groupId>org.wildfly.plugins</groupId>
-                <artifactId>wildfly-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
+    <profiles>
+        <profile>
+            <id>provisioned-server</id>
+            <dependencies>
+                <dependency>
+                    <groupId>org.wildfly.arquillian</groupId>
+                    <artifactId>wildfly-arquillian-container-managed</artifactId>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.wildfly.plugins</groupId>
+                        <artifactId>wildfly-maven-plugin</artifactId>
+                        <configuration>
+                            <feature-packs>
+                                <feature-pack>
+                                    <location>org.wildfly:wildfly-galleon-pack:${version.server}</location>
+                                </feature-pack>
+                                <feature-pack>
+                                    <groupId>org.wildfly</groupId>
+                                    <artifactId>wildfly-datasources-galleon-pack</artifactId>
+                                    <version>${version.wildfly-datasources-galleon-pack}</version>
+                                </feature-pack>
+                            </feature-packs>
+                            <layers>
+                                <layer>cloud-server</layer>
+                                <layer>h2-datasource</layer>
+                            </layers>
+                            <runtimeName>ROOT.war</runtimeName>
+                            <packaging-scripts>
+                                <packaging-script>
+                                    <scripts>
+                                        <script>${basedir}/configure-server.cli</script>
+                                    </scripts>
+                                    <!-- Expressions resolved during server execution -->
+                                    <resolve-expressions>false</resolve-expressions>
+                                </packaging-script>
+                            </packaging-scripts>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>package</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <version>${version.failsafe.plugin}</version>
+                        <configuration>
+                            <environmentVariables>
+                                <JBOSS_HOME>${project.build.directory}/server</JBOSS_HOME>
+                            </environmentVariables>
+                            <includes>
+                                <include>**/ProvisionedManagedSecureIT</include>
+                            </includes>
+                            <excludes>
+                                <exclude>**/RemoteSecureIT</exclude>
+                            </excludes>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>integration-test</goal>
+                                    <goal>verify</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>openshift</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.wildfly.plugins</groupId>
+                        <artifactId>wildfly-maven-plugin</artifactId>
+                        <configuration>
+                            <feature-packs>
+                                <feature-pack>
+                                    <location>org.wildfly:wildfly-galleon-pack:${version.server}</location>
+                                </feature-pack>
+                                <feature-pack>
+                                    <location>org.wildfly.cloud:wildfly-cloud-galleon-pack:${version.cloud.fp}</location>
+                                </feature-pack>
+                                <feature-pack>
+                                    <groupId>org.wildfly</groupId>
+                                    <artifactId>wildfly-datasources-galleon-pack</artifactId>
+                                    <version>${version.wildfly-datasources-galleon-pack}</version>
+                                </feature-pack>
+                            </feature-packs>
+                            <layers>
+                                <layer>cloud-server</layer>
+                                <layer>h2-datasource</layer>
+                            </layers>
+                            <filename>ROOT.war</filename>
+                            <packaging-scripts>
+                                <packaging-script>
+                                    <scripts>
+                                        <script>${basedir}/configure-server.cli</script>
+                                    </scripts>
+                                    <!-- Expressions resolved during server execution -->
+                                    <resolve-expressions>false</resolve-expressions>
+                                </packaging-script>
+                            </packaging-scripts>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>package</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>arq-remote</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <version>${version.failsafe.plugin}</version>
+                        <configuration>
+                            <includes>
+                                <include>**/RemoteSecureIT</include>
+                            </includes>
+                            <excludes>
+                                <exclude>**/ProvisionedManagedSecureIT</exclude>
+                            </excludes>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>integration-test</goal>
+                                    <goal>verify</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>

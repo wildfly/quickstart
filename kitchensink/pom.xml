@@ -45,6 +45,9 @@
     <properties>
         <!-- The versions for BOMs, Dependencies and Plugins -->
         <version.server.bom>27.0.0.Final</version.server.bom>
+        <version.server>27.0.0.Final</version.server>
+        <version.wildfly.maven.plugin>4.0.0.Final</version.wildfly.maven.plugin>
+        <version.cloud.fp>2.0.0.Final</version.cloud.fp>
     </properties>
 
     <repositories>
@@ -118,10 +121,10 @@
     <dependencies>
 
         <!-- First declare the APIs we depend on and need for compilation. All
-            of them are provided by JBoss EAP -->
+        of them are provided by JBoss EAP -->
 
         <!-- Import the CDI API, we use provided scope as the API is included in
-            JBoss EAP -->
+        JBoss EAP -->
         <dependency>
             <groupId>jakarta.enterprise</groupId>
             <artifactId>jakarta.enterprise.cdi-api</artifactId>
@@ -138,7 +141,7 @@
         <!-- Now we declare any tools needed -->
 
         <!-- Annotation processor to generate the JPA metamodel classes for
-            typesafe criteria queries -->
+        typesafe criteria queries -->
         <dependency>
             <groupId>org.hibernate.orm</groupId>
             <artifactId>hibernate-jpamodelgen</artifactId>
@@ -152,8 +155,8 @@
         </dependency>
 
         <!-- Bean Validation Implementation 
-             Provides portable constraints such as @Email 
-             Hibernate Validator is shipped in JBoss EAP -->
+        Provides portable constraints such as @Email 
+        Hibernate Validator is shipped in JBoss EAP -->
         <dependency>
             <groupId>org.hibernate.validator</groupId>
             <artifactId>hibernate-validator</artifactId>
@@ -167,7 +170,7 @@
         </dependency>
 
         <!-- Annotation processor that raising compilation errors whenever constraint
-            annotations are incorrectly used. -->
+        annotations are incorrectly used. -->
         <dependency>
             <groupId>org.hibernate.validator</groupId>
             <artifactId>hibernate-validator-annotation-processor</artifactId>
@@ -175,7 +178,7 @@
         </dependency>
 
         <!-- Import the JPA API, we use provided scope as the API is included in
-            JBoss EAP -->
+        JBoss EAP -->
         <dependency>
             <groupId>jakarta.persistence</groupId>
             <artifactId>jakarta.persistence-api</artifactId>
@@ -184,7 +187,7 @@
 
         <!-- Optional, but highly recommended -->
         <!-- Arquillian allows you to test enterprise code such as EJBs and Transactional(JTA)
-            JPA from JUnit/TestNG -->
+        JPA from JUnit/TestNG -->
         <dependency>
             <groupId>org.jboss.arquillian.junit</groupId>
             <artifactId>arquillian-junit-container</artifactId>
@@ -198,7 +201,7 @@
         </dependency>
 
         <!-- Import the Common Annotations API (JSR-250), we use provided scope
-            as the API is included in JBoss EAP -->
+        as the API is included in JBoss EAP -->
         <dependency>
             <groupId>jakarta.annotation</groupId>
             <artifactId>jakarta.annotation-api</artifactId>
@@ -206,7 +209,7 @@
         </dependency>
 
         <!-- Import the EJB API, we use provided scope as the API is included in
-            JBoss EAP -->
+        JBoss EAP -->
         <dependency>
             <groupId>jakarta.ejb</groupId>
             <artifactId>jakarta.ejb-api</artifactId>
@@ -214,7 +217,7 @@
         </dependency>
 
         <!-- Import the JSF API, we use provided scope as the API is included in
-            JBoss EAP -->
+        JBoss EAP -->
         <dependency>
             <groupId>jakarta.faces</groupId>
             <artifactId>jakarta.faces-api</artifactId>
@@ -222,7 +225,7 @@
         </dependency>
 
         <!-- Import the JAX-RS API, we use provided scope as the API is included
-            in JBoss EAP -->
+        in JBoss EAP -->
         <dependency>
             <groupId>jakarta.ws.rs</groupId>
             <artifactId>jakarta.ws.rs-api</artifactId>
@@ -234,19 +237,88 @@
             <artifactId>jakarta.xml.bind-api</artifactId>
             <scope>provided</scope>
         </dependency>
+        
+        <dependency>
+            <groupId>jakarta.json</groupId>
+            <artifactId>jakarta.json-api</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.parsson</groupId>
+            <artifactId>parsson</artifactId>
+            <scope>test</scope>
+        </dependency>
 
     </dependencies>
 
-    <build>
-        <!-- Set the name of the WAR, used as the context root when the app is deployed -->
-        <finalName>${project.artifactId}</finalName>
-    </build>
-
     <profiles>
         <profile>
+            <id>provisioned-server</id>
+            <dependencies>
+                <dependency>
+                    <groupId>org.wildfly.arquillian</groupId>
+                    <artifactId>wildfly-arquillian-container-managed</artifactId>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.wildfly.plugins</groupId>
+                        <artifactId>wildfly-maven-plugin</artifactId>
+                        <configuration>
+                            <feature-packs>
+                                <feature-pack>
+                                    <location>org.wildfly:wildfly-galleon-pack:${version.server}</location>
+                                </feature-pack>
+                            </feature-packs>
+                            <layers>
+                                <layer>cloud-server</layer>
+                                <layer>h2-driver</layer>
+                                <layer>ejb</layer>
+                                <layer>jsf</layer>
+                            </layers>
+                            <runtimeName>ROOT.war</runtimeName>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>package</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <version>${version.failsafe.plugin}</version>
+                        <configuration>
+                            <environmentVariables>
+                                <JBOSS_HOME>${project.build.directory}/server</JBOSS_HOME>
+                            </environmentVariables>
+                            <includes>
+                                <include>**/MemberRegistrationIT</include>
+                            </includes>
+                            <excludes>
+                                <exclude>**/RemoteMemberRegistrationIT</exclude>
+                            </excludes>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>integration-test</goal>
+                                    <goal>verify</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
             <!-- An optional Arquillian testing profile that executes tests in your JBoss EAP instance.
-                 This profile will start a new JBoss EAP instance, and execute the test, shutting it down when done.
-                 Run with: mvn clean verify -Parq-managed -->
+            This profile will start a new JBoss EAP instance, and execute the test, shutting it down when done.
+            Run with: mvn clean verify -Parq-managed -->
             <id>arq-managed</id>
             <dependencies>
                 <dependency>
@@ -261,6 +333,14 @@
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-failsafe-plugin</artifactId>
                         <version>${version.failsafe.plugin}</version>
+                        <configuration>
+                            <includes>
+                                <include>**/MemberRegistrationIT</include>
+                            </includes>
+                            <excludes>
+                                <exclude>**/RemoteMemberRegistrationIT</exclude>
+                            </excludes>
+                        </configuration>
                         <executions>
                             <execution>
                                 <goals>
@@ -275,7 +355,7 @@
         </profile>
         <profile>
             <!-- An optional Arquillian testing profile that executes tests in a remote JBoss EAP instance.
-                 Run with: mvn clean verify -Parq-remote -->
+            Run with: mvn clean verify -Parq-remote -->
             <id>arq-remote</id>
             <dependencies>
                 <dependency>
@@ -290,11 +370,54 @@
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-failsafe-plugin</artifactId>
                         <version>${version.failsafe.plugin}</version>
+                        <configuration>
+                            <includes>
+                                <include>**/RemoteMemberRegistrationIT</include>
+                            </includes>
+                            <excludes>
+                                <exclude>**/MemberRegistrationIT</exclude>
+                            </excludes>
+                        </configuration>
                         <executions>
                             <execution>
                                 <goals>
                                     <goal>integration-test</goal>
                                     <goal>verify</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>openshift</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.wildfly.plugins</groupId>
+                        <artifactId>wildfly-maven-plugin</artifactId>
+                        <configuration>
+                            <feature-packs>
+                                <feature-pack>
+                                    <location>org.wildfly:wildfly-galleon-pack:${version.server}</location>
+                                </feature-pack>
+                                <feature-pack>
+                                    <location>org.wildfly.cloud:wildfly-cloud-galleon-pack:${version.cloud.fp}</location>
+                                </feature-pack>
+                            </feature-packs>
+                            <layers>
+                                <layer>cloud-server</layer>
+                                <layer>h2-driver</layer>
+                                <layer>ejb</layer>
+                                <layer>jsf</layer>
+                            </layers>
+                            <filename>ROOT.war</filename>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>package</goal>
                                 </goals>
                             </execution>
                         </executions>

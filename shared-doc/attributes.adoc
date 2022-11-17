@@ -30,6 +30,7 @@ ifdef::ProductRelease[]
 :DocInfoProductNumber: {productVersion}
 :WildFlyQuickStartRepoTag: EAP_7.4.0.GA
 :productImageVersion: 7.4.0
+:helmChartName: jboss-eap/eap-xp3
 endif::[]
 
 ifdef::EAPXPRelease[]
@@ -57,10 +58,11 @@ ifdef::ProductRelease,EAPXPRelease[]
 // END ifdef::ProductRelease,EAPXPRelease[]
 endif::[]
 
-ifndef::ProductRelease,EAPCDRelease,EAPXPRelease[]
+ifndef::ProductRelease,EAPXPRelease[]
 // WildFly project
 :productName: WildFly
 :productNameFull: WildFly Application Server
+:ProductShortName: WildFly
 :jbossHomeName: WILDFLY_HOME
 :productVersion: 27
 :productImageVersion: 27.0
@@ -163,7 +165,7 @@ endif::[]
 //*************************
 // Other values
 //*************************
-:buildRequirements: Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later
+:buildRequirements: Java 11.0 (Java SDK 11) or later and Maven 3.6.0 or later
 :jbdsEapServerName: Red Hat JBoss Enterprise Application Platform 7.3
 :javaVersion: Jakarta EE 10
 ifdef::EAPXPRelease[]
