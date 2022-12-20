@@ -4,7 +4,7 @@
 batch
 
 # Create the custom MyOtherMail mail session
-/subsystem=mail/mail-session=MyOtherMail:add(jndi-name=java:jboss/mail/MyOtherMail)
+/subsystem=mail/mail-session=MyOtherMail:add(jndi-name=java:jboss/mail/MyOtherMail,debug=true)
 
 # Configure the custom SMTP, POP3, and IMAP socket binding groups
 /socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=my-smtp-binding:add(host=localhost,port=25)
