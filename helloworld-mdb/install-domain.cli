@@ -9,8 +9,8 @@ batch
 /server-group=quickstart-messaging-clustering-group:add(profile=full-ha, socket-binding-group=full-ha-sockets)
 
 # -- Add two servers to the new quickstart-messaging-clustering-group
-/host=master/server-config=quickstart-messagingcluster-node1:add(group=quickstart-messaging-clustering-group, auto-start=true, socket-binding-port-offset=1000)
-/host=master/server-config=quickstart-messagingcluster-node2:add(group=quickstart-messaging-clustering-group, auto-start=true, socket-binding-port-offset=1100)
+/host=primary/server-config=quickstart-messagingcluster-node1:add(group=quickstart-messaging-clustering-group, auto-start=true, socket-binding-port-offset=1000)
+/host=primary/server-config=quickstart-messagingcluster-node2:add(group=quickstart-messaging-clustering-group, auto-start=true, socket-binding-port-offset=1100)
 
 # -- Configure Messaging Clustering in the full-ha profile
 /profile=full-ha/subsystem=messaging-activemq/server=default:write-attribute(name=cluster-password, value=password)
@@ -26,5 +26,5 @@ deploy --server-groups=quickstart-messaging-clustering-group ./target/helloworld
 run-batch
 
 # -- Start the newly defined servers
-/host=master/server-config=quickstart-messagingcluster-node1:start(blocking=true)
-/host=master/server-config=quickstart-messagingcluster-node2:start(blocking=true)
+/host=primary/server-config=quickstart-messagingcluster-node1:start(blocking=true)
+/host=primary/server-config=quickstart-messagingcluster-node2:start(blocking=true)
