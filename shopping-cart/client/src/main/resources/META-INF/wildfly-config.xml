@@ -19,20 +19,25 @@
   -->
 
 <configuration>
-    <authentication-client xmlns="urn:elytron:1.0">
+    <authentication-client xmlns="urn:elytron:client:1.2">
         <authentication-rules>
-                    <rule use-configuration="default" />
+            <rule use-configuration="default"/>
         </authentication-rules>
         <authentication-configurations>
             <configuration name="default">
-                <sasl-mechanism-selector selector="#ALL" />
+                <sasl-mechanism-selector selector="#ALL"/>
                 <set-mechanism-properties>
                     <property key="wildfly.sasl.local-user.quiet-auth" value="true" />
-                 </set-mechanism-properties>
+                </set-mechanism-properties>
                 <providers>
                     <use-service-loader/>
                 </providers>
-             </configuration>
+            </configuration>
         </authentication-configurations>
     </authentication-client>
+    <jboss-ejb-client xmlns="urn:jboss:wildfly-client-ejb:3.0">
+        <connections>
+            <connection uri="remote+http://127.0.0.1:8080"/>
+        </connections>
+    </jboss-ejb-client>
 </configuration>

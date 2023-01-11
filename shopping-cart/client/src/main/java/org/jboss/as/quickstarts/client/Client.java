@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2022, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -42,7 +42,7 @@ public class Client {
 
         // Create the JNDI InitialContext, configuring it for use with JBoss EJB
         Hashtable<String, String> jndiProperties = new Hashtable<>();
-        jndiProperties.put(Context.URL_PKG_PREFIXES, "org.jboss.ejb.client.naming");
+        jndiProperties.put(Context.INITIAL_CONTEXT_FACTORY, "org.wildfly.naming.client.WildFlyInitialContextFactory");
         final Context context = new InitialContext(jndiProperties);
 
         /*
@@ -75,7 +75,7 @@ public class Client {
 
         /* Lookup the remote interface of the shopping cart */
         String lookupName = "ejb:" + appName + "/" + moduleName + "/" + distinctName + "/" + beanName + "!" + viewClassName
-            + "?stateful";
+                + "?stateful";
         final ShoppingCart cart = (ShoppingCart) context.lookup(lookupName);
 
         System.out.println("\n&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
