@@ -24,13 +24,12 @@ echo "System properties defined"
 echo "Outbound socket binding 'server2' created"
 
 # adding password realm where secret is password 'quickstartUser' converted to base64 format
-/core-service=management/security-realm=RemotePasswordRealm:add()
-/core-service=management/security-realm=RemotePasswordRealm/server-identity=secret:add(value="cXVpY2tzdGFydFB3ZDEh")
 # reload # when would be run not in embed mode
 
-echo "Security realm 'RemotePasswordRealm' created"
+/subsystem=elytron/authentication-configuration=auth_config:add(authentication-name=quickstartUser,authorization-name=quickstartUser, credential-reference={clear-text=quickstartPwd1!}, realm="ApplicationRealm", sasl-mechanism-selector="DIGEST-MD5")
+/subsystem=elytron/authentication-context=auth_context:add(match-rules=[{authentication-configuration=auth_config}])
 
-/subsystem=remoting/remote-outbound-connection=remote-ejb-connection:add(outbound-socket-binding-ref=server2, username=${remote.server.username}, security-realm=RemotePasswordRealm, protocol=remote+http)
+/subsystem=remoting/remote-outbound-connection=remote-ejb-connection:add(outbound-socket-binding-ref=server2, authentication-context=auth_context)
 /subsystem=remoting/remote-outbound-connection=remote-ejb-connection/property=SASL_POLICY_NOANONYMOUS:add(value=false)
 /subsystem=remoting/remote-outbound-connection=remote-ejb-connection/property=SSL_ENABLED:add(value=false)
 /subsystem=remoting/remote-outbound-connection=remote-ejb-connection/property=SASL_DISALLOWED_MECHANISMS:add(value=JBOSS-LOCAL-USER)
