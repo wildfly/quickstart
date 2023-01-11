@@ -18,7 +18,7 @@ package org.jboss.quickstarts.jaxrsjwt.user;
 
 import java.util.HashMap;
 import java.util.Map;
-import javax.ejb.Stateless;
+import jakarta.ejb.Stateless;
 
 @Stateless
 public class UserService {

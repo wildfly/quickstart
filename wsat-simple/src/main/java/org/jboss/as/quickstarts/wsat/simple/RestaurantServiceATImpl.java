@@ -22,11 +22,11 @@ import com.arjuna.mw.wst11.UserTransactionFactory;
 
 import org.jboss.as.quickstarts.wsat.simple.jaxws.RestaurantServiceAT;
 
-import javax.jws.HandlerChain;
-import javax.jws.WebMethod;
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
-import javax.servlet.annotation.WebServlet;
+import jakarta.jws.HandlerChain;
+import jakarta.jws.WebMethod;
+import jakarta.jws.WebService;
+import jakarta.jws.soap.SOAPBinding;
+import jakarta.servlet.annotation.WebServlet;
 import java.util.UUID;
 
 /**

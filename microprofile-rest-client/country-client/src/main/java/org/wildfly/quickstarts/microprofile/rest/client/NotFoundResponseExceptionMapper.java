@@ -2,9 +2,9 @@ package org.wildfly.quickstarts.microprofile.rest.client;
 
 import org.eclipse.microprofile.rest.client.ext.ResponseExceptionMapper;
 
-import javax.ws.rs.NotFoundException;
-import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.NotFoundException;
+import jakarta.ws.rs.core.MultivaluedMap;
+import jakarta.ws.rs.core.Response;
 
 public class NotFoundResponseExceptionMapper implements ResponseExceptionMapper<NotFoundException> {
 

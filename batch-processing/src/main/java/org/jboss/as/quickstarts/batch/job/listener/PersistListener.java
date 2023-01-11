@@ -19,10 +19,10 @@ package org.jboss.as.quickstarts.batch.job.listener;
 import java.util.List;
 import java.util.logging.Logger;
 
-import javax.batch.api.chunk.listener.AbstractItemWriteListener;
-import javax.batch.runtime.context.JobContext;
-import javax.inject.Inject;
-import javax.inject.Named;
+import jakarta.batch.api.chunk.listener.AbstractItemWriteListener;
+import jakarta.batch.runtime.context.JobContext;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
 //This listener updates the exit status to show the exception
 @Named("persistListener")

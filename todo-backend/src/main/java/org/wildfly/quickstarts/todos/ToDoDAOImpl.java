@@ -25,12 +25,10 @@ package org.wildfly.quickstarts.todos;
 import java.util.List;
 import java.util.Optional;
 
-import javax.ejb.Stateful;
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.UriInfo;
+import jakarta.ejb.Stateful;
+import jakarta.inject.Inject;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
 
 @Stateful
 public class ToDoDAOImpl implements ToDoDAO {
@@ -38,15 +36,13 @@ public class ToDoDAOImpl implements ToDoDAO {
     @Inject
     private EntityManager em;
 
-    @Context
-    UriInfo uriInfo;
-
     @Override
     public List<ToDo> findAll() {
-        TypedQuery<ToDo> query = em.createQuery("FROM ToDo", ToDo.class);
+        TypedQuery<ToDo> query = em.createQuery("SELECT t FROM ToDo t", ToDo.class);
         return query.getResultList();
     }
 
+    @Override
     public Optional<ToDo> findById(Long id) {
         ToDo toDo = em.find(ToDo.class, id);
         return Optional.ofNullable(toDo);

@@ -19,7 +19,7 @@ package org.jboss.as.quickstarts.batch.controller;
 import java.util.Date;
 import java.util.Properties;
 
-import javax.batch.runtime.BatchStatus;
+import jakarta.batch.runtime.BatchStatus;
 
 //This class is used to show the latest job execution from each job instance
 public class JobData {

@@ -16,8 +16,8 @@
  */
 package org.jboss.as.quickstarts.ejb.remote.stateful;
 
-import javax.ejb.Remote;
-import javax.ejb.Stateful;
+import jakarta.ejb.Remote;
+import jakarta.ejb.Stateful;
 
 /**
  * @author Jaikiran Pai

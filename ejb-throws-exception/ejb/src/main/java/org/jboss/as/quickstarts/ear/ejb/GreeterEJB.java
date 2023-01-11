@@ -16,7 +16,7 @@
  */
 package org.jboss.as.quickstarts.ear.ejb;
 
-import javax.ejb.Stateless;
+import jakarta.ejb.Stateless;
 import org.jboss.as.quickstarts.ear.client.GreeterEJBLocal;
 import org.jboss.as.quickstarts.ear.client.GreeterException;
 

@@ -9,7 +9,7 @@
     Maintain separation between the artifact id and the version to help prevent
     merge conflicts between commits changing the GA and those changing the V.
     -->
-    <version>27.0.0.Beta1-SNAPSHOT</version>
+    <version>28.0.0.Beta1-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
   <modelVersion>4.0.0</modelVersion>
@@ -18,12 +18,6 @@
   <packaging>war</packaging>
 
   <name>Quickstart: microprofile-rest-client/country-client</name>
-
-  <properties>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
-    <failOnMissingWebXml>false</failOnMissingWebXml>
-  </properties>
 
   <dependencies>
     <!-- Import the MicroProfile REST Client API, we use provided scope as the API is included in the server -->
@@ -46,8 +40,8 @@
     </dependency>
     <!-- Import the Jakarta REST API, we use provided scope as the API is included in the server -->
     <dependency>
-      <groupId>org.jboss.spec.javax.ws.rs</groupId>
-      <artifactId>jboss-jaxrs-api_2.1_spec</artifactId>
+      <groupId>jakarta.ws.rs</groupId>
+      <artifactId>jakarta.ws.rs-api</artifactId>
       <scope>provided</scope>
     </dependency>
     <!-- Needed for running tests (you may also use TestNG) -->

@@ -27,10 +27,10 @@
 
     <h:form rendered="#{not authController.logged}">
         <h:panelGrid columns="2" >
-            <h:outputLabel value="Username" />
-            <h:inputText value="#{username}" />
+            <h:outputLabel value="User Name" />
+            <h:inputText value="#{authController.userName}" />
 
-            <h:commandButton value="Log in" action="#{authController.authenticate(username)}" />
+            <h:commandButton value="Log in" action="#{authController.authenticate}" />
         </h:panelGrid>
     </h:form>
         

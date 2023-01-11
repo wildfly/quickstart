@@ -4,6 +4,7 @@ include::../shared-doc/attributes.adoc[]
 :author: Sherif F. Makary, Pedro Igor, Stefan Guilhen
 :level: Intermediate
 :technologies: Servlet, Security
+:openshift: true
 
 [abstract]
 The `servlet-security` quickstart demonstrates the use of Jakarta EE declarative security to control access to Servlets and Security in {productName}.
@@ -27,8 +28,7 @@ This quickstart takes the following steps to implement Servlet security:
 ** Adds a `login-config` that sets the `auth-method` to `BASIC` in the `WEB-INF/web.xml`.
 . Application Server (`standalone.xml`):
 ** Defines a security domain in the `elytron` subsystem that uses the JDBC security realm to obtain the security data used to authenticate and authorize users.
-** Defines an `http-authentication-factory` in the `elytron` subsystem that uses the security domain created in step 1 for BASIC authentication.
-** Adds an `application-security-domain` mapping in the `undertow` subsystem to map the Servlet security domain to the HTTP authentication factory defined in step 2.
+** Adds an `application-security-domain` mapping in the `undertow` subsystem to map the Servlet security domain to the security domain defined in step 1.
 . Database Configuration:
 ** Adds an application user with access rights to the application.
 +
@@ -54,14 +54,17 @@ include::../shared-doc/development-shortcuts.adoc[leveloffset=+1]
 include::../shared-doc/system-requirements.adoc[leveloffset=+1]
 // Use of {jbossHomeName}
 include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
-// Back Up the {productName} Standalone Server Configuration
-include::../shared-doc/back-up-server-standalone-configuration.adoc[leveloffset=+1]
-// Start the {productName} Standalone Server
-include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
 
+// build and run with standard server distribution
+[[build_and_run_the_quickstart_with_server_dist]]
+== Building and running the quickstart application with a {productName} server distribution
+// Back Up the {productName} Standalone Server Configuration
+include::../shared-doc/back-up-server-standalone-configuration.adoc[leveloffset=+2]
+// Start the {productName} Standalone Server
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+2]
 
 [[configure_the_server]]
-== Configure the Server
+=== Configure the Server
 
 You can configure the server by running JBoss CLI commands. For your convenience, this quickstart batches the commands into a `configure-server.cli` script provided in the root directory of this quickstart.
 
@@ -90,7 +93,7 @@ The batch executed successfully
 
 . Stop the {productName} server.
 
-== Review the Modified Server Configuration
+=== Review the Modified Server Configuration
 
 After stopping the server, open the `__{jbossHomeName}__/standalone/configuration/standalone.xml` file and review the changes.
 
@@ -126,54 +129,48 @@ After stopping the server, open the `__{jbossHomeName}__/standalone/configuratio
 +
 The `security-realm` is responsible for verifying the credentials for a given principal and for obtaining security attributes (like roles) that are associated with the authenticated identity.
 
-. The following `role-decoder` was added to the `elytron` subsystem.
+. The `jdbc-realm` in this quickstart stores the roles associated with a principal in an attribute named `Roles`.
 +
-[source,xml,options="nowrap"]
-----
-<simple-role-decoder name="from-roles-attribute" attribute="roles"/>
-----
+Other realms might use different attributes for roles (such as `group`).
+If an attribute name other than "Roles" is used to store the roles, a `role-decoder` can be configured as follows:
 +
-The `jdbc-realm` in this quickstart stores the roles associated with a principal in an attribute named roles. Other realms might use different attributes for roles (such as `group`). The purpose of a `role-decoder` is to instruct the security domain how roles are to be retrieved from an authorized identity.
+```
+/subsystem=elytron/simple-role-decoder=from-roles-attribute:add(attribute=ATTRIBUTE_NAME)
+```
++
+The command to create a `security-domain` could then be updated to reference this `role-decoder`:
++
+```
+/subsystem=elytron/security-domain=servlet-security-quickstart-sd:add(default-realm=servlet-security-jdbc-realm, realms=[{realm=servlet-security-jdbc-realm, role-decoder=from-roles-attribute}], permission-mapper=default-permission-mapper)
+```
++
+The purpose of a `role-decoder` is to instruct the security domain how roles are to be retrieved from an authorized identity.
+
 
 . The following `security-domain` was added to the `elytron` subsystem.
 +
 [source,xml,options="nowrap"]
 ----
 <security-domain name="servlet-security-quickstart-sd" default-realm="servlet-security-jdbc-realm" permission-mapper="default-permission-mapper">
-    <realm name="servlet-security-jdbc-realm" role-decoder="from-roles-attribute"/>
+    <realm name="servlet-security-jdbc-realm"/>
 </security-domain>
 ----
-
-. The following `http-authentication-factory` was added to the `elytron` subsystem.
-+
-[source,xml,options="nowrap"]
-----
-<http-authentication-factory name="servlet-security-quickstart-http-auth" http-server-mechanism-factory="global" security-domain="servlet-security-quickstart-sd">
-    <mechanism-configuration>
-        <mechanism mechanism-name="BASIC">
-            <mechanism-realm realm-name="RealmUsersRoles"/>
-        </mechanism>
-    </mechanism-configuration>
-</http-authentication-factory>
-----
-+
-It basically defines an HTTP authentication factory for the BASIC mechanism that relies on the `servlet-security-quickstart-sd` security domain to authenticate and authorize access to web applications.
 
 . The following `application-security-domain` was added to the `undertow` subsystem.
 +
 [source,xml,options="nowrap"]
 ----
 <application-security-domains>
-    <application-security-domain name="servlet-security-quickstart" http-authentication-factory="servlet-security-quickstart-http-auth"/>
+    <application-security-domain name="servlet-security-quickstart" security-domain="servlet-security-quickstart-sd"/>
 </application-security-domains>
 ----
 
-This configuration tells `Undertow` that applications with the `servlet-security-quickstart` security domain, as defined in the `jboss-web.xml` or by using the `@SecurityDomain` annotation in the Servlet class, should use the `http-authentication-factory` named `servlet-security-quickstart-http-auth`. If no `application-security-domain` is defined for a particular security domain, `Undertow` assumes the legacy JAAS based security domains should be used for authentication/authorization and, in this case, the security domain defined in the Web application must match a security domain in the legacy `security` subsystem. The presence of an `application-security-domain` configuration is what enables Elytron authentication for a Web application.
+This configuration tells `Undertow` that applications with the `servlet-security-quickstart` security domain, as defined in the `jboss-web.xml` or by using the `@SecurityDomain` annotation in the Servlet class, should use the `security-domain` named `servlet-security-quickstart-sd`.
 
 // Build and Deploy the Quickstart
-include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+2]
 
-== Access the Application
+=== Access the Application
 
 The application will be running at the following URL http://localhost:8080/{artifactId}/.
 
@@ -197,20 +194,13 @@ Now close the browser. Open a new browser and log in with username `guest` and p
 Forbidden
 ----
 
-== Server Log: Expected Warnings and Errors
-
-You will see the following warning in the server log. You can ignore it.
-
-[source,options="nowrap"]
-----
-HHH000431: Unable to determine H2 database version, certain features may not work
-----
-
+// Testing with Arquillian
+include::../shared-doc/run-arquillian-integration-tests-with-server-distribution.adoc[leveloffset=+2]
 // Undeploy the Quickstart
-include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+2]
 
 //  Restore the {productName} Standalone Server Configuration
-include::../shared-doc/restore-standalone-server-configuration.adoc[leveloffset=+1]
+include::../shared-doc/restore-standalone-server-configuration.adoc[leveloffset=+2]
 
 // Additional information about this script
 This script removes the `application-security-domain` configuration from the `undertow` subsystem, the `http-authentication-factory`, `security-domain`, `security-realm` and `role-decoder` configuration from the `elytron` subsystem and it also removes the datasource used for this quickstart. You should see the following result when you run the script:
@@ -222,23 +212,10 @@ process-state: reload-required
 ----
 
 // Restore the {productName} Standalone Server Configuration Manually
-include::../shared-doc/restore-standalone-server-configuration-manual.adoc[leveloffset=+2]
-// Run the Quickstart in Red Hat CodeReady Studio or Eclipse
-include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
+include::../shared-doc/restore-standalone-server-configuration-manual.adoc[leveloffset=+3]
 
-// Additional Red Hat CodeReady Studio instructions
-* Make sure you configure the server by running the JBoss CLI commands as described above under xref:configure_the_server{Configure the Server]. Stop the server at the end of that step.
-* Make sure you xref:restore_the_server_configuration[restore the {productName} server configuration] when you have completed testing this quickstart.
-
-// Debug the Application
-include::../shared-doc/debug-the-application.adoc[leveloffset=+1]
-
-//*************************************************
-// Product Release content only
-//*************************************************
-ifdef::ProductRelease[]
-
-// Quickstart not compatible with OpenShift
-include::../shared-doc/openshift-incompatibility.adoc[leveloffset=+1]
-
+// Build and run sections for other environments/builds
+ifndef::ProductRelease,EAPXPRelease[]
+include::../shared-doc/build-and-run-the-quickstart-with-provisioned-server.adoc[leveloffset=+1]
 endif::[]
+include::../shared-doc/build-and-run-the-quickstart-with-openshift.adoc[leveloffset=+1]

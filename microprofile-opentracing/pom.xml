@@ -13,7 +13,7 @@
     </parent>
 
   <artifactId>microprofile-opentracing</artifactId>
-  <version>27.0.0.Beta1-SNAPSHOT</version>
+  <version>28.0.0.Beta1-SNAPSHOT</version>
   <packaging>war</packaging>
 
   <name>Quickstart: microprofile-opentracing</name>
@@ -23,10 +23,10 @@
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
     <!-- The versions for BOMs, Dependencies and Plugins -->
-    <version.microprofile.bom>26.0.0.Final</version.microprofile.bom>
-    <version.server.bom>26.0.0.Final</version.server.bom>
-    <version.server.bootable-jar>26.0.0.Final</version.server.bootable-jar>
-    <version.wildfly-jar.maven.plugin>7.0.0.Final</version.wildfly-jar.maven.plugin>
+    <version.microprofile.bom>27.0.0.Final</version.microprofile.bom>
+    <version.server.bom>27.0.0.Final</version.server.bom>
+    <version.server.bootable-jar>27.0.0.Final</version.server.bootable-jar>
+    <version.wildfly-jar.maven.plugin>8.1.0.Final</version.wildfly-jar.maven.plugin>
     <version.jkube.maven.plugin>1.0.1</version.jkube.maven.plugin>
     <jkube.generator.from>registry.redhat.io/ubi8/openjdk-11:latest</jkube.generator.from>
   </properties>
@@ -99,7 +99,7 @@
       <!-- importing the jakartaee8-with-tools BOM adds specs and other useful artifacts as managed dependencies -->
       <dependency>
         <groupId>org.wildfly.bom</groupId>
-        <artifactId>wildfly-jakartaee8-with-tools</artifactId>
+        <artifactId>wildfly-ee-with-tools</artifactId>
         <version>${version.server.bom}</version>
         <type>pom</type>
         <scope>import</scope>
@@ -122,8 +122,8 @@
     </dependency>
     <!-- Import the Jakarta REST API, we use provided scope as the API is included in the server -->
     <dependency>
-      <groupId>org.jboss.spec.javax.ws.rs</groupId>
-      <artifactId>jboss-jaxrs-api_2.1_spec</artifactId>
+      <groupId>jakarta.ws.rs</groupId>
+      <artifactId>jakarta.ws.rs-api</artifactId>
       <scope>provided</scope>
     </dependency>
     <!-- Import the OpenTracing API for the use of io.opentracing.Tracer -->
@@ -154,9 +154,9 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>io.opentracing.contrib</groupId>
-      <artifactId>opentracing-tracerresolver</artifactId>
-      <version>0.1.8</version>
+      <groupId>io.smallrye</groupId>
+      <artifactId>smallrye-opentracing-contrib</artifactId>
+      <version>3.0.0</version>
       <scope>test</scope>
     </dependency>
   </dependencies>

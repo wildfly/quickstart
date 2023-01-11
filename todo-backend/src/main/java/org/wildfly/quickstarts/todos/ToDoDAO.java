@@ -24,7 +24,7 @@ package org.wildfly.quickstarts.todos;
 import java.util.List;
 import java.util.Optional;
 
-import javax.ejb.Local;
+import jakarta.ejb.Local;
 
 @Local
 public interface ToDoDAO {

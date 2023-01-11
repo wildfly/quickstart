@@ -19,8 +19,8 @@ package org.jboss.as.quickstarts.sfsb;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
-import javax.ejb.Remove;
-import javax.ejb.Stateful;
+import jakarta.ejb.Remove;
+import jakarta.ejb.Stateful;
 
 /**
  * @author Serge Pagop

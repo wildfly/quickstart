@@ -17,12 +17,12 @@
 
 package org.jboss.as.quickstarts.ejb.client;
 
-import javax.ejb.Stateless;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
+import jakarta.ejb.Stateless;
+import jakarta.ejb.TransactionAttribute;
+import jakarta.ejb.TransactionAttributeType;
 import javax.naming.NamingException;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 
 import org.jboss.as.quickstarts.ejb.entity.CallerUser;
 import org.jboss.as.quickstarts.ejb.server.RemoteBeanInterface;
@@ -175,7 +175,7 @@ public class RemoteBeanCaller {
 
     /**
      * <p>
-     * The method calls the remote EJB {@link javax.ejb.Stateful} endpoint.
+     * The method calls the remote EJB {@link jakarta.ejb.Stateful} endpoint.
      * </p>
      * <p>
      * To lookup the remote endpoint is used remote outbound connection defined in the <code>standalone.xml</code> configuration file.

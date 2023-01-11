@@ -18,7 +18,7 @@ package org.jboss.as.quickstarts.tasksJsf;
 
 import java.io.Serializable;
 
-import javax.enterprise.context.ConversationScoped;
+import jakarta.enterprise.context.ConversationScoped;
 
 /**
  * Store for current authenticated user

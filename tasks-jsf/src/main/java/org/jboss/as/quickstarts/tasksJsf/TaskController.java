@@ -16,10 +16,10 @@
  */
 package org.jboss.as.quickstarts.tasksJsf;
 
-import javax.enterprise.context.RequestScoped;
-import javax.enterprise.inject.Instance;
-import javax.inject.Inject;
-import javax.inject.Named;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.enterprise.inject.Instance;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
 /**
  * <p>
@@ -51,6 +51,17 @@ public class TaskController {
      */
     @Inject
     private CurrentTaskStore currentTaskStore;
+
+    private String taskTitle;
+
+    public String getTaskTitle() {
+        return taskTitle;
+    }
+
+    public TaskController setTaskTitle(String taskTitle) {
+        this.taskTitle = taskTitle;
+        return this;
+    }
 
     /**
      * Set the current task to the context

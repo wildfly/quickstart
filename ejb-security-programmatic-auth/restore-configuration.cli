@@ -6,9 +6,6 @@ batch
 # Remove the application security domain mapping from the ejb3 subsystem
 /subsystem=ejb3/application-security-domain=quickstart-domain:remove
 
-# Restore the http-remoting-connector configuration
-/subsystem=remoting/http-connector=http-remoting-connector:undefine-attribute(name=sasl-authentication-factory)
-
 # Run the batch commands
 run-batch
 

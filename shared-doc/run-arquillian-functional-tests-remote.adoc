@@ -1,0 +1,37 @@
+[[run_the_arquillian_functional_tests-remote]]
+= Run the Arquillian Functional Tests
+//******************************************************************************
+// Include this template if your quickstart provides standard Arquillian
+// functional tests.
+//******************************************************************************
+
+This quickstart provides Arquillian functional tests. They are located under the  `src/tests/` directory. Functional tests verify that your application behaves correctly from the user's point of view and simulate clicking around the web page as a normal user would do.
+
+Follow these steps to run the functional tests.
+
+ifdef::standalone-server-type[]
+. xref:start_the_eap_standalone_server[Start the {productName} server] as described above.
+
+endif::[]
+
+ifdef::managed-domain-type[]
+. xref:start_the_eap_managed_domain[Start the {productName} server] as described above.
+endif::[]
+
+ifdef::standalone-server-type,managed-domain-type[]
+. Type the following command to run the `verify` goal with the `arq-remote` profile activated.
+endif::[]
+ifndef::standalone-server-type,managed-domain-type[]
+. You need to start the provisioned server or the bootable jar server, as previously described.
+. Type the following command to run the `verify` goal with the `arq-remote` profile activated.
+endif::[]
+
+[source,options="nowrap"]
+----
+$ mvn verify -Parq-remote
+----
+
+[NOTE]
+====
+You may also use the environment variable `SERVER_HOST` or the system property `server.host` to define the target host of the tests.
+====

@@ -24,7 +24,7 @@ package org.jboss.as.quickstarts.helloworld;
 public class HelloService {
 
     String createHelloMessage(String name) {
-        return "Hello " + name + "!" + " Mutual SSL client authentication is successful and your war app is secured.!!";
+        return "Hello " + name + "!" + " Mutual TLS client authentication is successful and your war app is secured.!!";
     }
 
 }

@@ -6,14 +6,8 @@ batch
 # Remove Undertow's application security domain
 /subsystem=undertow/application-security-domain=servlet-security-quickstart:remove()
 
-# Remove the HTTP Authentication Factory
-/subsystem=elytron/http-authentication-factory=servlet-security-quickstart-http-auth:remove()
-
 # Remove the servlet-security-quickstart security domain
 /subsystem=elytron/security-domain=servlet-security-quickstart-sd:remove()
-
-# Remove a simple role decoder for the "roles" attribute mapping
-/subsystem=elytron/simple-role-decoder=from-roles-attribute:remove()
 
 # Remove the JDBC security realm creation
 /subsystem=elytron/jdbc-realm=servlet-security-jdbc-realm:remove()

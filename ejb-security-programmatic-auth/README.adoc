@@ -39,7 +39,7 @@ You configure the security domain by running JBoss CLI commands. For your conven
 * xref:back_up_standalone_server_configuration[Back up the {productName} standalone server configuration] as described above.
 * xref:start_the_eap_standalone_server[Start the {productName} server with the standalone default profile] as described above.
 
-. Review the `configure-elytron.cli` file in the root of this quickstart directory. This script adds the configuration that enables Elytron security for the quickstart components. Comments in the script describe the purpose of each block of commands.
+. Review the `configure-elytron.cli` file in the root of this quickstart directory. This script adds the configuration that enables security for the quickstart components. Comments in the script describe the purpose of each block of commands.
 . Open a new terminal, navigate to the root directory of this quickstart, and run the following command, replacing `__{jbossHomeName}__` with the path to your server.
 +
 [source,subs="+quotes,attributes+",options="nowrap"]
@@ -73,13 +73,14 @@ After stopping the server, open the `__{jbossHomeName}__/standalone/configuratio
 </application-security-domains>
 ----
 +
-The `application-security-domain` essentially enables Elytron security for the quickstart EJBs. It maps the `quickstart-domain` that was set in the EJBs via annotation to the Elytron `ApplicationDomain` that will be responsible for authenticating and authorizing access to the EJBs.
+The `application-security-domain` essentially enables security for the quickstart EJBs. It maps the `quickstart-domain` that was set in the EJBs via annotation to the Elytron `ApplicationDomain` that will be responsible for authenticating and authorizing access to the EJBs.
 
-. The `http-connector` in the `remoting` subsystem was updated to use the `application-sasl-authentication` authentication factory:
+. Take a look at the existing `http-connector` configuration in the `remoting` subsystem. Notice that it uses the `application-sasl-authentication` authentication factory,
+which references the `ApplicationDomain` security domain mentioned above:
 +
 [source,xml,options="nowrap"]
 ----
-<http-connector name="http-remoting-connector" connector-ref="default" security-realm="ApplicationRealm" sasl-authentication-factory="application-sasl-authentication"/>
+<http-connector name="http-remoting-connector" connector-ref="default" sasl-authentication-factory="application-sasl-authentication"/>
 ----
 +
 This allows for the identity that was established in the connection authentication to be propagated to the components.

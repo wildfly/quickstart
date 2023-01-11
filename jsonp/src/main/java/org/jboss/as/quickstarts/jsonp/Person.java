@@ -16,7 +16,7 @@
  */
 package org.jboss.as.quickstarts.jsonp;
 
-import javax.enterprise.inject.Model;
+import jakarta.enterprise.inject.Model;
 
 @Model
 public class Person {

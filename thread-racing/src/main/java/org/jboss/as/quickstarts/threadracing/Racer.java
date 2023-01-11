@@ -22,15 +22,15 @@ import org.jboss.as.quickstarts.threadracing.stage.jaxrs.JAXRSRaceStage;
 import org.jboss.as.quickstarts.threadracing.stage.jms.JMSRaceStage;
 import org.jboss.as.quickstarts.threadracing.stage.json.JSONRaceStage;
 
-import javax.annotation.Resource;
-import javax.enterprise.concurrent.ManagedThreadFactory;
-import javax.inject.Inject;
+import jakarta.annotation.Resource;
+import jakarta.enterprise.concurrent.ManagedThreadFactory;
+import jakarta.inject.Inject;
 import java.util.UUID;
 
 /**
  * A racer, a CDI bean injected with an instance of each race stage, which are also CDI beans.
  *
- * The race stages are run sequentially in a managed thread, provided by the container's EE Concurrency 1.0 {@link javax.enterprise.concurrent.ManagedThreadFactory} default instance, also injected, but through @Resource.
+ * The race stages are run sequentially in a managed thread, provided by the container's EE Concurrency 1.0 {@link jakarta.enterprise.concurrent.ManagedThreadFactory} default instance, also injected, but through @Resource.
  *
  * The race's {@link org.jboss.as.quickstarts.threadracing.Race.Registration} is used to control the racer's start and finish/abort.
  *
@@ -117,7 +117,7 @@ public class Racer {
     }
 
     /**
-     * Starts the racer's engine a.k.a. as thread. The default {@link javax.enterprise.concurrent.ManagedThreadFactory} instance, provided by EE Concurrency 1.0, is used to create the racer's thread.
+     * Starts the racer's engine a.k.a. as thread. The default {@link jakarta.enterprise.concurrent.ManagedThreadFactory} instance, provided by EE Concurrency 1.0, is used to create the racer's thread.
      */
     public void startEngine() {
         final Runnable raceTask = new Runnable() {

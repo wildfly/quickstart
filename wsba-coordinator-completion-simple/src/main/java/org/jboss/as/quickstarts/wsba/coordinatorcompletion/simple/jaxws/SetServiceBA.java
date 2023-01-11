@@ -19,9 +19,9 @@ package org.jboss.as.quickstarts.wsba.coordinatorcompletion.simple.jaxws;
 import org.jboss.as.quickstarts.wsba.coordinatorcompletion.simple.AlreadyInSetException;
 import org.jboss.as.quickstarts.wsba.coordinatorcompletion.simple.SetServiceException;
 
-import javax.jws.WebMethod;
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
+import jakarta.jws.WebMethod;
+import jakarta.jws.WebService;
+import jakarta.jws.soap.SOAPBinding;
 
 /**
  * Interface implemented by SetServiceBA Web service and Client stub.

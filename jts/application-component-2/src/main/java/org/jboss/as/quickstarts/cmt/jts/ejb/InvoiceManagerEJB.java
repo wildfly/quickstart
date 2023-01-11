@@ -18,8 +18,8 @@ package org.jboss.as.quickstarts.cmt.jts.ejb;
 
 import java.rmi.RemoteException;
 
-import javax.ejb.EJBObject;
-import javax.jms.JMSException;
+import jakarta.ejb.EJBObject;
+import jakarta.jms.JMSException;
 
 public interface InvoiceManagerEJB extends EJBObject {
 

@@ -18,9 +18,9 @@ package org.wildfly.quickstarts.microprofile.reactive.messaging;
 
 import java.sql.Timestamp;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 
 /**
  * @author <a href="mailto:kabir.khan@jboss.com">Kabir Khan</a>

@@ -16,7 +16,7 @@
  */
 package org.jboss.as.quickstarts.tasksJsf;
 
-import javax.ejb.Local;
+import jakarta.ejb.Local;
 
 /**
  * Basic operations for manipulation with users

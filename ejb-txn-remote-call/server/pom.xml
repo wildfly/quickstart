@@ -30,15 +30,15 @@
     </parent>
 
     <artifactId>ejb-txn-remote-call-server</artifactId>
-    <version>27.0.0.Beta1-SNAPSHOT</version>
+    <version>28.0.0.Beta1-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>Quickstart: ejb-txn-remote-call-server</name>
     <description>The project is the application to be deployed on the second server to receive the call</description>
 
     <properties>
         <!-- The versions for BOMs, Dependencies and Plugins -->
-        <version.narayana>5.10.6.Final</version.narayana>
-        <version.server.bom>26.0.0.Final</version.server.bom>
+        <version.narayana>5.13.0.Final</version.narayana>
+        <version.server.bom>27.0.0.Final</version.server.bom>
     </properties>
 
     <repositories>
@@ -101,7 +101,7 @@
             <!-- importing the jakartaee8-with-tools BOM adds specs and other useful artifacts as managed dependencies -->
             <dependency>
                 <groupId>org.wildfly.bom</groupId>
-                <artifactId>wildfly-jakartaee8-with-tools</artifactId>
+                <artifactId>wildfly-ee-with-tools</artifactId>
                 <version>${version.server.bom}</version>
                 <type>pom</type>
                 <scope>import</scope>
@@ -112,26 +112,26 @@
     <dependencies>
         <!-- Import the WS/JAX-RS -->
         <dependency>
-            <groupId>org.jboss.spec.javax.ws.rs</groupId>
-            <artifactId>jboss-jaxrs-api_2.1_spec</artifactId>
+            <groupId>jakarta.ws.rs</groupId>
+            <artifactId>jakarta.ws.rs-api</artifactId>
             <scope>provided</scope>
         </dependency>
         <!-- Import the EJB API -->
         <dependency>
-            <groupId>org.jboss.spec.javax.ejb</groupId>
-            <artifactId>jboss-ejb-api_3.2_spec</artifactId>
+            <groupId>jakarta.ejb</groupId>
+            <artifactId>jakarta.ejb-api</artifactId>
             <scope>provided</scope>
         </dependency>
         <!-- Import the Common Annotations API (JSR-250) -->
         <dependency>
-            <groupId>org.jboss.spec.javax.annotation</groupId>
-            <artifactId>jboss-annotations-api_1.3_spec</artifactId>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
             <scope>provided</scope>
         </dependency>
         <!-- Import the JTA API -->
         <dependency>
-            <groupId>org.jboss.spec.javax.transaction</groupId>
-            <artifactId>jboss-transaction-api_1.3_spec</artifactId>
+            <groupId>jakarta.transaction</groupId>
+            <artifactId>jakarta.transaction-api</artifactId>
             <scope>provided</scope>
         </dependency>
         <!-- Import the JPA/Hibernate API -->
@@ -149,7 +149,7 @@
         <!-- for Mock XAResource recovery we need the dependency to Narayana -->
         <dependency>
             <groupId>org.jboss.narayana.jts</groupId>
-            <artifactId>narayana-jts-idlj</artifactId>
+            <artifactId>narayana-jts-idlj-jakarta</artifactId>
             <version>${version.narayana}</version>
             <scope>provided</scope>
         </dependency>

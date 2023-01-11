@@ -30,7 +30,7 @@
         Maintain separation between the artifact id and the version to help prevent
         merge conflicts between commits changing the GA and those changing the V.
         -->
-    <version>27.0.0.Beta1-SNAPSHOT</version>
+    <version>28.0.0.Beta1-SNAPSHOT</version>
 
     <packaging>pom</packaging>
 
@@ -52,7 +52,7 @@
         <product.name>WildFly</product.name>
         <!-- A base list of dependency and plug-in version used in the various quick starts. -->
         <version.org.asciidoctor.asciidoctor-maven-plugin>2.1.0</version.org.asciidoctor.asciidoctor-maven-plugin>
-        <version.wildfly.maven.plugin>2.0.2.Final</version.wildfly.maven.plugin>
+        <version.wildfly.maven.plugin>4.0.0.Final</version.wildfly.maven.plugin>
         <version.org.wildfly.checkstyle-config>1.0.7.Final</version.org.wildfly.checkstyle-config>
         <version.org.wildfly.quickstarts.documentation.plugin>2.3.0.Final</version.org.wildfly.quickstarts.documentation.plugin>
         <!-- other plug-in versions -->
@@ -300,41 +300,60 @@
                 <!-- All the modules that require nothing but JBoss Enterprise
                     Application Platform or JBoss EAP -->
                 <module>batch-processing</module>
-                <module>bean-validation-custom-constraint</module>
+                <!-- disabled waiting for jakarta migration
                 <module>bmt</module>
+                -->
+                <module>bean-validation-custom-constraint</module>
                 <module>cmt</module>
+                <!-- disabled waiting for jakarta migration
                 <module>contacts-jquerymobile</module>
+                -->
                 <module>ee-security</module>
+                <!-- disabled waiting for jakarta migration
                 <module>ejb-multi-server</module>
+                -->
                 <module>ejb-security-context-propagation</module>
                 <module>ejb-security-programmatic-auth</module>
                 <module>ejb-throws-exception</module>
                 <module>ejb-timer</module>
+                <!-- disabled waiting for jakarta migration
                 <module>ejb-txn-remote-call</module>
+                -->
                 <module>ha-singleton-deployment</module>
                 <module>ha-singleton-service</module>
                 <module>helloworld</module>
+                <!-- disabled waiting for jakarta migration
                 <module>helloworld-jms</module>
+                -->
                 <module>helloworld-mdb</module>
+
                 <module>helloworld-mutual-ssl</module>
                 <module>helloworld-mutual-ssl-secured</module>
                 <module>helloworld-singleton</module>
                 <module>helloworld-ws</module>
+                <!-- disabled waiting for jakarta migration
                 <module>hibernate</module>
                 <module>http-custom-mechanism</module>
-                <module>jaxrs-client</module>
-                <!-- disabled due to resteasy move to 4.x 
-                <module>jaxrs-jwt</module>
                 -->
+                <module>jaxrs-client</module>
+                <module>jaxrs-jwt</module>
+                <!-- disabled waiting for jakarta migration
                 <module>jaxws-ejb</module>
                 <module>jaxws-retail</module>
                 <module>jsonp</module>
+                -->                
                 <module>kitchensink</module>
+                <!-- disabled waiting for jakarta migration
                 <module>logging</module>
+                -->
                 <module>mail</module>
+                <!-- disabled waiting for jakarta migration
                 <module>messaging-clustering-singleton</module>
+                -->
                 <module>microprofile-config</module>
+                <!--
                 <module>microprofile-fault-tolerance</module>
+                -->
                 <module>microprofile-health</module>
                 <module>microprofile-jwt</module>
                 <module>microprofile-metrics</module>
@@ -344,16 +363,22 @@
                 <module>microprofile-rest-client</module>
                 <module>numberguess</module>
                 <module>security-domain-to-domain</module>
+                <!-- disabled waiting for jakarta migration
                 <module>servlet-async</module>
                 <module>servlet-filterlistener</module>
+                -->
                 <module>servlet-security</module>
                 <module>shopping-cart</module>
+                <!-- disabled waiting for jakarta migration
                 <module>spring-resteasy</module>
                 <module>tasks-jsf</module>
+                -->
                 <module>temperature-converter</module>
                 <module>todo-backend</module>
                 <module>thread-racing</module>
+                <!-- disabled waiting for jakarta migration
                 <module>websocket-endpoint</module>
+                -->
                 <module>websocket-hello</module>
             </modules>
         </profile>
@@ -368,7 +393,9 @@
                 </property>
             </activation>
             <modules>
+                <!-- disabled waiting for jakarta migration
                 <module>jts</module>
+                -->
             </modules>
         </profile>
         <profile>
@@ -383,7 +410,9 @@
             </activation>
             <modules>
                 <module>ejb-remote</module>
+                <!-- disabled waiting for jakarta migration
                 <module>jts</module>
+                -->
             </modules>
         </profile>
         <profile>
@@ -399,7 +428,9 @@
             </activation>
             <modules>
                 <module>helloworld-mdb</module>
+                <!-- disabled waiting for jakarta migration
                 <module>jta-crash-rec</module>
+                -->
             </modules>
         </profile>
         <profile>
@@ -413,15 +444,19 @@
                 </property>
             </activation>
             <modules>
+                <!-- disabled waiting for jakarta migration
                 <module>wsat-simple</module>
                 <module>wsba-coordinator-completion-simple</module>
                 <module>wsba-participant-completion-simple</module>
+                -->
             </modules>
         </profile>
         <profile>
             <id>functional-tests</id>
             <modules>
+                <!-- disabled waiting for jakarta migration
                 <module>contacts-jquerymobile/functional-tests</module>
+                -->
             </modules>
         </profile>
 
@@ -434,7 +469,7 @@
             </activation>
             <build>
                 <plugins>
-                    <!-- tmp disabling refresh of root readme ToC -->
+                    <!-- tmp disabling refresh of root readme ToC
                     <plugin>
                         <groupId>org.wildfly.maven.plugins</groupId>
                         <artifactId>quickstart-documentation-plugin</artifactId>
@@ -454,6 +489,7 @@
                             </execution>
                         </executions>
                     </plugin>
+                    -->
                     <plugin>
                         <groupId>org.asciidoctor</groupId>
                         <artifactId>asciidoctor-maven-plugin</artifactId>

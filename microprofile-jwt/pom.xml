@@ -29,7 +29,7 @@
     </parent>
 
     <artifactId>microprofile-jwt</artifactId>
-    <version>27.0.0.Beta1-SNAPSHOT</version>
+    <version>28.0.0.Beta1-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>Quickstart: microprofile-jwt</name>
     <description>Example project making use of MicroProfile JWT</description>
@@ -46,10 +46,10 @@
         <!-- The versions for BOMs, Dependencies and Plugins -->
         <version.com.nimbusds.jose.jwt>5.4</version.com.nimbusds.jose.jwt>
         <version.glassfish.json>1.1.6</version.glassfish.json>
-        <version.microprofile.bom>26.0.0.Final</version.microprofile.bom>
-        <version.server.bom>26.0.0.Final</version.server.bom>
-        <version.server.bootable-jar>26.0.0.Final</version.server.bootable-jar>
-        <version.wildfly-jar.maven.plugin>7.0.0.Final</version.wildfly-jar.maven.plugin>
+        <version.microprofile.bom>27.0.0.Final</version.microprofile.bom>
+        <version.server.bom>27.0.0.Final</version.server.bom>
+        <version.server.bootable-jar>27.0.0.Final</version.server.bootable-jar>
+        <version.wildfly-jar.maven.plugin>8.1.0.Final</version.wildfly-jar.maven.plugin>
         <version.jkube.maven.plugin>1.0.1</version.jkube.maven.plugin>
         <jkube.generator.from>registry.redhat.io/ubi8/openjdk-11:latest</jkube.generator.from>
     </properties>
@@ -113,7 +113,7 @@
         <dependencies>
             <dependency>
                 <groupId>org.wildfly.bom</groupId>
-                <artifactId>wildfly-jakartaee8-with-tools</artifactId>
+                <artifactId>wildfly-ee-with-tools</artifactId>
                 <version>${version.server.bom}</version>
                 <type>pom</type>
                 <scope>import</scope>
@@ -148,15 +148,15 @@
         <!-- Import the Common Annotations API (JSR-250), we use provided scope
         as the API is included in JBoss EAP -->
         <dependency>
-            <groupId>org.jboss.spec.javax.annotation</groupId>
-            <artifactId>jboss-annotations-api_1.3_spec</artifactId>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
             <scope>provided</scope>
         </dependency>
 
         <!-- Import the JAX-RS API, we use provided scope as the API is included in JBoss EAP -->
         <dependency>
-            <groupId>org.jboss.spec.javax.ws.rs</groupId>
-            <artifactId>jboss-jaxrs-api_2.1_spec</artifactId>
+            <groupId>jakarta.ws.rs</groupId>
+            <artifactId>jakarta.ws.rs-api</artifactId>
             <scope>provided</scope>
         </dependency>
 
@@ -181,6 +181,11 @@
         <dependency>
             <groupId>jakarta.json</groupId>
             <artifactId>jakarta.json-api</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.parsson</groupId>
+            <artifactId>parsson</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -364,4 +369,3 @@
     </profiles>
 
 </project>
-

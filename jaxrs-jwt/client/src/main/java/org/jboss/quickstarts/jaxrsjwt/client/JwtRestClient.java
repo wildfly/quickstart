@@ -18,11 +18,11 @@ package org.jboss.quickstarts.jaxrsjwt.client;
 
 import org.jboss.quickstarts.jaxrsjwt.model.Jwt;
 
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.core.Form;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.client.Entity;
+import jakarta.ws.rs.core.Form;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
 public class JwtRestClient {
     private static final String AUTHZ_HEADER = "Authorization";

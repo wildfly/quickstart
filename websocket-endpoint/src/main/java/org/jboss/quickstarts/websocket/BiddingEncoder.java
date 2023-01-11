@@ -18,13 +18,13 @@ package org.jboss.quickstarts.websocket;
 
 import java.io.StringWriter;
 
-import javax.json.Json;
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonObjectBuilder;
-import javax.json.JsonWriter;
-import javax.websocket.EncodeException;
-import javax.websocket.Encoder.Text;
-import javax.websocket.EndpointConfig;
+import jakarta.json.Json;
+import jakarta.json.JsonArrayBuilder;
+import jakarta.json.JsonObjectBuilder;
+import jakarta.json.JsonWriter;
+import jakarta.websocket.EncodeException;
+import jakarta.websocket.Encoder.Text;
+import jakarta.websocket.EndpointConfig;
 
 import org.jboss.quickstarts.websocket.model.Bid;
 import org.jboss.quickstarts.websocket.model.Bidding;

@@ -1,12 +1,12 @@
 include::../shared-doc/attributes.adoc[]
 
-= helloworld-mutual-ssl: {productName} Mutual SSL(two-way) Configuration Example
+= helloworld-mutual-ssl: {productName} Mutual TLS(two-way) Configuration Example
 :author: Giriraj Sharma, Stefan Guilhen
 :level: Intermediate
-:technologies: Mutual SSL, Undertow
+:technologies: Mutual TLS, Undertow
 
 [abstract]
-The `helloworld-mutual-ssl` quickstart is a basic example that demonstrates mutual SSL configuration in {productName}
+The `helloworld-mutual-ssl` quickstart is a basic example that demonstrates mutual TLS configuration in {productName}
 
 :standalone-server-type: default
 :archiveType: war
@@ -14,19 +14,19 @@ The `helloworld-mutual-ssl` quickstart is a basic example that demonstrates mutu
 
 == What is it?
 
-Mutual SSL provides the same security as SSL, with the addition of authentication and non-repudiation of the client authentication, using digital signatures. When mutual authentication is used, the server requests the client to provide a certificate in addition to the server certificate issued to the client. Mutual authentication requires an extra round trip each time for client certificate exchange. In addition, the client must buy and maintain a digital certificate.
+Mutual TLS provides the same security as TLS, with the addition of authentication and non-repudiation of the client authentication, using digital signatures. When mutual authentication is used, the server requests the client to provide a certificate in addition to the server certificate issued to the client. Mutual authentication requires an extra round trip each time for client certificate exchange. In addition, the client must obtain and maintain a digital certificate.
 
-This quickstart shows how to configure {productName} to enable TLS/SSL configuration for the new {productName} `undertow` subsystem and enable mutual (two-way) SSL authentication.
+The out of the box configuration for {productName} has one-way TLS enabled by default. This quickstart shows how to configure {productName} with mutual (two-way) TLS authentication.
 
-Before you run this example, you must create certificates and configure the server to use two-way SSL.
+Before you run this example, you must create the client certificate and configure the server to use two-way TLS.
 
 // System Requirements
 include::../shared-doc/system-requirements.adoc[leveloffset=+1]
 // Use of {jbossHomeName}
 include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
 
-[[set_up_client_and_server_keystores_using_java_keytool]]
-== Set Up Client and Server Keystores Using Java Keytool
+[[set_up_client_keystore_using_java_keytool]]
+== Set Up the Client Keystore Using Java Keytool
 
 . Open a terminal and navigate to the {productName} server `configuration` directory:
 +
@@ -35,29 +35,7 @@ include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
 $ cd __{jbossHomeName}__/standalone/configuration/
 ----
 
-. Create a certificate for your server using the following command:
-+
-[source,options="nowrap"]
-----
-$>keytool -genkey -keyalg RSA -keystore server.keystore -storepass secret -keypass secret -validity 365
-
-What is your first and last name?
-   [Unknown]:  localhost
-What is the name of your organizational unit?
-   [Unknown]:  wildfly
-What is the name of your organization?
-   [Unknown]:  jboss
-What is the name of your City or Locality?
-   [Unknown]:  Raleigh
-What is the name of your State or Province?
-   [Unknown]:  Carolina
-What is the two-letter country code for this unit?
-   [Unknown]:  US
-Is CN=localhost, OU=wildfly, O=jboss, L=Raleigh, ST=Carolina, C=US correct?
-   [no]:  yes
-----
-
-. Create the client certificate, which is used to authenticate against the server when accessing a resource through SSL.
+. Create the client certificate, which is used to authenticate against the server when accessing a resource through TLS.
 +
 [source,options="nowrap"]
 ----
@@ -118,7 +96,7 @@ Certificate was added to keystore
 $>keytool -importkeystore -srckeystore client.keystore -srcstorepass secret -destkeystore clientCert.p12 -srcstoretype PKCS12 -deststoretype PKCS12 -deststorepass secret
 ----
 
-. The certificates and keystores are now properly configured.
+. The certificate and keystore are now properly configured.
 
 // Back Up the {productName} Standalone Server Configuration
 include::../shared-doc/back-up-server-standalone-configuration.adoc[leveloffset=+1]
@@ -161,31 +139,15 @@ process-state: reload-required
 
 After stopping the server, open the `__{jbossHomeName}__/standalone/configuration/standalone.xml` file and review the changes.
 
-. The following `keystore` elements were added to the `elytron` subsystem:
+. The following `keystore` element was added to the `elytron` subsystem:
 +
 [source,xml,options="nowrap"]
 ----
-<key-store name="qsKeyStore">
-    <credential-reference clear-text="secret"/>
-    <implementation type="JKS"/>
-    <file path="server.keystore" relative-to="jboss.server.config.dir"/>
-</key-store>
 <key-store name="qsTrustStore">
     <credential-reference clear-text="secret"/>
     <implementation type="JKS"/>
     <file path="client.truststore" relative-to="jboss.server.config.dir"/>
 </key-store>
-----
-
-. The following `key-manager` was added to the `elytron` subsystem:
-+
-[source,xml,options="nowrap"]
-----
-<key-managers>
-    <key-manager name="qsKeyManager" key-store="qsKeyStore">
-        <credential-reference clear-text="secret"/>
-    </key-manager>
-</key-managers>
 ----
 
 . The following `trust-manager` was added to the `elytron` subsystem:
@@ -198,28 +160,23 @@ After stopping the server, open the `__{jbossHomeName}__/standalone/configuratio
 </trust-managers>
 ----
 
-. The following `ssl-context` was added to the `elytron` subsystem:
+. The default `ssl-context` was updated to reference the `trust-manager` to enable two-way TLS:
 
 +
 [source,xml,options="nowrap"]
 ----
 <server-ssl-contexts>
-    <server-ssl-context name="qsSSLContext" protocols="TLSv1.2" need-client-auth="true" key-manager="qsKeyManager" trust-manager="qsTrustManager"/>
+    <server-ssl-context name="applicationSSC" need-client-auth="true" key-manager="applicationKM" trust-manager="qsTrustManager"/>
 </server-ssl-contexts>
 ----
 
-. The `https-listener` in the `undertow` subsystem was changed to reference the `qsSSLContext` `ssl-context`:
-
 +
-[source,xml,options="nowrap"]
-----
-<https-listener name="https" socket-binding="https" ssl-context="qsSSLContext" enable-http2="true"/>
-----
+Note that the `https-listener` in the `undertow` subsystem references the `applicationSSC` `server-ssl-context` by default.
 
 [[test_the_server_ssl_configuration]]
-== Test the Server SSL Configuration
+== Test the Server TLS Configuration
 
-To test the SSL configuration, access: https://localhost:8443
+To test the TLS configuration, access: https://localhost:8443
 
 If it is configured correctly, you should be asked to trust the server certificate.
 
@@ -232,18 +189,17 @@ Before you access the application, you must import the _clientCert.p12_, which h
 === Import the Client Certificate into Google Chrome
 
 . Click the Chrome menu icon (3 dots) in the upper right on the browser toolbar and choose *Settings*. This takes you to `link:`chrome://settings/`.
-. Scroll to the bottom of the page and click on the *Advanced* link to reveal the advanced settings.
-. Search for the *Manage Certificates* line under *Privacy and security* and then click on it.
-. In the *Manage certificates* screen, select the *Your Certificates* tab and click on the *Import* button.
+. Click on *Privacy and security* and then on *Security*.
+. Scroll down to the *Advanced* section and on the *Manage certificates* screen, select the *Your Certificates* tab and click on the *Import* button.
 . Select the *clientCert.p12* file. You will be prompted to enter the password: `secret`.
 . The client certificate is now installed in the Google Chrome browser.
 
 [[import_the_client_certificate_into_mozilla_firefox]]
 === Import the Client Certificate into Mozilla Firefox
 
-. Click the *Edit* menu item on the browser menu and choose *Preferences*.
-. A new window will open. Select the *Advanced* icon and after that the *Certificates* tab.
-. On the *Certificates* tab, mark the option *Ask me every time* and click the *View Certificates* button.
+. Click the *Edit* menu item on the browser menu and choose *Settings*.
+. A new window will open. Click on *Privacy & Security* and scroll down to the *Certificates* section.
+. Click the *View Certificates* button.
 . A new window will open. Select the *Your Certificates* tab and click the *Import* button.
 . Select the *clientCert.p12* file. You will be prompted to enter the password: `secret`.
 . The certificate is now installed in the Mozilla Firefox browser.
@@ -259,7 +215,7 @@ A page displaying the client certificate should be visible:
 
 [source,options="nowrap"]
 ----
-Hello World ! WildFly mutual SSL is configured and client certificate is verified !!
+Hello World ! WildFly mutual TLS is configured and client certificate is verified !!
 
 Client Certificate Pem: MIIDhTCCAm2gAwIBAgIEf9lc5DANBgkqhkiG9w0BAQsFADBzMQswCQYDVQQGEwJCUjESMBAGA1UECBMJU2FvIFBhd
 WxvMRIwEAYDVQQHEwlTYW8gUGF1bG8xEzARBgNVBAoTCk15IENvbXBhbnkxDjAMBgNVBAsTBVNhbGVzMRcwFQYDVQQDEw5xdWlja3N0YXJ0VXNlcj
@@ -302,7 +258,7 @@ include::../shared-doc/restore-standalone-server-configuration-manual.adoc[level
 $ cd __{jbossHomeName}__/standalone/configuration/
 ----
 
-. Remove the `clientCert.p12`, `client.crt`, `client.keystore`, `client.truststore` and `server.keystore` files that
+. Remove the `clientCert.p12`, `client.crt`, `client.keystore`, and `client.truststore` files that
 were generated for this quickstart.
 
 [[remove_the_client_certificate_from_your_browser]]
@@ -313,17 +269,16 @@ After you are done with this quickstart, remember to remove the certificate that
 === Remove the Client Certificate from Google Chrome
 
 . Click the Chrome menu icon (3 dots) in the upper right on the browser toolbar and choose *Settings*. This takes you to chrome://settings/.
-. Scroll to the bottom of the page and click on the *Advanced* link to reveal the advanced settings.
-. Search for the *Manage Certificates* line under *Privacy and security* and then click on it.
-. In the *Manage certificates* screen, select the *Your Certificates* tab and then click on the arrow to the right of the certificate to be removed.
+. Click on *Privacy and security* and then on *Security*.
+. Scroll down to the *Advanced* section and on the *Manage certificates* screen, select the *Your Certificates* tab and click on the arrow to the right of the certificate to be removed.
 . The certificate is expanded, displaying the `quickstartUser` entry. Click on the icon (3 dots) to the right of it and then select *Delete*.
 . Confirm the deletion in the dialog box. The certificate has now been removed from the Google Chrome browser.
 
 === Remove the Client Certificate from Mozilla Firefox
 
 . Click the *Edit* menu item on the browser menu and choose *Preferences*.
-. A new window will open. Select the *Advanced* icon and after that the *Certificates* tab.
-. On the *Certificates* tab click the *View Certificates* button.
+. A new window will open. Click on *Privacy & Security* and scroll down to the *Certificates* section.
+. Click the *View Certificates* button.
 . A new window will open. Select the *Your Certificates* tab.
 . Select the `quickstartUser` certificate and click the `Delete` button.
 . The certificate has now been removed from the Mozilla Firefox browser.
@@ -332,7 +287,7 @@ After you are done with this quickstart, remember to remove the certificate that
 include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
 
 // Additional Red Hat CodeReady Studio instructions
-* Make sure you configure the keystores and client certificates as described under xref:set_up_client_and_server_keystores_using_java_keytool[Set Up Client and Server Keystores Using Java Keytool].
+* Make sure you configure the keystore and client certificate as described under xref:set_up_client_keystore_using_java_keytool[Set Up the Client Keystore Using Java Keytool].
 * Depending on the browser you choose, make sure you either xref:import_the_client_certificate_into_google_chrome[import the certificate into Google Chrome] or xref:import_the_client_certificate_into_mozilla_firefox[import the certificate into Mozilla Firefox].
 * Make sure you configure the server by running the JBoss CLI commands as described above under xref:configure_the_server[Configure the Server]. Stop the server at the end of that step.
 * In {JBDSProductName}, choose *Window* –> *Web Browser*, then select the browser you chose to import the certificate.

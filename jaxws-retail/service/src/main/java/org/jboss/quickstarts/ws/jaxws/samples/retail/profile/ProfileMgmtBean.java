@@ -16,10 +16,10 @@
  */
 package org.jboss.quickstarts.ws.jaxws.samples.retail.profile;
 
-import javax.ejb.Stateless;
-import javax.jws.WebService;
-import javax.jws.WebMethod;
-import javax.jws.soap.SOAPBinding;
+import jakarta.ejb.Stateless;
+import jakarta.jws.WebService;
+import jakarta.jws.WebMethod;
+import jakarta.jws.soap.SOAPBinding;
 
 /**
  *

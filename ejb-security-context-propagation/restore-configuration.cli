@@ -7,7 +7,6 @@ batch
 /subsystem=elytron/sasl-authentication-factory=application-sasl-authentication:write-attribute(name=mechanism-configurations,value=[{mechanism-name=JBOSS-LOCAL-USER,realm-mapper=local},{mechanism-name=DIGEST-MD5,mechanism-realm-configurations=[{realm-name=ApplicationRealm}]}])
 
 # Remove the remote outbound connection
-/subsystem=remoting/http-connector=http-remoting-connector:undefine-attribute(name=sasl-authentication-factory)
 /subsystem=remoting/remote-outbound-connection=ejb-outbound-connection:remove
 
 # Remove the outbound socket binding

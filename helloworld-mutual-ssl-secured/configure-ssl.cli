@@ -3,12 +3,13 @@
 # Start batching commands
 batch
 
-# Add the keystores, key manager, trust manager and ssl context configuration in the elytron subsystem
-/subsystem=elytron/key-store=qsKeyStore:add(path=server.keystore,relative-to=jboss.server.config.dir,type=JKS,credential-reference={clear-text=secret})
+# Add the keystore and trust manager configuration in the elytron subsystem
 /subsystem=elytron/key-store=qsTrustStore:add(path=client.truststore,relative-to=jboss.server.config.dir,type=JKS,credential-reference={clear-text=secret})
-/subsystem=elytron/key-manager=qsKeyManager:add(key-store=qsKeyStore,credential-reference={clear-text=secret})
 /subsystem=elytron/trust-manager=qsTrustManager:add(key-store=qsTrustStore)
-/subsystem=elytron/server-ssl-context=qsSSLContext:add(key-manager=qsKeyManager,trust-manager=qsTrustManager,protocols=[TLSv1.2],need-client-auth=true)
+
+# Update the default server-ssl-context to reference the new trust-manager and require client auth
+/subsystem=elytron/server-ssl-context=applicationSSC:write-attribute(name=trust-manager, value=qsTrustManager)
+/subsystem=elytron/server-ssl-context=applicationSSC:write-attribute(name=need-client-auth, value=true)
 
 # Add a keystore realm that relies on the truststore to authenticate requests
 /subsystem=elytron/key-store-realm=KeyStoreRealm:add(key-store=qsTrustStore)
@@ -24,10 +25,6 @@ batch
 
 # Add the http-authentication-factory that uses the new security domain for the CLIENT_CERT authentication
 /subsystem=elytron/http-authentication-factory=quickstart-http-authentication:add(security-domain=QuickstartDomain,http-server-mechanism-factory=global,mechanism-configurations=[{mechanism-name=CLIENT_CERT}])
-
-# Change the undertow subsystem configuration to use the ssl context configured above for https
-/subsystem=undertow/server=default-server/https-listener=https:undefine-attribute(name=security-realm)
-/subsystem=undertow/server=default-server/https-listener=https:write-attribute(name=ssl-context,value=qsSSLContext)
 
 # Add an application-security-domain in the undertow subsystem to map the client_cert_domain from the quickstart app to the http-authentication-factory
 /subsystem=undertow/application-security-domain=client_cert_domain:add(http-authentication-factory=quickstart-http-authentication)

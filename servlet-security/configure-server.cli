@@ -6,24 +6,18 @@ batch
 /subsystem=datasources/data-source=ServletSecurityDS:add(connection-url="jdbc:h2:mem:servlet-security;DB_CLOSE_ON_EXIT=FALSE", jndi-name="java:jboss/datasources/ServletSecurityDS", driver-name=h2, user-name="sa", password="sa")
 
 # Add the JDBC security realm creation
-/subsystem=elytron/jdbc-realm=servlet-security-jdbc-realm:add(principal-query=[{sql="SELECT PASSWORD FROM USERS WHERE USERNAME = ?", data-source="ServletSecurityDS", clear-password-mapper={password-index=1}},{sql="SELECT R.NAME, 'Roles' FROM USERS_ROLES UR INNER JOIN ROLES R ON R.ID = UR.ROLE_ID INNER JOIN USERS U ON U.ID = UR.USER_ID WHERE U.USERNAME = ?", data-source="ServletSecurityDS", attribute-mapping=[{index=1, to=roles}]}])
-
-# Add a simple role decoder for the "roles" attribute mapping
-/subsystem=elytron/simple-role-decoder=from-roles-attribute:add(attribute=roles)
+/subsystem=elytron/jdbc-realm=servlet-security-jdbc-realm:add(principal-query=[{sql="SELECT PASSWORD FROM USERS WHERE USERNAME = ?", data-source="ServletSecurityDS", clear-password-mapper={password-index=1}},{sql="SELECT R.NAME, 'Roles' FROM USERS_ROLES UR INNER JOIN ROLES R ON R.ID = UR.ROLE_ID INNER JOIN USERS U ON U.ID = UR.USER_ID WHERE U.USERNAME = ?", data-source="ServletSecurityDS", attribute-mapping=[{index=1, to=Roles}]}])
 
 # Configure the servlet-security-quickstart security domain
-/subsystem=elytron/security-domain=servlet-security-quickstart-sd:add(default-realm=servlet-security-jdbc-realm, realms=[{realm=servlet-security-jdbc-realm, role-decoder=from-roles-attribute}], permission-mapper=default-permission-mapper)
-
-# Configure the HTTP Authentication Factory
-/subsystem=elytron/http-authentication-factory=servlet-security-quickstart-http-auth:add(http-server-mechanism-factory=global,security-domain=servlet-security-quickstart-sd,mechanism-configurations=[{mechanism-name=BASIC,mechanism-realm-configurations=[{realm-name=RealmUsersRoles}]}])
+/subsystem=elytron/security-domain=servlet-security-quickstart-sd:add(default-realm=servlet-security-jdbc-realm, realms=[{realm=servlet-security-jdbc-realm}], permission-mapper=default-permission-mapper)
 
 # Configure Undertow's application security domain
-/subsystem=undertow/application-security-domain=servlet-security-quickstart:add(http-authentication-factory=servlet-security-quickstart-http-auth)
+/subsystem=undertow/application-security-domain=servlet-security-quickstart:add(security-domain=servlet-security-quickstart-sd)
 
 # Run the batch commands
 run-batch
 
 # Reload the server configuration
-reload
+#reload
 
 

@@ -29,22 +29,24 @@
         <relativePath/>
     </parent>
     <artifactId>microprofile-reactive-messaging-kafka</artifactId>
-    <version>27.0.0.Beta1-SNAPSHOT</version>
+    <version>28.0.0.Beta1-SNAPSHOT</version>
     <packaging>war</packaging>
 
     <name>Quickstart: microprofile-reactive-messaging-kafka</name>
 
     <properties>
         <!-- BOM versions -->
-        <version.microprofile.bom>26.0.0.Final</version.microprofile.bom>
-        <version.server.bom>26.0.0.Final</version.server.bom>
+        <version.microprofile.bom>27.0.0.Final</version.microprofile.bom>
+        <version.server.bom>27.0.0.Final</version.server.bom>
         <!-- Test dependencies versions -->
         <version.io.rest-assured>4.3.1</version.io.rest-assured>
+        <version.io.smallrye-config>3.0.0</version.io.smallrye-config>
         <version.org.jboss.jboss-dmr>1.5.1.Final</version.org.jboss.jboss-dmr>
-        <version.org.springframework.kafka>2.8.0</version.org.springframework.kafka>
+        <version.org.springframework.kafka>2.9.1</version.org.springframework.kafka>
+        <version.org.jboss.resteasy.microprofile.rest-client>2.0.0.Final</version.org.jboss.resteasy.microprofile.rest-client>
         <!-- Plugin versions -->
-        <version.server.bootable-jar>26.0.0.Final</version.server.bootable-jar>
-        <version.wildfly-jar.maven.plugin>7.0.0.Final</version.wildfly-jar.maven.plugin>
+        <version.server.bootable-jar>27.0.0.Final</version.server.bootable-jar>
+        <version.wildfly-jar.maven.plugin>8.1.0.Final</version.wildfly-jar.maven.plugin>
         <version.jkube.maven.plugin>1.0.1</version.jkube.maven.plugin>
         <jkube.generator.from>registry.redhat.io/ubi8/openjdk-11:latest</jkube.generator.from>
     </properties>
@@ -117,7 +119,7 @@
             <!-- importing the jakartaee8-with-tools BOM adds specs and other useful artifacts as managed dependencies -->
             <dependency>
                 <groupId>org.wildfly.bom</groupId>
-                <artifactId>wildfly-jakartaee8-with-tools</artifactId>
+                <artifactId>wildfly-ee-with-tools</artifactId>
                 <version>${version.server.bom}</version>
                 <type>pom</type>
                 <scope>import</scope>
@@ -172,20 +174,20 @@
         </dependency>
         <!-- Import the Annotations API, we use provided scope as the API is included in WildFly -->
         <dependency>
-            <groupId>org.jboss.spec.javax.annotation</groupId>
-            <artifactId>jboss-annotations-api_1.3_spec</artifactId>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
             <scope>provided</scope>
         </dependency>
         <!-- Import the Persistence API, we use provided scope as the API is included in WildFly -->
         <dependency>
-            <groupId>org.jboss.spec.javax.transaction</groupId>
-            <artifactId>jboss-transaction-api_1.3_spec</artifactId>
+            <groupId>jakarta.transaction</groupId>
+            <artifactId>jakarta.transaction-api</artifactId>
             <scope>provided</scope>
         </dependency>
         <!-- Import the JAX-RS API, we use provided scope as the API is included in WildFly -->
         <dependency>
-            <groupId>org.jboss.spec.javax.ws.rs</groupId>
-            <artifactId>jboss-jaxrs-api_2.1_spec</artifactId>
+            <groupId>jakarta.ws.rs</groupId>
+            <artifactId>jakarta.ws.rs-api</artifactId>
             <scope>provided</scope>
         </dependency>
         <!-- Import the resteasy-jaxrs API, we use provided scope as the API is included in WildFly -->
@@ -228,21 +230,27 @@
             <scope>test</scope>
             <version>${version.org.jboss.jboss-dmr}</version>
         </dependency>
-
+        <dependency>
+            <groupId>io.smallrye.config</groupId>
+            <artifactId>smallrye-config-core</artifactId>
+            <version>${version.io.smallrye-config}</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>org.eclipse.microprofile.rest.client</groupId>
             <artifactId>microprofile-rest-client-api</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.jboss.resteasy</groupId>
-            <artifactId>resteasy-client-microprofile</artifactId>
-            <version>4.7.2.Final</version>
+            <groupId>org.jboss.resteasy.microprofile</groupId>
+            <artifactId>microprofile-rest-client-base</artifactId>
+            <version>${version.org.jboss.resteasy.microprofile.rest-client}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.jboss.resteasy</groupId>
-            <artifactId>resteasy-client</artifactId>
+            <groupId>org.jboss.resteasy.microprofile</groupId>
+            <artifactId>microprofile-rest-client</artifactId>
+            <version>${version.org.jboss.resteasy.microprofile.rest-client}</version>
             <scope>test</scope>
         </dependency>
 

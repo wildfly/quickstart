@@ -1,0 +1,93 @@
+# Default values for todo-backend-chart.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+postgresql:
+    auth:
+        username: todos-db
+        password: todos-db
+        database: todos-db
+    primary:
+        podSecurityContext:
+            enabled: false
+            fsGroup: ""
+        containerSecurityContext:
+            enabled: false
+            runAsUser: "auto"
+        persistence:
+          size: 2Gi
+
+    readReplicas:
+        podSecurityContext:
+            enabled: false
+            fsGroup: ""
+        containerSecurityContext:
+            enabled: false
+            runAsUser: "auto"
+        persistence:
+          size: 2Gi
+
+    volumePermissions:
+        enabled: false
+        securityContext:
+            runAsUser: "auto"
+
+wildfly:
+    build:
+      uri: https://github.com/wildfly/quickstart.git
+      ref: main
+      contextDir: todo-backend
+    deploy:
+      replicas: 1
+      env:
+        # Env vars to connect to PostgreSQL DB
+        - name: POSTGRESQL_DATABASE
+          value: todos-db
+        - name: POSTGRESQL_USER
+          value: todos-db
+        - name: POSTGRESQL_PASSWORD
+          value: todos-db
+        - name: POSTGRESQL_DATASOURCE
+          value: ToDos
+        - name: POSTGRESQL_SERVICE_HOST
+          value: todo-backend-postgresql
+        - name: POSTGRESQL_SERVICE_PORT
+          value: "5432"
+        # Env vars to configure CORS filter
+        - name: FILTERS
+          value: acao, acam, acah, acac, acma
+        - name: acao_FILTER_RESPONSE_HEADER_NAME
+          value: Access-Control-Allow-Origin
+        - name: acao_FILTER_RESPONSE_HEADER_VALUE
+          value: "*"
+        - name: acao_FILTER_REF_NAME
+          value: Access-Control-Allow-Origin
+        - name: acam_FILTER_RESPONSE_HEADER_NAME
+          value: Access-Control-Allow-Methods
+        - name: acam_FILTER_RESPONSE_HEADER_VALUE
+          value: GET, POST, OPTION, PUT, DELETE, PATCH
+        - name: acam_FILTER_REF_NAME
+          value: Access-Control-Allow-Methods
+        - name: acah_FILTER_RESPONSE_HEADER_NAME
+          value: Access-Control-Allow-Headers
+        - name: acah_FILTER_RESPONSE_HEADER_VALUE
+          value: accept, authorization, content-type, x-requested-with
+        - name: acah_FILTER_REF_NAME
+          value: Access-Control-Allow-Headers
+        - name: acac_FILTER_RESPONSE_HEADER_NAME
+          value: Access-Control-Allow-Credentials
+        - name: acac_FILTER_RESPONSE_HEADER_VALUE
+          value: "true"
+        - name: acac_FILTER_REF_NAME
+          value: Access-Control-Allow-Credentials
+        - name: acma_FILTER_RESPONSE_HEADER_NAME
+          value: Access-Control-Max-Age
+        - name: acma_FILTER_RESPONSE_HEADER_VALUE
+          value: "1"
+        - name: acma_FILTER_REF_NAME
+          value: Access-Control-Max-Age
+        # Env to avoid OOME
+        - name: GC_MAX_METASPACE_SIZE
+          value: "256"
+        - name: GC_METASPACE_SIZE
+          value: "96"

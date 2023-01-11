@@ -16,16 +16,16 @@
  */
 package org.jboss.as.quickstarts.threadracing.stage.jaxrs;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.core.Response;
 import java.util.Random;
 
 /**
  * A REST service which racers may use to do a pit stop.
  *
- * The {@link javax.ws.rs.Path} annotation defines the path relative to the {@link org.jboss.as.quickstarts.threadracing.stage.jaxrs.BoxApplication} path. A value of "/" means the service will use the parent path.
+ * The {@link jakarta.ws.rs.Path} annotation defines the path relative to the {@link org.jboss.as.quickstarts.threadracing.stage.jaxrs.BoxApplication} path. A value of "/" means the service will use the parent path.
  *
  * @author Eduardo Martins
  */
@@ -37,7 +37,7 @@ public class BoxService {
     /**
      * A method to handle GET requests on pitStop path (relative to the one defined at class level).
      *
-     * The path may include segments that will match any value, {racer} is an example of such path param. The actual param value may be provided as a method param, by annotation the method param with {@link javax.ws.rs.PathParam}, as done in this method signature.
+     * The path may include segments that will match any value, {racer} is an example of such path param. The actual param value may be provided as a method param, by annotation the method param with {@link jakarta.ws.rs.PathParam}, as done in this method signature.
      * @param racer
      * @return
      */

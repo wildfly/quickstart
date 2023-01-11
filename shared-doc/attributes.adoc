@@ -5,12 +5,6 @@
 //:ProductRelease:
 
 //***********************************************************************************
-// Enable the following flag to build README.html files for EAP CD product builds.
-// Comment it out for WildFly or JBoss EAP product builds.
-//***********************************************************************************
-//:EAPCDRelease:
-
-//***********************************************************************************
 // Enable the following flag to build README.html files for EAP XP product builds.
 // Comment it out for WildFly or JBoss EAP product builds.
 //***********************************************************************************
@@ -30,6 +24,7 @@ ifdef::ProductRelease[]
 :DocInfoProductNumber: {productVersion}
 :WildFlyQuickStartRepoTag: EAP_7.4.0.GA
 :productImageVersion: 7.4.0
+:helmChartName: jboss-eap/eap-xp3
 endif::[]
 
 ifdef::EAPXPRelease[]
@@ -57,16 +52,17 @@ ifdef::ProductRelease,EAPXPRelease[]
 // END ifdef::ProductRelease,EAPXPRelease[]
 endif::[]
 
-ifndef::ProductRelease,EAPCDRelease,EAPXPRelease[]
+ifndef::ProductRelease,EAPXPRelease[]
 // WildFly project
 :productName: WildFly
 :productNameFull: WildFly Application Server
+:ProductShortName: {productName}
 :jbossHomeName: WILDFLY_HOME
-:productVersion: 26
-:productImageVersion: 26.0
+:productVersion: 27
+:productImageVersion: 27.0
 :githubRepoUrl: https://github.com/wildfly/quickstart/
 :githubRepoCodeUrl: https://github.com/wildfly/quickstart.git
-:WildFlyQuickStartRepoTag: 26.0.0.Beta1
+:WildFlyQuickStartRepoTag: 27.0.0.Final
 :DocInfoProductName: Red Hat JBoss Enterprise Application Platform
 :DocInfoProductNameURL: red_hat_jboss_enterprise_application_platform
 // Do not update the following until after the 7.4 docs are published!
@@ -112,28 +108,6 @@ endif::[]
 :LinkOpenShiftGuide: https://access.redhat.com/documentation/en-us/{DocInfoProductNameURL}/{DocInfoProductNumber}/html-single/getting_started_with_jboss_eap_for_openshift_container_platform/
 :LinkOpenShiftOnlineGuide: https://access.redhat.com/documentation/en-us/{DocInfoProductNameURL}/{DocInfoProductNumber}/html-single/getting_started_with_jboss_eap_for_openshift_online/
 
-ifdef::EAPCDRelease[]
-// Attributes for EAP CD release
-:CDProductName: JBoss Enterprise Application Platform continuous delivery
-:CDProductShortName: {ProductShortName} Continuous Delivery
-:CDProductTitle: JBoss Enterprise Application Platform Continuous Delivery
-:CDProductNameSentence: continuous delivery release for {ProductShortName}
-:CDProductAcronym: JBoss EAP CD
-:CDProductVersion: 21
-:productName: {CDProductShortName}
-:productNameFull: {CDProductName}
-:productVersion: {CDProductVersion}
-:githubRepoUrl: https://github.com/jboss-developer/jboss-eap-quickstarts/tree/openshift/
-:DocInfoProductNameURL: jboss_enterprise_application_platform_continuous_delivery
-:DocInfoProductName: JBoss Enterprise Application Platform Continuous Delivery
-:DocInfoProductNumber: {productVersion}
-:quickstartDownloadName: JBoss EAP CD {productVersion} Quickstarts
-:quickstartDownloadUrl: https://access.redhat.com/jbossnetwork/restricted/listSoftware.html?product=eap-cd&downloadType=distributions
-// OpenShift repository and reference for quickstarts
-:EAPQuickStartRepoRef: openshift
-// END ifdef::EAPCDRelease[]
-endif::[]
-
 ifdef::EAPXPRelease[]
 // Attributes for XP releases
 :EapForOpenshiftBookName: {productNameFull} for OpenShift
@@ -163,9 +137,9 @@ endif::[]
 //*************************
 // Other values
 //*************************
-:buildRequirements: Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later
+:buildRequirements: Java 11.0 (Java SDK 11) or later and Maven 3.6.0 or later
 :jbdsEapServerName: Red Hat JBoss Enterprise Application Platform 7.3
-:javaVersion: Jakarta EE 8
+:javaVersion: Jakarta EE 10
 ifdef::EAPXPRelease[]
 :javaVersion: Eclipse MicroProfile
 endif::[]
