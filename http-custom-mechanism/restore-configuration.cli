@@ -1,0 +1,15 @@
+batch
+
+/subsystem=undertow/application-security-domain=other:undefine-attribute(name=override-deployment-config)
+
+/subsystem=undertow/application-security-domain=other:undefine-attribute(name=http-authentication-factory)
+
+/subsystem=undertow/application-security-domain=other:write-attribute(name=security-domain,value=ApplicationDomain)
+
+/subsystem=elytron/http-authentication-factory=custom-mechanism:remove()
+
+/subsystem=elytron/service-loader-http-server-mechanism-factory=custom-factory:remove()
+
+run-batch
+
+reload
