@@ -184,10 +184,10 @@ The client will output the following information provided by the applications:
 +
 [source,options="nowrap"]
 ----
-InvokeAll succeed: MainApp[anonymous]@master:app-main  >  [ app1[quickuser1]@master:app-oneB > app2[quickuser2]@master:app-twoA ; app2[quickuser2]@master:app-twoA ]
+InvokeAll succeed: MainApp[quickuser]@primary:app-main  >  [ app1[quickuser1]@primary:app-oneA > app2[quickuser2]@primary:app-twoA ; app2[quickuser2]@primary:app-twoA
 ----
 +
-This output shows that the `MainApp` is called with the user `anonymous` at node `master:app-main` and the sub-call is proceeded by the `master:app-oneA` node and `master:app-twoA` node as `quickuser2`.
+This output shows that the `MainApp` is called with the user `quickuser` at node `primary:app-main` and the sub-call is proceeded by the `primary:app-oneA` node as `quickuser1` and `primary:app-twoA` node as `quickuser2`.
 
 . Review the server log files to see the bean invocations on the servers.
 
@@ -195,7 +195,7 @@ This output shows that the `MainApp` is called with the user `anonymous` at node
 +
 [subs=normal]
 ----
-java -cp $ __{jbossHomeName}__/bin/client/jboss-client.jar:app-main/ejb/target/ejb-multi-server-app-main-ejb-client.jar:app-two/ejb/target/ejb-multi-server-app-two-ejb-client.jar:client/target/ejb-multi-server-client.jar org.jboss.as.quickstarts.ejb.multi.server.Client
+java -cp $__{jbossHomeName}__/bin/client/jboss-client.jar:app-main/ejb/target/ejb-multi-server-app-main-ejb-client.jar:app-two/ejb/target/ejb-multi-server-app-two-ejb-client.jar:client/target/ejb-multi-server-client.jar org.jboss.as.quickstarts.ejb.multi.server.Client
 ----
 
 [IMPORTANT]
