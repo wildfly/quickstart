@@ -2,13 +2,13 @@
 
 # Stop the preconfigured server for the domain
 # First stop the default servers and block until the server is down
-/host=master/server-config=server-one:stop(blocking=true)
-/host=master/server-config=server-two:stop(blocking=true)
+/host=primary/server=server-one:stop(blocking=true)
+/host=primary/server=server-two:stop(blocking=true)
 
 # Remove the default server configuration and server-groups
-/host=master/server-config=server-one:remove
-/host=master/server-config=server-two:remove
-/host=master/server-config=server-three:remove
+/host=primary/server-config=server-one:remove
+/host=primary/server-config=server-two:remove
+/host=primary/server-config=server-three:remove
 /server-group=main-server-group:remove
 /server-group=other-server-group:remove
 
@@ -49,25 +49,25 @@ batch
 # Add the main-server group and the server, which handle the standalone client requests
 /server-group=quickstart-ejb-multi-main-server:add(profile=full,socket-binding-group=full-sockets)
 /server-group=quickstart-ejb-multi-main-server/jvm=default:add()
-/host=master/server-config=app-main:add(auto-start=true, group=quickstart-ejb-multi-main-server)
-/host=master/server-config=app-main/system-property=txNodeIdentifier:add(value=main)
+/host=primary/server-config=app-main:add(auto-start=true, group=quickstart-ejb-multi-main-server)
+/host=primary/server-config=app-main/system-property=txNodeIdentifier:add(value=main)
 
 # Add the app-server group and the servers for the destination application
 # app-one will be a clustered application, so use HA and add two servers
 /server-group=quickstart-ejb-multi-appOne-server:add(profile=ha,socket-binding-group=ha-sockets)
 /server-group=quickstart-ejb-multi-appOne-server/jvm=default:add()
-/host=master/server-config=app-oneA:add(auto-start=true, group=quickstart-ejb-multi-appOne-server, socket-binding-port-offset=100)
-/host=master/server-config=app-oneA/system-property=txNodeIdentifier:add(value=oneA)
-/host=master/server-config=app-oneB:add(auto-start=true, group=quickstart-ejb-multi-appOne-server, socket-binding-port-offset=700)
-/host=master/server-config=app-oneB/system-property=txNodeIdentifier:add(value=oneB)
+/host=primary/server-config=app-oneA:add(auto-start=true, group=quickstart-ejb-multi-appOne-server, socket-binding-port-offset=100)
+/host=primary/server-config=app-oneA/system-property=txNodeIdentifier:add(value=oneA)
+/host=primary/server-config=app-oneB:add(auto-start=true, group=quickstart-ejb-multi-appOne-server, socket-binding-port-offset=700)
+/host=primary/server-config=app-oneB/system-property=txNodeIdentifier:add(value=oneB)
 
 # app two is not a clustered application, so use the default profile
 /server-group=quickstart-ejb-multi-appTwo-server:add(profile=default,socket-binding-group=standard-sockets)
 /server-group=quickstart-ejb-multi-appTwo-server/jvm=default:add()
-/host=master/server-config=app-twoA:add(auto-start=true, group=quickstart-ejb-multi-appTwo-server, socket-binding-port-offset=200)
-/host=master/server-config=app-twoA/system-property=txNodeIdentifier:add(value=twoA)
-/host=master/server-config=app-twoB:add(auto-start=true, group=quickstart-ejb-multi-appTwo-server, socket-binding-port-offset=800)
-/host=master/server-config=app-twoB/system-property=txNodeIdentifier:add(value=twoB)
+/host=primary/server-config=app-twoA:add(auto-start=true, group=quickstart-ejb-multi-appTwo-server, socket-binding-port-offset=200)
+/host=primary/server-config=app-twoA/system-property=txNodeIdentifier:add(value=twoA)
+/host=primary/server-config=app-twoB:add(auto-start=true, group=quickstart-ejb-multi-appTwo-server, socket-binding-port-offset=800)
+/host=primary/server-config=app-twoB/system-property=txNodeIdentifier:add(value=twoB)
 
 # Add an alias for the app2 bean to demonstrate how to avoid direct dependency to destination app name
 /profile=full/subsystem=naming/binding=java\:global\/AliasAppTwo:add(binding-type=lookup, lookup="ejb:ejb-multi-server-app-two/ejb//AppTwoBean!org.jboss.as.quickstarts.ejb.multi.server.app.AppTwo")
@@ -114,31 +114,31 @@ batch
 /profile=default-web/subsystem="io"/worker="default":add()
 
 /profile=default-web/subsystem="infinispan":add()
-/profile=default-web/subsystem="infinispan"/cache-container="server":add(default-cache="default",module="org.wildfly.clustering.server")
+/profile=default-web/subsystem="infinispan"/cache-container="server":add(default-cache="default",modules=["org.wildfly.clustering.server"])
 /profile=default-web/subsystem="infinispan"/cache-container="server"/local-cache="default":add()
-/profile=default-web/subsystem="infinispan"/cache-container="server"/local-cache="default"/transaction="TRANSACTION":add(mode="BATCH")
-/profile=default-web/subsystem="infinispan"/cache-container="web":add(default-cache="passivation",module="org.wildfly.clustering.web.infinispan")
+/profile=default-web/subsystem="infinispan"/cache-container="server"/local-cache="default"/component=transaction:add(mode="BATCH")
+/profile=default-web/subsystem="infinispan"/cache-container="web":add(default-cache="passivation",modules=["org.wildfly.clustering.web.infinispan"])
 /profile=default-web/subsystem="infinispan"/cache-container="web"/local-cache="passivation":add()
-/profile=default-web/subsystem="infinispan"/cache-container="web"/local-cache="passivation"/file-store="FILE_STORE":add(passivation="true",purge="false")
-/profile=default-web/subsystem="infinispan"/cache-container="web"/local-cache="passivation"/transaction="TRANSACTION":add(mode="BATCH")
+/profile=default-web/subsystem="infinispan"/cache-container="web"/local-cache="passivation"/store=file:add(passivation="true",purge="false")
+/profile=default-web/subsystem="infinispan"/cache-container="web"/local-cache="passivation"/component=transaction:add(mode="BATCH")
 /profile=default-web/subsystem="infinispan"/cache-container="web"/local-cache="persistent":add()
-/profile=default-web/subsystem="infinispan"/cache-container="web"/local-cache="persistent"/file-store="FILE_STORE":add(passivation="false",purge="false")
-/profile=default-web/subsystem="infinispan"/cache-container="web"/local-cache="persistent"/transaction="TRANSACTION":add(mode="BATCH")
-/profile=default-web/subsystem="infinispan"/cache-container="ejb":add(aliases=["sfsb"],default-cache="passivation",module="org.wildfly.clustering.ejb.infinispan")
+/profile=default-web/subsystem="infinispan"/cache-container="web"/local-cache="persistent"/store=file:add(passivation="false",purge="false")
+/profile=default-web/subsystem="infinispan"/cache-container="web"/local-cache="persistent"/component=transaction:add(mode="BATCH")
+/profile=default-web/subsystem="infinispan"/cache-container="ejb":add(aliases=["sfsb"],default-cache="passivation",modules=["org.wildfly.clustering.ejb.infinispan"])
 /profile=default-web/subsystem="infinispan"/cache-container="ejb"/local-cache="passivation":add()
-/profile=default-web/subsystem="infinispan"/cache-container="ejb"/local-cache="passivation"/file-store="FILE_STORE":add(passivation="true",purge="false")
-/profile=default-web/subsystem="infinispan"/cache-container="ejb"/local-cache="passivation"/transaction="TRANSACTION":add(mode="BATCH")
+/profile=default-web/subsystem="infinispan"/cache-container="ejb"/local-cache="passivation"/store=file:add(passivation="true",purge="false")
+/profile=default-web/subsystem="infinispan"/cache-container="ejb"/local-cache="passivation"/component=transaction:add(mode="BATCH")
 /profile=default-web/subsystem="infinispan"/cache-container="ejb"/local-cache="persistent":add()
-/profile=default-web/subsystem="infinispan"/cache-container="ejb"/local-cache="persistent"/file-store="FILE_STORE":add(passivation="false",purge="false")
-/profile=default-web/subsystem="infinispan"/cache-container="ejb"/local-cache="persistent"/transaction="TRANSACTION":add(mode="BATCH")
-/profile=default-web/subsystem="infinispan"/cache-container="hibernate":add(default-cache="local-query",module="org.hibernate")
+/profile=default-web/subsystem="infinispan"/cache-container="ejb"/local-cache="persistent"/store=file:add(passivation="false",purge="false")
+/profile=default-web/subsystem="infinispan"/cache-container="ejb"/local-cache="persistent"/component=transaction:add(mode="BATCH")
+/profile=default-web/subsystem="infinispan"/cache-container="hibernate":add(default-cache="local-query",modules=["org.hibernate"])
 /profile=default-web/subsystem="infinispan"/cache-container="hibernate"/local-cache="entity":add()
-/profile=default-web/subsystem="infinispan"/cache-container="hibernate"/local-cache="entity"/eviction="EVICTION":add(max-entries="10000",strategy="LRU")
-/profile=default-web/subsystem="infinispan"/cache-container="hibernate"/local-cache="entity"/expiration="EXPIRATION":add(max-idle="100000")
-/profile=default-web/subsystem="infinispan"/cache-container="hibernate"/local-cache="entity"/transaction="TRANSACTION":add(mode="NON_XA")
+/profile=default-web/subsystem="infinispan"/cache-container="hibernate"/local-cache="entity"/memory=heap:add(size=10000, size-unit=ENTRIES)
+/profile=default-web/subsystem="infinispan"/cache-container="hibernate"/local-cache="entity"/component=expiration:add(max-idle="100000")
+/profile=default-web/subsystem="infinispan"/cache-container="hibernate"/local-cache="entity"/component=transaction:add(mode="NON_XA")
 /profile=default-web/subsystem="infinispan"/cache-container="hibernate"/local-cache="local-query":add()
-/profile=default-web/subsystem="infinispan"/cache-container="hibernate"/local-cache="local-query"/eviction="EVICTION":add(max-entries="10000",strategy="LRU")
-/profile=default-web/subsystem="infinispan"/cache-container="hibernate"/local-cache="local-query"/expiration="EXPIRATION":add(max-idle="100000")
+/profile=default-web/subsystem="infinispan"/cache-container="hibernate"/local-cache="local-query"/memory=heap:add(size=10000, size-unit=ENTRIES)
+/profile=default-web/subsystem="infinispan"/cache-container="hibernate"/local-cache="local-query"/component=expiration:add(max-idle="100000")
 /profile=default-web/subsystem="infinispan"/cache-container="hibernate"/local-cache="timestamps":add()
 
 #/profile=default-web/subsystem="jca":add()
@@ -235,12 +235,12 @@ batch
 
 /server-group=quickstart-ejb-multi-appWeb-server:add(profile=default-web,socket-binding-group=standard-sockets-web)
 /server-group=quickstart-ejb-multi-appWeb-server/jvm=default:add()
-/host=master/server-config=app-web:add(auto-start=true, group=quickstart-ejb-multi-appWeb-server, socket-binding-port-offset=300)
-/host=master/server-config=app-web/system-property=txNodeIdentifier:add(value=web)
+/host=primary/server-config=app-web:add(auto-start=true, group=quickstart-ejb-multi-appWeb-server, socket-binding-port-offset=300)
+/host=primary/server-config=app-web/system-property=txNodeIdentifier:add(value=web)
 
 # update interface bind addresses from '127.0.0.1' to 'localhost' to workaround an authentication issue
-/host=master/interface=management:write-attribute(name=inet-address, value="${jboss.bind.address.management:localhost}"
-/host=master/interface=public:write-attribute(name=inet-address, value="${jboss.bind.address:localhost}"
+/host=primary/interface=management:write-attribute(name=inet-address, value="${jboss.bind.address.management:localhost}"
+/host=primary/interface=public:write-attribute(name=inet-address, value="${jboss.bind.address:localhost}"
 /interface=private:write-attribute(name=inet-address, value="${jboss.bind.address.private:localhost}")
 /interface=unsecure:write-attribute(name=inet-address, value="${jboss.bind.address.unsecure:localhost}")
 
@@ -251,9 +251,9 @@ run-batch
 :restart-servers
 
 # Finally start the configured servers
-/host=master/server-config=app-oneA:start
-/host=master/server-config=app-oneB:start
-/host=master/server-config=app-twoA:start
-/host=master/server-config=app-twoB:start
-/host=master/server-config=app-main:start
-/host=master/server-config=app-web:start
+/host=primary/server=app-oneA:start
+/host=primary/server=app-oneB:start
+/host=primary/server=app-twoA:start
+/host=primary/server=app-twoB:start
+/host=primary/server=app-main:start
+/host=primary/server=app-web:start
