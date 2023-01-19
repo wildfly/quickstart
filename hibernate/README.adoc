@@ -1,13 +1,13 @@
 include::../shared-doc/attributes.adoc[]
 
-= hibernate: How to Use Hibernate 5 in an Application
+= hibernate: How to Use Hibernate in an Application
 :author: Madhumita Sadhukhan
 :level: Intermediate
 :technologies: Hibernate
 :openshift: true
 
 [abstract]
-The `hibernate` quickstart demonstrates how to use Hibernate ORM 6 API over JPA, using Hibernate-Core and Hibernate Bean Validation, and EJB.
+The `hibernate` quickstart demonstrates how to use Hibernate ORM 6 over Persistence, using Bean Validation, and Enterprise Beans.
 
 :standalone-server-type: default
 :archiveType: war
@@ -16,9 +16,9 @@ The `hibernate` quickstart demonstrates how to use Hibernate ORM 6 API over JPA,
 
 == What is it?
 
-The `hibernate` quickstart is based upon the link:../kitchensink/README{outfilesuffix}[kitchensink] example, but demonstrates how to use Hibernate Object/Relational Mapping (ORM) 5 over JPA in {productNameFull}.
+The `hibernate` quickstart is based upon the link:../kitchensink/README{outfilesuffix}[kitchensink] example, but demonstrates how to use Hibernate Object/Relational Mapping (ORM) over Persistence in {productNameFull}.
 
-This project is setup to allow you to create a compliant {javaVersion} application using JSF, CDI, EJB, JPA , Hibernate-Core and Hibernate Bean Validation. It includes a persistence unit associated with Hibernate session and some sample persistence and transaction code to help you with database access in enterprise Java.
+This project is setup to allow you to create a compliant {javaVersion} application using Faces, Contexts and Dependency Injection, Enterprise Beans, Persistence, Hibernate ORM and Bean Validation. It includes a persistence unit, Persistence use to help you with database access.
 
 //*************************************************
 // Product Release content only
@@ -35,11 +35,11 @@ include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
 
 == Add the Correct Dependencies
 
-{productName} provides Hibernate 5 and JPA support.
+{productName} provides Hibernate 6 and Persistence support.
 
-If you use Hibernate 5 packaged within {productName}, you will need to first import the JPA API.
+If you use Hibernate 6 packaged within {productName}, you will need to first import the Persistence API.
 
-This quickstart demonstrates usage of Hibernate Session and Hibernate Validators.
+This quickstart demonstrates usage of Persistence and Bean Validation.
 
 If you look at the `pom.xml` file in the root of the hibernate quickstart directory, you will see that the dependencies for the Hibernate modules have been added with the scope as `provided`.
 
@@ -70,7 +70,6 @@ You will see the following warnings in the server log. You can ignore these warn
 ----
 WFLYJCA0091: -ds.xml file deployments are deprecated. Support may be removed in a future version.
 
-HHH000431: Unable to determine H2 database version, certain features may not work
 ----
 
 // Undeploy the Quickstart

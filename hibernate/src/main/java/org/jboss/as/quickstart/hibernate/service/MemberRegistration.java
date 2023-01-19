@@ -22,14 +22,13 @@ import jakarta.enterprise.event.Event;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 
-import org.hibernate.Session;
 import org.jboss.as.quickstart.hibernate.model.Member;
 
 /**
  * Registers a Member
  * <p>
  * <p>
- * The @Stateless annotation eliminates the need for manual transaction demarcation
+ * Use container managed transaction to save the Member.
  * </p>
  */
 
@@ -47,11 +46,8 @@ public class MemberRegistration {
 
     public void register(Member member) throws Exception {
         log.info("Registering " + member.getName());
-        // em.persist(member);
+        em.persist(member);
 
-        // using Hibernate session(Native API) and JPA entitymanager
-        Session session = (Session) em.getDelegate();
-        session.persist(member);
         memberEventSrc.fire(member);
     }
 }

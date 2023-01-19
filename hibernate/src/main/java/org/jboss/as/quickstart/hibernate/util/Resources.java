@@ -23,7 +23,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 
 /**
- * This class uses CDI to alias Jakarta EE resources, such as the persistence context, to CDI beans
+ * This class uses Contexts and Dependency Injection to alias Jakarta EE resources, such as the persistence context, to Contexts and Dependency Injection beans
  * <p>
  * <p>
  * Example injection on a managed bean field:

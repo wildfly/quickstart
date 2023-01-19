@@ -32,10 +32,10 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 
 /**
- * JPA Entity for the ModelHibernateDemo table
+ * Persistence Entity for the ModelHibernateDemo table
  * <p>
  * <p>
- * Also uses Hibernate Validators
+ * Also uses Bean Validation
  * </p>
  */
 
@@ -57,7 +57,7 @@ public class Member implements Serializable {
     private String name;
 
     /**
-     * using hibernate validators
+     * using Bean Validation
      **/
     @NotNull
     @NotEmpty
