@@ -47,6 +47,15 @@
         <!-- The versions for BOMs, Dependencies and Plugins -->
         <version.spring.framework>6.0.4</version.spring.framework>
         <version.server.bom>27.0.1.Final</version.server.bom>
+<!--        https://github.com/arquillian/arquillian-core-->
+        <version.org.jboss.arquillian>1.7.0.Alpha13</version.org.jboss.arquillian>
+        <version.org.jboss.resteasy.spring>3.0.1.Final</version.org.jboss.resteasy.spring>
+        <version.org.junit>5.9.1</version.org.junit>
+        <version.org.wildfly>27.0.1.Final</version.org.wildfly>
+<!--        https://github.com/wildfly/wildfly-arquillian-->
+        <version.org.wildfly.arquillian>5.0.0.Alpha6</version.org.wildfly.arquillian>
+        <version.wildfly-maven-plugin>4.0.0.Final</version.wildfly-maven-plugin>
+        <jboss.home>${project.build.directory}${file.separator}wildfly</jboss.home>
     </properties>
 
     <repositories>
@@ -145,25 +154,39 @@
             <artifactId>jakarta.servlet-api</artifactId>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>jakarta.servlet.jsp</groupId>
-            <artifactId>jakarta.servlet.jsp-api</artifactId>
-            <scope>provided</scope>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>jakarta.servlet.jsp</groupId>-->
+<!--            <artifactId>jakarta.servlet.jsp-api</artifactId>-->
+<!--            <scope>provided</scope>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>jakarta.ws.rs</groupId>
             <artifactId>jakarta.ws.rs-api</artifactId>
-<!--            <scope>provided</scope>-->
+            <scope>provided</scope>
         </dependency>
 
         <!-- Spring -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
+<!--            <scope>provided</scope>-->
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
+<!--            <scope>provided</scope>-->
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.resteasy.spring</groupId>
+            <artifactId>resteasy-spring</artifactId>
+            <version>3.0.1.Final</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-core</artifactId>
+            <version>6.2.2.Final</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.jboss.arquillian.junit</groupId>
@@ -241,9 +264,49 @@
                             </execution>
                         </executions>
                     </plugin>
+                    <plugin>
+                        <groupId>org.wildfly.plugins</groupId>
+                        <artifactId>wildfly-maven-plugin</artifactId>
+                        <version>${version.wildfly-maven-plugin}</version>
+                        <configuration>
+                            <jboss-home>${jboss.home}</jboss-home>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>provision-test-server</id>
+                                <phase>process-test-classes</phase>
+                                <goals>
+                                    <goal>provision</goal>
+                                </goals>
+                                <configuration>
+                                    <provisioning-dir>${jboss.home}</provisioning-dir>
+                                    <!-- First configure the feature pack we are overriding -->
+                                    <feature-packs>
+                                        <feature-pack>
+                                            <groupId>org.wildfly</groupId>
+                                            <artifactId>wildfly-ee-galleon-pack</artifactId>
+                                            <version>${version.org.wildfly}</version>
+                                            <excluded-packages>
+                                                <name>product.conf</name>
+                                                <name>docs.schema</name>
+                                            </excluded-packages>
+                                        </feature-pack>
+                                        <!-- Next include our own feature pack -->
+                                        <feature-pack>
+                                            <groupId>org.jboss.resteasy.spring</groupId>
+                                            <artifactId>galleon-feature-pack</artifactId>
+                                            <version>${version.org.jboss.resteasy.spring}</version>
+                                        </feature-pack>
+                                    </feature-packs>
+                                    <galleon-options>
+                                        <jboss-fork-embedded>true</jboss-fork-embedded>
+                                    </galleon-options>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
                 </plugins>
             </build>
         </profile>
     </profiles>
-
 </project>
