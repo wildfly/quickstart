@@ -143,8 +143,7 @@ NOTE: For Windows, use the `bin\jboss-cli.bat` script.
   can be reached at `server2`.
 * It configures a https://docs.wildfly.org/22/wildscribe/subsystem/remoting/remote-outbound-connection/index.html[`remote outbound connection`]. It is referenced in the war deployment with `jboss-ejb-client.xml` descriptor
 (see `${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call/client/src/main/webapp/WEB-INF/jboss-ejb-client.xml`).
-* It defines the security realm, using the credentials of the user created at <<add_application_user, Add the Authorized Application User>>.
-* It defines the security realm, using the credentials of the user created at <<add_application_user, Add the Authorized Application User>>.
+* It defines an authentication context `auth_context` which is used by the new created remoting connection `remote-ejb-connection`. The authentication context uses the same username and password created for `server2` and `server3`.
 
 === Configure datasources
 
@@ -366,7 +365,7 @@ due to transaction affinity.
 |The two returned hostnames must be the same.
 
 |__http://localhost:8080/client/remote-outbound-notx-stateless__
-|Seven remote invocations to stateless EJB without a transaction context.
+|Several remote invocations to stateless EJB without a transaction context.
 The EJB remote call is configured from the `remote-outbound-connection`.
 The EJB client is expected to load balance the calls on various servers.
 |The list of the returned hostnames should contain occurrences of both
@@ -385,7 +384,7 @@ The remote invocation is run, unlike the other calls of this quickstarts, via ht
 |The returned hostnames must be the same.
 
 |__http://localhost:8080/client/remote-outbound-notx-stateful__
-|Two invocations under the transaction context stared on `server1` (`client` application).
+|Two invocations under the transaction context started on `server1` (`client` application).
 The EJB remote call is configured from the `remote-outbound-connection`.
 Both calls are directed to the same stateful bean on the remote server because
 the stateful bean invocations are sticky ensuring affinity to the same server instance.
@@ -569,7 +568,7 @@ For building the application the {productName} s2i functionality
 (provided out-of-boxy by OpenShift) needs to be used.
 
 The {productName} provides `ImageStream` definition of builder images and runtime images.
-The builder image makes the application to be build, configure the application server
+The builder image makes the application to be built, configure the application server
 with s2i scripts. The resulted image may be used for running,
 but it's big as it contains many dependencies needed only for the build.
 The chain build defines the next step which is to get the runtime image
@@ -716,7 +715,7 @@ endif::[]
 [#_running_on_openshift_run_the_quickstart_with_productname_operator]
 ==== Running on OpenShift: Run the Quickstart with {productName} Operator
 
-After you install the {productName} Operator, you can deploy the`CustomResource` that uses it.
+After you install the {productName} Operator, you can deploy the `CustomResource` that uses it.
 The `CustomResource.yaml` definition contains information the {productName} Operator uses
 to start the application pods for the client application and for the server application.
 
