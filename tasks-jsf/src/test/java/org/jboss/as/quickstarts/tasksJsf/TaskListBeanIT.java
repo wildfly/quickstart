@@ -38,7 +38,7 @@ public class TaskListBeanIT {
     @Deployment
     public static WebArchive deployment() throws IllegalArgumentException, FileNotFoundException {
         return new DefaultDeployment(true).withPersistence().withImportedData().getArchive()
-                .addClasses(User.class, Task.class, TaskList.class, TaskListBean.class, TaskDao.class, TaskDaoStub.class, Testing.class);
+                .addClasses(Person.class, Task.class, TaskList.class, TaskListBean.class, TaskDao.class, TaskDaoStub.class, Testing.class);
     }
 
     @Inject

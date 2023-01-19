@@ -44,7 +44,7 @@ public class TaskController {
      */
     @Inject
     @CurrentUser
-    private Instance<User> currentUser;
+    private Instance<Person> currentUser;
 
     /**
      * Injects current user stored in the conversation scope

@@ -25,9 +25,9 @@ import jakarta.ejb.Local;
  *
  */
 @Local
-public interface UserDao {
+public interface PersonDao {
 
-    User getForUsername(String username);
+    Person getForUsername(String username);
 
-    void createUser(User user);
+    void createUser(Person user);
 }
