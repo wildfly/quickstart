@@ -30,13 +30,13 @@ import jakarta.enterprise.context.ConversationScoped;
 @ConversationScoped
 public class Authentication implements Serializable {
 
-    private User currentUser;
+    private Person currentUser;
 
-    public User getCurrentUser() {
+    public Person getCurrentUser() {
         return currentUser;
     }
 
-    public void setCurrentUser(User user) {
+    public void setCurrentUser(Person user) {
         currentUser = user;
     }
 }

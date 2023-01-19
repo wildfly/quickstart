@@ -37,7 +37,7 @@ public class TaskDaoImpl implements TaskDao {
     private EntityManager em;
 
     @Override
-    public void createTask(User user, Task task) {
+    public void createTask(Person user, Task task) {
         if (!em.contains(user)) {
             user = em.merge(user);
         }
@@ -47,13 +47,13 @@ public class TaskDaoImpl implements TaskDao {
     }
 
     @Override
-    public List<Task> getAll(User user) {
+    public List<Task> getAll(Person user) {
         TypedQuery<Task> query = querySelectAllTasksFromUser(user);
         return query.getResultList();
     }
 
     @Override
-    public List<Task> getRange(User user, int offset, int count) {
+    public List<Task> getRange(Person user, int offset, int count) {
         TypedQuery<Task> query = querySelectAllTasksFromUser(user);
         query.setMaxResults(count);
         query.setFirstResult(offset);
@@ -61,7 +61,7 @@ public class TaskDaoImpl implements TaskDao {
     }
 
     @Override
-    public List<Task> getForTitle(User user, String title) {
+    public List<Task> getForTitle(Person user, String title) {
         String lowerCaseTitle = "%" + title.toLowerCase() + "%";
         return em.createQuery("SELECT t FROM Task t WHERE t.owner = ?1 AND LOWER(t.title) LIKE ?2", Task.class)
             .setParameter(1, user).setParameter(2, lowerCaseTitle).getResultList();
@@ -75,7 +75,7 @@ public class TaskDaoImpl implements TaskDao {
         em.remove(task);
     }
 
-    private TypedQuery<Task> querySelectAllTasksFromUser(User user) {
+    private TypedQuery<Task> querySelectAllTasksFromUser(Person user) {
         return em.createQuery("SELECT t FROM Task t WHERE t.owner = ?1", Task.class).setParameter(1, user);
     }
 }

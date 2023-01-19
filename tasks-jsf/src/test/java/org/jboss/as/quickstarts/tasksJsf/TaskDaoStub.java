@@ -25,22 +25,22 @@ public class TaskDaoStub implements TaskDao {
     private int getAllCallsCount = 0;
 
     @Override
-    public void createTask(User user, Task task) {
+    public void createTask(Person user, Task task) {
     }
 
     @Override
-    public List<Task> getAll(User user) {
+    public List<Task> getAll(Person user) {
         getAllCallsCount += 1;
         return Arrays.asList(new Task[] {});
     }
 
     @Override
-    public List<Task> getRange(User user, int offset, int count) {
+    public List<Task> getRange(Person user, int offset, int count) {
         return null;
     }
 
     @Override
-    public List<Task> getForTitle(User user, String title) {
+    public List<Task> getForTitle(Person user, String title) {
         return null;
     }
 

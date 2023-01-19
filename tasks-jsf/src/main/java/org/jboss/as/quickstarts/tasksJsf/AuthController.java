@@ -38,7 +38,7 @@ public class AuthController {
     private Authentication authentication;
 
     @Inject
-    private UserDao userDao;
+    private PersonDao userDao;
 
     @Inject
     private FacesContext facesContext;
@@ -74,7 +74,7 @@ public class AuthController {
     @Produces
     @Named
     @CurrentUser
-    public User getCurrentUser() {
+    public Person getCurrentUser() {
         return authentication.getCurrentUser();
     }
 
@@ -93,7 +93,7 @@ public class AuthController {
             throw new IllegalStateException("User is logged and tries to authenticate again");
         }
 
-        User user = userDao.getForUsername(userName);
+        Person user = userDao.getForUsername(userName);
         if (user == null) {
             user = createUser(userName);
         }
@@ -118,9 +118,9 @@ public class AuthController {
         return authentication.getCurrentUser() != null;
     }
 
-    private User createUser(String username) {
+    private Person createUser(String username) {
         try {
-            User user = new User(username);
+            Person user = new Person(username);
             userDao.createUser(user);
             facesContext.addMessage(null, new FacesMessage("User successfully created"));
             return user;

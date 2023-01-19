@@ -42,7 +42,7 @@ public class TaskDaoIT {
     @Deployment
     public static WebArchive deployment() throws IllegalArgumentException, FileNotFoundException {
         return new DefaultDeployment().withPersistence().withImportedData().getArchive()
-                .addClasses(Resources.class, User.class, UserDao.class, Task.class, TaskDao.class, TaskDaoImpl.class);
+                .addClasses(Resources.class, Person.class, PersonDao.class, Task.class, TaskDao.class, TaskDaoImpl.class);
     }
 
     @Inject
@@ -51,11 +51,11 @@ public class TaskDaoIT {
     @Inject
     private TaskDao taskDao;
 
-    private User detachedUser;
+    private Person detachedUser;
 
     @Before
     public void setUp() throws Exception {
-        detachedUser = new User("jdoe");
+        detachedUser = new Person("jdoe");
         detachedUser.setId(1L);
     }
 
@@ -63,7 +63,7 @@ public class TaskDaoIT {
     @InSequence(1)
     public void user_should_be_created_with_one_task_attached() throws Exception {
         // given
-        User user = new User("New user");
+        Person user = new Person("New user");
         Task task = new Task("New task");
 
         // when
