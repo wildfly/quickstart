@@ -45,8 +45,8 @@
 
     <properties>
         <!-- The versions for BOMs, Dependencies and Plugins -->
-        <version.spring.framework>5.2.4.RELEASE</version.spring.framework>
-        <version.server.bom>27.0.0.Final</version.server.bom>
+        <version.spring.framework>6.0.4</version.spring.framework>
+        <version.server.bom>27.0.1.Final</version.server.bom>
     </properties>
 
     <repositories>
@@ -153,7 +153,7 @@
         <dependency>
             <groupId>jakarta.ws.rs</groupId>
             <artifactId>jakarta.ws.rs-api</artifactId>
-            <scope>provided</scope>
+<!--            <scope>provided</scope>-->
         </dependency>
 
         <!-- Spring -->
@@ -175,6 +175,12 @@
             <artifactId>shrinkwrap-resolver-depchain</artifactId>
             <type>pom</type>
             <scope>test</scope>
+        </dependency>
+
+<!--        https://stackoverflow.com/questions/33897229/arquillian-reusing-requestscoped-beans-in-multiple-testmethods-->
+        <dependency>
+            <groupId>org.jboss.arquillian.protocol</groupId>
+            <artifactId>arquillian-protocol-servlet</artifactId>
         </dependency>
     </dependencies>
 

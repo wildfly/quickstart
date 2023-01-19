@@ -57,8 +57,11 @@ public class ResteasySpringIT {
                 .addAsWebInfResource("web.xml")
                 .addAsWebInfResource("applicationContext.xml")
                 .addAsLibraries(Maven.configureResolver()
-                        .resolve("org.springframework:spring-web:4.3.9.RELEASE")
+                        .resolve("org.springframework:spring-web:6.0.4")
                         .withTransitivity().asFile());
+//                .addAsLibraries(Maven.configureResolver()
+//                        .resolve("jakarta.ws.rs:jakarta.ws.rs-api:3.1.0")
+//                        .withTransitivity().asFile());
     }
 
     @ArquillianResource
