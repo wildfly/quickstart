@@ -25,7 +25,7 @@
         Maintain separation between the artifact id and the version to help prevent
         merge conflicts between commits changing the GA and those changing the V.
         -->
-        <version>2</version>
+        <version>3</version>
         <relativePath/>
     </parent>
     <artifactId>jboss-logging</artifactId>
@@ -44,6 +44,7 @@
 
     <properties>
         <!-- The versions for BOMs, Dependencies and Plugins -->
+        <version.org.wildfly>27.0.1.Final</version.org.wildfly>
         <version.server.bom>27.0.0.Final</version.server.bom>
     </properties>
 
@@ -104,7 +105,7 @@
 
     <dependencyManagement>
         <dependencies>
-            <!-- importing the jakartaee8-with-tools BOM adds specs and other useful artifacts as managed dependencies -->
+            <!-- importing the wildfly-ee-with-tools BOM adds specs and other useful artifacts as managed dependencies -->
             <dependency>
                 <groupId>org.wildfly.bom</groupId>
                 <artifactId>wildfly-ee-with-tools</artifactId>
@@ -128,6 +129,22 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.wildfly.plugins</groupId>
+                <artifactId>wildfly-maven-plugin</artifactId>
+                <configuration>
+                    <version>${version.org.wildfly}</version>
+                    <fail-on-error>false</fail-on-error>
+                    <scripts>
+                        <script>${project.basedir}${file.separator}configure-logging.cli</script>
+                    </scripts>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
    
 </project>
