@@ -25,7 +25,7 @@
         Maintain separation between the artifact id and the version to help prevent
         merge conflicts between commits changing the GA and those changing the V.
         -->
-        <version>2</version>
+        <version>3</version>
         <relativePath/>
     </parent>
 
@@ -44,6 +44,10 @@
     </licenses>
 
     <properties>
+        <!-- Spring 6 requires Java 17 -->
+        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+
         <!-- The versions for BOMs, Dependencies and Plugins -->
         <version.spring.framework>6.0.4</version.spring.framework>
         <version.server.bom>27.0.1.Final</version.server.bom>
@@ -128,16 +132,6 @@
     </dependencyManagement>
 
     <dependencies>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpclient</artifactId>
-            <scope>test</scope>
-        </dependency>
 
         <!-- Bring in the Servlet jars to avoid errors while compiling with jdt. -->
         <dependency>
@@ -153,7 +147,7 @@
         <dependency>
             <groupId>jakarta.ws.rs</groupId>
             <artifactId>jakarta.ws.rs-api</artifactId>
-<!--            <scope>provided</scope>-->
+            <scope>provided</scope>
         </dependency>
 
         <!-- Spring -->
@@ -165,6 +159,18 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
         </dependency>
+
+        <!-- Test Dependencies -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>org.jboss.arquillian.junit</groupId>
             <artifactId>arquillian-junit-container</artifactId>
@@ -175,12 +181,6 @@
             <artifactId>shrinkwrap-resolver-depchain</artifactId>
             <type>pom</type>
             <scope>test</scope>
-        </dependency>
-
-<!--        https://stackoverflow.com/questions/33897229/arquillian-reusing-requestscoped-beans-in-multiple-testmethods-->
-        <dependency>
-            <groupId>org.jboss.arquillian.protocol</groupId>
-            <artifactId>arquillian-protocol-servlet</artifactId>
         </dependency>
     </dependencies>
 

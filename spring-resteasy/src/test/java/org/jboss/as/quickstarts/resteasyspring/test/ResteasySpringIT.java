@@ -56,12 +56,16 @@ public class ResteasySpringIT {
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
                 .addAsWebInfResource("web.xml")
                 .addAsWebInfResource("applicationContext.xml")
+                .addAsWebInfResource("jboss-deployment-structure.xml")
                 .addAsLibraries(Maven.configureResolver()
-                        .resolve("org.springframework:spring-web:6.0.4")
+                        .loadPomFromFile("pom.xml")
+                        .resolve(
+                                "org.springframework:spring-core",
+                                "org.springframework:spring-web",
+                                "org.springframework:spring-context",
+                                "org.springframework:spring-beans"
+                        )
                         .withTransitivity().asFile());
-//                .addAsLibraries(Maven.configureResolver()
-//                        .resolve("jakarta.ws.rs:jakarta.ws.rs-api:3.1.0")
-//                        .withTransitivity().asFile());
     }
 
     @ArquillianResource

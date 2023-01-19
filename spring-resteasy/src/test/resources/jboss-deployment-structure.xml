@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<jboss-deployment-structure xmlns="urn:jboss:deployment-structure:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <deployment>
+        <!-- Spring does not support CDI and therefore CDI required subsystem and dependencies must be excluded -->
+        <exclude-subsystems>
+            <subsystem name="jsf"/>
+            <subsystem name="microprofile-opentracing-smallrye"/>
+            <subsystem name="weld"/>
+        </exclude-subsystems>
+        <exclusions>
+            <module name="org.jboss.resteasy.resteasy-cdi"/>
+        </exclusions>
+    </deployment>
+</jboss-deployment-structure>
