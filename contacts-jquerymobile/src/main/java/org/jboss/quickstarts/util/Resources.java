@@ -18,6 +18,7 @@ package org.jboss.quickstarts.util;
 
 import java.util.logging.Logger;
 
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.Produces;
 import jakarta.enterprise.inject.spi.InjectionPoint;
 import jakarta.persistence.EntityManager;
@@ -35,6 +36,7 @@ import jakarta.persistence.PersistenceContext;
  * private EntityManager em;
  * </pre>
  */
+@ApplicationScoped
 public class Resources {
 
     @Produces

@@ -19,6 +19,7 @@ package org.jboss.quickstarts.contact;
 import java.util.HashSet;
 import java.util.Set;
 
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.NoResultException;
 import jakarta.validation.ConstraintViolation;
@@ -34,6 +35,7 @@ import jakarta.validation.Validator;
  * @author Joshua Wilson
  *
  */
+@RequestScoped
 public class ContactValidator {
     @Inject
     private Validator validator;
