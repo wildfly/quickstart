@@ -599,7 +599,7 @@ This URL should almost always return a response with JSON data. Even though inte
 in about 50% of cases (you can see those errors in the server log), it uses automatic retries to mitigate these
 failures.
 +
-See details in the section <<adding_resiliency_retries, Adding More Resiliency: Retries>>.
+See details in the section <<adding_resiliency_retries, Adding Resiliency: Retries>>.
 
 * http://localhost:8080/microprofile-fault-tolerance/coffee/1/recommendations
 +
@@ -607,8 +607,8 @@ This endpoint also fails in about 50% of cases, but it uses fallback strategy to
 normal processing failed. As a result the response will either contain a JSON list with several items in it
 (a successful response) or just a single item in it (a fallback response).
 +
-See details in sections <<adding_resiliency_timeouts, Adding More Resiliency: Timeouts>>
-and <<adding_resiliency_fallbacks, Adding More Resiliency: Fallbacks>>.
+See details in sections <<adding_resiliency_timeouts, Adding Resiliency: Timeouts>>
+and <<adding_resiliency_fallbacks, Adding Resiliency: Fallbacks>>.
 
 
 * http://localhost:8080/microprofile-fault-tolerance/coffee/1/availability
@@ -617,7 +617,7 @@ This endpoint demonstrates the use of a circuit breaker. It returns a sequence o
 a sequence of two failed ones. After that, the circuit breaker will open and will block all
 further request processing for the duration of 5 seconds.
 +
-See details in the section <<adding_resiliency_circuit_breakers, Adding More Resiliency: Cirquit Breakers>>.
+See details in the section <<adding_resiliency_circuit_breakers, Adding Resiliency: Circuit Breakers>>.
 
 // Undeploy the Quickstart
 include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+2]
