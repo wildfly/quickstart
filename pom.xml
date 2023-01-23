@@ -354,7 +354,6 @@
                 <module>servlet-security</module>
                 <module>shopping-cart</module>
                 <!-- disabled waiting for jakarta migration
-                <module>spring-resteasy</module>
                 <module>tasks-jsf</module>
                 -->
                 <module>temperature-converter</module>
@@ -362,6 +361,15 @@
                 <module>thread-racing</module>
                 <module>websocket-endpoint</module>
                 <module>websocket-hello</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>jdk-17-required</id>
+            <activation>
+                <jdk>[17,)</jdk>
+            </activation>
+            <modules>
+                <module>spring-resteasy</module>
             </modules>
         </profile>
         <profile>
