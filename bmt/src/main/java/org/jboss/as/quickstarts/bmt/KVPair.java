@@ -35,10 +35,10 @@ public class KVPair implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(unique = true)
+    @Column(name = "id", unique = true)
     private String key;
 
-    @Column
+    @Column(name = "result")
     private String value;
 
     public KVPair() {
