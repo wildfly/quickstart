@@ -35,7 +35,7 @@ public class KVPair implements Serializable {
     @Column(unique = true, name = "name")
     private String key;
 
-    @Column
+    @Column(name = "result")
     private String value;
 
     public KVPair() {
