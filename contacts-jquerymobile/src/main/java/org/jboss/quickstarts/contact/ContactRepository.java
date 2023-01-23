@@ -16,6 +16,7 @@
  */
 package org.jboss.quickstarts.contact;
 
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
@@ -35,6 +36,7 @@ import java.util.logging.Logger;
  * @author Joshua Wilson
  *
  */
+@RequestScoped
 public class ContactRepository {
 
     @Inject
