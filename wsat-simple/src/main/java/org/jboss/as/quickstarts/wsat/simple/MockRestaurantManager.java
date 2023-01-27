@@ -16,6 +16,7 @@
  */
 package org.jboss.as.quickstarts.wsat.simple;
 
+import java.io.Serializable;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -25,7 +26,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  *
  * @author paul.robinson@redhat.com, 2012-01-04
  */
-public class MockRestaurantManager {
+public class MockRestaurantManager implements Serializable{
 
     // The singleton instance of this class.
     private static MockRestaurantManager singletonInstance;

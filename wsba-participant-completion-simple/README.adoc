@@ -10,6 +10,7 @@ The `wsba-participant-completion-simple` quickstart deploys a WS-BA (WS Business
 
 :standalone-server-type: custom
 :archiveType: war
+:restoreScriptName: restore-configuration.cli
 
 == What is it?
 
@@ -60,21 +61,85 @@ include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
 
 You must start {productName} with the XTS subsystem enabled.
 
+. Edit the log level to reduce the amount of log output. This should make it easier to read the logs produced by this example. To do this add the following logger block to the `__{jbossHomeName}__/standalone/configuration/standalone.xml` of your JBoss distribution. You should add it just below one of the other logger blocks.
++
+[source,xml,options="nowrap"]
+----
+<logger category="org.apache.cxf.service.factory.ReflectionServiceFactoryBean">
+    <level name="WARN"/>
+</logger>
+----
+
+[[configure_the_server]]
+=== Configure the Server
+
+You can configure the server by running JBoss CLI commands. For your convenience, this quickstart batches the commands into a `configure-server.cli` script provided in the root directory of this quickstart.
+
+. Before you begin, make sure you do the following:
+
+* xref:back_up_standalone_server_configuration[Back up the {productName} standalone server configuration] as described above.
+* Start the {productName} server with the standalone default profile : 
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}__/bin/standalone.sh
+----
+
+. Review the `configure-server.cli` file in the root of this quickstart directory. This script adds xts domain
+. Open a new terminal, navigate to the root directory of this quickstart, and run the following command, replacing `__{jbossHomeName}__` with the path to your server:
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=configure-server.cli
+----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
+
++
+You should see the following result when you run the script:
++
+[source,options="nowrap"]
+----
+The batch executed successfully
+----
+
+. Stop the {productName} server.
+
+=== Review the Modified Server Configuration
+
+After stopping the server, open the `__{jbossHomeName}__/standalone/configuration/standalone.xml` file and review the changes.
+
+. The following subsystem was added.
++
+[source,xml,options="nowrap"]
+----
+<subsystem xmlns="urn:jboss:domain:xts:3.0">
+            <host name="default-host"/>
+            <xts-environment url="http://${jboss.bind.address:127.0.0.1}:8080/ws-c11/ActivationService"/>
+            <default-context-propagation enabled="true"/>
+</subsystem>
+----
+
+. The following `extension` was added.
++
+[source,xml,options="nowrap"]
+----
+        <extension module="org.jboss.as.xts"/>
+----
++
+
 . Open a terminal and navigate to the root of the {productName} directory.
 . Start the {productName} server with XTS subsystem enabled by typing the following command.
 +
 [source,subs="+quotes,attributes+",options="nowrap"]
 ----
-$ __{jbossHomeName}__/bin/standalone.sh --server-config=../../docs/examples/configs/standalone-xts.xml | egrep "started|stdout"
+$ __{jbossHomeName}__/bin/standalone.sh
 ----
 +
 NOTE: For Windows, use the `__{jbossHomeName}__\bin\standalone.bat` script.
 
-The pipe to egrep, `| egrep "started|stdout"`, is useful to show when the server has started and the output from these tests. For normal operation, this pipe can be removed.
-
 // Run the Arquillian Tests
 include::../shared-doc/run-arquillian-tests.adoc[leveloffset=+1]
-
 
 [[investigate_the_console_output]]
 == Investigate the Console Output
@@ -94,12 +159,10 @@ You see the following warning when you run the Arquillian tests in remote mode.
 
 [source,options="nowrap"]
 ----
-WARNING: Configuration contain properties not supported by the backing object org.jboss.as.arquillian.container.remote.RemoteContainerConfiguration
-Unused property entries: {serverConfig=../../docs/examples/configs/standalone-xts.xml}
-Supported property names: [managementAddress, password, managementPort, managementProtocol, username]
+WARN  [org.jboss.as.dependency.deprecated] (MSC service thread 1-4) WFLYSRV0221: Deployment "deployment.wsat-simple.war" is using a deprecated module ("org.jboss.xts") which may be removed in future versions without notice.
 ----
 
-This is because, in remote mode, you are responsible for starting the server with the XTS subsystem enabled. When you run the Arquillian tests in managed mode, the container uses the `serverConfig` property defined in the `arquillian.xml` file to start the server with the XTS subsystem enabled.
+This is because, in remote mode, you are responsible for starting the server with the XTS subsystem enabled. When you run the Arquillian tests in managed mode, the container uses the `serverConfig` property defined in the `arquillian.xml` file to start the server with the XTS subsystem enabled (default is standalone.xml).
 ====
 
 == Investigate the Server Log
@@ -141,11 +204,14 @@ INFO  [stdout] (http-localhost-127.0.0.1-8080-1) [SERVICE] Prepare successful, n
 INFO  [stdout] (http-localhost-127.0.0.1-8080-1) [SERVICE] Participant.confirmCompleted('true') (This tells the participant that compensation information has been logged and that it is safe to commit any changes.)
 ----
 
+//  Restore the {productName} Standalone Server Configuration
+include::../shared-doc/restore-standalone-server-configuration.adoc[leveloffset=+2]
+
 // Run the Quickstart in Red Hat CodeReady Studio or Eclipse
 include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
 
 // Additional Red Hat CodeReady Studio instructions
-This quickstart is more complex than the others. It requires that you configure the {productName} server to use the _standalone-xts.xml_ configuration file, which is located in an external configuration directory.
+This quickstart is more complex than the others. It requires that you configure the {productName} server using the configure-server.cli file.
 
 . Import the quickstart into {JBDSProductName}.
 . If you have not already done so, you must configure a new {productName} server to use the XTS configuration.
@@ -161,7 +227,7 @@ This quickstart is more complex than the others. It requires that you configure 
 *Home Directory*: __Browse to the __{jbossHomeName}__ directory and select it.__
 *Runtime JRE*: __Choose an alternate JRE if not correct.__
 *Server base directory*: __This should already point to your standalone server configuration directory,__
-*Configuration file*: `../../docs/examples/configs/standalone-xts.xml`
+*Configuration file*: `standalone.xml`
 ----
 
 . Start the new *{productName} XTS Configuration* server.
