@@ -58,9 +58,8 @@ public class TaskController {
         return taskTitle;
     }
 
-    public TaskController setTaskTitle(String taskTitle) {
+    public void setTaskTitle(String taskTitle) {
         this.taskTitle = taskTitle;
-        return this;
     }
 
     /**
@@ -75,9 +74,8 @@ public class TaskController {
     /**
      * Creates new task and, if no task is selected as current, selects it.
      *
-     * @param taskTitle
      */
-    public void createTask(String taskTitle) {
+    public void createTask() {
         taskList.invalidate();
         Task task = new Task(taskTitle);
         taskDao.createTask(currentUser.get(), task);
