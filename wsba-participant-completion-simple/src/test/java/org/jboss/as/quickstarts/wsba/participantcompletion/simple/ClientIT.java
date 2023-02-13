@@ -19,12 +19,13 @@ package org.jboss.as.quickstarts.wsba.participantcompletion.simple;
 import com.arjuna.mw.wst11.UserBusinessActivity;
 import com.arjuna.mw.wst11.UserBusinessActivityFactory;
 import org.junit.Assert;
+
+import java.io.File;
+
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.as.quickstarts.wsba.participantcompletion.simple.jaxws.SetServiceBA;
-import org.jboss.shrinkwrap.api.ArchivePaths;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
@@ -46,7 +47,7 @@ public class ClientIT {
         return ShrinkWrap.create(WebArchive.class, "test.war")
             .addPackages(true, SetServiceBAImpl.class.getPackage().getName())
             .addAsResource("context-handlers.xml")
-            .addAsWebInfResource(EmptyAsset.INSTANCE, ArchivePaths.create("beans.xml"))
+            .addAsWebInfResource(new File("src/main/java/META-INF/beans.xml"))
             .setManifest(new StringAsset(ManifestMF));
     }
 

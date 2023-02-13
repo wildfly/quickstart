@@ -1,0 +1,17 @@
+
+# Batch script to configure XTS subsystem
+
+
+/extension=org.jboss.as.xts:add
+
+batch
+
+# Creating the xts subsystem
+/subsystem=xts/:add(host=default-host, url="http://${jboss.bind.address:127.0.0.1}:8080/ws-c11/ActivationService", default-context-propagation=true )
+
+# Run the batch commands
+run-batch
+
+# Reload the server configuration
+reload
+

@@ -1,0 +1,16 @@
+# Batch script to remove the XTS subsystem and extension
+
+# Start batching commands
+
+batch
+
+# Remove xts's application security domain
+/subsystem=xts/:remove()
+
+/extension=org.jboss.as.xts:remove
+
+# Run the batch commands
+run-batch
+
+# Reload the server configuration
+reload
