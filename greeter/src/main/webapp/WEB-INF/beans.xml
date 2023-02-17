@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
     JBoss, Home of Professional Open Source
-    Copyright 2015, Red Hat, Inc. and/or its affiliates, and individual
+    Copyright 2022, Red Hat, Inc. and/or its affiliates, and individual
     contributors by the @authors tag. See the copyright.txt in the
     distribution for a full listing of individual contributors.
 
@@ -15,14 +15,15 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<beans xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="
-      http://xmlns.jcp.org/xml/ns/javaee
-      http://xmlns.jcp.org/xml/ns/javaee/beans_1_1.xsd"
-    bean-discovery-mode="all">
-
+<!-- Marker file indicating CDI should be enabled -->
+<beans xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/beans_2_0.xsd"
+       bean-discovery-mode="all"
+       version="2.0">
     <!-- Uncomment this alternative to see EJB declarative transactions in use -->
     <!-- <alternatives> 
         <class>org.jboss.as.quickstarts.greeter.domain.EJBUserDao</class>
     </alternatives> -->
 </beans>
+
