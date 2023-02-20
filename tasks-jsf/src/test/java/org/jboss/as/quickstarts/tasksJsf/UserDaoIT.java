@@ -40,11 +40,11 @@ public class UserDaoIT {
     @Deployment
     public static WebArchive deployment() throws IllegalArgumentException, FileNotFoundException {
         return new DefaultDeployment().withPersistence().withImportedData().getArchive()
-                .addClasses(Resources.class, User.class, UserDao.class, Task.class, TaskDao.class, UserDaoImpl.class);
+                .addClasses(Resources.class, Person.class, PersonDao.class, Task.class, TaskDao.class, PersonDaoImpl.class);
     }
 
     @Inject
-    private UserDao userDao;
+    private PersonDao userDao;
 
     @Inject
     private EntityManager em;
@@ -52,11 +52,11 @@ public class UserDaoIT {
     @Test
     public void userDao_should_create_user_so_it_could_be_retrieved_from_userDao_by_username() {
         // given
-        User created = new User("username1");
+        Person created = new Person("username1");
 
         // when
         userDao.createUser(created);
-        User retrieved = userDao.getForUsername("username1");
+        Person retrieved = userDao.getForUsername("username1");
 
         // then
         assertTrue(em.contains(created));
@@ -70,7 +70,7 @@ public class UserDaoIT {
         String username = "jdoe";
 
         // when
-        User retrieved = userDao.getForUsername(username);
+        Person retrieved = userDao.getForUsername(username);
 
         // then
         Assert.assertEquals(username, retrieved.getUsername());
@@ -82,7 +82,7 @@ public class UserDaoIT {
         String nonExistent = "nonExistent";
 
         // when
-        User retrieved = userDao.getForUsername(nonExistent);
+        Person retrieved = userDao.getForUsername(nonExistent);
 
         // then
         assertNull(retrieved);

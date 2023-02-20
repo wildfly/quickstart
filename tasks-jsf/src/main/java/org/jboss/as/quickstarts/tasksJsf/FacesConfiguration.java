@@ -24,7 +24,7 @@ import jakarta.faces.annotation.FacesConfig;
  *
  * @author Rene Fischer
  */
-@FacesConfig(version = FacesConfig.Version.JSF_2_3)
+@FacesConfig
 @ApplicationScoped
 public class FacesConfiguration {
 }

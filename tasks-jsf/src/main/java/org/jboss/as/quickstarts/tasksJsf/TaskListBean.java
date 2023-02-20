@@ -54,7 +54,7 @@ public class TaskListBean implements TaskList {
 
     @Inject
     @CurrentUser
-    private User currentUser;
+    private Person currentUser;
 
     @Override
     public List<Task> getAll() {
