@@ -1,0 +1,344 @@
+include::../shared-doc/attributes.adoc[]
+
+= ejb-security-jwt: EJB Security with bearer token authentication and authorization
+:author: Lin Gao
+:level: Advanced
+:technologies: EJB, Security, Bearer, OIDC, JWT
+:requires-multiple-servers: true
+
+[abstract]
+The `ejb-security-jwt` quickstart uses EJB and `OAUTHBEARER` SASL mechanism to demonstrate how to access a secured EJB deployed to {productNameFull} from a remote Java client application, and how an EJB deployed in one {productNameFull} calls a secured EJB deployed in another {productNameFull} using the same authentication context.
+
+:standalone-server-type: default
+:archiveType: ear
+:oidcIdp: KeyCloak
+:oidcIdpLink: https://www.keycloak.org/
+:serverNameBase: {jbossHomeName}
+
+== What is it?
+
+The `ejb-security-jwt` quickstart shows how to access a remote secured EJB from a remote Java client application. It demonstrates the use of EJB and `OAUTHBEARER` SASL mechanism in {productNameFull}. It uses {oidcIdpLink}[{oidcIdp}] as the OIDC Identity Provider(IDP) with a predefined realm setup for this quickstart.
+
+This example consists of the following Maven projects, each with a shared parent:
+
+[cols="40%,60%",options="headers"]
+|===
+|Project |Description
+
+a|`app-one`
+a|An `EAR` application that can be called by the `client`. It shows current caller principal and if it has role of `user` and `admin`, it can also call the EJB deployed in a separate server from `app-two` using the same authentication context.
+
+[[ejba]] We can call the EJB in `app-one` as `EJBA` in this document, it will be deployed into {productName}_1 server.
+
+a|`app-two`
+a|An `EJB` application that shows current caller principal and if it has role of `user` and `admin`.
+
+[[ejbb]] We can call the EJB in `app-two` as `EJBB` in this document, it will be deployed into {productName}_2 server.
+
+a|`client`
+|This project builds the standalone client and executes it.
+|===
+
+The root `pom.xml` builds each of the subprojects in an appropriate order.
+
+The server configuration is done using CLI batch scripts located in the root of this quickstart folder.
+
+// System Requirements
+include::../shared-doc/system-requirements.adoc[leveloffset=+1]
+// Use of {jbossHomeName}
+include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
+
+== Start A {oidcIdp} Server With Predefined Realm
+
+This quickstart needs an OIDC IDP from which to get the bearer token from. We use {oidcIdp} for this quickstart.
+
+{oidcIdp} supports starting a Docker container with a predefined realm setup
+
+.Start {oidcIdp} Server with realm setup using `keycloak/realm/realm-import.json`:
+[source, subs="+quotes,attributes+"]
+----
+$ cd ${QUICKSTART_HOME}/ejb-security-jwt
+$ docker run --rm -p 8180:8080 -e KEYCLOAK_ADMIN=admin -e KEYCLOAK_ADMIN_PASSWORD=admin -v $(pwd)/keycloak/realm:/opt/keycloak/data/import quay.io/keycloak/keycloak:21.0.0 start-dev --import-realm
+----
+
+This predefined realm has the following configuration:
+
+A realm called `jwt-realm` is created, there is a client called `app` created under this realm, the secret for this client is `secret`, and there are 2 users created:
+
+[cols="30%,30%,40%",options="headers"]
+|===
+|UserName | Password | Realm Roles
+|quickstartUser |quickstartPwd1! | user
+|admin |admin | user, admin
+|===
+
+You can also set up the realm manually, please refer to {oidcIdpLink} for detail.
+
+== Build the Project
+. Navigate to the quickstart directory to build the project
++
+[source, subs="+quotes,attributes+", options="nowrap"]
+----
+$ cd ${QUICKSTART_HOME}/ejb-security-jwt
+----
+
+. Build the project
++
+[source,options="nowrap"]
+----
+$ mvn clean install
+----
+
+== Demonstrations
+
+There are 2 parts in this quickstart, the first part is showing how the remote EJB client calls EJB deployed in {productName}_1 server using `OAUTHBEARER` SASL mechanism, the second one is showing how the remote EJB client calls EJB deployed in {productName}_1 server which in turn invokes EJB deployed in {productName}_2 server with the authentication context propagated.
+
+Let's start the first part.
+
+=== Remote EJB Client calls EJB using `OAUTHBEARER` mechanism
+
+:jbossHomeName: {serverNameBase}_1
+[#start-server-1]
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+3]
+
+:hostController: --controller=localhost:9990
+include::./configure_server.adoc[]
+
+==== Deploy EJB in `app-one` to {productName}_1 Server
+The EJB `JWTSecurityEJBRemoteA` in `app-one` has one method declared:
+
+[source, java]
+----
+String securityInfo(boolean recursive);
+----
+which will return a String including the caller principal and the authorization check result if it has role of `user` and `admin`.
+
+Open a terminal, and use the following command to deploy EJB in `app-one` module to  {productName}_1 Server:
+
+[source, bash, subs="+quotes,attributes+"]
+----
+$ cd ${QUICKSTART_HOME}/ejb-security-jwt/app-one/ejb/
+$ mvn wildfly:deploy
+----
+
+==== Configure and run EJB client application
+
+The remote EJB client application will invoke link:#ejba[EJBA] twice. The first invocation reads the authentication configuration from `META-INF/wildfly-config.xml` where the `quickstartUser` and it's password is specified to get the bearer token from a specified token endpoint url. The second invocation uses programmatic authentication switching to use `admin` user. The only difference between 2 invocations is that they are using different user, thus differnt roles.
+
+It has a system property called `recursive` in the client to decide if link:#ejba[EJBA] should call link:#ejbb[EJBB], we won't call EJBB in the first part, so we leave it as the default value: `false`.
+
+Open a terminal, run the following command to run the remote EJB client application:
+
+[source, bash]
+----
+$ cd ${QUICKSTART_HOME}/ejb-security-jwt/client
+$ mvn exec:exec
+----
+
+==== Investigate the Console Output
+
+When the client application runs, it performs the following steps:
+
+. Obtains a stateless session bean instance.
+. Sends method invocations to the stateless bean to get current security information from server side.
+
+The following output is displayed in the terminal window:
+
+[source, bash]
+----
+* * * * * * * * * * * recursive: false  * * * * * * * * * * * * * * * * * * *
+
+Security Info in JWTSecurityEJBA:
+	Caller: [quickstartuser]
+		quickstartuser has user role: (true)
+		quickstartuser has admin role: (false)
+
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+* * * * * * *  Below are invoked using admin account  * * * * * *
+
+* * * * * * * * * * * recursive: false  * * * * * * * * * * * * * * * * * * *
+
+Security Info in JWTSecurityEJBA:
+	Caller: [admin]
+		admin has user role: (true)
+		admin has admin role: (true)
+
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+----
+
+We can see that the user `quickstartUser` has the `user` role, but does not have `admin` role, the user `admin` has both roles. It can be confirmed in the {oidcIdp} server setup.
+
+
+Now let's jump to the second part.
+
+=== Propagate the authentication context using `OAUTHBEARER` mechanism for EJB calls EJB.
+
+In this part, we will demonstrate how the link:#ejba[EJBA] calls link:#ejbb[EJBB], and how to configure the {productName}_1 to propagate the authentication context from remote client using `OAUTHBEARER` SASL mechanism.
+
+==== Configure remote outbound connection in {productName}_1 Server
+We need to create a `remote-outbound-connection` in remoting subsystem of {productName}_1 server with the authentication context specified in elytron subsystem to propagate.
+
+Open a terminal, and run the following command:
+
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ cd ${QUICKSTART_HOME}/ejb-security-jwt
+$ __${jbossHomeName}__/bin/jboss-cli.sh -c --file=configure-ejb-outbound-connection.cli
+----
+
+You will see the following configuration in standalone.xml of {productName}_1 server:
+
+[source, xml]
+----
+<!-- in elytron subsystem -->
+<authentication-client>
+    <authentication-configuration name="ejb-outbound-configuration" security-domain="jwt-domain" sasl-mecha
+nism-selector="OAUTHBEARER"/>
+    <authentication-context name="ejb-outbound-context">
+        <match-rule authentication-configuration="ejb-outbound-configuration"/>
+    </authentication-context>
+</authentication-client>
+
+<!-- in remoting subsystem -->
+<outbound-connections>
+    <remote-outbound-connection name="ejb-outbound-connection" outbound-socket-binding-ref="ejb-outbound" authentication-context="ejb-outbound-context"/>
+</outbound-connections>
+
+<!-- in socket-binding-group -->
+<outbound-socket-binding name="ejb-outbound">
+    <remote-destination host="localhost" port="8280"/>
+</outbound-socket-binding>
+----
+
+==== Redeploy EJB in `app-one` to {productName}_1 Server
+In the first part, we deployed EJB `jar` to {productName}_1 server for the demonstration, to be able to make link:#ejba[EJBA] calls link:#ejbb[EJBB], we need to package the EJBs in `EAR` to have ejb client dependency of EJBB inside.
+
+Open a terminal, and run the following command to undeploy the link:#ejba[EJBA] in jar archive, and deploy it again using ear archive:
+
+[source, bash, subs="+quotes,attributes+"]
+----
+$ cd ${QUICKSTART_HOME}/ejb-security-jwt/app-one/ejb
+$ mvn wildfly:undeploy
+$ cd ../ear
+$ mvn wildfly:deploy
+----
+
+There is a file `META-INF/jbos-ejb-client.xml` in the `EAR` deployment, which specifies the outbound-connection reference to `ejb-outbound-connection`, it matches what was defined above, and it points to the HTTP port: `8280` which is used by the {productName}_2 server.
+
+==== Starts {productName}_2 server
+
+:jbossHomeName: {serverNameBase}_2
+Now it's time to start {productName}_2 server. Open a terminal, and like what you did to start link:#start-server-1[{productName}_1 server], you need to specify a port offset to avoid port conflicts: `-Djboss.socket.binding.port-offset=200`, this makes the HTTP port opened by {productName}_2 server becomes `8280`:
+
+.Example of starting {productName}_2 server in Linux system:
+[source,subs="+quotes,attributes+"]
+----
+$ __{jbossHomeName}__/bin/standalone.sh -Djboss.socket.binding.port-offset=200
+----
+
+:hostController: --controller=localhost:10190
+include::./configure_server.adoc[]
+
+==== Deploy EJB in `app-two` to {productName}_2 Server
+The EJB `JWTSecurityEJBRemoteB` in `app-two` has one method declared:
+
+[source, java]
+----
+String securityInfo();
+----
+which will return a String including the caller principal and the authorization check result if it has role of `user` and `admin`.
+
+Open a terminal, and use the following command to deploy EJB in `app-two` module to  {productName}_2 Server:
+
+[source, bash, subs="+quotes,attributes+"]
+----
+$ cd ${QUICKSTART_HOME}/ejb-security-jwt/app-two
+$ mvn wildfly:deploy -Dwildfly.port=10190
+----
+
+==== Configure and run EJB client application
+Now let's run the remote client again, we will specify `-Drecursive=true` to let EJBA calls EJBB this time.
+
+Open a terminal, and run the following command:
+
+[source, bash]
+----
+$ cd ${QUICKSTART_HOME}/ejb-security-jwt/client
+$ mvn exec:exec -Drecursive=true
+----
+
+
+==== Investigate the Console Output
+The following output is displayed in the terminal window:
+
+[source, bash]
+----
+* * * * * * * * * * * recursive: true  * * * * * * * * * * * * * * * * * * *
+
+Security Info in JWTSecurityEJBA:
+	Caller: [quickstartuser]
+		quickstartuser has user role: (true)
+		quickstartuser has admin role: (false)
+
+===========  Below are invocation from remote EJB in app-two  ===========
+Security Info in JWTSecurityEJBB:
+	Caller: [quickstartuser]
+		quickstartuser has user role: (true)
+		quickstartuser has admin role: (false)
+
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+* * * * * * *  Below are invoked using admin account  * * * * * *
+
+* * * * * * * * * * * recursive: true  * * * * * * * * * * * * * * * * * * *
+
+Security Info in JWTSecurityEJBA:
+	Caller: [admin]
+		admin has user role: (true)
+		admin has admin role: (true)
+
+===========  Below are invocation from remote EJB in app-two  ===========
+Security Info in JWTSecurityEJBB:
+	Caller: [admin]
+		admin has user role: (true)
+		admin has admin role: (true)
+
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+----
+
+We can see that the user `quickstartUser` has the `user` role, but does not have `admin` role, the user `admin` has both roles. It can be confirmed in the {oidcIdp} server setup.
+
+We can also see that the invocation from EJBA to EJBB uses the same authentication context as what is used in remote client calls EJBA.
+
+== Undeploy the Archives
+
+To undeploy the components from the {productName} servers:
+
+. Navigate to the `app-one/ear` subdirectory:
++
+[source,options="nowrap"]
+----
+$ cd ${QUICKSTART_HOME}/ejb-security-jwt/app-one/ear/
+$ mvn wildfly:undeploy
+----
+
+. Navigate to the `app-two` subdirectory:
++
+[source,options="nowrap"]
+----
+$ cd ${QUICKSTART_HOME}/ejb-security-jwt/app-two
+$ mvn wildfly:undeploy -Dwildfly.port=10190
+----
+
+== Restore the servers
+After un-deployed the archives from both servers, you can restore the server configurations:
+
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ cd ${QUICKSTART_HOME}/ejb-security-jwt
+$ __${serverNameBase}_1__/bin/jboss-cli.sh -c  --file=restore-configuration.cli
+$ __${serverNameBase}_2__/bin/jboss-cli.sh -c  {hostController} --file=restore-configuration.cli
+----
+
