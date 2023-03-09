@@ -71,6 +71,11 @@ public class CoffeeRepositoryService {
                 .collect(Collectors.toList());
     }
 
+    public Coffee getOrder() {
+        Coffee order = coffeeList.get((int) (Math.random() * coffeeList.size() + 1));
+        return order;
+    }
+
     @CircuitBreaker(requestVolumeThreshold = 4)
     public Integer getAvailability(Coffee coffee) {
         maybeFail();

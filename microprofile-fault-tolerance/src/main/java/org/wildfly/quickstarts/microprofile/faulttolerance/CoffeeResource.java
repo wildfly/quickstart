@@ -16,9 +16,15 @@
  */
 package org.wildfly.quickstarts.microprofile.faulttolerance;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicLong;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -28,12 +34,15 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
+import org.eclipse.microprofile.faulttolerance.Bulkhead;
 import org.eclipse.microprofile.faulttolerance.CircuitBreaker;
 import org.eclipse.microprofile.faulttolerance.Fallback;
 import org.eclipse.microprofile.faulttolerance.Retry;
 import org.eclipse.microprofile.faulttolerance.Timeout;
 import org.jboss.logging.Logger;
 import jakarta.ws.rs.PathParam;
+
+import static java.lang.Thread.sleep;
 
 /**
  * A JAX-RS resource that provides information about kinds of coffees we have on store and numbers of packages available.
@@ -54,6 +63,8 @@ public class CoffeeResource {
     private AtomicLong counter = new AtomicLong(0);
 
     private Float failRatio = 0.5f;
+
+    private Integer numberOfThreads = 4;
 
     /**
      * Provides list of all our coffees.
@@ -146,6 +157,61 @@ public class CoffeeResource {
                     invocationNumber, System.currentTimeMillis() - started);
             return null;
         }
+    }
+
+    /**
+     * Returns the total amount of orders that were successfully executed.
+     * <p>
+     * In this case, the number of threads that are created (available salesmen) are 4.
+     * However, the method that returns the order is annotated with {@link Bulkhead} and the number of the allowed
+     * threads which can execute the method in the same time is 3. The result is, three orders are executed successfully
+     * and one fails.
+     */
+    @GET
+    @Path("/orders")
+    public List<Coffee> orders() throws ExecutionException, InterruptedException {
+        List<Future<Coffee>> futures;
+        ArrayList<Coffee> orders = new ArrayList<>();
+        ArrayList<Callable<Coffee>> calls = new ArrayList<>();
+        long invocationNumber;
+        ExecutorService executorService = Executors.newFixedThreadPool(numberOfThreads);
+        Callable<Coffee> call = () -> getOrder();
+
+        for (int i = 0; i < numberOfThreads; i++) {
+            calls.add(call);
+        }
+
+        futures = executorService.invokeAll(calls);
+
+        for (Future<Coffee> future : futures) {
+            invocationNumber = counter.getAndIncrement();
+            try {
+                orders.add(future.get());
+                LOGGER.infof("CoffeeResource#Orders invocation #%d returning successfully", invocationNumber);
+            } catch (InterruptedException | ExecutionException e) {
+                String message = e.getClass().getSimpleName() + ": " + e.getMessage();
+                LOGGER.errorf("CoffeeResource#Orders invocation #%d failed: %s", invocationNumber, message);
+            }
+        }
+        return orders;
+    }
+
+    /**
+     * Only 3 threads allowed to execute
+     * this method concurrently
+     */
+    @Bulkhead(3)
+    public Coffee getOrder() throws Exception {
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        return coffeeRepository.getOrder();
+    }
+
+    public void setNumberOfThreads(Integer numberOfThreads) {
+        this.numberOfThreads = numberOfThreads;
     }
 
     /**

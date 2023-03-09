@@ -33,6 +33,7 @@ import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.Response;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 @RunWith(Arquillian.class)
@@ -108,6 +109,41 @@ public class MicroProfileFaultToleranceIT {
 
         try (Response response = this.getResponse("/coffee/1")) {
             Assert.assertEquals(500, response.getStatus());
+        }
+    }
+
+    /**
+     * Testing if every placed order is processed successfully
+     */
+    @Test
+    public void testCoffeeOrders() {
+
+        coffeeResource.setNumberOfThreads(2);
+        try (Response response = this.getResponse("/coffee/orders")) {
+            Assert.assertEquals(200, response.getStatus());
+
+            ArrayList<Coffee> ordersList = response.readEntity(new GenericType<ArrayList<Coffee>>() {});
+            Assert.assertNotNull(ordersList);
+            Assert.assertEquals(2, ordersList.size());
+        }
+    }
+
+    /**
+     * Testing if the number of orders executed is specific with the help of BulkHead annotation.
+     * <p>
+     * Regardless of how many orders are placed, test succeed only if the number of orders that will be finally executed
+     * at the same time is 3, according to the limitation set by the Bulkhead.
+     */
+    @Test
+    public void testCoffeeOrdersRestriction() {
+
+        coffeeResource.setNumberOfThreads(5);
+        try (Response response = this.getResponse("/coffee/orders")) {
+            Assert.assertEquals(200, response.getStatus());
+
+            ArrayList<Coffee> ordersList = response.readEntity(new GenericType<ArrayList<Coffee>>() {});
+            Assert.assertNotNull(ordersList);
+            Assert.assertEquals(3, ordersList.size());
         }
     }
 
