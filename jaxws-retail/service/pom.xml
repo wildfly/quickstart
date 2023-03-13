@@ -39,6 +39,7 @@
     </licenses>
     <properties>
         <checkstyle.skip>true</checkstyle.skip>
+        <version.jbossws-cxf-client>6.1.0.Final</version.jbossws-cxf-client>
     </properties>
 
     <dependencies>
@@ -47,19 +48,13 @@
             <artifactId>jakarta.ejb-api</artifactId>
             <scope>provided</scope>
         </dependency>
-        <!-- The JAXWS Client BOM provides application server-compatible dependency management,
-        used for building, testing or debugging JAXWS client applications. Import the BOM to the
-        dependency management section of the app's pom.xml file and then set dependencies on specific artifacts.
-        Alternatively, as shown in the following example, set a single dependency on the BOM for the app to depend
-        on all the artifacts it manages.
-        In the following example, the BOM is used to pull the correct dependencies for jaxws-tools-maven-plugin.
-        -->
         <dependency>
-            <groupId>org.wildfly</groupId>
-            <artifactId>wildfly-jaxws-client-bom</artifactId>
-            <scope>provided</scope>
-            <type>pom</type>
+            <groupId>org.jboss.ws.cxf</groupId>
+            <artifactId>jbossws-cxf-client</artifactId>
+            <version>${version.jbossws-cxf-client}</version>
+            <scope>compile</scope>
         </dependency>
+
     </dependencies>
 
     <build>
@@ -70,6 +65,7 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <configuration>
                     <attachClasses>true</attachClasses>
+                    <packagingExcludes>WEB-INF/lib/cxf-*.jar</packagingExcludes>
                 </configuration>
             </plugin>
             <!-- WildFly Maven plug-in to deploy WAR -->
