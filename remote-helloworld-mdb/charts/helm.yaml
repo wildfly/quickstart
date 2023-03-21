@@ -1,0 +1,12 @@
+build:
+  uri: https://github.com/wildfly/quickstart.git
+  ref: main
+  contextDir: remote-helloworld-mdb
+deploy:
+  replicas: 1
+  env:
+    # Env vars to connect to Artemis
+    - name: JBOSS_MESSAGING_CONNECTOR_HOST
+      value: "artemis"
+    - name: JBOSS_MESSAGING_CONNECTOR_PORT
+      value: "61616"
