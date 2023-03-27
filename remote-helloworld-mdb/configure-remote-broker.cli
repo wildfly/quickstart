@@ -1,0 +1,13 @@
+echo Adding configuration to connect to remote broker
+# Define a socket binding to the remote broker
+/socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=remote-artemis:add(host=localhost, port=61616)
+# Removing the internal broker
+/subsystem=messaging-activemq/server=default:remove
+# Define the connector to the remote broker
+/subsystem=messaging-activemq/remote-connector=artemis:add(socket-binding=remote-artemis)
+# Add a resource adapter to the remote broker with the 'enable-amq1-prefix' set to false (since we are not connecting to a legacy broker).
+/subsystem=messaging-activemq/pooled-connection-factory=RemoteConnectionFactory:add(connectors=[artemis],entries=[java:jboss/RemoteConnectionFactory,java:jboss/exported/jms/RemoteConnectionFactory],enable-amq1-prefix=false, user=admin, password=admin)
+# Ensure that the resource adapter to the remote broker is used by default by EJBs
+/subsystem=ejb3:write-attribute(name=default-resource-adapter-name, value=RemoteConnectionFactory)
+# Ensure that the default resource adapter used for JMS is the resource adapter to the remote broker
+/subsystem=ee/service=default-bindings:write-attribute(name=jms-connection-factory, value=java:jboss/RemoteConnectionFactory)
