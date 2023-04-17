@@ -18,22 +18,22 @@ wildfly/wildfly-common  ...             ...            A library chart for WildF
 ----
 endif::[]
 ifdef::ProductRelease[]
-[source,options="nowrap"]
+[source,options="nowrap",subs="+attributes"]
 ----
 $ helm repo add jboss-eap https://jbossas.github.io/eap-charts/
 "jboss-eap" has been added to your repositories
 $ helm search repo jboss-eap
 NAME                    CHART VERSION   APP VERSION     DESCRIPTION
-jboss-eap/eap74         ...             ...             A Helm chart to build and deploy EAP 7.4 applications
+{helmChartName}         ...             ...             A Helm chart to build and deploy EAP {productVersion} applications
 ----
 endif::[]
 ifdef::EAPXPRelease[]
-[source,options="nowrap"]
+[source,options="nowrap",subs="+attributes"]
 ----
 $ helm repo add jboss-eap https://jbossas.github.io/eap-charts/
 "jboss-eap" has been added to your repositories
 $ helm search repo jboss-eap
 NAME                    CHART VERSION   APP VERSION     DESCRIPTION
-jboss-eap/eap-xp3       ...             ...             A Helm chart to build and deploy EAP XP 3 applications
+{helmChartName}         ...             ...             A Helm chart to build and deploy EAP XP {productVersion} applications
 ----
 endif::[]

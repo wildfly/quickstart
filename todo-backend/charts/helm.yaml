@@ -1,0 +1,34 @@
+# This configuration file can be used to build and deploy the todo-backend
+# quickstart on OpenShift with the Helm Chart.
+build:
+  uri: https://github.com/wildfly/quickstart.git
+  ref: main
+  contextDir: todo-backend
+  env:
+    - name: POSTGRESQL_DRIVER_VERSION
+      value: '42.5.1'
+deploy:
+  replicas: 1
+  env:
+    # Env vars to connect to PostgreSQL DB
+    - name: POSTGRESQL_DATABASE
+      valueFrom:
+        secretKeyRef:
+          key: database-name
+          name: todo-backend-db
+    - name: POSTGRESQL_USER
+      valueFrom:
+        secretKeyRef:
+          key: database-user
+          name: todo-backend-db
+    - name: POSTGRESQL_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          key: database-password
+          name: todo-backend-db
+    - name: POSTGRESQL_DATASOURCE
+      value: ToDos
+    - name: POSTGRESQL_SERVICE_HOST
+      value: todo-backend-db
+    - name: POSTGRESQL_SERVICE_PORT
+      value: "5432"

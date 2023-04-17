@@ -144,7 +144,21 @@ The layers are defined in the `pom.xml` file in the `<configuration>` section of
 </layers>
 ----
 endif::[]
-ifdef::ProductRelease,EAPXPRelease[]
+
+ifdef::ProductRelease[]
+When the image is built, `org.jboss.eap.plugins:eap-maven-plugin` plugin provisions the {productName} application server and all the feature packs it needs for its features.
+The layers are defined in the `pom.xml` file in the `<configuration>` section of the `org.jboss.eap.plugins:eap-maven-plugin` plugin:
+
+[source,xml]
+----
+<layers>
+  <layer>cloud-server</layer>
+  <layer>postgresql-datasource</layer>
+</layers>
+----
+endif::[]
+
+ifdef::EAPXPRelease[]
 When the image is built, it provisions the {productName} application server and all the feature packs it needs for its features:
 
 [source,yaml]
@@ -173,7 +187,7 @@ ifdef::ProductRelease,EAPXPRelease[]
 The `postgresql-datasource` layer provides a JDBC driver and DataSource to connect to a PostgreSQL database. It is also provided by
 the `org.jboss.eap:eap-datasources-galleon-pack` feature pack.
 
-The Git repository for this feature pack is hosted at https://github.com/wildfly-extras/wildfly-datasources-galleon-pack.
+The Git repository for this feature pack is hosted at https://github.com/jbossas/eap-datasources-galleon-pack.
 It provides JDBC drivers and datasources for different databases but for this quickstart, we will only need the `postgresql-datasource`.
 endif::[]
 
@@ -234,19 +248,20 @@ endif::[]
 ifdef::ProductRelease[]
 ==== Configuration with {productName} S2I
 
-As we use S2I to build the application, we need to provide environment variables that will be used to configure the CORS filters in Undertow.
+As we use S2I to provision the server and build the application, we provide a CLI script that contains all the commands to
+create and configure the CORS filters in Undertow. This script is located in the `src/scripts/cors_filters.cli`.
 
-Each filter requires three environment variables (its name, its header key and value) to define them. So to define an
-HTTP header such as `Access-Control-Allow-Methods: GET, POST, OPTION, PUT, DELETE, PATCH` we need three environment variables:
+This script is executed at build time and will provide the following HTTP headers to enabled CORS:
 
-* `acam_FILTER_RESPONSE_HEADER_NAME=Access-Control-Allow-Methods`
-* `acam_FILTER_RESPONSE_HEADER_VALUE=GET, POST, OPTION, PUT, DELETE, PATCH`
-* `acam_FILTER_REF_NAME=Access-Control-Allow-Methods`
+* `Access-Control-Allow-Origin: *`
+* `Access-Control-Allow-Methods: GET, POST, OPTION, PUT, DELETE, PATCH`
+* `Access-Control-Allow-Headers: accept, authorization, content-type, x-requested-with`
+* `Access-Control-Allow-Credentials: true`
+* `Access-Control-Max-Age: 1`
 
-We need one more environment variable to specify all the filters we want to enabled. The value is the list
-of prefixes we used for each individual filter (such as `acam` in the example above):
+By default, the backend accepts requests from any origin (`*`). This is only simplicity. It is possible to restrict
+the allowed origin using the environment variable `CORS_ORIGIN` at runtime.
 
-* `FILTERS=acao, acam, acah, acac, acma`
 endif::[]
 
 ifndef::ProductRelease[]
@@ -375,14 +390,14 @@ $ curl http://localhost:8080/todo-backend
 [{"completed":false,"id":1,"order":0,"title":"This is my first todo item!","url":"https://localhost:8080/todo-backend/1"}
 ----
 endif::[]
-
+ifndef::ProductRelease[]
 // Run the Arquillian Tests
 include::../shared-doc/run-arquillian-functional-tests-remote.adoc[leveloffset=+1]
-
 [NOTE]
 ====
 You may also execute those tests against a running bootable jar application, but you will need to add `-Dserver.host=http://localhost:8080` to the command.
 ====
+endif::[]
 
 == Run the Backend on OpenShift
 
@@ -405,13 +420,13 @@ wildfly/wildfly-common  ...             ...            A library chart for WildF
 ----
 endif::[]
 ifdef::ProductRelease[]
-[source,options="nowrap"]
+[source,options="nowrap",subs="+attributes"]]
 ----
 $ helm repo add jboss-eap https://jbossas.github.io/eap-charts/
 "jboss-eap" has been added to your repositories
 $ helm search repo jboss-eap
 NAME                    CHART VERSION   APP VERSION     DESCRIPTION
-jboss-eap/eap74         ...             ...             A Helm chart to build and deploy EAP 7.4 applications
+{helmChartName}         ...             ...             A Helm chart to build and deploy EAP {productVersion} applications
 ----
 endif::[]
 ifdef::EAPXPRelease[]
@@ -503,124 +518,14 @@ build:
   mode: bootable-jar
 ----
 endif::[]
-
-=== Build and Deploy the Backend on OpenShift with {productName} S2I
-
-The backend will be built and deployed on OpenShift with a Helm Chart for {productName}.
-
-ifndef::ProductRelease,EAPXPRelease[]
-Add the bitnami repository which provides an helm chart for PostgreSQL:
-[source,options="nowrap"]
-----
-$ helm repo add bitnami https://charts.bitnami.com/bitnami
-"bitnami" has been added to your repositories
-----
-
-Install the full application (database + backend).
-
-[source,options="nowrap",subs="+attributes"]
-----
-$ helm dependency update todo-backend-chart/
-$ helm install todo-backend todo-backend-chart/
-NAME: todo-backend
-...
-STATUS: deployed
-REVISION: 1
-----
 endif::[]
 
-ifdef::ProductRelease[]
-[source,options="nowrap",subs="+attributes"]
-----
-$ helm install todo-backend --set build.ref={EAPQuickstartRepoTag} -f https://raw.githubusercontent.com/jbossas/eap-charts/main/examples/eap74/todo-backend/todo-backend-s2i.yaml jboss-eap/eap74
-NAME: todo-backend
-...
-STATUS: deployed
-REVISION: 1
-----
-endif::[]
-
-ifdef::EAPXPRelease[]
-[source,options="nowrap",subs="+attributes"]
-----
-$ helm install todo-backend --set build.ref={EAPQuickstartRepoTag} -f https://raw.githubusercontent.com/jbossas/eap-charts/main/examples/eap-xp3/todo-backend/todo-backend-s2i.yaml jboss-eap/eap-xp3
-NAME: todo-backend
-...
-STATUS: deployed
-REVISION: 1
-----
-endif::[]
-
-ifdef::ProductRelease,EAPXPRelease[]
-The Helm Chart for this quickstart contains all the information to build an image from the source code using S2I:
-endif::[]
-
-ifndef::ProductRelease,EAPXPRelease[]
-The Helm Chart for this quickstart contains all the information to build an image from the source code using S2I and install it with the database:
-
-[source,options="nowrap"]
-----
-dependencies:
-    - name: postgresql
-      repository: https://charts.bitnami.com/bitnami
-      version: ...
-    - name: wildfly
-      repository: http://docs.wildfly.org/wildfly-charts/
-      version: ...
-----
-
-endif::[]
-ifdef::EAPXPRelease[]
-[source,options="nowrap"]
-----
-build:
-  uri: https://github.com/wildfly/quickstart.git
-  mode: s2i
-  s2i:
-    galleonLayers: 
-      - cloud-server
-      - postgresql-datasource
-----
-endif::[]
-ifdef::ProductRelease[]
-[source,options="nowrap"]
-----
-build:
-  uri: https://github.com/jboss-developer/jboss-eap-quickstarts.git
-  mode: s2i
-  s2i:
-    galleonLayers:
-      - cloud-server
-      - postgresql-datasource
-----
-endif::[]
-
-Any configuration specified by this chart is described in its README that is displayed in OpenShift Dev console
-or using the command:
-
-ifndef::ProductRelease,EAPXPRelease[]
-[source,options="nowrap"]
-----
-$ helm show readme wildfly/wildfly
-----
-endif::[]
-ifdef::ProductRelease[]
-[source,options="nowrap"]
-----
-$ helm show readme jboss-eap/eap74
-----
-endif::[]
-ifdef::EAPXPRelease[]
-[source,options="nowrap"]
-----
-$ helm show readme jboss-eap/eap-xp3
-----
-endif::[]
+//Prepare Helm for Quickstart Deployment
+include::../shared-doc/helm-deploy-project.adoc[leveloffset=+1]
 
 === Environment variables for PostgreSQL
 
 The Helm Chart also contains the environment variables required to connect to the PostgreSQL database.
-In local deployment the credentials were passed directly as the values of the environment variables.
 For OpenShift, we rely on secrets so that the credentials are never copied outside OpenShift:
 
 [source,options="nowrap"]
@@ -643,9 +548,9 @@ Let's wait for the application to be built and deployed:
 ----
 $ oc get deployment todo-backend -w
 NAME           READY   UP-TO-DATE   AVAILABLE   AGE
-todo-backend   0/3     3            0           31s
+todo-backend   0/1     1            0           31s
 ...
-todo-backend   3/3     3            3           4m31s
+todo-backend   1/1     1            1           4m31s
 ----
 
 // Testing on Openshift
