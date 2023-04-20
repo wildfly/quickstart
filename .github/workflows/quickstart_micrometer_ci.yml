@@ -1,0 +1,15 @@
+name: WildFly Micrometer Quickstart CI
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    paths:
+      - 'micrometer/**'
+      - '.github/workflows/quickstart_ci.yml'
+jobs:
+  call-quickstart_ci:
+    uses: ./.github/workflows/quickstart_ci.yml
+    with:
+      QUICKSTART_PATH: micrometer
+      TEST_PROVISIONED_SERVER: true
+      TEST_BOOTABLE_JAR: true
