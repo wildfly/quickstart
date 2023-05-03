@@ -442,30 +442,5 @@
                 </plugins>
             </build>
         </profile>
-        <profile>
-            <!-- Extra parameters needed for RHOSAK with bootable jar -->
-            <id>os-jar-rhosak</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.wildfly.plugins</groupId>
-                        <artifactId>wildfly-jar-maven-plugin</artifactId>
-                        <version>${version.wildfly-jar.maven.plugin}</version>
-                        <configuration>
-                            <cli-sessions>
-                                <cli-session>
-                                    <!-- do not resolve expression as they reference env vars that -->
-                                    <!-- can be set at runtime -->
-                                    <resolve-expressions>false</resolve-expressions>
-                                    <script-files>
-                                        <script>src/main/scripts/rhosak/bootable-jar/initialize-server.cli</script>
-                                    </script-files>
-                                </cli-session>
-                            </cli-sessions>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
     </profiles>
 </project>

@@ -31,10 +31,6 @@ ifdef::reactive-messaging-amq-streams[]
  -e MP_MESSAGING_CONNECTOR_SMALLRYE_KAFKA_BOOTSTRAP_SERVERS=my-cluster-kafka-bootstrap:9092 {backslash}
  -p GALLEON_PROVISION_LAYERS=cloud-server,microprofile-reactive-messaging-kafka,h2-default-datasource {backslash}
 endif::[]
-ifdef::reactive-messaging-rhosak[]
- -e QS_USE_RHOSAK=1 {backslash}
- -e APPLICATION_NAME=mp-rm-qs {backslash}
-endif::[]
 ifndef::uses-jaeger[]
  -p CONTEXT_DIR="{artifactId}"
 endif::[]
@@ -51,10 +47,6 @@ endif::[]
 ifdef::reactive-messaging-amq-streams[]
  * `-e MP_MESSAGING_CONNECTOR_SMALLRYE_KAFKA_BOOTSTRAP_SERVERS=my-cluster-kafka-bootstrap:9092` Sets the location of the AMQ Streams cluster. This environment variable resolves to the same as the MicroProfile Config property `mp.messaging.connector.smallrye-kafka.bootstrap.servers=localhost:9092` used in the quickstart source code. However, the environment variable takes precedence.
  * `-p GALLEON_PROVISION_LAYERS=cloud-server,microprofile-reactive-messaging-kafka,h2-default-datasource` adds Galleon layers needed for this quickstart to run. Behind the scenes they enable the server functionality to run MicroProfile Reactive Messaging applications backed by Kafka.
-endif::[]
-ifdef::reactive-messaging-rhosak[]
- * `-e QS_USE_RHOSAK=1` This tells the s2i build to include the files from the `extensions/` directory, which end up running the contained `initialize-server.cli` which adds entries to the `microprofile-config-smallrye` subsystem to leverage the ConfigMaps containing the RHOSAK data.
- * `-p APPLICATION_NAME=mp-rm-qs` - This names the application `mp-rm-qs` so it matches the earlier service binding we created.
 endif::[]
 * `-p CONTEXT_DIR` The directory within the source repository to build.
 --
@@ -85,10 +77,6 @@ ifdef::reactive-messaging-amq-streams[]
  -e MP_MESSAGING_CONNECTOR_SMALLRYE_KAFKA_BOOTSTRAP_SERVERS=my-cluster-kafka-bootstrap:9092 {backslash}
  -p GALLEON_PROVISION_LAYERS=cloud-server,microprofile-reactive-messaging-kafka,h2-default-datasource {backslash}
 endif::[]
-ifdef::reactive-messaging-rhosak[]
- -e QS_USE_RHOSAK=1 {backslash}
- -e APPLICATION_NAME=mp-rm-qs {backslash}
-endif::[]
 ifndef::uses-jaeger[]
  -p CONTEXT_DIR="{artifactId}"
 endif::[]
@@ -105,10 +93,6 @@ endif::[]
 ifdef::reactive-messaging-amq-streams[]
 * `-e MP_MESSAGING_CONNECTOR_SMALLRYE_KAFKA_BOOTSTRAP_SERVERS=my-cluster-kafka-bootstrap:9092` Sets the location of the AMQ Streams cluster. This environment variable resolves to the same as the MicroProfile Config property `mp.messaging.connector.smallrye-kafka.bootstrap.servers=localhost:9092` used in the quickstart source code. However, the environment variable takes precedence.
 * `-p GALLEON_PROVISION_LAYERS=cloud-server,microprofile-reactive-messaging-kafka,h2-default-datasource` adds Galleon layers needed for this quickstart to run. Behind the scenes they enable the server functionality to run MicroProfile Reactive Messaging applications backed by Kafka.
-endif::[]
-ifdef::reactive-messaging-rhosak[]
-* `-e QS_USE_RHOSAK=1` This tells the s2i build to include the files from the `extensions/` directory, which end up running the contained `initialize-server.cli` which adds entries to the `microprofile-config-smallrye` subsystem to leverage the ConfigMaps containing the RHOSAK data.
-* `-p APPLICATION_NAME=mp-rm-qs` - This names the application `mp-rm-qs` so it matches the earlier service binding we created.
 endif::[]
 * `-p CONTEXT_DIR` The directory within the source repository to build.
 --
