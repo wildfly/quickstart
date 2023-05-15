@@ -175,8 +175,6 @@
         </dependency>
     </dependencies>
 
-    
-
     <profiles>
         <profile>
             <id>provisioned-server</id>
@@ -241,7 +239,6 @@
                                         <include>**/ProvisionedManagedToDoIT</include>
                                     </includes>
                                     <excludes>
-                                        <exclude>**/ManagedToDoIT</exclude>
                                         <exclude>**/RemoteToDoIT</exclude>
                                     </excludes>
                                 </configuration>
@@ -277,6 +274,10 @@
                                 <layer>cloud-server</layer>
                                 <layer>postgresql-datasource</layer>
                             </layers>
+                            <!-- Workaround to avoid opentelemetry issue that breaks the Jaxrs applications: removed once WFLY-17955 is integrated -->
+                            <excluded-layers>
+                                <layer>microprofile-telemetry</layer>
+                            </excluded-layers>
                             <cli-sessions>
                                 <cli-session>
                                     <!-- do not resolve expression as the CORS_ORIGIN env var -->
@@ -325,6 +326,10 @@
                                 <layer>cloud-server</layer>
                                 <layer>postgresql-datasource</layer>
                             </layers>
+                            <!-- Workaround to avoid opentelemetry issue that breaks the Jaxrs applications: removed once WFLY-17955 is integrated -->
+                            <excluded-layers>
+                                <layer>microprofile-telemetry</layer>
+                            </excluded-layers>
                             <filename>ROOT.war</filename>
                             <packaging-scripts>
                                 <packaging-script>
@@ -378,7 +383,6 @@
                             </includes>
                             <excludes>
                                 <exclude>**/ProvisionedManagedToDoIT</exclude>
-                                <exclude>**/ManagedToDoIT</exclude>
                             </excludes>
                         </configuration>
                     </plugin>
