@@ -27,8 +27,11 @@ import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.MediaType;
 import java.net.URL;
 import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+
+import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 
 /**
  *
@@ -39,8 +42,7 @@ public abstract class AbstractToDoIT {
     abstract URL getRequestUrl();
 
     public void internalCRUDTest() throws Exception {
-
-        WebTarget client = ClientBuilder.newClient().target(getRequestUrl().toURI());
+        WebTarget client = ((ResteasyClientBuilder) ClientBuilder.newBuilder()).setFollowRedirects(true).build().target(getRequestUrl().toURI());
 
         GenericType<List<ToDo>> todosListType = new GenericType<List<ToDo>>() {
         };
