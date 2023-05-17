@@ -19,11 +19,23 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.wildfly.quickstarts.todos;
+package org.jboss.as.quickstarts.todos;
 
-import jakarta.ws.rs.ApplicationPath;
-import jakarta.ws.rs.core.Application;
+import java.util.List;
+import java.util.Optional;
 
-@ApplicationPath("")
-public class ToDoBackendApplication extends Application{
+import jakarta.ejb.Local;
+
+@Local
+public interface ToDoDAO {
+
+    List<ToDo> findAll();
+
+    Optional<ToDo> findById(Long id);
+
+    void remove(ToDo todo);
+
+    void insert(ToDo todo);
+
+    Optional<ToDo> update(Long id, ToDo todo);
 }

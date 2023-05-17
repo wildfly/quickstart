@@ -19,52 +19,24 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.wildfly.quickstarts.todos;
-
-
-import java.util.List;
-import java.util.Optional;
+package org.jboss.as.quickstarts.todos;
 
 import jakarta.ejb.Stateful;
-import jakarta.inject.Inject;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.enterprise.inject.Produces;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.TypedQuery;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.PersistenceContextType;
 
 @Stateful
-public class ToDoDAOImpl implements ToDoDAO {
+@RequestScoped
+public class Resources {
 
-    @Inject
+    @PersistenceContext(type = PersistenceContextType.EXTENDED)
     private EntityManager em;
 
-    @Override
-    public List<ToDo> findAll() {
-        TypedQuery<ToDo> query = em.createQuery("SELECT t FROM ToDo t", ToDo.class);
-        return query.getResultList();
-    }
-
-    @Override
-    public Optional<ToDo> findById(Long id) {
-        ToDo toDo = em.find(ToDo.class, id);
-        return Optional.ofNullable(toDo);
-    }
-
-    @Override
-    public void remove(ToDo todo) {
-        em.remove(todo);
-    }
-
-    @Override
-    public void insert(ToDo todo) {
-        em.persist(todo);
-    }
-
-    @Override
-    public Optional<ToDo> update(Long id, ToDo newTodo) {
-        Optional<ToDo> optional = findById(id);
-        if (optional.isPresent()) {
-            optional.get().update(newTodo);
-            return optional;
-        }
-        return Optional.empty();
+    @Produces
+    public EntityManager getEm() {
+        return em;
     }
 }

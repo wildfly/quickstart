@@ -19,24 +19,11 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.wildfly.quickstarts.todos;
+package org.jboss.as.quickstarts.todos;
 
-import jakarta.ejb.Stateful;
-import jakarta.enterprise.context.RequestScoped;
-import jakarta.enterprise.inject.Produces;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.PersistenceContextType;
+import jakarta.ws.rs.ApplicationPath;
+import jakarta.ws.rs.core.Application;
 
-@Stateful
-@RequestScoped
-public class Resources {
-
-    @PersistenceContext(type = PersistenceContextType.EXTENDED)
-    private EntityManager em;
-
-    @Produces
-    public EntityManager getEm() {
-        return em;
-    }
+@ApplicationPath("")
+public class ToDoBackendApplication extends Application{
 }

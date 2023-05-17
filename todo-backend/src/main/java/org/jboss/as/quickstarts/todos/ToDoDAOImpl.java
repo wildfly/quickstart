@@ -19,23 +19,52 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.wildfly.quickstarts.todos;
+package org.jboss.as.quickstarts.todos;
+
 
 import java.util.List;
 import java.util.Optional;
 
-import jakarta.ejb.Local;
+import jakarta.ejb.Stateful;
+import jakarta.inject.Inject;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
 
-@Local
-public interface ToDoDAO {
+@Stateful
+public class ToDoDAOImpl implements ToDoDAO {
 
-    List<ToDo> findAll();
+    @Inject
+    private EntityManager em;
 
-    Optional<ToDo> findById(Long id);
+    @Override
+    public List<ToDo> findAll() {
+        TypedQuery<ToDo> query = em.createQuery("SELECT t FROM ToDo t", ToDo.class);
+        return query.getResultList();
+    }
 
-    void remove(ToDo todo);
+    @Override
+    public Optional<ToDo> findById(Long id) {
+        ToDo toDo = em.find(ToDo.class, id);
+        return Optional.ofNullable(toDo);
+    }
 
-    void insert(ToDo todo);
+    @Override
+    public void remove(ToDo todo) {
+        em.remove(todo);
+    }
 
-    Optional<ToDo> update(Long id, ToDo todo);
+    @Override
+    public void insert(ToDo todo) {
+        em.persist(todo);
+    }
+
+    @Override
+    public Optional<ToDo> update(Long id, ToDo newTodo) {
+        Optional<ToDo> optional = findById(id);
+        if (optional.isPresent()) {
+            optional.get().update(newTodo);
+            return optional;
+        }
+        return Optional.empty();
+    }
 }

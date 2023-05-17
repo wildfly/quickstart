@@ -18,19 +18,24 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.wildfly.quickstarts.todos;
+package org.jboss.as.quickstarts.todos;
 
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  *
  * @author Emmanuel Hugonnet (c) 2022 Red Hat, Inc.
  */
-public class RemoteToDoIT extends AbstractToDoIT {
+@RunWith(Arquillian.class)
+@RunAsClient
+public class ProvisionedManagedToDoIT extends AbstractToDoIT {
 
     private static final String REST_TARGET_URL = "http://localhost:8080/todo-backend";
 
