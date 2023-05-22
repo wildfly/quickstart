@@ -5,8 +5,6 @@ name: WildFly Quickstarts CI
 on:
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
-    branches:
-      - main
 jobs:
   Test-build-default-matrix:
     name: BUILD DEFAULT - JDK${{ matrix.jdk }} - ${{ matrix.os }}
@@ -28,7 +26,22 @@ jobs:
       with:
         version: ${{ matrix.jdk }}
         impl: hotspot
-    - name: Build Quickstarts
+    - name: Build Quickstarts provisioned-server profile
+      run: |
+        cd quickstarts
+        mvn -U -B -fae clean package -Pprovisioned-server
+      shell: bash
+    - name: Build Quickstarts bootable-jar profile
+      run: |
+        cd quickstarts
+        mvn -U -B -fae clean package -Pbootable-jar
+      shell: bash
+    - name: Build Quickstarts openshift profile
+      run: |
+        cd quickstarts
+        mvn -U -B -fae clean package -Popenshift
+      shell: bash
+    - name: Build Quickstarts Release
       run: |
         cd quickstarts
         mvn -U -B -fae clean install -Drelease
@@ -54,10 +67,12 @@ jobs:
     - uses: actions/checkout@v2
       with:
         repository: wildfly/wildfly
+        ref: ${{ github.base_ref }}
         path: wildfly
     - uses: actions/checkout@v2
       with:
         repository: wildfly/boms
+        ref: ${{ github.base_ref }}
         path: boms
     - uses: actions/checkout@v2
       with:
@@ -87,10 +102,25 @@ jobs:
         cd boms
         echo "VERSION_BOMS=$(mvn -N org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
       shell: bash
-    - name: Build Quickstarts with Server and BOMs Versions
+    - name: Build Quickstarts provisioned-server profile with Server and BOMs Versions
       run: |
         cd quickstarts
-        mvn -U -B -fae clean install -Drelease -Dversion.server.bom=${{ env.VERSION_BOMS }} -Dversion.microprofile.bom=${{ env.VERSION_BOMS }} -Dversion.server.bootable-jar=${{ env. VERSION_SERVER }}
+        mvn -U -B -fae clean package -Pprovisioned-server -Dversion.server.bom=${{ env.VERSION_BOMS }} -Dversion.microprofile.bom=${{ env.VERSION_BOMS }} -Dversion.server.bootable-jar=${{ env.VERSION_SERVER }} -Dversion.server=${{ env.VERSION_SERVER }}
+      shell: bash
+    - name: Build Quickstarts bootable-jar profile with Server and BOMs Versions
+      run: |
+        cd quickstarts
+        mvn -U -B -fae clean package -Pbootable-jar -Dversion.server.bom=${{ env.VERSION_BOMS }} -Dversion.microprofile.bom=${{ env.VERSION_BOMS }} -Dversion.server.bootable-jar=${{ env.VERSION_SERVER }} -Dversion.server=${{ env.VERSION_SERVER }}
+      shell: bash
+    - name: Build Quickstarts openshift profile with Server and BOMs Versions
+      run: |
+        cd quickstarts
+        mvn -U -B -fae clean package -Popenshift -Dversion.server.bom=${{ env.VERSION_BOMS }} -Dversion.microprofile.bom=${{ env.VERSION_BOMS }} -Dversion.server.bootable-jar=${{ env.VERSION_SERVER }} -Dversion.server=${{ env.VERSION_SERVER }}
+      shell: bash
+    - name: Build Quickstarts Release with Server and BOMs Versions
+      run: |
+        cd quickstarts
+        mvn -U -B -fae clean install -Drelease -Dversion.server.bom=${{ env.VERSION_BOMS }} -Dversion.microprofile.bom=${{ env.VERSION_BOMS }} -Dversion.server.bootable-jar=${{ env.VERSION_SERVER }} -Dversion.server=${{ env.VERSION_SERVER }}
       shell: bash
     - uses: actions/upload-artifact@v3
       if: failure()
