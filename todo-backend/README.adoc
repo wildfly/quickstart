@@ -277,7 +277,7 @@ $ docker run --name todo-backend-db \
   postgres
 ----
 
-This will create a database named `todo-backend-db` that we can connect to on `localhost:5432` with the credentials `todos / mysecretpassword`.
+This will create a database named `todos` that we can connect to on `localhost:5432` with the credentials `todos / mysecretpassword`.
 
 === Run the Bootable Jar Application
 
@@ -311,7 +311,7 @@ $ curl -X POST -H "Content-Type: application/json"  -d '{"title": "This is my fi
 
 # get a list of todos with the one that was just created
 $ curl http://localhost:8080
-[{"completed":false,"id":1,"order":0,"title":"This is my first todo item!","url":"https://localhost:8080/1"}
+[{"completed":false,"id":1,"order":0,"title":"This is my first todo item!","url":"https://localhost:8080/1"}]
 ----
 
 == Run the Backend Locally
@@ -350,7 +350,7 @@ $ docker run --name todo-backend-db \
   postgres
 ----
 
-This will create a database named `todo-backend-db` that we can connect to on `localhost:5432` with the credentials `todos / mysecretpassword`.
+This will create a database named `todos` that we can connect to on `localhost:5432` with the credentials `todos / mysecretpassword`.
 
 === Run the Application
 
@@ -385,7 +385,7 @@ $ curl -X POST -H "Content-Type: application/json"  -d '{"title": "This is my fi
 
 # get a list of todos with the one that was just created
 $ curl http://localhost:8080/todo-backend
-[{"completed":false,"id":1,"order":0,"title":"This is my first todo item!","url":"https://localhost:8080/todo-backend/1"}
+[{"completed":false,"id":1,"order":0,"title":"This is my first todo item!","url":"https://localhost:8080/todo-backend/1"}]
 ----
 
 // Run the Arquillian Tests
@@ -439,12 +439,12 @@ endif::[]
 [source,options="nowrap"]
 ----
 $ oc new-app postgresql-ephemeral \
-   -p DATABASE_SERVICE_NAME=todos-db \
+   -p DATABASE_SERVICE_NAME=todo-backend-db \
    -p POSTGRESQL_DATABASE=todos
 ----
 
-This will create a PostgreSQL database named `todos` on OpenShift that can be accessed on the port `5432` on the service `todos-db`.
-We don't need to copy the credentials to connect to the database as we will retrieve them later using the `todos-db` secret that was created
+This will create a PostgreSQL database named `todos` on OpenShift that can be accessed on the port `5432` on the service `todo-backend-db`.
+We don't need to copy the credentials to connect to the database as we will retrieve them later using the `todo-backend-db` secret that was created
 when the database is deployed.
 
 ifndef::ProductRelease,EAPXPRelease[]
