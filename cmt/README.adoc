@@ -23,10 +23,6 @@ Aspects touched upon in the code:
 * XA access to the standard default datasource using the JPA API
 * XA access to a JMS queue
 
-After you complete this quickstart, you are invited to run through the following quickstart:
-
-* link:../jts/README{outfilesuffix}[jts] - The `jts` quickstart builds upon this quickstart by distributing the `CustomerManager` and `InvoiceManager`.
-
 === What are Container Managed Transactions?
 
 Prior to EJB, getting the right incantation to ensure sound transactional operation of the business logic was a highly specialized skill. Although this still holds true to a great extent, EJB has provided a series of improvements to allow simplified transaction demarcation notation that is therefore easier to read and test.
@@ -77,15 +73,6 @@ Received Message: Created invoice for customer named:  Jack
 If an existing customer name is provided, no JMS message is sent. Instead of the above message, a duplicate warning is displayed.
 
 The customer name should match: letter &amp; '-', otherwise an error is given. This is to show that a `LogMessage` entity is still stored in the database. That is because the `logCreateCustomer` method in the `LogMessageManagerEJB` EJB is decorated with the `@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)` annotation.
-
-=== Server Log: Expected Warnings and Errors
-
-You will see the following warnings in the server log. You can ignore these warnings.
-
-[source,options="nowrap"]
-----
-HHH000431: Unable to determine H2 database version, certain features may not work
-----
 
 // Testing with Arquillian
 include::../shared-doc/run-arquillian-integration-tests-with-server-distribution.adoc[leveloffset=+2]
