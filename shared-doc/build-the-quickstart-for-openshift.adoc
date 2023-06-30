@@ -9,7 +9,13 @@ You can activate the Maven profile named `openshift` when building the quickstar
 $ mvn clean package -Popenshift
 ----
 
-The provisioned {productName} server for OpenShift, with the quickstart deployed, can then be found in the `target/server` directory, and its usage is similar to a standard server distribution. You may note that unlike the `provisioned-server` profile it uses the cloud feature pack which enables a configuration tuned for OpenShift environment.
+The provisioned {productName} server for OpenShift, with the quickstart deployed, can then be found in the `target/server` directory, and its usage is similar to a standard server distribution. 
+ifndef::ProductRelease,EAPXPRelease[]
+You may note that unlike the `provisioned-server` profile it uses the cloud feature pack which enables a configuration tuned for OpenShift environment.
+endif::[]
+ifdef::ProductRelease,EAPXPRelease[]
+You may note that it uses the cloud feature pack which enables a configuration tuned for OpenShift environment.
+endif::[]
 
 ifndef::ProductRelease,EAPXPRelease[]
 The server provisioning functionality is provided by the WildFly Maven Plugin, and you may find its configuration in the quickstart `pom.xml`:
