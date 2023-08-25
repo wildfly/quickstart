@@ -1,0 +1,12 @@
+# This script restores the configuration with the enabled MicroProfile LRA extensions and subsystems.
+
+batch
+
+/subsystem=microprofile-lra-participant:remove
+/subsystem=microprofile-lra-coordinator:remove
+/extension=org.wildfly.extension.microprofile.lra-participant:remove
+/extension=org.wildfly.extension.microprofile.lra-coordinator:remove
+
+run-batch
+
+reload
