@@ -1,0 +1,18 @@
+[[run_the_integration_tests_with_openshift]]
+= Run the Integration Tests with OpenShift
+The integration tests included with this quickstart, which verify that the quickstart runs correctly, may also be run with the quickstart running on OpenShift.
+[NOTE]
+====
+The integration tests expect a deployed application, so make sure you have deployed the quickstart on OpenShift before you begin.
+====
+
+Run the integration tests using the following command to run the `verify` goal with the `integration-testing` profile activated and the proper URL:
+[source,options="nowrap",subs="+attributes"]
+----
+$ mvn clean verify -Pintegration-testing -Dserver.host=https://$(oc get route {artifactId} --template='{{ .spec.host }}')
+----
+
+[NOTE]
+====
+The tests are using SSL to connect to the quickstart running on OpenShift. So you need the certificates to be trusted by the machine the tests are run from.
+====

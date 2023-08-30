@@ -1,0 +1,177 @@
+name: WildFly Quickstart CI
+
+on:
+  workflow_call:
+    inputs:
+      QUICKSTART_PATH:
+        description: 'the path to the quickstart to test'
+        required: true
+        type: string
+      MICROPROFILE:
+        description: 'if the quickstart is a microprofile one'
+        required: true
+        type: boolean
+
+# Only run the latest job
+concurrency:
+  group: '${{ github.workflow }} @ ${{ github.event.pull_request.head.label || github.head_ref || github.ref }}'
+  cancel-in-progress: true
+
+jobs:
+  Test-build-default-matrix:
+    name: BUILD DEFAULT - JDK${{ matrix.jdk }} - ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        jdk: [11, 17]
+        os: [ubuntu-20.04, windows-latest]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: quickstarts
+      - name: Set up JDK ${{ matrix.jdk }}
+        uses: actions/setup-java@v3
+        with:
+          java-version: ${{ matrix.jdk }}
+          distribution: 'temurin'
+          cache: 'maven'
+      - name: Build ${{ inputs.QUICKSTART_PATH }} Quickstart for Release
+        run: |
+          cd quickstarts
+          cd ${{ inputs.QUICKSTART_PATH }}
+          mvn -U -B -fae clean install -Drelease
+        shell: bash
+      - name: Build, run & test ${{ inputs.QUICKSTART_PATH }} Quickstart with provisioned-server profile
+        if: ${{ !inputs.MICROPROFILE }}
+        run: |
+          cd quickstarts
+          cd ${{ inputs.QUICKSTART_PATH }}
+          echo "Building provisioned server..."
+          mvn -U -B -fae clean package -Pprovisioned-server
+          echo "Starting provisioned server..."
+          mvn -U -B -fae wildfly:start -DjbossHome=target/server
+          echo "Testing provisioned server..."
+          mvn -U -B -fae verify -Dserver.host=http://localhost:8080 -Pintegration-testing
+          echo "Shutting down provisioned server..."
+          mvn -U -B -fae wildfly:shutdown
+        shell: bash
+      - name: Build, run & test ${{ inputs.QUICKSTART_PATH }} Quickstart with bootable-jar profile
+        if: ${{ inputs.MICROPROFILE }}
+        run: |
+          cd quickstarts
+          cd ${{ inputs.QUICKSTART_PATH }}
+          echo "Building bootable jar..."
+          mvn -U -B -fae clean package -Pbootable-jar
+          echo "Starting bootable jar..."
+          mvn -U -B -fae wildfly-jar:start -Djar-file-name=target/${{ inputs.QUICKSTART_PATH }}-bootable.jar
+          echo "Testing bootable jar..."
+          mvn -U -B -fae verify -Dserver.host=http://localhost:8080 -Pintegration-testing
+          echo "Shutting down bootable jar..."          
+          mvn -U -B -fae wildfly-jar:shutdown
+        shell: bash
+      - name: Build ${{ inputs.QUICKSTART_PATH }} Quickstart with openshift profile
+        run: |
+          cd quickstarts
+          cd ${{ inputs.QUICKSTART_PATH }}
+          mvn -U -B -fae clean package -Popenshift
+        shell: bash
+      - uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: surefire-reports-JDK${{ matrix.jdk }}-${{ matrix.os }}
+          path: 'quickstarts/$QUICKSTART_PATH/**/surefire-reports/*.txt'
+
+  Test-build-with-deps-matrix:
+    name: BUILD WITH DEPS - JDK${{ matrix.jdk }} - ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        jdk: [11, 17]
+        os: [ubuntu-20.04, windows-latest]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: wildfly/wildfly
+          ref: ${{ github.base_ref }}
+          path: wildfly
+      - uses: actions/checkout@v4
+        with:
+          repository: wildfly/boms
+          ref: ${{ github.base_ref }}
+          path: boms
+      - uses: actions/checkout@v4
+        with:
+          path: quickstarts
+      - name: Set up JDK ${{ matrix.jdk }}
+        uses: actions/setup-java@v3
+        with:
+          java-version: ${{ matrix.jdk }}
+          distribution: 'temurin'
+          cache: 'maven'
+      - name: Build Server
+        run: |
+          cd wildfly
+          mvn -U -B -fae -DskipTests clean install
+        shell: bash
+      - name: Get Server Version
+        run: |
+          cd wildfly
+          echo "VERSION_SERVER=$(mvn -N org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
+        shell: bash
+      - name: Build BOMs with Server Version
+        run: |
+          cd boms
+          mvn -U -B -fae clean install -Dversion.server=${{ env.VERSION_SERVER }}
+        shell: bash
+      - name: Get BOMs Version
+        run: |
+          cd boms
+          echo "VERSION_BOMS=$(mvn -N org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
+        shell: bash
+      - name: Build Quickstart for Release with Server and BOMs Versions
+        run: |
+          cd quickstarts
+          cd ${{ inputs.QUICKSTART_PATH }}
+          mvn -U -B -fae clean package -Drelease -Dversion.bom.ee=${{ env.VERSION_BOMS }} -Dversion.bom.microprofile=${{ env.VERSION_BOMS }} -Dversion.server=${{ env.VERSION_SERVER }}
+        shell: bash
+      - name: Build, run & test ${{ inputs.QUICKSTART_PATH }} Quickstart with provisioned-server profile, Server and BOMs Versions
+        if: ${{ !inputs.MICROPROFILE }}
+        run: |
+          cd quickstarts
+          cd ${{ inputs.QUICKSTART_PATH }}
+          echo "Building provisioned server..."
+          mvn -U -B -fae clean package -Pprovisioned-server -Dversion.bom.ee=${{ env.VERSION_BOMS }} -Dversion.bom.microprofile=${{ env.VERSION_BOMS }} -Dversion.server=${{ env.VERSION_SERVER }}
+          echo "Starting provisioned server..."
+          mvn -U -B -fae wildfly:start -DjbossHome=target/server
+          echo "Testing provisioned server..."
+          mvn -U -B -fae verify -Dserver.host=http://localhost:8080 -Pintegration-testing
+          echo "Shutting down provisioned server..."
+          mvn -U -B -fae wildfly:shutdown
+        shell: bash
+      - name: Build, run & test ${{ inputs.QUICKSTART_PATH }} Quickstart with bootable-jar profile, Server and BOMs Versions
+        if: ${{ inputs.MICROPROFILE }}
+        run: |
+          cd quickstarts
+          cd ${{ inputs.QUICKSTART_PATH }}
+          echo "Building bootable jar..."
+          mvn -U -B -fae clean package -Pbootable-jar -Dversion.bom.ee=${{ env.VERSION_BOMS }} -Dversion.bom.microprofile=${{ env.VERSION_BOMS }} -Dversion.server=${{ env.VERSION_SERVER }}
+          echo "Starting bootable jar..."
+          mvn -U -B -fae wildfly-jar:start -Djar-file-name=target/${{ inputs.QUICKSTART_PATH }}-bootable.jar
+          echo "Testing bootable jar..."
+          mvn -U -B -fae verify -Dserver.host=http://localhost:8080 -Pintegration-testing
+          echo "Shutting down bootable jar..."          
+          mvn -U -B -fae wildfly-jar:shutdown
+        shell: bash
+      - name: Build ${{ inputs.QUICKSTART_PATH }} Quickstart with openshift profile, Server and BOMs Versions
+        run: |
+          cd quickstarts
+          cd ${{ inputs.QUICKSTART_PATH }}
+          mvn -U -B -fae clean package -Popenshift -Dversion.bom.ee=${{ env.VERSION_BOMS }} -Dversion.bom.microprofile=${{ env.VERSION_BOMS }} -Dversion.server=${{ env.VERSION_SERVER }}
+        shell: bash
+      - uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: surefire-reports-JDK${{ matrix.jdk }}-${{ matrix.os }}
+          path: 'quickstarts/**/surefire-reports/*.txt'

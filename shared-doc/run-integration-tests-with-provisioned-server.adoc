@@ -1,0 +1,36 @@
+[[run_the_integration_tests_with_provisioned_server_]]
+= Run the Integration Tests with a provisioned server
+
+include::define-standalone-server-attributes.adoc[]
+
+The integration tests included with this quickstart, which verify that the quickstart runs correctly, may also be run with a provisioned server.
+
+Follow these steps to run the integration tests.
+
+. Make sure the server is provisioned.
++
+[source,subs="attributes+",options="nowrap"]
+----
+$ mvn clean package -Pprovisioned-server
+----
+
+. Start the {productName} provisioned server, this time using the {productName} Maven Plugin, which is recommend for testing due to simpler automation. The path to the provisioned server should be specified using the `server.host` system property.
++
+[source,subs="attributes+",options="nowrap"]
+----
+$ mvn wildfly:start -DjbossHome=target/server  {serverArgumentsMavenPlugin}
+----
+
+. Type the following command to run the `verify` goal with the `integration-testing` profile activated, and specifying the quickstart's URL using the `server.host` system property, which for a provisioned server by default is `http://localhost:8080`.
++
+[source,options="nowrap"]
+----
+$ mvn verify -Pintegration-testing -Dserver.host=http://localhost:8080
+----
+
+. Shutdown the {productName} provisioned server, this time using the {productName} Maven Plugin too.
++
+[source,options="nowrap"]
+----
+$ mvn wildfly:shutdown
+----
