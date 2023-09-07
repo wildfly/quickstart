@@ -5,6 +5,12 @@ name: WildFly Quickstarts CI
 on:
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
+
+# Only run the latest job
+concurrency:
+  group: '${{ github.workflow }} @ ${{ github.event.pull_request.head.label || github.head_ref || github.ref }}'
+  cancel-in-progress: true
+
 jobs:
   Test-build-default-matrix:
     name: BUILD DEFAULT - JDK${{ matrix.jdk }} - ${{ matrix.os }}
@@ -15,9 +21,6 @@ jobs:
         jdk: [11, 17]
         os: [ubuntu-20.04, windows-latest]
     steps:
-    - uses: n1hility/cancel-previous-runs@v2
-      with:
-          token: ${{ secrets.GITHUB_TOKEN }}
     - uses: actions/checkout@v2
       with:
         path: quickstarts
@@ -61,9 +64,6 @@ jobs:
         jdk: [11, 17]
         os: [ubuntu-20.04, windows-latest]
     steps:
-    - uses: n1hility/cancel-previous-runs@v2
-      with:
-          token: ${{ secrets.GITHUB_TOKEN }}
     - uses: actions/checkout@v2
       with:
         repository: wildfly/wildfly
