@@ -12,6 +12,14 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  # Use the shared-wildfly-build workflow to have a consistent WildFly build. Note the branch names MUST match what
+  # is used in WildFly.
+  wildfly-build:
+    uses: wildfly/wildfly/.github/workflows/shared-wildfly-build.yml@main
+    with:
+      wildfly-branch: ${{ github.base_ref }}
+      wildfly-repo: "wildfly/wildfly"
+
   Test-build-default-matrix:
     name: BUILD DEFAULT - JDK${{ matrix.jdk }} - ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
@@ -59,6 +67,7 @@ jobs:
   Test-build-with-deps-matrix:
     name: BUILD WITH DEPS - JDK${{ matrix.jdk }} - ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
+    needs: wildfly-build
     strategy:
       fail-fast: false
       matrix:
@@ -78,26 +87,23 @@ jobs:
     - uses: actions/checkout@v4
       with:
         path: quickstarts
+    - uses: actions/download-artifact@v3
+      with:
+        name: wildfly-maven-repository
+        path: .
+    - name: Extract Maven Repo
+      shell: bash
+      run: tar -xzf wildfly-maven-repository.tar.gz -C ~
     - name: Set up JDK ${{ matrix.jdk }}
       uses: actions/setup-java@v3
       with:
         java-version: ${{ matrix.jdk }}
         distribution: 'temurin'
         cache: 'maven'
-    - name: Build Server
-      run: |
-        cd wildfly
-        mvn -U -B -fae -DskipTests clean install
-      shell: bash
-    - name: Get Server Version
-      run: |
-        cd wildfly
-        echo "VERSION_SERVER=$(mvn -N org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
-      shell: bash
     - name: Build BOMs with Server Version
       run: |
         cd boms
-        mvn -U -B -fae clean install -Dversion.server=${{ env.VERSION_SERVER }}
+        mvn -U -B -fae clean install -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
       shell: bash
     - name: Get BOMs Version
       run: |
@@ -107,22 +113,22 @@ jobs:
     - name: Build Quickstarts provisioned-server profile with Server and BOMs Versions
       run: |
         cd quickstarts
-        mvn -U -B -fae clean package -Pprovisioned-server -Dversion.server.bom=${{ env.VERSION_BOMS }} -Dversion.microprofile.bom=${{ env.VERSION_BOMS }} -Dversion.server.bootable-jar=${{ env.VERSION_SERVER }} -Dversion.server=${{ env.VERSION_SERVER }}
+        mvn -U -B -fae clean package -Pprovisioned-server -Dversion.server.bom=${{ env.VERSION_BOMS }} -Dversion.microprofile.bom=${{ env.VERSION_BOMS }} -Dversion.server.bootable-jar=${{ needs.wildfly-build.outputs.wildfly-version }} -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
       shell: bash
     - name: Build Quickstarts bootable-jar profile with Server and BOMs Versions
       run: |
         cd quickstarts
-        mvn -U -B -fae clean package -Pbootable-jar -Dversion.server.bom=${{ env.VERSION_BOMS }} -Dversion.microprofile.bom=${{ env.VERSION_BOMS }} -Dversion.server.bootable-jar=${{ env.VERSION_SERVER }} -Dversion.server=${{ env.VERSION_SERVER }}
+        mvn -U -B -fae clean package -Pbootable-jar -Dversion.server.bom=${{ env.VERSION_BOMS }} -Dversion.microprofile.bom=${{ env.VERSION_BOMS }} -Dversion.server.bootable-jar=${{ needs.wildfly-build.outputs.wildfly-version }} -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
       shell: bash
     - name: Build Quickstarts openshift profile with Server and BOMs Versions
       run: |
         cd quickstarts
-        mvn -U -B -fae clean package -Popenshift -Dversion.server.bom=${{ env.VERSION_BOMS }} -Dversion.microprofile.bom=${{ env.VERSION_BOMS }} -Dversion.server.bootable-jar=${{ env.VERSION_SERVER }} -Dversion.server=${{ env.VERSION_SERVER }}
+        mvn -U -B -fae clean package -Popenshift -Dversion.server.bom=${{ env.VERSION_BOMS }} -Dversion.microprofile.bom=${{ env.VERSION_BOMS }} -Dversion.server.bootable-jar=${{ needs.wildfly-build.outputs.wildfly-version }} -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
       shell: bash
     - name: Build Quickstarts Release with Server and BOMs Versions
       run: |
         cd quickstarts
-        mvn -U -B -fae clean install -Drelease -Dversion.server.bom=${{ env.VERSION_BOMS }} -Dversion.microprofile.bom=${{ env.VERSION_BOMS }} -Dversion.server.bootable-jar=${{ env.VERSION_SERVER }} -Dversion.server=${{ env.VERSION_SERVER }}
+        mvn -U -B -fae clean install -Drelease -Dversion.server.bom=${{ env.VERSION_BOMS }} -Dversion.microprofile.bom=${{ env.VERSION_BOMS }} -Dversion.server.bootable-jar=${{ needs.wildfly-build.outputs.wildfly-version }} -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
       shell: bash
     - uses: actions/upload-artifact@v3
       if: failure()
