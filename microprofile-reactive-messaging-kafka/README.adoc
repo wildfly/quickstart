@@ -975,34 +975,21 @@ include::../shared-doc/xp-create-project.adoc[leveloffset=+2]
 
 [[installing-kafka-on-openshift]]
 === Installing Kafka on OpenShift
-Kafka on OpenShift is provided by either:
-
-* <<install_amq_streams,AMQ Streams>>
-* <<install_rhosak,RHOSAK>>
-
-NOTE: For the purposes of this Quickstart you should only select one of these, and your choice should match what we will do later in <<deploy-to-openshift, Deploy the {ProductShortName} Source-to-Image (S2I) Quickstart to OpenShift>>.
+Kafka on OpenShift is provided by AMQ Streams.
 
 // Install AMQ Streams
 include::../shared-doc/xp-install-amq-streams.adoc[leveloffset=+3]
-
-include::./xp-install-rhosak.adoc[leveloffset=+3]
 
 
 // Deploy the {ProductShortName} Source-to-Image (S2I) Quickstart to OpenShift
 [[deploy-to-openshift]]
 == Deploy the {ProductShortName} Source-to-Image (S2I) Quickstart to OpenShift
-The sub-sections describe how to deploy the application to OpenShift interacting with Kafka provided by either:
 
-* <<xp-deploy-project-amq-streams,AMQ Streams>>
-* <<xp-deploy-project-rhosak,RHOSAK>>
-
-NOTE: For the purposes of this Quickstart, you should choose one of these approaches, not both. Your choice should match the type of Kafka instance you selected earlier in <<installing-kafka-on-openshift, Installing Kafka on OpenShift>>.
-
-In both cases we will use Helm to install the application. Make sure you have downloaded the https://docs.openshift.com/container-platform/4.9/applications/working_with_helm_charts/installing-helm.html[Helm CLI Tool].
+We will use Helm to install the application. Make sure you have downloaded the https://docs.openshift.com/container-platform/4.9/applications/working_with_helm_charts/installing-helm.html[Helm CLI Tool].
 
 [[xp-deploy-project-amq-streams]]
 === Deploy the {ProductShortName} Source-to-Image (S2I) Quickstart to OpenShift with AMQ Streams
-This section describes how to deploy the application to OpenShift interacting with Kafka provided by AMQ Streams. If you want to use RHOSAK instead, see the <<xp-deploy-project-rhosak,RHOSAK instructions>>.
+This section describes how to deploy the application to OpenShift interacting with Kafka provided by AMQ Streams.
 
 First add the Helm repository, if you have not done so already, as described in {helmRepoUrl}.
 
@@ -1024,40 +1011,6 @@ The contents of the link:helm-amq-streams.yml[`helm-amq-streams.yml`] file speci
 * For both the build (under `build/env`) and the deploy `deploy/env`) parts, we specify environment variables to increase some JVM arguments from the default.
 
 Run `oc get route` to find the URL of our application.
-
-[[xp-deploy-project-rhosak]]
-=== Deploy the {ProductShortName} Source-to-Image (S2I) Quickstart to OpenShift with RHOSAK
-This section describes how to deploy the application to OpenShift interacting with Kafka provided by RHOSAK. If you want to use AMQ Streams instead, see the <<xp-deploy-project-amq-streams,AMQ Streams instructions>>.
-
-To deploy your application make sure you have downloaded the https://docs.openshift.com/container-platform/4.9/applications/working_with_helm_charts/installing-helm.html[Helm CLI Tool]. `./helm-rhosak.yml` contains the information to deploy the application to be backed by Kafka provided by RHOSAK.
-
-First add the Helm repository, if you have not done so already, as described in {helmRepoUrl}.
-
-Then run the following command to deploy and start the application (note we are using the name `mp-rm-qs` for our application here, as mentioned when we connected RHOSAK to our OpenShift project):
-[source,subs="attributes+",options="nowrap"]
-----
-helm install mp-rm-qs -f ./helm-rhosak.yml {helmChartName} --set build.uri={githubRepoCodeUrl} --set build.ref={WildFlyQuickStartRepoTag}
-----
-NOTE: Although the above command will return quite quickly, it will take a while until the application pod is actually brought up. In the OpenShift console you will see a pod whose name starts with mp-rm-qs in the `ErrImagePull` or `ImagePullBackoff` state until the build has completed.
-
-While the OpenShift cluster is doing the work to build and deploy the application (i.e. as soon as the `helm install` has completed in your terminal), run the following command to set up the service binding for the Kafka connection as mentioned earlier:
-[source,subs="attributes+",options="nowrap"]
-----
-rhoas cluster bind --app-name mp-rm-qs --service-type kafka --binding-name kafka-config --yes
-----
-
-You may also wait performing the above command until the application pod has been brought up. In this case it will log errors that it is not able to connect to Kafka. Once the above command is run, the 'faulty' pod will be taken down and replaced by one containing the correct configuration.
-
-The contents of the link:helm-rhosak.yml[`helm-rhosak.yml`] file:
-
-* Specify the Galleon layers to use when creating the server under `build/s2i/galleonLayers`
-** `microprofile-reactive-messaging-kafka` contains the MicroProfile Reactive Messaging with Kafka functionality
-** `h2-default-datasource` enables the HSQL database we store data in
-** `cloud-server` provides among other things the web server functionality.
-* For both the build (under `build/env`) and the deploy `deploy/env`) parts, we specify environment variables to increase some JVM arguments from the default.
-* Additionally, under `build/env` we set `QS_USE_RHOSAK` to `1` which makes the script in link:src/main/scripts/rhosak/s2i/install.sh[`src/main/scripts/rhosak/s2i/install.sh`] copy the contents of the directory, which in turn runs the link:[`src/main/scripts/rhosak/s2i/initialize-server.cli`] CLI script to enable the service binding and points relevant MicroProfile Config properties to the service binding via the `microprofile-config-smallrye` subsystem.
-
-Run `oc get route` find the URL of our application.
 
 //Bootable JAR
 include::../shared-doc/build-and-run-the-quickstart-with-bootable-jar.adoc[leveloffset=+1]
