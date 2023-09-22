@@ -1,0 +1,142 @@
+name: Kubernetes Testing
+
+on:
+  - push
+  - pull_request
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: Install Helm
+        uses: azure/setup-helm@v3
+        with:
+          version: v3.12.1
+
+      - name: Create k8s Kind Cluster
+        uses: helm/kind-action@v1.5.0
+        with:
+          node_image: "kindest/node:v1.27.3"
+          config: ./test-setup/kind-config.yaml
+
+      - name: Setup Image registry & ingress controller
+        run: |-
+          ./test-setup/setup-image-registry.sh
+          ./test-setup/setup-nginx-ingress-controller.sh
+           sudo echo "127.0.0.1 wildfly.local" | sudo tee -a /etc/hosts
+
+      - name: Run helloworld test
+        run: |-
+          cd helloworld
+          mvn -B -Popenshift package wildfly:image
+          docker tag helloworld localhost:5001/helloworld
+          docker push localhost:5001/helloworld
+          
+          cat << EOF > override.yaml
+          image:
+            name: localhost:5001/helloworld
+          build:
+            enabled: false
+          deploy:
+            route:
+              enabled: false
+          EOF
+
+          helm install helloworld \
+            --repo https://docs.wildfly.org/wildfly-charts wildfly \
+            --wait --timeout=90s \
+            -f charts/helm.yaml -f override.yaml
+
+          cat << EOF | kubectl create -f -
+          apiVersion: networking.k8s.io/v1
+          kind: Ingress
+          metadata:
+            name: helloworld-ingress
+          spec:
+            rules:
+              - host: wildfly.local
+                http:
+                 paths:
+                   - path: /
+                     pathType: Prefix
+                     backend:
+                       service:
+                        name: helloworld
+                        port:
+                          number: 8080
+          EOF
+          sleep 5
+
+          SERVER_HOST=http://wildfly.local/ mvn -B -P integration-testing verify
+
+          helm delete helloworld
+          kubectl delete ingress helloworld-ingress
+
+          echo "  * :white_check_mark: Helloworld" >> $GITHUB_STEP_SUMMARY
+
+      - name: Run todo-backend test
+        run: |-
+          cd todo-backend
+          mvn -B -Popenshift package wildfly:image
+          docker tag todo-backend localhost:5001/todo-backend
+          docker push localhost:5001/todo-backend
+          
+          cat << EOF > override.yaml
+          wildfly:
+            image:
+              name: localhost:5001/todo-backend
+            build:
+              enabled: false
+            deploy:
+              route:
+                enabled: false
+          EOF
+
+          helm dependency update todo-backend-chart/
+          echo install todo-backend helm chart
+          helm install todo-backend todo-backend-chart \
+            -f override.yaml
+
+          kubectl wait \
+            --for=condition=ready pod \
+            --selector=app.kubernetes.io/name=todo-backend \
+            --timeout=120s  
+
+          cat << EOF | kubectl create -f -
+          apiVersion: networking.k8s.io/v1
+          kind: Ingress
+          metadata:
+            name: todo-backend-ingress
+          spec:
+            rules:
+              - host: wildfly.local
+                http:
+                 paths:
+                   - path: /
+                     pathType: Prefix
+                     backend:
+                       service:
+                        name: todo-backend
+                        port:
+                          number: 8080
+          EOF
+          sleep 5
+
+          SERVER_HOST=http://wildfly.local/ mvn -B -P arq-remote verify
+
+          helm delete todo-backend
+          kubectl delete ingress todo-backend-ingress
+
+          echo "  * :white_check_mark: TODO Backend" >> $GITHUB_STEP_SUMMARY
