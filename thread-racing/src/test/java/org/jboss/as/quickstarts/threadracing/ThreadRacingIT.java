@@ -16,6 +16,8 @@
  */
 package org.jboss.as.quickstarts.threadracing;
 
+import org.junit.Test;
+
 import java.io.IOException;
 
 import java.net.URI;
@@ -24,11 +26,17 @@ import java.net.http.HttpClient;
 import java.net.http.WebSocket;
 import java.util.LinkedHashSet;
 import java.util.Set;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
-public class RemoteThreadRacingIT {
+/**
+ * The thread racing runtime integration testing.
+ * @author Emmanuel Hugonnet
+ * @author emartins
+ */
+public class ThreadRacingIT {
 
     private static final Set<String> messages = new LinkedHashSet<>();
     private volatile boolean notFinished = true;
@@ -68,18 +76,18 @@ public class RemoteThreadRacingIT {
                 .newWebSocketBuilder()
                 .buildAsync(getWebSocketEndpoint(), listener)
                 .join();
-        Assertions.assertTrue(listener.isConnected(), "Connection should be opened");
+        assertTrue("Connection should be opened", listener.isConnected());
         while (notFinished) {
             webSocket.request(1);
         }
         webSocket.sendClose(WebSocket.NORMAL_CLOSURE, "Done");
         webSocket.request(1);
-        Assertions.assertTrue(webSocket.isOutputClosed(), "Connection should be closed");
-        Assertions.assertFalse(listener.isConnected(), "Connection should be closed");
+        assertTrue("Connection should be closed", webSocket.isOutputClosed());
+        assertFalse("Connection should be closed", listener.isConnected());
         webSocket.abort();
-        Assertions.assertTrue(webSocket.isInputClosed(), "Connection should be closed");
+        assertTrue("Connection should be closed", webSocket.isInputClosed());
         String[] result = messages.toArray(new String[0]);
-        Assertions.assertEquals("<br/>Please await() the official results ", result[messages.size() - 6]);
+        assertEquals("<br/>Please await() the official results ", result[messages.size() - 6]);
     }
 
     public void stop() {

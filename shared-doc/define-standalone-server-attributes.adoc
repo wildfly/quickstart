@@ -15,7 +15,6 @@ ifeval::["{standalone-server-type}"=="default"]
 :serverProfile: default profile
 :configFileName: standalone/configuration/standalone.xml
 :serverArguments:
-:serverArgumentsMavenPlugin:
 endif::[]
 
 // Standalone server with the full profile.
@@ -23,7 +22,6 @@ ifeval::["{standalone-server-type}"=="full"]
 :serverProfile: full profile
 :configFileName: standalone/configuration/standalone-full.xml
 :serverArguments:  -c standalone-full.xml
-:serverArgumentsMavenPlugin: -Dserver-config=standalone/configuration/standalone-full.xml
 endif::[]
 
 // Standalone server with the full HA profile.
@@ -31,7 +29,6 @@ ifeval::["{standalone-server-type}"=="full-ha"]
 :serverProfile: full HA profile
 :configFileName: standalone/configuration/standalone-full-ha.xml
 :serverArguments:  -c standalone-full-ha.xml
-:serverArgumentsMavenPlugin: -Dserver-config=standalone/configuration/standalone-full-ha.xml
 endif::[]
 
 // Start the standalone server with the HA profile.
@@ -39,7 +36,6 @@ ifeval::["{standalone-server-type}"=="ha"]
 :serverProfile: HA profile
 :configFileName: standalone/configuration/standalone-ha.xml
 :serverArguments:  -c standalone-ha.xml
-:serverArgumentsMavenPlugin: -Dserver-config=standalone/configuration/standalone-ha.xml
 endif::[]
 
 // Start the standalone server with the Eclipse MicroProfile profile.
@@ -47,7 +43,6 @@ ifeval::["{standalone-server-type}"=="microprofile"]
 :serverProfile: MicroProfile profile
 :configFileName: standalone/configuration/standalone-microprofile.xml
 :serverArguments:  -c standalone-microprofile.xml
-:serverArgumentsMavenPlugin: -Dserver-config=standalone/configuration/standalone-microprofile.xml
 endif::[]
 
 // Standalone server with the custom profile.
@@ -64,5 +59,4 @@ ifndef::serverProfile[]
 :serverProfile: default profile
 :configFileName: standalone/configuration/standalone.xml
 :serverArguments:
-:serverArgumentsMavenPlugin:
 endif::serverProfile[]

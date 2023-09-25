@@ -33,9 +33,9 @@ import java.util.logging.Logger;
  */
 public class EchoListener implements WebSocket.Listener {
 
-    private final RemoteThreadRacingIT test;
+    private final ThreadRacingIT test;
 
-    public EchoListener(RemoteThreadRacingIT test) {
+    public EchoListener(ThreadRacingIT test) {
         this.test = test;
     }
 
@@ -63,7 +63,7 @@ public class EchoListener implements WebSocket.Listener {
                 message = buffer.toString();
                 accumulatedMessage.complete(buffer.toString());
                 buffer = new StringBuilder();
-                CompletionStage<?> cf = accumulatedMessage.thenAccept(RemoteThreadRacingIT::addMessage);
+                CompletionStage<?> cf = accumulatedMessage.thenAccept(ThreadRacingIT::addMessage);
                 accumulatedMessage = new CompletableFuture<>();
                 return cf;
             }
