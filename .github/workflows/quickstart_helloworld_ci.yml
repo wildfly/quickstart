@@ -1,0 +1,14 @@
+name: WildFly helloworld Quickstart CI
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    paths:
+      - 'helloworld/**'
+
+jobs:
+  call-quickstart_ci:
+    uses: ./.github/workflows/quickstart_ci.yml
+    with:
+      QUICKSTART_PATH: helloworld
+      MICROPROFILE: false

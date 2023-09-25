@@ -3,8 +3,6 @@
 
 You can package a {productName} server and an application inside a bootable JAR. You can then run the application on a {productName} bare-metal platform or on a {productName} Openshift platform.
 
-== On a {productName} bare-metal platform
-
 You can use the Maven plug-in to build a {productName} bootable JAR, and then you can run the application on a {productName} bare-metal platform. The following example demonstrates a quickstart `pom.xml` file that contains a Maven profile named *bootable-jar*:
 
 [source,xml,subs="attributes+"]
@@ -17,7 +15,7 @@ You can use the Maven plug-in to build a {productName} bootable JAR, and then yo
                       <groupId>org.wildfly.plugins</groupId>
                       <artifactId>wildfly-jar-maven-plugin</artifactId>
                       <configuration>
-                          <feature-pack-location>wildfly@maven(org.jboss.universe:community-universe)#${version.server.bootable-jar}</feature-pack-location>
+                          <feature-pack-location>wildfly@maven(org.jboss.universe:community-universe)#${version.server}</feature-pack-location>
                           <layers>
 ifndef::custom-bootable-jar-layers[]
                               <layer>jaxrs-server</layer>
@@ -96,6 +94,11 @@ endif::rest-client-qs[]
 After the quickstart application is deployed, the bootable JAR includes the application in the root context. Therefore, any URLs related to the application should not have the `/{artifactId}` path segment after `HOST:PORT`.
 ====
 
+// Bootable Jar Testing with Arquillian
+include::../shared-doc/run-integration-tests-with-bootable-jar.adoc[leveloffset=+1]
+
+// TODO this should go away and the MP quickstart's README.adoc should instead include::../shared-doc/build-and-run-the-quickstart-with-openshift.adoc[leveloffset=+1]
+// NOT doing this now cause of the content conditional exceptions below for some MP quickstarts
 == On a {productName} OpenShift platform
 
 You can use the Maven plug-in to build a {productName} bootable JAR, and then you can run the application on a {productName} OpenShift platform. The following example demonstrates a quickstart `pom.xml` file that contains a Maven profile named *bootable-jar-openshift*:
@@ -103,14 +106,14 @@ You can use the Maven plug-in to build a {productName} bootable JAR, and then yo
 [source,xml,subs="attributes+"]
 ----
       <profile>
-          <id>bootable-jar-openshift</id>
+          <id>openshift</id>
           <build>
               <plugins>
                   <plugin>
                       <groupId>org.wildfly.plugins</groupId>
                       <artifactId>wildfly-jar-maven-plugin</artifactId>
                       <configuration>
-                          <feature-pack-location>wildfly@maven(org.jboss.universe:community-universe)#${version.server.bootable-jar}</feature-pack-location>
+                          <feature-pack-location>wildfly@maven(org.jboss.universe:community-universe)#${version.server}</feature-pack-location>
                           <layers>
 ifndef::custom-bootable-jar-layers[]
                               <layer>jaxrs-server</layer>
@@ -216,7 +219,7 @@ endif::[]
 ifndef::reactive-messaging[]
 [source,subs="attributes+",options="nowrap"]
 ----
-$ mvn oc:deploy -Pbootable-jar-openshift
+$ mvn oc:deploy -Popenshift
 ----
 endif::[]
 ifdef::reactive-messaging[]
@@ -230,7 +233,7 @@ Then:
 ----
 $ helm install mp-rm-qs -f ./helm-bootable-jar-amq-streams.yml {helmChartName} --set build.uri={githubRepoCodeUrl} --set build.ref={WildFlyQuickStartRepoTag}
 ----
-The contents of link:./helm-bootable-jar-amq-streams.yml[`helm-bootable-jar-amq-streams.yml`] are mostly similar to what was discussed for link:./helm-amq-streams.yml[`helm-amq-streams.yml`] earlier. The main difference is that `build.mode` is set to `bootable-jar`, and we specify `-Pbootable-jar-openshift` in the `MAVEN_ARGS_APPEND` environment variable to trigger the `bootable-jar-openshift` Maven profile when building the bootable jar.
+The contents of link:./helm-bootable-jar-amq-streams.yml[`helm-bootable-jar-amq-streams.yml`] are mostly similar to what was discussed for link:./helm-amq-streams.yml[`helm-amq-streams.yml`] earlier. The main difference is that `build.mode` is set to `bootable-jar`, and we specify `-Popenshift` in the `MAVEN_ARGS_APPEND` environment variable to trigger the `openshift` Maven profile when building the bootable jar.
 +
 NOTE: Although the above command will return quite quickly, it will take a while until the application pod is actually brought up. In the OpenShift console you will see a pod whose name starts with {hemlAppName} in the `ErrImagePull` or `ImagePullBackoff` state until the build has completed.
 +
