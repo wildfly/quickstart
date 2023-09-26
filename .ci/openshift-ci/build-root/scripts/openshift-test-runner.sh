@@ -1,3 +1,4 @@
+#!/bin/sh
 # The main script to run the quickstarts
 # It iterates over all found quickstart directories, ignoring the ones found in
 # excluded-directories.txt, and runs the run-quickstart-test-on-openshift-for each of them
@@ -75,11 +76,89 @@ runQuickstart() {
   echo
 }
 
+declare -a test_directories
+
+# Initialises the test_directories variable if this is for a scheduled job
+getAllDirectories() {
+  for file in ${basedir}/*; do
+    fileName=$(basename "${file}")
+    if [ ! -d "${file}" ]; then
+      # echo "${fileName} is not a directory!"
+      continue
+    fi
+    test_directories+=(${fileName})
+  done
+}
+
+
+# Initialises the test_directories variable if this is for a pull request
+getPrTouchedDirs() {
+  echo "Pull request detected. Determining which directories to run tests for..."
+  git remote show upstream &> /dev/null
+  if [ "$?" != "0" ]; then
+    # On CI this will always happen. This is just here for local testing
+    git remote add upstream "${OPENSHIFT_BUILD_SOURCE}"
+  fi
+  git fetch upstream "${PULL_BASE_REF}" &> /dev/null
+  changed_files=$(git diff --name-only  upstream/"${PULL_BASE_REF}"..HEAD)
+
+  declare -a changed_directories
+
+  root_dir_file_changed=0
+  for file in ${changed_files}; do
+    # DON'T quote the expression, or it doesn't filter!
+    if [[ "${file}" == *.adoc ]] || [[ "${file}" == .ci/* ]] || [[ "${file}" == .github/* ]]; then
+      continue
+    fi
+
+    IFS='/' read -ra parts <<< "${file}"
+    if [ "${#parts[@]}" == 1 ]; then
+      echo "Changed detected in ${file} which is in the root directory. All tests will need to be run."
+      root_dir_file_changed=1
+      break
+    else
+      changed_directories+=(${parts[0]})
+    fi
+  done
+
+
+  if [ "${root_dir_file_changed}" == "1" ]; then
+    # Function sets the test_directories variable for us
+    getAllDirectories
+  else
+    # Dedupe the found directories
+    output_dirs=$(printf "%s\n" "${changed_directories[@]}" | sort -u)
+    declare -a tmp
+    for dir in ${output_dirs}; do
+      tmp+=(${dir})
+    done
+    test_directories=(${tmp[@]})
+  fi
+}
+
+# Repopulates the test_directories variable with valid directories
+filterDirectories() {
+  declare -a tmp
+  for fileName in "${test_directories[@]}"; do
+      # Quickstarts that have not been migrated yet
+      # TODO once everything has a quickstart_xxx_ci.yml file we can remove the included-directories check
+      grep -q "^${fileName}$" included-directories.txt
+      is_in_included_txt="$?"
+      if [ "${is_in_included_txt}" != "0" ] && [ ! -f "${basedir}/.github/workflows/quickstart_${fileName}_ci.yml" ]; then
+        # echo "Skipping ${fileName}!"
+        continue
+      fi
+
+      tmp+=(${fileName})
+  done
+  test_directories=(${tmp[@]})
+}
+
+start=$SECONDS
 failed_tests=""
 script_directory="${0%/*}"
 script_directory=$(realpath "${script_directory}")
 cd "${script_directory}"
-
 basedir="${script_directory}/../../../.."
 
 if [ -f "${basedir}/enable-wait" ]; then
@@ -89,25 +168,32 @@ if [ -f "${basedir}/enable-wait" ]; then
   popd 
 fi
 
-for file in ${basedir}/*; do
-  fileName=$(basename "${file}")
-  if [ ! -d "${file}" ]; then
-    # echo "${fileName} is not a directory!"
-    continue
-  fi
+if [ "${JOB_TYPE}" = "presubmit" ]; then
+  getPrTouchedDirs
+else
+# For now just handle everything that is not a pull request to run all jobs
+  #elif [ "${JOB_TYPE}" = "periodic" ] || [ "${JOB_TYPE}" = "postsubmit" ]; then
+  getAllDirectories
+fi
 
-  # Quickstarts that have not been migrated yet
-  # TODO once everything has a quickstart_xxx_ci.yml file we can remove the included-directories check
-  grep -q "^${fileName}$" included-directories.txt
-  is_in_included_txt="$?"
-  if [ "${is_in_included_txt}" != "0" ] && [ ! -f "${basedir}/.github/workflows/quickstart_${fileName}_ci.yml" ]; then
-    # echo "Skipping ${fileName}!"
-    continue
-  fi
+filterDirectories
 
-  #echo "${fileName}"
-  runQuickstart "${script_directory}" "${fileName}"
+echo "Parsed test directories, and determined tests should be run for the following directories:"
+printf "\t%s\n" "${test_directories[@]}"
+echo "Running tests..."
+
+for fileName in "${test_directories[@]}"; do
+  if [ "${DRY_RUN}" = "1" ]; then
+    echo "${fileName}"
+  else
+    runQuickstart "${script_directory}" "${fileName}"
+  fi
 done
+
+
+end=$SECONDS
+duration=$((end - start))
+echo "All tests run in $(($duration / 60))m$(($duration % 60))s."
 
 test_status=0
 if [ -z "${failed_tests}" ]; then
@@ -122,7 +208,5 @@ if [ -f "${basedir}/enable-wait" ]; then
   # fail the test run so we don't accidentally merge this file
   exit 1
 fi
-
-
 
 exit ${test_status}
