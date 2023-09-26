@@ -1,0 +1,14 @@
+name: WildFly thread-racing Quickstart CI
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    paths:
+      - 'thread-racing/**'
+
+jobs:
+  call-quickstart_ci:
+    uses: ./.github/workflows/quickstart_ci.yml
+    with:
+      QUICKSTART_PATH: thread-racing
+      MICROPROFILE: false
