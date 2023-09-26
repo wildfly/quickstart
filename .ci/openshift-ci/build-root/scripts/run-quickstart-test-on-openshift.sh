@@ -160,7 +160,8 @@ if [ "${QS_UNSIGNED_SERVER_CERT}" = "1" ]; then
 fi
 
 
-mvn -B verify -Parq-remote -Dserver.host=https://${route} ${QS_MAVEN_REPOSITORY} ${truststore_properties}
+# TODO Remove arq-remote once all tests have been migrated
+mvn -B verify -Parq-remote,integration-testing -Dserver.host=https://${route} ${QS_MAVEN_REPOSITORY} ${truststore_properties}
 
 if [ "$?" != "0" ]; then
   test_status=1
