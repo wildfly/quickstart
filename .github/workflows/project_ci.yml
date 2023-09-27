@@ -6,7 +6,7 @@ on:
 
 # Only run the latest job
 concurrency:
-  group: '${{ github.workflow }} @ ${{ github.event.pull_request.head.label || github.head_ref || github.ref }}'
+  group: '${{ github.workflow }} @ ${{ github.ref || github.run_id }}'
   cancel-in-progress: true
 
 jobs:
@@ -55,11 +55,6 @@ jobs:
         path: wildfly
     - uses: actions/checkout@v4
       with:
-        repository: wildfly/boms
-        ref: ${{ github.base_ref }}
-        path: boms
-    - uses: actions/checkout@v4
-      with:
         path: quickstarts
     - name: Set up JDK ${{ matrix.jdk }}
       uses: actions/setup-java@v3
@@ -77,20 +72,10 @@ jobs:
         cd wildfly
         echo "VERSION_SERVER=$(mvn -N org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
       shell: bash
-    - name: Build BOMs with Server Version
-      run: |
-        cd boms
-        mvn -U -B -fae clean install -Dversion.server=${{ env.VERSION_SERVER }}
-      shell: bash
-    - name: Get BOMs Version
-      run: |
-        cd boms
-        echo "VERSION_BOMS=$(mvn -N org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
-      shell: bash
     - name: Build Quickstarts Release with Server and BOMs Versions
       run: |
         cd quickstarts
-        mvn -U -B -fae clean install -Drelease -Dversion.server.bom=${{ env.VERSION_BOMS }} -Dversion.bom.ee=${{ env.VERSION_BOMS }} -Dversion.microprofile.bom=${{ env.VERSION_BOMS }} -Dversion.bom.microprofile=${{ env.VERSION_BOMS }} -Dversion.server.bootable-jar=${{ env.VERSION_SERVER }} -Dversion.server=${{ env.VERSION_SERVER }}
+        mvn -U -B -fae clean install -Drelease -Dversion.server.bom=${{ env.VERSION_SERVER }} -Dversion.microprofile.bom=${{ env.VERSION_SERVER }} -Dversion.server.bootable-jar=${{ env.VERSION_SERVER }} -Dversion.server=${{ env.VERSION_SERVER }}
       shell: bash
     - uses: actions/upload-artifact@v3
       if: failure()

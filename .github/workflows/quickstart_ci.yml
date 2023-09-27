@@ -14,7 +14,7 @@ on:
 
 # Only run the latest job
 concurrency:
-  group: '${{ github.workflow }} @ ${{ github.event.pull_request.head.label || github.head_ref || github.ref }}'
+  group: '${{ github.workflow }} @ ${{ github.ref || github.run_id }}'
   cancel-in-progress: true
 
 jobs:
@@ -50,9 +50,9 @@ jobs:
           echo "Building provisioned server..."
           mvn -U -B -fae clean package -Pprovisioned-server
           echo "Starting provisioned server..."
-          mvn -U -B -fae wildfly:start -DjbossHome=target/server
+          mvn -U -B -fae wildfly:start -DjbossHome=target/server -Dstartup-timeout=120
           echo "Testing provisioned server..."
-          mvn -U -B -fae verify -Dserver.host=http://localhost:8080 -Pintegration-testing
+          mvn -U -B -fae verify -Dserver.host=http://localhost:8080 -Pintegration-testing 
           echo "Shutting down provisioned server..."
           mvn -U -B -fae wildfly:shutdown
         shell: bash
@@ -64,7 +64,7 @@ jobs:
           echo "Building bootable jar..."
           mvn -U -B -fae clean package -Pbootable-jar
           echo "Starting bootable jar..."
-          mvn -U -B -fae wildfly-jar:start -Djar-file-name=target/${{ inputs.QUICKSTART_PATH }}-bootable.jar
+          mvn -U -B -fae wildfly-jar:start -Djar-file-name=target/${{ inputs.QUICKSTART_PATH }}-bootable.jar -Dstartup-timeout=120
           echo "Testing bootable jar..."
           mvn -U -B -fae verify -Dserver.host=http://localhost:8080 -Pintegration-testing
           echo "Shutting down bootable jar..."          
@@ -98,11 +98,6 @@ jobs:
           path: wildfly
       - uses: actions/checkout@v4
         with:
-          repository: wildfly/boms
-          ref: ${{ github.base_ref }}
-          path: boms
-      - uses: actions/checkout@v4
-        with:
           path: quickstarts
       - name: Set up JDK ${{ matrix.jdk }}
         uses: actions/setup-java@v3
@@ -120,55 +115,45 @@ jobs:
           cd wildfly
           echo "VERSION_SERVER=$(mvn -N org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
         shell: bash
-      - name: Build BOMs with Server Version
-        run: |
-          cd boms
-          mvn -U -B -fae clean install -Dversion.server=${{ env.VERSION_SERVER }}
-        shell: bash
-      - name: Get BOMs Version
-        run: |
-          cd boms
-          echo "VERSION_BOMS=$(mvn -N org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
-        shell: bash
-      - name: Build Quickstart for Release with Server and BOMs Versions
+      - name: Build Quickstart for Release with built Server version
         run: |
           cd quickstarts
           cd ${{ inputs.QUICKSTART_PATH }}
-          mvn -U -B -fae clean package -Drelease -Dversion.bom.ee=${{ env.VERSION_BOMS }} -Dversion.bom.microprofile=${{ env.VERSION_BOMS }} -Dversion.server=${{ env.VERSION_SERVER }}
+          mvn -U -B -fae clean package -Drelease -Dversion.server=${{ env.VERSION_SERVER }}
         shell: bash
-      - name: Build, run & test ${{ inputs.QUICKSTART_PATH }} Quickstart with provisioned-server profile, Server and BOMs Versions
+      - name: Build, run & test ${{ inputs.QUICKSTART_PATH }} Quickstart with provisioned-server profile, and built Server version
         if: ${{ !inputs.MICROPROFILE }}
         run: |
           cd quickstarts
           cd ${{ inputs.QUICKSTART_PATH }}
           echo "Building provisioned server..."
-          mvn -U -B -fae clean package -Pprovisioned-server -Dversion.bom.ee=${{ env.VERSION_BOMS }} -Dversion.bom.microprofile=${{ env.VERSION_BOMS }} -Dversion.server=${{ env.VERSION_SERVER }}
+          mvn -U -B -fae clean package -Pprovisioned-server -Dversion.server=${{ env.VERSION_SERVER }}
           echo "Starting provisioned server..."
-          mvn -U -B -fae wildfly:start -DjbossHome=target/server
+          mvn -U -B -fae wildfly:start -DjbossHome=target/server -Dstartup-timeout=120
           echo "Testing provisioned server..."
           mvn -U -B -fae verify -Dserver.host=http://localhost:8080 -Pintegration-testing
           echo "Shutting down provisioned server..."
           mvn -U -B -fae wildfly:shutdown
         shell: bash
-      - name: Build, run & test ${{ inputs.QUICKSTART_PATH }} Quickstart with bootable-jar profile, Server and BOMs Versions
+      - name: Build, run & test ${{ inputs.QUICKSTART_PATH }} Quickstart with bootable-jar profile, and built Server version
         if: ${{ inputs.MICROPROFILE }}
         run: |
           cd quickstarts
           cd ${{ inputs.QUICKSTART_PATH }}
           echo "Building bootable jar..."
-          mvn -U -B -fae clean package -Pbootable-jar -Dversion.bom.ee=${{ env.VERSION_BOMS }} -Dversion.bom.microprofile=${{ env.VERSION_BOMS }} -Dversion.server=${{ env.VERSION_SERVER }}
+          mvn -U -B -fae clean package -Pbootable-jar -Dversion.server=${{ env.VERSION_SERVER }}
           echo "Starting bootable jar..."
-          mvn -U -B -fae wildfly-jar:start -Djar-file-name=target/${{ inputs.QUICKSTART_PATH }}-bootable.jar
+          mvn -U -B -fae wildfly-jar:start -Djar-file-name=target/${{ inputs.QUICKSTART_PATH }}-bootable.jar -Dstartup-timeout=120
           echo "Testing bootable jar..."
           mvn -U -B -fae verify -Dserver.host=http://localhost:8080 -Pintegration-testing
           echo "Shutting down bootable jar..."          
           mvn -U -B -fae wildfly-jar:shutdown
         shell: bash
-      - name: Build ${{ inputs.QUICKSTART_PATH }} Quickstart with openshift profile, Server and BOMs Versions
+      - name: Build ${{ inputs.QUICKSTART_PATH }} Quickstart with openshift profile, and built Server version
         run: |
           cd quickstarts
           cd ${{ inputs.QUICKSTART_PATH }}
-          mvn -U -B -fae clean package -Popenshift -Dversion.bom.ee=${{ env.VERSION_BOMS }} -Dversion.bom.microprofile=${{ env.VERSION_BOMS }} -Dversion.server=${{ env.VERSION_SERVER }}
+          mvn -U -B -fae clean package -Popenshift -Dversion.server=${{ env.VERSION_SERVER }}
         shell: bash
       - uses: actions/upload-artifact@v3
         if: failure()
