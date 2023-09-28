@@ -139,6 +139,7 @@ if [ "${helm_install_ret}" != "0" ]; then
   oc logs deployment/"${application}"
   helmInstallFailed
 fi
+
 ################################################################################################
 # Run tests
 echo "running the tests"
