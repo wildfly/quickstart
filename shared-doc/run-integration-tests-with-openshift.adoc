@@ -9,7 +9,7 @@ The integration tests expect a deployed application, so make sure you have deplo
 Run the integration tests using the following command to run the `verify` goal with the `integration-testing` profile activated and the proper URL:
 [source,options="nowrap",subs="+attributes"]
 ----
-$ mvn clean verify -Pintegration-testing -Dserver.host=https://$(oc get route {artifactId} --template='{{ .spec.host }}')
+$ mvn verify -Pintegration-testing -Dserver.host=https://$(oc get route {artifactId} --template='{{ .spec.host }}')
 ----
 
 [NOTE]
