@@ -16,54 +16,44 @@
  */
 package org.jboss.as.quickstarts.kitchensink.test;
 
-import static org.junit.Assert.assertNotNull;
-
-import java.util.logging.Logger;
-
-import jakarta.inject.Inject;
-
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.junit.Arquillian;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
 import org.jboss.as.quickstarts.kitchensink.model.Member;
-import org.jboss.as.quickstarts.kitchensink.service.MemberRegistration;
-import org.jboss.as.quickstarts.kitchensink.util.Resources;
-import org.jboss.shrinkwrap.api.Archive;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.asset.StringAsset;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
-@RunWith(Arquillian.class)
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+
 public class MemberRegistrationIT {
-    @Deployment
-    public static Archive<?> createTestArchive() {
-        return ShrinkWrap.create(WebArchive.class, "test.war")
-            .addClasses(Member.class, MemberRegistration.class, Resources.class)
-            .addAsResource("META-INF/test-persistence.xml", "META-INF/persistence.xml")
-            .addAsWebInfResource(new StringAsset("<beans xmlns=\"https://jakarta.ee/xml/ns/jakartaee\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n"
-                        + "xsi:schemaLocation=\"https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/beans_3_0.xsd\"\n"
-                        + "bean-discovery-mode=\"all\">\n"
-                        + "</beans>"), "beans.xml")
-            // Deploy our test datasource
-            .addAsWebInfResource("test-ds.xml");
-    }
 
-    @Inject
-    MemberRegistration memberRegistration;
-
-    @Inject
-    Logger log;
+    private static final String DEFAULT_SERVER_HOST = "http://localhost:8080/kitchensink";
 
     @Test
     public void testRegister() throws Exception {
+        String serverHost = System.getenv("SERVER_HOST");
+        if (serverHost == null) {
+            serverHost = System.getProperty("server.host");
+        }
+        if (serverHost == null) {
+            serverHost = DEFAULT_SERVER_HOST;
+        }
         Member newMember = new Member();
         newMember.setName("Jane Doe");
         newMember.setEmail("jane@mailinator.com");
         newMember.setPhoneNumber("2125551234");
-        memberRegistration.register(newMember);
-        assertNotNull(newMember.getId());
-        log.info(newMember.getName() + " was persisted with id " + newMember.getId());
+        JsonObject json = Json.createObjectBuilder()
+                .add("name", "Jane Doe")
+                .add("email", "jane@mailinator.com")
+                .add("phoneNumber", "2125551234").build();
+        HttpRequest request = HttpRequest.newBuilder(new URI(serverHost + "/rest/members"))
+                .header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(json.toString()))
+                .build();
+        HttpResponse response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+        Assert.assertEquals(200, response.statusCode());
+        Assert.assertEquals("", response.body().toString() );
     }
-
 }
