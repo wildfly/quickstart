@@ -200,6 +200,21 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- JBoss Logging is provided by the server -->
+        <dependency>
+            <groupId>org.jboss.logging</groupId>
+            <artifactId>jboss-logging</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Logging tooling is only needed for annotation processing at
+            compile time, no runtime dependency needed -->
+        <dependency>
+            <groupId>org.jboss.logging</groupId>
+            <artifactId>jboss-logging-processor</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
         <!-- Import the Common Annotations API (JSR-250), we use provided scope
         as the API is included in JBoss EAP -->
         <dependency>

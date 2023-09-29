@@ -26,6 +26,7 @@ import jakarta.inject.Named;
 
 import org.jboss.as.quickstarts.kitchensink.model.Member;
 import org.jboss.as.quickstarts.kitchensink.service.MemberRegistration;
+import org.jboss.as.quickstarts.kitchensink.util.KitchensinkMessages;
 
 // The @Model stereotype is a convenience mechanism to make this a request-scoped bean that has an
 // EL name
@@ -52,19 +53,21 @@ public class MemberController {
     public void register() throws Exception {
         try {
             memberRegistration.register(newMember);
-            FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_INFO, "Registered!", "Registration successful");
+            FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_INFO, KitchensinkMessages.MESSAGES.registeredMessage(),
+                    KitchensinkMessages.MESSAGES.registerSuccessfulMessage());
             facesContext.addMessage(null, m);
             initNewMember();
         } catch (Exception e) {
             String errorMessage = getRootErrorMessage(e);
-            FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR, errorMessage, "Registration unsuccessful");
+            FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR, errorMessage,
+                    KitchensinkMessages.MESSAGES.registerFailMessage());
             facesContext.addMessage(null, m);
         }
     }
 
     private String getRootErrorMessage(Exception e) {
         // Default to general error message that registration failed.
-        String errorMessage = "Registration failed. See server log for more information";
+        String errorMessage = KitchensinkMessages.MESSAGES.defaultErrorMessage();
         if (e == null) {
             // This shouldn't happen, but return the default messages
             return errorMessage;
