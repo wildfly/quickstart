@@ -43,15 +43,17 @@
     </licenses>
 
     <properties>
-        <!-- The versions for BOMs, Dependencies and Plugins -->
-        <version.com.nimbusds.jose.jwt>8.5.1.redhat-00001</version.com.nimbusds.jose.jwt>
-        <version.glassfish.json>1.1.6</version.glassfish.json>
-        <version.microprofile.bom>30.0.0.Beta1</version.microprofile.bom>
-        <version.server.bom>30.0.0.Beta1</version.server.bom>
-        <version.server.bootable-jar>30.0.0.Beta1</version.server.bootable-jar>
-        <version.wildfly-jar.maven.plugin>10.0.0.Final</version.wildfly-jar.maven.plugin>
-        <version.jkube.maven.plugin>1.0.1</version.jkube.maven.plugin>
-        <jkube.generator.from>registry.redhat.io/ubi8/openjdk-11:latest</jkube.generator.from>
+        <!-- the version for the Server -->
+        <version.server>30.0.0.Beta1</version.server>
+        <!-- The versions for BOMs, Packs and Plugins -->
+        <version.bom.ee>${version.server}</version.bom.ee>
+        <version.bom.microprofile>${version.server}</version.bom.microprofile>
+        <version.pack.cloud>4.0.0.Final</version.pack.cloud>
+        <version.plugin.wildfly>4.2.0.Final</version.plugin.wildfly>
+        <version.plugin.wildfly-jar>10.0.0.Final</version.plugin.wildfly-jar>
+        <!-- The versions for other dependencies and plugin -->
+        <version.com.nimbusds.jose-jwt>8.5.1.redhat-00001</version.com.nimbusds.jose-jwt>
+        <version.org.glassfish.jakarta.json>1.1.6</version.org.glassfish.jakarta.json>
     </properties>
 
     <repositories>
@@ -114,7 +116,7 @@
             <dependency>
                 <groupId>org.wildfly.bom</groupId>
                 <artifactId>wildfly-ee-with-tools</artifactId>
-                <version>${version.server.bom}</version>
+                <version>${version.bom.ee}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -122,7 +124,7 @@
             <dependency>
                 <groupId>org.wildfly.bom</groupId>
                 <artifactId>wildfly-microprofile</artifactId>
-                <version>${version.microprofile.bom}</version>
+                <version>${version.bom.microprofile}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -175,7 +177,7 @@
         <dependency>
             <groupId>com.nimbusds</groupId>
             <artifactId>nimbus-jose-jwt</artifactId>
-            <version>${version.com.nimbusds.jose.jwt}</version>
+            <version>${version.com.nimbusds.jose-jwt}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -201,12 +203,26 @@
         <dependency>
             <groupId>org.glassfish</groupId>
             <artifactId>jakarta.json</artifactId>
-            <version>${version.glassfish.json}</version>
+            <version>${version.org.glassfish.jakarta.json}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
 
     <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.wildfly.plugins</groupId>
+                    <artifactId>wildfly-maven-plugin</artifactId>
+                    <version>${version.plugin.wildfly}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.wildfly.plugins</groupId>
+                    <artifactId>wildfly-jar-maven-plugin</artifactId>
+                    <version>${version.plugin.wildfly-jar}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
         <plugins>
             <plugin>
                 <groupId>org.asciidoctor</groupId>
@@ -214,10 +230,10 @@
                 <configuration>
                     <!-- adds versions properties as attributes for substitutions in README.adoc source blocks -->
                     <attributes>
-                        <versionServerBom>${version.server.bom}</versionServerBom>
-                        <versionMicroprofileBom>${version.microprofile.bom}</versionMicroprofileBom>
-                        <versionGlassfishJson>${version.glassfish.json}</versionGlassfishJson>
-                        <versionComNimbusdsJoseJwt>${version.com.nimbusds.jose.jwt}</versionComNimbusdsJoseJwt>
+                        <versionServerBom>${version.bom.ee}</versionServerBom>
+                        <versionMicroprofileBom>${version.bom.microprofile}</versionMicroprofileBom>
+                        <versionGlassfishJson>${version.org.glassfish.jakarta.json}</versionGlassfishJson>
+                        <versionComNimbusdsJoseJwt>${version.com.nimbusds.jose-jwt}</versionComNimbusdsJoseJwt>
                     </attributes>
                 </configuration>
             </plugin>
@@ -232,12 +248,11 @@
                     <plugin>
                         <groupId>org.wildfly.plugins</groupId>
                         <artifactId>wildfly-jar-maven-plugin</artifactId>
-                        <version>${version.wildfly-jar.maven.plugin}</version>
                         <configuration>
-                            <feature-pack-location>wildfly@maven(org.jboss.universe:community-universe)#${version.server.bootable-jar}</feature-pack-location>
+                            <feature-pack-location>wildfly@maven(org.jboss.universe:community-universe)#${version.server}</feature-pack-location>
                             <layers>
                                 <layer>jaxrs-server</layer>
-                                <layer>microprofile-platform</layer>
+                                <layer>microprofile-jwt</layer>
                             </layers>
                             <plugin-options>
                                 <jboss-fork-embedded>true</jboss-fork-embedded>
@@ -254,25 +269,28 @@
                 </plugins>
             </build>
         </profile>
+
         <profile>
-            <id>bootable-jar-openshift</id>
+            <id>openshift</id>
             <build>
                 <plugins>
                     <plugin>
                         <groupId>org.wildfly.plugins</groupId>
-                        <artifactId>wildfly-jar-maven-plugin</artifactId>
-                        <version>${version.wildfly-jar.maven.plugin}</version>
+                        <artifactId>wildfly-maven-plugin</artifactId>
                         <configuration>
-                            <!-- would be something like org.jboss.eap:wildfly-galleon-pack:${version.wildfly} for XP 2.0 -->
-                            <feature-pack-location>wildfly@maven(org.jboss.universe:community-universe)#${version.server.bootable-jar}</feature-pack-location>
+                            <feature-packs>
+                                <feature-pack>
+                                    <location>org.wildfly:wildfly-galleon-pack:${version.server}</location>
+                                </feature-pack>
+                                <feature-pack>
+                                    <location>org.wildfly.cloud:wildfly-cloud-galleon-pack:${version.pack.cloud}</location>
+                                </feature-pack>
+                            </feature-packs>
                             <layers>
-                                <layer>jaxrs-server</layer>
-                                <layer>microprofile-platform</layer>
+                                <layer>cloud-server</layer>
+                                <layer>microprofile-jwt</layer>
                             </layers>
-                            <plugin-options>
-                                <jboss-fork-embedded>true</jboss-fork-embedded>
-                            </plugin-options>
-                            <cloud/>
+                            <filename>ROOT.war</filename>
                         </configuration>
                         <executions>
                             <execution>
@@ -282,54 +300,27 @@
                             </execution>
                         </executions>
                     </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>integration-testing</id>
+            <build>
+                <plugins>
                     <plugin>
-                        <groupId>org.eclipse.jkube</groupId>
-                        <artifactId>openshift-maven-plugin</artifactId>
-                        <version>${version.jkube.maven.plugin}</version>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>resource</goal>
-                                    <goal>build</goal>
-                                </goals>
-                            </execution>
-                        </executions>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-failsafe-plugin</artifactId>
                         <configuration>
-                            <enricher>
-                                <config>
-                                    <jkube-service>
-                                        <type>NodePort</type>
-                                    </jkube-service>
-                                </config>
-                            </enricher>
+                            <includes>
+                                <include>**/BasicRuntimeIT</include>
+                                <include>**/JWTClientIT</include>
+                            </includes>
                         </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <!-- An optional Arquillian testing profile that executes tests in your JBoss EAP instance.
-                 This profile will start a new JBoss EAP instance, and execute the test, shutting it down when done.
-                 Run with: mvn clean verify -Parq-managed -->
-            <id>arq-managed</id>
-            <dependencies>
-                <dependency>
-                    <groupId>org.wildfly.arquillian</groupId>
-                    <artifactId>wildfly-arquillian-container-managed</artifactId>
-                    <scope>test</scope>
-                </dependency>
-            </dependencies>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-failsafe-plugin</artifactId>
-                        <version>${version.failsafe.plugin}</version>
                         <executions>
                             <execution>
                                 <goals>
                                     <goal>integration-test</goal>
-                                    <goal>verify</goal>
                                 </goals>
                             </execution>
                         </executions>
@@ -337,35 +328,7 @@
                 </plugins>
             </build>
         </profile>
-        <profile>
-            <!-- An optional Arquillian testing profile that executes tests in a remote JBoss EAP instance.
-                 Run with: mvn clean verify -Parq-remote -->
-            <id>arq-remote</id>
-            <dependencies>
-                <dependency>
-                    <groupId>org.wildfly.arquillian</groupId>
-                    <artifactId>wildfly-arquillian-container-remote</artifactId>
-                    <scope>test</scope>
-                </dependency>
-            </dependencies>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-failsafe-plugin</artifactId>
-                        <version>${version.failsafe.plugin}</version>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>integration-test</goal>
-                                    <goal>verify</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
+
     </profiles>
 
 </project>
