@@ -7,8 +7,36 @@ on:
       - 'helloworld/**'
       - '.github/workflows/quickstart_ci.yml'
 jobs:
-  call-quickstart_ci:
-    uses: ./.github/workflows/quickstart_ci.yml
-    with:
-      QUICKSTART_PATH: helloworld
-      MICROPROFILE: false
+  Test-build-default-matrix:
+    name: BUILD DEFAULT - JDK${{ matrix.jdk }} - ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        jdk: [11, 17]
+        os: [ubuntu-20.04, windows-latest]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: quickstarts
+      - name: Set up JDK ${{ matrix.jdk }}
+        uses: actions/setup-java@v3
+        with:
+          java-version: ${{ matrix.jdk }}
+          distribution: 'temurin'
+          cache: 'maven'
+      - name: Build helloworld Quickstart for Release
+        run: |
+          cd quickstarts/helloworld
+          mvn -U -B -fae clean install -Drelease
+        shell: bash
+      - name: Build, run & test helloworld Quickstart with provisioned-server profile
+        run: |
+          cd quickstarts
+          echo "Testing provisioned server..."
+          mvn -U -B -fae verify '-Pintegration-testing'
+      - uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: surefire-reports-JDK${{ matrix.jdk }}-${{ matrix.os }}
+          path: 'quickstarts/**/failsafe-reports/*'
