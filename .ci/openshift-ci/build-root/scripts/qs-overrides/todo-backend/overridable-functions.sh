@@ -9,10 +9,16 @@ function installPrerequisites()
 function helmInstall() {
     application="${1}"
     helm_set_arguments="$2"
+
+    # TODO https://issues.redhat.com/browse/WFLY-18574 remove this when persistence is working
+    helm_set_arguments="${helm_set_arguments} --set postgresql.primary.persistence.enabled=false"
+
     # Don't quote ${helm_set_arguments} as it breaks the command when empty, and seems to work without
     helm install "${application}" todo-backend-chart/   --wait --timeout="${helm_install_timeout}" ${helm_set_arguments}
     echo "$?"
 }
+
+
 
 function cleanPrerequisites()
 {
