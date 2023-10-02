@@ -3,32 +3,19 @@
 # Declare variables to be passed into your templates.
 
 postgresql:
-    image:
-      debug: true
     auth:
         username: todos-db
         password: todos-db
         database: todos-db
     primary:
         podSecurityContext:
-          enabled: false
-          fsGroup: null
-          seccompProfile:
-            type=RuntimeDefault:
+            enabled: false
+            fsGroup: ""
         containerSecurityContext:
-          enabled: false
-          # OpenShift usually ships images with GID=0 there, so they could write to mounted volumes where gid=0 has write permissions
-          runAsUser: 0
-          allowPrivilegeEscalation: false
-          runAsNonRoot: true
-          seccompProfile:
-            type: RuntimeDefault
-          capabilities:
-            drop: ['ALL']
+            enabled: false
+            runAsUser: "auto"
         persistence:
           size: 2Gi
-
-
 
     readReplicas:
         podSecurityContext:
@@ -42,10 +29,8 @@ postgresql:
 
     volumePermissions:
         enabled: false
-        containerSecurityContext:
+        securityContext:
             runAsUser: "auto"
-        shmVolume:
-          enabled: false
 
 wildfly:
     build:
