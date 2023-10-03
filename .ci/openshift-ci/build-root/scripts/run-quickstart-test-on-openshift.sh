@@ -21,7 +21,10 @@
 #                   part of the settings IS DISABLED, and also that you have configured the docker engine to use buildx
 #                   and created a buildx builder instance with `docker buildx create --use` (`docker buildx ls` should
 #                   return an entry with a '*' indicating it is used.
-
+# * QS_BUILD_URI - If e.g. running for a pull request, we need to override the build.uri set in the quickstart's values
+#                  to that of the repo the PR was opened from via --set arguments when installing the Helm chart
+# * QS_BUILD_REF - If e.g. running for a pull request, we need to override the build.ref set in the quickstart's values
+#                  to that of the pr branch via --set arguments when installing the Helm chart
 ################################################################################################
 # Go into the quickstart directory
 test_status=0
@@ -118,8 +121,17 @@ fi
 # Helm install, waiting for the pods to come up
 helm_set_arguments=""
 if [ "${optimized}" = "1" ]; then
-   helm_set_arguments=" --set ${helm_set_arg_prefix}build.enabled=false"
+  helm_set_arguments=" --set ${helm_set_arg_prefix}build.enabled=false"
 fi
+if [ -n "${QS_BUILD_URI}" ]; then
+  echo "Overriding ${helm_set_arg_prefix}build.uri in the quickstart values.yml to be ${QS_BUILD_URI}"
+  helm_set_arguments="${helm_set_arguments} --set ${helm_set_arg_prefix}build.uri=${QS_BUILD_URI}"
+fi
+if [ -n "${QS_BUILD_REF}" ]; then
+  echo "Overriding ${helm_set_arg_prefix}build.ref in the quickstart values.yml to be ${QS_BUILD_REF}"
+  helm_set_arguments="${helm_set_arguments} --set ${helm_set_arg_prefix}build.ref=${QS_BUILD_REF}"
+fi
+
 additional_arguments="No additional arguments"
 if [ -n "${helm_set_arguments}" ]; then
   additional_arguments="Additional arguments: ${helm_set_arguments}"

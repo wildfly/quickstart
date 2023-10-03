@@ -170,6 +170,25 @@ fi
 
 if [ "${JOB_TYPE}" = "presubmit" ]; then
   getPrTouchedDirs
+
+  if [ -z "${PULL_NUMBER}" ]; then
+    # Only relevant if running locally for development
+    echo "Pull request number not specified in PULL_NUMBER"
+    exit 1
+  fi
+  if [ -z "${JOB_SPEC}" ]; then
+    # Again only for local debug
+    api_url="https://api.github.com/repos/wildfly/quickstart/pulls/${PULL_NUMBER}"
+  else
+    # JOB_SPEC will be set on CI
+    api_url="https://api.github.com/repos/$(echo $JOB_SPEC | jq -r .refs.org)/$(echo $JOB_SPEC | jq -r .refs.repo)/pulls/${PULL_NUMBER}"
+  fi
+  # Figure out the original repository and branch of the pull request. OpenShift CI does not give us the information to figure out the
+  # name of the repository from which the PR was opened, if it was cloned to e.g. kabir/wildfly-qs rather than simply kabir/quickstart
+  echo "Getting PR info from ${api_url}"
+  curl -L -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" "${api_url}" > .pr_info.json
+  export QS_BUILD_URI=$(jq -r .head.repo.clone_url .pr_info.json)
+  export QS_BUILD_REF=$(jq -r .head.ref .pr_info.json)
 else
 # For now just handle everything that is not a pull request to run all jobs
   #elif [ "${JOB_TYPE}" = "periodic" ] || [ "${JOB_TYPE}" = "postsubmit" ]; then

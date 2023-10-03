@@ -2,17 +2,11 @@
 FROM quay.io/centos/centos:stream8
 
 # Install additional tooling, see https://github.com/openshift/release/blob/master/clusters/app.ci/supplemental-ci-images/ci-tools-build-root.yaml#L338
-RUN INSTALL_PKGS="git java-17-openjdk.x86_64 httpd-tools" && \
+RUN INSTALL_PKGS="git java-17-openjdk.x86_64 httpd-tools jq" && \
     dnf install -y $INSTALL_PKGS && \
     rpm -V $INSTALL_PKGS && \
     dnf clean all && \
     touch /os-build-image
-
-#RUN INSTALL_PKGS="git java-17-openjdk.x86_64 httpd-tools" && \
-#    dnf install -y $INSTALL_PKGS && \
-#    rpm -V $INSTALL_PKGS && \
-#    dnf clean all && \
-#    touch /os-build-image
 
 # Downloading and installing Maven
 ARG MAVEN_VERSION=3.8.8
