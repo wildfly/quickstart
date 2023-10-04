@@ -173,8 +173,12 @@ if [ "${QS_UNSIGNED_SERVER_CERT}" = "1" ]; then
 fi
 
 
+# I am using 'integration-test failsafe:verify' here rather than just using 'verify'. The reason for this is
+# plain 'verify' gives an exit status of 0 even when the test fails.
+# If I just use 'failsafe:verify' the proper exit code is returned when the test fails BUT we don't see any output of the test.
+# Using 'integration-test failsafe:verify' I get the proper exit code and output
 # TODO Remove arq-remote once all tests have been migrated
-mvn -B verify -Parq-remote,integration-testing -Dserver.host=https://${route} ${QS_MAVEN_REPOSITORY} ${truststore_properties}
+mvn -B integration-test failsafe:verify -Parq-remote,integration-testing -Dserver.host=https://${route} ${QS_MAVEN_REPOSITORY} ${truststore_properties}
 
 if [ "$?" != "0" ]; then
   test_status=1
