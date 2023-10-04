@@ -10,6 +10,7 @@ set -u
 # print each command before executing it
 set -x
 
+whoami
 printenv KUBECONFIG
 printenv KUBEADMIN_PASSWORD_FILE
 
