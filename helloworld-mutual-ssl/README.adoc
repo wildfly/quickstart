@@ -232,6 +232,8 @@ DHo1uoz5/dzXZz0EjjWCPJk+LVEhEvH0GcWAp3x3irpNU4hRZLd0XomY0Z4NnUt7VMBNYDOxVxgT9qcL
 aEWK4zhPVFynfnMaOxI67FC2QzhfzERyKqHj47WuwN0xWbS/1gBypS2nUwvItyxaEQG2X5uQY8j8QoY9wcMzIIkP2Mk14gJGHUnA8=
 ----
 
+// Server Distribution Testing
+include::../shared-doc/run-integration-tests-with-server-distribution.adoc[leveloffset=+2]
 // Undeploy the Quickstart
 include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
 // Restore the {productName} Standalone Server Configuration
@@ -288,6 +290,7 @@ After you are done with this quickstart, remember to remove the certificate that
 // Run the Quickstart in Red Hat  Studio or Eclipse
 include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
 
+
 // Additional Red Hat CodeReady Studio instructions
 * Make sure you configure the keystore and client certificate as described under xref:set_up_client_keystore_using_java_keytool[Set Up the Client Keystore Using Java Keytool].
 * Depending on the browser you choose, make sure you either xref:import_the_client_certificate_into_google_chrome[import the certificate into Google Chrome] or xref:import_the_client_certificate_into_mozilla_firefox[import the certificate into Mozilla Firefox].
@@ -309,6 +312,12 @@ $ mvn dependency:resolve -Dclassifier=javadoc
 //*************************************************
 // Product Release content only
 //*************************************************
+// Build and run sections for other environments/builds
+ifndef::ProductRelease,EAPXPRelease[]
+:server_provisioning_server_host: https://localhost:8443
+include::../shared-doc/build-and-run-the-quickstart-with-provisioned-server.adoc[leveloffset=+1]
+endif::[]
+
 ifdef::ProductRelease[]
 
 // Quickstart not compatible with OpenShift

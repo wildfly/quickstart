@@ -1,0 +1,7 @@
+# Remove the keypairs and certificates from the keystore and truststore
+/subsystem=elytron/key-store=serverTS:remove-alias(alias=quickstartUser)
+/subsystem=elytron/key-store=clientKS:remove-alias(alias=quickstartUser)
+
+# Remove the keystore and truststore
+/subsystem=elytron/key-store=serverTS:remove
+/subsystem=elytron/key-store=clientKS:remove

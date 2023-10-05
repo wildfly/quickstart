@@ -3,6 +3,9 @@
 # Start batching commands
 batch
 
+# Remove the keypair with the alias server from the application keystore
+/subsystem=elytron/key-store=applicationKS:remove-alias(alias=server)
+
 # Remove the changes that were made to the default server-ssl-context
 /subsystem=elytron/server-ssl-context=applicationSSC:undefine-attribute(name=trust-manager)
 /subsystem=elytron/server-ssl-context=applicationSSC:undefine-attribute(name=need-client-auth)
