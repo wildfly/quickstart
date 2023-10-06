@@ -1,0 +1,1900 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.10">
+<meta name="author" content="Kabir Khan">
+<title>microprofile-reactive-messaging-kafka: MicroProfile Reactive Messaging with Kafka QuickStart</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
+<style>
+/* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
+/* Uncomment @import statement to use as custom stylesheet */
+/*@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";*/
+article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section{display:block}
+audio,video{display:inline-block}
+audio:not([controls]){display:none;height:0}
+html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}
+a{background:none}
+a:focus{outline:thin dotted}
+a:active,a:hover{outline:0}
+h1{font-size:2em;margin:.67em 0}
+abbr[title]{border-bottom:1px dotted}
+b,strong{font-weight:bold}
+dfn{font-style:italic}
+hr{-moz-box-sizing:content-box;box-sizing:content-box;height:0}
+mark{background:#ff0;color:#000}
+code,kbd,pre,samp{font-family:monospace;font-size:1em}
+pre{white-space:pre-wrap}
+q{quotes:"\201C" "\201D" "\2018" "\2019"}
+small{font-size:80%}
+sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}
+sup{top:-.5em}
+sub{bottom:-.25em}
+img{border:0}
+svg:not(:root){overflow:hidden}
+figure{margin:0}
+fieldset{border:1px solid silver;margin:0 2px;padding:.35em .625em .75em}
+legend{border:0;padding:0}
+button,input,select,textarea{font-family:inherit;font-size:100%;margin:0}
+button,input{line-height:normal}
+button,select{text-transform:none}
+button,html input[type="button"],input[type="reset"],input[type="submit"]{-webkit-appearance:button;cursor:pointer}
+button[disabled],html input[disabled]{cursor:default}
+input[type="checkbox"],input[type="radio"]{box-sizing:border-box;padding:0}
+button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0}
+textarea{overflow:auto;vertical-align:top}
+table{border-collapse:collapse;border-spacing:0}
+*,*::before,*::after{-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box}
+html,body{font-size:100%}
+body{background:#fff;color:rgba(0,0,0,.8);padding:0;margin:0;font-family:"Noto Serif","DejaVu Serif",serif;font-weight:400;font-style:normal;line-height:1;position:relative;cursor:auto;tab-size:4;-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased}
+a:hover{cursor:pointer}
+img,object,embed{max-width:100%;height:auto}
+object,embed{height:100%}
+img{-ms-interpolation-mode:bicubic}
+.left{float:left!important}
+.right{float:right!important}
+.text-left{text-align:left!important}
+.text-right{text-align:right!important}
+.text-center{text-align:center!important}
+.text-justify{text-align:justify!important}
+.hide{display:none}
+img,object,svg{display:inline-block;vertical-align:middle}
+textarea{height:auto;min-height:50px}
+select{width:100%}
+.center{margin-left:auto;margin-right:auto}
+.stretch{width:100%}
+.subheader,.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{line-height:1.45;color:#7a2518;font-weight:400;margin-top:0;margin-bottom:.25em}
+div,dl,dt,dd,ul,ol,li,h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6,pre,form,p,blockquote,th,td{margin:0;padding:0;direction:ltr}
+a{color:#2156a5;text-decoration:underline;line-height:inherit}
+a:hover,a:focus{color:#1d4b8f}
+a img{border:0}
+p{font-family:inherit;font-weight:400;font-size:1em;line-height:1.6;margin-bottom:1.25em;text-rendering:optimizeLegibility}
+p aside{font-size:.875em;line-height:1.35;font-style:italic}
+h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{font-family:"Open Sans","DejaVu Sans",sans-serif;font-weight:300;font-style:normal;color:#ba3925;text-rendering:optimizeLegibility;margin-top:1em;margin-bottom:.5em;line-height:1.0125em}
+h1 small,h2 small,h3 small,#toctitle small,.sidebarblock>.content>.title small,h4 small,h5 small,h6 small{font-size:60%;color:#e99b8f;line-height:0}
+h1{font-size:2.125em}
+h2{font-size:1.6875em}
+h3,#toctitle,.sidebarblock>.content>.title{font-size:1.375em}
+h4,h5{font-size:1.125em}
+h6{font-size:1em}
+hr{border:solid #dddddf;border-width:1px 0 0;clear:both;margin:1.25em 0 1.1875em;height:0}
+em,i{font-style:italic;line-height:inherit}
+strong,b{font-weight:bold;line-height:inherit}
+small{font-size:60%;line-height:inherit}
+code{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;font-weight:400;color:rgba(0,0,0,.9)}
+ul,ol,dl{font-size:1em;line-height:1.6;margin-bottom:1.25em;list-style-position:outside;font-family:inherit}
+ul,ol{margin-left:1.5em}
+ul li ul,ul li ol{margin-left:1.25em;margin-bottom:0;font-size:1em}
+ul.square li ul,ul.circle li ul,ul.disc li ul{list-style:inherit}
+ul.square{list-style-type:square}
+ul.circle{list-style-type:circle}
+ul.disc{list-style-type:disc}
+ol li ul,ol li ol{margin-left:1.25em;margin-bottom:0}
+dl dt{margin-bottom:.3125em;font-weight:bold}
+dl dd{margin-bottom:1.25em}
+abbr,acronym{text-transform:uppercase;font-size:90%;color:rgba(0,0,0,.8);border-bottom:1px dotted #ddd;cursor:help}
+abbr{text-transform:none}
+blockquote{margin:0 0 1.25em;padding:.5625em 1.25em 0 1.1875em;border-left:1px solid #ddd}
+blockquote cite{display:block;font-size:.9375em;color:rgba(0,0,0,.6)}
+blockquote cite::before{content:"\2014 \0020"}
+blockquote cite a,blockquote cite a:visited{color:rgba(0,0,0,.6)}
+blockquote,blockquote p{line-height:1.6;color:rgba(0,0,0,.85)}
+@media screen and (min-width:768px){h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2}
+h1{font-size:2.75em}
+h2{font-size:2.3125em}
+h3,#toctitle,.sidebarblock>.content>.title{font-size:1.6875em}
+h4{font-size:1.4375em}}
+table{background:#fff;margin-bottom:1.25em;border:solid 1px #dedede}
+table thead,table tfoot{background:#f7f8f7}
+table thead tr th,table thead tr td,table tfoot tr th,table tfoot tr td{padding:.5em .625em .625em;font-size:inherit;color:rgba(0,0,0,.8);text-align:left}
+table tr th,table tr td{padding:.5625em .625em;font-size:inherit;color:rgba(0,0,0,.8)}
+table tr.even,table tr.alt{background:#f8f8f7}
+table thead tr th,table tfoot tr th,table tbody tr td,table tr td,table tfoot tr td{display:table-cell;line-height:1.6}
+h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2;word-spacing:-.05em}
+h1 strong,h2 strong,h3 strong,#toctitle strong,.sidebarblock>.content>.title strong,h4 strong,h5 strong,h6 strong{font-weight:400}
+.clearfix::before,.clearfix::after,.float-group::before,.float-group::after{content:" ";display:table}
+.clearfix::after,.float-group::after{clear:both}
+:not(pre):not([class^=L])>code{font-size:.9375em;font-style:normal!important;letter-spacing:0;padding:.1em .5ex;word-spacing:-.15em;background:#f7f7f8;-webkit-border-radius:4px;border-radius:4px;line-height:1.45;text-rendering:optimizeSpeed;word-wrap:break-word}
+:not(pre)>code.nobreak{word-wrap:normal}
+:not(pre)>code.nowrap{white-space:nowrap}
+pre{color:rgba(0,0,0,.9);font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;line-height:1.45;text-rendering:optimizeSpeed}
+pre code,pre pre{color:inherit;font-size:inherit;line-height:inherit}
+pre>code{display:block}
+pre.nowrap,pre.nowrap pre{white-space:pre;word-wrap:normal}
+em em{font-style:normal}
+strong strong{font-weight:400}
+.keyseq{color:rgba(51,51,51,.8)}
+kbd{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;display:inline-block;color:rgba(0,0,0,.8);font-size:.65em;line-height:1.45;background:#f7f7f7;border:1px solid #ccc;-webkit-border-radius:3px;border-radius:3px;-webkit-box-shadow:0 1px 0 rgba(0,0,0,.2),0 0 0 .1em white inset;box-shadow:0 1px 0 rgba(0,0,0,.2),0 0 0 .1em #fff inset;margin:0 .15em;padding:.2em .5em;vertical-align:middle;position:relative;top:-.1em;white-space:nowrap}
+.keyseq kbd:first-child{margin-left:0}
+.keyseq kbd:last-child{margin-right:0}
+.menuseq,.menuref{color:#000}
+.menuseq b:not(.caret),.menuref{font-weight:inherit}
+.menuseq{word-spacing:-.02em}
+.menuseq b.caret{font-size:1.25em;line-height:.8}
+.menuseq i.caret{font-weight:bold;text-align:center;width:.45em}
+b.button::before,b.button::after{position:relative;top:-1px;font-weight:400}
+b.button::before{content:"[";padding:0 3px 0 2px}
+b.button::after{content:"]";padding:0 2px 0 3px}
+p a>code:hover{color:rgba(0,0,0,.9)}
+#header,#content,#footnotes,#footer{width:100%;margin-left:auto;margin-right:auto;margin-top:0;margin-bottom:0;max-width:62.5em;*zoom:1;position:relative;padding-left:.9375em;padding-right:.9375em}
+#header::before,#header::after,#content::before,#content::after,#footnotes::before,#footnotes::after,#footer::before,#footer::after{content:" ";display:table}
+#header::after,#content::after,#footnotes::after,#footer::after{clear:both}
+#content{margin-top:1.25em}
+#content::before{content:none}
+#header>h1:first-child{color:rgba(0,0,0,.85);margin-top:2.25rem;margin-bottom:0}
+#header>h1:first-child+#toc{margin-top:8px;border-top:1px solid #dddddf}
+#header>h1:only-child,body.toc2 #header>h1:nth-last-child(2){border-bottom:1px solid #dddddf;padding-bottom:8px}
+#header .details{border-bottom:1px solid #dddddf;line-height:1.45;padding-top:.25em;padding-bottom:.25em;padding-left:.25em;color:rgba(0,0,0,.6);display:-ms-flexbox;display:-webkit-flex;display:flex;-ms-flex-flow:row wrap;-webkit-flex-flow:row wrap;flex-flow:row wrap}
+#header .details span:first-child{margin-left:-.125em}
+#header .details span.email a{color:rgba(0,0,0,.85)}
+#header .details br{display:none}
+#header .details br+span::before{content:"\00a0\2013\00a0"}
+#header .details br+span.author::before{content:"\00a0\22c5\00a0";color:rgba(0,0,0,.85)}
+#header .details br+span#revremark::before{content:"\00a0|\00a0"}
+#header #revnumber{text-transform:capitalize}
+#header #revnumber::after{content:"\00a0"}
+#content>h1:first-child:not([class]){color:rgba(0,0,0,.85);border-bottom:1px solid #dddddf;padding-bottom:8px;margin-top:0;padding-top:1rem;margin-bottom:1.25rem}
+#toc{border-bottom:1px solid #e7e7e9;padding-bottom:.5em}
+#toc>ul{margin-left:.125em}
+#toc ul.sectlevel0>li>a{font-style:italic}
+#toc ul.sectlevel0 ul.sectlevel1{margin:.5em 0}
+#toc ul{font-family:"Open Sans","DejaVu Sans",sans-serif;list-style-type:none}
+#toc li{line-height:1.3334;margin-top:.3334em}
+#toc a{text-decoration:none}
+#toc a:active{text-decoration:underline}
+#toctitle{color:#7a2518;font-size:1.2em}
+@media screen and (min-width:768px){#toctitle{font-size:1.375em}
+body.toc2{padding-left:15em;padding-right:0}
+#toc.toc2{margin-top:0!important;background:#f8f8f7;position:fixed;width:15em;left:0;top:0;border-right:1px solid #e7e7e9;border-top-width:0!important;border-bottom-width:0!important;z-index:1000;padding:1.25em 1em;height:100%;overflow:auto}
+#toc.toc2 #toctitle{margin-top:0;margin-bottom:.8rem;font-size:1.2em}
+#toc.toc2>ul{font-size:.9em;margin-bottom:0}
+#toc.toc2 ul ul{margin-left:0;padding-left:1em}
+#toc.toc2 ul.sectlevel0 ul.sectlevel1{padding-left:0;margin-top:.5em;margin-bottom:.5em}
+body.toc2.toc-right{padding-left:0;padding-right:15em}
+body.toc2.toc-right #toc.toc2{border-right-width:0;border-left:1px solid #e7e7e9;left:auto;right:0}}
+@media screen and (min-width:1280px){body.toc2{padding-left:20em;padding-right:0}
+#toc.toc2{width:20em}
+#toc.toc2 #toctitle{font-size:1.375em}
+#toc.toc2>ul{font-size:.95em}
+#toc.toc2 ul ul{padding-left:1.25em}
+body.toc2.toc-right{padding-left:0;padding-right:20em}}
+#content #toc{border-style:solid;border-width:1px;border-color:#e0e0dc;margin-bottom:1.25em;padding:1.25em;background:#f8f8f7;-webkit-border-radius:4px;border-radius:4px}
+#content #toc>:first-child{margin-top:0}
+#content #toc>:last-child{margin-bottom:0}
+#footer{max-width:100%;background:rgba(0,0,0,.8);padding:1.25em}
+#footer-text{color:rgba(255,255,255,.8);line-height:1.44}
+#content{margin-bottom:.625em}
+.sect1{padding-bottom:.625em}
+@media screen and (min-width:768px){#content{margin-bottom:1.25em}
+.sect1{padding-bottom:1.25em}}
+.sect1:last-child{padding-bottom:0}
+.sect1+.sect1{border-top:1px solid #e7e7e9}
+#content h1>a.anchor,h2>a.anchor,h3>a.anchor,#toctitle>a.anchor,.sidebarblock>.content>.title>a.anchor,h4>a.anchor,h5>a.anchor,h6>a.anchor{position:absolute;z-index:1001;width:1.5ex;margin-left:-1.5ex;display:block;text-decoration:none!important;visibility:hidden;text-align:center;font-weight:400}
+#content h1>a.anchor::before,h2>a.anchor::before,h3>a.anchor::before,#toctitle>a.anchor::before,.sidebarblock>.content>.title>a.anchor::before,h4>a.anchor::before,h5>a.anchor::before,h6>a.anchor::before{content:"\00A7";font-size:.85em;display:block;padding-top:.1em}
+#content h1:hover>a.anchor,#content h1>a.anchor:hover,h2:hover>a.anchor,h2>a.anchor:hover,h3:hover>a.anchor,#toctitle:hover>a.anchor,.sidebarblock>.content>.title:hover>a.anchor,h3>a.anchor:hover,#toctitle>a.anchor:hover,.sidebarblock>.content>.title>a.anchor:hover,h4:hover>a.anchor,h4>a.anchor:hover,h5:hover>a.anchor,h5>a.anchor:hover,h6:hover>a.anchor,h6>a.anchor:hover{visibility:visible}
+#content h1>a.link,h2>a.link,h3>a.link,#toctitle>a.link,.sidebarblock>.content>.title>a.link,h4>a.link,h5>a.link,h6>a.link{color:#ba3925;text-decoration:none}
+#content h1>a.link:hover,h2>a.link:hover,h3>a.link:hover,#toctitle>a.link:hover,.sidebarblock>.content>.title>a.link:hover,h4>a.link:hover,h5>a.link:hover,h6>a.link:hover{color:#a53221}
+details,.audioblock,.imageblock,.literalblock,.listingblock,.stemblock,.videoblock{margin-bottom:1.25em}
+details>summary:first-of-type{cursor:pointer;display:list-item;outline:none;margin-bottom:.75em}
+.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{text-rendering:optimizeLegibility;text-align:left;font-family:"Noto Serif","DejaVu Serif",serif;font-size:1rem;font-style:italic}
+table.tableblock.fit-content>caption.title{white-space:nowrap;width:0}
+.paragraph.lead>p,#preamble>.sectionbody>[class="paragraph"]:first-of-type p{font-size:1.21875em;line-height:1.6;color:rgba(0,0,0,.85)}
+table.tableblock #preamble>.sectionbody>[class="paragraph"]:first-of-type p{font-size:inherit}
+.admonitionblock>table{border-collapse:separate;border:0;background:none;width:100%}
+.admonitionblock>table td.icon{text-align:center;width:80px}
+.admonitionblock>table td.icon img{max-width:none}
+.admonitionblock>table td.icon .title{font-weight:bold;font-family:"Open Sans","DejaVu Sans",sans-serif;text-transform:uppercase}
+.admonitionblock>table td.content{padding-left:1.125em;padding-right:1.25em;border-left:1px solid #dddddf;color:rgba(0,0,0,.6)}
+.admonitionblock>table td.content>:last-child>:last-child{margin-bottom:0}
+.exampleblock>.content{border-style:solid;border-width:1px;border-color:#e6e6e6;margin-bottom:1.25em;padding:1.25em;background:#fff;-webkit-border-radius:4px;border-radius:4px}
+.exampleblock>.content>:first-child{margin-top:0}
+.exampleblock>.content>:last-child{margin-bottom:0}
+.sidebarblock{border-style:solid;border-width:1px;border-color:#dbdbd6;margin-bottom:1.25em;padding:1.25em;background:#f3f3f2;-webkit-border-radius:4px;border-radius:4px}
+.sidebarblock>:first-child{margin-top:0}
+.sidebarblock>:last-child{margin-bottom:0}
+.sidebarblock>.content>.title{color:#7a2518;margin-top:0;text-align:center}
+.exampleblock>.content>:last-child>:last-child,.exampleblock>.content .olist>ol>li:last-child>:last-child,.exampleblock>.content .ulist>ul>li:last-child>:last-child,.exampleblock>.content .qlist>ol>li:last-child>:last-child,.sidebarblock>.content>:last-child>:last-child,.sidebarblock>.content .olist>ol>li:last-child>:last-child,.sidebarblock>.content .ulist>ul>li:last-child>:last-child,.sidebarblock>.content .qlist>ol>li:last-child>:last-child{margin-bottom:0}
+.literalblock pre,.listingblock>.content>pre{-webkit-border-radius:4px;border-radius:4px;word-wrap:break-word;overflow-x:auto;padding:1em;font-size:.8125em}
+@media screen and (min-width:768px){.literalblock pre,.listingblock>.content>pre{font-size:.90625em}}
+@media screen and (min-width:1280px){.literalblock pre,.listingblock>.content>pre{font-size:1em}}
+.literalblock pre,.listingblock>.content>pre:not(.highlight),.listingblock>.content>pre[class="highlight"],.listingblock>.content>pre[class^="highlight "]{background:#f7f7f8}
+.literalblock.output pre{color:#f7f7f8;background:rgba(0,0,0,.9)}
+.listingblock>.content{position:relative}
+.listingblock code[data-lang]::before{display:none;content:attr(data-lang);position:absolute;font-size:.75em;top:.425rem;right:.5rem;line-height:1;text-transform:uppercase;color:inherit;opacity:.5}
+.listingblock:hover code[data-lang]::before{display:block}
+.listingblock.terminal pre .command::before{content:attr(data-prompt);padding-right:.5em;color:inherit;opacity:.5}
+.listingblock.terminal pre .command:not([data-prompt])::before{content:"$"}
+.listingblock pre.highlightjs{padding:0}
+.listingblock pre.highlightjs>code{padding:1em;-webkit-border-radius:4px;border-radius:4px}
+.listingblock pre.prettyprint{border-width:0}
+.prettyprint{background:#f7f7f8}
+pre.prettyprint .linenums{line-height:1.45;margin-left:2em}
+pre.prettyprint li{background:none;list-style-type:inherit;padding-left:0}
+pre.prettyprint li code[data-lang]::before{opacity:1}
+pre.prettyprint li:not(:first-child) code[data-lang]::before{display:none}
+table.linenotable{border-collapse:separate;border:0;margin-bottom:0;background:none}
+table.linenotable td[class]{color:inherit;vertical-align:top;padding:0;line-height:inherit;white-space:normal}
+table.linenotable td.code{padding-left:.75em}
+table.linenotable td.linenos{border-right:1px solid currentColor;opacity:.35;padding-right:.5em}
+pre.pygments .lineno{border-right:1px solid currentColor;opacity:.35;display:inline-block;margin-right:.75em}
+pre.pygments .lineno::before{content:"";margin-right:-.125em}
+.quoteblock{margin:0 1em 1.25em 1.5em;display:table}
+.quoteblock:not(.excerpt)>.title{margin-left:-1.5em;margin-bottom:.75em}
+.quoteblock blockquote,.quoteblock p{color:rgba(0,0,0,.85);font-size:1.15rem;line-height:1.75;word-spacing:.1em;letter-spacing:0;font-style:italic;text-align:justify}
+.quoteblock blockquote{margin:0;padding:0;border:0}
+.quoteblock blockquote::before{content:"\201c";float:left;font-size:2.75em;font-weight:bold;line-height:.6em;margin-left:-.6em;color:#7a2518;text-shadow:0 1px 2px rgba(0,0,0,.1)}
+.quoteblock blockquote>.paragraph:last-child p{margin-bottom:0}
+.quoteblock .attribution{margin-top:.75em;margin-right:.5ex;text-align:right}
+.verseblock{margin:0 1em 1.25em}
+.verseblock pre{font-family:"Open Sans","DejaVu Sans",sans;font-size:1.15rem;color:rgba(0,0,0,.85);font-weight:300;text-rendering:optimizeLegibility}
+.verseblock pre strong{font-weight:400}
+.verseblock .attribution{margin-top:1.25rem;margin-left:.5ex}
+.quoteblock .attribution,.verseblock .attribution{font-size:.9375em;line-height:1.45;font-style:italic}
+.quoteblock .attribution br,.verseblock .attribution br{display:none}
+.quoteblock .attribution cite,.verseblock .attribution cite{display:block;letter-spacing:-.025em;color:rgba(0,0,0,.6)}
+.quoteblock.abstract blockquote::before,.quoteblock.excerpt blockquote::before,.quoteblock .quoteblock blockquote::before{display:none}
+.quoteblock.abstract blockquote,.quoteblock.abstract p,.quoteblock.excerpt blockquote,.quoteblock.excerpt p,.quoteblock .quoteblock blockquote,.quoteblock .quoteblock p{line-height:1.6;word-spacing:0}
+.quoteblock.abstract{margin:0 1em 1.25em;display:block}
+.quoteblock.abstract>.title{margin:0 0 .375em;font-size:1.15em;text-align:center}
+.quoteblock.excerpt>blockquote,.quoteblock .quoteblock{padding:0 0 .25em 1em;border-left:.25em solid #dddddf}
+.quoteblock.excerpt,.quoteblock .quoteblock{margin-left:0}
+.quoteblock.excerpt blockquote,.quoteblock.excerpt p,.quoteblock .quoteblock blockquote,.quoteblock .quoteblock p{color:inherit;font-size:1.0625rem}
+.quoteblock.excerpt .attribution,.quoteblock .quoteblock .attribution{color:inherit;text-align:left;margin-right:0}
+table.tableblock{max-width:100%;border-collapse:separate}
+p.tableblock:last-child{margin-bottom:0}
+td.tableblock>.content>:last-child{margin-bottom:-1.25em}
+td.tableblock>.content>:last-child.sidebarblock{margin-bottom:0}
+table.tableblock,th.tableblock,td.tableblock{border:0 solid #dedede}
+table.grid-all>thead>tr>.tableblock,table.grid-all>tbody>tr>.tableblock{border-width:0 1px 1px 0}
+table.grid-all>tfoot>tr>.tableblock{border-width:1px 1px 0 0}
+table.grid-cols>*>tr>.tableblock{border-width:0 1px 0 0}
+table.grid-rows>thead>tr>.tableblock,table.grid-rows>tbody>tr>.tableblock{border-width:0 0 1px}
+table.grid-rows>tfoot>tr>.tableblock{border-width:1px 0 0}
+table.grid-all>*>tr>.tableblock:last-child,table.grid-cols>*>tr>.tableblock:last-child{border-right-width:0}
+table.grid-all>tbody>tr:last-child>.tableblock,table.grid-all>thead:last-child>tr>.tableblock,table.grid-rows>tbody>tr:last-child>.tableblock,table.grid-rows>thead:last-child>tr>.tableblock{border-bottom-width:0}
+table.frame-all{border-width:1px}
+table.frame-sides{border-width:0 1px}
+table.frame-topbot,table.frame-ends{border-width:1px 0}
+table.stripes-all tr,table.stripes-odd tr:nth-of-type(odd),table.stripes-even tr:nth-of-type(even),table.stripes-hover tr:hover{background:#f8f8f7}
+th.halign-left,td.halign-left{text-align:left}
+th.halign-right,td.halign-right{text-align:right}
+th.halign-center,td.halign-center{text-align:center}
+th.valign-top,td.valign-top{vertical-align:top}
+th.valign-bottom,td.valign-bottom{vertical-align:bottom}
+th.valign-middle,td.valign-middle{vertical-align:middle}
+table thead th,table tfoot th{font-weight:bold}
+tbody tr th{display:table-cell;line-height:1.6;background:#f7f8f7}
+tbody tr th,tbody tr th p,tfoot tr th,tfoot tr th p{color:rgba(0,0,0,.8);font-weight:bold}
+p.tableblock>code:only-child{background:none;padding:0}
+p.tableblock{font-size:1em}
+ol{margin-left:1.75em}
+ul li ol{margin-left:1.5em}
+dl dd{margin-left:1.125em}
+dl dd:last-child,dl dd:last-child>:last-child{margin-bottom:0}
+ol>li p,ul>li p,ul dd,ol dd,.olist .olist,.ulist .ulist,.ulist .olist,.olist .ulist{margin-bottom:.625em}
+ul.checklist,ul.none,ol.none,ul.no-bullet,ol.no-bullet,ol.unnumbered,ul.unstyled,ol.unstyled{list-style-type:none}
+ul.no-bullet,ol.no-bullet,ol.unnumbered{margin-left:.625em}
+ul.unstyled,ol.unstyled{margin-left:0}
+ul.checklist{margin-left:.625em}
+ul.checklist li>p:first-child>.fa-square-o:first-child,ul.checklist li>p:first-child>.fa-check-square-o:first-child{width:1.25em;font-size:.8em;position:relative;bottom:.125em}
+ul.checklist li>p:first-child>input[type="checkbox"]:first-child{margin-right:.25em}
+ul.inline{display:-ms-flexbox;display:-webkit-box;display:flex;-ms-flex-flow:row wrap;-webkit-flex-flow:row wrap;flex-flow:row wrap;list-style:none;margin:0 0 .625em -1.25em}
+ul.inline>li{margin-left:1.25em}
+.unstyled dl dt{font-weight:400;font-style:normal}
+ol.arabic{list-style-type:decimal}
+ol.decimal{list-style-type:decimal-leading-zero}
+ol.loweralpha{list-style-type:lower-alpha}
+ol.upperalpha{list-style-type:upper-alpha}
+ol.lowerroman{list-style-type:lower-roman}
+ol.upperroman{list-style-type:upper-roman}
+ol.lowergreek{list-style-type:lower-greek}
+.hdlist>table,.colist>table{border:0;background:none}
+.hdlist>table>tbody>tr,.colist>table>tbody>tr{background:none}
+td.hdlist1,td.hdlist2{vertical-align:top;padding:0 .625em}
+td.hdlist1{font-weight:bold;padding-bottom:1.25em}
+.literalblock+.colist,.listingblock+.colist{margin-top:-.5em}
+.colist td:not([class]):first-child{padding:.4em .75em 0;line-height:1;vertical-align:top}
+.colist td:not([class]):first-child img{max-width:none}
+.colist td:not([class]):last-child{padding:.25em 0}
+.thumb,.th{line-height:0;display:inline-block;border:solid 4px #fff;-webkit-box-shadow:0 0 0 1px #ddd;box-shadow:0 0 0 1px #ddd}
+.imageblock.left{margin:.25em .625em 1.25em 0}
+.imageblock.right{margin:.25em 0 1.25em .625em}
+.imageblock>.title{margin-bottom:0}
+.imageblock.thumb,.imageblock.th{border-width:6px}
+.imageblock.thumb>.title,.imageblock.th>.title{padding:0 .125em}
+.image.left,.image.right{margin-top:.25em;margin-bottom:.25em;display:inline-block;line-height:0}
+.image.left{margin-right:.625em}
+.image.right{margin-left:.625em}
+a.image{text-decoration:none;display:inline-block}
+a.image object{pointer-events:none}
+sup.footnote,sup.footnoteref{font-size:.875em;position:static;vertical-align:super}
+sup.footnote a,sup.footnoteref a{text-decoration:none}
+sup.footnote a:active,sup.footnoteref a:active{text-decoration:underline}
+#footnotes{padding-top:.75em;padding-bottom:.75em;margin-bottom:.625em}
+#footnotes hr{width:20%;min-width:6.25em;margin:-.25em 0 .75em;border-width:1px 0 0}
+#footnotes .footnote{padding:0 .375em 0 .225em;line-height:1.3334;font-size:.875em;margin-left:1.2em;margin-bottom:.2em}
+#footnotes .footnote a:first-of-type{font-weight:bold;text-decoration:none;margin-left:-1.05em}
+#footnotes .footnote:last-of-type{margin-bottom:0}
+#content #footnotes{margin-top:-.625em;margin-bottom:0;padding:.75em 0}
+.gist .file-data>table{border:0;background:#fff;width:100%;margin-bottom:0}
+.gist .file-data>table td.line-data{width:99%}
+div.unbreakable{page-break-inside:avoid}
+.big{font-size:larger}
+.small{font-size:smaller}
+.underline{text-decoration:underline}
+.overline{text-decoration:overline}
+.line-through{text-decoration:line-through}
+.aqua{color:#00bfbf}
+.aqua-background{background:#00fafa}
+.black{color:#000}
+.black-background{background:#000}
+.blue{color:#0000bf}
+.blue-background{background:#0000fa}
+.fuchsia{color:#bf00bf}
+.fuchsia-background{background:#fa00fa}
+.gray{color:#606060}
+.gray-background{background:#7d7d7d}
+.green{color:#006000}
+.green-background{background:#007d00}
+.lime{color:#00bf00}
+.lime-background{background:#00fa00}
+.maroon{color:#600000}
+.maroon-background{background:#7d0000}
+.navy{color:#000060}
+.navy-background{background:#00007d}
+.olive{color:#606000}
+.olive-background{background:#7d7d00}
+.purple{color:#600060}
+.purple-background{background:#7d007d}
+.red{color:#bf0000}
+.red-background{background:#fa0000}
+.silver{color:#909090}
+.silver-background{background:#bcbcbc}
+.teal{color:#006060}
+.teal-background{background:#007d7d}
+.white{color:#bfbfbf}
+.white-background{background:#fafafa}
+.yellow{color:#bfbf00}
+.yellow-background{background:#fafa00}
+span.icon>.fa{cursor:default}
+a span.icon>.fa{cursor:inherit}
+.admonitionblock td.icon [class^="fa icon-"]{font-size:2.5em;text-shadow:1px 1px 2px rgba(0,0,0,.5);cursor:default}
+.admonitionblock td.icon .icon-note::before{content:"\f05a";color:#19407c}
+.admonitionblock td.icon .icon-tip::before{content:"\f0eb";text-shadow:1px 1px 2px rgba(155,155,0,.8);color:#111}
+.admonitionblock td.icon .icon-warning::before{content:"\f071";color:#bf6900}
+.admonitionblock td.icon .icon-caution::before{content:"\f06d";color:#bf3400}
+.admonitionblock td.icon .icon-important::before{content:"\f06a";color:#bf0000}
+.conum[data-value]{display:inline-block;color:#fff!important;background:rgba(0,0,0,.8);-webkit-border-radius:100px;border-radius:100px;text-align:center;font-size:.75em;width:1.67em;height:1.67em;line-height:1.67em;font-family:"Open Sans","DejaVu Sans",sans-serif;font-style:normal;font-weight:bold}
+.conum[data-value] *{color:#fff!important}
+.conum[data-value]+b{display:none}
+.conum[data-value]::after{content:attr(data-value)}
+pre .conum[data-value]{position:relative;top:-.125em}
+b.conum *{color:inherit!important}
+.conum:not([data-value]):empty{display:none}
+dt,th.tableblock,td.content,div.footnote{text-rendering:optimizeLegibility}
+h1,h2,p,td.content,span.alt{letter-spacing:-.01em}
+p strong,td.content strong,div.footnote strong{letter-spacing:-.005em}
+p,blockquote,dt,td.content,span.alt{font-size:1.0625rem}
+p{margin-bottom:1.25rem}
+.sidebarblock p,.sidebarblock dt,.sidebarblock td.content,p.tableblock{font-size:1em}
+.exampleblock>.content{background:#fffef7;border-color:#e0e0dc;-webkit-box-shadow:0 1px 4px #e0e0dc;box-shadow:0 1px 4px #e0e0dc}
+.print-only{display:none!important}
+@page{margin:1.25cm .75cm}
+@media print{*{-webkit-box-shadow:none!important;box-shadow:none!important;text-shadow:none!important}
+html{font-size:80%}
+a{color:inherit!important;text-decoration:underline!important}
+a.bare,a[href^="#"],a[href^="mailto:"]{text-decoration:none!important}
+a[href^="http:"]:not(.bare)::after,a[href^="https:"]:not(.bare)::after{content:"(" attr(href) ")";display:inline-block;font-size:.875em;padding-left:.25em}
+abbr[title]::after{content:" (" attr(title) ")"}
+pre,blockquote,tr,img,object,svg{page-break-inside:avoid}
+thead{display:table-header-group}
+svg{max-width:100%}
+p,blockquote,dt,td.content{font-size:1em;orphans:3;widows:3}
+h2,h3,#toctitle,.sidebarblock>.content>.title{page-break-after:avoid}
+#toc,.sidebarblock,.exampleblock>.content{background:none!important}
+#toc{border-bottom:1px solid #dddddf!important;padding-bottom:0!important}
+body.book #header{text-align:center}
+body.book #header>h1:first-child{border:0!important;margin:2.5em 0 1em}
+body.book #header .details{border:0!important;display:block;padding:0!important}
+body.book #header .details span:first-child{margin-left:0!important}
+body.book #header .details br{display:block}
+body.book #header .details br+span::before{content:none!important}
+body.book #toc{border:0!important;text-align:left!important;padding:0!important;margin:0!important}
+body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-break-before:always}
+.listingblock code[data-lang]::before{display:block}
+#footer{padding:0 .9375em}
+.hide-on-print{display:none!important}
+.print-only{display:block!important}
+.hide-for-print{display:none!important}
+.show-for-print{display:inherit!important}}
+@media print,amzn-kf8{#header>h1:first-child{margin-top:1.25rem}
+.sect1{padding:0!important}
+.sect1+.sect1{border:0}
+#footer{background:none}
+#footer-text{color:rgba(0,0,0,.6);font-size:.9em}}
+@media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
+</style>
+</head>
+<body class="article">
+<div id="header">
+<h1>microprofile-reactive-messaging-kafka: MicroProfile Reactive Messaging with Kafka QuickStart</h1>
+<div class="details">
+<span id="author" class="author">Kabir Khan</span><br>
+</div>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="quoteblock abstract">
+<blockquote>
+The <code>microprofile-reactive-messaging-kafka</code> quickstart demonstrates the use of the MicroProfile Reactive Messaging specification backed by Apache Kafka in WildFly.
+</blockquote>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_what_is_it">What is it?</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href="https://microprofile.io/project/eclipse/microprofile-reactive-messaging">MicroProfile Reactive Messaging</a> is a framework for building event-driven, data streaming, and event-sourcing applications using CDI. It lets your application interact using messaging technologies such as <a href="https://kafka.apache.org">Apache Kafka</a>.</p>
+</div>
+<div class="paragraph">
+<p>The implementation of MicroProfile Reactive Messaging is built on top of <a href="https://microprofile.io/project/eclipse/microprofile-reactive-streams">MicroProfile Reactive Streams Operators</a>. Reactive Streams Operators extends the <a href="https://www.reactive-streams.org">Reactive Streams</a> specification, by adding operators such as <code>map()</code>, <code>filter()</code> and others.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_architecture">Architecture</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In this quickstart, we have a CDI bean that demonstrates the functionality of the MicroProfile Reactive Messaging specification. Currently, we support Reactive Messaging 1.0. Connections to external messaging systems such as Apache Kafka are configured via MicroProfile Config. We will also use Reactive Streams Operators to modify the data relayed in these streams in the methods handling the Reactive Messaging streams.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="system_requirements">System Requirements</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The application this project produces is designed to be run on WildFly Application Server 30 or later.</p>
+</div>
+<div class="paragraph">
+<p>All you need to build this project is Java 11.0 (Java SDK 11) or later and Maven 3.6.0 or later. See <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/CONFIGURE_MAVEN_JBOSS_EAP.adoc#configure_maven_to_build_and_deploy_the_quickstarts">Configure Maven to Build and Deploy the Quickstarts</a> to make sure you are configured correctly for testing the quickstarts.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="use_of_jboss_home_name">Use of the WILDFLY_HOME and QUICKSTART_HOME Variables</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In the following instructions, replace <code><em>WILDFLY_HOME</em></code> with the actual path to your WildFly installation. The installation path is described in detail here: <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_OF_WILDFLY_HOME.adoc#use_of_product_home_and_jboss_home_variables">Use of <em>WILDFLY_HOME</em> and <em>JBOSS_HOME</em> Variables</a>.</p>
+</div>
+<div class="paragraph">
+<p>When you see the replaceable variable <em>QUICKSTART_HOME</em>, replace it with the path to the root directory of all of the quickstarts.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="start_the_eap_standalone_server">Start the WildFly Standalone Server</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Open a terminal and navigate to the root of the WildFly directory.</p>
+</li>
+<li>
+<p>Start the WildFly server with the MicroProfile profile by typing the following command.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code>$ <em>WILDFLY_HOME</em>/bin/standalone.sh -c standalone-microprofile.xml</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+For Windows, use the <code><em>WILDFLY_HOME</em>\bin\standalone.bat</code> script.
+</td>
+</tr>
+</table>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_solution">Solution</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>We recommend that you follow the instructions that
+<a href="#creating-new-project">create the application step by step</a>. However, you can
+also go right to the completed example which is available in this directory.</p>
+</div>
+<div class="admonitionblock caution">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Caution</div>
+</td>
+<td class="content">
+Kafka must be running before attempting to deploy the Quickstart application. See <a href="#running-the-apache-kafka-service">Running the Apache Kafka Service</a> for how to do this in your local environment.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="build_and_deploy_the_quickstart">Build and Deploy the Quickstart</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Make sure you <a href="#start_the_eap_standalone_server">start the WildFly server</a> as described above.</p>
+</li>
+<li>
+<p>Open a terminal and navigate to the root directory of this quickstart.</p>
+</li>
+<li>
+<p>Run this command to enable the MicroProfile Reactive Messaging functionality on the server</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code>$ __WILDFLY_HOME__/bin/jboss-cli.sh --connect --file=enable-reactive-messaging.cli</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Type the following command to build the quickstart.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code>$ mvn clean package</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Type the following command to deploy the quickstart.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code>$ mvn wildfly:deploy</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>This deploys the <code>microprofile-reactive-messaging-kafka/target/microprofile-reactive-messaging-kafka.war</code> to the running instance of the server.</p>
+</div>
+<div class="paragraph">
+<p>You should see a message in the server log indicating that the archive deployed successfully.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="undeploy_the_quickstart">Undeploy the Quickstart</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>When you are finished testing the quickstart, follow these steps to undeploy the archive.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Make sure you <a href="#start_the_eap_standalone_server">start the WildFly server</a> as described above.</p>
+</li>
+<li>
+<p>Open a terminal and navigate to the root directory of this quickstart.</p>
+</li>
+<li>
+<p>Type this command to undeploy the archive:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code>$ mvn wildfly:undeploy</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="run_the_arquillian_tests">Run the Arquillian Tests</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This quickstart provides Arquillian tests. By default, these tests are configured to be skipped since Arquillian tests require the use of a container.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+The Arquillian tests deploy the application, so make sure you undeploy the quickstart before you begin.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Follow these steps to run the tests.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><a href="#start_the_eap_standalone_server">Start the WildFly server</a> as described above.</p>
+</li>
+<li>
+<p>Open a terminal and navigate to the root directory of this quickstart.</p>
+</li>
+<li>
+<p>Type the following command to run the <code>verify</code> goal with the <code>arq-remote</code> profile activated.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code>$ mvn clean verify -Parq-remote</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>You can also let Arquillian manage the WildFly server by using the <code>arq-managed</code> profile, meaning the tests will start the server for you. This profile requires that you provide Arquillian with the location of the WildFly server, either by setting the <code>JBOSS_HOME</code> environment variable, or by setting the <code>jbossHome</code> property in the <code>arquillian.xml</code> file. For more information, see <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/RUN_ARQUILLIAN_TESTS.adoc#run_the_arquillian_tests">Run the Arquillian Tests</a>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="run_the_quickstart_in_redhat_codeready_studio_or_eclipse">Run the Quickstart in Red Hat CodeReady Studio or Eclipse</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You can also start the server and deploy the quickstarts or run the Arquillian tests in Red Hat CodeReady Studio or from Eclipse using JBoss tools. For general information about how to import a quickstart, add a WildFly server, and build and deploy a quickstart, see <a href="https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_JBDS.adoc#use_red_hat_jboss_developer_studio_or_eclipse_to_run_the_quickstarts">Use Red Hat CodeReady Studio or Eclipse to Run the Quickstarts</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="creating-new-project">Creating the Maven Project</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code>mvn archetype:generate \
+    -DgroupId=org.wildfly.quickstarts \
+    -DartifactId=microprofile-reactive-messaging-kafka \
+    -DinteractiveMode=false \
+    -DarchetypeGroupId=org.apache.maven.archetypes \
+    -DarchetypeArtifactId=maven-archetype-webapp
+cd microprofile-reactive-messaging-kafka</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Open the project in your favourite IDE.</p>
+</div>
+<div class="paragraph">
+<p>The project needs to be updated to use Java 8 as the minimum:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code>&lt;maven.compiler.source&gt;1.8&lt;/maven.compiler.source&gt;
+&lt;maven.compiler.target&gt;1.8&lt;/maven.compiler.target&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Next set up our dependencies. Add the following section to your
+<code>pom.xml</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-xml" data-lang="xml">&lt;dependencyManagement&gt;
+  &lt;dependencies&gt;
+    &lt;!-- importing the ee-with-tools BOM adds specs and other useful artifacts as managed dependencies --&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.wildfly.bom&lt;/groupId&gt;
+        &lt;artifactId&gt;wildfly-ee-with-tools&lt;/artifactId&gt;
+        &lt;version&gt;30.0.0.Beta1&lt;/version&gt;
+        &lt;type&gt;pom&lt;/type&gt;
+        &lt;scope&gt;import&lt;/scope&gt;
+    &lt;/dependency&gt;
+
+    &lt;!-- importing the microprofile BOM adds MicroProfile specs --&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.wildfly.bom&lt;/groupId&gt;
+        &lt;artifactId&gt;wildfly-microprofile&lt;/artifactId&gt;
+        &lt;version&gt;30.0.0.Beta1&lt;/version&gt;
+        &lt;type&gt;pom&lt;/type&gt;
+        &lt;scope&gt;import&lt;/scope&gt;
+    &lt;/dependency&gt;
+  &lt;/dependencies&gt;
+&lt;/dependencyManagement&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>By using boms the majority of dependencies used within this quickstart align with the version used by the application server.</p>
+</div>
+<div class="paragraph">
+<p>Now we need to add the dependencies which are needed by what is the focus of this QuickStart (CDI, MicroProfile Reactive Messaging, Reactive Streams Operators, Reactive Streams and the Apache Kafka Client). Additionally we need to add dependencies for 'supporting' functionality (JPA, JTA and JAX-RS):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-xml" data-lang="xml">&lt;dependencies&gt;
+    &lt;!-- Core dependencies --&gt;
+
+    &lt;!-- Import the CDI API, we use provided scope as the API is included in WildFly --&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;jakarta.enterprise&lt;/groupId&gt;
+        &lt;artifactId&gt;jakarta.enterprise.cdi-api&lt;/artifactId&gt;
+        &lt;scope&gt;provided&lt;/scope&gt;
+    &lt;/dependency&gt;
+    &lt;!-- Import the Kafka Client API, we use provided scope as the API is included in WildFly --&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.apache.kafka&lt;/groupId&gt;
+        &lt;artifactId&gt;kafka-clients&lt;/artifactId&gt;
+        &lt;scope&gt;provided&lt;/scope&gt;
+    &lt;/dependency&gt;
+    &lt;!-- Import the SmallRye Kafka API, we use provided scope as the API is included in WildFly --&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;io.smallrye.reactive&lt;/groupId&gt;
+        &lt;artifactId&gt;smallrye-reactive-messaging-kafka-api&lt;/artifactId&gt;
+        &lt;scope&gt;provided&lt;/scope&gt;
+    &lt;/dependency&gt;
+    &lt;!-- Import the Reactive Messaging API, we use provided scope as the API is included in WildFly --&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.eclipse.microprofile.reactive.messaging&lt;/groupId&gt;
+        &lt;artifactId&gt;microprofile-reactive-messaging-api&lt;/artifactId&gt;
+        &lt;scope&gt;provided&lt;/scope&gt;
+    &lt;/dependency&gt;
+    &lt;!-- Import the Reactive Streams Operators API, we use provided scope as the API is included in WildFly --&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.eclipse.microprofile.reactive-streams-operators&lt;/groupId&gt;
+        &lt;artifactId&gt;microprofile-reactive-streams-operators-api&lt;/artifactId&gt;
+        &lt;scope&gt;provided&lt;/scope&gt;
+    &lt;/dependency&gt;
+    &lt;!-- Import the Reactive Streams Operators API, we use provided scope as the API is included in WildFly --&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.reactivestreams&lt;/groupId&gt;
+        &lt;artifactId&gt;reactive-streams&lt;/artifactId&gt;
+        &lt;scope&gt;provided&lt;/scope&gt;
+    &lt;/dependency&gt;
+
+    &lt;!-- 'Supporting' dependencies --&gt;
+
+    &lt;!-- Import the Persistence API, we use provided scope as the API is included in WildFly --&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;jakarta.persistence&lt;/groupId&gt;
+        &lt;artifactId&gt;jakarta.persistence-api&lt;/artifactId&gt;
+        &lt;scope&gt;provided&lt;/scope&gt;
+    &lt;/dependency&gt;
+    &lt;!-- Import the Annotations API, we use provided scope as the API is included in WildFly --&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;jakarta.annotation&lt;/groupId&gt;
+        &lt;artifactId&gt;jakarta.annotation-api&lt;/artifactId&gt;
+        &lt;scope&gt;provided&lt;/scope&gt;
+    &lt;/dependency&gt;
+    &lt;!-- Import the Persistence API, we use provided scope as the API is included in WildFly --&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;jakarta.transaction&lt;/groupId&gt;
+        &lt;artifactId&gt;jakarta.transaction-api&lt;/artifactId&gt;
+        &lt;scope&gt;provided&lt;/scope&gt;
+    &lt;/dependency&gt;
+    &lt;!-- Import the JAX-RS API, we use provided scope as the API is included in WildFly --&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;jakarta.ws.rs&lt;/groupId&gt;
+        &lt;artifactId&gt;jakarta.ws.rs-api&lt;/artifactId&gt;
+        &lt;scope&gt;provided&lt;/scope&gt;
+    &lt;/dependency&gt;
+    &lt;!-- Import the resteasy-jaxrs API, we use provided scope as the API is included in WildFly --&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.jboss.resteasy&lt;/groupId&gt;
+        &lt;artifactId&gt;resteasy-jaxrs&lt;/artifactId&gt;
+        &lt;scope&gt;provided&lt;/scope&gt;
+    &lt;/dependency&gt;
+&lt;/dependencies&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>All dependencies have the 'provided' scope.</p>
+</div>
+<div class="paragraph">
+<p>As we are going to be deploying this application to the WildFly server, let&#8217;s
+also add a maven plugin that will simplify the deployment operations (you can replace
+the generated build section):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-xml" data-lang="xml">&lt;build&gt;
+  &lt;!-- Set the name of the archive --&gt;
+  &lt;finalName&gt;${project.artifactId}&lt;/finalName&gt;
+  &lt;plugins&gt;
+    &lt;!-- Allows to use mvn wildfly:deploy --&gt;
+    &lt;plugin&gt;
+      &lt;groupId&gt;org.wildfly.plugins&lt;/groupId&gt;
+      &lt;artifactId&gt;wildfly-maven-plugin&lt;/artifactId&gt;
+    &lt;/plugin&gt;
+  &lt;/plugins&gt;
+&lt;/build&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Setup the required Maven repositories (if you don&#8217;t have them set up in Maven global settings):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-xml" data-lang="xml">&lt;repositories&gt;
+    &lt;repository&gt;
+        &lt;id&gt;jboss-public-maven-repository&lt;/id&gt;
+        &lt;name&gt;JBoss Public Maven Repository&lt;/name&gt;
+        &lt;url&gt;https://repository.jboss.org/nexus/content/groups/public&lt;/url&gt;
+        &lt;layout&gt;default&lt;/layout&gt;
+        &lt;releases&gt;
+            &lt;enabled&gt;true&lt;/enabled&gt;
+            &lt;updatePolicy&gt;never&lt;/updatePolicy&gt;
+        &lt;/releases&gt;
+        &lt;snapshots&gt;
+            &lt;enabled&gt;true&lt;/enabled&gt;
+            &lt;updatePolicy&gt;never&lt;/updatePolicy&gt;
+        &lt;/snapshots&gt;
+    &lt;/repository&gt;
+    &lt;repository&gt;
+        &lt;id&gt;redhat-ga-maven-repository&lt;/id&gt;
+        &lt;name&gt;Red Hat GA Maven Repository&lt;/name&gt;
+        &lt;url&gt;https://maven.repository.redhat.com/ga/&lt;/url&gt;
+        &lt;layout&gt;default&lt;/layout&gt;
+        &lt;releases&gt;
+            &lt;enabled&gt;true&lt;/enabled&gt;
+            &lt;updatePolicy&gt;never&lt;/updatePolicy&gt;
+        &lt;/releases&gt;
+        &lt;snapshots&gt;
+            &lt;enabled&gt;true&lt;/enabled&gt;
+            &lt;updatePolicy&gt;never&lt;/updatePolicy&gt;
+        &lt;/snapshots&gt;
+    &lt;/repository&gt;
+&lt;/repositories&gt;
+&lt;pluginRepositories&gt;
+    &lt;pluginRepository&gt;
+        &lt;id&gt;jboss-public-maven-repository&lt;/id&gt;
+        &lt;name&gt;JBoss Public Maven Repository&lt;/name&gt;
+        &lt;url&gt;https://repository.jboss.org/nexus/content/groups/public&lt;/url&gt;
+        &lt;releases&gt;
+            &lt;enabled&gt;true&lt;/enabled&gt;
+        &lt;/releases&gt;
+        &lt;snapshots&gt;
+            &lt;enabled&gt;true&lt;/enabled&gt;
+        &lt;/snapshots&gt;
+    &lt;/pluginRepository&gt;
+    &lt;pluginRepository&gt;
+        &lt;id&gt;redhat-ga-maven-repository&lt;/id&gt;
+        &lt;name&gt;Red Hat GA Maven Repository&lt;/name&gt;
+        &lt;url&gt;https://maven.repository.redhat.com/ga/&lt;/url&gt;
+        &lt;releases&gt;
+            &lt;enabled&gt;true&lt;/enabled&gt;
+        &lt;/releases&gt;
+        &lt;snapshots&gt;
+            &lt;enabled&gt;true&lt;/enabled&gt;
+        &lt;/snapshots&gt;
+    &lt;/pluginRepository&gt;
+&lt;/pluginRepositories&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now we are ready to start working with MicroProfile Reactive Messaging.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_preparing_the_application">Preparing the Application</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This will walk you through the steps to write our application. They are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Create a generator for the generated messages. We will create something which mocks a call to an asynchnronous resource.</p>
+</li>
+<li>
+<p>Add a data object which wraps the generated messages and adds a timestamp. We will use JPA annotations on this to make it persistable.</p>
+</li>
+<li>
+<p>Create our CDI bean interfacing with the Kafka streams via annotated methods. For the streams that are managed by Kafka we will provide a MicroProfile Config file to configure how to interact with Kafka. It will log, filter and store entries to a RDBMS.</p>
+</li>
+<li>
+<p>Create a CDI bean that will be used to store and retrieve entries from a RDBMS.</p>
+</li>
+<li>
+<p>Create a JAX-RS endpoint to return the data that was stored in the RDBMS to the user.</p>
+</li>
+</ul>
+</div>
+<div class="sect2">
+<h3 id="_adding_our_data_generator">Adding our Data Generator</h3>
+<div class="paragraph">
+<p>Copy across the <code>microprofile-reactive-messaging-kafka/src/main/java/org/wildfly/quickstarts/microprofile/reactive/messaging/MockExternalAsyncResource.java</code> file to your project. This class mocks a call to an asynchronous external resource. The details of how it is implemented are not important for this QuickStart.</p>
+</div>
+<div class="paragraph">
+<p><code>MockExternalAsyncResource</code> has one callable method:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public CompletionStage&lt;String&gt; getNextValue()</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>CompletionStage</code> returned by this method will complete with a String when ready. A String is ready every two seconds. It will emit the following Strings in the given order:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>Hello</code></p>
+</li>
+<li>
+<p><code>World</code></p>
+</li>
+<li>
+<p><code>Reactive</code></p>
+</li>
+<li>
+<p><code>Messaging</code></p>
+</li>
+<li>
+<p><code>with</code></p>
+</li>
+<li>
+<p><code>Kafka</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>After this initial sequence the returned <code>CompletionStage</code> will complete with a random entry from the above list. A new entry is available every two seconds.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_adding_a_data_object">Adding a Data Object</h3>
+<div class="paragraph">
+<p>Later we will wrap the strings in a <code>TimedEntry</code> object which contains the String and a timestamp. Since we will be storing it in a database, we add JPA annotations to it:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">package org.wildfly.quickstarts.microprofile.reactive.messaging;
+
+import java.sql.Timestamp;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+
+@Entity
+public class TimedEntry {
+    private Long id;
+    private Timestamp time;
+    private String message;
+
+    public TimedEntry() {
+
+    }
+
+    public TimedEntry(Timestamp time, String message) {
+        this.time = time;
+        this.message = message;
+    }
+
+    @Id
+    @GeneratedValue
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Timestamp getTime() {
+        return time;
+    }
+
+    public void setTime(Timestamp time) {
+        this.time = time;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    @Override
+    public String toString() {
+        String s = "TimedEntry{";
+        if (id != null) {
+            s += "id=" + id + ", ";
+        }
+        s += "time=" + time +
+                ", message='" + message + '\'' +
+                '}';
+        return s;
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_adding_our_messaging_cdi_bean">Adding our Messaging CDI Bean</h3>
+<div class="paragraph">
+<p>MicroProfile Reactive Messaging is based on CDI, so all interaction with the MicroProfile Reactive Messaging streams must happen from a CDI beans. <strong>Note:</strong> The beans must have either the <code>@ApplicationScoped</code> or <code>@Dependent</code> scopes.</p>
+</div>
+<div class="paragraph">
+<p>Then within these beans we have a set of methods using the <code>@Incoming</code> and <code>@Outgoing</code> annotations from the MicroProfile Reactive Messaging specification to map the underlying streams. For an <code>@Outgoing</code> annotation its <code>value</code> specifies the Reactive Messaging stream to send data to, and for an <code>@Incoming</code> annotation its <code>value</code> specifies the Reactive Messaging stream to read data from. Although in this QuickStart we are putting all these methods into one CDI bean class, they could be spread over several beans.</p>
+</div>
+<div class="paragraph">
+<p>The MicroProfile Reactive Messaging specification contains a full list of all the valid method signatures for such <code>@Incoming</code>/<code>@Outging</code> methods. We will use a few of them, and see how they make different use-cases easier.</p>
+</div>
+<div class="paragraph">
+<p>Our bean looks as follows, and this is the main focus for the functionality in this QuickStart. We will also be using some other technologies, but they are secondary to this section. Explanations of each method will be given in line.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">package org.wildfly.quickstarts.microprofile.reactive.messaging;
+
+import java.sql.Timestamp;
+import java.util.concurrent.CompletionStage;
+
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+
+import org.eclipse.microprofile.reactive.messaging.Incoming;
+import org.eclipse.microprofile.reactive.messaging.Outgoing;
+import org.eclipse.microprofile.reactive.streams.operators.PublisherBuilder;
+import org.eclipse.microprofile.reactive.streams.operators.ReactiveStreams;
+import org.reactivestreams.Publisher;
+
+
+@ApplicationScoped
+public class MessagingBean {</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>First we inject our mock asynchronous external data producer, which produces a string every two seconds. We explained this class in a previous section.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">    @Inject
+    MockExternalAsyncResource producer;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We inject a bean that will be used to persist entries to a RDBMS later on.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">    @Inject
+    DatabaseBean dbBean;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now we get to the reactive messaging part.</p>
+</div>
+<div class="paragraph">
+<p>Our first method is a 'producer' method, since is annotated with the <code>@Outgoing</code> annotation. It simply relays the output of our mock producer bean to the reactive messaging system. It uses the channel <code>source</code> (as indicated in the <code>@Outgoing</code> annotation&#8217;s value) as the target stream to send the data to. You can think of 'producer' methods as the entry point to push data into the reactive messaging streams.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">    @Outgoing("source")
+    public CompletionStage&lt;String&gt; sendInVm() {
+        return producer.getNextValue();
+    }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Next we have a 'processor' method. It is annotated with both <code>@Incoming</code> and <code>@Outgoing</code> annotations so it gets data from the reactive messaging streams and then pushes it to another stream. Essentially it simply relays data.</p>
+</div>
+<div class="paragraph">
+<p>In this case we get data from the <code>source</code> stream, so it will receive the entries made available by the <code>sendInVm()</code> method above, and forwards everything onto the <code>filter</code> stream.</p>
+</div>
+<div class="paragraph">
+<p>In this case, since we just want to log the strings that were emitted, we are using a simple method signature receiving and returning the raw string provided. The Reactive Messaging implementation has unwrapped the <code>CompletionStage</code> from the previous method for us.</p>
+</div>
+<div class="paragraph">
+<p>Note that there is no Kafka involved yet. Since the <code>@Incoming</code> and <code>@Outgoing</code> values match up, Reactive Messaging will use internal, in-memory streams.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">    @Incoming("source")
+    @Outgoing("filter")
+    public String logAllMessages(String message) {
+        System.out.println("Received " + message);
+        return message;
+    }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now we have another 'processor' method. We get the data from the <code>filter</code> stream (what was relayed by the previous <code>logAllMessages()</code> method) and forward it on to the <code>sender</code> stream.</p>
+</div>
+<div class="paragraph">
+<p>In this method we want to do something a bit more advanced, namely apply a filter to the messages. We use a method receiving and returning a Reactive Stream, in this case we use <code>PublisherBuilder</code> from the MicroProfile Reactive Streams Operators specification. <code>PublisherBuilder</code> extends the <code>Publisher</code> interface from the Reactive Streams specification, and provides us with the <code>filter()</code> methods we will use here.</p>
+</div>
+<div class="paragraph">
+<p>Again the Reactive Messaging implementation does all the wrapping for us.</p>
+</div>
+<div class="paragraph">
+<p>Our filter method tells us to only relay messages that match <code>Hello</code> or <code>Kafka</code>, and drop everything else. In other words, later methods in the stream will only receive occurrences of <code>Hello</code> or <code>Kafka</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">    @Incoming("filter")
+    @Outgoing("sender")
+    public PublisherBuilder&lt;String&gt; filter(PublisherBuilder&lt;String&gt; messages) {
+        return messages
+                .filter(s -&gt; s.equals("Hello") || s.equals("Kafka"));
+    }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Next we have another 'processor' method, which receives data from the <code>sender</code> stream and forwards it on to the <code>to-kafka</code> stream. It&#8217;s parameter is a simple <code>String</code>, MicroProfile Reactive Messaging will unwrap the stream from the <code>PublisherBuilder</code> returned in the previous method and call this next method with the individual entries.</p>
+</div>
+<div class="paragraph">
+<p>In this method we want to wrap up the data into the <code>TimedEntry</code> class we defined earlier, so we have tuple of the message and a timestamp.</p>
+</div>
+<div class="paragraph">
+<p>Additionally we want to set a Kafka key for the entries so that we can take advantage of Kafka&#8217;s querying capabilities (not done in this quickstart). In order to do this, we do the following steps:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Create an instance of <code>Message</code> from the MicroProfile Reactive Messaging API. A <code>Message</code> is a simple wrapper around the payload. In our case we use the <code>TimedEntry</code> instance we created.</p>
+</li>
+<li>
+<p>We create the key for the <code>TimedEntry</code>. In this case we just use a hash of the message.</p>
+</li>
+<li>
+<p>Use the <code>OutgoingKafkaRecordMetadata</code> builder to create an instance of <code>OutgoingKafkaRecordMetadata</code> with the key</p>
+</li>
+<li>
+<p>Next we call <code>KafkaMetadataUtil.writeOutgoingKafkaMetadata()</code> to augment the <code>Message</code> with the <code>OutgoingKafkaRecordMetadata</code>. Note that the <code>Message</code> passed in to <code>KafkaMetadataUtil.writeOutgoingKafkaMetadata()</code> is not modified, we need the returned one.</p>
+</li>
+<li>
+<p>We return the augmented <code>Message</code> to the stream which is backed by Kafka</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">    @Incoming("sender")
+    @Outgoing("to-kafka")
+    public Message&lt;TimedEntry&gt; sendToKafka(String msg) {
+        // Simpler example for debugging
+        TimedEntry te = new TimedEntry(new Timestamp(System.currentTimeMillis()), msg);
+        Message&lt;TimedEntry&gt; m = Message.of(te);
+        // Just use the hash as the Kafka key for this example
+        int key = te.getMessage().hashCode();
+
+        // Create Metadata containing the Kafka key
+        OutgoingKafkaRecordMetadata&lt;Integer&gt; md = OutgoingKafkaRecordMetadata
+                .&lt;Integer&gt;builder()
+                .withKey(key)
+                .build();
+
+        // The returned message will have the metadata added
+        return KafkaMetadataUtil.writeOutgoingKafkaMetadata(m, md);
+    }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Our final method is a 'consumer' method, as it has only an <code>@Incoming</code> annotation. You can think of this as a 'final destination' for the data in your application. We are using a  <code>Message&lt;TimedEntry&gt;</code> as our method parameter. We are using this signature since we want to access the <code>IncomingKafkaRecordMetadata</code>, which contains the key we added in the previous method and additional information such as the Kafka partition and topic the message was sent on. Since we are using the signature taking a <code>Message</code> as the parameter, we need to <code>ack()</code> the message and return the resulting <code>CompletionStage&lt;Void&gt;</code>. (If we don&#8217;t want to ack the receipt of the message and are not interested in the <code>IncomingKafkaRecordMetadata</code>, we could have used a simpler signature such as <code>void receiveFromKafka(TimedEntry message)</code>.)</p>
+</div>
+<div class="paragraph">
+<p>The methid calls through to our <code>dbBean</code> to store the received data in a RDBMS. We will look at this briefly later.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">    @Incoming("from-kafka")
+    public CompletionStage&lt;Void&gt; receiveFromKafka(Message&lt;TimedEntry&gt; message) {
+        TimedEntry payload = message.getPayload();
+
+        IncomingKafkaRecordMetadata&lt;Integer, TimedEntry&gt; md =
+            KafkaMetadataUtil.readIncomingKafkaMetadata(message).get();
+        String msg =
+                "Received from Kafka, storing it in database\n" +
+                "\t%s\n" +
+                "\tkey: %d; partition: %d, topic: %s";
+        msg = String.format(msg, payload, md.getKey(), md.getPartition(), md.getTopic());
+        System.out.println(msg);
+        dbBean.store(payload);
+        return message.ack();
+    }} // MessagingBean - END</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You might have noticed that up to, and including, the <code>sendToKafka()</code> method the <code>@Incoming.value()</code> matches the <code>@Outgoing.value()</code> of the prior method. This indicates that these streams (<code>source</code>, <code>filter</code> and <code>sender</code>) are handled in memory by the Reactive Messaging implementation.</p>
+</div>
+<div class="paragraph">
+<p>For the last two methods this is different and there is no such pairing. The <code>sendToKafka()</code> method sends its data to the <code>to-kafka</code> stream:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">    ...
+    @Outgoing("to-kafka")
+    public Publisher&lt;TimedEntry&gt; sendToKafka(Publisher&lt;String&gt; messages) {
+       ...
+    }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>However, there are no methods annotated with <code>@Incoming("to-kafka)</code>.</p>
+</div>
+<div class="paragraph">
+<p>And the <code>receiveFromKafka()</code> method is expecting to receive data from the <code>from-kafka</code> stream:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">    @Incoming("from-kafka")
+    public void receiveFromKafka(TimedEntry message) {
+       ...
+    }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Again, there are no methods annotated with <code>@Outgoing("from-kafka")</code>.</p>
+</div>
+<div class="paragraph">
+<p>These 'unpaired' sets of methods indicate that we do not want to use an in-memory stream, and want to use an external system for these streams. If we were try to deploy the MessagingBean in this state the application would fail to deploy. To fix this, and tell it what to map onto, we need to provide some configuration.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<code>IncomingKafkaRecordMetadata</code> is only available on incoming streams coming from Kafka. <code>OutgoingKafkaRecordMetadata</code> will only have effect on outgoing streams going to Kafka.
+</td>
+</tr>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_mapping_streams_to_kafka_using_microprofile_config">Mapping Streams to Kafka using MicroProfile Config</h4>
+<div class="paragraph">
+<p>To map 'unpaired' streams onto Kafka we need to add a MicroProfile Config file to configure these streams.</p>
+</div>
+<div class="paragraph">
+<p>Create a file called <code>src/main/resources/META-INF/microprofile-config.properties</code> and add the following:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-properties" data-lang="properties">mp.messaging.connector.smallrye-kafka.bootstrap.servers=localhost:9092
+
+mp.messaging.outgoing.to-kafka.connector=smallrye-kafka
+mp.messaging.outgoing.to-kafka.topic=testing
+mp.messaging.outgoing.to-kafka.key.serializer=org.apache.kafka.common.serialization.IntegerSerializer
+mp.messaging.outgoing.to-kafka.value.serializer=org.wildfly.quickstarts.microprofile.reactive.messaging.TimedEntrySerializer
+
+# Configure the Kafka source (we read from it)
+mp.messaging.incoming.from-kafka.connector=smallrye-kafka
+mp.messaging.incoming.from-kafka.topic=testing
+mp.messaging.incoming.from-kafka.value.deserializer=org.wildfly.quickstarts.microprofile.reactive.messaging.TimedEntryDeserializer
+mp.messaging.incoming.from-kafka.key.deserializer=org.apache.kafka.common.serialization.IntegerDeserializer</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The MicroProfile Reactive Messaging specification mandates the following pre-fixes:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>mp.messaging.connector.</code> - used to set overall configuration for your application.</p>
+</li>
+<li>
+<p><code>mp.messaging.outgoing.</code> - used to configure streams we are writing to from methods annotated with <code>@Outgoing</code>. The next element determines the name of the stream as identified in the <code>@Outgoing</code> annotation so all the properties starting with <code>mp.messaging.outgoing.to-kafka</code> are used to configure the writing done by the <code>sendToKafka()</code> method which is annotated with <code>@Outgoing("to-kafka")</code>.</p>
+</li>
+<li>
+<p><code>mp.messaging.incoming.</code> - used to configure streams we are reading from in methods annotated with <code>@Incoming</code>. The next element determines the name of the stream as identified in the <code>@Incoming</code> annotation so all the properties starting with <code>mp.messaging.incoming.from-kafka</code> are used to configure the reading done by the <code>receiveFromKafka()</code> method which is annotated with <code>@Incoming("from-kafka")</code>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>What comes after these prefixes is vendor dependent. We use the SmallRye implementation of MicroProfile Reactive Messaging.</p>
+</div>
+<div class="paragraph">
+<p>At the application level, the <code>mp.messaging.connector.smallrye-kafka.bootstrap.servers</code> property says that all conections to Kafka in this application should go to <code>localhost:9092</code>. This is not strictly necessary, since this value is the default that would be used if not specified. If we wanted to override this for say the <code>@Outgoing("to-kafka")</code> annotated <code>sendToKafka()</code> method we could specify this with a property such as:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-properties" data-lang="properties">mp.messaging.outgoing.to-kafka.bootstrap.servers=otherhost:9092</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For the incoming and outgoing properties we can see that they all specify that they should use the <code>smallrye-kafka</code> connector and that the outgoing one writes to the same topic, <code>testing</code>, as the incoming one reads from.</p>
+</div>
+<div class="paragraph">
+<p>We see that the outgoing configuration uses a <code>TimedEntrySerializer</code> while the incoming one uses <code>TimedEntryDeserializer</code> for the values. Kafka just deals with byte streams, so we need to tell it how to serialize the data we are sending and how to deserialize the data we are receiving. As seen is configured with properties of the form <code>mp.messaging.outgoing.&lt;stream name&gt;.value.serializer</code> and <code>mp.messaging.incoming.&lt;stream name&gt;.value.deserializer</code>. The <a href="https://kafka.apache.org/27/javadoc/org/apache/kafka/common/serialization/package-summary.html">org.apache.kafka.common.serialization</a> package contains implementations of serializers and deserializers for simple data types and constructs such as maps.</p>
+</div>
+<div class="paragraph">
+<p>Finally, since the Kafka key is an <code>Integer</code>, we use <code>IntegerSerializer</code> and <code>IntegerDeserializer</code> for the keys. The concept is exactly the same as for the value (de)serializers, but is instead configured with the properties <code>mp.messaging.outgoing.&lt;stream name&gt;.key.serializer</code> and <code>mp.messaging.incoming.&lt;stream name&gt;.key.deserializer</code>.</p>
+</div>
+<div class="sect4">
+<h5 id="_custom_deserializers">Custom (De)Serializers</h5>
+<div class="paragraph">
+<p>In our case the data we are sending to and receiving from Kafka is not a simple object. It is an object of a class defined in our application, so we need to define our own serialization and deserialization. Luckily, this is easy. We just need to implement the <a href="https://kafka.apache.org/27/javadoc/org/apache/kafka/common/serialization/Serializer.html">org.apache.kafka.common.serialization.Serializer</a> and <a href="https://kafka.apache.org/27/javadoc/org/apache/kafka/common/serialization/Deserializer.html">org.apache.kafka.common.serialization.Deserializer</a> interfaces.</p>
+</div>
+<div class="paragraph">
+<p>Here is our <code>TimedEntrySerializer</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">package org.wildfly.quickstarts.microprofile.reactive.messaging;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+
+import org.apache.kafka.common.serialization.Serializer;
+
+public class TimedEntrySerializer implements Serializer&lt;TimedEntry&gt; {
+    @Override
+    public byte[] serialize(String topic, TimedEntry data) {
+        if (data == null) {
+            return null;
+        }
+
+        try {
+            ByteArrayOutputStream bout = new ByteArrayOutputStream();
+            ObjectOutputStream out = new ObjectOutputStream(bout);
+            out.writeLong(data.getTime().getTime());
+            out.writeUTF(data.getMessage());
+            out.close();
+            return bout.toByteArray();
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And here is our <code>TimedEntryDeserializer</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">package org.wildfly.quickstarts.microprofile.reactive.messaging;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.sql.Timestamp;
+
+import org.apache.kafka.common.serialization.Deserializer;
+
+public class TimedEntryDeserializer implements Deserializer&lt;TimedEntry&gt; {
+
+    @Override
+    public TimedEntry deserialize(String topic, byte[] data) {
+        if (data == null) {
+            return null;
+        }
+        try (ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(data))){
+            Timestamp time = new Timestamp(in.readLong());
+            String message = in.readUTF();
+            return new TimedEntry(time, message);
+        } catch (IOException e){
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>As you can see the serializer writes the time as a Long, and the message as a string, and the deserializer reads them in the same order. Then in our <code>microprofile-config.properties</code> above we saw how to make Kafka use our classes for serialization and deserialization.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_storing_data_in_an_rdbms">Storing Data in an RDBMS</h3>
+<div class="paragraph">
+<p>We have covered all the reactive messaging parts, but have missed out how the <code>MessagingBean.receiveFromKafka()</code> stores data via the <code>DatabaseBean</code>. This is not the focus of this QuickStart, so we will just mention how this works quickly.</p>
+</div>
+<div class="paragraph">
+<p>This is the definition of <code>DatabaseBean</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">package org.wildfly.quickstarts.microprofile.reactive.messaging;
+
+import java.util.List;
+
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
+import jakarta.transaction.Transactional;
+
+@ApplicationScoped
+public class DatabaseBean {
+
+    @PersistenceContext(unitName = "test")
+    EntityManager em;
+
+    @Transactional
+    public void store(Object entry) {
+        em.persist(entry);
+    }
+
+    public List&lt;TimedEntry&gt; loadAllTimedEntries() {
+        TypedQuery&lt;TimedEntry&gt; query = em.createQuery("SELECT t from TimedEntry t", TimedEntry.class);
+        List&lt;TimedEntry&gt; result = query.getResultList();
+        return result;
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>It injects an <code>EntityManager</code> for the persitence context <code>test</code>, which is defined in the <code>src/main/resources/META-INF/persistence.xml</code> file:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-xml" data-lang="xml">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;persistence version="2.2"
+             xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="
+        http://xmlns.jcp.org/xml/ns/persistence
+        http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd"&gt;
+    &lt;persistence-unit name="test"&gt;
+        &lt;jta-data-source&gt;java:jboss/datasources/ExampleDS&lt;/jta-data-source&gt;
+        &lt;properties&gt;
+            &lt;property name="hibernate.hbm2ddl.auto" value="create-drop"/&gt;
+        &lt;/properties&gt;
+    &lt;/persistence-unit&gt;
+&lt;/persistence&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>DatabaseBean.store()</code> method saves the <code>TimedEntry</code> and the <code>DatabaseBean.loadAllTimedEntries()</code> method loads all the ones we stored.</p>
+</div>
+<div class="paragraph">
+<p>It is worth pointing out that the <code>@Incoming</code> and <code>@Outgoing</code> annotated methods called by the Reactive Messaging implementation (such as <code>MessagingBean.receiveFromKafka()</code>) happen outside of user space, so there is no @Transaction associated with them. So we need to annotated the <code>DatabaseBean.store()</code> method with <code>@Transactional</code> in order to save our entry to the database.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_viewing_the_data_stored_in_the_rdbms">Viewing the Data Stored in the RDBMS</h3>
+<div class="paragraph">
+<p>Finally, we would like to be able to view the data that was stored in the database. To do this we will add a JAX-RS endpoint that queries the database by calling <code>DatabaseBean.loadAllTimedEntries()</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">package org.wildfly.quickstarts.microprofile.reactive.messaging;
+
+import java.util.List;
+
+import jakarta.inject.Inject;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
+
+@Path("/")
+public class RootResource {
+
+    @Inject
+    DatabaseBean dbBean;
+
+    @GET
+    @Produces(MediaType.TEXT_PLAIN)
+    public String getRootResponse() {
+        List&lt;TimedEntry&gt; entries = dbBean.loadAllTimedEntries();
+        StringBuffer sb = new StringBuffer();
+        for (TimedEntry t : entries) {
+            sb.append(t);
+            sb.append("\n");
+        }
+        return sb.toString();
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We expose our JAX-RS application at the context path:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">package org.wildfly.quickstarts.microprofile.reactive.messaging;
+
+import jakarta.ws.rs.ApplicationPath;
+import jakarta.ws.rs.core.Application;
+
+@ApplicationPath("/")
+public class JaxRsApplication extends Application {
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_interaction_with_user_initiated_code">Interaction with User Initiated Code</h3>
+<div class="paragraph">
+<p>So far what we have seen is really happening in the back-end with little user interaction.
+The MicroProfile Reactive Messaging 2.0 specification adds a <code>@Channel</code> annotation and an <code>Emitter</code> interface which makes it easier to send data to MicroProfile Reactive Messaging streams from user initiated code and to receive data from Reactive Messaging streams.</p>
+</div>
+<div class="paragraph">
+<p>To showcase this functionality we add another CDI bean called <code>UserMessagingBean</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">package org.wildfly.quickstarts.microprofile.reactive.messaging;
+
+import java.util.concurrent.CopyOnWriteArraySet;
+
+import jakarta.annotation.PreDestroy;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.FormParam;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.core.Response;
+
+import org.eclipse.microprofile.reactive.messaging.Channel;
+import org.eclipse.microprofile.reactive.messaging.Emitter;
+import org.reactivestreams.Publisher;
+import org.reactivestreams.Subscriber;
+import org.reactivestreams.Subscription;
+
+@ApplicationScoped
+public class UserMessagingBean {
+
+    @Inject
+    @Channel("user")
+    private Emitter&lt;String&gt; emitter;
+
+    private BroadcastPublisher&lt;String&gt; broadcastPublisher;
+
+    public UserMessagingBean() {
+        //Needed for CDI spec compliance
+        //The @Inject annotated one will be used
+    }
+
+    @Inject
+    public UserMessagingBean(@Channel("user") Publisher&lt;String&gt; receiver) {
+        this.broadcastPublisher = new BroadcastPublisher(receiver);
+    }
+
+    @PreDestroy
+    public void destroy() {
+        broadcastPublisher.close();
+    }
+
+    public Response send(String value) {
+        System.out.println("Sending " + value);
+        emitter.send(value);
+        return Response.accepted().build();
+    }
+
+    public Publisher&lt;String&gt; getPublisher() {
+        return broadcastPublisher;
+    }
+
+    private class BroadcastPublisher&lt;T&gt; implements Publisher&lt;T&gt; {
+        // See source code for more details
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Looking at this in more detail, the following field</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">    @Inject
+    @Channel("user")
+    private Emitter&lt;String&gt; emitter;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>is used to send data to the MicroProfile Reactive Messagin stream called <code>user</code>, which is done in the following method</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">    public Response send(String value) {
+        System.out.println("Sending " + value);
+        emitter.send(value);
+        return Response.accepted().build();
+    }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>@Inject @Channel</code> on an <code>Emitter</code> can be considered similiar to an <code>@Outgoing</code> annotated method but with the data coming from code paths invoked by user interaction. In this case we are not using Kafka to back the stream but if we wanted to, for this example, the MicroProfile Config properties would be prefixed with the <code>mp.messaging.outgoing.user.</code> prefix.</p>
+</div>
+<div class="paragraph">
+<p>Next we have the constructor where we inject a <code>Publisher</code> (We could also have used a MicroProfile Reactive Streams Operators <code>PublisherBuiilder</code>) to define the receiving side.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">    @Inject
+    public UserMessagingBean(@Channel("user") Publisher&lt;String&gt; receiver) {
+        this.broadcastPublisher = new BroadcastPublisher(receiver);
+    }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We store this injected <code>Publisher</code> in the <code>broadcastPublisher</code> field. We will come back to why we are wrapping it in a <code>BroadcastPublisher</code> in a second.  So an <code>@Inject @Channel</code> on a <code>Publisher</code> (or <code>PublisherBuilder</code>) can be considered equivalent to use of the <code>@Incoming</code> annotation. In this case we are listening to the <code>user</code> in memory stream so messages sent via the <code>Emitter</code> will be received on this <code>Publisher</code>. If instead we wanted to configure it to send via Kafka we would use MicroProfile Config properties prefixed with the <code>mp.messaging.incoming.user.</code> prefix.</p>
+</div>
+<div class="paragraph">
+<p>There are a few caveats on this mechanism though:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>There must be an active <code>Subscription</code> (from the Reactive Streams specification) on the channel before the <code>Emitter.send()</code> method is called.</p>
+</li>
+<li>
+<p>There can only be one <code>Subscription</code> on the injected <code>Publisher</code>. This means that we cannot simply return this <code>Publisher</code> as is via an asynchronous JAX-RS endpoint as each client request would result in a separate <code>Subscription</code>.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>The above two points will hopefully be fixed in a future version of the specification. For the purposes of this quickstart we are bypassing the above limitations by creating the <code>BroadcastPublisher</code> class and wrapping the original <code>Publisher</code> in that instead. Note that implementing <code>Publisher</code> is hard, and that <code>BroadcastPublisher</code> should be considered a 'proof of concept'. For more details about the <code>BroadcastPublisher</code> see the source code of the <code>UserMessagingBean</code> class. In a nutshell what it does is:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Its constructor subscribes to the injected <code>Publisher</code> to avoid the first problem</p>
+</li>
+<li>
+<p>When code subscribes to it, it handles the <code>Subscription</code> on its own level, and forwards on code received on the ' a separate level and forwards on data received from the base <code>Subsciption</code> created in the constructor.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Finally we have a JAX-RS endpoint</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">package org.wildfly.quickstarts.microprofile.reactive.messaging;
+
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+
+import org.jboss.resteasy.annotations.Stream;
+import org.reactivestreams.Publisher;
+
+@ApplicationScoped
+@Path("/user")
+@Produces(MediaType.TEXT_PLAIN)
+public class UserResource {
+    @Inject
+    UserMessagingBean bean;
+
+    @POST
+    @Path("{value}")
+    @Consumes(MediaType.TEXT_PLAIN)
+    public Response send(@PathParam("value") String value) {
+        bean.send(value);
+        return Response.ok().build();
+    }
+
+    @GET
+    @Produces(MediaType.SERVER_SENT_EVENTS)
+    @Stream
+    public Publisher&lt;String&gt; get() {
+        return bean.getPublisher();
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>It simply delegates the values received from <code>POST</code> requests under <code>/user/&lt;value&gt;</code> onto the bean which sends them via the <code>Emitter</code>.</p>
+</div>
+<div class="paragraph">
+<p>Then <code>GET</code> requests for <code>/user</code> return the <code>BroadCastPublisher</code> to the user who will then receive data received on the MicroProfile Reactive Messaging channel.</p>
+</div>
+<hr>
+<div class="paragraph">
+<p>Now you should be able to compile the application and prepare it for deployment.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_running_the_application_on_a_standalone_wildfly_server">Running the Application on a Standalone WildFly Server</h3>
+<div class="paragraph">
+<p>We need to first start Apache Kafka. Then we will run the WildFly server and deploy our application to the server.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="running-the-apache-kafka-service">Running the Apache Kafka Service</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To run Apache Kafka locally you will need to <a href="https://kafka.apache.org/downloads">download</a> it first. Extract the zip to a location, and
+enter that directory in a terminal window. Then enter the following command to start Apache Zookeeper:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-shell" data-lang="shell">$ ./bin/zookeeper-server-start.sh config/zookeeper.properties</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Then open a new terminal window and go to the same directory. In this terminal, to start a Kafka instance, enter the command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-shell" data-lang="shell">$ ./bin/kafka-server-start.sh config/server.properties</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+Zookeeper and Kafka must be left running, so use a new terminal for other commands outlined in this quickstart.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_build_and_deploy_the_initial_application">Build and Deploy the Initial Application</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Let&#8217;s check that our application works!</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Make sure <a href="#start_the_eap_standalone_server">the WildFly server is started</a> as described above.</p>
+</li>
+<li>
+<p>WildFly ships with all the modules to run MicroProfile Reactive Messaging applications with Kafka, but the functionality is not enabled out of the box, so we need to enable it. Run: <code>$ <em>WILDFLY_HOME</em>/bin/jboss-cli.sh --connect --file=enable-reactive-messaging.cli</code> to set everything up. The <code>enable-reactive-messaging.cli</code> file used can be found <a href="enable-reactive-messaging.cli">here</a>.</p>
+</li>
+<li>
+<p>Open new terminal and navigate to the root directory of your project.</p>
+</li>
+<li>
+<p>Type the following command to build and deploy the project:</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code>$ mvn clean package wildfly:deploy</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now we should see output in the server console. First, we see output for the ones in the determined order:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code>14:24:39,197 INFO  [stdout] (vert.x-eventloop-thread-0) Received from Kafka, storing it in database
+14:24:39,197 INFO  [stdout] (vert.x-eventloop-thread-0) 	TimedEntry{time=2021-08-06 14:24:39.183, message='Hello'}
+14:24:39,197 INFO  [stdout] (vert.x-eventloop-thread-0) 	key: 69609650; partition: 0, topic: testing
+14:24:41,185 INFO  [stdout] (pool-22-thread-1) Received world
+14:24:43,183 INFO  [stdout] (pool-22-thread-1) Received Reactive
+14:24:45,183 INFO  [stdout] (pool-22-thread-1) Received Messaging
+14:24:47,183 INFO  [stdout] (pool-22-thread-1) Received with
+14:24:49,182 INFO  [stdout] (pool-22-thread-1) Received Kafka
+14:24:49,188 INFO  [stdout] (vert.x-eventloop-thread-0) Received from Kafka, storing it in database
+14:24:49,188 INFO  [stdout] (vert.x-eventloop-thread-0) 	TimedEntry{time=2021-08-06 14:24:49.183, message='Kafka'}
+14:24:49,188 INFO  [stdout] (vert.x-eventloop-thread-0) 	key: 72255238; partition: 0, topic: testing
+14:24:51,184 INFO  [stdout] (pool-22-thread-1) Received Kafka</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Then we get another section where it is using the randomised order</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code>14:24:51,184 INFO  [stdout] (pool-22-thread-1) Received Kafka
+14:24:51,190 INFO  [stdout] (vert.x-eventloop-thread-0) Received from Kafka, storing it in database
+14:24:51,190 INFO  [stdout] (vert.x-eventloop-thread-0) 	TimedEntry{time=2021-08-06 14:24:51.184, message='Kafka'}
+14:24:51,190 INFO  [stdout] (vert.x-eventloop-thread-0) 	key: 72255238; partition: 0, topic: testing
+14:24:53,184 INFO  [stdout] (pool-22-thread-1) Received world
+14:24:55,184 INFO  [stdout] (pool-22-thread-1) Received world
+14:24:57,184 INFO  [stdout] (pool-22-thread-1) Received Reactive
+14:24:59,181 INFO  [stdout] (pool-22-thread-1) Received Hello
+14:24:59,187 INFO  [stdout] (vert.x-eventloop-thread-0) Received from Kafka, storing it in database
+14:24:59,187 INFO  [stdout] (vert.x-eventloop-thread-0) 	TimedEntry{time=2021-08-06 14:24:59.182, message='Hello'}
+14:24:59,187 INFO  [stdout] (vert.x-eventloop-thread-0) 	key: 69609650; partition: 0, topic: testing</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In both parts of the log we see that all messages reach the <code>logAllMessages()</code> method, while only <code>Hello</code> and <code>Kafka</code> reach the <code>receiveFromKafka()</code> method which saves them to the RDBMS.</p>
+</div>
+<div class="paragraph">
+<p>To inspect what was stored in the database, go to <a href="http://localhost:8080/microprofile-reactive-messaging-kafka" class="bare">http://localhost:8080/microprofile-reactive-messaging-kafka</a> in  your browser and you should see something like:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code>TimedEntry{id=1, time=2021-08-06 14:24:39.183, message='Hello'}
+TimedEntry{id=2, time=2021-08-06 14:24:49.183, message='Kafka'}
+TimedEntry{id=3, time=2021-08-06 14:24:51.184, message='Kafka'}
+TimedEntry{id=4, time=2021-08-06 14:24:59.182, message='Hello'}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The timestamps of the entries in the browser match the ones we saw in the server logs.</p>
+</div>
+<div class="sect2">
+<h3 id="_interaction_with_user_initiated_code_2">Interaction with User Initiated Code</h3>
+<div class="paragraph">
+<p>With the application still running, open two terminal windows. Enter the following <code>curl</code> command in both of them</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>$curl -N http://localhost:8080/microprofile-reactive-messaging-kafka/user</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>-N</code> option keeps the connection open, so we receive data as it becomes available on the publisher.</p>
+</div>
+<div class="paragraph">
+<p>In a third terminal window enter the commands:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>$curl -X POST http://localhost:8080/microprofile-reactive-messaging-kafka/user/one
+$curl -X POST http://localhost:8080/microprofile-reactive-messaging-kafka/user/two
+$curl -X POST http://localhost:8080/microprofile-reactive-messaging-kafka/user/three</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In the first two terminal windows you should see these entries appear as they are posted:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>data: one
+
+data: two
+
+data: three</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2023-09-26 13:54:21 +0100
+</div>
+</div>
+</body>
+</html>
