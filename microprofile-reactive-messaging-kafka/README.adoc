@@ -51,8 +51,8 @@ include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
 // Undeploy the Quickstart
 include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
 
-// Run the Arquillian Tests
-include::../shared-doc/run-arquillian-tests.adoc[leveloffset=+1]
+// Server Distribution Testing
+include::../shared-doc/run-integration-tests-with-server-distribution.adoc[leveloffset=+2]
 
 // Run the Quickstart in Red Hat CodeReady Studio or Eclipse
 include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
@@ -676,8 +676,9 @@ public class RootResource {
     DatabaseBean dbBean;
 
     @GET
+    @Path("/db")
     @Produces(MediaType.TEXT_PLAIN)
-    public String getRootResponse() {
+    public String getDatabaseEntries() {
         List<TimedEntry> entries = dbBean.loadAllTimedEntries();
         StringBuffer sb = new StringBuffer();
         for (TimedEntry t : entries) {
@@ -888,6 +889,7 @@ Let's check that our application works!
 
 . Make sure xref:start_the_eap_standalone_server[the {productName} server is started] as described above.
 . {productName} ships with all the modules to run MicroProfile Reactive Messaging applications with Kafka, but the functionality is not enabled out of the box, so we need to enable it. Run: `$ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=enable-reactive-messaging.cli` to set everything up. The `enable-reactive-messaging.cli` file used can be found link:enable-reactive-messaging.cli[here].
+*NOTE*: This is only required if running against the downloaded server. If the `microprofile-reactive-messaging-kafka` layer is provisioned, as is done by the `openshift` and `bootable-jar` maven profiles, the Kafka functionality is there
 . Open new terminal and navigate to the root directory of your project.
 . Type the following command to build and deploy the project:
 
@@ -930,7 +932,7 @@ Then we get another section where it is using the randomised order
 
 In both parts of the log we see that all messages reach the `logAllMessages()` method, while only `Hello` and `Kafka` reach the `receiveFromKafka()` method which saves them to the RDBMS.
 
-To inspect what was stored in the database, go to http://localhost:8080/microprofile-reactive-messaging-kafka in  your browser and you should see something like:
+To inspect what was stored in the database, go to http://localhost:8080/microprofile-reactive-messaging-kafka/db in  your browser and you should see something like:
 
 [source, options="nowrap"]
 ----
@@ -963,57 +965,11 @@ data: two
 data: three
 ```
 
-
-ifdef::EAPXPRelease[]
-// Getting Started with OpenShift
-include::../shared-doc/xp-openshift-getting-started.adoc[leveloffset=+1]
-//Prepare OpenShift for Quickstart Deployment
-include::../shared-doc/xp-create-project.adoc[leveloffset=+2]
-// This does not seem to be needed when using Helm for creating the application
-// Import the Latest {xpaasproduct-shortname} Image Streams and Templates
-// include::../shared-doc/xp-import-imagestreams-templates.adoc[leveloffset=+2]
-
-[[installing-kafka-on-openshift]]
-=== Installing Kafka on OpenShift
-Kafka on OpenShift is provided by AMQ Streams.
-
-// Install AMQ Streams
-include::../shared-doc/xp-install-amq-streams.adoc[leveloffset=+3]
-
-
-// Deploy the {ProductShortName} Source-to-Image (S2I) Quickstart to OpenShift
-[[deploy-to-openshift]]
-== Deploy the {ProductShortName} Source-to-Image (S2I) Quickstart to OpenShift
-
-We will use Helm to install the application. Make sure you have downloaded the https://docs.openshift.com/container-platform/4.9/applications/working_with_helm_charts/installing-helm.html[Helm CLI Tool].
-
-[[xp-deploy-project-amq-streams]]
-=== Deploy the {ProductShortName} Source-to-Image (S2I) Quickstart to OpenShift with AMQ Streams
-This section describes how to deploy the application to OpenShift interacting with Kafka provided by AMQ Streams.
-
-First add the Helm repository, if you have not done so already, as described in {helmRepoUrl}.
-
-Then run the following command to deploy and start the application (note we are using the name `mp-rm-qs` for our application here):
-
-[source,subs="attributes+",options="nowrap"]
-----
-helm install mp-rm-qs -f ./helm-amq-streams.yml {helmChartName} --set build.uri={githubRepoCodeUrl} --set build.ref={WildFlyQuickStartRepoTag}
-----
-
-NOTE: Although the above command will return quite quickly, it will take a while until the application pod is actually brought up. In the OpenShift console you will see a pod whose name starts with mp-rm-qs in the `ErrImagePull` or `ImagePullBackoff` state until the build has completed.
-
-The contents of the link:helm-amq-streams.yml[`helm-amq-streams.yml`] file specify:
-
-* The Galleon layers to use when creating the server under `build/s2i/galleonLayers`
-** `microprofile-reactive-messaging-kafka` contains the MicroProfile Reactive Messaging with Kafka functionality
-** `h2-default-datasource` enables the HSQL database we store data in
-** `cloud-server` provides among other things the web server functionality
-* For both the build (under `build/env`) and the deploy `deploy/env`) parts, we specify environment variables to increase some JVM arguments from the default.
-
-Run `oc get route` to find the URL of our application.
-
-//Bootable JAR
+// Bootable JAR
 include::../shared-doc/build-and-run-the-quickstart-with-bootable-jar.adoc[leveloffset=+1]
+
+// OpenShift
+include::../shared-doc/build-and-run-the-quickstart-with-openshift.adoc[leveloffset=+1]
 
 == Conclusion
 

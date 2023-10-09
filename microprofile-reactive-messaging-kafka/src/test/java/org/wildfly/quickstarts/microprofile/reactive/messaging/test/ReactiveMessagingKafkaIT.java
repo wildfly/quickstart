@@ -22,6 +22,16 @@
 
 package org.wildfly.quickstarts.microprofile.reactive.messaging.test;
 
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.eclipse.microprofile.rest.client.RestClientBuilder;
+import org.junit.Assert;
+import org.junit.Test;
+import org.reactivestreams.Subscriber;
+import org.reactivestreams.Subscription;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
@@ -29,55 +39,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.eclipse.microprofile.rest.client.RestClientBuilder;
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.container.test.api.RunAsClient;
-import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.arquillian.test.api.ArquillianResource;
-import org.jboss.as.arquillian.api.ServerSetup;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.asset.EmptyAsset;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.reactivestreams.Subscriber;
-import org.reactivestreams.Subscription;
-import org.wildfly.quickstarts.microprofile.reactive.messaging.MessagingBean;
+import static org.wildfly.quickstarts.microprofile.reactive.messaging.test.TestUtils.getServerHost;
 
 /**
  * @author <a href="mailto:kabir.khan@jboss.com">Kabir Khan</a>
  */
-@RunWith(Arquillian.class)
-@RunAsClient
-@ServerSetup({RunKafkaSetupTask.class, EnableReactiveExtensionsSetupTask.class})
 public class ReactiveMessagingKafkaIT {
 
-    @ArquillianResource
-    URL url;
 
     private final CloseableHttpClient httpClient = HttpClientBuilder.create().build();
 
     private static final long TIMEOUT = 30000;
 
-    @Deployment
-    public static WebArchive getDeployment() {
-        final WebArchive webArchive = ShrinkWrap.create(WebArchive.class, "reactive-messaging-kafka-tx.war")
-                .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
-                .addPackage(MessagingBean.class.getPackage())
-                .addAsWebInfResource("META-INF/persistence.xml", "classes/META-INF/persistence.xml")
-                .addAsWebInfResource("META-INF/microprofile-config.properties", "classes/META-INF/microprofile-config.properties");
-
-        return webArchive;
-    }
-
     @Test
-    public void test() throws Throwable {
-        HttpGet httpGet = new HttpGet(url.toExternalForm());
+    public void testDbEntries() throws Throwable {
+        HttpGet httpGet = new HttpGet(getServerHost() + "/db");
         long end = System.currentTimeMillis() + TIMEOUT;
         boolean done = false;
         while (!done) {
@@ -91,7 +67,7 @@ public class ReactiveMessagingKafkaIT {
     @Test
     public void testUserApi() throws Throwable {
         final UserClient client = RestClientBuilder.newBuilder()
-                .baseUrl(url)
+                .baseUrl(new URL(getServerHost()))
                 .build(UserClient.class);
 
         final ListSubscriber taskA = new ListSubscriber(new CountDownLatch(3));
