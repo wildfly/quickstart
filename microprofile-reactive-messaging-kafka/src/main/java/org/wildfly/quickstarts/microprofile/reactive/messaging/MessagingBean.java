@@ -66,33 +66,45 @@ public class MessagingBean {
     @Incoming("sender")
     @Outgoing("to-kafka")
     public Message<TimedEntry> sendToKafka(String msg) {
-        TimedEntry te = new TimedEntry(new Timestamp(System.currentTimeMillis()), msg);
-        Message<TimedEntry> m = Message.of(te);
-        // Just use the hash as the Kafka key for this example
-        int key = te.getMessage().hashCode();
+        try {
+            System.out.println("TEMP (sendToKafka) " + msg);
+            TimedEntry te = new TimedEntry(new Timestamp(System.currentTimeMillis()), msg);
+            Message<TimedEntry> m = Message.of(te);
+            // Just use the hash as the Kafka key for this example
+            int key = te.getMessage().hashCode();
 
-        // Create Metadata containing the Kafka key
-        OutgoingKafkaRecordMetadata<Integer> md = OutgoingKafkaRecordMetadata
-                .<Integer>builder()
-                .withKey(key)
-                .build();
+            // Create Metadata containing the Kafka key
+            OutgoingKafkaRecordMetadata<Integer> md = OutgoingKafkaRecordMetadata
+                    .<Integer>builder()
+                    .withKey(key)
+                    .build();
 
-        // The returned message will have the metadata added
-        return KafkaMetadataUtil.writeOutgoingKafkaMetadata(m, md);
+            // The returned message will have the metadata added
+            return KafkaMetadataUtil.writeOutgoingKafkaMetadata(m, md);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
     }
 
     @Incoming("from-kafka")
     public CompletionStage<Void> receiveFromKafka(Message<TimedEntry> message) {
-        TimedEntry payload = message.getPayload();
+        try {
+            TimedEntry payload = message.getPayload();
+            System.out.println("TEMP (receiveFromKafka) " + payload);
 
-        IncomingKafkaRecordMetadata<Integer, TimedEntry> md = KafkaMetadataUtil.readIncomingKafkaMetadata(message).get();
-        String msg =
-                "Received from Kafka, storing it in database\n" +
-                "\t%s\n" +
-                "\tkey: %d; partition: %d, topic: %s";
-        msg = String.format(msg, payload, md.getKey(), md.getPartition(), md.getTopic());
-        System.out.println(msg);
-        dbBean.store(payload);
-        return message.ack();
+            IncomingKafkaRecordMetadata<Integer, TimedEntry> md = KafkaMetadataUtil.readIncomingKafkaMetadata(message).get();
+            String msg =
+                    "Received from Kafka, storing it in database\n" +
+                    "\t%s\n" +
+                    "\tkey: %d; partition: %d, topic: %s";
+            msg = String.format(msg, payload, md.getKey(), md.getPartition(), md.getTopic());
+            System.out.println(msg);
+            dbBean.store(payload);
+            return message.ack();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
     }
 }

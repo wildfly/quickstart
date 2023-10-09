@@ -34,6 +34,11 @@ poll_marker_files() {
 
 wait_marker_files() {
   echo "Waiting $seconds. 'oc rsh' in and either 'touch continue' to stop waiting, or 'touch exit' to abort the test run. The latter will result in the test being reported as failed"
+  echo "You can log in to the cluster started by the CI to diagnose problems with the following commands"
+  echo "oc login $TEST_CLUSTER_URL -u $SYSADMIN_USERNAME -p $SYSADMIN_PASSWORD --insecure-skip-tls-verify"
+  #echo "oc get pods"
+  #echo "oc rsh pod/<name of pod>"
+
   found_file=$(poll_marker_files $1)
   if [ -z "${found_file}" ]; then
       echo "Wait timed out - continuing"
@@ -112,7 +117,7 @@ getPrTouchedDirs() {
     fi
 
     IFS='/' read -ra parts <<< "${file}"
-    if [ "${#parts[@]}" == 1 ]; then
+    if [ "${#parts[@]}" == 1 ]  && [ "${parts[0]}" != 'enable-wait' ] && [ "${parts[0]}" != 'continue' ] && [ "${parts[0]}" != '.gitignore' ] ; then
       echo "Changed detected in ${file} which is in the root directory. All tests will need to be run."
       root_dir_file_changed=1
       break
@@ -141,10 +146,9 @@ filterDirectories() {
   declare -a tmp
   for fileName in "${test_directories[@]}"; do
       # Quickstarts that have not been migrated yet
-      # TODO once everything has a quickstart_xxx_ci.yml file we can remove the included-directories check
-      grep -q "^${fileName}$" included-directories.txt
-      is_in_included_txt="$?"
-      if [ "${is_in_included_txt}" != "0" ] && [ ! -f "${basedir}/.github/workflows/quickstart_${fileName}_ci.yml" ]; then
+      grep -q "^${fileName}$" excluded-directories.txt
+      is_in_excluded="$?"
+      if [ "${is_in_excluded}" = "0" ] || [ ! -f "${basedir}/.github/workflows/quickstart_${fileName}_ci.yml" ]; then
         # echo "Skipping ${fileName}!"
         continue
       fi
@@ -166,11 +170,6 @@ if [ -f "${basedir}/enable-wait" ]; then
   pushd ${basedir}
   wait_marker_files 3600
   popd 
-fi
-if [ -f "${basedir}/abort" ]; then
-  # Add ability to abort test run between quickstart runs
-  echo "${basedir}/abort file found. Exiting"
-  exit 1
 fi
 
 if [ "${JOB_TYPE}" = "presubmit" ]; then
@@ -211,6 +210,11 @@ for fileName in "${test_directories[@]}"; do
     echo "${fileName}"
   else
     runQuickstart "${script_directory}" "${fileName}"
+    if [ -f "${basedir}/abort" ]; then
+      # Add ability to abort test run between quickstart runs
+      echo "${basedir}/abort file found. Exiting"
+      exit 1
+    fi
   fi
 done
 
