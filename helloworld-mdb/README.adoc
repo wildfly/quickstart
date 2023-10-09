@@ -25,16 +25,19 @@ This project creates two JMS resources:
 // Product Release content only
 //*************************************************
 
-ifndef::EAPCDRelease[]
 
 // System Requirements
 include::../shared-doc/system-requirements.adoc[leveloffset=+1]
 // Use of {jbossHomeName}
 include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
+
+// build and run with standard server distribution
+[[build_and_run_the_quickstart_with_server_dist]]
+== Building and running the quickstart application with a {productName} server distribution
 // Start the {productName} Standalone Server
-include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+2]
 // Build and Deploy the Quickstart
-include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+2]
 
 // Additional deployment information
 Look at the {productName} console or server log and you should see log messages corresponding to the deployment of the message-driven beans and the JMS destinations:
@@ -54,13 +57,13 @@ INFO  [org.wildfly.extension.undertow] (ServerService Thread Pool -- 87) WFLYUT0
 INFO  [org.jboss.as.server] (management-handler-thread - 1) WFLYSRV0010: Deployed "helloworld-mdb.war" (runtime-name : "helloworld-mdb.war")
 ----
 
-== Access the Application
+=== Access the Application
 
 The application will be running at the following URL: http://localhost:8080/{artifactId}/ and will send some messages to the queue.
 
 To send messages to the topic, use the following URL: http://localhost:8080/{artifactId}/HelloWorldMDBServletClient?topic
 
-== Investigate the Server Console Output
+=== Investigate the Server Console Output
 
 Look at the {productName} console or Server log and you should see log messages like the following:
 
@@ -73,38 +76,17 @@ INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldQueueMDB] (Thread-5 (ActiveM
 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldQueueMDB] (Thread-4 (ActiveMQ-client-global-threads-1189700957)) Received Message from queue: This is message 3
 ----
 
+// Server Distribution Testing
+include::../shared-doc/run-integration-tests-with-server-distribution.adoc[leveloffset=+2]
 // Undeploy the Quickstart
-include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
-// Run the Quickstart in Red Hat CodeReady Studio or Eclipse
-include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
-
-// Additional Red Hat CodeReady Studio instructions
-NOTE: Within {JBDSProductName}, make sure you define a server runtime environment that uses the `standalone-full.xml` configuration file.
-
-
-// Debug the Application
-include::../shared-doc/debug-the-application.adoc[leveloffset=+1]
-
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+2]
 endif::[]
 
-//*************************************************
-// Product Release content only
-//*************************************************
-ifdef::ProductRelease[]
-
-// Getting Started with OpenShift
-include::../shared-doc/openshift-getting-started.adoc[leveloffset=+1]
-//Prepare OpenShift for Quickstart Deployment
-include::../shared-doc/openshift-create-project.adoc[leveloffset=+1]
-// Import the Latest {xpaasproduct-shortname} Image Streams and Templates
-include::../shared-doc/openshift-import-imagestreams-templates.adoc[leveloffset=+1]
-// Deploy the {ProductShortName} Source-to-Image (S2I) Quickstart to OpenShift
-include::../shared-doc/openshift-deploy-project.adoc[leveloffset=+1]
-// Openshift post deployment tasks
-include::../shared-doc/openshift-post-deployment-tasks.adoc[leveloffset=+1]
-
-
+// Build and run sections for other environments/builds
+ifndef::ProductRelease,EAPXPRelease[]
+include::../shared-doc/build-and-run-the-quickstart-with-provisioned-server.adoc[leveloffset=+1]
 endif::[]
+include::../shared-doc/build-and-run-the-quickstart-with-openshift.adoc[leveloffset=+1]
 
 
 
