@@ -31,8 +31,9 @@ public class RootResource {
     DatabaseBean dbBean;
 
     @GET
+    @Path("/db")
     @Produces(MediaType.TEXT_PLAIN)
-    public String getRootResponse() {
+    public String getDatabaseEntries() {
         List<TimedEntry> entries = dbBean.loadAllTimedEntries();
         StringBuffer sb = new StringBuffer();
         for (TimedEntry t : entries) {
@@ -40,5 +41,11 @@ public class RootResource {
             sb.append("\n");
         }
         return sb.toString();
+    }
+
+    @GET
+    @Produces(MediaType.TEXT_PLAIN)
+    public String getRootResponse() {
+        return "MicroProfile Reactive Messaging with Kafka quickstart deployed successfully. You can find the available operations in the included README file.";
     }
 }
