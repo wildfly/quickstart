@@ -72,7 +72,7 @@ Notice that it sets the `first and last name` to `quickstartUser` and that this 
 [source,options="nowrap"]
 ----
 $>keytool -exportcert -keystore client.keystore  -storetype pkcs12 -storepass secret -keypass secret -file client.crt
-$>keytool -import -file client.crt -alias quickstartUser -keystore client.truststore -storepass secret
+$>keytool -import -file client.crt -alias quickstartUser -keystore server.truststore -storepass secret
 
 Owner: CN=quickstartUser, OU=Sales, O=My Company, L=Sao Paulo, ST=Sao Paulo, C=BR
 Issuer: CN=quickstartUser, OU=Sales, O=My Company, L=Sao Paulo, ST=Sao Paulo, C=BR
@@ -157,7 +157,7 @@ After stopping the server, open the `__{jbossHomeName}__/standalone/configuratio
 <key-store name="qsTrustStore">
     <credential-reference clear-text="secret"/>
     <implementation type="JKS"/>
-    <file path="client.truststore" relative-to="jboss.server.config.dir"/>
+    <file path="server.truststore" relative-to="jboss.server.config.dir"/>
 </key-store>
 ----
 
@@ -233,7 +233,7 @@ It maps the `client_cert_domain` from the quickstart application to the `http-au
 [[test_the_server_ssl_configuration]]
 == Test the Server TLS Configuration
 
-To test the TLS configuration, access: https://localhost:8443
+To test the TLS configuration, start {productName} and access: https://localhost:8443
 
 If it is configured correctly, you should be asked to trust the server certificate.
 
@@ -292,6 +292,8 @@ dzXZz0EjjWCPJk+LVEhEvH0GcWAp3x3irpNU4hRZLd0XomY0Z4NnUt7VMBNYDOxVxgT9qcLnEaEpIfYU
 ynfnMaOxI67FC2QzhfzERyKqHj47WuwN0xWbS/1gBypS2nUwvItyxaEQG2X5uQY8j8QoY9wcMzIIkP2Mk14gJGHUnA8=
 ----
 
+// Server Distribution Testing
+include::../shared-doc/run-integration-tests-with-server-distribution.adoc[leveloffset=+2]
 // Undeploy the Quickstart
 include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
 
@@ -322,7 +324,7 @@ $ cd __{jbossHomeName}__/standalone/configuration/
 +
 NOTE: For Windows, use the `__{jbossHomeName}__\bin\standalone.bat` script.
 
-. Remove the `clientCert.p12`, `client.crt`, and `client.truststore` files that were generated for this quickstart.
+. Remove the `clientCert.p12`, `client.crt`, and `server.truststore` files that were generated for this quickstart.
 
 [[remove_the_client_certificate_from_your_browser]]
 == Remove the Client Certificate from Your Browser
@@ -346,26 +348,11 @@ After you are done with this quickstart, remember to remove the certificate that
 . Select the *quickstartUser* certificate and click the *Delete* button.
 . The certificate has now been removed from the Mozilla Firefox browser.
 
-// Run the Quickstart in Red Hat CodeReady Studio or Eclipse
-include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
-
-// Additional Red Hat CodeReady Studio instructions
-* Make sure you configure the keystores and client certificates as described under xref:set_up_client_keystore_using_java_keytool[Set Up the Client Keystore Using Java Keytool].
-* Depending on the browser you choose, make sure you either xref:import_the_client_certificate_into_google_chrome[import the certificate into Google Chrome] or xref:import_the_client_certificate_into_mozilla_firefox[import the certificate into Mozilla Firefox].
-* Make sure you configure the server by running the JBoss CLI commands as described above under xref:configure_the_server[Configure the Server]. Stop the server at the end of that step.
-* In {JBDSProductName}, choose *Window* –> *Web Browser*, then select the browser you chose to import the certificate.
-* To deploy the application, right-click on the *{artifactId}* project and choose *Run As* –> *Run on Server*.
-* Make sure you xref:restore_the_server_configuration[restore the {productName} server configuration] when you have completed testing this quickstart.
-
-// Debug the Application
-include::../shared-doc/debug-the-application.adoc[leveloffset=+1]
-
-//*************************************************
-// Product Release content only
-//*************************************************
-ifdef::ProductRelease[]
+// Build and run sections for other environments/builds
+ifndef::ProductRelease,EAPXPRelease[]
+:server_provisioning_server_host: https://localhost:8443
+include::../shared-doc/build-and-run-the-quickstart-with-provisioned-server.adoc[leveloffset=+1]
+endif::[]
 
 // Quickstart not compatible with OpenShift
 include::../shared-doc/openshift-incompatibility.adoc[leveloffset=+1]
-
-endif::[]

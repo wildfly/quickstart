@@ -4,7 +4,7 @@
 batch
 
 # Add the keystore and trust manager configuration in the elytron subsystem
-/subsystem=elytron/key-store=qsTrustStore:add(path=client.truststore,relative-to=jboss.server.config.dir,type=JKS,credential-reference={clear-text=secret})
+/subsystem=elytron/key-store=qsTrustStore:add(path=server.truststore,relative-to=jboss.server.config.dir,type=PKCS12,credential-reference={clear-text=secret})
 /subsystem=elytron/trust-manager=qsTrustManager:add(key-store=qsTrustStore)
 
 # Update the default server-ssl-context to reference the new trust-manager and require client auth
@@ -29,10 +29,13 @@ batch
 # Add an application-security-domain in the undertow subsystem to map the client_cert_domain from the quickstart app to the http-authentication-factory
 /subsystem=undertow/application-security-domain=client_cert_domain:add(http-authentication-factory=quickstart-http-authentication)
 
+# Generate the server's certificate
+/subsystem=elytron/key-store=applicationKS:generate-key-pair(alias=server, algorithm=RSA, key-size=2048, validity=365, credential-reference={clear-text=password}, distinguished-name="cn=localhost")
+
+/subsystem=elytron/key-store=applicationKS:store()
+
 # Run the batch commands
 run-batch
 
 # Reload the server configuration
-reload
-
-
+#reload
