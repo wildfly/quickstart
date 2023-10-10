@@ -27,6 +27,16 @@ jobs:
         jdk: [11, 17]
         os: [ubuntu-20.04, windows-latest]
     steps:
+
+      ########################################################################################################
+      # Conditional steps to set up needed backend services
+      - name: Setup Kafka
+        if: ${{ inputs.QUICKSTART_PATH == 'microprofile-reactive-messaging-kafka' }}
+        # This image will be moved to SmallRye at some point
+        run: docker run -d -p 9092:9092 -e KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://localhost:9092 quay.io/ogunalp/kafka-native:0.5.0-kafka-3.6.0
+      # Conditional steps - END
+      ########################################################################################################
+
       - uses: actions/checkout@v4
         with:
           path: quickstarts
@@ -91,6 +101,16 @@ jobs:
         jdk: [11, 17]
         os: [ubuntu-20.04, windows-latest]
     steps:
+
+      ########################################################################################################
+      # Conditional steps to set up needed backend services
+      - name: Setup Kafka
+        if: ${{ inputs.QUICKSTART_PATH == 'microprofile-reactive-messaging-kafka' }}
+        # This image will be moved to SmallRye at some point
+        run: docker run -d -p 9092:9092 -e KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://localhost:9092 quay.io/ogunalp/kafka-native:0.5.0-kafka-3.6.0
+      # Conditional steps - END
+      ########################################################################################################
+
       - uses: actions/checkout@v4
         with:
           repository: wildfly/wildfly
