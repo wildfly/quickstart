@@ -16,27 +16,20 @@
  */
 package org.wildfly.quickstarts.microprofile.health;
 
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.container.test.api.RunAsClient;
-import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.arquillian.test.api.ArquillianResource;
-import org.jboss.as.arquillian.container.ManagementClient;
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.core.Response;
 import org.jboss.dmr.ModelNode;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.asset.EmptyAsset;
-import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
-import jakarta.ws.rs.client.Client;
-import jakarta.ws.rs.client.ClientBuilder;
-import jakarta.ws.rs.core.Response;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Simple tests for MicroProfile Health quickstart. Arquillian deploys an JAR archive to the application server, which
@@ -45,22 +38,24 @@ import java.util.List;
  * @author <a href="mstefank@redhat.com">Martin Stefanko</a>
  *
  */
-@RunWith(Arquillian.class)
-@RunAsClient
 public class MicroProfileHealthIT {
 
     private URL managementURL;
-
-    @ArquillianResource
-    private ManagementClient managementClient;
-
     private Client client;
 
     @Before
     public void before() throws MalformedURLException {
-        managementURL = new URL(String.format("http://%s:%d",
-            managementClient.getMgmtAddress(), managementClient.getMgmtPort()));
+        String managementHost = getConfigValue("management.host").orElse("http://localhost:9990");
+        managementURL = URI.create(managementHost).toURL();
         client = ClientBuilder.newClient();
+    }
+
+    private Optional<String> getConfigValue(String key) {
+        String value = System.getenv(key.toUpperCase().replaceAll("\\.", "_"));
+        if (value == null) {
+            value = System.getProperty(key);
+        }
+        return Optional.ofNullable(value);
     }
 
     @After
@@ -68,19 +63,6 @@ public class MicroProfileHealthIT {
         if (client != null) {
             client.close();
         }
-    }
-
-    /**
-     * Constructs a deployment archive
-     *
-     * @return the deployment archive
-     */
-    @Deployment
-    public static JavaArchive createDeployment() {
-        return ShrinkWrap.create(JavaArchive.class)
-            .addClasses(SimpleHealthCheck.class, DatabaseConnectionHealthCheck.class, DataHealthCheck.class)
-            // enable CDI
-            .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
     }
 
     /**
@@ -129,24 +111,20 @@ public class MicroProfileHealthIT {
             .request()
             .get();
 
-        Assert.assertEquals(503, response.getStatus());
+        Assert.assertEquals(200, response.getStatus());
         ModelNode json = ModelNode.fromJSONString(response.readEntity(String.class));
 
-        Assert.assertEquals("DOWN", json.get("status").asString());
+        Assert.assertEquals("UP", json.get("status").asString());
 
         List<ModelNode> checks = json.get("checks").asList();
-        Assert.assertEquals(4, checks.size());
+        Assert.assertEquals(5, checks.size());
 
         boolean checkIncluded = false;
 
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 5; i++) {
             ModelNode check = checks.get(i);
             if (check.get("name").asString().equals("Database connection health check")) {
-                Assert.assertEquals("DOWN", check.get("status").asString());
-
-                ModelNode data = check.get("data");
-                Assert.assertTrue(data.get("error") != null &&
-                    data.get("error").asString().equals("Cannot contact database"));
+                Assert.assertEquals("UP", check.get("status").asString());
 
                 checkIncluded = true;
             }
