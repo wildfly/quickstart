@@ -3,6 +3,9 @@
 # Start batching commands
 batch
 
+# Remove the keypair with the alias server from the application keystore
+/subsystem=elytron/key-store=applicationKS:remove-alias(alias=server)
+
 # Remove the application-security-domain mapping that was added for the quickstart
 /subsystem=undertow/application-security-domain=client_cert_domain:remove
 

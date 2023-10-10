@@ -1,0 +1,19 @@
+# Configure the client's keystore. This will be used to generate the client's certificate. The path to the keystore file doesn’t actually have to exist yet
+/subsystem=elytron/key-store=clientKS:add(path=client.keystore.P12, relative-to=jboss.server.config.dir, credential-reference={clear-text=secret}, type=PKCS12)
+
+# Generate a new key pair for the client. We'll use an RSA key of size 2048 and we'll use CN=quickstartUser
+/subsystem=elytron/key-store=clientKS:generate-key-pair(alias=quickstartUser, algorithm=RSA, key-size=2048, validity=365, credential-reference={clear-text=secret}, distinguished-name="cn=quickstartUser")
+
+# Export the client's certificate to a file called clientCert.crt
+/subsystem=elytron/key-store=clientKS:export-certificate(alias=quickstartUser, path=clientCert.crt, relative-to=jboss.server.config.dir, pem=true)
+
+# Create the server's truststore
+/subsystem=elytron/key-store=serverTS:add(path=server.truststore, relative-to=jboss.server.config.dir, credential-reference={clear-text=secret}, type=PKCS12)
+
+# Import the client's certificate into the server's truststore
+/subsystem=elytron/key-store=serverTS:import-certificate(alias=quickstartUser, path=clientCert.crt, relative-to=jboss.server.config.dir, credential-reference={clear-text=secret}, validate=false)
+
+# Persist the changes we've made to the client's keystore and the server's truststore
+/subsystem=elytron/key-store=serverTS:store()
+/subsystem=elytron/key-store=clientKS:store()
+
