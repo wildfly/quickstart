@@ -53,6 +53,13 @@ function helmInstall() {
     application="${1}"
     helm_set_arguments="$2"
 
+    echo "current dir:"
+    pwd
+    echo "current dir contents:"
+    ls -al
+    echo "charts dir:"
+    ls -al charts
+
     # '--atomic' waits until the pods are ready, and removes everything if something went wrong
     # `--timeout` sets the timeout for the wait.
     # https://helm.sh/docs/helm/helm_install/ has more details
