@@ -34,6 +34,11 @@ poll_marker_files() {
 
 wait_marker_files() {
   echo "Waiting $seconds. 'oc rsh' in and either 'touch continue' to stop waiting, or 'touch exit' to abort the test run. The latter will result in the test being reported as failed"
+  echo "You can log in to the cluster started by the CI to diagnose problems with the following commands"
+  echo "oc login $TEST_CLUSTER_URL -u $SYSADMIN_USERNAME -p $SYSADMIN_PASSWORD --insecure-skip-tls-verify"
+  #echo "oc get pods"
+  #echo "oc rsh pod/<name of pod>"
+
   found_file=$(poll_marker_files $1)
   if [ -z "${found_file}" ]; then
       echo "Wait timed out - continuing"
