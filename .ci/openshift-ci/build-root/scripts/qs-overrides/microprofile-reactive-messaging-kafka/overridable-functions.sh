@@ -54,6 +54,16 @@ EOF
     startingCSV: amqstreams.v2.5.0-0
 EOF
 
+oc get subscription amq-streams-subscription -o yaml
+oc get kafka
+
+sleep 30
+
+
+oc get subscription amq-streams-subscription -o yaml
+oc get kafka
+
+
   echo "Creating my-cluster"
   oc apply -f - <<EOF
   apiVersion: kafka.strimzi.io/v1beta2
