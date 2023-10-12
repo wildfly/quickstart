@@ -7,10 +7,26 @@ on:
         description: 'the path to the quickstart to test'
         required: true
         type: string
-      MICROPROFILE:
-        description: 'if the quickstart is a microprofile one'
-        required: true
+      TEST_PROVISIONED_SERVER:
+        description: 'if the quickstart support for provisioned-server profile should be tested'
+        required: false
+        default: false
         type: boolean
+      TEST_BOOTABLE_JAR:
+        description: 'if the quickstart support for bootable jar profile should be tested'
+        required: false
+        default: false
+        type: boolean
+      TEST_OPENSHIFT:
+        description: 'if the quickstart support for openshift profile should be tested'
+        required: false
+        default: true
+        type: boolean
+      SERVER_PROVISIONING_SERVER_HOST:
+        description: 'the server.host arg to be used when testing server provisioning with the mvn verify command'
+        required: false
+        default: 'http://localhost:8080'
+        type: string
 
 # Only run the latest job
 concurrency:
@@ -43,7 +59,7 @@ jobs:
           mvn -U -B -fae clean install -Drelease
         shell: bash
       - name: Build, run & test ${{ inputs.QUICKSTART_PATH }} Quickstart with provisioned-server profile
-        if: ${{ !inputs.MICROPROFILE }}
+        if: ${{ inputs.TEST_PROVISIONED_SERVER }}
         run: |
           cd quickstarts
           cd ${{ inputs.QUICKSTART_PATH }}
@@ -52,12 +68,12 @@ jobs:
           echo "Starting provisioned server..."
           mvn -U -B -fae wildfly:start -DjbossHome=target/server -Dstartup-timeout=120
           echo "Testing provisioned server..."
-          mvn -U -B -fae verify -Dserver.host=http://localhost:8080 -Pintegration-testing 
+          mvn -U -B -fae verify -Dserver.host=${{ inputs.SERVER_PROVISIONING_SERVER_HOST }} -Pintegration-testing 
           echo "Shutting down provisioned server..."
           mvn -U -B -fae wildfly:shutdown
         shell: bash
       - name: Build, run & test ${{ inputs.QUICKSTART_PATH }} Quickstart with bootable-jar profile
-        if: ${{ inputs.MICROPROFILE }}
+        if: ${{ inputs.TEST_BOOTABLE_JAR }}
         run: |
           cd quickstarts
           cd ${{ inputs.QUICKSTART_PATH }}
@@ -66,11 +82,12 @@ jobs:
           echo "Starting bootable jar..."
           mvn -U -B -fae wildfly-jar:start -Djar-file-name=target/${{ inputs.QUICKSTART_PATH }}-bootable.jar -Dstartup-timeout=120
           echo "Testing bootable jar..."
-          mvn -U -B -fae verify -Dserver.host=http://localhost:8080 -Pintegration-testing
+          mvn -U -B -fae verify -Dserver.host=${{ inputs.SERVER_PROVISIONING_SERVER_HOST }} -Pintegration-testing
           echo "Shutting down bootable jar..."          
           mvn -U -B -fae wildfly-jar:shutdown
         shell: bash
       - name: Build ${{ inputs.QUICKSTART_PATH }} Quickstart with openshift profile
+        if: ${{ inputs.TEST_OPENSHIFT }}
         run: |
           cd quickstarts
           cd ${{ inputs.QUICKSTART_PATH }}
@@ -82,9 +99,18 @@ jobs:
           name: surefire-reports-JDK${{ matrix.jdk }}-${{ matrix.os }}
           path: 'quickstarts/$QUICKSTART_PATH/**/surefire-reports/*.txt'
 
+  # Use the shared-wildfly-build workflow to have a consistent WildFly build. Note the branch names MUST match what
+  # is used in WildFly.
+  WildFly-build:
+    uses: wildfly/wildfly/.github/workflows/shared-wildfly-build.yml@main
+    with:
+      wildfly-branch: ${{ github.base_ref }}
+      wildfly-repo: "wildfly/wildfly"
+
   Test-build-with-deps-matrix:
     name: BUILD WITH DEPS - JDK${{ matrix.jdk }} - ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
+    needs: WildFly-build
     strategy:
       fail-fast: false
       matrix:
@@ -93,67 +119,60 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          repository: wildfly/wildfly
-          ref: ${{ github.base_ref }}
-          path: wildfly
-      - uses: actions/checkout@v4
-        with:
           path: quickstarts
+      - uses: actions/download-artifact@v3
+        with:
+          name: wildfly-maven-repository
+          path: .
+      - name: Extract Maven Repo
+        shell: bash
+        run: tar -xzf wildfly-maven-repository.tar.gz -C ~
       - name: Set up JDK ${{ matrix.jdk }}
         uses: actions/setup-java@v3
         with:
           java-version: ${{ matrix.jdk }}
           distribution: 'temurin'
           cache: 'maven'
-      - name: Build Server
-        run: |
-          cd wildfly
-          mvn -U -B -fae -DskipTests clean install
-        shell: bash
-      - name: Get Server Version
-        run: |
-          cd wildfly
-          echo "VERSION_SERVER=$(mvn -N org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
-        shell: bash
       - name: Build Quickstart for Release with built Server version
         run: |
           cd quickstarts
           cd ${{ inputs.QUICKSTART_PATH }}
-          mvn -U -B -fae clean package -Drelease -Dversion.server=${{ env.VERSION_SERVER }}
+          mvn -U -B -fae clean package -Drelease -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
         shell: bash
       - name: Build, run & test ${{ inputs.QUICKSTART_PATH }} Quickstart with provisioned-server profile, and built Server version
-        if: ${{ !inputs.MICROPROFILE }}
+        if: ${{ inputs.TEST_PROVISIONED_SERVER }}
         run: |
           cd quickstarts
           cd ${{ inputs.QUICKSTART_PATH }}
           echo "Building provisioned server..."
-          mvn -U -B -fae clean package -Pprovisioned-server -Dversion.server=${{ env.VERSION_SERVER }}
+          mvn -U -B -fae clean package -Pprovisioned-server -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
           echo "Starting provisioned server..."
           mvn -U -B -fae wildfly:start -DjbossHome=target/server -Dstartup-timeout=120
           echo "Testing provisioned server..."
-          mvn -U -B -fae verify -Dserver.host=http://localhost:8080 -Pintegration-testing
+          mvn -U -B -fae verify -Dserver.host=${{ inputs.SERVER_PROVISIONING_SERVER_HOST }} -Pintegration-testing
           echo "Shutting down provisioned server..."
           mvn -U -B -fae wildfly:shutdown
         shell: bash
       - name: Build, run & test ${{ inputs.QUICKSTART_PATH }} Quickstart with bootable-jar profile, and built Server version
-        if: ${{ inputs.MICROPROFILE }}
+        if: ${{ inputs.TEST_BOOTABLE_JAR }}
         run: |
           cd quickstarts
           cd ${{ inputs.QUICKSTART_PATH }}
           echo "Building bootable jar..."
-          mvn -U -B -fae clean package -Pbootable-jar -Dversion.server=${{ env.VERSION_SERVER }}
+          mvn -U -B -fae clean package -Pbootable-jar -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
           echo "Starting bootable jar..."
           mvn -U -B -fae wildfly-jar:start -Djar-file-name=target/${{ inputs.QUICKSTART_PATH }}-bootable.jar -Dstartup-timeout=120
           echo "Testing bootable jar..."
-          mvn -U -B -fae verify -Dserver.host=http://localhost:8080 -Pintegration-testing
+          mvn -U -B -fae verify -Dserver.host=${{ inputs.SERVER_PROVISIONING_SERVER_HOST }} -Pintegration-testing
           echo "Shutting down bootable jar..."          
           mvn -U -B -fae wildfly-jar:shutdown
         shell: bash
       - name: Build ${{ inputs.QUICKSTART_PATH }} Quickstart with openshift profile, and built Server version
+        if: ${{ inputs.TEST_OPENSHIFT }}
         run: |
           cd quickstarts
           cd ${{ inputs.QUICKSTART_PATH }}
-          mvn -U -B -fae clean package -Popenshift -Dversion.server=${{ env.VERSION_SERVER }}
+          mvn -U -B -fae clean package -Popenshift -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
         shell: bash
       - uses: actions/upload-artifact@v3
         if: failure()
