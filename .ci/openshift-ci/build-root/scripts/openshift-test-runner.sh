@@ -141,10 +141,9 @@ filterDirectories() {
   declare -a tmp
   for fileName in "${test_directories[@]}"; do
       # Quickstarts that have not been migrated yet
-      # TODO once everything has a quickstart_xxx_ci.yml file we can remove the included-directories check
-      grep -q "^${fileName}$" included-directories.txt
-      is_in_included_txt="$?"
-      if [ "${is_in_included_txt}" != "0" ] && [ ! -f "${basedir}/.github/workflows/quickstart_${fileName}_ci.yml" ]; then
+      grep -q "^${fileName}$" excluded-directories.txt
+      is_in_excluded="$?"
+      if [ "${is_in_excluded}" = "0" ] || [ ! -f "${basedir}/.github/workflows/quickstart_${fileName}_ci.yml" ]; then
         # echo "Skipping ${fileName}!"
         continue
       fi
