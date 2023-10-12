@@ -16,13 +16,11 @@
  */
 package org.jboss.as.quickstarts.temperatureconverter;
 
-import java.io.IOException;
+import org.junit.Test;
+
 import java.net.CookieManager;
 import java.net.CookiePolicy;
-import java.util.logging.Logger;
-
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -32,53 +30,27 @@ import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
-public class RemoteTemperatureConverterIT {
-
-    private static final Logger log = Logger.getLogger(RemoteTemperatureConverterIT.class.getName());
-
-    protected URI getHTTPEndpoint(String path) {
-        String host = getServerHost();
-        if (host == null) {
-            host = "http://localhost:8080/temperature-converter";
-        }
-        try {
-            return new URI(host + path);
-        } catch (URISyntaxException ex) {
-            throw new RuntimeException(ex);
-        }
-    }
-
-    protected String getServerHost() {
-        String host = System.getenv("SERVER_HOST");
-        if (host == null) {
-            host = System.getProperty("server.host");
-        }
-        return host;
-    }
+public class TemperatureConverterIT {
 
     @Test
     public void testConvertTemperature() throws Exception {
-        convertTemperature();
-    }
-
-    public void convertTemperature() throws IOException, InterruptedException {
         CookieManager manager = new CookieManager(null, CookiePolicy.ACCEPT_ALL);
         HttpClient client = HttpClient.newBuilder()
                 .followRedirects(HttpClient.Redirect.ALWAYS)
                 .cookieHandler(manager)
                 .version(HttpClient.Version.HTTP_1_1)
                 .build();
-        HttpResponse response = client.send(HttpRequest.newBuilder(getHTTPEndpoint("/temperatureconvert.jsf")).GET().build(), HttpResponse.BodyHandlers.ofString());
+        HttpResponse response = client.send(HttpRequest.newBuilder(new URI(BasicRuntimeIT.getServerHost()+"/temperatureconvert.jsf")).GET().build(), HttpResponse.BodyHandlers.ofString());
         String body = response.body().toString();
-        Assertions.assertEquals(200, response.statusCode());
-        Assertions.assertTrue(body.contains("<input type=\"hidden\" name=\"jakarta.faces.ViewState\" id=\"j_id1:jakarta.faces.ViewState:0\" value=\""), body);
+        assertEquals(200, response.statusCode());
+        assertTrue(body, body.contains("<input type=\"hidden\" name=\"jakarta.faces.ViewState\" id=\"j_id1:jakarta.faces.ViewState:0\" value=\""));
         int startIndex = body.indexOf("<input type=\"hidden\" name=\"jakarta.faces.ViewState\" id=\"j_id1:jakarta.faces.ViewState:0\" value=\"") + 96;
         int endIndex= body.indexOf('"', startIndex);
         String viewState = body.substring(startIndex, endIndex);
-        HttpRequest request = HttpRequest.newBuilder(getHTTPEndpoint("/temperatureconvert.jsf"))
+        HttpRequest request = HttpRequest.newBuilder(new URI(BasicRuntimeIT.getServerHost()+"/temperatureconvert.jsf"))
                 .header("Content-Type", "application/x-www-form-urlencoded")
                 .POST(ofFormData(
                         Map.of(
@@ -91,9 +63,9 @@ public class RemoteTemperatureConverterIT {
                         )
                 .build();
         response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        Assertions.assertEquals(200, response.statusCode());
+        assertEquals(200, response.statusCode());
         body = response.body().toString();
-        Assertions.assertTrue(body.contains("212 ℉"), body);
+        assertTrue(body, body.contains("212 ℉"));
     }
 
     public static BodyPublisher ofFormData(Map<String, String> data) {
@@ -108,5 +80,4 @@ public class RemoteTemperatureConverterIT {
         }
         return BodyPublishers.ofString(builder.toString());
     }
-
 }
