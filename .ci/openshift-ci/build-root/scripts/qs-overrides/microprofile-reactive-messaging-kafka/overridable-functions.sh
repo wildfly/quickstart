@@ -112,54 +112,9 @@ EOF
 # 1 - application name
 function cleanPrerequisites()
 {
-  # There are a few topics created that need cleaning up
+  # TODO There are a few topics created that need cleaning up
 
   oc delete kafka my-cluster
   oc delete subscription amq-streams-subscription
   oc delete operatorgroup amq-streams-operator-group
-}
-
-# Performs the 'helm install' command.
-# The current directory is the quickstart directory
-# Parameters
-# 1 - application name
-# 2 - set arguments
-#
-# Returns the exit status of the helm install
-#
-# Additionally the following env vars may be used:
-# * helm_install_timeout - the adjusted timeout for the helm install
-#
-function helmInstall() {
-    application="${1}"
-    helm_set_arguments="$2"
-
-    # '--atomic' waits until the pods are ready, and removes everything if something went wrong
-    # `--timeout` sets the timeout for the wait.
-    # https://helm.sh/docs/helm/helm_install/ has more details
-    # Don't quote ${helm_set_arguments} since then it fails when there are none
-    helm install "${application}" wildfly/wildfly -f charts/helm.yaml  --wait --timeout=${helm_install_timeout} ${helm_set_arguments}
-    echo "$?"
-}
-
-# Checks whether optimized mode should be disabled
-# To disable optimized mode for a quickstart, add this method to its
-# overridable-functions.sh and change the body to 'echo "1"'
-function isOptimizedModeDisabled() {
-  echo "0"
-}
-
-# If the Helm variables set by the parent script (e.g. 'build.enabled') need a prefix, return
-# that here. If e.g "wildfly." is returned, the resulting 'build.enabled' becomes 'wildfly.build.enabled'
-function getHelmSetVariablePrefix() {
-    echo ""
-}
-
-# More output when the helm install has gone wrong
-# Parameters
-# 1 - application name
-#
-function helmInstallFailed() {
-    # Noop - the main work is done elsewhere
-    echo ""
 }
