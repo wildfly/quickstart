@@ -43,11 +43,12 @@
     </licenses>
 
     <properties>
-        <!-- The versions for BOMs, Dependencies and Plugins -->
-        <version.server.bom>30.0.0.Beta1</version.server.bom>
+        <!-- the version for the Server -->
         <version.server>30.0.0.Beta1</version.server>
-        <version.wildfly.maven.plugin>4.2.0.Final</version.wildfly.maven.plugin>
-        <version.cloud.fp>5.0.0.Beta1</version.cloud.fp>
+        <!-- the versions for BOMs, Packs and Plugins -->
+        <version.bom.ee>${version.server}</version.bom.ee>
+        <version.pack.cloud>5.0.0.Beta1</version.pack.cloud>
+        <version.plugin.wildfly>4.2.0.Final</version.plugin.wildfly>
     </properties>
 
     <repositories>
@@ -111,7 +112,7 @@
             <dependency>
                 <groupId>org.wildfly.bom</groupId>
                 <artifactId>wildfly-ee-with-tools</artifactId>
-                <version>${version.server.bom}</version>
+                <version>${version.bom.ee}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -142,58 +143,34 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- Testing -->
+        <!-- Tests -->
         <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <version>5.9.1</version>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
-
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-params</artifactId>
-            <version>5.9.1</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.9.1</version>
-            <scope>test</scope>
-        </dependency>
-     
-        <dependency>
-            <groupId>org.jboss.arquillian.junit5</groupId>
-            <artifactId>arquillian-junit5-container</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.jboss.arquillian.protocol</groupId>
-            <artifactId>arquillian-protocol-servlet-jakarta</artifactId>
-            <scope>test</scope>
-        </dependency>
-
     </dependencies>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.wildfly.plugins</groupId>
+                    <artifactId>wildfly-maven-plugin</artifactId>
+                    <version>${version.plugin.wildfly}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 
     <profiles>
         <profile>
             <id>provisioned-server</id>
-            <dependencies>
-                <dependency>
-                    <groupId>org.wildfly.arquillian</groupId>
-                    <artifactId>wildfly-arquillian-container-managed</artifactId>
-                    <scope>test</scope>
-                </dependency>
-            </dependencies>
             <build>
                 <plugins>
                     <plugin>
                         <groupId>org.wildfly.plugins</groupId>
                         <artifactId>wildfly-maven-plugin</artifactId>
-                        <version>${version.wildfly.maven.plugin}</version>
                         <configuration>
                             <feature-packs>
                                 <feature-pack>
@@ -214,30 +191,6 @@
                             </execution>
                         </executions>
                     </plugin>             
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-failsafe-plugin</artifactId>
-                        <version>${version.failsafe.plugin}</version>
-                        <configuration>
-                            <environmentVariables>
-                                <JBOSS_HOME>${project.build.directory}/server</JBOSS_HOME>
-                            </environmentVariables>
-                            <includes>
-                                <include>**/ProvisionedManagedNumberGuessIT</include>
-                            </includes>
-                            <excludes>
-                                <exclude>**/RemoteNumberGuessIT</exclude>
-                            </excludes>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>integration-test</goal>
-                                    <goal>verify</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
                 </plugins>
             </build>
         </profile>
@@ -248,14 +201,13 @@
                     <plugin>
                         <groupId>org.wildfly.plugins</groupId>
                         <artifactId>wildfly-maven-plugin</artifactId>
-                        <version>${version.wildfly.maven.plugin}</version>
                         <configuration>
                             <feature-packs>
                                 <feature-pack>
                                     <location>org.wildfly:wildfly-galleon-pack:${version.server}</location>
                                 </feature-pack>
                                 <feature-pack>
-                                    <location>org.wildfly.cloud:wildfly-cloud-galleon-pack:${version.cloud.fp}</location>
+                                    <location>org.wildfly.cloud:wildfly-cloud-galleon-pack:${version.pack.cloud}</location>
                                 </feature-pack>
                             </feature-packs>
                             <layers>
@@ -276,20 +228,16 @@
             </build>
         </profile>
         <profile>
-            <id>arq-remote</id>
+            <id>integration-testing</id>
             <build>
                 <plugins>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-failsafe-plugin</artifactId>
-                        <version>${version.failsafe.plugin}</version>
                         <configuration>
                             <includes>
-                                <include>**/RemoteNumberGuessIT</include>
+                                <include>**/*IT</include>
                             </includes>
-                            <excludes>
-                                <exclude>**/ProvisionedManagedNumberGuessIT</exclude>
-                            </excludes>
                         </configuration>
                         <executions>
                             <execution>

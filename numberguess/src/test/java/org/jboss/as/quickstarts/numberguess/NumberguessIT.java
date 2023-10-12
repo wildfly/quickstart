@@ -16,10 +16,11 @@
  */
 package org.jboss.as.quickstarts.numberguess;
 
+import org.junit.Test;
+
 import java.io.IOException;
 import java.net.CookieManager;
 import java.net.CookiePolicy;
-import java.util.logging.Logger;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -32,50 +33,29 @@ import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
-public class RemoteNumberGuessIT {
+public class NumberguessIT {
 
     private java.util.Random random = new java.util.Random(System.currentTimeMillis());
-    private static final Logger log = Logger.getLogger(RemoteNumberGuessIT.class.getName());
-
-    protected URI getHTTPEndpoint(String path) {
-        String host = getServerHost();
-        if (host == null) {
-            host = "http://localhost:8080/numberguess";
-        }
-        try {
-            return new URI(host + path);
-        } catch (URISyntaxException ex) {
-            throw new RuntimeException(ex);
-        }
-    }
-
-    protected String getServerHost() {
-        String host = System.getenv("SERVER_HOST");
-        if (host == null) {
-            host = System.getProperty("server.host");
-        }
-        return host;
-    }
 
     @Test
     public void testGuessNumber() throws Exception {
         guessNumber();
     }
 
-    public void guessNumber() throws IOException, InterruptedException {
+    public void guessNumber() throws IOException, InterruptedException, URISyntaxException {
         HttpClient client = HttpClient.newBuilder()
                 .followRedirects(HttpClient.Redirect.ALWAYS)
                 .cookieHandler(new CookieManager(null, CookiePolicy.ACCEPT_ALL))
                 .build();
-        HttpRequest request = HttpRequest.newBuilder(getHTTPEndpoint("/home.jsf"))
+        HttpRequest request = HttpRequest.newBuilder().uri(new URI(BasicRuntimeIT.getServerHost()+"/home.jsf"))
                 .POST(ofFormData(Map.of("numberGuess:inputGuess", (Object) getNumber())))
                 .build();
         HttpResponse response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        Assertions.assertEquals(200, response.statusCode());
-        Assertions.assertTrue(response.body().toString().contains("<form id=\"numberGuess\" name=\"numberGuess\" method=\"post\""));
+        assertEquals(200, response.statusCode());
+        assertTrue(response.body().toString().contains("<form id=\"numberGuess\" name=\"numberGuess\" method=\"post\""));
     }
 
     private int getNumber() {
