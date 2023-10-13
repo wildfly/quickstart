@@ -171,11 +171,6 @@ if [ -f "${basedir}/enable-wait" ]; then
   wait_marker_files 3600
   popd 
 fi
-if [ -f "${basedir}/abort" ]; then
-  # Add ability to abort test run between quickstart runs
-  echo "${basedir}/abort file found. Exiting"
-  exit 1
-fi
 
 if [ "${JOB_TYPE}" = "presubmit" ]; then
   getPrTouchedDirs
@@ -215,6 +210,11 @@ for fileName in "${test_directories[@]}"; do
     echo "${fileName}"
   else
     runQuickstart "${script_directory}" "${fileName}"
+    if [ -f "${basedir}/abort" ]; then
+      # Add ability to abort test run between quickstart runs
+      echo "${basedir}/abort file found. Exiting"
+      exit 1
+    fi
   fi
 done
 
