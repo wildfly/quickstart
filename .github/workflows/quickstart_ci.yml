@@ -22,6 +22,16 @@ on:
         required: false
         default: true
         type: boolean
+      USES_ARTEMIS:
+        description: 'if the quickstart needs ARTEMIS service'
+        required: false
+        default: false
+        type: boolean
+      USES_KAFKA:
+        description: 'if the quickstart needs KAFKA service'
+        required: false
+        default: false
+        type: boolean
       SERVER_PROVISIONING_SERVER_HOST:
         description: 'the server.host arg to be used when testing server provisioning with the mvn verify command'
         required: false
@@ -34,15 +44,37 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  Matrix-Setup:
+    runs-on: ubuntu-latest
+    outputs:
+      os: ${{ steps.setup-os-matrix.outputs.os }}
+    steps:
+      - id: setup-os-matrix
+        name: Determining which operating systems to run on
+        run: |
+          if ${{ inputs.USES_ARTEMIS }} || ${{ inputs.USES_KAFKA }};
+          then
+            echo "os=[\"ubuntu-latest\"]" >> $GITHUB_OUTPUT
+          else
+            echo "os=[\"ubuntu-latest\", \"windows-latest\"]" >> $GITHUB_OUTPUT
+          fi
+
   Test-build-default-matrix:
     name: BUILD DEFAULT - JDK${{ matrix.jdk }} - ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
+    needs: Matrix-Setup
     strategy:
       fail-fast: false
       matrix:
         jdk: [11, 17]
-        os: [ubuntu-20.04, windows-latest]
+        os: ${{ fromJSON(needs.Matrix-Setup.outputs.os) }}
     steps:
+      - name: Setup ARTEMIS
+        if: ${{ inputs.USES_ARTEMIS }}
+        run: docker run -d --name artemis -e AMQ_USER=admin -e AMQ_PASSWORD=admin -p8161:8161 -p61616:61616 -e AMQ_DATA_DIR=/home/jboss/data quay.io/artemiscloud/activemq-artemis-broker-kubernetes:artemis.2.31.0
+      - name: Setup KAFKA
+        if: ${{ inputs.USES_KAFKA }}
+        run: docker run -d -p 9092:9092 -e KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://localhost:9092 quay.io/ogunalp/kafka-native:0.5.0-kafka-3.6.0
       - uses: actions/checkout@v4
         with:
           path: quickstarts
@@ -110,13 +142,19 @@ jobs:
   Test-build-with-deps-matrix:
     name: BUILD WITH DEPS - JDK${{ matrix.jdk }} - ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
-    needs: WildFly-build
+    needs: [Matrix-Setup, WildFly-build]
     strategy:
       fail-fast: false
       matrix:
         jdk: [11, 17]
-        os: [ubuntu-20.04, windows-latest]
+        os: ${{ fromJSON(needs.Matrix-Setup.outputs.os) }}
     steps:
+      - name: Setup ARTEMIS
+        if: ${{ inputs.USES_ARTEMIS }}
+        run: docker run -d --name artemis -e AMQ_USER=admin -e AMQ_PASSWORD=admin -p8161:8161 -p61616:61616 -e AMQ_DATA_DIR=/home/jboss/data quay.io/artemiscloud/activemq-artemis-broker-kubernetes:artemis.2.31.0
+      - name: Setup KAFKA
+        if: ${{ inputs.USES_KAFKA }}
+        run: docker run -d -p 9092:9092 -e KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://localhost:9092 quay.io/ogunalp/kafka-native:0.5.0-kafka-3.6.0
       - uses: actions/checkout@v4
         with:
           path: quickstarts
