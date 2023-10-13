@@ -117,7 +117,7 @@ getPrTouchedDirs() {
     fi
 
     IFS='/' read -ra parts <<< "${file}"
-    if [ "${#parts[@]}" == 1 ]; then
+    if [ "${#parts[@]}" == 1 ]  && [ "${parts[0]}" != 'enable-wait' ] && [ "${parts[0]}" != 'continue' ] ; then
       echo "Changed detected in ${file} which is in the root directory. All tests will need to be run."
       root_dir_file_changed=1
       break
