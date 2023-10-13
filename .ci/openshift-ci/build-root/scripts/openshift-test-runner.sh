@@ -165,6 +165,8 @@ script_directory=$(realpath "${script_directory}")
 cd "${script_directory}"
 basedir="${script_directory}/../../../.."
 
+# TODO Temp debug
+set -x
 if [ -f "${basedir}/enable-wait" ]; then
   # If we find the enable-wait marker file, block for an hour for investigation
   pushd ${basedir}
@@ -204,6 +206,8 @@ filterDirectories
 echo "Parsed test directories, and determined tests should be run for the following directories:"
 printf "\t%s\n" "${test_directories[@]}"
 echo "Running tests..."
+# TODO Temp debug
+set +x
 
 for fileName in "${test_directories[@]}"; do
   if [ "${DRY_RUN}" = "1" ]; then
