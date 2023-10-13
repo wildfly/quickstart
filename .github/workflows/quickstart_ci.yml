@@ -22,6 +22,11 @@ on:
         required: false
         default: true
         type: boolean
+      MATRIX_OS:
+        description: 'the OSes to be used on the test matrix, i.e. matrix.os'
+        required: false
+        default: '"ubuntu-latest", "windows-latest"'
+        type: string
       SERVER_PROVISIONING_SERVER_HOST:
         description: 'the server.host arg to be used when testing server provisioning with the mvn verify command'
         required: false
@@ -34,14 +39,23 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  Matrix-Setup:
+    runs-on: ubuntu-latest
+    outputs:
+      os: ${{ steps.setup-os-matrix.outputs.os }}
+    steps:
+      - id: setup-os-matrix
+        run: echo 'os=[${{ inputs.MATRIX_OS }}]' >> $GITHUB_OUTPUT
+
   Test-build-default-matrix:
     name: BUILD DEFAULT - JDK${{ matrix.jdk }} - ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
+    needs: Matrix-Setup
     strategy:
       fail-fast: false
       matrix:
         jdk: [11, 17]
-        os: [ubuntu-20.04, windows-latest]
+        os: ${{ fromJSON(needs.Matrix-Setup.outputs.os) }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -52,6 +66,16 @@ jobs:
           java-version: ${{ matrix.jdk }}
           distribution: 'temurin'
           cache: 'maven'
+      - name: Run before script
+        env:
+          FILE: "./quickstarts/.github/workflows/quickstart_${{ inputs.QUICKSTART_PATH }}_ci_before.sh"
+        run: |
+          if test -f $FILE;
+            then
+              chmod +x $FILE
+              bash $FILE
+          fi
+        shell: bash
       - name: Build ${{ inputs.QUICKSTART_PATH }} Quickstart for Release
         run: |
           cd quickstarts
@@ -93,11 +117,21 @@ jobs:
           cd ${{ inputs.QUICKSTART_PATH }}
           mvn -U -B -fae clean package -Popenshift
         shell: bash
+      - name: Run after script
+        env:
+          FILE: "./quickstarts/.github/workflows/quickstart_${{ inputs.QUICKSTART_PATH }}_ci_after.sh"
+        run: |
+          if test -f $FILE;
+            then
+              chmod +x $FILE
+              bash $FILE
+          fi
+        shell: bash
       - uses: actions/upload-artifact@v3
         if: failure()
         with:
           name: surefire-reports-JDK${{ matrix.jdk }}-${{ matrix.os }}
-          path: 'quickstarts/$QUICKSTART_PATH/**/surefire-reports/*.txt'
+          path: 'quickstarts/${{ inputs.QUICKSTART_PATH }}/**/surefire-reports/*.txt'
 
   # Use the shared-wildfly-build workflow to have a consistent WildFly build. Note the branch names MUST match what
   # is used in WildFly.
@@ -110,12 +144,12 @@ jobs:
   Test-build-with-deps-matrix:
     name: BUILD WITH DEPS - JDK${{ matrix.jdk }} - ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
-    needs: WildFly-build
+    needs: [Matrix-Setup, WildFly-build]
     strategy:
       fail-fast: false
       matrix:
         jdk: [11, 17]
-        os: [ubuntu-20.04, windows-latest]
+        os: ${{ fromJSON(needs.Matrix-Setup.outputs.os) }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -133,6 +167,16 @@ jobs:
           java-version: ${{ matrix.jdk }}
           distribution: 'temurin'
           cache: 'maven'
+      - name: Run before script
+        env:
+          FILE: "./quickstarts/.github/workflows/quickstart_${{ inputs.QUICKSTART_PATH }}_ci_before.sh"
+        run: |
+          if test -f $FILE;
+            then
+              chmod +x $FILE
+              bash $FILE
+          fi
+        shell: bash
       - name: Build Quickstart for Release with built Server version
         run: |
           cd quickstarts
@@ -173,6 +217,16 @@ jobs:
           cd quickstarts
           cd ${{ inputs.QUICKSTART_PATH }}
           mvn -U -B -fae clean package -Popenshift -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
+        shell: bash
+      - name: Run after script
+        env:
+          FILE: "./quickstarts/.github/workflows/quickstart_${{ inputs.QUICKSTART_PATH }}_ci_after.sh"
+        run: |
+          if test -f $FILE;
+            then
+              chmod +x $FILE
+              bash $FILE
+          fi
         shell: bash
       - uses: actions/upload-artifact@v3
         if: failure()
