@@ -6,9 +6,195 @@ on:
     paths:
       - 'remote-helloworld-mdb/**'
       - '.github/workflows/quickstart_ci.yml'
+
+# Only run the latest job
+concurrency:
+  group: '${{ github.workflow }} @ ${{ github.ref || github.run_id }}'
+  cancel-in-progress: true
+
+env:
+  QUICKSTART_PATH: remote-helloworld-mdb
+  TEST_PROVISIONED_SERVER: true
+  TEST_BOOTABLE_JAR: false
+  TEST_OPENSHIFT: true
+
 jobs:
-  call-quickstart_ci:
-    uses: ./.github/workflows/quickstart_ci.yml
+  Test-build-default-matrix:
+    name: BUILD DEFAULT - JDK${{ matrix.jdk }} - ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        jdk: [11, 17]
+        os: [ubuntu-20.04, windows-latest]
+    steps:
+      - name: Skip Windows
+        if: runner.os == 'Windows' && ${{ env.QUICKSTART_PATH == 'remote-helloworld-mdb' }}
+        run: |
+          gh run cancel ${{ github.run_id }}
+          gh run watch ${{ github.run_id }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        permissions:
+          actions: 'write'
+      ########################################################################################################
+      # Conditional steps to set up needed backend services
+      - name: Setup Artemis
+        if: ${{ env.QUICKSTART_PATH == 'remote-helloworld-mdb' }}
+        # This image will be moved to SmallRye at some point
+        run: docker run -d --name artemis -e AMQ_USER=admin -e AMQ_PASSWORD=admin -p8161:8161 -p61616:61616 -e AMQ_DATA_DIR=/home/jboss/data quay.io/artemiscloud/activemq-artemis-broker-kubernetes:artemis.2.31.0
+      # Conditional steps - END
+      ########################################################################################################
+      - uses: actions/checkout@v4
+        with:
+          path: quickstarts
+      - name: Set up JDK ${{ matrix.jdk }}
+        uses: actions/setup-java@v3
+        with:
+          java-version: ${{ matrix.jdk }}
+          distribution: 'temurin'
+          cache: 'maven'
+      - name: Build ${{ env.QUICKSTART_PATH }} Quickstart for Release
+        run: |
+          cd quickstarts
+          cd ${{ env.QUICKSTART_PATH }}
+          mvn -U -B -fae clean install -Drelease
+        shell: bash
+      - name: Build, run & test ${{ env.QUICKSTART_PATH }} Quickstart with provisioned-server profile
+        if: ${{ env.TEST_PROVISIONED_SERVER }}
+        run: |
+          cd quickstarts
+          cd ${{ env.QUICKSTART_PATH }}
+          echo "Building provisioned server..."
+          mvn -U -B -fae clean package -Pprovisioned-server
+          echo "Starting provisioned server..."
+          mvn -U -B -fae wildfly:start -DjbossHome=target/server -Dstartup-timeout=120
+          echo "Testing provisioned server..."
+          mvn -U -B -fae verify -Dserver.host=${{ env.SERVER_PROVISIONING_SERVER_HOST }} -Pintegration-testing 
+          echo "Shutting down provisioned server..."
+          mvn -U -B -fae wildfly:shutdown
+        shell: bash
+      - name: Build, run & test ${{ env.QUICKSTART_PATH }} Quickstart with bootable-jar profile
+        if: ${{ env.TEST_BOOTABLE_JAR }}
+        run: |
+          cd quickstarts
+          cd ${{ env.QUICKSTART_PATH }}
+          echo "Building bootable jar..."
+          mvn -U -B -fae clean package -Pbootable-jar
+          echo "Starting bootable jar..."
+          mvn -U -B -fae wildfly-jar:start -Djar-file-name=target/${{ env.QUICKSTART_PATH }}-bootable.jar -Dstartup-timeout=120
+          echo "Testing bootable jar..."
+          mvn -U -B -fae verify -Dserver.host=${{ env.SERVER_PROVISIONING_SERVER_HOST }} -Pintegration-testing
+          echo "Shutting down bootable jar..."          
+          mvn -U -B -fae wildfly-jar:shutdown
+        shell: bash
+      - name: Build ${{ env.QUICKSTART_PATH }} Quickstart with openshift profile
+        if: ${{ env.TEST_OPENSHIFT }}
+        run: |
+          cd quickstarts
+          cd ${{ env.QUICKSTART_PATH }}
+          mvn -U -B -fae clean package -Popenshift
+        shell: bash
+      - uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: surefire-reports-JDK${{ matrix.jdk }}-${{ matrix.os }}
+          path: 'quickstarts/$QUICKSTART_PATH/**/surefire-reports/*.txt'
+
+  # Use the shared-wildfly-build workflow to have a consistent WildFly build. Note the branch names MUST match what
+  # is used in WildFly.
+  WildFly-build:
+    uses: wildfly/wildfly/.github/workflows/shared-wildfly-build.yml@main
     with:
-      QUICKSTART_PATH: remote-helloworld-mdb
-      MICROPROFILE: false
+      wildfly-branch: ${{ github.base_ref }}
+      wildfly-repo: "wildfly/wildfly"
+
+  Test-build-with-deps-matrix:
+    name: BUILD WITH DEPS - JDK${{ matrix.jdk }} - ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    needs: WildFly-build
+    strategy:
+      fail-fast: false
+      matrix:
+        jdk: [11, 17]
+        os: [ubuntu-20.04, windows-latest]
+    steps:
+      - name: Skip Windows
+        if: runner.os == 'Windows' && ${{ env.QUICKSTART_PATH == 'remote-helloworld-mdb' }}
+        run: |
+          gh run cancel ${{ github.run_id }}
+          gh run watch ${{ github.run_id }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        permissions:
+          actions: 'write'
+      ########################################################################################################
+      # Conditional steps to set up needed backend services
+      - name: Setup Artemis
+        if: ${{ env.QUICKSTART_PATH == 'remote-helloworld-mdb' }}
+        # This image will be moved to SmallRye at some point
+        run: docker run -d --name artemis -e AMQ_USER=admin -e AMQ_PASSWORD=admin -p8161:8161 -p61616:61616 -e AMQ_DATA_DIR=/home/jboss/data quay.io/artemiscloud/activemq-artemis-broker-kubernetes:artemis.2.31.0
+      # Conditional steps - END
+      ########################################################################################################
+      - uses: actions/checkout@v4
+        with:
+          path: quickstarts
+      - uses: actions/download-artifact@v3
+        with:
+          name: wildfly-maven-repository
+          path: .
+      - name: Extract Maven Repo
+        shell: bash
+        run: tar -xzf wildfly-maven-repository.tar.gz -C ~
+      - name: Set up JDK ${{ matrix.jdk }}
+        uses: actions/setup-java@v3
+        with:
+          java-version: ${{ matrix.jdk }}
+          distribution: 'temurin'
+          cache: 'maven'
+      - name: Build Quickstart for Release with built Server version
+        run: |
+          cd quickstarts
+          cd ${{ env.QUICKSTART_PATH }}
+          mvn -U -B -fae clean package -Drelease -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
+        shell: bash
+      - name: Build, run & test ${{ env.QUICKSTART_PATH }} Quickstart with provisioned-server profile, and built Server version
+        if: ${{ env.TEST_PROVISIONED_SERVER }}
+        run: |
+          cd quickstarts
+          cd ${{ env.QUICKSTART_PATH }}
+          echo "Building provisioned server..."
+          mvn -U -B -fae clean package -Pprovisioned-server -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
+          echo "Starting provisioned server..."
+          mvn -U -B -fae wildfly:start -DjbossHome=target/server -Dstartup-timeout=120
+          echo "Testing provisioned server..."
+          mvn -U -B -fae verify -Dserver.host=${{ env.SERVER_PROVISIONING_SERVER_HOST }} -Pintegration-testing
+          echo "Shutting down provisioned server..."
+          mvn -U -B -fae wildfly:shutdown
+        shell: bash
+      - name: Build, run & test ${{ env.QUICKSTART_PATH }} Quickstart with bootable-jar profile, and built Server version
+        if: ${{ env.TEST_BOOTABLE_JAR }}
+        run: |
+          cd quickstarts
+          cd ${{ env.QUICKSTART_PATH }}
+          echo "Building bootable jar..."
+          mvn -U -B -fae clean package -Pbootable-jar -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
+          echo "Starting bootable jar..."
+          mvn -U -B -fae wildfly-jar:start -Djar-file-name=target/${{ env.QUICKSTART_PATH }}-bootable.jar -Dstartup-timeout=120
+          echo "Testing bootable jar..."
+          mvn -U -B -fae verify -Dserver.host=${{ env.SERVER_PROVISIONING_SERVER_HOST }} -Pintegration-testing
+          echo "Shutting down bootable jar..."          
+          mvn -U -B -fae wildfly-jar:shutdown
+        shell: bash
+      - name: Build ${{ env.QUICKSTART_PATH }} Quickstart with openshift profile, and built Server version
+        if: ${{ env.TEST_OPENSHIFT }}
+        run: |
+          cd quickstarts
+          cd ${{ env.QUICKSTART_PATH }}
+          mvn -U -B -fae clean package -Popenshift -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
+        shell: bash
+      - uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: surefire-reports-JDK${{ matrix.jdk }}-${{ matrix.os }}
+          path: 'quickstarts/**/surefire-reports/*.txt'

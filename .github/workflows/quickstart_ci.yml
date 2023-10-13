@@ -117,23 +117,6 @@ jobs:
         jdk: [11, 17]
         os: [ubuntu-20.04, windows-latest]
     steps:
-      - name: Skip Windows
-        if: runner.os == 'Windows' && ${{ inputs.QUICKSTART_PATH == 'remote-helloworld-mdb' }}
-        run: |
-          gh run cancel ${{ github.run_id }}
-          gh run watch ${{ github.run_id }}
-        env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        permissions:
-          actions: 'write'
-      ########################################################################################################
-      # Conditional steps to set up needed backend services
-      - name: Setup Artemis
-        if: ${{ inputs.QUICKSTART_PATH == 'remote-helloworld-mdb' }}
-        # This image will be moved to SmallRye at some point
-        run: docker run -d --name artemis -e AMQ_USER=admin -e AMQ_PASSWORD=admin -p8161:8161 -p61616:61616 -e AMQ_DATA_DIR=/home/jboss/data quay.io/artemiscloud/activemq-artemis-broker-kubernetes:artemis.2.31.0
-      # Conditional steps - END
-      ########################################################################################################
       - uses: actions/checkout@v4
         with:
           path: quickstarts
