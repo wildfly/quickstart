@@ -17,34 +17,41 @@ env:
   TEST_PROVISIONED_SERVER: true
   TEST_BOOTABLE_JAR: false
   TEST_OPENSHIFT: true
+  USES_ARTEMIS: true
+  USES_KAFKA: false
 
 jobs:
+  Matrix-Setup:
+    runs-on: ubuntu-latest
+    outputs:
+      os: ${{ steps.setup-os-matrix.outputs.os }}
+    steps:
+      - id: setup-os-matrix
+        name: Determining which operating systems to run on
+        run: |
+          if [ ${{ env.USES_ARTEMIS }} ] || [ ${{ env.USES_KAFKA }} ];
+          then
+            echo "os=[\"ubuntu-latest\"]" >> $GITHUB_OUTPUT
+          else
+            echo "os=[\"ubuntu-latest\", \"windows-latest\"]" >> $GITHUB_OUTPUT
+          fi    
+
   Test-build-default-matrix:
     name: BUILD DEFAULT - JDK${{ matrix.jdk }} - ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
+    needs: Matrix-Setup
     strategy:
       fail-fast: false
       matrix:
         jdk: [11, 17]
-        os: [ubuntu-20.04, windows-latest]
+        os: ${{ fromJSON(needs.Matrix-Setup.outputs.os) }}
     steps:
-      - name: Skip Windows
-        if: runner.os == 'Windows' && ${{ env.QUICKSTART_PATH == 'remote-helloworld-mdb' }}
-        run: |
-          gh run cancel ${{ github.run_id }}
-          gh run watch ${{ github.run_id }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        permissions:
-          actions: 'write'
-      ########################################################################################################
-      # Conditional steps to set up needed backend services
-      - name: Setup Artemis
-        if: ${{ env.QUICKSTART_PATH == 'remote-helloworld-mdb' }}
-        # This image will be moved to SmallRye at some point
+      - name: Setup ARTEMIS
+        if: ${{ env.USES_ARTEMIS }}
         run: docker run -d --name artemis -e AMQ_USER=admin -e AMQ_PASSWORD=admin -p8161:8161 -p61616:61616 -e AMQ_DATA_DIR=/home/jboss/data quay.io/artemiscloud/activemq-artemis-broker-kubernetes:artemis.2.31.0
-      # Conditional steps - END
-      ########################################################################################################
+      - name: Setup KAFKA
+        if: ${{ env.USES_KAFKA }}
+        run: docker run -d -p 9092:9092 -e KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://localhost:9092 quay.io/ogunalp/kafka-native:0.5.0-kafka-3.6.0
       - uses: actions/checkout@v4
         with:
           path: quickstarts
@@ -112,30 +119,19 @@ jobs:
   Test-build-with-deps-matrix:
     name: BUILD WITH DEPS - JDK${{ matrix.jdk }} - ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
-    needs: WildFly-build
+    needs: [Matrix-Setup, WildFly-build]
     strategy:
       fail-fast: false
       matrix:
         jdk: [11, 17]
-        os: [ubuntu-20.04, windows-latest]
+        os: ${{ fromJSON(needs.Matrix-Setup.outputs.os) }}
     steps:
-      - name: Skip Windows
-        if: runner.os == 'Windows' && ${{ env.QUICKSTART_PATH == 'remote-helloworld-mdb' }}
-        run: |
-          gh run cancel ${{ github.run_id }}
-          gh run watch ${{ github.run_id }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        permissions:
-          actions: 'write'
-      ########################################################################################################
-      # Conditional steps to set up needed backend services
-      - name: Setup Artemis
-        if: ${{ env.QUICKSTART_PATH == 'remote-helloworld-mdb' }}
-        # This image will be moved to SmallRye at some point
+      - name: Setup ARTEMIS
+        if: ${{ env.USES_ARTEMIS }}
         run: docker run -d --name artemis -e AMQ_USER=admin -e AMQ_PASSWORD=admin -p8161:8161 -p61616:61616 -e AMQ_DATA_DIR=/home/jboss/data quay.io/artemiscloud/activemq-artemis-broker-kubernetes:artemis.2.31.0
-      # Conditional steps - END
-      ########################################################################################################
+      - name: Setup KAFKA
+        if: ${{ env.USES_KAFKA }}
+        run: docker run -d -p 9092:9092 -e KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://localhost:9092 quay.io/ogunalp/kafka-native:0.5.0-kafka-3.6.0
       - uses: actions/checkout@v4
         with:
           path: quickstarts
