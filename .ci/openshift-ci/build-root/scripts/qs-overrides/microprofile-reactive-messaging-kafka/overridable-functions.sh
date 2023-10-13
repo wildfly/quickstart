@@ -54,39 +54,43 @@ EOF
     startingCSV: amqstreams.v2.5.0-0
 EOF
 
-oc get subscription amq-streams-subscription -o yaml
-oc get kafka
 
-sleep 30
+  seconds=60
+  now=$(date +%s)
+  end=$(($seconds + $now))
 
-
-oc get subscription amq-streams-subscription -o yaml
-oc get kafka
-
-
-  echo "Creating my-cluster"
-  oc apply -f - <<EOF
-  apiVersion: kafka.strimzi.io/v1beta2
-  kind: Kafka
-  metadata:
-    name: my-cluster
-  spec:
-    kafka:
-      replicas: 3
-      listeners:
-        - name: plain
-          port: 9092
-          type: internal
-          tls: false
-      storage:
-        type: ephemeral
-    zookeeper:
-      replicas: 3
-      storage:
-        type: ephemeral
-    entityOperator:
-      topicOperator: {}
+  while [ $now -lt $end ]; do
+    # It takes a while for the kafka CRD to be ready
+    sleep 5
+    echo "Trying to create my-cluster"
+    oc apply -f - <<EOF
+    apiVersion: kafka.strimzi.io/v1beta2
+    kind: Kafka
+    metadata:
+      name: my-cluster
+    spec:
+      kafka:
+        replicas: 3
+        listeners:
+          - name: plain
+            port: 9092
+            type: internal
+            tls: false
+        storage:
+          type: ephemeral
+      zookeeper:
+        replicas: 3
+        storage:
+          type: ephemeral
+      entityOperator:
+        topicOperator: {}
 EOF
+    if [ "$?" = "0" ]; then
+      break
+    fi
+
+    now=$(date +%s)
+  done
 
   echo "Creating testing topic"
   oc apply -f - <<EOF
@@ -101,7 +105,7 @@ EOF
     replicas: 3
 EOF
 
-# TODO some kind of wait on the
+# TODO We should wait for the pods to come up
 
 }
 
