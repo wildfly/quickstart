@@ -6,9 +6,66 @@ on:
     paths:
       - 'helloworld/**'
       - '.github/workflows/quickstart_ci.yml'
+      - '.github/workflows/quickstart_helloworld_ci.yml'
+
+env:
+  QUICKSTART_PATH: helloworld
+  TEST_PROVISIONED_SERVER: true
+  TEST_BOOTABLE_JAR: false
+  TEST_OPENSHIFT: true
+  MATRIX_OS: '["ubuntu-latest", "windows-latest"]'
+
+# Only run the latest job
+concurrency:
+  group: '${{ github.workflow }} @ ${{ github.ref || github.run_id }}'
+  cancel-in-progress: true
+
 jobs:
-  call-quickstart_ci:
-    uses: ./.github/workflows/quickstart_ci.yml
-    with:
-      QUICKSTART_PATH: helloworld
-      TEST_PROVISIONED_SERVER: true
+  Setup-matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      os: ${{ steps.setup-matrix-os.outputs.os }}
+    steps:
+      - id: setup-matrix-os
+        run: |      
+          echo 'os=${{ env.MATRIX_OS }}'
+          echo 'os=${{ env.MATRIX_OS }}' >> $GITHUB_OUTPUT
+
+  Test-build-default-matrix:
+    name: BUILD DEFAULT - JDK${{ matrix.jdk }} - ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    needs: Setup-matrix
+    strategy:
+      fail-fast: false
+      matrix:
+        jdk: [11, 17]
+        os: ${{ fromJSON( needs.Setup-matrix.outputs.os ) }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: quickstarts
+      - name: Run before script
+        run: |
+          ls quickstarts/.github/workflows
+          file = 'quickstarts/.github/workflows/quickstart_${{ env.QUICKSTART_PATH }}_ci_before.sh'          
+          if [ -f "$file" ];
+          then
+            echo file found
+            chmod +x $file 
+            bash $file
+          fi
+        shell: bash
+      - name: Set up JDK ${{ matrix.jdk }}
+        uses: actions/setup-java@v3
+        with:
+          java-version: ${{ matrix.jdk }}
+          distribution: 'temurin'
+          cache: 'maven'
+      - name: Run after script
+        run: |
+          file = 'quickstarts/.github/workflows/quickstart_${{ env.QUICKSTART_PATH }}_ci_after.sh'          
+          if [ -f "$file" ];
+          then
+            bash $file
+          fi
+        shell: bash
