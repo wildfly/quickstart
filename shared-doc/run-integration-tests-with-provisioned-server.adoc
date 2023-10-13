@@ -21,11 +21,14 @@ $ mvn clean package -Pprovisioned-server
 $ mvn wildfly:start -DjbossHome=target/server
 ----
 
-. Type the following command to run the `verify` goal with the `integration-testing` profile activated, and specifying the quickstart's URL using the `server.host` system property, which for a provisioned server by default is `http://localhost:8080`.
+ifndef::server_provisioning_server_host[]
+:server_provisioning_server_host: http://localhost:8080
+endif::server_provisioning_server_host[]
+. Type the following command to run the `verify` goal with the `integration-testing` profile activated, and specifying the quickstart's URL using the `server.host` system property, which for a provisioned server by default is `{server_provisioning_server_host}`.
 +
-[source,options="nowrap"]
+[source,subs="attributes+",options="nowrap"]
 ----
-$ mvn verify -Pintegration-testing -Dserver.host=http://localhost:8080
+$ mvn verify -Pintegration-testing -Dserver.host={server_provisioning_server_host}
 ----
 
 . Shutdown the {productName} provisioned server, this time using the {productName} Maven Plugin too.

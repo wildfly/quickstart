@@ -21,11 +21,14 @@ $ mvn clean package -Pbootable-jar
 $ mvn wildfly-jar:start -Djar-file-name=target/{artifactId}-bootable.jar
 ----
 
-. Type the following command to run the `verify` goal with the `integration-testing` profile activated, and specifying the quickstart's URL using the `server.host` system property, which for a bootable jar by default is `http://localhost:8080`.
+ifndef::server_provisioning_server_host[]
+:server_provisioning_server_host: http://localhost:8080
+endif::server_provisioning_server_host[]
+. Type the following command to run the `verify` goal with the `integration-testing` profile activated, and specifying the quickstart's URL using the `server.host` system property, which for a bootable jar by default is `{server_provisioning_server_host}`.
 +
-[source,options="nowrap"]
+[source,subs="attributes+",options="nowrap"]
 ----
-$ mvn verify -Pintegration-testing -Dserver.host=http://localhost:8080
+$ mvn verify -Pintegration-testing -Dserver.host={server_provisioning_server_host}
 ----
 
 . Shutdown the {productName} bootable jar, this time using the {productName} Maven Jar Plugin too.
