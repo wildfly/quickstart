@@ -48,12 +48,8 @@ jobs:
         run: |
           ls quickstarts/.github/workflows
           file = 'quickstarts/.github/workflows/quickstart_${{ env.QUICKSTART_PATH }}_ci_before.sh'          
-          if [ -f "$file" ];
-          then
-            echo file found
-            chmod +x $file 
-            bash $file
-          fi
+          chmod +x $file 
+          bash $file
         shell: bash
       - name: Set up JDK ${{ matrix.jdk }}
         uses: actions/setup-java@v3
