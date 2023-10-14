@@ -13,7 +13,7 @@ env:
   TEST_PROVISIONED_SERVER: true
   TEST_BOOTABLE_JAR: false
   TEST_OPENSHIFT: true
-  MATRIX_OS: '["ubuntu-latest", "windows-latest"]'
+  MATRIX_OS: "ubuntu-latest", "windows-latest"
 
 # Only run the latest job
 concurrency:
@@ -27,9 +27,7 @@ jobs:
       os: ${{ steps.setup-matrix-os.outputs.os }}
     steps:
       - id: setup-matrix-os
-        run: |      
-          echo 'os=${{ env.MATRIX_OS }}'
-          echo 'os=${{ env.MATRIX_OS }}' >> $GITHUB_OUTPUT
+        run: echo 'os=[${{ env.MATRIX_OS }}]' >> $GITHUB_OUTPUT
 
   Test-build-default-matrix:
     name: BUILD DEFAULT - JDK${{ matrix.jdk }} - ${{ matrix.os }}
