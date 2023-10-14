@@ -47,10 +47,7 @@ jobs:
       - name: Run before script
         env:
            FILE: "./quickstarts/.github/workflows/quickstart_${{ env.QUICKSTART_PATH }}_ci_before.sh"
-        run: |          
-          echo $FILE
-          chmod +x $FILE 
-          bash $FILE
+        run: if [-f $FILE]; then bash $FILE; fi
         shell: bash
       - name: Set up JDK ${{ matrix.jdk }}
         uses: actions/setup-java@v3
@@ -59,10 +56,7 @@ jobs:
           distribution: 'temurin'
           cache: 'maven'
       - name: Run after script
-        run: |
-          file = 'quickstarts/.github/workflows/quickstart_${{ env.QUICKSTART_PATH }}_ci_after.sh'          
-          if [ -f "$file" ];
-          then
-            bash $file
-          fi
+        env:
+          FILE: "./quickstarts/.github/workflows/quickstart_${{ env.QUICKSTART_PATH }}_ci_after.sh"
+        run: if [-f $FILE]; then bash $FILE; fi
         shell: bash
