@@ -47,9 +47,9 @@ jobs:
       - name: Run before script
         run: |          
           file = "./quickstarts/.github/workflows/quickstart_"${QUICKSTART_PATH}"_ci_before.sh"
-          echo file $file
-          chmod +x $file 
-          bash $file
+          echo "file $file"
+          chmod +x "$file" 
+          bash "$file"
         shell: bash
       - name: Set up JDK ${{ matrix.jdk }}
         uses: actions/setup-java@v3
