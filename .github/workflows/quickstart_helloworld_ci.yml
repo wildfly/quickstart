@@ -45,11 +45,12 @@ jobs:
         with:
           path: quickstarts
       - name: Run before script
+        env:
+           FILE: "./quickstarts/.github/workflows/quickstart_${{ env.QUICKSTART_PATH }}_ci_before.sh"
         run: |          
-          file = "./quickstarts/.github/workflows/quickstart_"${QUICKSTART_PATH}"_ci_before.sh"
-          echo "file $file"
-          chmod +x "$file" 
-          bash "$file"
+          echo $FILE
+          chmod +x $FILE 
+          bash $FILE
         shell: bash
       - name: Set up JDK ${{ matrix.jdk }}
         uses: actions/setup-java@v3
