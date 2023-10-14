@@ -47,7 +47,12 @@ jobs:
       - name: Run before script
         env:
            FILE: "./quickstarts/.github/workflows/quickstart_${{ env.QUICKSTART_PATH }}_ci_before.sh"
-        run: if [-d $FILE]; then bash $FILE; fi
+        run: |          
+          if test -f $FILE;
+            then
+              chmod +x $FILE 
+              bash $FILE
+          fi
         shell: bash
       - name: Set up JDK ${{ matrix.jdk }}
         uses: actions/setup-java@v3
@@ -58,5 +63,10 @@ jobs:
       - name: Run after script
         env:
           FILE: "./quickstarts/.github/workflows/quickstart_${{ env.QUICKSTART_PATH }}_ci_after.sh"
-        run: if [-d $FILE]; then bash $FILE; fi
+        run: |
+          if test -f $FILE;
+            then
+              chmod +x $FILE 
+              bash $FILE
+          fi
         shell: bash
