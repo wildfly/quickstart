@@ -21,23 +21,14 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  Setup-matrix:
-    runs-on: ubuntu-latest
-    outputs:
-      os: ${{ steps.setup-matrix-os.outputs.os }}
-    steps:
-      - id: setup-matrix-os
-        run: echo 'os=[${{ env.MATRIX_OS }}]' >> $GITHUB_OUTPUT
-
   Test-build-default-matrix:
     name: BUILD DEFAULT - JDK${{ matrix.jdk }} - ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
-    needs: Setup-matrix
     strategy:
       fail-fast: false
       matrix:
         jdk: [11, 17]
-        os: ${{ fromJSON( needs.Setup-matrix.outputs.os ) }}
+        os: ${{ fromJSON(toJSON('os=[${{ env.MATRIX_OS }}]')) }}
     steps:
       - uses: actions/checkout@v4
         with:
