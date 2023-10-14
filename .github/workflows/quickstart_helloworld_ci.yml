@@ -46,7 +46,7 @@ jobs:
           path: quickstarts
       - name: Run before script
         run: |          
-          file = "./quickstarts/.github/workflows/quickstart_"${{QUICKSTART_PATH}}"_ci_before.sh"
+          file = "./quickstarts/.github/workflows/quickstart_"${QUICKSTART_PATH}"_ci_before.sh"
           echo file $file
           chmod +x $file 
           bash $file
