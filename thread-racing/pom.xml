@@ -250,7 +250,7 @@
                                 <layer>embedded-activemq</layer>
                                 <layer>h2-default-datasource</layer>
                             </layers>
-                            <runtimeName>ROOT.war</runtimeName>
+                            <name>ROOT.war</name>
                         </configuration>
                         <executions>
                             <execution>
@@ -308,14 +308,14 @@
                         <artifactId>maven-failsafe-plugin</artifactId>
                         <configuration>
                             <includes>
-                                <include>**/BasicRuntimeIT</include>
-                                <include>**/RemoteThreadRacingIT</include>
+                                <include>**/*IT</include>
                             </includes>
                         </configuration>
                         <executions>
                             <execution>
                                 <goals>
                                     <goal>integration-test</goal>
+                                    <goal>verify</goal>
                                 </goals>
                             </execution>
                         </executions>
