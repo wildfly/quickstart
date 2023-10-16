@@ -1,0 +1,17 @@
+name: WildFly security-domain-to-domain Quickstart CI
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    paths:
+      - 'security-domain-to-domain/**'
+      - .github/workflows/quickstart_ci.yml
+
+jobs:
+  call-quickstart_ci:
+    uses: ./.github/workflows/quickstart_ci.yml
+    with:
+      QUICKSTART_PATH: security-domain-to-domain
+      DEPLOYMENT_DIR: web
+      TEST_PROVISIONED_SERVER: true
+      TEST_OPENSHIFT: false
