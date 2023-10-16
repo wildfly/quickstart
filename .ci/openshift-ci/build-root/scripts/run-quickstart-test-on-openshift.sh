@@ -142,23 +142,9 @@ if [ -n "${helm_set_arguments}" ]; then
   additional_arguments="Additional arguments: ${helm_set_arguments}"
 fi
 
-# TODO Temp debug
-set -x
-
-echo "current dir:"
-pwd
-echo "current dir contents:"
-ls -al
-echo "charts dir:"
-ls -al charts
-
-
 echo "Performing Helm install and waiting for completion.... (${additional_arguments})"
 # helmInstall is from overridable-functions.sh
 helm_install_ret=$(helmInstall "${application}" "${helm_set_arguments}")
-
-# TODO Temp debug
-set +x
 
 # For some reason the above sometimes becomes a multi-line string. actual The exit code will be
 # on the last line

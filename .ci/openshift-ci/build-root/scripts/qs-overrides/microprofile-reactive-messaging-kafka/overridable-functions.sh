@@ -55,10 +55,11 @@ EOF
 EOF
 
 
-  seconds=60
+  seconds=120
   now=$(date +%s)
   end=$(($seconds + $now))
 
+  echo "Looping for 2 minutes until the 'kafka' CRD is available "
   while [ $now -lt $end ]; do
     # It takes a while for the kafka CRD to be ready
     sleep 5
@@ -88,7 +89,6 @@ EOF
     if [ "$?" = "0" ]; then
       break
     fi
-
     now=$(date +%s)
   done
 
