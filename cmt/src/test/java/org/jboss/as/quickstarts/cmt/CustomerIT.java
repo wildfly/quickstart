@@ -35,9 +35,9 @@ import org.junit.Assert;
 import org.junit.Test;
 
 
-public class RemoteCustomerIT {
+public class CustomerIT {
 
-    private static final Logger log = Logger.getLogger(RemoteCustomerIT.class.getName());
+    private static final Logger log = Logger.getLogger(CustomerIT.class.getName());
 
     protected URI getHTTPEndpoint(String path) {
         String host = getServerHost();
