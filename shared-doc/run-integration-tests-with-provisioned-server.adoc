@@ -14,7 +14,28 @@ Follow these steps to run the integration tests.
 $ mvn clean package -Pprovisioned-server
 ----
 
-. Start the {productName} provisioned server, this time using the {productName} Maven Plugin, which is recommend for testing due to simpler automation. The path to the provisioned server should be specified using the `server.host` system property.
+ifdef::addQuickstartUser[]
+Add the quickstart user:
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ target/server/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!' {app-group-command}
+----
+endif::[]
+
+ifdef::addQuickstartAdmin[]
+Add the quickstart admin:
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ target/server/bin/add-user.sh -a -u 'quickstartAdmin' -p 'adminPwd1!' {admin-group-command}
+----
+[NOTE]
+====
+For Windows, use the `__{jbossHomeName}__\bin\add-user.bat` script.
+====
+endif::[]
+
+
+. Start the {productName} provisioned server, this time using the {productName} Maven Plugin, which is recommended for testing due to simpler automation. The path to the provisioned server should be specified using the `server.host` system property.
 +
 [source,subs="attributes+",options="nowrap"]
 ----

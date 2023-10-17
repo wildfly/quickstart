@@ -23,6 +23,30 @@ $ mvn {mavenServerProvisioningCommand} -Pprovisioned-server
 
 The provisioned {productName} server, with the quickstart deployed, can then be found in the `target/server` directory, and its usage is similar to a standard server distribution, with the simplification that there is never the need to specify the server configuration to be started.
 
+ifdef::addQuickstartUser[]
+The quickstart user should be added before running the provisioned server:
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ target/server/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!' {app-group-command}
+----
+[NOTE]
+====
+For Windows, use the `__{jbossHomeName}__\bin\add-user.bat` script.
+====
+endif::[]
+
+ifdef::addQuickstartAdmin[]
+The quickstart admin should be added before running the provisioned server:
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ target/server/bin/add-user.sh -a -u 'quickstartAdmin' -p 'adminPwd1!' {admin-group-command}
+----
+[NOTE]
+====
+For Windows, use the `__{jbossHomeName}__\bin\add-user.bat` script.
+====
+endif::[]
+
 The server provisioning functionality is provided by the WildFly Maven Plugin, and you may find its configuration in the quickstart `pom.xml`:
 
 [source,xml,subs="attributes+"]
