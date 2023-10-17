@@ -82,3 +82,11 @@ function helmInstallFailed() {
     # Noop - the main work is done elsewhere
     echo ""
 }
+
+# More output when the tests have failed
+# Parameters
+# 1 - application name
+#
+function testsFailed() {
+    echo ""
+}

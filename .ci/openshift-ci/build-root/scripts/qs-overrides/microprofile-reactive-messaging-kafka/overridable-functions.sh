@@ -121,4 +121,5 @@ function cleanPrerequisites()
   oc delete kafka my-cluster
   oc delete subscription amq-streams-subscription
   oc delete operatorgroup amq-streams-operator-group
+  oc delete deployment amq-streams-cluster-operator-v2.5.0-1
 }

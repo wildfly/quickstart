@@ -178,17 +178,14 @@ if [ "${QS_UNSIGNED_SERVER_CERT}" = "1" ]; then
   truststore_properties="-Djavax.net.ssl.trustStore=${script_directory}/InstallCert/jssecacerts -Djavax.net.ssl.trustStorePassword=changeit"
 fi
 
-
-# I am using 'integration-test failsafe:verify' here rather than just using 'verify'. The reason for this is
-# plain 'verify' gives an exit status of 0 even when the test fails.
-# If I just use 'failsafe:verify' the proper exit code is returned when the test fails BUT we don't see any output of the test.
-# Using 'integration-test failsafe:verify' I get the proper exit code and output
-# TODO Remove arq-remote once all tests have been migrated
-mvn -B integration-test failsafe:verify -Parq-remote,integration-testing -Dserver.host=https://${route} ${QS_MAVEN_REPOSITORY} ${truststore_properties}
-
+mvn -B verify -Pintegration-testing -Dserver.host=https://${route} ${QS_MAVEN_REPOSITORY} ${truststore_properties}
 if [ "$?" != "0" ]; then
-  test_status=1
+  echo "Tests failed!"
+  echo "Dumping the application pod(s)"
+  oc logs deployment/"${application}"
+  testsFailed
 fi
+
 ################################################################################################
 # Helm uninstall
 echo "Running Helm uninstall"
