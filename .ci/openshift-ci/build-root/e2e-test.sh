@@ -84,6 +84,9 @@ echo "===== Environment:"
 env
 echo "=================="
 
+echo "Login command:"
+echo "oc login $TEST_CLUSTER_URL -u $SYSADMIN_USERNAME -p $SYSADMIN_PASSWORD --insecure-skip-tls-verify"
+
 echo "Calling script runner....."
 
 # Script path is relative to checkout folder
