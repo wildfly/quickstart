@@ -110,8 +110,6 @@ EOF
   now=$(date +%s)
   end=$(($seconds + $now))
 
-  # TODO temp
-  set -x
   echo "Looping for 15 minutes until the Kafka cluster is ready"
   while [ $now -lt $end ]; do
     sleep 15
@@ -123,9 +121,10 @@ EOF
 
     # Wait 10 seconds for all pods to come up, and renter the loop if not
     oc wait pod -l app.kubernetes.io/instance='my-cluster' --for=condition=Ready --timeout=10s || continue
+
+    # If we got here, everything is up, so we can proceed
+    break
   done
-  # TODO temp
-  set +x
 }
 
 
