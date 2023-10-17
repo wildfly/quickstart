@@ -105,9 +105,29 @@ EOF
     replicas: 3
 EOF
 
-# TODO We should wait for the pods to come up
+  # Wait for the pods to come up
+  seconds=900
+  now=$(date +%s)
+  end=$(($seconds + $now))
 
+  # TODO temp
+  set -x
+  echo "Looping for 15 minutes until the Kafka cluster is ready"
+  while [ $now -lt $end ]; do
+    sleep 15
+    echo "Checking if pods are ready"
+
+    # Check the entity operator exists. It will have a name like my-cluster-entity-operator-<pod suffix>
+    # We do this check first because it takes a while to appear
+    oc get pods -l app.kubernetes.io/instance='my-cluster',app.kubernetes.io/name='entity-operator' | grep "my-cluster-entity-operator" || continue
+
+    # Wait 10 seconds for all pods to come up, and renter the loop if not
+    oc wait pod -l app.kubernetes.io/instance='my-cluster' --for=condition=Ready --timeout=10s || continue
+  done
+  # TODO temp
+  set +x
 }
+
 
 # Cleans any prerequisites after doing the Helm uninstall.
 # The current directory is the quickstart directory
