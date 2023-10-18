@@ -7,8 +7,8 @@ The backend will be built and deployed on OpenShift with a Helm Chart for {produ
 Navigate to the root directory of this quickstart and run the following command:
 [source,options="nowrap",subs="+attributes"]
 ----
-$ helm install {artifactId} -f charts/helm.yaml {helmChartName} --wait --timeout=10m0s
-NAME: {artifactId}
+$ helm install {helm-app-name} -f charts/helm.yaml {helmChartName} --wait --timeout=10m0s
+NAME: {helm-app-name}
 ...
 STATUS: deployed
 REVISION: 1
@@ -18,7 +18,7 @@ This command will return once the application has successfully deployed. In case
 
 [source,options="nowrap",subs="+attributes"]
 ----
-oc get deployment {artifactId}
+oc get deployment {helm-app-name}
 ----
 
 The Helm Chart for this quickstart contains all the information to build an image from the source code using S2I on Java 17:
@@ -46,7 +46,7 @@ Get the URL of the route to the deployment.
 
 [source,options="nowrap",subs="+attributes"]
 ----
-$ oc get route {artifactId} -o jsonpath="{.spec.host}"
+$ oc get route {helm-app-name} -o jsonpath="{.spec.host}"
 ----
 Access the application in your web browser using the displayed URL.
 
@@ -61,5 +61,5 @@ The Maven profile named `openshift` is used by the Helm chart to provision the s
 
 [source,options="nowrap",subs="+attributes"]
 ----
-$ helm uninstall {artifactId}
+$ helm uninstall {helm-app-name}
 ----
