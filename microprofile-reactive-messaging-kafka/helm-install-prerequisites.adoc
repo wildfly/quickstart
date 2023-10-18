@@ -1,0 +1,74 @@
+=== Install AMQ Streams on OpenShift
+
+The functionality of this quickstart depends on a running instance of the
+https://access.redhat.com/products/red-hat-amq#streams[AMQ Streams] Operator. AMQ Streams is a Red Hat project based on Apache Kafka. To deploy AMQ Streams in the Openshift environment:
+
+. Log in into the Openshift console as `kubeadmin` user (or any cluster administrator).
+. Navigate to `Operators` -> `OperatorHub`.
+. Search for `AMQ Streams` - click on the 'AMQ Streams' operator.
++
+Install it with the default values and wait for the message telling you it has been installed and is ready for use.
+. In your terminal, run the following command to set up a Kafka cluster called `my-cluster` in your project:
++
+[options="nowrap",subs="+attributes"]
+----
+$ oc apply -f - <<EOF
+apiVersion: kafka.strimzi.io/{strimzi-version}
+kind: Kafka
+metadata:
+  name: my-cluster
+spec:
+  kafka:
+    replicas: 3
+    listeners:
+      - name: plain
+        port: 9092
+        type: internal
+        tls: false
+    storage:
+      type: ephemeral
+  zookeeper:
+    replicas: 3
+    storage:
+      type: ephemeral
+  entityOperator:
+    topicOperator: {}
+EOF
+----
+
+NOTE: If you see errors along the lines of _no matches for kind "Kafka" in version "kafka.strimzi.io/{strimzi-version}"_, execute the command `oc get crd kafkas.kafka.strimzi.io -o jsonpath="{.spec.versions[*].name}"` and update `apiVersion` to the returned version.
+
+
+. Next set up a topic called `testing` in the `my-cluster` cluster we created:
++
+[options="nowrap",subs="+attributes"]
+----
+oc apply -f - <<EOF
+apiVersion: kafka.strimzi.io/{strimzi-version}
+kind: KafkaTopic
+metadata:
+  name: testing
+labels:
+  strimzi.io/cluster: my-cluster
+spec:
+  partitions: 3
+  replicas: 3
+EOF
+----
+
+Although the above commands will return pretty immediately, your AMQ Streams instance will not be available until its entity operator is up and running. The name of the pod will be of the format `my-cluster-entity-operator-xxxxxxxxx-yyyyy`.
+
+To be on the safe side, wait until this pod is ready, as shown in this example:
+[options="nowrap",subs="+attributes"]
+----
+ oc get pods -w
+NAME                     READY   STATUS    RESTARTS   AGE
+my-cluster-zookeeper-0   0/1     Running   0          29s
+...
+my-cluster-entity-operator-cbdbffd4d-m7fzh   0/2     Pending             0          0s
+my-cluster-entity-operator-cbdbffd4d-m7fzh   0/2     ContainerCreating   0          0s
+my-cluster-entity-operator-cbdbffd4d-m7fzh   0/2     ContainerCreating   0          0s
+my-cluster-entity-operator-cbdbffd4d-m7fzh   0/2     Running             0          1s
+my-cluster-entity-operator-cbdbffd4d-m7fzh   1/2     Running             0          20s
+my-cluster-entity-operator-cbdbffd4d-m7fzh   2/2     Running             0          21s
+----

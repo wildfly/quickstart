@@ -53,7 +53,7 @@ function helmInstall() {
     application="${1}"
     helm_set_arguments="$2"
 
-    # '--atomic' waits until the pods are ready, and removes everything if something went wrong
+    # '--wait' waits until the pods are ready
     # `--timeout` sets the timeout for the wait.
     # https://helm.sh/docs/helm/helm_install/ has more details
     # Don't quote ${helm_set_arguments} since then it fails when there are none
@@ -80,5 +80,13 @@ function getHelmSetVariablePrefix() {
 #
 function helmInstallFailed() {
     # Noop - the main work is done elsewhere
+    echo ""
+}
+
+# More output when the tests have failed
+# Parameters
+# 1 - application name
+#
+function testsFailed() {
     echo ""
 }
