@@ -120,6 +120,8 @@ Principal has admin permission: true
 
 As expected, the `quickstart` user is able to call the methods available for `guest`, but does not have the `admin` permission to call administrative methods on the remote EJB. The `quickstartAdmin` on the other hand has permissions to call both methods.
 
+// Server Distribution Testing
+include::../shared-doc/run-integration-tests-with-server-distribution.adoc[leveloffset=+2]
 // Undeploy the Quickstart
 include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
 // Restore the {productName} Standalone Server Configuration
@@ -166,6 +168,10 @@ Principal has admin permission: true
 
 // Debug the Application
 include::../shared-doc/debug-the-application.adoc[leveloffset=+1]
+// Build and run sections for other environments/builds
+ifndef::ProductRelease,EAPXPRelease[]
+include::../shared-doc/build-and-run-the-quickstart-with-provisioned-server.adoc[leveloffset=+1]
+endif::[]
 
 //*************************************************
 // Product Release content only
