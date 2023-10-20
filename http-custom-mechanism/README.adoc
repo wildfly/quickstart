@@ -12,6 +12,7 @@ The `http-custom-mechanism` quickstart demonstrates how to implement a custom HT
 :archiveType: war
 :archiveName: {artifactId}-webapp
 :app-user-groups: Users
+:deploymentDir: webapp
 
 == What is it?
 
@@ -40,54 +41,31 @@ a| This project contains the source for a custom HTTP authentication module that
 ** `badRequest` - The authentication for this mechanism failed validation of the request.
 ** `noAuthenticationInProgress` - The mechanism did not attempt any stage of authentication.
 
-
 * `org.wildfly.security.examples.CustomMechanismFactory`: This resource file contains a single line of text that names the custom mechanism factory class, which in this case is `org.jboss.as.quickstart.http_custom_mechanism.CustomMechanismFactory`.
 |===
-
-You will follow these basic steps to test this quickstart:
-
-. xref:add_the_application_user[Add] the application user.
-. xref:back_up_standalone_server_configuration[Back up] the server configuration before xref:start_the_eap_standalone_server[starting] the server.
-. xref:build_and_deploy_the_quickstart[Build and deploy] the application.
-. xref:test_the_secured_servlet[Test] the secured servlet deployment.
-. xref:build_the_custom_http_mechanism[Build] the custom HTTP mechanism module and xref:add_the_custom_module_to_the_server[add] it to the server.
-. xref:configure_the_server_to_use_the_custom_module[Configure] the server to override the deployment and use the custom module.
-. xref:test_the_secured_servlet_using_the_custom_mechnism[Test] the secured servlet using the custom mechanism
 
 // System Requirements
 include::../shared-doc/system-requirements.adoc[leveloffset=+1]
 // Use of {jbossHomeName}
 include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
-// Add the Authorized Application User
-include::../shared-doc/add-application-user.adoc[leveloffset=+1]
+
+// build and run with standard server distribution
+[[build_and_run_the_quickstart_with_server_dist]]
+== Building and running the quickstart application with a {productName} server distribution
+
 // Back Up the {productName} Standalone Server Configuration
-include::../shared-doc/back-up-server-standalone-configuration.adoc[leveloffset=+1]
+include::../shared-doc/back-up-server-standalone-configuration.adoc[leveloffset=+2]
+
+include::../shared-doc/add-application-user.adoc[leveloffset=+2]
+
 // Start the {productName} Standalone Server
-include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+2]
 
-[[add_the_application_user]]
-== Add the application user
-include::../shared-doc/add-application-user.adoc[leveloffset=+1]
-
-[[back_up_standalone_server_configuration]]
-== Back up the server configuration
-include::../shared-doc/back-up-server-standalone-configuration.adoc[leveloffset=+1]
-
-[[build_and_deploy_the_quickstart]]
-== Build and deploy the application
 // Build and Deploy the Quickstart
-include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
-
-// These messages appear in the server log.
-
-[source,options="nowrap"]
-----
-WFLYUT0021: Registered web context: '/http-custom-mechanism-webapp' for server 'default-server'
-WFLYSRV0010: Deployed "http-custom-mechanism-webapp.war" (runtime-name : "http-custom-mechanism-webapp.war")
-----
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+2]
 
 [[test_the_secured_servlet]]
-== Test the Secured Servlet
+=== Test the Secured Servlet
 
 Before you continue, you must test the secured servlet deployment to make sure it is working. Since this application uses a standard mechanism, it could be tested using a browser. However, after you implement the custom HTTP mechanism, the browser will not understand the request, so it is better to test the call using a client that will allow you to manipulate the headers yourself.
 
@@ -106,35 +84,17 @@ You should see the HTTP result `HTTP/1.1 200 OK`, along with some header informa
  <head><title>Secured Servlet</title></head>
  <body>
    <h1>Secured Servlet</h1>
-   <p>
-Current Principal 'quickstartUser'    </p>
+   <p>Current Principal 'quickstartUser'</p>
  </body>
 </html>
 ----
 
-[[build_the_custom_http_mechanism]]
-== Build the Custom HTTP Mechanism JAR
-
-Once the secured servlet is deployed and you have tested it to make sure it is working, you need to build the module for the custom HTTP mechanism.
-
-. Open a terminal and navigate to the `custom-module/` folder located in the root directory of this quickstart.
-. Type the following command to build the custom HTTP mechanism.
-+
-[source,subs="attributes+",options="nowrap"]
-----
-$ mvn clean install
-----
-
-This creates the `target/{artifactId}.jar` file in the quickstart `custom-module/` directory.
-
-You should see `[INFO] BUILD SUCCESS` in the console output.
-
 [[add_the_custom_module_to_the_server]]
-== Add the Custom Module to the Server
+=== Add the Custom Module to the Server
 
-Now you must add the `{artifactId}.jar` as a custom module to the {productName} server. For your convenience, this quickstart includes the command to add the module in the `add-custom-module.cli` script located in the `custom-module/` directory of this quickstart.
+Now you must add the jar built by `custom-module`, as a custom module to the {productName} server. For your convenience, this quickstart includes the command to add the module in the `add-custom-module.cli` script, provided in the root directory of this quickstart.
 
-In a terminal, navigate to the `custom-module/` folder located in the root directory of this quickstart, and run the following command, replacing `__{jbossHomeName}__` with the path to your server.
+In a terminal, navigate to the root directory of this quickstart, and run the following command, replacing `__{jbossHomeName}__` with the path to your server.
 
 [source,subs="+quotes,attributes+",options="nowrap"]
 ----
@@ -143,7 +103,7 @@ $ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=add-custom-module.cli
 
 NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
 
-This creates the custom `__{jbossHomeName}__/modules/modules/org/jboss/as/quickstart/http_custom_mechanism/main` folder, then copies in the `{artifactId}.jar` file and creates the required `module.xml` file.
+This creates the custom `__{jbossHomeName}__/modules/modules/org/jboss/as/quickstart/http_custom_mechanism/main` folder, then copies in the `custom-module/target/custom-module.jar` file and creates the required `module.xml` file.
 
 You can verify the module structure in your file manager.
 
@@ -158,14 +118,14 @@ You can verify the module structure in your file manager.
                     └── quickstart
                         └── http_custom_mechanism
                             └── main
-                                ├── {artifactId}.jar
+                                ├── custom-module.jar
                                 └── module.xml
 ----
 
 [[configure_the_server_to_use_the_custom_module]]
-== Configure the Server to Use the Custom Module
+=== Configure the Server to Use the Custom Module
 
-You configure the server to use the custom module by running CLI commands. For your convenience, this quickstart batches the commands into a `configure-elytron.cli` script provided in the root directory of this quickstart.
+You configure the server to use the custom module by running CLI commands. For your convenience, this quickstart batches the commands into a `configure-elytron.cli` script, provided in the root directory of this quickstart.
 
 . Before you begin, make sure you have done the following:
 
@@ -194,7 +154,7 @@ process-state: reload-required
 . Stop the {productName} server.
 
 [[review_the_modified_server_configuration]]
-== Review the Modified Server Configuration
+=== Review the Modified Server Configuration
 
 After stopping the server, open the `__{jbossHomeName}__/standalone/configuration/standalone.xml` file and review the changes.
 
@@ -225,7 +185,7 @@ After stopping the server, open the `__{jbossHomeName}__/standalone/configuratio
 [[test_the_secured_servlet_using_the_custom_mechnism]]
 == Test the Secured Servlet Using the Custom Mechanism
 
-Now you need to test the override of the deployment with the custom HTTP mechanism.
+Now you need to test the override of the deployment with the custom HTTP mechanism, please start the server as previously described.
 
 If you use the same `curl` command as when you xref:test_the_secured_servlet[tested the servlet before implementing the custom HTTP mechanism], it will fail with the following error.
 [source,options="nowrap"]
@@ -237,11 +197,9 @@ If you use the same `curl` command as when you xref:test_the_secured_servlet[tes
 
 This is because the authentication mechanism rejected the call and subsequently added a header describing how to do authentication. You must modify the curl command to the following.
 
-
 [source,options="nowrap"]
 ----
 curl -v http://localhost:8080/http-custom-mechanism-webapp/secured -H "X-USERNAME:quickstartUser" -H "X-PASSWORD:password"
-
 ----
 
 You should see the HTTP result `HTTP/1.1 200 OK`, along with some header information, then followed by this output.
@@ -252,14 +210,13 @@ You should see the HTTP result `HTTP/1.1 200 OK`, along with some header informa
  <head><title>Secured Servlet</title></head>
  <body>
    <h1>Secured Servlet</h1>
-   <p>
-Current Principal 'quickstartUser'    </p>
+   <p>Current Principal 'quickstartUser'</p>
  </body>
 </html>
 ----
 
 // Undeploy the Quickstart
-include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+2]
 // Restore the {productName} Standalone Server Configuration Manually
 :restoreScriptName: restore-configuration.cli
 include::../shared-doc/restore-standalone-server-configuration-manual.adoc[leveloffset=+2]
@@ -275,34 +232,11 @@ process-state: reload-required
 
 // Restore the {productName} Standalone Server Configuration Manually
 include::../shared-doc/restore-standalone-server-configuration-manual.adoc[leveloffset=+2]
-////
 
-Not how to do curl commands in JBDS
-// include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
-
-// Additional Red Hat CodeReady Studio instructions
-* Make sure you xref:add_the_application_user[Add the application user] as described above.
-* Make sure you configure the security domain on the server by running the JBoss CLI script as described above under xref:configure_the_application_security_domain[Configure the Application Security Domain].
-* Right-click on the *{artifactId}* project and choose *Run As* -> *Maven build*.
-Enter `clean package wildfly:deploy` for the *Goals* and click *Run*. This deploys the `{artifactId}` JAR to the {productName} server.
-* BUILD AND ADD the MODULE, configure, test
-----
-
-* To undeploy the project, right-click on the *{artifactId}* project and choose *Run As* -> *Maven build*. Enter `wildfly:undeploy` for the *Goals* and click *Run*.
-
-* Make sure you xref:restore_the_server_configuration[restore the {productName} standalone server configuration] when you have completed testing this quickstart.
-
-////
-
-// Debug the Application
-include::../shared-doc/debug-the-application.adoc[leveloffset=+1]
-
-//*************************************************
-// Product Release content only
-//*************************************************
-ifdef::ProductRelease[]
+// Build and run sections for other environments/builds
+ifndef::ProductRelease,EAPXPRelease[]
+include::../shared-doc/build-and-run-the-quickstart-with-provisioned-server.adoc[leveloffset=+1]
+endif::[]
 
 // Quickstart not compatible with OpenShift
 include::../shared-doc/openshift-incompatibility.adoc[leveloffset=+1]
-
-endif::[]
