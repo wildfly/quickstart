@@ -3,6 +3,27 @@
 
 include::define-standalone-server-attributes.adoc[]
 
+ifndef::mavenServerProvisioningCommand[]
+ifeval::["{archiveType}"=="ear"]
+:mavenServerProvisioningCommand: clean install
+endif::[]
+ifeval::["{archiveType}"=="war"]
+:mavenServerProvisioningCommand: clean package
+endif::[]
+ifeval::["{archiveType}"=="jar"]
+:mavenServerProvisioningCommand: clean install
+endif::[]
+endif::mavenServerProvisioningCommand[]
+
+ifndef::deploymentTargetDir[]
+ifndef::deploymentDir[:deploymentTargetDir: target]
+ifdef::deploymentDir[:deploymentTargetDir: {deploymentDir}/target]
+endif::deploymentTargetDir[]
+
+ifndef::server_provisioning_server_host[]
+:server_provisioning_server_host: http://localhost:8080
+endif::server_provisioning_server_host[]
+
 The integration tests included with this quickstart, which verify that the quickstart runs correctly, may also be run with a provisioned server.
 
 Follow these steps to run the integration tests.
@@ -11,22 +32,24 @@ Follow these steps to run the integration tests.
 +
 [source,subs="attributes+",options="nowrap"]
 ----
-$ mvn clean package -Pprovisioned-server
+$ mvn {mavenServerProvisioningCommand} -Pprovisioned-server
 ----
 
 ifdef::addQuickstartUser[]
-Add the quickstart user:
+. Add the quickstart user:
++
 [source,subs="+quotes,attributes+",options="nowrap"]
 ----
-$ target/server/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!' {app-group-command}
+$ {deploymentTargetDir}/server/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!' {app-group-command}
 ----
 endif::[]
 
 ifdef::addQuickstartAdmin[]
-Add the quickstart admin:
+. Add the quickstart admin:
++
 [source,subs="+quotes,attributes+",options="nowrap"]
 ----
-$ target/server/bin/add-user.sh -a -u 'quickstartAdmin' -p 'adminPwd1!' {admin-group-command}
+$ {deploymentTargetDir}/server/bin/add-user.sh -a -u 'quickstartAdmin' -p 'adminPwd1!' {admin-group-command}
 ----
 [NOTE]
 ====
@@ -34,17 +57,21 @@ For Windows, use the `__{jbossHomeName}__\bin\add-user.bat` script.
 ====
 endif::[]
 
-
 . Start the {productName} provisioned server, this time using the {productName} Maven Plugin, which is recommended for testing due to simpler automation. The path to the provisioned server should be specified using the `server.host` system property.
 +
+ifndef::deploymentDir[]
 [source,subs="attributes+",options="nowrap"]
 ----
 $ mvn wildfly:start -DjbossHome=target/server
 ----
+endif::[]
+ifdef::deploymentDir[]
+[source,subs="attributes+",options="nowrap"]
+----
+$ mvn -f {deploymentDir}/pom.xml wildfly:start -DjbossHome={deploymentDir}/target/server
+----
+endif::[]
 
-ifndef::server_provisioning_server_host[]
-:server_provisioning_server_host: http://localhost:8080
-endif::server_provisioning_server_host[]
 . Type the following command to run the `verify` goal with the `integration-testing` profile activated, and specifying the quickstart's URL using the `server.host` system property, which for a provisioned server by default is `{server_provisioning_server_host}`.
 +
 [source,subs="attributes+",options="nowrap"]
@@ -54,7 +81,15 @@ $ mvn verify -Pintegration-testing -Dserver.host={server_provisioning_server_hos
 
 . Shutdown the {productName} provisioned server, this time using the {productName} Maven Plugin too.
 +
-[source,options="nowrap"]
+ifndef::deploymentDir[]
+[source,subs="attributes+",options="nowrap"]
 ----
 $ mvn wildfly:shutdown
 ----
+endif::[]
+ifdef::deploymentDir[]
+[source,subs="attributes+",options="nowrap"]
+----
+$ mvn -f {deploymentDir}/pom.xml wildfly:shutdown
+----
+endif::[]

@@ -44,12 +44,11 @@ public class SecuredServlet extends HttpServlet {
             writer.println("  <head><title>Secured Servlet</title></head>");
             writer.println("  <body>");
             writer.println("    <h1>Secured Servlet</h1>");
-            writer.println("    <p>");
-            writer.print(" Current Principal '");
+            writer.print("    <p>");
+            writer.print("Current Principal '");
             Principal user = req.getUserPrincipal();
             writer.print(user != null ? user.getName() : "NO AUTHENTICATED USER");
-            writer.print("'");
-            writer.println("    </p>");
+            writer.println("'</p>");
             writer.println("  </body>");
             writer.println("</html>");
         }
