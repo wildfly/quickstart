@@ -33,7 +33,7 @@ poll_marker_files() {
 }
 
 wait_marker_files() {
-  echo "Waiting $seconds. 'oc rsh' in and either 'touch continue' to stop waiting, or 'touch exit' to abort the test run. The latter will result in the test being reported as failed"
+  echo "Waiting $seconds. Go to this pod's terminal in the console, and either 'touch continue' to stop waiting and proceed with the tests, or 'touch exit' to abort the test run. The latter will result in the test being reported as failed"
   echo "You can log in to the cluster started by the CI to diagnose problems with the following commands"
   echo "oc login $TEST_CLUSTER_URL -u $SYSADMIN_USERNAME -p $SYSADMIN_PASSWORD --insecure-skip-tls-verify"
   #echo "oc get pods"
