@@ -20,25 +20,28 @@
  */
 package org.jboss.as.quickstarts.ee_security;
 
+import org.junit.Test;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import org.junit.Assert;
-import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  *
  * @author Emmanuel Hugonnet (c) 2022 Red Hat, Inc.
  */
-public class RemoteSecureIT {
+public class BasicRuntimeIT {
+    private static final String DEFAULT_SERVER_HOST = "http://localhost:8080/ee-security";
 
     protected URI getHTTPEndpoint() {
         String host = getServerHost();
         if (host == null) {
-            host = "http://localhost:8080/ee-security";
+            host = DEFAULT_SERVER_HOST;
         }
         try {
             return new URI(host + "/secured");
@@ -56,23 +59,22 @@ public class RemoteSecureIT {
     }
 
     @Test
-    public void testConnectOk() throws IOException, InterruptedException {
+    public void testHTTPEndpointIsAvailable() throws IOException, InterruptedException, URISyntaxException {
         HttpRequest request = HttpRequest.newBuilder(getHTTPEndpoint())
                 .GET()
                 .build();
-        HttpResponse response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-        Assert.assertEquals(401, response.statusCode());
+        HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+        assertEquals(401, response.statusCode());
         request = HttpRequest.newBuilder(getHTTPEndpoint())
                 .header("X-Username", "quickstartUser")
                 .header("X-Password", "quickstartPwd1!")
                 .GET()
                 .build();
         response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-        Assert.assertEquals(200, response.statusCode());
+        assertEquals(200, response.statusCode());
         String[] lines = response.body().toString().split(System.lineSeparator());
-        Assert.assertEquals("SecuredServlet - doGet()", lines[0].trim());
-        Assert.assertEquals("Identity as available from SecurityContext 'quickstartUser'", lines[1].trim());
-        Assert.assertEquals("Identity as available from injection 'quickstartUser'", lines[2].trim());
+        assertEquals("SecuredServlet - doGet()", lines[0].trim());
+        assertEquals("Identity as available from SecurityContext 'quickstartUser'", lines[1].trim());
+        assertEquals("Identity as available from injection 'quickstartUser'", lines[2].trim());
     }
-
 }
