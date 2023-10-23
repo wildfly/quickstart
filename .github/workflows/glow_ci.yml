@@ -120,3 +120,9 @@ jobs:
     with:
       QUICKSTART_PATH: temperature-converter
       PROFILES: 'provisioned-server, openshift'
+  thread-racing:
+    needs: wildfly-maven
+    uses: ./.github/workflows/glow_ci_internal.yml
+    with:
+      QUICKSTART_PATH: thread-racing
+      PROFILES: 'provisioned-server, openshift'
