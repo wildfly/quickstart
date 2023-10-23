@@ -78,6 +78,12 @@ jobs:
     with:
       QUICKSTART_PATH: microprofile-config
       PROFILES: 'bootable-jar, openshift'
+  microprofile-jwt:
+    needs: wildfly-maven
+    uses: ./.github/workflows/glow_ci_internal.yml
+    with:
+      QUICKSTART_PATH: microprofile-jwt
+      PROFILES: 'bootable-jar, openshift'
   microprofile-reactive-messaging-kafka:
     needs: wildfly-maven
     uses: ./.github/workflows/glow_ci_internal.yml
