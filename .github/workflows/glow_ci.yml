@@ -60,6 +60,12 @@ jobs:
     with:
       QUICKSTART_PATH: ee-security
       PROFILES: 'provisioned-server, openshift'
+  helloworld-mdb:
+    needs: wildfly-maven
+    uses: ./.github/workflows/glow_ci_internal.yml
+    with:
+      QUICKSTART_PATH: helloworld-mdb
+      PROFILES: 'provisioned-server, openshift'
   helloworld:
     needs: wildfly-maven
     uses: ./.github/workflows/glow_ci_internal.yml
