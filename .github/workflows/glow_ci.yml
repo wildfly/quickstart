@@ -42,6 +42,12 @@ jobs:
     with:
       QUICKSTART_PATH: batch-processing
       PROFILES: 'provisioned-server, openshift'
+  bmt:
+    needs: wildfly-maven
+    uses: ./.github/workflows/glow_ci_internal.yml
+    with:
+      QUICKSTART_PATH: bmt
+      PROFILES: 'provisioned-server, openshift'
   ee-security:
     needs: wildfly-maven
     uses: ./.github/workflows/glow_ci_internal.yml
