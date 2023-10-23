@@ -48,6 +48,12 @@ jobs:
     with:
       QUICKSTART_PATH: bmt
       PROFILES: 'provisioned-server, openshift'
+  cmt:
+    needs: wildfly-maven
+    uses: ./.github/workflows/glow_ci_internal.yml
+    with:
+      QUICKSTART_PATH: cmt
+      PROFILES: 'provisioned-server, openshift'
   ee-security:
     needs: wildfly-maven
     uses: ./.github/workflows/glow_ci_internal.yml
