@@ -96,3 +96,9 @@ jobs:
     with:
       QUICKSTART_PATH: microprofile-reactive-messaging-kafka
       PROFILES: 'bootable-jar, openshift'
+  numberguess:
+    needs: wildfly-maven
+    uses: ./.github/workflows/glow_ci_internal.yml
+    with:
+      QUICKSTART_PATH: numberguess
+      PROFILES: 'provisioned-server, openshift'
