@@ -60,6 +60,12 @@ jobs:
     with:
       QUICKSTART_PATH: helloworld
       PROFILES: 'provisioned-server, openshift'
+  jsonp:
+    needs: wildfly-maven
+    uses: ./.github/workflows/glow_ci_internal.yml
+    with:
+      QUICKSTART_PATH: jsonp
+      PROFILES: 'provisioned-server, openshift'
   microprofile-reactive-messaging-kafka:
     needs: wildfly-maven
     uses: ./.github/workflows/glow_ci_internal.yml
