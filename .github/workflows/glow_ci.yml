@@ -36,6 +36,18 @@ jobs:
           path: ~/wildfly-maven-repository.tar.gz
           retention-days: 1
 
+  batch-processing:
+    needs: wildfly-maven
+    uses: ./.github/workflows/glow_ci_internal.yml
+    with:
+      QUICKSTART_PATH: batch-processing
+      PROFILES: 'provisioned-server, openshift'
+  ee-security:
+    needs: wildfly-maven
+    uses: ./.github/workflows/glow_ci_internal.yml
+    with:
+      QUICKSTART_PATH: ee-security
+      PROFILES: 'provisioned-server, openshift'
   helloworld:
     needs: wildfly-maven
     uses: ./.github/workflows/glow_ci_internal.yml
