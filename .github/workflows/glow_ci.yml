@@ -114,6 +114,12 @@ jobs:
     with:
       QUICKSTART_PATH: numberguess
       PROFILES: 'provisioned-server, openshift'
+  remote-helloworld-mdb:
+    needs: wildfly-maven
+    uses: ./.github/workflows/glow_ci_internal.yml
+    with:
+      QUICKSTART_PATH: remote-helloworld-mdb
+      PROFILES: 'provisioned-server, openshift'
   temperature-converter:
     needs: wildfly-maven
     uses: ./.github/workflows/glow_ci_internal.yml
