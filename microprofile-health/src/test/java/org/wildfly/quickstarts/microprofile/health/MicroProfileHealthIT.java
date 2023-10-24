@@ -45,7 +45,7 @@ public class MicroProfileHealthIT {
 
     @Before
     public void before() throws MalformedURLException {
-        String managementHost = getConfigValue("management.host").orElse("http://localhost:9990");
+        String managementHost = getConfigValue("server.management.host").orElse("http://localhost:9990");
         managementURL = URI.create(managementHost).toURL();
         client = ClientBuilder.newClient();
     }

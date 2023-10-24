@@ -159,6 +159,10 @@ if [ "${helm_install_ret}" != "0" ]; then
 fi
 
 ################################################################################################
+# Run any post install
+runPostHelmInstallCommands
+
+################################################################################################
 # Run tests
 echo "running the tests"
 pwd
@@ -178,7 +182,16 @@ if [ "${QS_UNSIGNED_SERVER_CERT}" = "1" ]; then
   truststore_properties="-Djavax.net.ssl.trustStore=${script_directory}/InstallCert/jssecacerts -Djavax.net.ssl.trustStorePassword=changeit"
 fi
 
-mvn -B verify -Pintegration-testing -Dserver.host=https://${route} ${QS_MAVEN_REPOSITORY} ${truststore_properties}
+
+mvnVerifyArguments="-Dserver.host=https://${route} ${QS_MAVEN_REPOSITORY} ${truststore_properties}"
+extraMvnVerifyArguments="$(getMvnVerifyExtraArguments)"
+echo "Verify Arguments: ${mvnVerifyArguments}"
+if [ -n "${extraMvnVerifyArguments}" ]; then
+  mvnVerifyArguments="${mvnVerifyArguments} ${extraMvnVerifyArguments}"
+fi
+
+mvn -B verify -Pintegration-testing ${mvnVerifyArguments}
+
 if [ "$?" != "0" ]; then
   echo "Tests failed!"
   echo "Dumping the application pod(s)"
