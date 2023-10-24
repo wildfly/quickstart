@@ -61,6 +61,11 @@ function helmInstall() {
     echo "$?"
 }
 
+# Commands to run once the Helm install has completed
+function runPostHelmInstallCommands() {
+    echo "No post helm install commands"
+}
+
 # Checks whether optimized mode should be disabled
 # To disable optimized mode for a quickstart, add this method to its
 # overridable-functions.sh and change the body to 'echo "1"'
@@ -72,6 +77,12 @@ function isOptimizedModeDisabled() {
 # that here. If e.g "wildfly." is returned, the resulting 'build.enabled' becomes 'wildfly.build.enabled'
 function getHelmSetVariablePrefix() {
     echo ""
+}
+
+# If we need to specify any extra arguments (such as system properties) to the
+# 'mvn verify -Pintegration-testing command, specify those here'
+function getMvnVerifyExtraArguments() {
+  echo ""
 }
 
 # More output when the helm install has gone wrong
