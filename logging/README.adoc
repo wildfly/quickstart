@@ -70,11 +70,12 @@ Now you have deployed the quickstart with the default configuration, you run a m
 
 
 . Review the `configure-logging.cli` file in the root of this quickstart directory. This script configures the logging subsystem in the server configuration file. It configures the file handlers, creates the logger for our quickstart and sets the level to TRACE. It also assigns the handlers for our quickstart to our logger.
+. The CLI script references the logging formatter with the property `${formatter}`. On bare-metal this formatter is named `PATTERN`, on OpenShift it is named `OPENSHIFT`. A properties file is to be provided when executing the CLI to resolve the `formatter` property according to the execution context. The file `cli.properties` is to be used when executing the script on bare-metal. `cli-openshift.properties` is to be used when executing the script on OpenShift. 
 . Open a new terminal, navigate to the root directory of this quickstart, and run the following command, replacing `__{jbossHomeName}__` with the path to your server:
 +
 [source,subs="+quotes,attributes+",options="nowrap"]
 ----
-$ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=configure-logging.cli
+$ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=configure-logging.cli --resolve-parameter-values=true --properties=cli.properties
 ----
 +
 NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
