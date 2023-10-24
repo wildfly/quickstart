@@ -48,9 +48,16 @@
         <maven.compiler.target>17</maven.compiler.target>
         <maven.compiler.source>17</maven.compiler.source>
 
-        <!-- The versions for BOMs, Dependencies and Plugins -->
+        <!-- the version for the Server -->
+        <version.server>30.0.0.Final</version.server>
+        <!-- the versions for BOMs, Packs and Plugins -->
+        <version.bom.ee>${version.server}</version.bom.ee>
+        <version.pack.cloud>5.0.0.Final</version.pack.cloud>
+        <version.plugin.wildfly>4.2.0.Final</version.plugin.wildfly>
+
+        <!-- The versions for other Dependencies and Plugins -->
         <version.spring.framework>6.0.4</version.spring.framework>
-        <version.server.bom>30.0.0.Final</version.server.bom>
+        <version.resteasy.spring>3.0.4.Final</version.resteasy.spring>
     </properties>
 
     <repositories>
@@ -114,7 +121,7 @@
             <dependency>
                 <groupId>org.wildfly.bom</groupId>
                 <artifactId>wildfly-ee-with-tools</artifactId>
-                <version>${version.server.bom}</version>
+                <version>${version.bom.ee}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -185,30 +192,44 @@
         </dependency>
     </dependencies>
 
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.wildfly.plugins</groupId>
+                    <artifactId>wildfly-maven-plugin</artifactId>
+                    <version>${version.plugin.wildfly}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
     <profiles>
         <profile>
-            <!-- An optional Arquillian testing profile that executes tests in your JBoss EAP instance.
-                 This profile will start a new JBoss EAP instance, and execute the test, shutting it down when done.
-                 Run with: mvn clean verify -Parq-managed -->
-            <id>arq-managed</id>
-            <dependencies>
-                <dependency>
-                    <groupId>org.wildfly.arquillian</groupId>
-                    <artifactId>wildfly-arquillian-container-managed</artifactId>
-                    <scope>test</scope>
-                </dependency>
-            </dependencies>
+            <id>provisioned-server</id>
             <build>
                 <plugins>
                     <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-failsafe-plugin</artifactId>
-                        <version>${version.failsafe.plugin}</version>
+                        <groupId>org.wildfly.plugins</groupId>
+                        <artifactId>wildfly-maven-plugin</artifactId>
+                        <configuration>
+                            <feature-packs>
+                                <feature-pack>
+                                    <location>org.wildfly:wildfly-galleon-pack:${version.server}</location>
+                                </feature-pack>
+                                <feature-pack>
+                                    <groupId>org.jboss.resteasy.spring</groupId>
+                                    <artifactId>galleon-feature-pack</artifactId>
+                                    <version>${version.resteasy.spring}</version>
+                                </feature-pack>
+                            </feature-packs>
+                            <!-- deploys the quickstart on root web context -->
+                            <name>ROOT.war</name>
+                        </configuration>
                         <executions>
                             <execution>
                                 <goals>
-                                    <goal>integration-test</goal>
-                                    <goal>verify</goal>
+                                    <goal>package</goal>
                                 </goals>
                             </execution>
                         </executions>
@@ -217,22 +238,52 @@
             </build>
         </profile>
         <profile>
-            <!-- An optional Arquillian testing profile that executes tests in a remote JBoss EAP instance.
-                 Run with: mvn clean verify -Parq-remote -->
-            <id>arq-remote</id>
-            <dependencies>
-                <dependency>
-                    <groupId>org.wildfly.arquillian</groupId>
-                    <artifactId>wildfly-arquillian-container-remote</artifactId>
-                    <scope>test</scope>
-                </dependency>
-            </dependencies>
+            <id>openshift</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.wildfly.plugins</groupId>
+                        <artifactId>wildfly-maven-plugin</artifactId>
+                        <configuration>
+                            <feature-packs>
+                                <feature-pack>
+                                    <location>org.wildfly:wildfly-galleon-pack:${version.server}</location>
+                                </feature-pack>
+                                <feature-pack>
+                                    <location>org.wildfly.cloud:wildfly-cloud-galleon-pack:${version.pack.cloud}
+                                    </location>
+                                </feature-pack>
+                                <feature-pack>
+                                    <groupId>org.jboss.resteasy.spring</groupId>
+                                    <artifactId>galleon-feature-pack</artifactId>
+                                    <version>${version.resteasy.spring}</version>
+                                </feature-pack>
+                            </feature-packs>
+                            <filename>ROOT.war</filename>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>package</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>integration-testing</id>
             <build>
                 <plugins>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-failsafe-plugin</artifactId>
-                        <version>${version.failsafe.plugin}</version>
+                        <configuration>
+                            <includes>
+                                <include>**/*IT</include>
+                            </includes>
+                        </configuration>
                         <executions>
                             <execution>
                                 <goals>
