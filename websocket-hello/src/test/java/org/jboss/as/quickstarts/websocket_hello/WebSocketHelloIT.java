@@ -33,7 +33,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Emmanuel Hugonnet (c) 2022 Red Hat, Inc.
  */
-public class RemoteWebSocketIT {
+public class WebSocketHelloIT {
 
     protected URI getWebSocketEndpoint() {
         String host = getServerHost();
@@ -52,7 +52,7 @@ public class RemoteWebSocketIT {
         if (host == null) {
             host = System.getProperty("server.host");
         }
-        if(host != null) {
+        if (host != null) {
             host= host.replaceFirst("http", "ws");
         }
         return host;
