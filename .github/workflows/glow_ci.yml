@@ -1,0 +1,50 @@
+name: WildFly Glow CI
+
+on:
+  push:
+    branches:
+      - port-to-glow
+
+env:
+  WILDFLY_VERSION: 30.0.0.Final
+
+# Only run the latest job
+concurrency:
+  group: '${{ github.workflow }} @ ${{ github.ref || github.run_id }}'
+  cancel-in-progress: true
+
+jobs:
+  wildfly-maven:
+    # Pre-populate the maven repo with the WildFly Maven artifacts
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/cache@v3
+        with:
+          path: ~/.m2/repository
+          key: wildfly-glow-ci-wildfly-${{ env.WILDFLY_VERSION }}
+      - name: WildFly EE Feature Pack
+        run: mvn -B dependency:get -Dartifact=org.wildfly:wildfly-ee-feature-pack-galleon-shared:${WILDFLY_VERSION}:pom
+      - name: WildFly Galleon Pack
+        run: mvn -B dependency:get -Dartifact=org.wildfly:wildfly-feature-pack-galleon-shared:${WILDFLY_VERSION}:pom
+      - name: Archive the repository
+        run:  |
+          cd ~
+          find ./.m2/repository -type d -name "*Final" -print0 | xargs -0 tar -czf ~/wildfly-maven-repository.tar.gz
+      - uses: actions/upload-artifact@v3
+        with:
+          name: wildfly-maven-repository
+          path: ~/wildfly-maven-repository.tar.gz
+          retention-days: 1
+
+  helloworld:
+    needs: wildfly-maven
+    uses: ./.github/workflows/glow_ci_internal.yml
+    with:
+      QUICKSTART_PATH: helloworld
+      PROFILES: 'provisioned-server, openshift'
+  microprofile-reactive-messaging-kafka:
+    needs: wildfly-maven
+    uses: ./.github/workflows/glow_ci_internal.yml
+    with:
+      QUICKSTART_PATH: microprofile-reactive-messaging-kafka
+      PROFILES: 'bootable-jar, openshift'

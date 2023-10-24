@@ -40,8 +40,7 @@
         <!-- The versions for BOMs, Packs and Plugins -->
         <version.bom.ee>${version.server}</version.bom.ee>
         <version.bom.microprofile>${version.server}</version.bom.microprofile>
-        <version.pack.cloud>5.0.0.Final</version.pack.cloud>
-        <version.plugin.wildfly>4.2.1.Final</version.plugin.wildfly>
+        <version.plugin.wildfly>5.0.0.Alpha2</version.plugin.wildfly>
         <version.plugin.wildfly-jar>10.0.0.Final</version.plugin.wildfly-jar>
         <!-- The versions for other Dependencies and Plugins -->
         <version.io.smallrye-config>3.0.0</version.io.smallrye-config>
@@ -286,6 +285,7 @@
                         <artifactId>wildfly-jar-maven-plugin</artifactId>
                         <configuration>
                             <feature-pack-location>wildfly@maven(org.jboss.universe:community-universe)#${version.server}</feature-pack-location>
+                            <!-- TODO Convert to Glow when supported -->
                             <layers>
                                 <layer>cloud-server</layer>
                                 <layer>h2-default-datasource</layer>
@@ -315,19 +315,10 @@
                         <groupId>org.wildfly.plugins</groupId>
                         <artifactId>wildfly-maven-plugin</artifactId>
                         <configuration>
-                            <feature-packs>
-                                <feature-pack>
-                                    <location>org.wildfly:wildfly-galleon-pack:${version.server}</location>
-                                </feature-pack>
-                                <feature-pack>
-                                    <location>org.wildfly.cloud:wildfly-cloud-galleon-pack:${version.pack.cloud}</location>
-                                </feature-pack>
-                            </feature-packs>
-                            <layers>
-                                <layer>cloud-server</layer>
-                                <layer>h2-default-datasource</layer>
-                                <layer>microprofile-reactive-messaging-kafka</layer>
-                            </layers>
+                            <discover-provisioning-info>
+                                <version>${version.server}</version>
+                                <context>cloud</context>
+                            </discover-provisioning-info>
                             <filename>ROOT.war</filename>
                         </configuration>
                         <executions>
