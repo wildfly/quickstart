@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 JBoss by Red Hat.
+ * Copyright 2022 JBoss by Red Hat.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,25 +15,26 @@
  */
 package org.jboss.as.quickstarts.mdb;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
 import java.util.Optional;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  *
  * @author Emmanuel Hugonnet (c) 2023 Red Hat, Inc.
  */
-public abstract class AbstractMDBServletIT {
+public class BasicRuntimeIT {
 
-    protected abstract URI getHTTPEndpoint();
+    private static final String DEFAULT_SERVER_HOST = "http://localhost:8080/remote-helloworld-mdb";
 
     @Test
     public void testSendToQueue() throws IOException, InterruptedException {
@@ -93,5 +94,21 @@ public abstract class AbstractMDBServletIT {
 
     protected String getLineSeparator() {
         return "\n";
+    }
+
+    private String getServerHost() {
+        String host = System.getenv("SERVER_HOST");
+        if (host == null) {
+            host = System.getProperty("server.host", DEFAULT_SERVER_HOST);
+        }
+        return host;
+    }
+
+    protected URI getHTTPEndpoint() {
+        try {
+            return new URI(getServerHost() + "/HelloWorldMDBServletClient");
+        } catch (URISyntaxException ex) {
+            throw new RuntimeException(ex);
+        }
     }
 }

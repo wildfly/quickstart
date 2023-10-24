@@ -1,0 +1,15 @@
+name: WildFly remote-helloworld-mdb Quickstart CI
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    paths:
+      - 'remote-helloworld-mdb/**'
+      - '.github/workflows/quickstart_ci.yml'
+jobs:
+  call-quickstart_ci:
+    uses: ./.github/workflows/quickstart_ci.yml
+    with:
+      QUICKSTART_PATH: remote-helloworld-mdb
+      TEST_PROVISIONED_SERVER: true
+      MATRIX_OS: '"ubuntu-latest"'
