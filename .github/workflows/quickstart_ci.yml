@@ -102,10 +102,12 @@ jobs:
           cd ${{ inputs.QUICKSTART_PATH }}
           echo "Building provisioned server..."
           mvn -fae clean package -Pprovisioned-server
-          echo "Add quickstartUser..."
-          ${{ inputs.DEPLOYMENT_DIR }}/target/server/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'guest,user,JBossAdmin,Users'
-          echo "Add quickstartAdmin..."
-          ${{ inputs.DEPLOYMENT_DIR }}/target/server/bin/add-user.sh -a -u 'quickstartAdmin' -p 'adminPwd1!' -g 'guest,user,admin'
+          if [ -f ${{ inputs.DEPLOYMENT_DIR }}/target/server/bin/add-user.sh ]; then 
+            echo "Add quickstartUser..."
+            ${{ inputs.DEPLOYMENT_DIR }}/target/server/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'guest,user,JBossAdmin,Users'
+            echo "Add quickstartAdmin..."
+            ${{ inputs.DEPLOYMENT_DIR }}/target/server/bin/add-user.sh -a -u 'quickstartAdmin' -p 'adminPwd1!' -g 'guest,user,admin'
+          fi
           echo "Starting provisioned server..."
           mvn -f ${{ inputs.DEPLOYMENT_DIR }}/pom.xml wildfly:start -DjbossHome=${{ inputs.DEPLOYMENT_DIR }}/target/server -Dstartup-timeout=120
           echo "Testing provisioned server..."
@@ -121,11 +123,14 @@ jobs:
           echo "Building bootable jar..."
           mvn -fae clean package -Pbootable-jar
           echo "Starting bootable jar..."
-          mvn -f ${{ inputs.DEPLOYMENT_DIR }}/pom.xml wildfly-jar:start -Djar-file-name=${{ inputs.DEPLOYMENT_DIR }}/target/${{ inputs.QUICKSTART_PATH }}-bootable.jar -Dstartup-timeout=120
+          # mvn -f ${{ inputs.DEPLOYMENT_DIR }}/pom.xml wildfly-jar:start -Djar-file-name=${{ inputs.DEPLOYMENT_DIR }}/target/${{ inputs.QUICKSTART_PATH }}-bootable.jar -Dstartup-timeout=120
+          java -jar ${{ inputs.DEPLOYMENT_DIR }}/target/server-bootable.jar &
+          # Sleep to wait for server to start (we should have a wait)
+          sleep 20
           echo "Testing bootable jar..."
           mvn -fae verify -Dserver.host=${{ inputs.SERVER_PROVISIONING_SERVER_HOST }} -Pintegration-testing
           echo "Shutting down bootable jar..."          
-          mvn -f ${{ inputs.DEPLOYMENT_DIR }}/pom.xml wildfly-jar:shutdown
+          mvn -f ${{ inputs.DEPLOYMENT_DIR }}/pom.xml wildfly:shutdown
         shell: bash
       - name: Build ${{ inputs.QUICKSTART_PATH }} Quickstart with openshift profile
         if: ${{ inputs.TEST_OPENSHIFT }}
@@ -207,10 +212,12 @@ jobs:
           cd ${{ inputs.QUICKSTART_PATH }}
           echo "Building provisioned server..."
           mvn -fae clean package -Pprovisioned-server -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
-          echo "Add quickstartUser..."
-          ${{ inputs.DEPLOYMENT_DIR }}/target/server/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'guest,user,JBossAdmin,Users'
-          echo "Add quickstartAdmin..."
-          ${{ inputs.DEPLOYMENT_DIR }}/target/server/bin/add-user.sh -a -u 'quickstartAdmin' -p 'adminPwd1!' -g 'guest,user,admin'
+          if [ -f ${{ inputs.DEPLOYMENT_DIR }}/target/server/bin/add-user.sh ]; then
+            echo "Add quickstartUser..."
+            ${{ inputs.DEPLOYMENT_DIR }}/target/server/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'guest,user,JBossAdmin,Users'
+            echo "Add quickstartAdmin..."
+            ${{ inputs.DEPLOYMENT_DIR }}/target/server/bin/add-user.sh -a -u 'quickstartAdmin' -p 'adminPwd1!' -g 'guest,user,admin'
+          fi
           echo "Starting provisioned server..."
           mvn -f ${{ inputs.DEPLOYMENT_DIR }}/pom.xml wildfly:start -DjbossHome=${{ inputs.DEPLOYMENT_DIR }}/target/server -Dstartup-timeout=120
           echo "Testing provisioned server..."
@@ -226,11 +233,14 @@ jobs:
           echo "Building bootable jar..."
           mvn -fae clean package -Pbootable-jar -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
           echo "Starting bootable jar..."
-          mvn -f ${{ inputs.DEPLOYMENT_DIR }}/pom.xml wildfly-jar:start -Djar-file-name=${{ inputs.DEPLOYMENT_DIR }}/target/${{ inputs.QUICKSTART_PATH }}-bootable.jar -Dstartup-timeout=120
+          #mvn -f ${{ inputs.DEPLOYMENT_DIR }}/pom.xml wildfly-jar:start -Djar-file-name=${{ inputs.DEPLOYMENT_DIR }}/target/${{ inputs.QUICKSTART_PATH }}-bootable.jar -Dstartup-timeout=120
+          java -jar ${{ inputs.DEPLOYMENT_DIR }}/target/server-bootable.jar &
+          # Sleep to wait for server to start (we should have a wait)
+          sleep 20
           echo "Testing bootable jar..."
           mvn -fae verify -Dserver.host=${{ inputs.SERVER_PROVISIONING_SERVER_HOST }} -Pintegration-testing
-          echo "Shutting down bootable jar..."          
-          mvn -f ${{ inputs.DEPLOYMENT_DIR }}/pom.xml wildfly-jar:shutdown
+          echo "Shutting down bootable jar..."
+          mvn -f ${{ inputs.DEPLOYMENT_DIR }}/pom.xml wildfly:shutdown
         shell: bash
       - name: Build ${{ inputs.QUICKSTART_PATH }} Quickstart with openshift profile, and built Server version
         if: ${{ inputs.TEST_OPENSHIFT }}
