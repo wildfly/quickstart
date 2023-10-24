@@ -51,6 +51,7 @@ jobs:
     name: BUILD WITH DEPS - JDK${{ matrix.jdk }} - ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     needs: WildFly-build
+    if:
     strategy:
       fail-fast: false
       matrix:
