@@ -1,0 +1,106 @@
+on:
+  workflow_call:
+    inputs:
+      QUICKSTART_PATH:
+        description: 'the path to the quickstart to test'
+        required: true
+        type: string
+      PROFILE:
+        description: 'Profile to provision the server'
+        required: true
+        type: string
+      DEPLOYMENT_DIR:
+        description: 'the path to the deployment dir, relative to QUICKSTART_PATH'
+        required: false
+        type: string
+
+env:
+  BEFORE_FILE: "./.github/workflows/quickstart_${{ inputs.QUICKSTART_PATH }}_ci_before.sh"
+  AFTER_FILE: "./.github/workflows/quickstart_${{ inputs.QUICKSTART_PATH }}_ci_after.sh"
+
+jobs:
+  test-port-to-glow:
+    name: Test Port to Glow ${{ inputs.QUICKSTART_PATH }} -P${{ inputs.PROFILE }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: 'temurin'
+          cache: 'maven'
+      - uses: actions/download-artifact@v3
+        with:
+          name: wildfly-maven-repository
+          path: .
+      - name: Extract Maven Repo
+        shell: bash
+        run: tar -xzf wildfly-maven-repository.tar.gz -C ~
+      - name: Run before script
+        run: |
+          if test -f $BEFORE_FILE;
+            then
+              echo "Executing ${BEFORE_FILE}"
+              chmod +x $BEFORE_FILE
+              bash $BEFORE_FILE
+          else 
+            echo "No ${BEFORE_FILE}. Skipping."
+          fi
+      - name: Run OpenShift Server Test
+        if: ${{ inputs.PROFILE == 'openshift' }}
+        run: |
+          cd ${{ inputs.QUICKSTART_PATH }}
+          mvn -B clean package -Popenshift
+          if [ -f ${{ inputs.DEPLOYMENT_DIR }}/target/server/bin/add-user.sh ]; then 
+            ${{ inputs.DEPLOYMENT_DIR }}/target/server/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'guest,user,JBossAdmin,Users'
+            ${{ inputs.DEPLOYMENT_DIR }}/target/server/bin/add-user.sh -a -u 'quickstartAdmin' -p 'adminPwd1!' -g 'guest,user,admin'
+          fi
+          mvn -B -f ${{ inputs.DEPLOYMENT_DIR }}/pom.xml wildfly:start -DjbossHome=${{ inputs.DEPLOYMENT_DIR }}/target/server -Dstartup-timeout=120
+          mvn -B verify -Pintegration-testing -Dserver.host=http://localhost:8080
+          mvn -B -f ${{ inputs.DEPLOYMENT_DIR }}/pom.xml wildfly:shutdown
+        shell: bash
+      - name: Run Provisioned Server Test
+        if: ${{ inputs.PROFILE == 'provisioned-server' }}
+        run: |
+          cd ${{ inputs.QUICKSTART_PATH }}
+          mvn -B clean package -Pprovisioned-server
+          if [ -f ${{ inputs.DEPLOYMENT_DIR }}/target/server/bin/add-user.sh ]; then 
+            ${{ inputs.DEPLOYMENT_DIR }}/target/server/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'guest,user,JBossAdmin,Users'
+            ${{ inputs.DEPLOYMENT_DIR }}/target/server/bin/add-user.sh -a -u 'quickstartAdmin' -p 'adminPwd1!' -g 'guest,user,admin'
+          fi
+          mvn -B -f ${{ inputs.DEPLOYMENT_DIR }}/pom.xml wildfly:start -DjbossHome=${{ inputs.DEPLOYMENT_DIR }}/target/server -Dstartup-timeout=120
+          mvn -B verify -Pintegration-testing -Dserver.host=http://localhost:8080
+          mvn -B -f ${{ inputs.DEPLOYMENT_DIR }}/pom.xml wildfly:shutdown
+        shell: bash
+      - name: Run Bootable Jar Test
+        if: ${{ inputs.PROFILE == 'bootable-jar' }}
+        run: |
+          cd ${{ inputs.QUICKSTART_PATH }}
+          mvn -B clean package -Pbootable-jar
+          if [ -f ${{ inputs.DEPLOYMENT_DIR }}/target/server/bin/add-user.sh ]; then 
+            ${{ inputs.DEPLOYMENT_DIR }}/target/server/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'guest,user,JBossAdmin,Users'
+            ${{ inputs.DEPLOYMENT_DIR }}/target/server/bin/add-user.sh -a -u 'quickstartAdmin' -p 'adminPwd1!' -g 'guest,user,admin'
+          fi
+          mvn -B -f ${{ inputs.DEPLOYMENT_DIR }}/pom.xml wildfly-jar:start -Djar-file-name=${{ inputs.DEPLOYMENT_DIR }}/target/${{ inputs.QUICKSTART_PATH }}-bootable.jar -Dstartup-timeout=120
+          mvn -B verify -Pintegration-testing -Dserver.host=http://localhost:8080
+          mvn -B -f ${{ inputs.DEPLOYMENT_DIR }}/pom.xml wildfly-jar:shutdown
+        shell: bash
+      - name: Run after script
+        run: |
+          if test -f $AFTER_FILE;
+            then
+              echo "Executing ${AFTER_FILE}"
+              chmod +x $AFTER_FILE
+              bash $AFTER
+          else
+            echo "No ${AFTER_FILE}. Skipping."
+          fi
+      - uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: surefire-reports-JDK17
+          path: 'quickstarts/**/surefire-reports/*.txt'
+
