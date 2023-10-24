@@ -51,6 +51,7 @@ jobs:
     name: BUILD WITH DEPS - JDK${{ matrix.jdk }} - ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     needs: WildFly-build
+    if:
     strategy:
       fail-fast: false
       matrix:
@@ -76,7 +77,7 @@ jobs:
       - name: Build Quickstarts Release with Server and BOMs Versions
         run: |
           cd quickstarts
-          mvn -U -B -fae clean install -Drelease -Dversion.server.bom=${{ needs.wildfly-build.outputs.wildfly-version }} -Dversion.microprofile.bom=${{ needs.wildfly-build.outputs.wildfly-version }} -Dversion.server.bootable-jar=${{ needs.wildfly-build.outputs.wildfly-version }} -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
+          mvn -U -B -fae clean install -Drelease -Dversion.server.bom=${{ needs.wildfly-build.outputs.wildfly-version }} -Dversion.microprofile.bom=${{ needs.wildfly-build.outputs.wildfly-version }} -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
         shell: bash
       - uses: actions/upload-artifact@v4
         if: failure()

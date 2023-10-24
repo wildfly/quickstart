@@ -20,7 +20,8 @@ env:
   MATRIX_JDK: '"11", "17"'
   MATRIX_OS: '"ubuntu-latest"'
   SERVER_PROVISIONING_SERVER_HOST: 'http://localhost'
-
+  EXTRA_RUN_ARGS: '-Pprovisioned-server -DpostgresqlUsername="test" -DpostgresqlPassword="test"'
+  WILDFLY_SNAPSHOT_EXTRA_PACKAGE_ARGUMENTS: '-Dwildfly-glow-galleon-feature-packs-url=https://raw.githubusercontent.com/wildfly/wildfly-galleon-feature-packs/main/'
 jobs:
   Matrix-Setup:
     runs-on: ubuntu-latest
@@ -74,27 +75,27 @@ jobs:
           cd quickstarts
           cd ${{ env.QUICKSTART_PATH }}/client
           echo "Building 'client' provisioned server..."
-          mvn -fae clean package -Pprovisioned-server -DremoteServerUsername="quickstartUser" -DremoteServerPassword="quickstartPwd1!" -DpostgresqlUsername="test" -DpostgresqlPassword="test"
-          mvn wildfly:start -Djboss-as.home=target/server -Dwildfly.javaOpts="-Djboss.tx.node.id=server1 -Djboss.node.name=server1" -Dstartup-timeout=120
+          mvn -fae clean package -Pprovisioned-server -DremoteServerUsername="quickstartUser" -DremoteServerPassword="quickstartPwd1!"
+          mvn wildfly:start -Djboss-as.home=target/server -Dwildfly.javaOpts="-Djboss.tx.node.id=server1 -Djboss.node.name=server1" -Dstartup-timeout=120 ${{env.EXTRA_RUN_ARGS}}
           cd ../server
           echo "Building 'server' provisioned server..."
-          mvn -fae clean package -Pprovisioned-server -Dwildfly.provisioning.dir=server2 -Djboss-as.home=target/server2 -DpostgresqlUsername="test" -DpostgresqlPassword="test"
-          mvn -fae package -Pprovisioned-server -Dwildfly.provisioning.dir=server3 -Djboss-as.home=target/server3 -DpostgresqlUsername="test" -DpostgresqlPassword="test"
+          mvn -fae clean package -Pprovisioned-server -Dwildfly.provisioning.dir=server2 -Djboss-as.home=target/server2
+          mvn -fae package -Pprovisioned-server -Dwildfly.provisioning.dir=server3 -Djboss-as.home=target/server3
           echo "Add quickstartUser to both 'server' builds..."
-          ./target/server2/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'guest,user,JBossAdmin,Users'
+          ./target/server2/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'guest,user,JBossAdmin,Users' 
           ./target/server3/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'guest,user,JBossAdmin,Users'
           echo "Add quickstartAdmin to both 'server' builds..."
           ./target/server2/bin/add-user.sh -a -u 'quickstartAdmin' -p 'adminPwd1!' -g 'guest,user,admin'
-          ./target/server2/bin/add-user.sh -a -u 'quickstartAdmin' -p 'adminPwd1!' -g 'guest,user,admin'
+          ./target/server3/bin/add-user.sh -a -u 'quickstartAdmin' -p 'adminPwd1!' -g 'guest,user,admin'
           echo "Starting provisioned server..."
-          mvn wildfly:start -Djboss-as.home=target/server2 -Dwildfly.port=10090 -Dwildfly.serverConfig=standalone-ha.xml -Dwildfly.javaOpts="-Djboss.socket.binding.port-offset=100 -Djboss.tx.node.id=server2 -Djboss.node.name=server2" -Dstartup-timeout=120
-          mvn wildfly:start -Djboss-as.home=target/server3 -Dwildfly.port=10190 -Dwildfly.serverConfig=standalone-ha.xml -Dwildfly.javaOpts="-Djboss.socket.binding.port-offset=200 -Djboss.tx.node.id=server3 -Djboss.node.name=server3" -Dstartup-timeout=120
+          mvn wildfly:start -Djboss-as.home=target/server2 -Dwildfly.port=10090 -Dwildfly.serverConfig=standalone-ha.xml -Dwildfly.javaOpts="-Djboss.socket.binding.port-offset=100 -Djboss.tx.node.id=server2 -Djboss.node.name=server2" -Dstartup-timeout=120 ${{env.EXTRA_RUN_ARGS}}
+          mvn wildfly:start -Djboss-as.home=target/server3 -Dwildfly.port=10190 -Dwildfly.serverConfig=standalone-ha.xml -Dwildfly.javaOpts="-Djboss.socket.binding.port-offset=200 -Djboss.tx.node.id=server3 -Djboss.node.name=server3" -Dstartup-timeout=120 ${{env.EXTRA_RUN_ARGS}}
           echo "Testing provisioned server..."
           cd ../client
-          mvn -fae verify -Dserver.host=${{ env.SERVER_PROVISIONING_SERVER_HOST }}:8080 -Pintegration-testing
+          mvn -fae verify -Dserver.host=${{ env.SERVER_PROVISIONING_SERVER_HOST }}:8080/client -Pintegration-testing
           cd ../server
-          mvn -fae verify -Dserver.host=${{ env.SERVER_PROVISIONING_SERVER_HOST }}:8180 -Pintegration-testing
-          mvn -fae verify -Dserver.host=${{ env.SERVER_PROVISIONING_SERVER_HOST }}:8280 -Pintegration-testing
+          mvn -fae verify -Dserver.host=${{ env.SERVER_PROVISIONING_SERVER_HOST }}:8180/server -Pintegration-testing
+          mvn -fae verify -Dserver.host=${{ env.SERVER_PROVISIONING_SERVER_HOST }}:8280/server -Pintegration-testing
           echo "Shutting down provisioned server..."
           cd ../client
           mvn wildfly:shutdown
@@ -107,9 +108,9 @@ jobs:
         run: |
           cd quickstarts
           cd ${{ env.QUICKSTART_PATH }}/client
-          mvn -fae clean package -Popenshift -DremoteServerUsername="quickstartUser" -DremoteServerPassword="quickstartPwd1!" -DpostgresqlUsername="test" -DpostgresqlPassword="test"
+          mvn -fae clean package -Popenshift -DremoteServerUsername="quickstartUser" -DremoteServerPassword="quickstartPwd1!"
           cd ../server
-          mvn -fae clean package -Popenshift -DpostgresqlUsername="test" -DpostgresqlPassword="test"
+          mvn -fae clean package -Popenshift
         shell: bash
       - name: Run after script
         env:
@@ -175,7 +176,7 @@ jobs:
         run: |
           cd quickstarts
           cd ${{ env.QUICKSTART_PATH }}
-          mvn -fae clean package -Drelease -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
+          mvn -fae clean package -Drelease -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }} ${{ env.WILDFLY_SNAPSHOT_EXTRA_PACKAGE_ARGUMENTS }}
         shell: bash
       - name: Build, run & test ${{ env.QUICKSTART_PATH }} Quickstart with provisioned-server profile, and built Server version
         if: ${{ env.TEST_PROVISIONED_SERVER }}
@@ -183,27 +184,27 @@ jobs:
           cd quickstarts
           cd ${{ env.QUICKSTART_PATH }}/client
           echo "Building 'client' provisioned server..."
-          mvn -fae clean package -Pprovisioned-server -DremoteServerUsername="quickstartUser" -DremoteServerPassword="quickstartPwd1!" -DpostgresqlUsername="test" -DpostgresqlPassword="test" -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
-          mvn wildfly:start -Djboss-as.home=target/server -Dwildfly.javaOpts="-Djboss.tx.node.id=server1 -Djboss.node.name=server1" -Dstartup-timeout=120
+          mvn -fae clean package -Pprovisioned-server -DremoteServerUsername="quickstartUser" -DremoteServerPassword="quickstartPwd1!" -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }} ${{ env.WILDFLY_SNAPSHOT_EXTRA_PACKAGE_ARGUMENTS }}
+          mvn wildfly:start -Djboss-as.home=target/server -Dwildfly.javaOpts="-Djboss.tx.node.id=server1 -Djboss.node.name=server1" -Dstartup-timeout=120 ${{env.EXTRA_RUN_ARGS}}
           cd ../server
           echo "Building 'server' provisioned server..."
-          mvn -fae clean package -Pprovisioned-server -Dwildfly.provisioning.dir=server2 -Djboss-as.home=target/server2 -DpostgresqlUsername="test" -DpostgresqlPassword="test" -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
-          mvn -fae package -Pprovisioned-server -Dwildfly.provisioning.dir=server3 -Djboss-as.home=target/server3 -DpostgresqlUsername="test" -DpostgresqlPassword="test" -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
+          mvn -fae clean package -Pprovisioned-server -Dwildfly.provisioning.dir=server2 -Djboss-as.home=target/server2 -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }} ${{ env.WILDFLY_SNAPSHOT_EXTRA_PACKAGE_ARGUMENTS }}
+          mvn -fae package -Pprovisioned-server -Dwildfly.provisioning.dir=server3 -Djboss-as.home=target/server3 -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }} ${{ env.WILDFLY_SNAPSHOT_EXTRA_PACKAGE_ARGUMENTS }}
           echo "Add quickstartUser to both 'server' builds..."
           ./target/server2/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'guest,user,JBossAdmin,Users'
           ./target/server3/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'guest,user,JBossAdmin,Users'
           echo "Add quickstartAdmin to both 'server' builds..."
           ./target/server2/bin/add-user.sh -a -u 'quickstartAdmin' -p 'adminPwd1!' -g 'guest,user,admin'
-          ./target/server2/bin/add-user.sh -a -u 'quickstartAdmin' -p 'adminPwd1!' -g 'guest,user,admin'
+          ./target/server3/bin/add-user.sh -a -u 'quickstartAdmin' -p 'adminPwd1!' -g 'guest,user,admin'
           echo "Starting provisioned server..."
-          mvn wildfly:start -Djboss-as.home=target/server2 -Dwildfly.port=10090 -Dwildfly.serverConfig=standalone-ha.xml -Dwildfly.javaOpts="-Djboss.socket.binding.port-offset=100 -Djboss.tx.node.id=server2 -Djboss.node.name=server2" -Dstartup-timeout=120
-          mvn wildfly:start -Djboss-as.home=target/server3 -Dwildfly.port=10190 -Dwildfly.serverConfig=standalone-ha.xml -Dwildfly.javaOpts="-Djboss.socket.binding.port-offset=200 -Djboss.tx.node.id=server3 -Djboss.node.name=server3" -Dstartup-timeout=120
+          mvn wildfly:start -Djboss-as.home=target/server2 -Dwildfly.port=10090 -Dwildfly.serverConfig=standalone-ha.xml -Dwildfly.javaOpts="-Djboss.socket.binding.port-offset=100 -Djboss.tx.node.id=server2 -Djboss.node.name=server2" -Dstartup-timeout=120 ${{env.EXTRA_RUN_ARGS}}
+          mvn wildfly:start -Djboss-as.home=target/server3 -Dwildfly.port=10190 -Dwildfly.serverConfig=standalone-ha.xml -Dwildfly.javaOpts="-Djboss.socket.binding.port-offset=200 -Djboss.tx.node.id=server3 -Djboss.node.name=server3" -Dstartup-timeout=120 ${{env.EXTRA_RUN_ARGS}}
           echo "Testing provisioned server..."
           cd ../client
-          mvn -fae verify -Dserver.host=${{ env.SERVER_PROVISIONING_SERVER_HOST }}:8080 -Pintegration-testing
+          mvn -fae verify -Dserver.host=${{ env.SERVER_PROVISIONING_SERVER_HOST }}:8080/client -Pintegration-testing
           cd ../server
-          mvn -fae verify -Dserver.host=${{ env.SERVER_PROVISIONING_SERVER_HOST }}:8180 -Pintegration-testing
-          mvn -fae verify -Dserver.host=${{ env.SERVER_PROVISIONING_SERVER_HOST }}:8280 -Pintegration-testing
+          mvn -fae verify -Dserver.host=${{ env.SERVER_PROVISIONING_SERVER_HOST }}:8180/server -Pintegration-testing
+          mvn -fae verify -Dserver.host=${{ env.SERVER_PROVISIONING_SERVER_HOST }}:8280/server -Pintegration-testing
           echo "Shutting down provisioned server..."
           cd ../client
           mvn wildfly:shutdown
@@ -216,9 +217,9 @@ jobs:
         run: |
           cd quickstarts
           cd ${{ env.QUICKSTART_PATH }}/client
-          mvn -fae clean package -Popenshift -DremoteServerUsername="quickstartUser" -DremoteServerPassword="quickstartPwd1!" -DpostgresqlUsername="test" -DpostgresqlPassword="test" -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
+          mvn -fae clean package -Popenshift -DremoteServerUsername="quickstartUser" -DremoteServerPassword="quickstartPwd1!" -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }} ${{ env.WILDFLY_SNAPSHOT_EXTRA_PACKAGE_ARGUMENTS }}
           cd ../server
-          mvn -fae clean package -Popenshift -DpostgresqlUsername="test" -DpostgresqlPassword="test" -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
+          mvn -fae clean package -Popenshift -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }} ${{ env.WILDFLY_SNAPSHOT_EXTRA_PACKAGE_ARGUMENTS }}
         shell: bash
       - name: Run after script
         env:

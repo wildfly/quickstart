@@ -47,8 +47,7 @@
       <version.server>31.0.0.Beta1</version.server>
       <!-- The versions for BOMs, Packs and Plugins -->
       <version.bom.ee>${version.server}</version.bom.ee>
-      <version.pack.cloud>5.0.0.Final</version.pack.cloud>
-      <version.plugin.wildfly>4.2.1.Final</version.plugin.wildfly>
+      <version.plugin.wildfly>5.0.0.Beta2</version.plugin.wildfly>
   </properties>
 
     <repositories>
@@ -215,16 +214,21 @@
                         <groupId>org.wildfly.plugins</groupId>
                         <artifactId>wildfly-maven-plugin</artifactId>
                         <configuration>
-                            <feature-packs>
-                                <feature-pack>                                    
-                                    <location>org.wildfly:wildfly-galleon-pack:${version.server}</location>
-                                </feature-pack>
-                            </feature-packs>
-                            <layers>
-                                <!-- layers may be used to customize the server to provision -->
-                                <layer>cloud-server</layer>
-                                <layer>ejb</layer>
-                            </layers>
+                            <discover-provisioning-info>
+                                <version>${version.server}</version>
+                                <!--
+                                    The src code contains JNDI lookups resulting in Glow
+                                    failures
+                                -->
+                                <failsOnError>false</failsOnError>
+                                <!-- no need to scan packaged jars -->
+                                <excludedArchives>
+                                    <archive>*</archive>
+                                </excludedArchives>
+                                <add-ons>
+                                    <add-on>wildfly-cli</add-on>
+                                </add-ons>
+                            </discover-provisioning-info>
                             <packaging-scripts>
                                 <packaging-script>
                                     <scripts>
@@ -234,7 +238,10 @@
                                     <resolve-expressions>false</resolve-expressions>
                                 </packaging-script>
                             </packaging-scripts>
-                            <!-- deploys the quickstart on root web context -->
+                            <!--
+                                Rename the output war to ROOT.war before adding it to the server, so that the
+                                application is deployed in the root web context.
+                            -->
                             <name>ROOT.war</name>
                         </configuration>
                         <executions>
