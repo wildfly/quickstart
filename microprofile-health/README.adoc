@@ -5,6 +5,9 @@ include::../shared-doc/attributes.adoc[]
 :level: Beginner
 :technologies: MicroProfile Health
 :management-port-openshift:
+:post-helm-install-actions: ../microprofile-health/expose-management-port.adoc
+:extra-openshift-testing-actions: ../microprofile-health/expose-management-port.adoc
+:extra-openshift-test-arguments: -Dserver.management.host=https://$(oc get route {artifactId}-management --template='{{ .spec.host }}')
 
 [abstract]
 The `microprofile-health` quickstart demonstrates the use of the MicroProfile Health specification in {productName}.

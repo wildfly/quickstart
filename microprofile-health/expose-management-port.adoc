@@ -1,0 +1,16 @@
+This quickstart requires the management port (9990) to be exposed for demo purposes and testing. We do this only to demonstrate the concepts and ease the testing.
+
+IMPORTANT: It is **not** recommended to expose the management port in a production environment!
+
+To expose the management porte to manually exposes our service on port 9990 we deploying the following file:
+[source,options="nowrap",subs="+attributes"]
+----
+oc apply -f charts/management.yml
+----
+Once this is deployed you will be able to access the management port via the created `microprofile-health-management` route.
+
+To get the address of the `microprofile-health-management` route, execute:
+[source,options="nowrap",subs="+attributes"]
+----
+$ oc get route microprofile-health -o jsonpath="{.spec.host}"
+----

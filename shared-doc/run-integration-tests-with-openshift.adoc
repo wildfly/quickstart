@@ -6,33 +6,16 @@ The integration tests included with this quickstart, which verify that the quick
 The integration tests expect a deployed application, so make sure you have deployed the quickstart on OpenShift before you begin.
 ====
 
-// ifdef::management-port-openshift[]
-This quickstart requires exposed management port (9990) for the testing. We do this only to ease the testing.
+ifdef::extra-openshift-testing-actions[]
+include::{extra-openshift-testing-actions}[leveloffset=+1]
+endif::extra-openshift-testing-actions[]
 
-IMPORTANT: It is not recommended to expose the management in production environment.
-
-Create a new route that manually exposes our service on port 9990:
-[source,options="nowrap",subs="+attributes"]
-----
-oc apply -f charts/management.yml
-----
-
-// endif::[]
 
 Run the integration tests using the following command to run the `verify` goal with the `integration-testing` profile activated and the proper URL:
-ifndef::management-port-openshift[]
 [source,options="nowrap",subs="+attributes"]
 ----
-$ mvn verify -Pintegration-testing -Dserver.host=https://$(oc get route {helm-app-name} --template='{{ .spec.host }}')
+$ mvn verify -Pintegration-testing -Dserver.host=https://$(oc get route {helm-app-name} --template='{{ .spec.host }}') {extra-openshift-test-arguments}
 ----
-endif::[]
-ifdef::management-port-openshift[]
-[source,options="nowrap",subs="+attributes"]
-----
-$ mvn clean verify -Pintegration-testing -Dserver.host=https://$(oc get route {artifactId} --template='{{ .spec.host
-}}') -Dserver.management.host=https://$(oc get route {artifactId}-management --template='{{ .spec.host }}')
-----
-endif::[]
 
 [NOTE]
 ====
