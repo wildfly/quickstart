@@ -78,6 +78,13 @@ jobs:
     with:
       QUICKSTART_PATH: jsonp
       PROFILES: 'provisioned-server, openshift'
+  # This does not use any of the profiles at the moment
+  #  jta-crach-rec:
+  #    needs: wildfly-maven
+  #    uses: ./.github/workflows/glow_ci_internal.yml
+  #    with:
+  #      QUICKSTART_PATH: jta-crach-rec
+  #      PROFILES: 'provisioned-server, openshift'
   kitchensink:
     needs: wildfly-maven
     uses: ./.github/workflows/glow_ci_internal.yml
@@ -89,6 +96,12 @@ jobs:
     uses: ./.github/workflows/glow_ci_internal.yml
     with:
       QUICKSTART_PATH: microprofile-config
+      PROFILES: 'bootable-jar, openshift'
+  microprofile-health:
+    needs: wildfly-maven
+    uses: ./.github/workflows/glow_ci_internal.yml
+    with:
+      QUICKSTART_PATH: microprofile-health
       PROFILES: 'bootable-jar, openshift'
   microprofile-jwt:
     needs: wildfly-maven
