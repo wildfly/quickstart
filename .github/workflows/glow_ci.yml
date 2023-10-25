@@ -145,3 +145,9 @@ jobs:
     with:
       QUICKSTART_PATH: thread-racing
       PROFILES: 'provisioned-server, openshift'
+  websocket-hello:
+    needs: wildfly-maven
+    uses: ./.github/workflows/glow_ci_internal.yml
+    with:
+      QUICKSTART_PATH: websocket-hello
+      PROFILES: 'provisioned-server, openshift'
