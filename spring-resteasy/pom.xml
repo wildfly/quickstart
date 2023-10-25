@@ -52,8 +52,7 @@
         <version.server>31.0.0.Beta1</version.server>
         <!-- the versions for BOMs, Packs and Plugins -->
         <version.bom.ee>${version.server}</version.bom.ee>
-        <version.pack.cloud>5.0.0.Final</version.pack.cloud>
-        <version.plugin.wildfly>4.2.1.Final</version.plugin.wildfly>
+        <version.plugin.wildfly>5.0.0.Alpha2</version.plugin.wildfly>
 
         <!-- The versions for other Dependencies and Plugins -->
         <version.spring.framework>6.0.4</version.spring.framework>
@@ -78,6 +77,20 @@
             <id>redhat-ga-maven-repository</id>
             <name>Red Hat GA Maven Repository</name>
             <url>https://maven.repository.redhat.com/ga/</url>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>never</updatePolicy>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>never</updatePolicy>
+            </snapshots>
+            <layout>default</layout>
+        </repository>
+        <repository>
+            <id>spring-repo</id>
+            <name>Spring Repository</name>
+            <url>https://repo.spring.io/milestone</url>
             <releases>
                 <enabled>true</enabled>
                 <updatePolicy>never</updatePolicy>
@@ -212,11 +225,6 @@
                         <groupId>org.wildfly.plugins</groupId>
                         <artifactId>wildfly-maven-plugin</artifactId>
                         <configuration>
-                            <feature-packs>
-                                <feature-pack>
-                                    <location>org.wildfly:wildfly-galleon-pack:${version.server}</location>
-                                </feature-pack>
-                            </feature-packs>
                             <!-- deploys the quickstart on root web context -->
                             <name>ROOT.war</name>
                         </configuration>
@@ -239,15 +247,15 @@
                         <groupId>org.wildfly.plugins</groupId>
                         <artifactId>wildfly-maven-plugin</artifactId>
                         <configuration>
-                            <feature-packs>
-                                <feature-pack>
-                                    <location>org.wildfly:wildfly-galleon-pack:${version.server}</location>
-                                </feature-pack>
-                                <feature-pack>
-                                    <location>org.wildfly.cloud:wildfly-cloud-galleon-pack:${version.pack.cloud}
-                                    </location>
-                                </feature-pack>
-                            </feature-packs>
+                            <discover-provisioning-info>
+                                <version>${version.server}</version>
+                                <context>cloud</context>
+                                <!--
+                                    One of the included files from spring does a JNDI lookup.
+                                    No idea what that is, so skip the error rather than specifying layersForJndi
+                                -->
+                                <failsOnError>false</failsOnError>
+                            </discover-provisioning-info>
                             <filename>ROOT.war</filename>
                         </configuration>
                         <executions>
