@@ -36,7 +36,7 @@ import org.jboss.ejb3.annotation.SecurityDomain;
 @PermitAll
 public class IntermediateEJB implements IntermediateEJBRemote {
 
-    @EJB(lookup="ejb:/ejb-security-context-propagation/SecuredEJB!org.jboss.as.quickstarts.ejb_security_context_propagation.SecuredEJBRemote")
+    @EJB
     private SecuredEJBRemote remote;
 
     @Resource
