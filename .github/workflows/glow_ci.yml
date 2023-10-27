@@ -60,6 +60,13 @@ jobs:
     with:
       QUICKSTART_PATH: ee-security
       PROFILES: 'provisioned-server, openshift'
+  ejb-security-context-propagation:
+    needs: wildfly-maven
+    uses: ./.github/workflows/glow_ci_internal.yml
+    with:
+      QUICKSTART_PATH: ejb-security-context-propagation
+      # Not set up for OpenShift
+      PROFILES: 'provisioned-server'
   helloworld-mdb:
     needs: wildfly-maven
     uses: ./.github/workflows/glow_ci_internal.yml
@@ -132,6 +139,13 @@ jobs:
     uses: ./.github/workflows/glow_ci_internal.yml
     with:
       QUICKSTART_PATH: remote-helloworld-mdb
+      PROFILES: 'provisioned-server, openshift'
+  # TODO spring-resteasy-is not properly incorporated with Galleon yet
+  spring-resteasy:
+    needs: wildfly-maven
+    uses: ./.github/workflows/glow_ci_internal.yml
+    with:
+      QUICKSTART_PATH: spring-resteasy
       PROFILES: 'provisioned-server, openshift'
   temperature-converter:
     needs: wildfly-maven
