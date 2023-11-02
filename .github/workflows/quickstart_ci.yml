@@ -7,6 +7,11 @@ on:
         description: 'the path to the quickstart to test'
         required: true
         type: string
+      DEPLOYMENT_DIR:
+        description: 'the path to the deployment dir, relative to QUICKSTART_PATH'
+        required: false
+        default: '.'
+        type: string
       TEST_PROVISIONED_SERVER:
         description: 'if the quickstart support for provisioned-server profile should be tested'
         required: false
@@ -88,7 +93,7 @@ jobs:
         run: |
           cd quickstarts
           cd ${{ inputs.QUICKSTART_PATH }}
-          mvn -U -B -fae clean install -Drelease
+          mvn -fae clean install -Drelease
         shell: bash
       - name: Build, run & test ${{ inputs.QUICKSTART_PATH }} Quickstart with provisioned-server profile
         if: ${{ inputs.TEST_PROVISIONED_SERVER }}
@@ -96,17 +101,17 @@ jobs:
           cd quickstarts
           cd ${{ inputs.QUICKSTART_PATH }}
           echo "Building provisioned server..."
-          mvn -U -B -fae clean package -Pprovisioned-server
+          mvn -fae clean package -Pprovisioned-server
           echo "Add quickstartUser..."
-          target/server/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'guest,user,JBossAdmin,Users'
+          ${{ inputs.DEPLOYMENT_DIR }}/target/server/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'guest,user,JBossAdmin,Users'
           echo "Add quickstartAdmin..."
-          target/server/bin/add-user.sh -a -u 'quickstartAdmin' -p 'adminPwd1!' -g 'guest,user,admin'
+          ${{ inputs.DEPLOYMENT_DIR }}/target/server/bin/add-user.sh -a -u 'quickstartAdmin' -p 'adminPwd1!' -g 'guest,user,admin'
           echo "Starting provisioned server..."
-          mvn -U -B -fae wildfly:start -DjbossHome=target/server -Dstartup-timeout=120
+          mvn -f ${{ inputs.DEPLOYMENT_DIR }}/pom.xml wildfly:start -DjbossHome=${{ inputs.DEPLOYMENT_DIR }}/target/server -Dstartup-timeout=120
           echo "Testing provisioned server..."
-          mvn -U -B -fae verify -Dserver.host=${{ inputs.SERVER_PROVISIONING_SERVER_HOST }} -Pintegration-testing 
+          mvn -fae verify -Dserver.host=${{ inputs.SERVER_PROVISIONING_SERVER_HOST }} -Pintegration-testing 
           echo "Shutting down provisioned server..."
-          mvn -U -B -fae wildfly:shutdown
+          mvn -f ${{ inputs.DEPLOYMENT_DIR }}/pom.xml wildfly:shutdown
         shell: bash
       - name: Build, run & test ${{ inputs.QUICKSTART_PATH }} Quickstart with bootable-jar profile
         if: ${{ inputs.TEST_BOOTABLE_JAR }}
@@ -114,20 +119,20 @@ jobs:
           cd quickstarts
           cd ${{ inputs.QUICKSTART_PATH }}
           echo "Building bootable jar..."
-          mvn -U -B -fae clean package -Pbootable-jar
+          mvn -fae clean package -Pbootable-jar
           echo "Starting bootable jar..."
-          mvn -U -B -fae wildfly-jar:start -Djar-file-name=target/${{ inputs.QUICKSTART_PATH }}-bootable.jar -Dstartup-timeout=120
+          mvn -f ${{ inputs.DEPLOYMENT_DIR }}/pom.xml wildfly-jar:start -Djar-file-name=${{ inputs.DEPLOYMENT_DIR }}/target/${{ inputs.QUICKSTART_PATH }}-bootable.jar -Dstartup-timeout=120
           echo "Testing bootable jar..."
-          mvn -U -B -fae verify -Dserver.host=${{ inputs.SERVER_PROVISIONING_SERVER_HOST }} -Pintegration-testing
+          mvn -fae verify -Dserver.host=${{ inputs.SERVER_PROVISIONING_SERVER_HOST }} -Pintegration-testing
           echo "Shutting down bootable jar..."          
-          mvn -U -B -fae wildfly-jar:shutdown
+          mvn -f ${{ inputs.DEPLOYMENT_DIR }}/pom.xml wildfly-jar:shutdown
         shell: bash
       - name: Build ${{ inputs.QUICKSTART_PATH }} Quickstart with openshift profile
         if: ${{ inputs.TEST_OPENSHIFT }}
         run: |
           cd quickstarts
           cd ${{ inputs.QUICKSTART_PATH }}
-          mvn -U -B -fae clean package -Popenshift
+          mvn -fae clean package -Popenshift
         shell: bash
       - name: Run after script
         env:
@@ -193,7 +198,7 @@ jobs:
         run: |
           cd quickstarts
           cd ${{ inputs.QUICKSTART_PATH }}
-          mvn -U -B -fae clean package -Drelease -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
+          mvn -fae clean package -Drelease -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
         shell: bash
       - name: Build, run & test ${{ inputs.QUICKSTART_PATH }} Quickstart with provisioned-server profile, and built Server version
         if: ${{ inputs.TEST_PROVISIONED_SERVER }}
@@ -201,17 +206,17 @@ jobs:
           cd quickstarts
           cd ${{ inputs.QUICKSTART_PATH }}
           echo "Building provisioned server..."
-          mvn -U -B -fae clean package -Pprovisioned-server -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
+          mvn -fae clean package -Pprovisioned-server -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
           echo "Add quickstartUser..."
-          target/server/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'guest,user,JBossAdmin,Users'
+          ${{ inputs.DEPLOYMENT_DIR }}/target/server/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'guest,user,JBossAdmin,Users'
           echo "Add quickstartAdmin..."
-          target/server/bin/add-user.sh -a -u 'quickstartAdmin' -p 'adminPwd1!' -g 'guest,user,admin'
+          ${{ inputs.DEPLOYMENT_DIR }}/target/server/bin/add-user.sh -a -u 'quickstartAdmin' -p 'adminPwd1!' -g 'guest,user,admin'
           echo "Starting provisioned server..."
-          mvn -U -B -fae wildfly:start -DjbossHome=target/server -Dstartup-timeout=120
+          mvn -f ${{ inputs.DEPLOYMENT_DIR }}/pom.xml wildfly:start -DjbossHome=${{ inputs.DEPLOYMENT_DIR }}/target/server -Dstartup-timeout=120
           echo "Testing provisioned server..."
-          mvn -U -B -fae verify -Dserver.host=${{ inputs.SERVER_PROVISIONING_SERVER_HOST }} -Pintegration-testing
+          mvn -fae verify -Dserver.host=${{ inputs.SERVER_PROVISIONING_SERVER_HOST }} -Pintegration-testing
           echo "Shutting down provisioned server..."
-          mvn -U -B -fae wildfly:shutdown
+          mvn -f ${{ inputs.DEPLOYMENT_DIR }}/pom.xml wildfly:shutdown
         shell: bash
       - name: Build, run & test ${{ inputs.QUICKSTART_PATH }} Quickstart with bootable-jar profile, and built Server version
         if: ${{ inputs.TEST_BOOTABLE_JAR }}
@@ -219,20 +224,20 @@ jobs:
           cd quickstarts
           cd ${{ inputs.QUICKSTART_PATH }}
           echo "Building bootable jar..."
-          mvn -U -B -fae clean package -Pbootable-jar -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
+          mvn -fae clean package -Pbootable-jar -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
           echo "Starting bootable jar..."
-          mvn -U -B -fae wildfly-jar:start -Djar-file-name=target/${{ inputs.QUICKSTART_PATH }}-bootable.jar -Dstartup-timeout=120
+          mvn -f ${{ inputs.DEPLOYMENT_DIR }}/pom.xml wildfly-jar:start -Djar-file-name=${{ inputs.DEPLOYMENT_DIR }}/target/${{ inputs.QUICKSTART_PATH }}-bootable.jar -Dstartup-timeout=120
           echo "Testing bootable jar..."
-          mvn -U -B -fae verify -Dserver.host=${{ inputs.SERVER_PROVISIONING_SERVER_HOST }} -Pintegration-testing
+          mvn -fae verify -Dserver.host=${{ inputs.SERVER_PROVISIONING_SERVER_HOST }} -Pintegration-testing
           echo "Shutting down bootable jar..."          
-          mvn -U -B -fae wildfly-jar:shutdown
+          mvn -f ${{ inputs.DEPLOYMENT_DIR }}/pom.xml wildfly-jar:shutdown
         shell: bash
       - name: Build ${{ inputs.QUICKSTART_PATH }} Quickstart with openshift profile, and built Server version
         if: ${{ inputs.TEST_OPENSHIFT }}
         run: |
           cd quickstarts
           cd ${{ inputs.QUICKSTART_PATH }}
-          mvn -U -B -fae clean package -Popenshift -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
+          mvn -fae clean package -Popenshift -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
         shell: bash
       - name: Run after script
         env:
