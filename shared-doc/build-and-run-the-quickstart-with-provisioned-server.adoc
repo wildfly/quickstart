@@ -1,33 +1,37 @@
 [[build_and_run_the_quickstart_with_provisioned_server]]
 = Building and running the quickstart application with provisioned {productName} server
 
-Instead of using a standard {productName} server distribution, you can alternatively provision a {productName} server to deploy and run the quickstart, by activating the Maven profile named `provisioned-server` when building the quickstart:
-
 ifndef::mavenServerProvisioningCommand[]
 ifeval::["{archiveType}"=="ear"]
 :mavenServerProvisioningCommand: clean install
 endif::[]
-
 ifeval::["{archiveType}"=="war"]
 :mavenServerProvisioningCommand: clean package
 endif::[]
-
 ifeval::["{archiveType}"=="jar"]
 :mavenServerProvisioningCommand: clean install
 endif::[]
+endif::mavenServerProvisioningCommand[]
+
+ifndef::deploymentTargetDir[]
+ifndef::deploymentDir[:deploymentTargetDir: target]
+ifdef::deploymentDir[:deploymentTargetDir: {deploymentDir}/target]
+endif::deploymentTargetDir[]
+
+Instead of using a standard {productName} server distribution, you can alternatively provision a {productName} server to deploy and run the quickstart, by activating the Maven profile named `provisioned-server` when building the quickstart:
 
 [source,subs="attributes+",options="nowrap"]
 ----
 $ mvn {mavenServerProvisioningCommand} -Pprovisioned-server
 ----
 
-The provisioned {productName} server, with the quickstart deployed, can then be found in the `target/server` directory, and its usage is similar to a standard server distribution, with the simplification that there is never the need to specify the server configuration to be started.
+The provisioned {productName} server, with the quickstart deployed, can then be found in the `{deploymentTargetDir}/server` directory, and its usage is similar to a standard server distribution, with the simplification that there is never the need to specify the server configuration to be started.
 
 ifdef::addQuickstartUser[]
 The quickstart user should be added before running the provisioned server:
 [source,subs="+quotes,attributes+",options="nowrap"]
 ----
-$ target/server/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!' {app-group-command}
+$ {deploymentTargetDir}/server/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!' {app-group-command}
 ----
 [NOTE]
 ====
@@ -39,7 +43,7 @@ ifdef::addQuickstartAdmin[]
 The quickstart admin should be added before running the provisioned server:
 [source,subs="+quotes,attributes+",options="nowrap"]
 ----
-$ target/server/bin/add-user.sh -a -u 'quickstartAdmin' -p 'adminPwd1!' {admin-group-command}
+$ {deploymentTargetDir}/server/bin/add-user.sh -a -u 'quickstartAdmin' -p 'adminPwd1!' {admin-group-command}
 ----
 [NOTE]
 ====
