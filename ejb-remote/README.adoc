@@ -4,15 +4,13 @@ include::../shared-doc/attributes.adoc[]
 :author: Jaikiran Pai, Mike Musgrove
 :level: Intermediate
 :technologies: EJB, JNDI
+:openshift: true
 
 [abstract]
 The `ejb-remote` quickstart uses EJB and JNDI to demonstrate how to access an EJB, deployed to {productName}, from a remote Java client application.
 
 :standalone-server-type: default
-:archiveType: jar
-// Override the archive name
-:archiveDir: {artifactId}/server-side/target
-:archiveName: {artifactId}-server-side
+:archiveType: war
 
 == What is it?
 
@@ -28,63 +26,29 @@ The server component is comprised of a stateful EJB and a stateless EJB. It prov
 +
 The remote client application depends on the remote business interfaces from the server component. This application looks up the stateless and stateful beans via JNDI and invokes a number of methods on them.
 
-Each component is defined in its own standalone Maven module. The quickstart provides a top level Maven module to simplify the packaging of the artifacts.
-
 // System Requirements
 include::../shared-doc/system-requirements.adoc[leveloffset=+1]
 // Use of {jbossHomeName}
 include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
+
+// build and run with standard server distribution
+[[build_and_run_the_quickstart_with_server_dist]]
+== Building and running the quickstart application with a {productName} server distribution
+
 // Add the Authorized Application User
-include::../shared-doc/add-application-user.adoc[leveloffset=+1]
+include::../shared-doc/add-application-user.adoc[leveloffset=+2]
 // Start the {productName} Standalone Server
-include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+2]
 
 // Build and Deploy the Quickstart
-include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+2]
 
-== Build and Run the Client Application
+// Server Distribution Testing
+include::../shared-doc/run-integration-tests-with-server-distribution.adoc[leveloffset=+2]
 
-. Navigate to the client subdirectory.
-+
-[source,options="nowrap"]
-----
-$ cd ../client
-----
+=== Investigate the Console Output
 
-. Compile the client code.
-+
-[source,options="nowrap"]
-----
-$ mvn clean compile
-----
-
-. Execute the client application within Maven.
-+
-[source,options="nowrap"]
-----
-$ mvn exec:exec
-----
-
-[NOTE]
-====
-If you consider running the client execution manually then you can execute
-
-[source,sh,options="nowrap"]
-----
-mvn clean compile assembly:single
-----
-
-and run the client application with
-
-[source,sh,options="nowrap"]
-----
-java -jar target/ejb-remote-client-jar-with-dependencies.jar
-----
-====
-
-== Investigate the Console Output
-
-When the client application runs, it performs the following steps:
+When the client application is run by the EJBRemoteIT tests, it performs the following steps:
 
 . Obtains a stateless session bean instance.
 . Sends method invocations to the stateless bean to add two numbers, and then displays the result.
@@ -129,82 +93,11 @@ Count after decrement is 0
 
 Logging statements have been removed from this output here to make it clearer.
 
-[[build_and_run_the_quickstart_as_an_executable_jar]]
-== Build and Run The Quickstart as an Executable JAR
+// Undeploy the Quickstart
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+2]
 
-The remote client application can also be built as a standalone executable JAR with all of its dependencies.
-
-. Open a terminal and navigate to the ejb-remote/client quickstart directory
-+
-[source,options="nowrap"]
-----
-$ cd client
-----
-
-. Type the following in the command line:
-+
-[source,options="nowrap"]
-----
-$ mvn clean package assembly:single
-----
-
-. You can then run the executable JAR using the `java -jar` command. You will see the same console output as above.
-+
-[source,subs="attributes+",options="nowrap"]
-----
-$ java -jar target/{artifactId}-client-jar-with-dependencies.jar
-----
-
-== Undeploy the Archive
-
-To undeploy the server-side component from the {productName} server:
-
-. Navigate to the server-side subdirectory:
-+
-[source,options="nowrap"]
-----
-$ cd ../server-side
-----
-
-. Type the following command:
-+
-[source,options="nowrap"]
-----
-$ mvn wildfly:undeploy
-----
-
-== Using EJB over HTTP
-
-You can use HTTP as the transport for remote EJB invocations by specifying `-Dhttp=true` on both the Maven and command line based execution. This should not change the output, but it will use EJB over HTTP for the invocations. This means that each EJB request maps to a single HTTP request (actually HTTP/2 by default, if it is enabled on the server).
-
-Before you can use it, you need to set up a user on the server as HTTP does not support transparent authentication. The next section describes how to xref:add_the_application_user[add the authorized application user] so you can test the quickstart using HTTP as the transport.
-
-// Run the Quickstart in Red Hat CodeReady Studio or Eclipse
-include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
-
-// Additional Red Hat CodeReady Studio instructions
-This quickstart consists of multiple projects, so it deploys and runs differently in {JBDSProductName} than the other quickstarts.
-
-. Install the required Maven artifacts and deploy the server side of the quickstart project.
-
-** Right-click on the *{artifactId}-server-side* project and choose *Run As* -> *Maven Install*.
-** Right-click on the *{artifactId}-server-side* project and choose *Run As* -> *Run on Server*.
-. Build and run the client side of the quickstart project.
-
-** Right-click on the *{artifactId}-client* project and choose *Run As* -> *Java Application*.
-** In the *Select Java Application* window, choose *RemoteEJBClient - org.jboss.as.quickstarts.ejb.remote.client* and click *OK*.
-** The client output displays in the *Console* window.
-. To undeploy the project, right-click on the *{artifactId}-server-side* project and choose *Run As* -> *Maven build*. Enter `wildfly:undeploy` for the *Goals* and click *Run*.
-
-//  Debug the Application
-include::../shared-doc/debug-the-application.adoc[leveloffset=+1]
-
-//*************************************************
-// Product Release content only
-//*************************************************
-ifdef::ProductRelease[]
-
-// Quickstart not compatible with OpenShift
-include::../shared-doc/openshift-incompatibility.adoc[leveloffset=+1]
-
+// Build and run sections for other environments/builds
+ifndef::ProductRelease,EAPXPRelease[]
+include::../shared-doc/build-and-run-the-quickstart-with-provisioned-server.adoc[leveloffset=+1]
 endif::[]
+include::../shared-doc/build-and-run-the-quickstart-with-openshift.adoc[leveloffset=+1]
