@@ -20,17 +20,26 @@
  */
 package org.wildfly.quickstarts.todos;
 
+import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.client.Entity;
+import jakarta.ws.rs.client.WebTarget;
+import jakarta.ws.rs.core.GenericType;
+import jakarta.ws.rs.core.MediaType;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import org.junit.Test;
+import java.util.List;
+import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.junit.jupiter.api.Test;
 
 /**
  *
  * @author Emmanuel Hugonnet (c) 2022 Red Hat, Inc.
  */
-public class RemoteToDoIT extends AbstractToDoIT {
+public class RemoteToDoIT {
 
     private static final String REST_TARGET_URL = "http://localhost:8080/todo-backend";
 
@@ -42,7 +51,6 @@ public class RemoteToDoIT extends AbstractToDoIT {
         return host;
     }
 
-    @Override
     URL getRequestUrl() {
         String host = getServerHost();
         if (host == null) {
@@ -57,6 +65,27 @@ public class RemoteToDoIT extends AbstractToDoIT {
 
     @Test
     public void testCRUD() throws Exception {
-        super.internalCRUDTest();
+        WebTarget client = ((ResteasyClientBuilder) ClientBuilder.newBuilder()).setFollowRedirects(true).build().target(getRequestUrl().toURI());
+
+        GenericType<List<ToDo>> todosListType = new GenericType<List<ToDo>>() {
+        };
+        List<ToDo> allTodos = client.request().get(todosListType);
+        assertEquals(0, allTodos.size());
+
+        ToDo toDo = new ToDo();
+        toDo.setTitle("My First ToDo");
+        toDo.setOrder(1);
+        ToDo persistedTodo = client.request().post(Entity.entity(toDo, MediaType.APPLICATION_JSON_TYPE), ToDo.class);
+        assertNotNull(persistedTodo.getId());
+
+        allTodos = client.request().get(todosListType);
+        assertEquals(1, allTodos.size());
+        ToDo fetchedToDo = allTodos.get(0);
+        assertEquals(toDo.getTitle(), fetchedToDo.getTitle());
+
+        client.request().delete();
+
+        allTodos = client.request().get(todosListType);
+        assertEquals(0, allTodos.size());
     }
 }
