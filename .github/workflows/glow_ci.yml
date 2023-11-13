@@ -60,6 +60,12 @@ jobs:
     with:
       QUICKSTART_PATH: ee-security
       PROFILES: 'provisioned-server, openshift'
+  ejb-remote:
+    needs: wildfly-maven
+    uses: ./.github/workflows/glow_ci_internal.yml
+    with:
+      QUICKSTART_PATH: ejb-remote
+      PROFILES: 'provisioned-server, openshift'
   ejb-security-context-propagation:
     needs: wildfly-maven
     uses: ./.github/workflows/glow_ci_internal.yml
