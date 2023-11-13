@@ -85,6 +85,13 @@ jobs:
     with:
       QUICKSTART_PATH: helloworld
       PROFILES: 'provisioned-server, openshift'
+  http-custom-mechanism:
+    needs: wildfly-maven
+    uses: ./.github/workflows/glow_ci_internal.yml
+    with:
+      QUICKSTART_PATH: http-custom-mechanism
+      PROFILES: 'provisioned-server'
+      DEPLOYMENT_DIR: webapp
   jsonp:
     needs: wildfly-maven
     uses: ./.github/workflows/glow_ci_internal.yml
