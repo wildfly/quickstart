@@ -14,25 +14,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.jboss.quickstarts.jaxrsjwt.user;
 
-package org.jboss.quickstarts.jaxrsjwt.model;
+import java.util.Map;
 
-public class Jwt {
-    private String token;
+import jakarta.enterprise.context.ApplicationScoped;
 
-    public Jwt() {
+@ApplicationScoped
+public class UserService {
 
-    }
+    private static final Map<String, User> USER_DB = Map.ofEntries(
+            Map.entry("customer", new User("customer", "customerpw", "customer")),
+            Map.entry("admin", new User("admin", "adminpw", "admin"))
+    );
 
-    public Jwt(String token) {
-        this.token = token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
-
-    public String getToken() {
-        return token;
+    public User authenticate(final String username, final String password) throws Exception {
+        final User user = USER_DB.get(username);
+        if (user != null && user.getPassword().equals(password)) {
+            return user;
+        }
+        throw new Exception("Failed logging in org.jboss.user with name '" + username + "': unknown username or wrong password");
     }
 }

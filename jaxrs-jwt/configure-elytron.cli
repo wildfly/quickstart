@@ -1,26 +1,24 @@
-# Batch script to enable Elytron on the server for the quickstart application
-
-batch
-
 # Add a keystore to elytron for loading signature public key
-/subsystem=elytron/key-store=jwt-key-store:add(type="JKS",relative-to=jboss.server.config.dir,path="jwt.keystore",credential-reference={clear-text="secret"})
+/subsystem=elytron/key-store=jwt-key-store:add(type="PKCS12", relative-to="jboss.server.config.dir", path="jwt.keystore", credential-reference={clear-text="secret"})
+
+#generate a new key pair which will be used later to extract the certificate. This is an RSA key of size 1024. CN must be quickstartUser for the key
+#keytool -genkey -alias alias -keyalg RSA -keysize 2048 -keystore jwt.keystore -storepass secret -keypass secret
+/subsystem=elytron/key-store=jwt-key-store:generate-key-pair(alias=jwt-auth, algorithm=RSA, key-size=2048, validity=365, credential-reference={clear-text=secret}, distinguished-name="CN=localhost")
+#/subsystem=elytron/key-store=jwt-key-store:export-certificate(alias=jwt-auth, path="jwt.keystore", relative-to="jboss.server.config.dir", pem=true)
+/subsystem=elytron/key-store=jwt-key-store:store
 
 # Add a new token security realm to elytron for authentication using JWTs
-/subsystem=elytron/token-realm=jwt-realm:add(jwt={issuer=["quickstart-jwt-issuer"],audience=["jwt-audience"],key-store=jwt-key-store,certificate="alias"},principal-claim="sub")
+/subsystem=elytron/token-realm=jwt-realm:add(jwt={issuer=["quickstart-jwt-issuer"], audience=["jwt-audience"], key-store=jwt-key-store, certificate="jwt-auth"}, principal-claim="sub")
 
 # Add a new security domain, which uses the jwt security realm
-/subsystem=elytron/security-domain=jwt-domain:add(realms=[{realm=jwt-realm,role-decoder=groups-to-roles}],permission-mapper=default-permission-mapper,default-realm=jwt-realm)
+/subsystem=elytron/security-domain=jwt-domain:add(realms=[{realm=jwt-realm, role-decoder=groups-to-roles}], permission-mapper=default-permission-mapper, default-realm=jwt-realm)
 
 # Create http authentication factory that uses BEARER_TOKEN authentication
-/subsystem=elytron/http-authentication-factory=jwt-http-authentication:add(security-domain=jwt-domain,http-server-mechanism-factory=global,mechanism-configurations=[{mechanism-name="BEARER_TOKEN",mechanism-realm-configurations=[{realm-name="jwt-realm"}]}])
+/subsystem=elytron/http-authentication-factory=jwt-http-authentication:add(security-domain=jwt-domain, http-server-mechanism-factory=global, mechanism-configurations=[{mechanism-name="BEARER_TOKEN", mechanism-realm-configurations=[{realm-name="jwt-realm"}]}])
 
+# These last two commands are mutually exclusive attributes and must be grouped in a batch command
+batch
 # Configure Undertow to use our http authentication factory for authentication
 /subsystem=undertow/application-security-domain=other:undefine-attribute(name=security-domain)
 /subsystem=undertow/application-security-domain=other:write-attribute(name=http-authentication-factory, value=jwt-http-authentication)
-
-# Configure the EJB subsystem to use the same security domain as Undertow
-/subsystem=ejb3/application-security-domain=other:write-attribute(name=security-domain,value=jwt-domain)
-
 run-batch
-
-reload
