@@ -1,0 +1,15 @@
+name: WildFly helloworld-jms Quickstart CI
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    paths:
+      - 'helloworld-jms/**'
+      - '.github/workflows/quickstart_ci.yml'
+jobs:
+  call-quickstart_ci:
+    uses: ./.github/workflows/quickstart_ci.yml
+    with:
+      QUICKSTART_PATH: helloworld-jms
+      TEST_PROVISIONED_SERVER: true
+      TEST_OPENSHIFT: false

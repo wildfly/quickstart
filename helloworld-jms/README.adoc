@@ -44,7 +44,7 @@ You configure the JMS `test` queue by running JBoss CLI commands. For your conve
 * xref:back_up_standalone_server_configuration[Back up the {productName} standalone server configuration] as described above.
 * xref:start_the_eap_standalone_server[Start the {productName} server with the standalone full profile] as described above.
 
-. Review the `configure-jms.cli` file in the root of this quickstart directory. This script adds the `test` queue to the `messaging` subsystem in the server configuration file.
+. Review the `configure-jms.cli` file in the `src/main/scripts/` folder of this quickstart directory. This script adds the `test` queue to the `messaging` subsystem in the server configuration file.
 . Open a new terminal, navigate to the root directory of this quickstart, and run the following command, replacing __{jbossHomeName}__ with the path to your server:
 +
 [source,subs="+quotes,attributes+",options="nowrap"]
@@ -75,26 +75,11 @@ The following `testQueue` jms-queue was configured in the default server configu
 ----
 
 
-== Build and Execute the Quickstart
-
-. xref:start_the_eap_standalone_server[Start the {productName} server with the standalone full profile] as described above.
-
-. Open a terminal and navigate to the root of the helloworld-jms quickstart directory:
-+
-[source,options="nowrap"]
-----
-$ cd PATH_TO_QUICKSTARTS/helloworld-jms
-----
-
-. Type the following command to compile and execute the quickstart:
-+
-[source,options="nowrap"]
-----
-$ mvn clean compile exec:java
-----
+// Server Distribution Testing
+include::../shared-doc/run-integration-tests-with-server-distribution.adoc[leveloffset=+1]
 
 
-== Investigate the Console Output
+=== Investigate the Console Output
 
 If the Maven command is successful, with the default configuration you will see output similar to this:
 
@@ -117,9 +102,9 @@ timestamp org.jboss.as.quickstarts.jms.HelloWorldJMSClient main
 INFO: Received message with content Hello, World!
 ----
 
-== Optional Properties
+=== Optional Properties
 
-The example provides for a certain amount of customization for the `mvn:exec` plug-in using the system properties.
+The example provides for a certain amount of customization for the integration test using the system properties.
 
 [cols="20%,30%,50%",options="headers"]
 |===
@@ -167,32 +152,4 @@ This script removes the `test` queue from the `messaging` subsystem in the serve
 The batch executed successfully
 ----
 
-// Restore the {productName} Standalone Server Configuration Manually
-include::../shared-doc/restore-standalone-server-configuration-manual.adoc[leveloffset=+2]
-// Run the Quickstart in Red Hat CodeReady Studio or Eclipse
-include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
-
-// Additional Red Hat CodeReady Studio instructions
-This quickstart consists of multiple projects, so it deploys and runs differently in {JBDSProductName} than the other quickstarts.
-
-. Make sure you xref:add_the_application_user[add the authorized application user] as described above.
-. Configure and start the {productName} server in {JBDSProductName}:
-** Define a server runtime environment that uses the `standalone-full.xml` configuration file.
-** Start the server defined in the previous step.
-. Outside of {JBDSProductName}, configure the JMS `test` queue by running the JBoss CLI commands as described above under xref:configure_the_server[Configure the Server].
-. In {JBDSProductName}, right-click on the *{artifactId}* project and choose *Run As* -> *Java Application*. In the *Select Java Application* window, choose *HellowWorldJMSClient - org.jboss.as.quickstarts.jms* and click *OK*. The client output displays in the *Console* window.
-The output messages appear in the *Console* window.
-. Make sure you xref:restore_the_server_configuration[restore the {productName} server configuration] when you have completed testing this quickstart.
-
-// Debug the Application
-include::../shared-doc/debug-the-application.adoc[leveloffset=+1]
-
-//*************************************************
-// Product Release content only
-//*************************************************
-ifdef::ProductRelease[]
-
-// Quickstart not compatible with OpenShift
 include::../shared-doc/openshift-incompatibility.adoc[leveloffset=+1]
-
-endif::[]
