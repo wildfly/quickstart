@@ -125,7 +125,7 @@ After stopping the server, open the `__{jbossHomeName}__/standalone/configuratio
 [source,xml,subs="attributes+",options="nowrap"]
 ----
 <subsystem xmlns="{IiopOpenJdkSubsystemNamespace}">
-    <initializers transactions="full" security="identity"/>
+    <initializers security="elytron" transactions="full" />
 </subsystem>
 ----
 
@@ -140,6 +140,8 @@ After stopping the server, open the `__{jbossHomeName}__/standalone/configuratio
         </process-id>
     </core-environment>
     <recovery-environment socket-binding="txn-recovery-environment" status-socket-binding="txn-status-manager"/>
+    <coordinator-environment statistics-enabled="${wildfly.transactions.statistics-enabled:${wildfly.statistics-enabled:false}}"/>
+    <object-store path="tx-object-store" relative-to="jboss.server.data.dir"/>
     <jts/>
 </subsystem>
 ----
@@ -156,6 +158,63 @@ Application server 1 must be now configured to use the PostgreSQL database creat
 . Follow the instructions to link:{configurePostgresAddModuleDocUrl}[Add the PostgreSQL Module to the {productName} Server] to the server 1 install only.
 . Follow the instructions to link:{configurePostgresDriverDocUrl}[Configure the PostgreSQL Driver in the {ProductName} Server] for the server 1 configuration. Make sure you pass the `-Djboss.tx.node.id=UNIQUE_NODE_ID_1` on the command line when you start the first server to configure PostgreSQL.
 
+If there are issues with the scripts or you just want to configure the servers manually then the following will work:
+
+Start server 1:
+```
+export WILDFLY_HOME_1=...
+$WILDFLY_HOME_1/bin/standalone.sh -c standalone-full.xml -Djboss.tx.node.id=UNIQUE_NODE_ID_1 &
+# enable JTS mode
+cd <quickstarts repo>/jts
+$WILDFLY_HOME_1/bin/jboss-cli.sh --connect --file=configure-jts-transactions.cli
+```
+
+Stop server 1 and create second server by copying the installation directory:
+```
+cp -r $WILDFLY_HOME_1 ${WILDFLY_HOME_1}-2
+export WILDFLY_HOME_2=${WILDFLY_HOME_1}-2
+```
+
+Configure postgresql on server 1 only as a module:
+```
+mkdir -p $WILDFLY_HOME_1/modules/org/postgresql/main
+# download postgresql-42.6.0.jar or later and install it into the server:
+cp <downloads>/postgresql-42.6.0.jar $WILDFLY_HOME_1/modules/org/postgresql/main
+```
+Create a module.xml for postgresql with the following contents:
+```
+$ cat $WILDFLY_HOME_1/modules/org/postgresql/main/module.xml
+<?xml version="1.0" encoding="UTF-8"?>
+<module xmlns="urn:jboss:module:1.1" name="org.postgresql">
+    <resources>
+        <!--resource-root path="postgresql-42.1.4.jre7.jar"/-->
+        <resource-root path="postgresql-42.6.0.jar"/>
+    </resources>
+    <dependencies>
+        <module name="javax.api"/>
+        <module name="javax.transaction.api"/>
+    </dependencies>
+</module>
+```
+
+Add the datasource to $WILDFLY_HOME_1/standalone/configuration/standalone-full.xml
+When you have done this the final changes to standalone-full.xml should be:
+
+```
+$ diff $WILDFLY_HOME_1/standalone/configuration/standalone-full.xml $WILDFLY_HOME_2/standalone/configuration/standalone-full.xml
+137,142d136
+<                 <datasource jndi-name="java:jboss/datasources/PostgresDS" pool-name="PostgresDS" enabled="true" use-java-context="true" statistics-enabled="${wildfly.datasources.statistics-enabled:${wildfly.statistics-enabled:false}}">
+<                     <connection-url>jdbc:postgresql://localhost:5432/postgres</connection-url>
+<                     <driver>postgresql</driver>
+<                     <security user-name="sa" password="sa"/>
+<                 </datasource>
+<
+147,149d140
+<                     <driver name="postgresql" module="org.postgresql">
+<                         <xa-datasource-class>org.postgresql.xa.PGXADataSource</xa-datasource-class>
+<                     </driver>
+
+```
 [[start_the_servers]]
 == Start the Servers
 
