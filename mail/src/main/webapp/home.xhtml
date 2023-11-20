@@ -15,40 +15,120 @@
     limitations under the License.
 -->
 <!DOCTYPE html>
-<html xmlns:h="jakarta.faces.html">
+<html xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core">
 
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<title>mail</title>
-</head>
+<h:head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
+    <title>mail</title>
+    <h:outputStylesheet library="css" name="main.css"/>
+</h:head>
 
-<body>
-   <div id="content">
-      <h1>Send an email</h1>
-      <h:form id="email">
-         <!-- Instructions for the user -->
-         <div>
-            Send someone an email
-         </div>
+<h:body>
+    <h1>WildFly Email Quickstart</h1>
 
-         <!-- Input box for the email parameters, plus a button to submit, and reset -->
-         <!-- These are bound using EL to our CDI beans -->
-         <div>
-            To:
-            <h:inputText id="to" value="#{email.to}" required="true" size="20"/>
-            From:
-            <h:inputText id="from" value="#{email.from}" required="true" size="20"/>
-            Subject:
-            <h:inputText id="subject" value="#{email.subject}" required="true" size="20"/>
-            Body:
-            <h:inputTextarea id="body" value="#{email.body}" required="true" size="200"/>
-            <h:commandButton id="sendButton" value="Send" action="#{email.send}"/>
-         </div>
-         <div>
-            <h:commandButton id="restartButton" value="Reset" type="reset"/>
-         </div>
-      </h:form>
-   </div>
-   <br style="clear: both" />
-</body>
+    <h3>
+        Send someone an email using SMTP:
+    </h3>
+
+    <!-- Send emails via SMTP form -->
+    <h:form id="smtp" styleClass="form" prependId="false">
+        <!-- Input box for the email parameters, plus a button to submit, and reset -->
+        <!-- These are bound using EL to our CDI beans -->
+        <div class="form-group">
+            <h:outputLabel for="smtp_from" value="From:"/>
+            <h:inputText id="smtp_from" value="#{email.from}" required="true"/>
+            <h:message id="m_smtp_from" for="smtp_from" styleClass="error"/>
+        </div>
+
+        <div class="form-group">
+            <h:outputLabel for="smtp_to" value="To:"/>
+            <h:inputText id="smtp_to" value="#{email.to}" required="true"/>
+            <h:message id="m_smtp_to" for="smtp_to" styleClass="error"/>
+        </div>
+
+        <div class="form-group">
+            <h:outputLabel for="smtp_subject" value="Subject:"/>
+            <h:inputText id="smtp_subject" value="#{email.subject}" required="true"/>
+            <h:message id="m_smtp_subject" for="smtp_subject" styleClass="error"/>
+        </div>
+
+        <div class="form-group">
+            <h:outputLabel for="smtp_body" value="Body:"/>
+            <h:inputTextarea id="smtp_body" value="#{email.body}" required="true"/>
+            <h:message id="m_smtp_body" for="smtp_body" styleClass="error"/>
+        </div>
+
+        <div class="form-group">
+            <h:commandButton id="smtp_send_btn" value="Send" action="#{email.send}">
+                <f:ajax execute="@form" render="@form"/>
+            </h:commandButton>
+            <h:commandButton id="smtp_restart_btn" value="Reset" immediate="true" action="#{email.resetSmtp}">
+                <f:ajax execute="@this" render="@form"/>
+            </h:commandButton>
+        </div>
+
+        <h:messages id="smtp_messages" globalOnly="true" styleClass="error"/>
+    </h:form>
+
+
+    <h3>
+        Retrieve emails using POP3:
+    </h3>
+
+    <!-- Retrieve emails via POP3 form -->
+    <h:form id="pop3" styleClass="form" prependId="false">
+        <div class="form-group">
+            <h:outputLabel for="pop3_user" value="User:"/>
+            <h:inputText id="pop3_user" required="true" value="#{email.pop3User}"/>
+            <h:message id="m_pop3_user" for="pop3_user" styleClass="error"/>
+        </div>
+
+        <div class="form-group">
+            <h:outputLabel for="pop3_password" value="Password:"/>
+            <h:inputText id="pop3_password" required="true" value="#{email.pop3Password}"/>
+            <h:message id="m_pop3_password" for="pop3_password" styleClass="error"/>
+        </div>
+
+        <div class="form-group">
+            <h:outputLabel for="pop3_emails" value="Emails:"/>
+            <h:inputTextarea id="pop3_emails" value="#{email.pop3Emails}" readonly="true" disabled="true"/>
+        </div>
+
+        <div class="form-group">
+            <h:commandButton id="pop3_get_emails_btn" value="Get Emails" action="#{email.retrievePop3}">
+                <f:ajax execute="@form" render="@form"/>
+            </h:commandButton>
+            <h:commandButton id="pop3_reset_btn" value="Reset" immediate="true" action="#{email.resetPop3}">
+                <f:ajax execute="@this" render="@form"/>
+            </h:commandButton>
+        </div>
+
+        <h:messages id="pop3_messages"  globalOnly="true" styleClass="error" />
+    </h:form>
+
+
+    <h3>
+        Retrieve emails for the user01@james.local account using IMAP:
+    </h3>
+
+    <!-- Retrieve emails via IMAP form -->
+    <h:form id="imap" styleClass="form" prependId="false">
+        <div class="form-group">
+            <h:outputLabel for="imap_emails" value="Emails:"/>
+            <h:inputTextarea id="imap_emails" value="#{email.imapEmails}" readonly="true" disabled="true"/>
+        </div>
+
+        <div class="form-group">
+            <h:commandButton id="imap_get_emails_btn" value="Get Emails" action="#{email.retrieveImap}">
+                <f:ajax execute="@form" render="@form"/>
+            </h:commandButton>
+            <h:commandButton id="imap_reset_btn" value="Reset" immediate="true" action="#{email.resetImap}">
+                <f:ajax execute="@this" render="@form"/>
+            </h:commandButton>
+        </div>
+
+        <h:messages id="imap_messages" globalOnly="true" styleClass="error"/>
+    </h:form>
+</h:body>
 </html>

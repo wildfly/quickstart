@@ -44,8 +44,15 @@
     </licenses>
 
     <properties>
-        <!-- The versions for BOMs, Dependencies and Plugins -->
-        <version.server.bom>30.0.0.Final</version.server.bom>
+        <!-- the version for the Server -->
+        <version.server>30.0.0.Final</version.server>
+        <!-- The versions for BOMs, Packs and Plugins -->
+        <version.bom.ee>${version.server}</version.bom.ee>
+        <version.pack.cloud>5.0.0.Final</version.pack.cloud>
+        <version.plugin.wildfly>4.2.0.Final</version.plugin.wildfly>
+
+        <version.org.seleniumhq.selenium>4.15.0</version.org.seleniumhq.selenium>
+        <version.webdrivermanager>5.6.2</version.webdrivermanager>
     </properties>
 
     <repositories>
@@ -109,7 +116,7 @@
             <dependency>
                 <groupId>org.wildfly.bom</groupId>
                 <artifactId>wildfly-ee-with-tools</artifactId>
-                <version>${version.server.bom}</version>
+                <version>${version.bom.ee}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -117,7 +124,6 @@
     </dependencyManagement>
 
     <dependencies>
-
         <dependency>
             <groupId>jakarta.mail</groupId>
             <artifactId>jakarta.mail-api</artifactId>
@@ -139,5 +145,121 @@
             <artifactId>jakarta.faces-api</artifactId>
             <scope>provided</scope>
         </dependency>
+
+        <!-- Tests -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>${version.org.seleniumhq.selenium}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>io.github.bonigarcia</groupId>
+            <artifactId>webdrivermanager</artifactId>
+            <version>${version.webdrivermanager}</version>
+        </dependency>
     </dependencies>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.wildfly.plugins</groupId>
+                    <artifactId>wildfly-maven-plugin</artifactId>
+                    <version>${version.plugin.wildfly}</version>
+                    <configuration>
+                        <debug>true</debug>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>11</source>
+                    <target>11</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>provisioned-server</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.wildfly.plugins</groupId>
+                        <artifactId>wildfly-maven-plugin</artifactId>
+                        <configuration>
+                            <feature-packs>
+                                <feature-pack>
+                                    <location>org.wildfly:wildfly-galleon-pack:${version.server}</location>
+                                </feature-pack>
+                            </feature-packs>
+                            <layers>
+                                <!-- layers may be used to customize the server to provision-->
+                                <layer>core-tools</layer>
+                                <layer>core-server</layer>
+                                <layer>mail</layer>
+                                <layer>jsf</layer>
+                            </layers>
+                            <!-- deploys the quickstart on root web context -->
+                            <name>ROOT.war</name>
+                            <packaging-scripts>
+                                <packaging-script>
+                                    <scripts>
+                                        <script>${basedir}/configure-mail-session.cli</script>
+                                    </scripts>
+                                    <!-- Expressions resolved during server execution -->
+                                    <resolve-expressions>false</resolve-expressions>
+                                </packaging-script>
+                            </packaging-scripts>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>package</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>integration-testing</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <configuration>
+                            <includes>
+                                <include>**/*IT</include>
+                            </includes>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>integration-test</goal>
+                                    <goal>verify</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+    </profiles>
 </project>
