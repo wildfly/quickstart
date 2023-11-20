@@ -19,8 +19,11 @@ package org.jboss.quickstarts.jaxrsjwt.rs;
 import java.security.Principal;
 import java.text.ParseException;
 import java.util.logging.Logger;
-import jakarta.ejb.EJB;
+
+import com.nimbusds.jwt.JWT;
+import com.nimbusds.jwt.JWTParser;
 import jakarta.inject.Inject;
+import jakarta.json.Json;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.FormParam;
 import jakarta.ws.rs.GET;
@@ -28,32 +31,27 @@ import jakarta.ws.rs.HeaderParam;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.SecurityContext;
-
-import com.nimbusds.jwt.JWT;
-import com.nimbusds.jwt.JWTParser;
 import org.jboss.quickstarts.jaxrsjwt.auth.JwtManager;
-import org.jboss.quickstarts.jaxrsjwt.model.Jwt;
 import org.jboss.quickstarts.jaxrsjwt.user.User;
 import org.jboss.quickstarts.jaxrsjwt.user.UserService;
 
 @Path("/")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-public class TestRest {
+public class AuthResource {
 
-    private static final Logger log = Logger.getLogger(TestRest.class.getName());
+    private static final Logger log = Logger.getLogger(AuthResource.class.getName());
 
     @Inject
-    JwtManager jwtManager;
+    private JwtManager jwtManager;
 
-    @EJB
-    UserService service;
+    @Inject
+    private UserService service;
 
-    @Context
+    @Inject
     private SecurityContext securityContext;
 
     //Security constraints are defined in web.xml
@@ -82,13 +80,14 @@ public class TestRest {
         if (auth != null && auth.startsWith("Bearer ")) {
             try {
                 JWT j = JWTParser.parse(auth.substring(7));
-                return Response.ok(j.getJWTClaimsSet().getClaims()).build(); //Note: nimbusds converts token expiration time to milliseconds
+                return Response.ok(j.getJWTClaimsSet().getClaims())
+                        .build(); //Note: nimbusds converts token expiration time to milliseconds
             } catch (ParseException e) {
                 log.warning(e.toString());
                 return Response.status(400).build();
             }
         }
-        return Response.status(204).build(); //no jwt means no claims to extract
+        return Response.noContent().build(); //no jwt means no claims to extract
     }
 
     @POST
@@ -103,7 +102,11 @@ public class TestRest {
                     log.info("Generating JWT for org.jboss.user " + user.getName());
                 }
                 String token = jwtManager.createJwt(user.getName(), user.getRoles());
-                return Response.ok(new Jwt(token)).build();
+                return Response.ok(
+                        Json.createObjectBuilder()
+                                .add("token", token)
+                                .build()
+                ).build();
             }
         } catch (Exception e) {
             log.info(e.getMessage());

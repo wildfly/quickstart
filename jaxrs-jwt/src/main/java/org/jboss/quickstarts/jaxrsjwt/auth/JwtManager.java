@@ -16,16 +16,13 @@
  */
 package org.jboss.quickstarts.jaxrsjwt.auth;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.security.Key;
 import java.security.KeyStore;
 import java.security.PrivateKey;
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.json.Json;
-import jakarta.json.JsonArrayBuilder;
-import jakarta.json.JsonObjectBuilder;
+import java.util.List;
 
 import com.nimbusds.jose.JOSEObjectType;
 import com.nimbusds.jose.JWSAlgorithm;
@@ -34,55 +31,49 @@ import com.nimbusds.jose.JWSObject;
 import com.nimbusds.jose.JWSSigner;
 import com.nimbusds.jose.Payload;
 import com.nimbusds.jose.crypto.RSASSASigner;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.json.Json;
+import jakarta.json.JsonArrayBuilder;
+import jakarta.json.JsonObjectBuilder;
 
 @ApplicationScoped
 public class JwtManager {
+
     static {
-        FileInputStream fis = null;
+        final String configDir = System.getProperty("jboss.server.config.dir");
+        final Path keyStore = Path.of(configDir, "jwt.keystore");
         char[] password = "secret".toCharArray();
-        String alias = "alias";
+        String alias = "jwt-auth";
         PrivateKey pk = null;
-        try {
-            KeyStore ks = KeyStore.getInstance("JKS");
-            String configDir = System.getProperty("jboss.server.config.dir");
-            String keystorePath = configDir + File.separator + "jwt.keystore";
-            fis = new FileInputStream(keystorePath);
-            ks.load(fis, password);
+        try (InputStream in = Files.newInputStream(keyStore)) {
+            final KeyStore ks = KeyStore.getInstance("PKCS12");
+            ks.load(in, password);
             Key key = ks.getKey(alias, password);
             if (key instanceof PrivateKey) {
                 pk = (PrivateKey) key;
             }
         } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (fis != null) {
-                try {
-                    fis.close();
-                } catch (IOException e) {}
-            }
+            throw new ExceptionInInitializerError(e);
         }
         privateKey = pk;
     }
 
     private static final PrivateKey privateKey;
     private static final int TOKEN_VALIDITY = 14400;
-    private static final String CLAIM_ROLES = "groups";
     private static final String ISSUER = "quickstart-jwt-issuer";
     private static final String AUDIENCE = "jwt-audience";
 
     public String createJwt(final String subject, final String[] roles) throws Exception {
-        JWSSigner signer = new RSASSASigner(privateKey);
-        JsonArrayBuilder rolesBuilder = Json.createArrayBuilder();
-        for (String role : roles) { rolesBuilder.add(role); }
-
-        JsonObjectBuilder claimsBuilder = Json.createObjectBuilder()
+        final JWSSigner signer = new RSASSASigner(privateKey);
+        final JsonArrayBuilder rolesBuilder = Json.createArrayBuilder(List.of(roles));
+        final JsonObjectBuilder claimsBuilder = Json.createObjectBuilder()
                 .add("sub", subject)
                 .add("iss", ISSUER)
                 .add("aud", AUDIENCE)
-                .add(CLAIM_ROLES, rolesBuilder.build())
+                .add("groups", rolesBuilder.build())
                 .add("exp", ((System.currentTimeMillis() / 1000) + TOKEN_VALIDITY));
 
-        JWSObject jwsObject = new JWSObject(new JWSHeader.Builder(JWSAlgorithm.RS256)
+        final JWSObject jwsObject = new JWSObject(new JWSHeader.Builder(JWSAlgorithm.RS256)
                 .type(new JOSEObjectType("jwt")).build(),
                 new Payload(claimsBuilder.build().toString()));
 

@@ -15,14 +15,16 @@
 	See the License for the specific language governing permissions and
 	limitations under the License.
 -->
-<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" version="3.0">
+         xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
+         version="6.0">
 
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>Admin page</web-resource-name>
             <url-pattern>/rest/protected</url-pattern>
+            <url-pattern>/rest/claims</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>admin</role-name>
@@ -32,6 +34,7 @@
         <web-resource-collection>
             <web-resource-name>Customer resource</web-resource-name>
             <url-pattern>/rest/customer</url-pattern>
+            <url-pattern>/rest/claims</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>customer</role-name>
@@ -49,13 +52,4 @@
         <auth-method>BEARER_TOKEN</auth-method>
         <realm-name>jwt-realm</realm-name>
     </login-config>
-
-    <!-- One of the ways of activating REST Servises is adding these lines.
-        The server is responsible for adding the corresponding servlet automatically.
-        The class ................... class has the
-        annotation @Path("/") to receive the REST invocation -->
-    <servlet-mapping>
-        <servlet-name>jakarta.ws.rs.core.Application</servlet-name>
-        <url-pattern>/rest/*</url-pattern>
-    </servlet-mapping>
 </web-app>

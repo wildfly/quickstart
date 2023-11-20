@@ -1,0 +1,17 @@
+name: WildFly jaxrs-jwt Quickstart CI
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    branches-ignore:
+      - 'dependabot/**'
+    paths:
+      - 'jaxrs-jwt/**'
+      - '.github/workflows/quickstart_ci.yml'
+
+jobs:
+  call-quickstart_ci:
+    uses: ./.github/workflows/quickstart_ci.yml
+    with:
+      QUICKSTART_PATH: jaxrs-jwt
+      TEST_PROVISIONED_SERVER: true
