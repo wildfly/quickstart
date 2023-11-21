@@ -1,0 +1,29 @@
+# Overwrites values of the default values.yaml file,
+# which is located in the folder where the PostgresSQL
+# helm chart [lives]
+# (https://github.com/bitnami/charts/tree/main/bitnami/postgresql)
+#
+# Please, refer to [official Helm's documentation]
+# (https://helm.sh/docs/chart_template_guide/values_files/) for
+# further information about values overwriting
+
+global:
+  postgresql:
+    auth:
+      postgresPassword: "test"
+      username: "test"
+      password: "test"
+      database: "test"
+
+primary:
+  extendedConfiguration: |-
+    max_prepared_transactions = 42
+  podSecurityContext:
+    enabled: false
+    fsGroup: ""
+  containerSecurityContext:
+    enabled: false
+    runAsUser: "auto"
+  persistence:
+    enabled: true
+    size: 2Gi

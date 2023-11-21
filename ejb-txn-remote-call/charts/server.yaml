@@ -1,0 +1,16 @@
+build:
+  uri: https://github.com/wildfly/quickstart.git
+  ref: main
+  contextDir: ejb-txn-remote-call/server
+  env:
+    - name: MAVEN_ARGS_APPEND
+      value: "-DpostgresqlUsername=test -DpostgresqlPassword=test"
+deploy:
+  enabled: false
+
+# TODO try to use an env var to load the postgresql password from the secret defined by the postgresql helm chart
+#     - name: POSTGRESQL_PASSWORD
+#      valueFrom:
+#        secretKeyRef:
+#          name: postgresql
+#          key: password

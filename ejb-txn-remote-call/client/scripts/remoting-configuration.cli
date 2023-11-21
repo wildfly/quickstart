@@ -5,17 +5,15 @@ set remoteServerPort=${remoteServerPort}
 set remoteServerUsername=${remoteServerUsername}
 set remoteServerPassword=${remoteServerPassword}
 set serverConfig=${serverConfig}
-set clientMappingsSocketBinding=${clientMappingsSocketBinding}
 
 # running embeded server with server config
 embed-server --server-config=$serverConfig
 
 /system-property=remote.server.host:add(value=$remoteServerHost)
 /system-property=remote.server.port:add(value=$remoteServerPort)
-/system-property=remote.server.username:add(value=quickstartUser)
-/system-property=remote.server.password:add(value=quickstartPwd1!)
+/system-property=remote.server.username:add(value=$remoteServerUsername)
+/system-property=remote.server.password:add(value=$remoteServerPassword)
 /system-property=remote.deployment.name:add(value=$remoteDeploymentName)
-/system-property=client.mappings.socket.binding:add(value=$clientMappingsSocketBinding)
 
 echo "System properties defined"
 
@@ -46,12 +44,6 @@ echo "Transaction recovery listener enabled"
 # to get detailed insight on what happening during transaction processing switch on the TRACE logging for Narayana
 # /subsystem=logging/logger=com.arjuna:write-attribute(name=level,value=TRACE)
 
-# needed for ejb client works fine with multiple servers in ha cluster
-if (result == undefined) of /socket-binding-group=standard-sockets/socket-binding=http:read-attribute(name=client-mappings)
-  echo "Configuring server socket binding with client-mappings..."
-  /socket-binding-group=standard-sockets/socket-binding=http:list-add(name=client-mappings, value={destination-address="${client.mappings.socket.binding}"})
-end-if
-
-echo "remote-configuration.cli script finished"
+echo "remoting-configuration.cli script finished"
 
 quit

@@ -1,0 +1,237 @@
+name: WildFly ejb-txn-remote-call Quickstart CI
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    paths:
+      - 'ejb-txn-remote-call/**'
+      - .github/workflows/quickstart_ci.yml
+
+# Only run the latest job
+concurrency:
+  group: '${{ github.workflow }} @ ${{ github.ref || github.run_id }}'
+  cancel-in-progress: true
+
+env:
+  QUICKSTART_PATH: ejb-txn-remote-call
+  TEST_PROVISIONED_SERVER: true
+  TEST_BOOTABLE_JAR: false
+  TEST_OPENSHIFT: true
+  MATRIX_JDK: '"11", "17"'
+  MATRIX_OS: '"ubuntu-latest"'
+  SERVER_PROVISIONING_SERVER_HOST: 'http://localhost'
+
+jobs:
+  Matrix-Setup:
+    runs-on: ubuntu-latest
+    outputs:
+      os: ${{ steps.setup-matrix-os.outputs.os }}
+      jdk: ${{ steps.setup-matrix-jdk.outputs.jdk }}
+    steps:
+      - id: setup-matrix-jdk
+        run: echo 'jdk=[${{ env.MATRIX_JDK }}]' >> $GITHUB_OUTPUT
+      - id: setup-matrix-os
+        run: echo 'os=[${{ env.MATRIX_OS }}]' >> $GITHUB_OUTPUT
+
+  Test-build-default-matrix:
+    name: BUILD DEFAULT - JDK${{ matrix.jdk }} - ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    needs: Matrix-Setup
+    strategy:
+      fail-fast: false
+      matrix:
+        jdk: ${{ fromJSON(needs.Matrix-Setup.outputs.jdk) }}
+        os: ${{ fromJSON(needs.Matrix-Setup.outputs.os) }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: quickstarts
+      - name: Set up JDK ${{ matrix.jdk }}
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ matrix.jdk }}
+          distribution: 'temurin'
+          cache: 'maven'
+      - name: Run before script
+        env:
+          FILE: "./quickstarts/.github/workflows/quickstart_${{ env.QUICKSTART_PATH }}_ci_before.sh"
+        run: |
+          if test -f $FILE;
+            then
+              chmod +x $FILE
+              bash $FILE
+          fi
+        shell: bash
+      - name: Build ${{ env.QUICKSTART_PATH }} Quickstart for Release
+        run: |
+          cd quickstarts
+          cd ${{ env.QUICKSTART_PATH }}
+          mvn -fae clean install -Drelease
+        shell: bash
+      - name: Build, run & test ${{ env.QUICKSTART_PATH }} Quickstart with provisioned-server profile
+        if: ${{ env.TEST_PROVISIONED_SERVER }}
+        run: |
+          cd quickstarts
+          cd ${{ env.QUICKSTART_PATH }}/client
+          echo "Building 'client' provisioned server..."
+          mvn -fae clean package -Pprovisioned-server -DremoteServerUsername="quickstartUser" -DremoteServerPassword="quickstartPwd1!" -DpostgresqlUsername="test" -DpostgresqlPassword="test"
+          mvn wildfly:start -Djboss-as.home=target/server -Dwildfly.javaOpts="-Djboss.tx.node.id=server1 -Djboss.node.name=server1" -Dstartup-timeout=120
+          cd ../server
+          echo "Building 'server' provisioned server..."
+          mvn -fae clean package -Pprovisioned-server -Dwildfly.provisioning.dir=server2 -Djboss-as.home=target/server2 -DpostgresqlUsername="test" -DpostgresqlPassword="test"
+          mvn -fae package -Pprovisioned-server -Dwildfly.provisioning.dir=server3 -Djboss-as.home=target/server3 -DpostgresqlUsername="test" -DpostgresqlPassword="test"
+          echo "Add quickstartUser to both 'server' builds..."
+          ./target/server2/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'guest,user,JBossAdmin,Users'
+          ./target/server3/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'guest,user,JBossAdmin,Users'
+          echo "Add quickstartAdmin to both 'server' builds..."
+          ./target/server2/bin/add-user.sh -a -u 'quickstartAdmin' -p 'adminPwd1!' -g 'guest,user,admin'
+          ./target/server2/bin/add-user.sh -a -u 'quickstartAdmin' -p 'adminPwd1!' -g 'guest,user,admin'
+          echo "Starting provisioned server..."
+          mvn wildfly:start -Djboss-as.home=target/server2 -Dwildfly.port=10090 -Dwildfly.serverConfig=standalone-ha.xml -Dwildfly.javaOpts="-Djboss.socket.binding.port-offset=100 -Djboss.tx.node.id=server2 -Djboss.node.name=server2" -Dstartup-timeout=120
+          mvn wildfly:start -Djboss-as.home=target/server3 -Dwildfly.port=10190 -Dwildfly.serverConfig=standalone-ha.xml -Dwildfly.javaOpts="-Djboss.socket.binding.port-offset=200 -Djboss.tx.node.id=server3 -Djboss.node.name=server3" -Dstartup-timeout=120
+          echo "Testing provisioned server..."
+          cd ../client
+          mvn -fae verify -Dserver.host=${{ env.SERVER_PROVISIONING_SERVER_HOST }}:8080 -Pintegration-testing
+          cd ../server
+          mvn -fae verify -Dserver.host=${{ env.SERVER_PROVISIONING_SERVER_HOST }}:8180 -Pintegration-testing
+          mvn -fae verify -Dserver.host=${{ env.SERVER_PROVISIONING_SERVER_HOST }}:8280 -Pintegration-testing
+          echo "Shutting down provisioned server..."
+          cd ../client
+          mvn wildfly:shutdown
+          cd ../server
+          mvn wildfly:shutdown -Dwildfly.port=10090
+          mvn wildfly:shutdown -Dwildfly.port=10190
+        shell: bash
+      - name: Build ${{ env.QUICKSTART_PATH }} Quickstart with openshift profile
+        if: ${{ env.TEST_OPENSHIFT }}
+        run: |
+          cd quickstarts
+          cd ${{ env.QUICKSTART_PATH }}/client
+          mvn -fae clean package -Popenshift -DremoteServerUsername="quickstartUser" -DremoteServerPassword="quickstartPwd1!" -DpostgresqlUsername="test" -DpostgresqlPassword="test"
+          cd ../server
+          mvn -fae clean package -Popenshift -DpostgresqlUsername="test" -DpostgresqlPassword="test"
+        shell: bash
+      - name: Run after script
+        env:
+          FILE: "./quickstarts/.github/workflows/quickstart_${{ env.QUICKSTART_PATH }}_ci_after.sh"
+        run: |
+          if test -f $FILE;
+            then
+              chmod +x $FILE
+              bash $FILE
+          fi
+        shell: bash
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: surefire-reports-JDK${{ matrix.jdk }}-${{ matrix.os }}
+          path: 'quickstarts/${{ env.QUICKSTART_PATH }}/**/surefire-reports/*.txt'
+
+  # Use the shared-wildfly-build workflow to have a consistent WildFly build. Note the branch names MUST match what
+  # is used in WildFly.
+  WildFly-build:
+    uses: wildfly/wildfly/.github/workflows/shared-wildfly-build.yml@main
+    with:
+      wildfly-branch: ${{ github.base_ref }}
+      wildfly-repo: "wildfly/wildfly"
+
+  Test-build-with-deps-matrix:
+    name: BUILD WITH DEPS - JDK${{ matrix.jdk }} - ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    needs: [Matrix-Setup, WildFly-build]
+    strategy:
+      fail-fast: false
+      matrix:
+        jdk: ${{ fromJSON(needs.Matrix-Setup.outputs.jdk) }}
+        os: ${{ fromJSON(needs.Matrix-Setup.outputs.os) }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: quickstarts
+      - uses: actions/download-artifact@v4
+        with:
+          name: wildfly-maven-repository
+          path: .
+      - name: Extract Maven Repo
+        shell: bash
+        run: tar -xzf wildfly-maven-repository.tar.gz -C ~
+      - name: Set up JDK ${{ matrix.jdk }}
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ matrix.jdk }}
+          distribution: 'temurin'
+          cache: 'maven'
+      - name: Run before script
+        env:
+          FILE: "./quickstarts/.github/workflows/quickstart_${{ env.QUICKSTART_PATH }}_ci_before.sh"
+        run: |
+          if test -f $FILE;
+            then
+              chmod +x $FILE
+              bash $FILE
+          fi
+        shell: bash
+      - name: Build Quickstart for Release with built Server version
+        run: |
+          cd quickstarts
+          cd ${{ env.QUICKSTART_PATH }}
+          mvn -fae clean package -Drelease -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
+        shell: bash
+      - name: Build, run & test ${{ env.QUICKSTART_PATH }} Quickstart with provisioned-server profile, and built Server version
+        if: ${{ env.TEST_PROVISIONED_SERVER }}
+        run: |
+          cd quickstarts
+          cd ${{ env.QUICKSTART_PATH }}/client
+          echo "Building 'client' provisioned server..."
+          mvn -fae clean package -Pprovisioned-server -DremoteServerUsername="quickstartUser" -DremoteServerPassword="quickstartPwd1!" -DpostgresqlUsername="test" -DpostgresqlPassword="test" -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
+          mvn wildfly:start -Djboss-as.home=target/server -Dwildfly.javaOpts="-Djboss.tx.node.id=server1 -Djboss.node.name=server1" -Dstartup-timeout=120
+          cd ../server
+          echo "Building 'server' provisioned server..."
+          mvn -fae clean package -Pprovisioned-server -Dwildfly.provisioning.dir=server2 -Djboss-as.home=target/server2 -DpostgresqlUsername="test" -DpostgresqlPassword="test" -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
+          mvn -fae package -Pprovisioned-server -Dwildfly.provisioning.dir=server3 -Djboss-as.home=target/server3 -DpostgresqlUsername="test" -DpostgresqlPassword="test" -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
+          echo "Add quickstartUser to both 'server' builds..."
+          ./target/server2/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'guest,user,JBossAdmin,Users'
+          ./target/server3/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'guest,user,JBossAdmin,Users'
+          echo "Add quickstartAdmin to both 'server' builds..."
+          ./target/server2/bin/add-user.sh -a -u 'quickstartAdmin' -p 'adminPwd1!' -g 'guest,user,admin'
+          ./target/server2/bin/add-user.sh -a -u 'quickstartAdmin' -p 'adminPwd1!' -g 'guest,user,admin'
+          echo "Starting provisioned server..."
+          mvn wildfly:start -Djboss-as.home=target/server2 -Dwildfly.port=10090 -Dwildfly.serverConfig=standalone-ha.xml -Dwildfly.javaOpts="-Djboss.socket.binding.port-offset=100 -Djboss.tx.node.id=server2 -Djboss.node.name=server2" -Dstartup-timeout=120
+          mvn wildfly:start -Djboss-as.home=target/server3 -Dwildfly.port=10190 -Dwildfly.serverConfig=standalone-ha.xml -Dwildfly.javaOpts="-Djboss.socket.binding.port-offset=200 -Djboss.tx.node.id=server3 -Djboss.node.name=server3" -Dstartup-timeout=120
+          echo "Testing provisioned server..."
+          cd ../client
+          mvn -fae verify -Dserver.host=${{ env.SERVER_PROVISIONING_SERVER_HOST }}:8080 -Pintegration-testing
+          cd ../server
+          mvn -fae verify -Dserver.host=${{ env.SERVER_PROVISIONING_SERVER_HOST }}:8180 -Pintegration-testing
+          mvn -fae verify -Dserver.host=${{ env.SERVER_PROVISIONING_SERVER_HOST }}:8280 -Pintegration-testing
+          echo "Shutting down provisioned server..."
+          cd ../client
+          mvn wildfly:shutdown
+          cd ../server
+          mvn wildfly:shutdown -Dwildfly.port=10090
+          mvn wildfly:shutdown -Dwildfly.port=10190
+        shell: bash
+      - name: Build ${{ env.QUICKSTART_PATH }} Quickstart with openshift profile, and built Server version
+        if: ${{ env.TEST_OPENSHIFT }}
+        run: |
+          cd quickstarts
+          cd ${{ env.QUICKSTART_PATH }}/client
+          mvn -fae clean package -Popenshift -DremoteServerUsername="quickstartUser" -DremoteServerPassword="quickstartPwd1!" -DpostgresqlUsername="test" -DpostgresqlPassword="test" -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
+          cd ../server
+          mvn -fae clean package -Popenshift -DpostgresqlUsername="test" -DpostgresqlPassword="test" -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
+        shell: bash
+      - name: Run after script
+        env:
+          FILE: "./quickstarts/.github/workflows/quickstart_${{ env.QUICKSTART_PATH }}_ci_after.sh"
+        run: |
+          if test -f $FILE;
+            then
+              chmod +x $FILE
+              bash $FILE
+          fi
+        shell: bash
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: surefire-reports-JDK${{ matrix.jdk }}-${{ matrix.os }}
+          path: 'quickstarts/**/surefire-reports/*.txt'

@@ -1,0 +1,27 @@
+# Adding postgresql datasource to the server
+#
+# NOTE: When running this script using wildfly-maven-plugin, wildfly-datasources-galleon-pack should be added
+# to feature-packs and the postgresql-driver layer should be used.
+
+set serverConfig=${serverConfig}
+set postgresqlUsername=${postgresqlUsername}
+set postgresqlPassword=${postgresqlPassword}
+set postgresqlServerName=${postgresqlServerName}
+
+# running embeded server with server config
+embed-server --server-config=$serverConfig
+
+xa-data-source add\
+    --name=ejbJtaDs\
+    --driver-name=postgresql\
+    --jndi-name=java:jboss/datasources/ejbJtaDs\
+    --user-name=$postgresqlUsername\
+    --password=$postgresqlPassword\
+    --xa-datasource-properties=ServerName=$postgresqlServerName
+
+/subsystem=datasources/xa-data-source=ejbJtaDs/xa-datasource-properties=PortNumber:add(value=5432)
+/subsystem=datasources/xa-data-source=ejbJtaDs/xa-datasource-properties=DatabaseName:add(value=test)
+
+echo "postgresql-datasource.cli script finished"
+
+quit
