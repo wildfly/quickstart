@@ -1,0 +1,17 @@
+name: WildFly microprofile-rest-client Quickstart CI
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    branches-ignore:
+      - 'dependabot/**'
+    paths:
+      - 'microprofile-rest-client/**'
+      - '.github/workflows/quickstart_ci.yml'
+
+jobs:
+  call-quickstart_ci:
+    uses: ./.github/workflows/quickstart_ci.yml
+    with:
+      QUICKSTART_PATH: microprofile-rest-client
+      TEST_BOOTABLE_JAR: true

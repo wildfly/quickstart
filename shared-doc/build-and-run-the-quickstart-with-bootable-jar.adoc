@@ -44,10 +44,6 @@ endif::[]
       </profile>
 ----
 
-ifdef::rest-client-qs[]
-NOTE: This configuration needs to be added to both the country-server and the country-client modules.
-endif::rest-client-qs[]
-
 .Procedure
 
 . Build the quickstart bootable JAR with the following command:
@@ -58,8 +54,7 @@ $ mvn clean package -Pbootable-jar
 ----
 +
 . Run the quickstart application contained in the bootable JAR:
-ifndef::rest-client-qs[]
-+
+
 [source,subs="attributes+",options="nowrap"]
 ----
 ifdef::uses-jaeger[]
@@ -69,23 +64,6 @@ ifndef::uses-jaeger[]
 $ java -jar target/{artifactId}-bootable.jar
 endif::uses-jaeger[]
 ----
-endif::rest-client-qs[]
-ifdef::rest-client-qs[]
-+
-*Country server*
-+
-[source,subs="attributes+",options="nowrap"]
-----
-$ java -jar country-server/target/country-server-bootable.jar
-----
-+
-*Country client*
-+
-[source,subs="attributes+",options="nowrap"]
-----
-$ java -jar country-client/target/country-client-bootable.jar -Djboss.socket.binding.port-offset=100 -Dorg.wildfly.quickstarts.microprofile.rest.client.CountriesServiceClient/mp-rest/url=http://localhost:8080
-----
-endif::rest-client-qs[]
 
 . You can now interact with the quickstart application.
 

@@ -16,13 +16,13 @@ The `microprofile-rest-client` quickstart demonstrates the use of the MicroProfi
 == What is it?
 
 MicroProfile REST Client provides a type-safe approach to invoke RESTful services
-over HTTP. It relies on JAX-RS APIs for consistency and easier reuse.
+over HTTP. It relies on Jakarta REST APIs for consistency and easier reuse.
 
 == Architecture
 
-In this quickstart, we have two services -- a country server and a country client. The
-server provides a simple REST interface providing information about some countries. The
-client consumes this API through the MicroProfile REST Client specification.
+In this quickstart we have a country server and a country client used in the test. The server provides a simple REST
+interface providing information about some countries. The test creates a client that consumes this API through the
+MicroProfile REST Client specification.
 
 // System Requirements
 include::../shared-doc/system-requirements.adoc[leveloffset=+1]
@@ -41,15 +41,16 @@ also go right to the completed example which is available in this directory.
 
 // Build and Deploy the Quickstart
 include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
+// Server Distribution Testing
+include::../shared-doc/run-integration-tests-with-server-distribution.adoc[leveloffset=+1]
 
 // Undeploy the Quickstart
 include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
 
-// Run the Arquillian Tests
-include::../shared-doc/run-arquillian-tests.adoc[leveloffset=+1]
-
+//Bootable JAR
+include::../shared-doc/build-and-run-the-quickstart-with-bootable-jar.adoc[leveloffset=+1]
 // Run the Quickstart in Red Hat CodeReady Studio or Eclipse
-include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
+include::../shared-doc/build-and-run-the-quickstart-with-openshift.adoc[leveloffset=+1]
 
 [[creating-new-project]]
 == Creating the Maven Project
@@ -60,16 +61,15 @@ application that will be contacting this server.
 
 [source,options="nowrap"]
 ----
-cd country-server
 mvn clean package wildfly:deploy
 ----
 
 NOTE: Make sure that your {productName} server is running.
 
 You can verify that the server is responding by accessing
-`http://localhost:8080/country-server/name/France`
+`http://localhost:8080/microprofile-rest-client/name/France`
 endpoint using your browser or
-`curl http://localhost:8080/country-server/name/France`
+`curl http://localhost:8080/microprofile-rest-client/name/France`
 to get some information about `France`.
 
 Now we can start creating our MicroProfile REST Client application. In different
@@ -164,11 +164,11 @@ the generated build section):
 include::../shared-doc/setup-repositories.adoc[leveloffset=+1]
 
 As this is a Jakarta REST application we need to also create an application class.
-Create `org.wildfly.quickstarts.microprofile.rest.client.JaxRsApplication` with the
+Create `org.wildfly.quickstarts.microprofile.rest.client.RestApplication` with the
 following content:
 
 NOTE: The new file should be created in
-`src/main/java/org/quickstarts/microprofile/rest/client/JaxRsApplication.java`.
+`src/main/java/org/wildfly/quickstarts/microprofile/rest/client/RestApplication.java`.
 
 [source,java]
 ----
@@ -178,7 +178,7 @@ import jakarta.ws.rs.ApplicationPath;
 import jakarta.ws.rs.core.Application;
 
 @ApplicationPath("/")
-public class JaxRsApplication extends Application {
+public class RestApplication extends Application {
 }
 ----
 
@@ -207,10 +207,10 @@ public class Country {
 
 Now we can start working with the MicroProfile REST Client.
 
-== Crating the REST Client interface
+== Creating the REST Client interface
 
 Using the MicroProfile REST Client is as simple as creating an interface which uses the
-proper JAX-RS and MicroProfile annotations. In our case, the
+proper Jakarta REST and MicroProfile annotations. In our case, the
 interface should be created in
 `org.wildfly.quickstarts.microprofile.rest.client.CountriesServiceClient`:
 
@@ -241,7 +241,7 @@ from the REST Countries API. The client will handle all the networking and
 marshalling leaving our code clean of such technical details.
 
 As you can see, all that our REST client interface uses for now are standard
-JAX-RS annotations. There are two ways how to expose the REST client to use it in
+Jakarta REST annotations. There are two ways how to expose the REST client to use it in
 your application: the CDI lookup and the programmatic lookup.
 
 == CDI lookup
@@ -297,7 +297,7 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 
 @Path("/")
-@RegisterRestClient(baseUri = "http://localhost:8080/country-server")
+@RegisterRestClient(baseUri = "http://localhost:8080/microprofile-rest-client")
 public interface CountriesServiceClient {
 
     @GET
@@ -312,7 +312,7 @@ section.
 
 Now we can start using our statically configured REST client.
 
-=== Create the JAX-RS resource
+=== Create the Jakarta REST resource
 
 Create `org.wildfly.quickstarts.microprofile.rest.client.CountriesResource` with the
 following content:
@@ -369,7 +369,7 @@ endpoint using your browser or
 `curl http://localhost:8080/country-client/country/cdi/France`
 to get some information about `France`.
 
-Congratulations! You are already invoking custom REST client from your JAX-RS
+Congratulations! You are already invoking custom REST client from your Jakarta REST
 endpoint.
 
 === Configuring the REST client base URL/URI dynamically
@@ -413,7 +413,7 @@ with the following content:
 
 [source,properties]
 ----
-org.wildfly.quickstarts.microprofile.rest.client.CountriesServiceClient/mp-rest/url=http://localhost:8080/country-server
+org.wildfly.quickstarts.microprofile.rest.client.CountriesServiceClient/mp-rest/url=http://localhost:8080/microprofile-rest-client
 org.wildfly.quickstarts.microprofile.rest.client.CountriesServiceClient/mp-rest/scope=jakarta.inject.Singleton
 ----
 
@@ -421,10 +421,10 @@ This configuration means that:
 
 * all requests performed using
 `org.wildfly.quickstarts.microprofile.rest.client.CountriesServiceClient` will use
-`http://localhost:8080/country-server` as a base URL. Using the configuration above, calling
+`http://localhost:8080/microprofile-rest-client` as a base URL. Using the configuration above, calling
 the `getByName` method of `CountriesServiceClient` with a value of `France` would
 result in an HTTP GET request being made to
-`http://localhost:8080/country-server/name/France`.
+`http://localhost:8080/microprofile-rest-client/name/France`.
 * the default scope of
 `org.wildfly.quickstarts.microprofile.rest.client.CountriesServiceClient` will be
 `@Singleton`. All supported values are described later. The default scope can also
@@ -506,7 +506,7 @@ following method:
 @Produces(MediaType.APPLICATION_JSON)
 public Country programmaticName(@PathParam("name") String name) throws MalformedURLException {
     CountriesServiceClient client = RestClientBuilder.newBuilder()
-        .baseUrl(new URL("http://localhost:8080/country-server"))
+        .baseUrl(new URL("http://localhost:8080/microprofile-rest-client"))
         .build(CountriesServiceClient.class);
 
     return client.getByName(name);
@@ -613,7 +613,7 @@ public CompletionStage<Country> nameAsync(@PathParam("name") String name) {
 
 == Provider registration
 
-MicroProfile REST Client allows you to register custom JAX-RS providers when you
+MicroProfile REST Client allows you to register custom Jakarta REST providers when you
 are defining the interface or building the client with the builder. The supported
 providers which can be registered are:
 
@@ -727,7 +727,7 @@ endpoint using your browser or
 `curl http://localhost:8080/country-client/country/cdi/doesNotExist`
 the application will return a 204 No Content response instead of the 404 error
  received from `country-server`. You can verify the `country-server` response at
-`http://localhost:8080/country-server/name/doesNotExist`.
+`http://localhost:8080/microprofile-rest-client/name/doesNotExist`.
 
 ifdef::EAPXPRelease[]
 // Getting Started with OpenShift
@@ -742,14 +742,11 @@ include::../shared-doc/xp-deploy-project.adoc[leveloffset=+2]
 include::../shared-doc/xp-post-deployment-tasks.adoc[leveloffset=+2]
 endif::[]
 
-//Bootable JAR
-include::../shared-doc/build-and-run-the-quickstart-with-bootable-jar.adoc[leveloffset=+1]
-
 == Conclusion
 
 MicroProfile REST Client provides you with an option to define REST clients in a
 clear, declarative, and intuitive way using the same annotations as for your
-JAX-RS resources. It also allows you to make the HTTP communication on the background
+Jakarta REST resources. It also allows you to make the HTTP communication on the background
 transparent for your services with the direct data conversions and exception mappers.
 You can find more information about the MicroProfile REST Client specification at
 https://github.com/eclipse/microprofile-rest-client.
