@@ -70,6 +70,17 @@
                     </archive>
                 </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>org.wildfly.plugins</groupId>
+                <artifactId>wildfly-maven-plugin</artifactId>
+                <configuration>
+                    <skip>false</skip>
+                    <server-groups>
+                        <server-group>quickstart-ejb-multi-appOne-server</server-group>
+                    </server-groups>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 </project>

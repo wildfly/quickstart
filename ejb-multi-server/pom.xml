@@ -46,8 +46,10 @@
     </licenses>
 
     <properties>
+        <!-- the version for the Server -->
+        <version.server>31.0.0.Beta1</version.server>
         <!-- The versions for BOMs, Dependencies and Plugins -->
-        <version.server.bom>31.0.0.Beta1</version.server.bom>
+        <version.bom.ee>${version.server}</version.bom.ee>
     </properties>
 
     <repositories>
@@ -111,7 +113,7 @@
             <dependency>
                 <groupId>org.wildfly.bom</groupId>
                 <artifactId>wildfly-ee-with-tools</artifactId>
-                <version>${version.server.bom}</version>
+                <version>${version.bom.ee}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -137,4 +139,31 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>integration-testing</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <configuration>
+                            <includes>
+                                <include>**/BasicRuntimeIT</include>
+                            </includes>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>integration-test</goal>
+                                    <goal>verify</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>

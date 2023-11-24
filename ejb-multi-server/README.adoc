@@ -92,11 +92,6 @@ You configure the domain server by running JBoss CLI commands. For your convenie
 
 . Before you begin, make sure you do the following:
 
-* xref:start_with_a_clean_server_install[Start with clean {productName} installation].
-* xref:back_up_managed_domain_configuration[Back up the {productName} managed domain configuration].
-* xref:add_the_application_users[Add the application users].
-* xref:start_eap_managed_domain[Start the {productName} managed domain].
-
 . Review the `install-domain.cli` file in the root of this quickstart directory. This script configures and starts multiple servers needed to run this quickstart.
 . Open a new terminal, navigate to the root directory of this quickstart, and run the following command, replacing __{jbossHomeName}__ with the path to your server:
 +
@@ -117,12 +112,9 @@ IMPORTANT: Depending on your machine configuration, you might see "Exception in 
 There are too many additions to the configuration files to list here. Feel free to compare the `domain.xml` and `host.xml` to the backup copies to see the changes made to configure the server to run this quickstart.
 
 
-
-
 [[build_and_deploy_the_quickstart]]
 == Build and Deploy the Quickstart
 
-. Make sure you have xref:install_the_quickstart_parent_artifact_in_maven[installed the quickstart parent artifact] in your Maven repository.
 . Make sure you have started and configured the {productName} server successfully as described above.
 . Open a terminal and navigate to the root directory of this quickstart.
 . Type this command to build the artifacts.
@@ -136,12 +128,11 @@ You should see `BUILD SUCCESS` at the end of the build `SUCCESS` messages for ea
 
 . In the same terminal, deploy the applications using the provided CLI batch script by typing the following command.
 +
-[source,subs="+quotes,attributes+",options="nowrap"]
+[source,options="nowrap"]
 ----
-$ __{jbossHomeName}__/bin/jboss-cli.sh -c --file=deploy-domain.cli
+$ mvn wildfly:deploy
 ----
-+
-NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
+
 
 +
 This deploys the `app-*.ear` files to different server groups of the running domain. You should see the following result when you run the script.
@@ -228,16 +219,13 @@ An example how to access EJBs from a separate instance which only contains a web
 [[undeploy_the_quickstart]]
 == Undeploy the Quickstart
 
-. xref:start_eap_managed_domain[Start the {productName} managed domain] as described above.
 . Open a terminal and navigate to the root directory of this quickstart.
 . When you are finished testing, type this command to undeploy the archive:
 +
-[source,subs="+quotes,attributes+",options="nowrap"]
+[source,options="nowrap"]
 ----
-$ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=undeploy-domain.cli
+$ mvn wildfly:undeploy
 ----
-+
-NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat`.
 
 
 // Restore the {productName} Managed Domain Configuration Manually
