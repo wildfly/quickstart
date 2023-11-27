@@ -1,0 +1,14 @@
+name: WildFly jaxws-ejb Quickstart CI
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    paths:
+      - 'jaxws-ejb/**'
+      - '.github/workflows/quickstart_ci.yml'
+jobs:
+  call-quickstart_ci:
+    uses: ./.github/workflows/quickstart_ci.yml
+    with:
+      QUICKSTART_PATH: jaxws-ejb
+      TEST_PROVISIONED_SERVER: true
