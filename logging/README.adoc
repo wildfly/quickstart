@@ -6,7 +6,7 @@ include::../shared-doc/attributes.adoc[]
 :technologies: Logging
 
 [abstract]
-The `logging` quickstart demonstrates how to configure different logging levels in {productName}. It also includes an asynchronous logging example.
+The `logging` quickstart demonstrates how to configure different logging levels in {productName}.
 
 :standalone-server-type: default
 :archiveType: war
@@ -14,9 +14,11 @@ The `logging` quickstart demonstrates how to configure different logging levels 
 
 == What is it?
 
-The `logging` quickstart demonstrates how to set up and log different levels of information in {productNameFull}. An example of asynchronous logging is also included in the configuration examples.
+The `logging` quickstart demonstrates how to set up and log different levels of information in {productNameFull}.
 
-This quickstart contains just one class file and one JSP file. When you access the application, it fires off the logging information.
+This quickstart contains contains a simple REST endpoint which will log messages. The `index.html` page can be used
+to log messages and see the results. However, you could use a REST client or something like `cURL` to invoke log
+messages.
 
 To better visualize how the logging configuration works, you first deploy and access the application before configuring the logs and view the resulting log files. Then you configure the logs, redeploy and access the application, and look at the log files again to see the differences.
 
@@ -30,6 +32,11 @@ include::../shared-doc/back-up-server-standalone-configuration.adoc[leveloffset=
 include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
 // Build and Deploy the Quickstart
 include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
+// Build and run sections for other environments/builds
+ifndef::ProductRelease,EAPXPRelease[]
+include::../shared-doc/build-and-run-the-quickstart-with-provisioned-server.adoc[leveloffset=+1]
+endif::[]
+include::../shared-doc/build-and-run-the-quickstart-with-openshift.adoc[leveloffset=+1]
 
 [[access_the_application]]
 == Access the Application
@@ -40,14 +47,12 @@ You will see the following message in the server console:
 
 [source,options="nowrap"]
 ----
-FATAL [org.jboss.as.quickstarts.logging.LoggingExample] (default task-1) THIS IS A FATAL MESSAGE
-ERROR [org.jboss.as.quickstarts.logging.LoggingExample] (default task-1) THIS IS AN ERROR MESSAGE
-WARN  [org.jboss.as.quickstarts.logging.LoggingExample] (default task-1) THIS IS A WARNING MESSAGE
-INFO  [org.jboss.as.quickstarts.logging.LoggingExample] (default task-1) THIS IS AN INFO MESSAGE
-ERROR [org.jboss.as.quickstarts.logging.LoggingExample] (default task-1) THIS IS AN ERROR MESSAGE
-FATAL [org.jboss.as.quickstarts.logging.LoggingExample] (default task-1) THIS IS A FATAL MESSAGE
-INFO  [org.jboss.as.quickstarts.logging.LoggingExample] (default task-1) THIS IS AN INFO MESSAGE
-WARN  [org.jboss.as.quickstarts.logging.LoggingExample] (default task-1) THIS IS A WARNING MESSAGE
+18:20:33,272 FATAL [org.jboss.as.quickstarts.logging.rest.LogListingResource] (default task-1) This is an FATAL message from 127.0.0.1:50130
+18:20:34,530 ERROR [org.jboss.as.quickstarts.logging.rest.LogListingResource] (default task-1) This is an ERROR message from 127.0.0.1:50130
+18:20:35,332 WARN  [org.jboss.as.quickstarts.logging.rest.LogListingResource] (default task-1) This is an WARN message from 127.0.0.1:50130
+18:20:36,254 INFO  [org.jboss.as.quickstarts.logging.rest.LogListingResource] (default task-1) This is an INFO message from 127.0.0.1:50130
+18:20:37,156 DEBUG [org.jboss.as.quickstarts.logging.rest.LogListingResource] (default task-1) This is an DEBUG message from 127.0.0.1:50130
+18:20:38,003 TRACE [org.jboss.as.quickstarts.logging.rest.LogListingResource] (default task-1) This is an TRACE message from 127.0.0.1:50130
 ----
 
 == Check the Server Logs
@@ -55,7 +60,6 @@ WARN  [org.jboss.as.quickstarts.logging.LoggingExample] (default task-1) THIS IS
 The log files are located in the `__{jbossHomeName}__/standalone/log` log directory. At this point you should see the following log files.
 
 * `server.log` - This is the standard log produced by the application server. By default, it contains all the server log messages, including the server startup messages.
-* `gc.log.0.current` - This garbage collection log is produced only if garbage collection is enabled on the server. It contains garbage collection activity that can be used for diagnostic purposes. This log can be ignored as it is not used in this quickstart.
 
 
 == Configure the Server
@@ -68,7 +72,7 @@ Now you have deployed the quickstart with the default configuration, you run a m
 * xref:start_the_eap_standalone_server[Start the {productName} server with the standalone default profile] as described above.
 
 
-. Review the `configure-logging.cli` file in the root of this quickstart directory. This script configures the logging subsytem in the server configuration file. It configures the periodic rotating file handlers and the async handlers, creates the logger for our quickstart class and sets the level to TRACE, and assigns the async handlers for our quickstart class.
+. Review the `configure-logging.cli` file in the root of this quickstart directory. This script configures the logging subsystem in the server configuration file. It configures the file handlers, creates the logger for our quickstart and sets the level to TRACE. It also assigns the handlers for our quickstart to our logger.
 . Open a new terminal, navigate to the root directory of this quickstart, and run the following command, replacing `__{jbossHomeName}__` with the path to your server:
 +
 [source,subs="+quotes,attributes+",options="nowrap"]
@@ -84,101 +88,6 @@ You should see the following result when you run the script:
 [source,options="nowrap"]
 ----
 The batch executed successfully
-----
-
-== Review the Modified Server Configuration
-
-After stopping the server, open the `__{jbossHomeName}__/standalone/configuration/standalone.xml` file and review the changes.
-
-The following XML was added to the `logging` subsystem.
-
-[source,xml,options="nowrap"]
-----
-<async-handler name="TRACE_QS_ASYNC">
-    <level name="TRACE"/>
-    <queue-length value="1024"/>
-    <overflow-action value="block"/>
-    <subhandlers>
-        <handler name="FILE_QS_TRACE"/>
-    </subhandlers>
-</async-handler>
-<async-handler name="DEBUG_QS_ASYNC">
-    <level name="DEBUG"/>
-    <queue-length value="1024"/>
-    <overflow-action value="block"/>
-    <subhandlers>
-        <handler name="FILE_QS_DEBUG"/>
-    </subhandlers>
-</async-handler>
-<async-handler name="INFO_QS_ASYNC">
-    <level name="INFO"/>
-    <queue-length value="1024"/>
-    <overflow-action value="block"/>
-    <subhandlers>
-        <handler name="FILE_QS_INFO"/>
-    </subhandlers>
-</async-handler>
-<async-handler name="WARN_QS_ASYNC">
-    <level name="WARN"/>
-    <queue-length value="1024"/>
-    <overflow-action value="block"/>
-    <subhandlers>
-        <handler name="FILE_QS_WARN"/>
-    </subhandlers>
-</async-handler>
-<async-handler name="ERROR_QS_ASYNC">
-    <level name="ERROR"/>
-    <queue-length value="1024"/>
-    <overflow-action value="block"/>
-    <subhandlers>
-        <handler name="FILE_QS_ERROR"/>
-    </subhandlers>
-</async-handler>
-<async-handler name="FATAL_QS_ASYNC">
-    <level name="FATAL"/>
-    <queue-length value="1024"/>
-    <overflow-action value="block"/>
-    <subhandlers>
-        <handler name="FILE_QS_FATAL"/>
-    </subhandlers>
-</async-handler>
-...
-<periodic-rotating-file-handler name="FILE_QS_TRACE">
-    <file relative-to="jboss.server.log.dir" path="quickstart.trace.log"/>
-    <suffix value=".yyyy.MM.dd"/>
-</periodic-rotating-file-handler>
-<periodic-rotating-file-handler name="FILE_QS_DEBUG">
-    <file relative-to="jboss.server.log.dir" path="quickstart.debug.log"/>
-    <suffix value=".yyyy.MM.dd"/>
-</periodic-rotating-file-handler>
-<periodic-rotating-file-handler name="FILE_QS_INFO">
-    <file relative-to="jboss.server.log.dir" path="quickstart.info.log"/>
-    <suffix value=".yyyy.MM.dd"/>
-</periodic-rotating-file-handler>
-<periodic-rotating-file-handler name="FILE_QS_WARN">
-    <file relative-to="jboss.server.log.dir" path="quickstart.warn.log"/>
-    <suffix value=".yyyy.MM.dd"/>
-</periodic-rotating-file-handler>
-<periodic-rotating-file-handler name="FILE_QS_ERROR">
-    <file relative-to="jboss.server.log.dir" path="quickstart.error.log"/>
-    <suffix value=".yyyy.MM.dd"/>
-</periodic-rotating-file-handler>
-<periodic-rotating-file-handler name="FILE_QS_FATAL">
-    <file relative-to="jboss.server.log.dir" path="quickstart.fatal.log"/>
-    <suffix value=".yyyy.MM.dd"/>
-</periodic-rotating-file-handler>
-...
-<logger category="org.jboss.as.quickstarts.logging">
-    <level name="TRACE"/>
-    <handlers>
-        <handler name="TRACE_QS_ASYNC"/>
-        <handler name="DEBUG_QS_ASYNC"/>
-        <handler name="INFO_QS_ASYNC"/>
-        <handler name="WARN_QS_ASYNC"/>
-        <handler name="ERROR_QS_ASYNC"/>
-        <handler name="FATAL_QS_ASYNC"/>
-    </handlers>
-</logger>
 ----
 
 == Test the New Logging Configuration
@@ -198,10 +107,18 @@ The log files are located in the `__{jbossHomeName}__/standalone/log` log direct
 ** `quickstart.error.log`
 ** `quickstart.fatal.log`
 
+The following are the rest endpoint paths. Note these can be accessed from the `index.html` by clicking the buttons
+
+* `/api/logs/trace`
+* `/api/logs/debug`
+* `/api/logs/info`
+* `/api/logs/warn`
+* `/api/logs/error`
+* `/api/logs/fatal`
+
 The following describes what happens when you access this quickstart:
 
-. The application class file fires off logs of the various types (INFO, DEBUG, TRACE, WARN, ERROR, FATAL). Each log message goes to a different file, as defined in the `standalone.xml` file. Also notice in the `standalone.xml` that the application package defines its own log level.
-. The class file demonstrates the usage of _log guards_. _Log guards_ are a development best practice. Simply put, instead of just writing out logs, we wrap the log writes in a check for that log level being enabled. While this may seem like overhead, that boolean check is more efficient than relying on the underlying framework to do the check at write time.
+. When you access one of the above endpoints, a simple message is logged.
 . Finally, the class file logs various levels, each to its own file as configured in `standalone.xml`. Note that log levels are hierarchical. When set, all log levels above the specified level are logged as well.
 . Common uses of the 6 log levels are outlined below. You should use the level that makes the most sense in your environment.
 +
@@ -209,15 +126,16 @@ The following describes what happens when you access this quickstart:
 ----
 FATAL - Used to track critical system failures.  When this log message is written, it is writing application error that has caused service to cease.  This is the most narrow logging.
 ERROR - Used to track application errors that may cause one request to fail (not a service ceasement).
-WARN - This is setting is used in most production environments.  At this level, all *WARN*, *ERROR*, and *FATAL* messages are written.  Use this level message  as a predictive measure for possible forthcoming issues.
-INFO - Usually only used in a development environment.  This provides any information - state transition, object values, etc
+WARN -  Used for warnings. At this level, all *WARN*, *ERROR*, and *FATAL* messages are written. Use this level message  as a predictive measure for possible forthcoming issues.
+INFO -  This provides any information - state transition, object values, etc
 DEBUG - Turned on in any environment when a problem is occuring.  The information captured may be throughput, communication, object values, etc.
 TRACE - Turned on in any environment where you are trying to follow an execution path, for optimization or debugging.  This is the most broad logging level and all messages are written.
 ----
 
 . To view log file differences for different logging levels, change the level for the "org.jboss.as.quickstarts.logging" logger
 from TRACE to DEBUG, INFO, WARN, ERROR, or FATAL, then access the application.
-
+// Server Distribution Testing
+include::../shared-doc/run-integration-tests-with-server-distribution.adoc[leveloffset=+2]
 // Undeploy the Quickstart
 include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
 // Restore the {productName} Standalone Server Configuration
@@ -228,7 +146,13 @@ This script removes the log and file handlers from the `logging` subsystem in th
 
 [source,options="nowrap"]
 ----
-The batch executed successfully
+{"outcome" => "success"}
+{"outcome" => "success"}
+{"outcome" => "success"}
+{"outcome" => "success"}
+{"outcome" => "success"}
+{"outcome" => "success"}
+{"outcome" => "success"}
 ----
 
 // Restore the {productName} Standalone Server Configuration Manually
@@ -242,13 +166,3 @@ include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[levelof
 
 // Debug the Application
 include::../shared-doc/debug-the-application.adoc[leveloffset=+1]
-
-//*************************************************
-// Product Release content only
-//*************************************************
-ifdef::ProductRelease[]
-
-// Quickstart not compatible with OpenShift
-include::../shared-doc/openshift-incompatibility.adoc[leveloffset=+1]
-
-endif::[]

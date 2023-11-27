@@ -1,22 +1,11 @@
-# Batch script to add and configure logging in the JBoss EAP server
-
-# Start batching commands
-batch
-
 # Add the periodic rotating file handlers corresponding to those added to the logging properties file
-/subsystem=logging/periodic-rotating-file-handler=FILE_QS_TRACE:add(level=TRACE, suffix=".yyyy.MM.dd", file={"path"=>"quickstart.trace.log", "relative-to"=>"jboss.server.log.dir"})
-/subsystem=logging/periodic-rotating-file-handler=FILE_QS_DEBUG:add(level=DEBUG, suffix=".yyyy.MM.dd", file={"path"=>"quickstart.debug.log", "relative-to"=>"jboss.server.log.dir"})
-/subsystem=logging/periodic-rotating-file-handler=FILE_QS_INFO:add(level=INFO, suffix=".yyyy.MM.dd", file={"path"=>"quickstart.info.log", "relative-to"=>"jboss.server.log.dir"})
-/subsystem=logging/periodic-rotating-file-handler=FILE_QS_WARN:add(level=WARN, suffix=".yyyy.MM.dd", file={"path"=>"quickstart.warn.log", "relative-to"=>"jboss.server.log.dir"})
-/subsystem=logging/periodic-rotating-file-handler=FILE_QS_ERROR:add(level=ERROR, suffix=".yyyy.MM.dd", file={"path"=>"quickstart.error.log", "relative-to"=>"jboss.server.log.dir"})
-/subsystem=logging/periodic-rotating-file-handler=FILE_QS_FATAL:add(level=FATAL, suffix=".yyyy.MM.dd", file={"path"=>"quickstart.fatal.log", "relative-to"=>"jboss.server.log.dir"})
+/subsystem=logging/file-handler=FILE_QS_TRACE:add(append=false, level=TRACE, named-formatter=PATTERN, file={"path"=>"quickstart-trace.log", "relative-to"=>"jboss.server.log.dir"})
+/subsystem=logging/file-handler=FILE_QS_DEBUG:add(append=false, level=DEBUG, named-formatter=PATTERN, file={"path"=>"quickstart-debug.log", "relative-to"=>"jboss.server.log.dir"})
+/subsystem=logging/file-handler=FILE_QS_INFO:add(append=false, level=INFO, named-formatter=PATTERN, file={"path"=>"quickstart-info.log", "relative-to"=>"jboss.server.log.dir"})
+/subsystem=logging/file-handler=FILE_QS_WARN:add(append=false, level=WARN, named-formatter=PATTERN, file={"path"=>"quickstart-warn.log", "relative-to"=>"jboss.server.log.dir"})
+/subsystem=logging/file-handler=FILE_QS_ERROR:add(append=false, level=ERROR, named-formatter=PATTERN, file={"path"=>"quickstart-error.log", "relative-to"=>"jboss.server.log.dir"})
+/subsystem=logging/file-handler=FILE_QS_FATAL:add(append=false, level=FATAL, named-formatter=PATTERN, file={"path"=>"quickstart-fatal.log", "relative-to"=>"jboss.server.log.dir"})
 
-# Configure the logging async handlers
-/subsystem=logging/async-handler=async:add(queue-length=1024, overflow-action=BLOCK, subhandlers=["FILE_QS_TRACE","FILE_QS_DEBUG","FILE_QS_INFO","FILE_QS_WARN","FILE_QS_ERROR","FILE_QS_FATAL"])
-
-# Create the logger for our quickstart class
-/subsystem=logging/logger=org.jboss.as.quickstarts.logging:add(handlers=[async])
-
-# Run the batch commands
-run-batch
+# Create the logger for our quickstart class and assign the handlers
+/subsystem=logging/logger=org.jboss.as.quickstarts.logging:add(handlers=[FILE_QS_TRACE,FILE_QS_DEBUG,FILE_QS_INFO,FILE_QS_WARN,FILE_QS_ERROR,FILE_QS_FATAL])
 
