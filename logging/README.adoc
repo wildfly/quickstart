@@ -11,6 +11,7 @@ The `logging` quickstart demonstrates how to configure different logging levels 
 :standalone-server-type: default
 :archiveType: war
 :restoreScriptName: remove-logging.cli
+:openshift: true
 
 == What is it?
 
@@ -32,11 +33,6 @@ include::../shared-doc/back-up-server-standalone-configuration.adoc[leveloffset=
 include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
 // Build and Deploy the Quickstart
 include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
-// Build and run sections for other environments/builds
-ifndef::ProductRelease,EAPXPRelease[]
-include::../shared-doc/build-and-run-the-quickstart-with-provisioned-server.adoc[leveloffset=+1]
-endif::[]
-include::../shared-doc/build-and-run-the-quickstart-with-openshift.adoc[leveloffset=+1]
 
 [[access_the_application]]
 == Access the Application
@@ -60,7 +56,6 @@ You will see the following message in the server console:
 The log files are located in the `__{jbossHomeName}__/standalone/log` log directory. At this point you should see the following log files.
 
 * `server.log` - This is the standard log produced by the application server. By default, it contains all the server log messages, including the server startup messages.
-
 
 == Configure the Server
 
@@ -134,8 +129,9 @@ TRACE - Turned on in any environment where you are trying to follow an execution
 
 . To view log file differences for different logging levels, change the level for the "org.jboss.as.quickstarts.logging" logger
 from TRACE to DEBUG, INFO, WARN, ERROR, or FATAL, then access the application.
+
 // Server Distribution Testing
-include::../shared-doc/run-integration-tests-with-server-distribution.adoc[leveloffset=+2]
+include::../shared-doc/run-integration-tests-with-server-distribution.adoc[leveloffset=+1]
 // Undeploy the Quickstart
 include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
 // Restore the {productName} Standalone Server Configuration
@@ -157,12 +153,10 @@ This script removes the log and file handlers from the `logging` subsystem in th
 
 // Restore the {productName} Standalone Server Configuration Manually
 include::../shared-doc/restore-standalone-server-configuration-manual.adoc[leveloffset=+2]
-// Run the Quickstart in Red Hat CodeReady Studio or Eclipse
-include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
 
-// Additional Red Hat CodeReady Studio instructions
-* Make sure you configure {productName} server logging as described above under xref:configure_the_server[Configure the Server]. Stop the server at the end of that step.
-* Make sure you xref:remove_the_logging_configuration[Remove the Logging Configuration] when you have completed testing this quickstart.
+// Build and run sections for other environments/builds
+ifndef::ProductRelease,EAPXPRelease[]
+include::../shared-doc/build-and-run-the-quickstart-with-provisioned-server.adoc[leveloffset=+1]
+endif::[]
 
-// Debug the Application
-include::../shared-doc/debug-the-application.adoc[leveloffset=+1]
+include::../shared-doc/build-and-run-the-quickstart-with-openshift.adoc[leveloffset=+1]
