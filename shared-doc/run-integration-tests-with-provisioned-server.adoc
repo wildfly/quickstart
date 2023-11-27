@@ -24,6 +24,8 @@ ifndef::server_provisioning_server_host[]
 :server_provisioning_server_host: http://localhost:8080
 endif::server_provisioning_server_host[]
 
+ifndef::extraStartParams[:extraStartParams: ]
+
 The integration tests included with this quickstart, which verify that the quickstart runs correctly, may also be run with a provisioned server.
 
 Follow these steps to run the integration tests.
@@ -62,13 +64,13 @@ endif::[]
 ifndef::deploymentDir[]
 [source,subs="attributes+",options="nowrap"]
 ----
-$ mvn wildfly:start -DjbossHome=target/server
+$ mvn wildfly:start -DjbossHome=target/server {extraStartParams}
 ----
 endif::[]
 ifdef::deploymentDir[]
 [source,subs="attributes+",options="nowrap"]
 ----
-$ mvn -f {deploymentDir}/pom.xml wildfly:start -DjbossHome={deploymentDir}/target/server
+$ mvn -f {deploymentDir}/pom.xml wildfly:start -DjbossHome={deploymentDir}/target/server {extraStartParams}
 ----
 endif::[]
 

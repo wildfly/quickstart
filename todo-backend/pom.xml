@@ -127,6 +127,17 @@
                     <groupId>org.wildfly.plugins</groupId>
                     <artifactId>wildfly-maven-plugin</artifactId>
                     <version>${version.plugin.wildfly}</version>
+                    <configuration>
+                        <!-- properties needed by the maven plugin to connect to postgres when starting the server, we define them here delegating the values, to same name properties received by "mvn" environment passed from comand line -->
+                        <env>
+                            <POSTGRESQL_DATABASE>${POSTGRESQL_DATABASE}</POSTGRESQL_DATABASE>
+                            <POSTGRESQL_SERVICE_HOST>${POSTGRESQL_SERVICE_HOST}</POSTGRESQL_SERVICE_HOST>
+                            <POSTGRESQL_SERVICE_PORT>${POSTGRESQL_SERVICE_PORT}</POSTGRESQL_SERVICE_PORT>
+                            <POSTGRESQL_USER>${POSTGRESQL_USER}</POSTGRESQL_USER>
+                            <POSTGRESQL_PASSWORD>${POSTGRESQL_PASSWORD}</POSTGRESQL_PASSWORD>
+                            <POSTGRESQL_DATASOURCE>${POSTGRESQL_DATASOURCE}</POSTGRESQL_DATASOURCE>
+                        </env>
+                    </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>

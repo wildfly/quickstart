@@ -70,7 +70,7 @@ public class RemoteToDoIT {
         GenericType<List<ToDo>> todosListType = new GenericType<List<ToDo>>() {
         };
         List<ToDo> allTodos = client.request().get(todosListType);
-        assertEquals(0, allTodos.size());
+        int initialSize = allTodos.size();
 
         ToDo toDo = new ToDo();
         toDo.setTitle("My First ToDo");
@@ -79,8 +79,8 @@ public class RemoteToDoIT {
         assertNotNull(persistedTodo.getId());
 
         allTodos = client.request().get(todosListType);
-        assertEquals(1, allTodos.size());
-        ToDo fetchedToDo = allTodos.get(0);
+        assertEquals(initialSize+1, allTodos.size());
+        ToDo fetchedToDo = allTodos.get(initialSize);
         assertEquals(toDo.getTitle(), fetchedToDo.getTitle());
 
         client.request().delete();
