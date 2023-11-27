@@ -21,12 +21,6 @@ The following Jakarta Enterprise Bean Timer services are demonstrated:
 * `@Schedule`: Uses this annotation to mark a method to be executed according to the calendar schedule specified in the attributes of the annotation. This example schedules a message to be printed to the server console every 6 seconds.
 * `@Timeout`: Uses this annotation to mark a method to execute when a programmatic timer goes off. This example sets the timer to go off every 3 seconds, at which point the method prints a message to the server console.
 
-//*************************************************
-// Product Release content only
-//*************************************************
-
-ifndef::EAPCDRelease[]
-
 // System Requirements
 include::../shared-doc/system-requirements.adoc[leveloffset=+1]
 // Use of {jbossHomeName}
@@ -86,12 +80,17 @@ INFO  [stdout] (EJB default - 1) Timeout received for TimeoutExample[-1065503193
 INFO  [stdout] (EJB default - 2) Timeout received for TimeoutExample[-1065503193] at 2022-05-04T21:19:06.002358Z
 ----
 
+// Server Distribution Testing
+include::../shared-doc/run-integration-tests-with-server-distribution.adoc[leveloffset=+2]
+
 // Undeploy the Quickstart
 include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
-// Run the Quickstart in Red Hat CodeReady Studio or Eclipse
-include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
-// Debug the Application
-include::../shared-doc/debug-the-application.adoc[leveloffset=+1]
+
+// Build and run sections for other environments/builds
+ifndef::ProductRelease,EAPXPRelease[]
+include::../shared-doc/build-and-run-the-quickstart-with-provisioned-server.adoc[leveloffset=+1]
+endif::[]
+include::../shared-doc/build-and-run-the-quickstart-with-openshift.adoc[leveloffset=+1]
 
 === Using Timer Service within a cluster
 
@@ -167,24 +166,3 @@ If you then shutdown the node on which the ScheduleExample timeouts appear (in o
 
 Restarting the node that we previously shutdown (in our case, node2), using the same command as listed above), you should observe that timeouts for the ScheduleExample timer will resume on the original node (in our case, node2), and now the other node (in our case, node1) no longer receives those timeout events.
 In fact, if you collate the timestamps for the ScheduleExample bean across each server log carefully, you should find that no events were skipped, and no duplicate events were received.
-
-endif::[]
-
-//*************************************************
-// Product Release content only
-//*************************************************
-ifdef::ProductRelease[]
-
-// Getting Started with OpenShift
-include::../shared-doc/openshift-getting-started.adoc[leveloffset=+1]
-//Prepare OpenShift for Quickstart Deployment
-include::../shared-doc/openshift-create-project.adoc[leveloffset=+1]
-// Import the Latest {xpaasproduct-shortname} Image Streams and Templates
-include::../shared-doc/openshift-import-imagestreams-templates.adoc[leveloffset=+1]
-// Deploy the {ProductShortName} Source-to-Image (S2I) Quickstart to OpenShift
-include::../shared-doc/openshift-deploy-project.adoc[leveloffset=+1]
-// Openshift post deployment tasks
-include::../shared-doc/openshift-post-deployment-tasks.adoc[leveloffset=+1]
-
-
-endif::[]
