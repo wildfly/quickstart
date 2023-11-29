@@ -58,4 +58,14 @@ public class Contact {
         this.savedBy = savedBy;
     }
 
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Contact[");
+        sb.append("id=").append(id);
+        sb.append(", name=").append(name);
+        sb.append(", phoneNumber=").append(phoneNumber);
+        sb.append(", savedBy=").append(savedBy);
+        sb.append(']');
+        return sb.toString();
+    }
 }
