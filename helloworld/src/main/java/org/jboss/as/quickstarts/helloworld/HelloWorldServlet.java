@@ -34,7 +34,6 @@ import java.io.PrintWriter;
  * @author Pete Muir
  *
  */
-@SuppressWarnings("serial")
 @WebServlet("/HelloWorld")
 public class HelloWorldServlet extends HttpServlet {
 
