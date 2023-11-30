@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
     JBoss, Home of Professional Open Source
-    Copyright 2020, Red Hat, Inc. and/or its affiliates, and individual
+    Copyright 2023, Red Hat, Inc. and/or its affiliates, and individual
     contributors by the @authors tag. See the copyright.txt in the
     distribution for a full listing of individual contributors.
     Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,8 +16,8 @@
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
         <groupId>org.wildfly.quickstarts</groupId>
         <artifactId>wildfly-quickstart-parent</artifactId>
         <!--
@@ -27,48 +27,314 @@
         <version>5</version>
         <relativePath/>
     </parent>
-  <artifactId>microprofile-rest-client</artifactId>
-  <version>31.0.0.Beta1-SNAPSHOT</version>
-  <packaging>pom</packaging>
-  <name>Quickstart: microprofile-rest-client</name>
+    <artifactId>microprofile-rest-client</artifactId>
+    <version>31.0.0.Beta1-SNAPSHOT</version>
+    <packaging>war</packaging>
+    <name>Quickstart: microprofile-rest-client</name>
 
-  <licenses>
-    <license>
-      <name>Apache License, Version 2.0</name>
-      <url>https://www.apache.org/licenses/LICENSE-2.0.html</url>
-      <distribution>repo</distribution>
-    </license>
-  </licenses>
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.html</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
 
-  <properties>
-    <!-- The versions for BOMs, Dependencies and Plugins -->
-    <version.microprofile.bom>30.0.0.Final</version.microprofile.bom>
-    <version.server.bom>30.0.0.Final</version.server.bom>
-    <version.server.bootable-jar>30.0.0.Final</version.server.bootable-jar>
-    <version.wildfly-jar.maven.plugin>10.0.0.Final</version.wildfly-jar.maven.plugin>
-    <version.jkube.maven.plugin>1.0.1</version.jkube.maven.plugin>
-    <jkube.generator.from>registry.redhat.io/ubi8/openjdk-11:latest</jkube.generator.from>
-  </properties>
+    <properties>
+        <!-- The server version -->
+        <version.server>30.0.0.Final</version.server>
+        <!-- The versions for BOMs, Dependencies and Plugins -->
+        <version.bom.ee>${version.server}</version.bom.ee>
+        <version.bom.microprofile>${version.server}</version.bom.microprofile>
+        <version.pack.cloud>5.0.0.Final</version.pack.cloud>
+        <version.plugin.wildfly>4.2.1.Final</version.plugin.wildfly>
+        <version.wildfly-jar.maven.plugin>10.0.0.Final</version.wildfly-jar.maven.plugin>
 
-  <repositories>
+        <version.org.jboss.resteasy>6.2.6.Final</version.org.jboss.resteasy>
+        <version.org.junit>5.10.1</version.org.junit>
+
+        <!-- These two can be removed, and their respective usages below, when https://issues.redhat.com/browse/WFLY-18499
+             is resolved and integrated -->
+        <version.io.smallrye.smallrye-config>3.4.3</version.io.smallrye.smallrye-config>
+        <version.org.jboss.resteasy.microprofile>2.1.4.Final</version.org.jboss.resteasy.microprofile>
+
+        <!-- Configuration settings -->
+        <jboss.home>${project.build.directory}/server</jboss.home>
+        <server.host>http://localhost:8080/microprofile-rest-client</server.host>
+
+        <!-- These settings can be removed when the parent is upgraded to 6 -->
+        <maven.compiler.target>11</maven.compiler.target>
+        <maven.compiler.source>11</maven.compiler.source>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- importing the microprofile BOM adds MicroProfile specs -->
+            <dependency>
+                <groupId>org.wildfly.bom</groupId>
+                <artifactId>wildfly-microprofile</artifactId>
+                <version>${version.bom.microprofile}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- importing the ee-with-tools BOM adds specs and other useful artifacts as managed dependencies -->
+            <dependency>
+                <groupId>org.wildfly.bom</groupId>
+                <artifactId>wildfly-ee-with-tools</artifactId>
+                <version>${version.bom.ee}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.junit</groupId>
+                <artifactId>junit-bom</artifactId>
+                <version>${version.org.junit}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    <dependencies>
+        <!-- First declare the APIs we depend on and need for compilation. All
+            of them are provided by JBoss WildFly -->
+        <dependency>
+            <groupId>jakarta.enterprise</groupId>
+            <artifactId>jakarta.enterprise.cdi-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>jakarta.ws.rs</groupId>
+            <artifactId>jakarta.ws.rs-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>jakarta.json</groupId>
+            <artifactId>jakarta.json-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Test Dependencies -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!-- Import the MicroProfile REST Client API, we use provided scope as the API is included in the server -->
+        <dependency>
+            <groupId>org.eclipse.microprofile.rest.client</groupId>
+            <artifactId>microprofile-rest-client-api</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!-- Import the MicroProfile Config API, we use provided scope as the API is included in the server -->
+        <dependency>
+            <groupId>org.eclipse.microprofile.config</groupId>
+            <artifactId>microprofile-config-api</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-client</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-json-binding-provider</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-json-p-provider</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!-- Required by the resteasy-json-p-provider -->
+        <dependency>
+            <groupId>org.eclipse.parsson</groupId>
+            <artifactId>parsson</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!-- Used for the test container -->
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-undertow-cdi</artifactId>
+            <version>${version.org.jboss.resteasy}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.smallrye</groupId>
+            <artifactId>jandex</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.smallrye.config</groupId>
+            <artifactId>smallrye-config</artifactId>
+            <version>${version.io.smallrye.smallrye-config}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.resteasy.microprofile</groupId>
+            <artifactId>microprofile-rest-client</artifactId>
+            <version>${version.org.jboss.resteasy.microprofile}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.wildfly.plugins</groupId>
+                    <artifactId>wildfly-maven-plugin</artifactId>
+                    <version>${version.plugin.wildfly}</version>
+                    <configuration>
+                        <jboss-home>${jboss.home}</jboss-home>
+                        <feature-packs>
+                            <feature-pack>
+                                <location>org.wildfly:wildfly-galleon-pack:${version.server}</location>
+                            </feature-pack>
+                        </feature-packs>
+                        <layers>
+                            <layer>jaxrs-server</layer>
+                            <layer>microprofile-platform</layer>
+                        </layers>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.wildfly.plugins</groupId>
+                    <artifactId>wildfly-jar-maven-plugin</artifactId>
+                    <version>${version.wildfly-jar.maven.plugin}</version>
+                    <configuration>
+                        <feature-packs>
+                            <feature-pack>
+                                <location>org.wildfly:wildfly-galleon-pack:${version.server}</location>
+                            </feature-pack>
+                        </feature-packs>
+                        <layers>
+                            <layer>jaxrs-server</layer>
+                            <layer>microprofile-platform</layer>
+                        </layers>
+                        <plugin-options>
+                            <jboss-fork-embedded>true</jboss-fork-embedded>
+                        </plugin-options>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.asciidoctor</groupId>
+                <artifactId>asciidoctor-maven-plugin</artifactId>
+                <configuration>
+                    <!-- adds versions properties as attributes for substitutions in README.adoc source blocks -->
+                    <attributes>
+                        <versionMicroprofileBom>${version.bom.microprofile}</versionMicroprofileBom>
+                    </attributes>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>bootable-jar</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.wildfly.plugins</groupId>
+                        <artifactId>wildfly-jar-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>package</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>openshift</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.wildfly.plugins</groupId>
+                        <artifactId>wildfly-maven-plugin</artifactId>
+                        <configuration>
+                            <!-- deploys the quickstart on root web context -->
+                            <filename>ROOT.war</filename>
+                            <feature-packs>
+                                <feature-pack>
+                                    <location>org.wildfly:wildfly-galleon-pack:${version.server}</location>
+                                </feature-pack>
+                                <feature-pack>
+                                    <location>org.wildfly.cloud:wildfly-cloud-galleon-pack:${version.pack.cloud}</location>
+                                </feature-pack>
+                            </feature-packs>
+                            <layers>
+                                <layer>jaxrs-server</layer>
+                                <layer>microprofile-platform</layer>
+                                <layer>cloud-server</layer>
+                            </layers>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>package</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>set-server-host</id>
+            <activation>
+                <property>
+                    <name>env.SERVER_HOST</name>
+                </property>
+            </activation>
+            <properties>
+                <server.host>${env.SERVER_HOST}</server.host>
+            </properties>
+        </profile>
+        <profile>
+            <id>integration-testing</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <configuration>
+                            <includes>
+                                <include>**/*IT</include>
+                            </includes>
+                            <systemPropertyVariables>
+                                <server.host>${server.host}</server.host>
+                            </systemPropertyVariables>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>integration-test</goal>
+                                    <goal>verify</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+    <repositories>
         <repository>
             <id>jboss-public-maven-repository</id>
             <name>JBoss Public Maven Repository</name>
             <url>https://repository.jboss.org/nexus/content/groups/public/</url>
-            <releases>
-                <enabled>true</enabled>
-                <updatePolicy>never</updatePolicy>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>never</updatePolicy>
-            </snapshots>
-            <layout>default</layout>
-        </repository>
-        <repository>
-            <id>redhat-ga-maven-repository</id>
-            <name>Red Hat GA Maven Repository</name>
-            <url>https://maven.repository.redhat.com/ga/</url>
             <releases>
                 <enabled>true</enabled>
                 <updatePolicy>never</updatePolicy>
@@ -92,134 +358,6 @@
                 <enabled>true</enabled>
             </snapshots>
         </pluginRepository>
-        <pluginRepository>
-            <id>redhat-ga-maven-repository</id>
-            <name>Red Hat GA Maven Repository</name>
-            <url>https://maven.repository.redhat.com/ga/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </pluginRepository>
     </pluginRepositories>
-
-  <modules>
-    <module>country-client</module>
-    <module>country-server</module>
-  </modules>
-
-  <dependencyManagement>
-    <dependencies>
-      <!-- importing the microprofile BOM adds MicroProfile specs -->
-      <dependency>
-        <groupId>org.wildfly.bom</groupId>
-        <artifactId>wildfly-microprofile</artifactId>
-        <version>${version.microprofile.bom}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-      <!-- importing the ee-with-tools BOM adds specs and other useful artifacts as managed dependencies -->
-      <dependency>
-        <groupId>org.wildfly.bom</groupId>
-        <artifactId>wildfly-ee-with-tools</artifactId>
-        <version>${version.server.bom}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
-
-  <build>
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <groupId>org.wildfly.plugins</groupId>
-          <artifactId>wildfly-jar-maven-plugin</artifactId>
-          <version>${version.wildfly-jar.maven.plugin}</version>
-        </plugin>
-        <plugin>
-          <groupId>org.eclipse.jkube</groupId>
-          <artifactId>openshift-maven-plugin</artifactId>
-          <version>${version.jkube.maven.plugin}</version>
-        </plugin>
-      </plugins>
-    </pluginManagement>
-    <plugins>
-      <plugin>
-        <groupId>org.asciidoctor</groupId>
-        <artifactId>asciidoctor-maven-plugin</artifactId>
-        <configuration>
-          <!-- adds versions properties as attributes for substitutions in README.adoc source blocks -->
-          <attributes>
-            <versionMicroprofileBom>${version.microprofile.bom}</versionMicroprofileBom>
-          </attributes>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
-
-    <profiles>
-        <profile>
-            <!-- An optional Arquillian testing profile that executes tests in your JBoss EAP instance.
-                 This profile will start a new JBoss EAP instance, and execute the test, shutting it down when done.
-                 Run with: mvn clean verify -Parq-managed -->
-            <id>arq-managed</id>
-            <dependencies>
-                <dependency>
-                    <groupId>org.wildfly.arquillian</groupId>
-                    <artifactId>wildfly-arquillian-container-managed</artifactId>
-                    <scope>test</scope>
-                </dependency>
-            </dependencies>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-failsafe-plugin</artifactId>
-                        <version>${version.failsafe.plugin}</version>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>integration-test</goal>
-                                    <goal>verify</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <!-- An optional Arquillian testing profile that executes tests in a remote JBoss EAP instance.
-                 Run with: mvn clean verify -Parq-remote -->
-            <id>arq-remote</id>
-            <dependencies>
-                <dependency>
-                    <groupId>org.wildfly.arquillian</groupId>
-                    <artifactId>wildfly-arquillian-container-remote</artifactId>
-                    <scope>test</scope>
-                </dependency>
-            </dependencies>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-failsafe-plugin</artifactId>
-                        <version>${version.failsafe.plugin}</version>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>integration-test</goal>
-                                    <goal>verify</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
 
 </project>
