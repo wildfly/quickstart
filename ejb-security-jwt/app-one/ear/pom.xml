@@ -22,6 +22,7 @@
         <groupId>org.wildfly.quickstarts</groupId>
         <artifactId>ejb-security-jwt-app-one</artifactId>
         <version>31.0.0.Beta1-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>ejb-security-jwt-app-one-ear</artifactId>
     <packaging>ear</packaging>
@@ -76,5 +77,48 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>provisioned-server</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.wildfly.plugins</groupId>
+                        <artifactId>wildfly-maven-plugin</artifactId>
+                        <configuration>
+                            <feature-packs>
+                                <feature-pack>
+                                    <location>org.wildfly:wildfly-galleon-pack:${version.server}</location>
+                                </feature-pack>
+                            </feature-packs>
+                            <layers>
+                                <layer>cloud-server</layer>
+                                <layer>ejb</layer>
+                            </layers>
+                            <name>${project.parent.artifactId}.ear</name>
+                            <packaging-scripts>
+                                <packaging-script>
+                                    <java-opts>-Dejb-outbound-port=${ejb-outbound-port}</java-opts>
+                                    <scripts>
+                                        <script>${basedir}/../../configure-elytron.cli</script>
+                                        <script>${basedir}/../../configure-ejb-outbound-connection.cli</script>
+                                    </scripts>
+                                    <resolve-expressions>true</resolve-expressions>
+                                </packaging-script>
+                            </packaging-scripts>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>package</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
 </project>
