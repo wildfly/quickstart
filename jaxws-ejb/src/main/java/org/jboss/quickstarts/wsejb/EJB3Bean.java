@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jboss.quickstarts.ws.jaxws.samples.jsr181pojo;
+package org.jboss.quickstarts.wsejb;
 
 import jakarta.ejb.Remote;
 import jakarta.ejb.Stateless;
