@@ -46,7 +46,7 @@ public class ClientIT {
             host = "http://localhost:8080";
         }
         try {
-            return new URI(host + "/helloworld-ws/" + WSDL_PATH).toURL();
+            return new URI(host + "/" + WSDL_PATH).toURL();
         } catch (URISyntaxException | MalformedURLException ex) {
             throw new RuntimeException(ex);
         }
