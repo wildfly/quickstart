@@ -14,23 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jboss.as.quickstarts.jaxrsclient.test;
+package org.jboss.as.quickstarts.jaxrsclient.rest;
 
-import java.io.IOException;
-import java.util.logging.Logger;
+import jakarta.ws.rs.ApplicationPath;
+import jakarta.ws.rs.core.Application;
 
-import jakarta.ws.rs.client.ClientRequestContext;
-import jakarta.ws.rs.client.ClientResponseContext;
-import jakarta.ws.rs.client.ClientResponseFilter;
-import java.util.logging.Level;
-
-//This filter will log response date and status
-public class LogResponseFilter implements ClientResponseFilter {
-
-    private static final Logger log = Logger.getLogger(LogResponseFilter.class.getName());
-
-    @Override
-    public void filter(ClientRequestContext requestContext, ClientResponseContext responseContext) throws IOException {
-        log.log(Level.INFO, "Date: {0}- Status: {1}", new Object[]{responseContext.getDate(), responseContext.getStatus()});
-    }
+/**
+ * A class extending {@link Application} and annotated with {@link ApplicationPath @ApplicationPath} is the Jakarta EE
+ * "no XML" approach to activating Jakarta REST.
+ * <p>
+ * Resources are served relative to the servlet path specified in the {@link ApplicationPath} annotation.
+ * </p>
+ */
+@ApplicationPath("/rest")
+public class RestApplication extends Application {
 }

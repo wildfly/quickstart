@@ -16,10 +16,11 @@
  */
 package org.jboss.as.quickstarts.jaxrsclient.rest;
 
-import java.util.Collection;
-import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -29,25 +30,26 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-
 import org.jboss.as.quickstarts.jaxrsclient.model.Contact;
 
 @Path("/contacts")
-public class ContactResourceRESTService {
+@ApplicationScoped
+public class ContactResource {
 
-    private static Map<Long, Contact> contactsRepository = new HashMap<>();
+    private static final Map<Long, Contact> contactsRepository = new ConcurrentHashMap<>();
 
     /**
-     * Creates a new contact from the values provided and will return a JAX-RS response with either 200 ok, or 400 (BAD REQUEST)
+     * Creates a new contact from the values provided and will return a response with either 200 ok, or 400 (BAD REQUEST)
      * in case of errors.
      */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response createContact(Contact contact) {
-
-        Response.ResponseBuilder builder = null;
-        Long nextId = contactsRepository.keySet().size() + 1L;
+    public Response createContact(final Contact contact) {
+        Response.ResponseBuilder builder;
+        // This type of ID should never be used. This is not thread safe and could attempt to add multiple contacts
+        // with the same idea. Since this is an example, we'll simply use it for simplicity in testing.
+        final long nextId = contactsRepository.size() + 1L;
         try {
             // Store the contact
             contact.setId(nextId);
@@ -59,7 +61,6 @@ public class ContactResourceRESTService {
             // Handle generic exceptions
             builder = Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage());
         }
-
         return builder.build();
     }
 
@@ -81,9 +82,8 @@ public class ContactResourceRESTService {
     // Fetch all contacts
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getAll() {
-        Collection<Contact> allcontacts = contactsRepository.values();
-        return Response.ok(allcontacts).build();
+    public List<Contact> getAll() {
+        return List.copyOf(contactsRepository.values());
     }
 
     // Fetch a specific contact
