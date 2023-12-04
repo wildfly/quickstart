@@ -53,7 +53,7 @@ public class ResteasySpringIT {
         if (serverHost == null) {
             serverHost = DEFAULT_SERVER_HOST;
         }
-        url = new URL(serverHost);
+        url = URI.create(serverHost).toURL();
     }
 
     @Test
