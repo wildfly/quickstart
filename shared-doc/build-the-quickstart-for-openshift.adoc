@@ -1,26 +1,11 @@
 [[build-the-quickstart-for-openshift]]
 == Build the {productName} Source-to-Image (S2I) Quickstart to OpenShift with Helm Charts
 
-On OpenShift, the S2I build with Apache Maven will use an `openshift` profile used to provision a {productName} server to deploy and run the quickstart in OpenShift environment.
-You can activate the Maven profile named `openshift` when building the quickstart:
-
-[source,subs="attributes+",options="nowrap"]
-----
-$ mvn clean package -Popenshift
-----
-
-The provisioned {productName} server for OpenShift, with the quickstart deployed, can then be found in the `target/server` directory, and its usage is similar to a standard server distribution. 
-ifndef::ProductRelease,EAPXPRelease[]
-You may note that unlike the `provisioned-server` profile it uses the cloud feature pack which enables a configuration tuned for OpenShift environment.
-endif::[]
-ifdef::ProductRelease,EAPXPRelease[]
-You may note that it uses the cloud feature pack which enables a configuration tuned for OpenShift environment.
-endif::[]
+On OpenShift, the S2I build with Apache Maven uses an `openshift` Maven profile to provision a {productName} server, deploy and run the quickstart in OpenShift environment.
 
 ifndef::ProductRelease,EAPXPRelease[]
 The server provisioning functionality is provided by the WildFly Maven Plugin, and you may find its configuration in the quickstart `pom.xml`:
 endif::[]
-
 ifdef::ProductRelease,EAPXPRelease[]
 The server provisioning functionality is provided by the EAP Maven Plugin, and you may find its configuration in the quickstart `pom.xml`:
 endif::[]
@@ -35,20 +20,17 @@ ifndef::ProductRelease,EAPXPRelease[]
                     <plugin>
                         <groupId>org.wildfly.plugins</groupId>
                         <artifactId>wildfly-maven-plugin</artifactId>
-                        <version>${version.wildfly.maven.plugin}</version>
                         <configuration>
                             <feature-packs>
                                 <feature-pack>
                                     <location>org.wildfly:wildfly-galleon-pack:${version.server}</location>
                                 </feature-pack>
                                 <feature-pack>
-                                    <location>org.wildfly.cloud:wildfly-cloud-galleon-pack:${version.cloud.fp}</location>
+                                    <location>org.wildfly.cloud:wildfly-cloud-galleon-pack:${version.pack.cloud}</location>
                                 </feature-pack>
                             </feature-packs>
-                            <layers>
-                                <layer>cloud-server</layer>
-                            </layers>
-                            <filename>ROOT.war</filename>
+                            <layers>...</layers>
+                            <name>ROOT.war</name>
                         </configuration>
                         <executions>
                             <execution>
@@ -58,6 +40,7 @@ ifndef::ProductRelease,EAPXPRelease[]
                             </execution>
                         </executions>
                     </plugin>
+                    ...
                 </plugins>
             </build>
         </profile>
@@ -74,8 +57,8 @@ ifdef::ProductRelease,EAPXPRelease[]
                     <plugin>
                         <groupId>org.jboss.eap.plugins</groupId>
                         <artifactId>eap-maven-plugin</artifactId>
-                        <version>${version.eap.maven.plugin}</version>
                         <configuration>
+                            ...
                             <feature-packs>
                                 <feature-pack>
                                     <location>org.jboss.eap:wildfly-ee-galleon-pack</location>
@@ -84,10 +67,8 @@ ifdef::ProductRelease,EAPXPRelease[]
                                     <location>org.jboss.eap.cloud:eap-cloud-galleon-pack</location>
                                 </feature-pack>
                             </feature-packs>
-                            <layers>
-                                <layer>cloud-server</layer>
-                            </layers>
-                            <filename>ROOT.war</filename>
+                            <layers>...</layers>
+                            <name>ROOT.war</name>
                         </configuration>
                         <executions>
                             <execution>
@@ -97,13 +78,16 @@ ifdef::ProductRelease,EAPXPRelease[]
                             </execution>
                         </executions>
                     </plugin>
+                    ...
                 </plugins>
             </build>
         </profile>
 ----
 endif::[]
 
-[NOTE]
-====
-Since the plugin configuration above deploys quickstart on root web context of the provisioned server, the URL to access the application should not have the `/{artifactId}` path segment after `HOST:PORT`.
-====
+ifndef::ProductRelease,EAPXPRelease[]
+You may note that unlike the `provisioned-server` profile it uses the cloud feature pack which enables a configuration tuned for OpenShift environment.
+endif::[]
+ifdef::ProductRelease,EAPXPRelease[]
+You may note that it uses the cloud feature pack which enables a configuration tuned for OpenShift environment.
+endif::[]

@@ -1,9 +1,9 @@
 [[build_and_run_the_quickstart_with_bootable_jar]]
 = Building and running the quickstart application in a bootable JAR
 
-You can package a {productName} server and an application inside a bootable JAR. You can then run the application on a {productName} bare-metal platform or on a {productName} Openshift platform.
+You can use the WildFly JAR Maven plug-in to build a {productName} bootable JAR to run this quickstart.
 
-You can use the Maven plug-in to build a {productName} bootable JAR, and then you can run the application on a {productName} bare-metal platform. The following example demonstrates a quickstart `pom.xml` file that contains a Maven profile named *bootable-jar*:
+The quickstart `pom.xml` file contains a Maven profile named *bootable-jar* which configures the bootable JAR building:
 
 [source,xml,subs="attributes+"]
 ----
@@ -16,17 +16,7 @@ You can use the Maven plug-in to build a {productName} bootable JAR, and then yo
                       <artifactId>wildfly-jar-maven-plugin</artifactId>
                       <configuration>
                           <feature-pack-location>wildfly@maven(org.jboss.universe:community-universe)#${version.server}</feature-pack-location>
-                          <layers>
-ifndef::custom-bootable-jar-layers[]
-                              <layer>jaxrs-server</layer>
-                              <layer>microprofile-platform</layer>
-endif::[]
-ifdef::reactive-messaging[]
-                              <layer>cloud-server</layer>
-                              <layer>h2-default-datasource</layer>
-                              <layer>microprofile-reactive-messaging-kafka</layer>
-endif::[]
-                          </layers>
+                          <layers>...</layers>
                           <plugin-options>
                               <jboss-fork-embedded>true</jboss-fork-embedded>
                           </plugin-options>
@@ -39,6 +29,7 @@ endif::[]
                           </execution>
                       </executions>
                   </plugin>
+                  ...
               </plugins>
           </build>
       </profile>
@@ -52,9 +43,9 @@ endif::[]
 ----
 $ mvn clean package -Pbootable-jar
 ----
-+
-. Run the quickstart application contained in the bootable JAR:
 
+. Run the quickstart application contained in the bootable JAR:
++
 [source,subs="attributes+",options="nowrap"]
 ----
 ifdef::uses-jaeger[]
@@ -72,5 +63,5 @@ endif::uses-jaeger[]
 After the quickstart application is deployed, the bootable JAR includes the application in the root context. Therefore, any URLs related to the application should not have the `/{artifactId}` path segment after `HOST:PORT`.
 ====
 
-// Bootable Jar Testing with Arquillian
+// Bootable Jar Testing
 include::../shared-doc/run-integration-tests-with-bootable-jar.adoc[leveloffset=+1]
