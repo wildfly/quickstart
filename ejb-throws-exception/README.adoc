@@ -4,6 +4,7 @@ include::../shared-doc/attributes.adoc[]
 :author: Brad Maxwell
 :level: Intermediate
 :technologies: EJB, EAR
+:deploymentDir: ear
 
 [abstract]
 The `ejb-throws-exception` quickstart demonstrates how to throw and handle exceptions across JARs in an EAR.
@@ -93,12 +94,29 @@ For this quickstart, follow the special instructions to build link:{useEclipseDe
 // Debug the Application
 include::../shared-doc/debug-the-application.adoc[leveloffset=+1]
 
+// Server Distribution Testing
+include::../shared-doc/run-integration-tests-with-server-distribution.adoc[leveloffset=+2]
+
+// Undeploy the Quickstart
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
+
 //*************************************************
 // Product Release content only
 //*************************************************
+// Build and run sections for other environments/builds
+
+ifndef::ProductRelease,EAPXPRelease[]
+
+include::../shared-doc/build-and-run-the-quickstart-with-provisioned-server.adoc[leveloffset=+1]
+
+endif::[]
+
+
 ifdef::ProductRelease[]
 
 // Quickstart not compatible with OpenShift
 include::../shared-doc/openshift-incompatibility.adoc[leveloffset=+1]
 
 endif::[]
+
+
