@@ -21,7 +21,7 @@
     <listeners>
         <listener ref="jobListener" />
     </listeners>
-    <step id="import-file-chunk" next="reportBatchelet">
+    <step id="import-file-chunk" next="report-batchlet">
         <listeners>
             <listener ref="persistListener" />
         </listeners>
@@ -38,8 +38,8 @@
             <writer ref="contactsPersister" />
         </chunk>
     </step>
-    <step id="reportBatchelet">
-        <batchlet ref="reportBatchelet" />
+    <step id="report-batchlet">
+        <batchlet ref="reportBatchlet" />
         <end on="END" />
     </step>
 </job>
