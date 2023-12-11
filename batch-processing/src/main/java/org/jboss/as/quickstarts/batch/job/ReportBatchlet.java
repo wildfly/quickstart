@@ -24,8 +24,8 @@ import jakarta.inject.Named;
 import jakarta.persistence.EntityManager;
 
 //This batchlet just reports how many records was imported to database
-@Named("reportBatchelet")
-public class ReportBatchelet implements Batchlet {
+@Named("reportBatchlet")
+public class ReportBatchlet implements Batchlet {
 
     @Inject
     private EntityManager entityManager;
