@@ -40,6 +40,13 @@
             <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
         </license>
     </licenses>
+
+    <properties>
+        <quickstart-assembly-name>wildfly-${project.version}-quickstarts</quickstart-assembly-name>
+        <quickstart-assembly-format>zip</quickstart-assembly-format>
+        <quickstart-assembly-attach>true</quickstart-assembly-attach>
+    </properties>
+
     <build>
         <finalName>wildfly-${project.version}</finalName>
         <plugins>
@@ -58,11 +65,55 @@
                             <descriptors>
                                 <descriptor>src/main/assembly/assembly.xml</descriptor>
                             </descriptors>
+                            <attach>${quickstart-assembly-attach}</attach>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>publish</id>
+            <activation>
+                <property>
+                    <name>publish</name>
+                </property>
+            </activation>
+
+            <properties>
+                <quickstart-assembly-name>site</quickstart-assembly-name>
+                <quickstart-assembly-format>dir</quickstart-assembly-format>
+                <quickstart-assembly-attach>false</quickstart-assembly-attach>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-resources-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>copy-site</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>copy-resources</goal>
+                                </goals>
+                                <configuration>
+                                    <outputDirectory>${basedir}/target/site</outputDirectory>
+                                    <resources>
+                                        <resource>
+                                            <directory>${basedir}/target/wildfly-${project.version}-quickstarts/site/</directory>
+                                        </resource>
+                                    </resources>
+                                    <overwrite>true</overwrite>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
    
 </project>
