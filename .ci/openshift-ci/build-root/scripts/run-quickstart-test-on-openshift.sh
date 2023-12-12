@@ -193,6 +193,7 @@ fi
 mvn -B verify -Pintegration-testing ${mvnVerifyArguments}
 
 if [ "$?" != "0" ]; then
+  test_status=1
   echo "Tests failed!"
   echo "Dumping the application pod(s)"
   oc logs deployment/"${application}"
