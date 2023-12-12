@@ -16,19 +16,19 @@
  */
 package org.wildfly.quickstarts.microprofile.lra;
 
-import jakarta.ws.rs.client.Client;
-import jakarta.ws.rs.client.ClientBuilder;
-import jakarta.ws.rs.client.WebTarget;
-import jakarta.ws.rs.core.Response;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-
-import java.util.function.Function;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.wildfly.quickstarts.microprofile.lra.TestUtils.getServerHost;
+//import jakarta.ws.rs.client.Client;
+//import jakarta.ws.rs.client.ClientBuilder;
+//import jakarta.ws.rs.client.WebTarget;
+//import jakarta.ws.rs.core.Response;
+//import org.junit.After;
+//import org.junit.Before;
+//import org.junit.Test;
+//
+//import java.util.function.Function;
+//
+//import static org.junit.Assert.assertEquals;
+//import static org.junit.Assert.assertNull;
+//import static org.wildfly.quickstarts.microprofile.lra.TestUtils.getServerHost;
 
 public class MicroProfileLRAIT {
 
