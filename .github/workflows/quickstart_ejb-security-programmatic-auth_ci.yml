@@ -1,0 +1,16 @@
+name: WildFly ejb-security-programmatic-auth Quickstart CI
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    paths:
+      - 'ejb-security-programmatic-auth/**'
+      - .github/workflows/quickstart_ci.yml
+
+jobs:
+  call-quickstart_ci:
+    uses: ./.github/workflows/quickstart_ci.yml
+    with:
+      QUICKSTART_PATH: ejb-security-programmatic-auth
+      TEST_PROVISIONED_SERVER: true
+      TEST_OPENSHIFT: false
