@@ -20,6 +20,9 @@
  */
 package org.jboss.as.quickstarts.servlet_security;
 
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
 import java.io.IOException;
 import java.net.Authenticator;
 import java.net.PasswordAuthentication;
@@ -28,34 +31,29 @@ import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import org.junit.Assert;
-import org.junit.Test;
 
 /**
  *
  * @author Emmanuel Hugonnet (c) 2022 Red Hat, Inc.
+ * @author istudens
  */
+public class BasicRuntimeIT {
 
-public class RemoteSecureIT {
+    protected static final String DEFAULT_SERVER_HOST = "http://localhost:8080/servlet-security";
 
     protected URI getHTTPEndpoint() {
-        String host = getServerHost();
+        String host = System.getenv("SERVER_HOST");
         if (host == null) {
-            host = "http://localhost:8080/servlet-security";
+            host = System.getProperty("server.host");
+        }
+        if (host == null) {
+            host = DEFAULT_SERVER_HOST;
         }
         try {
             return new URI(host + "/SecuredServlet");
         } catch (URISyntaxException ex) {
             throw new RuntimeException(ex);
         }
-    }
-
-    protected static String getServerHost() {
-        String host = System.getenv("SERVER_HOST");
-        if (host == null) {
-            host = System.getProperty("server.host");
-        }
-        return host;
     }
 
     @Test
@@ -70,12 +68,12 @@ public class RemoteSecureIT {
             }
         }).build();
         HttpResponse response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        Assert.assertEquals(200, response.statusCode());
+        Assertions.assertEquals(200, response.statusCode());
         String[] lines = response.body().toString().split(System.lineSeparator());
-        Assert.assertEquals("<h1>Successfully called Secured Servlet </h1>", lines[1].trim());
-        Assert.assertEquals("<p>Principal  : quickstartUser</p>", lines[2].trim());
-        Assert.assertEquals("<p>Remote User : quickstartUser</p>", lines[3].trim());
-        Assert.assertEquals("<p>Authentication Type : BASIC</p>", lines[4].trim());
+        Assertions.assertEquals("<h1>Successfully called Secured Servlet </h1>", lines[1].trim());
+        Assertions.assertEquals("<p>Principal  : quickstartUser</p>", lines[2].trim());
+        Assertions.assertEquals("<p>Remote User : quickstartUser</p>", lines[3].trim());
+        Assertions.assertEquals("<p>Authentication Type : BASIC</p>", lines[4].trim());
     }
 
     @Test
@@ -90,6 +88,6 @@ public class RemoteSecureIT {
             }
         }).build();
         HttpResponse response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        Assert.assertEquals(403, response.statusCode());
+        Assertions.assertEquals(403, response.statusCode());
     }
 }
