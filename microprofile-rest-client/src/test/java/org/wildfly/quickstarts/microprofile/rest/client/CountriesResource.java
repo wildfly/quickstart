@@ -69,7 +69,6 @@ public class CountriesResource {
         CountriesServiceClient client = RestClientBuilder.newBuilder()
                 .baseUrl(new URL(serverHost))
                 .build(CountriesServiceClient.class);
-
         return client.getByName(name);
     }
 
@@ -78,14 +77,11 @@ public class CountriesResource {
     @Produces(MediaType.APPLICATION_JSON)
     public CompletionStage<Country> nameAsync(@PathParam("name") String name) {
         CompletionStage<Country> completionStage = countriesServiceClient.getByNameAsync(name);
-
-        System.out.println("Async request happening now...");
         try {
             TimeUnit.SECONDS.sleep(1L);
         } catch (InterruptedException e) {
             throw new WebApplicationException(e);
         }
-
         return completionStage;
     }
 }
