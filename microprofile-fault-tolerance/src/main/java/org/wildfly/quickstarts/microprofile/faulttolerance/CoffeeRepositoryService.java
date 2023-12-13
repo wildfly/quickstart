@@ -36,11 +36,11 @@ public class CoffeeRepositoryService {
 
     private static final Logger LOGGER = Logger.getLogger(CoffeeRepositoryService.class);
 
-    private Map<Integer, Coffee> coffeeList = new HashMap<>();
+    private final Map<Integer, Coffee> coffeeList = new HashMap<>();
 
-    private Map<Integer, Integer> availability = new HashMap<>();
+    private final Map<Integer, Integer> availability = new HashMap<>();
 
-    private AtomicLong counter = new AtomicLong(0);
+    private final AtomicLong counter = new AtomicLong(0);
 
 
     public CoffeeRepositoryService() {

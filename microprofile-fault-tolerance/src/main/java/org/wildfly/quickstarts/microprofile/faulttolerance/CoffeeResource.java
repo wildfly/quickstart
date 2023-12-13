@@ -24,6 +24,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -33,7 +34,6 @@ import org.eclipse.microprofile.faulttolerance.Fallback;
 import org.eclipse.microprofile.faulttolerance.Retry;
 import org.eclipse.microprofile.faulttolerance.Timeout;
 import org.jboss.logging.Logger;
-import jakarta.ws.rs.PathParam;
 
 /**
  * A JAX-RS resource that provides information about kinds of coffees we have on store and numbers of packages available.
@@ -51,7 +51,7 @@ public class CoffeeResource {
     @Inject
     CoffeeRepositoryService coffeeRepository;
 
-    private AtomicLong counter = new AtomicLong(0);
+    private final AtomicLong counter = new AtomicLong(0);
 
     private Float failRatio = 0.5f;
 
@@ -171,15 +171,24 @@ public class CoffeeResource {
         Thread.sleep(new Random().nextInt(500));
     }
 
-    void setFailRatio(Float failRatio) {
+    // The following methods are only used for automated integration testing
+
+    @GET
+    @Path("/setFailRatio/{failRatio}")
+    public void setFailRatio(@PathParam("failRatio") Float failRatio) {
         this.failRatio = failRatio;
     }
 
-    void resetCounter() {
+    @GET
+    @Path("/getCounter")
+    public Long getCounter() {
+        return counter.get();
+    }
+
+    @GET
+    @Path("/resetCounter")
+    public void resetCounter() {
         this.counter.set(0);
     }
 
-    Long getCounter() {
-        return counter.get();
-    }
 }
