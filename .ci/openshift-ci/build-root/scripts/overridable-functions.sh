@@ -73,6 +73,13 @@ function isOptimizedModeDisabled() {
   echo "0"
 }
 
+# Whether to disable TLS route.
+# Default is to not do anything.
+# To disable TLS routes, override this method change the body to 'echo "1"'
+function disableTlsRoute() {
+    echo ""
+}
+
 # Adds extra '--set' arguments to the helm install command.
 # Example output: "--set build.ref=hello --set deploy.replicas=10"
 # If there is a prefix (see getHelmSetVariablePrefix()), that needs to be added here
