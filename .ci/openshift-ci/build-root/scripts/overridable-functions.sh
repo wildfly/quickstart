@@ -73,6 +73,14 @@ function isOptimizedModeDisabled() {
   echo "0"
 }
 
+# Adds extra '--set' arguments to the helm install command.
+# Example output: "--set build.ref=hello --set deploy.replicas=10"
+# If there is a prefix (see getHelmSetVariablePrefix()), that needs to be added here
+#
+function getExtraHelmSetArguments() {
+  echo ""
+}
+
 # If the Helm variables set by the parent script (e.g. 'build.enabled') need a prefix, return
 # that here. If e.g "wildfly." is returned, the resulting 'build.enabled' becomes 'wildfly.build.enabled'
 function getHelmSetVariablePrefix() {

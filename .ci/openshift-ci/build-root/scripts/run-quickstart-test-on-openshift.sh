@@ -69,6 +69,7 @@ fi
 # These functions are from overridable-functions.sh
 application=$(applicationName "${qs_dir}")
 helm_set_arg_prefix=$(getHelmSetVariablePrefix)
+extra_helm_set_arguments=$(getExtraHelmSetArguments)
 
 ################################################################################################
 # Install any pre-requisites. Function is from overridable-functions.sh
@@ -135,6 +136,11 @@ fi
 if [ -n "${QS_BUILD_REF}" ]; then
   echo "Overriding ${helm_set_arg_prefix}build.ref in the quickstart values.yml to be ${QS_BUILD_REF}"
   helm_set_arguments="${helm_set_arguments} --set ${helm_set_arg_prefix}build.ref=${QS_BUILD_REF}"
+fi
+
+# Add any extra helm parameters
+if [ -n "${extra_helm_set_arguments}" ]; then
+  helm_set_arguments="${helm_set_arguments} ${extra_helm_set_arguments}"
 fi
 
 additional_arguments="No additional arguments"
