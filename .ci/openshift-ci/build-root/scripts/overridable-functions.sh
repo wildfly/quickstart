@@ -73,6 +73,13 @@ function isOptimizedModeDisabled() {
   echo "0"
 }
 
+# Whether to disable TLS route.
+# Default is to not do anything.
+# To disable TLS routes, override this method change the body to 'echo "1"'
+function disableTlsRoute() {
+    echo ""
+}
+
 # If the Helm variables set by the parent script (e.g. 'build.enabled') need a prefix, return
 # that here. If e.g "wildfly." is returned, the resulting 'build.enabled' becomes 'wildfly.build.enabled'
 function getHelmSetVariablePrefix() {

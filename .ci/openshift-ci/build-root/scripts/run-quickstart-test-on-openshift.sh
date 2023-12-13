@@ -69,6 +69,13 @@ fi
 # These functions are from overridable-functions.sh
 application=$(applicationName "${qs_dir}")
 helm_set_arg_prefix=$(getHelmSetVariablePrefix)
+extra_helm_set_arguments=""
+server_protocol="https"
+disableTlsRoute=$(disableTlsRoute)
+if [ "1" = "${disableTlsRoute}" ]; then
+  extra_helm_set_arguments="${extra_helm_set_arguments} --set ${helm_set_arg_prefix}deploy.route.tls.enabled=false"
+  server_protocol="http"
+fi
 
 ################################################################################################
 # Install any pre-requisites. Function is from overridable-functions.sh
@@ -137,6 +144,10 @@ if [ -n "${QS_BUILD_REF}" ]; then
   helm_set_arguments="${helm_set_arguments} --set ${helm_set_arg_prefix}build.ref=${QS_BUILD_REF}"
 fi
 
+if [ -n "${extra_helm_set_arguments}" ]; then
+  helm_set_arguments="${helm_set_arguments} ${extra_helm_set_arguments}"
+fi
+
 additional_arguments="No additional arguments"
 if [ -n "${helm_set_arguments}" ]; then
   additional_arguments="Additional arguments: ${helm_set_arguments}"
@@ -183,7 +194,7 @@ if [ "${QS_UNSIGNED_SERVER_CERT}" = "1" ]; then
 fi
 
 
-mvnVerifyArguments="-Dserver.host=https://${route} ${QS_MAVEN_REPOSITORY} ${truststore_properties}"
+mvnVerifyArguments="-Dserver.host=${server_protocol}://${route} ${QS_MAVEN_REPOSITORY} ${truststore_properties}"
 extraMvnVerifyArguments="$(getMvnVerifyExtraArguments)"
 echo "Verify Arguments: ${mvnVerifyArguments}"
 if [ -n "${extraMvnVerifyArguments}" ]; then
