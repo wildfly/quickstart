@@ -1,0 +1,13 @@
+# Batch script to configure the datasource
+batch
+
+# Start by creating the JDBC datasource
+/subsystem=datasources/data-source=HibernateQuickstartDS:add(connection-url="jdbc:h2:mem:hibernate-quickstart;DB_CLOSE_ON_EXIT=FALSE;DB_CLOSE_DELAY=-1", jndi-name="java:jboss/datasources/HibernateQuickstartDS", driver-name=h2, user-name="sa", password="sa", use-java-context=true)
+
+# Run the batch commands
+run-batch
+
+# Reload the server configuration
+#reload
+
+

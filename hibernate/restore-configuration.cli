@@ -1,0 +1,18 @@
+# Batch script to remove the hibernate quickstart datasource from the server configuration file
+
+# Start batching commands
+batch
+
+# Remove the JDBC datasource
+/subsystem=datasources/data-source=HibernateQuickstartDS:remove()
+
+# The README file contains instructions to undeploy the application. 
+# If you prefer, you can uncomment the following to undeploy the application using this script.
+# undeploy hibernate.war
+
+# Run the batch commands
+run-batch
+
+# Reload the server configuration
+reload
+

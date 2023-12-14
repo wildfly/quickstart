@@ -1,0 +1,14 @@
+name: WildFly hibernate Quickstart CI
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    paths:
+      - 'hibernate/**'
+      - '.github/workflows/quickstart_ci.yml'
+jobs:
+  call-quickstart_ci:
+    uses: ./.github/workflows/quickstart_ci.yml
+    with:
+      QUICKSTART_PATH: hibernate
+      TEST_PROVISIONED_SERVER: true
