@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2020, Red Hat, Inc. and/or its affiliates, and individual
+ * Copyright 2023, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
  * distribution for a full listing of individual contributors.
  *
@@ -16,25 +16,18 @@
  */
 package org.wildfly.quickstarts.microprofile.faulttolerance;
 
-/**
- * A simple entity class.
- *
- * @author Radoslav Husar
- */
-public class Coffee {
+public class TestUtils {
 
-    public Integer id;
-    public String name;
-    public String countryOfOrigin;
-    public Integer price;
+    static final String DEFAULT_SERVER_HOST = "http://localhost:8080/microprofile-fault-tolerance";
 
-    public Coffee() {
-    }
-
-    public Coffee(Integer id, String name, String countryOfOrigin, Integer price) {
-        this.id = id;
-        this.name = name;
-        this.countryOfOrigin = countryOfOrigin;
-        this.price = price;
+    static String getServerHost() {
+        String serverHost = System.getenv("SERVER_HOST");
+        if (serverHost == null) {
+            serverHost = System.getProperty("server.host");
+        }
+        if (serverHost == null) {
+            serverHost = DEFAULT_SERVER_HOST;
+        }
+        return serverHost;
     }
 }

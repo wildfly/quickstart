@@ -16,42 +16,35 @@
  */
 package org.wildfly.quickstarts.microprofile.faulttolerance;
 
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.arquillian.test.api.ArquillianResource;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
+import java.util.List;
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.core.GenericType;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+
+import org.jboss.resteasy.plugins.providers.RegisterBuiltin;
+import org.jboss.resteasy.plugins.providers.jackson.ResteasyJackson2Provider;
+import org.jboss.resteasy.spi.ResteasyProviderFactory;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
-import jakarta.inject.Inject;
-import jakarta.ws.rs.client.Client;
-import jakarta.ws.rs.client.ClientBuilder;
-import jakarta.ws.rs.core.GenericType;
-import jakarta.ws.rs.core.Response;
-import java.net.URL;
-import java.util.List;
-
-@RunWith(Arquillian.class)
-public class MicroProfileFaultToleranceIT {
-
-    private static final String APP_NAME = "microprofile-fault-tolerance";
-
-    @ArquillianResource
-    private URL deploymentUrl;
-
-    @Inject
-    private CoffeeResource coffeeResource;
+/**
+ * Simple integration test for Coffee resource that is guarded by MicroProfile Fault Tolerance annotations.
+ *
+ * @author Radoslav Husar
+ * @author Eduardo Martins
+ */
+public class CoffeeResourceIT {
 
     private Client client;
 
-    @Deployment
-    public static WebArchive createDeployment() {
-        return ShrinkWrap.create(WebArchive.class, APP_NAME + ".war")
-                .addPackage(CoffeeApplication.class.getPackage());
+    static {
+        ResteasyProviderFactory instance = ResteasyProviderFactory.getInstance();
+        RegisterBuiltin.register(instance);
+        instance.registerProvider(ResteasyJackson2Provider.class);
     }
 
     @Before
@@ -66,8 +59,8 @@ public class MicroProfileFaultToleranceIT {
 
     @Test
     public void testCoffeeList() {
-        coffeeResource.setFailRatio(0f);
-        coffeeResource.resetCounter();
+        this.setFailRatio(0f);
+        this.resetCounter();
 
         try (Response response = this.getResponse("/coffee")) {
             Assert.assertEquals(200, response.getStatus());
@@ -80,18 +73,19 @@ public class MicroProfileFaultToleranceIT {
 
     @Test
     public void testCoffeeListFailure() {
-        coffeeResource.setFailRatio(1f);
-        coffeeResource.resetCounter();
+        this.setFailRatio(1f);
+        this.resetCounter();
 
         try (Response response = this.getResponse("/coffee")) {
             Assert.assertEquals(500, response.getStatus());
-            Assert.assertEquals(5, coffeeResource.getCounter().longValue());
         }
+
+        Assert.assertEquals(5, this.getCounter());
     }
 
     @Test
     public void testCoffeeDetail() {
-        coffeeResource.setFailRatio(0f);
+        this.setFailRatio(0f);
 
         try (Response response = this.getResponse("/coffee/1")) {
             Assert.assertEquals(200, response.getStatus());
@@ -104,17 +98,36 @@ public class MicroProfileFaultToleranceIT {
 
     @Test
     public void testCoffeeDetailFailure() {
-        coffeeResource.setFailRatio(1f);
+        this.setFailRatio(1f);
 
         try (Response response = this.getResponse("/coffee/1")) {
             Assert.assertEquals(500, response.getStatus());
         }
     }
 
+    private long getCounter() {
+        try (Response response = this.getResponse("/coffee/getCounter")) {
+            Assert.assertEquals(200, response.getStatus());
+            return response.readEntity(Long.class);
+        }
+    }
+
+    private void setFailRatio(float failRatio) {
+        try (Response response = this.getResponse("/coffee/setFailRatio/" + failRatio)) {
+            Assert.assertEquals(204, response.getStatus());
+        }
+    }
+
+    private void resetCounter() {
+        try (Response response = this.getResponse("/coffee/resetCounter")) {
+            Assert.assertEquals(204, response.getStatus());
+        }
+    }
+
     private Response getResponse(String path) {
-        return client.target(deploymentUrl.toString())
+        return client.target(TestUtils.getServerHost())
                 .path(path)
-                .request()
+                .request(MediaType.APPLICATION_JSON_TYPE)
                 .get();
     }
 }
