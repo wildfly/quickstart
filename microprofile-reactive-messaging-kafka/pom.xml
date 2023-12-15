@@ -40,8 +40,7 @@
         <!-- The versions for BOMs, Packs and Plugins -->
         <version.bom.ee>${version.server}</version.bom.ee>
         <version.bom.microprofile>${version.server}</version.bom.microprofile>
-        <version.plugin.wildfly>5.0.0.Alpha2</version.plugin.wildfly>
-        <version.plugin.wildfly-jar>10.0.0.Final</version.plugin.wildfly-jar>
+        <version.plugin.wildfly>5.0.0.Beta1</version.plugin.wildfly>
         <!-- The versions for other Dependencies and Plugins -->
         <version.io.smallrye-config>3.0.0</version.io.smallrye-config>
         <version.org.jboss.resteasy.microprofile.rest-client>2.0.0.Final</version.org.jboss.resteasy.microprofile.rest-client>
@@ -253,11 +252,6 @@
                     <artifactId>wildfly-maven-plugin</artifactId>
                     <version>${version.plugin.wildfly}</version>
                 </plugin>
-                <plugin>
-                    <groupId>org.wildfly.plugins</groupId>
-                    <artifactId>wildfly-jar-maven-plugin</artifactId>
-                    <version>${version.plugin.wildfly-jar}</version>
-                </plugin>
             </plugins>
         </pluginManagement>
         <plugins>
@@ -281,28 +275,23 @@
             <build>
                 <plugins>
                     <plugin>
-                        <groupId>org.wildfly.plugins</groupId>
-                        <artifactId>wildfly-jar-maven-plugin</artifactId>
-                        <configuration>
-                            <feature-pack-location>wildfly@maven(org.jboss.universe:community-universe)#${version.server}</feature-pack-location>
-                            <!-- TODO Convert to Glow when supported -->
-                            <layers>
-                                <layer>cloud-server</layer>
-                                <layer>h2-default-datasource</layer>
-                                <layer>microprofile-reactive-messaging-kafka</layer>
-                            </layers>
-                            <plugin-options>
-                                <jboss-fork-embedded>true</jboss-fork-embedded>
-                            </plugin-options>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>package</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
+                      <groupId>org.wildfly.plugins</groupId>
+                      <artifactId>wildfly-maven-plugin</artifactId>
+                      <configuration>
+                          <discover-provisioning-info>
+                              <version>${version.server}</version>
+                          </discover-provisioning-info>
+                          <bootable-jar>true</bootable-jar>
+                          <runtime-name>ROOT.war</runtime-name>
+                      </configuration>
+                      <executions>
+                          <execution>
+                              <goals>
+                                  <goal>package</goal>
+                              </goals>
+                          </execution>
+                      </executions>
+                  </plugin>
                 </plugins>
             </build>
         </profile>

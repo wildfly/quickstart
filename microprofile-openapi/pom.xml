@@ -25,8 +25,7 @@
         <!-- The versions for the BOMs, Packs and Plugins -->
         <version.bom.ee>${version.server}</version.bom.ee>
         <version.bom.microprofile>${version.server}</version.bom.microprofile>
-        <version.plugin.wildfly>5.0.0.Alpha2</version.plugin.wildfly>
-        <version.plugin.wildfly-jar>10.0.0.Final</version.plugin.wildfly-jar>
+        <version.plugin.wildfly>5.0.0.Beta1</version.plugin.wildfly>
     </properties>
 
     <repositories>
@@ -133,11 +132,6 @@
                     <artifactId>wildfly-maven-plugin</artifactId>
                     <version>${version.plugin.wildfly}</version>
                 </plugin>
-                <plugin>
-                    <groupId>org.wildfly.plugins</groupId>
-                    <artifactId>wildfly-jar-maven-plugin</artifactId>
-                    <version>${version.plugin.wildfly-jar}</version>
-                </plugin>
             </plugins>
         </pluginManagement>
     </build>
@@ -148,27 +142,26 @@
             <build>
                 <plugins>
                     <plugin>
-                        <groupId>org.wildfly.plugins</groupId>
-                        <artifactId>wildfly-jar-maven-plugin</artifactId>
-                        <configuration>
-                            <!-- TODO Convert to Glow when supported -->
-                            <feature-pack-location>wildfly@maven(org.jboss.universe:community-universe)#${version.server}</feature-pack-location>
-                            <layers>
-                                <layer>jaxrs-server</layer>
-                                <layer>microprofile-openapi</layer>
-                            </layers>
-                            <plugin-options>
-                                <jboss-fork-embedded>true</jboss-fork-embedded>
-                            </plugin-options>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>package</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
+                      <groupId>org.wildfly.plugins</groupId>
+                      <artifactId>wildfly-maven-plugin</artifactId>
+                      <configuration>
+                          <discover-provisioning-info>
+                              <version>${version.server}</version>
+                              <add-ons>
+                                  <add-on>openapi</add-on>
+                              </add-ons>
+                          </discover-provisioning-info>
+                          <bootable-jar>true</bootable-jar>
+                          <runtime-name>ROOT.war</runtime-name>
+                      </configuration>
+                      <executions>
+                          <execution>
+                              <goals>
+                                  <goal>package</goal>
+                              </goals>
+                          </execution>
+                      </executions>
+                  </plugin>
                 </plugins>
             </build>
         </profile>
@@ -183,6 +176,9 @@
                             <discover-provisioning-info>
                                 <version>${version.server}</version>
                                 <context>cloud</context>
+                                <add-ons>
+                                    <add-on>openapi</add-on>
+                                </add-ons>
                             </discover-provisioning-info>
                             <filename>ROOT.war</filename>
                         </configuration>
