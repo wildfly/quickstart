@@ -196,15 +196,10 @@
                         <configuration>
                             <discover-provisioning-info>
                                 <version>${version.server}</version>
-                                <context>bare-metal</context>
                                 <add-ons>
                                     <add-on>postgresql</add-on>
                                 </add-ons>
                             </discover-provisioning-info>
-                            <layers>
-                                <layer>cloud-server</layer>
-                                <layer>postgresql-datasource</layer>
-                            </layers>
                             <!-- deploys the quickstart on root web context -->
                             <name>ROOT.war</name>
                             <packaging-scripts>
@@ -272,7 +267,6 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-failsafe-plugin</artifactId>
-                        <version>${version.failsafe.plugin}</version>
                         <executions>
                             <execution>
                                 <goals>
