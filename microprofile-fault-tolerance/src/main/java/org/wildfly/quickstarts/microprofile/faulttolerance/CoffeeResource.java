@@ -55,6 +55,10 @@ public class CoffeeResource {
 
     private Float failRatio = 0.5f;
 
+    private int minDelay = 0;
+
+    private int maxDelay = 500;
+
     /**
      * Provides list of all our coffees.
      * <p>
@@ -139,6 +143,7 @@ public class CoffeeResource {
 
         try {
             randomDelay();
+
             LOGGER.infof("CoffeeResource#recommendations() invocation #%d returning successfully", invocationNumber);
             return coffeeRepository.getRecommendations(id);
         } catch (InterruptedException e) {
@@ -157,7 +162,6 @@ public class CoffeeResource {
         return Collections.singletonList(coffeeRepository.getCoffeeById(1));
     }
 
-
     private void maybeFail(String failureLogMessage) {
         // introduce some artificial failures
         if (new Random().nextFloat() < failRatio) {
@@ -168,7 +172,7 @@ public class CoffeeResource {
 
     private void randomDelay() throws InterruptedException {
         // introduce some artificial delay
-        Thread.sleep(new Random().nextInt(500));
+        Thread.sleep(new Random().nextInt(maxDelay - minDelay) + minDelay);
     }
 
     // The following methods are only used for automated integration testing
@@ -177,6 +181,18 @@ public class CoffeeResource {
     @Path("/setFailRatio/{failRatio}")
     public void setFailRatio(@PathParam("failRatio") Float failRatio) {
         this.failRatio = failRatio;
+    }
+
+    @GET
+    @Path("/setMaxDelay/{maxDelay}")
+    public void setMaxDelay(@PathParam("maxDelay") int maxDelay) {
+        this.maxDelay = maxDelay;
+    }
+
+    @GET
+    @Path("/setMinDelay/{minDelay}")
+    public void setMinDelay(@PathParam("minDelay") int minDelay) {
+        this.minDelay = minDelay;
     }
 
     @GET
