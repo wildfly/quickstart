@@ -153,6 +153,11 @@ filterDirectories() {
         continue
       fi
 
+      if [ ! -d "${basedir}/${fileName}/charts" ]; then
+        continue
+      fi
+
+
       tmp+=(${fileName})
   done
   test_directories=(${tmp[@]})
