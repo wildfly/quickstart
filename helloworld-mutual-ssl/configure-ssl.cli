@@ -4,8 +4,7 @@
 batch
 
 # Add the keystore and trust manager configuration in the elytron subsystem
-/subsystem=elytron/key-store=qsTrustStore:add(path=server.truststore,relative-to=jboss.server.config.dir,type=JKS,credential-reference={clear-text=secret})
-/subsystem=elytron/trust-manager=qsTrustManager:add(key-store=qsTrustStore)
+/subsystem=elytron/trust-manager=qsTrustManager:add(key-store=serverTS)
 
 # Update the default server-ssl-context to reference the new trust-manager and require client auth
 /subsystem=elytron/server-ssl-context=applicationSSC:write-attribute(name=trust-manager, value=qsTrustManager)

@@ -5,6 +5,7 @@ batch
 
 # Remove the keypair with the alias server from the application keystore
 /subsystem=elytron/key-store=applicationKS:remove-alias(alias=server)
+/subsystem=elytron/key-store=applicationKS:store()
 
 # Remove the changes that were made to the default server-ssl-context
 /subsystem=elytron/server-ssl-context=applicationSSC:undefine-attribute(name=trust-manager)
@@ -12,7 +13,6 @@ batch
 
 # Remove the trust manager and keystore configuration from the elytron subsystem
 /subsystem=elytron/trust-manager=qsTrustManager:remove
-/subsystem=elytron/key-store=qsTrustStore:remove
 
 # Run the batch commands
 run-batch
