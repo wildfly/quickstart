@@ -14,18 +14,14 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets"> 
-
-<h:head>
-	<title>EJB in EAR throws custom exception Quickstart</title>
-</h:head>
- 
-<body> 	
-	<h:form>
+      xmlns:h="jakarta.faces.html">
+  <h:head>
+    <title>EJB in EAR throws custom exception Quickstart</title>
+  </h:head>
+  <h:body>
+    <h:form>
 		<h3>EJB throws custom exception Quickstart</h3>
 		<h5>Clicking the 'Say Hello' button will call the EJB sending it the value of the 'Name' input text box and the EJB response will be displayed in the 'Response' output text</h5>
 		<h5>Clicking the 'Say Hello' button with an empty 'Name' box will send an empty string to the EJB resulting in the EJB throwing 'GreeterException' back, which the web app will catch and display the exception's message in the 'Response' output text</h5>
@@ -34,5 +30,5 @@
 		<h:outputText value="Response: " />
 		<h:outputText value="#{greeterBean.response}" />
 	</h:form>
-</body> 
+  </h:body>
 </html>

@@ -14,7 +14,7 @@ The `ejb-throws-exception` quickstart demonstrates how to throw and handle excep
 
 == What is it?
 
-The `ejb-throws-exception` quickstart extends the link:../ejb-in-ear/README{outfilesuffix}[ejb-in-ear] quickstart and demonstrates how to handle exceptions across JARs in an EAR deployed to {productNameFull}. In this quickstart, an EJB in the EJB JAR throws a custom exception. The web application in the client JAR catches the exception and displays it in a nicely formatted message. The EAR contains: _JSF WAR_, an _EJB_ JAR and a client library JAR containg classes that both the WAR and EJB JAR use.
+The `ejb-throws-exception` quickstart demonstrates how to handle exceptions across JARs in an EAR deployed to {productNameFull}. In this quickstart, an EJB in the EJB JAR throws a custom exception. The web application in the client JAR catches the exception and displays it in a nicely formatted message. The EAR contains: _JSF WAR_, an _EJB_ JAR and a client library JAR containg classes that both the WAR and EJB JAR use.
 
 This example consists of the following Maven projects, each with a shared parent.
 
@@ -70,7 +70,7 @@ include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
 
 == Access the Application
 
-The application will be running at the following URL http://localhost:8080/{artifactId}/.
+The application will be running at the following URL http://localhost:8080/{artifactId}-web.
 
 Enter a name in the input field *Name* and click the *Say Hello* button to see the response.
 
@@ -78,45 +78,15 @@ The *Response* output text will display the response from the EJB.
 If the *Name* input text box is not empty, then the *Response* output text will display *Hello <name>*
 If the *Name* input text box is empty, then the *Response* output text will display the message of the exception throw back from the EJB.
 
-// Undeploy the Quickstart
-include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
-// Run the Quickstart in Red Hat CodeReady Studio or Eclipse
-include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
-
-// Additional Red Hat CodeReady Studio instructions
-For this quickstart, follow the special instructions to build link:{useEclipseDeployEARDocUrl}[Quickstarts Containing an EAR].
-
-. Right-click on the *{artifactId}-ear* subproject, and choose *Run As* -> *Run on Server*.
-. Choose the server and click *Finish*.
-. This starts the server, deploys the application, and opens a browser window that accesses the running application.
-. To undeploy the project, right-click on the *{artifactId}-ear* project and choose *Run As* -> *Maven build*. Enter `wildfly:undeploy` for the *Goals* and click *Run*.
-
-// Debug the Application
-include::../shared-doc/debug-the-application.adoc[leveloffset=+1]
-
 // Server Distribution Testing
-include::../shared-doc/run-integration-tests-with-server-distribution.adoc[leveloffset=+2]
+include::../shared-doc/run-integration-tests-with-server-distribution.adoc[leveloffset=+1]
 
 // Undeploy the Quickstart
 include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
-
-//*************************************************
-// Product Release content only
-//*************************************************
-// Build and run sections for other environments/builds
 
 ifndef::ProductRelease,EAPXPRelease[]
-
 include::../shared-doc/build-and-run-the-quickstart-with-provisioned-server.adoc[leveloffset=+1]
-
 endif::[]
-
-
-ifdef::ProductRelease[]
 
 // Quickstart not compatible with OpenShift
 include::../shared-doc/openshift-incompatibility.adoc[leveloffset=+1]
-
-endif::[]
-
-
