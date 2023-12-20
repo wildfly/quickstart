@@ -20,6 +20,8 @@ It shows how to detach the execution of a long-running task from the request pro
 
 A long-running task in this context does not refer to a computation intensive task executed on the same machine but could for example be contacting a third-party service that has limited resources or only allows for a limited number of concurrent connections. Moving the calls to this service into a separate and smaller sized thread pool ensures that less threads will be busy interacting with the long-running service and that more requests can be served that do not depend on this service.
 
+// Link to the quickstart source
+include::../shared-doc/view-the-source.adoc[leveloffset=+1]
 // System Requirements
 include::../shared-doc/system-requirements.adoc[leveloffset=+1]
 // Use of {jbossHomeName}
