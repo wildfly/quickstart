@@ -47,8 +47,7 @@
         <version.server>31.0.0.Beta1</version.server>
         <!-- The versions for BOMs, Dependencies and Plugins -->
         <version.bom.ee>${version.server}</version.bom.ee>
-        <version.pack.cloud>5.0.0.Final</version.pack.cloud>
-        <version.plugin.wildfly>4.2.1.Final</version.plugin.wildfly>
+        <version.plugin.wildfly>5.0.0.Beta1</version.plugin.wildfly>
 
         <version.org.junit>5.10.1</version.org.junit>
 
@@ -142,17 +141,9 @@
             <plugin>
                 <groupId>org.wildfly.plugins</groupId>
                 <artifactId>wildfly-maven-plugin</artifactId>
+                <version>${version.plugin.wildfly}</version>
                 <configuration>
                     <jboss-home>${jboss.home}</jboss-home>
-                    <feature-packs>
-                        <feature-pack>
-                            <location>org.wildfly:wildfly-galleon-pack:${version.server}</location>
-                        </feature-pack>
-                    </feature-packs>
-                    <layers>
-                        <layer>ee-core-profile-server</layer>
-                        <layer>core-tools</layer>
-                    </layers>
                     <fail-on-error>false</fail-on-error>
                     <scripts>
                         <script>${project.basedir}${file.separator}configure-logging.cli</script>
@@ -170,13 +161,13 @@
                     <plugin>
                         <groupId>org.wildfly.plugins</groupId>
                         <artifactId>wildfly-maven-plugin</artifactId>
+                        <version>${version.plugin.wildfly}</version>
                         <configuration>
                             <!-- deploys the quickstart on root web context -->
                             <name>ROOT.war</name>
-                            <layers>
-                                <layer>ee-core-profile-server</layer>
-                                <layer>cloud-server</layer>
-                            </layers>
+                            <discover-provisioning-info>
+                                <version>${version.server}</version>
+                            </discover-provisioning-info>
                             <!-- Used for the package goal -->
                             <packaging-scripts>
                                 <packaging-script>
@@ -209,10 +200,10 @@
                         <configuration>
                             <!-- deploys the quickstart on root web context -->
                             <name>ROOT.war</name>
-                            <layers>
-                                <layer>ee-core-profile-server</layer>
-                                <layer>cloud-server</layer>
-                            </layers>
+                            <discover-provisioning-info>
+                                <version>${version.server}</version>
+                                <context>cloud</context>
+                            </discover-provisioning-info>
                             <!-- Used for the package goal -->
                             <packaging-scripts>
                                 <packaging-script>
