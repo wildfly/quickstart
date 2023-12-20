@@ -3,7 +3,7 @@ function installPrerequisites()
   echo "Adding bitnami repository"
   helm repo add bitnami https://charts.bitnami.com/bitnami
 
-  helm dependency update todo-backend-chart/
+  helm dependency update charts/
 }
 
 function helmInstall() {
@@ -11,7 +11,7 @@ function helmInstall() {
     helm_set_arguments="$2"
 
     # TODO https://issues.redhat.com/browse/WFLY-18574 remove this when persistence is working
-    helm_set_arguments="${helm_set_arguments} --set postgresql.primary.persistence.enabled=false"
+    helm_set_arguments="${helm_set_arguments} -f .ci/openshift-ci/build-root/scripts/qs-overrides/todo-backend/ci.yaml"
 
     # Don't quote ${helm_set_arguments} as it breaks the command when empty, and seems to work without
     helm install "${application}" todo-backend-chart/   --wait --timeout="${helm_install_timeout}" ${helm_set_arguments}
@@ -22,8 +22,7 @@ function helmInstall() {
 
 function cleanPrerequisites()
 {
-  oc delete all -l template=postgresql-ephemeral-template
-  oc delete secret todo-backend-db
+  helm uninstall "${application}"
   helm repo remove bitnami
 }
 

@@ -9,6 +9,7 @@ include::../shared-doc/attributes.adoc[]
 :level:             Intermediate
 :technologies:      JPA, JAX-RS, OpenShift, Galleon
 :openshift: true
+:archiveType: war
 
 [abstract]
 The `todo-backend` quickstart demonstrates how to implement a backend that exposes a HTTP API with JAX-RS
@@ -32,13 +33,13 @@ to manage a list of ToDo which are persisted in a database with `JPA`.
 * The backend exposes a HTTP API to manage a list of todos that complies with the specs defined at https://todobackend.com/specs/index.html[todobackend.com].
 * It requires a connection to a PostgreSQL database to persist the todos.
 ifndef::ProductRelease[]
-* It uses the Bootable Jar for local and cloud deployment
+* It uses the Server Provisioning for local and cloud deployment
 endif::[]
 * It can be build with {productName} S2I images for cloud deployment
-ifndef::ProductRelease,EAPXPRelease[]
+ifndef::ProductRelease[]
 * It is deployed on OpenShift using the https://docs.wildfly.org/wildfly-charts/[Helm Chart for {productName}].
 endif::[]
-ifdef::ProductRelease,EAPXPRelease[]
+ifdef::ProductRelease[]
 * It is deployed on OpenShift using the https://jbossas.github.io/eap-charts//[Helm Chart for {productName}].
 endif::[]
 
@@ -47,93 +48,11 @@ include::../shared-doc/system-requirements.adoc[leveloffset=+1]
 
 == Architecture
 
-ifndef::ProductRelease,EAPXPRelease[]
-
-=== Architecture with Bootable Jar
-
-This backend is built and deployed as Bootable Jar that provisions the {productName} application server and all the feature packs it needs for its features.
-The layers are defined in the `pom.xml` file in the `<configuration>` section of the `org.wildfly.plugins:wildfly-jar-maven-plugin` plugin:
-
-[source,xml]
-----
-<layers>
-  <layer>cloud-server</layer>
-  <layer>postgresql-datasource</layer>
-</layers>
-----
-
-The `cloud-server` layer provides everything needed to run the backend on OpenShift. This also includes access to
-Jakarta EE APIs such as CDI, JAX-RS, JPA, etc. These two layers comes from the {productName} feature pack provided by the Bootable Jar plugin:
-
-[source,xml]
-----
-<feature-pack>
-  <location>wildfly@maven(org.jboss.universe:community-universe)#${version.server.bootable-jar}</location>
-</feature-pack>
-----
-
-The `postgresql-datasource` layer provides a JDBC driver and DataSource to connect to a PostgreSQL database. It is not provided
-by the {productName} feature pack but by an extra feature pack:
-
-[source,xml]
-----
- <feature-pack>
-   <groupId>org.wildfly</groupId>
-   <artifactId>wildfly-datasources-galleon-pack</artifactId>
-   <version>${version.wildfly-datasources-galleon-pack}</version>
- </feature-pack>
-----
-
-The Git repository for this feature pack is hosted at https://github.com/wildfly-extras/wildfly-datasources-galleon-pack.
-It provides JDBC drivers and datasources for different databases but for this quickstart, we will only need the `postgresql-datasource`.
-endif::[]
-
-ifdef::EAPXPRelease[]
-
-=== Architecture with Bootable Jar
-
-This backend is built and deployed as Bootable Jar that provisions the {productName} application server and all the feature packs it needs for its features.
-The layers are defined in the `pom.xml` file in the `<configuration>` section of the `org.wildfly.plugins:wildfly-jar-maven-plugin` plugin:
-
-[source,xml]
-----
-<layers>
-  <layer>cloud-server</layer>
-  <layer>postgresql-datasource</layer>
-</layers>
-----
-
-The `cloud-server` layer provides everything needed to run the backend on OpenShift. This also includes access to
-Jakarta EE APIs such as CDI, JAX-RS, JPA, etc. These two layers comes from the {productName} feature pack provided by the Bootable Jar plugin:
-
-[source,xml]
-----
-<feature-pack>
-  <location>org.jboss.eap:wildfly-galleon-pack:${version.server.bootable-jar}</location>
-</feature-pack>
-----
-
-The `postgresql-datasource` layer provides a JDBC driver and DataSource to connect to a PostgreSQL database. It is not provided
-by the {productName} feature pack but by an extra feature pack:
-
-[source,xml]
-----
- <feature-pack>
-   <groupId>org.jboss.eap</groupId>
-   <artifactId>eap-datasources-galleon-pack</artifactId>
-   <version>${version.eap-datasources-galleon-pack}</version>
- </feature-pack>
-----
-
-The Git repository for this feature pack is hosted at https://github.com/jbossas/eap-datasources-galleon-pack.
-It provides JDBC drivers and datasources for different databases but for this quickstart, we will only need the `postgresql-datasource`.
-endif::[]
-
 === Architecture with S2I
 
 This backend is built using {productName} S2I Builder and Runtime images. 
 
-ifndef::ProductRelease,EAPXPRelease[]
+ifndef::ProductRelease[]
 When the image is built, `org.wildfly.plugins:wildfly-maven-plugin` plugin provisions the {productName} application server and all the feature packs it needs for its features.
 The layers are defined in the `pom.xml` file in the `<configuration>` section of the `org.wildfly.plugins:wildfly-maven-plugin` plugin:
 
@@ -159,24 +78,11 @@ The layers are defined in the `pom.xml` file in the `<configuration>` section of
 ----
 endif::[]
 
-ifdef::EAPXPRelease[]
-When the image is built, it provisions the {productName} application server and all the feature packs it needs for its features:
-
-[source,yaml]
-----
-build:
-  s2i:
-    galleonLayers:
-      - cloud-server
-      - postgresql-datasource
-----
-endif::[]
-
 The `cloud-server` layer provides everything needed to run the backend on OpenShift. This also includes access to
 Jakarta EE APIs such as CDI, JAX-RS, JPA, etc. These two layers comes from the {productName} feature pack provided in the
 {productName} S2I builder image.
 
-ifndef::ProductRelease,EAPXPRelease[]
+ifndef::ProductRelease[]
 The `postgresql-datasource` layer provides a JDBC driver and DataSource to connect to a PostgreSQL database. It is also provided by
 `org.wildfly:wildfly-datasources-galleon-pack` which is included in the WildFly S2I image.
 
@@ -184,7 +90,7 @@ The Git repository for this feature pack is hosted at https://github.com/wildfly
 It provides JDBC drivers and datasources for different databases but for this quickstart, we will only need the `postgresql-datasource`.
 endif::[]
 
-ifdef::ProductRelease,EAPXPRelease[]
+ifdef::ProductRelease[]
 The `postgresql-datasource` layer provides a JDBC driver and DataSource to connect to a PostgreSQL database. It is also provided by
 the `org.jboss.eap:eap-datasources-galleon-pack` feature pack.
 
@@ -192,14 +98,13 @@ The Git repository for this feature pack is hosted at https://github.com/jbossas
 It provides JDBC drivers and datasources for different databases but for this quickstart, we will only need the `postgresql-datasource`.
 endif::[]
 
-
 === Connection to the PostgreSQL database
 
-ifndef::ProductRelease,EAPXPRelease[]
+ifndef::ProductRelease[]
 As mentioned, the JDBC drivers and datasource configuration that the backend uses to connect to the PostgreSQL database
 is provided by the `org.wildfly:wildfly-datasources-galleon-pack` feature pack.
 endif::[]
-ifdef::ProductRelease,EAPXPRelease[]
+ifdef::ProductRelease[]
 As mentioned, the JDBC drivers and datasource configuration that the backend uses to connect to the PostgreSQL database
 is provided by the `org.jboss.eap:eap-datasources-galleon-pack` feature pack.
 endif::[]
@@ -228,12 +133,6 @@ The Web frontend for this quickstart uses JavaScript calls to query the backend'
 We must enable Cross-Origin Resource Sharing (CORS) filters in the `undertow` subsystem of {productName} to allow
 these HTTP requests to succeed.
 
-ifndef::ProductRelease[]
-==== Configuration with Bootable Jar
-
-As we use Bootable Jar to build the application, we provide a CLI script that contains all the commands to create and configure the CORS filters in Undertow. This script is located in the `src/scripts/cors_filters.cli`.
-endif::[]
-
 ifdef::ProductRelease[]
 ==== Configuration with {productName} S2I
 
@@ -252,67 +151,6 @@ By default, the backend accepts requests from any origin (`*`). This is only sim
 the allowed origin using the environment variable `CORS_ORIGIN` at runtime.
 
 ifndef::ProductRelease[]
-== Run the Backend Locally as a Bootable Jar
-
-=== Package the Backend as a Bootable Jar
-
-The backend is packaged as a Bootable Jar and configured to be deployable on OpenShift with the Maven Profile `bootable-jar-openshift`:
-
-[source,options="nowrap"]
-----
-$ mvn clean package -P bootable-jar-openshift
-----
-
-=== Run a Local PostgreSQL Database
-
-Before running the backend locally, we need to have a local PostgreSQL database that we can connect to.
-We use the `postgresql` docker image to create one:
-
-[source,options="nowrap"]
-----
-$ docker run --name todo-backend-db \
-  -e POSTGRES_USER=todos \
-  -e POSTGRES_PASSWORD=mysecretpassword \
-  -p 5432:5432 \
-  postgres
-----
-
-This will create a database named `todos` that we can connect to on `localhost:5432` with the credentials `todos / mysecretpassword`.
-
-=== Run the Bootable Jar Application
-
-With the PostgreSQL database running, we can start the backend by passing the required environment variables to connect to the database:
-
-[source,options="nowrap"]
-----
-$ POSTGRESQL_DATABASE=todos \
-  POSTGRESQL_SERVICE_HOST=localhost \
-  POSTGRESQL_SERVICE_PORT=5432 \
-  POSTGRESQL_USER=todos \
-  POSTGRESQL_PASSWORD=mysecretpassword \
-  POSTGRESQL_DATASOURCE=ToDos \
-  java -jar target/todo-backend-bootable.jar
-...
-14:41:58,111 INFO  [org.jboss.as.server] (Controller Boot Thread) WFLYSRV0010: Deployed "todo-backend.war" (runtime-name : "ROOT.war")
-...
-----
-
-The backend is running, and we can use the HTTP API to manage a list of todos:
-
-[source,options="nowrap"]
-----
-# get a list of todos
-$ curl http://localhost:8080
-[]
-
-# create a todo with the title "This is my first todo item!"
-$ curl -X POST -H "Content-Type: application/json"  -d '{"title": "This is my first todo item!"}' http://localhost:8080/
-{"completed":false,"id":1,"order":0,"title":"This is my first todo item!","url":"https://localhost:8080/1"}%
-
-# get a list of todos with the one that was just created
-$ curl http://localhost:8080
-[{"completed":false,"id":1,"order":0,"title":"This is my first todo item!","url":"https://localhost:8080/1"}]
-----
 
 == Run the Backend Locally
 
@@ -325,17 +163,6 @@ The backend is packaged and deployed on a provisioned server:
 $ mvn clean package -Pprovisioned-server
 ----
 
-[NOTE]
-====
-To execute the integration tests require *a running PostgreSQL server*. +
-If you have already started the PostgreSQL server and want to run the tests you need to execute the following command:
-
-[source,options="nowrap"]
-----
-$ mvn clean verify -Pprovisioned-server
-----
-====
-
 === Run a Local PostgreSQL Database
 
 Before running the backend locally, we need to have a local PostgreSQL database that we can connect to.
@@ -343,11 +170,7 @@ We use the `postgresql` docker image to create one:
 
 [source,options="nowrap"]
 ----
-$ docker run --name todo-backend-db \
-  -e POSTGRES_USER=todos \
-  -e POSTGRES_PASSWORD=mysecretpassword \
-  -p 5432:5432 \
-  postgres
+$ docker run --name todo-backend-db -e POSTGRES_USER=todos -e POSTGRES_PASSWORD=mysecretpassword -p 5432:5432 postgres
 ----
 
 This will create a database named `todos` that we can connect to on `localhost:5432` with the credentials `todos / mysecretpassword`.
@@ -358,17 +181,7 @@ With the PostgreSQL database running, we can start the backend by passing the re
 
 [source,options="nowrap"]
 ----
-$ JBOSS_HOME=./target/server \
-  POSTGRESQL_DATABASE=todos \
-  POSTGRESQL_SERVICE_HOST=localhost \
-  POSTGRESQL_SERVICE_PORT=5432 \
-  POSTGRESQL_USER=todos \
-  POSTGRESQL_PASSWORD=mysecretpassword \
-  POSTGRESQL_DATASOURCE=ToDos \
-  ./target/server/bin/standalone.sh
-...
-14:41:58,111 INFO  [org.jboss.as.server] (Controller Boot Thread) WFLYSRV0010: Deployed "todo-backend.war" (runtime-name : "todo-backend.war")
-...
+$ ./target/server/bin/standalone.sh -Denv.POSTGRESQL_DATABASE=todos -Denv.POSTGRESQL_DATASOURCE=ToDos -Denv.POSTGRESQL_SERVICE_HOST=localhost -Denv.POSTGRESQL_SERVICE_PORT=5432 -Denv.POSTGRESQL_USER=todos -Denv.POSTGRESQL_PASSWORD=mysecretpassword
 ----
 
 The backend is running, and we can use the HTTP API to manage a list of todos:
@@ -376,26 +189,20 @@ The backend is running, and we can use the HTTP API to manage a list of todos:
 [source,options="nowrap"]
 ----
 # get a list of todos
-$ curl http://localhost:8080/todo-backend
+$ curl http://localhost:8080
 []
 
 # create a todo with the title "This is my first todo item!"
-$ curl -X POST -H "Content-Type: application/json"  -d '{"title": "This is my first todo item!"}' http://localhost:8080/todo-backend
-{"completed":false,"id":1,"order":0,"title":"This is my first todo item!","url":"https://localhost:8080/todo-backend/1"}%
+$ curl -X POST -H "Content-Type: application/json"  -d '{"title": "This is my first todo item!"}' http://localhost:8080
+{"completed":false,"id":1,"order":0,"title":"This is my first todo item!","url":"https://localhost:8080/1"}%
 
 # get a list of todos with the one that was just created
-$ curl http://localhost:8080/todo-backend
-[{"completed":false,"id":1,"order":0,"title":"This is my first todo item!","url":"https://localhost:8080/todo-backend/1"}]
+$ curl http://localhost:8080
+[{"completed":false,"id":1,"order":0,"title":"This is my first todo item!","url":"https://localhost:8080/1"}]
 ----
 
-// Run the Arquillian Tests
-include::../shared-doc/run-arquillian-functional-tests-remote.adoc[leveloffset=+1]
-
-[NOTE]
-====
-You may also execute those tests against a running bootable jar application, but you will need to add `-Dserver.host=http://localhost:8080` to the command.
-====
-endif::[]
+:extraStartParams: -DPOSTGRESQL_DATABASE=todos -DPOSTGRESQL_SERVICE_HOST=localhost -DPOSTGRESQL_SERVICE_PORT=5432 -DPOSTGRESQL_USER=todos -DPOSTGRESQL_PASSWORD=mysecretpassword -DPOSTGRESQL_DATASOURCE=ToDos
+include::../shared-doc/run-integration-tests-with-provisioned-server.adoc[leveloffset=+1]
 
 == Run the Backend on OpenShift
 
@@ -408,7 +215,7 @@ include::../shared-doc/build-the-quickstart-for-openshift.adoc[leveloffset=+1]
 
 Once you have installed Helm, you need to add the repository that provides Helm Charts for {productName}:
 
-ifndef::ProductRelease,EAPXPRelease[]
+ifndef::ProductRelease[]
 [source,options="nowrap"]
 ----
 $ helm repo add wildfly https://docs.wildfly.org/wildfly-charts/
@@ -419,7 +226,7 @@ wildfly/wildfly         ...             ...            Build and Deploy WildFly 
 wildfly/wildfly-common  ...             ...            A library chart for WildFly-based applications
 ----
 endif::[]
-ifdef::ProductRelease,EAPXPRelease[]
+ifdef::ProductRelease[]
 [source,options="nowrap",subs="+attributes"]]
 ----
 $ helm repo add jboss-eap https://jbossas.github.io/eap-charts/
@@ -431,112 +238,12 @@ NAME                    CHART VERSION   APP VERSION     DESCRIPTION
 endif::[]
 
 ifndef::ProductRelease[]
-=== Build and Deploy the Backend on OpenShift with Bootable Jar
-endif::[]
-
-==== Deploy a PostgreSQL Database on OpenShift
-
-[source,options="nowrap"]
-----
-$ oc new-app postgresql-ephemeral \
-   -p DATABASE_SERVICE_NAME=todo-backend-db \
-   -p POSTGRESQL_DATABASE=todos
-----
-
-This will create a PostgreSQL database named `todos` on OpenShift that can be accessed on the port `5432` on the service `todo-backend-db`.
-We don't need to copy the credentials to connect to the database as we will retrieve them later using the `todo-backend-db` secret that was created
-when the database is deployed.
-
-ifndef::ProductRelease,EAPXPRelease[]
-==== Build and Deploy the Backend on OpenShift with Bootable Jar using the Helm Chart
-
-The backend will be built and deployed on OpenShift with a Helm Chart for {productName}.
-
-[source,options="nowrap",subs="+attributes"]
-----
-$ helm install todo-backend --set build.ref={WildFlyQuickStartRepoTag} -f https://raw.githubusercontent.com/wildfly/wildfly-charts/main/examples/todo-backend/todo-backend-bootable-jar.yaml {helmChartName}
-NAME: todo-backend
-...
-STATUS: deployed
-REVISION: 1
-----
-
-The Helm Chart for this quickstart contains all the information to build an image from the source code using Bootable Jar:
-
-[source,options="nowrap"]
-----
-build:
-  uri: https://github.com/wildfly/quickstart.git
-  mode: bootable-jar
-----
-endif::[]
-
-ifdef::EAPXPRelease[]
-The backend will be built and deployed on OpenShift with a Helm Chart for {productName}.
-
-[source,options="nowrap",subs="+attributes"]
-----
-$ helm install todo-backend --set build.ref={EAPQuickstartRepoTag} -f https://raw.githubusercontent.com/jbossas/eap-charts/main/examples/eap-xp3/todo-backend/todo-backend-bootable-jar.yaml {helmChartName}
-NAME: todo-backend
-...
-STATUS: deployed
-REVISION: 1
-----
-
-The Helm Chart for this quickstart contains all the information to build an image from the source code using Bootable Jar:
-
-[source,options="nowrap"]
-----
-build:
-  uri: https://github.com/jboss-developer/jboss-eap-quickstarts.git
-  mode: bootable-jar
-----
-endif::[]
-
-ifndef::ProductRelease[]
-
-This will create a new deployment on OpenShift and deploy the application.
-
-If you want to see all the configuration elements to customize your deployment you can use the following command:
-[source,options="nowrap",subs="+attributes"]
-----
-$ helm show readme {helmChartName}
-----
-
-Let’s wait for the application to be built and deployed:
-[source,options="nowrap",subs="+attributes"]
-----
-$ oc get deployment {artifactId} -w
-NAME           READY   UP-TO-DATE   AVAILABLE   AGE
-{artifactId}   0/1     1            0           31s
-...
-{artifactId}   1/1     1            1           4m31s
-----
-
-endif::[]
-
-ifndef::ProductRelease[]
 === Build and Deploy the Backend on OpenShift with {productName} S2I
 endif::[]
 
 The backend will be built and deployed on OpenShift with a Helm Chart for {productName}.
 
-ifdef::EAPXPRelease[]
-==== Deploy a PostgreSQL Database on OpenShift
-
-[source,options="nowrap"]
-----
-$ oc new-app postgresql-ephemeral \
-   -p DATABASE_SERVICE_NAME=todo-backend-db \
-   -p POSTGRESQL_DATABASE=todos
-----
-
-This will create a PostgreSQL database named `todos` on OpenShift that can be accessed on the port `5432` on the service `todo-backend-db`.
-We don't need to copy the credentials to connect to the database as we will retrieve them later using the `todo-backend-db` secret that was created
-when the database is deployed.
-endif::[]
-
-ifndef::ProductRelease,EAPXPRelease[]
+ifndef::ProductRelease[]
 Add the bitnami repository which provides an helm chart for PostgreSQL:
 [source,options="nowrap"]
 ----
@@ -548,16 +255,14 @@ Install the full application (database + backend).
 
 [source,options="nowrap",subs="+attributes"]
 ----
-$ helm dependency update todo-backend-chart/
-$ helm install todo-backend todo-backend-chart/
+$ helm dependency update charts/
+$ helm install todo-backend charts/
 NAME: todo-backend
 ...
 STATUS: deployed
 REVISION: 1
 ----
-endif::[]
 
-ifndef::ProductRelease,EAPXPRelease[]
 The Helm Chart for this quickstart contains all the information to build an image from the source code using S2I and install it with the database:
 
 [source,options="nowrap"]
@@ -573,7 +278,7 @@ dependencies:
 
 endif::[]
 
-ifndef::ProductRelease,EAPXPRelease[]
+ifndef::ProductRelease[]
 Any configuration specified by this chart is described in its README that is displayed in OpenShift Dev console
 or using the command:
 
@@ -595,7 +300,7 @@ NAME           READY   UP-TO-DATE   AVAILABLE   AGE
 
 endif::[]
 
-ifdef::ProductRelease,EAPXPRelease[]
+ifdef::ProductRelease[]
 
 //Prepare Helm for Quickstart Deployment
 include::../shared-doc/helm-deploy-project.adoc[leveloffset=+1]
@@ -627,7 +332,7 @@ When the application is deployed, the value for the `POSTGRESQL_PASSWORD` will b
 in the secret `todo-backend-db`.
 
 // Testing on Openshift
-include::../shared-doc/run-arquillian-integration-tests-with-openshift.adoc[leveloffset=+2]
+include::../shared-doc/run-integration-tests-with-openshift.adoc[leveloffset=+1]
 
 === Use the todobackend Web Frontend
 
@@ -671,26 +376,12 @@ $ helm uninstall todo-backend
 release "todo-backend" uninstalled
 ----
 
-==== Remove the Database
-
-The PostresSQL database can be deleted from OpenShift by running the commands:
-
-[source,options="nowrap"]
-----
-$ oc delete all -l template=postgresql-ephemeral-template
-replicationcontroller "todo-backend-db-1" deleted
-service "todo-backend-db" deleted
-deploymentconfig.apps.openshift.io "todo-backend-db" deleted
-$ oc delete secret todo-backend-db
-secret "todo-backend-db" deleted
-----
-
 == Conclusion
 
 This quickstart shows how the datasource feature pack provided by {productName} simplifies the deployment
 of a {productName} Jakarta EE backend on OpenShift to connect to an external database and exposes an HTTP API.
 
 ifndef::ProductRelease[]
-The use of a Bootable Jar deployment makes it seamless to move from a local deployment for development to a
+The use of a Server Provisioned deployment makes it seamless to move from a local deployment for development to a
 deployment on OpenShift.
 endif::[]

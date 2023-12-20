@@ -1,0 +1,46 @@
+# Default values for todo-backend-chart.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+postgresql:
+  auth:
+    username: todos-db
+    password: todos-db
+    database: todos-db
+  architecture: "standalone"
+  primary:
+    podSecurityContext:
+      enabled: false
+      fsGroup: "auto"
+    containerSecurityContext:
+      enabled: false
+      runAsUser: "auto"
+      runAsGroup: ""
+
+
+wildfly:
+    build:
+      uri: https://github.com/wildfly/quickstart.git
+      ref: main
+      contextDir: todo-backend
+    deploy:
+      replicas: 1
+      env:
+        # Env vars to connect to PostgreSQL DB
+        - name: POSTGRESQL_DATABASE
+          value: todos-db
+        - name: POSTGRESQL_USER
+          value: todos-db
+        - name: POSTGRESQL_PASSWORD
+          value: todos-db
+        - name: POSTGRESQL_DATASOURCE
+          value: ToDos
+        - name: POSTGRESQL_SERVICE_HOST
+          value: todo-backend-postgresql
+        - name: POSTGRESQL_SERVICE_PORT
+          value: "5432"
+        # Env to avoid OOME
+        - name: GC_MAX_METASPACE_SIZE
+          value: "256"
+        - name: GC_METASPACE_SIZE
+          value: "96"
