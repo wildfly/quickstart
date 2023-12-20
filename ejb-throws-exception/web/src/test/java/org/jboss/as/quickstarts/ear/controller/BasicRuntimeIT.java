@@ -33,7 +33,7 @@ import static org.junit.Assert.assertEquals;
  * @author emartins
  */
 public class BasicRuntimeIT {
-    private static final String DEFAULT_SERVER_HOST = "http://localhost:8080";
+    private static final String DEFAULT_SERVER_HOST = "http://localhost:8080/ejb-throws-exception-web";
 
     @Test
     public void testHTTPEndpointIsAvailable() throws IOException, InterruptedException, URISyntaxException {
@@ -41,9 +41,8 @@ public class BasicRuntimeIT {
         if (serverHost == null) {
             serverHost = DEFAULT_SERVER_HOST;
         }
-        String path = serverHost + "/ejb-throws-exception-web";
         final HttpRequest request = HttpRequest.newBuilder()
-                .uri(new URI(path+"/"))
+                .uri(new URI(serverHost+"/"))
                 .GET()
                 .build();
         final HttpClient client = HttpClient.newBuilder()
@@ -52,6 +51,7 @@ public class BasicRuntimeIT {
                 .build();
         final HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         assertEquals(200, response.statusCode());
+        final String[] bodyLines = response.body().toString().split(System.lineSeparator());
+        assertEquals("<meta http-equiv=\"Refresh\" content=\"0; URL=index.jsf\">", bodyLines[bodyLines.length-3].strip());
     }
 }
-

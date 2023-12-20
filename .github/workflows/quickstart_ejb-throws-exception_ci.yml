@@ -6,11 +6,12 @@ on:
     paths:
       - 'ejb-throws-exception/**'
       - '.github/workflows/quickstart_ci.yml'
+
 jobs:
   call-quickstart_ci:
     uses: ./.github/workflows/quickstart_ci.yml
     with:
       QUICKSTART_PATH: ejb-throws-exception
+      DEPLOYMENT_DIR: ear
       TEST_PROVISIONED_SERVER: true
       TEST_OPENSHIFT: false
-
