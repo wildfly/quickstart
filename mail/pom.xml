@@ -48,8 +48,7 @@
         <version.server>31.0.0.Beta1</version.server>
         <!-- The versions for BOMs, Packs and Plugins -->
         <version.bom.ee>${version.server}</version.bom.ee>
-        <version.pack.cloud>5.0.0.Final</version.pack.cloud>
-        <version.plugin.wildfly>4.2.1.Final</version.plugin.wildfly>
+        <version.plugin.wildfly>5.0.0.Beta1</version.plugin.wildfly>
 
         <version.org.seleniumhq.selenium>4.15.0</version.org.seleniumhq.selenium>
         <version.webdrivermanager>5.6.2</version.webdrivermanager>
@@ -200,18 +199,9 @@
                         <groupId>org.wildfly.plugins</groupId>
                         <artifactId>wildfly-maven-plugin</artifactId>
                         <configuration>
-                            <feature-packs>
-                                <feature-pack>
-                                    <location>org.wildfly:wildfly-galleon-pack:${version.server}</location>
-                                </feature-pack>
-                            </feature-packs>
-                            <layers>
-                                <!-- layers may be used to customize the server to provision-->
-                                <layer>core-tools</layer>
-                                <layer>core-server</layer>
-                                <layer>mail</layer>
-                                <layer>jsf</layer>
-                            </layers>
+                            <discover-provisioning-info>
+                                <version>${version.server}</version>
+                            </discover-provisioning-info>
                             <!-- deploys the quickstart on root web context -->
                             <name>ROOT.war</name>
                             <packaging-scripts>
