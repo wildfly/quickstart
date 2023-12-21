@@ -102,10 +102,12 @@ jobs:
           cd ${{ inputs.QUICKSTART_PATH }}
           echo "Building provisioned server..."
           mvn -fae clean package -Pprovisioned-server
-          echo "Add quickstartUser..."
-          ${{ inputs.DEPLOYMENT_DIR }}/target/server/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'guest,user,JBossAdmin,Users'
-          echo "Add quickstartAdmin..."
-          ${{ inputs.DEPLOYMENT_DIR }}/target/server/bin/add-user.sh -a -u 'quickstartAdmin' -p 'adminPwd1!' -g 'guest,user,admin'
+          if [ -f inputs.DEPLOYMENT_DIR }}/target/server/bin/add-user.sh ]; then 
+            echo "Add quickstartUser..."
+            ${{ inputs.DEPLOYMENT_DIR }}/target/server/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'guest,user,JBossAdmin,Users'
+            echo "Add quickstartAdmin..."
+            ${{ inputs.DEPLOYMENT_DIR }}/target/server/bin/add-user.sh -a -u 'quickstartAdmin' -p 'adminPwd1!' -g 'guest,user,admin'
+          fi
           echo "Starting provisioned server..."
           mvn -f ${{ inputs.DEPLOYMENT_DIR }}/pom.xml wildfly:start -DjbossHome=${{ inputs.DEPLOYMENT_DIR }}/target/server -Dstartup-timeout=120
           echo "Testing provisioned server..."
@@ -207,10 +209,12 @@ jobs:
           cd ${{ inputs.QUICKSTART_PATH }}
           echo "Building provisioned server..."
           mvn -fae clean package -Pprovisioned-server -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
-          echo "Add quickstartUser..."
-          ${{ inputs.DEPLOYMENT_DIR }}/target/server/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'guest,user,JBossAdmin,Users'
-          echo "Add quickstartAdmin..."
-          ${{ inputs.DEPLOYMENT_DIR }}/target/server/bin/add-user.sh -a -u 'quickstartAdmin' -p 'adminPwd1!' -g 'guest,user,admin'
+          if [ -f inputs.DEPLOYMENT_DIR }}/target/server/bin/add-user.sh ]; then 
+            echo "Add quickstartUser..."
+            ${{ inputs.DEPLOYMENT_DIR }}/target/server/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'guest,user,JBossAdmin,Users'
+            echo "Add quickstartAdmin..."
+            ${{ inputs.DEPLOYMENT_DIR }}/target/server/bin/add-user.sh -a -u 'quickstartAdmin' -p 'adminPwd1!' -g 'guest,user,admin'
+          fi
           echo "Starting provisioned server..."
           mvn -f ${{ inputs.DEPLOYMENT_DIR }}/pom.xml wildfly:start -DjbossHome=${{ inputs.DEPLOYMENT_DIR }}/target/server -Dstartup-timeout=120
           echo "Testing provisioned server..."
