@@ -225,6 +225,14 @@
                         <groupId>org.wildfly.plugins</groupId>
                         <artifactId>wildfly-maven-plugin</artifactId>
                         <configuration>
+                            <discover-provisioning-info>
+                                <version>${version.server}</version>
+                                <!--
+                                    One of the included files from spring does a JNDI lookup.
+                                    No idea what that is, so skip the error rather than specifying layersForJndi
+                                -->
+                                <failsOnError>false</failsOnError>
+                            </discover-provisioning-info>
                             <!-- deploys the quickstart on root web context -->
                             <name>ROOT.war</name>
                         </configuration>
