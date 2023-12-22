@@ -85,11 +85,11 @@ jobs:
             ${{ inputs.DEPLOYMENT_DIR }}/target/server/bin/add-user.sh -a -u 'quickstartAdmin' -p 'adminPwd1!' -g 'guest,user,admin'
           fi
           # mvn -B -f ${{ inputs.DEPLOYMENT_DIR }}/pom.xml wildfly-jar:start -Djar-file-name=${{ inputs.DEPLOYMENT_DIR }}/target/${{ inputs.QUICKSTART_PATH }}-bootable.jar -Dstartup-timeout=120
-          java -jar ${{ inputs.DEPLOYMENT_DIR }}/target/server-bootable.jar
+          java -jar ${{ inputs.DEPLOYMENT_DIR }}/target/server-bootable.jar &
           # Sleep to wait for server to start (we should have a wait)
           sleep 20
           mvn -B verify -Pintegration-testing -Dserver.host=http://localhost:8080
-          mvn -B -f ${{ inputs.DEPLOYMENT_DIR }}/pom.xml wildfly-jar:shutdown
+          mvn -f ${{ inputs.DEPLOYMENT_DIR }}/pom.xml wildfly:shutdown
         shell: bash
       - name: Run after script
         run: |
