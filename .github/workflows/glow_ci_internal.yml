@@ -32,12 +32,12 @@ jobs:
       QUICKSTART_PATH: ${{inputs.QUICKSTART_PATH}}
       DEPLOYMENT_DIR: ${{inputs.DEPLOYMENT_DIR}}
       PROFILE: 'provisioned-server'
-#  # Skip bootable jar until the plugin implements GLow support for bootable jar
-#  bootable-jar:
-#    name: Openshift ${{inputs.QUICKSTART_PATH}}
-#    if: ${{ contains(inputs.PROFILES, 'bootable-jar') }}
-#    uses: ./.github/workflows/glow_ci_internal_tests.yml
-#    with:
-#      QUICKSTART_PATH: ${{inputs.QUICKSTART_PATH}}
-#      DEPLOYMENT_DIR: ${{inputs.DEPLOYMENT_DIR}}
-#      PROFILE: 'bootable-jar'
+  # Skip bootable jar until the plugin implements GLow support for bootable jar
+  bootable-jar:
+    name: Openshift ${{inputs.QUICKSTART_PATH}}
+    if: ${{ contains(inputs.PROFILES, 'bootable-jar') }}
+    uses: ./.github/workflows/glow_ci_internal_tests.yml
+    with:
+      QUICKSTART_PATH: ${{inputs.QUICKSTART_PATH}}
+      DEPLOYMENT_DIR: ${{inputs.DEPLOYMENT_DIR}}
+      PROFILE: 'bootable-jar'
