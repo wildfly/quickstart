@@ -174,8 +174,10 @@
                                     <scripts>
                                         <script>${project.basedir}${file.separator}configure-logging.cli</script>
                                     </scripts>
-                                    <!-- Expressions resolved during server execution -->
-                                    <resolve-expressions>false</resolve-expressions>
+                                    <propertiesFiles>
+                                        <file>${project.basedir}${file.separator}cli.properties</file>
+                                    </propertiesFiles>
+                                    <resolve-expressions>true</resolve-expressions>
                                 </packaging-script>
                             </packaging-scripts>
                         </configuration>
@@ -200,7 +202,7 @@
                         <version>${version.plugin.wildfly}</version>
                         <configuration>
                             <!-- deploys the quickstart on root web context -->
-                            <name>ROOT.war</name>
+                            <filename>ROOT.war</filename>
                             <discover-provisioning-info>
                                 <version>${version.server}</version>
                                 <context>cloud</context>
@@ -211,8 +213,10 @@
                                     <scripts>
                                         <script>${project.basedir}${file.separator}configure-logging.cli</script>
                                     </scripts>
-                                    <!-- Expressions resolved during server execution -->
-                                    <resolve-expressions>false</resolve-expressions>
+                                    <propertiesFiles>
+                                        <file>${project.basedir}${file.separator}cli-openshift.properties</file>
+                                    </propertiesFiles>
+                                    <resolve-expressions>true</resolve-expressions>
                                 </packaging-script>
                             </packaging-scripts>
                         </configuration>
