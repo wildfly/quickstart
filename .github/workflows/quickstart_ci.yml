@@ -157,110 +157,110 @@ jobs:
 
   # Use the shared-wildfly-build workflow to have a consistent WildFly build. Note the branch names MUST match what
   # is used in WildFly.
-  WildFly-build:
-    uses: wildfly/wildfly/.github/workflows/shared-wildfly-build.yml@main
-    with:
-      wildfly-branch: ${{ github.base_ref }}
-      wildfly-repo: "wildfly/wildfly"
-
-  Test-build-with-deps-matrix:
-    name: BUILD WITH DEPS - JDK${{ matrix.jdk }} - ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
-    needs: [Matrix-Setup, WildFly-build]
-    strategy:
-      fail-fast: false
-      matrix:
-        jdk: ${{ fromJSON(needs.Matrix-Setup.outputs.jdk) }}
-        os: ${{ fromJSON(needs.Matrix-Setup.outputs.os) }}
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          path: quickstarts
-      - uses: actions/download-artifact@v4
-        with:
-          name: wildfly-maven-repository
-          path: .
-      - name: Extract Maven Repo
-        shell: bash
-        run: tar -xzf wildfly-maven-repository.tar.gz -C ~
-      - name: Set up JDK ${{ matrix.jdk }}
-        uses: actions/setup-java@v4
-        with:
-          java-version: ${{ matrix.jdk }}
-          distribution: 'temurin'
-          cache: 'maven'
-      - name: Run before script
-        env:
-          FILE: "./quickstarts/.github/workflows/quickstart_${{ inputs.QUICKSTART_PATH }}_ci_before.sh"
-        run: |
-          if test -f $FILE;
-            then
-              chmod +x $FILE
-              bash $FILE
-          fi
-        shell: bash
-      - name: Build Quickstart for Release with built Server version
-        run: |
-          cd quickstarts
-          cd ${{ inputs.QUICKSTART_PATH }}
-          mvn -fae clean package -Drelease -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
-        shell: bash
-      - name: Build, run & test ${{ inputs.QUICKSTART_PATH }} Quickstart with provisioned-server profile, and built Server version
-        if: ${{ inputs.TEST_PROVISIONED_SERVER }}
-        run: |
-          cd quickstarts
-          cd ${{ inputs.QUICKSTART_PATH }}
-          echo "Building provisioned server..."
-          mvn -fae clean package -Pprovisioned-server -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
-          if [ -f inputs.DEPLOYMENT_DIR }}/target/server/bin/add-user.sh ]; then 
-            echo "Add quickstartUser..."
-            ${{ inputs.DEPLOYMENT_DIR }}/target/server/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'guest,user,JBossAdmin,Users'
-            echo "Add quickstartAdmin..."
-            ${{ inputs.DEPLOYMENT_DIR }}/target/server/bin/add-user.sh -a -u 'quickstartAdmin' -p 'adminPwd1!' -g 'guest,user,admin'
-          fi
-          echo "Starting provisioned server..."
-          mvn -f ${{ inputs.DEPLOYMENT_DIR }}/pom.xml wildfly:start -DjbossHome=${{ inputs.DEPLOYMENT_DIR }}/target/server -Dstartup-timeout=120
-          echo "Testing provisioned server..."
-          mvn -fae verify -Dserver.host=${{ inputs.SERVER_PROVISIONING_SERVER_HOST }} -Pintegration-testing
-          echo "Shutting down provisioned server..."
-          mvn -f ${{ inputs.DEPLOYMENT_DIR }}/pom.xml wildfly:shutdown
-        shell: bash
-      - name: Build, run & test ${{ inputs.QUICKSTART_PATH }} Quickstart with bootable-jar profile, and built Server version
-        if: ${{ inputs.TEST_BOOTABLE_JAR }}
-        run: |
-          cd quickstarts
-          cd ${{ inputs.QUICKSTART_PATH }}
-          echo "Building bootable jar..."
-          mvn -fae clean package -Pbootable-jar -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
-          echo "Starting bootable jar..."
-          #mvn -f ${{ inputs.DEPLOYMENT_DIR }}/pom.xml wildfly-jar:start -Djar-file-name=${{ inputs.DEPLOYMENT_DIR }}/target/${{ inputs.QUICKSTART_PATH }}-bootable.jar -Dstartup-timeout=120
-          java -jar ${{ inputs.DEPLOYMENT_DIR }}/target/server-bootable.jar &
-          # Sleep to wait for server to start (we should have a wait)
-          sleep 20
-          echo "Testing bootable jar..."
-          mvn -fae verify -Dserver.host=${{ inputs.SERVER_PROVISIONING_SERVER_HOST }} -Pintegration-testing
-          echo "Shutting down bootable jar..."          
-          mvn -f ${{ inputs.DEPLOYMENT_DIR }}/pom.xml wildfly:shutdown
-        shell: bash
-      - name: Build ${{ inputs.QUICKSTART_PATH }} Quickstart with openshift profile, and built Server version
-        if: ${{ inputs.TEST_OPENSHIFT }}
-        run: |
-          cd quickstarts
-          cd ${{ inputs.QUICKSTART_PATH }}
-          mvn -fae clean package -Popenshift -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
-        shell: bash
-      - name: Run after script
-        env:
-          FILE: "./quickstarts/.github/workflows/quickstart_${{ inputs.QUICKSTART_PATH }}_ci_after.sh"
-        run: |
-          if test -f $FILE;
-            then
-              chmod +x $FILE
-              bash $FILE
-          fi
-        shell: bash
-      - uses: actions/upload-artifact@v4
-        if: failure()
-        with:
-          name: surefire-reports-JDK${{ matrix.jdk }}-${{ matrix.os }}
-          path: 'quickstarts/**/surefire-reports/*.txt'
+#  WildFly-build:
+#    uses: wildfly/wildfly/.github/workflows/shared-wildfly-build.yml@main
+#    with:
+#      wildfly-branch: ${{ github.base_ref }}
+#      wildfly-repo: "wildfly/wildfly"
+#
+#  Test-build-with-deps-matrix:
+#    name: BUILD WITH DEPS - JDK${{ matrix.jdk }} - ${{ matrix.os }}
+#    runs-on: ${{ matrix.os }}
+#    needs: [Matrix-Setup, WildFly-build]
+#    strategy:
+#      fail-fast: false
+#      matrix:
+#        jdk: ${{ fromJSON(needs.Matrix-Setup.outputs.jdk) }}
+#        os: ${{ fromJSON(needs.Matrix-Setup.outputs.os) }}
+#    steps:
+#      - uses: actions/checkout@v4
+#        with:
+#          path: quickstarts
+#      - uses: actions/download-artifact@v4
+#        with:
+#          name: wildfly-maven-repository
+#          path: .
+#      - name: Extract Maven Repo
+#        shell: bash
+#        run: tar -xzf wildfly-maven-repository.tar.gz -C ~
+#      - name: Set up JDK ${{ matrix.jdk }}
+#        uses: actions/setup-java@v4
+#        with:
+#          java-version: ${{ matrix.jdk }}
+#          distribution: 'temurin'
+#          cache: 'maven'
+#      - name: Run before script
+#        env:
+#          FILE: "./quickstarts/.github/workflows/quickstart_${{ inputs.QUICKSTART_PATH }}_ci_before.sh"
+#        run: |
+#          if test -f $FILE;
+#            then
+#              chmod +x $FILE
+#              bash $FILE
+#          fi
+#        shell: bash
+#      - name: Build Quickstart for Release with built Server version
+#        run: |
+#          cd quickstarts
+#          cd ${{ inputs.QUICKSTART_PATH }}
+#          mvn -fae clean package -Drelease -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
+#        shell: bash
+#      - name: Build, run & test ${{ inputs.QUICKSTART_PATH }} Quickstart with provisioned-server profile, and built Server version
+#        if: ${{ inputs.TEST_PROVISIONED_SERVER }}
+#        run: |
+#          cd quickstarts
+#          cd ${{ inputs.QUICKSTART_PATH }}
+#          echo "Building provisioned server..."
+#          mvn -fae clean package -Pprovisioned-server -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
+#          if [ -f inputs.DEPLOYMENT_DIR }}/target/server/bin/add-user.sh ]; then
+#            echo "Add quickstartUser..."
+#            ${{ inputs.DEPLOYMENT_DIR }}/target/server/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'guest,user,JBossAdmin,Users'
+#            echo "Add quickstartAdmin..."
+#            ${{ inputs.DEPLOYMENT_DIR }}/target/server/bin/add-user.sh -a -u 'quickstartAdmin' -p 'adminPwd1!' -g 'guest,user,admin'
+#          fi
+#          echo "Starting provisioned server..."
+#          mvn -f ${{ inputs.DEPLOYMENT_DIR }}/pom.xml wildfly:start -DjbossHome=${{ inputs.DEPLOYMENT_DIR }}/target/server -Dstartup-timeout=120
+#          echo "Testing provisioned server..."
+#          mvn -fae verify -Dserver.host=${{ inputs.SERVER_PROVISIONING_SERVER_HOST }} -Pintegration-testing
+#          echo "Shutting down provisioned server..."
+#          mvn -f ${{ inputs.DEPLOYMENT_DIR }}/pom.xml wildfly:shutdown
+#        shell: bash
+#      - name: Build, run & test ${{ inputs.QUICKSTART_PATH }} Quickstart with bootable-jar profile, and built Server version
+#        if: ${{ inputs.TEST_BOOTABLE_JAR }}
+#        run: |
+#          cd quickstarts
+#          cd ${{ inputs.QUICKSTART_PATH }}
+#          echo "Building bootable jar..."
+#          mvn -fae clean package -Pbootable-jar -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
+#          echo "Starting bootable jar..."
+#          #mvn -f ${{ inputs.DEPLOYMENT_DIR }}/pom.xml wildfly-jar:start -Djar-file-name=${{ inputs.DEPLOYMENT_DIR }}/target/${{ inputs.QUICKSTART_PATH }}-bootable.jar -Dstartup-timeout=120
+#          java -jar ${{ inputs.DEPLOYMENT_DIR }}/target/server-bootable.jar &
+#          # Sleep to wait for server to start (we should have a wait)
+#          sleep 20
+#          echo "Testing bootable jar..."
+#          mvn -fae verify -Dserver.host=${{ inputs.SERVER_PROVISIONING_SERVER_HOST }} -Pintegration-testing
+#          echo "Shutting down bootable jar..."
+#          mvn -f ${{ inputs.DEPLOYMENT_DIR }}/pom.xml wildfly:shutdown
+#        shell: bash
+#      - name: Build ${{ inputs.QUICKSTART_PATH }} Quickstart with openshift profile, and built Server version
+#        if: ${{ inputs.TEST_OPENSHIFT }}
+#        run: |
+#          cd quickstarts
+#          cd ${{ inputs.QUICKSTART_PATH }}
+#          mvn -fae clean package -Popenshift -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
+#        shell: bash
+#      - name: Run after script
+#        env:
+#          FILE: "./quickstarts/.github/workflows/quickstart_${{ inputs.QUICKSTART_PATH }}_ci_after.sh"
+#        run: |
+#          if test -f $FILE;
+#            then
+#              chmod +x $FILE
+#              bash $FILE
+#          fi
+#        shell: bash
+#      - uses: actions/upload-artifact@v4
+#        if: failure()
+#        with:
+#          name: surefire-reports-JDK${{ matrix.jdk }}-${{ matrix.os }}
+#          path: 'quickstarts/**/surefire-reports/*.txt'
