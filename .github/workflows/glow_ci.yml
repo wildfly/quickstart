@@ -4,6 +4,11 @@ on:
   push:
     branches:
       - port-to-glow
+  pull_request:
+    types: [ opened, synchronize, reopened, ready_for_review ]
+    branches:
+      - port-to-glow
+
 
 env:
   WILDFLY_VERSION: 31.0.0.Beta1
