@@ -231,7 +231,7 @@ public class RemoteBeanCaller {
      * <p>
      * The recovery manager runs periodically, by default every 2 minutes. For making the recovery faster
      * we may force the recovery to be processed. This could be done if the recovery listener is enabled
-     * (see <code>remote-configuration.cli</code> script). Then it's possible to send command 'SCAN'
+     * (see <code>remoting-configuration.cli</code> script). Then it's possible to send command 'SCAN'
      * to socket at port <code>4712</code>). The unfinished transaction is then finished.
      * </p>
      *
