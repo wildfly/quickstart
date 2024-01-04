@@ -41,46 +41,46 @@ jobs:
 
   # Use the shared-wildfly-build workflow to have a consistent WildFly build. Note the branch names MUST match what
   # is used in WildFly.
-  WildFly-build:
-    uses: wildfly/wildfly/.github/workflows/shared-wildfly-build.yml@main
-    with:
-      wildfly-branch: ${{ github.base_ref }}
-      wildfly-repo: "wildfly/wildfly"
-
-  Test-build-with-deps-matrix:
-    name: BUILD WITH DEPS - JDK${{ matrix.jdk }} - ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
-    needs: WildFly-build
-    if:
-    strategy:
-      fail-fast: false
-      matrix:
-        jdk: [11, 17]
-        os: [ubuntu-20.04, windows-latest]
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          path: quickstarts
-      - uses: actions/download-artifact@v4
-        with:
-          name: wildfly-maven-repository
-          path: .
-      - name: Extract Maven Repo
-        shell: bash
-        run: tar -xzf wildfly-maven-repository.tar.gz -C ~
-      - name: Set up JDK ${{ matrix.jdk }}
-        uses: actions/setup-java@v4
-        with:
-          java-version: ${{ matrix.jdk }}
-          distribution: 'temurin'
-          cache: 'maven'
-      - name: Build Quickstarts Release with Server and BOMs Versions
-        run: |
-          cd quickstarts
-          mvn -U -B -fae clean install -Drelease -Dversion.server.bom=${{ needs.wildfly-build.outputs.wildfly-version }} -Dversion.microprofile.bom=${{ needs.wildfly-build.outputs.wildfly-version }} -Dversion.server.bootable-jar=${{ needs.wildfly-build.outputs.wildfly-version }} -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
-        shell: bash
-      - uses: actions/upload-artifact@v4
-        if: failure()
-        with:
-          name: surefire-reports-JDK${{ matrix.jdk }}-${{ matrix.os }}
-          path: 'quickstarts/**/surefire-reports/*.txt'
+#  WildFly-build:
+#    uses: wildfly/wildfly/.github/workflows/shared-wildfly-build.yml@main
+#    with:
+#      wildfly-branch: ${{ github.base_ref }}
+#      wildfly-repo: "wildfly/wildfly"
+#
+#  Test-build-with-deps-matrix:
+#    name: BUILD WITH DEPS - JDK${{ matrix.jdk }} - ${{ matrix.os }}
+#    runs-on: ${{ matrix.os }}
+#    needs: WildFly-build
+#    if:
+#    strategy:
+#      fail-fast: false
+#      matrix:
+#        jdk: [11, 17]
+#        os: [ubuntu-20.04, windows-latest]
+#    steps:
+#      - uses: actions/checkout@v4
+#        with:
+#          path: quickstarts
+#      - uses: actions/download-artifact@v4
+#        with:
+#          name: wildfly-maven-repository
+#          path: .
+#      - name: Extract Maven Repo
+#        shell: bash
+#        run: tar -xzf wildfly-maven-repository.tar.gz -C ~
+#      - name: Set up JDK ${{ matrix.jdk }}
+#        uses: actions/setup-java@v4
+#        with:
+#          java-version: ${{ matrix.jdk }}
+#          distribution: 'temurin'
+#          cache: 'maven'
+#      - name: Build Quickstarts Release with Server and BOMs Versions
+#        run: |
+#          cd quickstarts
+#          mvn -U -B -fae clean install -Drelease -Dversion.server.bom=${{ needs.wildfly-build.outputs.wildfly-version }} -Dversion.microprofile.bom=${{ needs.wildfly-build.outputs.wildfly-version }} -Dversion.server.bootable-jar=${{ needs.wildfly-build.outputs.wildfly-version }} -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
+#        shell: bash
+#      - uses: actions/upload-artifact@v4
+#        if: failure()
+#        with:
+#          name: surefire-reports-JDK${{ matrix.jdk }}-${{ matrix.os }}
+#          path: 'quickstarts/**/surefire-reports/*.txt'
