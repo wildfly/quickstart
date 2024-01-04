@@ -102,7 +102,7 @@ jobs:
           cd ${{ inputs.QUICKSTART_PATH }}
           echo "Building provisioned server..."
           mvn -fae clean package -Pprovisioned-server
-          if [ -f inputs.DEPLOYMENT_DIR }}/target/server/bin/add-user.sh ]; then 
+          if [ -f ${{ inputs.DEPLOYMENT_DIR }}/target/server/bin/add-user.sh ]; then 
             echo "Add quickstartUser..."
             ${{ inputs.DEPLOYMENT_DIR }}/target/server/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'guest,user,JBossAdmin,Users'
             echo "Add quickstartAdmin..."
@@ -212,7 +212,7 @@ jobs:
 #          cd ${{ inputs.QUICKSTART_PATH }}
 #          echo "Building provisioned server..."
 #          mvn -fae clean package -Pprovisioned-server -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
-#          if [ -f inputs.DEPLOYMENT_DIR }}/target/server/bin/add-user.sh ]; then
+#          if [ -f ${{ inputs.DEPLOYMENT_DIR }}/target/server/bin/add-user.sh ]; then
 #            echo "Add quickstartUser..."
 #            ${{ inputs.DEPLOYMENT_DIR }}/target/server/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'guest,user,JBossAdmin,Users'
 #            echo "Add quickstartAdmin..."
