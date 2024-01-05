@@ -553,18 +553,15 @@ Instead of using a standard {productName} server distribution, the three {produc
 ----
 cd ${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call/client;
 mvn clean package -Pprovisioned-server \
-  -DremoteServerUsername="quickstartUser" -DremoteServerPassword="quickstartPwd1!" \
-  -DpostgresqlUsername="test" -DpostgresqlPassword="test"
+  -DremoteServerUsername="quickstartUser" -DremoteServerPassword="quickstartPwd1!"
 ----
 [source,sh,subs="+quotes,attributes+",options="nowrap"]
 ----
 cd ${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call/server;
 mvn clean package -Pprovisioned-server \
-  -Dwildfly.provisioning.dir=server2 -Djboss-as.home=target/server2 \
-  -DpostgresqlUsername="test" -DpostgresqlPassword="test";
+  -Dwildfly.provisioning.dir=server2 -Djboss-as.home=target/server2 ;
 mvn package -Pprovisioned-server \
-  -Dwildfly.provisioning.dir=server3 -Djboss-as.home=target/server3 \
-  -DpostgresqlUsername="test" -DpostgresqlPassword="test"
+  -Dwildfly.provisioning.dir=server3 -Djboss-as.home=target/server3
 ----
 
 The provisioned {productName} servers, with the quickstart deployed, can then be found in the `target/server` directory, and their usage is similar to a standard server distribution, with the simplification that there is never the need to specify the server configuration to be started.
@@ -606,7 +603,8 @@ podman run -p 5432:5432 --rm  -ePOSTGRES_DB=test -ePOSTGRES_USER=test -ePOSTGRES
 ----
 cd ${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call/client;
 mvn wildfly:start -Djboss-as.home=target/server \
-  -Dwildfly.javaOpts="-Djboss.tx.node.id=server1 -Djboss.node.name=server1"
+  -Dwildfly.javaOpts="-Djboss.tx.node.id=server1 -Djboss.node.name=server1" \
+  -Pprovisioned-server -DpostgresqlUsername="test" -DpostgresqlPassword="test"
 ----
 +
 [source,subs="attributes+",options="nowrap"]
@@ -615,7 +613,8 @@ cd ${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call/server;
 mvn wildfly:start -Djboss-as.home=target/server2 \
   -Dwildfly.port=10090 \
   -Dwildfly.serverConfig=standalone-ha.xml \
-  -Dwildfly.javaOpts="-Djboss.socket.binding.port-offset=100 -Djboss.tx.node.id=server2 -Djboss.node.name=server2"
+  -Dwildfly.javaOpts="-Djboss.socket.binding.port-offset=100 -Djboss.tx.node.id=server2 -Djboss.node.name=server2" \
+  -Pprovisioned-server -DpostgresqlUsername="test" -DpostgresqlPassword="test"
 ----
 +
 [source,subs="attributes+",options="nowrap"]
@@ -624,7 +623,8 @@ cd ${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call/server;
 mvn wildfly:start -Djboss-as.home=target/server3 \
   -Dwildfly.port=10190 \
   -Dwildfly.serverConfig=standalone-ha.xml \
-  -Dwildfly.javaOpts="-Djboss.socket.binding.port-offset=200 -Djboss.tx.node.id=server3 -Djboss.node.name=server3"
+  -Dwildfly.javaOpts="-Djboss.socket.binding.port-offset=200 -Djboss.tx.node.id=server3 -Djboss.node.name=server3" \
+  -Pprovisioned-server -DpostgresqlUsername="test" -DpostgresqlPassword="test"
 ----
 
 . Type the following command to run the `verify` goal with the `integration-testing` profile activated, and specifying the quickstart's URL using the `server.host` system property.
@@ -638,13 +638,13 @@ mvn verify -Pintegration-testing
 [source,subs="attributes+",options="nowrap"]
 ----
 cd ${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call/server;
-mvn verify -Pintegration-testing -Dserver.host="http://localhost:8180/server"
+mvn verify -Pintegration-testing -Dserver.host="http://localhost:8180/"
 ----
 +
 [source,subs="attributes+",options="nowrap"]
 ----
 cd ${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call/server;
-mvn verify -Pintegration-testing -Dserver.host="http://localhost:8280/server"
+mvn verify -Pintegration-testing -Dserver.host="http://localhost:8280/"
 ----
 
 . To shut down the {productName} provisioned servers using the {productName} Maven Plugin:

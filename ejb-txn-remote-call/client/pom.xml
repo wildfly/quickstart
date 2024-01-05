@@ -40,10 +40,8 @@
         <version.server>30.0.0.Final</version.server>
         <!-- The versions for BOMs, Packs and Plugins -->
         <version.bom.ee>${version.server}</version.bom.ee>
-        <version.plugin.wildfly>4.2.0.Final</version.plugin.wildfly>
+        <version.plugin.wildfly>5.0.0.Beta2</version.plugin.wildfly>
         <version.postgresql>42.7.0</version.postgresql>
-        <version.wildfly-cloud-galleon-pack>5.0.2.Final</version.wildfly-cloud-galleon-pack>
-        <version.wildfly-datasources-galleon-pack>6.0.0.Final</version.wildfly-datasources-galleon-pack>
     </properties>
 
     <repositories>
@@ -165,12 +163,14 @@
         <dependency>
             <groupId>jakarta.jms</groupId>
             <artifactId>jakarta.jms-api</artifactId>
+            <scope>provided</scope>
         </dependency>
         <!-- PostgreSQL driver -->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>${version.postgresql}</version>
+            <scope>provided</scope>
         </dependency>
 
         <!-- Tests -->
@@ -214,6 +214,13 @@
                         <configuration>
                             <filename>client.war</filename>
                             <serverConfig>standalone.xml</serverConfig>
+                            <!-- Env used when calling wildfly:start goal -->
+                            <env>
+                                <POSTGRESQL_DATABASE>test</POSTGRESQL_DATABASE>
+                                <POSTGRESQL_JNDI>java:jboss/datasources/ejbJtaDs</POSTGRESQL_JNDI>
+                                <POSTGRESQL_PASSWORD>${postgresqlUsername}</POSTGRESQL_PASSWORD>
+                                <POSTGRESQL_USER>${postgresqlPassword}</POSTGRESQL_USER>
+                            </env>
                         </configuration>
                         <executions>
                             <execution>
@@ -223,23 +230,14 @@
                                     <goal>package</goal>
                                 </goals>
                                 <configuration>
-                                    <feature-packs>
-                                        <feature-pack>
-                                            <location>org.wildfly:wildfly-galleon-pack:${version.server}</location>
-                                        </feature-pack>
-                                        <feature-pack>
-                                            <location>org.wildfly:wildfly-datasources-galleon-pack:${version.wildfly-datasources-galleon-pack}</location>
-                                        </feature-pack>
-                                    </feature-packs>
-                                    <layers>
-                                        <layer>ee-core-profile-server</layer>
-                                        <layer>jaxrs</layer>
-                                        <layer>ejb</layer>
-                                        <layer>jpa</layer>
-                                        <layer>core-tools</layer>
-                                        <!-- postgresql driver -->
-                                        <layer>postgresql-driver</layer>
-                                    </layers>
+                                    <discover-provisioning-info>
+                                        <version>${version.server}</version>
+                                        <!-- Some JNDI lookup to ignore -->
+                                        <failsOnError>false</failsOnError>
+                                        <add-ons>
+                                            <add-on>postgresql</add-on>
+                                        </add-ons>
+                                    </discover-provisioning-info>
                                 </configuration>
                             </execution>
                             <execution>
@@ -253,7 +251,6 @@
                                     <jbossHome>target/server</jbossHome>
                                     <scripts>
                                         <script>scripts/remoting-configuration.cli</script>
-                                        <script>scripts/postgresql-datasource.cli</script>
                                     </scripts>
                                     <propertiesFiles>
                                         <propertyFile>scripts/cli.local.properties</propertyFile>
@@ -261,8 +258,6 @@
                                     <systemProperties>
                                         <remoteServerUsername>${remoteServerUsername}</remoteServerUsername>
                                         <remoteServerPassword>${remoteServerPassword}</remoteServerPassword>
-                                        <postgresqlUsername>${postgresqlUsername}</postgresqlUsername>
-                                        <postgresqlPassword>${postgresqlPassword}</postgresqlPassword>
                                     </systemProperties>
                                 </configuration>
                             </execution>
@@ -290,26 +285,16 @@
                                     <goal>package</goal>
                                 </goals>
                                 <configuration>
-                                    <feature-packs>
-                                        <feature-pack>
-                                            <location>org.wildfly:wildfly-galleon-pack:${version.server}</location>
-                                        </feature-pack>
-                                        <feature-pack>
-                                            <location>org.wildfly:wildfly-datasources-galleon-pack:${version.wildfly-datasources-galleon-pack}</location>
-                                        </feature-pack>
-                                        <feature-pack>
-                                            <location>org.wildfly.cloud:wildfly-cloud-galleon-pack:${version.wildfly-cloud-galleon-pack}</location>
-                                        </feature-pack>
-                                    </feature-packs>
-                                    <layers>
-                                        <layer>cloud-server</layer>
-                                        <layer>jaxrs</layer>
-                                        <layer>ejb</layer>
-                                        <layer>jpa</layer>
-                                        <layer>core-tools</layer>
-                                        <!-- postgresql driver -->
-                                        <layer>postgresql-driver</layer>
-                                    </layers>
+                                    <discover-provisioning-info>
+                                        <version>${version.server}</version>
+                                        <!-- Some JNDI lookup to ignore, and not needed messaging embedded/remote
+                                             due to jakarta.jms-api being embedded. TODO, should the dependency be provided???-->
+                                        <failsOnError>false</failsOnError>
+                                        <context>cloud</context>
+                                        <add-ons>
+                                            <add-on>postgresql</add-on>
+                                        </add-ons>
+                                    </discover-provisioning-info>
                                 </configuration>
                             </execution>
                             <execution>
@@ -323,7 +308,6 @@
                                     <jbossHome>target/server</jbossHome>
                                     <scripts>
                                         <script>scripts/remoting-configuration.cli</script>
-                                        <script>scripts/postgresql-datasource.cli</script>
                                     </scripts>
                                     <propertiesFiles>
                                         <propertyFile>scripts/cli.openshift.properties</propertyFile>
@@ -331,8 +315,6 @@
                                     <systemProperties>
                                         <remoteServerUsername>${remoteServerUsername}</remoteServerUsername>
                                         <remoteServerPassword>${remoteServerPassword}</remoteServerPassword>
-                                        <postgresqlUsername>${postgresqlUsername}</postgresqlUsername>
-                                        <postgresqlPassword>${postgresqlPassword}</postgresqlPassword>
                                     </systemProperties>
                                 </configuration>
                             </execution>

@@ -3,5 +3,14 @@ kind: WildFlyServer
 metadata:
   name: client
 spec:
+  env:
+    - name: POSTGRESQL_DATABASE
+      value: test
+    - name: POSTGRESQL_JNDI
+      value: "java:jboss/datasources/ejbJtaDs"
+    - name: POSTGRESQL_PASSWORD
+      value: test
+    - name: POSTGRESQL_USER
+      value: test
   applicationImage: "client:latest"
   replicas: 1

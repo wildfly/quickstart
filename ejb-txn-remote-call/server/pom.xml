@@ -41,9 +41,7 @@
         <!-- The versions for BOMs, Packs and Plugins -->
         <version.bom.ee>${version.server}</version.bom.ee>
         <version.narayana>7.0.0.Final</version.narayana>
-        <version.plugin.wildfly>4.2.0.Final</version.plugin.wildfly>
-        <version.wildfly-cloud-galleon-pack>5.0.2.Final</version.wildfly-cloud-galleon-pack>
-        <version.wildfly-datasources-galleon-pack>6.0.0.Final</version.wildfly-datasources-galleon-pack>
+        <version.plugin.wildfly>5.0.0.Beta2</version.plugin.wildfly>
     </properties>
 
     <repositories>
@@ -202,6 +200,13 @@
                         <configuration>
                             <filename>server.war</filename>
                             <serverConfig>standalone-ha.xml</serverConfig>
+                            <!-- Env used when calling wildfly:start goal -->
+                            <env>
+                                <POSTGRESQL_DATABASE>test</POSTGRESQL_DATABASE>
+                                <POSTGRESQL_JNDI>java:jboss/datasources/ejbJtaDs</POSTGRESQL_JNDI>
+                                <POSTGRESQL_PASSWORD>${postgresqlUsername}</POSTGRESQL_PASSWORD>
+                                <POSTGRESQL_USER>${postgresqlPassword}</POSTGRESQL_USER>
+                            </env>
                         </configuration>
                         <executions>
                             <execution>
@@ -211,48 +216,18 @@
                                     <goal>package</goal>
                                 </goals>
                                 <configuration>
-                                    <feature-packs>
-                                        <feature-pack>
-                                            <location>org.wildfly:wildfly-galleon-pack:${version.server}</location>
-                                        </feature-pack>
-                                        <feature-pack>
-                                            <location>org.wildfly:wildfly-datasources-galleon-pack:${version.wildfly-datasources-galleon-pack}</location>
-                                        </feature-pack>
-                                    </feature-packs>
-                                    <layers>
-                                        <layer>ee-core-profile-server</layer>
-                                        <layer>jaxrs</layer>
-                                        <layer>ejb</layer>
-                                        <layer>ejb-dist-cache</layer>
-                                        <layer>jpa-distributed</layer>
-                                        <layer>core-tools</layer>
-                                        <!-- postgresql driver -->
-                                        <layer>postgresql-driver</layer>
-                                    </layers>
-                                    <excludedLayers>
-                                        <layer>ejb-local-cache</layer>
-                                    </excludedLayers>
+                                    <recordProvisioningState>true</recordProvisioningState>
+                                    <discover-provisioning-info>
+                                        <version>${version.server}</version>
+                                        <add-ons>
+                                            <add-on>postgresql</add-on>
+                                            <add-on>wildfly-cli</add-on>
+                                        </add-ons>
+                                        <!-- Some JNDI lookup to ignore -->
+                                        <failsOnError>false</failsOnError>
+                                        <profile>ha</profile>
+                                    </discover-provisioning-info>
                                     <layersConfigurationFileName>standalone-ha.xml</layersConfigurationFileName>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>run-script</id>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>execute-commands</goal>
-                                </goals>
-                                <configuration>
-                                    <offline>true</offline>
-                                    <scripts>
-                                        <script>scripts/postgresql-datasource.cli</script>
-                                    </scripts>
-                                    <propertiesFiles>
-                                        <propertyFile>scripts/cli.local.properties</propertyFile>
-                                    </propertiesFiles>
-                                    <systemProperties>
-                                        <postgresqlUsername>${postgresqlUsername}</postgresqlUsername>
-                                        <postgresqlPassword>${postgresqlPassword}</postgresqlPassword>
-                                    </systemProperties>
                                 </configuration>
                             </execution>
                         </executions>
@@ -278,51 +253,15 @@
                                     <goal>package</goal>
                                 </goals>
                                 <configuration>
-                                    <feature-packs>
-                                        <feature-pack>
-                                            <location>org.wildfly:wildfly-galleon-pack:${version.server}</location>
-                                        </feature-pack>
-                                        <feature-pack>
-                                            <location>org.wildfly:wildfly-datasources-galleon-pack:${version.wildfly-datasources-galleon-pack}</location>
-                                        </feature-pack>
-                                        <feature-pack>
-                                            <location>org.wildfly.cloud:wildfly-cloud-galleon-pack:${version.wildfly-cloud-galleon-pack}</location>
-                                        </feature-pack>
-                                    </feature-packs>
-                                    <layers>
-                                        <layer>ee-core-profile-server</layer>
-                                        <layer>jaxrs</layer>
-                                        <layer>ejb</layer>
-                                        <layer>ejb-dist-cache</layer>
-                                        <layer>jpa-distributed</layer>
-                                        <layer>core-tools</layer>
-                                        <!-- postgresql driver -->
-                                        <layer>postgresql-driver</layer>
-                                    </layers>
-                                    <excludedLayers>
-                                        <layer>ejb-local-cache</layer>
-                                    </excludedLayers>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>run-script</id>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>execute-commands</goal>
-                                </goals>
-                                <configuration>
-                                    <offline>true</offline>
-                                    <jbossHome>target/server</jbossHome>
-                                    <scripts>
-                                        <script>scripts/postgresql-datasource.cli</script>
-                                    </scripts>
-                                    <propertiesFiles>
-                                        <propertyFile>scripts/cli.openshift.properties</propertyFile>
-                                    </propertiesFiles>
-                                    <systemProperties>
-                                        <postgresqlUsername>${postgresqlUsername}</postgresqlUsername>
-                                        <postgresqlPassword>${postgresqlPassword}</postgresqlPassword>
-                                    </systemProperties>
+                                    <discover-provisioning-info>
+                                        <version>${version.server}</version>
+                                        <add-ons>
+                                            <add-on>postgresql</add-on>
+                                        </add-ons>
+                                        <context>cloud</context>
+                                        <failsOnError>false</failsOnError>
+                                        <profile>ha</profile>
+                                    </discover-provisioning-info>
                                 </configuration>
                             </execution>
                             <!-- We need to add the quickstart user automatically -->
