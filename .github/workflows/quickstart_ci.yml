@@ -42,6 +42,11 @@ on:
         required: false
         default: 'http://localhost:8080'
         type: string
+      EXTRA_RUN_ARGS:
+        description: 'optional args to be passed when running the quickstart'
+        required: false
+        default: ''
+        type: string
 
 # Only run the latest job
 concurrency:
@@ -107,7 +112,7 @@ jobs:
           echo "Add quickstartAdmin..."
           ${{ inputs.DEPLOYMENT_DIR }}/target/server/bin/add-user.sh -a -u 'quickstartAdmin' -p 'adminPwd1!' -g 'guest,user,admin'
           echo "Starting provisioned server..."
-          mvn -f ${{ inputs.DEPLOYMENT_DIR }}/pom.xml wildfly:start -DjbossHome=${{ inputs.DEPLOYMENT_DIR }}/target/server -Dstartup-timeout=120
+          mvn -f ${{ inputs.DEPLOYMENT_DIR }}/pom.xml wildfly:start -DjbossHome=${{ inputs.DEPLOYMENT_DIR }}/target/server -Dstartup-timeout=120 ${{ inputs.EXTRA_RUN_ARGS }}
           echo "Testing provisioned server..."
           mvn -fae verify -Dserver.host=${{ inputs.SERVER_PROVISIONING_SERVER_HOST }} -Pintegration-testing 
           echo "Shutting down provisioned server..."
@@ -121,7 +126,7 @@ jobs:
           echo "Building bootable jar..."
           mvn -fae clean package -Pbootable-jar
           echo "Starting bootable jar..."
-          mvn -f ${{ inputs.DEPLOYMENT_DIR }}/pom.xml wildfly-jar:start -Djar-file-name=${{ inputs.DEPLOYMENT_DIR }}/target/${{ inputs.QUICKSTART_PATH }}-bootable.jar -Dstartup-timeout=120
+          mvn -f ${{ inputs.DEPLOYMENT_DIR }}/pom.xml wildfly-jar:start -Djar-file-name=${{ inputs.DEPLOYMENT_DIR }}/target/${{ inputs.QUICKSTART_PATH }}-bootable.jar -Dstartup-timeout=120 ${{ inputs.EXTRA_RUN_ARGS }}
           echo "Testing bootable jar..."
           mvn -fae verify -Dserver.host=${{ inputs.SERVER_PROVISIONING_SERVER_HOST }} -Pintegration-testing
           echo "Shutting down bootable jar..."          
@@ -212,7 +217,7 @@ jobs:
           echo "Add quickstartAdmin..."
           ${{ inputs.DEPLOYMENT_DIR }}/target/server/bin/add-user.sh -a -u 'quickstartAdmin' -p 'adminPwd1!' -g 'guest,user,admin'
           echo "Starting provisioned server..."
-          mvn -f ${{ inputs.DEPLOYMENT_DIR }}/pom.xml wildfly:start -DjbossHome=${{ inputs.DEPLOYMENT_DIR }}/target/server -Dstartup-timeout=120
+          mvn -f ${{ inputs.DEPLOYMENT_DIR }}/pom.xml wildfly:start -DjbossHome=${{ inputs.DEPLOYMENT_DIR }}/target/server -Dstartup-timeout=120 ${{ inputs.EXTRA_RUN_ARGS }}
           echo "Testing provisioned server..."
           mvn -fae verify -Dserver.host=${{ inputs.SERVER_PROVISIONING_SERVER_HOST }} -Pintegration-testing
           echo "Shutting down provisioned server..."
@@ -226,7 +231,7 @@ jobs:
           echo "Building bootable jar..."
           mvn -fae clean package -Pbootable-jar -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
           echo "Starting bootable jar..."
-          mvn -f ${{ inputs.DEPLOYMENT_DIR }}/pom.xml wildfly-jar:start -Djar-file-name=${{ inputs.DEPLOYMENT_DIR }}/target/${{ inputs.QUICKSTART_PATH }}-bootable.jar -Dstartup-timeout=120
+          mvn -f ${{ inputs.DEPLOYMENT_DIR }}/pom.xml wildfly-jar:start -Djar-file-name=${{ inputs.DEPLOYMENT_DIR }}/target/${{ inputs.QUICKSTART_PATH }}-bootable.jar -Dstartup-timeout=120 ${{ inputs.EXTRA_RUN_ARGS }}
           echo "Testing bootable jar..."
           mvn -fae verify -Dserver.host=${{ inputs.SERVER_PROVISIONING_SERVER_HOST }} -Pintegration-testing
           echo "Shutting down bootable jar..."          
