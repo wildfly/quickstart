@@ -52,7 +52,7 @@
         <version.server>31.0.0.Beta1</version.server>
         <!-- the versions for BOMs, Packs and Plugins -->
         <version.bom.ee>${version.server}</version.bom.ee>
-        <version.plugin.wildfly>5.0.0.Beta1</version.plugin.wildfly>
+        <version.plugin.wildfly>5.0.0.Beta2</version.plugin.wildfly>
 
         <!-- The versions for other Dependencies and Plugins -->
         <version.spring.framework>6.0.4</version.spring.framework>
@@ -227,11 +227,10 @@
                         <configuration>
                             <discover-provisioning-info>
                                 <version>${version.server}</version>
-                                <!--
-                                    One of the included files from spring does a JNDI lookup.
-                                    No idea what that is, so skip the error rather than specifying layersForJndi
-                                -->
-                                <failsOnError>false</failsOnError>
+                                <!-- no need to scan packaged jars -->
+                                <excludedArchives>
+                                    <archive>*</archive>
+                                </excludedArchives>
                             </discover-provisioning-info>
                             <!--
                                 Rename the output war to ROOT.war before adding it to the server, so that the
@@ -261,11 +260,10 @@
                             <discover-provisioning-info>
                                 <version>${version.server}</version>
                                 <context>cloud</context>
-                                <!--
-                                    One of the included files from spring does a JNDI lookup.
-                                    No idea what that is, so skip the error rather than specifying layersForJndi
-                                -->
-                                <failsOnError>false</failsOnError>
+                                <!-- no need to scan packaged jars -->
+                                <excludedArchives>
+                                    <archive>*</archive>
+                                </excludedArchives>
                             </discover-provisioning-info>
                             <!--
                                 The parent POM's 'openshift' profile renames the output archive to ROOT.war so that the

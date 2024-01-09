@@ -47,7 +47,7 @@
         <version.server>31.0.0.Beta1</version.server>
         <!-- The versions for BOMs, Dependencies and Plugins -->
         <version.bom.ee>${version.server}</version.bom.ee>
-        <version.plugin.wildfly>5.0.0.Beta1</version.plugin.wildfly>
+        <version.plugin.wildfly>5.0.0.Beta2</version.plugin.wildfly>
     </properties>
 
     <repositories>
@@ -195,11 +195,10 @@
                                 <addOns>
                                     <addOn>wildfly-cli</addOn>
                                 </addOns>
-                                <!--
-                                    The deployment contains a LOT of jars which do JNDI lookups resulting in Glow
-                                    failures
-                                -->
-                                <failsOnError>false</failsOnError>
+                                <!-- no need to scan packaged jars -->
+                                <excludedArchives>
+                                    <archive>*</archive>
+                                </excludedArchives>
                             </discover-provisioning-info>
                             <!-- use cli script(s) to configure the server -->
                             <packaging-scripts>
