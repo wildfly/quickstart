@@ -20,7 +20,7 @@ env:
   MATRIX_JDK: '"11", "17"'
   MATRIX_OS: '"ubuntu-latest"'
   SERVER_PROVISIONING_SERVER_HOST: 'http://localhost'
-  EXTRA_RUN_ARGS: '-DPOSTGRESQL_DATABASE= test -DPOSTGRESQL_SERVICE_HOST=localhost -DPOSTGRESQL_SERVICE_PORT=5432 -DPOSTGRESQL_USER= test -DPOSTGRESQL_PASSWORD= test -DPOSTGRESQL_DATASOURCE=test'
+  EXTRA_RUN_ARGS: '-Pprovisioned-server -DpostgresqlUsername="test" -DpostgresqlPassword="test"'
 
 jobs:
   Matrix-Setup:
