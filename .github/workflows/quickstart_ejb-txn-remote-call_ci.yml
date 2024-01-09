@@ -86,7 +86,7 @@ jobs:
           ./target/server3/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'guest,user,JBossAdmin,Users'
           echo "Add quickstartAdmin to both 'server' builds..."
           ./target/server2/bin/add-user.sh -a -u 'quickstartAdmin' -p 'adminPwd1!' -g 'guest,user,admin'
-          ./target/server2/bin/add-user.sh -a -u 'quickstartAdmin' -p 'adminPwd1!' -g 'guest,user,admin'
+          ./target/server3/bin/add-user.sh -a -u 'quickstartAdmin' -p 'adminPwd1!' -g 'guest,user,admin'
           echo "Starting provisioned server..."
           mvn wildfly:start -Djboss-as.home=target/server2 -Dwildfly.port=10090 -Dwildfly.serverConfig=standalone-ha.xml -Dwildfly.javaOpts="-Djboss.socket.binding.port-offset=100 -Djboss.tx.node.id=server2 -Djboss.node.name=server2" -Dstartup-timeout=120 ${{env.EXTRA_RUN_ARGS}}
           mvn wildfly:start -Djboss-as.home=target/server3 -Dwildfly.port=10190 -Dwildfly.serverConfig=standalone-ha.xml -Dwildfly.javaOpts="-Djboss.socket.binding.port-offset=200 -Djboss.tx.node.id=server3 -Djboss.node.name=server3" -Dstartup-timeout=120 ${{env.EXTRA_RUN_ARGS}}
@@ -195,7 +195,7 @@ jobs:
           ./target/server3/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'guest,user,JBossAdmin,Users'
           echo "Add quickstartAdmin to both 'server' builds..."
           ./target/server2/bin/add-user.sh -a -u 'quickstartAdmin' -p 'adminPwd1!' -g 'guest,user,admin'
-          ./target/server2/bin/add-user.sh -a -u 'quickstartAdmin' -p 'adminPwd1!' -g 'guest,user,admin'
+          ./target/server3/bin/add-user.sh -a -u 'quickstartAdmin' -p 'adminPwd1!' -g 'guest,user,admin'
           echo "Starting provisioned server..."
           mvn wildfly:start -Djboss-as.home=target/server2 -Dwildfly.port=10090 -Dwildfly.serverConfig=standalone-ha.xml -Dwildfly.javaOpts="-Djboss.socket.binding.port-offset=100 -Djboss.tx.node.id=server2 -Djboss.node.name=server2" -Dstartup-timeout=120 ${{env.EXTRA_RUN_ARGS}}
           mvn wildfly:start -Djboss-as.home=target/server3 -Dwildfly.port=10190 -Dwildfly.serverConfig=standalone-ha.xml -Dwildfly.javaOpts="-Djboss.socket.binding.port-offset=200 -Djboss.tx.node.id=server3 -Djboss.node.name=server3" -Dstartup-timeout=120 ${{env.EXTRA_RUN_ARGS}}
