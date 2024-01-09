@@ -1,0 +1,28 @@
+ifndef::ProductRelease[]
+Add the bitnami repository which provides an helm chart for PostgreSQL:
+[source,options="nowrap"]
+----
+$ helm repo add bitnami https://charts.bitnami.com/bitnami
+"bitnami" has been added to your repositories
+----
+
+The Helm Chart for this quickstart contains all the information to build an image from the source code using S2I and install it with the database:
+
+[source,options="nowrap"]
+----
+dependencies:
+    - name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: ...
+    - name: wildfly
+      repository: http://docs.wildfly.org/wildfly-charts/
+      version: ...
+----
+
+So we need to update the dependecies of our Helm Chart.
+
+[source,options="nowrap",subs="+attributes"]
+----
+$ helm dependency update charts/
+----
+endif::[]

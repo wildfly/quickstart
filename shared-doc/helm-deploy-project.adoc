@@ -1,3 +1,10 @@
+
+ifeval::[{useHelmChartDir} == true]
+:helm_chart_values: charts
+endif::[]
+ifndef::useHelmChartDir[]
+:helm_chart_values: -f charts/helm.yaml {helmChartName}
+endif::[]
 [[deploy_helm]]
 == Deploy the {ProductShortName} Source-to-Image (S2I) Quickstart to OpenShift with Helm Charts
 
@@ -7,7 +14,7 @@ The backend will be built and deployed on OpenShift with a Helm Chart for {produ
 Navigate to the root directory of this quickstart and run the following command:
 [source,options="nowrap",subs="+attributes"]
 ----
-$ helm install {helm-app-name} -f charts/helm.yaml {helmChartName} --wait --timeout=10m0s
+$ helm install {helm-app-name} {helm_chart_values} --wait --timeout=10m0s
 NAME: {helm-app-name}
 ...
 STATUS: deployed
