@@ -23,6 +23,7 @@ oc get deployment {helm-app-name}
 
 The Helm Chart for this quickstart contains all the information to build an image from the source code using S2I on Java 17:
 
+ifndef::requires-http-route[]
 [source,options="nowrap",subs="+attributes"]
 ----
 build:
@@ -32,6 +33,21 @@ build:
 deploy:
   replicas: 1
 ----
+endif::requires-http-route[]
+ifdef::requires-http-route[]
+[source,options="nowrap",subs="+attributes"]
+----
+build:
+  uri: {githubRepoCodeUrl}
+  ref: {WildFlyQuickStartRepoTag}
+  contextDir: {artifactId}
+deploy:
+  replicas: 1
+  route:
+    tls:
+      enabled: false
+----
+endif::requires-http-route[]
 
 This will create a new deployment on OpenShift and deploy the application.
 

@@ -69,6 +69,11 @@ fi
 # These functions are from overridable-functions.sh
 application=$(applicationName "${qs_dir}")
 helm_set_arg_prefix=$(getHelmSetVariablePrefix)
+server_protocol="https"
+disableTlsRoute=$(disableTlsRoute)
+if [ "1" = "${disableTlsRoute}" ]; then
+  server_protocol="http"
+fi
 
 ################################################################################################
 # Install any pre-requisites. Function is from overridable-functions.sh
@@ -183,7 +188,7 @@ if [ "${QS_UNSIGNED_SERVER_CERT}" = "1" ]; then
 fi
 
 
-mvnVerifyArguments="-Dserver.host=https://${route} ${QS_MAVEN_REPOSITORY} ${truststore_properties}"
+mvnVerifyArguments="-Dserver.host=${server_protocol}://${route} ${QS_MAVEN_REPOSITORY} ${truststore_properties}"
 extraMvnVerifyArguments="$(getMvnVerifyExtraArguments)"
 echo "Verify Arguments: ${mvnVerifyArguments}"
 if [ -n "${extraMvnVerifyArguments}" ]; then

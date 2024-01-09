@@ -13,10 +13,18 @@ endif::extra-openshift-testing-actions[]
 ifndef::extra-openshift-test-arguments[:extra-openshift-test-arguments:]
 
 Run the integration tests using the following command to run the `verify` goal with the `integration-testing` profile activated and the proper URL:
+ifndef::requires-http-route[]
 [source,options="nowrap",subs="+attributes"]
 ----
 $ mvn verify -Pintegration-testing -Dserver.host=https://$(oc get route {helm-app-name} --template='{{ .spec.host }}') {extra-openshift-test-arguments}
 ----
+endif::requires-http-route[]
+ifdef::requires-http-route[]
+[source,options="nowrap",subs="+attributes"]
+----
+$ mvn verify -Pintegration-testing -Dserver.host=http://$(oc get route {helm-app-name} --template='{{ .spec.host }}') {extra-openshift-test-arguments}
+----
+endif::requires-http-route[]
 
 [NOTE]
 ====
