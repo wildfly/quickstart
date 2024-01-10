@@ -10,6 +10,8 @@ include::../shared-doc/attributes.adoc[]
 :technologies:      JPA, JAX-RS, OpenShift, Galleon
 :openshift: true
 :archiveType: war
+:useHelmChartDir: true
+:helm-install-prerequisites: ../todo-backend/helm-install-prerequisites.adoc
 
 [abstract]
 The `todo-backend` quickstart demonstrates how to implement a backend that exposes a HTTP API with JAX-RS
@@ -206,108 +208,11 @@ $ curl http://localhost:8080
 :extraStartParams: -DPOSTGRESQL_DATABASE=todos -DPOSTGRESQL_SERVICE_HOST=localhost -DPOSTGRESQL_SERVICE_PORT=5432 -DPOSTGRESQL_USER=todos -DPOSTGRESQL_PASSWORD=mysecretpassword -DPOSTGRESQL_DATASOURCE=ToDos
 include::../shared-doc/run-integration-tests-with-provisioned-server.adoc[leveloffset=+1]
 
+
 == Run the Backend on OpenShift
 
-include::../shared-doc/build-the-quickstart-for-openshift.adoc[leveloffset=+1]
-
-=== Prerequisites
-
-* You must be logged in OpenShift and have an `oc` client to connect to OpenShift
-* https://helm.sh[Helm] must be installed to deploy the backend on OpenShift.
-
-Once you have installed Helm, you need to add the repository that provides Helm Charts for {productName}:
-
-ifndef::ProductRelease[]
-[source,options="nowrap"]
-----
-$ helm repo add wildfly https://docs.wildfly.org/wildfly-charts/
-"wildfly" has been added to your repositories
-$ helm search repo wildfly
-NAME                    CHART VERSION   APP VERSION     DESCRIPTION
-wildfly/wildfly         ...             ...            Build and Deploy WildFly applications on OpenShift
-wildfly/wildfly-common  ...             ...            A library chart for WildFly-based applications
-----
-endif::[]
-ifdef::ProductRelease[]
-[source,options="nowrap",subs="+attributes"]]
-----
-$ helm repo add jboss-eap https://jbossas.github.io/eap-charts/
-"jboss-eap" has been added to your repositories
-$ helm search repo jboss-eap
-NAME                    CHART VERSION   APP VERSION     DESCRIPTION
-{helmChartName}         ...             ...             A Helm chart to build and deploy {productVersion} applications
-----
-endif::[]
-
-ifndef::ProductRelease[]
-=== Build and Deploy the Backend on OpenShift with {productName} S2I
-endif::[]
-
-The backend will be built and deployed on OpenShift with a Helm Chart for {productName}.
-
-ifndef::ProductRelease[]
-Add the bitnami repository which provides an helm chart for PostgreSQL:
-[source,options="nowrap"]
-----
-$ helm repo add bitnami https://charts.bitnami.com/bitnami
-"bitnami" has been added to your repositories
-----
-
-Install the full application (database + backend).
-
-[source,options="nowrap",subs="+attributes"]
-----
-$ helm dependency update charts/
-$ helm install todo-backend charts/
-NAME: todo-backend
-...
-STATUS: deployed
-REVISION: 1
-----
-
-The Helm Chart for this quickstart contains all the information to build an image from the source code using S2I and install it with the database:
-
-[source,options="nowrap"]
-----
-dependencies:
-    - name: postgresql
-      repository: https://charts.bitnami.com/bitnami
-      version: ...
-    - name: wildfly
-      repository: http://docs.wildfly.org/wildfly-charts/
-      version: ...
-----
-
-endif::[]
-
-ifndef::ProductRelease[]
-Any configuration specified by this chart is described in its README that is displayed in OpenShift Dev console
-or using the command:
-
-[source,options="nowrap",subs="+attributes"]
-----
-$ helm show readme {helmChartName}
-----
-
-Let's wait for the application to be built and deployed:
-
-[source,options="nowrap",subs="+attributes"]
-----
-$ oc get deployment todo-backend -w
-NAME           READY   UP-TO-DATE   AVAILABLE   AGE
-{artifactId}   0/1     1            0           31s
-...
-{artifactId}   1/1     1            1           4m31s
-----
-
-endif::[]
-
-ifdef::ProductRelease[]
-
-//Prepare Helm for Quickstart Deployment
-include::../shared-doc/helm-deploy-project.adoc[leveloffset=+1]
-
-endif::[]
+// OpenShift
+include::../shared-doc/build-and-run-the-quickstart-with-openshift.adoc[leveloffset=+1]
 
 === Environment variables for PostgreSQL
 
