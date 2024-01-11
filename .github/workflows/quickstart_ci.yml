@@ -249,7 +249,7 @@ jobs:
         run: |
           cd quickstarts
           cd ${{ inputs.QUICKSTART_PATH }}
-          mvn -fae clean package -Popenshift -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
+          mvn -fae clean package -Popenshift -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }} ${{ env.WILDFLY_SNAPSHOT_EXTRA_PACKAGE_ARGUMENTS }}
         shell: bash
       - name: Run after script
         env:
