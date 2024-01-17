@@ -29,10 +29,14 @@ To complete this guide, you will need:
 * less than 15 minutes
 * JDK 11+ installed with `JAVA_HOME` configured appropriately
 * Apache Maven 3.5.3+
+* Docker Compose, or alternatively Podman Compose
 
 include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
 
 == Steps
+
+// Start the {productName} Standalone Server
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
 
 [[configure_the_server]]
 === Configure the Server
@@ -73,21 +77,25 @@ $ __{jbossHomeName}__/bin/jboss-cli.sh --connect --commands=reload
 [[start_opentelemetry_collector]]
 === Starting the OpenTelemetry Collector
 
-By default, {productName} will publish metrics every 10 seconds, so you will soon start seeing errors about a refused connection. This is because we told {productName} to publish to a server that is not there, so we need to fix that. To make that as simple as possible, you can use Docker Compose to start an instance of the OpenTelemetry Collector:
+By default, {productName} will publish metrics every 10 seconds, so you will soon start seeing errors about a refused connection.
+
+This is because we told {productName} to publish to a server that is not there, so we need to fix that. To make that as simple as possible, you can use Docker Compose to start an instance of the OpenTelemetry Collector.
+
+The Docker Compose configuration file is `docker-compose.yaml`:
 
 [source,yaml]
 ----
 include::docker-compose.yaml[]
 ----
 
-We also need to provide a configuration file for the collector:
+The Collector server configuration file is `otel-collector-config.yaml`:
 
 [source,yaml]
 ----
 include::otel-collector-config.yaml[]
 ----
 
-We can now bring up the collector instance:
+We can now bring up the collector server instance:
 
 [source,bash]
 ----
@@ -96,6 +104,15 @@ $ docker-compose up
 
 The service should be available almost immediately, which you can verify by looking at the Prometheus endpoint we've configured by pointing your browser at http://localhost:1234/metrics[]. You should see quite a few metrics listed, none of which are what our application has registered. What you're seeing are the system and JVM metrics automatically registered and published by {productName} to give systems/applications administrators a comprehensive view of system health and performance.
 
+[NOTE]
+====
+You may use Podman as alternative to Docker if you prefer, in such case the command should be `podman-compose up`.
+====
+
+[NOTE]
+====
+If your environment does not support Docker or Podman, please refer to https://opentelemetry.io/docs/collector/installation[Otel Collector documentation] for alternatives on how to install and run the OpenTelemetry Collector.
+====
 
 === Registering metrics
 
