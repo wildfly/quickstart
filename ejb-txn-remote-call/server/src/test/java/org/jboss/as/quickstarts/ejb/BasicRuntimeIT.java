@@ -35,7 +35,6 @@ import static org.junit.Assert.assertEquals;
 public class BasicRuntimeIT {
 
     private static final String DEFAULT_SERVER_HOST = "http://localhost:8180/server";
-    private static final String DEFAULT_APPLICATION = "/server";
 
     @Test
     public void testHTTPEndpointIsAvailable() throws IOException, InterruptedException, URISyntaxException {
@@ -46,12 +45,12 @@ public class BasicRuntimeIT {
         if (serverHost == null) {
             serverHost = DEFAULT_SERVER_HOST;
         }
-        testEndpoint(serverHost, DEFAULT_APPLICATION,"/commits",200);
+        testEndpoint(serverHost, "/commits",200);
     }
 
-    private void testEndpoint(String serverHost, String application, String endpoint, int expectedCode) throws URISyntaxException, IOException, InterruptedException {
+    private void testEndpoint(String serverHost, String endpoint, int expectedCode) throws URISyntaxException, IOException, InterruptedException {
         final HttpRequest request = HttpRequest.newBuilder()
-                .uri(new URI(serverHost + application + endpoint))
+                .uri(new URI(serverHost + endpoint))
                 .GET()
                 .build();
         final HttpClient client = HttpClient.newBuilder()
