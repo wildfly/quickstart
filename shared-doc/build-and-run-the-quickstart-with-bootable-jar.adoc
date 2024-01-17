@@ -5,6 +5,7 @@ You can use the WildFly JAR Maven plug-in to build a {productName} bootable JAR 
 
 The quickstart `pom.xml` file contains a Maven profile named *bootable-jar* which configures the bootable JAR building:
 
+ifndef::portedToGlow[]
 [source,xml,subs="attributes+"]
 ----
       <profile>
@@ -34,6 +35,56 @@ The quickstart `pom.xml` file contains a Maven profile named *bootable-jar* whic
           </build>
       </profile>
 ----
+endif::portedToGlow[]
+ifdef::portedToGlow[]
+[source,xml,subs="attributes+"]
+----
+      <profile>
+          <id>bootable-jar</id>
+          <build>
+              <plugins>
+                  <plugin>
+                      <groupId>org.wildfly.plugins</groupId>
+                      <artifactId>wildfly-maven-plugin</artifactId>
+                      <configuration>
+                          <discover-provisioning-info>
+                              <version>${version.server}</version>
+                          </discover-provisioning-info>
+                          <bootable-jar>true</bootable-jar>
+                          <!--
+                            Rename the output war to ROOT.war before adding it to the server, so that the
+                            application is deployed in the root web context.
+                          -->
+                          <name>ROOT.war</name>
+                          <add-ons>...</add-ons>
+                      </configuration>
+                      <executions>
+                          <execution>
+                              <goals>
+                                  <goal>package</goal>
+                              </goals>
+                          </execution>
+                      </executions>
+                  </plugin>
+                  ...
+              </plugins>
+          </build>
+      </profile>
+----
+The plugin uses https://github.com/wildfly/wildfly-glow[WildFly Glow] to discover the feature packs and layers required to run the application, and provisions a server containing those layers.
+
+[NOTE]
+====
+This uses a pre-release of version 5.0.0 of the wildfly-maven-plugin providing the Glow functionality. The version is set in the pom's `pluginManagement` section.
+====
+
+If you get an error or the server is missing some functionality which cannot be auto-discovered, you can download the https://github.com/wildfly/wildfly-glow/releases/tag[WildFly Glow CLI] and run the following command to see more information about what add-ons are available:
+
+[source,shell]
+----
+wildfly-glow show-add-ons
+----
+endif::portedToGlow[]
 
 .Procedure
 
