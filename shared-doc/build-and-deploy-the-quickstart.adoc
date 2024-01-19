@@ -20,6 +20,10 @@
 // * To override the Maven command, define the `mavenCommand` variable,
 //   for example:
 //    :mavenCommand: clean install wildfly:deploy
+//
+// * To override the Maven deploy command arguments, define the `mavenDeployArgs` variable,
+//   for example:
+//    :mavenDeployArgs: wildfly:deploy -Dwildfly.port=10000
 //******************************************************************************
 
 // The archive name defaults to the artifactId if not overridden
@@ -84,11 +88,15 @@ endif::reactive-messaging[]
 $ mvn {mavenCommand}
 ----
 
+ifndef::mavenDeployArgs[]
+:mavenDeployArgs: wildfly:deploy
+endif::mavenDeployArgs[]
+
 . Type the following command to deploy the quickstart.
 +
 [source,subs="attributes+",options="nowrap"]
 ----
-$ mvn wildfly:deploy
+$ mvn {mavenDeployArgs}
 ----
 
 ifdef::rest-client-qs[]

@@ -1,0 +1,70 @@
+include::../shared-doc/attributes.adoc[]
+
+= oidc-webapp: Securing an application deployed to WildFly with OpenID Connect (OIDC)
+:toc:               left
+:icons:             font
+:idprefix:
+:idseparator:       -
+:level: Beginner
+:technologies: OIDC
+:openshift: false
+
+[abstract]
+The `oidc-webapp` quickstart demonstrates a simple application, bundled and deployed as a WAR, secured with OpenID Connect (OIDC).
+
+:standalone-server-type: custom
+:serverArguments: -Djboss.socket.binding.port-offset=10
+:archiveType: war
+:mavenDeployArgs: wildfly:deploy -Dwildfly.port=10000
+
+== What is it?
+
+The `oidc-webapp` quickstart demonstrates how to secure an application deployed to {productNameFull} with OpenID Connect
+(OIDC) without needing to use the Keycloak client adapter.
+
+The OIDC configuration in this example is part of the deployment itself. Alternatively,
+this configuration could be specified via the `elytron-oidc-client` subsystem instead.
+For more details, take a look at the https://docs.wildfly.org/28/Admin_Guide.html#Elytron_OIDC_Client[documentation].
+
+// System Requirements
+include::../shared-doc/system-requirements.adoc[leveloffset=+1]
+// Use of {jbossHomeName}
+include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
+
+== Set up your Keycloak OpenID provider
+
+Follow the steps in this https://www.keycloak.org/getting-started/getting-started-docker[getting started guide] to
+start Keycloak, create a realm called `myrealm`, create a user called `myuser`, and register a client called `myclient`.
+
+After registering our client, `myclient`, we also need to configure valid redirect URIs. Simply click
+on `Clients` and then on `myclient`. In the `Valid Redirect URIs` field, enter http://localhost:8090/oidc-webapp/*.
+
+// build and run with standard server distribution
+[[build_and_run_the_quickstart_with_server_dist]]
+== Building and running the quickstart application with a {productName} server distribution
+
+First, we're going to start our WildFly instance (notice that we're specifying a port offset here
+since our Keycloak instance is already exposed on port 8080).
+
+// Start the {productName} Standalone Server
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+2]
+// Build and Deploy the Quickstart
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+2]
+
+## Access the app
+
+We can access our application using `http://localhost:8090/oidc-webapp/`.
+
+Click on "Access Secured Servlet".
+
+Now, you'll be redirected to Keycloak to log in. Log in with `myuser` and the password that you
+set when configuring Keycloak.
+
+Next, you'll be redirected back to our application and you should see the "Secured Servlet" page.
+
+We were able to successfully log in to our application via the Keycloak OpenID provider!
+
+// Build and run sections for other environments/builds
+ifndef::ProductRelease,EAPXPRelease[]
+include::../shared-doc/build-and-run-the-quickstart-with-provisioned-server.adoc[leveloffset=+1]
+endif::[]
