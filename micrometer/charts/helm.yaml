@@ -1,0 +1,9 @@
+build:
+  uri: https://github.com/wildfly/quickstart.git
+  ref: main
+  contextDir: micrometer
+deploy:
+  replicas: 1
+  env:
+    - name: OTEL_COLLECTOR_HOST
+      value: "opentelemetrycollector"

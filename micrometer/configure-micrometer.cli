@@ -1,0 +1,9 @@
+# CLI script to enable micrometer for the quickstart application in the application server
+if (outcome != success) of /extension=org.wildfly.extension.micrometer:read-resource
+    /extension=org.wildfly.extension.micrometer:add
+    /subsystem=micrometer:add()
+end-if
+
+# Configure the endpoint for metrics publication
+/subsystem=micrometer:write-attribute(name=endpoint, value="http://${opentelemetry.collector.host:localhost}:4318/v1/metrics")
+/subsystem=micrometer:write-attribute(name="step",value="1")
