@@ -38,9 +38,9 @@ jobs:
         sed -i "1s/^/ifdef::env-github[]\n$ARTIFACT_ID\nendif::[]\n\n/" README.adoc
         fi
         cd $CURRENT_DIR
+        done
         #Updates the table of available quickstarts @ root README.adoc
         mvn clean package -Pdocs -N
-        done
     - name: Commit and Push README
       uses: EndBug/add-and-commit@v9
       with:
