@@ -1,0 +1,1586 @@
+ifdef::env-github[]
+:artifactId: microprofile-health
+endif::[]
+
+//***********************************************************************************
+// Enable the following flag to build README.html files for JBoss EAP product builds.
+// Comment it out for WildFly builds.
+//***********************************************************************************
+//:ProductRelease:
+
+//***********************************************************************************
+// Enable the following flag to build README.html files for EAP XP product builds.
+// Comment it out for WildFly or JBoss EAP product builds.
+//***********************************************************************************
+//:EAPXPRelease:
+
+// This is a universal name for all releases
+:ProductShortName: JBoss EAP
+// Product names and links are dependent on whether it is a product release (CD or JBoss)
+// or the WildFly project.
+// The "DocInfo*" attributes are used to build the book links to the product documentation
+
+ifdef::ProductRelease[]
+// JBoss EAP release
+:productName: JBoss EAP
+:productNameFull: Red Hat JBoss Enterprise Application Platform
+:productVersion: 8.0
+:DocInfoProductNumber: {productVersion}
+:WildFlyQuickStartRepoTag: 8.0.x
+:productImageVersion: 8.0.0
+:helmChartName: jboss-eap/eap8
+endif::[]
+
+ifdef::EAPXPRelease[]
+// JBoss EAP XP release
+:productName: JBoss EAP XP
+:productNameFull: Red Hat JBoss Enterprise Application Platform expansion pack
+:productVersion: 3.0
+:DocInfoProductNumber: 7.4
+:WildFlyQuickStartRepoTag: XP_3.0.0.GA
+:productImageVersion: 3.0
+:helmChartName: jboss-eap/eap-xp3
+endif::[]
+
+ifdef::ProductRelease,EAPXPRelease[]
+:githubRepoUrl: https://github.com/jboss-developer/jboss-eap-quickstarts/
+:githubRepoCodeUrl: https://github.com/jboss-developer/jboss-eap-quickstarts.git
+:jbossHomeName: EAP_HOME
+:DocInfoProductName: Red Hat JBoss Enterprise Application Platform
+:DocInfoProductNameURL: red_hat_jboss_enterprise_application_platform
+:DocInfoPreviousProductName: jboss-enterprise-application-platform
+:quickstartDownloadName: {productNameFull} {productVersion} Quickstarts
+:quickstartDownloadUrl: https://access.redhat.com/jbossnetwork/restricted/listSoftware.html?product=appplatform&downloadType=distributions
+:helmRepoName: jboss-eap
+:helmRepoUrl: https://jbossas.github.io/eap-charts/
+// END ifdef::ProductRelease,EAPXPRelease[]
+endif::[]
+
+ifndef::ProductRelease,EAPXPRelease[]
+// WildFly project
+:productName: WildFly
+:productNameFull: WildFly Application Server
+:ProductShortName: {productName}
+:jbossHomeName: WILDFLY_HOME
+:productVersion: 31
+:productImageVersion: 31.0
+:githubRepoUrl: https://github.com/wildfly/quickstart/
+:githubRepoCodeUrl: https://github.com/wildfly/quickstart.git
+:WildFlyQuickStartRepoTag: 31.0.0.Beta1
+:DocInfoProductName: Red Hat JBoss Enterprise Application Platform
+:DocInfoProductNameURL: red_hat_jboss_enterprise_application_platform
+// Do not update the following until after the 7.4 docs are published!
+:DocInfoProductNumber: 7.4
+:DocInfoPreviousProductName: jboss-enterprise-application-platform
+:helmRepoName: wildfly
+:helmRepoUrl: http://docs.wildfly.org/wildfly-charts/
+:helmChartName: wildfly/wildfly
+// END ifndef::ProductRelease,EAPCDRelease,EAPXPRelease[]
+endif::[]
+
+:source: {githubRepoUrl}
+
+// Values for Openshift S2i sections attributes
+:CDProductName:  {productNameFull} for OpenShift
+:CDProductShortName: {ProductShortName} for OpenShift
+:CDProductTitle: {CDProductName}
+:CDProductNameSentence: Openshift release for {ProductShortName}
+:CDProductAcronym: {CDProductShortName}
+:CDProductVersion: {productVersion}
+:EapForOpenshiftBookName: {productNameFull} for OpenShift
+:EapForOpenshiftOnlineBookName: {EapForOpenshiftBookName} Online
+:xpaasproduct: {productNameFull} for OpenShift
+:xpaasproductOpenShiftOnline: {xpaasproduct} Online
+:xpaasproduct-shortname: {CDProductShortName}
+:xpaasproductOpenShiftOnline-shortname: {xpaasproduct-shortname} Online
+:ContainerRegistryName: Red Hat Container Registry
+:EapForOpenshiftBookName: Getting Started with {ProductShortName} for OpenShift Container Platform
+:EapForOpenshiftOnlineBookName: Getting Started with {ProductShortName} for OpenShift Online
+:OpenShiftOnlinePlatformName: Red Hat OpenShift Container Platform
+:OpenShiftOnlineName: Red Hat OpenShift Online
+:ImagePrefixVersion: eap80
+:ImageandTemplateImportBaseURL: https://raw.githubusercontent.com/jboss-container-images/jboss-eap-openshift-templates
+:ImageandTemplateImportURL: {ImageandTemplateImportBaseURL}/{ImagePrefixVersion}/
+:BuildImageStream: jboss-{ImagePrefixVersion}-openjdk11-openshift
+:RuntimeImageStream: jboss-{ImagePrefixVersion}-openjdk11-runtime-openshift
+
+// OpenShift repository and reference for quickstarts
+:EAPQuickStartRepo: https://github.com/jboss-developer/jboss-eap-quickstarts
+:EAPQuickStartRepoRef: 8.0.x
+:EAPQuickStartRepoTag: EAP_8.0.0.Beta
+// Links to the OpenShift documentation
+:LinkOpenShiftGuide: https://access.redhat.com/documentation/en-us/{DocInfoProductNameURL}/{DocInfoProductNumber}/html-single/getting_started_with_jboss_eap_for_openshift_container_platform/
+:LinkOpenShiftOnlineGuide: https://access.redhat.com/documentation/en-us/{DocInfoProductNameURL}/{DocInfoProductNumber}/html-single/getting_started_with_jboss_eap_for_openshift_online/
+
+ifdef::EAPXPRelease[]
+// Attributes for XP releases
+:EapForOpenshiftBookName: {productNameFull} for OpenShift
+:EapForOpenshiftOnlineBookName: {productNameFull} for OpenShift Online
+:xpaasproduct: {productNameFull} for OpenShift
+:xpaasproductOpenShiftOnline: {productNameFull} for OpenShift Online
+:xpaasproduct-shortname: {ProductShortName} for OpenShift
+:xpaasproductOpenShiftOnline-shortname: {ProductShortName} for OpenShift Online
+:ContainerRegistryName: Red Hat Container Registry
+:EapForOpenshiftBookName: {productNameFull} for OpenShift
+:EapForOpenshiftOnlineBookName: {productNameFull} for OpenShift Online
+:ImagePrefixVersion: eap-xp3
+:ImageandTemplateImportURL: {ImageandTemplateImportBaseURL}/{ImagePrefixVersion}/
+:BuildImageStream: jboss-{ImagePrefixVersion}-openjdk11-openshift
+:RuntimeImageStream: jboss-{ImagePrefixVersion}-openjdk11-runtime-openshift
+// OpenShift repository and reference for quickstarts
+:EAPQuickStartRepoRef: xp-3.0.x
+// Links to the OpenShift documentation
+:LinkOpenShiftGuide: https://access.redhat.com/documentation/en-us/red_hat_jboss_enterprise_application_platform/{DocInfoProductNumber}/html/using_eclipse_microprofile_in_jboss_eap/using-the-openshift-image-for-jboss-eap-xp_default
+:LinkOpenShiftOnlineGuide: https://access.redhat.com/documentation/en-us/red_hat_jboss_enterprise_application_platform/{DocInfoProductNumber}/html/using_eclipse_microprofile_in_jboss_eap/using-the-openshift-image-for-jboss-eap-xp_default
+endif::[]
+
+ifndef::ProductRelease,EAPCDRelease,EAPXPRelease[]
+:ImageandTemplateImportURL: https://raw.githubusercontent.com/wildfly/wildfly-s2i/v{productVersion}.0/
+endif::[]
+
+//*************************
+// Other values
+//*************************
+:buildRequirements: Java 11.0 (Java SDK 11) or later and Maven 3.6.0 or later
+:jbdsEapServerName: Red Hat JBoss Enterprise Application Platform 7.3
+:javaVersion: Jakarta EE 10
+ifdef::EAPXPRelease[]
+:javaVersion: Eclipse MicroProfile
+endif::[]
+:githubRepoBranch: master
+:guidesBaseUrl: https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/
+:useEclipseUrl: {guidesBaseUrl}USE_JBDS.adoc#use_red_hat_jboss_developer_studio_or_eclipse_to_run_the_quickstarts
+:useEclipseDeployJavaClientDocUrl: {guidesBaseUrl}USE_JBDS.adoc#deploy_and_undeploy_a_quickstart_containing_server_and_java_client_projects
+:useEclipseDeployEARDocUrl: {guidesBaseUrl}USE_JBDS.adoc#deploy_and_undeploy_a_quickstart_ear_project
+:useProductHomeDocUrl: {guidesBaseUrl}USE_OF_{jbossHomeName}.adoc#use_of_product_home_and_jboss_home_variables
+:configureMavenDocUrl: {guidesBaseUrl}CONFIGURE_MAVEN_JBOSS_EAP.adoc#configure_maven_to_build_and_deploy_the_quickstarts
+:arquillianTestsDocUrl: {guidesBaseUrl}RUN_ARQUILLIAN_TESTS.adoc#run_the_arquillian_tests
+:addUserDocUrl: {guidesBaseUrl}CREATE_USERS.adoc#create_users_required_by_the_quickstarts
+:addApplicationUserDocUrl: {guidesBaseUrl}CREATE_USERS.adoc#add_an_application_user
+:addManagementUserDocUrl: {guidesBaseUrl}CREATE_USERS.adoc#add_an_management_user
+:startServerDocUrl: {guidesBaseUrl}START_JBOSS_EAP.adoc#start_the_jboss_eap_server
+:configurePostgresDocUrl: {guidesBaseUrl}CONFIGURE_POSTGRESQL_JBOSS_EAP.adoc#configure_the_postgresql_database_for_use_with_the_quickstarts
+:configurePostgresDownloadDocUrl: {guidesBaseUrl}CONFIGURE_POSTGRESQL_JBOSS_EAP.adoc#download_and_install_postgresql
+:configurePostgresCreateUserDocUrl: {guidesBaseUrl}CONFIGURE_POSTGRESQL_JBOSS_EAP.adoc#create_a_database_user
+:configurePostgresAddModuleDocUrl: {guidesBaseUrl}CONFIGURE_POSTGRESQL_JBOSS_EAP.adoc#add_the_postgres_module_to_the_jboss_eap_server
+:configurePostgresDriverDocUrl: {guidesBaseUrl}CONFIGURE_POSTGRESQL_JBOSS_EAP.adoc#configure_the_postgresql_driver_in_the_jboss_eap_server
+:configureBytemanDownloadDocUrl: {guidesBaseUrl}CONFIGURE_BYTEMAN.adoc#download_and_configure_byteman
+:configureBytemanDisableDocUrl: {guidesBaseUrl}CONFIGURE_BYTEMAN.adoc#disable_the_byteman_script
+:configureBytemanClearDocUrl: {guidesBaseUrl}CONFIGURE_BYTEMAN.adoc#clear_the_transaction_object_store
+:configureBytemanQuickstartDocUrl: {guidesBaseUrl}CONFIGURE_BYTEMAN.adoc#configure_byteman_for_use_with_the_quickstarts
+:configureBytemanHaltDocUrl: {guidesBaseUrl}CONFIGURE_BYTEMAN.adoc#use_byteman_to_halt_the_application[
+:configureBytemanQuickstartsDocUrl: {guidesBaseUrl}CONFIGURE_BYTEMAN.adoc#configure_byteman_for_use_with_the_quickstarts
+
+:EESubsystemNamespace: urn:jboss:domain:ee:4.0
+:IiopOpenJdkSubsystemNamespace: urn:jboss:domain:iiop-openjdk:2.0
+:MailSubsystemNamespace: urn:jboss:domain:mail:3.0
+:SingletonSubsystemNamespace: urn:jboss:domain:singleton:1.0
+:TransactionsSubsystemNamespace: urn:jboss:domain:transactions:4.0
+
+// LinkProductDocHome: https://access.redhat.com/documentation/en/red-hat-jboss-enterprise-application-platform/
+:LinkProductDocHome: https://access.redhat.com/documentation/en/jboss-enterprise-application-platform-continuous-delivery
+:LinkConfigGuide: https://access.redhat.com/documentation/en-us/{DocInfoProductNameURL}/{DocInfoProductNumber}/html-single/configuration_guide/
+:LinkDevelopmentGuide: https://access.redhat.com/documentation/en-us/{DocInfoProductNameURL}/{DocInfoProductNumber}/html-single/development_guide/
+:LinkGettingStartedGuide: https://access.redhat.com/documentation/en-us/{DocInfoProductNameURL}/{DocInfoProductNumber}/html-single/getting_started_guide/
+:LinkOpenShiftWelcome: https://docs.openshift.com/online/welcome/index.html
+:LinkOpenShiftSignup: https://docs.openshift.com/online/getting_started/choose_a_plan.html
+:OpenShiftTemplateName: JBoss EAP CD (no https)
+
+:ConfigBookName: Configuration Guide
+:DevelopmentBookName: Development Guide
+:GettingStartedBookName: Getting Started Guide
+
+:JBDSProductName: Red Hat CodeReady Studio
+:JBDSVersion: 12.15
+:LinkJBDSInstall:  https://access.redhat.com/documentation/en-us/red_hat_codeready_studio/{JBDSVersion}/html-single/installation_guide/
+:JBDSInstallBookName: Installation Guide
+:LinkJBDSGettingStarted: https://access.redhat.com/documentation/en-us/red_hat_codeready_studio/{JBDSVersion}/html-single/getting_started_with_codeready_studio_tools/
+:JBDSGettingStartedBookName: Getting Started with CodeReady Studio Tools
+
+= microprofile-health: MicroProfile Health QuickStart
+:author: Martin Stefanko
+:level: Beginner
+:technologies: MicroProfile Health
+:management-port-openshift:
+:post-helm-install-actions: ../microprofile-health/expose-management-port.adoc
+:extra-openshift-testing-actions: ../microprofile-health/expose-management-port.adoc
+:extra-openshift-test-arguments: -Dserver.management.host=https://$(oc get route {artifactId}-management --template='{{ .spec.host }}')
+
+[abstract]
+The `microprofile-health` quickstart demonstrates the use of the MicroProfile Health specification in {productName}.
+
+:standalone-server-type: microprofile
+:archiveType: war
+:archiveName: {artifactId}
+:include-management-port: http://localhost:9990/health/live
+
+== What is it?
+
+MicroProfile Health allows applications to provide information about their state
+to external viewers which is typically useful in cloud environments where automated
+processes must be able to determine whether the application should be discarded
+or restarted.
+
+== Architecture
+
+In this quickstart, we have a simple REST application that exposes MicroProfile Health
+functionalities at the `/health/live`, `/health/ready`, and `/health/started` endpoints according to the specification.
+
+// Link to the quickstart source
+:leveloffset: +1
+
+ifndef::ProductRelease,EAPXPRelease[]
+link:https://github.com/wildfly/quickstart/tree/{WildFlyQuickStartRepoTag}/{artifactId}[Browse the source]
+endif::[]
+
+:leveloffset!:
+// System Requirements
+:leveloffset: +1
+
+[[system_requirements]]
+= System Requirements
+//******************************************************************************
+// Include this template to describe the standard system requirements for
+// running the quickstarts.
+//
+// The Forge quickstarts define a `forge-from-scratch` attribute because they
+// run entirely in CodeReady Studio and have different requirements .
+//******************************************************************************
+
+The application this project produces is designed to be run on {productNameFull} {productVersion} or later.
+
+All you need to build this project is {buildRequirements}. See link:{configureMavenDocUrl}[Configure Maven to Build and Deploy the Quickstarts] to make sure you are configured correctly for testing the quickstarts.
+
+:leveloffset!:
+
+// Use of {jbossHomeName}
+:leveloffset: +1
+
+ifdef::requires-multiple-servers[]
+[[use_of_jboss_home_name]]
+= Use of the {jbossHomeName}_1, {jbossHomeName}_2, and QUICKSTART_HOME Variables
+
+This quickstart requires that you clone your `__{jbossHomeName}__` installation directory and run two servers. The installation path is described in detail here: link:{useProductHomeDocUrl}[Use of __{jbossHomeName}__ and __JBOSS_HOME__ Variables].
+
+In the following instructions, replace `__{jbossHomeName}_1__` with the path to your first {productName} server and replace `__{jbossHomeName}_2__` with the path to your second cloned {productName} server.
+
+When you see the replaceable variable __QUICKSTART_HOME__, replace it with the path to the root directory of all of the quickstarts.
+endif::[]
+
+ifdef::optional-domain-or-multiple-servers[]
+[[use_of_jboss_home_name]]
+= Use of the {jbossHomeName}_1, {jbossHomeName}_2, and QUICKSTART_HOME Variables
+
+When deploying this quickstart to a managed domain, replace `__{jbossHomeName}__` with the actual path to your {productName} installation. The installation path is described in detail here: link:{useProductHomeDocUrl}[Use of __{jbossHomeName}__ and __JBOSS_HOME__ Variables].
+
+When deploying this quickstart to multiple standalone servers, this quickstart requires that you clone your `__{jbossHomeName}__` installation directory and run two servers. In the following instructions, replace `__{jbossHomeName}_1__` with the path to your first {productName} server and replace `__{jbossHomeName}_2__` with the path to your second cloned {productName} server.
+
+When you see the replaceable variable __QUICKSTART_HOME__, replace it with the path to the root directory of all of the quickstarts.
+endif::[]
+
+ifndef::requires-multiple-servers,optional-domain-or-multiple-servers[]
+[[use_of_jboss_home_name]]
+= Use of the {jbossHomeName} and QUICKSTART_HOME Variables
+
+In the following instructions, replace `__{jbossHomeName}__` with the actual path to your {productName} installation. The installation path is described in detail here: link:{useProductHomeDocUrl}[Use of __{jbossHomeName}__ and __JBOSS_HOME__ Variables].
+
+When you see the replaceable variable __QUICKSTART_HOME__, replace it with the path to the root directory of all of the quickstarts.
+endif::[]
+
+:leveloffset!:
+
+// Start the {productName} Standalone Server
+:leveloffset: +1
+
+[[start_the_eap_standalone_server]]
+= Start the {productName} Standalone Server
+//******************************************************************************
+// Include this template if your quickstart requires a normal start of a single
+// standalone server.
+//
+// You must define the `standalone-server-type`. Supported values are:
+//    default
+//    full
+//    full-ha
+//    ha
+//    custom
+//
+// * For mobile applications, you can define the `mobileApp` variable in the
+//   `README.adoc` file to add `-b 0.0.0.0` to the command line. This allows
+//    external clients, such as phones, tablets, and desktops, to connect
+//    to the application through through your local network
+//    ::mobileApp: {artifactId}-service
+//
+//******************************************************************************
+
+//******************************************************************************
+// This template sets attributes for the different standalone server profiles.
+//
+// You must define the `standalone-server-type`. Supported values are:
+//    default
+//    full
+//    full-ha
+//    ha
+//    microprofile
+//    custom
+//******************************************************************************
+
+// Standalone server with the default profile.
+ifeval::["{standalone-server-type}"=="default"]
+:serverProfile: default profile
+:configFileName: standalone/configuration/standalone.xml
+:serverArguments:
+endif::[]
+
+// Standalone server with the full profile.
+ifeval::["{standalone-server-type}"=="full"]
+:serverProfile: full profile
+:configFileName: standalone/configuration/standalone-full.xml
+:serverArguments:  -c standalone-full.xml
+endif::[]
+
+// Standalone server with the full HA profile.
+ifeval::["{standalone-server-type}"=="full-ha"]
+:serverProfile: full HA profile
+:configFileName: standalone/configuration/standalone-full-ha.xml
+:serverArguments:  -c standalone-full-ha.xml
+endif::[]
+
+// Start the standalone server with the HA profile.
+ifeval::["{standalone-server-type}"=="ha"]
+:serverProfile: HA profile
+:configFileName: standalone/configuration/standalone-ha.xml
+:serverArguments:  -c standalone-ha.xml
+endif::[]
+
+// Start the standalone server with the Eclipse MicroProfile profile.
+ifeval::["{standalone-server-type}"=="microprofile"]
+:serverProfile: MicroProfile profile
+:configFileName: standalone/configuration/standalone-microprofile.xml
+:serverArguments:  -c standalone-microprofile.xml
+endif::[]
+
+// Standalone server with the custom profile.
+// NOTE: This profile requires that you define the `serverArguments` variable
+// within the quickstart README.adoc file. For example:
+//  :serverArguments: --server-config=../../docs/examples/configs/standalone-xts.xml
+ifeval::["{standalone-server-type}"=="custom"]
+:serverProfile: custom profile
+endif::[]
+
+// If there is no match, use the default profile.
+ifndef::serverProfile[]
+:standalone-server-type:  default
+:serverProfile: default profile
+:configFileName: standalone/configuration/standalone.xml
+:serverArguments:
+endif::serverProfile[]
+
+. Open a terminal and navigate to the root of the {productName} directory.
+. Start the {productName} server with the {serverProfile} by typing the following command.
++
+ifdef::uses-jaeger[]
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __JAEGER_REPORTER_LOG_SPANS=true JAEGER_SAMPLER_TYPE=const JAEGER_SAMPLER_PARAM=1__ __{jbossHomeName}__/bin/standalone.sh {serverArguments}
+----
+endif::[]
+ifndef::uses-jaeger[]
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}__/bin/standalone.sh {serverArguments}
+----
+endif::[]
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\standalone.bat` script.
+
+ifdef::mobileApp[]
++
+Adding `-b 0.0.0.0` to the above command allows external clients, such as phones, tablets, and desktops, to connect through your local network. For example:
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}__/bin/standalone.sh {serverArguments} -b 0.0.0.0
+----
+endif::[]
+
+:leveloffset!:
+
+== Solution
+
+We recommend that you follow the instructions that
+<<creating-new-project, create the application step by step>>. However, you can
+also go right to the completed example which is available in this directory.
+
+// Build and Deploy the Quickstart
+:leveloffset: +1
+
+[[build_and_deploy_the_quickstart]]
+= Build and Deploy the Quickstart
+//******************************************************************************
+// Include this template if your quickstart does a normal deployment of a archive.
+//
+// * Define the `archiveType` variable in the quickstart README file.
+//   Supported values:
+//    :archiveType: ear
+//    :archiveType: war
+//    :archiveType: jar
+//
+// * To override the archive name, which defaults to the {artifactId),
+//   define the `archiveName` variable, for example:
+//    :archiveName: {artifactId}-service
+//
+// * To override the archive output directory,
+//   define the `archiveDir` variable, for example:
+//    :archiveDir: ear/target
+//
+// * To override the Maven command, define the `mavenCommand` variable,
+//   for example:
+//    :mavenCommand: clean install wildfly:deploy
+//******************************************************************************
+
+// The archive name defaults to the artifactId if not overridden
+ifndef::archiveName[]
+:archiveName: {artifactId}
+endif::archiveName[]
+
+// The archive type defaults to war if not overridden
+ifndef::archiveType[]
+:archiveType: war
+endif::archiveType[]
+
+// Define the archive file name as the concatenation of "archiveName" + "." + "archiveType+
+:archiveFileName: {archiveName}.{archiveType}
+
+// If they have not defined the target archive directory, make it the default for the archive type.
+ifndef::archiveDir[]
+
+ifeval::["{archiveType}"=="ear"]
+:archiveDir: {artifactId}/ear/target
+endif::[]
+
+ifeval::["{archiveType}"=="war"]
+:archiveDir: {artifactId}/target
+endif::[]
+
+ifeval::["{archiveType}"=="jar"]
+:archiveDir: {artifactId}/target
+endif::[]
+
+endif::archiveDir[]
+
+ifndef::mavenCommand[]
+ifeval::["{archiveType}"=="ear"]
+:mavenCommand: clean install
+endif::[]
+
+ifeval::["{archiveType}"=="war"]
+:mavenCommand: clean package
+endif::[]
+
+ifeval::["{archiveType}"=="jar"]
+:mavenCommand: clean install
+endif::[]
+
+endif::mavenCommand[]
+
+. Make sure you xref:start_the_eap_standalone_server[start the {productName} server] as described above.
+. Open a terminal and navigate to the root directory of this quickstart.
+ifdef::reactive-messaging[]
+. Run this command to enable the MicroProfile Reactive Messaging functionality on the server
++
+[source,subs="attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=enable-reactive-messaging.cli
+----
+endif::reactive-messaging[]
+. Type the following command to build the quickstart.
++
+[source,subs="attributes+",options="nowrap"]
+----
+$ mvn {mavenCommand}
+----
+
+. Type the following command to deploy the quickstart.
++
+[source,subs="attributes+",options="nowrap"]
+----
+$ mvn wildfly:deploy
+----
+
+ifdef::rest-client-qs[]
+This builds and deploys the `country-server` and `country-client` to the running instance of the server.
+
+You should see a message in the server log indicating that the archives deployed successfully.
+endif::[]
+ifndef::rest-client-qs[]
+This deploys the `{archiveDir}/{archiveFileName}` to the running instance of the server.
+
+You should see a message in the server log indicating that the archive deployed successfully.
+endif::[]
+
+
+:leveloffset!:
+
+=== Running the health check
+
+The {productName} server directly exposes three REST endpoints:
+
+- `/health/live` - The application is up and running.
+- `/health/ready` - The application is ready to serve requests.
+- `/health/started` - The application is started allowing switch to liveness check.
+- `/health` - Accumulating all health check procedures in the application.
+
+To check that the {productName} is working as expected:
+
+* access the `http://localhost:9990/health/live` endpoint using your browser or
+`curl http://localhost:9990/health/live`
+
+All of the health REST endpoints return a simple JSON object with two fields:
+
+* `status` -- the overall result of all the health check procedures
+* `checks` -- an array of individual checks
+
+The general `status` of the health check is computed as a logical AND of all the
+declared health check procedures.
+
+NOTE: Similarly, you can access `http://localhost:9990/health/ready`,
+`http://localhost:9990/health/started`, and `http://localhost:9990/health`
+
+Congratulations! You successfully deployed and run this quickstart. If you wish to
+create the application step by step you can follow the subsequent sections.
+
+// Undeploy the Quickstart
+:leveloffset: +1
+
+[[undeploy_the_quickstart]]
+= Undeploy the Quickstart
+
+//*******************************************************************************
+// Include this template if your quickstart does a normal undeployment of an archive.
+//*******************************************************************************
+When you are finished testing the quickstart, follow these steps to undeploy the archive.
+
+. Make sure you xref:start_the_eap_standalone_server[start the {productName} server] as described above.
+. Open a terminal and navigate to the root directory of this quickstart.
+. Type this command to undeploy the archive:
++
+[source,options="nowrap"]
+----
+$ mvn wildfly:undeploy
+----
+
+:leveloffset!:
+
+// Server Distribution Testing
+:leveloffset: +2
+
+[[run_the_integration_tests_with_server_distribution]]
+= Run the Integration Tests
+This quickstart includes integration tests, which are located under the  `src/test/` directory. The integration tests verify that the quickstart runs correctly when deployed on the server.
+
+Follow these steps to run the integration tests.
+
+. Make sure you start the {productName} server, as previously described.
+
+. Make sure you build and deploy the quickstart, as previously described.
+
+. Type the following command to run the `verify` goal with the `integration-testing` profile activated.
++
+[source,options="nowrap"]
+----
+$ mvn verify -Pintegration-testing
+----
+
+[NOTE]
+====
+You may also use the environment variable `SERVER_HOST` or the system property `server.host` to define the target URL of the tests.
+====
+
+:leveloffset!:
+
+// Run the Quickstart in Red Hat CodeReady Studio or Eclipse
+:leveloffset: +1
+
+[[run_the_quickstart_in_redhat_codeready_studio_or_eclipse]]
+= Run the Quickstart in {JBDSProductName} or Eclipse
+//******************************************************************************
+// Include this template to provide instructions to run the quickstart
+// in Red Hat CodeReady Studio.
+//
+// If the quickstart is not supported, create the `jbds-not-supported` attribute.
+//******************************************************************************
+ifdef::jbds-not-supported[]
+This quickstart is not supported in {JBDSProductName}.
+endif::jbds-not-supported[]
+
+ifndef::jbds-not-supported[]
+You can also start the server and deploy the quickstarts or run the Arquillian tests in {JBDSProductName} or from Eclipse using JBoss tools. For general information about how to import a quickstart, add a {productName} server, and build and deploy a quickstart, see link:{useEclipseUrl}[Use {JBDSProductName} or Eclipse to Run the Quickstarts].
+endif::jbds-not-supported[]
+
+// Add additional instructions specific to running this quickstart in an IDE here.
+
+:leveloffset!:
+
+[[creating-new-project]]
+== Creating the Maven Project
+
+[source,options="nowrap"]
+----
+mvn archetype:generate \
+    -DgroupId=org.wildfly.quickstarts \
+    -DartifactId=microprofile-health \
+    -DinteractiveMode=false \
+    -DarchetypeGroupId=org.apache.maven.archetypes \
+    -DarchetypeArtifactId=maven-archetype-quickstart
+cd microprofile-health
+----
+
+Open the project in your favourite IDE.
+
+Open the generated `pom.xml`.
+
+The first thing to do is to change the packaging to `war` as this is required by
+the IDEs to recognize the application as a deployment:
+
+[source,xml]
+----
+<packaging>war</packaging>
+----
+
+NOTE: For non-IDE deployments, the plain `jar` packaging is sufficient for
+the MicroProfile Health applications.
+
+Next we need to setup our dependencies. Add the following section to your
+`pom.xml`:
+
+[source,xml,subs="attributes+"]
+----
+<dependencyManagement>
+  <dependencies>
+    <!-- importing the microprofile BOM adds MicroProfile specs -->
+    <dependency>
+      <groupId>org.wildfly.bom</groupId>
+      <artifactId>wildfly-microprofile</artifactId>
+      <version>{versionMicroprofileBom}</version>
+      <type>pom</type>
+      <scope>import</scope>
+    </dependency>
+  </dependencies>
+</dependencyManagement>
+----
+
+Now we need to add the following two dependencies:
+
+[source,xml]
+----
+<!-- Import the MicroProfile Health API, we use provided scope as the API is included in the server -->
+<dependency>
+  <groupId>org.eclipse.microprofile.health</groupId>
+  <artifactId>microprofile-health-api</artifactId>
+  <scope>provided</scope>
+</dependency>
+<!-- Import the CDI API, we use provided scope as the API is included in the server -->
+<dependency>
+  <groupId>jakarta.enterprise</groupId>
+  <artifactId>jakarta.enterprise.cdi-api</artifactId>
+  <scope>provided</scope>
+</dependency>
+----
+
+NOTE: Because MicroProfile Health requires that all health checks are defined as
+CDI beans we need to also include the CDI API dependency.
+
+Both dependencies can have provided scope. The versions are taken from the above
+defined BOM.
+
+As we are going to be deploying this application to the {productName} server, let's
+also add a maven plugin that will simplify the deployment operations (you can replace
+the generated build section):
+
+[source,xml]
+----
+<build>
+  <!-- Set the name of the archive -->
+  <finalName>${project.artifactId}</finalName>
+  <plugins>
+    <!-- Allows to use mvn wildfly:deploy -->
+    <plugin>
+      <groupId>org.wildfly.plugins</groupId>
+      <artifactId>wildfly-maven-plugin</artifactId>
+    </plugin>
+  </plugins>
+</build>
+----
+
+// Setup required repositories
+:leveloffset: +1
+
+Setup the required Maven repositories (if you don't have them set up in Maven global settings):
+
+[source,xml]
+----
+<repositories>
+    <repository>
+        <id>jboss-public-maven-repository</id>
+        <name>JBoss Public Maven Repository</name>
+        <url>https://repository.jboss.org/nexus/content/groups/public</url>
+        <layout>default</layout>
+        <releases>
+            <enabled>true</enabled>
+            <updatePolicy>never</updatePolicy>
+        </releases>
+        <snapshots>
+            <enabled>true</enabled>
+            <updatePolicy>never</updatePolicy>
+        </snapshots>
+    </repository>
+    <repository>
+        <id>redhat-ga-maven-repository</id>
+        <name>Red Hat GA Maven Repository</name>
+        <url>https://maven.repository.redhat.com/ga/</url>
+        <layout>default</layout>
+        <releases>
+            <enabled>true</enabled>
+            <updatePolicy>never</updatePolicy>
+        </releases>
+        <snapshots>
+            <enabled>true</enabled>
+            <updatePolicy>never</updatePolicy>
+        </snapshots>
+    </repository>
+</repositories>
+<pluginRepositories>
+    <pluginRepository>
+        <id>jboss-public-maven-repository</id>
+        <name>JBoss Public Maven Repository</name>
+        <url>https://repository.jboss.org/nexus/content/groups/public</url>
+        <releases>
+            <enabled>true</enabled>
+        </releases>
+        <snapshots>
+            <enabled>true</enabled>
+        </snapshots>
+    </pluginRepository>
+    <pluginRepository>
+        <id>redhat-ga-maven-repository</id>
+        <name>Red Hat GA Maven Repository</name>
+        <url>https://maven.repository.redhat.com/ga/</url>
+        <releases>
+            <enabled>true</enabled>
+        </releases>
+        <snapshots>
+            <enabled>true</enabled>
+        </snapshots>
+    </pluginRepository>
+</pluginRepositories>
+----
+
+:leveloffset!:
+
+Now we are ready to start working with MicroProfile Health.
+
+== Creating your first health check
+
+In this section, we create our first simple health check procedure.
+
+Create the `org.wildfly.quickstarts.microprofile.health.SimpleHealthCheck` class:
+
+[source,java]
+----
+package org.wildfly.quickstarts.microprofile.health;
+
+import org.eclipse.microprofile.health.HealthCheck;
+import org.eclipse.microprofile.health.HealthCheckResponse;
+import org.eclipse.microprofile.health.Liveness;
+
+import jakarta.enterprise.context.ApplicationScoped;
+
+@Liveness
+@ApplicationScoped
+public class SimpleHealthCheck implements HealthCheck {
+
+    @Override
+    public HealthCheckResponse call() {
+        return HealthCheckResponse.up("Simple health check");
+    }
+}
+----
+
+As you can see health check procedures are defined as implementations of the
+`HealthCheck` interface which are defined as CDI beans with the one of the
+following CDI qualifiers:
+
+- `@Liveness` - the liveness check accessible at `/health/live`
+- `@Readiness` - the readiness check accessible at `/health/ready`
+- `@Startup` - the readiness check accessible at `/health/started`
+
+`HealthCheck` is a functional interface whose single method `call` returns a
+`HealthCheckResponse` object which can be easily constructed by the fluent builder
+API shown in the example.
+
+Now it's time to build and deploy our application that contains this health check
+to the {productName} server.
+
+WARN: Make sure your {productName} server is started.
+
+[source,options="nowrap"]
+----
+$ mvn clean package wildfly:deploy
+----
+
+Now we can simply repeat the request
+to `http://localhost:9990/health/live` by refreshing your browser window or by
+using `curl http://localhost:9990/health/live`. Because we defined our health check
+to be a liveness procedure (with `@Liveness` qualifier) the new health check procedure
+is now present in the `checks` array.
+
+Congratulations! You've created your first health check procedure. Let's
+continue by exploring what else can be done with the MicroProfile Health specification.
+
+== Adding a readiness health check procedure
+
+In the previous section, we created a simple liveness health check procedure which
+states whether our application is running or not. In this section, we will create a
+readiness health check which will be able to state whether our application is able to
+process requests.
+
+We will create another health check procedure that simulates a connection to
+an external service provider such as a database. For starters, we will always return
+the response indicating the application is ready.
+
+Create `org.wildfly.quickstarts.microprofile.health.DatabaseConnectionHealthCheck` class:
+
+[source,java]
+----
+package org.wildfly.quickstarts.microprofile.health;
+
+import org.eclipse.microprofile.health.HealthCheck;
+import org.eclipse.microprofile.health.HealthCheckResponse;
+import org.eclipse.microprofile.health.Readiness;
+
+import jakarta.enterprise.context.ApplicationScoped;
+
+@Readiness
+@ApplicationScoped
+public class DatabaseConnectionHealthCheck implements HealthCheck {
+
+    @Override
+    public HealthCheckResponse call() {
+        return HealthCheckResponse.up("Database connection health check");
+    }
+}
+----
+
+Now you can redeploy your application:
+
+[source,options="nowrap"]
+----
+$ mvn clean package wildfly:deploy
+----
+
+If you now rerun the health check at `http://localhost:9990/health/live` the `checks`
+array will contain only the previously defined `SimpleHealthCheck` as it is the only
+check defined with the `@Liveness` qualifier. However, if you access
+`http://localhost:9990/health/ready` (in the browser or with
+`curl http://localhost:9990/health/ready`) you will see only the
+`Database connection health check` as it is the only health check defined with the
+`@Readiness` qualifier as the readiness health check procedure.
+
+NOTE: If you access `http://localhost:9990/health` you will get back both checks.
+
+More information about which health check procedures should be used in which situation
+is detailed in the MicroProfile Health specification. Generally, the liveness
+procedures determine whether the application should be restarted while readiness
+procedures determine whether it makes sense to contact the application with requests.
+
+== Startup health checks
+
+Startup health checks are used in cloud environments to define checks that should respond
+UP before the liveness checks start to be called. This is useful in cases of slow container
+startups so the container won't get prematurely restarted if liveness is called before the
+container is fully initialized. These checks are defined in the same way as liveness or
+readiness checks but with the `@Startup` CDI qualifier. The HTTP endpoint exposed for the
+startup checks is available at `/health/started`. For simplicity, we will not include code
+example in this quickstart.
+
+== Negative health check procedures
+
+In this section, we extend our `Database connection health check` with the option of
+stating that our application is not ready to process requests as the underlying
+database connection cannot be established. For simplicity reasons, we only determine
+whether the database is accessible or not by a configuration property.
+
+To use MicroProfile Config configuration values we first need to add the Config API
+dependency to our application:
+
+[source,xml]
+----
+<!-- Import the MicroProfile Config API, we use provided scope as the API is included in the server -->
+<dependency>
+  <groupId>org.eclipse.microprofile.config</groupId>
+  <artifactId>microprofile-config-api</artifactId>
+  <scope>provided</scope>
+</dependency>
+----
+
+Update the `org.wildfly.quickstarts.microprofile.health.DatabaseConnectionHealthCheck` class:
+
+[source,java]
+----
+package org.wildfly.quickstarts.microprofile.health;
+
+import org.eclipse.microprofile.config.inject.ConfigProperty;
+import org.eclipse.microprofile.health.HealthCheck;
+import org.eclipse.microprofile.health.HealthCheckResponse;
+import org.eclipse.microprofile.health.HealthCheckResponseBuilder;
+import org.eclipse.microprofile.health.Readiness;
+
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+
+@Readiness
+@ApplicationScoped
+public class DatabaseConnectionHealthCheck implements HealthCheck {
+
+    @Inject
+    @ConfigProperty(name = "database.up", defaultValue = "false")
+    private boolean databaseUp;
+
+    @Override
+    public HealthCheckResponse call() {
+
+        HealthCheckResponseBuilder responseBuilder = HealthCheckResponse.named("Database connection health check");
+
+        try {
+            simulateDatabaseConnectionVerification();
+            responseBuilder.up();
+        } catch (IllegalStateException e) {
+            // cannot access the database
+            responseBuilder.down();
+        }
+
+        return responseBuilder.build();
+    }
+
+    private void simulateDatabaseConnectionVerification() {
+        if (!databaseUp) {
+            throw new IllegalStateException("Cannot contact database");
+        }
+    }
+}
+----
+
+Redeploy your application:
+
+[source,options="nowrap"]
+----
+$ mvn clean package wildfly:deploy
+----
+
+If you now rerun the readiness health check (at `http://localhost:9990/health/ready`)
+the overall `status` should be DOWN. You can also check the liveness check at
+`http://localhost:9990/health/live` which will return the overall `status` UP because
+it isn't influenced by the readiness checks.
+
+As we shouldn't leave this application with a readiness check in a DOWN state you can
+add `database.up=true` in `src/main/resources/META-INF/microprofile-config.properties`
+and redeploy the application. The readiness health check should be up again.
+
+
+== Adding user-specific data to the health check response
+
+In previous sections, we saw how to create simple health checks with only the minimal
+attributes, namely, the health check name and its status (UP or DOWN). However, the
+MicroProfile specification also provides a way for the applications to supply
+arbitrary data in the form of key-value pairs sent to the consuming end. This can be
+done by using the `withData(key, value)` method of the health check response
+builder API.
+
+Let's create a new health check procedure
+`org.wildfly.quickstarts.microprofile.health.DataHealthCheck`:
+
+[source,java]
+----
+package org.wildfly.quickstarts.microprofile.health;
+
+import org.eclipse.microprofile.health.Liveness;
+import org.eclipse.microprofile.health.HealthCheck;
+import org.eclipse.microprofile.health.HealthCheckResponse;
+
+import jakarta.enterprise.context.ApplicationScoped;
+
+@Liveness
+@ApplicationScoped
+public class DataHealthCheck implements HealthCheck {
+
+    @Override
+    public HealthCheckResponse call() {
+        return HealthCheckResponse.named("Health check with data")
+                .up()
+                .withData("foo", "fooValue")
+                .withData("bar", "barValue")
+                .build();
+    }
+}
+----
+
+If you redeploy and rerun the liveness health check procedure by accessing the
+`/health/live` endpoint you can see that the new health check `Health check with data`
+is present in the `checks` array. This check contains a new attribute called `data`
+which is a JSON object consisting of the properties we have defined in our health
+check procedure.
+
+This functionality is specifically useful in failure scenarios where you can pass the
+error along with the health check response.
+
+
+[source,java]
+----
+        try {
+            simulateDatabaseConnectionVerification();
+            responseBuilder.up();
+        } catch (IllegalStateException e) {
+            // cannot access the database
+            responseBuilder.down()
+                    .withData("error", e.getMessage()); // pass the exception message
+        }
+----
+
+//Bootable JAR
+:leveloffset: +1
+
+[[build_and_run_the_quickstart_with_bootable_jar]]
+= Building and running the quickstart application in a bootable JAR
+
+You can use the WildFly JAR Maven plug-in to build a {productName} bootable JAR to run this quickstart.
+
+The quickstart `pom.xml` file contains a Maven profile named *bootable-jar* which configures the bootable JAR building:
+
+[source,xml,subs="attributes+"]
+----
+      <profile>
+          <id>bootable-jar</id>
+          <build>
+              <plugins>
+                  <plugin>
+                      <groupId>org.wildfly.plugins</groupId>
+                      <artifactId>wildfly-jar-maven-plugin</artifactId>
+                      <configuration>
+                          <feature-pack-location>wildfly@maven(org.jboss.universe:community-universe)#${version.server}</feature-pack-location>
+                          <layers>...</layers>
+                          <plugin-options>
+                              <jboss-fork-embedded>true</jboss-fork-embedded>
+                          </plugin-options>
+                      </configuration>
+                      <executions>
+                          <execution>
+                              <goals>
+                                  <goal>package</goal>
+                              </goals>
+                          </execution>
+                      </executions>
+                  </plugin>
+                  ...
+              </plugins>
+          </build>
+      </profile>
+----
+
+.Procedure
+
+. Build the quickstart bootable JAR with the following command:
++
+[source,subs="attributes+",options="nowrap"]
+----
+$ mvn clean package -Pbootable-jar
+----
+
+. Run the quickstart application contained in the bootable JAR:
++
+[source,subs="attributes+",options="nowrap"]
+----
+ifdef::uses-jaeger[]
+$ JAEGER_REPORTER_LOG_SPANS=true JAEGER_SAMPLER_TYPE=const JAEGER_SAMPLER_PARAM=1 java -jar target/{artifactId}-bootable.jar
+endif::uses-jaeger[]
+ifndef::uses-jaeger[]
+$ java -jar target/{artifactId}-bootable.jar
+endif::uses-jaeger[]
+----
+
+. You can now interact with the quickstart application.
+
+[NOTE]
+====
+After the quickstart application is deployed, the bootable JAR includes the application in the root context. Therefore, any URLs related to the application should not have the `/{artifactId}` path segment after `HOST:PORT`.
+====
+
+// Bootable Jar Testing
+:leveloffset: +1
+
+[[run_the_integration_tests_with_bootable_jar_]]
+= Run the Integration Tests with a bootable jar
+
+//******************************************************************************
+// This template sets attributes for the different standalone server profiles.
+//
+// You must define the `standalone-server-type`. Supported values are:
+//    default
+//    full
+//    full-ha
+//    ha
+//    microprofile
+//    custom
+//******************************************************************************
+
+// Standalone server with the default profile.
+ifeval::["{standalone-server-type}"=="default"]
+:serverProfile: default profile
+:configFileName: standalone/configuration/standalone.xml
+:serverArguments:
+endif::[]
+
+// Standalone server with the full profile.
+ifeval::["{standalone-server-type}"=="full"]
+:serverProfile: full profile
+:configFileName: standalone/configuration/standalone-full.xml
+:serverArguments:  -c standalone-full.xml
+endif::[]
+
+// Standalone server with the full HA profile.
+ifeval::["{standalone-server-type}"=="full-ha"]
+:serverProfile: full HA profile
+:configFileName: standalone/configuration/standalone-full-ha.xml
+:serverArguments:  -c standalone-full-ha.xml
+endif::[]
+
+// Start the standalone server with the HA profile.
+ifeval::["{standalone-server-type}"=="ha"]
+:serverProfile: HA profile
+:configFileName: standalone/configuration/standalone-ha.xml
+:serverArguments:  -c standalone-ha.xml
+endif::[]
+
+// Start the standalone server with the Eclipse MicroProfile profile.
+ifeval::["{standalone-server-type}"=="microprofile"]
+:serverProfile: MicroProfile profile
+:configFileName: standalone/configuration/standalone-microprofile.xml
+:serverArguments:  -c standalone-microprofile.xml
+endif::[]
+
+// Standalone server with the custom profile.
+// NOTE: This profile requires that you define the `serverArguments` variable
+// within the quickstart README.adoc file. For example:
+//  :serverArguments: --server-config=../../docs/examples/configs/standalone-xts.xml
+ifeval::["{standalone-server-type}"=="custom"]
+:serverProfile: custom profile
+endif::[]
+
+// If there is no match, use the default profile.
+ifndef::serverProfile[]
+:standalone-server-type:  default
+:serverProfile: default profile
+:configFileName: standalone/configuration/standalone.xml
+:serverArguments:
+endif::serverProfile[]
+ifndef::server_provisioning_server_host[:server_provisioning_server_host: http://localhost:8080]
+
+The integration tests included with this quickstart, which verify that the quickstart runs correctly, may also be run with a bootable jar.
+
+Follow these steps to run the integration tests.
+
+. Make sure the bootable jar is provisioned.
++
+[source,subs="attributes+",options="nowrap"]
+----
+$ mvn clean package -Pbootable-jar
+----
+
+. Start the {productName} bootable jar, this time using the {productName} Maven Jar Plugin, which is recommend for testing due to simpler automation.
++
+[source,subs="attributes+",options="nowrap"]
+----
+$ mvn wildfly-jar:start -Djar-file-name=target/{artifactId}-bootable.jar
+----
+
+. Type the following command to run the `verify` goal with the `integration-testing` profile activated, and specifying the quickstart's URL using the `server.host` system property, which for a bootable jar by default is `{server_provisioning_server_host}`.
++
+[source,subs="attributes+",options="nowrap"]
+----
+$ mvn verify -Pintegration-testing -Dserver.host={server_provisioning_server_host}
+----
+
+. Shutdown the {productName} bootable jar, this time using the {productName} Maven Jar Plugin too.
++
+[source,options="nowrap"]
+----
+$ mvn wildfly-jar:shutdown
+----
+
+:leveloffset: 1
+
+:leveloffset!:
+
+// OpenShift
+:leveloffset: +1
+
+ifndef::helm-app-name[]
+:helm-app-name: {artifactId}
+endif::helm-app-name[]
+
+
+
+[[build_and_run_the_quickstart_on_openshift]]
+= Building and running the quickstart application with OpenShift
+// The openshift profile
+:leveloffset: +1
+
+[[build-the-quickstart-for-openshift]]
+== Build the {productName} Source-to-Image (S2I) Quickstart to OpenShift with Helm Charts
+
+On OpenShift, the S2I build with Apache Maven uses an `openshift` Maven profile to provision a {productName} server, deploy and run the quickstart in OpenShift environment.
+
+ifndef::ProductRelease,EAPXPRelease[]
+The server provisioning functionality is provided by the WildFly Maven Plugin, and you may find its configuration in the quickstart `pom.xml`:
+endif::[]
+ifdef::ProductRelease,EAPXPRelease[]
+The server provisioning functionality is provided by the EAP Maven Plugin, and you may find its configuration in the quickstart `pom.xml`:
+endif::[]
+
+ifndef::ProductRelease,EAPXPRelease[]
+[source,xml,subs="attributes+"]
+----
+        <profile>
+            <id>openshift</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.wildfly.plugins</groupId>
+                        <artifactId>wildfly-maven-plugin</artifactId>
+                        <configuration>
+                            <feature-packs>
+                                <feature-pack>
+                                    <location>org.wildfly:wildfly-galleon-pack:${version.server}</location>
+                                </feature-pack>
+                                <feature-pack>
+                                    <location>org.wildfly.cloud:wildfly-cloud-galleon-pack:${version.pack.cloud}</location>
+                                </feature-pack>
+                            </feature-packs>
+                            <layers>...</layers>
+                            <name>ROOT.war</name>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>package</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    ...
+                </plugins>
+            </build>
+        </profile>
+----
+endif::[]
+
+ifdef::ProductRelease,EAPXPRelease[]
+[source,xml,subs="attributes+"]
+----
+        <profile>
+            <id>openshift</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.jboss.eap.plugins</groupId>
+                        <artifactId>eap-maven-plugin</artifactId>
+                        <configuration>
+                            ...
+                            <feature-packs>
+                                <feature-pack>
+                                    <location>org.jboss.eap:wildfly-ee-galleon-pack</location>
+                                </feature-pack>
+                                <feature-pack>
+                                    <location>org.jboss.eap.cloud:eap-cloud-galleon-pack</location>
+                                </feature-pack>
+                            </feature-packs>
+                            <layers>...</layers>
+                            <name>ROOT.war</name>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>package</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    ...
+                </plugins>
+            </build>
+        </profile>
+----
+endif::[]
+
+ifndef::ProductRelease,EAPXPRelease[]
+You may note that unlike the `provisioned-server` profile it uses the cloud feature pack which enables a configuration tuned for OpenShift environment.
+endif::[]
+ifdef::ProductRelease,EAPXPRelease[]
+You may note that it uses the cloud feature pack which enables a configuration tuned for OpenShift environment.
+endif::[]
+
+:leveloffset: 1
+// Getting Started with Helm
+:leveloffset: +1
+
+[[getting_started_with_helm]]
+= Getting Started with {xpaasproduct-shortname} and Helm Charts
+
+This section contains the basic instructions to build and deploy this quickstart to {xpaasproduct-shortname} or {xpaasproductOpenShiftOnline-shortname} using Helm Charts.
+
+[[prerequisites_helm_openshift]]
+== Prerequisites
+
+* You must be logged in OpenShift and have an `oc` client to connect to OpenShift
+* https://helm.sh[Helm] must be installed to deploy the backend on OpenShift.
+
+Once you have installed Helm, you need to add the repository that provides Helm Charts for {productName}.
+
+ifndef::ProductRelease,EAPXPRelease[]
+[source,options="nowrap"]
+----
+$ helm repo add wildfly https://docs.wildfly.org/wildfly-charts/
+"wildfly" has been added to your repositories
+$ helm search repo wildfly
+NAME                    CHART VERSION   APP VERSION     DESCRIPTION
+wildfly/wildfly         ...             ...            Build and Deploy WildFly applications on OpenShift
+wildfly/wildfly-common  ...             ...            A library chart for WildFly-based applications
+----
+endif::[]
+ifdef::ProductRelease[]
+[source,options="nowrap",subs="+attributes"]
+----
+$ helm repo add jboss-eap https://jbossas.github.io/eap-charts/
+"jboss-eap" has been added to your repositories
+$ helm search repo jboss-eap
+NAME                    CHART VERSION   APP VERSION     DESCRIPTION
+{helmChartName}         ...             ...             A Helm chart to build and deploy EAP {productVersion} applications
+----
+endif::[]
+ifdef::EAPXPRelease[]
+[source,options="nowrap",subs="+attributes"]
+----
+$ helm repo add jboss-eap https://jbossas.github.io/eap-charts/
+"jboss-eap" has been added to your repositories
+$ helm search repo jboss-eap
+NAME                    CHART VERSION   APP VERSION     DESCRIPTION
+{helmChartName}         ...             ...             A Helm chart to build and deploy EAP XP {productVersion} applications
+----
+endif::[]
+
+:leveloffset: 1
+
+ifdef::helm-install-prerequisites[]
+// Additional steps needed before deploying in Helm
+[[deploy_helm_prerequisites]]
+include::{helm-install-prerequisites}[leveloffset=+1]
+endif::helm-install-prerequisites[]
+
+//Prepare Helm for Quickstart Deployment
+:leveloffset: +1
+
+
+ifeval::[{useHelmChartDir} == true]
+:helm_chart_values: charts
+endif::[]
+ifndef::useHelmChartDir[]
+:helm_chart_values: -f charts/helm.yaml {helmChartName}
+endif::[]
+[[deploy_helm]]
+== Deploy the {ProductShortName} Source-to-Image (S2I) Quickstart to OpenShift with Helm Charts
+
+Log in to your OpenShift instance using the `oc login` command.
+The backend will be built and deployed on OpenShift with a Helm Chart for {productName}.
+
+Navigate to the root directory of this quickstart and run the following command:
+[source,options="nowrap",subs="+attributes"]
+----
+$ helm install {helm-app-name} {helm_chart_values} --wait --timeout=10m0s
+NAME: {helm-app-name}
+...
+STATUS: deployed
+REVISION: 1
+----
+
+This command will return once the application has successfully deployed. In case of a timeout, you can check the status of the application with the following command in another terminal:
+
+[source,options="nowrap",subs="+attributes"]
+----
+oc get deployment {helm-app-name}
+----
+
+The Helm Chart for this quickstart contains all the information to build an image from the source code using S2I on Java 17:
+
+
+ifndef::requires-http-route[]
+ifdef::useHelmChartDir[]
+[source,yaml]
+----
+include::{docdir}/charts/Chart.yaml[]
+----
+endif::useHelmChartDir[]
+ifndef::useHelmChartDir[]
+[source,yaml]
+----
+build:
+  uri: https://github.com/wildfly/quickstart.git
+  ref: main
+  contextDir: microprofile-health
+deploy:
+  replicas: 1
+----
+endif::useHelmChartDir[]
+endif::requires-http-route[]
+
+ifdef::requires-http-route[]
+[source,options="nowrap",subs="+attributes"]
+----
+build:
+  uri: {githubRepoCodeUrl}
+  ref: {WildFlyQuickStartRepoTag}
+  contextDir: {artifactId}
+deploy:
+  replicas: 1
+  route:
+    tls:
+      enabled: false
+----
+endif::requires-http-route[]
+
+This will create a new deployment on OpenShift and deploy the application.
+
+If you want to see all the configuration elements to customize your deployment you can use the following command:
+[source,options="nowrap",subs="+attributes"]
+----
+$ helm show readme {helmChartName}
+----
+
+
+Get the URL of the route to the deployment.
+
+[source,options="nowrap",subs="+attributes"]
+----
+$ oc get route {helm-app-name} -o jsonpath="{.spec.host}"
+----
+Access the application in your web browser using the displayed URL.
+
+[NOTE]
+====
+The Maven profile named `openshift` is used by the Helm chart to provision the server with the quickstart deployed on the root web context, and thus the application should be accessed with the URL without the `/{artifactId}` path segment after `HOST:PORT`.
+====
+
+ifdef::post-helm-install-actions[]
+:leveloffset: +1
+
+This quickstart requires the management port (9990) to be exposed for demo purposes and testing. We do this only to demonstrate the concepts and ease the testing.
+
+IMPORTANT: It is **not** recommended to expose the management port in a production environment!
+
+To expose the management porte to manually exposes our service on port 9990 we deploying the following file:
+[source,options="nowrap",subs="+attributes"]
+----
+oc apply -f charts/management.yml
+----
+Once this is deployed you will be able to access the management port via the created `microprofile-health-management` route.
+
+To get the address of the `microprofile-health-management` route, execute:
+[source,options="nowrap",subs="+attributes"]
+----
+$ oc get route microprofile-health -o jsonpath="{.spec.host}"
+----
+
+:leveloffset: 2
+endif::post-helm-install-actions[]
+
+
+[[undeploy_helm]]
+== Undeploy the {ProductShortName} Source-to-Image (S2I) Quickstart from OpenShift with Helm Charts
+
+
+[source,options="nowrap",subs="+attributes"]
+----
+$ helm uninstall {helm-app-name}
+----
+
+:leveloffset: 1
+
+// Testing on Openshift
+:leveloffset: +1
+
+[[run_the_integration_tests_with_openshift]]
+= Run the Integration Tests with OpenShift
+The integration tests included with this quickstart, which verify that the quickstart runs correctly, may also be run with the quickstart running on OpenShift.
+[NOTE]
+====
+The integration tests expect a deployed application, so make sure you have deployed the quickstart on OpenShift before you begin.
+====
+
+ifdef::extra-openshift-testing-actions[]
+:leveloffset: +1
+
+This quickstart requires the management port (9990) to be exposed for demo purposes and testing. We do this only to demonstrate the concepts and ease the testing.
+
+IMPORTANT: It is **not** recommended to expose the management port in a production environment!
+
+To expose the management porte to manually exposes our service on port 9990 we deploying the following file:
+[source,options="nowrap",subs="+attributes"]
+----
+oc apply -f charts/management.yml
+----
+Once this is deployed you will be able to access the management port via the created `microprofile-health-management` route.
+
+To get the address of the `microprofile-health-management` route, execute:
+[source,options="nowrap",subs="+attributes"]
+----
+$ oc get route microprofile-health -o jsonpath="{.spec.host}"
+----
+
+:leveloffset: 2
+endif::extra-openshift-testing-actions[]
+
+ifndef::extra-openshift-test-arguments[:extra-openshift-test-arguments:]
+
+Run the integration tests using the following command to run the `verify` goal with the `integration-testing` profile activated and the proper URL:
+ifndef::requires-http-route[]
+[source,options="nowrap",subs="+attributes"]
+----
+$ mvn verify -Pintegration-testing -Dserver.host=https://$(oc get route {helm-app-name} --template='{{ .spec.host }}') {extra-openshift-test-arguments}
+----
+endif::requires-http-route[]
+ifdef::requires-http-route[]
+[source,options="nowrap",subs="+attributes"]
+----
+$ mvn verify -Pintegration-testing -Dserver.host=http://$(oc get route {helm-app-name} --template='{{ .spec.host }}') {extra-openshift-test-arguments}
+----
+endif::requires-http-route[]
+
+[NOTE]
+====
+The tests are using SSL to connect to the quickstart running on OpenShift. So you need the certificates to be trusted by the machine the tests are run from.
+====
+
+:leveloffset: 1
+
+:leveloffset!:
+
+== Conclusion
+
+MicroProfile Health provides a way for your application to distribute information
+about its healthiness state to state whether or not it is able to function properly.
+Liveness checks are utilized to tell whether the application should be restarted.
+Readiness checks are used to tell whether the application is able to process requests.
+And last but not least, startup checks are useful if your container has a slow startup to
+prevent premature restarts if the liveness probes are called too soon.
+
+Congratulations! You have reached the end of this tutorial. You can find more information
+about the MicroProfile Health in the specification https://github.com/eclipse/microprofile-health[github repository].

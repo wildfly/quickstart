@@ -1,0 +1,2140 @@
+ifdef::env-github[]
+:artifactId: microprofile-reactive-messaging-kafka
+endif::[]
+
+//***********************************************************************************
+// Enable the following flag to build README.html files for JBoss EAP product builds.
+// Comment it out for WildFly builds.
+//***********************************************************************************
+//:ProductRelease:
+
+//***********************************************************************************
+// Enable the following flag to build README.html files for EAP XP product builds.
+// Comment it out for WildFly or JBoss EAP product builds.
+//***********************************************************************************
+//:EAPXPRelease:
+
+// This is a universal name for all releases
+:ProductShortName: JBoss EAP
+// Product names and links are dependent on whether it is a product release (CD or JBoss)
+// or the WildFly project.
+// The "DocInfo*" attributes are used to build the book links to the product documentation
+
+ifdef::ProductRelease[]
+// JBoss EAP release
+:productName: JBoss EAP
+:productNameFull: Red Hat JBoss Enterprise Application Platform
+:productVersion: 8.0
+:DocInfoProductNumber: {productVersion}
+:WildFlyQuickStartRepoTag: 8.0.x
+:productImageVersion: 8.0.0
+:helmChartName: jboss-eap/eap8
+endif::[]
+
+ifdef::EAPXPRelease[]
+// JBoss EAP XP release
+:productName: JBoss EAP XP
+:productNameFull: Red Hat JBoss Enterprise Application Platform expansion pack
+:productVersion: 3.0
+:DocInfoProductNumber: 7.4
+:WildFlyQuickStartRepoTag: XP_3.0.0.GA
+:productImageVersion: 3.0
+:helmChartName: jboss-eap/eap-xp3
+endif::[]
+
+ifdef::ProductRelease,EAPXPRelease[]
+:githubRepoUrl: https://github.com/jboss-developer/jboss-eap-quickstarts/
+:githubRepoCodeUrl: https://github.com/jboss-developer/jboss-eap-quickstarts.git
+:jbossHomeName: EAP_HOME
+:DocInfoProductName: Red Hat JBoss Enterprise Application Platform
+:DocInfoProductNameURL: red_hat_jboss_enterprise_application_platform
+:DocInfoPreviousProductName: jboss-enterprise-application-platform
+:quickstartDownloadName: {productNameFull} {productVersion} Quickstarts
+:quickstartDownloadUrl: https://access.redhat.com/jbossnetwork/restricted/listSoftware.html?product=appplatform&downloadType=distributions
+:helmRepoName: jboss-eap
+:helmRepoUrl: https://jbossas.github.io/eap-charts/
+// END ifdef::ProductRelease,EAPXPRelease[]
+endif::[]
+
+ifndef::ProductRelease,EAPXPRelease[]
+// WildFly project
+:productName: WildFly
+:productNameFull: WildFly Application Server
+:ProductShortName: {productName}
+:jbossHomeName: WILDFLY_HOME
+:productVersion: 31
+:productImageVersion: 31.0
+:githubRepoUrl: https://github.com/wildfly/quickstart/
+:githubRepoCodeUrl: https://github.com/wildfly/quickstart.git
+:WildFlyQuickStartRepoTag: 31.0.0.Beta1
+:DocInfoProductName: Red Hat JBoss Enterprise Application Platform
+:DocInfoProductNameURL: red_hat_jboss_enterprise_application_platform
+// Do not update the following until after the 7.4 docs are published!
+:DocInfoProductNumber: 7.4
+:DocInfoPreviousProductName: jboss-enterprise-application-platform
+:helmRepoName: wildfly
+:helmRepoUrl: http://docs.wildfly.org/wildfly-charts/
+:helmChartName: wildfly/wildfly
+// END ifndef::ProductRelease,EAPCDRelease,EAPXPRelease[]
+endif::[]
+
+:source: {githubRepoUrl}
+
+// Values for Openshift S2i sections attributes
+:CDProductName:  {productNameFull} for OpenShift
+:CDProductShortName: {ProductShortName} for OpenShift
+:CDProductTitle: {CDProductName}
+:CDProductNameSentence: Openshift release for {ProductShortName}
+:CDProductAcronym: {CDProductShortName}
+:CDProductVersion: {productVersion}
+:EapForOpenshiftBookName: {productNameFull} for OpenShift
+:EapForOpenshiftOnlineBookName: {EapForOpenshiftBookName} Online
+:xpaasproduct: {productNameFull} for OpenShift
+:xpaasproductOpenShiftOnline: {xpaasproduct} Online
+:xpaasproduct-shortname: {CDProductShortName}
+:xpaasproductOpenShiftOnline-shortname: {xpaasproduct-shortname} Online
+:ContainerRegistryName: Red Hat Container Registry
+:EapForOpenshiftBookName: Getting Started with {ProductShortName} for OpenShift Container Platform
+:EapForOpenshiftOnlineBookName: Getting Started with {ProductShortName} for OpenShift Online
+:OpenShiftOnlinePlatformName: Red Hat OpenShift Container Platform
+:OpenShiftOnlineName: Red Hat OpenShift Online
+:ImagePrefixVersion: eap80
+:ImageandTemplateImportBaseURL: https://raw.githubusercontent.com/jboss-container-images/jboss-eap-openshift-templates
+:ImageandTemplateImportURL: {ImageandTemplateImportBaseURL}/{ImagePrefixVersion}/
+:BuildImageStream: jboss-{ImagePrefixVersion}-openjdk11-openshift
+:RuntimeImageStream: jboss-{ImagePrefixVersion}-openjdk11-runtime-openshift
+
+// OpenShift repository and reference for quickstarts
+:EAPQuickStartRepo: https://github.com/jboss-developer/jboss-eap-quickstarts
+:EAPQuickStartRepoRef: 8.0.x
+:EAPQuickStartRepoTag: EAP_8.0.0.Beta
+// Links to the OpenShift documentation
+:LinkOpenShiftGuide: https://access.redhat.com/documentation/en-us/{DocInfoProductNameURL}/{DocInfoProductNumber}/html-single/getting_started_with_jboss_eap_for_openshift_container_platform/
+:LinkOpenShiftOnlineGuide: https://access.redhat.com/documentation/en-us/{DocInfoProductNameURL}/{DocInfoProductNumber}/html-single/getting_started_with_jboss_eap_for_openshift_online/
+
+ifdef::EAPXPRelease[]
+// Attributes for XP releases
+:EapForOpenshiftBookName: {productNameFull} for OpenShift
+:EapForOpenshiftOnlineBookName: {productNameFull} for OpenShift Online
+:xpaasproduct: {productNameFull} for OpenShift
+:xpaasproductOpenShiftOnline: {productNameFull} for OpenShift Online
+:xpaasproduct-shortname: {ProductShortName} for OpenShift
+:xpaasproductOpenShiftOnline-shortname: {ProductShortName} for OpenShift Online
+:ContainerRegistryName: Red Hat Container Registry
+:EapForOpenshiftBookName: {productNameFull} for OpenShift
+:EapForOpenshiftOnlineBookName: {productNameFull} for OpenShift Online
+:ImagePrefixVersion: eap-xp3
+:ImageandTemplateImportURL: {ImageandTemplateImportBaseURL}/{ImagePrefixVersion}/
+:BuildImageStream: jboss-{ImagePrefixVersion}-openjdk11-openshift
+:RuntimeImageStream: jboss-{ImagePrefixVersion}-openjdk11-runtime-openshift
+// OpenShift repository and reference for quickstarts
+:EAPQuickStartRepoRef: xp-3.0.x
+// Links to the OpenShift documentation
+:LinkOpenShiftGuide: https://access.redhat.com/documentation/en-us/red_hat_jboss_enterprise_application_platform/{DocInfoProductNumber}/html/using_eclipse_microprofile_in_jboss_eap/using-the-openshift-image-for-jboss-eap-xp_default
+:LinkOpenShiftOnlineGuide: https://access.redhat.com/documentation/en-us/red_hat_jboss_enterprise_application_platform/{DocInfoProductNumber}/html/using_eclipse_microprofile_in_jboss_eap/using-the-openshift-image-for-jboss-eap-xp_default
+endif::[]
+
+ifndef::ProductRelease,EAPCDRelease,EAPXPRelease[]
+:ImageandTemplateImportURL: https://raw.githubusercontent.com/wildfly/wildfly-s2i/v{productVersion}.0/
+endif::[]
+
+//*************************
+// Other values
+//*************************
+:buildRequirements: Java 11.0 (Java SDK 11) or later and Maven 3.6.0 or later
+:jbdsEapServerName: Red Hat JBoss Enterprise Application Platform 7.3
+:javaVersion: Jakarta EE 10
+ifdef::EAPXPRelease[]
+:javaVersion: Eclipse MicroProfile
+endif::[]
+:githubRepoBranch: master
+:guidesBaseUrl: https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/
+:useEclipseUrl: {guidesBaseUrl}USE_JBDS.adoc#use_red_hat_jboss_developer_studio_or_eclipse_to_run_the_quickstarts
+:useEclipseDeployJavaClientDocUrl: {guidesBaseUrl}USE_JBDS.adoc#deploy_and_undeploy_a_quickstart_containing_server_and_java_client_projects
+:useEclipseDeployEARDocUrl: {guidesBaseUrl}USE_JBDS.adoc#deploy_and_undeploy_a_quickstart_ear_project
+:useProductHomeDocUrl: {guidesBaseUrl}USE_OF_{jbossHomeName}.adoc#use_of_product_home_and_jboss_home_variables
+:configureMavenDocUrl: {guidesBaseUrl}CONFIGURE_MAVEN_JBOSS_EAP.adoc#configure_maven_to_build_and_deploy_the_quickstarts
+:arquillianTestsDocUrl: {guidesBaseUrl}RUN_ARQUILLIAN_TESTS.adoc#run_the_arquillian_tests
+:addUserDocUrl: {guidesBaseUrl}CREATE_USERS.adoc#create_users_required_by_the_quickstarts
+:addApplicationUserDocUrl: {guidesBaseUrl}CREATE_USERS.adoc#add_an_application_user
+:addManagementUserDocUrl: {guidesBaseUrl}CREATE_USERS.adoc#add_an_management_user
+:startServerDocUrl: {guidesBaseUrl}START_JBOSS_EAP.adoc#start_the_jboss_eap_server
+:configurePostgresDocUrl: {guidesBaseUrl}CONFIGURE_POSTGRESQL_JBOSS_EAP.adoc#configure_the_postgresql_database_for_use_with_the_quickstarts
+:configurePostgresDownloadDocUrl: {guidesBaseUrl}CONFIGURE_POSTGRESQL_JBOSS_EAP.adoc#download_and_install_postgresql
+:configurePostgresCreateUserDocUrl: {guidesBaseUrl}CONFIGURE_POSTGRESQL_JBOSS_EAP.adoc#create_a_database_user
+:configurePostgresAddModuleDocUrl: {guidesBaseUrl}CONFIGURE_POSTGRESQL_JBOSS_EAP.adoc#add_the_postgres_module_to_the_jboss_eap_server
+:configurePostgresDriverDocUrl: {guidesBaseUrl}CONFIGURE_POSTGRESQL_JBOSS_EAP.adoc#configure_the_postgresql_driver_in_the_jboss_eap_server
+:configureBytemanDownloadDocUrl: {guidesBaseUrl}CONFIGURE_BYTEMAN.adoc#download_and_configure_byteman
+:configureBytemanDisableDocUrl: {guidesBaseUrl}CONFIGURE_BYTEMAN.adoc#disable_the_byteman_script
+:configureBytemanClearDocUrl: {guidesBaseUrl}CONFIGURE_BYTEMAN.adoc#clear_the_transaction_object_store
+:configureBytemanQuickstartDocUrl: {guidesBaseUrl}CONFIGURE_BYTEMAN.adoc#configure_byteman_for_use_with_the_quickstarts
+:configureBytemanHaltDocUrl: {guidesBaseUrl}CONFIGURE_BYTEMAN.adoc#use_byteman_to_halt_the_application[
+:configureBytemanQuickstartsDocUrl: {guidesBaseUrl}CONFIGURE_BYTEMAN.adoc#configure_byteman_for_use_with_the_quickstarts
+
+:EESubsystemNamespace: urn:jboss:domain:ee:4.0
+:IiopOpenJdkSubsystemNamespace: urn:jboss:domain:iiop-openjdk:2.0
+:MailSubsystemNamespace: urn:jboss:domain:mail:3.0
+:SingletonSubsystemNamespace: urn:jboss:domain:singleton:1.0
+:TransactionsSubsystemNamespace: urn:jboss:domain:transactions:4.0
+
+// LinkProductDocHome: https://access.redhat.com/documentation/en/red-hat-jboss-enterprise-application-platform/
+:LinkProductDocHome: https://access.redhat.com/documentation/en/jboss-enterprise-application-platform-continuous-delivery
+:LinkConfigGuide: https://access.redhat.com/documentation/en-us/{DocInfoProductNameURL}/{DocInfoProductNumber}/html-single/configuration_guide/
+:LinkDevelopmentGuide: https://access.redhat.com/documentation/en-us/{DocInfoProductNameURL}/{DocInfoProductNumber}/html-single/development_guide/
+:LinkGettingStartedGuide: https://access.redhat.com/documentation/en-us/{DocInfoProductNameURL}/{DocInfoProductNumber}/html-single/getting_started_guide/
+:LinkOpenShiftWelcome: https://docs.openshift.com/online/welcome/index.html
+:LinkOpenShiftSignup: https://docs.openshift.com/online/getting_started/choose_a_plan.html
+:OpenShiftTemplateName: JBoss EAP CD (no https)
+
+:ConfigBookName: Configuration Guide
+:DevelopmentBookName: Development Guide
+:GettingStartedBookName: Getting Started Guide
+
+:JBDSProductName: Red Hat CodeReady Studio
+:JBDSVersion: 12.15
+:LinkJBDSInstall:  https://access.redhat.com/documentation/en-us/red_hat_codeready_studio/{JBDSVersion}/html-single/installation_guide/
+:JBDSInstallBookName: Installation Guide
+:LinkJBDSGettingStarted: https://access.redhat.com/documentation/en-us/red_hat_codeready_studio/{JBDSVersion}/html-single/getting_started_with_codeready_studio_tools/
+:JBDSGettingStartedBookName: Getting Started with CodeReady Studio Tools
+
+= microprofile-reactive-messaging-kafka: MicroProfile Reactive Messaging with Kafka QuickStart
+:author: Kabir Khan
+:level: Beginner
+:technologies: MicroProfile Reactive Messaging
+
+[abstract]
+The `microprofile-reactive-messaging-kafka` quickstart demonstrates the use of the MicroProfile Reactive Messaging specification backed by Apache Kafka in {productName}.
+
+:standalone-server-type: microprofile
+:archiveType: war
+:archiveName: {artifactId}
+:helm-install-prerequisites: ../microprofile-reactive-messaging-kafka/helm-install-prerequisites.adoc
+:helm-app-name: mp-rm-qs
+:strimzi-version: v1beta2
+
+
+== What is it?
+
+link:https://microprofile.io/project/eclipse/microprofile-reactive-messaging[MicroProfile Reactive Messaging] is a framework for building event-driven, data streaming, and event-sourcing applications using CDI. It lets your application interact using messaging technologies such as link:https://kafka.apache.org[Apache Kafka].
+
+The implementation of MicroProfile Reactive Messaging is built on top of link:https://microprofile.io/project/eclipse/microprofile-reactive-streams[MicroProfile Reactive Streams Operators]. Reactive Streams Operators extends the link:https://www.reactive-streams.org[Reactive Streams] specification, by adding operators such as `map()`, `filter()` and others.
+
+== Architecture
+
+In this quickstart, we have a CDI bean that demonstrates the functionality of the MicroProfile Reactive Messaging specification. Currently, we support Reactive Messaging 1.0. Connections to external messaging systems such as Apache Kafka are configured via MicroProfile Config. We will also use Reactive Streams Operators to modify the data relayed in these streams in the methods handling the Reactive Messaging streams.
+
+// Link to the quickstart source
+:leveloffset: +1
+
+ifndef::ProductRelease,EAPXPRelease[]
+link:https://github.com/wildfly/quickstart/tree/{WildFlyQuickStartRepoTag}/{artifactId}[Browse the source]
+endif::[]
+
+:leveloffset!:
+// System Requirements
+:leveloffset: +1
+
+[[system_requirements]]
+= System Requirements
+//******************************************************************************
+// Include this template to describe the standard system requirements for
+// running the quickstarts.
+//
+// The Forge quickstarts define a `forge-from-scratch` attribute because they
+// run entirely in CodeReady Studio and have different requirements .
+//******************************************************************************
+
+The application this project produces is designed to be run on {productNameFull} {productVersion} or later.
+
+All you need to build this project is {buildRequirements}. See link:{configureMavenDocUrl}[Configure Maven to Build and Deploy the Quickstarts] to make sure you are configured correctly for testing the quickstarts.
+
+:leveloffset!:
+
+// Use of {jbossHomeName}
+:leveloffset: +1
+
+ifdef::requires-multiple-servers[]
+[[use_of_jboss_home_name]]
+= Use of the {jbossHomeName}_1, {jbossHomeName}_2, and QUICKSTART_HOME Variables
+
+This quickstart requires that you clone your `__{jbossHomeName}__` installation directory and run two servers. The installation path is described in detail here: link:{useProductHomeDocUrl}[Use of __{jbossHomeName}__ and __JBOSS_HOME__ Variables].
+
+In the following instructions, replace `__{jbossHomeName}_1__` with the path to your first {productName} server and replace `__{jbossHomeName}_2__` with the path to your second cloned {productName} server.
+
+When you see the replaceable variable __QUICKSTART_HOME__, replace it with the path to the root directory of all of the quickstarts.
+endif::[]
+
+ifdef::optional-domain-or-multiple-servers[]
+[[use_of_jboss_home_name]]
+= Use of the {jbossHomeName}_1, {jbossHomeName}_2, and QUICKSTART_HOME Variables
+
+When deploying this quickstart to a managed domain, replace `__{jbossHomeName}__` with the actual path to your {productName} installation. The installation path is described in detail here: link:{useProductHomeDocUrl}[Use of __{jbossHomeName}__ and __JBOSS_HOME__ Variables].
+
+When deploying this quickstart to multiple standalone servers, this quickstart requires that you clone your `__{jbossHomeName}__` installation directory and run two servers. In the following instructions, replace `__{jbossHomeName}_1__` with the path to your first {productName} server and replace `__{jbossHomeName}_2__` with the path to your second cloned {productName} server.
+
+When you see the replaceable variable __QUICKSTART_HOME__, replace it with the path to the root directory of all of the quickstarts.
+endif::[]
+
+ifndef::requires-multiple-servers,optional-domain-or-multiple-servers[]
+[[use_of_jboss_home_name]]
+= Use of the {jbossHomeName} and QUICKSTART_HOME Variables
+
+In the following instructions, replace `__{jbossHomeName}__` with the actual path to your {productName} installation. The installation path is described in detail here: link:{useProductHomeDocUrl}[Use of __{jbossHomeName}__ and __JBOSS_HOME__ Variables].
+
+When you see the replaceable variable __QUICKSTART_HOME__, replace it with the path to the root directory of all of the quickstarts.
+endif::[]
+
+:leveloffset!:
+
+// Start the {productName} Standalone Server
+:leveloffset: +1
+
+[[start_the_eap_standalone_server]]
+= Start the {productName} Standalone Server
+//******************************************************************************
+// Include this template if your quickstart requires a normal start of a single
+// standalone server.
+//
+// You must define the `standalone-server-type`. Supported values are:
+//    default
+//    full
+//    full-ha
+//    ha
+//    custom
+//
+// * For mobile applications, you can define the `mobileApp` variable in the
+//   `README.adoc` file to add `-b 0.0.0.0` to the command line. This allows
+//    external clients, such as phones, tablets, and desktops, to connect
+//    to the application through through your local network
+//    ::mobileApp: {artifactId}-service
+//
+//******************************************************************************
+
+//******************************************************************************
+// This template sets attributes for the different standalone server profiles.
+//
+// You must define the `standalone-server-type`. Supported values are:
+//    default
+//    full
+//    full-ha
+//    ha
+//    microprofile
+//    custom
+//******************************************************************************
+
+// Standalone server with the default profile.
+ifeval::["{standalone-server-type}"=="default"]
+:serverProfile: default profile
+:configFileName: standalone/configuration/standalone.xml
+:serverArguments:
+endif::[]
+
+// Standalone server with the full profile.
+ifeval::["{standalone-server-type}"=="full"]
+:serverProfile: full profile
+:configFileName: standalone/configuration/standalone-full.xml
+:serverArguments:  -c standalone-full.xml
+endif::[]
+
+// Standalone server with the full HA profile.
+ifeval::["{standalone-server-type}"=="full-ha"]
+:serverProfile: full HA profile
+:configFileName: standalone/configuration/standalone-full-ha.xml
+:serverArguments:  -c standalone-full-ha.xml
+endif::[]
+
+// Start the standalone server with the HA profile.
+ifeval::["{standalone-server-type}"=="ha"]
+:serverProfile: HA profile
+:configFileName: standalone/configuration/standalone-ha.xml
+:serverArguments:  -c standalone-ha.xml
+endif::[]
+
+// Start the standalone server with the Eclipse MicroProfile profile.
+ifeval::["{standalone-server-type}"=="microprofile"]
+:serverProfile: MicroProfile profile
+:configFileName: standalone/configuration/standalone-microprofile.xml
+:serverArguments:  -c standalone-microprofile.xml
+endif::[]
+
+// Standalone server with the custom profile.
+// NOTE: This profile requires that you define the `serverArguments` variable
+// within the quickstart README.adoc file. For example:
+//  :serverArguments: --server-config=../../docs/examples/configs/standalone-xts.xml
+ifeval::["{standalone-server-type}"=="custom"]
+:serverProfile: custom profile
+endif::[]
+
+// If there is no match, use the default profile.
+ifndef::serverProfile[]
+:standalone-server-type:  default
+:serverProfile: default profile
+:configFileName: standalone/configuration/standalone.xml
+:serverArguments:
+endif::serverProfile[]
+
+. Open a terminal and navigate to the root of the {productName} directory.
+. Start the {productName} server with the {serverProfile} by typing the following command.
++
+ifdef::uses-jaeger[]
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __JAEGER_REPORTER_LOG_SPANS=true JAEGER_SAMPLER_TYPE=const JAEGER_SAMPLER_PARAM=1__ __{jbossHomeName}__/bin/standalone.sh {serverArguments}
+----
+endif::[]
+ifndef::uses-jaeger[]
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}__/bin/standalone.sh {serverArguments}
+----
+endif::[]
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\standalone.bat` script.
+
+ifdef::mobileApp[]
++
+Adding `-b 0.0.0.0` to the above command allows external clients, such as phones, tablets, and desktops, to connect through your local network. For example:
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}__/bin/standalone.sh {serverArguments} -b 0.0.0.0
+----
+endif::[]
+
+:leveloffset!:
+
+== Solution
+
+We recommend that you follow the instructions that
+<<creating-new-project, create the application step by step>>. However, you can
+also go right to the completed example which is available in this directory.
+
+CAUTION: Kafka must be running before attempting to deploy the Quickstart application. See <<running-the-apache-kafka-service,Running the Apache Kafka Service>> for how to do this in your local environment.
+
+
+// Build and Deploy the Quickstart
+:leveloffset: +1
+
+[[build_and_deploy_the_quickstart]]
+= Build and Deploy the Quickstart
+//******************************************************************************
+// Include this template if your quickstart does a normal deployment of a archive.
+//
+// * Define the `archiveType` variable in the quickstart README file.
+//   Supported values:
+//    :archiveType: ear
+//    :archiveType: war
+//    :archiveType: jar
+//
+// * To override the archive name, which defaults to the {artifactId),
+//   define the `archiveName` variable, for example:
+//    :archiveName: {artifactId}-service
+//
+// * To override the archive output directory,
+//   define the `archiveDir` variable, for example:
+//    :archiveDir: ear/target
+//
+// * To override the Maven command, define the `mavenCommand` variable,
+//   for example:
+//    :mavenCommand: clean install wildfly:deploy
+//******************************************************************************
+
+// The archive name defaults to the artifactId if not overridden
+ifndef::archiveName[]
+:archiveName: {artifactId}
+endif::archiveName[]
+
+// The archive type defaults to war if not overridden
+ifndef::archiveType[]
+:archiveType: war
+endif::archiveType[]
+
+// Define the archive file name as the concatenation of "archiveName" + "." + "archiveType+
+:archiveFileName: {archiveName}.{archiveType}
+
+// If they have not defined the target archive directory, make it the default for the archive type.
+ifndef::archiveDir[]
+
+ifeval::["{archiveType}"=="ear"]
+:archiveDir: {artifactId}/ear/target
+endif::[]
+
+ifeval::["{archiveType}"=="war"]
+:archiveDir: {artifactId}/target
+endif::[]
+
+ifeval::["{archiveType}"=="jar"]
+:archiveDir: {artifactId}/target
+endif::[]
+
+endif::archiveDir[]
+
+ifndef::mavenCommand[]
+ifeval::["{archiveType}"=="ear"]
+:mavenCommand: clean install
+endif::[]
+
+ifeval::["{archiveType}"=="war"]
+:mavenCommand: clean package
+endif::[]
+
+ifeval::["{archiveType}"=="jar"]
+:mavenCommand: clean install
+endif::[]
+
+endif::mavenCommand[]
+
+. Make sure you xref:start_the_eap_standalone_server[start the {productName} server] as described above.
+. Open a terminal and navigate to the root directory of this quickstart.
+ifdef::reactive-messaging[]
+. Run this command to enable the MicroProfile Reactive Messaging functionality on the server
++
+[source,subs="attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=enable-reactive-messaging.cli
+----
+endif::reactive-messaging[]
+. Type the following command to build the quickstart.
++
+[source,subs="attributes+",options="nowrap"]
+----
+$ mvn {mavenCommand}
+----
+
+. Type the following command to deploy the quickstart.
++
+[source,subs="attributes+",options="nowrap"]
+----
+$ mvn wildfly:deploy
+----
+
+ifdef::rest-client-qs[]
+This builds and deploys the `country-server` and `country-client` to the running instance of the server.
+
+You should see a message in the server log indicating that the archives deployed successfully.
+endif::[]
+ifndef::rest-client-qs[]
+This deploys the `{archiveDir}/{archiveFileName}` to the running instance of the server.
+
+You should see a message in the server log indicating that the archive deployed successfully.
+endif::[]
+
+
+:leveloffset!:
+
+
+// Undeploy the Quickstart
+:leveloffset: +1
+
+[[undeploy_the_quickstart]]
+= Undeploy the Quickstart
+
+//*******************************************************************************
+// Include this template if your quickstart does a normal undeployment of an archive.
+//*******************************************************************************
+When you are finished testing the quickstart, follow these steps to undeploy the archive.
+
+. Make sure you xref:start_the_eap_standalone_server[start the {productName} server] as described above.
+. Open a terminal and navigate to the root directory of this quickstart.
+. Type this command to undeploy the archive:
++
+[source,options="nowrap"]
+----
+$ mvn wildfly:undeploy
+----
+
+:leveloffset!:
+
+// Server Distribution Testing
+:leveloffset: +2
+
+[[run_the_integration_tests_with_server_distribution]]
+= Run the Integration Tests
+This quickstart includes integration tests, which are located under the  `src/test/` directory. The integration tests verify that the quickstart runs correctly when deployed on the server.
+
+Follow these steps to run the integration tests.
+
+. Make sure you start the {productName} server, as previously described.
+
+. Make sure you build and deploy the quickstart, as previously described.
+
+. Type the following command to run the `verify` goal with the `integration-testing` profile activated.
++
+[source,options="nowrap"]
+----
+$ mvn verify -Pintegration-testing
+----
+
+[NOTE]
+====
+You may also use the environment variable `SERVER_HOST` or the system property `server.host` to define the target URL of the tests.
+====
+
+:leveloffset!:
+
+// Run the Quickstart in Red Hat CodeReady Studio or Eclipse
+:leveloffset: +1
+
+[[run_the_quickstart_in_redhat_codeready_studio_or_eclipse]]
+= Run the Quickstart in {JBDSProductName} or Eclipse
+//******************************************************************************
+// Include this template to provide instructions to run the quickstart
+// in Red Hat CodeReady Studio.
+//
+// If the quickstart is not supported, create the `jbds-not-supported` attribute.
+//******************************************************************************
+ifdef::jbds-not-supported[]
+This quickstart is not supported in {JBDSProductName}.
+endif::jbds-not-supported[]
+
+ifndef::jbds-not-supported[]
+You can also start the server and deploy the quickstarts or run the Arquillian tests in {JBDSProductName} or from Eclipse using JBoss tools. For general information about how to import a quickstart, add a {productName} server, and build and deploy a quickstart, see link:{useEclipseUrl}[Use {JBDSProductName} or Eclipse to Run the Quickstarts].
+endif::jbds-not-supported[]
+
+// Add additional instructions specific to running this quickstart in an IDE here.
+
+:leveloffset!:
+
+[[creating-new-project]]
+== Creating the Maven Project
+
+[source,options="nowrap"]
+----
+mvn archetype:generate \
+    -DgroupId=org.wildfly.quickstarts \
+    -DartifactId=microprofile-reactive-messaging-kafka \
+    -DinteractiveMode=false \
+    -DarchetypeGroupId=org.apache.maven.archetypes \
+    -DarchetypeArtifactId=maven-archetype-webapp
+cd microprofile-reactive-messaging-kafka
+----
+
+Open the project in your favourite IDE.
+
+The project needs to be updated to use Java 8 as the minimum:
+
+[source,options="nowrap"]
+----
+<maven.compiler.source>1.8</maven.compiler.source>
+<maven.compiler.target>1.8</maven.compiler.target>
+----
+
+Next set up our dependencies. Add the following section to your
+`pom.xml`:
+
+[source,xml,subs="attributes+"]
+----
+<dependencyManagement>
+  <dependencies>
+    <!-- importing the ee-with-tools BOM adds specs and other useful artifacts as managed dependencies -->
+    <dependency>
+        <groupId>org.wildfly.bom</groupId>
+        <artifactId>wildfly-ee-with-tools</artifactId>
+        <version>{versionServerBom}</version>
+        <type>pom</type>
+        <scope>import</scope>
+    </dependency>
+
+    <!-- importing the microprofile BOM adds MicroProfile specs -->
+    <dependency>
+        <groupId>org.wildfly.bom</groupId>
+        <artifactId>wildfly-microprofile</artifactId>
+        <version>{versionMicroprofileBom}</version>
+        <type>pom</type>
+        <scope>import</scope>
+    </dependency>
+  </dependencies>
+</dependencyManagement>
+----
+By using boms the majority of dependencies used within this quickstart align with the version used by the application server.
+
+Now we need to add the dependencies which are needed by what is the focus of this QuickStart (CDI, MicroProfile Reactive Messaging, Reactive Streams Operators, Reactive Streams and the Apache Kafka Client). Additionally we need to add dependencies for 'supporting' functionality (JPA, JTA and JAX-RS):
+
+[source,xml]
+----
+<dependencies>
+    <!-- Core dependencies -->
+
+    <!-- Import the CDI API, we use provided scope as the API is included in WildFly -->
+    <dependency>
+        <groupId>jakarta.enterprise</groupId>
+        <artifactId>jakarta.enterprise.cdi-api</artifactId>
+        <scope>provided</scope>
+    </dependency>
+    <!-- Import the Kafka Client API, we use provided scope as the API is included in WildFly -->
+    <dependency>
+        <groupId>org.apache.kafka</groupId>
+        <artifactId>kafka-clients</artifactId>
+        <scope>provided</scope>
+    </dependency>
+    <!-- Import the SmallRye Kafka API, we use provided scope as the API is included in WildFly -->
+    <dependency>
+        <groupId>io.smallrye.reactive</groupId>
+        <artifactId>smallrye-reactive-messaging-kafka-api</artifactId>
+        <scope>provided</scope>
+    </dependency>
+    <!-- Import the Reactive Messaging API, we use provided scope as the API is included in WildFly -->
+    <dependency>
+        <groupId>org.eclipse.microprofile.reactive.messaging</groupId>
+        <artifactId>microprofile-reactive-messaging-api</artifactId>
+        <scope>provided</scope>
+    </dependency>
+    <!-- Import the Reactive Streams Operators API, we use provided scope as the API is included in WildFly -->
+    <dependency>
+        <groupId>org.eclipse.microprofile.reactive-streams-operators</groupId>
+        <artifactId>microprofile-reactive-streams-operators-api</artifactId>
+        <scope>provided</scope>
+    </dependency>
+    <!-- Import the Reactive Streams Operators API, we use provided scope as the API is included in WildFly -->
+    <dependency>
+        <groupId>org.reactivestreams</groupId>
+        <artifactId>reactive-streams</artifactId>
+        <scope>provided</scope>
+    </dependency>
+
+    <!-- 'Supporting' dependencies -->
+
+    <!-- Import the Persistence API, we use provided scope as the API is included in WildFly -->
+    <dependency>
+        <groupId>jakarta.persistence</groupId>
+        <artifactId>jakarta.persistence-api</artifactId>
+        <scope>provided</scope>
+    </dependency>
+    <!-- Import the Annotations API, we use provided scope as the API is included in WildFly -->
+    <dependency>
+        <groupId>jakarta.annotation</groupId>
+        <artifactId>jakarta.annotation-api</artifactId>
+        <scope>provided</scope>
+    </dependency>
+    <!-- Import the Persistence API, we use provided scope as the API is included in WildFly -->
+    <dependency>
+        <groupId>jakarta.transaction</groupId>
+        <artifactId>jakarta.transaction-api</artifactId>
+        <scope>provided</scope>
+    </dependency>
+    <!-- Import the JAX-RS API, we use provided scope as the API is included in WildFly -->
+    <dependency>
+        <groupId>jakarta.ws.rs</groupId>
+        <artifactId>jakarta.ws.rs-api</artifactId>
+        <scope>provided</scope>
+    </dependency>
+    <!-- Import the resteasy-jaxrs API, we use provided scope as the API is included in WildFly -->
+    <dependency>
+        <groupId>org.jboss.resteasy</groupId>
+        <artifactId>resteasy-jaxrs</artifactId>
+        <scope>provided</scope>
+    </dependency>
+</dependencies>
+----
+
+
+All dependencies have the 'provided' scope.
+
+As we are going to be deploying this application to the {productName} server, let's
+also add a maven plugin that will simplify the deployment operations (you can replace
+the generated build section):
+
+[source,xml]
+----
+<build>
+  <!-- Set the name of the archive -->
+  <finalName>${project.artifactId}</finalName>
+  <plugins>
+    <!-- Allows to use mvn wildfly:deploy -->
+    <plugin>
+      <groupId>org.wildfly.plugins</groupId>
+      <artifactId>wildfly-maven-plugin</artifactId>
+    </plugin>
+  </plugins>
+</build>
+----
+
+// Setup required repositories
+:leveloffset: +1
+
+Setup the required Maven repositories (if you don't have them set up in Maven global settings):
+
+[source,xml]
+----
+<repositories>
+    <repository>
+        <id>jboss-public-maven-repository</id>
+        <name>JBoss Public Maven Repository</name>
+        <url>https://repository.jboss.org/nexus/content/groups/public</url>
+        <layout>default</layout>
+        <releases>
+            <enabled>true</enabled>
+            <updatePolicy>never</updatePolicy>
+        </releases>
+        <snapshots>
+            <enabled>true</enabled>
+            <updatePolicy>never</updatePolicy>
+        </snapshots>
+    </repository>
+    <repository>
+        <id>redhat-ga-maven-repository</id>
+        <name>Red Hat GA Maven Repository</name>
+        <url>https://maven.repository.redhat.com/ga/</url>
+        <layout>default</layout>
+        <releases>
+            <enabled>true</enabled>
+            <updatePolicy>never</updatePolicy>
+        </releases>
+        <snapshots>
+            <enabled>true</enabled>
+            <updatePolicy>never</updatePolicy>
+        </snapshots>
+    </repository>
+</repositories>
+<pluginRepositories>
+    <pluginRepository>
+        <id>jboss-public-maven-repository</id>
+        <name>JBoss Public Maven Repository</name>
+        <url>https://repository.jboss.org/nexus/content/groups/public</url>
+        <releases>
+            <enabled>true</enabled>
+        </releases>
+        <snapshots>
+            <enabled>true</enabled>
+        </snapshots>
+    </pluginRepository>
+    <pluginRepository>
+        <id>redhat-ga-maven-repository</id>
+        <name>Red Hat GA Maven Repository</name>
+        <url>https://maven.repository.redhat.com/ga/</url>
+        <releases>
+            <enabled>true</enabled>
+        </releases>
+        <snapshots>
+            <enabled>true</enabled>
+        </snapshots>
+    </pluginRepository>
+</pluginRepositories>
+----
+
+:leveloffset!:
+
+Now we are ready to start working with MicroProfile Reactive Messaging.
+
+== Preparing the Application
+
+This will walk you through the steps to write our application. They are:
+
+* Create a generator for the generated messages. We will create something which mocks a call to an asynchnronous resource.
+* Add a data object which wraps the generated messages and adds a timestamp. We will use JPA annotations on this to make it persistable.
+* Create our CDI bean interfacing with the Kafka streams via annotated methods. For the streams that are managed by Kafka we will provide a MicroProfile Config file to configure how to interact with Kafka. It will log, filter and store entries to a RDBMS.
+* Create a CDI bean that will be used to store and retrieve entries from a RDBMS.
+* Create a JAX-RS endpoint to return the data that was stored in the RDBMS to the user.
+
+=== Adding our Data Generator
+Copy across the `microprofile-reactive-messaging-kafka/src/main/java/org/wildfly/quickstarts/microprofile/reactive/messaging/MockExternalAsyncResource.java` file to your project. This class mocks a call to an asynchronous external resource. The details of how it is implemented are not important for this QuickStart.
+
+`MockExternalAsyncResource` has one callable method:
+
+[source,java]
+----
+public CompletionStage<String> getNextValue()
+----
+
+The `CompletionStage` returned by this method will complete with a String when ready. A String is ready every two seconds. It will emit the following Strings in the given order:
+
+* `Hello`
+* `World`
+* `Reactive`
+* `Messaging`
+* `with`
+* `Kafka`
+
+After this initial sequence the returned `CompletionStage` will complete with a random entry from the above list. A new entry is available every two seconds.
+
+=== Adding a Data Object
+Later we will wrap the strings in a `TimedEntry` object which contains the String and a timestamp. Since we will be storing it in a database, we add JPA annotations to it:
+
+[source,java]
+----
+package org.wildfly.quickstarts.microprofile.reactive.messaging;
+
+import java.sql.Timestamp;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+
+@Entity
+public class TimedEntry {
+    private Long id;
+    private Timestamp time;
+    private String message;
+
+    public TimedEntry() {
+
+    }
+
+    public TimedEntry(Timestamp time, String message) {
+        this.time = time;
+        this.message = message;
+    }
+
+    @Id
+    @GeneratedValue
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Timestamp getTime() {
+        return time;
+    }
+
+    public void setTime(Timestamp time) {
+        this.time = time;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    @Override
+    public String toString() {
+        String s = "TimedEntry{";
+        if (id != null) {
+            s += "id=" + id + ", ";
+        }
+        s += "time=" + time +
+                ", message='" + message + '\'' +
+                '}';
+        return s;
+    }
+}
+----
+
+=== Adding our Messaging CDI Bean
+
+MicroProfile Reactive Messaging is based on CDI, so all interaction with the MicroProfile Reactive Messaging streams must happen from a CDI beans. **Note:** The beans must have either the `@ApplicationScoped` or `@Dependent` scopes.
+
+Then within these beans we have a set of methods using the `@Incoming` and `@Outgoing` annotations from the MicroProfile Reactive Messaging specification to map the underlying streams. For an `@Outgoing` annotation its `value` specifies the Reactive Messaging stream to send data to, and for an `@Incoming` annotation its `value` specifies the Reactive Messaging stream to read data from. Although in this QuickStart we are putting all these methods into one CDI bean class, they could be spread over several beans.
+
+The MicroProfile Reactive Messaging specification contains a full list of all the valid method signatures for such `@Incoming`/`@Outging` methods. We will use a few of them, and see how they make different use-cases easier.
+
+Our bean looks as follows, and this is the main focus for the functionality in this QuickStart. We will also be using some other technologies, but they are secondary to this section. Explanations of each method will be given in line.
+
+[source, java]
+----
+package org.wildfly.quickstarts.microprofile.reactive.messaging;
+
+import java.sql.Timestamp;
+import java.util.concurrent.CompletionStage;
+
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+
+import org.eclipse.microprofile.reactive.messaging.Incoming;
+import org.eclipse.microprofile.reactive.messaging.Outgoing;
+import org.eclipse.microprofile.reactive.streams.operators.PublisherBuilder;
+import org.eclipse.microprofile.reactive.streams.operators.ReactiveStreams;
+import org.reactivestreams.Publisher;
+
+
+@ApplicationScoped
+public class MessagingBean {
+----
+First we inject our mock asynchronous external data producer, which produces a string every two seconds. We explained this class in a previous section.
+[source, java]
+----
+
+    @Inject
+    MockExternalAsyncResource producer;
+----
+We inject a bean that will be used to persist entries to a RDBMS later on.
+[source, java]
+----
+    @Inject
+    DatabaseBean dbBean;
+----
+Now we get to the reactive messaging part.
+
+Our first method is a 'producer' method, since is annotated with the `@Outgoing` annotation. It simply relays the output of our mock producer bean to the reactive messaging system. It uses the channel `source` (as indicated in the `@Outgoing` annotation's value) as the target stream to send the data to. You can think of 'producer' methods as the entry point to push data into the reactive messaging streams.
+[source, java]
+----
+
+    @Outgoing("source")
+    public CompletionStage<String> sendInVm() {
+        return producer.getNextValue();
+    }
+----
+Next we have a 'processor' method. It is annotated with both `@Incoming` and `@Outgoing` annotations so it gets data from the reactive messaging streams and then pushes it to another stream. Essentially it simply relays data.
+
+In this case we get data from the `source` stream, so it will receive the entries made available by the `sendInVm()` method above, and forwards everything onto the `filter` stream.
+
+In this case, since we just want to log the strings that were emitted, we are using a simple method signature receiving and returning the raw string provided. The Reactive Messaging implementation has unwrapped the `CompletionStage` from the previous method for us.
+
+Note that there is no Kafka involved yet. Since the `@Incoming` and `@Outgoing` values match up, Reactive Messaging will use internal, in-memory streams.
+[source, java]
+----
+    @Incoming("source")
+    @Outgoing("filter")
+    public String logAllMessages(String message) {
+        System.out.println("Received " + message);
+        return message;
+    }
+----
+Now we have another 'processor' method. We get the data from the `filter` stream (what was relayed by the previous `logAllMessages()` method) and forward it on to the `sender` stream.
+
+In this method we want to do something a bit more advanced, namely apply a filter to the messages. We use a method receiving and returning a Reactive Stream, in this case we use `PublisherBuilder` from the MicroProfile Reactive Streams Operators specification. `PublisherBuilder` extends the `Publisher` interface from the Reactive Streams specification, and provides us with the `filter()` methods we will use here.
+
+Again the Reactive Messaging implementation does all the wrapping for us.
+
+Our filter method tells us to only relay messages that match `Hello` or `Kafka`, and drop everything else. In other words, later methods in the stream will only receive occurrences of `Hello` or `Kafka`.
+
+[source, java]
+----
+    @Incoming("filter")
+    @Outgoing("sender")
+    public PublisherBuilder<String> filter(PublisherBuilder<String> messages) {
+        return messages
+                .filter(s -> s.equals("Hello") || s.equals("Kafka"));
+    }
+----
+Next we have another 'processor' method, which receives data from the `sender` stream and forwards it on to the `to-kafka` stream. It's parameter is a simple `String`, MicroProfile Reactive Messaging will unwrap the stream from the `PublisherBuilder` returned in the previous method and call this next method with the individual entries.
+
+In this method we want to wrap up the data into the `TimedEntry` class we defined earlier, so we have tuple of the message and a timestamp.
+
+Additionally we want to set a Kafka key for the entries so that we can take advantage of Kafka's querying capabilities (not done in this quickstart). In order to do this, we do the following steps:
+
+* Create an instance of `Message` from the MicroProfile Reactive Messaging API. A `Message` is a simple wrapper around the payload. In our case we use the `TimedEntry` instance we created.
+* We create the key for the `TimedEntry`. In this case we just use a hash of the message.
+* Use the `OutgoingKafkaRecordMetadata` builder to create an instance of `OutgoingKafkaRecordMetadata` with the key
+* Next we call `KafkaMetadataUtil.writeOutgoingKafkaMetadata()` to augment the `Message` with the `OutgoingKafkaRecordMetadata`. Note that the `Message` passed in to `KafkaMetadataUtil.writeOutgoingKafkaMetadata()` is not modified, we need the returned one.
+* We return the augmented `Message` to the stream which is backed by Kafka
+
+[source, java]
+----
+    @Incoming("sender")
+    @Outgoing("to-kafka")
+    public Message<TimedEntry> sendToKafka(String msg) {
+        // Simpler example for debugging
+        TimedEntry te = new TimedEntry(new Timestamp(System.currentTimeMillis()), msg);
+        Message<TimedEntry> m = Message.of(te);
+        // Just use the hash as the Kafka key for this example
+        int key = te.getMessage().hashCode();
+
+        // Create Metadata containing the Kafka key
+        OutgoingKafkaRecordMetadata<Integer> md = OutgoingKafkaRecordMetadata
+                .<Integer>builder()
+                .withKey(key)
+                .build();
+
+        // The returned message will have the metadata added
+        return KafkaMetadataUtil.writeOutgoingKafkaMetadata(m, md);
+    }
+----
+Our final method is a 'consumer' method, as it has only an `@Incoming` annotation. You can think of this as a 'final destination' for the data in your application. We are using a  `Message<TimedEntry>` as our method parameter. We are using this signature since we want to access the `IncomingKafkaRecordMetadata`, which contains the key we added in the previous method and additional information such as the Kafka partition and topic the message was sent on. Since we are using the signature taking a `Message` as the parameter, we need to `ack()` the message and return the resulting `CompletionStage<Void>`. (If we don't want to ack the receipt of the message and are not interested in the `IncomingKafkaRecordMetadata`, we could have used a simpler signature such as `void receiveFromKafka(TimedEntry message)`.)
+
+The methid calls through to our `dbBean` to store the received data in a RDBMS. We will look at this briefly later.
+[source, java]
+----
+    @Incoming("from-kafka")
+    public CompletionStage<Void> receiveFromKafka(Message<TimedEntry> message) {
+        TimedEntry payload = message.getPayload();
+
+        IncomingKafkaRecordMetadata<Integer, TimedEntry> md =
+            KafkaMetadataUtil.readIncomingKafkaMetadata(message).get();
+        String msg =
+                "Received from Kafka, storing it in database\n" +
+                "\t%s\n" +
+                "\tkey: %d; partition: %d, topic: %s";
+        msg = String.format(msg, payload, md.getKey(), md.getPartition(), md.getTopic());
+        System.out.println(msg);
+        dbBean.store(payload);
+        return message.ack();
+    }} // MessagingBean - END
+----
+You might have noticed that up to, and including, the `sendToKafka()` method the `@Incoming.value()` matches the `@Outgoing.value()` of the prior method. This indicates that these streams (`source`, `filter` and `sender`) are handled in memory by the Reactive Messaging implementation.
+
+For the last two methods this is different and there is no such pairing. The `sendToKafka()` method sends its data to the `to-kafka` stream:
+[source, java]
+----
+    ...
+    @Outgoing("to-kafka")
+    public Publisher<TimedEntry> sendToKafka(Publisher<String> messages) {
+       ...
+    }
+----
+However, there are no methods annotated with `@Incoming("to-kafka)`.
+
+And the `receiveFromKafka()` method is expecting to receive data from the `from-kafka` stream:
+[source, java]
+----
+    @Incoming("from-kafka")
+    public void receiveFromKafka(TimedEntry message) {
+       ...
+    }
+----
+Again, there are no methods annotated with `@Outgoing("from-kafka")`.
+
+These 'unpaired' sets of methods indicate that we do not want to use an in-memory stream, and want to use an external system for these streams. If we were try to deploy the MessagingBean in this state the application would fail to deploy. To fix this, and tell it what to map onto, we need to provide some configuration.
+
+NOTE: `IncomingKafkaRecordMetadata` is only available on incoming streams coming from Kafka. `OutgoingKafkaRecordMetadata` will only have effect on outgoing streams going to Kafka.
+
+==== Mapping Streams to Kafka using MicroProfile Config
+To map 'unpaired' streams onto Kafka we need to add a MicroProfile Config file to configure these streams.
+
+Create a file called `src/main/resources/META-INF/microprofile-config.properties` and add the following:
+
+[source,properties]
+----
+mp.messaging.connector.smallrye-kafka.bootstrap.servers=localhost:9092
+
+mp.messaging.outgoing.to-kafka.connector=smallrye-kafka
+mp.messaging.outgoing.to-kafka.topic=testing
+mp.messaging.outgoing.to-kafka.key.serializer=org.apache.kafka.common.serialization.IntegerSerializer
+mp.messaging.outgoing.to-kafka.value.serializer=org.wildfly.quickstarts.microprofile.reactive.messaging.TimedEntrySerializer
+
+# Configure the Kafka source (we read from it)
+mp.messaging.incoming.from-kafka.connector=smallrye-kafka
+mp.messaging.incoming.from-kafka.topic=testing
+mp.messaging.incoming.from-kafka.value.deserializer=org.wildfly.quickstarts.microprofile.reactive.messaging.TimedEntryDeserializer
+mp.messaging.incoming.from-kafka.key.deserializer=org.apache.kafka.common.serialization.IntegerDeserializer
+----
+
+The MicroProfile Reactive Messaging specification mandates the following pre-fixes:
+
+* `mp.messaging.connector.` - used to set overall configuration for your application.
+* `mp.messaging.outgoing.` - used to configure streams we are writing to from methods annotated with `@Outgoing`. The next element determines the name of the stream as identified in the `@Outgoing` annotation so all the properties starting with `mp.messaging.outgoing.to-kafka` are used to configure the writing done by the `sendToKafka()` method which is annotated with `@Outgoing("to-kafka")`.
+* `mp.messaging.incoming.` - used to configure streams we are reading from in methods annotated with `@Incoming`. The next element determines the name of the stream as identified in the `@Incoming` annotation so all the properties starting with `mp.messaging.incoming.from-kafka` are used to configure the reading done by the `receiveFromKafka()` method which is annotated with `@Incoming("from-kafka")`.
+
+What comes after these prefixes is vendor dependent. We use the SmallRye implementation of MicroProfile Reactive Messaging.
+
+At the application level, the `mp.messaging.connector.smallrye-kafka.bootstrap.servers` property says that all conections to Kafka in this application should go to `localhost:9092`. This is not strictly necessary, since this value is the default that would be used if not specified. If we wanted to override this for say the `@Outgoing("to-kafka")` annotated `sendToKafka()` method we could specify this with a property such as:
+
+[source, properties]
+----
+mp.messaging.outgoing.to-kafka.bootstrap.servers=otherhost:9092
+----
+
+For the incoming and outgoing properties we can see that they all specify that they should use the `smallrye-kafka` connector and that the outgoing one writes to the same topic, `testing`, as the incoming one reads from.
+
+We see that the outgoing configuration uses a `TimedEntrySerializer` while the incoming one uses `TimedEntryDeserializer` for the values. Kafka just deals with byte streams, so we need to tell it how to serialize the data we are sending and how to deserialize the data we are receiving. As seen is configured with properties of the form `mp.messaging.outgoing.<stream name>.value.serializer` and `mp.messaging.incoming.<stream name>.value.deserializer`. The link:https://kafka.apache.org/27/javadoc/org/apache/kafka/common/serialization/package-summary.html[org.apache.kafka.common.serialization] package contains implementations of serializers and deserializers for simple data types and constructs such as maps.
+
+Finally, since the Kafka key is an `Integer`, we use `IntegerSerializer` and `IntegerDeserializer` for the keys. The concept is exactly the same as for the value (de)serializers, but is instead configured with the properties `mp.messaging.outgoing.<stream name>.key.serializer` and `mp.messaging.incoming.<stream name>.key.deserializer`.
+
+
+===== Custom (De)Serializers
+In our case the data we are sending to and receiving from Kafka is not a simple object. It is an object of a class defined in our application, so we need to define our own serialization and deserialization. Luckily, this is easy. We just need to implement the link:https://kafka.apache.org/27/javadoc/org/apache/kafka/common/serialization/Serializer.html[org.apache.kafka.common.serialization.Serializer] and link:https://kafka.apache.org/27/javadoc/org/apache/kafka/common/serialization/Deserializer.html[org.apache.kafka.common.serialization.Deserializer] interfaces.
+
+Here is our `TimedEntrySerializer`:
+
+[source,java]
+----
+package org.wildfly.quickstarts.microprofile.reactive.messaging;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+
+import org.apache.kafka.common.serialization.Serializer;
+
+public class TimedEntrySerializer implements Serializer<TimedEntry> {
+    @Override
+    public byte[] serialize(String topic, TimedEntry data) {
+        if (data == null) {
+            return null;
+        }
+
+        try {
+            ByteArrayOutputStream bout = new ByteArrayOutputStream();
+            ObjectOutputStream out = new ObjectOutputStream(bout);
+            out.writeLong(data.getTime().getTime());
+            out.writeUTF(data.getMessage());
+            out.close();
+            return bout.toByteArray();
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+
+    }
+}
+----
+
+And here is our `TimedEntryDeserializer`:
+
+[source,java]
+----
+package org.wildfly.quickstarts.microprofile.reactive.messaging;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.sql.Timestamp;
+
+import org.apache.kafka.common.serialization.Deserializer;
+
+public class TimedEntryDeserializer implements Deserializer<TimedEntry> {
+
+    @Override
+    public TimedEntry deserialize(String topic, byte[] data) {
+        if (data == null) {
+            return null;
+        }
+        try (ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(data))){
+            Timestamp time = new Timestamp(in.readLong());
+            String message = in.readUTF();
+            return new TimedEntry(time, message);
+        } catch (IOException e){
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+}
+----
+
+As you can see the serializer writes the time as a Long, and the message as a string, and the deserializer reads them in the same order. Then in our `microprofile-config.properties` above we saw how to make Kafka use our classes for serialization and deserialization.
+
+### Storing Data in an RDBMS
+We have covered all the reactive messaging parts, but have missed out how the `MessagingBean.receiveFromKafka()` stores data via the `DatabaseBean`. This is not the focus of this QuickStart, so we will just mention how this works quickly.
+
+This is the definition of `DatabaseBean`:
+
+[source,java]
+----
+package org.wildfly.quickstarts.microprofile.reactive.messaging;
+
+import java.util.List;
+
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
+import jakarta.transaction.Transactional;
+
+@ApplicationScoped
+public class DatabaseBean {
+
+    @PersistenceContext(unitName = "test")
+    EntityManager em;
+
+    @Transactional
+    public void store(Object entry) {
+        em.persist(entry);
+    }
+
+    public List<TimedEntry> loadAllTimedEntries() {
+        TypedQuery<TimedEntry> query = em.createQuery("SELECT t from TimedEntry t", TimedEntry.class);
+        List<TimedEntry> result = query.getResultList();
+        return result;
+    }
+}
+----
+It injects an `EntityManager` for the persitence context `test`, which is defined in the `src/main/resources/META-INF/persistence.xml` file:
+[source, xml]
+----
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.2"
+             xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="
+        http://xmlns.jcp.org/xml/ns/persistence
+        http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
+    <persistence-unit name="test">
+        <jta-data-source>java:jboss/datasources/ExampleDS</jta-data-source>
+        <properties>
+            <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
+        </properties>
+    </persistence-unit>
+</persistence>
+----
+The `DatabaseBean.store()` method saves the `TimedEntry` and the `DatabaseBean.loadAllTimedEntries()` method loads all the ones we stored.
+
+It is worth pointing out that the `@Incoming` and `@Outgoing` annotated methods called by the Reactive Messaging implementation (such as `MessagingBean.receiveFromKafka()`) happen outside of user space, so there is no @Transaction associated with them. So we need to annotated the `DatabaseBean.store()` method with `@Transactional` in order to save our entry to the database.
+
+### Viewing the Data Stored in the RDBMS
+Finally, we would like to be able to view the data that was stored in the database. To do this we will add a JAX-RS endpoint that queries the database by calling `DatabaseBean.loadAllTimedEntries()`.
+
+[source,java]
+----
+package org.wildfly.quickstarts.microprofile.reactive.messaging;
+
+import java.util.List;
+
+import jakarta.inject.Inject;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
+
+@Path("/")
+public class RootResource {
+
+    @Inject
+    DatabaseBean dbBean;
+
+    @GET
+    @Path("/db")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String getDatabaseEntries() {
+        List<TimedEntry> entries = dbBean.loadAllTimedEntries();
+        StringBuffer sb = new StringBuffer();
+        for (TimedEntry t : entries) {
+            sb.append(t);
+            sb.append("\n");
+        }
+        return sb.toString();
+    }
+}
+
+----
+We expose our JAX-RS application at the context path:
+
+[source,java]
+----
+package org.wildfly.quickstarts.microprofile.reactive.messaging;
+
+import jakarta.ws.rs.ApplicationPath;
+import jakarta.ws.rs.core.Application;
+
+@ApplicationPath("/")
+public class JaxRsApplication extends Application {
+}
+
+----
+
+### Interaction with User Initiated Code
+So far what we have seen is really happening in the back-end with little user interaction.
+The MicroProfile Reactive Messaging 2.0 specification adds a `@Channel` annotation and an `Emitter` interface which makes it easier to send data to MicroProfile Reactive Messaging streams from user initiated code and to receive data from Reactive Messaging streams.
+
+To showcase this functionality we add another CDI bean called `UserMessagingBean`:
+[source, java]
+----
+package org.wildfly.quickstarts.microprofile.reactive.messaging;
+
+import java.util.concurrent.CopyOnWriteArraySet;
+
+import jakarta.annotation.PreDestroy;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.FormParam;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.core.Response;
+
+import org.eclipse.microprofile.reactive.messaging.Channel;
+import org.eclipse.microprofile.reactive.messaging.Emitter;
+import org.reactivestreams.Publisher;
+import org.reactivestreams.Subscriber;
+import org.reactivestreams.Subscription;
+
+@ApplicationScoped
+public class UserMessagingBean {
+
+    @Inject
+    @Channel("user")
+    private Emitter<String> emitter;
+
+    private BroadcastPublisher<String> broadcastPublisher;
+
+    public UserMessagingBean() {
+        //Needed for CDI spec compliance
+        //The @Inject annotated one will be used
+    }
+
+    @Inject
+    public UserMessagingBean(@Channel("user") Publisher<String> receiver) {
+        this.broadcastPublisher = new BroadcastPublisher(receiver);
+    }
+
+    @PreDestroy
+    public void destroy() {
+        broadcastPublisher.close();
+    }
+
+    public Response send(String value) {
+        System.out.println("Sending " + value);
+        emitter.send(value);
+        return Response.accepted().build();
+    }
+
+    public Publisher<String> getPublisher() {
+        return broadcastPublisher;
+    }
+
+    private class BroadcastPublisher<T> implements Publisher<T> {
+        // See source code for more details
+    }
+}
+----
+
+Looking at this in more detail, the following field
+[source, java]
+----
+    @Inject
+    @Channel("user")
+    private Emitter<String> emitter;
+----
+is used to send data to the MicroProfile Reactive Messagin stream called `user`, which is done in the following method
+[source, java]
+----
+    public Response send(String value) {
+        System.out.println("Sending " + value);
+        emitter.send(value);
+        return Response.accepted().build();
+    }
+----
+
+`@Inject @Channel` on an `Emitter` can be considered similiar to an `@Outgoing` annotated method but with the data coming from code paths invoked by user interaction. In this case we are not using Kafka to back the stream but if we wanted to, for this example, the MicroProfile Config properties would be prefixed with the `mp.messaging.outgoing.user.` prefix.
+
+Next we have the constructor where we inject a `Publisher` (We could also have used a MicroProfile Reactive Streams Operators `PublisherBuiilder`) to define the receiving side.
+
+[source, java]
+----
+    @Inject
+    public UserMessagingBean(@Channel("user") Publisher<String> receiver) {
+        this.broadcastPublisher = new BroadcastPublisher(receiver);
+    }
+----
+We store this injected `Publisher` in the `broadcastPublisher` field. We will come back to why we are wrapping it in a `BroadcastPublisher` in a second.  So an `@Inject @Channel` on a `Publisher` (or `PublisherBuilder`) can be considered equivalent to use of the `@Incoming` annotation. In this case we are listening to the `user` in memory stream so messages sent via the `Emitter` will be received on this `Publisher`. If instead we wanted to configure it to send via Kafka we would use MicroProfile Config properties prefixed with the `mp.messaging.incoming.user.` prefix.
+
+There are a few caveats on this mechanism though:
+
+1. There must be an active `Subscription` (from the Reactive Streams specification) on the channel before the `Emitter.send()` method is called.
+2. There can only be one `Subscription` on the injected `Publisher`. This means that we cannot simply return this `Publisher` as is via an asynchronous JAX-RS endpoint as each client request would result in a separate `Subscription`.
+
+The above two points will hopefully be fixed in a future version of the specification. For the purposes of this quickstart we are bypassing the above limitations by creating the `BroadcastPublisher` class and wrapping the original `Publisher` in that instead. Note that implementing `Publisher` is hard, and that `BroadcastPublisher` should be considered a 'proof of concept'. For more details about the `BroadcastPublisher` see the source code of the `UserMessagingBean` class. In a nutshell what it does is:
+
+* Its constructor subscribes to the injected `Publisher` to avoid the first problem
+* When code subscribes to it, it handles the `Subscription` on its own level, and forwards on code received on the ' a separate level and forwards on data received from the base `Subsciption` created in the constructor.
+
+Finally we have a JAX-RS endpoint
+[source, java]
+----
+package org.wildfly.quickstarts.microprofile.reactive.messaging;
+
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+
+import org.jboss.resteasy.annotations.Stream;
+import org.reactivestreams.Publisher;
+
+@ApplicationScoped
+@Path("/user")
+@Produces(MediaType.TEXT_PLAIN)
+public class UserResource {
+    @Inject
+    UserMessagingBean bean;
+
+    @POST
+    @Path("{value}")
+    @Consumes(MediaType.TEXT_PLAIN)
+    public Response send(@PathParam("value") String value) {
+        bean.send(value);
+        return Response.ok().build();
+    }
+
+    @GET
+    @Produces(MediaType.SERVER_SENT_EVENTS)
+    @Stream
+    public Publisher<String> get() {
+        return bean.getPublisher();
+    }
+}
+----
+It simply delegates the values received from `POST` requests under `/user/<value>` onto the bean which sends them via the `Emitter`.
+
+Then `GET` requests for `/user` return the `BroadCastPublisher` to the user who will then receive data received on the MicroProfile Reactive Messaging channel.
+
+---
+
+Now you should be able to compile the application and prepare it for deployment.
+
+
+
+=== Running the Application on a Standalone {productName} Server
+
+We need to first start Apache Kafka. Then we will run the {productName} server and deploy our application to the server.
+
+
+[[running-the-apache-kafka-service]]
+== Running the Apache Kafka Service
+
+// As Kafka is strictly backwards compatible, I don't think we need to specify the version for users to download
+To run Apache Kafka locally you will need to https://kafka.apache.org/downloads[download] it first. Extract the zip to a location, and
+enter that directory in a terminal window. Then enter the following command to start Apache Zookeeper:
+[source, shell]
+----
+$ ./bin/zookeeper-server-start.sh config/zookeeper.properties
+----
+Then open a new terminal window and go to the same directory. In this terminal, to start a Kafka instance, enter the command:
+[source, shell]
+----
+$ ./bin/kafka-server-start.sh config/server.properties
+----
+
+NOTE: Zookeeper and Kafka must be left running, so use a new terminal for other commands outlined in this quickstart.
+
+== Build and Deploy the Initial Application
+Let's check that our application works!
+
+. Make sure xref:start_the_eap_standalone_server[the {productName} server is started] as described above.
+. {productName} ships with all the modules to run MicroProfile Reactive Messaging applications with Kafka, but the functionality is not enabled out of the box, so we need to enable it. Run: `$ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=enable-reactive-messaging.cli` to set everything up. The `enable-reactive-messaging.cli` file used can be found link:enable-reactive-messaging.cli[here].
+*NOTE*: This is only required if running against the downloaded server. If the `microprofile-reactive-messaging-kafka` layer is provisioned, as is done by the `openshift` and `bootable-jar` maven profiles, the Kafka functionality is there
+. Open new terminal and navigate to the root directory of your project.
+. Type the following command to build and deploy the project:
+
+[source,options="nowrap"]
+----
+$ mvn clean package wildfly:deploy
+----
+
+Now we should see output in the server console. First, we see output for the ones in the determined order:
+[source, options="nowrap"]
+----
+14:24:39,197 INFO  [stdout] (vert.x-eventloop-thread-0) Received from Kafka, storing it in database
+14:24:39,197 INFO  [stdout] (vert.x-eventloop-thread-0) 	TimedEntry{time=2021-08-06 14:24:39.183, message='Hello'}
+14:24:39,197 INFO  [stdout] (vert.x-eventloop-thread-0) 	key: 69609650; partition: 0, topic: testing
+14:24:41,185 INFO  [stdout] (pool-22-thread-1) Received world
+14:24:43,183 INFO  [stdout] (pool-22-thread-1) Received Reactive
+14:24:45,183 INFO  [stdout] (pool-22-thread-1) Received Messaging
+14:24:47,183 INFO  [stdout] (pool-22-thread-1) Received with
+14:24:49,182 INFO  [stdout] (pool-22-thread-1) Received Kafka
+14:24:49,188 INFO  [stdout] (vert.x-eventloop-thread-0) Received from Kafka, storing it in database
+14:24:49,188 INFO  [stdout] (vert.x-eventloop-thread-0) 	TimedEntry{time=2021-08-06 14:24:49.183, message='Kafka'}
+14:24:49,188 INFO  [stdout] (vert.x-eventloop-thread-0) 	key: 72255238; partition: 0, topic: testing
+14:24:51,184 INFO  [stdout] (pool-22-thread-1) Received Kafka
+----
+Then we get another section where it is using the randomised order
+[source, options="nowrap"]
+----
+14:24:51,184 INFO  [stdout] (pool-22-thread-1) Received Kafka
+14:24:51,190 INFO  [stdout] (vert.x-eventloop-thread-0) Received from Kafka, storing it in database
+14:24:51,190 INFO  [stdout] (vert.x-eventloop-thread-0) 	TimedEntry{time=2021-08-06 14:24:51.184, message='Kafka'}
+14:24:51,190 INFO  [stdout] (vert.x-eventloop-thread-0) 	key: 72255238; partition: 0, topic: testing
+14:24:53,184 INFO  [stdout] (pool-22-thread-1) Received world
+14:24:55,184 INFO  [stdout] (pool-22-thread-1) Received world
+14:24:57,184 INFO  [stdout] (pool-22-thread-1) Received Reactive
+14:24:59,181 INFO  [stdout] (pool-22-thread-1) Received Hello
+14:24:59,187 INFO  [stdout] (vert.x-eventloop-thread-0) Received from Kafka, storing it in database
+14:24:59,187 INFO  [stdout] (vert.x-eventloop-thread-0) 	TimedEntry{time=2021-08-06 14:24:59.182, message='Hello'}
+14:24:59,187 INFO  [stdout] (vert.x-eventloop-thread-0) 	key: 69609650; partition: 0, topic: testing
+----
+
+In both parts of the log we see that all messages reach the `logAllMessages()` method, while only `Hello` and `Kafka` reach the `receiveFromKafka()` method which saves them to the RDBMS.
+
+To inspect what was stored in the database, go to http://localhost:8080/microprofile-reactive-messaging-kafka/db in  your browser and you should see something like:
+
+[source, options="nowrap"]
+----
+TimedEntry{id=1, time=2021-08-06 14:24:39.183, message='Hello'}
+TimedEntry{id=2, time=2021-08-06 14:24:49.183, message='Kafka'}
+TimedEntry{id=3, time=2021-08-06 14:24:51.184, message='Kafka'}
+TimedEntry{id=4, time=2021-08-06 14:24:59.182, message='Hello'}
+----
+The timestamps of the entries in the browser match the ones we saw in the server logs.
+
+=== Interaction with User Initiated Code
+With the application still running, open two terminal windows. Enter the following `curl` command in both of them
+```
+$curl -N http://localhost:8080/microprofile-reactive-messaging-kafka/user
+```
+The `-N` option keeps the connection open, so we receive data as it becomes available on the publisher.
+
+In a third terminal window enter the commands:
+```
+$curl -X POST http://localhost:8080/microprofile-reactive-messaging-kafka/user/one
+$curl -X POST http://localhost:8080/microprofile-reactive-messaging-kafka/user/two
+$curl -X POST http://localhost:8080/microprofile-reactive-messaging-kafka/user/three
+```
+In the first two terminal windows you should see these entries appear as they are posted:
+```
+data: one
+
+data: two
+
+data: three
+```
+
+// Bootable JAR
+:leveloffset: +1
+
+[[build_and_run_the_quickstart_with_bootable_jar]]
+= Building and running the quickstart application in a bootable JAR
+
+You can use the WildFly JAR Maven plug-in to build a {productName} bootable JAR to run this quickstart.
+
+The quickstart `pom.xml` file contains a Maven profile named *bootable-jar* which configures the bootable JAR building:
+
+[source,xml,subs="attributes+"]
+----
+      <profile>
+          <id>bootable-jar</id>
+          <build>
+              <plugins>
+                  <plugin>
+                      <groupId>org.wildfly.plugins</groupId>
+                      <artifactId>wildfly-jar-maven-plugin</artifactId>
+                      <configuration>
+                          <feature-pack-location>wildfly@maven(org.jboss.universe:community-universe)#${version.server}</feature-pack-location>
+                          <layers>...</layers>
+                          <plugin-options>
+                              <jboss-fork-embedded>true</jboss-fork-embedded>
+                          </plugin-options>
+                      </configuration>
+                      <executions>
+                          <execution>
+                              <goals>
+                                  <goal>package</goal>
+                              </goals>
+                          </execution>
+                      </executions>
+                  </plugin>
+                  ...
+              </plugins>
+          </build>
+      </profile>
+----
+
+.Procedure
+
+. Build the quickstart bootable JAR with the following command:
++
+[source,subs="attributes+",options="nowrap"]
+----
+$ mvn clean package -Pbootable-jar
+----
+
+. Run the quickstart application contained in the bootable JAR:
++
+[source,subs="attributes+",options="nowrap"]
+----
+ifdef::uses-jaeger[]
+$ JAEGER_REPORTER_LOG_SPANS=true JAEGER_SAMPLER_TYPE=const JAEGER_SAMPLER_PARAM=1 java -jar target/{artifactId}-bootable.jar
+endif::uses-jaeger[]
+ifndef::uses-jaeger[]
+$ java -jar target/{artifactId}-bootable.jar
+endif::uses-jaeger[]
+----
+
+. You can now interact with the quickstart application.
+
+[NOTE]
+====
+After the quickstart application is deployed, the bootable JAR includes the application in the root context. Therefore, any URLs related to the application should not have the `/{artifactId}` path segment after `HOST:PORT`.
+====
+
+// Bootable Jar Testing
+:leveloffset: +1
+
+[[run_the_integration_tests_with_bootable_jar_]]
+= Run the Integration Tests with a bootable jar
+
+//******************************************************************************
+// This template sets attributes for the different standalone server profiles.
+//
+// You must define the `standalone-server-type`. Supported values are:
+//    default
+//    full
+//    full-ha
+//    ha
+//    microprofile
+//    custom
+//******************************************************************************
+
+// Standalone server with the default profile.
+ifeval::["{standalone-server-type}"=="default"]
+:serverProfile: default profile
+:configFileName: standalone/configuration/standalone.xml
+:serverArguments:
+endif::[]
+
+// Standalone server with the full profile.
+ifeval::["{standalone-server-type}"=="full"]
+:serverProfile: full profile
+:configFileName: standalone/configuration/standalone-full.xml
+:serverArguments:  -c standalone-full.xml
+endif::[]
+
+// Standalone server with the full HA profile.
+ifeval::["{standalone-server-type}"=="full-ha"]
+:serverProfile: full HA profile
+:configFileName: standalone/configuration/standalone-full-ha.xml
+:serverArguments:  -c standalone-full-ha.xml
+endif::[]
+
+// Start the standalone server with the HA profile.
+ifeval::["{standalone-server-type}"=="ha"]
+:serverProfile: HA profile
+:configFileName: standalone/configuration/standalone-ha.xml
+:serverArguments:  -c standalone-ha.xml
+endif::[]
+
+// Start the standalone server with the Eclipse MicroProfile profile.
+ifeval::["{standalone-server-type}"=="microprofile"]
+:serverProfile: MicroProfile profile
+:configFileName: standalone/configuration/standalone-microprofile.xml
+:serverArguments:  -c standalone-microprofile.xml
+endif::[]
+
+// Standalone server with the custom profile.
+// NOTE: This profile requires that you define the `serverArguments` variable
+// within the quickstart README.adoc file. For example:
+//  :serverArguments: --server-config=../../docs/examples/configs/standalone-xts.xml
+ifeval::["{standalone-server-type}"=="custom"]
+:serverProfile: custom profile
+endif::[]
+
+// If there is no match, use the default profile.
+ifndef::serverProfile[]
+:standalone-server-type:  default
+:serverProfile: default profile
+:configFileName: standalone/configuration/standalone.xml
+:serverArguments:
+endif::serverProfile[]
+ifndef::server_provisioning_server_host[:server_provisioning_server_host: http://localhost:8080]
+
+The integration tests included with this quickstart, which verify that the quickstart runs correctly, may also be run with a bootable jar.
+
+Follow these steps to run the integration tests.
+
+. Make sure the bootable jar is provisioned.
++
+[source,subs="attributes+",options="nowrap"]
+----
+$ mvn clean package -Pbootable-jar
+----
+
+. Start the {productName} bootable jar, this time using the {productName} Maven Jar Plugin, which is recommend for testing due to simpler automation.
++
+[source,subs="attributes+",options="nowrap"]
+----
+$ mvn wildfly-jar:start -Djar-file-name=target/{artifactId}-bootable.jar
+----
+
+. Type the following command to run the `verify` goal with the `integration-testing` profile activated, and specifying the quickstart's URL using the `server.host` system property, which for a bootable jar by default is `{server_provisioning_server_host}`.
++
+[source,subs="attributes+",options="nowrap"]
+----
+$ mvn verify -Pintegration-testing -Dserver.host={server_provisioning_server_host}
+----
+
+. Shutdown the {productName} bootable jar, this time using the {productName} Maven Jar Plugin too.
++
+[source,options="nowrap"]
+----
+$ mvn wildfly-jar:shutdown
+----
+
+:leveloffset: 1
+
+:leveloffset!:
+
+// OpenShift
+:leveloffset: +1
+
+ifndef::helm-app-name[]
+:helm-app-name: {artifactId}
+endif::helm-app-name[]
+
+
+
+[[build_and_run_the_quickstart_on_openshift]]
+= Building and running the quickstart application with OpenShift
+// The openshift profile
+:leveloffset: +1
+
+[[build-the-quickstart-for-openshift]]
+== Build the {productName} Source-to-Image (S2I) Quickstart to OpenShift with Helm Charts
+
+On OpenShift, the S2I build with Apache Maven uses an `openshift` Maven profile to provision a {productName} server, deploy and run the quickstart in OpenShift environment.
+
+ifndef::ProductRelease,EAPXPRelease[]
+The server provisioning functionality is provided by the WildFly Maven Plugin, and you may find its configuration in the quickstart `pom.xml`:
+endif::[]
+ifdef::ProductRelease,EAPXPRelease[]
+The server provisioning functionality is provided by the EAP Maven Plugin, and you may find its configuration in the quickstart `pom.xml`:
+endif::[]
+
+ifndef::ProductRelease,EAPXPRelease[]
+[source,xml,subs="attributes+"]
+----
+        <profile>
+            <id>openshift</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.wildfly.plugins</groupId>
+                        <artifactId>wildfly-maven-plugin</artifactId>
+                        <configuration>
+                            <feature-packs>
+                                <feature-pack>
+                                    <location>org.wildfly:wildfly-galleon-pack:${version.server}</location>
+                                </feature-pack>
+                                <feature-pack>
+                                    <location>org.wildfly.cloud:wildfly-cloud-galleon-pack:${version.pack.cloud}</location>
+                                </feature-pack>
+                            </feature-packs>
+                            <layers>...</layers>
+                            <name>ROOT.war</name>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>package</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    ...
+                </plugins>
+            </build>
+        </profile>
+----
+endif::[]
+
+ifdef::ProductRelease,EAPXPRelease[]
+[source,xml,subs="attributes+"]
+----
+        <profile>
+            <id>openshift</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.jboss.eap.plugins</groupId>
+                        <artifactId>eap-maven-plugin</artifactId>
+                        <configuration>
+                            ...
+                            <feature-packs>
+                                <feature-pack>
+                                    <location>org.jboss.eap:wildfly-ee-galleon-pack</location>
+                                </feature-pack>
+                                <feature-pack>
+                                    <location>org.jboss.eap.cloud:eap-cloud-galleon-pack</location>
+                                </feature-pack>
+                            </feature-packs>
+                            <layers>...</layers>
+                            <name>ROOT.war</name>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>package</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    ...
+                </plugins>
+            </build>
+        </profile>
+----
+endif::[]
+
+ifndef::ProductRelease,EAPXPRelease[]
+You may note that unlike the `provisioned-server` profile it uses the cloud feature pack which enables a configuration tuned for OpenShift environment.
+endif::[]
+ifdef::ProductRelease,EAPXPRelease[]
+You may note that it uses the cloud feature pack which enables a configuration tuned for OpenShift environment.
+endif::[]
+
+:leveloffset: 1
+// Getting Started with Helm
+:leveloffset: +1
+
+[[getting_started_with_helm]]
+= Getting Started with {xpaasproduct-shortname} and Helm Charts
+
+This section contains the basic instructions to build and deploy this quickstart to {xpaasproduct-shortname} or {xpaasproductOpenShiftOnline-shortname} using Helm Charts.
+
+[[prerequisites_helm_openshift]]
+== Prerequisites
+
+* You must be logged in OpenShift and have an `oc` client to connect to OpenShift
+* https://helm.sh[Helm] must be installed to deploy the backend on OpenShift.
+
+Once you have installed Helm, you need to add the repository that provides Helm Charts for {productName}.
+
+ifndef::ProductRelease,EAPXPRelease[]
+[source,options="nowrap"]
+----
+$ helm repo add wildfly https://docs.wildfly.org/wildfly-charts/
+"wildfly" has been added to your repositories
+$ helm search repo wildfly
+NAME                    CHART VERSION   APP VERSION     DESCRIPTION
+wildfly/wildfly         ...             ...            Build and Deploy WildFly applications on OpenShift
+wildfly/wildfly-common  ...             ...            A library chart for WildFly-based applications
+----
+endif::[]
+ifdef::ProductRelease[]
+[source,options="nowrap",subs="+attributes"]
+----
+$ helm repo add jboss-eap https://jbossas.github.io/eap-charts/
+"jboss-eap" has been added to your repositories
+$ helm search repo jboss-eap
+NAME                    CHART VERSION   APP VERSION     DESCRIPTION
+{helmChartName}         ...             ...             A Helm chart to build and deploy EAP {productVersion} applications
+----
+endif::[]
+ifdef::EAPXPRelease[]
+[source,options="nowrap",subs="+attributes"]
+----
+$ helm repo add jboss-eap https://jbossas.github.io/eap-charts/
+"jboss-eap" has been added to your repositories
+$ helm search repo jboss-eap
+NAME                    CHART VERSION   APP VERSION     DESCRIPTION
+{helmChartName}         ...             ...             A Helm chart to build and deploy EAP XP {productVersion} applications
+----
+endif::[]
+
+:leveloffset: 1
+
+ifdef::helm-install-prerequisites[]
+// Additional steps needed before deploying in Helm
+[[deploy_helm_prerequisites]]
+:leveloffset: +1
+
+=== Install AMQ Streams on OpenShift
+
+The functionality of this quickstart depends on a running instance of the
+https://access.redhat.com/products/red-hat-amq#streams[AMQ Streams] Operator. AMQ Streams is a Red Hat project based on Apache Kafka. To deploy AMQ Streams in the Openshift environment:
+
+. Log in into the Openshift console as `kubeadmin` user (or any cluster administrator).
+. Navigate to `Operators` -> `OperatorHub`.
+. Search for `AMQ Streams` - click on the 'AMQ Streams' operator.
++
+Install it with the default values and wait for the message telling you it has been installed and is ready for use.
+. In your terminal, run the following command to set up a Kafka cluster called `my-cluster` in your project:
++
+[options="nowrap",subs="+attributes"]
+----
+$ oc apply -f - <<EOF
+apiVersion: kafka.strimzi.io/{strimzi-version}
+kind: Kafka
+metadata:
+  name: my-cluster
+spec:
+  kafka:
+    replicas: 3
+    listeners:
+      - name: plain
+        port: 9092
+        type: internal
+        tls: false
+    storage:
+      type: ephemeral
+  zookeeper:
+    replicas: 3
+    storage:
+      type: ephemeral
+  entityOperator:
+    topicOperator: {}
+EOF
+----
+
+NOTE: If you see errors along the lines of _no matches for kind "Kafka" in version "kafka.strimzi.io/{strimzi-version}"_, execute the command `oc get crd kafkas.kafka.strimzi.io -o jsonpath="{.spec.versions[*].name}"` and update `apiVersion` to the returned version.
+
+
+. Next set up a topic called `testing` in the `my-cluster` cluster we created:
++
+[options="nowrap",subs="+attributes"]
+----
+oc apply -f - <<EOF
+apiVersion: kafka.strimzi.io/{strimzi-version}
+kind: KafkaTopic
+metadata:
+  name: testing
+labels:
+  strimzi.io/cluster: my-cluster
+spec:
+  partitions: 3
+  replicas: 3
+EOF
+----
+
+Although the above commands will return pretty immediately, your AMQ Streams instance will not be available until its entity operator is up and running. The name of the pod will be of the format `my-cluster-entity-operator-xxxxxxxxx-yyyyy`.
+
+To be on the safe side, wait until this pod is ready, as shown in this example:
+[options="nowrap",subs="+attributes"]
+----
+ oc get pods -w
+NAME                     READY   STATUS    RESTARTS   AGE
+my-cluster-zookeeper-0   0/1     Running   0          29s
+...
+my-cluster-entity-operator-cbdbffd4d-m7fzh   0/2     Pending             0          0s
+my-cluster-entity-operator-cbdbffd4d-m7fzh   0/2     ContainerCreating   0          0s
+my-cluster-entity-operator-cbdbffd4d-m7fzh   0/2     ContainerCreating   0          0s
+my-cluster-entity-operator-cbdbffd4d-m7fzh   0/2     Running             0          1s
+my-cluster-entity-operator-cbdbffd4d-m7fzh   1/2     Running             0          20s
+my-cluster-entity-operator-cbdbffd4d-m7fzh   2/2     Running             0          21s
+----
+
+:leveloffset: 1
+endif::helm-install-prerequisites[]
+
+//Prepare Helm for Quickstart Deployment
+:leveloffset: +1
+
+
+ifeval::[{useHelmChartDir} == true]
+:helm_chart_values: charts
+endif::[]
+ifndef::useHelmChartDir[]
+:helm_chart_values: -f charts/helm.yaml {helmChartName}
+endif::[]
+[[deploy_helm]]
+== Deploy the {ProductShortName} Source-to-Image (S2I) Quickstart to OpenShift with Helm Charts
+
+Log in to your OpenShift instance using the `oc login` command.
+The backend will be built and deployed on OpenShift with a Helm Chart for {productName}.
+
+Navigate to the root directory of this quickstart and run the following command:
+[source,options="nowrap",subs="+attributes"]
+----
+$ helm install {helm-app-name} {helm_chart_values} --wait --timeout=10m0s
+NAME: {helm-app-name}
+...
+STATUS: deployed
+REVISION: 1
+----
+
+This command will return once the application has successfully deployed. In case of a timeout, you can check the status of the application with the following command in another terminal:
+
+[source,options="nowrap",subs="+attributes"]
+----
+oc get deployment {helm-app-name}
+----
+
+The Helm Chart for this quickstart contains all the information to build an image from the source code using S2I on Java 17:
+
+
+ifndef::requires-http-route[]
+ifdef::useHelmChartDir[]
+[source,yaml]
+----
+include::{docdir}/charts/Chart.yaml[]
+----
+endif::useHelmChartDir[]
+ifndef::useHelmChartDir[]
+[source,yaml]
+----
+# TODO Update to point to the released quickstarts and image
+# Will need a diff commit in the upstream-to-product repository
+build:
+  uri: https://github.com/wildfly/quickstart.git
+  ref: main
+  contextDir: microprofile-reactive-messaging-kafka
+deploy:
+  replicas: 1
+  env:
+    - name: MP_MESSAGING_CONNECTOR_SMALLRYE_KAFKA_BOOTSTRAP_SERVERS
+      value: my-cluster-kafka-bootstrap:9092
+----
+endif::useHelmChartDir[]
+endif::requires-http-route[]
+
+ifdef::requires-http-route[]
+[source,options="nowrap",subs="+attributes"]
+----
+build:
+  uri: {githubRepoCodeUrl}
+  ref: {WildFlyQuickStartRepoTag}
+  contextDir: {artifactId}
+deploy:
+  replicas: 1
+  route:
+    tls:
+      enabled: false
+----
+endif::requires-http-route[]
+
+This will create a new deployment on OpenShift and deploy the application.
+
+If you want to see all the configuration elements to customize your deployment you can use the following command:
+[source,options="nowrap",subs="+attributes"]
+----
+$ helm show readme {helmChartName}
+----
+
+
+Get the URL of the route to the deployment.
+
+[source,options="nowrap",subs="+attributes"]
+----
+$ oc get route {helm-app-name} -o jsonpath="{.spec.host}"
+----
+Access the application in your web browser using the displayed URL.
+
+[NOTE]
+====
+The Maven profile named `openshift` is used by the Helm chart to provision the server with the quickstart deployed on the root web context, and thus the application should be accessed with the URL without the `/{artifactId}` path segment after `HOST:PORT`.
+====
+
+ifdef::post-helm-install-actions[]
+include::{post-helm-install-actions}[leveloffset=+1]
+endif::post-helm-install-actions[]
+
+
+[[undeploy_helm]]
+== Undeploy the {ProductShortName} Source-to-Image (S2I) Quickstart from OpenShift with Helm Charts
+
+
+[source,options="nowrap",subs="+attributes"]
+----
+$ helm uninstall {helm-app-name}
+----
+
+:leveloffset: 1
+
+// Testing on Openshift
+:leveloffset: +1
+
+[[run_the_integration_tests_with_openshift]]
+= Run the Integration Tests with OpenShift
+The integration tests included with this quickstart, which verify that the quickstart runs correctly, may also be run with the quickstart running on OpenShift.
+[NOTE]
+====
+The integration tests expect a deployed application, so make sure you have deployed the quickstart on OpenShift before you begin.
+====
+
+ifdef::extra-openshift-testing-actions[]
+include::{extra-openshift-testing-actions}[leveloffset=+1]
+endif::extra-openshift-testing-actions[]
+
+ifndef::extra-openshift-test-arguments[:extra-openshift-test-arguments:]
+
+Run the integration tests using the following command to run the `verify` goal with the `integration-testing` profile activated and the proper URL:
+ifndef::requires-http-route[]
+[source,options="nowrap",subs="+attributes"]
+----
+$ mvn verify -Pintegration-testing -Dserver.host=https://$(oc get route {helm-app-name} --template='{{ .spec.host }}') {extra-openshift-test-arguments}
+----
+endif::requires-http-route[]
+ifdef::requires-http-route[]
+[source,options="nowrap",subs="+attributes"]
+----
+$ mvn verify -Pintegration-testing -Dserver.host=http://$(oc get route {helm-app-name} --template='{{ .spec.host }}') {extra-openshift-test-arguments}
+----
+endif::requires-http-route[]
+
+[NOTE]
+====
+The tests are using SSL to connect to the quickstart running on OpenShift. So you need the certificates to be trusted by the machine the tests are run from.
+====
+
+:leveloffset: 1
+
+:leveloffset!:
+
+== Conclusion
+
+MicroProfile Reactive Messaging and Reactive Streams Operators allow you to publish to, process and consume streams, optionally backed by Kafka, by adding `@Incoming` and `@Outgoing` annotations to your methods. 'Paired' streams work in memory. To map 'un-paired' streams to be backed by Kafka you need to provide configuration via MicroProfile Config.

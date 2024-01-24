@@ -1,0 +1,1002 @@
+ifdef::env-github[]
+:artifactId: messaging-clustering-singleton
+endif::[]
+
+//***********************************************************************************
+// Enable the following flag to build README.html files for JBoss EAP product builds.
+// Comment it out for WildFly builds.
+//***********************************************************************************
+//:ProductRelease:
+
+//***********************************************************************************
+// Enable the following flag to build README.html files for EAP XP product builds.
+// Comment it out for WildFly or JBoss EAP product builds.
+//***********************************************************************************
+//:EAPXPRelease:
+
+// This is a universal name for all releases
+:ProductShortName: JBoss EAP
+// Product names and links are dependent on whether it is a product release (CD or JBoss)
+// or the WildFly project.
+// The "DocInfo*" attributes are used to build the book links to the product documentation
+
+ifdef::ProductRelease[]
+// JBoss EAP release
+:productName: JBoss EAP
+:productNameFull: Red Hat JBoss Enterprise Application Platform
+:productVersion: 8.0
+:DocInfoProductNumber: {productVersion}
+:WildFlyQuickStartRepoTag: 8.0.x
+:productImageVersion: 8.0.0
+:helmChartName: jboss-eap/eap8
+endif::[]
+
+ifdef::EAPXPRelease[]
+// JBoss EAP XP release
+:productName: JBoss EAP XP
+:productNameFull: Red Hat JBoss Enterprise Application Platform expansion pack
+:productVersion: 3.0
+:DocInfoProductNumber: 7.4
+:WildFlyQuickStartRepoTag: XP_3.0.0.GA
+:productImageVersion: 3.0
+:helmChartName: jboss-eap/eap-xp3
+endif::[]
+
+ifdef::ProductRelease,EAPXPRelease[]
+:githubRepoUrl: https://github.com/jboss-developer/jboss-eap-quickstarts/
+:githubRepoCodeUrl: https://github.com/jboss-developer/jboss-eap-quickstarts.git
+:jbossHomeName: EAP_HOME
+:DocInfoProductName: Red Hat JBoss Enterprise Application Platform
+:DocInfoProductNameURL: red_hat_jboss_enterprise_application_platform
+:DocInfoPreviousProductName: jboss-enterprise-application-platform
+:quickstartDownloadName: {productNameFull} {productVersion} Quickstarts
+:quickstartDownloadUrl: https://access.redhat.com/jbossnetwork/restricted/listSoftware.html?product=appplatform&downloadType=distributions
+:helmRepoName: jboss-eap
+:helmRepoUrl: https://jbossas.github.io/eap-charts/
+// END ifdef::ProductRelease,EAPXPRelease[]
+endif::[]
+
+ifndef::ProductRelease,EAPXPRelease[]
+// WildFly project
+:productName: WildFly
+:productNameFull: WildFly Application Server
+:ProductShortName: {productName}
+:jbossHomeName: WILDFLY_HOME
+:productVersion: 31
+:productImageVersion: 31.0
+:githubRepoUrl: https://github.com/wildfly/quickstart/
+:githubRepoCodeUrl: https://github.com/wildfly/quickstart.git
+:WildFlyQuickStartRepoTag: 31.0.0.Beta1
+:DocInfoProductName: Red Hat JBoss Enterprise Application Platform
+:DocInfoProductNameURL: red_hat_jboss_enterprise_application_platform
+// Do not update the following until after the 7.4 docs are published!
+:DocInfoProductNumber: 7.4
+:DocInfoPreviousProductName: jboss-enterprise-application-platform
+:helmRepoName: wildfly
+:helmRepoUrl: http://docs.wildfly.org/wildfly-charts/
+:helmChartName: wildfly/wildfly
+// END ifndef::ProductRelease,EAPCDRelease,EAPXPRelease[]
+endif::[]
+
+:source: {githubRepoUrl}
+
+// Values for Openshift S2i sections attributes
+:CDProductName:  {productNameFull} for OpenShift
+:CDProductShortName: {ProductShortName} for OpenShift
+:CDProductTitle: {CDProductName}
+:CDProductNameSentence: Openshift release for {ProductShortName}
+:CDProductAcronym: {CDProductShortName}
+:CDProductVersion: {productVersion}
+:EapForOpenshiftBookName: {productNameFull} for OpenShift
+:EapForOpenshiftOnlineBookName: {EapForOpenshiftBookName} Online
+:xpaasproduct: {productNameFull} for OpenShift
+:xpaasproductOpenShiftOnline: {xpaasproduct} Online
+:xpaasproduct-shortname: {CDProductShortName}
+:xpaasproductOpenShiftOnline-shortname: {xpaasproduct-shortname} Online
+:ContainerRegistryName: Red Hat Container Registry
+:EapForOpenshiftBookName: Getting Started with {ProductShortName} for OpenShift Container Platform
+:EapForOpenshiftOnlineBookName: Getting Started with {ProductShortName} for OpenShift Online
+:OpenShiftOnlinePlatformName: Red Hat OpenShift Container Platform
+:OpenShiftOnlineName: Red Hat OpenShift Online
+:ImagePrefixVersion: eap80
+:ImageandTemplateImportBaseURL: https://raw.githubusercontent.com/jboss-container-images/jboss-eap-openshift-templates
+:ImageandTemplateImportURL: {ImageandTemplateImportBaseURL}/{ImagePrefixVersion}/
+:BuildImageStream: jboss-{ImagePrefixVersion}-openjdk11-openshift
+:RuntimeImageStream: jboss-{ImagePrefixVersion}-openjdk11-runtime-openshift
+
+// OpenShift repository and reference for quickstarts
+:EAPQuickStartRepo: https://github.com/jboss-developer/jboss-eap-quickstarts
+:EAPQuickStartRepoRef: 8.0.x
+:EAPQuickStartRepoTag: EAP_8.0.0.Beta
+// Links to the OpenShift documentation
+:LinkOpenShiftGuide: https://access.redhat.com/documentation/en-us/{DocInfoProductNameURL}/{DocInfoProductNumber}/html-single/getting_started_with_jboss_eap_for_openshift_container_platform/
+:LinkOpenShiftOnlineGuide: https://access.redhat.com/documentation/en-us/{DocInfoProductNameURL}/{DocInfoProductNumber}/html-single/getting_started_with_jboss_eap_for_openshift_online/
+
+ifdef::EAPXPRelease[]
+// Attributes for XP releases
+:EapForOpenshiftBookName: {productNameFull} for OpenShift
+:EapForOpenshiftOnlineBookName: {productNameFull} for OpenShift Online
+:xpaasproduct: {productNameFull} for OpenShift
+:xpaasproductOpenShiftOnline: {productNameFull} for OpenShift Online
+:xpaasproduct-shortname: {ProductShortName} for OpenShift
+:xpaasproductOpenShiftOnline-shortname: {ProductShortName} for OpenShift Online
+:ContainerRegistryName: Red Hat Container Registry
+:EapForOpenshiftBookName: {productNameFull} for OpenShift
+:EapForOpenshiftOnlineBookName: {productNameFull} for OpenShift Online
+:ImagePrefixVersion: eap-xp3
+:ImageandTemplateImportURL: {ImageandTemplateImportBaseURL}/{ImagePrefixVersion}/
+:BuildImageStream: jboss-{ImagePrefixVersion}-openjdk11-openshift
+:RuntimeImageStream: jboss-{ImagePrefixVersion}-openjdk11-runtime-openshift
+// OpenShift repository and reference for quickstarts
+:EAPQuickStartRepoRef: xp-3.0.x
+// Links to the OpenShift documentation
+:LinkOpenShiftGuide: https://access.redhat.com/documentation/en-us/red_hat_jboss_enterprise_application_platform/{DocInfoProductNumber}/html/using_eclipse_microprofile_in_jboss_eap/using-the-openshift-image-for-jboss-eap-xp_default
+:LinkOpenShiftOnlineGuide: https://access.redhat.com/documentation/en-us/red_hat_jboss_enterprise_application_platform/{DocInfoProductNumber}/html/using_eclipse_microprofile_in_jboss_eap/using-the-openshift-image-for-jboss-eap-xp_default
+endif::[]
+
+ifndef::ProductRelease,EAPCDRelease,EAPXPRelease[]
+:ImageandTemplateImportURL: https://raw.githubusercontent.com/wildfly/wildfly-s2i/v{productVersion}.0/
+endif::[]
+
+//*************************
+// Other values
+//*************************
+:buildRequirements: Java 11.0 (Java SDK 11) or later and Maven 3.6.0 or later
+:jbdsEapServerName: Red Hat JBoss Enterprise Application Platform 7.3
+:javaVersion: Jakarta EE 10
+ifdef::EAPXPRelease[]
+:javaVersion: Eclipse MicroProfile
+endif::[]
+:githubRepoBranch: master
+:guidesBaseUrl: https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/
+:useEclipseUrl: {guidesBaseUrl}USE_JBDS.adoc#use_red_hat_jboss_developer_studio_or_eclipse_to_run_the_quickstarts
+:useEclipseDeployJavaClientDocUrl: {guidesBaseUrl}USE_JBDS.adoc#deploy_and_undeploy_a_quickstart_containing_server_and_java_client_projects
+:useEclipseDeployEARDocUrl: {guidesBaseUrl}USE_JBDS.adoc#deploy_and_undeploy_a_quickstart_ear_project
+:useProductHomeDocUrl: {guidesBaseUrl}USE_OF_{jbossHomeName}.adoc#use_of_product_home_and_jboss_home_variables
+:configureMavenDocUrl: {guidesBaseUrl}CONFIGURE_MAVEN_JBOSS_EAP.adoc#configure_maven_to_build_and_deploy_the_quickstarts
+:arquillianTestsDocUrl: {guidesBaseUrl}RUN_ARQUILLIAN_TESTS.adoc#run_the_arquillian_tests
+:addUserDocUrl: {guidesBaseUrl}CREATE_USERS.adoc#create_users_required_by_the_quickstarts
+:addApplicationUserDocUrl: {guidesBaseUrl}CREATE_USERS.adoc#add_an_application_user
+:addManagementUserDocUrl: {guidesBaseUrl}CREATE_USERS.adoc#add_an_management_user
+:startServerDocUrl: {guidesBaseUrl}START_JBOSS_EAP.adoc#start_the_jboss_eap_server
+:configurePostgresDocUrl: {guidesBaseUrl}CONFIGURE_POSTGRESQL_JBOSS_EAP.adoc#configure_the_postgresql_database_for_use_with_the_quickstarts
+:configurePostgresDownloadDocUrl: {guidesBaseUrl}CONFIGURE_POSTGRESQL_JBOSS_EAP.adoc#download_and_install_postgresql
+:configurePostgresCreateUserDocUrl: {guidesBaseUrl}CONFIGURE_POSTGRESQL_JBOSS_EAP.adoc#create_a_database_user
+:configurePostgresAddModuleDocUrl: {guidesBaseUrl}CONFIGURE_POSTGRESQL_JBOSS_EAP.adoc#add_the_postgres_module_to_the_jboss_eap_server
+:configurePostgresDriverDocUrl: {guidesBaseUrl}CONFIGURE_POSTGRESQL_JBOSS_EAP.adoc#configure_the_postgresql_driver_in_the_jboss_eap_server
+:configureBytemanDownloadDocUrl: {guidesBaseUrl}CONFIGURE_BYTEMAN.adoc#download_and_configure_byteman
+:configureBytemanDisableDocUrl: {guidesBaseUrl}CONFIGURE_BYTEMAN.adoc#disable_the_byteman_script
+:configureBytemanClearDocUrl: {guidesBaseUrl}CONFIGURE_BYTEMAN.adoc#clear_the_transaction_object_store
+:configureBytemanQuickstartDocUrl: {guidesBaseUrl}CONFIGURE_BYTEMAN.adoc#configure_byteman_for_use_with_the_quickstarts
+:configureBytemanHaltDocUrl: {guidesBaseUrl}CONFIGURE_BYTEMAN.adoc#use_byteman_to_halt_the_application[
+:configureBytemanQuickstartsDocUrl: {guidesBaseUrl}CONFIGURE_BYTEMAN.adoc#configure_byteman_for_use_with_the_quickstarts
+
+:EESubsystemNamespace: urn:jboss:domain:ee:4.0
+:IiopOpenJdkSubsystemNamespace: urn:jboss:domain:iiop-openjdk:2.0
+:MailSubsystemNamespace: urn:jboss:domain:mail:3.0
+:SingletonSubsystemNamespace: urn:jboss:domain:singleton:1.0
+:TransactionsSubsystemNamespace: urn:jboss:domain:transactions:4.0
+
+// LinkProductDocHome: https://access.redhat.com/documentation/en/red-hat-jboss-enterprise-application-platform/
+:LinkProductDocHome: https://access.redhat.com/documentation/en/jboss-enterprise-application-platform-continuous-delivery
+:LinkConfigGuide: https://access.redhat.com/documentation/en-us/{DocInfoProductNameURL}/{DocInfoProductNumber}/html-single/configuration_guide/
+:LinkDevelopmentGuide: https://access.redhat.com/documentation/en-us/{DocInfoProductNameURL}/{DocInfoProductNumber}/html-single/development_guide/
+:LinkGettingStartedGuide: https://access.redhat.com/documentation/en-us/{DocInfoProductNameURL}/{DocInfoProductNumber}/html-single/getting_started_guide/
+:LinkOpenShiftWelcome: https://docs.openshift.com/online/welcome/index.html
+:LinkOpenShiftSignup: https://docs.openshift.com/online/getting_started/choose_a_plan.html
+:OpenShiftTemplateName: JBoss EAP CD (no https)
+
+:ConfigBookName: Configuration Guide
+:DevelopmentBookName: Development Guide
+:GettingStartedBookName: Getting Started Guide
+
+:JBDSProductName: Red Hat CodeReady Studio
+:JBDSVersion: 12.15
+:LinkJBDSInstall:  https://access.redhat.com/documentation/en-us/red_hat_codeready_studio/{JBDSVersion}/html-single/installation_guide/
+:JBDSInstallBookName: Installation Guide
+:LinkJBDSGettingStarted: https://access.redhat.com/documentation/en-us/red_hat_codeready_studio/{JBDSVersion}/html-single/getting_started_with_codeready_studio_tools/
+:JBDSGettingStartedBookName: Getting Started with CodeReady Studio Tools
+
+= messaging-clustering-singleton: Messaging Example that Demonstrates Clustering
+:author: Flavia Rainone, Jess Sightler
+:level: Advanced
+:technologies: JMS, MDB, Clustering
+
+[abstract]
+The `messaging-clustering-singleton` quickstart uses a JMS topic and a queue to demonstrate clustering using {productName} messaging with MDB singleton configuration where only one node in the cluster will be active.
+
+:standalone-server-type: full-ha
+:archiveType: war
+:optional-domain-or-multiple-servers:
+:jbds-not-supported:
+
+== What is it?
+
+The `messaging-clustering-singleton` quickstart demonstrates the use of clustering with integrated Apache ActiveMQ Artemis. It uses the same code as in link:../helloworld-mdb/README.adoc[helloworld-mdb] quickstart, with only a difference in the configuration to run it as a clustered singleton. Instructions are provided to run the quickstart on either a standalone server or in a managed domain.
+
+These are the two JMS resources contained in this quickstart:
+
+* A queue named `HELLOWORLDMDBQueue` bound in JNDI as `java:/queue/HELLOWORLDMDBQueue`
+* A topic named `HELLOWORLDMDBTopic` bound in JNDI as `java:/topic/HELLOWORLDMDBTopic`
+
+Both contain a singleton configuration as specified in the file link:src/main/webapp/WEB-INF/jboss-ejb3.xml[WEB-INF/jboss-ejb3.xml]:
+
+[source,xml,options="nowrap"]
+----
+<c:clustering>
+    <ejb-name>*</ejb-name>
+    <c:clustered-singleton>true</c:clustered-singleton>
+</c:clustering>
+----
+
+The wildcard (*) in the `ejb-name` element indicates that all MDBs contained in the application will be clustered singleton. As a result, only one node in the cluster will have those MDBs active at a specific time. If that node shuts down, another node in the cluster will become the active node with MDBs, called the singleton provider.
+
+Also, we can find a configuration for delivery group in the same file:
+
+[source,xml,options="nowrap"]
+----
+<d:delivery>
+    <ejb-name>HelloWorldTopicMDB</ejb-name>
+    <d:group>my-mdb-delivery-group</d:group>
+</d:delivery>
+----
+
+Here, you can see that only one of the MDBs, `HelloWorldTopicMDB`, is associated with a delivery group. All delivery groups used by an MDB must be declared in the `ejb` subsystem configuration, and they can be enabled or disabled. If the delivery group is disabled in a cluster node, all MDBs belonging to that group will be inactive in that node. Notice that delivery groups can be used in non-clustered environments as well. In that case, the MDB will be active in the server whenever the delivery group is enabled in the server. A delivery group can be enabled using the management CLI as you will see in this quickstart.
+
+If a delivery group is used in conjunction with singleton, as is the case of this quickstart, the MDB will be active in the singleton provider node only if that node has `delivery-group` enabled. If not, the MDB will be inactive in that node and all remainder nodes of the cluster.
+
+// Link to the quickstart source
+:leveloffset: +1
+
+ifndef::ProductRelease,EAPXPRelease[]
+link:https://github.com/wildfly/quickstart/tree/{WildFlyQuickStartRepoTag}/{artifactId}[Browse the source]
+endif::[]
+
+:leveloffset!:
+// System Requirements
+:leveloffset: +1
+
+[[system_requirements]]
+= System Requirements
+//******************************************************************************
+// Include this template to describe the standard system requirements for
+// running the quickstarts.
+//
+// The Forge quickstarts define a `forge-from-scratch` attribute because they
+// run entirely in CodeReady Studio and have different requirements .
+//******************************************************************************
+
+The application this project produces is designed to be run on {productNameFull} {productVersion} or later.
+
+All you need to build this project is {buildRequirements}. See link:{configureMavenDocUrl}[Configure Maven to Build and Deploy the Quickstarts] to make sure you are configured correctly for testing the quickstarts.
+
+:leveloffset!:
+// Use of {jbossHomeName}
+:leveloffset: +1
+
+ifdef::requires-multiple-servers[]
+[[use_of_jboss_home_name]]
+= Use of the {jbossHomeName}_1, {jbossHomeName}_2, and QUICKSTART_HOME Variables
+
+This quickstart requires that you clone your `__{jbossHomeName}__` installation directory and run two servers. The installation path is described in detail here: link:{useProductHomeDocUrl}[Use of __{jbossHomeName}__ and __JBOSS_HOME__ Variables].
+
+In the following instructions, replace `__{jbossHomeName}_1__` with the path to your first {productName} server and replace `__{jbossHomeName}_2__` with the path to your second cloned {productName} server.
+
+When you see the replaceable variable __QUICKSTART_HOME__, replace it with the path to the root directory of all of the quickstarts.
+endif::[]
+
+ifdef::optional-domain-or-multiple-servers[]
+[[use_of_jboss_home_name]]
+= Use of the {jbossHomeName}_1, {jbossHomeName}_2, and QUICKSTART_HOME Variables
+
+When deploying this quickstart to a managed domain, replace `__{jbossHomeName}__` with the actual path to your {productName} installation. The installation path is described in detail here: link:{useProductHomeDocUrl}[Use of __{jbossHomeName}__ and __JBOSS_HOME__ Variables].
+
+When deploying this quickstart to multiple standalone servers, this quickstart requires that you clone your `__{jbossHomeName}__` installation directory and run two servers. In the following instructions, replace `__{jbossHomeName}_1__` with the path to your first {productName} server and replace `__{jbossHomeName}_2__` with the path to your second cloned {productName} server.
+
+When you see the replaceable variable __QUICKSTART_HOME__, replace it with the path to the root directory of all of the quickstarts.
+endif::[]
+
+ifndef::requires-multiple-servers,optional-domain-or-multiple-servers[]
+[[use_of_jboss_home_name]]
+= Use of the {jbossHomeName} and QUICKSTART_HOME Variables
+
+In the following instructions, replace `__{jbossHomeName}__` with the actual path to your {productName} installation. The installation path is described in detail here: link:{useProductHomeDocUrl}[Use of __{jbossHomeName}__ and __JBOSS_HOME__ Variables].
+
+When you see the replaceable variable __QUICKSTART_HOME__, replace it with the path to the root directory of all of the quickstarts.
+endif::[]
+
+:leveloffset!:
+
+== Build the Project
+
+Follow these steps to build the project without deploying it.
+
+. Open a terminal and navigate to the root directory of this quickstart.
+. Type this command to build the archive:
++
+[source,options="nowrap"]
+----
+$ mvn clean install
+----
+
+== Configure the Server and Deploy the Quickstart
+
+You can choose to configure and deploy this quickstart to a xref:configure_the_server_and_deploy_the_quickstart_to_a_managed_domain[managed domain] or to a xref:configure_the_server_and_deploy_the_quickstart_to_a_standalone_server[standalone server]. The sections below describe how to configure and start the server for each configuration.
+
+[[configure_the_server_and_deploy_the_quickstart_to_a_managed_domain]]
+=== Configure the Server and Deploy the Quickstart to a Managed Domain
+
+You configure the server by running the `install-domain.cli` script provided in the root directory of this quickstart.
+
+// Back Up the {productName} Managed Domain Configuration
+:leveloffset: +3
+
+[[back_up_managed_domain_configuration]]
+= Back Up the {productName} Managed Domain Configuration
+//******************************************************************************
+// Include this template if your quickstart runs in a managed domain and
+// needs to back up the server configuration files before running
+// a CLI script to modify the server.
+//******************************************************************************
+
+Before you begin, back up your server configuration files.
+
+. If it is running, stop the {productName} server.
+. Back up the following files:
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+__{jbossHomeName}__/domain/configuration/domain.xml
+__{jbossHomeName}__/domain/configuration/host.xml
+----
+
+After you have completed testing this quickstart, you can replace these file to restore the server to its original configuration.
+
+:leveloffset!:
+// Start the {productName} Managed Domain
+:leveloffset: +3
+
+[[start_the_eap_managed_domain]]
+= Start the {productName} Managed Domain
+//******************************************************************************
+// Include this template if your quickstart requires a normal start of a
+// managed domain.
+//
+// This template does not currently support passing arguments for starting
+// the domain, but it could be added.
+//
+// * Define the managed domain profile type. Supported values are:
+//    :managed-domain-type: default
+//
+//******************************************************************************
+
+. Open a terminal and navigate to the root of the {productName} directory.
+. Start the {productName} managed domain by typing the following command.
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}__/bin/domain.sh
+----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\domain.bat` script.
+
+:leveloffset!:
+
+==== Configure the Domain Server and Deploy the Quickstart Using the JBoss CLI
+
+. Review the `install-domain.cli` file located in the root of this quickstart directory. This script creates the server group and servers and configures messaging clustering for testing this quickstart. You will note it does the following:
+
+** Stops the servers.
+** Creates the `quickstart-messaging-clustering-singleton-group` server group to test ActiveMQ clustering.
+** Enables console logging to allow you to view the quickstart output.
+** Adds two servers to the `server-group`.
+** Configures ActiveMQ clustering in the `full-ha` profile.
+** Creates a delivery group named `my-mdb-delivery-group`, with initial active value set to `true`.
+** Deploys the `{artifactId}.war` archive.
+** Starts the servers that were added to the managed domain.
+. Open a new terminal, navigate to the root directory of this quickstart, and run the following command, replacing `__{jbossHomeName}__` with the path to your server:
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=install-domain.cli
+----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
+
++
+You should see the following output:
++
+[source,options="nowrap"]
+----
+{
+    "outcome" => "success",
+    "result" => undefined,
+    "server-groups" => undefined
+}
+The batch executed successfully
+{
+    "outcome" => "success",
+    "result" => "STARTED"
+}
+{
+    "outcome" => "success",
+    "result" => "STARTED"
+}
+----
+
+[[configure_the_server_and_deploy_the_quickstart_to_a_standalone_server]]
+=== Configure the Server and Deploy the Quickstart to a Standalone Server
+
+If you choose to use standalone servers rather than a managed domain, you need two instances of the application server. The second server must be started with a port offset parameter provided to the startup script as `-Djboss.socket.binding.port-offset=100`.
+
+Since both application servers must be configured in the same way, you must configure the first server and then clone it.
+
+// Back Up the {productName} Standalone Server Configuration
+:leveloffset: +3
+
+[[back_up_standalone_server_configuration]]
+= Back Up the {productName} Standalone Server Configuration
+//******************************************************************************
+// Include this template if your quickstart runs in a standalone server and
+// needs to back up the server configuration file before running
+// a CLI script to modify the server.
+//******************************************************************************
+// Define the attributes needed for this topic.
+//******************************************************************************
+// This template sets attributes for the different standalone server profiles.
+//
+// You must define the `standalone-server-type`. Supported values are:
+//    default
+//    full
+//    full-ha
+//    ha
+//    microprofile
+//    custom
+//******************************************************************************
+
+// Standalone server with the default profile.
+ifeval::["{standalone-server-type}"=="default"]
+:serverProfile: default profile
+:configFileName: standalone/configuration/standalone.xml
+:serverArguments:
+endif::[]
+
+// Standalone server with the full profile.
+ifeval::["{standalone-server-type}"=="full"]
+:serverProfile: full profile
+:configFileName: standalone/configuration/standalone-full.xml
+:serverArguments:  -c standalone-full.xml
+endif::[]
+
+// Standalone server with the full HA profile.
+ifeval::["{standalone-server-type}"=="full-ha"]
+:serverProfile: full HA profile
+:configFileName: standalone/configuration/standalone-full-ha.xml
+:serverArguments:  -c standalone-full-ha.xml
+endif::[]
+
+// Start the standalone server with the HA profile.
+ifeval::["{standalone-server-type}"=="ha"]
+:serverProfile: HA profile
+:configFileName: standalone/configuration/standalone-ha.xml
+:serverArguments:  -c standalone-ha.xml
+endif::[]
+
+// Start the standalone server with the Eclipse MicroProfile profile.
+ifeval::["{standalone-server-type}"=="microprofile"]
+:serverProfile: MicroProfile profile
+:configFileName: standalone/configuration/standalone-microprofile.xml
+:serverArguments:  -c standalone-microprofile.xml
+endif::[]
+
+// Standalone server with the custom profile.
+// NOTE: This profile requires that you define the `serverArguments` variable
+// within the quickstart README.adoc file. For example:
+//  :serverArguments: --server-config=../../docs/examples/configs/standalone-xts.xml
+ifeval::["{standalone-server-type}"=="custom"]
+:serverProfile: custom profile
+endif::[]
+
+// If there is no match, use the default profile.
+ifndef::serverProfile[]
+:standalone-server-type:  default
+:serverProfile: default profile
+:configFileName: standalone/configuration/standalone.xml
+:serverArguments:
+endif::serverProfile[]
+
+Before you begin, back up your server configuration file.
+
+. If it is running, stop the {productName} server.
+. Back up the `__{jbossHomeName}__/{configFileName}` file.
+
+After you have completed testing this quickstart, you can replace this file to restore the server to its original configuration.
+
+:leveloffset!:
+// Start the {productName} Standalone Server
+:leveloffset: +3
+
+[[start_the_eap_standalone_server]]
+= Start the {productName} Standalone Server
+//******************************************************************************
+// Include this template if your quickstart requires a normal start of a single
+// standalone server.
+//
+// You must define the `standalone-server-type`. Supported values are:
+//    default
+//    full
+//    full-ha
+//    ha
+//    custom
+//
+// * For mobile applications, you can define the `mobileApp` variable in the
+//   `README.adoc` file to add `-b 0.0.0.0` to the command line. This allows
+//    external clients, such as phones, tablets, and desktops, to connect
+//    to the application through through your local network
+//    ::mobileApp: {artifactId}-service
+//
+//******************************************************************************
+
+//******************************************************************************
+// This template sets attributes for the different standalone server profiles.
+//
+// You must define the `standalone-server-type`. Supported values are:
+//    default
+//    full
+//    full-ha
+//    ha
+//    microprofile
+//    custom
+//******************************************************************************
+
+// Standalone server with the default profile.
+ifeval::["{standalone-server-type}"=="default"]
+:serverProfile: default profile
+:configFileName: standalone/configuration/standalone.xml
+:serverArguments:
+endif::[]
+
+// Standalone server with the full profile.
+ifeval::["{standalone-server-type}"=="full"]
+:serverProfile: full profile
+:configFileName: standalone/configuration/standalone-full.xml
+:serverArguments:  -c standalone-full.xml
+endif::[]
+
+// Standalone server with the full HA profile.
+ifeval::["{standalone-server-type}"=="full-ha"]
+:serverProfile: full HA profile
+:configFileName: standalone/configuration/standalone-full-ha.xml
+:serverArguments:  -c standalone-full-ha.xml
+endif::[]
+
+// Start the standalone server with the HA profile.
+ifeval::["{standalone-server-type}"=="ha"]
+:serverProfile: HA profile
+:configFileName: standalone/configuration/standalone-ha.xml
+:serverArguments:  -c standalone-ha.xml
+endif::[]
+
+// Start the standalone server with the Eclipse MicroProfile profile.
+ifeval::["{standalone-server-type}"=="microprofile"]
+:serverProfile: MicroProfile profile
+:configFileName: standalone/configuration/standalone-microprofile.xml
+:serverArguments:  -c standalone-microprofile.xml
+endif::[]
+
+// Standalone server with the custom profile.
+// NOTE: This profile requires that you define the `serverArguments` variable
+// within the quickstart README.adoc file. For example:
+//  :serverArguments: --server-config=../../docs/examples/configs/standalone-xts.xml
+ifeval::["{standalone-server-type}"=="custom"]
+:serverProfile: custom profile
+endif::[]
+
+// If there is no match, use the default profile.
+ifndef::serverProfile[]
+:standalone-server-type:  default
+:serverProfile: default profile
+:configFileName: standalone/configuration/standalone.xml
+:serverArguments:
+endif::serverProfile[]
+
+. Open a terminal and navigate to the root of the {productName} directory.
+. Start the {productName} server with the {serverProfile} by typing the following command.
++
+ifdef::uses-jaeger[]
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __JAEGER_REPORTER_LOG_SPANS=true JAEGER_SAMPLER_TYPE=const JAEGER_SAMPLER_PARAM=1__ __{jbossHomeName}__/bin/standalone.sh {serverArguments}
+----
+endif::[]
+ifndef::uses-jaeger[]
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}__/bin/standalone.sh {serverArguments}
+----
+endif::[]
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\standalone.bat` script.
+
+ifdef::mobileApp[]
++
+Adding `-b 0.0.0.0` to the above command allows external clients, such as phones, tablets, and desktops, to connect through your local network. For example:
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}__/bin/standalone.sh {serverArguments} -b 0.0.0.0
+----
+endif::[]
+
+:leveloffset!:
+
+==== Configure the Standalone Server and Deploy the Quickstart Using the JBoss CLI
+
+. Review the `install-standalone.cli` file located in the root of this quickstart directory. This script configures clustering for a standalone server. You will note it does the following:
+
+** Because the console is disabled by default in the Full HA profile, it enables console logging to allow you to view the quickstart output.
+** Enables clustering and sets a cluster password.
+** Creates a delivery group named `my-mdb-delivery-group`, with initial active value set to `true`.
+** Deploys the `{artifactId}.war` archive.
+** Reloads the server configuration.
+. Open a new terminal, navigate to the root directory of this quickstart, and run the following command, replacing `__{jbossHomeName}__` with the path to your server:
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}_1__/bin/jboss-cli.sh --connect --file=install-standalone.cli
+----
++
+NOTE: For Windows, use the `__{jbossHomeName}_1__\bin\jboss-cli.bat` script.
+
++
+You should see the following output:
++
+[source,options="nowrap"]
+----
+The batch executed successfully
+process-state: reload-required
+----
+
+==== Clone the {productName} Directory
+
+After you have successfully configured the server, you must make a copy of this {productName} directory structure to use for the second server.
+
+. Stop the server.
+. Make a copy of this {productName} directory structure to use for the second server.
+. Remove the following directories from the cloned instance:
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+__{jbossHomeName}_2__/standalone/data/activemq/bindings
+__{jbossHomeName}_2__/standalone/data/activemq/journal
+__{jbossHomeName}_2__/standalone/data/activemq/largemessages
+----
+
+==== Start the {productName} Standalone Servers with the Full HA Profile
+
+Use the following commands to start the standalone servers with the full HA profile.
+
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}_1__/bin/standalone.sh -c standalone-full-ha.xml
+$ __{jbossHomeName}_2__/bin/standalone.sh -c standalone-full-ha.xml -Djboss.socket.binding.port-offset=100
+----
+
+NOTE: For Windows, use the `__{jbossHomeName}_1__\bin\standalone.bat` and `__{jbossHomeName}_2__\bin\standalone.bat` scripts.
+
+== Access the Application
+
+=== Access the Application Running in a Managed Domain
+
+The application will be running at the following URL: http://localhost:9080/{artifactId}/HelloWorldMDBServletClient.
+
+It will send some messages to the queue.
+
+To send messages to the topic, use the following URL: http://localhost:9080/{artifactId}/HelloWorldMDBServletClient?topic
+
+=== Access the Application Running in a Standalone Server
+
+The application will be running at the following URL: http://localhost:8080/{artifactId}/HelloWorldMDBServletClient.
+
+It will send some messages to the queue.
+
+To send messages to the topic, use the following URL: http://localhost:8080/{artifactId}/HelloWorldMDBServletClient?topic
+
+== Investigate the Server Console Output
+
+Review the messages in both {productName} server consoles or logs.
+
+The following messages are sent to the queue:
+
+[source,options="nowrap"]
+----
+INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldQueueMDB] (Thread-0 (ActiveMQ-client-global-threads)) Received Message from queue: This is message 1
+INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldQueueMDB] (Thread-2 (ActiveMQ-client-global-threads)) Received Message from queue: This is message 3
+INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldQueueMDB] (Thread-4 (ActiveMQ-client-global-threads)) Received Message from queue: This is message 5
+INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldQueueMDB] (Thread-3 (ActiveMQ-client-global-threads)) Received Message from queue: This is message 4
+INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldQueueMDB] (Thread-1 (ActiveMQ-client-global-threads)) Received Message from queue: This is message 2
+----
+
+The following messages are sent to the topic:
+
+[source,options="nowrap"]
+----
+INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldTopicMDB] (Thread-5 (ActiveMQ-client-global-threads)) Received Message from topic: This is message 1
+INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldTopicMDB] (Thread-6 (ActiveMQ-client-global-threads)) Received Message from topic: This is message 2
+INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldTopicMDB] (Thread-8 (ActiveMQ-client-global-threads)) Received Message from topic: This is message 4
+INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldTopicMDB] (Thread-7 (ActiveMQ-client-global-threads)) Received Message from topic: This is message 3
+INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldTopicMDB] (Thread-9 (ActiveMQ-client-global-threads)) Received Message from topic: This is message 5
+----
+
+You will notice that only one of the nodes, elected as the singleton provider node, will be receiving the messages. For that, check both servers, only one will contain the received message log entries.
+
+== Server Log: Expected Warnings and Errors
+
+You will see the following warnings in the server logs. You can ignore these warnings as they are intended for production servers.
+
+[source,options="nowrap"]
+----
+WARNING [org.jgroups.protocols.UDP] (Thread-0 (ActiveMQ-server-ActiveMQServerImpl::serverUUID=c79278db-56e6-11e5-af50-69dd76236ee8-1573164340)) JGRP000015: the send buffer of socket DatagramSocket was set to 1MB, but the OS only allocated 212.99KB. This might lead to performance problems. Please set your max send buffer in the OS correctly (e.g. net.core.wmem_max on Linux)
+WARNING [org.jgroups.protocols.UDP] (Thread-0 (ActiveMQ-server-ActiveMQServerImpl::serverUUID=c79278db-56e6-11e5-af50-69dd76236ee8-1573164340)) JGRP000015: the receive buffer of socket DatagramSocket was set to 20MB, but the OS only allocated 212.99KB. This might lead to performance problems. Please set your max receive buffer in the OS correctly (e.g. net.core.rmem_max on Linux)
+WARNING [org.jgroups.protocols.UDP] (Thread-0 (ActiveMQ-server-ActiveMQServerImpl::serverUUID=c79278db-56e6-11e5-af50-69dd76236ee8-1573164340)) JGRP000015: the send buffer of socket MulticastSocket was set to 1MB, but the OS only allocated 212.99KB. This might lead to performance problems. Please set your max send buffer in the OS correctly (e.g. net.core.wmem_max on Linux)
+WARNING [org.jgroups.protocols.UDP] (Thread-0 (ActiveMQ-server-ActiveMQServerImpl::serverUUID=c79278db-56e6-11e5-af50-69dd76236ee8-1573164340)) JGRP000015: the receive buffer of socket MulticastSocket was set to 25MB, but the OS only allocated 212.99KB. This might lead to performance problems. Please set your max receive buffer in the OS correctly (e.g. net.core.rmem_max on Linux)
+----
+
+== Electing a New Singleton Provider Server
+
+If you reboot the singleton server node, the other node will be elected the new singleton provider, and will start receiving the MDB messages instead.
+
+You should see the following output in the new singleton provider server:
+
+[source,options="nowrap"]
+----
+WFLYCLSV0003: master:quickstart-messagingcluster-nodeX elected as the singleton provider of the org.wildfly.ejb3.clustered.singleton service
+----
+
+Where `nodeX` will be either `node1` or `node2`, depending on which node is the new singleton provider.
+
+If you now try to access the servlet urls, you will see that the new provider is receiving all new messages.
+
+You will see the following warnings in the log of the server that is _not_ the singleton provider. These messages show that the other node went down unexpectedly, which is exactly the scenario we are reproducing in this quickstart. For that reason, those warnings can be ignored.
+
+[source,options="nowrap"]
+----
+WARN  [org.apache.activemq.artemis.core.client] (Thread-2 (ActiveMQ-client-global-threads)) AMQ212037: Connection failure has been detected: AMQ119015: The connection was disconnected because of server shutdown [code=DISCONNECTED]
+WARN  [org.apache.activemq.artemis.core.server] (Thread-2 (ActiveMQ-client-global-threads)) AMQ222095: Connection failed with failedOver=false
+----
+
+You may see the following log message as well. When a server is restarted, it may broadcast that it is up and running (with its nodeID) while other nodes still reference the previous server instance for the same nodeID. Eventually, the cluster will be informed of the new instance representing the given nodeID but as the warning explains, it is possible to see this log (once or more) when a server is restarted.
+
+[source,options="nowrap"]
+----
+WARN  [org.apache.activemq.artemis.core.client] (activemq-discovery-group-thread-dg-group1) AMQ212034: There are more than one servers on the network broadcasting the same node id. You will see this message exactly once (per node) if a node is restarted, in which case it can be safely ignored. But if it is logged continuously it means you really do have more than one node on the same network active concurrently with the same node id. This could occur if you have a backup node active at the same time as its live node. nodeID=a114b652-689e-11e7-a2f4-54ee751c6182
+----
+
+The next error message is a https://issues.jboss.org/browse/WFLY-9261[known issue]. You can ignore it, as it does not affect the scenario that this quickstart reproduces:
+
+[source,options="nowrap"]
+----
+ERROR [org.apache.activemq.artemis.core.server] (Thread-3 (ActiveMQ-client-global-threads)) AMQ224037: cluster connection Failed to handle message: java.lang.IllegalStateException: Cannot find binding for jms.queue.HelloWorldMDBQueuedea3e995-713c-11e7-85f2-b8f6b112daf7 on ClusterConnectionImpl@1129705701[nodeUUID=dabaa1fa-713c-11e7-8f3a-b8f6b112daf7, connector=TransportConfiguration(name=http-connector, factory=org-apache-activemq-artemis-core-remoting-impl-netty-NettyConnectorFactory) ?httpUpgradeEndpoint=http-acceptor&activemqServerName=default&httpUpgradeEnabled=true&port=9080&host=localhost, address=jms, server=ActiveMQServerImpl::serverUUID=dabaa1fa-713c-11e7-8f3a-b8f6b112daf7]
+at org.apache.activemq.artemis.core.server.cluster.impl.ClusterConnectionImpl$MessageFlowRecordImpl.doConsumerCreated(ClusterConnectionImpl.java:1294)
+at org.apache.activemq.artemis.core.server.cluster.impl.ClusterConnectionImpl$MessageFlowRecordImpl.handleNotificationMessage(ClusterConnectionImpl.java:1029)
+at org.apache.activemq.artemis.core.server.cluster.impl.ClusterConnectionImpl$MessageFlowRecordImpl.onMessage(ClusterConnectionImpl.java:1004)
+at org.apache.activemq.artemis.core.client.impl.ClientConsumerImpl.callOnMessage(ClientConsumerImpl.java:1001)
+at org.apache.activemq.artemis.core.client.impl.ClientConsumerImpl.access$400(ClientConsumerImpl.java:49)
+at org.apache.activemq.artemis.core.client.impl.ClientConsumerImpl$Runner.run(ClientConsumerImpl.java:1124)
+at org.apache.activemq.artemis.utils.OrderedExecutorFactory$OrderedExecutor$ExecutorTask.run(OrderedExecutorFactory.java:101)
+at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+at java.lang.Thread.run(Thread.java:745)
+----
+
+=== Rebooting the Singleton Provider Server Node in a Managed Domain
+
+Run the following command, replacing `__{jbossHomeName}__` with the path to your server, and replacing `NODE_X` in the script name with either `node1` or `node2`, depending on whether the current singleton provider is `node1` or `node2`.
+
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}__/bin/jboss-cli.sh  --connect --file=restart-NODE_X-domain.cli
+----
+
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
+
+=== Rebooting the Singleton Provider Server Node in a Standalone Server
+
+Stop the provider server and restart it again, using the same command you used to start the server initially.
+
+== Disable and Enable the Delivery Group
+
+To disable the delivery group "my-mdb-delivery-group" to which the topic belongs, run the `disable-delivery-group-domain.cli` or `disable-delivery-group-standalone.cli` script, located in the root directory of this quickstart. Follow the instructions in the next sections, depending on the server configuration you choose to run.
+
+After disabling the delivery group, try sending messages to the topic, You should notice that the topic messages are not delivered when the delivery group is inactive.
+
+Next, enable the delivery group using the appropriate `enable-delivery-group-domain.cli` or `enable-delivery-group-standalone.cli` script, also located in the root directory of this quickstart, so that the topic messages can be delivered again.
+
+=== Disable and Enable Delivery Group in a Managed Domain
+
+To disable the delivery group named "my-mdb-delivery-group" to which the topic belongs, run the `disable-delivery-group-domain.cli` script, replacing `__{jbossHomeName}__` with the path to your server:
+
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}__/bin/jboss-cli.sh  --connect --file=disable-delivery-group-domain.cli
+----
+
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
+
+Similarly, to enable the delivery group, run the `enable-delivery-group-domain.cli` script:
+
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}__/bin/jboss-cli.sh  --connect --file=enable-delivery-group-domain.cli
+----
+
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
+
+=== Disable and Enable Delivery Group in a Standalone Server
+
+To disable the delivery group named "my-mdb-delivery-group" to which the topic belongs, run the `disable-delivery-group-standalone.cli` script on both servers, replacing `__{jbossHomeName}__` with the path to your server:
+
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}_1__/bin/jboss-cli.sh  --connect --file==disable-delivery-group-standalone.cli
+$ __{jbossHomeName}_2__/bin/jboss-cli.sh --connect controller=localhost:10090 --file=disable-delivery-group-standalone.cli
+----
+
+NOTE: For Windows, use the `__{jbossHomeName}_1__\bin\jboss-cli.bat` and `__{jbossHomeName}_2__\bin\jboss-cli.bat` scripts.
+
+
+Similarly, to enable the delivery group, run the `enable-delivery-group-standalone.cli` script in both servers:
+
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}_1__/bin/jboss-cli.sh  --connect --file==enable-delivery-group-standalone.cli
+$ __{jbossHomeName}_2__/bin/jboss-cli.sh --connect controller=localhost:10090 --file=enable-delivery-group-standalone.cli
+----
+
+NOTE: For Windows, use the `__{jbossHomeName}_1__\bin\jboss-cli.bat` and `__{jbossHomeName}_2__\bin\jboss-cli.bat` scripts.
+
+== Undeploy the Archive
+
+When you are finished testing, use the following instructions to undeploy the quickstart.
+
+=== Undeploy the quickstart in a Managed Domain
+
+. xref:start_eap_managed_domain[Start the {productName} managed domain] as described above.
+. Open a new terminal, navigate to the root directory of this quickstart, and run the `undeploy-domain.cli` script, replacing `__{jbossHomeName}__` with the path to your server:
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}__/bin/jboss-cli.sh  --connect --file==undeploy-domain.cli
+----
+
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
+
+=== Undeploy the quickstart in a Standalone Server
+
+. xref:start_the_eap_standalone_server[Start the {productName} server with the standalone full HA profile] as described above.
+. Open a terminal, navigate to the root directory of this quickstart, and run the `undeploy-standalone.cli` script, replacing `__{jbossHomeName}_1__` and `__{jbossHomeName}_2__` with the path to the appropriate server:
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}_1__/bin/jboss-cli.sh  --connect --file==undeploy-standalone.cli
+$ __{jbossHomeName}_2__/bin/jboss-cli.sh  --connect controller=localhost:10090 --file==undeploy-standalone.cli
+----
+
+NOTE: For Windows, use the `__{jbossHomeName}_1__\bin\jboss-cli.bat` and `__{jbossHomeName}_2__\bin\jboss-cli.bat` scripts.
+
+== Restore the Server Configuration
+
+=== Restore the Domain Server Configuration
+
+You can Restore the domain configuration by manually restoring the backup configuration files or by running the management CLI script.
+
+==== Restore the Domain Server Configuration Manually
+
+IMPORTANT: This method ensures the server is restored to its prior configuration.
+
+. If it is running, stop the {productName} server.
+. Restore the `__{jbossHomeName}__/domain/configuration/domain.xml` and `__{jbossHomeName}__/domain/configuration/host.xml` files with the back-up copies
+of the files. Make sure you replace `__{jbossHomeName}__` with the path to your server.
+
+==== Restore the Domain Server Configuration by Running the Management CLI Script
+
+IMPORTANT: This script returns the server to a default configuration and the result might not match the server configuration prior to testing this quickstart. If you were not running with the default configuration before testing this quickstart, you should follow the intructions above to manually restore the configuration to its previous state.
+
+. xref:start_eap_managed_domain[Start the {productName} managed domain] as described above.
+
+. Open a new terminal, navigate to the root directory of this quickstart, and run the `remove-domain.cli` script, replacing `__{jbossHomeName}__` with the path to your server.
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}__/bin/jboss-cli.sh  --connect --file=remove-domain.cli
+----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
+
++
+This script removes the server configuration that was done by the `install-domain.cli` script. You should see the following result following the script commands:
++
+[source,options="nowrap"]
+----
+The batch executed successfully
+----
+
+=== Restore the Standalone Server Configuration
+
+You can Restore the domain configuration by manually restoring the back-up copies the configuration files or by running the management CLI script.
+
+[[restore_the_standalone_server_configuration_manually]]
+==== Restore the Standalone Server Configuration Manually
+
+IMPORTANT: This method ensures the server is restored to its prior configuration.
+
+. If they are running, stop both {productName} servers.
+. Restore the `__{jbossHomeName}_1__/standalone/configuration/standalone-full-ha.xml` file with the back-up copies of the file. Make sure you replace `__{jbossHomeName}_1__` with the path to your server.
+
+==== Restore the Standalone Configuration by Running the Management CLI Script
+
+IMPORTANT: This script returns the server to the default configuration, which might not match the server configuration that existed prior to testing this quickstart. If you were not running with the default configuration before testing this quickstart, you should follow the intructions above to xref:restore_the_standalone_server_configuration_manually[manually restore the standalone configuration] to its previous state.
+
+. Start the {productName} server by typing the following, replacing `__{jbossHomeName}_1__` with the path to your first server:
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}_1__/bin/standalone.sh -c standalone-full-ha.xml
+----
++
+NOTE: For Windows, use the `__{jbossHomeName}_1__\bin\standalone.bat` script.
+
+. Open a new terminal, navigate to the root directory of this quickstart, and run the `remove-standalone.cli` script, replacing `__{jbossHomeName}_1__` with the path to your first server.
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}_1__/bin/jboss-cli.sh --connect --file=remove-standalone.cli
+----
++
+NOTE: For Windows, use the `__{jbossHomeName}_1__\bin\jboss-cli.bat` script.
+
++
+This script removes the server configuration that was done by the install-standalone.cli script. You should see the following result following the script commands:
++
+[source,options="nowrap"]
+----
+The batch executed successfully
+----
+
+=== Delete the Cloned Standalone {productName} Directory
+
+. If it is running, stop the second instance of the {productName} server.
+. Delete the cloned directory.
+
+// Run the Quickstart in Red Hat CodeReady Studio or Eclipse
+:leveloffset: +1
+
+[[run_the_quickstart_in_redhat_codeready_studio_or_eclipse]]
+= Run the Quickstart in {JBDSProductName} or Eclipse
+//******************************************************************************
+// Include this template to provide instructions to run the quickstart
+// in Red Hat CodeReady Studio.
+//
+// If the quickstart is not supported, create the `jbds-not-supported` attribute.
+//******************************************************************************
+ifdef::jbds-not-supported[]
+This quickstart is not supported in {JBDSProductName}.
+endif::jbds-not-supported[]
+
+ifndef::jbds-not-supported[]
+You can also start the server and deploy the quickstarts or run the Arquillian tests in {JBDSProductName} or from Eclipse using JBoss tools. For general information about how to import a quickstart, add a {productName} server, and build and deploy a quickstart, see link:{useEclipseUrl}[Use {JBDSProductName} or Eclipse to Run the Quickstarts].
+endif::jbds-not-supported[]
+
+// Add additional instructions specific to running this quickstart in an IDE here.
+
+:leveloffset!:
+
+//*************************************************
+// Product Release content only
+//*************************************************
+ifdef::ProductRelease[]
+
+// Quickstart not compatible with OpenShift
+include::../shared-doc/openshift-incompatibility.adoc[leveloffset=+1]
+
+endif::[]

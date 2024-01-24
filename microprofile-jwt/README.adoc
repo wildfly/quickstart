@@ -1,0 +1,1623 @@
+ifdef::env-github[]
+:artifactId: microprofile-jwt
+endif::[]
+
+//***********************************************************************************
+// Enable the following flag to build README.html files for JBoss EAP product builds.
+// Comment it out for WildFly builds.
+//***********************************************************************************
+//:ProductRelease:
+
+//***********************************************************************************
+// Enable the following flag to build README.html files for EAP XP product builds.
+// Comment it out for WildFly or JBoss EAP product builds.
+//***********************************************************************************
+//:EAPXPRelease:
+
+// This is a universal name for all releases
+:ProductShortName: JBoss EAP
+// Product names and links are dependent on whether it is a product release (CD or JBoss)
+// or the WildFly project.
+// The "DocInfo*" attributes are used to build the book links to the product documentation
+
+ifdef::ProductRelease[]
+// JBoss EAP release
+:productName: JBoss EAP
+:productNameFull: Red Hat JBoss Enterprise Application Platform
+:productVersion: 8.0
+:DocInfoProductNumber: {productVersion}
+:WildFlyQuickStartRepoTag: 8.0.x
+:productImageVersion: 8.0.0
+:helmChartName: jboss-eap/eap8
+endif::[]
+
+ifdef::EAPXPRelease[]
+// JBoss EAP XP release
+:productName: JBoss EAP XP
+:productNameFull: Red Hat JBoss Enterprise Application Platform expansion pack
+:productVersion: 3.0
+:DocInfoProductNumber: 7.4
+:WildFlyQuickStartRepoTag: XP_3.0.0.GA
+:productImageVersion: 3.0
+:helmChartName: jboss-eap/eap-xp3
+endif::[]
+
+ifdef::ProductRelease,EAPXPRelease[]
+:githubRepoUrl: https://github.com/jboss-developer/jboss-eap-quickstarts/
+:githubRepoCodeUrl: https://github.com/jboss-developer/jboss-eap-quickstarts.git
+:jbossHomeName: EAP_HOME
+:DocInfoProductName: Red Hat JBoss Enterprise Application Platform
+:DocInfoProductNameURL: red_hat_jboss_enterprise_application_platform
+:DocInfoPreviousProductName: jboss-enterprise-application-platform
+:quickstartDownloadName: {productNameFull} {productVersion} Quickstarts
+:quickstartDownloadUrl: https://access.redhat.com/jbossnetwork/restricted/listSoftware.html?product=appplatform&downloadType=distributions
+:helmRepoName: jboss-eap
+:helmRepoUrl: https://jbossas.github.io/eap-charts/
+// END ifdef::ProductRelease,EAPXPRelease[]
+endif::[]
+
+ifndef::ProductRelease,EAPXPRelease[]
+// WildFly project
+:productName: WildFly
+:productNameFull: WildFly Application Server
+:ProductShortName: {productName}
+:jbossHomeName: WILDFLY_HOME
+:productVersion: 31
+:productImageVersion: 31.0
+:githubRepoUrl: https://github.com/wildfly/quickstart/
+:githubRepoCodeUrl: https://github.com/wildfly/quickstart.git
+:WildFlyQuickStartRepoTag: 31.0.0.Beta1
+:DocInfoProductName: Red Hat JBoss Enterprise Application Platform
+:DocInfoProductNameURL: red_hat_jboss_enterprise_application_platform
+// Do not update the following until after the 7.4 docs are published!
+:DocInfoProductNumber: 7.4
+:DocInfoPreviousProductName: jboss-enterprise-application-platform
+:helmRepoName: wildfly
+:helmRepoUrl: http://docs.wildfly.org/wildfly-charts/
+:helmChartName: wildfly/wildfly
+// END ifndef::ProductRelease,EAPCDRelease,EAPXPRelease[]
+endif::[]
+
+:source: {githubRepoUrl}
+
+// Values for Openshift S2i sections attributes
+:CDProductName:  {productNameFull} for OpenShift
+:CDProductShortName: {ProductShortName} for OpenShift
+:CDProductTitle: {CDProductName}
+:CDProductNameSentence: Openshift release for {ProductShortName}
+:CDProductAcronym: {CDProductShortName}
+:CDProductVersion: {productVersion}
+:EapForOpenshiftBookName: {productNameFull} for OpenShift
+:EapForOpenshiftOnlineBookName: {EapForOpenshiftBookName} Online
+:xpaasproduct: {productNameFull} for OpenShift
+:xpaasproductOpenShiftOnline: {xpaasproduct} Online
+:xpaasproduct-shortname: {CDProductShortName}
+:xpaasproductOpenShiftOnline-shortname: {xpaasproduct-shortname} Online
+:ContainerRegistryName: Red Hat Container Registry
+:EapForOpenshiftBookName: Getting Started with {ProductShortName} for OpenShift Container Platform
+:EapForOpenshiftOnlineBookName: Getting Started with {ProductShortName} for OpenShift Online
+:OpenShiftOnlinePlatformName: Red Hat OpenShift Container Platform
+:OpenShiftOnlineName: Red Hat OpenShift Online
+:ImagePrefixVersion: eap80
+:ImageandTemplateImportBaseURL: https://raw.githubusercontent.com/jboss-container-images/jboss-eap-openshift-templates
+:ImageandTemplateImportURL: {ImageandTemplateImportBaseURL}/{ImagePrefixVersion}/
+:BuildImageStream: jboss-{ImagePrefixVersion}-openjdk11-openshift
+:RuntimeImageStream: jboss-{ImagePrefixVersion}-openjdk11-runtime-openshift
+
+// OpenShift repository and reference for quickstarts
+:EAPQuickStartRepo: https://github.com/jboss-developer/jboss-eap-quickstarts
+:EAPQuickStartRepoRef: 8.0.x
+:EAPQuickStartRepoTag: EAP_8.0.0.Beta
+// Links to the OpenShift documentation
+:LinkOpenShiftGuide: https://access.redhat.com/documentation/en-us/{DocInfoProductNameURL}/{DocInfoProductNumber}/html-single/getting_started_with_jboss_eap_for_openshift_container_platform/
+:LinkOpenShiftOnlineGuide: https://access.redhat.com/documentation/en-us/{DocInfoProductNameURL}/{DocInfoProductNumber}/html-single/getting_started_with_jboss_eap_for_openshift_online/
+
+ifdef::EAPXPRelease[]
+// Attributes for XP releases
+:EapForOpenshiftBookName: {productNameFull} for OpenShift
+:EapForOpenshiftOnlineBookName: {productNameFull} for OpenShift Online
+:xpaasproduct: {productNameFull} for OpenShift
+:xpaasproductOpenShiftOnline: {productNameFull} for OpenShift Online
+:xpaasproduct-shortname: {ProductShortName} for OpenShift
+:xpaasproductOpenShiftOnline-shortname: {ProductShortName} for OpenShift Online
+:ContainerRegistryName: Red Hat Container Registry
+:EapForOpenshiftBookName: {productNameFull} for OpenShift
+:EapForOpenshiftOnlineBookName: {productNameFull} for OpenShift Online
+:ImagePrefixVersion: eap-xp3
+:ImageandTemplateImportURL: {ImageandTemplateImportBaseURL}/{ImagePrefixVersion}/
+:BuildImageStream: jboss-{ImagePrefixVersion}-openjdk11-openshift
+:RuntimeImageStream: jboss-{ImagePrefixVersion}-openjdk11-runtime-openshift
+// OpenShift repository and reference for quickstarts
+:EAPQuickStartRepoRef: xp-3.0.x
+// Links to the OpenShift documentation
+:LinkOpenShiftGuide: https://access.redhat.com/documentation/en-us/red_hat_jboss_enterprise_application_platform/{DocInfoProductNumber}/html/using_eclipse_microprofile_in_jboss_eap/using-the-openshift-image-for-jboss-eap-xp_default
+:LinkOpenShiftOnlineGuide: https://access.redhat.com/documentation/en-us/red_hat_jboss_enterprise_application_platform/{DocInfoProductNumber}/html/using_eclipse_microprofile_in_jboss_eap/using-the-openshift-image-for-jboss-eap-xp_default
+endif::[]
+
+ifndef::ProductRelease,EAPCDRelease,EAPXPRelease[]
+:ImageandTemplateImportURL: https://raw.githubusercontent.com/wildfly/wildfly-s2i/v{productVersion}.0/
+endif::[]
+
+//*************************
+// Other values
+//*************************
+:buildRequirements: Java 11.0 (Java SDK 11) or later and Maven 3.6.0 or later
+:jbdsEapServerName: Red Hat JBoss Enterprise Application Platform 7.3
+:javaVersion: Jakarta EE 10
+ifdef::EAPXPRelease[]
+:javaVersion: Eclipse MicroProfile
+endif::[]
+:githubRepoBranch: master
+:guidesBaseUrl: https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/
+:useEclipseUrl: {guidesBaseUrl}USE_JBDS.adoc#use_red_hat_jboss_developer_studio_or_eclipse_to_run_the_quickstarts
+:useEclipseDeployJavaClientDocUrl: {guidesBaseUrl}USE_JBDS.adoc#deploy_and_undeploy_a_quickstart_containing_server_and_java_client_projects
+:useEclipseDeployEARDocUrl: {guidesBaseUrl}USE_JBDS.adoc#deploy_and_undeploy_a_quickstart_ear_project
+:useProductHomeDocUrl: {guidesBaseUrl}USE_OF_{jbossHomeName}.adoc#use_of_product_home_and_jboss_home_variables
+:configureMavenDocUrl: {guidesBaseUrl}CONFIGURE_MAVEN_JBOSS_EAP.adoc#configure_maven_to_build_and_deploy_the_quickstarts
+:arquillianTestsDocUrl: {guidesBaseUrl}RUN_ARQUILLIAN_TESTS.adoc#run_the_arquillian_tests
+:addUserDocUrl: {guidesBaseUrl}CREATE_USERS.adoc#create_users_required_by_the_quickstarts
+:addApplicationUserDocUrl: {guidesBaseUrl}CREATE_USERS.adoc#add_an_application_user
+:addManagementUserDocUrl: {guidesBaseUrl}CREATE_USERS.adoc#add_an_management_user
+:startServerDocUrl: {guidesBaseUrl}START_JBOSS_EAP.adoc#start_the_jboss_eap_server
+:configurePostgresDocUrl: {guidesBaseUrl}CONFIGURE_POSTGRESQL_JBOSS_EAP.adoc#configure_the_postgresql_database_for_use_with_the_quickstarts
+:configurePostgresDownloadDocUrl: {guidesBaseUrl}CONFIGURE_POSTGRESQL_JBOSS_EAP.adoc#download_and_install_postgresql
+:configurePostgresCreateUserDocUrl: {guidesBaseUrl}CONFIGURE_POSTGRESQL_JBOSS_EAP.adoc#create_a_database_user
+:configurePostgresAddModuleDocUrl: {guidesBaseUrl}CONFIGURE_POSTGRESQL_JBOSS_EAP.adoc#add_the_postgres_module_to_the_jboss_eap_server
+:configurePostgresDriverDocUrl: {guidesBaseUrl}CONFIGURE_POSTGRESQL_JBOSS_EAP.adoc#configure_the_postgresql_driver_in_the_jboss_eap_server
+:configureBytemanDownloadDocUrl: {guidesBaseUrl}CONFIGURE_BYTEMAN.adoc#download_and_configure_byteman
+:configureBytemanDisableDocUrl: {guidesBaseUrl}CONFIGURE_BYTEMAN.adoc#disable_the_byteman_script
+:configureBytemanClearDocUrl: {guidesBaseUrl}CONFIGURE_BYTEMAN.adoc#clear_the_transaction_object_store
+:configureBytemanQuickstartDocUrl: {guidesBaseUrl}CONFIGURE_BYTEMAN.adoc#configure_byteman_for_use_with_the_quickstarts
+:configureBytemanHaltDocUrl: {guidesBaseUrl}CONFIGURE_BYTEMAN.adoc#use_byteman_to_halt_the_application[
+:configureBytemanQuickstartsDocUrl: {guidesBaseUrl}CONFIGURE_BYTEMAN.adoc#configure_byteman_for_use_with_the_quickstarts
+
+:EESubsystemNamespace: urn:jboss:domain:ee:4.0
+:IiopOpenJdkSubsystemNamespace: urn:jboss:domain:iiop-openjdk:2.0
+:MailSubsystemNamespace: urn:jboss:domain:mail:3.0
+:SingletonSubsystemNamespace: urn:jboss:domain:singleton:1.0
+:TransactionsSubsystemNamespace: urn:jboss:domain:transactions:4.0
+
+// LinkProductDocHome: https://access.redhat.com/documentation/en/red-hat-jboss-enterprise-application-platform/
+:LinkProductDocHome: https://access.redhat.com/documentation/en/jboss-enterprise-application-platform-continuous-delivery
+:LinkConfigGuide: https://access.redhat.com/documentation/en-us/{DocInfoProductNameURL}/{DocInfoProductNumber}/html-single/configuration_guide/
+:LinkDevelopmentGuide: https://access.redhat.com/documentation/en-us/{DocInfoProductNameURL}/{DocInfoProductNumber}/html-single/development_guide/
+:LinkGettingStartedGuide: https://access.redhat.com/documentation/en-us/{DocInfoProductNameURL}/{DocInfoProductNumber}/html-single/getting_started_guide/
+:LinkOpenShiftWelcome: https://docs.openshift.com/online/welcome/index.html
+:LinkOpenShiftSignup: https://docs.openshift.com/online/getting_started/choose_a_plan.html
+:OpenShiftTemplateName: JBoss EAP CD (no https)
+
+:ConfigBookName: Configuration Guide
+:DevelopmentBookName: Development Guide
+:GettingStartedBookName: Getting Started Guide
+
+:JBDSProductName: Red Hat CodeReady Studio
+:JBDSVersion: 12.15
+:LinkJBDSInstall:  https://access.redhat.com/documentation/en-us/red_hat_codeready_studio/{JBDSVersion}/html-single/installation_guide/
+:JBDSInstallBookName: Installation Guide
+:LinkJBDSGettingStarted: https://access.redhat.com/documentation/en-us/red_hat_codeready_studio/{JBDSVersion}/html-single/getting_started_with_codeready_studio_tools/
+:JBDSGettingStartedBookName: Getting Started with CodeReady Studio Tools
+
+= micro-profile-jwt: MicroProfile JWT QuickStart
+:author: Darran Lofthouse
+:level: Intermediate
+:technologies: JWT, Security, MicroProfile
+
+[abstract]
+The `microprofile-jwt` quickstart demonstrates the use of the MicroProfile JWT specification in {productName}.
+
+:standalone-server-type: microprofile
+:archiveType: war
+:archiveName: microprofile-jwt.war
+
+== What is it?
+
+The `microprofile-jwt` quickstart demonstrates the use of the MicroProfile JWT
+specification in {productName}.  Within the quickstart the following topics will be covered: -
+
+ * Creation of a simple Rest deployment as the base of the quickstart.
+ * Initial calls to verify the endpoint is accessible.
+ * Creation of public and private keys to enable generation and validation of JWT tokens.
+ * Creation of a simple utility to generate JWT tokens.
+ * Activation of `MP-JWT` authentication for the deployment.
+ * Calling the rest endpoint with the generated JWT token.
+ * Enabling authorization based on claims contained within the JWT token.
+ * Injection of claims from the JWT token.
+
+// Link to the quickstart source
+:leveloffset: +1
+
+ifndef::ProductRelease,EAPXPRelease[]
+link:https://github.com/wildfly/quickstart/tree/{WildFlyQuickStartRepoTag}/{artifactId}[Browse the source]
+endif::[]
+
+:leveloffset!:
+
+[[considerations_for_use_in_a_production_environment]]
+== Considerations for Use in a Production Environment
+
+To make it possible to execute this quickstart out of the box the public and private key are included in the
+quickstart, as both keys are published publicly they should never be used in a production environment.
+
+Although this quickstart demonstrates the functionality using a token generation utility, within a production
+environment it would be more appropriate to make use of an identity provider to issue the tokens.
+
+:leveloffset: +1
+
+[[system_requirements]]
+= System Requirements
+//******************************************************************************
+// Include this template to describe the standard system requirements for
+// running the quickstarts.
+//
+// The Forge quickstarts define a `forge-from-scratch` attribute because they
+// run entirely in CodeReady Studio and have different requirements .
+//******************************************************************************
+
+The application this project produces is designed to be run on {productNameFull} {productVersion} or later.
+
+All you need to build this project is {buildRequirements}. See link:{configureMavenDocUrl}[Configure Maven to Build and Deploy the Quickstarts] to make sure you are configured correctly for testing the quickstarts.
+
+:leveloffset!:
+:leveloffset: +1
+
+[[start_the_eap_standalone_server]]
+= Start the {productName} Standalone Server
+//******************************************************************************
+// Include this template if your quickstart requires a normal start of a single
+// standalone server.
+//
+// You must define the `standalone-server-type`. Supported values are:
+//    default
+//    full
+//    full-ha
+//    ha
+//    custom
+//
+// * For mobile applications, you can define the `mobileApp` variable in the
+//   `README.adoc` file to add `-b 0.0.0.0` to the command line. This allows
+//    external clients, such as phones, tablets, and desktops, to connect
+//    to the application through through your local network
+//    ::mobileApp: {artifactId}-service
+//
+//******************************************************************************
+
+//******************************************************************************
+// This template sets attributes for the different standalone server profiles.
+//
+// You must define the `standalone-server-type`. Supported values are:
+//    default
+//    full
+//    full-ha
+//    ha
+//    microprofile
+//    custom
+//******************************************************************************
+
+// Standalone server with the default profile.
+ifeval::["{standalone-server-type}"=="default"]
+:serverProfile: default profile
+:configFileName: standalone/configuration/standalone.xml
+:serverArguments:
+endif::[]
+
+// Standalone server with the full profile.
+ifeval::["{standalone-server-type}"=="full"]
+:serverProfile: full profile
+:configFileName: standalone/configuration/standalone-full.xml
+:serverArguments:  -c standalone-full.xml
+endif::[]
+
+// Standalone server with the full HA profile.
+ifeval::["{standalone-server-type}"=="full-ha"]
+:serverProfile: full HA profile
+:configFileName: standalone/configuration/standalone-full-ha.xml
+:serverArguments:  -c standalone-full-ha.xml
+endif::[]
+
+// Start the standalone server with the HA profile.
+ifeval::["{standalone-server-type}"=="ha"]
+:serverProfile: HA profile
+:configFileName: standalone/configuration/standalone-ha.xml
+:serverArguments:  -c standalone-ha.xml
+endif::[]
+
+// Start the standalone server with the Eclipse MicroProfile profile.
+ifeval::["{standalone-server-type}"=="microprofile"]
+:serverProfile: MicroProfile profile
+:configFileName: standalone/configuration/standalone-microprofile.xml
+:serverArguments:  -c standalone-microprofile.xml
+endif::[]
+
+// Standalone server with the custom profile.
+// NOTE: This profile requires that you define the `serverArguments` variable
+// within the quickstart README.adoc file. For example:
+//  :serverArguments: --server-config=../../docs/examples/configs/standalone-xts.xml
+ifeval::["{standalone-server-type}"=="custom"]
+:serverProfile: custom profile
+endif::[]
+
+// If there is no match, use the default profile.
+ifndef::serverProfile[]
+:standalone-server-type:  default
+:serverProfile: default profile
+:configFileName: standalone/configuration/standalone.xml
+:serverArguments:
+endif::serverProfile[]
+
+. Open a terminal and navigate to the root of the {productName} directory.
+. Start the {productName} server with the {serverProfile} by typing the following command.
++
+ifdef::uses-jaeger[]
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __JAEGER_REPORTER_LOG_SPANS=true JAEGER_SAMPLER_TYPE=const JAEGER_SAMPLER_PARAM=1__ __{jbossHomeName}__/bin/standalone.sh {serverArguments}
+----
+endif::[]
+ifndef::uses-jaeger[]
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}__/bin/standalone.sh {serverArguments}
+----
+endif::[]
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\standalone.bat` script.
+
+ifdef::mobileApp[]
++
+Adding `-b 0.0.0.0` to the above command allows external clients, such as phones, tablets, and desktops, to connect through your local network. For example:
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}__/bin/standalone.sh {serverArguments} -b 0.0.0.0
+----
+endif::[]
+
+:leveloffset!:
+
+[[configure_the_server]]
+== Configure the Server
+
+One of the benefits of using MicroProfile JWT is that the configuration is contained entirely within the deployment,
+for this reason no manual configuration of the server is required to execute the quickstart.
+
+== Solution
+
+We recommend that you follow the instructions in the next sections and create the application step by step as this will
+provide a better foundation for creating your own MP-JWT secured deployment, however if you want to jump straight to
+executing the quickstarts the steps here can be followed to execute the included code.
+
+The quickstart can be deployed to the running application server using the following command: -
+
+[source]
+----
+mvn package wildfly:deploy
+----
+
+An unauthenticated call can be made to one of the deployed endpoints using the following command: -
+
+[source]
+----
+$ curl http://localhost:8080/microprofile-jwt/Sample/helloworld
+Hello anonymous
+----
+
+Using the token generation utility contained within the quickstart a new JWT can be created using the following command: -
+
+[source]
+----
+$ mvn exec:java -Dexec.mainClass=org.wildfly.quickstarts.mpjwt.TokenUtil -Dexec.classpathScope=test -Dexec.args="testUser 2017-09-15 Echoer Subscriber"
+
+JWT Header - {"kid":"Test Key","typ":"jwt","alg":"RS256"}
+
+JWT Claims - {"sub":"testUser","upn":"testUser","iss":"quickstart-jwt-issuer","aud":"jwt-audience","groups":["Echoer","Subscriber"],"birthdate":"2017-09-15","jti":"3b89e56f-b8fd-4d5f-a1ed-080b958873f9","iat":1579886816,"exp":1579901216}
+
+Generated JWT Token
+eyJraWQiOiJUZXN0IEtleSIsInR5cCI6Imp3dCIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiJ0ZXN0VXNlciIsInVwbiI6InRlc3RVc2VyIiwiaXNzIjoicXVpY2tzdGFydC1qd3QtaXNzdWVyIiwiYXVkIjoiand0LWF1ZGllbmNlIiwiZ3JvdXBzIjpbIkVjaG9lciIsIlN1YnNjcmliZXIiXSwiYmlydGhkYXRlIjoiMjAxNy0wOS0xNSIsImp0aSI6IjNiODllNTZmLWI4ZmQtNGQ1Zi1hMWVkLTA4MGI5NTg4NzNmOSIsImlhdCI6MTU3OTg4NjgxNiwiZXhwIjoxNTc5OTAxMjE2fQ.srUrA3YwWg4V42Kdf5aLQzLiBO9u7ZCJ_bbNBrgU1XFhRBVzpLq4TJheN4ZFvTKDKFHFm2pa1_a_J70EONK9y8mzKnwiIfV1LbugophBE1xp7iDsBeOwGT8IKQVLaoniGGhqny_MkiMmcWt4tRzrTlJ4TOlCGKv3mZ_RzOj6xdWb12RK7-MTZYlRdnPD8kAfRT7QaJnRbuy5vIpqdz8cVg1y2KILBtg_yJB8s2jrx0ZYgTLDUH6yLpcxk43cLszDCfmdaZAoZFjAS9xUdAuk5eo7TBqt376q0BbE5DS8bHlo3ejWcNEwyo1dPD_TlKDJtNgeae89gru5Z2NOmc2XPA
+----
+
+A call can now be made to the first endpoint using the generated JWT token within the request message: -
+
+[source]
+----
+$ curl -H "Authorization: Bearer eyJ...XPA" http://localhost:8080/microprofile-jwt/Sample/helloworld
+Hello testUser
+----
+
+The quickstart also contains an endpoint which requires the identity to be granted the `Subscriber` role, using a generated token this can be
+called using the following command: -
+
+[source]
+----
+$ curl -H "Authorization: Bearer ey..XPA" http://localhost:8080/microprofile-jwt/Sample/subscription
+hello + testUser, hasJWT: true
+----
+
+If a token is now generated and use without the `Subscriber` group access to this endpoint should be rejected.
+
+[source]
+----
+$ mvn exec:java -Dexec.mainClass=org.wildfly.quickstarts.mpjwt.TokenUtil -Dexec.classpathScope=test -Dexec.args="testUser 2017-09-15 Echoer"
+
+JWT Header - {"kid":"Test Key","typ":"jwt","alg":"RS256"}
+
+JWT Claims - {"sub":"testUser","upn":"testUser","iss":"quickstart-jwt-issuer","aud":"jwt-audience","groups":["Echoer"],"birthdate":"2017-09-15","jti":"4346874f-eb48-4d84-ab51-c6efd1cd22d5","iat":1580136970,"exp":1580151370}
+
+Generated JWT Token
+eyJraWQiOiJUZXN0IEtleSIsInR5cCI6Imp3dCIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiJ0ZXN0VXNlciIsInVwbiI6InRlc3RVc2VyIiwiaXNzIjoicXVpY2tzdGFydC1qd3QtaXNzdWVyIiwiYXVkIjoiand0LWF1ZGllbmNlIiwiZ3JvdXBzIjpbIkVjaG9lciJdLCJiaXJ0aGRhdGUiOiIyMDE3LTA5LTE1IiwianRpIjoiNDM0Njg3NGYtZWI0OC00ZDg0LWFiNTEtYzZlZmQxY2QyMmQ1IiwiaWF0IjoxNTgwMTM2OTcwLCJleHAiOjE1ODAxNTEzNzB9.NjWlGGi5iB2PW-g_fs74EgwiyOrgRSsHDym5PS7H3o6T3aEb3ZnMmx7W9uhT_pXvpAL_fboXxy7WMQHukGb_ywtxAmTlA7ecrsia-O9EYV2Gr1ZhlQ9kYVERwZdo5lFqphMvERJ1tClTR3Jk37tpu54HVgFquhUEXlEcldOSeRbYHF9fkiVD6_UPR9bfphhCdwzIbeDVnBJ3FuRl_ZuSxWCoWaRSLPGjuR3JzMlUWkRV8RXhRLTkFRgNowOx_uFFK6q7_aOVqQaHixRqT4ULcO9WiA7f6Up0NMscvq-aT3VFw64qEmn2S8pfX7PpSuAB71Z7w0dwhf4qx3iYklfAPw
+
+$ curl -H "Authorization: Bearer ey..APw" http://localhost:8080/microprofile-jwt/Sample/subscription
+Access forbidden: role not allowed
+----
+
+The quickstart also contains an endpoint that makes use of the `birthdate` claim to calculate how long until the callers birthday, this can be called using a token which contains the `Subscriber` group.
+
+[source]
+----
+$ curl -H "Authorization: Bearer ey..XPA" http://localhost:8080/microprofile-jwt/Sample/birthday
+7 months and 19 days until your next birthday.
+----
+
+This section has been a fast run through of the commands required to deploy the quickstart, generate JWT tokens and call the various endpoints, for further information as to how this was achieved
+please read through the next section where the process to generate this quickstart from scratch is described step by step.
+
+It is also possible to run each of these calls from the test case included in the quickstart.
+
+// Server Distribution Testing
+:leveloffset: +2
+
+[[run_the_integration_tests_with_server_distribution]]
+= Run the Integration Tests
+This quickstart includes integration tests, which are located under the  `src/test/` directory. The integration tests verify that the quickstart runs correctly when deployed on the server.
+
+Follow these steps to run the integration tests.
+
+. Make sure you start the {productName} server, as previously described.
+
+. Make sure you build and deploy the quickstart, as previously described.
+
+. Type the following command to run the `verify` goal with the `integration-testing` profile activated.
++
+[source,options="nowrap"]
+----
+$ mvn verify -Pintegration-testing
+----
+
+[NOTE]
+====
+You may also use the environment variable `SERVER_HOST` or the system property `server.host` to define the target URL of the tests.
+====
+
+:leveloffset!:
+
+== Starting from Scratch
+
+In this section we will go through the steps to create a new JAX-RS deployment from scratch and incrementally
+add support for MicroProfile JWT including token generation, activation of authorization and the injection
+of claims.
+
+=== Project Generation
+
+This quickstart will be making use of JAX-RS endpoints secured using MicroProfile JWT so the first step
+is to generate a new `webapp` project: -
+
+[source,options="nowrap"]
+----
+mvn archetype:generate -DinteractiveMode=false \
+    -DarchetypeGroupId=org.apache.maven.archetypes \
+    -DarchetypeArtifactId=maven-archetype-webapp \
+    -DgroupId=org.wildfly.quickstarts -DartifactId=microprofile-jwt \
+    -Dversion=1.0.0.Alpha1-SNAPSHOT
+cd microprofile-jwt
+----
+
+The changes required on the project can be performed using a text editor, however you may prefer to import the
+project into your favourite IDE.
+
+==== pom.xml Updates
+
+Next the project's `pom.xml` should be updated so the dependencies required by this quickstart are
+available and so we have a plug-in installed which can deploy the quickstart directly to {productName}.
+
+Add the following properties to the `pom.xml`.
+
+[source,options="nowrap",subs="attributes+"]
+----
+<version.com.nimbusds.jose.jwt>{versionComNimbusdsJoseJwt}</version.com.nimbusds.jose.jwt>
+<version.glassfish.json>{versionGlassfishJson}</version.glassfish.json>
+<version.microprofile.bom>{versionMicroprofileBom}</version.microprofile.bom>
+<version.server.bom>{versionServerBom}</version.server.bom>
+----
+
+Also the project can be updated to use Java 11 as the minimum.
+
+[source,options="nowrap"]
+----
+<maven.compiler.source>11</maven.compiler.source>
+<maven.compiler.target>11</maven.compiler.target>
+----
+
+Before the dependencies are defined add the following boms.
+
+[source,options="nowrap"]
+----
+<dependencyManagement>
+  <dependencies>
+    <dependency>
+      <groupId>org.wildfly.bom</groupId>
+      <artifactId>wildfly-ee-with-tools</artifactId>
+      <version>${version.server.bom}</version>
+      <type>pom</type>
+      <scope>import</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.wildfly.bom</groupId>
+      <artifactId>wildfly-microprofile</artifactId>
+      <version>${version.microprofile.bom}</version>
+      <type>pom</type>
+      <scope>import</scope>
+    </dependency>
+  </dependencies>
+</dependencyManagement>
+----
+
+By using boms the majority of dependencies used within this quickstart align with the version uses by the application server.
+
+The following dependencies can now be added to the project.
+
+[source,options="nowrap"]
+----
+<dependency>
+  <groupId>jakarta.annotation</groupId>
+  <artifactId>jakarta.annotation-api</artifactId>
+  <scope>provided</scope>
+</dependency>
+<dependency>
+  <groupId>jakarta.enterprise</groupId>
+  <artifactId>jakarta.enterprise.cdi-api</artifactId>
+  <scope>provided</scope>
+</dependency>
+<dependency>
+  <groupId>jakarta.ws.rs</groupId>
+  <artifactId>jakarta.ws.rs-api</artifactId>
+  <scope>provided</scope>
+</dependency>
+<dependency>
+  <groupId>org.eclipse.microprofile.jwt</groupId>
+  <artifactId>microprofile-jwt-auth-api</artifactId>
+  <scope>provided</scope>
+</dependency>
+----
+
+Also add the following test scoped dependencies.
+
+[source,options="nowrap"]
+----
+<dependency>
+  <groupId>com.nimbusds</groupId>
+  <artifactId>nimbus-jose-jwt</artifactId>
+  <version>${version.com.nimbusds.jose.jwt}</version>
+  <scope>test</scope>
+</dependency>
+<dependency>
+  <groupId>jakarta.json</groupId>
+  <artifactId>jakarta.json-api</artifactId>
+  <scope>test</scope>
+</dependency>
+<dependency>
+  <groupId>org.glassfish</groupId>
+  <artifactId>jakarta.json</artifactId>
+  <version>${version.glassfish.json}</version>
+  <scope>test</scope>
+</dependency>
+<dependency>
+  <groupId>org.eclipse.parsson</groupId>
+  <artifactId>parsson</artifactId>
+  <scope>test</scope>
+</dependency>
+----
+
+Within the `<build></build>` section of the project add the following plug-in definition.
+
+[source,options="nowrap"]
+----
+<plugins>
+  <plugin>
+    <groupId>org.wildfly.plugins</groupId>
+    <artifactId>wildfly-maven-plugin</artifactId>
+  </plugin>
+</plugins>
+----
+
+Once the project has been developed this plug-in will handle the deployment to the application server.
+
+// Setup required repositories
+:leveloffset: +1
+
+Setup the required Maven repositories (if you don't have them set up in Maven global settings):
+
+[source,xml]
+----
+<repositories>
+    <repository>
+        <id>jboss-public-maven-repository</id>
+        <name>JBoss Public Maven Repository</name>
+        <url>https://repository.jboss.org/nexus/content/groups/public</url>
+        <layout>default</layout>
+        <releases>
+            <enabled>true</enabled>
+            <updatePolicy>never</updatePolicy>
+        </releases>
+        <snapshots>
+            <enabled>true</enabled>
+            <updatePolicy>never</updatePolicy>
+        </snapshots>
+    </repository>
+    <repository>
+        <id>redhat-ga-maven-repository</id>
+        <name>Red Hat GA Maven Repository</name>
+        <url>https://maven.repository.redhat.com/ga/</url>
+        <layout>default</layout>
+        <releases>
+            <enabled>true</enabled>
+            <updatePolicy>never</updatePolicy>
+        </releases>
+        <snapshots>
+            <enabled>true</enabled>
+            <updatePolicy>never</updatePolicy>
+        </snapshots>
+    </repository>
+</repositories>
+<pluginRepositories>
+    <pluginRepository>
+        <id>jboss-public-maven-repository</id>
+        <name>JBoss Public Maven Repository</name>
+        <url>https://repository.jboss.org/nexus/content/groups/public</url>
+        <releases>
+            <enabled>true</enabled>
+        </releases>
+        <snapshots>
+            <enabled>true</enabled>
+        </snapshots>
+    </pluginRepository>
+    <pluginRepository>
+        <id>redhat-ga-maven-repository</id>
+        <name>Red Hat GA Maven Repository</name>
+        <url>https://maven.repository.redhat.com/ga/</url>
+        <releases>
+            <enabled>true</enabled>
+        </releases>
+        <snapshots>
+            <enabled>true</enabled>
+        </snapshots>
+    </pluginRepository>
+</pluginRepositories>
+----
+
+:leveloffset!:
+
+==== JAX-RS Conversion
+
+The generated project is a standard web application so the next step will be to delete the files not
+required by this quickstart and add the JAX-RS application and a `helloWorld` endpoint.
+
+Under `src/main/webapp` delete the generated `index.jsp`.
+
+Within the directory `src/main/webapp/WEB-INF` add an empty `beans.xml` file, this will act as a trigger
+to enable CDI for the deployment.
+
+Under `src/main` create a new `java` directory to hold the Java class to be added to the project.
+
+Add the following class in the `org.wildfly.quickstarts.mpjwt` package, this will be the main trigger to
+process the deployment as a JAX-RS deployment.
+
+[source,java]
+----
+package org.wildfly.quickstarts.mpjwt;
+
+import jakarta.ws.rs.ApplicationPath;
+import jakarta.ws.rs.core.Application;
+
+import org.eclipse.microprofile.auth.LoginConfig;
+
+@ApplicationPath("/")
+@LoginConfig(authMethod="MP-JWT", realmName="MP JWT Realm")
+public class App extends Application {}
+----
+
+Also within the `org.wildfly.quickstarts.mpjwt` package add the following endpoint.
+
+[source,java]
+----
+package org.wildfly.quickstarts.mpjwt;
+
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+
+
+@Path("/Sample")
+public class SampleEndPoint {
+
+    @GET
+    @Path("/helloworld")
+    public String helloworld() {
+        return "Hello World";
+    }
+
+}
+----
+
+At this stage the project contains a simple JAX-RS endpoint we can deploy to the server and invoke to verify
+everything is working as expected before moving on to enable JWT based authentication and authorization.
+
+First build the example and deploy it to the previously started application server.
+
+. Compile the application code and deploy it to {productName}
+[source]
+----
+$ mvn clean package wildfly:deploy
+----
+
+In the output of the application server's console check the deployment deployed successfully.
+
+[source]
+----
+15:48:22,159 INFO  [org.jboss.resteasy.resteasy_jaxrs.i18n] (ServerService Thread Pool -- 78) RESTEASY002225: Deploying jakarta.ws.rs.core.Application: class org.wildfly.quickstarts.mpjwt.App$Proxy$_$$_WeldClientProxy
+15:48:22,193 INFO  [org.wildfly.extension.undertow] (ServerService Thread Pool -- 78) WFLYUT0021: Registered web context: '/microprofile-jwt' for server 'default-server'
+15:48:22,239 INFO  [org.jboss.as.server] (management-handler-thread - 1) WFLYSRV0010: Deployed "microprofile-jwt.war" (runtime-name : "microprofile-jwt.war")
+----
+
+The endpoint can now be called using the following command: -
+
+[source]
+----
+$ curl http://localhost:8080/microprofile-jwt/Sample/helloworld
+Hello World
+----
+
+Alternative HTTP clients can be used however later on we will be adding custom headers to the HTTP request which can be acomplished directly with the `curl` command.
+
+=== Report Authenticated Identity
+
+The first update to make to the project is to modify the `/helloworld` to report the name of the presently authenticated identity.
+
+Make the following changes to the previously created `org.wildfly.quickstarts.mpjwt.SampleEndPoint` class.
+
+Add the following `import` statements to the class.
+
+[source,java]
+----
+import java.security.Principal;
+import jakarta.ws.rs.core.Context;
+import jakarta.ws.rs.core.SecurityContext;
+----
+
+Then replace the existing `helloWorld()` method with the following: -
+
+[source,java]
+----
+@GET
+@Path("/helloworld")
+public String helloworld(@Context SecurityContext securityContext) {
+    Principal principal = securityContext.getUserPrincipal();
+    String caller = principal == null ? "anonymous" : principal.getName();
+
+    return "Hello " + caller;
+}
+----
+
+As before, deploy and call the endpoint.
+
+[source]
+----
+$ mvn package wildfly:deploy
+
+$ curl http://localhost:8080/microprofile-jwt/Sample/helloworld
+Hello anonymous
+----
+
+=== Public / Private Key
+
+Now that we have a deployable project our next step on the project will be to enable `MP-JWT` authentication, however before we can do this a couple of steps are
+required the first being the generation of a public / private key pair for token signing and verification.
+
+For MicroProfile JWT we only require the keys, we do not require an X509Certificate so we can use openssl to generate the raw keys.
+
+[source,options="nowrap"]
+----
+$ openssl genpkey -algorithm RSA -out private.pem -pkeyopt rsa_keygen_bits:2048
+----
+
+From this we can then export the public key that will be included in the deployment.
+
+[source,options="nowrap"]
+----
+$ mkdir -p src/main/resources/META-INF
+$ openssl rsa -in private.pem -pubout -out src/main/resources/META-INF/public.pem
+----
+
+The commands used here offer no protection of the generated keys, in a real world environment any private keys that can be used for token generation should be handled securely.
+
+=== Token Generator
+
+The next step is to add a utility to the project which can be used to generate JWT tokens for use with this example.
+
+First create a directory to hold the test code.
+
+[source,options="nowrap"]
+----
+$ mkdir -p src/test/java
+----
+
+Under `src/test/java` add the following utility class to the `org.wildfly.quickstarts.mpjwt` package.
+
+[source,java]
+----
+package org.wildfly.quickstarts.mpjwt;
+
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.security.KeyFactory;
+import java.security.PrivateKey;
+import java.security.spec.PKCS8EncodedKeySpec;
+import java.util.Base64;
+import java.util.UUID;
+
+import jakarta.json.Json;
+import jakarta.json.JsonArrayBuilder;
+import jakarta.json.JsonObjectBuilder;
+
+import com.nimbusds.jose.JOSEObjectType;
+import com.nimbusds.jose.JWSAlgorithm;
+import com.nimbusds.jose.JWSHeader;
+import com.nimbusds.jose.JWSObject;
+import com.nimbusds.jose.JWSSigner;
+import com.nimbusds.jose.Payload;
+import com.nimbusds.jose.crypto.RSASSASigner;
+
+public class TokenUtil {
+
+    private static PrivateKey loadPrivateKey(final String fileName) throws Exception {
+        try (InputStream is = new FileInputStream(fileName)) {
+            byte[] contents = new byte[4096];
+            int length = is.read(contents);
+            String rawKey = new String(contents, 0, length, StandardCharsets.UTF_8)
+                    .replaceAll("-----BEGIN (.*)-----", "")
+                    .replaceAll("-----END (.*)----", "")
+                    .replaceAll("\r\n", "").replaceAll("\n", "").trim();
+
+            PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(Base64.getDecoder().decode(rawKey));
+            KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+
+            return keyFactory.generatePrivate(keySpec);
+        }
+    }
+
+    public static String generateJWT(final String principal, final String birthdate, final String...groups) throws Exception {
+    	PrivateKey privateKey = loadPrivateKey("private.pem");
+
+        JWSSigner signer = new RSASSASigner(privateKey);
+        JsonArrayBuilder groupsBuilder = Json.createArrayBuilder();
+        for (String group : groups) { groupsBuilder.add(group); }
+
+        long currentTime = System.currentTimeMillis() / 1000;
+        JsonObjectBuilder claimsBuilder = Json.createObjectBuilder()
+                .add("sub", principal)
+                .add("upn", principal)
+                .add("iss", "quickstart-jwt-issuer")
+                .add("aud", "jwt-audience")
+                .add("groups", groupsBuilder.build())
+                .add("birthdate", birthdate)
+                .add("jti", UUID.randomUUID().toString())
+                .add("iat", currentTime)
+                .add("exp", currentTime + 14400);
+
+        JWSObject jwsObject = new JWSObject(new JWSHeader.Builder(JWSAlgorithm.RS256)
+                .type(new JOSEObjectType("jwt"))
+                .keyID("Test Key").build(),
+                new Payload(claimsBuilder.build().toString()));
+
+        jwsObject.sign(signer);
+
+        return jwsObject.serialize();
+    }
+
+    public static void main(String[] args) throws Exception {
+        if (args.length < 2) throw new IllegalArgumentException("Usage TokenUtil {principal} {birthdate} {groups}");
+        String principal = args[0];
+        String birthdate = args[1];
+        String[] groups = new String[args.length - 2];
+        System.arraycopy(args, 2, groups, 0, groups.length);
+
+        String token = generateJWT(principal, birthdate, groups);
+        String[] parts = token.split("\\.");
+        System.out.println(String.format("\nJWT Header - %s", new String(Base64.getDecoder().decode(parts[0]), StandardCharsets.UTF_8)));
+        System.out.println(String.format("\nJWT Claims - %s", new String(Base64.getDecoder().decode(parts[1]), StandardCharsets.UTF_8)));
+        System.out.println(String.format("\nGenerated JWT Token \n%s\n", token));
+    }
+}
+----
+
+After adding the class the project will need to be compiled again and can then be executed using Maven.
+
+[source]
+----
+$ mvn package
+...
+$ mvn exec:java -Dexec.mainClass=org.wildfly.quickstarts.mpjwt.TokenUtil -Dexec.classpathScope=test -Dexec.args="testUser 2017-09-15 Echoer Subscriber"
+
+JWT Header - {"kid":"Test Key","typ":"jwt","alg":"RS256"}
+
+JWT Claims - {"sub":"testUser","upn":"testUser","iss":"quickstart-jwt-issuer","aud":"jwt-audience","groups":["Echoer","Subscriber"],"birthdate":"2017-09-15","jti":"3b89e56f-b8fd-4d5f-a1ed-080b958873f9","iat":1579886816,"exp":1579901216}
+
+Generated JWT Token
+eyJraWQiOiJUZXN0IEtleSIsInR5cCI6Imp3dCIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiJ0ZXN0VXNlciIsInVwbiI6InRlc3RVc2VyIiwiaXNzIjoicXVpY2tzdGFydC1qd3QtaXNzdWVyIiwiYXVkIjoiand0LWF1ZGllbmNlIiwiZ3JvdXBzIjpbIkVjaG9lciIsIlN1YnNjcmliZXIiXSwiYmlydGhkYXRlIjoiMjAxNy0wOS0xNSIsImp0aSI6IjNiODllNTZmLWI4ZmQtNGQ1Zi1hMWVkLTA4MGI5NTg4NzNmOSIsImlhdCI6MTU3OTg4NjgxNiwiZXhwIjoxNTc5OTAxMjE2fQ.srUrA3YwWg4V42Kdf5aLQzLiBO9u7ZCJ_bbNBrgU1XFhRBVzpLq4TJheN4ZFvTKDKFHFm2pa1_a_J70EONK9y8mzKnwiIfV1LbugophBE1xp7iDsBeOwGT8IKQVLaoniGGhqny_MkiMmcWt4tRzrTlJ4TOlCGKv3mZ_RzOj6xdWb12RK7-MTZYlRdnPD8kAfRT7QaJnRbuy5vIpqdz8cVg1y2KILBtg_yJB8s2jrx0ZYgTLDUH6yLpcxk43cLszDCfmdaZAoZFjAS9xUdAuk5eo7TBqt376q0BbE5DS8bHlo3ejWcNEwyo1dPD_TlKDJtNgeae89gru5Z2NOmc2XPA
+----
+
+We now have everything we need to activate `MP-JWT` authentication on the deployment and start accepting JWT tokens within the HTTP requests.
+
+=== Activating MicroProfile JWT
+
+At this stage we have a basic JAX-RS deployment, a pair of keys for the generation of and validation of JWT tokens and a utility to generate JWT tokens.
+Our next step is to activate MicroProfile JWT authentication for the deployment and we can then make use of some of the advanced features such as role
+based access control using the groups from within the token and access to individual claims within the token.
+
+The configuration for JWT validation can be contained within a MicroProfile Config properties file, under `src/main/resources/META-INF`
+add a `microprofile-config.properties` with the following content.
+
+[source]
+----
+mp.jwt.verify.publickey.location=META-INF/public.pem
+mp.jwt.verify.issuer=quickstart-jwt-issuer
+----
+
+As before, deploy and call the endpoint.
+
+[source]
+----
+$ mvn package wildfly:deploy
+
+$ curl http://localhost:8080/microprofile-jwt/Sample/helloworld
+Hello anonymous
+----
+
+A new token can now be generated using the TokenUtility created previously and the token passed in as we call the endpoint.
+
+[source]
+----
+$ curl -H "Authorization: Bearer eyJ...59g" http://localhost:8080/microprofile-jwt/Sample/helloworld
+Hello testUser
+----
+
+At this point our first endpoint now supports optional authentication making use of a JWT token.
+
+=== Authorization
+
+Now that authentication has been activated we can add another endpoint that requires the caller to have been granted the
+‘Subscribers’ role which will be based on the groups in the incoming JWT token.
+
+The following imports should be added to the “SampleEndPoint” class: -
+
+[source,java]
+----
+import jakarta.annotation.security.RolesAllowed;
+import jakarta.inject.Inject;
+
+import org.eclipse.microprofile.jwt.JsonWebToken;
+----
+
+And then the following new endpoint can be added: -
+
+[source,java]
+----
+@Inject
+JsonWebToken jwt;
+
+@GET()
+@Path("/subscription")
+@RolesAllowed({"Subscriber"})
+public String helloRolesAllowed(@Context SecurityContext ctx) {
+    Principal caller =  ctx.getUserPrincipal();
+    String name = caller == null ? "anonymous" : caller.getName();
+    boolean hasJWT = jwt.getClaimNames() != null;
+    String helloReply = String.format("hello + %s, hasJWT: %s", name, hasJWT);
+    return helloReply;
+}
+----
+
+
+Within WildFly the JAX-RS deployment is handled by RESTEasy so under `src/main/webapp/WEB-INF` add the following to the web.xml to enable RESTEasy authorization checks.
+
+[source,xml]
+----
+<context-param>
+    <param-name>resteasy.role.based.security</param-name>
+    <param-value>true</param-value>
+</context-param>
+
+<security-role>
+    <role-name>Subscriber</role-name>
+</security-role>
+----
+
+As before, build and deploy the example.
+
+[source]
+----
+$ mvn package wildfly:deploy
+----
+
+Using a recently generated token the new endpoint can be called.
+
+[source]
+----
+$ curl -H "Authorization: Bearer ey..59g" http://localhost:8080/microprofile-jwt/Sample/subscription
+hello + testUser, hasJWT: true
+----
+
+If a token is now generated without including the “Subscriber” group access should be denied to the endpoint.
+
+[source]
+----
+$ curl -H "Authorization: Bearer ey..Pw" http://localhost:8080/microprofile-jwt/Sample/subscription
+Access forbidden: role not allowed
+----
+
+=== Claims
+
+A final feature that will be explored within this Quickstart is accessing the claims contained within the JWT.
+
+The JWTToken in the previous example can be used to inspect the claims, however it is also possible to inject the specific claim.
+
+The following imports should be added to the “SampleEndPoint” class: -
+
+[source,java]
+----
+import java.time.LocalDate;
+import java.time.Period;
+import java.util.Optional;
+
+import org.eclipse.microprofile.jwt.Claims;
+import org.eclipse.microprofile.jwt.Claim;
+----
+
+And then the following new endpoint can be added: -
+
+[source,java]
+----
+@Inject
+@Claim(standard = Claims.birthdate)
+Optional<String> birthdate;
+
+@GET()
+@Path("/birthday")
+@RolesAllowed({ "Subscriber" })
+public String birthday() {
+    if (birthdate.isPresent()) {
+        LocalDate birthdate = LocalDate.parse(this.birthdate.get().toString());
+        LocalDate today = LocalDate.now();
+        LocalDate next = birthdate.withYear(today.getYear());
+        if (today.equals(next)) {
+            return "Happy Birthday";
+        }
+        if (next.isBefore(today)) {
+            next = next.withYear(next.getYear() + 1);
+        }
+        Period wait = today.until(next);
+        return String.format("%d months and %d days until your next birthday.", wait.getMonths(), wait.getDays());
+    }
+    return "Sorry, we don't know your birthdate.";
+}
+----
+
+As with the previous endpoint the caller is required to have been granted the `Subscriber` role, if a `birthdate` claim is present within
+the JWT token this endpoint will calculate how many days until the next birthday and wish you happy birthday it if is today.
+
+As before, build and deploy the example.
+
+[source]
+----
+$ mvn package wildfly:deploy
+----
+
+Using a recently generated token the new endpoint can be called.
+
+[source]
+----
+$ curl -H "Authorization: Bearer ey..59g" http://localhost:8080/microprofile-jwt/Sample/birthday
+7 months and 19 days until your next birthday.
+----
+
+// Bootable JAR
+:leveloffset: +1
+
+[[build_and_run_the_quickstart_with_bootable_jar]]
+= Building and running the quickstart application in a bootable JAR
+
+You can use the WildFly JAR Maven plug-in to build a {productName} bootable JAR to run this quickstart.
+
+The quickstart `pom.xml` file contains a Maven profile named *bootable-jar* which configures the bootable JAR building:
+
+[source,xml,subs="attributes+"]
+----
+      <profile>
+          <id>bootable-jar</id>
+          <build>
+              <plugins>
+                  <plugin>
+                      <groupId>org.wildfly.plugins</groupId>
+                      <artifactId>wildfly-jar-maven-plugin</artifactId>
+                      <configuration>
+                          <feature-pack-location>wildfly@maven(org.jboss.universe:community-universe)#${version.server}</feature-pack-location>
+                          <layers>...</layers>
+                          <plugin-options>
+                              <jboss-fork-embedded>true</jboss-fork-embedded>
+                          </plugin-options>
+                      </configuration>
+                      <executions>
+                          <execution>
+                              <goals>
+                                  <goal>package</goal>
+                              </goals>
+                          </execution>
+                      </executions>
+                  </plugin>
+                  ...
+              </plugins>
+          </build>
+      </profile>
+----
+
+.Procedure
+
+. Build the quickstart bootable JAR with the following command:
++
+[source,subs="attributes+",options="nowrap"]
+----
+$ mvn clean package -Pbootable-jar
+----
+
+. Run the quickstart application contained in the bootable JAR:
++
+[source,subs="attributes+",options="nowrap"]
+----
+ifdef::uses-jaeger[]
+$ JAEGER_REPORTER_LOG_SPANS=true JAEGER_SAMPLER_TYPE=const JAEGER_SAMPLER_PARAM=1 java -jar target/{artifactId}-bootable.jar
+endif::uses-jaeger[]
+ifndef::uses-jaeger[]
+$ java -jar target/{artifactId}-bootable.jar
+endif::uses-jaeger[]
+----
+
+. You can now interact with the quickstart application.
+
+[NOTE]
+====
+After the quickstart application is deployed, the bootable JAR includes the application in the root context. Therefore, any URLs related to the application should not have the `/{artifactId}` path segment after `HOST:PORT`.
+====
+
+// Bootable Jar Testing
+:leveloffset: +1
+
+[[run_the_integration_tests_with_bootable_jar_]]
+= Run the Integration Tests with a bootable jar
+
+//******************************************************************************
+// This template sets attributes for the different standalone server profiles.
+//
+// You must define the `standalone-server-type`. Supported values are:
+//    default
+//    full
+//    full-ha
+//    ha
+//    microprofile
+//    custom
+//******************************************************************************
+
+// Standalone server with the default profile.
+ifeval::["{standalone-server-type}"=="default"]
+:serverProfile: default profile
+:configFileName: standalone/configuration/standalone.xml
+:serverArguments:
+endif::[]
+
+// Standalone server with the full profile.
+ifeval::["{standalone-server-type}"=="full"]
+:serverProfile: full profile
+:configFileName: standalone/configuration/standalone-full.xml
+:serverArguments:  -c standalone-full.xml
+endif::[]
+
+// Standalone server with the full HA profile.
+ifeval::["{standalone-server-type}"=="full-ha"]
+:serverProfile: full HA profile
+:configFileName: standalone/configuration/standalone-full-ha.xml
+:serverArguments:  -c standalone-full-ha.xml
+endif::[]
+
+// Start the standalone server with the HA profile.
+ifeval::["{standalone-server-type}"=="ha"]
+:serverProfile: HA profile
+:configFileName: standalone/configuration/standalone-ha.xml
+:serverArguments:  -c standalone-ha.xml
+endif::[]
+
+// Start the standalone server with the Eclipse MicroProfile profile.
+ifeval::["{standalone-server-type}"=="microprofile"]
+:serverProfile: MicroProfile profile
+:configFileName: standalone/configuration/standalone-microprofile.xml
+:serverArguments:  -c standalone-microprofile.xml
+endif::[]
+
+// Standalone server with the custom profile.
+// NOTE: This profile requires that you define the `serverArguments` variable
+// within the quickstart README.adoc file. For example:
+//  :serverArguments: --server-config=../../docs/examples/configs/standalone-xts.xml
+ifeval::["{standalone-server-type}"=="custom"]
+:serverProfile: custom profile
+endif::[]
+
+// If there is no match, use the default profile.
+ifndef::serverProfile[]
+:standalone-server-type:  default
+:serverProfile: default profile
+:configFileName: standalone/configuration/standalone.xml
+:serverArguments:
+endif::serverProfile[]
+ifndef::server_provisioning_server_host[:server_provisioning_server_host: http://localhost:8080]
+
+The integration tests included with this quickstart, which verify that the quickstart runs correctly, may also be run with a bootable jar.
+
+Follow these steps to run the integration tests.
+
+. Make sure the bootable jar is provisioned.
++
+[source,subs="attributes+",options="nowrap"]
+----
+$ mvn clean package -Pbootable-jar
+----
+
+. Start the {productName} bootable jar, this time using the {productName} Maven Jar Plugin, which is recommend for testing due to simpler automation.
++
+[source,subs="attributes+",options="nowrap"]
+----
+$ mvn wildfly-jar:start -Djar-file-name=target/{artifactId}-bootable.jar
+----
+
+. Type the following command to run the `verify` goal with the `integration-testing` profile activated, and specifying the quickstart's URL using the `server.host` system property, which for a bootable jar by default is `{server_provisioning_server_host}`.
++
+[source,subs="attributes+",options="nowrap"]
+----
+$ mvn verify -Pintegration-testing -Dserver.host={server_provisioning_server_host}
+----
+
+. Shutdown the {productName} bootable jar, this time using the {productName} Maven Jar Plugin too.
++
+[source,options="nowrap"]
+----
+$ mvn wildfly-jar:shutdown
+----
+
+:leveloffset: 1
+
+:leveloffset!:
+
+// OpenShift
+:leveloffset: +1
+
+ifndef::helm-app-name[]
+:helm-app-name: {artifactId}
+endif::helm-app-name[]
+
+
+
+[[build_and_run_the_quickstart_on_openshift]]
+= Building and running the quickstart application with OpenShift
+// The openshift profile
+:leveloffset: +1
+
+[[build-the-quickstart-for-openshift]]
+== Build the {productName} Source-to-Image (S2I) Quickstart to OpenShift with Helm Charts
+
+On OpenShift, the S2I build with Apache Maven uses an `openshift` Maven profile to provision a {productName} server, deploy and run the quickstart in OpenShift environment.
+
+ifndef::ProductRelease,EAPXPRelease[]
+The server provisioning functionality is provided by the WildFly Maven Plugin, and you may find its configuration in the quickstart `pom.xml`:
+endif::[]
+ifdef::ProductRelease,EAPXPRelease[]
+The server provisioning functionality is provided by the EAP Maven Plugin, and you may find its configuration in the quickstart `pom.xml`:
+endif::[]
+
+ifndef::ProductRelease,EAPXPRelease[]
+[source,xml,subs="attributes+"]
+----
+        <profile>
+            <id>openshift</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.wildfly.plugins</groupId>
+                        <artifactId>wildfly-maven-plugin</artifactId>
+                        <configuration>
+                            <feature-packs>
+                                <feature-pack>
+                                    <location>org.wildfly:wildfly-galleon-pack:${version.server}</location>
+                                </feature-pack>
+                                <feature-pack>
+                                    <location>org.wildfly.cloud:wildfly-cloud-galleon-pack:${version.pack.cloud}</location>
+                                </feature-pack>
+                            </feature-packs>
+                            <layers>...</layers>
+                            <name>ROOT.war</name>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>package</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    ...
+                </plugins>
+            </build>
+        </profile>
+----
+endif::[]
+
+ifdef::ProductRelease,EAPXPRelease[]
+[source,xml,subs="attributes+"]
+----
+        <profile>
+            <id>openshift</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.jboss.eap.plugins</groupId>
+                        <artifactId>eap-maven-plugin</artifactId>
+                        <configuration>
+                            ...
+                            <feature-packs>
+                                <feature-pack>
+                                    <location>org.jboss.eap:wildfly-ee-galleon-pack</location>
+                                </feature-pack>
+                                <feature-pack>
+                                    <location>org.jboss.eap.cloud:eap-cloud-galleon-pack</location>
+                                </feature-pack>
+                            </feature-packs>
+                            <layers>...</layers>
+                            <name>ROOT.war</name>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>package</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    ...
+                </plugins>
+            </build>
+        </profile>
+----
+endif::[]
+
+ifndef::ProductRelease,EAPXPRelease[]
+You may note that unlike the `provisioned-server` profile it uses the cloud feature pack which enables a configuration tuned for OpenShift environment.
+endif::[]
+ifdef::ProductRelease,EAPXPRelease[]
+You may note that it uses the cloud feature pack which enables a configuration tuned for OpenShift environment.
+endif::[]
+
+:leveloffset: 1
+// Getting Started with Helm
+:leveloffset: +1
+
+[[getting_started_with_helm]]
+= Getting Started with {xpaasproduct-shortname} and Helm Charts
+
+This section contains the basic instructions to build and deploy this quickstart to {xpaasproduct-shortname} or {xpaasproductOpenShiftOnline-shortname} using Helm Charts.
+
+[[prerequisites_helm_openshift]]
+== Prerequisites
+
+* You must be logged in OpenShift and have an `oc` client to connect to OpenShift
+* https://helm.sh[Helm] must be installed to deploy the backend on OpenShift.
+
+Once you have installed Helm, you need to add the repository that provides Helm Charts for {productName}.
+
+ifndef::ProductRelease,EAPXPRelease[]
+[source,options="nowrap"]
+----
+$ helm repo add wildfly https://docs.wildfly.org/wildfly-charts/
+"wildfly" has been added to your repositories
+$ helm search repo wildfly
+NAME                    CHART VERSION   APP VERSION     DESCRIPTION
+wildfly/wildfly         ...             ...            Build and Deploy WildFly applications on OpenShift
+wildfly/wildfly-common  ...             ...            A library chart for WildFly-based applications
+----
+endif::[]
+ifdef::ProductRelease[]
+[source,options="nowrap",subs="+attributes"]
+----
+$ helm repo add jboss-eap https://jbossas.github.io/eap-charts/
+"jboss-eap" has been added to your repositories
+$ helm search repo jboss-eap
+NAME                    CHART VERSION   APP VERSION     DESCRIPTION
+{helmChartName}         ...             ...             A Helm chart to build and deploy EAP {productVersion} applications
+----
+endif::[]
+ifdef::EAPXPRelease[]
+[source,options="nowrap",subs="+attributes"]
+----
+$ helm repo add jboss-eap https://jbossas.github.io/eap-charts/
+"jboss-eap" has been added to your repositories
+$ helm search repo jboss-eap
+NAME                    CHART VERSION   APP VERSION     DESCRIPTION
+{helmChartName}         ...             ...             A Helm chart to build and deploy EAP XP {productVersion} applications
+----
+endif::[]
+
+:leveloffset: 1
+
+ifdef::helm-install-prerequisites[]
+// Additional steps needed before deploying in Helm
+[[deploy_helm_prerequisites]]
+include::{helm-install-prerequisites}[leveloffset=+1]
+endif::helm-install-prerequisites[]
+
+//Prepare Helm for Quickstart Deployment
+:leveloffset: +1
+
+
+ifeval::[{useHelmChartDir} == true]
+:helm_chart_values: charts
+endif::[]
+ifndef::useHelmChartDir[]
+:helm_chart_values: -f charts/helm.yaml {helmChartName}
+endif::[]
+[[deploy_helm]]
+== Deploy the {ProductShortName} Source-to-Image (S2I) Quickstart to OpenShift with Helm Charts
+
+Log in to your OpenShift instance using the `oc login` command.
+The backend will be built and deployed on OpenShift with a Helm Chart for {productName}.
+
+Navigate to the root directory of this quickstart and run the following command:
+[source,options="nowrap",subs="+attributes"]
+----
+$ helm install {helm-app-name} {helm_chart_values} --wait --timeout=10m0s
+NAME: {helm-app-name}
+...
+STATUS: deployed
+REVISION: 1
+----
+
+This command will return once the application has successfully deployed. In case of a timeout, you can check the status of the application with the following command in another terminal:
+
+[source,options="nowrap",subs="+attributes"]
+----
+oc get deployment {helm-app-name}
+----
+
+The Helm Chart for this quickstart contains all the information to build an image from the source code using S2I on Java 17:
+
+
+ifndef::requires-http-route[]
+ifdef::useHelmChartDir[]
+[source,yaml]
+----
+include::{docdir}/charts/Chart.yaml[]
+----
+endif::useHelmChartDir[]
+ifndef::useHelmChartDir[]
+[source,yaml]
+----
+build:
+  uri: https://github.com/wildfly/quickstart.git
+  ref: main
+  contextDir: microprofile-jwt
+deploy:
+  replicas: 1
+----
+endif::useHelmChartDir[]
+endif::requires-http-route[]
+
+ifdef::requires-http-route[]
+[source,options="nowrap",subs="+attributes"]
+----
+build:
+  uri: {githubRepoCodeUrl}
+  ref: {WildFlyQuickStartRepoTag}
+  contextDir: {artifactId}
+deploy:
+  replicas: 1
+  route:
+    tls:
+      enabled: false
+----
+endif::requires-http-route[]
+
+This will create a new deployment on OpenShift and deploy the application.
+
+If you want to see all the configuration elements to customize your deployment you can use the following command:
+[source,options="nowrap",subs="+attributes"]
+----
+$ helm show readme {helmChartName}
+----
+
+
+Get the URL of the route to the deployment.
+
+[source,options="nowrap",subs="+attributes"]
+----
+$ oc get route {helm-app-name} -o jsonpath="{.spec.host}"
+----
+Access the application in your web browser using the displayed URL.
+
+[NOTE]
+====
+The Maven profile named `openshift` is used by the Helm chart to provision the server with the quickstart deployed on the root web context, and thus the application should be accessed with the URL without the `/{artifactId}` path segment after `HOST:PORT`.
+====
+
+ifdef::post-helm-install-actions[]
+include::{post-helm-install-actions}[leveloffset=+1]
+endif::post-helm-install-actions[]
+
+
+[[undeploy_helm]]
+== Undeploy the {ProductShortName} Source-to-Image (S2I) Quickstart from OpenShift with Helm Charts
+
+
+[source,options="nowrap",subs="+attributes"]
+----
+$ helm uninstall {helm-app-name}
+----
+
+:leveloffset: 1
+
+// Testing on Openshift
+:leveloffset: +1
+
+[[run_the_integration_tests_with_openshift]]
+= Run the Integration Tests with OpenShift
+The integration tests included with this quickstart, which verify that the quickstart runs correctly, may also be run with the quickstart running on OpenShift.
+[NOTE]
+====
+The integration tests expect a deployed application, so make sure you have deployed the quickstart on OpenShift before you begin.
+====
+
+ifdef::extra-openshift-testing-actions[]
+include::{extra-openshift-testing-actions}[leveloffset=+1]
+endif::extra-openshift-testing-actions[]
+
+ifndef::extra-openshift-test-arguments[:extra-openshift-test-arguments:]
+
+Run the integration tests using the following command to run the `verify` goal with the `integration-testing` profile activated and the proper URL:
+ifndef::requires-http-route[]
+[source,options="nowrap",subs="+attributes"]
+----
+$ mvn verify -Pintegration-testing -Dserver.host=https://$(oc get route {helm-app-name} --template='{{ .spec.host }}') {extra-openshift-test-arguments}
+----
+endif::requires-http-route[]
+ifdef::requires-http-route[]
+[source,options="nowrap",subs="+attributes"]
+----
+$ mvn verify -Pintegration-testing -Dserver.host=http://$(oc get route {helm-app-name} --template='{{ .spec.host }}') {extra-openshift-test-arguments}
+----
+endif::requires-http-route[]
+
+[NOTE]
+====
+The tests are using SSL to connect to the quickstart running on OpenShift. So you need the certificates to be trusted by the machine the tests are run from.
+====
+
+:leveloffset: 1
+
+:leveloffset!:
+
+== Conclusion
+
+As demonstrated within this Quickstart the MicroProfile JWT specification provides an easy way to secure deployments without needing
+to rely on managed server configuration.  The techniques explored in this quickstart can be used to create your own MicroProfile JWT
+secured enpoints or to add MicroProfile JWT authentication to your existing deployments.
