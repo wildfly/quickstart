@@ -41,6 +41,8 @@ jobs:
         done
         #Updates the table of available quickstarts @ root README.adoc
         mvn clean package -Pdocs
+        #Reduce root README
+        asciidoctor-reducer --preserve-conditionals -o README.adoc README-source.adoc
     - name: Commit and Push README
       uses: EndBug/add-and-commit@v9
       with:
