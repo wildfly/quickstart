@@ -48,15 +48,10 @@
         <version.bom.microprofile>${version.server}</version.bom.microprofile>
         <version.pack.cloud>5.0.0.Final</version.pack.cloud>
         <version.plugin.wildfly>4.2.1.Final</version.plugin.wildfly>
-        <version.wildfly-jar.maven.plugin>10.0.0.Final</version.wildfly-jar.maven.plugin>
-
+        <version.plugin.wildfly-jar>10.0.0.Final</version.plugin.wildfly-jar>
+        <!-- The versions for other Dependencies and Plugins -->
         <version.org.jboss.resteasy>6.2.6.Final</version.org.jboss.resteasy>
         <version.org.junit>5.10.1</version.org.junit>
-
-        <!-- These two can be removed, and their respective usages below, when https://issues.redhat.com/browse/WFLY-18499
-             is resolved and integrated -->
-        <version.io.smallrye.smallrye-config>3.4.3</version.io.smallrye.smallrye-config>
-        <version.org.jboss.resteasy.microprofile>2.1.4.Final</version.org.jboss.resteasy.microprofile>
 
         <!-- Configuration settings -->
         <jboss.home>${project.build.directory}/server</jboss.home>
@@ -169,13 +164,11 @@
         <dependency>
             <groupId>io.smallrye.config</groupId>
             <artifactId>smallrye-config</artifactId>
-            <version>${version.io.smallrye.smallrye-config}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.jboss.resteasy.microprofile</groupId>
             <artifactId>microprofile-rest-client</artifactId>
-            <version>${version.org.jboss.resteasy.microprofile}</version>
             <scope>test</scope>
         </dependency>
         <!-- the server uses this instead of commons-logging, to be fully compatible we need to add this dependency whenever commons-logging is needed -->
@@ -209,7 +202,7 @@
                 <plugin>
                     <groupId>org.wildfly.plugins</groupId>
                     <artifactId>wildfly-jar-maven-plugin</artifactId>
-                    <version>${version.wildfly-jar.maven.plugin}</version>
+                    <version>${version.plugin.wildfly-jar}</version>
                     <configuration>
                         <feature-packs>
                             <feature-pack>
