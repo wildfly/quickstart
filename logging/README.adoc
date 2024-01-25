@@ -201,7 +201,6 @@ endif::[]
 :author: Joel Tosi
 :level: Intermediate
 :technologies: Logging
-:portedToGlow: true
 
 [abstract]
 The `logging` quickstart demonstrates how to configure different logging levels in {productName}.
@@ -624,12 +623,11 @@ Now you have deployed the quickstart with the default configuration, you run a m
 
 
 . Review the `configure-logging.cli` file in the root of this quickstart directory. This script configures the logging subsystem in the server configuration file. It configures the file handlers, creates the logger for our quickstart and sets the level to TRACE. It also assigns the handlers for our quickstart to our logger.
-. The CLI script references the logging formatter with the property `${formatter}`. On bare-metal this formatter is named `PATTERN`, on OpenShift it is named `OPENSHIFT`. A properties file is to be provided when executing the CLI to resolve the `formatter` property according to the execution context. The file `cli.properties` is to be used when executing the script on bare-metal. `cli-openshift.properties` is to be used when executing the script on OpenShift. 
 . Open a new terminal, navigate to the root directory of this quickstart, and run the following command, replacing `__{jbossHomeName}__` with the path to your server:
 +
 [source,subs="+quotes,attributes+",options="nowrap"]
 ----
-$ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=configure-logging.cli --resolve-parameter-values=true --properties=cli.properties
+$ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=configure-logging.cli
 ----
 +
 NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
@@ -922,7 +920,7 @@ For Windows, use the `__{jbossHomeName}__\bin\add-user.bat` script.
 endif::[]
 
 The server provisioning functionality is provided by the WildFly Maven Plugin, and you may find its configuration in the quickstart `pom.xml`:
-
+ifndef::portedToGlow[]
 [source,xml,subs="attributes+"]
 ----
         <profile>
@@ -955,6 +953,55 @@ The server provisioning functionality is provided by the WildFly Maven Plugin, a
             </build>
         </profile>
 ----
+endif::portedToGlow[]
+ifdef::portedToGlow[]
+[source,xml,subs="attributes+"]
+----
+        <profile>
+            <id>provisioned-server</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.wildfly.plugins</groupId>
+                        <artifactId>wildfly-maven-plugin</artifactId>
+                        <configuration>
+                            <discover-provisioning-info>
+                                <version>${version.server}</version>
+                            </discover-provisioning-info>
+                            <!--
+                                Rename the output war to ROOT.war before adding it to the server, so that the
+                                application is deployed in the root web context.
+                            -->
+                            <name>ROOT.war</name>
+                            <add-ons>...</add-ons>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>package</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    ...
+                </plugins>
+            </build>
+        </profile>
+----
+The plugin uses https://github.com/wildfly/wildfly-glow[WildFly Glow] to discover the feature packs and layers required to run the application, and provisions a server containing those layers.
+
+[NOTE]
+====
+This uses a pre-release of version 5.0.0 of the wildfly-maven-plugin providing the Glow functionality. The version is set in the pom's `pluginManagement` section.
+====
+
+If you get an error or the server is missing some functionality which cannot be auto-discovered, you can download the https://github.com/wildfly/wildfly-glow/releases/tag[WildFly Glow CLI] and run the following command to see more information about what add-ons  are available:
+
+[source,shell]
+----
+wildfly-glow show-add-ons
+----
+endif::portedToGlow[]
 
 [NOTE]
 ====
@@ -1154,6 +1201,7 @@ The server provisioning functionality is provided by the EAP Maven Plugin, and y
 endif::[]
 
 ifndef::ProductRelease,EAPXPRelease[]
+ifndef::portedToGlow[]
 [source,xml,subs="attributes+"]
 ----
         <profile>
@@ -1188,7 +1236,59 @@ ifndef::ProductRelease,EAPXPRelease[]
             </build>
         </profile>
 ----
-endif::[]
+You may note that unlike the `provisioned-server` profile it uses the cloud feature pack which enables a configuration tuned for OpenShift environment.
+endif::portedToGlow[]
+ifdef::portedToGlow[]
+[source,xml,subs="attributes+"]
+----
+        <profile>
+            <id>openshift</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.wildfly.plugins</groupId>
+                        <artifactId>wildfly-maven-plugin</artifactId>
+                        <configuration>
+                            <discover-provisioning-info>
+                                <version>${version.server}</version>
+                                <context>cloud</context>
+                            </discover-provisioning-info>
+                            <!--
+                                The parent POM's 'openshift' profile renames the output archive to ROOT.war so that the
+                                application is deployed in the root web context. Add ROOT.war to the server.
+                            -->
+                            <filename>ROOT.war</filename>
+                            <add-ons>...</add-ons>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>package</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    ...
+                </plugins>
+            </build>
+        </profile>
+----
+You may note that unlike the `provisioned-server` profile it uses the cloud context which enables a configuration tuned for OpenShift environment.
+
+The plugin uses https://github.com/wildfly/wildfly-glow[WildFly Glow] to discover the feature packs and layers required to run the application, and provisions a server containing those layers.
+
+[NOTE]
+====
+This uses a pre-release of version 5.0.0 of the wildfly-maven-plugin providing the Glow functionality. The version is set in the pom's `pluginManagement` section.
+====
+
+If you get an error or the server is missing some functionality which cannot be auto-discovered, you can download the https://github.com/wildfly/wildfly-glow/releases[WildFly Glow CLI] and run the following command to see more information about what add-ons are available:
+[source,shell]
+----
+wildfly-glow show-add-ons
+----
+endif::portedToGlow[]
+endif::ProductRelease,EAPXPRelease[]
 
 ifdef::ProductRelease,EAPXPRelease[]
 [source,xml,subs="attributes+"]
@@ -1226,14 +1326,9 @@ ifdef::ProductRelease,EAPXPRelease[]
             </build>
         </profile>
 ----
-endif::[]
-
-ifndef::ProductRelease,EAPXPRelease[]
-You may note that unlike the `provisioned-server` profile it uses the cloud feature pack which enables a configuration tuned for OpenShift environment.
-endif::[]
-ifdef::ProductRelease,EAPXPRelease[]
 You may note that it uses the cloud feature pack which enables a configuration tuned for OpenShift environment.
 endif::[]
+
 
 :leveloffset: 1
 // Getting Started with Helm

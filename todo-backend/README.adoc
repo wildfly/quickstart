@@ -209,7 +209,6 @@ endif::[]
 :archiveType: war
 :useHelmChartDir: true
 :helm-install-prerequisites: ../todo-backend/helm-install-prerequisites.adoc
-:portedToGlow: true
 
 [abstract]
 The `todo-backend` quickstart demonstrates how to implement a backend that exposes a HTTP API with JAX-RS
@@ -619,6 +618,7 @@ The server provisioning functionality is provided by the EAP Maven Plugin, and y
 endif::[]
 
 ifndef::ProductRelease,EAPXPRelease[]
+ifndef::portedToGlow[]
 [source,xml,subs="attributes+"]
 ----
         <profile>
@@ -653,7 +653,59 @@ ifndef::ProductRelease,EAPXPRelease[]
             </build>
         </profile>
 ----
-endif::[]
+You may note that unlike the `provisioned-server` profile it uses the cloud feature pack which enables a configuration tuned for OpenShift environment.
+endif::portedToGlow[]
+ifdef::portedToGlow[]
+[source,xml,subs="attributes+"]
+----
+        <profile>
+            <id>openshift</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.wildfly.plugins</groupId>
+                        <artifactId>wildfly-maven-plugin</artifactId>
+                        <configuration>
+                            <discover-provisioning-info>
+                                <version>${version.server}</version>
+                                <context>cloud</context>
+                            </discover-provisioning-info>
+                            <!--
+                                The parent POM's 'openshift' profile renames the output archive to ROOT.war so that the
+                                application is deployed in the root web context. Add ROOT.war to the server.
+                            -->
+                            <filename>ROOT.war</filename>
+                            <add-ons>...</add-ons>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>package</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    ...
+                </plugins>
+            </build>
+        </profile>
+----
+You may note that unlike the `provisioned-server` profile it uses the cloud context which enables a configuration tuned for OpenShift environment.
+
+The plugin uses https://github.com/wildfly/wildfly-glow[WildFly Glow] to discover the feature packs and layers required to run the application, and provisions a server containing those layers.
+
+[NOTE]
+====
+This uses a pre-release of version 5.0.0 of the wildfly-maven-plugin providing the Glow functionality. The version is set in the pom's `pluginManagement` section.
+====
+
+If you get an error or the server is missing some functionality which cannot be auto-discovered, you can download the https://github.com/wildfly/wildfly-glow/releases[WildFly Glow CLI] and run the following command to see more information about what add-ons are available:
+[source,shell]
+----
+wildfly-glow show-add-ons
+----
+endif::portedToGlow[]
+endif::ProductRelease,EAPXPRelease[]
 
 ifdef::ProductRelease,EAPXPRelease[]
 [source,xml,subs="attributes+"]
@@ -691,14 +743,9 @@ ifdef::ProductRelease,EAPXPRelease[]
             </build>
         </profile>
 ----
-endif::[]
-
-ifndef::ProductRelease,EAPXPRelease[]
-You may note that unlike the `provisioned-server` profile it uses the cloud feature pack which enables a configuration tuned for OpenShift environment.
-endif::[]
-ifdef::ProductRelease,EAPXPRelease[]
 You may note that it uses the cloud feature pack which enables a configuration tuned for OpenShift environment.
 endif::[]
+
 
 :leveloffset: 1
 // Getting Started with Helm
