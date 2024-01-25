@@ -70,6 +70,28 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>generate-sha1</id>
+                        <phase>package</phase>
+                        <configuration>
+                            <target>
+                                <checksum algorithm="SHA-1" fileext=".sha1">
+                                    <fileset dir="${basedir}/target">
+                                        <include name="*.zip"/>
+                                    </fileset>
+                                </checksum>
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 
