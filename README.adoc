@@ -228,30 +228,6 @@ The quickstart `README` files use the _replaceable_ value `__WILDFLY_HOME__` to 
 
 When you see the replaceable variable __QUICKSTART_HOME__, replace it with the path to the root directory of all of the quickstarts.
 
-[[prerequisites]]
-== Prerequisites
-
-[[build_quickstart_readme_files]]
-=== Build the Quickstart README.html Files
-
-The quickstart `README` files are written in AsciiDoc, not only because the language is much more powerful than Markdown, but also also because it is possible to extract common instructions into separate files to be reused across the quickstarts. While this makes them more flexible and easier to maintain, unfortunately, included files do not render in a readable format in GitHub or in most text editors.
-
-The Maven plugin that is used to build and deploy the quickstarts can also generate fully rendered `README.html` instructions from the `README.adoc` files.
-
-To build all of the quickstart `README.html` files, including the root `README.html` file that contains the table with links to all available quickstarts, navigate to the root folder of the quickstarts and run the following command.
-
-[source,options="nowrap"]
-----
-$ mvn clean package -Pdocs
-----
-
-[TIP]
-====
-To build the `README.html` file for a specific quickstart, navigate to the quickstart directory and run the above command.
-====
-
-If you see errors about missing dependencies, check the xref:prerequisites[prerequisites] section to determine whether you need to xref:build_wildfly_boms[build the WildFly BOMs] that corresponds to the version of the quickstarts that you are using.
-
 [[suggested_approach_to_the_quickstarts]]
 == Suggested Approach to the Quickstarts
 
