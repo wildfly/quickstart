@@ -1,0 +1,487 @@
+include::../shared-doc/attributes.adoc[]
+
+= messaging-clustering-singleton: Messaging Example that Demonstrates Clustering
+:author: Flavia Rainone, Jess Sightler
+:level: Advanced
+:technologies: JMS, MDB, Clustering
+
+[abstract]
+The `messaging-clustering-singleton` quickstart uses a JMS topic and a queue to demonstrate clustering using {productName} messaging with MDB singleton configuration where only one node in the cluster will be active.
+
+:standalone-server-type: full-ha
+:archiveType: war
+:optional-domain-or-multiple-servers:
+:jbds-not-supported:
+
+== What is it?
+
+The `messaging-clustering-singleton` quickstart demonstrates the use of clustering with integrated Apache ActiveMQ Artemis. It uses the same code as in link:../helloworld-mdb/README.adoc[helloworld-mdb] quickstart, with only a difference in the configuration to run it as a clustered singleton. Instructions are provided to run the quickstart on either a standalone server or in a managed domain.
+
+These are the two JMS resources contained in this quickstart:
+
+* A queue named `HELLOWORLDMDBQueue` bound in JNDI as `java:/queue/HELLOWORLDMDBQueue`
+* A topic named `HELLOWORLDMDBTopic` bound in JNDI as `java:/topic/HELLOWORLDMDBTopic`
+
+Both contain a singleton configuration as specified in the file link:src/main/webapp/WEB-INF/jboss-ejb3.xml[WEB-INF/jboss-ejb3.xml]:
+
+[source,xml,options="nowrap"]
+----
+<c:clustering>
+    <ejb-name>*</ejb-name>
+    <c:clustered-singleton>true</c:clustered-singleton>
+</c:clustering>
+----
+
+The wildcard (*) in the `ejb-name` element indicates that all MDBs contained in the application will be clustered singleton. As a result, only one node in the cluster will have those MDBs active at a specific time. If that node shuts down, another node in the cluster will become the active node with MDBs, called the singleton provider.
+
+Also, we can find a configuration for delivery group in the same file:
+
+[source,xml,options="nowrap"]
+----
+<d:delivery>
+    <ejb-name>HelloWorldTopicMDB</ejb-name>
+    <d:group>my-mdb-delivery-group</d:group>
+</d:delivery>
+----
+
+Here, you can see that only one of the MDBs, `HelloWorldTopicMDB`, is associated with a delivery group. All delivery groups used by an MDB must be declared in the `ejb` subsystem configuration, and they can be enabled or disabled. If the delivery group is disabled in a cluster node, all MDBs belonging to that group will be inactive in that node. Notice that delivery groups can be used in non-clustered environments as well. In that case, the MDB will be active in the server whenever the delivery group is enabled in the server. A delivery group can be enabled using the management CLI as you will see in this quickstart.
+
+If a delivery group is used in conjunction with singleton, as is the case of this quickstart, the MDB will be active in the singleton provider node only if that node has `delivery-group` enabled. If not, the MDB will be inactive in that node and all remainder nodes of the cluster.
+
+// Link to the quickstart source
+include::../shared-doc/view-the-source.adoc[leveloffset=+1]
+// System Requirements
+include::../shared-doc/system-requirements.adoc[leveloffset=+1]
+// Use of {jbossHomeName}
+include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
+
+== Build the Project
+
+Follow these steps to build the project without deploying it.
+
+. Open a terminal and navigate to the root directory of this quickstart.
+. Type this command to build the archive:
++
+[source,options="nowrap"]
+----
+$ mvn clean install
+----
+
+== Configure the Server and Deploy the Quickstart
+
+You can choose to configure and deploy this quickstart to a xref:configure_the_server_and_deploy_the_quickstart_to_a_managed_domain[managed domain] or to a xref:configure_the_server_and_deploy_the_quickstart_to_a_standalone_server[standalone server]. The sections below describe how to configure and start the server for each configuration.
+
+[[configure_the_server_and_deploy_the_quickstart_to_a_managed_domain]]
+=== Configure the Server and Deploy the Quickstart to a Managed Domain
+
+You configure the server by running the `install-domain.cli` script provided in the root directory of this quickstart.
+
+// Back Up the {productName} Managed Domain Configuration
+include::../shared-doc/back-up-managed-domain-configuration.adoc[leveloffset=+3]
+// Start the {productName} Managed Domain
+include::../shared-doc/start-the-managed-domain.adoc[leveloffset=+3]
+
+==== Configure the Domain Server and Deploy the Quickstart Using the JBoss CLI
+
+. Review the `install-domain.cli` file located in the root of this quickstart directory. This script creates the server group and servers and configures messaging clustering for testing this quickstart. You will note it does the following:
+
+** Stops the servers.
+** Creates the `quickstart-messaging-clustering-singleton-group` server group to test ActiveMQ clustering.
+** Enables console logging to allow you to view the quickstart output.
+** Adds two servers to the `server-group`.
+** Configures ActiveMQ clustering in the `full-ha` profile.
+** Creates a delivery group named `my-mdb-delivery-group`, with initial active value set to `true`.
+** Deploys the `{artifactId}.war` archive.
+** Starts the servers that were added to the managed domain.
+. Open a new terminal, navigate to the root directory of this quickstart, and run the following command, replacing `__{jbossHomeName}__` with the path to your server:
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=install-domain.cli
+----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
+
++
+You should see the following output:
++
+[source,options="nowrap"]
+----
+{
+    "outcome" => "success",
+    "result" => undefined,
+    "server-groups" => undefined
+}
+The batch executed successfully
+{
+    "outcome" => "success",
+    "result" => "STARTED"
+}
+{
+    "outcome" => "success",
+    "result" => "STARTED"
+}
+----
+
+[[configure_the_server_and_deploy_the_quickstart_to_a_standalone_server]]
+=== Configure the Server and Deploy the Quickstart to a Standalone Server
+
+If you choose to use standalone servers rather than a managed domain, you need two instances of the application server. The second server must be started with a port offset parameter provided to the startup script as `-Djboss.socket.binding.port-offset=100`.
+
+Since both application servers must be configured in the same way, you must configure the first server and then clone it.
+
+// Back Up the {productName} Standalone Server Configuration
+include::../shared-doc/back-up-server-standalone-configuration.adoc[leveloffset=+3]
+// Start the {productName} Standalone Server
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+3]
+
+==== Configure the Standalone Server and Deploy the Quickstart Using the JBoss CLI
+
+. Review the `install-standalone.cli` file located in the root of this quickstart directory. This script configures clustering for a standalone server. You will note it does the following:
+
+** Because the console is disabled by default in the Full HA profile, it enables console logging to allow you to view the quickstart output.
+** Enables clustering and sets a cluster password.
+** Creates a delivery group named `my-mdb-delivery-group`, with initial active value set to `true`.
+** Deploys the `{artifactId}.war` archive.
+** Reloads the server configuration.
+. Open a new terminal, navigate to the root directory of this quickstart, and run the following command, replacing `__{jbossHomeName}__` with the path to your server:
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}_1__/bin/jboss-cli.sh --connect --file=install-standalone.cli
+----
++
+NOTE: For Windows, use the `__{jbossHomeName}_1__\bin\jboss-cli.bat` script.
+
++
+You should see the following output:
++
+[source,options="nowrap"]
+----
+The batch executed successfully
+process-state: reload-required
+----
+
+==== Clone the {productName} Directory
+
+After you have successfully configured the server, you must make a copy of this {productName} directory structure to use for the second server.
+
+. Stop the server.
+. Make a copy of this {productName} directory structure to use for the second server.
+. Remove the following directories from the cloned instance:
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+__{jbossHomeName}_2__/standalone/data/activemq/bindings
+__{jbossHomeName}_2__/standalone/data/activemq/journal
+__{jbossHomeName}_2__/standalone/data/activemq/largemessages
+----
+
+==== Start the {productName} Standalone Servers with the Full HA Profile
+
+Use the following commands to start the standalone servers with the full HA profile.
+
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}_1__/bin/standalone.sh -c standalone-full-ha.xml
+$ __{jbossHomeName}_2__/bin/standalone.sh -c standalone-full-ha.xml -Djboss.socket.binding.port-offset=100
+----
+
+NOTE: For Windows, use the `__{jbossHomeName}_1__\bin\standalone.bat` and `__{jbossHomeName}_2__\bin\standalone.bat` scripts.
+
+== Access the Application
+
+=== Access the Application Running in a Managed Domain
+
+The application will be running at the following URL: http://localhost:9080/{artifactId}/HelloWorldMDBServletClient.
+
+It will send some messages to the queue.
+
+To send messages to the topic, use the following URL: http://localhost:9080/{artifactId}/HelloWorldMDBServletClient?topic
+
+=== Access the Application Running in a Standalone Server
+
+The application will be running at the following URL: http://localhost:8080/{artifactId}/HelloWorldMDBServletClient.
+
+It will send some messages to the queue.
+
+To send messages to the topic, use the following URL: http://localhost:8080/{artifactId}/HelloWorldMDBServletClient?topic
+
+== Investigate the Server Console Output
+
+Review the messages in both {productName} server consoles or logs.
+
+The following messages are sent to the queue:
+
+[source,options="nowrap"]
+----
+INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldQueueMDB] (Thread-0 (ActiveMQ-client-global-threads)) Received Message from queue: This is message 1
+INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldQueueMDB] (Thread-2 (ActiveMQ-client-global-threads)) Received Message from queue: This is message 3
+INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldQueueMDB] (Thread-4 (ActiveMQ-client-global-threads)) Received Message from queue: This is message 5
+INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldQueueMDB] (Thread-3 (ActiveMQ-client-global-threads)) Received Message from queue: This is message 4
+INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldQueueMDB] (Thread-1 (ActiveMQ-client-global-threads)) Received Message from queue: This is message 2
+----
+
+The following messages are sent to the topic:
+
+[source,options="nowrap"]
+----
+INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldTopicMDB] (Thread-5 (ActiveMQ-client-global-threads)) Received Message from topic: This is message 1
+INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldTopicMDB] (Thread-6 (ActiveMQ-client-global-threads)) Received Message from topic: This is message 2
+INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldTopicMDB] (Thread-8 (ActiveMQ-client-global-threads)) Received Message from topic: This is message 4
+INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldTopicMDB] (Thread-7 (ActiveMQ-client-global-threads)) Received Message from topic: This is message 3
+INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldTopicMDB] (Thread-9 (ActiveMQ-client-global-threads)) Received Message from topic: This is message 5
+----
+
+You will notice that only one of the nodes, elected as the singleton provider node, will be receiving the messages. For that, check both servers, only one will contain the received message log entries.
+
+== Server Log: Expected Warnings and Errors
+
+You will see the following warnings in the server logs. You can ignore these warnings as they are intended for production servers.
+
+[source,options="nowrap"]
+----
+WARNING [org.jgroups.protocols.UDP] (Thread-0 (ActiveMQ-server-ActiveMQServerImpl::serverUUID=c79278db-56e6-11e5-af50-69dd76236ee8-1573164340)) JGRP000015: the send buffer of socket DatagramSocket was set to 1MB, but the OS only allocated 212.99KB. This might lead to performance problems. Please set your max send buffer in the OS correctly (e.g. net.core.wmem_max on Linux)
+WARNING [org.jgroups.protocols.UDP] (Thread-0 (ActiveMQ-server-ActiveMQServerImpl::serverUUID=c79278db-56e6-11e5-af50-69dd76236ee8-1573164340)) JGRP000015: the receive buffer of socket DatagramSocket was set to 20MB, but the OS only allocated 212.99KB. This might lead to performance problems. Please set your max receive buffer in the OS correctly (e.g. net.core.rmem_max on Linux)
+WARNING [org.jgroups.protocols.UDP] (Thread-0 (ActiveMQ-server-ActiveMQServerImpl::serverUUID=c79278db-56e6-11e5-af50-69dd76236ee8-1573164340)) JGRP000015: the send buffer of socket MulticastSocket was set to 1MB, but the OS only allocated 212.99KB. This might lead to performance problems. Please set your max send buffer in the OS correctly (e.g. net.core.wmem_max on Linux)
+WARNING [org.jgroups.protocols.UDP] (Thread-0 (ActiveMQ-server-ActiveMQServerImpl::serverUUID=c79278db-56e6-11e5-af50-69dd76236ee8-1573164340)) JGRP000015: the receive buffer of socket MulticastSocket was set to 25MB, but the OS only allocated 212.99KB. This might lead to performance problems. Please set your max receive buffer in the OS correctly (e.g. net.core.rmem_max on Linux)
+----
+
+== Electing a New Singleton Provider Server
+
+If you reboot the singleton server node, the other node will be elected the new singleton provider, and will start receiving the MDB messages instead.
+
+You should see the following output in the new singleton provider server:
+
+[source,options="nowrap"]
+----
+WFLYCLSV0003: master:quickstart-messagingcluster-nodeX elected as the singleton provider of the org.wildfly.ejb3.clustered.singleton service
+----
+
+Where `nodeX` will be either `node1` or `node2`, depending on which node is the new singleton provider.
+
+If you now try to access the servlet urls, you will see that the new provider is receiving all new messages.
+
+You will see the following warnings in the log of the server that is _not_ the singleton provider. These messages show that the other node went down unexpectedly, which is exactly the scenario we are reproducing in this quickstart. For that reason, those warnings can be ignored.
+
+[source,options="nowrap"]
+----
+WARN  [org.apache.activemq.artemis.core.client] (Thread-2 (ActiveMQ-client-global-threads)) AMQ212037: Connection failure has been detected: AMQ119015: The connection was disconnected because of server shutdown [code=DISCONNECTED]
+WARN  [org.apache.activemq.artemis.core.server] (Thread-2 (ActiveMQ-client-global-threads)) AMQ222095: Connection failed with failedOver=false
+----
+
+You may see the following log message as well. When a server is restarted, it may broadcast that it is up and running (with its nodeID) while other nodes still reference the previous server instance for the same nodeID. Eventually, the cluster will be informed of the new instance representing the given nodeID but as the warning explains, it is possible to see this log (once or more) when a server is restarted.
+
+[source,options="nowrap"]
+----
+WARN  [org.apache.activemq.artemis.core.client] (activemq-discovery-group-thread-dg-group1) AMQ212034: There are more than one servers on the network broadcasting the same node id. You will see this message exactly once (per node) if a node is restarted, in which case it can be safely ignored. But if it is logged continuously it means you really do have more than one node on the same network active concurrently with the same node id. This could occur if you have a backup node active at the same time as its live node. nodeID=a114b652-689e-11e7-a2f4-54ee751c6182
+----
+
+The next error message is a https://issues.jboss.org/browse/WFLY-9261[known issue]. You can ignore it, as it does not affect the scenario that this quickstart reproduces:
+
+[source,options="nowrap"]
+----
+ERROR [org.apache.activemq.artemis.core.server] (Thread-3 (ActiveMQ-client-global-threads)) AMQ224037: cluster connection Failed to handle message: java.lang.IllegalStateException: Cannot find binding for jms.queue.HelloWorldMDBQueuedea3e995-713c-11e7-85f2-b8f6b112daf7 on ClusterConnectionImpl@1129705701[nodeUUID=dabaa1fa-713c-11e7-8f3a-b8f6b112daf7, connector=TransportConfiguration(name=http-connector, factory=org-apache-activemq-artemis-core-remoting-impl-netty-NettyConnectorFactory) ?httpUpgradeEndpoint=http-acceptor&activemqServerName=default&httpUpgradeEnabled=true&port=9080&host=localhost, address=jms, server=ActiveMQServerImpl::serverUUID=dabaa1fa-713c-11e7-8f3a-b8f6b112daf7]
+at org.apache.activemq.artemis.core.server.cluster.impl.ClusterConnectionImpl$MessageFlowRecordImpl.doConsumerCreated(ClusterConnectionImpl.java:1294)
+at org.apache.activemq.artemis.core.server.cluster.impl.ClusterConnectionImpl$MessageFlowRecordImpl.handleNotificationMessage(ClusterConnectionImpl.java:1029)
+at org.apache.activemq.artemis.core.server.cluster.impl.ClusterConnectionImpl$MessageFlowRecordImpl.onMessage(ClusterConnectionImpl.java:1004)
+at org.apache.activemq.artemis.core.client.impl.ClientConsumerImpl.callOnMessage(ClientConsumerImpl.java:1001)
+at org.apache.activemq.artemis.core.client.impl.ClientConsumerImpl.access$400(ClientConsumerImpl.java:49)
+at org.apache.activemq.artemis.core.client.impl.ClientConsumerImpl$Runner.run(ClientConsumerImpl.java:1124)
+at org.apache.activemq.artemis.utils.OrderedExecutorFactory$OrderedExecutor$ExecutorTask.run(OrderedExecutorFactory.java:101)
+at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+at java.lang.Thread.run(Thread.java:745)
+----
+
+=== Rebooting the Singleton Provider Server Node in a Managed Domain
+
+Run the following command, replacing `__{jbossHomeName}__` with the path to your server, and replacing `NODE_X` in the script name with either `node1` or `node2`, depending on whether the current singleton provider is `node1` or `node2`.
+
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}__/bin/jboss-cli.sh  --connect --file=restart-NODE_X-domain.cli
+----
+
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
+
+=== Rebooting the Singleton Provider Server Node in a Standalone Server
+
+Stop the provider server and restart it again, using the same command you used to start the server initially.
+
+== Disable and Enable the Delivery Group
+
+To disable the delivery group "my-mdb-delivery-group" to which the topic belongs, run the `disable-delivery-group-domain.cli` or `disable-delivery-group-standalone.cli` script, located in the root directory of this quickstart. Follow the instructions in the next sections, depending on the server configuration you choose to run.
+
+After disabling the delivery group, try sending messages to the topic, You should notice that the topic messages are not delivered when the delivery group is inactive.
+
+Next, enable the delivery group using the appropriate `enable-delivery-group-domain.cli` or `enable-delivery-group-standalone.cli` script, also located in the root directory of this quickstart, so that the topic messages can be delivered again.
+
+=== Disable and Enable Delivery Group in a Managed Domain
+
+To disable the delivery group named "my-mdb-delivery-group" to which the topic belongs, run the `disable-delivery-group-domain.cli` script, replacing `__{jbossHomeName}__` with the path to your server:
+
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}__/bin/jboss-cli.sh  --connect --file=disable-delivery-group-domain.cli
+----
+
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
+
+Similarly, to enable the delivery group, run the `enable-delivery-group-domain.cli` script:
+
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}__/bin/jboss-cli.sh  --connect --file=enable-delivery-group-domain.cli
+----
+
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
+
+=== Disable and Enable Delivery Group in a Standalone Server
+
+To disable the delivery group named "my-mdb-delivery-group" to which the topic belongs, run the `disable-delivery-group-standalone.cli` script on both servers, replacing `__{jbossHomeName}__` with the path to your server:
+
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}_1__/bin/jboss-cli.sh  --connect --file==disable-delivery-group-standalone.cli
+$ __{jbossHomeName}_2__/bin/jboss-cli.sh --connect controller=localhost:10090 --file=disable-delivery-group-standalone.cli
+----
+
+NOTE: For Windows, use the `__{jbossHomeName}_1__\bin\jboss-cli.bat` and `__{jbossHomeName}_2__\bin\jboss-cli.bat` scripts.
+
+
+Similarly, to enable the delivery group, run the `enable-delivery-group-standalone.cli` script in both servers:
+
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}_1__/bin/jboss-cli.sh  --connect --file==enable-delivery-group-standalone.cli
+$ __{jbossHomeName}_2__/bin/jboss-cli.sh --connect controller=localhost:10090 --file=enable-delivery-group-standalone.cli
+----
+
+NOTE: For Windows, use the `__{jbossHomeName}_1__\bin\jboss-cli.bat` and `__{jbossHomeName}_2__\bin\jboss-cli.bat` scripts.
+
+== Undeploy the Archive
+
+When you are finished testing, use the following instructions to undeploy the quickstart.
+
+=== Undeploy the quickstart in a Managed Domain
+
+. xref:start_eap_managed_domain[Start the {productName} managed domain] as described above.
+. Open a new terminal, navigate to the root directory of this quickstart, and run the `undeploy-domain.cli` script, replacing `__{jbossHomeName}__` with the path to your server:
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}__/bin/jboss-cli.sh  --connect --file==undeploy-domain.cli
+----
+
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
+
+=== Undeploy the quickstart in a Standalone Server
+
+. xref:start_the_eap_standalone_server[Start the {productName} server with the standalone full HA profile] as described above.
+. Open a terminal, navigate to the root directory of this quickstart, and run the `undeploy-standalone.cli` script, replacing `__{jbossHomeName}_1__` and `__{jbossHomeName}_2__` with the path to the appropriate server:
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}_1__/bin/jboss-cli.sh  --connect --file==undeploy-standalone.cli
+$ __{jbossHomeName}_2__/bin/jboss-cli.sh  --connect controller=localhost:10090 --file==undeploy-standalone.cli
+----
+
+NOTE: For Windows, use the `__{jbossHomeName}_1__\bin\jboss-cli.bat` and `__{jbossHomeName}_2__\bin\jboss-cli.bat` scripts.
+
+== Restore the Server Configuration
+
+=== Restore the Domain Server Configuration
+
+You can Restore the domain configuration by manually restoring the backup configuration files or by running the management CLI script.
+
+==== Restore the Domain Server Configuration Manually
+
+IMPORTANT: This method ensures the server is restored to its prior configuration.
+
+. If it is running, stop the {productName} server.
+. Restore the `__{jbossHomeName}__/domain/configuration/domain.xml` and `__{jbossHomeName}__/domain/configuration/host.xml` files with the back-up copies
+of the files. Make sure you replace `__{jbossHomeName}__` with the path to your server.
+
+==== Restore the Domain Server Configuration by Running the Management CLI Script
+
+IMPORTANT: This script returns the server to a default configuration and the result might not match the server configuration prior to testing this quickstart. If you were not running with the default configuration before testing this quickstart, you should follow the intructions above to manually restore the configuration to its previous state.
+
+. xref:start_eap_managed_domain[Start the {productName} managed domain] as described above.
+
+. Open a new terminal, navigate to the root directory of this quickstart, and run the `remove-domain.cli` script, replacing `__{jbossHomeName}__` with the path to your server.
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}__/bin/jboss-cli.sh  --connect --file=remove-domain.cli
+----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
+
++
+This script removes the server configuration that was done by the `install-domain.cli` script. You should see the following result following the script commands:
++
+[source,options="nowrap"]
+----
+The batch executed successfully
+----
+
+=== Restore the Standalone Server Configuration
+
+You can Restore the domain configuration by manually restoring the back-up copies the configuration files or by running the management CLI script.
+
+[[restore_the_standalone_server_configuration_manually]]
+==== Restore the Standalone Server Configuration Manually
+
+IMPORTANT: This method ensures the server is restored to its prior configuration.
+
+. If they are running, stop both {productName} servers.
+. Restore the `__{jbossHomeName}_1__/standalone/configuration/standalone-full-ha.xml` file with the back-up copies of the file. Make sure you replace `__{jbossHomeName}_1__` with the path to your server.
+
+==== Restore the Standalone Configuration by Running the Management CLI Script
+
+IMPORTANT: This script returns the server to the default configuration, which might not match the server configuration that existed prior to testing this quickstart. If you were not running with the default configuration before testing this quickstart, you should follow the intructions above to xref:restore_the_standalone_server_configuration_manually[manually restore the standalone configuration] to its previous state.
+
+. Start the {productName} server by typing the following, replacing `__{jbossHomeName}_1__` with the path to your first server:
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}_1__/bin/standalone.sh -c standalone-full-ha.xml
+----
++
+NOTE: For Windows, use the `__{jbossHomeName}_1__\bin\standalone.bat` script.
+
+. Open a new terminal, navigate to the root directory of this quickstart, and run the `remove-standalone.cli` script, replacing `__{jbossHomeName}_1__` with the path to your first server.
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}_1__/bin/jboss-cli.sh --connect --file=remove-standalone.cli
+----
++
+NOTE: For Windows, use the `__{jbossHomeName}_1__\bin\jboss-cli.bat` script.
+
++
+This script removes the server configuration that was done by the install-standalone.cli script. You should see the following result following the script commands:
++
+[source,options="nowrap"]
+----
+The batch executed successfully
+----
+
+=== Delete the Cloned Standalone {productName} Directory
+
+. If it is running, stop the second instance of the {productName} server.
+. Delete the cloned directory.
+
+// Run the Quickstart in Red Hat CodeReady Studio or Eclipse
+include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
+
+//*************************************************
+// Product Release content only
+//*************************************************
+ifdef::ProductRelease[]
+
+// Quickstart not compatible with OpenShift
+include::../shared-doc/openshift-incompatibility.adoc[leveloffset=+1]
+
+endif::[]

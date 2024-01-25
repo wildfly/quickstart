@@ -1,0 +1,74 @@
+include::../shared-doc/attributes.adoc[]
+
+= thread-racing: A Jakarta EE thread racing web application
+:author: Eduardo Martins
+:level: Beginner
+:technologies: Batch, CDI, EE Concurrency, JAX-RS, JMS, JPA, JSON, Web Sockets
+:openshift: true
+
+[abstract]
+A thread racing web application that demonstrates technologies introduced or updated in the latest Jakarta EE specification.
+
+:standalone-server-type: full
+:archiveType: war
+:uses-h2:
+
+== What is it?
+
+The `thread-racing` quickstart is a web application that demonstrates new and updated technologies introduced by the {javaVersion} specification through simple use cases.
+
+The web application allows the user to trigger a race between 4 threads and follow, in real time, the progress of each thread until the race ends.
+
+The race itself consists of multiple stages, each demonstrating the usage of a specific new or updated {javaVersion} technology:
+
+* Batch 2.1
+* EE Concurrency 3.0
+* JAX-RS 3.1
+* JMS 3.1
+* JSON 2.1
+
+WebSockets 2.1 is one of the most relevant new technologies introduced by {javaVersion}. Instead of being used in a race stage, a WebSockets 2.1 ServerEndpoint provides the remote application interface.
+A new race is run when a client establishes a session. That session is then used to update the client in real time, with respect to the race progress and results. The `src/main/java/org/jboss/as/quickstarts/threadracing/WebSocketRace.java` file is the WebSocket server endpoint class and is a good entry point when studying how the application code works.
+
+JPA 3.1 is also present in the application code. Specifically it is used to store race results in the default data source instance, which is also new to Jakarta EE. Further details are included in the `src/main/java/org/jboss/as/quickstarts/threadracing/results/RaceResults.java` class.
+
+
+//*************************************************
+// Product Release content only
+//*************************************************
+
+ifndef::EAPCDRelease[]
+
+// Link to the quickstart source
+include::../shared-doc/view-the-source.adoc[leveloffset=+1]
+// Considerations for Use in a Production Environment
+include::../shared-doc/development-shortcuts.adoc[leveloffset=+1]
+// System Requirements
+include::../shared-doc/system-requirements.adoc[leveloffset=+1]
+// Use of {jbossHomeName}
+include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
+
+// build and run with standard server distribution
+[[build_and_run_the_quickstart_with_server_dist]]
+== Building and running the quickstart application with a {productName} server distribution
+// Start the {productName} Standalone Server
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+2]
+// Build and Deploy the Quickstart
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+2]
+
+=== Access the application
+
+The application will be running at the following URL http://localhost:8080/{artifactId}/.
+
+To start a race press the `Insert Coin` button. The page displays the names of the threads as they join the race. It then tracks the progress of each thread through the Batch, EE Concurrency, JAX-RS, JMS, and JSON stages of the race. Finally, it displays the official race results and championship standings.
+
+// Server Distribution Testing
+include::../shared-doc/run-integration-tests-with-server-distribution.adoc[leveloffset=+2]
+// Undeploy the Quickstart
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+2]
+
+// Build and run sections for other environments/builds
+ifndef::ProductRelease,EAPXPRelease[]
+include::../shared-doc/build-and-run-the-quickstart-with-provisioned-server.adoc[leveloffset=+1]
+endif::[]
+include::../shared-doc/build-and-run-the-quickstart-with-openshift.adoc[leveloffset=+1]

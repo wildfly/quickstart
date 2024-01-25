@@ -1,0 +1,186 @@
+include::../shared-doc/attributes.adoc[]
+
+= ejb-security-programmatic-auth: Using the programmatic API to invoke a remote EJB using different identities
+:author: Stefan Guilhen
+:level: Intermediate
+:technologies: EJB, Security
+
+[abstract]
+The `ejb-security-programmatic-auth` quickstart demonstrates how to programmatically setup different identities when invoking a remote secured EJB.
+
+:standalone-server-type: default
+:archiveType: jar
+:restoreScriptName: restore-configuration.cli
+:app-user-groups: guest
+:admin-user-groups: guest,admin
+
+== What is it?
+
+The `ejb-security-programmatic-auth` quickstart demonstrates how to invoke a remote secured EJB using the `Elytron` client API to establish different identities. The quickstart client application accomplishes that by looking up and invoking the secured EJB under different `AuthenticationContext`s. Each context is setup to use a different identities and credentials.
+
+// Link to the quickstart source
+include::../shared-doc/view-the-source.adoc[leveloffset=+1]
+// System Requirements
+include::../shared-doc/system-requirements.adoc[leveloffset=+1]
+// Use of {jbossHomeName}
+include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
+// Add the Authorized Application and Management Users
+include::../shared-doc/add-application-and-management-users.adoc[leveloffset=+1]
+// Back Up the {productName} Standalone Server Configuration
+include::../shared-doc/back-up-server-standalone-configuration.adoc[leveloffset=+1]
+// Start the {productName} Standalone Server
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
+
+[[configure_the_server]]
+== Configure the Server
+
+You configure the security domain by running JBoss CLI commands. For your convenience, this quickstart batches the commands into a `configure-elytron.cli` script provided in the root directory of this quickstart.
+
+. Before you begin, make sure you do the following:
+
+* xref:back_up_standalone_server_configuration[Back up the {productName} standalone server configuration] as described above.
+* xref:start_the_eap_standalone_server[Start the {productName} server with the standalone default profile] as described above.
+
+. Review the `configure-elytron.cli` file in the root of this quickstart directory. This script adds the configuration that enables security for the quickstart components. Comments in the script describe the purpose of each block of commands.
+. Open a new terminal, navigate to the root directory of this quickstart, and run the following command, replacing `__{jbossHomeName}__` with the path to your server.
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=configure-elytron.cli
+----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
+
++
+You should see the following result when you run the script.
++
+[source,options="nowrap"]
+----
+The batch executed successfully
+process-state: reload-required
+----
+
+. Stop the {productName} server.
+
+== Review the Modified Server Configuration
+
+After stopping the server, open the `__{jbossHomeName}__/standalone/configuration/standalone.xml` file and review the changes.
+
+. The following `application-security-domain` mapping was added to the `ejb3` subsystem:
++
+[source,xml,options="nowrap"]
+----
+<application-security-domains>
+    <application-security-domain name="quickstart-domain" security-domain="ApplicationDomain"/>
+</application-security-domains>
+----
++
+The `application-security-domain` essentially enables security for the quickstart EJBs. It maps the `quickstart-domain` that was set in the EJBs via annotation to the Elytron `ApplicationDomain` that will be responsible for authenticating and authorizing access to the EJBs.
+
+. Take a look at the existing `http-connector` configuration in the `remoting` subsystem. Notice that it uses the `application-sasl-authentication` authentication factory,
+which references the `ApplicationDomain` security domain mentioned above:
++
+[source,xml,options="nowrap"]
+----
+<http-connector name="http-remoting-connector" connector-ref="default" sasl-authentication-factory="application-sasl-authentication"/>
+----
++
+This allows for the identity that was established in the connection authentication to be propagated to the components.
+
+// Build and Deploy the Quickstart
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
+
+== Access the Application
+
+Before you run the client, make sure you have already successfully deployed the EJBs to the server in the previous step and that your terminal is still in the same folder.
+
+Type the following command to execute the client.
+
+[source,options="nowrap"]
+----
+$ mvn exec:exec
+----
+
+== Investigate the Console Output
+
+When you run the `mvn exec:exec` command, you see the following output. Note there may be other log messages interspersed between these.
+
+[source,options="nowrap"]
+----
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+Called secured bean, caller principal quickstartUser
+
+Principal has admin permission: false
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+Called secured bean, caller principal quickstartAdmin
+
+Principal has admin permission: true
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+----
+
+As expected, the `quickstart` user is able to call the methods available for `guest`, but does not have the `admin` permission to call administrative methods on the remote EJB. The `quickstartAdmin` on the other hand has permissions to call both methods.
+
+// Server Distribution Testing
+include::../shared-doc/run-integration-tests-with-server-distribution.adoc[leveloffset=+2]
+// Undeploy the Quickstart
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
+// Restore the {productName} Standalone Server Configuration
+include::../shared-doc/restore-standalone-server-configuration.adoc[leveloffset=+1]
+
+// Additional information about this script
+This script reverts the changes made to the `ejb3` and `remoting` subsystems. You should see the following result when you run the script.
+
+[source,options="nowrap"]
+----
+The batch executed successfully
+process-state: reload-required
+----
+
+// Restore the {productName} Standalone Server Configuration Manually
+include::../shared-doc/restore-standalone-server-configuration-manual.adoc[leveloffset=+2]
+// Run the Quickstart in Red Hat CodeReady Studio or Eclipse
+include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
+
+// Additional Red Hat CodeReady Studio instructions
+* Make sure you xref:add_the_application_management_users[add the authorized application and management users] as described above.
+* Make sure you configure the server by running the JBoss CLI script as described above under xref:configure_the_server[Configure the Server].
+* Right-click on the *{artifactId}* project and choose *Run As* -> *Maven build*.
+Enter `clean package wildfly:deploy` for the *Goals* and click *Run*. This deploys the `{artifactId}` JAR to the {productName} server.
+* Right-click on the *{artifactId}* project and choose *Run As* -> *Run Configurations...*.
+* Enter `exec:exec` for the *Goals* and click *Run*.
+* Review the output in the console window. You should see the following output.
++
+[source,options="nowrap"]
+----
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+Called secured bean, caller principal quickstartUser
+Principal has admin permission: false
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+Called secured bean, caller principal quickstartAdmin
+Principal has admin permission: true
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+----
+
+* To undeploy the project, right-click on the *{artifactId}* project and choose *Run As* -> *Maven build*. Enter `wildfly:undeploy` for the *Goals* and click *Run*.
+
+* Make sure you xref:restore_the_server_configuration[restore the {productName} standalone server configuration] when you have completed testing this quickstart.
+
+// Debug the Application
+include::../shared-doc/debug-the-application.adoc[leveloffset=+1]
+// Build and run sections for other environments/builds
+ifndef::ProductRelease,EAPXPRelease[]
+include::../shared-doc/build-and-run-the-quickstart-with-provisioned-server.adoc[leveloffset=+1]
+endif::[]
+
+//*************************************************
+// Product Release content only
+//*************************************************
+ifdef::ProductRelease[]
+
+// Quickstart not compatible with OpenShift
+include::../shared-doc/openshift-incompatibility.adoc[leveloffset=+1]
+
+endif::[]

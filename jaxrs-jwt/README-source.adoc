@@ -1,0 +1,154 @@
+include::../shared-doc/attributes.adoc[]
+
+= jaxrs-jwt: Jakarta REST secured using JSON Web Tokens (JWTs)
+:author: Martin Mazanek
+:level: Intermediate
+:technologies: JAX-RS, Security
+
+[abstract]
+The `jaxrs-jwt` quickstart demonstrates a Jakarta REST secured application using JSON Web Tokens (JWT) with Elytron.
+
+:standalone-server-type: default
+:archiveType: war
+
+== What is it?
+
+This quickstart demonstrates how to secure a Jakarta REST service with JWTs using the Elytron subsystem.
+
+There are 4 resource endpoints, plus another one for generating JWTs.
+
+* `/rest/public` - Requires no authentication.
+* `/rest/customer` - Can be accessed by users with `customer` role authority.
+* `/rest/admin` - Can be accessed by users with `admin` role authority.
+* `/rest/claims` - Can be accessed by any authenticated user and demonstrates how to extract token claims.
+* `/rest/token` - `POST` endpoint for generating tokens from provided credentials.
+
+NOTE: This quickstart asserts only few JWT claims for demonstration purposes. In your application, you should use all claims required by the specification you are using.
+
+// Link to the quickstart source
+include::../shared-doc/view-the-source.adoc[leveloffset=+1]
+// System Requirements
+include::../shared-doc/system-requirements.adoc[leveloffset=+1]
+// Use of {jbossHomeName}
+include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
+
+// Back Up the {productName} Standalone Server Configuration
+include::../shared-doc/back-up-server-standalone-configuration.adoc[leveloffset=+1]
+// Start the {productName} Standalone Server
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
+
+[[configure_the_server]]
+== Configure the Server
+
+You configure the security domain by running JBoss CLI commands. For your convenience, this quickstart batches the commands into a `configure-elytron.cli` script provided in the root directory of this quickstart.
+
+. Before you begin, make sure you do the following:
+
+* xref:back_up_standalone_server_configuration[Back up the {productName} standalone server configuration] as described above.
+* xref:start_the_eap_standalone_server[Start the {productName} server with the standalone default profile] as described above.
+
+. Review the `configure-elytron.cli` file in the root of this quickstart directory. This script adds the configuration that enables Elytron security for the quickstart deployment. Comments in the script describe the purpose of each block of commands.
++
+IMPORTANT: This script contains placeholder PEM public key to make the deployment of this quickstart easy. DO _not_ use this key for anything but testing purposes! You must generate your own key pair for your own application.
+
+. Open a new terminal, navigate to the root directory of this quickstart, and run the following command, replacing `__{jbossHomeName}__` with the path to your server:
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=configure-elytron.cli
+----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
++
+
+. Stop the {productName} server.
+
+== Review the Modified Server Configuration
+
+After stopping the server, open the `__{jbossHomeName}__/standalone/configuration/standalone.xml` file and review the changes.
+
+. The following `token-realm` was added to the `security-realms` element in the `elytron` subsystem.
++
+[source,xml,options="nowrap"]
+----
+<token-realm name="jwt-realm" principal-claim="sub">
+    <jwt issuer="quickstart-jwt-issuer" audience="jwt-audience" key-store="jwt-key-store" certificate="jwt-auth"/>
+</token-realm>
+----
+. The following `security-domain` was added, which uses the `jwt-realm`.
++
+[source,xml,options="nowrap"]
+----
+<security-domain name="jwt-domain" default-realm="jwt-realm" permission-mapper="default-permission-mapper">
+    <realm name="jwt-realm" role-decoder="groups-to-roles"/>
+</security-domain>
+----
+
+. The following HTTP authentication factory was added, which uses `BEARER_TOKEN` and the `jwt-realm`.
++
+[source,xml,options="nowrap"]
+----
+<http-authentication-factory name="jwt-http-authentication" http-server-mechanism-factory="global" security-domain="jwt-domain">
+    <mechanism-configuration>
+        <mechanism mechanism-name="BEARER_TOKEN">
+            <mechanism-realm realm-name="jwt-realm"/>
+        </mechanism>
+    </mechanism-configuration>
+</http-authentication-factory>
+----
+
+. The application security domain in the Undertow subsystem is configured to use the new HTTP authentication factory.
++
+[source,xml,options="nowrap"]
+----
+
+<application-security-domains>
+    <application-security-domain name="other" http-authentication-factory="jwt-http-authentication"/>
+</application-security-domains>
+----
+
+. Finally, the application security domain in the EJB subsystem is configured to use the `jwt-domain`.
++
+[source,xml,options="nowrap"]
+----
+
+<application-security-domains>
+    <application-security-domain name="other" security-domain="jwt-domain"/>
+</application-security-domains>
+----
+
+// Build and Deploy the Quickstart
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
+
+[[access_the_application]]
+== Access the Application
+
+The `JwtAuthIT` test shows how a client can authenticate with the server.
+
+// Server Distribution Testing
+include::../shared-doc/run-integration-tests-with-server-distribution.adoc[leveloffset=+2]
+// Undeploy the Quickstart
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
+// Restore the {productName} Standalone Server Configuration
+:restoreScriptName: restore-configuration.cli
+include::../shared-doc/restore-standalone-server-configuration.adoc[leveloffset=+1]
+
+// Additional information about this script
+This script reverts the changes made to the `undertow`  and `elytron` subsystem.You should see the following result when you run the script.
+
+[source,options="nowrap"]
+----
+The batch executed successfully
+process-state: reload-required
+----
+
+// Restore the {productName} Standalone Server Configuration Manually
+include::../shared-doc/restore-standalone-server-configuration-manual.adoc[leveloffset=+2]
+// Debug the Application
+include::../shared-doc/debug-the-application.adoc[leveloffset=+1]
+
+ifndef::ProductRelease,EAPXPRelease[]
+include::../shared-doc/build-and-run-the-quickstart-with-provisioned-server.adoc[leveloffset=+1]
+endif::[]
+
+include::../shared-doc/build-and-run-the-quickstart-with-openshift.adoc[leveloffset=+1]

@@ -1,0 +1,142 @@
+include::../shared-doc/attributes.adoc[]
+
+= hibernate: How to Use Hibernate in an Application
+:author: Madhumita Sadhukhan
+:level: Intermediate
+:technologies: Hibernate
+:openshift: true
+
+[abstract]
+The `hibernate` quickstart demonstrates how to use Hibernate ORM 6 over Persistence, using Bean Validation, and Enterprise Beans.
+
+:standalone-server-type: default
+:archiveType: war
+:uses-h2:
+:restoreScriptName: restore-configuration.cli
+
+== What is it?
+
+The `hibernate` quickstart is based upon the link:../kitchensink/README{outfilesuffix}[kitchensink] example, but demonstrates how to use Hibernate Object/Relational Mapping (ORM) over Persistence in {productNameFull}.
+
+This project is setup to allow you to create a compliant {javaVersion} application using Faces, Contexts and Dependency Injection, Enterprise Beans, Persistence, Hibernate ORM and Bean Validation. It includes a persistence unit, Persistence use to help you with database access.
+
+// Link to the quickstart source
+include::../shared-doc/view-the-source.adoc[leveloffset=+1]
+// Considerations for Use in a Production Environment
+include::../shared-doc/development-shortcuts.adoc[leveloffset=+1]
+// System Requirements
+include::../shared-doc/system-requirements.adoc[leveloffset=+1]
+// Use of {jbossHomeName}
+include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
+
+== Add the Correct Dependencies
+
+{productName} provides Hibernate 6 and Persistence support.
+
+If you use Hibernate 6 packaged within {productName}, you will need to first import the Persistence API.
+
+This quickstart demonstrates usage of Persistence and Bean Validation.
+
+If you look at the `pom.xml` file in the root of the hibernate quickstart directory, you will see that the dependencies for the Hibernate modules have been added with the scope as `provided`.
+
+For example:
+[source,xml,options="nowrap"]
+----
+<dependency>
+   <groupId>org.hibernate.validator</groupId>
+   <artifactId>hibernate-validator</artifactId>
+    <scope>provided</scope>
+</dependency>
+----
+
+// build and run with standard server distribution
+[[build_and_run_the_quickstart_with_server_dist]]
+== Building and running the quickstart application with a {productName} server distribution
+// Back Up the {productName} Standalone Server Configuration
+include::../shared-doc/back-up-server-standalone-configuration.adoc[leveloffset=+2]
+// Start the {productName} Standalone Server
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+2]
+
+[[configure_the_server]]
+=== Configure the Server
+
+You can configure the server by running JBoss CLI commands. For your convenience, this quickstart batches the commands into a `configure-server.cli` script provided in the root directory of this quickstart.
+
+. Before you begin, make sure you do the following:
+
+* xref:back_up_standalone_server_configuration[Back up the {productName} standalone server configuration] as described above.
+* xref:start_the_eap_standalone_server[Start the {productName} server with the standalone default profile] as described above.
+
+. Review the `configure-server.cli` file in the root of this quickstart directory. This script adds datasource required for this quickstart.
+. Open a new terminal, navigate to the root directory of this quickstart, and run the following command, replacing `__{jbossHomeName}__` with the path to your server:
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=configure-server.cli
+----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
+
++
+You should see the following result when you run the script:
++
+[source,options="nowrap"]
+----
+The batch executed successfully
+----
+
+. Stop the {productName} server.
+
+=== Review the Modified Server Configuration
+
+After stopping the server, open the `__{jbossHomeName}__/standalone/configuration/standalone.xml` file and review the changes.
+
+. The following datasource was added to the `datasources` subsystem.
++
+[source,xml,options="nowrap"]
+----
+<datasource jndi-name="java:jboss/datasources/HibernateQuickstartDS"
+      pool-name="HibernateQuickstartDS"
+      use-java-context="true">
+   <connection-url>jdbc:h2:mem:hibernate-quickstart;DB_CLOSE_ON_EXIT=FALSE;DB_CLOSE_DELAY=-1</connection-url>
+   <driver>h2</driver>
+   <security>
+      <user-name>sa</user-name>
+      <password>sa</password>
+   </security>
+</datasource>
+----
+
+// Build and Deploy the Quickstart
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+2]
+
+=== Access the Application
+
+The application will be running at the following URL: http://localhost:8080/{artifactId}/.
+
+// Server Distribution Testing
+include::../shared-doc/run-integration-tests-with-server-distribution.adoc[leveloffset=+2]
+// Undeploy the Quickstart
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+2]
+
+//  Restore the {productName} Standalone Server Configuration
+include::../shared-doc/restore-standalone-server-configuration.adoc[leveloffset=+2]
+
+// Additional information about this script
+This script removes the datasource used for this quickstart. You should see the following result when you run the script:
+
+
+[source,options="nowrap"]
+----
+The batch executed successfully
+process-state: reload-required
+----
+
+// Restore the {productName} Standalone Server Configuration Manually
+include::../shared-doc/restore-standalone-server-configuration-manual.adoc[leveloffset=+3]
+
+// Build and run sections for other environments/builds
+ifndef::ProductRelease,EAPXPRelease[]
+include::../shared-doc/build-and-run-the-quickstart-with-provisioned-server.adoc[leveloffset=+1]
+endif::[]
+include::../shared-doc/build-and-run-the-quickstart-with-openshift.adoc[leveloffset=+1]

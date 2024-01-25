@@ -1,0 +1,89 @@
+include::../shared-doc/attributes.adoc[]
+
+= cmt: Container Managed Transactions (CMT)
+:author: Tom Jenkinson
+:level: Intermediate
+:technologies: EJB, CMT, JMS
+:openshift: true
+
+[abstract]
+The `cmt` quickstart demonstrates Container-Managed Transactions (CMT), showing how to use transactions managed by the container.
+
+:standalone-server-type: full
+:archiveType: war
+:uses-h2:
+
+== What is it?
+
+The `cmt` quickstart demonstrates how to use container-managed transactions (CMT), which are transactions managed by the container in {productNameFull}. It is a fairly typical scenario of updating a database and sending a JMS message in the same transaction. A simple MDB is provided that prints out the message sent but this is not a transactional MDB and is purely provided for debugging purposes.
+
+Aspects touched upon in the code:
+
+* XA transaction control using the container managed transaction annotations
+* XA access to the standard default datasource using the JPA API
+* XA access to a JMS queue
+
+// Link to the quickstart source
+include::../shared-doc/view-the-source.adoc[leveloffset=+1]
+
+=== What are Container Managed Transactions?
+
+Prior to EJB, getting the right incantation to ensure sound transactional operation of the business logic was a highly specialized skill. Although this still holds true to a great extent, EJB has provided a series of improvements to allow simplified transaction demarcation notation that is therefore easier to read and test.
+
+With CMT, the EJB container sets the boundaries of a transaction. This differs from BMT (bean-managed transactions), where the developer is responsible for initiating and completing a transaction using the `begin`, `commit`, and `rollback` methods on a `jakarta.transaction.UserTransaction`.
+
+=== What Makes This an Example of Container Managed Transactions?
+
+Take a look at `org.jboss.as.quickstarts.cmt.ejb.CustomerManagerEJB`. You can see that this stateless session bean has been marked up with the `@jakarta.ejb.TransactionAttribute` annotation.
+
+The following options are available for this annotation.
+
+Required:: As demonstrated in the quickstart. If a transaction does not already exist, this will initiate a transaction and complete it for you, otherwise the business logic will be integrated into the existing transaction.
+RequiresNew:: If there is already a transaction running, it will be suspended, the work performed within a new transaction which is completed at exit of the method and then the original transaction resumed.
+Mandatory:: If there is no transaction running, calling a business method with this annotation will result in an error.
+NotSupported:: If there is a transaction running, it will be suspended and no transaction will be initiated for this business method.
+Supports:: This will run the method within a transaction if a transaction exists, alternatively, if there is no transaction running, the method will not be executed within the scope of a transaction.
+Never:: If the client has a transaction running and does not suspend it but calls a method annotated with Never then an EJB exception will be raised.
+
+// Considerations for Use in a Production Environment
+include::../shared-doc/development-shortcuts.adoc[leveloffset=+1]
+// System Requirements
+include::../shared-doc/system-requirements.adoc[leveloffset=+1]
+// Use of {jbossHomeName}
+include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
+
+// build and run with standard server distribution
+[[build_and_run_the_quickstart_with_server_dist]]
+== Building and running the quickstart application with a {productName} server distribution
+// Start the {productName} Standalone Server
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+2]
+// Build and Deploy the Quickstart
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+2]
+
+=== Access the Application
+
+The application will be running at the following URL: http://localhost:8080/{artifactId}/
+
+You are presented with a simple form for adding customers to a database.
+
+After a customer is successfully added to the database, a message is produced containing the details of the customer. An example MDB dequeues this message and print the following contents.
+
+[source,options="nowrap"]
+----
+Received Message: Created invoice for customer named:  Jack
+----
+
+If an existing customer name is provided, no JMS message is sent. Instead of the above message, a duplicate warning is displayed.
+
+The customer name should match: letter &amp; '-', otherwise an error is given. This is to show that a `LogMessage` entity is still stored in the database. That is because the `logCreateCustomer` method in the `LogMessageManagerEJB` EJB is decorated with the `@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)` annotation.
+
+// Server Distribution Testing
+include::../shared-doc/run-integration-tests-with-server-distribution.adoc[leveloffset=+2]
+// Undeploy the Quickstart
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+2]
+
+// Build and run sections for other environments/builds
+ifndef::ProductRelease,EAPXPRelease[]
+include::../shared-doc/build-and-run-the-quickstart-with-provisioned-server.adoc[leveloffset=+1]
+endif::[]
+include::../shared-doc/build-and-run-the-quickstart-with-openshift.adoc[leveloffset=+1]

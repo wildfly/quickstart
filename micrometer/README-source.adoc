@@ -1,0 +1,276 @@
+include::../shared-doc/attributes.adoc[]
+
+= micrometer: Micrometer QuickStart
+:author: Jason Lee
+:level: Beginner
+:technologies: Micrometer
+:openshift: true
+
+[abstract]
+The `micrometer` quickstart demonstrates the use of the Micrometer library in {productName}.
+
+:standalone-server-type: default
+:archiveType: war
+:archiveName: {artifactId}
+:restoreScriptName: restore-configuration.cli
+
+== What is it?
+
+https://micrometer.io[Micrometer] is a vendor-neutral facade that allows application developers to collect and report application and system metrics to the backend of their choice in an entirely portable manner. By simply replacing the `MeterRegistry` used, or combining them in Micrometer's `CompositeRegistry` data can be exported a variety of monitoring systems with no application code changes.
+
+== Architecture
+
+In this quickstart, we will build a small, simple application that shows the usage of a number of Micrometer's `Meter` implementations. We will also demonstrate the means by which {productName} exports the metrics data, which is via the https://opentelemetry.io/docs/reference/specification/protocol/otlp/[OpenTelemetry Protocol (OTLP)] to the https://opentelemetry.io/docs/collector/[OpenTelemetry Collector]. To provide simpler access to the published metrics, the Collector will be configured with a Prometheus endpoint, from which we can scrape data.
+
+== Prerequisites
+
+To complete this guide, you will need:
+
+* less than 15 minutes
+* JDK 11+ installed with `JAVA_HOME` configured appropriately
+* Apache Maven 3.5.3+
+* Docker Compose, or alternatively Podman Compose
+
+include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
+
+== Steps
+
+// Start the {productName} Standalone Server
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
+
+[[configure_the_server]]
+=== Configure the Server
+
+You enable Micrometer by running JBoss CLI commands. For your convenience, this quickstart batches the commands into a `configure-micrometer.cli` script provided in the root directory of this quickstart.
+
+. Before you begin, make sure you do the following:
+
+* xref:back_up_standalone_server_configuration[Back up the {productName} standalone server configuration] as described above.
+* xref:start_the_eap_standalone_server[Start the {productName} server with the standalone default profile] as described above.
+
+. Review the `configure-micrometer.cli` file in the root of this quickstart directory. This script adds the configuration that enables Micrometer for the quickstart components. Comments in the script describe the purpose of each block of commands.
+. Open a new terminal, navigate to the root directory of this quickstart, and run the following command, replacing `__{jbossHomeName}__` with the path to your server:
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=configure-micrometer.cli
+----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
++
+
+You should see the following result when you run the script:
++
+[source,options="nowrap"]
+----
+The batch executed successfully
+process-state: reload-required
+----
+
+. You'll need to reload the configuration after that:
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}__/bin/jboss-cli.sh --connect --commands=reload
+----
+
+[[start_opentelemetry_collector]]
+=== Starting the OpenTelemetry Collector
+
+By default, {productName} will publish metrics every 10 seconds, so you will soon start seeing errors about a refused connection.
+
+This is because we told {productName} to publish to a server that is not there, so we need to fix that. To make that as simple as possible, you can use Docker Compose to start an instance of the OpenTelemetry Collector.
+
+The Docker Compose configuration file is `docker-compose.yaml`:
+
+[source,yaml]
+----
+include::docker-compose.yaml[]
+----
+
+The Collector server configuration file is `otel-collector-config.yaml`:
+
+[source,yaml]
+----
+include::otel-collector-config.yaml[]
+----
+
+We can now bring up the collector server instance:
+
+[source,bash]
+----
+$ docker-compose up
+----
+
+The service should be available almost immediately, which you can verify by looking at the Prometheus endpoint we've configured by pointing your browser at http://localhost:1234/metrics[]. You should see quite a few metrics listed, none of which are what our application has registered. What you're seeing are the system and JVM metrics automatically registered and published by {productName} to give systems/applications administrators a comprehensive view of system health and performance.
+
+[NOTE]
+====
+You may use Podman as alternative to Docker if you prefer, in such case the command should be `podman-compose up`.
+====
+
+[NOTE]
+====
+If your environment does not support Docker or Podman, please refer to https://opentelemetry.io/docs/collector/installation[Otel Collector documentation] for alternatives on how to install and run the OpenTelemetry Collector.
+====
+
+=== Registering metrics
+
+Micrometer uses a programmatic approach to metrics definition, as opposed the more declarative, annotation-based approach of other libraries. Because of that, we need to explicitly register our `Meter` s before they can be used:
+
+[source,java]
+----
+@Path("/")
+@ApplicationScoped
+public class RootResource {
+    // ...
+    @Inject
+    private MeterRegistry registry;
+
+    private Counter performCheckCounter;
+    private Counter originalCounter;
+    private Counter duplicatedCounter;
+
+    @PostConstruct
+    private void createMeters() {
+        Gauge.builder("prime.highestSoFar", () -> highestPrimeNumberSoFar)
+                .description("Highest prime number so far.")
+                .register(registry);
+        performCheckCounter = Counter
+                .builder("prime.performedChecks")
+                .description("How many prime checks have been performed.")
+                .register(registry);
+        originalCounter = Counter
+                .builder("prime.duplicatedCounter")
+                .tags(List.of(Tag.of("type", "original")))
+                .register(registry);
+        duplicatedCounter = Counter
+                .builder("prime.duplicatedCounter")
+                .tags(List.of(Tag.of("type", "copy")))
+                .register(registry);
+    }
+    // ...
+}
+----
+
+Notice that we start by `@Inject` ing the `MeterRegistry`. This is a {productName}-managed instance, so all applications need to do it inject it and start using. Once we have that, we can use to build and register our meters, which we do in `@PostConstuct private void createMeters()`
+
+[NOTE]
+====
+This must be done _post_-construction, as the `MeterRegistry` must be injected before it can be used to register the meters.
+====
+
+In this example, we register several different types to demonstrate their use. With those registered, we can start writing application logic:
+
+[source,java]
+----
+@GET
+@Path("/prime/{number}")
+public String checkIfPrime(@PathParam("number") long number) throws Exception {
+    performCheckCounter.increment();
+
+    Timer timer = registry.timer("prime.timer");
+
+    return timer.recordCallable(() -> {
+
+        if (number < 1) {
+            return "Only natural numbers can be prime numbers.";
+        }
+
+        if (number == 1) {
+            return "1 is not prime.";
+        }
+
+        if (number == 2) {
+            return "2 is prime.";
+        }
+
+        if (number % 2 == 0) {
+            return number + " is not prime, it is divisible by 2.";
+        }
+
+        for (int i = 3; i < Math.floor(Math.sqrt(number)) + 1; i = i + 2) {
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                //
+            }
+            if (number % i == 0) {
+                return number + " is not prime, is divisible by " + i + ".";
+            }
+        }
+
+        if (number > highestPrimeNumberSoFar) {
+            highestPrimeNumberSoFar = number;
+        }
+
+        return number + " is prime.";
+    });
+}
+----
+
+This method represents a simple REST endpoint that is able to determine whether the number passed as a path parameter is a prime number.
+
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
+
+=== Access the quickstart application
+
+You can either access the application via your browser at http://localhost:8080/micrometer/prime/13[], or from the command line:
+
+[source,bash]
+----
+$ curl http://localhost:8080/micrometer/prime/13
+----
+
+It should return a simple document:
+
+[source]
+-----
+13 is prime.
+-----
+
+Once given enough time to allow {productName} to publish metrics updates, you now see your application's meters reported in the http://localhost:1234/metrics[Prometheus export]. You can also view them via the command-line:
+
+[source,bash]
+----
+$ curl -s http://localhost:1234/metrics | grep "prime_"
+# HELP prime_duplicatedCounter
+# TYPE prime_duplicatedCounter counter
+prime_duplicatedCounter{job="wildfly",type="copy"} 0
+prime_duplicatedCounter{job="wildfly",type="original"} 0
+# HELP prime_highestSoFar Highest prime number so far.
+# TYPE prime_highestSoFar gauge
+prime_highestSoFar{job="wildfly"} 13
+# HELP prime_performedChecks How many prime checks have been performed.
+# TYPE prime_performedChecks counter
+prime_performedChecks{job="wildfly"} 1
+# HELP prime_timer
+# TYPE prime_timer histogram
+prime_timer_bucket{job="wildfly",le="+Inf"} 1
+prime_timer_sum{job="wildfly"} 10.941035
+prime_timer_count{job="wildfly"} 1
+
+----
+
+Notice that all four meters registered in the `@PostConstruct` method as well as the `Timer` in our endpoint method have all been published.
+
+// Server Distribution Testing
+include::../shared-doc/run-integration-tests-with-server-distribution.adoc[leveloffset=+2]
+// Undeploy the Quickstart
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+2]
+//  Restore the {productName} Standalone Server Configuration
+include::../shared-doc/restore-standalone-server-configuration.adoc[leveloffset=+2]
+// Restore the {productName} Standalone Server Configuration Manually
+include::../shared-doc/restore-standalone-server-configuration-manual.adoc[leveloffset=+3]
+// Build and run sections for other environments/builds
+ifndef::ProductRelease,EAPXPRelease[]
+include::../shared-doc/build-and-run-the-quickstart-with-provisioned-server.adoc[leveloffset=+1]
+endif::[]
+// Bootable JAR
+include::../shared-doc/build-and-run-the-quickstart-with-bootable-jar.adoc[leveloffset=+1]
+// OpenShift
+include::../shared-doc/build-and-run-the-quickstart-with-openshift.adoc[leveloffset=+1]
+
+== Conclusion
+
+Micrometer provides a de facto standard way of capturing and publishing metrics to the monitoring solution of your choice. {productName} provides a convenient, out-of-the-box integration of Micrometer to make it easier to capture those metrics and monitor your application's health and performance. For more information on Micrometer, please refer to the project's https://micrometer.io[website].

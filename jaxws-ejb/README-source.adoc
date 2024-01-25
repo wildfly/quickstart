@@ -1,0 +1,51 @@
+include::../shared-doc/attributes.adoc[]
+
+= jaxws-ejb: An EJB JAX-WS Web Service
+:author: R Searls
+:level: Beginner
+:technologies: JAX-WS
+
+[abstract]
+The `jaxws-ejb` quickstart is a working example of the web service endpoint created from an EJB.
+
+:standalone-server-type: default
+:archiveType: war
+// Override the archive directory
+:archiveDir: {artifactId}/target
+// Override the archive name
+:archiveName: {artifactId}
+
+== What is it?
+
+The `jaxws-ejb` quickstart demonstrates the use of _JAX-WS_ in {productNameFull} as a simple EJB web service application.
+
+// Link to the quickstart source
+include::../shared-doc/view-the-source.adoc[leveloffset=+1]
+// System Requirements
+include::../shared-doc/system-requirements.adoc[leveloffset=+1]
+// Use of {jbossHomeName}
+include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
+
+// build and run with standard server distribution
+[[build_and_run_the_quickstart_with_server_dist]]
+== Building and running the quickstart application with a {productName} server distribution
+// Start the {productName} Standalone Server
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+2]
+// Build and Deploy the Quickstart
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+2]
+
+== Access the Application
+
+You can check that the Web Service is running and deployed correctly by accessing the following URL: http://localhost:8080/EJB3Bean?wsdl.
+This URL will display the deployed WSDL endpoint for the Web Service.
+
+// Server Distribution Testing
+include::../shared-doc/run-integration-tests-with-server-distribution.adoc[leveloffset=+2]
+// Undeploy the Quickstart
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+2]
+
+// Build and run sections for other environments/builds
+ifndef::ProductRelease,EAPXPRelease[]
+include::../shared-doc/build-and-run-the-quickstart-with-provisioned-server.adoc[leveloffset=+1]
+endif::[]
+include::../shared-doc/build-and-run-the-quickstart-with-openshift.adoc[leveloffset=+1]

@@ -1,0 +1,178 @@
+include::../shared-doc/attributes.adoc[]
+
+= remote-helloworld-mdb: Helloworld Using an MDB (Message-Driven Bean) and a Remote Artemis broker
+:author: Serge Pagop, Andy Taylor, Jeff Mesnil
+:level: Intermediate
+:technologies: JMS, EJB, MDB
+:openshift: true
+
+:standalone-server-type: full
+:archiveType: war
+:restoreScriptName: remove-remote-broker.cli
+ifdef::ProductRelease,EAPXPRelease[]
+:BrokerImageName: registry.redhat.io/amq7/amq-broker-rhel8:7.10
+:BrokerProductName: Red Hat AMQ
+endif::[]
+ifndef::ProductRelease,EAPXPRelease[]
+:BrokerImageName: quay.io/artemiscloud/activemq-artemis-broker-kubernetes
+:BrokerProductName: Apache Artemis
+endif::[]
+
+[abstract]
+The `remote-helloworld-mdb` quickstart demonstrates the use of JMS and EJB Message-Driven Bean in {productName} with a remote broker.
+
+== What is it?
+
+The `remote-helloworld-mdb` quickstart demonstrates the use of JMS and EJB Message-Driven Bean in {productNameFull} with a remote {BrokerProductName} broker.
+
+This project uses two JMS resources on a remote broker:
+
+* A queue named `HELLOWORLDMDBQueue` bound in JNDI as `java:/queue/HELLOWORLDMDBQueue`
+* A topic named `HELLOWORLDMDBTopic` bound in JNDI as `java:/topic/HELLOWORLDMDBTopic`
+
+//*************************************************
+// Product Release content only
+//*************************************************
+
+// Link to the quickstart source
+include::../shared-doc/view-the-source.adoc[leveloffset=+1]
+// System Requirements
+include::../shared-doc/system-requirements.adoc[leveloffset=+1]
+// Use of {jbossHomeName}
+include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
+//Start the {BrokerProductName} broker.
+
+// build and run with standard server distribution
+[[build_and_run_the_quickstart_with_server_dist]]
+== Building and running the quickstart application with a {productName} server distribution
+
+=== Run the {BrokerProductName} broker locally
+
+You can run {BrokerProductName} broker locally using docker or podman:
+
+[source,options="nowrap",subs="+attributes"]
+----
+$ docker run --rm --name artemis -e AMQ_USER=admin -e AMQ_PASSWORD=admin -p8161:8161 -p61616:61616 -e AMQ_DATA_DIR=/home/jboss/data {BrokerImageName}
+----
+
+You can access the console of {BrokerProductName} at the URL: http://localhost:8161/console with *admin/admin* to authenticate.
+
+[[configure_the_server]]
+=== Configure the {productName} Server
+
+You configure the JMS connection factory to the remote broker by running JBoss CLI commands. For your convenience, this quickstart batches the commands into a `configure-remote-broker.cli` script provided in the root directory of this quickstart.
+
+. Before you begin, make sure you do the following:
+
+* xref:back_up_standalone_server_configuration[Back up the {productName} standalone server configuration] as described above.
+* xref:start_the_eap_standalone_server[Start the {productName} server with the standalone full profile] as described above.
+
+. Review the `configure-remote-broker.cli` file in the root of this quickstart directory. This script adds the `test` queue to the `messaging-activemq` subsystem in the server configuration file.
+. Open a new terminal, navigate to the root directory of this quickstart, and run the following command, replacing __{jbossHomeName}__ with the path to your server:
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=configure-remote-broker.cli
+----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
+
+. You should see the following result when you run the script:
++
+[source,options="nowrap"]
+----
+"outcome" => "success",
+"response-headers" => {"process-state" => "reload-required"}
+----
+
+. Stop the {productName} server.
+
+=== Review the Modified Server Configuration
+
+After stopping the server, open the `__{jbossHomeName}__/standalone/configuration/standalone-full.xml` file and review the changes.
+
+The following `testQueue` jms-queue was configured in the configuration of the `messaging-activemq` subsystem.
+
+[source,xml,options="nowrap"]
+----
+<remote-connector name="artemis" socket-binding="remote-artemis"/>
+<pooled-connection-factory name="RemoteConnectionFactory" entries="java:jboss/RemoteConnectionFactory java:jboss/exported/jms/RemoteConnectionFactory" connectors="artemis" user="admin" password="admin" enable-amq1-prefix="false"/>
+----
+
+// Start the {productName} Standalone Server
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+2]
+// Build and Deploy the Quickstart
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+2]
+
+=== Access the Application
+
+The application will be running at the following URL: http://localhost:8080/{artifactId}/.
+
+=== Investigate the Server Console Output
+
+Look at the {productName} console or Server log and you should see log messages like the following:
+
+[source,options="nowrap"]
+----
+INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldQueueMDB] (Thread-9 (ActiveMQ-client-global-threads-1189700957)) Received Message from queue: This is message 1
+INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldQueueMDB] (Thread-6 (ActiveMQ-client-global-threads-1189700957)) Received Message from queue: This is message 2
+INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldQueueMDB] (Thread-7 (ActiveMQ-client-global-threads-1189700957)) Received Message from queue: This is message 3
+INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldQueueMDB] (Thread-5 (ActiveMQ-client-global-threads-1189700957)) Received Message from queue: This is message 4
+INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldQueueMDB] (Thread-4 (ActiveMQ-client-global-threads-1189700957)) Received Message from queue: This is message 5
+----
+
+// Server Distribution Testing
+include::../shared-doc/run-integration-tests-with-server-distribution.adoc[leveloffset=+2]
+
+// Additional information about this script
+This script removes the remote broker connection from the `messaging-activemq` subsystem and restore the `default` internal broker. You should see the following result when you run the script:
+
+[source,options="nowrap"]
+----
+"outcome" => "success",
+"response-headers" => {
+    "operation-requires-reload" => true,
+    "process-state" => "reload-required"
+}
+----
+
+// Restore the {productName} Standalone Server Configuration Manually
+include::../shared-doc/restore-standalone-server-configuration-manual.adoc[leveloffset=+3]
+
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+2]
+
+[NOTE]
+====
+The integration tests expect a running {BrokerProductName} broker, so make sure you have started the broker before you begin.
+====
+// Build and run sections for other environments/builds
+ifndef::ProductRelease,EAPXPRelease[]
+include::../shared-doc/build-and-run-the-quickstart-with-provisioned-server.adoc[leveloffset=+1]
+
+endif::[]
+
+include::../shared-doc/build-and-run-the-quickstart-with-openshift.adoc[leveloffset=+1]
+=== Deploy a {BrokerProductName} instance on OpenShift
+
+[source,options="nowrap",subs="+attributes"]
+----
+$ oc run artemis --env AMQ_USER=admin --env AMQ_PASSWORD=admin --image={BrokerImageName}  --port=61616 --expose=true
+----
+
+This will create a broker instance named `artemis` on OpenShift that can be accessed on the port `61616` on the service `artemis` with the account *admin/admin*.
+//Prepare Helm for Quickstart Deployment
+
+include::../shared-doc/build-and-run-the-quickstart-with-openshift.adoc[leveloffset=+1]
+
+==== Clean Up
+
+The broker instance can be deleted from OpenShift by running the command:
+
+[source,options="nowrap"]
+----
+$ oc delete service artemis
+service "artemis" deleted
+$ oc delete pod artemis
+pod "artemis" deleted
+----
+

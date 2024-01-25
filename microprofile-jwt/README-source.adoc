@@ -1,0 +1,723 @@
+include::../shared-doc/attributes.adoc[]
+
+= micro-profile-jwt: MicroProfile JWT QuickStart
+:author: Darran Lofthouse
+:level: Intermediate
+:technologies: JWT, Security, MicroProfile
+
+[abstract]
+The `microprofile-jwt` quickstart demonstrates the use of the MicroProfile JWT specification in {productName}.
+
+:standalone-server-type: microprofile
+:archiveType: war
+:archiveName: microprofile-jwt.war
+
+== What is it?
+
+The `microprofile-jwt` quickstart demonstrates the use of the MicroProfile JWT
+specification in {productName}.  Within the quickstart the following topics will be covered: -
+
+ * Creation of a simple Rest deployment as the base of the quickstart.
+ * Initial calls to verify the endpoint is accessible. 
+ * Creation of public and private keys to enable generation and validation of JWT tokens.
+ * Creation of a simple utility to generate JWT tokens.
+ * Activation of `MP-JWT` authentication for the deployment.
+ * Calling the rest endpoint with the generated JWT token.
+ * Enabling authorization based on claims contained within the JWT token.
+ * Injection of claims from the JWT token.
+
+// Link to the quickstart source
+include::../shared-doc/view-the-source.adoc[leveloffset=+1]
+
+[[considerations_for_use_in_a_production_environment]]
+== Considerations for Use in a Production Environment
+
+To make it possible to execute this quickstart out of the box the public and private key are included in the 
+quickstart, as both keys are published publicly they should never be used in a production environment.
+
+Although this quickstart demonstrates the functionality using a token generation utility, within a production
+environment it would be more appropriate to make use of an identity provider to issue the tokens.
+
+include::../shared-doc/system-requirements.adoc[leveloffset=+1]
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
+
+[[configure_the_server]]
+== Configure the Server
+
+One of the benefits of using MicroProfile JWT is that the configuration is contained entirely within the deployment,
+for this reason no manual configuration of the server is required to execute the quickstart.
+
+== Solution
+
+We recommend that you follow the instructions in the next sections and create the application step by step as this will 
+provide a better foundation for creating your own MP-JWT secured deployment, however if you want to jump straight to 
+executing the quickstarts the steps here can be followed to execute the included code.
+
+The quickstart can be deployed to the running application server using the following command: -
+
+[source]
+----
+mvn package wildfly:deploy
+----
+
+An unauthenticated call can be made to one of the deployed endpoints using the following command: -
+
+[source]
+----
+$ curl http://localhost:8080/microprofile-jwt/Sample/helloworld
+Hello anonymous
+----
+
+Using the token generation utility contained within the quickstart a new JWT can be created using the following command: -
+
+[source]
+----
+$ mvn exec:java -Dexec.mainClass=org.wildfly.quickstarts.mpjwt.TokenUtil -Dexec.classpathScope=test -Dexec.args="testUser 2017-09-15 Echoer Subscriber"
+
+JWT Header - {"kid":"Test Key","typ":"jwt","alg":"RS256"}
+
+JWT Claims - {"sub":"testUser","upn":"testUser","iss":"quickstart-jwt-issuer","aud":"jwt-audience","groups":["Echoer","Subscriber"],"birthdate":"2017-09-15","jti":"3b89e56f-b8fd-4d5f-a1ed-080b958873f9","iat":1579886816,"exp":1579901216}
+
+Generated JWT Token 
+eyJraWQiOiJUZXN0IEtleSIsInR5cCI6Imp3dCIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiJ0ZXN0VXNlciIsInVwbiI6InRlc3RVc2VyIiwiaXNzIjoicXVpY2tzdGFydC1qd3QtaXNzdWVyIiwiYXVkIjoiand0LWF1ZGllbmNlIiwiZ3JvdXBzIjpbIkVjaG9lciIsIlN1YnNjcmliZXIiXSwiYmlydGhkYXRlIjoiMjAxNy0wOS0xNSIsImp0aSI6IjNiODllNTZmLWI4ZmQtNGQ1Zi1hMWVkLTA4MGI5NTg4NzNmOSIsImlhdCI6MTU3OTg4NjgxNiwiZXhwIjoxNTc5OTAxMjE2fQ.srUrA3YwWg4V42Kdf5aLQzLiBO9u7ZCJ_bbNBrgU1XFhRBVzpLq4TJheN4ZFvTKDKFHFm2pa1_a_J70EONK9y8mzKnwiIfV1LbugophBE1xp7iDsBeOwGT8IKQVLaoniGGhqny_MkiMmcWt4tRzrTlJ4TOlCGKv3mZ_RzOj6xdWb12RK7-MTZYlRdnPD8kAfRT7QaJnRbuy5vIpqdz8cVg1y2KILBtg_yJB8s2jrx0ZYgTLDUH6yLpcxk43cLszDCfmdaZAoZFjAS9xUdAuk5eo7TBqt376q0BbE5DS8bHlo3ejWcNEwyo1dPD_TlKDJtNgeae89gru5Z2NOmc2XPA
+----
+
+A call can now be made to the first endpoint using the generated JWT token within the request message: -
+
+[source]
+----
+$ curl -H "Authorization: Bearer eyJ...XPA" http://localhost:8080/microprofile-jwt/Sample/helloworld
+Hello testUser
+----
+
+The quickstart also contains an endpoint which requires the identity to be granted the `Subscriber` role, using a generated token this can be 
+called using the following command: -
+
+[source]
+----
+$ curl -H "Authorization: Bearer ey..XPA" http://localhost:8080/microprofile-jwt/Sample/subscription
+hello + testUser, hasJWT: true
+----
+
+If a token is now generated and use without the `Subscriber` group access to this endpoint should be rejected.
+
+[source]
+----
+$ mvn exec:java -Dexec.mainClass=org.wildfly.quickstarts.mpjwt.TokenUtil -Dexec.classpathScope=test -Dexec.args="testUser 2017-09-15 Echoer"
+
+JWT Header - {"kid":"Test Key","typ":"jwt","alg":"RS256"}
+
+JWT Claims - {"sub":"testUser","upn":"testUser","iss":"quickstart-jwt-issuer","aud":"jwt-audience","groups":["Echoer"],"birthdate":"2017-09-15","jti":"4346874f-eb48-4d84-ab51-c6efd1cd22d5","iat":1580136970,"exp":1580151370}
+
+Generated JWT Token 
+eyJraWQiOiJUZXN0IEtleSIsInR5cCI6Imp3dCIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiJ0ZXN0VXNlciIsInVwbiI6InRlc3RVc2VyIiwiaXNzIjoicXVpY2tzdGFydC1qd3QtaXNzdWVyIiwiYXVkIjoiand0LWF1ZGllbmNlIiwiZ3JvdXBzIjpbIkVjaG9lciJdLCJiaXJ0aGRhdGUiOiIyMDE3LTA5LTE1IiwianRpIjoiNDM0Njg3NGYtZWI0OC00ZDg0LWFiNTEtYzZlZmQxY2QyMmQ1IiwiaWF0IjoxNTgwMTM2OTcwLCJleHAiOjE1ODAxNTEzNzB9.NjWlGGi5iB2PW-g_fs74EgwiyOrgRSsHDym5PS7H3o6T3aEb3ZnMmx7W9uhT_pXvpAL_fboXxy7WMQHukGb_ywtxAmTlA7ecrsia-O9EYV2Gr1ZhlQ9kYVERwZdo5lFqphMvERJ1tClTR3Jk37tpu54HVgFquhUEXlEcldOSeRbYHF9fkiVD6_UPR9bfphhCdwzIbeDVnBJ3FuRl_ZuSxWCoWaRSLPGjuR3JzMlUWkRV8RXhRLTkFRgNowOx_uFFK6q7_aOVqQaHixRqT4ULcO9WiA7f6Up0NMscvq-aT3VFw64qEmn2S8pfX7PpSuAB71Z7w0dwhf4qx3iYklfAPw
+
+$ curl -H "Authorization: Bearer ey..APw" http://localhost:8080/microprofile-jwt/Sample/subscription
+Access forbidden: role not allowed
+----
+
+The quickstart also contains an endpoint that makes use of the `birthdate` claim to calculate how long until the callers birthday, this can be called using a token which contains the `Subscriber` group.
+
+[source]
+----
+$ curl -H "Authorization: Bearer ey..XPA" http://localhost:8080/microprofile-jwt/Sample/birthday
+7 months and 19 days until your next birthday.
+----
+
+This section has been a fast run through of the commands required to deploy the quickstart, generate JWT tokens and call the various endpoints, for further information as to how this was achieved
+please read through the next section where the process to generate this quickstart from scratch is described step by step.
+
+It is also possible to run each of these calls from the test case included in the quickstart.
+
+// Server Distribution Testing
+include::../shared-doc/run-integration-tests-with-server-distribution.adoc[leveloffset=+2]
+
+== Starting from Scratch
+
+In this section we will go through the steps to create a new JAX-RS deployment from scratch and incrementally 
+add support for MicroProfile JWT including token generation, activation of authorization and the injection 
+of claims.
+
+=== Project Generation
+
+This quickstart will be making use of JAX-RS endpoints secured using MicroProfile JWT so the first step
+is to generate a new `webapp` project: -
+
+[source,options="nowrap"]
+----
+mvn archetype:generate -DinteractiveMode=false \
+    -DarchetypeGroupId=org.apache.maven.archetypes \
+    -DarchetypeArtifactId=maven-archetype-webapp \
+    -DgroupId=org.wildfly.quickstarts -DartifactId=microprofile-jwt \
+    -Dversion=1.0.0.Alpha1-SNAPSHOT
+cd microprofile-jwt
+----
+
+The changes required on the project can be performed using a text editor, however you may prefer to import the 
+project into your favourite IDE.
+
+==== pom.xml Updates
+
+Next the project's `pom.xml` should be updated so the dependencies required by this quickstart are 
+available and so we have a plug-in installed which can deploy the quickstart directly to {productName}.
+
+Add the following properties to the `pom.xml`.
+
+[source,options="nowrap",subs="attributes+"]
+----
+<version.com.nimbusds.jose.jwt>{versionComNimbusdsJoseJwt}</version.com.nimbusds.jose.jwt>
+<version.glassfish.json>{versionGlassfishJson}</version.glassfish.json>
+<version.microprofile.bom>{versionMicroprofileBom}</version.microprofile.bom>
+<version.server.bom>{versionServerBom}</version.server.bom>
+----
+
+Also the project can be updated to use Java 11 as the minimum.
+
+[source,options="nowrap"]
+----
+<maven.compiler.source>11</maven.compiler.source>
+<maven.compiler.target>11</maven.compiler.target>
+----
+
+Before the dependencies are defined add the following boms.
+
+[source,options="nowrap"]
+----
+<dependencyManagement>
+  <dependencies>
+    <dependency>
+      <groupId>org.wildfly.bom</groupId>
+      <artifactId>wildfly-ee-with-tools</artifactId>
+      <version>${version.server.bom}</version>
+      <type>pom</type>
+      <scope>import</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.wildfly.bom</groupId>
+      <artifactId>wildfly-microprofile</artifactId>
+      <version>${version.microprofile.bom}</version>
+      <type>pom</type>
+      <scope>import</scope>
+    </dependency>
+  </dependencies>
+</dependencyManagement>
+----
+
+By using boms the majority of dependencies used within this quickstart align with the version uses by the application server.
+
+The following dependencies can now be added to the project.
+
+[source,options="nowrap"]
+----
+<dependency>
+  <groupId>jakarta.annotation</groupId>
+  <artifactId>jakarta.annotation-api</artifactId>
+  <scope>provided</scope>
+</dependency>
+<dependency>
+  <groupId>jakarta.enterprise</groupId>
+  <artifactId>jakarta.enterprise.cdi-api</artifactId>
+  <scope>provided</scope>
+</dependency>
+<dependency>
+  <groupId>jakarta.ws.rs</groupId>
+  <artifactId>jakarta.ws.rs-api</artifactId>
+  <scope>provided</scope>
+</dependency>
+<dependency>
+  <groupId>org.eclipse.microprofile.jwt</groupId>
+  <artifactId>microprofile-jwt-auth-api</artifactId>
+  <scope>provided</scope>
+</dependency>
+----
+
+Also add the following test scoped dependencies.
+
+[source,options="nowrap"]
+----
+<dependency>
+  <groupId>com.nimbusds</groupId>
+  <artifactId>nimbus-jose-jwt</artifactId>
+  <version>${version.com.nimbusds.jose.jwt}</version>
+  <scope>test</scope>
+</dependency>
+<dependency>
+  <groupId>jakarta.json</groupId>
+  <artifactId>jakarta.json-api</artifactId>
+  <scope>test</scope>
+</dependency>
+<dependency>
+  <groupId>org.glassfish</groupId>
+  <artifactId>jakarta.json</artifactId>
+  <version>${version.glassfish.json}</version>
+  <scope>test</scope>
+</dependency>
+<dependency>
+  <groupId>org.eclipse.parsson</groupId>
+  <artifactId>parsson</artifactId>
+  <scope>test</scope>
+</dependency>
+----
+
+Within the `<build></build>` section of the project add the following plug-in definition.
+
+[source,options="nowrap"]
+----
+<plugins>
+  <plugin>
+    <groupId>org.wildfly.plugins</groupId>
+    <artifactId>wildfly-maven-plugin</artifactId>
+  </plugin>
+</plugins>
+----
+
+Once the project has been developed this plug-in will handle the deployment to the application server.
+
+// Setup required repositories
+include::../shared-doc/setup-repositories.adoc[leveloffset=+1]
+
+==== JAX-RS Conversion
+
+The generated project is a standard web application so the next step will be to delete the files not
+required by this quickstart and add the JAX-RS application and a `helloWorld` endpoint.
+
+Under `src/main/webapp` delete the generated `index.jsp`.
+
+Within the directory `src/main/webapp/WEB-INF` add an empty `beans.xml` file, this will act as a trigger
+to enable CDI for the deployment.
+
+Under `src/main` create a new `java` directory to hold the Java class to be added to the project.
+
+Add the following class in the `org.wildfly.quickstarts.mpjwt` package, this will be the main trigger to
+process the deployment as a JAX-RS deployment.
+
+[source,java]
+----
+package org.wildfly.quickstarts.mpjwt;
+
+import jakarta.ws.rs.ApplicationPath;
+import jakarta.ws.rs.core.Application;
+
+import org.eclipse.microprofile.auth.LoginConfig;
+
+@ApplicationPath("/")
+@LoginConfig(authMethod="MP-JWT", realmName="MP JWT Realm")
+public class App extends Application {}
+----
+
+Also within the `org.wildfly.quickstarts.mpjwt` package add the following endpoint.
+
+[source,java]
+----
+package org.wildfly.quickstarts.mpjwt;
+
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+
+
+@Path("/Sample")
+public class SampleEndPoint {
+
+    @GET
+    @Path("/helloworld")
+    public String helloworld() {
+        return "Hello World";
+    }
+
+}
+----
+
+At this stage the project contains a simple JAX-RS endpoint we can deploy to the server and invoke to verify 
+everything is working as expected before moving on to enable JWT based authentication and authorization.
+
+First build the example and deploy it to the previously started application server.
+
+. Compile the application code and deploy it to {productName}
+[source]
+----
+$ mvn clean package wildfly:deploy
+----
+
+In the output of the application server's console check the deployment deployed successfully.
+
+[source]
+----
+15:48:22,159 INFO  [org.jboss.resteasy.resteasy_jaxrs.i18n] (ServerService Thread Pool -- 78) RESTEASY002225: Deploying jakarta.ws.rs.core.Application: class org.wildfly.quickstarts.mpjwt.App$Proxy$_$$_WeldClientProxy
+15:48:22,193 INFO  [org.wildfly.extension.undertow] (ServerService Thread Pool -- 78) WFLYUT0021: Registered web context: '/microprofile-jwt' for server 'default-server'
+15:48:22,239 INFO  [org.jboss.as.server] (management-handler-thread - 1) WFLYSRV0010: Deployed "microprofile-jwt.war" (runtime-name : "microprofile-jwt.war")
+----
+
+The endpoint can now be called using the following command: -
+
+[source]
+----
+$ curl http://localhost:8080/microprofile-jwt/Sample/helloworld
+Hello World
+----
+
+Alternative HTTP clients can be used however later on we will be adding custom headers to the HTTP request which can be acomplished directly with the `curl` command.
+
+=== Report Authenticated Identity
+
+The first update to make to the project is to modify the `/helloworld` to report the name of the presently authenticated identity.
+
+Make the following changes to the previously created `org.wildfly.quickstarts.mpjwt.SampleEndPoint` class.
+
+Add the following `import` statements to the class.
+
+[source,java]
+----
+import java.security.Principal;
+import jakarta.ws.rs.core.Context;
+import jakarta.ws.rs.core.SecurityContext;
+----
+
+Then replace the existing `helloWorld()` method with the following: -
+
+[source,java]
+----
+@GET
+@Path("/helloworld")
+public String helloworld(@Context SecurityContext securityContext) {
+    Principal principal = securityContext.getUserPrincipal();
+    String caller = principal == null ? "anonymous" : principal.getName();
+
+    return "Hello " + caller;
+}
+----
+
+As before, deploy and call the endpoint.
+
+[source]
+----
+$ mvn package wildfly:deploy
+
+$ curl http://localhost:8080/microprofile-jwt/Sample/helloworld
+Hello anonymous
+----
+
+=== Public / Private Key
+
+Now that we have a deployable project our next step on the project will be to enable `MP-JWT` authentication, however before we can do this a couple of steps are 
+required the first being the generation of a public / private key pair for token signing and verification.
+
+For MicroProfile JWT we only require the keys, we do not require an X509Certificate so we can use openssl to generate the raw keys.
+
+[source,options="nowrap"]
+----
+$ openssl genpkey -algorithm RSA -out private.pem -pkeyopt rsa_keygen_bits:2048
+----
+
+From this we can then export the public key that will be included in the deployment.
+
+[source,options="nowrap"]
+----
+$ mkdir -p src/main/resources/META-INF
+$ openssl rsa -in private.pem -pubout -out src/main/resources/META-INF/public.pem
+----
+
+The commands used here offer no protection of the generated keys, in a real world environment any private keys that can be used for token generation should be handled securely.
+
+=== Token Generator
+
+The next step is to add a utility to the project which can be used to generate JWT tokens for use with this example.
+
+First create a directory to hold the test code.
+
+[source,options="nowrap"]
+----
+$ mkdir -p src/test/java
+----
+
+Under `src/test/java` add the following utility class to the `org.wildfly.quickstarts.mpjwt` package.
+
+[source,java]
+----
+package org.wildfly.quickstarts.mpjwt;
+
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.security.KeyFactory;
+import java.security.PrivateKey;
+import java.security.spec.PKCS8EncodedKeySpec;
+import java.util.Base64;
+import java.util.UUID;
+
+import jakarta.json.Json;
+import jakarta.json.JsonArrayBuilder;
+import jakarta.json.JsonObjectBuilder;
+
+import com.nimbusds.jose.JOSEObjectType;
+import com.nimbusds.jose.JWSAlgorithm;
+import com.nimbusds.jose.JWSHeader;
+import com.nimbusds.jose.JWSObject;
+import com.nimbusds.jose.JWSSigner;
+import com.nimbusds.jose.Payload;
+import com.nimbusds.jose.crypto.RSASSASigner;
+
+public class TokenUtil {
+
+    private static PrivateKey loadPrivateKey(final String fileName) throws Exception {
+        try (InputStream is = new FileInputStream(fileName)) {
+            byte[] contents = new byte[4096];
+            int length = is.read(contents);
+            String rawKey = new String(contents, 0, length, StandardCharsets.UTF_8)
+                    .replaceAll("-----BEGIN (.*)-----", "")
+                    .replaceAll("-----END (.*)----", "")
+                    .replaceAll("\r\n", "").replaceAll("\n", "").trim();
+
+            PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(Base64.getDecoder().decode(rawKey));
+            KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+
+            return keyFactory.generatePrivate(keySpec);
+        }
+    }
+
+    public static String generateJWT(final String principal, final String birthdate, final String...groups) throws Exception {
+    	PrivateKey privateKey = loadPrivateKey("private.pem");
+    	
+        JWSSigner signer = new RSASSASigner(privateKey);
+        JsonArrayBuilder groupsBuilder = Json.createArrayBuilder();
+        for (String group : groups) { groupsBuilder.add(group); }
+
+        long currentTime = System.currentTimeMillis() / 1000;
+        JsonObjectBuilder claimsBuilder = Json.createObjectBuilder()
+                .add("sub", principal)
+                .add("upn", principal)
+                .add("iss", "quickstart-jwt-issuer")
+                .add("aud", "jwt-audience")
+                .add("groups", groupsBuilder.build())
+                .add("birthdate", birthdate)
+                .add("jti", UUID.randomUUID().toString())
+                .add("iat", currentTime)
+                .add("exp", currentTime + 14400);
+
+        JWSObject jwsObject = new JWSObject(new JWSHeader.Builder(JWSAlgorithm.RS256)
+                .type(new JOSEObjectType("jwt"))
+                .keyID("Test Key").build(),
+                new Payload(claimsBuilder.build().toString()));
+
+        jwsObject.sign(signer);
+
+        return jwsObject.serialize();
+    }
+
+    public static void main(String[] args) throws Exception {
+        if (args.length < 2) throw new IllegalArgumentException("Usage TokenUtil {principal} {birthdate} {groups}");        
+        String principal = args[0];
+        String birthdate = args[1];
+        String[] groups = new String[args.length - 2];
+        System.arraycopy(args, 2, groups, 0, groups.length);
+
+        String token = generateJWT(principal, birthdate, groups);
+        String[] parts = token.split("\\.");
+        System.out.println(String.format("\nJWT Header - %s", new String(Base64.getDecoder().decode(parts[0]), StandardCharsets.UTF_8)));
+        System.out.println(String.format("\nJWT Claims - %s", new String(Base64.getDecoder().decode(parts[1]), StandardCharsets.UTF_8)));
+        System.out.println(String.format("\nGenerated JWT Token \n%s\n", token));
+    }
+}
+----
+
+After adding the class the project will need to be compiled again and can then be executed using Maven.
+
+[source]
+----
+$ mvn package
+...
+$ mvn exec:java -Dexec.mainClass=org.wildfly.quickstarts.mpjwt.TokenUtil -Dexec.classpathScope=test -Dexec.args="testUser 2017-09-15 Echoer Subscriber"
+
+JWT Header - {"kid":"Test Key","typ":"jwt","alg":"RS256"}
+
+JWT Claims - {"sub":"testUser","upn":"testUser","iss":"quickstart-jwt-issuer","aud":"jwt-audience","groups":["Echoer","Subscriber"],"birthdate":"2017-09-15","jti":"3b89e56f-b8fd-4d5f-a1ed-080b958873f9","iat":1579886816,"exp":1579901216}
+
+Generated JWT Token 
+eyJraWQiOiJUZXN0IEtleSIsInR5cCI6Imp3dCIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiJ0ZXN0VXNlciIsInVwbiI6InRlc3RVc2VyIiwiaXNzIjoicXVpY2tzdGFydC1qd3QtaXNzdWVyIiwiYXVkIjoiand0LWF1ZGllbmNlIiwiZ3JvdXBzIjpbIkVjaG9lciIsIlN1YnNjcmliZXIiXSwiYmlydGhkYXRlIjoiMjAxNy0wOS0xNSIsImp0aSI6IjNiODllNTZmLWI4ZmQtNGQ1Zi1hMWVkLTA4MGI5NTg4NzNmOSIsImlhdCI6MTU3OTg4NjgxNiwiZXhwIjoxNTc5OTAxMjE2fQ.srUrA3YwWg4V42Kdf5aLQzLiBO9u7ZCJ_bbNBrgU1XFhRBVzpLq4TJheN4ZFvTKDKFHFm2pa1_a_J70EONK9y8mzKnwiIfV1LbugophBE1xp7iDsBeOwGT8IKQVLaoniGGhqny_MkiMmcWt4tRzrTlJ4TOlCGKv3mZ_RzOj6xdWb12RK7-MTZYlRdnPD8kAfRT7QaJnRbuy5vIpqdz8cVg1y2KILBtg_yJB8s2jrx0ZYgTLDUH6yLpcxk43cLszDCfmdaZAoZFjAS9xUdAuk5eo7TBqt376q0BbE5DS8bHlo3ejWcNEwyo1dPD_TlKDJtNgeae89gru5Z2NOmc2XPA
+----
+
+We now have everything we need to activate `MP-JWT` authentication on the deployment and start accepting JWT tokens within the HTTP requests.
+
+=== Activating MicroProfile JWT
+
+At this stage we have a basic JAX-RS deployment, a pair of keys for the generation of and validation of JWT tokens and a utility to generate JWT tokens.  
+Our next step is to activate MicroProfile JWT authentication for the deployment and we can then make use of some of the advanced features such as role 
+based access control using the groups from within the token and access to individual claims within the token.
+
+The configuration for JWT validation can be contained within a MicroProfile Config properties file, under `src/main/resources/META-INF` 
+add a `microprofile-config.properties` with the following content.
+
+[source]
+----
+mp.jwt.verify.publickey.location=META-INF/public.pem
+mp.jwt.verify.issuer=quickstart-jwt-issuer
+----
+
+As before, deploy and call the endpoint.
+
+[source]
+----
+$ mvn package wildfly:deploy
+
+$ curl http://localhost:8080/microprofile-jwt/Sample/helloworld
+Hello anonymous
+----
+
+A new token can now be generated using the TokenUtility created previously and the token passed in as we call the endpoint.
+
+[source]
+----
+$ curl -H "Authorization: Bearer eyJ...59g" http://localhost:8080/microprofile-jwt/Sample/helloworld
+Hello testUser
+----
+
+At this point our first endpoint now supports optional authentication making use of a JWT token.
+
+=== Authorization
+
+Now that authentication has been activated we can add another endpoint that requires the caller to have been granted the 
+‘Subscribers’ role which will be based on the groups in the incoming JWT token.
+
+The following imports should be added to the “SampleEndPoint” class: -
+
+[source,java]
+----
+import jakarta.annotation.security.RolesAllowed;
+import jakarta.inject.Inject;
+
+import org.eclipse.microprofile.jwt.JsonWebToken;
+----
+
+And then the following new endpoint can be added: -
+
+[source,java]
+----
+@Inject
+JsonWebToken jwt;
+
+@GET()
+@Path("/subscription")
+@RolesAllowed({"Subscriber"})
+public String helloRolesAllowed(@Context SecurityContext ctx) {
+    Principal caller =  ctx.getUserPrincipal();
+    String name = caller == null ? "anonymous" : caller.getName();
+    boolean hasJWT = jwt.getClaimNames() != null;
+    String helloReply = String.format("hello + %s, hasJWT: %s", name, hasJWT);
+    return helloReply;
+}
+----
+
+
+Within WildFly the JAX-RS deployment is handled by RESTEasy so under `src/main/webapp/WEB-INF` add the following to the web.xml to enable RESTEasy authorization checks.
+
+[source,xml]
+----
+<context-param>
+    <param-name>resteasy.role.based.security</param-name>
+    <param-value>true</param-value>
+</context-param>
+
+<security-role>
+    <role-name>Subscriber</role-name>
+</security-role>
+----
+
+As before, build and deploy the example.
+
+[source]
+----
+$ mvn package wildfly:deploy
+----
+
+Using a recently generated token the new endpoint can be called.
+
+[source]
+----
+$ curl -H "Authorization: Bearer ey..59g" http://localhost:8080/microprofile-jwt/Sample/subscription
+hello + testUser, hasJWT: true
+----
+
+If a token is now generated without including the “Subscriber” group access should be denied to the endpoint.
+
+[source]
+----
+$ curl -H "Authorization: Bearer ey..Pw" http://localhost:8080/microprofile-jwt/Sample/subscription
+Access forbidden: role not allowed
+----
+
+=== Claims
+
+A final feature that will be explored within this Quickstart is accessing the claims contained within the JWT.
+
+The JWTToken in the previous example can be used to inspect the claims, however it is also possible to inject the specific claim.
+
+The following imports should be added to the “SampleEndPoint” class: -
+
+[source,java]
+----
+import java.time.LocalDate;
+import java.time.Period;
+import java.util.Optional;
+
+import org.eclipse.microprofile.jwt.Claims;
+import org.eclipse.microprofile.jwt.Claim;
+----
+
+And then the following new endpoint can be added: -
+
+[source,java]
+----
+@Inject
+@Claim(standard = Claims.birthdate)
+Optional<String> birthdate;
+
+@GET()
+@Path("/birthday")
+@RolesAllowed({ "Subscriber" })
+public String birthday() {
+    if (birthdate.isPresent()) {
+        LocalDate birthdate = LocalDate.parse(this.birthdate.get().toString());
+        LocalDate today = LocalDate.now();
+        LocalDate next = birthdate.withYear(today.getYear());
+        if (today.equals(next)) {
+            return "Happy Birthday";
+        }
+        if (next.isBefore(today)) {
+            next = next.withYear(next.getYear() + 1);
+        }
+        Period wait = today.until(next);
+        return String.format("%d months and %d days until your next birthday.", wait.getMonths(), wait.getDays());
+    }
+    return "Sorry, we don't know your birthdate.";
+}
+----
+
+As with the previous endpoint the caller is required to have been granted the `Subscriber` role, if a `birthdate` claim is present within
+the JWT token this endpoint will calculate how many days until the next birthday and wish you happy birthday it if is today.
+
+As before, build and deploy the example.
+
+[source]
+----
+$ mvn package wildfly:deploy
+----
+
+Using a recently generated token the new endpoint can be called.
+
+[source]
+----
+$ curl -H "Authorization: Bearer ey..59g" http://localhost:8080/microprofile-jwt/Sample/birthday
+7 months and 19 days until your next birthday.
+----
+
+// Bootable JAR
+include::../shared-doc/build-and-run-the-quickstart-with-bootable-jar.adoc[leveloffset=+1]
+
+// OpenShift
+include::../shared-doc/build-and-run-the-quickstart-with-openshift.adoc[leveloffset=+1]
+
+== Conclusion
+
+As demonstrated within this Quickstart the MicroProfile JWT specification provides an easy way to secure deployments without needing
+to rely on managed server configuration.  The techniques explored in this quickstart can be used to create your own MicroProfile JWT
+secured enpoints or to add MicroProfile JWT authentication to your existing deployments.
+

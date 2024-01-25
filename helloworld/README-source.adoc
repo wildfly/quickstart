@@ -1,0 +1,46 @@
+include::../shared-doc/attributes.adoc[]
+
+= helloworld: Helloworld Example
+:author: Pete Muir
+:level: Beginner
+:technologies: Servlet
+:openshift: true
+
+[abstract]
+The `helloworld` quickstart demonstrates the use of Servlet 6 and is a good starting point to verify {productName} is configured correctly.
+
+:standalone-server-type: default
+:archiveType: war
+
+== What is it?
+
+The `helloworld` quickstart demonstrates the use of _Servlet 6_ in {productNameFull} {productVersion}.
+
+// Link to the quickstart source
+include::../shared-doc/view-the-source.adoc[leveloffset=+1]
+// System Requirements
+include::../shared-doc/system-requirements.adoc[leveloffset=+1]
+// Use of {jbossHomeName}
+include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
+
+// build and run with standard server distribution
+[[build_and_run_the_quickstart_with_server_dist]]
+== Building and running the quickstart application with a {productName} server distribution
+// Start the {productName} Standalone Server
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+2]
+// Build and Deploy the Quickstart
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+2]
+
+=== Access the Application
+The application will be running at the following URL: http://localhost:8080/{artifactId}/.
+
+// Server Distribution Testing
+include::../shared-doc/run-integration-tests-with-server-distribution.adoc[leveloffset=+2]
+// Undeploy the Quickstart
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+2]
+
+// Build and run sections for other environments/builds
+ifndef::ProductRelease,EAPXPRelease[]
+include::../shared-doc/build-and-run-the-quickstart-with-provisioned-server.adoc[leveloffset=+1]
+endif::[]
+include::../shared-doc/build-and-run-the-quickstart-with-openshift.adoc[leveloffset=+1]

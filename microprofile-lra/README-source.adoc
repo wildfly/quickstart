@@ -1,0 +1,854 @@
+include::../shared-doc/attributes.adoc[]
+
+= microprofile-lra: MicroProfile LRA QuickStart
+:author: Martin Stefanko
+:level: Beginner
+:technologies: MicroProfile LRA
+
+[abstract]
+The `microprofile-lra` quickstart demonstrates the use of the MicroProfile LRA specification in {productName}.
+
+:standalone-server-type: microprofile
+:configFileName: standalone-microprofile.xml
+:archiveType: war
+:archiveName: {artifactId}
+:microprofile-lra:
+:restoreScriptName: restore-configuration.cli
+:openshift: true
+:custom-bootable-jar-layers:
+:custom-openshift-layers:
+:extra-openshift-test-arguments:
+:requires-http-route:
+
+== What is it?
+
+link:https://github.com/eclipse/microprofile-lra[MicroProfile LRA specification] aims to provide an API that the
+applications utilize to cooperate actions in
+distributed
+transactions based on the saga pattern. The user applications enlist within the LRA which in turn notifies all enlisted
+participants about the LRA (transaction) outcome. The saga pattern provides different transactional guarantees than ACID
+transactions. Saga allows individual operations to execute right when they are invoked. Meaning together with the
+enlistment in the LRA. It also requires each participant to define a compensating action which is a semantic undo of the
+original operation. Note that this doesn't need to be opposite action. The compensation is required to put the state of
+the system into the semantically same state as before the action invocation, not exactly same. If your action is for
+instance sending an email, your compensation might be another email cancelling previous email.
+
+If all actions execute successfully, the LRA is closed and the optional Complete callbacks are invoked on enlisted
+participants. If any action fails, then the LRA is cancelled and all compensation actions (Compensate callbacks) of all
+enlisted participants are invoked. The state of the system is said to be eventually consistent, since if we don't start
+any new LRAs, the state is bound to become consistent eventually.
+
+The implementation used in the {productName} is provided by the
+link:https://github.com/jbosstm/narayana/tree/main/rts/lra[Narayana project].
+
+== Architecture
+
+In this quickstart, we have a simple REST application that exposes several REST endpoints that enlist the application as
+different LRA participants and provide callbacks for completions and compensations respectively. It's REST API consists
+of the following
+endpoints:
+
+- `GET /participant1/work` - work action of Participant 1
+- `GET /participant2/work` - work action of Participant 2
+- `PUT /participant1/compensate` - compensating action of Participant 1
+- `PUT /participant2/compensate` - compensating action of Participant 2
+- `PUT /participant1/complete` - complete action of Participant 1
+- `PUT /participant2/complete` - complete action of Participant 2
+
+// Link to the quickstart source
+include::../shared-doc/view-the-source.adoc[leveloffset=+1]
+
+// System Requirements
+include::../shared-doc/system-requirements.adoc[leveloffset=+1]
+
+// Use of {jbossHomeName}
+include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
+
+// Back Up the {productName} Standalone Server Configuration
+include::../shared-doc/back-up-server-standalone-configuration.adoc[leveloffset=+1]
+
+// Start the {productName} Standalone Server
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
+
+[[configure_the_server]]
+== Configure the Server
+
+You can configure the LRA extensions and subsystems (both for LRA coordinator and LRA participant respectively) by running CLI commands.
+For your convenience, this quickstart batches the commands into a `enable-microprofile-lra.cli` script provided in the root directory
+of this quickstart.
+
+. Before you begin, make sure you do the following:
+
+* xref:back_up_standalone_server_configuration[Back up the {productName} standalone server configuration] as described above.
+* xref:start_the_eap_standalone_server[Start the {productName} server with the standalone default profile] as described above.
+
+. Review the `enable-microprofile-lra.cli` file in the root of this quickstart directory. It enables two extensions and adds
+two subsystems, one for LRA coordinator and one for LRA participant respectively.
+. Open a new terminal, navigate to the root directory of this quickstart, and run the following command, replacing `__{jbossHomeName}__`
+with the path to your server:
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=enable-microprofile-lra.cli
+----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
++
+
+You should see the following result when you run the script:
++
+[source,options="nowrap"]
+----
+The batch executed successfully
+----
+
+. Stop the {productName} server.
+
+== Review the Modified Server Configuration
+
+After stopping the server, open the `__{jbossHomeName}__/standalone/configuration/{configFileName}` file and review the changes.
+
+. The script added the following two extensions:
++
+[source,xml,options="nowrap"]
+----
+<extension module="org.wildfly.extension.microprofile.lra-coordinator"/>
+<extension module="org.wildfly.extension.microprofile.lra-participant"/>
+----
++
+
+. And also the following two subsystems:
++
+[source,xml,options="nowrap"]
+----
+<subsystem xmlns="urn:wildfly:microprofile-lra-coordinator:1.0"/>
+<subsystem xmlns="urn:wildfly:microprofile-lra-participant:1.0"/>
+----
+
+
+[[solution]]
+== Solution
+
+We recommend that you follow the instructions that
+<<creating-new-project, create the application step by step>>. However, you can
+also go right to the completed example which is available in this directory.
+
+// Build and Deploy the Quickstart
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
+
+// Server Distribution Testing
+include::../shared-doc/run-integration-tests-with-server-distribution.adoc[leveloffset=+2]
+
+// Undeploy the Quickstart
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
+
+// Restore the {productName} Standalone Server Configuration
+:restoreScriptName: restore-configuration.cli
+include::../shared-doc/restore-standalone-server-configuration.adoc[leveloffset=+1]
+
+// Additional information about this script
+This script removes the added extensions and subsystems for the LRA participant and the LRA coordinator.
+
+[source,options="nowrap"]
+----
+The batch executed successfully
+process-state: reload-required
+----
+
+// Restore the {productName} Standalone Server Configuration Manually
+include::../shared-doc/restore-standalone-server-configuration-manual.adoc[leveloffset=+2]
+
+//Bootable JAR
+include::../shared-doc/build-and-run-the-quickstart-with-bootable-jar.adoc[leveloffset=+1]
+
+// OpenShift
+include::../shared-doc/build-and-run-the-quickstart-with-openshift.adoc[leveloffset=+1]
+
+[[creating-new-project]]
+== Creating the Maven Project
+
+[source,options="nowrap"]
+----
+mvn archetype:generate \
+    -DgroupId=org.wildfly.quickstarts \
+    -DartifactId=microprofile-lra \
+    -DinteractiveMode=false \
+    -DarchetypeGroupId=org.apache.maven.archetypes \
+    -DarchetypeArtifactId=maven-archetype-webapp
+cd microprofile-lra
+----
+
+Open the project in your favourite IDE.
+
+Open the generated `pom.xml`.
+
+The first thing to do is to change the minimum JDK to Java 11 and set the other relevant version properties:
+
+[source,xml,subs="attributes+"]
+----
+<maven.compiler.source>11</maven.compiler.source>
+<maven.compiler.target>11</maven.compiler.target>
+
+<!-- the version for the Server -->
+<version.server>{versionServer}</version.server>
+<!-- The versions for the BOMs, Packs and Plugins -->
+<version.bom.ee>${version.server}</version.bom.ee>
+<version.bom.microprofile>${version.server}</version.bom.microprofile>
+<version.pack.cloud>{versionPackCloud}</version.pack.cloud>
+<version.plugin.wildfly>{versionPluginWildfly}</version.plugin.wildfly>
+<version.plugin.wildfly-jar>{versionPluginWildflyJar}</version.plugin.wildfly-jar>
+----
+
+Next we need to setup our dependencies. Add the following section to your
+`pom.xml`:
+
+[source,xml,subs="attributes+"]
+----
+<dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>org.wildfly.bom</groupId>
+            <artifactId>wildfly-ee-with-tools</artifactId>
+            <version>${version.bom.ee}</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.wildfly.bom</groupId>
+            <artifactId>wildfly-microprofile</artifactId>
+            <version>${version.bom.microprofile}</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+    </dependencies>
+</dependencyManagement>
+----
+
+Now we need to add the following  dependencies:
+
+[source,xml]
+----
+<dependency>
+    <groupId>org.eclipse.microprofile.lra</groupId>
+    <artifactId>microprofile-lra-api</artifactId>
+    <scope>provided</scope>
+</dependency>
+<dependency>
+    <groupId>jakarta.ws.rs</groupId>
+    <artifactId>jakarta.ws.rs-api</artifactId>
+    <scope>provided</scope>
+</dependency>
+<dependency>
+    <groupId>jakarta.enterprise</groupId>
+    <artifactId>jakarta.enterprise.cdi-api</artifactId>
+    <scope>provided</scope>
+</dependency>
+<dependency>
+    <groupId>org.jboss.logging</groupId>
+    <artifactId>jboss-logging</artifactId>
+    <scope>provided</scope>
+</dependency>
+----
+
+NOTE: We need Jakarta REST (JAX-RS) since LRA exposes functionality over JAX-RS resources and uses HTTP as its
+communication protocol.
+
+All dependencies can have provided scope. The versions are taken from the above
+defined BOM.
+
+As we are going to be deploying this application to the {productName} server, let's
+also add a maven plugin that will simplify the deployment operations (you can replace
+the generated build section):
+
+[source,xml]
+----
+<build>
+    <!-- Set the name of the archive -->
+    <finalName>${project.artifactId}</finalName>
+    <pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.wildfly.plugins</groupId>
+                <artifactId>wildfly-maven-plugin</artifactId>
+                <version>${version.plugin.wildfly}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.wildfly.plugins</groupId>
+                <artifactId>wildfly-jar-maven-plugin</artifactId>
+                <version>${version.plugin.wildfly-jar}</version>
+            </plugin>
+        </plugins>
+    </pluginManagement>
+</build>
+----
+
+// Setup required repositories
+include::../shared-doc/setup-repositories.adoc[leveloffset=+1]
+
+Now we are ready to start working with MicroProfile LRA.
+
+== Set up JAX-RS server and result wrapper
+
+LRA works on top of JAX-RS. To set up JAX-RS server in our service, we need to create a new application class
+`org.wildfly.quickstarts.microprofile.lra.JaxRsApplication` in the file
+`microprofile-lra/src/main/java/org/wildfly/quickstarts/microprofile/lra/JaxRsApplication.java` that looks like this:
+
+[source,java]
+----
+package org.wildfly.quickstarts.microprofile.lra;
+
+import jakarta.ws.rs.ApplicationPath;
+import jakarta.ws.rs.core.Application;
+
+@ApplicationPath("/")
+public class JaxRsApplication extends Application {
+}
+----
+
+Now we can declare our LRA JAX-RS resources.
+
+The LRAs we're going to create also accumulate results in a wrapper called `ParticipantResult` which we can create in `org.wildfly.quickstarts.microprofile.lra.ParticipantResult` class:
+
+[source,java]
+----
+package org.wildfly.quickstarts.microprofile.lra;
+
+public class ParticipantResult {
+
+    private String workLRAId;
+    private String workRecoveryId;
+    private String completeLRAId;
+    private String completeRecoveryId;
+    private String compensateLRAId;
+    private String compensateRecoveryId;
+
+    public ParticipantResult() {}
+
+    public ParticipantResult(String workLRAId, String workRecoveryId,
+                       String completeLRAId, String completeRecoveryId,
+                       String compensateLRAId, String compensateRecoveryId) {
+        this.workLRAId = workLRAId;
+        this.workRecoveryId =  workRecoveryId;
+        this.completeLRAId = completeLRAId;
+        this.completeRecoveryId = completeRecoveryId;
+        this.compensateLRAId = compensateLRAId;
+        this.compensateRecoveryId = compensateRecoveryId;
+    }
+
+    public String getWorkLRAId() {
+        return workLRAId;
+    }
+
+    public void setWorkLRAId(String workLRAId) {
+        this.workLRAId = workLRAId;
+    }
+
+    public String getWorkRecoveryId() {
+        return workRecoveryId;
+    }
+
+    public void setWorkRecoveryId(String workRecoveryId) {
+        this.workRecoveryId = workRecoveryId;
+    }
+
+    public String getCompleteLRAId() {
+        return completeLRAId;
+    }
+
+    public void setCompleteLRAId(String completeLRAId) {
+        this.completeLRAId = completeLRAId;
+    }
+
+    public String getCompleteRecoveryId() {
+        return completeRecoveryId;
+    }
+
+    public void setCompleteRecoveryId(String completeRecoveryId) {
+        this.completeRecoveryId = completeRecoveryId;
+    }
+
+    public String getCompensateLRAId() {
+        return compensateLRAId;
+    }
+
+    public void setCompensateLRAId(String compensateLRAId) {
+        this.compensateLRAId = compensateLRAId;
+    }
+
+    public String getCompensateRecoveryId() {
+        return compensateRecoveryId;
+    }
+
+    public void setCompensateRecoveryId(String compensateRecoveryId) {
+        this.compensateRecoveryId = compensateRecoveryId;
+    }
+
+    @Override
+    public String toString() {
+        return "ParticipantResult{" +
+            "workLRAId='" + workLRAId + '\'' +
+            ", workRecoveryId='" + workRecoveryId + '\'' +
+            ", completeLRAId='" + completeLRAId + '\'' +
+            ", completeRecoveryId='" + completeRecoveryId + '\'' +
+            ", compensateLRAId='" + compensateLRAId + '\'' +
+            ", compensateRecoveryId='" + compensateRecoveryId + '\'' +
+            '}';
+    }
+}
+----
+
+== Creating LRA participants
+
+In LRA, we define LRA execution and participation with the same `@LRA` annotation. If placed on a method, it acts
+similarly to `@Transactional` annotation from JTA. By default, it uses the `REQUIRED` LRA type meaning new LRA is
+started or existing LRA (if passed to the invocation) is joined before the method is started. The LRA is also closed
+(success) or cancelled (failure/exception) at the end of the method.
+
+LRA currently works on top of the JAX-RS resources. We can place `@LRA` annotation on any JAX-RS method and the LRA
+is already managed for us by {productName}. Let's create a simple JAX-RS resource that uses lra in `org.wildfly .quickstarts.microprofile.lra.LRAParticipant1`:
+
+[source,java]
+----
+/*
+ * JBoss, Home of Professional Open Source.
+ * Copyright 2023, Red Hat, Inc., and individual contributors
+ * as indicated by the @author tags. See the copyright.txt file in the
+ * distribution for a full listing of individual contributors.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+ */
+
+package org.wildfly.quickstarts.microprofile.lra;
+
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.HeaderParam;
+import jakarta.ws.rs.PUT;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.core.Context;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.UriInfo;
+import org.eclipse.microprofile.lra.annotation.Compensate;
+import org.eclipse.microprofile.lra.annotation.Complete;
+import org.eclipse.microprofile.lra.annotation.ws.rs.LRA;
+import org.jboss.logging.Logger;
+
+import java.net.URI;
+
+@Path("/participant1")
+@ApplicationScoped
+public class LRAParticipant1 {
+
+    private static final Logger LOGGER = Logger.getLogger(LRAParticipant1.class);
+
+    private String workLRAId;
+    private String workRecoveryId;
+    private String completeLRAId;
+    private String completeRecoveryId;
+    private String compensateLRAId;
+    private String compensateRecoveryId;
+
+    @Context
+    UriInfo uriInfo;
+
+    @LRA
+    @GET
+    @Path("/work")
+    public Response work(@HeaderParam(LRA.LRA_HTTP_CONTEXT_HEADER) URI lraId,
+                         @HeaderParam(LRA.LRA_HTTP_RECOVERY_HEADER) URI participantId,
+                         @QueryParam("failLRA") boolean failLRA) {
+        LOGGER.infof("Executing action of Participant 1 enlisted in LRA %s " +
+            "that was assigned %s participant Id.", lraId, participantId);
+
+        workLRAId = lraId.toASCIIString();
+        workRecoveryId = participantId.toASCIIString();
+        compensateLRAId = null;
+        compensateRecoveryId = null;
+        completeLRAId = null;
+        completeRecoveryId = null;
+
+        return failLRA ? Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(lraId.toASCIIString()).build() :
+            Response.ok(lraId.toASCIIString()).build();
+    }
+
+    @Compensate
+    @PUT
+    @Path("/compensate")
+    public Response compensateWork(@HeaderParam(LRA.LRA_HTTP_CONTEXT_HEADER) URI lraId,
+                                   @HeaderParam(LRA.LRA_HTTP_RECOVERY_HEADER) URI participantId) {
+        LOGGER.infof("Compensating action for Participant 1 (%s) in LRA %s.", participantId, lraId);
+
+        compensateLRAId = lraId.toASCIIString();
+        compensateRecoveryId = participantId.toASCIIString();
+
+        return Response.ok().build();
+    }
+
+    @Complete
+    @PUT
+    @Path("/complete")
+    public Response completeWork(@HeaderParam(LRA.LRA_HTTP_CONTEXT_HEADER) URI lraId,
+                                 @HeaderParam(LRA.LRA_HTTP_RECOVERY_HEADER) URI participantId) {
+        LOGGER.infof("Complete action for Participant 1 (%s) in LRA %s.", participantId, lraId);
+
+        completeLRAId = lraId.toASCIIString();
+        completeRecoveryId = participantId.toASCIIString();
+
+        return Response.ok().build();
+    }
+
+    @GET
+    @Path("/result")
+    @Produces(MediaType.APPLICATION_JSON)
+    public ParticipantResult getParticipantResult() {
+        return new ParticipantResult(workLRAId, workRecoveryId,
+            completeLRAId, completeRecoveryId,
+            compensateLRAId, compensateRecoveryId);
+    }
+}
+----
+
+Let's look at it part by part.
+
+The most important method is called `work` and it looks like this:
+
+[source,java]
+----
+@LRA
+@GET
+@Path("/work")
+public Response work(@HeaderParam(LRA.LRA_HTTP_CONTEXT_HEADER) URI lraId,
+                     @HeaderParam(LRA.LRA_HTTP_RECOVERY_HEADER) URI participantId,
+                     @QueryParam("failLRA") boolean failLRA) {
+    LOGGER.infof("Executing action of Participant 1 enlisted in LRA %s " +
+        "that was assigned %s participant Id.", lraId, participantId);
+
+    workLRAId = lraId.toASCIIString();
+    workRecoveryId = participantId.toASCIIString();
+    compensateLRAId = null;
+    compensateRecoveryId = null;
+    completeLRAId = null;
+    completeRecoveryId = null;
+
+    return failLRA ? Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(lraId.toASCIIString()).build() :
+        Response.ok(lraId.toASCIIString()).build();
+}
+----
+
+In this `GET` JAX-RS method, we also use the `@LRA` annotation that either starts a new LRA or joins an existing one
+which is defined by the default LRA type `REQUIRED`. This is decided based on the `LRA.LRA_HTTP_CONTEXT_HEADER` header
+we called `lraId`. If the framework starts a new LRA,
+this header is automatically populated with its ID. If the caller specifies this `LRA.LRA_HTTP_CONTEXT_HEADER`
+manually in the request, the received LRA is joined. As you can see, the LRA context or ID is propagated in HTTP
+headers.
+
+The second header parameter `LRA.LRA_HTTP_RECOVERY_HEADER` is considered a unique participant ID for a particular
+enlistment within LRA. If we would like to enlist `LRAParticipant1` in the same LRA (`LRA.LRA_HTTP_CONTEXT_HEADER`)
+multiple times, this recovery ID would be different so we can associate the invocations of compensate and complete
+methods.
+
+Each LRA participant needs to define the `@Compensate` method that defines the compensating action.
+
+[source,java]
+----
+@Compensate
+@PUT
+@Path("/compensate")
+public Response compensateWork(@HeaderParam(LRA.LRA_HTTP_CONTEXT_HEADER) URI lraId,
+                               @HeaderParam(LRA.LRA_HTTP_RECOVERY_HEADER) URI participantId) {
+    LOGGER.infof("Compensating action for Participant 1 (%s) in LRA %s.", participantId, lraId);
+
+    compensateLRAId = lraId.toASCIIString();
+    compensateRecoveryId = participantId.toASCIIString();
+
+    return Response.ok().build();
+}
+----
+
+The compensation is defined by the `@Compensate` annotation which needs to be placed on the JAX-RS PUT method so the LRA
+coordinator knows how to call it. For simplicity, we are just printing the messages to the console. The participant can
+control how it finishes its participation in LRA via the returned status code. Please see the
+link:https://github.com/eclipse/microprofile-lra/blob/main/spec/src/main/asciidoc/microprofile-lra-spec.asciidoc[specification]
+for more details.
+
+The complete method looks similarly. It uses the `@Complete` annotation and it also needs to be the JAX-RS PUT method.
+
+[source,java]
+----
+@Complete
+@PUT
+@Path("/complete")
+public Response completeWork(@HeaderParam(LRA.LRA_HTTP_CONTEXT_HEADER) URI lraId,
+                             @HeaderParam(LRA.LRA_HTTP_RECOVERY_HEADER) URI participantId) {
+    LOGGER.infof("Complete action for Participant 1 (%s) in LRA %s.", participantId, lraId);
+
+    completeLRAId = lraId.toASCIIString();
+    completeRecoveryId = participantId.toASCIIString();
+
+    return Response.ok().build();
+}
+----
+
+The LRA coordinator invokes the `@Compensate` method when the LRA cancels on failure and it invokes the `@Complete`
+method when the LRA closes successfully.
+
+NOTE: The `@Complete` and `@Compensate` methods don't need to be JAX-RS methods. See the specification for details.
+
+Now we are already able to start our first LRA. You can deploy the application to the {productName} as demonstrated in
+the <<solution>> section. Remember that you need to enable the LRA extensions and subsystems with the
+`enable-microprofile-lra.cli` script.
+
+Then you can invoke the `LRAParticipant1` JAX-RS resource as:
+
+[source,bash]
+----
+$ curl http://localhost:8080/microprofile-lra/participant1/work
+----
+
+or if you want to simulate LRA failure as:
+
+[source,bash]
+----
+$ curl "http://localhost:8080/microprofile-lra/participant1/work?failLRA=true"
+----
+
+In either case, you will see the LRA execution message printed in the {productName} console:
+
+[source,bash]
+----
+INFO  [org.wildfly.quickstarts.microprofile.lra.LRAParticipant1] (default task-1) Executing action of Participant 1 enlisted in LRA http://localhost:8080/lra-coordinator/lra-coordinator/0_ffff0aca949a_-4998614b_64e74427_48 that was assigned http://localhost:8080/lra-coordinator/lra-coordinator/recoveryhttp%3A%2F%2Flocalhost%3A8080%2Flra-coordinator%2Flra-coordinator%2F0_ffff0aca949a_-4998614b_64e74427_48/0_ffff0aca949a_-4998614b_64e74427_4a participant Id.
+----
+
+And either the complete or compensate message depending on the `failLRA` paramater that can fail the LRA causing it
+to cancel:
+
+[source,bash]
+----
+INFO  [org.wildfly.quickstarts.microprofile.lra.LRAParticipant1] (default task-4) Complete action for Participant 1 (http://localhost:8080/lra-coordinator/lra-coordinator/recoveryhttp%3A%2F%2Flocalhost%3A8080%2Flra-coordinator%2Flra-coordinator%2F0_ffff0aca949a_-4998614b_64e74427_37/0_ffff0aca949a_-4998614b_64e74427_39) in LRA http://localhost:8080/lra-coordinator/lra-coordinator/0_ffff0aca949a_-4998614b_64e74427_37.
+
+
+INFO  [org.wildfly.quickstarts.microprofile.lra.LRAParticipant1] (default task-4) Compensating action for Participant 1 (http://localhost:8080/lra-coordinator/lra-coordinator/recoveryhttp%3A%2F%2Flocalhost%3A8080%2Flra-coordinator%2Flra-coordinator%2F0_ffff0aca949a_-4998614b_64e74427_48/0_ffff0aca949a_-4998614b_64e74427_4a) in LRA http://localhost:8080/lra-coordinator/lra-coordinator/0_ffff0aca949a_-4998614b_64e74427_48.
+----
+
+== Multiple participants in the LRA
+
+One participant that starts and ends the LRA is probably enough to demonstrate the functionality, but it rarely makes
+sense in distributed microservices architecture to only have one service that participates in a distributed
+transaction. So let's add another participant into the LRA started in the `LRAParticipant1`.
+
+Copy the `LRAParticipant1` into a new class `LRAParticipant2` and change all references to `participant1` to
+`participant2`.
+The
+full class is provided for convenience also here:
+
+[source,java]
+----
+/*
+ * JBoss, Home of Professional Open Source.
+ * Copyright 2023, Red Hat, Inc., and individual contributors
+ * as indicated by the @author tags. See the copyright.txt file in the
+ * distribution for a full listing of individual contributors.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+ */
+
+package org.wildfly.quickstarts.microprofile.lra;
+
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.HeaderParam;
+import jakarta.ws.rs.PUT;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+import org.eclipse.microprofile.lra.annotation.Compensate;
+import org.eclipse.microprofile.lra.annotation.Complete;
+import org.eclipse.microprofile.lra.annotation.ws.rs.LRA;
+import org.jboss.logging.Logger;
+
+import java.net.URI;
+
+@Path("/participant2")
+@ApplicationScoped
+public class LRAParticipant2 {
+
+    private static final Logger LOGGER = Logger.getLogger(LRAParticipant2.class);
+
+    private String workLRAId;
+    private String workRecoveryId;
+    private String completeLRAId;
+    private String completeRecoveryId;
+    private String compensateLRAId;
+    private String compensateRecoveryId;
+
+    @LRA(end = false)
+    @GET
+    @Path("/work")
+    public Response work(@HeaderParam(LRA.LRA_HTTP_CONTEXT_HEADER) URI lraId,
+                         @HeaderParam(LRA.LRA_HTTP_RECOVERY_HEADER) URI participantId) {
+        LOGGER.infof("Executing action of Participant 2 enlisted in LRA %s " +
+            "that was assigned %s participant Id.", lraId, participantId);
+
+        workLRAId = lraId.toASCIIString();
+        workRecoveryId = participantId.toASCIIString();
+        compensateLRAId = null;
+        compensateRecoveryId = null;
+        completeLRAId = null;
+        completeRecoveryId = null;
+
+        return Response.ok().build();
+    }
+
+    @Compensate
+    @PUT
+    @Path("/compensate")
+    public Response compensateWork(@HeaderParam(LRA.LRA_HTTP_CONTEXT_HEADER) URI lraId,
+                                   @HeaderParam(LRA.LRA_HTTP_RECOVERY_HEADER) URI participantId) {
+        LOGGER.infof("Compensating action for Participant 2 (%s) in LRA %s.", participantId, lraId);
+
+        compensateLRAId = lraId.toASCIIString();
+        compensateRecoveryId = participantId.toASCIIString();
+
+        return Response.ok().build();
+    }
+
+    @Complete
+    @PUT
+    @Path("/complete")
+    public Response completeWork(@HeaderParam(LRA.LRA_HTTP_CONTEXT_HEADER) URI lraId,
+                                 @HeaderParam(LRA.LRA_HTTP_RECOVERY_HEADER) URI participantId) {
+        LOGGER.infof("Complete action for Participant 2 (%s) in LRA %s.", participantId, lraId);
+
+        completeLRAId = lraId.toASCIIString();
+        completeRecoveryId = participantId.toASCIIString();
+
+        return Response.ok().build();
+    }
+
+    @GET
+    @Path("/result")
+    @Produces(MediaType.APPLICATION_JSON)
+    public ParticipantResult getParticipantResult() {
+        return new ParticipantResult(workLRAId, workRecoveryId,
+            completeLRAId, completeRecoveryId,
+            compensateLRAId, compensateRecoveryId);
+    }
+
+}
+----
+
+The only notable change is the `LRA` annotation that now contains the `@LRA(end = false)`. This parameter states that
+the LRA should not be ended when this business method ends. If we ended the LRA here, it would still invoke
+compensate or complete callbacks on all enlisted participants (including `LRAParticipant1` which will propagate the
+LRA into this class soon). However, it would also try to close/cancel LRA at the end of the `LRAParticipant1#work`
+method and by this time the LRA would already be ended. This would be reported by the coordinator.
+
+We also need to add the call to the newly created JAX-RS resource to the `LRAParticipant1#work` method as showed in
+this
+snipped:
+
+[source,java]
+----
+@LRA
+@GET
+@Path("/work")
+public Response work(@HeaderParam(LRA.LRA_HTTP_CONTEXT_HEADER) URI lraId,
+                     @HeaderParam(LRA.LRA_HTTP_RECOVERY_HEADER) URI participantId,
+                     @QueryParam("failLRA") boolean failLRA) {
+    LOGGER.infof("Executing action of Participant 1 enlisted in LRA %s " +
+        "that was assigned %s participant Id.", lraId, participantId);
+
+    workLRAId = lraId.toASCIIString();
+    workRecoveryId = participantId.toASCIIString();
+    compensateLRAId = null;
+    compensateRecoveryId = null;
+    completeLRAId = null;
+    completeRecoveryId = null;
+
+    // call Participant 2 to propagate the LRA
+    try (Client client = ClientBuilder.newClient()) {
+        client.target(uriInfo.getBaseUri() + "/participant2/work")
+            .request().get();
+    }
+
+    return failLRA ? Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(lraId.toASCIIString()).build() :
+        Response.ok(lraId.toASCIIString()).build();
+}
+----
+
+You might remember that we need to propagate the LRA id (LRA context) in the `LRA.LRA_HTTP_CONTEXT_HEADER`. However, if
+we make the outgoing JAX-RS call in the JAX-RS method that already carries an active LRA context, the context is
+automatically added to the outgoing call. So we don't need to pass it manually to each outgoing call.
+
+Now we are ready to propagate LRA started in Participant 1 to the Participant 2, enlist both in the newly started
+LRA, and finish the LRA when the Participant 1 ends its `work` method.
+
+Redeploy the application into the {productName} as showed in <<solution>>. Then you can repeat the calls to the
+`LRAParticipant1` JAX-RS resource as we used them previously:
+
+[source,bash]
+----
+$ curl http://localhost:8080/microprofile-lra/participant1/work
+----
+
+or if you want to simulate LRA failure as:
+
+[source,bash]
+----
+$ curl "http://localhost:8080/microprofile-lra/participant1/work?failLRA=true"
+----
+
+But this time, you will see the LRA is propagated to the `LRAParticipant2` and its (complete or compensate) callbacks
+are invoked by the LRA coordinator in the same way as for `LRAParticipant1`:
+
+[source,bash]
+----
+INFO  [org.wildfly.quickstarts.microprofile.lra.LRAParticipant1] (default task-1) Executing action of Participant 1 enlisted in LRA http://localhost:8080/lra-coordinator/lra-coordinator/0_ffff0aca949a_-4998614b_64e74427_38b that was assigned http://localhost:8080/lra-coordinator/lra-coordinator/recoveryhttp%3A%2F%2Flocalhost%3A8080%2Flra-coordinator%2Flra-coordinator%2F0_ffff0aca949a_-4998614b_64e74427_38b/0_ffff0aca949a_-4998614b_64e74427_38d participant Id.
+
+INFO  [org.wildfly.quickstarts.microprofile.lra.LRAParticipant2] (default task-2) Executing action of Participant 2 enlisted in LRA http://localhost:8080/lra-coordinator/lra-coordinator/0_ffff0aca949a_-4998614b_64e74427_38b that was assigned http://localhost:8080/lra-coordinator/lra-coordinator/recoveryhttp%3A%2F%2Flocalhost%3A8080%2Flra-coordinator%2Flra-coordinator%2F0_ffff0aca949a_-4998614b_64e74427_38b/0_ffff0aca949a_-4998614b_64e74427_38f participant Id.
+
+INFO  [org.wildfly.quickstarts.microprofile.lra.LRAParticipant1] (default task-5) Compensating action for Participant 1 (http://localhost:8080/lra-coordinator/lra-coordinator/recoveryhttp%3A%2F%2Flocalhost%3A8080%2Flra-coordinator%2Flra-coordinator%2F0_ffff0aca949a_-4998614b_64e74427_38b/0_ffff0aca949a_-4998614b_64e74427_38d) in LRA http://localhost:8080/lra-coordinator/lra-coordinator/0_ffff0aca949a_-4998614b_64e74427_38b.
+
+INFO  [org.wildfly.quickstarts.microprofile.lra.LRAParticipant2] (default task-5) Compensating action for Participant 2 (http://localhost:8080/lra-coordinator/lra-coordinator/recoveryhttp%3A%2F%2Flocalhost%3A8080%2Flra-coordinator%2Flra-coordinator%2F0_ffff0aca949a_-4998614b_64e74427_38b/0_ffff0aca949a_-4998614b_64e74427_38f) in LRA http://localhost:8080/lra-coordinator/lra-coordinator/0_ffff0aca949a_-4998614b_64e74427_38b.
+----
+
+== Conclusion
+
+MicroProfile LRA provides a simple API for the distributed transactions based on the saga pattern. To use it on {productName} we need to enable the appropriate extensions and subsystems for the LRA Coordinator (a service that
+manages LRAs) and the LRA participant (client API). The LRAs are controlled through annotations provided by the
+specification.
+
+Congratulations! You have reached the end of this tutorial. You can find more information
+about the MicroProfile LRA in the specification https://github.com/eclipse/microprofile-lra[github repository].

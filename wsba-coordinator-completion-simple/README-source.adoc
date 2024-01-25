@@ -1,0 +1,254 @@
+include::../shared-doc/attributes.adoc[]
+
+= wsba-coordinator-completion-simple: Example of a WS-BA Enabled JAX-WS Web Service
+:author: Paul Robinson
+:level: Intermediate
+:technologies: WS-BA, JAX-WS
+
+[abstract]
+The `wsba-coordinator-completion-simple` quickstart deploys a WS-BA (WS Business Activity) enabled JAX-WS Web service WAR (CoordinatorCompletion protocol).
+
+:standalone-server-type: custom
+:archiveType: war
+:restoreScriptName: restore-configuration.cli
+
+== What is it?
+
+The `wsba-coordinator-completion-simple` quickstart demonstrates the deployment of a WS-BA (WS Business Activity) enabled JAX-WS Web service bundled in a WAR archive (Participant Completion protocol) for deployment to {productNameFull}.
+
+The Web service exposes a simple `set` collection as a service. The Service allows items to be added to the set within a Business Activity.
+
+This example demonstrates the basics of implementing a WS-BA enabled Web service. It is beyond the scope of this quick start to demonstrate more advanced features. In particular:
+
+* The Service does not implement the required hooks to support recovery in the presence of failures.
+* It also does not utilize a transactional back-end resource.
+* Only one web service participates in the protocol. As WS-BA is a coordination protocol, it is best suited to multi-participant scenarios.
+
+For a more complete example, please see the XTS demonstrator application that ships with the Narayana project: http://narayana.io.
+
+It is also assumed that you have an understanding of WS-BusinessActivity. For more details, read the XTS documentation that ships with the Narayana project: http://narayana.io/docs/product
+
+The application consists of a single JAX-WS web service that is deployed within a WAR archive. It is tested with a JBoss Arquillian enabled JUnit test.
+
+When running the `org.jboss.as.quickstarts.wsba.coordinatorcompletion.simple.ClientTest#testSuccess()` method, the following steps occur:
+
+. A new Business Activity is created by the client.
+. Multiple operations on a WS-BA enabled Web service is invoked by the client.
+. The `JaxWSHeaderContextProcessor` in the WS Client handler chain inserts the BA context into the outgoing SOAP messages.
+. When the service receives a SOAP request, the `JaxWSHeaderContextProcessor` in its handler chain inspects the BA context and associates the request with this BA.
+. The Web service operation is invoked.
+. For the first request, in this BA, A participant is enlisted in this BA. This allows the Web Service logic to respond to protocol events, such as compensate and close.
+. The service invokes the business logic. In this case, a String value is added to the set.
+. The client can then make additional calls to the `SetService`. As the `SetService` participates as a `CoordinatorCompletion` protocol, it will continue to accept calls to `addValueToSet` until it is told to complete by the coordinator.
+. The client can then decide to complete or cancel the BA.
+** If the client decides to complete, all participants will be told to complete. Providing all participants successfully complete, the coordinator will then tell all participants to close, otherwise the completed participants will be told to compensate.
+** If the participant decides to cancel, all participants will be told to compensate.
+
+There is another test that shows how the client can cancel a BA.
+
+// Link to the quickstart source
+include::../shared-doc/view-the-source.adoc[leveloffset=+1]
+// System Requirements
+include::../shared-doc/system-requirements.adoc[leveloffset=+1]
+// Use of {jbossHomeName}
+include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
+
+[[start_the_eap_standalone_server]]
+== Start the {productName} Standalone Server
+
+You must start {productName} with the XTS subsystem enabled.
+
+. Edit the log level to reduce the amount of log output. This should make it easier to read the logs produced by this example. To do this add the following logger block to the `__{jbossHomeName}__/standalone/configuration/standalone.xml` of your JBoss distribution. You should add it just below one of the other logger blocks.
++
+[source,xml,options="nowrap"]
+----
+<logger category="org.apache.cxf.service.factory.ReflectionServiceFactoryBean">
+    <level name="WARN"/>
+</logger>
+----
+
+[[configure_the_server]]
+=== Configure the Server
+
+You can configure the server by running JBoss CLI commands. For your convenience, this quickstart batches the commands into a `configure-server.cli` script provided in the root directory of this quickstart.
+
+. Before you begin, make sure you do the following:
+
+* xref:back_up_standalone_server_configuration[Back up the {productName} standalone server configuration] as described above.
+* Start the {productName} server with the standalone default profile : 
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}__/bin/standalone.sh
+----
+
+. Review the `configure-server.cli` file in the root of this quickstart directory. This script adds xts domain
+. Open a new terminal, navigate to the root directory of this quickstart, and run the following command, replacing `__{jbossHomeName}__` with the path to your server:
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=configure-server.cli
+----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
+
++
+You should see the following result when you run the script:
++
+[source,options="nowrap"]
+----
+The batch executed successfully
+----
+
+. Stop the {productName} server.
+
+=== Review the Modified Server Configuration
+
+After stopping the server, open the `__{jbossHomeName}__/standalone/configuration/standalone.xml` file and review the changes.
+
+. The following subsystem was added.
++
+[source,xml,options="nowrap"]
+----
+<subsystem xmlns="urn:jboss:domain:xts:3.0">
+            <host name="default-host"/>
+            <xts-environment url="http://${jboss.bind.address:127.0.0.1}:8080/ws-c11/ActivationService"/>
+            <default-context-propagation enabled="true"/>
+</subsystem>
+----
+
+. The following `extension` was added.
++
+[source,xml,options="nowrap"]
+----
+        <extension module="org.jboss.as.xts"/>
+----
++
+
+. Open a terminal and navigate to the root of the {productName} directory.
+. Start the {productName} server with XTS subsystem enabled by typing the following command.
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}__/bin/standalone.sh
+----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\standalone.bat` script.
+
+// Run the Arquillian Tests
+include::../shared-doc/run-arquillian-tests.adoc[leveloffset=+1]
+
+[[investigate_the_console_output]]
+== Investigate the Console Output
+
+When you run the Arquillian tests, Maven prints summary of the performed tests to the console. You should see the following results.
+
+[source,options="nowrap"]
+----
+Results :
+
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
+----
+
+[NOTE]
+====
+You see the following warning when you run the Arquillian tests in remote mode.
+
+[source,options="nowrap"]
+----
+WARN  [org.jboss.as.dependency.deprecated] (MSC service thread 1-4) WFLYSRV0221: Deployment "deployment.wsat-simple.war" is using a deprecated module ("org.jboss.xts") which may be removed in future versions without notice.
+----
+
+This is because, in remote mode, you are responsible for starting the server with the XTS subsystem enabled. When you run the Arquillian tests in managed mode, the container uses the `serverConfig` property defined in the `arquillian.xml` file to start the server with the XTS subsystem enabled (default is standalone.xml).
+====
+
+== Investigate the Server Log
+
+The following messages should appear in the server log. Note there may be other log messages interlaced between these. The messages trace the steps taken by the tests.
+
+Test success:
+
+[source,options="nowrap"]
+----
+INFO  [stdout] (management-handler-threads - 10) Starting 'testSuccess'. This test invokes a WS twice within a BA. The BA is later closes, which causes these WS calls to complete successfully.
+INFO  [stdout] (management-handler-threads - 10) [CLIENT] Creating a new Business Activity
+INFO  [stdout] (management-handler-threads - 10) [CLIENT] Beginning Business Activity (All calls to Web services that support WS-BA wil be included in this activity)
+INFO  [stdout] (management-handler-threads - 10) [CLIENT] invoking addValueToSet(1) on WS
+INFO  [stdout] (http-localhost-127.0.0.1-8080-2) [SERVICE] invoked addValueToSet('1')
+INFO  [stdout] (http-localhost-127.0.0.1-8080-2) [SERVICE] Enlisting a participant into the BA
+INFO  [stdout] (http-localhost-127.0.0.1-8080-2) [SERVICE] Invoking the back-end business logic
+INFO  [stdout] (management-handler-threads - 10) [CLIENT] invoking addValueToSet(2) on WS
+INFO  [stdout] (http-localhost-127.0.0.1-8080-2) [SERVICE] invoked addValueToSet('2')
+INFO  [stdout] (http-localhost-127.0.0.1-8080-2) [SERVICE] Re-using the existing participant, already registered for this BA
+INFO  [stdout] (http-localhost-127.0.0.1-8080-2) [SERVICE] Invoking the back-end business logic
+INFO  [stdout] (management-handler-threads - 10) [CLIENT] Closing Business Activity (This will cause the BA to complete successfully)
+INFO  [stdout] (TaskWorker-3) [SERVICE] Participant.complete (This tells the participant that the BA completed, but may be compensated later)
+INFO  [stdout] (TaskWorker-3) [SERVICE] Participant.confirmCompleted('true') (This tells the participant that compensation information has been logged and that it is safe to commit any changes.)
+INFO  [stdout] (TaskWorker-3) [SERVICE] Commit the backend resource (e.g. commit any changes to databases so that they are visible to others)
+INFO  [stdout] (TaskWorker-1) [SERVICE] Participant.close (The participant knows that this BA is now finished and can throw away any temporary state)
+----
+
+Test cancel:
+
+[source,options="nowrap"]
+----
+INFO  [stdout] (management-handler-threads - 10) Starting 'testCancel'. This test invokes a WS twice within a BA. The BA is later cancelled, which causes these WS calls to be compensated.
+INFO  [stdout] (management-handler-threads - 10) [CLIENT] Creating a new Business Activity
+INFO  [stdout] (management-handler-threads - 10) [CLIENT] Beginning Business Activity (All calls to Web services that support WS-BA will be included in this activity)
+INFO  [stdout] (management-handler-threads - 10) [CLIENT] invoking addValueToSet(1) on WS
+INFO  [stdout] (http-localhost-127.0.0.1-8080-2) [SERVICE] invoked addValueToSet('1')
+INFO  [stdout] (http-localhost-127.0.0.1-8080-2) [SERVICE] Enlisting a participant into the BA
+INFO  [stdout] (http-localhost-127.0.0.1-8080-2) [SERVICE] Invoking the back-end business logic
+INFO  [stdout] (management-handler-threads - 10) [CLIENT] invoking addValueToSet(2) on WS
+INFO  [stdout] (http-localhost-127.0.0.1-8080-2) [SERVICE] invoked addValueToSet('2')
+INFO  [stdout] (http-localhost-127.0.0.1-8080-2) [SERVICE] Re-using the existing participant, already registered for this BA
+INFO  [stdout] (http-localhost-127.0.0.1-8080-2) [SERVICE] Invoking the back-end business logic
+INFO  [stdout] (management-handler-threads - 10) [CLIENT] Cancelling Business Activity (This will cause the work to be compensated)
+INFO  [stdout] (TaskWorker-3) [SERVICE] Participant.cancel (The participant should compensate any work done within this BA)
+INFO  [stdout] (TaskWorker-3) [SERVICE] SetParticipantBA: Carrying out compensation action
+INFO  [stdout] (TaskWorker-3) [SERVICE] Compensate the backend resource by removing '1' from the set (e.g. undo any changes to databases that were previously made visible to others)
+INFO  [stdout] (TaskWorker-3) [SERVICE] Compensate the backend resource by removing '2' from the set (e.g. undo any changes to databases that were previously made visible to others)
+----
+
+//  Restore the {productName} Standalone Server Configuration
+include::../shared-doc/restore-standalone-server-configuration.adoc[leveloffset=+2]
+
+// Run the Quickstart in Red Hat CodeReady Studio or Eclipse
+include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
+
+// Additional Red Hat CodeReady Studio instructions
+This quickstart is more complex than the others. It requires that you configure the {productName} server using the configure-server.cli file.
+
+. Make sure you import the quickstart into {JBDSProductName}.
+. If you have not already done so, you must configure a new {productName} server to use the XTS configuration.
+
+** In the *Servers* tab, right-click and choose *New* -> *Server*.
+** Under *Select the server type:*, expand *Red Hat JBoss Middleware* and choose *{jbdsEapServerName}*.
+** For the *Server name*, enter `{productName} XTS Configuration` and click `Next`.
+** In the *Create a new Server Adapter* dialog, choose *Create a new runtime (next page)* from the drop-down menu and click *Next*.
+** In the *JBoss Runtime* dialog, enter the following information and then click *Finish*.
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+*Name*: `{productName} XTS Runtime`
+*Home Directory*: __Browse to the _{jbossHomeName}__ directory and select it.__
+*Runtime JRE*: __Choose an alternate JRE if not correct.__
+*Server base directory*: __This should already point to your standalone server configuration directory,__
+*Configuration file*: `standalone.xml`
+----
+
+. Start the new *{productName} XTS Configuration* server.
+. Right-click on the *{artifactId}* project, choose *Run As* -> *Maven build*, enter `clean verify -Parq-remote` for the *Goals*, and click *Run* to run the Arquillian tests. The test results appear in the console.
+
+// Debug the Application
+include::../shared-doc/debug-the-application.adoc[leveloffset=+1]
+
+//*************************************************
+// Product Release content only
+//*************************************************
+ifdef::ProductRelease[]
+
+// Quickstart not compatible with OpenShift
+include::../shared-doc/openshift-incompatibility.adoc[leveloffset=+1]
+
+endif::[]

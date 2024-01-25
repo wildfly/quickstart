@@ -1,0 +1,639 @@
+////
+This guide is adapted from the main Quarkus repository
+https://github.com/quarkusio/quarkus/tree/master/docs/src/main/asciidoc
+////
+
+// Needed to correctly render on GitHub
+:productName: WildFly
+:standalone-server-type: microprofile
+
+include::../shared-doc/attributes.adoc[]
+
+= microprofile-fault-tolerance: MicroProfile Fault Tolerance
+:author: Radoslav Husar, Tomas Hofman
+:level: Intermediate
+:technologies: MicroProfile, Fault Tolerance
+
+[abstract]
+The `microprofile-fault-tolerance` quickstart demonstrates how to use Eclipse MicroProfile Fault Tolerance in {productName}.
+
+One of the challenges brought by the distributed nature of microservices is that communication with external systems is
+inherently unreliable. This increases demand on resiliency of applications. To simplify making more resilient
+applications, {productName} contains an implementation of the MicroProfile Fault Tolerance specification.
+
+In this guide, we demonstrate usage of MicroProfile Fault Tolerance annotations such as `@Timeout`, `@Fallback`,
+`@Retry` and `@CircuitBreaker`. The specification also introduces `@Bulkhead` and `@Asynchronous` interceptor bindings not
+covered in this guide.
+
+== Scenario
+
+The application built in this guide simulates a simple backend for a gourmet coffee on-line store. It implements a REST
+endpoint providing information about coffee samples we have in store.
+
+Let's imagine, although it's not implemented as such, that some methods in our endpoint require communication
+to external services like a database or an external microservice, which introduces a factor of unreliability.
+This is simulated in our code by intentionally throwing exceptions with certain probability. Then we use
+the MicroProfile Fault Tolerance annotations to overcome these failures.
+
+== Solution
+
+We recommend that you follow the instructions that
+<<project-from-scratch, create the application from scratch>>. However, you can
+also <<working_with_the_completed_quickstart, deploy the completed example>> which is available in this directory.
+
+// Link to the quickstart source
+include::../shared-doc/view-the-source.adoc[leveloffset=+1]
+// System Requirements
+include::../shared-doc/system-requirements.adoc[leveloffset=+1]
+
+// Use of {jbossHomeName}
+include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
+
+// Start the {productName} Standalone Server
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
+
+[[project-from-scratch]]
+== Creating an Application from Scratch
+
+In this section we will go through the steps to create a new JAX-RS deployment from scratch and then make it more
+resilient by using MicroProfile Fault Tolerance annotations.
+
+=== Project Generation
+
+First, we need to generate a maven project. Open a terminal and create an empty maven project with following command:
+
+[source]
+----
+mvn archetype:generate \
+    -DgroupId=org.wildfly.quickstarts.microprofile.faulttolerance \
+    -DartifactId=microprofile-fault-tolerance \
+    -DarchetypeGroupId=org.apache.maven.archetypes \
+    -DarchetypeArtifactId=maven-archetype-webapp \
+    -DinteractiveMode=false
+cd microprofile-fault-tolerance
+----
+
+Now, open the project in your favorite IDE.
+
+=== pom.xml Updates
+
+Next the project's `pom.xml` should be updated so the dependencies required by this quickstart are
+available and so we have a plug-in installed which can deploy the quickstart directly to {productName}.
+
+Add the following properties to the `pom.xml`:
+
+[source,options="nowrap",subs="attributes+"]
+----
+<version.microprofile.bom>{versionMicroprofileBom}</version.microprofile.bom>
+<version.server.bom>{versionServerBom}</version.server.bom>
+----
+
+Also the project can be updated to use Java 8 as the minimum:
+
+[source,options="nowrap"]
+----
+<maven.compiler.source>1.8</maven.compiler.source>
+<maven.compiler.target>1.8</maven.compiler.target>
+----
+
+Before the dependencies are defined add the following boms:
+
+[source,xml,subs="attributes+"]
+----
+<dependencyManagement>
+    <dependencies>
+        <!-- importing the ee-with-tools BOM adds specs and other useful artifacts as managed dependencies -->
+        <dependency>
+            <groupId>org.wildfly.bom</groupId>
+            <artifactId>wildfly-ee-with-tools</artifactId>
+            <version>{versionServerBom}</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+        <!-- importing the microprofile BOM adds MicroProfile specs -->
+        <dependency>
+            <groupId>org.wildfly.bom</groupId>
+            <artifactId>wildfly-microprofile</artifactId>
+            <version>{versionMicroprofileBom}</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+    </dependencies>
+</dependencyManagement>
+----
+
+By using boms the majority of dependencies used within this quickstart align with the version uses by the application server.
+
+The following dependencies can now be added to the project.
+
+[source,xml]
+----
+<dependencies>
+    <dependency>
+        <groupId>org.eclipse.microprofile.fault-tolerance</groupId>
+        <artifactId>microprofile-fault-tolerance-api</artifactId>
+        <scope>provided</scope>
+    </dependency>
+    <dependency>
+        <groupId>jakarta.enterprise</groupId>
+        <artifactId>jakarta.enterprise.cdi-api</artifactId>
+        <scope>provided</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.jboss.resteasy</groupId>
+        <artifactId>resteasy-jaxrs</artifactId>
+        <scope>provided</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.jboss.logging</groupId>
+        <artifactId>jboss-logging</artifactId>
+        <scope>provided</scope>
+    </dependency>
+</dependencies>
+----
+
+Note that all dependencies have the scope `provided`.
+
+As we are going to be deploying this application to the {productName} server, let's
+also add a maven plugin that will simplify working with the application server.
+Add the following section under configuration:
+
+[source,xml]
+----
+<build>
+  <plugins>
+    ...
+    <plugin>
+      <groupId>org.wildfly.plugins</groupId>
+      <artifactId>wildfly-maven-plugin</artifactId>
+    </plugin>
+  </plugins>
+</build>
+----
+
+// Setup required repositories
+include::../shared-doc/setup-repositories.adoc[leveloffset=+1]
+
+Now we are ready to start developing an application with MicroProfile Fault Tolerance capabilities.
+
+
+=== Preparing an Application: REST Endpoint and CDI Bean
+
+In this section we create a skeleton of our application, so that we have something that we can extend and to which
+we can add fault tolerance features later on.
+
+First, create a simple entity representing a coffee sample in our store:
+
+[source,java]
+----
+package org.wildfly.quickstarts.microprofile.faulttolerance;
+
+public class Coffee {
+
+    public Integer id;
+    public String name;
+    public String countryOfOrigin;
+    public Integer price;
+
+    public Coffee() {
+    }
+
+    public Coffee(Integer id, String name, String countryOfOrigin, Integer price) {
+        this.id = id;
+        this.name = name;
+        this.countryOfOrigin = countryOfOrigin;
+        this.price = price;
+    }
+}
+----
+
+Now, lets expose our JAX-RS application at the context path:
+
+[source,java]
+----
+package org.wildfly.quickstarts.microprofile.faulttolerance;
+
+import jakarta.ws.rs.ApplicationPath;
+import jakarta.ws.rs.core.Application;
+
+@ApplicationPath("/")
+public class CoffeeApplication extends Application {
+}
+----
+
+Let's continue with a simple CDI bean, that would work as a repository of our coffee samples.
+
+[source,java]
+----
+package org.wildfly.quickstarts.microprofile.faulttolerance;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import jakarta.enterprise.context.ApplicationScoped;
+
+@ApplicationScoped
+public class CoffeeRepositoryService {
+
+    private Map<Integer, Coffee> coffeeList = new HashMap<>();
+
+    public CoffeeRepositoryService() {
+        coffeeList.put(1, new Coffee(1, "Fernandez Espresso", "Colombia", 23));
+        coffeeList.put(2, new Coffee(2, "La Scala Whole Beans", "Bolivia", 18));
+        coffeeList.put(3, new Coffee(3, "Dak Lak Filter", "Vietnam", 25));
+    }
+
+    public List<Coffee> getAllCoffees() {
+        return new ArrayList<>(coffeeList.values());
+    }
+
+    public Coffee getCoffeeById(Integer id) {
+        return coffeeList.get(id);
+    }
+
+    public List<Coffee> getRecommendations(Integer id) {
+        if (id == null) {
+            return Collections.emptyList();
+        }
+        return coffeeList.values().stream()
+                .filter(coffee -> !id.equals(coffee.id))
+                .limit(2)
+                .collect(Collectors.toList());
+    }
+}
+----
+
+Finally, create the `org.wildfly.quickstarts.microprofile.faulttolerance.CoffeeResource` class as follows:
+
+[source,java]
+----
+package org.wildfly.quickstarts.microprofile.faulttolerance;
+
+import java.util.List;
+import java.util.Random;
+import java.util.concurrent.atomic.AtomicLong;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
+
+import org.jboss.logging.Logger;
+
+@Path("/coffee")
+@Produces(MediaType.APPLICATION_JSON)
+public class CoffeeResource {
+
+    private static final Logger LOGGER = Logger.getLogger(CoffeeResource.class);
+
+    @Inject
+    private CoffeeRepositoryService coffeeRepository;
+
+    private AtomicLong counter = new AtomicLong(0);
+
+    @GET
+    public List<Coffee> coffees() {
+        final Long invocationNumber = counter.getAndIncrement();
+
+        maybeFail(String.format("CoffeeResource#coffees() invocation #%d failed", invocationNumber));
+
+        LOGGER.infof("CoffeeResource#coffees() invocation #%d returning successfully", invocationNumber);
+        return coffeeRepository.getAllCoffees();
+    }
+
+    private void maybeFail(String failureLogMessage) {
+        if (new Random().nextBoolean()) {
+            LOGGER.error(failureLogMessage);
+            throw new RuntimeException("Resource failure.");
+        }
+    }
+}
+----
+
+At this point, we expose a single REST method that will show a list of coffee samples in a JSON format. Note
+that we introduced some fault making code in our `CoffeeResource#maybeFail()` method, which is going to cause failures
+in the `CoffeeResource#coffees()` endpoint method in about 50% of requests.
+
+=== Build and Deploy the Initial Application
+Let's check that our application works!
+
+. Make sure xref:start_the_eap_standalone_server[the {productName} server is started] as described above.
+. Open new terminal and navigate to the root directory of your project.
+. Type the following command to build and deploy the project:
++
+[source,shell]
+----
+mvn clean package wildfly:deploy
+----
+
+Then, open `http://localhost:8080/microprofile-fault-tolerance/coffee` in your browser and make a couple of requests.
+Some requests should show us the list of our coffee samples in JSON, the rest will fail
+with a `RuntimeException` thrown in `CoffeeResource#maybeFail()`.
+
+[[adding_resiliency_retries]]
+=== Adding Resiliency: Retries
+
+Let the {productName} server running and in your IDE add the `@Retry` annotation to the `CoffeeResource#coffees()`
+method as follows and save the file:
+
+[source,java]
+----
+import org.eclipse.microprofile.faulttolerance.Retry;
+...
+
+public class CoffeeResource {
+    ...
+    @GET
+    @Retry(maxRetries = 4)
+    public List<Coffee> coffees() {
+        ...
+    }
+    ...
+}
+----
+
+Rebuild and redeploy the application in {productName} server:
+
+[source,shell]
+----
+mvn wildfly:deploy
+----
+
+You can reload the page couple more times. Practically all requests should now be succeeding. The `CoffeeResource#coffees()`
+method is still in fact failing in about 50% of cases, but every time it happens the platform automatically retries
+the call!
+
+To see that the failures still happen, check the output of the development server. The log messages should be
+similar to these:
+
+[source]
+----
+18:29:20,901 ERROR [org.wildfly.quickstarts.microprofile.faulttolerance.CoffeeResource] (default task-3) CoffeeResource#coffees() invocation #0 failed
+18:29:20,901 INFO  [org.wildfly.quickstarts.microprofile.faulttolerance.CoffeeResource] (default task-3) CoffeeResource#coffees() invocation #1 returning successfully
+18:29:21,315 ERROR [org.wildfly.quickstarts.microprofile.faulttolerance.CoffeeResource] (default task-3) CoffeeResource#coffees() invocation #0 failed
+18:29:21,337 ERROR [org.wildfly.quickstarts.microprofile.faulttolerance.CoffeeResource] (default task-3) CoffeeResource#coffees() invocation #1 failed
+18:29:21,502 ERROR [org.wildfly.quickstarts.microprofile.faulttolerance.CoffeeResource] (default task-3) CoffeeResource#coffees() invocation #2 failed
+18:29:21,654 INFO  [org.wildfly.quickstarts.microprofile.faulttolerance.CoffeeResource] (default task-3) CoffeeResource#coffees() invocation #3 returning successfully
+----
+
+You can see that every time an invocation fails, it's immediately followed by another invocation, until one succeeds.
+Since we allowed 4 retries, it would require 5 invocations to fail in a row, in order for the user to be actually exposed
+to a failure. That is fairly unlikely to happen.
+
+[[adding_resiliency_timeouts]]
+=== Adding Resiliency: Timeouts
+
+So what else have we got in MicroProfile Fault Tolerance? Let's look into timeouts.
+
+Add following two methods to our `CoffeeResource` endpoint and deploy onto the running server.
+
+[source,java]
+----
+import org.jboss.resteasy.annotations.jaxrs.PathParam;
+import org.eclipse.microprofile.faulttolerance.Timeout;
+...
+public class CoffeeResource {
+    ...
+    @GET
+    @Path("/{id}/recommendations")
+    @Timeout(250)
+    public List<Coffee> recommendations(@PathParam("id") int id) {
+        long started = System.currentTimeMillis();
+        final long invocationNumber = counter.getAndIncrement();
+
+        try {
+            randomDelay();
+            LOGGER.infof("CoffeeResource#recommendations() invocation #%d returning successfully", invocationNumber);
+            return coffeeRepository.getRecommendations(id);
+        } catch (InterruptedException e) {
+            LOGGER.errorf("CoffeeResource#recommendations() invocation #%d timed out after %d ms",
+                    invocationNumber, System.currentTimeMillis() - started);
+            return null;
+        }
+    }
+
+    private void randomDelay() throws InterruptedException {
+        Thread.sleep(new Random().nextInt(500));
+    }
+}
+----
+
+Rebuild and redeploy the application:
+
+[source,shell]
+----
+mvn wildfly:deploy
+----
+
+We added some new functionality. We want to be able to recommend some related coffees based on a coffee that a user
+is currently looking at. It's not a critical functionality, it's a nice-to-have. When the system is overloaded, and the
+logic behind obtaining recommendations takes too long to execute, we would rather time out and render the UI without
+recommendations.
+
+Note that the timeout was configured to 250 ms, and a random artificial delay between 0 and 500 ms was introduced
+into the `CoffeeResource#recommendations()` method.
+
+In your browser, go to `http://localhost:8080/microprofile-fault-tolerance/coffee/2/recommendations` and hit reload a couple of times.
+
+You should see some requests time out with `org.eclipse.microprofile.faulttolerance.exceptions.TimeoutException`.
+Requests that do not time out should show two recommended coffee samples in JSON.
+
+[[adding_resiliency_fallbacks]]
+=== Adding Resiliency: Fallbacks
+
+Let's improve the recommendations feature by providing a fallback functionality for the case when a timeout happens.
+
+Add a fallback method to `CoffeeResource` and a `@Fallback` annotation to `CoffeeResource#recommendations()` method
+as follows:
+
+[source,java]
+----
+import java.util.Collections;
+import org.eclipse.microprofile.faulttolerance.Fallback;
+...
+public class CoffeeResource {
+    ...
+    @Fallback(fallbackMethod = "fallbackRecommendations")
+    public List<Coffee> recommendations(@PathParam("id") int id) {
+        ...
+    }
+
+    public List<Coffee> fallbackRecommendations(int id) {
+        LOGGER.info("Falling back to RecommendationResource#fallbackRecommendations()");
+        // safe bet, return something that everybody likes
+        return Collections.singletonList(coffeeRepository.getCoffeeById(1));
+    }
+    ...
+}
+----
+
+Rebuild and redeploy the application.
+
+Hit reload several times on `http://localhost:8080/microprofile-fault-tolerance/coffee/2/recommendations`.
+The `TimeoutException` should not appear anymore. Instead, in case of a timeout, the page will
+display a single recommendation that we hardcoded in our fallback method `fallbackRecommendations()`, rather than
+two recommendations returned by the original method.
+
+Check the server output to see that fallback is really happening:
+
+[source]
+----
+18:36:01,873 INFO  [org.wildfly.quickstarts.microprofile.faulttolerance.CoffeeResource] (default task-3) CoffeeResource#recommendations() invocation #0 returning successfully
+18:36:02,705 ERROR [org.wildfly.quickstarts.microprofile.faulttolerance.CoffeeResource] (default task-3) CoffeeResource#recommendations() invocation #0 timed out after 253 ms
+18:36:02,706 INFO  [org.wildfly.quickstarts.microprofile.faulttolerance.CoffeeResource] (default task-3) Falling back to RecommendationResource#fallbackRecommendations()
+----
+
+NOTE: The fallback method is required to have the same parameters as the original method.
+
+[[adding_resiliency_circuit_breakers]]
+=== Adding Resiliency: Circuit Breakers
+
+A circuit breaker is useful for limiting number of failures happening in the system, when part of the system becomes
+temporarily unstable. The circuit breaker records successful and failed invocations of a method, and when the ratio
+of failed invocations reaches the specified threshold, the circuit breaker _opens_ and blocks all further invocations
+of that method for a given time.
+
+Add the following code into the `CoffeeRepositoryService` bean, so that we can demonstrate a circuit breaker in action:
+
+[source,java]
+----
+import java.util.concurrent.atomic.AtomicLong;
+import org.eclipse.microprofile.faulttolerance.CircuitBreaker;
+...
+
+public class CoffeeRepositoryService {
+    ...
+
+    private AtomicLong counter = new AtomicLong(0);
+
+    @CircuitBreaker(requestVolumeThreshold = 4)
+    public Integer getAvailability(Coffee coffee) {
+        maybeFail();
+        return new Random().nextInt(30);
+    }
+
+    private void maybeFail() {
+        // introduce some artificial failures
+        final Long invocationNumber = counter.getAndIncrement();
+        if (invocationNumber % 4 > 1) { // alternate 2 successful and 2 failing invocations
+            throw new RuntimeException("Service failed.");
+        }
+    }
+}
+----
+
+and inject the code below into the `CoffeeResource` endpoint:
+
+[source,java]
+----
+public class CoffeeResource {
+    ...
+    @Path("/{id}/availability")
+    @GET
+    public Response availability(@PathParam("id") int id) {
+        final Long invocationNumber = counter.getAndIncrement();
+
+        Coffee coffee = coffeeRepository.getCoffeeById(id);
+        // check that coffee with given id exists, return 404 if not
+        if (coffee == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        try {
+            Integer availability = coffeeRepository.getAvailability(coffee);
+            LOGGER.infof("CoffeeResource#availability() invocation #%d returning successfully", invocationNumber);
+            return Response.ok(availability).build();
+        } catch (RuntimeException e) {
+            String message = e.getClass().getSimpleName() + ": " + e.getMessage();
+            LOGGER.errorf("CoffeeResource#availability() invocation #%d failed: %s", invocationNumber, message);
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity(message)
+                    .type(MediaType.TEXT_PLAIN_TYPE)
+                    .build();
+        }
+    }
+    ...
+}
+----
+
+Rebuild and redeploy the application.
+
+We added another functionality - the application can return the amount of remaining packages of given coffee on our store
+(just a random number).
+
+This time an artificial failure was introduced in the CDI bean: the `CoffeeRepositoryService#getAvailability()` method is
+going to alternate between two successful and two failed invocations.
+
+We also added a `@CircuitBreaker` annotation with `requestVolumeThreshold = 4`. `CircuitBreaker.failureRatio` is
+by default 0.5, and `CircuitBreaker.delay` is by default 5 seconds. That means that a circuit breaker will open
+when 2 of the last 4 invocations failed. It will stay open for 5 seconds.
+
+To test this out, do the following:
+
+1. Go to `http://localhost:8080/microprofile-fault-tolerance/coffee/2/availability` in your browser. You should see a number being returned.
+2. Hit reload, this second request should again be successful and return a number.
+3. Reload two more times. Both times you should see text "RuntimeException: Service failed.", which is the exception
+thrown by `CoffeeRepositoryService#getAvailability()`.
+4. Reload a couple more times. Unless you waited too long, you should again see exception, but this time it's
+"CircuitBreakerOpenException: getAvailability". This exception indicates that the circuit breaker opened,
+and the `CoffeeRepositoryService#getAvailability()` method is not being called anymore.
+5. Give it 5 seconds during which circuit breaker should close. You should be able to make two successful requests
+again.
+
+[[working_with_the_completed_quickstart]]
+== Working with the Completed Quickstart
+
+This section shows how to work with the complete quickstart.
+
+// Build and Deploy the Quickstart
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+2]
+
+=== Test the Deployed Application
+
+You can visit following URLs in your browser:
+
+* <http://localhost:8080/microprofile-fault-tolerance/coffee>
++
+This URL should almost always return a response with JSON data. Even though internally the endpoint fails
+in about 50% of cases (you can see those errors in the server log), it uses automatic retries to mitigate these
+failures.
++
+See details in the section <<adding_resiliency_retries, Adding Resiliency: Retries>>.
+
+* http://localhost:8080/microprofile-fault-tolerance/coffee/1/recommendations
++
+This endpoint also fails in about 50% of cases, but it uses fallback strategy to provide an alternative response if
+normal processing failed. As a result the response will either contain a JSON list with several items in it
+(a successful response) or just a single item in it (a fallback response).
++
+See details in sections <<adding_resiliency_timeouts, Adding Resiliency: Timeouts>>
+and <<adding_resiliency_fallbacks, Adding Resiliency: Fallbacks>>.
+
+
+* http://localhost:8080/microprofile-fault-tolerance/coffee/1/availability
++
+This endpoint demonstrates the use of a circuit breaker. It returns a sequence of two successful responses, followed by
+a sequence of two failed ones. After that, the circuit breaker will open and will block all
+further request processing for the duration of 5 seconds.
++
+See details in the section <<adding_resiliency_circuit_breakers, Adding Resiliency: Circuit Breakers>>.
+
+// Server Distribution Testing
+include::../shared-doc/run-integration-tests-with-server-distribution.adoc[leveloffset=+2]
+
+// Undeploy the Quickstart
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+2]
+
+// Bootable JAR
+include::../shared-doc/build-and-run-the-quickstart-with-bootable-jar.adoc[leveloffset=+1]
+
+// OpenShift
+include::../shared-doc/build-and-run-the-quickstart-with-openshift.adoc[leveloffset=+1]
+
+== Conclusion
+
+MicroProfile Fault Tolerance allows improving resiliency of your application, without having an impact on the complexity
+of our business logic.

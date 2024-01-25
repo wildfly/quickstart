@@ -1,0 +1,260 @@
+include::../shared-doc/attributes.adoc[]
+
+= wsat-simple: WS-AT (WS-AtomicTransaction) - Simple
+:author: Paul Robinson
+:level: Intermediate
+:technologies: WS-AT, JAX-WS
+
+[abstract]
+The `wsat-simple` quickstart demonstrates a WS-AT (WS-AtomicTransaction) enabled JAX-WS Web service, bundled as a WAR, and deployed to {productName}.
+
+:standalone-server-type: custom
+:archiveType: war
+:restoreScriptName: restore-configuration.cli
+
+== What is it?
+
+The `wsat-simple` quickstart demonstrates the deployment of a WS-AT (WS-AtomicTransaction) enabled JAX-WS Web service bundled in a WAR archive for deployment to {productNameFull}.
+
+The Web service is offered by a Restaurant for making bookings. The Service allows bookings to be made within an Atomic Transaction.
+
+This example demonstrates the basics of implementing a WS-AT enabled Web service. It is beyond the scope of this quick start to demonstrate more advanced features. In particular:
+
+* The Service does not implement the required hooks to support recovery in the presence of failures.
+* It also does not utilize a transactional back-end resource.
+* Only one web service participates in the protocol. As WS-AT is a 2PC coordination protocol, it is best suited to multi-participant scenarios.
+
+For a more complete example, please see the XTS demonstrator application that ships with the Narayana project: http://narayana.io/.
+
+It is also assumed that you have an understanding of WS-AtomicTransaction. For more details, read the XTS documentation that ships with the Narayana project: http://narayana.io/docs/product.
+
+The application consists of a single JAX-WS web service that is deployed within a WAR archive. It is tested with a JBoss Arquillian enabled JUnit test.
+
+When running the `org.jboss.as.quickstarts.wsat.simple.ClientTest#testCommit()` method, the following steps occur:
+
+. A new Atomic Transaction (AT) is created by the client.
+. An operation on a WS-AT enabled Web service is invoked by the client.
+. The JaxWSHeaderContextProcessor in the WS Client handler chain inserts the WS-AT context into the outgoing SOAP message
+. When the service receives the SOAP request, the JaxWSHeaderContextProcessor in its handler chain inspects the WS-AT context and associates the request with this AT.
+. The Web service operation is invoked…
+. A participant is enlisted in this AT. This allows the Web Service logic to respond to protocol events, such as Commit and Rollback.
+. The service invokes the business logic. In this case, a booking is made with the restaurant.
+. The backend resource is prepared. This ensures that the Backend resource can undo or make permanent the change when told to do so by the coordinator.
+. The client can then decide to commit or rollback the AT. If the client decides to commit, the coordinator will begin the 2PC protocol. If the participant decides to rollback, all participants will be told to rollback.
+
+There is another test that shows what happens if the client decides to rollback the AT.
+
+// Link to the quickstart source
+include::../shared-doc/view-the-source.adoc[leveloffset=+1]
+// System Requirements
+include::../shared-doc/system-requirements.adoc[leveloffset=+1]
+// Use of {jbossHomeName}
+include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
+
+[[start_the_eap_standalone_server]]
+== Start the {productName} Standalone Server
+
+You must start {productName} with the XTS subsystem enabled.
+
+. Edit the log level to reduce the amount of log output. This should make it easier to read the logs produced by this example. To do this add the following logger block to the `__{jbossHomeName}__/standalone/configuration/standalone.xml` of your JBoss distribution. You should add it just below one of the other logger blocks.
++
+[source,xml,options="nowrap"]
+----
+<logger category="org.apache.cxf.service.factory.ReflectionServiceFactoryBean">
+    <level name="WARN"/>
+</logger>
+----
+
+[[configure_the_server]]
+=== Configure the Server
+
+You can configure the server by running JBoss CLI commands. For your convenience, this quickstart batches the commands into a `configure-server.cli` script provided in the root directory of this quickstart.
++
+NOTE: Remember you will need to run the restore-configuration.cli script to restore the server original configuration.
+
+
+. Before you begin, make sure you do the following:
+
+* xref:back_up_standalone_server_configuration[Back up the {productName} standalone server configuration] as described above.
+* Start the {productName} server with the standalone profile : 
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}__/bin/standalone.sh
+----
+
+. Review the `configure-server.cli` file in the root of this quickstart directory. This script adds xts domain
+. Open a new terminal, navigate to the root directory of this quickstart, and run the following command, replacing `__{jbossHomeName}__` with the path to your server:
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=configure-server.cli
+----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
+
++
+You should see the following result when you run the script:
++
+[source,options="nowrap"]
+----
+The batch executed successfully
+----
+
+. Stop the {productName} server.
+
+=== Review the Modified Server Configuration
+
+After stopping the server, open the `__{jbossHomeName}__/standalone/configuration/standalone.xml` file and review the changes.
+
+. The following subsystem was added.
++
+[source,xml,options="nowrap"]
+----
+<subsystem xmlns="urn:jboss:domain:xts:3.0">
+            <host name="default-host"/>
+            <xts-environment url="http://${jboss.bind.address:127.0.0.1}:8080/ws-c11/ActivationService"/>
+            <default-context-propagation enabled="true"/>
+</subsystem>
+----
+
+. The following `extension` was added.
++
+[source,xml,options="nowrap"]
+----
+        <extension module="org.jboss.as.xts"/>
+----
++
+
+. Open a terminal and navigate to the root of the {productName} directory.
+. Start the {productName} server with XTS subsystem enabled by typing the following command.
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}__/bin/standalone.sh
+----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\standalone.bat` script.
+
+// Run the Arquillian Tests
+include::../shared-doc/run-arquillian-tests.adoc[leveloffset=+1]
+
+[[investigate_the_console_output]]
+== Investigate the Console Output
+
+When you run the Arquillian tests, Maven prints summary of the performed tests to the console. You should see the following results.
+
+[source,options="nowrap"]
+----
+Results :
+
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
+----
+
+[NOTE]
+====
+You see the following warning when you run the Arquillian tests in remote mode.
+
+[source,options="nowrap"]
+----
+WARN  [org.jboss.as.dependency.deprecated] (MSC service thread 1-4) WFLYSRV0221: Deployment "deployment.wsat-simple.war" is using a deprecated module ("org.jboss.xts") which may be removed in future versions without notice.
+----
+
+This is because, in remote mode, you are responsible for starting the server with the XTS subsystem enabled. When you run the Arquillian tests in managed mode, the container uses the `serverConfig` property defined in the `arquillian.xml` file to start the server with the XTS subsystem enabled (default is standalone.xml).
+====
+
+[[investigate_the_server_log]]
+== Investigate the Server Log
+
+The following messages should appear in the server log. The messages trace the steps taken by the tests. Note there may be other informational log messages interlaced between these.
+
+Test rollback:
+
+[source,options="nowrap"]
+----
+INFO  [stdout] (http-localhost.localdomain/127.0.0.1:8080-4) Starting 'testRollback'. This test invokes a WS within an AT. The AT is later rolled back, which causes the back-end resource(s) to be rolled back.
+INFO  [stdout] (http-localhost.localdomain/127.0.0.1:8080-4) [CLIENT] Creating a new WS-AT User Transaction
+INFO  [stdout] (http-localhost.localdomain/127.0.0.1:8080-4) [CLIENT] Beginning Atomic Transaction (All calls to Web services that support WS-AT wil be included in this transaction)
+INFO  [stdout] (http-localhost.localdomain/127.0.0.1:8080-4) [CLIENT] invoking makeBooking() on WS
+INFO  [stdout] (http-localhost.localdomain/127.0.0.1:8080-25) [SERVICE] Restaurant service invoked to make a booking
+INFO  [stdout] (http-localhost.localdomain/127.0.0.1:8080-25) [SERVICE] Enlisting a Durable2PC participant into the AT
+INFO  [stdout] (http-localhost.localdomain/127.0.0.1:8080-25) [SERVICE] Invoking the back-end business logic
+INFO  [stdout] (http-localhost.localdomain/127.0.0.1:8080-25) [SERVICE] makeBooking called on backend resource.
+INFO  [stdout] (http-localhost.localdomain/127.0.0.1:8080-4) [CLIENT] rolling back Atomic Transaction (This will cause the AT and thus the enlisted back-end resources to rollback)
+INFO  [stdout] (TaskWorker-2) [SERVICE] one or more participants voted 'aborted' or a failure occurred, so coordinator tells the participant to rollback
+INFO  [stdout] (TaskWorker-2) [SERVICE] rollback called on backend resource.
+----
+
+Test commit:
+
+[source,options="nowrap"]
+----
+INFO  [stdout] (http-localhost.localdomain/127.0.0.1:8080-54) Starting 'testCommit'. This test invokes a WS within an AT. The AT is later committed, which causes the back-end resource(s) to be committed.
+INFO  [stdout] (http-localhost.localdomain/127.0.0.1:8080-54) [CLIENT] Creating a new WS-AT User Transaction
+INFO  [stdout] (http-localhost.localdomain/127.0.0.1:8080-54) [CLIENT] Beginning Atomic Transaction (All calls to Web services that support WS-AT wil be included in this transaction)
+INFO  [stdout] (http-localhost.localdomain/127.0.0.1:8080-54) [CLIENT] invoking makeBooking() on WS
+INFO  [stdout] (http-localhost.localdomain/127.0.0.1:8080-66) [SERVICE] Restaurant service invoked to make a booking
+INFO  [stdout] (http-localhost.localdomain/127.0.0.1:8080-66) [SERVICE] Enlisting a Durable2PC participant into the AT
+INFO  [stdout] (http-localhost.localdomain/127.0.0.1:8080-66) [SERVICE] Invoking the back-end business logic
+INFO  [stdout] (http-localhost.localdomain/127.0.0.1:8080-66) [SERVICE] makeBooking called on backend resource.
+INFO  [stdout] (http-localhost.localdomain/127.0.0.1:8080-54) [CLIENT] committing Atomic Transaction (This will cause the AT to complete successfully)
+INFO  [stdout] (TaskWorker-2) [SERVICE] Prepare called on participant, about to prepare the back-end resource
+INFO  [stdout] (TaskWorker-2) [SERVICE] prepare called on backend resource.
+INFO  [stdout] (TaskWorker-2) [SERVICE] back-end resource prepared, participant votes prepared
+WARN  [com.arjuna.wst] (TaskWorker-2) ARJUNA043219: Could not save recovery state for non-serializable durable WS-AT participant restaurantServiceAT:ba222c73-00c3-4ecc-921c-80fd5dfdc11a
+INFO  [stdout] (TaskWorker-2) [SERVICE] all participants voted 'prepared', so coordinator tells the participant to commit
+INFO  [stdout] (TaskWorker-2) [SERVICE] commit called on backend resource.
+----
+
+//  Restore the {productName} Standalone Server Configuration
+include::../shared-doc/restore-standalone-server-configuration.adoc[leveloffset=+2]
+
+// Run the Quickstart in Red Hat CodeReady Studio or Eclipse
+include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
+
+// Additional Red Hat CodeReady Studio instructions
+This quickstart is more complex than the others. It requires that you configure the {productName} server using the configure-server.cli file.
+
+. Import the quickstart into {JBDSProductName}.
++
+[NOTE]
+====
+When you import this quickstart into {JBDSProductName}, you will see the following warning.
+[source]
+----
+WS-I: A problem occured while running the WS-I WSDL conformance check: org.eclipse.wst.wsi.internal.analyzer.WSIAnalyzerException: The WS-I Test Assertion Document (TAD)document was either not found or could not be processed.The WSDLAnalyzer was unable to validate the given WSDL File.
+----
+This is a known Eclipse issue. For more information, see Eclipse Bugzilla - https://bugs.eclipse.org/bugs/show_bug.cgi?id=535813[Bug 535813].
+====
+
+. If you have not already done so, you must configure a new {productName} server to use the XTS configuration.
+** In the *Servers* tab, right-click and choose *New* -> *Server*.
+** Under *Select the server type:*, expand *Red Hat JBoss Middleware* and choose *{jbdsEapServerName}*.
+** For the *Server name*, enter `{productName} XTS Configuration` and click `Next`.
+** In the *Create a new Server Adapter* dialog, choose *Create a new runtime (next page)* from the drop-down menu and click *Next*.
+** In the *JBoss Runtime* dialog, enter the following information and then click *Finish*.
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+*Name*: `{productName} XTS Runtime`
+*Home Directory*: __Browse to the __{jbossHomeName}__ directory and select it.__
+*Runtime JRE*: __Choose an alternate JRE if not correct.__
+*Server base directory*: __This should already point to your standalone server configuration directory,__
+*Configuration file*: `standalone.xml`
+----
+
+. Start the new *{productName} XTS Configuration* server.
+. Right-click on the *{artifactId}* project, choose *Run As* -> *Maven build*, enter `clean verify -Parq-remote` for the *Goals*, and click *Run* to run the Arquillian tests. The test results appear in the console.
+
+// Debug the Application
+include::../shared-doc/debug-the-application.adoc[leveloffset=+1]
+
+//*************************************************
+// Product Release content only
+//*************************************************
+ifdef::ProductRelease[]
+
+// Quickstart not compatible with OpenShift
+include::../shared-doc/openshift-incompatibility.adoc[leveloffset=+1]
+
+endif::[]

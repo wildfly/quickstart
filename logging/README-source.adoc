@@ -1,0 +1,164 @@
+include::../shared-doc/attributes.adoc[]
+
+= logging: Example That Sets Up Different Logging Levels
+:author: Joel Tosi
+:level: Intermediate
+:technologies: Logging
+
+[abstract]
+The `logging` quickstart demonstrates how to configure different logging levels in {productName}.
+
+:standalone-server-type: default
+:archiveType: war
+:restoreScriptName: remove-logging.cli
+:openshift: true
+
+== What is it?
+
+The `logging` quickstart demonstrates how to set up and log different levels of information in {productNameFull}.
+
+This quickstart contains contains a simple REST endpoint which will log messages. The `index.html` page can be used
+to log messages and see the results. However, you could use a REST client or something like `cURL` to invoke log
+messages.
+
+To better visualize how the logging configuration works, you first deploy and access the application before configuring the logs and view the resulting log files. Then you configure the logs, redeploy and access the application, and look at the log files again to see the differences.
+
+// Link to the quickstart source
+include::../shared-doc/view-the-source.adoc[leveloffset=+1]
+// System Requirements
+include::../shared-doc/system-requirements.adoc[leveloffset=+1]
+// Use of {jbossHomeName}
+include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
+// Back Up the {productName} Standalone Server Configuration
+include::../shared-doc/back-up-server-standalone-configuration.adoc[leveloffset=+1]
+// Start the {productName} Standalone Server
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
+// Build and Deploy the Quickstart
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
+
+[[access_the_application]]
+== Access the Application
+
+The application is running at the following URL: http://localhost:8080/{artifactId}/.
+
+You will see the following message in the server console:
+
+[source,options="nowrap"]
+----
+18:20:33,272 FATAL [org.jboss.as.quickstarts.logging.rest.LogListingResource] (default task-1) This is an FATAL message from 127.0.0.1:50130
+18:20:34,530 ERROR [org.jboss.as.quickstarts.logging.rest.LogListingResource] (default task-1) This is an ERROR message from 127.0.0.1:50130
+18:20:35,332 WARN  [org.jboss.as.quickstarts.logging.rest.LogListingResource] (default task-1) This is an WARN message from 127.0.0.1:50130
+18:20:36,254 INFO  [org.jboss.as.quickstarts.logging.rest.LogListingResource] (default task-1) This is an INFO message from 127.0.0.1:50130
+18:20:37,156 DEBUG [org.jboss.as.quickstarts.logging.rest.LogListingResource] (default task-1) This is an DEBUG message from 127.0.0.1:50130
+18:20:38,003 TRACE [org.jboss.as.quickstarts.logging.rest.LogListingResource] (default task-1) This is an TRACE message from 127.0.0.1:50130
+----
+
+== Check the Server Logs
+
+The log files are located in the `__{jbossHomeName}__/standalone/log` log directory. At this point you should see the following log files.
+
+* `server.log` - This is the standard log produced by the application server. By default, it contains all the server log messages, including the server startup messages.
+
+== Configure the Server
+
+Now you have deployed the quickstart with the default configuration, you run a management CLI script to configure the logging subsystem and review the differences in the resulting log files.
+
+. Before you begin, make sure you do the following:
+
+* xref:back_up_standalone_server_configuration[Back up the {productName} standalone server configuration] as described above.
+* xref:start_the_eap_standalone_server[Start the {productName} server with the standalone default profile] as described above.
+
+
+. Review the `configure-logging.cli` file in the root of this quickstart directory. This script configures the logging subsystem in the server configuration file. It configures the file handlers, creates the logger for our quickstart and sets the level to TRACE. It also assigns the handlers for our quickstart to our logger.
+. Open a new terminal, navigate to the root directory of this quickstart, and run the following command, replacing `__{jbossHomeName}__` with the path to your server:
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=configure-logging.cli
+----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
+
++
+You should see the following result when you run the script:
++
+[source,options="nowrap"]
+----
+The batch executed successfully
+----
+
+== Test the New Logging Configuration
+
+. Make sure you xref:start_the_eap_standalone_server[start the {productName} server with the standalone default profile] as described above.
+. xref:build_and_deploy_the_quickstart[Build and deploy the quickstart].
+. xref:access_the_application[Access the application].
+
+== Recheck the Server Logs
+
+The log files are located in the `__{jbossHomeName}__/standalone/log` log directory. You should now see the 6 additional log files that are produced by this quickstart. They are listed below in hierarchical order from the largest file containing the most messages to the smallest file containing the least messages.
+
+** `quickstart.trace.log`
+** `quickstart.debug.log`
+** `quickstart.info.log`
+** `quickstart.warn.log`
+** `quickstart.error.log`
+** `quickstart.fatal.log`
+
+The following are the rest endpoint paths. Note these can be accessed from the `index.html` by clicking the buttons
+
+* `/api/logs/trace`
+* `/api/logs/debug`
+* `/api/logs/info`
+* `/api/logs/warn`
+* `/api/logs/error`
+* `/api/logs/fatal`
+
+The following describes what happens when you access this quickstart:
+
+. When you access one of the above endpoints, a simple message is logged.
+. Finally, the class file logs various levels, each to its own file as configured in `standalone.xml`. Note that log levels are hierarchical. When set, all log levels above the specified level are logged as well.
+. Common uses of the 6 log levels are outlined below. You should use the level that makes the most sense in your environment.
++
+[source,options="nowrap"]
+----
+FATAL - Used to track critical system failures.  When this log message is written, it is writing application error that has caused service to cease.  This is the most narrow logging.
+ERROR - Used to track application errors that may cause one request to fail (not a service ceasement).
+WARN -  Used for warnings. At this level, all *WARN*, *ERROR*, and *FATAL* messages are written. Use this level message  as a predictive measure for possible forthcoming issues.
+INFO -  This provides any information - state transition, object values, etc
+DEBUG - Turned on in any environment when a problem is occuring.  The information captured may be throughput, communication, object values, etc.
+TRACE - Turned on in any environment where you are trying to follow an execution path, for optimization or debugging.  This is the most broad logging level and all messages are written.
+----
+
+. To view log file differences for different logging levels, change the level for the "org.jboss.as.quickstarts.logging" logger
+from TRACE to DEBUG, INFO, WARN, ERROR, or FATAL, then access the application.
+
+// Server Distribution Testing
+include::../shared-doc/run-integration-tests-with-server-distribution.adoc[leveloffset=+1]
+// Undeploy the Quickstart
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
+// Restore the {productName} Standalone Server Configuration
+include::../shared-doc/restore-standalone-server-configuration.adoc[leveloffset=+1]
+
+// Additional information about this script
+This script removes the log and file handlers from the `logging` subsystem in the server configuration. You should see the following result when you run the script:
+
+[source,options="nowrap"]
+----
+{"outcome" => "success"}
+{"outcome" => "success"}
+{"outcome" => "success"}
+{"outcome" => "success"}
+{"outcome" => "success"}
+{"outcome" => "success"}
+{"outcome" => "success"}
+----
+
+// Restore the {productName} Standalone Server Configuration Manually
+include::../shared-doc/restore-standalone-server-configuration-manual.adoc[leveloffset=+2]
+
+// Build and run sections for other environments/builds
+ifndef::ProductRelease,EAPXPRelease[]
+include::../shared-doc/build-and-run-the-quickstart-with-provisioned-server.adoc[leveloffset=+1]
+endif::[]
+
+include::../shared-doc/build-and-run-the-quickstart-with-openshift.adoc[leveloffset=+1]

@@ -1,0 +1,49 @@
+name: WildFly Quickstarts Update 'README.adoc's
+
+on:
+  push:
+    branches:
+      - main
+
+# Only run the latest job
+concurrency:
+  group: '${{ github.workflow }} @ ${{ github.ref || github.run_id }}'
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+    - name: Install Asciidoctor Reducer
+      run: sudo gem install asciidoctor-reducer
+    - name: Reduce README
+      run: |
+        CURRENT_DIR="$( pwd -P)"
+        #Get a list of subdirectories that don't start with a .
+        subdirs=`find . -maxdepth 1 -type d ! -iname ".*"`
+        #Loop over the subdirectories
+        for subdir in $subdirs
+        do
+        cd $subdir
+        #Check if the directory contains README-source.adoc
+        if [ -e README-source.adoc ]
+        then
+        #Get the dirname to define artifactId in the adoc
+        ARTIFACT_ID=":artifactId: $(basename `pwd`)"
+        #Use asciidoctor-reducer to create a flattened README.adoc
+        asciidoctor-reducer --preserve-conditionals -o README.adoc README-source.adoc
+        #Insert the directory name with env-github def so that this only affects GitHub rendering
+        sed -i "1s/^/ifdef::env-github[]\n$ARTIFACT_ID\nendif::[]\n\n/" README.adoc
+        fi
+        cd $CURRENT_DIR
+        done
+        #Updates the table of available quickstarts @ root README-source.adoc
+        mvn clean package -Pdocs -N
+        #Reduce root README
+        asciidoctor-reducer --preserve-conditionals -o README.adoc README-source.adoc
+    - name: Commit and Push README
+      uses: EndBug/add-and-commit@v9
+      with:
+        add: '*.adoc'

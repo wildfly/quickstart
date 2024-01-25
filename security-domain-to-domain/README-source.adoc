@@ -1,0 +1,272 @@
+include::../shared-doc/attributes.adoc[]
+
+= security-domain-to-domain: Identity propagation to an EJB using different security domains
+:author: Darran Lofthouse
+:level: Advanced
+:technologies: Servlet, EJB, Security
+
+[abstract]
+The `security-domain-to-domain` quickstart demonstrates the propagation of an identity across two different deployments using different security domains.
+
+:standalone-server-type: default
+:archiveType: war
+:uses-h2:
+:restoreScriptName: restore-configuration.cli
+
+
+== What is it?
+
+The `security-domain-to-domain` quickstart demonstrates the propagation of an identity across two different deployments using different security domains.
+
+When you deploy this example, one user is automatically created for you: user `quickstartUser` with password `quickstartPwd1!` This data is located in the `web/src/main/resources/import.sql` file.
+
+This quickstart takes the following steps to implement Servlet security:
+
+Web Application::
+
+* Adds a security constraint to the Servlet using the `@ServletSecurity` and `@HttpConstraint` annotations.
+* Adds a security domain reference to `WEB-INF/jboss-web.xml`.
+* Adds a `login-config` that sets the `auth-method` to `BASIC` in the `WEB-INF/web.xml`.
+
+EJB Application::
+
+* Adds a security domain reference using the @org.jboss.ejb3.annotation.SecurityDomain annotation.
+
+Application Server (`standalone.xml`)::
+
+* Defines a security domain in the `elytron` subsystem that uses the JDBC security realm to obtain the security data used to authenticate and authorize users.
+* Defined a second security domain in the `elytron` subsystem similar to the first but with different role mappings.
+* Adds an `application-security-domain` mapping in the `undertow` subsystem to map the Servlet security domain to the security domain defined in step 1.
+* Adds an `application-security-domain` mapping in the `ejb3` subystem to map the EJBs security domain to the security domain defined in step 2.
+Database Configuration::
+
+* Adds an application user with access rights to the application.
++
+[source,options="nowrap"]
+----
+User Name: quickstartUser
+Password: quickstartPwd1!
+----
++
+When used with the `entry-domain`, this user will have the role `Users`. When used with the `business-domain`, this user will have the role `Manager`.
+
+// Link to the quickstart source
+include::../shared-doc/view-the-source.adoc[leveloffset=+1]
+// System Requirements
+include::../shared-doc/system-requirements.adoc[leveloffset=+1]
+//  Use of {jbossHomeName}
+include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
+
+// Additional add user instructions
+
+When used with the `entry-domain` this will have the role `Users`, when used with the `business-domain` this will have the role `Manager`.
+
+// Back Up the {productName} Standalone Server Configuration
+include::../shared-doc/back-up-server-standalone-configuration.adoc[leveloffset=+1]
+// Start the {productName} Standalone Server
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
+
+[[configure_the_server]]
+== Configure the {productName} Server
+
+You can configure the server by running JBoss CLI commands. For your convenience, this quickstart batches the commands into a `configure-server.cli` script provided in the root directory of this quickstart.
+
+. Before you begin, make sure you do the following:
+
+* xref:back_up_standalone_server_configuration[Back up the {productName} standalone server configuration] as described above.
+* xref:start_the_eap_standalone_server[Start the {productName} server] with the standalone default profile as described above.
+
+. Review the `configure-server.cli` file in the root of this quickstart directory. This script adds security domains to the `elytron` subsystem in the server configuration and also configures the `undertow` and `ejb3` subsystems to use the configured security domains for the Web application and for EJBs.
+. Open a new command prompt, navigate to the root directory of this quickstart, and run the following command, replacing __{jbossHomeName}__ with the path to your server:
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=configure-server.cli
+----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
++
+
+You should see the following result when you run the script:
++
+[source,options="nowrap"]
+----
+The batch executed successfully
+----
+
+. Stop the {productName} server.
+
+== Review the Modified Server Configuration
+
+After stopping the server, open the `__{jbossHomeName}__/standalone/configuration/standalone.xml` file and review the changes.
+
+. The following datasource was added to the `datasources` subsystem.
++
+[source,xml,options="nowrap"]
+----
+<datasource jndi-name="java:jboss/datasources/SecurityDomainToDomainDS" pool-name="SecurityDomainToDomainDS">
+    <connection-url>jdbc:h2:mem:servlet-security;DB_CLOSE_ON_EXIT=FALSE</connection-url>
+    <driver>h2</driver>
+    <security>
+        <user-name>sa</user-name>
+        <password>sa</password>
+    </security>
+</datasource>
+----
+
+. The following security realms were added to the `elytron` subsystem.
++
+[source,xml,options="nowrap"]
+----
+<jdbc-realm name="entry-realm">
+    <principal-query sql="SELECT PASSWORD FROM USERS WHERE USERNAME = ?" data-source="SecurityDomainToDomainDS">
+        <clear-password-mapper password-index="1"/>
+    </principal-query>
+    <principal-query sql="SELECT R.NAME, 'Roles' FROM ENTRY_ROLES ER INNER JOIN ROLES R ON R.ID = ER.ROLE_ID INNER JOIN USERS U ON U.ID = ER.USER_ID WHERE U.USERNAME = ?" data-source="SecurityDomainToDomainDS">
+        <attribute-mapping>
+            <attribute to="roles" index="1"/>
+        </attribute-mapping>
+    </principal-query>
+</jdbc-realm>
+----
+
+. The `entry-realm` security realm is responsible for verifying the credentials for a given principal and for obtaining security attributes (like roles) that are associated with the authenticated identity.
++
+[source, xml]
+[source,xml,options="nowrap"]
+----
+<jdbc-realm name="business-realm">
+    <principal-query sql="SELECT PASSWORD FROM USERS WHERE USERNAME = ?" data-source="SecurityDomainToDomainDS">
+        <clear-password-mapper password-index="1"/>
+    </principal-query>
+    <principal-query sql="SELECT R.NAME, 'Roles' FROM BUSINESS_ROLES BR INNER JOIN ROLES R ON R.ID = BR.ROLE_ID INNER JOIN USERS U ON U.ID = BR.USER_ID WHERE U.USERNAME = ?" data-source="SecurityDomainToDomainDS">
+        <attribute-mapping>
+            <attribute to="roles" index="1"/>
+        </attribute-mapping>
+    </principal-query>
+</jdbc-realm>
+----
+
+. The `business-realm` security realm is just used for loading the identity as it accesses the EJB.
+
+. The JDBC realms in this quickstart store the roles associated with a principal in an attribute named `Roles`.
++
+Other realms might use different attributes for roles (such as `group`).
+If an attribute name other than "Roles" is used to store the roles, a `role-decoder` can be configured as follows:
++
+```
+/subsystem=elytron/simple-role-decoder=from-roles-attribute:add(attribute=ATTRIBUTE_NAME)
+```
++
+The commands to create the security domains could then be updated to reference this `role-decoder`:
++
+```
+/subsystem=elytron/security-domain=entry-security-domain:add(default-realm=entry-realm, realms=[{realm=entry-realm, role-decoder=from-roles-attribute}], permission-mapper=default-permission-mapper, outflow-security-domains=[business-security-domain])
+
+/subsystem=elytron/security-domain=business-security-domain:add(default-realm=business-realm, realms=[{realm=business-realm, role-decoder=from-roles-attribute}], trusted-security-domains=[entry-security-domain])
+```
++
+The purpose of a `role-decoder` is to instruct the security domain how roles are to be retrieved from an authorized identity.
+. The following security domains were added to the `elytron` subsystem.
++
+[source,xml,options="nowrap"]
+----
+<security-domain name="entry-security-domain" default-realm="entry-realm" permission-mapper="default-permission-mapper" outflow-security-domains="business-security-domain">
+    <realm name="entry-realm"/>
+</security-domain>
+
+<security-domain name="business-security-domain" default-realm="business-realm" trusted-security-domains="entry-security-domain">
+    <realm name="business-realm"/>
+</security-domain>
+----
++
+The `entry-security-domain` is configured to automatically outflow any identities to the `business-security-domain` and in return the `business-security-domain` is configured to trust any identities coming from the `entry-security-domain`.
+
+. The following `application-security-domain` was added to the `undertow` subsystem.
++
+[source,xml,options="nowrap"]
+----
+<application-security-domains>
+    <application-security-domain name="EntryDomain" security-domain="entry-security-domain"/>
+</application-security-domains>
+----
++
+This configuration tells `Undertow` that applications with the `EntryDomain` security domain, as defined in the `jboss-web.xml` or by using the `@SecurityDomain` annotation in the Servlet class, should use the `security-domain` named `entry-security-domain`.
+
+. The following `application-security-domain` was added to the `ejb3` subsystem.
++
+[source,xml,options="nowrap"]
+----
+<application-security-domains>
+    <application-security-domain name="BusinessDomain" security-domain="business-security-domain"/>
+</application-security-domains>
+----
++
+This configuration tells `EJB3` that applications with the `BusinessDomain` security domain, as defined in the `jboss.xml` or by using the `@SecurityDomain` annotation in the EJB class, should use the `security-domain` named `business-security-domain`.
+
+. When you have finished reviewing the configuration changes, xref:start_the_eap_standalone_server[start the {productName} server] with the standalone default profile as described above before you build and deploy the quickstart.
+
+//  Build and Deploy the Quickstart
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
+
+== Access the Application
+
+The application will be running at the following URL: http://localhost:8080/{artifactId}/
+
+When you access the application, you should get a browser login challenge.
+
+Log in using the username `quickstartUser` and password `quickstartPwd1!`. The browser will display the following security info:
+
+[source,options="nowrap"]
+----
+Successfully called Secured Servlet
+Identity as visible to servlet.
+
+Principal : quickstartUser
+
+Remote User : quickstartUser
+
+Authentication Type : BASIC
+
+Caller Has Role 'User'=true
+
+Caller Has Role 'Manager'=false
+Identity as visible to EJB.
+
+Principal : quickstartUser
+
+Caller Has Role 'User'=false
+
+Caller Has Role 'Manager'=true
+----
+
+This shows that the user `quickstartUser` calls the servlet and has role `User` but does not have the role `Manager`, as the call reaches the EJB the principal is still `quickstartUser` but now the identity does not have the role `User` and instead has the role `Manager`.
+
+// Undeploy the Quickstart
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
+
+// Restore the {productName} Standalone Server Configuration
+include::../shared-doc/restore-standalone-server-configuration.adoc[leveloffset=+1]
+
+// Restore the {productName} Standalone Server Configuration Manually
+include::../shared-doc/restore-standalone-server-configuration-manual.adoc[leveloffset=+2]
+// Run the Quickstart in Red Hat CodeReady Studio or Eclipse
+include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
+
+// Additional JBDS instructions
+
+* Be sure to configure the server by running the JBoss CLI commands as described above under xref:configure_the_server[Configure the {productName} Server]. Stop the server at the end of that step.
+* Be sure to xref:restore_the_standalone_server_configuration[Restore the Server Configuration] when you have completed testing this quickstart.
+
+// Debug the Application
+include::../shared-doc/debug-the-application.adoc[leveloffset=+1]
+
+//*************************************************
+// Product Release content only
+//*************************************************
+ifdef::ProductRelease[]
+
+// Quickstart not compatible with OpenShift
+include::../shared-doc/openshift-incompatibility.adoc[leveloffset=+1]
+
+endif::[]

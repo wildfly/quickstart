@@ -1,0 +1,68 @@
+include::../shared-doc/attributes.adoc[]
+
+= jaxrs-client: Jakarta REST Client API example
+:author: Rafael Benevides
+:level: Beginner
+:technologies: JAX-RS
+:openshift: true
+
+[abstract]
+The `jaxrs-client` quickstart demonstrates Jakarta REST Client API, which interacts with a Jakarta REST Web service that runs on {productName}.
+
+:standalone-server-type: default
+:archiveType: war
+
+== What is it?
+
+The `jaxrs-client` quickstart demonstrates the Jakarta REST Client API which interacts with a Jakarta REST Web service.
+
+This client tests "call" many `POST`, `GET`, and `DELETE` operations using different ways: synchronized, asynchronous,
+delayed and filtered invocations.
+
+// Link to the quickstart source
+include::../shared-doc/view-the-source.adoc[leveloffset=+1]
+//  System Requirements
+include::../shared-doc/system-requirements.adoc[leveloffset=+1]
+// Use of {jbossHomeName}
+include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
+
+// build and run with standard server distribution
+[[build_and_run_the_quickstart_with_server_dist]]
+== Building and running the quickstart application with a {productName} server distribution
+// Start the {productName} Standalone Server
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+2]
+// Build and Deploy the Quickstart
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+2]
+// Server Distribution Testing
+include::../shared-doc/run-integration-tests-with-server-distribution.adoc[leveloffset=+2]
+// Undeploy the Quickstart
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+2]
+
+=== Investigate the Console Output
+
+When you run the integration tests, Maven prints summary of the performed tests to the console. You should see the following results.
+
+[source,options="nowrap"]
+----
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running org.jboss.as.quickstarts.jaxrsclient.test.InvocationContactsRestClientIT
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.42 s - in org.jboss.as.quickstarts.jaxrsclient.test.InvocationContactsRestClientIT
+[INFO] Running org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientIT
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.047 s - in org.jboss.as.quickstarts.jaxrsclient.test.ContactsRestClientIT
+[INFO] Running org.jboss.as.quickstarts.jaxrsclient.test.FilteredContactsRestClientIT
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.052 s - in org.jboss.as.quickstarts.jaxrsclient.test.FilteredContactsRestClientIT
+[INFO] Running org.jboss.as.quickstarts.jaxrsclient.test.AsyncContactsRestClientIT
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.064 s - in org.jboss.as.quickstarts.jaxrsclient.test.AsyncContactsRestClientIT
+[INFO]
+[INFO] Results:
+[INFO]
+[INFO] Tests run: 20, Failures: 0, Errors: 0, Skipped: 0
+----
+
+// Build and run sections for other environments/builds
+ifndef::ProductRelease,EAPXPRelease[]
+include::../shared-doc/build-and-run-the-quickstart-with-provisioned-server.adoc[leveloffset=+1]
+endif::[]
+include::../shared-doc/build-and-run-the-quickstart-with-openshift.adoc[leveloffset=+1]

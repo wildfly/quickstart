@@ -1,0 +1,262 @@
+include::../shared-doc/attributes.adoc[]
+
+= ejb-multi-server: EJB Communication Across Servers
+:author: Wolf-Dieter Fink
+:level: Advanced
+:technologies: EJB, EAR
+
+[abstract]
+The `ejb-multi-server` quickstart shows how to communicate between multiple applications deployed to different servers using an EJB to log the invocation.
+
+:managed-domain-type: default
+:archiveType: ear
+:jbds-not-supported:
+
+== What is it?
+
+The `ejb-multi-server` quickstart demonstrates communication between applications deployed to different {productNameFull} servers. Each application is deployed as an EAR and contains a simple EJB bean. The only function of each bean is to log the invocation.
+
+This example consists of the following Maven projects, each with a shared parent:
+
+[cols="40%,60%",options="headers"]
+|===
+|Project |Description
+
+|`app-main`
+|An application that can be called by the client. It can also call the different sub-applications.
+
+a|`app-one`
+
+`app-two`
+|These simple applications contain an EJB subproject that builds the `ejb.jar` file and an EAR subproject that builds the `app.ear` file. Each application contains only one EJB that logs a statement on a method call and returns the `jboss.node.name` and credentials.
+
+|`app-web`
+|A simple WAR application. It consists of one servlet that demonstrates how to invoke EJBs on a different server.
+
+|`client`
+|This project builds the standalone client and executes it.
+|===
+
+The root `pom.xml` builds each of the subprojects in an appropriate order.
+
+The server configuration is done using CLI batch scripts located in the root of the quickstart folder.
+
+// Link to the quickstart source
+include::../shared-doc/view-the-source.adoc[leveloffset=+1]
+// System Requirements
+include::../shared-doc/system-requirements.adoc[leveloffset=+1]
+// Use of {jbossHomeName}
+include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
+
+[[start_with_a_clean_server_install]]
+== Start with a Clean Server Install
+
+It is important to start with a clean version of {productName} before testing this quickstart. Make sure you unzip or install a fresh {productName} instance.
+
+[[add_the_application_users]]
+== Add the Application Users
+
+The following users must be added to the `ApplicationRealm` to run this quickstart. Make sure you use the names and passwords specified in the table as they are required to run this example.
+
+[cols="20%,20%,20%,40%",options="headers"]
+|===
+|UserName |Realm |Password |Roles
+
+|quickuser |ApplicationRealm |quick-123 |
+|quickuser1 |ApplicationRealm |quick123+ |
+|quickuser2 |ApplicationRealm |quick+123 |
+|===
+
+To add the users, open a terminal and type the following commands.
+
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}__/bin/add-user.sh -a -u quickuser -p quick-123
+$ __{jbossHomeName}__/bin/add-user.sh -a -u quickuser1 -p quick123+
+$ __{jbossHomeName}__/bin/add-user.sh -a -u quickuser2 -p quick+123
+----
+
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\add-user.bat` script.
+
+If you prefer, you can use the `add-user` utility interactively. For an example of how to use the add-user utility, see the instructions located here: link:{addApplicationUserDocUrl}[Add an Application User].
+
+// Back Up the {productName} Managed Domain Configuration
+include::../shared-doc/back-up-managed-domain-configuration.adoc[leveloffset=+1]
+// Start the {productName} Managed Domain
+include::../shared-doc/start-the-managed-domain.adoc[leveloffset=+1]
+
+[[configure_the_server]]
+== Configure the Server
+
+You configure the domain server by running JBoss CLI commands. For your convenience, this quickstart batches the commands into a `install-domain.cli` script provided in the root directory of this quickstart.
+
+. Before you begin, make sure you do the following:
+
+* xref:start_with_a_clean_server_install[Start with clean {productName} installation].
+* xref:back_up_managed_domain_configuration[Back up the {productName} managed domain configuration].
+* xref:add_the_application_users[Add the application users].
+* xref:start_eap_managed_domain[Start the {productName} managed domain].
+
+. Review the `install-domain.cli` file in the root of this quickstart directory. This script configures and starts multiple servers needed to run this quickstart.
+. Open a new terminal, navigate to the root directory of this quickstart, and run the following command, replacing __{jbossHomeName}__ with the path to your server:
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}__/bin/jboss-cli.sh -c --file=install-domain.cli
+----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
++
+You should see a result of `"outcome" => "success"` for every step in the execution.
++
+IMPORTANT: Depending on your machine configuration, you might see "Exception in thread "main" java.lang.OutOfMemoryError: unable to create new native thread" exceptions in the server log when you run this script. If you do, you must increase the ulimit open files and max user processes settings. Instructions to do this are located here: http://ithubinfo.blogspot.com/2013/07/how-to-increase-ulimit-open-file-and.html. After you update the ulimit settings, you must reboot and start with a fresh instance of the server.
+
+[[review_the_modified_server_configuration]]
+== Review the Modified Server Configuration
+
+There are too many additions to the configuration files to list here. Feel free to compare the `domain.xml` and `host.xml` to the backup copies to see the changes made to configure the server to run this quickstart.
+
+
+
+
+[[build_and_deploy_the_quickstart]]
+== Build and Deploy the Quickstart
+
+. Make sure you have xref:install_the_quickstart_parent_artifact_in_maven[installed the quickstart parent artifact] in your Maven repository.
+. Make sure you have started and configured the {productName} server successfully as described above.
+. Open a terminal and navigate to the root directory of this quickstart.
+. Type this command to build the artifacts.
++
+[source,options="nowrap"]
+----
+$ mvn clean install
+----
++
+You should see `BUILD SUCCESS` at the end of the build `SUCCESS` messages for each component.
+
+. In the same terminal, deploy the applications using the provided CLI batch script by typing the following command.
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}__/bin/jboss-cli.sh -c --file=deploy-domain.cli
+----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
+
++
+This deploys the `app-*.ear` files to different server groups of the running domain. You should see the following result when you run the script.
++
+[source,options="nowrap"]
+----
+The batch executed successfully
+process-state: reload-required
+----
+
+. You might see the following warnings in the server log. You can ignore these warnings.
++
+[source,options="nowrap"]
+----
+[Server:app-oneB] 13:00:13,346 WARN  [org.jboss.as.clustering.jgroups.protocol.UDP] (ServerService Thread Pool -- 13) JGRP000015: the send buffer of socket MulticastSocket was set to 1MB, but the OS only allocated 212.99KB. This might lead to performance problems. Please set your max send buffer in the OS correctly (e.g. net.core.wmem_max on Linux)
+[Server:app-oneB] 13:00:13,346 WARN  [org.jboss.as.clustering.jgroups.protocol.UDP] (ServerService Thread Pool -- 13) JGRP000015: the receive buffer of socket MulticastSocket was set to 20MB, but the OS only allocated 212.99KB. This might lead to performance problems. Please set your max receive buffer in the OS correctly (e.g. net.core.rmem_max on Linux)
+[Server:app-oneB] 13:00:13,347 WARN  [org.jboss.as.clustering.jgroups.protocol.UDP] (ServerService Thread Pool -- 13) JGRP000015: the send buffer of socket MulticastSocket was set to 1MB, but the OS only allocated 212.99KB. This might lead to performance problems. Please set your max send buffer in the OS correctly (e.g. net.core.wmem_max on Linux)
+[Server:app-oneB] 13:00:13,347 WARN  [org.jboss.as.clustering.jgroups.protocol.UDP] (ServerService Thread Pool -- 13) JGRP000015: the receive buffer of socket MulticastSocket was set to 25MB, but the OS only allocated 212.99KB. This might lead to performance problems. Please set your max receive buffer in the OS correctly (e.g. net.core.rmem_max on Linux)
+[Server:app-oneA] 13:00:13,407 WARN  [org.jboss.as.clustering.jgroups.protocol.UDP] (ServerService Thread Pool -- 11) JGRP000015: the send buffer of socket MulticastSocket was set to 1MB, but the OS only allocated 212.99KB. This might lead to performance problems. Please set your max send buffer in the OS correctly (e.g. net.core.wmem_max on Linux)
+[Server:app-oneA] 13:00:13,408 WARN  [org.jboss.as.clustering.jgroups.protocol.UDP] (ServerService Thread Pool -- 11) JGRP000015: the receive buffer of socket MulticastSocket was set to 20MB, but the OS only allocated 212.99KB. This might lead to performance problems. Please set your max receive buffer in the OS correctly (e.g. net.core.rmem_max on Linux)
+[Server:app-oneA] 13:00:13,408 WARN  [org.jboss.as.clustering.jgroups.protocol.UDP] (ServerService Thread Pool -- 11) JGRP000015: the send buffer of socket MulticastSocket was set to 1MB, but the OS only allocated 212.99KB. This might lead to performance problems. Please set your max send buffer in the OS correctly (e.g. net.core.wmem_max on Linux)
+[Server:app-oneA] 13:00:13,408 WARN  [org.jboss.as.clustering.jgroups.protocol.UDP] (ServerService Thread Pool -- 11) JGRP000015: the receive buffer of socket MulticastSocket was set to 25MB, but the OS only allocated 212.99KB. This might lead to performance problems. Please set your max receive buffer in the OS correctly (e.g. net.core.rmem_max on Linux)
+----
+
+IMPORTANT: If errors appear in the `server.log` when installing or deploying the quickstart, stop the domain and restart it. This should ensure further steps run correctly.
+
+[[access_the_remote_client_application]]
+== Access the Remote Client Application
+
+This example shows how to invoke an EJB from a remote standalone application.
+
+. Make sure that the deployments are successful as described above.
+. Navigate to the quickstart `client/` subdirectory.
+. Type this command to run the application:
++
+[source,options="nowrap"]
+----
+$ mvn exec:java
+----
++
+The client will output the following information provided by the applications:
++
+[source,options="nowrap"]
+----
+InvokeAll succeed: MainApp[quickuser]@primary:app-main  >  [ app1[quickuser1]@primary:app-oneA > app2[quickuser2]@primary:app-twoA ; app2[quickuser2]@primary:app-twoA
+----
++
+This output shows that the `MainApp` is called with the user `quickuser` at node `primary:app-main` and the sub-call is proceeded by the `primary:app-oneA` node as `quickuser1` and `primary:app-twoA` node as `quickuser2`.
+
+. Review the server log files to see the bean invocations on the servers.
+
+. If it is necessary to invoke the client with a different {productName} version the main class can be invoked by using the following command from the root directory of this quickstart. Replace __{jbossHomeName}__ with your current installation path. The output should be similar to the previous mvn executions.
++
+[subs=normal]
+----
+java -cp $__{jbossHomeName}__/bin/client/jboss-client.jar:app-main/ejb/target/ejb-multi-server-app-main-ejb-client.jar:app-two/ejb/target/ejb-multi-server-app-two-ejb-client.jar:client/target/ejb-multi-server-client.jar org.jboss.as.quickstarts.ejb.multi.server.Client
+----
+
+[IMPORTANT]
+====
+* If `exec` is called multiple times, the invocation for `app1` might use `app-oneA` and `app-oneB` node due to cluster loadbalancing.
+* A {productName} will deny the invocation of unsecured methods of `appOne`/`appTwo` since security is enabled but the method does not include `@Roles`. You need to set `default-missing-method-permissions-deny-access = false` for the `ejb3` subsystem within the domain profile `ha` and `default` to allow the method invocation. See the `install-domain.cli` script.
+====
+
+[[access_the_jsf_application_inside_the_main_application]]
+== Access the JSF Application Inside the Main Application
+
+The JSF example shows different annotations to inject the EJB. Also how to handle the annotation if different beans implement the same interface and therefore the container is not able to decide which bean needs to be injected without additional informations.
+
+. Make sure that the deployments are successful as described above.
+. Use a browser to access the JSF application at the following URL: http://localhost:8080/ejb-multi-server-app-main-web/
+. Insert a message in the Text input and invoke the different methods. The result is shown in the browser.
+. See server logfiles and find your given message logged as INFO.
+
+[[access_the_servlet_application_deployed_as_a_war_inside_a_minimal_server]]
+== Access the Servlet Application Deployed as a WAR Inside a Minimal Server
+
+An example how to access EJBs from a separate instance which only contains a web application.
+
+. Make sure that the deployments are successful as described above.
+. Use a browser to access the Servlet at the following URL: http://localhost:8380/ejb-multi-server-app-web/
+. The Servlet will invoke the remote EJBs directly and show the results, compare that the invocation is successful
+
+[[undeploy_the_quickstart]]
+== Undeploy the Quickstart
+
+. xref:start_eap_managed_domain[Start the {productName} managed domain] as described above.
+. Open a terminal and navigate to the root directory of this quickstart.
+. When you are finished testing, type this command to undeploy the archive:
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=undeploy-domain.cli
+----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat`.
+
+
+// Restore the {productName} Managed Domain Configuration Manually
+include::../shared-doc/restore-managed-domain-configuration-manual.adoc[leveloffset=+1]
+// Run the Quickstart in Red Hat CodeReady Studio or Eclipse
+include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
+
+// Additional Red Hat CodeReady Studio instructions
+EJB Client (ejb-client) currently has limited support in the Eclipse Web Tools Platform (WTP).
+
+// Debug the Application
+include::../shared-doc/debug-the-application.adoc[leveloffset=+1]
+
+//*************************************************
+// Product Release content only
+//*************************************************
+ifdef::ProductRelease[]
+
+// Quickstart not compatible with OpenShift
+include::../shared-doc/openshift-incompatibility.adoc[leveloffset=+1]
+
+endif::[]

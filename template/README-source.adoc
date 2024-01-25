@@ -1,0 +1,473 @@
+include::../shared-doc/attributes.adoc[]
+
+= How to Structure and Write a Quickstart README.adoc File
+
+== Introduction
+
+This document describes how to write a quickstart `README.adoc` file. It describes the attributes you must define and the sections needed in the correct order.
+
+IMPORTANT: The instructions in this template only describe how to create the default instructions to run the quickstart on the WildFly or the JBoss EAP server. If the quickstart will also be deployed to OpenShift, the OpenShift instructions must be added to to this file, and you must use the `EAPCDRelease` flag to determine how to generate the `README.html` file. You can use an existing quickstart `README.adoc` file as a template.
+
+Many instructions are common across all quickstarts. These have been moved to files located in the `shared-doc/` directory. Rather than write them again, you can just include those files in your `README.adoc` file. Some of these included files have conditional logic and require that you define a document attribute to determine how the instructions should print for your quickstart.
+
+* You must first xref:define_the_heading[define the heading or title] for your quickstart.
+* Next, you must xref:define_the_metadata[define the metadata] that defines the quickstart.
+* determine what will display information about the quickstart and how the instructions will look.
+* Finally, you must determine which sections are needed for your quickstart and include or write them as needed.
+
+TIP: Find an existing quickstart that is similar to the one you are creating and make a copy of its `README.adoc` file to use for your own quickstart project. Then update the file as needed.
+
+[[define_the_heading]]
+== Define the Heading
+
+This is the first line of the `README.adoc` file and it defines the quickstart name and provides a short description.
+
+* Start the heading with "= ".
+* This is followed by the __QUICKSTART_NAME__, which should match the folder name.
+* Try to limit the decription to 55 characters as it is displayed in a table and also used in search engines.
+
+.Example: Quickstart Heading
+[source,subs="+quotes",options="nowrap"]
+----
+= __QUICKSTART_NAME__: Brief Description of the Quickstart (try to limit the description to 55 characters)
+----
+
+[[define_the_metadata]]
+== Define the Metadata for the Quickstart
+
+. Copy in the following standard metadata attributes and modify where needed.
++
+.Example: Basic Attributes
+----
+:author: __YOUR_NAME__ and optional CONTACT_INFO
+:productName: WildFly
+:productNameFull: WildFly Application Server
+:jbossHomeName: WILDFLY_HOME
+:productVersion: 19
+:buildRequirements: Java 8.0 (Java SDK 1.8) or later and Maven 3.3.1 or later
+----
+
+. Include the following shared attribute file.
++
+.Example: Include the attributes.adoc File
+----
+ include::../shared-doc/attributes.adoc[]
+----
+
+. Define additional attributes for this quickstart.
++
+Define the following attributes that provide information about the level of expertise required and the technologies used by the quickstart. They are used when building the quickstart table in the root `README.html` file.
++
+.Example: Quickstart Informational Attributes
+----
+:level: (one of the following: Beginner, Intermediate, or Advanced)
+:technologies: (list technologies used here)
+:source: (The URL for the repository that is the source of record for this quickstart)
+:prerequisites: (list any quickstarts that must be deployed prior to running this one)
+----
+
+. Create the abstract. This is also used in the quickstart table in the root `README.html` file.
++
+.Example: Quickstart Abstract
+----
+[abstract]
+Create a  brief description of the quickstart. This description appears in the table and in Google search SEO results. Try to limit the description to 155 characters.
+----
+
+== Define Conditional Attributes for the Quickstart
+
+Many commonly used instructions are defined in shared topic files located in the `shared-doc/` folder. Some require that you set attribute values specific to your quickstart that can be used for conditional text. Examples include the following.
+
+.Example: Attributes Need by Included Shared Topics
+[source,subs="+quotes",options="nowrap"]
+----
+:standalone-server-type: The server type. valid values are `default`, `full`, `full-ha`, `ha`, `custom`.
+:managed-domain-type: Valid values are `default`.
+:archiveName: Defaults to `{artifactId}`. Override it if this quickstart is different.
+:archiveType: Type of archive. Valid values are `war`, `ear`, and `jar`.
+:archiveDir: The archive directory. Override if the other than the default.
+:mavenCommand: The command to build and deploy the archive. Override it if it is different.
+:configFileName: The name of the management CLI file used for configuration.
+:uses-h2: Define this attribute if the quickstart uses the H2 database.
+:uses-ds-xml: Define this attribute if the quickstart uses an `*-ds.xml` file.
+:performance-scalability: Define this attribute if the user needs to consider scalability when using this quickstart example.
+:requires-multiple-servers: Define this attribute if you must start 2 servers.
+:optional-domain-or-multiple-servers: Define this attribute if the quickstart requires that you configure and start multiple servers.
+:jbds-not-supported: Define this attribute if the quickstart does not run in {JBDSProductName}
+:openshift: Define this attribute if the quickstart is compatible with Openshift S2i templates. Valid values are `true` and `false`.
+----
+
+[[what_is_it]]
+== What is it?
+
+Start the text with "The `__QUICKSTART_NAME__` quickstart demonstrates … in {productNameFull}."
+
+ * You should list the technologies demonstrated by the quickstart.
+ * You should explain how it works and what to expect when you run it?
+
+You should include any information that would help the user understand the quickstart.
+
+If possible, give an overview, including any code they should look at to understand how it works..
+
+[[considerations_for_use_in_a_production_environment]]
+== Considerations for Use in a Production Environment (optional)
+
+Add this section only if this quickstart uses the h2 database, an `*-ds.xml` file, or has performance and scalability concerns. This topic is defined in the `shared-doc/development-shortcuts.adoc` file.  Define the appropriate attributes:
+
+* `uses-h2`: The quickstart uses the h2 database.
+* `uses-ds-xml`: The quickstart uses an `*-ds.xml` file.
+* `performance-scalability`: Performance and scalability are of concern.
+
+Include this file using the following syntax.
+
+.Example: include::../shared-doc/development-shortcuts.adoc
+[source,options="nowrap"]
+----
+//***************************************
+// Add notes about use in a production environment.
+//***************************************
+// == Considerations for Use in a Production Environment
+// :uses-h2:
+// :uses-ds-xml:
+// :performance-scalability:
+ include::../shared-doc/development-shortcuts.adoc[leveloffset=+1]
+----
+
+[[system_requirements]]
+== System Requirements
+
+Always add the system requirements. This topic is defined in the `shared-doc/system-requirements.adoc` file.
+Include this file using the following syntax.
+
+.Example: include::../shared-doc/system-requirements.adoc
+[source,options="nowrap"]
+----
+//*************************************************
+// Add System Requirements
+//*************************************************
+// == System Requirements
+ include::../shared-doc/system-requirements.adoc[leveloffset=+1]
+----
+
+[[use_of_jboss_home_name]]
+== Use of {jbossHomeName}
+
+Add this section if your README file refers to the `__{jbossHomeName}__` variable.
+
+This topic is located in the `shared-docs/use-of-jboss-home-name.adoc` file. If your quickstart uses 2 servers, make sure to define the `requires-multiple-servers` attribute.
+
+Include this file using the following syntax.
+
+.Example: include::../shared-doc/use-of-jboss-home-name.adoc
+[source,subs="attributes+",options="nowrap"]
+----
+//*************************************************
+// Add Use of JBoss Home Name
+//*************************************************
+// == Use of {jbossHomeName}
+:requires-multiple-servers:
+ include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
+----
+
+[[configure_optional_components]]
+== Configure Optional Components
+
+* If the quickstart uses a secured management interface and requires that you create a management or application user to access the running application, provide instructions to set up a management or application user.
++
+If you require the standard `quickstartUser`/`quickstartPwd1!` user for the `ApplicationRealm` and the `quickstartAdmin`/`adminPwd1!` for the `ManagementRealm`, you can just include one of the following files:
++
+** include::../shared-doc/add-application-user.adoc[leveloffset=+1]
+
+** include::../shared-doc/add-application-and-management-users.adoc[leveloffset=+1]
++
+If you require other users, follow the standard format of one of those files.
+
+* If the quickstart requires the PostgreSQL database, provide instructions to install and configure PostgreSQL. Provide a link to the instructions here here: link:{configurePostgresDocUrl}[Configure the PostgreSQL Database for Use with the Quickstarts]
+
+* If the quickstart uses Byteman to help demonstrate crash recovery, let them know that instructions to install and configure Byteman can be found here: link:{configureBytemanQuickstartsDocUrl}[Configure Byteman for Use with the Quickstarts]
+
+[[back_up_standalone_server_configuration]]
+== Back Up the {productName} Standalone Server Configuration (optional)
+
+Add this section if your quickstart uses a standalone server and modifies the standalone server configuration files. Make sure you have defined the `standalone-server-type` attribute.
+
+This topic is located in the `shared-docs/back-up-server-standalone-configuration.adoc` file.
+
+Include this file using the following syntax.
+
+.Example: include::../shared-doc/back-up-server-standalone-configuration.adoc
+[source,options="nowrap"]
+----
+//*************************************************
+// Back up the server configuration files
+//*************************************************
+// == Back Up the {productName} Standalone Server Configuration
+//  include::../shared-doc/back-up-server-standalone-configuration.adoc[leveloffset=+1]
+----
+
+[[back_up_managed_domain_configuration]]
+== Back Up the {productName} Managed Domain Configuration (optional)
+
+Add this section if your quickstart uses a managed domain and modifies the domain configuration files.
+
+This topic is located in the `shared-docs/back-up-managed-domain-configuration.adoc` file. Include this file using the following syntax.
+
+.Example: include::../shared-doc/back-up-managed-domain-configuration.adoc
+[source,options="nowrap"]
+----
+//*************************************************
+// Back up the server configuration files
+//*************************************************
+// == Back Up the {productName} Managed Domain Configuration
+ include::../shared-doc/back-up-managed-domain-configuration.adoc[leveloffset=+1]
+----
+
+[[start_the_eap_standalone_server]]
+== Start the {productName} Standalone Server (optional)
+
+Add this section if your quickstart uses a standalone server. Make sure you have defined the `standalone-server-type` attribute.
+
+This topic is located in the `shared-docs/start-the-standalone-server.adoc` file. Include this file using the following syntax.
+
+.Example: include::../shared-doc/start-the-standalone-server.adoc
+[source,options="nowrap"]
+----
+//*************************************************
+// Start the server
+//*************************************************
+// == Start the {productName} Standalone Server
+ include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
+----
+
+[[start_the_eap_managed_domain]]
+== Start the {productName} Managed Domain (optional)
+
+Add this section if your quickstart uses a managed domain.
+
+This topic is located in the `shared-docs/start-the-managed-domain.adoc` file. Include this file using the following syntax.
+
+.Example: include::../shared-doc/start-the-managed-domain.adoc
+[source,options="nowrap"]
+----
+//*************************************************
+// Start the managed domain
+//*************************************************
+// == Start the {productName} Managed Domain
+ include::../shared-doc/start-the-managed-domain.adoc[leveloffset=+1]
+----
+
+[[configure_the_server]]
+== Configure the Server (optional)
+
+Add this section if your quickstart provides a CLI script to modify the server configuration file.
+
+* Provide the name of the script and provide an overview of what it does.
+* Remind them to back up the current configuration and start the server.
+* Suggest that they review the script and describe any details of importance.
+* Provide instructions for running the script. You can use examples from other quickstarts that configure the server.
+* Let the user know what the result output will look like.
+* Stop the {productName} server if you plan to review the resulting XML configuration changes.
+
+== Review the Modified Server Configuration (optional)
+
+Add this section if your quickstart provides a CLI script to modify the server configuration file and you plan to review the XML changes.
+
+Point out the changes made after running the CLI script.
+
+== Build and Deploy the Quickstart (optional)
+
+Add this section if your quickstart deploys a normal JAR, WAR, or EAR to a __{jbossHomeName}__ server.
+
+* Make sure you define the `archiveType` attribute. Valid types are:
+** :archiveType: ear
+** :archiveType: war
+** :archiveType: jar
+
+* You can override the archive name, which defaults to the `{artifactId)` by defining the `{archiveName}`. For example:
++
+[source,options="nowrap"]
+----
+:archiveName: {artifactId}-service
+----
+* You can override the archive path by defining the `{archiveDir}`. For example:
++
+[source,options="nowrap"]
+----
+:archiveDir: {artifactId}/service/target
+----
+
+This topic is located in the `shared-docs/build-and-deploy-the-quickstart.adoc` file. Include this file using the following syntax.
+
+.Example: include::../shared-doc/build-and-deploy-the-quickstart.adoc
+[source,options="nowrap"]
+----
+//*************************************************
+// Build and deploy the quickstart
+//*************************************************
+// == Build and Deploy the Quickstart
+ include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
+----
+
+[[access_the_application]]
+== Access the Application (optional)
+
+Add this section if you can access your running quickstart using a browser. For example:
+[source,options="nowrap"]
+----
+Access the running application in a browser at the following URL:  http://localhost:8080/{artifactId}
+----
+
+Describe what the user should look for in the running application.
+
+[[undeploy_the_quickstart]]
+== Undeploy the Quickstart (optional)
+
+Add this section if your quickstart deploys a normal JAR, WAR, or EAR to a __{jbossHomeName}__ server.
+
+This topic is located in the `shared-docs/undeploy-the-quickstart.adoc` file. Include this file using the following syntax.
+
+.Example: include::../shared-doc/undeploy-the-quickstart.adoc
+[source,options="nowrap"]
+----
+//*************************************************
+// Undeploy the quickstart archive
+//*************************************************
+// == Undeploy the Quickstart
+ include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
+----
+
+[[run_the_arquillian_tests]]
+== Run the Arquillian Tests (optional)
+
+Add this section if your quickstart provides Arquillian tests.
+
+This topic is located in the `shared-docs/run-arquillian-tests.adoc` file. Include this file using the following syntax.
+
+.Example: include::../shared-doc/run-arquillian-tests.adoc
+[source,options="nowrap"]
+----
+//*************************************************
+// Run the Arquillian tests
+//*************************************************
+// == Run the Arquillian Tests
+ include::../shared-doc/run-arquillian-tests.adoc[leveloffset=+1]
+----
+
+You can add additional information if required.
+
+[[investigate_the_console_output]]
+== Investigate the Console Output
+
+If Arquillian tests provide meaningful output, add this section where you can decribe it. If applicable, copy and paste output from the JUnit tests to show what to expect in the console from the tests.
+
+
+[[investigate_the_server_log]]
+== Investigate the Server Log (optional)
+
+If the quickstart provides interesting information in the server log, include this section. If applicable, copy and paste log messages output by the application to show what to expect in the server log when running the tests.
+
+
+[[run_the_arquillian_functional_tests]]
+== Run the Arquillian Functional Tests (optional)
+
+Add this section if your quickstart provides Arquillian functional tests.
+
+This topic is located in the `shared-docs/run-arquillian-functional-tests.adoc` file. Include this file using the following syntax.
+
+.Example: include::../shared-doc/run-arquillian-functional-tests.adoc
+[source,options="nowrap"]
+----
+//*************************************************
+// Run the Arquillian functional tests
+//*************************************************
+// == Run the Arquillian Functional Tests
+ include::../shared-doc/run-arquillian-functional-tests.adoc[leveloffset=+1]
+----
+
+[[restore_the_standalone_server_configuration]]
+== Restore the {productName} Standalone Server Configuration (optional)
+
+Add this section if your quickstart uses a standalone server and modifies the standalone server configuration files. Make sure you define the `restoreScriptName` attribute.
+
+This topic is located in the `shared-docs/restore-standalone-server-configuration.adoc` file. Include this file using the following syntax.
+
+.Example: include::../shared-doc/restore-standalone-server-configuration.adoc
+[source,options="nowrap"]
+----
+//************************************************************
+// Restore the {productName} Standalone Server Configuration
+//************************************************************
+// == Restore the {productName} Standalone Server Configuration
+:restoreScriptName: __RESTORE_CONFIGURATION_SCRIPT__.cli
+ include::../shared-doc/restore-standalone-server-configuration.adoc[leveloffset=+1]
+----
+
+You can add additional content about the results after the include.
+
+[[restore_standalone_server_configuration_manually]]
+== Restore the {productName} Standalone Server Configuration Manually (optional)
+
+Add this section if your quickstart uses a standalone server and modifies the standalone server configuration files.
+
+.Example: include::../shared-doc/restore-standalone-server-configuration-manual.adoc
+[source,options="nowrap"]
+----
+//******************************************************
+// Restore the standalone server configuration manually
+//******************************************************
+// == Restore the {productName} Standalone Server Configuration Manually
+ include::../shared-doc/restore-standalone-server-configuration-manual.adoc[leveloffset=+2]
+----
+
+[[restore_managed_domain_configuration_manually]]
+== Restore the {productName} Managed Domain Configuration Manually (optional)
+
+Add this section if your quickstart uses a managed domain and modifies the managed domain configuration files.
+
+This topic is located in the `shared-docs/restore_managed_domain_configuration_manually.adoc` file. Include this file using the following syntax.
+
+.Example: include::../shared-doc/restore_managed_domain_configuration_manually.adoc
+[source,options="nowrap"]
+----
+//******************************************************
+// Restore the domain configuration manually
+//******************************************************
+// == Restore the {productName} Managed Domain Configuration Manually
+ include::../shared-doc/restore-managed-domain-configuration-manual.adoc[leveloffset=+1]
+----
+
+
+== Run the Quickstart in {JBDSProductName} or Eclipse
+
+Add this section to add instructions for running the quickstart or the Arquillian tests from {JBDSProductName} or from Eclipse using JBoss tools.
+
+This topic is located in the `shared-docs/run-the-quickstart-in-jboss-developer-studio.adoc` file. Include this file using the following syntax.
+
+.Example: include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc
+[source,options="nowrap"]
+----
+//*************************************************
+// Add {JBDSProductName} instructions
+//*************************************************
+// == Run the Quickstart in {JBDSProductName} or Eclipse
+ include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
+----
+
+Add additional instructions specific to running this quickstart in an IDE here.
+
+[[debug_the_application]]
+== Debug the Application
+
+Add this section about how to debug the application source.
+
+This topic is located in the `shared-docs/debug-the-application.adoc` file. Include this file using the following syntax.
+
+.Example: include::../shared-doc/debug-the-application.adoc
+[source,options="nowrap"]
+----
+//*************************************************
+// Add info to debug the application
+//*************************************************
+// == Debug the Application
+ include::../shared-doc/debug-the-application.adoc[leveloffset=+1]
+----

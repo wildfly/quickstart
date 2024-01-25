@@ -1,0 +1,98 @@
+include::../shared-doc/attributes.adoc[]
+
+= servlet-filterlistener: How to Write Servlet Filters and Listeners
+:author: Jonathan Fuerth
+:level: Intermediate
+:technologies: Servlet Filter, Servlet Listener
+:openshift: true
+
+[abstract]
+The `servlet-filterlistener` quickstart demonstrates how to use Servlet filters and listeners in an application.
+
+:standalone-server-type: default
+:archiveType: war
+
+== What is it?
+
+The `servlet-filterlistener` quickstart demonstrates how to use Servlet filters and listeners in {productNameFull}.
+
+This example contains the following classes:
+
+* `FilterExampleServlet`: A simple servlet that prints a form that contains an input field and a _Send_ button.
+* `VowelRemoverFilter`: A servlet filter that removes the vowels from the text entered in the form.
+* `ParameterDumpingRequestListener`: A simple servlet request listener that creates a map of the original HTTP request parameter values before the filter is applied.
+
+// Link to the quickstart source
+include::../shared-doc/view-the-source.adoc[leveloffset=+1]
+// System Requirements
+include::../shared-doc/system-requirements.adoc[leveloffset=+1]
+// Use of {jbossHomeName}
+include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
+
+// build and run with standard server distribution
+[[build_and_run_the_quickstart_with_server_dist]]
+== Building and running the quickstart application with a {productName} server distribution
+// Start the {productName} Standalone Server
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+2]
+// Build and Deploy the Quickstart
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+2]
+
+=== Access the Application
+
+The application will be running at the following URL http://localhost:8080/{artifactId}/.
+
+You are presented with a form containing an input field and a _Send_ button. To test the quickstart:
+
+. Enter some text in the field, for example:
++
+[source,options="nowrap"]
+----
+This is only a test!
+----
+
+. Click _Send_.
+. The servlet filter intercepts and removes the vowels from the text entered in the form and displays:
++
+[source,options="nowrap"]
+----
+You Typed: Ths s nly tst!
+----
+
+. The server console displays the following log messages.
++
+The following messages appear in the log when you access the application URL. This is because the ParameterDumpingRequestListener, which is a ServletRequestListener, and the VowelRemoverFilter both map to the application context and print logs for every request. Note that the VowelRemoveFilter contains logic to handle empty input field arguments.
++
+[source,options="nowrap"]
+----
+INFO  [io.undertow.servlet] (default task-46) ParameterDumpingRequestListener: request has been initialized. It has 0 parameters:
+INFO  [io.undertow.servlet] (default task-46) VowelRemoverFilter initialized
+INFO  [io.undertow.servlet] (default task-46) VowelRemoverFilter invoking filter chain...
+INFO  [io.undertow.servlet] (default task-46) VowelRemoverFilter done filtering request
+INFO  [io.undertow.servlet] (default task-46) ParameterDumpingRequestListener: request has been destroyed
+INFO  [io.undertow.servlet] (default task-48) ParameterDumpingRequestListener: request has been initialized. It has 0 parameters:
+INFO  [io.undertow.servlet] (default task-48) VowelRemoverFilter invoking filter chain...
+INFO  [io.undertow.servlet] (default task-48) VowelRemoverFilter done filtering request
+INFO  [io.undertow.servlet] (default task-48) ParameterDumpingRequestListener: request has been destroyed
+----
++
+The following messages appear in the log when you type "This is only a test!" in the input field and click `Send`.
++
+[source,options="nowrap"]
+----
+INFO  [io.undertow.servlet] (default task-50) ParameterDumpingRequestListener: request has been initialized. It has 1 parameters:
+INFO  [io.undertow.servlet] (default task-50)   userInput=This is only a test!
+INFO  [io.undertow.servlet] (default task-50) VowelRemoverFilter invoking filter chain...
+INFO  [io.undertow.servlet] (default task-50) VowelRemoverFilter done filtering request
+INFO  [io.undertow.servlet] (default task-50) ParameterDumpingRequestListener: request has been destroyed
+----
+
+// Server Distribution Testing
+include::../shared-doc/run-integration-tests-with-server-distribution.adoc[leveloffset=+2]
+// Undeploy the Quickstart
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+2]
+
+// Build and run sections for other environments/builds
+ifndef::ProductRelease,EAPXPRelease[]
+include::../shared-doc/build-and-run-the-quickstart-with-provisioned-server.adoc[leveloffset=+1]
+endif::[]
+include::../shared-doc/build-and-run-the-quickstart-with-openshift.adoc[leveloffset=+1]

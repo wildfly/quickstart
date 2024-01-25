@@ -1,0 +1,59 @@
+include::../shared-doc/attributes.adoc[]
+
+= websocket-endpoint: Web application using WebSockets and JSON-P
+:author: Rafael Benevides
+:level: Beginner
+:technologies: CDI, WebSocket, JSON-P
+:openshift: true
+
+[abstract]
+Shows how to use WebSockets with JSON to broadcast information to all open WebSocket sessions in {productName}.
+
+:standalone-server-type: default
+:archiveType: war
+
+== What is it?
+
+The `websocket-endpoint` quickstart demonstrates how to use Java API for WebSockets to create server endpoints in {productNameFull}.
+
+The `BidWebSocketEndpoint` provides the WebSocket endpoint that receives `Message` instances from clients/browsers and replies with the current `Bidding` instance. The conversion from JSON content to the specific instances are made by `MessageDecoder` and `BiddingEncode` classes.
+
+Every update made on the `Bidding` are immediately propagated to all opened WebSocket sessions without any browser submission or AJAX polling mechanism.
+
+// Link to the quickstart source
+include::../shared-doc/view-the-source.adoc[leveloffset=+1]
+// System Requirements
+include::../shared-doc/system-requirements.adoc[leveloffset=+1]
+// Use of {jbossHomeName}
+include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
+
+// build and run with standard server distribution
+[[build_and_run_the_quickstart_with_server_dist]]
+== Building and running the quickstart application with a {productName} server distribution
+// Start the {productName} Standalone Server
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+2]
+// Build and Deploy the Quickstart
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+2]
+
+=== Access the Application
+
+Access the running application in a browser at the following URL: http://localhost:8080/{artifactId}/.
+
+You are presented with a simple form that shows a bidding with the status `NOT_STARTED`.
+
+Click on `Do a bid!` button. That will start the bidding and trigger the 1 minute countdown timer. You can also notice that every Bid will be listed under the `List of bids` section.
+
+You should open the application URL in other browsers or tabs. You will notice that every change on the bidding is automatically update in all opened browser or tabs. The item will be SOLD once that it reaches the `Buy now price`. At the countdown timeout, the bidding will be EXPIRED. You can click on `Buy it now` button to immediately buy the item.
+
+You can restart the bidding if you click on `Reset bidding` button.
+
+// Server Distribution Testing
+include::../shared-doc/run-integration-tests-with-server-distribution.adoc[leveloffset=+2]
+// Undeploy the Quickstart
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+2]
+
+// Build and run sections for other environments/builds
+ifndef::ProductRelease,EAPXPRelease[]
+include::../shared-doc/build-and-run-the-quickstart-with-provisioned-server.adoc[leveloffset=+1]
+endif::[]
+include::../shared-doc/build-and-run-the-quickstart-with-openshift.adoc[leveloffset=+1]
