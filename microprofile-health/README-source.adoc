@@ -1,0 +1,468 @@
+include::../shared-doc/attributes.adoc[]
+
+= microprofile-health: MicroProfile Health QuickStart
+:author: Martin Stefanko
+:level: Beginner
+:technologies: MicroProfile Health
+:management-port-openshift:
+:post-helm-install-actions: ../microprofile-health/expose-management-port.adoc
+:extra-openshift-testing-actions: ../microprofile-health/expose-management-port.adoc
+:extra-openshift-test-arguments: -Dserver.management.host=https://$(oc get route {artifactId}-management --template='{{ .spec.host }}')
+
+[abstract]
+The `microprofile-health` quickstart demonstrates the use of the MicroProfile Health specification in {productName}.
+
+:standalone-server-type: microprofile
+:archiveType: war
+:archiveName: {artifactId}
+:include-management-port: http://localhost:9990/health/live
+
+== What is it?
+
+MicroProfile Health allows applications to provide information about their state
+to external viewers which is typically useful in cloud environments where automated
+processes must be able to determine whether the application should be discarded
+or restarted.
+
+== Architecture
+
+In this quickstart, we have a simple REST application that exposes MicroProfile Health
+functionalities at the `/health/live`, `/health/ready`, and `/health/started` endpoints according to the specification.
+
+// Link to the quickstart source
+include::../shared-doc/view-the-source.adoc[leveloffset=+1]
+// System Requirements
+include::../shared-doc/system-requirements.adoc[leveloffset=+1]
+
+// Use of {jbossHomeName}
+include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
+
+// Start the {productName} Standalone Server
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
+
+== Solution
+
+We recommend that you follow the instructions that
+<<creating-new-project, create the application step by step>>. However, you can
+also go right to the completed example which is available in this directory.
+
+// Build and Deploy the Quickstart
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
+
+=== Running the health check
+
+The {productName} server directly exposes three REST endpoints:
+
+- `/health/live` - The application is up and running.
+- `/health/ready` - The application is ready to serve requests.
+- `/health/started` - The application is started allowing switch to liveness check.
+- `/health` - Accumulating all health check procedures in the application.
+
+To check that the {productName} is working as expected:
+
+* access the `http://localhost:9990/health/live` endpoint using your browser or
+`curl http://localhost:9990/health/live`
+
+All of the health REST endpoints return a simple JSON object with two fields:
+
+* `status` -- the overall result of all the health check procedures
+* `checks` -- an array of individual checks
+
+The general `status` of the health check is computed as a logical AND of all the
+declared health check procedures.
+
+NOTE: Similarly, you can access `http://localhost:9990/health/ready`,
+`http://localhost:9990/health/started`, and `http://localhost:9990/health`
+
+Congratulations! You successfully deployed and run this quickstart. If you wish to
+create the application step by step you can follow the subsequent sections.
+
+// Undeploy the Quickstart
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
+
+// Server Distribution Testing
+include::../shared-doc/run-integration-tests-with-server-distribution.adoc[leveloffset=+2]
+
+// Run the Quickstart in Red Hat CodeReady Studio or Eclipse
+include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
+
+[[creating-new-project]]
+== Creating the Maven Project
+
+[source,options="nowrap"]
+----
+mvn archetype:generate \
+    -DgroupId=org.wildfly.quickstarts \
+    -DartifactId=microprofile-health \
+    -DinteractiveMode=false \
+    -DarchetypeGroupId=org.apache.maven.archetypes \
+    -DarchetypeArtifactId=maven-archetype-quickstart
+cd microprofile-health
+----
+
+Open the project in your favourite IDE.
+
+Open the generated `pom.xml`.
+
+The first thing to do is to change the packaging to `war` as this is required by
+the IDEs to recognize the application as a deployment:
+
+[source,xml]
+----
+<packaging>war</packaging>
+----
+
+NOTE: For non-IDE deployments, the plain `jar` packaging is sufficient for
+the MicroProfile Health applications.
+
+Next we need to setup our dependencies. Add the following section to your
+`pom.xml`:
+
+[source,xml,subs="attributes+"]
+----
+<dependencyManagement>
+  <dependencies>
+    <!-- importing the microprofile BOM adds MicroProfile specs -->
+    <dependency>
+      <groupId>org.wildfly.bom</groupId>
+      <artifactId>wildfly-microprofile</artifactId>
+      <version>{versionMicroprofileBom}</version>
+      <type>pom</type>
+      <scope>import</scope>
+    </dependency>
+  </dependencies>
+</dependencyManagement>
+----
+
+Now we need to add the following two dependencies:
+
+[source,xml]
+----
+<!-- Import the MicroProfile Health API, we use provided scope as the API is included in the server -->
+<dependency>
+  <groupId>org.eclipse.microprofile.health</groupId>
+  <artifactId>microprofile-health-api</artifactId>
+  <scope>provided</scope>
+</dependency>
+<!-- Import the CDI API, we use provided scope as the API is included in the server -->
+<dependency>
+  <groupId>jakarta.enterprise</groupId>
+  <artifactId>jakarta.enterprise.cdi-api</artifactId>
+  <scope>provided</scope>
+</dependency>
+----
+
+NOTE: Because MicroProfile Health requires that all health checks are defined as
+CDI beans we need to also include the CDI API dependency.
+
+Both dependencies can have provided scope. The versions are taken from the above
+defined BOM.
+
+As we are going to be deploying this application to the {productName} server, let's
+also add a maven plugin that will simplify the deployment operations (you can replace
+the generated build section):
+
+[source,xml]
+----
+<build>
+  <!-- Set the name of the archive -->
+  <finalName>${project.artifactId}</finalName>
+  <plugins>
+    <!-- Allows to use mvn wildfly:deploy -->
+    <plugin>
+      <groupId>org.wildfly.plugins</groupId>
+      <artifactId>wildfly-maven-plugin</artifactId>
+    </plugin>
+  </plugins>
+</build>
+----
+
+// Setup required repositories
+include::../shared-doc/setup-repositories.adoc[leveloffset=+1]
+
+Now we are ready to start working with MicroProfile Health.
+
+== Creating your first health check
+
+In this section, we create our first simple health check procedure.
+
+Create the `org.wildfly.quickstarts.microprofile.health.SimpleHealthCheck` class:
+
+[source,java]
+----
+package org.wildfly.quickstarts.microprofile.health;
+
+import org.eclipse.microprofile.health.HealthCheck;
+import org.eclipse.microprofile.health.HealthCheckResponse;
+import org.eclipse.microprofile.health.Liveness;
+
+import jakarta.enterprise.context.ApplicationScoped;
+
+@Liveness
+@ApplicationScoped
+public class SimpleHealthCheck implements HealthCheck {
+
+    @Override
+    public HealthCheckResponse call() {
+        return HealthCheckResponse.up("Simple health check");
+    }
+}
+----
+
+As you can see health check procedures are defined as implementations of the
+`HealthCheck` interface which are defined as CDI beans with the one of the
+following CDI qualifiers:
+
+- `@Liveness` - the liveness check accessible at `/health/live`
+- `@Readiness` - the readiness check accessible at `/health/ready`
+- `@Startup` - the readiness check accessible at `/health/started`
+
+`HealthCheck` is a functional interface whose single method `call` returns a
+`HealthCheckResponse` object which can be easily constructed by the fluent builder
+API shown in the example.
+
+Now it's time to build and deploy our application that contains this health check
+to the {productName} server.
+
+WARN: Make sure your {productName} server is started.
+
+[source,options="nowrap"]
+----
+$ mvn clean package wildfly:deploy
+----
+
+Now we can simply repeat the request
+to `http://localhost:9990/health/live` by refreshing your browser window or by
+using `curl http://localhost:9990/health/live`. Because we defined our health check
+to be a liveness procedure (with `@Liveness` qualifier) the new health check procedure
+is now present in the `checks` array.
+
+Congratulations! You've created your first health check procedure. Let's
+continue by exploring what else can be done with the MicroProfile Health specification.
+
+== Adding a readiness health check procedure
+
+In the previous section, we created a simple liveness health check procedure which
+states whether our application is running or not. In this section, we will create a
+readiness health check which will be able to state whether our application is able to
+process requests.
+
+We will create another health check procedure that simulates a connection to
+an external service provider such as a database. For starters, we will always return
+the response indicating the application is ready.
+
+Create `org.wildfly.quickstarts.microprofile.health.DatabaseConnectionHealthCheck` class:
+
+[source,java]
+----
+package org.wildfly.quickstarts.microprofile.health;
+
+import org.eclipse.microprofile.health.HealthCheck;
+import org.eclipse.microprofile.health.HealthCheckResponse;
+import org.eclipse.microprofile.health.Readiness;
+
+import jakarta.enterprise.context.ApplicationScoped;
+
+@Readiness
+@ApplicationScoped
+public class DatabaseConnectionHealthCheck implements HealthCheck {
+
+    @Override
+    public HealthCheckResponse call() {
+        return HealthCheckResponse.up("Database connection health check");
+    }
+}
+----
+
+Now you can redeploy your application:
+
+[source,options="nowrap"]
+----
+$ mvn clean package wildfly:deploy
+----
+
+If you now rerun the health check at `http://localhost:9990/health/live` the `checks`
+array will contain only the previously defined `SimpleHealthCheck` as it is the only
+check defined with the `@Liveness` qualifier. However, if you access
+`http://localhost:9990/health/ready` (in the browser or with
+`curl http://localhost:9990/health/ready`) you will see only the
+`Database connection health check` as it is the only health check defined with the
+`@Readiness` qualifier as the readiness health check procedure.
+
+NOTE: If you access `http://localhost:9990/health` you will get back both checks.
+
+More information about which health check procedures should be used in which situation
+is detailed in the MicroProfile Health specification. Generally, the liveness
+procedures determine whether the application should be restarted while readiness
+procedures determine whether it makes sense to contact the application with requests.
+
+== Startup health checks
+
+Startup health checks are used in cloud environments to define checks that should respond
+UP before the liveness checks start to be called. This is useful in cases of slow container
+startups so the container won't get prematurely restarted if liveness is called before the
+container is fully initialized. These checks are defined in the same way as liveness or
+readiness checks but with the `@Startup` CDI qualifier. The HTTP endpoint exposed for the
+startup checks is available at `/health/started`. For simplicity, we will not include code
+example in this quickstart.
+
+== Negative health check procedures
+
+In this section, we extend our `Database connection health check` with the option of
+stating that our application is not ready to process requests as the underlying
+database connection cannot be established. For simplicity reasons, we only determine
+whether the database is accessible or not by a configuration property.
+
+To use MicroProfile Config configuration values we first need to add the Config API
+dependency to our application:
+
+[source,xml]
+----
+<!-- Import the MicroProfile Config API, we use provided scope as the API is included in the server -->
+<dependency>
+  <groupId>org.eclipse.microprofile.config</groupId>
+  <artifactId>microprofile-config-api</artifactId>
+  <scope>provided</scope>
+</dependency>
+----
+
+Update the `org.wildfly.quickstarts.microprofile.health.DatabaseConnectionHealthCheck` class:
+
+[source,java]
+----
+package org.wildfly.quickstarts.microprofile.health;
+
+import org.eclipse.microprofile.config.inject.ConfigProperty;
+import org.eclipse.microprofile.health.HealthCheck;
+import org.eclipse.microprofile.health.HealthCheckResponse;
+import org.eclipse.microprofile.health.HealthCheckResponseBuilder;
+import org.eclipse.microprofile.health.Readiness;
+
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+
+@Readiness
+@ApplicationScoped
+public class DatabaseConnectionHealthCheck implements HealthCheck {
+
+    @Inject
+    @ConfigProperty(name = "database.up", defaultValue = "false")
+    private boolean databaseUp;
+
+    @Override
+    public HealthCheckResponse call() {
+
+        HealthCheckResponseBuilder responseBuilder = HealthCheckResponse.named("Database connection health check");
+
+        try {
+            simulateDatabaseConnectionVerification();
+            responseBuilder.up();
+        } catch (IllegalStateException e) {
+            // cannot access the database
+            responseBuilder.down();
+        }
+
+        return responseBuilder.build();
+    }
+
+    private void simulateDatabaseConnectionVerification() {
+        if (!databaseUp) {
+            throw new IllegalStateException("Cannot contact database");
+        }
+    }
+}
+----
+
+Redeploy your application:
+
+[source,options="nowrap"]
+----
+$ mvn clean package wildfly:deploy
+----
+
+If you now rerun the readiness health check (at `http://localhost:9990/health/ready`)
+the overall `status` should be DOWN. You can also check the liveness check at
+`http://localhost:9990/health/live` which will return the overall `status` UP because
+it isn't influenced by the readiness checks.
+
+As we shouldn't leave this application with a readiness check in a DOWN state you can
+add `database.up=true` in `src/main/resources/META-INF/microprofile-config.properties`
+and redeploy the application. The readiness health check should be up again.
+
+
+== Adding user-specific data to the health check response
+
+In previous sections, we saw how to create simple health checks with only the minimal
+attributes, namely, the health check name and its status (UP or DOWN). However, the
+MicroProfile specification also provides a way for the applications to supply
+arbitrary data in the form of key-value pairs sent to the consuming end. This can be
+done by using the `withData(key, value)` method of the health check response
+builder API.
+
+Let's create a new health check procedure
+`org.wildfly.quickstarts.microprofile.health.DataHealthCheck`:
+
+[source,java]
+----
+package org.wildfly.quickstarts.microprofile.health;
+
+import org.eclipse.microprofile.health.Liveness;
+import org.eclipse.microprofile.health.HealthCheck;
+import org.eclipse.microprofile.health.HealthCheckResponse;
+
+import jakarta.enterprise.context.ApplicationScoped;
+
+@Liveness
+@ApplicationScoped
+public class DataHealthCheck implements HealthCheck {
+
+    @Override
+    public HealthCheckResponse call() {
+        return HealthCheckResponse.named("Health check with data")
+                .up()
+                .withData("foo", "fooValue")
+                .withData("bar", "barValue")
+                .build();
+    }
+}
+----
+
+If you redeploy and rerun the liveness health check procedure by accessing the
+`/health/live` endpoint you can see that the new health check `Health check with data`
+is present in the `checks` array. This check contains a new attribute called `data`
+which is a JSON object consisting of the properties we have defined in our health
+check procedure.
+
+This functionality is specifically useful in failure scenarios where you can pass the
+error along with the health check response.
+
+
+[source,java]
+----
+        try {
+            simulateDatabaseConnectionVerification();
+            responseBuilder.up();
+        } catch (IllegalStateException e) {
+            // cannot access the database
+            responseBuilder.down()
+                    .withData("error", e.getMessage()); // pass the exception message
+        }
+----
+
+//Bootable JAR
+include::../shared-doc/build-and-run-the-quickstart-with-bootable-jar.adoc[leveloffset=+1]
+
+// OpenShift
+include::../shared-doc/build-and-run-the-quickstart-with-openshift.adoc[leveloffset=+1]
+
+== Conclusion
+
+MicroProfile Health provides a way for your application to distribute information
+about its healthiness state to state whether or not it is able to function properly.
+Liveness checks are utilized to tell whether the application should be restarted.
+Readiness checks are used to tell whether the application is able to process requests.
+And last but not least, startup checks are useful if your container has a slow startup to
+prevent premature restarts if the liveness probes are called too soon.
+
+Congratulations! You have reached the end of this tutorial. You can find more information
+about the MicroProfile Health in the specification https://github.com/eclipse/microprofile-health[github repository].

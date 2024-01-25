@@ -1,0 +1,99 @@
+include::../shared-doc/attributes.adoc[]
+
+= tasks-jsf: JSF, JPA quickstart
+:author: Lukas Fryc
+:level: Intermediate
+:technologies: JSF, JPA
+:openshift: true
+
+[abstract]
+The `tasks-jsf` quickstart demonstrates how to use JPA persistence with JSF as the view layer.
+
+:standalone-server-type: default
+:archiveType: war
+:uses-h2:
+:uses-ds-xml:
+:performance-scalability:
+
+== What is it?
+
+The `tasks-jsf` quickstart demonstrates how to use JPA persistence with JSF as view layer in an application deployed to {productNameFull}. It provides a JSF front end for the link:../tasks/README.adoc[tasks] quickstart.
+
+The theme of this application is simple Task management with simple login. The project contains two entities - a `user` and a `task`.
+
+This sample includes a persistence unit and some sample persistence code to introduce you to database access in enterprise Java. Persistence code is covered by tests to help you write business logic without the need to use any view layer.
+
+JSF is used to present the user two views.
+
+* authentication form: This provides the simple login
+* task view: This view contains the task list, a task detail, and a task addition form. The task view uses AJAX.
+
+//*************************************************
+// Product Release content only
+//*************************************************
+
+ifndef::EAPCDRelease[]
+
+// Link to the quickstart source
+include::../shared-doc/view-the-source.adoc[leveloffset=+1]
+// Considerations for Use in a Production Environment
+include::../shared-doc/development-shortcuts.adoc[leveloffset=+1]
+// System Requirements
+include::../shared-doc/system-requirements.adoc[leveloffset=+1]
+// Use of {jbossHomeName}
+include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
+// Start the {productName} Standalone Server
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
+// Build and Deploy the Quickstart
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
+
+== Access the Application
+
+The application will be running at the following URL http://localhost:8080/{artifactId}/.
+
+== Server Log: Expected Warnings and Errors
+
+You will see the following warnings in the server log. You can ignore these warnings.
+
+[source,options="nowrap"]
+----
+WFLYJCA0091: -ds.xml file deployments are deprecated. Support may be removed in a future version.
+
+HHH000431: Unable to determine H2 database version, certain features may not work
+----
+
+// Undeploy the Quickstart
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
+// Run the Arquillian Tests
+include::../shared-doc/run-arquillian-tests.adoc[leveloffset=+1]
+// Run the Quickstart in Red Hat CodeReady Studio or Eclipse
+include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
+
+== Debug the Application
+
+If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
+
+[source,options="nowrap"]
+----
+$ mvn dependency:sources
+----
+endif::[]
+
+//*************************************************
+// Product Release content only
+//*************************************************
+ifdef::ProductRelease[]
+
+// Getting Started with OpenShift
+include::../shared-doc/openshift-getting-started.adoc[leveloffset=+1]
+//Prepare OpenShift for Quickstart Deployment
+include::../shared-doc/openshift-create-project.adoc[leveloffset=+1]
+// Import the Latest {xpaasproduct-shortname} Image Streams and Templates
+include::../shared-doc/openshift-import-imagestreams-templates.adoc[leveloffset=+1]
+// Deploy the {ProductShortName} Source-to-Image (S2I) Quickstart to OpenShift
+include::../shared-doc/openshift-deploy-project.adoc[leveloffset=+1]
+// Openshift post deployment tasks
+include::../shared-doc/openshift-post-deployment-tasks.adoc[leveloffset=+1]
+
+
+endif::[]

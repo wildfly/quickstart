@@ -1,0 +1,59 @@
+include::../shared-doc/attributes.adoc[]
+
+= helloworld-ws: Hello World JAX-WS Web Service
+:author: Lee Newson
+:level: Beginner
+:technologies: JAX-WS
+:openshift: true
+
+[abstract]
+The `helloworld-ws` quickstart demonstrates a simple Hello World application, bundled and deployed as a WAR, that uses JAX-WS to say Hello.
+
+:standalone-server-type: default
+:archiveType: war
+
+== What is it?
+
+The `helloworld-ws` quickstart demonstrates the use of JAX-WS in {productNameFull} as a simple Hello World application.
+
+// Link to the quickstart source
+include::../shared-doc/view-the-source.adoc[leveloffset=+1]
+// System Requirements
+include::../shared-doc/system-requirements.adoc[leveloffset=+1]
+// Use of {jbossHomeName}
+include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
+
+// build and run with standard server distribution
+[[build_and_run_the_quickstart_with_server_dist]]
+== Building and running the quickstart application with a {productName} server distribution
+// Start the {productName} Standalone Server
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+2]
+// Build and Deploy the Quickstart
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+2]
+
+Review the server log to see useful information about the deployed web service endpoint.
+
+[source,options="nowrap"]
+----
+JBWS024061: Adding service endpoint metadata: id=org.jboss.as.quickstarts.wshelloworld.HelloWorldServiceImpl
+ address=http://localhost:8080/HelloWorldService
+ implementor=org.jboss.as.quickstarts.wshelloworld.HelloWorldServiceImpl
+ serviceName={http://www.jboss.org/eap/quickstarts/wshelloworld/HelloWorld}HelloWorldService
+ portName={http://www.jboss.org/eap/quickstarts/wshelloworld/HelloWorld}HelloWorld
+ annotationWsdlLocation=null
+ wsdlLocationOverride=null
+ mtomEnabled=false
+----
+
+=== Access the Application
+
+You can verify that the Web Service is running and deployed correctly by accessing the following URL: http://localhost:8080/HelloWorldService?wsdl. This URL will display the deployed WSDL endpoint for the Web Service.
+
+// Undeploy the Quickstart
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+2]
+
+// Build and run sections for other environments/builds
+ifndef::ProductRelease,EAPXPRelease[]
+include::../shared-doc/build-and-run-the-quickstart-with-provisioned-server.adoc[leveloffset=+1]
+endif::[]
+include::../shared-doc/build-and-run-the-quickstart-with-openshift.adoc[leveloffset=+1]

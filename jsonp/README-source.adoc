@@ -1,0 +1,53 @@
+include::../shared-doc/attributes.adoc[]
+
+= jsonp: JSON-P Object-based JSON generation and Stream-based JSON consuming
+:author: Rafael Benevides
+:level: Beginner
+:technologies: CDI, JSF, JSON-P
+:openshift: true
+
+[abstract]
+The `jsonp` quickstart demonstrates how to use the JSON-P API to produce object-based structures and then parse and consume them as stream-based JSON strings.
+
+:standalone-server-type: default
+:archiveType: war
+
+== What is it?
+
+The `jsonp` quickstart creates a JSON string through object-based JSON generation and then parses and consumes it using stream-based JSON.
+
+It shows how to use the JSON-P API to generate, parse, and consume JSON files.
+
+// Link to the quickstart source
+include::../shared-doc/view-the-source.adoc[leveloffset=+1]
+
+// build and run with standard server distribution
+[[build_and_run_the_quickstart_with_server_dist]]
+== Building and running the quickstart application with a {productName} server distribution
+// Start the {productName} Standalone Server
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+2]
+// Build and Deploy the Quickstart
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+2]
+
+== Access the Application
+
+Access the running application in a browser at the following URL: http://localhost:8080/{artifactId}/
+
+. You are presented with a simple form that is pre-filled with personal data. You can change those values if you prefer.
+
+. Click on the *Generate JSON String from Personal Data* button. The text area below the button presents a JSON string representing the data and values from the completed form.
++
+Note that the JSON string contains String, number, boolean and array values.
+
+. Now, click on the *Parse JSON String using Stream* button. The text area below the button shows the events generated from the parsed JSON string.
+
+// Server Distribution Testing
+include::../shared-doc/run-integration-tests-with-server-distribution.adoc[leveloffset=+2]
+// Undeploy the Quickstart
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+2]
+
+// Build and run sections for other environments/builds
+ifndef::ProductRelease,EAPXPRelease[]
+include::../shared-doc/build-and-run-the-quickstart-with-provisioned-server.adoc[leveloffset=+1]
+endif::[]
+include::../shared-doc/build-and-run-the-quickstart-with-openshift.adoc[leveloffset=+1]

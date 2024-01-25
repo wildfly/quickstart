@@ -1,0 +1,170 @@
+include::../shared-doc/attributes.adoc[]
+
+= ejb-timer: Example of Jakarta Enterprise Bean Timer Service - @Schedule and @Timeout
+:author: Ondrej Zizka <ozizka@redhat.com>
+:level: Beginner
+:technologies: EJB Timer
+:openshift: true
+
+[abstract]
+The `ejb-timer` quickstart demonstrates how to use the Jakarta Enterprise Bean timer service `@Schedule` and `@Timeout` annotations with {productName}.
+
+:standalone-server-type: default
+:archiveType: war
+
+== What is it?
+
+The `ejb-timer` quickstart demonstrates how to use the Jakarta Enterprise Bean timer service in {productNameFull}. This example creates a timer service that uses the `@Schedule` and `@Timeout` annotations.
+
+The following Jakarta Enterprise Bean Timer services are demonstrated:
+
+* `@Schedule`: Uses this annotation to mark a method to be executed according to the calendar schedule specified in the attributes of the annotation. This example schedules a message to be printed to the server console every 6 seconds.
+* `@Timeout`: Uses this annotation to mark a method to execute when a programmatic timer goes off. This example sets the timer to go off every 3 seconds, at which point the method prints a message to the server console.
+
+// Link to the quickstart source
+include::../shared-doc/view-the-source.adoc[leveloffset=+1]
+// System Requirements
+include::../shared-doc/system-requirements.adoc[leveloffset=+1]
+// Use of {jbossHomeName}
+include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
+// Start the {productName} Standalone Server
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
+// Build and Deploy the Quickstart
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
+
+== Access the Application
+
+This application only prints messages to stdout.
+Each timeout callback logs the class name of the @Singleton bean that created the timer, an identifier of the timer, and the timestamp of the callback.
+In our example application, the ScheduleExample bean creates a persistent timer, while the TimeoutExample creates a non-persistent (i.e. transient) timer.
+To see it working, check the server log. You should see similar output:
+
+[source,options="nowrap"]
+----
+INFO  [stdout] (EJB default - 1) Timeout received for ScheduleExample[-2138907176] at 2022-05-04T21:04:24.896811Z
+INFO  [stdout] (EJB default - 1) Timeout received for TimeoutExample[-331711014] at 2022-05-04T21:04:27.002334Z
+INFO  [stdout] (EJB default - 2) Timeout received for TimeoutExample[-331711014] at 2022-05-04T21:04:30.004340Z
+INFO  [stdout] (EJB default - 1) Timeout received for ScheduleExample[-2138907176] at 2022-05-04T21:04:30.014526Z
+INFO  [stdout] (EJB default - 1) Timeout received for TimeoutExample[-331711014] at 2022-05-04T21:04:33.001997Z
+INFO  [stdout] (EJB default - 2) Timeout received for TimeoutExample[-331711014] at 2022-05-04T21:04:36.001444Z
+INFO  [stdout] (EJB default - 1) Timeout received for ScheduleExample[-2138907176] at 2022-05-04T21:04:36.004266Z
+INFO  [stdout] (EJB default - 1) Timeout received for TimeoutExample[-331711014] at 2022-05-04T21:04:39.001746Z
+INFO  [stdout] (EJB default - 2) Timeout received for TimeoutExample[-331711014] at 2022-05-04T21:04:42.002048Z
+INFO  [stdout] (EJB default - 1) Timeout received for ScheduleExample[-2138907176] at 2022-05-04T21:04:42.010535Z
+INFO  [stdout] (EJB default - 1) Timeout received for TimeoutExample[-331711014] at 2022-05-04T21:04:45.000920Z
+INFO  [stdout] (EJB default - 2) Timeout received for TimeoutExample[-331711014] at 2022-05-04T21:04:48.001840Z
+INFO  [stdout] (EJB default - 1) Timeout received for ScheduleExample[-2138907176] at 2022-05-04T21:04:48.010532Z
+INFO  [stdout] (EJB default - 1) Timeout received for TimeoutExample[-331711014] at 2022-05-04T21:04:51.002591Z
+INFO  [stdout] (EJB default - 2) Timeout received for TimeoutExample[-331711014] at 2022-05-04T21:04:54.001734Z
+----
+
+Existing threads in the thread pool handle the invocations. They are rotated and the name of the thread that handles the invocation is printed within the parenthesis `(EJB Default - #)`.
+
+To demonstrate the behavioral difference between persistent and non-persistent timers, stop the server via "CRTL-C" and restart it.
+Upon restart, you will see similar periodic timeout events, but while the persistent timer identifier remains the same, since persistent timers were restore upon restart; the non-persistent timer now has a different identifier, since the transient timers are lost when the server shutdown, and was recreated on startup.
+
+[source,options="nowrap"]
+----
+INFO  [stdout] (EJB default - 1) Timeout received for ScheduleExample[-2138907176] at 2022-05-04T21:18:36.013024Z
+INFO  [stdout] (EJB default - 1) Timeout received for TimeoutExample[-1065503193] at 2022-05-04T21:18:39.001383Z
+INFO  [stdout] (EJB default - 2) Timeout received for TimeoutExample[-1065503193] at 2022-05-04T21:18:42.002232Z
+INFO  [stdout] (EJB default - 1) Timeout received for ScheduleExample[-2138907176] at 2022-05-04T21:18:42.011380Z
+INFO  [stdout] (EJB default - 1) Timeout received for TimeoutExample[-1065503193] at 2022-05-04T21:18:45.001951Z
+INFO  [stdout] (EJB default - 2) Timeout received for TimeoutExample[-1065503193] at 2022-05-04T21:18:48.002369Z
+INFO  [stdout] (EJB default - 1) Timeout received for ScheduleExample[-2138907176] at 2022-05-04T21:18:48.008104Z
+INFO  [stdout] (EJB default - 1) Timeout received for TimeoutExample[-1065503193] at 2022-05-04T21:18:51.002364Z
+INFO  [stdout] (EJB default - 2) Timeout received for TimeoutExample[-1065503193] at 2022-05-04T21:18:54.002230Z
+INFO  [stdout] (EJB default - 1) Timeout received for ScheduleExample[-2138907176] at 2022-05-04T21:18:54.009333Z
+INFO  [stdout] (EJB default - 1) Timeout received for TimeoutExample[-1065503193] at 2022-05-04T21:18:57.001874Z
+INFO  [stdout] (EJB default - 2) Timeout received for TimeoutExample[-1065503193] at 2022-05-04T21:19:00.002287Z
+INFO  [stdout] (EJB default - 1) Timeout received for ScheduleExample[-2138907176] at 2022-05-04T21:19:00.010617Z
+INFO  [stdout] (EJB default - 1) Timeout received for TimeoutExample[-1065503193] at 2022-05-04T21:19:03.002128Z
+INFO  [stdout] (EJB default - 2) Timeout received for TimeoutExample[-1065503193] at 2022-05-04T21:19:06.002358Z
+----
+
+// Server Distribution Testing
+include::../shared-doc/run-integration-tests-with-server-distribution.adoc[leveloffset=+2]
+
+// Undeploy the Quickstart
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
+
+// Build and run sections for other environments/builds
+ifndef::ProductRelease,EAPXPRelease[]
+include::../shared-doc/build-and-run-the-quickstart-with-provisioned-server.adoc[leveloffset=+1]
+endif::[]
+include::../shared-doc/build-and-run-the-quickstart-with-openshift.adoc[leveloffset=+1]
+
+=== Using Timer Service within a cluster
+
+To demonstrate distributed TimerService behavior, a cluster of at least two application server instances must be started.
+Begin by making a copy of the entire {productName} directory to be used as second cluster member.
+Note that the example can be run on a single node as well, but without observation of the singleton properties.
+
+The default configuration of the HA profiles is pre-configured for a fully distributed persistent timers, as well as passivation support for non-persistent timers.
+
+Start the two {productName} servers with the same HA profile using the following commands.
+Note that a socket binding port offset and a unique node name must be passed to the second server if the servers are binding to the same host.
+
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}_1__/bin/standalone.sh -c standalone-ha.xml -Djboss.node.name=node1
+$ __{jbossHomeName}_2__/bin/standalone.sh -c standalone-ha.xml -Djboss.node.name=node2 -Djboss.socket.binding.port-offset=100
+----
+
+NOTE: For Windows, use the `__{jbossHomeName}_1__\bin\standalone.bat` and `__{jbossHomeName}_2__\bin\standalone.bat` scripts.
+
+This example is not limited to two servers. Additional servers can be started by specifying a unique port offset for each one.
+
+Next, use the following commands to deploy the already built demo application archive to each server.
+Note that since the default socket binding port is `9990` and the second server has ports offset by `100`, the sum, `10090` must be passed as an argument to the deploy maven goal.
+
+[source,options="nowrap"]
+----
+mvn wildfly:deploy
+mvn wildfly:deploy -Dwildfly.port=10090
+----
+
+Once deployed, you should begin to see log messages for our timer events.
+However, while timeout events for the non-persistent timer created by the TimoutExample bean are triggered on both nodes, timeout events for the persistent timer created by the ScheduleExample bean are only triggered on one node.
+
+node1:
+
+[source,options="nowrap"]
+----
+INFO  [stdout] (TimerScheduler - 1) Timeout received for TimeoutExample[390846799] at 2022-05-05T20:57:36.003154Z
+INFO  [stdout] (TimerScheduler - 1) Timeout received for TimeoutExample[390846799] at 2022-05-05T20:57:39.003098Z
+INFO  [stdout] (TimerScheduler - 1) Timeout received for TimeoutExample[390846799] at 2022-05-05T20:57:42.002884Z
+INFO  [stdout] (TimerScheduler - 1) Timeout received for TimeoutExample[390846799] at 2022-05-05T20:57:45.003209Z
+INFO  [stdout] (TimerScheduler - 1) Timeout received for TimeoutExample[390846799] at 2022-05-05T20:57:48.001284Z
+INFO  [stdout] (TimerScheduler - 1) Timeout received for TimeoutExample[390846799] at 2022-05-05T20:57:51.001656Z
+INFO  [stdout] (TimerScheduler - 1) Timeout received for TimeoutExample[390846799] at 2022-05-05T20:57:54.001396Z
+INFO  [stdout] (TimerScheduler - 1) Timeout received for TimeoutExample[390846799] at 2022-05-05T20:57:57.001848Z
+INFO  [stdout] (TimerScheduler - 1) Timeout received for TimeoutExample[390846799] at 2022-05-05T20:58:00.001673Z
+INFO  [stdout] (TimerScheduler - 1) Timeout received for TimeoutExample[390846799] at 2022-05-05T20:58:03.001794Z
+----
+
+node2:
+
+[source,options="nowrap"]
+----
+INFO  [stdout] (TimerScheduler - 1) Timeout received for ScheduleExample[-392733837] at 2022-05-05T20:57:36.003800Z
+INFO  [stdout] (TimerScheduler - 1) Timeout received for TimeoutExample[1048239741] at 2022-05-05T20:57:36.003799Z
+INFO  [stdout] (TimerScheduler - 1) Timeout received for TimeoutExample[1048239741] at 2022-05-05T20:57:39.003279Z
+INFO  [stdout] (TimerScheduler - 1) Timeout received for TimeoutExample[1048239741] at 2022-05-05T20:57:42.003483Z
+INFO  [stdout] (TimerScheduler - 1) Timeout received for ScheduleExample[-392733837] at 2022-05-05T20:57:42.003699Z
+INFO  [stdout] (TimerScheduler - 1) Timeout received for TimeoutExample[1048239741] at 2022-05-05T20:57:45.003339Z
+INFO  [stdout] (TimerScheduler - 1) Timeout received for ScheduleExample[-392733837] at 2022-05-05T20:57:48.001545Z
+INFO  [stdout] (TimerScheduler - 1) Timeout received for TimeoutExample[1048239741] at 2022-05-05T20:57:48.001544Z
+INFO  [stdout] (TimerScheduler - 1) Timeout received for TimeoutExample[1048239741] at 2022-05-05T20:57:51.001657Z
+INFO  [stdout] (TimerScheduler - 1) Timeout received for TimeoutExample[1048239741] at 2022-05-05T20:57:54.001710Z
+INFO  [stdout] (TimerScheduler - 1) Timeout received for ScheduleExample[-392733837] at 2022-05-05T20:57:54.001710Z
+INFO  [stdout] (TimerScheduler - 1) Timeout received for TimeoutExample[1048239741] at 2022-05-05T20:57:57.001717Z
+INFO  [stdout] (TimerScheduler - 1) Timeout received for ScheduleExample[-392733837] at 2022-05-05T20:58:00.001091Z
+INFO  [stdout] (TimerScheduler - 1) Timeout received for TimeoutExample[1048239741] at 2022-05-05T20:58:00.001547Z
+INFO  [stdout] (TimerScheduler - 1) Timeout received for TimeoutExample[1048239741] at 2022-05-05T20:58:03.001514Z
+----
+
+If you then shutdown the node on which the ScheduleExample timeouts appear (in our case, node2), the other node (in our case, node1) will promptly begin receiving timeouts for that same persistent timer (as indicated by the same identifier).
+
+Restarting the node that we previously shutdown (in our case, node2), using the same command as listed above), you should observe that timeouts for the ScheduleExample timer will resume on the original node (in our case, node2), and now the other node (in our case, node1) no longer receives those timeout events.
+In fact, if you collate the timestamps for the ScheduleExample bean across each server log carefully, you should find that no events were skipped, and no duplicate events were received.

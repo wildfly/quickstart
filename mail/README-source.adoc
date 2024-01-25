@@ -1,0 +1,203 @@
+include::../shared-doc/attributes.adoc[]
+
+= mail: E-Mail Example using CDI and JSF
+:author: Joel Tosi
+:level: Beginner
+:technologies: JavaMail, CDI, JSF
+
+[abstract]
+The `mail` quickstart demonstrates how to send and receive emails using CDI and JSF and with custom Mail provider configured in {productName}.
+
+:standalone-server-type: default
+:archiveType: war
+:restoreScriptName: remove-mail-session.cli
+
+== What is it?
+
+The `mail` quickstart demonstrates sending and receiving emails with the use of _CDI_ (Contexts and Dependency Injection) and _JSF_ (JavaServer Faces) in {productNameFull}.
+
+The mail provider is configured in the `mail` subsystem of the `__{jbossHomeName}__/standalone/configuration/standalone.xml` configuration file if you are running a standalone server or in the `__{jbossHomeName}__/domain/configuration/domain.xml` configuration file if you are running in a managed domain.
+
+You can use the default mail provider that comes out of the box with {productName}. It uses your local mail relay and the default SMTP port of 25. However, this quickstart demonstrates how to define and use a custom mail provider.
+
+This example is a web application that takes `To`, `From`, `Subject`, and `Message Body` input and sends mail using SMTP. These emails can be later read by using IMAP or POP3. The front end is a JSF page with a simple POJO backing, leveraging CDI for resource injection.
+
+// Link to the quickstart source
+include::../shared-doc/view-the-source.adoc[leveloffset=+1]
+// System Requirements
+include::../shared-doc/system-requirements.adoc[leveloffset=+1]
+// Use of {jbossHomeName}
+include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
+
+[[configure_an_smtp_server_on_your_local_machine]]
+== Configure a Mail Server on Your Local Machine
+
+To run the Mail Quickstart, you need a Mail Server configured with the following protocols and ports:
+
+- SMTP port:1025
+- POP3 port:1110
+- IMAP port:1143
+
+In addition, the Mail Subsystem configuration and the test cases expect you have the following Mail accounts configured on your Mail Server:
+
+- user01@james.local
+- user02@james.local
+
+You can use any Mail Server you consider, although to facilitate this task, you will find under the Mail Quickstart root directory a docker compose file prepared to launch an Apache James Mail server with all the required configuration. You will need to have installed a Container Engine capable of work with Docker compose files and Linux images. The following command assumes you have https://podman.io/[Podman] and https://docs.podman.io/en/latest/markdown/podman-compose.1.html[Podman Compose] installed in your local environment.
+
+To launch the Apache James Mail server, open the terminal and navigate to the Mail Quickstart root directory and execute the following:
+
+```
+$ podman compose up --wait
+>>>> Executing external compose provider "/usr/local/bin/docker-compose". Please refer to the documentation for details. <<<<
+
+[+] Running 1/1
+ ✔ Container apache-james  Healthy
+```
+
+NOTE: The Apache James server is configured without allowing the relay of the emails to external addresses that are not configured in the server. When you are sending / receiving emails with this server, you have to use the accounts shipped with the apache James demo image. These are the accounts available out of the box: user01@james.local, user02@james.local and user03@james.local.
+All accounts use the same password: `1234`
+
+Once you have finished with the Mail Quickstart, you can shutdown and remove the Apache James Mail server with the following command:
+
+```
+$ podman compose down --volumes
+>>>> Executing external compose provider "/usr/local/bin/docker-compose". Please refer to the documentation for details. <<<<
+
+[+] Running 2/1
+ ✔ Container apache-james  Removed
+ ✔ Network mail_default    Removed
+```
+
+// Back Up the {productName} Standalone Server Configuration
+include::../shared-doc/back-up-server-standalone-configuration.adoc[leveloffset=+1]
+// Start the {productName} Standalone Server
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
+
+[[configure_the_server]]
+== Configure the Server
+
+You configure the custom mail session in {productName} by running Management CLI commands. For your convenience, this quickstart batches the commands into a `configure-mail-session.cli` script provided in the root directory of this quickstart.
+
+. Before you begin, make sure you do the following:
+
+* xref:back_up_standalone_server_configuration[Back up the {productName} standalone server configuration] as described above.
+* xref:start_the_eap_standalone_server[Start the {productName} server with the standalone default profile] as described above.
+
+. Review the `configure-mail-session.cli` file in the root of this quickstart directory. This script creates custom outbound socket binding port for SMTP, POP3, and IMAP. It then creates the custom `MyOtherMail` mail session and configures it to use the custom outbound socket binding ports and default user credentials for SMTP and IMAP.
+. Open a new terminal, navigate to the root directory of this quickstart, and run the following command, replacing `__{jbossHomeName}__` with the path to your server:
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=configure-mail-session.cli
+----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
+
++
+You should see the following result when you run the script.
++
+[source,options="nowrap"]
+----
+The batch executed successfully
+process-state: reload-required
+----
+
+. Stop the {productName} server.
+
+== Review the Modified Server Configuration
+
+After stopping the server, open the `__{jbossHomeName}__/standalone/configuration/standalone.xml` file and review the changes.
+
+The following `outbound-socket-binding` groups are added to the `standard-sockets` `<socket-binding-group>` element.
+
+[source,xml,options="nowrap"]
+----
+<socket-binding-group name="standard-sockets" default-interface="public" port-offset="${jboss.socket.binding.port-offset:0}">
+  ...
+  </outbound-socket-binding>
+  <outbound-socket-binding name="my-imap-binding">
+      <remote-destination host="localhost" port="1143"/>
+  </outbound-socket-binding>
+  <outbound-socket-binding name="my-pop3-binding">
+      <remote-destination host="localhost" port="1110"/>
+  </outbound-socket-binding>
+  <outbound-socket-binding name="my-smtp-binding">
+     <remote-destination host="localhost" port="1025"/>
+  </outbound-socket-binding>
+</socket-binding-group>
+----
+
+The `MyOtherMail` mail session is added to the `mail` subsystem and configured to use the custom outbound socket binding ports.
+
+[source,xml,subs="attributes+",options="nowrap"]
+----
+<subsystem xmlns="{MailSubsystemNamespace}">
+   <mail-session name="default" jndi-name="java:jboss/mail/Default">
+      <smtp-server outbound-socket-binding-ref="mail-smtp"/>
+   </mail-session>
+   <mail-session name="MyOtherMail" debug="true" jndi-name="java:jboss/mail/MyOtherMail">
+     <smtp-server outbound-socket-binding-ref="my-smtp-binding" username="user01@james.local" password="1234"/>
+     <pop3-server outbound-socket-binding-ref="my-pop3-binding"/>
+     <imap-server outbound-socket-binding-ref="my-imap-binding" username="user02@james.local" password="1234"/>
+   </mail-session>
+</subsystem>
+----
+
+// Build and Deploy the Quickstart
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
+
+== Access the Application
+
+The application will be running at the following URL: http://localhost:8080/{artifactId}/[http://localhost:8080/{artifactId}/^].
+
+NOTE: If you see `Error processing request` in the browser when you access the application and attempt to send email, followed by `jakarta.servlet.ServletException: MailConnectException: Couldn&#39;t connect to host, port: localhost, 1025; timeout -1; nested exception is: java.net.ConnectException: Connection refused`, make sure you followed the instructions above to xref:configure_an_smtp_server_on_your_local_machine[Configure an SMTP Server on Your Local Machine].
+
+NOTE: If you are using the Mail server shipped with this Quickstart and see `Error sending the Email. Invalid Addresses` in the browser when you attempt to send email, make sure you are sending your email to an existing account configured in the Mail Server since by default Apache James demo image is shipped with relay disabled. By default, Apache James demo image has the following accounts configured: user01@james.local, user02@james.local and user03@james.local.
+
+// Server Distribution Testing
+include::../shared-doc/run-integration-tests-with-server-distribution.adoc[leveloffset=+2]
+
+// Undeploy the Quickstart
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
+// Restore the {productName} Standalone Server Configuration
+include::../shared-doc/restore-standalone-server-configuration.adoc[leveloffset=+1]
+
+// Additional information about this script
+This script removes the custom `MyOtherMail` session from the `mail` subsystem in the server configuration. file You should see the following result when you run the script:
+
+[source,options="nowrap"]
+----
+The batch executed successfully
+process-state: reload-required
+----
+
+// Restore the {productName} Standalone Server Configuration Manually
+include::../shared-doc/restore-standalone-server-configuration-manual.adoc[leveloffset=+2]
+// Run the Quickstart in Red Hat CodeReady Studio or Eclipse
+include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
+
+// Additional Red Hat CodeReady Studio instructions
+* Make sure you xref:configure_an_smtp_server_on_your_local_machine[Configure an SMTP Server on Your Local Machine].
+* Make sure you configure the {productName} custom mail configuration as described above under xref:configure_the_server[Configure the {productName} Server]. Stop the server at the end of that step.
+* To deploy the server project, right-click on the *{artifactId}* project and choose *Run As* –&gt; *Run on Server*. A browser window appears that accesses the running application.
+* To undeploy the project, right-click on the *{artifactId}* project and choose *Run As* –&gt; *Maven build*. Enter `wildfly:undeploy` for the *Goals* and click *Run*.
+* Make sure you xref:restore_the_server_configuration[restore the {productName} server configuration] when you have completed testing this quickstart.
+
+// Debug the Application
+include::../shared-doc/debug-the-application.adoc[leveloffset=+1]
+
+// Build and run sections for other environments/builds
+ifndef::ProductRelease,EAPXPRelease[]
+include::../shared-doc/build-and-run-the-quickstart-with-provisioned-server.adoc[leveloffset=+1]
+endif::[]
+
+//*************************************************
+// Product Release content only
+//*************************************************
+ifdef::ProductRelease[]
+
+// Quickstart not compatible with OpenShift
+include::../shared-doc/openshift-incompatibility.adoc[leveloffset=+1]
+
+endif::[]

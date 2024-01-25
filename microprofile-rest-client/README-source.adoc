@@ -1,0 +1,183 @@
+include::../shared-doc/attributes.adoc[]
+
+= microprofile-rest-client: MicroProfile REST Client QuickStart
+:author: Martin Stefanko
+:level: Beginner
+:technologies: MicroProfile REST Client
+
+[abstract]
+The `microprofile-rest-client` quickstart demonstrates the use of the MicroProfile REST Client specification in {productName}.
+
+:standalone-server-type: microprofile
+:archiveType: jar
+:archiveName: {artifactId}
+:rest-client-qs:
+
+== What is it?
+
+MicroProfile REST Client provides a type-safe approach to invoke RESTful services
+over HTTP. It relies on Jakarta REST APIs for consistency and easier reuse.
+
+== Architecture
+
+In this quickstart we have a country server and a country client used in the test. The server provides a simple REST
+interface providing information about some countries. The test creates a client that consumes this API through the
+MicroProfile REST Client specification.
+
+// Link to the quickstart source
+include::../shared-doc/view-the-source.adoc[leveloffset=+1]
+// System Requirements
+include::../shared-doc/system-requirements.adoc[leveloffset=+1]
+
+// Use of {jbossHomeName}
+include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
+
+// Start the {productName} Standalone Server
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
+
+// Build and Deploy the Quickstart
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
+
+== Access the Country Server Application
+The application will be running at the following URL: http://localhost:8080/{artifactId}/.
+
+You can verify that the server is responding by accessing
+`http://localhost:8080/{artifactId}/name/France`
+endpoint using your browser or
+`curl http://localhost:8080/{artifactId}/name/France`
+to get some information about `France`.
+
+== The Country REST Client
+
+Using the MicroProfile REST Client is as simple as creating an interface which uses the
+proper Jakarta REST and MicroProfile annotations. In this case, the `org.wildfly.quickstarts.microprofile.rest.client.CountriesServiceClient`
+interface may be found in `src/test/java`:
+
+[source,java]
+----
+package org.wildfly.quickstarts.microprofile.rest.client;
+
+import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
+import org.wildfly.quickstarts.microprofile.rest.client.model.Country;
+
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
+
+@Path("/")
+public interface CountriesServiceClient {
+
+    @GET
+    @Path("/name/{name}")
+    @Produces("application/json")
+    Country getByName(@PathParam("name") String name);
+
+    @GET
+    @Path("/name/{name}")
+    @Produces("application/json")
+    CompletionStage<Country> getByNameAsync(@PathParam("name") String name);
+}
+----
+
+The `getByName` method gives our code the ability to query a country by name
+from the REST Countries API, while the `getByNameAsync` method is an asynchronous alternative. The client will handle all the networking and
+marshalling leaving our code clean of such technical details.
+
+As you can see, all that our REST client interface uses for now are standard
+Jakarta REST annotations.
+
+Regarding integrating the REST Client in your application, there are two options, the CDI lookup and the programmatic lookup, and both may be found in the `org.wildfly.quickstarts.microprofile.rest.client.CountriesResource`
+class, respectively in use by `cdiName(String)` and `programmaticName(String)` methods.
+
+[source,java]
+----
+package org.wildfly.quickstarts.microprofile.rest.client;
+
+import jakarta.ws.rs.WebApplicationException;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
+import org.eclipse.microprofile.rest.client.RestClientBuilder;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
+
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.NotFoundException;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
+import org.wildfly.quickstarts.microprofile.Country;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.concurrent.CompletionStage;
+import java.util.concurrent.TimeUnit;
+
+@Path("/country")
+@ApplicationScoped
+public class CountriesResource {
+
+    @Inject
+    @RestClient
+    private CountriesServiceClient countriesServiceClient;
+
+    @Inject
+    @ConfigProperty(name = "server.host")
+    private String serverHost;
+
+    @GET
+    @Path("/cdi/{name}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Country cdiName(@PathParam("name") String name) {
+        try {
+            return countriesServiceClient.getByName(name);
+        } catch (NotFoundException e) {
+            return null;
+        }
+    }
+
+    @GET
+    @Path("/programmatic/{name}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Country programmaticName(@PathParam("name") String name) throws MalformedURLException {
+        CountriesServiceClient client = RestClientBuilder.newBuilder()
+                .baseUrl(new URL(serverHost))
+                .build(CountriesServiceClient.class);
+        return client.getByName(name);
+    }
+
+    @GET
+    @Path("/name-async/{name}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public CompletionStage<Country> nameAsync(@PathParam("name") String name) {
+        CompletionStage<Country> completionStage = countriesServiceClient.getByNameAsync(name);
+        try {
+            TimeUnit.SECONDS.sleep(1L);
+        } catch (InterruptedException e) {
+            throw new WebApplicationException(e);
+        }
+        return completionStage;
+    }
+}
+----
+
+// Server Distribution Testing
+include::../shared-doc/run-integration-tests-with-server-distribution.adoc[leveloffset=+1]
+
+// Undeploy the Quickstart
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
+
+//Bootable JAR
+include::../shared-doc/build-and-run-the-quickstart-with-bootable-jar.adoc[leveloffset=+1]
+// OpenShift
+include::../shared-doc/build-and-run-the-quickstart-with-openshift.adoc[leveloffset=+1]
+
+== Conclusion
+
+MicroProfile REST Client provides you with an option to define REST clients in a
+clear, declarative, and intuitive way using the same annotations as for your
+Jakarta REST resources. It also allows you to make the HTTP communication on the background
+transparent for your services with the direct data conversions and exception mappers.
+You can find more information about the MicroProfile REST Client specification at
+https://github.com/eclipse/microprofile-rest-client.

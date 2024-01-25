@@ -1,0 +1,158 @@
+include::../shared-doc/attributes.adoc[]
+
+= microprofile-openapi: MicroProfile OpenAPI QuickStart
+:author: Paul Ferraro
+:level: Beginner
+:technologies: MicroProfile OpenAPI
+
+[abstract]
+This guide demonstrate how to use the MicroProfile OpenAPI functionality in {productName} to expose an OpenAPI document for a simple REST application.
+
+// Link to the quickstart source
+include::../shared-doc/view-the-source.adoc[leveloffset=+1]
+
+:standalone-server-type: microprofile
+:archiveType: war
+:archiveName: {artifactId}
+
+== Prerequisites
+
+To complete this guide, you will need:
+
+* less than 15 minutes
+* JDK 11+ installed with `JAVA_HOME` configured appropriately
+* Apache Maven 3.5.3+
+
+
+
+include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
+
+== Steps
+
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
+
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
+
+=== Access the OpenAPI documentation of the quickstart application
+
+Run following command in your terminal:
+
+[source, shell]
+----
+$ curl http://localhost:8080/openapi
+----
+
+It should return a YAML document conforming to the http://spec.openapis.org/oas/v3.0.3[OpenAPI specification]:
+
+[source, yaml]
+----
+openapi: 3.0.1
+info:
+  title: Store inventory
+  description: Application for tracking store inventory
+  version: "1.0"
+servers:
+- url: /microprofile-openapi
+paths:
+  /:
+    get:
+      responses:
+        "200":
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+  /fruit:
+    get:
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Fruit'
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Fruit'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Fruit'
+    delete:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Fruit'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Fruit'
+components:
+  schemas:
+    Fruit:
+      type: object
+      properties:
+        description:
+          type: string
+        name:
+          type: string
+----
+
+=== Enhance OpenAPI documentation with annotations
+
+You can further enhance/complete your OpenAPI documentation by adding https://github.com/eclipse/microprofile-open-api/tree/master/api/src/main/java/org/eclipse/microprofile/openapi/annotations[MicroProfile OpenAPI annotations].
+You will need to rebuild/redeploy for those changes to be reflected in the OpenAPI document.
+
+=== Finalizing OpenAPI documentation
+
+Rather than processing JAX-RS and MicroProfile OpenAPI annotations every time an application is deployed, {productName} can be configured to serve a static OpenAPI document.
+When serving a static document, typically, we also want to disable annotation processing.
+This is generally suggested for production environments, to ensure an immutable/versioned API contract for integrators.
+
+. Save the generated document to the source tree.  Feel free to use JSON, if you prefer that over YAML.
++
+[source, shell]
+----
+$ mkdir src/main/webapp/META-INF
+$ curl http://localhost:8080/openapi?format=JSON > src/main/webapp/META-INF/openapi.json
+----
+
+. Reconfigure the application to skip annotation scanning when processing the OpenAPI document model.
++
+[source, shell]
+----
+$ echo "mp.openapi.scan.disable=true" > src/main/webapp/META-INF/application.properties
+----
+
+. Rebuild and redeploy the modified sample application.
+
++
+The OpenAPI document model will now be built from the static content rather than annotation processing.
+
+// Server Distribution Testing
+include::../shared-doc/run-integration-tests-with-server-distribution.adoc[leveloffset=+2]
+
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
+
+// Bootable JAR
+include::../shared-doc/build-and-run-the-quickstart-with-bootable-jar.adoc[leveloffset=+1]
+
+// OpenShift
+include::../shared-doc/build-and-run-the-quickstart-with-openshift.adoc[leveloffset=+1]

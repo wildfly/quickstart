@@ -1,0 +1,872 @@
+include::../shared-doc/attributes.adoc[]
+
+= ejb-txn-remote-call: Demonstrates remote EJB calls and transaction propagation
+:author: Ondra Chaloupka
+:level: Intermediate
+:technologies: EJB, JTA, Clustering
+:openshift: true
+
+[abstract]
+The `ejb-txn-remote-call` quickstart demonstrates remote transactional EJB calls over two application servers of {productName}.
+
+:standalone-server-type: ha
+:archiveType: war
+:requires-multiple-servers:
+:jbds-not-supported:
+
+== What is it?
+
+The `ejb-txn-remote-call` quickstart demonstrates the remote transactional EJB calls over two {productNameFull}s. The remote side forms a HA cluster.
+
+== Description
+
+This quickstart demonstrates how EJB remote calls propagate JTA transaction across {productNameFull}s. Further, this quickstart demonstrates the transaction recovery, which is run for both servers when a failure occurs.
+
+This quickstart contains two Maven projects.
+The first maven project represents the sender side, and is intended to be deployed on the first {productName} (`server1`).
+The second project represents the receiver side. This project is intended to be deployed
+to the other two {productName} (`server2` and `server3`). The two projects must not be deployed to the same server.
+
+.Maven projects in this quickstart
+[cols="40%,60%",options="headers"]
+|===
+|Project |Description
+
+|`client`
+|The application deployed to the first {productName} server.
+Users can interact with this application through some REST endpoints, which start remote EJB calls toward the `server` application
+deployed on the other two {productName}s.
+In more details, the transaction initiated at the client side enlists two participants: a database, and the EJB remote server.
+The transaction manager then uses the two-phase commit to commit the transactions over the two servers.
+Moreover, this quickstart shows how transactional failures how dealt with.
+
+|`server`
+|The application deployed to the second and third {productName} servers.
+This application receives the remote EJB calls from the `client` application and,
+depending on the scenario, process the propagated transaction.
+In more details, the transaction initiated at the server side enlists two participants: a database, and a mock XAResource.
+|===
+
+// Link to the quickstart source
+include::../shared-doc/view-the-source.adoc[leveloffset=+1]
+
+== Running the Quickstart
+
+This quickstart demonstrates its functionalities on <<_running_in_a_bare_metal_environment, bare metal>>, using {productName} Maven plugin, and on OpenShift.
+
+// System Requirements
+include::../shared-doc/system-requirements.adoc[leveloffset=+1]
+// Use of {jbossHomeName}_1 and {jbossHomeName}_2
+include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
+
+== The Goal
+
+The EJB remote call propagates transaction from `client` application
+to `server` application. The remote call hits one of the two servers where the `server` application is deployed.
+
+== Running in a bare metal environment
+
+First of all, three {productName} servers needs to be configured. Then, the `client` application gets deployed to the first server (`server1`),
+while the `server` application gets deployed to the other two {productName} servers (`server2`, and `server3`, which are configured as a cluster).
+
+[[_setup_productname_servers]]
+=== Setup {productName} servers
+
+The easiest way to start multiple instances of {productName} on a local computer is to copy the {productName} installation directory
+to three separate directories.
+
+The installation directories are named:
+
+* `__{jbossHomeName}_1__` for `server1`
+* `__{jbossHomeName}_2__` for `server2`
+* `__{jbossHomeName}_3__` for `server3`
+
+Given that the installation directory of the {productName} is identified with ${jbossHomeName}:
+[source,sh,subs="+quotes,attributes+"]
+----
+cp -r ${jbossHomeName} server1; \
+{jbossHomeName}_1="$PWD/server1"
+----
+[source,sh,subs="+quotes,attributes+"]
+----
+cp -r ${jbossHomeName} server2; \
+{jbossHomeName}_2="$PWD/server2"
+----
+[source,sh,subs="+quotes,attributes+"]
+----
+cp -r ${jbossHomeName} server3; \
+{jbossHomeName}_3="$PWD/server3"
+----
+
+=== Creating a user for `server2` and `server3`
+
+To successfully process EJB remote calls from `server1` to either `server2`
+or to `server3` a user to authenticate the EJB remote calls must be created on the receiving servers.
+
+Run the following procedure in the directories `__{jbossHomeName}_2__` and `__{jbossHomeName}_3__` to create the user for `server2` and `server3`.
+
+[#add_application_user]
+// Add the Authorized Application User
+include::../shared-doc/add-application-user.adoc[leveloffset=+3]
+
+[NOTE]
+====
+For the `add-user.sh` (or `.bat`) command you, can add the parameter `-ds`.
+When you include this parameter, after the user is added, the system outputs a secret value that you can use to set up the remote output connection on `server1`.
+
+The output of command when `-ds` parameter is used:
+
+[code,sh]
+----
+To represent the user add the following to the server-identities definition <secret value="cXVpY2tzdGFydFB3ZDEh" />
+----
+====
+
+=== Configure datasources
+
+As this quickstart performs transactional work against a database, it is needed to create a new database.
+For the purpose of this quickstart, a simple PostgreSQL container will be used:
+
+[source,sh]
+----
+podman run -p 5432:5432 --rm  -ePOSTGRES_DB=test -ePOSTGRES_USER=test -ePOSTGRES_PASSWORD=test postgres:9.4 -c max-prepared-transactions=110 -c log-statement=all
+----
+
+The {productName} servers need to be configured to be able to connect to the database.
+First of all, a JDBC driver needs to be installed as https://docs.wildfly.org/30/Developer_Guide.html#Class_Loading_in_WildFly[jboss module].
+
+The following command (along packaging the `client` and the `server` applications) downloads the PostgreSQL driver automatically through Maven:
+[source,sh,subs="+quotes,attributes+"]
+----
+cd ${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call;
+mvn clean package
+----
+Then, the PostgreSQL driver needs to be loaded as jboss module in all {productName} servers:
+
+[source,sh,subs="+quotes,attributes+"]
+----
+cd ${jbossHomeName}_1; \
+./bin/jboss-cli.sh "embed-server,\
+  module add --name=org.postgresql.jdbc \
+  --resources=${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call/client/target/postgresql/postgresql.jar"
+----
+[source,sh,subs="+quotes,attributes+"]
+----
+cd ${jbossHomeName}_2; \
+./bin/jboss-cli.sh "embed-server,\
+  module add --name=org.postgresql.jdbc \
+  --resources=${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call/client/target/postgresql/postgresql.jar"
+----
+[source,sh,subs="+quotes,attributes+"]
+----
+cd ${jbossHomeName}_3; \
+./bin/jboss-cli.sh "embed-server,\
+  module add --name=org.postgresql.jdbc \
+  --resources=${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call/client/target/postgresql/postgresql.jar"
+----
+
+Moreover, the PostgreSQL driver needs to be installed on all {productName} servers.
+For `server1`, the configuration file `standalone.xml` will be used.
+For `server2` and `server3` the configuration file `standalone-ha.xml` will be used.
+
+[source,sh,subs="+quotes,attributes+"]
+----
+cd ${jbossHomeName}_1; \
+./bin/jboss-cli.sh "embed-server --server-config=standalone.xml,\
+  /subsystem=datasources/jdbc-driver=postgresql:add(driver-name=postgresql,driver-module-name=org.postgresql.jdbc,driver-xa-datasource-class-name=org.postgresql.xa.PGXADataSource)"
+----
+[source,sh,subs="+quotes,attributes+"]
+----
+cd ${jbossHomeName}_2; \
+./bin/jboss-cli.sh "embed-server --server-config=standalone-ha.xml,\
+  /subsystem=datasources/jdbc-driver=postgresql:add(driver-name=postgresql,driver-module-name=org.postgresql.jdbc,driver-xa-datasource-class-name=org.postgresql.xa.PGXADataSource)"
+----
+[source,sh,subs="+quotes,attributes+"]
+----
+cd ${jbossHomeName}_3; \
+./bin/jboss-cli.sh "embed-server --server-config=standalone-ha.xml,\
+  /subsystem=datasources/jdbc-driver=postgresql:add(driver-name=postgresql,driver-module-name=org.postgresql.jdbc,driver-xa-datasource-class-name=org.postgresql.xa.PGXADataSource)"
+----
+
+Finally, it is time to run the scripts for adding the PostgreSQL datasource to the {productName} servers:
+
+[source,sh,subs="+quotes,attributes+"]
+----
+cd ${jbossHomeName}_1; \
+./bin/jboss-cli.sh -DpostgresqlUsername="test" -DpostgresqlPassword="test" \
+  --file=${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call/client/scripts/postgresql-datasource.cli \
+  --properties=${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call/client/scripts/cli.local.properties
+----
+[source,sh,subs="+quotes,attributes+"]
+----
+cd ${jbossHomeName}_2; \
+./bin/jboss-cli.sh -DpostgresqlUsername="test" -DpostgresqlPassword="test" \
+  --file=${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call/server/scripts/postgresql-datasource.cli \
+  --properties=${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call/server/scripts/cli.local.properties
+----
+[source,sh,subs="+quotes,attributes+"]
+----
+cd ${jbossHomeName}_3; \
+./bin/jboss-cli.sh -DpostgresqlUsername="test" -DpostgresqlPassword="test" \
+  --file=${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call/server/scripts/postgresql-datasource.cli \
+  --properties=${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call/server/scripts/cli.local.properties
+----
+
+=== Configuring EJB remoting on `server1`
+
+EJB remote calls from `server1` to either `server2` or `server3` need to be authenticated. To achieve
+this configuration, the script `${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call/client/scripts/remoting-configuration.cli`
+will be executed on `server1`.
+
+[NOTE]
+====
+`remoting-configuration.cli` is configured with properties in `cli.local.properties` and runs against `standalone.xml`
+====
+
+[[remote_configuration_cli]]
+[source,sh,subs="+quotes,attributes+"]
+----
+cd ${jbossHomeName}_1; \
+./bin/jboss-cli.sh -DremoteServerUsername="quickstartUser" -DremoteServerPassword="quickstartPwd1!" \
+  --file=${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call/client/scripts/remoting-configuration.cli \
+  --properties=${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call/client/scripts/cli.local.properties
+----
+
+NOTE: For Windows, use the `bin\jboss-cli.bat` script.
+
+Running `remoting-configuration.cli` results in the creation of:
+
+* A `remote outbound socket` that points to the port on `server2`/`server3` where EJB remoting endpoints can be reached
+* A https://docs.wildfly.org/22/wildscribe/subsystem/remoting/remote-outbound-connection/index.html[`remote outbound connection`] that can be referenced in the war deployment with `jboss-ejb-client.xml` descriptor
+(see `${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call/client/src/main/webapp/WEB-INF/jboss-ejb-client.xml`).
+* An authentication context `auth_context` that is used by the new created remoting connection `remote-ejb-connection`; the authentication context uses the same username and password created for `server2` and `server3`
+
+[#_start_productname_servers]
+=== Start {productName} servers
+
+At this point, the configuration of the {productName} servers is completed.
+`server1` must be started with the `standalone.xml` configuration,
+while `server2` and `server3` must be started with the `standalone-ha.xml` configuration to create a cluster.
+As all {productName} servers will be run in the same bare metal environment,
+a port offset will be applied to `server2` and `server3`. Moreover,
+each server has to define a unique transaction node identifier and jboss node name.
+
+Start each server in a separate terminal.
+
+[source,sh,subs="+quotes,attributes+",options="nowrap"]
+----
+cd ${jbossHomeName}_1; \
+./bin/standalone.sh -c standalone.xml -Djboss.tx.node.id=server1 -Djboss.node.name=server1 -Dwildfly.config.url=${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call/client/configuration/custom-config.xml
+----
+[source,sh,subs="+quotes,attributes+",options="nowrap"]
+----
+cd ${jbossHomeName}_2; \
+./bin/standalone.sh -c standalone-ha.xml -Djboss.tx.node.id=server2 -Djboss.node.name=server2 -Djboss.socket.binding.port-offset=100
+----
+[source,sh,subs="+quotes,attributes+",options="nowrap"]
+----
+cd ${jbossHomeName}_3; \
+./bin/standalone.sh -c standalone-ha.xml -Djboss.tx.node.id=server3 -Djboss.node.name=server3 -Djboss.socket.binding.port-offset=200
+----
+
+NOTE: To enable the recovery of remote transaction failures, the configuration file `custom-config.xml`
+should be loaded into `server1`; this operation will authenticate `server1` against `server2`/`server3`.
+
+NOTE: For Windows, use the `bin\standalone.bat` script.
+
+=== Deploying the Quickstart applications
+
+. With all {productName} servers <<_setup_productname_servers, configured>> and <<_start_productname_servers, running>>,
+the `client` and `server` application can be deployed
+
+. The whole project can be built using the following commands:
++
+[source,sh,subs="+quotes,attributes+",options="nowrap"]
+----
+cd ${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call/
+mvn clean package
+----
++
+. Then, the `client` application can be deployed using the following commands:
++
+[source,sh,subs="+quotes,attributes+",options="nowrap"]
+----
+cd ${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call/client
+mvn wildfly:deploy
+----
++
+. Lastly, the `server` application can be deployed using the following commands:
++
+[source,sh,subs="+quotes,attributes+",options="nowrap"]
+----
+cd ${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call/server
+mvn wildfly:deploy -Dwildfly.port=10090
+mvn wildfly:deploy -Dwildfly.port=10190
+----
+
+The commands just run employed the WildFly Maven plugin to connect to the running instances of {productName}
+and deploy the `war` archives to the servers.
+
+==== Checkpoints
+
+. If errors occur, verify that the {productName} servers are running and that they are configured properly
+. Verify that all deployments are published into all three servers
+.. On `server1` check the log to confirm that the `client/target/client.war` archive is deployed
++
+[source,options="nowrap"]
+----
+...
+INFO  [org.wildfly.extension.undertow] (ServerService Thread Pool -- 76) WFLYUT0021: Registered web context: '/client' for server 'default-server'
+INFO  [org.jboss.as.server] (management-handler-thread - 2) WFLYSRV0010: Deployed "client.war" (runtime-name : "client.war")
+----
++
+.. On `server2` and `server3`, check the log to confirm that the `server/target/server.war` archive is deployed.
++
+[source,options="nowrap"]
+----
+...
+INFO  [org.wildfly.extension.undertow] (ServerService Thread Pool -- 86) WFLYUT0021: Registered web context: '/server' for server 'default-server'
+INFO  [org.jboss.as.server] (management-handler-thread - 1) WFLYSRV0010: Deployed "server.war" (runtime-name : "server.war")
+----
+
+. Verify that `server2` and `server3` formed a HA cluster.
+.. Check the server log of either `server2` and `server3`, or both.
++
+[source,options="nowrap"]
+----
+[org.infinispan.CLUSTER] () ISPN000094: Received new cluster view for channel ejb: [server2|1] (2) [server2, server3]
+[org.infinispan.CLUSTER] () ISPN100000: Node server3 joined the cluster
+...
+INFO  [org.infinispan.CLUSTER] () [Context=server.war/infinispan] ISPN100010: Finished rebalance with members [server2, server3], topology id 5
+----
+
+[#_examining_the_quickstart]
+=== Examining the Quickstart
+
+Once the {productName} servers are configured and started, and the quickstart artifacts are deployed, it is possible to
+invoke the endpoints of `server1`, which generate EJB remote invocations against the HA cluster formed by `server2` and `server3`.
+
+The following table defines the available endpoints, and their expected behaviour.
+
+[NOTE]
+====
+The endpoints return data in JSON format. You can use `curl` for the invocation
+and `jq` for formatting the results. For example:
+
+`curl -s http://localhost:8080/client/remote-outbound-stateless | jq .`
+====
+
+[NOTE]
+====
+On Windows, `curl` and `jq` might not be available.
+If so, enter the endpoints directly to a browser of your choice.
+The behaviour and the obtained JSON will be the same as for the `curl` command.
+====
+
+The HTTP invocations return the hostnames of the contacted servers.
+
+[[rest-endpoints]]
+[options="headers"]
+.HTTP endpoints of the test invocation
+|===
+|URL |Behaviour |Expectation
+
+|__http://localhost:8080/client/remote-outbound-stateless__
+|Two invocations under the transaction context started on `server1` (`client` application).
+The EJB remote call is configured from the `remote-outbound-connection`.
+Both calls are directed to the same remote server instance (`server` application)
+due to transaction affinity.
+|The two returned hostnames must be the same.
+
+|__http://localhost:8080/client/remote-outbound-notx-stateless__
+|Several remote invocations to stateless EJB without a transaction context.
+The EJB remote call is configured from the `remote-outbound-connection`.
+The EJB client is expected to load balance the calls on various servers.
+|The list of the returned hostnames should contain occurrences of both
+ `server2` and `server3`.
+
+|__http://localhost:8080/client/direct-stateless__
+|Two invocations under the transaction context started on `server1` (`client` application). The stateless bean is invoked on the remote side.
+The EJB remote call is configured from data in the `client` application source code.
+The remote invocation is run via the EJB remoting protocol.
+|The returned hostnames must be the same.
+
+|__http://localhost:8080/client/direct-stateless-http__
+|Two invocations under the transaction context started on `server1` (`client` application). The stateless bean is invoked on the remote side.
+The EJB remote call is configured from data in the `client` application source code.
+The remote invocation is run, unlike the other calls of this quickstarts, via https://docs.wildfly.org/22/Developer_Guide.html#EJB_over_HTTP[EJB over HTTP].
+|The returned hostnames must be the same.
+
+|__http://localhost:8080/client/remote-outbound-notx-stateful__
+|Two invocations under the transaction context started on `server1` (`client` application).
+The EJB remote call is configured from the `remote-outbound-connection`.
+Both calls are directed to the same stateful bean on the remote server because
+the stateful bean invocations are sticky ensuring affinity to the same server instance.
+|The returned hostnames must be the same.
+
+|__http://localhost:8080/client/remote-outbound-fail-stateless__
+|An invocation under the transaction context started on `server1` (`client` application).
+The call goes to one of the remote servers, where errors occur during transaction processing.
+The failure is simulated at time of two-phase commit.
+This HTTP call finishes with success. Only the server log shows some warnings.
+This is an expected behaviour. An intermittent failure during commit phase
+of two-phase protocol makes the transaction manager obliged to finish the work
+eventually. The finalization of work is done in the background
+(by Narayana recovery manager, see details <<_details_on_recovery, below>>), and the HTTP call may inform the client back with success.
+|When the recovery manager finishes the work all the transaction resources are committed.
+
+|===
+
+[[_details_on_recovery]]
+==== Observing the recovery processing after __client/remote-outbound-fail-stateless__ call
+
+The EJB call to the endpoint `client/remote-outbound-fail-stateless` simulates the presence
+of an intermittent network error happening at the commit phase of the two-phase commit protocol (2PC).
+
+The http://jbossts.blogspot.com/2018/01/narayana-periodic-recovery-of-xa.html[transaction recovery manager]
+periodically tries to recover the unfinished work and only when this attempt is successful,
+the transaction is completed (which makes the update in the database visible). It is possible to confirm the completion of
+the transaction by invoking the REST endpoint `server/commits` at both servers `server2` and `server3`.
+
+
+[source]
+----
+curl -s http://localhost:8180/server/commits
+----
+
+[source]
+----
+curl -s http://localhost:8280/server/commits
+----
+
+The response of `server/commits` is a tuple composed by the host's info and the number of commits.
+For example the output could be `["host: mydev.narayana.io/192.168.0.1, jboss node name: server2","3"]`
+and it says that the hostname is `mydev.narayana.io`, the jboss node name is `server2`,
+and the number of commits is `3`.
+
+The Transaction recovery manager runs periodically (by default, it runs every 2 minutes) on all servers.
+Nevertheless, as the transaction is initiated on `server1`, the recovery manager on this server will be
+responsible to initiate the recovery process.
+
+[NOTE]
+====
+The recovery process can be started manually. Using `telnet` and connecting to `localhost:4712`
+(i.e. the port where https://docs.wildfly.org/22/wildscribe/subsystem/transactions/index.html#attr-recovery-listener[the recovery process is listening to]),
+it is possible to send the `SCAN` command to force a recovery cycle
+
+[source]
+----
+telnet localhost 4712
+Trying 127.0.0.1...
+Connected to localhost.
+Escape character is '^]'.
+SCAN
+DONE
+Connection closed by foreign host.
+----
+====
+
+[[_steps_to_observe_recovery_processing]]
+===== Steps to observe that the recovery processing was done
+
+. Before invoking the __remote-outbound-fail-stateless__ endpoint, double check
+  the number of `commits` on `server2` and `server3` by invoking the `server/commits`
+  endpoints.
++
+[source,sh,subs="+quotes,attributes+",options="nowrap"]
+----
+curl http://localhost:8180/server/commits; echo
+# output example:
+# ["host: mydev.narayana.io/192.168.0.1, jboss node name: server2","1"]
+curl http://localhost:8280/server/commits; echo
+# output example:
+# ["host: mydev.narayana.io/192.168.0.1, jboss node name: server3","2"]
+----
++
+. Invoke the REST endpoint `client/remote-outbound-fail-stateless`
++
+[source,sh,subs="+quotes,attributes+",options="nowrap"]
+----
+curl http://localhost:8080/client/remote-outbound-fail-stateless | jq .
+----
++
+The JSON output from the previous command reports the name of server the request was sent to.
++
+
+. At the server reported by the previous command, verify the number of `commits` by invoking the `server/commits` endpoint.
+
+. Check the log of `server1` for the following warning message
++
+[source,options="nowrap"]
+----
+ARJUNA016036: commit on < formatId=131077, gtrid_length=35, bqual_length=36, tx_uid=..., node_name=server1, branch_uid=..., subordinatenodename=null, eis_name=unknown eis name > (Subordinate XAResource at remote+http://localhost:8180) failed with exception $XAException.XA_RETRY: javax.transaction.xa.XAException: WFTXN0029: The peer threw an XA exception
+----
++
+This message means that the transaction manager was not able to commit the transaction as
+an error occurred while committing the transaction on the remote server.
+The `XAException.XA_RETRY` exception, meaning an intermittent failure, was reported in the logs.
+. The logs on `server2` or `server3` contain a warning about the `XAResource` failure as well.
++
+[source,options="nowrap"]
+----
+ARJUNA016036: commit on < formatId=131077, gtrid_length=35, bqual_length=43, tx_uid=..., node_name=server1, branch_uid=..., subordinatenodename=server2, eis_name=unknown eis name > (org.jboss.as.quickstarts.ejb.mock.MockXAResource@731ae22) failed with exception $XAException.XAER_RMFAIL: javax.transaction.xa.XAException
+----
++
+. Wait for the recovery process at `server1` to recover the unfinished transaction (or force a recovery cycle manually)
+
+. The number of commits on the targeted server should be incremented by one.
+
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
+
+Repeat the last step for `server2` and `server3`:
+
+[source,sh,options="nowrap"]
+----
+cd ${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call/server;
+mvn wildfly:undeploy -Dwildfly.port=10090;
+mvn wildfly:undeploy -Dwildfly.port=10190
+----
+
+=== Server Log: Expected Warnings and Errors
+
+This quickstart is not production grade. The server logs include the following
+warnings during the startup. It is safe to ignore these warnings.
+
+[source,options="nowrap"]
+----
+WFLYDM0111: Keystore standalone/configuration/application.keystore not found, it will be auto generated on first use with a self signed certificate for host localhost
+
+WFLYELY01084: KeyStore .../standalone/configuration/application.keystore not found, it will be auto generated on first use with a self-signed certificate for host localhost
+
+WFLYSRV0018: Deployment "deployment.server.war" is using a private module ("org.jboss.jts") which may be changed or removed in future versions without notice.
+----
+
+// Build and run sections for other environments/builds
+ifndef::ProductRelease,EAPXPRelease[]
+
+[[build_and_run_the_quickstart_with_provisioned_server]]
+== Building and running the quickstart application with provisioned {productName} server
+
+Instead of using a standard {productName} server distribution, the three {productName} servers to deploy and run the quickstart can be alternatively provisioned by activating the Maven profile named `provisioned-server` when building the quickstart:
+
+[source,sh,subs="+quotes,attributes+",options="nowrap"]
+----
+cd ${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call/client;
+mvn clean package -Pprovisioned-server \
+  -DremoteServerUsername="quickstartUser" -DremoteServerPassword="quickstartPwd1!" \
+  -DpostgresqlUsername="test" -DpostgresqlPassword="test"
+----
+[source,sh,subs="+quotes,attributes+",options="nowrap"]
+----
+cd ${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call/server;
+mvn clean package -Pprovisioned-server \
+  -Dwildfly.provisioning.dir=server2 -Djboss-as.home=target/server2 \
+  -DpostgresqlUsername="test" -DpostgresqlPassword="test";
+mvn package -Pprovisioned-server \
+  -Dwildfly.provisioning.dir=server3 -Djboss-as.home=target/server3 \
+  -DpostgresqlUsername="test" -DpostgresqlPassword="test"
+----
+
+The provisioned {productName} servers, with the quickstart deployed, can then be found in the `target/server` directory, and their usage is similar to a standard server distribution, with the simplification that there is never the need to specify the server configuration to be started.
+
+The server provisioning functionality is provided by the WildFly Maven Plugin, and you may find its configuration in the pom.xml files of the quickstart.
+
+The quickstart user should be added before running the provisioned server:
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+cd ${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call/server;
+./target/server2/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!';
+./target/server3/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!'
+----
+[NOTE]
+====
+For Windows, use the `__{jbossHomeName}__\bin\add-user.bat` script.
+====
+
+=== Run the Integration Tests with a provisioned server
+
+The integration tests included with this quickstart, which verify that the quickstart runs correctly, may also be run with provisioned server.
+
+Follow these steps to run the integration tests.
+
+. As this quickstart performs transactional work against a database, it is needed to create a new database. For the purpose of this quickstart, a simple PostgreSQL container will be used:
++
+[source,sh]
+----
+podman run -p 5432:5432 --rm  -ePOSTGRES_DB=test -ePOSTGRES_USER=test -ePOSTGRES_PASSWORD=test postgres:9.4 -c max-prepared-transactions=110 -c log-statement=all
+----
+
+. Make sure the servers are provisioned by running the commands reported in <<build_and_run_the_quickstart_with_provisioned_server>>
+
+. Add the quickstart user to the provisioned `server2` and `server3` by running the commands reported in <<build_and_run_the_quickstart_with_provisioned_server>>
+
+. Start the {productName} provisioned servers in three distinct terminals, this time using the {productName} Maven Plugin, which is recommended for testing due to simpler automation.
++
+[source,subs="attributes+",options="nowrap"]
+----
+cd ${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call/client;
+mvn wildfly:start -Djboss-as.home=target/server \
+  -Dwildfly.javaOpts="-Djboss.tx.node.id=server1 -Djboss.node.name=server1"
+----
++
+[source,subs="attributes+",options="nowrap"]
+----
+cd ${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call/server;
+mvn wildfly:start -Djboss-as.home=target/server2 \
+  -Dwildfly.port=10090 \
+  -Dwildfly.serverConfig=standalone-ha.xml \
+  -Dwildfly.javaOpts="-Djboss.socket.binding.port-offset=100 -Djboss.tx.node.id=server2 -Djboss.node.name=server2"
+----
++
+[source,subs="attributes+",options="nowrap"]
+----
+cd ${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call/server;
+mvn wildfly:start -Djboss-as.home=target/server3 \
+  -Dwildfly.port=10190 \
+  -Dwildfly.serverConfig=standalone-ha.xml \
+  -Dwildfly.javaOpts="-Djboss.socket.binding.port-offset=200 -Djboss.tx.node.id=server3 -Djboss.node.name=server3"
+----
+
+. Type the following command to run the `verify` goal with the `integration-testing` profile activated, and specifying the quickstart's URL using the `server.host` system property.
++
+[source,subs="attributes+",options="nowrap"]
+----
+cd ${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call/client;
+mvn verify -Pintegration-testing
+----
++
+[source,subs="attributes+",options="nowrap"]
+----
+cd ${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call/server;
+mvn verify -Pintegration-testing -Dserver.host="http://localhost:8180/server"
+----
++
+[source,subs="attributes+",options="nowrap"]
+----
+cd ${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call/server;
+mvn verify -Pintegration-testing -Dserver.host="http://localhost:8280/server"
+----
+
+. To shut down the {productName} provisioned servers using the {productName} Maven Plugin:
++
+[source,subs="attributes+",options="nowrap"]
+----
+mvn wildfly:shutdown
+----
++
+[source,subs="attributes+",options="nowrap"]
+----
+mvn wildfly:shutdown -Dwildfly.port=10090
+----
++
+[source,subs="attributes+",options="nowrap"]
+----
+mvn wildfly:shutdown -Dwildfly.port=10190
+----
+
+endif::[]
+
+== Running on OpenShift
+
+The ephemeral nature of OpenShift does not work smoothly with {productName}'s ability to handle transactions.
+In fact, {productName}'s transaction management saves logs to keep record of transactions' history in case of
+extreme scenarios, like crashes or network issues. Moreover, EJB remoting requires a stable remote endpoint
+to guarantee:
+
+* The transaction affinity of `stateful beans` and
+* The recovery of transactions.
+
+To fulfil the aforementioned requirements, applications that requires ACID transactions _**must be**_ deployed
+to {productName} using the {productName}'s Operator, which can employ OpenShift's _StatefulSet_. Failing to do so
+might result in no-ACID transactions.
+
+=== Prerequisites
+
+include::../shared-doc/cd-create-project.adoc[leveloffset=+3]
+
+[#_install_operator]
+==== Install {productName}'s Operator
+
+To install {productName}'s Operator, follow the https://github.com/wildfly/wildfly-operator[official documentation]
+(which instructions are also reported here for convenience)
+
+ifndef::ProductRelease,EAPCDRelease,EAPXPRelease[]
+[source,sh,options="nowrap",subs="+quotes,attributes+"]
+----
+cd /tmp
+git clone https://github.com/wildfly/wildfly-operator.git
+
+cd wildfly-operator
+
+oc adm policy add-cluster-role-to-user cluster-admin developer
+make install
+make deploy
+----
+endif::[]
+
+To verify that the {productName} Operator is running, execute the following command:
+
+ifndef::ProductRelease,EAPCDRelease,EAPXPRelease[]
+[source,sh,options="nowrap",subs="+quotes,attributes+"]
+----
+oc get po -n $(oc project -q)
+
+NAME                                READY   STATUS      RESTARTS   AGE
+wildfly-operator-5d4b7cc868-zfxcv   1/1     Running     1          22h
+----
+endif::[]
+
+[#_start_postgresql_database]
+==== Start a PostgreSQL database
+
+This quickstart requires a PostgreSQL database to run correctly. In the scope of this quickstart,
+a PostgreSQL database will be deployed on the OpenShift instance using the Helm chart provided by
+https://github.com/bitnami/charts/tree/main/bitnami/postgresql[bitnami]:
+
+[source,sh,options="nowrap",subs="+quotes,attributes+"]
+----
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm install postgresql bitnami/postgresql -f charts/postgresql.yaml --wait --timeout="5m"
+----
+
+[#_build_the_application]
+=== Build the applications
+
+To build the `client` and the `server` applications, this quickstart employs
+{productName}'s https://github.com/wildfly/wildfly-charts/tree/main[Helm charts].
+For more information about {productName}'s Helm chart, please refer to the official
+https://github.com/wildfly/wildfly-charts/blob/main/charts/wildfly/README.md[documentation].
+
+ifndef::ProductRelease,EAPCDRelease,EAPXPRelease[]
+[source,sh,options="nowrap",subs="+quotes,attributes+"]
+----
+helm repo add wildfly https://docs.wildfly.org/wildfly-charts/
+
+helm install client -f charts/client.yaml wildfly/wildfly
+helm install server -f charts/server.yaml wildfly/wildfly
+----
+endif::[]
+
+Wait for the builds to finish. Their status can be verified by executing the `oc get pod` command.
+
+[#_deploy_the_quickstart]
+=== Deploy the Quickstart
+
+To deploy the `client` and the `server` applications, this quickstart uses the `WildFlyServer` custom resource,
+thanks to which the {productName} Operator is able to create a {productName} pod and
+deploy an application.
+
+NOTE: Make sure that `view` permissions are granted to the default system account.
+The `KUBE_PING` protocol, which is used for forming the HA {productName} cluster
+on OpenShift, requires `view` permissions to read the labels of the pods:
+`oc policy add-role-to-user view system:serviceaccount:$(oc project -q):default -n $(oc project -q)`
+
+[source,sh,options="nowrap"]
+----
+cd ${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call;
+oc create -f client/client-cr.yaml;
+oc create -f server/server-cr.yaml
+----
+
+If the above commands are successful, the `oc get pod` command shows
+all the pods required for the quickstart, i.e. the `client` pod and two
+`server` pods (and the PostgreSQL database).
+
+[source,sh,options="nowrap"]
+----
+NAME                                READY   STATUS      RESTARTS   AGE
+client-0                            1/1     Running     0          29m
+postgresql-f9f475f87-l944r          1/1     Running     1          22h
+server-0                            1/1     Running     0          11m
+server-1                            1/1     Running     0          11m
+----
+
+[#_verify_the_quickstarts]
+==== Verify the Quickstarts
+
+The {productName} Operator creates routes that make the `client` and the `server` applications accessible
+outside the OpenShift environment. The `oc get route` command shows the addresses of the HTTP endpoints.
+An example of the output is:
+
+[source,sh,options="nowrap"]
+----
+oc get route
+
+NAME           HOST/PORT                                                            PATH   SERVICES              PORT
+client-route   client-route-ejb-txn-remote-call-client-artifacts.apps-crc.testing          client-loadbalancer   http
+server-route   server-route-ejb-txn-remote-call-client-artifacts.apps-crc.testing          server-loadbalancer   http
+----
+
+With the following commands, it is possible to verify the some functionalities of this quickstart:
+
+[source,sh,options="nowrap"]
+----
+curl -s $(oc get route client-route --template='{{ .spec.host }}')/client/remote-outbound-stateless | jq .
+curl -s $(oc get route client-route --template='{{ .spec.host }}')/client/remote-outbound-stateless | jq .
+curl -s $(oc get route client-route --template='{{ .spec.host }}')/client/remote-outbound-notx-stateless | jq .
+curl -s $(oc get route client-route --template='{{ .spec.host }}')/client/direct-stateless | jq .
+curl -s $(oc get route client-route --template='{{ .spec.host }}')/client/remote-outbound-notx-stateful | jq .
+----
+
+For other HTTP endpoints, refer to <<rest-endpoints,the table above>>.
+
+If you like to <<_steps_to_observe_recovery_processing,observe the recovery process>>
+then you can follow these shell commands.
+
+[source,sh,options="nowrap"]
+----
+# To check failure resolution
+# verify the number of commits that come from the first and second node of the `server` deployments.
+# Two calls are needed, as each reports the commit count of different node.
+# Remember the reported number of commits to be compared with the results after crash later.
+curl -s $(oc get route server-route --template='{{ .spec.host }}')/server/commits
+curl -s $(oc get route server-route --template='{{ .spec.host }}')/server/commits
+
+# Run the remote call that causes the JVM of the server to crash.
+curl -s $(oc get route client-route --template='{{ .spec.host }}')/client/remote-outbound-fail-stateless
+# The platforms restarts the server back to life.
+# The following commands then make us waiting while printing the number of commits happened at the servers.
+while true; do
+  curl -s $(oc get route server-route --template='{{ .spec.host }}')/server/commits
+  curl -s $(oc get route server-route --template='{{ .spec.host }}')/server/commits
+  I=$((I+1))
+  echo " <<< Round: $I >>>"
+  sleep 2
+done
+----
+
+// TODO: Read the following document to see what can be integrated
+//include::../shared-doc/build-and-run-the-quickstart-with-openshift.adoc[leveloffset=+1]
+
+==== Running on OpenShift: Quickstart application removal
+
+To delete the `client` and the `server` applications, the `WildFlyServer` definitions needs to be deleted.
+This is achievable running:
+
+[source,sh,options="nowrap"]
+----
+oc delete WildFlyServer client;
+oc delete WildFlyServer server
+----
+
+The `client` and the `server` applications will be stopped, and the two pods will be removed.
+
+To remove the Helm charts installed previously:
+
+[source,sh,options="nowrap"]
+----
+helm uninstall client;
+helm uninstall server;
+helm uninstall postgresql
+----
+
+Finally, to undeploy and uninstall the {productName}'s operator:
+
+[source,sh,options="nowrap"]
+----
+cd /tmp/wildfly-operator;
+make undeploy;
+make uninstall
+----
+
+The above commands completely clean the OpenShift namespace

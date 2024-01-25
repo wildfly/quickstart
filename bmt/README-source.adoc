@@ -1,0 +1,95 @@
+include::../shared-doc/attributes.adoc[]
+
+= bmt: Bean Managed Transactions with JPA and JTA
+:author: Mike Musgrove
+:level: Intermediate
+:technologies: EJB, BMT
+:openshift: true
+
+[abstract]
+The `bmt` quickstart demonstrates Bean-Managed Transactions (BMT), showing how to manually manage transaction demarcation while accessing JPA entities.
+
+:standalone-server-type: default
+:archiveType: war
+:uses-h2:
+:uses-ds-xml:
+:performance-scalability:
+
+== What is it?
+
+The `bmt` quickstart demonstrates how to manually manage transaction demarcation while accessing JPA entities in {productNameFull}.
+
+On occasion, the application developer requires finer grained control over the lifecycle of JTA transactions and JPA Entity Managers than the defaults provided by the Jakarta EE container. This example shows how the developer can override these defaults and take control of aspects of the lifecycle of JPA and transactions.
+
+When you run this example, you are presented with a *Use bean managed Entity Managers* checkbox.
+
+* If you check the checkbox, it shows the developer responsibilities when injecting an Entity Manager into a managed (stateless) bean.
+* If you uncheck the checkbox, shows the developer responsibilities when using JPA and transactions with an unmanaged component.
+
+This example shows how to transactionally insert key value pairs into the database and demonstrates the requirements on the developer with respect to the JPA Entity Manager.
+
+ifndef::EAPCDRelease[]
+
+// Link to the quickstart source
+include::../shared-doc/view-the-source.adoc[leveloffset=+1]
+// Considerations for Use in a Production Environment
+include::../shared-doc/development-shortcuts.adoc[leveloffset=+1]
+// System Requirements
+include::../shared-doc/system-requirements.adoc[leveloffset=+1]
+// Use of {jbossHomeName}
+include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
+// Start the {productName} Standalone Server
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
+// Build and Deploy the Quickstart
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
+
+== Access the Application
+
+The application will be running at the following URL: http://localhost:8080/{artifactId}/.
+
+You are presented with a simple form for adding key/value pairs, and a checkbox to indicate whether the updates should be executed using an unmanaged component. Effectively this will run the transaction and JPA updates in the servlet, not session beans. If the box is checked then the updates are executed within a session bean method.
+
+. To list all pairs leave the *Key* input field empty.
+. To add or update the value of a key, fill in the *Key* and *Value* input fields.
+. Click the *Submit* button to see the results.
+
+== Server Log: Expected Warnings and Errors
+
+You will see the following warnings in the server log. You can ignore these warnings.
+
+[source,options="nowrap"]
+----
+WFLYJCA0091: -ds.xml file deployments are deprecated. Support may be removed in a future version.
+
+HHH000431: Unable to determine H2 database version, certain features may not work
+----
+
+// Server Distribution Testing
+include::../shared-doc/run-integration-tests-with-server-distribution.adoc[leveloffset=+1]
+// Undeploy the Quickstart
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
+
+// Build and run sections for other environments/builds
+ifndef::ProductRelease,EAPXPRelease[]
+include::../shared-doc/build-and-run-the-quickstart-with-provisioned-server.adoc[leveloffset=+1]
+endif::[]
+include::../shared-doc/build-and-run-the-quickstart-with-openshift.adoc[leveloffset=+1]
+endif::[]
+
+//*************************************************
+// Product Release content only
+//*************************************************
+ifdef::ProductRelease[]
+
+// Getting Started with OpenShift
+include::../shared-doc/openshift-getting-started.adoc[leveloffset=+1]
+//Prepare OpenShift for Quickstart Deployment
+include::../shared-doc/openshift-create-project.adoc[leveloffset=+1]
+// Import the Latest {xpaasproduct-shortname} Image Streams and Templates
+include::../shared-doc/openshift-import-imagestreams-templates.adoc[leveloffset=+1]
+// Deploy the {ProductShortName} Source-to-Image (S2I) Quickstart to OpenShift
+include::../shared-doc/openshift-deploy-project.adoc[leveloffset=+1]
+// Openshift post deployment tasks
+include::../shared-doc/openshift-post-deployment-tasks.adoc[leveloffset=+1]
+
+endif::[]

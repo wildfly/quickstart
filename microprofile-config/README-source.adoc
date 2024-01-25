@@ -1,0 +1,811 @@
+include::../shared-doc/attributes.adoc[]
+
+= microprofile-config: MicroProfile Config QuickStart
+:author: Martin Stefanko
+:level: Beginner
+:technologies: MicroProfile Config
+
+[abstract]
+The `microprofile-config` quickstart demonstrates the use of the MicroProfile Config specification in {productName}.
+
+:standalone-server-type: microprofile
+:archiveType: war
+:archiveName: {artifactId}
+:arq-prerequisities: These tests require that JBOSS_HOME environment variable is set.
+
+== What is it?
+
+MicroProfile Config allows users to externalize their configuration from their
+application code. Users can modify the configuration from outside of the application
+so they can change it without the need to rebuild their applications. It exposes the
+configuration values to the application code through the CDI injection.
+
+== Architecture
+
+In this quickstart, we have a collection of CDI beans that expose functionalities of
+the MicroProfile Config specification. The individual externally configured values
+are provided to the users through a set of REST endpoints.
+
+// Link to the quickstart source
+include::../shared-doc/view-the-source.adoc[leveloffset=+1]
+// System Requirements
+include::../shared-doc/system-requirements.adoc[leveloffset=+1]
+
+// Use of {jbossHomeName}
+include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
+
+// Start the {productName} Standalone Server
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
+
+== Solution
+
+We recommend that you follow the instructions that
+<<creating-new-project, create the application step by step>>. However, you can
+also go right to the completed example which is available in this directory.
+
+// Build and Deploy the Quickstart
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
+
+// Server Distribution Testing
+include::../shared-doc/run-integration-tests-with-server-distribution.adoc[leveloffset=+2]
+
+// Undeploy the Quickstart
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
+
+[[creating-new-project]]
+== Creating the Maven Project
+
+[source,options="nowrap"]
+----
+mvn archetype:generate \
+    -DgroupId=org.wildfly.quickstarts \
+    -DartifactId=microprofile-config \
+    -DinteractiveMode=false \
+    -DarchetypeGroupId=org.apache.maven.archetypes \
+    -DarchetypeArtifactId=maven-archetype-webapp
+cd microprofile-config
+----
+
+Open the project in your favourite IDE.
+
+Open the generated `pom.xml`:
+
+The first thing to do is to setup our dependencies. Add the following section to your
+`pom.xml`:
+
+[source,xml,subs="attributes+"]
+----
+<dependencyManagement>
+  <dependencies>
+    <!-- importing the microprofile BOM adds MicroProfile specs -->
+    <dependency>
+        <groupId>org.wildfly.bom</groupId>
+        <artifactId>wildfly-microprofile</artifactId>
+        <version>{versionMicroprofileBom}</version>
+        <type>pom</type>
+        <scope>import</scope>
+    </dependency>
+  </dependencies>
+</dependencyManagement>
+----
+
+Now we need to add the following two dependencies:
+
+[source,xml]
+----
+<!-- Import the MicroProfile Config API, we use provided scope as the API is included in the server -->
+<dependency>
+  <groupId>org.eclipse.microprofile.config</groupId>
+  <artifactId>microprofile-config-api</artifactId>
+  <scope>provided</scope>
+</dependency>
+<!-- Import the CDI API, we use provided scope as the API is included in the server -->
+<dependency>
+  <groupId>jakarta.enterprise</groupId>
+  <artifactId>jakarta.enterprise.cdi-api</artifactId>
+  <scope>provided</scope>
+</dependency>
+<!-- Import the Jakarta REST API, we use provided scope as the API is included in the server -->
+<dependency>
+  <groupId>jakarta.ws.rs</groupId>
+  <artifactId>jakarta.ws.rs-api</artifactId>
+  <scope>provided</scope>
+</dependency>
+----
+
+NOTE: Because MicroProfile Config uses CDI injection to expose configuration values
+to the user application we need to also include the CDI API dependency.
+
+All dependencies can have provided scope.
+
+As we are going to be deploying this application to the {productName} server, let's
+also add a maven plugin that will simplify the deployment operations (you can replace
+the generated build section):
+
+[source,xml]
+----
+<build>
+  <!-- Set the name of the archive -->
+  <finalName>${project.artifactId}</finalName>
+  <plugins>
+    <!-- Allows to use mvn wildfly:deploy -->
+    <plugin>
+      <groupId>org.wildfly.plugins</groupId>
+      <artifactId>wildfly-maven-plugin</artifactId>
+    </plugin>
+  </plugins>
+</build>
+----
+
+// Setup required repositories
+include::../shared-doc/setup-repositories.adoc[leveloffset=+1]
+
+As this is a Jakarta REST application we need to also create an application class.
+Create `org.wildfly.quickstarts.microprofile.config.JaxRsApplication` with the following content:
+
+NOTE: The new file should be created in
+`src/main/java/org/quickstarts/microprofile/config/JaxRsApplication.java`.
+
+[source,java]
+----
+package org.wildfly.quickstarts.microprofile.config;
+
+import jakarta.ws.rs.ApplicationPath;
+import jakarta.ws.rs.core.Application;
+
+@ApplicationPath("/")
+public class JaxRsApplication extends Application {
+}
+----
+
+Now we are ready to start working with MicroProfile Config.
+
+== Injecting a configuration value
+
+Let's start by creating a new CDI bean which will use for the injection of our
+configuration values. This CDI bean will also be a JAX-RS resource. Create a new
+class `org.wildfly.quickstarts.microprofile.config.ConfigResource`;
+
+To inject any configuration value, MicroProfile Config provides a custom qualifier
+`ConfigProperty`:
+
+[source,java]
+----
+package org.wildfly.quickstarts.microprofile.config;
+
+import org.eclipse.microprofile.config.inject.ConfigProperty;
+
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+
+@Path("/config")
+@ApplicationScoped
+public class ConfigResource {
+
+    @Inject
+    @ConfigProperty(name = "config.prop")
+    private String configValue;
+
+    @GET
+    @Path("/value")
+    public String getValue() {
+        return configValue;
+    }
+}
+----
+
+As you can see, we are injecting a `String` configuration value named `config.prop`
+directly into our CDI bean (annotated with `@ApplicationScoped`) which is also at the
+same time a REST endpoint.
+
+Let's try to deploy this application to the application server. There are several
+ways of how you can specify the value of your configuration properties which the
+specification calls config sources. By default each MicroProfile Config
+implementation must provide at least three default config sources:
+
+* System properties
+* Environment properties
+* META-INF/microprofile-config.properties file
+
+If the same configuration value is defined by several config sources at the same
+time, it is resolved based on the config sources priority. The default config
+sources are prioritized in descending order (system properties, environment
+properties, and microprofile-config.properties). So we look for the configuration
+value in the environment properties only if we cannot find it in the system
+properties.
+
+Now we can start configuring our application. As specified above, the lowest
+ranking of the default config sources has the microprofile-config.properties file.
+So let's create a new file in our
+`src/main/resources/META-INF/microprofile-config.properties` with the following
+content:
+
+[source,properties]
+----
+config.prop=MyPropertyFileConfigValue
+----
+
+Now we can test our application correctly recognizes the configuration value:
+
+* Start your {productName} server
+
+* Package and deploy your application:
+
+[source,options="nowrap"]
+----
+$ mvn clean package wildfly:deploy
+----
+
+To check that the {productName} is working as expected:
+
+* access the `http://localhost:8080/microprofile-config/config/value`
+endpoint using your browser or
+`curl http://localhost:8080/microprofile-config/config/value`
+
+You will see that the returned value is our configured system property
+`MyPropertyFileConfigValue`.
+
+As said above, there are three different default config sources. So far we have
+seen only the `microprofile-config.properties` file which has the lowest priority.
+Let's override our configuration value with an environment property which has
+a bigger priority:
+
+* Stop you {productName} server
+
+* Set the environment propety `CONFIG_PROP` (the name is defined by the
+specification): `export CONFIG_PROP=MyEnvPropConfigValue`
+
+* Start your {productName} server again
+
+* access the `http://localhost:8080/microprofile-config/config/value`
+endpoint using your browser or
+`curl http://localhost:8080/microprofile-config/config/value`
+
+You can see that our configuration value defined in the configuration file was
+now overridden by the environment property and the value `MyEnvPropConfigValue`
+is returned.
+
+The last default config source is the system properties which has the highest
+priority:
+
+* Stop you {productName} server
+
+* Start your {productName} server with the `-Dconfig.prop=MySysPropConfigValue`
+
+* access the `http://localhost:8080/microprofile-config/config/value`
+endpoint using your browser or
+`curl http://localhost:8080/microprofile-config/config/value`
+
+The configuration property was overriden again and the value `MySysPropConfigValue`
+is returned.
+
+We covered the basic injection and the default config sources provided by the
+MicroProfile Config specification. Let's see what else the MicroProfile Config can
+offer.
+
+== Different types of configuration injections and default values
+
+In our first example we injected a concrete `String` value:
+
+[source,java]
+----
+@Inject
+@ConfigProperty(name = "config.prop")
+private String configValue;
+----
+
+The `ConfigProperty` qualifier contains one more optional parameter called the
+`defaultValue`. As the name says, this parameter sets the default value if the
+configuration property is not found in any of the config sources.
+
+To demonstrate how this works, let's define a new configuration property without
+the default value:
+
+* Add the following code to `org.wildfly.quickstarts.microprofile.config.ConfigResource`:
+
+[source,java]
+----
+@Inject
+@ConfigProperty(name = "required.prop")
+private String requiredProp;
+
+@GET
+@Path("/required")
+public String getRequiredProp() {
+    return requiredProp;
+}
+----
+
+* Build and redeploy the application
+
+[source,options="nowrap"]
+----
+$ mvn clean package wildfly:deploy
+----
+
+The deployment will fail with the following error:
+
+```
+Caused by: org.jboss.weld.exceptions.DeploymentException: No Config Value exists for required property required.prop
+```
+
+because the required configuration property `required.prop` wasn't defined. Let's
+fix this by providing a default value for this property if it's not found in any
+of the config sources:
+
+[source,java]
+----
+@Inject
+@ConfigProperty(name = "required.prop", defaultValue = "Default required prop value")
+private String requiredProp;
+----
+
+Build and redeploy the application
+
+[source,options="nowrap"]
+----
+$ mvn clean package wildfly:deploy
+----
+
+The application should now deploy without any errors and if access the
+`http://localhost:8080/microprofile-config/config/required` endpoint
+using your browser or
+`curl http://localhost:8080/microprofile-config/config/required` you
+will see the default value that we configured in the `ConfigProperty` qualifier.
+
+However, this is not the only way how you can deal with the situation when the
+configuration value is not provided. MicroProfile Config allows you to define
+different types of injections:
+
+* concrete values (String, int, double, ...) -- see the default converters later
+* optional values (Optional<T>) -- if the value is not found the specification
+injects `Optional.empty()` so the application can still be successfully deployed
+even if the configuration property is undefined
+* always reloaded values (Provider<T>) -- the value will be reevaluated with every
+access (see later with custom config sources)
+
+Let's add a new configuration property `optional.prop` with the type
+`Optional<String>` and corresponding endpoint:
+
+[source,java]
+----
+@Inject
+@ConfigProperty(name = "optional.prop")
+private Optional<String> optionalString;
+
+@GET
+@Path("/optional")
+public String getOptionalValue() {
+    return optionalString.orElse("no optional value provided, use this as the default");
+}
+----
+
+Build and redeploy the application
+
+[source,options="nowrap"]
+----
+$ mvn clean package wildfly:deploy
+----
+
+If you now access the
+`http://localhost:8080/microprofile-config/config/optional` endpoint
+using your browser or
+`curl http://localhost:8080/microprofile-config/config/optional` you
+will get back the `orElse` value because the `optional.prop` was not defined
+in our config sources.
+
+Last but not least, MicroProfile Config also allows you to inject the whole
+configuration collected from all config sources as a single object instance of
+the `Config` interface which provides a programmatic access to the configuration.
+Add the following code to `org.wildfly.quickstarts.microprofile.config.ConfigResource`:
+
+[source,java]
+----
+@Inject
+private Config config;
+
+@GET
+@Path("/all-props")
+public String getConfigPropertyNames() {
+    return config.getPropertyNames().toString();
+}
+----
+
+Build and redeploy the application
+
+[source,options="nowrap"]
+----
+$ mvn clean package wildfly:deploy
+----
+
+Access the `http://localhost:8080/microprofile-config/config/all-props`
+endpoint using your browser or
+`curl http://localhost:8080/microprofile-config/config/all-props` and
+you will see all available configuration property names.
+
+NOTE: You can investigate also the other methods of the `Config` interface.
+
+== Custom configuration sources
+
+MicroProfile Config allows you to define your own custom configuration sources
+to extend the three default ones provided by the implementation. To define your
+custom configuration source you need to provide a class which implements either
+`org.eclipse.microprofile.config.spi.ConfigSource` or
+`org.eclipse.microprofile.config.spi.ConfigSourceProvider` and define it through
+the https://docs.oracle.com/javase/8/docs/api/java/util/ServiceLoader.html[service file]
+which will be detected and installed at application startup/deployment.
+
+Let's define a custom config source with some predefined values. First create
+a new REST resource
+`org.wildfly.quickstarts.microprofile.config.CustomConfigResource` which will be enclosing
+our custom configurations:
+
+[source,java]
+----
+package org.wildfly.quickstarts.microprofile.config;
+
+import org.eclipse.microprofile.config.inject.ConfigProperty;
+
+import jakarta.inject.Inject;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+
+@Path("/custom-config")
+public class CustomConfigResource {
+
+    @Inject
+    @ConfigProperty(name = "custom.config.source.prop")
+    private String customConfigSourceProp;
+
+    @GET
+    @Path("/value")
+    public String getCustomConfigSourceProp() {
+        return customConfigSourceProp;
+    }
+}
+----
+
+Let's now define a custom configuration source that will provide
+`custom.config.source.prop` configuration property. Create a new class
+`org.wildfly.quickstarts.microprofile.config.custom.CustomConfigSource`:
+
+[source,java]
+----
+package org.wildfly.quickstarts.microprofile.config.custom;
+
+import org.eclipse.microprofile.config.spi.ConfigSource;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class CustomConfigSource implements ConfigSource {
+
+    private final Map<String, String> properties;
+
+    public CustomConfigSource() {
+        properties = new HashMap<>();
+        properties.put("custom.config.source.prop", "MyCustomValue");
+    }
+
+    @Override
+    public Map<String, String> getProperties() {
+        return properties;
+    }
+
+    @Override
+    public String getValue(String propertyName) {
+        return properties.get(propertyName);
+    }
+
+    @Override
+    public String getName() {
+        return "Custom Config Source with predefined values";
+    }
+
+    @Override
+    public int getOrdinal() {
+        return 400;
+    }
+}
+----
+
+We only need to override the necessary methods required to get the properties and
+to set the config source name. In this example, we also override the `getOrdinal`
+method which sets the config source priority to be higher than any of the default
+config sources.
+
+The last thing we need to do is to include our custom configuration source service
+loader definition. Create
+`src/main/resources/META-INF/services/org.eclipse.microprofile.config.spi.ConfigSource`
+with the following content:
+`org.wildfly.quickstarts.microprofile.config.custom.CustomConfigSource`.
+
+Build and redeploy the application
+
+[source,options="nowrap"]
+----
+$ mvn clean package wildfly:deploy
+----
+
+If you now access the
+`http://localhost:8080/microprofile-config/custom-config/value`
+endpoint using your browser or
+`curl http://localhost:8080/microprofile-config/custom-config/value`
+you will get back the configuration value `MyCustomValue` defined in our custom
+configuration source.
+
+If you would like to have a more programmatic approach to the definition of
+different ``ConfigSource``s, you can use
+`org.eclipse.microprofile.config.spi.ConfigSourceProvider`. Let's create a
+`ConfigSourceProvider` that defines a dynamic `ConfigSource`. Create a new class
+`org.wildfly.quickstarts.microprofile.config.custom.CustomPropertiesFileProvider`:
+
+[source,java]
+----
+package org.wildfly.quickstarts.microprofile.config.custom;
+
+import org.eclipse.microprofile.config.spi.ConfigSource;
+import org.eclipse.microprofile.config.spi.ConfigSourceProvider;
+
+import java.io.FileInputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.stream.Collectors;
+
+public class CustomPropertiesFileProvider implements ConfigSourceProvider {
+
+    @Override
+    public Iterable<ConfigSource> getConfigSources(ClassLoader forClassLoader) {
+        List<ConfigSource> configSources = new ArrayList<>();
+
+        configSources.add(new ConfigSource() {
+            @Override
+            public Map<String, String> getProperties() {
+                return reloadPropertiesFile();
+            }
+
+            @Override
+            public String getValue(String propertyName) {
+                return reloadPropertiesFile().get(propertyName);
+            }
+
+            @Override
+            public String getName() {
+                return "Custom dynamic configuration source";
+            }
+        });
+
+        return configSources;
+    }
+
+    private Map<String, String> reloadPropertiesFile() {
+        Properties properties = new Properties();
+        Path customPropertiesPath = Paths.get(System.getenv("JBOSS_HOME") + "/custom.properties");
+
+        if (!Files.exists(customPropertiesPath)) {
+            return new HashMap<>();
+        }
+
+        try (FileInputStream is = new FileInputStream(customPropertiesPath.toFile())) {
+            properties.load(is);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return properties.entrySet().stream().collect(
+            Collectors.toMap(
+                entry -> entry.getKey().toString(),
+                entry -> entry.getValue().toString()
+            )
+        );
+    }
+}
+----
+
+IMPORTANT: This requires that the `JBOSS_HOME` environment variable is set.
+
+NOTE: Note that our new custom `ConfigSource` reloads the property file on every
+access.
+
+As you can see above, our custom configuration source is accessing a file
+named `custom.properties` which needs to be created in your {productName}
+root directory (`JBOSS_HOME`):
+
+[source,properties]
+----
+custom.provided.prop=FileSystemCustomConfigValue
+----
+
+And as previously we need the service loader definition
+`src/main/resources/META-INF/services/org.eclipse.microprofile.config.spi.ConfigSourceProvider`
+with the content:
+`org.wildfly.quickstarts.microprofile.config.custom.CustomPropertiesFileProvider`.
+
+Let's define a new endpoint for accessing this custom dynamic config source.
+Add the following code to the
+`org.wildfly.quickstarts.microprofile.config.CustomConfigResource`:
+
+[source,java]
+----
+@Inject
+@ConfigProperty(name = "custom.provided.prop", defaultValue = "default")
+private Provider<String> providedCustomProp;
+
+@GET
+@Path("/reloaded-value")
+public String providedCustomProp() {
+    return providedCustomProp.get();
+}
+----
+
+Note that we are now using `jakarta.inject.Provider` as an injected type. This means
+that our value will be reloaded from config sources on every access. Since we are
+reloading the property file from the file system on every access this allows us to
+change the configuration dynamically without the need to restart the {productName}
+server or to redeploy the application.
+
+Build and redeploy the application:
+
+[source,options="nowrap"]
+----
+$ mvn clean package wildfly:deploy
+----
+
+If you now access the
+`http://localhost:8080/microprofile-config/custom-config/reloaded-value`
+endpoint using your browser or
+`curl http://localhost:8080/microprofile-config/custom-config/reloaded-value`
+you will get back the configuration value `FileSystemCustomConfigValue` defined
+in our custom configuration file. But if you now change the `custom.properties`
+file (without stopping of the server or the need to redeploy the application)
+and repeat the invocation at
+`http://localhost:8080/microprofile-config/custom-config/reloaded-value`
+you will see that the value is dynamically reloaded:
+
+* change `$JBOSS_HOME/custom.properties` (don't forget to save the file):
+
+[source,properties]
+----
+custom.provided.prop=DynamicallyUpdatedValue
+----
+
+* repeat the invocation at
+`http://localhost:8080/microprofile-config/custom-config/reloaded-value`
+
+You will see that the value `DynamicallyUpdatedValue` is returned. If you repeat
+this with different values of `custom.provide.prop` it will always get reloaded.
+
+== Custom configuration converters
+
+The MicroProfile Config provides several default converters from the configuration
+values which are typed as ``String``s (e.g. `int`, `Integer`, `Double`, `float`, ...).
+However, you can also use your custom types as a configuration values. This can be
+done by implementing
+`org.eclipse.microprofile.config.spi.Converter<T>` and adding its fully qualified
+class name in the
+`META-INF/services/org.eclipse.microprofile.config.spi.Converter` file. Let's create
+a new class
+`org.wildfly.quickstarts.microprofile.config.converter.type.MicroProfileCustomValue`:
+
+[source,java]
+----
+package org.wildfly.quickstarts.microprofile.config.converter.type;
+
+public class MicroProfileCustomValue {
+
+    private String name;
+
+    public MicroProfileCustomValue(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+}
+----
+
+which represents our custom value and the corresponding
+`Converter<MicroProfileCustomValue>` implementation
+`org.wildfly.quickstarts.microprofile.config.converter.MicroProfileCustomValueConverter`:
+
+[source,java]
+----
+package org.wildfly.quickstarts.microprofile.config.converter;
+
+import org.eclipse.microprofile.config.spi.Converter;
+import org.wildfly.quickstarts.microprofile.config.converter.type.MicroProfileCustomValue;
+
+public class MicroProfileCustomValueConverter implements Converter<MicroProfileCustomValue> {
+
+    @Override
+    public MicroProfileCustomValue convert(String value) {
+        return new MicroProfileCustomValue(value);
+    }
+}
+----
+
+NOTE: Please note that your custom converter class must be public and must have a
+public no-argument constructor. It also must not be abstract.
+
+Then you need to include the fully qualified class name of the converter in a
+service file
+`src/main/resources/META-INF/services/org.eclipse.microprofile.config.spi.Converter`:
+
+[source]
+----
+org.wildfly.quickstarts.microprofile.config.converter.MicroProfileCustomValueConverter
+----
+
+After this is done you can use your custom type as a configuration value. Create
+a new resource class `org.wildfly.quickstarts.microprofile.config.ConverterResource`:
+
+[source,java]
+----
+package org.wildfly.quickstarts.microprofile.config;
+
+import org.eclipse.microprofile.config.inject.ConfigProperty;
+import org.wildfly.quickstarts.microprofile.config.converter.type.MicroProfileCustomValue;
+
+import jakarta.inject.Inject;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+
+@Path("/converter")
+public class ConverterResource {
+
+    @Inject
+    @ConfigProperty(name = "custom.converter.prop")
+    private MicroProfileCustomValue microProfileCustomValue;
+
+    @GET
+    @Path("/value")
+    public String customConverterProp() {
+        return microProfileCustomValue.getName();
+    }
+}
+----
+
+And define the `custom.converter.prop` in, for instance,
+`microprofile-config.properties` file.
+
+[source,properties]
+----
+custom.converter.prop=MyCustomConverterValue
+----
+
+Build and redeploy the application
+
+[source,options="nowrap"]
+----
+$ mvn clean package wildfly:deploy
+----
+
+And now you can access the
+`http://localhost:8080/microprofile-config/converter/value`
+endpoint using your browser or
+`curl http://localhost:8080/microprofile-config/converter/value` to make use of the custom
+converter. You will see the configured value which is taken from our created
+`MicroProfileCustomValue` object.
+
+// Bootable JAR
+include::../shared-doc/build-and-run-the-quickstart-with-bootable-jar.adoc[leveloffset=+1]
+
+// Openshift
+include::../shared-doc/build-and-run-the-quickstart-with-openshift.adoc[leveloffset=+1]
+
+== Conclusion
+
+MicroProfile Config provides a way for your application to separate the configuration
+from your application code which is a requirement for modern applications targeting
+containers and cloud deployments. It allows you to adjust every aspect of the
+configuration according to the application needs. The more information can be found
+in the https://github.com/eclipse/microprofile-config/blob/master/spec/src/main/asciidoc/microprofile-config-spec.asciidoc[MicroProfile config specification].

@@ -1,0 +1,51 @@
+include::../shared-doc/attributes.adoc[]
+
+= servlet-async: How to Write an Asynchronous Servlet
+:author: Christian Sadilek
+:level: Intermediate
+:technologies: Asynchronous Servlet, CDI, EJB
+:openshift: true
+
+[abstract]
+The `servlet-async` quickstart demonstrates how to use asynchronous servlets to detach long-running tasks and free up the request processing thread.
+
+:standalone-server-type: default
+:archiveType: war
+
+== What is it?
+
+The `servlet-async` quickstart is a sample project showing the use of asynchronous servlets in {productNameFull}.
+
+It shows how to detach the execution of a long-running task from the request processing thread, so the thread is free to serve other client requests. The long-running tasks are executed using a dedicated thread pool and create the client response asynchronously.
+
+A long-running task in this context does not refer to a computation intensive task executed on the same machine but could for example be contacting a third-party service that has limited resources or only allows for a limited number of concurrent connections. Moving the calls to this service into a separate and smaller sized thread pool ensures that less threads will be busy interacting with the long-running service and that more requests can be served that do not depend on this service.
+
+// Link to the quickstart source
+include::../shared-doc/view-the-source.adoc[leveloffset=+1]
+// System Requirements
+include::../shared-doc/system-requirements.adoc[leveloffset=+1]
+// Use of {jbossHomeName}
+include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
+
+// build and run with standard server distribution
+[[build_and_run_the_quickstart_with_server_dist]]
+== Building and running the quickstart application with a {productName} server distribution
+// Start the {productName} Standalone Server
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+2]
+// Build and Deploy the Quickstart
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+2]
+
+=== Access the Application
+
+The application will be running at the following URL http://localhost:8080/{artifactId}/.
+
+// Server Distribution Testing
+include::../shared-doc/run-integration-tests-with-server-distribution.adoc[leveloffset=+2]
+// Undeploy the Quickstart
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+2]
+
+// Build and run sections for other environments/builds
+ifndef::ProductRelease,EAPXPRelease[]
+include::../shared-doc/build-and-run-the-quickstart-with-provisioned-server.adoc[leveloffset=+1]
+endif::[]
+include::../shared-doc/build-and-run-the-quickstart-with-openshift.adoc[leveloffset=+1]

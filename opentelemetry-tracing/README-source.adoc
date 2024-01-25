@@ -1,0 +1,240 @@
+include::../shared-doc/attributes.adoc[]
+
+= opentelemetry-tracing: OpenTelemetry Tracing QuickStart
+:author: Jason Lee
+:level: Beginner
+:technologies: OpenTelemetry Tracing
+:openshift: true
+
+[abstract]
+The `opentelemetry-tracing` quickstart demonstrates the use of the OpenTelemetry tracing specification in {productName}.
+
+:standalone-server-type: default
+:archiveType: war
+:archiveName: {artifactId}
+:restoreScriptName: restore-configuration.cli
+
+
+== What is it?
+
+OpenTelemetry is a set of APIs, SDKs, tooling and integrations that are designed for the creation and management of
+telemetry data such as traces, metrics, and logs. OpenTelemetry support in {productName} is limited to traces only.
+{productName}'s support of OpenTelemetry provides out of the box tracing of Jakarta REST calls, as well as
+container-managed Jakarta REST Client invocations. Additionally, applications can have injected a `Tracer` instance
+in order to create and manage custom `Span`s as a given application may require. These traces are exported
+to an OpenTelemetry Collector instance listening on the same host.
+
+== Architecture
+
+In this quickstart, we have a collection of CDI beans and REST endpoints that  expose functionalities of the OpenTelemetry support in {productName}.
+
+// Use of {jbossHomeName}
+include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
+
+== Prerequisites
+
+To complete this guide, you will need:
+
+* less than 15 minutes
+* JDK 11+ installed with `JAVA_HOME` configured appropriately
+* Apache Maven 3.5.3+
+* Docker Compose, or alternatively Podman Compose
+
+include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
+
+== Steps
+
+// Start the {productName} Standalone Server
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
+
+[[configure_the_server]]
+=== Configure the Server
+
+You enable OpenTelemetry by running JBoss CLI commands. For your convenience, this quickstart batches the commands into a `configure-opentelemtry.cli` script provided in the root directory of this quickstart.
+
+. Before you begin, make sure you do the following:
+
+* xref:back_up_standalone_server_configuration[Back up the {productName} standalone server configuration] as described above.
+* xref:start_the_eap_standalone_server[Start the {productName} server with the standalone default profile] as described above.
+
+. Review the `configure-opentelemtry.cli` file in the root of this quickstart directory. This script adds the configuration that enables OpenTelemetry for the quickstart components. Comments in the script describe the purpose of each block of commands.
+. Open a new terminal, navigate to the root directory of this quickstart, and run the following command, replacing `__{jbossHomeName}__` with the path to your server:
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=configure-opentelemetry.cli
+----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
++
+
+You should see the following result when you run the script:
++
+[source,options="nowrap"]
+----
+The batch executed successfully
+process-state: reload-required
+----
+
+. You'll need to reload the configuration after that:
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}__/bin/jboss-cli.sh --connect --commands=reload
+----
+
+[[start_opentelemetry_collector]]
+=== Starting the OpenTelemetry Collector
+
+By default, {productName} will publish traces every 10 seconds, so you will soon start seeing errors about a refused connection.
+
+This is because we told {productName} to publish to a server that is not there, so we need to fix that. To make that as simple as possible, you can use Docker Compose to start an instance of the OpenTelemetry Collector.
+
+The Docker Compose configuration file is `docker-compose.yaml`:
+
+[source,yaml]
+----
+include::docker-compose.yaml[]
+----
+
+The Collector server configuration file is `otel-collector-config.yaml`:
+
+[source,yaml]
+----
+include::otel-collector-config.yaml[]
+----
+
+We can now bring up the collector instance:
+
+[source,bash]
+----
+$ docker-compose up
+----
+
+The service should be available almost immediately, which you can verify by looking for the log entry `Everything is ready. Begin running and processing data.`.
+
+[NOTE]
+====
+You may use Podman as alternative to Docker if you prefer, in such case the command should be `podman-compose up`.
+====
+
+[NOTE]
+====
+If your environment does not support Docker or Podman, please refer to
+https://opentelemetry.io/docs/collector/installation[Otel Collector documentation] for alternatives on how to install
+and run the OpenTelemetry Collector.
+====
+
+[NOTE]
+=====
+Part of the value of OpenTelemetry is its vendor-agnostic approach to exporting its various supported signals. As such,
+this demo will only log the incoming traces, leaving the relaying of those signals to a downstream aggregation platform
+as an exercise for the reader.
+=====
+
+Now we can start adding our custom spans from our application.
+
+=== Creating traces
+
+==== Implicit tracing of REST resources
+
+The OpenTelemetry support in {productName} provides an implicit tracing of all Jakarta REST resources. That means that
+for all applications, {productName} will automatically:
+
+* extract the Span context from the incoming Jakarta REST request
+* start a new Span on incoming Jakarta REST request and close it when the request is completed
+* inject Span context to any outgoing Jakarta REST request
+* start a Span for any outgoing Jakarta REST request and finish the Span when the request is completed
+
+==== Explicit tracing
+
+The OpenTelemetry API also supports explicit tracing should your application required it:
+
+[source,java]
+-----
+include::src/main/java/org/wildfly/quickstarts/opentelemetry/ExplicitlyTracedBean.java[]
+-----
+
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
+
+== Access the quickstart application
+
+You can either access the application via your browser at http://localhost:8080/opentelemetry-tracing/implicit-trace[], or http://localhost:8080/opentelemetry-tracing/explicit-trace[]. You can also access it from the command line:
+
+[source,bash]
+----
+$ curl http://localhost:8080/opentelemetry-tracing/implicit-trace
+$ curl http://localhost:8080/opentelemetry-tracing/explicit-trace
+----
+
+Either endpoint should return a simple document:
+
+[source]
+-----
+hello
+-----
+
+=== View the traces
+
+You can view the traces by looking at the Collector's log. You should see something like this:
+
+[source]
+-----
+otel-collector_1  | 2023-12-13T21:05:28.002Z    info    TracesExporter  {"kind": "exporter", "data_type": "traces", "name": "logging", "resource spans": 1, "spans": 1}
+otel-collector_1  | 2023-12-13T21:05:28.002Z    info    ResourceSpans #0
+otel-collector_1  | Resource SchemaURL: https://opentelemetry.io/schemas/1.20.0
+otel-collector_1  | Resource attributes:
+otel-collector_1  |      -> service.name: Str(opentelemetry-tracing.war)
+otel-collector_1  |      -> telemetry.sdk.language: Str(java)
+otel-collector_1  |      -> telemetry.sdk.name: Str(opentelemetry)
+otel-collector_1  |      -> telemetry.sdk.version: Str(1.29.0)
+otel-collector_1  | ScopeSpans #0
+otel-collector_1  | ScopeSpans SchemaURL:
+otel-collector_1  | InstrumentationScope io.smallrye.opentelemetry 2.6.0
+otel-collector_1  | Span #0
+otel-collector_1  |     Trace ID       : c761e8fadec36d222adac36dcff1f4b1
+otel-collector_1  |     Parent ID      :
+otel-collector_1  |     ID             : 08f93dd25f75b5cd
+otel-collector_1  |     Name           : GET /opentelemetry-tracing/implicit-trace
+otel-collector_1  |     Kind           : Server
+otel-collector_1  |     Start time     : 2023-12-13 21:05:20.560054393 +0000 UTC
+otel-collector_1  |     End time       : 2023-12-13 21:05:20.621635685 +0000 UTC
+otel-collector_1  |     Status code    : Unset
+otel-collector_1  |     Status message :
+otel-collector_1  | Attributes:
+otel-collector_1  |      -> net.host.port: Int(8080)
+otel-collector_1  |      -> http.scheme: Str(http)
+otel-collector_1  |      -> http.method: Str(GET)
+otel-collector_1  |      -> http.status_code: Int(200)
+otel-collector_1  |      -> net.transport: Str(ip_tcp)
+otel-collector_1  |      -> user_agent.original: Str(curl/8.2.1)
+otel-collector_1  |      -> net.host.name: Str(localhost)
+otel-collector_1  |      -> http.route: Str(/opentelemetry-tracing/implicit-trace)
+otel-collector_1  |      -> http.target: Str(/opentelemetry-tracing/implicit-trace)
+otel-collector_1  |      -> net.sock.host.addr: Str(127.0.0.1)
+otel-collector_1  |     {"kind": "exporter", "data_type": "traces", "name": "logging"}
+-----
+
+// Server Distribution Testing
+include::../shared-doc/run-integration-tests-with-server-distribution.adoc[leveloffset=+2]
+// Undeploy the Quickstart
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+2]
+//  Restore the {productName} Standalone Server Configuration
+include::../shared-doc/restore-standalone-server-configuration.adoc[leveloffset=+2]
+// Restore the {productName} Standalone Server Configuration Manually
+include::../shared-doc/restore-standalone-server-configuration-manual.adoc[leveloffset=+3]
+// Build and run sections for other environments/builds
+ifndef::ProductRelease,EAPXPRelease[]
+include::../shared-doc/build-and-run-the-quickstart-with-provisioned-server.adoc[leveloffset=+1]
+endif::[]
+// Bootable JAR
+include::../shared-doc/build-and-run-the-quickstart-with-bootable-jar.adoc[leveloffset=+1]
+// OpenShift
+include::../shared-doc/build-and-run-the-quickstart-with-openshift.adoc[leveloffset=+1]
+
+== Conclusion
+
+OpenTelemetry Tracing provides the mechanisms for your application to participate
+in the distributed tracing with minimal effort on the application side. The Jakarta REST
+resources are always traced by default, but the specification allows you to create
+individual spans directly with the CDI injection of the `io.opentelemetry.api.trace.Tracer`.

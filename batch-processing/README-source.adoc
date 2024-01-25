@@ -1,0 +1,144 @@
+include::../shared-doc/attributes.adoc[]
+
+= batch-processing: Chunk oriented Batch 1.0 processing
+:author: Rafael Benevides
+:level: Intermediate
+:technologies: CDI, Batch 1.0, JSF
+:openshift: true
+
+[abstract]
+The `batch-processing` quickstart shows how to use chunk oriented batch jobs to import a file to a database.
+
+:standalone-server-type: default
+:archiveType: war
+:uses-h2:
+
+== What is it?
+
+This quickstart simulates a file importation using batch jobs. To make it easy, this quickstart offers the user a way to generate files. The generated file can have its name and the number of records customized. The user can also specify if the file contains an error or not.
+
+The job contains two tasks:
+
+. It imports the file using a chunk oriented approach.
+
+* The chunk size is set to `3`.
+* The `RecordsReader` is responsible for parsing the file and create an instance of `Contact`.
+* The `ContactsFormatter` applies the proper case to the contact name and it also applies a mask to the phone number.
+* Finally, `ContactsPersister` sends the contact instance to the database.
+
+. It logs the number of records imported.
+
+The database schema defines that the column for name is unique. For that reason, any attempt to persist a duplicate value will throw an exception. On the second attempt to run the job, the `ChunkCheckpoint` provides information to skip the contacts that were already persisted.
+
+// Link to the quickstart source
+include::../shared-doc/view-the-source.adoc[leveloffset=+1]
+// Considerations for Use in a Production Environment
+include::../shared-doc/development-shortcuts.adoc[leveloffset=+1]
+// System Requirements
+include::../shared-doc/system-requirements.adoc[leveloffset=+1]
+// Use of {jbossHomeName}
+include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
+// Start the {productName} Standalone Server
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
+// Build and Deploy the Quickstart
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
+
+== Access the Application
+
+Access the running application in a browser at the following URL: http://localhost:8080/{artifactId}/
+
+You are presented with a simple form that allows you to generate sample files to be imported.
+
+=== Usage 1: Import the file without any errors
+
+. Click on *Generate a new file and start import job* button. This generates a new file with 10 unique records to be imported. The import job starts after the file is generated.
+
+. A table is displayed containing information about the task that was started. Click on the *Update jobs list* button and verify that the job was completed.
+
+. Investigate the console output. It shows that files with 10 records were processed, 3 records at a time.
++
+[source,options="nowrap"]
+----
+INFO  [org.jboss.as.quickstarts.batch.controller.BatchController] (default task-3) Starting to generate 10 in file /var/folders/j8/63sgdmbn5tqdkyw0tz6df53r0000gn/T/temp-file.txt
+INFO  [org.jboss.as.quickstarts.batch.controller.BatchController] (default task-3) File generated at /var/folders/j8/63sgdmbn5tqdkyw0tz6df53r0000gn/T/temp-file.txt
+INFO  [org.jboss.as.quickstarts.batch.job.listener.JobListener] (Batch Thread - 1) Job import-file - Execution #1 starting.
+INFO  [org.jboss.as.quickstarts.batch.job.ContactsPersister] (Batch Thread - 1) No checkpoint detected. Cleaning the Database
+INFO  [org.jboss.as.quickstarts.batch.job.ContactsFormatter] (Batch Thread - 1) Register #1 - Changing name ZIqYKITxiM -> Ziqykitxim | phone  978913851 -> (978)-913-851
+INFO  [org.jboss.as.quickstarts.batch.job.ContactsFormatter] (Batch Thread - 1) Register #2 - Changing name JbHjnaThps -> Jbhjnathps | phone  095108018 -> (095)-108-018
+INFO  [org.jboss.as.quickstarts.batch.job.ContactsFormatter] (Batch Thread - 1) Register #3 - Changing name FJTlXRtCdR -> Fjtlxrtcdr | phone  286847939 -> (286)-847-939
+INFO  [org.jboss.as.quickstarts.batch.job.listener.PersistListener] (Batch Thread - 1) Preparing to persist 3 contacts
+INFO  [org.jboss.as.quickstarts.batch.job.listener.PersistListener] (Batch Thread - 1) Persisting 3 contacts
+INFO  [org.jboss.as.quickstarts.batch.job.ContactsFormatter] (Batch Thread - 1) Register #4 - Changing name mlmBABWzfL -> Mlmbabwzfl | phone  744478648 -> (744)-478-648
+INFO  [org.jboss.as.quickstarts.batch.job.ContactsFormatter] (Batch Thread - 1) Register #5 - Changing name jVlTYiBRMP -> Jvltyibrmp | phone  135063841 -> (135)-063-841
+INFO  [org.jboss.as.quickstarts.batch.job.ContactsFormatter] (Batch Thread - 1) Register #6 - Changing name DwEFbSjfQE -> Dwefbsjfqe | phone  404572175 -> (404)-572-175
+INFO  [org.jboss.as.quickstarts.batch.job.listener.PersistListener] (Batch Thread - 1) Preparing to persist 3 contacts
+INFO  [org.jboss.as.quickstarts.batch.job.listener.PersistListener] (Batch Thread - 1) Persisting 3 contacts
+INFO  [org.jboss.as.quickstarts.batch.job.ContactsFormatter] (Batch Thread - 1) Register #7 - Changing name niDXWwGJuQ -> Nidxwwgjuq | phone  949448390 -> (949)-448-390
+INFO  [org.jboss.as.quickstarts.batch.job.ContactsFormatter] (Batch Thread - 1) Register #8 - Changing name VZBArfowSe -> Vzbarfowse | phone  902370961 -> (902)-370-961
+INFO  [org.jboss.as.quickstarts.batch.job.ContactsFormatter] (Batch Thread - 1) Register #9 - Changing name aSpyWCWwje -> Aspywcwwje | phone  246977695 -> (246)-977-695
+INFO  [org.jboss.as.quickstarts.batch.job.listener.PersistListener] (Batch Thread - 1) Preparing to persist 3 contacts
+INFO  [org.jboss.as.quickstarts.batch.job.listener.PersistListener] (Batch Thread - 1) Persisting 3 contacts
+INFO  [org.jboss.as.quickstarts.batch.job.ContactsFormatter] (Batch Thread - 1) Register #10 - Changing name TofTfbRBzI -> Toftfbrbzi | phone  868339088 -> (868)-339-088
+INFO  [org.jboss.as.quickstarts.batch.job.listener.PersistListener] (Batch Thread - 1) Preparing to persist 1 contacts
+INFO  [org.jboss.as.quickstarts.batch.job.listener.PersistListener] (Batch Thread - 1) Persisting 1 contacts
+INFO  [org.jboss.as.quickstarts.batch.job.ReportBatchelet] (Batch Thread - 1) Imported 10 to Database
+INFO  [org.jboss.as.quickstarts.batch.job.listener.JobListener] (Batch Thread - 1) Job import-file - Execution #1 finished. Status: COMPLETED
+----
+
+=== Usage 2: Import an error file and fix it
+
+Now you will simulate a file with duplicate records. This will raise an exception and stop the processing. After that, you will fix the file and continue the importing where it stopped.
+
+. Mark the *Generate a duplicate record* checkbox and click on *Generate a new file and start import job* button. If you click on *Update jobs list* button, you will see that the job failed with the following Exit Status: `Error : org.hibernate.exception.ConstraintViolationException: could not execute statement`. This was caused because the job tried to insert a duplicate record at the Database. You will also see `org.h2.jdbc.JdbcSQLException: Unique index or primary key violation` exception stacktraces in the server log.
+
+. Next, you will fix the file and restart that job execution. Uncheck the *Generate a duplicate record* checkbox and click on *Generate a new file* button. This will generate the file without errors.
+
+. Click on *Restart* button in the last column for that job instance in the *List of Jobs* table. If you click on *Update jobs list* button, you will see that the job was completed.
+
+. Review the server logs and verify that the job started from the last checkpoint.
++
+[source,options="nowrap"]
+----
+INFO  [org.jboss.as.quickstarts.batch.job.RecordsReader] (Batch Thread - 3) Skipping to line 3 as marked by previous checkpoint
+----
+
+. Investigate the console output.
++
+[source,options="nowrap"]
+----
+INFO  [org.jboss.as.quickstarts.batch.job.listener.JobListener] (Batch Thread - 3) Job import-file - Execution #3 starting.
+INFO  [org.jboss.as.quickstarts.batch.job.RecordsReader] (Batch Thread - 3) Skipping to line 3 as marked by previous checkpoint
+INFO  [org.jboss.as.quickstarts.batch.job.ContactsFormatter] (Batch Thread - 3) Register #4 - Changing name HdeqwzEjbA -> Hdeqwzejba | phone  686417040 -> (686)-417-040
+INFO  [org.jboss.as.quickstarts.batch.job.ContactsFormatter] (Batch Thread - 3) Register #5 - Changing name veEEbtpYTJ -> Veeebtpytj | phone  367981821 -> (367)-981-821
+INFO  [org.jboss.as.quickstarts.batch.job.ContactsFormatter] (Batch Thread - 3) Register #6 - Changing name bQIKTUyqMW -> Bqiktuyqmw | phone  103363182 -> (103)-363-182
+INFO  [org.jboss.as.quickstarts.batch.job.listener.PersistListener] (Batch Thread - 3) Preparing to persist 3 contacts
+INFO  [org.jboss.as.quickstarts.batch.job.listener.PersistListener] (Batch Thread - 3) Persisting 3 contacts
+INFO  [org.jboss.as.quickstarts.batch.job.ContactsFormatter] (Batch Thread - 3) Register #7 - Changing name KVLIGXhCry -> Kvligxhcry | phone  117327691 -> (117)-327-691
+INFO  [org.jboss.as.quickstarts.batch.job.ContactsFormatter] (Batch Thread - 3) Register #8 - Changing name PBAZgernHy -> Pbazgernhy | phone  066203468 -> (066)-203-468
+INFO  [org.jboss.as.quickstarts.batch.job.ContactsFormatter] (Batch Thread - 3) Register #9 - Changing name DGtNZdteGB -> Dgtnzdtegb | phone  908779587 -> (908)-779-587
+INFO  [org.jboss.as.quickstarts.batch.job.listener.PersistListener] (Batch Thread - 3) Preparing to persist 3 contacts
+INFO  [org.jboss.as.quickstarts.batch.job.listener.PersistListener] (Batch Thread - 3) Persisting 3 contacts
+INFO  [org.jboss.as.quickstarts.batch.job.ContactsFormatter] (Batch Thread - 3) Register #10 - Changing name mhmIHhZMhv -> Mhmihhzmhv | phone  094518410 -> (094)-518-410
+INFO  [org.jboss.as.quickstarts.batch.job.listener.PersistListener] (Batch Thread - 3) Preparing to persist 1 contacts
+INFO  [org.jboss.as.quickstarts.batch.job.listener.PersistListener] (Batch Thread - 3) Persisting 1 contacts
+WARN  [org.jberet] (Batch Thread - 3) JBERET000018: Could not find the original step execution to restart.  Current step execution id: 0, step name: reportBatchelet
+INFO  [org.jboss.as.quickstarts.batch.job.ReportBatchelet] (Batch Thread - 3) Imported 10 to Database
+INFO  [org.jboss.as.quickstarts.batch.job.listener.JobListener] (Batch Thread - 3) Job import-file - Execution #3 finished. Status: COMPLETED
+----
+
+=== Usage 3: Import an error file and do not fix the errors
+
+. Check the *Generate a duplicate record* checkbox and click on *Generate a new file ans start import job* button. If you click on *Update jobs list* button, you will see that the job failed with the following Exit Status: `Error : org.hibernate.exception.ConstraintViolationException: could not execute statement`. This was caused because you tried to insert a duplicate record at the Database.
+
+. This time you will not fix the file. Just click on *Restart* button again. If you click on *Update jobs list* button, you will see that the job was marked as `ABANDONED` this time because it was restarted once. Notice that there is a new parameter: `restartedOnce=true`. This behavior was implemented in `JobListener` for demonstration purposes, to prevent a `FAILED` job from being restarted twice.
+
+// Server Distribution Testing
+include::../shared-doc/run-integration-tests-with-server-distribution.adoc[leveloffset=+2]
+// Undeploy the Quickstart
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+2]
+
+// Build and run sections for other environments/builds
+ifndef::ProductRelease,EAPXPRelease[]
+include::../shared-doc/build-and-run-the-quickstart-with-provisioned-server.adoc[leveloffset=+1]
+endif::[]
+include::../shared-doc/build-and-run-the-quickstart-with-openshift.adoc[leveloffset=+1]

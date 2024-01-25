@@ -1,0 +1,223 @@
+include::../shared-doc/attributes.adoc[]
+
+= servlet-security:  Using Jakarta EE Declarative Security to Control Servlet Access
+:author: Sherif F. Makary, Pedro Igor, Stefan Guilhen
+:level: Intermediate
+:technologies: Servlet, Security
+:openshift: true
+
+[abstract]
+The `servlet-security` quickstart demonstrates the use of Jakarta EE declarative security to control access to Servlets and Security in {productName}.
+
+:standalone-server-type: default
+:archiveType: war
+:uses-h2:
+:restoreScriptName: restore-configuration.cli
+
+== What is it?
+
+The `servlet-security` quickstart demonstrates the use of Jakarta EE declarative security to control access to Servlets and Security in {productNameFull}.
+
+When you deploy this example, two users are automatically created for you: user `quickstartUser` with password `quickstartPwd1!` and user `guest` with password `guestPwd1!`. This data is located in the `src/main/resources/import.sql` file.
+
+This quickstart takes the following steps to implement Servlet security:
+
+. Web Application:
+** Adds a security constraint to the Servlet using the `@ServletSecurity` and `@HttpConstraint` annotations.
+** Adds a security domain reference to `WEB-INF/jboss-web.xml`.
+** Adds a `login-config` that sets the `auth-method` to `BASIC` in the `WEB-INF/web.xml`.
+. Application Server (`standalone.xml`):
+** Defines a security domain in the `elytron` subsystem that uses the JDBC security realm to obtain the security data used to authenticate and authorize users.
+** Adds an `application-security-domain` mapping in the `undertow` subsystem to map the Servlet security domain to the security domain defined in step 1.
+. Database Configuration:
+** Adds an application user with access rights to the application.
++
+[source,options="nowrap"]
+----
+User Name: quickstartUser
+Password: quickstartPwd1!
+Role: quickstarts
+----
+
+** Adds another user with no access rights to the application.
++
+[source,options="nowrap"]
+----
+User Name: guest
+Password: guestPwd1!
+Role: notauthorized
+----
+
+// Link to the quickstart source
+include::../shared-doc/view-the-source.adoc[leveloffset=+1]
+//  Considerations for Use in a Production Environment
+include::../shared-doc/development-shortcuts.adoc[leveloffset=+1]
+// System Requirements
+include::../shared-doc/system-requirements.adoc[leveloffset=+1]
+// Use of {jbossHomeName}
+include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
+
+// build and run with standard server distribution
+[[build_and_run_the_quickstart_with_server_dist]]
+== Building and running the quickstart application with a {productName} server distribution
+// Back Up the {productName} Standalone Server Configuration
+include::../shared-doc/back-up-server-standalone-configuration.adoc[leveloffset=+2]
+// Start the {productName} Standalone Server
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+2]
+
+[[configure_the_server]]
+=== Configure the Server
+
+You can configure the server by running JBoss CLI commands. For your convenience, this quickstart batches the commands into a `configure-server.cli` script provided in the root directory of this quickstart.
+
+. Before you begin, make sure you do the following:
+
+* xref:back_up_standalone_server_configuration[Back up the {productName} standalone server configuration] as described above.
+* xref:start_the_eap_standalone_server[Start the {productName} server with the standalone default profile] as described above.
+
+. Review the `configure-server.cli` file in the root of this quickstart directory. This script adds security domain and HTTP authentication factory to the `elytron` subsystem in the server configuration and also configures the `undertow` subsystem to use the configured HTTP authentication factory for the Web application.
+. Open a new terminal, navigate to the root directory of this quickstart, and run the following command, replacing `__{jbossHomeName}__` with the path to your server:
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=configure-server.cli
+----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
+
++
+You should see the following result when you run the script:
++
+[source,options="nowrap"]
+----
+The batch executed successfully
+----
+
+. Stop the {productName} server.
+
+=== Review the Modified Server Configuration
+
+After stopping the server, open the `__{jbossHomeName}__/standalone/configuration/standalone.xml` file and review the changes.
+
+. The following datasource was added to the `datasources` subsystem.
++
+[source,xml,options="nowrap"]
+----
+<datasource jndi-name="java:jboss/datasources/ServletSecurityDS" pool-name="ServletSecurityDS">
+    <connection-url>jdbc:h2:mem:servlet-security;DB_CLOSE_ON_EXIT=FALSE</connection-url>
+    <driver>h2</driver>
+    <security>
+        <user-name>sa</user-name>
+        <password>sa</password>
+    </security>
+</datasource>
+----
+
+. The following `security-realm` was added to the `elytron` subsystem.
++
+[source,xml,options="nowrap"]
+----
+<jdbc-realm name="servlet-security-jdbc-realm">
+    <principal-query sql="SELECT PASSWORD FROM USERS WHERE USERNAME = ?" data-source="ServletSecurityDS">
+        <clear-password-mapper password-index="1"/>
+    </principal-query>
+    <principal-query sql="SELECT R.NAME, 'Roles' FROM USERS_ROLES UR INNER JOIN ROLES R ON R.ID = UR.ROLE_ID INNER JOIN USERS U ON U.ID = UR.USER_ID WHERE U.USERNAME = ?" data-source="ServletSecurityDS">
+        <attribute-mapping>
+            <attribute to="roles" index="1"/>
+        </attribute-mapping>
+    </principal-query>
+</jdbc-realm>
+----
++
+The `security-realm` is responsible for verifying the credentials for a given principal and for obtaining security attributes (like roles) that are associated with the authenticated identity.
+
+. The `jdbc-realm` in this quickstart stores the roles associated with a principal in an attribute named `Roles`.
++
+Other realms might use different attributes for roles (such as `group`).
+If an attribute name other than "Roles" is used to store the roles, a `role-decoder` can be configured as follows:
++
+```
+/subsystem=elytron/simple-role-decoder=from-roles-attribute:add(attribute=ATTRIBUTE_NAME)
+```
++
+The command to create a `security-domain` could then be updated to reference this `role-decoder`:
++
+```
+/subsystem=elytron/security-domain=servlet-security-quickstart-sd:add(default-realm=servlet-security-jdbc-realm, realms=[{realm=servlet-security-jdbc-realm, role-decoder=from-roles-attribute}], permission-mapper=default-permission-mapper)
+```
++
+The purpose of a `role-decoder` is to instruct the security domain how roles are to be retrieved from an authorized identity.
+
+
+. The following `security-domain` was added to the `elytron` subsystem.
++
+[source,xml,options="nowrap"]
+----
+<security-domain name="servlet-security-quickstart-sd" default-realm="servlet-security-jdbc-realm" permission-mapper="default-permission-mapper">
+    <realm name="servlet-security-jdbc-realm"/>
+</security-domain>
+----
+
+. The following `application-security-domain` was added to the `undertow` subsystem.
++
+[source,xml,options="nowrap"]
+----
+<application-security-domains>
+    <application-security-domain name="servlet-security-quickstart" security-domain="servlet-security-quickstart-sd"/>
+</application-security-domains>
+----
+
+This configuration tells `Undertow` that applications with the `servlet-security-quickstart` security domain, as defined in the `jboss-web.xml` or by using the `@SecurityDomain` annotation in the Servlet class, should use the `security-domain` named `servlet-security-quickstart-sd`.
+
+// Build and Deploy the Quickstart
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+2]
+
+=== Access the Application
+
+The application will be running at the following URL http://localhost:8080/{artifactId}/.
+
+When you access the application, you should get a browser login challenge.
+
+Log in using the username `quickstartUser` and password `quickstartPwd1!`. The browser will display the following security info:
+
+[source,options="nowrap"]
+----
+Successfully called Secured Servlet
+
+Principal : quickstartUser
+Remote User : quickstartUser
+Authentication Type : BASIC
+----
+
+Now close the browser. Open a new browser and log in with username `guest` and password `guestPwd1!`. The browser will display the following error:
+
+[source,options="nowrap"]
+----
+Forbidden
+----
+
+// Server Distribution Testing
+include::../shared-doc/run-integration-tests-with-server-distribution.adoc[leveloffset=+2]
+// Undeploy the Quickstart
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+2]
+
+//  Restore the {productName} Standalone Server Configuration
+include::../shared-doc/restore-standalone-server-configuration.adoc[leveloffset=+2]
+
+// Additional information about this script
+This script removes the `application-security-domain` configuration from the `undertow` subsystem, the `http-authentication-factory`, `security-domain`, `security-realm` and `role-decoder` configuration from the `elytron` subsystem and it also removes the datasource used for this quickstart. You should see the following result when you run the script:
+
+[source,options="nowrap"]
+----
+The batch executed successfully
+process-state: reload-required
+----
+
+// Restore the {productName} Standalone Server Configuration Manually
+include::../shared-doc/restore-standalone-server-configuration-manual.adoc[leveloffset=+3]
+
+// Build and run sections for other environments/builds
+ifndef::ProductRelease,EAPXPRelease[]
+include::../shared-doc/build-and-run-the-quickstart-with-provisioned-server.adoc[leveloffset=+1]
+endif::[]
+include::../shared-doc/build-and-run-the-quickstart-with-openshift.adoc[leveloffset=+1]

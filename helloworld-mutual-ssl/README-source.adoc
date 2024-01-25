@@ -1,0 +1,317 @@
+include::../shared-doc/attributes.adoc[]
+
+= helloworld-mutual-ssl: {productName} Mutual TLS(two-way) Configuration Example
+:author: Giriraj Sharma, Stefan Guilhen
+:level: Intermediate
+:technologies: Mutual TLS, Undertow
+
+[abstract]
+The `helloworld-mutual-ssl` quickstart is a basic example that demonstrates mutual TLS configuration in {productName}
+
+:standalone-server-type: default
+:archiveType: war
+:restoreScriptName: restore-configuration.cli
+
+== What is it?
+
+Mutual TLS provides the same security as TLS, with the addition of authentication and non-repudiation of the client authentication, using digital signatures. When mutual authentication is used, the server requests the client to provide a certificate in addition to the server certificate issued to the client. Mutual authentication requires an extra round trip each time for client certificate exchange. In addition, the client must obtain and maintain a digital certificate.
+
+The out of the box configuration for {productName} has one-way TLS enabled by default. This quickstart shows how to configure {productName} with mutual (two-way) TLS authentication.
+
+Before you run this example, you must create the client certificate and configure the server to use two-way TLS.
+
+// Link to the quickstart source
+include::../shared-doc/view-the-source.adoc[leveloffset=+1]
+// System Requirements
+include::../shared-doc/system-requirements.adoc[leveloffset=+1]
+// Use of {jbossHomeName}
+include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
+
+[[set_up_client_keystore_using_java_keytool]]
+== Set Up the Client Keystore Using Java Keytool
+
+. Open a terminal and navigate to the {productName} server `configuration` directory:
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ cd __{jbossHomeName}__/standalone/configuration/
+----
+
+. Create the client certificate, which is used to authenticate against the server when accessing a resource through TLS.
++
+[source,options="nowrap"]
+----
+$>keytool -genkey -keystore client.keystore -storepass secret -validity 365 -keyalg RSA -keysize 2048 -storetype pkcs12
+
+What is your first and last name?
+    [Unknown]:  quickstartUser
+What is the name of your organizational unit?
+    [Unknown]:  Sales
+What is the name of your organization?
+    [Unknown]:  My Company
+What is the name of your City or Locality?
+    [Unknown]:  Sao Paulo
+What is the name of your State or Province?
+    [Unknown]:  Sao Paulo
+What is the two-letter country code for this unit?
+    [Unknown]:  BR
+Is CN=quickstartUser, OU=Sales, O=My Company, L=Sao Paulo, ST=Sao Paulo, C=BR correct?
+    [no]:  yes
+----
+
+. Export the client certificate and create a truststore by importing this certificate:
++
+[source,options="nowrap"]
+----
+$>keytool -exportcert -keystore client.keystore  -storetype pkcs12 -storepass secret -keypass secret -file client.crt
+$>keytool -import -file client.crt -alias quickstartUser -keystore client.truststore -storepass secret
+
+Owner: CN=quickstartUser, OU=Sales, O=My Company, L=Sao Paulo, ST=Sao Paulo, C=BR
+Issuer: CN=quickstartUser, OU=Sales, O=My Company, L=Sao Paulo, ST=Sao Paulo, C=BR
+Serial number: 7fd95ce4
+Valid from: Mon Jul 24 16:14:03 BRT 2017 until: Tue Jul 24 16:14:03 BRT 2018
+Certificate fingerprints:
+     MD5:  87:41:C5:CC:E6:79:91:F0:9D:90:AD:9E:DD:57:81:80
+     SHA1: 55:35:CA:B0:DC:DD:4F:E6:B8:9F:45:4B:4B:98:93:B5:3B:7C:55:84
+     SHA256: 0A:FC:93:B6:25:5A:74:42:B8:A1:C6:5F:69:88:72:7F:27:A9:81:B0:17:0C:F1:AF:3D:DE:B7:E5:F1:69:66:4B
+     Signature algorithm name: SHA256withRSA
+     Version: 3
+
+Extensions:
+
+#1: ObjectId: 2.5.29.14 Criticality=false
+SubjectKeyIdentifier [
+KeyIdentifier [
+0000: 95 84 BE C6 32 BB 2B 13   4C 7F 5D D4 C4 C8 22 12  ....2.+.L.]...".
+0010: CB 09 39 09                                        ..9.
+]
+]
+
+Trust this certificate? [no]:  yes
+Certificate was added to keystore
+----
+
+. Export client certificate to pkcs12 format
++
+[source,options="nowrap"]
+----
+$>keytool -importkeystore -srckeystore client.keystore -srcstorepass secret -destkeystore clientCert.p12 -srcstoretype PKCS12 -deststoretype PKCS12 -deststorepass secret
+----
+
+. The certificate and keystore are now properly configured.
+
+// Back Up the {productName} Standalone Server Configuration
+include::../shared-doc/back-up-server-standalone-configuration.adoc[leveloffset=+1]
+// Start the {productName} Standalone Server
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
+
+
+[[configure_the_server]]
+== Configure the Server
+
+You configure the SSL context by running JBoss CLI commands. For your convenience, this quickstart batches the commands into a `configure-ssl.cli` script provided in the root directory of this quickstart.
+
+. Before you begin, make sure you do the following:
+
+* xref:back_up_standalone_server_configuration[Back up the {productName} standalone server configuration] as described above.
+* xref:start_the_eap_standalone_server[Start the {productName} server with the standalone default profile] as described above.
+
+. Review the `configure-ssl.cli` file in the root of this quickstart directory. Comments in the script describe the purpose of each block of commands.
+. Open a new terminal, navigate to the root directory of this quickstart, and run the following command, replacing __{jbossHomeName}__ with the path to your server:
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=configure-ssl.cli
+----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
+
++
+You should see the following result when you run the script:
++
+[source,options="nowrap"]
+----
+The batch executed successfully
+process-state: reload-required
+----
+
+. Stop the {productName} server.
+
+== Review the Modified Server Configuration
+
+After stopping the server, open the `__{jbossHomeName}__/standalone/configuration/standalone.xml` file and review the changes.
+
+. The following `keystore` element was added to the `elytron` subsystem:
++
+[source,xml,options="nowrap"]
+----
+<key-store name="qsTrustStore">
+    <credential-reference clear-text="secret"/>
+    <implementation type="JKS"/>
+    <file path="client.truststore" relative-to="jboss.server.config.dir"/>
+</key-store>
+----
+
+. The following `trust-manager` was added to the `elytron` subsystem:
+
++
+[source,xml,options="nowrap"]
+----
+<trust-managers>
+    <trust-manager name="qsTrustManager" key-store="qsTrustStore"/>
+</trust-managers>
+----
+
+. The default `ssl-context` was updated to reference the `trust-manager` to enable two-way TLS:
+
++
+[source,xml,options="nowrap"]
+----
+<server-ssl-contexts>
+    <server-ssl-context name="applicationSSC" need-client-auth="true" key-manager="applicationKM" trust-manager="qsTrustManager"/>
+</server-ssl-contexts>
+----
+
++
+Note that the `https-listener` in the `undertow` subsystem references the `applicationSSC` `server-ssl-context` by default.
+
+[[test_the_server_ssl_configuration]]
+== Test the Server TLS Configuration
+
+To test the TLS configuration, access: https://localhost:8443
+
+If it is configured correctly, you should be asked to trust the server certificate.
+
+[[import_the_client_certificate_into_your_browser]]
+== Import the Client Certificate into Your Browser
+
+Before you access the application, you must import the _clientCert.p12_, which holds the client certificate, into your browser.
+
+[[import_the_client_certificate_into_google_chrome]]
+=== Import the Client Certificate into Google Chrome
+
+. Click the Chrome menu icon (3 dots) in the upper right on the browser toolbar and choose *Settings*. This takes you to `link:`chrome://settings/`.
+. Click on *Privacy and security* and then on *Security*.
+. Scroll down to the *Advanced* section and on the *Manage certificates* screen, select the *Your Certificates* tab and click on the *Import* button.
+. Select the *clientCert.p12* file. You will be prompted to enter the password: `secret`.
+. The client certificate is now installed in the Google Chrome browser.
+
+[[import_the_client_certificate_into_mozilla_firefox]]
+=== Import the Client Certificate into Mozilla Firefox
+
+. Click the *Edit* menu item on the browser menu and choose *Settings*.
+. A new window will open. Click on *Privacy & Security* and scroll down to the *Certificates* section.
+. Click the *View Certificates* button.
+. A new window will open. Select the *Your Certificates* tab and click the *Import* button.
+. Select the *clientCert.p12* file. You will be prompted to enter the password: `secret`.
+. The certificate is now installed in the Mozilla Firefox browser.
+
+// Build and Deploy the Quickstart
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
+
+== Access the Application
+
+The application will be running at the following URL: https://localhost:8443/{artifactId}/HelloWorld.
+
+A page displaying the client certificate should be visible:
+
+[source,options="nowrap"]
+----
+Hello World ! WildFly mutual TLS is configured and client certificate is verified !!
+
+Client Certificate Pem: MIIDhTCCAm2gAwIBAgIEf9lc5DANBgkqhkiG9w0BAQsFADBzMQswCQYDVQQGEwJCUjESMBAGA1UECBMJU2FvIFBhd
+WxvMRIwEAYDVQQHEwlTYW8gUGF1bG8xEzARBgNVBAoTCk15IENvbXBhbnkxDjAMBgNVBAsTBVNhbGVzMRcwFQYDVQQDEw5xdWlja3N0YXJ0VXNlcj
+AeFw0xNzA3MjQxOTE0MDNaFw0xODA3MjQxOTE0MDNaMHMxCzAJBgNVBAYTAkJSMRIwEAYDVQQIEwlTYW8gUGF1bG8xEjAQBgNVBAcTCVNhbyBQYXV
+sbzETMBEGA1UEChMKTXkgQ29tcGFueTEOMAwGA1UECxMFU2FsZXMxFzAVBgNVBAMTDnF1aWNrc3RhcnRVc2VyMIIBIjANBgkqhkiG9w0BAQEFAAOC
+AQ8AMIIBCgKCAQEAnHwflE8K/ArTPbTeZZEFK+1jtpg9grPSD62GIz/awoIDr6Rf9vCBTpAg4lom62A0BNZDEJKdab/ExNOOBRY+/pOnYlXZTYlDp
+dQQap0E7UP5EfHNZsafgpfILCop2LdTuUbcV7tLKBsthJLJ0ZCoG5QJFble+OPxEbissOvIqHfvUJZi34k9ULteLJc330g0uTuDrLgtoFQ0cbHa4F
+CQ86o85EuRPpFeW6EBA3iYE/tKHSYsK7QSajefX6jZjXoZiUflw97SAGL43ZtvNbrKRywEfsVqDpDurjBg2HI+YahuDz5R1QWTSyTHWMZzcyJYqxj
+XiSf0oK1cUahn6m5t1wIDAQABoyEwHzAdBgNVHQ4EFgQUlYS+xjK7KxNMf13UxMgiEssJOQkwDQYJKoZIhvcNAQELBQADggEBADkp+R6kSNXJNfih
+qbDRp3uFtNMG6OgaYsfC7RtNLMdrhvoLlU7uWzxVCFuifvNlWVRiADBHDCRQU2uNRFW35GQSfHQyok4KoBuKlfBtQ+Xu7c8R0JzxN/rPJPXoCbShz
+DHo1uoz5/dzXZz0EjjWCPJk+LVEhEvH0GcWAp3x3irpNU4hRZLd0XomY0Z4NnUt7VMBNYDOxVxgT9qcLnEaEpIfYULubLLCFHwAga2YgsKzZYLuwM
+aEWK4zhPVFynfnMaOxI67FC2QzhfzERyKqHj47WuwN0xWbS/1gBypS2nUwvItyxaEQG2X5uQY8j8QoY9wcMzIIkP2Mk14gJGHUnA8=
+----
+
+// Undeploy the Quickstart
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
+// Restore the {productName} Standalone Server Configuration
+include::../shared-doc/restore-standalone-server-configuration.adoc[leveloffset=+1]
+
+// Additional information about this script
+This script reverts the changes made to the `undertow` subsystem and it also removes the `ssl-context`, `key-manager`, `trust-manager` and `key-store`s
+from the `elytron` subsystem. You should see the following result when you run the script:
+
+[source,options="nowrap"]
+----
+The batch executed successfully
+process-state: reload-required
+----
+
+// Restore the {productName} Standalone Server Configuration Manually
+include::../shared-doc/restore-standalone-server-configuration-manual.adoc[leveloffset=+2]
+
+
+== Remove the keystores and certificates created for this quickstart
+
+. Open a terminal and navigate to the {productName} server `configuration` directory:
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ cd __{jbossHomeName}__/standalone/configuration/
+----
+
+. Remove the `clientCert.p12`, `client.crt`, `client.keystore`, and `client.truststore` files that
+were generated for this quickstart.
+
+[[remove_the_client_certificate_from_your_browser]]
+== Remove the Client Certificate from Your Browser
+
+After you are done with this quickstart, remember to remove the certificate that was imported into your browser.
+
+=== Remove the Client Certificate from Google Chrome
+
+. Click the Chrome menu icon (3 dots) in the upper right on the browser toolbar and choose *Settings*. This takes you to chrome://settings/.
+. Click on *Privacy and security* and then on *Security*.
+. Scroll down to the *Advanced* section and on the *Manage certificates* screen, select the *Your Certificates* tab and click on the arrow to the right of the certificate to be removed.
+. The certificate is expanded, displaying the `quickstartUser` entry. Click on the icon (3 dots) to the right of it and then select *Delete*.
+. Confirm the deletion in the dialog box. The certificate has now been removed from the Google Chrome browser.
+
+=== Remove the Client Certificate from Mozilla Firefox
+
+. Click the *Edit* menu item on the browser menu and choose *Preferences*.
+. A new window will open. Click on *Privacy & Security* and scroll down to the *Certificates* section.
+. Click the *View Certificates* button.
+. A new window will open. Select the *Your Certificates* tab.
+. Select the `quickstartUser` certificate and click the `Delete` button.
+. The certificate has now been removed from the Mozilla Firefox browser.
+
+// Run the Quickstart in Red Hat  Studio or Eclipse
+include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
+
+// Additional Red Hat CodeReady Studio instructions
+* Make sure you configure the keystore and client certificate as described under xref:set_up_client_keystore_using_java_keytool[Set Up the Client Keystore Using Java Keytool].
+* Depending on the browser you choose, make sure you either xref:import_the_client_certificate_into_google_chrome[import the certificate into Google Chrome] or xref:import_the_client_certificate_into_mozilla_firefox[import the certificate into Mozilla Firefox].
+* Make sure you configure the server by running the JBoss CLI commands as described above under xref:configure_the_server[Configure the Server]. Stop the server at the end of that step.
+* In {JBDSProductName}, choose *Window* –> *Web Browser*, then select the browser you chose to import the certificate.
+* To deploy the application, right-click on the *{artifactId}* project and choose *Run As* –> *Run on Server*.
+* Make sure you xref:restore_the_server_configuration[restore the server configuration] when you have completed testing this quickstart.
+
+== Debug the Application
+
+If you want to debug the source code or look at the Javadocs of any library in the project, run either of the following commands to pull them into your local repository. The IDE should then detect them.
+
+[source,options="nowrap"]
+----
+$ mvn dependency:sources
+$ mvn dependency:resolve -Dclassifier=javadoc
+----
+
+//*************************************************
+// Product Release content only
+//*************************************************
+ifdef::ProductRelease[]
+
+// Quickstart not compatible with OpenShift
+include::../shared-doc/openshift-incompatibility.adoc[leveloffset=+1]
+
+endif::[]

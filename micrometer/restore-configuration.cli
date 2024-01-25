@@ -1,0 +1,8 @@
+# CLI script to restore the application server configuration that was modified to run the quickstart
+
+# Remove the WildFly Micrometer extension
+/subsystem=micrometer:remove
+/extension=org.wildfly.extension.micrometer:remove
+
+# Reload the server configuration
+reload

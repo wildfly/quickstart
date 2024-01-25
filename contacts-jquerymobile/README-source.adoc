@@ -1,0 +1,177 @@
+include::../shared-doc/attributes.adoc[]
+
+= contacts-jquerymobile: CRUD Example Using HTML5, jQuery Mobile and JAX-RS
+:author: Joshua Wilson
+:level: Beginner
+:technologies: jQuery Mobile, jQuery, JavaScript, HTML5, REST
+:openshift: true
+
+[abstract]
+The `contacts-jquerymobile` quickstart demonstrates a {javaVersion} mobile database application using HTML5, jQuery Mobile, JAX-RS, JPA, and REST.
+
+:standalone-server-type: default
+:archiveType: war
+
+== What is it?
+
+The `contact-jquerymobile` quickstart is a deployable Maven 3 project designed to help you get your foot in the door developing HTML5 based mobile web applications with {javaVersion} in {productNameFull}. This project is setup to allow you to create a basic {javaVersion} application using HTML5, jQuery Mobile, JAX-RS, CDI, EJB, JPA, and Bean Validation. It includes a persistence unit and some sample persistence and transaction code to help you get your feet wet with database access in enterprise Java.
+
+This application is built using a HTML5 + REST approach. This uses a pure HTML client that interacts with with the application server via restful end-points (JAX-RS). This application also uses some of the latest HTML5 features and advanced JAX-RS. And since testing is just as important with client side as it is server side, this application uses QUnit to show you how to unit test your JavaScript.
+
+This application focuses on *CRUD* in a strictly mobile app using only *jQuery Mobile*(no other frameworks). The user will have the ability to:
+
+* *Create* a new contact.
+
+* *Read* a list of contacts.
+
+* *Update* an existing contact.
+
+* *Delete* a contact.
+
+Validation is an important part of an application. Typically in an HTML5 app you can let the built-in HTML5 form validation do the work for you. However, mobile browsers do not support this feature at this time. In order to validate the forms, the `jquery.validate` plugin was added, which provides both client-side and server-side validation. Over AJAX, if there is an error, the error is returned and displayed in the form. You can see an example of this in the *Edit* form if you enter an email that is already in use. The application will attempt to insert the error message into a field if that field exists. If the field does not exist then it display it at the top. In addition, there are xref:run_the_qunit_tests[QUnit Tests] for every form of validation.
+
+// Link to the quickstart source
+include::../shared-doc/view-the-source.adoc[leveloffset=+1]
+
+//*************************************************
+// Product Release content only
+//*************************************************
+
+ifndef::EAPCDRelease[]
+
+// System Requirements
+include::../shared-doc/system-requirements.adoc[leveloffset=+1]
+
+// Additional system requirements for this quickstart:
+An HTML5 compatible browser such as Chrome, Safari 5+, Firefox 5+, or IE 9+ is required. Note that some behaviors, such as validation, will vary slightly based on browser support, especially IE 9.
+
+Mobile web support is limited to Android and iOS devices. It should run on HP, and Black Berry devices as well. Windows Phone, and others will be supported as jQuery Mobile announces support.
+
+With the prerequisites out of the way, you are ready to build and deploy.
+
+// Use of {jbossHomeName}
+include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
+// Start the {productName} Standalone Server
+:mobileApp:
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
+// Build and Deploy the Quickstart
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
+
+== Access the Application
+
+Access the running client application in a browser at the following URL: http://localhost:8080/{artifactId}/.
+
+The application is made up of the following pages:
+
+*Main page*
+
+* Displays a list of contacts.
+* Search bar for the list.
+* Details button changes to the Detailed list.
+* Clicking on a contact brings up an Edit form.
+* Menu button (in upper left) opens menu.
+
+*Menu pullout*
+
+* Add a new contact.
+* List/Detail view switcher, depending on what is currently displayed.
+* About information.
+* Theming - apply various themes (only on the List view).
+
+*Details page*
+
+* Same as Main page except all information is displayed with each contact.
+
+*Add form*
+
+* *First name*, *Last name*, *Phone*, *Email*, and *BirthDate* fields.
+* *Save* submits the form.
+* *Clear* resets the form but stays on the form.
+* *Cancel* resets the form and goes the Main page.
+
+*Edit form*
+
+* Same as *Add form*.
+* *Delete* button will delete the contact currently viewed and return you to the Main page.
+
+// Undeploy the Quickstart
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
+
+
+== Minification
+
+By default, the project uses the http://code.google.com/p/wro4j/[wro4j] plugin, which provides the ability to concatenate, validate and minify JavaScript and CSS files. These minified files, as well as their unmodified versions are deployed with the project.
+
+With just a few quick changes to the project, you can link to the minified versions of your JavaScript and CSS files.
+
+First, in the `{artifactId}/src/main/webapp/index.html` file, search for references to minification and comment or uncomment the appropriate lines.
+
+Finally, wro4j runs in the compile phase, so any standard build command like `package` or `install`, will trigger it. The plugin is in a profile with an ID of `minify` so you must specify that profile in your Maven build.
+
+By default, tests are disabled, so you must use the Arquillian test profile to run tests when minifying.
+
+* For example, to deploy with no tests:
++
+[source,options="nowrap"]
+----
+$ mvn clean package wildfly:deploy -Pminify
+----
+
+* To deploy with tests:
++
+[source,options="nowrap"]
+----
+$ mvn clean verify wildfly:deploy -Pminify,arq-remote
+----
+
+// Run the Arquillian Tests
+include::../shared-doc/run-arquillian-tests.adoc[leveloffset=+1]
+
+
+[[run_the_qunit_tests]]
+== Run the QUnit Tests
+
+QUnit is a JavaScript unit testing framework used and built by jQuery. Because JavaScript code is the core of this HTML5 application, this quickstart provides a set of QUnit tests that automate testing of this code in various browsers. Executing QUnit test cases are quite easy.
+
+Simply load the `__QUICKSTART_HOME__/contacts-jquerymobile/src/test/qunit/index.html` file in the browser you want to test.
+
+NOTE: If you use *Chrome*, some date tests fail. These are false failures and are known issues with Chrome. FireFox, Safari, and IE run the tests correctly. You can also display the tests using the Eclipse built-in browser.
+
+For more information on QUnit tests, see http://qunitjs.com/.
+
+// Run the Arquillian Functional Tests
+include::../shared-doc/run-arquillian-functional-tests.adoc[leveloffset=+1]
+// Run the Quickstart in Red Hat CodeReady Studio or Eclipse
+include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
+
+== Debug the Application
+
+If you want to be able to debug into the source code or look at the Javadocs of any library in the project, you can run
+either of the following two commands to pull them into your local repository. The IDE should then detect them.
+
+[source,options="nowrap"]
+----
+$ mvn dependency:sources
+$ mvn dependency:resolve -Dclassifier=javadoc
+----
+
+endif::[]
+
+//*************************************************
+// Product Release content only
+//*************************************************
+ifdef::ProductRelease[]
+
+// Getting Started with OpenShift
+include::../shared-doc/openshift-getting-started.adoc[leveloffset=+1]
+//Prepare OpenShift for Quickstart Deployment
+include::../shared-doc/openshift-create-project.adoc[leveloffset=+1]
+// Import the Latest {xpaasproduct-shortname} Image Streams and Templates
+include::../shared-doc/openshift-import-imagestreams-templates.adoc[leveloffset=+1]
+// Deploy the {ProductShortName} Source-to-Image (S2I) Quickstart to OpenShift
+include::../shared-doc/openshift-deploy-project.adoc[leveloffset=+1]
+// Openshift post deployment tasks
+include::../shared-doc/openshift-post-deployment-tasks.adoc[leveloffset=+1]
+
+
+endif::[]

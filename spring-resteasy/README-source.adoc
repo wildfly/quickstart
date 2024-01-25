@@ -1,0 +1,77 @@
+include::../shared-doc/attributes.adoc[]
+
+= spring-resteasy: Example Using Resteasy Spring Integration
+:author: Weinan Li <l.weinan@gmail.com>, Paul Gier <pgier@redhat.com>
+:level: Beginner
+:technologies: Resteasy, Spring
+:openshift: true
+:buildRequirements: Java 17 (Java SDK 17) or later and Maven 3.3.1 or later
+
+[abstract]
+The `spring-resteasy` quickstart demonstrates how to package and deploy a web application that includes resteasy-spring integration.
+
+:standalone-server-type: default
+:archiveType: war
+:jbds-not-supported:
+
+== What is it?
+
+The `spring-resteasy` quickstart demonstrates how to package and deploy a web application, which includes resteasy-spring integration, in
+{productNameFull}.
+
+
+//*************************************************
+// Product Release content only
+//*************************************************
+
+// Link to the quickstart source
+include::../shared-doc/view-the-source.adoc[leveloffset=+1]
+// System Requirements
+include::../shared-doc/system-requirements.adoc[leveloffset=+1]
+// Use of {jbossHomeName}
+include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
+// Start the {productName} Standalone Server
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
+// Build and Deploy the Quickstart
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
+
+== Access the Application
+
+The application will be running at the following URL: http://localhost:8080/{artifactId}/.
+
+This page provides links to the following URLs that demonstrate various path and parameter configurations.
+
+* http://localhost:8080/{artifactId}/hello?name=yourname[{artifactId}/hello?name=yourname]
+* http://localhost:8080/{artifactId}/basic[{artifactId}/basic]
+* http://localhost:8080/{artifactId}/queryParam?param=query[{artifactId}/queryParam?param=query]
+* http://localhost:8080/{artifactId}/matrixParam;param=matrix[{artifactId}/matrixParam;param=matrix]
+* http://localhost:8080/{artifactId}/uriParam/789[{artifactId}/uriParam/789]
+
+It also provides the set of URLs that use the `locating` path.
+
+* http://localhost:8080/{artifactId}/locating/hello?name=yourname[{artifactId}/locating/hello?name=yourname]
+* http://localhost:8080/{artifactId}/locating/basic[{artifactId}/locating/basic]
+* http://localhost:8080/{artifactId}/locating/queryParam?param=query[{artifactId}/locating/queryParam?param=query]
+* http://localhost:8080/{artifactId}/locating/matrixParam;param=matrix[{artifactId}/locating/matrixParam;param=matrix]
+* http://localhost:8080/{artifactId}/locating/uriParam/789[{artifactId}/locating/uriParam/789]
+
+== Server Log: Expected Warnings and Errors
+
+You will see the following warnings in the server log. You can ignore these warnings.
+
+[source,options="nowrap"]
+----
+WARN  [org.jboss.as.ee] (MSC service thread 1-5) WFLYEE0007: Not installing optional component org.springframework.http.server.ServletServerHttpAsyncRequestControl due to an exception (enable DEBUG log level to see the cause)
+WARN  [org.jboss.as.ee] (MSC service thread 1-5) WFLYEE0007: Not installing optional component org.springframework.web.context.request.async.StandardServletAsyncWebRequest due to an exception (enable DEBUG log level to see the cause)
+----
+
+// Server Distribution Testing
+include::../shared-doc/run-integration-tests-with-server-distribution.adoc[leveloffset=+2]
+// Undeploy the Quickstart
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+2]
+
+// Build and run sections for other environments/builds
+ifndef::ProductRelease,EAPXPRelease[]
+include::../shared-doc/build-and-run-the-quickstart-with-provisioned-server.adoc[leveloffset=+1]
+endif::[]
+include::../shared-doc/build-and-run-the-quickstart-with-openshift.adoc[leveloffset=+1]

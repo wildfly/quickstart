@@ -1,0 +1,65 @@
+include::../shared-doc/attributes.adoc[]
+
+= websocket-hello: A simple WebSocket application
+:author: Sande Gilda, Emmanuel Hugonett
+:level: Beginner
+:technologies: WebSocket, CDI, JSF
+:openshift: true
+
+[abstract]
+The `websocket-hello` quickstart demonstrates how to create a simple WebSocket application.
+
+:standalone-server-type: default
+:archiveType: war
+
+== What is it?
+
+The `websocket-hello` quickstart demonstrates how to create a simple WebSocket-enabled application in {productNameFull}. It consists of the following:
+
+* A JavaScript enabled WebSocket HTML client.
+* A WebSocket server endpoint that uses annotations to interact with the WebSocket events.
+* A `jboss-web.xml` file configured to enable WebSockets
+
+WebSockets are a requirement of the {javaVersion} specification and are implemented in {productName} {productVersion}. They are configured in the `undertow` subsystem of the server configuration file. This quickstart uses the WebSocket default settings, so it is not necessary to modify the server configuration to deploy and run this quickstart.
+
+NOTE: This quickstart demonstrates only a few of the basic functions. A fully functional application should provide better error handling and intercept and handle additional events.
+
+// Link to the quickstart source
+include::../shared-doc/view-the-source.adoc[leveloffset=+1]
+// System Requirements
+include::../shared-doc/system-requirements.adoc[leveloffset=+1]
+// Use of {jbossHomeName}
+include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
+
+// build and run with standard server distribution
+[[build_and_run_the_quickstart_with_server_dist]]
+== Building and running the quickstart application with a {productName} server distribution
+// Start the {productName} Standalone Server
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+2]
+// Build and Deploy the Quickstart
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+2]
+
+=== Access the Application
+
+The application will be running at the following URL: http://localhost:8080/{artifactId}/.
+
+. Click on the *Open Connection* button to create the WebSocket connection and display current status of `Open`.
+. Type a name and click *Say Hello* to create and send the `Say hello to __NAME__` message. The message appears in the server log and a response is sent to the client.
+. Click on the *Close Connection* button to close the WebSocket connection and display the current status of *Closed*.
+. If you attempt to send another message after closing the connection, the following message appears on the page:
++
+[source,options="nowrap"]
+----
+WebSocket connection is not established. Please click the Open Connection button.
+----
+
+// Server Distribution Testing
+include::../shared-doc/run-integration-tests-with-server-distribution.adoc[leveloffset=+2]
+// Undeploy the Quickstart
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+2]
+
+// Build and run sections for other environments/builds
+ifndef::ProductRelease,EAPXPRelease[]
+include::../shared-doc/build-and-run-the-quickstart-with-provisioned-server.adoc[leveloffset=+1]
+endif::[]
+include::../shared-doc/build-and-run-the-quickstart-with-openshift.adoc[leveloffset=+1]
