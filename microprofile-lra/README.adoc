@@ -1,7 +1,3 @@
-ifdef::env-github[]
-:artifactId: microprofile-lra
-endif::[]
-
 //***********************************************************************************
 // Enable the following flag to build README.html files for JBoss EAP product builds.
 // Comment it out for WildFly builds.
@@ -1367,19 +1363,19 @@ Open the generated `pom.xml`.
 
 The first thing to do is to change the minimum JDK to Java 11 and set the other relevant version properties:
 
-[source,xml]
+[source,xml,subs="attributes+"]
 ----
 <maven.compiler.source>11</maven.compiler.source>
 <maven.compiler.target>11</maven.compiler.target>
 
 <!-- the version for the Server -->
-<version.server>31.0.0.Beta1</version.server>
+<version.server>{versionServer}</version.server>
 <!-- The versions for the BOMs, Packs and Plugins -->
 <version.bom.ee>${version.server}</version.bom.ee>
 <version.bom.microprofile>${version.server}</version.bom.microprofile>
-<version.pack.cloud>5.0.0.Final</version.pack.cloud>
-<version.plugin.wildfly>4.2.1.Final</version.plugin.wildfly>
-<version.plugin.wildfly-jar>10.0.0.Final</version.plugin.wildfly-jar>
+<version.pack.cloud>{versionPackCloud}</version.pack.cloud>
+<version.plugin.wildfly>{versionPluginWildfly}</version.plugin.wildfly>
+<version.plugin.wildfly-jar>{versionPluginWildflyJar}</version.plugin.wildfly-jar>
 ----
 
 Next we need to setup our dependencies. Add the following section to your
