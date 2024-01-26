@@ -2,6 +2,10 @@ build:
   uri: https://github.com/wildfly/quickstart.git
   ref: main
   contextDir: micrometer
+  env:
+    - name: MAVEN_ARGS_APPEND
+      value: "-Popenshift"
+
 deploy:
   replicas: 1
   env:

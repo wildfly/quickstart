@@ -201,7 +201,6 @@
                                     <scripts>
                                         <script>${basedir}/configure-micrometer.cli</script>
                                     </scripts>
-                                    <resolve-expressions>true</resolve-expressions>
                                 </packaging-script>
                             </packaging-scripts>
 
@@ -281,10 +280,11 @@
                             <filename>ROOT.war</filename>
                             <packaging-scripts>
                                 <packaging-script>
-                                    <scripts>
-                                        <script>${basedir}/configure-micrometer.cli</script>
-                                    </scripts>
-                                    <resolve-expressions>true</resolve-expressions>
+                                    <commands>
+                                        <command>/subsystem=micrometer:write-attribute(name=endpoint, value="http://\${OTEL_COLLECTOR_HOST}:4318/v1/metrics")</command>
+                                        <command>/subsystem=micrometer:write-attribute(name="step",value="1")</command>
+                                    </commands>
+                                    <resolve-expressions>false</resolve-expressions>
                                 </packaging-script>
                             </packaging-scripts>
                         </configuration>
