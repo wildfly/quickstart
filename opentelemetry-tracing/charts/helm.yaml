@@ -4,3 +4,6 @@ build:
   contextDir: opentelemetry-tracing
 deploy:
   replicas: 1
+  env:
+    - name: OTEL_COLLECTOR_HOST
+      value: "opentelemetrycollector"

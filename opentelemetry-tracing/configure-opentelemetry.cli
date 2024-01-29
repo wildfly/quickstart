@@ -4,7 +4,7 @@ if (outcome != success) of /extension=org.wildfly.extension.opentelemetry:read-r
     /subsystem=opentelemetry:add()
 end-if
 
-/subsystem=opentelemetry:write-attribute(name=endpoint,value=http://localhost:4317)
+/subsystem=opentelemetry:write-attribute(name=endpoint,value=http://${OTEL_COLLECTOR_HOST:localhost}:4317)
 /subsystem=opentelemetry:write-attribute(name=exporter-type,value=otlp)
 /subsystem=opentelemetry:write-attribute(name=sampler-type,value=on)
 /subsystem=opentelemetry:write-attribute(name=max-queue-size,value=1)
