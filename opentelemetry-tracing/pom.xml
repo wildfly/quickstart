@@ -162,6 +162,16 @@
                 </plugin>
             </plugins>
         </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>11</source>
+                    <target>11</target>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
 
     <profiles>
@@ -220,6 +230,9 @@
                                 <layer>jaxrs-server</layer>
                                 <layer>opentelemetry</layer>
                             </layers>
+                            <plugin-options>
+                                <jboss-fork-embedded>true</jboss-fork-embedded>
+                            </plugin-options>
                             <cli-sessions>
                                 <cli-session>
                                     <script-files>
@@ -264,14 +277,19 @@
                                 <layer>jaxrs-server</layer>
                                 <layer>opentelemetry</layer>
                             </layers>
+                            <filename>ROOT.war</filename>
                             <packaging-scripts>
                                 <packaging-script>
-                                    <scripts>
-                                        <script>${basedir}/configure-opentelemetry.cli</script>
-                                    </scripts>
+                                    <commands>
+                                        <command>/subsystem=opentelemetry:write-attribute(name=endpoint,value=http://\${OTEL_COLLECTOR_HOST}:4317)</command>
+                                        <command>/subsystem=opentelemetry:write-attribute(name=exporter-type,value=otlp)</command>
+                                        <command>/subsystem=opentelemetry:write-attribute(name=sampler-type,value=on)</command>
+                                        <command>/subsystem=opentelemetry:write-attribute(name=max-queue-size,value=1)</command>
+                                        <command>/subsystem=opentelemetry:write-attribute(name=max-export-batch-size,value=512)</command>
+                                    </commands>
+                                    <resolve-expressions>false</resolve-expressions>
                                 </packaging-script>
                             </packaging-scripts>
-                            <name>ROOT.war</name>
                         </configuration>
                         <executions>
                             <execution>
