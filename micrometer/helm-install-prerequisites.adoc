@@ -1,0 +1,16 @@
+=== Install OpenTelemetry Collector on OpenShift
+
+The functionality of this quickstart depends on a running instance of the https://opentelemetry.io/docs/collector/[OpenTelemetry Collector]. To deploy and configure the OpenTelemetry Collector, you will need to apply a set of configurations to your OpenShift cluster. In your terminal, run the following command to configure the OpenTelemetry Collector as well as any external routes needed:
+
+[source,options="nowrap",subs="+attributes"]
+----
+$ oc apply -f - <<EOF
+include::charts/opentelemetry-collector.yaml[]
+----
+
+To make things simpler, you can find these commands in `charts/opentelemetry-collector.yaml`, and can apply them with this command:
+
+[source]
+----
+$ oc apply -f charts/opentelemetry-collector.yaml
+----

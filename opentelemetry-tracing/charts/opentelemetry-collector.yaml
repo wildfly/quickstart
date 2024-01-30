@@ -14,14 +14,12 @@ data:
     exporters:
       logging:
         verbosity: detailed
-      prometheus:
-        endpoint: "0.0.0.0:1234"
     service:
       pipelines:
-        metrics:
+        traces:
           receivers: [otlp]
           processors: []
-          exporters: [logging,prometheus]
+          exporters: [logging]
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -67,10 +65,6 @@ spec:
       port: 4318
       protocol: TCP
       targetPort: 4318
-    - name: prometheus
-      port: 1234
-      protocol: TCP
-      targetPort: 1234
   selector:
     app.kubernetes.io/name: opentelemetrycollector
   type: ClusterIP
@@ -101,23 +95,6 @@ metadata:
 spec:
   port:
     targetPort: otlp-http
-  to:
-    kind: Service
-    name: opentelemetrycollector
-  tls:
-    termination: edge
-    insecureEdgeTerminationPolicy: Redirect
-  wildcardPolicy: None
----
-apiVersion: route.openshift.io/v1
-kind: Route
-metadata:
-  name: otelcol-prometheus
-  labels:
-    app.kubernetes.io/name: microprofile
-spec:
-  port:
-    targetPort: prometheus
   to:
     kind: Service
     name: opentelemetrycollector
