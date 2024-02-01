@@ -210,6 +210,7 @@ The `micrometer` quickstart demonstrates the use of the Micrometer library in {p
 :archiveType: war
 :archiveName: {artifactId}
 :restoreScriptName: restore-configuration.cli
+:helm-install-prerequisites: ../micrometer/helm-install-prerequisites.adoc
 
 == What is it?
 
@@ -1506,7 +1507,158 @@ endif::[]
 ifdef::helm-install-prerequisites[]
 // Additional steps needed before deploying in Helm
 [[deploy_helm_prerequisites]]
-include::{helm-install-prerequisites}[leveloffset=+1]
+:leveloffset: +1
+
+=== Install OpenTelemetry Collector on OpenShift
+
+The functionality of this quickstart depends on a running instance of the https://opentelemetry.io/docs/collector/[OpenTelemetry Collector].
+
+To deploy and configure the OpenTelemetry Collector, you will need to apply a set of configurations to your OpenShift cluster:
+
+[source,options="nowrap",subs="+attributes"]
+----
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: collector-config
+data:
+  collector.yml: |
+    receivers:
+      otlp:
+        protocols:
+          grpc:
+          http:
+    processors:
+    exporters:
+      logging:
+        verbosity: detailed
+      prometheus:
+        endpoint: "0.0.0.0:1234"
+    service:
+      pipelines:
+        metrics:
+          receivers: [otlp]
+          processors: []
+          exporters: [logging,prometheus]
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: opentelemetrycollector
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: opentelemetrycollector
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: opentelemetrycollector
+    spec:
+      containers:
+        - name: otelcol
+          args:
+            - --config=/conf/collector.yml
+          image: otel/opentelemetry-collector:0.89.0
+          volumeMounts:
+            - mountPath: /conf
+              name: collector-config
+      volumes:
+        - configMap:
+            items:
+              - key: collector.yml
+                path: collector.yml
+            name: collector-config
+          name: collector-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: opentelemetrycollector
+spec:
+  ports:
+    - name: otlp-grpc
+      port: 4317
+      protocol: TCP
+      targetPort: 4317
+    - name: otlp-http
+      port: 4318
+      protocol: TCP
+      targetPort: 4318
+    - name: prometheus
+      port: 1234
+      protocol: TCP
+      targetPort: 1234
+  selector:
+    app.kubernetes.io/name: opentelemetrycollector
+  type: ClusterIP
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: otelcol-otlp-grpc
+  labels:
+    app.kubernetes.io/name: microprofile
+spec:
+  port:
+    targetPort: otlp-grpc
+  to:
+    kind: Service
+    name: opentelemetrycollector
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+  wildcardPolicy: None
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: otelcol-otlp-http
+  labels:
+    app.kubernetes.io/name: microprofile
+spec:
+  port:
+    targetPort: otlp-http
+  to:
+    kind: Service
+    name: opentelemetrycollector
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+  wildcardPolicy: None
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: otelcol-prometheus
+  labels:
+    app.kubernetes.io/name: microprofile
+spec:
+  port:
+    targetPort: prometheus
+  to:
+    kind: Service
+    name: opentelemetrycollector
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+  wildcardPolicy: None
+----
+
+To make things simpler, you can find these commands in `charts/opentelemetry-collector.yaml`, and to apply them run the following command in your terminal:
+
+[source]
+----
+$ oc apply -f charts/opentelemetry-collector.yaml
+----
+
+[NOTE]
+====
+When done with the quickstart, the `oc delete -f charts/opentelemetry-collector.yaml` command may be used to revert the applied changes.
+====
+
+:leveloffset: 1
 endif::helm-install-prerequisites[]
 
 //Prepare Helm for Quickstart Deployment
