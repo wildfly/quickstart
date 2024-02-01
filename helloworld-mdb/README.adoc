@@ -886,7 +886,9 @@ ifdef::ProductRelease,EAPXPRelease[]
 The server provisioning functionality is provided by the EAP Maven Plugin, and you may find its configuration in the quickstart `pom.xml`:
 endif::[]
 
-ifndef::ProductRelease,EAPXPRelease[]
+// Render XML Snippet of openshift Maven profile...
+ifndef::ProductRelease[]
+// ... for WildFly
 [source,xml,subs="attributes+"]
 ----
         <profile>
@@ -922,8 +924,9 @@ ifndef::ProductRelease,EAPXPRelease[]
         </profile>
 ----
 endif::[]
-
-ifdef::ProductRelease,EAPXPRelease[]
+ifdef::ProductRelease[]
+ifndef::EAPXPRelease[]
+// ... for EAP
 [source,xml,subs="attributes+"]
 ----
         <profile>
@@ -959,6 +962,45 @@ ifdef::ProductRelease,EAPXPRelease[]
             </build>
         </profile>
 ----
+endif::[]
+ifdef::EAPXPRelease[]
+// ... for EAP XP
+[source,xml,subs="attributes+"]
+----
+        <profile>
+            <id>openshift</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.jboss.eap.plugins</groupId>
+                        <artifactId>eap-maven-plugin</artifactId>
+                        <configuration>
+                            ...
+                            <feature-packs>
+                                <feature-pack>
+                                    <location>org.jboss.eap.xp:wildfly-galleon-pack</location>
+                                </feature-pack>
+                                <feature-pack>
+                                    <location>org.jboss.eap.cloud:eap-cloud-galleon-pack</location>
+                                </feature-pack>
+                            </feature-packs>
+                            <layers>...</layers>
+                            <name>ROOT.war</name>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>package</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    ...
+                </plugins>
+            </build>
+        </profile>
+----
+endif::[]
 endif::[]
 
 ifndef::ProductRelease,EAPXPRelease[]

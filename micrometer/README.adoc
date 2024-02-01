@@ -1184,6 +1184,9 @@ You can use the WildFly JAR Maven plug-in to build a {productName} bootable JAR 
 
 The quickstart `pom.xml` file contains a Maven profile named *bootable-jar* which configures the bootable JAR building:
 
+// Render XML Snippet of openshift Maven profile...
+ifndef::ProductRelease[]
+// ... for WildFly
 [source,xml,subs="attributes+"]
 ----
       <profile>
@@ -1195,6 +1198,46 @@ The quickstart `pom.xml` file contains a Maven profile named *bootable-jar* whic
                       <artifactId>wildfly-jar-maven-plugin</artifactId>
                       <configuration>
                           <feature-pack-location>wildfly@maven(org.jboss.universe:community-universe)#${version.server}</feature-pack-location>
+                          <layers>
+                              <layer>jaxrs-server</layer>
+                              <layer>microprofile-config</layer>
+                          </layers>
+                          <plugin-options>
+                              <jboss-fork-embedded>true</jboss-fork-embedded>
+                          </plugin-options>
+                      </configuration>
+                      <executions>
+                          <execution>
+                              <goals>
+                                  <goal>package</goal>
+                              </goals>
+                          </execution>
+                      </executions>
+                  </plugin>
+              </plugins>
+          </build>
+      </profile>
+----
+endif::[]
+ifdef::ProductRelease[]
+ifndef::EAPXPRelease[]
+// ... for EAP
+// not supported
+endif::[]
+ifdef::EAPXPRelease[]
+// ... for EAP XP
+[source,xml,subs="attributes+"]
+----
+      <profile>
+          <id>bootable-jar</id>
+          <build>
+              <plugins>
+                  <plugin>
+                      <groupId>org.wildfly.plugins</groupId>
+                      <artifactId>wildfly-jar-maven-plugin</artifactId>
+                      <configuration>
+                          ...
+                          <feature-pack-location>org.jboss.eap.xp:wildfly-galleon-pack</feature-pack-location>
                           <layers>...</layers>
                           <plugin-options>
                               <jboss-fork-embedded>true</jboss-fork-embedded>
@@ -1208,11 +1251,14 @@ The quickstart `pom.xml` file contains a Maven profile named *bootable-jar* whic
                           </execution>
                       </executions>
                   </plugin>
-                  ...
               </plugins>
           </build>
       </profile>
 ----
+endif::[]
+endif::[]
+
+
 
 .Procedure
 
@@ -1371,7 +1417,9 @@ ifdef::ProductRelease,EAPXPRelease[]
 The server provisioning functionality is provided by the EAP Maven Plugin, and you may find its configuration in the quickstart `pom.xml`:
 endif::[]
 
-ifndef::ProductRelease,EAPXPRelease[]
+// Render XML Snippet of openshift Maven profile...
+ifndef::ProductRelease[]
+// ... for WildFly
 [source,xml,subs="attributes+"]
 ----
         <profile>
@@ -1407,8 +1455,9 @@ ifndef::ProductRelease,EAPXPRelease[]
         </profile>
 ----
 endif::[]
-
-ifdef::ProductRelease,EAPXPRelease[]
+ifdef::ProductRelease[]
+ifndef::EAPXPRelease[]
+// ... for EAP
 [source,xml,subs="attributes+"]
 ----
         <profile>
@@ -1444,6 +1493,45 @@ ifdef::ProductRelease,EAPXPRelease[]
             </build>
         </profile>
 ----
+endif::[]
+ifdef::EAPXPRelease[]
+// ... for EAP XP
+[source,xml,subs="attributes+"]
+----
+        <profile>
+            <id>openshift</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.jboss.eap.plugins</groupId>
+                        <artifactId>eap-maven-plugin</artifactId>
+                        <configuration>
+                            ...
+                            <feature-packs>
+                                <feature-pack>
+                                    <location>org.jboss.eap.xp:wildfly-galleon-pack</location>
+                                </feature-pack>
+                                <feature-pack>
+                                    <location>org.jboss.eap.cloud:eap-cloud-galleon-pack</location>
+                                </feature-pack>
+                            </feature-packs>
+                            <layers>...</layers>
+                            <name>ROOT.war</name>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>package</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    ...
+                </plugins>
+            </build>
+        </profile>
+----
+endif::[]
 endif::[]
 
 ifndef::ProductRelease,EAPXPRelease[]
