@@ -59,11 +59,11 @@ metadata:
   name: opentelemetrycollector
 spec:
   ports:
-    - name: grpc-otlp
+    - name: otlp-grpc
       port: 4317
       protocol: TCP
       targetPort: 4317
-    - name: grpc-http
+    - name: otlp-http
       port: 4318
       protocol: TCP
       targetPort: 4318
@@ -78,12 +78,29 @@ spec:
 apiVersion: route.openshift.io/v1
 kind: Route
 metadata:
-  name: otelcol-grpc
+  name: otelcol-otlp-grpc
   labels:
     app.kubernetes.io/name: microprofile
 spec:
   port:
-    targetPort: grpc-http
+    targetPort: otlp-grpc
+  to:
+    kind: Service
+    name: opentelemetrycollector
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+  wildcardPolicy: None
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: otelcol-otlp-http
+  labels:
+    app.kubernetes.io/name: microprofile
+spec:
+  port:
+    targetPort: otlp-http
   to:
     kind: Service
     name: opentelemetrycollector
