@@ -5,6 +5,9 @@ You can use the WildFly JAR Maven plug-in to build a {productName} bootable JAR 
 
 The quickstart `pom.xml` file contains a Maven profile named *bootable-jar* which configures the bootable JAR building:
 
+// Render XML Snippet of openshift Maven profile...
+ifndef::ProductRelease[]
+// ... for WildFly
 [source,xml,subs="attributes+"]
 ----
       <profile>
@@ -16,6 +19,46 @@ The quickstart `pom.xml` file contains a Maven profile named *bootable-jar* whic
                       <artifactId>wildfly-jar-maven-plugin</artifactId>
                       <configuration>
                           <feature-pack-location>wildfly@maven(org.jboss.universe:community-universe)#${version.server}</feature-pack-location>
+                          <layers>
+                              <layer>jaxrs-server</layer>
+                              <layer>microprofile-config</layer>
+                          </layers>
+                          <plugin-options>
+                              <jboss-fork-embedded>true</jboss-fork-embedded>
+                          </plugin-options>
+                      </configuration>
+                      <executions>
+                          <execution>
+                              <goals>
+                                  <goal>package</goal>
+                              </goals>
+                          </execution>
+                      </executions>
+                  </plugin>
+              </plugins>
+          </build>
+      </profile>
+----
+endif::[]
+ifdef::ProductRelease[]
+ifndef::EAPXPRelease[]
+// ... for EAP
+// not supported
+endif::[]
+ifdef::EAPXPRelease[]
+// ... for EAP XP
+[source,xml,subs="attributes+"]
+----
+      <profile>
+          <id>bootable-jar</id>
+          <build>
+              <plugins>
+                  <plugin>
+                      <groupId>org.wildfly.plugins</groupId>
+                      <artifactId>wildfly-jar-maven-plugin</artifactId>
+                      <configuration>
+                          ...
+                          <feature-pack-location>org.jboss.eap.xp:wildfly-galleon-pack</feature-pack-location>
                           <layers>...</layers>
                           <plugin-options>
                               <jboss-fork-embedded>true</jboss-fork-embedded>
@@ -29,11 +72,14 @@ The quickstart `pom.xml` file contains a Maven profile named *bootable-jar* whic
                           </execution>
                       </executions>
                   </plugin>
-                  ...
               </plugins>
           </build>
       </profile>
 ----
+endif::[]
+endif::[]
+
+
 
 .Procedure
 
