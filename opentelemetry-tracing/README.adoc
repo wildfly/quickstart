@@ -210,6 +210,7 @@ The `opentelemetry-tracing` quickstart demonstrates the use of the OpenTelemetry
 :archiveType: war
 :archiveName: {artifactId}
 :restoreScriptName: restore-configuration.cli
+:helm-install-prerequisites: ../opentelemetry-tracing/helm-install-prerequisites.adoc
 
 
 == What is it?
@@ -1376,8 +1377,6 @@ ifndef::helm-app-name[]
 :helm-app-name: {artifactId}
 endif::helm-app-name[]
 
-
-
 [[build_and_run_the_quickstart_on_openshift]]
 = Building and running the quickstart application with OpenShift
 // The openshift profile
@@ -1531,7 +1530,138 @@ endif::[]
 ifdef::helm-install-prerequisites[]
 // Additional steps needed before deploying in Helm
 [[deploy_helm_prerequisites]]
-include::{helm-install-prerequisites}[leveloffset=+1]
+:leveloffset: +1
+
+=== Install OpenTelemetry Collector on OpenShift
+
+The functionality of this quickstart depends on a running instance of the https://opentelemetry.io/docs/collector/[OpenTelemetry Collector].
+
+To deploy and configure the OpenTelemetry Collector, you will need to apply a set of configurations to your OpenShift cluster, to configure the OpenTelemetry Collector as well as any external routes needed:
+
+[source,options="nowrap",subs="+attributes"]
+----
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: collector-config
+data:
+  collector.yml: |
+    receivers:
+      otlp:
+        protocols:
+          grpc:
+          http:
+    processors:
+    exporters:
+      logging:
+        verbosity: detailed
+    service:
+      pipelines:
+        traces:
+          receivers: [otlp]
+          processors: []
+          exporters: [logging]
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: opentelemetrycollector
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: opentelemetrycollector
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: opentelemetrycollector
+    spec:
+      containers:
+        - name: otelcol
+          args:
+            - --config=/conf/collector.yml
+          image: otel/opentelemetry-collector:0.89.0
+          volumeMounts:
+            - mountPath: /conf
+              name: collector-config
+      volumes:
+        - configMap:
+            items:
+              - key: collector.yml
+                path: collector.yml
+            name: collector-config
+          name: collector-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: opentelemetrycollector
+spec:
+  ports:
+    - name: otlp-grpc
+      port: 4317
+      protocol: TCP
+      targetPort: 4317
+    - name: otlp-http
+      port: 4318
+      protocol: TCP
+      targetPort: 4318
+  selector:
+    app.kubernetes.io/name: opentelemetrycollector
+  type: ClusterIP
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: otelcol-otlp-grpc
+  labels:
+    app.kubernetes.io/name: microprofile
+spec:
+  port:
+    targetPort: otlp-grpc
+  to:
+    kind: Service
+    name: opentelemetrycollector
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+  wildcardPolicy: None
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: otelcol-otlp-http
+  labels:
+    app.kubernetes.io/name: microprofile
+spec:
+  port:
+    targetPort: otlp-http
+  to:
+    kind: Service
+    name: opentelemetrycollector
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+  wildcardPolicy: None
+----
+
+To make things simpler, you can find these commands in `charts/opentelemetry-collector.yaml`, and to apply them run the following command in your terminal:
+
+[source]
+----
+$ oc apply -f charts/opentelemetry-collector.yaml
+----
+
+[NOTE]
+====
+When done with the quickstart, the `oc delete -f charts/opentelemetry-collector.yaml` command may be used to revert the applied changes.
+====
+
+
+
+
+:leveloffset: 1
 endif::helm-install-prerequisites[]
 
 //Prepare Helm for Quickstart Deployment
@@ -1586,6 +1716,9 @@ build:
   contextDir: opentelemetry-tracing
 deploy:
   replicas: 1
+  env:
+    - name: OTEL_COLLECTOR_HOST
+      value: "opentelemetrycollector"
 ----
 endif::useHelmChartDir[]
 endif::requires-http-route[]
@@ -1631,16 +1764,6 @@ ifdef::post-helm-install-actions[]
 include::{post-helm-install-actions}[leveloffset=+1]
 endif::post-helm-install-actions[]
 
-
-[[undeploy_helm]]
-== Undeploy the {ProductShortName} Source-to-Image (S2I) Quickstart from OpenShift with Helm Charts
-
-
-[source,options="nowrap",subs="+attributes"]
-----
-$ helm uninstall {helm-app-name}
-----
-
 :leveloffset: 1
 
 // Testing on Openshift
@@ -1678,6 +1801,19 @@ endif::requires-http-route[]
 ====
 The tests are using SSL to connect to the quickstart running on OpenShift. So you need the certificates to be trusted by the machine the tests are run from.
 ====
+
+:leveloffset: 1
+
+//Prepare Helm for Quickstart Deployment
+:leveloffset: +1
+
+[[undeploy_helm]]
+== Undeploy the {ProductShortName} Source-to-Image (S2I) Quickstart from OpenShift with Helm Charts
+
+[source,options="nowrap",subs="+attributes"]
+----
+$ helm uninstall {helm-app-name}
+----
 
 :leveloffset: 1
 

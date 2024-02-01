@@ -782,8 +782,6 @@ ifndef::helm-app-name[]
 :helm-app-name: {artifactId}
 endif::helm-app-name[]
 
-
-
 [[build_and_run_the_quickstart_on_openshift]]
 = Building and running the quickstart application with OpenShift
 // The openshift profile
@@ -1037,16 +1035,6 @@ ifdef::post-helm-install-actions[]
 include::{post-helm-install-actions}[leveloffset=+1]
 endif::post-helm-install-actions[]
 
-
-[[undeploy_helm]]
-== Undeploy the {ProductShortName} Source-to-Image (S2I) Quickstart from OpenShift with Helm Charts
-
-
-[source,options="nowrap",subs="+attributes"]
-----
-$ helm uninstall {helm-app-name}
-----
-
 :leveloffset: 1
 
 // Testing on Openshift
@@ -1084,6 +1072,19 @@ endif::requires-http-route[]
 ====
 The tests are using SSL to connect to the quickstart running on OpenShift. So you need the certificates to be trusted by the machine the tests are run from.
 ====
+
+:leveloffset: 1
+
+//Prepare Helm for Quickstart Deployment
+:leveloffset: +1
+
+[[undeploy_helm]]
+== Undeploy the {ProductShortName} Source-to-Image (S2I) Quickstart from OpenShift with Helm Charts
+
+[source,options="nowrap",subs="+attributes"]
+----
+$ helm uninstall {helm-app-name}
+----
 
 :leveloffset: 1
 
