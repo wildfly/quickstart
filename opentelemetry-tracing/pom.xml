@@ -23,6 +23,7 @@
         <version.server>31.0.0.Final</version.server>
         <!-- The versions for the BOMs, Packs and Plugins -->
         <version.bom.ee>${version.server}</version.bom.ee>
+        <version.bom.microprofile>${version.server}</version.bom.microprofile>
         <version.plugin.wildfly>4.2.1.Final</version.plugin.wildfly>
         <version.plugin.wildfly-jar>10.0.0.Final</version.plugin.wildfly-jar>
         <version.pack.cloud>6.0.0.Final</version.pack.cloud>
@@ -86,6 +87,7 @@
 
     <dependencyManagement>
         <dependencies>
+            <!-- importing the ee-with-tools BOM adds specs and other useful artifacts as managed dependencies -->
             <dependency>
                 <groupId>org.wildfly.bom</groupId>
                 <artifactId>wildfly-ee-with-tools</artifactId>
@@ -93,12 +95,11 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-
             <!-- Import opentelemetry dependency information -->
             <dependency>
-                <groupId>org.wildfly</groupId>
-                <artifactId>wildfly-common-expansion-dependency-management</artifactId>
-                <version>${version.server}</version>
+                <groupId>org.wildfly.bom</groupId>
+                <artifactId>wildfly-microprofile</artifactId>
+                <version>${version.bom.microprofile}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
