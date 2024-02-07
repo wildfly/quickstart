@@ -1034,7 +1034,14 @@ ifndef::ProductRelease,EAPXPRelease[]
 You may note that unlike the `provisioned-server` profile it uses the cloud feature pack which enables a configuration tuned for OpenShift environment.
 endif::[]
 ifdef::ProductRelease,EAPXPRelease[]
-You may note that it uses the cloud feature pack which enables a configuration tuned for OpenShift environment.
+You may note that the cloud feature pack is used, this enables a configuration tuned for OpenShift environment.
+endif::[]
+
+ifdef::EAPXPRelease[]
+[NOTE]
+====
+Previous {productName} releases used the WildFly JAR Maven Plugin to package the quickstart in a Bootable JAR, when deploying it on OpenShift, and while that's still supported it's no longer recommended.
+====
 endif::[]
 
 :leveloffset: 1
