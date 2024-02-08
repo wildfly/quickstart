@@ -138,28 +138,15 @@
     </dependencies>
 
     <build>
-        <plugins>
-            <plugin>
-                <groupId>org.wildfly.plugins</groupId>
-                <artifactId>wildfly-maven-plugin</artifactId>
-                <configuration>
-                    <jboss-home>${jboss.home}</jboss-home>
-                    <feature-packs>
-                        <feature-pack>
-                            <location>org.wildfly:wildfly-galleon-pack:${version.server}</location>
-                        </feature-pack>
-                    </feature-packs>
-                    <layers>
-                        <layer>ee-core-profile-server</layer>
-                        <layer>core-tools</layer>
-                    </layers>
-                    <fail-on-error>false</fail-on-error>
-                    <scripts>
-                        <script>${project.basedir}${file.separator}configure-logging.cli</script>
-                    </scripts>
-                </configuration>
-            </plugin>
-        </plugins>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.wildfly.plugins</groupId>
+                    <artifactId>wildfly-maven-plugin</artifactId>
+                    <version>${version.plugin.wildfly}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
     </build>
 
     <profiles>
@@ -171,8 +158,11 @@
                         <groupId>org.wildfly.plugins</groupId>
                         <artifactId>wildfly-maven-plugin</artifactId>
                         <configuration>
-                            <!-- deploys the quickstart on root web context -->
-                            <name>ROOT.war</name>
+                            <feature-packs>
+                                <feature-pack>
+                                    <location>org.wildfly:wildfly-galleon-pack:${version.server}</location>
+                                </feature-pack>
+                            </feature-packs>
                             <layers>
                                 <layer>ee-core-profile-server</layer>
                                 <layer>cloud-server</layer>
@@ -187,6 +177,8 @@
                                     <resolve-expressions>false</resolve-expressions>
                                 </packaging-script>
                             </packaging-scripts>
+                            <!-- deploys the quickstart on root web context -->
+                            <name>ROOT.war</name>
                         </configuration>
                         <executions>
                             <execution>
@@ -207,13 +199,15 @@
                         <groupId>org.wildfly.plugins</groupId>
                         <artifactId>wildfly-maven-plugin</artifactId>
                         <configuration>
-                            <!-- deploys the quickstart on root web context -->
-                            <name>ROOT.war</name>
+                            <feature-packs>
+                                <feature-pack>
+                                    <location>org.wildfly:wildfly-galleon-pack:${version.server}</location>
+                                </feature-pack>
+                            </feature-packs>
                             <layers>
                                 <layer>ee-core-profile-server</layer>
                                 <layer>cloud-server</layer>
                             </layers>
-                            <!-- Used for the package goal -->
                             <packaging-scripts>
                                 <packaging-script>
                                     <scripts>
@@ -223,6 +217,7 @@
                                     <resolve-expressions>false</resolve-expressions>
                                 </packaging-script>
                             </packaging-scripts>
+                            <filename>ROOT.war</filename>
                         </configuration>
                         <executions>
                             <execution>
