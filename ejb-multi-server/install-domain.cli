@@ -79,7 +79,7 @@ batch
 
 /profile=default-web:add()
 /profile=default-web/subsystem="logging":add()
-/profile=default-web/subsystem="logging"/periodic-rotating-file-handler="FILE":add(append="true",autoflush="true",file={"relative-to" => "jboss.server.log.dir","path" => "server.log"},name="FILE",named-formatter="PATTERN",suffix=".yyyy-MM-dd")
+/profile=default-web/subsystem="logging"/periodic-rotating-file-handler="FILE":add(append="true",autoflush="true",file={"relative-to" => "jboss.server.log.dir","path" => "server.log"},named-formatter="PATTERN",suffix=".yyyy-MM-dd")
 /profile=default-web/subsystem="logging"/pattern-formatter="PATTERN":add(pattern="%d{yyyy-MM-dd HH:mm:ss,SSS} %-5p [%c] (%t) %s%E%n")
 /profile=default-web/subsystem="logging"/logger="com.arjuna":add(category="com.arjuna",level="WARN")
 /profile=default-web/subsystem="logging"/logger="sun.rmi":add(category="sun.rmi",level="WARN")
@@ -158,7 +158,6 @@ batch
 #/profile=default-web/subsystem="pojo":add()
 
 /profile=default-web/subsystem="remoting":add()
-/profile=default-web/subsystem="remoting"/configuration="endpoint":add(worker="default")
 /profile=default-web/subsystem="remoting"/http-connector="http-remoting-connector":add(connector-ref="default")
 
 /profile=default-web/subsystem="transactions":add(process-id-uuid="true",socket-binding="txn-recovery-environment",status-socket-binding="txn-status-manager")

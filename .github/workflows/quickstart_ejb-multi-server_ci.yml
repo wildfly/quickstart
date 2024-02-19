@@ -1,0 +1,15 @@
+name: WildFly ejb-multi-server Quickstart CI
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    paths:
+      - 'ejb-multi-server/**'
+      - '.github/workflows/quickstart_ci.yml'
+jobs:
+  call-quickstart_ci:
+    uses: ./.github/workflows/quickstart_ci.yml
+    with:
+      QUICKSTART_PATH: ejb-multi-server
+      TEST_PROVISIONED_SERVER: false
+      TEST_OPENSHIFT: false

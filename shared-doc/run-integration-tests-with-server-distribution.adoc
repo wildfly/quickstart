@@ -1,6 +1,8 @@
 [[run_the_integration_tests_with_server_distribution]]
 = Run the Integration Tests
-This quickstart includes integration tests, which are located under the  `src/test/` directory. The integration tests verify that the quickstart runs correctly when deployed on the server.
+ifndef::integrationTestsDirectory[:integrationTestsDirectory: src/test/]
+
+This quickstart includes integration tests, which are located under the `{integrationTestsDirectory}` directory. The integration tests verify that the quickstart runs correctly when deployed on the server.
 
 Follow these steps to run the integration tests.
 
@@ -14,8 +16,3 @@ Follow these steps to run the integration tests.
 ----
 $ mvn verify -Pintegration-testing
 ----
-
-[NOTE]
-====
-You may also use the environment variable `SERVER_HOST` or the system property `server.host` to define the target URL of the tests.
-====
