@@ -539,7 +539,7 @@ endif::[]
 
 endif::mavenCommand[]
 
-. Make sure you xref:start_the_eap_standalone_server[start the {productName} server] as described above.
+. Make sure you start the {productName} server as described above.
 . Open a terminal and navigate to the root directory of this quickstart.
 ifdef::reactive-messaging[]
 . Run this command to enable the MicroProfile Reactive Messaging functionality on the server
@@ -599,7 +599,9 @@ INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldQueueMDB] (Thread-4 (ActiveM
 
 [[run_the_integration_tests_with_server_distribution]]
 = Run the Integration Tests
-This quickstart includes integration tests, which are located under the  `src/test/` directory. The integration tests verify that the quickstart runs correctly when deployed on the server.
+ifndef::integrationTestsDirectory[:integrationTestsDirectory: src/test/]
+
+This quickstart includes integration tests, which are located under the `{integrationTestsDirectory}` directory. The integration tests verify that the quickstart runs correctly when deployed on the server.
 
 Follow these steps to run the integration tests.
 
@@ -613,11 +615,6 @@ Follow these steps to run the integration tests.
 ----
 $ mvn verify -Pintegration-testing
 ----
-
-[NOTE]
-====
-You may also use the environment variable `SERVER_HOST` or the system property `server.host` to define the target URL of the tests.
-====
 
 :leveloffset!:
 
