@@ -67,7 +67,7 @@ endif::[]
 
 endif::mavenCommand[]
 
-. Make sure you start the {productName} server as described above.
+. Make sure {productName} server is started.
 . Open a terminal and navigate to the root directory of this quickstart.
 ifdef::reactive-messaging[]
 . Run this command to enable the MicroProfile Reactive Messaging functionality on the server
@@ -91,14 +91,6 @@ $ mvn {mavenCommand}
 $ mvn wildfly:deploy
 ----
 
-ifdef::rest-client-qs[]
-This builds and deploys the `country-server` and `country-client` to the running instance of the server.
-
-You should see a message in the server log indicating that the archives deployed successfully.
-endif::[]
-ifndef::rest-client-qs[]
 This deploys the `{archiveDir}/{archiveFileName}` to the running instance of the server.
 
 You should see a message in the server log indicating that the archive deployed successfully.
-endif::[]
-
