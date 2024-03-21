@@ -17,6 +17,8 @@
 package org.wildfly.quickstarts.microprofile.faulttolerance;
 
 import java.util.List;
+import java.util.ArrayList;
+
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.core.GenericType;
@@ -37,6 +39,7 @@ import org.junit.Test;
  * @author Radoslav Husar
  * @author Eduardo Martins
  */
+
 public class CoffeeResourceIT {
 
     private Client client;
@@ -120,6 +123,58 @@ public class CoffeeResourceIT {
 
     private void resetCounter() {
         try (Response response = this.getResponse("/coffee/resetCounter")) {
+            Assert.assertEquals(204, response.getStatus());
+        }
+    }
+
+    /**
+     * Testing whether customer has at his disposal all the suggestions for coffee.
+     * <p>
+     * In cases of small-time delay, the total number of recommendations will appear and fallbackMethod won't be called.
+    */
+    @Test
+    public void testCoffeeRecommendations() {
+        setMinDelay(0);
+        setMaxDelay(250);
+
+        try (Response response = this.getResponse("/coffee/1/recommendations")) {
+            Assert.assertEquals(200, response.getStatus());
+            ArrayList<Coffee> ordersList = response.readEntity(new GenericType<ArrayList<Coffee>>() {});
+            Assert.assertNotNull(ordersList);
+            Assert.assertEquals(2, ordersList.size());
+            Assert.assertNotEquals(1, ordersList.get(0).getId());
+            Assert.assertNotEquals(1, ordersList.get(1).getId());
+        }
+    }
+
+   /**
+     * Testing if fallbackMethod will offer to the customer one recommendation.
+     * <p>
+     * In cases of big-time delay fallbackMethod will propose a safe recommendation choice.
+    */
+    @Test
+    public void testCoffeeRecommendationsSafeChoice() {
+        setMinDelay(251);
+        setMaxDelay(500);
+
+        try (Response response = this.getResponse("/coffee/1/recommendations")) {
+            Assert.assertEquals(200, response.getStatus());
+
+            ArrayList<Coffee> ordersList = response.readEntity(new GenericType<ArrayList<Coffee>>() {});
+            Assert.assertNotNull(ordersList);
+            Assert.assertEquals(1, ordersList.size());
+            Assert.assertEquals(1, ordersList.get(0).getId());
+        }
+    }
+
+    private void setMaxDelay(int maxDelay) {
+        try (Response response = this.getResponse("/coffee/setMaxDelay/" + maxDelay)) {
+            Assert.assertEquals(204, response.getStatus());
+        }
+    }
+
+    private void setMinDelay(int minDelay) {
+        try (Response response = this.getResponse("/coffee/setMinDelay/" + minDelay)) {
             Assert.assertEquals(204, response.getStatus());
         }
     }

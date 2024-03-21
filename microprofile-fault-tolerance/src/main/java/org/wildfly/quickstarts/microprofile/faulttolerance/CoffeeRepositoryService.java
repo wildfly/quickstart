@@ -65,6 +65,7 @@ public class CoffeeRepositoryService {
         if (id == null) {
             return Collections.emptyList();
         }
+
         return coffeeList.values().stream()
                 .filter(coffee -> !id.equals(coffee.id))
                 .limit(2)
