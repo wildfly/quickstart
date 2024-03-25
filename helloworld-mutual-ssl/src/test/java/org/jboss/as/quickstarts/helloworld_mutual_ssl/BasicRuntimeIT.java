@@ -52,6 +52,7 @@ import static org.junit.Assert.assertEquals;
 public class BasicRuntimeIT {
 
     private static final String DEFAULT_SERVER_HOST = "https://localhost:8443/helloworld-mutual-ssl";
+    private static final String DEFAULT_SERVER_DIR = System.getProperty("user.dir") + "/target/server";
 
     @Test
     public void testHTTPEndpointIsAvailable() throws IOException, InterruptedException, URISyntaxException, KeyStoreException {
@@ -62,17 +63,15 @@ public class BasicRuntimeIT {
         if (serverHost == null) {
             serverHost = DEFAULT_SERVER_HOST;
         }
-        String serverDir  = System.getenv("SERVER_HOME");
+        String serverDir  = System.getProperty("server.dir");
         if (serverDir == null) {
-            if (System.getProperty("jboss.server.config.dir").contains("target/server")) {
-                serverDir = System.getProperty("user.dir") + "/" + System.getProperty("jboss.server.config.dir");
-            } else {
-                serverDir = System.getProperty("jboss.server.config.dir");
-            }
+            serverDir = DEFAULT_SERVER_DIR;
         }
+        String serverConfigDir = serverDir + "/standalone/configuration";
+
         HttpGet request = new HttpGet(new URI(serverHost+"/"));
-        KeyStore trustStore = loadKeyPairFromKeyStore(serverDir, "application.keystore", "password", "server", "PKCS12");
-        final HttpClient client = getHttpClientWithSSL(new File(serverDir + "/client.keystore.P12"), "secret", "PKCS12", new File(serverDir + "/client.truststore"), "password", "PKCS12");
+        KeyStore trustStore = loadKeyPairFromKeyStore(serverConfigDir, "application.keystore", "password", "server", "PKCS12");
+        final HttpClient client = getHttpClientWithSSL(new File(serverConfigDir + "/client.keystore.P12"), "secret", "PKCS12", new File(serverConfigDir + "/client.truststore"), "password", "PKCS12");
         HttpResponse response = client.execute(request);
         assertEquals(200, response.getStatusLine().getStatusCode());
     }
