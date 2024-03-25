@@ -723,6 +723,7 @@ ifndef::server_provisioning_server_host[]
 endif::server_provisioning_server_host[]
 
 ifndef::extraStartParams[:extraStartParams: ]
+ifndef::extraProvisioningTestParams[:extraProvisioningTestParams: ]
 
 The integration tests included with this quickstart, which verify that the quickstart runs correctly, may also be run with a provisioned server.
 
@@ -776,7 +777,7 @@ endif::[]
 +
 [source,subs="attributes+",options="nowrap"]
 ----
-$ mvn verify -Pintegration-testing -Dserver.host={server_provisioning_server_host}
+$ mvn verify -Pintegration-testing -Dserver.host={server_provisioning_server_host} {extraProvisioningTestParams}
 ----
 
 . Shutdown the {productName} provisioned server, this time using the {productName} Maven Plugin too.

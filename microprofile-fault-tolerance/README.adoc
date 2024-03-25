@@ -1153,6 +1153,7 @@ See details in the section <<adding_resiliency_circuit_breakers, Adding Resilien
 [[run_the_integration_tests_with_server_distribution]]
 = Run the Integration Tests
 ifndef::integrationTestsDirectory[:integrationTestsDirectory: src/test/]
+ifndef::extraStandardDistTestParams[:extraStandardDistTestParams: ]
 
 This quickstart includes integration tests, which are located under the `{integrationTestsDirectory}` directory. The integration tests verify that the quickstart runs correctly when deployed on the server.
 
@@ -1162,9 +1163,9 @@ Follow these steps to run the integration tests.
 . Make sure the quickstart is deployed.
 . Type the following command to run the `verify` goal with the `integration-testing` profile activated.
 +
-[source,options="nowrap"]
+[source,subs="attributes+",options="nowrap"]
 ----
-$ mvn verify -Pintegration-testing
+$ mvn verify -Pintegration-testing {extraStandardDistTestParams}
 ----
 
 :leveloffset!:
