@@ -4,17 +4,22 @@
 batch
 
 # Add the keystore and trust manager configuration in the elytron subsystem
-/subsystem=elytron/key-store=qsTrustStore:add(path=client.truststore,relative-to=jboss.server.config.dir,type=JKS,credential-reference={clear-text=secret})
-/subsystem=elytron/trust-manager=qsTrustManager:add(key-store=qsTrustStore)
+/subsystem=elytron/trust-manager=qsTrustManager:add(key-store=serverTS)
 
 # Update the default server-ssl-context to reference the new trust-manager and require client auth
 /subsystem=elytron/server-ssl-context=applicationSSC:write-attribute(name=trust-manager, value=qsTrustManager)
 /subsystem=elytron/server-ssl-context=applicationSSC:write-attribute(name=need-client-auth, value=true)
 
+# Generate the server's certificate
+/subsystem=elytron/key-store=applicationKS:generate-key-pair(alias=server, algorithm=RSA, key-size=2048, validity=365, credential-reference={clear-text=password}, distinguished-name="cn=localhost")
+
+# Store the key-pair in a keystore file
+/subsystem=elytron/key-store=applicationKS:store()
+
 # Run the batch commands
 run-batch
 
 # Reload the server configuration
-reload
+#reload
 
 
