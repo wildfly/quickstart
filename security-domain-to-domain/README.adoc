@@ -205,10 +205,10 @@ endif::[]
 The `security-domain-to-domain` quickstart demonstrates the propagation of an identity across two different deployments using different security domains.
 
 :standalone-server-type: default
-:archiveType: war
+:archiveType: ear
 :uses-h2:
 :restoreScriptName: restore-configuration.cli
-:deploymentDir: web
+:deploymentDir: ear
 
 == What is it?
 
@@ -787,7 +787,27 @@ Caller Has Role 'Manager'=true
 This shows that the user `quickstartUser` calls the servlet and has role `User` but does not have the role `Manager`, as the call reaches the EJB the principal is still `quickstartUser` but now the identity does not have the role `User` and instead has the role `Manager`.
 
 // Server Distribution Testing
-include::../shared-doc/run-integration-tests-with-server-distribution.adoc[leveloffset=+2]
+:leveloffset: +2
+
+[[run_the_integration_tests_with_server_distribution]]
+= Run the Integration Tests
+ifndef::integrationTestsDirectory[:integrationTestsDirectory: src/test/]
+ifndef::extraStandardDistTestParams[:extraStandardDistTestParams: ]
+
+This quickstart includes integration tests, which are located under the `{integrationTestsDirectory}` directory. The integration tests verify that the quickstart runs correctly when deployed on the server.
+
+Follow these steps to run the integration tests.
+
+. Make sure {productName} server is started.
+. Make sure the quickstart is deployed.
+. Type the following command to run the `verify` goal with the `integration-testing` profile activated.
++
+[source,subs="attributes+",options="nowrap"]
+----
+$ mvn verify -Pintegration-testing {extraStandardDistTestParams}
+----
+
+:leveloffset!:
 // Undeploy the Quickstart
 :leveloffset: +1
 
@@ -925,74 +945,278 @@ When you have completed testing the quickstart, you can restore the original ser
 . Replace the `__{jbossHomeName}__/{configFileName}` file with the backup copy of the file.
 
 :leveloffset!:
-// Run the Quickstart in Red Hat CodeReady Studio or Eclipse
-:leveloffset: +1
-
-[[run_the_quickstart_in_redhat_codeready_studio_or_eclipse]]
-= Run the Quickstart in {JBDSProductName} or Eclipse
-//******************************************************************************
-// Include this template to provide instructions to run the quickstart
-// in Red Hat CodeReady Studio.
-//
-// If the quickstart is not supported, create the `jbds-not-supported` attribute.
-//******************************************************************************
-ifdef::jbds-not-supported[]
-This quickstart is not supported in {JBDSProductName}.
-endif::jbds-not-supported[]
-
-ifndef::jbds-not-supported[]
-You can also start the server and deploy the quickstarts or run the Arquillian tests in {JBDSProductName} or from Eclipse using JBoss tools. For general information about how to import a quickstart, add a {productName} server, and build and deploy a quickstart, see link:{useEclipseUrl}[Use {JBDSProductName} or Eclipse to Run the Quickstarts].
-endif::jbds-not-supported[]
-
-// Add additional instructions specific to running this quickstart in an IDE here.
-
-:leveloffset!:
-
-// Additional JBDS instructions
-
-* Be sure to configure the server by running the JBoss CLI commands as described above under xref:configure_the_server[Configure the {productName} Server]. Stop the server at the end of that step.
-* Be sure to xref:restore_the_standalone_server_configuration[Restore the Server Configuration] when you have completed testing this quickstart.
-
-// Debug the Application
-:leveloffset: +1
-
-[[debug_the_application]]
-= Debug the Application
-//******************************************************************************
-// Include this template to provide debugging information.
-//******************************************************************************
-
-If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
-
-----
-$ mvn dependency:sources
-----
-
-////
-TODO: I need to investigate whether the following version can be used across all quickstarts.
-
-If you want to debug the source code or look at the Javadocs of any library in the project, run either of the following commands to pull them into your local repository. The IDE should then detect them.
-
-[source,options="nowrap"]
-----
-$ mvn dependency:sources
-$ mvn dependency:resolve -Dclassifier=javadoc
-----
-////
-
-:leveloffset!:
 
 // Build and run sections for other environments/builds
 ifndef::ProductRelease,EAPXPRelease[]
-include::../shared-doc/build-and-run-the-quickstart-with-provisioned-server.adoc[leveloffset=+1]
+:leveloffset: +1
+
+[[build_and_run_the_quickstart_with_provisioned_server]]
+= Building and running the quickstart application with provisioned {productName} server
+
+ifndef::mavenServerProvisioningCommand[]
+ifeval::["{archiveType}"=="ear"]
+:mavenServerProvisioningCommand: clean install
+endif::[]
+ifeval::["{archiveType}"=="war"]
+:mavenServerProvisioningCommand: clean package
+endif::[]
+ifeval::["{archiveType}"=="jar"]
+:mavenServerProvisioningCommand: clean install
+endif::[]
+endif::mavenServerProvisioningCommand[]
+
+ifndef::deploymentTargetDir[]
+ifndef::deploymentDir[:deploymentTargetDir: target]
+ifdef::deploymentDir[:deploymentTargetDir: {deploymentDir}/target]
+endif::deploymentTargetDir[]
+
+Instead of using a standard {productName} server distribution, you can alternatively provision a {productName} server to deploy and run the quickstart, by activating the Maven profile named `provisioned-server` when building the quickstart:
+
+[source,subs="attributes+",options="nowrap"]
+----
+$ mvn {mavenServerProvisioningCommand} -Pprovisioned-server
+----
+
+The provisioned {productName} server, with the quickstart deployed, can then be found in the `{deploymentTargetDir}/server` directory, and its usage is similar to a standard server distribution, with the simplification that there is never the need to specify the server configuration to be started.
+
+ifdef::addQuickstartUser[]
+The quickstart user should be added before running the provisioned server:
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ {deploymentTargetDir}/server/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!' {app-group-command}
+----
+[NOTE]
+====
+For Windows, use the `__{jbossHomeName}__\bin\add-user.bat` script.
+====
 endif::[]
 
-//*************************************************
-// Product Release content only
-//*************************************************
-ifdef::ProductRelease[]
+ifdef::addQuickstartAdmin[]
+The quickstart admin should be added before running the provisioned server:
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ {deploymentTargetDir}/server/bin/add-user.sh -a -u 'quickstartAdmin' -p 'adminPwd1!' {admin-group-command}
+----
+[NOTE]
+====
+For Windows, use the `__{jbossHomeName}__\bin\add-user.bat` script.
+====
+endif::[]
+
+The server provisioning functionality is provided by the WildFly Maven Plugin, and you may find its configuration in the quickstart `pom.xml`:
+
+[source,xml,subs="attributes+"]
+----
+        <profile>
+            <id>provisioned-server</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.wildfly.plugins</groupId>
+                        <artifactId>wildfly-maven-plugin</artifactId>
+                        <configuration>
+                            <feature-packs>
+                                <feature-pack>
+                                    <location>org.wildfly:wildfly-galleon-pack:${version.server}</location>
+                                </feature-pack>
+                            </feature-packs>
+                            <layers>...</layers>
+                            <!-- deploys the quickstart on root web context -->
+                            <name>ROOT.war</name>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>package</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    ...
+                </plugins>
+            </build>
+        </profile>
+----
+
+[NOTE]
+====
+Since the plugin configuration above deploys quickstart on root web context of the provisioned server, the URL to access the application should not have the `/{artifactId}` path segment after `HOST:PORT`.
+====
+
+// Server Provisioning Testing
+:leveloffset: +1
+
+[[run_the_integration_tests_with_provisioned_server_]]
+= Run the Integration Tests with a provisioned server
+
+//******************************************************************************
+// This template sets attributes for the different standalone server profiles.
+//
+// You must define the `standalone-server-type`. Supported values are:
+//    default
+//    full
+//    full-ha
+//    ha
+//    microprofile
+//    custom
+//******************************************************************************
+
+// Standalone server with the default profile.
+ifeval::["{standalone-server-type}"=="default"]
+:serverProfile: default profile
+:configFileName: standalone/configuration/standalone.xml
+:serverArguments:
+endif::[]
+
+// Standalone server with the full profile.
+ifeval::["{standalone-server-type}"=="full"]
+:serverProfile: full profile
+:configFileName: standalone/configuration/standalone-full.xml
+:serverArguments:  -c standalone-full.xml
+endif::[]
+
+// Standalone server with the full HA profile.
+ifeval::["{standalone-server-type}"=="full-ha"]
+:serverProfile: full HA profile
+:configFileName: standalone/configuration/standalone-full-ha.xml
+:serverArguments:  -c standalone-full-ha.xml
+endif::[]
+
+// Start the standalone server with the HA profile.
+ifeval::["{standalone-server-type}"=="ha"]
+:serverProfile: HA profile
+:configFileName: standalone/configuration/standalone-ha.xml
+:serverArguments:  -c standalone-ha.xml
+endif::[]
+
+// Start the standalone server with the Eclipse MicroProfile profile.
+ifeval::["{standalone-server-type}"=="microprofile"]
+:serverProfile: MicroProfile profile
+:configFileName: standalone/configuration/standalone-microprofile.xml
+:serverArguments:  -c standalone-microprofile.xml
+endif::[]
+
+// Standalone server with the custom profile.
+// NOTE: This profile requires that you define the `serverArguments` variable
+// within the quickstart README.adoc file. For example:
+//  :serverArguments: --server-config=../../docs/examples/configs/standalone-xts.xml
+ifeval::["{standalone-server-type}"=="custom"]
+:serverProfile: custom profile
+endif::[]
+
+// If there is no match, use the default profile.
+ifndef::serverProfile[]
+:standalone-server-type:  default
+:serverProfile: default profile
+:configFileName: standalone/configuration/standalone.xml
+:serverArguments:
+endif::serverProfile[]
+
+ifndef::mavenServerProvisioningCommand[]
+ifeval::["{archiveType}"=="ear"]
+:mavenServerProvisioningCommand: clean install
+endif::[]
+ifeval::["{archiveType}"=="war"]
+:mavenServerProvisioningCommand: clean package
+endif::[]
+ifeval::["{archiveType}"=="jar"]
+:mavenServerProvisioningCommand: clean install
+endif::[]
+endif::mavenServerProvisioningCommand[]
+
+ifndef::deploymentTargetDir[]
+ifndef::deploymentDir[:deploymentTargetDir: target]
+ifdef::deploymentDir[:deploymentTargetDir: {deploymentDir}/target]
+endif::deploymentTargetDir[]
+
+ifndef::server_provisioning_server_host[]
+:server_provisioning_server_host: http://localhost:8080
+endif::server_provisioning_server_host[]
+
+ifndef::extraStartParams[:extraStartParams: ]
+ifndef::extraProvisioningTestParams[:extraProvisioningTestParams: ]
+
+The integration tests included with this quickstart, which verify that the quickstart runs correctly, may also be run with a provisioned server.
+
+Follow these steps to run the integration tests.
+
+. Make sure the server is provisioned.
++
+[source,subs="attributes+",options="nowrap"]
+----
+$ mvn {mavenServerProvisioningCommand} -Pprovisioned-server
+----
+
+ifdef::addQuickstartUser[]
+. Add the quickstart user:
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ {deploymentTargetDir}/server/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!' {app-group-command}
+----
+endif::[]
+
+ifdef::addQuickstartAdmin[]
+. Add the quickstart admin:
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ {deploymentTargetDir}/server/bin/add-user.sh -a -u 'quickstartAdmin' -p 'adminPwd1!' {admin-group-command}
+----
+[NOTE]
+====
+For Windows, use the `__{jbossHomeName}__\bin\add-user.bat` script.
+====
+endif::[]
+
+. Start the {productName} provisioned server, this time using the {productName} Maven Plugin, which is recommended for testing due to simpler automation. The path to the provisioned server should be specified using the `jbossHome` system property.
++
+ifndef::deploymentDir[]
+[source,subs="attributes+",options="nowrap"]
+----
+$ mvn wildfly:start -DjbossHome=target/server {extraStartParams}
+----
+endif::[]
+ifdef::deploymentDir[]
+[source,subs="attributes+",options="nowrap"]
+----
+$ mvn -f {deploymentDir}/pom.xml wildfly:start -DjbossHome={deploymentDir}/target/server {extraStartParams}
+----
+endif::[]
+
+. Type the following command to run the `verify` goal with the `integration-testing` profile activated, and specifying the quickstart's URL using the `server.host` system property, which for a provisioned server by default is `{server_provisioning_server_host}`.
++
+[source,subs="attributes+",options="nowrap"]
+----
+$ mvn verify -Pintegration-testing -Dserver.host={server_provisioning_server_host} {extraProvisioningTestParams}
+----
+
+. Shutdown the {productName} provisioned server, this time using the {productName} Maven Plugin too.
++
+ifndef::deploymentDir[]
+[source,subs="attributes+",options="nowrap"]
+----
+$ mvn wildfly:shutdown
+----
+endif::[]
+ifdef::deploymentDir[]
+[source,subs="attributes+",options="nowrap"]
+----
+$ mvn -f {deploymentDir}/pom.xml wildfly:shutdown
+----
+endif::[]
+
+:leveloffset: 1
+
+:leveloffset!:
+endif::[]
 
 // Quickstart not compatible with OpenShift
-include::../shared-doc/openshift-incompatibility.adoc[leveloffset=+1]
+:leveloffset: +1
 
-endif::[]
+[[openshift_incompatibility]]
+= {xpaasproduct-shortname} Incompatibility
+
+This quickstart is not compatible with {xpaasproduct-shortname}.
+
+:leveloffset!:
