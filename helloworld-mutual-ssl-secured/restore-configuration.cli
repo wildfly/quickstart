@@ -3,6 +3,10 @@
 # Start batching commands
 batch
 
+# Remove the keypair with the alias server from the application keystore
+/subsystem=elytron/key-store=applicationKS:remove-alias(alias=server)
+/subsystem=elytron/key-store=applicationKS:store()
+
 # Remove the application-security-domain mapping that was added for the quickstart
 /subsystem=undertow/application-security-domain=client_cert_domain:remove
 
@@ -23,7 +27,6 @@ batch
 
 # Remove the trust manager and keystore configuration from the elytron subsystem
 /subsystem=elytron/trust-manager=qsTrustManager:remove
-/subsystem=elytron/key-store=qsTrustStore:remove
 
 # Run the batch commands
 run-batch
