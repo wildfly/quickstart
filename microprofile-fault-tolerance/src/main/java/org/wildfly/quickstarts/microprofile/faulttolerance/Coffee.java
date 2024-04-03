@@ -37,4 +37,9 @@ public class Coffee {
         this.countryOfOrigin = countryOfOrigin;
         this.price = price;
     }
+
+    public int getId() {
+        return id;
+    }
+
 }
