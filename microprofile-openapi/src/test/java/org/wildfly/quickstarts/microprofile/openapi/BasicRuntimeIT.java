@@ -26,14 +26,17 @@ import java.net.http.HttpResponse;
 import java.time.Duration;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
- * The very basic runtime integration testing.
+ * The very basic runtime integration test to verify that /openapi context is registered by the OpenAPI subsystem.
+ *
  * @author emartins
+ * @author Radoslav Husar
  */
 public class BasicRuntimeIT {
 
-    private static final String DEFAULT_SERVER_HOST = "http://localhost:8080/microprofile-openapi";
+    private static final String DEFAULT_SERVER_HOST = "http://localhost:8080";
 
     @Test
     public void testHTTPEndpointIsAvailable() throws IOException, InterruptedException, URISyntaxException {
@@ -45,7 +48,9 @@ public class BasicRuntimeIT {
             serverHost = DEFAULT_SERVER_HOST;
         }
         final HttpRequest request = HttpRequest.newBuilder()
-                .uri(new URI(serverHost))
+                // Check the /openapi context being available (rather than checking dummy /microprofile-openapi response)
+                // This test would thus correctly fail (404) if run against a server without an OpenAPI subsystem
+                .uri(new URI(serverHost + "/openapi"))
                 .GET()
                 .build();
         final HttpClient client = HttpClient.newBuilder()
@@ -54,5 +59,9 @@ public class BasicRuntimeIT {
                 .build();
         final HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         assertEquals(200, response.statusCode());
+
+        // First line are just dashes, so lets check the second line with OpenAPI version key for the prefix
+        String[] bodyLines = response.body().split("\n");
+        assertTrue(bodyLines[1].startsWith("openapi:"));
     }
 }
