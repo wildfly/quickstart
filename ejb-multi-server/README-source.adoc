@@ -78,8 +78,6 @@ $ __{jbossHomeName}__/bin/add-user.sh -a -u quickuser2 -p quick+123
 
 NOTE: For Windows, use the `__{jbossHomeName}__\bin\add-user.bat` script.
 
-If you prefer, you can use the `add-user` utility interactively. For an example of how to use the add-user utility, see the instructions located here: link:{addApplicationUserDocUrl}[Add an Application User].
-
 // Back Up the {productName} Managed Domain Configuration
 include::../shared-doc/back-up-managed-domain-configuration.adoc[leveloffset=+1]
 // Start the {productName} Managed Domain
@@ -116,57 +114,8 @@ IMPORTANT: Depending on your machine configuration, you might see "Exception in 
 
 There are too many additions to the configuration files to list here. Feel free to compare the `domain.xml` and `host.xml` to the backup copies to see the changes made to configure the server to run this quickstart.
 
-
-
-
-[[build_and_deploy_the_quickstart]]
-== Build and Deploy the Quickstart
-
-. Make sure you have xref:install_the_quickstart_parent_artifact_in_maven[installed the quickstart parent artifact] in your Maven repository.
-. Make sure you have started and configured the {productName} server successfully as described above.
-. Open a terminal and navigate to the root directory of this quickstart.
-. Type this command to build the artifacts.
-+
-[source,options="nowrap"]
-----
-$ mvn clean install
-----
-+
-You should see `BUILD SUCCESS` at the end of the build `SUCCESS` messages for each component.
-
-. In the same terminal, deploy the applications using the provided CLI batch script by typing the following command.
-+
-[source,subs="+quotes,attributes+",options="nowrap"]
-----
-$ __{jbossHomeName}__/bin/jboss-cli.sh -c --file=deploy-domain.cli
-----
-+
-NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
-
-+
-This deploys the `app-*.ear` files to different server groups of the running domain. You should see the following result when you run the script.
-+
-[source,options="nowrap"]
-----
-The batch executed successfully
-process-state: reload-required
-----
-
-. You might see the following warnings in the server log. You can ignore these warnings.
-+
-[source,options="nowrap"]
-----
-[Server:app-oneB] 13:00:13,346 WARN  [org.jboss.as.clustering.jgroups.protocol.UDP] (ServerService Thread Pool -- 13) JGRP000015: the send buffer of socket MulticastSocket was set to 1MB, but the OS only allocated 212.99KB. This might lead to performance problems. Please set your max send buffer in the OS correctly (e.g. net.core.wmem_max on Linux)
-[Server:app-oneB] 13:00:13,346 WARN  [org.jboss.as.clustering.jgroups.protocol.UDP] (ServerService Thread Pool -- 13) JGRP000015: the receive buffer of socket MulticastSocket was set to 20MB, but the OS only allocated 212.99KB. This might lead to performance problems. Please set your max receive buffer in the OS correctly (e.g. net.core.rmem_max on Linux)
-[Server:app-oneB] 13:00:13,347 WARN  [org.jboss.as.clustering.jgroups.protocol.UDP] (ServerService Thread Pool -- 13) JGRP000015: the send buffer of socket MulticastSocket was set to 1MB, but the OS only allocated 212.99KB. This might lead to performance problems. Please set your max send buffer in the OS correctly (e.g. net.core.wmem_max on Linux)
-[Server:app-oneB] 13:00:13,347 WARN  [org.jboss.as.clustering.jgroups.protocol.UDP] (ServerService Thread Pool -- 13) JGRP000015: the receive buffer of socket MulticastSocket was set to 25MB, but the OS only allocated 212.99KB. This might lead to performance problems. Please set your max receive buffer in the OS correctly (e.g. net.core.rmem_max on Linux)
-[Server:app-oneA] 13:00:13,407 WARN  [org.jboss.as.clustering.jgroups.protocol.UDP] (ServerService Thread Pool -- 11) JGRP000015: the send buffer of socket MulticastSocket was set to 1MB, but the OS only allocated 212.99KB. This might lead to performance problems. Please set your max send buffer in the OS correctly (e.g. net.core.wmem_max on Linux)
-[Server:app-oneA] 13:00:13,408 WARN  [org.jboss.as.clustering.jgroups.protocol.UDP] (ServerService Thread Pool -- 11) JGRP000015: the receive buffer of socket MulticastSocket was set to 20MB, but the OS only allocated 212.99KB. This might lead to performance problems. Please set your max receive buffer in the OS correctly (e.g. net.core.rmem_max on Linux)
-[Server:app-oneA] 13:00:13,408 WARN  [org.jboss.as.clustering.jgroups.protocol.UDP] (ServerService Thread Pool -- 11) JGRP000015: the send buffer of socket MulticastSocket was set to 1MB, but the OS only allocated 212.99KB. This might lead to performance problems. Please set your max send buffer in the OS correctly (e.g. net.core.wmem_max on Linux)
-[Server:app-oneA] 13:00:13,408 WARN  [org.jboss.as.clustering.jgroups.protocol.UDP] (ServerService Thread Pool -- 11) JGRP000015: the receive buffer of socket MulticastSocket was set to 25MB, but the OS only allocated 212.99KB. This might lead to performance problems. Please set your max receive buffer in the OS correctly (e.g. net.core.rmem_max on Linux)
-----
-
-IMPORTANT: If errors appear in the `server.log` when installing or deploying the quickstart, stop the domain and restart it. This should ensure further steps run correctly.
+// Build and Deploy the Quickstart
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
 
 [[access_the_remote_client_application]]
 == Access the Remote Client Application
@@ -225,38 +174,15 @@ An example how to access EJBs from a separate instance which only contains a web
 . Use a browser to access the Servlet at the following URL: http://localhost:8380/ejb-multi-server-app-web/
 . The Servlet will invoke the remote EJBs directly and show the results, compare that the invocation is successful
 
-[[undeploy_the_quickstart]]
-== Undeploy the Quickstart
+// Server Distribution Testing
+:integrationTestsDirectory: app-web/src/test/
+include::../shared-doc/run-integration-tests-with-server-distribution.adoc[leveloffset=+1]
 
-. xref:start_eap_managed_domain[Start the {productName} managed domain] as described above.
-. Open a terminal and navigate to the root directory of this quickstart.
-. When you are finished testing, type this command to undeploy the archive:
-+
-[source,subs="+quotes,attributes+",options="nowrap"]
-----
-$ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=undeploy-domain.cli
-----
-+
-NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat`.
-
+// Undeploy the Quickstart
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
 
 // Restore the {productName} Managed Domain Configuration Manually
 include::../shared-doc/restore-managed-domain-configuration-manual.adoc[leveloffset=+1]
-// Run the Quickstart in Red Hat CodeReady Studio or Eclipse
-include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
-
-// Additional Red Hat CodeReady Studio instructions
-EJB Client (ejb-client) currently has limited support in the Eclipse Web Tools Platform (WTP).
-
-// Debug the Application
-include::../shared-doc/debug-the-application.adoc[leveloffset=+1]
-
-//*************************************************
-// Product Release content only
-//*************************************************
-ifdef::ProductRelease[]
 
 // Quickstart not compatible with OpenShift
 include::../shared-doc/openshift-incompatibility.adoc[leveloffset=+1]
-
-endif::[]

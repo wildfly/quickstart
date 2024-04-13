@@ -13,17 +13,17 @@
     </parent>
 
     <artifactId>microprofile-health</artifactId>
-    <version>31.0.0.Final-glow-preview</version>
+    <version>32.0.0.Beta1</version>
     <packaging>war</packaging>
     <name>Quickstart: microprofile-health</name>
 
     <properties>
         <!-- the version for the Server -->
-        <version.server>31.0.0.Final</version.server>
+        <version.server>32.0.0.Beta1</version.server>
         <!-- The versions for BOMs, Packs and Plugins -->
         <version.bom.ee>${version.server}</version.bom.ee>
         <version.bom.microprofile>${version.server}</version.bom.microprofile>
-        <version.plugin.wildfly>5.0.0.Beta2</version.plugin.wildfly>
+        <version.plugin.wildfly>5.0.0.Final</version.plugin.wildfly>
     </properties>
 
     <repositories>
@@ -238,15 +238,16 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-failsafe-plugin</artifactId>
-<!--                        <configuration>-->
-<!--                            <includes>-->
-<!--                                <include>**/BasicRuntimeIT</include>-->
-<!--                            </includes>-->
-<!--                        </configuration>-->
+                        <configuration>
+                            <includes>
+                                <include>**/*IT</include>
+                            </includes>
+                        </configuration>
                         <executions>
                             <execution>
                                 <goals>
                                     <goal>integration-test</goal>
+                                    <goal>verify</goal>
                                 </goals>
                             </execution>
                         </executions>

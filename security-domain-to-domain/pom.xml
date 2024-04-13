@@ -30,7 +30,7 @@
     </parent>
 
     <artifactId>security-domain-to-domain</artifactId>
-    <version>31.0.0.Final-glow-preview</version>
+    <version>32.0.0.Beta1</version>
     <packaging>pom</packaging>
     <name>Quickstart: security-domain-to-domain</name>
     <description>This project demonstrates identity propagation between different security domains</description>
@@ -47,11 +47,16 @@
         <module>ejb</module>
         <module>web</module>
         <module>ear</module>
+        <module>test</module>
     </modules>
 
     <properties>
-        <!-- The versions for BOMs, Dependencies and Plugins -->
-        <version.server.bom>31.0.0.Beta1</version.server.bom>
+        <!-- the version for the Server -->
+        <version.server>32.0.0.Beta1</version.server>
+        <!-- the versions for BOMs, Packs and Plugins -->
+        <version.bom.ee>${version.server}</version.bom.ee>
+        <version.pack.cloud>7.0.0.Beta1</version.pack.cloud>
+        <version.plugin.wildfly>5.0.0.Final</version.plugin.wildfly>
     </properties>
 
     <repositories>
@@ -115,7 +120,7 @@
             <dependency>
                 <groupId>org.wildfly.bom</groupId>
                 <artifactId>wildfly-ee-with-tools</artifactId>
-                <version>${version.server.bom}</version>
+                <version>${version.bom.ee}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -149,6 +154,7 @@
             <plugin>
                 <groupId>org.wildfly.plugins</groupId>
                 <artifactId>wildfly-maven-plugin</artifactId>
+                <version>${version.plugin.wildfly}</version>
                 <configuration>
                     <skip>true</skip>
                 </configuration>

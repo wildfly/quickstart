@@ -65,8 +65,7 @@ ifndef::ProductRelease,EAPXPRelease[]
 :WildFlyQuickStartRepoTag: 31.0.0.Final-glow-preview
 :DocInfoProductName: Red Hat JBoss Enterprise Application Platform
 :DocInfoProductNameURL: red_hat_jboss_enterprise_application_platform
-// Do not update the following until after the 7.4 docs are published!
-:DocInfoProductNumber: 7.4
+:DocInfoProductNumber: 8.0
 :DocInfoPreviousProductName: jboss-enterprise-application-platform
 :helmRepoName: wildfly
 :helmRepoUrl: http://docs.wildfly.org/wildfly-charts/
@@ -103,7 +102,7 @@ endif::[]
 // OpenShift repository and reference for quickstarts
 :EAPQuickStartRepo: https://github.com/jboss-developer/jboss-eap-quickstarts
 :EAPQuickStartRepoRef: 8.0.x
-:EAPQuickStartRepoTag: EAP_8.0.0.Beta
+:EAPQuickStartRepoTag: EAP_8.0.0.GA
 // Links to the OpenShift documentation
 :LinkOpenShiftGuide: https://access.redhat.com/documentation/en-us/{DocInfoProductNameURL}/{DocInfoProductNumber}/html-single/getting_started_with_jboss_eap_for_openshift_container_platform/
 :LinkOpenShiftOnlineGuide: https://access.redhat.com/documentation/en-us/{DocInfoProductNameURL}/{DocInfoProductNumber}/html-single/getting_started_with_jboss_eap_for_openshift_online/
@@ -213,7 +212,7 @@ The quickstarts demonstrate {javaVersion} and a few additional technologies from
 
 These quickstarts run on the WildFly application server. The quickstarts are configured to use the correct Maven dependencies and ensure that you test and compile the quickstarts against the correct runtime environment.
 
-Each quickstart folder contains a `README.adoc` file that describes the quickstart features and provides instructions about how to build and run it. Instructions are provided to build the more readable `README.html` files.
+Each quickstart folder contains a `README-source.adoc` file that describes the quickstart features and provides instructions about how to build and run it. Instructions are provided to build the more readable `README.html` files.
 
 Make sure you read this entire document before you attempt to work with the quickstarts.
 
@@ -317,7 +316,6 @@ NOTE: Some of these quickstarts use the H2 database included with {productNameFu
 | link:batch-processing/README{outfilesuffix}[batch-processing]|CDI, Batch 1.0, JSF | The `batch-processing` quickstart shows how to use chunk oriented batch jobs to import a file to a database. | Intermediate | _none_
 | link:bmt/README{outfilesuffix}[bmt]|EJB, BMT | The `bmt` quickstart demonstrates Bean-Managed Transactions (BMT), showing how to manually manage transaction demarcation while accessing JPA entities. | Intermediate | _none_
 | link:cmt/README{outfilesuffix}[cmt]|EJB, CMT, JMS | The `cmt` quickstart demonstrates Container-Managed Transactions (CMT), showing how to use transactions managed by the container. | Intermediate | _none_
-| link:contacts-jquerymobile/README{outfilesuffix}[contacts-jquerymobile]|jQuery Mobile, jQuery, JavaScript, HTML5, REST | The `contacts-jquerymobile` quickstart demonstrates a {javaVersion} mobile database application using HTML5, jQuery Mobile, JAX-RS, JPA, and REST. | Beginner | _none_
 | link:ee-security/README{outfilesuffix}[ee-security]|EE Security, Servlet, CDI | The `ee-security` quickstart demonstrates Jakarta EE security. | Intermediate | _none_
 | link:ejb-multi-server/README{outfilesuffix}[ejb-multi-server]|EJB, EAR | The `ejb-multi-server` quickstart shows how to communicate between multiple applications deployed to different servers using an EJB to log the invocation. | Advanced | _none_
 | link:ejb-remote/README{outfilesuffix}[ejb-remote]|EJB, JNDI | The `ejb-remote` quickstart uses EJB and JNDI to demonstrate how to access an EJB, deployed to {productName}, from a remote Java client application. | Intermediate | _none_
@@ -371,8 +369,5 @@ NOTE: Some of these quickstarts use the H2 database included with {productNameFu
 | link:todo-backend/README{outfilesuffix}[todo-backend]|JPA, JAX-RS, OpenShift, Galleon | The `todo-backend` quickstart demonstrates how to implement a backend that exposes a HTTP API with JAX-RS | Intermediate | _none_
 | link:websocket-endpoint/README{outfilesuffix}[websocket-endpoint]|CDI, WebSocket, JSON-P | Shows how to use WebSockets with JSON to broadcast information to all open WebSocket sessions in {productName}. | Beginner | _none_
 | link:websocket-hello/README{outfilesuffix}[websocket-hello]|WebSocket, CDI, JSF | The `websocket-hello` quickstart demonstrates how to create a simple WebSocket application. | Beginner | _none_
-| link:wsat-simple/README{outfilesuffix}[wsat-simple]|WS-AT, JAX-WS | The `wsat-simple` quickstart demonstrates a WS-AT (WS-AtomicTransaction) enabled JAX-WS Web service, bundled as a WAR, and deployed to {productName}. | Intermediate | _none_
-| link:wsba-coordinator-completion-simple/README{outfilesuffix}[wsba-coordinator-completion-simple]|WS-BA, JAX-WS | The `wsba-coordinator-completion-simple` quickstart deploys a WS-BA (WS Business Activity) enabled JAX-WS Web service WAR (CoordinatorCompletion protocol). | Intermediate | _none_
-| link:wsba-participant-completion-simple/README{outfilesuffix}[wsba-participant-completion-simple]|WS-BA, JAX-WS | The `wsba-participant-completion-simple` quickstart deploys a WS-BA (WS Business Activity) enabled JAX-WS Web service WAR (ParticipantCompletion Protocol). | Intermediate | _none_
 |===
 //</TOC>

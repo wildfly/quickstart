@@ -1,0 +1,17 @@
+name: WildFly helloworld-mutual-ssl Quickstart CI
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    paths:
+      - 'helloworld-mutual-ssl/**'
+      - '.github/workflows/quickstart_ci.yml'
+
+jobs:
+  call-quickstart_ci:
+    uses: ./.github/workflows/quickstart_ci.yml
+    with:
+      QUICKSTART_PATH: helloworld-mutual-ssl
+      SERVER_PROVISIONING_SERVER_HOST: https://localhost:8443/
+      TEST_PROVISIONED_SERVER: true
+      TEST_OPENSHIFT: false

@@ -21,7 +21,7 @@
     <parent>
         <groupId>org.wildfly.quickstarts</groupId>
         <artifactId>ejb-multi-server-app-one</artifactId>
-        <version>31.0.0.Final-glow-preview</version>
+        <version>32.0.0.Beta1</version>
     </parent>
     <artifactId>ejb-multi-server-app-one-ear</artifactId>
     <packaging>ear</packaging>
@@ -68,6 +68,17 @@
                     <archive>
                         <addMavenDescriptor>false</addMavenDescriptor>
                     </archive>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.wildfly.plugins</groupId>
+                <artifactId>wildfly-maven-plugin</artifactId>
+                <configuration>
+                    <skip>false</skip>
+                    <server-groups>
+                        <server-group>quickstart-ejb-multi-appOne-server</server-group>
+                    </server-groups>
                 </configuration>
             </plugin>
         </plugins>

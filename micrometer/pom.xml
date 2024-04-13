@@ -15,17 +15,18 @@
     </parent>
 
     <artifactId>micrometer</artifactId>
-    <version>31.0.0.Final-glow-preview</version>
+    <version>32.0.0.Beta1</version>
     <packaging>war</packaging>
 
     <name>Quickstart: micrometer</name>
 
     <properties>
         <!-- the version for the Server -->
-        <version.server>31.0.0.Final</version.server>
+        <version.server>32.0.0.Beta1</version.server>
         <!-- The versions for the BOMs, Packs and Plugins -->
         <version.bom.ee>${version.server}</version.bom.ee>
-        <version.plugin.wildfly>5.0.0.Beta2</version.plugin.wildfly>
+        <version.bom.microprofile>${version.server}</version.bom.microprofile>
+        <version.plugin.wildfly>5.0.0.Finale</version.plugin.wildfly>
     </properties>
 
     <repositories>
@@ -86,6 +87,7 @@
 
     <dependencyManagement>
         <dependencies>
+            <!-- importing the ee-with-tools BOM adds specs and other useful artifacts as managed dependencies -->
             <dependency>
                 <groupId>org.wildfly.bom</groupId>
                 <artifactId>wildfly-ee-with-tools</artifactId>
@@ -93,16 +95,14 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-
             <!-- Import micrometer dependency information -->
             <dependency>
-                <groupId>org.wildfly</groupId>
-                <artifactId>wildfly-common-expansion-dependency-management</artifactId>
-                <version>${version.server}</version>
+                <groupId>org.wildfly.bom</groupId>
+                <artifactId>wildfly-microprofile</artifactId>
+                <version>${version.bom.microprofile}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-
         </dependencies>
     </dependencyManagement>
 
@@ -195,7 +195,7 @@
                                     <scripts>
                                         <script>${basedir}/configure-micrometer.cli</script>
                                     </scripts>
-                                    <resolve-expressions>true</resolve-expressions>
+                                    <resolve-expressions>false</resolve-expressions>
                                 </packaging-script>
                             </packaging-scripts>
 
@@ -278,7 +278,7 @@
                                     <scripts>
                                         <script>${basedir}/configure-micrometer.cli</script>
                                     </scripts>
-                                    <resolve-expressions>true</resolve-expressions>
+                                    <resolve-expressions>false</resolve-expressions>
                                 </packaging-script>
                             </packaging-scripts>
                         </configuration>

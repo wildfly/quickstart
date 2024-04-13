@@ -69,8 +69,7 @@ ifndef::ProductRelease,EAPXPRelease[]
 :WildFlyQuickStartRepoTag: 31.0.0.Final-glow-preview
 :DocInfoProductName: Red Hat JBoss Enterprise Application Platform
 :DocInfoProductNameURL: red_hat_jboss_enterprise_application_platform
-// Do not update the following until after the 7.4 docs are published!
-:DocInfoProductNumber: 7.4
+:DocInfoProductNumber: 8.0
 :DocInfoPreviousProductName: jboss-enterprise-application-platform
 :helmRepoName: wildfly
 :helmRepoUrl: http://docs.wildfly.org/wildfly-charts/
@@ -107,7 +106,7 @@ endif::[]
 // OpenShift repository and reference for quickstarts
 :EAPQuickStartRepo: https://github.com/jboss-developer/jboss-eap-quickstarts
 :EAPQuickStartRepoRef: 8.0.x
-:EAPQuickStartRepoTag: EAP_8.0.0.Beta
+:EAPQuickStartRepoTag: EAP_8.0.0.GA
 // Links to the OpenShift documentation
 :LinkOpenShiftGuide: https://access.redhat.com/documentation/en-us/{DocInfoProductNameURL}/{DocInfoProductNumber}/html-single/getting_started_with_jboss_eap_for_openshift_container_platform/
 :LinkOpenShiftOnlineGuide: https://access.redhat.com/documentation/en-us/{DocInfoProductNameURL}/{DocInfoProductNumber}/html-single/getting_started_with_jboss_eap_for_openshift_online/
@@ -333,8 +332,6 @@ $ __{jbossHomeName}__/bin/add-user.sh -a -u quickuser2 -p quick+123
 
 NOTE: For Windows, use the `__{jbossHomeName}__\bin\add-user.bat` script.
 
-If you prefer, you can use the `add-user` utility interactively. For an example of how to use the add-user utility, see the instructions located here: link:{addApplicationUserDocUrl}[Add an Application User].
-
 // Back Up the {productName} Managed Domain Configuration
 :leveloffset: +1
 
@@ -420,57 +417,107 @@ IMPORTANT: Depending on your machine configuration, you might see "Exception in 
 
 There are too many additions to the configuration files to list here. Feel free to compare the `domain.xml` and `host.xml` to the backup copies to see the changes made to configure the server to run this quickstart.
 
-
-
+// Build and Deploy the Quickstart
+:leveloffset: +1
 
 [[build_and_deploy_the_quickstart]]
-== Build and Deploy the Quickstart
+= Build and Deploy the Quickstart
+//******************************************************************************
+// Include this template if your quickstart does a normal deployment of a archive.
+//
+// * Define the `archiveType` variable in the quickstart README file.
+//   Supported values:
+//    :archiveType: ear
+//    :archiveType: war
+//    :archiveType: jar
+//
+// * To override the archive name, which defaults to the {artifactId),
+//   define the `archiveName` variable, for example:
+//    :archiveName: {artifactId}-service
+//
+// * To override the archive output directory,
+//   define the `archiveDir` variable, for example:
+//    :archiveDir: ear/target
+//
+// * To override the Maven command, define the `mavenCommand` variable,
+//   for example:
+//    :mavenCommand: clean install wildfly:deploy
+//******************************************************************************
 
-. Make sure you have xref:install_the_quickstart_parent_artifact_in_maven[installed the quickstart parent artifact] in your Maven repository.
-. Make sure you have started and configured the {productName} server successfully as described above.
+// The archive name defaults to the artifactId if not overridden
+ifndef::archiveName[]
+:archiveName: {artifactId}
+endif::archiveName[]
+
+// The archive type defaults to war if not overridden
+ifndef::archiveType[]
+:archiveType: war
+endif::archiveType[]
+
+// Define the archive file name as the concatenation of "archiveName" + "." + "archiveType+
+:archiveFileName: {archiveName}.{archiveType}
+
+// If they have not defined the target archive directory, make it the default for the archive type.
+ifndef::archiveDir[]
+
+ifeval::["{archiveType}"=="ear"]
+:archiveDir: {artifactId}/ear/target
+endif::[]
+
+ifeval::["{archiveType}"=="war"]
+:archiveDir: {artifactId}/target
+endif::[]
+
+ifeval::["{archiveType}"=="jar"]
+:archiveDir: {artifactId}/target
+endif::[]
+
+endif::archiveDir[]
+
+ifndef::mavenCommand[]
+ifeval::["{archiveType}"=="ear"]
+:mavenCommand: clean install
+endif::[]
+
+ifeval::["{archiveType}"=="war"]
+:mavenCommand: clean package
+endif::[]
+
+ifeval::["{archiveType}"=="jar"]
+:mavenCommand: clean install
+endif::[]
+
+endif::mavenCommand[]
+
+. Make sure {productName} server is started.
 . Open a terminal and navigate to the root directory of this quickstart.
-. Type this command to build the artifacts.
+ifdef::reactive-messaging[]
+. Run this command to enable the MicroProfile Reactive Messaging functionality on the server
 +
-[source,options="nowrap"]
+[source,subs="attributes+",options="nowrap"]
 ----
-$ mvn clean install
+$ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=enable-reactive-messaging.cli
 ----
+endif::reactive-messaging[]
+. Type the following command to build the quickstart.
 +
-You should see `BUILD SUCCESS` at the end of the build `SUCCESS` messages for each component.
-
-. In the same terminal, deploy the applications using the provided CLI batch script by typing the following command.
-+
-[source,subs="+quotes,attributes+",options="nowrap"]
+[source,subs="attributes+",options="nowrap"]
 ----
-$ __{jbossHomeName}__/bin/jboss-cli.sh -c --file=deploy-domain.cli
-----
-+
-NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
-
-+
-This deploys the `app-*.ear` files to different server groups of the running domain. You should see the following result when you run the script.
-+
-[source,options="nowrap"]
-----
-The batch executed successfully
-process-state: reload-required
+$ mvn {mavenCommand}
 ----
 
-. You might see the following warnings in the server log. You can ignore these warnings.
+. Type the following command to deploy the quickstart.
 +
-[source,options="nowrap"]
+[source,subs="attributes+",options="nowrap"]
 ----
-[Server:app-oneB] 13:00:13,346 WARN  [org.jboss.as.clustering.jgroups.protocol.UDP] (ServerService Thread Pool -- 13) JGRP000015: the send buffer of socket MulticastSocket was set to 1MB, but the OS only allocated 212.99KB. This might lead to performance problems. Please set your max send buffer in the OS correctly (e.g. net.core.wmem_max on Linux)
-[Server:app-oneB] 13:00:13,346 WARN  [org.jboss.as.clustering.jgroups.protocol.UDP] (ServerService Thread Pool -- 13) JGRP000015: the receive buffer of socket MulticastSocket was set to 20MB, but the OS only allocated 212.99KB. This might lead to performance problems. Please set your max receive buffer in the OS correctly (e.g. net.core.rmem_max on Linux)
-[Server:app-oneB] 13:00:13,347 WARN  [org.jboss.as.clustering.jgroups.protocol.UDP] (ServerService Thread Pool -- 13) JGRP000015: the send buffer of socket MulticastSocket was set to 1MB, but the OS only allocated 212.99KB. This might lead to performance problems. Please set your max send buffer in the OS correctly (e.g. net.core.wmem_max on Linux)
-[Server:app-oneB] 13:00:13,347 WARN  [org.jboss.as.clustering.jgroups.protocol.UDP] (ServerService Thread Pool -- 13) JGRP000015: the receive buffer of socket MulticastSocket was set to 25MB, but the OS only allocated 212.99KB. This might lead to performance problems. Please set your max receive buffer in the OS correctly (e.g. net.core.rmem_max on Linux)
-[Server:app-oneA] 13:00:13,407 WARN  [org.jboss.as.clustering.jgroups.protocol.UDP] (ServerService Thread Pool -- 11) JGRP000015: the send buffer of socket MulticastSocket was set to 1MB, but the OS only allocated 212.99KB. This might lead to performance problems. Please set your max send buffer in the OS correctly (e.g. net.core.wmem_max on Linux)
-[Server:app-oneA] 13:00:13,408 WARN  [org.jboss.as.clustering.jgroups.protocol.UDP] (ServerService Thread Pool -- 11) JGRP000015: the receive buffer of socket MulticastSocket was set to 20MB, but the OS only allocated 212.99KB. This might lead to performance problems. Please set your max receive buffer in the OS correctly (e.g. net.core.rmem_max on Linux)
-[Server:app-oneA] 13:00:13,408 WARN  [org.jboss.as.clustering.jgroups.protocol.UDP] (ServerService Thread Pool -- 11) JGRP000015: the send buffer of socket MulticastSocket was set to 1MB, but the OS only allocated 212.99KB. This might lead to performance problems. Please set your max send buffer in the OS correctly (e.g. net.core.wmem_max on Linux)
-[Server:app-oneA] 13:00:13,408 WARN  [org.jboss.as.clustering.jgroups.protocol.UDP] (ServerService Thread Pool -- 11) JGRP000015: the receive buffer of socket MulticastSocket was set to 25MB, but the OS only allocated 212.99KB. This might lead to performance problems. Please set your max receive buffer in the OS correctly (e.g. net.core.rmem_max on Linux)
+$ mvn wildfly:deploy
 ----
 
-IMPORTANT: If errors appear in the `server.log` when installing or deploying the quickstart, stop the domain and restart it. This should ensure further steps run correctly.
+This deploys the `{archiveDir}/{archiveFileName}` to the running instance of the server.
+
+You should see a message in the server log indicating that the archive deployed successfully.
+
+:leveloffset!:
 
 [[access_the_remote_client_application]]
 == Access the Remote Client Application
@@ -529,20 +576,51 @@ An example how to access EJBs from a separate instance which only contains a web
 . Use a browser to access the Servlet at the following URL: http://localhost:8380/ejb-multi-server-app-web/
 . The Servlet will invoke the remote EJBs directly and show the results, compare that the invocation is successful
 
+// Server Distribution Testing
+:integrationTestsDirectory: app-web/src/test/
+:leveloffset: +1
+
+[[run_the_integration_tests_with_server_distribution]]
+= Run the Integration Tests
+ifndef::integrationTestsDirectory[:integrationTestsDirectory: src/test/]
+ifndef::extraStandardDistTestParams[:extraStandardDistTestParams: ]
+
+This quickstart includes integration tests, which are located under the `{integrationTestsDirectory}` directory. The integration tests verify that the quickstart runs correctly when deployed on the server.
+
+Follow these steps to run the integration tests.
+
+. Make sure {productName} server is started.
+. Make sure the quickstart is deployed.
+. Type the following command to run the `verify` goal with the `integration-testing` profile activated.
++
+[source,subs="attributes+",options="nowrap"]
+----
+$ mvn verify -Pintegration-testing {extraStandardDistTestParams}
+----
+
+:leveloffset!:
+
+// Undeploy the Quickstart
+:leveloffset: +1
+
 [[undeploy_the_quickstart]]
-== Undeploy the Quickstart
+= Undeploy the Quickstart
 
-. xref:start_eap_managed_domain[Start the {productName} managed domain] as described above.
+//*******************************************************************************
+// Include this template if your quickstart does a normal undeployment of an archive.
+//*******************************************************************************
+When you are finished testing the quickstart, follow these steps to undeploy the archive.
+
+. Make sure {productName} server is started.
 . Open a terminal and navigate to the root directory of this quickstart.
-. When you are finished testing, type this command to undeploy the archive:
+. Type this command to undeploy the archive:
 +
-[source,subs="+quotes,attributes+",options="nowrap"]
+[source,options="nowrap"]
 ----
-$ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=undeploy-domain.cli
+$ mvn wildfly:undeploy
 ----
-+
-NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat`.
 
+:leveloffset!:
 
 // Restore the {productName} Managed Domain Configuration Manually
 :leveloffset: +1
@@ -566,67 +644,13 @@ __{jbossHomeName}__/domain/configuration/host.xml
 ----
 
 :leveloffset!:
-// Run the Quickstart in Red Hat CodeReady Studio or Eclipse
-:leveloffset: +1
-
-[[run_the_quickstart_in_redhat_codeready_studio_or_eclipse]]
-= Run the Quickstart in {JBDSProductName} or Eclipse
-//******************************************************************************
-// Include this template to provide instructions to run the quickstart
-// in Red Hat CodeReady Studio.
-//
-// If the quickstart is not supported, create the `jbds-not-supported` attribute.
-//******************************************************************************
-ifdef::jbds-not-supported[]
-This quickstart is not supported in {JBDSProductName}.
-endif::jbds-not-supported[]
-
-ifndef::jbds-not-supported[]
-You can also start the server and deploy the quickstarts or run the Arquillian tests in {JBDSProductName} or from Eclipse using JBoss tools. For general information about how to import a quickstart, add a {productName} server, and build and deploy a quickstart, see link:{useEclipseUrl}[Use {JBDSProductName} or Eclipse to Run the Quickstarts].
-endif::jbds-not-supported[]
-
-// Add additional instructions specific to running this quickstart in an IDE here.
-
-:leveloffset!:
-
-// Additional Red Hat CodeReady Studio instructions
-EJB Client (ejb-client) currently has limited support in the Eclipse Web Tools Platform (WTP).
-
-// Debug the Application
-:leveloffset: +1
-
-[[debug_the_application]]
-= Debug the Application
-//******************************************************************************
-// Include this template to provide debugging information.
-//******************************************************************************
-
-If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
-
-----
-$ mvn dependency:sources
-----
-
-////
-TODO: I need to investigate whether the following version can be used across all quickstarts.
-
-If you want to debug the source code or look at the Javadocs of any library in the project, run either of the following commands to pull them into your local repository. The IDE should then detect them.
-
-[source,options="nowrap"]
-----
-$ mvn dependency:sources
-$ mvn dependency:resolve -Dclassifier=javadoc
-----
-////
-
-:leveloffset!:
-
-//*************************************************
-// Product Release content only
-//*************************************************
-ifdef::ProductRelease[]
 
 // Quickstart not compatible with OpenShift
-include::../shared-doc/openshift-incompatibility.adoc[leveloffset=+1]
+:leveloffset: +1
 
-endif::[]
+[[openshift_incompatibility]]
+= {xpaasproduct-shortname} Incompatibility
+
+This quickstart is not compatible with {xpaasproduct-shortname}.
+
+:leveloffset!:

@@ -168,8 +168,8 @@ Add the following properties to the `pom.xml`.
 ----
 <version.com.nimbusds.jose.jwt>{versionComNimbusdsJoseJwt}</version.com.nimbusds.jose.jwt>
 <version.glassfish.json>{versionGlassfishJson}</version.glassfish.json>
-<version.microprofile.bom>{versionMicroprofileBom}</version.microprofile.bom>
-<version.server.bom>{versionServerBom}</version.server.bom>
+<version.bom.microprofile>{versionMicroprofileBom}</version.bom.microprofile>
+<version.bom.ee>{versionServerBom}</version.bom.ee>
 ----
 
 Also the project can be updated to use Java 11 as the minimum.
@@ -189,14 +189,14 @@ Before the dependencies are defined add the following boms.
     <dependency>
       <groupId>org.wildfly.bom</groupId>
       <artifactId>wildfly-ee-with-tools</artifactId>
-      <version>${version.server.bom}</version>
+      <version>${version.bom.ee}</version>
       <type>pom</type>
       <scope>import</scope>
     </dependency>
     <dependency>
       <groupId>org.wildfly.bom</groupId>
       <artifactId>wildfly-microprofile</artifactId>
-      <version>${version.microprofile.bom}</version>
+      <version>${version.bom.microprofile}</version>
       <type>pom</type>
       <scope>import</scope>
     </dependency>

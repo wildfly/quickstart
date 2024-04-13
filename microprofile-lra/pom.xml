@@ -13,17 +13,17 @@
     </parent>
 
     <artifactId>microprofile-lra</artifactId>
-    <version>31.0.0.Final-glow-preview</version>
+    <version>32.0.0.Beta1</version>
     <packaging>war</packaging>
     <name>Quickstart: microprofile-lra</name>
 
     <properties>
         <!-- the version for the Server -->
-        <version.server>31.0.0.Final</version.server>
+        <version.server>32.0.0.Beta1</version.server>
         <!-- The versions for the BOMs, Packs and Plugins -->
         <version.bom.ee>${version.server}</version.bom.ee>
         <version.bom.microprofile>${version.server}</version.bom.microprofile>
-        <version.plugin.wildfly>5.0.0.Beta2</version.plugin.wildfly>
+        <version.plugin.wildfly>5.0.0.Final</version.plugin.wildfly>
     </properties>
 
     <repositories>
@@ -160,7 +160,8 @@
                     <!-- adds versions properties as attributes for substitutions in README.adoc source blocks -->
                     <attributes>
                         <versionServer>${version.server}</versionServer>
-                        <versionPackCloud>${version.pack.cloud}</versionPackCloud>
+                        <versionBomEE>${version.bom.ee}</versionBomEE>
+                        <versionBomMicroprofile>${version.bom.microprofile}</versionBomMicroprofile>
                         <versionPluginWildfly>${version.plugin.wildfly}</versionPluginWildfly>
                         <versionPluginWildflyJar>${version.plugin.wildfly-jar}</versionPluginWildflyJar>
                     </attributes>

@@ -29,7 +29,7 @@
         <relativePath/>
     </parent>
     <artifactId>jboss-logging</artifactId>
-    <version>31.0.0.Final-glow-preview</version>
+    <version>32.0.0.Beta1</version>
     <packaging>war</packaging>
     <name>Quickstart: logging</name>
     <description>This project demonstrates logging in JBoss EAP</description>
@@ -44,10 +44,10 @@
 
     <properties>
         <!-- The server version -->
-        <version.server>31.0.0.Final</version.server>
+        <version.server>32.0.0.Beta1</version.server>
         <!-- The versions for BOMs, Dependencies and Plugins -->
         <version.bom.ee>${version.server}</version.bom.ee>
-        <version.plugin.wildfly>5.0.0.Beta2</version.plugin.wildfly>
+        <version.plugin.wildfly>5.0.0.Final</version.plugin.wildfly>
 
         <version.org.junit>5.10.1</version.org.junit>
 
@@ -171,6 +171,7 @@
                             <discover-provisioning-info>
                                 <version>${version.server}</version>
                             </discover-provisioning-info>
+
                             <!-- Used for the package goal -->
                             <packaging-scripts>
                                 <packaging-script>
@@ -183,6 +184,8 @@
                                     <resolve-expressions>true</resolve-expressions>
                                 </packaging-script>
                             </packaging-scripts>
+                            <!-- deploys the quickstart on root web context -->
+                            <name>ROOT.war</name>
                         </configuration>
                         <executions>
                             <execution>
@@ -225,6 +228,7 @@
                                     <resolve-expressions>true</resolve-expressions>
                                 </packaging-script>
                             </packaging-scripts>
+                            <filename>ROOT.war</filename>
                         </configuration>
                         <executions>
                             <execution>

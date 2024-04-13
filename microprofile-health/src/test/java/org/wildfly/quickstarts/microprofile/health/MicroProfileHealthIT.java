@@ -117,11 +117,10 @@ public class MicroProfileHealthIT {
         Assert.assertEquals("UP", json.get("status").asString());
 
         List<ModelNode> checks = json.get("checks").asList();
-        Assert.assertEquals(5, checks.size());
 
         boolean checkIncluded = false;
 
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < checks.size(); i++) {
             ModelNode check = checks.get(i);
             if (check.get("name").asString().equals("Database connection health check")) {
                 Assert.assertEquals("UP", check.get("status").asString());

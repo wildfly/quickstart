@@ -69,8 +69,7 @@ ifndef::ProductRelease,EAPXPRelease[]
 :WildFlyQuickStartRepoTag: 31.0.0.Final-glow-preview
 :DocInfoProductName: Red Hat JBoss Enterprise Application Platform
 :DocInfoProductNameURL: red_hat_jboss_enterprise_application_platform
-// Do not update the following until after the 7.4 docs are published!
-:DocInfoProductNumber: 7.4
+:DocInfoProductNumber: 8.0
 :DocInfoPreviousProductName: jboss-enterprise-application-platform
 :helmRepoName: wildfly
 :helmRepoUrl: http://docs.wildfly.org/wildfly-charts/
@@ -107,7 +106,7 @@ endif::[]
 // OpenShift repository and reference for quickstarts
 :EAPQuickStartRepo: https://github.com/jboss-developer/jboss-eap-quickstarts
 :EAPQuickStartRepoRef: 8.0.x
-:EAPQuickStartRepoTag: EAP_8.0.0.Beta
+:EAPQuickStartRepoTag: EAP_8.0.0.GA
 // Links to the OpenShift documentation
 :LinkOpenShiftGuide: https://access.redhat.com/documentation/en-us/{DocInfoProductNameURL}/{DocInfoProductNumber}/html-single/getting_started_with_jboss_eap_for_openshift_container_platform/
 :LinkOpenShiftOnlineGuide: https://access.redhat.com/documentation/en-us/{DocInfoProductNameURL}/{DocInfoProductNumber}/html-single/getting_started_with_jboss_eap_for_openshift_online/
@@ -655,7 +654,7 @@ endif::[]
 
 endif::mavenCommand[]
 
-. Make sure you xref:start_the_eap_standalone_server[start the {productName} server] as described above.
+. Make sure {productName} server is started.
 . Open a terminal and navigate to the root directory of this quickstart.
 ifdef::reactive-messaging[]
 . Run this command to enable the MicroProfile Reactive Messaging functionality on the server
@@ -679,17 +678,9 @@ $ mvn {mavenCommand}
 $ mvn wildfly:deploy
 ----
 
-ifdef::rest-client-qs[]
-This builds and deploys the `country-server` and `country-client` to the running instance of the server.
-
-You should see a message in the server log indicating that the archives deployed successfully.
-endif::[]
-ifndef::rest-client-qs[]
 This deploys the `{archiveDir}/{archiveFileName}` to the running instance of the server.
 
 You should see a message in the server log indicating that the archive deployed successfully.
-endif::[]
-
 
 :leveloffset!:
 
@@ -698,25 +689,21 @@ endif::[]
 
 [[run_the_integration_tests_with_server_distribution]]
 = Run the Integration Tests
-This quickstart includes integration tests, which are located under the  `src/test/` directory. The integration tests verify that the quickstart runs correctly when deployed on the server.
+ifndef::integrationTestsDirectory[:integrationTestsDirectory: src/test/]
+ifndef::extraStandardDistTestParams[:extraStandardDistTestParams: ]
+
+This quickstart includes integration tests, which are located under the `{integrationTestsDirectory}` directory. The integration tests verify that the quickstart runs correctly when deployed on the server.
 
 Follow these steps to run the integration tests.
 
-. Make sure you start the {productName} server, as previously described.
-
-. Make sure you build and deploy the quickstart, as previously described.
-
+. Make sure {productName} server is started.
+. Make sure the quickstart is deployed.
 . Type the following command to run the `verify` goal with the `integration-testing` profile activated.
 +
-[source,options="nowrap"]
+[source,subs="attributes+",options="nowrap"]
 ----
-$ mvn verify -Pintegration-testing
+$ mvn verify -Pintegration-testing {extraStandardDistTestParams}
 ----
-
-[NOTE]
-====
-You may also use the environment variable `SERVER_HOST` or the system property `server.host` to define the target URL of the tests.
-====
 
 :leveloffset!:
 
@@ -731,7 +718,7 @@ You may also use the environment variable `SERVER_HOST` or the system property `
 //*******************************************************************************
 When you are finished testing the quickstart, follow these steps to undeploy the archive.
 
-. Make sure you xref:start_the_eap_standalone_server[start the {productName} server] as described above.
+. Make sure {productName} server is started.
 . Open a terminal and navigate to the root directory of this quickstart.
 . Type this command to undeploy the archive:
 +
@@ -878,7 +865,13 @@ You can use the WildFly JAR Maven plug-in to build a {productName} bootable JAR 
 
 The quickstart `pom.xml` file contains a Maven profile named *bootable-jar* which configures the bootable JAR building:
 
+<<<<<<< HEAD
 ifndef::portedToGlow[]
+=======
+// Render XML Snippet of openshift Maven profile...
+ifndef::ProductRelease[]
+// ... for WildFly
+>>>>>>> upstream/main
 [source,xml,subs="attributes+"]
 ----
       <profile>
@@ -890,6 +883,46 @@ ifndef::portedToGlow[]
                       <artifactId>wildfly-jar-maven-plugin</artifactId>
                       <configuration>
                           <feature-pack-location>wildfly@maven(org.jboss.universe:community-universe)#${version.server}</feature-pack-location>
+                          <layers>
+                              <layer>jaxrs-server</layer>
+                              <layer>microprofile-config</layer>
+                          </layers>
+                          <plugin-options>
+                              <jboss-fork-embedded>true</jboss-fork-embedded>
+                          </plugin-options>
+                      </configuration>
+                      <executions>
+                          <execution>
+                              <goals>
+                                  <goal>package</goal>
+                              </goals>
+                          </execution>
+                      </executions>
+                  </plugin>
+              </plugins>
+          </build>
+      </profile>
+----
+endif::[]
+ifdef::ProductRelease[]
+ifndef::EAPXPRelease[]
+// ... for EAP
+// not supported
+endif::[]
+ifdef::EAPXPRelease[]
+// ... for EAP XP
+[source,xml,subs="attributes+"]
+----
+      <profile>
+          <id>bootable-jar</id>
+          <build>
+              <plugins>
+                  <plugin>
+                      <groupId>org.wildfly.plugins</groupId>
+                      <artifactId>wildfly-jar-maven-plugin</artifactId>
+                      <configuration>
+                          ...
+                          <feature-pack-location>org.jboss.eap.xp:wildfly-galleon-pack</feature-pack-location>
                           <layers>...</layers>
                           <plugin-options>
                               <jboss-fork-embedded>true</jboss-fork-embedded>
@@ -903,11 +936,11 @@ ifndef::portedToGlow[]
                           </execution>
                       </executions>
                   </plugin>
-                  ...
               </plugins>
           </build>
       </profile>
 ----
+<<<<<<< HEAD
 endif::portedToGlow[]
 ifdef::portedToGlow[]
 [source,xml,subs="attributes+"]
@@ -958,6 +991,12 @@ If you get an error or the server is missing some functionality which cannot be 
 wildfly-glow show-add-ons
 ----
 endif::portedToGlow[]
+=======
+endif::[]
+endif::[]
+
+
+>>>>>>> upstream/main
 
 .Procedure
 
@@ -1100,8 +1139,6 @@ ifndef::helm-app-name[]
 :helm-app-name: {artifactId}
 endif::helm-app-name[]
 
-
-
 [[build_and_run_the_quickstart_on_openshift]]
 = Building and running the quickstart application with OpenShift
 // The openshift profile
@@ -1119,8 +1156,14 @@ ifdef::ProductRelease,EAPXPRelease[]
 The server provisioning functionality is provided by the EAP Maven Plugin, and you may find its configuration in the quickstart `pom.xml`:
 endif::[]
 
+<<<<<<< HEAD
 ifndef::ProductRelease,EAPXPRelease[]
 ifndef::portedToGlow[]
+=======
+// Render XML Snippet of openshift Maven profile...
+ifndef::ProductRelease[]
+// ... for WildFly
+>>>>>>> upstream/main
 [source,xml,subs="attributes+"]
 ----
         <profile>
@@ -1155,6 +1198,7 @@ ifndef::portedToGlow[]
             </build>
         </profile>
 ----
+<<<<<<< HEAD
 You may note that unlike the `provisioned-server` profile it uses the cloud feature pack which enables a configuration tuned for OpenShift environment.
 endif::portedToGlow[]
 ifdef::portedToGlow[]
@@ -1210,6 +1254,12 @@ endif::portedToGlow[]
 endif::ProductRelease,EAPXPRelease[]
 
 ifdef::ProductRelease,EAPXPRelease[]
+=======
+endif::[]
+ifdef::ProductRelease[]
+ifndef::EAPXPRelease[]
+// ... for EAP
+>>>>>>> upstream/main
 [source,xml,subs="attributes+"]
 ----
         <profile>
@@ -1245,7 +1295,63 @@ ifdef::ProductRelease,EAPXPRelease[]
             </build>
         </profile>
 ----
+<<<<<<< HEAD
 You may note that it uses the cloud feature pack which enables a configuration tuned for OpenShift environment.
+=======
+endif::[]
+ifdef::EAPXPRelease[]
+// ... for EAP XP
+[source,xml,subs="attributes+"]
+----
+        <profile>
+            <id>openshift</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.jboss.eap.plugins</groupId>
+                        <artifactId>eap-maven-plugin</artifactId>
+                        <configuration>
+                            ...
+                            <feature-packs>
+                                <feature-pack>
+                                    <location>org.jboss.eap.xp:wildfly-galleon-pack</location>
+                                </feature-pack>
+                                <feature-pack>
+                                    <location>org.jboss.eap.cloud:eap-cloud-galleon-pack</location>
+                                </feature-pack>
+                            </feature-packs>
+                            <layers>...</layers>
+                            <name>ROOT.war</name>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>package</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    ...
+                </plugins>
+            </build>
+        </profile>
+----
+endif::[]
+endif::[]
+
+ifndef::ProductRelease,EAPXPRelease[]
+You may note that unlike the `provisioned-server` profile it uses the cloud feature pack which enables a configuration tuned for OpenShift environment.
+endif::[]
+ifdef::ProductRelease,EAPXPRelease[]
+You may note that the cloud feature pack is used, this enables a configuration tuned for OpenShift environment.
+endif::[]
+
+ifdef::EAPXPRelease[]
+[NOTE]
+====
+Previous {productName} releases used the WildFly JAR Maven Plugin to package the quickstart in a Bootable JAR, when deploying it on OpenShift, and while that's still supported it's no longer recommended.
+====
+>>>>>>> upstream/main
 endif::[]
 
 
@@ -1398,16 +1504,6 @@ ifdef::post-helm-install-actions[]
 include::{post-helm-install-actions}[leveloffset=+1]
 endif::post-helm-install-actions[]
 
-
-[[undeploy_helm]]
-== Undeploy the {ProductShortName} Source-to-Image (S2I) Quickstart from OpenShift with Helm Charts
-
-
-[source,options="nowrap",subs="+attributes"]
-----
-$ helm uninstall {helm-app-name}
-----
-
 :leveloffset: 1
 
 // Testing on Openshift
@@ -1448,6 +1544,19 @@ The tests are using SSL to connect to the quickstart running on OpenShift. So yo
 
 :leveloffset: 1
 
+//Prepare Helm for Quickstart Deployment
+:leveloffset: +1
+
+[[undeploy_helm]]
+== Undeploy the {ProductShortName} Source-to-Image (S2I) Quickstart from OpenShift with Helm Charts
+
+[source,options="nowrap",subs="+attributes"]
+----
+$ helm uninstall {helm-app-name}
+----
+
+:leveloffset: 1
+
 :leveloffset!:
 
 [[creating-new-project]]
@@ -1478,9 +1587,8 @@ The first thing to do is to change the minimum JDK to Java 11 and set the other 
 <!-- the version for the Server -->
 <version.server>{versionServer}</version.server>
 <!-- The versions for the BOMs, Packs and Plugins -->
-<version.bom.ee>${version.server}</version.bom.ee>
-<version.bom.microprofile>${version.server}</version.bom.microprofile>
-<version.pack.cloud>{versionPackCloud}</version.pack.cloud>
+<version.bom.ee>{versionBomEE}</version.bom.ee>
+<version.bom.microprofile>{versionBomMicroprofile}</version.bom.microprofile>
 <version.plugin.wildfly>{versionPluginWildfly}</version.plugin.wildfly>
 <version.plugin.wildfly-jar>{versionPluginWildflyJar}</version.plugin.wildfly-jar>
 ----

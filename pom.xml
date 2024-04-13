@@ -30,11 +30,11 @@
         Maintain separation between the artifact id and the version to help prevent
         merge conflicts between commits changing the GA and those changing the V.
         -->
-    <version>31.0.0.Final-glow-preview</version>
+    <version>32.0.0.Beta1</version>
 
     <packaging>pom</packaging>
 
-    <name>Quickstart: Aggregator</name>
+    <name>Quickstarts Aggregator</name>
     <description>Quickstart's aggregator</description>
     <url>https://github.com/wildfly/quickstart</url>
 
@@ -54,7 +54,7 @@
         <version.org.asciidoctor.asciidoctor-maven-plugin>2.1.0</version.org.asciidoctor.asciidoctor-maven-plugin>
         <version.wildfly.maven.plugin>4.2.0.Final</version.wildfly.maven.plugin>
         <version.org.wildfly.checkstyle-config>1.0.7.Final</version.org.wildfly.checkstyle-config>
-        <version.org.wildfly.quickstarts.documentation.plugin>2.4.0.Final</version.org.wildfly.quickstarts.documentation.plugin>
+        <version.org.wildfly.quickstarts.documentation.plugin>2.4.1.Final</version.org.wildfly.quickstarts.documentation.plugin>
         <!-- other plug-in versions -->
         <version.com.mycyla.license>3.0</version.com.mycyla.license>
         <version.checkstyle>8.5</version.checkstyle>
@@ -302,7 +302,6 @@
                 <module>batch-processing</module>
                 <module>bmt</module>
                 <module>cmt</module>
-                <module>contacts-jquerymobile</module>
                 <module>ee-security</module>
                 <module>ejb-multi-server</module>
                 <module>ejb-security-context-propagation</module>
@@ -409,29 +408,6 @@
             </modules>
         </profile>
         <profile>
-            <!-- All the quickstarts that require the xts to be enabled -->
-            <id>requires-xts</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-                <property>
-                    <name>requires-xts</name>
-                    <value>!disabled</value>
-                </property>
-            </activation>
-            <modules>
-                <module>wsat-simple</module>
-                <module>wsba-coordinator-completion-simple</module>
-                <module>wsba-participant-completion-simple</module>
-            </modules>
-        </profile>
-        <profile>
-            <id>functional-tests</id>
-            <modules>
-                <module>contacts-jquerymobile/functional-tests</module>
-            </modules>
-        </profile>
-
-        <profile>
             <id>docs</id>
             <activation>
                 <property>
@@ -500,7 +476,7 @@
             <id>adoc</id>
             <activation>
                 <file>
-                    <missing>README.adoc</missing>
+                    <missing>README-source.adoc</missing>
                 </file>
             </activation>
             <properties>

@@ -29,7 +29,7 @@
         <relativePath/>
     </parent>
     <artifactId>ejb-multi-server</artifactId>
-    <version>31.0.0.Final-glow-preview</version>
+    <version>32.0.0.Beta1</version>
     <packaging>pom</packaging>
     <name>Quickstart: ejb-multi-server</name>
     <description>A project that demonstrates multiple applications deployed on different servers.
@@ -46,8 +46,11 @@
     </licenses>
 
     <properties>
+        <!-- the version for the Server -->
+        <version.server>32.0.0.Beta1</version.server>
         <!-- The versions for BOMs, Dependencies and Plugins -->
-        <version.server.bom>31.0.0.Final</version.server.bom>
+        <version.bom.ee>${version.server}</version.bom.ee>
+        <version.plugin.wildfly>5.0.0.Final</version.plugin.wildfly>
     </properties>
 
     <repositories>
@@ -111,7 +114,7 @@
             <dependency>
                 <groupId>org.wildfly.bom</groupId>
                 <artifactId>wildfly-ee-with-tools</artifactId>
-                <version>${version.server.bom}</version>
+                <version>${version.bom.ee}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -127,14 +130,44 @@
     </modules>
 
     <build>
-        <plugins>
-            <plugin>
-                <groupId>org.wildfly.plugins</groupId>
-                <artifactId>wildfly-maven-plugin</artifactId>
-                <configuration>
-                    <skip>true</skip>
-                </configuration>
-            </plugin>
-        </plugins>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.wildfly.plugins</groupId>
+                    <artifactId>wildfly-maven-plugin</artifactId>
+                    <version>${version.plugin.wildfly}</version>
+                    <configuration>
+                        <skip>true</skip>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
     </build>
+
+    <profiles>
+        <profile>
+            <id>integration-testing</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <configuration>
+                            <includes>
+                                <include>**/BasicRuntimeIT</include>
+                            </includes>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>integration-test</goal>
+                                    <goal>verify</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>

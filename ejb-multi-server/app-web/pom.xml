@@ -21,7 +21,7 @@
     <parent>
         <groupId>org.wildfly.quickstarts</groupId>
         <artifactId>ejb-multi-server</artifactId>
-        <version>31.0.0.Final-glow-preview</version>
+        <version>32.0.0.Beta1</version>
     </parent>
     <artifactId>ejb-multi-server-app-web</artifactId>
     <packaging>war</packaging>
@@ -65,6 +65,10 @@
             <artifactId>jakarta.servlet-api</artifactId>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
@@ -79,6 +83,16 @@
                     <archive>
                         <addMavenDescriptor>false</addMavenDescriptor>
                     </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.wildfly.plugins</groupId>
+                <artifactId>wildfly-maven-plugin</artifactId>
+                <configuration>
+                    <skip>false</skip>
+                    <server-groups>
+                        <server-group>quickstart-ejb-multi-appWeb-server</server-group>
+                    </server-groups>
                 </configuration>
             </plugin>
         </plugins>
