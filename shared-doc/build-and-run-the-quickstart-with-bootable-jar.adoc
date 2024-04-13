@@ -5,38 +5,6 @@ You can use the WildFly JAR Maven plug-in to build a {productName} bootable JAR 
 
 The quickstart `pom.xml` file contains a Maven profile named *bootable-jar* which configures the bootable JAR building:
 
-ifndef::portedToGlow[]
-[source,xml,subs="attributes+"]
-----
-      <profile>
-          <id>bootable-jar</id>
-          <build>
-              <plugins>
-                  <plugin>
-                      <groupId>org.wildfly.plugins</groupId>
-                      <artifactId>wildfly-jar-maven-plugin</artifactId>
-                      <configuration>
-                          <feature-pack-location>wildfly@maven(org.jboss.universe:community-universe)#${version.server}</feature-pack-location>
-                          <layers>...</layers>
-                          <plugin-options>
-                              <jboss-fork-embedded>true</jboss-fork-embedded>
-                          </plugin-options>
-                      </configuration>
-                      <executions>
-                          <execution>
-                              <goals>
-                                  <goal>package</goal>
-                              </goals>
-                          </execution>
-                      </executions>
-                  </plugin>
-                  ...
-              </plugins>
-          </build>
-      </profile>
-----
-endif::portedToGlow[]
-ifdef::portedToGlow[]
 [source,xml,subs="attributes+"]
 ----
       <profile>
@@ -84,7 +52,6 @@ If you get an error or the server is missing some functionality which cannot be 
 ----
 wildfly-glow show-add-ons
 ----
-endif::portedToGlow[]
 
 .Procedure
 
