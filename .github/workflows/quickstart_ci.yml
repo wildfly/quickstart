@@ -171,9 +171,7 @@ jobs:
   WildFly-build:
     uses: wildfly/wildfly/.github/workflows/shared-wildfly-build.yml@main
     with:
-      # There is no upstream glow-preview branch. The QS glow-preview branch targets WildFLy main
-      #wildfly-branch: ${{ github.base_ref }}
-      wildfly-branch: main
+      wildfly-branch: ${{ github.base_ref }}
       wildfly-repo: "wildfly/wildfly"
 
   Test-build-with-deps-matrix:

@@ -20,7 +20,7 @@ env:
   MATRIX_JDK: '"11", "17"'
   MATRIX_OS: '"ubuntu-latest"'
   SERVER_PROVISIONING_SERVER_HOST: 'http://localhost'
-  EXTRA_RUN_ARGS: '-Pprovisioned-server -DpostgresqlUsername="test" -DpostgresqlPassword="test"'
+  EXTRA_RUN_ARGS: '-DpostgresqlUsername="test" -DpostgresqlPassword="test"'
   WILDFLY_SNAPSHOT_EXTRA_PACKAGE_ARGUMENTS: '-Dwildfly-glow-galleon-feature-packs-url=https://raw.githubusercontent.com/wildfly/wildfly-galleon-feature-packs/main/'
 jobs:
   Matrix-Setup:
@@ -133,9 +133,7 @@ jobs:
   WildFly-build:
     uses: wildfly/wildfly/.github/workflows/shared-wildfly-build.yml@main
     with:
-      # There is no upstream glow-preview branch. The QS glow-preview branch targets WildFLy main
-      #wildfly-branch: ${{ github.base_ref }}
-      wildfly-branch: main
+      wildfly-branch: ${{ github.base_ref }}
       wildfly-repo: "wildfly/wildfly"
 
   Test-build-with-deps-matrix:
