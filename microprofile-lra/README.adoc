@@ -1627,7 +1627,7 @@ package org.wildfly.quickstarts.microprofile.lra;
 import jakarta.ws.rs.ApplicationPath;
 import jakarta.ws.rs.core.Application;
 
-@ApplicationPath("/")
+@ApplicationPath("/rest")
 public class JaxRsApplication extends Application {
 }
 ----
@@ -1947,14 +1947,14 @@ Then you can invoke the `LRAParticipant1` JAX-RS resource as:
 
 [source,bash]
 ----
-$ curl http://localhost:8080/microprofile-lra/participant1/work
+$ curl http://localhost:8080/microprofile-lra/rest/participant1/work
 ----
 
 or if you want to simulate LRA failure as:
 
 [source,bash]
 ----
-$ curl "http://localhost:8080/microprofile-lra/participant1/work?failLRA=true"
+$ curl "http://localhost:8080/microprofile-lra/rest/participant1/work?failLRA=true"
 ----
 
 In either case, you will see the LRA execution message printed in the {productName} console:
@@ -2147,14 +2147,14 @@ Redeploy the application into the {productName} as showed in <<solution>>. Then 
 
 [source,bash]
 ----
-$ curl http://localhost:8080/microprofile-lra/participant1/work
+$ curl http://localhost:8080/microprofile-lra/rest/participant1/work
 ----
 
 or if you want to simulate LRA failure as:
 
 [source,bash]
 ----
-$ curl "http://localhost:8080/microprofile-lra/participant1/work?failLRA=true"
+$ curl "http://localhost:8080/microprofile-lra/rest/participant1/work?failLRA=true"
 ----
 
 But this time, you will see the LRA is propagated to the `LRAParticipant2` and its (complete or compensate) callbacks

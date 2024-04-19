@@ -46,15 +46,15 @@ public class MicroProfileLRAIT {
 
     @Test
     public void testLRAExecutionSuccess() {
-        Response response = getResponse("/participant1/work");
+        Response response = getResponse("/rest/participant1/work");
         assertEquals(200, response.getStatus());
         String lraId = response.readEntity(String.class);
 
-        response = getResponse("/participant1/result");
+        response = getResponse("/rest/participant1/result");
         assertEquals(200, response.getStatus());
         ParticipantResult participantResult1 = response.readEntity(ParticipantResult.class);
 
-        response = getResponse("/participant2/result");
+        response = getResponse("/rest/participant2/result");
         assertEquals(200, response.getStatus());
         ParticipantResult participantResult2 = response.readEntity(ParticipantResult.class);
 
@@ -79,16 +79,16 @@ public class MicroProfileLRAIT {
 
     @Test
     public void testLRAExecutionFailure() {
-        Response response = getResponse("/participant1/work",
+        Response response = getResponse("/rest/participant1/work",
             webTarget -> webTarget.queryParam("failLRA", "true"));
         assertEquals(500, response.getStatus());
         String lraId = response.readEntity(String.class);
 
-        response = getResponse("/participant1/result");
+        response = getResponse("/rest/participant1/result");
         assertEquals(200, response.getStatus());
         ParticipantResult participantResult1 = response.readEntity(ParticipantResult.class);
 
-        response = getResponse("/participant2/result");
+        response = getResponse("/rest/participant2/result");
         assertEquals(200, response.getStatus());
         ParticipantResult participantResult2 = response.readEntity(ParticipantResult.class);
 
