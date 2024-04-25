@@ -174,15 +174,6 @@
                     <groupId>org.wildfly.plugins</groupId>
                     <artifactId>wildfly-maven-plugin</artifactId>
                     <version>${version.plugin.wildfly}</version>
-                    <configuration>
-                        <!-- Env used when calling wildfly:start goal -->
-                        <env>
-                            <POSTGRESQL_DATABASE>test</POSTGRESQL_DATABASE>
-                            <POSTGRESQL_JNDI>java:jboss/datasources/ejbJtaDs</POSTGRESQL_JNDI>
-                            <POSTGRESQL_PASSWORD>${postgresqlUsername}</POSTGRESQL_PASSWORD>
-                            <POSTGRESQL_USER>${postgresqlPassword}</POSTGRESQL_USER>
-                        </env>
-                    </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -210,10 +201,13 @@
                         <configuration>
                             <filename>server.war</filename>
                             <serverConfig>standalone-ha.xml</serverConfig>
-                            <!--
-                                Note that the pluginManagement section for this plugin contains environment variables
-                                which are needed to connect to the database when doing 'mvn wildfly:start'
-                            -->
+                            <!-- Env used when calling wildfly:start goal -->
+                            <env>
+                                <POSTGRESQL_DATABASE>test</POSTGRESQL_DATABASE>
+                                <POSTGRESQL_JNDI>java:jboss/datasources/ejbJtaDs</POSTGRESQL_JNDI>
+                                <POSTGRESQL_PASSWORD>${postgresqlUsername}</POSTGRESQL_PASSWORD>
+                                <POSTGRESQL_USER>${postgresqlPassword}</POSTGRESQL_USER>
+                            </env>
                         </configuration>
                         <executions>
                             <execution>
