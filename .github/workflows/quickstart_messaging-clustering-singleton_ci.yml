@@ -1,0 +1,14 @@
+name: WildFly messaging-clustering-singleton Quickstart CI
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    paths:
+      - 'messaging-clustering-singleton/**'
+      - '.github/workflows/quickstart_ci.yml'
+jobs:
+  call-quickstart_ci:
+    uses: ./.github/workflows/quickstart_ci.yml
+    with:
+      QUICKSTART_PATH: messaging-clustering-singleton
+      TEST_PROVISIONED_SERVER: true
