@@ -1,5 +1,5 @@
 function runPostHelmInstallCommands() {
-    oc apply -f charts/management.yml
+    kubectl apply -f charts/management-openshift.yml
 }
 
 
@@ -13,6 +13,6 @@ function getMvnVerifyExtraArguments()
 function cleanPrerequisites()
 {
   echo "Removing microprofile-health-management service and route"
-  oc delete route microprofile-health-management
-  oc delete service microprofile-health-management
+  kubectl delete route microprofile-health-management
+  kubectl delete service microprofile-health-management
 }
