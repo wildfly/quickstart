@@ -1,10 +1,10 @@
 # Add the periodic rotating file handlers corresponding to those added to the logging properties file
-/subsystem=logging/file-handler=FILE_QS_TRACE:add(append=false, level=TRACE, named-formatter=PATTERN, file={"path"=>"quickstart-trace.log", "relative-to"=>"jboss.server.log.dir"})
-/subsystem=logging/file-handler=FILE_QS_DEBUG:add(append=false, level=DEBUG, named-formatter=PATTERN, file={"path"=>"quickstart-debug.log", "relative-to"=>"jboss.server.log.dir"})
-/subsystem=logging/file-handler=FILE_QS_INFO:add(append=false, level=INFO, named-formatter=PATTERN, file={"path"=>"quickstart-info.log", "relative-to"=>"jboss.server.log.dir"})
-/subsystem=logging/file-handler=FILE_QS_WARN:add(append=false, level=WARN, named-formatter=PATTERN, file={"path"=>"quickstart-warn.log", "relative-to"=>"jboss.server.log.dir"})
-/subsystem=logging/file-handler=FILE_QS_ERROR:add(append=false, level=ERROR, named-formatter=PATTERN, file={"path"=>"quickstart-error.log", "relative-to"=>"jboss.server.log.dir"})
-/subsystem=logging/file-handler=FILE_QS_FATAL:add(append=false, level=FATAL, named-formatter=PATTERN, file={"path"=>"quickstart-fatal.log", "relative-to"=>"jboss.server.log.dir"})
+/subsystem=logging/file-handler=FILE_QS_TRACE:add(append=false, level=TRACE, named-formatter=${formatter}, file={"path"=>"quickstart-trace.log", "relative-to"=>"jboss.server.log.dir"})
+/subsystem=logging/file-handler=FILE_QS_DEBUG:add(append=false, level=DEBUG, named-formatter=${formatter}, file={"path"=>"quickstart-debug.log", "relative-to"=>"jboss.server.log.dir"})
+/subsystem=logging/file-handler=FILE_QS_INFO:add(append=false, level=INFO, named-formatter=${formatter}, file={"path"=>"quickstart-info.log", "relative-to"=>"jboss.server.log.dir"})
+/subsystem=logging/file-handler=FILE_QS_WARN:add(append=false, level=WARN, named-formatter=${formatter}, file={"path"=>"quickstart-warn.log", "relative-to"=>"jboss.server.log.dir"})
+/subsystem=logging/file-handler=FILE_QS_ERROR:add(append=false, level=ERROR, named-formatter=${formatter}, file={"path"=>"quickstart-error.log", "relative-to"=>"jboss.server.log.dir"})
+/subsystem=logging/file-handler=FILE_QS_FATAL:add(append=false, level=FATAL, named-formatter=${formatter}, file={"path"=>"quickstart-fatal.log", "relative-to"=>"jboss.server.log.dir"})
 
 # Create the logger for our quickstart class and assign the handlers
 /subsystem=logging/logger=org.jboss.as.quickstarts.logging:add(handlers=[FILE_QS_TRACE,FILE_QS_DEBUG,FILE_QS_INFO,FILE_QS_WARN,FILE_QS_ERROR,FILE_QS_FATAL])
