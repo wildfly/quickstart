@@ -196,11 +196,15 @@ endif::[]
 :LinkJBDSGettingStarted: https://access.redhat.com/documentation/en-us/red_hat_codeready_studio/{JBDSVersion}/html-single/getting_started_with_codeready_studio_tools/
 :JBDSGettingStartedBookName: Getting Started with CodeReady Studio Tools
 
+// Enable Rendering of Glow configuration in plugin examples
+:portedToGlow: true
+
 = cmt: Container Managed Transactions (CMT)
 :author: Tom Jenkinson
 :level: Intermediate
 :technologies: EJB, CMT, JMS
 :openshift: true
+:portedToGlow: true
 
 [abstract]
 The `cmt` quickstart demonstrates Container-Managed Transactions (CMT), showing how to use transactions managed by the container.
@@ -683,14 +687,15 @@ The server provisioning functionality is provided by the WildFly Maven Plugin, a
                         <groupId>org.wildfly.plugins</groupId>
                         <artifactId>wildfly-maven-plugin</artifactId>
                         <configuration>
-                            <feature-packs>
-                                <feature-pack>
-                                    <location>org.wildfly:wildfly-galleon-pack:${version.server}</location>
-                                </feature-pack>
-                            </feature-packs>
-                            <layers>...</layers>
-                            <!-- deploys the quickstart on root web context -->
+                            <discover-provisioning-info>
+                                <version>${version.server}</version>
+                            </discover-provisioning-info>
+                            <!--
+                                Rename the output war to ROOT.war before adding it to the server, so that the
+                                application is deployed in the root web context.
+                            -->
                             <name>ROOT.war</name>
+                            <add-ons>...</add-ons>
                         </configuration>
                         <executions>
                             <execution>
@@ -704,6 +709,14 @@ The server provisioning functionality is provided by the WildFly Maven Plugin, a
                 </plugins>
             </build>
         </profile>
+----
+The plugin uses https://github.com/wildfly/wildfly-glow[WildFly Glow] to discover the feature packs and layers required to run the application, and provisions a server containing those layers.
+
+If you get an error or the server is missing some functionality which cannot be auto-discovered, you can download the https://github.com/wildfly/wildfly-glow/releases/tag[WildFly Glow CLI] and run the following command to see more information about what add-ons  are available:
+
+[source,shell]
+----
+wildfly-glow show-add-ons
 ----
 
 [NOTE]
@@ -901,9 +914,8 @@ ifdef::ProductRelease,EAPXPRelease[]
 The server provisioning functionality is provided by the EAP Maven Plugin, and you may find its configuration in the quickstart `pom.xml`:
 endif::[]
 
-// Render XML Snippet of openshift Maven profile...
-ifndef::ProductRelease[]
-// ... for WildFly
+ifndef::ProductRelease,EAPXPRelease[]
+
 [source,xml,subs="attributes+"]
 ----
         <profile>
@@ -914,16 +926,16 @@ ifndef::ProductRelease[]
                         <groupId>org.wildfly.plugins</groupId>
                         <artifactId>wildfly-maven-plugin</artifactId>
                         <configuration>
-                            <feature-packs>
-                                <feature-pack>
-                                    <location>org.wildfly:wildfly-galleon-pack:${version.server}</location>
-                                </feature-pack>
-                                <feature-pack>
-                                    <location>org.wildfly.cloud:wildfly-cloud-galleon-pack:${version.pack.cloud}</location>
-                                </feature-pack>
-                            </feature-packs>
-                            <layers>...</layers>
-                            <name>ROOT.war</name>
+                            <discover-provisioning-info>
+                                <version>${version.server}</version>
+                                <context>cloud</context>
+                            </discover-provisioning-info>
+                            <!--
+                                The parent POM's 'openshift' profile renames the output archive to ROOT.war so that the
+                                application is deployed in the root web context. Add ROOT.war to the server.
+                            -->
+                            <filename>ROOT.war</filename>
+                            <add-ons>...</add-ons>
                         </configuration>
                         <executions>
                             <execution>
@@ -938,10 +950,18 @@ ifndef::ProductRelease[]
             </build>
         </profile>
 ----
-endif::[]
-ifdef::ProductRelease[]
-ifndef::EAPXPRelease[]
-// ... for EAP
+You may note that unlike the `provisioned-server` profile it uses the cloud context which enables a configuration tuned for OpenShift environment.
+
+The plugin uses https://github.com/wildfly/wildfly-glow[WildFly Glow] to discover the feature packs and layers required to run the application, and provisions a server containing those layers.
+
+If you get an error or the server is missing some functionality which cannot be auto-discovered, you can download the https://github.com/wildfly/wildfly-glow/releases[WildFly Glow CLI] and run the following command to see more information about what add-ons are available:
+[source,shell]
+----
+wildfly-glow show-add-ons
+----
+endif::ProductRelease,EAPXPRelease[]
+
+ifdef::ProductRelease,EAPXPRelease[]
 [source,xml,subs="attributes+"]
 ----
         <profile>
@@ -977,59 +997,7 @@ ifndef::EAPXPRelease[]
             </build>
         </profile>
 ----
-endif::[]
-ifdef::EAPXPRelease[]
-// ... for EAP XP
-[source,xml,subs="attributes+"]
-----
-        <profile>
-            <id>openshift</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.jboss.eap.plugins</groupId>
-                        <artifactId>eap-maven-plugin</artifactId>
-                        <configuration>
-                            ...
-                            <feature-packs>
-                                <feature-pack>
-                                    <location>org.jboss.eap.xp:wildfly-galleon-pack</location>
-                                </feature-pack>
-                                <feature-pack>
-                                    <location>org.jboss.eap.cloud:eap-cloud-galleon-pack</location>
-                                </feature-pack>
-                            </feature-packs>
-                            <layers>...</layers>
-                            <name>ROOT.war</name>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>package</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    ...
-                </plugins>
-            </build>
-        </profile>
-----
-endif::[]
-endif::[]
-
-ifndef::ProductRelease,EAPXPRelease[]
-You may note that unlike the `provisioned-server` profile it uses the cloud feature pack which enables a configuration tuned for OpenShift environment.
-endif::[]
-ifdef::ProductRelease,EAPXPRelease[]
-You may note that the cloud feature pack is used, this enables a configuration tuned for OpenShift environment.
-endif::[]
-
-ifdef::EAPXPRelease[]
-[NOTE]
-====
-Previous {productName} releases used the WildFly JAR Maven Plugin to package the quickstart in a Bootable JAR, when deploying it on OpenShift, and while that's still supported it's no longer recommended.
-====
+You may note that it uses the cloud feature pack which enables a configuration tuned for OpenShift environment.
 endif::[]
 
 :leveloffset: 1

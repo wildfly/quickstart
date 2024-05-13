@@ -196,10 +196,14 @@ endif::[]
 :LinkJBDSGettingStarted: https://access.redhat.com/documentation/en-us/red_hat_codeready_studio/{JBDSVersion}/html-single/getting_started_with_codeready_studio_tools/
 :JBDSGettingStartedBookName: Getting Started with CodeReady Studio Tools
 
+// Enable Rendering of Glow configuration in plugin examples
+:portedToGlow: true
+
 = ejb-security-programmatic-auth: Using the programmatic API to invoke a remote EJB using different identities
 :author: Stefan Guilhen
 :level: Intermediate
 :technologies: EJB, Security
+:portedToGlow: true
 
 [abstract]
 The `ejb-security-programmatic-auth` quickstart demonstrates how to programmatically setup different identities when invoking a remote secured EJB.
@@ -1032,14 +1036,15 @@ The server provisioning functionality is provided by the WildFly Maven Plugin, a
                         <groupId>org.wildfly.plugins</groupId>
                         <artifactId>wildfly-maven-plugin</artifactId>
                         <configuration>
-                            <feature-packs>
-                                <feature-pack>
-                                    <location>org.wildfly:wildfly-galleon-pack:${version.server}</location>
-                                </feature-pack>
-                            </feature-packs>
-                            <layers>...</layers>
-                            <!-- deploys the quickstart on root web context -->
+                            <discover-provisioning-info>
+                                <version>${version.server}</version>
+                            </discover-provisioning-info>
+                            <!--
+                                Rename the output war to ROOT.war before adding it to the server, so that the
+                                application is deployed in the root web context.
+                            -->
                             <name>ROOT.war</name>
+                            <add-ons>...</add-ons>
                         </configuration>
                         <executions>
                             <execution>
@@ -1053,6 +1058,14 @@ The server provisioning functionality is provided by the WildFly Maven Plugin, a
                 </plugins>
             </build>
         </profile>
+----
+The plugin uses https://github.com/wildfly/wildfly-glow[WildFly Glow] to discover the feature packs and layers required to run the application, and provisions a server containing those layers.
+
+If you get an error or the server is missing some functionality which cannot be auto-discovered, you can download the https://github.com/wildfly/wildfly-glow/releases/tag[WildFly Glow CLI] and run the following command to see more information about what add-ons  are available:
+
+[source,shell]
+----
+wildfly-glow show-add-ons
 ----
 
 [NOTE]
