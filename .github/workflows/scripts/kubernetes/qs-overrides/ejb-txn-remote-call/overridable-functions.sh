@@ -58,7 +58,7 @@ function installPrerequisites()
   while [ $now -lt $end ]; do
     sleep 5
 
-    if [[ $(oc get pods --field-selector=status.phase==Running -l name=wildfly-operator | awk '{ if ($3 == "Running" && $2 == "1/1") { print } }') ]]; then
+    if [[ $(kubectl get pods --field-selector=status.phase==Running -l name=wildfly-operator | awk '{ if ($3 == "Running" && $2 == "1/1") { print } }') ]]; then
       break
     fi
 
@@ -88,7 +88,7 @@ function helmInstall() {
 function runPostHelmInstallCommands() {
 
     # Make sure that view permissions are granted to the default system account.
-    kubectl policy add-role-to-user view system:serviceaccount:$(oc project -q):default -n $(oc project -q)
+    # kubectl policy add-role-to-user view system:serviceaccount:$(oc project -q):default -n $(oc project -q)
 
     kubectl create -f client/client-cr.yaml
     # TODO: should we check when the deployment is completed?

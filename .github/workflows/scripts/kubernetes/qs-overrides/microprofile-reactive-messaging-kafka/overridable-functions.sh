@@ -42,7 +42,7 @@ function installPrerequisites()
   application="${1}"
 
   echo "Installing Strimzi operator"
-  oc apply -f charts/strimzi-on-kubernetes.yaml
+  kubectl apply -f charts/strimzi-on-kubernetes.yaml
 
   seconds=120
   now=$(date +%s)
@@ -53,7 +53,7 @@ function installPrerequisites()
     # It takes a while for the kafka CRD to be ready
     sleep 5
     echo "Trying to create my-cluster"
-    oc apply -f - <<EOF
+    kubectl apply -f - <<EOF
     apiVersion: kafka.strimzi.io/v1beta2
     kind: Kafka
     metadata:
@@ -82,7 +82,7 @@ EOF
   done
 
   echo "Creating testing topic"
-  oc apply -f - <<EOF
+  kubectl apply -f - <<EOF
   apiVersion: kafka.strimzi.io/v1beta2
   kind: KafkaTopic
   metadata:
@@ -106,10 +106,10 @@ EOF
 
     # Check the entity operator exists. It will have a name like my-cluster-entity-operator-<pod suffix>
     # We do this check first because it takes a while to appear
-    oc get pods -l app.kubernetes.io/instance='my-cluster',app.kubernetes.io/name='entity-operator' | grep "my-cluster-entity-operator" || continue
+    kubectl get pods -l app.kubernetes.io/instance='my-cluster',app.kubernetes.io/name='entity-operator' | grep "my-cluster-entity-operator" || continue
 
     # Wait 10 seconds for all pods to come up, and renter the loop if not
-    oc wait pod -l app.kubernetes.io/instance='my-cluster' --for=condition=Ready --timeout=10s || continue
+    kubectl wait pod -l app.kubernetes.io/instance='my-cluster' --for=condition=Ready --timeout=10s || continue
 
     # If we got here, everything is up, so we can proceed
     break
@@ -126,9 +126,9 @@ function cleanPrerequisites()
 {
   # TODO There are a few topics created that need cleaning up
 
-  oc delete kafka my-cluster
-  oc delete subscription amq-streams-subscription
-  oc delete operatorgroup amq-streams-operator-group
-  oc delete deployment amq-streams-cluster-operator-v2.5.0-1
-  oc delete kafkatopic testing
+  kubectl delete kafka my-cluster
+  kubectl delete subscription amq-streams-subscription
+  kubectl delete operatorgroup amq-streams-operator-group
+  kubectl delete deployment amq-streams-cluster-operator-v2.5.0-1
+  kubectl delete kafkatopic testing
 }

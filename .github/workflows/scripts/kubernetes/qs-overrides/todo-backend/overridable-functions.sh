@@ -31,9 +31,9 @@ function getHelmSetVariablePrefix() {
 
 function helmInstallFailed() {
     echo "----> Getting status of all pods"
-    oc get pods
+    kubectl get pods
     echo "----> Checking logs for postgres pod"
-    oc logs todo-backend-postgresql-0
+    kubectl logs todo-backend-postgresql-0
     echo "----> Checking events"
-    oc get events
+    kubectl get events
 }
