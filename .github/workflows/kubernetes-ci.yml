@@ -1,0 +1,224 @@
+name: WildFly Quickstarts Kubernetes CI
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+  push:
+    # kubernetes-testing is a temporary entry
+    #branches: [main, kubernetes-testing]
+    branches: [main]
+env:
+  KUBERNETES_CORE_DIRECTORY: .github/workflows/scripts/kubernetes/core
+  KUBERNETES_QS_OVERRIDES_DIRECTORY: .github/workflows/scripts/kubernetes/overrides
+# Only run the latest job
+concurrency:
+  group: '${{ github.workflow }} @ ${{ github.event.pull_request.head.label || github.head_ref || github.ref }}'
+  cancel-in-progress: true
+jobs:
+  calculate-changed-quickstarts:
+    name: Matrix for Kubernetes
+    runs-on: ubuntu-latest
+    outputs:
+      quickstart-matrix: ${{ steps.calculate-matrix.outputs.matrix }}
+    steps:
+    # - name: Output event
+    #  run: echo "${{ toJSON(github.event) }}"
+    - uses: actions/checkout@v4
+    - name: Get all directories
+      id: get-top-level-directories
+      run: |
+        declare -a test_directories
+        for file in ./*; do
+          fileName=$(basename "${file}")
+          if [ ! -d "${file}" ]; then
+            # echo "${fileName} is not a directory!"
+            continue
+          fi
+          test_directories+=(${fileName})
+        done
+        echo "top_dirs=${test_directories[*]}" >> $GITHUB_OUTPUT
+    - name: Find Changed Files
+      id: changed-files
+      uses: tj-actions/changed-files@v44
+      # To compare changes between the current commit and the last pushed remote commit set `since_last_remote_commit: true`. e.g
+      # with:
+      #   since_last_remote_commit: true
+    - name: Determine changed directories
+      id: quickstarts-to-test
+      env:
+        ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
+        ALL_BASE_DIRECTORIES: ${{ steps.get-top-level-directories.outputs.top_dirs }}
+      run: |
+        # set -x
+        
+        ##################################################
+        # Look for all the changed quickstarts
+        
+        echo "Checking for changed files...."
+        declare -a quickstarts_to_test
+        for file in ${ALL_CHANGED_FILES}; do
+          echo "Checking file ${file}"
+        
+          # Changes to the .adoc and the soon-to-be retired .ci directory do not count
+          # Don't use quotes for the wildcard values or filtering will not work!
+          if [[ "${file}" == *.adoc ]] || [[ "${file}" == *.html ]] || [[ "${file}" == .ci.* ]]; then
+            echo "Skipping .adoc and .ci/ files!"
+            continue
+          fi
+
+          # Changes to the Kubernetes CI setup files should trigger all tests
+          # Don't use quotes for the wildcard values or filtering will not work!
+          if [[ "${file}" == ".github/workflows/kubernetes-ci.yml" ]] || [[ "${file}" == ${{ env.KUBERNETES_CORE_DIRECTORY }}/* ]]; then
+            echo "Detected changes in the Kubernetes CI setup file ${file}. All tests will need to be run."
+            root_dir_file_changed=1
+            break
+          fi
+        
+          # Don't use quotes for the wildcard values or filtering will not work!
+          if [[ "${file}" == ${{ env.KUBERNETES_CORE_DIRECTORY }}/qs_overrides/.* ]]; then
+            # Work out the name of the quickstarts
+            IFS='/' read -ra parts <<< "${file}"
+            IFS='/' read -ra core_dir_parts <<< "${{ env.KUBERNETES_CORE_DIRECTORY }}/qs_overrides"
+            qs_dir_index=${#core_dir_parts[@]}
+            qs_dir_index=$((qs_dir_index + 1))
+            echo "Adding '${parts[$qs_dir_index]}' to the list of quickstarts since ${file} was changed"
+            quickstarts_to_test+=(${parts[$qs_dir_index]})
+          fi
+
+          # All changes to files in the root folder apply to all quickstarts
+          IFS='/' read -ra parts <<< "${file}"
+          if [ "${#parts[@]}" == 1 ] && [ "${parts[0]}" != '.gitignore' ] ; then
+            echo "Changed detected in ${file} which is in the root directory. All tests will need to be run."
+            root_dir_file_changed=1
+            break
+          else
+            echo "Adding (${parts[0]}) to the list of quickstarts"
+            quickstarts_to_test+=(${parts[0]})
+          fi
+
+        done
+        
+        if [ "${root_dir_file_changed}" == "1" ]; then
+          quickstarts_to_test=(${ALL_BASE_DIRECTORIES[@]})
+        fi
+        
+        echo "Got initial list of quickstarts. Deduping..."
+        
+        # Dedupe
+        declare -a tmp
+        output_dirs=$(printf "%s\n" "${quickstarts_to_test[@]}" | sort -u)
+        for dir in ${output_dirs}; do
+          tmp+=(${dir})
+        done
+        quickstarts_to_test=(${tmp[@]})
+        
+        echo "Current list of quickstarts before checking whether they can be run"
+        echo "${quickstarts_to_test[*]})"
+    
+
+        ############################################################
+        # Now filter the quickstarts we found depending on if they have been enhanced
+
+        
+        echo "Checking which quickstarts can be run...."
+        
+        declare -a tmp2
+        for fileName in "${quickstarts_to_test[@]}"; do
+          echo "Checking ${fileName}"
+          # Quickstarts that have not been migrated yet
+          grep -q "^${fileName}$" ${{ env.KUBERNETES_CORE_DIRECTORY }}/excluded-directories.txt && is_in_excluded=1 || is_in_excluded=0  
+          if [ "${is_in_excluded}" = "1" ]; then
+            echo "Skipping ${fileName} since it is excluded!"
+            continue
+          fi
+          if [ ! -f "./.github/workflows/quickstart_${fileName}_ci.yml" ]; then
+            echo "Skipping ${fileName} since it has no ./.github/workflows/quickstart_${fileName}_ci.yml!"
+            continue
+          fi
+    
+          if [ ! -d "./${fileName}/charts" ]; then
+            echo "Skipping ${fileName} since it has no ./${fileName}/charts!"
+            continue
+          fi
+    
+          echo "Adding ${fileName} to the list"
+          tmp2+=(${fileName})
+        done
+        
+
+        quickstarts_to_test=(${tmp2[@]})
+       
+        echo "quickstarts_to_test=${quickstarts_to_test[*]}" >> $GITHUB_OUTPUT
+    - name: Calculate Matrix and Output Quickstart List
+      id: calculate-matrix
+      env:
+        QUICKSTARTS_TO_TEST: ${{ steps.quickstarts-to-test.outputs.quickstarts_to_test }}
+      run: |
+        set -x
+        matrix="{\"quickstart\":["
+        first=1
+        echo "The list of quickstarts has been determined to:"
+        for qs_dir in ${QUICKSTARTS_TO_TEST}; do
+          echo "${qs_dir}"
+          if [ "${first}" = "0" ]; then
+            matrix="${matrix}, "
+          fi
+          matrix="${matrix}\"${qs_dir}\""
+          first=0
+        done
+        
+        matrix="${matrix}]}"
+        
+        echo "Calculated Matrix JSON: ${matrix}"
+        echo "matrix=${matrix}" >> $GITHUB_OUTPUT
+
+  run-tests-on-kubernetes:
+    name: Test on Kubernetes
+    runs-on: ubuntu-latest
+    needs: calculate-changed-quickstarts
+    strategy:
+      matrix: ${{fromJSON(needs.calculate-changed-quickstarts.outputs.quickstart-matrix)}}
+    steps:
+    - name: Setup Minikube
+      id: minikube
+      uses: manusa/actions-setup-minikube@v2.10.0
+      with:
+        driver: docker
+        container runtime: containerd
+        minikube version: 'v1.33.0'
+        kubernetes version: 'v1.30.0'
+        github token: ${{ secrets.GITHUB_TOKEN }}
+        start args: "--memory='4gb' --cpus='2'"
+    - name: Enable minikube registry
+      run: |
+        minikube addons enable registry
+        kubectl port-forward --namespace kube-system service/registry 5000:80 & 
+    - uses: azure/setup-helm@v4.2.0
+      with:
+        version: v3.14.2
+    - name: Add WildFly Helm Chart
+      run: | 
+        helm repo add wildfly https://docs.wildfly.org/wildfly-charts/
+        helm repo update wildfly
+    - uses: actions/checkout@v4
+    - name: Set up Go
+      uses: actions/setup-go@v3
+      with:
+        go-version: 1.21.3
+    - uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin' # See 'Supported distributions' for available options
+        java-version: '17'
+        cache: 'maven'
+        cache-dependency-path: '${{ matrix.quickstart }}/**/pom.xml'
+    - name: Run the Quickstart tests
+      shell: bash
+      run: |
+        ${{ env.KUBERNETES_CORE_DIRECTORY }}/run-quickstart-test-on-kubernetes.sh ${{ matrix.quickstart }} && passed=1 || passed=0
+          if [ "${passed}" = "1" ]; then
+            echo "Tests for ${qs_dir} PASSED!"
+          else
+            echo "Tests for ${qs_dir} FAILED!"
+            exit 1
+          fi
+                        
+    

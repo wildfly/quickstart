@@ -1,5 +1,5 @@
 function runPostHelmInstallCommands() {
-    oc apply -f charts/management.yml
+    oc apply -f charts/management-openshift.yml
 }
 
 

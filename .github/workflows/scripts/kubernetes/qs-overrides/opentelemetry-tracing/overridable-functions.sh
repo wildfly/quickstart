@@ -1,9 +1,9 @@
 function runPostHelmInstallCommands() {
   echo "Applying all OpenTelemetry Collector resources"
-  oc apply -f opentelemetry-collector-openshift.yaml
+  kubectl apply -f charts/opentelemetry-collector-kubernetes.yaml
 }
 
 function cleanPrerequisites() {
   echo "Deleting all OpenTelemetry Collector resources"
-  oc delete -f opentelemetry-collector-openshift.yaml
+  kubectl delete -f charts/opentelemetry-collector-kubernetes.yaml
 }
