@@ -14,3 +14,4 @@ public class RootResource {
         return "MicroProfile OpenAPI quickstart deployed successfully. You can find the available operations in the included README file.";
     }
 }
+
