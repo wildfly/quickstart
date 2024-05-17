@@ -1,14 +1,14 @@
 ## Batch file to remove the domain configuration for the messaging-clustering-singleton quickstart.
 
 # - Stop the servers
-/host=master/server-config=quickstart-messagingcluster-node1:stop(blocking=true)
-/host=master/server-config=quickstart-messagingcluster-node2:stop(blocking=true)
+/host=primary/server=quickstart-messagingcluster-node1:stop(blocking=true)
+/host=primary/server=quickstart-messagingcluster-node2:stop(blocking=true)
 
 batch
 
 # -- Remove the two servers from the quickstart-messaging-clustering-singleton-group
-/host=master/server-config=quickstart-messagingcluster-node1:remove
-/host=master/server-config=quickstart-messagingcluster-node2:remove
+/host=primary/server-config=quickstart-messagingcluster-node1:remove
+/host=primary/server-config=quickstart-messagingcluster-node2:remove
 
 # -- Remove the quickstart-messaging-clustering-singleton-group
 /server-group=quickstart-messaging-clustering-singleton-group:remove

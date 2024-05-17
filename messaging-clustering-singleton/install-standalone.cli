@@ -8,13 +8,5 @@ batch
 # -- Add mdb-delivery-group named "my-mdb-delivery-group"
 /subsystem=ejb3/mdb-delivery-group=my-mdb-delivery-group:add(active=true)
 
-# -- Deploy the messaging-clustering-singleton.war file
-# NOTE: The following command assumes the quickstart is built
-#       If that is not the case, run mvn clean install before this script
-deploy target/messaging-clustering-singleton.war
-
 # -- Run this batch file
 run-batch
-
-# Reload the server
-reload
