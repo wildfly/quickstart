@@ -1,0 +1,20 @@
+[[run_the_integration_tests_with_kubernetes]]
+= Run the Integration Tests with Kubernetes
+The integration tests included with this quickstart, which verify that the quickstart runs correctly, may also be run with the quickstart running on Kubernetes.
+[NOTE]
+====
+The integration tests expect a deployed application, so make sure you have deployed the quickstart on Kubernetes before you begin.
+====
+
+ifdef::extra-kubernetes-testing-actions[]
+include::{extra-kubernetes-testing-actions}[leveloffset=+1]
+endif::extra-kubernetes-testing-actions[]
+
+ifndef::extra-kubernetes-test-arguments[:extra-kubernetes-test-arguments:]
+
+Run the integration tests using the following command to run the `verify` goal with the `integration-testing` profile activated and the proper URL:
+[source,options="nowrap",subs="+attributes"]
+----
+$ mvn verify -Pintegration-testing -Dserver.host=http://localhost:8080 {extra-openshift-test-arguments}
+----
+
