@@ -3,4 +3,35 @@
 
 This section contains the basic instructions to build and deploy this quickstart to Kubernetes using Helm Charts.
 
+== Install Kubernetes
+In this example we are using https://github.com/kubernetes/minikube[Minikube] as our Kubernetes provider. See the https://minikube.sigs.k8s.io/docs/start/[Minikube Getting Started guide] for how to install it. After installing it, we start it with 4GB of memory.
+
+[source,options="nowrap",subs="+attributes"]
+----
+minikube start --memory='4gb'
+----
+The above command should work if you have Docker installed on your machine. If, you are using https://podman-desktop.io[Podman] instead of Docker, you will also need to pass in `--driver=podman`, as covered in the https://minikube.sigs.k8s.io/docs/handbook/config/[Minikube documentation].
+
+Once Minikube has started, we need to enable its https://minikube.sigs.k8s.io/docs/handbook/registry/[registry] since that is where we will push the image needed to deploy the quickstart, and where we will tell the Helm charts to download it from.
+
+[source,options="nowrap",subs="+attributes"]
+----
+minikube addons enable registry
+----
+
+In order to be able to push images to the registry we need to make it accessible from outside Kubernetes. How we do this depends on your operating system. All the below examples will expose it at `localhost:5000`
+
+[source,options="nowrap",subs="+attributes"]
+----
+# On Mac:
+docker run --rm -it --network=host alpine ash -c "apk add socat && socat TCP-LISTEN:5000,reuseaddr,fork TCP:$(minikube ip):5000"
+
+# On Linux:
+kubectl port-forward --namespace kube-system service/registry 5000:80 &
+
+# On Windows:
+kubectl port-forward --namespace kube-system service/registry 5000:80
+docker run --rm -it --network=host alpine ash -c "apk add socat && socat TCP-LISTEN:5000,reuseaddr,fork TCP:host.docker.internal:5000"
+----
+
 include::../shared-doc/helm-pre-requisites.adoc[]
