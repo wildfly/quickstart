@@ -1,0 +1,35 @@
+ifdef::prereq-openshift[]
+:prereq-cloud-platform: OpenShift
+:prereq-cloud-cli: oc
+:prereq-suffix: openshift
+endif::[]
+ifdef::prereq-kubernetes[]
+:prereq-cloud-platform: Kubernetes
+:prereq-cloud-cli: kubectl
+:prereq-suffix: kubernetes
+endif::[]
+
+
+
+=== Install OpenTelemetry Collector on OpenShift
+
+The functionality of this quickstart depends on a running instance of the https://opentelemetry.io/docs/collector/[OpenTelemetry Collector].
+
+To deploy and configure the OpenTelemetry Collector, you will need to apply a set of configurations to your {prereq-cloud-platform} cluster:
+
+[source,options="nowrap",subs="+attributes"]
+----
+include::charts/opentelemetry-collector-openshift.yaml[]
+----
+
+To make things simpler, you can find these commands in `charts/opentelemetry-collector-openshift.yaml`, and to apply them run the following command in your terminal:
+
+[source,options="nowrap",subs="+attributes"]
+----
+$ {prereq-cloud-cli} apply -f charts/opentelemetry-collector-{prereq-suffix}.yaml
+----
+
+[NOTE]
+====
+When done with the quickstart, the `{prereq-cloud-cli} delete -f charts/opentelemetry-collector-{prereq-suffix}.yaml` command may be used to revert the applied changes.
+====
