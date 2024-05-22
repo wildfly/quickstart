@@ -1,3 +1,7 @@
+ifndef::helmSetWildFlyArgumentPrefix[]
+// For use with nested Helm charts
+:helmSetWildFlyArgumentPrefix:
+endif::[]
 ifeval::[{useHelmChartDir} == true]
 :helm_chart_values: charts
 endif::[]
@@ -5,7 +9,10 @@ ifndef::useHelmChartDir[]
 :helm_chart_values: -f charts/helm.yaml {helmChartName}
 endif::[]
 ifdef::kubernetes[]
-:helm-extra-arguments: --set build.enabled=false --set deploy.route.enabled=false --set image.name="localhost:5000/{artifactId}"
+:helm-set-build-enabled: --set {helmSetWildFlyArgumentPrefix}build.enabled=false
+:helm-set-deploy-route-enabled: --set {helmSetWildFlyArgumentPrefix}deploy.route.enabled=false
+:helm-set-image-name: --set {helmSetWildFlyArgumentPrefix}image.name="localhost:5000/{artifactId}"
+:helm-extra-arguments: {helm-set-build-enabled} {helm-set-deploy-route-enabled} {helm-set-image-name}
 :cloud-cli: kubectl
 endif::[]
 ifndef::kubernetes[]
@@ -45,9 +52,9 @@ docker push localhost:5000/{artifactId}:latest
 
 In the below call to `helm install` which deploys our application to Kubernetes, we are passing in some extra arguments to tweak the Helm build:
 
-* `--set build.enabled=false` - This turns off the s2i build for the Helm chart since Kubernetes, unlike OpenShift, does not have s2i. Instead we are providing the image to use.
-* `--set deploy.route.enabled=false` - This disables route creation normally performed by the Helm chart. On Kubernetes we will use port-forwards instead to access our application, since routes are an OpenShift specific concept and thus not available on Kubernetes.
-* `--set image.name="localhost:5000/{artifactId}"` - This tells the Helm chart to use the image we built, tagged and pushed to Kubernetes' internal registry above.
+* `{helm-set-build-enabled}` - This turns off the s2i build for the Helm chart since Kubernetes, unlike OpenShift, does not have s2i. Instead, we are providing the image to use.
+* `{helm-set-deploy-route-enabled}` - This disables route creation normally performed by the Helm chart. On Kubernetes we will use port-forwards instead to access our application, since routes are an OpenShift specific concept and thus not available on Kubernetes.
+* `{helm-set-image-name}` - This tells the Helm chart to use the image we built, tagged and pushed to Kubernetes' internal registry above.
 
 endif::[]
 [source,options="nowrap",subs="+attributes"]

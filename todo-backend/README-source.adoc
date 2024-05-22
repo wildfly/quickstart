@@ -11,8 +11,10 @@ include::../shared-doc/attributes.adoc[]
 :openshift: true
 :archiveType: war
 :useHelmChartDir: true
-:helm-install-prerequisites-openshift: ../todo-backend/helm-install-prerequisites-openshift.adoc
+:helm-install-prerequisites-openshift: ../todo-backend/helm-install-prerequisites.adoc
+:helm-install-prerequisites-kubernetes: ../todo-backend/helm-install-prerequisites.adoc
 :portedToGlow: true
+:helmSetWildFlyArgumentPrefix: wildfly.
 
 [abstract]
 The `todo-backend` quickstart demonstrates how to implement a backend that exposes a HTTP API with JAX-RS
@@ -209,80 +211,28 @@ $ curl http://localhost:8080
 :extraStartParams: -DPOSTGRESQL_DATABASE=todos -DPOSTGRESQL_SERVICE_HOST=localhost -DPOSTGRESQL_SERVICE_PORT=5432 -DPOSTGRESQL_USER=todos -DPOSTGRESQL_PASSWORD=mysecretpassword -DPOSTGRESQL_DATASOURCE=ToDos
 include::../shared-doc/run-integration-tests-with-provisioned-server.adoc[leveloffset=+1]
 
-
+//===========================================================
+// Openshift - START
 == Run the Backend on OpenShift
 
 // OpenShift
 include::../shared-doc/build-and-run-the-quickstart-with-openshift.adoc[leveloffset=+1]
+include::../todo-backend/additional-readme-openshift.adoc[leveloffset=+1]
+// OpenShift - END
+//===========================================================
 
-=== Environment variables for PostgreSQL
+//===========================================================
+// Kubernetes - START
+ifndef::ProductRelease,EAPXPRelease[]
+== Run the Backend on Kubernetes
 
-The Helm Chart also contains the environment variables required to connect to the PostgreSQL database.
-
-ifndef::ProductRelease[]
-In local deployment the credentials were passed directly as the values of the environment variables.
+//Kubernetes
+include::../shared-doc/build-and-run-the-quickstart-with-kubernetes.adoc[leveloffset=+1]
+include::../todo-backend/additional-readme-kubernetes.adoc[leveloffset=+1]
 endif::[]
+// Kubernetes - END
+//===========================================================
 
-For OpenShift, we rely on secrets so that the credentials are never copied outside OpenShift:
-
-[source,options="nowrap"]
-----
-deploy:
-  env:
-    - name: POSTGRESQL_PASSWORD
-      valueFrom:
-        secretKeyRef:
-          key: database-password
-          name: todo-backend-db
-----
-
-When the application is deployed, the value for the `POSTGRESQL_PASSWORD` will be taken from the key `database-password`
-in the secret `todo-backend-db`.
-
-// Testing on Openshift
-include::../shared-doc/run-integration-tests-with-openshift.adoc[leveloffset=+1]
-
-=== Use the todobackend Web Frontend
-
-Once the backend is deployed on OpenShift, it can be accessed from the route `todo-backend`.
-Let's find the host that we can use to connect to this backend:
-
-[source,options="nowrap"]
-----
-$ oc get route todo-backend -o jsonpath="{.spec.host}"
-todo-backend-jmesnil1-dev.apps.sandbox.x8i5.p1.openshiftapps.com
-----
-
-This value will be different for every installation of the backend.
-
-[WARNING]
-====
-Make sure to prepend the host with `https://` to be able to connect to the backend from the ToDo Backend Specs or Client.
-The host must also be publicly accessible.
-====
-
-We can verify that this application is properly working as a ToDo Backend by running its https://todobackend.com/specs/index.html[specs] on it.
-
-
-Once all tests passed, we can use the https://todobackend.com/client/index.html[todobackend client] to have a Web application connected to the backend.
-
-[NOTE]
-====
-https://todobackend.com/[todobackend.com] is an external service used to showcase this quickstart.
-It might not always be functional but does not impact the availability of this backend.
-====
-
-=== Clean Up
-
-==== Remove the Backend
-
-The backend can be deleted from OpenShift by running the command:
-
-[source,options="nowrap"]
-----
-$ helm uninstall todo-backend
-release "todo-backend" uninstalled
-----
 
 == Conclusion
 
@@ -291,5 +241,5 @@ of a {productName} Jakarta EE backend on OpenShift to connect to an external dat
 
 ifndef::ProductRelease[]
 The use of a Server Provisioned deployment makes it seamless to move from a local deployment for development to a
-deployment on OpenShift.
+deployment on cloud platforms such as OpenShift and Kubernetes.
 endif::[]
