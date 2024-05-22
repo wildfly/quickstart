@@ -126,13 +126,14 @@ endif::[]
 ifdef::kubernetes[]
 To be able to connect to our application running in Kubernetes from outside, we need to set up a port-forward to the `{helm-app-name}` service created for us by the Helm chart.
 
-This service will run on port `8080`, and we set up the port forward to also run on port `8080`.
+This service will run on port `8080`, and we set up the port forward to also run on port `8080`:
 
 [source,options="nowrap",subs="+attributes"]
 ----
 kubectl port-forward service/{helm-app-name} 8080:8080
 ----
-The server can now be accessed via `http://localhost:8080` from outside Kubernetes
+The server can now be accessed via `http://localhost:8080` from outside Kubernetes. Note that the command to create the port-forward will not return, so it is easiest to run this in a separate terminal.
+
 endif::[]
 [NOTE]
 ====

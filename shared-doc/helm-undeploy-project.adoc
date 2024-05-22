@@ -5,3 +5,6 @@
 ----
 $ helm uninstall {helm-app-name}
 ----
+ifdef::kubernetes[]
+Stop the port forward you created earlier with `kubectl port-forward service/{helm-app-name} 8080:8080`.
+endif::[]
