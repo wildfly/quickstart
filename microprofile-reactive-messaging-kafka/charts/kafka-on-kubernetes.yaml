@@ -1,0 +1,35 @@
+# This is the YAML needed to install Kafka provided by Strimzi on OpenShift.
+
+# create a Kafka Stream instance
+apiVersion: kafka.strimzi.io/v1beta2
+kind: Kafka
+metadata:
+  name: my-cluster
+spec:
+  kafka:
+    replicas: 3
+    listeners:
+      - name: plain
+        port: 9092
+        type: internal
+        tls: false
+    storage:
+      type: ephemeral
+  zookeeper:
+    replicas: 3
+    storage:
+      type: ephemeral
+  entityOperator:
+    topicOperator: {}
+
+---
+# create a topic in Kafka Stream instance
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaTopic
+metadata:
+  name: testing
+labels:
+  strimzi.io/cluster: my-cluster
+spec:
+  partitions: 3
+  replicas: 3

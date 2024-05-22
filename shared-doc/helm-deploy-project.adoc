@@ -33,7 +33,7 @@ mvn -Popenshift package wildfly:image
 ----
 This will use the `openshift` Maven profile we saw earlier to build the application, and create a Docker image containing the {productName} server with the application deployed. The name of the image will be `{artifactId}`.
 
-Next we need to tag the image and make it available to Kubernetes. You can push it to a registry like `quay.io`. In this case we tag as `localhost:5000/helloworld:latest` and push it to the internal registry in our Kubernetes instance:
+Next we need to tag the image and make it available to Kubernetes. You can push it to a registry like `quay.io`. In this case we tag as `localhost:5000/{artifactId}:latest` and push it to the internal registry in our Kubernetes instance:
 
 [source,options="nowrap",subs="+attributes"]
 ----
@@ -123,7 +123,7 @@ This service will run on port `8080`, and we set up the port forward to also run
 
 [source,options="nowrap",subs="+attributes"]
 ----
-kubectl port-forward service/helloworld 8080:8080
+kubectl port-forward service/{helm-app-name} 8080:8080
 ----
 The server can now be accessed via `http://localhost:8080` from outside Kubernetes
 endif::[]
