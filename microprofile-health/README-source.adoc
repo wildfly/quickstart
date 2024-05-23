@@ -5,9 +5,16 @@ include::../shared-doc/attributes.adoc[]
 :level: Beginner
 :technologies: MicroProfile Health
 :management-port-openshift:
-:post-helm-install-actions: ../microprofile-health/expose-management-port.adoc
-:extra-openshift-testing-actions: ../microprofile-health/expose-management-port.adoc
-:extra-openshift-test-arguments: -Dserver.management.host=https://$(oc get route {artifactId}-management --template='{{ .spec.host }}')
+
+// Additional Info for OpenShift
+:post-helm-install-actions-openshift: ../microprofile-health/expose-management-port-openshift.adoc
+:extra-testing-actions-openshift: {post-helm-install-actions-openshift}
+:extra-test-arguments-openshift: -Dserver.management.host=https://$(oc get route {artifactId}-management --template='{{ .spec.host }}')
+
+// Additional Info for Kubernetes
+:post-helm-install-actions-kubernetes: ../microprofile-health/expose-management-port-kubernetes.adoc
+:extra-testing-actions-kubernetes: {post-helm-install-actions-kubernetes}
+:extra-test-arguments-kubernetes: -Dserver.management.host=http://localhost:9990
 
 [abstract]
 The `microprofile-health` quickstart demonstrates the use of the MicroProfile Health specification in {productName}.
@@ -455,6 +462,10 @@ include::../shared-doc/build-and-run-the-quickstart-with-bootable-jar.adoc[level
 
 // OpenShift
 include::../shared-doc/build-and-run-the-quickstart-with-openshift.adoc[leveloffset=+1]
+ifndef::ProductRelease,EAPXPRelease[]
+// Kubernetes
+include::../shared-doc/build-and-run-the-quickstart-with-kubernetes.adoc[leveloffset=+1]
+endif::[]
 
 == Conclusion
 
