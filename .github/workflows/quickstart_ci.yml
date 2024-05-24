@@ -58,10 +58,6 @@ concurrency:
   group: '${{ github.workflow }} @ ${{ github.ref || github.run_id }}'
   cancel-in-progress: true
 
-env:
-  WILDFLY_SNAPSHOT_EXTRA_PACKAGE_ARGUMENTS: '-Dwildfly-glow-galleon-feature-packs-url=https://raw.githubusercontent.com/wildfly/wildfly-galleon-feature-packs/main/'
-  WILDFLY_GLOW_SNAPSHOT_REGISTRY: '-Dwildfly-glow-galleon-feature-packs-url=https://raw.githubusercontent.com/wildfly/wildfly-galleon-feature-packs/main/'
-
 jobs:
   Matrix-Setup:
     runs-on: ubuntu-latest
@@ -215,7 +211,7 @@ jobs:
         run: |
           cd quickstarts
           cd ${{ inputs.QUICKSTART_PATH }}
-          mvn -fae clean package -Drelease -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }} ${{ env.WILDFLY_SNAPSHOT_EXTRA_PACKAGE_ARGUMENTS }}
+          mvn -fae clean package -Drelease -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
         shell: bash
       - name: Build, run & test ${{ inputs.QUICKSTART_PATH }} Quickstart with provisioned-server profile, and built Server version
         if: ${{ inputs.TEST_PROVISIONED_SERVER }}
@@ -223,7 +219,7 @@ jobs:
           cd quickstarts
           cd ${{ inputs.QUICKSTART_PATH }}
           echo "Building provisioned server..."
-          mvn -fae clean ${{ inputs.MVN_COMMAND }} -Pprovisioned-server -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }} ${{ env.WILDFLY_SNAPSHOT_EXTRA_PACKAGE_ARGUMENTS }} ${{ env.WILDFLY_GLOW_SNAPSHOT_REGISTRY }}
+          mvn -fae clean ${{ inputs.MVN_COMMAND }} -Pprovisioned-server -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
           if [ -f ${{ inputs.DEPLOYMENT_DIR }}/target/server/bin/add-user.sh ]; then
             echo "Add quickstartUser..."
             ${{ inputs.DEPLOYMENT_DIR }}/target/server/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!' -g 'guest,user,JBossAdmin,Users'
@@ -243,7 +239,7 @@ jobs:
           cd quickstarts
           cd ${{ inputs.QUICKSTART_PATH }}
           echo "Building bootable jar..."
-          mvn -fae clean ${{ inputs.MVN_COMMAND }} -Pbootable-jar -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }} ${{ env.WILDFLY_SNAPSHOT_EXTRA_PACKAGE_ARGUMENTS }} ${{ env.WILDFLY_GLOW_SNAPSHOT_REGISTRY }}
+          mvn -fae clean ${{ inputs.MVN_COMMAND }} -Pbootable-jar -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
           echo "Starting bootable jar..."
           mvn -f ${{ inputs.DEPLOYMENT_DIR }}/pom.xml wildfly:start-jar -Dstartup-timeout=120 ${{ inputs.EXTRA_RUN_ARGS }}
           echo "Testing bootable jar..."
@@ -256,7 +252,7 @@ jobs:
         run: |
           cd quickstarts
           cd ${{ inputs.QUICKSTART_PATH }}
-          mvn -fae clean package -Popenshift -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }} ${{ env.WILDFLY_SNAPSHOT_EXTRA_PACKAGE_ARGUMENTS }} ${{ env.WILDFLY_GLOW_SNAPSHOT_REGISTRY }}
+          mvn -fae clean package -Popenshift -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
         shell: bash
       - name: Run after script
         env:
