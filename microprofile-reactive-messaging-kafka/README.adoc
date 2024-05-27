@@ -1745,6 +1745,18 @@ $ mvn wildfly-jar:shutdown
 
 :leveloffset!:
 
+[NOTE]
+====
+The following warning message may be seen when starting the {productName} bootable jar, due to the topic missing in Kafka:
+```
+WARN  [org.apache.kafka.clients.NetworkClient] (smallrye-kafka-consumer-thread-0) [Consumer clientId=kafka-consumer-from-kafka, groupId="microprofile-reactive-messaging-kafka-group-id"] Error while fetching metadata with correlation id 2 : {testing=LEADER_NOT_AVAILABLE}
+```
+You may ignore this warning, yet to avoid it the topic may be manually created in advance, with the following command:
+```
+bin/kafka-topics.sh --create --topic testing --bootstrap-server localhost:9092
+```
+====
+
 // OpenShift
 :leveloffset: +1
 
