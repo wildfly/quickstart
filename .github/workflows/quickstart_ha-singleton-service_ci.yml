@@ -1,0 +1,14 @@
+name: WildFly ha-singleton-service Quickstart CI
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    paths:
+      - 'ha-singleton-service/**'
+      - '.github/workflows/quickstart_ci.yml'
+jobs:
+  call-quickstart_ci:
+    uses: ./.github/workflows/quickstart_ci.yml
+    with:
+      QUICKSTART_PATH: ha-singleton-service
+      TEST_OPENSHIFT: false
