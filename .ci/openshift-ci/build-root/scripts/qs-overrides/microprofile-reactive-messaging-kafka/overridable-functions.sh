@@ -26,103 +26,36 @@ function applicationName() {
 # 1 - application name
 function installPrerequisites()
 {
-  application="${1}"
-  echo "Creating amq-streams-operator-group"
+  maxWaitingTimeInSeconds=900 # 15 minutes
 
-  oc apply -f - <<EOF
-  apiVersion: operators.coreos.com/v1
-  kind: OperatorGroup
-  metadata:
-    name: amq-streams-operator-group
-    namespace: default
-  spec: {}
-EOF
+  echo "Subscribe the AMQ stream operator"
+  oc apply -f ./charts/amq-operator-on-openshift.yaml --wait --timeout=10m0s
 
-  echo "Creating amq-streams-subscription"
-  oc apply -f - <<EOF
-  apiVersion: operators.coreos.com/v1alpha1
-  kind: Subscription
-  metadata:
-    name: amq-streams-subscription
-    namespace: default
-  spec:
-    channel: stable
-    installPlanApproval: Automatic
-    name: amq-streams
-    source: redhat-operators
-    sourceNamespace: openshift-marketplace
-    startingCSV: amqstreams.v2.5.0-0
-EOF
-
-
-  seconds=120
+  echo "Looping for 15 minutes until the AMQ stream Operator is ready to use"
   now=$(date +%s)
-  end=$(($seconds + $now))
-
-  echo "Looping for 2 minutes until the 'kafka' CRD is available "
+  end=$((maxWaitingTimeInSeconds + $now))
   while [ $now -lt $end ]; do
-    # It takes a while for the kafka CRD to be ready
     sleep 5
-    echo "Trying to create my-cluster"
-    oc apply -f - <<EOF
-    apiVersion: kafka.strimzi.io/v1beta2
-    kind: Kafka
-    metadata:
-      name: my-cluster
-    spec:
-      kafka:
-        replicas: 3
-        listeners:
-          - name: plain
-            port: 9092
-            type: internal
-            tls: false
-        storage:
-          type: ephemeral
-      zookeeper:
-        replicas: 3
-        storage:
-          type: ephemeral
-      entityOperator:
-        topicOperator: {}
-EOF
-    if [ "$?" = "0" ]; then
-      break
-    fi
-    now=$(date +%s)
+    echo "Checking if The AMQ operator is ready"
+    # Check the entity operator exists. If Phase is "Succeeded" it is installed and we can continue
+    oc get ClusterServiceVersion | grep "Red Hat Streams for Apache Kafka" | grep "Succeeded" || continue
+    echo "The AMQ operator is ready!"
+    break
   done
 
-  echo "Creating testing topic"
-  oc apply -f - <<EOF
-  apiVersion: kafka.strimzi.io/v1beta2
-  kind: KafkaTopic
-  metadata:
-    name: testing
-  labels:
-    strimzi.io/cluster: my-cluster
-  spec:
-    partitions: 3
-    replicas: 3
-EOF
+
+  echo "Create a AMQ streams instance and testing topic"
+  oc apply -f ./charts/kafka-on-openshift.yaml --wait --timeout=10m0s
 
   # Wait for the pods to come up
-  seconds=900
   now=$(date +%s)
-  end=$(($seconds + $now))
-
-  echo "Looping for 15 minutes until the Kafka cluster is ready"
+  end=$((maxWaitingTimeInSeconds + $now))
   while [ $now -lt $end ]; do
-    sleep 15
-    echo "Checking if pods are ready"
-
-    # Check the entity operator exists. It will have a name like my-cluster-entity-operator-<pod suffix>
-    # We do this check first because it takes a while to appear
-    oc get pods -l app.kubernetes.io/instance='my-cluster',app.kubernetes.io/name='entity-operator' | grep "my-cluster-entity-operator" || continue
-
-    # Wait 10 seconds for all pods to come up, and renter the loop if not
-    oc wait pod -l app.kubernetes.io/instance='my-cluster' --for=condition=Ready --timeout=10s || continue
-
-    # If we got here, everything is up, so we can proceed
+    sleep 5
+    echo "Checking if \"my-cluster-entity-operator\" pod is ready"
+    # Check the entity operator exists. And 1/1 instance is ready to use
+    oc get pod | grep "my-cluster-entity-operator" | grep "1/1" || continue
+    echo "The AMQ stream instance ready!"
     break
   done
 }
@@ -135,10 +68,7 @@ EOF
 # 1 - application name
 function cleanPrerequisites()
 {
-  # TODO There are a few topics created that need cleaning up
-
-  oc delete kafka my-cluster
-  oc delete subscription amq-streams-subscription
-  oc delete operatorgroup amq-streams-operator-group
-  oc delete deployment amq-streams-cluster-operator-v2.5.0-1
+    echo "Deleting all AMQ streams resources"
+    oc delete -f ./charts/amq-operator-on-openshift.yaml --wait --timeout=10m0s
+    oc delete -f ./charts/kafka-on-openshift.yaml --wait --timeout=10m0s
 }
