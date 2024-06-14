@@ -510,9 +510,9 @@ You should see a message in the server log indicating that the archive deployed 
 The application will be running at the following URL: http://localhost:8080/{artifactId}/.
 
 You can verify that the server is responding by accessing
-`http://localhost:8080/{artifactId}/name/France`
+`http://localhost:8080/{artifactId}/rest/name/France`
 endpoint using your browser or
-`curl http://localhost:8080/{artifactId}/name/France`
+`curl http://localhost:8080/{artifactId}/rest/name/France`
 to get some information about `France`.
 
 == The Country REST Client
@@ -533,7 +533,7 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 
-@Path("/")
+@Path("/rest")
 public interface CountriesServiceClient {
 
     @GET
