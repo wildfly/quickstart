@@ -722,7 +722,7 @@ package org.wildfly.quickstarts.microprofile.config;
 import jakarta.ws.rs.ApplicationPath;
 import jakarta.ws.rs.core.Application;
 
-@ApplicationPath("/")
+@ApplicationPath("/rest")
 public class JaxRsApplication extends Application {
 }
 ----
@@ -809,9 +809,9 @@ $ mvn clean package wildfly:deploy
 
 To check that the {productName} is working as expected:
 
-* access the `http://localhost:8080/microprofile-config/config/value`
+* access the `http://localhost:8080/microprofile-config/rest/config/value`
 endpoint using your browser or
-`curl http://localhost:8080/microprofile-config/config/value`
+`curl http://localhost:8080/microprofile-config/rest/config/value`
 
 You will see that the returned value is our configured system property
 `MyPropertyFileConfigValue`.
@@ -828,9 +828,9 @@ specification): `export CONFIG_PROP=MyEnvPropConfigValue`
 
 * Start your {productName} server again
 
-* access the `http://localhost:8080/microprofile-config/config/value`
+* access the `http://localhost:8080/microprofile-config/rest/config/value`
 endpoint using your browser or
-`curl http://localhost:8080/microprofile-config/config/value`
+`curl http://localhost:8080/microprofile-config/rest/config/value`
 
 You can see that our configuration value defined in the configuration file was
 now overridden by the environment property and the value `MyEnvPropConfigValue`
@@ -843,9 +843,9 @@ priority:
 
 * Start your {productName} server with the `-Dconfig.prop=MySysPropConfigValue`
 
-* access the `http://localhost:8080/microprofile-config/config/value`
+* access the `http://localhost:8080/microprofile-config/rest/config/value`
 endpoint using your browser or
-`curl http://localhost:8080/microprofile-config/config/value`
+`curl http://localhost:8080/microprofile-config/rest/config/value`
 
 The configuration property was overriden again and the value `MySysPropConfigValue`
 is returned.
@@ -919,9 +919,9 @@ $ mvn clean package wildfly:deploy
 ----
 
 The application should now deploy without any errors and if access the
-`http://localhost:8080/microprofile-config/config/required` endpoint
+`http://localhost:8080/microprofile-config/rest/config/required` endpoint
 using your browser or
-`curl http://localhost:8080/microprofile-config/config/required` you
+`curl http://localhost:8080/microprofile-config/rest/config/required` you
 will see the default value that we configured in the `ConfigProperty` qualifier.
 
 However, this is not the only way how you can deal with the situation when the
@@ -959,9 +959,9 @@ $ mvn clean package wildfly:deploy
 ----
 
 If you now access the
-`http://localhost:8080/microprofile-config/config/optional` endpoint
+`http://localhost:8080/microprofile-config/rest/config/optional` endpoint
 using your browser or
-`curl http://localhost:8080/microprofile-config/config/optional` you
+`curl http://localhost:8080/microprofile-config/rest/config/optional` you
 will get back the `orElse` value because the `optional.prop` was not defined
 in our config sources.
 
@@ -989,9 +989,9 @@ Build and redeploy the application
 $ mvn clean package wildfly:deploy
 ----
 
-Access the `http://localhost:8080/microprofile-config/config/all-props`
+Access the `http://localhost:8080/microprofile-config/rest/config/all-props`
 endpoint using your browser or
-`curl http://localhost:8080/microprofile-config/config/all-props` and
+`curl http://localhost:8080/microprofile-config/rest/config/all-props` and
 you will see all available configuration property names.
 
 NOTE: You can investigate also the other methods of the `Config` interface.
@@ -1099,9 +1099,9 @@ $ mvn clean package wildfly:deploy
 ----
 
 If you now access the
-`http://localhost:8080/microprofile-config/custom-config/value`
+`http://localhost:8080/microprofile-config/rest/custom-config/value`
 endpoint using your browser or
-`curl http://localhost:8080/microprofile-config/custom-config/value`
+`curl http://localhost:8080/microprofile-config/rest/custom-config/value`
 you will get back the configuration value `MyCustomValue` defined in our custom
 configuration source.
 
@@ -1229,14 +1229,14 @@ $ mvn clean package wildfly:deploy
 ----
 
 If you now access the
-`http://localhost:8080/microprofile-config/custom-config/reloaded-value`
+`http://localhost:8080/microprofile-config/rest/custom-config/reloaded-value`
 endpoint using your browser or
-`curl http://localhost:8080/microprofile-config/custom-config/reloaded-value`
+`curl http://localhost:8080/microprofile-config/rest/custom-config/reloaded-value`
 you will get back the configuration value `FileSystemCustomConfigValue` defined
 in our custom configuration file. But if you now change the `custom.properties`
 file (without stopping of the server or the need to redeploy the application)
 and repeat the invocation at
-`http://localhost:8080/microprofile-config/custom-config/reloaded-value`
+`http://localhost:8080/microprofile-config/rest/custom-config/reloaded-value`
 you will see that the value is dynamically reloaded:
 
 * change `$JBOSS_HOME/custom.properties` (don't forget to save the file):
@@ -1247,7 +1247,7 @@ custom.provided.prop=DynamicallyUpdatedValue
 ----
 
 * repeat the invocation at
-`http://localhost:8080/microprofile-config/custom-config/reloaded-value`
+`http://localhost:8080/microprofile-config/rest/custom-config/reloaded-value`
 
 You will see that the value `DynamicallyUpdatedValue` is returned. If you repeat
 this with different values of `custom.provide.prop` it will always get reloaded.
@@ -1359,9 +1359,9 @@ $ mvn clean package wildfly:deploy
 ----
 
 And now you can access the
-`http://localhost:8080/microprofile-config/converter/value`
+`http://localhost:8080/microprofile-config/rest/converter/value`
 endpoint using your browser or
-`curl http://localhost:8080/microprofile-config/converter/value` to make use of the custom
+`curl http://localhost:8080/microprofile-config/rest/converter/value` to make use of the custom
 converter. You will see the configured value which is taken from our created
 `MicroProfileCustomValue` object.
 
