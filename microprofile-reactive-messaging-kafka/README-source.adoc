@@ -987,6 +987,10 @@ bin/kafka-topics.sh --create --topic testing --bootstrap-server localhost:9092
 
 // OpenShift
 include::../shared-doc/build-and-run-the-quickstart-with-openshift.adoc[leveloffset=+1]
+----
+$ oc delete -f ./charts/kafka-on-openshift.yaml --wait --timeout=10m0s
+$ oc delete -f ./charts/amq-operator-on-openshift.yaml --wait --timeout=10m0s
+----
 
 == Conclusion
 
