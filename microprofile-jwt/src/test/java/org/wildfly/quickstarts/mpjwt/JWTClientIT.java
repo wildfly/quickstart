@@ -29,10 +29,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
-import org.jboss.arquillian.container.test.api.RunAsClient;
-import org.jboss.arquillian.junit.Arquillian;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 
 /**
@@ -44,8 +41,6 @@ import org.junit.runner.RunWith;
  *
  * @author <a href="mailto:darran.lofthouse@jboss.com">Darran Lofthouse</a>
  */
-@RunWith(Arquillian.class)
-@RunAsClient
 public class JWTClientIT {
     private static final String SUBSCRIPTION = "subscription";
     private static final String BIRTHDAY = "birthday";
@@ -60,8 +55,6 @@ public class JWTClientIT {
 
     private static final String AUTHORIZATION = "Authorization";
     private static final String BEARER = "Bearer";
-
-    private static final String APP_NAME = "microprofile-jwt";
 
     private final CloseableHttpClient httpClient = HttpClientBuilder.create().build();
 
