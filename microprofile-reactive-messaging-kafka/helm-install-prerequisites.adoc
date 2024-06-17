@@ -1,8 +1,7 @@
 === Install AMQ Streams on OpenShift
 
 The functionality of this quickstart depends on a running instance of the
-https://access.redhat.com/products/red-hat-amq#streams[AMQ Streams] Operator. AMQ Streams is a Red Hat project based
-on Apache Kafka. To deploy AMQ Streams in the Openshift environment:
+https://access.redhat.com/products/red-hat-amq#streams[AMQ Streams] Operator. AMQ Streams is a Red Hat project based on Apache Kafka. To deploy AMQ Streams in the Openshift environment:
 
 . Log in into the Openshift console as `kubeadmin` user (or any cluster administrator).
 . Install the `Red Hat Streams for Apache Kafka` operator
@@ -33,8 +32,7 @@ Then you can set up a Kafka cluster called `my-cluster` with topic `testing` in 
 $ oc apply -f ./charts/kafka-on-openshift.yaml --wait --timeout=10m0s
 ----
 
-Although the above commands will return pretty immediately, your AMQ Streams instance will not be available until its
-entity operator is up and running. The name of the pod will be of the format `my-cluster-entity-operator-xxxxxxxxx-yyyyy`.
+Although the above commands will return pretty immediately, your AMQ Streams instance will not be available until its entity operator is up and running. The name of the pod will be of the format `my-cluster-entity-operator-xxxxxxxxx-yyyyy`.
 
 To be on the safe side, wait until this pod is ready, as shown in this example:
 [options="nowrap",subs="+attributes"]
