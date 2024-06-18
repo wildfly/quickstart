@@ -11,7 +11,8 @@ The `microprofile-reactive-messaging-kafka` quickstart demonstrates the use of t
 :standalone-server-type: microprofile
 :archiveType: war
 :archiveName: {artifactId}
-:helm-install-prerequisites: ../microprofile-reactive-messaging-kafka/helm-install-prerequisites.adoc
+:helm-install-prerequisites-openshift: ../microprofile-reactive-messaging-kafka/helm-install-prerequisites-openshift.adoc
+:helm-install-prerequisites-kubernetes: ../microprofile-reactive-messaging-kafka/helm-install-prerequisites-kubernetes.adoc
 :helm-app-name: mp-rm-qs
 :strimzi-version: v1beta2
 :portedToGlow: true
@@ -991,6 +992,11 @@ include::../shared-doc/build-and-run-the-quickstart-with-openshift.adoc[leveloff
 $ oc delete -f ./charts/kafka-on-openshift.yaml --wait --timeout=10m0s
 $ oc delete -f ./charts/amq-operator-on-openshift.yaml --wait --timeout=10m0s
 ----
+
+ifndef::ProductRelease,EAPXPRelease[]
+//Kubernetes
+include::../shared-doc/build-and-run-the-quickstart-with-kubernetes.adoc[leveloffset=+1]
+endif::[]
 
 == Conclusion
 

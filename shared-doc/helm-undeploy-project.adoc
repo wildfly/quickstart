@@ -1,7 +1,14 @@
 [[undeploy_helm]]
-== Undeploy the {ProductShortName} Source-to-Image (S2I) Quickstart from OpenShift with Helm Charts
+== Undeploy the {ProductShortName} Source-to-Image (S2I) Quickstart from {cloud-platform} with Helm Charts
 
 [source,options="nowrap",subs="+attributes"]
 ----
 $ helm uninstall {helm-app-name}
 ----
+ifdef::kubernetes[]
+To stop the port forward you created earlier use:
+[source,options="nowrap",subs="+attributes"]
+----
+$ kubectl port-forward service/{helm-app-name} 8080:8080
+----
+endif::[]

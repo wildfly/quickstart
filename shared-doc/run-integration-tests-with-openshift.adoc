@@ -6,23 +6,23 @@ The integration tests included with this quickstart, which verify that the quick
 The integration tests expect a deployed application, so make sure you have deployed the quickstart on OpenShift before you begin.
 ====
 
-ifdef::extra-openshift-testing-actions[]
-include::{extra-openshift-testing-actions}[leveloffset=+1]
-endif::extra-openshift-testing-actions[]
+ifdef::extra-testing-actions-openshift[]
+include::{extra-testing-actions-openshift}[leveloffset=+1]
+endif::extra-testing-actions-openshift[]
 
-ifndef::extra-openshift-test-arguments[:extra-openshift-test-arguments:]
+ifndef::extra-test-arguments-openshift[:extra-test-arguments-openshift:]
 
 Run the integration tests using the following command to run the `verify` goal with the `integration-testing` profile activated and the proper URL:
 ifndef::requires-http-route[]
 [source,options="nowrap",subs="+attributes"]
 ----
-$ mvn verify -Pintegration-testing -Dserver.host=https://$(oc get route {helm-app-name} --template='{{ .spec.host }}') {extra-openshift-test-arguments}
+$ mvn verify -Pintegration-testing -Dserver.host=https://$(oc get route {helm-app-name} --template='{{ .spec.host }}') {extra-test-arguments-openshift}
 ----
 endif::requires-http-route[]
 ifdef::requires-http-route[]
 [source,options="nowrap",subs="+attributes"]
 ----
-$ mvn verify -Pintegration-testing -Dserver.host=http://$(oc get route {helm-app-name} --template='{{ .spec.host }}') {extra-openshift-test-arguments}
+$ mvn verify -Pintegration-testing -Dserver.host=http://$(oc get route {helm-app-name} --template='{{ .spec.host }}') {extra-test-arguments-openshift}
 ----
 endif::requires-http-route[]
 

@@ -10,6 +10,8 @@ include::../shared-doc/attributes.adoc[]
 :standalone-server-type: full
 :archiveType: war
 :restoreScriptName: remove-remote-broker.cli
+:helm-install-prerequisites-openshift: ../remote-helloworld-mdb/helm-install-prerequisites-openshift.adoc
+:helm-install-prerequisites-kubernetes: ../remote-helloworld-mdb/helm-install-prerequisites-kubernetes.adoc
 ifdef::ProductRelease,EAPXPRelease[]
 :BrokerImageName: registry.redhat.io/amq7/amq-broker-rhel8:7.10
 :BrokerProductName: Red Hat AMQ
@@ -153,27 +155,9 @@ include::../shared-doc/build-and-run-the-quickstart-with-provisioned-server.adoc
 endif::[]
 
 include::../shared-doc/build-and-run-the-quickstart-with-openshift.adoc[leveloffset=+1]
-=== Deploy a {BrokerProductName} instance on OpenShift
 
-[source,options="nowrap",subs="+attributes"]
-----
-$ oc run artemis --env AMQ_USER=admin --env AMQ_PASSWORD=admin --image={BrokerImageName}  --port=61616 --expose=true
-----
-
-This will create a broker instance named `artemis` on OpenShift that can be accessed on the port `61616` on the service `artemis` with the account *admin/admin*.
-//Prepare Helm for Quickstart Deployment
-
-include::../shared-doc/build-and-run-the-quickstart-with-openshift.adoc[leveloffset=+1]
-
-==== Clean Up
-
-The broker instance can be deleted from OpenShift by running the command:
-
-[source,options="nowrap"]
-----
-$ oc delete service artemis
-service "artemis" deleted
-$ oc delete pod artemis
-pod "artemis" deleted
-----
+ifndef::ProductRelease,EAPXPRelease[]
+//Kubernetes
+include::../shared-doc/build-and-run-the-quickstart-with-kubernetes.adoc[leveloffset=+1]
+endif::[]
 

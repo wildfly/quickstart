@@ -14,7 +14,8 @@ The `micrometer` quickstart demonstrates the use of the Micrometer library in {p
 :archiveType: war
 :archiveName: {artifactId}
 :restoreScriptName: restore-configuration.cli
-:helm-install-prerequisites: ../micrometer/helm-install-prerequisites.adoc
+:helm-install-prerequisites-openshift: ../micrometer/helm-install-prerequisites-openshift.adoc
+:helm-install-prerequisites-kubernetes: ../micrometer/helm-install-prerequisites-kubernetes.adoc
 
 == What is it?
 
@@ -272,7 +273,10 @@ endif::[]
 include::../shared-doc/build-and-run-the-quickstart-with-bootable-jar.adoc[leveloffset=+1]
 // OpenShift
 include::../shared-doc/build-and-run-the-quickstart-with-openshift.adoc[leveloffset=+1]
-
+ifndef::ProductRelease,EAPXPRelease[]
+//Kubernetes
+include::../shared-doc/build-and-run-the-quickstart-with-kubernetes.adoc[leveloffset=+1]
+endif::[]
 == Conclusion
 
 Micrometer provides a de facto standard way of capturing and publishing metrics to the monitoring solution of your choice. {productName} provides a convenient, out-of-the-box integration of Micrometer to make it easier to capture those metrics and monitor your application's health and performance. For more information on Micrometer, please refer to the project's https://micrometer.io[website].

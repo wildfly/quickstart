@@ -1,0 +1,74 @@
+=== Install Strimzi on Kubernetes
+
+The functionality of this quickstart depends on a running instance of the
+https://strimzi.io[Strimzi] Operator. Strimzi is an open source implementation providing Kafka on Kubernetes. To deploy Strimzi on Kubernetes there are a few steps needed. We will cover them in this section.
+
+First of all, since the Strimzi operator installs quite a lot of things, we create a new namespace, and tell `kubectl` to use that. In this case we tell it to use the name `kafka` for this namespace, since the `charts/strimzi-on-kubernetes.yaml` file specified this namespace when downloading it. The comment at the start of the yaml file contains more information.
+
+[options="nowrap",subs="+attributes"]
+----
+# Get the name of the current namespace
+old_namespace="$(kubectl config view --minify --output 'jsonpath={..namespace}'; echo)"
+
+# Create the 'kafka' namespace
+kubectl create namespace kafka
+
+# Tell kubectl to use the 'kafka' namespace when issuing commands
+kubectl config set-context --current --namespace="kafka"
+----
+
+Now we install `charts/strimzi-on-kubernetes.yaml` which will add all the Kubernetes resources for the Strimzi operator:
+
+[options="nowrap",subs="+attributes"]
+----
+kubectl apply -f charts/strimzi-on-kubernetes.yaml --wait --timeout=10m0s
+----
+
+Next we create a Kafka cluster called `my-cluster` and an associated topic called `testing` in that cluster. The following command might fail if everything that happens after issuing the above command has not completed yet. In this case, just wait a few seconds and try again until it succeeds:
+
+[options="nowrap",subs="+attributes"]
+----
+kubectl apply -f ./charts/kafka-on-kubernetes.yaml --wait --timeout=10m0s
+----
+
+The above will install a deployment called `strimzi-cluster-operator`, as well as its associated pods. These will be visible immediately when you execute `kubectl get all`, although it will take some time until they reach the `Ready` state.
+
+However, for the cluster to be usable we need to wait for its entity operator is installed up and running. The name of the pod will be of the format `my-cluster-entity-operator-xxxxxxxxx-yyyyy`.
+
+To be on the safe side, wait until this pod is ready, as shown in this example:
+[options="nowrap",subs="+attributes"]
+----
+ oc get pods -w
+NAME                     READY   STATUS    RESTARTS   AGE
+my-cluster-zookeeper-0   0/1     Running   0          29s
+...
+my-cluster-entity-operator-cbdbffd4d-m7fzh   0/2     Pending             0          0s
+my-cluster-entity-operator-cbdbffd4d-m7fzh   0/2     ContainerCreating   0          0s
+my-cluster-entity-operator-cbdbffd4d-m7fzh   0/2     ContainerCreating   0          0s
+my-cluster-entity-operator-cbdbffd4d-m7fzh   0/2     Running             0          1s
+my-cluster-entity-operator-cbdbffd4d-m7fzh   1/2     Running             0          20s
+my-cluster-entity-operator-cbdbffd4d-m7fzh   2/2     Running             0          21s
+----
+
+==== Cleaning up
+NOTE: The steps in this section should happen *after* you have finished with your experiments and are no longer using the Kafka instance from your application!
+
+First we remove the Kubernetes objects created by the steps to install Strimzi:
+
+[options="nowrap",subs="+attributes"]
+----
+kubectl delete -f charts/kafka-on-kubernetes.yaml --wait --timeout=10m0s
+kubectl delete -f charts/strimzi-on-kubernetes.yaml --wait --timeout=10m0s
+----
+
+Next we tell `kubectl` to use the namespace we were using before installing everything:
+[options="nowrap",subs="+attributes"]
+----
+kubectl config set-context --current --namespace="${old_namespace}"
+----
+
+Finally, we delete the `kafka` namespace we created:
+[options="nowrap",subs="+attributes"]
+----
+kubectl delete namespace kafka
+----

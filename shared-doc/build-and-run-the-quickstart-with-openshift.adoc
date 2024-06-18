@@ -1,3 +1,5 @@
+:cloud-platform: OpenShift
+:openshift: true
 ifndef::helm-app-name[]
 :helm-app-name: {artifactId}
 endif::helm-app-name[]
@@ -7,13 +9,13 @@ endif::helm-app-name[]
 // The openshift profile
 include::../shared-doc/build-the-quickstart-for-openshift.adoc[leveloffset=+1]
 // Getting Started with Helm
-include::../shared-doc/helm-getting-started-overview.adoc[leveloffset=+1]
+include::../shared-doc/helm-getting-started-overview-openshift.adoc[leveloffset=+1]
 
-ifdef::helm-install-prerequisites[]
+ifdef::helm-install-prerequisites-openshift[]
 // Additional steps needed before deploying in Helm
 [[deploy_helm_prerequisites]]
-include::{helm-install-prerequisites}[leveloffset=+1]
-endif::helm-install-prerequisites[]
+include::{helm-install-prerequisites-openshift}[leveloffset=+1]
+endif::helm-install-prerequisites-openshift[]
 
 //Prepare Helm for Quickstart Deployment
 include::../shared-doc/helm-deploy-project.adoc[leveloffset=+1]
@@ -23,3 +25,6 @@ include::../shared-doc/run-integration-tests-with-openshift.adoc[leveloffset=+1]
 
 //Prepare Helm for Quickstart Deployment
 include::../shared-doc/helm-undeploy-project.adoc[leveloffset=+1]
+
+// Unset the attribute
+:!openshift:
