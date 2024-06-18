@@ -1290,7 +1290,7 @@ package org.wildfly.quickstarts.microprofile.reactive.messaging;
 import jakarta.ws.rs.ApplicationPath;
 import jakarta.ws.rs.core.Application;
 
-@ApplicationPath("/")
+@ApplicationPath("/rest")
 public class JaxRsApplication extends Application {
 }
 
@@ -1525,7 +1525,7 @@ Then we get another section where it is using the randomised order
 
 In both parts of the log we see that all messages reach the `logAllMessages()` method, while only `Hello` and `Kafka` reach the `receiveFromKafka()` method which saves them to the RDBMS.
 
-To inspect what was stored in the database, go to http://localhost:8080/microprofile-reactive-messaging-kafka/db in  your browser and you should see something like:
+To inspect what was stored in the database, go to http://localhost:8080/microprofile-reactive-messaging-kafka/rest/db in  your browser and you should see something like:
 
 [source, options="nowrap"]
 ----
@@ -1539,15 +1539,15 @@ The timestamps of the entries in the browser match the ones we saw in the server
 === Interaction with User Initiated Code
 With the application still running, open two terminal windows. Enter the following `curl` command in both of them
 ```
-$curl -N http://localhost:8080/microprofile-reactive-messaging-kafka/user
+$curl -N http://localhost:8080/microprofile-reactive-messaging-kafka/rest/user
 ```
 The `-N` option keeps the connection open, so we receive data as it becomes available on the publisher.
 
 In a third terminal window enter the commands:
 ```
-$curl -X POST http://localhost:8080/microprofile-reactive-messaging-kafka/user/one
-$curl -X POST http://localhost:8080/microprofile-reactive-messaging-kafka/user/two
-$curl -X POST http://localhost:8080/microprofile-reactive-messaging-kafka/user/three
+$curl -X POST http://localhost:8080/microprofile-reactive-messaging-kafka/rest/user/one
+$curl -X POST http://localhost:8080/microprofile-reactive-messaging-kafka/rest/user/two
+$curl -X POST http://localhost:8080/microprofile-reactive-messaging-kafka/rest/user/three
 ```
 In the first two terminal windows you should see these entries appear as they are posted:
 ```
