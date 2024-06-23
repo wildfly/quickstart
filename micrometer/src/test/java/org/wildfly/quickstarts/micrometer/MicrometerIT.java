@@ -34,10 +34,10 @@ public class MicrometerIT {
         String applicationUrl = BasicRuntimeIT.getApplicationUrl();
 
         final HttpClient client = BasicRuntimeIT.getHttpClient();
-        final HttpRequest requestPrime = HttpRequest.newBuilder().uri(new URI(applicationUrl + "/prime/13")).GET().build();
-        final HttpRequest requestHighest = HttpRequest.newBuilder().uri(new URI(applicationUrl + "/prime/highest")).GET().build();
-        final HttpRequest requestDuplicates = HttpRequest.newBuilder().uri(new URI(applicationUrl + "/duplicates")).GET().build();
-        final HttpRequest requestDuplicates2 = HttpRequest.newBuilder().uri(new URI(applicationUrl + "/duplicates2")).GET().build();
+        final HttpRequest requestPrime = HttpRequest.newBuilder().uri(new URI(applicationUrl + "/rest/prime/13")).GET().build();
+        final HttpRequest requestHighest = HttpRequest.newBuilder().uri(new URI(applicationUrl + "/rest/prime/highest")).GET().build();
+        final HttpRequest requestDuplicates = HttpRequest.newBuilder().uri(new URI(applicationUrl + "/rest/duplicates")).GET().build();
+        final HttpRequest requestDuplicates2 = HttpRequest.newBuilder().uri(new URI(applicationUrl + "/rest/duplicates2")).GET().build();
 
 
 
