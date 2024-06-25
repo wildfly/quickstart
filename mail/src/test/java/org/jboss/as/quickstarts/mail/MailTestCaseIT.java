@@ -16,6 +16,8 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import static org.jboss.as.quickstarts.mail.TestUtils.getServerHost;
+
 import java.time.Duration;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -37,15 +39,7 @@ public class MailTestCaseIT {
         driver = new ChromeDriver(options);
         driver.manage().window().maximize();
 
-        String serverHost = System.getenv("SERVER_HOST");
-        if (serverHost == null) {
-            serverHost = System.getProperty("server.host");
-        }
-        if (serverHost == null) {
-            serverHost = DEFAULT_SERVER_HOST;
-        }
-
-        driver.get(serverHost);
+        driver.get(getServerHost());
         driver.manage().timeouts().implicitlyWait(Duration.ofMillis(500));
     }
 
