@@ -42,59 +42,23 @@ function installPrerequisites()
   application="${1}"
 
   echo "Installing Strimzi operator"
-  kubectl apply -f charts/strimzi-on-kubernetes.yaml
+  kubectl apply -f charts/strimzi-on-kubernetes.yaml --wait --timeout=10m0s
 
-  seconds=120
+  seconds=300
   now=$(date +%s)
   end=$(($seconds + $now))
 
-  echo "Looping for 2 minutes until the 'kafka' CRD is available "
+  echo "Looping for 5 minutes until the 'kafka' CRD is available "
   while [ $now -lt $end ]; do
-    # It takes a while for the kafka CRD to be ready
     sleep 5
-    echo "Trying to create my-cluster"
-    kubectl apply -f - <<EOF
-    apiVersion: kafka.strimzi.io/v1beta2
-    kind: Kafka
-    metadata:
-      name: my-cluster
-    spec:
-      kafka:
-        replicas: 3
-        listeners:
-          - name: plain
-            port: 9092
-            type: internal
-            tls: false
-        storage:
-          type: ephemeral
-      zookeeper:
-        replicas: 3
-        storage:
-          type: ephemeral
-      entityOperator:
-        topicOperator: {}
-EOF
+    echo "Create a Strimzi instance and testing topic"
+    kubectl apply -f ./charts/kafka-on-kubernetes.yaml --wait --timeout=10m0s
+    break
     if [ "$?" = "0" ]; then
       break
     fi
-    now=$(date +%s)
   done
 
-  echo "Creating testing topic"
-  kubectl apply -f - <<EOF
-  apiVersion: kafka.strimzi.io/v1beta2
-  kind: KafkaTopic
-  metadata:
-    name: testing
-  labels:
-    strimzi.io/cluster: my-cluster
-  spec:
-    partitions: 3
-    replicas: 3
-EOF
-
-  # Wait for the pods to come up
   seconds=900
   now=$(date +%s)
   end=$(($seconds + $now))
@@ -124,11 +88,6 @@ EOF
 # 1 - application name
 function cleanPrerequisites()
 {
-  # TODO There are a few topics created that need cleaning up
-
-  kubectl delete kafka my-cluster
-  kubectl delete subscription amq-streams-subscription
-  kubectl delete operatorgroup amq-streams-operator-group
-  kubectl delete deployment amq-streams-cluster-operator-v2.5.0-1
-  kubectl delete kafkatopic testing
+  kubectl delete -f ./charts/kafka-on-kubernetes.yaml --wait --timeout=10m0s
+  kubectl delete -f charts/strimzi-on-kubernetes.yaml --wait --timeout=10m0s
 }

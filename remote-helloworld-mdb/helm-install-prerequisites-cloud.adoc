@@ -1,0 +1,32 @@
+ifdef::prereq-openshift[]
+:prereq-cloud-platform: OpenShift
+:prereq-cloud-cli: oc
+endif::[]
+ifdef::prereq-kubernetes[]
+:prereq-cloud-platform: Kubernetes
+:prereq-cloud-cli: kubectl
+endif::[]
+
+=== Deploy a {BrokerProductName} instance on {prereq-cloud-platform}
+
+[source,options="nowrap",subs="+attributes"]
+----
+$ {prereq-cloud-cli} run artemis --env AMQ_USER=admin --env AMQ_PASSWORD=admin --image={BrokerImageName}  --port=61616 --expose=true
+----
+
+This will create a broker instance named `artemis` on {prereq-cloud-platform} that can be accessed on the port `61616` on the service `artemis` with the account *admin/admin*.
+
+==== Clean Up
+
+NOTE: This should be done *after* the application on {prereq-cloud-platform} has been stopped.
+
+The broker instance can be deleted from {prereq-cloud-platform} by running the commands:
+
+[source,options="nowrap",subs="+attributes"]
+----
+$ {prereq-cloud-cli} delete service artemis
+service "artemis" deleted
+$ {prereq-cloud-cli} delete pod artemis
+pod "artemis" deleted
+----
+

@@ -1,20 +1,65 @@
-
+ifndef::helmSetWildFlyArgumentPrefix[]
+// For use with nested Helm charts
+:helmSetWildFlyArgumentPrefix:
+endif::[]
 ifeval::[{useHelmChartDir} == true]
 :helm_chart_values: charts
 endif::[]
 ifndef::useHelmChartDir[]
 :helm_chart_values: -f charts/helm.yaml {helmChartName}
 endif::[]
+ifdef::kubernetes[]
+:helm-set-build-enabled: --set {helmSetWildFlyArgumentPrefix}build.enabled=false
+:helm-set-deploy-route-enabled: --set {helmSetWildFlyArgumentPrefix}deploy.route.enabled=false
+:helm-set-image-name: --set {helmSetWildFlyArgumentPrefix}image.name="localhost:5000/{artifactId}"
+:helm-extra-arguments: {helm-set-build-enabled} {helm-set-deploy-route-enabled} {helm-set-image-name}
+:cloud-cli: kubectl
+endif::[]
+ifndef::kubernetes[]
+:helm-extra-arguments:
+:cloud-cli: oc
+endif::[]
 [[deploy_helm]]
-== Deploy the {ProductShortName} Source-to-Image (S2I) Quickstart to OpenShift with Helm Charts
+== Deploy the {ProductShortName} Source-to-Image (S2I) Quickstart to {cloud-platform} with Helm Charts
 
+ifndef::kubernetes[]
 Log in to your OpenShift instance using the `oc login` command.
-The backend will be built and deployed on OpenShift with a Helm Chart for {productName}.
+endif::[]
+The backend will be built and deployed on {cloud-platform} with a Helm Chart for {productName}.
 
+
+ifndef::kubernetes[]
 Navigate to the root directory of this quickstart and run the following command:
+endif::[]
+ifdef::kubernetes[]
+Navigate to the root directory of this quickstart and run the following commands:
+
 [source,options="nowrap",subs="+attributes"]
 ----
-$ helm install {helm-app-name} {helm_chart_values} --wait --timeout=10m0s
+mvn -Popenshift package wildfly:image
+----
+This will use the `openshift` Maven profile we saw earlier to build the application, and create a Docker image containing the {productName} server with the application deployed. The name of the image will be `{artifactId}`.
+
+Next we need to tag the image and make it available to Kubernetes. You can push it to a registry like `quay.io`. In this case we tag as `localhost:5000/{artifactId}:latest` and push it to the internal registry in our Kubernetes instance:
+
+[source,options="nowrap",subs="+attributes"]
+----
+# Tag the image
+docker tag {artifactId} localhost:5000/{artifactId}:latest
+# Push the image to the registry
+docker push localhost:5000/{artifactId}:latest
+----
+
+In the below call to `helm install` which deploys our application to Kubernetes, we are passing in some extra arguments to tweak the Helm build:
+
+* `{helm-set-build-enabled}` - This turns off the s2i build for the Helm chart since Kubernetes, unlike OpenShift, does not have s2i. Instead, we are providing the image to use.
+* `{helm-set-deploy-route-enabled}` - This disables route creation normally performed by the Helm chart. On Kubernetes we will use port-forwards instead to access our application, since routes are an OpenShift specific concept and thus not available on Kubernetes.
+* `{helm-set-image-name}` - This tells the Helm chart to use the image we built, tagged and pushed to Kubernetes' internal registry above.
+
+endif::[]
+[source,options="nowrap",subs="+attributes"]
+----
+$ helm install {helm-app-name} {helm_chart_values} --wait --timeout=10m0s {helm-extra-arguments}
 NAME: {helm-app-name}
 ...
 STATUS: deployed
@@ -25,7 +70,7 @@ This command will return once the application has successfully deployed. In case
 
 [source,options="nowrap",subs="+attributes"]
 ----
-oc get deployment {helm-app-name}
+{cloud-cli} get deployment {helm-app-name}
 ----
 
 The Helm Chart for this quickstart contains all the information to build an image from the source code using S2I on Java 17:
@@ -61,7 +106,7 @@ deploy:
 ----
 endif::requires-http-route[]
 
-This will create a new deployment on OpenShift and deploy the application.
+This will create a new deployment on {cloud-platform} and deploy the application.
 
 If you want to see all the configuration elements to customize your deployment you can use the following command:
 [source,options="nowrap",subs="+attributes"]
@@ -69,7 +114,7 @@ If you want to see all the configuration elements to customize your deployment y
 $ helm show readme {helmChartName}
 ----
 
-
+ifdef::openshift[]
 Get the URL of the route to the deployment.
 
 [source,options="nowrap",subs="+attributes"]
@@ -77,12 +122,27 @@ Get the URL of the route to the deployment.
 $ oc get route {helm-app-name} -o jsonpath="{.spec.host}"
 ----
 Access the application in your web browser using the displayed URL.
+endif::[]
+ifdef::kubernetes[]
+To be able to connect to our application running in Kubernetes from outside, we need to set up a port-forward to the `{helm-app-name}` service created for us by the Helm chart.
 
+This service will run on port `8080`, and we set up the port forward to also run on port `8080`:
+
+[source,options="nowrap",subs="+attributes"]
+----
+kubectl port-forward service/{helm-app-name} 8080:8080
+----
+The server can now be accessed via `http://localhost:8080` from outside Kubernetes. Note that the command to create the port-forward will not return, so it is easiest to run this in a separate terminal.
+
+endif::[]
 [NOTE]
 ====
 The Maven profile named `openshift` is used by the Helm chart to provision the server with the quickstart deployed on the root web context, and thus the application should be accessed with the URL without the `/{artifactId}` path segment after `HOST:PORT`.
 ====
 
-ifdef::post-helm-install-actions[]
-include::{post-helm-install-actions}[leveloffset=+1]
-endif::post-helm-install-actions[]
+ifdef::openshift+post-helm-install-actions-openshift[]
+include::{post-helm-install-actions-openshift}[leveloffset=+1]
+endif::openshift+post-helm-install-actions-openshift[]
+ifdef::kubernetes+post-helm-install-actions-kubernetes[]
+include::{post-helm-install-actions-kubernetes}[leveloffset=+1]
+endif::kubernetes+post-helm-install-actions-kubernetes[]
