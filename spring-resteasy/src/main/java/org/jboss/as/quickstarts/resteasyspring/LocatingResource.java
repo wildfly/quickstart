@@ -22,7 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 /**
  * @author <a href="mailto:bill@burkecentral.com">Bill Burke</a>
  */
-@Path("/")
+@Path("main")
 public class LocatingResource {
 
     @Autowired
