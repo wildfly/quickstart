@@ -32,8 +32,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Simple tests for MicroProfile Health quickstart. Arquillian deploys an JAR archive to the application server, which
- * contains several health checks and verifies that they are correctly invoked.
+ * Simple tests for MicroProfile Health quickstart.
  *
  * @author <a href="mstefank@redhat.com">Martin Stefanko</a>
  *
