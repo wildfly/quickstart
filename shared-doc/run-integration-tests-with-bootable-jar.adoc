@@ -19,7 +19,7 @@ $ mvn clean package -Pbootable-jar
 +
 [source,subs="attributes+",options="nowrap"]
 ----
-$ mvn wildfly:start-jar
+$ mvn wildfly:start-jar -Dbootable-jar-name={artifactId}-bootable.jar
 ----
 
 . Type the following command to run the `verify` goal with the `integration-testing` profile activated, and specifying the quickstart's URL using the `server.host` system property, which for a bootable jar by default is `{server_provisioning_server_host}`.

@@ -134,7 +134,7 @@ jobs:
           echo "Building bootable jar..."
           mvn -fae clean ${{ inputs.MVN_COMMAND }} -Pbootable-jar
           echo "Starting bootable jar..."
-          mvn -f ${{ inputs.DEPLOYMENT_DIR }}/pom.xml wildfly:start-jar -Dstartup-timeout=120  ${{ inputs.EXTRA_RUN_ARGS }}
+          mvn -f ${{ inputs.DEPLOYMENT_DIR }}/pom.xml wildfly:start-jar -Dbootable-jar-name=${{ inputs.QUICKSTART_PATH }}-bootable.jar -Dstartup-timeout=120  ${{ inputs.EXTRA_RUN_ARGS }}
           echo "Testing bootable jar..."
           mvn -fae verify -Dserver.host=${{ inputs.SERVER_PROVISIONING_SERVER_HOST }} -Pintegration-testing
           echo "Shutting down bootable jar..."          
@@ -241,7 +241,7 @@ jobs:
           echo "Building bootable jar..."
           mvn -fae clean ${{ inputs.MVN_COMMAND }} -Pbootable-jar -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
           echo "Starting bootable jar..."
-          mvn -f ${{ inputs.DEPLOYMENT_DIR }}/pom.xml wildfly:start-jar -Dstartup-timeout=120 ${{ inputs.EXTRA_RUN_ARGS }}
+          mvn -f ${{ inputs.DEPLOYMENT_DIR }}/pom.xml wildfly:start-jar -Dbootable-jar-name=${{ inputs.QUICKSTART_PATH }}-bootable.jar -Dstartup-timeout=120 ${{ inputs.EXTRA_RUN_ARGS }}
           echo "Testing bootable jar..."
           mvn -fae verify -Dserver.host=${{ inputs.SERVER_PROVISIONING_SERVER_HOST }} -Pintegration-testing
           echo "Shutting down bootable jar..."
