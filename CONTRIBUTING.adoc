@@ -265,9 +265,9 @@ See the https://github.com/wildfly/quickstart/blob/11.x/pom.xml#L155[WildFly par
 
 ** CDI should be used as the programming model
 ** Avoid using a `web.xml` file if possible. Use a `faces-config.xml` to activate JSF if needed.
-** Any tests should use Arquillian.
+** Any tests should use JUnit.
 
-* If the quickstart persists to a database, you must use a unique datasource JNDI name and connection URL for the application and for any Arquillian tests that it provides. Do not use the JNDI name `java:jboss/datasources/ExampleDS`. Failure to use unique names can result in a `DuplicateServiceException` when more than one quickstart is deployed to the same server.
+* If the quickstart persists to a database, you must use a unique datasource JNDI name and connection URL for the application and for any tests that it provides. Do not use the JNDI name `java:jboss/datasources/ExampleDS`. Failure to use unique names can result in a `DuplicateServiceException` when more than one quickstart is deployed to the same server.
 
 * Be sure to test the quickstart in {JBDSProductName}, which strictly enforces Jakarta EE coding rules!
 
