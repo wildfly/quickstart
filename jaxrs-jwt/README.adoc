@@ -1403,7 +1403,12 @@ endif::useHelmChartDir[]
 ifndef::useHelmChartDir[]
 [source,yaml]
 ----
-Unresolved directive in ../shared-doc/helm-deploy-project.adoc - include::/home/runner/work/quickstart/quickstart/jaxrs-jwt/charts/helm.yaml[]
+build:
+  uri: https://github.com/wildfly/quickstart.git
+  ref: main
+  contextDir: jaxrs-jwt
+deploy:
+  replicas: 1
 ----
 endif::useHelmChartDir[]
 endif::requires-http-route[]
@@ -1822,7 +1827,12 @@ endif::useHelmChartDir[]
 ifndef::useHelmChartDir[]
 [source,yaml]
 ----
-Unresolved directive in ../shared-doc/helm-deploy-project.adoc - include::/home/runner/work/quickstart/quickstart/jaxrs-jwt/charts/helm.yaml[]
+build:
+  uri: https://github.com/wildfly/quickstart.git
+  ref: main
+  contextDir: jaxrs-jwt
+deploy:
+  replicas: 1
 ----
 endif::useHelmChartDir[]
 endif::requires-http-route[]
