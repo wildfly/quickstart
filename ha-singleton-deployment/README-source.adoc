@@ -53,9 +53,9 @@ This example is not limited to two servers. Additional servers can be started by
 . Navigate to the root directory of this quickstart in the terminal.
 . Use the following command to clean up previously built artifacts, and build and deploy the EJB archive:
 +
-[source,options="nowrap"]
+[source,shell,options="nowrap"]
 ----
-$ mvn clean install wildfly:deploy
+mvn clean install wildfly:deploy
 ----
 
 . Ensure the `target/{artifactId}.war` archive is deployed to `node1` (the one without port offset) by observing the log.
@@ -82,7 +82,7 @@ WARN  [org.jboss.as.clustering.jgroups.protocol.UDP] (ServerService Thread Pool 
 
 . Use the following command to deploy the already built archive to the second server. Note that since the default socket binding port is `9990` and the second server has ports offsetted by `100`, the sum, `10090` must be passed as an argument to the deploy maven goal.
 +
-[source,options="nowrap"]
+[source,shell,options="nowrap"]
 ----
 mvn wildfly:deploy -Dwildfly.port=10090
 ----
@@ -109,7 +109,7 @@ INFO  [org.jboss.as.server] (management-handler-thread - 2) WFLYSRV0010: Deploye
 INFO  [class org.jboss.as.quickstarts.ha.singleton.SingletonTimer] (EJB default - 1) SingletonTimer: Hello World!
 ----
 +
-While the instance not running, the timer will display the following as the last log line:
+While the instance which is not running the timer, it will show the following as the last log line:
 +
 [source,options="nowrap"]
 ----
@@ -195,27 +195,25 @@ INFO  [org.infinispan.remoting.transport.jgroups.JGroupsTransport] (MSC service 
 
 In this quickstart, the deployment is made singleton by a configuration file bundled in the archive.
 Inspect the content in `src/main/resources/META-INF/singleton-deployment.xml`.
-Any existing deployment can be made singleton by using _deployment overlays_ mechanism.
+Any existing deployment can be made singleton by using the _deployment overlays_ mechanism.
 To demonstrate how to use deployment overlays, follow these steps:
 
 . Move the `src/main/resources/META-INF/singleton-deployment.xml` file into root directory of this quickstart.
 . Rebuild the project. Ensure that the servers are started, and redeploy the application, which will no longer be configured by singleton deployment by the archive:
 +
-[source,options="nowrap"]
+[source,shell,options="nowrap"]
 ----
-$ mvn clean install
-$ mvn wildfly:deploy
-$ mvn wildfly:deploy -Dwildfly.port=10090
+mvn clean install
+mvn wildfly:deploy
+mvn wildfly:deploy -Dwildfly.port=10090
 ----
 
 . Start the management CLI and set up a deployment overlay on both servers. Make sure you use the port offset for the second server.
 +
-[source,subs="+quotes,attributes+",options="nowrap"]
+[source,shell,subs="+quotes,attributes+",options="nowrap"]
 ----
-$ __{jbossHomeName}_1__/bin/jboss-cli.sh --connect
-deployment-overlay add --name=singleton-deployment --deployments=ha-singleton-deployment.war --content=META-INF/singleton-deployment.xml=singleton-deployment.xml
-deployment-overlay redeploy-affected --name=singleton-deployment
-$ __{jbossHomeName}_2__/bin/jboss-cli.sh --connect --controller=localhost:10090 deployment-overlay add --name=singleton-deployment --deployments=ha-singleton-deployment.war --content=META-INF/singleton-deployment.xml=singleton-deployment.xml deployment-overlay redeploy-affected --name=singleton-deployment
+__{jbossHomeName}_1__/bin/jboss-cli.sh --connect --command="deployment-overlay add --name=singleton-deployment --deployments=ha-singleton-deployment.war --content=META-INF/singleton-deployment.xml=singleton-deployment.xml --redeploy-affected"
+__{jbossHomeName}_2__/bin/jboss-cli.sh --connect --controller=localhost:10090 --command="deployment-overlay add --name=singleton-deployment --deployments=ha-singleton-deployment.war --content=META-INF/singleton-deployment.xml=singleton-deployment.xml --redeploy-affected"
 ----
 +
 NOTE: For Windows, use the ` __{jbossHomeName}_1__\bin\jboss-cli.bat` and ` __{jbossHomeName}_2__\bin\jboss-cli.bat` scripts.
@@ -234,12 +232,12 @@ NOTE: For Windows, use the ` __{jbossHomeName}_1__\bin\jboss-cli.bat` and ` __{j
 
 . Observe the server output. The deployments are now set up as singleton deployments.
 
-. To remove the deployment overlay run the following CLI command:
+. To remove the deployment overlay, run the following CLI command:
 +
-[source,options="nowrap"]
+[source,shell,options="nowrap"]
 ----
-deployment-overlay remove --name=singleton-deployment
-deployment-overlay redeploy-affected --name=singleton-deployment
+__{jbossHomeName}_1__/bin/jboss-cli.sh --connect --command="deployment-overlay remove --name=singleton-deployment --redeploy-affected"
+__{jbossHomeName}_2__/bin/jboss-cli.sh --connect --controller=localhost:10090 --command="deployment-overlay remove --name=singleton-deployment --redeploy-affected"
 ----
 
 For convenience, the management CLI scripts to add the deployment overlay, `singleton-deployment-overlay-add.cli`, and to remove the deployment overlay, `singleton-deployment-overlay-remove.cli`, are located in the root directory of this quickstart.
@@ -250,10 +248,10 @@ For convenience, the management CLI scripts to add the deployment overlay, `sing
 . Navigate to the root directory of this quickstart in the terminal.
 . Use the following commands to undeploy the artifacts:
 +
-[source,options="nowrap"]
+[source,shell,options="nowrap"]
 ----
-$ mvn wildfly:undeploy
-$ mvn wildfly:undeploy -Dwildfly.port=10090
+mvn wildfly:undeploy
+mvn wildfly:undeploy -Dwildfly.port=10090
 ----
 
 // Debug the Application
