@@ -197,7 +197,7 @@ The first thing to do is to change the minimum JDK to Java 11 and set the other 
 <version.server>{versionServer}</version.server>
 <!-- The versions for the BOMs, Packs and Plugins -->
 <version.bom.ee>{versionBomEE}</version.bom.ee>
-<version.bom.microprofile>{versionBomMicroprofile}</version.bom.microprofile>
+<version.bom.expansion>{versionBomMicroprofile}</version.bom.expansion>
 <version.plugin.wildfly>{versionPluginWildfly}</version.plugin.wildfly>
 <version.plugin.wildfly-jar>{versionPluginWildflyJar}</version.plugin.wildfly-jar>
 ----
@@ -218,8 +218,8 @@ Next we need to setup our dependencies. Add the following section to your
         </dependency>
         <dependency>
             <groupId>org.wildfly.bom</groupId>
-            <artifactId>wildfly-microprofile</artifactId>
-            <version>${version.bom.microprofile}</version>
+            <artifactId>wildfly-expansion</artifactId>
+            <version>${version.bom.expansion}</version>
             <type>pom</type>
             <scope>import</scope>
         </dependency>

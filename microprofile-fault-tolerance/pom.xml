@@ -56,7 +56,7 @@
         <version.server>33.0.0.Final</version.server>
         <!-- The versions for the BOMs, Packs and Plugins -->
         <version.bom.ee>${version.server}</version.bom.ee>
-        <version.bom.microprofile>${version.server}</version.bom.microprofile>
+        <version.bom.expansion>${version.server}</version.bom.expansion>
         <version.plugin.wildfly>5.0.0.Final</version.plugin.wildfly>
         <!-- The versions for other dependencies and plugin -->
         <version.io.rest-assured>4.3.1</version.io.rest-assured>
@@ -64,11 +64,11 @@
 
     <dependencyManagement>
         <dependencies>
-            <!-- importing the microprofile BOM adds MicroProfile specs -->
+            <!-- importing the Expansion BOM adds MicroProfile specs -->
             <dependency>
                 <groupId>org.wildfly.bom</groupId>
-                <artifactId>wildfly-microprofile</artifactId>
-                <version>${version.bom.microprofile}</version>
+                <artifactId>wildfly-expansion</artifactId>
+                <version>${version.bom.expansion}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -149,7 +149,7 @@
                         <!-- adds versions properties as attributes for substitutions in README.adoc source blocks -->
                         <attributes>
                             <versionServerBom>${version.bom.ee}</versionServerBom>
-                            <versionMicroprofileBom>${version.bom.microprofile}</versionMicroprofileBom>
+                            <versionExpansionBom>${version.bom.expansion}</versionExpansionBom>
                         </attributes>
                     </configuration>
                 </plugin>
