@@ -119,6 +119,14 @@
             <artifactId>resteasy-client</artifactId>
             <scope>test</scope>
         </dependency>
+        <!-- resteasy client needs commons-logging yet the server uses this instead,
+            to be fully compatible on apps we need to add this dependency whenever commons-logging is needed,
+            but on testing clients like this we could use commons-logging instead -->
+        <dependency>
+            <groupId>org.jboss.logging</groupId>
+            <artifactId>commons-logging-jboss-logging</artifactId>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>org.jboss.resteasy</groupId>
             <artifactId>resteasy-json-p-provider</artifactId>
