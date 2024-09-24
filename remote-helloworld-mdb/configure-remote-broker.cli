@@ -11,3 +11,4 @@ echo Adding configuration to connect to remote broker
 /subsystem=ejb3:write-attribute(name=default-resource-adapter-name, value=RemoteConnectionFactory)
 # Ensure that the default resource adapter used for JMS is the resource adapter to the remote broker
 /subsystem=ee/service=default-bindings:write-attribute(name=jms-connection-factory, value=java:jboss/RemoteConnectionFactory)
+reload
