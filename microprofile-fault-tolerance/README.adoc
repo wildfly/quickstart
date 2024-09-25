@@ -445,7 +445,7 @@ Add the following properties to the `pom.xml`:
 
 [source,options="nowrap",subs="attributes+"]
 ----
-<version.bom.microprofile>{versionMicroprofileBom}</version.bom.microprofile>
+<version.bom.expansion>{versionExpansionBom}</version.bom.expansion>
 <version.bom.ee>{versionServerBom}</version.bom.ee>
 ----
 
@@ -471,11 +471,11 @@ Before the dependencies are defined add the following boms:
             <type>pom</type>
             <scope>import</scope>
         </dependency>
-        <!-- importing the microprofile BOM adds MicroProfile specs -->
+        <!-- importing the Expansion BOM adds MicroProfile specs -->
         <dependency>
             <groupId>org.wildfly.bom</groupId>
-            <artifactId>wildfly-microprofile</artifactId>
-            <version>{versionMicroprofileBom}</version>
+            <artifactId>wildfly-expansion</artifactId>
+            <version>{versionExpansionBom}</version>
             <type>pom</type>
             <scope>import</scope>
         </dependency>
