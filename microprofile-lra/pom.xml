@@ -22,7 +22,7 @@
         <version.server>33.0.0.Final</version.server>
         <!-- The versions for the BOMs, Packs and Plugins -->
         <version.bom.ee>${version.server}</version.bom.ee>
-        <version.bom.microprofile>${version.server}</version.bom.microprofile>
+        <version.bom.expansion>${version.server}</version.bom.expansion>
         <version.plugin.wildfly>5.0.0.Final</version.plugin.wildfly>
     </properties>
 
@@ -37,8 +37,8 @@
             </dependency>
             <dependency>
                 <groupId>org.wildfly.bom</groupId>
-                <artifactId>wildfly-microprofile</artifactId>
-                <version>${version.bom.microprofile}</version>
+                <artifactId>wildfly-expansion</artifactId>
+                <version>${version.bom.expansion}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -78,6 +78,14 @@
             <artifactId>resteasy-client</artifactId>
             <scope>test</scope>
         </dependency>
+        <!-- resteasy client needs commons-logging yet the server uses this instead,
+            to be fully compatible on apps we need to add this dependency whenever commons-logging is needed,
+            but on testing clients like this we could use commons-logging instead -->
+        <dependency>
+            <groupId>org.jboss.logging</groupId>
+            <artifactId>commons-logging-jboss-logging</artifactId>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>org.jboss.resteasy</groupId>
             <artifactId>resteasy-jackson2-provider</artifactId>
@@ -106,7 +114,7 @@
                     <attributes>
                         <versionServer>${version.server}</versionServer>
                         <versionBomEE>${version.bom.ee}</versionBomEE>
-                        <versionBomMicroprofile>${version.bom.microprofile}</versionBomMicroprofile>
+                        <versionBomMicroprofile>${version.bom.expansion}</versionBomMicroprofile>
                         <versionPluginWildfly>${version.plugin.wildfly}</versionPluginWildfly>
                         <versionPluginWildflyJar>${version.plugin.wildfly-jar}</versionPluginWildflyJar>
                     </attributes>

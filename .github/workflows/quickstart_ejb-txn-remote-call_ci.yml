@@ -184,7 +184,7 @@ jobs:
           cd ${{ env.QUICKSTART_PATH }}/client
           echo "Building 'client' provisioned server..."
           mvn -fae clean package -Pprovisioned-server -DremoteServerUsername="quickstartUser" -DremoteServerPassword="quickstartPwd1!" -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
-          mvn wildfly:start -Pprovisioned-server -Djboss-as.home=target/server -Dwildfly.javaOpts="-Djboss.tx.node.id=server1 -Djboss.node.name=server1" -Dstartup-timeout=120 ${{env.EXTRA_RUN_ARGS}}
+          mvn wildfly:start -Pprovisioned-server -Djboss-as.home=target/server -Dwildfly.javaOpts="-Djboss.tx.node.id=server1 -Djboss.node.name=server1" -Dstartup-timeout=120 ${{env.EXTRA_RUN_ARGS}} -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
           cd ../server
           echo "Building 'server' provisioned server..."
           mvn -fae clean package -Pprovisioned-server -Dwildfly.provisioning.dir=server2 -Djboss-as.home=target/server2 -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
@@ -196,20 +196,20 @@ jobs:
           ./target/server2/bin/add-user.sh -a -u 'quickstartAdmin' -p 'adminPwd1!' -g 'guest,user,admin'
           ./target/server3/bin/add-user.sh -a -u 'quickstartAdmin' -p 'adminPwd1!' -g 'guest,user,admin'
           echo "Starting provisioned server..."
-          mvn wildfly:start -Pprovisioned-server -Djboss-as.home=target/server2 -Dwildfly.port=10090 -Dwildfly.serverConfig=standalone-ha.xml -Dwildfly.javaOpts="-Djboss.socket.binding.port-offset=100 -Djboss.tx.node.id=server2 -Djboss.node.name=server2" -Dstartup-timeout=120 ${{env.EXTRA_RUN_ARGS}}
-          mvn wildfly:start -Pprovisioned-server -Djboss-as.home=target/server3 -Dwildfly.port=10190 -Dwildfly.serverConfig=standalone-ha.xml -Dwildfly.javaOpts="-Djboss.socket.binding.port-offset=200 -Djboss.tx.node.id=server3 -Djboss.node.name=server3" -Dstartup-timeout=120 ${{env.EXTRA_RUN_ARGS}}
+          mvn wildfly:start -Pprovisioned-server -Djboss-as.home=target/server2 -Dwildfly.port=10090 -Dwildfly.serverConfig=standalone-ha.xml -Dwildfly.javaOpts="-Djboss.socket.binding.port-offset=100 -Djboss.tx.node.id=server2 -Djboss.node.name=server2" -Dstartup-timeout=120 ${{env.EXTRA_RUN_ARGS}} -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
+          mvn wildfly:start -Pprovisioned-server -Djboss-as.home=target/server3 -Dwildfly.port=10190 -Dwildfly.serverConfig=standalone-ha.xml -Dwildfly.javaOpts="-Djboss.socket.binding.port-offset=200 -Djboss.tx.node.id=server3 -Djboss.node.name=server3" -Dstartup-timeout=120 ${{env.EXTRA_RUN_ARGS}} -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
           echo "Testing provisioned server..."
           cd ../client
-          mvn -fae verify -Dserver.host=${{ env.SERVER_PROVISIONING_SERVER_HOST }}:8080/client -Pintegration-testing
+          mvn -fae verify -Dserver.host=${{ env.SERVER_PROVISIONING_SERVER_HOST }}:8080/client -Pintegration-testing -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
           cd ../server
-          mvn -fae verify -Dserver.host=${{ env.SERVER_PROVISIONING_SERVER_HOST }}:8180/server -Pintegration-testing
-          mvn -fae verify -Dserver.host=${{ env.SERVER_PROVISIONING_SERVER_HOST }}:8280/server -Pintegration-testing
+          mvn -fae verify -Dserver.host=${{ env.SERVER_PROVISIONING_SERVER_HOST }}:8180/server -Pintegration-testing -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
+          mvn -fae verify -Dserver.host=${{ env.SERVER_PROVISIONING_SERVER_HOST }}:8280/server -Pintegration-testing -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
           echo "Shutting down provisioned server..."
           cd ../client
-          mvn wildfly:shutdown
+          mvn wildfly:shutdown -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
           cd ../server
-          mvn wildfly:shutdown -Dwildfly.port=10090
-          mvn wildfly:shutdown -Dwildfly.port=10190
+          mvn wildfly:shutdown -Dwildfly.port=10090 -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
+          mvn wildfly:shutdown -Dwildfly.port=10190 -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
         shell: bash
       - name: Build ${{ env.QUICKSTART_PATH }} Quickstart with openshift profile, and built Server version
         if: ${{ env.TEST_OPENSHIFT }}

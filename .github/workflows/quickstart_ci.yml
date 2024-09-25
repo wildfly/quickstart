@@ -227,11 +227,11 @@ jobs:
             ${{ inputs.DEPLOYMENT_DIR }}/target/server/bin/add-user.sh -a -u 'quickstartAdmin' -p 'adminPwd1!' -g 'guest,user,admin'
           fi
           echo "Starting provisioned server..."
-          mvn -f ${{ inputs.DEPLOYMENT_DIR }}/pom.xml wildfly:start -DjbossHome=${{ inputs.DEPLOYMENT_DIR }}/target/server -Dstartup-timeout=120 ${{ inputs.EXTRA_RUN_ARGS }}
+          mvn -f ${{ inputs.DEPLOYMENT_DIR }}/pom.xml wildfly:start -DjbossHome=${{ inputs.DEPLOYMENT_DIR }}/target/server -Dstartup-timeout=120 ${{ inputs.EXTRA_RUN_ARGS }} -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
           echo "Testing provisioned server..."
-          mvn -fae verify -Dserver.host=${{ inputs.SERVER_PROVISIONING_SERVER_HOST }} -Pintegration-testing
+          mvn -fae verify -Dserver.host=${{ inputs.SERVER_PROVISIONING_SERVER_HOST }} -Pintegration-testing -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
           echo "Shutting down provisioned server..."
-          mvn -f ${{ inputs.DEPLOYMENT_DIR }}/pom.xml wildfly:shutdown
+          mvn -f ${{ inputs.DEPLOYMENT_DIR }}/pom.xml wildfly:shutdown -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
         shell: bash
       - name: Build, run & test ${{ inputs.QUICKSTART_PATH }} Quickstart with bootable-jar profile, and built Server version
         if: ${{ inputs.TEST_BOOTABLE_JAR }}
@@ -241,11 +241,11 @@ jobs:
           echo "Building bootable jar..."
           mvn -fae clean ${{ inputs.MVN_COMMAND }} -Pbootable-jar -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
           echo "Starting bootable jar..."
-          mvn -f ${{ inputs.DEPLOYMENT_DIR }}/pom.xml wildfly:start-jar -Dstartup-timeout=120 ${{ inputs.EXTRA_RUN_ARGS }}
+          mvn -f ${{ inputs.DEPLOYMENT_DIR }}/pom.xml wildfly:start-jar -Dstartup-timeout=120 ${{ inputs.EXTRA_RUN_ARGS }} -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
           echo "Testing bootable jar..."
-          mvn -fae verify -Dserver.host=${{ inputs.SERVER_PROVISIONING_SERVER_HOST }} -Pintegration-testing
+          mvn -fae verify -Dserver.host=${{ inputs.SERVER_PROVISIONING_SERVER_HOST }} -Pintegration-testing -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
           echo "Shutting down bootable jar..."
-          mvn -f ${{ inputs.DEPLOYMENT_DIR }}/pom.xml wildfly:shutdown
+          mvn -f ${{ inputs.DEPLOYMENT_DIR }}/pom.xml wildfly:shutdown -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
         shell: bash
       - name: Build ${{ inputs.QUICKSTART_PATH }} Quickstart with openshift profile, and built Server version
         if: ${{ inputs.TEST_OPENSHIFT }}
