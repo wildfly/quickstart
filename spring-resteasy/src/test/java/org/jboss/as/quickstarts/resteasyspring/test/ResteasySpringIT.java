@@ -33,6 +33,7 @@ import org.apache.http.util.EntityUtils;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import static org.jboss.as.quickstarts.resteasyspring.test.TestUtils.getServerHost;
 
 /**
  * Basic unit tests for resteasy spring integration
@@ -42,18 +43,9 @@ public class ResteasySpringIT {
 
     static URL url;
 
-    private static final String DEFAULT_SERVER_HOST = "http://localhost:8080/spring-resteasy";
-
     @BeforeClass
     public static void setupUrl() throws MalformedURLException {
-        String serverHost = System.getenv("SERVER_HOST");
-        if (serverHost == null) {
-            serverHost = System.getProperty("server.host");
-        }
-        if (serverHost == null) {
-            serverHost = DEFAULT_SERVER_HOST;
-        }
-        url = URI.create(serverHost).toURL();
+        url = URI.create(getServerHost()).toURL();
     }
 
     @Test

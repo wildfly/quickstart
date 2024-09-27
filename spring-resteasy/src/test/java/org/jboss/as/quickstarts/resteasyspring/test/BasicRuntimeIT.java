@@ -27,6 +27,7 @@ import java.time.Duration;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.jboss.as.quickstarts.resteasyspring.test.TestUtils.getServerHost;
 
 /**
  * The very basic runtime integration testing.
@@ -34,19 +35,10 @@ import static org.junit.Assert.assertTrue;
  */
 public class BasicRuntimeIT {
 
-    private static final String DEFAULT_SERVER_HOST = "http://localhost:8080/spring-resteasy";
-
     @Test
     public void testHTTPEndpointIsAvailable() throws IOException, InterruptedException, URISyntaxException {
-        String serverHost = System.getenv("SERVER_HOST");
-        if (serverHost == null) {
-            serverHost = System.getProperty("server.host");
-        }
-        if (serverHost == null) {
-            serverHost = DEFAULT_SERVER_HOST;
-        }
         final HttpRequest request = HttpRequest.newBuilder()
-                .uri(new URI(serverHost+"/"))
+                .uri(new URI(getServerHost()))
                 .GET()
                 .build();
         final HttpClient client = HttpClient.newBuilder()
