@@ -1,0 +1,70 @@
+ifdef::additional-readme-openshift[]
+:additional-readme-cloud-platform: OpenShift
+endif::[]
+ifdef::additional-readme-kubernetes[]
+:additional-readme-cloud-platform: Kubernetes
+endif::[]
+
+=== Environment variables for PostgreSQL
+
+The Helm Chart also contains the environment variables required to connect to the PostgreSQL database.
+
+ifndef::ProductRelease[]
+In local deployment the credentials were passed directly as the values of the environment variables.
+endif::[]
+
+For {additional-readme-cloud-platform}, we rely on secrets so that the credentials are never copied outside {additional-readme-cloud-platform}:
+
+[source,options="nowrap"]
+----
+deploy:
+  env:
+    - name: POSTGRESQL_PASSWORD
+        - name: POSTGRESQL_DATABASE
+          valueFrom:
+            configMapKeyRef:
+              name: postgres-configmap
+              key: POSTGRES_PASSWORD
+----
+
+When the application is deployed, the value for the `POSTGRESQL_PASSWORD` will be taken from the key `POSTGRES_PASSWORD`
+in the secret `postgres-configmap`.
+
+ifdef::additional-readme-openshift[]
+== Use the todobackend Web Frontend
+
+Once the backend is deployed on {additional-readme-cloud-platform}, it can be accessed from the route `todo-jakarta-data`.
+Let's find the host that we can use to connect to this backend:
+
+[source,options="nowrap"]
+----
+$ oc get route todo-jakarta-data -o jsonpath="{.spec.host}"
+todo-jakarta-data-jmesnil1-dev.apps.sandbox.x8i5.p1.openshiftapps.com
+----
+
+This value will be different for every installation of the backend.
+
+To be able to connect to the backend from the ToDo Backend Specs or Client, then prepend the host with `https://`, and append the relative web context `/todo-jakarta-data`. For the previous example host this would be `https://todo-jakarta-data-jmesnil1-dev.apps.sandbox.x8i5.p1.openshiftapps.com/todo-jakarta-data`.
+
+We can verify that this application is properly working as a ToDo Backend by running its https://todobackend.com/specs/index.html[specs] on it.
+
+Once all tests passed, we can use the https://todobackend.com/client/index.html[todobackend client] to have a Web application connected to the backend.
+
+[NOTE]
+====
+https://todobackend.com/[todobackend.com] is an external service used to showcase this quickstart.
+It might not always be functional but does not impact the availability of this backend.
+====
+endif::[]
+
+== Clean Up
+
+=== Remove the Backend
+
+The backend can be deleted from {additional-readme-cloud-platform} by running the command:
+
+[source,options="nowrap"]
+----
+$ helm uninstall todo-backend
+release "todo-backend" uninstalled
+----
