@@ -1,0 +1,195 @@
+include::../shared-doc/attributes.adoc[]
+
+= todo-jakarta-data: quickstart for backend deployment on OpenShift
+:toc:               left
+:icons:             font
+:idprefix:
+:idseparator:       -
+:keywords:          openshift,galleon,helm
+:level:             Intermediate
+:technologies:      JPA, Jakarta REST, OpenShift, Galleon
+:openshift: true
+:archiveType: war
+:useHelmChartDir: true
+:helmSetWildFlyArgumentPrefix: wildfly.
+
+[abstract]
+The `todo-jakarta-data` quickstart demonstrates how to implement a backend that exposes a HTTP API with Jakarta REST
+to manage a list of ToDo which are persisted in a database with Jakarta Data.
+
+This quickstart shows how to setup a local deployment of this backend, as well as a deployment on OpenShift to connect
+to a PostgreSQL database also hosted on OpenShift.
+
+== What is it?
+
+The `todo-jakarta-data` quickstart demonstrates how to implement a backend that exposes a HTTP API with `Jakarta REST`
+to manage a list of ToDo which are persisted in a database with `Jakarta Data`.
+
+* The backend exposes a HTTP API to manage a list of todos that complies with the specs defined at https://todobackend.com/specs/index.html[todobackend.com].
+* It requires a connection to a PostgreSQL database to persist the todos.
+* It uses the Server Provisioning for local and cloud deployment
+* It is deployed on OpenShift using the https://{helmRepoUrl}/[Helm Chart for {productName}].
+
+// Link to the quickstart source
+include::../shared-doc/view-the-source.adoc[leveloffset=+1]
+
+[NOTE]
+====
+The `todo-jakarta-data` quickstart is conceptually equivalent to the `todo-backend` quickstart, but it uses `Jakarta Data` for persistence instead of `Jakarta Persistence`.
+====
+
+// System Requirements
+include::../shared-doc/system-requirements.adoc[leveloffset=+1]
+
+== Architecture
+
+=== Architecture with S2I
+
+This backend is built using {productName} S2I Builder and Runtime images. 
+
+ifndef::ProductRelease[]
+When the image is built, `org.wildfly.plugins:wildfly-maven-plugin` provisions the {productName} application server and all the feature packs it needs for its features.
+endif::[]
+
+ifdef::ProductRelease[]
+When the image is built, `org.jboss.eap.plugins:eap-maven-plugin` provisions the {productName} application server and all the feature packs it needs for its features.
+endif::[]
+
+The plugin discovers most feature packs needed automatically; we just need the `postgresql` add-on, which provides a JDBC driver and Datasource to connect to a PostgreSQL database.
+
+=== Connection to the PostgreSQL database
+
+By default the provisioned `postgresql` add-on exposes a single datasource.
+
+In the backend, the name of this datasource is `ToDos` and is specified in the `persistence.xml` to configure JPA:
+
+[source,xml]
+----
+<persistence-unit name="primary">
+  <jta-data-source>java:jboss/datasources/ToDos</jta-data-source>
+</persistence-unit>
+----
+
+At runtime, we only need a few environment variables to establish the connection from {productName} to the external PostgreSQL database:
+
+* `POSTGRESQL_DATABASE` - the name of the database (that will be called `todos`)
+* `POSTGRESQL_SERVICE_HOST` - the host to connect to the database
+* `POSTGRESQL_SERVICE_PORT` - The port to connect to the database
+* `POSTGRESQL_USER` & `POSTGRESQL_PASSWORD` - the credentials to connect to the database
+* `POSTGRESQL_DATASOURCE` - The name of the datasources (as mentioned above, it will be `ToDos`)
+
+=== Filters for Cross-Origin Resource Sharing (CORS)
+
+The Web frontend for this quickstart uses JavaScript calls to query the backend's HTTP API.
+We must enable Cross-Origin Resource Sharing (CORS) filters in the `undertow` subsystem of {productName} to allow
+these HTTP requests to succeed.
+
+As we use S2I to provision the server and build the application, we provide a CLI script that contains all the commands to create and configure the CORS filters in Undertow. This script is located in the `src/scripts/cors_filters.cli`.
+
+This script is executed at build time and will provide the following HTTP headers to enabled CORS:
+
+* `Access-Control-Allow-Origin: *`
+* `Access-Control-Allow-Methods: GET, POST, OPTION, PUT, DELETE, PATCH`
+* `Access-Control-Allow-Headers: accept, authorization, content-type, x-requested-with`
+* `Access-Control-Allow-Credentials: true`
+* `Access-Control-Max-Age: 1`
+
+By default, the backend accepts requests from any origin (`*`). This is only simplicity. It is possible to restrict
+the allowed origin using the environment variable `CORS_ORIGIN` at runtime.
+
+== Run the Backend Locally
+
+=== Package the Backend
+
+The backend is packaged and deployed on a provisioned server:
+
+[source,options="nowrap"]
+----
+$ mvn clean package
+----
+
+=== Run a Local PostgreSQL Database
+
+Before running the backend locally, we need to have a local PostgreSQL database that we can connect to.
+We use the `postgresql` docker image to create one:
+
+[source,options="nowrap"]
+----
+$ docker run --name todo-jakarta-data-db -e POSTGRES_USER=todos -e POSTGRES_PASSWORD=mysecretpassword -p 5432:5432 postgres
+----
+
+This will create a database named `todos` that we can connect to on `localhost:5432` with the credentials `todos / mysecretpassword`.
+
+=== Run the Application
+
+With the PostgreSQL database running, we can start the backend by passing the required environment variables to connect to the database:
+
+[source,options="nowrap"]
+----
+$ ./target/server/bin/standalone.sh -Denv.POSTGRESQL_DATABASE=todos -Denv.POSTGRESQL_DATASOURCE=ToDos -Denv.POSTGRESQL_SERVICE_HOST=localhost -Denv.POSTGRESQL_SERVICE_PORT=5432 -Denv.POSTGRESQL_USER=todos -Denv.POSTGRESQL_PASSWORD=mysecretpassword
+----
+
+The backend is running, and we can use the HTTP API to manage a list of todos:
+
+[source,options="nowrap"]
+----
+# get a list of todos
+$ curl http://localhost:8080/todo-jakarta-data
+[]
+
+# create a todo with the title "This is my first todo item!"
+$ curl -X POST -H "Content-Type: application/json"  -d '{"title": "This is my first todo item!"}' http://localhost:8080/todo-jakarta-data
+{"completed":false,"id":1,"order":0,"title":"This is my first todo item!","url":"https://localhost:8080/1"}%
+
+# get a list of todos with the one that was just created
+$ curl http://localhost:8080/todo-jakarta-data
+[{"completed":false,"id":1,"order":0,"title":"This is my first todo item!","url":"https://localhost:8080/1"}]
+----
+
+Please note that the quickstart includes integration tests, which may be executed using the following command:
+
+[source,subs="attributes+",options="nowrap"]
+----
+$ mvn verify -Pintegration-testing
+----
+
+We can also verify that this application is properly working as a ToDo Backend by running its https://todobackend.com/specs/index.html[specs] on it.
+
+Once all tests passed, we can use the https://todobackend.com/client/index.html[todobackend client] to have a Web application connected to the backend.
+
+[NOTE]
+====
+https://todobackend.com/[todobackend.com] is an external service used to showcase this quickstart.
+It might not always be functional but does not impact the availability of this backend.
+====
+
+//===========================================================
+// Openshift - START
+== Run the Backend on OpenShift
+
+// OpenShift
+:additional-readme-openshift: true
+:helm-install-prerequisites-openshift: ../todo-jakarta-data/helm-install-prerequisites.adoc
+include::../shared-doc/build-and-run-the-quickstart-with-openshift.adoc[leveloffset=+1]
+:!additional-readme-openshift:
+:!helm-install-prerequisites-openshift:
+
+// OpenShift - END
+//===========================================================
+
+//===========================================================
+== Run the Backend on Kubernetes
+:additional-readme-kubernetes: true
+:helm-install-prerequisites-kubernetes: ../todo-jakarta-data/helm-install-prerequisites.adoc
+include::../shared-doc/build-and-run-the-quickstart-with-kubernetes.adoc[leveloffset=+1]
+:!additional-readme-kubernetes:
+:!helm-install-prerequisites-kubernetes:
+//===========================================================
+
+== Conclusion
+
+This quickstart shows how the datasource feature pack provided by {productName} simplifies the deployment
+of a {productName} Jakarta EE backend on OpenShift to connect to an external database and exposes an HTTP API.
+
+The use of a Server Provisioned deployment makes it seamless to move from a local deployment for development to a
+deployment on cloud platforms such as OpenShift and Kubernetes.
