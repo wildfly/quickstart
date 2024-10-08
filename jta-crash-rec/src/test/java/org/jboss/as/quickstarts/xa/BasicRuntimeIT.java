@@ -34,7 +34,7 @@ package org.jboss.as.quickstarts.xa;
  */
 public class BasicRuntimeIT {
 
-    private static final String DEFAULT_SERVER_HOST = "http://localhost:8080/XA";
+    private static final String DEFAULT_SERVER_HOST = "http://localhost:8080/jta-crash-rec";
 
     @Test
     public void testHTTPEndpointIsAvailable() throws IOException, InterruptedException, URISyntaxException {
