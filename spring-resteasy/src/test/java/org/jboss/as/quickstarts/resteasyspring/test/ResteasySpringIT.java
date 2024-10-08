@@ -98,7 +98,7 @@ public class ResteasySpringIT {
                         .setScheme("http")
                         .setHost(url.getHost())
                         .setPort(url.getPort())
-                        .setPath(url.getPath() + "queryParam")
+                        .setPath(url.getPath() + "/queryParam")
                         .setParameter("param", "hello world")
                         .build();
                 HttpGet method = new HttpGet(uri);
