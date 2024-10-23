@@ -175,6 +175,7 @@ jobs:
     name: Test on Kubernetes
     runs-on: ubuntu-latest
     needs: calculate-changed-quickstarts
+    if: ${{ needs.calculate-changed-quickstarts.outputs.quickstart-matrix != null }}
     strategy:
       matrix: ${{fromJSON(needs.calculate-changed-quickstarts.outputs.quickstart-matrix)}}
     steps:
