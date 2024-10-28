@@ -1854,20 +1854,18 @@ Open the project in your favourite IDE.
 
 Open the generated `pom.xml`.
 
-The first thing to do is to change the minimum JDK to Java 11 and set the other relevant version properties:
+The first thing to do is to change the minimum JDK to Java 17 and set the other relevant version properties:
 
 [source,xml,subs="attributes+"]
 ----
-<maven.compiler.source>11</maven.compiler.source>
-<maven.compiler.target>11</maven.compiler.target>
-
+<!-- the Maven project should use the minimum Java SE version supported -->
+<maven.compiler.release>17</maven.compiler.release>
 <!-- the version for the Server -->
 <version.server>{versionServer}</version.server>
-<!-- The versions for the BOMs, Packs and Plugins -->
+<!-- the versions for the BOMs, Packs and Plugins -->
 <version.bom.ee>{versionBomEE}</version.bom.ee>
 <version.bom.expansion>{versionBomMicroprofile}</version.bom.expansion>
 <version.plugin.wildfly>{versionPluginWildfly}</version.plugin.wildfly>
-<version.plugin.wildfly-jar>{versionPluginWildflyJar}</version.plugin.wildfly-jar>
 ----
 
 Next we need to setup our dependencies. Add the following section to your
