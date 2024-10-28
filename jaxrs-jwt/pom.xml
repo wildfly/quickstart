@@ -43,21 +43,18 @@
     </licenses>
 
     <properties>
-        <!-- The server version -->
+        <!-- the Maven project should use the minimum Java SE version supported -->
+        <maven.compiler.release>17</maven.compiler.release>
+        <!-- the server version -->
         <version.server>34.0.0.Final</version.server>
-        <!-- The versions for BOMs, Dependencies and Plugins -->
+        <!-- the versions for BOMs, Packs and Plugins -->
         <version.bom.ee>${version.server}</version.bom.ee>
         <version.plugin.wildfly>5.0.0.Final</version.plugin.wildfly>
-
+        <!-- the versions for other Dependencies and Plugins -->
         <version.com.nimbusds.jose.jwt>9.37.1</version.com.nimbusds.jose.jwt>
         <version.org.junit>5.10.1</version.org.junit>
-
         <!-- Configuration settings -->
         <jboss.home>${project.build.directory}/server</jboss.home>
-
-        <!-- These settings can be removed when the parent is upgraded to 6 -->
-        <maven.compiler.target>11</maven.compiler.target>
-        <maven.compiler.source>11</maven.compiler.source>
     </properties>
 
     <dependencyManagement>
