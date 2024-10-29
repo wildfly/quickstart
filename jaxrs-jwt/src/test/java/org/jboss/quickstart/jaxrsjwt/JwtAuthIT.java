@@ -43,7 +43,7 @@ import org.junit.jupiter.api.Test;
  */
 public class JwtAuthIT {
 
-    private static final String DEFAULT_SERVER_HOST = "http://localhost:8080/jaxrs-jwt";
+    private static final String DEFAULT_SERVER_HOST = "http://localhost:8080";
 
     private static Client adminClient;
     private static Client customerClient;
@@ -163,7 +163,7 @@ public class JwtAuthIT {
 
     private static UriBuilder resolveBaseUrl() {
         final String baseUrl = resolveServerHost();
-        return UriBuilder.fromUri(baseUrl).path("rest");
+        return UriBuilder.fromUri(baseUrl).path("/jaxrs-jwt/rest");
     }
 
     private static String resolveServerHost() {

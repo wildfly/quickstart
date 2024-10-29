@@ -52,7 +52,7 @@ import static org.junit.Assert.assertEquals;
  */
 public class BasicRuntimeIT {
 
-    private static final String DEFAULT_SERVER_HOST = "https://localhost:8443/helloworld-mutual-ssl-secured";
+    private static final String DEFAULT_SERVER_HOST = "https://localhost:8443";
     private static final String DEFAULT_SERVER_DIR = System.getProperty("user.dir") + "/target/server";
 
     @Test
@@ -64,6 +64,7 @@ public class BasicRuntimeIT {
         if (serverHost == null) {
             serverHost = DEFAULT_SERVER_HOST;
         }
+        serverHost += "/helloworld-mutual-ssl-secured";
         String serverDir  = System.getProperty("server.dir");
         if (serverDir == null) {
             serverDir = DEFAULT_SERVER_DIR;

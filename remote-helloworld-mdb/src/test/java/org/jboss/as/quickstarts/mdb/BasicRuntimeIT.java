@@ -34,7 +34,7 @@ import org.junit.jupiter.api.Test;
  */
 public class BasicRuntimeIT {
 
-    private static final String DEFAULT_SERVER_HOST = "http://localhost:8080/remote-helloworld-mdb";
+    private static final String DEFAULT_SERVER_HOST = "http://localhost:8080";
 
     @Test
     public void testSendToQueue() throws IOException, InterruptedException {
@@ -106,7 +106,7 @@ public class BasicRuntimeIT {
 
     protected URI getHTTPEndpoint() {
         try {
-            return new URI(getServerHost() + "/HelloWorldMDBServletClient");
+            return new URI(getServerHost() + "/remote-helloworld-mdb/HelloWorldMDBServletClient");
         } catch (URISyntaxException ex) {
             throw new RuntimeException(ex);
         }

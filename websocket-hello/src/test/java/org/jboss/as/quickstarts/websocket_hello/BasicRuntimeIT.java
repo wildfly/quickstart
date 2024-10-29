@@ -33,7 +33,7 @@ import java.time.Duration;
  */
 public class BasicRuntimeIT {
 
-    private static final String DEFAULT_SERVER_HOST = "http://localhost:8080/websocket-hello";
+    private static final String DEFAULT_SERVER_HOST = "http://localhost:8080";
 
     @Test
     public void testHTTPEndpointIsAvailable() throws IOException, InterruptedException, URISyntaxException {
@@ -45,7 +45,7 @@ public class BasicRuntimeIT {
             serverHost = DEFAULT_SERVER_HOST;
         }
         final HttpRequest request = HttpRequest.newBuilder()
-                .uri(new URI(serverHost+"/"))
+                .uri(new URI(serverHost+"/websocket-hello"))
                 .GET()
                 .build();
         final HttpClient client = HttpClient.newBuilder()

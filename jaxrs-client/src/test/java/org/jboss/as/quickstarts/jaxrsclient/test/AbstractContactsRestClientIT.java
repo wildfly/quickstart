@@ -37,7 +37,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public abstract class AbstractContactsRestClientIT {
 
-    private static final String DEFAULT_SERVER_HOST = "http://localhost:8080/jaxrs-client";
+    private static final String DEFAULT_SERVER_HOST = "http://localhost:8080";
 
     private static final String CONTACT_NAME = "New Contact";
     private static final String CONTACT_PHONE = "+55-61-5555-1234";
@@ -147,7 +147,7 @@ public abstract class AbstractContactsRestClientIT {
 
     static UriBuilder resolveBaseUrl() {
         final String baseUrl = resolveServerHost();
-        return UriBuilder.fromUri(baseUrl).path("rest/contacts");
+        return UriBuilder.fromUri(baseUrl).path("/jaxrs-client/rest/contacts");
     }
 
     static String resolveServerHost() {

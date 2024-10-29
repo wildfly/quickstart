@@ -139,11 +139,6 @@
                                     <addOn>remote-activemq</addOn>
                                 </addOns>
                             </discover-provisioning-info>
-                            <!--
-                                Rename the output war to ROOT.war before adding it to the server, so that the
-                                application is deployed in the root web context.
-                            -->
-                            <name>ROOT.war</name>
                         </configuration>
                         <executions>
                             <execution>
@@ -171,11 +166,6 @@
                                     <addOn>remote-activemq</addOn>
                                 </addOns>
                             </discover-provisioning-info>
-                            <!--
-                                The parent POM's 'openshift' profile renames the output archive to ROOT.war so that the
-                                application is deployed in the root web context. Add ROOT.war to the server.
-                            -->
-                            <filename>ROOT.war</filename>
                         </configuration>
                         <executions>
                             <execution>
@@ -184,14 +174,6 @@
                                 </goals>
                             </execution>
                         </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-war-plugin</artifactId>
-                        <version>${version.war.plugin}</version>
-                        <configuration>
-                            <warName>ROOT</warName>
-                        </configuration>
                     </plugin>
                     <!-- do not attach sources to openshift deployments -->
                     <plugin>
@@ -214,7 +196,6 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-failsafe-plugin</artifactId>
-                        <version>${version.failsafe.plugin}</version>
                         <executions>
                             <execution>
                                 <goals>

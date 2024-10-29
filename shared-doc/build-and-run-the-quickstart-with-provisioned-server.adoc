@@ -66,11 +66,6 @@ The server provisioning functionality is provided by the WildFly Maven Plugin, a
                             <discover-provisioning-info>
                                 <version>${version.server}</version>
                             </discover-provisioning-info>
-                            <!--
-                                Rename the output war to ROOT.war before adding it to the server, so that the
-                                application is deployed in the root web context.
-                            -->
-                            <name>ROOT.war</name>
                             <add-ons>...</add-ons>
                         </configuration>
                         <executions>
@@ -94,11 +89,6 @@ If you get an error or the server is missing some functionality which cannot be 
 ----
 wildfly-glow show-add-ons
 ----
-
-[NOTE]
-====
-Since the plugin configuration above deploys quickstart on root web context of the provisioned server, the URL to access the application should not have the `/{artifactId}` path segment after `HOST:PORT`.
-====
 
 // Server Provisioning Testing
 include::../shared-doc/run-integration-tests-with-provisioned-server.adoc[leveloffset=+1]

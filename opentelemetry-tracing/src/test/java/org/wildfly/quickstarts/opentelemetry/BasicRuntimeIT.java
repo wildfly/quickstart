@@ -28,12 +28,11 @@ import java.time.Duration;
 import org.junit.Test;
 
 public class BasicRuntimeIT {
-    private static final String DEFAULT_SERVER_HOST = "http://localhost:8080/opentelemetry-tracing";
+    private static final String DEFAULT_SERVER_HOST = "http://localhost:8080";
 
     @Test
     public void testHTTPEndpointIsAvailable() throws IOException, InterruptedException, URISyntaxException {
         String applicationUrl = getApplicationUrl();
-
         final HttpRequest request = HttpRequest.newBuilder()
                 .uri(new URI(applicationUrl))
                 .GET()
@@ -51,7 +50,7 @@ public class BasicRuntimeIT {
         if (serverHost == null) {
             serverHost = DEFAULT_SERVER_HOST;
         }
-        return serverHost;
+        return serverHost+"/opentelemetry-tracing";
     }
 
     static HttpClient getHttpClient() {

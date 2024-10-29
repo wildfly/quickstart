@@ -42,8 +42,9 @@ public class CustomerIT {
     protected URI getHTTPEndpoint(String path) {
         String host = getServerHost();
         if (host == null) {
-            host = "http://localhost:8080/cmt";
+            host = "http://localhost:8080";
         }
+        host += "/cmt";
         try {
             return new URI(host + path);
         } catch (URISyntaxException ex) {

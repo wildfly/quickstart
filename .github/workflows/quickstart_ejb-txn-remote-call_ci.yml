@@ -91,10 +91,10 @@ jobs:
           mvn wildfly:start -Pprovisioned-server -Djboss-as.home=target/server3 -Dwildfly.port=10190 -Dwildfly.serverConfig=standalone-ha.xml -Dwildfly.javaOpts="-Djboss.socket.binding.port-offset=200 -Djboss.tx.node.id=server3 -Djboss.node.name=server3" -Dstartup-timeout=120 ${{env.EXTRA_RUN_ARGS}}
           echo "Testing provisioned server..."
           cd ../client
-          mvn -fae verify -Dserver.host=${{ env.SERVER_PROVISIONING_SERVER_HOST }}:8080/client -Pintegration-testing
+          mvn -fae verify -Pintegration-testing
           cd ../server
-          mvn -fae verify -Dserver.host=${{ env.SERVER_PROVISIONING_SERVER_HOST }}:8180/server -Pintegration-testing
-          mvn -fae verify -Dserver.host=${{ env.SERVER_PROVISIONING_SERVER_HOST }}:8280/server -Pintegration-testing
+          mvn -fae verify -Dserver.host=${{ env.SERVER_PROVISIONING_SERVER_HOST }}:8180 -Pintegration-testing
+          mvn -fae verify -Dserver.host=${{ env.SERVER_PROVISIONING_SERVER_HOST }}:8280 -Pintegration-testing
           echo "Shutting down provisioned server..."
           cd ../client
           mvn wildfly:shutdown
@@ -200,10 +200,10 @@ jobs:
           mvn wildfly:start -Pprovisioned-server -Djboss-as.home=target/server3 -Dwildfly.port=10190 -Dwildfly.serverConfig=standalone-ha.xml -Dwildfly.javaOpts="-Djboss.socket.binding.port-offset=200 -Djboss.tx.node.id=server3 -Djboss.node.name=server3" -Dstartup-timeout=120 ${{env.EXTRA_RUN_ARGS}} -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
           echo "Testing provisioned server..."
           cd ../client
-          mvn -fae verify -Dserver.host=${{ env.SERVER_PROVISIONING_SERVER_HOST }}:8080/client -Pintegration-testing -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
+          mvn -fae verify -Pintegration-testing -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
           cd ../server
-          mvn -fae verify -Dserver.host=${{ env.SERVER_PROVISIONING_SERVER_HOST }}:8180/server -Pintegration-testing -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
-          mvn -fae verify -Dserver.host=${{ env.SERVER_PROVISIONING_SERVER_HOST }}:8280/server -Pintegration-testing -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
+          mvn -fae verify -Dserver.host=${{ env.SERVER_PROVISIONING_SERVER_HOST }}:8180 -Pintegration-testing -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
+          mvn -fae verify -Dserver.host=${{ env.SERVER_PROVISIONING_SERVER_HOST }}:8280 -Pintegration-testing -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
           echo "Shutting down provisioned server..."
           cd ../client
           mvn wildfly:shutdown -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}

@@ -54,7 +54,7 @@
         <version.org.junit>5.10.1</version.org.junit>
         <!-- Configuration settings -->
         <jboss.home>${project.build.directory}/server</jboss.home>
-        <server.host>http://localhost:8080/microprofile-rest-client</server.host>
+        <server.host>http://localhost:8080</server.host>
     </properties>
 
     <dependencyManagement>
@@ -204,11 +204,6 @@
                               <version>${version.server}</version>
                             </discover-provisioning-info>
                             <bootable-jar>true</bootable-jar>
-                            <!--
-                                Rename the output war to ROOT.war before adding it to the server, so that the
-                                application is deployed in the root web context.
-                            -->
-                            <name>ROOT.war</name>
                         </configuration>
                         <executions>
                             <execution>
@@ -234,11 +229,6 @@
                               <version>${version.server}</version>
                               <context>cloud</context>
                           </discover-provisioning-info>
-                            <!--
-                                The parent POM's 'openshift' profile renames the output archive to ROOT.war so that the
-                                application is deployed in the root web context. Add ROOT.war to the server.
-                            -->
-                          <filename>ROOT.war</filename>
                       </configuration>
                         <executions>
                             <execution>
@@ -247,14 +237,6 @@
                                 </goals>
                             </execution>
                         </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-war-plugin</artifactId>
-                        <version>${version.war.plugin}</version>
-                        <configuration>
-                            <warName>ROOT</warName>
-                        </configuration>
                     </plugin>
                     <!-- do not attach sources to openshift deployments -->
                     <plugin>

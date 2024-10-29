@@ -144,20 +144,22 @@
     <build>
         <!-- Set the name of the WAR, used as the context root when the app is deployed. -->
         <finalName>${project.artifactId}</finalName>
-        <plugins>
-            <plugin>
-                <groupId>org.wildfly.plugins</groupId>
-                <artifactId>wildfly-maven-plugin</artifactId>
-                <version>${version.plugin.wildfly}</version>
-                <configuration>
-                    <jboss-home>${jboss.home}</jboss-home>
-                    <fail-on-error>false</fail-on-error>
-                    <scripts>
-                        <script>${project.basedir}${file.separator}configure-logging.cli</script>
-                    </scripts>
-                </configuration>
-            </plugin>
-        </plugins>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.wildfly.plugins</groupId>
+                    <artifactId>wildfly-maven-plugin</artifactId>
+                    <version>${version.plugin.wildfly}</version>
+                    <configuration>
+                        <jboss-home>${jboss.home}</jboss-home>
+                        <fail-on-error>false</fail-on-error>
+                        <scripts>
+                            <script>${project.basedir}${file.separator}configure-logging.cli</script>
+                        </scripts>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
     </build>
 
     <profiles>
@@ -168,13 +170,7 @@
                     <plugin>
                         <groupId>org.wildfly.plugins</groupId>
                         <artifactId>wildfly-maven-plugin</artifactId>
-                        <version>${version.plugin.wildfly}</version>
                         <configuration>
-                            <!--
-                                Rename the output war to ROOT.war before adding it to the server, so that the
-                                application is deployed in the root web context.
-                            -->
-                            <name>ROOT.war</name>
                             <discover-provisioning-info>
                                 <version>${version.server}</version>
                             </discover-provisioning-info>
@@ -191,8 +187,6 @@
                                     <resolve-expressions>true</resolve-expressions>
                                 </packaging-script>
                             </packaging-scripts>
-                            <!-- deploys the quickstart on root web context -->
-                            <name>ROOT.war</name>
                         </configuration>
                         <executions>
                             <execution>
@@ -212,13 +206,7 @@
                     <plugin>
                         <groupId>org.wildfly.plugins</groupId>
                         <artifactId>wildfly-maven-plugin</artifactId>
-                        <version>${version.plugin.wildfly}</version>
                         <configuration>
-                            <!--
-                                The parent POM's 'openshift' profile renames the output archive to ROOT.war so that the
-                                application is deployed in the root web context. Add ROOT.war to the server.
-                            -->
-                            <filename>ROOT.war</filename>
                             <discover-provisioning-info>
                                 <version>${version.server}</version>
                                 <context>cloud</context>
@@ -235,7 +223,6 @@
                                     <resolve-expressions>true</resolve-expressions>
                                 </packaging-script>
                             </packaging-scripts>
-                            <filename>ROOT.war</filename>
                         </configuration>
                         <executions>
                             <execution>
@@ -244,14 +231,6 @@
                                 </goals>
                             </execution>
                         </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-war-plugin</artifactId>
-                        <version>${version.war.plugin}</version>
-                        <configuration>
-                            <warName>ROOT</warName>
-                        </configuration>
                     </plugin>
                     <!-- do not attach sources to openshift deployments -->
                     <plugin>

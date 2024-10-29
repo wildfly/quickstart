@@ -50,7 +50,7 @@ public class NumberguessIT {
                 .followRedirects(HttpClient.Redirect.ALWAYS)
                 .cookieHandler(new CookieManager(null, CookiePolicy.ACCEPT_ALL))
                 .build();
-        HttpRequest request = HttpRequest.newBuilder().uri(new URI(BasicRuntimeIT.getServerHost()+"/home.jsf"))
+        HttpRequest request = HttpRequest.newBuilder().uri(new URI(BasicRuntimeIT.getServerHost()+"/numberguess/home.jsf"))
                 .POST(ofFormData(Map.of("numberGuess:inputGuess", (Object) getNumber())))
                 .build();
         HttpResponse response = client.send(request, HttpResponse.BodyHandlers.ofString());

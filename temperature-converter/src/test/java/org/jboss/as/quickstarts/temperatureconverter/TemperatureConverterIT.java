@@ -43,14 +43,14 @@ public class TemperatureConverterIT {
                 .cookieHandler(manager)
                 .version(HttpClient.Version.HTTP_1_1)
                 .build();
-        HttpResponse response = client.send(HttpRequest.newBuilder(new URI(BasicRuntimeIT.getServerHost()+"/temperatureconvert.jsf")).GET().build(), HttpResponse.BodyHandlers.ofString());
+        HttpResponse response = client.send(HttpRequest.newBuilder(new URI(BasicRuntimeIT.getServerHost()+"/temperature-converter/temperatureconvert.jsf")).GET().build(), HttpResponse.BodyHandlers.ofString());
         String body = response.body().toString();
         assertEquals(200, response.statusCode());
         assertTrue(body, body.contains("<input type=\"hidden\" name=\"jakarta.faces.ViewState\" id=\"j_id1:jakarta.faces.ViewState:0\" value=\""));
         int startIndex = body.indexOf("<input type=\"hidden\" name=\"jakarta.faces.ViewState\" id=\"j_id1:jakarta.faces.ViewState:0\" value=\"") + 96;
         int endIndex= body.indexOf('"', startIndex);
         String viewState = body.substring(startIndex, endIndex);
-        HttpRequest request = HttpRequest.newBuilder(new URI(BasicRuntimeIT.getServerHost()+"/temperatureconvert.jsf"))
+        HttpRequest request = HttpRequest.newBuilder(new URI(BasicRuntimeIT.getServerHost()+"/temperature-converter/temperatureconvert.jsf"))
                 .header("Content-Type", "application/x-www-form-urlencoded")
                 .POST(ofFormData(
                         Map.of(

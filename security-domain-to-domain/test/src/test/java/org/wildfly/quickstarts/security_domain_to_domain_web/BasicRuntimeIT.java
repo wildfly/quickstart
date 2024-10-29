@@ -36,7 +36,7 @@ import static org.junit.Assert.assertEquals;
  */
 public class BasicRuntimeIT {
 
-    private static final String DEFAULT_SERVER_HOST = "http://localhost:8080/security-domain-to-domain";
+    private static final String DEFAULT_SERVER_HOST = "http://localhost:8080";
 
     protected URI getHTTPEndpoint() {
         String host = getServerHost();
@@ -44,7 +44,7 @@ public class BasicRuntimeIT {
             host = DEFAULT_SERVER_HOST;
         }
         try {
-            return new URI(host + "/SecuredServlet");
+            return new URI(host + "/security-domain-to-domain/SecuredServlet");
         } catch (URISyntaxException ex) {
             throw new RuntimeException(ex);
         }

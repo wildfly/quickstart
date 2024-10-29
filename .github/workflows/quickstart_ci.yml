@@ -1,3 +1,6 @@
+# Abstract CI for a specific quickstart
+# If you are updating this please note that there are exceptions not using this: ejb-txn-remote-call
+
 name: WildFly Quickstart CI
 
 on:
@@ -36,11 +39,6 @@ on:
         description: 'the OSes to be used on the test matrix, i.e. matrix.os'
         required: false
         default: '"ubuntu-latest", "windows-latest"'
-        type: string
-      SERVER_PROVISIONING_SERVER_HOST:
-        description: 'the server.host arg to be used when testing server provisioning with the mvn verify command'
-        required: false
-        default: 'http://localhost:8080'
         type: string
       EXTRA_RUN_ARGS:
         description: 'optional args to be passed when running the quickstart'
@@ -122,7 +120,7 @@ jobs:
           echo "Starting provisioned server..."
           mvn -f ${{ inputs.DEPLOYMENT_DIR }}/pom.xml wildfly:start -DjbossHome=${{ inputs.DEPLOYMENT_DIR }}/target/server -Dstartup-timeout=120 ${{ inputs.EXTRA_RUN_ARGS }}
           echo "Testing provisioned server..."
-          mvn -fae verify -Dserver.host=${{ inputs.SERVER_PROVISIONING_SERVER_HOST }} -Pintegration-testing 
+          mvn -fae verify -Pintegration-testing 
           echo "Shutting down provisioned server..."
           mvn -f ${{ inputs.DEPLOYMENT_DIR }}/pom.xml wildfly:shutdown
         shell: bash
@@ -136,7 +134,7 @@ jobs:
           echo "Starting bootable jar..."
           mvn -f ${{ inputs.DEPLOYMENT_DIR }}/pom.xml wildfly:start-jar -Dstartup-timeout=120  ${{ inputs.EXTRA_RUN_ARGS }}
           echo "Testing bootable jar..."
-          mvn -fae verify -Dserver.host=${{ inputs.SERVER_PROVISIONING_SERVER_HOST }} -Pintegration-testing
+          mvn -fae verify -Pintegration-testing
           echo "Shutting down bootable jar..."          
           mvn -f ${{ inputs.DEPLOYMENT_DIR }}/pom.xml wildfly:shutdown
         shell: bash
@@ -145,7 +143,7 @@ jobs:
         run: |
           cd quickstarts
           cd ${{ inputs.QUICKSTART_PATH }}
-          mvn -fae clean package -Popenshift
+          mvn -fae clean ${{ inputs.MVN_COMMAND }} -Popenshift
         shell: bash
       - name: Run after script
         env:
@@ -229,7 +227,7 @@ jobs:
           echo "Starting provisioned server..."
           mvn -f ${{ inputs.DEPLOYMENT_DIR }}/pom.xml wildfly:start -DjbossHome=${{ inputs.DEPLOYMENT_DIR }}/target/server -Dstartup-timeout=120 ${{ inputs.EXTRA_RUN_ARGS }} -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
           echo "Testing provisioned server..."
-          mvn -fae verify -Dserver.host=${{ inputs.SERVER_PROVISIONING_SERVER_HOST }} -Pintegration-testing -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
+          mvn -fae verify -Pintegration-testing -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
           echo "Shutting down provisioned server..."
           mvn -f ${{ inputs.DEPLOYMENT_DIR }}/pom.xml wildfly:shutdown -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
         shell: bash
@@ -243,7 +241,7 @@ jobs:
           echo "Starting bootable jar..."
           mvn -f ${{ inputs.DEPLOYMENT_DIR }}/pom.xml wildfly:start-jar -Dstartup-timeout=120 ${{ inputs.EXTRA_RUN_ARGS }} -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
           echo "Testing bootable jar..."
-          mvn -fae verify -Dserver.host=${{ inputs.SERVER_PROVISIONING_SERVER_HOST }} -Pintegration-testing -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
+          mvn -fae verify -Pintegration-testing -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
           echo "Shutting down bootable jar..."
           mvn -f ${{ inputs.DEPLOYMENT_DIR }}/pom.xml wildfly:shutdown -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
         shell: bash
@@ -252,7 +250,7 @@ jobs:
         run: |
           cd quickstarts
           cd ${{ inputs.QUICKSTART_PATH }}
-          mvn -fae clean package -Popenshift -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
+          mvn -fae clean ${{ inputs.MVN_COMMAND }} -Popenshift -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
         shell: bash
       - name: Run after script
         env:

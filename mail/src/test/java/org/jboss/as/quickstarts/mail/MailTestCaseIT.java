@@ -21,7 +21,7 @@ import java.time.Duration;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class MailTestCaseIT {
 
-    private static final String DEFAULT_SERVER_HOST = "http://localhost:8080/mail";
+    private static final String DEFAULT_SERVER_HOST = "http://localhost:8080";
 
     private WebDriver driver;
 
@@ -45,7 +45,7 @@ public class MailTestCaseIT {
             serverHost = DEFAULT_SERVER_HOST;
         }
 
-        driver.get(serverHost);
+        driver.get(serverHost+"/mail");
         driver.manage().timeouts().implicitlyWait(Duration.ofMillis(500));
     }
 

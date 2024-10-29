@@ -41,7 +41,7 @@ import org.junit.jupiter.api.Test;
  */
 public class RemoteToDoIT {
 
-    private static final String REST_TARGET_URL = "http://localhost:8080/todo-backend";
+    private static final String REST_TARGET_URL = "http://localhost:8080";
 
     private String getServerHost() {
         String host = System.getenv("SERVER_HOST");
@@ -57,7 +57,7 @@ public class RemoteToDoIT {
             host = REST_TARGET_URL;
         }
         try {
-            return new URI(host).toURL();
+            return new URI(host+"/todo-backend").toURL();
         } catch (URISyntaxException | MalformedURLException ex) {
             throw new RuntimeException(ex);
         }

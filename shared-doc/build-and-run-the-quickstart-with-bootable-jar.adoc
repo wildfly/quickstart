@@ -19,11 +19,6 @@ The quickstart `pom.xml` file contains a Maven profile named *bootable-jar* whic
                               <version>${version.server}</version>
                           </discover-provisioning-info>
                           <bootable-jar>true</bootable-jar>
-                          <!--
-                            Rename the output war to ROOT.war before adding it to the server, so that the
-                            application is deployed in the root web context.
-                          -->
-                          <name>ROOT.war</name>
                           <add-ons>...</add-ons>
                       </configuration>
                       <executions>
@@ -70,11 +65,6 @@ endif::uses-jaeger[]
 ----
 
 . You can now interact with the quickstart application.
-
-[NOTE]
-====
-After the quickstart application is deployed, the bootable JAR includes the application in the root context. Therefore, any URLs related to the application should not have the `/{artifactId}` path segment after `HOST:PORT`.
-====
 
 // Bootable Jar Testing
 include::../shared-doc/run-integration-tests-with-bootable-jar.adoc[leveloffset=+1]

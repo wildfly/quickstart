@@ -35,18 +35,6 @@ import org.junit.jupiter.api.Test;
  */
 public class WebSocketHelloIT {
 
-    protected URI getWebSocketEndpoint() {
-        String host = getServerHost();
-        if (host == null) {
-            host = "ws://localhost:8080/websocket-hello";
-        }
-        try {
-            return new URI(host + "/websocket/helloName");
-        } catch (URISyntaxException ex) {
-            throw new RuntimeException(ex);
-        }
-    }
-
     protected static String getServerHost() {
         String host = System.getenv("SERVER_HOST");
         if (host == null) {
@@ -55,7 +43,19 @@ public class WebSocketHelloIT {
         if (host != null) {
             host= host.replaceFirst("http", "ws");
         }
+        if (host == null) {
+            host = "ws://localhost:8080";
+        }
         return host;
+    }
+
+    protected URI getWebSocketEndpoint() {
+        String host = getServerHost();
+        try {
+            return new URI(host + "/websocket-hello/websocket/helloName");
+        } catch (URISyntaxException ex) {
+            throw new RuntimeException(ex);
+        }
     }
 
     @Test

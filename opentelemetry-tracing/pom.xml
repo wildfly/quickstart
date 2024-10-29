@@ -138,8 +138,6 @@
                                     </scripts>
                                 </packaging-script>
                             </packaging-scripts>
-                            <!-- deploys the quickstart on root web context -->
-                            <name>ROOT.war</name>
                         </configuration>
                         <executions>
                             <execution>
@@ -165,8 +163,6 @@
                                 <version>${version.server}</version>
                             </discover-provisioning-info>
                             <bootable-jar>true</bootable-jar>
-                            <!-- deploys the quickstart on root web context -->
-                            <name>ROOT.war</name>
                             <packaging-scripts>
                                 <packaging-script>
                                     <scripts>
@@ -207,11 +203,6 @@
                                     <resolve-expressions>false</resolve-expressions>
                                 </packaging-script>
                             </packaging-scripts>
-                            <!--
-                                The parent POM's 'openshift' profile renames the output archive to ROOT.war so that the
-                                application is deployed in the root web context. Add ROOT.war to the server.
-                            -->
-                            <filename>ROOT.war</filename>
                         </configuration>
                         <executions>
                             <execution>
@@ -220,14 +211,6 @@
                                 </goals>
                             </execution>
                         </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-war-plugin</artifactId>
-                        <version>${version.war.plugin}</version>
-                        <configuration>
-                            <warName>ROOT</warName>
-                        </configuration>
                     </plugin>
                     <!-- do not attach sources to openshift deployments -->
                     <plugin>

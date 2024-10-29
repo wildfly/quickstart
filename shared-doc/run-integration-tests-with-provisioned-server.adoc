@@ -20,10 +20,6 @@ ifndef::deploymentDir[:deploymentTargetDir: target]
 ifdef::deploymentDir[:deploymentTargetDir: {deploymentDir}/target]
 endif::deploymentTargetDir[]
 
-ifndef::server_provisioning_server_host[]
-:server_provisioning_server_host: http://localhost:8080
-endif::server_provisioning_server_host[]
-
 ifndef::extraStartParams[:extraStartParams: ]
 ifndef::extraProvisioningTestParams[:extraProvisioningTestParams: ]
 
@@ -60,12 +56,12 @@ For Windows, use the `__{jbossHomeName}__\bin\add-user.bat` script.
 ====
 endif::[]
 
-. Start the {productName} provisioned server, this time using the {productName} Maven Plugin, which is recommended for testing due to simpler automation. The path to the provisioned server should be specified using the `jbossHome` system property.
+. Start the {productName} provisioned server, this time using the {productName} Maven Plugin, which is recommended for testing due to simpler automation.
 +
 ifndef::deploymentDir[]
 [source,subs="attributes+",options="nowrap"]
 ----
-$ mvn wildfly:start -DjbossHome=target/server {extraStartParams}
+$ mvn wildfly:start {extraStartParams}
 ----
 endif::[]
 ifdef::deploymentDir[]
@@ -75,11 +71,11 @@ $ mvn -f {deploymentDir}/pom.xml wildfly:start -DjbossHome={deploymentDir}/targe
 ----
 endif::[]
 
-. Type the following command to run the `verify` goal with the `integration-testing` profile activated, and specifying the quickstart's URL using the `server.host` system property, which for a provisioned server by default is `{server_provisioning_server_host}`.
+. Type the following command to run the `verify` goal with the `integration-testing` profile activated.
 +
 [source,subs="attributes+",options="nowrap"]
 ----
-$ mvn verify -Pintegration-testing -Dserver.host={server_provisioning_server_host} {extraProvisioningTestParams}
+$ mvn verify -Pintegration-testing {extraProvisioningTestParams}
 ----
 
 . Shutdown the {productName} provisioned server, this time using the {productName} Maven Plugin too.

@@ -44,10 +44,10 @@ public class ThreadRacingIT {
     protected URI getWebSocketEndpoint() {
         String host = getServerHost();
         if (host == null) {
-            host = "ws://localhost:8080/thread-racing";
+            host = "ws://localhost:8080";
         }
         try {
-            return new URI(host + "/race");
+            return new URI(host + "/thread-racing/race");
         } catch (URISyntaxException ex) {
             throw new RuntimeException(ex);
         }

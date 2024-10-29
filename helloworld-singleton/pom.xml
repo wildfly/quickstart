@@ -118,7 +118,6 @@
                             <discover-provisioning-info>
                                 <version>${version.server}</version>
                             </discover-provisioning-info>
-                            <name>ROOT.war</name>
                         </configuration>
                         <executions>
                             <execution>
@@ -143,7 +142,6 @@
                                 <version>${version.server}</version>
                                 <context>cloud</context>
                             </discover-provisioning-info>
-                            <filename>ROOT.war</filename>
                         </configuration>
                         <executions>
                             <execution>
@@ -152,14 +150,6 @@
                                 </goals>
                             </execution>
                         </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-war-plugin</artifactId>
-                        <version>${version.war.plugin}</version>
-                        <configuration>
-                            <warName>ROOT</warName>
-                        </configuration>
                     </plugin>
                     <!-- do not attach sources to openshift deployments -->
                     <plugin>

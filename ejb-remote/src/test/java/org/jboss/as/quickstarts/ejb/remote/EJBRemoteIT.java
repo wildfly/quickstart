@@ -40,8 +40,7 @@ public class EJBRemoteIT {
     }
 
     private String getEJBBaseJndiName() {
-        // the base jndi name of the EJBs depends on the deployment name, which differs for standard dist and server provisioning
-        return "ejb:/" + (System.getProperty("server.host") == null ? "ejb-remote" : "ROOT");
+        return "ejb:/ejb-remote";
     }
 
     @Test

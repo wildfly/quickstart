@@ -135,10 +135,6 @@ kubectl port-forward service/{helm-app-name} 8080:8080
 The server can now be accessed via `http://localhost:8080` from outside Kubernetes. Note that the command to create the port-forward will not return, so it is easiest to run this in a separate terminal.
 
 endif::[]
-[NOTE]
-====
-The Maven profile named `openshift` is used by the Helm chart to provision the server with the quickstart deployed on the root web context, and thus the application should be accessed with the URL without the `/{artifactId}` path segment after `HOST:PORT`.
-====
 
 ifdef::openshift+post-helm-install-actions-openshift[]
 include::{post-helm-install-actions-openshift}[leveloffset=+1]

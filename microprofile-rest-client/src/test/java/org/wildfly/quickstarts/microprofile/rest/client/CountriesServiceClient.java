@@ -30,7 +30,7 @@ import org.wildfly.quickstarts.microprofile.Country;
 
 import java.util.concurrent.CompletionStage;
 
-@Path("/")
+@Path("/microprofile-rest-client")
 @RegisterRestClient
 @RegisterProvider(NotFoundResponseExceptionMapper.class)
 public interface CountriesServiceClient {

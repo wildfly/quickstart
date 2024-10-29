@@ -35,7 +35,7 @@ import java.util.Map;
  */
 public class FilterServletIT {
 
-    private static final String DEFAULT_SERVER_HOST = "http://localhost:8080/servlet-filterlistener";
+    private static final String DEFAULT_SERVER_HOST = "http://localhost:8080";
 
     @Test
     public void testVowelRemoverFilter() throws IOException, InterruptedException, URISyntaxException {
@@ -47,7 +47,7 @@ public class FilterServletIT {
             serverHost = DEFAULT_SERVER_HOST;
         }
         final HttpRequest request = HttpRequest.newBuilder()
-                .uri(new URI(serverHost + "/FilterExample?"
+                .uri(new URI(serverHost + "/servlet-filterlistener/FilterExample?"
                         + ofFormData(Map.of("userInput", "This is only a test!"))))
                 .GET()
                 .build();
