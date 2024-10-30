@@ -29,7 +29,7 @@ import java.net.http.HttpResponse;
 
 public class MemberRegistrationIT {
 
-    private static final String DEFAULT_SERVER_HOST = "http://localhost:8080/kitchensink";
+    private static final String DEFAULT_SERVER_HOST = "http://localhost:8080";
 
     @Test
     public void testRegister() throws Exception {
@@ -48,7 +48,7 @@ public class MemberRegistrationIT {
                 .add("name", "Jane Doe")
                 .add("email", "jane@mailinator.com")
                 .add("phoneNumber", "2125551234").build();
-        HttpRequest request = HttpRequest.newBuilder(new URI(serverHost + "/rest/members"))
+        HttpRequest request = HttpRequest.newBuilder(new URI(serverHost + "/kitchensink/rest/members"))
                 .header("Content-Type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(json.toString()))
                 .build();

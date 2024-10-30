@@ -39,7 +39,7 @@ import java.net.http.HttpResponse;
  */
 public class BasicRuntimeIT {
 
-    protected static final String DEFAULT_SERVER_HOST = "http://localhost:8080/servlet-security";
+    protected static final String DEFAULT_SERVER_HOST = "http://localhost:8080";
 
     protected URI getHTTPEndpoint() {
         String host = System.getenv("SERVER_HOST");
@@ -50,7 +50,7 @@ public class BasicRuntimeIT {
             host = DEFAULT_SERVER_HOST;
         }
         try {
-            return new URI(host + "/SecuredServlet");
+            return new URI(host + "/servlet-security/SecuredServlet");
         } catch (URISyntaxException ex) {
             throw new RuntimeException(ex);
         }

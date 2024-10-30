@@ -34,7 +34,7 @@ import static org.junit.Assert.assertTrue;
  */
 public class BasicRuntimeIT {
 
-    private static final String DEFAULT_SERVER_HOST = "http://localhost:8080/spring-resteasy";
+    private static final String DEFAULT_SERVER_HOST = "http://localhost:8080";
 
     @Test
     public void testHTTPEndpointIsAvailable() throws IOException, InterruptedException, URISyntaxException {
@@ -46,7 +46,7 @@ public class BasicRuntimeIT {
             serverHost = DEFAULT_SERVER_HOST;
         }
         final HttpRequest request = HttpRequest.newBuilder()
-                .uri(new URI(serverHost+"/"))
+                .uri(new URI(serverHost+"/spring-resteasy"))
                 .GET()
                 .build();
         final HttpClient client = HttpClient.newBuilder()

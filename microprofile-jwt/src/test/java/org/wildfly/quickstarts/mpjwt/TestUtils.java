@@ -1,9 +1,9 @@
 package org.wildfly.quickstarts.mpjwt;
 
 public class TestUtils {
-    static final String DEFAULT_SERVER_HOST = "http://localhost:8080/microprofile-jwt";
+    static final String DEFAULT_SERVER_HOST = "http://localhost:8080";
 
-    static final String ROOT_PATH = "/Sample/";
+    static final String ROOT_PATH = "/microprofile-jwt/Sample/";
     static final String HELLO_WORLD = "helloworld";
 
 

@@ -36,26 +36,23 @@ public class SecurityContextPropagationIT {
 
     @Test
     public void testSecurityContextPropagation() throws NamingException {
-        // we assume standard dist, where EJBs are at ejb:/ejb-security-context-propagation/, if no SERVER_HOST or server.host in env/system props
-        final boolean standardDist = System.getenv("SERVER_HOST") == null && System.getProperty("server.host") == null;
-        System.out.println("standardDist: "+standardDist);
         // invoke the intermediate bean using the identity configured in wildfly-config.xml
-        invokeIntermediateBean(standardDist);
+        invokeIntermediateBean();
         // now lets programmatically setup an authentication context to switch users before invoking the intermediate bean
         AuthenticationConfiguration superUser = AuthenticationConfiguration.empty().setSaslMechanismSelector(SaslMechanismSelector.NONE.addMechanism("PLAIN")).
                 useName("quickstartAdmin").usePassword("adminPwd1!");
         final AuthenticationContext authCtx = AuthenticationContext.empty().with(MatchRule.ALL, superUser);
         AuthenticationContext.getContextManager().setThreadDefault(authCtx);
-        invokeIntermediateBean(standardDist);
+        invokeIntermediateBean();
     }
 
-    private static void invokeIntermediateBean(boolean standardDist) throws NamingException {
+    private static void invokeIntermediateBean() throws NamingException {
         final Hashtable<String, String> jndiProperties = new Hashtable<>();
         jndiProperties.put(Context.INITIAL_CONTEXT_FACTORY, "org.wildfly.naming.client.WildFlyInitialContextFactory");
         jndiProperties.put(Context.PROVIDER_URL, "remote+http://localhost:8080");
         final Context context = new InitialContext(jndiProperties);
 
-        IntermediateEJBRemote intermediate = (IntermediateEJBRemote) context.lookup("ejb:/"+(standardDist?"ejb-security-context-propagation":"ROOT")+"/IntermediateEJB!"
+        IntermediateEJBRemote intermediate = (IntermediateEJBRemote) context.lookup("ejb:/ejb-security-context-propagation/IntermediateEJB!"
                 + IntermediateEJBRemote.class.getName());
         System.out.println("\n\n* * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\n");
         System.out.println(intermediate.makeRemoteCalls());

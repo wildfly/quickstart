@@ -34,7 +34,7 @@ import static org.junit.Assert.assertEquals;
  */
 public class BasicRuntimeIT {
 
-    private static final String DEFAULT_SERVER_HOST = "http://localhost:8080/temperature-converter";
+    private static final String DEFAULT_SERVER_HOST = "http://localhost:8080";
 
     public static String getServerHost() {
         String serverHost = System.getenv("SERVER_HOST");
@@ -49,7 +49,7 @@ public class BasicRuntimeIT {
     @Test
     public void testHTTPEndpointIsAvailable() throws IOException, InterruptedException, URISyntaxException {
         final HttpRequest request = HttpRequest.newBuilder()
-                .uri(new URI(getServerHost()+"/"))
+                .uri(new URI(getServerHost()+"/temperature-converter"))
                 .GET()
                 .build();
         final HttpClient client = HttpClient.newBuilder()

@@ -46,11 +46,8 @@ public class BidWebSocketEndpointIT {
 
     protected URI getWebSocketEndpoint() {
         String host = getServerHost();
-        if (host == null) {
-            host = "ws://localhost:8080/websocket-endpoint";
-        }
         try {
-            return new URI(host + "/bidsocket");
+            return new URI(host + "/websocket-endpoint/bidsocket");
         } catch (URISyntaxException ex) {
             throw new RuntimeException(ex);
         }
@@ -63,6 +60,9 @@ public class BidWebSocketEndpointIT {
         }
         if (host != null) {
             host = host.replaceFirst("http", "ws");
+        }
+        if (host == null) {
+            host = "ws://localhost:8080";
         }
         return host;
     }

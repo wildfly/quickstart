@@ -35,7 +35,7 @@ import static org.junit.Assert.assertEquals;
  */
 public class BasicRuntimeIT {
 
-    private static final String DEFAULT_SERVER_HOST = "http://localhost:8080/http-custom-mechanism-webapp";
+    private static final String DEFAULT_SERVER_HOST = "http://localhost:8080";
 
     @Test
     public void testHTTPEndpointIsAvailable() throws IOException, InterruptedException, URISyntaxException {
@@ -47,7 +47,7 @@ public class BasicRuntimeIT {
             serverHost = DEFAULT_SERVER_HOST;
         }
         final HttpRequest request = HttpRequest.newBuilder()
-                .uri(new URI(serverHost+"/secured"))
+                .uri(new URI(serverHost+"/http-custom-mechanism-webapp/secured"))
                 .header("X-USERNAME", "quickstartUser")
                 .header("X-PASSWORD", "quickstartPwd1")
                 .GET()

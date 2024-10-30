@@ -36,7 +36,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  */
 public class BasicRuntimeIT {
 
-    private static final String DEFAULT_SERVER_HOST = "http://localhost:8080/messaging-clustering-singleton";
+    private static final String DEFAULT_SERVER_HOST = "http://localhost:8080";
 
     @Test
     public void testHTTPQueueEndpointIsAvailable() throws IOException, InterruptedException, URISyntaxException {
@@ -48,7 +48,7 @@ public class BasicRuntimeIT {
             serverHost = DEFAULT_SERVER_HOST;
         }
         final HttpRequest request = HttpRequest.newBuilder()
-                .uri(new URI(serverHost + "/HelloWorldMDBServletClient"))
+                .uri(new URI(serverHost + "/messaging-clustering-singleton/HelloWorldMDBServletClient"))
                 .GET()
                 .build();
         final HttpClient client = HttpClient.newBuilder()
@@ -72,7 +72,7 @@ public class BasicRuntimeIT {
             serverHost = DEFAULT_SERVER_HOST;
         }
         final HttpRequest request = HttpRequest.newBuilder()
-                .uri(new URI(serverHost + "/HelloWorldMDBServletClient?topic=true"))
+                .uri(new URI(serverHost + "/messaging-clustering-singleton/HelloWorldMDBServletClient?topic=true"))
                 .GET()
                 .build();
         final HttpClient client = HttpClient.newBuilder()

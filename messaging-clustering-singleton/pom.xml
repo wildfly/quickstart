@@ -24,7 +24,7 @@
         Maintain separation between the artifact id and the version to help prevent
         merge conflicts between commits changing the GA and those changing the V.
         -->
-        <version>8</version>
+        <version>9</version>
         <relativePath/>
     </parent>
 
@@ -109,6 +109,8 @@
     </dependencies>
 
     <build>
+        <!-- Set the name of the WAR, used as the context root when the app is deployed. -->
+        <finalName>${project.artifactId}</finalName>
         <pluginManagement>
             <plugins>
                 <plugin>
@@ -150,7 +152,6 @@
                                     <resolve-expressions>false</resolve-expressions>
                                 </packaging-script>
                             </packaging-scripts>
-                            <name>ROOT.war</name>
                         </configuration>
                         <executions>
                             <execution>

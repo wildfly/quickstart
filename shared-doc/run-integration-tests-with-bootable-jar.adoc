@@ -2,7 +2,6 @@
 = Run the Integration Tests with a bootable jar
 
 include::define-standalone-server-attributes.adoc[]
-ifndef::server_provisioning_server_host[:server_provisioning_server_host: http://localhost:8080]
 
 The integration tests included with this quickstart, which verify that the quickstart runs correctly, may also be run with a bootable jar.
 
@@ -22,11 +21,11 @@ $ mvn clean package -Pbootable-jar
 $ mvn wildfly:start-jar
 ----
 
-. Type the following command to run the `verify` goal with the `integration-testing` profile activated, and specifying the quickstart's URL using the `server.host` system property, which for a bootable jar by default is `{server_provisioning_server_host}`.
+. Type the following command to run the `verify` goal with the `integration-testing` profile activated.
 +
 [source,subs="attributes+",options="nowrap"]
 ----
-$ mvn verify -Pintegration-testing -Dserver.host={server_provisioning_server_host}
+$ mvn verify -Pintegration-testing
 ----
 
 . Shutdown the {productName} bootable jar, this time using the {productName} Maven Jar Plugin too.

@@ -123,8 +123,6 @@
                                     <resolve-expressions>false</resolve-expressions>
                                 </packaging-script>
                             </packaging-scripts>
-                            <!-- deploys the quickstart on root web context -->
-                            <name>ROOT.ear</name>
                         </configuration>
                         <executions>
                             <execution>
@@ -133,19 +131,6 @@
                                 </goals>
                             </execution>
                         </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-ear-plugin</artifactId>
-                        <configuration>
-                            <modules>
-                                <webModule>
-                                    <groupId>${project.groupId}</groupId>
-                                    <artifactId>security-domain-to-domain-web</artifactId>
-                                    <contextRoot>/</contextRoot>
-                                </webModule>
-                            </modules>
-                        </configuration>
                     </plugin>
                 </plugins>
             </build>

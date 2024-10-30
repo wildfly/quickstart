@@ -39,7 +39,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class LogIT {
 
-    private static final String DEFAULT_SERVER_HOST = "http://localhost:8080/jboss-logging";
+    private static final String DEFAULT_SERVER_HOST = "http://localhost:8080";
 
     private static Client client;
 
@@ -160,7 +160,7 @@ public class LogIT {
 
     private static UriBuilder resolveBaseUrl() {
         final String baseUrl = resolveServerHost();
-        return UriBuilder.fromUri(baseUrl).path("api/logs");
+        return UriBuilder.fromUri(baseUrl).path("/jboss-logging/api/logs");
     }
 
     private static String resolveServerHost() {

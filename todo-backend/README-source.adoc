@@ -196,15 +196,15 @@ The backend is running, and we can use the HTTP API to manage a list of todos:
 [source,options="nowrap"]
 ----
 # get a list of todos
-$ curl http://localhost:8080
+$ curl http://localhost:8080/todo-backend
 []
 
 # create a todo with the title "This is my first todo item!"
-$ curl -X POST -H "Content-Type: application/json"  -d '{"title": "This is my first todo item!"}' http://localhost:8080
+$ curl -X POST -H "Content-Type: application/json"  -d '{"title": "This is my first todo item!"}' http://localhost:8080/todo-backend
 {"completed":false,"id":1,"order":0,"title":"This is my first todo item!","url":"https://localhost:8080/1"}%
 
 # get a list of todos with the one that was just created
-$ curl http://localhost:8080
+$ curl http://localhost:8080/todo-backend
 [{"completed":false,"id":1,"order":0,"title":"This is my first todo item!","url":"https://localhost:8080/1"}]
 ----
 

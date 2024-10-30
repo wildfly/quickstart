@@ -28,7 +28,7 @@ import java.time.Duration;
 import org.junit.Test;
 
 public class BasicRuntimeIT {
-    private static final String DEFAULT_SERVER_HOST = "http://localhost:8080/micrometer";
+    private static final String DEFAULT_SERVER_HOST = "http://localhost:8080";
 
     @Test
     public void testHTTPEndpointIsAvailable() throws IOException, InterruptedException, URISyntaxException {
@@ -51,7 +51,7 @@ public class BasicRuntimeIT {
         if (serverHost == null) {
             serverHost = DEFAULT_SERVER_HOST;
         }
-        return serverHost;
+        return serverHost+"/micrometer";
     }
 
     static HttpClient getHttpClient() {

@@ -34,7 +34,7 @@ import static org.junit.Assert.assertEquals;
  */
 public class BasicRuntimeIT {
 
-    private static final String DEFAULT_SERVER_HOST = "http://localhost:8080/client";
+    private static final String DEFAULT_SERVER_HOST = "http://localhost:8080";
 
     @Test
     public void testHTTPEndpointIsAvailable() throws IOException, InterruptedException, URISyntaxException {
@@ -45,6 +45,7 @@ public class BasicRuntimeIT {
         if (serverHost == null) {
             serverHost = DEFAULT_SERVER_HOST;
         }
+        serverHost += "/client";
         testEndpoint(serverHost, "/remote-outbound-stateless",200);
         testEndpoint(serverHost, "/remote-outbound-notx-stateless",200);
         testEndpoint(serverHost, "/direct-stateless",200);

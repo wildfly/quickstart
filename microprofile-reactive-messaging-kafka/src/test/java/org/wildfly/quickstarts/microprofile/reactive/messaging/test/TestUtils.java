@@ -1,7 +1,7 @@
 package org.wildfly.quickstarts.microprofile.reactive.messaging.test;
 
 public class TestUtils {
-    static final String DEFAULT_SERVER_HOST = "http://localhost:8080/microprofile-reactive-messaging-kafka";
+    static final String DEFAULT_SERVER_HOST = "http://localhost:8080";
 
     static String getServerHost() {
         String serverHost = System.getenv("SERVER_HOST");
@@ -11,6 +11,6 @@ public class TestUtils {
         if (serverHost == null) {
             serverHost = DEFAULT_SERVER_HOST;
         }
-        return serverHost;
+        return serverHost+"/microprofile-reactive-messaging-kafka";
     }
 }
