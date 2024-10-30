@@ -1029,7 +1029,6 @@ After you are done with this quickstart, remember to remove the certificate that
 
 // Build and run sections for other environments/builds
 ifndef::ProductRelease,EAPXPRelease[]
-:server_provisioning_server_host: https://localhost:8443
 :leveloffset: +1
 
 [[build_and_run_the_quickstart_with_provisioned_server]]
@@ -1100,11 +1099,6 @@ The server provisioning functionality is provided by the WildFly Maven Plugin, a
                             <discover-provisioning-info>
                                 <version>${version.server}</version>
                             </discover-provisioning-info>
-                            <!--
-                                Rename the output war to ROOT.war before adding it to the server, so that the
-                                application is deployed in the root web context.
-                            -->
-                            <name>ROOT.war</name>
                             <add-ons>...</add-ons>
                         </configuration>
                         <executions>
@@ -1128,11 +1122,6 @@ If you get an error or the server is missing some functionality which cannot be 
 ----
 wildfly-glow show-add-ons
 ----
-
-[NOTE]
-====
-Since the plugin configuration above deploys quickstart on root web context of the provisioned server, the URL to access the application should not have the `/{artifactId}` path segment after `HOST:PORT`.
-====
 
 // Server Provisioning Testing
 :leveloffset: +1
@@ -1220,10 +1209,6 @@ ifndef::deploymentDir[:deploymentTargetDir: target]
 ifdef::deploymentDir[:deploymentTargetDir: {deploymentDir}/target]
 endif::deploymentTargetDir[]
 
-ifndef::server_provisioning_server_host[]
-:server_provisioning_server_host: http://localhost:8080
-endif::server_provisioning_server_host[]
-
 ifndef::extraStartParams[:extraStartParams: ]
 ifndef::extraProvisioningTestParams[:extraProvisioningTestParams: ]
 
@@ -1260,12 +1245,12 @@ For Windows, use the `__{jbossHomeName}__\bin\add-user.bat` script.
 ====
 endif::[]
 
-. Start the {productName} provisioned server, this time using the {productName} Maven Plugin, which is recommended for testing due to simpler automation. The path to the provisioned server should be specified using the `jbossHome` system property.
+. Start the {productName} provisioned server, this time using the {productName} Maven Plugin, which is recommended for testing due to simpler automation.
 +
 ifndef::deploymentDir[]
 [source,subs="attributes+",options="nowrap"]
 ----
-$ mvn wildfly:start -DjbossHome=target/server {extraStartParams}
+$ mvn wildfly:start {extraStartParams}
 ----
 endif::[]
 ifdef::deploymentDir[]
@@ -1275,11 +1260,11 @@ $ mvn -f {deploymentDir}/pom.xml wildfly:start -DjbossHome={deploymentDir}/targe
 ----
 endif::[]
 
-. Type the following command to run the `verify` goal with the `integration-testing` profile activated, and specifying the quickstart's URL using the `server.host` system property, which for a provisioned server by default is `{server_provisioning_server_host}`.
+. Type the following command to run the `verify` goal with the `integration-testing` profile activated.
 +
 [source,subs="attributes+",options="nowrap"]
 ----
-$ mvn verify -Pintegration-testing -Dserver.host={server_provisioning_server_host} {extraProvisioningTestParams}
+$ mvn verify -Pintegration-testing {extraProvisioningTestParams}
 ----
 
 . Shutdown the {productName} provisioned server, this time using the {productName} Maven Plugin too.
