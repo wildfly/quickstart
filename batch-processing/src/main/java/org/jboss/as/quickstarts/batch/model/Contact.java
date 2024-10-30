@@ -16,11 +16,18 @@
  */
 package org.jboss.as.quickstarts.batch.model;
 
+import jakarta.annotation.sql.DataSourceDefinition;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotNull;
 
+@DataSourceDefinition(name="java:jboss/datasources/batch-processingDS",
+        className="org.h2.jdbcx.JdbcDataSource",
+        url="jdbc:h2:mem:batch-processing;DB_CLOSE_ON_EXIT=FALSE;DB_CLOSE_DELAY=-1",
+        user="sa",
+        password="sa"
+)
 @Entity
 public class Contact {
 
