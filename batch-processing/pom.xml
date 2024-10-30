@@ -51,6 +51,9 @@
         <!-- the versions for BOMs, Packs and Plugins -->
         <version.bom.ee>${version.server}</version.bom.ee>
         <version.plugin.wildfly>5.0.0.Final</version.plugin.wildfly>
+        <server.test.feature.pack.artifactId>wildfly-ee-galleon-pack</server.test.feature.pack.artifactId>
+        <server.test.feature.pack.groupId>org.wildfly</server.test.feature.pack.groupId>
+        <configure.ds.script>${project.basedir}/add-h2-ds.cli</configure.ds.script>
     </properties>
 
     <dependencyManagement>
@@ -200,12 +203,32 @@
                         <groupId>org.wildfly.plugins</groupId>
                         <artifactId>wildfly-maven-plugin</artifactId>
                         <configuration>
-                            <discover-provisioning-info>
-                                <version>${version.server}</version>
-                                <addOns>
-                                    <addOn>h2-database:default</addOn>
-                                </addOns>
-                            </discover-provisioning-info>
+                            <feature-packs>
+                                <feature-pack>
+                                    <groupId>${server.test.feature.pack.groupId}</groupId>
+                                    <artifactId>${server.test.feature.pack.artifactId}</artifactId>
+                                    <version>${version.server}</version>
+                                </feature-pack>
+                                <feature-pack>
+                                    <location>org.wildfly:wildfly-datasources-galleon-pack:8.0.1.Final</location>
+                                </feature-pack>
+                            </feature-packs>
+                            <layers>
+                                <layer>core-tools</layer>
+                                <layer>batch-jberet</layer>
+                                <layer>h2-driver</layer>
+                                <layer>jaxrs-server</layer>
+                                <layer>jsf</layer>
+                            </layers>
+                            <packaging-scripts>
+                                <packaging-script>
+                                    <scripts>
+                                        <script>${configure.ds.script}</script>
+                                    </scripts>
+                                    <!-- Expressions resolved during server execution -->
+                                    <resolve-expressions>false</resolve-expressions>
+                                </packaging-script>
+                            </packaging-scripts>
                             <!--
                                 Rename the output war to ROOT.war before adding it to the server, so that the
                                 application is deployed in the root web context.
@@ -231,13 +254,32 @@
                         <groupId>org.wildfly.plugins</groupId>
                         <artifactId>wildfly-maven-plugin</artifactId>
                         <configuration>
-                            <discover-provisioning-info>
-                                <version>${version.server}</version>
-                                <context>cloud</context>
-                                <addOns>
-                                    <addOn>h2-database:default</addOn>
-                                </addOns>
-                            </discover-provisioning-info>
+                            <feature-packs>
+                                <feature-pack>
+                                    <groupId>${server.test.feature.pack.groupId}</groupId>
+                                    <artifactId>${server.test.feature.pack.artifactId}</artifactId>
+                                    <version>${version.server}</version>
+                                </feature-pack>
+                                <feature-pack>
+                                    <location>org.wildfly:wildfly-datasources-galleon-pack:8.0.1.Final</location>
+                                </feature-pack>
+                            </feature-packs>
+                            <layers>
+                                <layer>core-tools</layer>
+                                <layer>batch-jberet</layer>
+                                <layer>h2-driver</layer>
+                                <layer>jaxrs-server</layer>
+                                <layer>jsf</layer>
+                            </layers>
+                            <packaging-scripts>
+                                <packaging-script>
+                                    <scripts>
+                                        <script>${configure.ds.script}</script>
+                                    </scripts>
+                                    <!-- Expressions resolved during server execution -->
+                                    <resolve-expressions>false</resolve-expressions>
+                                </packaging-script>
+                            </packaging-scripts>
                             <!--
                                 The parent POM's 'openshift' profile renames the output archive to ROOT.war so that the
                                 application is deployed in the root web context. Add ROOT.war to the server.
