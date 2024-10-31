@@ -42,24 +42,10 @@ environment it would be more appropriate to make use of an identity provider to 
 include::../shared-doc/system-requirements.adoc[leveloffset=+1]
 include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
 
-[[configure_the_server]]
-== Configure the Server
+// Build and Deploy the Quickstart
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
 
-One of the benefits of using MicroProfile JWT is that the configuration is contained entirely within the deployment,
-for this reason no manual configuration of the server is required to execute the quickstart.
-
-== Solution
-
-We recommend that you follow the instructions in the next sections and create the application step by step as this will 
-provide a better foundation for creating your own MP-JWT secured deployment, however if you want to jump straight to 
-executing the quickstarts the steps here can be followed to execute the included code.
-
-The quickstart can be deployed to the running application server using the following command: -
-
-[source]
-----
-mvn package wildfly:deploy
-----
+== Using the application
 
 An unauthenticated call can be made to one of the deployed endpoints using the following command: -
 
@@ -125,13 +111,10 @@ $ curl -H "Authorization: Bearer ey..XPA" http://localhost:8080/microprofile-jwt
 7 months and 19 days until your next birthday.
 ----
 
-This section has been a fast run through of the commands required to deploy the quickstart, generate JWT tokens and call the various endpoints, for further information as to how this was achieved
-please read through the next section where the process to generate this quickstart from scratch is described step by step.
-
-It is also possible to run each of these calls from the test case included in the quickstart.
-
 // Server Distribution Testing
-include::../shared-doc/run-integration-tests-with-server-distribution.adoc[leveloffset=+2]
+include::../shared-doc/run-integration-tests-with-server-distribution.adoc[leveloffset=+1]
+// Undeploy the Quickstart
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
 
 == Starting from Scratch
 
@@ -203,7 +186,7 @@ Before the dependencies are defined add the following boms.
 </dependencyManagement>
 ----
 
-By using boms the majority of dependencies used within this quickstart align with the version uses by the application server.
+By using BOMs the majority of dependencies used within this quickstart align with the version uses by the application server.
 
 The following dependencies can now be added to the project.
 

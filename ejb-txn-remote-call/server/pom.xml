@@ -181,8 +181,6 @@
             <plugin>
                 <artifactId>maven-war-plugin</artifactId>
                 <configuration>
-                    <warName>server</warName>
-                    <failOnMissingWebXml>false</failOnMissingWebXml>
                     <!-- Modifying webappDirectory to avoid overlapping with WildFly Maven Plugin's output directory -->
                     <webappDirectory>${project.build.directory}/serverWebAppOutput</webappDirectory>
                 </configuration>
@@ -193,14 +191,15 @@
     <profiles>
         <profile>
             <id>provisioned-server</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
             <build>
                 <plugins>
                     <plugin>
                         <groupId>org.wildfly.plugins</groupId>
                         <artifactId>wildfly-maven-plugin</artifactId>
                         <configuration>
-                            <filename>server.war</filename>
-                            <serverConfig>standalone-ha.xml</serverConfig>
                             <!-- Env used when calling wildfly:start goal -->
                             <env>
                                 <POSTGRESQL_DATABASE>test</POSTGRESQL_DATABASE>
@@ -243,9 +242,6 @@
                     <plugin>
                         <groupId>org.wildfly.plugins</groupId>
                         <artifactId>wildfly-maven-plugin</artifactId>
-                        <configuration>
-                            <filename>server.war</filename>
-                        </configuration>
                         <executions>
                             <execution>
                                 <id>package</id>
@@ -266,7 +262,6 @@
                                     </discover-provisioning-info>
                                 </configuration>
                             </execution>
-                            <!-- We need to add the quickstart user automatically -->
                         </executions>
                     </plugin>
                     <!-- do not attach sources to openshift deployments -->

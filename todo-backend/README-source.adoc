@@ -208,8 +208,12 @@ $ curl http://localhost:8080/todo-backend
 [{"completed":false,"id":1,"order":0,"title":"This is my first todo item!","url":"https://localhost:8080/1"}]
 ----
 
-:extraStartParams: -DPOSTGRESQL_DATABASE=todos -DPOSTGRESQL_SERVICE_HOST=localhost -DPOSTGRESQL_SERVICE_PORT=5432 -DPOSTGRESQL_USER=todos -DPOSTGRESQL_PASSWORD=mysecretpassword -DPOSTGRESQL_DATASOURCE=ToDos
-include::../shared-doc/run-integration-tests-with-provisioned-server.adoc[leveloffset=+1]
+Please note that the quickstart includes integration tests, which may be executed using the following command:
+
+[source,subs="attributes+",options="nowrap"]
+----
+$ mvn verify -Pintegration-testing
+----
 
 //===========================================================
 // Openshift - START

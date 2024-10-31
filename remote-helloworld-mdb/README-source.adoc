@@ -122,9 +122,6 @@ INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldQueueMDB] (Thread-5 (ActiveM
 INFO  [class org.jboss.as.quickstarts.mdb.HelloWorldQueueMDB] (Thread-4 (ActiveMQ-client-global-threads-1189700957)) Received Message from queue: This is message 5
 ----
 
-// Server Distribution Testing
-include::../shared-doc/run-integration-tests-with-server-distribution.adoc[leveloffset=+2]
-
 // Additional information about this script
 This script removes the remote broker connection from the `messaging-activemq` subsystem and restore the `default` internal broker. You should see the following result when you run the script:
 
@@ -137,15 +134,18 @@ This script removes the remote broker connection from the `messaging-activemq` s
 }
 ----
 
-// Restore the {productName} Standalone Server Configuration Manually
-include::../shared-doc/restore-standalone-server-configuration-manual.adoc[leveloffset=+3]
 
-include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+2]
-
+// Server Distribution Testing
+include::../shared-doc/run-integration-tests-with-server-distribution.adoc[leveloffset=+2]
 [NOTE]
 ====
 The integration tests expect a running {BrokerProductName} broker, so make sure you have started the broker before you begin.
 ====
+// Undeploy the Quickstart
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+2]
+// Restore the {productName} Standalone Server Configuration Manually
+include::../shared-doc/restore-standalone-server-configuration-manual.adoc[leveloffset=+2]
+
 // Build and run sections for other environments/builds
 ifndef::ProductRelease,EAPXPRelease[]
 include::../shared-doc/build-and-run-the-quickstart-with-provisioned-server.adoc[leveloffset=+1]
