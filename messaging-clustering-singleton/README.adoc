@@ -878,30 +878,6 @@ $ __{jbossHomeName}_2__/bin/jboss-cli.sh --connect controller=localhost:10090 --
 
 NOTE: For Windows, use the `__{jbossHomeName}_1__\bin\jboss-cli.bat` and `__{jbossHomeName}_2__\bin\jboss-cli.bat` scripts.
 
-
-// Server Distribution Testing
-:leveloffset: +2
-
-[[run_the_integration_tests_with_server_distribution]]
-= Run the Integration Tests
-ifndef::integrationTestsDirectory[:integrationTestsDirectory: src/test/]
-ifndef::extraStandardDistTestParams[:extraStandardDistTestParams: ]
-
-This quickstart includes integration tests, which are located under the `{integrationTestsDirectory}` directory. The integration tests verify that the quickstart runs correctly when deployed on the server.
-
-Follow these steps to run the integration tests.
-
-. Make sure {productName} server is started.
-. Make sure the quickstart is deployed.
-. Type the following command to run the `verify` goal with the `integration-testing` profile activated.
-+
-[source,subs="attributes+",options="nowrap"]
-----
-$ mvn verify -Pintegration-testing {extraStandardDistTestParams}
-----
-
-:leveloffset!:
-
 ==== Run the Integration Tests in a Managed Domain
 
 The integration tests may also be run with the domain server by typing the following command.

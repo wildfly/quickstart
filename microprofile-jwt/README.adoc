@@ -376,24 +376,109 @@ endif::[]
 
 :leveloffset!:
 
-[[configure_the_server]]
-== Configure the Server
+// Build and Deploy the Quickstart
+:leveloffset: +1
 
-One of the benefits of using MicroProfile JWT is that the configuration is contained entirely within the deployment,
-for this reason no manual configuration of the server is required to execute the quickstart.
+[[build_and_deploy_the_quickstart]]
+= Build and Deploy the Quickstart
+//******************************************************************************
+// Include this template if your quickstart does a normal deployment of a archive.
+//
+// * Define the `archiveType` variable in the quickstart README file.
+//   Supported values:
+//    :archiveType: ear
+//    :archiveType: war
+//    :archiveType: jar
+//
+// * To override the archive name, which defaults to the {artifactId),
+//   define the `archiveName` variable, for example:
+//    :archiveName: {artifactId}-service
+//
+// * To override the archive output directory,
+//   define the `archiveDir` variable, for example:
+//    :archiveDir: ear/target
+//
+// * To override the Maven command, define the `mavenCommand` variable,
+//   for example:
+//    :mavenCommand: clean install wildfly:deploy
+//******************************************************************************
 
-== Solution
+// The archive name defaults to the artifactId if not overridden
+ifndef::archiveName[]
+:archiveName: {artifactId}
+endif::archiveName[]
 
-We recommend that you follow the instructions in the next sections and create the application step by step as this will
-provide a better foundation for creating your own MP-JWT secured deployment, however if you want to jump straight to
-executing the quickstarts the steps here can be followed to execute the included code.
+// The archive type defaults to war if not overridden
+ifndef::archiveType[]
+:archiveType: war
+endif::archiveType[]
 
-The quickstart can be deployed to the running application server using the following command: -
+// Define the archive file name as the concatenation of "archiveName" + "." + "archiveType+
+:archiveFileName: {archiveName}.{archiveType}
 
-[source]
+// If they have not defined the target archive directory, make it the default for the archive type.
+ifndef::archiveDir[]
+
+ifeval::["{archiveType}"=="ear"]
+:archiveDir: {artifactId}/ear/target
+endif::[]
+
+ifeval::["{archiveType}"=="war"]
+:archiveDir: {artifactId}/target
+endif::[]
+
+ifeval::["{archiveType}"=="jar"]
+:archiveDir: {artifactId}/target
+endif::[]
+
+endif::archiveDir[]
+
+ifndef::mavenCommand[]
+ifeval::["{archiveType}"=="ear"]
+:mavenCommand: clean install
+endif::[]
+
+ifeval::["{archiveType}"=="war"]
+:mavenCommand: clean package
+endif::[]
+
+ifeval::["{archiveType}"=="jar"]
+:mavenCommand: clean install
+endif::[]
+
+endif::mavenCommand[]
+
+. Make sure {productName} server is started.
+. Open a terminal and navigate to the root directory of this quickstart.
+ifdef::reactive-messaging[]
+. Run this command to enable the MicroProfile Reactive Messaging functionality on the server
++
+[source,subs="attributes+",options="nowrap"]
 ----
-mvn package wildfly:deploy
+$ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=enable-reactive-messaging.cli
 ----
+endif::reactive-messaging[]
+. Type the following command to build the quickstart.
++
+[source,subs="attributes+",options="nowrap"]
+----
+$ mvn {mavenCommand}
+----
+
+. Type the following command to deploy the quickstart.
++
+[source,subs="attributes+",options="nowrap"]
+----
+$ mvn wildfly:deploy
+----
+
+This deploys the `{archiveDir}/{archiveFileName}` to the running instance of the server.
+
+You should see a message in the server log indicating that the archive deployed successfully.
+
+:leveloffset!:
+
+== Using the application
 
 An unauthenticated call can be made to one of the deployed endpoints using the following command: -
 
@@ -459,13 +544,8 @@ $ curl -H "Authorization: Bearer ey..XPA" http://localhost:8080/microprofile-jwt
 7 months and 19 days until your next birthday.
 ----
 
-This section has been a fast run through of the commands required to deploy the quickstart, generate JWT tokens and call the various endpoints, for further information as to how this was achieved
-please read through the next section where the process to generate this quickstart from scratch is described step by step.
-
-It is also possible to run each of these calls from the test case included in the quickstart.
-
 // Server Distribution Testing
-:leveloffset: +2
+:leveloffset: +1
 
 [[run_the_integration_tests_with_server_distribution]]
 = Run the Integration Tests
@@ -483,6 +563,27 @@ Follow these steps to run the integration tests.
 [source,subs="attributes+",options="nowrap"]
 ----
 $ mvn verify -Pintegration-testing {extraStandardDistTestParams}
+----
+
+:leveloffset!:
+// Undeploy the Quickstart
+:leveloffset: +1
+
+[[undeploy_the_quickstart]]
+= Undeploy the Quickstart
+
+//*******************************************************************************
+// Include this template if your quickstart does a normal undeployment of an archive.
+//*******************************************************************************
+When you are finished testing the quickstart, follow these steps to undeploy the archive.
+
+. Make sure {productName} server is started.
+. Open a terminal and navigate to the root directory of this quickstart.
+. Type this command to undeploy the archive:
++
+[source,options="nowrap"]
+----
+$ mvn wildfly:undeploy
 ----
 
 :leveloffset!:
@@ -557,7 +658,7 @@ Before the dependencies are defined add the following boms.
 </dependencyManagement>
 ----
 
-By using boms the majority of dependencies used within this quickstart align with the version uses by the application server.
+By using BOMs the majority of dependencies used within this quickstart align with the version uses by the application server.
 
 The following dependencies can now be added to the project.
 
@@ -1129,78 +1230,7 @@ $ curl -H "Authorization: Bearer ey..59g" http://localhost:8080/microprofile-jwt
 :leveloffset: +1
 
 [[build_and_run_the_quickstart_with_bootable_jar]]
-= Building and running the quickstart application in a bootable JAR
-
-You can use the WildFly JAR Maven plug-in to build a {productName} bootable JAR to run this quickstart.
-
-The quickstart `pom.xml` file contains a Maven profile named *bootable-jar* which configures the bootable JAR building:
-
-[source,xml,subs="attributes+"]
-----
-      <profile>
-          <id>bootable-jar</id>
-          <build>
-              <plugins>
-                  <plugin>
-                      <groupId>org.wildfly.plugins</groupId>
-                      <artifactId>wildfly-maven-plugin</artifactId>
-                      <configuration>
-                          <discover-provisioning-info>
-                              <version>${version.server}</version>
-                          </discover-provisioning-info>
-                          <bootable-jar>true</bootable-jar>
-                          <add-ons>...</add-ons>
-                      </configuration>
-                      <executions>
-                          <execution>
-                              <goals>
-                                  <goal>package</goal>
-                              </goals>
-                          </execution>
-                      </executions>
-                  </plugin>
-                  ...
-              </plugins>
-          </build>
-      </profile>
-----
-The plugin uses https://github.com/wildfly/wildfly-glow[WildFly Glow] to discover the feature packs and layers required to run the application, and provisions a server containing those layers.
-
-If you get an error or the server is missing some functionality which cannot be auto-discovered, you can download the https://github.com/wildfly/wildfly-glow/releases/tag[WildFly Glow CLI] and run the following command to see more information about what add-ons are available:
-
-[source,shell]
-----
-wildfly-glow show-add-ons
-----
-
-.Procedure
-
-. Build the quickstart bootable JAR with the following command:
-+
-[source,subs="attributes+",options="nowrap"]
-----
-$ mvn clean package -Pbootable-jar
-----
-
-. Run the quickstart application contained in the bootable JAR:
-+
-[source,subs="attributes+",options="nowrap"]
-----
-ifdef::uses-jaeger[]
-$ JAEGER_REPORTER_LOG_SPANS=true JAEGER_SAMPLER_TYPE=const JAEGER_SAMPLER_PARAM=1 java -jar target/{artifactId}-bootable.jar
-endif::uses-jaeger[]
-ifndef::uses-jaeger[]
-$ java -jar target/{artifactId}-bootable.jar
-endif::uses-jaeger[]
-----
-
-. You can now interact with the quickstart application.
-
-// Bootable Jar Testing
-:leveloffset: +1
-
-[[run_the_integration_tests_with_bootable_jar_]]
-= Run the Integration Tests with a bootable jar
+= Building and Running the quickstart application in a bootable JAR
 
 //******************************************************************************
 // This template sets attributes for the different standalone server profiles.
@@ -1265,39 +1295,86 @@ ifndef::serverProfile[]
 :serverArguments:
 endif::serverProfile[]
 
-The integration tests included with this quickstart, which verify that the quickstart runs correctly, may also be run with a bootable jar.
+ifndef::mavenServerProvisioningCommand[]
+ifeval::["{archiveType}"=="ear"]
+:mavenServerProvisioningCommand: clean install
+endif::[]
+ifeval::["{archiveType}"=="war"]
+:mavenServerProvisioningCommand: clean package
+endif::[]
+ifeval::["{archiveType}"=="jar"]
+:mavenServerProvisioningCommand: clean install
+endif::[]
+endif::mavenServerProvisioningCommand[]
 
-Follow these steps to run the integration tests.
+You can use the WildFly Maven Plugin to build a {productName} bootable JAR to run this quickstart.
 
-. Make sure the bootable jar is provisioned.
+The quickstart `pom.xml` file contains a Maven profile named *bootable-jar*, which configures the bootable JAR building:
+
+[source,xml,subs="attributes+"]
+----
+      <profile>
+          <id>bootable-jar</id>
+          <activation>
+              <activeByDefault>true</activeByDefault>
+          </activation>
+          <build>
+              <plugins>
+                  <plugin>
+                      <groupId>org.wildfly.plugins</groupId>
+                      <artifactId>wildfly-maven-plugin</artifactId>
+                      <configuration>
+                          <discover-provisioning-info>
+                              <version>${version.server}</version>
+                          </discover-provisioning-info>
+                          <bootable-jar>true</bootable-jar>
+                          <add-ons>...</add-ons>
+                      </configuration>
+                      <executions>
+                          <execution>
+                              <goals>
+                                  <goal>package</goal>
+                              </goals>
+                          </execution>
+                      </executions>
+                  </plugin>
+                  ...
+              </plugins>
+          </build>
+      </profile>
+----
+
+The *bootable-jar* profile is activate by default, and when built the {productName} bootable jar may be found at `target/{artifactId}-bootable.jar`
+
+.Procedure
+
+. Ensure the bootable jar is built.
 +
 [source,subs="attributes+",options="nowrap"]
 ----
-$ mvn clean package -Pbootable-jar
+$ mvn clean {mavenServerProvisioningCommand}
 ----
 
-. Start the {productName} bootable jar, this time using the {productName} Maven Jar Plugin, which is recommend for testing due to simpler automation.
+. Start the {productName} bootable jar use the WildFly Maven Plugin `start-jar` goal.
 +
 [source,subs="attributes+",options="nowrap"]
 ----
 $ mvn wildfly:start-jar
 ----
 
-. Type the following command to run the `verify` goal with the `integration-testing` profile activated.
+. Run the integration tests use the `verify` goal, with the `integration-testing` profile activated.
 +
 [source,subs="attributes+",options="nowrap"]
 ----
 $ mvn verify -Pintegration-testing
 ----
 
-. Shutdown the {productName} bootable jar, this time using the {productName} Maven Jar Plugin too.
+. Shut down the {productName} bootable jar use the WildFly Maven Plugin `shutdown` goal.
 +
 [source,options="nowrap"]
 ----
 $ mvn wildfly:shutdown
 ----
-
-:leveloffset: 1
 
 :leveloffset!:
 

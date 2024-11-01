@@ -875,45 +875,18 @@ ifndef::deploymentDir[:deploymentTargetDir: target]
 ifdef::deploymentDir[:deploymentTargetDir: {deploymentDir}/target]
 endif::deploymentTargetDir[]
 
-Instead of using a standard {productName} server distribution, you can alternatively provision a {productName} server to deploy and run the quickstart, by activating the Maven profile named `provisioned-server` when building the quickstart:
+ifndef::extraStartParams[:extraStartParams: ]
+ifndef::extraProvisioningTestParams[:extraProvisioningTestParams: ]
 
-[source,subs="attributes+",options="nowrap"]
-----
-$ mvn {mavenServerProvisioningCommand} -Pprovisioned-server
-----
-
-The provisioned {productName} server, with the quickstart deployed, can then be found in the `{deploymentTargetDir}/server` directory, and its usage is similar to a standard server distribution, with the simplification that there is never the need to specify the server configuration to be started.
-
-ifdef::addQuickstartUser[]
-The quickstart user should be added before running the provisioned server:
-[source,subs="+quotes,attributes+",options="nowrap"]
-----
-$ {deploymentTargetDir}/server/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!' {app-group-command}
-----
-[NOTE]
-====
-For Windows, use the `__{jbossHomeName}__\bin\add-user.bat` script.
-====
-endif::[]
-
-ifdef::addQuickstartAdmin[]
-The quickstart admin should be added before running the provisioned server:
-[source,subs="+quotes,attributes+",options="nowrap"]
-----
-$ {deploymentTargetDir}/server/bin/add-user.sh -a -u 'quickstartAdmin' -p 'adminPwd1!' {admin-group-command}
-----
-[NOTE]
-====
-For Windows, use the `__{jbossHomeName}__\bin\add-user.bat` script.
-====
-endif::[]
-
-The server provisioning functionality is provided by the WildFly Maven Plugin, and you may find its configuration in the quickstart `pom.xml`:
+Instead of using a standard {productName} server distribution, you can alternatively provision a {productName} server to deploy and run the quickstart. The functionality is provided by the WildFly Maven Plugin, and you may find its configuration in the quickstart `pom.xml`:
 
 [source,xml,subs="attributes+"]
 ----
         <profile>
             <id>provisioned-server</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
             <build>
                 <plugins>
                     <plugin>
@@ -938,113 +911,18 @@ The server provisioning functionality is provided by the WildFly Maven Plugin, a
             </build>
         </profile>
 ----
-The plugin uses https://github.com/wildfly/wildfly-glow[WildFly Glow] to discover the feature packs and layers required to run the application, and provisions a server containing those layers.
 
-If you get an error or the server is missing some functionality which cannot be auto-discovered, you can download the https://github.com/wildfly/wildfly-glow/releases/tag[WildFly Glow CLI] and run the following command to see more information about what add-ons  are available:
+When built, the provisioned {productName} server can be found in the `{deploymentTargetDir}/server` directory, and its usage is similar to a standard server distribution, with the simplification that there is never the need to specify the server configuration to be started.
 
-[source,shell]
-----
-wildfly-glow show-add-ons
-----
+Follow these steps to run the quickstart using the provisioned server.
 
-// Server Provisioning Testing
-:leveloffset: +1
-
-[[run_the_integration_tests_with_provisioned_server_]]
-= Run the Integration Tests with a provisioned server
-
-//******************************************************************************
-// This template sets attributes for the different standalone server profiles.
-//
-// You must define the `standalone-server-type`. Supported values are:
-//    default
-//    full
-//    full-ha
-//    ha
-//    microprofile
-//    custom
-//******************************************************************************
-
-// Standalone server with the default profile.
-ifeval::["{standalone-server-type}"=="default"]
-:serverProfile: default profile
-:configFileName: standalone/configuration/standalone.xml
-:serverArguments:
-endif::[]
-
-// Standalone server with the full profile.
-ifeval::["{standalone-server-type}"=="full"]
-:serverProfile: full profile
-:configFileName: standalone/configuration/standalone-full.xml
-:serverArguments:  -c standalone-full.xml
-endif::[]
-
-// Standalone server with the full HA profile.
-ifeval::["{standalone-server-type}"=="full-ha"]
-:serverProfile: full HA profile
-:configFileName: standalone/configuration/standalone-full-ha.xml
-:serverArguments:  -c standalone-full-ha.xml
-endif::[]
-
-// Start the standalone server with the HA profile.
-ifeval::["{standalone-server-type}"=="ha"]
-:serverProfile: HA profile
-:configFileName: standalone/configuration/standalone-ha.xml
-:serverArguments:  -c standalone-ha.xml
-endif::[]
-
-// Start the standalone server with the Eclipse MicroProfile profile.
-ifeval::["{standalone-server-type}"=="microprofile"]
-:serverProfile: MicroProfile profile
-:configFileName: standalone/configuration/standalone-microprofile.xml
-:serverArguments:  -c standalone-microprofile.xml
-endif::[]
-
-// Standalone server with the custom profile.
-// NOTE: This profile requires that you define the `serverArguments` variable
-// within the quickstart README.adoc file. For example:
-//  :serverArguments: --server-config=../../docs/examples/configs/standalone-xts.xml
-ifeval::["{standalone-server-type}"=="custom"]
-:serverProfile: custom profile
-endif::[]
-
-// If there is no match, use the default profile.
-ifndef::serverProfile[]
-:standalone-server-type:  default
-:serverProfile: default profile
-:configFileName: standalone/configuration/standalone.xml
-:serverArguments:
-endif::serverProfile[]
-
-ifndef::mavenServerProvisioningCommand[]
-ifeval::["{archiveType}"=="ear"]
-:mavenServerProvisioningCommand: clean install
-endif::[]
-ifeval::["{archiveType}"=="war"]
-:mavenServerProvisioningCommand: clean package
-endif::[]
-ifeval::["{archiveType}"=="jar"]
-:mavenServerProvisioningCommand: clean install
-endif::[]
-endif::mavenServerProvisioningCommand[]
-
-ifndef::deploymentTargetDir[]
-ifndef::deploymentDir[:deploymentTargetDir: target]
-ifdef::deploymentDir[:deploymentTargetDir: {deploymentDir}/target]
-endif::deploymentTargetDir[]
-
-ifndef::extraStartParams[:extraStartParams: ]
-ifndef::extraProvisioningTestParams[:extraProvisioningTestParams: ]
-
-The integration tests included with this quickstart, which verify that the quickstart runs correctly, may also be run with a provisioned server.
-
-Follow these steps to run the integration tests.
+.Procedure
 
 . Make sure the server is provisioned.
 +
 [source,subs="attributes+",options="nowrap"]
 ----
-$ mvn {mavenServerProvisioningCommand} -Pprovisioned-server
+$ mvn {mavenServerProvisioningCommand}
 ----
 
 ifdef::addQuickstartUser[]
@@ -1069,7 +947,7 @@ For Windows, use the `__{jbossHomeName}__\bin\add-user.bat` script.
 ====
 endif::[]
 
-. Start the {productName} provisioned server, this time using the {productName} Maven Plugin, which is recommended for testing due to simpler automation.
+. Start the {productName} provisioned server, using the WildFly Maven Plugin `start` goal.
 +
 ifndef::deploymentDir[]
 [source,subs="attributes+",options="nowrap"]
@@ -1080,18 +958,18 @@ endif::[]
 ifdef::deploymentDir[]
 [source,subs="attributes+",options="nowrap"]
 ----
-$ mvn -f {deploymentDir}/pom.xml wildfly:start -DjbossHome={deploymentDir}/target/server {extraStartParams}
+$ mvn -f {deploymentDir}/pom.xml wildfly:start {extraStartParams}
 ----
 endif::[]
 
-. Type the following command to run the `verify` goal with the `integration-testing` profile activated.
+. Type the following command to run the integration tests.
 +
 [source,subs="attributes+",options="nowrap"]
 ----
 $ mvn verify -Pintegration-testing {extraProvisioningTestParams}
 ----
 
-. Shutdown the {productName} provisioned server, this time using the {productName} Maven Plugin too.
+. Shut down the {productName} provisioned server.
 +
 ifndef::deploymentDir[]
 [source,subs="attributes+",options="nowrap"]
@@ -1105,8 +983,6 @@ ifdef::deploymentDir[]
 $ mvn -f {deploymentDir}/pom.xml wildfly:shutdown
 ----
 endif::[]
-
-:leveloffset: 1
 
 :leveloffset!:
 endif::[]

@@ -678,6 +678,28 @@ WFLYJCA0091: -ds.xml file deployments are deprecated. Support may be removed in 
 HHH000431: Unable to determine H2 database version, certain features may not work
 ----
 
+// Server Distribution Testing
+:leveloffset: +1
+
+[[run_the_integration_tests_with_server_distribution]]
+= Run the Integration Tests
+ifndef::integrationTestsDirectory[:integrationTestsDirectory: src/test/]
+ifndef::extraStandardDistTestParams[:extraStandardDistTestParams: ]
+
+This quickstart includes integration tests, which are located under the `{integrationTestsDirectory}` directory. The integration tests verify that the quickstart runs correctly when deployed on the server.
+
+Follow these steps to run the integration tests.
+
+. Make sure {productName} server is started.
+. Make sure the quickstart is deployed.
+. Type the following command to run the `verify` goal with the `integration-testing` profile activated.
++
+[source,subs="attributes+",options="nowrap"]
+----
+$ mvn verify -Pintegration-testing {extraStandardDistTestParams}
+----
+
+:leveloffset!:
 // Undeploy the Quickstart
 :leveloffset: +1
 

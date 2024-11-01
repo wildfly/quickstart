@@ -766,7 +766,7 @@ otel-collector_1  |     {"kind": "exporter", "data_type": "traces", "name": "log
 -----
 
 // Server Distribution Testing
-:leveloffset: +2
+:leveloffset: +1
 
 [[run_the_integration_tests_with_server_distribution]]
 = Run the Integration Tests
@@ -946,45 +946,18 @@ ifndef::deploymentDir[:deploymentTargetDir: target]
 ifdef::deploymentDir[:deploymentTargetDir: {deploymentDir}/target]
 endif::deploymentTargetDir[]
 
-Instead of using a standard {productName} server distribution, you can alternatively provision a {productName} server to deploy and run the quickstart, by activating the Maven profile named `provisioned-server` when building the quickstart:
+ifndef::extraStartParams[:extraStartParams: ]
+ifndef::extraProvisioningTestParams[:extraProvisioningTestParams: ]
 
-[source,subs="attributes+",options="nowrap"]
-----
-$ mvn {mavenServerProvisioningCommand} -Pprovisioned-server
-----
-
-The provisioned {productName} server, with the quickstart deployed, can then be found in the `{deploymentTargetDir}/server` directory, and its usage is similar to a standard server distribution, with the simplification that there is never the need to specify the server configuration to be started.
-
-ifdef::addQuickstartUser[]
-The quickstart user should be added before running the provisioned server:
-[source,subs="+quotes,attributes+",options="nowrap"]
-----
-$ {deploymentTargetDir}/server/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!' {app-group-command}
-----
-[NOTE]
-====
-For Windows, use the `__{jbossHomeName}__\bin\add-user.bat` script.
-====
-endif::[]
-
-ifdef::addQuickstartAdmin[]
-The quickstart admin should be added before running the provisioned server:
-[source,subs="+quotes,attributes+",options="nowrap"]
-----
-$ {deploymentTargetDir}/server/bin/add-user.sh -a -u 'quickstartAdmin' -p 'adminPwd1!' {admin-group-command}
-----
-[NOTE]
-====
-For Windows, use the `__{jbossHomeName}__\bin\add-user.bat` script.
-====
-endif::[]
-
-The server provisioning functionality is provided by the WildFly Maven Plugin, and you may find its configuration in the quickstart `pom.xml`:
+Instead of using a standard {productName} server distribution, you can alternatively provision a {productName} server to deploy and run the quickstart. The functionality is provided by the WildFly Maven Plugin, and you may find its configuration in the quickstart `pom.xml`:
 
 [source,xml,subs="attributes+"]
 ----
         <profile>
             <id>provisioned-server</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
             <build>
                 <plugins>
                     <plugin>
@@ -1009,20 +982,86 @@ The server provisioning functionality is provided by the WildFly Maven Plugin, a
             </build>
         </profile>
 ----
-The plugin uses https://github.com/wildfly/wildfly-glow[WildFly Glow] to discover the feature packs and layers required to run the application, and provisions a server containing those layers.
 
-If you get an error or the server is missing some functionality which cannot be auto-discovered, you can download the https://github.com/wildfly/wildfly-glow/releases/tag[WildFly Glow CLI] and run the following command to see more information about what add-ons  are available:
+When built, the provisioned {productName} server can be found in the `{deploymentTargetDir}/server` directory, and its usage is similar to a standard server distribution, with the simplification that there is never the need to specify the server configuration to be started.
 
-[source,shell]
+Follow these steps to run the quickstart using the provisioned server.
+
+.Procedure
+
+. Make sure the server is provisioned.
++
+[source,subs="attributes+",options="nowrap"]
 ----
-wildfly-glow show-add-ons
+$ mvn {mavenServerProvisioningCommand}
 ----
 
-// Server Provisioning Testing
+ifdef::addQuickstartUser[]
+. Add the quickstart user:
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ {deploymentTargetDir}/server/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!' {app-group-command}
+----
+endif::[]
+
+ifdef::addQuickstartAdmin[]
+. Add the quickstart admin:
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ {deploymentTargetDir}/server/bin/add-user.sh -a -u 'quickstartAdmin' -p 'adminPwd1!' {admin-group-command}
+----
+[NOTE]
+====
+For Windows, use the `__{jbossHomeName}__\bin\add-user.bat` script.
+====
+endif::[]
+
+. Start the {productName} provisioned server, using the WildFly Maven Plugin `start` goal.
++
+ifndef::deploymentDir[]
+[source,subs="attributes+",options="nowrap"]
+----
+$ mvn wildfly:start {extraStartParams}
+----
+endif::[]
+ifdef::deploymentDir[]
+[source,subs="attributes+",options="nowrap"]
+----
+$ mvn -f {deploymentDir}/pom.xml wildfly:start {extraStartParams}
+----
+endif::[]
+
+. Type the following command to run the integration tests.
++
+[source,subs="attributes+",options="nowrap"]
+----
+$ mvn verify -Pintegration-testing {extraProvisioningTestParams}
+----
+
+. Shut down the {productName} provisioned server.
++
+ifndef::deploymentDir[]
+[source,subs="attributes+",options="nowrap"]
+----
+$ mvn wildfly:shutdown
+----
+endif::[]
+ifdef::deploymentDir[]
+[source,subs="attributes+",options="nowrap"]
+----
+$ mvn -f {deploymentDir}/pom.xml wildfly:shutdown
+----
+endif::[]
+
+:leveloffset!:
+endif::[]
+// Bootable JAR
 :leveloffset: +1
 
-[[run_the_integration_tests_with_provisioned_server_]]
-= Run the Integration Tests with a provisioned server
+[[build_and_run_the_quickstart_with_bootable_jar]]
+= Building and Running the quickstart application in a bootable JAR
 
 //******************************************************************************
 // This template sets attributes for the different standalone server profiles.
@@ -1099,102 +1138,17 @@ ifeval::["{archiveType}"=="jar"]
 endif::[]
 endif::mavenServerProvisioningCommand[]
 
-ifndef::deploymentTargetDir[]
-ifndef::deploymentDir[:deploymentTargetDir: target]
-ifdef::deploymentDir[:deploymentTargetDir: {deploymentDir}/target]
-endif::deploymentTargetDir[]
+You can use the WildFly Maven Plugin to build a {productName} bootable JAR to run this quickstart.
 
-ifndef::extraStartParams[:extraStartParams: ]
-ifndef::extraProvisioningTestParams[:extraProvisioningTestParams: ]
-
-The integration tests included with this quickstart, which verify that the quickstart runs correctly, may also be run with a provisioned server.
-
-Follow these steps to run the integration tests.
-
-. Make sure the server is provisioned.
-+
-[source,subs="attributes+",options="nowrap"]
-----
-$ mvn {mavenServerProvisioningCommand} -Pprovisioned-server
-----
-
-ifdef::addQuickstartUser[]
-. Add the quickstart user:
-+
-[source,subs="+quotes,attributes+",options="nowrap"]
-----
-$ {deploymentTargetDir}/server/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!' {app-group-command}
-----
-endif::[]
-
-ifdef::addQuickstartAdmin[]
-. Add the quickstart admin:
-+
-[source,subs="+quotes,attributes+",options="nowrap"]
-----
-$ {deploymentTargetDir}/server/bin/add-user.sh -a -u 'quickstartAdmin' -p 'adminPwd1!' {admin-group-command}
-----
-[NOTE]
-====
-For Windows, use the `__{jbossHomeName}__\bin\add-user.bat` script.
-====
-endif::[]
-
-. Start the {productName} provisioned server, this time using the {productName} Maven Plugin, which is recommended for testing due to simpler automation.
-+
-ifndef::deploymentDir[]
-[source,subs="attributes+",options="nowrap"]
-----
-$ mvn wildfly:start {extraStartParams}
-----
-endif::[]
-ifdef::deploymentDir[]
-[source,subs="attributes+",options="nowrap"]
-----
-$ mvn -f {deploymentDir}/pom.xml wildfly:start -DjbossHome={deploymentDir}/target/server {extraStartParams}
-----
-endif::[]
-
-. Type the following command to run the `verify` goal with the `integration-testing` profile activated.
-+
-[source,subs="attributes+",options="nowrap"]
-----
-$ mvn verify -Pintegration-testing {extraProvisioningTestParams}
-----
-
-. Shutdown the {productName} provisioned server, this time using the {productName} Maven Plugin too.
-+
-ifndef::deploymentDir[]
-[source,subs="attributes+",options="nowrap"]
-----
-$ mvn wildfly:shutdown
-----
-endif::[]
-ifdef::deploymentDir[]
-[source,subs="attributes+",options="nowrap"]
-----
-$ mvn -f {deploymentDir}/pom.xml wildfly:shutdown
-----
-endif::[]
-
-:leveloffset: 1
-
-:leveloffset!:
-endif::[]
-// Bootable JAR
-:leveloffset: +1
-
-[[build_and_run_the_quickstart_with_bootable_jar]]
-= Building and running the quickstart application in a bootable JAR
-
-You can use the WildFly JAR Maven plug-in to build a {productName} bootable JAR to run this quickstart.
-
-The quickstart `pom.xml` file contains a Maven profile named *bootable-jar* which configures the bootable JAR building:
+The quickstart `pom.xml` file contains a Maven profile named *bootable-jar*, which configures the bootable JAR building:
 
 [source,xml,subs="attributes+"]
 ----
       <profile>
           <id>bootable-jar</id>
+          <activation>
+              <activeByDefault>true</activeByDefault>
+          </activation>
           <build>
               <plugins>
                   <plugin>
@@ -1220,140 +1174,38 @@ The quickstart `pom.xml` file contains a Maven profile named *bootable-jar* whic
           </build>
       </profile>
 ----
-The plugin uses https://github.com/wildfly/wildfly-glow[WildFly Glow] to discover the feature packs and layers required to run the application, and provisions a server containing those layers.
 
-If you get an error or the server is missing some functionality which cannot be auto-discovered, you can download the https://github.com/wildfly/wildfly-glow/releases/tag[WildFly Glow CLI] and run the following command to see more information about what add-ons are available:
-
-[source,shell]
-----
-wildfly-glow show-add-ons
-----
+The *bootable-jar* profile is activate by default, and when built the {productName} bootable jar may be found at `target/{artifactId}-bootable.jar`
 
 .Procedure
 
-. Build the quickstart bootable JAR with the following command:
+. Ensure the bootable jar is built.
 +
 [source,subs="attributes+",options="nowrap"]
 ----
-$ mvn clean package -Pbootable-jar
+$ mvn clean {mavenServerProvisioningCommand}
 ----
 
-. Run the quickstart application contained in the bootable JAR:
-+
-[source,subs="attributes+",options="nowrap"]
-----
-ifdef::uses-jaeger[]
-$ JAEGER_REPORTER_LOG_SPANS=true JAEGER_SAMPLER_TYPE=const JAEGER_SAMPLER_PARAM=1 java -jar target/{artifactId}-bootable.jar
-endif::uses-jaeger[]
-ifndef::uses-jaeger[]
-$ java -jar target/{artifactId}-bootable.jar
-endif::uses-jaeger[]
-----
-
-. You can now interact with the quickstart application.
-
-// Bootable Jar Testing
-:leveloffset: +1
-
-[[run_the_integration_tests_with_bootable_jar_]]
-= Run the Integration Tests with a bootable jar
-
-//******************************************************************************
-// This template sets attributes for the different standalone server profiles.
-//
-// You must define the `standalone-server-type`. Supported values are:
-//    default
-//    full
-//    full-ha
-//    ha
-//    microprofile
-//    custom
-//******************************************************************************
-
-// Standalone server with the default profile.
-ifeval::["{standalone-server-type}"=="default"]
-:serverProfile: default profile
-:configFileName: standalone/configuration/standalone.xml
-:serverArguments:
-endif::[]
-
-// Standalone server with the full profile.
-ifeval::["{standalone-server-type}"=="full"]
-:serverProfile: full profile
-:configFileName: standalone/configuration/standalone-full.xml
-:serverArguments:  -c standalone-full.xml
-endif::[]
-
-// Standalone server with the full HA profile.
-ifeval::["{standalone-server-type}"=="full-ha"]
-:serverProfile: full HA profile
-:configFileName: standalone/configuration/standalone-full-ha.xml
-:serverArguments:  -c standalone-full-ha.xml
-endif::[]
-
-// Start the standalone server with the HA profile.
-ifeval::["{standalone-server-type}"=="ha"]
-:serverProfile: HA profile
-:configFileName: standalone/configuration/standalone-ha.xml
-:serverArguments:  -c standalone-ha.xml
-endif::[]
-
-// Start the standalone server with the Eclipse MicroProfile profile.
-ifeval::["{standalone-server-type}"=="microprofile"]
-:serverProfile: MicroProfile profile
-:configFileName: standalone/configuration/standalone-microprofile.xml
-:serverArguments:  -c standalone-microprofile.xml
-endif::[]
-
-// Standalone server with the custom profile.
-// NOTE: This profile requires that you define the `serverArguments` variable
-// within the quickstart README.adoc file. For example:
-//  :serverArguments: --server-config=../../docs/examples/configs/standalone-xts.xml
-ifeval::["{standalone-server-type}"=="custom"]
-:serverProfile: custom profile
-endif::[]
-
-// If there is no match, use the default profile.
-ifndef::serverProfile[]
-:standalone-server-type:  default
-:serverProfile: default profile
-:configFileName: standalone/configuration/standalone.xml
-:serverArguments:
-endif::serverProfile[]
-
-The integration tests included with this quickstart, which verify that the quickstart runs correctly, may also be run with a bootable jar.
-
-Follow these steps to run the integration tests.
-
-. Make sure the bootable jar is provisioned.
-+
-[source,subs="attributes+",options="nowrap"]
-----
-$ mvn clean package -Pbootable-jar
-----
-
-. Start the {productName} bootable jar, this time using the {productName} Maven Jar Plugin, which is recommend for testing due to simpler automation.
+. Start the {productName} bootable jar use the WildFly Maven Plugin `start-jar` goal.
 +
 [source,subs="attributes+",options="nowrap"]
 ----
 $ mvn wildfly:start-jar
 ----
 
-. Type the following command to run the `verify` goal with the `integration-testing` profile activated.
+. Run the integration tests use the `verify` goal, with the `integration-testing` profile activated.
 +
 [source,subs="attributes+",options="nowrap"]
 ----
 $ mvn verify -Pintegration-testing
 ----
 
-. Shutdown the {productName} bootable jar, this time using the {productName} Maven Jar Plugin too.
+. Shut down the {productName} bootable jar use the WildFly Maven Plugin `shutdown` goal.
 +
 [source,options="nowrap"]
 ----
 $ mvn wildfly:shutdown
 ----
-
-:leveloffset: 1
 
 :leveloffset!:
 // OpenShift
