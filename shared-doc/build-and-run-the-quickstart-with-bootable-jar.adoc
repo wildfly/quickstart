@@ -1,14 +1,31 @@
 [[build_and_run_the_quickstart_with_bootable_jar]]
-= Building and running the quickstart application in a bootable JAR
+= Building and Running the quickstart application in a bootable JAR
 
-You can use the WildFly JAR Maven plug-in to build a {productName} bootable JAR to run this quickstart.
+include::define-standalone-server-attributes.adoc[]
 
-The quickstart `pom.xml` file contains a Maven profile named *bootable-jar* which configures the bootable JAR building:
+ifndef::mavenServerProvisioningCommand[]
+ifeval::["{archiveType}"=="ear"]
+:mavenServerProvisioningCommand: clean install
+endif::[]
+ifeval::["{archiveType}"=="war"]
+:mavenServerProvisioningCommand: clean package
+endif::[]
+ifeval::["{archiveType}"=="jar"]
+:mavenServerProvisioningCommand: clean install
+endif::[]
+endif::mavenServerProvisioningCommand[]
+
+You can use the WildFly Maven Plugin to build a {productName} bootable JAR to run this quickstart.
+
+The quickstart `pom.xml` file contains a Maven profile named *bootable-jar*, which configures the bootable JAR building:
 
 [source,xml,subs="attributes+"]
 ----
       <profile>
           <id>bootable-jar</id>
+          <activation>
+              <activeByDefault>true</activeByDefault>
+          </activation>
           <build>
               <plugins>
                   <plugin>
@@ -34,37 +51,35 @@ The quickstart `pom.xml` file contains a Maven profile named *bootable-jar* whic
           </build>
       </profile>
 ----
-The plugin uses https://github.com/wildfly/wildfly-glow[WildFly Glow] to discover the feature packs and layers required to run the application, and provisions a server containing those layers.
 
-If you get an error or the server is missing some functionality which cannot be auto-discovered, you can download the https://github.com/wildfly/wildfly-glow/releases/tag[WildFly Glow CLI] and run the following command to see more information about what add-ons are available:
-
-[source,shell]
-----
-wildfly-glow show-add-ons
-----
+The *bootable-jar* profile is activate by default, and when built the {productName} bootable jar may be found at `target/{artifactId}-bootable.jar`
 
 .Procedure
 
-. Build the quickstart bootable JAR with the following command:
+. Ensure the bootable jar is built.
 +
 [source,subs="attributes+",options="nowrap"]
 ----
-$ mvn clean package -Pbootable-jar
+$ mvn clean {mavenServerProvisioningCommand}
 ----
 
-. Run the quickstart application contained in the bootable JAR:
+. Start the {productName} bootable jar use the WildFly Maven Plugin `start-jar` goal.
 +
 [source,subs="attributes+",options="nowrap"]
 ----
-ifdef::uses-jaeger[]
-$ JAEGER_REPORTER_LOG_SPANS=true JAEGER_SAMPLER_TYPE=const JAEGER_SAMPLER_PARAM=1 java -jar target/{artifactId}-bootable.jar
-endif::uses-jaeger[]
-ifndef::uses-jaeger[]
-$ java -jar target/{artifactId}-bootable.jar
-endif::uses-jaeger[]
+$ mvn wildfly:start-jar
 ----
 
-. You can now interact with the quickstart application.
+. Run the integration tests use the `verify` goal, with the `integration-testing` profile activated.
++
+[source,subs="attributes+",options="nowrap"]
+----
+$ mvn verify -Pintegration-testing
+----
 
-// Bootable Jar Testing
-include::../shared-doc/run-integration-tests-with-bootable-jar.adoc[leveloffset=+1]
+. Shut down the {productName} bootable jar use the WildFly Maven Plugin `shutdown` goal.
++
+[source,options="nowrap"]
+----
+$ mvn wildfly:shutdown
+----

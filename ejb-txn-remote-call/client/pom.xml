@@ -209,15 +209,15 @@
     <profiles>
         <profile>
             <id>provisioned-server</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
             <build>
                 <plugins>
                     <plugin>
                         <groupId>org.wildfly.plugins</groupId>
                         <artifactId>wildfly-maven-plugin</artifactId>
                         <configuration>
-                            <filename>client.war</filename>
-                            <serverConfig>standalone.xml</serverConfig>
-                            <!-- Env used when calling wildfly:start goal -->
                             <env>
                                 <POSTGRESQL_DATABASE>test</POSTGRESQL_DATABASE>
                                 <POSTGRESQL_JNDI>java:jboss/datasources/ejbJtaDs</POSTGRESQL_JNDI>
@@ -251,7 +251,7 @@
                                 </goals>
                                 <configuration>
                                     <offline>true</offline>
-                                    <jbossHome>target/server</jbossHome>
+                                    <jbossHome>${project.build.directory}/server</jbossHome>
                                     <scripts>
                                         <script>scripts/remoting-configuration.cli</script>
                                     </scripts>
@@ -276,10 +276,6 @@
                     <plugin>
                         <groupId>org.wildfly.plugins</groupId>
                         <artifactId>wildfly-maven-plugin</artifactId>
-                        <configuration>
-                            <filename>client.war</filename>
-                            <serverConfig>standalone.xml</serverConfig>
-                        </configuration>
                         <executions>
                             <execution>
                                 <id>package</id>
@@ -307,7 +303,7 @@
                                 </goals>
                                 <configuration>
                                     <offline>true</offline>
-                                    <jbossHome>${project.basedir}/target/server</jbossHome>
+                                    <jbossHome>${project.build.directory}/server</jbossHome>
                                     <scripts>
                                         <script>scripts/remoting-configuration.cli</script>
                                     </scripts>

@@ -553,17 +553,17 @@ Instead of using a standard {productName} server distribution, the three {produc
 [source,sh,subs="+quotes,attributes+",options="nowrap"]
 ----
 cd ${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call/client;
-mvn clean package -Pprovisioned-server \
+mvn clean package \
   -DremoteServerUsername="quickstartUser" -DremoteServerPassword="quickstartPwd1!" \
   -DpostgresqlUsername="test" -DpostgresqlPassword="test"
 ----
 [source,sh,subs="+quotes,attributes+",options="nowrap"]
 ----
 cd ${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call/server;
-mvn clean package -Pprovisioned-server \
+mvn clean package \
   -Dwildfly.provisioning.dir=server2 -Djboss-as.home=target/server2 \
   -DpostgresqlUsername="test" -DpostgresqlPassword="test";
-mvn package -Pprovisioned-server \
+mvn package \
   -Dwildfly.provisioning.dir=server3 -Djboss-as.home=target/server3 \
   -DpostgresqlUsername="test" -DpostgresqlPassword="test"
 ----
@@ -606,7 +606,7 @@ podman run -p 5432:5432 --rm  -ePOSTGRES_DB=test -ePOSTGRES_USER=test -ePOSTGRES
 [source,subs="attributes+",options="nowrap"]
 ----
 cd ${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call/client;
-mvn wildfly:start -Djboss-as.home=target/server \
+mvn wildfly:start \
   -Dwildfly.javaOpts="-Djboss.tx.node.id=server1 -Djboss.node.name=server1"
 ----
 +
@@ -682,8 +682,6 @@ to {productName} using the {productName}'s Operator, which can employ OpenShift'
 might result in no-ACID transactions.
 
 === Prerequisites
-
-include::../shared-doc/cd-create-project.adoc[leveloffset=+3]
 
 [#_install_operator]
 ==== Install {productName}'s Operator

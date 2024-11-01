@@ -70,6 +70,9 @@
     <profiles>
         <profile>
             <id>provisioned-server</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
             <build>
                 <plugins>
                     <plugin>
@@ -84,10 +87,14 @@
                             </discover-provisioning-info>
                             <packaging-scripts>
                                 <packaging-script>
+                                    <commands>
+                                        <!-- If you need to change this command please change also in ../add-custom-module.cli -->
+                                        <command>module add --name=org.jboss.as.quickstart.http_custom_mechanism.custom-http-mechanism --resources=${project.basedir}/../custom-module/target/custom-module.jar --dependencies=org.wildfly.security.elytron</command>
+                                    </commands>
                                     <scripts>
-                                        <script>${basedir}/../add-custom-module.cli</script>
                                         <script>${basedir}/../configure-elytron.cli</script>
                                     </scripts>
+                                    <resolve-expressions>true</resolve-expressions>
                                 </packaging-script>
                             </packaging-scripts>
                         </configuration>
