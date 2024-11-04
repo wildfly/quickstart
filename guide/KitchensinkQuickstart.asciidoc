@@ -1,4 +1,4 @@
-CDI + JSF + EJB + JTA + Bean Validation + JAX-RS : Kitchensink quickstart
+CDI + JSF + EJB + JTA + Bean Validation + Jakarta REST : Kitchensink quickstart
 =====================================================================================
 :Author: Pete Muir
 
@@ -17,9 +17,9 @@ feedback to users.
 ========================================================================
 
 [TIP]
-.JAX-RS: The Java API for RESTful Web Services
+.Jakarta REST: The Java API for RESTful Web Services
 ========================================================================
-JAX-RS is a specification in Jakarta EE. It allows application
+Jakarta REST is a specification in Jakarta EE. It allows application
 developers to easily expose Java services as RESTful web services.
 ========================================================================
 
@@ -67,7 +67,7 @@ image:gfx/Eclipse_KitchenSink_Deploy_3.jpg[]
 The kitchensink quickstart in depth
 -----------------------------------
 
-The kitchensink application shows off a number of Jakarta EE technologies such as CDI, JSF, EJB, JTA, JAX-RS. It does this by providing a member registration database, available via JSF and JAX-RS.
+The kitchensink application shows off a number of Jakarta EE technologies such as CDI, JSF, EJB, JTA, Jakarta REST. It does this by providing a member registration database, available via JSF and Jakarta REST.
 
 As usual, let's start by looking at the necessary deployment descriptors. By now, we're very used to seeing `beans.xml` and `faces-config.xml` in `WEB-INF/` (which can be found in the `src/main/webapp` directory). Notice that, once again, we don't need a `web.xml`. There are two configuration files in `WEB-INF/classes/META-INF` (which can be found in the `src/main/resources` directory) — `persistence.xml`, which sets up JPA, and `import.sql` which Hibernate, the JPA provider in JBoss WildFly, will use to load the initial users into the application when the application starts. We discussed both of these files in detail in <<GreeterQuickstart-,the Greeter Quickstart>>, and these are largely the same.
 
@@ -295,7 +295,7 @@ public class Member implements Serializable {
 }
 ------------------------------------------------------------------------
 <1> As usual with JPA, we define that the class is an entity by adding @Entity
-<2> Members are exposed as a RESTful service using JAX-RS. We can use JAXB to map the object to XML and to do this we need to add @XmlRootElement
+<2> Members are exposed as a RESTful service using Jakarta REST. We can use JAXB to map the object to XML and to do this we need to add @XmlRootElement
 <3> Bean Validation allows constraints to be defined once (on the entity) and applied everywhere. Here we constrain the person's name to a certain size and regular expression
 <4> Hibernate Validator also offers some extra validations such as @Email
 <5> @Digits , @NotNull and @Size are further examples of constraints
@@ -509,7 +509,7 @@ public class MemberController {
 <7> We also send a message to the user, to give them feedback on their actions
 <8> Finally, we replace the `newMember` with a new object, thus blanking out the data the user has added so far. This works as the producer field is dependent scoped
 
-Before we wrap up our tour of the kitchensink application, let's take a look at how the JAX-RS endpoints are created. Firstly, `JaxRSActivator`, which extends `Application` and is annotated with `@ApplicationPath`, is the Jakarta EE "no XML" approach to activating JAX-RS.
+Before we wrap up our tour of the kitchensink application, let's take a look at how the Jakarta REST endpoints are created. Firstly, `JaxRSActivator`, which extends `Application` and is annotated with `@ApplicationPath`, is the Jakarta EE "no XML" approach to activating Jakarta REST.
 
 .src/main/java/org/jboss/as/quickstarts/kitchensink/rest/JaxRsActivator.java
 [source,java]
@@ -561,7 +561,7 @@ public class MemberResourceRESTService {
 
     /**
      * Creates a new member from the values provided.  Performs
-     * validation, and will return a JAX-RS response with either
+     * validation, and will return a Jakarta REST response with either
      * 200 ok, or with a map of fields, and related errors.
      */
     @POST
@@ -641,13 +641,13 @@ public class MemberResourceRESTService {
     }
 
     /**
-     * Creates a JAX-RS "Bad Request" response including a map of 
+     * Creates a Jakarta REST "Bad Request" response including a map of
      * all violation fields, and their message. This can then be 
      * used by clients to show violations.
      *
      * @param violations A set of violations that needs to be 
      *                   reported
-     * @return JAX-RS response containing all violations
+     * @return Jakarta REST response containing all violations
      */
     private Response.ResponseBuilder createViolationResponse
             (Set<ConstraintViolation<?>> violations) {
@@ -687,13 +687,13 @@ public class MemberResourceRESTService {
     }
 }
 ------------------------------------------------------------------------
-<1> The `@Path` annotation tells JAX-RS that this class provides a REST endpoint mapped to `rest/members` (concatenating the path from the activator with the path for this endpoint). 
-<2> The bean is request scoped, as JAX-RS interactions typically don't hold state between requests
-<3> JAX-RS endpoints are CDI enabled, and can use CDI-style injection.
+<1> The `@Path` annotation tells Jakarta REST that this class provides a REST endpoint mapped to `rest/members` (concatenating the path from the activator with the path for this endpoint).
+<2> The bean is request scoped, as Jakarta REST interactions typically don't hold state between requests
+<3> Jakarta REST endpoints are CDI enabled, and can use CDI-style injection.
 <4> CDI allows us to inject a Bean Validation `Validator` instance, which is used to validate the POSTed member before it is persisted
 <5> `MemberRegistration` is injected to allow us to alter the member database
 <6> `MemberRepository` is injected to allow us to query the member database
-<7> The `listAllMembers()` method is called when the raw endpoint is accessed and offers up a list of endpoints. Notice that the object is automatically marshalled to JSON by RESTEasy (the JAX-RS implementation included in JBoss WildFly).
+<7> The `listAllMembers()` method is called when the raw endpoint is accessed and offers up a list of endpoints. Notice that the object is automatically marshalled to JSON by RESTEasy (the Jakarta REST implementation included in JBoss WildFly).
 <8> The `lookupMemberById()` method is called when the endpoint is accessed with a member id parameter appended (for example `rest/members/1)`. Again, the object is automatically marshalled to JSON by RESTEasy.
 <9> `createMember()` is called when a POST is performed on the URL. Once again, the object is automatically unmarshalled from JSON.
 <10> In order to ensure that the member is valid, we call the `validateMember` method, which validates the object, and adds any constraint violations to the response. These can then be handled on the client side, and displayed to the user

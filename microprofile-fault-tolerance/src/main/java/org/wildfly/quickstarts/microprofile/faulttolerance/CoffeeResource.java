@@ -36,7 +36,7 @@ import org.eclipse.microprofile.faulttolerance.Timeout;
 import org.jboss.logging.Logger;
 
 /**
- * A JAX-RS resource that provides information about kinds of coffees we have on store and numbers of packages available.
+ * A Jakarta REST resource that provides information about kinds of coffees we have on store and numbers of packages available.
  * Demonstrates {@link Retry}, {@link CircuitBreaker}, {@link Timeout} and {@link Fallback} policies.
  *
  * @author Radoslav Husar

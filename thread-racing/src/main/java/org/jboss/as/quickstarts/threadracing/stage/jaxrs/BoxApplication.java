@@ -20,7 +20,7 @@ import jakarta.ws.rs.ApplicationPath;
 import jakarta.ws.rs.core.Application;
 
 /**
- * A class extending {@link jakarta.ws.rs.core.Application} is the portable way to define JAX-RS 2.0 REST Services, and the {@link jakarta.ws.rs.ApplicationPath} defines the common path of such services.
+ * A class extending {@link jakarta.ws.rs.core.Application} is the portable way to define Jakarta REST REST Services, and the {@link jakarta.ws.rs.ApplicationPath} defines the common path of such services.
  * @author Eduardo Martins
  */
 @ApplicationPath(BoxApplication.PATH)
