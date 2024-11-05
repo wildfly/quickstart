@@ -590,13 +590,13 @@ $ mvn wildfly:undeploy
 
 == Starting from Scratch
 
-In this section we will go through the steps to create a new JAX-RS deployment from scratch and incrementally
+In this section we will go through the steps to create a new Jakarta REST deployment from scratch and incrementally
 add support for MicroProfile JWT including token generation, activation of authorization and the injection
 of claims.
 
 === Project Generation
 
-This quickstart will be making use of JAX-RS endpoints secured using MicroProfile JWT so the first step
+This quickstart will be making use of Jakarta REST endpoints secured using MicroProfile JWT so the first step
 is to generate a new `webapp` project: -
 
 [source,options="nowrap"]
@@ -793,10 +793,10 @@ Setup the required Maven repositories (if you don't have them set up in Maven gl
 
 :leveloffset!:
 
-==== JAX-RS Conversion
+==== Jakarta REST Conversion
 
 The generated project is a standard web application so the next step will be to delete the files not
-required by this quickstart and add the JAX-RS application and a `helloWorld` endpoint.
+required by this quickstart and add the Jakarta REST application and a `helloWorld` endpoint.
 
 Under `src/main/webapp` delete the generated `index.jsp`.
 
@@ -806,7 +806,7 @@ to enable CDI for the deployment.
 Under `src/main` create a new `java` directory to hold the Java class to be added to the project.
 
 Add the following class in the `org.wildfly.quickstarts.mpjwt` package, this will be the main trigger to
-process the deployment as a JAX-RS deployment.
+process the deployment as a Jakarta REST deployment.
 
 [source,java]
 ----
@@ -844,7 +844,7 @@ public class SampleEndPoint {
 }
 ----
 
-At this stage the project contains a simple JAX-RS endpoint we can deploy to the server and invoke to verify
+At this stage the project contains a simple Jakarta REST endpoint we can deploy to the server and invoke to verify
 everything is working as expected before moving on to enable JWT based authentication and authorization.
 
 First build the example and deploy it to the previously started application server.
@@ -1056,7 +1056,7 @@ We now have everything we need to activate `MP-JWT` authentication on the deploy
 
 === Activating MicroProfile JWT
 
-At this stage we have a basic JAX-RS deployment, a pair of keys for the generation of and validation of JWT tokens and a utility to generate JWT tokens.
+At this stage we have a basic Jakarta REST deployment, a pair of keys for the generation of and validation of JWT tokens and a utility to generate JWT tokens.
 Our next step is to activate MicroProfile JWT authentication for the deployment and we can then make use of some of the advanced features such as role
 based access control using the groups from within the token and access to individual claims within the token.
 
@@ -1124,7 +1124,7 @@ public String helloRolesAllowed(@Context SecurityContext ctx) {
 ----
 
 
-Within WildFly the JAX-RS deployment is handled by RESTEasy so under `src/main/webapp/WEB-INF` add the following to the web.xml to enable RESTEasy authorization checks.
+Within WildFly the Jakarta REST deployment is handled by RESTEasy so under `src/main/webapp/WEB-INF` add the following to the web.xml to enable RESTEasy authorization checks.
 
 [source,xml]
 ----

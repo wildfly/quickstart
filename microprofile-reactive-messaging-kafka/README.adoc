@@ -613,7 +613,7 @@ Next set up our dependencies. Add the following section to your
 ----
 By using boms the majority of dependencies used within this quickstart align with the version used by the application server.
 
-Now we need to add the dependencies which are needed by what is the focus of this QuickStart (CDI, MicroProfile Reactive Messaging, Reactive Streams Operators, Reactive Streams and the Apache Kafka Client). Additionally we need to add dependencies for 'supporting' functionality (JPA, JTA and JAX-RS):
+Now we need to add the dependencies which are needed by what is the focus of this QuickStart (CDI, MicroProfile Reactive Messaging, Reactive Streams Operators, Reactive Streams and the Apache Kafka Client). Additionally we need to add dependencies for 'supporting' functionality (JPA, JTA and Jakarta REST):
 
 [source,xml]
 ----
@@ -677,7 +677,7 @@ Now we need to add the dependencies which are needed by what is the focus of thi
         <artifactId>jakarta.transaction-api</artifactId>
         <scope>provided</scope>
     </dependency>
-    <!-- Import the JAX-RS API, we use provided scope as the API is included in WildFly -->
+    <!-- Import the Jakarta REST API, we use provided scope as the API is included in WildFly -->
     <dependency>
         <groupId>jakarta.ws.rs</groupId>
         <artifactId>jakarta.ws.rs-api</artifactId>
@@ -789,7 +789,7 @@ This will walk you through the steps to write our application. They are:
 * Add a data object which wraps the generated messages and adds a timestamp. We will use JPA annotations on this to make it persistable.
 * Create our CDI bean interfacing with the Kafka streams via annotated methods. For the streams that are managed by Kafka we will provide a MicroProfile Config file to configure how to interact with Kafka. It will log, filter and store entries to a RDBMS.
 * Create a CDI bean that will be used to store and retrieve entries from a RDBMS.
-* Create a JAX-RS endpoint to return the data that was stored in the RDBMS to the user.
+* Create a Jakarta REST endpoint to return the data that was stored in the RDBMS to the user.
 
 === Adding our Data Generator
 Copy across the `microprofile-reactive-messaging-kafka/src/main/java/org/wildfly/quickstarts/microprofile/reactive/messaging/MockExternalAsyncResource.java` file to your project. This class mocks a call to an asynchronous external resource. The details of how it is implemented are not important for this QuickStart.
@@ -1220,7 +1220,7 @@ The `DatabaseBean.store()` method saves the `TimedEntry` and the `DatabaseBean.l
 It is worth pointing out that the `@Incoming` and `@Outgoing` annotated methods called by the Reactive Messaging implementation (such as `MessagingBean.receiveFromKafka()`) happen outside of user space, so there is no @Transaction associated with them. So we need to annotated the `DatabaseBean.store()` method with `@Transactional` in order to save our entry to the database.
 
 ### Viewing the Data Stored in the RDBMS
-Finally, we would like to be able to view the data that was stored in the database. To do this we will add a JAX-RS endpoint that queries the database by calling `DatabaseBean.loadAllTimedEntries()`.
+Finally, we would like to be able to view the data that was stored in the database. To do this we will add a Jakarta REST endpoint that queries the database by calling `DatabaseBean.loadAllTimedEntries()`.
 
 [source,java]
 ----
@@ -1255,7 +1255,7 @@ public class RootResource {
 }
 
 ----
-We expose our JAX-RS application at the context path:
+We expose our Jakarta REST application at the context path:
 
 [source,java]
 ----
@@ -1367,14 +1367,14 @@ We store this injected `Publisher` in the `broadcastPublisher` field. We will co
 There are a few caveats on this mechanism though:
 
 1. There must be an active `Subscription` (from the Reactive Streams specification) on the channel before the `Emitter.send()` method is called.
-2. There can only be one `Subscription` on the injected `Publisher`. This means that we cannot simply return this `Publisher` as is via an asynchronous JAX-RS endpoint as each client request would result in a separate `Subscription`.
+2. There can only be one `Subscription` on the injected `Publisher`. This means that we cannot simply return this `Publisher` as is via an asynchronous Jakarta REST endpoint as each client request would result in a separate `Subscription`.
 
 The above two points will hopefully be fixed in a future version of the specification. For the purposes of this quickstart we are bypassing the above limitations by creating the `BroadcastPublisher` class and wrapping the original `Publisher` in that instead. Note that implementing `Publisher` is hard, and that `BroadcastPublisher` should be considered a 'proof of concept'. For more details about the `BroadcastPublisher` see the source code of the `UserMessagingBean` class. In a nutshell what it does is:
 
 * Its constructor subscribes to the injected `Publisher` to avoid the first problem
 * When code subscribes to it, it handles the `Subscription` on its own level, and forwards on code received on the ' a separate level and forwards on data received from the base `Subsciption` created in the constructor.
 
-Finally we have a JAX-RS endpoint
+Finally we have a Jakarta REST endpoint
 [source, java]
 ----
 package org.wildfly.quickstarts.microprofile.reactive.messaging;
