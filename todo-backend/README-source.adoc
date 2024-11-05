@@ -7,7 +7,7 @@ include::../shared-doc/attributes.adoc[]
 :idseparator:       -
 :keywords:          openshift,galleon,helm
 :level:             Intermediate
-:technologies:      JPA, JAX-RS, OpenShift, Galleon
+:technologies:      JPA, Jakarta REST, OpenShift, Galleon
 :openshift: true
 :archiveType: war
 :useHelmChartDir: true
@@ -17,7 +17,7 @@ include::../shared-doc/attributes.adoc[]
 :helmSetWildFlyArgumentPrefix: wildfly.
 
 [abstract]
-The `todo-backend` quickstart demonstrates how to implement a backend that exposes a HTTP API with JAX-RS
+The `todo-backend` quickstart demonstrates how to implement a backend that exposes a HTTP API with Jakarta REST
 to manage a list of ToDo which are persisted in a database with JPA.
 
 ifndef::ProductRelease[]
@@ -32,7 +32,7 @@ endif::[]
 
 == What is it?
 
-The `todo-backend` quickstart demonstrates how to implement a backend that exposes a HTTP API with `JAX-RS`
+The `todo-backend` quickstart demonstrates how to implement a backend that exposes a HTTP API with `Jakarta REST`
 to manage a list of ToDo which are persisted in a database with `JPA`.
 
 * The backend exposes a HTTP API to manage a list of todos that complies with the specs defined at https://todobackend.com/specs/index.html[todobackend.com].
@@ -86,7 +86,7 @@ The layers are defined in the `pom.xml` file in the `<configuration>` section of
 endif::[]
 
 The `cloud-server` layer provides everything needed to run the backend on OpenShift. This also includes access to
-Jakarta EE APIs such as CDI, JAX-RS, JPA, etc. These two layers comes from the {productName} feature pack provided in the
+Jakarta EE APIs such as CDI, Jakarta REST, JPA, etc. These two layers comes from the {productName} feature pack provided in the
 {productName} S2I builder image.
 
 ifndef::ProductRelease[]

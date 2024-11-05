@@ -28,7 +28,7 @@ import java.util.Map;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 
 /**
- * The JAX-RS 2.0 race stage implements the race's boxes, which a racer uses to do a pit stop.
+ * The Jakarta REST race stage implements the race's boxes, which a racer uses to do a pit stop.
  *
  * @author Eduardo Martins
  */
@@ -47,7 +47,7 @@ public class JAXRSRaceStage implements RaceStage {
                 .append(BoxApplication.PATH)
                 .append("/pitStop")
                 .toString();
-        // create and setup the new standard JAX-RS client (and its web target)
+        // create and setup the new standard Jakarta REST client (and its web target)
         final Client client = ((ResteasyClientBuilder) ClientBuilder.newBuilder())
                     .build();
         try {

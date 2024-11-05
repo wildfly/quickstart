@@ -23,7 +23,7 @@ import jakarta.persistence.Id;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 /**
- * Hibernate entity and JSON element to be returned from a JAX-RS method.
+ * Hibernate entity and JSON element to be returned from a Jakarta REST method.
  */
 @Entity
 @XmlRootElement

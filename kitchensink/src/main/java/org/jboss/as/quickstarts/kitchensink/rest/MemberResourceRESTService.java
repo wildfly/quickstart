@@ -45,7 +45,7 @@ import org.jboss.as.quickstarts.kitchensink.model.Member;
 import org.jboss.as.quickstarts.kitchensink.service.MemberRegistration;
 
 /**
- * JAX-RS Example
+ * Jakarta REST Example
  * <p/>
  * This class produces a RESTful service to read/write the contents of the members table.
  */
@@ -83,7 +83,7 @@ public class MemberResourceRESTService {
     }
 
     /**
-     * Creates a new member from the values provided. Performs validation, and will return a JAX-RS response with either 200 ok,
+     * Creates a new member from the values provided. Performs validation, and will return a Jakarta REST response with either 200 ok,
      * or with a map of fields, and related errors.
      */
     @POST
@@ -148,11 +148,11 @@ public class MemberResourceRESTService {
     }
 
     /**
-     * Creates a JAX-RS "Bad Request" response including a map of all violation fields, and their message. This can then be used
+     * Creates a Jakarta REST "Bad Request" response including a map of all violation fields, and their message. This can then be used
      * by clients to show violations.
      *
      * @param violations A set of violations that needs to be reported
-     * @return JAX-RS response containing all violations
+     * @return Jakarta REST response containing all violations
      */
     private Response.ResponseBuilder createViolationResponse(Set<ConstraintViolation<?>> violations) {
         log.fine("Validation completed. violations found: " + violations.size());

@@ -58,7 +58,7 @@ public class Racer {
     private EEConcurrencyRaceStage eeConcurrencyRaceStage;
 
     /**
-     * cdi injection of the JAX-RS 2.0 race stage
+     * cdi injection of the Jakarta REST race stage
      */
     @Inject
     private JAXRSRaceStage jaxrsRaceStageRen;
@@ -144,14 +144,14 @@ public class Racer {
      */
     private void runRaceStages() throws Exception {
         batchRaceStage.run(registration);
-        registration.broadcast("completed the Batch 1.0 stage.");
+        registration.broadcast("completed the Batch stage.");
         eeConcurrencyRaceStage.run(registration);
-        registration.broadcast("completed the EE Concurrency 1.0 stage.");
+        registration.broadcast("completed the EE Concurrency stage.");
         jaxrsRaceStageRen.run(registration);
-        registration.broadcast("completed the JAX-RS 2.0 stage.");
+        registration.broadcast("completed the Jakarta REST stage.");
         jmsRaceStage.run(registration);
-        registration.broadcast("completed the JMS 2.0 stage.");
+        registration.broadcast("completed the JMS stage.");
         jsonRaceStageRen.run(registration);
-        registration.broadcast("completed the JSON 1.0 stage.");
+        registration.broadcast("completed the JSON stage.");
     }
 }
