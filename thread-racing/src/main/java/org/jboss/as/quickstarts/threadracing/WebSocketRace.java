@@ -30,6 +30,7 @@ import jakarta.websocket.server.HandshakeRequest;
 import jakarta.websocket.server.ServerEndpointConfig;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -79,9 +80,10 @@ public class WebSocketRace {
      * @param session
      */
     @OnOpen
+    @SuppressWarnings("unchecked")
     public void onOpen(Session session) {
         try {
-            new Race(racer1, racer2, racer3, racer4, buildRaceEnvironment(session), new WebSocketRaceBroadcaster(session), raceResults).run();
+            new Race(racer1, racer2, racer3, racer4, (Map<String, String>) session.getUserProperties().get(ServerEndpointConfigurator.ENV_USER_PROP), new WebSocketRaceBroadcaster(session), raceResults).run();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -93,35 +95,33 @@ public class WebSocketRace {
     }
 
     /**
-     * Builds the race's environment, from the specified session.
-     * @param session
-     * @return
-     */
-    private Map<String, String> buildRaceEnvironment(Session session) {
-        final Map<String, String> environment = new HashMap<>();
-        final String host = (String) session.getUserProperties().get(ServerEndpointConfigurator.HOST_USER_PROP);
-        if (host != null) {
-            final String[] hostSplit = host.split(":");
-            environment.put(EnvironmentProperties.SERVER_NAME, hostSplit[0]);
-            environment.put(EnvironmentProperties.SERVER_PORT, (hostSplit.length > 1 ? hostSplit[1] : "80"));
-        }
-        // extract the root path from the session's request uri, which starting with websockets 2.1 is an absolute uri
-        final String absoluteRequestURI = session.getRequestURI().toString();
-        final String relativeRequestUri = absoluteRequestURI.substring(absoluteRequestURI.indexOf(host)+host.length());
-        final String rootPath = relativeRequestUri.equals(PATH) ? "" : relativeRequestUri.substring(0, (relativeRequestUri.length() - PATH.length()));
-        environment.put(EnvironmentProperties.ROOT_PATH, rootPath);
-        return environment;
-    }
-
-    /**
      * This configurator will capture the environment properties, when handshaking a client.
      */
     public static class ServerEndpointConfigurator extends ServerEndpointConfig.Configurator {
-        static final String HOST_USER_PROP = "Host";
+        static final String ENV_USER_PROP = "env";
 
         @Override
         public void modifyHandshake(ServerEndpointConfig sec, HandshakeRequest request, HandshakeResponse response) {
-            sec.getUserProperties().put(HOST_USER_PROP, request.getHeaders().get(HOST_USER_PROP).get(0));
+            // let's build the race environment
+            final Map<String, String> environment = new HashMap<>();
+            sec.getUserProperties().put(ENV_USER_PROP, environment);
+            final List<String> xForwardedProto = request.getHeaders().get("x-forwarded-proto");
+            if (xForwardedProto == null || xForwardedProto.isEmpty()) {
+                // not using forward, assume http and use host header to figure out host and port
+                environment.put(EnvironmentProperties.PROTOCOL, "http");
+                final String hostHeader = request.getHeaders().get("host").get(0);
+                final String[] hostSplit = hostHeader.split(":");
+                environment.put(EnvironmentProperties.SERVER_NAME, hostSplit[0]);
+                environment.put(EnvironmentProperties.SERVER_PORT, (hostSplit.length > 1 ? hostSplit[1] : "80"));
+            } else {
+                // using forward
+                environment.put(EnvironmentProperties.PROTOCOL, xForwardedProto.get(0));
+                environment.put(EnvironmentProperties.SERVER_NAME, request.getHeaders().get("x-forwarded-host").get(0));
+                environment.put(EnvironmentProperties.SERVER_PORT, request.getHeaders().get("x-forwarded-port").get(0));
+            }
+            final String relativeRequestUri = request.getRequestURI().toString();
+            final String rootPath = relativeRequestUri.equals(PATH) ? "" : relativeRequestUri.substring(0, (relativeRequestUri.length() - PATH.length()));
+            environment.put(EnvironmentProperties.ROOT_PATH, rootPath);
         }
     }
 }

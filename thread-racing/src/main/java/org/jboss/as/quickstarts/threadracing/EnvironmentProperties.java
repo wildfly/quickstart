@@ -37,4 +37,9 @@ public interface EnvironmentProperties {
      * the app's root path, e.g. /thread-racing
      */
     String ROOT_PATH = "ROOT_PATH";
+
+    /**
+     * the app's protocol
+     */
+    String PROTOCOL = "PROTOCOL";
 }

@@ -38,7 +38,8 @@ public class JAXRSRaceStage implements RaceStage {
     public void run(Race.Registration registration) throws Exception {
         // build the REST service uri from race's environment
         final Map<String, String> environment = registration.getEnvironment();
-        final String pitStopURI = new StringBuilder("http://")
+        final String pitStopURI = new StringBuilder(environment.get(EnvironmentProperties.PROTOCOL))
+                .append("://")
                 .append(environment.get(EnvironmentProperties.SERVER_NAME))
                 .append(':')
                 .append(environment.get(EnvironmentProperties.SERVER_PORT))
