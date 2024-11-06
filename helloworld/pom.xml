@@ -123,6 +123,33 @@
             </build>
         </profile>
         <profile>
+            <id>bootable-jar</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.wildfly.plugins</groupId>
+                        <artifactId>wildfly-maven-plugin</artifactId>
+                        <configuration>
+                            <discover-provisioning-info>
+                                <version>${version.server}</version>
+                            </discover-provisioning-info>
+                            <bootable-jar>true</bootable-jar>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>package</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
             <id>openshift</id>
             <build>
                 <plugins>
