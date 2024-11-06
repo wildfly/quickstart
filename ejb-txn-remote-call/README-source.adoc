@@ -607,6 +607,7 @@ podman run -p 5432:5432 --rm  -ePOSTGRES_DB=test -ePOSTGRES_USER=test -ePOSTGRES
 ----
 cd ${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call/client;
 mvn wildfly:start \
+  -DpostgresqlUsername="test" -DpostgresqlPassword="test" \
   -Dwildfly.javaOpts="-Djboss.tx.node.id=server1 -Djboss.node.name=server1"
 ----
 +
@@ -614,8 +615,7 @@ mvn wildfly:start \
 ----
 cd ${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call/server;
 mvn wildfly:start -Djboss-as.home=target/server2 \
-  -Dwildfly.port=10090 \
-  -Dwildfly.serverConfig=standalone-ha.xml \
+  -DpostgresqlUsername="test" -DpostgresqlPassword="test" \
   -Dwildfly.javaOpts="-Djboss.socket.binding.port-offset=100 -Djboss.tx.node.id=server2 -Djboss.node.name=server2"
 ----
 +
@@ -623,8 +623,7 @@ mvn wildfly:start -Djboss-as.home=target/server2 \
 ----
 cd ${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call/server;
 mvn wildfly:start -Djboss-as.home=target/server3 \
-  -Dwildfly.port=10190 \
-  -Dwildfly.serverConfig=standalone-ha.xml \
+  -DpostgresqlUsername="test" -DpostgresqlPassword="test" \
   -Dwildfly.javaOpts="-Djboss.socket.binding.port-offset=200 -Djboss.tx.node.id=server3 -Djboss.node.name=server3"
 ----
 
