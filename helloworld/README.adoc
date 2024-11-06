@@ -680,6 +680,158 @@ endif::[]
 
 :leveloffset!:
 endif::[]
+// Bootable JAR
+:leveloffset: +1
+
+[[build_and_run_the_quickstart_with_bootable_jar]]
+= Building and Running the quickstart application in a bootable JAR
+
+//******************************************************************************
+// This template sets attributes for the different standalone server profiles.
+//
+// You must define the `standalone-server-type`. Supported values are:
+//    default
+//    full
+//    full-ha
+//    ha
+//    microprofile
+//    custom
+//******************************************************************************
+
+// Standalone server with the default profile.
+ifeval::["{standalone-server-type}"=="default"]
+:serverProfile: default profile
+:configFileName: standalone/configuration/standalone.xml
+:serverArguments:
+endif::[]
+
+// Standalone server with the full profile.
+ifeval::["{standalone-server-type}"=="full"]
+:serverProfile: full profile
+:configFileName: standalone/configuration/standalone-full.xml
+:serverArguments:  -c standalone-full.xml
+endif::[]
+
+// Standalone server with the full HA profile.
+ifeval::["{standalone-server-type}"=="full-ha"]
+:serverProfile: full HA profile
+:configFileName: standalone/configuration/standalone-full-ha.xml
+:serverArguments:  -c standalone-full-ha.xml
+endif::[]
+
+// Start the standalone server with the HA profile.
+ifeval::["{standalone-server-type}"=="ha"]
+:serverProfile: HA profile
+:configFileName: standalone/configuration/standalone-ha.xml
+:serverArguments:  -c standalone-ha.xml
+endif::[]
+
+// Start the standalone server with the Eclipse MicroProfile profile.
+ifeval::["{standalone-server-type}"=="microprofile"]
+:serverProfile: MicroProfile profile
+:configFileName: standalone/configuration/standalone-microprofile.xml
+:serverArguments:  -c standalone-microprofile.xml
+endif::[]
+
+// Standalone server with the custom profile.
+// NOTE: This profile requires that you define the `serverArguments` variable
+// within the quickstart README.adoc file. For example:
+//  :serverArguments: --server-config=../../docs/examples/configs/standalone-xts.xml
+ifeval::["{standalone-server-type}"=="custom"]
+:serverProfile: custom profile
+endif::[]
+
+// If there is no match, use the default profile.
+ifndef::serverProfile[]
+:standalone-server-type:  default
+:serverProfile: default profile
+:configFileName: standalone/configuration/standalone.xml
+:serverArguments:
+endif::serverProfile[]
+
+ifndef::mavenServerProvisioningCommand[]
+ifeval::["{archiveType}"=="ear"]
+:mavenServerProvisioningCommand: clean install
+endif::[]
+ifeval::["{archiveType}"=="war"]
+:mavenServerProvisioningCommand: clean package
+endif::[]
+ifeval::["{archiveType}"=="jar"]
+:mavenServerProvisioningCommand: clean install
+endif::[]
+endif::mavenServerProvisioningCommand[]
+
+You can use the WildFly Maven Plugin to build a {productName} bootable JAR to run this quickstart.
+
+The quickstart `pom.xml` file contains a Maven profile named *bootable-jar*, which configures the bootable JAR building:
+
+[source,xml,subs="attributes+"]
+----
+      <profile>
+          <id>bootable-jar</id>
+          <activation>
+              <activeByDefault>true</activeByDefault>
+          </activation>
+          <build>
+              <plugins>
+                  <plugin>
+                      <groupId>org.wildfly.plugins</groupId>
+                      <artifactId>wildfly-maven-plugin</artifactId>
+                      <configuration>
+                          <discover-provisioning-info>
+                              <version>${version.server}</version>
+                          </discover-provisioning-info>
+                          <bootable-jar>true</bootable-jar>
+                          <add-ons>...</add-ons>
+                      </configuration>
+                      <executions>
+                          <execution>
+                              <goals>
+                                  <goal>package</goal>
+                              </goals>
+                          </execution>
+                      </executions>
+                  </plugin>
+                  ...
+              </plugins>
+          </build>
+      </profile>
+----
+
+The *bootable-jar* profile is activate by default, and when built the {productName} bootable jar may be found at `target/{artifactId}-bootable.jar`
+
+.Procedure
+
+. Ensure the bootable jar is built.
++
+[source,subs="attributes+",options="nowrap"]
+----
+$ mvn clean {mavenServerProvisioningCommand}
+----
+
+. Start the {productName} bootable jar use the WildFly Maven Plugin `start-jar` goal.
++
+[source,subs="attributes+",options="nowrap"]
+----
+$ mvn wildfly:start-jar
+----
+
+. Run the integration tests use the `verify` goal, with the `integration-testing` profile activated.
++
+[source,subs="attributes+",options="nowrap"]
+----
+$ mvn verify -Pintegration-testing
+----
+
+. Shut down the {productName} bootable jar use the WildFly Maven Plugin `shutdown` goal.
++
+[source,options="nowrap"]
+----
+$ mvn wildfly:shutdown
+----
+
+:leveloffset!:
+// OpenShift
 :leveloffset: +1
 
 :cloud-platform: OpenShift
