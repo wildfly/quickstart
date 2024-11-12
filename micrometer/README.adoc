@@ -1120,7 +1120,7 @@ endif::mavenServerProvisioningCommand[]
 
 You can use the WildFly Maven Plugin to build a {productName} bootable JAR to run this quickstart.
 
-The quickstart `pom.xml` file contains a Maven profile named *bootable-jar*, which configures the bootable JAR building:
+The quickstart `pom.xml` file contains a Maven profile named *bootable-jar*, which activates the bootable JAR packaging when provisioning {productName}, through the `<bootable-jar>true</bootable-jar>` configuration element:
 
 [source,xml,subs="attributes+"]
 ----
@@ -1155,7 +1155,7 @@ The quickstart `pom.xml` file contains a Maven profile named *bootable-jar*, whi
       </profile>
 ----
 
-The *bootable-jar* profile is activate by default, and when built the {productName} bootable jar may be found at `target/{artifactId}-bootable.jar`
+The *bootable-jar* profile is activate by default, and when built the {productName} bootable jar file is named `{artifactId}-bootable.jar`, and may be found in the `target` directory.
 
 .Procedure
 
@@ -1172,6 +1172,15 @@ $ mvn clean {mavenServerProvisioningCommand}
 ----
 $ mvn wildfly:start-jar
 ----
++
+[NOTE]
+====
+You may also start the bootable jar without Maven, using the `java` command.
+[source,subs="attributes+",options="nowrap"]
+----
+$ java -jar target/{artifactId}-bootable.jar
+----
+====
 
 . Run the integration tests use the `verify` goal, with the `integration-testing` profile activated.
 +
@@ -1186,6 +1195,7 @@ $ mvn verify -Pintegration-testing
 ----
 $ mvn wildfly:shutdown
 ----
+
 
 :leveloffset!:
 // OpenShift
