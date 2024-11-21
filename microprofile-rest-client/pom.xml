@@ -48,6 +48,7 @@
         <!-- the versions for BOMs, Packs and Plugins -->
         <version.bom.ee>${version.server}</version.bom.ee>
         <version.bom.expansion>${version.server}</version.bom.expansion>
+        <version.pack.cloud>7.0.2.Final</version.pack.cloud>
         <version.plugin.wildfly>5.1.0.Beta2</version.plugin.wildfly>
         <!-- the versions for other Dependencies and Plugins -->
         <version.org.jboss.resteasy>6.2.6.Final</version.org.jboss.resteasy>
@@ -203,9 +204,15 @@
                         <groupId>org.wildfly.plugins</groupId>
                         <artifactId>wildfly-maven-plugin</artifactId>
                         <configuration>
-                            <discover-provisioning-info>
-                              <version>${version.server}</version>
-                            </discover-provisioning-info>
+                            <feature-packs>
+                                <feature-pack>
+                                    <location>org.wildfly:wildfly-galleon-pack:${version.server}</location>
+                                </feature-pack>
+                            </feature-packs>
+                            <layers>
+                                <layer>cloud-server</layer>
+                                <layer>microprofile-platform</layer>
+                            </layers>
                             <bootable-jar>true</bootable-jar>
                         </configuration>
                         <executions>
@@ -228,10 +235,18 @@
                         <groupId>org.wildfly.plugins</groupId>
                         <artifactId>wildfly-maven-plugin</artifactId>
                         <configuration>
-                          <discover-provisioning-info>
-                              <version>${version.server}</version>
-                              <context>cloud</context>
-                          </discover-provisioning-info>
+                            <feature-packs>
+                                <feature-pack>
+                                    <location>org.wildfly:wildfly-galleon-pack:${version.server}</location>
+                                </feature-pack>
+                                <feature-pack>
+                                    <location>org.wildfly.cloud:wildfly-cloud-galleon-pack:${version.pack.cloud}</location>
+                                </feature-pack>
+                            </feature-packs>
+                            <layers>
+                                <layer>cloud-server</layer>
+                                <layer>microprofile-platform</layer>
+                            </layers>
                       </configuration>
                         <executions>
                             <execution>

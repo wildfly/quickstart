@@ -42,6 +42,8 @@
         <version.server>35.0.0.Beta1</version.server>
         <!-- the versions for BOMs, Packs and Plugins -->
         <version.bom.ee>${version.server}</version.bom.ee>
+        <version.pack.cloud>7.0.2.Final</version.pack.cloud>
+        <version.pack.datasources>9.1.0.Final</version.pack.datasources>
         <version.plugin.wildfly>5.1.0.Beta2</version.plugin.wildfly>
         <!-- the versions for other Dependencies and Plugins -->
         <version.postgresql>42.7.2</version.postgresql>
@@ -251,14 +253,21 @@
                                     <goal>package</goal>
                                 </goals>
                                 <configuration>
-                                    <discover-provisioning-info>
-                                        <version>${version.server}</version>
-                                        <!-- Some JNDI lookup to ignore -->
-                                        <failsOnError>false</failsOnError>
-                                        <add-ons>
-                                            <add-on>postgresql</add-on>
-                                        </add-ons>
-                                    </discover-provisioning-info>
+                                    <feature-packs>
+                                        <feature-pack>
+                                            <location>org.wildfly:wildfly-galleon-pack:${version.server}</location>
+                                        </feature-pack>
+                                        <feature-pack>
+                                            <location>org.wildfly:wildfly-datasources-galleon-pack:${version.pack.datasources}</location>
+                                        </feature-pack>
+                                    </feature-packs>
+                                    <layers>
+                                        <layer>ee-core-profile-server</layer>
+                                        <layer>jpa</layer>
+                                        <layer>ejb</layer>
+                                        <layer>jaxrs</layer>
+                                        <layer>postgresql-datasource</layer>
+                                    </layers>
                                 </configuration>
                             </execution>
                             <execution>
@@ -302,15 +311,24 @@
                                     <goal>package</goal>
                                 </goals>
                                 <configuration>
-                                    <discover-provisioning-info>
-                                        <version>${version.server}</version>
-                                        <!-- Some JNDI lookup to ignore -->
-                                        <failsOnError>false</failsOnError>
-                                        <context>cloud</context>
-                                        <add-ons>
-                                            <add-on>postgresql</add-on>
-                                        </add-ons>
-                                    </discover-provisioning-info>
+                                    <feature-packs>
+                                        <feature-pack>
+                                            <location>org.wildfly:wildfly-galleon-pack:${version.server}</location>
+                                        </feature-pack>
+                                        <feature-pack>
+                                            <location>org.wildfly.cloud:wildfly-cloud-galleon-pack:${version.pack.cloud}</location>
+                                        </feature-pack>
+                                        <feature-pack>
+                                            <location>org.wildfly:wildfly-datasources-galleon-pack:${version.pack.datasources}</location>
+                                        </feature-pack>
+                                    </feature-packs>
+                                    <layers>
+                                        <layer>ee-core-profile-server</layer>
+                                        <layer>jpa</layer>
+                                        <layer>ejb</layer>
+                                        <layer>jaxrs</layer>
+                                        <layer>postgresql-datasource</layer>
+                                    </layers>
                                 </configuration>
                             </execution>
                             <execution>
