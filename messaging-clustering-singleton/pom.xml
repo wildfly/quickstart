@@ -49,6 +49,7 @@
         <version.server>35.0.0.Final</version.server>
         <!-- the versions for BOMs, Packs and Plugins -->
         <version.bom.ee>${version.server}</version.bom.ee>
+        <version.pack.cloud>7.0.2.Final</version.pack.cloud>
         <version.plugin.wildfly>5.1.1.Final</version.plugin.wildfly>
         <!-- the versions for other Dependencies and Plugins -->
         <version.junit-jupiter-engine>5.10.0</version.junit-jupiter-engine>
@@ -155,6 +156,10 @@
                                     <resolve-expressions>false</resolve-expressions>
                                 </packaging-script>
                             </packaging-scripts>
+                            <!-- set 'jboss-fork-embedded' option to 'true' in order to fork Galleon provisioning and CLI scripts execution in dedicated processes -->
+                            <galleon-options>
+                                <jboss-fork-embedded>true</jboss-fork-embedded>
+                            </galleon-options>
                         </configuration>
                         <executions>
                             <execution>
