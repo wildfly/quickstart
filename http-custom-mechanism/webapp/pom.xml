@@ -79,12 +79,14 @@
                         <groupId>org.wildfly.plugins</groupId>
                         <artifactId>wildfly-maven-plugin</artifactId>
                         <configuration>
-                            <discover-provisioning-info>
-                                <version>${version.server}</version>
-                                <addOns>
-                                    <addOn>wildfly-cli</addOn>
-                                </addOns>
-                            </discover-provisioning-info>
+                            <feature-packs>
+                                <feature-pack>
+                                    <location>org.wildfly:wildfly-galleon-pack:${version.server}</location>
+                                </feature-pack>
+                            </feature-packs>
+                            <layers>
+                                <layer>cloud-server</layer>
+                            </layers>
                             <packaging-scripts>
                                 <packaging-script>
                                     <commands>
