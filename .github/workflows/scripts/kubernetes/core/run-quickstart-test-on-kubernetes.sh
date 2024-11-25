@@ -91,9 +91,6 @@ export image="${root_image_name}:latest"
 docker tag ${qs_dir} ${image}
 docker push ${image}
 
-echo "Creating docker file locally and pushing to registry at localhost:5000"
-docker build -t "${image}" target
-
 ################################################################################################
 # Helm install, waiting for the pods to come up
 helm_set_arguments=" --set ${helm_set_arg_prefix}build.enabled=false --set ${helm_set_arg_prefix}deploy.route.enabled=false --set ${helm_set_arg_prefix}image.name=${root_image_name}"
