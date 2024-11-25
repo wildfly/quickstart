@@ -160,7 +160,7 @@ public class LogIT {
 
     private static UriBuilder resolveBaseUrl() {
         final String baseUrl = resolveServerHost();
-        return UriBuilder.fromUri(baseUrl).path("/jboss-logging/api/logs");
+        return UriBuilder.fromUri(baseUrl).path("/logging/api/logs");
     }
 
     private static String resolveServerHost() {
