@@ -61,6 +61,9 @@ public class ThreadRacingIT {
         if (host != null) {
             host = host.replaceFirst("http", "ws");
         }
+//        if (host.contains("wss")) {
+//            host = host.replaceFirst("wss", "ws");
+//        }
         return host;
     }
 

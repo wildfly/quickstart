@@ -1,6 +1,9 @@
 build:
-  uri: https://github.com/wildfly/quickstart.git
-  ref: main
+  uri: https://github.com/kstekovi/quickstart.git
+  ref: WFLY-20032-test
   contextDir: thread-racing
 deploy:
   replicas: 1
+  route:
+    tls:
+      enabled: false
