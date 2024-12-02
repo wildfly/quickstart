@@ -44,7 +44,7 @@
         <version.bom.ee>${version.server}</version.bom.ee>
         <version.plugin.wildfly>5.1.0.Alpha1</version.plugin.wildfly>
         <!-- the versions for other Dependencies and Plugins -->
-        <version.postgresql>42.7.0</version.postgresql>
+        <version.postgresql>42.7.2</version.postgresql>
     </properties>
 
     <repositories>
@@ -202,6 +202,25 @@
                     <warName>client</warName>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>PostgreSQL Driver</id>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <phase>package</phase>
+                        <configuration>
+                            <excludeGroupIds>*</excludeGroupIds>
+                            <outputDirectory>${project.build.directory}/postgresql</outputDirectory>
+                            <includeArtifactIds>postgresql</includeArtifactIds>
+                            <stripVersion>true</stripVersion>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

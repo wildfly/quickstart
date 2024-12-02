@@ -57,8 +57,6 @@ This quickstart demonstrates its functionalities on <<_running_in_a_bare_metal_e
 
 // System Requirements
 include::../shared-doc/system-requirements.adoc[leveloffset=+1]
-// Use of {jbossHomeName}_1 and {jbossHomeName}_2
-include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
 
 == The Goal
 
@@ -67,8 +65,18 @@ to `server` application. The remote call hits one of the two servers where the `
 
 == Running in a bare metal environment
 
-First of all, three {productName} servers needs to be configured. Then, the `client` application gets deployed to the first server (`server1`),
-while the `server` application gets deployed to the other two {productName} servers (`server2`, and `server3`, which are configured as a cluster).
+First of all, an environment variable should be defined to point to this quickstart's root folder.
+From the root of this quickstart, the following command should be executed:
+
+[source,sh,subs="+quotes,attributes+"]
+----
+export PATH_TO_QUICKSTART_DIR=$(pwd)
+----
+
+Then, three {productName} servers needs to be configured:
+
+. The `client` application gets deployed to the first server (`server1`)
+. The `server` application gets deployed to the other two {productName} servers (`server2`, and `server3`, which are configured as a cluster)
 
 [[_setup_productname_servers]]
 === Setup {productName} servers
@@ -139,8 +147,8 @@ First of all, a JDBC driver needs to be installed as https://docs.wildfly.org/30
 The following command (along packaging the `client` and the `server` applications) downloads the PostgreSQL driver automatically through Maven:
 [source,sh,subs="+quotes,attributes+"]
 ----
-cd ${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call;
-mvn clean package
+cd ${PATH_TO_QUICKSTART_DIR};
+mvn clean package -P '!provisioned-server'
 ----
 Then, the PostgreSQL driver needs to be loaded as jboss module in all {productName} servers:
 
@@ -149,21 +157,21 @@ Then, the PostgreSQL driver needs to be loaded as jboss module in all {productNa
 cd ${jbossHomeName}_1; \
 ./bin/jboss-cli.sh "embed-server,\
   module add --name=org.postgresql.jdbc \
-  --resources=${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call/client/target/postgresql/postgresql.jar"
+  --resources=${PATH_TO_QUICKSTART_DIR}/client/target/postgresql/postgresql.jar"
 ----
 [source,sh,subs="+quotes,attributes+"]
 ----
 cd ${jbossHomeName}_2; \
 ./bin/jboss-cli.sh "embed-server,\
   module add --name=org.postgresql.jdbc \
-  --resources=${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call/client/target/postgresql/postgresql.jar"
+  --resources=${PATH_TO_QUICKSTART_DIR}/client/target/postgresql/postgresql.jar"
 ----
 [source,sh,subs="+quotes,attributes+"]
 ----
 cd ${jbossHomeName}_3; \
 ./bin/jboss-cli.sh "embed-server,\
   module add --name=org.postgresql.jdbc \
-  --resources=${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call/client/target/postgresql/postgresql.jar"
+  --resources=${PATH_TO_QUICKSTART_DIR}/client/target/postgresql/postgresql.jar"
 ----
 
 Moreover, the PostgreSQL driver needs to be installed on all {productName} servers.
@@ -195,28 +203,28 @@ Finally, it is time to run the scripts for adding the PostgreSQL datasource to t
 ----
 cd ${jbossHomeName}_1; \
 ./bin/jboss-cli.sh -DpostgresqlUsername="test" -DpostgresqlPassword="test" \
-  --file=${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call/client/scripts/postgresql-datasource.cli \
-  --properties=${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call/client/scripts/cli.local.properties
+  --file=${PATH_TO_QUICKSTART_DIR}/client/scripts/postgresql-datasource.cli \
+  --properties=${PATH_TO_QUICKSTART_DIR}/client/scripts/cli.local.properties
 ----
 [source,sh,subs="+quotes,attributes+"]
 ----
 cd ${jbossHomeName}_2; \
 ./bin/jboss-cli.sh -DpostgresqlUsername="test" -DpostgresqlPassword="test" \
-  --file=${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call/server/scripts/postgresql-datasource.cli \
-  --properties=${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call/server/scripts/cli.local.properties
+  --file=${PATH_TO_QUICKSTART_DIR}/server/scripts/postgresql-datasource.cli \
+  --properties=${PATH_TO_QUICKSTART_DIR}/server/scripts/cli.local.properties
 ----
 [source,sh,subs="+quotes,attributes+"]
 ----
 cd ${jbossHomeName}_3; \
 ./bin/jboss-cli.sh -DpostgresqlUsername="test" -DpostgresqlPassword="test" \
-  --file=${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call/server/scripts/postgresql-datasource.cli \
-  --properties=${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call/server/scripts/cli.local.properties
+  --file=${PATH_TO_QUICKSTART_DIR}/server/scripts/postgresql-datasource.cli \
+  --properties=${PATH_TO_QUICKSTART_DIR}/server/scripts/cli.local.properties
 ----
 
 === Configuring EJB remoting on `server1`
 
 EJB remote calls from `server1` to either `server2` or `server3` need to be authenticated. To achieve
-this configuration, the script `${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call/client/scripts/remoting-configuration.cli`
+this configuration, the script `${PATH_TO_QUICKSTART_DIR}/client/scripts/remoting-configuration.cli`
 will be executed on `server1`.
 
 [NOTE]
@@ -229,8 +237,8 @@ will be executed on `server1`.
 ----
 cd ${jbossHomeName}_1; \
 ./bin/jboss-cli.sh -DremoteServerUsername="quickstartUser" -DremoteServerPassword="quickstartPwd1!" \
-  --file=${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call/client/scripts/remoting-configuration.cli \
-  --properties=${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call/client/scripts/cli.local.properties
+  --file=${PATH_TO_QUICKSTART_DIR}/client/scripts/remoting-configuration.cli \
+  --properties=${PATH_TO_QUICKSTART_DIR}/client/scripts/cli.local.properties
 ----
 
 NOTE: For Windows, use the `bin\jboss-cli.bat` script.
@@ -239,7 +247,7 @@ Running `remoting-configuration.cli` results in the creation of:
 
 * A `remote outbound socket` that points to the port on `server2`/`server3` where EJB remoting endpoints can be reached
 * A https://docs.wildfly.org/22/wildscribe/subsystem/remoting/remote-outbound-connection/index.html[`remote outbound connection`] that can be referenced in the war deployment with `jboss-ejb-client.xml` descriptor
-(see `${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call/client/src/main/webapp/WEB-INF/jboss-ejb-client.xml`).
+(see `${PATH_TO_QUICKSTART_DIR}/client/src/main/webapp/WEB-INF/jboss-ejb-client.xml`).
 * An authentication context `auth_context` that is used by the new created remoting connection `remote-ejb-connection`; the authentication context uses the same username and password created for `server2` and `server3`
 
 [#_start_productname_servers]
@@ -257,7 +265,7 @@ Start each server in a separate terminal.
 [source,sh,subs="+quotes,attributes+",options="nowrap"]
 ----
 cd ${jbossHomeName}_1; \
-./bin/standalone.sh -c standalone.xml -Djboss.tx.node.id=server1 -Djboss.node.name=server1 -Dwildfly.config.url=${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call/client/configuration/custom-config.xml
+./bin/standalone.sh -c standalone.xml -Djboss.tx.node.id=server1 -Djboss.node.name=server1
 ----
 [source,sh,subs="+quotes,attributes+",options="nowrap"]
 ----
@@ -284,25 +292,25 @@ the `client` and `server` application can be deployed
 +
 [source,sh,subs="+quotes,attributes+",options="nowrap"]
 ----
-cd ${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call/
-mvn clean package
+cd ${PATH_TO_QUICKSTART_DIR}/
+mvn clean package -P '!provisioned-server'
 ----
 +
 . Then, the `client` application can be deployed using the following commands:
 +
 [source,sh,subs="+quotes,attributes+",options="nowrap"]
 ----
-cd ${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call/client
-mvn wildfly:deploy
+cd ${PATH_TO_QUICKSTART_DIR}/client
+mvn wildfly:deploy -P '!provisioned-server'
 ----
 +
 . Lastly, the `server` application can be deployed using the following commands:
 +
 [source,sh,subs="+quotes,attributes+",options="nowrap"]
 ----
-cd ${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call/server
-mvn wildfly:deploy -Dwildfly.port=10090
-mvn wildfly:deploy -Dwildfly.port=10190
+cd ${PATH_TO_QUICKSTART_DIR}/server
+mvn wildfly:deploy -P '!provisioned-server' -Dwildfly.port=10090
+mvn wildfly:deploy -P '!provisioned-server' -Dwildfly.port=10190
 ----
 
 The commands just run employed the WildFly Maven plugin to connect to the running instances of {productName}
@@ -517,14 +525,21 @@ ARJUNA016036: commit on < formatId=131077, gtrid_length=35, bqual_length=43, tx_
 
 . The number of commits on the targeted server should be incremented by one.
 
-include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
+// Server Distribution Testing
+include::../shared-doc/run-integration-tests-with-server-distribution.adoc[leveloffset=+1]
 
-Repeat the last step for `server2` and `server3`:
+[[undeploy_the_quickstart]]
+== Undeploy the Quickstart
+
+When you are finished testing the quickstart, execute these commands to undeploy the archives:
 
 [source,sh,options="nowrap"]
 ----
-cd ${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call/server;
-mvn wildfly:undeploy -Dwildfly.port=10090;
+cd ${PATH_TO_QUICKSTART_DIR}/client
+mvn wildfly:undeploy
+
+cd ${PATH_TO_QUICKSTART_DIR}/server
+mvn wildfly:undeploy -Dwildfly.port=10090
 mvn wildfly:undeploy -Dwildfly.port=10190
 ----
 
@@ -552,14 +567,14 @@ Instead of using a standard {productName} server distribution, the three {produc
 
 [source,sh,subs="+quotes,attributes+",options="nowrap"]
 ----
-cd ${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call/client;
+cd ${PATH_TO_QUICKSTART_DIR}/client;
 mvn clean package \
   -DremoteServerUsername="quickstartUser" -DremoteServerPassword="quickstartPwd1!" \
   -DpostgresqlUsername="test" -DpostgresqlPassword="test"
 ----
 [source,sh,subs="+quotes,attributes+",options="nowrap"]
 ----
-cd ${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call/server;
+cd ${PATH_TO_QUICKSTART_DIR}/server;
 mvn clean package \
   -Dwildfly.provisioning.dir=server2 -Djboss-as.home=target/server2 \
   -DpostgresqlUsername="test" -DpostgresqlPassword="test";
@@ -575,7 +590,7 @@ The server provisioning functionality is provided by the WildFly Maven Plugin, a
 The quickstart user should be added before running the provisioned server:
 [source,subs="+quotes,attributes+",options="nowrap"]
 ----
-cd ${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call/server;
+cd ${PATH_TO_QUICKSTART_DIR}/server;
 ./target/server2/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!';
 ./target/server3/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!'
 ----
@@ -605,7 +620,7 @@ podman run -p 5432:5432 --rm  -ePOSTGRES_DB=test -ePOSTGRES_USER=test -ePOSTGRES
 +
 [source,subs="attributes+",options="nowrap"]
 ----
-cd ${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call/client;
+cd ${PATH_TO_QUICKSTART_DIR}/client;
 mvn wildfly:start \
   -DpostgresqlUsername="test" -DpostgresqlPassword="test" \
   -Dwildfly.javaOpts="-Djboss.tx.node.id=server1 -Djboss.node.name=server1"
@@ -613,7 +628,7 @@ mvn wildfly:start \
 +
 [source,subs="attributes+",options="nowrap"]
 ----
-cd ${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call/server;
+cd ${PATH_TO_QUICKSTART_DIR}/server;
 mvn wildfly:start -Djboss-as.home=target/server2 \
   -DpostgresqlUsername="test" -DpostgresqlPassword="test" \
   -Dwildfly.javaOpts="-Djboss.socket.binding.port-offset=100 -Djboss.tx.node.id=server2 -Djboss.node.name=server2"
@@ -621,7 +636,7 @@ mvn wildfly:start -Djboss-as.home=target/server2 \
 +
 [source,subs="attributes+",options="nowrap"]
 ----
-cd ${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call/server;
+cd ${PATH_TO_QUICKSTART_DIR}/server;
 mvn wildfly:start -Djboss-as.home=target/server3 \
   -DpostgresqlUsername="test" -DpostgresqlPassword="test" \
   -Dwildfly.javaOpts="-Djboss.socket.binding.port-offset=200 -Djboss.tx.node.id=server3 -Djboss.node.name=server3"
@@ -631,19 +646,19 @@ mvn wildfly:start -Djboss-as.home=target/server3 \
 +
 [source,subs="attributes+",options="nowrap"]
 ----
-cd ${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call/client;
+cd ${PATH_TO_QUICKSTART_DIR}/client;
 mvn verify -Pintegration-testing
 ----
 +
 [source,subs="attributes+",options="nowrap"]
 ----
-cd ${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call/server;
+cd ${PATH_TO_QUICKSTART_DIR}/server;
 mvn verify -Pintegration-testing -Dserver.host="http://localhost:8180/server"
 ----
 +
 [source,subs="attributes+",options="nowrap"]
 ----
-cd ${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call/server;
+cd ${PATH_TO_QUICKSTART_DIR}/server;
 mvn verify -Pintegration-testing -Dserver.host="http://localhost:8280/server"
 ----
 
@@ -761,7 +776,7 @@ on OpenShift, requires `view` permissions to read the labels of the pods:
 
 [source,sh,options="nowrap"]
 ----
-cd ${PATH_TO_QUICKSTART_DIR}/ejb-txn-remote-call;
+cd ${PATH_TO_QUICKSTART_DIR};
 oc create -f client/client-cr.yaml;
 oc create -f server/server-cr.yaml
 ----
