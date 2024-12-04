@@ -21,11 +21,16 @@ import org.jboss.as.quickstarts.threadracing.Race;
 import org.jboss.as.quickstarts.threadracing.stage.RaceStage;
 
 import jakarta.ws.rs.client.Client;
-import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.WebTarget;
 import jakarta.ws.rs.core.Response;
+
+import java.security.SecureRandom;
 import java.util.Map;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
+import org.jboss.resteasy.client.jaxrs.engines.PassthroughTrustManager;
+
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
 
 /**
  * The Jakarta REST race stage implements the race's boxes, which a racer uses to do a pit stop.
@@ -49,8 +54,15 @@ public class JAXRSRaceStage implements RaceStage {
                 .append("/pitStop")
                 .toString();
         // create and setup the new standard Jakarta REST client (and its web target)
-        final Client client = ((ResteasyClientBuilder) ClientBuilder.newBuilder())
-                    .build();
+        // please note that it uses a custom SSLContext that trusts any certificate, this should not be used on production
+        final SSLContext sslContext = SSLContext.getInstance("SSL");
+        sslContext.init(
+                null,
+                new TrustManager[] { new PassthroughTrustManager() },
+                new SecureRandom());
+        final Client client = ResteasyClientBuilder.newBuilder()
+                .sslContext(sslContext)
+                .build();
         try {
             final WebTarget target = client.target(pitStopURI);
             // get current time
