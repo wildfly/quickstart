@@ -76,49 +76,68 @@ fi
 
 ################################################################################################
 # Install any pre-requisites. Function is from overridable-functions.sh
+
 echo "Checking if we need to install pre-requisites"
 installPrerequisites "${application}"
 
 ################################################################################################
 # Provision server and push imagestream
 
-echo "Building application and provisioning server image..."
-mvn -B package -Popenshift wildfly:image -DskipTests
+customProvisionServer=$(customProvisionServer)
+if [ "0" = "${customProvisionServer}" ]; then
+  echo "Building application and provisioning server image..."
+  mvn -B package -Popenshift wildfly:image -DskipTests
 
-echo "Tagging image and pushing to registry..."
-export root_image_name="localhost:5000/${application}"
-export image="${root_image_name}:latest"
-docker tag ${qs_dir} ${image}
-docker push ${image}
+  echo "Tagging image and pushing to registry..."
+  export root_image_name="localhost:5000/${application}"
+  export image="${root_image_name}:latest"
+  docker tag ${qs_dir} ${image}
+  docker push ${image}
+else
+  provisionServer "${application}" "${qs_dir}"
+fi
 
 ################################################################################################
-# Helm install, waiting for the pods to come up
-helm_set_arguments=" --set ${helm_set_arg_prefix}build.enabled=false --set ${helm_set_arg_prefix}deploy.route.enabled=false --set ${helm_set_arg_prefix}image.name=${root_image_name}"
 
-additional_arguments="No additional arguments"
-if [ -n "${helm_set_arguments}" ]; then
-  additional_arguments="Additional arguments: ${helm_set_arguments}"
+customDeploy=$(customDeploy)
+if [ "0" = "${customDeploy}" ]; then
+  # Helm install, waiting for the pods to come up
+  helm_set_arguments=" --set ${helm_set_arg_prefix}build.enabled=false --set ${helm_set_arg_prefix}deploy.route.enabled=false --set ${helm_set_arg_prefix}image.name=${root_image_name}"
+
+  additional_arguments="No additional arguments"
+  if [ -n "${helm_set_arguments}" ]; then
+    additional_arguments="Additional arguments: ${helm_set_arguments}"
+  fi
+
+  echo "Performing Helm install and waiting for completion.... (${additional_arguments})"
+  # helmInstall is from overridable-functions.sh
+  helm_install_ret=$(helmInstall "${application}" "${helm_set_arguments}")
+
+  # For some reason the above sometimes becomes a multi-line string. actual The exit code will be
+  # on the last line
+  helm_install_ret=$(echo "${helm_install_ret}"| tail -n 1)
+
+  echo "ret: ${helm_install_ret}"
+  if [ "${helm_install_ret}" != "0" ]; then
+    echo "Helm install failed!"
+    echo "Dumping the application pod(s)"
+    kubectl logs deployment/"${application}"
+    helmInstallFailed
+  fi
+else
+  deploy
 fi
 
-echo "Performing Helm install and waiting for completion.... (${additional_arguments})"
-# helmInstall is from overridable-functions.sh
-helm_install_ret=$(helmInstall "${application}" "${helm_set_arguments}")
-
-# For some reason the above sometimes becomes a multi-line string. actual The exit code will be
-# on the last line
-helm_install_ret=$(echo "${helm_install_ret}"| tail -n 1)
-
-echo "ret: ${helm_install_ret}"
-if [ "${helm_install_ret}" != "0" ]; then
-  echo "Helm install failed!"
-  echo "Dumping the application pod(s)"
-  kubectl logs deployment/"${application}"
-  helmInstallFailed
+customPortForward=$(customPortForward)
+if [ "0" = "${customPortForward}" ]; then
+  nohup kubectl port-forward service/${application} 8080:8080 > /dev/null 2>&1 &
+  kubectl_fwd_pids=$!
+  echo "Process ID of kubect port-forward: ${kubectl_fwd_pids}"
+else
+  echo "Performing Port Forward and waiting for completion...."
+  kubectl_fwd_pids=$(portForward "${application}")
+  echo "Process ID(s) of kubect port-forward: ${kubectl_fwd_pids}"
 fi
-
-kubectl port-forward service/${application} 8080:8080 &
-kubectl_fwd_pid=$!
-echo "Process ID of kubect port-forward: ${kubectl_fwd_pid}"
 
 ################################################################################################
 # Run any post install
@@ -130,35 +149,47 @@ runPostHelmInstallCommands
 echo "running the tests"
 pwd
 
-route="localhost:8080"
+customRunningTests=$(customRunningTests)
+if [ "0" = "${customRunningTests}" ]; then
+  route="localhost:8080"
 
-mvnVerifyArguments="-Dserver.host=${server_protocol}://${route} "
-extraMvnVerifyArguments="$(getMvnVerifyExtraArguments)"
-if [ -n "${extraMvnVerifyArguments}" ]; then
-  mvnVerifyArguments="${mvnVerifyArguments} ${extraMvnVerifyArguments}"
+  mvnVerifyArguments="-Dserver.host=${server_protocol}://${route} "
+  extraMvnVerifyArguments="$(getMvnVerifyExtraArguments)"
+  if [ -n "${extraMvnVerifyArguments}" ]; then
+    mvnVerifyArguments="${mvnVerifyArguments} ${extraMvnVerifyArguments}"
+  fi
+  if [ "${QS_DEBUG_TESTS}" = "1" ]; then
+    mvnVerifyArguments="${mvnVerifyArguments} -Dmaven.failsafe.debug=true"
+  fi
+
+  echo "Verify Arguments: ${mvnVerifyArguments}"
+
+  mvn -B verify -Pintegration-testing ${mvnVerifyArguments}
+
+  if [ "$?" != "0" ]; then
+    test_status=1
+    echo "Tests failed!"
+    echo "Dumping the application pod(s)"
+    kubectl logs deployment/"${application}"
+    testsFailed
+  fi
+else
+  runningTests "${application}" "${server_protocol}" "$(getMvnVerifyExtraArguments)"
+  test_status=$?
 fi
-if [ "${QS_DEBUG_TESTS}" = "1" ]; then
-  mvnVerifyArguments="${mvnVerifyArguments} -Dmaven.failsafe.debug=true"
-fi
 
-echo "Verify Arguments: ${mvnVerifyArguments}"
-
-mvn -B verify -Pintegration-testing ${mvnVerifyArguments}
-
-if [ "$?" != "0" ]; then
-  test_status=1
-  echo "Tests failed!"
-  echo "Dumping the application pod(s)"
-  kubectl logs deployment/"${application}"
-  testsFailed
-fi
-
-kill -9 ${kubectl_fwd_pid}
+kill -9 ${kubectl_fwd_pids}
 
 ################################################################################################
 # Helm uninstall
 echo "Running Helm uninstall"
-helm uninstall "${application}" --wait --timeout=10m0s
+
+customHelmUninstall=$(customHelmUninstall)
+if [ "0" = "${customHelmUninstall}" ]; then
+  helm uninstall "${application}" --wait --timeout=10m0s
+else
+  helmUninstall "${application}"
+fi
 
 ################################################################################################
 # Clean pre-requisites (cleanPrerequisites is fromm overridable-functions.sh)

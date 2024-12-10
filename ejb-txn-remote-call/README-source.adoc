@@ -63,6 +63,7 @@ include::../shared-doc/system-requirements.adoc[leveloffset=+1]
 The EJB remote call propagates transaction from `client` application
 to `server` application. The remote call hits one of the two servers where the `server` application is deployed.
 
+[[_running_in_a_bare_metal_environment]]
 == Running in a bare metal environment
 
 First of all, an environment variable should be defined to point to this quickstart's root folder.
@@ -239,12 +240,14 @@ will be executed on `server1`.
 [source,sh,subs="+quotes,attributes+",options="nowrap"]
 ----
 cd ${jbossHomeName}_1; \
-./bin/jboss-cli.sh -DremoteServerUsername='quickstartUser' -DremoteServerPassword='quickstartPwd1!' \
+./bin/jboss-cli.sh --connect -DremoteServerUsername='quickstartUser' -DremoteServerPassword='quickstartPwd1!' \
   --file=${PATH_TO_QUICKSTART_DIR}/client/scripts/remoting-configuration.cli \
   --properties=${PATH_TO_QUICKSTART_DIR}/client/scripts/cli.local.properties
 ----
 
 NOTE: For Windows, use the `bin\jboss-cli.bat` script.
+
+After executing the CLI script, stop `server1` by pressing the keys `CRTL+C` in the terminal where it is running.
 
 Running `remoting-configuration.cli` results in the creation of:
 
@@ -293,7 +296,7 @@ the `client` and `server` application can be deployed
 [source,sh,subs="+quotes,attributes+",options="nowrap"]
 ----
 cd ${PATH_TO_QUICKSTART_DIR}/
-mvn clean package
+mvn clean package -P '!provisioned-server'
 ----
 +
 . Then, the `client` application can be deployed using the following commands:
@@ -568,9 +571,7 @@ Instead of using a standard {productName} server distribution, the three {produc
 [source,sh,subs="+quotes,attributes+",options="nowrap"]
 ----
 cd ${PATH_TO_QUICKSTART_DIR}/client;
-mvn clean package \
-  -DremoteServerUsername="quickstartUser" -DremoteServerPassword='quickstartPwd1!' \
-  -DpostgresqlUsername="test" -DpostgresqlPassword="test"
+mvn clean package -DpostgresqlUsername="test" -DpostgresqlPassword="test"
 ----
 [source,sh,subs="+quotes,attributes+",options="nowrap"]
 ----

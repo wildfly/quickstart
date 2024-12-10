@@ -45,6 +45,9 @@
         <version.plugin.wildfly>5.1.0.Final</version.plugin.wildfly>
         <!-- the versions for other Dependencies and Plugins -->
         <version.postgresql>42.7.2</version.postgresql>
+        <!-- property used by the openshift profile -->
+        <property.file>scripts/cli.local.properties</property.file>
+        <discovery.context>bare-metal</discovery.context>
     </properties>
 
     <repositories>
@@ -237,102 +240,38 @@
                         <artifactId>wildfly-maven-plugin</artifactId>
                         <configuration>
                             <env>
+                                <POSTGRESQL_HOST>${postgresqlHost:localhost}</POSTGRESQL_HOST>
                                 <POSTGRESQL_DATABASE>test</POSTGRESQL_DATABASE>
                                 <POSTGRESQL_JNDI>java:jboss/datasources/ejbJtaDs</POSTGRESQL_JNDI>
                                 <POSTGRESQL_PASSWORD>${postgresqlUsername}</POSTGRESQL_PASSWORD>
                                 <POSTGRESQL_USER>${postgresqlPassword}</POSTGRESQL_USER>
                             </env>
+                            <discover-provisioning-info>
+                                <version>${version.server}</version>
+                                <context>${discovery.context}</context>
+                                <!-- Some JNDI lookup to ignore -->
+                                <failsOnError>false</failsOnError>
+                                <add-ons>
+                                    <add-on>postgresql</add-on>
+                                </add-ons>
+                            </discover-provisioning-info>
+                            <packaging-scripts>
+                                <packaging-script>
+                                    <scripts>
+                                        <script>scripts/remoting-configuration.cli</script>
+                                    </scripts>
+                                    <properties-files>
+                                        <propertyFile>${property.file}</propertyFile>
+                                    </properties-files>
+                                </packaging-script>
+                            </packaging-scripts>
+                            <build>false</build>
                         </configuration>
                         <executions>
                             <execution>
-                                <id>package</id>
-                                <phase>package</phase>
                                 <goals>
                                     <goal>package</goal>
                                 </goals>
-                                <configuration>
-                                    <discover-provisioning-info>
-                                        <version>${version.server}</version>
-                                        <!-- Some JNDI lookup to ignore -->
-                                        <failsOnError>false</failsOnError>
-                                        <add-ons>
-                                            <add-on>postgresql</add-on>
-                                        </add-ons>
-                                    </discover-provisioning-info>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>run-script</id>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>execute-commands</goal>
-                                </goals>
-                                <configuration>
-                                    <offline>true</offline>
-                                    <jbossHome>${project.build.directory}/server</jbossHome>
-                                    <scripts>
-                                        <script>scripts/remoting-configuration.cli</script>
-                                    </scripts>
-                                    <propertiesFiles>
-                                        <propertyFile>scripts/cli.local.properties</propertyFile>
-                                    </propertiesFiles>
-                                    <systemProperties>
-                                        <remoteServerUsername>${remoteServerUsername}</remoteServerUsername>
-                                        <remoteServerPassword>${remoteServerPassword}</remoteServerPassword>
-                                    </systemProperties>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <id>openshift</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.wildfly.plugins</groupId>
-                        <artifactId>wildfly-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>package</id>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>package</goal>
-                                </goals>
-                                <configuration>
-                                    <discover-provisioning-info>
-                                        <version>${version.server}</version>
-                                        <!-- Some JNDI lookup to ignore -->
-                                        <failsOnError>false</failsOnError>
-                                        <context>cloud</context>
-                                        <add-ons>
-                                            <add-on>postgresql</add-on>
-                                        </add-ons>
-                                    </discover-provisioning-info>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>run-script</id>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>execute-commands</goal>
-                                </goals>
-                                <configuration>
-                                    <offline>true</offline>
-                                    <jbossHome>${project.build.directory}/server</jbossHome>
-                                    <scripts>
-                                        <script>scripts/remoting-configuration.cli</script>
-                                    </scripts>
-                                    <propertiesFiles>
-                                        <propertyFile>scripts/cli.openshift.properties</propertyFile>
-                                    </propertiesFiles>
-                                    <systemProperties>
-                                        <remoteServerUsername>${remoteServerUsername}</remoteServerUsername>
-                                        <remoteServerPassword>${remoteServerPassword}</remoteServerPassword>
-                                    </systemProperties>
-                                </configuration>
                             </execution>
                         </executions>
                     </plugin>
@@ -349,6 +288,13 @@
                     </plugin>
                 </plugins>
             </build>
+        </profile>
+        <profile>
+            <id>openshift</id>
+            <properties>
+                <property.file>scripts/cli.openshift.properties</property.file>
+                <discovery.context>cloud</discovery.context>
+            </properties>
         </profile>
         <profile>
             <id>integration-testing</id>
