@@ -9,6 +9,9 @@ set serverConfig=${serverConfig}
 # running embeded server with server config
 embed-server --server-config=$serverConfig
 
+# we assume that if one of the sys properties exists then server was configured already
+if (outcome != success) of /system-property=remote.server.host:read-resource
+
 /system-property=remote.server.host:add(value=$remoteServerHost)
 /system-property=remote.server.port:add(value=$remoteServerPort)
 /system-property=remote.server.username:add(value=$remoteServerUsername)
@@ -45,5 +48,7 @@ echo "Transaction recovery listener enabled"
 # /subsystem=logging/logger=com.arjuna:write-attribute(name=level,value=TRACE)
 
 echo "remoting-configuration.cli script finished"
+
+end-if
 
 quit

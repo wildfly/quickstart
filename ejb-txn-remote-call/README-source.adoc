@@ -68,9 +68,16 @@ to `server` application. The remote call hits one of the two servers where the `
 First of all, an environment variable should be defined to point to this quickstart's root folder.
 From the root of this quickstart, the following command should be executed:
 
-[source,sh,subs="+quotes,attributes+"]
+[source,sh,subs="+quotes,attributes+",options="nowrap"]
 ----
 export PATH_TO_QUICKSTART_DIR=$(pwd)
+----
+
+Second, another environment variable should be defined to point to the {productName} installation directory:
+
+[source,sh,subs="+quotes,attributes+",options="nowrap"]
+----
+export {jbossHomeName}=...
 ----
 
 Then, three {productName} servers needs to be configured:
@@ -91,17 +98,17 @@ The installation directories are named:
 * `__{jbossHomeName}_3__` for `server3`
 
 Given that the installation directory of the {productName} is identified with ${jbossHomeName}:
-[source,sh,subs="+quotes,attributes+"]
+[source,sh,subs="+quotes,attributes+",options="nowrap"]
 ----
 cp -r ${jbossHomeName} server1; \
 {jbossHomeName}_1="$PWD/server1"
 ----
-[source,sh,subs="+quotes,attributes+"]
+[source,sh,subs="+quotes,attributes+",options="nowrap"]
 ----
 cp -r ${jbossHomeName} server2; \
 {jbossHomeName}_2="$PWD/server2"
 ----
-[source,sh,subs="+quotes,attributes+"]
+[source,sh,subs="+quotes,attributes+",options="nowrap"]
 ----
 cp -r ${jbossHomeName} server3; \
 {jbossHomeName}_3="$PWD/server3"
@@ -112,31 +119,27 @@ cp -r ${jbossHomeName} server3; \
 To successfully process EJB remote calls from `server1` to either `server2`
 or to `server3` a user to authenticate the EJB remote calls must be created on the receiving servers.
 
-Run the following procedure in the directories `__{jbossHomeName}_2__` and `__{jbossHomeName}_3__` to create the user for `server2` and `server3`.
-
-[#add_application_user]
-// Add the Authorized Application User
-include::../shared-doc/add-application-user.adoc[leveloffset=+3]
-
-[NOTE]
-====
-For the `add-user.sh` (or `.bat`) command you, can add the parameter `-ds`.
-When you include this parameter, after the user is added, the system outputs a secret value that you can use to set up the remote output connection on `server1`.
-
-The output of command when `-ds` parameter is used:
-
-[code,sh]
+Type the following command to add the user to `server2`:
+[source,subs="+quotes,attributes+",options="nowrap"]
 ----
-To represent the user add the following to the server-identities definition <secret value="cXVpY2tzdGFydFB3ZDEh" />
+${jbossHomeName}_2/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!'
 ----
-====
 
+And type the following command to add the user to `server3`:
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+${jbossHomeName}_3/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!'
+----
+
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\add-user.bat` script.
+
+[[configure_datasources]]
 === Configure datasources
 
 As this quickstart performs transactional work against a database, it is needed to create a new database.
-For the purpose of this quickstart, a simple PostgreSQL container will be used:
+For the purpose of this quickstart, a simple PostgreSQL container will be used, please open another terminal and run the following command to download and start its image:
 
-[source,sh]
+[source,sh,options="nowrap"]
 ----
 podman run -p 5432:5432 --rm  -ePOSTGRES_DB=test -ePOSTGRES_USER=test -ePOSTGRES_PASSWORD=test postgres:9.4 -c max-prepared-transactions=110 -c log-statement=all
 ----
@@ -144,29 +147,29 @@ podman run -p 5432:5432 --rm  -ePOSTGRES_DB=test -ePOSTGRES_USER=test -ePOSTGRES
 The {productName} servers need to be configured to be able to connect to the database.
 First of all, a JDBC driver needs to be installed as https://docs.wildfly.org/30/Developer_Guide.html#Class_Loading_in_WildFly[jboss module].
 
-The following command (along packaging the `client` and the `server` applications) downloads the PostgreSQL driver automatically through Maven:
-[source,sh,subs="+quotes,attributes+"]
+The following command downloads the PostgreSQL driver automatically through Maven:
+[source,sh,subs="+quotes,attributes+",options="nowrap"]
 ----
 cd ${PATH_TO_QUICKSTART_DIR};
-mvn clean package -P '!provisioned-server'
+mvn clean process-sources
 ----
 Then, the PostgreSQL driver needs to be loaded as jboss module in all {productName} servers:
 
-[source,sh,subs="+quotes,attributes+"]
+[source,sh,subs="+quotes,attributes+",options="nowrap"]
 ----
 cd ${jbossHomeName}_1; \
 ./bin/jboss-cli.sh "embed-server,\
   module add --name=org.postgresql.jdbc \
   --resources=${PATH_TO_QUICKSTART_DIR}/client/target/postgresql/postgresql.jar"
 ----
-[source,sh,subs="+quotes,attributes+"]
+[source,sh,subs="+quotes,attributes+",options="nowrap"]
 ----
 cd ${jbossHomeName}_2; \
 ./bin/jboss-cli.sh "embed-server,\
   module add --name=org.postgresql.jdbc \
   --resources=${PATH_TO_QUICKSTART_DIR}/client/target/postgresql/postgresql.jar"
 ----
-[source,sh,subs="+quotes,attributes+"]
+[source,sh,subs="+quotes,attributes+",options="nowrap"]
 ----
 cd ${jbossHomeName}_3; \
 ./bin/jboss-cli.sh "embed-server,\
@@ -178,19 +181,19 @@ Moreover, the PostgreSQL driver needs to be installed on all {productName} serve
 For `server1`, the configuration file `standalone.xml` will be used.
 For `server2` and `server3` the configuration file `standalone-ha.xml` will be used.
 
-[source,sh,subs="+quotes,attributes+"]
+[source,sh,subs="+quotes,attributes+",options="nowrap"]
 ----
 cd ${jbossHomeName}_1; \
 ./bin/jboss-cli.sh "embed-server --server-config=standalone.xml,\
   /subsystem=datasources/jdbc-driver=postgresql:add(driver-name=postgresql,driver-module-name=org.postgresql.jdbc,driver-xa-datasource-class-name=org.postgresql.xa.PGXADataSource)"
 ----
-[source,sh,subs="+quotes,attributes+"]
+[source,sh,subs="+quotes,attributes+",options="nowrap"]
 ----
 cd ${jbossHomeName}_2; \
 ./bin/jboss-cli.sh "embed-server --server-config=standalone-ha.xml,\
   /subsystem=datasources/jdbc-driver=postgresql:add(driver-name=postgresql,driver-module-name=org.postgresql.jdbc,driver-xa-datasource-class-name=org.postgresql.xa.PGXADataSource)"
 ----
-[source,sh,subs="+quotes,attributes+"]
+[source,sh,subs="+quotes,attributes+",options="nowrap"]
 ----
 cd ${jbossHomeName}_3; \
 ./bin/jboss-cli.sh "embed-server --server-config=standalone-ha.xml,\
@@ -199,21 +202,21 @@ cd ${jbossHomeName}_3; \
 
 Finally, it is time to run the scripts for adding the PostgreSQL datasource to the {productName} servers:
 
-[source,sh,subs="+quotes,attributes+"]
+[source,sh,subs="+quotes,attributes+",options="nowrap"]
 ----
 cd ${jbossHomeName}_1; \
 ./bin/jboss-cli.sh -DpostgresqlUsername="test" -DpostgresqlPassword="test" \
   --file=${PATH_TO_QUICKSTART_DIR}/client/scripts/postgresql-datasource.cli \
   --properties=${PATH_TO_QUICKSTART_DIR}/client/scripts/cli.local.properties
 ----
-[source,sh,subs="+quotes,attributes+"]
+[source,sh,subs="+quotes,attributes+",options="nowrap"]
 ----
 cd ${jbossHomeName}_2; \
 ./bin/jboss-cli.sh -DpostgresqlUsername="test" -DpostgresqlPassword="test" \
   --file=${PATH_TO_QUICKSTART_DIR}/server/scripts/postgresql-datasource.cli \
   --properties=${PATH_TO_QUICKSTART_DIR}/server/scripts/cli.local.properties
 ----
-[source,sh,subs="+quotes,attributes+"]
+[source,sh,subs="+quotes,attributes+",options="nowrap"]
 ----
 cd ${jbossHomeName}_3; \
 ./bin/jboss-cli.sh -DpostgresqlUsername="test" -DpostgresqlPassword="test" \
@@ -233,10 +236,10 @@ will be executed on `server1`.
 ====
 
 [[remote_configuration_cli]]
-[source,sh,subs="+quotes,attributes+"]
+[source,sh,subs="+quotes,attributes+",options="nowrap"]
 ----
 cd ${jbossHomeName}_1; \
-./bin/jboss-cli.sh -DremoteServerUsername="quickstartUser" -DremoteServerPassword="quickstartPwd1!" \
+./bin/jboss-cli.sh -DremoteServerUsername='quickstartUser' -DremoteServerPassword='quickstartPwd1!' \
   --file=${PATH_TO_QUICKSTART_DIR}/client/scripts/remoting-configuration.cli \
   --properties=${PATH_TO_QUICKSTART_DIR}/client/scripts/cli.local.properties
 ----
@@ -278,9 +281,6 @@ cd ${jbossHomeName}_3; \
 ./bin/standalone.sh -c standalone-ha.xml -Djboss.tx.node.id=server3 -Djboss.node.name=server3 -Djboss.socket.binding.port-offset=200
 ----
 
-NOTE: To enable the recovery of remote transaction failures, the configuration file `custom-config.xml`
-should be loaded into `server1`; this operation will authenticate `server1` against `server2`/`server3`.
-
 NOTE: For Windows, use the `bin\standalone.bat` script.
 
 === Deploying the Quickstart applications
@@ -288,12 +288,12 @@ NOTE: For Windows, use the `bin\standalone.bat` script.
 . With all {productName} servers <<_setup_productname_servers, configured>> and <<_start_productname_servers, running>>,
 the `client` and `server` application can be deployed
 
-. The whole project can be built using the following commands:
+. Ensure the whole project is built:
 +
 [source,sh,subs="+quotes,attributes+",options="nowrap"]
 ----
 cd ${PATH_TO_QUICKSTART_DIR}/
-mvn clean package -P '!provisioned-server'
+mvn clean package
 ----
 +
 . Then, the `client` application can be deployed using the following commands:
@@ -301,7 +301,7 @@ mvn clean package -P '!provisioned-server'
 [source,sh,subs="+quotes,attributes+",options="nowrap"]
 ----
 cd ${PATH_TO_QUICKSTART_DIR}/client
-mvn wildfly:deploy -P '!provisioned-server'
+mvn wildfly:deploy
 ----
 +
 . Lastly, the `server` application can be deployed using the following commands:
@@ -309,8 +309,8 @@ mvn wildfly:deploy -P '!provisioned-server'
 [source,sh,subs="+quotes,attributes+",options="nowrap"]
 ----
 cd ${PATH_TO_QUICKSTART_DIR}/server
-mvn wildfly:deploy -P '!provisioned-server' -Dwildfly.port=10090
-mvn wildfly:deploy -P '!provisioned-server' -Dwildfly.port=10190
+mvn wildfly:deploy -Dwildfly.port=10090
+mvn wildfly:deploy -Dwildfly.port=10190
 ----
 
 The commands just run employed the WildFly Maven plugin to connect to the running instances of {productName}
@@ -563,13 +563,13 @@ ifndef::ProductRelease,EAPXPRelease[]
 [[build_and_run_the_quickstart_with_provisioned_server]]
 == Building and running the quickstart application with provisioned {productName} server
 
-Instead of using a standard {productName} server distribution, the three {productName} servers to deploy and run the quickstart can be alternatively provisioned by activating the Maven profile named `provisioned-server` when building the quickstart:
+Instead of using a standard {productName} server distribution, the three {productName} servers to deploy and run the quickstart can be provisioned:
 
 [source,sh,subs="+quotes,attributes+",options="nowrap"]
 ----
 cd ${PATH_TO_QUICKSTART_DIR}/client;
 mvn clean package \
-  -DremoteServerUsername="quickstartUser" -DremoteServerPassword="quickstartPwd1!" \
+  -DremoteServerUsername="quickstartUser" -DremoteServerPassword='quickstartPwd1!' \
   -DpostgresqlUsername="test" -DpostgresqlPassword="test"
 ----
 [source,sh,subs="+quotes,attributes+",options="nowrap"]
@@ -583,11 +583,11 @@ mvn package \
   -DpostgresqlUsername="test" -DpostgresqlPassword="test"
 ----
 
-The provisioned {productName} servers, with the quickstart deployed, can then be found in the `target/server` directory, and their usage is similar to a standard server distribution, with the simplification that there is never the need to specify the server configuration to be started.
+The provisioned {productName} servers, with the quickstart deployed, can then be found in `${PATH_TO_QUICKSTART_DIR}/client/target/server`, `${PATH_TO_QUICKSTART_DIR}/server/target/server2`, and `${PATH_TO_QUICKSTART_DIR}/server/target/server3` directories, and their usage is similar to a standard server distribution, with the simplification that there is never the need to specify the server configuration to be started.
 
 The server provisioning functionality is provided by the WildFly Maven Plugin, and you may find its configuration in the pom.xml files of the quickstart.
 
-The quickstart user should be added before running the provisioned server:
+The quickstart user should be added after provisioning the servers, and before running them:
 [source,subs="+quotes,attributes+",options="nowrap"]
 ----
 cd ${PATH_TO_QUICKSTART_DIR}/server;
@@ -605,12 +605,7 @@ The integration tests included with this quickstart, which verify that the quick
 
 Follow these steps to run the integration tests.
 
-. As this quickstart performs transactional work against a database, it is needed to create a new database. For the purpose of this quickstart, a simple PostgreSQL container will be used:
-+
-[source,sh]
-----
-podman run -p 5432:5432 --rm  -ePOSTGRES_DB=test -ePOSTGRES_USER=test -ePOSTGRES_PASSWORD=test postgres:9.4 -c max-prepared-transactions=110 -c log-statement=all
-----
+. Ensure the PostgreSQL database is running, as described in <<configure_datasources>>.
 
 . Make sure the servers are provisioned by running the commands reported in <<build_and_run_the_quickstart_with_provisioned_server>>
 
