@@ -11,9 +11,9 @@ services:
       - "1587:587"
       - "1143:143"
     volumes:
-      - ./mail-server-conf/imapserver.xml:/root/conf/imapserver.xml
-      - ./mail-server-conf/pop3server.xml:/root/conf/pop3server.xml
-      - ./mail-server-conf/smtpserver.xml:/root/conf/smtpserver.xml
+      - ./mail-server-conf/imapserver.xml:/root/conf/imapserver.xml:Z
+      - ./mail-server-conf/pop3server.xml:/root/conf/pop3server.xml:Z
+      - ./mail-server-conf/smtpserver.xml:/root/conf/smtpserver.xml:Z
     healthcheck:
       test: [ "CMD-SHELL", "/bin/james-cli -h 127.0.0.1 -p 9999 ListUsers | grep -q 'user03@james.local'" ]
       interval: 5s
