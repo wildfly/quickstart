@@ -3,12 +3,7 @@
     <deployment>
         <!-- Spring does not support CDI and therefore CDI required subsystem and dependencies must be excluded -->
         <exclude-subsystems>
-            <subsystem name="jsf"/>
-            <subsystem name="microprofile-opentracing-smallrye"/>
             <subsystem name="weld"/>
         </exclude-subsystems>
-        <exclusions>
-            <module name="org.jboss.resteasy.resteasy-cdi"/>
-        </exclusions>
     </deployment>
 </jboss-deployment-structure>
