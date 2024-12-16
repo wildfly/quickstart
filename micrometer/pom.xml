@@ -132,13 +132,16 @@
                         <groupId>org.wildfly.plugins</groupId>
                         <artifactId>wildfly-maven-plugin</artifactId>
                         <configuration>
-                            <discover-provisioning-info>
-                                <version>${version.server}</version>
-                                <!-- A workaround for WFLY-18955 -->
-                                <add-ons>
-                                    <add-on>micrometer</add-on>
-                                </add-ons>
-                            </discover-provisioning-info>
+                            <feature-packs>
+                                <feature-pack>
+                                    <location>org.wildfly:wildfly-galleon-pack:${version.server}</location>
+                                </feature-pack>
+                            </feature-packs>
+                            <layers>
+                                <layer>cdi</layer>
+                                <layer>jaxrs-server</layer>
+                                <layer>micrometer</layer>
+                            </layers>
                             <!-- use cli script(s) to configure the server -->
                             <packaging-scripts>
                                 <packaging-script>
@@ -172,13 +175,16 @@
                         <groupId>org.wildfly.plugins</groupId>
                         <artifactId>wildfly-maven-plugin</artifactId>
                         <configuration>
-                            <discover-provisioning-info>
-                                <version>${version.server}</version>
-                                <!-- A workaround for WFLY-18955 -->
-                                <add-ons>
-                                    <add-on>micrometer</add-on>
-                                </add-ons>
-                            </discover-provisioning-info>
+                            <feature-packs>
+                                <feature-pack>
+                                    <location>org.wildfly:wildfly-galleon-pack:${version.server}</location>
+                                </feature-pack>
+                            </feature-packs>
+                            <layers>
+                                <layer>cdi</layer>
+                                <layer>cloud-server</layer>
+                                <layer>micrometer</layer>
+                            </layers>
                             <bootable-jar>true</bootable-jar>
                             <packaging-scripts>
                                 <packaging-script>
@@ -208,14 +214,19 @@
                         <groupId>org.wildfly.plugins</groupId>
                         <artifactId>wildfly-maven-plugin</artifactId>
                         <configuration>
-                            <discover-provisioning-info>
-                                <version>${version.server}</version>
-                                <context>cloud</context>
-                                <!-- A workaround for WFLY-18955 -->
-                                <add-ons>
-                                    <add-on>micrometer</add-on>
-                                </add-ons>
-                            </discover-provisioning-info>
+                            <feature-packs>
+                                <feature-pack>
+                                    <location>org.wildfly:wildfly-galleon-pack:${version.server}</location>
+                                </feature-pack>
+                                <feature-pack>
+                                    <location>org.wildfly.cloud:wildfly-cloud-galleon-pack:${version.pack.cloud}</location>
+                                </feature-pack>
+                            </feature-packs>
+                            <layers>
+                                <layer>cdi</layer>
+                                <layer>cloud-server</layer>
+                                <layer>micrometer</layer>
+                            </layers>
                             <packaging-scripts>
                                 <packaging-script>
                                     <scripts>

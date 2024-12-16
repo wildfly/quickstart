@@ -154,9 +154,17 @@
                         <groupId>org.wildfly.plugins</groupId>
                         <artifactId>wildfly-maven-plugin</artifactId>
                         <configuration>
-                            <discover-provisioning-info>
-                                <version>${version.server}</version>
-                            </discover-provisioning-info>
+                            <feature-packs>
+                                <feature-pack>
+                                    <location>org.wildfly:wildfly-galleon-pack:${version.server}</location>
+                                </feature-pack>
+                            </feature-packs>
+                            <layers>
+                                <layer>core-tools</layer>
+                                <layer>core-server</layer>
+                                <layer>mail</layer>
+                                <layer>jsf</layer>
+                            </layers>
                             <packaging-scripts>
                                 <packaging-script>
                                     <scripts>
