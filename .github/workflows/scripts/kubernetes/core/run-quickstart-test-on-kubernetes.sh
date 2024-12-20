@@ -14,7 +14,7 @@ test_status=0
 script_directory="${0%/*}"
 script_directory=$(realpath "${script_directory}")
 cd "${script_directory}"
-qs_dir="${1}"
+qs_dir=$(echo "${1}" | sed 's/\///g')
 if [ -z "${1}" ]; then
   echo "No quickstart directory set"
   exit 1
