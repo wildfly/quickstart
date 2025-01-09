@@ -28,8 +28,6 @@ When you run this example, you are presented with a *Use bean managed Entity Man
 
 This example shows how to transactionally insert key value pairs into the database and demonstrates the requirements on the developer with respect to the JPA Entity Manager.
 
-ifndef::EAPCDRelease[]
-
 // Link to the quickstart source
 include::../shared-doc/view-the-source.adoc[leveloffset=+1]
 // Considerations for Use in a Production Environment
@@ -70,29 +68,9 @@ include::../shared-doc/run-integration-tests-with-server-distribution.adoc[level
 include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
 
 // Build and run sections for other environments/builds
-ifndef::ProductRelease,EAPXPRelease[]
 include::../shared-doc/build-and-run-the-quickstart-with-provisioned-server.adoc[leveloffset=+1]
-endif::[]
 include::../shared-doc/build-and-run-the-quickstart-with-openshift.adoc[leveloffset=+1]
-endif::[]
 ifndef::ProductRelease,EAPXPRelease[]
 // Kubernetes
 include::../shared-doc/build-and-run-the-quickstart-with-kubernetes.adoc[leveloffset=+1]
-endif::[]
-//*************************************************
-// Product Release content only
-//*************************************************
-ifdef::ProductRelease[]
-
-// Getting Started with OpenShift
-include::../shared-doc/openshift-getting-started.adoc[leveloffset=+1]
-//Prepare OpenShift for Quickstart Deployment
-include::../shared-doc/openshift-create-project.adoc[leveloffset=+1]
-// Import the Latest {xpaasproduct-shortname} Image Streams and Templates
-include::../shared-doc/openshift-import-imagestreams-templates.adoc[leveloffset=+1]
-// Deploy the {ProductShortName} Source-to-Image (S2I) Quickstart to OpenShift
-include::../shared-doc/openshift-deploy-project.adoc[leveloffset=+1]
-// Openshift post deployment tasks
-include::../shared-doc/openshift-post-deployment-tasks.adoc[leveloffset=+1]
-
 endif::[]
