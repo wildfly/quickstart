@@ -7,7 +7,6 @@ include::../shared-doc/attributes.adoc[]
 :standalone-server-type: default
 :archiveType: war
 :restoreScriptName: remove-logging.cli
-:portedToGlow: true
 :openshift: true
 
 [abstract]
@@ -157,10 +156,7 @@ This script removes the log and file handlers from the `logging` subsystem in th
 include::../shared-doc/restore-standalone-server-configuration-manual.adoc[leveloffset=+2]
 
 // Build and run sections for other environments/builds
-ifndef::ProductRelease,EAPXPRelease[]
 include::../shared-doc/build-and-run-the-quickstart-with-provisioned-server.adoc[leveloffset=+1]
-endif::[]
-
 include::../shared-doc/build-and-run-the-quickstart-with-openshift.adoc[leveloffset=+1]
 ifndef::ProductRelease,EAPXPRelease[]
 //Kubernetes
