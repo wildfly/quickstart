@@ -9,12 +9,16 @@ receivers:
   otlp:
     protocols:
       grpc:
+          endpoint: "0.0.0.0:4317"
       http:
+          endpoint: "0.0.0.0:4318"
 
 processors:
   batch:
 
 exporters:
+  debug:
+    verbosity: detailed
   prometheus:
     endpoint: "0.0.0.0:1234"
 
@@ -23,7 +27,7 @@ service:
     metrics:
       receivers: [otlp]
       processors: [batch]
-      exporters: [prometheus]
+      exporters: [debug,prometheus]
 
   extensions: [health_check, pprof, zpages]
 

@@ -9,10 +9,12 @@ data:
       otlp:
         protocols:
           grpc:
+              endpoint: "0.0.0.0:4317"
           http:
+              endpoint: "0.0.0.0:4318"
     processors:
     exporters:
-      logging:
+      debug:
         verbosity: detailed
       prometheus:
         endpoint: "0.0.0.0:1234"
@@ -21,7 +23,7 @@ data:
         metrics:
           receivers: [otlp]
           processors: []
-          exporters: [logging,prometheus]
+          exporters: [debug,prometheus]
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -41,7 +43,7 @@ spec:
         - name: otelcol
           args:
             - --config=/conf/collector.yml
-          image: otel/opentelemetry-collector:0.89.0
+          image: otel/opentelemetry-collector:0.115.1
           volumeMounts:
             - mountPath: /conf
               name: collector-config
