@@ -66,7 +66,7 @@ ifndef::ProductRelease,EAPXPRelease[]
 :productImageVersion: 35.0
 :githubRepoUrl: https://github.com/wildfly/quickstart/
 :githubRepoCodeUrl: https://github.com/wildfly/quickstart.git
-:WildFlyQuickStartRepoTag: 35.0.0.Beta1
+:WildFlyQuickStartRepoTag: 35.0.0.Final
 :DocInfoProductName: Red Hat JBoss Enterprise Application Platform
 :DocInfoProductNameURL: red_hat_jboss_enterprise_application_platform
 :DocInfoProductNumber: 8.0
@@ -168,35 +168,6 @@ endif::[]
 :configureBytemanQuickstartDocUrl: {guidesBaseUrl}CONFIGURE_BYTEMAN.adoc#configure_byteman_for_use_with_the_quickstarts
 :configureBytemanHaltDocUrl: {guidesBaseUrl}CONFIGURE_BYTEMAN.adoc#use_byteman_to_halt_the_application[
 :configureBytemanQuickstartsDocUrl: {guidesBaseUrl}CONFIGURE_BYTEMAN.adoc#configure_byteman_for_use_with_the_quickstarts
-
-:EESubsystemNamespace: urn:jboss:domain:ee:4.0
-:IiopOpenJdkSubsystemNamespace: urn:jboss:domain:iiop-openjdk:2.0
-:MailSubsystemNamespace: urn:jboss:domain:mail:3.0
-:SingletonSubsystemNamespace: urn:jboss:domain:singleton:1.0
-:TransactionsSubsystemNamespace: urn:jboss:domain:transactions:4.0
-
-// LinkProductDocHome: https://access.redhat.com/documentation/en/red-hat-jboss-enterprise-application-platform/
-:LinkProductDocHome: https://access.redhat.com/documentation/en/jboss-enterprise-application-platform-continuous-delivery
-:LinkConfigGuide: https://access.redhat.com/documentation/en-us/{DocInfoProductNameURL}/{DocInfoProductNumber}/html-single/configuration_guide/
-:LinkDevelopmentGuide: https://access.redhat.com/documentation/en-us/{DocInfoProductNameURL}/{DocInfoProductNumber}/html-single/development_guide/
-:LinkGettingStartedGuide: https://access.redhat.com/documentation/en-us/{DocInfoProductNameURL}/{DocInfoProductNumber}/html-single/getting_started_guide/
-:LinkOpenShiftWelcome: https://docs.openshift.com/online/welcome/index.html
-:LinkOpenShiftSignup: https://docs.openshift.com/online/getting_started/choose_a_plan.html
-:OpenShiftTemplateName: JBoss EAP CD (no https)
-
-:ConfigBookName: Configuration Guide
-:DevelopmentBookName: Development Guide
-:GettingStartedBookName: Getting Started Guide
-
-:JBDSProductName: Red Hat CodeReady Studio
-:JBDSVersion: 12.15
-:LinkJBDSInstall:  https://access.redhat.com/documentation/en-us/red_hat_codeready_studio/{JBDSVersion}/html-single/installation_guide/
-:JBDSInstallBookName: Installation Guide
-:LinkJBDSGettingStarted: https://access.redhat.com/documentation/en-us/red_hat_codeready_studio/{JBDSVersion}/html-single/getting_started_with_codeready_studio_tools/
-:JBDSGettingStartedBookName: Getting Started with CodeReady Studio Tools
-
-// Enable Rendering of Glow configuration in plugin examples
-:portedToGlow: true
 
 = ha-singleton-service: Deploying Cluster-wide Singleton MSC Services
 :author: Radoslav Husar
@@ -726,57 +697,6 @@ $ __{jbossHomeName}_2__/bin/jboss-cli.sh --connect --controller=localhost:10090 
 ----
 +
 NOTE: For Windows, use the `__{jbossHomeName}_1__\bin\jboss-cli.bat` and `__{jbossHomeName}_2__\bin\jboss-cli.bat` scripts.
-
-// Run the Quickstart in Red Hat CodeReady Studio or Eclipse
-:leveloffset: +1
-
-[[run_the_quickstart_in_redhat_codeready_studio_or_eclipse]]
-= Run the Quickstart in {JBDSProductName} or Eclipse
-//******************************************************************************
-// Include this template to provide instructions to run the quickstart
-// in Red Hat CodeReady Studio.
-//
-// If the quickstart is not supported, create the `jbds-not-supported` attribute.
-//******************************************************************************
-ifdef::jbds-not-supported[]
-This quickstart is not supported in {JBDSProductName}.
-endif::jbds-not-supported[]
-
-ifndef::jbds-not-supported[]
-You can also start the server and deploy the quickstarts, or run any tests in {JBDSProductName} or from Eclipse using JBoss tools. For general information about how to import a quickstart, add a {productName} server, and build and deploy a quickstart, see link:{useEclipseUrl}[Use {JBDSProductName} or Eclipse to Run the Quickstarts].
-endif::jbds-not-supported[]
-
-// Add additional instructions specific to running this quickstart in an IDE here.
-
-:leveloffset!:
-// Debug the Application
-:leveloffset: +1
-
-[[debug_the_application]]
-= Debug the Application
-//******************************************************************************
-// Include this template to provide debugging information.
-//******************************************************************************
-
-If you want to debug the source code of any library in the project, run the following command to pull the source into your local repository. The IDE should then detect it.
-
-----
-$ mvn dependency:sources
-----
-
-////
-TODO: I need to investigate whether the following version can be used across all quickstarts.
-
-If you want to debug the source code or look at the Javadocs of any library in the project, run either of the following commands to pull them into your local repository. The IDE should then detect them.
-
-[source,options="nowrap"]
-----
-$ mvn dependency:sources
-$ mvn dependency:resolve -Dclassifier=javadoc
-----
-////
-
-:leveloffset!:
 
 // Quickstart not compatible with OpenShift
 :leveloffset: +1

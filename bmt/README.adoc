@@ -66,7 +66,7 @@ ifndef::ProductRelease,EAPXPRelease[]
 :productImageVersion: 35.0
 :githubRepoUrl: https://github.com/wildfly/quickstart/
 :githubRepoCodeUrl: https://github.com/wildfly/quickstart.git
-:WildFlyQuickStartRepoTag: 35.0.0.Beta1
+:WildFlyQuickStartRepoTag: 35.0.0.Final
 :DocInfoProductName: Red Hat JBoss Enterprise Application Platform
 :DocInfoProductNameURL: red_hat_jboss_enterprise_application_platform
 :DocInfoProductNumber: 8.0
@@ -169,35 +169,6 @@ endif::[]
 :configureBytemanHaltDocUrl: {guidesBaseUrl}CONFIGURE_BYTEMAN.adoc#use_byteman_to_halt_the_application[
 :configureBytemanQuickstartsDocUrl: {guidesBaseUrl}CONFIGURE_BYTEMAN.adoc#configure_byteman_for_use_with_the_quickstarts
 
-:EESubsystemNamespace: urn:jboss:domain:ee:4.0
-:IiopOpenJdkSubsystemNamespace: urn:jboss:domain:iiop-openjdk:2.0
-:MailSubsystemNamespace: urn:jboss:domain:mail:3.0
-:SingletonSubsystemNamespace: urn:jboss:domain:singleton:1.0
-:TransactionsSubsystemNamespace: urn:jboss:domain:transactions:4.0
-
-// LinkProductDocHome: https://access.redhat.com/documentation/en/red-hat-jboss-enterprise-application-platform/
-:LinkProductDocHome: https://access.redhat.com/documentation/en/jboss-enterprise-application-platform-continuous-delivery
-:LinkConfigGuide: https://access.redhat.com/documentation/en-us/{DocInfoProductNameURL}/{DocInfoProductNumber}/html-single/configuration_guide/
-:LinkDevelopmentGuide: https://access.redhat.com/documentation/en-us/{DocInfoProductNameURL}/{DocInfoProductNumber}/html-single/development_guide/
-:LinkGettingStartedGuide: https://access.redhat.com/documentation/en-us/{DocInfoProductNameURL}/{DocInfoProductNumber}/html-single/getting_started_guide/
-:LinkOpenShiftWelcome: https://docs.openshift.com/online/welcome/index.html
-:LinkOpenShiftSignup: https://docs.openshift.com/online/getting_started/choose_a_plan.html
-:OpenShiftTemplateName: JBoss EAP CD (no https)
-
-:ConfigBookName: Configuration Guide
-:DevelopmentBookName: Development Guide
-:GettingStartedBookName: Getting Started Guide
-
-:JBDSProductName: Red Hat CodeReady Studio
-:JBDSVersion: 12.15
-:LinkJBDSInstall:  https://access.redhat.com/documentation/en-us/red_hat_codeready_studio/{JBDSVersion}/html-single/installation_guide/
-:JBDSInstallBookName: Installation Guide
-:LinkJBDSGettingStarted: https://access.redhat.com/documentation/en-us/red_hat_codeready_studio/{JBDSVersion}/html-single/getting_started_with_codeready_studio_tools/
-:JBDSGettingStartedBookName: Getting Started with CodeReady Studio Tools
-
-// Enable Rendering of Glow configuration in plugin examples
-:portedToGlow: true
-
 = bmt: Bean Managed Transactions with JPA and JTA
 :author: Mike Musgrove
 :level: Intermediate
@@ -225,8 +196,6 @@ When you run this example, you are presented with a *Use bean managed Entity Man
 * If you uncheck the checkbox, shows the developer responsibilities when using JPA and transactions with an unmanaged component.
 
 This example shows how to transactionally insert key value pairs into the database and demonstrates the requirements on the developer with respect to the JPA Entity Manager.
-
-ifndef::EAPCDRelease[]
 
 // Link to the quickstart source
 :leveloffset: +1
@@ -604,7 +573,6 @@ $ mvn wildfly:undeploy
 :leveloffset!:
 
 // Build and run sections for other environments/builds
-ifndef::ProductRelease,EAPXPRelease[]
 :leveloffset: +1
 
 [[build_and_run_the_quickstart_with_provisioned_server]]
@@ -737,7 +705,6 @@ $ mvn -f {deploymentDir}/pom.xml wildfly:shutdown
 endif::[]
 
 :leveloffset!:
-endif::[]
 :leveloffset: +1
 
 :cloud-platform: OpenShift
@@ -1119,7 +1086,6 @@ endif::[]
 :!openshift:
 
 :leveloffset!:
-endif::[]
 ifndef::ProductRelease,EAPXPRelease[]
 // Kubernetes
 :leveloffset: +1
@@ -1522,21 +1488,4 @@ endif::[]
 :!kubernetes:
 
 :leveloffset!:
-endif::[]
-//*************************************************
-// Product Release content only
-//*************************************************
-ifdef::ProductRelease[]
-
-// Getting Started with OpenShift
-include::../shared-doc/openshift-getting-started.adoc[leveloffset=+1]
-//Prepare OpenShift for Quickstart Deployment
-include::../shared-doc/openshift-create-project.adoc[leveloffset=+1]
-// Import the Latest {xpaasproduct-shortname} Image Streams and Templates
-include::../shared-doc/openshift-import-imagestreams-templates.adoc[leveloffset=+1]
-// Deploy the {ProductShortName} Source-to-Image (S2I) Quickstart to OpenShift
-include::../shared-doc/openshift-deploy-project.adoc[leveloffset=+1]
-// Openshift post deployment tasks
-include::../shared-doc/openshift-post-deployment-tasks.adoc[leveloffset=+1]
-
 endif::[]
