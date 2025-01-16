@@ -9,6 +9,7 @@
 #
 # Parameters
 # 1 - the name of the qs directory (not the full path)
+#
 function applicationName() {
   echo "${1}"
 }
@@ -20,6 +21,7 @@ function applicationName() {
 #
 # Parameters
 # 1 - the name of the qs directory
+#
 function namespace() {
   application="${1}"
   # Uncomment to make the tests run in the 'testing' namespace
@@ -32,6 +34,7 @@ function namespace() {
 #
 # Parameters
 # 1 - application name
+#
 function installPrerequisites()
 {
   application="${1}"
@@ -43,10 +46,51 @@ function installPrerequisites()
 #
 # Parameters
 # 1 - application name
+#
 function cleanPrerequisites()
 {
   application="${1}"
   echo "No prerequisites to clean for ${application}"
+}
+
+# Trigger the custom behaviour when it comes to
+# provision the server and push the imagestream.
+# Returns
+# 0 - false
+# 1 - true
+#
+function customProvisionServer() {
+  echo 0
+}
+
+# Provision server and push imagestream
+# The current directory is the quickstart directory
+#
+# Parameters
+# 1 - application name
+# 2 - quickstart dir
+#
+function provisionServer()
+{
+  echo "Nothing to do in provisionServer()..."
+}
+
+# Trigger a custom behaviour when it comes to
+# setting up the environment
+# Returns
+# 0 - false
+# 1 - true
+#
+function customDeploy() {
+  echo 0
+}
+
+# Set up the environment before testing
+# Parameters
+# 1 - application name
+#
+function deploy() {
+  echo "Nothing to do in deploy()..."
 }
 
 # Performs the 'helm install' command.
@@ -104,6 +148,64 @@ function getMvnVerifyExtraArguments() {
 function helmInstallFailed() {
     # Noop - the main work is done elsewhere
     echo ""
+}
+
+# Trigger a custom behaviour when it comes to
+# forward ports
+# Returns
+# 0 - false
+# 1 - true
+#
+function customPortForward() {
+  echo 0
+}
+
+# Port forward to test the quickstart
+# Parameters
+# 1 - application name
+#
+function portForward() {
+  echo "Nothing to do in portForward()..."
+}
+
+# Trigger a custom behaviour when it comes to
+# running tests
+# Returns
+# 0 - false
+# 1 - true
+#
+function customRunningTests() {
+  echo 0
+}
+
+# Running tests of the quickstart
+# Parameters
+# 1 - application name
+# 2 - server protocol
+# 3 - extra maven argument for the verify target
+#
+function runningTests() {
+  echo "Nothing to do in portForward()..."
+}
+
+# Trigger a custom behaviour when it comes to
+# running tests
+# Returns
+# 0 - false
+# 1 - true
+#
+function customHelmUninstall() {
+  echo 0
+}
+
+# Performs the 'helm uninstall' command.
+# Parameters
+# 1 - application name
+#
+function helmUninstall() {
+  application="${1}"
+
+  helm uninstall "${application}" --wait --timeout=10m0s
 }
 
 # More output when the tests have failed
