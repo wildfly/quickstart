@@ -32,7 +32,7 @@ public class OpenTelemetryIT {
         String applicationUrl = BasicRuntimeIT.getApplicationUrl();
 
         final HttpClient client = BasicRuntimeIT.getHttpClient();
-        final HttpRequest implicit = HttpRequest.newBuilder().uri(new URI(applicationUrl + "/implicit-trace")).GET().build();
+        final HttpRequest implicit = HttpRequest.newBuilder().uri(new URI(applicationUrl + "/rest/implicit-trace")).GET().build();
         assertEquals(200, client.send(implicit, HttpResponse.BodyHandlers.ofString()).statusCode());
     }
 
@@ -41,7 +41,7 @@ public class OpenTelemetryIT {
         String applicationUrl = BasicRuntimeIT.getApplicationUrl();
 
         final HttpClient client = BasicRuntimeIT.getHttpClient();
-        final HttpRequest implicit = HttpRequest.newBuilder().uri(new URI(applicationUrl + "/explicit-trace")).GET().build();
+        final HttpRequest implicit = HttpRequest.newBuilder().uri(new URI(applicationUrl + "/rest/explicit-trace")).GET().build();
         assertEquals(200, client.send(implicit, HttpResponse.BodyHandlers.ofString()).statusCode());
     }
 }
