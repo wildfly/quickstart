@@ -54,6 +54,6 @@ public class BasicRuntimeIT {
         final HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         Assertions.assertEquals(200, response.statusCode());
         final String[] bodyLines = response.body().toString().split(System.lineSeparator());
-        Assertions.assertEquals("<meta http-equiv=\"Refresh\" content=\"0; URL=home.jsf\">", bodyLines[bodyLines.length-3]);
+        Assertions.assertEquals("    <title>helloworld singleton</title>", bodyLines[bodyLines.length-12]);
     }
 }
