@@ -46,8 +46,7 @@ wildfly:
           value: "96"
       initContainers:
         - name: check-db-ready
-          image: postgres:9.6.5
+          image: docker.io/bitnami/postgresql:17.2.0-debian-12-r0
           command: [ 'sh', '-c',
-              'until pg_isready -h todo-backend-postgresql -p 5432; 
+            'until pg_isready -h todo-backend-postgresql -p 5432; 
                     do echo waiting for database; sleep 2; done;' ]
-
