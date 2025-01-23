@@ -1,143 +1,104 @@
 package org.jboss.as.quickstarts.mail;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
-import org.junit.After;
+import java.io.IOException;
+import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.html.HtmlElement;
+import com.gargoylesoftware.htmlunit.html.HtmlInput;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.gargoylesoftware.htmlunit.html.HtmlSubmitInput;
+import com.gargoylesoftware.htmlunit.html.HtmlTextArea;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
-import org.openqa.selenium.By;
-import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.support.ui.Wait;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.time.Duration;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class MailTestCaseIT {
 
     private static final String DEFAULT_SERVER_HOST = "http://localhost:8080";
 
-    private WebDriver driver;
+    private String serverHost;
 
     @Before
     public void testSetup() {
-        WebDriverManager.chromedriver().setup();
-
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--no-sandbox");
-        options.addArguments("--disable-dev-shm-usage");
-        options.addArguments("--headless");
-
-        driver = new ChromeDriver(options);
-        driver.manage().window().maximize();
-
-        String serverHost = System.getenv("SERVER_HOST");
+        serverHost = System.getenv("SERVER_HOST");
         if (serverHost == null) {
             serverHost = System.getProperty("server.host");
         }
         if (serverHost == null) {
             serverHost = DEFAULT_SERVER_HOST;
         }
-
-        driver.get(serverHost+"/mail");
-        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(500));
     }
 
-    @After
-    public void cleanUp() {
-        if (driver != null) {
-            driver.close();
+    @Test
+    public void a_testSMTP() throws IOException, InterruptedException {
+        try (final WebClient webClient = new WebClient()) {
+            // Get the first page
+            HtmlPage mailHomePage = webClient.getPage(serverHost + "/mail");
+
+            HtmlInput from = mailHomePage.getHtmlElementById("smtp_from");
+            HtmlInput to = mailHomePage.getHtmlElementById("smtp_to");
+            HtmlInput subject = mailHomePage.getHtmlElementById("smtp_subject");
+            HtmlTextArea body = mailHomePage.getHtmlElementById("smtp_body");
+            HtmlSubmitInput submitButton = mailHomePage.getHtmlElementById("smtp_send_btn");
+
+            from.setValue("user01@james.local");
+            to.setValue("user02@james.local");
+            subject.setValue("This is a test");
+            body.setText("Hello user02, I've sent an email.");
+
+            submitButton.click();
+            /* will wait JavaScript to execute up to 30s */
+            webClient.waitForBackgroundJavaScript(30 * 1000);
+
+            HtmlElement message = mailHomePage.getFirstByXPath("//ul[@id='smtp_messages']/li");
+            Assert.assertEquals("Unexpected result messages after sending an email via SMTP.", "Email sent to user02@james.local", message.asNormalizedText());
+            // give to mail server extra time to save mail to mail box
+            Thread.sleep(2000);
         }
     }
 
     @Test
-    public void a_testSMTP() {
-        Wait<WebDriver> wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+    public void b_retrievePOP3() throws IOException {
+        try (final WebClient webClient = new WebClient()) {
+            // Get the first page
+            HtmlPage mailHomePage = webClient.getPage(serverHost + "/mail");
 
-        WebElement from = driver.findElement(By.id("smtp_from"));
-        WebElement to = driver.findElement(By.id("smtp_to"));
-        WebElement subject = driver.findElement(By.id("smtp_subject"));
-        WebElement body = driver.findElement(By.id("smtp_body"));
+            HtmlInput user = mailHomePage.getHtmlElementById("pop3_user");
+            HtmlInput password = mailHomePage.getHtmlElementById("pop3_password");
+            HtmlSubmitInput submitButton = mailHomePage.getHtmlElementById("pop3_get_emails_btn");
 
-        from.clear();
-        from.sendKeys("user01@james.local");
+            user.setValue("user02@james.local");
+            password.setValue("1234");
+            submitButton.click();
+            /* will wait JavaScript to execute up to 30s */
+            webClient.waitForBackgroundJavaScript(30 * 1000);
+            HtmlTextArea emails = mailHomePage.getHtmlElementById("pop3_emails");
 
-        to.clear();
-        to.sendKeys("user02@james.local");
-
-        subject.clear();
-        subject.sendKeys("This is a test");
-
-        body.clear();
-        body.sendKeys("Hello user02, I've sent an email.");
-
-        WebElement submitButton = driver.findElement(By.id("smtp_send_btn"));
-        submitButton.click();
-
-        WebElement message = driver.findElement(By.xpath("//ul[@id='smtp_messages']/li"));
-        wait.until(d -> message.isDisplayed());
-
-        Assert.assertEquals("Unexpected result messages after sending an email via SMTP.", "Email sent to user02@james.local", message.getText());
-    }
-
-    @Test
-    public void b_retrievePOP3() {
-        Wait<WebDriver> wait = new WebDriverWait(driver, Duration.ofSeconds(15));
-
-        WebElement user = driver.findElement(By.id("pop3_user"));
-        WebElement password = driver.findElement(By.id("pop3_password"));
-
-        user.clear();
-        user.sendKeys("user02@james.local");
-
-        password.clear();
-        password.sendKeys("1234");
-
-        WebElement submitButton = driver.findElement(By.id("pop3_get_emails_btn"));
-        submitButton.click();
-
-        wait.until(d -> {
-            try {
-                WebElement emails = driver.findElement(By.id("pop3_emails"));
-                return !emails.getText().isEmpty();
-            } catch (StaleElementReferenceException sere) {
-                return false;
-            }
-        });
-
-        WebElement emails = driver.findElement(By.id("pop3_emails"));
-        Assert.assertTrue("Expected From not found: " + emails.getText(), emails.getText().contains("From : user01@james.local"));
-        Assert.assertTrue("Expected Subject not found: " + emails.getText(), emails.getText().contains("Subject : This is a test"));
-        Assert.assertTrue("Expected Body not found : " + emails.getText(), emails.getText().contains("Body : Hello user02, I've sent an email."));
+            Assert.assertTrue("Expected From not found: " + emails.getText(), emails.getText().contains("From : user01@james.local"));
+            Assert.assertTrue("Expected Subject not found: " + emails.getText(), emails.getText().contains("Subject : This is a test"));
+            Assert.assertTrue("Expected Body not found : " + emails.getText(), emails.getText().contains("Body : Hello user02, I've sent an email."));
+        }
     }
 
 
     @Test
-    public void c_retrieveIMAP() {
-        Wait<WebDriver> wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+    public void c_retrieveIMAP() throws IOException {
+        try (final WebClient webClient = new WebClient()) {
+            // Get the first page
+            HtmlPage mailHomePage = webClient.getPage(serverHost + "/mail");
 
-        WebElement submitButton = driver.findElement(By.id("imap_get_emails_btn"));
-        submitButton.click();
+            HtmlSubmitInput submitButton = mailHomePage.getHtmlElementById("imap_get_emails_btn");
+            submitButton.click();
+            /* will wait JavaScript to execute up to 30s */
+            webClient.waitForBackgroundJavaScript(30 * 1000);
+            HtmlTextArea emails = mailHomePage.getHtmlElementById("imap_emails");
 
-        wait.until(d -> {
-            try {
-                WebElement emails = driver.findElement(By.id("imap_emails"));
-                return !emails.getText().isEmpty();
-            } catch (StaleElementReferenceException sere) {
-                return false;
-            }
-        });
-
-        WebElement emails = driver.findElement(By.id("imap_emails"));
-        Assert.assertNotNull("IMAP No messages found.", emails.getText());
-        Assert.assertTrue("Expected email not found.", emails.getText().contains("From : user01@james.local"));
-        Assert.assertTrue("Expected email not found.", emails.getText().contains("Subject : This is a test"));
-        Assert.assertTrue("Expected email not found.", emails.getText().contains("Body : Hello user02, I've sent an email."));
+            Assert.assertNotNull("IMAP No messages found.", emails.getText());
+            Assert.assertTrue("Expected From not found: " + emails.getText(), emails.getText().contains("From : user01@james.local"));
+            Assert.assertTrue("Expected Subject not found: " + emails.getText(), emails.getText().contains("Subject : This is a test"));
+            Assert.assertTrue("Expected Body not found : " + emails.getText(), emails.getText().contains("Body : Hello user02, I've sent an email."));
+        }
     }
 }
