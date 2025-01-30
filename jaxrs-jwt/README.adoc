@@ -479,6 +479,19 @@ $ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=configure-elytron.cli
 NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
 +
 
+You will see the following warnings when executing the script:
++
+[source]
+----
+WFLYELY01090: Allowed jku values haven't been specified for token realm 'jwt-realm'. Token validation will fail if the token contains a 'jku' header parameter. The allowed jku values can be specified as a space separated string using the 'wildfly.elytron.jwt.allowed.jku.values.jwt-realm' system property.
+
+ELY01179: SSL not configured. jku claim will not be supported.
+
+ELY01182: Allowed jku values haven't been configured for the JWT validator. Token validation will fail if the token contains a 'jku' header parameter.
+----
++
+The quickstart creates and makes use of a JWT that doesn't include a `jku` header parameter so the warnings can be ignored. When making use of a real token provider with a `jwt-realm`, token validation will fail if the token contains a `jku` header parameter and the allowed jku values have not been specified.
+
 . Stop the {productName} server.
 
 == Review the Modified Server Configuration
