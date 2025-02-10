@@ -21,6 +21,8 @@ import org.jboss.logging.Messages;
 import org.jboss.logging.annotations.Message;
 import org.jboss.logging.annotations.MessageBundle;
 
+import java.lang.invoke.MethodHandles;
+
 
 /**
  * @author <a href="mailto:jperkins@redhat.com">James R. Perkins</a>
@@ -28,8 +30,8 @@ import org.jboss.logging.annotations.MessageBundle;
 @MessageBundle(projectCode = "")
 public interface KitchensinkMessages {
 
-    KitchensinkMessages MESSAGES = Messages.getBundle(KitchensinkMessages.class, FacesContext.getCurrentInstance()
-        .getViewRoot().getLocale());
+    KitchensinkMessages MESSAGES = Messages.getBundle(MethodHandles.lookup(), KitchensinkMessages.class, FacesContext.getCurrentInstance()
+            .getViewRoot().getLocale());
 
     @Message("Registered!")
     String registeredMessage();

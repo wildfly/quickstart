@@ -37,6 +37,7 @@ public class UsersManagement {
     @PersistenceContext
     EntityManager em;
 
+    @SuppressWarnings("unchecked")
     public List<CallerUser> getUsers() {
         return em.createQuery(
                 "SELECT u FROM " + CallerUser.class.getSimpleName() + " u").getResultList();
