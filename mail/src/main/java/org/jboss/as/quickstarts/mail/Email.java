@@ -64,15 +64,15 @@ public class Email implements Serializable {
     @Resource(mappedName = "java:jboss/mail/MyOtherMail")
     private Session mySession;
 
-    private String to = "user02@james.local";
+    private String to = "user02@mail.local";
 
-    private String from = "user01@james.local";
+    private String from = "user01@mail.local";
 
     private String subject;
 
     private String body;
 
-    private String pop3User = "user02@james.local";
+    private String pop3User = "user02@mail.local";
 
     private String pop3Password = "1234";
 
@@ -105,8 +105,8 @@ public class Email implements Serializable {
     }
 
     public void resetSmtp() {
-        from = "user01@james.local";
-        to = "user02@james.local";
+        from = "user01@mail.local";
+        to = "user02@mail.local";
         subject = null;
         body = null;
     }
@@ -127,7 +127,7 @@ public class Email implements Serializable {
     }
 
     public void resetPop3() {
-        pop3User = "user02@james.local";
+        pop3User = "user02@mail.local";
         pop3Password = "1234";
         pop3Emails = null;
     }
