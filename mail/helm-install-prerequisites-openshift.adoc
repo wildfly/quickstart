@@ -1,0 +1,22 @@
+=== Install the Mail server on Openshift
+
+The functionality of this quickstart depends on a running instance of the https://greenmail-mail-test.github.io/greenmail/[Greenmail Standalone server].
+
+To deploy and configure the mail server, you will need to apply a set of configurations to your OpenShift cluster:
+
+[source,options="nowrap",subs="+attributes"]
+----
+include::charts/greenmail-openshift.yaml[]
+----
+
+To make things simpler, you can find these commands in `charts/greenmail-openshift.yaml`, and to apply them run the following command in your terminal:
+
+[source]
+----
+$ oc apply -f charts/greenmail-openshift.yaml
+----
+
+[NOTE]
+====
+When done with the quickstart, the `oc delete -f charts/greenmail-openshift.yaml` command may be used to revert the applied changes.
+====
