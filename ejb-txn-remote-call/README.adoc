@@ -768,7 +768,7 @@ WFLYSRV0018: Deployment "deployment.server.war" is using a private module ("org.
 ----
 
 // Build and run sections for other environments/builds
-ifndef::ProductRelease,EAPXPRelease[]
+ifndef::ProductRelease[]
 
 [[build_and_run_the_quickstart_with_provisioned_server]]
 == Building and running the quickstart application with provisioned {productName} server
@@ -905,10 +905,10 @@ might result in no-ACID transactions.
 [#_install_operator]
 ==== Install {productName}'s Operator
 
+ifndef::ProductRelease[]
 To install {productName}'s Operator, follow the https://github.com/wildfly/wildfly-operator[official documentation]
 (which instructions are also reported here for convenience)
 
-ifndef::ProductRelease,EAPCDRelease,EAPXPRelease[]
 [source,sh,options="nowrap",subs="+quotes,attributes+"]
 ----
 cd /tmp
@@ -920,17 +920,63 @@ oc adm policy add-cluster-role-to-user cluster-admin developer
 make install
 make deploy
 ----
-endif::[]
 
 To verify that the {productName} Operator is running, execute the following command:
 
-ifndef::ProductRelease,EAPCDRelease,EAPXPRelease[]
 [source,sh,options="nowrap",subs="+quotes,attributes+"]
 ----
 oc get po -n $(oc project -q)
 
 NAME                                READY   STATUS      RESTARTS   AGE
 wildfly-operator-5d4b7cc868-zfxcv   1/1     Running     1          22h
+----
+endif::[]
+
+ifdef::ProductRelease[]
+To install {productName}'s Operator, follow the https://docs.redhat.com/en/documentation/red_hat_jboss_enterprise_application_platform/8.0/html/using_jboss_eap_on_openshift_container_platform/assembly_deploying-your-jboss-eap-application-on-the-openshift-container-platform_default#proc_installing-eap-operator-using-the-cli_assembly_jboss-eap-operator-for-automating-application-deployment-on-openshift[official documentation] (which instructions are also reported here for convenience)
+
+[NOTE]
+====
+* You have access to an OpenShift Container Platform cluster using an account with cluster-admin permissions.
+* You have installed the oc tool in your local system.
+====
+
+1. View the list of operators available to the cluster from the OperatorHub:
++
+[source,sh,options="nowrap",subs="+quotes,attributes+"]
+----
+oc get packagemanifests -n openshift-marketplace | grep eap
+----
+1. Create a `Subscription` object YAML file (for example, `eap-operator-sub.yaml`) to subscribe a namespace to your EAP operator. The following is an example `Subscription` object YAML file:
++
+[source,sh,options="nowrap",subs="+quotes,attributes+"]
+----
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: eap
+  namespace: openshift-operators
+spec:
+  channel: stable
+  installPlanApproval: Automatic
+  name: eap
+  source:  redhat-operators
+  sourceNamespace: openshift-marketplace
+----
+1. Create the `Subscription` object from the YAML file:
++
+[source,sh,options="nowrap",subs="+quotes,attributes+"]
+----
+oc apply -f eap-operator-sub.yaml
+----
++
+The EAP operator is successfully installed. At this point, the OLM is aware of the EAP operator.
+A ClusterServiceVersion (CSV) for the operator appears in the target namespace, and APIs provided by the EAP operator is available for creation.
+To verify that the {productName} Operator is running, execute the following command:
++
+[source,sh,options="nowrap",subs="+quotes,attributes+"]
+----
+oc get csv -n openshift-operators
 ----
 endif::[]
 
@@ -955,7 +1001,7 @@ To build the `client` and the `server` applications, this quickstart employs
 For more information about {productName}'s Helm chart, please refer to the official
 https://github.com/wildfly/wildfly-charts/blob/main/charts/wildfly/README.md[documentation].
 
-ifndef::ProductRelease,EAPCDRelease,EAPXPRelease[]
+ifndef::ProductRelease[]
 [source,sh,options="nowrap",subs="+quotes,attributes+"]
 ----
 helm repo add wildfly https://docs.wildfly.org/wildfly-charts/
