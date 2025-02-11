@@ -106,9 +106,7 @@ function cleanPrerequisites()
   cd /tmp/wildfly-operator || return
 
   make undeploy
-  # Undeploy already removes the CRDs
-  # make uninstall
-
+  
   cd ..
   rm -rf wildfly-operator
 
