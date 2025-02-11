@@ -1,7 +1,3 @@
-ifdef::env-github[]
-:artifactId: mail
-endif::[]
-
 //***********************************************************************************
 // Enable the following flag to build README.html files for JBoss EAP product builds.
 // Comment it out for WildFly builds.
@@ -173,6 +169,7 @@ endif::[]
 :author: Joel Tosi
 :level: Beginner
 :technologies: JavaMail, CDI, JSF
+:portedToGlow: true
 
 [abstract]
 The `mail` quickstart demonstrates how to send and receive emails using CDI and JSF and with custom Mail provider configured in {productName}.
@@ -264,34 +261,28 @@ To run the Mail Quickstart, you need a Mail Server configured with the following
 
 In addition, the Mail Subsystem configuration and the test cases expect you have the following Mail accounts configured on your Mail Server:
 
-- user01@james.local
-- user02@james.local
+- user01@mail.local
+- user02@mail.local
 
-You can use any Mail Server you consider, although to facilitate this task, you will find under the Mail Quickstart root directory a docker compose file prepared to launch an Apache James Mail server with all the required configuration. You will need to have installed a Container Engine capable of work with Docker compose files and Linux images. The following command assumes you have https://podman.io/[Podman] and https://docs.podman.io/en/latest/markdown/podman-compose.1.html[Podman Compose] installed in your local environment.
+You can use any Mail Server you consider, although to facilitate this task, you will find under the Mail Quickstart root directory a docker compose file prepared to launch a Greenmail mail server with all the required configuration.
+You will need to have installed a Container Engine capable of working with Docker compose files and Linux images.
+The following command assumes you have https://podman.io/[Podman] and https://docs.podman.io/en/latest/markdown/podman-compose.1.html[Podman Compose] installed in your local environment.
 
-To launch the Apache James Mail server, open the terminal and navigate to the Mail Quickstart root directory and execute the following:
+To launch the Greenmail server, open the terminal and navigate to the Mail Quickstart root directory and execute the following:
 
-```
+[source, bash]
+----
 $ podman compose up --wait
 >>>> Executing external compose provider "/usr/local/bin/docker-compose". Please refer to the documentation for details. <<<<
+----
 
-[+] Running 1/1
- ✔ Container apache-james  Healthy
-```
+Once you have finished with the Mail Quickstart, you can shutdown and remove the Greenmail server with the following command:
 
-NOTE: The Apache James server is configured without allowing the relay of the emails to external addresses that are not configured in the server. When you are sending / receiving emails with this server, you have to use the accounts shipped with the apache James demo image. These are the accounts available out of the box: user01@james.local, user02@james.local and user03@james.local.
-All accounts use the same password: `1234`
-
-Once you have finished with the Mail Quickstart, you can shutdown and remove the Apache James Mail server with the following command:
-
-```
+[source, bash]
+----
 $ podman compose down --volumes
 >>>> Executing external compose provider "/usr/local/bin/docker-compose". Please refer to the documentation for details. <<<<
-
-[+] Running 2/1
- ✔ Container apache-james  Removed
- ✔ Network mail_default    Removed
-```
+----
 
 // Back Up the {productName} Standalone Server Configuration
 :leveloffset: +1
@@ -533,7 +524,6 @@ The following `outbound-socket-binding` groups are added to the `standard-socket
 ----
 <socket-binding-group name="standard-sockets" default-interface="public" port-offset="${jboss.socket.binding.port-offset:0}">
   ...
-  </outbound-socket-binding>
   <outbound-socket-binding name="my-imap-binding">
       <remote-destination host="localhost" port="1143"/>
   </outbound-socket-binding>
@@ -555,9 +545,9 @@ The `MyOtherMail` mail session is added to the `mail` subsystem and configured t
       <smtp-server outbound-socket-binding-ref="mail-smtp"/>
    </mail-session>
    <mail-session name="MyOtherMail" debug="true" jndi-name="java:jboss/mail/MyOtherMail">
-     <smtp-server outbound-socket-binding-ref="my-smtp-binding" username="user01@james.local" password="1234"/>
+     <smtp-server outbound-socket-binding-ref="my-smtp-binding" username="user01@mail.local" password="1234"/>
      <pop3-server outbound-socket-binding-ref="my-pop3-binding"/>
-     <imap-server outbound-socket-binding-ref="my-imap-binding" username="user02@james.local" password="1234"/>
+     <imap-server outbound-socket-binding-ref="my-imap-binding" username="user02@mail.local" password="1234"/>
    </mail-session>
 </subsystem>
 ----
@@ -669,9 +659,6 @@ You should see a message in the server log indicating that the archive deployed 
 The application will be running at the following URL: http://localhost:8080/{artifactId}/[http://localhost:8080/{artifactId}/^].
 
 NOTE: If you see `Error processing request` in the browser when you access the application and attempt to send email, followed by `jakarta.servlet.ServletException: MailConnectException: Couldn&#39;t connect to host, port: localhost, 1025; timeout -1; nested exception is: java.net.ConnectException: Connection refused`, make sure you followed the instructions above to xref:configure_an_smtp_server_on_your_local_machine[Configure an SMTP Server on Your Local Machine].
-
-NOTE: If you are using the Mail server shipped with this Quickstart and see `Error sending the Email. Invalid Addresses` in the browser when you attempt to send email, make sure you are sending your email to an existing account configured in the Mail Server since by default Apache James demo image is shipped with relay disabled. By default, Apache James demo image has the following accounts configured: user01@james.local, user02@james.local and user03@james.local.
-
 // Server Distribution Testing
 :leveloffset: +1
 
@@ -974,12 +961,388 @@ endif::[]
 
 :leveloffset!:
 
-// Quickstart not compatible with OpenShift
+// OpenShift
 :leveloffset: +1
 
-[[openshift_incompatibility]]
-= {xpaasproduct-shortname} Incompatibility
+:cloud-platform: OpenShift
+:openshift: true
+ifndef::helm-app-name[]
+:helm-app-name: {artifactId}
+endif::helm-app-name[]
 
-This quickstart is not compatible with {xpaasproduct-shortname}.
+[[build_and_run_the_quickstart_on_openshift]]
+= Building and running the quickstart application with OpenShift
+// The openshift profile
+:leveloffset: +1
+
+[[build-the-quickstart-for-openshift]]
+== Build the {productName} Source-to-Image (S2I) Quickstart to {cloud-platform} with Helm Charts
+
+On OpenShift, the S2I build with Apache Maven uses an `openshift` Maven profile to provision a {productName} server, deploy and run the quickstart in OpenShift environment.
+
+ifndef::ProductRelease,EAPXPRelease[]
+The server provisioning functionality is provided by the WildFly Maven Plugin, and you may find its configuration in the quickstart `pom.xml`:
+endif::[]
+ifdef::ProductRelease,EAPXPRelease[]
+The server provisioning functionality is provided by the EAP Maven Plugin, and you may find its configuration in the quickstart `pom.xml`:
+endif::[]
+
+ifndef::ProductRelease,EAPXPRelease[]
+
+[source,xml,subs="attributes+"]
+----
+        <profile>
+            <id>openshift</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.wildfly.plugins</groupId>
+                        <artifactId>wildfly-maven-plugin</artifactId>
+                        <configuration>
+                            <discover-provisioning-info>
+                                <version>${version.server}</version>
+                                <context>cloud</context>
+                            </discover-provisioning-info>
+                            <add-ons>...</add-ons>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>package</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    ...
+                </plugins>
+            </build>
+        </profile>
+----
+You may note that unlike the `provisioned-server` profile it uses the cloud context which enables a configuration tuned for {cloud-platform} environment.
+
+The plugin uses https://github.com/wildfly/wildfly-glow[WildFly Glow] to discover the feature packs and layers required to run the application, and provisions a server containing those layers.
+
+If you get an error or the server is missing some functionality which cannot be auto-discovered, you can download the https://github.com/wildfly/wildfly-glow/releases[WildFly Glow CLI] and run the following command to see more information about what add-ons are available:
+[source,shell]
+----
+wildfly-glow show-add-ons
+----
+endif::ProductRelease,EAPXPRelease[]
+
+ifdef::ProductRelease,EAPXPRelease[]
+[source,xml,subs="attributes+"]
+----
+        <profile>
+            <id>openshift</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.jboss.eap.plugins</groupId>
+                        <artifactId>eap-maven-plugin</artifactId>
+                        <configuration>
+                            ...
+                            <feature-packs>
+                                <feature-pack>
+                                    <location>org.jboss.eap:wildfly-ee-galleon-pack</location>
+                                </feature-pack>
+                                <feature-pack>
+                                    <location>org.jboss.eap.cloud:eap-cloud-galleon-pack</location>
+                                </feature-pack>
+                            </feature-packs>
+                            <layers>...</layers>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>package</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    ...
+                </plugins>
+            </build>
+        </profile>
+----
+You may note that it uses the cloud feature pack which enables a configuration tuned for the {cloud-platform} environment.
+endif::[]
+
+:leveloffset: 1
+// Getting Started with Helm
+:leveloffset: +1
+
+[[getting_started_with_helm]]
+= Getting Started with {xpaasproduct-shortname} and Helm Charts
+
+This section contains the basic instructions to build and deploy this quickstart to {xpaasproduct-shortname} or {xpaasproductOpenShiftOnline-shortname} using Helm Charts.
+
+[[prerequisites_helm_openshift]]
+== Prerequisites
+
+ifndef::kubernetes[]
+* You must be logged in OpenShift and have an `oc` client to connect to OpenShift
+endif::[]
+* https://helm.sh[Helm] must be installed to deploy the backend on {cloud-platform}.
+
+Once you have installed Helm, you need to add the repository that provides Helm Charts for {productName}.
+
+ifndef::ProductRelease,EAPXPRelease[]
+[source,options="nowrap"]
+----
+$ helm repo add wildfly https://docs.wildfly.org/wildfly-charts/
+"wildfly" has been added to your repositories
+$ helm search repo wildfly
+NAME                    CHART VERSION   APP VERSION     DESCRIPTION
+wildfly/wildfly         ...             ...            Build and Deploy WildFly applications on OpenShift
+wildfly/wildfly-common  ...             ...            A library chart for WildFly-based applications
+----
+endif::[]
+ifdef::ProductRelease[]
+[source,options="nowrap",subs="+attributes"]
+----
+$ helm repo add jboss-eap https://jbossas.github.io/eap-charts/
+"jboss-eap" has been added to your repositories
+$ helm search repo jboss-eap
+NAME                    CHART VERSION   APP VERSION     DESCRIPTION
+{helmChartName}         ...             ...             A Helm chart to build and deploy EAP {productVersion} applications
+----
+endif::[]
+ifdef::EAPXPRelease[]
+[source,options="nowrap",subs="+attributes"]
+----
+$ helm repo add jboss-eap https://jbossas.github.io/eap-charts/
+"jboss-eap" has been added to your repositories
+$ helm search repo jboss-eap
+NAME                    CHART VERSION   APP VERSION     DESCRIPTION
+{helmChartName}         ...             ...             A Helm chart to build and deploy EAP XP {productVersion} applications
+----
+endif::[]
+
+:leveloffset: 1
+
+ifdef::helm-install-prerequisites-openshift[]
+// Additional steps needed before deploying in Helm
+[[deploy_helm_prerequisites]]
+include::{helm-install-prerequisites-openshift}[leveloffset=+1]
+endif::helm-install-prerequisites-openshift[]
+
+//Prepare Helm for Quickstart Deployment
+:leveloffset: +1
+
+ifndef::helmSetWildFlyArgumentPrefix[]
+// For use with nested Helm charts
+:helmSetWildFlyArgumentPrefix:
+endif::[]
+ifeval::[{useHelmChartDir} == true]
+:helm_chart_values: charts
+endif::[]
+ifndef::useHelmChartDir[]
+:helm_chart_values: -f charts/helm.yaml {helmChartName}
+endif::[]
+ifdef::kubernetes[]
+:helm-set-build-enabled: --set {helmSetWildFlyArgumentPrefix}build.enabled=false
+:helm-set-deploy-route-enabled: --set {helmSetWildFlyArgumentPrefix}deploy.route.enabled=false
+:helm-set-image-name: --set {helmSetWildFlyArgumentPrefix}image.name="localhost:5000/{artifactId}"
+:helm-extra-arguments: {helm-set-build-enabled} {helm-set-deploy-route-enabled} {helm-set-image-name}
+:cloud-cli: kubectl
+endif::[]
+ifndef::kubernetes[]
+:helm-extra-arguments:
+:cloud-cli: oc
+endif::[]
+[[deploy_helm]]
+== Deploy the {ProductShortName} Source-to-Image (S2I) Quickstart to {cloud-platform} with Helm Charts
+
+ifndef::kubernetes[]
+Log in to your OpenShift instance using the `oc login` command.
+endif::[]
+The backend will be built and deployed on {cloud-platform} with a Helm Chart for {productName}.
+
+
+ifndef::kubernetes[]
+Navigate to the root directory of this quickstart and run the following command:
+endif::[]
+ifdef::kubernetes[]
+Navigate to the root directory of this quickstart and run the following commands:
+
+[source,options="nowrap",subs="+attributes"]
+----
+mvn -Popenshift package wildfly:image
+----
+This will use the `openshift` Maven profile we saw earlier to build the application, and create a Docker image containing the {productName} server with the application deployed. The name of the image will be `{artifactId}`.
+
+Next we need to tag the image and make it available to Kubernetes. You can push it to a registry like `quay.io`. In this case we tag as `localhost:5000/{artifactId}:latest` and push it to the internal registry in our Kubernetes instance:
+
+[source,options="nowrap",subs="+attributes"]
+----
+# Tag the image
+docker tag {artifactId} localhost:5000/{artifactId}:latest
+# Push the image to the registry
+docker push localhost:5000/{artifactId}:latest
+----
+
+In the below call to `helm install` which deploys our application to Kubernetes, we are passing in some extra arguments to tweak the Helm build:
+
+* `{helm-set-build-enabled}` - This turns off the s2i build for the Helm chart since Kubernetes, unlike OpenShift, does not have s2i. Instead, we are providing the image to use.
+* `{helm-set-deploy-route-enabled}` - This disables route creation normally performed by the Helm chart. On Kubernetes we will use port-forwards instead to access our application, since routes are an OpenShift specific concept and thus not available on Kubernetes.
+* `{helm-set-image-name}` - This tells the Helm chart to use the image we built, tagged and pushed to Kubernetes' internal registry above.
+
+endif::[]
+[source,options="nowrap",subs="+attributes"]
+----
+$ helm install {helm-app-name} {helm_chart_values} --wait --timeout=10m0s {helm-extra-arguments}
+NAME: {helm-app-name}
+...
+STATUS: deployed
+REVISION: 1
+----
+
+This command will return once the application has successfully deployed. In case of a timeout, you can check the status of the application with the following command in another terminal:
+
+[source,options="nowrap",subs="+attributes"]
+----
+{cloud-cli} get deployment {helm-app-name}
+----
+
+The Helm Chart for this quickstart contains all the information to build an image from the source code using S2I on Java 17:
+
+
+ifndef::requires-http-route[]
+ifdef::useHelmChartDir[]
+[source,yaml]
+----
+include::{docdir}/charts/Chart.yaml[]
+----
+endif::useHelmChartDir[]
+ifndef::useHelmChartDir[]
+[source,yaml]
+----
+build:
+  uri: https://github.com/wildfly/quickstart.git
+  ref: main
+  contextDir: mail
+deploy:
+  replicas: 1
+  env:
+    - name: MAIL_SERVER_ADDRESS
+      value: "greenmail"
+----
+endif::useHelmChartDir[]
+endif::requires-http-route[]
+
+ifdef::requires-http-route[]
+[source,options="nowrap",subs="+attributes"]
+----
+build:
+  uri: {githubRepoCodeUrl}
+  ref: {WildFlyQuickStartRepoTag}
+  contextDir: {artifactId}
+deploy:
+  replicas: 1
+  route:
+    tls:
+      enabled: false
+----
+endif::requires-http-route[]
+
+This will create a new deployment on {cloud-platform} and deploy the application.
+
+If you want to see all the configuration elements to customize your deployment you can use the following command:
+[source,options="nowrap",subs="+attributes"]
+----
+$ helm show readme {helmChartName}
+----
+
+ifdef::openshift[]
+Get the URL of the route to the deployment.
+
+[source,options="nowrap",subs="+attributes"]
+----
+$ oc get route {helm-app-name} -o jsonpath="{.spec.host}"
+----
+Access the application in your web browser using the displayed URL.
+endif::[]
+ifdef::kubernetes[]
+To be able to connect to our application running in Kubernetes from outside, we need to set up a port-forward to the `{helm-app-name}` service created for us by the Helm chart.
+
+This service will run on port `8080`, and we set up the port forward to also run on port `8080`:
+
+[source,options="nowrap",subs="+attributes"]
+----
+kubectl port-forward service/{helm-app-name} 8080:8080
+----
+The server can now be accessed via `http://localhost:8080` from outside Kubernetes. Note that the command to create the port-forward will not return, so it is easiest to run this in a separate terminal.
+
+endif::[]
+
+ifdef::openshift+post-helm-install-actions-openshift[]
+include::{post-helm-install-actions-openshift}[leveloffset=+1]
+endif::openshift+post-helm-install-actions-openshift[]
+ifdef::kubernetes+post-helm-install-actions-kubernetes[]
+include::{post-helm-install-actions-kubernetes}[leveloffset=+1]
+endif::kubernetes+post-helm-install-actions-kubernetes[]
+
+:leveloffset: 1
+
+// Testing on Openshift
+:leveloffset: +1
+
+[[run_the_integration_tests_with_openshift]]
+= Run the Integration Tests with OpenShift
+The integration tests included with this quickstart, which verify that the quickstart runs correctly, may also be run with the quickstart running on OpenShift.
+[NOTE]
+====
+The integration tests expect a deployed application, so make sure you have deployed the quickstart on OpenShift before you begin.
+====
+
+ifdef::extra-testing-actions-openshift[]
+include::{extra-testing-actions-openshift}[leveloffset=+1]
+endif::extra-testing-actions-openshift[]
+
+ifndef::extra-test-arguments-openshift[:extra-test-arguments-openshift:]
+
+Run the integration tests using the following command to run the `verify` goal with the `integration-testing` profile activated and the proper URL:
+ifndef::requires-http-route[]
+[source,options="nowrap",subs="+attributes"]
+----
+$ mvn verify -Pintegration-testing -Dserver.host=https://$(oc get route {helm-app-name} --template='{{ .spec.host }}') {extra-test-arguments-openshift}
+----
+endif::requires-http-route[]
+ifdef::requires-http-route[]
+[source,options="nowrap",subs="+attributes"]
+----
+$ mvn verify -Pintegration-testing -Dserver.host=http://$(oc get route {helm-app-name} --template='{{ .spec.host }}') {extra-test-arguments-openshift}
+----
+endif::requires-http-route[]
+
+[NOTE]
+====
+The tests are using SSL to connect to the quickstart running on OpenShift. So you need the certificates to be trusted by the machine the tests are run from.
+====
+
+:leveloffset: 1
+
+//Prepare Helm for Quickstart Deployment
+:leveloffset: +1
+
+[[undeploy_helm]]
+== Undeploy the {ProductShortName} Source-to-Image (S2I) Quickstart from {cloud-platform} with Helm Charts
+
+[source,options="nowrap",subs="+attributes"]
+----
+$ helm uninstall {helm-app-name}
+----
+ifdef::kubernetes[]
+To stop the port forward you created earlier use:
+[source,options="nowrap",subs="+attributes"]
+----
+$ kubectl port-forward service/{helm-app-name} 8080:8080
+----
+endif::[]
+
+:leveloffset: 1
+
+// Unset the attribute
+:!openshift:
 
 :leveloffset!:
