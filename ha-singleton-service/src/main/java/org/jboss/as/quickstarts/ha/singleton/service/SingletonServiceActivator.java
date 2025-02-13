@@ -37,6 +37,7 @@ import org.wildfly.clustering.singleton.service.SingletonPolicy;
  *
  * @author Radoslav Husar
  */
+@SuppressWarnings({"removal", "deprecation"})
 public class SingletonServiceActivator implements ServiceActivator {
 
     private static final ServiceName SINGLETON_SERVICE_NAME = ServiceName.parse("org.jboss.as.quickstarts.ha.singleton.service");
