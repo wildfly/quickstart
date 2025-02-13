@@ -36,6 +36,7 @@ import org.wildfly.clustering.singleton.Singleton;
  *
  * @author Radoslav Husar
  */
+@SuppressWarnings("removal")
 class QueryingService implements Service {
 
     private final Logger log = Logger.getLogger(this.getClass());

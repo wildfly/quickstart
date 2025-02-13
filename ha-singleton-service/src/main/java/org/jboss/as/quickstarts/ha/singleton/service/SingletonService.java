@@ -31,6 +31,7 @@ import org.wildfly.clustering.group.Group;
  *
  * @author Radoslav Husar
  */
+@SuppressWarnings("removal")
 class SingletonService implements Service {
 
     private final Logger log = Logger.getLogger(this.getClass());
