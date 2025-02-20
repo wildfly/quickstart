@@ -502,20 +502,15 @@ The batch executed successfully
 . Delete the cloned directory.
 
 // Build and run sections for other environments/builds
-ifndef::ProductRelease,EAPXPRelease[]
 
 [[build_and_run_the_quickstart_with_provisioned_server]]
 == Building and running the quickstart application with provisioned {productName} server
 
-Instead of using a standard {productName} server distribution, the two {productName} servers to deploy and run the quickstart can be alternatively provisioned by activating the Maven profile named `provisioned-server` when building the quickstart:
-[source,sh,subs="+quotes,attributes+",options="nowrap"]
-----
-$ mvn clean package -Pprovisioned-server
-----
+Instead of using a standard {productName} server distribution, the two {productName} servers to deploy and run the quickstart can be alternatively provisioned by the {productName} Maven Plugin.
 
-The provisioned {productName} servers, with the quickstart deployed, can then be found in the `target` directory, and their usage is similar to a standard server distribution, with the simplification that there is never the need to specify the server configuration to be started.
+The provisioned {productName} servers, with the quickstart deployed, can be found in the `target/server` and `target/server2` directories, and their usage is similar to a standard server distribution, with the simplification that there is never the need to specify the server configuration to be started.
 
-The server provisioning functionality is provided by the WildFly Maven Plugin, and you may find its configuration in the pom.xml files of the quickstart.
+You can find the plugin configuration for the server provisioning in the Maven profile named `provisioned-server`.
 
 === Run the Integration Tests with a provisioned server
 
@@ -562,8 +557,6 @@ $ mvn wildfly:shutdown
 ----
 $ mvn wildfly:shutdown -Dwildfly.port=10090
 ----
-
-endif::[]
 
 // Quickstart not compatible with OpenShift
 include::../shared-doc/openshift-incompatibility.adoc[leveloffset=+1]
