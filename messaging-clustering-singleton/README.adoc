@@ -1015,9 +1015,7 @@ $ mvn wildfly:start -Djboss-as.home=target/server
 +
 [source,subs="attributes+",options="nowrap"]
 ----
-$ mvn wildfly:start -Djboss-as.home=target/server2 \
-  -Dwildfly.port=10090 \
-  -Dwildfly.javaOpts="-Djboss.socket.binding.port-offset=100"
+$ mvn wildfly:start -Djboss-as.home=target/server2 -Dwildfly.javaOpts="-Djboss.socket.binding.port-offset=100"
 ----
 
 . Type the following command to run the `verify` goal with the `integration-testing` profile activated, and specifying the quickstart's URL using the `server.host` system property.
