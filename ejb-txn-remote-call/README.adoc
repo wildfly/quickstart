@@ -768,7 +768,6 @@ WFLYSRV0018: Deployment "deployment.server.war" is using a private module ("org.
 ----
 
 // Build and run sections for other environments/builds
-ifndef::ProductRelease[]
 
 [[build_and_run_the_quickstart_with_provisioned_server]]
 == Building and running the quickstart application with provisioned {productName} server
@@ -884,8 +883,6 @@ mvn wildfly:shutdown -Dwildfly.port=10090
 mvn wildfly:shutdown -Dwildfly.port=10190
 ----
 
-endif::[]
-
 == Running on OpenShift
 
 The ephemeral nature of OpenShift does not work smoothly with {productName}'s ability to handle transactions.
@@ -941,13 +938,13 @@ To install {productName}'s Operator, follow the https://docs.redhat.com/en/docum
 * You have installed the oc tool in your local system.
 ====
 
-1. View the list of operators available to the cluster from the OperatorHub:
+. View the list of operators available to the cluster from the OperatorHub:
 +
 [source,sh,options="nowrap",subs="+quotes,attributes+"]
 ----
 oc get packagemanifests -n openshift-marketplace | grep eap
 ----
-1. Create a `Subscription` object YAML file (for example, `eap-operator-sub.yaml`) to subscribe a namespace to your EAP operator. The following is an example `Subscription` object YAML file:
+. Create a `Subscription` object YAML file (for example, `eap-operator-sub.yaml`) to subscribe a namespace to your EAP operator. The following is an example `Subscription` object YAML file:
 +
 [source,sh,options="nowrap",subs="+quotes,attributes+"]
 ----
@@ -963,7 +960,7 @@ spec:
   source:  redhat-operators
   sourceNamespace: openshift-marketplace
 ----
-1. Create the `Subscription` object from the YAML file:
+. Create the `Subscription` object from the YAML file:
 +
 [source,sh,options="nowrap",subs="+quotes,attributes+"]
 ----
