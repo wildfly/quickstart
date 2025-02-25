@@ -87,6 +87,7 @@ public class MessagingBean {
         }
     }
 
+    @SuppressWarnings("unchecked")
     @Incoming("from-kafka")
     public CompletionStage<Void> receiveFromKafka(Message<TimedEntry> message) {
         try {
