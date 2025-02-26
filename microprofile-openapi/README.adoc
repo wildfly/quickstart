@@ -27,7 +27,6 @@ ifdef::ProductRelease[]
 :productVersion: 8.0
 :DocInfoProductNumber: {productVersion}
 :WildFlyQuickStartRepoTag: 8.0.x
-:productImageVersion: 8.0.0
 :helmChartName: jboss-eap/eap8
 endif::[]
 
@@ -36,10 +35,7 @@ ifdef::EAPXPRelease[]
 :productName: JBoss EAP XP
 :productNameFull: Red Hat JBoss Enterprise Application Platform expansion pack
 :productVersion: 5.0
-:DocInfoProductNumber: 8.0
 :WildFlyQuickStartRepoTag: XP_5.0.0.GA
-:productImageVersion: 5.0
-:helmChartName: jboss-eap/eap-xp5
 endif::[]
 
 ifdef::ProductRelease,EAPXPRelease[]
@@ -63,13 +59,11 @@ ifndef::ProductRelease,EAPXPRelease[]
 :ProductShortName: {productName}
 :jbossHomeName: WILDFLY_HOME
 :productVersion: 35
-:productImageVersion: 35.0
 :githubRepoUrl: https://github.com/wildfly/quickstart/
 :githubRepoCodeUrl: https://github.com/wildfly/quickstart.git
 :WildFlyQuickStartRepoTag: 35.0.0.Final
 :DocInfoProductName: Red Hat JBoss Enterprise Application Platform
 :DocInfoProductNameURL: red_hat_jboss_enterprise_application_platform
-:DocInfoProductNumber: 8.0
 :DocInfoPreviousProductName: jboss-enterprise-application-platform
 :helmRepoName: wildfly
 :helmRepoUrl: http://docs.wildfly.org/wildfly-charts/
@@ -80,33 +74,20 @@ endif::[]
 :source: {githubRepoUrl}
 
 // Values for Openshift S2i sections attributes
-:CDProductName:  {productNameFull} for OpenShift
-:CDProductShortName: {ProductShortName} for OpenShift
-:CDProductTitle: {CDProductName}
-:CDProductNameSentence: Openshift release for {ProductShortName}
-:CDProductAcronym: {CDProductShortName}
-:CDProductVersion: {productVersion}
 :EapForOpenshiftBookName: {productNameFull} for OpenShift
 :EapForOpenshiftOnlineBookName: {EapForOpenshiftBookName} Online
 :xpaasproduct: {productNameFull} for OpenShift
-:xpaasproductOpenShiftOnline: {xpaasproduct} Online
-:xpaasproduct-shortname: {CDProductShortName}
-:xpaasproductOpenShiftOnline-shortname: {xpaasproduct-shortname} Online
+:xpaasproduct-shortname: {ProductShortName} for OpenShift
 :ContainerRegistryName: Red Hat Container Registry
 :EapForOpenshiftBookName: Getting Started with {ProductShortName} for OpenShift Container Platform
 :EapForOpenshiftOnlineBookName: Getting Started with {ProductShortName} for OpenShift Online
 :OpenShiftOnlinePlatformName: Red Hat OpenShift Container Platform
 :OpenShiftOnlineName: Red Hat OpenShift Online
-:ImagePrefixVersion: eap80
 :ImageandTemplateImportBaseURL: https://raw.githubusercontent.com/jboss-container-images/jboss-eap-openshift-templates
 :ImageandTemplateImportURL: {ImageandTemplateImportBaseURL}/{ImagePrefixVersion}/
 :BuildImageStream: jboss-{ImagePrefixVersion}-openjdk11-openshift
 :RuntimeImageStream: jboss-{ImagePrefixVersion}-openjdk11-runtime-openshift
 
-// OpenShift repository and reference for quickstarts
-:EAPQuickStartRepo: https://github.com/jboss-developer/jboss-eap-quickstarts
-:EAPQuickStartRepoRef: 8.0.x
-:EAPQuickStartRepoTag: EAP_8.0.0.GA
 // Links to the OpenShift documentation
 :LinkOpenShiftGuide: https://access.redhat.com/documentation/en-us/{DocInfoProductNameURL}/{DocInfoProductNumber}/html-single/getting_started_with_jboss_eap_for_openshift_container_platform/
 :LinkOpenShiftOnlineGuide: https://access.redhat.com/documentation/en-us/{DocInfoProductNameURL}/{DocInfoProductNumber}/html-single/getting_started_with_jboss_eap_for_openshift_online/
@@ -116,18 +97,12 @@ ifdef::EAPXPRelease[]
 :EapForOpenshiftBookName: {productNameFull} for OpenShift
 :EapForOpenshiftOnlineBookName: {productNameFull} for OpenShift Online
 :xpaasproduct: {productNameFull} for OpenShift
-:xpaasproductOpenShiftOnline: {productNameFull} for OpenShift Online
-:xpaasproduct-shortname: {ProductShortName} for OpenShift
-:xpaasproductOpenShiftOnline-shortname: {ProductShortName} for OpenShift Online
 :ContainerRegistryName: Red Hat Container Registry
 :EapForOpenshiftBookName: {productNameFull} for OpenShift
 :EapForOpenshiftOnlineBookName: {productNameFull} for OpenShift Online
-:ImagePrefixVersion: eap-xp3
 :ImageandTemplateImportURL: {ImageandTemplateImportBaseURL}/{ImagePrefixVersion}/
 :BuildImageStream: jboss-{ImagePrefixVersion}-openjdk11-openshift
 :RuntimeImageStream: jboss-{ImagePrefixVersion}-openjdk11-runtime-openshift
-// OpenShift repository and reference for quickstarts
-:EAPQuickStartRepoRef: xp-5.0.x
 // Links to the OpenShift documentation
 :LinkOpenShiftGuide: https://access.redhat.com/documentation/en-us/red_hat_jboss_enterprise_application_platform/{DocInfoProductNumber}/html/using_eclipse_microprofile_in_jboss_eap/using-the-openshift-image-for-jboss-eap-xp_default
 :LinkOpenShiftOnlineGuide: https://access.redhat.com/documentation/en-us/red_hat_jboss_enterprise_application_platform/{DocInfoProductNumber}/html/using_eclipse_microprofile_in_jboss_eap/using-the-openshift-image-for-jboss-eap-xp_default
@@ -141,12 +116,10 @@ endif::[]
 // Other values
 //*************************
 :buildRequirements: Java SE 17.0 or later, and Maven 3.6.0 or later
-:jbdsEapServerName: Red Hat JBoss Enterprise Application Platform 8.0
 :javaVersion: Jakarta EE 10
 ifdef::EAPXPRelease[]
 :javaVersion: Eclipse MicroProfile
 endif::[]
-:githubRepoBranch: master
 :guidesBaseUrl: https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/
 :useEclipseUrl: {guidesBaseUrl}USE_JBDS.adoc#use_red_hat_jboss_developer_studio_or_eclipse_to_run_the_quickstarts
 :useEclipseDeployJavaClientDocUrl: {guidesBaseUrl}USE_JBDS.adoc#deploy_and_undeploy_a_quickstart_containing_server_and_java_client_projects
@@ -922,7 +895,7 @@ endif::[]
 [[getting_started_with_helm]]
 = Getting Started with {xpaasproduct-shortname} and Helm Charts
 
-This section contains the basic instructions to build and deploy this quickstart to {xpaasproduct-shortname} or {xpaasproductOpenShiftOnline-shortname} using Helm Charts.
+This section contains the basic instructions to build and deploy this quickstart to {xpaasproduct-shortname} using Helm Charts.
 
 [[prerequisites_helm_openshift]]
 == Prerequisites
@@ -932,9 +905,9 @@ ifndef::kubernetes[]
 endif::[]
 * https://helm.sh[Helm] must be installed to deploy the backend on {cloud-platform}.
 
-Once you have installed Helm, you need to add the repository that provides Helm Charts for {productName}.
+Once you have installed Helm, you need to add the repository that provides Helm Charts for {ProductShortName}.
 
-ifndef::ProductRelease,EAPXPRelease[]
+ifndef::ProductRelease[]
 [source,options="nowrap"]
 ----
 $ helm repo add wildfly https://docs.wildfly.org/wildfly-charts/
@@ -952,17 +925,7 @@ $ helm repo add jboss-eap https://jbossas.github.io/eap-charts/
 "jboss-eap" has been added to your repositories
 $ helm search repo jboss-eap
 NAME                    CHART VERSION   APP VERSION     DESCRIPTION
-{helmChartName}         ...             ...             A Helm chart to build and deploy EAP {productVersion} applications
-----
-endif::[]
-ifdef::EAPXPRelease[]
-[source,options="nowrap",subs="+attributes"]
-----
-$ helm repo add jboss-eap https://jbossas.github.io/eap-charts/
-"jboss-eap" has been added to your repositories
-$ helm search repo jboss-eap
-NAME                    CHART VERSION   APP VERSION     DESCRIPTION
-{helmChartName}         ...             ...             A Helm chart to build and deploy EAP XP {productVersion} applications
+{helmChartName}         ...             ...             A Helm chart to build and deploy EAP applications
 ----
 endif::[]
 
@@ -1004,7 +967,7 @@ endif::[]
 ifndef::kubernetes[]
 Log in to your OpenShift instance using the `oc login` command.
 endif::[]
-The backend will be built and deployed on {cloud-platform} with a Helm Chart for {productName}.
+The backend will be built and deployed on {cloud-platform} with a Helm Chart for {ProductShortName}.
 
 
 ifndef::kubernetes[]
@@ -1338,9 +1301,9 @@ ifndef::kubernetes[]
 endif::[]
 * https://helm.sh[Helm] must be installed to deploy the backend on {cloud-platform}.
 
-Once you have installed Helm, you need to add the repository that provides Helm Charts for {productName}.
+Once you have installed Helm, you need to add the repository that provides Helm Charts for {ProductShortName}.
 
-ifndef::ProductRelease,EAPXPRelease[]
+ifndef::ProductRelease[]
 [source,options="nowrap"]
 ----
 $ helm repo add wildfly https://docs.wildfly.org/wildfly-charts/
@@ -1358,17 +1321,7 @@ $ helm repo add jboss-eap https://jbossas.github.io/eap-charts/
 "jboss-eap" has been added to your repositories
 $ helm search repo jboss-eap
 NAME                    CHART VERSION   APP VERSION     DESCRIPTION
-{helmChartName}         ...             ...             A Helm chart to build and deploy EAP {productVersion} applications
-----
-endif::[]
-ifdef::EAPXPRelease[]
-[source,options="nowrap",subs="+attributes"]
-----
-$ helm repo add jboss-eap https://jbossas.github.io/eap-charts/
-"jboss-eap" has been added to your repositories
-$ helm search repo jboss-eap
-NAME                    CHART VERSION   APP VERSION     DESCRIPTION
-{helmChartName}         ...             ...             A Helm chart to build and deploy EAP XP {productVersion} applications
+{helmChartName}         ...             ...             A Helm chart to build and deploy EAP applications
 ----
 endif::[]
 
@@ -1410,7 +1363,7 @@ endif::[]
 ifndef::kubernetes[]
 Log in to your OpenShift instance using the `oc login` command.
 endif::[]
-The backend will be built and deployed on {cloud-platform} with a Helm Chart for {productName}.
+The backend will be built and deployed on {cloud-platform} with a Helm Chart for {ProductShortName}.
 
 
 ifndef::kubernetes[]
