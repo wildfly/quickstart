@@ -45,7 +45,7 @@ public class UserMessagingBean {
 
     @Inject
     public UserMessagingBean(@Channel("user") Publisher<String> receiver) {
-        this.broadcastPublisher = new BroadcastPublisher(receiver);
+        this.broadcastPublisher = new BroadcastPublisher<String>(receiver);
     }
 
     @PreDestroy
@@ -63,14 +63,12 @@ public class UserMessagingBean {
         return broadcastPublisher;
     }
 
-    private class BroadcastPublisher<T> implements Publisher<T> {
-        private final Publisher basePublisher;
+    private static class BroadcastPublisher<T> implements Publisher<T> {
         private volatile Subscription baseSubscription;
         private final CopyOnWriteArraySet<Subscriber<? super T>> subscribers = new CopyOnWriteArraySet<>();
 
         BroadcastPublisher(Publisher<T> publisher) {
-            this.basePublisher = publisher;
-            publisher.subscribe(new Subscriber() {
+            publisher.subscribe(new Subscriber<T>() {
                 @Override
                 public void onSubscribe(Subscription subscription) {
                     baseSubscription = subscription;
@@ -78,9 +76,10 @@ public class UserMessagingBean {
                 }
 
                 @Override
-                public void onNext(Object o) {
+                public void onNext(T o) {
                     System.out.println("Received " + o + " - forwarding it to all the subscribers");
-                    for (Subscriber s : subscribers) {
+
+                    for (Subscriber<? super T> s : subscribers) {
                         s.onNext(o);
                     }
                     baseSubscription.request(1);
@@ -89,8 +88,8 @@ public class UserMessagingBean {
                 @Override
                 public void onError(Throwable throwable) {
                     throwable.printStackTrace();
-                    for (Subscriber s : subscribers) {
-                        s.onNext(throwable);
+                    for (Subscriber<? super T> s : subscribers) {
+                        s.onError(throwable);
                     }
                 }
 
