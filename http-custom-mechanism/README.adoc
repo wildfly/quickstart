@@ -635,7 +635,7 @@ $ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=add-custom-module.cli
 
 NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
 
-This creates the custom `__{jbossHomeName}__/modules/modules/org/jboss/as/quickstart/http_custom_mechanism/main` folder, then copies in the `custom-module/target/custom-module.jar` file and creates the required `module.xml` file.
+This creates the custom `__{jbossHomeName}__/modules/org/jboss/as/quickstart/http_custom_mechanism/main` folder, then copies in the `custom-module/target/custom-module.jar` file and creates the required `module.xml` file.
 
 You can verify the module structure in your file manager.
 
@@ -794,80 +794,36 @@ $ mvn wildfly:undeploy
 :restoreScriptName: restore-configuration.cli
 :leveloffset: +2
 
-[[restore_standalone_server_configuration_manually]]
-= Restore the {productName} Standalone Server Configuration Manually
+[[restore_the_standalone_server_configuration]]
+= Restore the {productName} Standalone Server Configuration
 //******************************************************************************
-// Include this template if your quickstart does a normal manual restoration
-// of a single standalone server.
-//******************************************************************************
-
-//******************************************************************************
-// This template sets attributes for the different standalone server profiles.
+// Include this template if your quickstart does a normal restoration of a single
+// standalone server configuration.
+// * It provides a CLI script.
+// * You can manually restore the backup copy.
 //
-// You must define the `standalone-server-type`. Supported values are:
-//    default
-//    full
-//    full-ha
-//    ha
-//    microprofile
-//    custom
+// You must define the script file name using the `restoreScriptName` attribute.
+// For example:
+// :restoreScriptName: remove-configuration.cli
 //******************************************************************************
 
-// Standalone server with the default profile.
-ifeval::["{standalone-server-type}"=="default"]
-:serverProfile: default profile
-:configFileName: standalone/configuration/standalone.xml
-:serverArguments:
-endif::[]
+You can restore the original server configuration using either of the following methods.
 
-// Standalone server with the full profile.
-ifeval::["{standalone-server-type}"=="full"]
-:serverProfile: full profile
-:configFileName: standalone/configuration/standalone-full.xml
-:serverArguments:  -c standalone-full.xml
-endif::[]
+* You can xref:restore_standalone_server_configuration_using_cli[run the `{restoreScriptName}` script] provided in the root directory of this quickstart.
+* You can xref:restore_standalone_server_configuration_manually[manually restore the configuration] using the backup copy of the configuration file.
 
-// Standalone server with the full HA profile.
-ifeval::["{standalone-server-type}"=="full-ha"]
-:serverProfile: full HA profile
-:configFileName: standalone/configuration/standalone-full-ha.xml
-:serverArguments:  -c standalone-full-ha.xml
-endif::[]
+[[restore_standalone_server_configuration_using_cli]]
+== Restore the {productName} Standalone Server Configuration by Running the JBoss CLI Script
 
-// Start the standalone server with the HA profile.
-ifeval::["{standalone-server-type}"=="ha"]
-:serverProfile: HA profile
-:configFileName: standalone/configuration/standalone-ha.xml
-:serverArguments:  -c standalone-ha.xml
-endif::[]
-
-// Start the standalone server with the Eclipse MicroProfile profile.
-ifeval::["{standalone-server-type}"=="microprofile"]
-:serverProfile: MicroProfile profile
-:configFileName: standalone/configuration/standalone-microprofile.xml
-:serverArguments:  -c standalone-microprofile.xml
-endif::[]
-
-// Standalone server with the custom profile.
-// NOTE: This profile requires that you define the `serverArguments` variable
-// within the quickstart README.adoc file. For example:
-//  :serverArguments: --server-config=../../docs/examples/configs/standalone-xts.xml
-ifeval::["{standalone-server-type}"=="custom"]
-:serverProfile: custom profile
-endif::[]
-
-// If there is no match, use the default profile.
-ifndef::serverProfile[]
-:standalone-server-type:  default
-:serverProfile: default profile
-:configFileName: standalone/configuration/standalone.xml
-:serverArguments:
-endif::serverProfile[]
-
-When you have completed testing the quickstart, you can restore the original server configuration by manually restoring the backup copy the configuration file.
-
-. If it is running, stop the {productName} server.
-. Replace the `__{jbossHomeName}__/{configFileName}` file with the backup copy of the file.
+. xref:start_the_eap_standalone_server[Start the {productName} server] as described above.
+. Open a new terminal, navigate to the root directory of this quickstart, and run the following command, replacing `__{jbossHomeName}__` with the path to your server:
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file={restoreScriptName}
+----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
 
 :leveloffset!:
 
@@ -879,9 +835,18 @@ This script reverts the changes made to the `undertow`  and `elytron` subsystems
 The batch executed successfully
 process-state: reload-required
 ----
+// removing the custom module
+And finally, to remove the custom module, run the following command, replacing `__{jbossHomeName}__` with the path to your server.
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=remove-custom-module.cli
+----
+
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
+
 
 // Restore the {productName} Standalone Server Configuration Manually
-:leveloffset: +2
+:leveloffset: +3
 
 [[restore_standalone_server_configuration_manually]]
 = Restore the {productName} Standalone Server Configuration Manually
