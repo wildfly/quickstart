@@ -109,7 +109,7 @@ batch
 /profile=default-web/subsystem="ejb3"/strict-max-bean-instance-pool="slsb-strict-max-pool":add(max-pool-size="20",timeout="5",timeout-unit="MINUTES")
 /profile=default-web/subsystem="ejb3"/strict-max-bean-instance-pool="mdb-strict-max-pool":add(max-pool-size="20",timeout="5",timeout-unit="MINUTES")
 /profile=default-web/subsystem="ejb3"/thread-pool="default":add(keepalive-time={"time" => "100","unit" => "MILLISECONDS"},max-threads="10")
-/profile=default-web/subsystem="io":add()
+/profile=default-web/subsystem="io":add(default-worker="default")
 /profile=default-web/subsystem="io"/buffer-pool="default":add()
 /profile=default-web/subsystem="io"/worker="default":add()
 
