@@ -156,8 +156,6 @@ This script is executed at build time and will provide the following HTTP header
 By default, the backend accepts requests from any origin (`*`). This is only simplicity. It is possible to restrict
 the allowed origin using the environment variable `CORS_ORIGIN` at runtime.
 
-ifndef::ProductRelease[]
-
 == Run the Backend Locally
 
 === Package the Backend
@@ -166,7 +164,7 @@ The backend is packaged and deployed on a provisioned server:
 
 [source,options="nowrap"]
 ----
-$ mvn clean package -Pprovisioned-server
+$ mvn clean package
 ----
 
 === Run a Local PostgreSQL Database
@@ -242,7 +240,5 @@ endif::[]
 This quickstart shows how the datasource feature pack provided by {productName} simplifies the deployment
 of a {productName} Jakarta EE backend on OpenShift to connect to an external database and exposes an HTTP API.
 
-ifndef::ProductRelease[]
 The use of a Server Provisioned deployment makes it seamless to move from a local deployment for development to a
 deployment on cloud platforms such as OpenShift and Kubernetes.
-endif::[]
