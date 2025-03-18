@@ -35,7 +35,7 @@ public class BasicRuntimeIT {
 
     @Test
     public void testHTTPEndpointIsAvailable() throws IOException, InterruptedException, URISyntaxException {
-        String serverHost = TestUtils.getServerHost() + "/participant1/work";
+        String serverHost = TestUtils.getServerHost() + "/rest/participant1/work";
         final HttpRequest request = HttpRequest.newBuilder()
                 .uri(new URI(serverHost))
                 .GET()
