@@ -1,22 +1,11 @@
 services:
   quickstart-mail-server:
-    image: "apache/james:demo-3.8.0"
-    container_name: "apache-james"
-    hostname: "james.local"
+    image: "greenmail/standalone:2.0.1"
+    container_name: "greenmail"
     ports:
-      - "1465:465"
-      - "1993:993"
-      - "1025:25"
-      - "1110:110"
-      - "1587:587"
-      - "1143:143"
-    volumes:
-      - ./mail-server-conf/imapserver.xml:/root/conf/imapserver.xml:Z
-      - ./mail-server-conf/pop3server.xml:/root/conf/pop3server.xml:Z
-      - ./mail-server-conf/smtpserver.xml:/root/conf/smtpserver.xml:Z
-    healthcheck:
-      test: [ "CMD-SHELL", "/bin/james-cli -h 127.0.0.1 -p 9999 ListUsers | grep -q 'user03@james.local'" ]
-      interval: 5s
-      timeout: 1m
-      retries: 5
-      start_period: 20s
+      - "1465:3465"
+      - "1993:3993"
+      - "1025:3025"
+      - "1110:3110"
+      - "8081:8080"
+      - "1143:3143"
