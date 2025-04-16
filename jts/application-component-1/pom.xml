@@ -35,6 +35,10 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
+    
+    <properties>
+        <version.postgresql>42.7.2</version.postgresql>
+    </properties>
 
     <dependencies>
         <!-- Import the CDI API, we use provided scope as the API is included in JBoss EAP -->
@@ -79,10 +83,37 @@
             <artifactId>jakarta.transaction-api</artifactId>
             <scope>provided</scope>
         </dependency>
+        <!-- PostgreSQL driver -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${version.postgresql}</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <build>
         <!-- Set the name of the WAR, used as the context root when the app is deployed. -->
         <finalName>${project.artifactId}</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>PostgreSQL Driver</id>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <excludeGroupIds>*</excludeGroupIds>
+                            <outputDirectory>${project.build.directory}/postgresql</outputDirectory>
+                            <includeArtifactIds>postgresql</includeArtifactIds>
+                            <stripVersion>true</stripVersion>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
     </build>
 </project>
