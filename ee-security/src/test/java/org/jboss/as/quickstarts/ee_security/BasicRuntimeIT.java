@@ -72,7 +72,7 @@ public class BasicRuntimeIT {
                 .build();
         response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
         assertEquals(200, response.statusCode());
-        String[] lines = response.body().toString().split(System.lineSeparator());
+        String[] lines = response.body().lines().toArray(String[]::new);
         assertEquals("SecuredServlet - doGet()", lines[0].trim());
         assertEquals("Identity as available from SecurityContext 'quickstartUser'", lines[1].trim());
         assertEquals("Identity as available from injection 'quickstartUser'", lines[2].trim());

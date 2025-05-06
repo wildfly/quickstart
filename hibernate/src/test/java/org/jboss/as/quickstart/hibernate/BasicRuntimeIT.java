@@ -53,7 +53,7 @@ public class BasicRuntimeIT {
                 .build();
         final HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         Assertions.assertEquals(200, response.statusCode());
-        final String[] bodyLines = response.body().toString().split(System.lineSeparator());
+        final String[] bodyLines = response.body().lines().toArray(String[]::new);
         Assertions.assertEquals("<meta http-equiv=\"Refresh\" content=\"0; URL=index.jsf\">", bodyLines[bodyLines.length-3]);
     }
 }
