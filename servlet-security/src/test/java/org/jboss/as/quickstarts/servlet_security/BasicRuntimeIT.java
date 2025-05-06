@@ -67,9 +67,9 @@ public class BasicRuntimeIT {
                 return new PasswordAuthentication("quickstartUser", "quickstartPwd1!".toCharArray());
             }
         }).build();
-        HttpResponse response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         Assertions.assertEquals(200, response.statusCode());
-        String[] lines = response.body().toString().split(System.lineSeparator());
+        String[] lines = response.body().lines().toArray(String[]::new);
         Assertions.assertEquals("<h1>Successfully called Secured Servlet </h1>", lines[1].trim());
         Assertions.assertEquals("<p>Principal  : quickstartUser</p>", lines[2].trim());
         Assertions.assertEquals("<p>Remote User : quickstartUser</p>", lines[3].trim());
