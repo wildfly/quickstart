@@ -28,11 +28,19 @@ public class UserService {
             Map.entry("admin", new User("admin", "adminpw", "admin"))
     );
 
-    public User authenticate(final String username, final String password) throws Exception {
-        final User user = USER_DB.get(username);
-        if (user != null && user.getPassword().equals(password)) {
-            return user;
-        }
-        throw new Exception("Failed logging in org.jboss.user with name '" + username + "': unknown username or wrong password");
+   public User authenticate(final String username, final String password) throws Exception {
+    final User user = USER_DB.get(username);
+    if (user != null && user.getPassword().equals(password)) {
+        return user;
     }
+    
+    // Use generic error message that doesn't reveal whether username exists
+    String message;
+    try {
+        message = ResourceBundle.getBundle("org.acegisecurity.messages").getString("AbstractUserDetailsAuthenticationProvider.badCredentials");
+    } catch (MissingResourceException x) {
+        message = "Bad credentials";
+    }
+    throw new Exception(message);
+}
 }
