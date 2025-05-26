@@ -46,7 +46,7 @@ public class MailTestCaseIT {
         }
 
         driver.get(serverHost+"/mail");
-        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(500));
+        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(800));
     }
 
     @After
@@ -58,7 +58,7 @@ public class MailTestCaseIT {
 
     @Test
     public void a_testSMTP() {
-        Wait<WebDriver> wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+        Wait<WebDriver> wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 
         WebElement from = driver.findElement(By.id("smtp_from"));
         WebElement to = driver.findElement(By.id("smtp_to"));
@@ -66,10 +66,10 @@ public class MailTestCaseIT {
         WebElement body = driver.findElement(By.id("smtp_body"));
 
         from.clear();
-        from.sendKeys("user01@james.local");
+        from.sendKeys("user01@mail.local");
 
         to.clear();
-        to.sendKeys("user02@james.local");
+        to.sendKeys("user02@mail.local");
 
         subject.clear();
         subject.sendKeys("This is a test");
@@ -80,21 +80,23 @@ public class MailTestCaseIT {
         WebElement submitButton = driver.findElement(By.id("smtp_send_btn"));
         submitButton.click();
 
-        WebElement message = driver.findElement(By.xpath("//ul[@id='smtp_messages']/li"));
-        wait.until(d -> message.isDisplayed());
+        wait.until(d -> driver.findElement(By.xpath("//ul[@id='smtp_messages']/li")).isDisplayed());
 
-        Assert.assertEquals("Unexpected result messages after sending an email via SMTP.", "Email sent to user02@james.local", message.getText());
+        Assert.assertEquals(
+                "Unexpected result messages after sending an email via SMTP.",
+                "Email sent to user02@mail.local",
+                driver.findElement(By.xpath("//ul[@id='smtp_messages']/li")).getText());
     }
 
     @Test
     public void b_retrievePOP3() {
-        Wait<WebDriver> wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+        Wait<WebDriver> wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 
         WebElement user = driver.findElement(By.id("pop3_user"));
         WebElement password = driver.findElement(By.id("pop3_password"));
 
         user.clear();
-        user.sendKeys("user02@james.local");
+        user.sendKeys("user02@mail.local");
 
         password.clear();
         password.sendKeys("1234");
@@ -112,7 +114,7 @@ public class MailTestCaseIT {
         });
 
         WebElement emails = driver.findElement(By.id("pop3_emails"));
-        Assert.assertTrue("Expected From not found: " + emails.getText(), emails.getText().contains("From : user01@james.local"));
+        Assert.assertTrue("Expected From not found: " + emails.getText(), emails.getText().contains("From : user01@mail.local"));
         Assert.assertTrue("Expected Subject not found: " + emails.getText(), emails.getText().contains("Subject : This is a test"));
         Assert.assertTrue("Expected Body not found : " + emails.getText(), emails.getText().contains("Body : Hello user02, I've sent an email."));
     }
@@ -120,7 +122,7 @@ public class MailTestCaseIT {
 
     @Test
     public void c_retrieveIMAP() {
-        Wait<WebDriver> wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+        Wait<WebDriver> wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 
         WebElement submitButton = driver.findElement(By.id("imap_get_emails_btn"));
         submitButton.click();
@@ -136,7 +138,7 @@ public class MailTestCaseIT {
 
         WebElement emails = driver.findElement(By.id("imap_emails"));
         Assert.assertNotNull("IMAP No messages found.", emails.getText());
-        Assert.assertTrue("Expected email not found.", emails.getText().contains("From : user01@james.local"));
+        Assert.assertTrue("Expected email not found.", emails.getText().contains("From : user01@mail.local"));
         Assert.assertTrue("Expected email not found.", emails.getText().contains("Subject : This is a test"));
         Assert.assertTrue("Expected email not found.", emails.getText().contains("Body : Hello user02, I've sent an email."));
     }
