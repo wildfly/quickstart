@@ -912,10 +912,17 @@ helm uninstall postgresql
 
 Finally, to undeploy and uninstall the {productName}'s operator:
 
+ifndef::ProductRelease[]
 [source,sh,options="nowrap"]
 ----
 cd /tmp/wildfly-operator;
 make undeploy
 ----
+endif::[]
 
-The above commands completely clean the OpenShift namespace
+ifdef::ProductRelease[]
+[source,sh,options="nowrap"]
+----
+oc delete -f eap-operator-sub.yaml
+----
+endif::[]
