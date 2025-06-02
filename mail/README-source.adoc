@@ -4,6 +4,8 @@ include::../shared-doc/attributes.adoc[]
 :author: Joel Tosi
 :level: Beginner
 :technologies: JavaMail, CDI, JSF
+:portedToGlow: true
+:helm-install-prerequisites-openshift: ../mail/helm-install-prerequisites-openshift.adoc
 
 [abstract]
 The `mail` quickstart demonstrates how to send and receive emails using CDI and JSF and with custom Mail provider configured in {productName}.
@@ -40,34 +42,28 @@ To run the Mail Quickstart, you need a Mail Server configured with the following
 
 In addition, the Mail Subsystem configuration and the test cases expect you have the following Mail accounts configured on your Mail Server:
 
-- user01@james.local
-- user02@james.local
+- user01@mail.local
+- user02@mail.local
 
-You can use any Mail Server you consider, although to facilitate this task, you will find under the Mail Quickstart root directory a docker compose file prepared to launch an Apache James Mail server with all the required configuration. You will need to have installed a Container Engine capable of work with Docker compose files and Linux images. The following command assumes you have https://podman.io/[Podman] and https://docs.podman.io/en/latest/markdown/podman-compose.1.html[Podman Compose] installed in your local environment.
+You can use any Mail Server you consider, although to facilitate this task, you will find under the Mail Quickstart root directory a docker compose file prepared to launch a Greenmail mail server with all the required configuration.
+You will need to have installed a Container Engine capable of working with Docker compose files and Linux images.
+The following command assumes you have https://podman.io/[Podman] and https://docs.podman.io/en/latest/markdown/podman-compose.1.html[Podman Compose] installed in your local environment.
 
-To launch the Apache James Mail server, open the terminal and navigate to the Mail Quickstart root directory and execute the following:
+To launch the Greenmail server, open the terminal and navigate to the Mail Quickstart root directory and execute the following:
 
-```
+[source, bash]
+----
 $ podman compose up --wait
 >>>> Executing external compose provider "/usr/local/bin/docker-compose". Please refer to the documentation for details. <<<<
+----
 
-[+] Running 1/1
- ✔ Container apache-james  Healthy
-```
+Once you have finished with the Mail Quickstart, you can shutdown and remove the Greenmail server with the following command:
 
-NOTE: The Apache James server is configured without allowing the relay of the emails to external addresses that are not configured in the server. When you are sending / receiving emails with this server, you have to use the accounts shipped with the apache James demo image. These are the accounts available out of the box: user01@james.local, user02@james.local and user03@james.local.
-All accounts use the same password: `1234`
-
-Once you have finished with the Mail Quickstart, you can shutdown and remove the Apache James Mail server with the following command:
-
-```
+[source, bash]
+----
 $ podman compose down --volumes
 >>>> Executing external compose provider "/usr/local/bin/docker-compose". Please refer to the documentation for details. <<<<
-
-[+] Running 2/1
- ✔ Container apache-james  Removed
- ✔ Network mail_default    Removed
-```
+----
 
 // Back Up the {productName} Standalone Server Configuration
 include::../shared-doc/back-up-server-standalone-configuration.adoc[leveloffset=+1]
@@ -115,7 +111,6 @@ The following `outbound-socket-binding` groups are added to the `standard-socket
 ----
 <socket-binding-group name="standard-sockets" default-interface="public" port-offset="${jboss.socket.binding.port-offset:0}">
   ...
-  </outbound-socket-binding>
   <outbound-socket-binding name="my-imap-binding">
       <remote-destination host="localhost" port="1143"/>
   </outbound-socket-binding>
@@ -137,9 +132,9 @@ The `MyOtherMail` mail session is added to the `mail` subsystem and configured t
       <smtp-server outbound-socket-binding-ref="mail-smtp"/>
    </mail-session>
    <mail-session name="MyOtherMail" debug="true" jndi-name="java:jboss/mail/MyOtherMail">
-     <smtp-server outbound-socket-binding-ref="my-smtp-binding" username="user01@james.local" password="1234"/>
+     <smtp-server outbound-socket-binding-ref="my-smtp-binding" username="user01@mail.local" password="1234"/>
      <pop3-server outbound-socket-binding-ref="my-pop3-binding"/>
-     <imap-server outbound-socket-binding-ref="my-imap-binding" username="user02@james.local" password="1234"/>
+     <imap-server outbound-socket-binding-ref="my-imap-binding" username="user02@mail.local" password="1234"/>
    </mail-session>
 </subsystem>
 ----
@@ -152,9 +147,6 @@ include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
 The application will be running at the following URL: http://localhost:8080/{artifactId}/[http://localhost:8080/{artifactId}/^].
 
 NOTE: If you see `Error processing request` in the browser when you access the application and attempt to send email, followed by `jakarta.servlet.ServletException: MailConnectException: Couldn&#39;t connect to host, port: localhost, 1025; timeout -1; nested exception is: java.net.ConnectException: Connection refused`, make sure you followed the instructions above to xref:configure_an_smtp_server_on_your_local_machine[Configure an SMTP Server on Your Local Machine].
-
-NOTE: If you are using the Mail server shipped with this Quickstart and see `Error sending the Email. Invalid Addresses` in the browser when you attempt to send email, make sure you are sending your email to an existing account configured in the Mail Server since by default Apache James demo image is shipped with relay disabled. By default, Apache James demo image has the following accounts configured: user01@james.local, user02@james.local and user03@james.local.
-
 // Server Distribution Testing
 include::../shared-doc/run-integration-tests-with-server-distribution.adoc[leveloffset=+1]
 // Undeploy the Quickstart
@@ -177,5 +169,5 @@ include::../shared-doc/restore-standalone-server-configuration-manual.adoc[level
 // Build and run sections for other environments/builds
 include::../shared-doc/build-and-run-the-quickstart-with-provisioned-server.adoc[leveloffset=+1]
 
-// Quickstart not compatible with OpenShift
-include::../shared-doc/openshift-incompatibility.adoc[leveloffset=+1]
+// OpenShift
+include::../shared-doc/build-and-run-the-quickstart-with-openshift.adoc[leveloffset=+1]
