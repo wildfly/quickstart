@@ -315,6 +315,14 @@ mvn wildfly:deploy -Dwildfly.port=10190
 The commands just run employed the WildFly Maven plugin to connect to the running instances of {productName}
 and deploy the `war` archives to the servers.
 
+The following warnings might appear in the server output after the applications are deployed. These warnings can be safely ignored in a development environment.
+
+[source,options="nowrap"]
+----
+WARN  [org.jgroups.protocols.UDP] (ServerService Thread Pool -- 90) JGRP000015: the receive buffer of socket ManagedMulticastSocketBinding was set to 20MB, but the OS only allocated 6.71MB
+WARN  [org.jgroups.protocols.UDP] (ServerService Thread Pool -- 90) JGRP000015: the receive buffer of socket ManagedMulticastSocketBinding was set to 25MB, but the OS only allocated 6.71MB
+----
+
 ==== Checkpoints
 
 . If errors occur, verify that the {productName} servers are running and that they are configured properly
