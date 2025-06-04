@@ -2,21 +2,10 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-postgresql:
-  auth:
-    username: todos-db
-    password: todos-db
-    database: todos-db
-  architecture: "standalone"
-  primary:
-    podSecurityContext:
-      enabled: false
-      fsGroup: "auto"
-    containerSecurityContext:
-      enabled: false
-      runAsUser: "auto"
-      runAsGroup: ""
-
+redhat-postgresql-persistent:
+  postgresql_user: todos-db
+  postgresql_password: todos-db
+  postgresql_database: todos-db
 
 wildfly:
     build:
