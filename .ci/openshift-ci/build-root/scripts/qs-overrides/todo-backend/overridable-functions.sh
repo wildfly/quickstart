@@ -3,6 +3,8 @@ function installPrerequisites()
   echo "Adding bitnami repository"
   helm repo add bitnami https://charts.bitnami.com/bitnami
 
+  helm repo add openshift-helm-charts https://charts.openshift.io/
+
   helm dependency update charts/
 }
 
