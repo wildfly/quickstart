@@ -979,15 +979,13 @@ To build the `client` and the `server` applications, this quickstart employs
 For more information about {productName}'s Helm chart, please refer to the official
 https://github.com/wildfly/wildfly-charts/blob/main/charts/wildfly/README.md[documentation].
 
-ifndef::ProductRelease[]
 [source,sh,options="nowrap",subs="+quotes,attributes+"]
 ----
-helm repo add wildfly https://docs.wildfly.org/wildfly-charts/
+helm repo add {helmRepoName} {helmRepoUrl}
 
-helm install client -f charts/client.yaml wildfly/wildfly
-helm install server -f charts/server.yaml wildfly/wildfly
+helm install client -f charts/client.yaml {helmChartName}
+helm install server -f charts/server.yaml {helmChartName}
 ----
-endif::[]
 
 Wait for the builds to finish. Their status can be verified by executing the `oc get pod` command.
 
