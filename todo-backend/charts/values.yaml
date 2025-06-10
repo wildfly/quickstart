@@ -3,6 +3,9 @@
 # Declare variables to be passed into your templates.
 
 postgresql:
+  image:
+    repository: bitnami/postgresql
+    tag: 17
   auth:
     username: todos-db
     password: todos-db
@@ -46,8 +49,7 @@ wildfly:
           value: "96"
       initContainers:
         - name: check-db-ready
-          image: postgres:9.6.5
+          image: bitnami/postgresql:17
           command: [ 'sh', '-c',
-              'until pg_isready -h todo-backend-postgresql -p 5432; 
+            'until pg_isready -h todo-backend-postgresql -p 5432; 
                     do echo waiting for database; sleep 2; done;' ]
-
