@@ -39,4 +39,7 @@ public class Resources {
     public EntityManager getEm() {
         return em;
     }
+
+    void noop() {
+    }
 }
