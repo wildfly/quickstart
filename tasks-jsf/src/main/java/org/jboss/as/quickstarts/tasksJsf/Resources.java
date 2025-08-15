@@ -18,6 +18,7 @@ package org.jboss.as.quickstarts.tasksJsf;
 
 import java.util.logging.Logger;
 
+import jakarta.annotation.sql.DataSourceDefinition;
 import jakarta.ejb.Stateful;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.enterprise.inject.Produces;
@@ -38,6 +39,11 @@ import jakarta.persistence.PersistenceContextType;
  * @author Lukas Fryc
  *
  */
+@DataSourceDefinition(name="java:jboss/datasources/TasksJsfQuickstartDS",
+className = "org.h2.jdbcx.JdbcDataSource",
+url="jdbc:h2:mem:tasks-jsf-quickstart;DB_CLOSE_ON_EXIT=FALSE;DB_CLOSE_DELAY=-1",
+user="sa",
+password="sa")
 @Stateful
 @RequestScoped
 public class Resources {
