@@ -19,6 +19,7 @@ package org.jboss.as.quickstarts.bmt;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import jakarta.annotation.sql.DataSourceDefinition;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -44,6 +45,11 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  */
 
+@DataSourceDefinition(name="java:jboss/datasources/BMTQuickstartDS",
+className = "org.h2.jdbcx.JdbcDataSource",
+url="jdbc:h2:mem:tasks-jsf-quickstart;DB_CLOSE_ON_EXIT=FALSE;DB_CLOSE_DELAY=-1",
+user="sa",
+password="sa")
 @WebServlet("/BMT")
 public class TransactionServlet extends HttpServlet {
     /** Default value included to remove warning. **/
