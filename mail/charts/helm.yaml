@@ -1,0 +1,9 @@
+build:
+  uri: https://github.com/wildfly/quickstart.git
+  ref: main
+  contextDir: mail
+deploy:
+  replicas: 1
+  env:
+    - name: MAIL_SERVER_ADDRESS
+      value: greenmail
