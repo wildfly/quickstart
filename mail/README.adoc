@@ -1,3 +1,7 @@
+ifdef::env-github[]
+:artifactId: mail
+endif::[]
+
 //***********************************************************************************
 // Enable the following flag to build README.html files for JBoss EAP product builds.
 // Comment it out for WildFly builds.
@@ -131,6 +135,7 @@ endif::[]
 :level: Beginner
 :technologies: JavaMail, CDI, JSF
 :portedToGlow: true
+:helm-install-prerequisites-openshift: ../mail/helm-install-prerequisites-openshift.adoc
 
 [abstract]
 The `mail` quickstart demonstrates how to send and receive emails using CDI and JSF and with custom Mail provider configured in {productName}.
@@ -995,78 +1000,70 @@ ifndef::ProductRelease,EAPXPRelease[]
 
 [source,xml,subs="attributes+"]
 ----
-        <profile>
-            <id>openshift</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.wildfly.plugins</groupId>
-                        <artifactId>wildfly-maven-plugin</artifactId>
-                        <configuration>
-                            <discover-provisioning-info>
-                                <version>${version.server}</version>
-                                <context>cloud</context>
-                            </discover-provisioning-info>
-                            <add-ons>...</add-ons>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>package</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    ...
-                </plugins>
-            </build>
-        </profile>
+<profile>
+    <id>openshift</id>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.wildfly.plugins</groupId>
+                <artifactId>wildfly-maven-plugin</artifactId>
+                <configuration>
+                    <discover-provisioning-info>
+                        <version>${version.server}</version>
+                        <context>cloud</context>
+                    </discover-provisioning-info>
+                    <add-ons>...</add-ons>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>package</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            ...
+        </plugins>
+    </build>
+</profile>
 ----
 You may note that unlike the `provisioned-server` profile it uses the cloud context which enables a configuration tuned for {cloud-platform} environment.
-
-The plugin uses https://github.com/wildfly/wildfly-glow[WildFly Glow] to discover the feature packs and layers required to run the application, and provisions a server containing those layers.
-
-If you get an error or the server is missing some functionality which cannot be auto-discovered, you can download the https://github.com/wildfly/wildfly-glow/releases[WildFly Glow CLI] and run the following command to see more information about what add-ons are available:
-[source,shell]
-----
-wildfly-glow show-add-ons
-----
 endif::ProductRelease,EAPXPRelease[]
 
 ifdef::ProductRelease,EAPXPRelease[]
 [source,xml,subs="attributes+"]
 ----
-        <profile>
-            <id>openshift</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.jboss.eap.plugins</groupId>
-                        <artifactId>eap-maven-plugin</artifactId>
-                        <configuration>
-                            ...
-                            <feature-packs>
-                                <feature-pack>
-                                    <location>org.jboss.eap:wildfly-ee-galleon-pack</location>
-                                </feature-pack>
-                                <feature-pack>
-                                    <location>org.jboss.eap.cloud:eap-cloud-galleon-pack</location>
-                                </feature-pack>
-                            </feature-packs>
-                            <layers>...</layers>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>package</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
+<profile>
+    <id>openshift</id>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.jboss.eap.plugins</groupId>
+                <artifactId>eap-maven-plugin</artifactId>
+                <configuration>
                     ...
-                </plugins>
-            </build>
-        </profile>
+                    <feature-packs>
+                        <feature-pack>
+                            <location>org.jboss.eap:wildfly-ee-galleon-pack</location>
+                        </feature-pack>
+                        <feature-pack>
+                            <location>org.jboss.eap.cloud:eap-cloud-galleon-pack</location>
+                        </feature-pack>
+                    </feature-packs>
+                    <layers>...</layers>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>package</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            ...
+        </plugins>
+    </build>
+</profile>
 ----
 You may note that it uses the cloud feature pack which enables a configuration tuned for the {cloud-platform} environment.
 endif::[]
@@ -1078,7 +1075,7 @@ endif::[]
 [[getting_started_with_helm]]
 = Getting Started with {xpaasproduct-shortname} and Helm Charts
 
-This section contains the basic instructions to build and deploy this quickstart to {xpaasproduct-shortname} or {xpaasproductOpenShiftOnline-shortname} using Helm Charts.
+This section contains the basic instructions to build and deploy this quickstart to {xpaasproduct-shortname} using Helm Charts.
 
 [[prerequisites_helm_openshift]]
 == Prerequisites
@@ -1088,9 +1085,9 @@ ifndef::kubernetes[]
 endif::[]
 * https://helm.sh[Helm] must be installed to deploy the backend on {cloud-platform}.
 
-Once you have installed Helm, you need to add the repository that provides Helm Charts for {productName}.
+Once you have installed Helm, you need to add the repository that provides Helm Charts for {ProductShortName}.
 
-ifndef::ProductRelease,EAPXPRelease[]
+ifndef::ProductRelease[]
 [source,options="nowrap"]
 ----
 $ helm repo add wildfly https://docs.wildfly.org/wildfly-charts/
@@ -1108,17 +1105,7 @@ $ helm repo add jboss-eap https://jbossas.github.io/eap-charts/
 "jboss-eap" has been added to your repositories
 $ helm search repo jboss-eap
 NAME                    CHART VERSION   APP VERSION     DESCRIPTION
-{helmChartName}         ...             ...             A Helm chart to build and deploy EAP {productVersion} applications
-----
-endif::[]
-ifdef::EAPXPRelease[]
-[source,options="nowrap",subs="+attributes"]
-----
-$ helm repo add jboss-eap https://jbossas.github.io/eap-charts/
-"jboss-eap" has been added to your repositories
-$ helm search repo jboss-eap
-NAME                    CHART VERSION   APP VERSION     DESCRIPTION
-{helmChartName}         ...             ...             A Helm chart to build and deploy EAP XP {productVersion} applications
+{helmChartName}         ...             ...             A Helm chart to build and deploy EAP applications
 ----
 endif::[]
 
@@ -1127,7 +1114,77 @@ endif::[]
 ifdef::helm-install-prerequisites-openshift[]
 // Additional steps needed before deploying in Helm
 [[deploy_helm_prerequisites]]
-include::{helm-install-prerequisites-openshift}[leveloffset=+1]
+:leveloffset: +1
+
+=== Install the Mail server on Openshift
+
+The functionality of this quickstart depends on a running instance of the https://greenmail-mail-test.github.io/greenmail/[Greenmail Standalone server].
+
+To deploy and configure the mail server, you will need to apply a set of configurations to your OpenShift cluster:
+
+[source,options="nowrap",subs="+attributes"]
+----
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: greenmail
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: greenmail
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: greenmail
+    spec:
+      containers:
+        - name: greenmailserver
+          image: greenmail/standalone:2.0.1
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: greenmail
+spec:
+  ports:
+    - name: "1465"
+      port: 1465
+      targetPort: 3465
+    - name: "1993"
+      port: 1993
+      targetPort: 3993
+    - name: "1025"
+      port: 1025
+      targetPort: 3025
+    - name: "1110"
+      port: 1110
+      targetPort: 3110
+    - name: "8081"
+      port: 8081
+      targetPort: 8080
+    - name: "1143"
+      port: 1143
+      targetPort: 3143
+  selector:
+    app.kubernetes.io/name: greenmail
+  type: ClusterIP
+----
+
+To make things simpler, you can find these commands in `charts/greenmail-openshift.yaml`, and to apply them run the following command in your terminal:
+
+[source]
+----
+$ oc apply -f charts/greenmail-openshift.yaml
+----
+
+[NOTE]
+====
+When done with the quickstart, the `oc delete -f charts/greenmail-openshift.yaml` command may be used to revert the applied changes.
+====
+
+:leveloffset: 1
 endif::helm-install-prerequisites-openshift[]
 
 //Prepare Helm for Quickstart Deployment
@@ -1160,7 +1217,7 @@ endif::[]
 ifndef::kubernetes[]
 Log in to your OpenShift instance using the `oc login` command.
 endif::[]
-The backend will be built and deployed on {cloud-platform} with a Helm Chart for {productName}.
+The backend will be built and deployed on {cloud-platform} with a Helm Chart for {ProductShortName}.
 
 
 ifndef::kubernetes[]
@@ -1229,7 +1286,7 @@ deploy:
   replicas: 1
   env:
     - name: MAIL_SERVER_ADDRESS
-      value: "greenmail"
+      value: greenmail
 ----
 endif::useHelmChartDir[]
 endif::requires-http-route[]
