@@ -120,8 +120,23 @@
                     <artifactId>wildfly-maven-plugin</artifactId>
                     <version>${version.plugin.wildfly}</version>
                 </plugin>
+
             </plugins>
         </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifestEntries>
+                            <!-- specifies that the deployment depends on server module com.h2database.h2 -->
+                            <Dependencies>com.h2database.h2</Dependencies>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
 
     <profiles>
@@ -137,6 +152,9 @@
                         <artifactId>wildfly-maven-plugin</artifactId>
                         <configuration>
                             <discover-provisioning-info>
+                                <addOns>
+                                    <addOn>h2-database</addOn>
+                                </addOns>
                                 <version>${version.server}</version>
                             </discover-provisioning-info>
                         </configuration>
@@ -162,6 +180,9 @@
                             <discover-provisioning-info>
                                 <version>${version.server}</version>
                                 <context>cloud</context>
+                                <addOns>
+                                    <addOn>h2-database</addOn>
+                                </addOns>
                             </discover-provisioning-info>
                         </configuration>
                         <executions>
