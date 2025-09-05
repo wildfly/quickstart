@@ -193,7 +193,7 @@ jobs:
       run: |
         minikube addons enable registry
         kubectl port-forward --namespace kube-system service/registry 5000:80 & 
-    - uses: azure/setup-helm@v4.2.0
+    - uses: azure/setup-helm@v4.3.1
       with:
         version: v3.14.2
     - name: Add WildFly Helm Chart
