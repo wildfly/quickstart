@@ -6,6 +6,7 @@ include::../shared-doc/attributes.adoc[]
 :technologies: JavaMail, CDI, JSF
 :portedToGlow: true
 :helm-install-prerequisites-openshift: ../mail/helm-install-prerequisites-openshift.adoc
+:helm-install-prerequisites-kubernetes: ../mail/helm-install-prerequisites-kubernetes.adoc
 
 [abstract]
 The `mail` quickstart demonstrates how to send and receive emails using CDI and JSF and with custom Mail provider configured in {productName}.
@@ -172,3 +173,9 @@ include::../shared-doc/build-and-run-the-quickstart-with-provisioned-server.adoc
 
 // OpenShift
 include::../shared-doc/build-and-run-the-quickstart-with-openshift.adoc[leveloffset=+1]
+
+// Kubernetes
+ifndef::ProductRelease,EAPXPRelease[]
+//Kubernetes
+include::../shared-doc/build-and-run-the-quickstart-with-kubernetes.adoc[leveloffset=+1]
+endif::[]
