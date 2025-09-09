@@ -154,22 +154,25 @@ jobs:
         QUICKSTARTS_TO_TEST: ${{ steps.quickstarts-to-test.outputs.quickstarts_to_test }}
       run: |
         set -x
-        matrix="{\"quickstart\":["
-        first=1
-        echo "The list of quickstarts has been determined to:"
-        for qs_dir in ${QUICKSTARTS_TO_TEST}; do
-          echo "${qs_dir}"
-          if [ "${first}" = "0" ]; then
-            matrix="${matrix}, "
-          fi
-          matrix="${matrix}\"${qs_dir}\""
-          first=0
-        done
+        if [ -n "$QUICKSTARTS_TO_TEST" ]; then
+          matrix="{\"quickstart\":["
+          first=1
+          echo "The list of quickstarts has been determined to:"
+          for qs_dir in ${QUICKSTARTS_TO_TEST}; do
+            echo "${qs_dir}"
+            if [ "${first}" = "0" ]; then
+              matrix="${matrix}, "
+            fi
+            matrix="${matrix}\"${qs_dir}\""
+            first=0
+          done
+          matrix="${matrix}]}"
         
-        matrix="${matrix}]}"
-        
-        echo "Calculated Matrix JSON: ${matrix}"
-        echo "matrix=${matrix}" >> $GITHUB_OUTPUT
+          echo "Calculated Matrix JSON: ${matrix}"
+          echo "matrix=${matrix}" >> $GITHUB_OUTPUT
+        else
+          echo "No quickstarts to test, skipping next steps!"
+        fi
 
   run-tests-on-kubernetes:
     name: Test on Kubernetes
