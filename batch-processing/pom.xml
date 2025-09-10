@@ -191,6 +191,20 @@
                 </plugin>
             </plugins>
         </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifestEntries>
+                            <!-- specifies that the deployment depends on server module com.h2database.h2 -->
+                            <Dependencies>com.h2database.h2</Dependencies>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
 
     <profiles>
@@ -208,7 +222,7 @@
                             <discover-provisioning-info>
                                 <version>${version.server}</version>
                                 <addOns>
-                                    <addOn>h2-database:default</addOn>
+                                    <addOn>h2-database</addOn>
                                 </addOns>
                             </discover-provisioning-info>
                         </configuration>
@@ -235,7 +249,7 @@
                                 <version>${version.server}</version>
                                 <context>cloud</context>
                                 <addOns>
-                                    <addOn>h2-database:default</addOn>
+                                    <addOn>h2-database</addOn>
                                 </addOns>
                             </discover-provisioning-info>
                         </configuration>
