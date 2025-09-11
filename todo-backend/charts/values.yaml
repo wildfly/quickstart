@@ -2,24 +2,10 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-postgresql:
-  image:
-    repository: bitnami/postgresql
-    tag: 17
-  auth:
-    username: todos-db
-    password: todos-db
-    database: todos-db
-  architecture: "standalone"
-  primary:
-    podSecurityContext:
-      enabled: false
-      fsGroup: "auto"
-    containerSecurityContext:
-      enabled: false
-      runAsUser: "auto"
-      runAsGroup: ""
-
+db:
+  username: todos-db
+  password: todos-db
+  database: todos-db
 
 wildfly:
     build:
@@ -31,11 +17,20 @@ wildfly:
       env:
         # Env vars to connect to PostgreSQL DB
         - name: POSTGRESQL_DATABASE
-          value: todos-db
+          valueFrom:
+            configMapKeyRef:
+              name: postgres-configmap
+              key: POSTGRES_DB
         - name: POSTGRESQL_USER
-          value: todos-db
+          valueFrom:
+            configMapKeyRef:
+              name: postgres-configmap
+              key: POSTGRES_USER
         - name: POSTGRESQL_PASSWORD
-          value: todos-db
+          valueFrom:
+            configMapKeyRef:
+              name: postgres-configmap
+              key: POSTGRES_PASSWORD
         - name: POSTGRESQL_DATASOURCE
           value: ToDos
         - name: POSTGRESQL_SERVICE_HOST
