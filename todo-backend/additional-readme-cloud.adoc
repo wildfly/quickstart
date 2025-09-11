@@ -20,14 +20,15 @@ For {additional-readme-cloud-platform}, we rely on secrets so that the credentia
 deploy:
   env:
     - name: POSTGRESQL_PASSWORD
-      valueFrom:
-        secretKeyRef:
-          key: database-password
-          name: todo-backend-db
+        - name: POSTGRESQL_DATABASE
+          valueFrom:
+            configMapKeyRef:
+              name: postgres-configmap
+              key: POSTGRES_PASSWORD
 ----
 
-When the application is deployed, the value for the `POSTGRESQL_PASSWORD` will be taken from the key `database-password`
-in the secret `todo-backend-db`.
+When the application is deployed, the value for the `POSTGRESQL_PASSWORD` will be taken from the key `POSTGRES_PASSWORD`
+in the secret `postgres-configmap`.
 
 ifdef::additional-readme-openshift[]
 == Use the todobackend Web Frontend
