@@ -11,7 +11,6 @@ The `jta-crash-rec` quickstart uses JTA and Byteman to show how to code distribu
 :standalone-server-type: full
 :archiveType: war
 :uses-h2:
-:uses-ds-xml:
 
 == What is it?
 
@@ -28,7 +27,7 @@ The relational database table in this example contains two columns that represen
 
 In this example, you halt the {productName} server in the middle of an XA transaction after the database modification has been committed, but before the JMS producer is committed. You can verify that the transaction was started, then restart the {productName} server to complete the transaction. You then verify that everything is in a consistent state.
 
-{productName} ships with H2, an in-memory database written in Java. In this example, we use H2 for the database. Although H2 XA support is not recommended for production systems, the example does illustrate the general steps you need to perform for any datasource vendor. This example provides its own H2 XA datasource configuration. It is defined in the `jta-crash-rec-ds.xml` file in the WEB-INF folder of the WAR archive.
+{productName} ships with H2, an in-memory database written in Java. In this example, we use H2 for the database. Although H2 XA support is not recommended for production systems, the example does illustrate the general steps you need to perform for any datasource vendor. This example provides its own H2 XA datasource configuration. It is defined by a 'DataSourceDefinition' annotation in the `XAServlet.java` file.
 
 // Link to the quickstart source
 include::../shared-doc/view-the-source.adoc[leveloffset=+1]
