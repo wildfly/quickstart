@@ -16,6 +16,7 @@
  */
 package org.jboss.as.quickstarts.kitchensink.rest;
 
+import jakarta.annotation.sql.DataSourceDefinition;
 import jakarta.ws.rs.ApplicationPath;
 import jakarta.ws.rs.core.Application;
 
@@ -27,6 +28,12 @@ import jakarta.ws.rs.core.Application;
  * Resources are served relative to the servlet path specified in the {@link ApplicationPath} annotation.
  * </p>
  */
+@DataSourceDefinition(
+    name="java:jboss/datasources/KitchensinkQuickstartDS",
+    className = "org.h2.jdbcx.JdbcDataSource",
+    url = "jdbc:h2:mem:kitchensink-quickstart;DB_CLOSE_ON_EXIT=FALSE;DB_CLOSE_DELAY=-1",
+    user="sa",
+    password="sa")
 @ApplicationPath("/rest")
 public class JaxRsActivator extends Application {
     /* class body intentionally left blank */
