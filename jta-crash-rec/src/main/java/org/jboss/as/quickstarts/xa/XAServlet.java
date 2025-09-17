@@ -16,6 +16,7 @@
  */
 package org.jboss.as.quickstarts.xa;
 
+import jakarta.annotation.sql.DataSourceDefinition;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -38,6 +39,25 @@ import java.io.PrintWriter;
  * @author Michael Musgrove
  *
  */
+@DataSourceDefinition(
+    name="java:jboss/datasources/JTACrashRecQuickstartDS",
+    className = "org.h2.jdbcx.JdbcDataSource",
+    url = "jdbc:h2:file:~/jta-crash-rec-quickstart;DB_CLOSE_ON_EXIT=FALSE;DB_CLOSE_DELAY=-1",
+    user="sa",
+    password="sa",
+    properties = {
+        "is-same-rm-override=false",
+        "interleaving=true",
+        "pad-xid=false",
+        "wrap-xa-resource=true",
+        "validate-on-match=false",
+        "background-validation=false",
+        "background-validation-millis=0",
+        "prepared-statement-cache-size=0",
+        "recovery-username=sa",
+        "recovery-password=sa"
+    }
+)
 @SuppressWarnings("serial")
 @WebServlet("/XA")
 public class XAServlet extends HttpServlet {
