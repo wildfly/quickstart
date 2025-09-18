@@ -4,13 +4,13 @@ The functionality of this quickstart depends on a running instance of the
 https://access.redhat.com/products/red-hat-amq#streams[AMQ Streams] Operator. AMQ Streams is a Red Hat project based on Apache Kafka. To deploy AMQ Streams in the Openshift environment:
 
 . Log in into the Openshift console as `kubeadmin` user (or any cluster administrator).
-. Install the `Red Hat Streams for Apache Kafka` operator
-. Create an instance of `Red Hat Streams for Apache Kafka`
-. Create a topic in the `Red Hat Streams for Apache Kafka`
+.   Install the `Streams for Apache Kafka` operator with the values, and wait for the message telling you it has been installed and is ready for use.
+. Create an instance of `Streams for Apache Kafka`. We will do this later with the `./charts/amq-operator-on-openshift.yaml` file.
+. Create a topic in the `Streams for Apache Kafka`. We will do this later with the `./charts/kafka-on-openshift.yaml` file.
 
 Install it with the default values and wait for the message telling you it has been installed and is ready for use.
 
-In your terminal, run the following command to subscribe the `Red Hat Streams for Apache Kafka` operator.
+In your terminal, run the following command to subscribe the `Streams for Apache Kafka` operator.
 [options="nowrap",subs="+attributes"]
 ----
 $ oc apply -f ./charts/amq-operator-on-openshift.yaml --wait --timeout=10m0s
@@ -21,9 +21,8 @@ The `PHASE` needs to be `Succeeded`
 [options="nowrap",subs="+attributes"]
 ----
 $ oc get ClusterServiceVersion
-
-NAME                  DISPLAY                            VERSION   REPLACES              PHASE
-amqstreams.v2.7.0-1   Red Hat Streams for Apache Kafka   2.7.0-1   amqstreams.v2.7.0-0   Succeeded
+NAME                   DISPLAY                    VERSION    REPLACES               PHASE
+amqstreams.v3.0.0-13   Streams for Apache Kafka   3.0.0-13   amq-streams.v3.0.0-9   Succeeded
 ----
 
 Then you can set up a Kafka cluster called `my-cluster` with topic `testing` in your project:
@@ -37,15 +36,14 @@ Although the above commands will return pretty immediately, your AMQ Streams ins
 To be on the safe side, wait until this pod is ready, as shown in this example:
 [options="nowrap",subs="+attributes"]
 ----
- oc get pods -w
-
-NAME                     READY   STATUS    RESTARTS   AGE
-my-cluster-zookeeper-0   0/1     Running   0          29s
+$   oc get pods -w
+NAME                      READY   STATUS              RESTARTS   AGE
+my-cluster-broker-0       0/1     ContainerCreating   0          10s
+....
+my-cluster-broker-0       1/1     Running             0          71s
+my-cluster-broker-1       1/1     Running             0          71s
+my-cluster-broker-2       1/1     Running             0          72s
+my-cluster-entity-operator-7985c76b85-h6jc4   0/1     Pending             0          0s
 ...
-my-cluster-entity-operator-cbdbffd4d-m7fzh   0/2     Pending             0          0s
-my-cluster-entity-operator-cbdbffd4d-m7fzh   0/2     ContainerCreating   0          0s
-my-cluster-entity-operator-cbdbffd4d-m7fzh   0/2     ContainerCreating   0          0s
-my-cluster-entity-operator-cbdbffd4d-m7fzh   0/2     Running             0          1s
-my-cluster-entity-operator-cbdbffd4d-m7fzh   1/2     Running             0          20s
-my-cluster-entity-operator-cbdbffd4d-m7fzh   2/2     Running             0          21s
+my-cluster-entity-operator-7985c76b85-h6jc4   1/1     Running             0          20s
 ----

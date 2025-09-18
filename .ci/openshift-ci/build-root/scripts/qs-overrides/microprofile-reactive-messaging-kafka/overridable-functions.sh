@@ -38,7 +38,7 @@ function installPrerequisites()
     sleep 5
     echo "Checking if The AMQ operator is ready"
     # Check the entity operator exists. If Phase is "Succeeded" it is installed and we can continue
-    oc get ClusterServiceVersion | grep "Red Hat Streams for Apache Kafka" | grep "Succeeded" || continue
+    oc get ClusterServiceVersion | grep "Streams for Apache Kafka" | grep "Succeeded" || continue
     echo "The AMQ operator is ready!"
     break
   done
