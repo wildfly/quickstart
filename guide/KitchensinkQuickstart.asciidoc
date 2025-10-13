@@ -1,5 +1,4 @@
-CDI + JSF + EJB + JTA + Bean Validation + Jakarta REST : Kitchensink quickstart
-=====================================================================================
+== CDI + JSF + EJB + JTA + Bean Validation + Jakarta REST : Kitchensink quickstart
 :Author: Pete Muir
 
 [[KitchensinkQuickstart-]]
@@ -8,20 +7,20 @@ This quickstart shows off all the new features of Jakarta EE, and makes a great 
 
 [TIP]
 .Bean Validation
-========================================================================
+====
 Bean Validation is a specification in Jakarta EE, inspired by
 Hibernate Validator. It allows application developers to specify 
 constraints once (often in their domain model), and have them applied in
 all layers of the application, protecting data and giving useful 
 feedback to users.
-========================================================================
+====
 
 [TIP]
 .Jakarta REST: The Java API for RESTful Web Services
-========================================================================
+====
 Jakarta REST is a specification in Jakarta EE. It allows application
 developers to easily expose Java services as RESTful web services.
-========================================================================
+====
 
 Switch to the `quickstarts/kitchensink` directory and instruct Maven to build and deploy the application:
 
@@ -46,8 +45,7 @@ some changes, it's pretty easy:
 
 It's time to pull the covers back and dive into the internals of the application.
 
-Deploying the Kitchensink quickstart using CodeReady Studio, or Eclipse with JBoss Tools
-----------------------------------------------------------------------------------------------
+=== Deploying the Kitchensink quickstart using CodeReady Studio, or Eclipse with JBoss Tools
 
 You may choose to deploy the quickstart using CodeReady Studio, or Eclipse with JBoss Tools. You'll need to have JBoss WildFly started in the IDE (as described  in <<GettingStarted-with_jboss_tools, Starting the JBoss server from JBDS or Eclipse with JBoss Tools>>) and to have imported the quickstarts into Eclipse (as described in <<GettingStarted-importing_quickstarts_into_eclipse,Importing the quickstarts into Eclipse>>).
 
@@ -64,8 +62,7 @@ You should see the server start up (unless you already started it in  <<GettingS
 image:gfx/Eclipse_KitchenSink_Deploy_3.jpg[]
 
 
-The kitchensink quickstart in depth
------------------------------------
+=== The kitchensink quickstart in depth
 
 The kitchensink application shows off a number of Jakarta EE technologies such as CDI, JSF, EJB, JTA, Jakarta REST. It does this by providing a member registration database, available via JSF and Jakarta REST.
 
@@ -75,7 +72,7 @@ Next, let's take a look at the JSF view the user sees. As usual, we use a templa
 
 .src/main/webapp/WEB-INF/templates/default.xhtml
 [source,html]
-------------------------------------------------------------------------
+----
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
@@ -135,7 +132,7 @@ Next, let's take a look at the JSF view the user sees. As usual, we use a templa
     </div>
 </h:body>
 </html>
-------------------------------------------------------------------------
+----
 <1> We have a common `<head>` element, where we define styles and more
 <2> The content is inserted here, and defined by views using this template
 <3> This application defines a common sidebar and footer, putting them in the template means we only have to define them once
@@ -144,7 +141,7 @@ That leaves the main page, index.xhtml , in which we place the content unique to
 
 .src/main/webapp/index.xhtml
 [source,html]
-------------------------------------------------------------------------
+----
 <?xml version="1.0" encoding="UTF-8"?>
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
     xmlns:ui="http://java.sun.com/jsf/facelets"
@@ -224,7 +221,7 @@ That leaves the main page, index.xhtml , in which we place the content unique to
     </ui:define>
 </ui:composition>
 
-------------------------------------------------------------------------
+----
 <1> The JSF form allows us to register new users. There should be one already created when the application started.
 <2> The application uses Bean Validation to validate data entry. The error messages from Bean Validation are automatically attached to the relevant field by JSF, and adding a messages JSF component will display them. 
 <3> This application exposes REST endpoints for each registered member. The application helpfully displays the URL to the REST endpoint on this page.
@@ -233,7 +230,7 @@ Next, let's take a look at the Member entity, before we look at how the applicat
 
 .src/main/java/org/jboss/as/quickstarts/kitchensink/model/Member.java
 [source,java]
-------------------------------------------------------------------------
+----
 SuppressWarnings("serial")
 @Entity                                                              // <1>
 @XmlRootElement                                                      // <2>
@@ -293,7 +290,7 @@ public class Member implements Serializable {
         this.phoneNumber = phoneNumber;
     }
 }
-------------------------------------------------------------------------
+----
 <1> As usual with JPA, we define that the class is an entity by adding @Entity
 <2> Members are exposed as a RESTful service using Jakarta REST. We can use JAXB to map the object to XML and to do this we need to add @XmlRootElement
 <3> Bean Validation allows constraints to be defined once (on the entity) and applied everywhere. Here we constrain the person's name to a certain size and regular expression
@@ -304,7 +301,7 @@ Let's take a look at `MemberRepository`, which is responsible for interactions w
 
 .src/main/java/org/jboss/as/quickstarts/kitchensink/data/MemberRepository.java
 [source,java]
-------------------------------------------------------------------------
+----
 @ApplicationScoped                                                   // <1>
 public class MemberRepository {
 
@@ -331,7 +328,7 @@ public class MemberRepository {
         return em.createQuery(criteria).getResultList();             // <4>
     }
 }
-------------------------------------------------------------------------
+----
 <1> The bean is application scoped, as it is a singleton
 <2> The entity manager is injected, to allow interaction with JPA
 <3> The JPA criteria api is used to load a member by their unique identifier, their email address
@@ -341,7 +338,7 @@ Let's take a look at `MemberListProducer`, which is responsible for managing the
 
 .src/main/java/org/jboss/as/quickstarts/kitchensink/data/MemberListProducer.java
 [source,java]
-------------------------------------------------------------------------
+----
 @RequestScoped                                                       // <1>
 public class MemberListProducer {
 
@@ -369,7 +366,7 @@ public class MemberListProducer {
         members = memberRepository.findAllOrderedByName();
     }
 }
-------------------------------------------------------------------------
+----
 <1> This bean is request scoped, meaning that any fields (such as members ) will be stored for the entire request
 <2> The `MemberRepository` is responsible or interactions with the persistence layer
 <3> The list of members is exposed as a producer method, it's also available via EL
@@ -379,7 +376,7 @@ Let's now look at MemberRegistration, the service that allows us to create new m
 
 .src/main/java/org/jboss/as/quickstarts/kitchensink/service/MemberRegistration.java
 [source,java]
-------------------------------------------------------------------------
+----
 @Stateless                                                           // <1>
 public class MemberRegistration {
 
@@ -398,7 +395,7 @@ public class MemberRegistration {
         memberEventSrc.fire(member);                                 // <3>
    }
 }
-------------------------------------------------------------------------
+----
 <1> This bean requires transactions as it needs to write to the database. Making this an EJB gives us access to declarative transactions - much simpler than manual transaction control!
 <2> Here we inject a JDK logger, defined in the `Resources` class
 <3> An event is sent every time a member is updated. This allows other pieces of code (in this quickstart the member list is refreshed) to react to changes in the member list without any coupling to this class.
@@ -407,7 +404,7 @@ Now, let's take a look at the `Resources` class, which provides resources such a
 
 .src/main/java/org/jboss/as/quickstarts/kitchensink/util/Resources.java
 [source,java]
-------------------------------------------------------------------------
+----
 public class Resources {
     // use @SuppressWarnings to tell IDE to ignore warnings about 
     // field not being referenced directly
@@ -430,7 +427,7 @@ public class Resources {
     }
    
 }
-------------------------------------------------------------------------
+----
 <1> We use the "resource producer" pattern, from CDI, to "alias" the old fashioned `@PersistenceContext` injection of the entity manager to a CDI style injection. This allows us to use a consistent injection style (`@Inject`) throughout the application.
 <2> We expose a JDK logger for injection. In order to save a bit more boiler plate, we automatically set the logger category as the class name!
 <3> We expose the `FacesContext` via a producer method, which allows it to be injected. If we were adding tests, we could also then mock it out.
@@ -441,7 +438,7 @@ Of course, we need to allow JSF to interact with the services. The `MemberContro
 
 .src/main/java/org/jboss/as/quickstarts/kitchensink/controller/MemberController.java
 [source,java]
-------------------------------------------------------------------------
+----
 @Model                                                               // <1>
 public class MemberController {
 
@@ -499,7 +496,7 @@ public class MemberController {
     }
 
 }
-------------------------------------------------------------------------
+----
 <1> The `MemberController` class uses the `@Model` stereotype, which adds `@Named` and `@RequestScoped` to the class
 <2> The `FacesContext` is injected, so that messages can be sent to the user
 <3> The `MemberRegistration` bean is injected, to allow the controller to interact with the database
@@ -513,18 +510,18 @@ Before we wrap up our tour of the kitchensink application, let's take a look at 
 
 .src/main/java/org/jboss/as/quickstarts/kitchensink/rest/JaxRsActivator.java
 [source,java]
-------------------------------------------------------------------------
+----
 @ApplicationPath("/rest")
 public class JaxRsActivator extends Application {
    /* class body intentionally left blank */
 }
-------------------------------------------------------------------------
+----
 
 The real work goes in `MemberResourceRESTService`, which produces the endpoint: 
 
 .src/main/java/org/jboss/as/quickstarts/kitchensink/rest/MemberResourceRESTService.java
 [source,java]
-------------------------------------------------------------------------
+----
 @Path("/members")                                                    // <1>
 @RequestScoped                                                       // <2>
 public class MemberResourceRESTService {
@@ -686,7 +683,7 @@ public class MemberResourceRESTService {
         return member != null;
     }
 }
-------------------------------------------------------------------------
+----
 <1> The `@Path` annotation tells Jakarta REST that this class provides a REST endpoint mapped to `rest/members` (concatenating the path from the activator with the path for this endpoint).
 <2> The bean is request scoped, as Jakarta REST interactions typically don't hold state between requests
 <3> Jakarta REST endpoints are CDI enabled, and can use CDI-style injection.
