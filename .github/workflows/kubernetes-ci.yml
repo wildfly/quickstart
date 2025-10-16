@@ -2,10 +2,9 @@ name: WildFly Quickstarts Kubernetes CI
 on:
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
-  push:
-    # kubernetes-testing is a temporary entry
-    #branches: [main, kubernetes-testing]
-    branches: [main]
+  #push:
+    #branches: [main]
+
 env:
   KUBERNETES_CORE_DIRECTORY: .github/workflows/scripts/kubernetes/core
   KUBERNETES_QS_OVERRIDES_DIRECTORY: .github/workflows/scripts/kubernetes/overrides
