@@ -29,7 +29,7 @@
     </parent>
 
     <artifactId>microprofile-jwt</artifactId>
-    <version>38.0.0.Final-SNAPSHOT</version>
+    <version>38.0.0.Final</version>
     <packaging>war</packaging>
     <name>Quickstart: microprofile-jwt</name>
     <description>Example project making use of MicroProfile JWT</description>
@@ -46,7 +46,7 @@
         <!-- the Maven project should use the minimum Java SE version supported -->
         <maven.compiler.release>17</maven.compiler.release>
         <!-- the version for the Server -->
-        <version.server>38.0.0.Beta1</version.server>
+        <version.server>38.0.0.Final</version.server>
         <!-- the versions for BOMs, Packs and Plugins -->
         <version.bom.ee>${version.server}</version.bom.ee>
         <version.bom.expansion>${version.server}</version.bom.expansion>
@@ -273,29 +273,6 @@
             <id>jboss-public-maven-repository</id>
             <name>JBoss Public Maven Repository</name>
             <url>https://repository.jboss.org/nexus/content/groups/public/</url>
-            <releases>
-                <enabled>true</enabled>
-                <updatePolicy>never</updatePolicy>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>never</updatePolicy>
-            </snapshots>
-            <layout>default</layout>
-        </repository>
-        <repository>
-            <id>redhat-ga-maven-repository</id>
-            <name>Red Hat GA Maven Repository</name>
-            <url>https://maven.repository.redhat.com/ga/</url>
-            <releases>
-                <enabled>true</enabled>
-                <updatePolicy>never</updatePolicy>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>never</updatePolicy>
-            </snapshots>
-            <layout>default</layout>
         </repository>
     </repositories>
     <pluginRepositories>
@@ -303,12 +280,6 @@
             <id>jboss-public-maven-repository</id>
             <name>JBoss Public Maven Repository</name>
             <url>https://repository.jboss.org/nexus/content/groups/public/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
         </pluginRepository>
     </pluginRepositories>
 </project>

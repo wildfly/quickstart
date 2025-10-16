@@ -30,7 +30,7 @@
     </parent>
     <!-- TODO fix artifact name to match components -->
     <artifactId>jts</artifactId>
-    <version>38.0.0.Final-SNAPSHOT</version>
+    <version>38.0.0.Final</version>
     <packaging>pom</packaging>
     <name>Quickstart: jts</name>
     <description>A project that demonstrates how to use CMT with JTS</description>
@@ -54,7 +54,7 @@
         <!-- the Maven project should use the minimum Java SE version supported -->
         <maven.compiler.release>17</maven.compiler.release>
         <!-- the version for the Server -->
-        <version.server>38.0.0.Beta1</version.server>
+        <version.server>38.0.0.Final</version.server>
         <!-- the versions for BOMs, Dependencies and Plugins -->
         <version.bom.ee>${version.server}</version.bom.ee>
         <version.plugin.wildfly>5.1.4.Final</version.plugin.wildfly>
@@ -97,15 +97,6 @@
             <id>jboss-public-maven-repository</id>
             <name>JBoss Public Maven Repository</name>
             <url>https://repository.jboss.org/nexus/content/groups/public/</url>
-            <releases>
-                <enabled>true</enabled>
-                <updatePolicy>never</updatePolicy>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>never</updatePolicy>
-            </snapshots>
-            <layout>default</layout>
         </repository>
     </repositories>
     <pluginRepositories>
@@ -113,12 +104,6 @@
             <id>jboss-public-maven-repository</id>
             <name>JBoss Public Maven Repository</name>
             <url>https://repository.jboss.org/nexus/content/groups/public/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
         </pluginRepository>
     </pluginRepositories>
 </project>
