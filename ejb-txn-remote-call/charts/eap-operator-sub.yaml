@@ -1,0 +1,20 @@
+# Subscription configuration for global EAP Operator installation
+#
+# This file subscribes to the EAP Operator from the Red Hat Operators catalog
+# in the openshift-operators namespace, making it available globally across all namespaces.
+#
+# WARNING: This is for development/testing simplicity. In production environments,
+# consider namespace-scoped installation by installing the Subscription in your
+# specific project namespace along with an appropriate OperatorGroup.
+
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: eap
+  namespace: openshift-operators
+spec:
+  channel: stable
+  installPlanApproval: Automatic
+  name: eap
+  source: redhat-operators
+  sourceNamespace: openshift-marketplace

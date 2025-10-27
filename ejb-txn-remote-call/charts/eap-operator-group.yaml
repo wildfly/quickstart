@@ -1,0 +1,19 @@
+# OperatorGroup configuration for namespace-scoped EAP Operator installation
+#
+# This file configures the EAP Operator to watch only the current namespace
+# instead of being installed globally across all namespaces.
+#
+# BEFORE APPLYING: Replace '<your-namespace>' with your actual namespace name.
+# You can get your current namespace with: oc project -q
+#
+# Example:
+#   If your namespace is 'my-project', change both occurrences of '<your-namespace>' to 'my-project'
+
+apiVersion: operators.coreos.com/v1
+kind: OperatorGroup
+metadata:
+  name: eap-operator-group
+  namespace: <your-namespace>
+spec:
+  targetNamespaces:
+  - <your-namespace>
