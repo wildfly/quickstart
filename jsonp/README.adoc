@@ -497,6 +497,8 @@ ifndef::ProductRelease[]
 endif::[]
 
 ifdef::ProductRelease[]
+ifndef::EAPXPRelease[:featurePackLocation: org.jboss.eap:wildfly-ee-galleon-pack]
+ifdef::EAPXPRelease[:featurePackLocation: org.jboss.eap.xp:wildfly-galleon-pack]
 [source,xml,subs="attributes+"]
 ----
 <profile>
@@ -513,7 +515,7 @@ ifdef::ProductRelease[]
                     ...
                     <feature-packs>
                         <feature-pack>
-                            <location>org.jboss.eap:wildfly-ee-galleon-pack</location>
+                            <location>{featurePackLocation}</location>
                         </feature-pack>
                         ...
                     </feature-packs>
