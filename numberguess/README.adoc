@@ -671,15 +671,8 @@ endif::helm-app-name[]
 
 On OpenShift, the S2I build with Apache Maven uses an `openshift` Maven profile to provision a {productName} server, deploy and run the quickstart in OpenShift environment.
 
-ifndef::ProductRelease,EAPXPRelease[]
+ifndef::ProductRelease[]
 The server provisioning functionality is provided by the WildFly Maven Plugin, and you may find its configuration in the quickstart `pom.xml`:
-endif::[]
-ifdef::ProductRelease,EAPXPRelease[]
-The server provisioning functionality is provided by the EAP Maven Plugin, and you may find its configuration in the quickstart `pom.xml`:
-endif::[]
-
-ifndef::ProductRelease,EAPXPRelease[]
-
 [source,xml,subs="attributes+"]
 ----
 <profile>
@@ -710,9 +703,12 @@ ifndef::ProductRelease,EAPXPRelease[]
 </profile>
 ----
 You may note that unlike the `provisioned-server` profile it uses the cloud context which enables a configuration tuned for {cloud-platform} environment.
-endif::ProductRelease,EAPXPRelease[]
+endif::[]
 
-ifdef::ProductRelease,EAPXPRelease[]
+ifdef::ProductRelease[]
+ifndef::EAPXPRelease[:featurePackLocation: org.jboss.eap:wildfly-ee-galleon-pack]
+ifdef::EAPXPRelease[:featurePackLocation: org.jboss.eap.xp:wildfly-galleon-pack]
+The server provisioning functionality is provided by the EAP Maven Plugin, and you may find its configuration in the quickstart `pom.xml`:
 [source,xml,subs="attributes+"]
 ----
 <profile>
@@ -726,7 +722,7 @@ ifdef::ProductRelease,EAPXPRelease[]
                     ...
                     <feature-packs>
                         <feature-pack>
-                            <location>org.jboss.eap:wildfly-ee-galleon-pack</location>
+                            <location>{featurePackLocation}</location>
                         </feature-pack>
                         <feature-pack>
                             <location>org.jboss.eap.cloud:eap-cloud-galleon-pack</location>
@@ -1036,15 +1032,8 @@ endif::helm-app-name[]
 
 For Kubernetes, the build with Apache Maven uses an `openshift` Maven profile to provision a {productName} server, suitable for running on Kubernetes.
 
-ifndef::ProductRelease,EAPXPRelease[]
+ifndef::ProductRelease[]
 The server provisioning functionality is provided by the WildFly Maven Plugin, and you may find its configuration in the quickstart `pom.xml`:
-endif::[]
-ifdef::ProductRelease,EAPXPRelease[]
-The server provisioning functionality is provided by the EAP Maven Plugin, and you may find its configuration in the quickstart `pom.xml`:
-endif::[]
-
-ifndef::ProductRelease,EAPXPRelease[]
-
 [source,xml,subs="attributes+"]
 ----
 <profile>
@@ -1075,9 +1064,12 @@ ifndef::ProductRelease,EAPXPRelease[]
 </profile>
 ----
 You may note that unlike the `provisioned-server` profile it uses the cloud context which enables a configuration tuned for {cloud-platform} environment.
-endif::ProductRelease,EAPXPRelease[]
+endif::[]
 
-ifdef::ProductRelease,EAPXPRelease[]
+ifdef::ProductRelease[]
+ifndef::EAPXPRelease[:featurePackLocation: org.jboss.eap:wildfly-ee-galleon-pack]
+ifdef::EAPXPRelease[:featurePackLocation: org.jboss.eap.xp:wildfly-galleon-pack]
+The server provisioning functionality is provided by the EAP Maven Plugin, and you may find its configuration in the quickstart `pom.xml`:
 [source,xml,subs="attributes+"]
 ----
 <profile>
@@ -1091,7 +1083,7 @@ ifdef::ProductRelease,EAPXPRelease[]
                     ...
                     <feature-packs>
                         <feature-pack>
-                            <location>org.jboss.eap:wildfly-ee-galleon-pack</location>
+                            <location>{featurePackLocation}</location>
                         </feature-pack>
                         <feature-pack>
                             <location>org.jboss.eap.cloud:eap-cloud-galleon-pack</location>
