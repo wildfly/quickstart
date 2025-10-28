@@ -778,13 +778,11 @@ endif::[]
 ==== Start a PostgreSQL database
 
 This quickstart requires a PostgreSQL database to run correctly. In the scope of this quickstart,
-a PostgreSQL database will be deployed on the OpenShift instance using the Helm chart provided by
-https://github.com/bitnami/charts/tree/main/bitnami/postgresql[bitnami]:
+a PostgreSQL database will be deployed on the OpenShift instance using a simple Helm chart:
 
 [source,sh,options="nowrap",subs="+quotes,attributes+"]
 ----
-helm repo add bitnami https://charts.bitnami.com/bitnami
-helm install postgresql bitnami/postgresql -f charts/postgresql.yaml --wait --timeout="5m"
+helm install postgresql charts/postgresql
 ----
 
 [#_build_the_application]

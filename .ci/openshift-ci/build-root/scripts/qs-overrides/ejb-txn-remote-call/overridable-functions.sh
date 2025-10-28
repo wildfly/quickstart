@@ -32,9 +32,7 @@ function installPrerequisites()
 
   echo "Installing the PostgreSQL database"
 
-  # Install bitnami and PostgreSQL
-  helm repo add bitnami https://charts.bitnami.com/bitnami
-  helm install postgresql bitnami/postgresql -f charts/postgresql.yaml --wait --timeout="${helm_install_timeout}"
+  helm install postgresql charts/postgresql --wait --timeout="${helm_install_timeout}"
 
   echo "Cloning WildFly operator repository in /tmp"
 
@@ -110,7 +108,6 @@ function cleanPrerequisites()
   cd ..
   rm -rf wildfly-operator
 
-  # Uninstall PostgreSQL and remove bitnami
+  # Uninstall PostgreSQL
   helm uninstall postgresql
-  helm repo remove bitnami
 }
