@@ -25,10 +25,16 @@ NAME                   DISPLAY                    VERSION    REPLACES           
 amqstreams.v3.0.0-13   Streams for Apache Kafka   3.0.0-13   amq-streams.v3.0.0-9   Succeeded
 ----
 
-Then you can set up a Kafka cluster called `my-cluster` with topic `testing` in your project:
+Then you can set up a Kafka cluster called `my-cluster` in your project:
 [options="nowrap",subs="+attributes"]
 ----
 $ oc apply -f ./charts/kafka-on-openshift.yaml --wait --timeout=10m0s
+----
+
+Once the Kafka cluster is ready, create the topic `testing`:
+[options="nowrap",subs="+attributes"]
+----
+$ oc apply -f ./charts/kafka-topic.yaml --wait --timeout=10m0s
 ----
 
 Although the above commands will return pretty immediately, your AMQ Streams instance will not be available until its entity operator is up and running. The name of the pod will be of the format `my-cluster-entity-operator-xxxxxxxxx-yyyyy`.
