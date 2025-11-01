@@ -33,7 +33,7 @@ jobs:
         cd quickstarts
         mvn -U -B -fae clean install -Drelease -P-provisioned-server,-bootable-jar
       shell: bash
-    - uses: actions/upload-artifact@v4
+    - uses: actions/upload-artifact@v5
       if: failure()
       with:
         name: surefire-reports-JDK${{ matrix.jdk }}-${{ matrix.os }}
@@ -78,7 +78,7 @@ jobs:
           cd quickstarts
           mvn -U -B -fae clean install -Drelease -P-provisioned-server,-bootable-jar -Dversion.server=${{ needs.wildfly-build.outputs.wildfly-version }}
         shell: bash
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         if: failure()
         with:
           name: surefire-reports-JDK${{ matrix.jdk }}-${{ matrix.os }}
