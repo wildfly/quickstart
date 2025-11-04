@@ -1,0 +1,22 @@
+# OperatorGroup configuration for namespace-scoped AMQ Streams Operator installation
+#
+# This file configures the AMQ Streams (Kafka) Operator to watch only the specified namespace.
+#
+# IMPORTANT: Only use this file for namespace-scoped installation.
+# For global installation in openshift-operators namespace, DO NOT create this OperatorGroup
+# as the global-operators OperatorGroup already exists there.
+#
+# BEFORE APPLYING: Replace '<your-namespace>' with your actual namespace name.
+# You can get your current namespace with: oc project -q
+#
+# Example:
+#   If your namespace is 'my-project', change both occurrences of '<your-namespace>' to 'my-project'
+
+apiVersion: operators.coreos.com/v1
+kind: OperatorGroup
+metadata:
+  name: amq-streams-operator-group
+  namespace: <your-namespace>
+spec:
+  targetNamespaces:
+  - <your-namespace>

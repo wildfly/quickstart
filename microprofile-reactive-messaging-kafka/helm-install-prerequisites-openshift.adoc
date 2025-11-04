@@ -3,12 +3,10 @@
 The functionality of this quickstart depends on a running instance of the
 https://access.redhat.com/products/red-hat-amq#streams[AMQ Streams] Operator. AMQ Streams is a Red Hat project based on Apache Kafka. To deploy AMQ Streams in the Openshift environment:
 
-. Log in into the Openshift console as `kubeadmin` user (or any cluster administrator).
-.   Install the `Streams for Apache Kafka` operator with the values, and wait for the message telling you it has been installed and is ready for use.
-. Create an instance of `Streams for Apache Kafka`. We will do this later with the `./charts/amq-operator-on-openshift.yaml` file.
-. Create a topic in the `Streams for Apache Kafka`. We will do this later with the `./charts/kafka-on-openshift.yaml` file.
+WARNING: For simplicity, this quickstart installs the AMQ Streams operator globally in the `openshift-operators` namespace, making it available across all namespaces in the cluster. The `openshift-operators` namespace already contains a `global-operators` OperatorGroup, so you must NOT create an additional OperatorGroup or the operator will fail to start. In production environments, consider namespace-scoped installation (see note below) to limit scope and improve security.
 
-Install it with the default values and wait for the message telling you it has been installed and is ready for use.
+. Log in into the Openshift console as `kubeadmin` user (or any cluster administrator).
+. Install the `Streams for Apache Kafka` operator globally.
 
 In your terminal, run the following command to subscribe the `Streams for Apache Kafka` operator.
 [options="nowrap",subs="+attributes"]
@@ -20,10 +18,12 @@ To verify the operator is ready to use, you can run the following command. You s
 The `PHASE` needs to be `Succeeded`
 [options="nowrap",subs="+attributes"]
 ----
-$ oc get ClusterServiceVersion
+$ oc get ClusterServiceVersion -n openshift-operators
 NAME                   DISPLAY                    VERSION    REPLACES               PHASE
-amqstreams.v3.0.0-13   Streams for Apache Kafka   3.0.0-13   amq-streams.v3.0.0-9   Succeeded
+amqstreams.v3.0.1-3    Streams for Apache Kafka   3.0.1-3    amqstreams.v3.0.1-2    Succeeded
 ----
+
+NOTE: For namespace-scoped installation: Edit `charts/amq-operator-group-on-openshift.yaml` to replace `<your-namespace>` with your project namespace, and edit `charts/amq-operator-on-openshift.yaml` to replace `openshift-operators` with your project namespace. Then apply both files: `oc apply -f ./charts/amq-operator-group-on-openshift.yaml && oc apply -f ./charts/amq-operator-on-openshift.yaml`
 
 Then you can set up a Kafka cluster called `my-cluster` in your project:
 [options="nowrap",subs="+attributes"]
