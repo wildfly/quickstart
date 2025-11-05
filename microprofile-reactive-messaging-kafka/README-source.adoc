@@ -981,11 +981,23 @@ bin/kafka-topics.sh --create --topic testing --bootstrap-server localhost:9092
 
 // OpenShift
 include::../shared-doc/build-and-run-the-quickstart-with-openshift.adoc[leveloffset=+1]
+
+To uninstall the AMQ Streams operator (global installation):
 ----
 $ oc delete -f ./charts/kafka-topic.yaml --wait --timeout=10m0s
 $ oc delete -f ./charts/kafka-on-openshift.yaml --wait --timeout=10m0s
 $ oc delete -f ./charts/amq-operator-on-openshift.yaml --wait --timeout=10m0s
+$ oc delete csv --all -n openshift-operators
 ----
+
+To uninstall the AMQ Streams operator (name-scoped installation):
+----
+$ oc delete -f ./charts/kafka-on-openshift.yaml --wait --timeout=10m0s
+$ oc delete -f ./charts/amq-operator-on-openshift.yaml -n NAMESPACE --wait --timeout=10m0s
+$ oc delete -f ./charts/amq-operator-group-on-openshift.yaml
+$ oc delete csv --all -n NAMESPACE
+----
+NOTE: Replace NAMESPACE above, with the actual name of the namespace used in the name-scoped installation.
 
 ifndef::ProductRelease,EAPXPRelease[]
 //Kubernetes
