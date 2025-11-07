@@ -208,6 +208,16 @@ mvn clean install wildfly:deploy
 
 . This will deploy `{artifactId}-application-component-1.war` and `{artifactId}-application-component-2.jar` to the running instance of the server.
 
+[NOTE]
+====
+You may see the following warnings when the application is deployed, which are due to the database creation, and are safe to ignore:
+[source]
+----
+WARN  [org.hibernate.engine.jdbc.spi.SqlExceptionHelper] (ServerService Thread Pool -- 84) SQL Warning Code: 0, SQLState: 00000
+WARN  [org.hibernate.engine.jdbc.spi.SqlExceptionHelper] (ServerService Thread Pool -- 84) constraint "uk6m4fuhxj4ckixi1vsb8osii7r" of relation "customer" does not exist, skipping
+----
+====
+
 == Access the Application
 
 The application will be running at the following URL: http://localhost:8080/{artifactId}-application-component-1/.
